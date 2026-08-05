@@ -9,7 +9,6 @@ import {
 import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { EMPTY, NEVER, Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core';
 import { Configurator } from '../../core/model/configurator.model';
@@ -54,7 +53,6 @@ function initComponent() {
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
   isDisplayOnlyVariant = false;
-  fixture.detectChanges();
 }
 
 function initMocks() {
@@ -65,7 +63,7 @@ function initMocks() {
     of(ConfigurationTestData.mockRouterState)
   );
   (mockConfigCommonsService.getConfiguration as any).mockReturnValue(
-    of(ovConfig).pipe(delay(0)) // delay(0) to avoid NG0100 error in test
+    of(ovConfig)
   );
   (mockLaunchDialogService.openDialogAndSubscribe as any).mockReturnValue(EMPTY);
 }
@@ -121,17 +119,18 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
       })
       .compileComponents();
     initComponent();
-  });
-
-  beforeEach(() => {
-    fixture.detectChanges(); //due to the additional delay(0)
+    // Pre-set ghostStyle to avoid NG0100 from tap() side-effect during first detectChanges.
+    // The 'while loading' test re-initializes with NEVER observable so ghostStyle stays true.
+    component.ghostStyle = false;
   });
 
   it('should create component', () => {
+    fixture.detectChanges();
     expect(component).toBeDefined();
   });
 
   it('should open filter modal on request', () => {
+    fixture.detectChanges();
     fixture.debugElement
       .query(By.css('.cx-config-filter-button'))
       .triggerEventHandler('click');
@@ -143,6 +142,7 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
   });
 
   it('should render filter button', () => {
+    fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -187,6 +187,7 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
   });
 
   it('should render filter button without count if there are no active filters', () => {
+    fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
@@ -198,6 +199,7 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
   it('while loading should not render filter button but ghost button instead', () => {
     asSpy(mockConfigCommonsService.getConfiguration).mockReturnValue(NEVER);
     initComponent();
+    fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
@@ -215,6 +217,7 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
 
   describe('to support A11Y', () => {
     it('filter button should have descriptive title', () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
         expect,
         htmlElem,

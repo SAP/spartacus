@@ -58,7 +58,7 @@ describe('LoginRegisterComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     createComponent();

@@ -98,6 +98,10 @@ describe('ConfiguratorRouterListener', () => {
     vi.spyOn(configuratorQuantityService, 'setQuantity');
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   describe('observeRouterChanges', () => {
     it('should subscribe to routingService and call facade service for the deletion of cart bound configurations in case navigation is done outside configurators', () => {
       routerState = routerStateCartRoute;

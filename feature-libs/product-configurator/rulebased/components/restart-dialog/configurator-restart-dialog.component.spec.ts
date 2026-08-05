@@ -62,7 +62,6 @@ describe('ConfiguratorRestartDialogComponent', () => {
     fixture = TestBed.createComponent(ConfiguratorRestartDialogComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
-    fixture.detectChanges();
     mockLaunchDialogService = TestBed.inject(LaunchDialogService);
     vi.spyOn(mockLaunchDialogService, 'closeDialog');
   }
@@ -116,6 +115,7 @@ describe('ConfiguratorRestartDialogComponent', () => {
 
   beforeEach(() => {
     initialize();
+    fixture.detectChanges();
   });
 
   it('should create component', () => {

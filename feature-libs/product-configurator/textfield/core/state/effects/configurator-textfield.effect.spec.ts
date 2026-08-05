@@ -70,17 +70,10 @@ describe('ConfiguratorTextfieldEffect', () => {
 
   beforeEach(() => {
     createMock = vi.fn().mockReturnValue(of(productConfiguration));
-    readFromCartEntryMock = jasmine
-      .vi.fn()
-      .mockReturnValue(of(productConfiguration));
-    readFromOrderEntryMock = jasmine
-      .vi.fn()
-      .mockReturnValue(of(productConfiguration));
-
+    readFromCartEntryMock = vi.fn().mockReturnValue(of(productConfiguration));
+    readFromOrderEntryMock = vi.fn().mockReturnValue(of(productConfiguration));
     addToCartMock = vi.fn().mockReturnValue(of(cartModification));
-    updateCartEntryMock = jasmine
-      .vi.fn()
-      .mockReturnValue(of(cartModification));
+    updateCartEntryMock = vi.fn().mockReturnValue(of(cartModification));
     class MockConnector {
       createConfiguration = createMock;
       addToCart = addToCartMock;

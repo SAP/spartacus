@@ -222,7 +222,7 @@ describe('OneTimePasswordRegisterComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OneTimePasswordRegisterComponent);
@@ -392,7 +392,7 @@ describe('OneTimePasswordRegisterComponent', () => {
     });
 
     it('should disable input when register consent is required', () => {
-      spyOn<any>(component, isConsentRequiredMethod).mockReturnValue(true);
+      vi.spyOn<any>(component, isConsentRequiredMethod).mockReturnValue(true);
       fixture.detectChanges();
       expect(controls['newsletter'].status).toEqual('DISABLED');
     });

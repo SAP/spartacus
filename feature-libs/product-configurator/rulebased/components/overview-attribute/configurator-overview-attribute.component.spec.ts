@@ -53,7 +53,6 @@ describe('ConfigurationOverviewAttributeComponent', () => {
       attribute: 'Test Attribute Name',
       value: 'Test Attribute Value',
     };
-    fixture.detectChanges();
 
     breakpointService = TestBed.inject(
       BreakpointService as Type<BreakpointService>
@@ -61,10 +60,12 @@ describe('ConfigurationOverviewAttributeComponent', () => {
   });
 
   it('should create component', () => {
+    fixture.detectChanges();
     expect(component).toBeDefined();
   });
 
   it('should show attribute value', () => {
+    fixture.detectChanges();
     expect(htmlElem.querySelectorAll('.cx-attribute-value').length).toBe(1);
 
     expect(htmlElem.querySelectorAll('.cx-attribute-label').length).toBe(1);
@@ -139,7 +140,6 @@ describe('ConfigurationOverviewAttributeComponent', () => {
           value: 10,
         },
       };
-      fixture.detectChanges();
 
       breakpointService = TestBed.inject(
         BreakpointService as Type<BreakpointService>
@@ -176,6 +176,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
     });
 
     it("should contain span element with class name 'cx-visually-hidden' with price that hides span element content on the UI", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -194,6 +195,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
     });
 
     it("should contain div element with class name 'cx-attribute-value' and 'aria-hidden' attribute that removes div element from the accessibility tree", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -206,6 +208,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
     });
 
     it("should contain div element with class name 'cx-attribute-label' and 'aria-hidden' attribute that removes div element from the accessibility tree", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

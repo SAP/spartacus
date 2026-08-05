@@ -37,13 +37,14 @@ describe('QuoteHeaderBuyerEditComponent', () => {
     component = fixture.componentInstance;
     component.content = mockCard;
     component.enablePurchaseOrderNumber = true;
-    fixture.detectChanges();
+    // No detectChanges() here — tests that mutate form state call it themselves
 
     vi.spyOn(component.saveCard, 'emit');
     vi.spyOn(component.cancelCard, 'emit');
   });
 
   it('should create and render component accordingly', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
 
     CommonQuoteTestUtilsService.expectElementPresent(
@@ -166,6 +167,7 @@ describe('QuoteHeaderBuyerEditComponent', () => {
 
   describe('handle action events', () => {
     it('should emit cancel event', () => {
+      fixture.detectChanges();
       const cancelButton = CommonQuoteTestUtilsService.getHTMLElement(
         htmlElem,
         'button.btn-tertiary'
@@ -175,6 +177,7 @@ describe('QuoteHeaderBuyerEditComponent', () => {
     });
 
     it('should emit edit event for disabling edit mode', () => {
+      fixture.detectChanges();
       const saveButton = CommonQuoteTestUtilsService.getHTMLElement(
         htmlElem,
         'button.btn-secondary'
@@ -185,6 +188,7 @@ describe('QuoteHeaderBuyerEditComponent', () => {
 
     it('should emit edit event with an edited name and disabling edit mode', () => {
       const newTextForTitle1: any = 'New title for name';
+      fixture.detectChanges();
       component.editForm.get('name')?.setValue(newTextForTitle1);
       component.editForm.get('name')?.markAsDirty();
       fixture.detectChanges();
@@ -194,8 +198,7 @@ describe('QuoteHeaderBuyerEditComponent', () => {
       );
       saveButton.click();
       expect(component.saveCard.emit).toHaveBeenCalled();
-      let arg: any = (component.saveCard.emit as any).calls.mostRecent()
-        .args[0];
+      const arg: any = (component.saveCard.emit as any).mock.lastCall[0];
       expect(arg.name).toEqual(newTextForTitle1);
     });
 
@@ -203,7 +206,7 @@ describe('QuoteHeaderBuyerEditComponent', () => {
       const newTextForTitle1: any = 'New title for name';
       const newTextForTitle2: any = 'Here could be found a long description';
       const newPoNumber: any = 'PO67890';
-      component.ngOnInit();
+      fixture.detectChanges();
       component.editForm.get('name')?.setValue(newTextForTitle1);
       component.editForm.get('name')?.markAsDirty();
       component.editForm.get('description')?.setValue(newTextForTitle2);
@@ -217,8 +220,7 @@ describe('QuoteHeaderBuyerEditComponent', () => {
       );
       saveButton.click();
       expect(component.saveCard.emit).toHaveBeenCalled();
-      let arg: any = (component.saveCard.emit as any).calls.mostRecent()
-        .args[0];
+      const arg: any = (component.saveCard.emit as any).mock.lastCall[0];
       expect(arg.name).toEqual(newTextForTitle1);
       expect(arg.description).toEqual(newTextForTitle2);
       expect(arg.purchaseOrderNumber).toEqual(newPoNumber);

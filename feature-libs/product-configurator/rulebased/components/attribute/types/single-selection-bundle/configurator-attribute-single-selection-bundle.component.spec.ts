@@ -6,7 +6,9 @@ import { ActivatedRoute } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule, ProductConnector } from '@spartacus/core';
 import { ItemCounterComponent } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
@@ -15,6 +17,7 @@ import {
   ConfiguratorPriceComponent,
   ConfiguratorPriceComponentOptions,
 } from '../../../price/configurator-price.component';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import {
@@ -26,6 +29,19 @@ import {
   ConfiguratorAttributeQuantityComponentOptions,
 } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configurator-attribute-single-selection-bundle.component';
+
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
+  isConfigurationLoading(): Observable<boolean> {
+    return of(false);
+  }
+}
+
+class MockConfiguratorStorefrontUtilsService {
+  isCartEntryOrGroupVisited(): Observable<boolean> {
+    return of(false);
+  }
+}
 
 @Component({
   selector: 'cx-configurator-attribute-product-card',
@@ -126,6 +142,14 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
           useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
         { provide: ProductConnector, useClass: MockProductConnector },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
+        },
       ],
     })
       .overrideComponent(ConfiguratorAttributeSingleSelectionBundleComponent, {
@@ -211,8 +235,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
       values,
       dataType: Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL,
     };
-
-    fixture.detectChanges();
   });
 
   afterEach(() => {
@@ -220,6 +242,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 

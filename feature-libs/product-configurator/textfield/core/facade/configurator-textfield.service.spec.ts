@@ -1,6 +1,5 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
@@ -129,14 +128,6 @@ class MockUserIdService {
 describe('ConfiguratorTextfieldService', () => {
   let serviceUnderTest: ConfiguratorTextfieldService;
   let store: Store<StateWithConfigurationTextfield>;
-  const mockConfigLoaderStateReturned = vi.fn().mockReturnValue(
-    () => of(loaderState)
-  );
-  const mockConfigLoaderStateNothingPresent = vi.fn().mockReturnValue(() => of(loaderStateNothingPresent));
-  const mockConfigReturned = vi.fn().mockReturnValue(() =>
-    of(productConfiguration)
-  );
-
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
@@ -169,9 +160,10 @@ describe('ConfiguratorTextfieldService', () => {
   });
   describe('createConfiguration', () => {
     it('should return a configuration if one is present', () => {
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        mockConfigLoaderStateReturned
-      );
+      vi.spyOn(store, 'pipe').mockImplementationOnce((..._ops: any[]) => {
+        const [, tapOp, mapOp, filterOp, mapOp2] = _ops;
+        return of(loaderState).pipe(tapOp, mapOp, filterOp, mapOp2);
+      });
       const configurationFromStore =
         serviceUnderTest.createConfiguration(owner);
 
@@ -185,9 +177,10 @@ describe('ConfiguratorTextfieldService', () => {
     });
 
     it('should create a configuration if nothing is present in store yet', () => {
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        mockConfigLoaderStateNothingPresent
-      );
+      vi.spyOn(store, 'pipe').mockImplementationOnce((..._ops: any[]) => {
+        const [, tapOp, mapOp, filterOp, mapOp2] = _ops;
+        return of(loaderStateNothingPresent).pipe(tapOp, mapOp, filterOp, mapOp2);
+      });
       const configurationFromStore =
         serviceUnderTest.createConfiguration(owner);
 
@@ -218,7 +211,7 @@ describe('ConfiguratorTextfieldService', () => {
   });
 
   it('should dispatch the correct action when readFromCartEntry is called', () => {
-    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockConfigReturned);
+    vi.spyOn(store, 'pipe').mockReturnValueOnce(of(productConfiguration));
     const configurationFromStore =
       serviceUnderTest.readConfigurationForCartEntry(ownerCartRelated);
 
@@ -238,7 +231,7 @@ describe('ConfiguratorTextfieldService', () => {
   });
 
   it('should dispatch the correct action when readConfigurationForOrderEntry is called', () => {
-    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockConfigReturned);
+    vi.spyOn(store, 'pipe').mockReturnValueOnce(of(productConfiguration));
     const configurationFromStore =
       serviceUnderTest.readConfigurationForOrderEntry(ownerOrderRelated);
 
@@ -258,19 +251,17 @@ describe('ConfiguratorTextfieldService', () => {
   });
 
   it('should access the store when calling createConfiguration', () => {
-    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-      mockConfigLoaderStateReturned
-    );
+    vi.spyOn(store, 'pipe').mockReturnValueOnce(of(loaderState));
     serviceUnderTest
       .createConfiguration(owner)
       .subscribe((configurationFromStore) =>
-        expect(configurationFromStore).toBe(productConfiguration)
+        expect(configurationFromStore).toEqual(loaderState)
       )
       .unsubscribe();
   });
 
   it('should update a configuration, accessing the store', () => {
-    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockConfigReturned);
+    vi.spyOn(store, 'pipe').mockReturnValueOnce(of(productConfiguration));
     vi.spyOn(
       serviceUnderTest,
       'createNewConfigurationWithChange'

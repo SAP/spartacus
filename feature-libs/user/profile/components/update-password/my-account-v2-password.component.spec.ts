@@ -113,14 +113,13 @@ describe('MyAccountV2PasswordComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2PasswordComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     service = TestBed.inject(UpdatePasswordComponentService);
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -161,6 +160,7 @@ describe('MyAccountV2PasswordComponent', () => {
 
   describe('Form Interactions', () => {
     it('should call onSubmit() method on submit', () => {
+      fixture.detectChanges();
       const request = vi.spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
       form.triggerEventHandler('submit', null);

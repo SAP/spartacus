@@ -65,7 +65,7 @@ describe('ResetPasswordComponent', () => {
         add: { imports: [MockTranslatePipe, MockFeatureDirective] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ResetPasswordComponent);

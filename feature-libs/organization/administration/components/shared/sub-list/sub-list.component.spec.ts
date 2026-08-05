@@ -71,8 +71,8 @@ class MockTableComponent {
 }
 
 class MockBaseListService {
-  view = vi.fn('view');
-  sort = vi.fn('sort');
+  view = vi.fn();
+  sort = vi.fn();
   getData() {
     return of(null);
   }
@@ -95,12 +95,12 @@ class MockBaseListService {
     return 'organization.search.placeholder';
   }
   onCreateButtonClick(): void {}
-  getCreateButtonType = vi.fn('getCreateButtonType');
+  getCreateButtonType = vi.fn();
 }
 
 class MockItemService {
   key$ = of('key');
-  launchDetails = vi.fn('launchDetails');
+  launchDetails = vi.fn();
 }
 
 class ActivatedRouteMock {

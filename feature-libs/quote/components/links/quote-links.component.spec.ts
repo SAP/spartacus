@@ -27,7 +27,7 @@ import {
   QuoteState,
 } from '@spartacus/quote/root';
 import { FileDownloadService } from '@spartacus/storefront';
-import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { UrlTestingModule } from '../../../../core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, NEVER, Observable, of, throwError } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
@@ -337,7 +337,7 @@ describe('QuoteLinksComponent', () => {
       const anchorElements =
         fixture.nativeElement.querySelectorAll('a.cx-action-link');
       const orderLink = Array.from(anchorElements).find(
-        (el: any) => el.innerText.trim() === 'quote.links.order'
+        (el: any) => (el.textContent || '').trim() === 'quote.links.order'
       );
       expect(orderLink).toBeUndefined();
     });
@@ -347,7 +347,7 @@ describe('QuoteLinksComponent', () => {
       const anchorElements =
         fixture.nativeElement.querySelectorAll('a.cx-action-link');
       const orderLink = Array.from(anchorElements).find(
-        (el: any) => el.innerText.trim() === 'quote.links.order'
+        (el: any) => (el.textContent || '').trim() === 'quote.links.order'
       );
       expect(orderLink).not.toBeUndefined();
       expect((orderLink as HTMLAnchorElement).href).toContain(

@@ -140,7 +140,7 @@ describe('UserRegistrationOTPFormComponent', () => {
       ],
     });
     verificationTokenFacade = TestBed.inject(VerificationTokenFacade);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserRegistrationOTPFormComponent);

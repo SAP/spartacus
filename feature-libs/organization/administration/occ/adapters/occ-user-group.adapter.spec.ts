@@ -36,7 +36,7 @@ const member = {
 };
 
 class MockOccEndpointsService {
-  buildUrl = vi.fn('MockOccEndpointsService.buildUrl').mockImplementation(
+  buildUrl = vi.fn().mockImplementation(
     // eslint-disable-next-line @typescript-eslint/no-shadow
     (url, { urlParams: { userGroupId } }) =>
       url === 'userGroup' ? url + userGroupId : url

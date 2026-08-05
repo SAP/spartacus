@@ -106,7 +106,7 @@ class MockOrderApprovalService {
 }
 
 class MockRoutingService {
-  go = vi.fn('go').mockImplementation(() => {});
+  go = vi.fn().mockImplementation(() => {});
 }
 
 describe('OrderApprovalListComponent?', () => {

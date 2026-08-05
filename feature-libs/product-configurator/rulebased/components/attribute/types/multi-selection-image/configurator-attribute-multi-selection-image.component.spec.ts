@@ -209,13 +209,13 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
       groupId: 'testGroup',
       values: values,
     };
-    fixture.detectChanges();
     configuratorStorefrontUtilsService = TestBed.inject(
       ConfiguratorStorefrontUtilsService
     );
   });
 
   it('should create a component', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -244,13 +244,14 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
       By.css('cx-popover > .popover-body > span')
     );
     expect(description).toBeTruthy();
-    expect(description.nativeElement.innerText).toBe(
+    expect(description.nativeElement.textContent?.trim()).toBe(
       (component.attribute.values ?? [{ description: '' }])[1]?.description
     );
     infoButton.click(); // hide popover after test again
   });
 
   it('should mark two values as selected', () => {
+    fixture.detectChanges();
     expect(component.attributeCheckBoxForms[0].value).toEqual(false);
     expect(component.attributeCheckBoxForms[1].value).toEqual(true);
     expect(component.attributeCheckBoxForms[2].value).toEqual(true);
@@ -258,6 +259,7 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
   });
 
   it('should select a new value and deselect it again', () => {
+    fixture.detectChanges();
     const singleSelectionImageId =
       '#cx-configurator--multi_selection_image--' +
       component.attribute.name +
@@ -328,6 +330,7 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
 
   describe('Accessibility', () => {
     it("should contain input elements with class name 'form-input' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -343,6 +346,7 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
     });
 
     it("should contain input elements with class name 'form-input' and 'aria-describedby' attribute that indicates the ID of the element that describe the elements", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -355,6 +359,7 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
     });
 
     it("should contain input elements with class name 'form-input' and 'checked' attribute that indicates the current 'checked' state of widget", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -380,12 +385,17 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
     });
 
     it('should create input element for last selected value with aria-live', () => {
+      // Pre-set lastSelected BEFORE the first detectChanges so aria-live starts as 'polite'
+      // This avoids NG0100 from a null→polite transition during a CD cycle
+      (configuratorStorefrontUtilsService as any).setLastSelected(
+        component.attribute.name,
+        component.attribute.values![0].valueCode
+      );
       vi.spyOn(
         configuratorStorefrontUtilsService,
         'assembleValuesForMultiSelectAttributes'
       ).mockReturnValue(component.attribute.values);
       component.listenForPriceChanges = true;
-      component.onSelect(0);
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,

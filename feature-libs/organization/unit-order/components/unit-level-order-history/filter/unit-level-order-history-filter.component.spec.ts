@@ -9,8 +9,8 @@ import {
 } from '@angular/core';
 import {
   ComponentFixture,
-    TestBed,
-  } from '@angular/core/testing';
+  TestBed,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { PaginationModel, TranslatePipe } from '@spartacus/core';
@@ -363,26 +363,27 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     });
 
     it('should remove all of the filtered values when clicked on Remove Applied Filter button', () => {
-      const form = component.filterFormMobile;
-      form.patchValue({
-        buyerFilterMobile: GI,
-        unitFilterMobile: SERVICES,
-      });
-      vi.spyOn(component, 'searchUnitLevelOrdersForMobile');
-      component.searchUnitLevelOrdersForMobile();
-      fixture.detectChanges();
+      // Create a fresh fixture so buyerFilterMobileValue starts as 'gi' before
+      // the first detectChanges, avoiding NG0100 (value changed between cycles)
+      const freshFixture = TestBed.createComponent(
+        UnitLevelOrderHistoryFilterComponent
+      );
+      const freshComponent = freshFixture.componentInstance;
+      freshComponent['buyerFilterMobileValue'] = GI;
+      freshComponent['unitFilterMobileValue'] = SERVICES;
+      freshFixture.detectChanges();
 
-      const spy = vi.spyOn(component, 'clearAll');
-      fixture.debugElement
+      const spy = vi.spyOn(freshComponent, 'clearAll');
+      freshFixture.debugElement
         .query(By.css('#removeAppliedFiltersBtn'))
         .nativeElement.click();
 
-      fixture.detectChanges();
+      freshFixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
-      expect(component.buyerFilterMobileId.nativeElement.value).toBe(
+      expect(freshComponent.buyerFilterMobileId.nativeElement.value).toBe(
         EMPTY_STRING
       );
-      expect(component.unitFilterMobileId.nativeElement.value).toBe(
+      expect(freshComponent.unitFilterMobileId.nativeElement.value).toBe(
         EMPTY_STRING
       );
     });

@@ -338,23 +338,30 @@ describe('QuoteService', () => {
         sort$,
       });
 
-      // Subscribe and wait for initial emission, then change page
+      // Keep subscription open to stay reactive
+      const emissions: any[] = [];
+      const sub = quotesState$.subscribe((s) => emissions.push(s));
+
+      // Wait for initial emission
       await firstValueFrom(quotesState$);
       // Reset call count after the initial request
       (quoteConnector.getQuotes as any).mockClear();
 
-      // Change the current page
+      // Change the current page — triggers new request
       currentPage$.next(1);
 
-      // Now get the result of the page change
-      const state = await firstValueFrom(quotesState$);
+      // Allow async work to settle
+      await new Promise((r) => setTimeout(r, 0));
+      sub.unsubscribe();
+
       expect(quoteConnector.getQuotes).toHaveBeenCalledTimes(1);
       expect(quoteConnector.getQuotes).toHaveBeenCalledWith(userId, {
         currentPage: 1,
         sort: 'byCode',
         pageSize: pagination.pageSize,
       });
-      expect(state.data).toEqual(quoteList);
+      const lastEmission = emissions[emissions.length - 1];
+      expect(lastEmission.data).toEqual(quoteList);
     });
 
     it('should trigger a new request when sort changes', async () => {
@@ -366,23 +373,30 @@ describe('QuoteService', () => {
         sort$,
       });
 
-      // Subscribe and wait for initial emission, then change sort
+      // Keep subscription open to stay reactive
+      const emissions: any[] = [];
+      const sub = quotesState$.subscribe((s) => emissions.push(s));
+
+      // Wait for initial emission
       await firstValueFrom(quotesState$);
       // Reset call count after the initial request
       (quoteConnector.getQuotes as any).mockClear();
 
-      // Change the sort
+      // Change the sort — triggers new request
       sort$.next('byDate');
 
-      // Now get the result of the sort change
-      const state = await firstValueFrom(quotesState$);
+      // Allow async work to settle
+      await new Promise((r) => setTimeout(r, 0));
+      sub.unsubscribe();
+
       expect(quoteConnector.getQuotes).toHaveBeenCalledTimes(1);
       expect(quoteConnector.getQuotes).toHaveBeenCalledWith(userId, {
         currentPage: 0,
         sort: 'byDate',
         pageSize: pagination.pageSize,
       });
-      expect(state.data).toEqual(quoteList);
+      const lastEmission = emissions[emissions.length - 1];
+      expect(lastEmission.data).toEqual(quoteList);
     });
   });
 
@@ -712,25 +726,29 @@ describe('QuoteService', () => {
 
   describe('handleError', () => {
     it('should ignore unknown errors', () => {
+      let completed = false;
       classUnderTest['handleError']({
         message: 'some error',
         details: [],
       }).subscribe({
-        complete: () => fail('should signal error'),
+        complete: () => { completed = true; },
         error: (error) => {
           expect(error).toEqual({ message: 'some error', details: [] });
         },
       });
+      expect(completed).toBe(false);
     });
 
     it('should handle CommerceQuoteExpirationTimeError', () => {
+      let errored = false;
       classUnderTest['handleError']({
         details: [{ type: 'CommerceQuoteExpirationTimeError' }],
       }).subscribe({
         error: () => {
-          fail('should NOT signal error');
+          errored = true;
         },
       });
+      expect(errored).toBe(false);
       expect(globalMessageService.add).toHaveBeenCalledWith(
         { key: 'quote.httpHandlers.expired' },
         GlobalMessageType.MSG_TYPE_ERROR

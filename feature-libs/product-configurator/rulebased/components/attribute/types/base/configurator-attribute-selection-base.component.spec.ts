@@ -61,14 +61,18 @@ describe('ConfiguratorAttributeSelectionBaseComponent', () => {
       ExampleConfiguratorAttributeSelectionComponent
     );
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   describe('resetLoadingOnConfigurationUpdate', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
     it('should reset loading$ once the configuration update round trip finished, even if the attribute did not change', () => {
       component.loading$.next(true);
       expect(component.loading$.value).toBe(true);

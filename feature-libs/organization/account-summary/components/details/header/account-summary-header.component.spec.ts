@@ -219,8 +219,8 @@ describe('AccountSummaryHeaderComponent', () => {
       label: string,
       value: string
     ) => {
-      expect(container?.nativeElement?.firstChild?.innerText).toEqual(label);
-      expect(container?.nativeElement?.lastChild?.innerText).toEqual(value);
+      expect(container?.nativeElement?.firstChild?.textContent?.trim()).toEqual(label);
+      expect(container?.nativeElement?.lastChild?.textContent?.trim()).toEqual(value);
     };
 
     const cards = fixture.debugElement.queryAll(By.css('cx-card'));

@@ -7,7 +7,7 @@ import {
 import {
   ComponentFixture,
   TestBed,
-      } from '@angular/core/testing';
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   FeaturesConfig,
@@ -25,8 +25,8 @@ import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-se
 import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-attribute-numeric-input-field.component';
-import {
 import { vi } from 'vitest';
+import {
   ConfiguratorAttributeNumericInputFieldService,
   ConfiguratorAttributeNumericInterval,
 } from './configurator-attribute-numeric-input-field.component.service';
@@ -183,7 +183,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     component = fixture.componentInstance;
     component.attribute = structuredClone(attribute);
     component.language = locale;
-    fixture.detectChanges();
     htmlElem = fixture.nativeElement;
     vi.spyOn(
       configuratorAttributeNumericInputFieldService,
@@ -205,7 +204,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     isValid: boolean
   ) {
     component.attribute.negativeAllowed = negativeAllowed;
-    component.ngOnInit();
+    fixture.detectChanges();
     component.attributeInputForm.setValue(input);
     checkForValidationMessage(component, fixture, htmlElem, isValid ? 0 : 1);
   }
@@ -215,7 +214,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     numberOfValidationIssues: number
   ) {
     component.attribute = attributeInterval;
-    component.ngOnInit();
+    fixture.detectChanges();
     component.attributeInputForm.setValue(input);
     checkForValidationMessage(
       component,
@@ -226,6 +225,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   }
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -363,6 +363,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   });
 
   it('should raise event in case input was changed', () => {
+    fixture.detectChanges();
     component.onChange();
     expect(
       component['configuratorCommonsService'].updateConfiguration
@@ -379,8 +380,8 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   });
 
   it('should delay emit inputValue for debounce period', async () => {
-    component.attributeInputForm.setValue('123');
     fixture.detectChanges();
+    component.attributeInputForm.setValue('123');
     expect(
       component['configuratorCommonsService'].updateConfiguration
     ).not.toHaveBeenCalled();
@@ -392,8 +393,8 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
 
   it('should delay emit inputValue for debounce period in case ui settings config is missing, because it falls back to default time', async () => {
     configuratorUISettingsConfig.productConfigurator = undefined;
-    component.attributeInputForm.setValue('123');
     fixture.detectChanges();
+    component.attributeInputForm.setValue('123');
     expect(
       component['configuratorCommonsService'].updateConfiguration
     ).not.toHaveBeenCalled();
@@ -404,11 +405,10 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   });
 
   it('should only emit once with last value if inputValue is changed within debounce period', async () => {
-    component.attributeInputForm.setValue('123');
     fixture.detectChanges();
+    component.attributeInputForm.setValue('123');
     await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME / 2);
     component.attributeInputForm.setValue('123456');
-    fixture.detectChanges();
     await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME / 2);
     expect(
       component['configuratorCommonsService'].updateConfiguration
@@ -428,11 +428,10 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   });
 
   it('should emit twice if inputValue is changed after debounce period', async () => {
-    component.attributeInputForm.setValue('123');
     fixture.detectChanges();
+    component.attributeInputForm.setValue('123');
     await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
     component.attributeInputForm.setValue('123456');
-    fixture.detectChanges();
     await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
     expect(
       component['configuratorCommonsService'].updateConfiguration
@@ -440,8 +439,8 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   });
 
   it('should not emit inputValue after destroy', async () => {
-    component.attributeInputForm.setValue('123');
     fixture.detectChanges();
+    component.attributeInputForm.setValue('123');
     component.ngOnDestroy();
     await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
     expect(
@@ -469,13 +468,14 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
 
     it("should contain div element with class name 'cx-validation-msg' and 'aria-live' attribute that enables the screen reader to read out a error as soon as it occurs", async () => {
       component.attribute.userInput = '123';
+      fixture.detectChanges();
       component.attributeInputForm.markAsTouched({ onlySelf: true });
       component.attributeInputForm.setErrors({
         wrongFormat: true,
       });
       fixture.detectChanges();
-      component.ngOnInit();
       await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -489,13 +489,14 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
 
     it("should contain div element with class name 'cx-validation-msg' and 'aria-atomic' attribute that indicates whether a screen reader will present a changed region based on the change notifications defined by the aria-relevant attribute", async () => {
       component.attribute.userInput = '123';
+      fixture.detectChanges();
       component.attributeInputForm.markAsTouched({ onlySelf: true });
       component.attributeInputForm.setErrors({
         wrongFormat: true,
       });
       fixture.detectChanges();
-      component.ngOnInit();
       await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -733,13 +734,13 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     let maxValueFormatted = '7.00';
 
     it('should return aria text for entered value including text for standard interval', async () => {
-      component.intervals = [];
-      component.intervals.push(interval);
       component.attribute.intervalInDomain = true;
       component.attribute.label = 'Intervaltest';
       component.attribute.userInput = '123';
       fixture.detectChanges();
       await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
+      // Set intervals AFTER detectChanges (which calls ngOnInit and resets intervals)
+      component.intervals = [interval];
 
       expect(component.getAriaLabelComplete()).toBe(
         'configurator.a11y.valueOfAttributeFull attribute:' +
@@ -760,13 +761,13 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       interval.maxValue = undefined;
       interval.minValueIncluded = false;
 
-      component.intervals = [];
-      component.intervals.push(interval);
       component.attribute.intervalInDomain = true;
       component.attribute.label = 'Intervaltest';
       component.attribute.userInput = '';
       fixture.detectChanges();
       await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
+      // Set intervals AFTER detectChanges (which calls ngOnInit and resets intervals)
+      component.intervals = [interval];
 
       expect(component.getAriaLabelComplete()).toBe(
         'configurator.a11y.valueOfAttributeBlank attribute:' +

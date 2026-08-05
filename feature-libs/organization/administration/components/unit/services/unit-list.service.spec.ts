@@ -314,8 +314,8 @@ export class MockTableService {
 
 export class MockUnitTreeService {
   treeToggle$ = treeToggle$.asObservable();
-  initialize = vi.fn('initialize');
-  isExpanded = vi.fn('isExpanded').mockReturnValue(false);
+  initialize = vi.fn();
+  isExpanded = vi.fn().mockReturnValue(false);
 }
 
 const mockFeatureToggles: FeatureToggles = {

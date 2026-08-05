@@ -11,7 +11,7 @@ import { OrgUnitService } from '../services';
 import { OrgUnitGuard } from './org-unit.guard';
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = vi.fn('add');
+  add = vi.fn();
 }
 
 class MockOrgUnitService implements Partial<OrgUnitService> {

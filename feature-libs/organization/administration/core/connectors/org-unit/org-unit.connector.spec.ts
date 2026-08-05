@@ -28,23 +28,23 @@ const approvalProcess: B2BApprovalProcess = {
 };
 
 class MockOrgUnitAdapter implements OrgUnitAdapter {
-  load = vi.fn('load').mockReturnValue(of(orgUnit));
-  loadList = vi.fn('loadList').mockReturnValue(of([orgUnitNode]));
-  create = vi.fn('create').mockReturnValue(of(orgUnit));
-  update = vi.fn('update').mockReturnValue(of(orgUnit));
-  loadTree = vi.fn('loadTree').mockReturnValue(of(orgUnit));
-  loadApprovalProcesses = vi.fn('loadApprovalProcesses').mockReturnValue(
+  load = vi.fn().mockReturnValue(of(orgUnit));
+  loadList = vi.fn().mockReturnValue(of([orgUnitNode]));
+  create = vi.fn().mockReturnValue(of(orgUnit));
+  update = vi.fn().mockReturnValue(of(orgUnit));
+  loadTree = vi.fn().mockReturnValue(of(orgUnit));
+  loadApprovalProcesses = vi.fn().mockReturnValue(
     of([approvalProcess])
   );
-  loadUsers = vi.fn('loadUsers').mockReturnValue(EMPTY);
-  assignRole = vi.fn('assignRole').mockReturnValue(EMPTY);
-  unassignRole = vi.fn('unassignRole').mockReturnValue(EMPTY);
-  assignApprover = vi.fn('assignApprover').mockReturnValue(EMPTY);
-  unassignApprover = vi.fn('unassignApprover').mockReturnValue(EMPTY);
-  loadAddresses = vi.fn('loadAddresses').mockReturnValue(EMPTY);
-  createAddress = vi.fn('createAddress').mockReturnValue(EMPTY);
-  updateAddress = vi.fn('updateAddress').mockReturnValue(EMPTY);
-  deleteAddress = vi.fn('deleteAddress').mockReturnValue(EMPTY);
+  loadUsers = vi.fn().mockReturnValue(EMPTY);
+  assignRole = vi.fn().mockReturnValue(EMPTY);
+  unassignRole = vi.fn().mockReturnValue(EMPTY);
+  assignApprover = vi.fn().mockReturnValue(EMPTY);
+  unassignApprover = vi.fn().mockReturnValue(EMPTY);
+  loadAddresses = vi.fn().mockReturnValue(EMPTY);
+  createAddress = vi.fn().mockReturnValue(EMPTY);
+  updateAddress = vi.fn().mockReturnValue(EMPTY);
+  deleteAddress = vi.fn().mockReturnValue(EMPTY);
 }
 
 describe('OrgUnitConnector', () => {

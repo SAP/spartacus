@@ -15,9 +15,7 @@ const userData: OrganizationUserRegistration = {
 };
 
 class MockUserRegistrationAdapter implements UserRegistrationAdapter {
-  registerUser = vi.fn(
-    'UserRegistrationAdapter.registerUser'
-  ).mockReturnValue(of(userData));
+  registerUser = vi.fn().mockReturnValue(of(userData));
 }
 
 describe('UserRegistrationConnector', () => {

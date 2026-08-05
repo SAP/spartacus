@@ -22,24 +22,18 @@ const member = {
 };
 
 class MockUserGroupAdapter implements UserGroupAdapter {
-  load = vi.fn('load').mockReturnValue(of(userGroup));
-  loadList = vi.fn('loadList').mockReturnValue(of([userGroup]));
-  create = vi.fn('create').mockReturnValue(of(userGroup));
-  update = vi.fn('update').mockReturnValue(of(userGroup));
-  delete = vi.fn('delete').mockReturnValue(of(userGroup));
-  loadAvailableOrderApprovalPermissions = vi.fn(
-    'loadAvailableOrderApprovalPermissions'
-  ).mockReturnValue(of([permission]));
-  loadAvailableOrgCustomers = vi.fn(
-    'loadAvailableOrgCustomers'
-  ).mockReturnValue(of([member]));
-  assignMember = vi.fn('assignMember');
-  assignOrderApprovalPermission = vi.fn('assignOrderApprovalPermission');
-  unassignMember = vi.fn('unassignMember');
-  unassignAllMembers = vi.fn('unassignAllMembers');
-  unassignOrderApprovalPermission = vi.fn(
-    'unassignOrderApprovalPermission'
-  );
+  load = vi.fn().mockReturnValue(of(userGroup));
+  loadList = vi.fn().mockReturnValue(of([userGroup]));
+  create = vi.fn().mockReturnValue(of(userGroup));
+  update = vi.fn().mockReturnValue(of(userGroup));
+  delete = vi.fn().mockReturnValue(of(userGroup));
+  loadAvailableOrderApprovalPermissions = vi.fn().mockReturnValue(of([permission]));
+  loadAvailableOrgCustomers = vi.fn().mockReturnValue(of([member]));
+  assignMember = vi.fn();
+  assignOrderApprovalPermission = vi.fn();
+  unassignMember = vi.fn();
+  unassignAllMembers = vi.fn();
+  unassignOrderApprovalPermission = vi.fn();
 }
 
 describe('UserGroupConnector', () => {

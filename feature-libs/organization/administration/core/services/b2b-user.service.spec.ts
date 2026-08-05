@@ -611,7 +611,7 @@ describe('B2BUserService', () => {
   describe('getErrorState', () => {
     it('getErrorState() should be able to get status error', () => {
       let errorState: boolean;
-      spyOn<any>(service, 'getB2BUserState').mockReturnValue(
+      vi.spyOn<any>(service, 'getB2BUserState').mockReturnValue(
         of({ loading: false, success: false, error: true })
       );
 

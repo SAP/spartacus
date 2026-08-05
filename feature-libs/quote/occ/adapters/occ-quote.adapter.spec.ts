@@ -415,7 +415,6 @@ describe(`OccQuoteAdapter`, () => {
       const result = await resultPromise as any;
       expect(isErrorNormalized(result.error)).toBe(true);
     });
-    });
   });
 
   function isErrorNormalized(error: any): boolean {

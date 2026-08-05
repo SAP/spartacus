@@ -36,7 +36,7 @@ class MockCostCenterFormService {}
 
 class MockCurrentCostCenterService {
   key$ = of(mockCode);
-  load = vi.fn('load').mockReturnValue(EMPTY);
+  load = vi.fn().mockReturnValue(EMPTY);
   error$ = of(false);
 }
 describe('UnitCostCenterItemService', () => {

@@ -16,17 +16,17 @@ const permission = {
 const types: OrderApprovalPermissionType[] = [{ code: 'test', name: 'name' }];
 
 class MockPermissionAdapter implements PermissionAdapter {
-  load = vi.fn('PermissionAdapter.load').mockReturnValue(of(permission));
-  loadList = vi.fn('PermissionAdapter.loadList').mockReturnValue(
+  load = vi.fn().mockReturnValue(of(permission));
+  loadList = vi.fn().mockReturnValue(
     of([permission])
   );
-  create = vi.fn('PermissionAdapter.create').mockReturnValue(
+  create = vi.fn().mockReturnValue(
     of(permission)
   );
-  update = vi.fn('PermissionAdapter.update').mockReturnValue(
+  update = vi.fn().mockReturnValue(
     of(permission)
   );
-  loadTypes = vi.fn('PermissionAdapter.loadTypes').mockReturnValue(
+  loadTypes = vi.fn().mockReturnValue(
     of(types)
   );
 }

@@ -137,8 +137,7 @@ describe('QuoteHeaderOverviewComponent', () => {
     fixture = TestBed.createComponent(QuoteHeaderOverviewComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
-
-    fixture.detectChanges();
+    // No detectChanges() here — tests that mutate observables call it themselves
 
     quoteFacade = TestBed.inject(QuoteFacade as Type<QuoteFacade>);
     vi.spyOn(quoteFacade, 'editQuote');
@@ -153,11 +152,13 @@ describe('QuoteHeaderOverviewComponent', () => {
   }
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   describe('rendering', () => {
     it('should render basic component framework accordingly', () => {
+      fixture.detectChanges();
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -200,6 +201,7 @@ describe('QuoteHeaderOverviewComponent', () => {
     });
 
     it('should render component with deactivated edit mode', () => {
+      fixture.detectChanges();
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -341,11 +343,13 @@ describe('QuoteHeaderOverviewComponent', () => {
 
   describe('handle actions', () => {
     it('should handle cancel action', () => {
+      fixture.detectChanges();
       component.cancel();
       expect(component.editMode).toBe(false);
     });
 
     it('should handle edit action', () => {
+      fixture.detectChanges();
       const editEvent: SaveEvent = {
         name: 'new name',
         description: 'New Description',
@@ -366,6 +370,7 @@ describe('QuoteHeaderOverviewComponent', () => {
   });
 
   it('should set edit mode to the opposite', () => {
+    fixture.detectChanges();
     expect(component.editMode).toBe(false);
     component.toggleEditMode();
     expect(component.editMode).toBe(true);
@@ -571,6 +576,7 @@ describe('QuoteHeaderOverviewComponent', () => {
 
   describe('Accessibility', () => {
     it("should contain 'div' HTML element with 'role' attribute that indicates the role for this element", () => {
+      fixture.detectChanges();
       const element =
         CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
           htmlElem,
@@ -588,6 +594,7 @@ describe('QuoteHeaderOverviewComponent', () => {
     });
 
     it("should contain 'div' HTML element with 'aria-label' attribute that indicates the text for this element", () => {
+      fixture.detectChanges();
       const element =
         CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
           htmlElem,

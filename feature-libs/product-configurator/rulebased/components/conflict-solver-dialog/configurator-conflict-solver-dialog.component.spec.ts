@@ -145,7 +145,6 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
     );
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
-    fixture.detectChanges();
 
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
@@ -179,6 +178,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
 
   describe('Rendering', () => {
     it('should render a conflict solver dialog correctly', () => {
+      fixture.detectChanges();
       expect(component).toBeTruthy();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
@@ -246,6 +246,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
 
   describe('init', () => {
     it('should clear persisted focus key', () => {
+      fixture.detectChanges();
       focusService.set('key');
       component.init(NEVER, NEVER);
       expect(focusService.get()).toBeUndefined();
@@ -253,6 +254,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
   });
   describe('dismissModal', () => {
     it('should close dialog when dismissModal is called', () => {
+      fixture.detectChanges();
       const reason = 'Close conflict solver dialog';
       component.ngOnInit();
       component.dismissModal(reason);
@@ -267,6 +269,10 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
   });
 
   describe('Accessibility', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
     it("should contain action button element with class name 'close' and 'aria-label' attribute that indicates the text for close button", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,

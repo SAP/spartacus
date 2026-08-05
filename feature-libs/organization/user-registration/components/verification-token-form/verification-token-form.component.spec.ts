@@ -41,7 +41,7 @@ class MockFormComponentService
   createVerificationToken = vi.fn().mockReturnValue(
     of({ tokenId: 'testTokenId', expiresIn: '300' })
   );
-  displayMessage = vi.fn('displayMessage').mockImplementation(() => {});
+  displayMessage = vi.fn().mockImplementation(() => {});
 }
 
 class MockRoutingService {
@@ -97,7 +97,7 @@ describe('RegisterVerificationTokenFormComponent', () => {
         add: { imports: [MockTranslatePipe, MockUrlPipe] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterVerificationTokenFormComponent);

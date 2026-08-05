@@ -46,7 +46,6 @@ function initTestComponent() {
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
   component.ghostStyle = false;
-  fixture.detectChanges();
   configuratorStorefrontUtilsService = TestBed.inject(
     ConfiguratorStorefrontUtilsService
   );
@@ -162,10 +161,12 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
   });
 
   it('should create component', () => {
+    fixture.detectChanges();
     expect(component).toBeDefined();
   });
 
   it('should render overview menu component by default', () => {
+    fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -174,6 +175,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
   });
 
   it('should render overview filter component when filter tab is selected', () => {
+    fixture.detectChanges();
     // click filter button
     fixture.debugElement
       .queryAll(By.css('.cx-menu-bar button'))[1]
@@ -187,6 +189,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
   });
 
   it('should render overview filter component when filter tab is selected by enter-key', () => {
+    fixture.detectChanges();
     // keypress on filter button
     fixture.debugElement
       .queryAll(By.css('.cx-menu-bar button'))[1]
@@ -200,6 +203,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
   });
 
   it('should render overview filter component when filter tab is selected by space-key', () => {
+    fixture.detectChanges();
     // keypress on filter button
     fixture.debugElement
       .queryAll(By.css('.cx-menu-bar button'))[1]
@@ -212,10 +216,15 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     );
   });
 
-  it('should render overview menu component when menu tab is selected', () => {
-    component.onFilter();
+  it('should render overview menu component when menu tab is selected', async () => {
     fixture.detectChanges();
-    // click menu button
+    await fixture.whenStable();
+    // Switch to filter tab first
+    fixture.debugElement
+      .queryAll(By.css('.cx-menu-bar button'))[1]
+      .triggerEventHandler('click');
+    fixture.detectChanges();
+    // click menu button to switch back
     fixture.debugElement
       .queryAll(By.css('.cx-menu-bar button'))[0]
       .triggerEventHandler('click');
@@ -227,8 +236,13 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     );
   });
 
-  it('should render overview menu component when menu tab is selected by enter-key', () => {
-    component.onFilter();
+  it('should render overview menu component when menu tab is selected by enter-key', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+    // Switch to filter tab first
+    fixture.debugElement
+      .queryAll(By.css('.cx-menu-bar button'))[1]
+      .triggerEventHandler('click');
     fixture.detectChanges();
     // keypress on menu button
     fixture.debugElement
@@ -242,8 +256,13 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     );
   });
 
-  it('should render overview menu component when menu tab is selected by space-key', () => {
-    component.onFilter();
+  it('should render overview menu component when menu tab is selected by space-key', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+    // Switch to filter tab first
+    fixture.debugElement
+      .queryAll(By.css('.cx-menu-bar button'))[1]
+      .triggerEventHandler('click');
     fixture.detectChanges();
     // keypress on menu button
     fixture.debugElement

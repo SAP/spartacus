@@ -18,21 +18,21 @@ const budget = {
 };
 
 class MockCostCenterAdapter implements CostCenterAdapter {
-  load = vi.fn('CostCenterAdapter.load').mockReturnValue(of(costCenter));
-  loadList = vi.fn('CostCenterAdapter.loadList').mockReturnValue(
+  load = vi.fn().mockReturnValue(of(costCenter));
+  loadList = vi.fn().mockReturnValue(
     of([costCenter])
   );
-  create = vi.fn('CostCenterAdapter.create').mockReturnValue(
+  create = vi.fn().mockReturnValue(
     of(costCenter)
   );
-  update = vi.fn('CostCenterAdapter.update').mockReturnValue(
+  update = vi.fn().mockReturnValue(
     of(costCenter)
   );
-  loadBudgets = vi.fn('CostCenterAdapter.loadBudgets').mockReturnValue(
+  loadBudgets = vi.fn().mockReturnValue(
     of([budget])
   );
-  assignBudget = vi.fn('CostCenterAdapter.assignBudget');
-  unassignBudget = vi.fn('CostCenterAdapter.unassignBudget');
+  assignBudget = vi.fn();
+  unassignBudget = vi.fn();
 }
 
 describe('CostCenterConnector', () => {

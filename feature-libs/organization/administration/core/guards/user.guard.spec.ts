@@ -11,7 +11,7 @@ import { B2BUserService } from '../services';
 import { UserGuard } from './user.guard';
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = vi.fn('add');
+  add = vi.fn();
 }
 
 class MockB2BUserService implements Partial<B2BUserService> {

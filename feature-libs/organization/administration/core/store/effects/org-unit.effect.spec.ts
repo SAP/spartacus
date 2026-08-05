@@ -141,7 +141,7 @@ describe('OrgUnit Effects', () => {
 
   describe('load$', () => {
     // TODO: unlock after use final addresses endpoint
-    xit('should return LoadOrgUnitSuccess action', () => {
+    it.skip('should return LoadOrgUnitSuccess action', () => {
       const action = new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId });
       const completion = new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]);
       actions$ = hot('-a', { a: action });
@@ -227,7 +227,7 @@ describe('OrgUnit Effects', () => {
 
   describe('updateUnit$', () => {
     // TODO: unlock after get correct response and fixed effect
-    xit('should return UpdateOrgUnitNodesSuccess action', () => {
+    it.skip('should return UpdateOrgUnitNodesSuccess action', () => {
       const action = new OrgUnitActions.UpdateUnit({
         userId,
         unitCode: orgUnitId,

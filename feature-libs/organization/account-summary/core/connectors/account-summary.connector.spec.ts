@@ -63,14 +63,14 @@ const accountSummaryDocumentsResult: AccountSummaryList = {
 
 const accountSummaryAttachmentFile = new Blob();
 class MockAccountSummaryAdapter implements AccountSummaryAdapter {
-  getDocumentAttachment = vi.fn('getDocumentAttachment').mockReturnValue(
+  getDocumentAttachment = vi.fn().mockReturnValue(
     accountSummaryAttachmentFile
   );
 
-  getAccountSummary = vi.fn('getAccountSummary').mockReturnValue(
+  getAccountSummary = vi.fn().mockReturnValue(
     of(accountSummaryResult)
   );
-  getDocumentList = vi.fn('getDocumentList').mockReturnValue(
+  getDocumentList = vi.fn().mockReturnValue(
     of(accountSummaryDocumentsResult)
   );
 }

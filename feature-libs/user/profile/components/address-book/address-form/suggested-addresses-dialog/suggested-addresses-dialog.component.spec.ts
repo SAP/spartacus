@@ -68,7 +68,7 @@ describe('SuggestedAddressDialogComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SuggestedAddressDialogComponent);

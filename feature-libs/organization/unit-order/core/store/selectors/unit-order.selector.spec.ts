@@ -58,7 +58,7 @@ describe('Unit Level Orders Selectors', () => {
   });
 
   describe('getOrders', () => {
-    it('should return unit Orders'(() => {
+    it('should return unit Orders', () => {
       let result: OrderHistoryList | undefined;
       store.pipe(select(UnitOrderSelectors.getOrders)).subscribe((value) => {
         result = value;
@@ -67,7 +67,7 @@ describe('Unit Level Orders Selectors', () => {
       expect(result).toEqual(mockEmptyOrderList);
       store.dispatch(new UnitOrderActions.LoadUnitOrdersSuccess(mockOrderList));
       expect(result).toEqual(mockOrderList);
-    }));
+    });
   });
 
   describe('getOrdersLoaded', () => {

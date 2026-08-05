@@ -22,13 +22,13 @@ const orderApprvalDecision: OrderApprovalDecision = {
 };
 
 class MockOrderApprovalAdapter implements OrderApprovalAdapter {
-  load = vi.fn('OrderApprovalAdapter.load').mockReturnValue(
+  load = vi.fn().mockReturnValue(
     of(orderApproval)
   );
-  loadList = vi.fn('OrderApprovalAdapter.loadList').mockReturnValue(
+  loadList = vi.fn().mockReturnValue(
     of([orderApproval])
   );
-  makeDecision = vi.fn('OrderApprovalAdapter.makeDecision').mockReturnValue(
+  makeDecision = vi.fn().mockReturnValue(
     of(orderApprvalDecision)
   );
 }

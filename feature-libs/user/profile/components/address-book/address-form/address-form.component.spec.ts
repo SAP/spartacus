@@ -204,7 +204,7 @@ describe('AddressFormComponent', () => {
     userProfileFacade = TestBed.inject(UserProfileFacade);
     userAddressService = TestBed.inject(UserAddressService);
     launchDialogService = TestBed.inject(LaunchDialogService);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddressFormComponent);
@@ -541,7 +541,7 @@ describe('AddressFormComponent', () => {
       fixture.detectChanges();
       expect(
         // eslint-disable-next-line no-restricted-syntax
-        fixture.nativeElement.querySelector('.btn-secondary').innerText
+        fixture.nativeElement.querySelector('.btn-secondary').textContent?.trim()
       ).toEqual('Back to cart');
     });
 
@@ -550,7 +550,7 @@ describe('AddressFormComponent', () => {
       fixture.detectChanges();
       expect(
         // eslint-disable-next-line no-restricted-syntax
-        fixture.nativeElement.querySelector('.btn-secondary').innerText
+        fixture.nativeElement.querySelector('.btn-secondary').textContent?.trim()
       ).toEqual('addressForm.chooseAddress');
     });
   });

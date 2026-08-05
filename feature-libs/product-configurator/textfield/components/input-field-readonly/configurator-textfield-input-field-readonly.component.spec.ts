@@ -29,14 +29,15 @@ describe('TextfieldInputFieldReadonlyComponent', () => {
       configurationLabel: 'attributeName',
       configurationValue: ATTRIBUTE_VALUE,
     };
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should render a visually hidden span', () => {
+    fixture.detectChanges();
     const idLabel = component.getIdLabel(component.attribute);
     const elementsSpan = htmlElem.querySelectorAll('#' + idLabel);
     expect(elementsSpan.length).toBe(1);
@@ -46,6 +47,7 @@ describe('TextfieldInputFieldReadonlyComponent', () => {
   });
 
   it('should render a hidden label', () => {
+    fixture.detectChanges();
     const elementsLabel = htmlElem.querySelectorAll('label');
     expect(elementsLabel.length).toBe(1);
     const elementLabel = elementsLabel[0];
@@ -53,6 +55,7 @@ describe('TextfieldInputFieldReadonlyComponent', () => {
   });
 
   it('should render a value', () => {
+    fixture.detectChanges();
     const elementsDiv = htmlElem.querySelectorAll('div');
     expect(elementsDiv.length).toBe(1);
     const elementDiv = elementsDiv[0];
@@ -61,6 +64,7 @@ describe('TextfieldInputFieldReadonlyComponent', () => {
 
   describe('Accessibility', () => {
     it("should contain span element with class name 'cx-visually-hidden' and its corresponding introduction text", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -74,6 +78,7 @@ describe('TextfieldInputFieldReadonlyComponent', () => {
     });
 
     it("should contain label element with 'aria-hidden' attribute and its 'true' value", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -86,6 +91,7 @@ describe('TextfieldInputFieldReadonlyComponent', () => {
     });
 
     it("should contain label element with 'aria-describedby' attribute and its reference to corresponding value", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -98,6 +104,7 @@ describe('TextfieldInputFieldReadonlyComponent', () => {
     });
 
     it("should contain div element with 'aria-hidden' attribute and its 'true' value", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

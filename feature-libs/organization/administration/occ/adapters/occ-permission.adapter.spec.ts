@@ -25,7 +25,7 @@ const permission = {
 };
 
 class MockOccEndpointsService {
-  buildUrl = vi.fn('MockOccEndpointsService.buildUrl').mockImplementation(
+  buildUrl = vi.fn().mockImplementation(
     // eslint-disable-next-line @typescript-eslint/no-shadow
     (url, { urlParams: { orderApprovalPermissionCode } }) =>
       url === 'permission' ? url + orderApprovalPermissionCode : url

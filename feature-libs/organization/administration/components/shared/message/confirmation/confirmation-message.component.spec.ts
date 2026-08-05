@@ -55,7 +55,11 @@ describe('ConfirmationMessageComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create component', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
@@ -63,7 +67,7 @@ describe('ConfirmationMessageComponent', () => {
     const messageEl: HTMLElement = fixture.debugElement.query(
       By.css('.message p')
     ).nativeElement;
-    expect(messageEl.innerText).toEqual('Raw mock message');
+    expect(messageEl.textContent?.trim()).toEqual('Raw mock message');
   });
 
   it('should have confirm button', () => {

@@ -97,17 +97,11 @@ const accountSummaryDocumentsResult: AccountSummaryList = {
 const accountSummaryDocumentBlob = new Blob([], { type: 'application/pdf' });
 
 class MockAccountSummaryConnector implements Partial<AccountSummaryConnector> {
-  getAccountSummary = vi.fn(
-    'MockAccountSummaryConnector.getAccountSummary Spy'
-  ).mockReturnValue(of(accountSummaryResult));
+  getAccountSummary = vi.fn().mockReturnValue(of(accountSummaryResult));
 
-  getDocumentList = vi.fn(
-    'MockAccountSummaryConnector.getDocumentList Spy'
-  ).mockReturnValue(of(accountSummaryDocumentsResult));
+  getDocumentList = vi.fn().mockReturnValue(of(accountSummaryDocumentsResult));
 
-  getDocumentAttachment = vi.fn(
-    'MockAccountSummaryConnector.getDocumentAttachment Spy'
-  ).mockReturnValue(of(new Blob([], { type: 'application/pdf' })));
+  getDocumentAttachment = vi.fn().mockReturnValue(of(new Blob([], { type: 'application/pdf' })));
 }
 
 describe('AccountSummaryService', () => {

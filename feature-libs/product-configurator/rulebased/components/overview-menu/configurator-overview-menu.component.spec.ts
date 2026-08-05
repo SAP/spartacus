@@ -66,7 +66,6 @@ function initialize() {
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
   component.config = CONFIGURATION;
-  fixture.detectChanges();
 
   configuratorGroupsService = TestBed.inject(
     ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
@@ -125,13 +124,19 @@ describe('ConfigurationOverviewMenuComponent', () => {
       .compileComponents();
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('should create component', () => {
     initialize();
+    fixture.detectChanges();
     expect(component).toBeDefined();
   });
 
   it('should call ngAfterViewInit after ovMenu is rendered', () => {
     initialize();
+    fixture.detectChanges();
     vi.spyOn(configuratorStorefrontUtilsService, 'getSpareViewportHeight');
     vi.spyOn(configuratorStorefrontUtilsService, 'getElement');
     vi.spyOn(configuratorStorefrontUtilsService, 'getElements');
@@ -164,6 +169,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
 
   it('should provide the overview groups', () => {
     initialize();
+    fixture.detectChanges();
     expect(component.config.overview?.groups?.length).toBe(2);
   });
 
@@ -190,14 +196,14 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
 
     it('should return zero because amount is zero', () => {
-      component.amount = 0;
       fixture.detectChanges();
+      component.amount = 0;
       expect(component['getMenuItemsHeight']()).toEqual(0);
     });
 
     it('should return the total height of all menu items', () => {
-      component.amount = 10;
       fixture.detectChanges();
+      component.amount = 10;
       expect(component['getMenuItemsHeight']()).toEqual(395);
     });
   });
@@ -208,6 +214,8 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
 
     it('should call changeStyling', () => {
+      fixture.detectChanges();
+      vi.clearAllMocks();
       component['changeStyling']();
       expect(
         configuratorStorefrontUtilsService.changeStyling
@@ -221,6 +229,8 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
 
     it('should call removeStyling', () => {
+      fixture.detectChanges();
+      vi.clearAllMocks();
       component['removeStyling']();
       expect(
         configuratorStorefrontUtilsService.removeStyling
@@ -234,8 +244,9 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
 
     it('should change styling', () => {
-      component.amount = 1;
       fixture.detectChanges();
+      vi.clearAllMocks();
+      component.amount = 1;
       component['adjustStyling']();
       expect(
         configuratorStorefrontUtilsService.changeStyling
@@ -243,8 +254,9 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
 
     it('should removeStyling styling', () => {
-      component.amount = 0;
       fixture.detectChanges();
+      vi.clearAllMocks();
+      component.amount = 0;
       component['adjustStyling']();
       expect(
         configuratorStorefrontUtilsService.removeStyling
@@ -254,6 +266,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
 
   it('should render group descriptions', () => {
     initialize();
+    fixture.detectChanges();
     expect(htmlElem.innerHTML).toContain(
       ConfigurationTestData.OV_GROUP_DESCRIPTION
     );
@@ -262,6 +275,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
   describe('getGroupLevelStyleClasses', () => {
     it('should return style class according to level', () => {
       initialize();
+      fixture.detectChanges();
       const styleClass = component.getGroupLevelStyleClasses(4);
       expect(styleClass).toBe('cx-menu-group groupLevel4');
     });
@@ -270,6 +284,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
   describe('navigateToGroup', () => {
     it('should invoke utils service for determining group id', () => {
       initialize();
+      fixture.detectChanges();
       component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
       expect(
         configuratorStorefrontUtilsService.createOvGroupId
@@ -278,6 +293,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
 
     it('should invoke utils service for scrolling', () => {
       initialize();
+      fixture.detectChanges();
       component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
       expect(
         configuratorStorefrontUtilsService.scrollToConfigurationElement
@@ -288,6 +304,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
   describe('getPrefixId', () => {
     it('should call configuratorStorefrontUtilsService.getPrefixId method', () => {
       initialize();
+      fixture.detectChanges();
       component.getPrefixId('AAA', 'BBB');
       expect(
         configuratorStorefrontUtilsService.getPrefixId
@@ -298,6 +315,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
   describe('getGroupId', () => {
     it('should dispatch request to utils service', () => {
       initialize();
+      fixture.detectChanges();
       component.getGroupId('A', 'B');
       expect(
         configuratorStorefrontUtilsService.createOvGroupId
@@ -308,6 +326,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
   describe('getMenuItemId', () => {
     it('should dispatch request to utils service', () => {
       initialize();
+      fixture.detectChanges();
       component.getMenuItemId('A', 'B');
       expect(
         configuratorStorefrontUtilsService.createOvMenuItemId
@@ -323,6 +342,8 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
 
     it('should call onScroll method', () => {
+      fixture.detectChanges();
+      vi.clearAllMocks();
       component.onScroll();
 
       expect(
@@ -342,6 +363,8 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
 
     it('should call onResize method', () => {
+      fixture.detectChanges();
+      vi.clearAllMocks();
       component.onResize();
 
       expect(
@@ -454,13 +477,13 @@ describe('ConfigurationOverviewMenuComponent', () => {
         'getVerticallyScrolledPixels'
       ).mockReturnValue(123);
 
+      fixture.detectChanges();
+
       let menuItems = htmlElem.querySelectorAll('.cx-menu-item');
       let menuItem = menuItems[menuItems.length - 1] as HTMLElement;
       vi.spyOn(configuratorStorefrontUtilsService, 'getElement').mockReturnValue(
         menuItem
       );
-
-      fixture.detectChanges();
 
       expect(component['getMenuItemToHighlight']()?.id).toEqual(menuItem.id);
     });
@@ -472,6 +495,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
 
     it('should not highlight any element because the list of menu items is empty', () => {
+      fixture.detectChanges();
       const menuItems: HTMLElement[] = Array.from(
         htmlElem.querySelectorAll('button.cx-menu-item')
       );
@@ -486,6 +510,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
 
     it('should highlight an element', () => {
+      fixture.detectChanges();
       const menuItems: HTMLElement[] = Array.from(
         htmlElem.querySelectorAll('button.cx-menu-item')
       );
@@ -506,6 +531,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
 
     it('should not call ensureElementVisible  method because elementToHighlight is undefined', () => {
+      fixture.detectChanges();
       vi.spyOn(configuratorStorefrontUtilsService, 'hasScrollbar');
       component['ensureElementVisible'](undefined);
       expect(
@@ -517,6 +543,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
 
     it('should not call ensureElementVisible method because isScrollBox is false', () => {
+      fixture.detectChanges();
       const menuItems: HTMLElement[] = Array.from(
         htmlElem.querySelectorAll('button.cx-menu-item')
       );
@@ -534,6 +561,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
 
     it('should ensure visibility of an element', () => {
+      fixture.detectChanges();
       const menuItems: HTMLElement[] = Array.from(
         htmlElem.querySelectorAll('button.cx-menu-item')
       );

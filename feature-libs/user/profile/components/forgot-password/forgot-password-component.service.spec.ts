@@ -47,7 +47,7 @@ describe('ForgotPasswordComponentService', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     service = TestBed.inject(ForgotPasswordComponentService);
@@ -73,7 +73,7 @@ describe('ForgotPasswordComponentService', () => {
       service['busy$'].next(false);
       let result;
       service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
-      expect(result).toBeFalse;
+      expect(result).toBe(false);
       expect(service.form.disabled).toBe(false);
     });
   });

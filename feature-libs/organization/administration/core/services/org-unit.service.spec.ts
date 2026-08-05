@@ -772,7 +772,7 @@ describe('OrgUnitService', () => {
   describe('getErrorState', () => {
     it('getErrorState() should be able to get status error', () => {
       let errorState: boolean;
-      spyOn<any>(service, 'getOrgUnitState').mockReturnValue(
+      vi.spyOn<any>(service, 'getOrgUnitState').mockReturnValue(
         of({ loading: false, success: false, error: true })
       );
 

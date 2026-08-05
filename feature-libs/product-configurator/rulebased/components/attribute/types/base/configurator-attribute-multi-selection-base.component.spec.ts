@@ -116,15 +116,18 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
       values: values,
       required: true,
     };
-
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   describe('resetLoadingOnConfigurationUpdate', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
     it('should reset loading$ once the configuration update round trip finished, even if the attribute did not change', () => {
       component.loading$.next(true);
       expect(component.loading$.value).toBe(true);
@@ -151,10 +154,12 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
 
   describe('withQuantity', () => {
     it('should allow quantity', () => {
+      fixture.detectChanges();
       expect(component.withQuantity).toBe(true);
     });
     it('should be able to handle empty UI type', () => {
       component.attribute.uiType = undefined;
+      fixture.detectChanges();
       expect(component.withQuantity).toBe(false);
     });
   });
@@ -177,6 +182,7 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
 
   describe('disableQuantityActions', () => {
     it('should allow quantity actions', () => {
+      fixture.detectChanges();
       expect(component.disableQuantityActions).toBe(false);
     });
   });

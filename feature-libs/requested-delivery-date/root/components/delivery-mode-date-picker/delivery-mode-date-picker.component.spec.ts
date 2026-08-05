@@ -81,14 +81,17 @@ describe('DeliveryModeDatePickerComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DeliveryModeDatePickerComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    // NOTE: no fixture.detectChanges() here — each test sets its own state first
+    // to avoid NG0100 ExpressionChangedAfterItHasBeenCheckedError
   });
 
   afterEach(() => {
+    vi.restoreAllMocks();
     fixture.destroy();
   });
 
   it('should create the component', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -106,7 +109,6 @@ describe('DeliveryModeDatePickerComponent', () => {
       });
       const textTitle = 'Delivery Date';
 
-      component.ngOnInit();
       fixture.detectChanges();
 
       let card: Card = {};
@@ -148,7 +150,6 @@ describe('DeliveryModeDatePickerComponent', () => {
       });
       const datePickerLab = 'requestedDeliveryDate.datePickerLabel';
 
-      component.ngOnInit();
       fixture.detectChanges();
 
       const datePickerLabelEl = fixture.debugElement.query(
@@ -169,7 +170,7 @@ describe('DeliveryModeDatePickerComponent', () => {
     component['cartEntry'] = {
       requestedRetrievalAt,
     } as any;
-    component.ngOnInit();
+    fixture.detectChanges();
     expect(component['form'].get('requestDeliveryDate')?.value).toEqual(
       requestedRetrievalAt
     );
@@ -184,7 +185,7 @@ describe('DeliveryModeDatePickerComponent', () => {
         uid: 'current',
       },
     } as any;
-    component.ngOnInit();
+    fixture.detectChanges();
     expect(component['requestedRetrievalAt']).toEqual(earliestRetrievalAt);
     expect(component['form'].get('requestDeliveryDate')?.value).toEqual(
       earliestRetrievalAt
@@ -211,7 +212,6 @@ describe('DeliveryModeDatePickerComponent', () => {
       readonly: false,
     });
 
-    component.ngOnInit();
     fixture.detectChanges();
     const newRequestedRetrievalAt = '2023-09-15';
     component['form'].patchValue({
@@ -264,7 +264,6 @@ describe('DeliveryModeDatePickerComponent', () => {
       readonly: false,
     });
 
-    component.ngOnInit();
     fixture.detectChanges();
     const newRequestedRetrievalAt = '2023-01-01';
     component['form'].patchValue({
@@ -301,7 +300,6 @@ describe('DeliveryModeDatePickerComponent', () => {
       readonly: true,
     });
 
-    component.ngOnInit();
     fixture.detectChanges();
     const datePickerEl: HTMLInputElement = fixture.debugElement.query(
       By.css('cx-date-picker')
@@ -340,7 +338,7 @@ describe('DeliveryModeDatePickerComponent', () => {
         uid: 'current',
       },
     } as any;
-    component.ngOnInit();
+    fixture.detectChanges();
     expect(component['requestedRetrievalAt']).toEqual(earliestRetrievalAt);
     expect(component['form'].get('requestDeliveryDate')?.value).toEqual(
       earliestRetrievalAt
@@ -365,6 +363,7 @@ describe('DeliveryModeDatePickerComponent', () => {
   });
 
   it('should unsubscribe from subscription on component destruction', () => {
+    fixture.detectChanges();
     vi.spyOn(component['subscription'], 'unsubscribe');
     component.ngOnDestroy();
     expect(component['subscription'].unsubscribe).toHaveBeenCalled();

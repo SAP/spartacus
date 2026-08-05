@@ -102,11 +102,14 @@ describe('StoreFinderListComponent', () => {
     vi.spyOn(storeFinderService, 'getStoreLatitude');
     vi.spyOn(storeFinderService, 'getStoreLongitude');
     vi.spyOn(googleMapRendererService, 'centerMap');
+  });
 
-    fixture.detectChanges();
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -126,6 +129,7 @@ describe('StoreFinderListComponent', () => {
   });
 
   it('should select store from list', () => {
+    fixture.detectChanges();
     const itemNumber = 4;
     const storeListItemMock = { scrollIntoView: function () {} };
     vi.spyOn(document, 'getElementById').mockReturnValue(storeListItemMock as any);
@@ -139,21 +143,22 @@ describe('StoreFinderListComponent', () => {
 
   it('should show store details', () => {
     component.locations = locations;
+    component.storeDetails = location; // initialize binding to avoid NG0100
     fixture.detectChanges();
+    component.storeDetails = undefined;
     expect(component.isDetailsModeVisible).toBe(false);
 
     component.centerStoreOnMapByIndex(0, location);
-    fixture.detectChanges();
     expect(component.isDetailsModeVisible).toBe(true);
     expect(component.storeDetails).not.toBe(null);
   });
 
   it('should close store details', () => {
     component.locations = locations;
+    component.storeDetails = location; // initialize binding to avoid NG0100
     fixture.detectChanges();
 
     component.centerStoreOnMapByIndex(0, location);
-    fixture.detectChanges();
     expect(component.isDetailsModeVisible).toBe(true);
 
     component.hideStoreDetails();
@@ -161,12 +166,14 @@ describe('StoreFinderListComponent', () => {
   });
 
   it('should "setDisplayMode" switch active display mode', () => {
+    fixture.detectChanges();
     expect(component.activeDisplayMode).toBe(displayModes.LIST_VIEW);
     component.setDisplayMode(displayModes.MAP_VIEW);
     expect(component.activeDisplayMode).toBe(displayModes.MAP_VIEW);
   });
 
   it('should "isDisplayModeActive" return valid boolean flag', () => {
+    fixture.detectChanges();
     component.setDisplayMode(displayModes.MAP_VIEW);
 
     expect(component.isDisplayModeActive(displayModes.MAP_VIEW)).toBeTruthy();
@@ -175,7 +182,6 @@ describe('StoreFinderListComponent', () => {
 
   it('should focus the back button when store details are shown', () => {
     component.locations = locations;
-    fixture.detectChanges();
 
     component.showStoreDetails(location);
     fixture.detectChanges();

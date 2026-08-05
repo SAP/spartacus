@@ -40,7 +40,7 @@ const address: Address = { id: 'testAddressId' };
 const addressId: string = address.id;
 
 class MockOccEndpointsService {
-  buildUrl = vi.fn('MockOccEndpointsService.buildUrl').mockImplementation(
+  buildUrl = vi.fn().mockImplementation(
     // eslint-disable-next-line @typescript-eslint/no-shadow
     (url, { urlParams: { orgUnitId } }) =>
       url === 'orgUnit' ? url + orgUnitId : url

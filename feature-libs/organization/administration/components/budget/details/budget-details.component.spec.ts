@@ -22,7 +22,7 @@ const mockCode = 'b1';
 
 class MockBudgetItemService implements Partial<ItemService<Budget>> {
   key$ = of(mockCode);
-  load = vi.fn('load').mockReturnValue(EMPTY);
+  load = vi.fn().mockReturnValue(EMPTY);
   error$ = of(false);
   current$ = of({});
 }

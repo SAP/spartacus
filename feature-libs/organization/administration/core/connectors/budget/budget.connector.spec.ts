@@ -13,10 +13,10 @@ const budget = {
 };
 
 class MockBudgetAdapter implements BudgetAdapter {
-  load = vi.fn('BudgetAdapter.load').mockReturnValue(of(budget));
-  loadList = vi.fn('BudgetAdapter.loadList').mockReturnValue(of([budget]));
-  create = vi.fn('BudgetAdapter.create').mockReturnValue(of(budget));
-  update = vi.fn('BudgetAdapter.update').mockReturnValue(of(budget));
+  load = vi.fn().mockReturnValue(of(budget));
+  loadList = vi.fn().mockReturnValue(of([budget]));
+  create = vi.fn().mockReturnValue(of(budget));
+  update = vi.fn().mockReturnValue(of(budget));
 }
 
 describe('BudgetConnector', () => {

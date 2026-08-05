@@ -155,7 +155,6 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       incomplete: true,
       values,
     };
-    fixture.detectChanges();
     return component;
   }
 
@@ -219,6 +218,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
 
   it('should create', () => {
     createComponentWithData();
+    fixture.detectChanges();
     expect(component).toBeTruthy();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -229,6 +229,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
 
   it('should render an empty component in case showRequiredErrorMessage$ is `false`', () => {
     createComponentWithData(false);
+    fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
@@ -260,11 +261,13 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
 
   it('should set selectedSingleValue on init', () => {
     createComponentWithData();
+    fixture.detectChanges();
     expect(component.attributeDropDownForm.value).toEqual(selectedValue);
   });
 
   it('should call updateConfiguration on select', () => {
     createComponentWithData();
+    fixture.detectChanges();
     component.ownerKey = ownerKey;
     vi.spyOn(
       component['configuratorCommonsService'],
@@ -405,6 +408,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
   describe('getSelectedValueDescription', () => {
     it('should return blank if no description provided at model level on any selected value', () => {
       createComponentWithData();
+      fixture.detectChanges();
       component.attribute.values = [];
       expect(component.getSelectedValueDescription()).toBe('');
     });
@@ -461,6 +465,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     });
 
     it("should contain label element with class name 'cx-visually-hidden' that hides label content on the UI", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -475,6 +480,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     });
 
     it("should contain select element with class name 'form-control' and 'aria-describedby' attribute that indicates the ID of the element that describe the elements", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

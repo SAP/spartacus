@@ -102,13 +102,13 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     component.config = ovConfig;
-    fixture.detectChanges();
     configuratorStorefrontUtilsService = TestBed.inject(
       ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
     );
   });
   describe('in a component test environment', () => {
     it('should create component', () => {
+      fixture.detectChanges();
       expect(component).toBeDefined();
     });
 

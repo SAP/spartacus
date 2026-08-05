@@ -57,7 +57,6 @@ function initTestComponent() {
   component.config = overview;
   isDisplayOnlyVariant = false;
   component.ngOnChanges();
-  fixture.detectChanges();
 }
 
 @Component({
@@ -114,10 +113,12 @@ describe('ConfiguratorOverviewFilterComponent', () => {
 
   describe('in a component test environment', () => {
     it('should create component', () => {
+      fixture.detectChanges();
       expect(component).toBeDefined();
     });
 
     it('should render filter options', () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
@@ -127,6 +128,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     });
 
     it('should render both filter headers', () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
@@ -189,6 +191,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     });
 
     it('should render filter bar by default', () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -207,6 +210,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     });
 
     it('should update overview on change of filter option', () => {
+      fixture.detectChanges();
       fixture.debugElement
         .queryAll(By.css('.cx-overview-filter-option input'))
         .forEach((element) => {
@@ -220,6 +224,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
 
     describe('to support A11Y', () => {
       it('price filter label should be linked to checkbox', () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,
@@ -230,6 +235,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       });
 
       it('price filter label should have a11y text', () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,
@@ -240,6 +246,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       });
 
       it('my selections filter label should be linked to checkbox', () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,
@@ -251,6 +258,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       });
 
       it('my selections filter label should have a11y text', () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,
@@ -261,6 +269,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       });
 
       it('group filter label should be linked to checkbox', () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,
@@ -272,6 +281,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       });
 
       it('group filter label should have a11y text', () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,

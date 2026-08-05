@@ -38,7 +38,7 @@ const userGroupId = 'userGroupId';
 const params: SearchConfig = { sort: 'code' };
 
 class MockOccEndpointsService {
-  buildUrl = vi.fn('MockOccEndpointsService.buildUrl').mockImplementation(
+  buildUrl = vi.fn().mockImplementation(
     // eslint-disable-next-line @typescript-eslint/no-shadow
     (url, { urlParams: { userId } }) =>
       url === 'b2bUser' ? `${url}/${userId}` : url

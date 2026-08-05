@@ -233,9 +233,7 @@ describe('OrderApproval Effects', () => {
     });
 
     it('should return MakeDecisionFail action if decision not created', () => {
-      orderApprovalConnector.makeDecision = vi.fn(
-        'makeDecision'
-      ).mockReturnValue(throwError(() => httpErrorResponse));
+      orderApprovalConnector.makeDecision = vi.fn().mockReturnValue(throwError(() => httpErrorResponse));
       const action = new OrderApprovalActions.MakeDecision({
         userId,
         orderApprovalCode,

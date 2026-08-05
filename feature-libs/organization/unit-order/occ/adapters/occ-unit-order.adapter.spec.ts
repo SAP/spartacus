@@ -53,7 +53,7 @@ describe('OccUnitOrderAdapter', () => {
   });
 
   describe('getUnitLevelOrders', () => {
-    it('should fetch unit Orders with default options'(() => {
+    it('should fetch unit Orders with default options', () => {
       const PAGE_SIZE = 5;
       occOrderHistoryAdapter
         .loadUnitOrderHistory(userId, PAGE_SIZE)
@@ -68,9 +68,9 @@ describe('OccUnitOrderAdapter', () => {
           queryParams: { pageSize: PAGE_SIZE.toString() },
         }
       );
-    }));
+    });
 
-    it('should fetch unit Orders with defined options'(() => {
+    it('should fetch unit Orders with defined options', () => {
       const PAGE_SIZE = 5;
       const currentPage = 1;
       const sort = 'byDate';
@@ -93,7 +93,7 @@ describe('OccUnitOrderAdapter', () => {
           },
         }
       );
-    }));
+    });
 
     it('should use converter', () => {
       occOrderHistoryAdapter.loadUnitOrderHistory(userId).subscribe();
@@ -120,7 +120,7 @@ describe('OccUnitOrderAdapter', () => {
           urlParams: { userId, orderId: orderDetailCode },
         }
       );
-    }));
+    });
 
     it('should use converter', () => {
       occOrderHistoryAdapter

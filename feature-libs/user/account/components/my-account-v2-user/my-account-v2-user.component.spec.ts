@@ -36,7 +36,7 @@ const mockUserDetails: User = {
 };
 
 class MockRoutingService {
-  go = vi.fn('go');
+  go = vi.fn();
 }
 class MockUserAccountFacade {
   get(): Observable<User> {

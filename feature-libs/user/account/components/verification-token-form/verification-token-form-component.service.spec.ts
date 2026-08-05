@@ -92,7 +92,7 @@ describe('VerificationTokenFormComponentService', () => {
         provideMockFeatureToggles({ ...mockFeatureToggles }),
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     service = TestBed.inject(VerificationTokenFormComponentService);
@@ -190,7 +190,7 @@ describe('VerificationTokenFormComponentService', () => {
           },
         ],
       }).compileComponents();
-    }));
+    });
 
     beforeEach(() => {
       service = TestBed.inject(VerificationTokenFormComponentService);

@@ -153,14 +153,18 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       key: 'attrKey',
     };
     component.ownerKey = ownerKey;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   describe('resetLoadingOnConfigurationUpdate', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
     it('should reset loading$ once the configuration update round trip finished, even if the attribute did not change', () => {
       component.loading$.next(true);
       expect(component.loading$.value).toBe(true);
@@ -470,6 +474,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
 
   describe('disableQuantityActions', () => {
     it('should allow quantity actions', () => {
+      fixture.detectChanges();
       expect(component.disableQuantityActions).toBe(false);
     });
   });

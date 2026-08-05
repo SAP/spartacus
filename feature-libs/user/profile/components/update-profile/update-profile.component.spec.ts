@@ -127,7 +127,7 @@ describe('UpdateProfileComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UpdateProfileComponent);

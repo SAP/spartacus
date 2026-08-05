@@ -7,7 +7,6 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import {
@@ -196,19 +195,11 @@ describe('ConfiguratorEffect', () => {
 
   beforeEach(() => {
     createMock = vi.fn().mockReturnValue(of(productConfiguration));
-    updateConfigurationMock = jasmine
-      .vi.fn()
-      .mockReturnValue(of(productConfiguration));
-    readPriceSummaryMock = jasmine
-      .vi.fn()
-      .mockReturnValue(of(productConfiguration));
+    updateConfigurationMock = vi.fn().mockReturnValue(of(productConfiguration));
+    readPriceSummaryMock = vi.fn().mockReturnValue(of(productConfiguration));
     readMock = vi.fn().mockReturnValue(of(productConfiguration));
-    overviewMock = jasmine
-      .vi.fn()
-      .mockReturnValue(of(productConfiguration.overview));
-    updateOverviewMock = jasmine
-      .vi.fn()
-      .mockReturnValue(of(productConfiguration.overview));
+    overviewMock = vi.fn().mockReturnValue(of(productConfiguration.overview));
+    updateOverviewMock = vi.fn().mockReturnValue(of(productConfiguration.overview));
 
     class MockConnector {
       createConfiguration = createMock;
@@ -248,6 +239,10 @@ describe('ConfiguratorEffect', () => {
       ConfiguratorBasicEffectService as Type<ConfiguratorBasicEffectService>
     );
     store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('should provide configuration effects', () => {
@@ -990,12 +985,14 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit remove configuration action for configurations that are purely product bound', () => {
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        () => () => of(configurationState)
-      );
-
       entitiesInConfigurationState[productConfiguration.owner.key] =
         productConfiguration.owner.key;
+
+      vi.spyOn(store, 'pipe').mockReturnValueOnce(
+        of(new ConfiguratorActions.RemoveConfiguration({
+          ownerKey: [productConfiguration.owner.key],
+        }))
+      );
 
       const removeProductBoundConfigurationsAction =
         new ConfiguratorActions.RemoveProductBoundConfigurations();

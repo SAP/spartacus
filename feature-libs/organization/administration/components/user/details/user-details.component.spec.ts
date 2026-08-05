@@ -46,7 +46,7 @@ const mockB2BUserWithoutRight: B2BUser = {
 
 class MockUserItemService implements Partial<ItemService<Budget>> {
   key$ = of(mockCode);
-  load = vi.fn('load').mockReturnValue(EMPTY);
+  load = vi.fn().mockReturnValue(EMPTY);
   error$ = of(false);
 }
 

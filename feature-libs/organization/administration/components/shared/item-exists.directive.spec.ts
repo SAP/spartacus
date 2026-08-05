@@ -21,20 +21,20 @@ class TestComponent {
 }
 
 class MockMessageService {
-  add = vi.fn('add').mockReturnValue(new Subject());
+  add = vi.fn().mockReturnValue(new Subject());
   clear() {}
   close() {}
 }
 
 class MockItemServiceWithError implements Partial<ItemService<any>> {
   key$ = of(mockCode);
-  load = vi.fn('load').mockReturnValue(EMPTY);
+  load = vi.fn().mockReturnValue(EMPTY);
   error$ = of(true);
 }
 
 class MockItemServiceWithoutError implements Partial<ItemService<any>> {
   key$ = of(mockCode);
-  load = vi.fn('load').mockReturnValue(EMPTY);
+  load = vi.fn().mockReturnValue(EMPTY);
   error$ = of(false);
 }
 

@@ -106,7 +106,7 @@ describe('CloseAccountModalComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CloseAccountModalComponent);

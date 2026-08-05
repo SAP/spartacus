@@ -214,7 +214,7 @@ describe('BudgetService', () => {
   describe('getErrorState', () => {
     it('getErrorState() should be able to get status error', () => {
       let errorState: boolean;
-      spyOn<any>(service, 'getBudgetState').mockReturnValue(
+      vi.spyOn<any>(service, 'getBudgetState').mockReturnValue(
         of({ loading: false, success: false, error: true })
       );
 

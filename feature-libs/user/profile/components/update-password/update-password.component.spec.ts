@@ -101,7 +101,7 @@ describe('UpdatePasswordComponent', () => {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UpdatePasswordComponent);

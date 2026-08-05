@@ -89,7 +89,7 @@ class MockAccountSummaryFacade implements Partial<AccountSummaryFacade> {
 }
 
 class MockFileDownloadService {
-  download = vi.fn('MockFileDownloadService.download Spy');
+  download = vi.fn();
 }
 
 class MockLanguageService {
@@ -169,7 +169,7 @@ describe('AccountSummaryDocumentComponent', () => {
 
   it('Should change page and sort', () => {
     // Spy functions to ensure new documents are being fetched
-    spyOn<any>(component, 'updateQueryParams');
+    vi.spyOn<any, any>(component, 'updateQueryParams');
     vi.spyOn(accountSummaryFacade, 'getDocumentList');
 
     // By default page will be 0
@@ -212,7 +212,7 @@ describe('AccountSummaryDocumentComponent', () => {
 
   it('should change filters', () => {
     // Spy functions to ensure new documents are being fetched
-    spyOn<any>(component, 'updateQueryParams');
+    vi.spyOn<any, any>(component, 'updateQueryParams');
     vi.spyOn(accountSummaryFacade, 'getDocumentList');
 
     // Change the filters
@@ -279,25 +279,25 @@ describe('AccountSummaryDocumentComponent', () => {
 
     const tableHeaders = tableElement.queryAll(By.css('th'));
     expect(tableHeaders?.length).toEqual(8);
-    expect(tableHeaders[0].properties.innerText).toEqual(
+    expect(tableHeaders[0].nativeElement.textContent?.trim()).toEqual(
       'orgAccountSummary.document.id'
     );
-    expect(tableHeaders[1].properties.innerText).toEqual(
+    expect(tableHeaders[1].nativeElement.textContent?.trim()).toEqual(
       'orgAccountSummary.document.type'
     );
-    expect(tableHeaders[2].properties.innerText).toEqual(
+    expect(tableHeaders[2].nativeElement.textContent?.trim()).toEqual(
       'orgAccountSummary.document.date'
     );
-    expect(tableHeaders[3].properties.innerText).toEqual(
+    expect(tableHeaders[3].nativeElement.textContent?.trim()).toEqual(
       'orgAccountSummary.document.dueDate'
     );
-    expect(tableHeaders[4].properties.innerText).toEqual(
+    expect(tableHeaders[4].nativeElement.textContent?.trim()).toEqual(
       'orgAccountSummary.document.originalAmount'
     );
-    expect(tableHeaders[5].properties.innerText).toEqual(
+    expect(tableHeaders[5].nativeElement.textContent?.trim()).toEqual(
       'orgAccountSummary.document.openAmount'
     );
-    expect(tableHeaders[6].properties.innerText).toEqual(
+    expect(tableHeaders[6].nativeElement.textContent?.trim()).toEqual(
       'orgAccountSummary.document.status'
     );
     expect(tableHeaders[7].children[0].attributes.title).toEqual(
@@ -323,31 +323,31 @@ describe('AccountSummaryDocumentComponent', () => {
 
       expect(tableCells?.length).toEqual(8);
 
-      expect(tableCells[0].nativeElement.innerText).toEqual(
+      expect(tableCells[0].nativeElement.textContent?.trim()).toEqual(
         mockAccountSummaryList.orgDocuments?.[rowNumber]?.id
       );
 
-      expect(tableCells[1].nativeElement.innerText).toEqual(
+      expect(tableCells[1].nativeElement.textContent?.trim()).toEqual(
         mockAccountSummaryList.orgDocuments?.[rowNumber]?.orgDocumentType?.name
       );
 
-      expect(isDate(tableCells[2].nativeElement.innerText)).toEqual(
+      expect(isDate(tableCells[2].nativeElement.textContent?.trim())).toEqual(
         !!mockAccountSummaryList.orgDocuments?.[rowNumber]?.createdAtDate
       );
 
-      expect(isDate(tableCells[3].nativeElement.innerText)).toEqual(
+      expect(isDate(tableCells[3].nativeElement.textContent?.trim())).toEqual(
         !!mockAccountSummaryList.orgDocuments?.[rowNumber]?.dueAtDate
       );
 
-      expect(tableCells[4].nativeElement.innerText).toEqual(
+      expect(tableCells[4].nativeElement.textContent?.trim()).toEqual(
         mockAccountSummaryList.orgDocuments?.[rowNumber]?.formattedAmount
       );
 
-      expect(tableCells[5].nativeElement.innerText).toEqual(
+      expect(tableCells[5].nativeElement.textContent?.trim()).toEqual(
         mockAccountSummaryList.orgDocuments?.[rowNumber]?.formattedOpenAmount
       );
 
-      expect(tableCells[6].nativeElement.innerText).toEqual(
+      expect(tableCells[6].nativeElement.textContent?.trim()).toEqual(
         `orgAccountSummary.statuses.${mockAccountSummaryList.orgDocuments?.[rowNumber]?.status}`
       );
 

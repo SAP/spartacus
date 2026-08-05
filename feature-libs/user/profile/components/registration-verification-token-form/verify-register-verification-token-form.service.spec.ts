@@ -66,7 +66,7 @@ describe('RegistrationVerificationTokenFormComponentService', () => {
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
         key: 'register.postRegisterSuccessMessage',
-        params: Object(10000),
+        params: 10000,
       },
       GlobalMessageType.MSG_TYPE_CONFIRMATION,
       10000

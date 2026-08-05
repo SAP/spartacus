@@ -28,7 +28,7 @@ class MockGlobalMessageService {
 }
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  setRedirectUrl = vi.fn('setRedirectUrl');
+  setRedirectUrl = vi.fn();
 }
 
 describe('UpdateEmailComponentService', () => {
@@ -102,7 +102,7 @@ describe('UpdateEmailComponentService', () => {
       service['busy$'].next(false);
       let result;
       service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
-      expect(result).toBeFalse;
+      expect(result).toBe(false);
       expect(service.form.disabled).toBe(false);
     });
   });
@@ -151,7 +151,7 @@ describe('UpdateEmailComponentService', () => {
             }
           );
         });
-      }));
+      });
 
       it('reset form', () => {
         vi.spyOn(service.form, 'reset');
@@ -169,7 +169,7 @@ describe('UpdateEmailComponentService', () => {
             routingService.go
           );
         });
-      }));
+      });
     });
 
     describe('error', () => {

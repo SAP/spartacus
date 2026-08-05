@@ -108,14 +108,15 @@ describe('ConfigPriceSummaryComponent', () => {
     fixture = TestBed.createComponent(ConfiguratorPriceSummaryComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
-    fixture.detectChanges();
   });
 
   it('should create component', () => {
+    fixture.detectChanges();
     expect(component).toBeDefined();
   });
 
   it('should get product code and prices as part of product configuration', () => {
+    fixture.detectChanges();
     component.configuration$
       .subscribe((data: Configurator.Configuration) => {
         expect(data.productCode).toEqual(PRODUCT_CODE);
@@ -127,6 +128,7 @@ describe('ConfigPriceSummaryComponent', () => {
   });
 
   it('should render price summary container', () => {
+    fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -145,6 +147,7 @@ describe('ConfigPriceSummaryComponent', () => {
   });
 
   it('should render selected and options price when no setting specified', () => {
+    fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,

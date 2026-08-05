@@ -19,8 +19,8 @@ import * as _augmented from '../model/augmented.model';
 const treeToggle$ = new BehaviorSubject({});
 class MockUnitTreeService {
   treeToggle$ = treeToggle$.asObservable();
-  initialize = vi.fn('initialize');
-  isExpanded = vi.fn('isExpanded').mockReturnValue(false);
+  initialize = vi.fn();
+  isExpanded = vi.fn().mockReturnValue(false);
 }
 
 class MockUnitService {

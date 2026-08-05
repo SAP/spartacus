@@ -76,7 +76,7 @@ const mockPermissionTypes: OrderApprovalPermissionType[] = [
   },
 ];
 class MockPermissionService {
-  getTypes = vi.fn('getTypes').mockReturnValue(of(mockPermissionTypes));
+  getTypes = vi.fn().mockReturnValue(of(mockPermissionTypes));
 }
 
 describe('PermissionFormComponent', () => {

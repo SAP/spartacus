@@ -23,19 +23,20 @@ describe('StoreFinderPaginationDetailsComponent', () => {
     fixture = TestBed.createComponent(StoreFinderPaginationDetailsComponent);
     component = fixture.componentInstance;
     component.pagination = mockPagination;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should display proper pagination results info', () => {
+    fixture.detectChanges();
     const detailsElement = fixture.debugElement.query(
       By.css('.cx-pagination-details')
     ).nativeElement;
 
-    expect(detailsElement.innerText).toContain(
+    expect(detailsElement.textContent?.trim()).toContain(
       `1 - ${component.pagination.pageSize} storeFinder.fromStoresFound count:${component.pagination.totalResults}`
     );
   });
@@ -48,7 +49,7 @@ describe('StoreFinderPaginationDetailsComponent', () => {
       By.css('.cx-pagination-details')
     ).nativeElement;
 
-    expect(detailsElement.innerText).toContain(
+    expect(detailsElement.textContent?.trim()).toContain(
       `1 - ${component.pagination.totalResults} storeFinder.fromStoresFound count:${component.pagination.totalResults}`
     );
   });
@@ -62,7 +63,7 @@ describe('StoreFinderPaginationDetailsComponent', () => {
       By.css('.cx-pagination-details')
     ).nativeElement;
 
-    expect(detailsElement.innerText).toContain(
+    expect(detailsElement.textContent?.trim()).toContain(
       `1 - ${component.pagination.totalResults} storeFinder.fromStoresFound count:${component.pagination.totalResults}`
     );
   });

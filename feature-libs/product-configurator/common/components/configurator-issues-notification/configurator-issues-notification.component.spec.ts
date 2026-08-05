@@ -109,15 +109,15 @@ describe('ConfigureIssuesNotificationComponent', () => {
       component = fixture.componentInstance;
       htmlElem = fixture.nativeElement;
       mockCartItemContext = TestBed.inject(CartItemContext) as any;
-
-      fixture.detectChanges();
     });
 
     it('should create', () => {
+      fixture.detectChanges();
       expect(component).toBeTruthy();
     });
 
     it('should expose orderEntry$', async () => {
+      fixture.detectChanges();
       const orderEntry: OrderEntry = { orderCode: '123' };
 
       component.orderEntry$.pipe(take(1)).subscribe((value) => {
@@ -128,6 +128,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
     });
 
     it('should expose quantityControl$', async () => {
+      fixture.detectChanges();
       const quantityControl = new UntypedFormControl();
       component.quantityControl$.pipe(take(1)).subscribe((value) => {
         expect(value).toBe(quantityControl);
@@ -137,6 +138,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
     });
 
     it('should expose readonly$', async () => {
+      fixture.detectChanges();
       component.readonly$.pipe(take(2), toArray()).subscribe((values) => {
         expect(values).toEqual([true, false]);
       });

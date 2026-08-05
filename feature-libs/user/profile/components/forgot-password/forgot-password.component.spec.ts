@@ -78,7 +78,7 @@ describe('ForgotPasswordComponent', () => {
         add: { imports: [MockTranslatePipe] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ForgotPasswordComponent);

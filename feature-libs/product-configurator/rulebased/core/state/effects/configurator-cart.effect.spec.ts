@@ -7,8 +7,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import * as ngrxStore from '@ngrx/store';
-import { StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { CartActions } from '@spartacus/cart/base/core';
 import { CartModification } from '@spartacus/cart/base/root';
 import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
@@ -25,7 +24,7 @@ import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-confi
 import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
-import { CONFIGURATOR_FEATURE } from '../configurator-state';
+import { CONFIGURATOR_FEATURE, StateWithConfigurator } from '../configurator-state';
 import { getConfiguratorReducers } from './../reducers/index';
 import * as fromEffects from './configurator-cart.effect';
 import { vi } from 'vitest';
@@ -133,10 +132,6 @@ const cartModification: CartModification = {
 };
 
 const cartModificationWithoutEntry: CartModification = {};
-let entitiesInConfigurationState: {
-  [id: string]: any;
-} = {};
-let configurationState: any;
 
 let readFromCartEntryObs: Observable<Configurator.Configuration>;
 
@@ -154,18 +149,14 @@ describe('ConfiguratorCartEffect', () => {
 
   let readConfigurationForOrderEntryMock: vi.Mock;
   let configCartEffects: fromEffects.ConfiguratorCartEffects;
+  let store: Store<StateWithConfigurator>;
 
   let actions$: Observable<any>;
 
   beforeEach(() => {
     addToCartMock = vi.fn().mockReturnValue(of(cartModification));
-    updateCartEntryMock = jasmine
-      .vi.fn()
-      .mockReturnValue(of(cartModification));
-
-    readConfigurationForOrderEntryMock = jasmine
-      .vi.fn()
-      .mockReturnValue(of(productConfiguration));
+    updateCartEntryMock = vi.fn().mockReturnValue(of(cartModification));
+    readConfigurationForOrderEntryMock = vi.fn().mockReturnValue(of(productConfiguration));
 
     class MockConnector {
       addToCart = addToCartMock;
@@ -176,7 +167,7 @@ describe('ConfiguratorCartEffect', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers()),
       ],
       providers: [
         fromEffects.ConfiguratorCartEffects,
@@ -198,6 +189,7 @@ describe('ConfiguratorCartEffect', () => {
     configCartEffects = TestBed.inject(
       fromEffects.ConfiguratorCartEffects as Type<fromEffects.ConfiguratorCartEffects>
     );
+    store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
 
     payloadInputUpdateConfiguration = {
       userId: userId,
@@ -205,11 +197,10 @@ describe('ConfiguratorCartEffect', () => {
       configuration: productConfiguration,
       cartEntryNumber: entryNumber.toString(),
     };
+  });
 
-    entitiesInConfigurationState = {};
-    configurationState = {
-      configurations: { entities: entitiesInConfigurationState },
-    };
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('should provide configuration effects', () => {
@@ -218,8 +209,14 @@ describe('ConfiguratorCartEffect', () => {
 
   describe('Effect addOwner', () => {
     it('should emit 2 result actions', () => {
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        () => () => of(productConfiguration)
+      store.dispatch(
+        new ConfiguratorActions.CreateConfigurationSuccess(productConfiguration)
+      );
+      store.dispatch(
+        new ConfiguratorActions.SetInteractionState({
+          entityKey: productConfiguration.owner.key,
+          interactionState: productConfiguration.interactionState,
+        })
       );
       const addOwnerAction = new ConfiguratorActions.AddNextOwner({
         ownerKey: productConfiguration.owner.key,
@@ -252,17 +249,15 @@ describe('ConfiguratorCartEffect', () => {
 
   describe('Effect removeCartBoundConfigurations', () => {
     it('should emit remove configuration action for configurations that belong to cart entries', () => {
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        () => () => of(configurationState)
-      );
-
       const configurationCartBound: Configurator.Configuration =
         ConfiguratorTestUtils.createConfiguration('6514', ownerCartEntry);
 
-      entitiesInConfigurationState[productConfiguration.owner.key] =
-        productConfiguration.owner.key;
-      entitiesInConfigurationState[configurationCartBound.owner.key] =
-        configurationCartBound.owner.key;
+      store.dispatch(
+        new ConfiguratorActions.CreateConfigurationSuccess(productConfiguration)
+      );
+      store.dispatch(
+        new ConfiguratorActions.CreateConfigurationSuccess(configurationCartBound)
+      );
 
       const removeCartBoundConfigurationsAction =
         new ConfiguratorActions.RemoveCartBoundConfigurations();
@@ -282,19 +277,16 @@ describe('ConfiguratorCartEffect', () => {
     });
 
     it('should emit remove configuration action for configurations that have been turned into cart configurations', () => {
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        () => () => of(configurationState)
-      );
       const configurationProductBoundObsolete: Configurator.Configuration =
         ConfiguratorTestUtils.createConfiguration('6514', owner);
 
       configurationProductBoundObsolete.nextOwner = ownerCartEntry;
 
-      entitiesInConfigurationState[
-        configurationProductBoundObsolete.owner.key
-      ] = {
-        value: configurationProductBoundObsolete,
-      };
+      store.dispatch(
+        new ConfiguratorActions.CreateConfigurationSuccess(
+          configurationProductBoundObsolete
+        )
+      );
 
       const removeCartBoundConfigurationsAction =
         new ConfiguratorActions.RemoveCartBoundConfigurations();
@@ -314,22 +306,22 @@ describe('ConfiguratorCartEffect', () => {
     });
 
     it('should not emit remove configuration action for configurations that are purely product bound or order bound', () => {
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        () => () => of(configurationState)
-      );
       const configurationProductBound: Configurator.Configuration =
         ConfiguratorTestUtils.createConfiguration('6514', owner);
 
       const configurationOrderBound: Configurator.Configuration =
         ConfiguratorTestUtils.createConfiguration('6513', ownerOrderEntry);
 
-      entitiesInConfigurationState[configurationProductBound.owner.key] = {
-        value: configurationProductBound,
-      };
-
-      entitiesInConfigurationState[configurationOrderBound.owner.key] = {
-        value: configurationOrderBound,
-      };
+      store.dispatch(
+        new ConfiguratorActions.CreateConfigurationSuccess(
+          configurationProductBound
+        )
+      );
+      store.dispatch(
+        new ConfiguratorActions.CreateConfigurationSuccess(
+          configurationOrderBound
+        )
+      );
 
       const removeCartBoundConfigurationsAction =
         new ConfiguratorActions.RemoveCartBoundConfigurations();

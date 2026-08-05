@@ -261,7 +261,7 @@ describe('Permission Effects', () => {
     });
 
     it('should return UpdatePermissionFail action if permission not created', () => {
-      permissionConnector.update = vi.fn('update').mockReturnValue(
+      permissionConnector.update = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new PermissionActions.UpdatePermission({

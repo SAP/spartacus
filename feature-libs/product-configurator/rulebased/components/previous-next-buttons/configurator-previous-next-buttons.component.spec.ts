@@ -145,6 +145,10 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       .compileComponents();
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);
     classUnderTest = fixture.componentInstance;
@@ -155,7 +159,6 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     configurationGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
-    fixture.detectChanges();
     configuratorUtils = TestBed.inject(
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
@@ -171,6 +174,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(classUnderTest).toBeTruthy();
   });
 
@@ -199,6 +203,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     vi.spyOn(configurationGroupsService, 'getPreviousGroupId').mockReturnValue(
       of('anyGroupId')
     );
+    fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);
+    classUnderTest = fixture.componentInstance;
+    htmlElem = fixture.nativeElement;
     fixture.detectChanges();
     const prevBtn = fixture.debugElement.query(
       By.css('.cx-previous')
@@ -221,6 +228,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     vi.spyOn(configurationGroupsService, 'getNextGroupId').mockReturnValue(
       of('anyGroupId')
     );
+    fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);
+    classUnderTest = fixture.componentInstance;
+    htmlElem = fixture.nativeElement;
     fixture.detectChanges();
     const prevBtn = fixture.debugElement.query(
       By.css('.cx-next')
@@ -273,44 +283,42 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   });
 
   it('should navigate to group exactly one time on navigateToPreviousGroup', () => {
-    const previousGroup = cold('-a-b|', {
-      a: ConfigurationTestData.GROUP_ID_1,
-      b: ConfigurationTestData.GROUP_ID_2,
-    });
+    getTestScheduler().run(({ cold: coldFn, flush }) => {
+      const previousGroup = coldFn('-a-b|', {
+        a: ConfigurationTestData.GROUP_ID_1,
+        b: ConfigurationTestData.GROUP_ID_2,
+      });
 
-    vi.spyOn(configurationGroupsService, 'getPreviousGroupId').mockReturnValue(
-      previousGroup
-    );
-    vi.spyOn(configurationGroupsService, 'navigateToGroup');
+      vi.spyOn(configurationGroupsService, 'getPreviousGroupId').mockReturnValue(
+        previousGroup
+      );
+      vi.spyOn(configurationGroupsService, 'navigateToGroup');
 
-    classUnderTest.onPrevious(config);
-    previousGroup.subscribe({
-      complete: () => {
-        expect(
-          configurationGroupsService.navigateToGroup
-        ).toHaveBeenCalledTimes(1);
-      },
+      classUnderTest.onPrevious(config);
+      flush();
+      expect(
+        configurationGroupsService.navigateToGroup
+      ).toHaveBeenCalledTimes(1);
     });
   });
 
   it('should navigate to group exactly one time on navigateToNextGroup', () => {
-    const nextGroup = cold('-a-b|', {
-      a: ConfigurationTestData.GROUP_ID_1,
-      b: ConfigurationTestData.GROUP_ID_2,
-    });
+    getTestScheduler().run(({ cold: coldFn, flush }) => {
+      const nextGroup = coldFn('-a-b|', {
+        a: ConfigurationTestData.GROUP_ID_1,
+        b: ConfigurationTestData.GROUP_ID_2,
+      });
 
-    vi.spyOn(configurationGroupsService, 'getNextGroupId').mockReturnValue(
-      nextGroup
-    );
-    vi.spyOn(configurationGroupsService, 'navigateToGroup');
+      vi.spyOn(configurationGroupsService, 'getNextGroupId').mockReturnValue(
+        nextGroup
+      );
+      vi.spyOn(configurationGroupsService, 'navigateToGroup');
 
-    classUnderTest.onNext(config);
-    nextGroup.subscribe({
-      complete: () => {
-        expect(
-          configurationGroupsService.navigateToGroup
-        ).toHaveBeenCalledTimes(1);
-      },
+      classUnderTest.onNext(config);
+      flush();
+      expect(
+        configurationGroupsService.navigateToGroup
+      ).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -336,6 +344,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
 
   describe('Accessibility', () => {
     it("should contain action button element with 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -349,6 +358,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     });
 
     it("should contain secondary button element with 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

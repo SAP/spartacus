@@ -30,7 +30,7 @@ const mockCode = 'c1';
 
 class MockItemService implements Partial<ItemService<CostCenter>> {
   key$ = of(mockCode);
-  load = vi.fn('load').mockReturnValue(EMPTY);
+  load = vi.fn().mockReturnValue(EMPTY);
   error$ = of(false);
 }
 

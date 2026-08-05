@@ -49,10 +49,10 @@ describe('StoreComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeDefined();
   });
 
@@ -99,6 +99,7 @@ describe('StoreComponent', () => {
   });
 
   it('toggleOpenHours toggles the value of openHoursOpen', () => {
+    fixture.detectChanges();
     const element = fixture.debugElement.nativeElement;
 
     expect(component.openHoursOpen).toEqual(false);
@@ -110,7 +111,11 @@ describe('StoreComponent', () => {
       ICON_TYPE.CARET_DOWN
     );
 
-    component.toggleOpenHours();
+    const toggleButton = fixture.debugElement.query(
+      By.css('.cx-store-opening-hours-toggle')
+    ).nativeElement;
+
+    toggleButton.click();
     fixture.detectChanges();
     expect(component.openHoursOpen).toEqual(true);
     expect(element.querySelector('cx-store-schedule')).not.toBeNull();
@@ -119,7 +124,7 @@ describe('StoreComponent', () => {
     );
     expect(iconDebugElement.componentInstance.type).toEqual(ICON_TYPE.CARET_UP);
 
-    component.toggleOpenHours();
+    toggleButton.click();
     fixture.detectChanges();
     expect(component.openHoursOpen).toEqual(false);
     expect(element.querySelector('cx-store-schedule')).toBeNull();

@@ -30,8 +30,8 @@ class MockListComponent {
 }
 
 class MockUnitTreeService {
-  expandAll = vi.fn('expandAll');
-  collapseAll = vi.fn('collapseAll');
+  expandAll = vi.fn();
+  collapseAll = vi.fn();
 }
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
@@ -91,8 +91,8 @@ describe('UnitListComponent', () => {
   });
 
   it('should render links', () => {
-    expect(expandAll.innerText).toEqual('orgUnit.tree.expandAll');
-    expect(collapseAll.innerText).toEqual('orgUnit.tree.collapseAll');
+    expect(expandAll.textContent?.trim()).toEqual('orgUnit.tree.expandAll');
+    expect(collapseAll.textContent?.trim()).toEqual('orgUnit.tree.collapseAll');
   });
 
   it('should call expandAll', () => {

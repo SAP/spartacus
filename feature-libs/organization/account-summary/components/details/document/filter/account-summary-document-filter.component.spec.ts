@@ -151,7 +151,7 @@ describe('AccountSummaryDocumentFilterComponent', () => {
 
   it('should test Filter By selector', () => {
     const eventSpy = vi.spyOn(component.filterListEvent, 'emit');
-    const resetSpy = spyOn<any>(component, 'resetForm');
+    const resetSpy = vi.spyOn<any, any>(component, 'resetForm');
 
     let filterByValue: string | undefined;
     let startRange: string | undefined;

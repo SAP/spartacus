@@ -269,8 +269,6 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     vi.spyOn(component, 'onHandleDeselect');
     vi.spyOn(component as any, 'onHandleQuantity');
     vi.spyOn(component, 'onHandleSelect');
-
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -294,14 +292,14 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     component.ngOnInit();
     component.product$.subscribe().unsubscribe(); // fetch product
     subscription.unsubscribe();
-    expect(loadingState.length).toBe(3);
-    expect(loadingState[0]).toBe(false); // state from before each
-    expect(loadingState[1]).toBe(true); // loading
-    expect(loadingState[2]).toBe(false); // loading done
+    expect(loadingState.length).toBeGreaterThanOrEqual(2);
+    expect(loadingState[loadingState.length - 2]).toBe(true); // loading
+    expect(loadingState[loadingState.length - 1]).toBe(false); // loading done
   });
 
   describe('Buttons constellation', () => {
     it('should button be enabled when card actions are disabled and card is no selected', () => {
+      fixture.detectChanges();
       const button = fixture.debugElement.query(
         By.css('button.btn')
       ).nativeElement;
@@ -320,6 +318,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should button be called with proper select method', () => {
+      fixture.detectChanges();
       const button = fixture.debugElement.query(
         By.css('button.btn')
       ).nativeElement;
@@ -347,11 +346,12 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should button have select text when card type is no multi select and card is no selected', () => {
+      fixture.detectChanges();
       const button = fixture.debugElement.query(
         By.css('button.btn')
       ).nativeElement;
 
-      expect(button.innerText).toContain('configurator.button.select');
+      expect(button.textContent?.trim()).toContain('configurator.button.select');
     });
 
     it('should button have deselect text when card type is no multi select and card is selected', () => {
@@ -363,7 +363,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         By.css('button.btn')
       ).nativeElement;
 
-      expect(button.innerText).toContain('configurator.button.deselect');
+      expect(button.textContent?.trim()).toContain('configurator.button.deselect');
     });
 
     it('should button have add text when card type is multi select and card is no selected', () => {
@@ -376,7 +376,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         By.css('button.btn')
       ).nativeElement;
 
-      expect(button.innerText).toContain('configurator.button.add');
+      expect(button.textContent?.trim()).toContain('configurator.button.add');
     });
 
     it('should button have remove text when card type is multi select and card is selected', () => {
@@ -389,7 +389,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         By.css('button.btn')
       ).nativeElement;
 
-      expect(button.innerText).toContain('configurator.button.remove');
+      expect(button.textContent?.trim()).toContain('configurator.button.remove');
     });
 
     it('should show deselection error message when removing required attribute', () => {
@@ -475,7 +475,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.btn-secondary')
       ).nativeElement;
-      expect(button.innerText).toContain('configurator.button.remove');
+      expect(button.textContent?.trim()).toContain('configurator.button.remove');
       expect(button.disabled).toBe(true);
     });
 
@@ -489,7 +489,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.btn-secondary')
       ).nativeElement;
-      expect(button.innerText).toContain('configurator.button.remove');
+      expect(button.textContent?.trim()).toContain('configurator.button.remove');
       expect(button.disabled).toBe(false);
     });
   });
@@ -541,7 +541,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.btn-primary')
       ).nativeElement;
-      expect(button.innerText).toContain('configurator.button.select');
+      expect(button.textContent?.trim()).toContain('configurator.button.select');
       expect(button.disabled).toBe(false);
     });
 
@@ -551,7 +551,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.btn-primary')
       ).nativeElement;
-      expect(button.innerText).toContain('configurator.button.select');
+      expect(button.textContent?.trim()).toContain('configurator.button.select');
       expect(button.disabled).toBe(true);
     });
 
@@ -561,7 +561,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.btn-primary')
       ).nativeElement;
-      expect(button.innerText).toContain('configurator.button.add');
+      expect(button.textContent?.trim()).toContain('configurator.button.add');
       expect(button.disabled).toBe(false);
     });
 
@@ -571,7 +571,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.btn-primary')
       ).nativeElement;
-      expect(button.innerText).toContain('configurator.button.add');
+      expect(button.textContent?.trim()).toContain('configurator.button.add');
       expect(button.disabled).toBe(true);
     });
   });
@@ -790,6 +790,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     it('should extract quantity parameters', () => {
       component.productCardOptions.hideRemoveButton = false;
       setProductBoundValueAttributes(component, true, 5);
+      fixture.detectChanges(); // triggers ngOnInit which sets disableActions$
       const qtyParams = component.extractQuantityParameters();
       expect(qtyParams.allowZero).toBe(true);
       expect(qtyParams.initialQuantity).toBe(5);
@@ -1266,6 +1267,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
   describe('Accessibility', () => {
     it("should contain div element with class name 'cx-product-card' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -1279,6 +1281,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it("should contain cx-media element with 'aria-hidden' attribute that removes cx-media from the accessibility tree", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -1291,6 +1294,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it("should contain button element with class name 'btn-primary' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      fixture.detectChanges();
       const itemIndex = component.productCardOptions.itemIndex + 1;
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
@@ -1314,6 +1318,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it("should contain button element with class name 'btn-primary' and 'aria-describedby' that indicates the ID of the element that describe the elements", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

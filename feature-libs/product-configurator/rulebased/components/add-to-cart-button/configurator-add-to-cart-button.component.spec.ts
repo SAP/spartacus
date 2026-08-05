@@ -139,7 +139,6 @@ function initialize() {
   component = fixture.componentInstance;
   htmlElem = fixture.nativeElement;
   component.quantityControl = new UntypedFormControl(1);
-  fixture.detectChanges();
 }
 
 function initTestData() {
@@ -369,6 +368,7 @@ function performAddToCartOnOverview() {
   mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
   mockRouterData.productCode = mockProductConfiguration.productCode;
   initialize();
+  fixture.detectChanges();
   component.onAddToCart(mockProductConfiguration, mockRouterData);
 }
 
@@ -381,6 +381,7 @@ function ensureCartBound() {
   setRouterTestDataCartBoundAndConfigPage();
   mockOwner.id = CART_ENTRY_KEY;
   initialize();
+  fixture.detectChanges();
 }
 
 function ensureCartBoundAndOnOverview() {
@@ -388,6 +389,7 @@ function ensureCartBoundAndOnOverview() {
   mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
   mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
   initialize();
+  fixture.detectChanges();
 }
 
 function ensureProductBound() {
@@ -396,6 +398,7 @@ function ensureProductBound() {
     mockProductConfiguration.nextOwner.id = CART_ENTRY_KEY;
   }
   initialize();
+  fixture.detectChanges();
 }
 
 function performUpdateOnOV() {
@@ -436,7 +439,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   let configuratorQuantityService: ConfiguratorQuantityService;
   let keyboardFocusService: KeyboardFocusService;
 
-  async function await checkNavigationFlow() {
+  async function checkNavigationFlow() {
     await vi.advanceTimersByTimeAsync(0);
     expect(routingService.go).toHaveBeenCalledTimes(2);
 
@@ -548,10 +551,12 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
       'focusFirstActiveElement'
     );
     vi.spyOn(keyboardFocusService, 'clear');
+    fixture.detectChanges();
   });
 
   it('should create cart-btn-container', () => {
     initialize();
+    fixture.detectChanges();
     expect(component).toBeTruthy();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -581,6 +586,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   it('should create display-only-btn-container', () => {
     setRouterTestDataReadOnlyOrder();
     initialize();
+    fixture.detectChanges();
     expect(component).toBeTruthy();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -604,6 +610,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
 
   it('should render button that is not disabled in case there are no pending changes', () => {
     initialize();
+    fixture.detectChanges();
     const selector = htmlElem.querySelector('button');
     if (selector) {
       expect(selector.disabled).toBe(false);
@@ -615,6 +622,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   it('should not disable button in case there are pending changes', () => {
     pendingChangesObservable = of(true);
     initialize();
+    fixture.detectChanges();
     const selector = htmlElem.querySelector('button');
     if (selector) {
       expect(selector.disabled).toBe(false);
@@ -626,6 +634,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   describe('ngOnInit', () => {
     it('should set quantity that was retrieved from quantity service', () => {
       initialize();
+      fixture.detectChanges();
       expect(component.quantityControl.value).toBe(QUANTITY);
     });
   });
@@ -633,6 +642,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   describe('quantityChange', () => {
     it('should push current quantity to qty service', () => {
       initialize();
+      fixture.detectChanges();
       component.quantityControl.setValue(QUANTITY_CHANGED);
       expect(configuratorQuantityService.setQuantity).toHaveBeenCalledWith(
         QUANTITY_CHANGED
@@ -808,6 +818,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
     it('should navigate to order details', () => {
       setRouterTestDataReadOnlyOrder();
       initialize();
+      fixture.detectChanges();
       component.leaveConfigurationOverview();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'orderDetails',
@@ -818,6 +829,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
     it('should navigate to quote details in case owner is quote entry', () => {
       setRouterTestDataReadOnlySavedCart();
       initialize();
+      fixture.detectChanges();
       component.leaveConfigurationOverview();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'quoteDetails',
@@ -828,6 +840,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
     it('should navigate to quote details in case owner is saved cart entry and saved cart is bound to a quote', () => {
       setRouterTestDataReadOnlyQuote();
       initialize();
+      fixture.detectChanges();
       component.leaveConfigurationOverview();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'quoteDetails',
@@ -838,6 +851,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
     it('should navigate to product details', () => {
       setRouterTestDataReadOnlyProduct();
       initialize();
+      fixture.detectChanges();
       component.leaveConfigurationOverview();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'product',
@@ -850,6 +864,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
     it('should navigate to cart', () => {
       setRouterTestDataReadOnlyCart();
       initialize();
+      fixture.detectChanges();
       component.leaveConfigurationOverview();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'cart',
@@ -859,6 +874,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
     it('should navigate to checkout review order', () => {
       setRouterTestDataReadOnlyCheckout();
       initialize();
+      fixture.detectChanges();
       component.leaveConfigurationOverview();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'checkoutReviewOrder',

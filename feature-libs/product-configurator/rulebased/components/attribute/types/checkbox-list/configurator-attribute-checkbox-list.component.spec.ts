@@ -212,7 +212,6 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
       values: values,
       required: true,
     };
-    fixture.detectChanges();
 
     configuratorStorefrontUtilsService = TestBed.inject(
       ConfiguratorStorefrontUtilsService
@@ -220,6 +219,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -231,6 +231,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
   });
 
   it('should have 3 entries after init with first and last value filled', () => {
+    fixture.detectChanges();
     expect(component.attributeCheckBoxForms.length).toBe(3);
     expect(component.attributeCheckBoxForms[0].value).toBe(true);
     expect(component.attributeCheckBoxForms[1].value).toBe(false);
@@ -238,6 +239,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
   });
 
   it('should select and deselect a checkbox value', () => {
+    fixture.detectChanges();
     const checkboxId =
       '#cx-configurator--checkBoxList--' +
       component.attribute.name +
@@ -258,6 +260,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
   });
 
   it('should deselect values onChangeValueQuantity if quantity is set to zero', () => {
+    fixture.detectChanges(); // initialize attributeCheckBoxForms via ngOnInit
     vi.spyOn(
       component['configuratorCommonsService'],
       'updateConfiguration'
@@ -425,6 +428,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
   });
 
   it('should allow zero value quantity', () => {
+    fixture.detectChanges();
     expect(component.allowZeroValueQuantity).toBe(true);
   });
 
@@ -513,6 +517,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
     });
 
     it('should not render description in case description not present on model', () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -534,6 +539,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
 
   describe('Accessibility', () => {
     it("should contain input element with class name 'form-check-input' and 'aria-label' attribute for value without price that defines an accessible name to label the current element", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -618,6 +624,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
     });
 
     it("should contain input element with class name 'form-check-input' and 'aria-describedby' attribute that indicates the ID of the element that describe the elements", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -630,6 +637,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
     });
 
     it("should contain label element with class name 'form-check-label' and 'aria-hidden' attribute that removes label from the accessibility tree", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

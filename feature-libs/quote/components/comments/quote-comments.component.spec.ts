@@ -94,9 +94,6 @@ describe('QuoteCommentsComponent', () => {
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
 
-    fixture.detectChanges();
-    vi.spyOn(component.commentsComponent, 'resetForm');
-
     mockQuoteItemsComponentService = {
       setQuoteEntriesExpanded: vi.fn(),
       getQuoteEntriesExpanded: vi.fn(),
@@ -104,6 +101,12 @@ describe('QuoteCommentsComponent', () => {
     (mockQuoteItemsComponentService.getQuoteEntriesExpanded as vi.Mock).mockReturnValue(of(true));
     quoteItemsComponentService = TestBed.inject(QuoteItemsComponentService);
   });
+
+  /** Renders the component and sets up ViewChild spies. Call at the start of each test that needs the DOM or ViewChild. */
+  function renderComponent() {
+    fixture.detectChanges();
+    vi.spyOn(component.commentsComponent, 'resetForm');
+  }
 
   function initTestData() {
     quote = createEmptyQuote();
@@ -125,6 +128,7 @@ describe('QuoteCommentsComponent', () => {
   }
 
   it('should create', () => {
+    renderComponent();
     expect(component).toBeTruthy();
   });
 
@@ -154,6 +158,7 @@ describe('QuoteCommentsComponent', () => {
   });
 
   it('should render the messaging section by default', () => {
+    renderComponent();
     CommonQuoteTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -163,6 +168,7 @@ describe('QuoteCommentsComponent', () => {
 
   describe('clickToggle', () => {
     it('should collapse the comments area when clicking the toggle', () => {
+      renderComponent();
       CommonQuoteTestUtilsService.clickToggle(htmlElem, false);
       fixture.detectChanges();
       CommonQuoteTestUtilsService.expectElementNotPresent(
@@ -173,6 +179,7 @@ describe('QuoteCommentsComponent', () => {
     });
 
     it('should toggle the comments on enter', () => {
+      renderComponent();
       CommonQuoteTestUtilsService.clickToggle(htmlElem, true);
       fixture.detectChanges();
       CommonQuoteTestUtilsService.expectElementNotPresent(
@@ -183,6 +190,7 @@ describe('QuoteCommentsComponent', () => {
     });
 
     it('should expand the comments area when clicking the toggle', () => {
+      renderComponent();
       component.expandComments = false;
       CommonQuoteTestUtilsService.clickToggle(htmlElem, false);
       CommonQuoteTestUtilsService.expectElementPresent(
@@ -385,6 +393,7 @@ describe('QuoteCommentsComponent', () => {
 
   describe('onSend', () => {
     it('should add a header quote comment with the given text', () => {
+      renderComponent();
       component.onSend(
         { message: 'test comment', itemId: ALL_PRODUCTS_ID },
         QUOTE_CODE
@@ -398,6 +407,7 @@ describe('QuoteCommentsComponent', () => {
       );
     });
     it('should add a item quote comment with the given text', () => {
+      renderComponent();
       component.onSend({ message: 'test comment', itemId: '3' }, QUOTE_CODE);
       expect(quoteFacade.addQuoteComment).toHaveBeenCalledWith(
         QUOTE_CODE,
@@ -408,6 +418,7 @@ describe('QuoteCommentsComponent', () => {
       );
     });
     it('should refresh the quote to display the just added comment', () => {
+      renderComponent();
       component.onSend(
         { message: 'test comment', itemId: ALL_PRODUCTS_ID },
         QUOTE_CODE
@@ -418,6 +429,7 @@ describe('QuoteCommentsComponent', () => {
       );
     });
     it('should reset message input text', () => {
+      renderComponent();
       component.onSend(
         { message: 'test comment', itemId: ALL_PRODUCTS_ID },
         QUOTE_CODE
@@ -426,6 +438,7 @@ describe('QuoteCommentsComponent', () => {
       expect(component.messagingConfigs.newMessagePlaceHolder).toBeUndefined();
     });
     it('should handle errors', () => {
+      renderComponent();
       (quoteFacade.addQuoteComment as vi.Mock).mockReturnValue(
         throwError(new Error('test error'))
       );
@@ -516,6 +529,7 @@ describe('QuoteCommentsComponent', () => {
 
   describe('Accessibility', () => {
     it("should contain 'div' HTML element with 'role' attribute that indicates the role for this element", () => {
+      renderComponent();
       const element =
         CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
           htmlElem,
@@ -533,6 +547,7 @@ describe('QuoteCommentsComponent', () => {
     });
 
     it("should contain 'div' HTML element with 'aria-label' attribute that indicates the text for this element", () => {
+      renderComponent();
       const element =
         CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
           htmlElem,

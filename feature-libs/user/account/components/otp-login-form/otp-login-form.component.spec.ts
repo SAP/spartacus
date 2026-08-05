@@ -78,7 +78,7 @@ describe('OneTimePasswordLoginFormComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     winRef = TestBed.inject(WindowRef);

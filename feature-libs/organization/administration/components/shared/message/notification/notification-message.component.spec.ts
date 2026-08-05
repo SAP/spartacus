@@ -62,7 +62,7 @@ describe('NotificationMessageComponent', () => {
     const el: HTMLElement = fixture.debugElement.query(
       By.css('p')
     ).nativeElement;
-    expect(el.innerText).toEqual('Raw mock message');
+    expect(el.textContent?.trim()).toEqual('Raw mock message');
   });
 
   it('should have close button', () => {

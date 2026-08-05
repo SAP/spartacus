@@ -30,40 +30,32 @@ const userGroup: UserGroup = {
 };
 
 class MockB2BUserAdapter implements B2BUserAdapter {
-  load = vi.fn('B2BUserAdapter.load').mockReturnValue(of(b2bUser));
-  loadList = vi.fn('B2BUserAdapter.loadList').mockReturnValue(
+  load = vi.fn().mockReturnValue(of(b2bUser));
+  loadList = vi.fn().mockReturnValue(
     of([b2bUser])
   );
-  create = vi.fn('B2BUserAdapter.create').mockReturnValue(of(b2bUser));
-  update = vi.fn('B2BUserAdapter.update').mockReturnValue(of(b2bUser));
+  create = vi.fn().mockReturnValue(of(b2bUser));
+  update = vi.fn().mockReturnValue(of(b2bUser));
 
-  loadApprovers = vi.fn('B2BUserAdapter.loadApprovers').mockReturnValue(
+  loadApprovers = vi.fn().mockReturnValue(
     of([b2bUser])
   );
-  assignApprover = vi.fn('B2BUserAdapter.assignApprover').mockReturnValue(
+  assignApprover = vi.fn().mockReturnValue(
     of(b2bUser)
   );
-  unassignApprover = vi.fn(
-    'B2BUserAdapter.unassignApprover'
-  ).mockReturnValue(of(b2bUser));
-  loadPermissions = vi.fn('B2BUserAdapter.loadPermissions').mockReturnValue(
+  unassignApprover = vi.fn().mockReturnValue(of(b2bUser));
+  loadPermissions = vi.fn().mockReturnValue(
     of([permission])
   );
-  assignPermission = vi.fn(
-    'B2BUserAdapter.assignPermission'
-  ).mockReturnValue(of(b2bUser));
-  unassignPermission = vi.fn(
-    'B2BUserAdapter.unassignPermission'
-  ).mockReturnValue(of(b2bUser));
-  loadUserGroups = vi.fn('B2BUserAdapter.loadUserGroups').mockReturnValue(
+  assignPermission = vi.fn().mockReturnValue(of(b2bUser));
+  unassignPermission = vi.fn().mockReturnValue(of(b2bUser));
+  loadUserGroups = vi.fn().mockReturnValue(
     of([userGroup])
   );
-  assignUserGroup = vi.fn('B2BUserAdapter.assignUserGroup').mockReturnValue(
+  assignUserGroup = vi.fn().mockReturnValue(
     of(userGroup)
   );
-  unassignUserGroup = vi.fn(
-    'B2BUserAdapter.unassignUserGroup'
-  ).mockReturnValue(of(userGroup));
+  unassignUserGroup = vi.fn().mockReturnValue(of(userGroup));
 }
 
 describe('B2BUserConnector', () => {

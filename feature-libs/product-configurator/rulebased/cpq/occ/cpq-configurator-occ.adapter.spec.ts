@@ -12,8 +12,8 @@ import { of } from 'rxjs';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { CpqConfiguratorOccAdapter } from './cpq-configurator-occ.adapter';
 import { CpqConfiguratorOccService } from './cpq-configurator-occ.service';
-import {
 import { vi } from 'vitest';
+import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';

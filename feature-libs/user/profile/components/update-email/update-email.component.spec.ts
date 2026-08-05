@@ -110,7 +110,7 @@ describe('UpdateEmailComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UpdateEmailComponent);

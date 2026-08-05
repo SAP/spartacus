@@ -35,14 +35,15 @@ describe('StoreSearchComponent', () => {
     fixture = TestBed.createComponent(StoreSearchComponent);
     currentLocationService = TestBed.inject(CurrentLocationService);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeDefined();
   });
 
   it('onFindStores emits a location and returns false', () => {
+    fixture.detectChanges();
     const location = 'a location';
     vi.spyOn(component, 'onFindStores');
     vi.spyOn(component.findStores, 'emit');
@@ -53,17 +54,18 @@ describe('StoreSearchComponent', () => {
   });
 
   it('onHideOutOfStock emits eventHideOutOfStock', () => {
+    fixture.detectChanges();
     vi.spyOn(component.eventHideOutOfStock, 'emit');
     expect(component.hideOutOfStock).toEqual(false);
     component.onHideOutOfStock();
     expect(component.eventHideOutOfStock.emit).toHaveBeenCalledWith(true);
-    component.hideOutOfStock = !component.hideOutOfStock;
-    fixture.detectChanges();
+    fixture.componentRef.setInput('hideOutOfStock', true);
     component.onHideOutOfStock();
     expect(component.eventHideOutOfStock.emit).toHaveBeenCalledWith(false);
   });
 
   it('useMyLocation makes findStores emit a location', () => {
+    fixture.detectChanges();
     vi.spyOn(currentLocationService, 'getCurrentLocation');
     vi.spyOn(component.showSpinner, 'emit');
     vi.spyOn(component.findStores, 'emit');

@@ -170,7 +170,7 @@ describe('LoginFormComponentService', () => {
       declarations: [],
       providers: [...providers],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     service = TestBed.inject(LoginFormComponentService);
@@ -205,7 +205,7 @@ describe('LoginFormComponentService', () => {
       service = TestBed.inject(LoginFormComponentService);
 
       expect(service.showResetPassword).toBe(false);
-    }));
+    });
   });
 
   describe('login', () => {
@@ -276,7 +276,7 @@ describe('LoginFormComponentService', () => {
         TestBed.configureTestingModule({
           providers: [...providers],
         }).compileComponents();
-      }));
+      });
 
       beforeEach(() => {
         mockFeatureTogglesController = TestBed.inject(
@@ -323,7 +323,7 @@ describe('LoginFormComponentService', () => {
             OAUTH_REDIRECT_FLOW_KEY,
             'true'
           );
-        }));
+        });
 
         describe('when siteIsolationForCustomLoginPage is enabled', () => {
           beforeEach(() => {
@@ -365,7 +365,7 @@ describe('LoginFormComponentService', () => {
           vi.spyOn(form, 'submit');
           service.login(form);
           expect(service.form.get('csrf')?.value).toBe('new-token');
-        }));
+        });
 
         it('should not disable the form before submitting (browser drops disabled inputs from POST body)', async () => {
           const form = createForm(userId, password, csrf);
@@ -376,7 +376,7 @@ describe('LoginFormComponentService', () => {
           service.login(form);
           expect(form.submit).toHaveBeenCalled();
           expect(formDisabledAtSubmit).toBe(false);
-        }));
+        });
 
         it('should reset the form', () => {
           vi.spyOn(service.form, 'reset').mockImplementation(() => {});
@@ -430,7 +430,7 @@ describe('LoginFormComponentService', () => {
           const submitSpy = vi.spyOn(form, 'submit');
           service.login(form);
           expect(submitSpy).not.toHaveBeenCalled();
-        }));
+        });
 
         it('should stash session_expired in sessionStorage and hard-redirect to /login on CSRF refresh failure', async () => {
           const form = createForm(userId, password, csrf);
@@ -442,7 +442,7 @@ describe('LoginFormComponentService', () => {
           );
           expect(winRef.nativeWindow?.location.href).toBe('/login');
           expect(authService.loginWithRedirect).not.toHaveBeenCalled();
-        }));
+        });
 
         it('should reset busy state to false on CSRF refresh failure', async () => {
           const form = createForm(userId, password, csrf);
@@ -451,7 +451,7 @@ describe('LoginFormComponentService', () => {
           service.isUpdating$.subscribe((v) => (busyValue = v));
           service.login(form);
           expect(busyValue).toBe(false);
-        }));
+        });
 
         it('should clear the OAuth redirect flow flag on CSRF refresh failure', async () => {
           const form = createForm(userId, password, csrf);
@@ -460,7 +460,7 @@ describe('LoginFormComponentService', () => {
           expect(winRef.localStorage?.removeItem).toHaveBeenCalledWith(
             OAUTH_REDIRECT_FLOW_KEY
           );
-        }));
+        });
 
         it('should surface the session-expired message inline when nativeWindow is unexpectedly undefined (defensive fallback)', async () => {
           vi.spyOn(winRef, 'nativeWindow', 'get').mockReturnValue(
@@ -477,7 +477,7 @@ describe('LoginFormComponentService', () => {
             { key: 'httpHandlers.sessionExpired' },
             GlobalMessageType.MSG_TYPE_ERROR
           );
-        }));
+        });
       });
 
       describe('when authorizationCodeFlowByDefaultCsrfTokenRefresh is disabled', () => {
@@ -488,7 +488,7 @@ describe('LoginFormComponentService', () => {
           TestBed.configureTestingModule({
             providers: [...providers],
           }).compileComponents();
-        }));
+        });
 
         beforeEach(() => {
           mockFeatureTogglesController = TestBed.inject(

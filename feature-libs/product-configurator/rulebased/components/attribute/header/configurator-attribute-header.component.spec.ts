@@ -194,7 +194,6 @@ describe('ConfigAttributeHeaderComponent', () => {
     component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
     component.isNavigationToGroupEnabled = true;
     component['logError'] = () => {};
-    fixture.detectChanges();
 
     configurationGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
@@ -211,6 +210,7 @@ describe('ConfigAttributeHeaderComponent', () => {
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -276,6 +276,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   describe('Render corresponding part of the component', () => {
     it('should not render message for not visible attribute', () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -301,6 +302,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
 
     it('should render a label', () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -327,6 +329,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
 
     it('should not render "Show Options" button if domainOnDemand is false', () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -354,6 +357,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
 
     it('should render an image', () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -764,6 +768,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   describe('Accessibility', () => {
     it("should contain label element with 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -807,10 +812,10 @@ describe('ConfigAttributeHeaderComponent', () => {
     describe('Conflict message', () => {
       beforeEach(() => {
         component.attribute.hasConflicts = true;
-        fixture.detectChanges();
       });
 
       it("should contain label element for not required attribute with 'aria-label' attribute that defines an accessible name to label the current element", () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -954,6 +959,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       });
 
       it("should contain cx-icon element with 'aria-hidden' attribute that removes an element from the accessibility tree", () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -967,7 +973,8 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
 
     it("should contain div element with 'aria-label' attribute for required error message that defines an accessible name to label the current element", () => {
-      component.showRequiredMessageForDomainAttribute$ = of(true);
+      component.attribute.required = true;
+      component.attribute.incomplete = true;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
@@ -1028,7 +1035,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.groupId = undefined;
 
       vi.spyOn(configurationGroupsService, 'navigateToGroup');
-      spyOn<any>(component, 'logError');
+      vi.spyOn<any>(component, 'logError');
       fixture.detectChanges();
 
       component.navigateToGroup();

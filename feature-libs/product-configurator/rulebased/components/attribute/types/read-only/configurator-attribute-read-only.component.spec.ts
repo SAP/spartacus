@@ -133,7 +133,6 @@ describe('ConfigAttributeReadOnlyComponent', () => {
       selectedSingleValue: 'selectedValue',
       quantity: 1,
     };
-    fixture.detectChanges();
     myValues = structuredClone(allValues);
     configuratorPriceComponentOptions = {
       quantity: myValues[0].quantity,
@@ -144,6 +143,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
   });
 
   it('should create component', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -215,10 +215,13 @@ describe('ConfigAttributeReadOnlyComponent', () => {
   describe('no static Domain', () => {
     beforeEach(() => {
       component.attribute.selectedSingleValue = myValues[1].valueCode;
-      fixture.detectChanges();
     });
 
     describe('should display selectedSingleValue', () => {
+      beforeEach(() => {
+        fixture.detectChanges();
+      });
+
       it("should contain span element with class name 'cx-visually-hidden' that hides label content on the UI", () => {
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
@@ -287,6 +290,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
 
   describe('rendering description at value level', () => {
     it('should not render description in case no desciption present on model', () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,

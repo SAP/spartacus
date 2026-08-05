@@ -39,7 +39,7 @@ describe('CloseAccountComponent', () => {
         add: { imports: [MockTranslatePipe] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CloseAccountComponent);

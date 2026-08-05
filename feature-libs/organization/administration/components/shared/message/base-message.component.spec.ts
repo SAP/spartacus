@@ -116,6 +116,7 @@ describe('BaseMessageComponent', () => {
     });
 
     afterEach(() => {
+      vi.restoreAllMocks();
       vi.useRealTimers();
     });
 

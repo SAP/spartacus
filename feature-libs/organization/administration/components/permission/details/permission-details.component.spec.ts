@@ -32,7 +32,7 @@ const mockCode = 'p1';
 
 class MockPermissionItemService implements Partial<ItemService<Permission>> {
   key$ = of(mockCode);
-  load = vi.fn('load').mockReturnValue(EMPTY);
+  load = vi.fn().mockReturnValue(EMPTY);
   error$ = of(false);
 }
 

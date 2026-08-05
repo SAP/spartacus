@@ -40,8 +40,8 @@ import {
   VARIANT_CONFIGURATOR_SERIALIZER,
 } from './variant-configurator-occ.converters';
 import { OccConfigurator } from './variant-configurator-occ.models';
-import {
 import { vi } from 'vitest';
+import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';

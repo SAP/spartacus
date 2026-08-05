@@ -28,18 +28,20 @@ describe('TextfieldInputFieldComponent', () => {
       configurationLabel: 'attributeName',
       configurationValue: 'input123',
     };
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should set value on init', () => {
+    fixture.detectChanges();
     expect(component.attributeInputForm.value).toEqual('input123');
   });
 
   it('should emit a change event on change ', () => {
+    fixture.detectChanges();
     vi.spyOn(component.inputChange, 'emit');
     component.onInputChange();
     expect(component.inputChange.emit).toHaveBeenCalledWith(
@@ -48,6 +50,7 @@ describe('TextfieldInputFieldComponent', () => {
   });
 
   it('should generate id with prefixt', () => {
+    fixture.detectChanges();
     expect(component.getId(component.attribute)).toEqual(
       'cx-configurator-textfieldattributeName'
     );
@@ -55,6 +58,7 @@ describe('TextfieldInputFieldComponent', () => {
 
   describe('Accessibility', () => {
     it("should contain label element with class name 'cx-configurator-textfield-label' and 'aria-label' attribute", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -67,6 +71,7 @@ describe('TextfieldInputFieldComponent', () => {
     });
 
     it("should contain input element with class name 'form-control' and 'aria-label' attribute", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

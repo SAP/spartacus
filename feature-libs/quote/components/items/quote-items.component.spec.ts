@@ -67,7 +67,7 @@ describe('QuoteItemsComponent', () => {
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     component.showCart$ = of(true);
-    fixture.detectChanges();
+    // detectChanges() is called per-test to avoid NG0100 when tests mutate observables
   });
 
   function initMocks() {
@@ -96,12 +96,14 @@ describe('QuoteItemsComponent', () => {
 
   describe('Initialization', () => {
     it('should create the component', () => {
+      fixture.detectChanges();
       expect(component).toBeTruthy();
     });
   });
 
   describe('Ghost animation', () => {
     it('should not be present in case quote items data is provided', () => {
+      fixture.detectChanges();
       CommonQuoteTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -197,6 +199,7 @@ describe('QuoteItemsComponent', () => {
 
   describe('onToggleShowOrHideCart', () => {
     it('should call quoteItemsComponentService correctly if argument is true', () => {
+      fixture.detectChanges();
       component.onToggleShowOrHideCart(true);
       expect(
         quoteItemsComponentService.setQuoteEntriesExpanded
@@ -204,6 +207,7 @@ describe('QuoteItemsComponent', () => {
     });
 
     it('should call quoteItemsComponentService correctly if argument is false', () => {
+      fixture.detectChanges();
       component.onToggleShowOrHideCart(false);
       expect(
         quoteItemsComponentService.setQuoteEntriesExpanded
@@ -212,6 +216,7 @@ describe('QuoteItemsComponent', () => {
   });
 
   it('should display CARET_UP per default', () => {
+    fixture.detectChanges();
     CommonQuoteTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
@@ -232,6 +237,7 @@ describe('QuoteItemsComponent', () => {
   });
 
   it('should toggle quote entries on enter', () => {
+    fixture.detectChanges();
     CommonQuoteTestUtilsService.clickToggle(htmlElem, true);
     fixture.detectChanges();
     expect(
@@ -251,6 +257,7 @@ describe('QuoteItemsComponent', () => {
 
   describe('Accessibility', () => {
     it("should contain 'div' HTML element with 'role' attribute that indicates the role for this element", () => {
+      fixture.detectChanges();
       const element =
         CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
           htmlElem,
@@ -268,6 +275,7 @@ describe('QuoteItemsComponent', () => {
     });
 
     it("should contain 'div' HTML element with 'aria-label' attribute that indicates the text for this element", () => {
+      fixture.detectChanges();
       const element =
         CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
           htmlElem,

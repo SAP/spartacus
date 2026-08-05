@@ -353,16 +353,16 @@ describe('InvoicesListComponent', () => {
 
     const tableHeaders = tableElement.queryAll(By.css('th'));
     expect(tableHeaders?.length).toEqual(5);
-    expect(tableHeaders[0].properties.innerText).toEqual(
+    expect(tableHeaders[0].nativeElement.textContent.trim()).toEqual(
       'pdfInvoices.invoicesTable.invoiceId'
     );
-    expect(tableHeaders[1].properties.innerText).toEqual(
+    expect(tableHeaders[1].nativeElement.textContent.trim()).toEqual(
       'pdfInvoices.invoicesTable.createdAt'
     );
-    expect(tableHeaders[2].properties.innerText).toEqual(
+    expect(tableHeaders[2].nativeElement.textContent.trim()).toEqual(
       'pdfInvoices.invoicesTable.netAmount'
     );
-    expect(tableHeaders[3].properties.innerText).toEqual(
+    expect(tableHeaders[3].nativeElement.textContent.trim()).toEqual(
       'pdfInvoices.invoicesTable.totalAmount'
     );
     expect(tableHeaders[4].children[0].attributes.title).toEqual(
@@ -386,36 +386,36 @@ describe('InvoicesListComponent', () => {
 
       expect(tableCells?.length).toEqual(5);
 
-      expect(tableCells[0].nativeElement.innerText).toEqual(
+      expect(tableCells[0].nativeElement.textContent.trim()).toEqual(
         mockOrderInvoiceList.invoices?.[rowNumber]?.invoiceId
       );
 
-      expect(isDate(tableCells[1].nativeElement.innerText)).toEqual(
+      expect(isDate(tableCells[1].nativeElement.textContent.trim())).toEqual(
         !!mockOrderInvoiceList.invoices?.[rowNumber]?.createdAt
       );
 
       if (
         mockOrderInvoiceList.invoices?.[rowNumber]?.netAmount?.formattedValue
       ) {
-        expect(tableCells[2].nativeElement.innerText).toEqual(
+        expect(tableCells[2].nativeElement.textContent.trim()).toEqual(
           mockOrderInvoiceList.invoices?.[rowNumber]?.netAmount?.formattedValue
         );
       } else {
-        expect(tableCells[2].nativeElement.innerHTML).toEqual(
-          ` ${mockOrderInvoiceList.invoices?.[rowNumber]?.netAmount?.currencyIso}&nbsp;${mockOrderInvoiceList.invoices?.[rowNumber]?.netAmount?.value} `
+        expect(tableCells[2].nativeElement.textContent.trim()).toEqual(
+          `${mockOrderInvoiceList.invoices?.[rowNumber]?.netAmount?.currencyIso} ${mockOrderInvoiceList.invoices?.[rowNumber]?.netAmount?.value}`
         );
       }
 
       if (
         mockOrderInvoiceList.invoices?.[rowNumber]?.totalAmount?.formattedValue
       ) {
-        expect(tableCells[3].nativeElement.innerText).toEqual(
+        expect(tableCells[3].nativeElement.textContent.trim()).toEqual(
           mockOrderInvoiceList.invoices?.[rowNumber]?.totalAmount
             ?.formattedValue
         );
       } else {
-        expect(tableCells[3].nativeElement.innerHTML).toEqual(
-          ` ${mockOrderInvoiceList.invoices?.[rowNumber]?.totalAmount?.currencyIso}&nbsp;${mockOrderInvoiceList.invoices?.[rowNumber]?.totalAmount?.value} `
+        expect(tableCells[3].nativeElement.textContent.trim()).toEqual(
+          `${mockOrderInvoiceList.invoices?.[rowNumber]?.totalAmount?.currencyIso} ${mockOrderInvoiceList.invoices?.[rowNumber]?.totalAmount?.value}`
         );
       }
 

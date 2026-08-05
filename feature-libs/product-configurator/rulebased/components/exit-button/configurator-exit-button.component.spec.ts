@@ -88,7 +88,6 @@ function initialize() {
   fixture = TestBed.createComponent(ConfiguratorExitButtonComponent);
   component = fixture.componentInstance;
   htmlElem = fixture.nativeElement;
-  fixture.detectChanges();
 }
 
 function setRouterTestDataCartEntry() {
@@ -143,17 +142,15 @@ describe('ConfiguratorExitButton', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfiguratorExitButtonComponent);
-    component = fixture.componentInstance;
     routingService = TestBed.inject(RoutingService as Type<RoutingService>);
     breakpointService = TestBed.inject(
       BreakpointService as Type<BreakpointService>
     );
-    htmlElem = fixture.nativeElement;
-    fixture.detectChanges();
   });
 
   it('should create component', () => {
+    initialize();
+    fixture.detectChanges();
     expect(component).toBeDefined();
   });
 
@@ -162,6 +159,7 @@ describe('ConfiguratorExitButton', () => {
       vi.spyOn(routingService, 'go');
       setRouterTestDataProduct();
       initialize();
+      fixture.detectChanges();
       component.exitConfiguration();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'product',
@@ -173,6 +171,7 @@ describe('ConfiguratorExitButton', () => {
       vi.spyOn(routingService, 'go');
       setRouterTestDataCartEntry();
       initialize();
+      fixture.detectChanges();
       component.exitConfiguration();
       expect(routingService.go).toHaveBeenCalledWith('cart');
     });
@@ -184,6 +183,7 @@ describe('ConfiguratorExitButton', () => {
       vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(false));
       setRouterTestDataProduct();
       initialize();
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
@@ -197,6 +197,7 @@ describe('ConfiguratorExitButton', () => {
       vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(false));
       setRouterTestDataProduct();
       initialize();
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -213,6 +214,7 @@ describe('ConfiguratorExitButton', () => {
       vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(false));
       setRouterTestDataProduct();
       initialize();
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
@@ -226,6 +228,7 @@ describe('ConfiguratorExitButton', () => {
       vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(false));
       setRouterTestDataProduct();
       initialize();
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
@@ -239,6 +242,7 @@ describe('ConfiguratorExitButton', () => {
       vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(false));
       setRouterTestDataCartEntry();
       initialize();
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
@@ -252,6 +256,7 @@ describe('ConfiguratorExitButton', () => {
       vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(false));
       setRouterTestDataCartEntry();
       initialize();
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -268,6 +273,7 @@ describe('ConfiguratorExitButton', () => {
       vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(true));
       setRouterTestDataCartEntry();
       initialize();
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
@@ -281,6 +287,7 @@ describe('ConfiguratorExitButton', () => {
       vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(true));
       setRouterTestDataCartEntry();
       initialize();
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

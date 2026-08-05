@@ -121,7 +121,7 @@ describe('VerificationTokenFormComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(VerificationTokenFormComponent);

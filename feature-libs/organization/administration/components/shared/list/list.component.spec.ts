@@ -16,7 +16,6 @@ import {
   EntitiesModel,
   FeatureDirective,
   I18nTestingModule,
-  Translatable,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
@@ -69,10 +68,10 @@ const mockEmptyList: EntitiesModel<Mock> = {
 };
 
 class MockBaseListService {
-  view = vi.fn('view');
-  sort = vi.fn('sort');
-  search = vi.fn('search');
-  clearSearch = vi.fn('clearSearch');
+  view = vi.fn();
+  sort = vi.fn();
+  search = vi.fn();
+  clearSearch = vi.fn();
   getData() {
     return EMPTY;
   }
@@ -95,15 +94,13 @@ class MockBaseListService {
     return 'organization.search.placeholder';
   }
   onCreateButtonClick(): void {}
-  getCreateButtonType = vi.fn('getCreateButtonType');
-  getCreateButtonLabel(): Translatable {
-    return { key: 'organization.add' };
-  }
+  getCreateButtonType = vi.fn();
+  getCreateButtonLabel = vi.fn().mockReturnValue({ key: 'organization.add' });
 }
 
 class MockItemService {
   key$ = EMPTY;
-  launchDetails = vi.fn('launchDetails');
+  launchDetails = vi.fn();
 }
 
 class ActivatedRouteMock {
@@ -312,7 +309,7 @@ describe('ListComponent', () => {
         By.css('cx-popover > .popover-body > p')
       );
       expect(el).toBeTruthy();
-      expect(el.nativeElement.innerText.trim()).toBe('orgBudget.hint');
+      expect(el.nativeElement.textContent?.trim()).toBe('orgBudget.hint');
     });
   });
 
@@ -338,7 +335,6 @@ describe('ListComponent', () => {
       fixture = TestBed.createComponent(MockListComponent);
       el = fixture.debugElement;
       component = fixture.componentInstance;
-      fixture.detectChanges();
     });
 
     describe('it should show create functionality by default', () => {
@@ -353,7 +349,7 @@ describe('ListComponent', () => {
 
         let hlink = el.query(By.css('a.button.primary.create'));
         expect(hlink).toBeTruthy();
-        expect(hlink.nativeElement.innerText).toBe('organization.add');
+        expect(hlink.nativeElement.textContent?.trim()).toBe('organization.add');
         let button = el.query(By.css('button.button.primary.create'));
         expect(button).toBeNull();
       });
@@ -371,7 +367,7 @@ describe('ListComponent', () => {
         expect(hlink).toBeNull();
         let button = el.query(By.css('button.button.primary.create'));
         expect(button).toBeTruthy();
-        expect(button.nativeElement.innerText).toBe('organization.manageUsers');
+        expect(button.nativeElement.textContent?.trim()).toBe('organization.manageUsers');
       });
     });
 

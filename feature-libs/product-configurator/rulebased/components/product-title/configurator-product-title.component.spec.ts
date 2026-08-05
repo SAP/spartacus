@@ -200,7 +200,6 @@ function initialize() {
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
   component.ghostStyle = false;
-  fixture.detectChanges();
 }
 
 function setDataForProductConfiguration() {
@@ -378,6 +377,7 @@ describe('ConfigProductTitleComponent', () => {
   beforeEach(() => {
     mockRouterData = structuredClone(baseMockRouterData);
     initialize();
+    fixture.detectChanges();
 
     configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);
     vi.spyOn(configExpertModeService, 'setExpModeRequested');
@@ -390,6 +390,7 @@ describe('ConfigProductTitleComponent', () => {
   it('should create component', () => {
     setDataForProductConfiguration();
     initialize();
+    fixture.detectChanges();
     expect(component).toBeDefined();
   });
 
@@ -397,6 +398,7 @@ describe('ConfigProductTitleComponent', () => {
     it('should get product name as part of product configuration via config product code', () => {
       setDataForProductConfiguration();
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         PRODUCT_CODE,
@@ -408,6 +410,7 @@ describe('ConfigProductTitleComponent', () => {
       setDataForProductConfiguration();
       mockRouterData.productCode = PRODUCT_SUFFIX + PRODUCT_CODE;
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         mockRouterData.productCode,
@@ -420,6 +423,7 @@ describe('ConfigProductTitleComponent', () => {
       mockConfiguration.productCode = PRODUCT_CODE;
       mockRouterData.productCode = undefined;
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         PRODUCT_CODE,
@@ -433,6 +437,7 @@ describe('ConfigProductTitleComponent', () => {
       // provided via routing data.
       setDataForCartEntry();
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         PRODUCT_CODE,
@@ -447,6 +452,7 @@ describe('ConfigProductTitleComponent', () => {
       // entry which has been re-read after a preceding entry was deleted.
       mockRouterData.productCode = CART_ENTRY_SUFFIX + 'STALE_PRODUCT';
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         PRODUCT_CODE,
@@ -459,6 +465,7 @@ describe('ConfigProductTitleComponent', () => {
       mockConfiguration.productCode = undefined as unknown as string;
       mockConfiguration.overview = undefined;
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         CART_ENTRY_SUFFIX + PRODUCT_CODE,
@@ -471,6 +478,7 @@ describe('ConfigProductTitleComponent', () => {
       mockConfiguration.productCode = PRODUCT_CODE;
       mockRouterData.productCode = undefined;
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         PRODUCT_CODE,
@@ -481,6 +489,7 @@ describe('ConfigProductTitleComponent', () => {
     it('should get product name as part of product configuration in case configuration is saved cart bound and product code is provided with routing data', () => {
       setDataForSavedCartEntry();
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         SAVED_CART_ENTRY_SUFFIX + PRODUCT_CODE,
@@ -493,6 +502,7 @@ describe('ConfigProductTitleComponent', () => {
       mockConfiguration.productCode = PRODUCT_CODE;
       mockRouterData.productCode = undefined;
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         PRODUCT_CODE,
@@ -503,6 +513,7 @@ describe('ConfigProductTitleComponent', () => {
     it('should get product name as part of product configuration in case configuration is quote bound and product code is provided with routing data', () => {
       setDataForQuoteEntry();
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         QUOTE_ENTRY_SUFFIX + PRODUCT_CODE,
@@ -513,6 +524,7 @@ describe('ConfigProductTitleComponent', () => {
     it('should get product name as part of product from overview in case configuration is order bound and product code is not provided with routing data', () => {
       setDataForOrderEntry();
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         ORDER_ENTRY_SUFFIX + PRODUCT_CODE,
@@ -524,6 +536,7 @@ describe('ConfigProductTitleComponent', () => {
   it('should render initial content properly', () => {
     setDataForProductConfiguration();
     initialize();
+    fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -552,6 +565,7 @@ describe('ConfigProductTitleComponent', () => {
   it('should render show more case - default', () => {
     setDataForProductConfiguration();
     initialize();
+    fixture.detectChanges();
     component.triggerDetails();
     changeDetectorRef.detectChanges();
 
@@ -573,6 +587,7 @@ describe('ConfigProductTitleComponent', () => {
   it('should render properly for navigation from order entry', () => {
     setDataForOrderEntry();
     initialize();
+    fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -589,6 +604,7 @@ describe('ConfigProductTitleComponent', () => {
   it('should render kb key details properly', () => {
     setDataForProductConfiguration();
     initialize();
+    fixture.detectChanges();
 
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -654,6 +670,7 @@ describe('ConfigProductTitleComponent', () => {
     beforeEach(() => {
       setDataForProductConfiguration();
       initialize();
+      fixture.detectChanges();
     });
 
     it("should contain cx-icon element with an 'aria-label' attribute that defines an accessible name to label the current element", () => {

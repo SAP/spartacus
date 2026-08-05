@@ -5,13 +5,9 @@ import { UnitOrderAdapter } from './unit-order.adapter';
 import { UnitOrderConnector } from './unit-order.connector';
 
 class MockUnitOrderAdapter implements Partial<UnitOrderAdapter> {
-  loadUnitOrderHistory = vi.fn(
-    'UnitOrderAdapter.loadUnitOrderHistory'
-  ).mockImplementation((userId: string) => of(`orderHistory-${userId}`));
+  loadUnitOrderHistory = vi.fn().mockImplementation((userId: string) => of(`orderHistory-${userId}`));
 
-  loadUnitOrderDetail = vi.fn(
-    'UnitOrderAdapter.loadUnitOrderDetail'
-  ).mockImplementation((userId: string, orderCode: string) =>
+  loadUnitOrderDetail = vi.fn().mockImplementation((userId: string, orderCode: string) =>
     of(`orderDetails-${userId}-${orderCode}`)
   );
 }

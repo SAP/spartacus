@@ -173,7 +173,7 @@ describe('UserRegistrationFormComponent', () => {
 
     userRegistrationFormService = TestBed.inject(UserRegistrationFormService);
     msgServcie = TestBed.inject(GlobalMessageService);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserRegistrationFormComponent);
@@ -187,7 +187,7 @@ describe('UserRegistrationFormComponent', () => {
   });
 
   it('should initialize registerForm', () => {
-    spyOnProperty(userRegistrationFormService, 'form', 'get');
+    vi.spyOn(userRegistrationFormService, 'form', 'get');
 
     expect(component.registerForm).toBeInstanceOf(FormGroup);
   });

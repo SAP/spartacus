@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { ElementRef } from '@angular/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { firstValueFrom, Observable, of, Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { ConfiguratorConflictSolverDialogLauncherService } from './configurator-conflict-solver-dialog-launcher.service';
 import {
   CommonConfigurator,
@@ -121,8 +122,10 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
     it('should emit group data', async () => {
       routerData$ = of(configRouterData);
       initLauncherService();
+      let data: any;
+      listener.conflictGroupAndRouterData$.pipe(take(1)).subscribe((d) => { data = d; });
       groupSubject.next(group);
-      const data = await firstValueFrom(listener.conflictGroupAndRouterData$);
+      await vi.advanceTimersByTimeAsync(0);
       expect(data.conflictGroup).toEqual(group);
     });
   });

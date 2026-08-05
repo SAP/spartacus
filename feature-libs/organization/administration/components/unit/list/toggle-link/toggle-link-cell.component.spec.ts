@@ -31,7 +31,7 @@ const mockContext = {
 };
 
 class MockUnitTreeService implements Partial<UnitTreeService> {
-  toggle = vi.fn('toggle');
+  toggle = vi.fn();
   treeToggle$ = new BehaviorSubject(new Map());
 }
 
@@ -99,7 +99,7 @@ describe('ToggleLinkCellComponent', () => {
 
   it('should render tabindex = 0 by default', () => {
     const el: HTMLElement = fixture.debugElement.query(By.css('a')).nativeNode;
-    expect(el.innerText).toEqual('my name (1)');
+    expect(el.textContent?.trim()).toEqual('my name (1)');
     expect(el.tabIndex).toEqual(0);
   });
 
@@ -129,14 +129,14 @@ describe('ToggleLinkCellComponent', () => {
 
     it('should enable keyboard controls', () => {
       const mockTableElement = {
-        querySelectorAll: jasmine
-          .vi.fn('querySelectorAll')
+        querySelectorAll: vi
+          .fn()
           .mockReturnValue(mockSiblingElements),
       };
       component['elementRef'] = {
         nativeElement: {
-          closest: jasmine
-            .vi.fn('closest')
+          closest: vi
+            .fn()
             .mockReturnValue(mockTableElement),
         },
       };
@@ -158,7 +158,7 @@ describe('ToggleLinkCellComponent', () => {
       expect(component.onArrowLeft).toHaveBeenCalled();
     });
 
-    it('should make active item the only focusable item and navigate'(() => {
+    it('should make active item the only focusable item and navigate', () => {
       Object.defineProperty(mockSpaceEvent, 'target', {
         value: mockElement1,
       });
@@ -169,7 +169,7 @@ describe('ToggleLinkCellComponent', () => {
       expect(mockSpaceEvent.preventDefault).toHaveBeenCalled();
       expect(mockElement1.tabIndex).toEqual(0);
       expect(mockElement2.tabIndex).toEqual(-1);
-    }));
+    });
 
     it('should focus next link on ArrowDown', () => {
       const currentSelectedIndex = 0;

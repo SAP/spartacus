@@ -166,15 +166,15 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     mockCartItemContext = TestBed.inject(CartItemContext) as any;
-
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should expose orderEntry$', async () => {
+    fixture.detectChanges();
     const orderEntry: OrderEntry = { orderCode: '123' };
     component.orderEntry$.pipe(take(1)).subscribe((value) => {
       expect(value).toBe(orderEntry);
@@ -184,6 +184,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
   });
 
   it('should expose quantityControl$', async () => {
+    fixture.detectChanges();
     const quantityControl = new UntypedFormControl();
     component.quantityControl$.pipe(take(1)).subscribe((value) => {
       expect(value).toBe(quantityControl);
@@ -193,6 +194,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
   });
 
   it('should expose readonly$', async () => {
+    fixture.detectChanges();
     component.readonly$.pipe(take(2), toArray()).subscribe((values) => {
       expect(values).toEqual([true, false]);
     });
@@ -268,6 +270,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
   describe('toggleItems', () => {
     it('should return corresponding state after toggling the link show / hide items', () => {
+      fixture.detectChanges();
       expect(component.hideItems).toBe(true);
       component.toggleItems();
       expect(component.hideItems).toBe(false);
@@ -707,6 +710,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
     describe('getItemsMsg', () => {
       it("should return 'configurator.a11y.cartEntryBundleInfo' if there is only one line item", () => {
+        fixture.detectChanges();
         let numberOfItems: number = 1;
         expect(
           component
@@ -716,6 +720,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       });
 
       it("should return 'configurator.a11y.cartEntryBundleInfo_other' if there are more than one line item", () => {
+        fixture.detectChanges();
         let numberOfItems: number = 4;
         expect(
           component
@@ -727,6 +732,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
     describe('getHiddenItemInfo', () => {
       it("should return 'configurator.a11y.cartEntryBundleInfo' if the item name, price and quantity are defined", () => {
+        fixture.detectChanges();
         let lineItem: LineItem = {
           name: 'Canon ABC',
           formattedPrice: '$1,000.00',
@@ -740,6 +746,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       });
 
       it("should return 'configurator.a11y.cartEntryBundleNameWithPrice' if the item name and price are defined", () => {
+        fixture.detectChanges();
         let lineItem: LineItem = {
           name: 'Canon ABC',
           formattedPrice: '$1,000.00',
@@ -752,6 +759,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       });
 
       it("should return 'configurator.a11y.cartEntryBundleNameWithQuantity' if the item name and quantity are defined", () => {
+        fixture.detectChanges();
         let lineItem: LineItem = {
           name: 'Canon ABC',
           formattedQuantity: '5',
@@ -764,6 +772,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       });
 
       it("should return 'configurator.a11y.cartEntryBundleName' if only item name is defined", () => {
+        fixture.detectChanges();
         let lineItem: LineItem = {
           name: 'Canon ABC',
         };
@@ -925,6 +934,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
     describe('getHiddenItemInfoId', () => {
       it("should return 'cx-item-hidden-info-4' ID for a corresponding line item", () => {
+        fixture.detectChanges();
         expect(
           component.getHiddenItemInfoId(4).indexOf('cx-item-hidden-info-4')
         ).toBe(0);

@@ -99,8 +99,8 @@ class MockLoggerService {
 }
 
 class MockRoutingService {
-  go = vi.fn('go').mockImplementation(() => {});
-  getRouterState = vi.fn('getRouterState').mockReturnValue(
+  go = vi.fn().mockImplementation(() => {});
+  getRouterState = vi.fn().mockReturnValue(
     of(mockRouterState)
   );
 }

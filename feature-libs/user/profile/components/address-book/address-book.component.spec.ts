@@ -162,7 +162,7 @@ describe('AddressBookComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddressBookComponent);
@@ -227,7 +227,7 @@ describe('AddressBookComponent', () => {
   });
 
   it('should call editAddressSubmit(address: Address)', () => {
-    vi.spyOn(component, 'editAddressSubmit');
+    vi.spyOn(component, 'editAddressSubmit').mockImplementation(() => {});
     component.editAddressSubmit(mockAddress);
 
     expect(component.editAddressSubmit).toHaveBeenCalledWith(mockAddress);
@@ -253,9 +253,10 @@ describe('AddressBookComponent', () => {
     );
   });
 
-  it('should display default label on address default', () => {
+  it('should display default label on address default', async () => {
     mockAddress.defaultAddress = true;
-    fixture.detectChanges();
+    fixture.componentRef.changeDetectorRef.detectChanges();
+    await fixture.whenStable();
     const element = el.query(By.css('.card-header'));
     expect(element.nativeElement.textContent).toContain(
       ' ✓ addressCard.default '
@@ -476,17 +477,17 @@ describe('AddressBookComponent', () => {
     it('should set correct header for add new address', () => {
       component.showEditAddressForm = false;
       component.showAddAddressForm = true;
-      fixture.detectChanges();
+      fixture.componentRef.changeDetectorRef.detectChanges();
 
-      expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
+      expect(el.query(By.css('h2')).nativeElement.textContent?.trim()).toEqual(
         'addressBook.addNewDeliveryAddress'
       );
     });
     it('should set correct header for edit address', () => {
       component.editAddressButtonHandle(mockAddress);
-      fixture.detectChanges();
+      fixture.componentRef.changeDetectorRef.detectChanges();
 
-      expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
+      expect(el.query(By.css('h2')).nativeElement.textContent?.trim()).toEqual(
         'addressBook.editDeliveryAddress'
       );
     });

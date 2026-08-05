@@ -78,7 +78,7 @@ describe('LoginFormComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginFormComponent);

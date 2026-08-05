@@ -19,7 +19,7 @@ const mockCode = 'mc1';
 class TestComponent {}
 
 class MockMessageService {
-  add = vi.fn('add').mockReturnValue(new Subject());
+  add = vi.fn().mockReturnValue(new Subject());
   clear() {}
   close() {}
 }
@@ -34,14 +34,14 @@ const itemStubInactive = {
 
 class MockItemServiceActive implements Partial<ItemService<any>> {
   key$ = of(mockCode);
-  load = vi.fn('load').mockReturnValue(EMPTY);
+  load = vi.fn().mockReturnValue(EMPTY);
   error$ = of(false);
   current$ = of(itemStubActive);
 }
 
 class MockItemServiceInactive implements Partial<ItemService<any>> {
   key$ = of(mockCode);
-  load = vi.fn('load').mockReturnValue(EMPTY);
+  load = vi.fn().mockReturnValue(EMPTY);
   error$ = of(false);
   current$ = of(itemStubInactive);
 }

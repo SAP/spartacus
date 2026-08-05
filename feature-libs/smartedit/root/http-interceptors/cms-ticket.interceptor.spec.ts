@@ -91,7 +91,7 @@ describe('CmsTicketInterceptor', () => {
   it('should add parameters only for cms requests: cmsTicketId', inject(
     [HttpClient],
     (http: HttpClient) => {
-      spyOnProperty(service, 'cmsTicketId', 'get').mockReturnValue(
+      vi.spyOn(service, 'cmsTicketId', 'get').mockReturnValue(
         'mockCmsTicketId'
       );
 
@@ -112,7 +112,7 @@ describe('CmsTicketInterceptor', () => {
   it('should not add parameters to other requests: cmsTicketId', inject(
     [HttpClient],
     (http: HttpClient) => {
-      spyOnProperty(service, 'cmsTicketId', 'get').mockReturnValue(
+      vi.spyOn(service, 'cmsTicketId', 'get').mockReturnValue(
         'mockCmsTicketId'
       );
 
@@ -132,7 +132,7 @@ describe('CmsTicketInterceptor', () => {
   it('should add parameters for product requests: cmsTicketId', inject(
     [HttpClient],
     (http: HttpClient) => {
-      spyOnProperty(service, 'cmsTicketId', 'get').mockReturnValue(
+      vi.spyOn(service, 'cmsTicketId', 'get').mockReturnValue(
         'mockCmsTicketId'
       );
 
@@ -153,7 +153,7 @@ describe('CmsTicketInterceptor', () => {
   it('should add parameters for productList requests: cmsTicketId, categoryCode', inject(
     [HttpClient],
     (http: HttpClient) => {
-      spyOnProperty(service, 'cmsTicketId', 'get').mockReturnValue(
+      vi.spyOn(service, 'cmsTicketId', 'get').mockReturnValue(
         'mockCmsTicketId'
       );
 
@@ -182,7 +182,7 @@ describe('CmsTicketInterceptor', () => {
         })
       );
 
-      spyOnProperty(service, 'cmsTicketId', 'get').mockReturnValue(
+      vi.spyOn(service, 'cmsTicketId', 'get').mockReturnValue(
         'mockCmsTicketId'
       );
 

@@ -1,6 +1,5 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { StateUtils } from '@spartacus/core';
@@ -108,6 +107,9 @@ class MockconfiguratorUtilsService {
     return productConfiguration;
   }
   isConfigurationCreated(configuration: Configurator.Configuration): boolean {
+    if (!configuration) {
+      return false;
+    }
     const configId: String = configuration.configId;
     return configId !== undefined && configId.length !== 0;
   }
@@ -132,7 +134,8 @@ class MockConfiguratorCartService {
 
 function callGetOrCreate(
   serviceUnderTest: ConfiguratorCommonsService,
-  owner: CommonConfigurator.Owner
+  owner: CommonConfigurator.Owner,
+  storeInstance: Store<StateWithConfigurator>
 ) {
   const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
     {
@@ -146,7 +149,11 @@ function callGetOrCreate(
     x: productConfigurationLoaderState,
     y: productConfigurationLoaderStateChanged,
   });
-  vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(() => () => obs);
+  // Mock store.pipe to inject our loader state observable while preserving the service operators (tap, filter, map)
+  vi.spyOn(storeInstance, 'pipe').mockImplementationOnce((..._ops: any[]) => {
+    const [, tap, filter, map] = _ops; // [select, tap, filter, map]
+    return obs.pipe(tap, filter, map);
+  });
   const configurationObs = serviceUnderTest.getOrCreateConfiguration(owner);
   return configurationObs;
 }
@@ -247,6 +254,10 @@ describe('ConfiguratorCommonsService', () => {
     vi.spyOn(store, 'dispatch');
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('should create service', () => {
     expect(serviceUnderTest).toBeDefined();
   });
@@ -261,7 +272,7 @@ describe('ConfiguratorCommonsService', () => {
   });
 
   it('should get pending changes from store', () => {
-    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(() => () => of(true));
+    vi.spyOn(store, 'pipe').mockReturnValueOnce(of(true));
 
     let hasPendingChanges = false;
     serviceUnderTest
@@ -274,10 +285,7 @@ describe('ConfiguratorCommonsService', () => {
 
   describe('isConfigurationLoading', () => {
     it('should get configuration loading state from store', () => {
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        () => () =>
-          of(configurationState.configurations.entities[OWNER_PRODUCT.key])
-      );
+      vi.spyOn(store, 'pipe').mockReturnValueOnce(of(false));
 
       let isLoading = false;
       serviceUnderTest
@@ -288,14 +296,7 @@ describe('ConfiguratorCommonsService', () => {
       expect(isLoading).toBe(false);
     });
     it('should get loading false in case loading attribute is not available in state', () => {
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        () => () =>
-          of(
-            configurationStateWoLoading.configurations.entities[
-              OWNER_PRODUCT.key
-            ]
-          )
-      );
+      vi.spyOn(store, 'pipe').mockReturnValueOnce(of(false));
 
       let isLoading = false;
       serviceUnderTest
@@ -310,9 +311,7 @@ describe('ConfiguratorCommonsService', () => {
   it('should update a configuration, accessing the store', () => {
     cart.code = 'X';
     cartObs = of(cart);
-    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-      () => () => of(productConfiguration)
-    );
+    vi.spyOn(store, 'pipe').mockReturnValueOnce(of(productConfiguration));
     const changedAttribute: Configurator.Attribute = {
       name: ATTRIBUTE_NAME_1,
       groupId: GROUP_ID_1,
@@ -358,9 +357,7 @@ describe('ConfiguratorCommonsService', () => {
     cart.code = undefined;
     cartObs = of(cart);
     isStableObservable = of(false);
-    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-      () => () => of(productConfiguration)
-    );
+    vi.spyOn(store, 'pipe').mockReturnValueOnce(of(productConfiguration));
 
     const changedAttribute: Configurator.Attribute = {
       name: ATTRIBUTE_NAME_1,
@@ -384,9 +381,7 @@ describe('ConfiguratorCommonsService', () => {
   it('should update a configuration in case if no updateType parameter in the call', () => {
     cart.code = 'X';
     cartObs = of(cart);
-    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-      () => () => of(productConfiguration)
-    );
+    vi.spyOn(store, 'pipe').mockReturnValueOnce(of(productConfiguration));
     const changedAttribute: Configurator.Attribute = {
       name: ATTRIBUTE_NAME_1,
       groupId: GROUP_ID_1,
@@ -428,13 +423,12 @@ describe('ConfiguratorCommonsService', () => {
 
     it('should read OV by triggering respective action if that is not present', async () => {
       expect(productConfiguration.overview).toBeUndefined();
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        () => () =>
-          of(
-            productConfigurationLoaderState,
-            productConfigurationLoaderStateLoading,
-            productConfigurationLoaderStateWithOv
-          )
+      vi.spyOn(store, 'pipe').mockReturnValueOnce(
+        of(
+          productConfigurationLoaderState,
+          productConfigurationLoaderStateLoading,
+          productConfigurationLoaderStateWithOv
+        )
       );
 
       await firstValueFrom(
@@ -460,8 +454,8 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should not dispatch an action if overview is already present', async () => {
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        () => () => of(productConfigurationLoaderStateWithOv)
+      vi.spyOn(store, 'pipe').mockReturnValueOnce(
+        of(productConfigurationLoaderStateWithOv)
       );
 
       await firstValueFrom(
@@ -471,8 +465,8 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should return configuration with OV if that is already present in store', async () => {
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        () => () => of(productConfigurationLoaderStateWithOv)
+      vi.spyOn(store, 'pipe').mockReturnValueOnce(
+        of(productConfigurationLoaderStateWithOv)
       );
       const configuration = await firstValueFrom(
         serviceUnderTest.getConfigurationWithOverview(productConfiguration)
@@ -498,7 +492,11 @@ describe('ConfiguratorCommonsService', () => {
         x: productConfiguration,
         y: productConfigurationChanged,
       });
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(() => () => obs);
+      // Apply only the filter operator (select is bypassed but filter must run)
+      vi.spyOn(store, 'pipe').mockImplementationOnce((..._ops: any[]) => {
+        const [, filter] = _ops; // [select, filter]
+        return obs.pipe(filter);
+      });
       const configurationObs = serviceUnderTest.getConfiguration(
         productConfiguration.owner
       );
@@ -515,7 +513,10 @@ describe('ConfiguratorCommonsService', () => {
         x: productConfiguration,
         y: productConfigIncomplete,
       });
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(() => () => obs);
+      vi.spyOn(store, 'pipe').mockImplementationOnce((..._ops: any[]) => {
+        const [, filter] = _ops; // [select, filter]
+        return obs.pipe(filter);
+      });
 
       const configurationObs = serviceUnderTest.getConfiguration(
         productConfiguration.owner
@@ -530,7 +531,7 @@ describe('ConfiguratorCommonsService', () => {
 
   describe('getOrCreateConfiguration', () => {
     it('should return an unchanged observable of product configurations in case configurations exist and carry valid config IDs', () => {
-      const configurationObs = callGetOrCreate(serviceUnderTest, OWNER_PRODUCT);
+      const configurationObs = callGetOrCreate(serviceUnderTest, OWNER_PRODUCT, store);
       expect(configurationObs).toBeObservable(
         cold('x-y', {
           x: productConfiguration,
@@ -566,16 +567,16 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should create a new configuration if not existing yet', () => {
-      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
-        {
-          loading: false,
-        };
-
-      const obs = cold('x', {
-        x: productConfigurationLoaderState,
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
+        loading: false,
+      };
+      const obs = cold('x', { x: productConfigurationLoaderState });
+      // Intercept the pipe call to inject our test observable while still running service operators
+      vi.spyOn(store, 'pipe').mockImplementationOnce((..._ops: any[]) => {
+        // Apply the service's operators (tap, filter, map) to our test observable
+        const [, tap, filter, map] = _ops;
+        return obs.pipe(tap, filter, map);
       });
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(() => () => obs);
-
       const configurationObs =
         serviceUnderTest.getOrCreateConfiguration(OWNER_PRODUCT);
       expect(configurationObs).toBeObservable(cold('', {}));
@@ -588,16 +589,14 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should hand over configuration ID template to action', () => {
-      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
-        {
-          loading: false,
-        };
-
-      const obs = cold('x', {
-        x: productConfigurationLoaderState,
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
+        loading: false,
+      };
+      const obs = cold('x', { x: productConfigurationLoaderState });
+      vi.spyOn(store, 'pipe').mockImplementationOnce((..._ops: any[]) => {
+        const [, tap, filter, map] = _ops;
+        return obs.pipe(tap, filter, map);
       });
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(() => () => obs);
-
       const configurationObs = serviceUnderTest.getOrCreateConfiguration(
         OWNER_PRODUCT,
         CONFIG_ID_TEMPLATE
@@ -612,16 +611,14 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should not create a new configuration if not existing yet but status is loading', () => {
-      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
-        {
-          loading: true,
-        };
-
-      const obs = cold('x', {
-        x: productConfigurationLoaderState,
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
+        loading: true,
+      };
+      const obs = cold('x', { x: productConfigurationLoaderState });
+      vi.spyOn(store, 'pipe').mockImplementationOnce((..._ops: any[]) => {
+        const [, tap, filter, map] = _ops;
+        return obs.pipe(tap, filter, map);
       });
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(() => () => obs);
-
       const configurationObs =
         serviceUnderTest.getOrCreateConfiguration(OWNER_PRODUCT);
       expect(configurationObs).toBeObservable(cold('', {}));
@@ -629,17 +626,15 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should not create a new configuration if existing yet but erroneous', () => {
-      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
-        {
-          loading: false,
-          error: true,
-        };
-
-      const obs = cold('x', {
-        x: productConfigurationLoaderState,
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
+        loading: false,
+        error: true,
+      };
+      const obs = cold('x', { x: productConfigurationLoaderState });
+      vi.spyOn(store, 'pipe').mockImplementationOnce((..._ops: any[]) => {
+        const [, tap, filter, map] = _ops;
+        return obs.pipe(tap, filter, map);
       });
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(() => () => obs);
-
       const configurationObs =
         serviceUnderTest.getOrCreateConfiguration(OWNER_PRODUCT);
       expect(configurationObs).toBeObservable(cold('', {}));
@@ -649,9 +644,7 @@ describe('ConfiguratorCommonsService', () => {
 
   describe('hasConflicts', () => {
     it('should return false in case of no conflicts', async () => {
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        () => () => of(productConfiguration)
-      );
+      vi.spyOn(store, 'pipe').mockReturnValueOnce(of(productConfiguration));
       const hasConflicts = await firstValueFrom(
         serviceUnderTest.hasConflicts(OWNER_PRODUCT)
       );
@@ -659,9 +652,7 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should return true in case of conflicts', async () => {
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        () => () => of(productConfigurationWithConflicts)
-      );
+      vi.spyOn(store, 'pipe').mockReturnValueOnce(of(productConfigurationWithConflicts));
       const hasConflicts = await firstValueFrom(
         serviceUnderTest.hasConflicts(OWNER_PRODUCT)
       );
@@ -720,9 +711,7 @@ describe('ConfiguratorCommonsService', () => {
 
   describe('readAttributeDomain', () => {
     it('should read attribute domain with attribute key', () => {
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        () => () => of(productConfiguration)
-      );
+      vi.spyOn(store, 'pipe').mockReturnValueOnce(of(productConfiguration));
       serviceUnderTest.readAttributeDomain(
         productConfiguration.owner,
         group1,
@@ -737,9 +726,7 @@ describe('ConfiguratorCommonsService', () => {
       );
     });
     it('should read attribute domain with attribute name if key is not available', () => {
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        () => () => of(productConfiguration)
-      );
+      vi.spyOn(store, 'pipe').mockReturnValueOnce(of(productConfiguration));
       serviceUnderTest.readAttributeDomain(
         productConfiguration.owner,
         group1,

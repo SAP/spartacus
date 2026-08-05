@@ -136,7 +136,7 @@ describe('RegistrationVerificationTokenFormComponent', () => {
         add: { imports: [MockTranslatePipe, MockUrlPipe] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

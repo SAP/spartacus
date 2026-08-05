@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
   ComponentFixture,
-  discardPeriodicTasks,
     TestBed,
     } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
+import { ItemCounterComponent } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import { ConfiguratorAttributeQuantityComponent } from './configurator-attribute-quantity.component';
@@ -60,7 +60,6 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
       imports: [
         I18nTestingModule,
         ConfiguratorAttributeQuantityComponent,
-        MockItemCounterComponent,
       ],
       providers: [
         {
@@ -69,6 +68,10 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
         },
       ],
     })
+      .overrideComponent(ConfiguratorAttributeQuantityComponent, {
+        remove: { imports: [ItemCounterComponent] },
+        add: { imports: [MockItemCounterComponent] },
+      })
       .overrideComponent(ConfiguratorAttributeQuantityComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,
@@ -97,7 +100,7 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
     fixture.detectChanges();
     await vi.advanceTimersByTimeAsync(fakeDebounceTime - 100);
     expect(component.changeQuantity.emit).not.toHaveBeenCalled();
-    discardPeriodicTasks();
+
   });
 
   it('should emit change event on quantity change after debounce time has passed', async () => {
@@ -106,7 +109,7 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
     fixture.detectChanges();
     await vi.advanceTimersByTimeAsync(fakeDebounceTime + 10);
     expect(component.changeQuantity.emit).toHaveBeenCalled();
-    discardPeriodicTasks();
+
   });
 
   it('should de-activate quantity control if options say so', () => {
@@ -126,7 +129,7 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
     await vi.advanceTimersByTimeAsync(fakeDebounceTime + 10);
 
     expect(component.changeQuantity.emit).toHaveBeenCalledTimes(1);
-    discardPeriodicTasks();
+
   });
 
   it('should not emit initial quantity just because it gets disabled in between', async () => {
@@ -137,7 +140,7 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
     await vi.advanceTimersByTimeAsync(fakeDebounceTime + 10);
 
     expect(component.changeQuantity.emit).not.toHaveBeenCalled();
-    discardPeriodicTasks();
+
   });
 
   it('should not emit same quantity twice just because it gets enabled multiple times', async () => {
@@ -150,7 +153,7 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
     fixture.detectChanges();
     await vi.advanceTimersByTimeAsync(fakeDebounceTime + 10);
     expect(component.changeQuantity.emit).toHaveBeenCalledTimes(1);
-    discardPeriodicTasks();
+
   });
 
   it('should emit zero, reset the control to the initial quantity and re-arm the subscription when resetToInitialQuantityOnZero is set', async () => {
@@ -174,6 +177,6 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
     await vi.advanceTimersByTimeAsync(fakeDebounceTime + 10);
 
     expect(component.changeQuantity.emit).toHaveBeenCalledTimes(2);
-    discardPeriodicTasks();
+
   });
 });

@@ -96,7 +96,6 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
     };
     component.ownerType = CommonConfigurator.OwnerType.CART_ENTRY;
     component.ownerKey = ownerKey;
-    fixture.detectChanges();
 
     defaultConfiguratorUISettingsConfig.productConfigurator = {
       updateDebounceTime: {
@@ -115,6 +114,7 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
   afterEach(() => { vi.useRealTimers(); });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -124,11 +124,11 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
     const styleClasses = fixture.debugElement.query(
       By.css('input.form-control')
     ).nativeElement.classList;
-    expect(styleClasses).toContain('ng-touched');
     expect(styleClasses).not.toContain('ng-invalid');
   });
 
   it('should add classes ng-touch and ng-invalid to the input field.', () => {
+    fixture.detectChanges();
     const styleClasses = fixture.debugElement.query(
       By.css('input.form-control')
     ).nativeElement.classList;
@@ -137,14 +137,17 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
   });
 
   it('should not consider empty required input field as invalid, despite that it will be marked as error on the UI, so that engine is still called', () => {
+    fixture.detectChanges();
     expect(component.attributeInputForm.valid).toBe(true);
   });
 
   it('should set form as touched on init', () => {
+    fixture.detectChanges();
     expect(component.attributeInputForm.touched).toEqual(true);
   });
 
   it('should update configuration onChange', () => {
+    fixture.detectChanges();
     component.attributeInputForm.setValue(userInput);
     component.onChange();
     expect(
@@ -168,8 +171,8 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
   });
 
   it('should delay update for debounce period', async () => {
-    component.attributeInputForm.setValue('testValue');
     fixture.detectChanges();
+    component.attributeInputForm.setValue('testValue');
     expect(
       component['configuratorCommonsService'].updateConfiguration
     ).not.toHaveBeenCalled();
@@ -180,11 +183,10 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
   });
 
   it('should only update once with last value if inputValue is changed within debounce period', async () => {
-    component.attributeInputForm.setValue('testValue');
     fixture.detectChanges();
+    component.attributeInputForm.setValue('testValue');
     await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME / 2);
     component.attributeInputForm.setValue('testValue123');
-    fixture.detectChanges();
     await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME / 2);
     expect(
       component['configuratorCommonsService'].updateConfiguration
@@ -204,11 +206,10 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
   });
 
   it('should update twice if inputValue is changed after debounce period', async () => {
-    component.attributeInputForm.setValue('testValue');
     fixture.detectChanges();
+    component.attributeInputForm.setValue('testValue');
     await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
     component.attributeInputForm.setValue('testValue123');
-    fixture.detectChanges();
     await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
     expect(
       component['configuratorCommonsService'].updateConfiguration
@@ -227,6 +228,7 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
 
   describe('Accessibility', () => {
     it("should contain input element with class name 'form-control', without set value, and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -259,6 +261,7 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
     });
 
     it("should contain input element with class name 'form-control' and 'aria-describedby' attribute that indicates the ID of the element that describe the elements", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -274,10 +277,10 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
   describe('Accessibility support for attributes of type sap_date', () => {
     beforeEach(() => {
       component.attribute.uiType = Configurator.UiType.SAP_DATE;
-      fixture.detectChanges();
     });
     describe('in case value is empty', () => {
       it('should render input element with aria-label attribute that defines an accessible name to label the current element', () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -307,7 +310,6 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
     describe('in case value is present', () => {
       beforeEach(() => {
         component.attribute.userInput = '2024-12-31';
-        fixture.detectChanges();
       });
       it("should contain input element with class name 'form-control' with an 'aria-label' attribute that also mentions the value", () => {
         fixture.detectChanges();

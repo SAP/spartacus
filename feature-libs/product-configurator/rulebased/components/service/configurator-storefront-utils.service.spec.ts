@@ -177,7 +177,8 @@ describe('ConfiguratorStorefrontUtilsService', () => {
   });
 
   afterEach(() => {
-    if (htmlElem) {
+    vi.restoreAllMocks();
+    if (htmlElem && document.body.contains(htmlElem)) {
       document.body.removeChild(htmlElem);
     }
   });
@@ -695,6 +696,9 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       form.style.display = 'flex';
       form.style.flexDirection = 'column';
 
+      vi.spyOn(form, 'scrollHeight', 'get').mockReturnValue(200);
+      vi.spyOn(form, 'clientHeight', 'get').mockReturnValue(50);
+
       expect(classUnderTest.hasScrollbar('cx-configurator-form')).toBe(true);
     });
   });
@@ -750,6 +754,9 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
       mockedWindow.innerWidth = undefined;
 
+      vi.spyOn(form, 'clientWidth', 'get').mockReturnValue(400);
+      vi.spyOn(form, 'offsetWidth', 'get').mockReturnValue(400);
+
       expect(classUnderTest['isInViewport'](form)).toBe(true);
     });
 
@@ -759,6 +766,11 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       form.style.height = '1000px';
 
       mockedWindow.innerHeight = undefined;
+
+      vi.spyOn(form, 'clientHeight', 'get').mockReturnValue(700);
+      vi.spyOn(form, 'offsetHeight', 'get').mockReturnValue(700);
+      vi.spyOn(form, 'clientWidth', 'get').mockReturnValue(400);
+      vi.spyOn(form, 'offsetWidth', 'get').mockReturnValue(400);
 
       expect(classUnderTest['isInViewport'](form)).toBe(true);
     });
@@ -790,6 +802,8 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
     it('should return offsetHeight of the element because form is not in viewport', () => {
       mockedWindow.innerWidth = 1000;
+
+      vi.spyOn(form, 'offsetHeight', 'get').mockReturnValue(50);
 
       expect(
         classUnderTest['getHeight']('cx-configurator-form')
@@ -834,7 +848,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     });
 
     it('should return zero because nativeWindow is undefined', () => {
-      vi.spyOn(windowRef, 'isBrowser').mockReturnValueOnce(true).mockReturnValueOnce(false);
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValueOnce(true).mockReturnValue(false);
       expect(classUnderTest.getSpareViewportHeight()).toBe(0);
     });
 
@@ -850,7 +864,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       vi.spyOn(addToCart, 'getBoundingClientRect').mockReturnValue(
         new DOMRect(100, 100, 1000, 80)
       );
-      spyOn<any>(classUnderTest, 'getHeight').mockReturnValue(100);
+      vi.spyOn<any>(classUnderTest, 'getHeight').mockReturnValue(100);
 
       expect(classUnderTest.getSpareViewportHeight()).toBeGreaterThan(0);
     });

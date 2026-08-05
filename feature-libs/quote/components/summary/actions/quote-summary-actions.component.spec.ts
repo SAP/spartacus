@@ -973,19 +973,28 @@ describe('QuoteSummaryActionsComponent', () => {
   describe('Floating action buttons', () => {
     describe('mobile device', () => {
       beforeEach(() => {
-        vi.spyOn(quoteStorefrontUtilsService, 'getElement')
-          .withArgs('cx-page-slot.CenterRightContent')
-          .mockReturnValue(slot);
+        vi.spyOn(quoteStorefrontUtilsService, 'getElement').mockImplementation(
+          (selector) => {
+            if (selector === 'cx-page-slot.CenterRightContent') return slot;
+            return null;
+          }
+        );
 
-        vi.spyOn(quoteStorefrontUtilsService, 'getHeight')
-          .withArgs('cx-quote-summary-actions section')
-          .mockReturnValue(250);
+        vi.spyOn(quoteStorefrontUtilsService, 'getHeight').mockImplementation(
+          (selector) => {
+            if (selector === 'cx-quote-summary-actions section') return 250;
+            return 0;
+          }
+        );
       });
 
       it('should adjust bottom property to zero when there is enough spare viewport', () => {
-        vi.spyOn(quoteStorefrontUtilsService, 'getDomRectValue')
-          .withArgs('.BottomHeaderSlot', 'bottom')
-          .mockReturnValue(250);
+        vi.spyOn(quoteStorefrontUtilsService, 'getDomRectValue').mockImplementation(
+          (selector, property) => {
+            if (selector === '.BottomHeaderSlot' && property === 'bottom') return 250;
+            return undefined;
+          }
+        );
 
         vi.spyOn(quoteStorefrontUtilsService, 'getWindowHeight').mockReturnValue(
           800
@@ -1001,9 +1010,12 @@ describe('QuoteSummaryActionsComponent', () => {
       });
 
       it('should adjust bottom property accordingly when there is not enough spare viewport', () => {
-        vi.spyOn(quoteStorefrontUtilsService, 'getDomRectValue')
-          .withArgs('.BottomHeaderSlot', 'bottom')
-          .mockReturnValue(378);
+        vi.spyOn(quoteStorefrontUtilsService, 'getDomRectValue').mockImplementation(
+          (selector, property) => {
+            if (selector === '.BottomHeaderSlot' && property === 'bottom') return 378;
+            return undefined;
+          }
+        );
 
         vi.spyOn(quoteStorefrontUtilsService, 'getWindowHeight').mockReturnValue(
           500

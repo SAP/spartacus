@@ -37,7 +37,7 @@ class MockAuthService {
   }
 }
 class MockRoutingService {
-  go = vi.fn('go');
+  go = vi.fn();
 }
 class MockUserAccountFacade {
   get(): Observable<User> {
@@ -115,13 +115,12 @@ describe('LoginComponent', () => {
       .compileComponents();
 
     authService = TestBed.inject(AuthService);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     component.ngOnInit();
-    fixture.detectChanges();
   });
 
   it('should be created', () => {
@@ -162,7 +161,8 @@ describe('LoginComponent', () => {
     });
 
     it('should display greeting message when the user is logged in', () => {
-      expect(fixture.debugElement.nativeElement.innerText).toContain(
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.textContent?.trim()).toContain(
         expectedGreeting
       );
     });
@@ -172,15 +172,16 @@ describe('LoginComponent', () => {
       component.ngOnInit();
       fixture.detectChanges();
 
-      expect(fixture.debugElement.nativeElement.innerText).toContain(
+      expect(fixture.debugElement.nativeElement.textContent?.trim()).toContain(
         'miniLogin.signInRegister'
       );
     });
 
     it('should contain the dynamic slot: HeaderLinks', () => {
-      vi.spyOn(component, 'onRootNavBtnAdded');
+      const spy = vi.spyOn(component, 'onRootNavBtnAdded').mockImplementation(() => {});
       component.ngOnInit();
       fixture.detectChanges();
+      spy.mockRestore();
       expectedGreeting = 'Testing;';
       const expectedRootNavBtn = fixture.debugElement.query(
         By.css('cx-navigation-ui nav ul li:first-child button')
@@ -200,7 +201,7 @@ describe('LoginComponent', () => {
       component.ngOnInit();
       fixture.detectChanges();
 
-      expect(fixture.debugElement.nativeElement.innerText).toContain(
+      expect(fixture.debugElement.nativeElement.textContent?.trim()).toContain(
         'miniLogin.signInRegister'
       );
     });
@@ -211,7 +212,7 @@ describe('LoginComponent', () => {
       component.ngOnInit();
       fixture.detectChanges();
 
-      expect(fixture.debugElement.nativeElement.innerText).not.toContain(
+      expect(fixture.debugElement.nativeElement.textContent?.trim()).not.toContain(
         'miniLogin.signInRegister'
       );
     });

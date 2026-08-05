@@ -5,9 +5,9 @@
  */
 
 import { Component, Input, NgModule } from '@angular/core';
+import { vi } from 'vitest';
 import { CurrentItemService } from '../current-item.service';
 import { FormService } from './form.service';
-import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-org-form',
@@ -21,7 +21,7 @@ export class MockBudgetFormService {}
 
 class MockCurrentItemService {}
 class MockFormService {
-  getForm = createSpy('getForm');
+  getForm = vi.fn();
 }
 
 @NgModule({

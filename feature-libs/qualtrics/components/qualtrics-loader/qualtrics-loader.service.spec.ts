@@ -77,6 +77,10 @@ describe('QualtricsLoaderService', () => {
     scriptLoader = TestBed.inject(ScriptLoader);
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('should be created', () => {
     expect(service).toBeTruthy();
   });

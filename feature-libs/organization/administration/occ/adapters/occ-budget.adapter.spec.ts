@@ -25,7 +25,7 @@ const budget = {
 };
 
 class MockOccEndpointsService {
-  buildUrl = vi.fn('MockOccEndpointsService.buildUrl').mockImplementation(
+  buildUrl = vi.fn().mockImplementation(
     // eslint-disable-next-line @typescript-eslint/no-shadow
     (url, { urlParams: { budgetCode } }) =>
       url === 'budget' ? url + budgetCode : url

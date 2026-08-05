@@ -16,15 +16,15 @@ const mockUserDetails: User = {
 };
 
 class MockUserAccountFacade implements Partial<UserAccountFacade> {
-  get = vi.fn('get').mockReturnValue(of(mockUserDetails));
+  get = vi.fn().mockReturnValue(of(mockUserDetails));
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go = vi.fn('go');
+  go = vi.fn();
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = vi.fn('add');
+  add = vi.fn();
 }
 
 describe('ApproverGuard', () => {

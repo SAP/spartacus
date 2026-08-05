@@ -175,7 +175,7 @@ describe('SubscriptionListComponent', () => {
     expect(facade.getSubscriptionList).toHaveBeenCalledWith(
       expect.anything(),
       2,
-      expect.anything()
+      undefined
     );
   });
 });

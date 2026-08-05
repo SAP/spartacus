@@ -88,18 +88,18 @@ describe('OrderDetailPermissionResultsComponent', () => {
       expect(
         element.query(
           By.css(`tr:nth-of-type(${i + 1}) td.cx-approval-approverName`)
-        ).nativeElement.innerText
+        ).nativeElement.textContent?.trim()
       ).toContain(mockOrder.permissionResults[i].approverName);
       expect(
         element.query(
           By.css(`tr:nth-of-type(${i + 1}) td.cx-approval-statusDisplay`)
-        ).nativeElement.innerText
+        ).nativeElement.textContent?.trim()
       ).toContain(mockOrder.permissionResults[i].statusDisplay);
 
       expect(
         element.query(
           By.css(`tr:nth-of-type(${i + 1}) td.cx-approval-approvalNotes`)
-        ).nativeElement.innerText
+        ).nativeElement.textContent?.trim()
       ).toContain(
         mockOrder.permissionResults[i].approverNotes ||
           'orderApprovalDetails.permissionResults.noApprovalComments'

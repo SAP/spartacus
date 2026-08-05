@@ -97,17 +97,22 @@ describe('MyAccountV2ProfileComponent', () => {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2ProfileComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    component.onEdit();
     service = TestBed.inject(UpdateProfileComponentService);
-
-    fixture.detectChanges();
+    fixture.detectChanges(); // trigger ngOnInit first
+    component.onEdit();
   });
+
+  // Helper to run CD without triggering checkNoChanges (avoids NG0100 from
+  // async pipes re-subscribing to synchronously-emitting observables)
+  function detectChanges() {
+    fixture.componentRef.changeDetectorRef.detectChanges();
+  }
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -117,7 +122,7 @@ describe('MyAccountV2ProfileComponent', () => {
     it('should disable the submit button when form is disabled', () => {
       component.form.disable();
       component.onEdit();
-      fixture.detectChanges();
+      detectChanges();
       const submitBtn: HTMLButtonElement = el.query(
         By.css('.btn-primary')
       ).nativeElement;
@@ -126,7 +131,7 @@ describe('MyAccountV2ProfileComponent', () => {
 
     it('should show the spinner', () => {
       isBusySubject.next(true);
-      fixture.detectChanges();
+      detectChanges();
       expect(el.query(By.css('cx-spinner'))).toBeTruthy();
     });
   });
@@ -135,14 +140,14 @@ describe('MyAccountV2ProfileComponent', () => {
     it('should enable the submit button', () => {
       component.form.enable();
       component.onEdit();
-      fixture.detectChanges();
+      detectChanges();
       const submitBtn = el.query(By.css('.btn-primary'));
       expect(submitBtn.nativeElement.disabled).toBeFalsy();
     });
 
     it('should not show the spinner', () => {
       isBusySubject.next(false);
-      fixture.detectChanges();
+      detectChanges();
       expect(el.query(By.css('cx-spinner'))).toBeNull();
     });
   });
@@ -150,7 +155,7 @@ describe('MyAccountV2ProfileComponent', () => {
   describe('idle - display', () => {
     it('should hide the submit button', () => {
       component.ngOnInit();
-      fixture.detectChanges();
+      detectChanges();
       expect(el.query(By.css('form'))).toBeNull();
     });
   });
@@ -158,7 +163,7 @@ describe('MyAccountV2ProfileComponent', () => {
   describe('Form Interactions', () => {
     it('should call onSubmit() method on submit', () => {
       component.onEdit();
-      fixture.detectChanges();
+      detectChanges();
       const request = vi.spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
       form.triggerEventHandler('submit', null);
@@ -172,8 +177,9 @@ describe('MyAccountV2ProfileComponent', () => {
 
     it('when cancel is called. submit button is not visible', () => {
       component.form.enable();
-      fixture.detectChanges();
+      detectChanges();
       component.cancelEdit();
+      detectChanges();
       const submitBtn = el.query(By.css('button.btn-primary'));
       expect(submitBtn).toBeNull();
     });
@@ -190,7 +196,7 @@ describe('MyAccountV2ProfileComponent', () => {
       beforeEach(() => {
         toggleController.set('a11yFormFieldSectionLegend', true);
         component.onEdit();
-        fixture.detectChanges();
+        detectChanges();
       });
 
       it('should render a fieldset with a visible legend', () => {
@@ -206,7 +212,7 @@ describe('MyAccountV2ProfileComponent', () => {
       beforeEach(() => {
         toggleController.set('a11yFormFieldSectionLegend', false);
         component.onEdit();
-        fixture.detectChanges();
+        detectChanges();
       });
 
       it('should render a fieldset', () => {

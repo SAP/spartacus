@@ -260,11 +260,10 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
       groupId: 'testGroup',
       values: values,
     };
-
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -456,7 +455,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   });
 
   it('should call onHandleAttributeQuantity of event onChangeAttributeQuantity', () => {
-    spyOn<any>(component, 'onHandleAttributeQuantity');
+    vi.spyOn<any>(component, 'onHandleAttributeQuantity');
     component.onChangeAttributeQuantity(2);
     expect(component['onHandleAttributeQuantity']).toHaveBeenCalled();
   });

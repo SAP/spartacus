@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
@@ -153,6 +152,10 @@ describe('ConfiguratorCartService', () => {
     };
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('should create service', () => {
     expect(serviceUnderTest).toBeDefined();
   });
@@ -164,9 +167,7 @@ describe('ConfiguratorCartService', () => {
           value: productConfiguration,
         };
 
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        () => () => of(productConfigurationLoaderState)
-      );
+      vi.spyOn(store, 'pipe').mockReturnValueOnce(of(productConfigurationLoaderState));
       vi.spyOn(store, 'dispatch');
 
       serviceUnderTest
@@ -201,9 +202,10 @@ describe('ConfiguratorCartService', () => {
           },
         };
 
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        () => () => of(productConfigurationLoaderState)
-      );
+      vi.spyOn(store, 'pipe').mockImplementationOnce((..._ops: any[]) => {
+        // Apply all operators except select (index 0)
+        return of(productConfigurationLoaderState).pipe(..._ops.slice(1));
+      });
       vi.spyOn(store, 'dispatch');
 
       serviceUnderTest
@@ -235,9 +237,9 @@ describe('ConfiguratorCartService', () => {
           },
         };
 
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        () => () => of(productConfigurationLoaderState)
-      );
+      vi.spyOn(store, 'pipe').mockImplementationOnce((..._ops: any[]) => {
+        return of(productConfigurationLoaderState).pipe(..._ops.slice(1));
+      });
 
       expect(
         serviceUnderTest.readConfigurationForCartEntry(OWNER_CART_ENTRY)
@@ -263,9 +265,9 @@ describe('ConfiguratorCartService', () => {
           },
         };
 
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        () => () => of(productConfigurationLoaderState)
-      );
+      vi.spyOn(store, 'pipe').mockImplementationOnce((..._ops: any[]) => {
+        return of(productConfigurationLoaderState).pipe(..._ops.slice(1));
+      });
 
       expect(
         serviceUnderTest.readConfigurationForCartEntry(OWNER_CART_ENTRY)
@@ -280,9 +282,7 @@ describe('ConfiguratorCartService', () => {
           value: productConfiguration,
         };
 
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        () => () => of(productConfigurationLoaderState)
-      );
+      vi.spyOn(store, 'pipe').mockReturnValueOnce(of(productConfigurationLoaderState));
       vi.spyOn(store, 'dispatch');
 
       serviceUnderTest
@@ -311,9 +311,9 @@ describe('ConfiguratorCartService', () => {
           },
         };
 
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        () => () => of(productConfigurationLoaderState)
-      );
+      vi.spyOn(store, 'pipe').mockImplementationOnce((..._ops: any[]) => {
+        return of(productConfigurationLoaderState).pipe(..._ops.slice(1));
+      });
       vi.spyOn(store, 'dispatch');
       serviceUnderTest
         .readConfigurationForOrderEntry(OWNER_ORDER_ENTRY)
@@ -377,7 +377,7 @@ describe('ConfiguratorCartService', () => {
 
       vi.spyOn(store, 'dispatch');
       const obs = cold('|');
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(() => () => obs);
+      vi.spyOn(store, 'pipe').mockReturnValueOnce(obs);
       serviceUnderTest.updateCartEntry(productConfiguration);
 
       expect(store.dispatch).toHaveBeenCalledWith(

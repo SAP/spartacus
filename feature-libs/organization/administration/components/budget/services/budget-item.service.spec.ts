@@ -40,7 +40,7 @@ class MockBudgetService {
 class MockBudgetFormService {}
 class MockCurrentBudgetService {
   key$ = of(mockCode);
-  load = vi.fn('load').mockReturnValue(EMPTY);
+  load = vi.fn().mockReturnValue(EMPTY);
   error$ = of(false);
 }
 

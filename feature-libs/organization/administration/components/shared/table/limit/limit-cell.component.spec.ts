@@ -45,6 +45,6 @@ describe('LimitCellComponent', () => {
     const el: HTMLElement = fixture.debugElement.query(
       By.css('span.text')
     ).nativeNode;
-    expect(el.innerText).toEqual('10000 $ orgPurchaseLimit.per.QUARTER');
+    expect(el.textContent?.trim()).toEqual('10000 $ orgPurchaseLimit.per.QUARTER');
   });
 });
