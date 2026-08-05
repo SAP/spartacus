@@ -12,7 +12,7 @@ import { AtMessageModule } from './assistive-technology-message.module';
 @Component({
   template: `
     <button class="cancel-btn" [cxAtMessage]="'common.cancel' | cxTranslate">
-      Action
+      <span class="cancel-label">Action</span>
     </button>
     <button
       class="results-btn"
@@ -36,9 +36,9 @@ class MockComponent {}
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = vi.fn().mockImplementation(() => {});
+  remove = vi.fn().mockImplementation(() => {});
   get = vi.fn().mockReturnValue(of([GlobalMessageType.MSG_TYPE_ASSISTIVE]));
 }
-
 describe('AtMessageDirective', () => {
   let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
@@ -102,6 +102,37 @@ describe('AtMessageDirective', () => {
     getConfirmationButton().nativeElement.click();
     expect(globalMessageService.add).toHaveBeenCalledWith(
       expectedMessage,
+      GlobalMessageType.MSG_TYPE_ASSISTIVE
+    );
+  });
+
+  it('should add assistive global message when clicking a child element of the host', () => {
+    fixture.detectChanges();
+    const childSpan =
+      getCancelButton().nativeElement.querySelector('.cancel-label');
+    childSpan.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      'common.cancel',
+      GlobalMessageType.MSG_TYPE_ASSISTIVE
+    );
+  });
+
+  it('should remove existing assistive message before adding the new one', () => {
+    const mockServiceWithExisting = TestBed.inject(GlobalMessageService) as any;
+    mockServiceWithExisting.get.and.returnValue(
+      of({
+        [GlobalMessageType.MSG_TYPE_ASSISTIVE]: [{ raw: 'old message' }],
+      })
+    );
+
+    fixture.detectChanges();
+    getCancelButton().nativeElement.click();
+
+    expect(mockServiceWithExisting.remove).toHaveBeenCalledWith(
+      GlobalMessageType.MSG_TYPE_ASSISTIVE
+    );
+    expect(mockServiceWithExisting.add).toHaveBeenCalledWith(
+      'common.cancel',
       GlobalMessageType.MSG_TYPE_ASSISTIVE
     );
   });

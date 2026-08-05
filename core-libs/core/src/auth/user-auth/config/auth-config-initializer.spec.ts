@@ -12,7 +12,7 @@ const mockAuthConfig = {
   authentication: {
     client_id: mockClientId,
     OAuthLibConfig: {
-      redirectUri: undefined,
+      redirectUri: undefined as string | undefined,
     },
     initializerOptions: {
       baseSiteSuffix: false as NonNullable<
@@ -58,7 +58,7 @@ class MockWindowRef implements Partial<WindowRef> {
 
 describe('AuthConfigInitializer', () => {
   let service: AuthConfigInitializer;
-  let authConfig: AuthConfig;
+  let authConfig: typeof mockAuthConfig;
   let siteContextParamsService: SiteContextParamsService;
   let baseSiteService: BaseSiteService;
   let configInitializerService: ConfigInitializerService;
@@ -66,7 +66,7 @@ describe('AuthConfigInitializer', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: AuthConfig, useValue: mockAuthConfig },
+        { provide: AuthConfig, useValue: structuredClone(mockAuthConfig) },
         {
           provide: SiteContextParamsService,
           useClass: MockSiteContextParamsService,
@@ -80,7 +80,7 @@ describe('AuthConfigInitializer', () => {
       ],
     });
 
-    authConfig = TestBed.inject(AuthConfig);
+    authConfig = TestBed.inject(AuthConfig) as typeof mockAuthConfig;
     configInitializerService = TestBed.inject(ConfigInitializerService);
     spyOn(configInitializerService, 'getStable').and.returnValue(
       of(authConfig)
@@ -98,29 +98,54 @@ describe('AuthConfigInitializer', () => {
   describe('configFactory()', () => {
     describe('when addBaseSiteToRedirectUri is false', () => {
       beforeEach(() => {
-        mockAuthConfig.authentication.initializerOptions.addBaseSiteToRedirectUri =
+        authConfig.authentication.initializerOptions.addBaseSiteToRedirectUri =
           false;
       });
 
-      it('should not initialize the auth config', async () => {
-        const expected: AuthConfig = {
-          authentication: {
-            client_id: mockClientId,
-            OAuthLibConfig: {
-              redirectUri: undefined,
+      describe('when redirectUri is undefined', () => {
+        it('should initialize the auth config redirectUri to the default', async () => {
+          const expected: AuthConfig = {
+            authentication: {
+              client_id: mockClientId,
+              OAuthLibConfig: {
+                redirectUri: mockOrigin,
+              },
             },
-          },
-        };
+          };
 
-        const config = await service.configFactory();
+          const config = await service.configFactory();
 
-        expect(config).toEqual(expected);
+          expect(config).toEqual(expected);
+        });
+      });
+
+      describe('when a redirectUri is defined', () => {
+        const definedRedirectUri = 'https://example.com';
+        beforeEach(() => {
+          authConfig.authentication.OAuthLibConfig.redirectUri =
+            definedRedirectUri;
+        });
+
+        it('should initialize the auth config to the existing redirectUri', async () => {
+          const expected: AuthConfig = {
+            authentication: {
+              client_id: mockClientId,
+              OAuthLibConfig: {
+                redirectUri: definedRedirectUri,
+              },
+            },
+          };
+
+          const config = await service.configFactory();
+
+          expect(config).toEqual(expected);
+        });
       });
     });
 
     describe('when addBaseSiteToRedirectUri is true', () => {
       beforeEach(() => {
-        mockAuthConfig.authentication.initializerOptions.addBaseSiteToRedirectUri =
+        authConfig.authentication.initializerOptions.addBaseSiteToRedirectUri =
           true;
       });
 
@@ -148,7 +173,7 @@ describe('AuthConfigInitializer', () => {
 
     describe('when addBaseSiteToRedirectUri is auto', () => {
       beforeEach(() => {
-        mockAuthConfig.authentication.initializerOptions.addBaseSiteToRedirectUri =
+        authConfig.authentication.initializerOptions.addBaseSiteToRedirectUri =
           'auto';
       });
       it('should initialize the redirect URI when baseSite is in the URL context parameters', async () => {
@@ -167,15 +192,15 @@ describe('AuthConfigInitializer', () => {
 
     describe('when baseSiteSuffix is false', () => {
       beforeEach(() => {
-        mockAuthConfig.authentication.initializerOptions.baseSiteSuffix = false;
+        authConfig.authentication.initializerOptions.baseSiteSuffix = false;
       });
 
-      it('should not initialize the auth config', async () => {
+      it('should not change client ID', async () => {
         const expected: AuthConfig = {
           authentication: {
             client_id: mockClientId,
             OAuthLibConfig: {
-              redirectUri: undefined,
+              redirectUri: mockOrigin,
             },
           },
         };
@@ -188,7 +213,7 @@ describe('AuthConfigInitializer', () => {
 
     describe('when baseSiteSuffix is true', () => {
       beforeEach(() => {
-        mockAuthConfig.authentication.initializerOptions.baseSiteSuffix = true;
+        authConfig.authentication.initializerOptions.baseSiteSuffix = true;
       });
 
       it('should suffix the client ID with the base site', async () => {
@@ -202,8 +227,7 @@ describe('AuthConfigInitializer', () => {
 
     describe('when baseSiteSuffix is auto', () => {
       beforeEach(() => {
-        mockAuthConfig.authentication.initializerOptions.baseSiteSuffix =
-          'auto';
+        authConfig.authentication.initializerOptions.baseSiteSuffix = 'auto';
       });
       it('should suffix the client ID with the base site when baseSite is in the URL context parameters', async () => {
         spyOn(
@@ -214,6 +238,44 @@ describe('AuthConfigInitializer', () => {
         const config = await service.configFactory();
 
         expect(config.authentication?.client_id).toEqual(expected);
+      });
+    });
+
+    describe('initialization race conditions', () => {
+      let expected: Config;
+      beforeEach(() => {
+        authConfig.authentication.initializerOptions.baseSiteSuffix = true;
+        authConfig.authentication.initializerOptions.addBaseSiteToRedirectUri =
+          true;
+
+        expected = <Config>{
+          authentication: {
+            client_id: `${mockClientId}_${mockActiveBaseSite}`,
+            OAuthLibConfig: {
+              redirectUri: `http://localhost:4200/${mockActiveBaseSite}`,
+            },
+          },
+        };
+      });
+
+      it('should handle slow baseSite request', async () => {
+        spyOn(baseSiteService, 'getActive').and.returnValue(
+          of(mockActiveBaseSite).pipe(delay(10))
+        );
+
+        const config = await service.configFactory();
+
+        expect(config).toEqual(expected);
+      });
+
+      it('should handle slow config request', async () => {
+        (configInitializerService.getStable as jasmine.Spy).and.returnValue(
+          of(authConfig).pipe(delay(10))
+        );
+
+        const config = await service.configFactory();
+
+        expect(config).toEqual(expected);
       });
     });
   });

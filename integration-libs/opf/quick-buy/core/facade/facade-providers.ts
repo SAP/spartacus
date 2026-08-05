@@ -5,7 +5,11 @@
  */
 
 import { Provider } from '@angular/core';
-import { OpfQuickBuyFacade } from '@spartacus/opf/quick-buy/root';
+import {
+  OpfQuickBuyFacade,
+  OpfQuickBuySingleProductCartOptionsFacade,
+} from '@spartacus/opf/quick-buy/root';
+import { OpfQuickBuyDefaultSingleProductService } from './opf-quick-buy-default-single-product.service';
 import { OpfQuickBuyService } from './opf-quick-buy.service';
 
 export const facadeProviders: Provider[] = [
@@ -13,5 +17,10 @@ export const facadeProviders: Provider[] = [
   {
     provide: OpfQuickBuyFacade,
     useExisting: OpfQuickBuyService,
+  },
+  OpfQuickBuyDefaultSingleProductService,
+  {
+    provide: OpfQuickBuySingleProductCartOptionsFacade,
+    useExisting: OpfQuickBuyDefaultSingleProductService,
   },
 ];

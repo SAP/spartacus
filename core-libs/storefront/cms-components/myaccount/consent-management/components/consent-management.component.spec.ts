@@ -17,6 +17,8 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   MockTranslatePipe,
+  PageMeta,
+  PageMetaService,
   Translatable,
   TranslatePipe,
   UserConsentService,
@@ -26,6 +28,10 @@ import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.
 import { ConsentManagementFormComponent } from './consent-form/consent-management-form.component';
 import { ConsentManagementComponentService } from '../consent-management-component.service';
 import { ConsentManagementComponent } from './consent-management.component';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 @Component({
   selector: 'cx-spinner',
@@ -107,6 +113,14 @@ class AuthServiceMock {
   }
 }
 
+const mockPageMeta: PageMeta = {
+  title: 'Privacy & Cookie Policy',
+  heading: 'Privacy & Cookie Policy',
+};
+class MockPageMetaService implements Partial<PageMetaService> {
+  getMeta = () => of(mockPageMeta);
+}
+
 const mockConsentTemplate: ConsentTemplate = {
   id: 'mock ID',
   version: 0,
@@ -148,6 +162,8 @@ describe('ConsentManagementComponent', () => {
           provide: AnonymousConsentsConfig,
           useValue: mockAnonymousConsentsConfig,
         },
+        { provide: PageMetaService, useClass: MockPageMetaService },
+        ...provideMockFeatureToggles({ a11yFormFieldSectionLegend: true }),
       ],
     })
       .overrideComponent(ConsentManagementComponent, {
@@ -879,6 +895,49 @@ describe('ConsentManagementComponent', () => {
             ).length
           ).toEqual(3);
         });
+      });
+    });
+  });
+
+  describe('Accessibility', () => {
+    let toggleController: MockFeatureTogglesController;
+
+    beforeEach(() => {
+      toggleController = TestBed.inject(MockFeatureTogglesController);
+    });
+
+    describe('when a11yFormFieldSectionLegend is enabled', () => {
+      beforeEach(() => {
+        toggleController.set('a11yFormFieldSectionLegend', true);
+        spyOn(userService, 'getConsents').and.returnValue(
+          of([mockConsentTemplate])
+        );
+        component.ngOnInit();
+        fixture.detectChanges();
+      });
+
+      it('should render a fieldset with a visually-hidden legend from page title', () => {
+        const legend = el.query(By.css('fieldset > legend'));
+        expect(legend).toBeTruthy();
+        expect(legend.nativeElement.textContent.trim()).toBe(
+          mockPageMeta.heading
+        );
+      });
+    });
+
+    describe('when a11yFormFieldSectionLegend is disabled', () => {
+      beforeEach(() => {
+        toggleController.set('a11yFormFieldSectionLegend', false);
+        spyOn(userService, 'getConsents').and.returnValue(
+          of([mockConsentTemplate])
+        );
+        component.ngOnInit();
+        fixture.detectChanges();
+      });
+
+      it('should render a fieldset without a legend', () => {
+        expect(el.query(By.css('fieldset'))).toBeTruthy();
+        expect(el.query(By.css('fieldset > legend'))).toBeNull();
       });
     });
   });

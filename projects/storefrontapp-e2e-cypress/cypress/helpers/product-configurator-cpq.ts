@@ -282,8 +282,6 @@ export function clickOnGroup(groupIndex: number): void {
       configuration.clickOnGroupByGroupIndex(0);
     }
   });
-
-  cy.wait('@readConfig');
 }
 
 /**

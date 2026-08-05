@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { Converter, TranslationService } from '@spartacus/core';
+import { inject, Injectable } from '@angular/core';
+import { Converter, LoggerService, TranslationService } from '@spartacus/core';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { take } from 'rxjs/operators';
 import { Cpq } from '../cpq.models';
@@ -18,6 +18,7 @@ export class CpqConfiguratorOverviewNormalizer
   implements Converter<Cpq.Configuration, Configurator.Overview>
 {
   protected readonly NO_OPTION_SELECTED = 0;
+  protected logger: LoggerService = inject(LoggerService);
 
   constructor(
     protected cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService,
@@ -102,10 +103,9 @@ export class CpqConfiguratorOverviewNormalizer
             ovValues.push(this.extractValueUserInput(attr, currency));
           }
         } else {
-          ovValues.push({
-            attribute: INITIAL_OV_VALUE_ATTRIBUTE_NAME,
-            value: 'NOT_IMPLEMENTED',
-          });
+          this.logger.warn(
+            `Attribute '${attr.name}' (pA_ID=${(<any>attr).PA_ID}) is not supported and hence hidden from overview.`
+          );
         }
         break;
       case Cpq.DisplayAs.RADIO_BUTTON:
@@ -125,10 +125,9 @@ export class CpqConfiguratorOverviewNormalizer
           });
         break;
       default:
-        ovValues.push({
-          attribute: INITIAL_OV_VALUE_ATTRIBUTE_NAME,
-          value: 'NOT_IMPLEMENTED',
-        });
+        this.logger.warn(
+          `Attribute '${attr.name}' (pA_ID=${(<any>attr).PA_ID}) is not supported and hence hidden from overview.`
+        );
     }
     return ovValues;
   }

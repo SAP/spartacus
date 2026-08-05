@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
   CxDatePipe,
   EventService,
+  FeatureDirective,
   RoutingService,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
@@ -28,7 +30,16 @@ import { filter, map, take, tap } from 'rxjs/operators';
   selector: 'cx-customer-ticketing-details',
   templateUrl: './customer-ticketing-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, CardComponent, SpinnerComponent, AsyncPipe, CxDatePipe],
+  imports: [
+    NgIf,
+    NgTemplateOutlet,
+    CardComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    CxDatePipe,
+    FeatureDirective,
+    TranslatePipe,
+  ],
 })
 export class CustomerTicketingDetailsComponent implements OnDestroy {
   dateFormat = DATE_FORMAT;

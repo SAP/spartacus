@@ -43,6 +43,9 @@
     "requestClosed": "Request closed, you may reopen if needed.",
     "reopenRequest": "Reopen Request",
     "closeRequest": "Close Request",
-    "ticketNotFound": "Ticket not found."
+    "ticketNotFound": "Ticket not found.",
+    "a11y": {
+      "ticketDetailsRegion": "Ticket details"
+    }
   }
 }

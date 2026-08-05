@@ -56,7 +56,7 @@ function registerUser(): SampleUser {
   cy.whenJDK21(() => {
     cy.getLoginRegisterLink({ clickAndWait: true });
   });
-  checkout.loginUser(user);
+  checkout.loginUser(user, true);
   return user;
 }
 

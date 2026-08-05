@@ -439,17 +439,22 @@ export class ApplePayService {
           JSON.stringify(applePayPayment.token.paymentData)
         );
 
-        return this.opfPaymentFacade.submitPayment({
-          additionalData: [],
-          paymentSessionId: '',
-          callbacks: {
-            onSuccess: () => {},
-            onPending: () => {},
-            onFailure: () => {},
-          },
-          paymentMethod: OpfQuickBuyProviderType.APPLE_PAY as any,
-          encryptedToken,
-        });
+        return this.opfQuickBuyTransactionService.getCurrentCartId().pipe(
+          switchMap((cartId) =>
+            this.opfPaymentFacade.submitPayment({
+              additionalData: [],
+              paymentSessionId: '',
+              callbacks: {
+                onSuccess: () => {},
+                onPending: () => {},
+                onFailure: () => {},
+              },
+              paymentMethod: OpfQuickBuyProviderType.APPLE_PAY as any,
+              encryptedToken,
+              cartId,
+            })
+          )
+        );
       })
     );
   }
