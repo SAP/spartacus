@@ -18,9 +18,6 @@ import { UserAccountFacade } from '../facade/user-account.facade';
 import { UserLoginCurrencyPersistenceService } from './user-login-currency-persistence.service';
 
 type UserWithCurrency = { currency?: { isocode?: string } };
-
-export const PRE_LOGIN_CURRENCY_STORAGE_KEY = 'spartacus⚿⚿pre-login-currency';
-
 @Injectable({
   providedIn: 'root',
 })

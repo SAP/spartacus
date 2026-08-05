@@ -6,7 +6,8 @@
 
 import { Injectable, inject } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { PRE_LOGIN_CURRENCY_STORAGE_KEY } from './user-login-currency.service';
+
+export const PRE_LOGIN_CURRENCY_STORAGE_KEY = 'spartacus⚿⚿pre-login-currency';
 
 @Injectable({
   providedIn: 'root',
