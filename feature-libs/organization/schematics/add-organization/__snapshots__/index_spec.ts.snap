@@ -456,7 +456,7 @@ exports[`Spartacus Organization schematics: ng-add B2B unit selection feature ea
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { B2bUnitSelectionModule } from "@spartacus/organization/b2b-unit-selection";
-import { b2bUnitSelectionTranslationChunksConfig, b2bUnitSelectionTranslationsEnEn } from "@spartacus/organization/b2b-unit-selection/assets";
+import { b2bUnitSelectionTranslationChunksConfig, b2bUnitSelectionTranslationsEn } from "@spartacus/organization/b2b-unit-selection/assets";
 import { B2bUnitSelectionRootModule } from "@spartacus/organization/b2b-unit-selection/root";
 
 @NgModule({
@@ -467,7 +467,7 @@ import { B2bUnitSelectionRootModule } from "@spartacus/organization/b2b-unit-sel
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: { en: b2bUnitSelectionTranslationsEnEn },
+      resources: { en: b2bUnitSelectionTranslationsEn },
       chunks: b2bUnitSelectionTranslationChunksConfig,
     },
   })]
@@ -503,7 +503,7 @@ import { defaultCmsContentProviders, layoutConfigFactory, mediaConfig } from "@s
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '221121.15'
+      level: '221121.17'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -514,7 +514,7 @@ export class SpartacusConfigurationModule { }
 exports[`Spartacus Organization schematics: ng-add B2B unit selection feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { b2bUnitSelectionTranslationChunksConfig, b2bUnitSelectionTranslationsEnEn } from "@spartacus/organization/b2b-unit-selection/assets";
+import { b2bUnitSelectionTranslationChunksConfig, b2bUnitSelectionTranslationsEn } from "@spartacus/organization/b2b-unit-selection/assets";
 import { B2bUnitSelectionRootModule, ORGANIZATION_B2B_UNIT_SELECTION_FEATURE } from "@spartacus/organization/b2b-unit-selection/root";
 
 @NgModule({
@@ -532,7 +532,7 @@ import { B2bUnitSelectionRootModule, ORGANIZATION_B2B_UNIT_SELECTION_FEATURE } f
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: { en: b2bUnitSelectionTranslationsEnEn },
+      resources: { en: b2bUnitSelectionTranslationsEn },
       chunks: b2bUnitSelectionTranslationChunksConfig,
     },
   })

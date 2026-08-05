@@ -290,7 +290,7 @@ export const B2B_UNIT_SELECTION_MODULE = 'B2bUnitSelectionModule';
 export const B2B_UNIT_SELECTION_ROOT_MODULE = 'B2bUnitSelectionRootModule';
 export const ORGANIZATION_B2B_UNIT_SELECTION_FEATURE_NAME_CONSTANT =
   'ORGANIZATION_B2B_UNIT_SELECTION_FEATURE';
-export const B2B_UNIT_SELECTION_TRANSLATIONS = 'b2bUnitSelectionTranslationsEn';
+export const B2B_UNIT_SELECTION_TRANSLATIONS = 'b2bUnitSelectionTranslations';
 export const B2B_UNIT_SELECTION_TRANSLATION_CHUNKS_CONFIG =
   'b2bUnitSelectionTranslationChunksConfig';
 
