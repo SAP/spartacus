@@ -58,7 +58,7 @@ export class UserLoginCurrencyService implements OnDestroy {
         )
         .subscribe((user) => {
           this.currencyService.setActive(
-            (user as UserWithCurrency).currency!.isocode!
+            (user as UserWithCurrency).currency?.isocode as string
           );
         })
     );
