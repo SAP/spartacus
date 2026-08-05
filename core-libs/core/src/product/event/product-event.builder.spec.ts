@@ -72,7 +72,7 @@ describe('ProductEventModule', () => {
       getResultsBehavior.next(prevSearchResults);
       getResultsBehavior.next(currSearchResults);
       expect(result).toEqual(
-        jasmine.objectContaining({
+        expect.objectContaining({
           code: 'otherFacet',
           name: 'otherFacetName',
           valueCode: 'otherFacetValue',
@@ -95,7 +95,7 @@ describe('ProductEventModule', () => {
       getResultsBehavior.next(prevSearchResults);
       getResultsBehavior.next(currSearchResults);
       expect(result).toEqual(
-        jasmine.objectContaining({
+        expect.objectContaining({
           code: 'otherFacet',
           name: 'otherFacetName',
           valueCode: 'otherFacetValue',

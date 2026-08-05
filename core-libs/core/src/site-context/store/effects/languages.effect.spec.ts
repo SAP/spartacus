@@ -1,9 +1,9 @@
+import { vi } from 'vitest';
 import { PLATFORM_ID } from '@angular/core';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store } from '@ngrx/store';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { ConfigModule } from '../../../config/config.module';
 import { Language } from '../../../model/misc.model';
@@ -16,6 +16,7 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
+import { provideMockFeatureToggles } from '../../../../src/features-config/feature-toggles/testing';
 
 describe('Languages Effects', () => {
   let actions$: Subject<SiteContextActions.LanguagesAction>;
@@ -53,7 +54,7 @@ describe('Languages Effects', () => {
     connector = TestBed.inject(SiteConnector);
     effects = TestBed.inject(fromEffects.LanguagesEffects);
 
-    spyOn(connector, 'getLanguages').and.returnValue(of(languages));
+    vi.spyOn(connector, 'getLanguages').mockReturnValue(of(languages));
   }
 
   describe('loadLanguages$', () => {
@@ -103,7 +104,7 @@ describe('Languages Effects', () => {
       beforeEach(() => configureTestBed(false));
 
       it('should NOT reload the page when language changes', () => {
-        spyOn(effects, 'reloadPage' as any);
+        vi.spyOn(effects as any, 'reloadPage');
         effects.reloadPageOnLanguageChange$.subscribe();
         actions$.next(
           new SiteContextActions.LanguageChange({
@@ -120,7 +121,7 @@ describe('Languages Effects', () => {
         beforeEach(() => configureTestBed(true, 'browser'));
 
         it('should reload the page when language changes', () => {
-          spyOn(effects, 'reloadPage' as any);
+          vi.spyOn(effects as any, 'reloadPage');
           effects.reloadPageOnLanguageChange$.subscribe();
           actions$.next(
             new SiteContextActions.LanguageChange({
@@ -136,7 +137,7 @@ describe('Languages Effects', () => {
         beforeEach(() => configureTestBed(true, 'server'));
 
         it('should NOT reload the page', () => {
-          spyOn(effects, 'reloadPage' as any);
+          vi.spyOn(effects as any, 'reloadPage');
           effects.reloadPageOnLanguageChange$.subscribe();
           actions$.next(
             new SiteContextActions.LanguageChange({

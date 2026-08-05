@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { Router, RouterEvent } from '@angular/router';
 import { Observable, of, ReplaySubject } from 'rxjs';
@@ -126,7 +127,7 @@ describe('BasePageMetaResolver', () => {
   it('should breadcrumbs for Angular child routes', () => {
     let result: BreadcrumbMeta[] | undefined;
 
-    spyOn(routingPageMetaResolver, 'resolveBreadcrumbs').and.returnValue(
+    vi.spyOn(routingPageMetaResolver, 'resolveBreadcrumbs').mockReturnValue(
       of([{ label: 'child route breadcrumb', link: '/child' }])
     );
     service
@@ -157,7 +158,7 @@ describe('BasePageMetaResolver', () => {
   });
 
   it(`should resolve canonical url`, () => {
-    spyOn(pageLinkService, 'getCanonicalUrl');
+    vi.spyOn(pageLinkService, 'getCanonicalUrl');
     service.resolveCanonicalUrl().subscribe().unsubscribe();
     expect(pageLinkService.getCanonicalUrl).toHaveBeenCalled();
   });

@@ -1,5 +1,6 @@
+import { vi } from 'vitest';
 import { APP_INITIALIZER } from '@angular/core';
-import { fakeAsync, flushMicrotasks, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { of, Subject } from 'rxjs';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { I18nConfig } from '../config/i18n-config';
@@ -37,15 +38,15 @@ describe('i18nextProviders', () => {
     });
   });
   describe('APP_INITIALIZER', () => {
-    it('should initialize `i18next` ONLY after the `i18n` config is stable', fakeAsync(() => {
+    it('should initialize `i18next` ONLY after the `i18n` config is stable', async () => {
       const configInitializerService = TestBed.inject(ConfigInitializerService);
       const i18nextInitializer = TestBed.inject(I18nextInitializer);
 
       const mockStableConfig$ = new Subject<I18nConfig>();
-      spyOn(configInitializerService, 'getStable').and.returnValue(
+      vi.spyOn(configInitializerService, 'getStable').mockReturnValue(
         mockStableConfig$
       );
-      spyOn(i18nextInitializer, 'initialize').and.callThrough();
+      vi.spyOn(i18nextInitializer, 'initialize');
 
       const appInitializers = TestBed.inject(APP_INITIALIZER);
       appInitializers[0]() as Promise<any>;
@@ -56,22 +57,22 @@ describe('i18nextProviders', () => {
       mockStableConfig$.next({ i18n: {} });
       mockStableConfig$.complete();
 
-      flushMicrotasks();
+      await new Promise((resolve) => setTimeout(resolve, 0));
       expect(i18nextInitializer.initialize).toHaveBeenCalled();
-    }));
+    });
 
-    it('should resolve its promise only after `i18next` is initialized', fakeAsync(() => {
+    it('should resolve its promise only after `i18next` is initialized', async () => {
       const configInitializerService = TestBed.inject(ConfigInitializerService);
       const i18nextInitializer = TestBed.inject(I18nextInitializer);
       const appInitializers = TestBed.inject(APP_INITIALIZER);
 
       let mockResolveI18nextInitialize: Function | undefined;
-      spyOn(i18nextInitializer, 'initialize').and.returnValue(
+      vi.spyOn(i18nextInitializer, 'initialize').mockReturnValue(
         new Promise((resolve) => {
           mockResolveI18nextInitialize = resolve;
         })
       );
-      spyOn(configInitializerService, 'getStable').and.callThrough();
+      vi.spyOn(configInitializerService, 'getStable');
 
       let appInitializerResolved = false;
       (appInitializers[0]() as Promise<any>).then(() => {
@@ -80,8 +81,8 @@ describe('i18nextProviders', () => {
 
       expect(appInitializerResolved).toBe(false);
       mockResolveI18nextInitialize?.();
-      flushMicrotasks();
+      await new Promise((resolve) => setTimeout(resolve, 0));
       expect(appInitializerResolved).toBe(true);
-    }));
+    });
   });
 });
