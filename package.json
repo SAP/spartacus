@@ -1,6 +1,6 @@
 {
   "name": "storefrontapp",
-  "version": "2607.0.0",
+  "version": "2608.0.0",
   "license": "Apache-2.0",
   "author": "SAP, Spartacus team",
   "workspaces": [
@@ -259,7 +259,7 @@
     "jest-environment-node": "^30.2.0",
     "jest-preset-angular": "^16.0.0",
     "jest-util": "^30.2.0",
-    "jsdom": "^29.1.1",
+    "jsdom": "^30.0.1",
     "jsonc-parser": "^3.3.1",
     "karma": "~6.4.4",
     "karma-chrome-launcher": "~3.2.0",

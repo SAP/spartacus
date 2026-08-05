@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -41,7 +42,7 @@ describe('', () => {
     effect = TestBed.inject(RegionsEffects);
     service = TestBed.inject(SiteConnector);
 
-    spyOn(service, 'getRegions').and.returnValue(of(mockRegions));
+    vi.spyOn(service, 'getRegions').mockReturnValue(of(mockRegions));
   });
 
   describe('loadRegions$', () => {

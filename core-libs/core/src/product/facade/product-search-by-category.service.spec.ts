@@ -1,9 +1,11 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { ProductSearchByCategoryService } from './product-search-by-category.service';
 import { ProductActions } from '../store';
-import { of } from 'rxjs';
-import { Product, StateUtils } from '@spartacus/core';
+import { firstValueFrom, of } from 'rxjs';
+import { StateUtils } from '../../state';
+import { Product } from '../../model/product.model';
 
 describe('ProductSearchByCategoryService', () => {
   let service: ProductSearchByCategoryService;
@@ -32,7 +34,7 @@ describe('ProductSearchByCategoryService', () => {
     service = TestBed.inject(ProductSearchByCategoryService);
     store = TestBed.inject(MockStore);
 
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   describe('load', () => {
@@ -58,34 +60,30 @@ describe('ProductSearchByCategoryService', () => {
   });
 
   describe('get', () => {
-    it('should return products when the state contains them', (done) => {
+    it('should return products when the state contains them', async () => {
       const mockState = {
         loading: false,
         success: true,
         value: products,
       } as StateUtils.LoaderState<Product[]>;
 
-      spyOn(store, 'pipe').and.returnValue(of(mockState));
+      vi.spyOn(store, 'pipe').mockReturnValue(of(mockState));
 
-      service.get({ categoryCode, scope }).subscribe((result) => {
-        expect(result).toEqual(products);
-        done();
-      });
+      const result = await firstValueFrom(service.get({ categoryCode, scope }));
+      expect(result).toEqual(products);
     });
 
-    it('should not trigger load if state is already loading', (done) => {
+    it('should not trigger load if state is already loading', async () => {
       const mockState = {
         loading: true,
         success: false,
         error: false,
       } as StateUtils.LoaderState<Product[]>;
 
-      spyOn(store, 'pipe').and.returnValue(of(mockState));
+      vi.spyOn(store, 'pipe').mockReturnValue(of(mockState));
 
-      service.get({ categoryCode, scope }).subscribe(() => {
-        expect(store.dispatch).not.toHaveBeenCalled();
-        done();
-      });
+      await firstValueFrom(service.get({ categoryCode, scope }));
+      expect(store.dispatch).not.toHaveBeenCalled();
     });
   });
 });

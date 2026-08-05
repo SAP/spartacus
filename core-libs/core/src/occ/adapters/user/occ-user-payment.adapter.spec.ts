@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpTestingController,
   provideHttpClientTesting,
@@ -44,8 +45,8 @@ describe('OccUserPaymentAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
-    spyOn(converter, 'pipeableMany').and.callThrough();
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
+    vi.spyOn(converter, 'pipeableMany');
+    vi.spyOn(occEnpointsService, 'buildUrl');
   });
 
   afterEach(() => {
