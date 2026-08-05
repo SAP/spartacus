@@ -39,10 +39,6 @@ function run_all_unit_tests {
         echo "Running JEST unit tests for selected projects"
         npx nx run-many --target=test-jest --projects="$UNIT_TEST_GROUP_PROJECTS" --exclude="$EXCLUDE_APPLICATIONS" -- --coverage --runInBand
 
-<<<<<<< HEAD
-        run_vitest_migrated_tests
-=======
->>>>>>> 686917bfd2 (chore: CXSPA-13729 (#21762))
     else
         echo "Running ALL JASMINE unit tests"
         npx nx run-many --all --target=test --exclude="$EXCLUDE_APPLICATIONS,$JEST_PROJECTS" -- --no-watch --source-map --code-coverage --browsers ChromeHeadless
@@ -50,10 +46,6 @@ function run_all_unit_tests {
         echo "Running ALL JEST unit tests"
         npx nx run-many --all --target=test-jest --exclude="$EXCLUDE_APPLICATIONS" -- --coverage --runInBand
 
-<<<<<<< HEAD
-        run_vitest_migrated_tests
-=======
->>>>>>> 686917bfd2 (chore: CXSPA-13729 (#21762))
     fi
 
     run_vitest_migrated_tests
