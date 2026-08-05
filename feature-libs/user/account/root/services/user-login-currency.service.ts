@@ -17,6 +17,8 @@ import { UserAccountConfig } from '../config/user-account-config';
 import { UserAccountFacade } from '../facade/user-account.facade';
 import { UserLoginCurrencyPersistenceService } from './user-login-currency-persistence.service';
 
+type UserWithCurrency = { currency?: { isocode?: string } };
+
 export const PRE_LOGIN_CURRENCY_STORAGE_KEY = 'spartacus⚿⚿pre-login-currency';
 
 @Injectable({
@@ -49,7 +51,7 @@ export class UserLoginCurrencyService implements OnDestroy {
             this.currencyPersistence.savePreLoginCurrency(preLoginCurrency);
             return this.userAccountFacade.get().pipe(
               filter((user) => {
-                const isocode = (user as any)?.currency?.isocode;
+                const isocode = (user as UserWithCurrency)?.currency?.isocode;
                 return !!isocode && isocode !== preLoginCurrency;
               }),
               take(1)
@@ -57,7 +59,9 @@ export class UserLoginCurrencyService implements OnDestroy {
           })
         )
         .subscribe((user) => {
-          this.currencyService.setActive((user as any)?.currency?.isocode as string);
+          this.currencyService.setActive(
+            (user as UserWithCurrency).currency!.isocode!
+          );
         })
     );
 
