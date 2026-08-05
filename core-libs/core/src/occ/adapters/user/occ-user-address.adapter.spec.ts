@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpTestingController,
   provideHttpClientTesting,
@@ -65,10 +66,11 @@ describe('OccUserAddressAdapter', () => {
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
     featureToggles = TestBed.inject(FeatureToggles);
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(converter, 'pipeableMany').and.callThrough();
-    spyOn(converter, 'convert').and.callThrough();
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
+
+    vi.spyOn(converter, 'pipeable');
+    vi.spyOn(converter, 'pipeableMany');
+    vi.spyOn(converter, 'convert');
+    vi.spyOn(occEnpointsService, 'buildUrl');
   });
 
   afterEach(() => {

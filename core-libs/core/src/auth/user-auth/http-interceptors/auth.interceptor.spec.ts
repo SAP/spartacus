@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HTTP_INTERCEPTORS,
   HttpClient,
@@ -13,7 +14,7 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { EMPTY, Observable, of, Subscription } from 'rxjs';
+import { EMPTY, Observable, of, firstValueFrom, lastValueFrom } from 'rxjs';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthConfigService } from '../services/auth-config.service';
 import { AuthHttpHeaderService } from '../services/auth-http-header.service';
@@ -69,67 +70,63 @@ describe('AuthInterceptor', () => {
     http = TestBed.inject(HttpClient);
   });
 
-  it('should not add header when the request should does not need it', (done) => {
-    spyOn(authHeaderService, 'shouldAddAuthorizationHeader').and.returnValue(
+  it('should not add header when the request should does not need it', async () => {
+    vi.spyOn(authHeaderService, 'shouldAddAuthorizationHeader').mockReturnValue(
       false
     );
-    spyOn(authHeaderService, 'alterRequest').and.returnValue(
+    vi.spyOn(authHeaderService, 'alterRequest').mockReturnValue(
       new HttpRequest('GET', '/test')
     );
-    spyOn(authHeaderService, 'getStableToken').and.returnValue(
+    vi.spyOn(authHeaderService, 'getStableToken').mockReturnValue(
       of({ access_token: 'test' } as AuthToken)
     );
 
-    const sub: Subscription = http.get('/xxx').subscribe((result) => {
-      expect(result).toBeTruthy();
-      expect(authHeaderService.alterRequest).toHaveBeenCalledWith(
-        jasmine.anything(),
-        undefined
-      );
-      done();
-    });
+    const resultPromise = firstValueFrom(http.get('/xxx'));
 
     const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'GET' && req.url === '/test';
     });
 
     mockReq.flush('someData');
-    sub.unsubscribe();
+
+    const result = await resultPromise;
+    expect(result).toBeTruthy();
+    expect(authHeaderService.alterRequest).toHaveBeenCalledWith(
+      expect.anything(),
+      undefined
+    );
   });
 
-  it(`Should operate on request returned from AuthHeaderService alterRequest method`, (done) => {
-    spyOn(authHeaderService, 'alterRequest').and.returnValue(
+  it(`Should operate on request returned from AuthHeaderService alterRequest method`, async () => {
+    vi.spyOn(authHeaderService, 'alterRequest').mockReturnValue(
       new HttpRequest('GET', '/test')
     );
     const token = { access_token: 'test' } as AuthToken;
-    spyOn(authHeaderService, 'getStableToken').and.returnValue(of(token));
+    vi.spyOn(authHeaderService, 'getStableToken').mockReturnValue(of(token));
 
-    const sub: Subscription = http.get('/xxx').subscribe((result) => {
-      expect(result).toBeTruthy();
-      expect(authHeaderService.alterRequest).toHaveBeenCalledWith(
-        jasmine.anything(),
-        token
-      );
-      done();
-    });
+    const resultPromise = firstValueFrom(http.get('/xxx'));
 
     const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'GET' && req.url === '/test';
     });
 
     mockReq.flush('someData');
-    sub.unsubscribe();
+
+    const result = await resultPromise;
+    expect(result).toBeTruthy();
+    expect(authHeaderService.alterRequest).toHaveBeenCalledWith(
+      expect.anything(),
+      token
+    );
   });
 
-  it(`Should handle 401 error for expired token occ calls`, (done) => {
+  it(`Should handle 401 error for expired token occ calls`, async () => {
     // JDK21 response
-    spyOn(authHeaderService, 'handleExpiredAccessToken').and.callFake(
+    vi.spyOn(authHeaderService, 'handleExpiredAccessToken').mockImplementation(
       (_, next) => next.handle(new HttpRequest('GET', '/test'))
     );
-    const sub: Subscription = http.get('/occ').subscribe((result) => {
-      expect(result).toEqual('someText');
-      done();
-    });
+
+    const resultPromise = firstValueFrom(http.get('/occ'));
 
     const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'GET' && req.url === '/occ';
@@ -144,18 +141,18 @@ describe('AuthInterceptor', () => {
       return req.method === 'GET' && req.url === '/test';
     });
     mockReq2.flush('someText');
-    sub.unsubscribe();
+
+    const result = await resultPromise;
+    expect(result).toEqual('someText');
   });
 
-  it(`Should handle 401 error for expired token occ calls for legacy auth server`, (done) => {
+  it(`Should handle 401 error for expired token occ calls for legacy auth server`, async () => {
     // JDK17 response
-    spyOn(authHeaderService, 'handleExpiredAccessToken').and.callFake(
+    vi.spyOn(authHeaderService, 'handleExpiredAccessToken').mockImplementation(
       (_, next) => next.handle(new HttpRequest('GET', '/test'))
     );
-    const sub: Subscription = http.get('/occ').subscribe((result) => {
-      expect(result).toEqual('someText');
-      done();
-    });
+
+    const resultPromise = firstValueFrom(http.get('/occ'));
 
     const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'GET' && req.url === '/occ';
@@ -170,19 +167,15 @@ describe('AuthInterceptor', () => {
       return req.method === 'GET' && req.url === '/test';
     });
     mockReq2.flush('someText');
-    sub.unsubscribe();
+
+    const result = await resultPromise;
+    expect(result).toEqual('someText');
   });
 
-  it(`Should not handle 401 error for expired token non-occ calls`, (done) => {
-    spyOn(authHeaderService, 'shouldCatchError').and.returnValue(false);
+  it(`Should not handle 401 error for expired token non-occ calls`, async () => {
+    vi.spyOn(authHeaderService, 'shouldCatchError').mockReturnValue(false);
 
-    const sub: Subscription = http.get('/occ').subscribe({
-      error: (err) => {
-        expect(err.status).toEqual(401);
-        expect(err.error.errors[0].type).toEqual('InvalidTokenError');
-        done();
-      },
-    });
+    const resultPromise = firstValueFrom(http.get('/occ'));
 
     const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'GET' && req.url === '/occ';
@@ -193,17 +186,16 @@ describe('AuthInterceptor', () => {
       { status: 401, statusText: 'Unauthorized' }
     );
 
-    sub.unsubscribe();
+    try {
+      await resultPromise;
+    } catch (err: any) {
+      expect(err.status).toEqual(401);
+      expect(err.error.errors[0].type).toEqual('InvalidTokenError');
+    }
   });
 
-  it(`Should not handle 401 error for non expired token occ calls`, (done) => {
-    const sub: Subscription = http.get('/occ').subscribe({
-      error: (err) => {
-        expect(err.status).toEqual(401);
-        expect(err.error.errors[0].type).toEqual('Different error');
-        done();
-      },
-    });
+  it(`Should not handle 401 error for non expired token occ calls`, async () => {
+    const resultPromise = firstValueFrom(http.get('/occ'));
 
     const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'GET' && req.url === '/occ';
@@ -214,17 +206,21 @@ describe('AuthInterceptor', () => {
       { status: 401, statusText: 'Unauthorized' }
     );
 
-    sub.unsubscribe();
+    try {
+      await resultPromise;
+    } catch (err: any) {
+      expect(err.status).toEqual(401);
+      expect(err.error.errors[0].type).toEqual('Different error');
+    }
   });
 
-  it(`Should handle 401 error invalid_token calls`, (done) => {
-    spyOn(authHeaderService, 'handleExpiredRefreshToken').and.callThrough();
-    const sub: Subscription = http.get('/authorizationserver/token').subscribe({
-      complete: () => {
-        expect(authHeaderService.handleExpiredRefreshToken).toHaveBeenCalled();
-        done();
-      },
-    });
+  it(`Should handle 401 error invalid_token calls`, async () => {
+    vi.spyOn(authHeaderService, 'handleExpiredRefreshToken');
+
+    const resultPromise = lastValueFrom(
+      http.get('/authorizationserver/token'),
+      { defaultValue: undefined }
+    );
 
     const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'GET' && req.url === '/authorizationserver/token';
@@ -234,18 +230,15 @@ describe('AuthInterceptor', () => {
       { error: 'invalid_token' },
       { status: 401, statusText: 'Unauthorized' }
     );
-    sub.unsubscribe();
+
+    await resultPromise;
+    expect(authHeaderService.handleExpiredRefreshToken).toHaveBeenCalled();
   });
 
-  it(`Should not handle 401 error invalid_token calls for non token endpoints`, (done) => {
-    spyOn(authHeaderService, 'handleExpiredRefreshToken').and.callThrough();
-    const sub: Subscription = http.get('/custom-url').subscribe({
-      error: (err) => {
-        expect(err.status).toEqual(401);
-        expect(err.error.error).toEqual('invalid_token');
-        done();
-      },
-    });
+  it(`Should not handle 401 error invalid_token calls for non token endpoints`, async () => {
+    vi.spyOn(authHeaderService, 'handleExpiredRefreshToken');
+
+    const resultPromise = firstValueFrom(http.get('/custom-url'));
 
     const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'GET' && req.url === '/custom-url';
@@ -255,24 +248,22 @@ describe('AuthInterceptor', () => {
       { error: 'invalid_token' },
       { status: 401, statusText: 'Unauthorized' }
     );
-    sub.unsubscribe();
+
+    try {
+      await resultPromise;
+    } catch (err: any) {
+      expect(err.status).toEqual(401);
+      expect(err.error.error).toEqual('invalid_token');
+    }
   });
 
-  it(`Should handle 400 error invalid_grant calls`, (done) => {
-    spyOn(authHeaderService, 'handleExpiredRefreshToken').and.callThrough();
+  it(`Should handle 400 error invalid_grant calls`, async () => {
+    vi.spyOn(authHeaderService, 'handleExpiredRefreshToken');
     const params = new HttpParams().set('grant_type', 'refresh_token');
-    const sub: Subscription = http
-      .post('/authorizationserver/token', params)
-      .subscribe({
-        error: (err) => {
-          expect(err.status).toEqual(400);
-          expect(err.error.error).toEqual('invalid_grant');
-          expect(
-            authHeaderService.handleExpiredRefreshToken
-          ).toHaveBeenCalled();
-          done();
-        },
-      });
+
+    const resultPromise = firstValueFrom(
+      http.post('/authorizationserver/token', params)
+    );
 
     const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'POST' && req.url === '/authorizationserver/token';
@@ -282,22 +273,21 @@ describe('AuthInterceptor', () => {
       { error: 'invalid_grant' },
       { status: 400, statusText: 'Bad request' }
     );
-    sub.unsubscribe();
+
+    try {
+      await resultPromise;
+    } catch (err: any) {
+      expect(err.status).toEqual(400);
+      expect(err.error.error).toEqual('invalid_grant');
+      expect(authHeaderService.handleExpiredRefreshToken).toHaveBeenCalled();
+    }
   });
 
-  it(`Should not handle 400 error invalid_grant calls for non token endpoints`, (done) => {
-    spyOn(authHeaderService, 'handleExpiredRefreshToken').and.callThrough();
+  it(`Should not handle 400 error invalid_grant calls for non token endpoints`, async () => {
+    vi.spyOn(authHeaderService, 'handleExpiredRefreshToken');
     const params = new HttpParams().set('grant_type', 'refresh_token');
-    const sub: Subscription = http.post('/custom-url', params).subscribe({
-      error: (err) => {
-        expect(err.status).toEqual(400);
-        expect(err.error.error).toEqual('invalid_grant');
-        expect(
-          authHeaderService.handleExpiredRefreshToken
-        ).not.toHaveBeenCalled();
-        done();
-      },
-    });
+
+    const resultPromise = firstValueFrom(http.post('/custom-url', params));
 
     const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'POST' && req.url === '/custom-url';
@@ -307,24 +297,25 @@ describe('AuthInterceptor', () => {
       { error: 'invalid_grant' },
       { status: 400, statusText: 'Bad request' }
     );
-    sub.unsubscribe();
+
+    try {
+      await resultPromise;
+    } catch (err: any) {
+      expect(err.status).toEqual(400);
+      expect(err.error.error).toEqual('invalid_grant');
+      expect(
+        authHeaderService.handleExpiredRefreshToken
+      ).not.toHaveBeenCalled();
+    }
   });
 
-  it(`Should not handle 400 error invalid_grant calls for non refresh_token grant types`, (done) => {
-    spyOn(authHeaderService, 'handleExpiredRefreshToken').and.callThrough();
+  it(`Should not handle 400 error invalid_grant calls for non refresh_token grant types`, async () => {
+    vi.spyOn(authHeaderService, 'handleExpiredRefreshToken');
     const params = new HttpParams().set('grant_type', 'code');
-    const sub: Subscription = http
-      .post('/authorizationserver/token', params)
-      .subscribe({
-        error: (err) => {
-          expect(err.status).toEqual(400);
-          expect(err.error.error).toEqual('invalid_grant');
-          expect(
-            authHeaderService.handleExpiredRefreshToken
-          ).not.toHaveBeenCalled();
-          done();
-        },
-      });
+
+    const resultPromise = firstValueFrom(
+      http.post('/authorizationserver/token', params)
+    );
 
     const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'POST' && req.url === '/authorizationserver/token';
@@ -334,6 +325,15 @@ describe('AuthInterceptor', () => {
       { error: 'invalid_grant' },
       { status: 400, statusText: 'Bad request' }
     );
-    sub.unsubscribe();
+
+    try {
+      await resultPromise;
+    } catch (err: any) {
+      expect(err.status).toEqual(400);
+      expect(err.error.error).toEqual('invalid_grant');
+      expect(
+        authHeaderService.handleExpiredRefreshToken
+      ).not.toHaveBeenCalled();
+    }
   });
 });
