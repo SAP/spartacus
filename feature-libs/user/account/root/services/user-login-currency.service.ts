@@ -10,10 +10,9 @@ import {
   EventService,
   LoginEvent,
   LogoutEvent,
-  User,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { filter, switchMap, take } from 'rxjs/operators';
 import { UserAccountConfig } from '../config/user-account-config';
 import { UserAccountFacade } from '../facade/user-account.facade';
 import { UserLoginCurrencyPersistenceService } from './user-login-currency-persistence.service';
