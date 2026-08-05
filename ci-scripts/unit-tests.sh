@@ -2,7 +2,6 @@
 set -e
 set -o pipefail
 
-VITEST_PROJECTS=cart
 EXCLUDE_APPLICATIONS=storefrontapp,ssr-tests
 JEST_PROJECTS=storefrontstyles,schematics,setup
 
