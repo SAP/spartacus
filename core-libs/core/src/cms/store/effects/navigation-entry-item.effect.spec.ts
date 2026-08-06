@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -78,7 +79,7 @@ describe('Navigation Entry Items Effects', () => {
     service = TestBed.inject(CmsComponentConnector);
     effects = TestBed.inject(fromEffects.NavigationEntryItemEffects);
 
-    spyOn(service, 'getList').and.returnValue(of(listComponents));
+    vi.spyOn(service, 'getList').mockReturnValue(of(listComponents));
   });
 
   describe('loadNavigationItems$', () => {

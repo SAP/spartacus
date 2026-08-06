@@ -10,7 +10,6 @@ import {
   AuthHttpHeaderService,
   AuthRedirectService,
   AuthService,
-  AuthStorageService,
   AuthToken,
   GlobalMessageService,
   GlobalMessageType,
@@ -21,6 +20,7 @@ import {
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '@spartacus/core';
 import { take } from 'rxjs/operators';
+import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 import { CsAgentAuthService } from './csagent-auth.service';
 
 /**
@@ -33,7 +33,7 @@ import { CsAgentAuthService } from './csagent-auth.service';
 export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
   constructor(
     protected authService: AuthService,
-    protected authStorageService: AuthStorageService,
+    protected authStorageService: AsmAuthStorageService,
     protected csAgentAuthService: CsAgentAuthService,
     protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected routingService: RoutingService,
@@ -87,13 +87,14 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
   ): HttpRequest<any> {
     const hasAuthorizationHeader = !!this.getAuthorizationHeader(request);
     const isCSAgentRequest = this.isCSAgentTokenRequest(request);
+    const tokenForRequest = this.getTokenForRequest(request, token);
 
-    let req = super.alterRequest(request, token);
+    let req = super.alterRequest(request, tokenForRequest);
 
     if (!hasAuthorizationHeader && isCSAgentRequest) {
       req = request.clone({
         setHeaders: {
-          ...this.createAuthorizationHeader(token),
+          ...this.createAuthorizationHeader(tokenForRequest),
         },
       });
       return InterceptorUtil.removeHeader(
@@ -102,6 +103,33 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
       );
     }
     return req;
+  }
+
+  protected getTokenForRequest(
+    request: HttpRequest<any>,
+    token?: AuthToken
+  ): AuthToken | undefined {
+    if (this.shouldUseEmulatedUserToken(request)) {
+      return this.authStorageService.getEmulatedUserToken();
+    }
+    return token;
+  }
+
+  protected shouldUseEmulatedUserToken(request: HttpRequest<any>): boolean {
+    if (this.isCSAgentTokenRequest(request)) {
+      return false;
+    }
+
+    let tokenTarget: TokenTarget | undefined;
+    this.authStorageService
+      .getTokenTarget()
+      .subscribe((target) => (tokenTarget = target))
+      .unsubscribe();
+
+    return Boolean(
+      tokenTarget === TokenTarget.CSAgent &&
+        this.authStorageService.getEmulatedUserToken()?.access_token
+    );
   }
 
   protected isCSAgentTokenRequest(request: HttpRequest<any>): boolean {

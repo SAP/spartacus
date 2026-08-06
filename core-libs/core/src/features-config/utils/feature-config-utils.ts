@@ -50,17 +50,16 @@ export function isFeatureEnabled(
   feature: FeatureToggleExpression | 'disableConfigUpdates'
 ): boolean {
   if (isFeatureConfig(config)) {
-    const featureConfig =
-      feature[0] === '!'
-        ? config.features[feature.substring(1)]
-        : config.features[feature];
+    const featureConfig = feature.startsWith('!')
+      ? config.features[feature.substring(1)]
+      : config.features[feature];
 
     const result =
       typeof featureConfig === 'string'
         ? isFeatureLevel(config, featureConfig)
-        : featureConfig;
+        : (featureConfig ?? false);
 
-    return feature.startsWith('!') ? !result : !!result;
+    return feature.startsWith('!') ? !result : result;
   }
   return false;
 }

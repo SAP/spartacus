@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { StateUtils } from '../../../state/utils';
@@ -26,7 +27,7 @@ describe('getSelectedProductSearchByCategoryStateFactory', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   it('should return the initial loader state when no category is found', () => {

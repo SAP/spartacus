@@ -232,7 +232,7 @@ describe('CsAgentAuthService', () => {
       } as AuthToken);
     });
 
-    it('should not changed storage state, when authorization failed', async () => {
+    it('should revert token target to User when the code-flow redirect fails', async () => {
       spyOn(store, 'dispatch').and.callFake(() => null);
       spyOn(oAuthLibWrapperService, 'initLoginFlow').and.callFake(() => {
         return Promise.reject();
@@ -249,14 +249,17 @@ describe('CsAgentAuthService', () => {
         .pipe(take(1))
         .subscribe((target) => (tokenTarget = target));
 
+      // Emulation state is now persisted BEFORE the redirect (CXSPA-13923), so it
+      // runs even here; with no active session this is the anonymous branch. On
+      // failure the catch only reverts the token target back to User.
       expect(oAuthLibWrapperService.initLoginFlow).toHaveBeenCalled();
       expect(tokenTarget).toBe(TokenTarget.User);
-      expect(store.dispatch).not.toHaveBeenCalled();
-      expect(userIdService.setUserId).not.toHaveBeenCalled();
+      expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
+      expect(userIdService.setUserId).toHaveBeenCalledWith(
+        OCC_USER_ID_ANONYMOUS
+      );
       expect(asmAuthStorageService.setEmulatedUserToken).not.toHaveBeenCalled();
-      expect(
-        asmAuthStorageService.clearEmulatedUserToken
-      ).not.toHaveBeenCalled();
+      expect(asmAuthStorageService.clearEmulatedUserToken).toHaveBeenCalled();
     });
   });
 
@@ -279,6 +282,39 @@ describe('CsAgentAuthService', () => {
     it('should emit true when CS agent is logged in', (done) => {
       asmAuthStorageService.switchTokenTargetToCSAgent();
       asmAuthStorageService.setToken({ access_token: 'token' } as AuthToken);
+
+      service
+        .isCustomerSupportAgentLoggedIn()
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toBe(true);
+          done();
+        });
+    });
+
+    it('should emit false when the current token is still the emulated user token', (done) => {
+      const userToken = { access_token: 'user_token' } as AuthToken;
+      asmAuthStorageService.setEmulatedUserToken(userToken);
+      asmAuthStorageService.setToken(userToken);
+      asmAuthStorageService.switchTokenTargetToCSAgent();
+
+      service
+        .isCustomerSupportAgentLoggedIn()
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toBe(false);
+          done();
+        });
+    });
+
+    it('should emit true when the current CS agent token differs from the emulated user token', (done) => {
+      asmAuthStorageService.setEmulatedUserToken({
+        access_token: 'user_token',
+      } as AuthToken);
+      asmAuthStorageService.setToken({
+        access_token: 'agent_token',
+      } as AuthToken);
+      asmAuthStorageService.switchTokenTargetToCSAgent();
 
       service
         .isCustomerSupportAgentLoggedIn()

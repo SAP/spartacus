@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { LoggerService } from '../logger';
 import { I18nConfig } from './config/i18n-config';
@@ -67,7 +68,7 @@ describe('TranslationChunkService', () => {
         useValue: { i18n: { chunks: mockChunksConfig } },
       });
       const logger = TestBed.inject(LoggerService);
-      const warnSpy = spyOn(logger, 'warn');
+      const warnSpy = vi.spyOn(logger, 'warn');
       mockService = TestBed.inject(TranslationChunkService);
 
       expect(mockService).toBeTruthy();
