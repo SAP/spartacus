@@ -14,14 +14,30 @@
     "moduleResolution": "bundler",
     "allowJs": true,
     "paths": {
-      "@spartacus/core/testing/mock-feature-toggles": ["../../core-libs/core/src/features-config/feature-toggles/testing/index.ts"],
-      "@spartacus/core/testing/process-reducers": ["../../core-libs/core/src/process/store/reducers/index.ts"],
-      "@spartacus/core/testing/client-auth-reducers": ["../../core-libs/core/src/auth/client-auth/store/reducers/index.ts"],
-      "@spartacus/core/testing/user-reducers": ["../../core-libs/core/src/user/store/reducers/index.ts"],
-      "@spartacus/core/testing/mock-occ-endpoints": ["../../core-libs/core/src/occ/adapters/user/unit-test.helper.ts"],
-      "@spartacus/core/testing/mock-url-pipe": ["../../core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe.ts"],
-      "@spartacus/storefront/testing/mock-feature-directive": ["../../core-libs/storefront/shared/test/mock-feature-directive.ts"],
-      "@spartacus/storefront/testing/mock-feature-level-directive": ["../../core-libs/storefront/shared/test/mock-feature-level-directive.ts"]
+      "@spartacus/core/testing/mock-feature-toggles": [
+        "../../core-libs/core/src/features-config/feature-toggles/testing/index.ts"
+      ],
+      "@spartacus/core/testing/process-reducers": [
+        "../../core-libs/core/src/process/store/reducers/index.ts"
+      ],
+      "@spartacus/core/testing/client-auth-reducers": [
+        "../../core-libs/core/src/auth/client-auth/store/reducers/index.ts"
+      ],
+      "@spartacus/core/testing/user-reducers": [
+        "../../core-libs/core/src/user/store/reducers/index.ts"
+      ],
+      "@spartacus/core/testing/mock-occ-endpoints": [
+        "../../core-libs/core/src/occ/adapters/user/unit-test.helper.ts"
+      ],
+      "@spartacus/core/testing/mock-url-pipe": [
+        "../../core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe.ts"
+      ],
+      "@spartacus/storefront/testing/mock-feature-directive": [
+        "../../core-libs/storefront/shared/test/mock-feature-directive.ts"
+      ],
+      "@spartacus/storefront/testing/mock-feature-level-directive": [
+        "../../core-libs/storefront/shared/test/mock-feature-level-directive.ts"
+      ]
     }
   },
   "files": ["setup-test.ts"],
