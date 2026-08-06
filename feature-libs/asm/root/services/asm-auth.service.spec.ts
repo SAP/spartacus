@@ -16,7 +16,7 @@ import {
   StateWithClientAuth,
   UserIdService,
 } from '@spartacus/core';
-import { getReducers } from '@spartacus/core/process/store/reducers';
+import { getReducers } from '@spartacus/core/testing/process-reducers';
 import { BehaviorSubject, firstValueFrom, Observable, of, Subject } from 'rxjs';
 import {
   ASM_FEATURE,

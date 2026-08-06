@@ -13,7 +13,7 @@ import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from '@spartacus/storefront/testing';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
 import { CSAgentLoginFormComponent } from './csagent-login-form.component';
 
