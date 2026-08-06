@@ -19,6 +19,11 @@
       "@spartacus/core/testing/process-reducers": ["../../core-libs/core/src/process/store/reducers/index.ts"]
     }
   },
-  "files": ["setup-test.ts"],
-  "include": ["vitest.config.ts", "**/*.spec.ts", "**/*.d.ts"]
+  "files": ["../../testing/setup-vitest.ts"],
+  "include": [
+    "**/*.ts",
+    "../../core-libs/core/src/**/*.ts",
+    "../../core-libs/storefront/**/*.ts",
+    "../../feature-libs/**/*.ts"
+  ]
 }
