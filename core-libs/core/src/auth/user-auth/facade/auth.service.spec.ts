@@ -175,6 +175,19 @@ describe('AuthService', () => {
       );
     });
 
+    it('when token is present and customer is not emulated in ASM mode', async () => {
+      service.updateIsUsingASMClient(true);
+      vi.spyOn(authStorageService, 'getItem').mockReturnValue('token');
+      vi.spyOn(userIdService, 'setUserId');
+      vi.spyOn(userIdService, 'isEmulated').mockReturnValue(of(false));
+
+      await service.checkOAuthParamsInUrl();
+
+      expect(userIdService.setUserId).not.toHaveBeenCalledWith(
+        OCC_USER_ID_CURRENT
+      );
+    });
+
     describe('when the token is received', () => {
       beforeEach(() => {
         vi.spyOn(userIdService, 'isEmulated').mockReturnValue(of(false));

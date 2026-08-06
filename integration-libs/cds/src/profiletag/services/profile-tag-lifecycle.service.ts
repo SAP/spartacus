@@ -5,6 +5,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
+import { ActionsSubject } from '@ngrx/store';
 import { ConsentService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
@@ -20,7 +21,8 @@ export class ProfileTagLifecycleService {
 
   constructor(
     protected consentService: ConsentService,
-    protected config: CdsConfig
+    protected config: CdsConfig,
+    protected actionsSubject: ActionsSubject
   ) {}
 
   consentChanged(): Observable<ConsentChangedPushEvent> {
