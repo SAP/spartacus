@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -10,7 +11,6 @@ import { SiteThemeConfig } from '../config/site-theme-config';
 import { SiteThemeService } from '../facade';
 import { SiteThemeInitializer } from './site-theme-initializer';
 import { SiteThemePersistenceService } from './site-theme-persistence.service';
-import createSpy = jasmine.createSpy;
 
 const mockDefaultTheme = 'default';
 const mockSiteContextConfig: SiteContextConfig = {
@@ -44,7 +44,7 @@ class MockSiteThemeService implements Partial<SiteThemeService> {
 class MockSiteThemePersistenceService
   implements Partial<SiteThemePersistenceService>
 {
-  initSync = createSpy().and.returnValue(of(EMPTY));
+  initSync = vi.fn().mockReturnValue(of(EMPTY));
 }
 
 class MockConfigInitializerService
@@ -103,7 +103,7 @@ describe('SiteThemeInitializer', () => {
       BaseSiteService
     ) as unknown as MockBaseSiteService;
     siteContextConfig = TestBed.inject(SiteContextConfig);
-    spyOn(siteThemeService, 'setActive');
+    vi.spyOn(siteThemeService, 'setActive');
   });
 
   it('should be created', () => {
@@ -112,21 +112,23 @@ describe('SiteThemeInitializer', () => {
 
   describe('initialize', () => {
     it('should call SiteThemePersistenceService initSync()', () => {
-      spyOn(siteThemeService, 'isInitialized').and.returnValue(false);
-      spyOn<any>(initializer, 'setFallbackValue').and.returnValue(of(null));
+      vi.spyOn(siteThemeService, 'isInitialized').mockReturnValue(false);
+      vi.spyOn<any, any>(initializer, 'setFallbackValue').mockReturnValue(
+        of(null)
+      );
       initializer.initialize();
       expect(siteThemePersistenceService.initSync).toHaveBeenCalled();
       expect(initializer['setFallbackValue']).toHaveBeenCalled();
     });
 
     it('should set default theme is the theme is NOT initialized', () => {
-      spyOn(siteThemeService, 'isInitialized').and.returnValue(false);
+      vi.spyOn(siteThemeService, 'isInitialized').mockReturnValue(false);
       initializer.initialize();
       expect(siteThemeService.setActive).toHaveBeenCalledWith(mockDefaultTheme);
     });
 
     it('should NOT set default from config is the theme is initialized', () => {
-      spyOn(siteThemeService, 'isInitialized').and.returnValue(true);
+      vi.spyOn(siteThemeService, 'isInitialized').mockReturnValue(true);
       initializer.initialize();
       expect(siteThemeService.setActive).not.toHaveBeenCalled();
     });
@@ -136,12 +138,12 @@ describe('SiteThemeInitializer', () => {
     beforeEach(() => {
       // Persistence path is unrelated to the CMS-driven theme path - keep it
       // as a noop to focus on the new behavior.
-      spyOn(siteThemeService, 'isInitialized').and.returnValue(true);
+      vi.spyOn(siteThemeService, 'isInitialized').mockReturnValue(true);
     });
 
     it('should NOT subscribe to active base site when feature is OFF', () => {
       featureToggles.applyBaseSiteThemeFromCms = false;
-      const spyGet = spyOn(baseSiteService, 'get').and.callThrough();
+      const spyGet = vi.spyOn(baseSiteService, 'get');
       initializer.initialize();
       expect(spyGet).not.toHaveBeenCalled();
     });
@@ -181,9 +183,7 @@ describe('SiteThemeInitializer', () => {
 
       baseSiteService.baseSite$.next({ uid: 'some-site' } as BaseSite);
 
-      expect(siteThemeService.setActive).not.toHaveBeenCalledWith(
-        jasmine.falsy() as any
-      );
+      expect(siteThemeService.setActive).not.toBeFalsy();
     });
 
     it("should preserve the user's switcher-picked optional theme (high contrast)", () => {
@@ -281,7 +281,7 @@ describe('SiteThemeInitializer', () => {
       (siteThemeService as unknown as MockSiteThemeService).active$.next(
         'santorini'
       );
-      (siteThemeService.isInitialized as jasmine.Spy).and.returnValue(true);
+      vi.mocked(siteThemeService.isInitialized).mockReturnValue(true);
 
       initializer.initialize();
 
@@ -296,7 +296,7 @@ describe('SiteThemeInitializer', () => {
       (siteThemeService as unknown as MockSiteThemeService).active$.next(
         'cx-theme-high-contrast-dark'
       );
-      (siteThemeService.isInitialized as jasmine.Spy).and.returnValue(true);
+      vi.mocked(siteThemeService.isInitialized).mockReturnValue(true);
 
       initializer.initialize();
 

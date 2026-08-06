@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './active-cart-state-persistence.service';
 export * from './cart-config.service';
 export * from './cart-validation-state.service';
 export * from './multi-cart-state-persistence.service';

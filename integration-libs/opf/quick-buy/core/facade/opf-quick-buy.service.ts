@@ -64,7 +64,7 @@ export class OpfQuickBuyService implements OpfQuickBuyFacade {
       }),
       filter((response) => Boolean(response?.accessCode)),
       take(1),
-      concatMap(({ accessCode: accessCode }) => {
+      concatMap(({ accessCode }) => {
         return this.opfQuickBuyConnector.getApplePayWebSession(
           payload.applePayWebSessionRequest,
           accessCode

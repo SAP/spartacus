@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import { TestBed } from '@angular/core/testing';
@@ -32,18 +33,18 @@ describe('DatePipe', () => {
 
   describe('transform', () => {
     it('should translate date for active language when it is "en"', () => {
-      spyOn(languageService, 'getActive').and.returnValue(of('en'));
+      vi.spyOn(languageService, 'getActive').mockReturnValue(of('en'));
       expect(pipe.transform(mockDate, mockDateFormat)).toBe('January 11, 2017');
     });
 
     it('should translate date for active language other than "en", when locale is registered in Angular', () => {
       registerLocaleData(localeDe);
-      spyOn(languageService, 'getActive').and.returnValue(of('de'));
+      vi.spyOn(languageService, 'getActive').mockReturnValue(of('de'));
       expect(pipe.transform(mockDate, mockDateFormat)).toBe('11. Januar 2017');
     });
 
     it('should translate date for "en", when locale for active language is NOT registered in Angular', () => {
-      spyOn(languageService, 'getActive').and.returnValue(of('testLang'));
+      vi.spyOn(languageService, 'getActive').mockReturnValue(of('testLang'));
       expect(pipe.transform(mockDate, mockDateFormat)).toBe('January 11, 2017');
     });
   });

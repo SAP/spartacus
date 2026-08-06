@@ -15,6 +15,7 @@ import {
   AuthNotificationService,
   authNotificationServiceChannelId,
 } from './auth-notification.service';
+import { Mock, vi } from 'vitest';
 
 const mockActiveBaseSite = 'electronics-spa';
 
@@ -25,7 +26,7 @@ class MockBaseSiteService implements Partial<BaseSiteService> {
 }
 
 class MockLoggerService implements Partial<LoggerService> {
-  warn = jasmine.createSpy('warn');
+  warn = vi.fn();
 }
 
 class MockWindowRef implements Partial<WindowRef> {
@@ -44,12 +45,22 @@ describe('AuthNotificationService', () => {
   let service: AuthNotificationService;
   let mockChannel: MockBroadcastChannel;
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+  });
+
   beforeEach(() => {
     mockChannel = new MockBroadcastChannel();
-    spyOn(mockChannel, 'addEventListener');
-    spyOn(mockChannel, 'postMessage');
-    spyOn(mockChannel, 'close');
-    spyOn(window, 'BroadcastChannel').and.returnValue(mockChannel as any);
+    vi.spyOn(mockChannel, 'addEventListener');
+    vi.spyOn(mockChannel, 'postMessage');
+    vi.spyOn(mockChannel, 'close');
+    vi.stubGlobal(
+      'BroadcastChannel',
+      vi.fn().mockImplementation(function () {
+        return mockChannel;
+      })
+    );
 
     TestBed.configureTestingModule({
       providers: [
@@ -67,7 +78,7 @@ describe('AuthNotificationService', () => {
     it('should create a BroadcastChannel with the correct channel id', () => {
       service.listen();
 
-      expect(window.BroadcastChannel).toHaveBeenCalledWith(
+      expect(BroadcastChannel).toHaveBeenCalledWith(
         authNotificationServiceChannelId
       );
     });
@@ -77,9 +88,8 @@ describe('AuthNotificationService', () => {
     it('should isolate by the active base site', () => {
       service.listen();
 
-      const listenerCallback = (
-        mockChannel.addEventListener as jasmine.Spy
-      ).calls.mostRecent().args[1] as (event: MessageEvent) => void;
+      const listenerCallback = vi.mocked(mockChannel.addEventListener).mock
+        .calls[0][1] as (event: MessageEvent) => void;
 
       const emittedValues: unknown[] = [];
       service.notifications$.subscribe((val) => emittedValues.push(val));
@@ -109,9 +119,8 @@ describe('AuthNotificationService', () => {
     it('should filter payload to valid values', () => {
       service.listen();
 
-      const listenerCallback = (
-        mockChannel.addEventListener as jasmine.Spy
-      ).calls.mostRecent().args[1] as (event: MessageEvent) => void;
+      const listenerCallback = vi.mocked(mockChannel.addEventListener).mock
+        .calls[0][1] as (event: MessageEvent) => void;
 
       const emittedValues: unknown[] = [];
       service.notifications$.subscribe((val) => emittedValues.push(val));

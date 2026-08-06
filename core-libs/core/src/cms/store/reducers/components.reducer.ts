@@ -38,20 +38,7 @@ export function reducer<T extends CmsComponent>(
     case CmsActions.CLEAR_CMS_COMPONENT: {
       return initialState;
     }
-    case CmsActions.LOAD_CMS_COMPONENT: {
-      const pageContextReducer = loaderReducer<boolean, any>(
-        action.meta.entityType,
-        componentExistsReducer
-      );
-      const context = serializePageContext(action.payload.pageContext, true);
-      return {
-        ...state,
-        pageContext: {
-          ...state.pageContext,
-          [context]: pageContextReducer(state.pageContext[context], action),
-        },
-      };
-    }
+    case CmsActions.LOAD_CMS_COMPONENT:
     case CmsActions.LOAD_CMS_COMPONENT_FAIL: {
       const pageContextReducer = loaderReducer<boolean, any>(
         action.meta.entityType,
