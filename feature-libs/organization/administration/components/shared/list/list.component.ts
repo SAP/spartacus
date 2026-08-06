@@ -22,6 +22,7 @@ import {
   Translatable,
   TranslatePipe,
   UrlPipe,
+  useFeatureStyles,
 } from '@spartacus/core';
 import {
   ICON_TYPE,
@@ -108,7 +109,9 @@ export class ListComponent<T = any, P = PaginationModel>
   constructor(
     protected service: ListService<T, P>,
     protected organizationItemService: ItemService<T>
-  ) {}
+  ) {
+    useFeatureStyles('a11yNavigationChevronContrast');
+  }
 
   @HostBinding('class')
   viewType: OrganizationTableType = this.service.viewType;

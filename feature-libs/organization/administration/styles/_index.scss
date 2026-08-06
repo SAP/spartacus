@@ -19,6 +19,17 @@ cx-org-list {
   --list-bg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 0 44.21 69.76'%3E%3Cpolyline fill='none' stroke='%23D3D6DA' stroke-width='10' points='5,5 35,35 5,65 '/%3E%3C/svg%3E%0A");
   --list-bg-pos: calc(100% - 26px) 50%;
 
+  // The navigation chevron must meet WCAG 2.1 SC 1.4.11 Non-text Contrast
+  // (>= 3:1 against the white background). #556b82 (--cx-color-secondary)
+  // yields ~5.3:1. See useFeatureStyles('a11yNavigationChevronContrast') in
+  // ListComponent. The high-contrast themes (>= 7:1) are handled below with
+  // compound selectors, because the theme class and the feature class are
+  // applied to the SAME root element (nesting the mixins would produce a
+  // non-matching descendant selector).
+  @include forFeature('a11yNavigationChevronContrast') {
+    --list-bg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 0 44.21 69.76'%3E%3Cpolyline fill='none' stroke='%23556b82' stroke-width='10' points='5,5 35,35 5,65 '/%3E%3C/svg%3E%0A");
+  }
+
   @extend %buttons !optional;
   @extend %organizationMessage !optional;
 
@@ -28,9 +39,45 @@ cx-org-list {
   @extend %organizationItemForm !optional;
 }
 
+// High-contrast overrides for the navigation chevron. The theme class
+// (.cx-theme-high-contrast-*) and the feature class (.cxFeat_...) are both
+// added to the same root element, so they must be combined into a single
+// compound ancestor selector (not nested descendant selectors).
+// Black stroke on the white light-theme background / white stroke on the
+// black dark-theme background both yield ~21:1.
+.#{getFeatureCssClass('a11yNavigationChevronContrast')}.cx-theme-high-contrast-light
+  cx-org-list {
+  --list-bg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 0 44.21 69.76'%3E%3Cpolyline fill='none' stroke='%23000000' stroke-width='10' points='5,5 35,35 5,65 '/%3E%3C/svg%3E%0A");
+}
+.#{getFeatureCssClass('a11yNavigationChevronContrast')}.cx-theme-high-contrast-dark
+  cx-org-list {
+  --list-bg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 0 44.21 69.76'%3E%3Cpolyline fill='none' stroke='%23ffffff' stroke-width='10' points='5,5 35,35 5,65 '/%3E%3C/svg%3E%0A");
+}
+
 html[dir='rtl'] cx-org-list {
   --list-bg: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 0 44.21 69.76' %3E%3Cpolyline transform='scale (-1, 1)' transform-origin='center' fill='none' stroke='%23D3D6DA' stroke-width='10' points='5,5 35,35 5,65 '/%3E%3C/svg%3E");
   --list-bg-pos: 25px;
+}
+
+// RTL feature/high-contrast overrides. Written with explicit compound
+// selectors because both the feature class and the theme class live on the
+// same root element (which is a descendant of <html>), so the `forFeature`
+// mixin's ancestor form cannot be composed with the `html[dir='rtl']` prefix.
+html[dir='rtl']
+  .#{getFeatureCssClass('a11yNavigationChevronContrast')}
+  cx-org-list {
+  --list-bg: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 0 44.21 69.76' %3E%3Cpolyline transform='scale (-1, 1)' transform-origin='center' fill='none' stroke='%23556b82' stroke-width='10' points='5,5 35,35 5,65 '/%3E%3C/svg%3E");
+}
+
+html[dir='rtl']
+  .#{getFeatureCssClass('a11yNavigationChevronContrast')}.cx-theme-high-contrast-light
+  cx-org-list {
+  --list-bg: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 0 44.21 69.76' %3E%3Cpolyline transform='scale (-1, 1)' transform-origin='center' fill='none' stroke='%23000000' stroke-width='10' points='5,5 35,35 5,65 '/%3E%3C/svg%3E");
+}
+html[dir='rtl']
+  .#{getFeatureCssClass('a11yNavigationChevronContrast')}.cx-theme-high-contrast-dark
+  cx-org-list {
+  --list-bg: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 0 44.21 69.76' %3E%3Cpolyline transform='scale (-1, 1)' transform-origin='center' fill='none' stroke='%23ffffff' stroke-width='10' points='5,5 35,35 5,65 '/%3E%3C/svg%3E");
 }
 
 .my-company-popover {
