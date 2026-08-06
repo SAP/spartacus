@@ -5,10 +5,9 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { ActionsSubject } from '@ngrx/store';
-import { AuthActions, ConsentService, FeatureToggles } from '@spartacus/core';
+import { ConsentService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { CdsConfig } from '../../config/cds-config';
 import { ConsentChangedPushEvent } from '../model/profile-tag.model';
 import { LOGIN_EVENTS } from '../tokens/login-events.token';
@@ -18,12 +17,10 @@ import { LOGIN_EVENTS } from '../tokens/login-events.token';
 })
 export class ProfileTagLifecycleService {
   private readonly loginEnvelopes$ = inject(LOGIN_EVENTS);
-  private readonly featureToggles = inject(FeatureToggles);
 
   constructor(
     protected consentService: ConsentService,
-    protected config: CdsConfig,
-    protected actionsSubject: ActionsSubject
+    protected config: CdsConfig
   ) {}
 
   consentChanged(): Observable<ConsentChangedPushEvent> {
@@ -48,15 +45,8 @@ export class ProfileTagLifecycleService {
    * Emits true only for unique login envelopes (deduped by timestamp across the app lifetime).
    */
   loginSuccessful(): Observable<boolean> {
-    const cdsLoginEventsToken = this.featureToggles.cdsLoginEventsToken;
-    if (cdsLoginEventsToken) {
-      return this.loginEnvelopes$.pipe(
-        distinctUntilChanged((a, b) => a.timestamp === b.timestamp),
-        map(() => true)
-      );
-    }
-    return this.actionsSubject.pipe(
-      filter((action) => action.type === AuthActions.LOGIN),
+    return this.loginEnvelopes$.pipe(
+      distinctUntilChanged((a, b) => a.timestamp === b.timestamp),
       map(() => true)
     );
   }

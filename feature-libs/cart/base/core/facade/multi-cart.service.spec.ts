@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Cart, CartType } from '@spartacus/cart/base/root';
 import { FeatureToggles, UserIdService } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CartActions } from '../store/actions';
@@ -11,7 +12,6 @@ import {
 } from '../store/multi-cart-state';
 import * as fromReducers from '../store/reducers/index';
 import { MultiCartService } from './multi-cart.service';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 import createSpy = jasmine.createSpy;
 
@@ -62,14 +62,12 @@ class MockUserIdService implements Partial<UserIdService> {
 }
 
 const mockFeatureToggles: FeatureToggles = {
-  incrementProcessesCountForMergeCart: false,
   authorizationCodeFlowByDefault: false,
 };
 
 describe('MultiCartService', () => {
   let service: MultiCartService;
   let store: Store<StateWithMultiCart>;
-  let featureToggles: FeatureToggles;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -89,7 +87,6 @@ describe('MultiCartService', () => {
 
     store = TestBed.inject(Store);
     service = TestBed.inject(MultiCartService);
-    featureToggles = TestBed.inject(FeatureToggles);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -332,71 +329,21 @@ describe('MultiCartService', () => {
   });
 
   describe('mergeToCurrentCart', () => {
-    describe('feature flag incrementProcessesCountForMergeCart is enabled', () => {
-      it('should merge cart', () => {
-        spyOn(service as any, 'generateTempCartId').and.returnValue(
-          'temp-uuid'
-        );
-        featureToggles.incrementProcessesCountForMergeCart = true;
-        featureToggles.authorizationCodeFlowByDefault = false;
-        service.mergeToCurrentCart({
-          userId: 'userId',
-          cartId: 'cartId',
-          extraData: {},
-        });
-        expect(store.dispatch).toHaveBeenCalledWith(
-          new CartActions.MergeCartAndIncrementProcessesCount({
-            userId: 'userId',
-            extraData: {},
-            cartId: 'cartId',
-            tempCartId: 'temp-uuid',
-          })
-        );
+    it('should merge cart and increment processes count', () => {
+      spyOn(service as any, 'generateTempCartId').and.returnValue('temp-uuid');
+      service.mergeToCurrentCart({
+        userId: 'userId',
+        cartId: 'cartId',
+        extraData: {},
       });
-    });
-    describe('feature flag authorizationCodeFlowByDefault is enabled', () => {
-      it('should merge cart', () => {
-        spyOn(service as any, 'generateTempCartId').and.returnValue(
-          'temp-uuid'
-        );
-        featureToggles.authorizationCodeFlowByDefault = true;
-        featureToggles.incrementProcessesCountForMergeCart = false;
-        service.mergeToCurrentCart({
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.MergeCartAndIncrementProcessesCount({
           userId: 'userId',
-          cartId: 'cartId',
           extraData: {},
-        });
-        expect(store.dispatch).toHaveBeenCalledWith(
-          new CartActions.MergeCartAndIncrementProcessesCount({
-            userId: 'userId',
-            extraData: {},
-            cartId: 'cartId',
-            tempCartId: 'temp-uuid',
-          })
-        );
-      });
-    });
-    describe('feature flags incrementProcessesCountForMergeCart and authorizationCodeFlowByDefault are disabled', () => {
-      it('should merge cart', () => {
-        spyOn(service as any, 'generateTempCartId').and.returnValue(
-          'temp-uuid'
-        );
-        featureToggles.incrementProcessesCountForMergeCart = false;
-        featureToggles.authorizationCodeFlowByDefault = false;
-        service.mergeToCurrentCart({
-          userId: 'userId',
           cartId: 'cartId',
-          extraData: {},
-        });
-        expect(store.dispatch).toHaveBeenCalledWith(
-          new CartActions.MergeCart({
-            userId: 'userId',
-            extraData: {},
-            cartId: 'cartId',
-            tempCartId: 'temp-uuid',
-          })
-        );
-      });
+          tempCartId: 'temp-uuid',
+        })
+      );
     });
   });
 
