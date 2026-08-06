@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { EventService } from '../../event/event.service';
 import { createFrom } from '../../util/create-from';
 import { StateEventService } from './state-event.service';
+import { vi } from 'vitest';
 
 class TestEvent {
   value: number;
@@ -27,9 +28,7 @@ describe('StateEventService', () => {
         {
           provide: EventService,
           useValue: {
-            register: jasmine
-              .createSpy('register')
-              .and.returnValue(mockTearDown),
+            register: vi.fn().mockReturnValue(mockTearDown),
           },
         },
       ],
@@ -46,7 +45,8 @@ describe('StateEventService', () => {
           action: 'A',
           event: TestEvent,
         });
-        const registeredSource$ = eventService.register['calls'].argsFor(0)[1];
+        const registeredSource$ = vi.mocked(eventService.register).mock
+          .calls[0][1];
         const results = [];
         registeredSource$.subscribe((e) => results.push(e));
 
@@ -60,7 +60,7 @@ describe('StateEventService', () => {
         ]);
         expect(eventService.register).toHaveBeenCalledWith(
           TestEvent,
-          jasmine.any(Object)
+          expect.any(Object)
         );
       });
 
@@ -71,7 +71,8 @@ describe('StateEventService', () => {
           factory: (action: ActionWithPayload) =>
             createFrom(TestEvent, { value: 100 + action.payload.value }),
         });
-        const registeredSource$ = eventService.register['calls'].argsFor(0)[1];
+        const registeredSource$ = vi.mocked(eventService.register).mock
+          .calls[0][1];
         const results = [];
         registeredSource$.subscribe((e) => results.push(e));
 
@@ -85,7 +86,7 @@ describe('StateEventService', () => {
         ]);
         expect(eventService.register).toHaveBeenCalledWith(
           TestEvent,
-          jasmine.any(Object)
+          expect.any(Object)
         );
       });
 
@@ -94,7 +95,8 @@ describe('StateEventService', () => {
           action: ['A', 'B'],
           event: TestEvent,
         });
-        const registeredSource$ = eventService.register['calls'].argsFor(0)[1];
+        const registeredSource$ = vi.mocked(eventService.register).mock
+          .calls[0][1];
         const results = [];
         registeredSource$.subscribe((e) => results.push(e));
 
@@ -109,7 +111,7 @@ describe('StateEventService', () => {
         ]);
         expect(eventService.register).toHaveBeenCalledWith(
           TestEvent,
-          jasmine.any(Object)
+          expect.any(Object)
         );
       });
     });

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { delay, Observable, of } from 'rxjs';
 import { Config } from '../../../config';
@@ -84,7 +85,7 @@ describe('AuthConfigInitializer', () => {
 
     authConfig = TestBed.inject(AuthConfig) as typeof mockAuthConfig;
     configInitializerService = TestBed.inject(ConfigInitializerService);
-    spyOn(configInitializerService, 'getStable').and.returnValue(
+    vi.spyOn(configInitializerService, 'getStable').mockReturnValue(
       of(authConfig)
     );
     siteContextParamsService = TestBed.inject(SiteContextParamsService);
@@ -163,7 +164,9 @@ describe('AuthConfigInitializer', () => {
       it('should escape URL-unsafe characters in the base-site', async () => {
         const unsafeBaseSite = 'a/b c';
         const expected = `${mockOrigin}/a%2Fb%20c`;
-        spyOn(baseSiteService, 'getActive').and.returnValue(of(unsafeBaseSite));
+        vi.spyOn(baseSiteService, 'getActive').mockReturnValue(
+          of(unsafeBaseSite)
+        );
 
         const config = await service.configFactory();
 
@@ -179,10 +182,10 @@ describe('AuthConfigInitializer', () => {
           'auto';
       });
       it('should initialize the redirect URI when baseSite is in the URL context parameters', async () => {
-        spyOn(
+        vi.spyOn(
           siteContextParamsService,
           'getUrlEncodingParameters'
-        ).and.returnValue([BASE_SITE_CONTEXT_ID]);
+        ).mockReturnValue([BASE_SITE_CONTEXT_ID]);
         const expected = `${mockOrigin}/${mockActiveBaseSite}`;
         const config = await service.configFactory();
 
@@ -232,10 +235,10 @@ describe('AuthConfigInitializer', () => {
         authConfig.authentication.initializerOptions.baseSiteSuffix = 'auto';
       });
       it('should suffix the client ID with the base site when baseSite is in the URL context parameters', async () => {
-        spyOn(
+        vi.spyOn(
           siteContextParamsService,
           'getUrlEncodingParameters'
-        ).and.returnValue([BASE_SITE_CONTEXT_ID]);
+        ).mockReturnValue([BASE_SITE_CONTEXT_ID]);
         const expected = `${mockClientId}_${mockActiveBaseSite}`;
         const config = await service.configFactory();
 
@@ -261,7 +264,7 @@ describe('AuthConfigInitializer', () => {
       });
 
       it('should handle slow baseSite request', async () => {
-        spyOn(baseSiteService, 'getActive').and.returnValue(
+        vi.spyOn(baseSiteService, 'getActive').mockReturnValue(
           of(mockActiveBaseSite).pipe(delay(10))
         );
 
@@ -271,7 +274,7 @@ describe('AuthConfigInitializer', () => {
       });
 
       it('should handle slow config request', async () => {
-        (configInitializerService.getStable as jasmine.Spy).and.returnValue(
+        vi.spyOn(configInitializerService, 'getStable').mockReturnValue(
           of(authConfig).pipe(delay(10))
         );
 
