@@ -243,30 +243,33 @@ describe('CheckoutReviewPaymentComponent - a11yImproveCheckoutFocus', () => {
     fixture.detectChanges();
   }
 
-  it('should render the review summary with autofocus when the feature is enabled', () => {
-    configure(true);
-
-    const summary = fixture.debugElement.query(By.css('.cx-review-summary'));
-    expect(summary).toBeTruthy();
-    expect(
-      fixture.debugElement.query(By.css('.cx-review-summary-edit-step'))
-    ).toBeTruthy();
-
-    const directive = summary.injector.get(MockFocusDirective);
-    expect(directive.cxFocus).toEqual(
-      expect.objectContaining({ autofocus: true })
-    );
+  describe('when the feature is enabled', () => {
+    beforeEach(async () => await configure(true));
+    it('should render the review summary with autofocus', () => {
+      const summary = fixture.debugElement.query(By.css('.cx-review-summary'));
+      expect(summary).toBeTruthy();
+      expect(
+        fixture.debugElement.query(By.css('.cx-review-summary-edit-step'))
+      ).toBeTruthy();
+      const directive = summary.injector.get(MockFocusDirective);
+      expect(directive.cxFocus).toEqual(
+        expect.objectContaining({ autofocus: true })
+      );
+    });
   });
+  describe('when the feature is disabled', () => {
+    beforeEach(async () => {
+      await configure(false);
+      await fixture.whenStable();
+    });
+    it('should render the review summary without autofocus when the feature is disabled', () => {
+      const summary = fixture.debugElement.query(By.css('.cx-review-summary'));
+      expect(summary).toBeTruthy();
+      expect(
+        fixture.debugElement.query(By.css('.cx-review-summary-edit-step'))
+      ).toBeTruthy();
 
-  it('should render the review summary without autofocus when the feature is disabled', () => {
-    configure(false);
-
-    const summary = fixture.debugElement.query(By.css('.cx-review-summary'));
-    expect(summary).toBeTruthy();
-    expect(
-      fixture.debugElement.query(By.css('.cx-review-summary-edit-step'))
-    ).toBeTruthy();
-
-    expect(() => summary.injector.get(MockFocusDirective)).toThrow();
+      expect(() => summary.injector.get(MockFocusDirective)).toThrow();
+    });
   });
 });
