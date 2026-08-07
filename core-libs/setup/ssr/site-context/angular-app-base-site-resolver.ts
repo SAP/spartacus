@@ -78,6 +78,7 @@ import { performance } from 'perf_hooks';
 import {
   BaseSiteResolver,
   BaseSiteResolverConfig,
+  ConcurrencyLimitError,
   OccUnavailableError,
 } from './base-site-resolver';
 
@@ -86,6 +87,9 @@ export class AngularAppBaseSiteResolver implements BaseSiteResolver {
   protected readonly occPrefix: string;
   protected readonly timeoutMs: number;
   protected readonly defaultBaseSite: string | null;
+  protected readonly maxConcurrentOccCalls: number;
+  /** Renders currently in flight; the basis for the concurrency cap. */
+  protected inFlight = 0;
 
   protected initPromise: Promise<void> | null = null;
 
@@ -94,6 +98,7 @@ export class AngularAppBaseSiteResolver implements BaseSiteResolver {
     this.occPrefix = config.occPrefix ?? '/occ/v2';
     this.timeoutMs = config.timeoutMs ?? 3000;
     this.defaultBaseSite = config.defaultBaseSite ?? null;
+    this.maxConcurrentOccCalls = config.maxConcurrentOccCalls ?? 1;
   }
 
   async initialize(): Promise<void> {
@@ -110,7 +115,19 @@ export class AngularAppBaseSiteResolver implements BaseSiteResolver {
 
   async resolve(requestUrl: string): Promise<string | null> {
     await this.initialize();
-    return this.resolveViaAngular(requestUrl);
+    // Load shedding: refuse fast before starting a render. Protects the Node
+    // process from unbounded concurrent Angular boots and guards the
+    // platform-server singleton (two overlapping renders collide). See the
+    // config JSDoc for why the default cap is 1.
+    if (this.inFlight >= this.maxConcurrentOccCalls) {
+      throw new ConcurrencyLimitError();
+    }
+    this.inFlight++;
+    try {
+      return await this.resolveViaAngular(requestUrl);
+    } finally {
+      this.inFlight--;
+    }
   }
 
   async destroy(): Promise<void> {
@@ -127,25 +144,18 @@ export class AngularAppBaseSiteResolver implements BaseSiteResolver {
     const { importProvidersFrom, Component, inject } = await import('@angular/core');
     const { StoreModule } = await import('@ngrx/store');
     const { EffectsModule } = await import('@ngrx/effects');
-    // Import specific symbols via deep relative paths rather than the
-    // '../../../core/public_api' barrel: importing a lib's own public_api from
-    // inside that lib risks circular deps and pulls the whole barrel per call.
-    const { SiteContextModule } = await import(
-      '../../../core/src/site-context/site-context.module'
-    );
-    const { BaseOccModule } = await import(
-      '../../../core/src/occ/base-occ.module'
-    );
-    const { WindowRef } = await import('../../../core/src/window/window-ref');
-    const { BaseSiteService } = await import(
-      '../../../core/src/site-context/facade/base-site.service'
-    );
-    const { JavaRegExpConverter } = await import(
-      '../../../core/src/util/java-reg-exp-converter/java-reg-exp-converter'
-    );
-    const { provideConfig } = await import(
-      '../../../core/src/config/config-providers'
-    );
+    // setup → core is a cross-lib dependency, so the core public_api barrel is
+    // the supported import path (the circular-dep rule only forbids importing a
+    // lib's OWN public_api from inside that lib). Deep 'core/src/...' imports
+    // break encapsulation and do not resolve against the published package.
+    const {
+      SiteContextModule,
+      BaseOccModule,
+      WindowRef,
+      BaseSiteService,
+      JavaRegExpConverter,
+      provideConfig,
+    } = await import('../../../core/public_api');
     const { firstValueFrom } = await import('rxjs');
 
     // Root component selector must match the host element in the server document

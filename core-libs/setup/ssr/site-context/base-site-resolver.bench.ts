@@ -34,7 +34,11 @@
 import 'reflect-metadata';
 import * as http from 'node:http';
 import { performance } from 'node:perf_hooks';
-import { BaseSiteResolver, BaseSiteResolverConfig } from './base-site-resolver';
+import {
+  BaseSiteResolver,
+  BaseSiteResolverConfig,
+  ConcurrencyLimitError,
+} from './base-site-resolver';
 
 // ─── config ────────────────────────────────────────────────────────────────
 
@@ -101,7 +105,50 @@ function startMockOccServer(port: number, delayMs: number): http.Server {
   return server;
 }
 
+async function startEphemeralMockOccServer(
+  delayMs: number
+): Promise<{ server: http.Server; port: number }> {
+  const server = http.createServer((_req, res) => {
+    setTimeout(() => {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(MOCK_BODY);
+    }, delayMs);
+  });
+  await new Promise<void>((resolve) => server.listen(0, resolve));
+  const { port } = server.address() as { port: number };
+  return { server, port };
+}
+
 // ─── scenarios ──────────────────────────────────────────────────────────────
+
+async function scenarioConcurrencyCap(
+  cap: number,
+  extra: number
+): Promise<{ resolved: number; shed: number }> {
+  // A slow mock keeps the first render open long enough that the extra calls
+  // arrive while inFlight is at the cap, so they are shed fail-fast.
+  const mock = await startEphemeralMockOccServer(200);
+  const resolver = makeResolver({
+    occBaseUrl: `http://localhost:${mock.port}`,
+    timeoutMs: 5000,
+    maxConcurrentOccCalls: cap,
+  });
+  await resolver.initialize();
+
+  const outcomes = await Promise.allSettled(
+    Array.from({ length: cap + extra }, () => resolver.resolve(REQUEST_URL))
+  );
+  const resolved = outcomes.filter((o) => o.status === 'fulfilled').length;
+  const shed = outcomes.filter(
+    (o) =>
+      o.status === 'rejected' &&
+      (o as PromiseRejectedResult).reason instanceof ConcurrencyLimitError
+  ).length;
+
+  await resolver.destroy();
+  await new Promise<void>((resolve) => mock.server.close(() => resolve()));
+  return { resolved, shed };
+}
 
 async function scenarioPerCall(
   resolver: BaseSiteResolver,
@@ -166,8 +213,19 @@ async function main(): Promise<void> {
   console.log(`  Req URL  : ${REQUEST_URL}`);
   console.log(`${'═'.repeat(72)}\n`);
 
+  // ── concurrency cap (mock — no CX_BASE_URL needed) ───────────────────────
+  console.log('Scenario concurrency-cap (cap 1, fire 5 concurrent)\n');
+  const capResult = await scenarioConcurrencyCap(1, 4);
+  const capPass = capResult.resolved === 1 && capResult.shed === 4;
+  console.log(
+    `  resolved: ${capResult.resolved}  shed(ConcurrencyLimitError): ${capResult.shed}  cap: ${capPass ? 'PASS' : 'FAIL — expected 1 resolved / 4 shed'}`
+  );
+  if (!capPass) {
+    process.exitCode = 1;
+  }
+
   // ── slow OCC (mock — no CX_BASE_URL needed) ──────────────────────────────
-  console.log('Scenario slow-occ (mock 4 s OCC, resolver timeout 3 s)\n');
+  console.log('\nScenario slow-occ (mock 4 s OCC, resolver timeout 3 s)\n');
   {
     const port = MOCK_OCC_PORT ?? 9999;
     const mockServer = startMockOccServer(port, 4000);
@@ -197,13 +255,26 @@ async function main(): Promise<void> {
     const perCallSamples = await scenarioPerCall(resolver, 100);
     printStats('per-call', perCallSamples);
 
-    // ── concurrent (also stresses platform-server singleton) ─────────────────
-    console.log('\nScenario concurrent (10 × resolve, 3 batches)\n');
-    const { batchSamples, failures } = await scenarioConcurrent(resolver, 10, 3);
+    // ── concurrent — probes the platform-server singleton ────────────────────
+    // Raise the cap so renders actually overlap; the default cap of 1 would
+    // shed them fail-fast before they reach the singleton. Rejections here are
+    // the platform-singleton collisions the ADR flags as an unknown.
+    console.log('\nScenario concurrent (10 × resolve, 3 batches, cap raised)\n');
+    const concurrentResolver = makeResolver({
+      occBaseUrl: OCC_BASE_URL,
+      timeoutMs: 3000,
+      maxConcurrentOccCalls: 10,
+    });
+    const { batchSamples, failures } = await scenarioConcurrent(
+      concurrentResolver,
+      10,
+      3
+    );
     printStats('concurrent-batch', batchSamples);
     console.log(
-      `  rejected resolves: ${failures} / 30  ${failures > 0 ? '⚠ platform-singleton collisions under concurrency' : ''}`
+      `  rejected resolves: ${failures} / 30  ${failures > 0 ? '⚠ platform-singleton collisions under overlap' : '(no collisions observed)'}`
     );
+    await concurrentResolver.destroy();
 
     await resolver.destroy();
   }

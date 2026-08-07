@@ -27,7 +27,10 @@ import { getRequestUrl } from '../../../core-libs/setup/ssr/express-utils/expres
 // Approach (b): createApplication() — cacheless. Each resolve() boots a
 // minimal Angular app (HttpClient only) and fetches base-sites from OCC.
 import { AngularAppBaseSiteResolver } from '../../../core-libs/setup/ssr/site-context/angular-app-base-site-resolver';
-import { OccUnavailableError } from '../../../core-libs/setup/ssr/site-context/base-site-resolver';
+import {
+  ConcurrencyLimitError,
+  OccUnavailableError,
+} from '../../../core-libs/setup/ssr/site-context/base-site-resolver';
 const baseSiteResolver = new AngularAppBaseSiteResolver({
   occBaseUrl: buildProcess.env.CX_BASE_URL,
   timeoutMs: 3000,
@@ -98,10 +101,19 @@ export async function app(): Promise<express.Express> {
       const content = getLlmsTxt(baseSiteId);
       res.type('text/plain').send(content);
     } catch (err) {
-      // resolve() throws OccUnavailableError on render timeout/failure — map to
-      // 503 + Retry-After rather than serving default content on a failed OCC.
-      if (err instanceof OccUnavailableError) {
-        res.set('Retry-After', '5').status(503).type('text/plain').send('');
+      // resolve() throws on failure — map to 503 + Retry-After rather than
+      // serving default content:
+      //   • ConcurrencyLimitError — request shed under load,
+      //   • OccUnavailableError   — render timed out or failed.
+      if (
+        err instanceof ConcurrencyLimitError ||
+        err instanceof OccUnavailableError
+      ) {
+        res
+          .set('Retry-After', '5')
+          .status(503)
+          .type('text/plain')
+          .send('Service Unavailable');
         return;
       }
       next(err);

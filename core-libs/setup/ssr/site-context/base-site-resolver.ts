@@ -24,6 +24,17 @@ export interface BaseSiteResolverConfig {
    * (SiteContextConfig). When omitted, resolve() returns null on no match.
    */
   defaultBaseSite?: string;
+  /**
+   * Max number of renders allowed in flight at once. Above this, resolve()
+   * fails fast with `ConcurrencyLimitError` instead of queueing.
+   *
+   * Default: 1. renderApplication() calls platformServer() — a process-level
+   * singleton — so two overlapping renders collide (createPlatform throws when
+   * one already exists). A cap of 1 serialises via fail-fast: the first render
+   * proceeds, any concurrent request is shed. A cap > 1 would NOT help here — it
+   * would just let the extra renders reach the colliding singleton.
+   */
+  maxConcurrentOccCalls?: number;
 }
 
 export interface BaseSiteResolver {
@@ -44,6 +55,8 @@ export interface BaseSiteResolver {
    *     cleanly but no urlPattern matched the URL.
    *
    * Throws:
+   *   - `ConcurrencyLimitError` when the in-flight render limit is exceeded
+   *     (load shedding — protects the process and the platform singleton), or
    *   - `OccUnavailableError` when the underlying render times out or fails,
    *     so the Express handler can map it to a 503 instead of silently
    *     serving default content.
@@ -52,6 +65,14 @@ export interface BaseSiteResolver {
 
   /** Release resources. */
   destroy(): Promise<void>;
+}
+
+/** Thrown when the in-flight render limit is exceeded (load shedding). */
+export class ConcurrencyLimitError extends Error {
+  constructor(message = 'base-site render concurrency limit exceeded') {
+    super(message);
+    this.name = 'ConcurrencyLimitError';
+  }
 }
 
 /**
