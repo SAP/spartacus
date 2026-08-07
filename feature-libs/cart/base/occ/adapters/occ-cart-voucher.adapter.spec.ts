@@ -17,7 +17,7 @@ import {
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,
-} from 'core-libs/core/src/occ/adapters/user/unit-test.helper';
+} from '@spartacus/core/testing/mock-occ-endpoints';
 import { OccCartVoucherAdapter } from './occ-cart-voucher.adapter';
 
 const userId = '123';
@@ -57,8 +57,8 @@ describe('OccCartVoucherAdapter', () => {
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
 
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
+    vi.spyOn(converter, 'pipeable');
+    vi.spyOn(occEnpointsService, 'buildUrl');
   }
 
   afterEach(() => {

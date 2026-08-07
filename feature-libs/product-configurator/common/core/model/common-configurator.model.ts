@@ -110,6 +110,7 @@ export enum ConfigurationInfoFields {
   QTY = 'QTY',
   FORMATTED_PRICE = 'FORMATTED_PRICE',
   PRICE_VALUE = 'PRICE_VALUE',
+  PARENT = 'PARENT',
 }
 
 /**
