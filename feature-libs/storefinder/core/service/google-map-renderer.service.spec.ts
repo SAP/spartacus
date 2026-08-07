@@ -20,6 +20,7 @@ const mockGoogleMapsConfig = {
   scale: 5,
   selectedMarkerScale: 17,
   radius: 50000,
+  mapId: 'MOCK_MAP_ID',
 };
 
 const locations = [
@@ -51,8 +52,9 @@ class ScriptLoaderMock {
     googleMock.maps = {};
     googleMock.maps.MapTypeId = {};
     googleMock.maps.Animation = {};
-    googleMock.maps.Map = function (mapDomElement: HTMLElement) {
+    googleMock.maps.Map = function (mapDomElement: HTMLElement, mapProp: any) {
       mapDomElement.innerHTML = MAP_DOM_ELEMENT_INNER_HTML;
+      this.mapProp = mapProp;
       this.setCenter = function () {};
       this.setZoom = function () {};
       this.panTo = function () {};
@@ -342,7 +344,51 @@ describe('GoogleMapRendererService', () => {
 
       expect(advancedMarkerInstances[0].listeners['click']).toBeUndefined();
     }));
+
+    it('should load the marker library when embedding the script', fakeAsync(() => {
+      spyOn(scriptLoaderMock, 'embedScript').and.callThrough();
+
+      googleMapRendererService.renderMap(
+        mapDomElement,
+        locations,
+        selectedIndex
+      );
+
+      expect(scriptLoaderMock.embedScript).toHaveBeenCalledWith({
+        src: config.googleMaps?.apiUrl,
+        params: Object({ key: MOCK_MAPS_API_KEY, libraries: 'marker' }),
+        attributes: { type: 'text/javascript' },
+        callback: jasmine.any(Function) as any,
+      });
+    }));
+
+    it('should create the map with the configured mapId', fakeAsync(() => {
+      googleMapRendererService.renderMap(
+        mapDomElement,
+        locations,
+        selectedIndex
+      );
+      tick();
+
+      expect(mapInstances[0].mapProp.mapId).toBe(mockGoogleMapsConfig.mapId);
+    }));
   });
+
+  it('should not load the marker library nor set a mapId when the toggle is disabled', fakeAsync(() => {
+    setApiKey(MOCK_MAPS_API_KEY);
+    spyOn(scriptLoaderMock, 'embedScript').and.callThrough();
+
+    googleMapRendererService.renderMap(mapDomElement, locations, selectedIndex);
+    tick();
+
+    expect(scriptLoaderMock.embedScript).toHaveBeenCalledWith({
+      src: config.googleMaps?.apiUrl,
+      params: Object({ key: MOCK_MAPS_API_KEY }),
+      attributes: { type: 'text/javascript' },
+      callback: jasmine.any(Function) as any,
+    });
+    expect(mapInstances[0].mapProp.mapId).toBeUndefined();
+  }));
 
   describe('centerMap', () => {
     function renderAndGetMap(): any {

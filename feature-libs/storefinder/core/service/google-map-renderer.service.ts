@@ -55,7 +55,14 @@ export class GoogleMapRendererService {
 
           this.scriptLoader.embedScript({
             src: this.config.googleMaps.apiUrl ?? '',
-            params: { key: apiKey },
+            params: {
+              key: apiKey,
+              // Advanced markers live in the optional `marker` library, which
+              // Google only loads when it is requested explicitly.
+              ...(this.featureToggles.useAdvancedGoogleMarkers
+                ? { libraries: 'marker' }
+                : {}),
+            },
             attributes: { type: 'text/javascript' },
             callback: () => {
               this.drawMap(mapElement, locations, selectMarkerHandler);
@@ -115,6 +122,10 @@ export class GoogleMapRendererService {
       zoom: this.config.googleMaps?.scale,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       gestureHandling: gestureOption,
+      // Advanced markers only render on a map that has a `mapId`.
+      ...(this.featureToggles.useAdvancedGoogleMarkers
+        ? { mapId: this.config.googleMaps?.mapId }
+        : {}),
     };
     this.googleMap = new google.maps.Map(mapElement, mapProp);
   }
