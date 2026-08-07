@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const fallbackBaseUrl = 'https://40.76.109.9:9002';
 
 export const baseUrlMap: Record<string, string> = {
