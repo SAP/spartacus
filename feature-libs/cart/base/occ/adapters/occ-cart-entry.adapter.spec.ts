@@ -64,8 +64,8 @@ describe('OccCartEntryAdapter', () => {
     converterService = TestBed.inject(ConverterService);
     occEndpointsService = TestBed.inject(OccEndpointsService);
 
-    spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
+    vi.spyOn(converterService, 'pipeable');
+    vi.spyOn(occEndpointsService, 'buildUrl');
   });
 
   afterEach(() => {

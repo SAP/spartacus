@@ -14,7 +14,6 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import createSpy = jasmine.createSpy;
 
 const mockCartId = 'test-cart';
 const mockUserId = 'test-user';
@@ -42,14 +41,14 @@ const mockActiveCart: Cart = {
 };
 
 class MockSavedCartConnector implements Partial<SavedCartConnector> {
-  get = createSpy().and.returnValue(of(mockSavedCarts[0]));
-  getList = createSpy().and.returnValue(of(mockSavedCarts));
-  restoreSavedCart = createSpy().and.returnValue(of(mockSavedCarts[0]));
-  cloneSavedCart = createSpy().and.returnValue(of(mockSavedCarts[0]));
+  get = vi.fn().mockReturnValue(of(mockSavedCarts[0]));
+  getList = vi.fn().mockReturnValue(of(mockSavedCarts));
+  restoreSavedCart = vi.fn().mockReturnValue(of(mockSavedCarts[0]));
+  cloneSavedCart = vi.fn().mockReturnValue(of(mockSavedCarts[0]));
 }
 
 class MockCartConnector {
-  save = createSpy().and.returnValue(of(mockSavedCarts[0]));
+  save = vi.fn().mockReturnValue(of(mockSavedCarts[0]));
 }
 
 const activeCart$ = new BehaviorSubject<Cart>(mockActiveCart);
@@ -58,7 +57,7 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy();
+  add = vi.fn();
 }
 
 describe('SavedCart Effects', () => {
