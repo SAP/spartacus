@@ -10,6 +10,10 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
+   *
+   */
+  useAdvancedGoogleMarkers?: boolean;
+  /**
    * Adds a keyboard accessible zoom button to the `ProductImageZoomViewComponent`.
    */
   a11yKeyboardAccessibleZoom?: boolean;
@@ -701,6 +705,7 @@ export interface FeatureTogglesInterface {
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  useAdvancedGoogleMarkers: false,
   alignNavigationMenuWithHeader: false,
   a11yKeyboardAccessibleZoom: true,
   a11yPreventCartItemsFormRedundantRecreation: true,

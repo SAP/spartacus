@@ -5,20 +5,27 @@
  */
 
 /// <reference types="@types/google.maps" />
+import { DOCUMENT } from '@angular/common';
 import { Injectable, inject, isDevMode } from '@angular/core';
-import { LoggerService, ScriptLoader } from '@spartacus/core';
+import { FeatureToggles, LoggerService, ScriptLoader } from '@spartacus/core';
+// eslint-disable-next-line @nx/workspace-no-self-public-api-import -- ESLint is misfiring here: core and root are not the same library — they're separate entry points
 import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
 import { StoreFinderConfig } from '../config/store-finder-config';
 import { StoreFinderService } from '../facade/store-finder.service';
+import { StoreLocationService } from './store-location.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GoogleMapRendererService {
-  private googleMap: google.maps.Map = null;
+  private googleMap: google.maps.Map | null = null;
   private markers: google.maps.Marker[];
+  private advancedMarkers: google.maps.marker.AdvancedMarkerElement[];
 
   protected logger = inject(LoggerService);
+  protected storeLocationService = inject(StoreLocationService);
+  protected document = inject(DOCUMENT);
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     protected config: StoreFinderConfig,
@@ -39,7 +46,7 @@ export class GoogleMapRendererService {
     selectMarkerHandler?: Function
   ): void {
     if (this.config.googleMaps?.apiKey) {
-      if (Object.entries(locations[Object.keys(locations)[0]]).length > 0) {
+      if (Object.entries(locations[0]).length > 0) {
         if (this.googleMap === null) {
           const apiKey =
             this.config.googleMaps.apiKey === GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG
@@ -47,7 +54,7 @@ export class GoogleMapRendererService {
               : this.config.googleMaps.apiKey;
 
           this.scriptLoader.embedScript({
-            src: this.config.googleMaps.apiUrl,
+            src: this.config.googleMaps.apiUrl ?? '',
             params: { key: apiKey },
             attributes: { type: 'text/javascript' },
             callback: () => {
@@ -73,8 +80,8 @@ export class GoogleMapRendererService {
    * @param longitude longitude of the new center
    */
   centerMap(latitute: number, longitude: number): void {
-    this.googleMap.panTo({ lat: latitute, lng: longitude });
-    this.googleMap.setZoom(this.config.googleMaps.selectedMarkerScale);
+    this.googleMap?.panTo({ lat: latitute, lng: longitude });
+    this.googleMap?.setZoom(this.config.googleMaps.selectedMarkerScale);
   }
 
   /**
@@ -102,7 +109,7 @@ export class GoogleMapRendererService {
 
     const mapProp = {
       center: mapCenter,
-      zoom: this.config.googleMaps.scale,
+      zoom: this.config.googleMaps?.scale,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       gestureHandling: gestureOption,
     };
@@ -118,29 +125,58 @@ export class GoogleMapRendererService {
     locations: any[],
     selectMarkerHandler?: Function
   ): void {
-    this.markers = [];
-    locations.forEach((element, index) => {
-      const marker = new google.maps.Marker({
-        position: new google.maps.LatLng(
-          this.storeFinderService.getStoreLatitude(element),
-          this.storeFinderService.getStoreLongitude(element)
-        ),
-        label: index + 1 + '',
-      });
-      this.markers.push(marker);
-      marker.setMap(this.googleMap);
-      marker.addListener('mouseover', function () {
-        marker.setAnimation(google.maps.Animation.BOUNCE);
-      });
-      marker.addListener('mouseout', function () {
-        marker.setAnimation(null);
-      });
-      if (selectMarkerHandler) {
-        marker.addListener('click', function () {
-          selectMarkerHandler(index);
+    if (this.featureToggles.useAdvancedGoogleMarkers) {
+      this.advancedMarkers = [];
+      locations.forEach((element, index) => {
+        const content = this.document.createElement('div');
+        content.className = 'cx-store-marker';
+        content.textContent = index + 1 + '';
+        const marker = new google.maps.marker.AdvancedMarkerElement({
+          position: new google.maps.LatLng(
+            this.storeLocationService.getStoreLatitude(element) ?? 0,
+            this.storeLocationService.getStoreLongitude(element) ?? 0
+          ),
+          content,
         });
-      }
-    });
+        this.advancedMarkers.push(marker);
+        marker.map = this.googleMap;
+        marker.addListener('mouseover', function () {
+          content.classList.add('cx-store-marker-bounce');
+        });
+        marker.addListener('mouseout', function () {
+          content.classList.remove('cx-store-marker-bounce');
+        });
+        if (selectMarkerHandler) {
+          marker.addListener('click', function () {
+            selectMarkerHandler(index);
+          });
+        }
+      });
+    } else {
+      this.markers = [];
+      locations.forEach((element, index) => {
+        const marker = new google.maps.Marker({
+          position: new google.maps.LatLng(
+            this.storeFinderService.getStoreLatitude(element),
+            this.storeFinderService.getStoreLongitude(element)
+          ),
+          label: index + 1 + '',
+        });
+        this.markers.push(marker);
+        marker.setMap(this.googleMap);
+        marker.addListener('mouseover', function () {
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+        });
+        marker.addListener('mouseout', function () {
+          marker.setAnimation(null);
+        });
+        if (selectMarkerHandler) {
+          marker.addListener('click', function () {
+            selectMarkerHandler(index);
+          });
+        }
+      });
+    }
   }
 
   /**
@@ -152,7 +188,7 @@ export class GoogleMapRendererService {
   private drawMap(
     mapElement: HTMLElement,
     locations: any[],
-    selectMarkerHandler: Function
+    selectMarkerHandler?: Function
   ) {
     this.initMap(mapElement, this.defineMapCenter(locations));
     this.createMarkers(locations, selectMarkerHandler);
