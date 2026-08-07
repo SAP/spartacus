@@ -60,19 +60,19 @@ function matchesSite(site: OccBaseSite, url: string): boolean {
 }
 
 export class PureNodeBaseSiteResolver implements BaseSiteResolver {
-  private readonly occUrl: string;
-  private readonly timeoutMs: number;
-  private readonly maxConcurrentOccCalls: number;
-  private readonly defaultBaseSite: string | null;
+  protected readonly occUrl: string;
+  protected readonly timeoutMs: number;
+  protected readonly maxConcurrentOccCalls: number;
+  protected readonly defaultBaseSite: string | null;
   /** OCC calls currently in flight; the basis for the concurrency cap. */
-  private inFlight = 0;
+  protected inFlight = 0;
 
-  constructor(_config: BaseSiteResolverConfig) {
-    const prefix = _config.occPrefix ?? '/occ/v2';
-    this.occUrl = `${_config.occBaseUrl}${prefix}/basesites?fields=FULL`;
-    this.timeoutMs = _config.timeoutMs ?? 3000;
-    this.maxConcurrentOccCalls = _config.maxConcurrentOccCalls ?? 10;
-    this.defaultBaseSite = _config.defaultBaseSite ?? null;
+  constructor(config: BaseSiteResolverConfig) {
+    const prefix = config.occPrefix ?? '/occ/v2';
+    this.occUrl = `${config.occBaseUrl}${prefix}/basesites?fields=FULL`;
+    this.timeoutMs = config.timeoutMs ?? 3000;
+    this.maxConcurrentOccCalls = config.maxConcurrentOccCalls ?? 10;
+    this.defaultBaseSite = config.defaultBaseSite ?? null;
   }
 
   async resolve(requestUrl: string): Promise<string | null> {
@@ -94,7 +94,7 @@ export class PureNodeBaseSiteResolver implements BaseSiteResolver {
     }
   }
 
-  private async fetchSites(): Promise<OccBaseSite[]> {
+  protected async fetchSites(): Promise<OccBaseSite[]> {
     const t0 = performance.now();
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), this.timeoutMs);

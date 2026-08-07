@@ -69,6 +69,7 @@ export function createBaseSiteRequestHandler(
         res
           .status(503)
           .set('Retry-After', String(retryAfterSeconds))
+          .type(contentType)
           .send('Service Unavailable');
       } else {
         next(err);

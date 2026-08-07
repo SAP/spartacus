@@ -6,10 +6,10 @@
 
 /**
  * SPIKE — not production code.
- * Branch: spike/base-site-detection-approaches
+ * Approach (a): Pure Node — no Angular involved.
  *
- * Shared contract implemented by all base-site resolver approaches.
- * To switch approaches: comment/uncomment the relevant import block in server.ts.
+ * Shared contract implemented by the base-site resolver. Each spike approach
+ * lives on its own branch/worktree and provides its own implementation.
  */
 
 export interface BaseSiteResolverConfig {
