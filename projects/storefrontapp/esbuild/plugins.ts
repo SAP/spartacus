@@ -22,6 +22,9 @@ const resolveEnvPlugin: Plugin = {
         }
       }
     });
+    // Developer-owned, local-only key (not `CX_`-prefixed and not committed to
+    // `.env-cmdrc`) used to display Google Maps in the store finder.
+    env['GOOGLE_MAPS_API_KEY'] = process.env['GOOGLE_MAPS_API_KEY'];
     build.initialOptions.define = {
       ...build.initialOptions.define,
       'buildProcess.env': JSON.stringify(env),

@@ -18,12 +18,11 @@ import { StoreLocationService } from './store-location.service';
   providedIn: 'root',
 })
 export class GoogleMapRendererService {
-  // Ensures each async-loaded map gets a distinct global callback name.
-  private static callbackCounter = 0;
-
   private googleMap: google.maps.Map | null = null;
   private markers: google.maps.Marker[];
   private advancedMarkers: google.maps.marker.AdvancedMarkerElement[];
+  // Ensures each async-loaded map gets a distinct global callback name.
+  private static callbackCounter = 0;
 
   protected logger = inject(LoggerService);
   protected storeLocationService = inject(StoreLocationService);
@@ -198,10 +197,14 @@ export class GoogleMapRendererService {
         }
         // Use Google's `PinElement` so the marker keeps the classic teardrop
         // pin shape (with the store number as its glyph) instead of rendering
-        // as a plain styled element.
+        // as a plain styled element. `glyphText` supersedes the deprecated
+        // `glyph`; it isn't in the pinned `@types/google.maps` yet, so it's
+        // spread in via a cast.
         const pin = new google.maps.marker.PinElement({
-          glyph: `${index + 1}`,
           glyphColor: '#fff',
+          ...({
+            glyphText: `${index + 1}`,
+          } as google.maps.marker.PinElementOptions),
         });
         // Wrap the pin: `AdvancedMarkerElement` positions its `content` on the
         // map via a CSS `transform`, so the bounce animation must run on an

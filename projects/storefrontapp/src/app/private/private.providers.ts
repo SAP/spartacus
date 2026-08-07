@@ -44,9 +44,14 @@ export const privateProviders = makeEnvironmentProviders([
     features: { level: '*' },
 
     // For security compliance, by default, google maps does not display.
-    // Using special key value 'cx-development' allows google maps to display
-    // without a key, for development or demo purposes:
-    googleMaps: { apiKey: GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG },
+    // Uses the developer's local `GOOGLE_MAPS_API_KEY` env var when defined,
+    // otherwise falls back to the special key value 'cx-development', which
+    // allows google maps to display without a key for development or demo
+    // purposes:
+    googleMaps: {
+      apiKey:
+        environment.googleMapsApiKey || GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG,
+    },
   }),
 
   importProvidersFrom(

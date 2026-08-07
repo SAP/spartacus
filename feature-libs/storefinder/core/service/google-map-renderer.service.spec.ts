@@ -66,10 +66,10 @@ function createGoogleMock(): any {
   googleMock.maps.marker = {
     PinElement: function (options: any) {
       this.options = options;
-      this.glyph = options?.glyph;
+      this.glyphText = options?.glyphText;
       // Real DOM element so the service can attach hover listeners to it.
       this.element = document.createElement('div');
-      this.element.textContent = options?.glyph ?? '';
+      this.element.textContent = options?.glyphText ?? '';
     },
     AdvancedMarkerElement: function (options: any) {
       this.options = options;
