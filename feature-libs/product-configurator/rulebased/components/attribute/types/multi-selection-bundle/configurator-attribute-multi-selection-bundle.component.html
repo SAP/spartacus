@@ -1,52 +1,96 @@
 <div
   id="{{ createAttributeIdForConfigurator(attribute) }}"
   *ngIf="attribute?.values?.length"
+  class="cx-multi-selection-bundle-dropdown"
 >
-  <div
-    *ngIf="withQuantityOnAttributeLevel"
-    class="cx-attribute-level-quantity-price"
+  <!-- Dropdown button showing the selected items via optionSelectedTemplate -->
+  <button
+    type="button"
+    [attr.aria-expanded]="isDropdownOpen"
+    (click)="toggleDropdown($event)"
   >
-    <cx-configurator-attribute-quantity
-      (changeQuantity)="onChangeAttributeQuantity($event)"
-      [quantityOptions]="extractQuantityParameters(attribute.quantity)"
-    ></cx-configurator-attribute-quantity>
+    <span *ngIf="selectedValues.length === 0" class="cx-placeholder">
+      Available Products
+    </span>
+    <span *ngFor="let value of selectedValues" class="cx-selected-item">
+      <ng-container
+        *ngTemplateOutlet="
+          optionSelectedTemplate;
+          context: { $implicit: value }
+        "
+      ></ng-container>
+    </span>
+    <cx-icon
+      class="cx-caret"
+      [type]="isDropdownOpen ? iconTypes.CARET_UP : iconTypes.CARET_DOWN"
+      aria-hidden="true"
+    ></cx-icon>
+  </button>
 
-    <cx-configurator-price
-      [formula]="extractPriceFormulaParameters()"
-    ></cx-configurator-price>
+  <!-- Dropdown panel showing all options via optionsTemplate -->
+  <div
+    class="cx-list"
+    *ngIf="isDropdownOpen"
+    (click)="$event.stopPropagation()"
+  >
+    <!-- Search box to filter the options -->
+    <div class="cx-search">
+      <input
+        type="text"
+        class="cx-search-input"
+        [placeholder]="'Search'"
+        [(ngModel)]="searchTerm"
+        (click)="$event.stopPropagation()"
+      />
+    </div>
+
+    <ng-container *ngFor="let value of filteredValues">
+      <ng-container
+        *ngTemplateOutlet="
+          optionsTemplate;
+          context: { $implicit: value, index: getValueIndex(value) }
+        "
+      ></ng-container>
+    </ng-container>
+
+    <div *ngIf="filteredValues.length === 0" class="cx-no-results">
+      No results found
+    </div>
   </div>
-
-  <ng-container *ngFor="let value of attribute?.values; let i = index">
-    <cx-configurator-attribute-product-card
-      *cxFeature="'productConfiguratorConsolidatedButtonDisabling'"
-      id="{{
-        createAttributeValueIdForConfigurator(attribute, value.valueCode)
-      }}"
-      (handleDeselect)="onDeselect($event)"
-      (handleQuantity)="onChangeValueQuantity($event)"
-      (handleSelect)="onSelect($event)"
-      [productCardOptions]="
-        extractProductCardParameters(preventAction$ | async, value, i)
-      "
-    >
-    </cx-configurator-attribute-product-card>
-    <cx-configurator-attribute-product-card
-      *cxFeature="'!productConfiguratorConsolidatedButtonDisabling'"
-      id="{{
-        createAttributeValueIdForConfigurator(attribute, value.valueCode)
-      }}"
-      (handleDeselect)="onDeselect($event)"
-      (handleQuantity)="onChangeValueQuantity($event)"
-      (handleSelect)="onSelect($event)"
-      [productCardOptions]="
-        extractProductCardParameters(
-          preventAction$ | async,
-          value,
-          i,
-          loading$ | async
-        )
-      "
-    >
-    </cx-configurator-attribute-product-card>
-  </ng-container>
 </div>
+
+<!-- Options template: render a product card for each value -->
+<ng-template #optionsTemplate let-value let-i="index">
+  <cx-configurator-attribute-product-card
+    *cxFeature="'productConfiguratorConsolidatedButtonDisabling'"
+    id="{{ createAttributeValueIdForConfigurator(attribute, value.valueCode) }}"
+    (handleDeselect)="onDeselect($event)"
+    (handleQuantity)="onChangeValueQuantity($event)"
+    (handleSelect)="onSelect($event)"
+    [productCardOptions]="
+      extractProductCardParameters(preventAction$ | async, value, i)
+    "
+  >
+  </cx-configurator-attribute-product-card>
+  <cx-configurator-attribute-product-card
+    *cxFeature="'!productConfiguratorConsolidatedButtonDisabling'"
+    id="{{ createAttributeValueIdForConfigurator(attribute, value.valueCode) }}"
+    (handleDeselect)="onDeselect($event)"
+    (handleQuantity)="onChangeValueQuantity($event)"
+    (handleSelect)="onSelect($event)"
+    [productCardOptions]="
+      extractProductCardParameters(
+        preventAction$ | async,
+        value,
+        i,
+        loading$ | async
+      )
+    "
+  >
+  </cx-configurator-attribute-product-card>
+</ng-template>
+
+<!-- Selected item template: render the product name -->
+<ng-template #optionSelectedTemplate let-value>
+  {{ getProductName(value) | async }}
+</ng-template>
