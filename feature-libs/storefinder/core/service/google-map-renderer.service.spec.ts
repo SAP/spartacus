@@ -36,12 +36,16 @@ const selectedIndex = function () {};
 // the tests can inspect their content element, position and event listeners.
 let advancedMarkerInstances: any[] = [];
 
+// Captures the Map instances created during a render so that the tests can
+// assert on panTo/setZoom calls made by centerMap.
+let mapInstances: any[] = [];
+
 class ScriptLoaderMock {
   public embedScript(embedOptions: {
     _src: string;
     _params?: Object;
     _attributes?: Object;
-    callback?: EventListener;
+    callback: EventListener;
   }): void {
     const googleMock: any = {};
     googleMock.maps = {};
@@ -51,6 +55,8 @@ class ScriptLoaderMock {
       mapDomElement.innerHTML = MAP_DOM_ELEMENT_INNER_HTML;
       this.setCenter = function () {};
       this.setZoom = function () {};
+      this.panTo = function () {};
+      mapInstances.push(this);
     };
     googleMock.maps.LatLng = function (lat: number, lng: number) {
       this.lat = lat;
@@ -108,6 +114,7 @@ describe('GoogleMapRendererService', () => {
 
   beforeEach(() => {
     advancedMarkerInstances = [];
+    mapInstances = [];
 
     const bed = TestBed.configureTestingModule({
       providers: [
@@ -270,7 +277,7 @@ describe('GoogleMapRendererService', () => {
       expect(advancedMarkerInstances[0].position.lng).toBe(40);
     }));
 
-    it('should fall back to 0 coordinates when StoreLocationService returns undefined', fakeAsync(() => {
+    it('should skip markers when StoreLocationService returns undefined coordinates', fakeAsync(() => {
       spyOn(storeLocationServiceMock, 'getStoreLatitude').and.returnValue(
         undefined
       );
@@ -285,8 +292,7 @@ describe('GoogleMapRendererService', () => {
       );
       tick();
 
-      expect(advancedMarkerInstances[0].position.lat).toBe(0);
-      expect(advancedMarkerInstances[0].position.lng).toBe(0);
+      expect(advancedMarkerInstances.length).toBe(0);
     }));
 
     it('should render marker content with a numbered label and the store marker class', fakeAsync(() => {
@@ -336,6 +342,55 @@ describe('GoogleMapRendererService', () => {
 
       expect(advancedMarkerInstances[0].listeners['click']).toBeUndefined();
     }));
+  });
+
+  describe('centerMap', () => {
+    function renderAndGetMap(): any {
+      setApiKey(MOCK_MAPS_API_KEY);
+      googleMapRendererService.renderMap(
+        mapDomElement,
+        locations,
+        selectedIndex
+      );
+      tick();
+      return mapInstances[0];
+    }
+
+    it('should pan the map to the given coordinates', fakeAsync(() => {
+      const map = renderAndGetMap();
+      spyOn(map, 'panTo');
+
+      googleMapRendererService.centerMap(30, 40);
+
+      expect(map.panTo).toHaveBeenCalledWith({ lat: 30, lng: 40 });
+    }));
+
+    it('should zoom to selectedMarkerScale when configured', fakeAsync(() => {
+      const map = renderAndGetMap();
+      spyOn(map, 'setZoom');
+
+      googleMapRendererService.centerMap(30, 40);
+
+      expect(map.setZoom).toHaveBeenCalledWith(
+        mockGoogleMapsConfig.selectedMarkerScale
+      );
+    }));
+
+    it('should not zoom when selectedMarkerScale is not configured', fakeAsync(() => {
+      const map = renderAndGetMap();
+      spyOn(map, 'setZoom');
+      if (config.googleMaps) {
+        config.googleMaps.selectedMarkerScale = undefined;
+      }
+
+      googleMapRendererService.centerMap(30, 40);
+
+      expect(map.setZoom).not.toHaveBeenCalled();
+    }));
+
+    it('should do nothing when no map has been rendered', () => {
+      expect(() => googleMapRendererService.centerMap(30, 40)).not.toThrow();
+    });
   });
 
   function setApiKey(keyValue: string) {

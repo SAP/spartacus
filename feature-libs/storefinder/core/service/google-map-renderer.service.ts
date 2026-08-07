@@ -81,7 +81,10 @@ export class GoogleMapRendererService {
    */
   centerMap(latitute: number, longitude: number): void {
     this.googleMap?.panTo({ lat: latitute, lng: longitude });
-    this.googleMap?.setZoom(this.config.googleMaps.selectedMarkerScale);
+    const scale = this.config.googleMaps?.selectedMarkerScale;
+    if (scale !== undefined) {
+      this.googleMap?.setZoom(scale);
+    }
   }
 
   /**
@@ -128,14 +131,17 @@ export class GoogleMapRendererService {
     if (this.featureToggles.useAdvancedGoogleMarkers) {
       this.advancedMarkers = [];
       locations.forEach((element, index) => {
+        const latitude = this.storeLocationService.getStoreLatitude(element);
+        const longitude = this.storeLocationService.getStoreLongitude(element);
+        // Skip stores without geolocation data rather than placing them at (0, 0).
+        if (latitude === undefined || longitude === undefined) {
+          return;
+        }
         const content = this.document.createElement('div');
         content.className = 'cx-store-marker';
         content.textContent = index + 1 + '';
         const marker = new google.maps.marker.AdvancedMarkerElement({
-          position: new google.maps.LatLng(
-            this.storeLocationService.getStoreLatitude(element) ?? 0,
-            this.storeLocationService.getStoreLongitude(element) ?? 0
-          ),
+          position: new google.maps.LatLng(latitude, longitude),
           content,
         });
         this.advancedMarkers.push(marker);
