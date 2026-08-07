@@ -313,7 +313,7 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
       );
     });
 
-    it('should not add line item data for unexpected fields ', () => {
+    it('should not add line item data for any other fields than NAME, QTY and FORMATTED_PRICE', () => {
       const lineItemMap: Map<number, LineItem> = new Map();
       const lineItemNumberAsString = '123';
       const configurationInfosSplitUnexpectedFieldName = [
@@ -334,6 +334,12 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
         'PRICE_VALUE',
       ];
 
+      const configurationInfosSplitParent = [
+        'LINEITEM',
+        lineItemNumberAsString,
+        'PARENT',
+      ];
+
       const configurationInfoValueUnexpectedField = 'ValueOfUnexpectedField';
       configuratorCartEntryBundleInfoService['addLineItemData'](
         lineItemMap,
@@ -350,6 +356,12 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
       configuratorCartEntryBundleInfoService['addLineItemData'](
         lineItemMap,
         configurationInfosSplitPriceValue,
+        configurationInfoValueUnexpectedField
+      );
+
+      configuratorCartEntryBundleInfoService['addLineItemData'](
+        lineItemMap,
+        configurationInfosSplitParent,
         configurationInfoValueUnexpectedField
       );
 
