@@ -15,7 +15,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   CxDatePipe,
-  FeatureDirective,
+  FeatureConfigService,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
@@ -23,7 +23,6 @@ import {
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
-import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 import {
   Card,
   CardComponent,
@@ -34,7 +33,6 @@ import { IconTestingModule } from '@spartacus/storefront/testing/icon-testing-mo
 import { of } from 'rxjs';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { CheckoutReviewPaymentComponent } from './checkout-review-payment.component';
-import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 
 const mockPaymentDetails: PaymentDetails = {
   accountHolderName: 'Name',
@@ -71,6 +69,11 @@ class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
     .mockReturnValue(
       of({ loading: false, error: false, data: mockPaymentDetails })
     );
+}
+
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled = vi.fn();
+  isLevel = vi.fn();
 }
 
 class MockCheckoutStepService {
@@ -201,8 +204,8 @@ describe('CheckoutReviewPaymentComponent', () => {
 describe('CheckoutReviewPaymentComponent - a11yImproveCheckoutFocus', () => {
   let fixture: ComponentFixture<CheckoutReviewPaymentComponent>;
 
-  function configure(featureToggle: boolean) {
-    TestBed.configureTestingModule({
+  async function configure(featureToggle: boolean) {
+    await TestBed.configureTestingModule({
       imports: [
         RouterModule.forRoot([]),
         IconTestingModule,
@@ -214,9 +217,7 @@ describe('CheckoutReviewPaymentComponent - a11yImproveCheckoutFocus', () => {
           useClass: MockCheckoutPaymentService,
         },
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
-        provideMockFeatureToggles({
-          a11yImproveCheckoutFocus: featureToggle,
-        }),
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     })
       .overrideComponent(CheckoutReviewPaymentComponent, {
@@ -226,7 +227,7 @@ describe('CheckoutReviewPaymentComponent - a11yImproveCheckoutFocus', () => {
             CxDatePipe,
             UrlPipe,
             CardComponent,
-            FocusDirective
+            FocusDirective,
           ],
         },
         add: {
@@ -235,11 +236,15 @@ describe('CheckoutReviewPaymentComponent - a11yImproveCheckoutFocus', () => {
             MockDatePipe,
             MockUrlPipe,
             MockCardComponent,
-            MockFocusDirective
+            MockFocusDirective,
           ],
         },
       })
       .compileComponents();
+
+    (TestBed.inject(FeatureConfigService).isEnabled as ReturnType<typeof vi.fn>).mockImplementation(
+      (f: string) => (f.startsWith('!') ? !featureToggle : featureToggle)
+    );
 
     fixture = TestBed.createComponent(CheckoutReviewPaymentComponent);
     fixture.detectChanges();
@@ -259,18 +264,15 @@ describe('CheckoutReviewPaymentComponent - a11yImproveCheckoutFocus', () => {
       );
     });
   });
+
   describe('when the feature is disabled', () => {
-    beforeEach(async () => {
-      await configure(false);
-      fixture.detectChanges();
-    });
+    beforeEach(async () => await configure(false));
     it('should render the review summary without autofocus when the feature is disabled', () => {
       const summary = fixture.debugElement.query(By.css('.cx-review-summary'));
       expect(summary).toBeTruthy();
       expect(
         fixture.debugElement.query(By.css('.cx-review-summary-edit-step'))
       ).toBeTruthy();
-      console.log(summary.injector.get(MockFocusDirective));
       expect(() => summary.injector.get(MockFocusDirective)).toThrow();
     });
   });

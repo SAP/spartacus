@@ -10,6 +10,7 @@ import {
 import {
   Address,
   CxDatePipe,
+  FeatureConfigService,
   FeatureDirective,
   FeaturesConfig,
   GlobalMessageService,
@@ -179,6 +180,11 @@ class MockSpinnerComponent {}
 @Directive({ selector: '[cxFocus]' })
 class MockFocusDirective {
   @Input() cxFocus: FocusConfig | undefined;
+}
+
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled = vi.fn().mockReturnValue(true);
+  isLevel = vi.fn().mockReturnValue(false);
 }
 
 describe('CheckoutPaymentMethodComponent', () => {
@@ -698,8 +704,8 @@ describe('CheckoutPaymentMethodComponent - a11yImproveCheckoutFocus', () => {
       By.css('.cx-checkout-btns-top button.btn-secondary')
     );
 
-  function configure(featureToggle: boolean) {
-    TestBed.configureTestingModule({
+  async function configure(featureToggle: boolean) {
+    await TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
         CheckoutPaymentMethodComponent,
@@ -721,9 +727,7 @@ describe('CheckoutPaymentMethodComponent - a11yImproveCheckoutFocus', () => {
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        provideMockFeatureToggles({
-          a11yImproveCheckoutFocus: featureToggle,
-        }),
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     })
       .overrideComponent(CheckoutPaymentMethodComponent, {
@@ -750,6 +754,10 @@ describe('CheckoutPaymentMethodComponent - a11yImproveCheckoutFocus', () => {
       })
       .compileComponents();
 
+      (TestBed.inject(FeatureConfigService).isEnabled as ReturnType<typeof vi.fn>).mockImplementation(
+        (f: string) => (f.startsWith('!') ? !featureToggle : featureToggle)
+      );
+
     userPaymentService = TestBed.inject(UserPaymentService);
     checkoutPaymentService = TestBed.inject(CheckoutPaymentFacade);
 
@@ -767,8 +775,8 @@ describe('CheckoutPaymentMethodComponent - a11yImproveCheckoutFocus', () => {
     fixture.detectChanges();
   }
 
-  it('should bind autofocus to the "add new payment" button when the feature is enabled', () => {
-    configure(true);
+  it('should bind autofocus to the "add new payment" button when the feature is enabled', async () => {
+    await configure(true);
 
     const button = getAddNewPaymentButton();
     expect(button).toBeTruthy();
@@ -779,8 +787,8 @@ describe('CheckoutPaymentMethodComponent - a11yImproveCheckoutFocus', () => {
     );
   });
 
-  it('should NOT bind autofocus to the "add new payment" button when the feature is disabled', () => {
-    configure(false);
+  it('should NOT bind autofocus to the "add new payment" button when the feature is disabled', async () => {
+    await configure(false);
 
     const button = getAddNewPaymentButton();
     expect(button).toBeTruthy();
