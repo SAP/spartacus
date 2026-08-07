@@ -4,6 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+// SPIKE — base-site detection approach (c): Angular-native
+// baseSiteId resolved inside Angular SSR pipeline via AiSeoBaseSiteService.
+// See: core-libs/setup/ssr/site-context/angular-native-base-site-service.ts
+// See: adr-base-site-detection-ssr.md for the full comparison.
+
 import { APP_BASE_HREF } from '@angular/common';
 import {
   NgExpressEngineDecorator,
@@ -66,7 +71,9 @@ export function app(): express.Express {
     })
   );
 
-  // All regular routes use the Universal engine
+  // Angular Universal render — all regular routes AND AI-SEO routes (/llms.txt etc.).
+  // /llms.txt falls through to the Angular route (LlmsTxtComponent) + AiSeoBaseSiteService
+  // registered in app.config.server.ts via provideAiSeoBaseSiteDetection().
   server.get(/.*/, (req, res) => {
     res.render(indexHtml, {
       req,
