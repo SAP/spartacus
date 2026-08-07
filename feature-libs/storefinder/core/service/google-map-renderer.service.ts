@@ -18,6 +18,9 @@ import { StoreLocationService } from './store-location.service';
   providedIn: 'root',
 })
 export class GoogleMapRendererService {
+  // Ensures each async-loaded map gets a distinct global callback name.
+  private static callbackCounter = 0;
+
   private googleMap: google.maps.Map | null = null;
   private markers: google.maps.Marker[];
   private advancedMarkers: google.maps.marker.AdvancedMarkerElement[];
@@ -53,10 +56,29 @@ export class GoogleMapRendererService {
               ? ''
               : this.config.googleMaps.apiKey;
 
+          const useAsyncLoading = this.featureToggles.useGoogleMapsAsyncLoading;
+
+          // With `loading=async`, Google's bootstrap loader fires the script
+          // `load` event before the API classes are available. Instead of the
+          // script `load` event, Google invokes a global function named by the
+          // `callback` URL param once the API (and any `libraries`) are ready.
+          const callbackName = useAsyncLoading
+            ? this.registerMapCallback(
+                mapElement,
+                locations,
+                selectMarkerHandler
+              )
+            : undefined;
+
           this.scriptLoader.embedScript({
             src: this.config.googleMaps.apiUrl ?? '',
             params: {
               key: apiKey,
+              // Opt into Google's async bootstrap loading path to avoid the
+              // "loaded directly without loading=async" performance warning.
+              ...(useAsyncLoading
+                ? { loading: 'async', callback: callbackName }
+                : {}),
               // Advanced markers live in the optional `marker` library, which
               // Google only loads when it is requested explicitly.
               ...(this.featureToggles.useAdvancedGoogleMarkers
@@ -64,9 +86,13 @@ export class GoogleMapRendererService {
                 : {}),
             },
             attributes: { type: 'text/javascript' },
-            callback: () => {
-              this.drawMap(mapElement, locations, selectMarkerHandler);
-            },
+            // The classic direct load exposes the API synchronously on `load`;
+            // the async path draws from the global `callback` instead.
+            callback: useAsyncLoading
+              ? undefined
+              : () => {
+                  this.drawMap(mapElement, locations, selectMarkerHandler);
+                },
           });
         } else {
           this.drawMap(mapElement, locations, selectMarkerHandler);
@@ -79,6 +105,28 @@ export class GoogleMapRendererService {
         );
       }
     }
+  }
+
+  /**
+   * Registers a uniquely-named global callback that Google's bootstrap loader
+   * (`loading=async`) invokes once the Maps API and any requested `libraries`
+   * are fully initialized, then returns its name for the `callback` URL param.
+   *
+   * The callback draws the map and removes itself so it can't leak or fire
+   * twice.
+   */
+  private registerMapCallback(
+    mapElement: HTMLElement,
+    locations: any[],
+    selectMarkerHandler?: Function
+  ): string {
+    const callbackName = `__spartacusGoogleMapsInit_${++GoogleMapRendererService.callbackCounter}`;
+    const global = this.document.defaultView as any;
+    global[callbackName] = () => {
+      delete global[callbackName];
+      this.drawMap(mapElement, locations, selectMarkerHandler);
+    };
+    return callbackName;
   }
 
   /**
@@ -148,20 +196,36 @@ export class GoogleMapRendererService {
         if (latitude === undefined || longitude === undefined) {
           return;
         }
-        const content = this.document.createElement('div');
-        content.className = 'cx-store-marker';
-        content.textContent = index + 1 + '';
+        // Use Google's `PinElement` so the marker keeps the classic teardrop
+        // pin shape (with the store number as its glyph) instead of rendering
+        // as a plain styled element.
+        const pin = new google.maps.marker.PinElement({
+          glyph: `${index + 1}`,
+          glyphColor: '#fff',
+        });
+        // Wrap the pin: `AdvancedMarkerElement` positions its `content` on the
+        // map via a CSS `transform`, so the bounce animation must run on an
+        // inner element we own — animating the content root itself would fight
+        // Google's positioning transform and make the pin jump.
+        const wrapper = this.document.createElement('div');
+        wrapper.appendChild(pin.element);
         const marker = new google.maps.marker.AdvancedMarkerElement({
           position: new google.maps.LatLng(latitude, longitude),
-          content,
+          content: wrapper,
+          // Advanced markers only dispatch `click` events when explicitly
+          // marked clickable.
+          gmpClickable: !!selectMarkerHandler,
         });
         this.advancedMarkers.push(marker);
         marker.map = this.googleMap;
-        marker.addListener('mouseover', function () {
-          content.classList.add('cx-store-marker-bounce');
+        // Advanced markers don't emit `mouseover`/`mouseout` gmp events, so
+        // toggle the bounce animation via native DOM events. The class is
+        // applied to the inner pin element, not the transformed content root.
+        wrapper.addEventListener('mouseover', () => {
+          pin.element.classList.add('cx-store-marker-bounce');
         });
-        marker.addListener('mouseout', function () {
-          content.classList.remove('cx-store-marker-bounce');
+        wrapper.addEventListener('mouseout', () => {
+          pin.element.classList.remove('cx-store-marker-bounce');
         });
         if (selectMarkerHandler) {
           marker.addListener('click', function () {

@@ -10,22 +10,9 @@
   }
 }
 
-// Advanced Google Maps marker content. Rendered inside the Google Maps
-// overlay DOM (outside the cx component tree), so these rules are global.
-.cx-store-marker {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 1.5rem;
-  height: 1.5rem;
-  padding: 0 0.25rem;
-  border-radius: 50%;
-  background: var(--cx-color-primary, #01152b);
-  color: var(--cx-color-inverse, #fff);
-  font-weight: bold;
-  text-align: center;
-}
-
+// Bounce animation applied to the advanced marker's `PinElement` on hover.
+// Rendered inside the Google Maps overlay DOM (outside the cx component tree),
+// so this rule is global.
 .cx-store-marker-bounce {
   animation: cx-store-marker-bounce 0.6s ease infinite alternate;
 }

@@ -41,48 +41,66 @@ let advancedMarkerInstances: any[] = [];
 // assert on panTo/setZoom calls made by centerMap.
 let mapInstances: any[] = [];
 
+function createGoogleMock(): any {
+  const googleMock: any = {};
+  googleMock.maps = {};
+  googleMock.maps.MapTypeId = {};
+  googleMock.maps.Animation = {};
+  googleMock.maps.Map = function (mapDomElement: HTMLElement, mapProp: any) {
+    mapDomElement.innerHTML = MAP_DOM_ELEMENT_INNER_HTML;
+    this.mapProp = mapProp;
+    this.setCenter = function () {};
+    this.setZoom = function () {};
+    this.panTo = function () {};
+    mapInstances.push(this);
+  };
+  googleMock.maps.LatLng = function (lat: number, lng: number) {
+    this.lat = lat;
+    this.lng = lng;
+  };
+  googleMock.maps.Marker = function () {
+    this.setMap = function () {};
+    this.setAnimation = function () {};
+    this.addListener = function () {};
+  };
+  googleMock.maps.marker = {
+    PinElement: function (options: any) {
+      this.options = options;
+      this.glyph = options?.glyph;
+      // Real DOM element so the service can attach hover listeners to it.
+      this.element = document.createElement('div');
+      this.element.textContent = options?.glyph ?? '';
+    },
+    AdvancedMarkerElement: function (options: any) {
+      this.options = options;
+      this.content = options.content;
+      this.position = options.position;
+      this.gmpClickable = options.gmpClickable;
+      this.listeners = {};
+      this.addListener = function (event: string, handler: Function) {
+        this.listeners[event] = handler;
+      };
+      advancedMarkerInstances.push(this);
+    },
+  };
+  return googleMock;
+}
+
 class ScriptLoaderMock {
   public embedScript(embedOptions: {
     _src: string;
-    _params?: Object;
+    params?: any;
     _attributes?: Object;
-    callback: EventListener;
+    callback?: EventListener;
   }): void {
-    const googleMock: any = {};
-    googleMock.maps = {};
-    googleMock.maps.MapTypeId = {};
-    googleMock.maps.Animation = {};
-    googleMock.maps.Map = function (mapDomElement: HTMLElement, mapProp: any) {
-      mapDomElement.innerHTML = MAP_DOM_ELEMENT_INNER_HTML;
-      this.mapProp = mapProp;
-      this.setCenter = function () {};
-      this.setZoom = function () {};
-      this.panTo = function () {};
-      mapInstances.push(this);
-    };
-    googleMock.maps.LatLng = function (lat: number, lng: number) {
-      this.lat = lat;
-      this.lng = lng;
-    };
-    googleMock.maps.Marker = function () {
-      this.setMap = function () {};
-      this.setAnimation = function () {};
-      this.addListener = function () {};
-    };
-    googleMock.maps.marker = {
-      AdvancedMarkerElement: function (options: any) {
-        this.options = options;
-        this.content = options.content;
-        this.position = options.position;
-        this.listeners = {};
-        this.addListener = function (event: string, handler: Function) {
-          this.listeners[event] = handler;
-        };
-        advancedMarkerInstances.push(this);
-      },
-    };
-    (window as any)['google'] = googleMock;
-    embedOptions.callback(new Event('test'));
+    (window as any)['google'] = createGoogleMock();
+    if (embedOptions.params?.callback) {
+      // Async bootstrap loader: Google invokes the global function named by the
+      // `callback` URL param once the API is fully initialized.
+      (window as any)[embedOptions.params.callback]();
+    } else {
+      embedOptions.callback?.(new Event('test'));
+    }
   }
 }
 
@@ -255,6 +273,56 @@ describe('GoogleMapRendererService', () => {
     expect(mapDomElement.innerHTML).toEqual(MAP_DOM_ELEMENT_INNER_HTML);
   }));
 
+  describe('with useGoogleMapsAsyncLoading enabled', () => {
+    beforeEach(() => {
+      featureToggles.set('useGoogleMapsAsyncLoading', true);
+      setApiKey(MOCK_MAPS_API_KEY);
+    });
+
+    it('should embed the script with the loading=async and callback params', fakeAsync(() => {
+      spyOn(scriptLoaderMock, 'embedScript').and.callThrough();
+
+      googleMapRendererService.renderMap(
+        mapDomElement,
+        locations,
+        selectedIndex
+      );
+
+      expect(scriptLoaderMock.embedScript).toHaveBeenCalledWith({
+        src: config.googleMaps?.apiUrl,
+        params: Object({
+          key: MOCK_MAPS_API_KEY,
+          loading: 'async',
+          callback: jasmine.stringMatching(
+            /^__spartacusGoogleMapsInit_\d+$/
+          ) as any,
+        }),
+        attributes: { type: 'text/javascript' },
+        callback: undefined,
+      });
+    }));
+
+    it('should draw the map from the global callback and clean it up', fakeAsync(() => {
+      let callbackName: string | undefined;
+      spyOn(scriptLoaderMock, 'embedScript').and.callFake((options: any) => {
+        callbackName = options.params?.callback;
+        (window as any)['google'] = createGoogleMock();
+        // Emulate Google invoking the global callback once the API is ready.
+        (window as any)[callbackName as string]();
+      });
+
+      googleMapRendererService.renderMap(
+        mapDomElement,
+        locations,
+        selectedIndex
+      );
+
+      expect(mapDomElement.innerHTML).toEqual(MAP_DOM_ELEMENT_INNER_HTML);
+      // The global callback removes itself so it can't leak or fire twice.
+      expect((window as any)[callbackName as string]).toBeUndefined();
+    }));
+  });
+
   describe('with useAdvancedGoogleMarkers enabled', () => {
     beforeEach(() => {
       featureToggles.set('useAdvancedGoogleMarkers', true);
@@ -297,7 +365,7 @@ describe('GoogleMapRendererService', () => {
       expect(advancedMarkerInstances.length).toBe(0);
     }));
 
-    it('should render marker content with a numbered label and the store marker class', fakeAsync(() => {
+    it('should render a numbered pin inside the marker content wrapper', fakeAsync(() => {
       googleMapRendererService.renderMap(
         mapDomElement,
         locations,
@@ -305,12 +373,13 @@ describe('GoogleMapRendererService', () => {
       );
       tick();
 
+      // The content is a wrapper the service owns; the PinElement (with the
+      // store number as its glyph) is nested inside it.
       const content = advancedMarkerInstances[0].content as HTMLElement;
-      expect(content.className).toBe('cx-store-marker');
       expect(content.textContent).toBe('1');
     }));
 
-    it('should toggle the bounce class on mouseover and mouseout', fakeAsync(() => {
+    it('should toggle the bounce class on the inner pin on mouseover and mouseout', fakeAsync(() => {
       googleMapRendererService.renderMap(
         mapDomElement,
         locations,
@@ -318,30 +387,36 @@ describe('GoogleMapRendererService', () => {
       );
       tick();
 
-      const marker = advancedMarkerInstances[0];
-      const content = marker.content as HTMLElement;
+      // Hover events are handled on the transformed content wrapper, but the
+      // bounce class must land on the inner pin so it doesn't fight Google's
+      // positioning transform on the wrapper.
+      const wrapper = advancedMarkerInstances[0].content as HTMLElement;
+      const pin = wrapper.firstElementChild as HTMLElement;
 
-      marker.listeners['mouseover']();
-      expect(content.classList.contains('cx-store-marker-bounce')).toBe(true);
+      wrapper.dispatchEvent(new Event('mouseover'));
+      expect(pin.classList.contains('cx-store-marker-bounce')).toBe(true);
+      expect(wrapper.classList.contains('cx-store-marker-bounce')).toBe(false);
 
-      marker.listeners['mouseout']();
-      expect(content.classList.contains('cx-store-marker-bounce')).toBe(false);
+      wrapper.dispatchEvent(new Event('mouseout'));
+      expect(pin.classList.contains('cx-store-marker-bounce')).toBe(false);
     }));
 
-    it('should invoke selectMarkerHandler with the marker index on click', fakeAsync(() => {
+    it('should mark the marker clickable and invoke selectMarkerHandler with the marker index on click', fakeAsync(() => {
       const handler = jasmine.createSpy('selectMarkerHandler');
 
       googleMapRendererService.renderMap(mapDomElement, locations, handler);
       tick();
 
+      expect(advancedMarkerInstances[0].gmpClickable).toBe(true);
       advancedMarkerInstances[0].listeners['click']();
       expect(handler).toHaveBeenCalledWith(0);
     }));
 
-    it('should not register a click listener when selectMarkerHandler is not provided', fakeAsync(() => {
+    it('should not register a click listener nor mark clickable when selectMarkerHandler is not provided', fakeAsync(() => {
       googleMapRendererService.renderMap(mapDomElement, locations);
       tick();
 
+      expect(advancedMarkerInstances[0].gmpClickable).toBe(false);
       expect(advancedMarkerInstances[0].listeners['click']).toBeUndefined();
     }));
 
@@ -356,7 +431,10 @@ describe('GoogleMapRendererService', () => {
 
       expect(scriptLoaderMock.embedScript).toHaveBeenCalledWith({
         src: config.googleMaps?.apiUrl,
-        params: Object({ key: MOCK_MAPS_API_KEY, libraries: 'marker' }),
+        params: Object({
+          key: MOCK_MAPS_API_KEY,
+          libraries: 'marker',
+        }),
         attributes: { type: 'text/javascript' },
         callback: jasmine.any(Function) as any,
       });
