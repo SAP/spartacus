@@ -447,6 +447,16 @@ export class OptimizedSsrEngine {
       });
       this.currentConcurrency--;
 
+      // SPIKE (approach c) — strip HTML shell to the ⟦LLMS⟧ marker content so
+      // non-render routes (e.g. /llms.txt) can emit clean text/plain. Guarded by
+      // includes() so normal renders skip the regex.
+      if (html?.includes('⟦LLMS⟧')) {
+        const marker = html.match(/⟦LLMS⟧([\s\S]*?)⟦\/LLMS⟧/);
+        if (marker) {
+          html = marker[1];
+        }
+      }
+
       renderCallback(err, html);
     });
   }

@@ -4,10 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// SPIKE — base-site detection approach (c): Angular-native
-// baseSiteId resolved inside Angular SSR pipeline via AiSeoBaseSiteService.
-// See: core-libs/setup/ssr/site-context/angular-native-base-site-service.ts
-// See: adr-base-site-detection-ssr.md for the full comparison.
+// SPIKE — AI-SEO approach (c): /llms.txt served by an Angular route; clean
+// text/plain via the ⟦LLMS⟧ marker cut in OptimizedSsrEngine. See ADR §4(c).
 
 import { APP_BASE_HREF } from '@angular/common';
 import {
@@ -63,7 +61,8 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
-  // Serve static files from /browser
+  // express.static fallthrough:true — dotted /llms.txt (no file on disk) falls
+  // through to the Angular catch-all below, not 404'd here.
   server.get(
     /.*\..*/,
     express.static(browserDistFolder, {
@@ -71,9 +70,7 @@ export function app(): express.Express {
     })
   );
 
-  // Angular Universal render — all regular routes AND AI-SEO routes (/llms.txt etc.).
-  // /llms.txt falls through to the Angular route (LlmsTxtComponent) + AiSeoBaseSiteService
-  // registered in app.config.server.ts via provideAiSeoBaseSiteDetection().
+  // Angular Universal render — regular routes and AI-SEO routes (/llms.txt).
   server.get(/.*/, (req, res) => {
     res.render(indexHtml, {
       req,
