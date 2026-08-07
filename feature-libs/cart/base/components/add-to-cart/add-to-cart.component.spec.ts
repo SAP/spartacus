@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   ActiveCartFacade,
   Cart,
+  CartItemQuantityService,
   CartUiEventAddToCart,
   OrderEntry,
 } from '@spartacus/cart/base/root';
@@ -663,6 +664,41 @@ describe('AddToCartComponent', () => {
 
         const obtained: string = addToCartComponent.getInventory();
         expect(obtained).toEqual('');
+      });
+    });
+
+    describe('subscribeToQuantityChanges', () => {
+      let cartItemQuantityService: CartItemQuantityService;
+
+      beforeEach(() => {
+        cartItemQuantityService = TestBed.inject(CartItemQuantityService);
+      });
+
+      it('should call setQuantity with initial form value on init', () => {
+        spyOn(cartItemQuantityService, 'setQuantity');
+        addToCartComponent.addToCartForm.get('quantity')?.setValue(3);
+
+        addToCartComponent['subscribeToQuantityChanges']();
+
+        expect(cartItemQuantityService.setQuantity).toHaveBeenCalledWith(3);
+      });
+
+      it('should call setQuantity when quantity form control value changes', () => {
+        spyOn(cartItemQuantityService, 'setQuantity');
+        addToCartComponent['subscribeToQuantityChanges']();
+
+        addToCartComponent.addToCartForm.get('quantity')?.setValue(5);
+
+        expect(cartItemQuantityService.setQuantity).toHaveBeenCalledWith(5);
+      });
+
+      it('should fall back to 1 when quantity value is null', () => {
+        spyOn(cartItemQuantityService, 'setQuantity');
+        addToCartComponent.addToCartForm.get('quantity')?.setValue(null);
+
+        addToCartComponent['subscribeToQuantityChanges']();
+
+        expect(cartItemQuantityService.setQuantity).toHaveBeenCalledWith(1);
       });
     });
   });

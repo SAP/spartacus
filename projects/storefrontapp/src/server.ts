@@ -11,6 +11,7 @@ import {
   defaultExpressErrorHandlers,
   defaultSsrOptimizationOptions,
   ngExpressEngine as engine,
+  getOriginValidationMiddleware,
 } from '@spartacus/setup/ssr';
 import express from 'express';
 import { readFileSync } from 'node:fs';
@@ -37,7 +38,16 @@ export function app(): express.Express {
 
   server.set('trust proxy', 'loopback');
 
-  // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
+  // Validates the resolved request origin against an allowlist. See the JSDoc
+  // of `getOriginValidationMiddleware` for the accepted formats and matching
+  // rules. Here it is read from the `SSR_ALLOWED_ORIGINS` environment variable
+  // (comma-separated); when unset or empty the middleware is a no-op.
+  server.use(
+    getOriginValidationMiddleware({
+      allowedOrigins: process.env['SSR_ALLOWED_ORIGINS'],
+    })
+  );
+
   server.engine(
     'html',
     ngExpressEngine({

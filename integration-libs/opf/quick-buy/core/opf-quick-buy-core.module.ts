@@ -5,11 +5,15 @@
  */
 
 import { NgModule } from '@angular/core';
-import { OpfQuickBuyConnector } from './connectors';
+import { OpfQuickBuyCartConnector, OpfQuickBuyConnector } from './connectors';
 import { facadeProviders } from './facade/facade-providers';
 
 @NgModule({
   imports: [],
-  providers: [...facadeProviders, OpfQuickBuyConnector],
+  providers: [
+    ...facadeProviders,
+    OpfQuickBuyConnector,
+    OpfQuickBuyCartConnector,
+  ],
 })
 export class OpfQuickBuyCoreModule {}

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { SemanticPathService } from './semantic-path.service';
 import { UrlPipe } from './url.pipe';
@@ -20,7 +21,7 @@ describe('UrlPipe', () => {
   describe('transform', () => {
     it('should return result from service', () => {
       const serviceResult = 'test-sevice-result';
-      spyOn(service, 'transform').and.returnValue(serviceResult as any);
+      vi.spyOn(service, 'transform').mockReturnValue(serviceResult as any);
       expect(pipe.transform({ cxRoute: 'testRoute' })).toBe(serviceResult);
       expect(service.transform).toHaveBeenCalled();
     });

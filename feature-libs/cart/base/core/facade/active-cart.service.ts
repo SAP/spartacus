@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
+// eslint-disable-next-line @nx/workspace-no-self-public-api-import -- ESLint is misfiring here: core and root are not the same library — they're separate entry points
 import {
   ActiveCartFacade,
   Cart,
@@ -13,6 +14,7 @@ import {
   OrderEntry,
 } from '@spartacus/cart/base/root';
 import {
+  FeatureToggles,
   OAUTH_REDIRECT_FLOW_KEY,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
@@ -35,6 +37,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { ActiveCartStatePersistenceService } from '../services/active-cart-state-persistence.service';
 import {
   getCartIdByUserId,
   isEmail,
@@ -45,6 +48,10 @@ import {
 
 @Injectable()
 export class ActiveCartService implements ActiveCartFacade, OnDestroy {
+  private featureToggles = inject(FeatureToggles);
+  protected activeCartStatePersistenceService = inject(
+    ActiveCartStatePersistenceService
+  );
   protected activeCart$: Observable<Cart>;
   protected subscription = new Subscription();
 
@@ -76,6 +83,12 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   ) {
     this.initActiveCart();
     this.detectUserChange();
+    if (
+      this.featureToggles.authorizationCodeFlowByDefault &&
+      this.featureToggles.mergeGuestCartOnCodeFlowLogin
+    ) {
+      this.persistGuestCartForCodeFlowMerge();
+    }
   }
 
   protected initActiveCart() {
@@ -283,6 +296,15 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           active: true,
         },
       });
+    } else if (
+      this.featureToggles.authorizationCodeFlowByDefault &&
+      this.featureToggles.mergeGuestCartOnCodeFlowLogin &&
+      this.activeCartStatePersistenceService.readGuestCartState()
+    ) {
+      // Authorization-code flow: the SPA was re-bootstrapped on login, so the
+      // in-memory guest cart (and thus `isGuestCart()`) is gone. Fall back to
+      // the entries we persisted before the redirect.
+      this.guestCartMerge(cartId);
     } else if (getLastValueSync(this.isGuestCart())) {
       this.guestCartMerge(cartId);
     } else {
@@ -303,6 +325,20 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * This is for an edge case
    */
   protected guestCartMerge(cartId: string): void {
+    // Authorization-code flow: entries were persisted before the login redirect
+    // because in-memory state does not survive the SPA re-bootstrap, and the
+    // guest cart can no longer be read/deleted with the user token.
+    const pendingMerge =
+      this.featureToggles.authorizationCodeFlowByDefault &&
+      this.featureToggles.mergeGuestCartOnCodeFlowLogin
+        ? this.activeCartStatePersistenceService.readGuestCartState()
+        : undefined;
+    if (pendingMerge) {
+      this.activeCartStatePersistenceService.clearGuestCartState();
+      this.addEntriesGuestMerge(pendingMerge);
+      return;
+    }
+
     this.getEntries()
       .pipe(take(1))
       .subscribe((entries) => {
@@ -328,6 +364,27 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           entriesToAdd
         );
       });
+  }
+
+  /**
+   * Persists the active guest cart entries so they can be merged into the user
+   * cart after an OAuth 2.1 authorization-code login. The login redirect
+   * re-bootstraps the SPA and wipes in-memory state, and the guest cart can no
+   * longer be read with the user token afterwards, so the entries must be
+   * captured beforehand while the guest cart is still the active cart.
+   *
+   * Persistence is delegated to `ActiveCartStatePersistenceService`.
+   *
+   * Only enabled when both the `authorizationCodeFlowByDefault` and
+   * `mergeGuestCartOnCodeFlowLogin` feature toggles are on.
+   */
+  protected persistGuestCartForCodeFlowMerge(): void {
+    this.activeCartStatePersistenceService.initSync(
+      this.getActive().pipe(
+        filter((cart) => this.isCartUserGuest(cart)),
+        map((cart) => cart.entries ?? [])
+      )
+    );
   }
 
   protected isCartCreating(

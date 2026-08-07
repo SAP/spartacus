@@ -116,7 +116,8 @@ export function kahnsAlgorithm(graph: Graph): string[] {
       continue;
     }
 
-    topNums[vertex] = index++;
+    topNums[vertex] = index;
+    index += 1;
     // adjust the incoming degree of its neighbors
     for (const neighbor of graph.getAdjacentVertices()[vertex]) {
       inDegree[neighbor]--;

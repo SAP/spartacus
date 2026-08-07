@@ -1,36 +1,69 @@
-<div
-  class="cx-review-summary"
-  *ngIf="paymentDetails$ | async as paymentDetails"
->
-  <div class="cx-review-summary-card cx-review-summary-payment-card">
-    <div>
-      <cx-card
-        [content]="getBillingAddressCard(paymentDetails) | async"
-      ></cx-card>
+<ng-container *cxFeature="'a11yImproveCheckoutFocus'">
+  <div
+    class="cx-review-summary"
+    *ngIf="paymentDetails$ | async as paymentDetails"
+    [cxFocus]="{ autofocus: true }"
+  >
+    <div class="cx-review-summary-card cx-review-summary-payment-card">
+      <div>
+        <cx-card [content]="getBillingAddressCard(paymentDetails) | async" />
+      </div>
+      <div class="cx-review-summary-edit-step">
+        <a
+          [attr.title]="'checkoutReview.editBillingDetails' | cxTranslate"
+          [routerLink]="{ cxRoute: paymentDetailsStepRoute } | cxUrl"
+        >
+          <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL" />
+        </a>
+      </div>
     </div>
-    <div class="cx-review-summary-edit-step">
-      <a
-        [attr.title]="'checkoutReview.editBillingDetails' | cxTranslate"
-        [routerLink]="{ cxRoute: paymentDetailsStepRoute } | cxUrl"
-      >
-        <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon>
-      </a>
-    </div>
-  </div>
 
-  <div class="cx-review-summary-card cx-review-summary-payment-card">
-    <div>
-      <cx-card
-        [content]="getPaymentMethodCard(paymentDetails) | async"
-      ></cx-card>
-    </div>
-    <div class="cx-review-summary-edit-step">
-      <a
-        [attr.title]="'checkoutReview.editPaymentDetails' | cxTranslate"
-        [routerLink]="{ cxRoute: paymentDetailsStepRoute } | cxUrl"
-      >
-        <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon>
-      </a>
+    <div class="cx-review-summary-card cx-review-summary-payment-card">
+      <div>
+        <cx-card [content]="getPaymentMethodCard(paymentDetails) | async" />
+      </div>
+      <div class="cx-review-summary-edit-step">
+        <a
+          [attr.title]="'checkoutReview.editPaymentDetails' | cxTranslate"
+          [routerLink]="{ cxRoute: paymentDetailsStepRoute } | cxUrl"
+        >
+          <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL" />
+        </a>
+      </div>
     </div>
   </div>
-</div>
+</ng-container>
+<ng-container *cxFeature="'!a11yImproveCheckoutFocus'">
+  <div
+    class="cx-review-summary"
+    *ngIf="paymentDetails$ | async as paymentDetails"
+  >
+    <div class="cx-review-summary-card cx-review-summary-payment-card">
+      <div>
+        <cx-card [content]="getBillingAddressCard(paymentDetails) | async" />
+      </div>
+      <div class="cx-review-summary-edit-step">
+        <a
+          [attr.title]="'checkoutReview.editBillingDetails' | cxTranslate"
+          [routerLink]="{ cxRoute: paymentDetailsStepRoute } | cxUrl"
+        >
+          <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL" />
+        </a>
+      </div>
+    </div>
+
+    <div class="cx-review-summary-card cx-review-summary-payment-card">
+      <div>
+        <cx-card [content]="getPaymentMethodCard(paymentDetails) | async" />
+      </div>
+      <div class="cx-review-summary-edit-step">
+        <a
+          [attr.title]="'checkoutReview.editPaymentDetails' | cxTranslate"
+          [routerLink]="{ cxRoute: paymentDetailsStepRoute } | cxUrl"
+        >
+          <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL" />
+        </a>
+      </div>
+    </div>
+  </div>
+</ng-container>

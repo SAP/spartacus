@@ -71,9 +71,7 @@ export class SelectFocusUtility {
     if (!locked) {
       suffix += `:not([tabindex='-1'])`;
     }
-    const selector = this.focusableSelectors
-      .map((s) => (s += suffix))
-      .join(',');
+    const selector = this.focusableSelectors.map((s) => s + suffix).join(',');
     return this.query(host, selector).filter((el) =>
       !invisible ? !this.isHidden(el) : Boolean(el)
     );

@@ -25,6 +25,11 @@ export interface OpfQuickBuyDeliveryInfo {
   pickupDetails?: PointOfService;
 }
 
+export interface OpfQuickBuySingleProductCartOptions {
+  quantity: number;
+  pickupStore?: string;
+}
+
 export interface QuickBuyTransactionDetails {
   context?: OpfQuickBuyLocation;
   cart?: Cart;

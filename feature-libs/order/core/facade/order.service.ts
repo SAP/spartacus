@@ -15,7 +15,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Order, OrderFacade, OrderPlacedEvent } from '@spartacus/order/root';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, throwError } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { OrderConnector } from '../connectors/order.connector';
 
@@ -120,7 +120,38 @@ export class OrderService implements OrderFacade {
     return this.placeOrderCommand.execute(termsChecked);
   }
 
-  placePaymentAuthorizedOrder(termsChecked: boolean): Observable<Order> {
+  placePaymentAuthorizedOrder(
+    termsChecked: boolean,
+    cartId?: string
+  ): Observable<Order> {
+    if (cartId) {
+      return this.userIdService.takeUserId().pipe(
+        take(1),
+        switchMap((userId) => {
+          if (!userId) {
+            return throwError(() => new Error('Checkout conditions not met'));
+          }
+
+          return this.orderConnector
+            .placePaymentAuthorizedOrder(userId, cartId, termsChecked)
+            .pipe(
+              tap((order) => {
+                this.setPlacedOrder(order);
+                this.eventService.dispatch(
+                  {
+                    order,
+                    userId,
+                    cartId,
+                    cartCode: cartId,
+                  },
+                  OrderPlacedEvent
+                );
+              })
+            );
+        })
+      );
+    }
+
     return this.placePaymentAuthorizedOrderCommand.execute(termsChecked);
   }
 
