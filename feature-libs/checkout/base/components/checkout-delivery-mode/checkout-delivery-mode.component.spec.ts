@@ -34,7 +34,7 @@ import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.component';
 
-import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 
 @Component({
   selector: 'cx-spinner',

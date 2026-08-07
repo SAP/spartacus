@@ -21,7 +21,7 @@ import {
   TranslatePipe,
   UserPaymentService,
 } from '@spartacus/core';
-import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 import {
   CardComponent,
   FocusConfig,

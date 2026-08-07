@@ -15,6 +15,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   CxDatePipe,
+  FeatureDirective,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
@@ -22,17 +23,18 @@ import {
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
-import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 import {
   Card,
   CardComponent,
   FocusConfig,
   FocusDirective,
 } from '@spartacus/storefront';
-import { IconTestingModule } from '../../../../../../core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module';
+import { IconTestingModule } from '@spartacus/storefront/testing/icon-testing-module';
 import { of } from 'rxjs';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { CheckoutReviewPaymentComponent } from './checkout-review-payment.component';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 
 const mockPaymentDetails: PaymentDetails = {
   accountHolderName: 'Name',
@@ -224,7 +226,7 @@ describe('CheckoutReviewPaymentComponent - a11yImproveCheckoutFocus', () => {
             CxDatePipe,
             UrlPipe,
             CardComponent,
-            FocusDirective,
+            FocusDirective
           ],
         },
         add: {
@@ -233,7 +235,7 @@ describe('CheckoutReviewPaymentComponent - a11yImproveCheckoutFocus', () => {
             MockDatePipe,
             MockUrlPipe,
             MockCardComponent,
-            MockFocusDirective,
+            MockFocusDirective
           ],
         },
       })
@@ -260,7 +262,7 @@ describe('CheckoutReviewPaymentComponent - a11yImproveCheckoutFocus', () => {
   describe('when the feature is disabled', () => {
     beforeEach(async () => {
       await configure(false);
-      await fixture.whenStable();
+      fixture.detectChanges();
     });
     it('should render the review summary without autofocus when the feature is disabled', () => {
       const summary = fixture.debugElement.query(By.css('.cx-review-summary'));
@@ -268,7 +270,7 @@ describe('CheckoutReviewPaymentComponent - a11yImproveCheckoutFocus', () => {
       expect(
         fixture.debugElement.query(By.css('.cx-review-summary-edit-step'))
       ).toBeTruthy();
-
+      console.log(summary.injector.get(MockFocusDirective));
       expect(() => summary.injector.get(MockFocusDirective)).toThrow();
     });
   });
