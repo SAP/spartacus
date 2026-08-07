@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Cart, CartVoucherFacade, Voucher } from '@spartacus/cart/base/root';
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
@@ -30,7 +30,7 @@ describe('OrderSummary', () => {
   let component: OrderSummaryComponent;
   let fixture: ComponentFixture<OrderSummaryComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [OrderSummaryComponent],
       providers: [
@@ -46,7 +46,7 @@ describe('OrderSummary', () => {
         add: { imports: [MockTranslatePipe, MockAppliedCouponsComponent] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderSummaryComponent);
