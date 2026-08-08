@@ -2,6 +2,10 @@ import { of } from 'rxjs';
 import { CartPageLayoutHandler } from './cart-page-layout-handler';
 
 describe('CartPageLayoutHandler', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   const mockActiveCartService: any = {
     getActive() {
       return of({ totalItems: 0 });
@@ -43,7 +47,7 @@ describe('CartPageLayoutHandler', () => {
   });
 
   it('should remove empty content slot when cart has items', () => {
-    spyOn(mockActiveCartService, 'getActive').and.returnValue(
+    vi.spyOn(mockActiveCartService, 'getActive').mockReturnValue(
       of({ totalItems: 3 })
     );
     const handler = new CartPageLayoutHandler(
@@ -60,7 +64,7 @@ describe('CartPageLayoutHandler', () => {
   });
 
   it('should remove empty content slot when save for later has items', () => {
-    spyOn(mockSelectiveCartService, 'getCart').and.returnValue(
+    vi.spyOn(mockSelectiveCartService, 'getCart').mockReturnValue(
       of({ totalItems: 3 })
     );
     const handler = new CartPageLayoutHandler(
@@ -77,8 +81,8 @@ describe('CartPageLayoutHandler', () => {
   });
 
   it('should not check save for later cart if the feature is disabled', () => {
-    spyOn(mockSelectiveCartService, 'getCart').and.stub();
-    spyOn(mockCartConfigService, 'isSelectiveCartEnabled').and.returnValue(
+    vi.spyOn(mockSelectiveCartService, 'getCart').mockImplementation(() => {});
+    vi.spyOn(mockCartConfigService, 'isSelectiveCartEnabled').mockReturnValue(
       false
     );
     const handler = new CartPageLayoutHandler(
@@ -106,8 +110,8 @@ describe('CartPageLayoutHandler', () => {
   });
 
   it('should not return content slots when cart is loading', () => {
-    spyOn(mockActiveCartService, 'getActive').and.returnValue(of({}));
-    spyOn(mockActiveCartService, 'getLoading').and.returnValue(of(true));
+    vi.spyOn(mockActiveCartService, 'getActive').mockReturnValue(of({}));
+    vi.spyOn(mockActiveCartService, 'getLoading').mockReturnValue(of(true));
     const handler = new CartPageLayoutHandler(
       mockActiveCartService,
       mockSelectiveCartService,

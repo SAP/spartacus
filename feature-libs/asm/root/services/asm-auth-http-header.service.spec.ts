@@ -91,7 +91,7 @@ class MockOccEndpointsService implements Partial<OccEndpointsService> {
 }
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
+  saveCurrentNavigationUrl = vi.fn();
 }
 
 describe('AsmAuthHttpHeaderService', () => {
@@ -141,7 +141,7 @@ describe('AsmAuthHttpHeaderService', () => {
     it('should return true for occ calls', () => {
       expect(
         service.shouldCatchError(new HttpRequest('GET', 'some-server/occ/cart'))
-      ).toBeTrue();
+      ).toBe(true);
     });
 
     it('should return true for cs agent requests', () => {
@@ -151,13 +151,13 @@ describe('AsmAuthHttpHeaderService', () => {
             headers: new HttpHeaders({ 'cx-use-csagent-token': 'true' }),
           })
         )
-      ).toBeTrue();
+      ).toBe(true);
     });
 
     it('should return false for any other requests', () => {
       expect(
         service.shouldCatchError(new HttpRequest('GET', 'some-server/auth'))
-      ).toBeFalse();
+      ).toBe(false);
     });
   });
 
@@ -235,8 +235,8 @@ describe('AsmAuthHttpHeaderService', () => {
 
   describe('handleExpiredRefreshToken', () => {
     it('should work the same as in AuthHeaderService when there is normally logged user', async () => {
-      spyOn(authService, 'coreLogout').and.callThrough();
-      spyOn(routingService, 'go').and.callThrough();
+      vi.spyOn(authService, 'coreLogout');
+      vi.spyOn(routingService, 'go');
 
       service.handleExpiredRefreshToken();
       await Promise.resolve();
@@ -249,14 +249,14 @@ describe('AsmAuthHttpHeaderService', () => {
     });
 
     it('should logoutCustomerSupportAgent when cs agent is logged in', () => {
-      spyOn(authService, 'coreLogout').and.callThrough();
-      spyOn(
+      vi.spyOn(authService, 'coreLogout');
+      vi.spyOn(
         csAgentAuthService,
         'isCustomerSupportAgentLoggedIn'
-      ).and.returnValue(of(true));
-      spyOn(csAgentAuthService, 'logoutCustomerSupportAgent').and.callThrough();
-      spyOn(globalMessageService, 'add').and.callThrough();
-      spyOn(authService, 'setLogoutProgress').and.stub();
+      ).mockReturnValue(of(true));
+      vi.spyOn(csAgentAuthService, 'logoutCustomerSupportAgent');
+      vi.spyOn(globalMessageService, 'add');
+      vi.spyOn(authService, 'setLogoutProgress').mockImplementation(() => {});
 
       service.handleExpiredRefreshToken();
 

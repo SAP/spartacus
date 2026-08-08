@@ -51,7 +51,7 @@ describe('SavedCartDetailsActionComponent', () => {
 
     launchDialogService = TestBed.inject(LaunchDialogService);
 
-    spyOn(launchDialogService, 'openDialog').and.stub();
+    vi.spyOn(launchDialogService, 'openDialog').mockImplementation(() => {});
 
     fixture.detectChanges();
   });
