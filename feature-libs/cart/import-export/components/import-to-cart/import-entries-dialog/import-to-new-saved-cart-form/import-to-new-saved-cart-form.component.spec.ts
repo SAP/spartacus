@@ -95,9 +95,9 @@ describe('ImportToNewSavedCartFormComponent', () => {
     importToCartService = TestBed.inject(ImportProductsFromCsvService);
     filesFormValidators = TestBed.inject(FilesFormValidators);
 
-    spyOn(importToCartService, 'csvDataToProduct').and.callThrough();
-    spyOn(filesFormValidators, 'maxSize').and.callThrough();
-    spyOn(importCsvService, 'validateFile').and.callThrough();
+    vi.spyOn(importToCartService, 'csvDataToProduct');
+    vi.spyOn(filesFormValidators, 'maxSize');
+    vi.spyOn(importCsvService, 'validateFile');
     fixture.detectChanges();
   });
 
@@ -120,7 +120,7 @@ describe('ImportToNewSavedCartFormComponent', () => {
         description: '',
       },
     };
-    spyOn(component.submitEvent, 'emit');
+    vi.spyOn(component.submitEvent, 'emit');
     component.save();
 
     expect(component.submitEvent.emit).toHaveBeenCalledWith(mockSubmitData);
@@ -128,7 +128,7 @@ describe('ImportToNewSavedCartFormComponent', () => {
 
   describe('updateCartName', () => {
     it('should call updateCartName on event change', () => {
-      spyOn(component, 'updateCartName').and.callThrough();
+      vi.spyOn(component, 'updateCartName');
       el.query(By.css('cx-file-upload')).triggerEventHandler('update', null);
 
       expect(component.updateCartName).toHaveBeenCalled();
