@@ -15,6 +15,7 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { NativeSelectSpaceDirective } from '../../../layout/a11y/native-select-space/native-select-space.directive';
 import { IconComponent } from '../icon/icon.component';
 import { ICON_TYPE } from '../icon/icon.model';
 import { SiteThemeSwitcherComponentService } from './site-theme-switcher.component.service';
@@ -33,6 +34,7 @@ import { SiteThemeSwitcherComponentService } from './site-theme-switcher.compone
     AsyncPipe,
     TranslatePipe,
     FeatureDirective,
+    NativeSelectSpaceDirective,
   ],
 })
 export class SiteThemeSwitcherComponent {

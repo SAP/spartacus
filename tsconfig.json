@@ -964,7 +964,8 @@
   },
   "exclude": [
     "./dist",
-    "./projects/storefrontapp-e2e-cypress"
+    "./projects/storefrontapp-e2e-cypress",
+    "**/vitest.config.ts"
   ],
   "angularCompilerOptions": {
     "strictInjectionParameters": true,

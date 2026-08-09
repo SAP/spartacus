@@ -13,10 +13,11 @@ import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
-  FeatureDirective,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
+  PageMeta,
+  PageMetaService,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
@@ -25,10 +26,13 @@ import {
   PasswordVisibilityToggleModule,
   SpinnerComponent,
 } from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { UpdateEmailComponentService } from './update-email-component.service';
 import { UpdateEmailComponent } from './update-email.component';
 import createSpy = jasmine.createSpy;
@@ -58,6 +62,14 @@ class MockUpdateEmailService implements Partial<UpdateEmailComponentService> {
   resetForm = createSpy().and.stub();
 }
 
+const mockPageMeta: PageMeta = {
+  title: 'Update Email',
+  heading: 'Update Email',
+};
+class MockPageMetaService implements Partial<PageMetaService> {
+  getMeta = () => of(mockPageMeta);
+}
+
 describe('UpdateEmailComponent', () => {
   let component: UpdateEmailComponent;
   let fixture: ComponentFixture<UpdateEmailComponent>;
@@ -79,17 +91,13 @@ describe('UpdateEmailComponent', () => {
           provide: UpdateEmailComponentService,
           useClass: MockUpdateEmailService,
         },
+        { provide: PageMetaService, useClass: MockPageMetaService },
+        ...provideMockFeatureToggles({ a11yFormFieldSectionLegend: true }),
       ],
     })
       .overrideComponent(UpdateEmailComponent, {
         remove: {
-          imports: [
-            TranslatePipe,
-            CxDatePipe,
-            UrlPipe,
-            SpinnerComponent,
-            FeatureDirective,
-          ],
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, SpinnerComponent],
         },
         add: {
           imports: [
@@ -97,7 +105,6 @@ describe('UpdateEmailComponent', () => {
             MockDatePipe,
             MockUrlPipe,
             MockCxSpinnerComponent,
-            MockFeatureDirective,
           ],
           changeDetection: ChangeDetectionStrategy.Default,
         },
@@ -161,6 +168,40 @@ describe('UpdateEmailComponent', () => {
     it('should call the service method on submit', () => {
       component.onSubmit();
       expect(service.save).toHaveBeenCalled();
+    });
+  });
+
+  describe('Accessibility', () => {
+    let toggleController: MockFeatureTogglesController;
+
+    beforeEach(() => {
+      toggleController = TestBed.inject(MockFeatureTogglesController);
+    });
+
+    describe('when a11yFormFieldSectionLegend is enabled', () => {
+      beforeEach(() => {
+        toggleController.set('a11yFormFieldSectionLegend', true);
+        fixture.detectChanges();
+      });
+
+      it('should render a fieldset with a visually-hidden legend from page title', () => {
+        const legend = el.query(By.css('fieldset > legend'));
+        expect(legend).toBeTruthy();
+        expect(legend.nativeElement.textContent.trim()).toBe(
+          mockPageMeta.heading
+        );
+      });
+    });
+
+    describe('when a11yFormFieldSectionLegend is disabled', () => {
+      beforeEach(() => {
+        toggleController.set('a11yFormFieldSectionLegend', false);
+        fixture.detectChanges();
+      });
+
+      it('should render a fieldset', () => {
+        expect(el.query(By.css('fieldset'))).toBeTruthy();
+      });
     });
   });
 });

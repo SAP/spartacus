@@ -22,11 +22,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
 import {
   FeatureToggles,
+  PageType,
   RoutingService,
   useFeatureStyles,
 } from '@spartacus/core';
 import { Observable, Subscription, tap } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { distinctUntilChanged, take } from 'rxjs/operators';
 import { GlobalMessageComponent } from '../../cms-components/misc/global-message/global-message.component';
 import { OutletDirective } from '../../cms-structure/outlet/outlet.directive';
 import { PageLayoutComponent } from '../../cms-structure/page/page-layout/page-layout.component';
@@ -106,6 +107,8 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   private featureToggles = inject(FeatureToggles);
 
+  protected categoryPageFocusSelector = 'cx-breadcrumb nav a';
+
   constructor(
     private hamburgerMenuService: HamburgerMenuService,
     private routingService: RoutingService,
@@ -115,6 +118,8 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     useFeatureStyles('a11yPreventWindowsHighContrastOverride');
     useFeatureStyles('alignNavigationMenuWithHeader');
     useFeatureStyles('cdsBottomHeaderSlotAdjustPosition');
+    useFeatureStyles('a11yFocusIndicatorContrast');
+    useFeatureStyles('a11yDisabledButtonContrast');
   }
 
   ngOnInit(): void {
@@ -194,7 +199,30 @@ export class StorefrontComponent implements OnInit, OnDestroy {
       this.stopNavigating &&
       this.document?.activeElement !== this.document?.body
     ) {
-      this.skipLinkService?.scrollToTarget('cx-main');
+      if (this.featureToggles.a11yFocusBreadcrumbOnNavigation) {
+        this.routingService
+          .getPageContext()
+          .pipe(take(1))
+          .subscribe((pageContext) => {
+            if (pageContext.type === PageType.CATEGORY_PAGE) {
+              setTimeout(() => {
+                const breadcrumbLink =
+                  this.document?.querySelector<HTMLElement>(
+                    this.categoryPageFocusSelector
+                  );
+                if (breadcrumbLink) {
+                  breadcrumbLink.focus();
+                  return;
+                }
+                this.skipLinkService?.scrollToTarget('cx-main');
+              });
+            } else {
+              this.skipLinkService?.scrollToTarget('cx-main');
+            }
+          });
+      } else {
+        this.skipLinkService?.scrollToTarget('cx-main');
+      }
     }
   }
 }
