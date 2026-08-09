@@ -8,13 +8,11 @@ import {
 import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { OCC_USER_ID_ANONYMOUS, User, UserIdService } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { Observable, of } from 'rxjs';
+import { Observable, of, firstValueFrom } from 'rxjs';
 import { getMultiCartReducers } from '../../../base/core/store/reducers';
 import { WishListActions } from '../store/actions/index';
 import { getWishlistName } from '../utils/utils';
 import { WishListService } from './wish-list.service';
-
-import createSpy = jasmine.createSpy;
 
 const userId = 'testUserId';
 const cartCode = 'xxx';
@@ -59,10 +57,10 @@ class MockUserAccountFacade implements Partial<UserAccountFacade> {
 }
 
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
-  getCart = createSpy().and.returnValue(of(testCart));
-  addEntry = createSpy();
-  removeEntry = createSpy();
-  isStable = createSpy().and.returnValue(of(true));
+  getCart = vi.fn().mockReturnValue(of(testCart));
+  addEntry = vi.fn();
+  removeEntry = vi.fn();
+  isStable = vi.fn().mockReturnValue(of(true));
   getCartIdByType(): Observable<string> {
     return of(cartCode);
   }
@@ -95,7 +93,7 @@ describe('WishListService', () => {
     userIdService = TestBed.inject(UserIdService);
     userAccountFacade = TestBed.inject(UserAccountFacade);
 
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   describe('createWishList', () => {
@@ -113,20 +111,17 @@ describe('WishListService', () => {
   });
 
   describe('getWishListId', () => {
-    it('should return wish list id', (done) => {
-      let result;
-      service['getWishListId']().subscribe((id) => {
-        result = id;
-      });
-
-      expect(result).toEqual(cartCode);
-      done();
+    it('should return wish list id', async () => {
+      const id = await firstValueFrom(service['getWishListId']());
+      expect(id).toEqual(cartCode);
     });
   });
 
   describe('getWishList', () => {
     it('should create wish list if not loaded', () => {
-      spyOn(multiCartFacade, 'getCartIdByType').and.returnValue(of(undefined));
+      vi.spyOn(multiCartFacade, 'getCartIdByType').mockReturnValue(
+        of(undefined)
+      );
       const payload = {
         userId,
         cartId: getWishlistName(customerId),
@@ -139,8 +134,8 @@ describe('WishListService', () => {
     });
 
     it('should not load wishlist for anonymous user', () => {
-      spyOn(service, 'loadWishList');
-      spyOn(userIdService, 'getUserId').and.returnValue(
+      vi.spyOn(service, 'loadWishList');
+      vi.spyOn(userIdService, 'getUserId').mockReturnValue(
         of(OCC_USER_ID_ANONYMOUS)
       );
       service.getWishList().subscribe();
@@ -149,16 +144,15 @@ describe('WishListService', () => {
     });
 
     it('should not load wishlist if custoemr not exist', () => {
-      spyOn(service, 'loadWishList');
-      spyOn(userAccountFacade, 'get').and.returnValue(of({}));
+      vi.spyOn(service, 'loadWishList');
+      vi.spyOn(userAccountFacade, 'get').mockReturnValue(of({}));
       service.getWishList().subscribe();
 
       expect(service.loadWishList).not.toHaveBeenCalled();
     });
 
-    it('should return wish list if loaded', (done) => {
-      spyOn(service, 'loadWishList');
-      let result;
+    it('should return wish list if loaded', async () => {
+      vi.spyOn(service, 'loadWishList');
 
       store.dispatch(
         new WishListActions.LoadWishListSuccess({
@@ -166,12 +160,11 @@ describe('WishListService', () => {
           cartId: getCartIdByUserId(testCart, userId),
         })
       );
-      service.getWishList().subscribe((cart) => (result = cart));
+      const result = await firstValueFrom(service.getWishList());
 
       expect(service.loadWishList).not.toHaveBeenCalled();
 
       expect(result).toEqual(testCart);
-      done();
     });
   });
 
@@ -208,7 +201,9 @@ describe('WishListService', () => {
     });
 
     it('should call load wish list if not loaded', () => {
-      spyOn(multiCartFacade, 'getCartIdByType').and.returnValue(of(undefined));
+      vi.spyOn(multiCartFacade, 'getCartIdByType').mockReturnValue(
+        of(undefined)
+      );
       const payload = {
         userId,
         cartId: getWishlistName(customerId),
@@ -238,7 +233,9 @@ describe('WishListService', () => {
     });
 
     it('should call load wish list if not loaded', () => {
-      spyOn(multiCartFacade, 'getCartIdByType').and.returnValue(of(undefined));
+      vi.spyOn(multiCartFacade, 'getCartIdByType').mockReturnValue(
+        of(undefined)
+      );
       const payload = {
         userId,
         cartId: getWishlistName(customerId),
@@ -252,14 +249,9 @@ describe('WishListService', () => {
   });
 
   describe('getWishListLoading', () => {
-    it('should return if the wish list loading', (done) => {
-      let result;
-      service.getWishListLoading().subscribe((loading) => {
-        result = loading;
-      });
-
+    it('should return if the wish list loading', async () => {
+      const result = await firstValueFrom(service.getWishListLoading());
       expect(result).toEqual(false);
-      done();
     });
   });
 });

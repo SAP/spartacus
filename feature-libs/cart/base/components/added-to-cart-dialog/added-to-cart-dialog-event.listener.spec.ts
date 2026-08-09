@@ -89,14 +89,14 @@ describe('AddedToCartDialogEventListener', () => {
   describe('onAddToCart', () => {
     it('should open modal on event CartUiEventAddToCart', () => {
       listener = TestBed.inject(AddedToCartDialogEventListener);
-      spyOn(listener as any, 'openModal').and.stub();
+      vi.spyOn(listener as any, 'openModal').mockImplementation(() => {});
       mockEventStream$.next(mockEvent);
       expect(listener['openModal']).toHaveBeenCalledWith(mockEvent);
     });
 
     it('should close modal on fail event', () => {
       listener = TestBed.inject(AddedToCartDialogEventListener);
-      spyOn(listener as any, 'closeModal').and.stub();
+      vi.spyOn(listener as any, 'closeModal').mockImplementation(() => {});
       mockEventStream$.next(mockFailEvent);
       expect(listener['closeModal']).toHaveBeenCalledWith(mockFailEvent);
     });
@@ -105,7 +105,7 @@ describe('AddedToCartDialogEventListener', () => {
   describe('openModal', () => {
     it('should open the add to cart dialog', () => {
       listener = TestBed.inject(AddedToCartDialogEventListener);
-      spyOn(launchDialogService, 'openDialog').and.callThrough();
+      vi.spyOn(launchDialogService, 'openDialog');
       listener['openModal'](mockEvent);
       expect(launchDialogService.openDialog).toHaveBeenCalled();
     });
@@ -134,7 +134,7 @@ describe('AddedToCartDialogEventListener', () => {
   describe('closeModal', () => {
     it('should close the add to cart dialog', () => {
       listener = TestBed.inject(AddedToCartDialogEventListener);
-      spyOn(launchDialogService, 'closeDialog').and.stub();
+      vi.spyOn(launchDialogService, 'closeDialog').mockImplementation(() => {});
       listener['closeModal']('reason');
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith('reason');
     });

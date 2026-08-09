@@ -47,7 +47,7 @@ describe('AsmService', () => {
   });
 
   it('should dispatch proper action for customer search', () => {
-    spyOn(store, 'dispatch').and.stub();
+    vi.spyOn(store, 'dispatch').mockImplementation(() => {});
     const searchOptions: CustomerSearchOptions = { query: 'search term' };
     service.customerSearch(searchOptions);
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -78,7 +78,7 @@ describe('AsmService', () => {
   });
 
   it('should dispatch proper action for customer search reset', () => {
-    spyOn(store, 'dispatch').and.stub();
+    vi.spyOn(store, 'dispatch').mockImplementation(() => {});
     service.customerSearchReset();
     expect(store.dispatch).toHaveBeenCalledWith(
       new AsmActions.CustomerSearchReset()
@@ -86,7 +86,7 @@ describe('AsmService', () => {
   });
 
   it('should dispatch proper action for update asm UI', () => {
-    spyOn(store, 'dispatch').and.stub();
+    vi.spyOn(store, 'dispatch').mockImplementation(() => {});
     const asmUi: AsmUi = {};
     service.updateAsmUiState(asmUi);
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -107,7 +107,7 @@ describe('AsmService', () => {
   });
 
   it('should dispatch proper action for create session event', () => {
-    spyOn(store, 'dispatch').and.stub();
+    vi.spyOn(store, 'dispatch').mockImplementation(() => {});
     const options: AsmSessionCreationOptions = { eventType: 'startSesion' };
     service.createAsmSessionEvent(options);
     expect(store.dispatch).toHaveBeenCalledWith(
