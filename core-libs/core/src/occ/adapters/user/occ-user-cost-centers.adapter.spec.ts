@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpTestingController,
   provideHttpClientTesting,
@@ -18,8 +19,6 @@ import {
 } from '@angular/common/http';
 import { provideMockFeatureToggles } from '../../../features-config/feature-toggles/testing';
 
-import createSpy = jasmine.createSpy;
-
 const costCenterCode = 'testCode';
 const userId = 'userId';
 const costCenter = {
@@ -28,10 +27,11 @@ const costCenter = {
 };
 
 class MockOccEndpointsService {
-  buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
-    (url, { costCenterCode }) =>
+  buildUrl = vi
+    .fn()
+    .mockImplementation((url, { costCenterCode }) =>
       url === 'costCenter' ? url + costCenterCode : url
-  );
+    );
 }
 
 describe('OccUserCostCenterAdapter', () => {
@@ -59,7 +59,7 @@ describe('OccUserCostCenterAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     occEndpointsService = TestBed.inject(OccEndpointsService);
     featureToggles = TestBed.inject(FeatureToggles);
-    spyOn(converterService, 'pipeable').and.callThrough();
+    vi.spyOn(converterService, 'pipeable');
   });
 
   afterEach(() => {

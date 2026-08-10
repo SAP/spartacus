@@ -296,7 +296,8 @@ export class PositioningService {
     if (hasAuto >= 0) {
       this.allowedPlacements.forEach((obj) => {
         if (placementVals.find((val) => val.search('^' + obj) !== -1) == null) {
-          placementVals.splice(hasAuto++, 1, obj as PopoverPosition);
+          placementVals.splice(hasAuto, 1, obj as PopoverPosition);
+          hasAuto++;
         }
       });
     }

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { CartEventBuilder } from './cart-event.builder';
 import { CartEventModule } from './cart-event.module';
@@ -6,7 +7,7 @@ describe('CartEventModule', () => {
   let cartEventBuilderFactory;
 
   beforeEach(() => {
-    cartEventBuilderFactory = jasmine.createSpy('cartEventBuilderFactory');
+    cartEventBuilderFactory = vi.fn();
     TestBed.configureTestingModule({
       providers: [
         {

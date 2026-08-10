@@ -2,8 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { AsmAuthStorageService, TokenTarget } from '@spartacus/asm/root';
 import { AuthToken, StatePersistenceService } from '@spartacus/core';
-import { BehaviorSubject, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { BehaviorSubject, firstValueFrom, of } from 'rxjs';
 import { AsmActions, ASM_FEATURE, StateWithAsm } from '../store';
 import * as fromAsmReducers from '../store/reducers/index';
 import { AsmStatePersistenceService } from './asm-state-persistence.service';
@@ -56,8 +55,10 @@ describe('AsmStatePersistenceService', () => {
     persistenceService = TestBed.inject(StatePersistenceService);
     store = TestBed.inject(Store);
     asmAuthStorageService = TestBed.inject(AsmAuthStorageService);
-    spyOn(store, 'dispatch').and.stub();
-    spyOn(persistenceService, 'syncWithStorage').and.stub();
+    vi.spyOn(store, 'dispatch').mockImplementation(() => {});
+    vi.spyOn(persistenceService, 'syncWithStorage').mockImplementation(
+      () => {}
+    );
   });
 
   it('should inject service', () => {
@@ -65,8 +66,8 @@ describe('AsmStatePersistenceService', () => {
   });
 
   it('state should be updated after read from storage', () => {
-    spyOn(asmAuthStorageService, 'setEmulatedUserToken').and.callThrough();
-    spyOn(asmAuthStorageService, 'setTokenTarget').and.callThrough();
+    vi.spyOn(asmAuthStorageService, 'setEmulatedUserToken');
+    vi.spyOn(asmAuthStorageService, 'setTokenTarget');
 
     service['onRead']({
       ui: { collapsed: true },
@@ -94,12 +95,12 @@ describe('AsmStatePersistenceService', () => {
 
   it('should call persistenceService with correct attributes', () => {
     const state$ = of('');
-    spyOn(service as any, 'getAsmState').and.returnValue(state$);
+    vi.spyOn(service as any, 'getAsmState').mockReturnValue(state$);
 
     service.initSync();
 
     expect(persistenceService.syncWithStorage).toHaveBeenCalledWith(
-      jasmine.objectContaining({
+      expect.objectContaining({
         key: 'asm',
         state$,
       })
@@ -107,7 +108,7 @@ describe('AsmStatePersistenceService', () => {
     expect(service['getAsmState']).toHaveBeenCalled();
   });
 
-  it('should return state from asm store', (done) => {
+  it('should return state from asm store', async () => {
     asmAuthStorageService.setEmulatedUserToken({
       access_token: 'token',
       access_token_stored_at: '1000',
@@ -115,19 +116,15 @@ describe('AsmStatePersistenceService', () => {
     });
     asmAuthStorageService.setTokenTarget(TokenTarget.User);
 
-    service['getAsmState']()
-      .pipe(take(1))
-      .subscribe((state) => {
-        expect(state).toEqual({
-          ui: { collapsed: false },
-          emulatedUserToken: {
-            access_token: 'token',
-            access_token_stored_at: '1000',
-          },
-          tokenTarget: TokenTarget.User,
-        });
-        done();
-      });
+    const state = await firstValueFrom(service['getAsmState']());
+    expect(state).toEqual({
+      ui: { collapsed: false },
+      emulatedUserToken: {
+        access_token: 'token',
+        access_token_stored_at: '1000',
+      },
+      tokenTarget: TokenTarget.User,
+    });
   });
 
   it('should return updated state when emulated user token changes after sync starts', () => {

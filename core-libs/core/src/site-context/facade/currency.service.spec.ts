@@ -1,9 +1,9 @@
-import { inject, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
+import { TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
-import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { SiteContextConfig } from '@spartacus/core';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { FeatureToggles } from '../../features-config/feature-toggles/feature-toggles-tokens';
 import { Currency } from '../../model/misc.model';
 import { SiteConnector } from '../connectors/site.connector';
@@ -12,7 +12,6 @@ import { SiteContextStoreModule } from '../store/site-context-store.module';
 import { StateWithSiteContext } from '../store/state';
 import { CurrencyService } from './currency.service';
 import { provideMockFeatureToggles } from '../../features-config/feature-toggles/testing';
-import createSpy = jasmine.createSpy;
 
 const mockCurrencies: Currency[] = [
   { active: true, isocode: 'USD', name: 'US Dollar', symbol: '$' },
@@ -48,14 +47,6 @@ const mockFeatureToggles: FeatureToggles = {
 };
 
 describe('CurrencyService', () => {
-  const mockSelect0 = createSpy('select').and.returnValue(() => of(undefined));
-  const mockSelect1 = createSpy('select').and.returnValue(() =>
-    of(mockCurrencies)
-  );
-  const mockSelect2 = createSpy('select').and.returnValue(() =>
-    of(mockActiveCurr)
-  );
-
   let service: CurrencyService;
   let store: Store<StateWithSiteContext>;
   let featureToggles: FeatureToggles;
@@ -76,61 +67,56 @@ describe('CurrencyService', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
     service = TestBed.inject(CurrencyService);
     featureToggles = TestBed.inject(FeatureToggles);
   });
 
-  it('should CurrencyService is injected', inject(
-    [CurrencyService],
-    (currencyService: CurrencyService) => {
-      expect(currencyService).toBeTruthy();
-    }
-  ));
+  it('should CurrencyService is injected', () => {
+    expect(service).toBeTruthy();
+  });
 
   it('should not load currencies when service is constructed', () => {
     expect(store.dispatch).toHaveBeenCalledTimes(0);
   });
 
-  it('should be able to load currencies', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect0);
+  it('should be able to load currencies', async () => {
+    // no currencies loaded yet — getAll() should dispatch LoadCurrencies
     service.getAll().subscribe();
     expect(store.dispatch).toHaveBeenCalledWith(
       new SiteContextActions.LoadCurrencies()
     );
   });
 
-  it('should be able to get currencies and filter out inactive ones when showOnlyActiveCurrencies is enabled', () => {
+  it('should be able to get currencies and filter out inactive ones when showOnlyActiveCurrencies is enabled', async () => {
     featureToggles.showOnlyActiveCurrencies = true;
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
-
-    service.getAll().subscribe((results) => {
-      expect(results).toEqual(mockActiveCurrencies);
-      expect(results.length).toBe(2);
-      expect(results.every((currency) => currency.active === true)).toBe(true);
-    });
+    store.dispatch(
+      new SiteContextActions.LoadCurrenciesSuccess(mockCurrencies)
+    );
+    const results = await firstValueFrom(service.getAll());
+    expect(results).toEqual(mockActiveCurrencies);
+    expect(results.length).toBe(2);
+    expect(results.every((currency) => currency.active === true)).toBe(true);
   });
 
-  it('should return all currencies when showOnlyActiveCurrencies is disabled', () => {
+  it('should return all currencies when showOnlyActiveCurrencies is disabled', async () => {
     featureToggles.showOnlyActiveCurrencies = false;
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
-
-    service.getAll().subscribe((results) => {
-      expect(results).toEqual(mockCurrencies);
-      expect(results.length).toBe(3);
-    });
+    store.dispatch(
+      new SiteContextActions.LoadCurrenciesSuccess(mockCurrencies)
+    );
+    const results = await firstValueFrom(service.getAll());
+    expect(results).toEqual(mockCurrencies);
+    expect(results.length).toBe(3);
   });
 
-  it('should be able to get active currencies', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
-    service.getActive().subscribe((results) => {
-      expect(results).toEqual(mockActiveCurr);
-    });
+  it('should be able to get active currencies', async () => {
+    store.dispatch(new SiteContextActions.SetActiveCurrency(mockActiveCurr));
+    const result = await firstValueFrom(service.getActive());
+    expect(result).toEqual(mockActiveCurr);
   });
 
   describe('setActive(isocode)', () => {
     it('should be able to set active currency', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
       service.setActive('JPY');
       expect(store.dispatch).toHaveBeenCalledWith(
         new SiteContextActions.SetActiveCurrency('JPY')
@@ -138,7 +124,8 @@ describe('CurrencyService', () => {
     });
 
     it('should not dispatch action if isocode is currenyly actuve', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
+      store.dispatch(new SiteContextActions.SetActiveCurrency(mockActiveCurr));
+      vi.mocked(store.dispatch).mockClear();
       service.setActive(mockActiveCurr);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new SiteContextActions.SetActiveCurrency(mockActiveCurr)
@@ -148,7 +135,7 @@ describe('CurrencyService', () => {
 
   describe('isInitialized', () => {
     it('should return TRUE if a currency is initialized', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
+      store.dispatch(new SiteContextActions.SetActiveCurrency(mockActiveCurr));
       expect(service.isInitialized()).toBeTruthy();
     });
   });

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
@@ -16,7 +17,7 @@ import { UserActions } from '../actions/index';
 import { CustomerCouponEffects } from './customer-coupon.effect';
 
 class MockGlobalMessageService {
-  add = jasmine.createSpy();
+  add = vi.fn();
 }
 
 const userId = '123';
@@ -80,17 +81,17 @@ describe('Customer Coupon effect', () => {
     customerCouponsEffect = TestBed.inject(CustomerCouponEffects);
     customerCouponConnector = TestBed.inject(CustomerCouponConnector);
 
-    spyOn(customerCouponConnector, 'getCustomerCoupons').and.returnValue(
+    vi.spyOn(customerCouponConnector, 'getCustomerCoupons').mockReturnValue(
       of(customerSearcherResult)
     );
-    spyOn(customerCouponConnector, 'turnOnNotification').and.returnValue(
+    vi.spyOn(customerCouponConnector, 'turnOnNotification').mockReturnValue(
       of(customerCouponNotification)
     );
 
-    spyOn(customerCouponConnector, 'turnOffNotification').and.returnValue(
+    vi.spyOn(customerCouponConnector, 'turnOffNotification').mockReturnValue(
       of({})
     );
-    spyOn(customerCouponConnector, 'claimCustomerCoupon').and.returnValue(
+    vi.spyOn(customerCouponConnector, 'claimCustomerCoupon').mockReturnValue(
       of(customerCoupon2Customer)
     );
   });

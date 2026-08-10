@@ -88,8 +88,8 @@ describe('AsmSaveCartDialogComponent', () => {
     savedCartFacade = TestBed.inject(SavedCartFacade);
 
     fixture.detectChanges();
-    spyOn(launchDialogService, 'closeDialog').and.stub();
-    spyOn(savedCartFacade, 'saveCart').and.stub();
+    vi.spyOn(launchDialogService, 'closeDialog').mockImplementation(() => {});
+    vi.spyOn(savedCartFacade, 'saveCart').mockImplementation(() => {});
   });
 
   it('should create', () => {
@@ -137,7 +137,7 @@ describe('AsmSaveCartDialogComponent', () => {
   });
 
   it('should show meaasge based on `cx-message` selector', () => {
-    spyOn(component.showDialogAlert$, 'next').and.stub();
+    vi.spyOn(component.showDialogAlert$, 'next').mockImplementation(() => {});
     component.closeDialogAlert();
     expect(component.showDialogAlert$.next).toHaveBeenCalledWith(false);
   });

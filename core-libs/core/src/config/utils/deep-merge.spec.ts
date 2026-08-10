@@ -1,4 +1,3 @@
-import { waitForAsync } from '@angular/core/testing';
 import { deepMerge } from './deep-merge';
 
 describe('deepMerge utility', () => {
@@ -6,7 +5,7 @@ describe('deepMerge utility', () => {
     const a = { a: 1, b: 2 };
     const b = { c: 3, b: 0 };
     const merged = deepMerge(a, b);
-    expect(merged).toEqual(jasmine.objectContaining({ a: 1, b: 0, c: 3 }));
+    expect(merged).toEqual(expect.objectContaining({ a: 1, b: 0, c: 3 }));
   });
 
   it('should merge two objects where one of them has a Date property', () => {
@@ -23,7 +22,7 @@ describe('deepMerge utility', () => {
     };
     const merged = deepMerge(a, b);
     expect(merged).toEqual(
-      jasmine.objectContaining({
+      expect.objectContaining({
         a: 1,
         b: olderDate,
         c: 3,
@@ -40,7 +39,7 @@ describe('deepMerge utility', () => {
     const b = { c: { d: { f: 'override' } } };
     const merged = deepMerge(a, b);
     expect(merged).toEqual(
-      jasmine.objectContaining({
+      expect.objectContaining({
         a: 'val a',
         b: 'val b',
         c: { d: { f: 'override', h: 'val h' }, e: 'val e' },
@@ -60,7 +59,7 @@ describe('deepMerge utility', () => {
     const b = { c: { d: { f: 'override', h: newerDate } } };
     const merged = deepMerge(a, b);
     expect(merged).toEqual(
-      jasmine.objectContaining({
+      expect.objectContaining({
         a: 'val a',
         b: 'val b',
         c: { d: { f: 'override', h: newerDate }, e: 'val e' },
@@ -72,7 +71,7 @@ describe('deepMerge utility', () => {
     const a = { a: 1 };
     const b = { b: 2 };
     const merged = deepMerge(a, b);
-    expect(merged).toEqual(jasmine.objectContaining({ a: 1, b: 2 }));
+    expect(merged).toEqual(expect.objectContaining({ a: 1, b: 2 }));
   });
 
   it('should add properties from target when one of them has a Date property', () => {
@@ -81,14 +80,14 @@ describe('deepMerge utility', () => {
     const a = { a: 1 };
     const b = { b: date };
     const merged = deepMerge(a, b);
-    expect(merged).toEqual(jasmine.objectContaining({ a: 1, b: date }));
+    expect(merged).toEqual(expect.objectContaining({ a: 1, b: date }));
   });
 
   it('should overrite arrays', () => {
     const a = { a: ['test', 'test2'] };
     const b = { a: ['test3'] };
     const merged = deepMerge(a, b);
-    expect(merged).toEqual(jasmine.objectContaining({ a: ['test3'] }));
+    expect(merged).toEqual(expect.objectContaining({ a: ['test3'] }));
   });
 
   it('should work for multiple parameters', () => {
@@ -97,32 +96,32 @@ describe('deepMerge utility', () => {
     const c = { a: ['test3'] };
     const merged = deepMerge(a, b, c);
     expect(merged).toEqual(
-      jasmine.objectContaining({ a: ['test3'], b: ['testb'] })
+      expect.objectContaining({ a: ['test3'], b: ['testb'] })
     );
   });
 
   it('should work for undefined 1st parameter', () => {
     const b = { a: ['test3'] };
     const merged = deepMerge(undefined, b);
-    expect(merged).toEqual(jasmine.objectContaining({ a: ['test3'] }));
+    expect(merged).toEqual(expect.objectContaining({ a: ['test3'] }));
   });
 
   it('should work for undefined and null parameters', () => {
     const a = { a: ['test3'] };
     const b = { a: ['test1'] };
     const merged = deepMerge(a, undefined, b, null);
-    expect(merged).toEqual(jasmine.objectContaining({ a: ['test1'] }));
+    expect(merged).toEqual(expect.objectContaining({ a: ['test1'] }));
   });
 
   it('should be possible to overwrite simple type with an object', () => {
     const a = { a: 'test3' };
     const b = { a: { value: 'test1' } };
     const merged = deepMerge(a, undefined, b, null);
-    expect(merged).toEqual(jasmine.objectContaining({ a: { value: 'test1' } }));
+    expect(merged).toEqual(expect.objectContaining({ a: { value: 'test1' } }));
   });
 
   describe('protptype pollution gurads', () => {
-    it('should avoid property injection', waitForAsync(async () => {
+    it('should avoid property injection', async () => {
       // arrange
       class TestContainer {
         constructor(public name: string) {}
@@ -151,9 +150,9 @@ describe('deepMerge utility', () => {
       expect('radioactiveWaste' in baseObject).toBe(false);
       expect('radioactiveWaste' in untouchedObject).toBe(false);
       expect('radioactiveWaste' in actual).toBe(false);
-    }));
+    });
 
-    it('should avoid denial of service', waitForAsync(async () => {
+    it('should avoid denial of service', async () => {
       class TestContainer {
         constructor(public name: string) {}
 
@@ -179,6 +178,6 @@ describe('deepMerge utility', () => {
       expect(typeof baseObject.toString).toBe('function');
       expect(typeof untouchedObject.toString).toBe('function');
       expect(typeof actual.toString).toBe('function');
-    }));
+    });
   });
 });
