@@ -32,6 +32,11 @@ function run_affected_unit_tests {
 function run_all_unit_tests {
     if [[ -n "$UNIT_TEST_GROUP_PROJECTS" ]]; then
         echo "🔀 Running only selected projects: $UNIT_TEST_GROUP_PROJECTS"
+
+        echo "Running JASMINE unit tests for selected projects"
+        npx nx run-many --target=test --projects="$UNIT_TEST_GROUP_PROJECTS" --exclude="$EXCLUDE_APPLICATIONS,$JEST_PROJECTS" -- --no-watch --source-map --code-coverage --browsers ChromeHeadless
+
+        echo "Running JEST unit tests for selected projects"
         npx nx run-many --target=test-jest --projects="$UNIT_TEST_GROUP_PROJECTS" --exclude="$EXCLUDE_APPLICATIONS" -- --coverage --runInBand
 
     else
