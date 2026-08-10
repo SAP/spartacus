@@ -41,7 +41,7 @@ import { environment } from '../../../../environments/environment';
   providers: [
     provideConfig(<UserAccountConfig>{
       userAccount: {
-        enableUserCurrencySync: true,
+        enableUserCurrencySync: false,
       },
     }),
     provideConfig(<CmsConfig>{
