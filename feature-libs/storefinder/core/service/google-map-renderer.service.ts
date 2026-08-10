@@ -120,11 +120,16 @@ export class GoogleMapRendererService {
     selectMarkerHandler?: Function
   ): string {
     const callbackName = `__spartacusGoogleMapsInit_${++GoogleMapRendererService.callbackCounter}`;
+    // `defaultView` is null when there is no browser window (e.g. SSR), where
+    // there is no global for Google's loader to invoke. Skip registering the
+    // callback rather than throwing on a null global.
     const global = this.document.defaultView as any;
-    global[callbackName] = () => {
-      delete global[callbackName];
-      this.drawMap(mapElement, locations, selectMarkerHandler);
-    };
+    if (global) {
+      global[callbackName] = () => {
+        delete global[callbackName];
+        this.drawMap(mapElement, locations, selectMarkerHandler);
+      };
+    }
     return callbackName;
   }
 
@@ -145,11 +150,13 @@ export class GoogleMapRendererService {
    * Defines and returns {@link google.maps.LatLng} representing a point where the map will be centered
    * @param locations list of locations
    */
-  private defineMapCenter(locations: any[]): google.maps.LatLng {
-    return new google.maps.LatLng(
-      this.storeFinderService.getStoreLatitude(locations[0]),
-      this.storeFinderService.getStoreLongitude(locations[0])
-    );
+  private defineMapCenter(locations: any[]): google.maps.LatLng | undefined {
+    const latitude = this.storeLocationService.getStoreLatitude(locations[0]);
+    const longitude = this.storeLocationService.getStoreLongitude(locations[0]);
+    if (latitude === undefined || longitude === undefined) {
+      return undefined;
+    }
+    return new google.maps.LatLng(latitude, longitude);
   }
 
   /**
@@ -159,7 +166,7 @@ export class GoogleMapRendererService {
    */
   private initMap(
     mapElement: HTMLElement,
-    mapCenter: google.maps.LatLng
+    mapCenter?: google.maps.LatLng
   ): void {
     type GestureHandlingOptions = 'cooperative' | 'greedy' | 'none' | 'auto';
     const gestureOption: GestureHandlingOptions = 'greedy';

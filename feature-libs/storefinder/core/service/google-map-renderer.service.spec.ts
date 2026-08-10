@@ -365,6 +365,24 @@ describe('GoogleMapRendererService', () => {
       expect(advancedMarkerInstances.length).toBe(0);
     }));
 
+    it('should create the map with an undefined center when coordinates are missing', fakeAsync(() => {
+      spyOn(storeLocationServiceMock, 'getStoreLatitude').and.returnValue(
+        undefined
+      );
+      spyOn(storeLocationServiceMock, 'getStoreLongitude').and.returnValue(
+        undefined
+      );
+
+      googleMapRendererService.renderMap(
+        mapDomElement,
+        locations,
+        selectedIndex
+      );
+      tick();
+
+      expect(mapInstances[0].mapProp.center).toBeUndefined();
+    }));
+
     it('should render a numbered pin inside the marker content wrapper', fakeAsync(() => {
       googleMapRendererService.renderMap(
         mapDomElement,
