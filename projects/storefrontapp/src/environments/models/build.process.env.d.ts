@@ -30,5 +30,4 @@ interface Env {
   CX_ESTIMATED_DELIVERY_DATE: boolean;
   CX_S4_SERVICE: boolean;
   CX_PUNCHOUT: boolean;
-  GOOGLE_MAPS_API_KEY?: string;
 }
