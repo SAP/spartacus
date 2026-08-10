@@ -754,9 +754,11 @@ describe('CheckoutPaymentMethodComponent - a11yImproveCheckoutFocus', () => {
       })
       .compileComponents();
 
-      (TestBed.inject(FeatureConfigService).isEnabled as ReturnType<typeof vi.fn>).mockImplementation(
-        (f: string) => (f.startsWith('!') ? !featureToggle : featureToggle)
-      );
+    (
+      TestBed.inject(FeatureConfigService).isEnabled as ReturnType<typeof vi.fn>
+    ).mockImplementation((f: string) =>
+      f.startsWith('!') ? !featureToggle : featureToggle
+    );
 
     userPaymentService = TestBed.inject(UserPaymentService);
     checkoutPaymentService = TestBed.inject(CheckoutPaymentFacade);

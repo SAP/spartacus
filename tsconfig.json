@@ -793,19 +793,7 @@
       ],
       "@spartacus/cdc/assets": ["integration-libs/cdc/assets/public_api"],
       "@spartacus/storefront": ["core-libs/storefront/public_api"],
-      "@spartacus/storefront/testing/mock-feature-directive": [
-        "core-libs/storefront/shared/test/mock-feature-directive.ts"
-      ],
-      "@spartacus/storefront/testing/mock-feature-level-directive": [
-        "core-libs/storefront/shared/test/mock-feature-level-directive.ts"
-      ],
-      "@spartacus/storefront/testing/icon-testing-module": [
-        "core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module"
-      ],
       "@spartacus/core": ["core-libs/core/public_api"],
-      "@spartacus/core/testing/mock-feature-toggles": [
-        "core-libs/core/src/features-config/feature-toggles/testing/index.ts"
-      ],
       "@spartacus/assets": ["core-libs/assets/src/public_api"]
     },
     "useDefineForClassFields": false

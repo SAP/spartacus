@@ -12,7 +12,21 @@
       "vitest"
     ],
     "moduleResolution": "bundler",
-    "allowJs": true
+    "allowJs": true,
+    "paths": {
+      "@spartacus/storefront/testing/mock-feature-directive": [
+        "../../core-libs/storefront/shared/test/mock-feature-directive.ts"
+      ],
+      "@spartacus/storefront/testing/mock-feature-level-directive": [
+        "../../core-libs/storefront/shared/test/mock-feature-level-directive.ts"
+      ],
+      "@spartacus/storefront/testing/icon-testing-module": [
+        "../../core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module"
+      ],
+      "@spartacus/core/testing/mock-feature-toggles": [
+        "../../core-libs/core/src/features-config/feature-toggles/testing/index.ts"
+      ]
+    }
   },
   "files": ["../../testing/setup-vitest.ts"],
   "include": [

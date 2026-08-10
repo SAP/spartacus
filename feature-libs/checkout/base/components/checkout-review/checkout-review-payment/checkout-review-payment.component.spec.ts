@@ -242,8 +242,10 @@ describe('CheckoutReviewPaymentComponent - a11yImproveCheckoutFocus', () => {
       })
       .compileComponents();
 
-    (TestBed.inject(FeatureConfigService).isEnabled as ReturnType<typeof vi.fn>).mockImplementation(
-      (f: string) => (f.startsWith('!') ? !featureToggle : featureToggle)
+    (
+      TestBed.inject(FeatureConfigService).isEnabled as ReturnType<typeof vi.fn>
+    ).mockImplementation((f: string) =>
+      f.startsWith('!') ? !featureToggle : featureToggle
     );
 
     fixture = TestBed.createComponent(CheckoutReviewPaymentComponent);
