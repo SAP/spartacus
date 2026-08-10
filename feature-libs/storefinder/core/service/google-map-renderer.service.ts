@@ -39,7 +39,7 @@ export class GoogleMapRendererService {
    * Renders google map on the given element and draws markers on it.
    * If map already exists it will use an existing map otherwise it will create one
    * @param mapElement HTML element inside of which the map will be displayed
-   * @param locations array containign geo data to be displayed on the map
+   * @param locations array of geo data to be displayed on the map
    * @param selectMarkerHandler function to handle whenever a marker on a map is clicked
    */
   renderMap(
