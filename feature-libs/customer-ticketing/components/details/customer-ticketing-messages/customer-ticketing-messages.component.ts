@@ -31,7 +31,7 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
   protected customerTicketingMessagesComponentService = inject(
     CustomerTicketingMessagesComponentService
   );
-  public featureToggles = inject(FeatureToggles);
+  private featureToggles = inject(FeatureToggles);
 
   ticketDetails$: Observable<TicketDetails | undefined> =
     this.customerTicketingFacade.getTicket();
