@@ -2,12 +2,11 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { CartValidationAdapter } from './cart-validation.adapter';
 import { CartValidationConnector } from './cart-validation.connector';
-import createSpy = jasmine.createSpy;
 
 class MockCartValidationAdapter implements CartValidationAdapter {
-  validate = createSpy('validate').and.callFake((cartId, userId) =>
-    of(`load-${cartId}-${userId}`)
-  );
+  validate = vi
+    .fn()
+    .mockImplementation((cartId, userId) => of(`load-${cartId}-${userId}`));
 }
 
 describe('CartValidationConnector', () => {
