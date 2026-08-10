@@ -252,6 +252,7 @@ describe('CustomerTicketMessagesComponent', () => {
         component = fixture.componentInstance;
         fixture.detectChanges();
 
+        console.log(component.featureToggles);
         expect(component.messagingConfigs.dateFormat).toBe(DATE_FORMAT);
       });
     });

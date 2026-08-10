@@ -23,7 +23,7 @@ export default defineConfig({
     watch: false,
     globals: true,
     environment: 'jsdom',
-    setupFiles: ['./setup-test.ts'],
+    setupFiles: ['../../testing/setup-vitest.ts'],
     include: ['**/*.spec.ts'],
     typecheck: {
       tsconfig: `${import.meta.dirname}/tsconfig.spec.json`,
