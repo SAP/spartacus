@@ -94,9 +94,12 @@ describe('CustomerTicketingDetailsComponent', () => {
         useFactory: () => {
           const controller = TestBed.inject(MockFeatureTogglesController);
           return {
-            isEnabled: vi.fn().mockImplementation(
-              (feature: string) => !!(controller as Record<string, unknown>)[feature]
-            ),
+            isEnabled: vi
+              .fn()
+              .mockImplementation(
+                (feature: string) =>
+                  !!(controller as Record<string, unknown>)[feature]
+              ),
             isLevel: vi.fn().mockReturnValue(false),
           };
         },
