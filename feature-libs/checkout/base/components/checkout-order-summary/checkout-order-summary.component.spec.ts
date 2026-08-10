@@ -5,7 +5,7 @@ import {
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
-import { MockFeatureLevelDirective } from '../../../../../core-libs/storefront/shared/test/mock-feature-level-directive';
+import { MockFeatureLevelDirective } from '@spartacus/storefront/testing/mock-feature-level-directive';
 import { of } from 'rxjs';
 import { CheckoutOrderSummaryComponent } from './checkout-order-summary.component';
 

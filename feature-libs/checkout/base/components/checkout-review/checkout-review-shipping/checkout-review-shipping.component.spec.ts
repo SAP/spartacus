@@ -9,7 +9,7 @@ import { Address, Country, I18nTestingModule, UrlPipe } from '@spartacus/core';
 import {
   IconTestingModule,
   MockIconComponent,
-} from '../../../../../../core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module';
+} from '@spartacus/storefront/testing/icon-testing-module';
 import { of } from 'rxjs';
 
 import {

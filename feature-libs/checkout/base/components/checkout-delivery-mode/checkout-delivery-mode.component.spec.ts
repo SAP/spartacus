@@ -29,7 +29,7 @@ import {
   SpinnerComponent,
 } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
-import { MockFeatureDirective } from '../../../../../core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.component';

@@ -24,10 +24,10 @@ import {
   UserAddressService,
   UserCostCenterService,
 } from '@spartacus/core';
-import { provideMockFeatureToggles } from '../../../../../core-libs/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
 import { AddressFormComponent } from '@spartacus/user/profile/components';
-import { MockFeatureDirective } from '../../../../../core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { BehaviorSubject, EMPTY, firstValueFrom, of } from 'rxjs';
 import { B2BCheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
 

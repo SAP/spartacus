@@ -25,6 +25,9 @@
       ],
       "@spartacus/core/testing/mock-feature-toggles": [
         "../../core-libs/core/src/features-config/feature-toggles/testing/index.ts"
+      ],
+      "@spartacus/core/testing/mock-url-pipe": [
+        "../../core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe.ts"
       ]
     }
   },

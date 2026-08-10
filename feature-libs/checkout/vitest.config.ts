@@ -19,6 +19,7 @@ export default defineConfig({
       '@spartacus/storefront/testing/mock-feature-level-directive': `${root}/core-libs/storefront/shared/test/mock-feature-level-directive.ts`,
       '@spartacus/storefront/testing/icon-testing-module': `${root}/core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module.ts`,
       '@spartacus/core/testing/mock-feature-toggles': `${root}/core-libs/core/src/features-config/feature-toggles/testing/index.ts`,
+      '@spartacus/core/testing/mock-url-pipe': `${root}/core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe.ts`,
     },
   },
   test: {
