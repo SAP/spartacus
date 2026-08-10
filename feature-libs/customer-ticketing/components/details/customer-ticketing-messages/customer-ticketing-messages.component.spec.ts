@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   EventService,
+  FeatureToggles,
   I18nTestingModule,
   MockTranslatePipe,
   TranslatePipe,
@@ -22,10 +23,11 @@ import {
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
-} from '@spartacus/core/feature-toggles/testing';
+} from '@spartacus/core/testing/mock-feature-toggles';
 import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { CustomerTicketingMessagesComponentService } from './customer-ticketing-messages-component.service';
 import { CustomerTicketingMessagesComponent } from './customer-ticketing-messages.component';
+import { vi } from 'vitest';
 
 describe('CustomerTicketMessagesComponent', () => {
   let component: CustomerTicketingMessagesComponent;
@@ -70,7 +72,7 @@ describe('CustomerTicketMessagesComponent', () => {
       imports: [I18nTestingModule, CustomerTicketingMessagesComponent],
       providers: [
         CustomerTicketingMessagesComponentService,
-        provideMockFeatureToggles({ a11yMessagingListKeyboardFocus: false }),
+        ...provideMockFeatureToggles({ a11yMessagingListKeyboardFocus: false }),
         {
           provide: CustomerTicketingFacade,
           useClass: MockCustomerTicketingFacade,
@@ -85,6 +87,9 @@ describe('CustomerTicketMessagesComponent', () => {
         add: {
           imports: [MockTranslatePipe, MockCxMessagingComponent],
         },
+      })
+      .overrideProvider(FeatureToggles, {
+        useFactory: () => TestBed.inject(MockFeatureTogglesController),
       })
       .compileComponents();
 
@@ -252,7 +257,6 @@ describe('CustomerTicketMessagesComponent', () => {
         component = fixture.componentInstance;
         fixture.detectChanges();
 
-        console.log(component.featureToggles);
         expect(component.messagingConfigs.dateFormat).toBe(DATE_FORMAT);
       });
     });
