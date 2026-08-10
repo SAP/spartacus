@@ -47,63 +47,79 @@ export class GoogleMapRendererService {
     locations: any[],
     selectMarkerHandler?: Function
   ): void {
-    if (this.config.googleMaps?.apiKey) {
-      if (Object.entries(locations[0]).length > 0) {
-        if (this.googleMap === null) {
-          const apiKey =
-            this.config.googleMaps.apiKey === GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG
-              ? ''
-              : this.config.googleMaps.apiKey;
-
-          const useAsyncLoading = this.featureToggles.useGoogleMapsAsyncLoading;
-
-          // With `loading=async`, Google's bootstrap loader fires the script
-          // `load` event before the API classes are available. Instead of the
-          // script `load` event, Google invokes a global function named by the
-          // `callback` URL param once the API (and any `libraries`) are ready.
-          const callbackName = useAsyncLoading
-            ? this.registerMapCallback(
-                mapElement,
-                locations,
-                selectMarkerHandler
-              )
-            : undefined;
-
-          this.scriptLoader.embedScript({
-            src: this.config.googleMaps.apiUrl ?? '',
-            params: {
-              key: apiKey,
-              // Opt into Google's async bootstrap loading path to avoid the
-              // "loaded directly without loading=async" performance warning.
-              ...(useAsyncLoading
-                ? { loading: 'async', callback: callbackName }
-                : {}),
-              // Advanced markers live in the optional `marker` library, which
-              // Google only loads when it is requested explicitly.
-              ...(this.featureToggles.useAdvancedGoogleMarkers
-                ? { libraries: 'marker' }
-                : {}),
-            },
-            attributes: { type: 'text/javascript' },
-            // The classic direct load exposes the API synchronously on `load`;
-            // the async path draws from the global `callback` instead.
-            callback: useAsyncLoading
-              ? undefined
-              : () => {
-                  this.drawMap(mapElement, locations, selectMarkerHandler);
-                },
-          });
-        } else {
-          this.drawMap(mapElement, locations, selectMarkerHandler);
-        }
-      }
-    } else {
+    if (!this.config.googleMaps?.apiKey) {
       if (isDevMode()) {
         this.logger.warn(
           'A Google Maps api key is required in the store finder configuration to display the Google map.'
         );
       }
+      return;
     }
+
+    if (Object.entries(locations[0]).length === 0) {
+      return;
+    }
+
+    // Reuse the existing map when one has already been created; otherwise load
+    // the Maps API script, which draws the map once it is ready.
+    if (this.googleMap === null) {
+      this.embedMapScript(mapElement, locations, selectMarkerHandler);
+    } else {
+      this.drawMap(mapElement, locations, selectMarkerHandler);
+    }
+  }
+
+  /**
+   * Loads the Google Maps API script and arranges for the map to be drawn once
+   * the API is ready.
+   * @param mapElement HTML element inside of which the map will be displayed
+   * @param locations array of geo data to be displayed on the map
+   * @param selectMarkerHandler function to handle whenever a marker on a map is clicked
+   */
+  private embedMapScript(
+    mapElement: HTMLElement,
+    locations: any[],
+    selectMarkerHandler?: Function
+  ): void {
+    const apiKey =
+      this.config.googleMaps?.apiKey === GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG
+        ? ''
+        : this.config.googleMaps?.apiKey;
+
+    const useAsyncLoading = this.featureToggles.useGoogleMapsAsyncLoading;
+
+    // With `loading=async`, Google's bootstrap loader fires the script
+    // `load` event before the API classes are available. Instead of the
+    // script `load` event, Google invokes a global function named by the
+    // `callback` URL param once the API (and any `libraries`) are ready.
+    const callbackName = useAsyncLoading
+      ? this.registerMapCallback(mapElement, locations, selectMarkerHandler)
+      : undefined;
+
+    this.scriptLoader.embedScript({
+      src: this.config.googleMaps?.apiUrl ?? '',
+      params: {
+        key: apiKey,
+        // Opt into Google's async bootstrap loading path to avoid the
+        // "loaded directly without loading=async" performance warning.
+        ...(useAsyncLoading
+          ? { loading: 'async', callback: callbackName }
+          : {}),
+        // Advanced markers live in the optional `marker` library, which
+        // Google only loads when it is requested explicitly.
+        ...(this.featureToggles.useAdvancedGoogleMarkers
+          ? { libraries: 'marker' }
+          : {}),
+      },
+      attributes: { type: 'text/javascript' },
+      // The classic direct load exposes the API synchronously on `load`;
+      // the async path draws from the global `callback` instead.
+      callback: useAsyncLoading
+        ? undefined
+        : () => {
+            this.drawMap(mapElement, locations, selectMarkerHandler);
+          },
+    });
   }
 
   /**
@@ -119,7 +135,8 @@ export class GoogleMapRendererService {
     locations: any[],
     selectMarkerHandler?: Function
   ): string {
-    const callbackName = `__spartacusGoogleMapsInit_${++GoogleMapRendererService.callbackCounter}`;
+    GoogleMapRendererService.callbackCounter++;
+    const callbackName = `__spartacusGoogleMapsInit_${GoogleMapRendererService.callbackCounter}`;
     // `defaultView` is null when there is no browser window (e.g. SSR), where
     // there is no global for Google's loader to invoke. Skip registering the
     // callback rather than throwing on a null global.
