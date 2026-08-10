@@ -177,7 +177,7 @@ describe('AsmCustomer360ProductReviewsComponent', () => {
   });
 
   it('should navigate product', () => {
-    spyOn(contextSource.navigate$, 'next').and.stub();
+    vi.spyOn(contextSource.navigate$, 'next').mockImplementation(() => {});
     const tableBody = el.query(By.css('.cx-asm-customer-360-table tbody'));
     const tableRows = tableBody.queryAll(By.css('tr'));
     const linkCell = tableRows[0].query(

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import { TestBed } from '@angular/core/testing';
@@ -31,18 +32,18 @@ describe('CxNumericPipe', () => {
 
   describe('transform', () => {
     it('should translate numeric for active language when it is "en"', () => {
-      spyOn(languageService, 'getActive').and.returnValue(of('en'));
+      vi.spyOn(languageService, 'getActive').mockReturnValue(of('en'));
       expect(numericPipe.transform(mockNumeric)).toBe('99,999,999');
     });
 
     it('should translate numeric for active language other than "en", when locale is registered in Angular', () => {
       registerLocaleData(localeDe);
-      spyOn(languageService, 'getActive').and.returnValue(of('de'));
+      vi.spyOn(languageService, 'getActive').mockReturnValue(of('de'));
       expect(numericPipe.transform(mockNumeric)).toBe('99.999.999');
     });
 
     it('should translate numeric for "en", when locale for active language is NOT registered in Angular', () => {
-      spyOn(languageService, 'getActive').and.returnValue(of('testLang'));
+      vi.spyOn(languageService, 'getActive').mockReturnValue(of('testLang'));
       expect(numericPipe.transform(mockNumeric)).toBe('99,999,999');
     });
   });

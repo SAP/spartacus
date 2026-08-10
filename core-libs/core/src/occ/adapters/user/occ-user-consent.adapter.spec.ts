@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpTestingController,
   provideHttpClientTesting,
@@ -45,9 +46,9 @@ describe('OccUserConsentAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
-    spyOn(converter, 'pipeableMany').and.callThrough();
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
+    vi.spyOn(converter, 'pipeableMany');
+    vi.spyOn(converter, 'pipeable');
+    vi.spyOn(occEnpointsService, 'buildUrl');
   });
 
   afterEach(() => {

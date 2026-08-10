@@ -94,13 +94,13 @@ describe('SavedCartEventBuilder', () => {
           payload,
         });
 
-        expect(result).toEqual(jasmine.objectContaining(eventData));
+        expect(result).toEqual(expect.objectContaining(eventData));
       });
     });
 
     describe('SaveCartSuccessEvent', () => {
       it('should emit the event when the action is fired', () => {
-        spyOn(multiCartService, 'getCart').and.returnValue(
+        vi.spyOn(multiCartService, 'getCart').mockReturnValue(
           of(mockSavedCartData)
         );
 
@@ -128,7 +128,7 @@ describe('SavedCartEventBuilder', () => {
           payload,
         });
 
-        expect(result).toEqual(jasmine.objectContaining(eventData));
+        expect(result).toEqual(expect.objectContaining(eventData));
       });
     });
 
@@ -158,7 +158,7 @@ describe('SavedCartEventBuilder', () => {
           payload,
         });
 
-        expect(result).toEqual(jasmine.objectContaining(eventData));
+        expect(result).toEqual(expect.objectContaining(eventData));
       });
     });
   });
@@ -166,7 +166,7 @@ describe('SavedCartEventBuilder', () => {
   describe('Restore Save Cart Events', () => {
     describe('RestoreSavedCartEvent', () => {
       it('should emit the event when the action is fired', () => {
-        spyOn(multiCartService, 'getCart').and.returnValue(
+        vi.spyOn(multiCartService, 'getCart').mockReturnValue(
           of(mockSavedCartData)
         );
 
@@ -192,7 +192,7 @@ describe('SavedCartEventBuilder', () => {
           payload,
         });
 
-        expect(result).toEqual(jasmine.objectContaining(eventData));
+        expect(result).toEqual(expect.objectContaining(eventData));
       });
     });
 
@@ -219,13 +219,13 @@ describe('SavedCartEventBuilder', () => {
           payload,
         });
 
-        expect(result).toEqual(jasmine.objectContaining(eventData));
+        expect(result).toEqual(expect.objectContaining(eventData));
       });
     });
 
     describe('RestoreSavedCartFailEvent', () => {
       it('should emit the event when the action is fired', () => {
-        spyOn(multiCartService, 'getCart').and.returnValue(
+        vi.spyOn(multiCartService, 'getCart').mockReturnValue(
           of(mockSavedCartData)
         );
 
@@ -254,7 +254,7 @@ describe('SavedCartEventBuilder', () => {
           payload,
         });
 
-        expect(result).toEqual(jasmine.objectContaining(eventData));
+        expect(result).toEqual(expect.objectContaining(eventData));
       });
     });
   });
@@ -285,13 +285,13 @@ describe('SavedCartEventBuilder', () => {
           payload,
         });
 
-        expect(result).toEqual(jasmine.objectContaining(eventData));
+        expect(result).toEqual(expect.objectContaining(eventData));
       });
     });
 
     describe('EditSavedCartSuccessEvent', () => {
       it('should emit the event when the action is fired', () => {
-        spyOn(multiCartService, 'getCart').and.returnValue(
+        vi.spyOn(multiCartService, 'getCart').mockReturnValue(
           of(mockSavedCartData)
         );
 
@@ -319,7 +319,7 @@ describe('SavedCartEventBuilder', () => {
           payload,
         });
 
-        expect(result).toEqual(jasmine.objectContaining(eventData));
+        expect(result).toEqual(expect.objectContaining(eventData));
       });
     });
 
@@ -349,7 +349,7 @@ describe('SavedCartEventBuilder', () => {
           payload,
         });
 
-        expect(result).toEqual(jasmine.objectContaining(eventData));
+        expect(result).toEqual(expect.objectContaining(eventData));
       });
     });
   });
@@ -357,7 +357,7 @@ describe('SavedCartEventBuilder', () => {
   describe('Clone Save Cart Events', () => {
     describe('CloneSavedCartEvent', () => {
       it('should emit the event when the action is fired', () => {
-        spyOn(multiCartService, 'getCart').and.returnValue(
+        vi.spyOn(multiCartService, 'getCart').mockReturnValue(
           of(mockSavedCartData)
         );
 
@@ -383,7 +383,7 @@ describe('SavedCartEventBuilder', () => {
           payload,
         });
 
-        expect(result).toEqual(jasmine.objectContaining(eventData));
+        expect(result).toEqual(expect.objectContaining(eventData));
       });
     });
 
@@ -410,13 +410,13 @@ describe('SavedCartEventBuilder', () => {
           payload,
         });
 
-        expect(result).toEqual(jasmine.objectContaining(eventData));
+        expect(result).toEqual(expect.objectContaining(eventData));
       });
     });
 
     describe('CloneSavedCartFailEvent', () => {
       it('should emit the event when the action is fired', () => {
-        spyOn(multiCartService, 'getCart').and.returnValue(
+        vi.spyOn(multiCartService, 'getCart').mockReturnValue(
           of(mockSavedCartData)
         );
 
@@ -445,7 +445,7 @@ describe('SavedCartEventBuilder', () => {
           payload,
         });
 
-        expect(result).toEqual(jasmine.objectContaining(eventData));
+        expect(result).toEqual(expect.objectContaining(eventData));
       });
     });
   });
