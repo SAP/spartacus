@@ -59,7 +59,7 @@ describe('AsmCustomerListService', () => {
     });
 
     asmConnector = TestBed.inject(AsmConnector);
-    spyOn(asmConnector, 'customerLists').and.callThrough();
+    vi.spyOn(asmConnector, 'customerLists');
 
     service = TestBed.inject(AsmCustomerListService);
     store = TestBed.inject(Store);
@@ -103,7 +103,7 @@ describe('AsmCustomerListService', () => {
     });
   });
   it('should dispatch proper action for customer list customers search', () => {
-    spyOn(store, 'dispatch').and.stub();
+    vi.spyOn(store, 'dispatch').mockImplementation(() => {});
     const searchOptions: CustomerSearchOptions = {
       customerListId: 'mock-customer-list-id',
     };
@@ -141,7 +141,7 @@ describe('AsmCustomerListService', () => {
   });
 
   it('should dispatch proper action for customer list customers search reset', () => {
-    spyOn(store, 'dispatch').and.stub();
+    vi.spyOn(store, 'dispatch').mockImplementation(() => {});
 
     service.customerListCustomersSearchReset();
 
