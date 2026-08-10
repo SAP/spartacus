@@ -65,11 +65,11 @@ function createGoogleMock(): any {
   };
   googleMock.maps.marker = {
     PinElement: function (options: any) {
-      this.options = options;
-      this.glyphText = options?.glyphText;
-      // Real DOM element so the service can attach hover listeners to it.
-      this.element = document.createElement('div');
-      this.element.textContent = options?.glyphText ?? '';
+      // Real DOM element: the service appends the PinElement directly and
+      // toggles the bounce class on it (its `.element` property is deprecated).
+      const pin = document.createElement('div');
+      pin.textContent = options?.glyphText ?? '';
+      return pin;
     },
     AdvancedMarkerElement: function (options: any) {
       this.options = options;
@@ -77,7 +77,7 @@ function createGoogleMock(): any {
       this.position = options.position;
       this.gmpClickable = options.gmpClickable;
       this.listeners = {};
-      this.addListener = function (event: string, handler: Function) {
+      this.addEventListener = function (event: string, handler: Function) {
         this.listeners[event] = handler;
       };
       advancedMarkerInstances.push(this);
@@ -419,14 +419,14 @@ describe('GoogleMapRendererService', () => {
       expect(pin.classList.contains('cx-store-marker-bounce')).toBe(false);
     }));
 
-    it('should mark the marker clickable and invoke selectMarkerHandler with the marker index on click', fakeAsync(() => {
+    it('should mark the marker clickable and invoke selectMarkerHandler with the marker index on gmp-click', fakeAsync(() => {
       const handler = jasmine.createSpy('selectMarkerHandler');
 
       googleMapRendererService.renderMap(mapDomElement, locations, handler);
       tick();
 
       expect(advancedMarkerInstances[0].gmpClickable).toBe(true);
-      advancedMarkerInstances[0].listeners['click']();
+      advancedMarkerInstances[0].listeners['gmp-click']();
       expect(handler).toHaveBeenCalledWith(0);
     }));
 
@@ -435,7 +435,7 @@ describe('GoogleMapRendererService', () => {
       tick();
 
       expect(advancedMarkerInstances[0].gmpClickable).toBe(false);
-      expect(advancedMarkerInstances[0].listeners['click']).toBeUndefined();
+      expect(advancedMarkerInstances[0].listeners['gmp-click']).toBeUndefined();
     }));
 
     it('should load the marker library when embedding the script', fakeAsync(() => {
