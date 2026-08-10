@@ -69,7 +69,7 @@ describe('Asm360Service', () => {
     });
 
     asmCustomer360Connector = TestBed.inject(AsmCustomer360Connector);
-    spyOn(asmCustomer360Connector, 'getAsmCustomer360Data').and.callThrough();
+    vi.spyOn(asmCustomer360Connector, 'getAsmCustomer360Data');
 
     service = TestBed.inject(AsmCustomer360Service);
   });

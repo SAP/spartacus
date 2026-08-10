@@ -32,7 +32,7 @@ describe('Customer Search Results Selectors', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   it('should return a Customer Search results from the state', () => {
