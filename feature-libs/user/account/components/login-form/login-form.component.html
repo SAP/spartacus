@@ -1,5 +1,7 @@
 <cx-spinner class="overlay" *ngIf="isUpdating$ | async"></cx-spinner>
 
+<h3>Enter User Details</h3>
+
 <form
   (ngSubmit)="onSubmit()"
   [formGroup]="form"
@@ -89,4 +91,18 @@
   >
     {{ 'loginForm.signIn' | cxTranslate }}
   </button>
+  <div
+    style="
+      display: inline-block;
+      padding: 8px 16px;
+      background: #1976d2;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 4px;
+      margin-top: 8px;
+    "
+    (click)="onSubmit()"
+  >
+    Sign in with SSO
+  </div>
 </form>
