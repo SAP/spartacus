@@ -63,10 +63,10 @@ describe('AsmProtectedRoutesService', () => {
             cart: { paths: ['cart'] },
           },
         });
-        spyOn(
+        vi.spyOn(
           csAgentAuthService,
           'isCustomerSupportAgentLoggedIn'
-        ).and.returnValue(of(true));
+        ).mockReturnValue(of(true));
       });
 
       it('should return false for any URL', () => {
@@ -86,10 +86,10 @@ describe('AsmProtectedRoutesService', () => {
               cart: { paths: ['cart'] },
             },
           });
-          spyOn(
+          vi.spyOn(
             csAgentAuthService,
             'isCustomerSupportAgentLoggedIn'
-          ).and.returnValue(of(false));
+          ).mockReturnValue(of(false));
         });
 
         it('should return true for protected URLs', () => {
@@ -110,10 +110,10 @@ describe('AsmProtectedRoutesService', () => {
               cart: { paths: ['cart'] },
             },
           });
-          spyOn(
+          vi.spyOn(
             csAgentAuthService,
             'isCustomerSupportAgentLoggedIn'
-          ).and.returnValue(of(false));
+          ).mockReturnValue(of(false));
         });
 
         it('should return false for all URLs', () => {
@@ -133,10 +133,10 @@ describe('AsmProtectedRoutesService', () => {
             checkout: { paths: ['checkout'] },
           },
         });
-        spyOn(
+        vi.spyOn(
           csAgentAuthService,
           'isCustomerSupportAgentLoggedIn'
-        ).and.returnValue(of(false));
+        ).mockReturnValue(of(false));
       });
 
       it('should delegate to parent implementation for protected URLs', () => {

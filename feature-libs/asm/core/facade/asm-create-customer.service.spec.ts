@@ -38,7 +38,7 @@ describe('AsmCreateCustomerService', () => {
 
     asmConnector = TestBed.inject(AsmConnector);
 
-    spyOn(asmConnector, 'createCustomer').and.callThrough();
+    vi.spyOn(asmConnector, 'createCustomer');
 
     service = TestBed.inject(AsmCreateCustomerService);
   });
