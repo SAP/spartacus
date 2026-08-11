@@ -3,29 +3,49 @@
   *ngIf="attribute?.values?.length"
   class="cx-multi-selection-bundle-dropdown"
 >
-  <!-- Dropdown button showing the selected items via optionSelectedTemplate -->
-  <button
-    type="button"
-    [attr.aria-expanded]="isDropdownOpen"
-    (click)="toggleDropdown($event)"
+  <div
+    *ngIf="withQuantityOnAttributeLevel"
+    class="cx-attribute-level-quantity-price"
   >
-    <span *ngIf="selectedValues.length === 0" class="cx-placeholder">
-      Available Products
-    </span>
-    <span *ngFor="let value of selectedValues" class="cx-selected-item">
-      <ng-container
-        *ngTemplateOutlet="
-          optionSelectedTemplate;
-          context: { $implicit: value }
-        "
-      ></ng-container>
-    </span>
-    <cx-icon
-      class="cx-caret"
-      [type]="isDropdownOpen ? iconTypes.CARET_UP : iconTypes.CARET_DOWN"
-      aria-hidden="true"
-    ></cx-icon>
-  </button>
+    <cx-configurator-attribute-quantity
+      (changeQuantity)="onChangeAttributeQuantity($event)"
+      [quantityOptions]="extractQuantityParameters(attribute.quantity)"
+    ></cx-configurator-attribute-quantity>
+
+    <cx-configurator-price
+      [formula]="extractPriceFormulaParameters()"
+    ></cx-configurator-price>
+  </div>
+
+  <!-- Trigger with a search box to filter options -->
+  <div
+    class="cx-trigger"
+    [attr.aria-expanded]="isDropdownOpen"
+    (click)="openDropdown($event)"
+  >
+    <input
+      #searchInput
+      type="text"
+      class="cx-search-input"
+      [placeholder]="isDropdownOpen ? 'Search' : 'Select products'"
+      [readonly]="!isDropdownOpen"
+      [(ngModel)]="searchTerm"
+      (focus)="openDropdown($event)"
+      (click)="$event.stopPropagation()"
+    />
+    <button
+      type="button"
+      class="cx-caret-button"
+      [attr.aria-expanded]="isDropdownOpen"
+      (click)="toggleDropdown($event)"
+    >
+      <cx-icon
+        class="cx-caret"
+        [type]="isDropdownOpen ? iconTypes.CARET_UP : iconTypes.CARET_DOWN"
+        aria-hidden="true"
+      ></cx-icon>
+    </button>
+  </div>
 
   <!-- Dropdown panel showing all options via optionsTemplate -->
   <div
@@ -33,17 +53,6 @@
     *ngIf="isDropdownOpen"
     (click)="$event.stopPropagation()"
   >
-    <!-- Search box to filter the options -->
-    <div class="cx-search">
-      <input
-        type="text"
-        class="cx-search-input"
-        [placeholder]="'Search'"
-        [(ngModel)]="searchTerm"
-        (click)="$event.stopPropagation()"
-      />
-    </div>
-
     <ng-container *ngFor="let value of filteredValues">
       <ng-container
         *ngTemplateOutlet="
@@ -88,9 +97,4 @@
     "
   >
   </cx-configurator-attribute-product-card>
-</ng-template>
-
-<!-- Selected item template: render the product name -->
-<ng-template #optionSelectedTemplate let-value>
-  {{ getProductName(value) | async }}
 </ng-template>

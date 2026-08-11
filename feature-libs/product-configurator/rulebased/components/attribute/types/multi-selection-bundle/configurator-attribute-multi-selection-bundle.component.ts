@@ -8,23 +8,27 @@ import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   HostListener,
   OnInit,
+  ViewChild,
 } from '@angular/core';
-import { FeatureDirective, Product, ProductService } from '@spartacus/core';
+import { FeatureDirective } from '@spartacus/core';
 import { FormsModule } from '@angular/forms';
-import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
 import {
   ConfiguratorAttributeProductCardComponent,
   ConfiguratorAttributeProductCardComponentOptions,
 } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/configurator-attribute-multi-selection-base.component';
+import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
@@ -48,6 +52,8 @@ interface SelectionValue {
     FormsModule,
     FeatureDirective,
     IconComponent,
+    ConfiguratorAttributeQuantityComponent,
+    ConfiguratorPriceComponent,
     ConfiguratorAttributeProductCardComponent,
   ],
 })
@@ -66,18 +72,13 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
   /** Current search term used to filter the options in the dropdown panel. */
   searchTerm = '';
 
-  /**
-   * Caches the product-name observable per value code so the selected-item
-   * template does not create a new subscription (and a new backend request) on
-   * every change detection cycle.
-   */
-  protected productNameCache = new Map<string, Observable<string>>();
+  @ViewChild('searchInput')
+  protected searchInput?: ElementRef<HTMLInputElement>;
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected productService: ProductService
+    protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
     super(
       quantityService,
@@ -91,50 +92,16 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
   }
 
   /**
-   * Returns the display name of the product bound to the given value. The
-   * product is fetched via the {@link ProductService} using the same scope as
-   * the product card, falling back to the value display text (and finally the
-   * value code) when no product is available.
-   *
-   * @param value - Configurator value to resolve the product name for
-   * @return Observable emitting the resolved product name
-   */
-  getProductName(value: Configurator.Value): Observable<string> {
-    const valueCode = value.valueCode;
-    let name$ = this.productNameCache.get(valueCode);
-    if (!name$) {
-      const productSystemId = value.productSystemId ?? '';
-      name$ = this.productService
-        .get(
-          productSystemId,
-          ConfiguratorProductScope.CONFIGURATOR_PRODUCT_CARD
-        )
-        .pipe(
-          map(
-            (product: Product | undefined) =>
-              product?.name ?? value.valueDisplay ?? valueCode
-          )
-        );
-      this.productNameCache.set(valueCode, name$);
-    }
-    return name$;
-  }
-
-  /**
-   * Returns the currently selected values, used to render the selected-item
-   * template in the dropdown button.
-   */
-  get selectedValues(): Configurator.Value[] {
-    return (this.attribute.values ?? []).filter((value) => value.selected);
-  }
-
-  /**
    * Returns the attribute values filtered by the current search term. The term
    * is matched (case-insensitively) against the value code, name and display
    * text so the user can quickly find a product when the list is long.
+   * Search is only active while the dropdown is open.
    */
   get filteredValues(): Configurator.Value[] {
     const values = this.attribute.values ?? [];
+    if (!this.isDropdownOpen) {
+      return values;
+    }
     const term = this.searchTerm.trim().toLowerCase();
     if (!term) {
       return values;
@@ -160,10 +127,22 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     this.searchTerm = '';
   }
 
+  /**
+   * Opens the dropdown panel and focuses the search input so the user can
+   * immediately filter products.
+   */
+  openDropdown(event: Event): void {
+    event.stopPropagation();
+    this.isDropdownOpen = true;
+    this.focusSearchInput();
+  }
+
   toggleDropdown(event: Event): void {
     event.stopPropagation();
     this.isDropdownOpen = !this.isDropdownOpen;
-    if (!this.isDropdownOpen) {
+    if (this.isDropdownOpen) {
+      this.focusSearchInput();
+    } else {
       this.clearSearch();
     }
   }
@@ -171,6 +150,14 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
   closeDropdown(): void {
     this.isDropdownOpen = false;
     this.clearSearch();
+  }
+
+  /**
+   * Focuses the search input on the next tick so Angular can first remove the
+   * `readonly` attribute applied while the dropdown is closed.
+   */
+  protected focusSearchInput(): void {
+    setTimeout(() => this.searchInput?.nativeElement.focus());
   }
 
   /**

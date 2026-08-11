@@ -2,7 +2,7 @@
   position: relative;
   width: 100%;
 
-  button {
+  .cx-trigger {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -17,27 +17,41 @@
     border-radius: 4px;
     background: var(--cx-color-inverse);
     text-align: start;
-    cursor: pointer;
+    cursor: text;
     position: relative;
 
-    .cx-placeholder {
-      color: var(--cx-color-text);
+    .cx-search-input {
+      flex: 1 1 8rem;
+      min-width: 6rem;
+      border: none;
+      outline: none;
+      background: transparent;
+      padding-block-start: 2px;
+      padding-block-end: 2px;
+      padding-inline-start: 0;
+      padding-inline-end: 0;
+
+      &[readonly] {
+        cursor: pointer;
+      }
     }
 
-    .cx-selected-item {
-      border: 1px solid var(--cx-color-primary);
-      background: var(--cx-color-primary);
-      color: var(--cx-color-inverse);
-      border-radius: 2px;
-      padding-inline-start: 6px;
-      padding-inline-end: 6px;
+    .cx-caret-button {
+      position: absolute;
+      inset-inline-end: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      color: var(--cx-color-secondary);
     }
 
     .cx-caret {
-      position: absolute;
-      inset-inline-end: 12px;
-      top: 50%;
-      transform: translateY(-50%);
       color: var(--cx-color-secondary);
     }
   }
@@ -55,24 +69,6 @@
     border: 1px solid var(--cx-color-light);
     border-radius: 4px;
     box-shadow: 0 1px 5px var(--cx-color-secondary);
-
-    .cx-search {
-      position: sticky;
-      top: 0;
-      z-index: calc(var(--cx-popover-z-index) + 10);
-      padding-inline-start: 5px;
-      padding-inline-end: 5px;
-    }
-
-    .cx-search-input {
-      width: 100%;
-      padding-block-start: 6px;
-      padding-block-end: 6px;
-      padding-inline-start: 10px;
-      padding-inline-end: 10px;
-      border: 1px solid var(--cx-color-dark);
-      border-radius: 4px;
-    }
 
     .cx-no-results {
       padding-block-start: 8px;
