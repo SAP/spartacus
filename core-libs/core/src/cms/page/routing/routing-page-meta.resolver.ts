@@ -46,7 +46,7 @@ export class RoutingPageMetaResolver {
    */
   protected readonly routes$ = this.activatedRoutesService.routes$.pipe(
     // drop the first route - the special `root` route:
-    map((routes) => (routes = routes.slice(1, routes.length)))
+    map((routes) => routes.slice(1))
   );
 
   /**

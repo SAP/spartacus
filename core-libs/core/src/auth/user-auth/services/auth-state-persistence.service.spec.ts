@@ -1,7 +1,7 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom, of } from 'rxjs';
 import { StatePersistenceService } from '../../../state/services/state-persistence.service';
 import { CLIENT_AUTH_FEATURE } from '../../client-auth/store';
 import * as fromAuthReducers from '../../client-auth/store/reducers/index';
@@ -68,7 +68,9 @@ describe('AuthStatePersistenceService', () => {
     userIdService = TestBed.inject(UserIdService);
     authStorageService = TestBed.inject(AuthStorageService);
     authRedirectStorageService = TestBed.inject(AuthRedirectStorageService);
-    spyOn(persistenceService, 'syncWithStorage').and.stub();
+    vi.spyOn(persistenceService, 'syncWithStorage').mockImplementation(
+      () => {}
+    );
   });
 
   it('should inject service', () => {
@@ -76,9 +78,9 @@ describe('AuthStatePersistenceService', () => {
   });
 
   it('state should be updated after read from storage', () => {
-    spyOn(userIdService, 'setUserId').and.stub();
-    spyOn(authStorageService, 'setToken').and.callThrough();
-    spyOn(authRedirectStorageService, 'setRedirectUrl').and.callThrough();
+    vi.spyOn(userIdService, 'setUserId').mockImplementation(() => {});
+    vi.spyOn(authStorageService, 'setToken');
+    vi.spyOn(authRedirectStorageService, 'setRedirectUrl');
 
     service['onRead']({
       userId: 'userId',
@@ -108,7 +110,7 @@ describe('AuthStatePersistenceService', () => {
   });
 
   it('user id should be initialized even when read from storage was empty', () => {
-    spyOn(userIdService, 'clearUserId').and.stub();
+    vi.spyOn(userIdService, 'clearUserId').mockImplementation(() => {});
 
     service['onRead']({});
 
@@ -117,12 +119,12 @@ describe('AuthStatePersistenceService', () => {
 
   it('should call persistenceService with correct attributes', () => {
     const state$ = of('');
-    spyOn(service as any, 'getAuthState').and.returnValue(state$);
+    vi.spyOn(service as any, 'getAuthState').mockReturnValue(state$);
 
     service.initSync();
 
     expect(persistenceService.syncWithStorage).toHaveBeenCalledWith(
-      jasmine.objectContaining({
+      expect.objectContaining({
         key: 'auth',
         state$,
       })
@@ -130,37 +132,33 @@ describe('AuthStatePersistenceService', () => {
     expect(service['getAuthState']).toHaveBeenCalled();
   });
 
-  it('should return state from auth state and userId service', (done) => {
-    spyOn(authStorageService, 'getToken').and.returnValue(
+  it('should return state from auth state and userId service', async () => {
+    vi.spyOn(authStorageService, 'getToken').mockReturnValue(
       of({ access_token: 'token', refresh_token: 'refresh_token' } as AuthToken)
     );
-    spyOn(authRedirectStorageService, 'getRedirectUrl').and.returnValue(
+    vi.spyOn(authRedirectStorageService, 'getRedirectUrl').mockReturnValue(
       of('redirect_url')
     );
 
-    service['getAuthState']()
-      .pipe(take(1))
-      .subscribe((state) => {
-        expect(state).toEqual({
-          userId: 'userId',
-          token: { access_token: 'token' },
-          redirectUrl: 'redirect_url',
-        } as any);
-        done();
-      });
+    const state = await firstValueFrom(service['getAuthState']());
+    expect(state).toEqual({
+      userId: 'userId',
+      token: { access_token: 'token' },
+      redirectUrl: 'redirect_url',
+    } as any);
   });
 
   it('isUserLoggedIn should check state of user login in localStorage', () => {
-    spyOn(persistenceService, 'readStateFromStorage').and.returnValue({
+    vi.spyOn(persistenceService, 'readStateFromStorage').mockReturnValue({
       token: { access_token: 'token' },
       userId: 'userId',
       redirectUrl: 'redirect_url',
     });
 
-    expect(service.isUserLoggedIn()).toBeTrue();
+    expect(service.isUserLoggedIn()).toBe(true);
 
     expect(persistenceService.readStateFromStorage).toHaveBeenCalledWith(
-      jasmine.objectContaining({
+      expect.objectContaining({
         key: 'auth',
       })
     );

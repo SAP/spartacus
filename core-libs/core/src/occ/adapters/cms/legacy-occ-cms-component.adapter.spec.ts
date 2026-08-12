@@ -1,3 +1,4 @@
+import { vi, Mock } from 'vitest';
 import {
   HttpTestingController,
   TestRequest,
@@ -63,7 +64,7 @@ describe('LegacyOccCmsComponentAdapter', () => {
     converter = TestBed.inject(ConverterService);
     endpointsService = TestBed.inject(OccEndpointsService);
 
-    spyOn(converter, 'pipeableMany').and.callThrough();
+    vi.spyOn(converter, 'pipeableMany');
   });
 
   afterEach(() => {
@@ -155,8 +156,8 @@ describe('LegacyOccCmsComponentAdapter', () => {
     httpMock.expectOne((req) => req.url === requestUrl).flush(componentList);
   }
 
-  function spyOnEndpoint(requestUrl: string): jasmine.Spy {
-    return spyOn(endpointsService, 'buildUrl').and.returnValue(requestUrl);
+  function spyOnEndpoint(requestUrl: string): Mock {
+    return vi.spyOn(endpointsService, 'buildUrl').mockReturnValue(requestUrl);
   }
 
   function assertPostRequestGetUrl(fields: string, pageSize: string) {

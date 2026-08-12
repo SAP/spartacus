@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { AuthMultisiteIsolationService } from './auth-multisite-isolation.service';
@@ -45,7 +46,7 @@ describe('AuthMultisiteIsolationService', () => {
   });
 
   it('should getBaseSiteDecorator() return decorator if `isolated` property is `true`', () => {
-    spyOn(baseSiteService, 'get').and.returnValue(of(mockBaseSite));
+    vi.spyOn(baseSiteService, 'get').mockReturnValue(of(mockBaseSite));
 
     service.getBaseSiteDecorator().subscribe((decorator) => {
       expect(decorator).toBe(mockDecorator);
@@ -53,7 +54,7 @@ describe('AuthMultisiteIsolationService', () => {
   });
 
   it('should getBaseSiteDecorator() return empty string decorator if `isolated` is `false`', () => {
-    spyOn(baseSiteService, 'get').and.returnValue(
+    vi.spyOn(baseSiteService, 'get').mockReturnValue(
       of({ ...mockBaseSite, ...{ isolated: false } })
     );
 
@@ -63,7 +64,7 @@ describe('AuthMultisiteIsolationService', () => {
   });
 
   it('should decorateUserId() return concatenated `userId` with the decorator suffix', () => {
-    spyOn(baseSiteService, 'get').and.returnValue(
+    vi.spyOn(baseSiteService, 'get').mockReturnValue(
       of({ ...mockBaseSite, ...{ isolated: true } })
     );
 
