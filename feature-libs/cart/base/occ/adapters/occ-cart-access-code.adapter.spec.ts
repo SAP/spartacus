@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpClient,
   HttpErrorResponse,
@@ -9,7 +10,7 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { CART_ACCESS_CODE_NORMALIZER } from '@spartacus/cart/base/core';
 import {
   BaseOccUrlProperties,
@@ -20,7 +21,7 @@ import {
   OccEndpointsService,
   tryNormalizeHttpError,
 } from '@spartacus/core';
-import { defer, of, throwError } from 'rxjs';
+import { defer, of, throwError, firstValueFrom } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OccCartAccessCodeAdapter } from './occ-cart-access-code.adapter';
 
@@ -95,9 +96,9 @@ describe(`OccCartAccessCodeAdapter`, () => {
     httpClient = TestBed.inject(HttpClient);
     converter = TestBed.inject(ConverterService);
     occEndpointsService = TestBed.inject(OccEndpointsService);
-    spyOn(converter, 'convert').and.callThrough();
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
+    vi.spyOn(converter, 'convert');
+    vi.spyOn(converter, 'pipeable');
+    vi.spyOn(occEndpointsService, 'buildUrl');
   });
 
   afterEach(() => {
@@ -109,14 +110,10 @@ describe(`OccCartAccessCodeAdapter`, () => {
   });
 
   describe(`getCartAccessCode`, () => {
-    it(`should get access code for a cart`, (done) => {
-      service
-        .getCartAccessCode(mockUserId, mockCartId)
-        .pipe(take(1))
-        .subscribe((result: string | undefined) => {
-          expect(result).toEqual(mockResult);
-          done();
-        });
+    it(`should get access code for a cart`, async () => {
+      const resultPromise = firstValueFrom(
+        service.getCartAccessCode(mockUserId, mockCartId)
+      );
 
       const url = service['getCartAccessCodeEndpoint'](mockUserId, mockCartId);
       const mockReq = httpMock.expectOne(url);
@@ -124,16 +121,20 @@ describe(`OccCartAccessCodeAdapter`, () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockResult);
+
+      const result = await resultPromise;
+      expect(result).toEqual(mockResult);
       expect(converter.pipeable).toHaveBeenCalledWith(
         CART_ACCESS_CODE_NORMALIZER
       );
     });
 
     describe(`back-off`, () => {
-      it(`should successfully backOff on 500 error and recover after the 2nd retry`, fakeAsync(() => {
+      it(`should successfully backOff on 500 error and recover after the 2nd retry`, async () => {
+        vi.useFakeTimers();
         let calledTimes = -1;
 
-        spyOn(httpClient, 'post').and.returnValue(
+        vi.spyOn(httpClient, 'post').mockReturnValue(
           defer(() => {
             calledTimes++;
             if (calledTimes === 2) {
@@ -150,18 +151,20 @@ describe(`OccCartAccessCodeAdapter`, () => {
           .subscribe((res) => (result = res));
 
         // 1*1*300 = 300
-        tick(300);
+        await vi.advanceTimersByTimeAsync(300);
         expect(result).toEqual(undefined);
 
         // 2*2*300 = 1200
-        tick(1200);
+        await vi.advanceTimersByTimeAsync(1200);
+        vi.useRealTimers();
 
         expect(result).toEqual(mockResult);
         subscription.unsubscribe();
-      }));
+      });
 
-      it(`should unsuccessfully backOff on 500 error`, fakeAsync(() => {
-        spyOn(httpClient, 'post').and.returnValue(
+      it(`should unsuccessfully backOff on 500 error`, async () => {
+        vi.useFakeTimers();
+        vi.spyOn(httpClient, 'post').mockReturnValue(
           throwError(() => mock500Error)
         );
 
@@ -170,12 +173,13 @@ describe(`OccCartAccessCodeAdapter`, () => {
           .getCartAccessCode(mockUserId, mockCartId)
           .subscribe({ error: (err) => (result = err) });
 
-        tick(4200);
+        await vi.advanceTimersByTimeAsync(4200);
+        vi.useRealTimers();
 
         expect(result).toEqual(mockNormalized500Error);
 
         subscription.unsubscribe();
-      }));
+      });
     });
   });
 });

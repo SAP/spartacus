@@ -150,6 +150,7 @@ export class ConfiguratorCartEntryBundleInfoService {
           break;
         case ConfigurationInfoFields.KEY:
         case ConfigurationInfoFields.PRICE_VALUE:
+        case ConfigurationInfoFields.PARENT:
           break;
         default: {
           this.logWarning('Wrong LineItem format');

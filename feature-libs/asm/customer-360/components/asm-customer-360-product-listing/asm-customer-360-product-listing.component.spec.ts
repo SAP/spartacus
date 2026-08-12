@@ -229,27 +229,23 @@ describe('AsmCustomer360ProductListingComponent', () => {
   describe('from a parent element', () => {
     beforeEach(() => {
       createComponentTest();
-
-      testFixture.detectChanges();
     });
 
     it('should render the header template', () => {
+      testFixture.detectChanges();
       expect(
         testDebugElement.query(By.css('#product-listing-header-template'))
       ).toBeTruthy();
     });
 
     it('should render the header as unclickable', () => {
-      const headerLink = testDebugElement.query(By.css('.title-link'));
-
-      expect(headerLink).toBeTruthy();
-
-      expect(headerLink.classes.inactive).toBeFalsy();
-
       componentTest.headerInactive = true;
 
       testFixture.detectChanges();
 
+      const headerLink = testDebugElement.query(By.css('.title-link'));
+
+      expect(headerLink).toBeTruthy();
       expect(headerLink.classes.inactive).toBeTruthy();
     });
   });

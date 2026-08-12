@@ -5,6 +5,7 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
+import { firstValueFrom } from 'rxjs';
 import { CartItemContextSource } from './cart-item-context-source.model';
 
 describe('CartItemContextSource', () => {
@@ -18,55 +19,43 @@ describe('CartItemContextSource', () => {
     contextSource = TestBed.inject(CartItemContextSource);
   });
 
-  it('should replay latest value of "compact"', (done) => {
+  it('should replay latest value of "compact"', async () => {
     contextSource.compact$.next(true);
-    contextSource.compact$.subscribe((value) => {
-      expect(value).toBe(true);
-      done();
-    });
+    const value = await firstValueFrom(contextSource.compact$);
+    expect(value).toBe(true);
   });
 
-  it('should replay latest value of "readonly"', (done) => {
+  it('should replay latest value of "readonly"', async () => {
     contextSource.readonly$.next(false);
-    contextSource.readonly$.subscribe((value) => {
-      expect(value).toBe(false);
-      done();
-    });
+    const value = await firstValueFrom(contextSource.readonly$);
+    expect(value).toBe(false);
   });
 
-  it('should replay latest value of "item"', (done) => {
+  it('should replay latest value of "item"', async () => {
     const item: OrderEntry = { orderCode: '123' };
     contextSource.item$.next(item);
-    contextSource.item$.subscribe((value) => {
-      expect(value).toBe(item);
-      done();
-    });
+    const value = await firstValueFrom(contextSource.item$);
+    expect(value).toBe(item);
   });
 
-  it('should replay latest value of "quantityControl"', (done) => {
+  it('should replay latest value of "quantityControl"', async () => {
     const quantityControl = new UntypedFormControl();
     contextSource.quantityControl$.next(quantityControl);
-    contextSource.quantityControl$.subscribe((value) => {
-      expect(value).toBe(quantityControl);
-      done();
-    });
+    const value = await firstValueFrom(contextSource.quantityControl$);
+    expect(value).toBe(quantityControl);
   });
 
-  it('should replay latest value of "promotionLocation"', (done) => {
+  it('should replay latest value of "promotionLocation"', async () => {
     const promotionLocation: PromotionLocation = PromotionLocation.Order;
     contextSource.location$.next(promotionLocation);
-    contextSource.location$.subscribe((value) => {
-      expect(value).toBe(promotionLocation);
-      done();
-    });
+    const value = await firstValueFrom(contextSource.location$);
+    expect(value).toBe(promotionLocation);
   });
 
-  it('should replay latest value of "options"', (done) => {
+  it('should replay latest value of "options"', async () => {
     const options: CartItemComponentOptions = { isSaveForLater: true };
     contextSource.options$.next(options);
-    contextSource.options$.subscribe((value) => {
-      expect(value).toBe(options);
-      done();
-    });
+    const value = await firstValueFrom(contextSource.options$);
+    expect(value).toBe(options);
   });
 });
