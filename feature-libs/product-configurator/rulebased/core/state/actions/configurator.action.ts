@@ -147,14 +147,30 @@ export class ReadConfigurationSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
+function setPendingLoader(
+  action: StateUtils.EntityProcessesIncrementAction
+): void {
+  action.meta.loader = {
+    load: true,
+  };
+}
+
+function setErrorLoader(
+  action: StateUtils.EntityProcessesDecrementAction & { error: any },
+  error: any
+): void {
+  action.meta.loader = {
+    error,
+  };
+  action.error = error;
+}
+
 export class UpdateConfiguration extends StateUtils.EntityProcessesIncrementAction {
   readonly type = UPDATE_CONFIGURATION;
 
   constructor(public payload: Configurator.Configuration) {
     super(CONFIGURATOR_DATA, payload.owner.key);
-    this.meta.loader = {
-      load: true,
-    };
+    setPendingLoader(this);
   }
 }
 
@@ -169,10 +185,7 @@ export class UpdateConfigurationFail
     public payload: { configuration: Configurator.Configuration; error: any }
   ) {
     super(CONFIGURATOR_DATA, payload.configuration.owner.key);
-    this.meta.loader = {
-      error: payload.error,
-    };
-    this.error = payload.error;
+    setErrorLoader(this, payload.error);
   }
 }
 
@@ -189,9 +202,7 @@ export class AddContainerRow extends StateUtils.EntityProcessesIncrementAction {
 
   constructor(public payload: Configurator.AddContainerRowParameters) {
     super(CONFIGURATOR_DATA, payload.owner.key);
-    this.meta.loader = {
-      load: true,
-    };
+    setPendingLoader(this);
   }
 }
 
@@ -209,10 +220,7 @@ export class AddContainerRowFail
     }
   ) {
     super(CONFIGURATOR_DATA, payload.parameters.owner.key);
-    this.meta.loader = {
-      error: payload.error,
-    };
-    this.error = payload.error;
+    setErrorLoader(this, payload.error);
   }
 }
 
