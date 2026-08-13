@@ -20,6 +20,7 @@ import {
   ActiveCartFacade,
   CartItemComponentOptions,
   CartOutlets,
+  CartValidationFacade,
   ConsignmentEntry,
   MultiCartFacade,
   OrderEntry,
@@ -35,7 +36,11 @@ import {
 } from '@spartacus/core';
 import { OutletContextData, OutletDirective } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { map, startWith, tap } from 'rxjs/operators';
+import { map, startWith, take, tap } from 'rxjs/operators';
+import {
+  CartItemValidationService,
+  CartValidationStateService,
+} from '../../../core/services';
 import { CartItemListRowComponent } from '../cart-item-list-row/cart-item-list-row.component';
 
 interface ItemListContext {
@@ -109,6 +114,9 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   }
   readonly CartOutlets = CartOutlets;
   private featureToggles = inject(FeatureToggles);
+  protected cartValidationFacade = inject(CartValidationFacade);
+  protected cartValidationStateService = inject(CartValidationStateService);
+  protected cartItemValidationService = inject(CartItemValidationService);
   constructor(
     protected activeCartService: ActiveCartFacade,
     protected selectiveCartService: SelectiveCartFacade,
@@ -118,6 +126,18 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     @Optional() protected outlet?: OutletContextData<ItemListContext>
   ) {
     useFeatureStyles('a11yCartItemListHideEmptyOutlets');
+    useFeatureStyles('cartValidationDisplayBackendMessages');
+  }
+
+  /**
+   * Emits whether the given item currently breaks a min/max order quantity rule,
+   * used to highlight the violating row. Active only when cart validation is enabled
+   * and the `cartValidationDisplayBackendMessages` feature toggle is on.
+   */
+  hasValidationIssue$(item: OrderEntry): Observable<boolean> {
+    return this.cartItemValidationService.hasValidationIssue$(
+      item.product?.code
+    );
   }
 
   ngOnInit(): void {
@@ -128,6 +148,10 @@ export class CartItemListComponent implements OnInit, OnDestroy {
         ?.getUserId()
         .subscribe((userId) => (this.userId = userId))
     );
+
+    // Validate the cart on entry so problematic products are highlighted from the
+    // start; Proceed to Checkout then only adds the error message on top.
+    this.revalidateCart();
   }
 
   protected _setItems(
@@ -322,9 +346,40 @@ export class CartItemListComponent implements OnInit, OnDestroy {
               value.quantity
             );
           }
+          this.revalidateCart();
         }
       }),
       map(() => <UntypedFormGroup>this.form.get(this.getControlName(item)))
+    );
+  }
+
+  /**
+   * Re-runs cart validation after a quantity change so the per-item quantity hints,
+   * row highlighting and checkout banner reflect the current cart. The validation
+   * command waits for the cart to become stable before running.
+   *
+   * Only runs for the active, editable cart list: `validateCart()` always targets
+   * the active cart, so validating from a read-only or save-for-later list would be
+   * meaningless. Gated by the `cartValidationDisplayBackendMessages` feature toggle
+   * (via the service) and the `cart.validation.enabled` config.
+   */
+  protected revalidateCart(): void {
+    if (
+      this.readonly ||
+      this.options.isSaveForLater ||
+      !this.cartItemValidationService.isEnabled()
+    ) {
+      return;
+    }
+    this.subscription.add(
+      this.cartValidationFacade
+        .validateCart()
+        .pipe(take(1))
+        .subscribe((cartModificationList) =>
+          this.cartValidationStateService.updateValidationResultAndRoutingId(
+            cartModificationList.cartModifications ?? []
+          )
+        )
     );
   }
 

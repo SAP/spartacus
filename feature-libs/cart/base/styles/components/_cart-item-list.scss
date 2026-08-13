@@ -182,4 +182,10 @@
       }
     }
   }
+
+  @include forFeature('cartValidationDisplayBackendMessages') {
+    tr.cx-validation-highlight {
+      background-color: var(--cx-color-danger-accent);
+    }
+  }
 }

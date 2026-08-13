@@ -6,6 +6,7 @@ import {
   CartValidationFacade,
 } from '@spartacus/cart/base/root';
 import {
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   RouterState,
@@ -85,8 +86,10 @@ describe(`CartValidationGuard`, () => {
   let guard: CartValidationGuard;
   let globalMessageService: GlobalMessageService;
   let activeCartService: ActiveCartFacade;
+  const featureToggles: FeatureToggles = {};
 
   beforeEach(() => {
+    featureToggles.cartValidationDisplayBackendMessages = false;
     TestBed.configureTestingModule({
       providers: [
         CartValidationGuard,
@@ -101,6 +104,10 @@ describe(`CartValidationGuard`, () => {
         {
           provide: CartConfigService,
           useClass: MockCartConfigService,
+        },
+        {
+          provide: FeatureToggles,
+          useValue: featureToggles,
         },
       ],
     });
@@ -174,5 +181,70 @@ describe(`CartValidationGuard`, () => {
     );
     expect(activeCartService.reloadActiveCart).toHaveBeenCalled();
     expect(result.toString()).toEqual('/cart');
+  });
+
+  it('should show the quantity-limits message for a below-min violation when the toggle is enabled', () => {
+    featureToggles.cartValidationDisplayBackendMessages = true;
+    let result;
+    cartModificationSubject.next({
+      cartModifications: [
+        {
+          statusCode: 'below_min_quantity',
+          statusMessage:
+            'The minimum required quantity for product code productCode1 has not been met. Min=5, Actual=1.',
+        },
+      ],
+    });
+    mockEntriesSubject.next(mockEntries);
+
+    guard
+      .canActivate()
+      .subscribe((value) => (result = value))
+      .unsubscribe();
+
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      {
+        key: 'validation.cartQuantityLimitsViolated',
+      },
+      GlobalMessageType.MSG_TYPE_ERROR,
+      10000
+    );
+    expect(result.toString()).toEqual('/cart');
+  });
+
+  it('should show the quantity-limits message for an above-max violation when the toggle is enabled', () => {
+    featureToggles.cartValidationDisplayBackendMessages = true;
+    cartModificationSubject.next({
+      cartModifications: [{ statusCode: 'above_max_quantity' }],
+    });
+    mockEntriesSubject.next(mockEntries);
+
+    guard.canActivate().subscribe().unsubscribe();
+
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      {
+        key: 'validation.cartQuantityLimitsViolated',
+      },
+      GlobalMessageType.MSG_TYPE_ERROR,
+      10000
+    );
+  });
+
+  it('should fall back to the generic message for a min/max violation when the toggle is disabled', () => {
+    featureToggles.cartValidationDisplayBackendMessages = false;
+    cartModificationSubject.next({
+      cartModifications: [{ statusCode: 'below_min_quantity' }],
+    });
+    mockEntriesSubject.next(mockEntries);
+
+    guard.canActivate().subscribe().unsubscribe();
+
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      {
+        key: 'validation.cartEntriesChangeDuringCheckout',
+      },
+      GlobalMessageType.MSG_TYPE_ERROR,
+      10000
+    );
   });
 });

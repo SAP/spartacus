@@ -3,7 +3,7 @@ import {
   CartModification,
   CartValidationStatusCode,
 } from '@spartacus/cart/base/root';
-import { RouterState, RoutingService } from '@spartacus/core';
+import { RouterState, RoutingService, FeatureToggles } from '@spartacus/core';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { CartValidationStateService } from './cart-validation-state.service';
 
@@ -34,8 +34,10 @@ class MockRoutingService implements Partial<RoutingService> {
 
 describe('CartValidationStateService', () => {
   let service: CartValidationStateService;
+  const featureToggles: FeatureToggles = {};
 
   beforeEach(() => {
+    featureToggles.cartValidationDisplayBackendMessages = true;
     TestBed.configureTestingModule({
       providers: [
         CartValidationStateService,
@@ -43,6 +45,7 @@ describe('CartValidationStateService', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
+        { provide: FeatureToggles, useValue: featureToggles },
       ],
     });
 
@@ -89,6 +92,43 @@ describe('CartValidationStateService', () => {
         service.cartValidationResult$.subscribe((val) => (result = val));
         expect((service as any).navigationIdCount).toEqual(2);
         expect(result).toEqual([mockData[1]]);
+      })
+      .unsubscribe();
+  });
+
+  it('should NOT clear validation data while on the cart page', () => {
+    routerStateSubject.next({ navigationId: 10 } as any);
+    service.updateValidationResultAndRoutingId(mockData);
+
+    routerStateSubject.next({
+      navigationId: 20,
+      state: { semanticRoute: 'cart' },
+    } as any);
+
+    (service as any).checkForValidationResultClear$
+      .subscribe(() => {
+        let result;
+        service.cartValidationResult$.subscribe((val) => (result = val));
+        expect(result).toEqual(mockData);
+      })
+      .unsubscribe();
+  });
+
+  it('should still clear on the cart page when the toggle is disabled', () => {
+    featureToggles.cartValidationDisplayBackendMessages = false;
+    routerStateSubject.next({ navigationId: 30 } as any);
+    service.updateValidationResultAndRoutingId(mockData);
+
+    routerStateSubject.next({
+      navigationId: 40,
+      state: { semanticRoute: 'cart' },
+    } as any);
+
+    (service as any).checkForValidationResultClear$
+      .subscribe(() => {
+        let result;
+        service.cartValidationResult$.subscribe((val) => (result = val));
+        expect(result?.length).toEqual(0);
       })
       .unsubscribe();
   });

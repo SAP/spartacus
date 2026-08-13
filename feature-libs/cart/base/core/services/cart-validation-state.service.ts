@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
-import { CartModification } from '@spartacus/cart/base/root';
-import { RoutingService } from '@spartacus/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
+import { FeatureToggles, RoutingService } from '@spartacus/core';
 import { Observable, ReplaySubject, Subscription } from 'rxjs';
 import { take, tap, withLatestFrom } from 'rxjs/operators';
+import { CartModification } from '../../root/models';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +16,7 @@ import { take, tap, withLatestFrom } from 'rxjs/operators';
 export class CartValidationStateService implements OnDestroy {
   protected NAVIGATION_SKIPS = 2;
   protected navigationIdCount = 0;
+  private featureToggles = inject(FeatureToggles);
 
   protected subscription = new Subscription();
   cartValidationResult$: Observable<CartModification[]> = new ReplaySubject<
@@ -34,7 +35,15 @@ export class CartValidationStateService implements OnDestroy {
         if (
           this.navigationIdCount + this.NAVIGATION_SKIPS <=
             routerState.navigationId &&
-          cartModifications.length
+          cartModifications.length &&
+          // With backend min/max messages enabled, do not clear while the user is
+          // on the cart page: the results are actively displayed (row highlight,
+          // quantity hints) and any checkout attempt immediately re-validates, so
+          // clearing here only causes a visible flicker.
+          !(
+            !!this.featureToggles.cartValidationDisplayBackendMessages &&
+            routerState.state?.semanticRoute === 'cart'
+          )
         ) {
           (
             this.cartValidationResult$ as ReplaySubject<CartModification[]>

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { GuardResult, Router } from '@angular/router';
 import {
   ActiveCartFacade,
@@ -12,6 +12,7 @@ import {
   CartValidationStatusCode,
 } from '@spartacus/cart/base/root';
 import {
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   SemanticPathService,
@@ -35,6 +36,8 @@ export class CartValidationGuard {
     protected cartConfigService: CartConfigService
   ) {}
 
+  private featureToggles = inject(FeatureToggles);
+
   protected GLOBAL_MESSAGE_TIMEOUT = 10000;
 
   canActivate(): Observable<GuardResult> {
@@ -53,6 +56,16 @@ export class CartValidationGuard {
             ) {
               let validationResultMessage;
               const modification = cartModificationList.cartModifications[0];
+              const hasQuantityLimitViolation =
+                this.featureToggles.cartValidationDisplayBackendMessages ===
+                  true &&
+                cartModificationList.cartModifications.some(
+                  (mod) =>
+                    mod.statusCode ===
+                      CartValidationStatusCode.BELOW_MIN_QUANTITY ||
+                    mod.statusCode ===
+                      CartValidationStatusCode.ABOVE_MAX_QUANTITY
+                );
 
               if (
                 cartEntries.length === 1 &&
@@ -65,6 +78,10 @@ export class CartValidationGuard {
                   params: {
                     name: modification.entry?.product?.name,
                   },
+                };
+              } else if (hasQuantityLimitViolation) {
+                validationResultMessage = {
+                  key: 'validation.cartQuantityLimitsViolated',
                 };
               } else {
                 validationResultMessage = {

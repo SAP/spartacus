@@ -70,6 +70,9 @@
     "configurationError": "Előbb oldja meg a kosárbejegyzések konfigurációs problémáit.",
     "pricingError": "A konfiguráló árképzése jelenleg nem áll rendelkezésre. Fizetés/ajánlat beküldése nem lehetséges. Próbálkozzon újra később.",
     "unresolvableIssues": "A termék konfigurációja kiegészítő bejegyzéseket igényel a háttérrendszerben. Emiatt nem tud továbblépni. Forduljon a támogatáshoz.",
+    "cartQuantityLimitsViolated": "A kosarában kiemelt termékek mindegyikénél vagy túllépte a megengedett maximális mennyiséget, vagy nem érte el a szükséges minimális mennyiséget. Ha túllépte a maximális mennyiséget, távolítson el egy vagy több tételt. Ha nem érte el a minimális mennyiséget, adjon hozzá egy vagy több tételt. Addig nem folytathatja a pénztárig, amíg a kosarában lévő tételeket nem igazította a megengedett minimális vagy maximális mennyiséghez.",
+    "minQuantity": "Min. menny.: {{ min }}",
+    "maxQuantity": "Max. menny.: {{ max }}",
     "inProgress": "Feldolgozás"
   }
 }

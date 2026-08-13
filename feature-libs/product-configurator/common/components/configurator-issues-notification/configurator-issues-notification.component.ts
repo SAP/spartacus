@@ -5,10 +5,10 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, Optional } from '@angular/core';
+import { Component, inject, Optional } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import { TranslatePipe } from '@spartacus/core';
+import { FeatureToggles, TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
@@ -27,6 +27,7 @@ import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-c
 })
 export class ConfiguratorIssuesNotificationComponent {
   iconTypes = ICON_TYPE;
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
@@ -53,6 +54,15 @@ export class ConfiguratorIssuesNotificationComponent {
    * @returns - whether there are any issues
    */
   hasIssues(item: OrderEntry): boolean {
+    if (
+      this.featureToggles.configuratorIssuesNotificationForConfigurableOnly ===
+        true &&
+      !item.product?.configurable
+    ) {
+      // Only configurable products surface configurator issues here; non-configurable
+      // entries (e.g. min/max quantity violations) are handled by the cart validation UI.
+      return false;
+    }
     return this.commonConfigUtilsService.hasIssues(item);
   }
 

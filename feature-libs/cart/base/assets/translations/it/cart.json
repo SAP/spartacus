@@ -70,6 +70,9 @@
     "configurationError": "Risolvere innanzitutto i problemi nella configurazione delle voci nel carrello acquisti.",
     "pricingError": "Determinazione del prezzo con configuratore al momento non disponibile; impossibile procedere al check-out o inviare offerte. Riprovare più tardi.",
     "unresolvableIssues": "La configurazione del prodotto richiede voci supplementari nel back-end. Di conseguenza, non è possibile procedere. Contattare il supporto.",
+    "cartQuantityLimitsViolated": "Per ogni prodotto evidenziato nel carrello, hai superato la quantità massima consentita oppure non hai raggiunto la quantità minima richiesta. Se hai superato la quantità massima, rimuovi uno o più articoli. Se non hai raggiunto la quantità minima, aggiungi uno o più articoli. Non potrai procedere al pagamento finché gli articoli nel carrello non saranno stati adeguati alla quantità minima o massima consentita.",
+    "minQuantity": "Qtà min.: {{ min }}",
+    "maxQuantity": "Qtà max.: {{ max }}",
     "inProgress": "In elaborazione"
   }
 }

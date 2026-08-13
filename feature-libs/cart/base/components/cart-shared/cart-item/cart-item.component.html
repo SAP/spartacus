@@ -104,6 +104,9 @@
             >
             </cx-item-counter>
           </div>
+          <ng-template
+            [cxOutlet]="CartOutlets.ITEM_VALIDATION_QUANTITY_HINT"
+          ></ng-template>
         </div>
         <!-- Total -->
         <ng-container *ngIf="options.isSaveForLater; else total">

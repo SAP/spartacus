@@ -5,11 +5,19 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CartValidationFacade } from '@spartacus/cart/base/root';
-import { TranslatePipe } from '@spartacus/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+} from '@angular/core';
+import { FeatureToggles, TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { map } from 'rxjs/operators';
+import { CartConfigService } from '../../../core/services';
+import { CartValidationFacade } from '../../../root/facade';
+import { CartModification, CartValidationStatusCode } from '../../../root/models';
+import { cartModificationMatchesCode } from '../../../root/utils';
 
 @Component({
   selector: 'cx-cart-item-validation-warning',
@@ -18,21 +26,57 @@ import { map } from 'rxjs/operators';
   imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe],
 })
 export class CartItemValidationWarningComponent {
+  private featureToggles = inject(FeatureToggles);
+  protected cartConfigService = inject(CartConfigService);
+
   @Input()
   code: string;
 
   iconTypes = ICON_TYPE;
   isVisible = true;
+  /**
+   * Whether backend-driven min/max validation messaging is active: both the
+   * `cart.validation.enabled` config and the `cartValidationDisplayBackendMessages`
+   * feature toggle must be on.
+   */
+  displayBackendMessages =
+    this.cartConfigService.isCartValidationEnabled() &&
+    this.featureToggles.cartValidationDisplayBackendMessages === true;
 
   cartModification$ = this.cartValidationFacade
     .getValidationResults()
     .pipe(
       map((modificationList) =>
-        modificationList.find(
-          (modification) => modification.entry?.product?.code === this.code
-        )
+        modificationList.find((modification) => this.matches(modification))
       )
     );
 
   constructor(protected cartValidationFacade: CartValidationFacade) {}
+
+  /**
+   * A modification matches this cart item when it references the item's product
+   * code via its `entry`. When the backend does not provide an `entry` (e.g. for
+   * `below_min_quantity`), and the feature toggle is enabled, we fall back to
+   * matching the product code embedded in the free-text `statusMessage`.
+   */
+  protected matches(modification: CartModification): boolean {
+    return cartModificationMatchesCode(
+      modification,
+      this.code,
+      this.displayBackendMessages
+    );
+  }
+
+  /**
+   * Whether the modification is a min/max order quantity violation. For these the
+   * raw `statusMessage` alert is suppressed, since the limit is already conveyed by
+   * the per-item quantity hint and the highlighted row.
+   */
+  isQuantityLimitViolation(modification: CartModification): boolean {
+    return (
+      modification.statusCode ===
+        CartValidationStatusCode.BELOW_MIN_QUANTITY ||
+      modification.statusCode === CartValidationStatusCode.ABOVE_MAX_QUANTITY
+    );
+  }
 }

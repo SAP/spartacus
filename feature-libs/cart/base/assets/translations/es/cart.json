@@ -70,6 +70,9 @@
     "configurationError": "Primero, resuelva los problemas en la configuración de las entradas de la cesta.",
     "pricingError": "La determinación de precios no está disponible en este momento. El envío de oferta/compra no es posible. Intente de nuevo más tarde.",
     "unresolvableIssues": "La configuración del producto necesita entradas adicionales en el back end. Como consecuencia, no puede avanzar. Póngase en contacto con soporte.",
+    "cartQuantityLimitsViolated": "En cada producto resaltado de su cesta, ha superado la cantidad máxima permitida o no ha alcanzado la cantidad mínima requerida. Si ha superado la cantidad máxima, elimine uno o varios artículos. Si no ha alcanzado la cantidad mínima, añada uno o varios artículos. No podrá continuar con la compra hasta que los artículos de su cesta se hayan ajustado a la cantidad mínima o máxima permitida.",
+    "minQuantity": "Ctd. mín.: {{ min }}",
+    "maxQuantity": "Ctd. máx.: {{ max }}",
     "inProgress": "Procesando"
   }
 }

@@ -700,6 +700,32 @@ export interface FeatureTogglesInterface {
   a11yFocusBreadcrumbOnNavigation?: boolean;
 
   /**
+   * When enabled (with the `cart.validation.enabled` config), surfaces backend
+   * min/max order quantity validation in the cart: highlights violating rows and
+   * shows a per-item `Min qty` / `Max qty` hint parsed from the backend
+   * `statusMessage`, re-validating on entry and on quantity change. On checkout the
+   * `CartValidationGuard` blocks and shows a generic message.
+   */
+  cartValidationDisplayBackendMessages?: boolean;
+
+  /**
+   * When enabled, `ConfiguratorIssuesNotificationComponent` only shows its cart
+   * "issues" notification for configurable products, so non-configurable entries
+   * (e.g. with min/max quantity validation errors) no longer trigger it.
+   *
+   * Affects: `ConfiguratorIssuesNotificationComponent`
+   */
+  configuratorIssuesNotificationForConfigurableOnly?: boolean;
+
+  /**
+   * When enabled, `GlobalMessageComponent` reserves space for the close button so
+   * that long, multi-line message text does not render underneath it.
+   *
+   * Affects: `GlobalMessageComponent`
+   */
+  globalMessageCloseButtonPadding?: boolean;
+
+  /**
    * When enabled, the navigation chevron (`--list-bg`) rendered on the
    * organization (My Company) list rows and detail navigation cards uses a
    * higher-contrast stroke so it meets the WCAG 1.4.11 non-text contrast
@@ -801,5 +827,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yDisabledButtonContrast: false,
   a11yAddressFormInitialFocus: false,
   a11yFocusBreadcrumbOnNavigation: false,
+  cartValidationDisplayBackendMessages: false,
+  configuratorIssuesNotificationForConfigurableOnly: false,
+  globalMessageCloseButtonPadding: false,
   a11yNavigationChevronContrast: false,
 };

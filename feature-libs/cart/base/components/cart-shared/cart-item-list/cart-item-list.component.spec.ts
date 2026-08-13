@@ -5,12 +5,19 @@ import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   CartItemComponentOptions,
+  CartModification,
+  CartValidationFacade,
   ConsignmentEntry,
   MultiCartFacade,
   OrderEntry,
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
+import {
+  CartConfigService,
+  CartItemValidationService,
+  CartValidationStateService,
+} from '@spartacus/cart/base/core';
 import {
   CxDatePipe,
   FeatureToggles,
@@ -24,7 +31,7 @@ import {
 } from '@spartacus/core';
 import { OutletContextData, PromotionsModule } from '@spartacus/storefront';
 import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
-import { Observable, Subject, of } from 'rxjs';
+import { firstValueFrom, Observable, ReplaySubject, Subject, of } from 'rxjs';
 import { CartItemListRowComponent } from '../cart-item-list-row';
 import { CartItemComponent } from '../cart-item/cart-item.component';
 import { CartItemListComponent } from './cart-item-list.component';
@@ -129,6 +136,28 @@ const mockProductCatalogService = {
   isProductInCatalog: (_product?: Product) => true,
 };
 
+const validationResults$ = new ReplaySubject<CartModification[]>(1);
+class MockCartValidationFacade implements Partial<CartValidationFacade> {
+  getValidationResults() {
+    return validationResults$.asObservable();
+  }
+  validateCart() {
+    return of({ cartModifications: [] });
+  }
+}
+class MockCartValidationStateService {
+  updateValidationResultAndRoutingId = vi.fn();
+}
+class MockCartConfigService {
+  isCartValidationEnabled = () => true;
+}
+const hasIssue$ = new ReplaySubject<boolean>(1);
+class MockCartItemValidationService {
+  enabled = true;
+  isEnabled = () => this.enabled;
+  hasValidationIssue$ = vi.fn(() => hasIssue$.asObservable());
+}
+
 describe('CartItemListComponent', () => {
   let component: CartItemListComponent;
   let fixture: ComponentFixture<CartItemListComponent>;
@@ -149,6 +178,22 @@ describe('CartItemListComponent', () => {
         { provide: MultiCartFacade, useClass: MockMultiCartService },
         { provide: UserIdService, useClass: MockUserIdService },
         provideMockFeatureToggles({ ...mockFeatureToggles }),
+        {
+          provide: CartValidationFacade,
+          useClass: MockCartValidationFacade,
+        },
+        {
+          provide: CartValidationStateService,
+          useClass: MockCartValidationStateService,
+        },
+        {
+          provide: CartConfigService,
+          useClass: MockCartConfigService,
+        },
+        {
+          provide: CartItemValidationService,
+          useClass: MockCartItemValidationService,
+        },
         {
           provide: ProductCatalogService,
           useValue: mockProductCatalogService,
@@ -193,6 +238,113 @@ describe('CartItemListComponent', () => {
 
     it('should create', () => {
       expect(component).toBeTruthy();
+    });
+
+    describe('hasValidationIssue$', () => {
+      it('should delegate to CartItemValidationService with the product code', async () => {
+        const service = TestBed.inject(
+          CartItemValidationService
+        ) as unknown as MockCartItemValidationService;
+        hasIssue$.next(true);
+
+        const value = await firstValueFrom(
+          component.hasValidationIssue$(mockItems[0])
+        );
+
+        expect(service.hasValidationIssue$).toHaveBeenCalledWith(
+          mockItems[0].product.code
+        );
+        expect(value).toBe(true);
+      });
+
+      it('should emit false when the service reports no issue', async () => {
+        hasIssue$.next(false);
+        const value = await firstValueFrom(
+          component.hasValidationIssue$(mockItems[1])
+        );
+        expect(value).toBe(false);
+      });
+    });
+
+    describe('revalidateCart', () => {
+      let validationStateService: MockCartValidationStateService;
+      let validationFacade: CartValidationFacade;
+      let itemValidationService: MockCartItemValidationService;
+
+      beforeEach(() => {
+        validationStateService = TestBed.inject(
+          CartValidationStateService
+        ) as unknown as MockCartValidationStateService;
+        validationFacade = TestBed.inject(CartValidationFacade);
+        itemValidationService = TestBed.inject(
+          CartItemValidationService
+        ) as unknown as MockCartItemValidationService;
+      });
+
+      it('should not validate when the feature is disabled', () => {
+        itemValidationService.enabled = false;
+        vi.spyOn(validationFacade, 'validateCart');
+        validationStateService.updateValidationResultAndRoutingId.mockClear();
+
+        component['revalidateCart']();
+
+        expect(validationFacade.validateCart).not.toHaveBeenCalled();
+        expect(
+          validationStateService.updateValidationResultAndRoutingId
+        ).not.toHaveBeenCalled();
+      });
+
+      it('should validate and publish results when enabled', () => {
+        itemValidationService.enabled = true;
+        const modifications = [{ statusCode: 'below_min_quantity' }];
+        vi.spyOn(validationFacade, 'validateCart').mockReturnValue(
+          of({ cartModifications: modifications })
+        );
+
+        component['revalidateCart']();
+
+        expect(validationFacade.validateCart).toHaveBeenCalled();
+        expect(
+          validationStateService.updateValidationResultAndRoutingId
+        ).toHaveBeenCalledWith(modifications);
+      });
+
+      it('should validate the cart on init when enabled and editable', () => {
+        const editable = TestBed.createComponent(CartItemListComponent)
+          .componentInstance;
+        const facade = TestBed.inject(CartValidationFacade);
+        vi.spyOn(facade, 'validateCart').mockReturnValue(
+          of({ cartModifications: [] })
+        );
+
+        editable.ngOnInit();
+
+        expect(facade.validateCart).toHaveBeenCalled();
+      });
+
+      it('should NOT validate on init for a read-only list', () => {
+        const readonlyList = TestBed.createComponent(CartItemListComponent)
+          .componentInstance;
+        readonlyList.readonly = true;
+        const facade = TestBed.inject(CartValidationFacade);
+        vi.spyOn(facade, 'validateCart').mockReturnValue(
+          of({ cartModifications: [] })
+        );
+
+        readonlyList.ngOnInit();
+
+        expect(facade.validateCart).not.toHaveBeenCalled();
+      });
+
+      it('should NOT validate for a save-for-later list', () => {
+        component.options = { isSaveForLater: true };
+        const facade = TestBed.inject(CartValidationFacade);
+        vi.spyOn(facade, 'validateCart');
+
+        component['revalidateCart']();
+
+        expect(facade.validateCart).not.toHaveBeenCalled();
+      });
     });
 
     it('should work with consignment entries', () => {
