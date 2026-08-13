@@ -14,9 +14,11 @@ import {
 import { TranslatePipe } from '@spartacus/core';
 import { EMPTY, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { CartItemValidationService } from '../../../core/services';
-import { CartItemContext } from '../../../root/models';
-import { CartModificationQuantityInfo } from '../../../root/utils';
+import { CartItemValidationService } from '@spartacus/cart/base/core';
+import {
+  CartItemContext,
+  CartModificationQuantityInfo,
+} from '@spartacus/cart/base/root';
 
 /**
  * Renders the per-item `Min qty` / `Max qty` hint under the quantity stepper for

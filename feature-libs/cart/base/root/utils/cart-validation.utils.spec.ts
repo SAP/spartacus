@@ -36,9 +36,10 @@ describe('cart-validation.utils', () => {
     });
 
     it('should be case-insensitive', () => {
-      expect(
-        parseCartModificationQuantityInfo('min=3 and MAX=7')
-      ).toEqual({ min: 3, max: 7 });
+      expect(parseCartModificationQuantityInfo('min=3 and MAX=7')).toEqual({
+        min: 3,
+        max: 7,
+      });
     });
 
     it('should return an empty object when no tokens are present', () => {

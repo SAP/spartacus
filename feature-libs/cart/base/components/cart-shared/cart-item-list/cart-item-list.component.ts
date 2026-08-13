@@ -40,7 +40,7 @@ import { map, startWith, take, tap } from 'rxjs/operators';
 import {
   CartItemValidationService,
   CartValidationStateService,
-} from '../../../core/services';
+} from '@spartacus/cart/base/core';
 import { CartItemListRowComponent } from '../cart-item-list-row/cart-item-list-row.component';
 
 interface ItemListContext {

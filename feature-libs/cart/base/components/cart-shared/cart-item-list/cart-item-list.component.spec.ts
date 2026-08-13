@@ -310,8 +310,9 @@ describe('CartItemListComponent', () => {
       });
 
       it('should validate the cart on init when enabled and editable', () => {
-        const editable = TestBed.createComponent(CartItemListComponent)
-          .componentInstance;
+        const editable = TestBed.createComponent(
+          CartItemListComponent
+        ).componentInstance;
         const facade = TestBed.inject(CartValidationFacade);
         vi.spyOn(facade, 'validateCart').mockReturnValue(
           of({ cartModifications: [] })
@@ -323,8 +324,9 @@ describe('CartItemListComponent', () => {
       });
 
       it('should NOT validate on init for a read-only list', () => {
-        const readonlyList = TestBed.createComponent(CartItemListComponent)
-          .componentInstance;
+        const readonlyList = TestBed.createComponent(
+          CartItemListComponent
+        ).componentInstance;
         readonlyList.readonly = true;
         const facade = TestBed.inject(CartValidationFacade);
         vi.spyOn(facade, 'validateCart').mockReturnValue(

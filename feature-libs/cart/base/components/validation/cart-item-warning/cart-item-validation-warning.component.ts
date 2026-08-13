@@ -14,10 +14,13 @@ import {
 import { FeatureToggles, TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { map } from 'rxjs/operators';
-import { CartConfigService } from '../../../core/services';
-import { CartValidationFacade } from '../../../root/facade';
-import { CartModification, CartValidationStatusCode } from '../../../root/models';
-import { cartModificationMatchesCode } from '../../../root/utils';
+import { CartConfigService } from '@spartacus/cart/base/core';
+import {
+  CartModification,
+  CartValidationFacade,
+  CartValidationStatusCode,
+  cartModificationMatchesCode,
+} from '@spartacus/cart/base/root';
 
 @Component({
   selector: 'cx-cart-item-validation-warning',
@@ -74,8 +77,7 @@ export class CartItemValidationWarningComponent {
    */
   isQuantityLimitViolation(modification: CartModification): boolean {
     return (
-      modification.statusCode ===
-        CartValidationStatusCode.BELOW_MIN_QUANTITY ||
+      modification.statusCode === CartValidationStatusCode.BELOW_MIN_QUANTITY ||
       modification.statusCode === CartValidationStatusCode.ABOVE_MAX_QUANTITY
     );
   }

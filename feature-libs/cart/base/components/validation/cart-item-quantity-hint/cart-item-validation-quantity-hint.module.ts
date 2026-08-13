@@ -7,7 +7,7 @@
 import { NgModule } from '@angular/core';
 import { I18nModule } from '@spartacus/core';
 import { OutletPosition, provideOutlet } from '@spartacus/storefront';
-import { CartOutlets } from '../../../root/models';
+import { CartOutlets } from '@spartacus/cart/base/root';
 import { CartItemValidationQuantityHintComponent } from './cart-item-validation-quantity-hint.component';
 
 @NgModule({
