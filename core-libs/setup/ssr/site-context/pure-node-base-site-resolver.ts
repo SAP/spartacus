@@ -5,22 +5,14 @@
  */
 
 /**
- * SPIKE — not production code.
- * Approach (a): Pure Node — no Angular involved.
- *
- * Cacheless by design: every resolve() fetches base sites from OCC fresh, then
- * matches the request URL against each site's urlPatterns, falling back to the
- * configured default baseSite when nothing matches. No caching because SSR runs
- * as multiple instances that die/restart independently — a per-process cache
- * would drift between nodes and yield inconsistent results across the fleet.
- * The OCC /basesites call is cheap, so the consistency win beats the saved call.
+ * SPIKE — approach (a): Pure Node — no Angular involved.
  *
  * Replicates JavaRegExpConverter.toJsRegExp() from:
  *   core-libs/core/src/util/java-reg-exp-converter/java-reg-exp-converter.ts
  */
 
 /* webpackIgnore: true */
-import { performance } from 'perf_hooks';
+import { performance } from 'node:perf_hooks';
 import {
   BaseSiteResolver,
   BaseSiteResolverConfig,
@@ -63,32 +55,59 @@ export class PureNodeBaseSiteResolver implements BaseSiteResolver {
   protected readonly occUrl: string;
   protected readonly timeoutMs: number;
   protected readonly maxConcurrentOccCalls: number;
+  protected readonly cacheTtlMs: number;
   protected readonly defaultBaseSite: string | null;
-  /** OCC calls currently in flight; the basis for the concurrency cap. */
+
+  /** Requests currently waiting for an OCC call to complete (cache miss path). */
   protected inFlight = 0;
+  /** Shared in-flight OCC fetch — deduplicates concurrent cache-miss requests. */
+  protected initPromise: Promise<OccBaseSite[]> | null = null;
+  /** Cached baseSites list. */
+  protected cachedSites: OccBaseSite[] | null = null;
+  /** Timestamp (ms) when the cache was last populated. */
+  protected cachedAt = 0;
 
   constructor(config: BaseSiteResolverConfig) {
     const prefix = config.occPrefix ?? '/occ/v2';
     this.occUrl = `${config.occBaseUrl}${prefix}/basesites?fields=FULL`;
     this.timeoutMs = config.timeoutMs ?? 3000;
     this.maxConcurrentOccCalls = config.maxConcurrentOccCalls ?? 10;
+    this.cacheTtlMs = config.cacheTtlMs ?? 60_000;
     this.defaultBaseSite = config.defaultBaseSite ?? null;
   }
 
   async resolve(requestUrl: string): Promise<string | null> {
-    // Load shedding: refuse fast before touching OCC. This protects the Node
-    // process (spec factor #1 — never hang/DoS the SSR server). It intentionally
-    // does NOT protect the OCC backend from sustained load: with the cap at N,
-    // up to N calls can still hit OCC concurrently. Guarding OCC's own capacity
-    // is the backend's concern (its own scaling/rate limits), out of scope here.
+    const sites = await this.getSites();
+    const matched = sites.find((site) => matchesSite(site, requestUrl));
+    return matched?.uid ?? this.defaultBaseSite;
+  }
+
+  private async getSites(): Promise<OccBaseSite[]> {
+    // Cache hit: sub-millisecond regex match, no OCC call.
+    if (this.cachedSites && Date.now() - this.cachedAt < this.cacheTtlMs) {
+      return this.cachedSites;
+    }
+
+    // Load shedding: cap requests waiting for an OCC cache refresh.
     if (this.inFlight >= this.maxConcurrentOccCalls) {
       throw new ConcurrencyLimitError();
     }
     this.inFlight++;
+
     try {
-      const sites = await this.fetchSites();
-      const matched = sites.find((site) => matchesSite(site, requestUrl));
-      return matched?.uid ?? this.defaultBaseSite;
+      // Dedup: concurrent cache-miss requests share a single OCC fetch.
+      if (!this.initPromise) {
+        this.initPromise = this.fetchSites()
+          .then((sites) => {
+            this.cachedSites = sites;
+            this.cachedAt = Date.now();
+            return sites;
+          })
+          .finally(() => {
+            this.initPromise = null;
+          });
+      }
+      return await this.initPromise;
     } finally {
       this.inFlight--;
     }

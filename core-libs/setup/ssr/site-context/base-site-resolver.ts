@@ -32,6 +32,13 @@ export interface BaseSiteResolverConfig {
    * framework stays app-agnostic. When omitted, resolve() returns null on no match.
    */
   defaultBaseSite?: string;
+  /**
+   * TTL for the in-memory baseSites cache in ms. Cache improves per-request
+   * latency once warm (sub-millisecond regex match vs ~130 ms OCC round-trip).
+   * Concurrent cache-miss requests share a single OCC fetch (initPromise dedup).
+   * 0 = cacheless. Default: 60_000 (1 minute).
+   */
+  cacheTtlMs?: number;
 }
 
 /** Thrown when OCC is unreachable, errored, or timed out. */

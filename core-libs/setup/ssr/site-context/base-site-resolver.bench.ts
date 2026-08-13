@@ -32,8 +32,10 @@
  *
  * Switch approach by swapping the resolver import block below (same as server.ts).
  *
- * The resolver is cacheless: every resolve() performs a fresh OCC fetch. There
- * is therefore no "cold vs warm" distinction — per-call latency IS the OCC
+ * The resolver caches base sites for `cacheTtlMs` (default 60 s). Concurrent
+ * cache-miss requests share a single OCC fetch (`initPromise` dedup). The
+ * per-call scenario therefore measures cache-warm latency (sub-millisecond
+ * regex match) after the first call; cache-miss latency equals the OCC
  * round-trip plus regex matching.
  *
  * Required env vars:
