@@ -259,8 +259,6 @@ export namespace Configurator {
     SUB_ITEM_GROUP = 'SubItemGroup',
     CONFLICT_HEADER_GROUP = 'ConflictHeaderGroup',
     CONFLICT_GROUP = 'ConflictGroup',
-    /** Group representing the nested configuration of one container row. */
-    CONTAINER_ROW_GROUP = 'ContainerRowGroup',
   }
 
   export enum ContainerRowAction {
