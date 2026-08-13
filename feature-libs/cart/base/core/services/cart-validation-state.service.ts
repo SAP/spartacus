@@ -8,7 +8,7 @@ import { inject, Injectable, OnDestroy } from '@angular/core';
 import { FeatureToggles, RoutingService } from '@spartacus/core';
 import { Observable, ReplaySubject, Subscription } from 'rxjs';
 import { take, tap, withLatestFrom } from 'rxjs/operators';
-import { CartModification } from '../../root/models';
+import { CartModification } from '@spartacus/cart/base/root';
 
 @Injectable({
   providedIn: 'root',

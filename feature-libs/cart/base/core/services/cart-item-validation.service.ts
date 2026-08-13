@@ -8,12 +8,12 @@ import { inject, Injectable } from '@angular/core';
 import { FeatureToggles } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
-import { CartValidationFacade } from '../../root/facade';
 import {
+  CartValidationFacade,
   cartModificationMatchesCode,
   CartModificationQuantityInfo,
   parseCartModificationQuantityInfo,
-} from '../../root/utils';
+} from '@spartacus/cart/base/root';
 import { CartConfigService } from './cart-config.service';
 
 @Injectable({ providedIn: 'root' })
