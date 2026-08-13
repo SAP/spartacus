@@ -994,9 +994,7 @@ describe('OccConfigurationVariantAdapter', () => {
   });
 
   it('should throw for addContainerRow because it is not supported for the variant configurator', () => {
-    expect(() =>
-      occConfiguratorVariantAdapter.addContainerRow()
-    ).toThrowError(
+    expect(() => occConfiguratorVariantAdapter.addContainerRow()).toThrowError(
       'addContainerRow is not supported for the variant configurator'
     );
   });

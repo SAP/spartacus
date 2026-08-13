@@ -63,9 +63,9 @@ export class RulebasedConfiguratorConnector {
   addContainerRow(
     parameters: Configurator.AddContainerRowParameters
   ): Observable<Configurator.Configuration> {
-    return this.getAdapter(
-      parameters.owner.configuratorType
-    ).addContainerRow(parameters);
+    return this.getAdapter(parameters.owner.configuratorType).addContainerRow(
+      parameters
+    );
   }
 
   addToCart(

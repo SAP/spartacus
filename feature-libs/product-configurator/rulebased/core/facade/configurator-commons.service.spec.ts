@@ -408,12 +408,7 @@ describe('ConfiguratorCommonsService', () => {
       () => () => of(productConfiguration)
     );
 
-    serviceUnderTest.addContainerRow(
-      OWNER_PRODUCT.key,
-      598,
-      PRODUCT_CODE,
-      '3'
-    );
+    serviceUnderTest.addContainerRow(OWNER_PRODUCT.key, 598, PRODUCT_CODE, '3');
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new ConfiguratorActions.AddContainerRow({
