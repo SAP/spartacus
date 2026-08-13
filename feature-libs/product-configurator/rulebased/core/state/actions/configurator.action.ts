@@ -26,6 +26,11 @@ export const UPDATE_CONFIGURATION_FAIL =
 export const UPDATE_CONFIGURATION_SUCCESS =
   '[Configurator] Update Configuration Success';
 
+export const ADD_CONTAINER_ROW = '[Configurator] Add Container Row';
+export const ADD_CONTAINER_ROW_FAIL = '[Configurator] Add Container Row Fail';
+export const ADD_CONTAINER_ROW_SUCCESS =
+  '[Configurator] Add Container Row Success';
+
 export const UPDATE_CONFIGURATION_FINALIZE_SUCCESS =
   '[Configurator] Update Configuration finalize success';
 export const UPDATE_CONFIGURATION_FINALIZE_FAIL =
@@ -173,6 +178,46 @@ export class UpdateConfigurationFail
 
 export class UpdateConfigurationSuccess extends StateUtils.EntityProcessesDecrementAction {
   readonly type = UPDATE_CONFIGURATION_SUCCESS;
+
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATOR_DATA, payload.owner.key);
+  }
+}
+
+export class AddContainerRow extends StateUtils.EntityProcessesIncrementAction {
+  readonly type = ADD_CONTAINER_ROW;
+
+  constructor(public payload: Configurator.AddContainerRowParameters) {
+    super(CONFIGURATOR_DATA, payload.owner.key);
+    this.meta.loader = {
+      load: true,
+    };
+  }
+}
+
+export class AddContainerRowFail
+  extends StateUtils.EntityProcessesDecrementAction
+  implements ErrorAction
+{
+  public error: any;
+  readonly type = ADD_CONTAINER_ROW_FAIL;
+
+  constructor(
+    public payload: {
+      parameters: Configurator.AddContainerRowParameters;
+      error: any;
+    }
+  ) {
+    super(CONFIGURATOR_DATA, payload.parameters.owner.key);
+    this.meta.loader = {
+      error: payload.error,
+    };
+    this.error = payload.error;
+  }
+}
+
+export class AddContainerRowSuccess extends StateUtils.EntityProcessesDecrementAction {
+  readonly type = ADD_CONTAINER_ROW_SUCCESS;
 
   constructor(public payload: Configurator.Configuration) {
     super(CONFIGURATOR_DATA, payload.owner.key);
@@ -412,6 +457,9 @@ export type ConfiguratorAction =
   | UpdateConfiguration
   | UpdateConfigurationFail
   | UpdateConfigurationSuccess
+  | AddContainerRow
+  | AddContainerRowFail
+  | AddContainerRowSuccess
   | UpdateConfigurationFinalizeFail
   | UpdateConfigurationFinalizeSuccess
   | UpdatePriceSummary
