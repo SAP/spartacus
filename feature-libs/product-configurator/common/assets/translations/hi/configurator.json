@@ -55,7 +55,9 @@
       "deselectionNotPossible": "इस एक को निकालने से पहले कोई भिन्न उत्पाद जोड़ें",
       "dropDownSelectMsg": "कोई चयन करें",
       "noOptionSelectedMsg": "कोई विकल्प चयनित नहीं",
-      "notVisibleAttributeMsg": "यह विशेषता उपयोगकर्ता को दृश्यमा नहीं है."
+      "notVisibleAttributeMsg": "यह विशेषता उपयोगकर्ता को दृश्यमा नहीं है.",
+      "selectedProducts": "चयनित उत्पाद ({{count}})",
+      "availableProducts": "उपलब्ध उत्पाद ({{count}})"
     },
     "button": {
       "previous": "पिछला",
@@ -234,7 +236,11 @@
       "closeConflictSolverModal": "टकराव समाधानकर्ता मॉडल बंद करें",
       "closeRestartDialog": "\"अपूर्ण कॉन्फ़िगरेशन\" डायलॉग बंद करें और उत्पाद विवरण पृष्ठ पर वापस नेविगेट करें",
       "description": "मान {{ value }} हेतु विवरण देखने के लिए क्लिक करें",
-      "showOptionsForAttribute": "विशेषता {{ attribute }} के लिए विकल्प दिखाएं"
+      "showOptionsForAttribute": "विशेषता {{ attribute }} के लिए विकल्प दिखाएं",
+      "collapseSelectedProducts": "चयनित उत्पाद संक्षिप्त करें",
+      "expandSelectedProducts": "चयनित उत्पाद विस्तृत करें",
+      "collapseAvailableProducts": "उपलब्ध उत्पाद संक्षिप्त करें",
+      "expandAvailableProducts": "उपलब्ध उत्पाद विस्तृत करें"
     },
     "variantCarousel": {
       "title": "पूर्व-कॉन्फ़िगर किए गए संस्करण"

@@ -55,7 +55,9 @@
       "deselectionNotPossible": "Agregar un producto diferente antes de eliminar este",
       "dropDownSelectMsg": "Realizar una selección",
       "noOptionSelectedMsg": "Ninguna opción seleccionada",
-      "notVisibleAttributeMsg": "Este atributo no es visible para el usuario"
+      "notVisibleAttributeMsg": "Este atributo no es visible para el usuario",
+      "selectedProducts": "Productos seleccionados ({{count}})",
+      "availableProducts": "Productos disponibles ({{count}})"
     },
     "button": {
       "previous": "Anterior",
@@ -234,7 +236,11 @@
       "closeConflictSolverModal": "Cierre el modal de solucionador de conflictos",
       "closeRestartDialog": "Cierre el diálogo \"Configuración sin terminar\" y vuelva a la página de detalles del producto",
       "description": "Haga clic para ver una descripción del valor {{ value }}",
-      "showOptionsForAttribute": "Mostrar opciones del atributo {{ attribute }}"
+      "showOptionsForAttribute": "Mostrar opciones del atributo {{ attribute }}",
+      "collapseSelectedProducts": "Contraer productos seleccionados",
+      "expandSelectedProducts": "Expandir productos seleccionados",
+      "collapseAvailableProducts": "Contraer productos disponibles",
+      "expandAvailableProducts": "Expandir productos disponibles"
     },
     "variantCarousel": {
       "title": "Versiones preconfiguradas"

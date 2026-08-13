@@ -55,7 +55,9 @@
       "deselectionNotPossible": "이 제품을 제거하기 전에 다른 제품을 추가하십시오.",
       "dropDownSelectMsg": "선택하십시오.",
       "noOptionSelectedMsg": "선택한 옵션이 없습니다.",
-      "notVisibleAttributeMsg": "이 특성은 사용자에게 표시되지 않습니다."
+      "notVisibleAttributeMsg": "이 특성은 사용자에게 표시되지 않습니다.",
+      "selectedProducts": "선택한 제품 ({{count}})",
+      "availableProducts": "사용 가능한 제품 ({{count}})"
     },
     "button": {
       "previous": "이전",
@@ -234,7 +236,11 @@
       "closeConflictSolverModal": "충돌 솔버 닫기 모달",
       "closeRestartDialog": "\"완료되지 않은 구성\" 대화 상자를 닫고 제품 세부사항 페이지로 돌아갑니다.",
       "description": "{{ value }} 값에 대한 설명을 보려면 클릭합니다.",
-      "showOptionsForAttribute": "{{ attribute }} 특성의 옵션 표시"
+      "showOptionsForAttribute": "{{ attribute }} 특성의 옵션 표시",
+      "collapseSelectedProducts": "선택한 제품 접기",
+      "expandSelectedProducts": "선택한 제품 펼치기",
+      "collapseAvailableProducts": "사용 가능한 제품 접기",
+      "expandAvailableProducts": "사용 가능한 제품 펼치기"
     },
     "variantCarousel": {
       "title": "사전 구성된 버전"

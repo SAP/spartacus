@@ -55,7 +55,9 @@
       "deselectionNotPossible": "Než odeberete tento produkt, přidejte jiný.",
       "dropDownSelectMsg": "Vyberte",
       "noOptionSelectedMsg": "Není vybraná žádná možnost",
-      "notVisibleAttributeMsg": "Tento atribut není pro uživatele viditelný"
+      "notVisibleAttributeMsg": "Tento atribut není pro uživatele viditelný",
+      "selectedProducts": "Vybrané produkty ({{count}})",
+      "availableProducts": "Dostupné produkty ({{count}})"
     },
     "button": {
       "previous": "Předchozí",
@@ -234,7 +236,11 @@
       "closeConflictSolverModal": "Zavřít modální okno pro řešení konfliktů",
       "closeRestartDialog": "Zavřít dialogové okno „Nedokončená konfigurace“ a přejít zpět na stránku s detaily produktu.",
       "description": "Popis této hodnoty zobrazíte kliknutím {{ value }}",
-      "showOptionsForAttribute": "Zobrazit možnosti atributu {{ attribute }}"
+      "showOptionsForAttribute": "Zobrazit možnosti atributu {{ attribute }}",
+      "collapseSelectedProducts": "Sbalit vybrané produkty",
+      "expandSelectedProducts": "Rozbalit vybrané produkty",
+      "collapseAvailableProducts": "Sbalit dostupné produkty",
+      "expandAvailableProducts": "Rozbalit dostupné produkty"
     },
     "variantCarousel": {
       "title": "Předkonfigurované verze"

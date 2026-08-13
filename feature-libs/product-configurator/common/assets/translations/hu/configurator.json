@@ -55,7 +55,9 @@
       "deselectionNotPossible": "Adjon hozzá egy másik terméket, mielőtt ezt eltávolítaná",
       "dropDownSelectMsg": "Válasszon",
       "noOptionSelectedMsg": "Nincs kiválasztva beállítás",
-      "notVisibleAttributeMsg": "Ez az attribútum nem látható a felhasználó számára"
+      "notVisibleAttributeMsg": "Ez az attribútum nem látható a felhasználó számára",
+      "selectedProducts": "Kiválasztott termékek ({{count}})",
+      "availableProducts": "Elérhető termékek ({{count}})"
     },
     "button": {
       "previous": "Előző",
@@ -234,7 +236,11 @@
       "closeConflictSolverModal": "Ütközésfeloldó előugró ablak bezárása",
       "closeRestartDialog": "A „Be nem fejezett konfiguráció” párbeszédablak bezárása, majd visszalépés a termék részletei oldalra",
       "description": "Kattintással megtekintheti a(z) {{ value }} érték leírását",
-      "showOptionsForAttribute": "A(z) {{ attribute }} attribútum beállításainak megjelenítése"
+      "showOptionsForAttribute": "A(z) {{ attribute }} attribútum beállításainak megjelenítése",
+      "collapseSelectedProducts": "Kiválasztott termékek összecsukása",
+      "expandSelectedProducts": "Kiválasztott termékek kibontása",
+      "collapseAvailableProducts": "Elérhető termékek összecsukása",
+      "expandAvailableProducts": "Elérhető termékek kibontása"
     },
     "variantCarousel": {
       "title": "Előre konfigurált verziók"

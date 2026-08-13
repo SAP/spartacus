@@ -55,7 +55,9 @@
       "deselectionNotPossible": "Dodaj inny produkt przed usunięciem tego",
       "dropDownSelectMsg": "Dokonaj wyboru",
       "noOptionSelectedMsg": "Nie wybrano żadnej opcji",
-      "notVisibleAttributeMsg": "Ten atrybut nie jest widoczny dla użytkownika"
+      "notVisibleAttributeMsg": "Ten atrybut nie jest widoczny dla użytkownika",
+      "selectedProducts": "Wybrane produkty ({{count}})",
+      "availableProducts": "Dostępne produkty ({{count}})"
     },
     "button": {
       "previous": "Poprzednie",
@@ -234,7 +236,11 @@
       "closeConflictSolverModal": "Zamknij moduł rozwiązywania konfliktów",
       "closeRestartDialog": "Zamknij okno dialogowe „Niedokończona konfiguracja” i wróć do strony szczegółów produktu",
       "description": "Kliknij, aby zobaczyć opis wartości {{ value }}",
-      "showOptionsForAttribute": "Pokaż opcje dla atrybutu {{ attribute }}"
+      "showOptionsForAttribute": "Pokaż opcje dla atrybutu {{ attribute }}",
+      "collapseSelectedProducts": "Zwiń wybrane produkty",
+      "expandSelectedProducts": "Rozwiń wybrane produkty",
+      "collapseAvailableProducts": "Zwiń dostępne produkty",
+      "expandAvailableProducts": "Rozwiń dostępne produkty"
     },
     "variantCarousel": {
       "title": "Wstępnie skonfigurowane wersje"

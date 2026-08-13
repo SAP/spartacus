@@ -1,4 +1,91 @@
 <div id="{{ createAttributeIdForConfigurator(attribute) }}">
-  Here comes container content. This is a placeholder for the actual content of
-  the configurator attribute container component.
+  <section class="cx-section">
+    <div class="cx-header">
+      <span class="cx-title" role="heading" aria-level="2">
+        {{
+          'configurator.attribute.selectedProducts'
+            | cxTranslate: { count: selectedProducts.length }
+        }}
+      </span>
+      <button
+        *ngIf="selectedProducts.length > 0"
+        type="button"
+        class="cx-toggle"
+        (click)="toggleSelectedProducts()"
+        [attr.aria-expanded]="selectedProductsExpanded"
+        [attr.aria-controls]="
+          createAttributeUiKey('selected-products', attribute.name)
+        "
+        [attr.aria-label]="
+          (selectedProductsExpanded
+            ? 'configurator.a11y.collapseSelectedProducts'
+            : 'configurator.a11y.expandSelectedProducts'
+          ) | cxTranslate
+        "
+      >
+        <cx-icon
+          [type]="selectedProductsToggleIcon"
+          aria-hidden="true"
+        ></cx-icon>
+      </button>
+    </div>
+    <div
+      *ngIf="selectedProductsExpanded && selectedProducts.length"
+      class="cx-content"
+      id="{{ createAttributeUiKey('selected-products', attribute.name) }}"
+    >
+      <cx-configurator-attribute-product-card
+        *ngFor="let row of selectedProducts; let i = index"
+        id="{{ createAttributeValueIdForConfigurator(attribute, row.id) }}"
+        [productCardOptions]="
+          extractProductCardParameters(row, i, selectedProducts.length)
+        "
+      ></cx-configurator-attribute-product-card>
+    </div>
+  </section>
+
+  <section class="cx-section">
+    <div class="cx-header">
+      <span class="cx-title" role="heading" aria-level="2">
+        {{
+          'configurator.attribute.availableProducts'
+            | cxTranslate: { count: availableProducts.length }
+        }}
+      </span>
+      <button
+        *ngIf="availableProducts.length > 0"
+        type="button"
+        class="cx-toggle"
+        (click)="toggleAvailableProducts()"
+        [attr.aria-expanded]="availableProductsExpanded"
+        [attr.aria-controls]="
+          createAttributeUiKey('available-products', attribute.name)
+        "
+        [attr.aria-label]="
+          (availableProductsExpanded
+            ? 'configurator.a11y.collapseAvailableProducts'
+            : 'configurator.a11y.expandAvailableProducts'
+          ) | cxTranslate
+        "
+      >
+        <cx-icon
+          [type]="availableProductsToggleIcon"
+          aria-hidden="true"
+        ></cx-icon>
+      </button>
+    </div>
+    <div
+      *ngIf="availableProductsExpanded && availableProducts.length"
+      class="cx-content"
+      id="{{ createAttributeUiKey('available-products', attribute.name) }}"
+    >
+      <cx-configurator-attribute-product-card
+        *ngFor="let row of availableProducts; let i = index"
+        id="{{ createAttributeValueIdForConfigurator(attribute, row.id) }}"
+        [productCardOptions]="
+          extractProductCardParameters(row, i, availableProducts.length)
+        "
+      ></cx-configurator-attribute-product-card>
+    </div>
+  </section>
 </div>
