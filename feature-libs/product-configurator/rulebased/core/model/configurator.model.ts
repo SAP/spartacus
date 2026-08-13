@@ -298,6 +298,7 @@ export namespace Configurator {
     CHECKBOXLIST_PRODUCT = 'checkBoxListProduct',
     DROPDOWN_PRODUCT = 'dropdownProduct',
     RADIOBUTTON_PRODUCT = 'radioGroupProduct',
+    CONTAINER = 'container',
   }
 
   export enum ImageFormatType {
