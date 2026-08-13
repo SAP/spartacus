@@ -1,0 +1,43 @@
+%cx-configurator-attribute-container {
+  @include cx-configurator-attribute-type();
+
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+
+  .cx-section {
+    width: 100%;
+    border-block-end: 1px solid var(--cx-color-light);
+
+    .cx-header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding-block-start: 10px;
+      padding-block-end: 10px;
+
+      .cx-title {
+        @include type('5');
+        font-weight: bold;
+      }
+
+      .cx-toggle {
+        border: none;
+        background-color: transparent;
+        padding-inline-start: 0;
+        padding-inline-end: 0;
+        padding-block-start: 0;
+        padding-block-end: 0;
+        cursor: pointer;
+        color: var(--cx-color-text);
+      }
+    }
+
+    .cx-content {
+      width: 100%;
+      padding-block-end: 10px;
+    }
+  }
+}

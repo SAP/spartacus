@@ -55,7 +55,9 @@
       "deselectionNotPossible": "移除此产品前添加其他产品",
       "dropDownSelectMsg": "进行选择",
       "noOptionSelectedMsg": "未选择任何选项",
-      "notVisibleAttributeMsg": "此属性对用户不可见"
+      "notVisibleAttributeMsg": "此属性对用户不可见",
+      "selectedProducts": "已选产品 ({{count}})",
+      "availableProducts": "可用产品 ({{count}})"
     },
     "button": {
       "previous": "上一步",
@@ -234,7 +236,11 @@
       "closeConflictSolverModal": "关闭冲突处理器模式",
       "closeRestartDialog": "关闭“未完成配置”对话框并导航回产品详细信息页面",
       "description": "单击以查看值 {{ value }} 的描述",
-      "showOptionsForAttribute": "显示属性 {{ attribute }} 的选项"
+      "showOptionsForAttribute": "显示属性 {{ attribute }} 的选项",
+      "collapseSelectedProducts": "折叠已选产品",
+      "expandSelectedProducts": "展开已选产品",
+      "collapseAvailableProducts": "折叠可用产品",
+      "expandAvailableProducts": "展开可用产品"
     },
     "variantCarousel": {
       "title": "预配置版本"

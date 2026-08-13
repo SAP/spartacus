@@ -55,7 +55,9 @@
       "deselectionNotPossible": "Добавьте другой продукт, прежде чем удалить выбранный",
       "dropDownSelectMsg": "Сделайте выбор",
       "noOptionSelectedMsg": "Вариант не выбран",
-      "notVisibleAttributeMsg": "Этот атрибут не отображается для пользователя"
+      "notVisibleAttributeMsg": "Этот атрибут не отображается для пользователя",
+      "selectedProducts": "Выбранные продукты ({{count}})",
+      "availableProducts": "Доступные продукты ({{count}})"
     },
     "button": {
       "previous": "Назад",
@@ -234,7 +236,11 @@
       "closeConflictSolverModal": "Закрыть модуль средства устранения конфликтов",
       "closeRestartDialog": "Закрыть диалоговое окно \"Незавершенная конфигурация\" и вернуться на страницу сведений продукта",
       "description": "Щелкните, чтобы просмотреть описание значения {{ value }}",
-      "showOptionsForAttribute": "Показать опции для атрибута {{ attribute }}"
+      "showOptionsForAttribute": "Показать опции для атрибута {{ attribute }}",
+      "collapseSelectedProducts": "Свернуть выбранные продукты",
+      "expandSelectedProducts": "Развернуть выбранные продукты",
+      "collapseAvailableProducts": "Свернуть доступные продукты",
+      "expandAvailableProducts": "Развернуть доступные продукты"
     },
     "variantCarousel": {
       "title": "Предварительно настроенные версии"
