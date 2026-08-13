@@ -44,6 +44,38 @@ export namespace Configurator {
     validationType?: string;
     visible?: boolean;
     domainOnDemand?: boolean;
+    /** Container metadata, present only if this attribute is a CPQ container,
+     * i.e. it can hold multiple individually configurable sub-product instances. */
+    container?: Container;
+    /** Identifier of the container row this attribute belongs to. Only set for
+     * attributes of a nested (row) configuration; needed to build update requests
+     * in the row context. */
+    containerRowId?: string;
+  }
+
+  /**
+   * Metadata of a container. The link to the attribute (CPQ: stdAttrCode) is
+   * implicit, as the container is attached to the attribute it belongs to.
+   */
+  export interface Container {
+    minRows?: number;
+    maxRows?: number;
+    failedValidations?: string[];
+    rows: ContainerRow[];
+  }
+
+  /**
+   * A single, individually configurable sub-product instance of a container.
+   */
+  export interface ContainerRow {
+    id: string;
+    productSystemId?: string;
+    productName?: string;
+    selected?: boolean;
+    actions?: ContainerRowAction[];
+    /** Id of the group carrying the nested configuration of this row.
+     * Only present if the row is selected and configurable. */
+    groupId?: string;
   }
 
   export interface Value {
@@ -70,6 +102,17 @@ export namespace Configurator {
     complete?: boolean;
     consistent?: boolean;
     subGroups: Group[];
+    /** Messages from a nested (container row) configuration, including severity. */
+    messages?: Message[];
+  }
+
+  /**
+   * A message issued by the configuration engine for a configuration or for a
+   * nested product configuration. Maps to SAPCPQMessage.
+   */
+  export interface Message {
+    message: string;
+    severity?: MessageSeverity;
   }
 
   export interface ValueSupplement {
@@ -216,6 +259,20 @@ export namespace Configurator {
     SUB_ITEM_GROUP = 'SubItemGroup',
     CONFLICT_HEADER_GROUP = 'ConflictHeaderGroup',
     CONFLICT_GROUP = 'ConflictGroup',
+    /** Group representing the nested configuration of one container row. */
+    CONTAINER_ROW_GROUP = 'ContainerRowGroup',
+  }
+
+  export enum ContainerRowAction {
+    DELETE = 'DELETE',
+    EDIT = 'EDIT',
+    COPY = 'COPY',
+    ADD = 'ADD',
+  }
+
+  export enum MessageSeverity {
+    INFO = 'info',
+    WARNING = 'warning',
   }
 
   export enum UiType {
@@ -287,6 +344,7 @@ export namespace Configurator {
 
   export const ConflictIdPrefix = 'CONFLICT';
   export const ConflictHeaderId = 'CONFLICT_HEADER';
+  export const ContainerRowGroupIdPrefix = 'CONTAINER_ROW';
   export const CustomUiTypeIndicator = '___';
   export const RetractValueCode = '###RETRACT_VALUE_CODE###';
 }
