@@ -176,6 +176,16 @@ export namespace Cpq {
     userInput?: string;
     quantity?: number;
   }
+
+  /**
+   * Request payload for adding a new row to a CPQ container.
+   */
+  export interface AddContainerRowInput {
+    stdAttrCode: number;
+    productSystemId: string;
+    parentRowId?: string;
+  }
+
   /**
    *
    * An interface representing the structure for update quantity of CPQ configuration attribute value.

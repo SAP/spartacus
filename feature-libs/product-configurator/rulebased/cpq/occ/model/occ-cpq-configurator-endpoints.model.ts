@@ -52,6 +52,10 @@ declare module '@spartacus/core' {
      */
     updateCpqAttributeValueQuantity?: string | OccEndpoint;
     /**
+     * Endpoint for adding a new container row to a CPQ configuration over OCC
+     */
+    createCpqContainerRow?: string | OccEndpoint;
+    /**
      * Endpoint for reading a CPQ configuration attached to the given cart entry over OCC
      */
     readCpqConfigurationForCartEntryFull?: string | OccEndpoint;

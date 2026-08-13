@@ -30,6 +30,7 @@ export function defaultOccCpqConfiguratorConfigFactory(): OccConfig {
             'cpqconfigurator/${configurationId}/attributes/${attributeCode}?tabId=${tabId}',
           updateCpqAttributeValueQuantity:
             'cpqconfigurator/${configurationId}/attributes/${attributeCode}/values/${attributeValueId}?tabId=${tabId}',
+          createCpqContainerRow: 'cpqconfigurator/${configurationId}/rows',
           readCpqConfigurationForCartEntryFull:
             'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/cpqconfigurator/configuration',
           readCpqConfigurationForOrderEntryFull:

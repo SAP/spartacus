@@ -228,6 +228,15 @@ export namespace Configurator {
     owner: CommonConfigurator.Owner;
   }
 
+  export interface AddContainerRowParameters {
+    configId: string;
+    owner: CommonConfigurator.Owner;
+    stdAttrCode: number;
+    productSystemId: string;
+    /** Identifier of the parent container row for nested containers; omit for root level. */
+    parentRowId?: string;
+  }
+
   export interface UpdateConfigurationForCartEntryParameters {
     userId: string;
     cartId: string;
