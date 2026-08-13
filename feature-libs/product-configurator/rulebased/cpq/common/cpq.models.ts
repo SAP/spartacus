@@ -198,6 +198,7 @@ export namespace Cpq {
     DROPDOWN = 3,
     LIST_BOX = 4,
     LIST_BOX_MULTI = 5,
+    CONTAINER = 57,
     READ_ONLY = 71,
     INPUT = 95,
     AUTO_COMPLETE_CUSTOM = 102,

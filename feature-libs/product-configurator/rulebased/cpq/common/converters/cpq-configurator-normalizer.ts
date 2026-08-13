@@ -533,6 +533,11 @@ export class CpqConfiguratorNormalizer
         break;
       }
 
+      case Cpq.DisplayAs.CONTAINER: {
+        uiType = Configurator.UiType.CONTAINER;
+        break;
+      }
+
       default: {
         uiType = Configurator.UiType.NOT_IMPLEMENTED;
       }

@@ -896,6 +896,19 @@ describe('CpqConfiguratorNormalizer', () => {
         );
       });
 
+      it('should return UIType CONTAINER for CPQ DisplayAs CONTAINER', () => {
+        const cpqAttr: Cpq.Attribute = {
+          pA_ID: 1,
+          stdAttrCode: 2,
+          displayAs: Cpq.DisplayAs.CONTAINER,
+          isEnabled: true,
+          values: [],
+        };
+        expect(cpqConfiguratorNormalizer['convertAttributeType'](cpqAttr)).toBe(
+          Configurator.UiType.CONTAINER
+        );
+      });
+
       it('should return UIType NOT_IMPLEMENTED for CPQ DisplayAs INPUT and DataType differt from INPUT_STRING', () => {
         const cpqAttr: Cpq.Attribute = {
           pA_ID: 1,
