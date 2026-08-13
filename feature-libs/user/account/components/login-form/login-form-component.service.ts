@@ -14,6 +14,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   AuthConfigService,
+  AuthMultisiteIsolationService,
   AuthService,
   CsrfStateService,
   FeatureToggles,
@@ -24,7 +25,14 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, from } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  EMPTY,
+  from,
+  Observable,
+  of,
+} from 'rxjs';
 import { catchError, take, tap, withLatestFrom } from 'rxjs/operators';
 import {
   LOGIN_ERROR_KEY,
@@ -39,6 +47,9 @@ export class LoginFormComponentService {
   protected router = inject(Router);
   protected activatedRoute = inject(ActivatedRoute);
   protected federatedLoginService = inject(FederatedLoginService);
+  protected authMultisiteIsolationService = inject(
+    AuthMultisiteIsolationService
+  );
   protected readonly customFormValidErrors = [
     'bad_credentials',
     'account_disabled',
@@ -96,11 +107,15 @@ export class LoginFormComponentService {
         // below by redirecting to /login?error=session_expired so the
         // existing handleCustomLoginError() pipeline shows the friendly
         // message.
-        this.auth
-          .refreshCsrfToken()
+        combineLatest([
+          this.auth.refreshCsrfToken(),
+          this.featureToggles.siteIsolationForCustomLoginPage
+            ? this.getUserId()
+            : of(undefined),
+        ])
           .pipe(
             take(1),
-            tap((csrfToken) => {
+            tap(([csrfToken, userId]) => {
               this.csrfStateService.set(csrfToken);
               this.form.get('csrf')?.setValue(csrfToken.token);
               this.setOauthRedirectFlowFlag();
@@ -108,7 +123,11 @@ export class LoginFormComponentService {
               // form.disable(), which sets disabled=true on every bound input,
               // and the browser excludes disabled inputs from native form
               // submissions — resulting in an empty POST body and a 403.
-              nativeForm.submit();
+              if (this.featureToggles.siteIsolationForCustomLoginPage) {
+                this.submitWithUsernameOverride(nativeForm, userId);
+              } else {
+                nativeForm.submit();
+              }
               this.busy$.next(true);
             }),
             catchError(() => {
@@ -163,6 +182,14 @@ export class LoginFormComponentService {
             })
           )
           .subscribe();
+      } else if (this.featureToggles.siteIsolationForCustomLoginPage) {
+        this.getUserId()
+          .pipe(take(1))
+          .subscribe((userId) => {
+            this.setOauthRedirectFlowFlag();
+            this.submitWithUsernameOverride(nativeForm, userId);
+            this.busy$.next(true);
+          });
       } else {
         this.setOauthRedirectFlowFlag();
         nativeForm.submit();
@@ -262,5 +289,37 @@ export class LoginFormComponentService {
     if (this.winRef.isBrowser()) {
       this.winRef.localStorage?.removeItem(OAUTH_REDIRECT_FLOW_KEY);
     }
+  }
+
+  protected getUserId(): Observable<string> {
+    return this.authMultisiteIsolationService.decorateUserId(
+      this.form.get('userId')?.value
+    );
+  }
+
+  /**
+   * Submits the native form after overriding the value of username input
+   * for the duration of the submit only. The DOM value is written, the
+   * form is submitted (which snapshots form data synchronously), and the
+   * original value is restored on the next microtask — before the browser
+   * has a chance to paint. This is used to POST the decorated userId
+   * without the decorated value becoming visible in the input.
+   */
+  protected submitWithUsernameOverride(
+    nativeForm: HTMLFormElement,
+    username: string | undefined
+  ): void {
+    const input = nativeForm.elements.namedItem('username');
+    if (!(input instanceof HTMLInputElement) || !username) {
+      nativeForm.submit();
+      return;
+    }
+    const original = input.value;
+    input.value = username;
+    nativeForm.submit();
+    // Restore synchronously — form.submit() snapshots the form data
+    // before returning, so restoring immediately does not affect the POST
+    // body but reverts the DOM before any repaint.
+    input.value = original;
   }
 }

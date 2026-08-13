@@ -14,6 +14,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { LoggerService, resolveApplicable } from '@spartacus/core';
+import { AutoFocusService } from '../../a11y/keyboard-focus/autofocus';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 import { LayoutConfig } from '../../config/layout-config';
@@ -26,6 +27,7 @@ export class LaunchDialogService {
   private _dataSubject = new BehaviorSubject<any>(undefined);
 
   protected logger = inject(LoggerService);
+  protected autoFocusService = inject(AutoFocusService);
 
   get data$(): Observable<any> {
     return this._dataSubject.asObservable();
@@ -43,7 +45,7 @@ export class LaunchDialogService {
    * Open the dialog
    *
    * @param caller LAUNCH_CALLER
-   * @param openElement button's Element ref
+   * @param openElement element that triggered the dialog and will receive focus on close
    * @param vcr View Container Ref of the container for inline rendering
    * @param data optional data which could be passed to dialog
    */
@@ -59,7 +61,7 @@ export class LaunchDialogService {
       return combineLatest([component, this.dialogClose]).pipe(
         filter(([, close]) => close !== undefined),
         tap(([comp]) => {
-          openElement?.nativeElement.focus();
+          this.focusElement(openElement?.nativeElement);
           this.clear(caller);
           comp?.destroy();
         }),
@@ -135,6 +137,26 @@ export class LaunchDialogService {
 
   closeDialog(reason: any) {
     this._dialogClose.next(reason);
+  }
+
+  /**
+   * Focuses the given element or its first focusable descendant.
+   * Use when a dialog is closed without a trigger element (e.g. opened via URL fragment)
+   * and focus needs to be restored manually.
+   */
+  protected focusElement(element: HTMLElement | undefined): void {
+    if (!element) {
+      return;
+    }
+    const target = this.autoFocusService.findFirstFocusable(element) ?? element;
+    const hadTabindex = target.hasAttribute('tabindex');
+    if (!hadTabindex) {
+      target.setAttribute('tabindex', '-1');
+    }
+    target.focus();
+    if (!hadTabindex) {
+      target.removeAttribute('tabindex');
+    }
   }
 
   /**

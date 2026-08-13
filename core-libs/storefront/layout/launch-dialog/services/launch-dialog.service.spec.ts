@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+import { AutoFocusService } from '../../a11y/keyboard-focus/autofocus';
 import { LayoutConfig } from '../../config/layout-config';
 import {
   DIALOG_TYPE,
@@ -212,6 +213,31 @@ describe('LaunchDialogService', () => {
       );
       expect(componentRef.destroy).toHaveBeenCalled();
     });
+
+    it('should call focusElement with the opener nativeElement on close', () => {
+      spyOn<any>(service, 'focusElement');
+      const openElement = { nativeElement: document.createElement('button') };
+      service['_dialogClose'].next('close');
+
+      service
+        .openDialog('TEST_DIALOG' as LAUNCH_CALLER, openElement, component.vcr)
+        ?.subscribe();
+
+      expect((service as any).focusElement).toHaveBeenCalledWith(
+        openElement.nativeElement
+      );
+    });
+
+    it('should call focusElement with undefined when no opener is provided', () => {
+      spyOn<any>(service, 'focusElement');
+      service['_dialogClose'].next('close');
+
+      service
+        .openDialog('TEST_DIALOG' as LAUNCH_CALLER, undefined, component.vcr)
+        ?.subscribe();
+
+      expect((service as any).focusElement).toHaveBeenCalledWith(undefined);
+    });
   });
 
   describe('openDialogAndSubscribe', () => {
@@ -230,6 +256,66 @@ describe('LaunchDialogService', () => {
         undefined,
         { test: 123 }
       );
+    });
+  });
+
+  describe('focusElement', () => {
+    let autoFocusService: AutoFocusService;
+
+    beforeEach(() => {
+      autoFocusService = TestBed.inject(AutoFocusService);
+    });
+
+    it('should focus the first focusable descendant when one exists', () => {
+      const host = document.createElement('div');
+      const focusableChild = document.createElement('button');
+      spyOn(autoFocusService, 'findFirstFocusable').and.returnValue(
+        focusableChild
+      );
+      spyOn(focusableChild, 'focus');
+
+      (service as any).focusElement(host);
+
+      expect(autoFocusService.findFirstFocusable).toHaveBeenCalledWith(host);
+      expect(focusableChild.focus).toHaveBeenCalled();
+    });
+
+    it('should focus the host itself when no focusable descendant exists', () => {
+      const host = document.createElement('div');
+      spyOn(autoFocusService, 'findFirstFocusable').and.returnValue(null);
+      spyOn(host, 'focus');
+
+      (service as any).focusElement(host);
+
+      expect(host.focus).toHaveBeenCalled();
+    });
+
+    it('should temporarily add tabindex="-1" and remove it after focus when target has no tabindex', () => {
+      const host = document.createElement('div');
+      spyOn(autoFocusService, 'findFirstFocusable').and.returnValue(null);
+
+      (service as any).focusElement(host);
+
+      expect(host.hasAttribute('tabindex')).toBeFalsy();
+    });
+
+    it('should not remove tabindex if the target already had one', () => {
+      const host = document.createElement('div');
+      host.setAttribute('tabindex', '0');
+      spyOn(autoFocusService, 'findFirstFocusable').and.returnValue(null);
+      spyOn(host, 'focus');
+
+      (service as any).focusElement(host);
+
+      expect(host.getAttribute('tabindex')).toBe('0');
+    });
+
+    it('should do nothing when called with undefined', () => {
+      spyOn(autoFocusService, 'findFirstFocusable');
+
+      (service as any).focusElement(undefined);
+
+      expect(autoFocusService.findFirstFocusable).not.toHaveBeenCalled();
     });
   });
 });

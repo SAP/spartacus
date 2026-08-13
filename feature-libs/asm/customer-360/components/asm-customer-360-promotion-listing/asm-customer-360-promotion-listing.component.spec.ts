@@ -149,7 +149,7 @@ describe('AsmCustomer360PromotionListingComponent', () => {
     const header = el.query(
       By.css('.cx-asm-customer-360-promotion-listing-heading-text')
     );
-    expect(header.nativeElement.innerText).toBe(mockHeaderText);
+    expect(header.nativeElement.textContent?.trim()).toBe(mockHeaderText);
   });
 
   it('should display entries list', () => {

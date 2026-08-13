@@ -50,6 +50,7 @@ SPARTACUS_PROJECTS=(
         "dist/estimated-delivery-date:feature-libs/estimated-delivery-date"
         "core-libs/styles:core-libs/styles"
         "core-libs/schematics:core-libs/schematics"
+        "core-libs/skills:core-libs/skills"
         )
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"

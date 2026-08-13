@@ -76,7 +76,9 @@ export function scheduleAiContext(options: SpartacusOptions): Rule {
 }
 
 function normalize(input: SpartacusOptions['aiTools']): AiTool[] {
-  if (!input || input.length === 0) return [];
+  if (!input || input.length === 0) {
+    return [];
+  }
   const seen = new Set<AiTool>();
   for (const value of input) {
     if (SUPPORTED_TOOLS.includes(value)) {

@@ -1,4 +1,4 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Directive, Input, Type } from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
@@ -27,8 +27,11 @@ import {
   TranslatePipe,
   UserPaymentService,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
 import {
   CardComponent,
+  FocusConfig,
+  FocusDirective,
   ICON_TYPE,
   IconComponent,
   SpinnerComponent,
@@ -179,6 +182,11 @@ class MockPaymentFormComponent {
   template: '',
 })
 class MockSpinnerComponent {}
+
+@Directive({ selector: '[cxFocus]' })
+class MockFocusDirective {
+  @Input() cxFocus: FocusConfig | undefined;
+}
 
 describe('CheckoutPaymentMethodComponent', () => {
   let component: CheckoutPaymentMethodComponent;
@@ -675,5 +683,107 @@ describe('CheckoutPaymentMethodComponent', () => {
         expect(card.focus).toHaveBeenCalled();
       }));
     });
+  });
+});
+
+describe('CheckoutPaymentMethodComponent - a11yImproveCheckoutFocus', () => {
+  let fixture: ComponentFixture<CheckoutPaymentMethodComponent>;
+  let component: CheckoutPaymentMethodComponent;
+  let userPaymentService: UserPaymentService;
+  let checkoutPaymentService: CheckoutPaymentFacade;
+
+  const getAddNewPaymentButton = () =>
+    fixture.debugElement.query(
+      By.css('.cx-checkout-btns-top button.btn-secondary')
+    );
+
+  function configure(featureToggle: boolean) {
+    TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        CheckoutPaymentMethodComponent,
+        CardComponent,
+        IconComponent,
+        SpinnerComponent,
+      ],
+      providers: [
+        { provide: UserPaymentService, useClass: MockUserPaymentService },
+        {
+          provide: CheckoutDeliveryAddressFacade,
+          useClass: MockCheckoutDeliveryFacade,
+        },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        {
+          provide: CheckoutPaymentFacade,
+          useClass: MockCheckoutPaymentService,
+        },
+        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        provideMockFeatureToggles({
+          a11yImproveCheckoutFocus: featureToggle,
+        }),
+      ],
+    })
+      .overrideComponent(CheckoutPaymentMethodComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            CheckoutPaymentFormComponent,
+            SpinnerComponent,
+            IconComponent,
+            FocusDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockPaymentFormComponent,
+            MockSpinnerComponent,
+            MockCxIconComponent,
+            MockFocusDirective,
+          ],
+        },
+      })
+      .compileComponents();
+
+    userPaymentService = TestBed.inject(UserPaymentService);
+    checkoutPaymentService = TestBed.inject(CheckoutPaymentFacade);
+
+    spyOn(userPaymentService, 'getPaymentMethods').and.returnValue(
+      of([mockPaymentDetails])
+    );
+    spyOn(checkoutPaymentService, 'getPaymentDetailsState').and.returnValue(
+      of({ loading: false, error: false, data: undefined })
+    );
+
+    fixture = TestBed.createComponent(CheckoutPaymentMethodComponent);
+    component = fixture.componentInstance;
+    component.isUpdating$ = of(false);
+    component.ngOnInit();
+    fixture.detectChanges();
+  }
+
+  it('should bind autofocus to the "add new payment" button when the feature is enabled', () => {
+    configure(true);
+
+    const button = getAddNewPaymentButton();
+    expect(button).toBeTruthy();
+
+    const directive = button.injector.get(MockFocusDirective);
+    expect(directive.cxFocus).toEqual(
+      jasmine.objectContaining({ autofocus: true })
+    );
+  });
+
+  it('should NOT bind autofocus to the "add new payment" button when the feature is disabled', () => {
+    configure(false);
+
+    const button = getAddNewPaymentButton();
+    expect(button).toBeTruthy();
+
+    expect(() => button.injector.get(MockFocusDirective)).toThrow();
   });
 });

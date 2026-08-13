@@ -8,6 +8,7 @@ import {
 import { Store } from '@ngrx/store';
 import { CdcJsService } from '@spartacus/cdc/root';
 import {
+  AuthMultisiteIsolationService,
   AuthService,
   FederatedLoginService,
   GlobalMessageService,
@@ -17,7 +18,7 @@ import {
 } from '@spartacus/core';
 import { LoginFormComponentService } from '@spartacus/user/account/components';
 import { FormErrorsModule } from 'core-libs/storefront/shared';
-import { of, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { CdcLoginFormComponentService } from './cdc-login-form-component.service';
 import createSpy = jasmine.createSpy;
 
@@ -74,6 +75,14 @@ class MockFederatedLoginService implements Partial<FederatedLoginService> {
   isLoginDomain?: boolean | undefined = false;
 }
 
+class MockAuthMultisiteIsolationService
+  implements Partial<AuthMultisiteIsolationService>
+{
+  decorateUserId(userId: string): Observable<string> {
+    return of(userId);
+  }
+}
+
 describe('CdcLoginComponentService', () => {
   let cdcLoginService: CdcLoginFormComponentService;
   let cdcJsService: CdcJsService;
@@ -103,6 +112,10 @@ describe('CdcLoginComponentService', () => {
           useClass: MockRouter,
         },
         { provide: FederatedLoginService, useClass: MockFederatedLoginService },
+        {
+          provide: AuthMultisiteIsolationService,
+          useClass: MockAuthMultisiteIsolationService,
+        },
       ],
     });
   }));

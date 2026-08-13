@@ -307,8 +307,7 @@ export class OneTimePasswordRegisterComponent implements OnInit, OnDestroy {
       this.anonymousConsentsConfig?.anonymousConsents?.registerConsent;
 
     if (registerConsent) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      if (Boolean(this.registerForm.get('newsletter')?.value)) {
+      if (this.registerForm.get('newsletter')?.value) {
         this.anonymousConsentsService.giveConsent(registerConsent);
       } else {
         this.anonymousConsentsService.withdrawConsent(registerConsent);

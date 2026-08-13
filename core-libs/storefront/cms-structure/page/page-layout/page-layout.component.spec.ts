@@ -6,6 +6,7 @@ import { CmsService, ContentSlotData, Page } from '@spartacus/core';
 import { TestModule } from 'core-libs/core/src/config/services/configuration.service.spec';
 import { Observable, of } from 'rxjs';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
+import { DirectiveStateTransferService } from '../../../utils';
 import { OutletDirective } from '../../outlet';
 import { PageSlotComponent } from '../slot';
 import { PageLayoutComponent } from './page-layout.component';
@@ -92,6 +93,22 @@ class MockDeferLoaderService {
   }
 }
 
+class MockDirectiveStateTransferService
+  implements Partial<DirectiveStateTransferService>
+{
+  _data: Record<string, string> = {};
+
+  get(_el: HTMLElement, key: string): string | undefined {
+    return this._data[key];
+  }
+  set(_el: HTMLElement, key: string, value: string): void {
+    this._data[key] = value;
+  }
+  clear(_el: HTMLElement, key: string): void {
+    delete this._data[key];
+  }
+}
+
 describe('PageLayoutComponent', () => {
   let pageLayoutComponent: MockPageTemplateComponent;
   let fixture: ComponentFixture<MockPageTemplateComponent>;
@@ -112,6 +129,10 @@ describe('PageLayoutComponent', () => {
         },
         { provide: PageLayoutService, useClass: MockPageLayoutService },
         { provide: DeferLoaderService, useClass: MockDeferLoaderService },
+        {
+          provide: DirectiveStateTransferService,
+          useClass: MockDirectiveStateTransferService,
+        },
       ],
     })
       .overrideComponent(MockPageTemplateComponent, {
@@ -169,6 +190,10 @@ describe('SectionLayoutComponent', () => {
         },
         { provide: PageLayoutService, useClass: MockPageLayoutService },
         { provide: DeferLoaderService, useClass: MockDeferLoaderService },
+        {
+          provide: DirectiveStateTransferService,
+          useClass: MockDirectiveStateTransferService,
+        },
       ],
     }).compileComponents();
   }));

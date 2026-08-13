@@ -227,10 +227,7 @@ export class PageLayoutService implements OnDestroy {
     }
 
     // we have a config for the specific breakpoint
-    if (
-      layoutSlotConfig[breakpoint] &&
-      layoutSlotConfig[breakpoint].hasOwnProperty(configAttribute)
-    ) {
+    if (layoutSlotConfig[breakpoint]?.hasOwnProperty(configAttribute)) {
       return <SlotConfig>layoutSlotConfig[breakpoint];
     }
 
@@ -238,10 +235,7 @@ export class PageLayoutService implements OnDestroy {
     const all = this.breakpointService.breakpoints;
 
     for (const br of all.slice(0, all.indexOf(breakpoint))) {
-      if (
-        layoutSlotConfig[br] &&
-        layoutSlotConfig[br].hasOwnProperty(configAttribute)
-      ) {
+      if (layoutSlotConfig[br]?.hasOwnProperty(configAttribute)) {
         slotConfig = <SlotConfig>layoutSlotConfig[br];
       }
     }
@@ -264,7 +258,7 @@ export class PageLayoutService implements OnDestroy {
         `Available CMS page slots: '${(page.slots
           ? Object.keys(page.slots)
           : []
-        ).join(`','`)}'`
+        ).join("','")}'`
       );
       this.logSlots[page.template] = true;
     }

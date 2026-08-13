@@ -10,8 +10,11 @@ import { CpqConfiguratorOverviewNormalizer } from './cpq-configurator-overview-n
 const ATTR_NAME = 'name of attribute';
 const attrBase: Cpq.Attribute = {
   name: ATTR_NAME,
+  dataType: Cpq.DataType.INPUT_STRING,
+  displayAs: Cpq.DisplayAs.INPUT,
   stdAttrCode: 11,
   pA_ID: 111,
+  userInput: 'value',
   values: [],
 };
 let attr: Cpq.Attribute;
@@ -235,7 +238,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
   it('should convert attributes', () => {
     expect(
       serviceUnderTest['convertTab'](tab, CURRENCY).attributes?.length
-    ).toBe(2);
+    ).toBe(1);
   });
 
   it('should map attribute name', () => {
@@ -293,14 +296,12 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     expect(ovAttrs[0].productCode).toBeUndefined();
   });
 
-  it('should map user input with not supported DataType as NOT_IMPLEMENTED', () => {
+  it('should filter user input with not supported DataType', () => {
     attr.userInput = 'input';
     attr.displayAs = Cpq.DisplayAs.INPUT;
     attr.dataType = Cpq.DataType.INPUT_NUMBER;
     const ovAttrs = serviceUnderTest['convertAttribute'](attr, CURRENCY);
-    expect(ovAttrs.length).toBe(1);
-    expect(ovAttrs[0].value).toEqual('NOT_IMPLEMENTED');
-    expect(ovAttrs[0].productCode).toBeUndefined();
+    expect(ovAttrs.length).toBe(0);
   });
 
   it('should map RB selected value', () => {
@@ -321,13 +322,11 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     expect(ovAttrs[0].productCode).toEqual('pCode2');
   });
 
-  it('should map ReadOnly as NOT_IMPLEMENTED', () => {
+  it('should filter ReadOnly', () => {
     attr.values = singleSelectionValues;
     attr.displayAs = Cpq.DisplayAs.READ_ONLY;
     const ovAttrs = serviceUnderTest['convertAttribute'](attr, CURRENCY);
-    expect(ovAttrs.length).toBe(1);
-    expect(ovAttrs[0].value).toEqual('NOT_IMPLEMENTED');
-    expect(ovAttrs[0].productCode).toBeUndefined();
+    expect(ovAttrs.length).toBe(0);
   });
 
   it('should map DDLB selected value', () => {
@@ -372,28 +371,22 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     expect(ovAttrs[1].productCode).toEqual('pCode4');
   });
 
-  it('should map LIST_BOX as not implemented', () => {
+  it('should filter LIST_BOX as not implemented', () => {
     attr.values = multiSelectionValues;
     attr.displayAs = Cpq.DisplayAs.LIST_BOX;
-    expect(
-      serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].value
-    ).toEqual('NOT_IMPLEMENTED');
+    expect(serviceUnderTest['convertAttribute'](attr, CURRENCY).length).toBe(0);
   });
 
-  it('should map LIST_BOX_MULTI as not implemented', () => {
+  it('should filter LIST_BOX_MULTI as not implemented', () => {
     attr.values = multiSelectionValues;
     attr.displayAs = Cpq.DisplayAs.LIST_BOX_MULTI;
-    expect(
-      serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].value
-    ).toEqual('NOT_IMPLEMENTED');
+    expect(serviceUnderTest['convertAttribute'](attr, CURRENCY).length).toBe(0);
   });
 
-  it('should map AUTO_COMPLETE_CUSTOM as not implemented', () => {
+  it('should filter AUTO_COMPLETE_CUSTOM as not implemented', () => {
     attr.values = multiSelectionValues;
     attr.displayAs = Cpq.DisplayAs.AUTO_COMPLETE_CUSTOM;
-    expect(
-      serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].value
-    ).toEqual('NOT_IMPLEMENTED');
+    expect(serviceUnderTest['convertAttribute'](attr, CURRENCY).length).toBe(0);
   });
 
   it('should map quantity and price for attribute with quantity on attribute level', () => {

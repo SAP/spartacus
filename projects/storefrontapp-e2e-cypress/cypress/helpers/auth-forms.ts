@@ -18,9 +18,13 @@ export interface LoginUser {
 export function fillRegistrationForm(
   { firstName, lastName, email, password }: SampleUser,
   giveRegistrationConsent,
-  hiddenConsent?
+  hiddenConsent?,
+  waitForCsrFallback = false
 ) {
   cy.log(`🛒 Registering user ${email} from the registration page`);
+  if (waitForCsrFallback) {
+    waitForCsrFallbackTimeout();
+  }
   cy.get('cx-register form').should('be.visible');
   cy.get('cx-register form').within(() => {
     cy.get('[formcontrolname="titleCode"]').ngSelect('Mr');
@@ -44,8 +48,11 @@ export function fillRegistrationForm(
 /**
  * Fill in Spartacus Login page
  */
-export function fillLoginForm(credentials: LoginUser) {
-  return fillCustomLoginForm(credentials);
+export function fillLoginForm(
+  credentials: LoginUser,
+  waitForCsrFallback = false
+) {
+  return fillCustomLoginForm(credentials, waitForCsrFallback);
 }
 
 /** New Authorization server login */
@@ -57,9 +64,24 @@ export function fillAuthServerLoginForm({ username, password }: LoginUser) {
   cy.get('button[type=submit]').click();
 }
 
+// Wait for CSR fallback, it needs to be over the SSR timeout of 3 seconds + js files to load + api calls to complete. 8 seconds is a safe bet.
+// this is needed for CCV2 e2e tests.
+// TODO: This workaround (CXSPA-13762 - E2E failure: SPA_E2E tests are failing in S7 and S8 envs) can be deleted after CXSPA-13800 is fixed ([SSR] Login form inputs cleared after CSR loading)
+export function waitForCsrFallbackTimeout() {
+  cy.log('Waiting for SSR timeout to pass (8s)');
+  cy.wait(8000);
+}
+
 /** New Authorization server login */
-export function fillCustomLoginForm({ username, password }: LoginUser) {
+export function fillCustomLoginForm(
+  { username, password }: LoginUser,
+  waitForCsrFallback = false
+) {
   cy.log(`🛒 Logging in user ${username} from the login form`);
+
+  if (waitForCsrFallback) {
+    waitForCsrFallbackTimeout();
+  }
   cy.get('cx-login-form form').within(() => {
     cy.get('[formcontrolname="userId"]').clear().type(username);
     cy.get('[formcontrolname="password"]').clear().type(password);
@@ -90,9 +112,15 @@ export function fillKymaLoginForm({ username, password }: LoginUser) {
 export function register(
   user: SampleUser,
   giveRegistrationConsent = false,
-  hiddenConsent?: string
+  hiddenConsent?: string,
+  waitForCsrFallback = false
 ) {
-  fillRegistrationForm(user, giveRegistrationConsent, hiddenConsent);
+  fillRegistrationForm(
+    user,
+    giveRegistrationConsent,
+    hiddenConsent,
+    waitForCsrFallback
+  );
   const pageAlias = waitForPage('/login', 'getLoginPageAfterRegister');
   cy.get('cx-register form').within(() => {
     cy.get('button[type="submit"]').click();
@@ -132,8 +160,12 @@ export function registerWithCaptcha(
  * - Fill in the login form
  * - Submit the form
  */
-export function login(username: string, password: string) {
-  fillLoginForm({ username, password });
+export function login(
+  username: string,
+  password: string,
+  waitForCsrFallback = false
+) {
+  fillLoginForm({ username, password }, waitForCsrFallback);
 }
 
 export function agentLoginForJDK21(username: string, password: string) {

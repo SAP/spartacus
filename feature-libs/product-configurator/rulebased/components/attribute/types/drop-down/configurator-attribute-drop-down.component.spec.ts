@@ -92,6 +92,9 @@ class MockConfiguratorShowMoreComponent {
 
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
+  isConfigurationLoading(): Observable<boolean> {
+    return of(false);
+  }
 }
 
 let showRequiredErrorMessage: boolean;

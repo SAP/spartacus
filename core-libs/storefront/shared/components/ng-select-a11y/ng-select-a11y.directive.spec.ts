@@ -4,10 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FeatureToggles, TranslationService } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { of } from 'rxjs';
 import { NgSelectA11yDirective } from './ng-select-a11y.directive';
 import { NgSelectA11yModule } from './ng-select-a11y.module';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 @Component({
   template: `
@@ -214,7 +214,7 @@ describe('NgSelectA11yDirective', () => {
             useValue: {
               ...mockFeatureToggles,
               a11yVocalizeDropdownItemCount: false,
-            } as FeatureToggles,
+            } satisfies FeatureToggles,
           },
           { provide: TranslationService, useClass: MockTranslationService },
         ],

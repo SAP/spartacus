@@ -21,8 +21,8 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import {
-  FeatureToggles,
   FeatureDirective,
+  FeatureToggles,
   RoutingService,
   TranslatePipe,
   WindowRef,
@@ -108,7 +108,7 @@ export class VerificationTokenFormComponent implements OnInit {
   method = this.service.method;
 
   ngOnInit() {
-    if (!!history.state) {
+    if (history.state) {
       this.tokenId = history.state['tokenId'];
       this.password = history.state['password'];
       this.target = history.state['loginId'];

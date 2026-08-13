@@ -18,11 +18,13 @@ import {
 import {
   Address,
   FeatureDirective,
+  FeatureToggles,
   GlobalMessageService,
   I18nTestingModule,
   UserAddressService,
   UserCostCenterService,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
 import { AddressFormComponent } from '@spartacus/user/profile/components';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
@@ -106,6 +108,7 @@ const mockAddress1: Address = {
   region: { isocode: 'JP-27' },
   postalCode: 'zip',
   country: { isocode: 'JP' },
+  shippingAddress: true,
 };
 const mockAddress2: Address = {
   firstName: 'Alice',
@@ -169,6 +172,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
   let userCostCenterService: UserCostCenterService;
   let globalMessageService: GlobalMessageService;
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
+  let featureToggles: FeatureToggles;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -203,6 +207,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
           provide: CheckoutFlowOrchestratorService,
           useClass: MockCheckoutFlowOrchestratorService,
         },
+        provideMockFeatureToggles({ b2bCheckoutShippingAddressFilter: false }),
       ],
     })
       .overrideComponent(B2BCheckoutDeliveryAddressComponent, {
@@ -237,6 +242,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     userCostCenterService = TestBed.inject(UserCostCenterService);
     globalMessageService = TestBed.inject(GlobalMessageService);
     checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
+    featureToggles = TestBed.inject(FeatureToggles);
   }));
 
   beforeEach(() => {
@@ -446,6 +452,38 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
       component['getSupportedAddresses']()
         .subscribe(() => {
           expect(userAddressService.getAddresses).toHaveBeenCalled();
+          done();
+        })
+        .unsubscribe();
+    });
+
+    it('for ACCOUNT payment, should filter to shipping addresses when b2bCheckoutShippingAddressFilter is enabled', (done) => {
+      accountPayment$.next(true);
+      featureToggles.b2bCheckoutShippingAddressFilter = true;
+      userCostCenterService.getCostCenterAddresses =
+        createSpy().and.returnValue(of(mockAddresses));
+
+      component.ngOnInit();
+      fixture.detectChanges();
+      component['getSupportedAddresses']()
+        .subscribe((addresses) => {
+          expect(addresses).toEqual([mockAddress1]);
+          done();
+        })
+        .unsubscribe();
+    });
+
+    it('for ACCOUNT payment, should return all addresses when b2bCheckoutShippingAddressFilter is disabled', (done) => {
+      accountPayment$.next(true);
+      featureToggles.b2bCheckoutShippingAddressFilter = false;
+      userCostCenterService.getCostCenterAddresses =
+        createSpy().and.returnValue(of(mockAddresses));
+
+      component.ngOnInit();
+      fixture.detectChanges();
+      component['getSupportedAddresses']()
+        .subscribe((addresses) => {
+          expect(addresses).toEqual(mockAddresses);
           done();
         })
         .unsubscribe();

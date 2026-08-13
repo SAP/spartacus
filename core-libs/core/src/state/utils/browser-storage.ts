@@ -71,5 +71,5 @@ export function readFromStorage<T = unknown>(
 }
 
 export function isSsr(storage: Storage): boolean {
-  return !Boolean(storage);
+  return !storage;
 }

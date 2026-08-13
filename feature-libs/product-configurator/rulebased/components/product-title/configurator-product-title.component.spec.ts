@@ -273,6 +273,7 @@ function setDataForCartEntry() {
   mockRouterState.state.semanticRoute = ROUTE_CONFIGURATION;
   mockRouterData.owner.type = CommonConfigurator.OwnerType.CART_ENTRY;
   mockRouterData.owner.id = CART_ENTRY_KEY;
+  mockRouterData.isOwnerCartEntry = true;
   mockRouterData.productCode = CART_ENTRY_SUFFIX + PRODUCT_CODE;
 }
 
@@ -425,8 +426,37 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
-    it('should get product name as part of product configuration in case configuration is cart bound and product is provided with routing data', () => {
+    it('should prefer config product code over routing data product code in case configuration is cart bound', () => {
+      // For cart entries the configuration is authoritative, so the config
+      // product code wins even if a (potentially stale) product code is
+      // provided via routing data.
       setDataForCartEntry();
+      initialize();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        PRODUCT_CODE,
+        ProductScope.LIST
+      );
+    });
+
+    it('should ignore a stale routing data product code in case configuration is cart bound (browser back after cart entry deletion)', () => {
+      setDataForCartEntry();
+      mockConfiguration.productCode = PRODUCT_CODE;
+      // Simulates a stale URL product code that no longer matches the cart
+      // entry which has been re-read after a preceding entry was deleted.
+      mockRouterData.productCode = CART_ENTRY_SUFFIX + 'STALE_PRODUCT';
+      initialize();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        PRODUCT_CODE,
+        ProductScope.LIST
+      );
+    });
+
+    it('should fall back to routing data product code in case configuration is cart bound but config has no product code', () => {
+      setDataForCartEntry();
+      mockConfiguration.productCode = undefined as unknown as string;
+      mockConfiguration.overview = undefined;
       initialize();
 
       expect(productService.get).toHaveBeenCalledWith(

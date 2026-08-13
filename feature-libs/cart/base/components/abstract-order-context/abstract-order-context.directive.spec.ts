@@ -1,6 +1,6 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { tap } from 'rxjs/operators';
 import { AbstractOrderType } from '../../root/models/cart.model';
 import {
@@ -49,7 +49,7 @@ describe('AbstractOrderContextDirective', () => {
   let fixture: ComponentFixture<TestComponent>;
   let testOuterComponent: TestComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [AbstractOrderContextModule, TestComponent, TestInnerComponent],
       providers: [],
@@ -57,14 +57,15 @@ describe('AbstractOrderContextDirective', () => {
     emissionCounterKey = 0;
     fixture = TestBed.createComponent(TestComponent);
     testOuterComponent = fixture.componentInstance;
-    fixture.detectChanges();
-  }));
+  });
 
   it('should propagate abstract order ID to inner component', () => {
+    fixture.detectChanges();
     expect(fixture.nativeElement.innerHTML).toContain(abstractOrderId);
   });
 
   it('should propagate abstract order type to inner component', () => {
+    fixture.detectChanges();
     expect(fixture.nativeElement.innerHTML).toContain(AbstractOrderType.ORDER);
   });
 
@@ -83,14 +84,18 @@ describe('AbstractOrderContextDirective', () => {
     expect(() => fixture.detectChanges()).toThrow();
   });
 
-  it('should should emit changes context value has changed', () => {
+  it('should should emit changes context value has changed', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
     expect(emissionCounterKey).toBe(1);
 
     testOuterComponent.abstractOrderKey = {
       id: 'newId',
       type: AbstractOrderType.ORDER,
     };
+    fixture.changeDetectorRef.markForCheck();
     fixture.detectChanges();
+    await fixture.whenStable();
     expect(emissionCounterKey).toBe(2);
   });
 });

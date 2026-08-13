@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
@@ -45,8 +46,13 @@ class ExampleConfiguratorAttributeMultiSelectionComponent extends ConfiguratorAt
     );
   }
 }
+const isConfigurationLoading$ = new BehaviorSubject<boolean>(false);
+
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
+  isConfigurationLoading(): Observable<boolean> {
+    return isConfigurationLoading$.asObservable();
+  }
 }
 
 describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
@@ -88,6 +94,7 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
   let values: Configurator.Value[];
 
   beforeEach(() => {
+    isConfigurationLoading$.next(false);
     const value1 = createValue('1', 'val1', true);
     const value2 = createValue('2', 'val2', false);
     const value3 = createValue('3', 'val3', true);
@@ -114,6 +121,31 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('resetLoadingOnConfigurationUpdate', () => {
+    it('should reset loading$ once the configuration update round trip finished, even if the attribute did not change', () => {
+      component.loading$.next(true);
+      expect(component.loading$.value).toBe(true);
+
+      isConfigurationLoading$.next(false);
+      expect(component.loading$.value).toBe(false);
+    });
+
+    it('should keep loading$ untouched while the configuration is still loading', () => {
+      component.loading$.next(true);
+
+      isConfigurationLoading$.next(true);
+      expect(component.loading$.value).toBe(true);
+    });
+
+    it('should stop resetting loading$ after component destruction', () => {
+      component.ngOnDestroy();
+      component.loading$.next(true);
+
+      isConfigurationLoading$.next(false);
+      expect(component.loading$.value).toBe(true);
+    });
   });
 
   describe('withQuantity', () => {

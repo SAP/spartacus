@@ -33,8 +33,8 @@ import {
   CityDistrict,
   Country,
   ErrorModel,
-  FeatureToggles,
   FeatureDirective,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   HierarchicalAddressConfig,
@@ -46,6 +46,7 @@ import {
   UserAddressService,
 } from '@spartacus/core';
 import {
+  FocusDirective,
   FormErrorsComponent,
   FormRequiredAsterisksComponent,
   FormRequiredLegendComponent,
@@ -57,10 +58,10 @@ import {
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import {
   BehaviorSubject,
-  Observable,
-  Subscription,
   combineLatest,
+  Observable,
   of,
+  Subscription,
 } from 'rxjs';
 import { filter, map, skip, switchMap, take, tap } from 'rxjs/operators';
 
@@ -80,6 +81,7 @@ import { filter, map, skip, switchMap, take, tap } from 'rxjs/operators';
     FormErrorsComponent,
     AsyncPipe,
     FeatureDirective,
+    FocusDirective,
     TranslatePipe,
   ],
 })

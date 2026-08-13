@@ -300,7 +300,7 @@ describe('ProductScrollComponent', () => {
             },
           },
         };
-        component.setConfig = scrollConfig;
+        component.scrollConfig = scrollConfig;
         component.setModel = mockModel1;
         component.inputViewMode = ViewModes.List;
       });
@@ -351,7 +351,7 @@ describe('ProductScrollComponent', () => {
             },
           },
         };
-        component.setConfig = scrollConfig;
+        component.scrollConfig = scrollConfig;
         component.inputViewMode = ViewModes.List;
       });
 

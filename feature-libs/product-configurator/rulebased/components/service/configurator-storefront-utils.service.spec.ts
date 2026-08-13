@@ -250,7 +250,9 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       expect(values[0].selected).toBe(true);
       expect(values[1].name).toBe(attribute.values[1].name);
       expect(values[1].selected).toBe(false);
-    } else fail();
+    } else {
+      fail();
+    }
   });
 
   it('should gracefully handle situation that control array has values not present in attribute', () => {

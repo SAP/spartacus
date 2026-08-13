@@ -1,5 +1,6 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { Command, CommandService } from '../../../src/util/command-query';
 import { ProductAvailabilities } from '../../model/product.model';
 import { ProductAvailabilityConnector } from '../connectors';
@@ -7,18 +8,18 @@ import { ProductAvailabilityService } from './product-availability.service';
 
 describe('ProductAvailabilityService', () => {
   let service: ProductAvailabilityService;
-  let connector: jasmine.SpyObj<ProductAvailabilityConnector>;
-  let commandService: jasmine.SpyObj<CommandService>;
-  let commandSpy: jasmine.SpyObj<Command<any, ProductAvailabilities>>;
+  let connector: ProductAvailabilityConnector;
+  let commandService: CommandService;
+  let commandSpy: Command<any, ProductAvailabilities>;
 
   beforeEach(() => {
-    commandSpy = jasmine.createSpyObj('Command', ['execute']);
-    connector = jasmine.createSpyObj('ProductAvailabilityConnector', [
-      'getRealTimeStock',
-    ]);
-    commandService = jasmine.createSpyObj('CommandService', ['create']);
+    commandSpy = { execute: vi.fn() };
+    connector = {
+      getRealTimeStock: vi.fn(),
+    };
+    commandService = { create: vi.fn() };
 
-    commandService.create.and.returnValue(commandSpy);
+    commandService.create.mockReturnValue(commandSpy);
 
     TestBed.configureTestingModule({
       providers: [
@@ -36,7 +37,7 @@ describe('ProductAvailabilityService', () => {
   });
 
   describe('getRealTimeStock', () => {
-    it('should call getRealTimeStockCommand.execute with correct parameters', (done) => {
+    it('should call getRealTimeStockCommand.execute with correct parameters', async () => {
       const productCode = 'testProductCode';
       const unitSapCode = 'testUnitSapCode';
       const expectedStockData: ProductAvailabilities = {
@@ -44,23 +45,22 @@ describe('ProductAvailabilityService', () => {
         status: 'IN_STOCK',
       };
 
-      connector.getRealTimeStock.and.returnValue(of(expectedStockData));
+      vi.spyOn(connector, 'getRealTimeStock').mockReturnValue(
+        of(expectedStockData)
+      );
+      vi.spyOn(commandSpy, 'execute').mockReturnValue(of(expectedStockData));
 
-      commandSpy.execute.and.returnValue(of(expectedStockData));
-
-      service
-        .getRealTimeStock(productCode, unitSapCode)
-        .subscribe((stockData) => {
-          expect(commandSpy.execute).toHaveBeenCalledWith({
-            productCode,
-            unitSapCode,
-          });
-          expect(stockData).toEqual(expectedStockData);
-          done();
-        });
+      const stockData = await firstValueFrom(
+        service.getRealTimeStock(productCode, unitSapCode)
+      );
+      expect(commandSpy.execute).toHaveBeenCalledWith({
+        productCode,
+        unitSapCode,
+      });
+      expect(stockData).toEqual(expectedStockData);
     });
 
-    it('should return observable of ProductAvailabilities when command executes successfully', (done) => {
+    it('should return observable of ProductAvailabilities when command executes successfully', async () => {
       const productCode = 'testProductCode';
       const unitSapCode = 'testUnitSapCode';
       const mockStockData: ProductAvailabilities = {
@@ -68,13 +68,15 @@ describe('ProductAvailabilityService', () => {
         status: 'IN_STOCK',
       };
 
-      connector.getRealTimeStock.and.returnValue(of(mockStockData));
-      commandSpy.execute.and.returnValue(of(mockStockData));
+      vi.spyOn(connector, 'getRealTimeStock').mockReturnValue(
+        of(mockStockData)
+      );
+      vi.spyOn(commandSpy, 'execute').mockReturnValue(of(mockStockData));
 
-      service.getRealTimeStock(productCode, unitSapCode).subscribe((result) => {
-        expect(result).toEqual(mockStockData);
-        done();
-      });
+      const result = await firstValueFrom(
+        service.getRealTimeStock(productCode, unitSapCode)
+      );
+      expect(result).toEqual(mockStockData);
     });
   });
 });

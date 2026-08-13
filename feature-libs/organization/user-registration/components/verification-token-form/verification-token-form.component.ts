@@ -96,7 +96,7 @@ export class RegisterVerificationTokenFormComponent implements OnInit {
   waitTimeForRateLimit: number = 300;
 
   ngOnInit() {
-    if (!!history.state) {
+    if (history.state) {
       this.registerData = history.state['registrationDataForm'];
       this.tokenId = history.state['tokenId'];
       this.target = history.state['loginId'];

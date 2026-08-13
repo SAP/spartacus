@@ -8,6 +8,7 @@ import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -27,6 +28,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  FeatureToggles,
   GlobalMessageService,
   TranslatePipe,
   TranslationService,
@@ -62,6 +64,7 @@ export class B2BCheckoutDeliveryAddressComponent
   implements OnInit, OnDestroy
 {
   protected subscriptions = new Subscription();
+  private featureToggles = inject(FeatureToggles);
 
   protected isAccountPayment$: Observable<boolean> =
     this.checkoutPaymentTypeFacade
@@ -76,7 +79,15 @@ export class B2BCheckoutDeliveryAddressComponent
       switchMap((costCenter) => {
         this.doneAutoSelect = false;
         return costCenter?.code
-          ? this.userCostCenterService.getCostCenterAddresses(costCenter.code)
+          ? this.userCostCenterService
+              .getCostCenterAddresses(costCenter.code)
+              .pipe(
+                map((addresses) =>
+                  this.featureToggles.b2bCheckoutShippingAddressFilter
+                    ? addresses.filter((a) => a.shippingAddress === true)
+                    : addresses
+                )
+              )
           : of([]);
       })
     );

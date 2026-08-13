@@ -10,7 +10,6 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  inject,
   Input,
   QueryList,
   ViewChild,
@@ -25,7 +24,6 @@ import {
 } from '@angular/forms';
 import {
   CxDatePipe,
-  FeatureToggles,
   FeatureDirective,
   isNotNullable,
   Product,
@@ -84,7 +82,6 @@ export class ProductReviewsComponent {
   initialMaxListItems = 5;
   maxListItems: number;
   reviewForm: UntypedFormGroup;
-  private featureToggles = inject(FeatureToggles);
 
   product$: Observable<Product | null> =
     this.currentProductService.getProduct();
@@ -178,31 +175,20 @@ export class ProductReviewsComponent {
   }
 
   private resetReviewForm(): void {
-    const isProductReviewCharactersLeftEnabled =
-      this.featureToggles.productReviewCharactersLeft;
     this.reviewForm = this.fb.group({
       title: [
         '',
-        !isProductReviewCharactersLeftEnabled
-          ? Validators.required
-          : [
-              Validators.required,
-              Validators.maxLength(this.maxLengthReviewTitle),
-            ],
+        [Validators.required, Validators.maxLength(this.maxLengthReviewTitle)],
       ],
       comment: [
         '',
-        !isProductReviewCharactersLeftEnabled
-          ? Validators.required
-          : [
-              Validators.required,
-              Validators.maxLength(this.maxLengthReviewComment),
-            ],
+        [
+          Validators.required,
+          Validators.maxLength(this.maxLengthReviewComment),
+        ],
       ],
       rating: [null, Validators.required],
-      reviewerName: !isProductReviewCharactersLeftEnabled
-        ? ''
-        : ['', Validators.maxLength(this.maxLengthReviewerName)],
+      reviewerName: ['', Validators.maxLength(this.maxLengthReviewerName)],
     });
   }
 }

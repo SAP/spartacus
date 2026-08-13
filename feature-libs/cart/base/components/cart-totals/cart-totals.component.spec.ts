@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
   CxDatePipe,
@@ -33,7 +33,7 @@ describe('CartTotalsComponent', () => {
   let component: CartTotalsComponent;
   let fixture: ComponentFixture<CartTotalsComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [CartTotalsComponent],
       providers: [
@@ -52,7 +52,7 @@ describe('CartTotalsComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartTotalsComponent);

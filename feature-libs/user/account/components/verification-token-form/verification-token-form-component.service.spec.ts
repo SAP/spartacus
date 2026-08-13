@@ -8,11 +8,11 @@ import {
   I18nTestingModule,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { of } from 'rxjs';
 import { VerificationTokenFacade } from '../../root/facade';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
 import createSpy = jasmine.createSpy;
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 class MockAuthService implements Partial<AuthService> {
   otpLoginWithCredentials = createSpy().and.returnValue(of({}));
@@ -186,7 +186,7 @@ describe('VerificationTokenFormComponentService', () => {
             provide: FeatureToggles,
             useValue: {
               authorizationCodeFlowByDefault: true,
-            } as FeatureToggles,
+            } satisfies FeatureToggles,
           },
         ],
       }).compileComponents();

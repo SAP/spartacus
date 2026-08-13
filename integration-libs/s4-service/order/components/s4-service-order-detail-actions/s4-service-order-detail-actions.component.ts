@@ -83,7 +83,7 @@ export class S4ServiceOrderDetailActionsComponent
   }
 
   protected displayServiceMessage(order: Order): void {
-    if (order.status !== 'CANCELLED' && !!order.servicedAt) {
+    if (order.status !== 'CANCELLED' && order.servicedAt) {
       const hoursFromSchedule =
         this.checkoutServiceSchedulePickerService.getHoursFromServiceSchedule(
           order.servicedAt

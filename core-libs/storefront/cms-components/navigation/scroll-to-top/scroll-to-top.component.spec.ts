@@ -53,6 +53,14 @@ describe('ScrollToTopComponent', () => {
     el = fixture.debugElement;
     scrollBtn = el.query(By.css('.cx-scroll-to-top-btn')).nativeElement;
     component.button = el.query(By.css('.cx-scroll-to-top-btn'));
+
+    // Attach the fixture to the DOM so that calling `.focus()` actually updates
+    // `document.activeElement` (a detached element cannot receive focus).
+    document.body.appendChild(fixture.nativeElement);
+  });
+
+  afterEach(() => {
+    document.body.removeChild(fixture.nativeElement);
   });
 
   it('should create component', () => {

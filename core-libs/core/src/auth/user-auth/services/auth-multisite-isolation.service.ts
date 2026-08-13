@@ -32,9 +32,7 @@ export class AuthMultisiteIsolationService {
     return this.baseSiteService.get().pipe(
       take(1),
       map((baseSite) =>
-        Boolean(baseSite?.isolated)
-          ? this.MULTISITE_SEPARATOR + baseSite?.uid
-          : ''
+        baseSite?.isolated ? this.MULTISITE_SEPARATOR + baseSite?.uid : ''
       )
     );
   }

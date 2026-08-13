@@ -275,7 +275,8 @@
     "addMessagePlaceHolder": "Start Typing...",
     "characterLimitAlert": "Characters limit reached.",
     "a11y": {
-      "itemListBoxLabel": "Select the item to which the message should apply."
+      "itemListBoxLabel": "Select the item to which the message should apply.",
+      "listNavigationHint": "Use up and down arrow keys to navigate between messages."
     }
   }
 }

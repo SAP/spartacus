@@ -22,6 +22,7 @@ export default defineConfig(
       '**/dist',
       '**/out-tsc',
       'projects/storefrontapp-e2e-cypress/**',
+      '**/vitest.config.ts',
     ],
   },
   {
@@ -208,7 +209,7 @@ export default defineConfig(
       'arrow-body-style': 'off',
       'arrow-parens': 'off',
       'comma-dangle': 'off',
-      'curly': 'off',
+      'curly': 'error',
       'eol-last': 'error',
       'linebreak-style': ['error', 'unix'],
       'max-len': 'off',

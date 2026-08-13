@@ -21,6 +21,9 @@ import { FeatureToggleExpression } from '../feature-toggles';
 export class FeatureConfigService {
   constructor(protected config: FeaturesConfig) {}
 
+  /**
+   * @deprecated - features level is no longer used
+   */
   isLevel(version: string): boolean {
     return isFeatureLevel(this.config, version);
   }

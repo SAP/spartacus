@@ -46,6 +46,39 @@
     --cx-tab-panel-border-end: 1px var(--cx-color-light) solid;
     --cx-tab-panel-border-bottom: 1px var(--cx-color-light) solid;
     --cx-tab-panel-border-start: 1px var(--cx-color-light) solid;
+
+    @include forFeature('improvedTabStyling') {
+      .tab-btn {
+        position: relative;
+        padding-bottom: 13px;
+
+        // Override the underline effect from %cx-tab so the active/hover
+        // indicator sits flush with the panel and is exactly 5px tall,
+        // regardless of the button's own height.
+        &:after {
+          // Anchor the border to the bottom edge of the button so it stays
+          // flush with the tab panel, instead of being pushed down by
+          // `margin-top`.
+          position: absolute;
+          bottom: 0;
+          inset-inline-start: 0;
+          inset-inline-end: 0;
+          border-radius: 0 0 var(--cx-tab-btn-border-radius)
+            var(--cx-tab-btn-border-radius);
+
+          // Occupy 50% of the button's height to match the border radius,
+          // but paint only the bottom 5px — everything above stays
+          // transparent — via a hard-stop gradient anchored to a fixed
+          // pixel offset from the bottom.
+          height: 50%;
+          background: linear-gradient(
+            to bottom,
+            transparent calc(100% - 5px),
+            var(--cx-color-primary) calc(100% - 5px)
+          );
+        }
+      }
+    }
   }
 
   .cx-invalid-message {

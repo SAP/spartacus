@@ -4,4 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './opf-quick-buy-default-single-product.service';
 export * from './opf-quick-buy.service';

@@ -5,7 +5,6 @@ import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   FeaturesConfigModule,
-  FeatureToggles,
   I18nTestingModule,
   MockTranslatePipe,
   RoutingService,
@@ -30,10 +29,6 @@ import {
 } from '../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.component';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -163,8 +158,6 @@ class MockDirectionService implements Partial<DirectionService> {
 }
 
 describe('ConfigurationOverviewFormComponent', () => {
-  let featureToggles: MockFeatureTogglesController;
-
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -188,9 +181,6 @@ describe('ConfigurationOverviewFormComponent', () => {
           useClass: MockConfiguratorStorefrontUtilsService,
         },
         { provide: DirectionService, useClass: MockDirectionService },
-        provideMockFeatureToggles({
-          a11yConfiguratorOverviewHeaderVPC: false,
-        }),
       ],
     })
       .overrideComponent(ConfiguratorOverviewFormComponent, {
@@ -209,7 +199,6 @@ describe('ConfigurationOverviewFormComponent', () => {
     overviewObservable = null;
     defaultRouterStateObservable = of(mockRouterState);
     defaultConfigObservable = of(configCreate2);
-    featureToggles = TestBed.inject(MockFeatureTogglesController);
   });
 
   it('should create component', () => {
@@ -480,14 +469,6 @@ describe('ConfigurationOverviewFormComponent', () => {
   });
 
   describe('Accessibility', () => {
-    function setFeatureToggle(
-      featureToggle: keyof FeatureToggles,
-      value: boolean
-    ) {
-      featureToggles.set(featureToggle, value);
-      initialize();
-    }
-
     function expectSpan(
       container: HTMLElement,
       selector: string,
@@ -513,8 +494,7 @@ describe('ConfigurationOverviewFormComponent', () => {
     });
 
     it("should contain action span element with class name 'cx-visually-hidden' within a H2 section, that hides span element content on the UI", () => {
-      setFeatureToggle('a11yConfiguratorOverviewHeaderVPC', true);
-
+      initialize();
       const h2s = htmlElem.querySelectorAll('h2');
       expectSpan(
         h2s[0] as HTMLElement,
@@ -522,18 +502,6 @@ describe('ConfigurationOverviewFormComponent', () => {
         'configurator.a11y.group group:Group 1'
       );
       expectSpan(h2s[0] as HTMLElement, 'span[aria-hidden="true"]', 'Group 1');
-    });
-
-    it("should contain action span element with class name 'cx-visually-hidden' that hides span element content on the UI", () => {
-      setFeatureToggle('a11yConfiguratorOverviewHeaderVPC', false);
-
-      const divs = htmlElem.querySelectorAll('div.cx-group.topLevel');
-      expectSpan(
-        divs[0] as HTMLElement,
-        'span.cx-visually-hidden',
-        'configurator.a11y.group group:Group 1'
-      );
-      expectSpan(divs[0] as HTMLElement, 'h2[aria-hidden="true"]', 'Group 1');
     });
   });
 

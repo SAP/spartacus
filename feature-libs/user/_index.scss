@@ -46,6 +46,10 @@ body {
   form {
     display: contents;
 
+    fieldset {
+      display: contents;
+    }
+
     label {
       all: unset;
       flex: 100%;

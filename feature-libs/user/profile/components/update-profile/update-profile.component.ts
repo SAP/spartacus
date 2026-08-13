@@ -19,6 +19,7 @@ import {
 import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
 import {
   FeatureDirective,
+  PageMetaService,
   RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
@@ -26,6 +27,7 @@ import {
   FormErrorsComponent,
   FormRequiredAsterisksComponent,
   FormRequiredLegendComponent,
+  getPageTitle,
   NgSelectA11yDirective,
   SpinnerComponent,
   TruncationTooltipDirective,
@@ -61,12 +63,14 @@ export class UpdateProfileComponent {
   @Optional() protected routingService = inject(RoutingService, {
     optional: true,
   });
+  protected pageMetaService = inject(PageMetaService);
 
   constructor(protected service: UpdateProfileComponentService) {}
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$ = this.service.isUpdating$;
   titles$: Observable<Title[]> = this.service.titles$;
+  pageTitle$: Observable<string> = getPageTitle(this.pageMetaService);
 
   onSubmit(): void {
     this.service.updateProfile();

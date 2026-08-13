@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import {
   CustomerCoupon,
   CustomerCouponSearchResult,
@@ -157,9 +157,10 @@ class MockSortingComponent {
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  openDialogAndSubscribe(_caller: LAUNCH_CALLER, _openElement?: ElementRef) {
+  openDialog(_caller: LAUNCH_CALLER, _openElement?: ElementRef) {
     return EMPTY;
   }
+  closeDialog(_reason: string) {}
 }
 
 describe('MyCouponsComponent', () => {
@@ -369,9 +370,45 @@ describe('MyCouponsComponent', () => {
 
   it('should be able to open coupon claim dialog if has hash str in location', () => {
     spyOn(component, 'getHashStr').and.returnValue(String('#testcode'));
+    spyOn(launchDialogService, 'openDialog').and.returnValue(EMPTY);
     component.ngOnInit();
-    spyOn(launchDialogService, 'openDialogAndSubscribe').and.stub();
     fixture.detectChanges();
-    expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
+    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+      LAUNCH_CALLER.CLAIM_DIALOG,
+      component['host'],
+      undefined,
+      { coupon: 'testcode', pageSize: 10 }
+    );
+  });
+
+  describe('focus restoration after dialog close', () => {
+    it('should pass the host element ref to openDialog so focus is restored on close', () => {
+      spyOn(component, 'getHashStr').and.returnValue('#testcode');
+      spyOn(launchDialogService, 'openDialog').and.returnValue(EMPTY);
+
+      component.ngOnInit();
+      fixture.detectChanges();
+
+      expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+        LAUNCH_CALLER.CLAIM_DIALOG,
+        component['host'],
+        undefined,
+        { coupon: 'testcode', pageSize: 10 }
+      );
+    });
+  });
+
+  describe('navigation', () => {
+    it('should close the dialog on NavigationStart', () => {
+      const router = TestBed.inject(Router);
+      spyOn(launchDialogService, 'closeDialog');
+
+      fixture.detectChanges();
+      router.navigate(['/']);
+
+      expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
+        'Navigation'
+      );
+    });
   });
 });
