@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/segment-refs",
-  "version": "221121.17.0",
+  "version": "221121.18.0-1",
   "description": "segment-refs",
   "keywords": [
     "spartacus",
@@ -24,8 +24,8 @@
     "@angular-devkit/schematics": "^21.2.19",
     "@angular/common": "^21.2.19",
     "@angular/core": "^21.2.19",
-    "@spartacus/core": "221121.17.0",
-    "@spartacus/schematics": "221121.17.0",
+    "@spartacus/core": "221121.18.0-1",
+    "@spartacus/schematics": "221121.18.0-1",
     "rxjs": "^7.8.0"
   },
   "engines": {
