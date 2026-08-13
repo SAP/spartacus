@@ -5,9 +5,13 @@
   align-items: stretch;
   width: 100%;
 
-  .cx-section {
+  .cx-accordion {
     width: 100%;
     border-block-end: 1px solid var(--cx-color-light);
+
+    &.cx-selected-products {
+      background-color: var(--cx-color-background);
+    }
 
     .cx-header {
       display: flex;
@@ -15,11 +19,13 @@
       align-items: center;
       justify-content: space-between;
       width: 100%;
-      padding-block-start: 10px;
-      padding-block-end: 10px;
+      padding-block-start: 16px;
+      padding-block-end: 16px;
+      padding-inline-end: 16px;
+      padding-inline-start: 16px;
 
       .cx-title {
-        @include type('5');
+        @include type('6');
         font-weight: bold;
       }
 

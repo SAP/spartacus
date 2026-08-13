@@ -154,7 +154,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
-        '.cx-section',
+        '.cx-accordion',
         2
       );
     });
@@ -199,7 +199,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     });
 
     it('should render the toggle icon in each section that has products', () => {
-      const sections = htmlElem.querySelectorAll('.cx-section');
+      const sections = htmlElem.querySelectorAll('.cx-accordion');
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
@@ -223,7 +223,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       ]);
       fixture.detectChanges();
 
-      const sections = htmlElem.querySelectorAll('.cx-section');
+      const sections = htmlElem.querySelectorAll('.cx-accordion');
 
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
@@ -258,7 +258,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       ]);
       fixture.detectChanges();
 
-      const sections = htmlElem.querySelectorAll('.cx-section');
+      const sections = htmlElem.querySelectorAll('.cx-accordion');
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,

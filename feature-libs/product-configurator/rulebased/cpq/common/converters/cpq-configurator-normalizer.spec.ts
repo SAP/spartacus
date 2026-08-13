@@ -2058,10 +2058,7 @@ describe('CpqConfiguratorNormalizer', () => {
           productSystemId: 'LENS_50MM',
           productName: '50mm Lens',
           selected: true,
-          actions: [
-            Cpq.ContainerRowAction.DELETE,
-            Cpq.ContainerRowAction.COPY,
-          ],
+          actions: [Cpq.ContainerRowAction.DELETE, Cpq.ContainerRowAction.COPY],
         },
         {
           id: rowWithConfigId,
@@ -2221,9 +2218,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(nestedContainer?.rows[0].groupId).toBeUndefined();
 
       const flatGroupTypes = result.flatGroups.map((group) => group.groupType);
-      expect(flatGroupTypes).toContain(
-        Configurator.GroupType.ATTRIBUTE_GROUP
-      );
+      expect(flatGroupTypes).toContain(Configurator.GroupType.ATTRIBUTE_GROUP);
       expect(flatGroupTypes).not.toContain(
         Configurator.GroupType.CONTAINER_ROW_GROUP
       );
