@@ -32,7 +32,7 @@ import {
 } from '@spartacus/storefront';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../core/model/configurator.model';
@@ -644,6 +644,30 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           component.productCardOptions.productBoundValue
         )
       ).toEqual(productTransformed);
+    });
+
+    it('should fall back to configuration value when catalog product is missing', (done) => {
+      const productService = TestBed.inject(ProductService);
+      spyOn(productService, 'get').and.returnValue(of(undefined));
+
+      component.ngOnInit();
+      component.product$.subscribe((catalogProduct) => {
+        expect(catalogProduct).toEqual(productTransformed);
+        done();
+      });
+    });
+
+    it('should fall back to configuration value when catalog lookup errors', (done) => {
+      const productService = TestBed.inject(ProductService);
+      spyOn(productService, 'get').and.returnValue(
+        throwError(() => new Error("Product with code '1111-2222' not found!"))
+      );
+
+      component.ngOnInit();
+      component.product$.subscribe((catalogProduct) => {
+        expect(catalogProduct).toEqual(productTransformed);
+        done();
+      });
     });
 
     it('should display quantity when props withQuantity is true', () => {

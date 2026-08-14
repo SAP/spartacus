@@ -29,8 +29,8 @@ import {
   KeyboardFocusService,
   MediaComponent,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
+import { catchError, map, take, tap } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
 import { QuantityUpdateEvent } from '../../form/configurator-form.event';
 import {
@@ -137,6 +137,13 @@ export class ConfiguratorAttributeProductCardComponent
                 this.productCardOptions.productBoundValue
               );
         }),
+        catchError(() =>
+          of(
+            this.transformToProductType(
+              this.productCardOptions.productBoundValue
+            )
+          )
+        ),
         tap(() => this.loading$.next(false))
       );
 
