@@ -119,6 +119,16 @@ export class ConfiguratorAttributeContainerComponent extends ConfiguratorAttribu
   }
 
   /**
+   * Removes the given selected product from the container.
+   *
+   * @param row - Selected container row to remove
+   */
+  onRemove(row: Configurator.ContainerRow): void {
+    this.loading$.next(true);
+    this.configuratorCommonsService.removeContainerRow(this.ownerKey, row.id);
+  }
+
+  /**
    * Builds product card options for a container row.
    *
    * @param row - Container row to display

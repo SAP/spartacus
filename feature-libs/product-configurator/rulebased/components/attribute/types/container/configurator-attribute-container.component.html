@@ -37,6 +37,7 @@
       <cx-configurator-attribute-product-card
         *ngFor="let row of selectedProducts; let i = index"
         id="{{ createAttributeValueIdForConfigurator(attribute, row.id) }}"
+        (handleDeselect)="onRemove(row)"
         [productCardOptions]="
           extractProductCardParameters(row, i, selectedProducts.length)
         "

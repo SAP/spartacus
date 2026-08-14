@@ -38,10 +38,12 @@ class MockCxIconComponent {
 class MockProductCardComponent {
   @Input() productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
   @Output() handleSelect = new EventEmitter<string>();
+  @Output() handleDeselect = new EventEmitter<string>();
 }
 
 class MockConfiguratorCommonsService {
   addContainerRow(): void {}
+  removeContainerRow(): void {}
   isConfigurationLoading(): Observable<boolean> {
     return of(false);
   }
@@ -539,6 +541,26 @@ describe('ConfiguratorAttributeContainerComponent', () => {
 
       expect(configuratorCommonsService.addContainerRow).not.toHaveBeenCalled();
       expect(component.loading$.value).toBe(false);
+    });
+  });
+
+  describe('onRemove', () => {
+    it('should call removeContainerRow with owner key and row id', () => {
+      spyOn(configuratorCommonsService, 'removeContainerRow');
+
+      component.onRemove(component.selectedProducts[0]);
+
+      expect(
+        configuratorCommonsService.removeContainerRow
+      ).toHaveBeenCalledWith(component.ownerKey, 'row-1');
+    });
+
+    it('should set loading$ before calling removeContainerRow', () => {
+      spyOn(configuratorCommonsService, 'removeContainerRow');
+
+      component.onRemove(component.selectedProducts[0]);
+
+      expect(component.loading$.value).toBe(true);
     });
   });
 });
