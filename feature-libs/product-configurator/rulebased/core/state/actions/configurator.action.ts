@@ -232,7 +232,10 @@ abstract class ContainerRowFailAction<
   }
 }
 
-export class AddContainerRowFail extends ContainerRowFailAction<Configurator.AddContainerRowParameters> {
+export class AddContainerRowFail
+  extends ContainerRowFailAction<Configurator.AddContainerRowParameters>
+  implements ErrorAction
+{
   readonly type = ADD_CONTAINER_ROW_FAIL;
 }
 
@@ -253,7 +256,10 @@ export class RemoveContainerRow extends StateUtils.EntityProcessesIncrementActio
   }
 }
 
-export class RemoveContainerRowFail extends ContainerRowFailAction<Configurator.RemoveContainerRowParameters> {
+export class RemoveContainerRowFail
+  extends ContainerRowFailAction<Configurator.RemoveContainerRowParameters>
+  implements ErrorAction
+{
   readonly type = REMOVE_CONTAINER_ROW_FAIL;
 }
 
