@@ -320,6 +320,10 @@
     "form-data@^4": "4.0.6",
     "vite": "8.1.5",
     "ws@^8": "8.21.0",
+    "browser-sync": {
+      "immutable": "4.3.9"
+    },
+    "immutable@^5": "5.1.8",
     "fast-uri@^3": "3.1.4",
     "brace-expansion@^1": "1.1.16",
     "brace-expansion@^5": "5.0.8",
