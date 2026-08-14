@@ -20,6 +20,7 @@ import {
   ActiveCartFacade,
   CartItemComponentOptions,
   CartOutlets,
+  CartType,
   CartValidationFacade,
   ConsignmentEntry,
   MultiCartFacade,
@@ -359,14 +360,18 @@ export class CartItemListComponent implements OnInit, OnDestroy {
    * command waits for the cart to become stable before running.
    *
    * Only runs for the active, editable cart list: `validateCart()` always targets
-   * the active cart, so validating from a read-only or save-for-later list would be
-   * meaningless. Gated by the `cartValidationDisplayBackendMessages` feature toggle
+   * the active cart, so validating from a read-only, save-for-later or non-active
+   * cart list (e.g. saved cart details, which renders this list with
+   * `CartType.SELECTIVE`) would be meaningless and can trigger a backend error.
+   * Gated by the `cartValidationDisplayBackendMessages` feature toggle
    * (via the service) and the `cart.validation.enabled` config.
    */
   protected revalidateCart(): void {
     if (
       this.readonly ||
       this.options.isSaveForLater ||
+      (this.options.cartType !== undefined &&
+        this.options.cartType !== CartType.ACTIVE) ||
       !this.cartItemValidationService.isEnabled()
     ) {
       return;

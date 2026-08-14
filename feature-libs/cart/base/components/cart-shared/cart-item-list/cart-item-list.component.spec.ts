@@ -6,6 +6,7 @@ import {
   ActiveCartFacade,
   CartItemComponentOptions,
   CartModification,
+  CartType,
   CartValidationFacade,
   ConsignmentEntry,
   MultiCartFacade,
@@ -346,6 +347,28 @@ describe('CartItemListComponent', () => {
         component['revalidateCart']();
 
         expect(facade.validateCart).not.toHaveBeenCalled();
+      });
+
+      it('should NOT validate for a non-active (selective) cart list', () => {
+        itemValidationService.enabled = true;
+        component.options = { cartType: CartType.SELECTIVE };
+        vi.spyOn(validationFacade, 'validateCart');
+
+        component['revalidateCart']();
+
+        expect(validationFacade.validateCart).not.toHaveBeenCalled();
+      });
+
+      it('should validate for an explicitly active cart list', () => {
+        itemValidationService.enabled = true;
+        component.options = { cartType: CartType.ACTIVE };
+        vi.spyOn(validationFacade, 'validateCart').mockReturnValue(
+          of({ cartModifications: [] })
+        );
+
+        component['revalidateCart']();
+
+        expect(validationFacade.validateCart).toHaveBeenCalled();
       });
     });
 
