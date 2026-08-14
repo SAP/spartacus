@@ -56,6 +56,10 @@ declare module '@spartacus/core' {
      */
     createCpqContainerRow?: string | OccEndpoint;
     /**
+     * Endpoint for deleting a container row from a CPQ configuration over OCC
+     */
+    removeCpqContainerRow?: string | OccEndpoint;
+    /**
      * Endpoint for reading a CPQ configuration attached to the given cart entry over OCC
      */
     readCpqConfigurationForCartEntryFull?: string | OccEndpoint;

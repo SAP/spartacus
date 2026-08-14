@@ -433,6 +433,36 @@ describe('ConfiguratorCommonsService', () => {
     );
   });
 
+  it('should remove a container row, accessing the store', () => {
+    cart.code = 'X';
+    cartObs = of(cart);
+    spyOnProperty(ngrxStore, 'select').and.returnValue(
+      () => () => of(productConfiguration)
+    );
+
+    serviceUnderTest.removeContainerRow(OWNER_PRODUCT.key, '3');
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorActions.RemoveContainerRow({
+        configId: productConfiguration.configId,
+        owner: productConfiguration.owner,
+        rowId: '3',
+      })
+    );
+  });
+
+  it('should do nothing on removeContainerRow in case cart updates are pending', () => {
+    isStableObservable = of(false);
+    cart.code = 'X';
+    cartObs = of(cart);
+
+    serviceUnderTest.removeContainerRow(OWNER_PRODUCT.key, '3');
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(
+      jasmine.any(ConfiguratorActions.RemoveContainerRow)
+    );
+  });
+
   describe('getConfigurationWithOverview', () => {
     configurationWithOverview = {
       ...ConfiguratorTestUtils.createConfiguration(

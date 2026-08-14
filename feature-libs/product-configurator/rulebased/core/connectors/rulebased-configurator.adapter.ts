@@ -60,6 +60,16 @@ export abstract class RulebasedConfiguratorAdapter {
   ): Observable<Configurator.Configuration>;
 
   /**
+   * Abstract method to delete a container row from a CPQ configuration.
+   * Not supported for the variant configurator.
+   *
+   * @param parameters remove container row parameters
+   */
+  abstract removeContainerRow(
+    parameters: Configurator.RemoveContainerRowParameters
+  ): Observable<Configurator.Configuration>;
+
+  /**
    * Abstract method to update the configuration overview
    *
    * @param configurationOverview Configuration overview with filter options that should be applied

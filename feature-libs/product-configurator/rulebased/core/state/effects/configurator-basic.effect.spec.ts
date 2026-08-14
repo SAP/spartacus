@@ -186,6 +186,7 @@ describe('ConfiguratorEffect', () => {
   let readMock: jasmine.Spy;
   let updateConfigurationMock: jasmine.Spy;
   let addContainerRowMock: jasmine.Spy;
+  let removeContainerRowMock: jasmine.Spy;
   let readPriceSummaryMock: jasmine.Spy;
   let overviewMock: jasmine.Spy;
   let updateOverviewMock: jasmine.Spy;
@@ -204,6 +205,9 @@ describe('ConfiguratorEffect', () => {
     addContainerRowMock = jasmine
       .createSpy()
       .and.returnValue(of(productConfiguration));
+    removeContainerRowMock = jasmine
+      .createSpy()
+      .and.returnValue(of(productConfiguration));
     readPriceSummaryMock = jasmine
       .createSpy()
       .and.returnValue(of(productConfiguration));
@@ -220,6 +224,7 @@ describe('ConfiguratorEffect', () => {
       readConfiguration = readMock;
       updateConfiguration = updateConfigurationMock;
       addContainerRow = addContainerRowMock;
+      removeContainerRow = removeContainerRowMock;
       readPriceSummary = readPriceSummaryMock;
       getConfigurationOverview = overviewMock;
       updateConfigurationOverview = updateOverviewMock;
@@ -706,6 +711,56 @@ describe('ConfiguratorEffect', () => {
     });
   });
 
+  describe('Effect removeContainerRow', () => {
+    const removeContainerRowParameters: Configurator.RemoveContainerRowParameters =
+      {
+        configId: productConfiguration.configId,
+        owner: productConfiguration.owner,
+        rowId: '3',
+      };
+
+    it('should emit a success action with content for an action of type removeContainerRow', () => {
+      const action = new ConfiguratorActions.RemoveContainerRow(
+        removeContainerRowParameters
+      );
+
+      const completion = new ConfiguratorActions.RemoveContainerRowSuccess(
+        productConfiguration
+      );
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(configEffects.removeContainerRow$).toBeObservable(expected);
+      expect(removeContainerRowMock).toHaveBeenCalledWith(
+        removeContainerRowParameters
+      );
+    });
+
+    it('must not emit anything in case source action is not covered', () => {
+      const actionNotCovered =
+        new ConfiguratorActions.RemoveContainerRowSuccess(productConfiguration);
+      actions$ = hot('-a', { a: actionNotCovered });
+      const expected = cold('-');
+      expect(configEffects.removeContainerRow$).toBeObservable(expected);
+    });
+
+    it('should emit a fail action in case something goes wrong', () => {
+      removeContainerRowMock.and.returnValue(throwError(() => errorResponse));
+      const action = new ConfiguratorActions.RemoveContainerRow(
+        removeContainerRowParameters
+      );
+
+      const failAction = new ConfiguratorActions.RemoveContainerRowFail({
+        parameters: removeContainerRowParameters,
+        error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
+      });
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: failAction });
+
+      expect(configEffects.removeContainerRow$).toBeObservable(expected);
+    });
+  });
+
   describe('Effect updatePriceSummary', () => {
     it('should emit a price summary success action in case call is successfull', () => {
       const payloadInput = productConfiguration;
@@ -955,6 +1010,37 @@ describe('ConfiguratorEffect', () => {
         expected
       );
     });
+
+    it('should raise finalize actions for RemoveContainerRowSuccess when no changes are pending', () => {
+      const action = new ConfiguratorActions.RemoveContainerRowSuccess(
+        productConfiguration
+      );
+      const finalizeSuccess =
+        new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+          productConfiguration
+        );
+      const updatePrices = new ConfiguratorActions.UpdatePriceSummary({
+        ...productConfiguration,
+        interactionState: { currentGroup: groupId },
+      });
+
+      const changeGroup = new ConfiguratorActions.ChangeGroup({
+        configuration: productConfiguration,
+        groupId: groupId,
+        parentGroupId: undefined,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bcde)', {
+        b: finalizeSuccess,
+        c: updatePrices,
+        d: searchVariantsAction,
+        e: changeGroup,
+      });
+      expect(configEffects.updateConfigurationSuccess$).toBeObservable(
+        expected
+      );
+    });
   });
 
   describe('Effect updateConfigurationFail', () => {
@@ -997,6 +1083,41 @@ describe('ConfiguratorEffect', () => {
           owner: productConfiguration.owner,
           stdAttrCode: 598,
           productSystemId: productConfiguration.productCode,
+        },
+        error: undefined,
+      });
+      const completion =
+        new ConfiguratorActions.UpdateConfigurationFinalizeFail(
+          storedConfiguration
+        );
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(configEffects.updateConfigurationFail$).toBeObservable(expected);
+    });
+
+    it('should raise UpdateConfigurationFinalizeFail on RemoveContainerRowFail when configuration is in the store', () => {
+      store.dispatch(
+        new ConfiguratorActions.CreateConfigurationSuccess(productConfiguration)
+      );
+      let storedConfiguration: Configurator.Configuration =
+        productConfiguration;
+      store
+        .pipe(
+          select(
+            ConfiguratorSelectors.getConfigurationFactory(
+              productConfiguration.owner.key
+            )
+          ),
+          take(1)
+        )
+        .subscribe((configuration) => {
+          storedConfiguration = configuration;
+        });
+      const action = new ConfiguratorActions.RemoveContainerRowFail({
+        parameters: {
+          configId: productConfiguration.configId,
+          owner: productConfiguration.owner,
+          rowId: '3',
         },
         error: undefined,
       });

@@ -227,6 +227,52 @@ export class ConfiguratorCommonsService {
   }
 
   /**
+   * Deletes a container row from the configuration identified by the owner key.
+   *
+   * @param ownerKey - Configuration owner key
+   * @param rowId - Identifier of the container row to delete
+   */
+  removeContainerRow(ownerKey: string, rowId: string): void {
+    // in case cart updates pending: Do nothing, because an addToCart might
+    // be in progress. Can happen if on slow networks addToCart was hit and
+    // afterwards an attribute was changed before the OV navigation has
+    // taken place
+    this.activeCartService
+      .getActive()
+      .pipe(
+        take(1),
+        switchMap((cart) =>
+          this.activeCartService.isStable().pipe(
+            take(1),
+            tap((stable) => {
+              if (isDevMode() && cart.code && !stable) {
+                this.logger.warn(
+                  'Cart is busy, no configuration updates possible'
+                );
+              }
+            }),
+            filter((stable) => !cart.code || stable),
+            switchMap(() =>
+              this.store.pipe(
+                select(ConfiguratorSelectors.getConfigurationFactory(ownerKey)),
+                take(1)
+              )
+            )
+          )
+        )
+      )
+      .subscribe((configuration) => {
+        this.store.dispatch(
+          new ConfiguratorActions.RemoveContainerRow({
+            configId: configuration.configId,
+            owner: configuration.owner,
+            rowId,
+          })
+        );
+      });
+  }
+
+  /**
    * Returns a configuration with an overview. Emits valid configurations which
    * include the overview aspect.
    * When calling this function it is assumed that the configuration itself is already

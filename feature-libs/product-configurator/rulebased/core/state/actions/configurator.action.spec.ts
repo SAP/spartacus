@@ -270,6 +270,75 @@ describe('ConfiguratorActions', () => {
     });
   });
 
+  describe('RemoveContainerRow Actions', () => {
+    const removeContainerRowParameters: Configurator.RemoveContainerRowParameters =
+      {
+        configId: CONFIG_ID,
+        owner: OWNER,
+        rowId: '3',
+      };
+
+    describe('RemoveContainerRow', () => {
+      it('Should create the action', () => {
+        const action = new ConfiguratorActions.RemoveContainerRow(
+          removeContainerRowParameters
+        );
+
+        expect({ ...action }).toEqual({
+          type: ConfiguratorActions.REMOVE_CONTAINER_ROW,
+          payload: removeContainerRowParameters,
+          meta: {
+            entityType: CONFIGURATOR_DATA,
+            entityId: OWNER_KEY,
+            loader: { load: true },
+            processesCountDiff: 1,
+          },
+        });
+      });
+    });
+
+    describe('RemoveContainerRowFail', () => {
+      it('Should create the action', () => {
+        const error = { message: 'anError' };
+        const action = new ConfiguratorActions.RemoveContainerRowFail({
+          parameters: removeContainerRowParameters,
+          error: error,
+        });
+
+        expect({ ...action }).toEqual({
+          error,
+          type: ConfiguratorActions.REMOVE_CONTAINER_ROW_FAIL,
+          payload: {
+            parameters: removeContainerRowParameters,
+            error: error,
+          },
+          meta: {
+            entityType: CONFIGURATOR_DATA,
+            entityId: OWNER_KEY,
+            loader: { error: error },
+            processesCountDiff: -1,
+          },
+        });
+      });
+    });
+
+    describe('RemoveContainerRowSuccess', () => {
+      it('Should create the action', () => {
+        const action = new ConfiguratorActions.RemoveContainerRowSuccess(
+          CONFIGURATION
+        );
+        expect({ ...action }).toEqual({
+          type: ConfiguratorActions.REMOVE_CONTAINER_ROW_SUCCESS,
+          payload: CONFIGURATION,
+          meta: StateUtils.entityProcessesDecrementMeta(
+            CONFIGURATOR_DATA,
+            OWNER_KEY
+          ),
+        });
+      });
+    });
+  });
+
   describe('RemoveProductBoundConfigurations', () => {
     it('should remove product bound configurations', () => {
       const action = new ConfiguratorActions.RemoveProductBoundConfigurations();

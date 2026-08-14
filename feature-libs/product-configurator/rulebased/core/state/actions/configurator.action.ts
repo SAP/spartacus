@@ -31,6 +31,12 @@ export const ADD_CONTAINER_ROW_FAIL = '[Configurator] Add Container Row Fail';
 export const ADD_CONTAINER_ROW_SUCCESS =
   '[Configurator] Add Container Row Success';
 
+export const REMOVE_CONTAINER_ROW = '[Configurator] Remove Container Row';
+export const REMOVE_CONTAINER_ROW_FAIL =
+  '[Configurator] Remove Container Row Fail';
+export const REMOVE_CONTAINER_ROW_SUCCESS =
+  '[Configurator] Remove Container Row Success';
+
 export const UPDATE_CONFIGURATION_FINALIZE_SUCCESS =
   '[Configurator] Update Configuration finalize success';
 export const UPDATE_CONFIGURATION_FINALIZE_FAIL =
@@ -227,6 +233,42 @@ export class AddContainerRowFail
 
 export class AddContainerRowSuccess extends StateUtils.EntityProcessesDecrementAction {
   readonly type = ADD_CONTAINER_ROW_SUCCESS;
+
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATOR_DATA, payload.owner.key);
+  }
+}
+
+export class RemoveContainerRow extends StateUtils.EntityProcessesIncrementAction {
+  readonly type = REMOVE_CONTAINER_ROW;
+
+  constructor(public payload: Configurator.RemoveContainerRowParameters) {
+    super(CONFIGURATOR_DATA, payload.owner.key);
+    setPendingLoader(this);
+  }
+}
+
+export class RemoveContainerRowFail
+  extends StateUtils.EntityProcessesDecrementAction
+  implements ErrorAction
+{
+  public error: any;
+  readonly type = REMOVE_CONTAINER_ROW_FAIL;
+
+  constructor(
+    public payload: {
+      parameters: Configurator.RemoveContainerRowParameters;
+      error: any;
+    }
+  ) {
+    super(CONFIGURATOR_DATA, payload.parameters.owner.key);
+    this.error = payload.error;
+    setErrorLoader(this, payload.error);
+  }
+}
+
+export class RemoveContainerRowSuccess extends StateUtils.EntityProcessesDecrementAction {
+  readonly type = REMOVE_CONTAINER_ROW_SUCCESS;
 
   constructor(public payload: Configurator.Configuration) {
     super(CONFIGURATOR_DATA, payload.owner.key);
@@ -469,6 +511,9 @@ export type ConfiguratorAction =
   | AddContainerRow
   | AddContainerRowFail
   | AddContainerRowSuccess
+  | RemoveContainerRow
+  | RemoveContainerRowFail
+  | RemoveContainerRowSuccess
   | UpdateConfigurationFinalizeFail
   | UpdateConfigurationFinalizeSuccess
   | UpdatePriceSummary

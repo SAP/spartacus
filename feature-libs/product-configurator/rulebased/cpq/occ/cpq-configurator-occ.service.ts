@@ -219,6 +219,20 @@ export class CpqConfiguratorOccService {
   }
 
   /**
+   * Deletes a container row from the CPQ configuration and returns the resulting configuration.
+   *
+   * @param {Configurator.RemoveContainerRowParameters} parameters - Remove container row parameters
+   * @returns {Observable<Configurator.Configuration>} - Updated configuration
+   */
+  removeContainerRow(
+    parameters: Configurator.RemoveContainerRowParameters
+  ): Observable<Configurator.Configuration> {
+    return this.callRemoveContainerRow(parameters).pipe(
+      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER)
+    );
+  }
+
+  /**
    * Retrieves a configuration assigned to a cart entry.
    *
    * @param {CommonConfigurator.ReadConfigurationFromCartEntryParameters} parameters - Cart entry parameters
@@ -335,6 +349,18 @@ export class CpqConfiguratorOccService {
       body.parentRowId = parameters.parentRowId;
     }
     return this.http.post<Cpq.Configuration>(url, body);
+  }
+
+  protected callRemoveContainerRow(
+    parameters: Configurator.RemoveContainerRowParameters
+  ): Observable<Cpq.Configuration> {
+    const url = this.occEndpointsService.buildUrl('removeCpqContainerRow', {
+      urlParams: {
+        configurationId: parameters.configId,
+        rowId: parameters.rowId,
+      },
+    });
+    return this.http.delete<Cpq.Configuration>(url);
   }
 
   protected callReadConfigurationForCartEntry(

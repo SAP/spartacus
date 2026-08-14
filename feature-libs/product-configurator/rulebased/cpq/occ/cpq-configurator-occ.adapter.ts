@@ -78,6 +78,17 @@ export class CpqConfiguratorOccAdapter implements RulebasedConfiguratorAdapter {
     );
   }
 
+  removeContainerRow(
+    parameters: Configurator.RemoveContainerRowParameters
+  ): Observable<Configurator.Configuration> {
+    return this.cpqOccService.removeContainerRow(parameters).pipe(
+      map((configResponse) => {
+        configResponse.owner = parameters.owner;
+        return configResponse;
+      })
+    );
+  }
+
   updateConfigurationOverview(): Observable<Configurator.Overview> {
     throw new Error(
       'Update the configuration overview is not supported for the CPQ configurator'

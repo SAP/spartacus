@@ -237,6 +237,12 @@ export namespace Configurator {
     parentRowId?: string;
   }
 
+  export interface RemoveContainerRowParameters {
+    configId: string;
+    owner: CommonConfigurator.Owner;
+    rowId: string;
+  }
+
   export interface UpdateConfigurationForCartEntryParameters {
     userId: string;
     cartId: string;
