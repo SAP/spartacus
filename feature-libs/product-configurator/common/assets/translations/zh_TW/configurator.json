@@ -75,7 +75,9 @@
       "cancelConfigurationMobile": "取消",
       "filterOverview": "篩選器",
       "filterOverviewWithCount": "篩選器 ({{numAppliedFilters}})",
-      "showOptions": "顯示選項"
+      "showOptions": "顯示選項",
+      "edit": "編輯",
+      "copy": "複製"
     },
     "icon": {
       "groupComplete": "完成",
@@ -240,7 +242,8 @@
       "collapseSelectedProducts": "摺疊已選產品",
       "expandSelectedProducts": "展開已選產品",
       "collapseAvailableProducts": "摺疊可用產品",
-      "expandAvailableProducts": "展開可用產品"
+      "expandAvailableProducts": "展開可用產品",
+      "openContainerRowActionsMenu": "開啟 {{ product }} 的操作功能表"
     },
     "variantCarousel": {
       "title": "預先組態的版本"

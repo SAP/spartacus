@@ -75,7 +75,9 @@
       "cancelConfigurationMobile": "Abbrechen",
       "filterOverview": "Filter",
       "filterOverviewWithCount": "Filter ({{numAppliedFilters}})",
-      "showOptions": "Optionen anzeigen"
+      "showOptions": "Optionen anzeigen",
+      "edit": "Bearbeiten",
+      "copy": "Kopieren"
     },
     "icon": {
       "groupComplete": "Vollständig",
@@ -240,7 +242,8 @@
       "collapseSelectedProducts": "Ausgewählte Produkte zuklappen",
       "expandSelectedProducts": "Ausgewählte Produkte aufklappen",
       "collapseAvailableProducts": "Verfügbare Produkte zuklappen",
-      "expandAvailableProducts": "Verfügbare Produkte aufklappen"
+      "expandAvailableProducts": "Verfügbare Produkte aufklappen",
+      "openContainerRowActionsMenu": "Aktionsmenü für {{ product }} öffnen"
     },
     "variantCarousel": {
       "title": "Vorkonfigurierte Versionen"

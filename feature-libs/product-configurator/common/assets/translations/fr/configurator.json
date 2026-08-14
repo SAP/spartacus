@@ -75,7 +75,9 @@
       "cancelConfigurationMobile": "Annuler",
       "filterOverview": "Filtrer",
       "filterOverviewWithCount": "Filtrer ({{numAppliedFilters}})",
-      "showOptions": "Afficher les options"
+      "showOptions": "Afficher les options",
+      "edit": "Modifier",
+      "copy": "Copier"
     },
     "icon": {
       "groupComplete": "Terminé",
@@ -240,7 +242,8 @@
       "collapseSelectedProducts": "Réduire les produits sélectionnés",
       "expandSelectedProducts": "Développer les produits sélectionnés",
       "collapseAvailableProducts": "Réduire les produits disponibles",
-      "expandAvailableProducts": "Développer les produits disponibles"
+      "expandAvailableProducts": "Développer les produits disponibles",
+      "openContainerRowActionsMenu": "Ouvrir le menu d'actions pour {{ product }}"
     },
     "variantCarousel": {
       "title": "Versions préconfigurées"

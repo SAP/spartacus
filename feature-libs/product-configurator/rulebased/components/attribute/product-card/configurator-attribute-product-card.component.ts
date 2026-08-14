@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  HostListener,
   Input,
   OnInit,
   Output,
@@ -60,7 +61,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   /**
    * Used to indicate loading state, for example in case a request triggered by parent component to CPQ is currently in progress.
    * Component will react on it and disable all controls that could cause a request.
-   * This prevents the user from triggering concurrent requests with potential conflicting content that might cause unexpected behaviour.
+   * This prevents the user from triggering concurrent requests with potential conflicting content that might cause unexpected behavior.
    */
   loading$?: Observable<boolean>;
   attributeId: number;
@@ -68,6 +69,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   attributeName: string;
   itemCount: number;
   itemIndex: number;
+  containerRow?: Configurator.ContainerRow;
 }
 
 @Component({
@@ -76,6 +78,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
+    NgFor,
     NgClass,
     MediaComponent,
     ConfiguratorShowMoreComponent,
@@ -102,6 +105,10 @@ export class ConfiguratorAttributeProductCardComponent
    */
   disableActions$: Observable<boolean>;
   showDeselectionNotPossible = false;
+  /**
+   * Whether the container-row overflow menu is currently open.
+   */
+  isActionsMenuOpen = false;
 
   @Input()
   productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
@@ -109,6 +116,8 @@ export class ConfiguratorAttributeProductCardComponent
   @Output() handleDeselect = new EventEmitter<string>();
   @Output() handleQuantity = new EventEmitter<QuantityUpdateEvent>();
   @Output() handleSelect = new EventEmitter<string>();
+  @Output() handleRowAction =
+    new EventEmitter<Configurator.ContainerRowAction>();
 
   constructor(
     protected productService: ProductService,
@@ -161,6 +170,29 @@ export class ConfiguratorAttributeProductCardComponent
         this.productCardOptions.multiSelect) ??
       false
     );
+  }
+
+  /**
+   * Verifies whether the card should render the overflow menu instead of add/remove
+   * buttons. The menu is shown only for selected products that define
+   * container-row actions. Available products keep the add button.
+   *
+   * @returns - overflow menu visible?
+   */
+  get hasContainerRowActions(): boolean {
+    return (
+      !!this.productCardOptions.productBoundValue?.selected &&
+      !!this.productCardOptions.containerRow?.actions?.length
+    );
+  }
+
+  /**
+   * Actions defined on the bound container row.
+   *
+   * @returns - row actions
+   */
+  get containerRowActions(): Configurator.ContainerRowAction[] {
+    return this.productCardOptions.containerRow?.actions ?? [];
   }
 
   get focusConfig(): FocusConfig {
@@ -306,6 +338,58 @@ export class ConfiguratorAttributeProductCardComponent
 
   showDeselectionNotPossibleMessage() {
     this.showDeselectionNotPossible = true;
+  }
+
+  /**
+   * Opens or closes the container-row overflow menu.
+   *
+   * @param event - Click event used to keep the document listener
+   * from immediately closing the menu
+   */
+  toggleActionsMenu(event: Event): void {
+    event.stopPropagation();
+    this.isActionsMenuOpen = !this.isActionsMenuOpen;
+  }
+
+  /**
+   * Emits the selected container-row action and closes the overflow menu.
+   *
+   * @param action - Selected row action
+   */
+  onHandleRowAction(action: Configurator.ContainerRowAction): void {
+    this.closeActionsMenu();
+    this.handleRowAction.emit(action);
+  }
+
+  /**
+   * Resolves the i18n key for a container-row action.
+   *
+   * @param action - Row action
+   * @returns - Translation key
+   */
+  getContainerRowActionLabel(action: Configurator.ContainerRowAction): string {
+    switch (action) {
+      case Configurator.ContainerRowAction.DELETE:
+        return 'configurator.button.remove';
+      case Configurator.ContainerRowAction.EDIT:
+        return 'configurator.button.edit';
+      case Configurator.ContainerRowAction.COPY:
+        return 'configurator.button.copy';
+      case Configurator.ContainerRowAction.ADD:
+        return 'configurator.button.add';
+      default:
+        return '';
+    }
+  }
+
+  /**
+   * Closes the container-row overflow menu. Bound to document click
+   * and the Escape key.
+   */
+  @HostListener('document:click')
+  @HostListener('document:keydown.escape')
+  closeActionsMenu(): void {
+    this.isActionsMenuOpen = false;
   }
 
   getAriaLabelSingleUnselected(product: Product): string {

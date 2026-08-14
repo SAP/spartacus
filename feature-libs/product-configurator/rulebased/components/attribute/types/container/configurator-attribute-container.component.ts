@@ -129,6 +129,28 @@ export class ConfiguratorAttributeContainerComponent extends ConfiguratorAttribu
   }
 
   /**
+   * Handles an action selected from a product card overflow menu.
+   *
+   * @param row - Container row the action applies to
+   * @param action - Selected container row action
+   */
+  onRowAction(
+    row: Configurator.ContainerRow,
+    action: Configurator.ContainerRowAction
+  ): void {
+    switch (action) {
+      case Configurator.ContainerRowAction.DELETE:
+        this.onRemove(row);
+        break;
+      case Configurator.ContainerRowAction.ADD:
+        this.onAdd(row);
+        break;
+      default:
+        break;
+    }
+  }
+
+  /**
    * Builds product card options for a container row.
    *
    * @param row - Container row to display
@@ -150,6 +172,7 @@ export class ConfiguratorAttributeContainerComponent extends ConfiguratorAttribu
       itemCount,
       itemIndex: index,
       loading$: this.loading$,
+      containerRow: row,
     };
   }
 

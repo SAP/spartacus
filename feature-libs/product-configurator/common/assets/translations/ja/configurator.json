@@ -75,7 +75,9 @@
       "cancelConfigurationMobile": "キャンセル",
       "filterOverview": "フィルタ",
       "filterOverviewWithCount": "フィルタ ({{numAppliedFilters}})",
-      "showOptions": "オプションを表示"
+      "showOptions": "オプションを表示",
+      "edit": "編集",
+      "copy": "コピー"
     },
     "icon": {
       "groupComplete": "完了",
@@ -240,7 +242,8 @@
       "collapseSelectedProducts": "選択済み製品を折りたたむ",
       "expandSelectedProducts": "選択済み製品を展開する",
       "collapseAvailableProducts": "利用可能な製品を折りたたむ",
-      "expandAvailableProducts": "利用可能な製品を展開する"
+      "expandAvailableProducts": "利用可能な製品を展開する",
+      "openContainerRowActionsMenu": "{{ product }} のアクションメニューを開く"
     },
     "variantCarousel": {
       "title": "事前設定済みバージョン"

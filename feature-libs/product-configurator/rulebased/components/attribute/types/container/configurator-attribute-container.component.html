@@ -38,6 +38,7 @@
         *ngFor="let row of selectedProducts; let i = index"
         id="{{ createAttributeValueIdForConfigurator(attribute, row.id) }}"
         (handleDeselect)="onRemove(row)"
+        (handleRowAction)="onRowAction(row, $event)"
         [productCardOptions]="
           extractProductCardParameters(row, i, selectedProducts.length)
         "
@@ -83,6 +84,7 @@
         *ngFor="let row of availableProducts; let i = index"
         id="{{ createAttributeValueIdForConfigurator(attribute, row.id) }}"
         (handleSelect)="onAdd(row)"
+        (handleRowAction)="onRowAction(row, $event)"
         [productCardOptions]="
           extractProductCardParameters(row, i, availableProducts.length)
         "

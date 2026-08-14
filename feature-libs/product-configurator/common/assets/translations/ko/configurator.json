@@ -75,7 +75,9 @@
       "cancelConfigurationMobile": "취소",
       "filterOverview": "필터",
       "filterOverviewWithCount": "필터({{numAppliedFilters}})",
-      "showOptions": "옵션 표시"
+      "showOptions": "옵션 표시",
+      "edit": "편집",
+      "copy": "복사"
     },
     "icon": {
       "groupComplete": "완료",
@@ -240,7 +242,8 @@
       "collapseSelectedProducts": "선택한 제품 접기",
       "expandSelectedProducts": "선택한 제품 펼치기",
       "collapseAvailableProducts": "사용 가능한 제품 접기",
-      "expandAvailableProducts": "사용 가능한 제품 펼치기"
+      "expandAvailableProducts": "사용 가능한 제품 펼치기",
+      "openContainerRowActionsMenu": "{{ product }} 작업 메뉴 열기"
     },
     "variantCarousel": {
       "title": "사전 구성된 버전"

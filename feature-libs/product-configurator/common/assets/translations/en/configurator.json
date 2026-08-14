@@ -69,6 +69,8 @@
       "select": "Select",
       "add": "Add",
       "remove": "Remove",
+      "edit": "Edit",
+      "copy": "Copy",
       "exit": "Exit Configuration",
       "exitMobile": "Exit",
       "cancelConfiguration": "Cancel Configuration",
@@ -241,7 +243,8 @@
       "collapseSelectedProducts": "Collapse selected products",
       "expandSelectedProducts": "Expand selected products",
       "collapseAvailableProducts": "Collapse available products",
-      "expandAvailableProducts": "Expand available products"
+      "expandAvailableProducts": "Expand available products",
+      "openContainerRowActionsMenu": "Open actions menu for {{ product }}"
     },
     "variantCarousel": {
       "title": "Pre-configured Versions"

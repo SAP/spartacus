@@ -75,7 +75,9 @@
       "cancelConfigurationMobile": "रद्द करें",
       "filterOverview": "फ़िल्टर",
       "filterOverviewWithCount": "फ़िल्टर ({{numAppliedFilters}})",
-      "showOptions": "विकल्प दिखाएं"
+      "showOptions": "विकल्प दिखाएं",
+      "edit": "संपादित करें",
+      "copy": "कॉपी करें"
     },
     "icon": {
       "groupComplete": "पूर्ण करें",
@@ -240,7 +242,8 @@
       "collapseSelectedProducts": "चयनित उत्पाद संक्षिप्त करें",
       "expandSelectedProducts": "चयनित उत्पाद विस्तृत करें",
       "collapseAvailableProducts": "उपलब्ध उत्पाद संक्षिप्त करें",
-      "expandAvailableProducts": "उपलब्ध उत्पाद विस्तृत करें"
+      "expandAvailableProducts": "उपलब्ध उत्पाद विस्तृत करें",
+      "openContainerRowActionsMenu": "{{ product }} के लिए क्रिया मेनू खोलें"
     },
     "variantCarousel": {
       "title": "पूर्व-कॉन्फ़िगर किए गए संस्करण"

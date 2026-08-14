@@ -75,7 +75,9 @@
       "cancelConfigurationMobile": "Отменить",
       "filterOverview": "Фильтр",
       "filterOverviewWithCount": "Фильтр ({{numAppliedFilters}})",
-      "showOptions": "Показать опции"
+      "showOptions": "Показать опции",
+      "edit": "Изменить",
+      "copy": "Копировать"
     },
     "icon": {
       "groupComplete": "Завершено",
@@ -240,7 +242,8 @@
       "collapseSelectedProducts": "Свернуть выбранные продукты",
       "expandSelectedProducts": "Развернуть выбранные продукты",
       "collapseAvailableProducts": "Свернуть доступные продукты",
-      "expandAvailableProducts": "Развернуть доступные продукты"
+      "expandAvailableProducts": "Развернуть доступные продукты",
+      "openContainerRowActionsMenu": "Открыть меню действий для {{ product }}"
     },
     "variantCarousel": {
       "title": "Предварительно настроенные версии"

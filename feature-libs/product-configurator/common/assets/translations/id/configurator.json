@@ -75,7 +75,9 @@
       "cancelConfigurationMobile": "Batalkan",
       "filterOverview": "Filter",
       "filterOverviewWithCount": "Filter ({{numAppliedFilters}})",
-      "showOptions": "Tampilkan Opsi"
+      "showOptions": "Tampilkan Opsi",
+      "edit": "Edit",
+      "copy": "Salin"
     },
     "icon": {
       "groupComplete": "Lengkap",
@@ -240,7 +242,8 @@
       "collapseSelectedProducts": "Ciutkan produk terpilih",
       "expandSelectedProducts": "Bentangkan produk terpilih",
       "collapseAvailableProducts": "Ciutkan produk tersedia",
-      "expandAvailableProducts": "Bentangkan produk tersedia"
+      "expandAvailableProducts": "Bentangkan produk tersedia",
+      "openContainerRowActionsMenu": "Buka menu tindakan untuk {{ product }}"
     },
     "variantCarousel": {
       "title": "Versi yang Telah Dikonfigurasi Sebelumnya"

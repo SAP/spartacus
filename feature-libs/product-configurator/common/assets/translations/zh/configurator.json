@@ -75,7 +75,9 @@
       "cancelConfigurationMobile": "取消",
       "filterOverview": "过滤器",
       "filterOverviewWithCount": "过滤器 ({{numAppliedFilters}})",
-      "showOptions": "显示选项"
+      "showOptions": "显示选项",
+      "edit": "编辑",
+      "copy": "复制"
     },
     "icon": {
       "groupComplete": "完成",
@@ -240,7 +242,8 @@
       "collapseSelectedProducts": "折叠已选产品",
       "expandSelectedProducts": "展开已选产品",
       "collapseAvailableProducts": "折叠可用产品",
-      "expandAvailableProducts": "展开可用产品"
+      "expandAvailableProducts": "展开可用产品",
+      "openContainerRowActionsMenu": "打开 {{ product }} 的操作菜单"
     },
     "variantCarousel": {
       "title": "预配置版本"

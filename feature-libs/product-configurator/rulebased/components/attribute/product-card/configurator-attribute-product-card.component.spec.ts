@@ -1349,4 +1349,162 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       );
     });
   });
+
+  describe('container row actions menu', () => {
+    function setContainerRowActions(
+      actions: Configurator.ContainerRowAction[]
+    ): void {
+      component.productCardOptions.containerRow = {
+        id: 'row-1',
+        productSystemId: 'PRODUCT_CODE',
+        selected: true,
+        actions,
+      };
+    }
+
+    it('should show overflow menu toggle instead of add/remove when selected row actions are defined', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions([
+        Configurator.ContainerRowAction.DELETE,
+        Configurator.ContainerRowAction.EDIT,
+      ]);
+      fixture.detectChanges();
+
+      expect(
+        htmlElem.querySelector('.cx-product-card-actions-menu-toggle')
+      ).toBeTruthy();
+      expect(htmlElem.querySelector('button.btn')).toBeFalsy();
+    });
+
+    it('should show `ADD` button for available products even when row actions are defined', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component, false);
+      setContainerRowActions([
+        Configurator.ContainerRowAction.ADD,
+        Configurator.ContainerRowAction.EDIT,
+      ]);
+      fixture.detectChanges();
+
+      expect(
+        htmlElem.querySelector('.cx-product-card-actions-menu-toggle')
+      ).toBeFalsy();
+      expect(htmlElem.querySelector('button.btn-primary')).toBeTruthy();
+    });
+
+    it('should render `ELLIPSIS` icon on overflow menu toggle', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions([Configurator.ContainerRowAction.DELETE]);
+      fixture.detectChanges();
+
+      expect(
+        htmlElem.querySelector('.cx-product-card-actions-menu-toggle cx-icon')
+      ).toBeTruthy();
+    });
+
+    it('should open menu with one item per action', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions([
+        Configurator.ContainerRowAction.DELETE,
+        Configurator.ContainerRowAction.EDIT,
+        Configurator.ContainerRowAction.COPY,
+      ]);
+      fixture.detectChanges();
+
+      const toggle = htmlElem.querySelector(
+        '.cx-product-card-actions-menu-toggle'
+      ) as HTMLButtonElement;
+      toggle.click();
+      fixture.detectChanges();
+
+      expect(
+        htmlElem.querySelectorAll('.cx-product-card-actions-menu-item').length
+      ).toBe(3);
+    });
+
+    it('should emit handleRowAction when menu item is clicked', () => {
+      spyOn(component.handleRowAction, 'emit');
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions([
+        Configurator.ContainerRowAction.DELETE,
+        Configurator.ContainerRowAction.EDIT,
+      ]);
+      fixture.detectChanges();
+
+      const toggle = htmlElem.querySelector(
+        '.cx-product-card-actions-menu-toggle'
+      ) as HTMLButtonElement;
+      toggle.click();
+      fixture.detectChanges();
+
+      const menuItem = htmlElem.querySelector(
+        '.cx-product-card-actions-menu-item button'
+      ) as HTMLButtonElement;
+      menuItem.click();
+
+      expect(component.handleRowAction.emit).toHaveBeenCalledWith(
+        Configurator.ContainerRowAction.DELETE
+      );
+      expect(component.isActionsMenuOpen).toBe(false);
+    });
+
+    it('should resolve translation keys for row actions', () => {
+      expect(
+        component.getContainerRowActionLabel(
+          Configurator.ContainerRowAction.DELETE
+        )
+      ).toBe('configurator.button.remove');
+      expect(
+        component.getContainerRowActionLabel(
+          Configurator.ContainerRowAction.EDIT
+        )
+      ).toBe('configurator.button.edit');
+      expect(
+        component.getContainerRowActionLabel(
+          Configurator.ContainerRowAction.COPY
+        )
+      ).toBe('configurator.button.copy');
+      expect(
+        component.getContainerRowActionLabel(
+          Configurator.ContainerRowAction.ADD
+        )
+      ).toBe('configurator.button.add');
+      expect(
+        component.getContainerRowActionLabel(
+          'UNKNOWN' as Configurator.ContainerRowAction
+        )
+      ).toBe('');
+    });
+
+    it('should toggle overflow menu and stop click propagation', () => {
+      const event = jasmine.createSpyObj('event', ['stopPropagation']);
+
+      component.toggleActionsMenu(event);
+      expect(event.stopPropagation).toHaveBeenCalled();
+      expect(component.isActionsMenuOpen).toBe(true);
+
+      component.toggleActionsMenu(event);
+      expect(component.isActionsMenuOpen).toBe(false);
+    });
+
+    it('should close the overflow menu', () => {
+      component.isActionsMenuOpen = true;
+      component.closeActionsMenu();
+      expect(component.isActionsMenuOpen).toBe(false);
+    });
+
+    it('should keep `ADD / REMOVE` buttons when no row actions are defined', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      fixture.detectChanges();
+
+      expect(
+        htmlElem.querySelector('.cx-product-card-actions-menu-toggle')
+      ).toBeFalsy();
+      expect(htmlElem.querySelector('button.btn')).toBeTruthy();
+    });
+  });
 });

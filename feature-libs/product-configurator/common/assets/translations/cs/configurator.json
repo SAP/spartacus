@@ -75,7 +75,9 @@
       "cancelConfigurationMobile": "Zrušit",
       "filterOverview": "Filtrovat",
       "filterOverviewWithCount": "Filtr ({{numAppliedFilters}})",
-      "showOptions": "Zobrazit možnosti"
+      "showOptions": "Zobrazit možnosti",
+      "edit": "Upravit",
+      "copy": "Kopírovat"
     },
     "icon": {
       "groupComplete": "Dokončeno",
@@ -240,7 +242,8 @@
       "collapseSelectedProducts": "Sbalit vybrané produkty",
       "expandSelectedProducts": "Rozbalit vybrané produkty",
       "collapseAvailableProducts": "Sbalit dostupné produkty",
-      "expandAvailableProducts": "Rozbalit dostupné produkty"
+      "expandAvailableProducts": "Rozbalit dostupné produkty",
+      "openContainerRowActionsMenu": "Otevřít nabídku akcí pro {{ product }}"
     },
     "variantCarousel": {
       "title": "Předkonfigurované verze"

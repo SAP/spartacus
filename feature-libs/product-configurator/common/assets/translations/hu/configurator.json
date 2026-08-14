@@ -75,7 +75,9 @@
       "cancelConfigurationMobile": "Mégse",
       "filterOverview": "Szűrő",
       "filterOverviewWithCount": "Szűrő ({{numAppliedFilters}})",
-      "showOptions": "Beállítások megjelenítése"
+      "showOptions": "Beállítások megjelenítése",
+      "edit": "Szerkesztés",
+      "copy": "Másolás"
     },
     "icon": {
       "groupComplete": "Befejezve",
@@ -240,7 +242,8 @@
       "collapseSelectedProducts": "Kiválasztott termékek összecsukása",
       "expandSelectedProducts": "Kiválasztott termékek kibontása",
       "collapseAvailableProducts": "Elérhető termékek összecsukása",
-      "expandAvailableProducts": "Elérhető termékek kibontása"
+      "expandAvailableProducts": "Elérhető termékek kibontása",
+      "openContainerRowActionsMenu": "{{ product }} műveletek menüjének megnyitása"
     },
     "variantCarousel": {
       "title": "Előre konfigurált verziók"

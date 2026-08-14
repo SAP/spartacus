@@ -39,6 +39,8 @@ class MockProductCardComponent {
   @Input() productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
   @Output() handleSelect = new EventEmitter<string>();
   @Output() handleDeselect = new EventEmitter<string>();
+  @Output() handleRowAction =
+    new EventEmitter<Configurator.ContainerRowAction>();
 }
 
 class MockConfiguratorCommonsService {
@@ -492,6 +494,17 @@ describe('ConfiguratorAttributeContainerComponent', () => {
 
       expect(options.loading$).toBe(component.loading$);
     });
+
+    it('should pass the container row to the product card', () => {
+      const row = component.selectedProducts[0];
+      const options = component.extractProductCardParameters(
+        row,
+        0,
+        component.selectedProducts.length
+      );
+
+      expect(options.containerRow).toBe(row);
+    });
   });
 
   describe('onAdd', () => {
@@ -561,6 +574,41 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       component.onRemove(component.selectedProducts[0]);
 
       expect(component.loading$.value).toBe(true);
+    });
+  });
+
+  describe('onRowAction', () => {
+    it('should remove row for `DELETE`', () => {
+      spyOn(component, 'onRemove');
+      const row = component.selectedProducts[0];
+
+      component.onRowAction(row, Configurator.ContainerRowAction.DELETE);
+      expect(component.onRemove).toHaveBeenCalledWith(row);
+    });
+
+    it('should add row for `ADD`', () => {
+      spyOn(component, 'onAdd');
+      const row = component.availableProducts[0];
+
+      component.onRowAction(row, Configurator.ContainerRowAction.ADD);
+      expect(component.onAdd).toHaveBeenCalledWith(row);
+    });
+
+    it('should ignore actions that are not yet handled', () => {
+      spyOn(component, 'onRemove');
+      spyOn(component, 'onAdd');
+
+      component.onRowAction(
+        component.selectedProducts[0],
+        Configurator.ContainerRowAction.EDIT
+      );
+      component.onRowAction(
+        component.selectedProducts[0],
+        Configurator.ContainerRowAction.COPY
+      );
+
+      expect(component.onRemove).not.toHaveBeenCalled();
+      expect(component.onAdd).not.toHaveBeenCalled();
     });
   });
 });
