@@ -55,9 +55,7 @@
       "deselectionNotPossible": "Tambahkan produk lain sebelum menghapus produk ini",
       "dropDownSelectMsg": "Buat pilihan",
       "noOptionSelectedMsg": "Tidak ada opsi yang dipilih",
-      "notVisibleAttributeMsg": "Atribut ini tidak terlihat oleh pengguna",
-      "selectedProducts": "Produk Terpilih ({{count}})",
-      "availableProducts": "Produk Tersedia ({{count}})"
+      "notVisibleAttributeMsg": "Atribut ini tidak terlihat oleh pengguna"
     },
     "button": {
       "previous": "Sebelumnya",
@@ -75,9 +73,7 @@
       "cancelConfigurationMobile": "Batalkan",
       "filterOverview": "Filter",
       "filterOverviewWithCount": "Filter ({{numAppliedFilters}})",
-      "showOptions": "Tampilkan Opsi",
-      "edit": "Edit",
-      "copy": "Salin"
+      "showOptions": "Tampilkan Opsi"
     },
     "icon": {
       "groupComplete": "Lengkap",
@@ -238,12 +234,7 @@
       "closeConflictSolverModal": "Tutup modal fitur penyelesaian ketidaksesuaian",
       "closeRestartDialog": "Tutup dialog \"Konfigurasi yang Belum Selesai\" dan arahkan kembali ke halaman rincian produk",
       "description": "Klik untuk melihat deskripsi nilai {{ value }}",
-      "showOptionsForAttribute": "Tampilkan opsi untuk atribut {{ attribute }}",
-      "collapseSelectedProducts": "Ciutkan produk terpilih",
-      "expandSelectedProducts": "Bentangkan produk terpilih",
-      "collapseAvailableProducts": "Ciutkan produk tersedia",
-      "expandAvailableProducts": "Bentangkan produk tersedia",
-      "openContainerRowActionsMenu": "Buka menu tindakan untuk {{ product }}"
+      "showOptionsForAttribute": "Tampilkan opsi untuk atribut {{ attribute }}"
     },
     "variantCarousel": {
       "title": "Versi yang Telah Dikonfigurasi Sebelumnya"

@@ -55,9 +55,7 @@
       "deselectionNotPossible": "移除此產品前，先新增不同產品",
       "dropDownSelectMsg": "進行選擇",
       "noOptionSelectedMsg": "未選擇選項",
-      "notVisibleAttributeMsg": "使用者無法此查看屬性",
-      "selectedProducts": "已選產品 ({{count}})",
-      "availableProducts": "可用產品 ({{count}})"
+      "notVisibleAttributeMsg": "使用者無法此查看屬性"
     },
     "button": {
       "previous": "上一頁",
@@ -75,9 +73,7 @@
       "cancelConfigurationMobile": "取消",
       "filterOverview": "篩選器",
       "filterOverviewWithCount": "篩選器 ({{numAppliedFilters}})",
-      "showOptions": "顯示選項",
-      "edit": "編輯",
-      "copy": "複製"
+      "showOptions": "顯示選項"
     },
     "icon": {
       "groupComplete": "完成",
@@ -238,12 +234,7 @@
       "closeConflictSolverModal": "關閉衝突解決程式強制回應視窗",
       "closeRestartDialog": "關閉「未完成的組態」對話並瀏覽回產品明細頁面",
       "description": "按一下以查看值 {{ value }} 的說明",
-      "showOptionsForAttribute": "顯示屬性 {{ attribute }} 的選項",
-      "collapseSelectedProducts": "摺疊已選產品",
-      "expandSelectedProducts": "展開已選產品",
-      "collapseAvailableProducts": "摺疊可用產品",
-      "expandAvailableProducts": "展開可用產品",
-      "openContainerRowActionsMenu": "開啟 {{ product }} 的操作功能表"
+      "showOptionsForAttribute": "顯示屬性 {{ attribute }} 的選項"
     },
     "variantCarousel": {
       "title": "預先組態的版本"

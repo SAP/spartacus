@@ -55,9 +55,7 @@
       "deselectionNotPossible": "Adicione um produto diferente antes de remover este",
       "dropDownSelectMsg": "Faça uma seleção",
       "noOptionSelectedMsg": "Nenhuma opção selecionada",
-      "notVisibleAttributeMsg": "Este atributo não é visível para o usuário",
-      "selectedProducts": "Produtos selecionados ({{count}})",
-      "availableProducts": "Produtos disponíveis ({{count}})"
+      "notVisibleAttributeMsg": "Este atributo não é visível para o usuário"
     },
     "button": {
       "previous": "Anterior",
@@ -75,9 +73,7 @@
       "cancelConfigurationMobile": "Cancelar",
       "filterOverview": "Filtro",
       "filterOverviewWithCount": "Filtro ({{numAppliedFilters}})",
-      "showOptions": "Exibir opções",
-      "edit": "Editar",
-      "copy": "Copiar"
+      "showOptions": "Exibir opções"
     },
     "icon": {
       "groupComplete": "Completo",
@@ -238,12 +234,7 @@
       "closeConflictSolverModal": "Fechar modal de resolvedor de conflitos",
       "closeRestartDialog": "Fechar o diálogo \"Configuração não concluída\" e navegar de volta para a página de detalhes do produto",
       "description": "Clique para ver uma descrição para este valor {{ value }}",
-      "showOptionsForAttribute": "Exibir opções para atributo {{ attribute }}",
-      "collapseSelectedProducts": "Recolher produtos selecionados",
-      "expandSelectedProducts": "Expandir produtos selecionados",
-      "collapseAvailableProducts": "Recolher produtos disponíveis",
-      "expandAvailableProducts": "Expandir produtos disponíveis",
-      "openContainerRowActionsMenu": "Abrir o menu de ações para {{ product }}"
+      "showOptionsForAttribute": "Exibir opções para atributo {{ attribute }}"
     },
     "variantCarousel": {
       "title": "Versões pré-configuradas"

@@ -55,9 +55,7 @@
       "deselectionNotPossible": "この商品を削除する前に、別の商品を追加します",
       "dropDownSelectMsg": "選択してください",
       "noOptionSelectedMsg": "オプションが選択されていません",
-      "notVisibleAttributeMsg": "この属性はユーザには表示されません",
-      "selectedProducts": "選択済み製品 ({{count}})",
-      "availableProducts": "利用可能な製品 ({{count}})"
+      "notVisibleAttributeMsg": "この属性はユーザには表示されません"
     },
     "button": {
       "previous": "前",
@@ -75,9 +73,7 @@
       "cancelConfigurationMobile": "キャンセル",
       "filterOverview": "フィルタ",
       "filterOverviewWithCount": "フィルタ ({{numAppliedFilters}})",
-      "showOptions": "オプションを表示",
-      "edit": "編集",
-      "copy": "コピー"
+      "showOptions": "オプションを表示"
     },
     "icon": {
       "groupComplete": "完了",
@@ -238,12 +234,7 @@
       "closeConflictSolverModal": "不整合ソルバのモーダルを閉じます",
       "closeRestartDialog": "\"完了していない設定\" ダイアログを閉じて、商品の詳細ページに戻ります",
       "description": "クリックして値 {{ value }} の説明を表示します",
-      "showOptionsForAttribute": "属性 {{ attribute }} のオプションを表示します",
-      "collapseSelectedProducts": "選択済み製品を折りたたむ",
-      "expandSelectedProducts": "選択済み製品を展開する",
-      "collapseAvailableProducts": "利用可能な製品を折りたたむ",
-      "expandAvailableProducts": "利用可能な製品を展開する",
-      "openContainerRowActionsMenu": "{{ product }} のアクションメニューを開く"
+      "showOptionsForAttribute": "属性 {{ attribute }} のオプションを表示します"
     },
     "variantCarousel": {
       "title": "事前設定済みバージョン"

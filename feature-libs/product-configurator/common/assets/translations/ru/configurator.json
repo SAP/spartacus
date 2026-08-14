@@ -55,9 +55,7 @@
       "deselectionNotPossible": "Добавьте другой продукт, прежде чем удалить выбранный",
       "dropDownSelectMsg": "Сделайте выбор",
       "noOptionSelectedMsg": "Вариант не выбран",
-      "notVisibleAttributeMsg": "Этот атрибут не отображается для пользователя",
-      "selectedProducts": "Выбранные продукты ({{count}})",
-      "availableProducts": "Доступные продукты ({{count}})"
+      "notVisibleAttributeMsg": "Этот атрибут не отображается для пользователя"
     },
     "button": {
       "previous": "Назад",
@@ -75,9 +73,7 @@
       "cancelConfigurationMobile": "Отменить",
       "filterOverview": "Фильтр",
       "filterOverviewWithCount": "Фильтр ({{numAppliedFilters}})",
-      "showOptions": "Показать опции",
-      "edit": "Изменить",
-      "copy": "Копировать"
+      "showOptions": "Показать опции"
     },
     "icon": {
       "groupComplete": "Завершено",
@@ -238,12 +234,7 @@
       "closeConflictSolverModal": "Закрыть модуль средства устранения конфликтов",
       "closeRestartDialog": "Закрыть диалоговое окно \"Незавершенная конфигурация\" и вернуться на страницу сведений продукта",
       "description": "Щелкните, чтобы просмотреть описание значения {{ value }}",
-      "showOptionsForAttribute": "Показать опции для атрибута {{ attribute }}",
-      "collapseSelectedProducts": "Свернуть выбранные продукты",
-      "expandSelectedProducts": "Развернуть выбранные продукты",
-      "collapseAvailableProducts": "Свернуть доступные продукты",
-      "expandAvailableProducts": "Развернуть доступные продукты",
-      "openContainerRowActionsMenu": "Открыть меню действий для {{ product }}"
+      "showOptionsForAttribute": "Показать опции для атрибута {{ attribute }}"
     },
     "variantCarousel": {
       "title": "Предварительно настроенные версии"
