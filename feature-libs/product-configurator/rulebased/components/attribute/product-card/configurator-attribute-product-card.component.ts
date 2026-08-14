@@ -363,9 +363,10 @@ export class ConfiguratorAttributeProductCardComponent
 
   /**
    * Resolves the i18n key for a container-row action.
+   * Falls back to the action name when no translation is defined.
    *
    * @param action - Row action
-   * @returns - Translation key
+   * @returns - Translation key, or the action name if none is defined
    */
   getContainerRowActionLabel(action: Configurator.ContainerRowAction): string {
     switch (action) {
@@ -378,7 +379,7 @@ export class ConfiguratorAttributeProductCardComponent
       case Configurator.ContainerRowAction.ADD:
         return 'configurator.button.add';
       default:
-        return '';
+        return action;
     }
   }
 

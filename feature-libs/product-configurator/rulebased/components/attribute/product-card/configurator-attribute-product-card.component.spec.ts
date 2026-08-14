@@ -1476,7 +1476,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         component.getContainerRowActionLabel(
           'UNKNOWN' as Configurator.ContainerRowAction
         )
-      ).toBe('');
+      ).toBe('UNKNOWN');
     });
 
     it('should toggle overflow menu and stop click propagation', () => {
