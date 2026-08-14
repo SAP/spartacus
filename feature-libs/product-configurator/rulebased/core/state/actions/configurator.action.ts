@@ -212,16 +212,17 @@ export class AddContainerRow extends StateUtils.EntityProcessesIncrementAction {
   }
 }
 
-export class AddContainerRowFail
+abstract class ContainerRowFailAction<
+    T extends { owner: CommonConfigurator.Owner },
+  >
   extends StateUtils.EntityProcessesDecrementAction
   implements ErrorAction
 {
   public error: any;
-  readonly type = ADD_CONTAINER_ROW_FAIL;
 
   constructor(
     public payload: {
-      parameters: Configurator.AddContainerRowParameters;
+      parameters: T;
       error: any;
     }
   ) {
@@ -229,6 +230,10 @@ export class AddContainerRowFail
     this.error = payload.error;
     setErrorLoader(this, payload.error);
   }
+}
+
+export class AddContainerRowFail extends ContainerRowFailAction<Configurator.AddContainerRowParameters> {
+  readonly type = ADD_CONTAINER_ROW_FAIL;
 }
 
 export class AddContainerRowSuccess extends StateUtils.EntityProcessesDecrementAction {
@@ -248,23 +253,8 @@ export class RemoveContainerRow extends StateUtils.EntityProcessesIncrementActio
   }
 }
 
-export class RemoveContainerRowFail
-  extends StateUtils.EntityProcessesDecrementAction
-  implements ErrorAction
-{
-  public error: any;
+export class RemoveContainerRowFail extends ContainerRowFailAction<Configurator.RemoveContainerRowParameters> {
   readonly type = REMOVE_CONTAINER_ROW_FAIL;
-
-  constructor(
-    public payload: {
-      parameters: Configurator.RemoveContainerRowParameters;
-      error: any;
-    }
-  ) {
-    super(CONFIGURATOR_DATA, payload.parameters.owner.key);
-    this.error = payload.error;
-    setErrorLoader(this, payload.error);
-  }
 }
 
 export class RemoveContainerRowSuccess extends StateUtils.EntityProcessesDecrementAction {

@@ -24,6 +24,8 @@ import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCommonsService {
   protected logger = inject(LoggerService);
+  protected readonly CART_BUSY_NO_UPDATES_MSG =
+    'Cart is busy, no configuration updates possible';
 
   constructor(
     protected store: Store<StateWithConfigurator>,
@@ -143,9 +145,7 @@ export class ConfiguratorCommonsService {
             take(1),
             tap((stable) => {
               if (isDevMode() && cart.code && !stable) {
-                this.logger.warn(
-                  'Cart is busy, no configuration updates possible'
-                );
+                this.logger.warn(this.CART_BUSY_NO_UPDATES_MSG);
               }
             }),
             filter((stable) => !cart.code || stable),
@@ -198,9 +198,7 @@ export class ConfiguratorCommonsService {
             take(1),
             tap((stable) => {
               if (isDevMode() && cart.code && !stable) {
-                this.logger.warn(
-                  'Cart is busy, no configuration updates possible'
-                );
+                this.logger.warn(this.CART_BUSY_NO_UPDATES_MSG);
               }
             }),
             filter((stable) => !cart.code || stable),
@@ -246,9 +244,7 @@ export class ConfiguratorCommonsService {
             take(1),
             tap((stable) => {
               if (isDevMode() && cart.code && !stable) {
-                this.logger.warn(
-                  'Cart is busy, no configuration updates possible'
-                );
+                this.logger.warn(this.CART_BUSY_NO_UPDATES_MSG);
               }
             }),
             filter((stable) => !cart.code || stable),
