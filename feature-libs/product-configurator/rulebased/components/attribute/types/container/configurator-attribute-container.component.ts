@@ -9,12 +9,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import {
   ConfiguratorAttributeProductCardComponent,
   ConfiguratorAttributeProductCardComponentOptions,
 } from '../../product-card/configurator-attribute-product-card.component';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { ConfiguratorAttributeSelectionBaseComponent } from '../base/configurator-attribute-selection-base.component';
 
 /**
  * Renders a CPQ container attribute and its individually configurable
@@ -33,8 +32,9 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
     ConfiguratorAttributeProductCardComponent,
   ],
 })
-export class ConfiguratorAttributeContainerComponent extends ConfiguratorAttributeBaseComponent {
+export class ConfiguratorAttributeContainerComponent extends ConfiguratorAttributeSelectionBaseComponent {
   attribute: Configurator.Attribute;
+  ownerKey: string;
 
   /**
    * Whether the selected-products accordion section is expanded.
@@ -48,11 +48,10 @@ export class ConfiguratorAttributeContainerComponent extends ConfiguratorAttribu
    */
   availableProductsExpanded = true;
 
-  constructor(
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
-  ) {
+  constructor() {
     super();
-    this.attribute = attributeComponentContext.attribute;
+    this.attribute = this.attributeComponentContext.attribute;
+    this.ownerKey = this.attributeComponentContext.owner.key;
   }
 
   /**
@@ -102,6 +101,24 @@ export class ConfiguratorAttributeContainerComponent extends ConfiguratorAttribu
   }
 
   /**
+   * Adds the given available product as a new container row.
+   *
+   * @param row - Available container row to add
+   */
+  onAdd(row: Configurator.ContainerRow): void {
+    if (!row.productSystemId) {
+      return;
+    }
+    this.loading$.next(true);
+    this.configuratorCommonsService.addContainerRow(
+      this.ownerKey,
+      this.getAttributeCode(this.attribute),
+      row.productSystemId,
+      this.attribute.containerRowId
+    );
+  }
+
+  /**
    * Builds product card options for a container row.
    *
    * @param row - Container row to display
@@ -122,6 +139,7 @@ export class ConfiguratorAttributeContainerComponent extends ConfiguratorAttribu
       attributeName: this.attribute.name,
       itemCount,
       itemIndex: index,
+      loading$: this.loading$,
     };
   }
 

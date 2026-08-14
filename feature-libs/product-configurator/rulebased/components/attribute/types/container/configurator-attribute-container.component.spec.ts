@@ -1,8 +1,16 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
@@ -29,12 +37,21 @@ class MockCxIconComponent {
 })
 class MockProductCardComponent {
   @Input() productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
+  @Output() handleSelect = new EventEmitter<string>();
+}
+
+class MockConfiguratorCommonsService {
+  addContainerRow(): void {}
+  isConfigurationLoading(): Observable<boolean> {
+    return of(false);
+  }
 }
 
 describe('ConfiguratorAttributeContainerComponent', () => {
   let component: ConfiguratorAttributeContainerComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeContainerComponent>;
   let htmlElem: HTMLElement;
+  let configuratorCommonsService: ConfiguratorCommonsService;
 
   function createAttribute(
     rows: Configurator.ContainerRow[] = [
@@ -83,6 +100,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
           useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
         {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
           provide: ConfiguratorStorefrontUtilsService,
           useValue: {},
         },
@@ -106,6 +127,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     fixture = TestBed.createComponent(ConfiguratorAttributeContainerComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
     component.attribute = createAttribute();
     fixture.detectChanges();
   });
@@ -457,6 +479,66 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       expect(options.productBoundValue.valueCode).toBe('row-2');
       expect(options.productBoundValue.selected).toBe(false);
       expect(options.productBoundValue.productSystemId).toBe('SYS_B');
+    });
+
+    it('should include loading$', () => {
+      const options = component.extractProductCardParameters(
+        component.availableProducts[0],
+        0,
+        component.availableProducts.length
+      );
+
+      expect(options.loading$).toBe(component.loading$);
+    });
+  });
+
+  describe('onAdd', () => {
+    it('should call addContainerRow with owner key, attribute code and product system id', () => {
+      spyOn(configuratorCommonsService, 'addContainerRow');
+
+      component.onAdd(component.availableProducts[0]);
+
+      expect(configuratorCommonsService.addContainerRow).toHaveBeenCalledWith(
+        component.ownerKey,
+        1111,
+        'SYS_B',
+        undefined
+      );
+    });
+
+    it('should pass containerRowId as parent row id for nested containers', () => {
+      spyOn(configuratorCommonsService, 'addContainerRow');
+      component.attribute.containerRowId = 'parent-1';
+
+      component.onAdd(component.availableProducts[0]);
+
+      expect(configuratorCommonsService.addContainerRow).toHaveBeenCalledWith(
+        component.ownerKey,
+        1111,
+        'SYS_B',
+        'parent-1'
+      );
+    });
+
+    it('should set loading$ before calling addContainerRow', () => {
+      spyOn(configuratorCommonsService, 'addContainerRow');
+
+      component.onAdd(component.availableProducts[0]);
+
+      expect(component.loading$.value).toBe(true);
+    });
+
+    it('should not call addContainerRow when productSystemId is missing', () => {
+      spyOn(configuratorCommonsService, 'addContainerRow');
+
+      component.onAdd({
+        id: 'row-without-product',
+        productName: 'Incomplete product',
+        selected: false,
+      });
+
+      expect(configuratorCommonsService.addContainerRow).not.toHaveBeenCalled();
+      expect(component.loading$.value).toBe(false);
     });
   });
 });
