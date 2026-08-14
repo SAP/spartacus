@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Cart, CartType } from '@spartacus/cart/base/root';
-import { FeatureToggles, UserIdService } from '@spartacus/core';
-import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
+import { UserIdService } from '@spartacus/core';
 import { firstValueFrom, of } from 'rxjs';
+import { vi } from 'vitest';
 import { CartActions } from '../store/actions';
 import {
   MULTI_CART_FEATURE,
@@ -58,14 +58,9 @@ class MockUserIdService implements Partial<UserIdService> {
   });
 }
 
-const mockFeatureToggles: FeatureToggles = {
-  authorizationCodeFlowByDefault: false,
-};
-
 describe('MultiCartService', () => {
   let service: MultiCartService;
   let store: Store<StateWithMultiCart>;
-  let featureToggles: FeatureToggles;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -79,13 +74,11 @@ describe('MultiCartService', () => {
       providers: [
         MultiCartService,
         { provide: UserIdService, useClass: MockUserIdService },
-        provideMockFeatureToggles({ ...mockFeatureToggles }),
       ],
     });
 
     store = TestBed.inject(Store);
     service = TestBed.inject(MultiCartService);
-    featureToggles = TestBed.inject(FeatureToggles);
     vi.spyOn(store, 'dispatch');
   });
 
@@ -317,47 +310,23 @@ describe('MultiCartService', () => {
   });
 
   describe('mergeToCurrentCart', () => {
-    describe('feature flag authorizationCodeFlowByDefault is enabled', () => {
-      it('should merge cart', () => {
-        vi.spyOn(service as any, 'generateTempCartId').mockReturnValue(
-          'temp-uuid'
-        );
-        featureToggles.authorizationCodeFlowByDefault = true;
-        service.mergeToCurrentCart({
-          userId: 'userId',
-          cartId: 'cartId',
-          extraData: {},
-        });
-        expect(store.dispatch).toHaveBeenCalledWith(
-          new CartActions.MergeCartAndIncrementProcessesCount({
-            userId: 'userId',
-            extraData: {},
-            cartId: 'cartId',
-            tempCartId: 'temp-uuid',
-          })
-        );
+    it('should merge cart', () => {
+      vi.spyOn(service as any, 'generateTempCartId').mockReturnValue(
+        'temp-uuid'
+      );
+      service.mergeToCurrentCart({
+        userId: 'userId',
+        cartId: 'cartId',
+        extraData: {},
       });
-    });
-    describe('feature flag authorizationCodeFlowByDefault is disabled', () => {
-      it('should merge cart', () => {
-        vi.spyOn(service as any, 'generateTempCartId').mockReturnValue(
-          'temp-uuid'
-        );
-        featureToggles.authorizationCodeFlowByDefault = false;
-        service.mergeToCurrentCart({
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.MergeCartAndIncrementProcessesCount({
           userId: 'userId',
-          cartId: 'cartId',
           extraData: {},
-        });
-        expect(store.dispatch).toHaveBeenCalledWith(
-          new CartActions.MergeCart({
-            userId: 'userId',
-            extraData: {},
-            cartId: 'cartId',
-            tempCartId: 'temp-uuid',
-          })
-        );
-      });
+          cartId: 'cartId',
+          tempCartId: 'temp-uuid',
+        })
+      );
     });
   });
 

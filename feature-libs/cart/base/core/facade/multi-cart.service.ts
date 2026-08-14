@@ -13,7 +13,6 @@ import {
   OrderEntry,
 } from '@spartacus/cart/base/root';
 import {
-  FeatureToggles,
   isNotUndefined,
   StateUtils,
   UserIdService,
@@ -33,7 +32,6 @@ import { MultiCartSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class MultiCartService implements MultiCartFacade {
-  private featureToggles = inject(FeatureToggles);
   protected windowRef = inject(WindowRef);
 
   constructor(
@@ -157,25 +155,14 @@ export class MultiCartService implements MultiCartFacade {
     };
   }) {
     const tempCartId = this.generateTempCartId();
-    if (this.featureToggles.authorizationCodeFlowByDefault) {
-      this.store.dispatch(
-        new CartActions.MergeCartAndIncrementProcessesCount({
-          userId,
-          cartId,
-          extraData,
-          tempCartId,
-        })
-      );
-    } else {
-      this.store.dispatch(
-        new CartActions.MergeCart({
-          userId,
-          cartId,
-          extraData,
-          tempCartId,
-        })
-      );
-    }
+    this.store.dispatch(
+      new CartActions.MergeCartAndIncrementProcessesCount({
+        userId,
+        cartId,
+        extraData,
+        tempCartId,
+      })
+    );
   }
 
   /**
