@@ -8,7 +8,7 @@
   .cx-accordion {
     width: 100%;
 
-    &.cx-selected-products {
+    &:first-child {
       background-color: var(--cx-color-background);
     }
 
@@ -24,11 +24,11 @@
       padding-inline-start: 16px;
 
       .cx-title {
-        @include type('6');
+        @include type('7');
         font-weight: bold;
       }
 
-      .cx-toggle {
+      button {
         border: none;
         background-color: transparent;
         padding-inline-start: 0;
@@ -38,11 +38,6 @@
         cursor: pointer;
         color: var(--cx-color-text);
       }
-    }
-
-    .cx-content {
-      width: 100%;
-      padding-block-end: 10px;
     }
   }
 }

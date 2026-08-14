@@ -207,10 +207,17 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     it('should expand both sections initially', () => {
       expect(component.selectedProductsExpanded).toBe(true);
       expect(component.availableProductsExpanded).toBe(true);
-      CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+      const sections = htmlElem.querySelectorAll('.cx-accordion');
+      CommonConfiguratorTestUtilsService.expectNumberOfElements(
         expect,
-        htmlElem,
-        '.cx-content',
+        sections[0],
+        'cx-configurator-attribute-product-card',
+        1
+      );
+      CommonConfiguratorTestUtilsService.expectNumberOfElements(
+        expect,
+        sections[1],
+        'cx-configurator-attribute-product-card',
         2
       );
     });
@@ -219,7 +226,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
-        '.cx-toggle',
+        '.cx-header button',
         2
       );
     });
@@ -230,12 +237,12 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         sections[0],
-        '.cx-toggle cx-icon'
+        '.cx-header button cx-icon'
       );
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         sections[1],
-        '.cx-toggle cx-icon'
+        '.cx-header button cx-icon'
       );
     });
 
@@ -254,7 +261,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         sections[0],
-        '.cx-toggle'
+        '.cx-header button'
       );
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
@@ -264,7 +271,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         sections[1],
-        '.cx-toggle cx-icon'
+        '.cx-header button cx-icon'
       );
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
@@ -289,12 +296,12 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         sections[0],
-        '.cx-toggle cx-icon'
+        '.cx-header button cx-icon'
       );
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         sections[1],
-        '.cx-toggle'
+        '.cx-header button'
       );
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
@@ -317,7 +324,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-toggle'
+        '.cx-header button'
       );
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
@@ -327,7 +334,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-content'
+        'cx-configurator-attribute-product-card'
       );
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
@@ -352,11 +359,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
 
       expect(component.selectedProductsExpanded).toBe(false);
       expect(component.selectedProductsToggleIcon).toBe(ICON_TYPE.EXPAND);
-      CommonConfiguratorTestUtilsService.expectNumberOfElements(
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
-        htmlElem,
-        '.cx-content',
-        1
+        htmlElem.querySelectorAll('.cx-accordion')[0],
+        'cx-configurator-attribute-product-card'
       );
 
       component.toggleSelectedProducts();
@@ -364,16 +370,18 @@ describe('ConfiguratorAttributeContainerComponent', () => {
 
       expect(component.selectedProductsExpanded).toBe(true);
       expect(component.selectedProductsToggleIcon).toBe(ICON_TYPE.COLLAPSE);
-      CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+      CommonConfiguratorTestUtilsService.expectNumberOfElements(
         expect,
-        htmlElem,
-        '.cx-content',
-        2
+        htmlElem.querySelectorAll('.cx-accordion')[0],
+        'cx-configurator-attribute-product-card',
+        1
       );
     });
 
     it('should collapse the selected products section when the toggle is clicked', () => {
-      const toggle = htmlElem.querySelector('.cx-toggle') as HTMLButtonElement;
+      const toggle = htmlElem.querySelector(
+        '.cx-header button'
+      ) as HTMLButtonElement;
       toggle.click();
       fixture.detectChanges();
 
@@ -397,7 +405,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     });
 
     it('should collapse the available products section when the toggle is clicked', () => {
-      const toggles = htmlElem.querySelectorAll('.cx-toggle');
+      const toggles = htmlElem.querySelectorAll('.cx-header button');
       (toggles[1] as HTMLButtonElement).click();
       fixture.detectChanges();
 
@@ -416,7 +424,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     });
 
     it('should render selected product cards in the selected section', () => {
-      const selectedSection = htmlElem.querySelectorAll('.cx-content')[0];
+      const selectedSection = htmlElem.querySelectorAll('.cx-accordion')[0];
       CommonConfiguratorTestUtilsService.expectNumberOfElements(
         expect,
         selectedSection,
@@ -426,7 +434,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     });
 
     it('should render available product cards in the available section', () => {
-      const availableSection = htmlElem.querySelectorAll('.cx-content')[1];
+      const availableSection = htmlElem.querySelectorAll('.cx-accordion')[1];
       CommonConfiguratorTestUtilsService.expectNumberOfElements(
         expect,
         availableSection,

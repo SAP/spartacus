@@ -113,8 +113,7 @@
         background-color: transparent;
         padding-block-start: 8px;
         padding-block-end: 8px;
-        padding-inline-start: 8px;
-        padding-inline-end: 8px;
+        padding-inline-end: 0;
         cursor: pointer;
         color: var(--cx-color-primary);
 
@@ -137,6 +136,8 @@
         list-style: none;
         background-color: #fff;
         border: 1px solid var(--cx-color-light);
+        border-radius: var(--cx-border-radius);
+        overflow: hidden;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 
         .cx-product-card-actions-menu-item {
