@@ -29,7 +29,7 @@
     "@types/deep-equal": "^1.0.1",
     "@types/glob": "^9.0.0",
     "deep-equal": "^2.0.5",
-    "glob": "^7.2.0",
+    "glob": "^13.0.6",
     "stringify-object": "7.0.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.0"
