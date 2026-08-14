@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+// eslint-disable-next-line @nx/workspace-no-self-public-api-import -- ESLint is misfiring here: core and root are not the same library — they're separate entry points
 import { Cart, CartType } from '@spartacus/cart/base/root';
 import { UserIdService } from '@spartacus/core';
 import { firstValueFrom, of } from 'rxjs';
@@ -98,7 +99,7 @@ describe('MultiCartService', () => {
             active: true,
           },
           cart: testCart,
-          cartId: testCart.code,
+          cartId: testCart.code as string,
         })
       );
 
@@ -143,7 +144,7 @@ describe('MultiCartService', () => {
             active: true,
           },
           cart: testCart,
-          cartId: testCart.code,
+          cartId: testCart.code as string,
         })
       );
 
@@ -173,11 +174,11 @@ describe('MultiCartService', () => {
             active: true,
           },
           cart: testCart,
-          cartId: testCart.code,
+          cartId: testCart.code as string,
         })
       );
 
-      expect(result).toEqual(testCart.entries[1]);
+      expect(result).toEqual(testCart.entries?.[1]);
     });
 
     it('should return undefined in case product is not available in cart', () => {
@@ -195,7 +196,7 @@ describe('MultiCartService', () => {
             active: true,
           },
           cart: testCart,
-          cartId: testCart.code,
+          cartId: testCart.code as string,
         })
       );
 
@@ -217,7 +218,7 @@ describe('MultiCartService', () => {
             active: true,
           },
           cart: testCart,
-          cartId: testCart.code,
+          cartId: testCart.code as string,
         })
       );
       const isStable = await firstValueFrom(service.isStable('xxx'));
@@ -274,7 +275,7 @@ describe('MultiCartService', () => {
       store.dispatch(
         new CartActions.SetCartTypeIndex({
           cartType: CartType.NEW_CREATED,
-          cartId: testCart.code,
+          cartId: testCart.code as string,
         })
       );
       expect(result).toEqual(testCart);
@@ -302,7 +303,7 @@ describe('MultiCartService', () => {
       store.dispatch(
         new CartActions.SetCartTypeIndex({
           cartType: CartType.ACTIVE,
-          cartId: testCart.code,
+          cartId: testCart.code as string,
         })
       );
       expect(result).toEqual(testCart);
@@ -368,7 +369,7 @@ describe('MultiCartService', () => {
             active: true,
           },
           cart: testCart,
-          cartId: testCart.code,
+          cartId: testCart.code as string,
         })
       );
 
@@ -505,7 +506,7 @@ describe('MultiCartService', () => {
     it('should return cart entry', () => {
       let result;
       service
-        .getEntry('xxx', testCart.entries[0].product.code)
+        .getEntry('xxx', testCart.entries?.[0]?.product?.code as string)
         .subscribe((cart) => {
           result = cart;
         });
@@ -519,11 +520,11 @@ describe('MultiCartService', () => {
             active: true,
           },
           cart: testCart,
-          cartId: testCart.code,
+          cartId: testCart.code as string,
         })
       );
 
-      expect(result).toEqual(testCart.entries[0]);
+      expect(result).toEqual(testCart.entries?.[0]);
     });
   });
 
@@ -543,11 +544,11 @@ describe('MultiCartService', () => {
             active: true,
           },
           cart: testCart,
-          cartId: testCart.code,
+          cartId: testCart.code as string,
         })
       );
 
-      expect(result).toEqual(testCart.entries[1]);
+      expect(result).toEqual(testCart.entries?.[1]);
     });
   });
 
