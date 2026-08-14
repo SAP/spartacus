@@ -1,9 +1,9 @@
-import { vi } from 'vitest';
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   DebugElement,
+  Directive,
+  Input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
@@ -14,13 +14,19 @@ import {
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  FeaturesConfigModule,
-  I18nTestingModule,
+  FeatureDirective,
+  FeaturesConfig,
+  MockTranslatePipe,
   PageMeta,
   PageMetaService,
+  TranslatePipe,
 } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
-import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import {
+  FormErrorsModule,
+  NgSelectA11yDirective,
+  SpinnerComponent,
+} from '@spartacus/storefront';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
@@ -33,20 +39,17 @@ const mockPageMeta: PageMeta = { title: 'Test Title', heading: 'Test Heading' };
 class MockPageMetaService implements Partial<PageMetaService> {
   getMeta = () => of(mockPageMeta);
 }
+
 @Component({
   selector: 'cx-spinner',
-  template: ` <div>spinner</div> `,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    I18nTestingModule,
-    FormErrorsModule,
-    UrlTestingModule,
-    NgSelectModule,
-    FeaturesConfigModule,
-  ],
+  template: '',
 })
 class MockCxSpinnerComponent {}
+
+@Directive({ selector: '[cxNgSelectA11y]' })
+class MockNgSelectA11yDirective {
+  @Input() cxNgSelectA11y: { ariaLabel?: string; ariaControls?: string };
+}
 
 const isBusySubject = new BehaviorSubject(false);
 
@@ -74,27 +77,41 @@ describe('MyAccountV2ProfileComponent', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
-        CommonModule,
         ReactiveFormsModule,
-        I18nTestingModule,
         FormErrorsModule,
-        UrlTestingModule,
         NgSelectModule,
-        FeaturesConfigModule,
         MyAccountV2ProfileComponent,
         MockCxSpinnerComponent,
+        MockNgSelectA11yDirective,
       ],
       providers: [
         {
           provide: UpdateProfileComponentService,
           useClass: MockProfileService,
         },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.2' },
+          },
+        },
         { provide: PageMetaService, useClass: MockPageMetaService },
         ...provideMockFeatureToggles({ a11yFormFieldSectionLegend: true }),
       ],
     })
       .overrideComponent(MyAccountV2ProfileComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        remove: {
+          imports: [TranslatePipe, SpinnerComponent, NgSelectA11yDirective, FeatureDirective],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCxSpinnerComponent,
+            MockNgSelectA11yDirective,
+            MockFeatureDirective,
+          ],
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
       })
       .compileComponents();
   });

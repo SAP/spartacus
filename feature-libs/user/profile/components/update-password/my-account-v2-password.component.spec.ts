@@ -1,4 +1,18 @@
 import { vi } from 'vitest';
+
+vi.mock('@spartacus/storefront', async (importActual) => {
+  const actual = await importActual<typeof import('@spartacus/storefront')>();
+  const { filter, map } = await import('rxjs/operators');
+  const { isNotNullable } = await import('@spartacus/core');
+  return {
+    ...actual,
+    getPageTitle: (pageMetaService: any) =>
+      pageMetaService
+        .getMeta()
+        .pipe(filter(isNotNullable), map((meta: any) => (meta.heading || meta.title) ?? '')),
+  };
+});
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -21,12 +35,14 @@ import {
   PageMetaService,
   TranslatePipe,
   UrlPipe,
+  FeatureDirective,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
   SpinnerComponent,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
@@ -100,7 +116,7 @@ describe('MyAccountV2PasswordComponent', () => {
     })
       .overrideComponent(MyAccountV2PasswordComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe, SpinnerComponent],
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, SpinnerComponent, FeatureDirective],
         },
         add: {
           imports: [
@@ -108,6 +124,7 @@ describe('MyAccountV2PasswordComponent', () => {
             MockDatePipe,
             MockUrlPipe,
             MockCxSpinnerComponent,
+            MockFeatureDirective,
           ],
           changeDetection: ChangeDetectionStrategy.Default,
         },

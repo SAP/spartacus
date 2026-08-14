@@ -1,4 +1,18 @@
 import { vi } from 'vitest';
+
+vi.mock('@spartacus/storefront', async (importActual) => {
+  const actual = await importActual<typeof import('@spartacus/storefront')>();
+  const { filter, map } = await import('rxjs/operators');
+  const { isNotNullable } = await import('@spartacus/core');
+  return {
+    ...actual,
+    getPageTitle: (pageMetaService: any) =>
+      pageMetaService
+        .getMeta()
+        .pipe(filter(isNotNullable), map((meta: any) => (meta.heading || meta.title) ?? '')),
+  };
+});
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,6 +27,7 @@ import {
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
+  FeatureDirective,
   GlobalMessageService,
   I18nTestingModule,
   MockDatePipe,
@@ -28,6 +43,7 @@ import {
   PasswordVisibilityToggleModule,
   SpinnerComponent,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
@@ -117,7 +133,7 @@ describe('MyAccountV2EmailComponent', () => {
     })
       .overrideComponent(MyAccountV2EmailComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe, SpinnerComponent],
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, SpinnerComponent, FeatureDirective],
         },
         add: {
           imports: [
@@ -125,6 +141,7 @@ describe('MyAccountV2EmailComponent', () => {
             MockDatePipe,
             MockUrlPipe,
             MockCxSpinnerComponent,
+            MockFeatureDirective,
           ],
           changeDetection: ChangeDetectionStrategy.Default,
         },

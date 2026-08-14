@@ -184,6 +184,10 @@ describe('LoginFormComponentService', () => {
     globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('should create service', () => {
     expect(service).toBeTruthy();
   });
@@ -275,7 +279,11 @@ describe('LoginFormComponentService', () => {
         TestBed.resetTestingModule();
         TestBed.configureTestingModule({
           providers: [...providers],
-        }).compileComponents();
+        });
+        TestBed.overrideProvider(FeatureToggles, {
+          useFactory: () => TestBed.inject(MockFeatureTogglesController),
+        });
+        await TestBed.compileComponents();
       });
 
       beforeEach(() => {
@@ -487,7 +495,11 @@ describe('LoginFormComponentService', () => {
           TestBed.resetTestingModule();
           TestBed.configureTestingModule({
             providers: [...providers],
-          }).compileComponents();
+          });
+          TestBed.overrideProvider(FeatureToggles, {
+            useFactory: () => TestBed.inject(MockFeatureTogglesController),
+          });
+          await TestBed.compileComponents();
         });
 
         beforeEach(() => {

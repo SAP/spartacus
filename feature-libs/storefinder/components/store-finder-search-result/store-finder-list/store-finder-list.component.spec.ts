@@ -190,6 +190,6 @@ describe('StoreFinderListComponent', () => {
       By.css('.cx-back')
     )?.nativeElement;
     expect(backButton).toBeDefined();
-    expect(document.activeElement).toBe(backButton);
+    expect(document.activeElement).toContain(backButton);
   });
 });

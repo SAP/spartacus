@@ -1,5 +1,3 @@
-import { vi } from 'vitest';
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -16,7 +14,6 @@ import {
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  FeaturesConfig,
   MockTranslatePipe,
   MockTranslationService,
   PageMeta,
@@ -24,12 +21,15 @@ import {
   RoutingService,
   TranslatePipe,
   TranslationService,
+  FeatureDirective,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
   NgSelectA11yDirective,
   SpinnerComponent,
+  TruncationTooltipDirective,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
@@ -41,6 +41,7 @@ import { UpdateProfileComponent } from './update-profile.component';
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
+  imports: [],
 })
 class MockCxSpinnerComponent {}
 
@@ -88,24 +89,14 @@ describe('UpdateProfileComponent', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
-        CommonModule,
         ReactiveFormsModule,
         FormErrorsModule,
-        NgSelectModule,
         UpdateProfileComponent,
-        MockCxSpinnerComponent,
-        MockNgSelectA11yDirective,
       ],
       providers: [
         {
           provide: UpdateProfileComponentService,
           useClass: MockUpdateProfileService,
-        },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '5.2' },
-          },
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: TranslationService, useClass: MockTranslationService },
@@ -115,13 +106,20 @@ describe('UpdateProfileComponent', () => {
     })
       .overrideComponent(UpdateProfileComponent, {
         remove: {
-          imports: [TranslatePipe, SpinnerComponent, NgSelectA11yDirective],
+          imports: [
+            TranslatePipe,
+            SpinnerComponent,
+            NgSelectA11yDirective,
+            TruncationTooltipDirective,
+            FeatureDirective,
+          ],
         },
         add: {
           imports: [
             MockTranslatePipe,
             MockCxSpinnerComponent,
             MockNgSelectA11yDirective,
+            MockFeatureDirective,
           ],
           changeDetection: ChangeDetectionStrategy.Default,
         },

@@ -37,7 +37,6 @@ import {
   FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
-  HierarchicalAddressConfig,
   LanguageService,
   Region,
   Title,
@@ -45,6 +44,7 @@ import {
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
+import { HierarchicalAddressConfig } from '../../../../../../core-libs/core/src/user/config/hierarchical-address-config';
 import {
   FocusDirective,
   FormErrorsComponent,

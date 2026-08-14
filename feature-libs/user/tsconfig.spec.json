@@ -12,8 +12,24 @@
       "vitest"
     ],
     "moduleResolution": "bundler",
-    "allowJs": true
+    "allowJs": true,
+    "paths": {
+      "@spartacus/storefront/testing/mock-feature-directive": [
+        "../../core-libs/storefront/shared/test/mock-feature-directive.ts"
+      ],
+      "@spartacus/storefront/testing/mock-feature-level-directive": [
+        "../../core-libs/storefront/shared/test/mock-feature-level-directive.ts"
+      ],
+      "@spartacus/core/testing/process-reducers": [
+        "../../core-libs/core/src/process/store/reducers/index.ts"
+      ]
+    }
   },
   "files": ["../../testing/setup-vitest.ts"],
-  "include": ["vitest.config.ts", "**/*.spec.ts", "**/*.d.ts"]
+  "include": [
+    "**/*.ts",
+    "../../core-libs/core/src/**/*.ts",
+    "../../core-libs/storefront/**/*.ts",
+    "../../feature-libs/**/*.ts"
+  ]
 }

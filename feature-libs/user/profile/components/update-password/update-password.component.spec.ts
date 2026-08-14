@@ -12,14 +12,18 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
+  FeatureDirective,
   I18nTestingModule,
+  MockTranslatePipe,
   PageMeta,
   PageMetaService,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
+  SpinnerComponent,
 } from '@spartacus/storefront';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import {
@@ -29,6 +33,7 @@ import {
 import { BehaviorSubject, of } from 'rxjs';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import { UpdatePasswordComponent } from './update-password.component';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 
 @Component({
   selector: 'cx-spinner',
@@ -98,7 +103,11 @@ describe('UpdatePasswordComponent', () => {
       ],
     })
       .overrideComponent(UpdatePasswordComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        remove: { imports: [TranslatePipe, SpinnerComponent, FeatureDirective] },
+        add: {
+          imports: [MockTranslatePipe, MockCxSpinnerComponent, MockFeatureDirective],
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
       })
       .compileComponents();
   });

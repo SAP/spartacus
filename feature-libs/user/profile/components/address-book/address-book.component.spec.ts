@@ -24,7 +24,7 @@ import {
 } from '@spartacus/core';
 import { CardModule, SpinnerModule } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Observable, of } from 'rxjs';
 import { AddressFormComponent } from '../public_api';
 import { AddressBookComponent } from './address-book.component';
 import { AddressBookComponentService } from './address-book.component.service';
@@ -160,8 +160,8 @@ describe('AddressBookComponent', () => {
             MockFeatureDirective,
           ],
         },
-      })
-      .compileComponents();
+      });
+    await TestBed.compileComponents();
   });
 
   beforeEach(() => {
@@ -170,6 +170,7 @@ describe('AddressBookComponent', () => {
     vi.spyOn(component, 'addAddressButtonHandle');
     el = fixture.debugElement;
     addressBookComponentService = TestBed.inject(AddressBookComponentService);
+    TestBed.inject(FeatureToggles).enableHierarchicalAddressFormat = true;
 
     isLoading.next(false);
     component.ngOnInit();
@@ -303,8 +304,14 @@ describe('AddressBookComponent', () => {
       vi.spyOn(
         addressBookComponentService,
         'getAddressesStateLoading'
-      );
-      vi.spyOn(addressBookComponentService, 'getAddressesError');
+      ).mockReturnValue(isLoading.asObservable());
+      vi.spyOn(addressBookComponentService, 'getAddressesError')
+        .mockReturnValue(isError.asObservable());
+      (addressBookComponentService.addUserAddress as ReturnType<typeof vi.fn>).mockClear();
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
     });
 
     it('should close the form when addUserAddress succeeds', () => {
@@ -359,8 +366,14 @@ describe('AddressBookComponent', () => {
       vi.spyOn(
         addressBookComponentService,
         'getAddressesStateLoading'
-      );
-      vi.spyOn(addressBookComponentService, 'getAddressesError');
+      ).mockReturnValue(isLoading.asObservable());
+      vi.spyOn(addressBookComponentService, 'getAddressesError')
+        .mockReturnValue(isError.asObservable());
+      (addressBookComponentService.updateUserAddress as ReturnType<typeof vi.fn>).mockClear();
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
     });
 
     it('should close the form when updateUserAddress succeeds', () => {
@@ -398,16 +411,20 @@ describe('AddressBookComponent', () => {
   });
 
   describe('getCardContent', () => {
-    it('should use city name and country name when available', () => {
+    it('should use city name and country name when available', async () => {
+      (component as any).hierarchicalAddressConfig = {
+        hierarchicalAddress: {
+          countriesUsingHierarchicalAddressFormat: ['CN'],
+        },
+      };
       const addressWithNames: Address = {
         ...mockAddress,
         city: { name: 'Beijing', isocode: 'CN-11-1' },
         country: { name: 'China', isocode: 'CN' },
         region: { name: 'Beijing Region', isocode: 'CN-11' },
       };
-      let card: any;
-      component.getCardContent(addressWithNames).subscribe((c) => (card = c));
-      expect(card.text.some((t: string) => t.includes('Beijing'))).toBe(true);
+      const card = await firstValueFrom(component.getCardContent(addressWithNames));
+      expect(card.text?.some((t: string) => t.includes('Beijing'))).toBe(true);
     });
 
     it('should use legacy region+country format when toggle is off', () => {
