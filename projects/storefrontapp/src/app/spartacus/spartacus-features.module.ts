@@ -372,7 +372,7 @@ if (environment.cpq) {
         a11yAddToWishListBtnMargin: true,
         a11yProductListItemNameMargin: true,
         propagateLogoutToAllTabs: true,
-        asyncAuthConfigInitializer: false as boolean, // exception until sample data is updated
+        asyncAuthConfigInitializer: true as boolean, // exception until sample data is updated
         siteIsolationForCustomLoginPage: true,
         applyBaseSiteThemeFromCms: true,
         a11yNavigationSpaceKeyOnKeyUp: true,
