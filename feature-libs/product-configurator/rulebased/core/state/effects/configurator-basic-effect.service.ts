@@ -5,7 +5,6 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { LoggerService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
 import { Configurator } from '../../model/configurator.model';
@@ -17,7 +16,6 @@ import { Configurator } from '../../model/configurator.model';
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorBasicEffectService {
   protected configuratorUtilsService = inject(ConfiguratorUtilsService);
-  protected logger = inject(LoggerService);
 
   /**
    * Returns the given configuration from the store if the requested tab (group)
@@ -92,84 +90,14 @@ export class ConfiguratorBasicEffectService {
     );
     const newRowWithConfig = newRows.find((row) => !!row.groupId);
 
-    this.logger.log('[ADD-ROW-TRACE] 3. detect newly added row', {
-      previousConfigId: previous?.configId,
-      nextConfigId: next.configId,
-      previousAllRows: this.traceRows(
-        this.collectAllContainerRows(previous?.groups ?? [])
-      ),
-      nextAllRows: this.traceRows(this.collectAllContainerRows(next.groups)),
-      previousSelectedRows: this.traceRows(previousSelectedRows),
-      nextSelectedRows: this.traceRows(nextSelectedRows),
-      newSelectedRows: this.traceRows(newRows),
-      newRowWithConfig: newRowWithConfig
-        ? this.traceRows([newRowWithConfig])[0]
-        : undefined,
-      nextGroupTree: this.traceGroups(next.groups),
-    });
-
     if (!newRowWithConfig?.groupId) {
-      this.logger.log(
-        '[ADD-ROW-TRACE] 4. no new row with nested configuration -> no navigation'
-      );
       return undefined;
     }
     const rowGroup = this.configuratorUtilsService.getOptionalGroupById(
       next.groups,
       newRowWithConfig.groupId
     );
-    const firstTabId = rowGroup?.subGroups[0]?.id;
-
-    this.logger.log('[ADD-ROW-TRACE] 4. resolve nested row group', {
-      searchedGroupId: newRowWithConfig.groupId,
-      rowGroupFound: !!rowGroup,
-      rowGroupType: rowGroup?.groupType,
-      rowGroupSubGroupIds: (rowGroup?.subGroups ?? []).map((group) => group.id),
-      firstTabId,
-    });
-
-    return firstTabId;
-  }
-
-  /**
-   * Temporary tracing helper: compact dump of a group tree including container rows.
-   */
-  traceGroups(groups: Configurator.Group[] | undefined): unknown[] {
-    return (groups ?? []).map((group) => ({
-      id: group.id,
-      groupType: group.groupType,
-      attributes: (group.attributes ?? []).map((attribute) => ({
-        name: attribute.name,
-        attrCode: attribute.attrCode,
-        uiType: attribute.uiType,
-        containerRowId: attribute.containerRowId,
-        containerRows: this.traceRows(attribute.container?.rows ?? []),
-      })),
-      subGroups: this.traceGroups(group.subGroups),
-    }));
-  }
-
-  /**
-   * Temporary tracing helper: compact dump of container rows.
-   */
-  traceRows(rows: Configurator.ContainerRow[]): unknown[] {
-    return rows.map((row) => ({
-      id: row.id,
-      productSystemId: row.productSystemId,
-      selected: row.selected,
-      groupId: row.groupId,
-    }));
-  }
-
-  protected collectAllContainerRows(
-    groups: Configurator.Group[]
-  ): Configurator.ContainerRow[] {
-    return groups.flatMap((group) => [
-      ...(group.attributes ?? []).flatMap(
-        (attribute) => attribute.container?.rows ?? []
-      ),
-      ...this.collectAllContainerRows(group.subGroups ?? []),
-    ]);
+    return rowGroup?.subGroups[0]?.id;
   }
 
   /**

@@ -2229,9 +2229,7 @@ describe('CpqConfiguratorNormalizer', () => {
         result.flatGroups.some((group) => group.id === expectedRowGroupId)
       ).toBe(false);
       expect(
-        result.flatGroups.some(
-          (group) => group.id === expectedNestedTabGroupId
-        )
+        result.flatGroups.some((group) => group.id === expectedNestedTabGroupId)
       ).toBe(true);
     });
 

@@ -145,17 +145,7 @@ export class ConfiguratorGroupMenuComponent {
    */
   click(group: Configurator.Group, currentGroup?: Configurator.Group): void {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
-      if (configuration.interactionState.currentGroup === group.id) {
-        return;
-      }
-      if (!this.configuratorGroupsService.hasSubGroups(group)) {
-        this.configuratorGroupsService.navigateToGroup(configuration, group.id);
-        this.hamburgerMenuService.toggle(true);
-
-        this.configUtils.scrollToConfigurationElement(
-          '.VariantConfigurationTemplate, .CpqConfigurationTemplate'
-        );
-      } else {
+      if (this.configuratorGroupsService.hasSubGroups(group)) {
         this.configuratorGroupsService.setMenuParentGroup(
           configuration.owner,
           group.id
@@ -163,6 +153,13 @@ export class ConfiguratorGroupMenuComponent {
         if (currentGroup) {
           this.setFocusForSubGroup(group, currentGroup.id);
         }
+      } else if (configuration.interactionState.currentGroup !== group.id) {
+        this.configuratorGroupsService.navigateToGroup(configuration, group.id);
+        this.hamburgerMenuService.toggle(true);
+
+        this.configUtils.scrollToConfigurationElement(
+          '.VariantConfigurationTemplate, .CpqConfigurationTemplate'
+        );
       }
     });
   }
@@ -255,7 +252,10 @@ export class ConfiguratorGroupMenuComponent {
   condenseGroups(groups: Configurator.Group[]): Configurator.Group[] {
     return groups.flatMap((group) => {
       if (this.isCondensed(group)) {
-        return this.condenseGroups(group.subGroups);
+        const condensedChildren = this.condenseGroups(group.subGroups);
+        return this.hasNoAttributes(group) && condensedChildren.length === 1
+          ? this.mergeWithSingleChild(group, condensedChildren[0])
+          : condensedChildren;
       } else {
         return group;
       }
@@ -278,6 +278,38 @@ export class ConfiguratorGroupMenuComponent {
       group.subGroups[0].groupType !==
         Configurator.GroupType.CONTAINER_ROW_GROUP
     );
+  }
+
+  /**
+   * Verifies whether the group carries no attributes. Empty structural
+   * groups (e.g. CPQ container row groups) are merged with their single
+   * child so that the menu keeps the parent's description.
+   *
+   * @param {Configurator.Group} group - Given group
+   * @return {boolean} - `true` if the group has no attributes
+   */
+  protected hasNoAttributes(group: Configurator.Group): boolean {
+    return !group.attributes?.length;
+  }
+
+  /**
+   * Merges a structural parent with its only condensed child: the child
+   * remains the navigation target, while the parent's description and name
+   * are shown in the menu.
+   *
+   * @param {Configurator.Group} group - Parent group
+   * @param {Configurator.Group} child - Condensed child group
+   * @return {Configurator.Group} - Merged group
+   */
+  protected mergeWithSingleChild(
+    group: Configurator.Group,
+    child: Configurator.Group
+  ): Configurator.Group {
+    return {
+      ...child,
+      description: group.description ?? child.description,
+      name: group.name ?? child.name,
+    };
   }
 
   /**

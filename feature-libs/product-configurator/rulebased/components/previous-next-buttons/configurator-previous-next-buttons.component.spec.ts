@@ -76,6 +76,41 @@ const configWithSingleGroup: Configurator.Configuration = {
   flatGroups: [groups],
 };
 
+const nestedTabGroup: Configurator.Group = {
+  id: 'CONTAINER_ROW@1067@row-1@1',
+  groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+  attributes: [],
+  subGroups: [],
+};
+
+const containerRowGroup: Configurator.Group = {
+  id: 'CONTAINER_ROW@1067@row-1',
+  groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+  attributes: [],
+  subGroups: [nestedTabGroup],
+};
+
+const tabWithContainer: Configurator.Group = {
+  id: GROUP_ID_1,
+  groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+  attributes: [],
+  subGroups: [containerRowGroup],
+};
+
+const configWithSingleRootAndNestedGroups: Configurator.Configuration = {
+  ...ConfiguratorTestUtils.createConfiguration(
+    'CONFIG_ID',
+    ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE
+    )
+  ),
+  productCode: PRODUCT_CODE,
+  totalNumberOfIssues: 0,
+  groups: [tabWithContainer],
+  flatGroups: [tabWithContainer, nestedTabGroup],
+};
+
 const config: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
 
@@ -181,6 +216,37 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     classUnderTest = fixture.componentInstance;
     fixture.detectChanges();
     expect(fixture.nativeElement.childElementCount).toBe(0);
+  });
+
+  it("should display 'previous' & 'next' buttons if a single root group has nested groups", () => {
+    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      of(configWithSingleRootAndNestedGroups)
+    );
+    fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);
+    classUnderTest = fixture.componentInstance;
+    fixture.detectChanges();
+    expect(fixture.debugElement.query(By.css('.cx-previous'))).toBeTruthy();
+    expect(fixture.debugElement.query(By.css('.cx-next'))).toBeTruthy();
+  });
+
+  describe('hasMultipleNavigableGroups', () => {
+    it('should return false if configuration has one flat group', () => {
+      expect(
+        classUnderTest.hasMultipleNavigableGroups(configWithSingleGroup)
+      ).toBe(false);
+    });
+
+    it('should return true if configuration has several flat groups', () => {
+      expect(classUnderTest.hasMultipleNavigableGroups(config)).toBe(true);
+    });
+
+    it('should return true if a single root group has nested groups in flatGroups', () => {
+      expect(
+        classUnderTest.hasMultipleNavigableGroups(
+          configWithSingleRootAndNestedGroups
+        )
+      ).toBe(true);
+    });
   });
 
   it('should display previous button as disabled if it is the first group', () => {
