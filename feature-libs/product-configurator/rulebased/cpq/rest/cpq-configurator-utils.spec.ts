@@ -52,4 +52,21 @@ describe('CpqConfiguratorUtils', () => {
       ).toThrow();
     });
   });
+
+  describe('getTabId', () => {
+    it('should return the group ID unchanged for a tab of the root configuration', () => {
+      expect(CpqConfiguratorUtils.getTabId('57')).toBe('57');
+    });
+
+    it('should return the trailing CPQ tab ID for a tab of a nested configuration', () => {
+      const nestedTabGroupId = `${Configurator.ContainerRowGroupIdPrefix}@1067@c7764679-8b9c@57`;
+      expect(CpqConfiguratorUtils.getTabId(nestedTabGroupId)).toBe('57');
+    });
+
+    it('should not touch group IDs that only happen to contain a separator', () => {
+      expect(CpqConfiguratorUtils.getTabId('SOME_GROUP@57')).toBe(
+        'SOME_GROUP@57'
+      );
+    });
+  });
 });

@@ -37,6 +37,23 @@ export class CpqConfiguratorUtils {
     }
   }
   /**
+   * Extracts the CPQ tab ID from a configurator group ID.
+   *
+   * Tabs of a nested (container row) configuration carry a group ID that is
+   * prefixed with their row group ID, because CPQ numbers the tabs of every
+   * configuration independently. Only the trailing CPQ tab ID must be sent to
+   * the backend.
+   *
+   * @param {string} groupId Configurator group ID
+   * @returns {string} CPQ tab ID
+   */
+  static getTabId(groupId: string): string {
+    return groupId.startsWith(`${Configurator.ContainerRowGroupIdPrefix}@`)
+      ? groupId.substring(groupId.lastIndexOf('@') + 1)
+      : groupId;
+  }
+
+  /**
    * Finds first changed attribute
    * @param {Configurator.Configuration} source Configuration
    * @returns {Configurator.Attribute} First attribute of first group

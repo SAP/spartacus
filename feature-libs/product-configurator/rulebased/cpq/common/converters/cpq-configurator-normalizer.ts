@@ -100,7 +100,8 @@ export class CpqConfiguratorNormalizer
     groupList: Configurator.Group[],
     flatGroupList: Configurator.Group[],
     containers?: Cpq.Container[],
-    containerRowId?: string
+    containerRowId?: string,
+    parentRowGroupId?: string
   ) {
     const attributes: Configurator.Attribute[] = [];
     sourceAttributes.forEach((sourceAttribute) =>
@@ -114,7 +115,7 @@ export class CpqConfiguratorNormalizer
     );
 
     const group: Configurator.Group = {
-      id: source.id.toString(),
+      id: this.createTabGroupId(source.id, parentRowGroupId),
       name: source.name,
       description: source.displayName,
       configurable: true,
@@ -125,10 +126,27 @@ export class CpqConfiguratorNormalizer
       subGroups: [],
     };
 
-    this.attachContainers(group, containers, currency, flatGroupList);
-
+    // Register the group before attaching its containers, so that the tabs of a
+    // nested configuration follow their parent tab in the flat group list.
     flatGroupList.push(group);
     groupList.push(group);
+
+    this.attachContainers(group, containers, currency, flatGroupList);
+  }
+
+  /**
+   * Builds the group ID of a configuration tab. Tabs of a nested (container row)
+   * configuration are prefixed with the ID of their row group, because CPQ numbers
+   * the tabs of every configuration independently. Without the prefix a nested tab
+   * would carry the same ID as a tab of the root configuration, and all ID based
+   * group lookups would resolve to the root tab.
+   *
+   * @param tabId - CPQ tab ID
+   * @param parentRowGroupId - ID of the container row group, for nested tabs only
+   * @returns Group ID of the tab
+   */
+  protected createTabGroupId(tabId: number, parentRowGroupId?: string): string {
+    return parentRowGroupId ? `${parentRowGroupId}@${tabId}` : tabId.toString();
   }
 
   protected convertGenericGroup(
@@ -166,10 +184,10 @@ export class CpqConfiguratorNormalizer
       .pipe(take(1))
       .subscribe((generalText) => (group.description = generalText));
 
-    this.attachContainers(group, containers, currency, flatGroupList);
-
     groupList.push(group);
     flatGroupList.push(group);
+
+    this.attachContainers(group, containers, currency, flatGroupList);
   }
 
   protected isUITypeReadOnly(attribute: Configurator.Attribute): boolean {
@@ -712,7 +730,8 @@ export class CpqConfiguratorNormalizer
         rowGroup.subGroups,
         flatGroupList,
         source.containers,
-        row.id
+        row.id,
+        rowGroup.id
       )
     );
 

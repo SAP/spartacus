@@ -5,6 +5,7 @@
  */
 
 import { Injectable, inject } from '@angular/core';
+import { LoggerService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
 import { Configurator } from '../../model/configurator.model';
@@ -16,6 +17,7 @@ import { Configurator } from '../../model/configurator.model';
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorBasicEffectService {
   protected configuratorUtilsService = inject(ConfiguratorUtilsService);
+  protected logger = inject(LoggerService);
 
   /**
    * Returns the given configuration from the store if the requested tab (group)
@@ -41,7 +43,7 @@ export class ConfiguratorBasicEffectService {
       return undefined;
     }
 
-    const group = this.configuratorUtilsService.getGroupById(
+    const group = this.configuratorUtilsService.getOptionalGroupById(
       configuration.groups,
       groupId
     );
@@ -58,6 +60,116 @@ export class ConfiguratorBasicEffectService {
         currentGroup: groupId,
       },
     };
+  }
+
+  /**
+   * Returns the first tab id of a newly added container row that carries a nested
+   * product configuration. Used after add-row success to navigate into that nested
+   * configuration.
+   *
+   * A row is considered new when its id is not among the selected container rows of
+   * the previous configuration. If several new selected rows appear, the first one
+   * that defines a `groupId` is used. Returns `undefined` when the new row has no
+   * nested configuration, the nested group cannot be resolved, or it has no tabs.
+   *
+   * @param previous - Configuration still held in the store (pre-add)
+   * @param next - Configuration returned by the add-row call
+   * @returns First tab id of the nested configuration, or undefined
+   */
+  getFirstTabIdOfNewlyAddedContainerRow(
+    previous: Configurator.Configuration | undefined,
+    next: Configurator.Configuration
+  ): string | undefined {
+    const previousSelectedRows = this.collectSelectedContainerRows(
+      previous?.groups ?? []
+    );
+    const previousSelectedIds = new Set(
+      previousSelectedRows.map((row) => row.id)
+    );
+    const nextSelectedRows = this.collectSelectedContainerRows(next.groups);
+    const newRows = nextSelectedRows.filter(
+      (row) => !previousSelectedIds.has(row.id)
+    );
+    const newRowWithConfig = newRows.find((row) => !!row.groupId);
+
+    this.logger.log('[ADD-ROW-TRACE] 3. detect newly added row', {
+      previousConfigId: previous?.configId,
+      nextConfigId: next.configId,
+      previousAllRows: this.traceRows(
+        this.collectAllContainerRows(previous?.groups ?? [])
+      ),
+      nextAllRows: this.traceRows(this.collectAllContainerRows(next.groups)),
+      previousSelectedRows: this.traceRows(previousSelectedRows),
+      nextSelectedRows: this.traceRows(nextSelectedRows),
+      newSelectedRows: this.traceRows(newRows),
+      newRowWithConfig: newRowWithConfig
+        ? this.traceRows([newRowWithConfig])[0]
+        : undefined,
+      nextGroupTree: this.traceGroups(next.groups),
+    });
+
+    if (!newRowWithConfig?.groupId) {
+      this.logger.log(
+        '[ADD-ROW-TRACE] 4. no new row with nested configuration -> no navigation'
+      );
+      return undefined;
+    }
+    const rowGroup = this.configuratorUtilsService.getOptionalGroupById(
+      next.groups,
+      newRowWithConfig.groupId
+    );
+    const firstTabId = rowGroup?.subGroups[0]?.id;
+
+    this.logger.log('[ADD-ROW-TRACE] 4. resolve nested row group', {
+      searchedGroupId: newRowWithConfig.groupId,
+      rowGroupFound: !!rowGroup,
+      rowGroupType: rowGroup?.groupType,
+      rowGroupSubGroupIds: (rowGroup?.subGroups ?? []).map((group) => group.id),
+      firstTabId,
+    });
+
+    return firstTabId;
+  }
+
+  /**
+   * Temporary tracing helper: compact dump of a group tree including container rows.
+   */
+  traceGroups(groups: Configurator.Group[] | undefined): unknown[] {
+    return (groups ?? []).map((group) => ({
+      id: group.id,
+      groupType: group.groupType,
+      attributes: (group.attributes ?? []).map((attribute) => ({
+        name: attribute.name,
+        attrCode: attribute.attrCode,
+        uiType: attribute.uiType,
+        containerRowId: attribute.containerRowId,
+        containerRows: this.traceRows(attribute.container?.rows ?? []),
+      })),
+      subGroups: this.traceGroups(group.subGroups),
+    }));
+  }
+
+  /**
+   * Temporary tracing helper: compact dump of container rows.
+   */
+  traceRows(rows: Configurator.ContainerRow[]): unknown[] {
+    return rows.map((row) => ({
+      id: row.id,
+      productSystemId: row.productSystemId,
+      selected: row.selected,
+      groupId: row.groupId,
+    }));
+  }
+
+  protected collectAllContainerRows(
+    groups: Configurator.Group[]
+  ): Configurator.ContainerRow[] {
+    return groups.flatMap((group) => [
+      ...(group.attributes ?? []).flatMap(
+        (attribute) => attribute.container?.rows ?? []
+      ),
+      ...this.collectAllContainerRows(group.subGroups ?? []),
+    ]);
   }
 
   /**
@@ -135,5 +247,16 @@ export class ConfiguratorBasicEffectService {
         .shift();
     }
     return id;
+  }
+
+  protected collectSelectedContainerRows(
+    groups: Configurator.Group[]
+  ): Configurator.ContainerRow[] {
+    return groups.flatMap((group) => [
+      ...(group.attributes ?? []).flatMap((attribute) =>
+        (attribute.container?.rows ?? []).filter((row) => row.selected)
+      ),
+      ...this.collectSelectedContainerRows(group.subGroups ?? []),
+    ]);
   }
 }

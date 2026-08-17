@@ -22,6 +22,7 @@ import {
   mergeMap,
   switchMap,
   take,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
 import { ConfiguratorGroupStatusService } from '../../facade/configurator-group-status.service';
@@ -201,10 +202,26 @@ export class ConfiguratorBasicEffects {
       ofType(ConfiguratorActions.ADD_CONTAINER_ROW),
       map((action: ConfiguratorActions.AddContainerRow) => action.payload),
       concatMap((parameters: Configurator.AddContainerRowParameters) => {
+        this.logger.log('[ADD-ROW-TRACE] 1. addContainerRow request', {
+          configId: parameters.configId,
+          stdAttrCode: parameters.stdAttrCode,
+          productSystemId: parameters.productSystemId,
+          parentRowId: parameters.parentRowId,
+        });
         return this.configuratorCommonsConnector
           .addContainerRow(parameters)
           .pipe(
             map((configuration: Configurator.Configuration) => {
+              this.logger.log('[ADD-ROW-TRACE] 2. addContainerRow response', {
+                configId: configuration.configId,
+                groupIds: configuration.groups.map((group) => group.id),
+                flatGroupIds: configuration.flatGroups.map(
+                  (group) => group.id
+                ),
+                groupTree: this.configuratorBasicEffectService.traceGroups(
+                  configuration.groups
+                ),
+              });
               return new ConfiguratorActions.AddContainerRowSuccess({
                 ...configuration,
                 owner: parameters.owner,
@@ -364,91 +381,145 @@ export class ConfiguratorBasicEffects {
           ConfiguratorActions.ADD_CONTAINER_ROW_SUCCESS,
           ConfiguratorActions.REMOVE_CONTAINER_ROW_SUCCESS
         ),
-        map(
+        mergeMap(
           (
             action:
               | ConfiguratorActions.UpdateConfigurationSuccess
               | ConfiguratorActions.AddContainerRowSuccess
               | ConfiguratorActions.RemoveContainerRowSuccess
-          ) => action.payload
-        ),
-        mergeMap((payload: Configurator.Configuration) => {
-          return this.store.pipe(
-            select(ConfiguratorSelectors.hasPendingChanges(payload.owner.key)),
-            take(1),
-            filter((hasPendingChanges) => !hasPendingChanges),
-            switchMap(() =>
-              this.store.pipe(
-                select(
-                  ConfiguratorSelectors.getCurrentGroup(payload.owner.key)
-                ),
-                take(1),
-                map((currentGroupId) => {
-                  const applicableCurrentGroupId =
-                    currentGroupId &&
-                    !currentGroupId.startsWith(Configurator.ConflictIdPrefix)
-                      ? currentGroupId
-                      : undefined;
-
-                  const groupIdFromPayload =
-                    applicableCurrentGroupId ??
-                    this.configuratorBasicEffectService.getFirstGroupWithAttributes(
-                      payload,
-                      payload.interactionState.isConflictResolutionMode
-                    );
-                  const parentGroupFromPayload =
-                    this.configuratorGroupUtilsService.getParentGroup(
-                      payload.groups,
-                      this.configuratorGroupUtilsService.getGroupById(
-                        payload.groups,
-                        groupIdFromPayload
+          ) => {
+            const payload = action.payload;
+            return this.store.pipe(
+              select(
+                ConfiguratorSelectors.hasPendingChanges(payload.owner.key)
+              ),
+              take(1),
+              filter((hasPendingChanges) => !hasPendingChanges),
+              switchMap(() =>
+                this.store.pipe(
+                  select(
+                    ConfiguratorSelectors.getCurrentGroup(payload.owner.key)
+                  ),
+                  take(1),
+                  withLatestFrom(
+                    this.store.pipe(
+                      select(
+                        ConfiguratorSelectors.getConfigurationFactory(
+                          payload.owner.key
+                        )
                       )
+                    )
+                  ),
+                  map(([currentGroupId, previousConfiguration]) => {
+                    const applicableCurrentGroupId =
+                      currentGroupId &&
+                      !currentGroupId.startsWith(Configurator.ConflictIdPrefix)
+                        ? currentGroupId
+                        : undefined;
+
+                    let groupIdFromPayload =
+                      applicableCurrentGroupId ??
+                      this.configuratorBasicEffectService.getFirstGroupWithAttributes(
+                        payload,
+                        payload.interactionState.isConflictResolutionMode
+                      );
+
+                    const isAddContainerRow =
+                      action.type ===
+                      ConfiguratorActions.ADD_CONTAINER_ROW_SUCCESS;
+
+                    this.logger.log(
+                      '[ADD-ROW-TRACE] 3a. updateConfigurationSuccess$ entered',
+                      {
+                        actionType: action.type,
+                        isAddContainerRow,
+                        currentGroupIdFromStore: currentGroupId,
+                        applicableCurrentGroupId,
+                        groupIdBeforeOverride: groupIdFromPayload,
+                        previousConfigurationPresent: !!previousConfiguration,
+                        previousConfigId: previousConfiguration?.configId,
+                        previousCurrentGroup:
+                          previousConfiguration?.interactionState?.currentGroup,
+                      }
                     );
 
-                  return {
-                    applicableCurrentGroupId,
-                    groupIdFromPayload,
-                    parentGroupFromPayload,
-                  };
-                }),
-                switchMap((container) => {
-                  //changeGroup because in cases where a queue of updates exists with a group navigation in between,
-                  //we need to ensure that the last update determines the current group.
-                  const updateFinalizeSuccessAction =
-                    new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
-                      payload
+                    if (isAddContainerRow) {
+                      const firstTabId =
+                        this.configuratorBasicEffectService.getFirstTabIdOfNewlyAddedContainerRow(
+                          previousConfiguration,
+                          payload
+                        );
+                      if (firstTabId) {
+                        groupIdFromPayload = firstTabId;
+                      }
+                    }
+
+                    const parentGroupFromPayload =
+                      this.configuratorGroupUtilsService.getParentGroup(
+                        payload.groups,
+                        this.configuratorGroupUtilsService.getGroupById(
+                          payload.groups,
+                          groupIdFromPayload
+                        )
+                      );
+
+                    this.logger.log(
+                      '[ADD-ROW-TRACE] 5. navigation target decided',
+                      {
+                        actionType: action.type,
+                        applicableCurrentGroupId,
+                        groupIdFromPayload,
+                        parentGroupId: parentGroupFromPayload?.id,
+                        willDispatchChangeGroup:
+                          applicableCurrentGroupId !== groupIdFromPayload,
+                      }
                     );
-                  const updatePriceSummaryAction =
-                    new ConfiguratorActions.UpdatePriceSummary({
-                      ...payload,
-                      interactionState: {
-                        currentGroup: container.groupIdFromPayload,
-                      },
-                    });
-                  const searchVariantsAction =
-                    new ConfiguratorActions.SearchVariants(payload);
-                  return container.applicableCurrentGroupId ===
-                    container.groupIdFromPayload
-                    ? [
-                        updateFinalizeSuccessAction,
-                        updatePriceSummaryAction,
-                        searchVariantsAction,
-                      ]
-                    : [
-                        updateFinalizeSuccessAction,
-                        updatePriceSummaryAction,
-                        searchVariantsAction,
-                        new ConfiguratorActions.ChangeGroup({
-                          configuration: payload,
-                          groupId: container.groupIdFromPayload,
-                          parentGroupId: container.parentGroupFromPayload?.id,
-                        }),
-                      ];
-                })
+
+                    return {
+                      applicableCurrentGroupId,
+                      groupIdFromPayload,
+                      parentGroupFromPayload,
+                    };
+                  }),
+                  switchMap((container) => {
+                    //changeGroup because in cases where a queue of updates exists with a group navigation in between,
+                    //we need to ensure that the last update determines the current group.
+                    const updateFinalizeSuccessAction =
+                      new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+                        payload
+                      );
+                    const updatePriceSummaryAction =
+                      new ConfiguratorActions.UpdatePriceSummary({
+                        ...payload,
+                        interactionState: {
+                          currentGroup: container.groupIdFromPayload,
+                        },
+                      });
+                    const searchVariantsAction =
+                      new ConfiguratorActions.SearchVariants(payload);
+                    return container.applicableCurrentGroupId ===
+                      container.groupIdFromPayload
+                      ? [
+                          updateFinalizeSuccessAction,
+                          updatePriceSummaryAction,
+                          searchVariantsAction,
+                        ]
+                      : [
+                          updateFinalizeSuccessAction,
+                          updatePriceSummaryAction,
+                          searchVariantsAction,
+                          new ConfiguratorActions.ChangeGroup({
+                            configuration: payload,
+                            groupId: container.groupIdFromPayload,
+                            parentGroupId: container.parentGroupFromPayload?.id,
+                          }),
+                        ];
+                  })
+                )
               )
-            )
-          );
-        })
+            );
+          }
+        )
       )
     );
 
@@ -538,6 +609,11 @@ export class ConfiguratorBasicEffects {
     this.actions$.pipe(
       ofType(ConfiguratorActions.CHANGE_GROUP),
       switchMap((action: ConfiguratorActions.ChangeGroup) => {
+        this.logger.log('[ADD-ROW-TRACE] 6. groupChange$ received ChangeGroup', {
+          groupId: action.payload.groupId,
+          parentGroupId: action.payload.parentGroupId,
+          configId: action.payload.configuration.configId,
+        });
         return this.store.pipe(
           select(
             ConfiguratorSelectors.hasPendingChanges(
@@ -545,13 +621,36 @@ export class ConfiguratorBasicEffects {
             )
           ),
           take(1),
-          filter((hasPendingChanges) => !hasPendingChanges),
+          filter((hasPendingChanges) => {
+            this.logger.log('[ADD-ROW-TRACE] 7. groupChange$ pending check', {
+              hasPendingChanges,
+              proceeds: !hasPendingChanges,
+            });
+            return !hasPendingChanges;
+          }),
           switchMap(() => {
             return this.readConfiguration(
               action.payload.configuration,
               action.payload.groupId
             ).pipe(
               switchMap((configuration: Configurator.Configuration) => {
+                this.logger.log(
+                  '[ADD-ROW-TRACE] 9. groupChange$ read result',
+                  {
+                    requestedGroupId: action.payload.groupId,
+                    configId: configuration.configId,
+                    rootGroupIds: configuration.groups.map((group) => group.id),
+                    requestedGroupPresentInResponse:
+                      !!this.configuratorGroupUtilsService.getOptionalGroupById(
+                        configuration.groups,
+                        action.payload.groupId
+                      ),
+                    groupTree:
+                      this.configuratorBasicEffectService.traceGroups(
+                        configuration.groups
+                      ),
+                  }
+                );
                 return [
                   new ConfiguratorActions.SetCurrentGroup({
                     entityKey: action.payload.configuration.owner.key,
@@ -640,6 +739,16 @@ export class ConfiguratorBasicEffects {
                 owner
               )
             : undefined;
+
+        this.logger.log('[ADD-ROW-TRACE] 8. readConfiguration', {
+          requestedGroupId: groupId,
+          configuratorType: owner.configuratorType,
+          servedFromStore: !!configurationFromStore,
+          storeConfigId: configurationInStore?.configId,
+          storeRootGroupIds: (configurationInStore?.groups ?? []).map(
+            (group) => group.id
+          ),
+        });
 
         return configurationFromStore
           ? of(configurationFromStore)

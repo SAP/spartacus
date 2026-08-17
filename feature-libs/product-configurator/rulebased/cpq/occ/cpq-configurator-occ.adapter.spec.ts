@@ -198,6 +198,18 @@ describe('CpqConfiguratorOccAdapter', () => {
       });
   });
 
+  it('should pass only the CPQ tab ID to OCC service when reading a tab of a nested configuration', () => {
+    const nestedTabGroupId = `${Configurator.ContainerRowGroupIdPrefix}@1067@c7764679-8b9c@57`;
+    adapterUnderTest
+      .readConfiguration(productConfiguration.configId, nestedTabGroupId, owner)
+      .subscribe(() => {
+        expect(mockedOccService.readConfiguration).toHaveBeenCalledWith(
+          productConfiguration.configId,
+          '57'
+        );
+      });
+  });
+
   // this ensures that there is a dummy response until the API is implemented,
   // otherwise this leads to an NPE on the UI
   it('should always return same configuration for price summary', () => {

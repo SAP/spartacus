@@ -407,6 +407,45 @@ describe('ConfiguratorGroupMenuComponent', () => {
     ).toBe(mockProductConfiguration.groups[2].subGroups[0].id);
   });
 
+  describe('condenseGroups with container row groups', () => {
+    const nestedTabGroup: Configurator.Group = {
+      id: 'CONTAINER_ROW@1067@row-1@57',
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      attributes: [],
+      subGroups: [],
+    };
+
+    const rowGroup: Configurator.Group = {
+      id: 'CONTAINER_ROW@1067@row-1',
+      groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+      attributes: [],
+      subGroups: [nestedTabGroup],
+    };
+
+    const tabGroup: Configurator.Group = {
+      id: 'TAB_WITH_CONTAINER',
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      attributes: [],
+      subGroups: [rowGroup],
+    };
+
+    beforeEach(() => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+    });
+
+    it('should keep a tab that only holds a container row group', () => {
+      expect(component.condenseGroups([tabGroup]).map((group) => group.id)) //
+        .toEqual([tabGroup.id]);
+    });
+
+    it('should condense a container row group into its single tab', () => {
+      expect(component.condenseGroups([rowGroup]).map((group) => group.id)) //
+        .toEqual([nestedTabGroup.id]);
+    });
+  });
+
   it('should get correct parent group for condensed groups', () => {
     productConfigurationObservable = of(mockProductConfiguration);
     routerStateObservable = of(mockRouterState);

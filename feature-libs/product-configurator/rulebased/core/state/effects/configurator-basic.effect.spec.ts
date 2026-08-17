@@ -1011,6 +1011,198 @@ describe('ConfiguratorEffect', () => {
       );
     });
 
+    it('should navigate to the first nested tab when the added container row carries a configuration', () => {
+      const rowGroupId = `${Configurator.ContainerRowGroupIdPrefix}@1111@row-new`;
+      const firstTabId = 'NESTED-TAB-1';
+      const existingRow: Configurator.ContainerRow = {
+        id: 'row-existing',
+        productSystemId: 'EXISTING',
+        selected: true,
+      };
+      const newRow: Configurator.ContainerRow = {
+        id: 'row-new',
+        productSystemId: 'NEW_PROD',
+        selected: true,
+        groupId: rowGroupId,
+      };
+      const nestedRowGroup: Configurator.Group = {
+        id: rowGroupId,
+        groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+        attributes: [],
+        subGroups: [
+          {
+            id: firstTabId,
+            groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+            attributes: [{ name: 'nestedAttr' }],
+            subGroups: [],
+          },
+        ],
+      };
+      const previousConfiguration: Configurator.Configuration = {
+        ...ConfiguratorTestUtils.createConfiguration('a', owner),
+        productCode: productCode,
+        groups: [
+          {
+            id: groupId,
+            attributes: [
+              {
+                name: 'containerAttr',
+                attrCode: 1111,
+                container: { rows: [existingRow] },
+              },
+            ],
+            subGroups: [],
+          },
+        ],
+        flatGroups: [group],
+        interactionState: { currentGroup: groupId },
+      };
+      const nextConfiguration: Configurator.Configuration = {
+        ...previousConfiguration,
+        groups: [
+          {
+            id: groupId,
+            attributes: [
+              {
+                name: 'containerAttr',
+                attrCode: 1111,
+                container: { rows: [existingRow, newRow] },
+              },
+            ],
+            subGroups: [nestedRowGroup],
+          },
+        ],
+      };
+
+      store.dispatch(
+        new ConfiguratorActions.CreateConfigurationSuccess(
+          previousConfiguration
+        )
+      );
+      store.dispatch(
+        new ConfiguratorActions.SetCurrentGroup({
+          entityKey: owner.key,
+          currentGroup: groupId,
+        })
+      );
+
+      const action = new ConfiguratorActions.AddContainerRowSuccess(
+        nextConfiguration
+      );
+      const finalizeSuccess =
+        new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+          nextConfiguration
+        );
+      const updatePrices = new ConfiguratorActions.UpdatePriceSummary({
+        ...nextConfiguration,
+        interactionState: { currentGroup: firstTabId },
+      });
+      const searchVariantsForNext = new ConfiguratorActions.SearchVariants(
+        nextConfiguration
+      );
+      const changeGroup = new ConfiguratorActions.ChangeGroup({
+        configuration: nextConfiguration,
+        groupId: firstTabId,
+        parentGroupId: rowGroupId,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bcde)', {
+        b: finalizeSuccess,
+        c: updatePrices,
+        d: searchVariantsForNext,
+        e: changeGroup,
+      });
+      expect(configEffects.updateConfigurationSuccess$).toBeObservable(
+        expected
+      );
+    });
+
+    it('should not navigate when the added container row does not carry a configuration', () => {
+      const existingRow: Configurator.ContainerRow = {
+        id: 'row-existing',
+        productSystemId: 'EXISTING',
+        selected: true,
+      };
+      const newRow: Configurator.ContainerRow = {
+        id: 'row-new',
+        productSystemId: 'NEW_PROD',
+        selected: true,
+      };
+      const previousConfiguration: Configurator.Configuration = {
+        ...ConfiguratorTestUtils.createConfiguration('a', owner),
+        productCode: productCode,
+        groups: [
+          {
+            id: groupId,
+            attributes: [
+              {
+                name: 'containerAttr',
+                attrCode: 1111,
+                container: { rows: [existingRow] },
+              },
+            ],
+            subGroups: [],
+          },
+        ],
+        flatGroups: [group],
+        interactionState: { currentGroup: groupId },
+      };
+      const nextConfiguration: Configurator.Configuration = {
+        ...previousConfiguration,
+        groups: [
+          {
+            id: groupId,
+            attributes: [
+              {
+                name: 'containerAttr',
+                attrCode: 1111,
+                container: { rows: [existingRow, newRow] },
+              },
+            ],
+            subGroups: [],
+          },
+        ],
+      };
+
+      store.dispatch(
+        new ConfiguratorActions.CreateConfigurationSuccess(
+          previousConfiguration
+        )
+      );
+      store.dispatch(
+        new ConfiguratorActions.SetCurrentGroup({
+          entityKey: owner.key,
+          currentGroup: groupId,
+        })
+      );
+
+      const action = new ConfiguratorActions.AddContainerRowSuccess(
+        nextConfiguration
+      );
+      const finalizeSuccess =
+        new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+          nextConfiguration
+        );
+      const updatePrices = new ConfiguratorActions.UpdatePriceSummary({
+        ...nextConfiguration,
+        interactionState: { currentGroup: groupId },
+      });
+      const searchVariantsForNext = new ConfiguratorActions.SearchVariants(
+        nextConfiguration
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bcd)', {
+        b: finalizeSuccess,
+        c: updatePrices,
+        d: searchVariantsForNext,
+      });
+      expect(configEffects.updateConfigurationSuccess$).toBeObservable(
+        expected
+      );
+    });
+
     it('should raise finalize actions for RemoveContainerRowSuccess when no changes are pending', () => {
       const action = new ConfiguratorActions.RemoveContainerRowSuccess(
         productConfiguration

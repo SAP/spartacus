@@ -241,12 +241,7 @@ export class ConfiguratorGroupMenuComponent {
   getCondensedParentGroup(
     parentGroup: Configurator.Group
   ): Observable<Configurator.Group | undefined> {
-    if (
-      parentGroup &&
-      parentGroup.subGroups &&
-      parentGroup.subGroups.length === 1 &&
-      parentGroup.groupType !== Configurator.GroupType.CONFLICT_HEADER_GROUP
-    ) {
+    if (parentGroup && parentGroup.subGroups && this.isCondensed(parentGroup)) {
       return this.getParentGroup(parentGroup).pipe(
         switchMap((group) => {
           return group ? this.getCondensedParentGroup(group) : of(group);
@@ -259,15 +254,30 @@ export class ConfiguratorGroupMenuComponent {
 
   condenseGroups(groups: Configurator.Group[]): Configurator.Group[] {
     return groups.flatMap((group) => {
-      if (
-        group.subGroups.length === 1 &&
-        group.groupType !== Configurator.GroupType.CONFLICT_HEADER_GROUP
-      ) {
+      if (this.isCondensed(group)) {
         return this.condenseGroups(group.subGroups);
       } else {
         return group;
       }
     });
+  }
+
+  /**
+   * Determines whether a group is replaced by its single sub group in the menu.
+   *
+   * @param {Configurator.Group} group - Given group
+   * @return {boolean} - Is the group condensed?
+   */
+  protected isCondensed(group: Configurator.Group): boolean {
+    return (
+      group.subGroups.length === 1 &&
+      group.groupType !== Configurator.GroupType.CONFLICT_HEADER_GROUP &&
+      // A container row group is a nested product configuration rather than a
+      // structural group. Condensing its parent away would hide the attributes of
+      // the parent, among them the container that the row belongs to.
+      group.subGroups[0].groupType !==
+        Configurator.GroupType.CONTAINER_ROW_GROUP
+    );
   }
 
   /**

@@ -2032,6 +2032,9 @@ describe('CpqConfiguratorNormalizer', () => {
     const rowWithConfigId = '018';
     const rowWithoutConfigId = '017';
 
+    const expectedRowGroupId = `${Configurator.ContainerRowGroupIdPrefix}@${cpqAttributeStdAttrCode}@${rowWithConfigId}`;
+    const expectedNestedTabGroupId = `${expectedRowGroupId}@${nestedTab.id}`;
+
     const nestedContainerOnNestedAttr: Cpq.Container = {
       stdAttrCode: nestedAttrCode,
       minRows: 0,
@@ -2168,7 +2171,6 @@ describe('CpqConfiguratorNormalizer', () => {
       );
       expect(rowWithoutConfig?.groupId).toBeUndefined();
 
-      const expectedRowGroupId = `${Configurator.ContainerRowGroupIdPrefix}@${cpqAttributeStdAttrCode}@${rowWithConfigId}`;
       const rowWithConfig = container?.rows.find(
         (row) => row.id === rowWithConfigId
       );
@@ -2196,6 +2198,7 @@ describe('CpqConfiguratorNormalizer', () => {
 
       expect(rowGroup.subGroups.length).toBe(1);
       const nestedAttrGroup = rowGroup.subGroups[0];
+      expect(nestedAttrGroup.id).toBe(expectedNestedTabGroupId);
       expect(nestedAttrGroup.groupType).toBe(
         Configurator.GroupType.ATTRIBUTE_GROUP
       );
@@ -2223,15 +2226,53 @@ describe('CpqConfiguratorNormalizer', () => {
         Configurator.GroupType.CONTAINER_ROW_GROUP
       );
       expect(
-        result.flatGroups.some(
-          (group) =>
-            group.id ===
-            `${Configurator.ContainerRowGroupIdPrefix}@${cpqAttributeStdAttrCode}@${rowWithConfigId}`
-        )
+        result.flatGroups.some((group) => group.id === expectedRowGroupId)
       ).toBe(false);
       expect(
-        result.flatGroups.some((group) => group.id === nestedTab.id.toString())
+        result.flatGroups.some(
+          (group) => group.id === expectedNestedTabGroupId
+        )
       ).toBe(true);
+    });
+
+    it('should list a nested tab after its parent tab in flatGroups', () => {
+      const result = cpqConfiguratorNormalizer.convert(
+        configurationWithContainers([containerWithRows])
+      );
+      const flatGroupIds = result.flatGroups.map((group) => group.id);
+      expect(flatGroupIds.indexOf(cpqGroupId.toString())).toBeLessThan(
+        flatGroupIds.indexOf(expectedNestedTabGroupId)
+      );
+    });
+
+    it('should keep nested tab group IDs unique when CPQ reuses a root tab ID', () => {
+      const result = cpqConfiguratorNormalizer.convert(
+        configurationWithContainers([
+          {
+            ...containerWithRows,
+            rows: [
+              {
+                id: rowWithConfigId,
+                productSystemId: 'LENS_ZOOM',
+                selected: true,
+                configuration: {
+                  completed: false,
+                  tabs: [{ ...nestedTab, id: cpqGroupId }],
+                },
+              },
+            ],
+          },
+        ])
+      );
+
+      const rootTabGroup = result.groups[0];
+      expect(rootTabGroup.id).toBe(cpqGroupId.toString());
+      const nestedTabGroup = rootTabGroup.subGroups[0].subGroups[0];
+      expect(nestedTabGroup.id).toBe(`${expectedRowGroupId}@${cpqGroupId}`);
+      expect(nestedTabGroup.id).not.toBe(rootTabGroup.id);
+
+      const flatGroupIds = result.flatGroups.map((group) => group.id);
+      expect(new Set(flatGroupIds).size).toBe(flatGroupIds.length);
     });
 
     it('should attach sapContainers on the generic-group path when no tabs exist', () => {
