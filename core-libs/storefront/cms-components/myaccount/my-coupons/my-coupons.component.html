@@ -26,14 +26,15 @@
               [selectedOption]="sort"
               [ariaLabel]="'myCoupons.sortCoupons' | cxTranslate"
               ariaControls="coupon-deck"
-            />
+            >
+            </cx-sorting>
           </label>
           <div class="cx-my-coupons-pagination cx-mycoupon-thead-mobile">
             <cx-pagination
               [pagination]="pagination"
               (viewPageEvent)="pageChange($event)"
               paginationID="pagination-top"
-            />
+            ></cx-pagination>
           </div>
         </div>
 
@@ -46,7 +47,7 @@
               [coupon]="coupon"
               [couponSubscriptionLoading$]="couponSubscriptionLoading$"
               (notificationChanged)="notificationChange($event)"
-            />
+            ></cx-coupon-card>
           </div>
         </div>
 
@@ -68,19 +69,20 @@
               placeholder="{{ 'myCoupons.sortBy' | cxTranslate }}"
               [ariaLabel]="'myCoupons.sortCoupons' | cxTranslate"
               ariaControls="coupon-deck"
-            />
+            >
+            </cx-sorting>
           </label>
           <div class="cx-my-coupons-pagination">
             <cx-pagination
               [pagination]="pagination"
               (viewPageEvent)="pageChange($event)"
               paginationID="pagination-bottom"
-            />
+            ></cx-pagination>
           </div>
         </div>
         <div class="cx-my-coupons-notes">
           <span>
-            <cx-icon [type]="iconTypes.INFO" />
+            <cx-icon [type]="iconTypes.INFO"></cx-icon>
             {{ 'myCoupons.notesPreffix' | cxTranslate
             }}<a [routerLink]="['/my-account/notification-preference']">{{
               'myCoupons.notesLink' | cxTranslate
@@ -102,7 +104,7 @@
 
   <ng-template #loading>
     <div class="col-md-12 cx-coupon-spinner">
-      <cx-spinner />
+      <cx-spinner></cx-spinner>
     </div>
   </ng-template>
 </div>

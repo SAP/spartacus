@@ -9,13 +9,14 @@
       class="back is-open"
     >
       <button (click)="back()">
-        <cx-icon [type]="iconType.CARET_LEFT" />
+        <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
         {{ 'common.back' | cxTranslate }}
       </button>
     </li>
 
     <ng-container *ngFor="let child of node?.children">
-      <ng-container *ngTemplateOutlet="nav; context: { node: child, depth: 0 }" />
+      <ng-container *ngTemplateOutlet="nav; context: { node: child, depth: 0 }">
+      </ng-container>
     </ng-container>
   </ul>
 </nav>
@@ -97,7 +98,7 @@
             <ng-container *ngIf="!node.url">
               {{ node.title }}
             </ng-container>
-            <cx-icon [type]="iconType.CARET_DOWN" />
+            <cx-icon [type]="iconType.CARET_DOWN"></cx-icon>
           </button>
         </ng-template>
       </ng-container>
@@ -137,7 +138,8 @@
                 position: i + 1,
               }
             "
-          />
+          >
+          </ng-container>
         </ng-container>
       </ul>
     </div>
