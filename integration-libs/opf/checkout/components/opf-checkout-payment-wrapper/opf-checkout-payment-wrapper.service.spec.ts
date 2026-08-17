@@ -661,7 +661,9 @@ describe('OpfCheckoutPaymentWrapperService', () => {
         paymentSessionId: 'stored-session',
         otpKey: mockOtpKey,
         config: {
+          configurationId: String(mockPaymentOptionId),
           browserInfo: getBrowserInfo(windowRefMock.nativeWindow),
+          channel: OpfPaymentChannel.BROWSER,
           resultURL: mockUrl,
           cancelURL: mockUrl,
         },
