@@ -204,6 +204,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         },
         provideMockFeatureToggles({
           productConfiguratorConsolidatedButtonDisabling: true,
+          productConfiguratorCPQContainer: true,
         }),
       ],
     })
@@ -572,6 +573,85 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       ).nativeElement;
       expect(button.innerText).toContain('configurator.button.add');
       expect(button.disabled).toBe(true);
+    });
+  });
+
+  describe('productConfiguratorCPQContainer feature toggle', () => {
+    function initWithCpqContainerToggle(
+      toggleEnabled: boolean,
+      options: { multiSelect: boolean; selected: boolean }
+    ): void {
+      // `*cxFeature` resolves its (static) expression only once, when the
+      // embedded view is created. The toggle state has to be set before the
+      // first change detection.
+      featureToggles.set('productConfiguratorCPQContainer', toggleEnabled);
+      fixture = TestBed.createComponent(
+        ConfiguratorAttributeProductCardComponent
+      );
+      htmlElem = fixture.nativeElement;
+      component = fixture.componentInstance;
+      component.productCardOptions = {
+        hideRemoveButton: false,
+        multiSelect: options.multiSelect,
+        productBoundValue: createValue(
+          '888',
+          'description',
+          [createImage('url', 'alt')],
+          1,
+          options.selected,
+          '1111-2222',
+          'Lorem Ipsum Dolor'
+        ),
+        singleDropdown: false,
+        withQuantity: true,
+        attributeId: 123,
+        attributeLabel: 'Attribute Label',
+        attributeName: 'Attribute Name',
+        itemCount: 3,
+        itemIndex: 1,
+      };
+      fixture.detectChanges();
+    }
+
+    it('should use tertiary class for the multi-select remove button when the toggle is enabled', () => {
+      initWithCpqContainerToggle(true, { multiSelect: true, selected: true });
+
+      const button = fixture.debugElement.query(
+        By.css('button.btn-tertiary')
+      ).nativeElement;
+      expect(button.innerText).toContain('configurator.button.remove');
+    });
+
+    it('should use secondary class for the multi-select remove button when the toggle is disabled', () => {
+      initWithCpqContainerToggle(false, { multiSelect: true, selected: true });
+
+      const button = fixture.debugElement.query(
+        By.css('button.btn-secondary')
+      ).nativeElement;
+      expect(button.innerText).toContain('configurator.button.remove');
+      expect(htmlElem.querySelector('button.btn-tertiary')).toBeFalsy();
+    });
+
+    it('should use secondary class for the single-select button when the toggle is enabled', () => {
+      initWithCpqContainerToggle(true, { multiSelect: false, selected: false });
+
+      const button = fixture.debugElement.query(
+        By.css('button.btn-secondary')
+      ).nativeElement;
+      expect(button.innerText).toContain('configurator.button.select');
+    });
+
+    it('should use primary class for the single-select button when the toggle is disabled', () => {
+      initWithCpqContainerToggle(false, {
+        multiSelect: false,
+        selected: false,
+      });
+
+      const button = fixture.debugElement.query(
+        By.css('button.btn-primary')
+      ).nativeElement;
+      expect(button.innerText).toContain('configurator.button.select');
+      expect(htmlElem.querySelector('button.btn-secondary')).toBeFalsy();
     });
   });
 
