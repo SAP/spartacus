@@ -18,6 +18,12 @@ export interface ProductConfiguratorUISettingsConfig {
     attributeDescriptionLength?: number;
     valueDescriptionLength?: number;
   };
+  /**
+   * Maximum number of available products shown as a list in a CPQ container.
+   * If the number of available products is larger than this value, they are
+   * shown as a drop-down list.
+   */
+  cpqContainerDropDownListThreshold?: number;
 }
 
 @Injectable({

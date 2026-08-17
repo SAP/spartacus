@@ -411,6 +411,17 @@ describe('ConfiguratorAttributeContainerComponent', () => {
 
       expect(component.availableProductsExpanded).toBe(false);
     });
+
+    it('should close the available products drop-down when the section is collapsed', () => {
+      component.isAvailableProductsDropdownOpen = true;
+      component.availableProductsSearchTerm = 'Product';
+
+      component.toggleAvailableProducts();
+
+      expect(component.availableProductsExpanded).toBe(false);
+      expect(component.isAvailableProductsDropdownOpen).toBe(false);
+      expect(component.availableProductsSearchTerm).toBe('');
+    });
   });
 
   describe('product cards', () => {
@@ -617,6 +628,183 @@ describe('ConfiguratorAttributeContainerComponent', () => {
 
       expect(component.onRemove).not.toHaveBeenCalled();
       expect(component.onAdd).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('available products drop-down', () => {
+    const DEFAULT_THRESHOLD =
+      defaultConfiguratorUISettingsConfig.productConfigurator
+        ?.cpqContainerDropDownListThreshold ?? 10;
+
+    function createAvailableRows(count: number): Configurator.ContainerRow[] {
+      return Array.from({ length: count }, (_, index) => ({
+        id: `available-${index}`,
+        productName: `Available ${index}`,
+        productSystemId: `SYS_${index}`,
+        selected: false,
+      }));
+    }
+
+    function renderWithAvailableProducts(count: number): void {
+      component.attribute = createAttribute(createAvailableRows(count));
+      fixture.detectChanges();
+    }
+
+    it('should render available products as a list when the count is not larger than the threshold', () => {
+      renderWithAvailableProducts(DEFAULT_THRESHOLD);
+
+      expect(component.showAvailableProductsAsDropdown).toBe(false);
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-drop-down'
+      );
+      CommonConfiguratorTestUtilsService.expectNumberOfElements(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-product-card',
+        DEFAULT_THRESHOLD
+      );
+    });
+
+    it('should render available products as a drop-down when the count is larger than the threshold', () => {
+      renderWithAvailableProducts(DEFAULT_THRESHOLD + 1);
+
+      expect(component.showAvailableProductsAsDropdown).toBe(true);
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-drop-down'
+      );
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-search-input'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-product-card'
+      );
+    });
+
+    it('should show product cards after the drop-down is opened', () => {
+      renderWithAvailableProducts(DEFAULT_THRESHOLD + 1);
+
+      component.openAvailableProductsDropdown(new Event('click'));
+      fixture.detectChanges();
+
+      expect(component.isAvailableProductsDropdownOpen).toBe(true);
+      expect(component.availableProductsDropdownIcon).toBe(ICON_TYPE.CARET_UP);
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-list'
+      );
+      CommonConfiguratorTestUtilsService.expectNumberOfElements(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-product-card',
+        DEFAULT_THRESHOLD + 1
+      );
+    });
+
+    it('should open the drop-down when the trigger is clicked', () => {
+      renderWithAvailableProducts(DEFAULT_THRESHOLD + 1);
+
+      const trigger = htmlElem.querySelector('.cx-trigger') as HTMLElement;
+      trigger.click();
+      fixture.detectChanges();
+
+      expect(component.isAvailableProductsDropdownOpen).toBe(true);
+    });
+
+    it('should toggle the drop-down when the caret button is clicked', () => {
+      renderWithAvailableProducts(DEFAULT_THRESHOLD + 1);
+
+      const caret = htmlElem.querySelector(
+        '.cx-trigger button'
+      ) as HTMLButtonElement;
+      caret.click();
+      fixture.detectChanges();
+
+      expect(component.isAvailableProductsDropdownOpen).toBe(true);
+
+      caret.click();
+      fixture.detectChanges();
+
+      expect(component.isAvailableProductsDropdownOpen).toBe(false);
+      expect(component.availableProductsDropdownIcon).toBe(
+        ICON_TYPE.CARET_DOWN
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-list'
+      );
+    });
+
+    it('should filter available products by the search term while the drop-down is open', () => {
+      renderWithAvailableProducts(DEFAULT_THRESHOLD + 1);
+      component.isAvailableProductsDropdownOpen = true;
+      component.availableProductsSearchTerm = `Available ${DEFAULT_THRESHOLD}`;
+      fixture.detectChanges();
+
+      expect(component.filteredAvailableProducts.length).toBe(1);
+      expect(component.filteredAvailableProducts[0].id).toBe(
+        `available-${DEFAULT_THRESHOLD}`
+      );
+      CommonConfiguratorTestUtilsService.expectNumberOfElements(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-product-card',
+        1
+      );
+    });
+
+    it('should return all available products when the drop-down is closed', () => {
+      renderWithAvailableProducts(DEFAULT_THRESHOLD + 1);
+      component.availableProductsSearchTerm = 'Available 7';
+
+      expect(component.filteredAvailableProducts.length).toBe(
+        DEFAULT_THRESHOLD + 1
+      );
+    });
+
+    it('should show a no-results message when the search does not match', () => {
+      renderWithAvailableProducts(DEFAULT_THRESHOLD + 1);
+      component.isAvailableProductsDropdownOpen = true;
+      component.availableProductsSearchTerm = 'does-not-exist';
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-no-results'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-product-card'
+      );
+    });
+
+    it('should return the original index of a filtered available product', () => {
+      renderWithAvailableProducts(DEFAULT_THRESHOLD + 1);
+      const row = component.availableProducts[DEFAULT_THRESHOLD];
+
+      expect(component.getAvailableProductIndex(row)).toBe(DEFAULT_THRESHOLD);
+    });
+
+    it('should close the drop-down on a document click', () => {
+      renderWithAvailableProducts(DEFAULT_THRESHOLD + 1);
+      component.isAvailableProductsDropdownOpen = true;
+      component.availableProductsSearchTerm = 'Available';
+
+      component.onDocumentClick();
+
+      expect(component.isAvailableProductsDropdownOpen).toBe(false);
+      expect(component.availableProductsSearchTerm).toBe('');
     });
   });
 });
