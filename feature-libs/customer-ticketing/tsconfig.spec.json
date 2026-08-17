@@ -19,7 +19,7 @@
       ]
     }
   },
-  "files": ["setup-test.ts"],
+  "files": ["../../testing/setup-vitest.ts"],
   "include": [
     "**/*.ts",
     "../../core-libs/core/src/**/*.ts",
