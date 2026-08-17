@@ -20,7 +20,7 @@ import {
   LcpPresence,
   MediaComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { BannerComponent } from './banner.component';
@@ -175,7 +175,7 @@ describe('BannerComponent', () => {
 
   describe('setRouterLink()', () => {
     it('should return url', () => {
-      spyOn<any>(bannerComponent, 'setRouterLink');
+      vi.spyOn<any>(bannerComponent, 'setRouterLink');
       data$.next(mockBannerData);
       fixture.detectChanges();
       expect(bannerComponent.routerLink).toEqual(mockBannerData.urlLink);
@@ -190,7 +190,7 @@ describe('BannerComponent', () => {
         typeCode: 'SimpleBannerComponent',
         contentPage: 'HomePage',
       };
-      spyOn<any>(bannerComponent, 'setRouterLink').and.callThrough();
+      vi.spyOn<any>(bannerComponent, 'setRouterLink');
       data$.next(mockBannerDataWithContentPage);
       fixture.detectChanges();
       expect(bannerComponent.routerLink).toEqual('HomePage');
@@ -205,7 +205,7 @@ describe('BannerComponent', () => {
         typeCode: 'SimpleBannerComponent',
         product: 'Sony X Camera',
       };
-      spyOn<any>(bannerComponent, 'setRouterLink').and.callThrough();
+      vi.spyOn<any>(bannerComponent, 'setRouterLink');
       data$.next(mockBannerDataWithProduct);
       fixture.detectChanges();
       expect(bannerComponent.routerLink).toEqual('Sony X Camera');
@@ -220,7 +220,7 @@ describe('BannerComponent', () => {
         typeCode: 'SimpleBannerComponent',
         product: 'Cameras',
       };
-      spyOn<any>(bannerComponent, 'setRouterLink').and.callThrough();
+      vi.spyOn<any>(bannerComponent, 'setRouterLink');
       data$.next(mockBannerDataWithCategory);
       fixture.detectChanges();
       expect(bannerComponent.routerLink).toEqual('Cameras');

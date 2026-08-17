@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   EventService,
   FeatureDirective,
@@ -12,7 +12,7 @@ import {
   ComponentCreateEvent,
   StarRatingComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductIntroComponent } from './product-intro.component';
@@ -50,7 +50,7 @@ describe('ProductIntroComponent in product', () => {
   let translationService: TranslationService;
   let eventService: EventService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ProductIntroComponent],
       providers: [
@@ -81,11 +81,11 @@ describe('ProductIntroComponent in product', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     translationService = TestBed.inject(TranslationService);
-    spyOn(translationService, 'translate').and.returnValue(of(reviewsLabel));
+    vi.spyOn(translationService, 'translate').mockReturnValue(of(reviewsLabel));
 
     eventService = TestBed.inject(EventService);
 
@@ -100,7 +100,7 @@ describe('ProductIntroComponent in product', () => {
   describe('clickTabIfInactive to click tabs indicated as inactive', () => {
     it('should click tab with no classes', () => {
       const tabElement: HTMLElement = document.createElement('div');
-      spyOn(tabElement, 'click');
+      vi.spyOn(tabElement, 'click');
       (productIntroComponent as any).clickTabIfInactive(tabElement);
       expect(tabElement.click).toHaveBeenCalled();
     });
@@ -108,7 +108,7 @@ describe('ProductIntroComponent in product', () => {
     it('should not click tab with active class', () => {
       const tabElement: HTMLElement = document.createElement('div');
       tabElement.classList.add('active');
-      spyOn(tabElement, 'click');
+      vi.spyOn(tabElement, 'click');
       (productIntroComponent as any).clickTabIfInactive(tabElement);
       expect(tabElement.click).not.toHaveBeenCalled();
     });
@@ -116,7 +116,7 @@ describe('ProductIntroComponent in product', () => {
     it('should click tab with toggled classes', () => {
       const tabElement: HTMLElement = document.createElement('div');
       tabElement.classList.add('toggled');
-      spyOn(tabElement, 'click');
+      vi.spyOn(tabElement, 'click');
       (productIntroComponent as any).clickTabIfInactive(tabElement);
       expect(tabElement.click).toHaveBeenCalled();
     });
@@ -125,7 +125,7 @@ describe('ProductIntroComponent in product', () => {
       const tab: HTMLElement = document.createElement('div');
       tab.classList.add('active');
       tab.classList.add('toggled');
-      spyOn(tab, 'click');
+      vi.spyOn(tab, 'click');
       (productIntroComponent as any).clickTabIfInactive(tab);
       expect(tab.click).toHaveBeenCalled();
     });
@@ -138,9 +138,9 @@ describe('ProductIntroComponent in product', () => {
       const tab2: HTMLElement = document.createElement('button');
       const tab3: HTMLElement = document.createElement('button');
 
-      tab1.innerText = 'Tab 1';
-      tab2.innerText = 'Tab 2';
-      tab3.innerText = 'Tab 3';
+      tab1.textContent = 'Tab 1';
+      tab2.textContent = 'Tab 2';
+      tab3.textContent = 'Tab 3';
 
       tabsComponent.appendChild(tab1);
       tabsComponent.appendChild(tab2);
@@ -187,7 +187,7 @@ describe('ProductIntroComponent in product', () => {
         averageRating: undefined,
       } as Product);
       fixture.detectChanges();
-      expect(fixture.debugElement.nativeElement.innerText).toContain(
+      expect(fixture.debugElement.nativeElement.textContent).toContain(
         'productDetails.noReviews'
       );
     });
@@ -197,7 +197,7 @@ describe('ProductIntroComponent in product', () => {
         averageRating: undefined,
       } as Product);
       fixture.detectChanges();
-      expect(fixture.debugElement.nativeElement.innerText).not.toContain(
+      expect(fixture.debugElement.nativeElement.textContent).not.toContain(
         'productSummary.showReviews'
       );
     });
@@ -206,7 +206,9 @@ describe('ProductIntroComponent in product', () => {
       const event = new ComponentCreateEvent();
       event.id = 'ProductReviewsTabComponent';
 
-      spyOn(eventService, 'get').and.returnValues(of(event), EMPTY);
+      vi.spyOn(eventService, 'get')
+        .mockReturnValueOnce(of(event))
+        .mockReturnValueOnce(EMPTY);
 
       fixture = TestBed.createComponent(ProductIntroComponent);
       productIntroComponent = fixture.componentInstance;
@@ -217,7 +219,7 @@ describe('ProductIntroComponent in product', () => {
       productIntroComponent['getReviewsComponent'] = () => ({}) as HTMLElement;
 
       fixture.detectChanges();
-      expect(fixture.debugElement.nativeElement.innerText).toContain(
+      expect(fixture.debugElement.nativeElement.textContent).toContain(
         'productSummary.showReviews'
       );
     });
@@ -226,7 +228,9 @@ describe('ProductIntroComponent in product', () => {
       const event = new ComponentCreateEvent();
       event.id = 'ProductReviewsTabComponent';
 
-      spyOn(eventService, 'get').and.returnValues(of(event), EMPTY);
+      vi.spyOn(eventService, 'get')
+        .mockReturnValueOnce(of(event))
+        .mockReturnValueOnce(EMPTY);
 
       fixture = TestBed.createComponent(ProductIntroComponent);
       productIntroComponent = fixture.componentInstance;
@@ -237,17 +241,17 @@ describe('ProductIntroComponent in product', () => {
       productIntroComponent['getReviewsComponent'] = () => null;
 
       fixture.detectChanges();
-      expect(fixture.debugElement.nativeElement.innerText).toContain(
+      expect(fixture.debugElement.nativeElement.textContent).toContain(
         'productSummary.showReviews'
       );
     });
 
-    it('should scroll to Reviews tab and set focus on Show Reviews click', (done) => {
+    it('should scroll to Reviews tab and set focus on Show Reviews click', async () => {
       const tab1: HTMLElement = document.createElement('button');
       const reviewsTab: HTMLElement = document.createElement('button');
 
-      tab1.innerText = 'Tab 1';
-      reviewsTab.innerText = reviewsLabel;
+      tab1.textContent = 'Tab 1';
+      reviewsTab.textContent = reviewsLabel;
 
       tabsComponent.appendChild(tab1);
       tabsComponent.appendChild(reviewsTab);
@@ -256,18 +260,17 @@ describe('ProductIntroComponent in product', () => {
         averageRating: 4.5,
       } as Product);
 
-      spyOn(reviewsTab, 'focus');
-      spyOn(reviewsTab, 'scrollIntoView');
+      vi.spyOn(reviewsTab, 'focus');
+      HTMLElement.prototype.scrollIntoView = vi.fn();
+      vi.spyOn(reviewsTab, 'scrollIntoView').mockImplementation(() => {});
 
       fixture.detectChanges();
 
       productIntroComponent.showReviews();
 
-      setTimeout(() => {
-        expect(reviewsTab.focus).toHaveBeenCalled();
-        expect(reviewsTab.scrollIntoView).toHaveBeenCalled();
-        done();
-      }, 100);
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      expect(reviewsTab.focus).toHaveBeenCalled();
+      expect(reviewsTab.scrollIntoView).toHaveBeenCalled();
     });
   });
 });

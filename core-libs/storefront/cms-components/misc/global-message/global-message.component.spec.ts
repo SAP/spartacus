@@ -14,7 +14,6 @@ import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feat
 import { NEVER, Observable, of } from 'rxjs';
 import { IconComponent } from '../icon/icon.component';
 import { GlobalMessageComponent } from './global-message.component';
-import createSpy = jasmine.createSpy;
 
 const mockMessages: GlobalMessageEntities = {
   [GlobalMessageType.MSG_TYPE_CONFIRMATION]: [{ raw: 'Confirmation' }],
@@ -28,7 +27,7 @@ const mockMessagesWithAssistive: GlobalMessageEntities = {
 };
 
 class MockMessageService {
-  remove = createSpy();
+  remove = vi.fn();
   get(): Observable<GlobalMessageEntities> {
     return of(mockMessages);
   }
@@ -79,11 +78,19 @@ describe('GlobalMessageComponent', () => {
   let messageService: GlobalMessageService;
   let fixture: ComponentFixture<GlobalMessageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    configureTestBed([
-      { provide: GlobalMessageService, useClass: MockMessageService },
-    ]);
-  }));
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [GlobalMessageComponent],
+      providers: [
+        { provide: GlobalMessageService, useClass: MockMessageService },
+      ],
+    })
+      .overrideComponent(GlobalMessageComponent, {
+        remove: { imports: [IconComponent, TranslatePipe] },
+        add: { imports: [MockCxIconComponent, MockTranslatePipe] },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GlobalMessageComponent);

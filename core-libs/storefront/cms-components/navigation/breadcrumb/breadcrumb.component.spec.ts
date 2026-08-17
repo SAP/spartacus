@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import {
   FeatureDirective,
@@ -9,7 +9,7 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import { BreadcrumbComponent } from './breadcrumb.component';
 
@@ -26,7 +26,7 @@ describe('BreadcrumbComponent', () => {
   let component: BreadcrumbComponent;
   let fixture: ComponentFixture<BreadcrumbComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         BreadcrumbComponent,
@@ -48,7 +48,7 @@ describe('BreadcrumbComponent', () => {
         remove: { imports: [TranslatePipe, FeatureDirective] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BreadcrumbComponent);

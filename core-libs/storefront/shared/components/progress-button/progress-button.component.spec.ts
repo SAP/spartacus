@@ -1,8 +1,16 @@
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from 'core-libs/core/src/i18n';
+import { I18nTestingModule } from '../../../../core/src/i18n/testing';
 import { ProgressButtonComponent } from './progress-button.component';
+import { TranslationService } from '@spartacus/core';
+import { of } from 'rxjs';
+
+class MockTranslationService {
+  translate() {
+    return of('');
+  }
+}
 
 @Component({
   template: `<cx-progress-button>Test</cx-progress-button>`,
@@ -15,24 +23,28 @@ describe('ProgressButtonComponent', () => {
   let fixture: ComponentFixture<ProgressButtonComponent>;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ProgressButtonComponent, TestHostComponent],
+      providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
+      ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProgressButtonComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    fixture.detectChanges();
   });
 
   it('should be created', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should display empty button', () => {
+    fixture.detectChanges();
     expect(
       el.query(By.css('.cx-progress-button-container .loader-container'))
     ).toBeNull();
@@ -60,7 +72,8 @@ describe('ProgressButtonComponent', () => {
   });
 
   it('should trigger clickEvent on button click', () => {
-    spyOn(component.clickEvent, 'emit').and.callThrough();
+    fixture.detectChanges();
+    vi.spyOn(component.clickEvent, 'emit');
 
     const button = el.query(By.css('.btn-primary')).nativeElement;
     button.click();
@@ -70,6 +83,7 @@ describe('ProgressButtonComponent', () => {
 
   it('should show <ng-content> content', () => {
     const testFixture = TestBed.createComponent(TestHostComponent);
+    testFixture.detectChanges();
     const element = testFixture.debugElement.query(By.css('div')).nativeElement;
 
     expect(element.textContent).toEqual('Test');
@@ -93,7 +107,7 @@ describe('ProgressButtonComponent', () => {
 
   describe('should not trigger clickEvent on button click when ', () => {
     beforeEach(() => {
-      spyOn(component.clickEvent, 'emit').and.callThrough();
+      vi.spyOn(component.clickEvent, 'emit');
     });
 
     it('button is disabled', () => {

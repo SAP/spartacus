@@ -1,5 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -9,18 +9,19 @@ import {
   contextServiceMapProvider,
   Currency,
   CurrencyService,
+  FeatureDirective,
   I18nTestingModule,
   Language,
   LanguageService,
   TranslationService,
 } from '@spartacus/core';
-import { MockTranslationService } from 'core-libs/core/src/i18n/testing/mock-translation.service';
+import { MockTranslationService } from '../../../../core/src/i18n/testing/mock-translation.service';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { LanguageCurrencyComponent } from './language-currency.component';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
 
 @Component({
   selector: 'cx-icon',
@@ -86,7 +87,7 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
     data$: of(mockComponentData),
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
@@ -113,24 +114,25 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
           provide: TranslationService,
           useClass: MockTranslationService,
         },
-        provideMockFeatureToggles({
-          a11ySiteContextCaretClick: true,
-        }),
         contextServiceMapProvider,
       ],
     })
       .overrideComponent(SiteContextSelectorComponent, {
-        set: {
+        remove: {
+          imports: [FeatureDirective],
+        },
+        add: {
           providers: [
             {
               provide: SiteContextComponentService,
               useClass: SiteContextComponentService,
             },
           ],
+          imports: [MockFeatureDirective],
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LanguageCurrencyComponent);

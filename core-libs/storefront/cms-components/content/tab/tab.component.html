@@ -41,7 +41,7 @@
         *ngIf="mode === TAB_MODE.ACCORDIAN"
         [ngTemplateOutlet]="tabPanel"
         [ngTemplateOutletContext]="{ tabNum: i }"
-      ></ng-container>
+      />
     </ng-container>
   </div>
 
@@ -51,8 +51,7 @@
       *ngFor="let tab of tabs; let i = index"
       [ngTemplateOutlet]="tabPanel"
       [ngTemplateOutletContext]="{ tabNum: i }"
-    >
-    </ng-container>
+    />
   </ng-container>
 
   <!-- Tab Panel shows the content of the given tab -->
@@ -61,6 +60,6 @@
       [tab]="tabs[tabNum]"
       [mode]="mode"
       *ngIf="isOpen(tabNum)"
-    ></cx-tab-panel>
+    />
   </ng-template>
 </ng-container>

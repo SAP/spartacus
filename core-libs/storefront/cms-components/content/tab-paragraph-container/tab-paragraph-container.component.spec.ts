@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CmsComponent,
   CmsConfig,
@@ -85,7 +85,7 @@ describe('TabParagraphContainerComponent', () => {
   let cmsService: CmsService;
   let windowRef: WindowRef;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         TestComponent,
@@ -110,7 +110,7 @@ describe('TabParagraphContainerComponent', () => {
         add: { imports: [MockTranslatePipe] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TabParagraphContainerComponent);
@@ -118,7 +118,7 @@ describe('TabParagraphContainerComponent', () => {
     cmsService = TestBed.inject(CmsService);
     windowRef = TestBed.inject(WindowRef);
 
-    spyOn(console, 'warn');
+    vi.spyOn(console, 'warn');
   });
 
   it('should create', () => {
@@ -126,11 +126,10 @@ describe('TabParagraphContainerComponent', () => {
   });
 
   it('should render child components', () => {
-    spyOn(cmsService, 'getComponentData').and.returnValues(
-      of(mockTabComponentData1),
-      of(mockTabComponentData2),
-      of(mockTabComponentData3)
-    );
+    vi.spyOn(cmsService, 'getComponentData')
+      .mockReturnValueOnce(of(mockTabComponentData1))
+      .mockReturnValueOnce(of(mockTabComponentData2))
+      .mockReturnValueOnce(of(mockTabComponentData3));
     let childComponents: any[] = [];
     component.components$
       .subscribe((components) => (childComponents = components))
@@ -172,7 +171,7 @@ describe('TabParagraphContainerComponent', () => {
   });
 
   it('should be able to get tab title parameters from children', () => {
-    spyOn(cmsService, 'getComponentData').and.callFake(
+    vi.spyOn(cmsService, 'getComponentData').mockImplementation(
       <MockCmsComponent>(uid: string): Observable<MockCmsComponent> => {
         switch (uid) {
           case 'ProductDetailsTabComponent':

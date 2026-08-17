@@ -10,7 +10,7 @@ import {
   DebugElement,
   Input,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -57,7 +57,7 @@ describe('ActiveFacetsComponent', () => {
   let fixture: ComponentFixture<ActiveFacetsComponent>;
   let element: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -76,16 +76,16 @@ describe('ActiveFacetsComponent', () => {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ActiveFacetsComponent);
     element = fixture.debugElement;
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -134,7 +134,7 @@ describe('ActiveFacetsComponent', () => {
   });
 
   it('should remove filter on spacebar keypress', () => {
-    spyOn(component, 'removeFilterWithSpacebar').and.callThrough();
+    vi.spyOn(component, 'removeFilterWithSpacebar');
     component.facetList$ = of(mockFacetList);
     fixture.detectChanges();
     const filter = element.query(By.css('a')).nativeElement;

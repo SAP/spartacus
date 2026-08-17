@@ -106,7 +106,7 @@ describe('StorefrontComponent', () => {
   let skipLinkService: SkipLinkService;
   let featureToggles: FeatureToggles;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [
         {
@@ -151,7 +151,7 @@ describe('StorefrontComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StorefrontComponent);
@@ -167,7 +167,7 @@ describe('StorefrontComponent', () => {
   });
 
   it('should contain start-navigating class', () => {
-    spyOn(routingService, 'isNavigating').and.returnValue(of(true));
+    vi.spyOn(routingService, 'isNavigating').mockReturnValue(of(true));
     fixture.detectChanges();
     expect(
       el.nativeElement.classList.contains('start-navigating')
@@ -175,14 +175,14 @@ describe('StorefrontComponent', () => {
   });
 
   it('should contain stop-navigating class', () => {
-    spyOn(routingService, 'isNavigating').and.returnValue(of(false));
+    vi.spyOn(routingService, 'isNavigating').mockReturnValue(of(false));
     fixture.detectChanges();
     expect(el.nativeElement.classList.contains('stop-navigating')).toBeTruthy();
     expect(el.nativeElement.classList.contains('start-navigating')).toBeFalsy();
   });
 
   it('should collapse menu when header is expanded', () => {
-    spyOn(component, 'collapseMenu').and.callThrough();
+    vi.spyOn(component, 'collapseMenu');
 
     const mockTarget = {};
     mockTarget['className'] = 'is-expanded';
@@ -197,7 +197,7 @@ describe('StorefrontComponent', () => {
   });
 
   it('should NOT collapse menu when header is NOT expanded', () => {
-    spyOn(component, 'collapseMenu').and.callThrough();
+    vi.spyOn(component, 'collapseMenu');
 
     const mockTarget = {};
     mockTarget['nodeName'] = 'DIV';
@@ -223,7 +223,7 @@ describe('StorefrontComponent', () => {
     });
 
     it('should call skipLinkService.scrollToTarget when navigation ends and document has active element', () => {
-      spyOn(skipLinkService, 'scrollToTarget');
+      vi.spyOn(skipLinkService, 'scrollToTarget');
       featureToggles.a11yFocusBreadcrumbOnNavigation = false;
 
       const mockDocument = {
@@ -239,7 +239,7 @@ describe('StorefrontComponent', () => {
     });
 
     it('should not call skipLinkService.scrollToTarget when navigation ends and focus is on body', () => {
-      spyOn(skipLinkService, 'scrollToTarget');
+      vi.spyOn(skipLinkService, 'scrollToTarget');
       const body = document.createElement('body');
       const mockDocument = {
         activeElement: body,

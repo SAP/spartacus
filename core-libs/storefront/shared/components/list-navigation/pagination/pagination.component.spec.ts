@@ -1,16 +1,21 @@
 import { DebugElement, Directive, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Params } from '@angular/router';
 import { I18nTestingModule } from '@spartacus/core';
 import { FocusConfig, FocusDirective } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../test/mock-feature-directive';
 import { PaginationConfig } from './config/pagination.config';
 import { PaginationComponent } from './pagination.component';
 import { PaginationItemType } from './pagination.model';
 
 const mockPaginationConfig: PaginationConfig = {
-  pagination: {},
+  pagination: {
+    addStart: true,
+    addEnd: true,
+    addNext: true,
+    addPrevious: true,
+  },
 };
 
 const mockActivatedRoute = {
@@ -32,7 +37,7 @@ describe('PaginationComponent', () => {
   let fixture: ComponentFixture<PaginationComponent>;
   let debugEl: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [PaginationComponent],
       providers: [
@@ -54,7 +59,7 @@ describe('PaginationComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PaginationComponent);
@@ -284,7 +289,8 @@ describe('PaginationComponent', () => {
 
       pageLinks.forEach((el, index) => {
         const directiveInstance = el.injector.get(MockFocusDirective);
-        expect(directiveInstance.config?.key).toBe(`pagination${index}`);
+        // start and previous nav links come before page links (indices 0, 1)
+        expect(directiveInstance.config?.key).toBe(`pagination${index + 2}`);
       });
     });
   });

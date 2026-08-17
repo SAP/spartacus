@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { CxDatePipe, I18nTestingModule, TranslatePipe } from '@spartacus/core';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../test/mock-feature-directive';
 import { FormErrorsComponent } from '../form-errors';
 import { DatePickerComponent } from './date-picker.component';
 
@@ -52,12 +52,13 @@ describe('DatePickerComponent', () => {
     control = new UntypedFormControl('min');
 
     component.control = control;
-    fixture.detectChanges();
 
     inputEl = fixture.debugElement.query(By.css('input'));
   });
 
   it('should be created', () => {
+    fixture.detectChanges();
+    inputEl = fixture.debugElement.query(By.css('input'));
     expect(component).toBeTruthy();
   });
 
@@ -65,6 +66,7 @@ describe('DatePickerComponent', () => {
     beforeEach(() => {
       component.min = '2020-12-1';
       fixture.detectChanges();
+      inputEl = fixture.debugElement.query(By.css('input'));
     });
 
     it('should add minControl value to the min value', () => {
@@ -80,6 +82,7 @@ describe('DatePickerComponent', () => {
     beforeEach(() => {
       component.max = '2020-12-1';
       fixture.detectChanges();
+      inputEl = fixture.debugElement.query(By.css('input'));
     });
 
     it('should add maxControl value to the min value', () => {
@@ -92,6 +95,10 @@ describe('DatePickerComponent', () => {
   });
 
   describe('validates input date', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
     it('should not return invalid date', () => {
       expect(component.getDate('2020-12')).toBeUndefined();
     });
@@ -101,8 +108,13 @@ describe('DatePickerComponent', () => {
   });
 
   describe('change date', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+      inputEl = fixture.debugElement.query(By.css('input'));
+    });
+
     it('should emit event', () => {
-      spyOn(component.update, 'emit');
+      vi.spyOn(component.update, 'emit');
       inputEl.triggerEventHandler('change', mockEvent);
       expect(component.update.emit).toHaveBeenCalledWith();
     });

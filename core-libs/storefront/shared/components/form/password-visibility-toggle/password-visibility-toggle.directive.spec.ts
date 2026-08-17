@@ -1,5 +1,5 @@
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -12,7 +12,7 @@ import {
   TranslatePipe,
   WindowRef,
 } from '@spartacus/core';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../test/mock-feature-directive';
 import { IconComponent } from '../../../../cms-components/misc/icon/icon.component';
 import { MockIconComponent } from '../../../../cms-components/misc/icon/testing/icon-testing.module';
 import { FormConfig } from '../../../../shared/config/form-config';
@@ -60,7 +60,7 @@ describe('PasswordVisibilityToggleDirective', () => {
   let fixture: ComponentFixture<MockFormComponent>;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
@@ -83,7 +83,7 @@ describe('PasswordVisibilityToggleDirective', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MockFormComponent);

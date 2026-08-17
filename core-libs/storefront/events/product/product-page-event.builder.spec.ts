@@ -70,7 +70,7 @@ describe('ProductPageEventModule', () => {
         numberOfResults: searchResults.pagination.totalResults,
         navigation: navigationEvent,
       });
-      expect(result).toEqual(jasmine.objectContaining({ ...expected }));
+      expect(result).toEqual(expect.objectContaining({ ...expected }));
     });
 
     it('should fire again if the user is on the search page, and the search state changes', () => {
@@ -100,7 +100,7 @@ describe('ProductPageEventModule', () => {
         numberOfResults: searchResults.pagination.totalResults,
         navigation: navigationEvent,
       });
-      expect(result).toEqual(jasmine.objectContaining({ ...expected1 }));
+      expect(result).toEqual(expect.objectContaining({ ...expected1 }));
 
       getResultsBehavior.next({
         ...searchResults,
@@ -112,7 +112,7 @@ describe('ProductPageEventModule', () => {
         numberOfResults: searchResults.pagination.totalResults,
         navigation: navigationEvent,
       });
-      expect(result).toEqual(jasmine.objectContaining({ ...expected2 }));
+      expect(result).toEqual(expect.objectContaining({ ...expected2 }));
       sub.unsubscribe();
     });
 
@@ -157,7 +157,7 @@ describe('ProductPageEventModule', () => {
     getResultsBehavior.next(searchResults);
 
     expect(result).toEqual(
-      jasmine.objectContaining({
+      expect.objectContaining({
         navigation: navigationEvent,
         categoryCode: navigationEvent.context.id,
         categoryName: searchResults.breadcrumbs[0].facetValueName,
@@ -198,7 +198,7 @@ describe('ProductPageEventModule', () => {
         name: product.name,
         price: product.price,
       });
-      expect(result).toEqual(jasmine.objectContaining({ ...expected }));
+      expect(result).toEqual(expect.objectContaining({ ...expected }));
     });
 
     it('should not fire again if the product state changes', () => {
@@ -231,12 +231,12 @@ describe('ProductPageEventModule', () => {
         name: product.name,
         price: product.price,
       });
-      expect(result).toEqual(jasmine.objectContaining({ ...expected }));
+      expect(result).toEqual(expect.objectContaining({ ...expected }));
 
       productGetBehavior.next({ ...product, code: 'new' });
-      expect(result).not.toEqual(jasmine.objectContaining({ code: 'new' }));
+      expect(result).not.toEqual(expect.objectContaining({ code: 'new' }));
       expect(result).toEqual(
-        jasmine.objectContaining({
+        expect.objectContaining({
           code: product.code,
           categories: product.categories,
           name: product.name,

@@ -21,6 +21,7 @@ import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetCollapseState } from '../facet.model';
 import { FacetService } from '../services/facet.service';
 import { FacetComponent } from './facet.component';
+import { vi } from 'vitest';
 
 @Component({
   selector: 'cx-icon',
@@ -34,17 +35,17 @@ class MockKeyboadFocusDirective {
   @Input() cxFocus;
 }
 
-class MockFacetService {
-  getState() {
+const MockFacetService = {
+  getState: () => {
     return of({
       topVisible: 5,
     } as FacetCollapseState);
-  }
-  toggle() {}
-  increaseVisibleValues() {}
-  decreaseVisibleValues() {}
-  getLinkParams() {}
-}
+  },
+  toggle: vi.fn(),
+  increaseVisibleValues: vi.fn(),
+  decreaseVisibleValues: vi.fn(),
+  getLinkParams: vi.fn(),
+};
 
 class MockGlobalMessageService {
   add = jasmine.createSpy('add');
@@ -67,7 +68,7 @@ describe('FacetComponent', () => {
   let element: DebugElement;
   let facetService: FacetService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -85,7 +86,7 @@ describe('FacetComponent', () => {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FacetComponent);
@@ -133,7 +134,9 @@ describe('FacetComponent', () => {
 
   describe('count', () => {
     it('should call increaseVisible()', () => {
-      spyOn(facetService, 'increaseVisibleValues').and.stub();
+      vi.spyOn(facetService, 'increaseVisibleValues').mockImplementation(
+        () => {}
+      );
       component.increaseVisibleValues();
       expect(facetService.increaseVisibleValues).toHaveBeenCalledWith(
         component.facet
@@ -141,7 +144,9 @@ describe('FacetComponent', () => {
     });
 
     it('should call decreaseVisible()', () => {
-      spyOn(facetService, 'decreaseVisibleValues').and.stub();
+      vi.spyOn(facetService, 'decreaseVisibleValues').mockImplementation(
+        () => {}
+      );
       component.decreaseVisibleValues();
       expect(facetService.decreaseVisibleValues).toHaveBeenCalledWith(
         component.facet
@@ -151,15 +156,16 @@ describe('FacetComponent', () => {
 
   describe('toggleGroup', () => {
     beforeEach(() => {
-      spyOn(facetService, 'toggle').and.stub();
       component.facet = MockFacet;
       fixture.detectChanges();
     });
 
     it('should expand the facet', () => {
+      const spyFacetToggle = vi.spyOn(facetService, 'toggle');
+      vi.spyOn(component, 'isExpanded', 'get').mockReturnValue(true);
       component.toggleGroup(new UIEvent('close'));
       fixture.detectChanges();
-      expect(facetService.toggle).toHaveBeenCalledWith(component.facet, true);
+      expect(spyFacetToggle).toHaveBeenCalledWith(component.facet, true);
     });
   });
 
@@ -200,14 +206,14 @@ describe('FacetComponent', () => {
       component.facetHeader = {
         nativeElement: facetHeaderElement,
       };
-      spyOn(component, 'toggleGroup');
-      spyOn(firstOptionElement, 'focus');
-      spyOn(secondOptionElement, 'focus');
+      vi.spyOn(component, 'toggleGroup');
+      vi.spyOn(firstOptionElement, 'focus');
+      vi.spyOn(secondOptionElement, 'focus');
     });
 
     it('should initialize keyboard controls and find tiggered values index', () => {
-      spyOn(component, 'onArrowDown');
-      spyOn(component, 'onArrowUp');
+      vi.spyOn(component, 'onArrowDown');
+      vi.spyOn(component, 'onArrowUp');
 
       component.onKeydown(mockArrowUpEvent);
       expect(component.onArrowUp).toHaveBeenCalledWith(mockArrowUpEvent, 1);

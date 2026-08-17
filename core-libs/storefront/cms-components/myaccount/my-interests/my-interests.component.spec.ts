@@ -8,7 +8,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -38,7 +38,7 @@ import {
   SpinnerComponent,
 } from '@spartacus/storefront';
 import { cold, getTestScheduler } from 'jasmine-marbles';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import { LayoutConfig } from '../../../layout/config/layout-config';
 import { MockFeatureLevelDirective } from '../../../shared/test/mock-feature-level-directive';
@@ -210,18 +210,18 @@ describe('MyInterestsComponent', () => {
   let fixture: ComponentFixture<MyInterestsComponent>;
   let el: DebugElement;
 
-  const productInterestService = jasmine.createSpyObj('UserInterestsService', [
-    'loadProductInterests',
-    'getAndLoadProductInterests',
-    'getProdutInterestsLoading',
-    'getRemoveProdutInterestLoading',
-    'removeProdutInterest',
-    'clearProductInterests',
-    'resetRemoveInterestState',
-  ]);
-  const productService = jasmine.createSpyObj('ProductService', ['get']);
+  const productInterestService = {
+    loadProductInterests: vi.fn(),
+    getAndLoadProductInterests: vi.fn(),
+    getProdutInterestsLoading: vi.fn(),
+    getRemoveProdutInterestLoading: vi.fn(),
+    removeProdutInterest: vi.fn(),
+    clearProductInterests: vi.fn(),
+    resetRemoveInterestState: vi.fn(),
+  };
+  const productService = { get: vi.fn() };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         RouterModule.forRoot([]),
@@ -267,24 +267,26 @@ describe('MyInterestsComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyInterestsComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    productInterestService.getAndLoadProductInterests.and.returnValue(
+    productInterestService.getAndLoadProductInterests.mockReturnValue(
       of(emptyInterests)
     );
-    productInterestService.getProdutInterestsLoading.and.returnValue(of(false));
-    productInterestService.getRemoveProdutInterestLoading.and.returnValue(
+    productInterestService.getProdutInterestsLoading.mockReturnValue(of(false));
+    productInterestService.getRemoveProdutInterestLoading.mockReturnValue(
       of(false)
     );
-    productInterestService.loadProductInterests.and.stub();
-    productInterestService.removeProdutInterest.and.stub();
-    productInterestService.clearProductInterests.and.stub();
-    productInterestService.resetRemoveInterestState.and.stub();
+    productInterestService.loadProductInterests.mockImplementation(() => {});
+    productInterestService.removeProdutInterest.mockImplementation(() => {});
+    productInterestService.clearProductInterests.mockImplementation(() => {});
+    productInterestService.resetRemoveInterestState.mockImplementation(
+      () => {}
+    );
   });
 
   it('should create', () => {
@@ -294,13 +296,13 @@ describe('MyInterestsComponent', () => {
 
   it('should display header', () => {
     fixture.detectChanges();
-    expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
+    expect(el.query(By.css('h2')).nativeElement.textContent).toEqual(
       'myInterests.header'
     );
   });
 
   it('should show loading spinner when data is loading', () => {
-    productInterestService.getProdutInterestsLoading.and.returnValue(of(true));
+    productInterestService.getProdutInterestsLoading.mockReturnValue(of(true));
     fixture.detectChanges();
     expect(el.query(By.css('cx-spinner'))).toBeTruthy();
   });
@@ -311,12 +313,13 @@ describe('MyInterestsComponent', () => {
   });
 
   it('should show interests list', () => {
-    productInterestService.getAndLoadProductInterests.and.returnValue(
+    productInterestService.getAndLoadProductInterests.mockReturnValue(
       of(mockedInterests)
     );
-    productService.get.withArgs('553637', 'details').and.returnValue(p553637$);
-    productService.get.withArgs('553638', 'details').and.returnValue(p553638$);
-    productInterestService.getProdutInterestsLoading.and.returnValue(of(false));
+    productService.get.mockImplementation((code: string) =>
+      code === '553637' ? p553637$ : code === '553638' ? p553638$ : of(null)
+    );
+    productInterestService.getProdutInterestsLoading.mockReturnValue(of(false));
     fixture.detectChanges();
 
     const table = el.query(By.css('.cx-product-interests-table'));
@@ -379,12 +382,13 @@ describe('MyInterestsComponent', () => {
   });
 
   it('should be able to remove an interest item', () => {
-    productInterestService.getAndLoadProductInterests.and.returnValue(
+    productInterestService.getAndLoadProductInterests.mockReturnValue(
       of(mockedInterests)
     );
-    productService.get.withArgs('553637', 'details').and.returnValue(p553637$);
-    productService.get.withArgs('553638', 'details').and.returnValue(p553638$);
-    productInterestService.getRemoveProdutInterestLoading.and.returnValue(
+    productService.get.mockImplementation((code: string) =>
+      code === '553637' ? p553637$ : code === '553638' ? p553638$ : of(null)
+    );
+    productInterestService.getRemoveProdutInterestLoading.mockReturnValue(
       cold('-a|', { a: true })
     );
     fixture.detectChanges();

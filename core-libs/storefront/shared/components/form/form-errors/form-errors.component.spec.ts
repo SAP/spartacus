@@ -1,11 +1,11 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import {
   I18nTestingModule,
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../test/mock-feature-directive';
 import { FormErrorsComponent } from './form-errors.component';
 
 const mockErrorName = 'exampleError';
@@ -16,16 +16,17 @@ describe('FormErrors', () => {
   let fixture: ComponentFixture<FormErrorsComponent>;
   let control: UntypedFormControl;
 
-  const getContent = () => fixture.debugElement.nativeElement.innerText;
+  const getContent = () =>
+    fixture.debugElement.nativeElement.textContent.trim();
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({})
       .overrideComponent(FormErrorsComponent, {
         remove: { imports: [MockFeatureDirective, TranslatePipe] },
         add: { imports: [MockFeatureDirective, I18nTestingModule] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FormErrorsComponent);
@@ -85,10 +86,10 @@ describe('FormErrors', () => {
     fixture.detectChanges();
     const renderedErrors =
       fixture.debugElement.nativeElement.querySelectorAll('p');
-    expect(renderedErrors[0].innerText).toEqual(
+    expect(renderedErrors[0].textContent.trim()).toEqual(
       'formErrors.labeled.email,formErrors.email'
     );
-    expect(renderedErrors[1].innerText).toEqual(
+    expect(renderedErrors[1].textContent.trim()).toEqual(
       'formErrors.labeled.required,formErrors.required'
     );
   });
@@ -111,6 +112,8 @@ describe('FormErrors', () => {
   });
 
   describe('i18n', () => {
+    afterEach(() => vi.restoreAllMocks());
+
     describe('key', () => {
       it('should use the error key with default prefix', () => {
         control.setErrors(mockError);
@@ -126,9 +129,15 @@ describe('FormErrors', () => {
           `${component.prefix}.${mockErrorName}`,
           `${component.fallbackPrefix}.${mockErrorName}`,
         ];
-        spyOn(MockTranslatePipe.prototype, 'transform')
-          .withArgs(errorKeys, {})
-          .and.returnValue(errorKeys[1]);
+        vi.spyOn(MockTranslatePipe.prototype, 'transform').mockImplementation(
+          (key: any, params: any) =>
+            JSON.stringify(key) === JSON.stringify(errorKeys) &&
+            JSON.stringify(params) === JSON.stringify({})
+              ? errorKeys[1]
+              : Array.isArray(key)
+                ? key.join(',')
+                : key
+        );
 
         control.setErrors(mockError);
         control.markAsTouched();
@@ -152,9 +161,15 @@ describe('FormErrors', () => {
           `${component.prefix}.${mockErrorName}`,
           `${component.fallbackPrefix}.${mockErrorName}`,
         ];
-        spyOn(MockTranslatePipe.prototype, 'transform')
-          .withArgs(errorKeys, {})
-          .and.returnValue(errorKeys[1]);
+        vi.spyOn(MockTranslatePipe.prototype, 'transform').mockImplementation(
+          (key: any, params: any) =>
+            JSON.stringify(key) === JSON.stringify(errorKeys) &&
+            JSON.stringify(params) === JSON.stringify({})
+              ? errorKeys[1]
+              : Array.isArray(key)
+                ? key.join(',')
+                : key
+        );
 
         control.setErrors(mockError);
         control.markAsTouched();
@@ -165,7 +180,7 @@ describe('FormErrors', () => {
 
     describe('params', () => {
       it('should use the method `getTranslationParams`', () => {
-        spyOn(component, 'getTranslationParams').and.returnValue({
+        vi.spyOn(component, 'getTranslationParams').mockReturnValue({
           foo: '1',
           bar: '2',
         });

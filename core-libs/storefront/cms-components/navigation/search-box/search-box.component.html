@@ -30,7 +30,7 @@
         (click)="clear(searchInput)"
         class="reset"
       >
-        <cx-icon [type]="iconTypes.RESET"></cx-icon>
+        <cx-icon [type]="iconTypes.RESET" />
       </button>
 
       <div
@@ -38,7 +38,7 @@
         class="search-icon"
         [title]="'common.productSearchDescription' | cxTranslate"
       >
-        <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+        <cx-icon [type]="iconTypes.SEARCH" />
       </div>
     </div>
     <button
@@ -48,7 +48,7 @@
       class="search"
       (click)="open()"
     >
-      <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+      <cx-icon [type]="iconTypes.SEARCH" />
     </button>
   </label>
 </div>
@@ -133,7 +133,7 @@
         [cxOutletContext]="{
           maxTrendingSearches: config.maxTrendingSearches,
         }"
-      ></ng-template>
+      />
     </div>
 
     <!--  RECENT SEARCHES-->
@@ -146,7 +146,7 @@
           searchBoxActive: searchBoxActive,
           maxRecentSearches: config.maxRecentSearches,
         }"
-      ></ng-template>
+      />
     </ng-container>
 
     <ng-container *cxFeature="'!searchBoxRecentSearchesRemoval'">
@@ -158,7 +158,7 @@
           searchBoxActive: searchBoxActive,
           maxRecentSearches: config.maxRecentSearches,
         }"
-      ></ng-template>
+      />
     </ng-container>
     <!--RESULT  PRODUCTS-->
     <div class="products">
@@ -173,8 +173,7 @@
           [template]="carouselItem"
           itemWidth="160px"
           (keybordEvent)="carouselEventPropagator($event)"
-        >
-        </cx-carousel>
+        />
 
         <ng-template #carouselItem let-product="item">
           <a
@@ -204,14 +203,14 @@
               [container]="product.images?.PRIMARY"
               format="product"
               [alt]="product.name ?? ''"
-            ></cx-media>
+            />
             <h3 class="cx-product-name" [innerHtml]="product.nameHtml"></h3>
             <div class="price">
               {{ product.price?.formattedValue }}
             </div>
           </a>
           <div class="actions">
-            <ng-container cxInnerComponentsHost></ng-container>
+            <ng-container cxInnerComponentsHost />
           </div>
         </ng-template>
       </ng-container>
@@ -237,8 +236,7 @@
           {{ 'searchBox.trendingSearches' | cxTranslate }}
         </h3>
         <ng-container *cxFeature="'searchBoxRecentSearchesRemoval'">
-          <ng-template [cxOutlet]="searchBoxOutlets.RECENT_SEARCHES_HEADER">
-          </ng-template>
+          <ng-template [cxOutlet]="searchBoxOutlets.RECENT_SEARCHES_HEADER" />
         </ng-container>
         <h3
           *cxFeature="'!searchBoxRecentSearchesRemoval'"
