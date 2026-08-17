@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FeatureToggles, TranslationService } from '@spartacus/core';
-import { provideMockFeatureToggles } from '../../../../core/src/features-config/feature-toggles/testing';
 import { of } from 'rxjs';
 import { NgSelectA11yDirective } from './ng-select-a11y.directive';
 import { NgSelectA11yModule } from './ng-select-a11y.module';
@@ -139,9 +138,17 @@ describe('NgSelectA11yDirective', () => {
     ngSelectInstance.writeValue(component.selected);
     ngSelectInstance.detectChanges();
 
+    const select = getNgSelect().nativeElement;
+    const valueLabel = select.querySelector('.ng-value-label');
+    if (valueLabel) {
+      Object.defineProperty(valueLabel, 'innerText', {
+        get: () => `${component.selected}`,
+        configurable: true,
+      });
+    }
+
     (directive['selectObserver'] as unknown as MockMutationObserver).trigger();
     await new Promise((resolve) => setTimeout(resolve));
-    const select = getNgSelect().nativeElement;
     const inputElement = select.querySelector('input');
 
     expect(inputElement.value).toContain(`${component.selected}`);
@@ -154,21 +161,35 @@ describe('NgSelectA11yDirective', () => {
     ngSelectInstance.writeValue(component.selected);
     ngSelectInstance.detectChanges();
 
+    const select = getNgSelect().nativeElement;
+    const getValueLabel = () => select.querySelector('.ng-value-label');
+
+    let currentSelected = component.selected;
+    const defineInnerText = () => {
+      const el = getValueLabel();
+      if (el) {
+        Object.defineProperty(el, 'innerText', {
+          get: () => `${currentSelected}`,
+          configurable: true,
+        });
+      }
+    };
+
+    defineInnerText();
     (directive['selectObserver'] as unknown as MockMutationObserver).trigger();
     await new Promise((resolve) => setTimeout(resolve));
-    const select = getNgSelect().nativeElement;
     const inputElement = select.querySelector('input');
+    expect(inputElement.value).toContain(`${component.selected}`);
 
-    expect(inputElement.value).toContainEqual(`${component.selected}`);
-
+    currentSelected = 2;
     component.selected = 2;
     ngSelectInstance.writeValue(component.selected);
     ngSelectInstance.detectChanges();
+    defineInnerText();
 
     (directive['selectObserver'] as unknown as MockMutationObserver).trigger();
-
     await new Promise((resolve) => setTimeout(resolve));
-    expect(inputElement.value).toContainEqual(`${component.selected}`);
+    expect(inputElement.value).toContain(`${component.selected}`);
   });
 
   describe('vocalizeItemCount()', () => {

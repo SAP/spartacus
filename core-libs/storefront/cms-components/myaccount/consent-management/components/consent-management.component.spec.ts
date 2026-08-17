@@ -14,6 +14,7 @@ import {
   AuthService,
   Consent,
   ConsentTemplate,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   MockTranslatePipe,
@@ -28,11 +29,12 @@ import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.
 import { ConsentManagementFormComponent } from './consent-form/consent-management-form.component';
 import { ConsentManagementComponentService } from '../consent-management-component.service';
 import { ConsentManagementComponent } from './consent-management.component';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from '@spartacus/core/testing/feature-toggles';
 import { vi } from 'vitest';
+
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled = vi.fn().mockReturnValue(false);
+  isLevel = vi.fn().mockReturnValue(false);
+}
 
 @Component({
   selector: 'cx-spinner',
@@ -164,7 +166,7 @@ describe('ConsentManagementComponent', () => {
           useValue: mockAnonymousConsentsConfig,
         },
         { provide: PageMetaService, useClass: MockPageMetaService },
-        ...provideMockFeatureToggles({ a11yFormFieldSectionLegend: true }),
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     })
       .overrideComponent(ConsentManagementComponent, {
@@ -184,6 +186,9 @@ describe('ConsentManagementComponent', () => {
         },
       })
       .compileComponents();
+
+    (TestBed.inject(FeatureConfigService).isEnabled as ReturnType<typeof vi.fn>)
+      .mockImplementation((f: string) => f === 'a11yFormFieldSectionLegend');
   });
 
   beforeEach(() => {
@@ -901,15 +906,21 @@ describe('ConsentManagementComponent', () => {
   });
 
   describe('Accessibility', () => {
-    let toggleController: MockFeatureTogglesController;
+    let featureConfigService: FeatureConfigService;
 
     beforeEach(() => {
-      toggleController = TestBed.inject(MockFeatureTogglesController);
+      featureConfigService = TestBed.inject(FeatureConfigService);
     });
+
+    function setToggle(toggle: string, on: boolean): void {
+      (featureConfigService.isEnabled as ReturnType<typeof vi.fn>).mockImplementation(
+        (f: string) => on ? f === toggle : f !== toggle && !f.startsWith('!')
+      );
+    }
 
     describe('when a11yFormFieldSectionLegend is enabled', () => {
       beforeEach(() => {
-        toggleController.set('a11yFormFieldSectionLegend', true);
+        setToggle('a11yFormFieldSectionLegend', true);
         vi.spyOn(userService, 'getConsents').mockReturnValue(
           of([mockConsentTemplate])
         );
@@ -928,7 +939,7 @@ describe('ConsentManagementComponent', () => {
 
     describe('when a11yFormFieldSectionLegend is disabled', () => {
       beforeEach(() => {
-        toggleController.set('a11yFormFieldSectionLegend', false);
+        setToggle('a11yFormFieldSectionLegend', false);
         vi.spyOn(userService, 'getConsents').mockReturnValue(
           of([mockConsentTemplate])
         );

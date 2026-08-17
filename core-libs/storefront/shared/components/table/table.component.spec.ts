@@ -6,7 +6,7 @@ import { TableRendererService } from './table-renderer.service';
 import { TableComponent } from './table.component';
 import { Table, TableLayout } from './table.model';
 import { FeatureToggles } from '@spartacus/core';
-import { provideMockFeatureToggles } from '../../../../core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/feature-toggles';
 import { vi } from 'vitest';
 
 vi.mock('@angular/core', async (importOriginal) => {

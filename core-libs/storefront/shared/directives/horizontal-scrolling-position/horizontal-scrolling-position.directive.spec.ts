@@ -269,9 +269,9 @@ describe('HorizontalScrollingPositionDirective', () => {
           // simulate IntersectionObserver firing after scroll: start sentinel is no longer visible
           capturedIntersectionCallback(
             [
-              { target: directive.scrollingAreaStart, isIntersecting: false },
+              { target: directive.scrollingAreaStart ?? {}, isIntersecting: false },
             ] as IntersectionObserverEntry[],
-            directive['scrollingAreaIntersectionObserver']!
+            (directive as any)['scrollingAreaIntersectionObserver']
           );
 
           let isScrollStart;
@@ -304,9 +304,9 @@ describe('HorizontalScrollingPositionDirective', () => {
           // simulate IntersectionObserver firing after scroll: end sentinel is now visible
           capturedIntersectionCallback(
             [
-              { target: directive.scrollingAreaEnd, isIntersecting: true },
+              { target: directive.scrollingAreaEnd ?? {}, isIntersecting: true },
             ] as IntersectionObserverEntry[],
-            directive['scrollingAreaIntersectionObserver']!
+            (directive as any)['scrollingAreaIntersectionObserver']
           );
 
           let isScrollEnd;
@@ -339,10 +339,10 @@ describe('HorizontalScrollingPositionDirective', () => {
           // simulate IntersectionObserver firing: both sentinels visible means no scroll needed
           capturedIntersectionCallback(
             [
-              { target: directive.scrollingAreaStart, isIntersecting: true },
+              { target: directive.scrollingAreaStart ?? {}, isIntersecting: true },
               { target: directive.scrollingAreaEnd, isIntersecting: true },
             ] as IntersectionObserverEntry[],
-            directive['scrollingAreaIntersectionObserver']!
+            (directive as any)['scrollingAreaIntersectionObserver']
           );
 
           let isScrollNeeded;
