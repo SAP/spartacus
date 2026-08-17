@@ -472,7 +472,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       initSelectedMultiSelectRemoveButton(true);
 
       const button = fixture.debugElement.query(
-        By.css('button.btn-secondary')
+        By.css('button.btn-tertiary')
       ).nativeElement;
       expect(button.innerText).toContain('configurator.button.remove');
       expect(button.disabled).toBe(true);
@@ -486,7 +486,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       initSelectedMultiSelectRemoveButton(true);
 
       const button = fixture.debugElement.query(
-        By.css('button.btn-secondary')
+        By.css('button.btn-tertiary')
       ).nativeElement;
       expect(button.innerText).toContain('configurator.button.remove');
       expect(button.disabled).toBe(false);
@@ -538,7 +538,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       initUnselectedPrimaryButton(false, true);
 
       const button = fixture.debugElement.query(
-        By.css('button.btn-primary')
+        By.css('button.btn-secondary')
       ).nativeElement;
       expect(button.innerText).toContain('configurator.button.select');
       expect(button.disabled).toBe(false);
@@ -548,7 +548,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       initUnselectedPrimaryButton(false, false);
 
       const button = fixture.debugElement.query(
-        By.css('button.btn-primary')
+        By.css('button.btn-secondary')
       ).nativeElement;
       expect(button.innerText).toContain('configurator.button.select');
       expect(button.disabled).toBe(true);
@@ -558,7 +558,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       initUnselectedPrimaryButton(true, true);
 
       const button = fixture.debugElement.query(
-        By.css('button.btn-primary')
+        By.css('button.btn-secondary')
       ).nativeElement;
       expect(button.innerText).toContain('configurator.button.add');
       expect(button.disabled).toBe(false);
@@ -568,7 +568,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       initUnselectedPrimaryButton(true, false);
 
       const button = fixture.debugElement.query(
-        By.css('button.btn-primary')
+        By.css('button.btn-secondary')
       ).nativeElement;
       expect(button.innerText).toContain('configurator.button.add');
       expect(button.disabled).toBe(true);
@@ -1313,13 +1313,13 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       );
     });
 
-    it("should contain button element with class name 'btn-primary' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+    it("should contain button element with class name 'btn-secondary' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
       const itemIndex = component.productCardOptions.itemIndex + 1;
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
         'button',
-        'btn-primary',
+        'btn-secondary',
         0,
         'aria-label',
         'configurator.a11y.itemOfAttributeUnselectedWithPrice attribute:' +
@@ -1336,12 +1336,12 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       );
     });
 
-    it("should contain button element with class name 'btn-primary' and 'aria-describedby' that indicates the ID of the element that describe the elements", () => {
+    it("should contain button element with class name 'btn-secondary' and 'aria-describedby' that indicates the ID of the element that describe the elements", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
         'button',
-        'btn-primary',
+        'btn-secondary',
         0,
         'aria-describedby',
         'cx-configurator--label--' + component.productCardOptions.attributeName,
@@ -1389,7 +1389,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       expect(
         htmlElem.querySelector('.cx-product-card-actions-menu-toggle')
       ).toBeFalsy();
-      expect(htmlElem.querySelector('button.btn-primary')).toBeTruthy();
+      expect(htmlElem.querySelector('button.btn-secondary')).toBeTruthy();
     });
 
     it('should render `ELLIPSIS` icon on overflow menu toggle', () => {

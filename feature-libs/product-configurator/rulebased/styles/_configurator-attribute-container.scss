@@ -5,6 +5,11 @@
   align-items: stretch;
   width: 100%;
 
+  @include media-breakpoint-down(sm) {
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+  }
+
   .cx-accordion {
     width: 100%;
 
