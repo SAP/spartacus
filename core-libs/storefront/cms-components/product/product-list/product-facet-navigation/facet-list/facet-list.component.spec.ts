@@ -11,7 +11,7 @@ import { By } from '@angular/platform-browser';
 import { FeatureConfigService, I18nTestingModule } from '@spartacus/core';
 import { KeyboardFocusService } from '@spartacus/storefront';
 import { TabModule } from '../../../../content/tab/tab.module';
-import { MockFeatureDirective } from '../../../../../shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { EMPTY, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import {

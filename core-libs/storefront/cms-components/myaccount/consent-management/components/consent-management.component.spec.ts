@@ -31,7 +31,8 @@ import { ConsentManagementComponent } from './consent-management.component';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
+} from '@spartacus/core/testing/feature-toggles';
+import { vi } from 'vitest';
 
 @Component({
   selector: 'cx-spinner',
@@ -909,7 +910,7 @@ describe('ConsentManagementComponent', () => {
     describe('when a11yFormFieldSectionLegend is enabled', () => {
       beforeEach(() => {
         toggleController.set('a11yFormFieldSectionLegend', true);
-        spyOn(userService, 'getConsents').and.returnValue(
+        vi.spyOn(userService, 'getConsents').mockReturnValue(
           of([mockConsentTemplate])
         );
         component.ngOnInit();
@@ -928,7 +929,7 @@ describe('ConsentManagementComponent', () => {
     describe('when a11yFormFieldSectionLegend is disabled', () => {
       beforeEach(() => {
         toggleController.set('a11yFormFieldSectionLegend', false);
-        spyOn(userService, 'getConsents').and.returnValue(
+        vi.spyOn(userService, 'getConsents').mockReturnValue(
           of([mockConsentTemplate])
         );
         component.ngOnInit();

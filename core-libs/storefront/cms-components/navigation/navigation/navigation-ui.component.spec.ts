@@ -17,7 +17,6 @@ import { of } from 'rxjs';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationUIComponent } from './navigation-ui.component';
-import { vi } from 'vitest';
 
 @Component({
   selector: 'cx-icon',
@@ -435,7 +434,7 @@ describe('Navigation UI Component', () => {
 
     it('should move focus to the opened node', () => {
       const firstChild = element.query(By.css('[href="/sub-sub-child-1a"]'));
-      const spy = spyOn(firstChild.nativeElement, 'focus');
+      const spy = vi.spyOn(firstChild.nativeElement, 'focus');
       const spaceEvent = new KeyboardEvent('keyup', { code: 'Space' });
       const dropDownButton = element.query(
         By.css('[depth="2"] h4')
@@ -486,7 +485,7 @@ describe('Navigation UI Component', () => {
       });
 
       it('should call toggleOpen on keyup', () => {
-        const spy = spyOn(navigationComponent, 'toggleOpen');
+        const spy = vi.spyOn(navigationComponent, 'toggleOpen');
         const keyupEvent = new KeyboardEvent('keyup', { code: 'Space' });
         const dropDownButton = element.query(
           By.css('nav button[aria-expanded="false"]')
@@ -499,12 +498,12 @@ describe('Navigation UI Component', () => {
       });
 
       it('should suppress action and only call preventDefault on keydown', () => {
-        const toggleSpy = spyOn(navigationComponent, 'toggleOpen');
+        const toggleSpy = vi.spyOn(navigationComponent, 'toggleOpen');
         const keydownEvent = new KeyboardEvent('keydown', {
           code: 'Space',
           cancelable: true,
         });
-        spyOn(keydownEvent, 'preventDefault');
+        vi.spyOn(keydownEvent, 'preventDefault');
         const dropDownButton = element.query(
           By.css('nav button[aria-expanded="false"]')
         ).nativeElement;
@@ -519,8 +518,8 @@ describe('Navigation UI Component', () => {
       });
 
       it('should not move focus or set up arrow controls on keydown', () => {
-        const focusSpy = spyOn(navigationComponent, 'focusOnNode');
-        const arrowSpy = spyOn(navigationComponent, 'setupArrowControls');
+        const focusSpy = vi.spyOn(navigationComponent, 'focusOnNode');
+        const arrowSpy = vi.spyOn(navigationComponent, 'setupArrowControls');
         const keydownEvent = new KeyboardEvent('keydown', { code: 'Space' });
 
         navigationComponent.onSpace(keydownEvent);
@@ -530,9 +529,9 @@ describe('Navigation UI Component', () => {
       });
 
       it('should move focus and set up arrow controls on keyup', () => {
-        const focusSpy = spyOn(navigationComponent, 'focusOnNode');
-        const arrowSpy = spyOn(navigationComponent, 'setupArrowControls');
-        spyOn(navigationComponent, 'toggleOpen');
+        const focusSpy = vi.spyOn(navigationComponent, 'focusOnNode');
+        const arrowSpy = vi.spyOn(navigationComponent, 'setupArrowControls');
+        vi.spyOn(navigationComponent, 'toggleOpen');
         const keyupEvent = new KeyboardEvent('keyup', { code: 'Space' });
         const dropDownButton = element.query(
           By.css('nav button[aria-expanded="false"]')
@@ -555,7 +554,7 @@ describe('Navigation UI Component', () => {
       });
 
       it('should call toggleOpen on keydown', () => {
-        const spy = spyOn(navigationComponent, 'toggleOpen');
+        const spy = vi.spyOn(navigationComponent, 'toggleOpen');
         const keydownEvent = new KeyboardEvent('keydown', { code: 'Space' });
         const dropDownButton = element.query(
           By.css('nav button[aria-expanded="false"]')
@@ -570,7 +569,7 @@ describe('Navigation UI Component', () => {
       });
 
       it('should ignore keyup and not call toggleOpen', () => {
-        const spy = spyOn(navigationComponent, 'toggleOpen');
+        const spy = vi.spyOn(navigationComponent, 'toggleOpen');
         const keyupEvent = new KeyboardEvent('keyup', { code: 'Space' });
 
         navigationComponent.onSpace(keyupEvent);
@@ -579,8 +578,8 @@ describe('Navigation UI Component', () => {
       });
 
       it('should not move focus or set up arrow controls on keyup', () => {
-        const focusSpy = spyOn(navigationComponent, 'focusOnNode');
-        const arrowSpy = spyOn(navigationComponent, 'setupArrowControls');
+        const focusSpy = vi.spyOn(navigationComponent, 'focusOnNode');
+        const arrowSpy = vi.spyOn(navigationComponent, 'setupArrowControls');
         const keyupEvent = new KeyboardEvent('keyup', { code: 'Space' });
 
         navigationComponent.onSpace(keyupEvent);
@@ -590,9 +589,9 @@ describe('Navigation UI Component', () => {
       });
 
       it('should move focus and set up arrow controls on keydown', () => {
-        const focusSpy = spyOn(navigationComponent, 'focusOnNode');
-        const arrowSpy = spyOn(navigationComponent, 'setupArrowControls');
-        spyOn(navigationComponent, 'toggleOpen');
+        const focusSpy = vi.spyOn(navigationComponent, 'focusOnNode');
+        const arrowSpy = vi.spyOn(navigationComponent, 'setupArrowControls');
+        vi.spyOn(navigationComponent, 'toggleOpen');
         const keydownEvent = new KeyboardEvent('keydown', { code: 'Space' });
         const dropDownButton = element.query(
           By.css('nav button[aria-expanded="false"]')
@@ -642,7 +641,7 @@ describe('Navigation UI Component', () => {
           code: 'Space',
           cancelable: true,
         });
-        spyOn(keydownEvent, 'preventDefault');
+        vi.spyOn(keydownEvent, 'preventDefault');
         Object.defineProperty(keydownEvent, 'currentTarget', {
           value: triggerButton,
         });
@@ -654,7 +653,7 @@ describe('Navigation UI Component', () => {
       });
 
       it('should call back() when keyup fires on an already-open node', () => {
-        const backSpy = spyOn(navigationComponent, 'back');
+        const backSpy = vi.spyOn(navigationComponent, 'back');
         navigationComponent['openNodes'] = [parentNode];
         const keyupEvent = new KeyboardEvent('keyup', { code: 'Space' });
         Object.defineProperty(keyupEvent, 'currentTarget', {
@@ -719,7 +718,7 @@ describe('Navigation UI Component', () => {
       });
 
       it('should call back() when keydown fires on an already-open node', () => {
-        const backSpy = spyOn(navigationComponent, 'back');
+        const backSpy = vi.spyOn(navigationComponent, 'back');
         navigationComponent['openNodes'] = [parentNode];
         const keydownEvent = new KeyboardEvent('keydown', { code: 'Space' });
         Object.defineProperty(keydownEvent, 'currentTarget', {

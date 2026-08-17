@@ -8,6 +8,7 @@ import {
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { AtMessageModule } from './assistive-technology-message.module';
+import { vi } from 'vitest';
 
 @Component({
   template: `
@@ -118,20 +119,18 @@ describe('AtMessageDirective', () => {
   });
 
   it('should remove existing assistive message before adding the new one', () => {
-    const mockServiceWithExisting = TestBed.inject(GlobalMessageService) as any;
-    mockServiceWithExisting.get.and.returnValue(
-      of({
-        [GlobalMessageType.MSG_TYPE_ASSISTIVE]: [{ raw: 'old message' }],
-      })
-    );
+    const globalMessageService = TestBed.inject(GlobalMessageService) as any;
+    vi.spyOn(globalMessageService, 'get').mockReturnValueOnce(      of({
+      [GlobalMessageType.MSG_TYPE_ASSISTIVE]: [{ raw: 'old message' }],
+    }));
 
     fixture.detectChanges();
     getCancelButton().nativeElement.click();
 
-    expect(mockServiceWithExisting.remove).toHaveBeenCalledWith(
+    expect(globalMessageService.remove).toHaveBeenCalledWith(
       GlobalMessageType.MSG_TYPE_ASSISTIVE
     );
-    expect(mockServiceWithExisting.add).toHaveBeenCalledWith(
+    expect(globalMessageService.add).toHaveBeenCalledWith(
       'common.cancel',
       GlobalMessageType.MSG_TYPE_ASSISTIVE
     );

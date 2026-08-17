@@ -12,7 +12,7 @@ import {
   UserInterestsService,
 } from '@spartacus/core';
 import { UrlTestingModule } from '../../../../../core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { MockFeatureDirective } from '../../../../shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import { LaunchDialogService } from '../../../../layout/launch-dialog/services/index';
 import { StockNotificationDialogComponent } from './stock-notification-dialog.component';

@@ -30,7 +30,7 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
 import { IconComponent } from '../icon';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
-import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {

@@ -14,7 +14,7 @@ import {
   ICON_TYPE,
   IconComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { MessageComponent } from './message.component';
 
 @Component({

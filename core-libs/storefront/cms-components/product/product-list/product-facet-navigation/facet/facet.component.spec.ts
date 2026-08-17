@@ -6,22 +6,23 @@ import {
   Input,
   QueryList,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   Facet,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
 } from '@spartacus/core';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetCollapseState } from '../facet.model';
 import { FacetService } from '../services/facet.service';
 import { FacetComponent } from './facet.component';
 import { vi } from 'vitest';
+
 
 @Component({
   selector: 'cx-icon',
@@ -36,11 +37,11 @@ class MockKeyboadFocusDirective {
 }
 
 const MockFacetService = {
-  getState: () => {
-    return of({
+  getState: vi.fn().mockReturnValue(
+    of({
       topVisible: 5,
-    } as FacetCollapseState);
-  },
+    } as FacetCollapseState)
+  ),
   toggle: vi.fn(),
   increaseVisibleValues: vi.fn(),
   decreaseVisibleValues: vi.fn(),
@@ -48,9 +49,14 @@ const MockFacetService = {
 };
 
 class MockGlobalMessageService {
-  add = jasmine.createSpy('add');
-  remove = jasmine.createSpy('remove');
-  get = jasmine.createSpy('get').and.returnValue(of({}));
+  add = vi.fn();
+  remove = vi.fn();
+  get = vi.fn().mockReturnValue(of({}));
+}
+
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled = vi.fn().mockReturnValue(false);
+  isLevel = vi.fn().mockReturnValue(false);
 }
 
 const MockFacet: Facet = {
@@ -69,6 +75,10 @@ describe('FacetComponent', () => {
   let facetService: FacetService;
 
   beforeEach(async () => {
+    Object.values(MockFacetService).forEach(
+      (fn) => typeof fn === 'function' && (fn as any).mockReset?.()
+    );
+    MockFacetService.getState.mockReturnValue(of({ topVisible: 5 } as FacetCollapseState));
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -78,7 +88,7 @@ describe('FacetComponent', () => {
         RouterModule.forRoot([]),
       ],
       providers: [
-        { provide: FacetService, useClass: MockFacetService },
+        { provide: FacetService, useValue: MockFacetService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     })
@@ -265,7 +275,11 @@ describe('FacetComponent with a11yFilteredFacetAnnouncement', () => {
     ],
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
+    Object.values(MockFacetService).forEach(
+      (fn) => typeof fn === 'function' && (fn as any).mockReset?.()
+    );
+    MockFacetService.getState.mockReturnValue(of({ topVisible: 5 } as FacetCollapseState));
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -275,16 +289,21 @@ describe('FacetComponent with a11yFilteredFacetAnnouncement', () => {
         RouterModule.forRoot([]),
       ],
       providers: [
-        { provide: FacetService, useClass: MockFacetService },
+        { provide: FacetService, useValue: MockFacetService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        provideMockFeatureToggles({ a11yFilteredFacetAnnouncement: true }),
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     })
       .overrideComponent(FacetComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
-  }));
+
+    (TestBed.inject(FeatureConfigService).isEnabled as ReturnType<typeof vi.fn>)
+      .mockImplementation((f: string) =>
+        f.startsWith('!') ? f !== '!a11yFilteredFacetAnnouncement' : f === 'a11yFilteredFacetAnnouncement'
+      );
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FacetComponent);
@@ -294,10 +313,14 @@ describe('FacetComponent with a11yFilteredFacetAnnouncement', () => {
       GlobalMessageService
     ) as unknown as MockGlobalMessageService;
     component.facet = MockFacetWithSelectedValue;
-    fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('should announce "filterAdded" when clicking an unselected facet value', () => {
+    fixture.detectChanges();
     const unselectedLink = element.queryAll(By.css('a.value'))[0].nativeElement;
     unselectedLink.click();
     expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -307,6 +330,7 @@ describe('FacetComponent with a11yFilteredFacetAnnouncement', () => {
   });
 
   it('should announce "filterRemoved" when clicking a selected facet value', () => {
+    fixture.detectChanges();
     const selectedLink = element.queryAll(By.css('a.value'))[1].nativeElement;
     selectedLink.click();
     expect(globalMessageService.add).toHaveBeenCalledWith(

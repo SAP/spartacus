@@ -9,7 +9,7 @@ import { FileUploadModule, FormErrorsModule } from '../../form';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
+} from '@spartacus/core/testing/feature-toggles';
 import { MessagingComponent } from './messaging.component';
 import {
   MessageEvent,
@@ -158,7 +158,7 @@ describe('MessagingComponent', () => {
       expect(
         fixture.debugElement.query(
           By.css('.cx-message-card:nth-child(2) .cx-message-item-link')
-        ).nativeElement.text
+        ).nativeElement.textContent?.trim()
       ).toEqual('Product 123:');
     });
 
@@ -234,10 +234,11 @@ describe('MessagingComponent', () => {
       );
     });
   });
+
   describe('resetForm', () => {
     beforeEach(() => {
       fixture.detectChanges();
-      component.fileUploadComponent = { removeFile: vi.fn() };
+      component.fileUploadComponent = { removeFile: vi.fn() } as any;
     });
     it('should remove all files uploaded', () => {
       component.resetForm();
@@ -283,7 +284,7 @@ describe('MessagingComponent', () => {
         toggleController.set('a11yMessagingListKeyboardFocus', false);
         const { el } = createFixture();
         el.querySelectorAll('[role="listitem"]').forEach((item) => {
-          expect(item.hasAttribute('tabindex')).toBeFalse();
+          expect(item.hasAttribute('tabindex')).toBe(false);
         });
       });
 
@@ -291,7 +292,7 @@ describe('MessagingComponent', () => {
         toggleController.set('a11yMessagingListKeyboardFocus', false);
         const { el } = createFixture();
         el.querySelectorAll('[role="listitem"]').forEach((item) => {
-          expect(item.hasAttribute('aria-label')).toBeFalse();
+          expect(item.hasAttribute('aria-label')).toBe(false);
         });
       });
 
@@ -318,7 +319,7 @@ describe('MessagingComponent', () => {
         toggleController.set('a11yMessagingListKeyboardFocus', true);
         const { el } = createFixture();
         el.querySelectorAll('[role="listitem"]').forEach((item) => {
-          expect(item.hasAttribute('aria-label')).toBeTrue();
+          expect(item.hasAttribute('aria-label')).toBe(true);
         });
       });
 
@@ -338,7 +339,7 @@ describe('MessagingComponent', () => {
         expect(listitems[0].getAttribute('aria-describedby')).toBe(
           'cx-messages-navigation-hint'
         );
-        expect(listitems[1].hasAttribute('aria-describedby')).toBeFalse();
+        expect(listitems[1].hasAttribute('aria-describedby')).toBe(false);
       });
 
       it('should focus the first listitem on init', () => {

@@ -12,7 +12,7 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CarouselComponent } from './carousel.component';
 import { CarouselService } from './carousel.service';
-import { MockFeatureDirective } from '../../test/mock-feature-directive';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 
 class MockCarouselService {
   getItemsPerSlide(

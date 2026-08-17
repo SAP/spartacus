@@ -5,7 +5,7 @@ import {
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
-import { MockFeatureDirective } from '../../../test/mock-feature-directive';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { FormErrorsComponent } from './form-errors.component';
 
 const mockErrorName = 'exampleError';

@@ -5,11 +5,24 @@
  */
 
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+import { resolve } from 'path';
 import { defineConfig } from 'vitest/config';
 import angular from '@analogjs/vite-plugin-angular';
 
 export default defineConfig({
   root: import.meta.dirname,
+  resolve: {
+    alias: {
+      '@spartacus/core/testing/feature-toggles': resolve(
+        import.meta.dirname,
+        '../../core-libs/core/src/features-config/feature-toggles/testing/index.ts'
+      ),
+      '@spartacus/storefront/testing/mock-feature-directive': resolve(
+        import.meta.dirname,
+        '../../core-libs/storefront/shared/test/mock-feature-directive.ts'
+      ),
+    },
+  },
   plugins: [angular(), nxViteTsPaths()],
   test: {
     pool: 'forks',

@@ -25,7 +25,7 @@ import {
   PaginationComponent,
   SortingComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { LAUNCH_CALLER, LaunchDialogService } from '../../../layout/index';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';

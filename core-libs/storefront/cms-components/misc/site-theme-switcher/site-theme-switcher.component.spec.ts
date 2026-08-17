@@ -11,7 +11,7 @@ import { IconModule } from '@spartacus/storefront';
 import { firstValueFrom, of } from 'rxjs';
 import { SiteThemeSwitcherComponent } from './site-theme-switcher.component';
 import { SiteThemeSwitcherComponentService } from './site-theme-switcher.component.service';
-import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 
 class MockTranslationService {
   translate() {

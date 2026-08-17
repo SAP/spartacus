@@ -8,8 +8,9 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FeatureToggles } from '@spartacus/core';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/feature-toggles';
 import { NativeSelectSpaceDirective } from './native-select-space.directive';
+import { vi } from 'vitest';
 
 @Component({
   template: `<select cxNativeSelectSpace>
@@ -27,9 +28,10 @@ describe('NativeSelectSpaceDirective', () => {
     await TestBed.configureTestingModule({
       imports: [TestHostComponent],
       providers: [
-        provideMockFeatureToggles({
-          a11yNavigationSpaceKeyOnKeyUp: toggleOn,
-        } as FeatureToggles),
+        {
+          provide: FeatureToggles,
+          useValue: { a11yNavigationSpaceKeyOnKeyUp: toggleOn },
+        },
       ],
     }).compileComponents();
 
@@ -64,7 +66,7 @@ describe('NativeSelectSpaceDirective', () => {
         bubbles: true,
         repeat: true,
       });
-      spyOn(event, 'preventDefault');
+      vi.spyOn(event, 'preventDefault');
       selectEl.dispatchEvent(event);
       expect(event.preventDefault).toHaveBeenCalled();
     });
@@ -77,15 +79,15 @@ describe('NativeSelectSpaceDirective', () => {
         bubbles: true,
         repeat: false,
       });
-      spyOn(event, 'preventDefault');
+      vi.spyOn(event, 'preventDefault');
       selectEl.dispatchEvent(event);
       expect(event.preventDefault).not.toHaveBeenCalled();
     });
 
     it('should call click() on the select element on keyup Space', () => {
-      spyOn(selectEl, 'click');
+      const spyClick = vi.spyOn(selectEl, 'click');
       dispatchKey('keyup');
-      expect(selectEl.click).toHaveBeenCalled();
+      expect(spyClick).toHaveBeenCalled();
     });
   });
 
@@ -100,13 +102,13 @@ describe('NativeSelectSpaceDirective', () => {
         bubbles: true,
         repeat: true,
       });
-      spyOn(event, 'preventDefault');
+      vi.spyOn(event, 'preventDefault');
       selectEl.dispatchEvent(event);
       expect(event.preventDefault).not.toHaveBeenCalled();
     });
 
     it('should not call click() on keyup Space', () => {
-      spyOn(selectEl, 'click');
+      vi.spyOn(selectEl, 'click');
       dispatchKey('keyup');
       expect(selectEl.click).not.toHaveBeenCalled();
     });

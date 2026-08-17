@@ -38,7 +38,7 @@ import {
   SpinnerComponent,
 } from '@spartacus/storefront';
 import { cold, getTestScheduler } from 'jasmine-marbles';
-import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import { LayoutConfig } from '../../../layout/config/layout-config';
 import { MockFeatureLevelDirective } from '../../../shared/test/mock-feature-level-directive';
