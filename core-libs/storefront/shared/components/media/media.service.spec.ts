@@ -3,7 +3,7 @@ import { Config, FeatureToggles, Image, LoggerService } from '@spartacus/core';
 import { LayoutConfig } from '../../../layout/config/layout-config';
 import { ImageLoadingStrategy, MediaContainer } from './media.model';
 import { MediaService } from './media.service';
-import { provideMockFeatureToggles } from '../../../../core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/feature-toggles';
 import { vi } from 'vitest';
 import { isDevMode } from '@angular/core';
 

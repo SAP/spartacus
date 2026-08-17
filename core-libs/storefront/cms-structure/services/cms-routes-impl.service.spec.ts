@@ -11,6 +11,7 @@ import { PageLayoutComponent } from '../page/page-layout/page-layout.component';
 import { CmsComponentsService } from './cms-components.service';
 import { CmsRoutesImplService } from './cms-routes-impl.service';
 import { GuardsComposer } from './guards-composer';
+import { vi } from 'vitest';
 
 describe('CmsRoutesImplService', () => {
   let service: CmsRoutesImplService;
@@ -239,7 +240,7 @@ describe('CmsRoutesImplService', () => {
         '/testRoute2'
       );
 
-      const newRouterConfig = (mockRouter.resetConfig as any).mock.lastCall![0];
+      const newRouterConfig = (mockRouter.resetConfig as any).mock.lastCall[0];
       const newChildCmsRoutes = newRouterConfig[0].children;
       const testGuardFn = newChildCmsRoutes[0].canActivate[0];
       expect(typeof testGuardFn).toBe('function');
@@ -300,7 +301,7 @@ describe('CmsRoutesImplService', () => {
         '/testRoute2'
       );
 
-      const newRouterConfig = (mockRouter.resetConfig as any).mock.lastCall![0];
+      const newRouterConfig = (mockRouter.resetConfig as any).mock.lastCall[0];
       const newChildCmsRoutes = newRouterConfig[0].children;
 
       expect(newChildCmsRoutes).toEqual([

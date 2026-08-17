@@ -15,7 +15,7 @@ import {
   LanguageService,
   TranslationService,
 } from '@spartacus/core';
-import { MockTranslationService } from '../../../../core/src/i18n/testing/mock-translation.service';
+import { MockTranslationService } from '@spartacus/core/testing/i18n';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { LanguageCurrencyComponent } from './language-currency.component';

@@ -5,7 +5,7 @@ import { FeatureToggles } from '@spartacus/core';
 import { PersistFocusConfig } from '../keyboard-focus.model';
 import { PersistFocusDirective } from './persist-focus.directive';
 import { PersistFocusService } from './persist-focus.service';
-import { provideMockFeatureToggles } from '../../../../../core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/feature-toggles';
 import { vi } from 'vitest';
 
 @Directive({ selector: '[cxPersistFocus]' })

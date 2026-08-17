@@ -227,9 +227,6 @@ describe('CarouselScrollingComponent', () => {
 
     beforeEach(() => {
       parentFixture = TestBed.createComponent(TestParentComponent);
-
-      horizontalScrollingPositionDirective = null!;
-      carouselScrollingComponent = null!;
     });
 
     function detectAndQueryHelpers() {
