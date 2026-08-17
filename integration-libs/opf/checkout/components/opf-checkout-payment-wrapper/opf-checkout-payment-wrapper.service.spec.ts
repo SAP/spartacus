@@ -662,6 +662,8 @@ describe('OpfCheckoutPaymentWrapperService', () => {
         otpKey: mockOtpKey,
         config: {
           browserInfo: getBrowserInfo(windowRefMock.nativeWindow),
+          resultURL: mockUrl,
+          cancelURL: mockUrl,
         },
       });
       done();

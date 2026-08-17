@@ -203,6 +203,8 @@ export interface OpfPaymentUpdatePayload {
   channel?: string;
   browserInfo?: OpfPaymentBrowserInfo;
   additionalData?: Array<OpfKeyValueMap>;
+  resultURL?: string;
+  cancelURL?: string;
 }
 
 export interface OpfPaymentConfig {

@@ -146,6 +146,8 @@ export class OpfCheckoutPaymentWrapperService {
               otpKey: params.otpKey,
               config: {
                 browserInfo: params.config?.browserInfo,
+                resultURL: params.config?.resultURL,
+                cancelURL: params.config?.cancelURL,
               },
             });
           }
