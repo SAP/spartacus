@@ -13,6 +13,7 @@ import {
   Address,
   AddressValidation,
   Country,
+  FeatureDirective,
   FeatureToggles,
   GlobalMessageService,
   HierarchicalAddressConfig,
@@ -174,7 +175,6 @@ describe('AddressFormComponent', () => {
         FormErrorsModule,
         AddressFormComponent,
         MockNgSelectA11yDirective,
-        MockFeatureDirective,
       ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
@@ -197,7 +197,13 @@ describe('AddressFormComponent', () => {
       ],
     })
       .overrideComponent(AddressFormComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Eager },
+        add: {
+          changeDetection: ChangeDetectionStrategy.Eager,
+          imports: [MockFeatureDirective],
+        },
+        remove: {
+          imports: [FeatureDirective],
+        },
       })
       .compileComponents();
 
@@ -406,6 +412,10 @@ describe('AddressFormComponent', () => {
 
   it('should set isHierarchicalAddressFormat and add validators when CN is selected', () => {
     vi.spyOn(userAddressService, 'getRegions').mockReturnValue(of([]));
+    (component as any).featureToggles = { enableHierarchicalAddressFormat: true };
+    (component as any).hierarchicalAddressConfig = {
+      hierarchicalAddress: { countriesUsingHierarchicalAddressFormat: ['CN'] },
+    };
     component.countrySelected({ isocode: 'CN' });
     expect(component.isHierarchicalAddressFormat).toBe(true);
     expect(component.addressForm.get('cellphone')?.validator).toBeTruthy();
@@ -422,6 +432,7 @@ describe('AddressFormComponent', () => {
   });
 
   it('should reset town and district when region changes for CN address', () => {
+    (component as any).featureToggles = { enableHierarchicalAddressFormat: true };
     component.isHierarchicalAddressFormat = true;
     component.addressForm.get('town')?.setValue('old-town');
     component.addressForm.get('district')?.setValue('old-district');
@@ -643,28 +654,54 @@ describe('AddressFormComponent', () => {
     });
   });
 
-  describe('a11yAddressFormInitialFocus', () => {
-    let featureTogglesController: MockFeatureTogglesController;
+});
 
-    const getFocusForm = (): DebugElement =>
-      fixture.debugElement.query(By.directive(FocusDirective));
+describe('AddressFormComponent - a11yAddressFormInitialFocus', () => {
+  let fixture: ComponentFixture<AddressFormComponent>;
 
-    beforeEach(() => {
-      featureTogglesController = TestBed.inject(MockFeatureTogglesController);
+  const getFocusForm = (): DebugElement =>
+    fixture.debugElement.query(By.directive(FocusDirective));
+
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        AddressFormComponent,
+        MockNgSelectA11yDirective,
+      ],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        { provide: UserAddressService, useClass: MockUserAddressService },
+        { provide: GlobalMessageService, useValue: { add: vi.fn() } },
+        { provide: UserProfileFacade, useClass: MockUserProfileFacade },
+        { provide: LanguageService, useClass: MockLanguageService },
+        provideMockFeatureToggles({ ...mockFeatureToggles, a11yAddressFormInitialFocus: true }),
+        {
+          provide: HierarchicalAddressConfig,
+          useValue: {
+            hierarchicalAddress: {
+              countriesUsingHierarchicalAddressFormat: ['CN'],
+            },
+          },
+        },
+      ],
     });
-
-    it('should apply cxFocus to the form when a11yAddressFormInitialFocus is true', () => {
-      featureTogglesController.set('a11yAddressFormInitialFocus', true);
-      fixture.detectChanges();
-
-      expect(getFocusForm()).toBeTruthy();
+    TestBed.overrideComponent(AddressFormComponent, {
+      add: { changeDetection: ChangeDetectionStrategy.Eager, imports: [MockFeatureDirective] },
+      remove: { imports: [FeatureDirective] },
     });
+    await TestBed.compileComponents();
+  });
 
-    it('should not apply cxFocus to the form when a11yAddressFormInitialFocus is false', () => {
-      featureTogglesController.set('a11yAddressFormInitialFocus', false);
-      fixture.detectChanges();
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AddressFormComponent);
+    fixture.detectChanges();
+  });
 
-      expect(getFocusForm()).toBeNull();
-    });
+  it('should apply cxFocus to the form when a11yAddressFormInitialFocus is enabled', () => {
+    expect(getFocusForm()).toBeTruthy();
   });
 });
