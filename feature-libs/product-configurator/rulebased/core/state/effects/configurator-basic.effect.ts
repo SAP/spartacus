@@ -578,6 +578,18 @@ export class ConfiguratorBasicEffects {
               action.payload.groupId
             ).pipe(
               switchMap((configuration: Configurator.Configuration) => {
+                // Cached CPQ tabs reuse the store snapshot, including a stale
+                // menuParentGroup. Stamp the navigation target so the group
+                // menu drills in together with the form.
+                const configurationWithNavigationState: Configurator.Configuration =
+                  {
+                    ...configuration,
+                    interactionState: {
+                      ...configuration.interactionState,
+                      currentGroup: action.payload.groupId,
+                      menuParentGroup: action.payload.parentGroupId,
+                    },
+                  };
                 return [
                   new ConfiguratorActions.SetCurrentGroup({
                     entityKey: action.payload.configuration.owner.key,
@@ -588,7 +600,7 @@ export class ConfiguratorBasicEffects {
                     menuParentGroup: action.payload.parentGroupId,
                   }),
                   new ConfiguratorActions.ReadConfigurationSuccess(
-                    configuration
+                    configurationWithNavigationState
                   ),
                   new ConfiguratorActions.UpdatePriceSummary({
                     ...configuration,

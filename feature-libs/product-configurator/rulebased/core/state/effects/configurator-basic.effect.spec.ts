@@ -1364,7 +1364,14 @@ describe('ConfiguratorEffect', () => {
         parentGroupId: undefined,
       });
       const readConfigurationSuccess =
-        new ConfiguratorActions.ReadConfigurationSuccess(productConfiguration);
+        new ConfiguratorActions.ReadConfigurationSuccess({
+          ...productConfiguration,
+          interactionState: {
+            ...productConfiguration.interactionState,
+            currentGroup: groupId,
+            menuParentGroup: undefined,
+          },
+        });
       const setCurrentGroup = new ConfiguratorActions.SetCurrentGroup({
         entityKey: productConfiguration.owner.key,
         currentGroup: groupId,
@@ -1380,6 +1387,50 @@ describe('ConfiguratorEffect', () => {
 
       actions$ = hot('-a', { a: action });
 
+      const expected = cold('-(bcde)', {
+        b: setCurrentGroup,
+        c: setMenuParentGroup,
+        d: readConfigurationSuccess,
+        e: updatePriceSummary,
+      });
+      expect(configEffects.groupChange$).toBeObservable(expected);
+    });
+
+    it('should stamp current group and menu parent on ReadConfigurationSuccess so the menu follows navigation', () => {
+      const payloadInput: Configurator.Configuration = {
+        ...ConfiguratorTestUtils.createConfiguration(configId, owner),
+        productCode: productCode,
+        interactionState: { currentGroup: groupId, menuParentGroup: undefined },
+      };
+      readMock.and.returnValue(of(payloadInput));
+      const action = new ConfiguratorActions.ChangeGroup({
+        configuration: payloadInput,
+        groupId: groupId,
+        parentGroupId: parentGroupid,
+      });
+      const setCurrentGroup = new ConfiguratorActions.SetCurrentGroup({
+        entityKey: payloadInput.owner.key,
+        currentGroup: groupId,
+      });
+      const setMenuParentGroup = new ConfiguratorActions.SetMenuParentGroup({
+        entityKey: payloadInput.owner.key,
+        menuParentGroup: parentGroupid,
+      });
+      const readConfigurationSuccess =
+        new ConfiguratorActions.ReadConfigurationSuccess({
+          ...payloadInput,
+          interactionState: {
+            ...payloadInput.interactionState,
+            currentGroup: groupId,
+            menuParentGroup: parentGroupid,
+          },
+        });
+      const updatePriceSummary = new ConfiguratorActions.UpdatePriceSummary({
+        ...payloadInput,
+        interactionState: { currentGroup: groupId },
+      });
+
+      actions$ = hot('-a', { a: action });
       const expected = cold('-(bcde)', {
         b: setCurrentGroup,
         c: setMenuParentGroup,
