@@ -5,7 +5,7 @@ import { SiteThemeSwitcherComponentService } from './site-theme-switcher.compone
 
 describe('SiteThemeSwitcherComponentService', () => {
   let service: SiteThemeSwitcherComponentService;
-  let siteThemeService: any;
+  let siteThemeService: SiteThemeService;
 
   beforeEach(() => {
     const siteThemeServiceSpy = {
@@ -22,7 +22,7 @@ describe('SiteThemeSwitcherComponentService', () => {
     });
 
     service = TestBed.inject(SiteThemeSwitcherComponentService);
-    siteThemeService = TestBed.inject(SiteThemeService) as any;
+    siteThemeService = TestBed.inject(SiteThemeService);
   });
 
   it('should be created', () => {

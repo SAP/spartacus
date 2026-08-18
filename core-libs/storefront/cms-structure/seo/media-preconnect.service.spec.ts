@@ -21,6 +21,7 @@ describe('MediaPreconnectService', () => {
   let mediaService: MockMediaService;
   let windowRef: MockWindowRef;
 
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -32,9 +33,9 @@ describe('MediaPreconnectService', () => {
     });
 
     service = TestBed.inject(MediaPreconnectService);
-    pageMetaLinkService = TestBed.inject(PageMetaLinkService) as any;
-    mediaService = TestBed.inject(MediaService) as any;
-    windowRef = TestBed.inject(WindowRef) as any;
+    pageMetaLinkService = TestBed.inject(PageMetaLinkService) as unknown as MockPageMetaLinkService;
+    mediaService = TestBed.inject(MediaService) as unknown as MockMediaService;
+    windowRef = TestBed.inject(WindowRef) as unknown as MockWindowRef;
   });
 
   it('should inject service', () => {

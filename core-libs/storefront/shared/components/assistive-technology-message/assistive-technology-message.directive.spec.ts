@@ -119,7 +119,7 @@ describe('AtMessageDirective', () => {
   });
 
   it('should remove existing assistive message before adding the new one', () => {
-    const globalMessageService = TestBed.inject(GlobalMessageService) as any;
+    const globalMessageService = TestBed.inject(GlobalMessageService);
     vi.spyOn(globalMessageService, 'get').mockReturnValueOnce(
       of({
         [GlobalMessageType.MSG_TYPE_ASSISTIVE]: [{ raw: 'old message' }],

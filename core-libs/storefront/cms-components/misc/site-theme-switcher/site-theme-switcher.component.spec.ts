@@ -27,7 +27,7 @@ const MOCK_ITEMS: Array<SiteTheme> = [
 describe('ThemeSwitcherComponent', () => {
   let component: SiteThemeSwitcherComponent;
   let fixture: ComponentFixture<SiteThemeSwitcherComponent>;
-  let themeSwitcherComponentService: any;
+  let themeSwitcherComponentService: SiteThemeSwitcherComponentService;
 
   beforeEach(async () => {
     const themeSwitcherServiceSpy = {
@@ -59,7 +59,7 @@ describe('ThemeSwitcherComponent', () => {
 
     themeSwitcherComponentService = TestBed.inject(
       SiteThemeSwitcherComponentService
-    ) as any;
+    );
     themeSwitcherComponentService.getItems.mockReturnValue(of([]));
     themeSwitcherComponentService.getActiveItem.mockReturnValue(of(''));
   });
