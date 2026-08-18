@@ -36,7 +36,7 @@ export class CartItemValidationService {
   isEnabled(): boolean {
     return (
       this.cartConfigService.isCartValidationEnabled() &&
-      this.featureToggles.cartValidationDisplayBackendMessages === true
+      !!this.featureToggles.cartValidationDisplayBackendMessages
     );
   }
 

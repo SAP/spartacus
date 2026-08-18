@@ -16,10 +16,9 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { map } from 'rxjs/operators';
 import { CartConfigService } from '@spartacus/cart/base/core';
 import {
-  CartModification,
   CartValidationFacade,
-  CartValidationStatusCode,
   cartModificationMatchesCode,
+  isQuantityLimitViolation,
 } from '@spartacus/cart/base/root';
 
 @Component({
@@ -44,41 +43,26 @@ export class CartItemValidationWarningComponent {
    */
   displayBackendMessages =
     this.cartConfigService.isCartValidationEnabled() &&
-    this.featureToggles.cartValidationDisplayBackendMessages === true;
+    !!this.featureToggles.cartValidationDisplayBackendMessages;
 
-  cartModification$ = this.cartValidationFacade
-    .getValidationResults()
-    .pipe(
-      map((modificationList) =>
-        modificationList.find((modification) => this.matches(modification))
+  cartModification$ = this.cartValidationFacade.getValidationResults().pipe(
+    map((modificationList) =>
+      modificationList.find((modification) =>
+        cartModificationMatchesCode(
+          modification,
+          this.code,
+          this.displayBackendMessages
+        )
       )
-    );
+    )
+  );
 
   constructor(protected cartValidationFacade: CartValidationFacade) {}
-
-  /**
-   * A modification matches this cart item when it references the item's product
-   * code via its `entry`. When the backend does not provide an `entry` (e.g. for
-   * `below_min_quantity`), and the feature toggle is enabled, we fall back to
-   * matching the product code embedded in the free-text `statusMessage`.
-   */
-  protected matches(modification: CartModification): boolean {
-    return cartModificationMatchesCode(
-      modification,
-      this.code,
-      this.displayBackendMessages
-    );
-  }
 
   /**
    * Whether the modification is a min/max order quantity violation. For these the
    * raw `statusMessage` alert is suppressed, since the limit is already conveyed by
    * the per-item quantity hint and the highlighted row.
    */
-  isQuantityLimitViolation(modification: CartModification): boolean {
-    return (
-      modification.statusCode === CartValidationStatusCode.BELOW_MIN_QUANTITY ||
-      modification.statusCode === CartValidationStatusCode.ABOVE_MAX_QUANTITY
-    );
-  }
+  isQuantityLimitViolation = isQuantityLimitViolation;
 }

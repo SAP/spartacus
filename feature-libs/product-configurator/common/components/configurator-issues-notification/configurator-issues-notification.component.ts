@@ -55,8 +55,7 @@ export class ConfiguratorIssuesNotificationComponent {
    */
   hasIssues(item: OrderEntry): boolean {
     if (
-      this.featureToggles.configuratorIssuesNotificationForConfigurableOnly ===
-        true &&
+      !!this.featureToggles.configuratorIssuesNotificationForConfigurableOnly &&
       !item.product?.configurable
     ) {
       // Only configurable products surface configurator issues here; non-configurable

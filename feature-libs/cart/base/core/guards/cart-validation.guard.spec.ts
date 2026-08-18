@@ -13,6 +13,7 @@ import {
   RouterState,
   SemanticPathService,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 import { BehaviorSubject, EMPTY, Observable, of, ReplaySubject } from 'rxjs';
 import { CartConfigService } from '../services/cart-config.service';
 import { CartValidationStateService } from '../services/cart-validation-state.service';
@@ -87,10 +88,9 @@ describe(`CartValidationGuard`, () => {
   let guard: CartValidationGuard;
   let globalMessageService: GlobalMessageService;
   let activeCartService: ActiveCartFacade;
-  const featureToggles: FeatureToggles = {};
+  let featureToggles: FeatureToggles;
 
   beforeEach(() => {
-    featureToggles.cartValidationDisplayBackendMessages = false;
     TestBed.configureTestingModule({
       providers: [
         CartValidationGuard,
@@ -106,16 +106,16 @@ describe(`CartValidationGuard`, () => {
           provide: CartConfigService,
           useClass: MockCartConfigService,
         },
-        {
-          provide: FeatureToggles,
-          useValue: featureToggles,
-        },
+        provideMockFeatureToggles({
+          cartValidationDisplayBackendMessages: false,
+        }),
       ],
     });
 
     guard = TestBed.inject(CartValidationGuard);
     globalMessageService = TestBed.inject(GlobalMessageService);
     activeCartService = TestBed.inject(ActiveCartFacade);
+    featureToggles = TestBed.inject(FeatureToggles);
 
     cartModificationSubject.next({ cartModifications: [] });
   });

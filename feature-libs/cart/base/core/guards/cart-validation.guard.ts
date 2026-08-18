@@ -10,6 +10,7 @@ import {
   ActiveCartFacade,
   CartValidationFacade,
   CartValidationStatusCode,
+  isQuantityLimitViolation,
 } from '@spartacus/cart/base/root';
 import {
   FeatureToggles,
@@ -57,14 +58,9 @@ export class CartValidationGuard {
               let validationResultMessage;
               const modification = cartModificationList.cartModifications[0];
               const hasQuantityLimitViolation =
-                this.featureToggles.cartValidationDisplayBackendMessages ===
-                  true &&
-                cartModificationList.cartModifications.some(
-                  (mod) =>
-                    mod.statusCode ===
-                      CartValidationStatusCode.BELOW_MIN_QUANTITY ||
-                    mod.statusCode ===
-                      CartValidationStatusCode.ABOVE_MAX_QUANTITY
+                !!this.featureToggles.cartValidationDisplayBackendMessages &&
+                cartModificationList.cartModifications.some((mod) =>
+                  isQuantityLimitViolation(mod)
                 );
 
               if (

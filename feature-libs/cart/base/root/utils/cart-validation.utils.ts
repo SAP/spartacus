@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CartModification } from '../models/cart.model';
+import { CartModification, CartValidationStatusCode } from '../models/cart.model';
 
 /**
  * Minimum / maximum order quantity parsed out of a cart modification's
@@ -56,5 +56,20 @@ export function cartModificationMatchesCode(
     code != null &&
     code.length > 0 &&
     !!modification.statusMessage?.includes(code)
+  );
+}
+
+/**
+ * Whether the modification is a min/max order quantity violation
+ * (`below_min_quantity` / `exceed_max_quantity`). For these the raw
+ * `statusMessage` alert is suppressed, since the limit is already conveyed by
+ * the per-item quantity hint and the highlighted row.
+ */
+export function isQuantityLimitViolation(
+  modification: CartModification
+): boolean {
+  return (
+    modification.statusCode === CartValidationStatusCode.BELOW_MIN_QUANTITY ||
+    modification.statusCode === CartValidationStatusCode.ABOVE_MAX_QUANTITY
   );
 }

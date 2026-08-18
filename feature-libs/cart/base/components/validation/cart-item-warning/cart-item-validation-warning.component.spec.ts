@@ -14,6 +14,10 @@ import {
 } from '@spartacus/cart/base/root';
 import { CartConfigService } from '@spartacus/cart/base/core';
 import { FeatureToggles, TranslatePipe, UrlPipe } from '@spartacus/core';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from '@spartacus/core/testing/mock-feature-toggles';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { ReplaySubject } from 'rxjs';
 import { CartItemValidationWarningComponent } from './cart-item-validation-warning.component';
@@ -87,16 +91,23 @@ describe('CartItemValidationWarningComponent', () => {
           useClass: MockCartValidationFacade,
         },
         {
-          provide: FeatureToggles,
-          useValue: {
-            cartValidationDisplayBackendMessages: displayBackendMessages,
-          },
-        },
-        {
           provide: CartConfigService,
           useValue: {
             isCartValidationEnabled: () => cartValidationEnabled,
           },
+        },
+        provideMockFeatureToggles({
+          cartValidationDisplayBackendMessages: displayBackendMessages,
+        }),
+        // Bind the `FeatureToggles` identity used by this lib to the mock's
+        // controller. The component imports `FeatureToggles` via the
+        // `@spartacus/core` barrel, which under the vitest test aliases is a
+        // different class instance than the one `provideMockFeatureToggles`
+        // registers internally; `useExisting` bridges the two so the component
+        // reads the mocked toggle value.
+        {
+          provide: FeatureToggles,
+          useExisting: MockFeatureTogglesController,
         },
       ],
     })
