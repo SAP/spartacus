@@ -70,9 +70,6 @@
     "configurationError": "Selesaikan masalah dalam konfigurasi entri pada keranjang terlebih dahulu.",
     "pricingError": "Penentuan harga dengan konfigurator saat ini tidak tersedia. Anda tidak dapat melakukan proses pembayaran/pengajuan penawaran. Silakan coba lagi nanti.",
     "unresolvableIssues": "Konfigurasi produk memerlukan entri tambahan pada back end. Akibatnya, Anda tidak dapat memprosesnya. Silakan hubungi tim dukungan.",
-    "cartQuantityLimitsViolated": "Untuk setiap produk yang disorot dalam keranjang Anda, Anda telah melebihi jumlah maksimum yang diizinkan, atau belum mencapai jumlah minimum yang diperlukan. Jika Anda telah melebihi jumlah maksimum, hapus satu atau beberapa item. Jika Anda belum mencapai jumlah minimum, tambahkan satu atau beberapa item. Anda tidak akan dapat melanjutkan ke pembayaran hingga item dalam keranjang Anda disesuaikan dengan jumlah minimum atau maksimum yang diizinkan.",
-    "minQuantity": "Jml. mnm.: {{ min }}",
-    "maxQuantity": "Jml. maks.: {{ max }}",
     "inProgress": "Memproses"
   }
 }

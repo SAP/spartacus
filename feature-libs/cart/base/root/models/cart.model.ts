@@ -212,5 +212,5 @@ export enum CartValidationStatusCode {
   PRICING_ERROR = 'pricingError',
   UNRESOLVABLE_ISSUES = 'unresolvableIssues',
   BELOW_MIN_QUANTITY = 'below_min_quantity',
-  ABOVE_MAX_QUANTITY = 'above_max_quantity',
+  ABOVE_MAX_QUANTITY = 'exceed_max_quantity',
 }

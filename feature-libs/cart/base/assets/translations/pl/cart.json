@@ -70,9 +70,6 @@
     "configurationError": "Najpierw rozwiąż problemy w konfiguracji wpisów koszyka.",
     "pricingError": "Ustalanie cen konfiguratora nie jest obecnie dostępne. Realizacja płatności/przesłanie oferty nie jest możliwe. Spróbuj ponownie później.",
     "unresolvableIssues": "Konfiguracja produktu wymaga dodatkowych wpisów w systemie zaplecza. W rezultacie nie możesz kontynuować. Prosimy o kontakt z pomocą techniczną.",
-    "cartQuantityLimitsViolated": "W przypadku każdego wyróżnionego produktu w koszyku przekroczono maksymalną dozwoloną ilość lub nie osiągnięto wymaganej minimalnej ilości. Jeśli przekroczono maksymalną ilość, usuń jedną lub więcej pozycji. Jeśli nie osiągnięto minimalnej ilości, dodaj jedną lub więcej pozycji. Nie będzie można przejść do kasy, dopóki pozycje w koszyku nie zostaną dostosowane do minimalnej lub maksymalnej dozwolonej ilości.",
-    "minQuantity": "Min. ilość: {{ min }}",
-    "maxQuantity": "Maks. ilość: {{ max }}",
     "inProgress": "Przetwarzanie"
   }
 }

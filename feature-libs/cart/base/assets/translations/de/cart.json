@@ -70,9 +70,6 @@
     "configurationError": "Beheben Sie zuerst die Probleme in der Konfiguration für Warenkorbeinträge.",
     "pricingError": "Konfiguratorpreisfindung ist zurzeit nicht verfügbar. Kaufabwicklung/Angebotsübermittlung ist nicht möglich. Versuchen Sie es später noch einmal.",
     "unresolvableIssues": "Für die Produktkonfiguration sind zusätzliche Einträge im Backend erforderlich. Deshalb können Sie nicht fortfahren. Wenden Sie sich an den Support.",
-    "cartQuantityLimitsViolated": "Bei jedem hervorgehobenen Produkt in Ihrem Warenkorb haben Sie entweder die maximal zulässige Menge überschritten oder die erforderliche Mindestmenge nicht erreicht. Wenn Sie die Höchstmenge überschritten haben, entfernen Sie eine oder mehrere Positionen. Wenn Sie die Mindestmenge nicht erreicht haben, fügen Sie eine oder mehrere Positionen hinzu. Sie können erst zur Kasse gehen, wenn die Artikel in Ihrem Warenkorb auf die minimal oder maximal zulässige Menge angepasst wurden.",
-    "minQuantity": "Min.-Menge: {{ min }}",
-    "maxQuantity": "Max.-Menge: {{ max }}",
     "inProgress": "Wird bearbeitet"
   }
 }

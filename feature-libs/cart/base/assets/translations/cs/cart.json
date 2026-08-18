@@ -70,9 +70,6 @@
     "configurationError": "Nejprve vyřešte problémy v konfiguraci pro položku v košíku.",
     "pricingError": "Ceny konfigurátoru nejsou v současné době k dispozici. Odeslání objednávky/nabídky není možné. Zkuste to později.",
     "unresolvableIssues": "Konfigurace produktu vyžaduje další záznamy v backendu. Proto nemůžete pokračovat. Obraťte se na podporu.",
-    "cartQuantityLimitsViolated": "U každého zvýrazněného produktu v košíku jste buď překročili maximální povolené množství, nebo jste nedosáhli minimálního požadovaného množství. Pokud jste překročili maximální množství, odeberte jednu nebo více položek. Pokud jste nedosáhli minimálního množství, přidejte jednu nebo více položek. K pokladně nebudete moci přejít, dokud položky v košíku neupravíte na minimální nebo maximální povolené množství.",
-    "minQuantity": "Min. množství: {{ min }}",
-    "maxQuantity": "Max. množství: {{ max }}",
     "inProgress": "Zpracování"
   }
 }

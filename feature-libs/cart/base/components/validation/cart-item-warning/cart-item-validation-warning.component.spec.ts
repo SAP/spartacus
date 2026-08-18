@@ -176,6 +176,8 @@ describe('CartItemValidationWarningComponent', () => {
   describe('with cartValidationDisplayBackendMessages toggle enabled', () => {
     const belowMinMessage =
       'The minimum required quantity for product code productCode1 has not been met. Min=5, Actual=1.';
+    const aboveMaxMessage =
+      'The maximum allowed quantity for product code productCode1 has been exceeded. Max=5, Actual=6.';
 
     beforeEach(() => {
       setup(true);
@@ -252,6 +254,24 @@ describe('CartItemValidationWarningComponent', () => {
         {
           statusCode: CartValidationStatusCode.BELOW_MIN_QUANTITY,
           statusMessage: belowMinMessage,
+        },
+      ]);
+      fixture.detectChanges();
+
+      const alert = el.query(By.css('.alert'));
+      expect(alert).toBeNull();
+    });
+
+    it('should NOT render the raw statusMessage alert for an above-max violation', () => {
+      createComponent();
+      (
+        cartValidationFacade.getValidationResults() as ReplaySubject<
+          CartModification[]
+        >
+      ).next([
+        {
+          statusCode: CartValidationStatusCode.ABOVE_MAX_QUANTITY,
+          statusMessage: aboveMaxMessage,
         },
       ]);
       fixture.detectChanges();

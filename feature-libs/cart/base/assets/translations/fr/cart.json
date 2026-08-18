@@ -70,9 +70,6 @@
     "configurationError": "Commencez par résoudre les problèmes de configuration des saisies du panier.",
     "pricingError": "La tarification du configurateur est actuellement indisponible. Il est impossible de valider la commande ou de soumettre un devis. Veuillez réessayer ultérieurement.",
     "unresolvableIssues": "La configuration du produit nécessite des entrées supplémentaires dans le back-end. Par conséquent, vous ne pouvez pas poursuivre. Veuillez contacter le service d'assistance.",
-    "cartQuantityLimitsViolated": "Pour chaque produit mis en évidence dans votre panier, vous avez soit dépassé la quantité maximale autorisée, soit vous n'avez pas atteint la quantité minimale requise. Si vous avez dépassé la quantité maximale, supprimez un ou plusieurs articles. Si vous n'avez pas atteint la quantité minimale, ajoutez un ou plusieurs articles. Vous ne pourrez pas passer à la caisse tant que les articles de votre panier n'auront pas été ajustés à la quantité minimale ou maximale autorisée.",
-    "minQuantity": "Qté min. : {{ min }}",
-    "maxQuantity": "Qté max. : {{ max }}",
     "inProgress": "En cours de traitement"
   }
 }

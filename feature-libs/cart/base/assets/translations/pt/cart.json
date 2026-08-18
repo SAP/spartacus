@@ -70,9 +70,6 @@
     "configurationError": "Resolva primeiro os problemas na configuração para as entradas de carrinho.",
     "pricingError": "A determinação do preço do configurador não está disponível no momento. Não é possível fazer check-out/enviar cotações. Tente novamente mais tarde.",
     "unresolvableIssues": "A configuração do produto requer entradas adicionais no back-end. Como resultado, você não pode continuar. Contate o suporte.",
-    "cartQuantityLimitsViolated": "Para cada produto destacado no seu carrinho, você excedeu a quantidade máxima permitida ou não atingiu a quantidade mínima exigida. Se você excedeu a quantidade máxima, remova um ou mais itens. Se você não atingiu a quantidade mínima, adicione um ou mais itens. Você não poderá prosseguir para o checkout até que os itens no seu carrinho sejam ajustados para a quantidade mínima ou máxima permitida.",
-    "minQuantity": "Qtd. mín.: {{ min }}",
-    "maxQuantity": "Qtd. máx.: {{ max }}",
     "inProgress": "Em processamento"
   }
 }

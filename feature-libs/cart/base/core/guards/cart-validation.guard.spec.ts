@@ -4,6 +4,7 @@ import {
   CartModification,
   CartModificationList,
   CartValidationFacade,
+  CartValidationStatusCode,
 } from '@spartacus/cart/base/root';
 import {
   FeatureToggles,
@@ -215,7 +216,9 @@ describe(`CartValidationGuard`, () => {
   it('should show the quantity-limits message for an above-max violation when the toggle is enabled', () => {
     featureToggles.cartValidationDisplayBackendMessages = true;
     cartModificationSubject.next({
-      cartModifications: [{ statusCode: 'above_max_quantity' }],
+      cartModifications: [
+        { statusCode: CartValidationStatusCode.ABOVE_MAX_QUANTITY },
+      ],
     });
     mockEntriesSubject.next(mockEntries);
 
