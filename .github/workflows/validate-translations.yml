@@ -5,7 +5,7 @@ on:
       - '**/assets/src/translations/**'
 
 env:
-  NODE_VERSION: '20'
+  NODE_VERSION: '22'
 
 name: Validate Configuration of Translation Files
 
