@@ -33,9 +33,9 @@ describe('MediaPreconnectService', () => {
     });
 
     service = TestBed.inject(MediaPreconnectService);
-    pageMetaLinkService = TestBed.inject(PageMetaLinkService) as unknown as MockPageMetaLinkService;
-    mediaService = TestBed.inject(MediaService) as unknown as MockMediaService;
-    windowRef = TestBed.inject(WindowRef) as unknown as MockWindowRef;
+    pageMetaLinkService = TestBed.inject(PageMetaLinkService) as MockPageMetaLinkService;
+    mediaService = TestBed.inject(MediaService) as MockMediaService;
+    windowRef = TestBed.inject(WindowRef) as MockWindowRef;
   });
 
   it('should inject service', () => {

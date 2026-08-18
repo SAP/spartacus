@@ -108,7 +108,7 @@ describe('HorizontalScrollingPositionDirective', () => {
     directive = scrollingArea.injector.get(
       HorizontalScrollingPositionDirective
     );
-    mockWindowRef = TestBed.inject(WindowRef) as unknown as MockWindowRef;
+    mockWindowRef = TestBed.inject(WindowRef) as MockWindowRef;
   });
 
   describe('ngOnChanges', () => {

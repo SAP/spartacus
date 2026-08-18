@@ -317,7 +317,7 @@ describe('FacetComponent with a11yFilteredFacetAnnouncement', () => {
     component = fixture.componentInstance;
     globalMessageService = TestBed.inject(
       GlobalMessageService
-    ) as unknown as MockGlobalMessageService;
+    ) as MockGlobalMessageService;
     component.facet = MockFacetWithSelectedValue;
   });
 
