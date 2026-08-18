@@ -20,6 +20,7 @@ import {
   ProductService,
   TranslatePipe,
   TranslationService,
+  useFeatureStyles,
 } from '@spartacus/core';
 import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
 import {
@@ -125,6 +126,7 @@ export class ConfiguratorAttributeProductCardComponent
     protected translation: TranslationService
   ) {
     super();
+    useFeatureStyles('productConfiguratorCPQContainer');
   }
   iconType = ICON_TYPE;
 

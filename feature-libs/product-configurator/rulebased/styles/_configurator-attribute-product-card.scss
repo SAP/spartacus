@@ -39,6 +39,11 @@
 
       &.column {
         flex-direction: column;
+        // TODO: (CXSPA-14099) - Remove feature flag next major release.
+        @include forFeature('productConfiguratorCPQContainer') {
+          flex-wrap: nowrap;
+          align-items: stretch;
+        }
       }
 
       .cx-product-card-quantity-price {
@@ -95,6 +100,12 @@
 
         @include media-breakpoint-up(md) {
           align-self: flex-end;
+        }
+
+        // TODO: (CXSPA-14099) - Remove feature flag next major release.
+        @include forFeature('productConfiguratorCPQContainer') {
+          width: 100%;
+          justify-content: flex-end;
         }
       }
 
@@ -221,6 +232,11 @@
 
       @include media-breakpoint-down(sm) {
         width: 100%;
+        // TODO: (CXSPA-14099) - Remove feature flag next major release.
+        @include forFeature('productConfiguratorCPQContainer') {
+          display: flex;
+          justify-content: flex-end;
+        }
       }
 
       .btn {
