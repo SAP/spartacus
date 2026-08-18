@@ -47,6 +47,7 @@ export class AnonymousConsentManagementBannerComponent implements OnDestroy {
   }
 
   allowAll(): void {
+    this.storageConsentService.acceptOptionalCookies();
     this.subscriptions.add(
       this.anonymousConsentsService
         .giveAllConsents()
