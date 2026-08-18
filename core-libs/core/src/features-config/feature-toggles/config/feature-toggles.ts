@@ -718,6 +718,19 @@ export interface FeatureTogglesInterface {
    * Affects: `StorefrontComponent`
    */
   a11yFocusBreadcrumbOnNavigation?: boolean;
+
+  /**
+   * When enabled, the navigation chevron (`--list-bg`) rendered on the
+   * organization (My Company) list rows and detail navigation cards uses a
+   * higher-contrast stroke so it meets the WCAG 1.4.11 non-text contrast
+   * requirement (>=3:1 in the default theme; 7:1 in high-contrast themes).
+   * The default-theme stroke changes from `#D3D6DA` (~1.4:1) to `#556b82`
+   * (~5.3:1), and dedicated black/white strokes are applied in the
+   * high-contrast light/dark themes.
+   *
+   * Affects: `ListComponent` (`cx-org-list`)
+   */
+  a11yNavigationChevronContrast?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -810,4 +823,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yDisabledButtonContrast: false,
   a11yAddressFormInitialFocus: false,
   a11yFocusBreadcrumbOnNavigation: false,
+  a11yNavigationChevronContrast: false,
 };
