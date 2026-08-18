@@ -656,8 +656,12 @@ export interface FeatureTogglesInterface {
    * (select/add) and tertiary (remove/deselect) styles instead of primary
    * and secondary. Product-card layout alignment styles are also applied
    * (full-width action row, stretched column).
+   * Nested container products
+   * are also reflected in the configurator product title (slash-separated
+   * path) and in the product-title details.
    *
-   * Affects: `ConfiguratorAttributeProductCardComponent`
+   * Affects: `ConfiguratorAttributeProductCardComponent`,
+   * `ConfiguratorProductTitleComponent`
    */
   productConfiguratorCPQContainer?: boolean;
 
