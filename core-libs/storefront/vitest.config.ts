@@ -5,7 +5,6 @@
  */
 
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
-import { resolve } from 'path';
 import { defineConfig } from 'vitest/config';
 import angular from '@analogjs/vite-plugin-angular';
 
@@ -13,22 +12,10 @@ export default defineConfig({
   root: import.meta.dirname,
   resolve: {
     alias: {
-      '@spartacus/core/testing/feature-toggles': resolve(
-        import.meta.dirname,
-        '../../core-libs/core/src/features-config/feature-toggles/testing/index.ts'
-      ),
-      '@spartacus/storefront/testing/mock-feature-directive': resolve(
-        import.meta.dirname,
-        '../../core-libs/storefront/shared/test/mock-feature-directive.ts'
-      ),
-      '@spartacus/core/testing/i18n': resolve(
-        import.meta.dirname,
-        '../../core-libs/core/src/i18n/testing/index.ts'
-      ),
-      '@spartacus/core/testing/url-testing': resolve(
-        import.meta.dirname,
-        '../../core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module.ts'
-      ),
+      '@spartacus/core/testing/feature-toggles': `${import.meta.dirname}/../../core-libs/core/src/features-config/feature-toggles/testing/index.ts`,
+      '@spartacus/storefront/testing/mock-feature-directive': `${import.meta.dirname}/../../core-libs/storefront/shared/test/mock-feature-directive.ts`,
+      '@spartacus/core/testing/i18n': `${import.meta.dirname}/../../core-libs/core/src/i18n/testing/index.ts`,
+      '@spartacus/core/testing/url-testing': `${import.meta.dirname}/../../core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module.ts`,
     },
   },
   plugins: [angular(), nxViteTsPaths()],
