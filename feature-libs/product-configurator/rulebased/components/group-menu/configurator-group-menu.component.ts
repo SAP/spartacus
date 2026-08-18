@@ -145,7 +145,12 @@ export class ConfiguratorGroupMenuComponent {
    */
   click(group: Configurator.Group, currentGroup?: Configurator.Group): void {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
-      if (this.configuratorGroupsService.hasSubGroups(group)) {
+      const isDifferentGroup =
+        configuration.interactionState.currentGroup !== group.id;
+      if (
+        this.configuratorGroupsService.hasSubGroups(group) &&
+        !(isDifferentGroup && this.hasContainerRowSubGroups(group))
+      ) {
         this.configuratorGroupsService.setMenuParentGroup(
           configuration.owner,
           group.id
@@ -153,7 +158,7 @@ export class ConfiguratorGroupMenuComponent {
         if (currentGroup) {
           this.setFocusForSubGroup(group, currentGroup.id);
         }
-      } else if (configuration.interactionState.currentGroup !== group.id) {
+      } else if (isDifferentGroup) {
         this.configuratorGroupsService.navigateToGroup(configuration, group.id);
         this.hamburgerMenuService.toggle(true);
 
@@ -215,6 +220,23 @@ export class ConfiguratorGroupMenuComponent {
    */
   hasSubGroups(group: Configurator.Group): boolean {
     return this.configuratorGroupsService.hasSubGroups(group);
+  }
+
+  /**
+   * Checks whether any direct child is a container row group.
+   * Those children are nested product configurations, so the parent
+   * remains a navigable tab rather than a structural folder.
+   *
+   * @param {Configurator.Group} group - Given group
+   * @return {boolean} - `true` if a child is a container row group
+   */
+  protected hasContainerRowSubGroups(group: Configurator.Group): boolean {
+    return (
+      group.subGroups?.some(
+        (subGroup) =>
+          subGroup.groupType === Configurator.GroupType.CONTAINER_ROW_GROUP
+      ) ?? false
+    );
   }
 
   /**

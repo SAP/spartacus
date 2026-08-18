@@ -581,6 +581,46 @@ describe('ConfiguratorGroupMenuComponent', () => {
         0
       );
     });
+
+    it('should navigate to a different group that has container row subgroups', () => {
+      const nestedTabGroup: Configurator.Group = {
+        id: 'CONTAINER_ROW@1067@row-1@1',
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        attributes: [{ name: 'nestedAttr' }],
+        subGroups: [],
+      };
+      const rowGroup: Configurator.Group = {
+        id: 'CONTAINER_ROW@1067@row-1',
+        groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+        attributes: [],
+        subGroups: [nestedTabGroup],
+      };
+      const rootTab: Configurator.Group = {
+        id: '1',
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        attributes: [{ name: 'containerAttr' }],
+        subGroups: [rowGroup],
+      };
+      const configWithNestedCurrentGroup = structuredClone(
+        mockProductConfiguration
+      );
+      configWithNestedCurrentGroup.groups = [rootTab];
+      configWithNestedCurrentGroup.interactionState.currentGroup =
+        nestedTabGroup.id;
+      productConfigurationObservable = of(configWithNestedCurrentGroup);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+
+      component.click(rootTab, nestedTabGroup);
+
+      expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalledWith(
+        configWithNestedCurrentGroup,
+        rootTab.id
+      );
+      expect(
+        configuratorGroupsService.setMenuParentGroup
+      ).toHaveBeenCalledTimes(0);
+    });
   });
 
   it('should return number of conflicts only for conflict header group', () => {
