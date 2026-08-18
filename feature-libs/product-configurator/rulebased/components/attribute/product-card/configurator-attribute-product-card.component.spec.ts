@@ -1570,9 +1570,25 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       expect(component.isActionsMenuOpen).toBe(false);
     });
 
-    it('should close the overflow menu', () => {
+    it('should close the overflow menu on document click', () => {
       component.isActionsMenuOpen = true;
-      component.closeActionsMenu();
+      fixture.detectChanges();
+
+      htmlElem.ownerDocument.dispatchEvent(
+        new MouseEvent('click', { bubbles: true })
+      );
+
+      expect(component.isActionsMenuOpen).toBe(false);
+    });
+
+    it('should close the overflow menu on escape key', () => {
+      component.isActionsMenuOpen = true;
+      fixture.detectChanges();
+
+      htmlElem.ownerDocument.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })
+      );
+
       expect(component.isActionsMenuOpen).toBe(false);
     });
 
