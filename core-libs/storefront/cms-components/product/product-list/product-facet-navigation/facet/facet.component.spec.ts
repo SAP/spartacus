@@ -23,7 +23,6 @@ import { FacetService } from '../services/facet.service';
 import { FacetComponent } from './facet.component';
 import { vi } from 'vitest';
 
-
 @Component({
   selector: 'cx-icon',
   template: '',
@@ -78,7 +77,9 @@ describe('FacetComponent', () => {
     Object.values(MockFacetService).forEach(
       (fn) => typeof fn === 'function' && (fn as any).mockReset?.()
     );
-    MockFacetService.getState.mockReturnValue(of({ topVisible: 5 } as FacetCollapseState));
+    MockFacetService.getState.mockReturnValue(
+      of({ topVisible: 5 } as FacetCollapseState)
+    );
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -279,7 +280,9 @@ describe('FacetComponent with a11yFilteredFacetAnnouncement', () => {
     Object.values(MockFacetService).forEach(
       (fn) => typeof fn === 'function' && (fn as any).mockReset?.()
     );
-    MockFacetService.getState.mockReturnValue(of({ topVisible: 5 } as FacetCollapseState));
+    MockFacetService.getState.mockReturnValue(
+      of({ topVisible: 5 } as FacetCollapseState)
+    );
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -299,10 +302,13 @@ describe('FacetComponent with a11yFilteredFacetAnnouncement', () => {
       })
       .compileComponents();
 
-    (TestBed.inject(FeatureConfigService).isEnabled as ReturnType<typeof vi.fn>)
-      .mockImplementation((f: string) =>
-        f.startsWith('!') ? f !== '!a11yFilteredFacetAnnouncement' : f === 'a11yFilteredFacetAnnouncement'
-      );
+    (
+      TestBed.inject(FeatureConfigService).isEnabled as ReturnType<typeof vi.fn>
+    ).mockImplementation((f: string) =>
+      f.startsWith('!')
+        ? f !== '!a11yFilteredFacetAnnouncement'
+        : f === 'a11yFilteredFacetAnnouncement'
+    );
   });
 
   beforeEach(() => {

@@ -42,7 +42,6 @@ class CustomFocusDirective extends EscapeFocusDirective {
   imports: [CustomFocusDirective],
 })
 class MockComponent {
-
   handleEmit(_event: boolean): void {}
 }
 

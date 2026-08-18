@@ -171,7 +171,6 @@ export interface TableHeaderOutletContext {
   _i18nRoot?: string;
 }
 
-
 export interface TableDataOutletContext extends TableHeaderOutletContext {
   [property: string]: any;
 }

@@ -187,8 +187,9 @@ describe('ConsentManagementComponent', () => {
       })
       .compileComponents();
 
-    (TestBed.inject(FeatureConfigService).isEnabled as ReturnType<typeof vi.fn>)
-      .mockImplementation((f: string) => f === 'a11yFormFieldSectionLegend');
+    (
+      TestBed.inject(FeatureConfigService).isEnabled as ReturnType<typeof vi.fn>
+    ).mockImplementation((f: string) => f === 'a11yFormFieldSectionLegend');
   });
 
   beforeEach(() => {
@@ -913,8 +914,10 @@ describe('ConsentManagementComponent', () => {
     });
 
     function setToggle(toggle: string, on: boolean): void {
-      (featureConfigService.isEnabled as ReturnType<typeof vi.fn>).mockImplementation(
-        (f: string) => on ? f === toggle : f !== toggle && !f.startsWith('!')
+      (
+        featureConfigService.isEnabled as ReturnType<typeof vi.fn>
+      ).mockImplementation((f: string) =>
+        on ? f === toggle : f !== toggle && !f.startsWith('!')
       );
     }
 

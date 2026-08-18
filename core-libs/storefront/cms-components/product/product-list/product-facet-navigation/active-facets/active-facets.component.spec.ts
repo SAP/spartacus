@@ -83,10 +83,9 @@ describe('ActiveFacetsComponent', () => {
       })
       .compileComponents();
 
-    (TestBed.inject(FeatureConfigService).isEnabled as ReturnType<typeof vi.fn>)
-      .mockImplementation((f: string) =>
-        f.startsWith('!') ? true : false
-      );
+    (
+      TestBed.inject(FeatureConfigService).isEnabled as ReturnType<typeof vi.fn>
+    ).mockImplementation((f: string) => (f.startsWith('!') ? true : false));
   });
 
   beforeEach(() => {
@@ -186,10 +185,13 @@ describe('ActiveFacetsComponent with a11yFilteredFacetAnnouncement', () => {
       })
       .compileComponents();
 
-    (TestBed.inject(FeatureConfigService).isEnabled as ReturnType<typeof vi.fn>)
-      .mockImplementation((f: string) =>
-        f.startsWith('!') ? f !== '!a11yFilteredFacetAnnouncement' : f === 'a11yFilteredFacetAnnouncement'
-      );
+    (
+      TestBed.inject(FeatureConfigService).isEnabled as ReturnType<typeof vi.fn>
+    ).mockImplementation((f: string) =>
+      f.startsWith('!')
+        ? f !== '!a11yFilteredFacetAnnouncement'
+        : f === 'a11yFilteredFacetAnnouncement'
+    );
   });
 
   beforeEach(() => {

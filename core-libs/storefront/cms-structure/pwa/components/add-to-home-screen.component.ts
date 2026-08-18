@@ -9,7 +9,6 @@ import { Observable } from 'rxjs';
 import { AddToHomeScreenService } from '../services/add-to-home-screen.service';
 
 @Directive()
-
 export abstract class AddToHomeScreenComponent implements OnInit {
   canPrompt$: Observable<boolean>;
   constructor(protected addToHomeScreenService: AddToHomeScreenService) {}

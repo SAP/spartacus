@@ -11,12 +11,8 @@ import { SiteContextType } from './site-context.model';
 @Component({
   selector: 'cx-language-currency-selector',
   template: `
-    <cx-site-context-selector
-      [context]="siteContextType.LANGUAGE"
-    />
-    <cx-site-context-selector
-      [context]="siteContextType.CURRENCY"
-    />
+    <cx-site-context-selector [context]="siteContextType.LANGUAGE" />
+    <cx-site-context-selector [context]="siteContextType.CURRENCY" />
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SiteContextSelectorComponent],

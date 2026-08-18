@@ -88,11 +88,7 @@ class TestChildComponent implements OnDestroy {
       [trackByFn]="carouselTrackByFn"
     />
     <ng-template #carouselItem let-item="item" let-itemIndex="itemIndex">
-      <cx-test-child
-        [item]="item"
-        [itemIndex]="itemIndex"
-        tabindex="0"
-      />
+      <cx-test-child [item]="item" [itemIndex]="itemIndex" tabindex="0" />
     </ng-template>
   `,
   imports: [I18nTestingModule, CarouselScrollingComponent, TestChildComponent],
@@ -150,11 +146,7 @@ class TestParentWithCxFocusableCarouselItemComponent {
       [template]="carouselItem"
     />
     <ng-template #carouselItem let-item="item" let-itemIndex="itemIndex">
-      <cx-test-child
-        [item]="item"
-        [itemIndex]="itemIndex"
-        tabindex="0"
-      />
+      <cx-test-child [item]="item" [itemIndex]="itemIndex" tabindex="0" />
     </ng-template>
   `,
   imports: [I18nTestingModule, CarouselScrollingComponent, TestChildComponent],

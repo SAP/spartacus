@@ -28,7 +28,7 @@ export default defineConfig({
       '@spartacus/core/testing/url-testing': resolve(
         import.meta.dirname,
         '../../core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module.ts'
-      )
+      ),
     },
   },
   plugins: [angular(), nxViteTsPaths()],
@@ -37,7 +37,7 @@ export default defineConfig({
     watch: false,
     globals: true,
     environment: 'jsdom',
-    setupFiles: ['./setup-test.ts'],
+    setupFiles: ['../../testing/setup-vitest.ts'],
     include: ['**/*.spec.ts'],
     typecheck: {
       tsconfig: `${import.meta.dirname}/tsconfig.spec.json`,

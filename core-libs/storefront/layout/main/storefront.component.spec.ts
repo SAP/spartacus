@@ -1,8 +1,5 @@
 import { Component, DebugElement, Directive, Input } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   FeatureDirective,
   FeatureToggles,

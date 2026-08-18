@@ -14,7 +14,6 @@ export enum MOVE_FOCUS {
   PREV = -1,
 }
 
-
 export interface BaseFocusConfig {}
 
 export interface VisibleFocusConfig {
@@ -146,6 +145,5 @@ export interface LockFocusConfig extends TrapFocusConfig {
    */
   lock?: boolean;
 }
-
 
 export interface FocusConfig extends LockFocusConfig {}

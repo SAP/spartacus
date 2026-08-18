@@ -81,8 +81,9 @@ describe('MessagingComponent', () => {
       })
       .compileComponents();
 
-    (TestBed.inject(FeatureConfigService).isEnabled as ReturnType<typeof vi.fn>)
-      .mockImplementation((f: string) => f.startsWith('!'));
+    (
+      TestBed.inject(FeatureConfigService).isEnabled as ReturnType<typeof vi.fn>
+    ).mockImplementation((f: string) => f.startsWith('!'));
   });
 
   afterEach(() => {
@@ -156,16 +157,16 @@ describe('MessagingComponent', () => {
     it('should not render an item link when there is no item attached to the message', () => {
       fixture.detectChanges();
       const cards = fixture.debugElement.queryAll(By.css('.cx-message-card'));
-      expect(
-        cards[0]?.query(By.css('.cx-message-item-link'))
-      ).toBeNull();
+      expect(cards[0]?.query(By.css('.cx-message-item-link'))).toBeNull();
     });
 
     it('should render an item link when there is an item attached to the message', () => {
       fixture.detectChanges();
       const cards = fixture.debugElement.queryAll(By.css('.cx-message-card'));
       expect(
-        cards[1]?.query(By.css('.cx-message-item-link'))?.nativeElement.textContent?.trim()
+        cards[1]
+          ?.query(By.css('.cx-message-item-link'))
+          ?.nativeElement.textContent?.trim()
       ).toEqual('Product 123:');
     });
 
@@ -276,8 +277,10 @@ describe('MessagingComponent', () => {
     });
 
     function setToggle(on: boolean): void {
-      (featureConfigService.isEnabled as ReturnType<typeof vi.fn>).mockImplementation(
-        (f: string) => on ? !f.startsWith('!') : f.startsWith('!')
+      (
+        featureConfigService.isEnabled as ReturnType<typeof vi.fn>
+      ).mockImplementation((f: string) =>
+        on ? !f.startsWith('!') : f.startsWith('!')
       );
     }
 

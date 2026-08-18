@@ -58,10 +58,7 @@ class MockDynamicAttributeService {
 
 @Component({
   template: `
-    <cx-page-slot
-      position="Section1"
-      class="existing-style and-more"
-    />
+    <cx-page-slot position="Section1" class="existing-style and-more" />
   `,
   imports: [PageSlotComponent],
 })
