@@ -205,6 +205,34 @@ export class CpqConfiguratorOccService {
   }
 
   /**
+   * Adds a new container row to the CPQ configuration and returns the resulting configuration.
+   *
+   * @param {Configurator.AddContainerRowParameters} parameters - Add container row parameters
+   * @returns {Observable<Configurator.Configuration>} - Updated configuration
+   */
+  addContainerRow(
+    parameters: Configurator.AddContainerRowParameters
+  ): Observable<Configurator.Configuration> {
+    return this.callAddContainerRow(parameters).pipe(
+      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER)
+    );
+  }
+
+  /**
+   * Deletes a container row from the CPQ configuration and returns the resulting configuration.
+   *
+   * @param {Configurator.RemoveContainerRowParameters} parameters - Remove container row parameters
+   * @returns {Observable<Configurator.Configuration>} - Updated configuration
+   */
+  removeContainerRow(
+    parameters: Configurator.RemoveContainerRowParameters
+  ): Observable<Configurator.Configuration> {
+    return this.callRemoveContainerRow(parameters).pipe(
+      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER)
+    );
+  }
+
+  /**
    * Retrieves a configuration assigned to a cart entry.
    *
    * @param {CommonConfigurator.ReadConfigurationFromCartEntryParameters} parameters - Cart entry parameters
@@ -303,6 +331,36 @@ export class CpqConfiguratorOccService {
     return this.http.patch<Cpq.Configuration>(url, {
       quantity: updateValue.quantity,
     });
+  }
+
+  protected callAddContainerRow(
+    parameters: Configurator.AddContainerRowParameters
+  ): Observable<Cpq.Configuration> {
+    const url = this.occEndpointsService.buildUrl('createCpqContainerRow', {
+      urlParams: {
+        configurationId: parameters.configId,
+      },
+    });
+    const body: Cpq.AddContainerRowInput = {
+      stdAttrCode: parameters.stdAttrCode,
+      productSystemId: parameters.productSystemId,
+    };
+    if (parameters.parentRowId) {
+      body.parentRowId = parameters.parentRowId;
+    }
+    return this.http.post<Cpq.Configuration>(url, body);
+  }
+
+  protected callRemoveContainerRow(
+    parameters: Configurator.RemoveContainerRowParameters
+  ): Observable<Cpq.Configuration> {
+    const url = this.occEndpointsService.buildUrl('removeCpqContainerRow', {
+      urlParams: {
+        configurationId: parameters.configId,
+        rowId: parameters.rowId,
+      },
+    });
+    return this.http.delete<Cpq.Configuration>(url);
   }
 
   protected callReadConfigurationForCartEntry(

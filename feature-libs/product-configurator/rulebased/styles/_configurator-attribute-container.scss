@@ -1,0 +1,48 @@
+%cx-configurator-attribute-container {
+  @include cx-configurator-attribute-type();
+
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+
+  @include media-breakpoint-down(sm) {
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+  }
+
+  .cx-accordion {
+    width: 100%;
+
+    &:first-child {
+      background-color: var(--cx-color-background);
+    }
+
+    .cx-header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding-block-start: 16px;
+      padding-block-end: 16px;
+      padding-inline-end: 16px;
+      padding-inline-start: 16px;
+
+      .cx-title {
+        @include type('7');
+        font-weight: bold;
+      }
+
+      button {
+        border: none;
+        background-color: transparent;
+        padding-inline-start: 0;
+        padding-inline-end: 0;
+        padding-block-start: 0;
+        padding-block-end: 0;
+        cursor: pointer;
+        color: var(--cx-color-text);
+      }
+    }
+  }
+}

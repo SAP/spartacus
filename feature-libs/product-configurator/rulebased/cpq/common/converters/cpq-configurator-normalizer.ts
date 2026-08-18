@@ -53,7 +53,8 @@ export class CpqConfiguratorNormalizer
         this.getTabAttributes(source, tab),
         source.currencyISOCode,
         resultTarget.groups,
-        resultTarget.flatGroups
+        resultTarget.flatGroups,
+        source.sapContainers
       )
     );
 
@@ -63,7 +64,8 @@ export class CpqConfiguratorNormalizer
         source.incompleteAttributes ?? [],
         source.currencyISOCode,
         resultTarget.groups,
-        resultTarget.flatGroups
+        resultTarget.flatGroups,
+        source.sapContainers
       );
     }
 
@@ -96,11 +98,19 @@ export class CpqConfiguratorNormalizer
     sourceAttributes: Cpq.Attribute[],
     currency: string,
     groupList: Configurator.Group[],
-    flatGroupList: Configurator.Group[]
+    flatGroupList: Configurator.Group[],
+    containers?: Cpq.Container[],
+    containerRowId?: string
   ) {
     const attributes: Configurator.Attribute[] = [];
     sourceAttributes.forEach((sourceAttribute) =>
-      this.convertAttribute(sourceAttribute, source.id, currency, attributes)
+      this.convertAttribute(
+        sourceAttribute,
+        source.id,
+        currency,
+        attributes,
+        containerRowId
+      )
     );
 
     const group: Configurator.Group = {
@@ -115,6 +125,8 @@ export class CpqConfiguratorNormalizer
       subGroups: [],
     };
 
+    this.attachContainers(group, containers, currency, flatGroupList);
+
     flatGroupList.push(group);
     groupList.push(group);
   }
@@ -124,11 +136,19 @@ export class CpqConfiguratorNormalizer
     incompleteAttributes: string[],
     currency: string,
     groupList: Configurator.Group[],
-    flatGroupList: Configurator.Group[]
+    flatGroupList: Configurator.Group[],
+    containers?: Cpq.Container[],
+    containerRowId?: string
   ) {
     const attributes: Configurator.Attribute[] = [];
     sourceAttributes.forEach((sourceAttribute) =>
-      this.convertAttribute(sourceAttribute, 1, currency, attributes)
+      this.convertAttribute(
+        sourceAttribute,
+        1,
+        currency,
+        attributes,
+        containerRowId
+      )
     );
     const group: Configurator.Group = {
       id: '1',
@@ -145,6 +165,8 @@ export class CpqConfiguratorNormalizer
       .translate('configurator.group.general')
       .pipe(take(1))
       .subscribe((generalText) => (group.description = generalText));
+
+    this.attachContainers(group, containers, currency, flatGroupList);
 
     groupList.push(group);
     flatGroupList.push(group);
@@ -309,7 +331,8 @@ export class CpqConfiguratorNormalizer
     sourceAttribute: Cpq.Attribute,
     groupId: number,
     currency: string,
-    attributeList: Configurator.Attribute[]
+    attributeList: Configurator.Attribute[],
+    containerRowId?: string
   ): void {
     const attribute: Configurator.Attribute = {
       attrCode: sourceAttribute.stdAttrCode,
@@ -334,6 +357,9 @@ export class CpqConfiguratorNormalizer
       images: [],
       visible: true,
     };
+    if (containerRowId) {
+      attribute.containerRowId = containerRowId;
+    }
 
     if (
       sourceAttribute.values &&
@@ -507,6 +533,11 @@ export class CpqConfiguratorNormalizer
         break;
       }
 
+      case Cpq.DisplayAs.CONTAINER: {
+        uiType = Configurator.UiType.CONTAINER;
+        break;
+      }
+
       default: {
         uiType = Configurator.UiType.NOT_IMPLEMENTED;
       }
@@ -569,6 +600,183 @@ export class CpqConfiguratorNormalizer
         value.paV_ID === 0) ??
       false
     );
+  }
+
+  /**
+   * Attaches matching CPQ containers to the group's attributes and appends
+   * nested container-row groups to the group's subGroups.
+   */
+  protected attachContainers(
+    group: Configurator.Group,
+    containers: Cpq.Container[] | undefined,
+    currency: string,
+    flatGroupList: Configurator.Group[]
+  ): void {
+    if (!containers?.length || !group.attributes?.length) {
+      return;
+    }
+    group.attributes.forEach((attribute) => {
+      const sourceContainer = containers.find(
+        (container) => container.stdAttrCode === attribute.attrCode
+      );
+      if (sourceContainer) {
+        attribute.container = this.convertContainer(
+          sourceContainer,
+          attribute.attrCode ?? sourceContainer.stdAttrCode,
+          group,
+          currency,
+          flatGroupList
+        );
+      }
+    });
+  }
+
+  protected convertContainer(
+    source: Cpq.Container,
+    attrCode: number,
+    parentGroup: Configurator.Group,
+    currency: string,
+    flatGroupList: Configurator.Group[]
+  ): Configurator.Container {
+    return {
+      minRows: source.minRows,
+      maxRows: source.maxRows,
+      failedValidations: source.failedValidations,
+      rows: (source.rows ?? []).map((row) =>
+        this.convertContainerRow(
+          row,
+          attrCode,
+          parentGroup,
+          currency,
+          flatGroupList
+        )
+      ),
+    };
+  }
+
+  protected convertContainerRow(
+    source: Cpq.ContainerRow,
+    attrCode: number,
+    parentGroup: Configurator.Group,
+    currency: string,
+    flatGroupList: Configurator.Group[]
+  ): Configurator.ContainerRow {
+    const row: Configurator.ContainerRow = {
+      id: source.id,
+      productSystemId: source.productSystemId,
+      productName: source.productName,
+      selected: source.selected,
+      actions: this.convertContainerRowActions(source.actions),
+    };
+
+    if (source.configuration) {
+      const rowGroup = this.convertNestedConfiguration(
+        source.configuration,
+        source,
+        attrCode,
+        currency,
+        flatGroupList
+      );
+      parentGroup.subGroups.push(rowGroup);
+      row.groupId = rowGroup.id;
+    }
+
+    return row;
+  }
+
+  protected convertNestedConfiguration(
+    source: Cpq.NestedProductConfiguration,
+    row: Cpq.ContainerRow,
+    attrCode: number,
+    currency: string,
+    flatGroupList: Configurator.Group[]
+  ): Configurator.Group {
+    const rowGroup: Configurator.Group = {
+      id: `${Configurator.ContainerRowGroupIdPrefix}@${attrCode}@${row.id}`,
+      name: row.productSystemId,
+      description: row.productName,
+      configurable: true,
+      complete: source.completed,
+      consistent: true,
+      groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+      attributes: [],
+      subGroups: [],
+      messages: this.convertMessages(source.messages),
+    };
+
+    source.tabs?.forEach((tab) =>
+      this.convertGroup(
+        tab,
+        tab.attributes ?? [],
+        currency,
+        rowGroup.subGroups,
+        flatGroupList,
+        source.containers,
+        row.id
+      )
+    );
+
+    return rowGroup;
+  }
+
+  protected convertMessages(
+    source?: Cpq.Message[]
+  ): Configurator.Message[] | undefined {
+    if (!source?.length) {
+      return undefined;
+    }
+    return source
+      .filter((entry) => !!entry.message)
+      .map((entry) => ({
+        message: entry.message as string,
+        severity: this.convertMessageSeverity(entry.severity),
+      }));
+  }
+
+  protected convertMessageSeverity(
+    severity?: string
+  ): Configurator.MessageSeverity | undefined {
+    switch (severity) {
+      case Cpq.MessageSeverity.INFO:
+      case Configurator.MessageSeverity.INFO:
+        return Configurator.MessageSeverity.INFO;
+      case Cpq.MessageSeverity.WARNING:
+      case Configurator.MessageSeverity.WARNING:
+        return Configurator.MessageSeverity.WARNING;
+      default:
+        return undefined;
+    }
+  }
+
+  protected convertContainerRowActions(
+    actions?: Cpq.ContainerRowAction[]
+  ): Configurator.ContainerRowAction[] | undefined {
+    if (!actions?.length) {
+      return undefined;
+    }
+    return actions
+      .map((action) => this.convertContainerRowAction(action))
+      .filter(
+        (action): action is Configurator.ContainerRowAction =>
+          action !== undefined
+      );
+  }
+
+  protected convertContainerRowAction(
+    action: string
+  ): Configurator.ContainerRowAction | undefined {
+    switch (action) {
+      case Cpq.ContainerRowAction.DELETE:
+        return Configurator.ContainerRowAction.DELETE;
+      case Cpq.ContainerRowAction.EDIT:
+        return Configurator.ContainerRowAction.EDIT;
+      case Cpq.ContainerRowAction.COPY:
+        return Configurator.ContainerRowAction.COPY;
+      case Cpq.ContainerRowAction.ADD:
+        return Configurator.ContainerRowAction.ADD;
+      default:
+        return undefined;
+    }
   }
 
   protected getTabAttributes(

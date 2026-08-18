@@ -103,6 +103,8 @@ describe('CpqConfiguratorOccAdapter', () => {
       'readConfigurationForCartEntry',
       'readConfigurationForOrderEntry',
       'readConfigurationForQuoteEntry',
+      'addContainerRow',
+      'removeContainerRow',
     ]);
 
     asSpy(mockedOccService.createConfiguration).and.callFake(() => {
@@ -141,6 +143,12 @@ describe('CpqConfiguratorOccAdapter', () => {
       return of(productConfiguration);
     });
     asSpy(mockedOccService.readConfigurationForOrderEntry).and.callFake(() => {
+      return of(productConfiguration);
+    });
+    asSpy(mockedOccService.addContainerRow).and.callFake(() => {
+      return of(productConfiguration);
+    });
+    asSpy(mockedOccService.removeContainerRow).and.callFake(() => {
       return of(productConfiguration);
     });
 
@@ -241,6 +249,34 @@ describe('CpqConfiguratorOccAdapter', () => {
 
   it('should throw exception if variant search is attempted', () => {
     expect(() => adapterUnderTest.searchVariants()).toThrow();
+  });
+
+  it('should delegate addContainerRow to OCC service and map owner', () => {
+    const parameters: Configurator.AddContainerRowParameters = {
+      configId: productConfiguration.configId,
+      owner: owner,
+      stdAttrCode: 598,
+      productSystemId: productCode,
+      parentRowId: '3',
+    };
+    adapterUnderTest.addContainerRow(parameters).subscribe((config) => {
+      expect(config.owner).toEqual(owner);
+      expect(mockedOccService.addContainerRow).toHaveBeenCalledWith(parameters);
+    });
+  });
+
+  it('should delegate removeContainerRow to OCC service and map owner', () => {
+    const parameters: Configurator.RemoveContainerRowParameters = {
+      configId: productConfiguration.configId,
+      owner: owner,
+      rowId: '3',
+    };
+    adapterUnderTest.removeContainerRow(parameters).subscribe((config) => {
+      expect(config.owner).toEqual(owner);
+      expect(mockedOccService.removeContainerRow).toHaveBeenCalledWith(
+        parameters
+      );
+    });
   });
 
   it('should delegate addToCart to OCC service', () => {

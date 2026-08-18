@@ -389,6 +389,18 @@ export class VariantConfiguratorOccAdapter
     });
   }
 
+  addContainerRow(): Observable<Configurator.Configuration> {
+    throw new Error(
+      'addContainerRow is not supported for the variant configurator'
+    );
+  }
+
+  removeContainerRow(): Observable<Configurator.Configuration> {
+    throw new Error(
+      'removeContainerRow is not supported for the variant configurator'
+    );
+  }
+
   /**
    * Prepares http context indicating that emulated user has to be added to the request in ASM mode
    *

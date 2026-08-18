@@ -1,0 +1,950 @@
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { I18nTestingModule } from '@spartacus/core';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
+import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import {
+  ConfiguratorAttributeProductCardComponent,
+  ConfiguratorAttributeProductCardComponentOptions,
+} from '../../product-card/configurator-attribute-product-card.component';
+import { ConfiguratorAttributeContainerComponent } from './configurator-attribute-container.component';
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
+}
+
+@Component({
+  selector: 'cx-configurator-attribute-product-card',
+  template: `
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="handleSelect.emit()"
+    ></button>
+    <button
+      type="button"
+      class="btn btn-tertiary"
+      (click)="handleDeselect.emit()"
+    ></button>
+    <button
+      type="button"
+      class="cx-product-card-actions-menu-item"
+      data-row-action="DELETE"
+      (click)="handleRowAction.emit(deleteAction)"
+    ></button>
+    <button
+      type="button"
+      class="cx-product-card-actions-menu-item"
+      data-row-action="ADD"
+      (click)="handleRowAction.emit(addAction)"
+    ></button>
+    <button
+      type="button"
+      class="cx-product-card-actions-menu-item"
+      data-row-action="EDIT"
+      (click)="handleRowAction.emit(editAction)"
+    ></button>
+    <button
+      type="button"
+      class="cx-product-card-actions-menu-item"
+      data-row-action="COPY"
+      (click)="handleRowAction.emit(copyAction)"
+    ></button>
+  `,
+})
+class MockProductCardComponent {
+  @Input() productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
+  @Output() handleSelect = new EventEmitter<string>();
+  @Output() handleDeselect = new EventEmitter<string>();
+  @Output() handleRowAction =
+    new EventEmitter<Configurator.ContainerRowAction>();
+
+  deleteAction = Configurator.ContainerRowAction.DELETE;
+  addAction = Configurator.ContainerRowAction.ADD;
+  editAction = Configurator.ContainerRowAction.EDIT;
+  copyAction = Configurator.ContainerRowAction.COPY;
+}
+
+class MockConfiguratorCommonsService {
+  addContainerRow(): void {}
+  removeContainerRow(): void {}
+  isConfigurationLoading(): Observable<boolean> {
+    return of(false);
+  }
+}
+
+describe('ConfiguratorAttributeContainerComponent', () => {
+  let component: ConfiguratorAttributeContainerComponent;
+  let fixture: ComponentFixture<ConfiguratorAttributeContainerComponent>;
+  let htmlElem: HTMLElement;
+  let configuratorCommonsService: ConfiguratorCommonsService;
+
+  function createAttribute(
+    rows: Configurator.ContainerRow[] = [
+      {
+        id: 'row-1',
+        productName: 'Product A',
+        productSystemId: 'SYS_A',
+        selected: true,
+      },
+      {
+        id: 'row-2',
+        productName: 'Product B',
+        productSystemId: 'SYS_B',
+        selected: false,
+      },
+      {
+        id: 'row-3',
+        productName: 'Product C',
+        productSystemId: 'SYS_C',
+        selected: false,
+      },
+    ]
+  ): Configurator.Attribute {
+    return {
+      name: 'attributeName',
+      attrCode: 1111,
+      uiType: Configurator.UiType.CONTAINER,
+      required: true,
+      groupId: 'testGroup',
+      container: {
+        rows,
+      },
+    };
+  }
+
+  function getProductCard(sectionIndex: number): HTMLElement {
+    const sections = htmlElem.querySelectorAll('.cx-accordion');
+    return sections[sectionIndex].querySelector(
+      'cx-configurator-attribute-product-card'
+    ) as HTMLElement;
+  }
+
+  function clickProductCardAction(
+    sectionIndex: number,
+    selector: string
+  ): void {
+    fixture.detectChanges();
+    const button = getProductCard(sectionIndex).querySelector(
+      selector
+    ) as HTMLButtonElement;
+    button.click();
+  }
+
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ConfiguratorAttributeContainerComponent],
+      providers: [
+        {
+          provide: ConfiguratorUISettingsConfig,
+          useValue: defaultConfiguratorUISettingsConfig,
+        },
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useValue: {},
+        },
+      ],
+    })
+      .overrideComponent(ConfiguratorAttributeContainerComponent, {
+        remove: {
+          imports: [IconComponent, ConfiguratorAttributeProductCardComponent],
+        },
+        add: { imports: [MockCxIconComponent, MockProductCardComponent] },
+      })
+      .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ConfiguratorAttributeContainerComponent);
+    component = fixture.componentInstance;
+    htmlElem = fixture.nativeElement;
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    component.attribute = createAttribute();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should render the container host element', () => {
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+      expect,
+      htmlElem,
+      'div',
+      'id',
+      component.createAttributeIdForConfigurator(component.attribute)
+    );
+  });
+
+  describe('product lists', () => {
+    it('should return selected container rows', () => {
+      expect(component.selectedProducts.length).toBe(1);
+      expect(component.selectedProducts[0].id).toBe('row-1');
+    });
+
+    it('should return available container rows', () => {
+      expect(component.availableProducts.length).toBe(2);
+      expect(component.availableProducts[0].id).toBe('row-2');
+    });
+
+    it('should return empty lists when the container has no rows', () => {
+      component.attribute = createAttribute([]);
+      expect(component.selectedProducts).toEqual([]);
+      expect(component.availableProducts).toEqual([]);
+    });
+
+    it('should return empty lists when the container is missing', () => {
+      component.attribute = {
+        ...createAttribute(),
+        container: undefined,
+      };
+      expect(component.selectedProducts).toEqual([]);
+      expect(component.availableProducts).toEqual([]);
+    });
+  });
+
+  describe('accordion sections', () => {
+    describe('with products in both sections', () => {
+      beforeEach(() => {
+        fixture.detectChanges();
+      });
+
+      it('should render selected and available product sections', () => {
+        CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+          expect,
+          htmlElem,
+          '.cx-accordion',
+          2
+        );
+      });
+
+      it('should set ids on the selected and available product sections', () => {
+        const sections = htmlElem.querySelectorAll('.cx-accordion');
+        expect(sections[0].id).toBe(
+          component.createAttributeUiKey(
+            'selected-products',
+            component.attribute.name
+          )
+        );
+        expect(sections[1].id).toBe(
+          component.createAttributeUiKey(
+            'available-products',
+            component.attribute.name
+          )
+        );
+      });
+
+      it('should display the selected products count', () => {
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-title',
+          'configurator.attribute.selectedProducts count:1'
+        );
+      });
+
+      it('should display the available products count', () => {
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-title',
+          'configurator.attribute.availableProducts count:2',
+          1
+        );
+      });
+
+      it('should expand both sections initially', () => {
+        expect(component.selectedProductsExpanded).toBe(true);
+        expect(component.availableProductsExpanded).toBe(true);
+        const sections = htmlElem.querySelectorAll('.cx-accordion');
+        CommonConfiguratorTestUtilsService.expectNumberOfElements(
+          expect,
+          sections[0],
+          'cx-configurator-attribute-product-card',
+          1
+        );
+        CommonConfiguratorTestUtilsService.expectNumberOfElements(
+          expect,
+          sections[1],
+          'cx-configurator-attribute-product-card',
+          2
+        );
+      });
+
+      it('should render toggle buttons when the lists are not empty', () => {
+        CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+          expect,
+          htmlElem,
+          '.cx-header button',
+          2
+        );
+      });
+
+      it('should render the toggle icon in each section that has products', () => {
+        const sections = htmlElem.querySelectorAll('.cx-accordion');
+
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          sections[0],
+          '.cx-header button cx-icon'
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          sections[1],
+          '.cx-header button cx-icon'
+        );
+
+        const icons = fixture.debugElement.queryAll(
+          By.css('.cx-header button cx-icon')
+        );
+        expect(icons[0].componentInstance.type).toBe(ICON_TYPE.COLLAPSE);
+        expect(icons[1].componentInstance.type).toBe(ICON_TYPE.COLLAPSE);
+      });
+    });
+
+    it('should hide the selected products toggle icon when there are no selected products', () => {
+      component.attribute = createAttribute([
+        {
+          id: 'row-2',
+          productName: 'Product B',
+          selected: false,
+        },
+      ]);
+      fixture.detectChanges();
+
+      const sections = htmlElem.querySelectorAll('.cx-accordion');
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        sections[0],
+        '.cx-header button'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        sections[0],
+        'cx-icon'
+      );
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        sections[1],
+        '.cx-header button cx-icon'
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-title',
+        'configurator.attribute.selectedProducts count:0'
+      );
+    });
+
+    it('should hide the available products toggle icon when there are no available products', () => {
+      component.attribute = createAttribute([
+        {
+          id: 'row-1',
+          productName: 'Product A',
+          selected: true,
+        },
+      ]);
+      fixture.detectChanges();
+
+      const sections = htmlElem.querySelectorAll('.cx-accordion');
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        sections[0],
+        '.cx-header button cx-icon'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        sections[1],
+        '.cx-header button'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        sections[1],
+        'cx-icon'
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-title',
+        'configurator.attribute.availableProducts count:0',
+        1
+      );
+    });
+
+    it('should hide both toggle icons when both lists are empty', () => {
+      component.attribute = createAttribute([]);
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-header button'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-icon'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-product-card'
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-title',
+        'configurator.attribute.selectedProducts count:0'
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-title',
+        'configurator.attribute.availableProducts count:0',
+        1
+      );
+    });
+  });
+
+  describe('toggleSelectedProducts', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
+    it('should collapse and expand the selected products section', () => {
+      const toggle = htmlElem.querySelector(
+        '.cx-header button'
+      ) as HTMLButtonElement;
+      toggle.click();
+      fixture.detectChanges();
+
+      expect(component.selectedProductsExpanded).toBe(false);
+      expect(component.selectedProductsToggleIcon).toBe(ICON_TYPE.EXPAND);
+      expect(
+        fixture.debugElement.query(By.css('.cx-header button cx-icon'))
+          .componentInstance.type
+      ).toBe(ICON_TYPE.EXPAND);
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem.querySelectorAll('.cx-accordion')[0],
+        'cx-configurator-attribute-product-card'
+      );
+
+      toggle.click();
+      fixture.detectChanges();
+
+      expect(component.selectedProductsExpanded).toBe(true);
+      expect(component.selectedProductsToggleIcon).toBe(ICON_TYPE.COLLAPSE);
+      CommonConfiguratorTestUtilsService.expectNumberOfElements(
+        expect,
+        htmlElem.querySelectorAll('.cx-accordion')[0],
+        'cx-configurator-attribute-product-card',
+        1
+      );
+    });
+
+    it('should collapse the selected products section when the toggle is clicked', () => {
+      const toggle = htmlElem.querySelector(
+        '.cx-header button'
+      ) as HTMLButtonElement;
+      toggle.click();
+      fixture.detectChanges();
+
+      expect(component.selectedProductsExpanded).toBe(false);
+    });
+  });
+
+  describe('toggleAvailableProducts', () => {
+    it('should collapse and expand the available products section', () => {
+      component.toggleAvailableProducts();
+
+      expect(component.availableProductsExpanded).toBe(false);
+      expect(component.availableProductsToggleIcon).toBe(ICON_TYPE.EXPAND);
+
+      component.toggleAvailableProducts();
+
+      expect(component.availableProductsExpanded).toBe(true);
+      expect(component.availableProductsToggleIcon).toBe(ICON_TYPE.COLLAPSE);
+    });
+
+    it('should collapse the available products section when the toggle is clicked', () => {
+      fixture.detectChanges();
+      const toggles = htmlElem.querySelectorAll('.cx-header button');
+      (toggles[1] as HTMLButtonElement).click();
+      fixture.detectChanges();
+
+      expect(component.availableProductsExpanded).toBe(false);
+      expect(
+        fixture.debugElement.queryAll(By.css('.cx-header button cx-icon'))[1]
+          .componentInstance.type
+      ).toBe(ICON_TYPE.EXPAND);
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem.querySelectorAll('.cx-accordion')[1],
+        'cx-configurator-attribute-product-card'
+      );
+      CommonConfiguratorTestUtilsService.expectNumberOfElements(
+        expect,
+        htmlElem.querySelectorAll('.cx-accordion')[0],
+        'cx-configurator-attribute-product-card',
+        1
+      );
+    });
+  });
+
+  describe('product cards', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
+    it('should render a product card for each selected and available product', () => {
+      CommonConfiguratorTestUtilsService.expectNumberOfElements(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-product-card',
+        3
+      );
+    });
+
+    it('should render selected product cards in the selected section', () => {
+      const selectedSection = htmlElem.querySelectorAll('.cx-accordion')[0];
+      CommonConfiguratorTestUtilsService.expectNumberOfElements(
+        expect,
+        selectedSection,
+        'cx-configurator-attribute-product-card',
+        1
+      );
+    });
+
+    it('should render available product cards in the available section', () => {
+      const availableSection = htmlElem.querySelectorAll('.cx-accordion')[1];
+      CommonConfiguratorTestUtilsService.expectNumberOfElements(
+        expect,
+        availableSection,
+        'cx-configurator-attribute-product-card',
+        2
+      );
+    });
+
+    it('should set configurator value ids on the product cards', () => {
+      const cards = htmlElem.querySelectorAll(
+        'cx-configurator-attribute-product-card'
+      );
+      expect(cards[0].id).toBe(
+        component.createAttributeValueIdForConfigurator(
+          component.attribute,
+          'row-1'
+        )
+      );
+      expect(cards[1].id).toBe(
+        component.createAttributeValueIdForConfigurator(
+          component.attribute,
+          'row-2'
+        )
+      );
+      expect(cards[2].id).toBe(
+        component.createAttributeValueIdForConfigurator(
+          component.attribute,
+          'row-3'
+        )
+      );
+    });
+
+    it('should bind product card options for selected and available products', () => {
+      const cards = fixture.debugElement.queryAll(
+        By.directive(MockProductCardComponent)
+      );
+
+      expect(cards[0].componentInstance.productCardOptions).toEqual(
+        component.extractProductCardParameters(
+          component.selectedProducts[0],
+          0,
+          component.selectedProducts.length
+        )
+      );
+      expect(cards[1].componentInstance.productCardOptions).toEqual(
+        component.extractProductCardParameters(
+          component.availableProducts[0],
+          0,
+          component.availableProducts.length
+        )
+      );
+      expect(cards[2].componentInstance.productCardOptions).toEqual(
+        component.extractProductCardParameters(
+          component.availableProducts[1],
+          1,
+          component.availableProducts.length
+        )
+      );
+    });
+
+    it('should hide product cards when a section is collapsed', () => {
+      const toggle = htmlElem.querySelector(
+        '.cx-header button'
+      ) as HTMLButtonElement;
+      toggle.click();
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectNumberOfElements(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-product-card',
+        2
+      );
+    });
+  });
+
+  describe('extractProductCardParameters', () => {
+    it('should map a selected container row to product card options', () => {
+      const row = component.selectedProducts[0];
+      const options = component.extractProductCardParameters(
+        row,
+        0,
+        component.selectedProducts.length
+      );
+
+      expect(options.multiSelect).toBe(true);
+      expect(options.attributeId).toBe(1111);
+      expect(options.attributeName).toBe('attributeName');
+      expect(options.itemCount).toBe(1);
+      expect(options.itemIndex).toBe(0);
+      expect(options.productBoundValue).toEqual({
+        valueCode: 'row-1',
+        name: 'Product A',
+        valueDisplay: 'Product A',
+        productSystemId: 'SYS_A',
+        selected: true,
+      });
+    });
+
+    it('should map an available container row as unselected', () => {
+      const row = component.availableProducts[0];
+      const options = component.extractProductCardParameters(
+        row,
+        0,
+        component.availableProducts.length
+      );
+
+      expect(options.itemCount).toBe(2);
+      expect(options.productBoundValue.valueCode).toBe('row-2');
+      expect(options.productBoundValue.selected).toBe(false);
+      expect(options.productBoundValue.productSystemId).toBe('SYS_B');
+    });
+
+    it('should include loading$', () => {
+      const options = component.extractProductCardParameters(
+        component.availableProducts[0],
+        0,
+        component.availableProducts.length
+      );
+
+      expect(options.loading$).toBe(component.loading$);
+    });
+
+    it('should pass the container row to the product card', () => {
+      const row = component.selectedProducts[0];
+      const options = component.extractProductCardParameters(
+        row,
+        0,
+        component.selectedProducts.length
+      );
+
+      expect(options.containerRow).toBe(row);
+    });
+  });
+
+  describe('onAdd', () => {
+    it('should call addContainerRow when the `ADD` button is clicked', () => {
+      spyOn(configuratorCommonsService, 'addContainerRow');
+
+      clickProductCardAction(1, '.btn-primary');
+
+      expect(configuratorCommonsService.addContainerRow).toHaveBeenCalledWith(
+        component.ownerKey,
+        1111,
+        'SYS_B',
+        undefined
+      );
+    });
+
+    it('should pass containerRowId as parent row id for nested containers', () => {
+      spyOn(configuratorCommonsService, 'addContainerRow');
+      component.attribute.containerRowId = 'parent-1';
+
+      clickProductCardAction(1, '.btn-primary');
+
+      expect(configuratorCommonsService.addContainerRow).toHaveBeenCalledWith(
+        component.ownerKey,
+        1111,
+        'SYS_B',
+        'parent-1'
+      );
+    });
+
+    it('should set loading$ before calling addContainerRow', () => {
+      spyOn(configuratorCommonsService, 'addContainerRow');
+
+      clickProductCardAction(1, '.btn-primary');
+
+      expect(component.loading$.value).toBe(true);
+    });
+
+    it('should not call addContainerRow when productSystemId is missing', () => {
+      spyOn(configuratorCommonsService, 'addContainerRow');
+      component.attribute = createAttribute([
+        {
+          id: 'row-without-product',
+          productName: 'Incomplete product',
+          selected: false,
+        },
+      ]);
+
+      clickProductCardAction(1, '.btn-primary');
+
+      expect(configuratorCommonsService.addContainerRow).not.toHaveBeenCalled();
+      expect(component.loading$.value).toBe(false);
+    });
+  });
+
+  describe('onRemove', () => {
+    it('should call removeContainerRow when the `REMOVE` button is clicked', () => {
+      spyOn(configuratorCommonsService, 'removeContainerRow');
+
+      clickProductCardAction(0, '.btn-tertiary');
+
+      expect(
+        configuratorCommonsService.removeContainerRow
+      ).toHaveBeenCalledWith(component.ownerKey, 'row-1');
+    });
+
+    it('should set loading$ before calling removeContainerRow', () => {
+      spyOn(configuratorCommonsService, 'removeContainerRow');
+
+      clickProductCardAction(0, '.btn-tertiary');
+
+      expect(component.loading$.value).toBe(true);
+    });
+  });
+
+  describe('onRowAction', () => {
+    it('should remove row when `DELETE` is clicked', () => {
+      spyOn(configuratorCommonsService, 'removeContainerRow');
+
+      clickProductCardAction(0, '[data-row-action="DELETE"]');
+
+      expect(
+        configuratorCommonsService.removeContainerRow
+      ).toHaveBeenCalledWith(component.ownerKey, 'row-1');
+    });
+
+    it('should add row when `ADD` is clicked', () => {
+      spyOn(configuratorCommonsService, 'addContainerRow');
+
+      clickProductCardAction(1, '[data-row-action="ADD"]');
+
+      expect(configuratorCommonsService.addContainerRow).toHaveBeenCalledWith(
+        component.ownerKey,
+        1111,
+        'SYS_B',
+        undefined
+      );
+    });
+
+    it('should ignore actions that are not yet handled', () => {
+      spyOn(configuratorCommonsService, 'removeContainerRow');
+      spyOn(configuratorCommonsService, 'addContainerRow');
+
+      clickProductCardAction(0, '[data-row-action="EDIT"]');
+      clickProductCardAction(0, '[data-row-action="COPY"]');
+
+      expect(
+        configuratorCommonsService.removeContainerRow
+      ).not.toHaveBeenCalled();
+      expect(configuratorCommonsService.addContainerRow).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Accessibility', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
+    it('should set the selected products toggle aria-label to collapse when the section is expanded', () => {
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-header button',
+        'aria-label',
+        'configurator.a11y.collapseSelectedProducts'
+      );
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-header button',
+        'aria-expanded',
+        'true'
+      );
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-header button',
+        'aria-controls',
+        component.createAttributeUiKey(
+          'selected-products',
+          component.attribute.name
+        )
+      );
+    });
+
+    it('should set the selected products toggle aria-label to expand when the section is collapsed', () => {
+      const toggle = htmlElem.querySelector(
+        '.cx-header button'
+      ) as HTMLButtonElement;
+      toggle.click();
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-header button',
+        'aria-label',
+        'configurator.a11y.expandSelectedProducts'
+      );
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-header button',
+        'aria-expanded',
+        'false'
+      );
+    });
+
+    it('should set the available products toggle aria-label to collapse when the section is expanded', () => {
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-header button',
+        'aria-label',
+        'configurator.a11y.collapseAvailableProducts',
+        1
+      );
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-header button',
+        'aria-expanded',
+        'true',
+        1
+      );
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-header button',
+        'aria-controls',
+        component.createAttributeUiKey(
+          'available-products',
+          component.attribute.name
+        ),
+        1
+      );
+    });
+
+    it('should set the available products toggle aria-label to expand when the section is collapsed', () => {
+      const toggles = htmlElem.querySelectorAll('.cx-header button');
+      (toggles[1] as HTMLButtonElement).click();
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-header button',
+        'aria-label',
+        'configurator.a11y.expandAvailableProducts',
+        1
+      );
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-header button',
+        'aria-expanded',
+        'false',
+        1
+      );
+    });
+
+    it('should expose section titles as headings', () => {
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-title',
+        'role',
+        'heading'
+      );
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-title',
+        'aria-level',
+        '2'
+      );
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-title',
+        'role',
+        'heading',
+        1
+      );
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-title',
+        'aria-level',
+        '2',
+        1
+      );
+    });
+
+    it('should hide toggle icons from the accessibility tree', () => {
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-header button cx-icon',
+        'aria-hidden',
+        'true'
+      );
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-header button cx-icon',
+        'aria-hidden',
+        'true',
+        1
+      );
+    });
+  });
+});

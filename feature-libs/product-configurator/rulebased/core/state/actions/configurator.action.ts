@@ -26,6 +26,17 @@ export const UPDATE_CONFIGURATION_FAIL =
 export const UPDATE_CONFIGURATION_SUCCESS =
   '[Configurator] Update Configuration Success';
 
+export const ADD_CONTAINER_ROW = '[Configurator] Add Container Row';
+export const ADD_CONTAINER_ROW_FAIL = '[Configurator] Add Container Row Fail';
+export const ADD_CONTAINER_ROW_SUCCESS =
+  '[Configurator] Add Container Row Success';
+
+export const REMOVE_CONTAINER_ROW = '[Configurator] Remove Container Row';
+export const REMOVE_CONTAINER_ROW_FAIL =
+  '[Configurator] Remove Container Row Fail';
+export const REMOVE_CONTAINER_ROW_SUCCESS =
+  '[Configurator] Remove Container Row Success';
+
 export const UPDATE_CONFIGURATION_FINALIZE_SUCCESS =
   '[Configurator] Update Configuration finalize success';
 export const UPDATE_CONFIGURATION_FINALIZE_FAIL =
@@ -142,14 +153,29 @@ export class ReadConfigurationSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
+function setPendingLoader(
+  action: StateUtils.EntityProcessesIncrementAction
+): void {
+  action.meta.loader = {
+    load: true,
+  };
+}
+
+function setErrorLoader(
+  action: StateUtils.EntityProcessesDecrementAction,
+  error: any
+): void {
+  action.meta.loader = {
+    error,
+  };
+}
+
 export class UpdateConfiguration extends StateUtils.EntityProcessesIncrementAction {
   readonly type = UPDATE_CONFIGURATION;
 
   constructor(public payload: Configurator.Configuration) {
     super(CONFIGURATOR_DATA, payload.owner.key);
-    this.meta.loader = {
-      load: true,
-    };
+    setPendingLoader(this);
   }
 }
 
@@ -164,15 +190,81 @@ export class UpdateConfigurationFail
     public payload: { configuration: Configurator.Configuration; error: any }
   ) {
     super(CONFIGURATOR_DATA, payload.configuration.owner.key);
-    this.meta.loader = {
-      error: payload.error,
-    };
     this.error = payload.error;
+    setErrorLoader(this, payload.error);
   }
 }
 
 export class UpdateConfigurationSuccess extends StateUtils.EntityProcessesDecrementAction {
   readonly type = UPDATE_CONFIGURATION_SUCCESS;
+
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATOR_DATA, payload.owner.key);
+  }
+}
+
+export class AddContainerRow extends StateUtils.EntityProcessesIncrementAction {
+  readonly type = ADD_CONTAINER_ROW;
+
+  constructor(public payload: Configurator.AddContainerRowParameters) {
+    super(CONFIGURATOR_DATA, payload.owner.key);
+    setPendingLoader(this);
+  }
+}
+
+abstract class ContainerRowFailAction<
+    T extends { owner: CommonConfigurator.Owner },
+  >
+  extends StateUtils.EntityProcessesDecrementAction
+  implements ErrorAction
+{
+  public error: any;
+
+  constructor(
+    public payload: {
+      parameters: T;
+      error: any;
+    }
+  ) {
+    super(CONFIGURATOR_DATA, payload.parameters.owner.key);
+    this.error = payload.error;
+    setErrorLoader(this, payload.error);
+  }
+}
+
+export class AddContainerRowFail
+  extends ContainerRowFailAction<Configurator.AddContainerRowParameters>
+  implements ErrorAction
+{
+  readonly type = ADD_CONTAINER_ROW_FAIL;
+}
+
+export class AddContainerRowSuccess extends StateUtils.EntityProcessesDecrementAction {
+  readonly type = ADD_CONTAINER_ROW_SUCCESS;
+
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATOR_DATA, payload.owner.key);
+  }
+}
+
+export class RemoveContainerRow extends StateUtils.EntityProcessesIncrementAction {
+  readonly type = REMOVE_CONTAINER_ROW;
+
+  constructor(public payload: Configurator.RemoveContainerRowParameters) {
+    super(CONFIGURATOR_DATA, payload.owner.key);
+    setPendingLoader(this);
+  }
+}
+
+export class RemoveContainerRowFail
+  extends ContainerRowFailAction<Configurator.RemoveContainerRowParameters>
+  implements ErrorAction
+{
+  readonly type = REMOVE_CONTAINER_ROW_FAIL;
+}
+
+export class RemoveContainerRowSuccess extends StateUtils.EntityProcessesDecrementAction {
+  readonly type = REMOVE_CONTAINER_ROW_SUCCESS;
 
   constructor(public payload: Configurator.Configuration) {
     super(CONFIGURATOR_DATA, payload.owner.key);
@@ -412,6 +504,12 @@ export type ConfiguratorAction =
   | UpdateConfiguration
   | UpdateConfigurationFail
   | UpdateConfigurationSuccess
+  | AddContainerRow
+  | AddContainerRowFail
+  | AddContainerRowSuccess
+  | RemoveContainerRow
+  | RemoveContainerRowFail
+  | RemoveContainerRowSuccess
   | UpdateConfigurationFinalizeFail
   | UpdateConfigurationFinalizeSuccess
   | UpdatePriceSummary

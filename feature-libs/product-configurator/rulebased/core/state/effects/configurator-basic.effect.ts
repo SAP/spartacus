@@ -193,6 +193,68 @@ export class ConfiguratorBasicEffects {
     )
   );
 
+  addContainerRow$: Observable<
+    | ConfiguratorActions.AddContainerRowSuccess
+    | ConfiguratorActions.AddContainerRowFail
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ConfiguratorActions.ADD_CONTAINER_ROW),
+      map((action: ConfiguratorActions.AddContainerRow) => action.payload),
+      concatMap((parameters: Configurator.AddContainerRowParameters) => {
+        return this.configuratorCommonsConnector
+          .addContainerRow(parameters)
+          .pipe(
+            map((configuration: Configurator.Configuration) => {
+              return new ConfiguratorActions.AddContainerRowSuccess({
+                ...configuration,
+                owner: parameters.owner,
+              });
+            }),
+            catchError((error) => {
+              const errorPayload = tryNormalizeHttpError(error, this.logger);
+              return [
+                new ConfiguratorActions.AddContainerRowFail({
+                  parameters,
+                  error: errorPayload,
+                }),
+              ];
+            })
+          );
+      })
+    )
+  );
+
+  removeContainerRow$: Observable<
+    | ConfiguratorActions.RemoveContainerRowSuccess
+    | ConfiguratorActions.RemoveContainerRowFail
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ConfiguratorActions.REMOVE_CONTAINER_ROW),
+      map((action: ConfiguratorActions.RemoveContainerRow) => action.payload),
+      concatMap((parameters: Configurator.RemoveContainerRowParameters) => {
+        return this.configuratorCommonsConnector
+          .removeContainerRow(parameters)
+          .pipe(
+            map((configuration: Configurator.Configuration) => {
+              return new ConfiguratorActions.RemoveContainerRowSuccess({
+                ...configuration,
+                owner: parameters.owner,
+              });
+            }),
+            catchError((error) => {
+              const errorPayload = tryNormalizeHttpError(error, this.logger);
+              return [
+                new ConfiguratorActions.RemoveContainerRowFail({
+                  parameters,
+                  error: errorPayload,
+                }),
+              ];
+            })
+          );
+      })
+    )
+  );
+
   updatePriceSummary$: Observable<
     | ConfiguratorActions.UpdatePriceSummarySuccess
     | ConfiguratorActions.UpdatePriceSummaryFail
@@ -297,10 +359,18 @@ export class ConfiguratorBasicEffects {
   updateConfigurationSuccess$: Observable<updateConfigurationSuccessResultType> =
     createEffect(() =>
       this.actions$.pipe(
-        ofType(ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS),
+        ofType(
+          ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS,
+          ConfiguratorActions.ADD_CONTAINER_ROW_SUCCESS,
+          ConfiguratorActions.REMOVE_CONTAINER_ROW_SUCCESS
+        ),
         map(
-          (action: ConfiguratorActions.UpdateConfigurationSuccess) =>
-            action.payload
+          (
+            action:
+              | ConfiguratorActions.UpdateConfigurationSuccess
+              | ConfiguratorActions.AddContainerRowSuccess
+              | ConfiguratorActions.RemoveContainerRowSuccess
+          ) => action.payload
         ),
         mergeMap((payload: Configurator.Configuration) => {
           return this.store.pipe(
@@ -385,28 +455,55 @@ export class ConfiguratorBasicEffects {
   updateConfigurationFail$: Observable<ConfiguratorActions.UpdateConfigurationFinalizeFail> =
     createEffect(() =>
       this.actions$.pipe(
-        ofType(ConfiguratorActions.UPDATE_CONFIGURATION_FAIL),
-        map(
-          (action: ConfiguratorActions.UpdateConfigurationFail) =>
-            action.payload
+        ofType(
+          ConfiguratorActions.UPDATE_CONFIGURATION_FAIL,
+          ConfiguratorActions.ADD_CONTAINER_ROW_FAIL,
+          ConfiguratorActions.REMOVE_CONTAINER_ROW_FAIL
         ),
-        mergeMap((payload) => {
-          return this.store.pipe(
-            select(
-              ConfiguratorSelectors.hasPendingChanges(
-                payload.configuration.owner.key
-              )
-            ),
-            take(1),
-            filter((hasPendingChanges) => !hasPendingChanges),
-            map(
-              () =>
-                new ConfiguratorActions.UpdateConfigurationFinalizeFail(
-                  payload.configuration
+        mergeMap(
+          (
+            action:
+              | ConfiguratorActions.UpdateConfigurationFail
+              | ConfiguratorActions.AddContainerRowFail
+              | ConfiguratorActions.RemoveContainerRowFail
+          ) => {
+            const ownerKey =
+              action.type === ConfiguratorActions.ADD_CONTAINER_ROW_FAIL ||
+              action.type === ConfiguratorActions.REMOVE_CONTAINER_ROW_FAIL
+                ? action.payload.parameters.owner.key
+                : action.payload.configuration.owner.key;
+            const configurationFromAction =
+              action.type === ConfiguratorActions.UPDATE_CONFIGURATION_FAIL
+                ? of(action.payload.configuration)
+                : this.store.pipe(
+                    select(
+                      ConfiguratorSelectors.getConfigurationFactory(ownerKey)
+                    ),
+                    take(1)
+                  );
+
+            return configurationFromAction.pipe(
+              filter((configuration) =>
+                this.configuratorGroupUtilsService.isConfigurationCreated(
+                  configuration
                 )
-            )
-          );
-        })
+              ),
+              switchMap((configuration) =>
+                this.store.pipe(
+                  select(ConfiguratorSelectors.hasPendingChanges(ownerKey)),
+                  take(1),
+                  filter((hasPendingChanges) => !hasPendingChanges),
+                  map(
+                    () =>
+                      new ConfiguratorActions.UpdateConfigurationFinalizeFail(
+                        configuration
+                      )
+                  )
+                )
+              )
+            );
+          }
+        )
       )
     );
 

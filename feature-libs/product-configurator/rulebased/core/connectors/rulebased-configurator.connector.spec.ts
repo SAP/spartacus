@@ -92,6 +92,16 @@ class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
       of('updateConfiguration' + configuration.configId)
   );
 
+  addContainerRow = createSpy().and.callFake(
+    (parameters: Configurator.AddContainerRowParameters) =>
+      of('addContainerRow' + parameters.configId)
+  );
+
+  removeContainerRow = createSpy().and.callFake(
+    (parameters: Configurator.RemoveContainerRowParameters) =>
+      of('removeContainerRow' + parameters.configId)
+  );
+
   updateConfigurationOverview = createSpy().and.callFake(
     (ovInput: Configurator.Overview) =>
       of('updateConfigurationOverview' + ovInput.configId)
@@ -304,6 +314,32 @@ describe('RulebasedConfiguratorConnector', () => {
     expect(adapter[0].updateConfiguration).toHaveBeenCalledWith(
       productConfiguration
     );
+  });
+
+  it('should call adapter on addContainerRow', () => {
+    const parameters: Configurator.AddContainerRowParameters = {
+      configId: CONFIG_ID,
+      owner: productConfiguration.owner,
+      stdAttrCode: 598,
+      productSystemId: PRODUCT_CODE,
+      parentRowId: '3',
+    };
+    let result;
+    service.addContainerRow(parameters).subscribe((res) => (result = res));
+    expect(result).toBe('addContainerRow' + CONFIG_ID);
+    expect(adapter[0].addContainerRow).toHaveBeenCalledWith(parameters);
+  });
+
+  it('should call adapter on removeContainerRow', () => {
+    const parameters: Configurator.RemoveContainerRowParameters = {
+      configId: CONFIG_ID,
+      owner: productConfiguration.owner,
+      rowId: '3',
+    };
+    let result;
+    service.removeContainerRow(parameters).subscribe((res) => (result = res));
+    expect(result).toBe('removeContainerRow' + CONFIG_ID);
+    expect(adapter[0].removeContainerRow).toHaveBeenCalledWith(parameters);
   });
 
   it('should call adapter on readConfigurationPrice', () => {
