@@ -211,6 +211,7 @@ describe('Graph utils', () => {
           "Customer-Ticketing",
           "Organization-User-Registration",
           "Administration",
+          "B2b-Unit-Selection",
           "Account-Summary",
           "Unit-Order",
           "Order-Approval",

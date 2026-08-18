@@ -37,7 +37,8 @@
           "Order-Approval",
           "Account-Summary",
           "Organization-User-Registration",
-          "Unit-Order"
+          "Unit-Order",
+          "B2b-Unit-Selection"
         ],
         "type": "string"
       },
@@ -70,6 +71,11 @@
             "value": "Unit-Order",
             "label": "Unit Order (b2b feature)",
             "checked": true
+          },
+          {
+            "value": "B2b-Unit-Selection",
+            "label": "B2B Unit Selection (b2b feature, requires Organization - Administration)",
+            "checked": false
           }
         ]
       }
