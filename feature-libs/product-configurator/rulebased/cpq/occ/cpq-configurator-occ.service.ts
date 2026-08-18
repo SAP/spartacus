@@ -219,6 +219,20 @@ export class CpqConfiguratorOccService {
   }
 
   /**
+   * Copies a container row of the CPQ configuration and returns the resulting configuration.
+   *
+   * @param {Configurator.CopyContainerRowParameters} parameters - Copy container row parameters
+   * @returns {Observable<Configurator.Configuration>} - Updated configuration
+   */
+  copyContainerRow(
+    parameters: Configurator.CopyContainerRowParameters
+  ): Observable<Configurator.Configuration> {
+    return this.callCopyContainerRow(parameters).pipe(
+      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER)
+    );
+  }
+
+  /**
    * Deletes a container row from the CPQ configuration and returns the resulting configuration.
    *
    * @param {Configurator.RemoveContainerRowParameters} parameters - Remove container row parameters
@@ -349,6 +363,18 @@ export class CpqConfiguratorOccService {
       body.parentRowId = parameters.parentRowId;
     }
     return this.http.post<Cpq.Configuration>(url, body);
+  }
+
+  protected callCopyContainerRow(
+    parameters: Configurator.CopyContainerRowParameters
+  ): Observable<Cpq.Configuration> {
+    const url = this.occEndpointsService.buildUrl('copyCpqContainerRow', {
+      urlParams: {
+        configurationId: parameters.configId,
+        rowId: parameters.rowId,
+      },
+    });
+    return this.http.post<Cpq.Configuration>(url, null);
   }
 
   protected callRemoveContainerRow(

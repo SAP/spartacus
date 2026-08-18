@@ -61,17 +61,17 @@ export class ConfiguratorBasicEffectService {
   }
 
   /**
-   * Returns the first tab id of a newly added container row that carries a nested
-   * product configuration. Used after add-row success to navigate into that nested
-   * configuration.
+   * Returns the first tab id of a newly added or copied container row that
+   * carries a nested product configuration. Used after add-row or copy-row
+   * success to navigate into that nested configuration.
    *
    * A row is considered new when its id is not among the selected container rows of
    * the previous configuration. If several new selected rows appear, the first one
    * that defines a `groupId` is used. Returns `undefined` when the new row has no
    * nested configuration, the nested group cannot be resolved, or it has no tabs.
    *
-   * @param previous - Configuration still held in the store (pre-add)
-   * @param next - Configuration returned by the add-row call
+   * @param previous - Configuration still held in the store (pre-add or pre-copy)
+   * @param next - Configuration returned by the add-row or copy-row call
    * @returns First tab id of the nested configuration, or undefined
    */
   getFirstTabIdOfNewlyAddedContainerRow(

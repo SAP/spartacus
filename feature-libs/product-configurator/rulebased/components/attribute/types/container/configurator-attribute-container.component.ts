@@ -135,6 +135,16 @@ export class ConfiguratorAttributeContainerComponent extends ConfiguratorAttribu
   }
 
   /**
+   * Copies the given selected product in the container.
+   *
+   * @param row - Selected container row to copy
+   */
+  onCopy(row: Configurator.ContainerRow): void {
+    this.loading$.next(true);
+    this.configuratorCommonsService.copyContainerRow(this.ownerKey, row.id);
+  }
+
+  /**
    * Navigates to the first tab of the nested configuration of the given
    * selected container row.
    *
@@ -181,6 +191,9 @@ export class ConfiguratorAttributeContainerComponent extends ConfiguratorAttribu
         break;
       case Configurator.ContainerRowAction.EDIT:
         this.onEdit(row);
+        break;
+      case Configurator.ContainerRowAction.COPY:
+        this.onCopy(row);
         break;
       default:
         break;

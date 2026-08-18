@@ -48,6 +48,7 @@ class MockProductCardComponent {
 class MockConfiguratorCommonsService {
   addContainerRow(): void {}
   removeContainerRow(): void {}
+  copyContainerRow(): void {}
   isConfigurationLoading(): Observable<boolean> {
     return of(false);
   }
@@ -605,6 +606,27 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     });
   });
 
+  describe('onCopy', () => {
+    it('should call copyContainerRow with owner key and row id', () => {
+      spyOn(configuratorCommonsService, 'copyContainerRow');
+
+      component.onCopy(component.selectedProducts[0]);
+
+      expect(configuratorCommonsService.copyContainerRow).toHaveBeenCalledWith(
+        component.ownerKey,
+        'row-1'
+      );
+    });
+
+    it('should set loading$ before calling copyContainerRow', () => {
+      spyOn(configuratorCommonsService, 'copyContainerRow');
+
+      component.onCopy(component.selectedProducts[0]);
+
+      expect(component.loading$.value).toBe(true);
+    });
+  });
+
   describe('onEdit', () => {
     function createNestedRowGroup(
       subGroups: Configurator.Group[]
@@ -732,19 +754,12 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       expect(component.onEdit).toHaveBeenCalledWith(row);
     });
 
-    it('should ignore actions that are not yet handled', () => {
-      spyOn(component, 'onRemove');
-      spyOn(component, 'onAdd');
-      spyOn(component, 'onEdit');
+    it('should copy row for `COPY`', () => {
+      spyOn(component, 'onCopy');
+      const row = component.selectedProducts[0];
 
-      component.onRowAction(
-        component.selectedProducts[0],
-        Configurator.ContainerRowAction.COPY
-      );
-
-      expect(component.onRemove).not.toHaveBeenCalled();
-      expect(component.onAdd).not.toHaveBeenCalled();
-      expect(component.onEdit).not.toHaveBeenCalled();
+      component.onRowAction(row, Configurator.ContainerRowAction.COPY);
+      expect(component.onCopy).toHaveBeenCalledWith(row);
     });
   });
 });

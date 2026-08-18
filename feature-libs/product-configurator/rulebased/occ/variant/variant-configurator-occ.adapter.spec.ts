@@ -999,6 +999,12 @@ describe('OccConfigurationVariantAdapter', () => {
     );
   });
 
+  it('should throw for copyContainerRow because it is not supported for the variant configurator', () => {
+    expect(() => occConfiguratorVariantAdapter.copyContainerRow()).toThrowError(
+      'copyContainerRow is not supported for the variant configurator'
+    );
+  });
+
   it('should throw for removeContainerRow because it is not supported for the variant configurator', () => {
     expect(() =>
       occConfiguratorVariantAdapter.removeContainerRow()

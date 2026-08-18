@@ -104,6 +104,7 @@ describe('CpqConfiguratorOccAdapter', () => {
       'readConfigurationForOrderEntry',
       'readConfigurationForQuoteEntry',
       'addContainerRow',
+      'copyContainerRow',
       'removeContainerRow',
     ]);
 
@@ -146,6 +147,9 @@ describe('CpqConfiguratorOccAdapter', () => {
       return of(productConfiguration);
     });
     asSpy(mockedOccService.addContainerRow).and.callFake(() => {
+      return of(productConfiguration);
+    });
+    asSpy(mockedOccService.copyContainerRow).and.callFake(() => {
       return of(productConfiguration);
     });
     asSpy(mockedOccService.removeContainerRow).and.callFake(() => {
@@ -274,6 +278,20 @@ describe('CpqConfiguratorOccAdapter', () => {
     adapterUnderTest.addContainerRow(parameters).subscribe((config) => {
       expect(config.owner).toEqual(owner);
       expect(mockedOccService.addContainerRow).toHaveBeenCalledWith(parameters);
+    });
+  });
+
+  it('should delegate copyContainerRow to OCC service and map owner', () => {
+    const parameters: Configurator.CopyContainerRowParameters = {
+      configId: productConfiguration.configId,
+      owner: owner,
+      rowId: '3',
+    };
+    adapterUnderTest.copyContainerRow(parameters).subscribe((config) => {
+      expect(config.owner).toEqual(owner);
+      expect(mockedOccService.copyContainerRow).toHaveBeenCalledWith(
+        parameters
+      );
     });
   });
 

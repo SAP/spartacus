@@ -225,6 +225,37 @@ export class ConfiguratorBasicEffects {
     )
   );
 
+  copyContainerRow$: Observable<
+    | ConfiguratorActions.CopyContainerRowSuccess
+    | ConfiguratorActions.CopyContainerRowFail
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ConfiguratorActions.COPY_CONTAINER_ROW),
+      map((action: ConfiguratorActions.CopyContainerRow) => action.payload),
+      concatMap((parameters: Configurator.CopyContainerRowParameters) => {
+        return this.configuratorCommonsConnector
+          .copyContainerRow(parameters)
+          .pipe(
+            map((configuration: Configurator.Configuration) => {
+              return new ConfiguratorActions.CopyContainerRowSuccess({
+                ...configuration,
+                owner: parameters.owner,
+              });
+            }),
+            catchError((error) => {
+              const errorPayload = tryNormalizeHttpError(error, this.logger);
+              return [
+                new ConfiguratorActions.CopyContainerRowFail({
+                  parameters,
+                  error: errorPayload,
+                }),
+              ];
+            })
+          );
+      })
+    )
+  );
+
   removeContainerRow$: Observable<
     | ConfiguratorActions.RemoveContainerRowSuccess
     | ConfiguratorActions.RemoveContainerRowFail
@@ -363,6 +394,7 @@ export class ConfiguratorBasicEffects {
         ofType(
           ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS,
           ConfiguratorActions.ADD_CONTAINER_ROW_SUCCESS,
+          ConfiguratorActions.COPY_CONTAINER_ROW_SUCCESS,
           ConfiguratorActions.REMOVE_CONTAINER_ROW_SUCCESS
         ),
         mergeMap(
@@ -370,6 +402,7 @@ export class ConfiguratorBasicEffects {
             action:
               | ConfiguratorActions.UpdateConfigurationSuccess
               | ConfiguratorActions.AddContainerRowSuccess
+              | ConfiguratorActions.CopyContainerRowSuccess
               | ConfiguratorActions.RemoveContainerRowSuccess
           ) => {
             const payload = action.payload;
@@ -410,7 +443,9 @@ export class ConfiguratorBasicEffects {
 
                     if (
                       action.type ===
-                      ConfiguratorActions.ADD_CONTAINER_ROW_SUCCESS
+                        ConfiguratorActions.ADD_CONTAINER_ROW_SUCCESS ||
+                      action.type ===
+                        ConfiguratorActions.COPY_CONTAINER_ROW_SUCCESS
                     ) {
                       const firstTabId =
                         this.configuratorBasicEffectService.getFirstTabIdOfNewlyAddedContainerRow(
@@ -484,6 +519,7 @@ export class ConfiguratorBasicEffects {
         ofType(
           ConfiguratorActions.UPDATE_CONFIGURATION_FAIL,
           ConfiguratorActions.ADD_CONTAINER_ROW_FAIL,
+          ConfiguratorActions.COPY_CONTAINER_ROW_FAIL,
           ConfiguratorActions.REMOVE_CONTAINER_ROW_FAIL
         ),
         mergeMap(
@@ -491,10 +527,12 @@ export class ConfiguratorBasicEffects {
             action:
               | ConfiguratorActions.UpdateConfigurationFail
               | ConfiguratorActions.AddContainerRowFail
+              | ConfiguratorActions.CopyContainerRowFail
               | ConfiguratorActions.RemoveContainerRowFail
           ) => {
             const ownerKey =
               action.type === ConfiguratorActions.ADD_CONTAINER_ROW_FAIL ||
+              action.type === ConfiguratorActions.COPY_CONTAINER_ROW_FAIL ||
               action.type === ConfiguratorActions.REMOVE_CONTAINER_ROW_FAIL
                 ? action.payload.parameters.owner.key
                 : action.payload.configuration.owner.key;

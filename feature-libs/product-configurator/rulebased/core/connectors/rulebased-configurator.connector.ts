@@ -68,6 +68,14 @@ export class RulebasedConfiguratorConnector {
     );
   }
 
+  copyContainerRow(
+    parameters: Configurator.CopyContainerRowParameters
+  ): Observable<Configurator.Configuration> {
+    return this.getAdapter(parameters.owner.configuratorType).copyContainerRow(
+      parameters
+    );
+  }
+
   removeContainerRow(
     parameters: Configurator.RemoveContainerRowParameters
   ): Observable<Configurator.Configuration> {

@@ -81,6 +81,17 @@ export class CpqConfiguratorOccAdapter implements RulebasedConfiguratorAdapter {
     );
   }
 
+  copyContainerRow(
+    parameters: Configurator.CopyContainerRowParameters
+  ): Observable<Configurator.Configuration> {
+    return this.cpqOccService.copyContainerRow(parameters).pipe(
+      map((configResponse) => {
+        configResponse.owner = parameters.owner;
+        return configResponse;
+      })
+    );
+  }
+
   removeContainerRow(
     parameters: Configurator.RemoveContainerRowParameters
   ): Observable<Configurator.Configuration> {
