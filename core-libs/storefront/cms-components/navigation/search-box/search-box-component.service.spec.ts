@@ -3,6 +3,7 @@ import {
   CmsComponent,
   createFrom,
   EventService,
+  FeatureConfigService,
   I18nTestingModule,
   Product,
   ProductSearchPage,
@@ -67,6 +68,12 @@ class MockTranslationService {
   }
 }
 
+class MockFeatureConfigService {
+  isEnabled(_feature: string): boolean {
+    return false;
+  }
+}
+
 const mockSearchResults: ProductSearchPage = {
   products: [
     {
@@ -93,6 +100,7 @@ describe('SearchBoxComponentService', () => {
   let service: SearchBoxComponentService;
   let searchBoxService: SearchboxService;
   let eventService: EventService;
+  let featureConfigService: FeatureConfigService;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
@@ -110,6 +118,7 @@ describe('SearchBoxComponentService', () => {
           useClass: MockSearchBoxService,
         },
         { provide: TranslationService, useClass: MockTranslationService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         SearchBoxComponentService,
         WindowRef,
       ],
@@ -117,6 +126,7 @@ describe('SearchBoxComponentService', () => {
     service = TestBed.inject(SearchBoxComponentService);
     searchBoxService = TestBed.inject(SearchboxService);
     eventService = TestBed.inject(EventService);
+    featureConfigService = TestBed.inject(FeatureConfigService);
   });
 
   afterEach(() => {
@@ -250,6 +260,7 @@ describe('SearchBoxComponentService', () => {
     });
 
     it('should not mark the body as having searchbox results for leftover OCC data when the query is empty', () => {
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
       spyOn(searchBoxService, 'getResults').and.returnValue(
         of({ products: [] })
       );
@@ -263,6 +274,7 @@ describe('SearchBoxComponentService', () => {
     });
 
     it('should mark the body as having searchbox results when trending searches are enabled with an empty query', () => {
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
       spyOn(searchBoxService, 'getResults').and.returnValue(of({}));
       spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(of([]));
 

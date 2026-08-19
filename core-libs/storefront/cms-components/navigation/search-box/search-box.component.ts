@@ -194,15 +194,18 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   /**
    * Returns true when the current results represent a \"no results\" state.
    * Used to hide recent searches when a typed query has no suggestions or products.
-   * An empty query is not a no-results state, so recent searches can still render.
+   * When `searchBoxRecentSearchesRemoval` is enabled, an empty query is not a
+   * no-results state, so recent searches can still render.
    */
   isNoResults(result: SearchResults | null | undefined): boolean {
     if (!result) {
       return false;
     }
-    const query = this.searchInputEl?.nativeElement?.value ?? '';
-    if (!query.trim()) {
-      return false;
+    if (this.searchBoxRecentSearchesRemovalEnabled) {
+      const query = this.searchInputEl?.nativeElement?.value ?? '';
+      if (!query.trim()) {
+        return false;
+      }
     }
     const hasSuggestions = (result.suggestions?.length ?? 0) > 0;
     const hasProducts = (result.products?.length ?? 0) > 0;
@@ -476,13 +479,13 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     if (results) {
       if (hasOuterResults) {
         this.renderer.addClass(results, 'has-outer-results');
-      } else {
+      } else if (this.searchBoxRecentSearchesRemovalEnabled) {
         this.renderer.removeClass(results, 'has-outer-results');
       }
     }
 
     const emptyQuery = !(this.searchInputEl?.nativeElement?.value ?? '').trim();
-    if (emptyQuery) {
+    if (this.searchBoxRecentSearchesRemovalEnabled && emptyQuery) {
       this.searchBoxComponentService.setSearchResultsShown(hasOuterResults);
     }
   }

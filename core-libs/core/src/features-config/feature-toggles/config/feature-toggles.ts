@@ -106,9 +106,14 @@ export interface FeatureTogglesInterface {
    * - Recent searches still render when there are no suggestions or products.
    *
    * After (enabled):
-   * - On desktop, the results panel renders only for a non-empty query; clearing the query clears results and closes the panel.
+   * - On desktop, an empty query opens the results panel only when trending or
+   *   recent searches are available; otherwise the panel stays closed.
+   * - Clearing the query does not keep leftover OCC suggestions, products, or a
+   *   no-match message in the panel.
+   * - On mobile, the search box stays open for an empty query so the input is
+   *   not collapsed. The search panel Close button is hidden; Clear remains.
    * - `RecentSearchesComponent` adds per-item (X) buttons and a "Clear" action via CDS `removePhrase()` / `clearPhrases()`.
-   * - Recent searches are hidden in no-results states.
+   * - Recent searches are hidden when a typed query has no suggestions or products.
    */
   searchBoxRecentSearchesRemoval?: boolean;
 

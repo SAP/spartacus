@@ -421,7 +421,12 @@
       z-index: 1;
       @include type('6');
       @include media-breakpoint-down(sm) {
-        display: none;
+        display: block;
+        right: 12px;
+        top: 20px;
+        @include forFeature('searchBoxRecentSearchesRemoval') {
+          display: none;
+        }
       }
     }
     @include forFeature('searchBoxRecentSearchesRemoval') {
@@ -450,9 +455,11 @@
       overflow: hidden;
       flex-wrap: wrap;
 
-      &:not(:has(.products)) {
-        height: auto;
-        align-content: flex-start;
+      @include forFeature('searchBoxRecentSearchesRemoval') {
+        &:not(:has(.products)) {
+          height: auto;
+          align-content: flex-start;
+        }
       }
 
       .search-panel-header {
@@ -655,7 +662,9 @@
       }
 
       cx-recent-searches {
-        display: block;
+        @include forFeature('searchBoxRecentSearchesRemoval') {
+          display: block;
+        }
         flex-wrap: wrap;
         list-style: none;
         padding-inline-start: 0;
@@ -695,8 +704,10 @@
       }
       .trending-searches-container {
         display: none;
-        &.d-block:not(:has(.trending-searches)) {
-          display: none !important;
+        @include forFeature('searchBoxRecentSearchesRemoval') {
+          &.d-block:not(:has(.trending-searches)) {
+            display: none !important;
+          }
         }
         &:has(.trending-searches) {
           width: 20%;

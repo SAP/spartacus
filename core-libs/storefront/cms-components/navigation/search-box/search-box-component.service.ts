@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   EventService,
+  FeatureConfigService,
   isNotUndefined,
   ProductSearchPage,
   RoutingService,
@@ -39,7 +40,15 @@ export class SearchBoxComponentService {
   chosenWord = new ReplaySubject<string>();
   sharedEvent = new ReplaySubject<KeyboardEvent>();
   searchCompleted = new BehaviorSubject<boolean>(false);
+  /**
+   * Emits when trending and recent searches both become empty while the
+   * search box was showing those lists. Used by `SearchBoxComponent` when
+   * `searchBoxRecentSearchesRemoval` is enabled.
+   */
   emptyOuterResults$ = new Subject<void>();
+
+  // DELIBERATELY PRIVATE PROPERTY, to remove easily in the future
+  private featureConfigService = inject(FeatureConfigService);
 
   protected enableRecentSearches: boolean = false;
   protected enableTrendingSearches: boolean = false;
@@ -162,8 +171,10 @@ export class SearchBoxComponentService {
    */
   clearResults() {
     this.searchService.clearResults();
-    this.enableTrendingSearches = false;
-    this.enableRecentSearches = false;
+    if (this.featureConfigService.isEnabled('searchBoxRecentSearchesRemoval')) {
+      this.enableTrendingSearches = false;
+      this.enableRecentSearches = false;
+    }
     this.toggleBodyClass(HAS_SEARCH_RESULT_CLASS, false);
 
     // Reset search completion state
@@ -224,24 +235,32 @@ export class SearchBoxComponentService {
    * * the is any search suggestion OR
    * * there is a message.
    *
-   * An empty query only counts as having results when trending or recent
-   * searches are available. Leftover OCC products or a no-match message
-   * from a previous search must not keep the panel open.
+   * When `searchBoxRecentSearchesRemoval` is enabled, an empty query only
+   * counts as having results when trending or recent searches are available.
+   * Leftover OCC products or a no-match message from a previous search must
+   * not keep the panel open.
    *
    * Otherwise it returns false.
    */
   protected hasResults(results: SearchResults): boolean {
-    if (this.currentQueryLength === 0) {
-      return this.enableTrendingSearches || this.enableRecentSearches;
-    }
-    return (
+    const hasOccOrMessage =
       (!!results.products && results.products.length > 0) ||
       (!!results.suggestions && results.suggestions.length > 0) ||
       !!results.message ||
-      !!results.recentSearches ||
-      this.enableTrendingSearches ||
-      this.enableRecentSearches
-    );
+      !!results.recentSearches;
+
+    if (this.featureConfigService.isEnabled('searchBoxRecentSearchesRemoval')) {
+      if (this.currentQueryLength === 0) {
+        return this.enableTrendingSearches || this.enableRecentSearches;
+      }
+      return (
+        hasOccOrMessage ||
+        this.enableTrendingSearches ||
+        this.enableRecentSearches
+      );
+    }
+
+    return hasOccOrMessage;
   }
 
   /**
@@ -369,6 +388,11 @@ export class SearchBoxComponentService {
   setTrendingSearches(enabled: boolean = false) {
     const hadTrendingSearches = this.enableTrendingSearches;
     this.enableTrendingSearches = enabled;
+    if (
+      !this.featureConfigService.isEnabled('searchBoxRecentSearchesRemoval')
+    ) {
+      return;
+    }
     this.syncOuterResultsClass();
     if (hadTrendingSearches && !enabled && !this.enableRecentSearches) {
       this.emptyOuterResults$.next();
@@ -378,6 +402,11 @@ export class SearchBoxComponentService {
   setRecentSearches(enabled: boolean = false) {
     const hadRecentSearches = this.enableRecentSearches;
     this.enableRecentSearches = enabled;
+    if (
+      !this.featureConfigService.isEnabled('searchBoxRecentSearchesRemoval')
+    ) {
+      return;
+    }
     this.syncOuterResultsClass();
     if (hadRecentSearches && !enabled && !this.enableTrendingSearches) {
       this.emptyOuterResults$.next();
@@ -392,6 +421,11 @@ export class SearchBoxComponentService {
     }
   }
 
+  /**
+   * Toggles the `has-searchbox-results` body class. Used by `SearchBoxComponent`
+   * when `searchBoxRecentSearchesRemoval` is enabled to sync the overlay with
+   * trending and recent search lists in the DOM.
+   */
   setSearchResultsShown(shown: boolean): void {
     this.toggleBodyClass(HAS_SEARCH_RESULT_CLASS, shown);
   }
