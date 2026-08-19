@@ -12,6 +12,7 @@ import { By } from '@angular/platform-browser';
 
 import {
   CxDatePipe,
+  FeatureConfigService,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
@@ -208,6 +209,22 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         }),
       ],
     })
+      .overrideProvider(FeatureConfigService, {
+        useFactory: () => {
+          const ctrl = TestBed.inject(
+            MockFeatureTogglesController
+          ) as unknown as Record<string, unknown>;
+          return {
+            isEnabled: (feature: string) => {
+              const negated = feature.startsWith('!');
+              const key = negated ? feature.slice(1) : feature;
+              const val = !!ctrl[key];
+              return negated ? !val : val;
+            },
+            isLevel: () => false,
+          };
+        },
+      })
       .overrideComponent(ConfiguratorAttributeProductCardComponent, {
         remove: {
           imports: [
