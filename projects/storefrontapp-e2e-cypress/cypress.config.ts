@@ -6,11 +6,11 @@
 
 import { defineConfig } from 'cypress';
 
-const JDK_VERSION: string = 'JDK21';
+const JDK_VERSION: string = 'JDK17';
 const CLIENT_ID =
   JDK_VERSION === 'JDK21' ? 'mobile_android_public' : 'mobile_android';
 
-const API_URL = 'https://40.76.109.9:9002';
+const API_URL = 'https://74.235.90.247:9002';
 
 export default defineConfig({
   defaultCommandTimeout: 30000,

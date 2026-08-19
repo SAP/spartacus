@@ -310,7 +310,7 @@ if (environment.cpq) {
         a11yNgSelectUnicodeCarets: true,
         productListItemSummaryReadMore: true,
         a11yFutureStockAccordionAriaControls: true,
-        authorizationCodeFlowByDefault: true,
+        authorizationCodeFlowByDefault: false,
         mergeGuestCartOnCodeFlowLogin: true,
         navigationMenuCloseOnSameLinkClick: true,
         enablePasswordExpiredErrorTranslation: true,
