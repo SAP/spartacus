@@ -1,0 +1,58 @@
+<!--
+  SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
+
+  SPDX-License-Identifier: Apache-2.0
+-->
+
+<div
+  class="cx-b2b-unit-selection-dialog"
+  role="dialog"
+  [attr.aria-labelledby]="'b2b-unit-selection-title'"
+  [cxFocus]="focusConfig"
+>
+  <div class="cx-modal-content">
+    <!-- Header -->
+    <div class="cx-dialog-header modal-header">
+      <h3 id="b2b-unit-selection-title" class="modal-title">
+        {{ 'b2bUnitSelection.dialog.title' | cxTranslate }}
+      </h3>
+    </div>
+
+    <!-- Body -->
+    <div class="cx-dialog-body modal-body" [formGroup]="form">
+      <p class="cx-dialog-description">
+        {{ 'b2bUnitSelection.dialog.description' | cxTranslate }}
+      </p>
+
+      <div class="form-group">
+        <label for="b2b-unit-select" class="cx-required-field">
+          {{ 'b2bUnitSelection.dialog.unitLabel' | cxTranslate }}
+          <span aria-hidden="true" class="cx-required-asterisk">*</span>
+        </label>
+        <ng-select
+          inputId="b2b-unit-select"
+          formControlName="selectedUnit"
+          [items]="orgUnits"
+          bindLabel="name"
+          [clearable]="false"
+          [searchable]="false"
+          [cxNgSelectA11y]="{
+            ariaLabel: 'b2bUnitSelection.dialog.unitLabel' | cxTranslate,
+          }"
+        />
+        <cx-form-errors [control]="form.get('selectedUnit')" />
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="cx-dialog-footer modal-footer">
+      <button
+        type="button"
+        class="btn btn-primary btn-block"
+        (click)="confirm()"
+      >
+        {{ 'b2bUnitSelection.dialog.confirm' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</div>

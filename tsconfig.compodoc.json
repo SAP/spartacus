@@ -407,6 +407,24 @@
       "@spartacus/organization/order-approval/assets": [
         "feature-libs/organization/order-approval/assets/public_api"
       ],
+      "@spartacus/organization/b2b-unit-selection": [
+        "feature-libs/organization/b2b-unit-selection/public_api"
+      ],
+      "@spartacus/organization/b2b-unit-selection/root": [
+        "feature-libs/organization/b2b-unit-selection/root/public_api"
+      ],
+      "@spartacus/organization/b2b-unit-selection/occ": [
+        "feature-libs/organization/b2b-unit-selection/occ/public_api"
+      ],
+      "@spartacus/organization/b2b-unit-selection/core": [
+        "feature-libs/organization/b2b-unit-selection/core/public_api"
+      ],
+      "@spartacus/organization/b2b-unit-selection/components": [
+        "feature-libs/organization/b2b-unit-selection/components/public_api"
+      ],
+      "@spartacus/organization/b2b-unit-selection/assets": [
+        "feature-libs/organization/b2b-unit-selection/assets/public_api"
+      ],
       "@spartacus/organization/administration": [
         "feature-libs/organization/administration/public_api"
       ],

@@ -86,6 +86,7 @@ import { OrderDocumentFlowFeatureModule } from './features/order/order-document-
 import { OrderFeatureModule } from './features/order/order-feature.module';
 import { AccountSummaryFeatureModule } from './features/organization/organization-account-summary-feature.module';
 import { AdministrationFeatureModule } from './features/organization/organization-administration-feature.module';
+import { OrganizationB2bUnitSelectionFeatureModule } from './features/organization/organization-b2b-unit-selection-feature.module';
 import { OrderApprovalFeatureModule } from './features/organization/organization-order-approval-feature.module';
 import { UnitOrderFeatureModule } from './features/organization/organization-unit-order-feature.module';
 import { PDFInvoicesFeatureModule } from './features/pdf-invoices/pdf-invoices-feature.module';
@@ -120,6 +121,7 @@ if (environment.b2b) {
     AccountSummaryFeatureModule,
     BulkPricingFeatureModule,
     OrderApprovalFeatureModule,
+    OrganizationB2bUnitSelectionFeatureModule,
     OrganizationUserRegistrationFeatureModule,
     UnitOrderFeatureModule,
     FutureStockFeatureModule
