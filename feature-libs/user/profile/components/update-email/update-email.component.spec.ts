@@ -3,7 +3,7 @@ import { vi } from 'vitest';
 vi.mock('@spartacus/storefront', async (importActual) => {
   const actual = await importActual<typeof import('@spartacus/storefront')>();
   const { filter, map } = await import('rxjs/operators');
-  const { isNotNullable } = await import('@spartacus/core');
+  const isNotNullable = <T>(value: T): value is NonNullable<T> => value != null;
   return {
     ...actual,
     getPageTitle: (pageMetaService: any) =>
