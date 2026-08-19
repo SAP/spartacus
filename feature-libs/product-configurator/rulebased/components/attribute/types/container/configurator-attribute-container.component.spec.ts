@@ -1422,10 +1422,12 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       });
 
       it('should match the row id', () => {
-        component.availableProductsSearchTerm = 'available-3';
+        component.availableProductsSearchTerm = `available-${DEFAULT_THRESHOLD}`;
 
         expect(component.filteredAvailableProducts.length).toBe(1);
-        expect(component.filteredAvailableProducts[0].id).toBe('available-3');
+        expect(component.filteredAvailableProducts[0].id).toBe(
+          `available-${DEFAULT_THRESHOLD}`
+        );
       });
 
       it('should match the product system id', () => {

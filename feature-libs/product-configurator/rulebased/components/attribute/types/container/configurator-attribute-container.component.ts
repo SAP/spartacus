@@ -12,7 +12,6 @@ import {
   HostListener,
   ViewChild,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -35,7 +34,6 @@ import { ConfiguratorAttributeSelectionBaseComponent } from '../base/configurato
     NgIf,
     NgFor,
     NgTemplateOutlet,
-    FormsModule,
     IconComponent,
     TranslatePipe,
     ConfiguratorAttributeProductCardComponent,

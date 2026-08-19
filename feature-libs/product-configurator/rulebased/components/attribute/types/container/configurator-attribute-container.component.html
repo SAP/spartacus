@@ -83,7 +83,6 @@
               #availableProductsSearchInput
               type="text"
               class="cx-search-input"
-              name="availableProductsSearch"
               autocomplete="off"
               [placeholder]="
                 (isAvailableProductsDropdownOpen
@@ -96,7 +95,10 @@
                   | cxTranslate: { count: availableProducts.length }
               "
               [readonly]="!isAvailableProductsDropdownOpen"
-              [(ngModel)]="availableProductsSearchTerm"
+              [value]="availableProductsSearchTerm"
+              (input)="
+                availableProductsSearchTerm = availableProductsSearchInput.value
+              "
               (focus)="openAvailableProductsDropdown($event)"
               (click)="$event.stopPropagation()"
             />
