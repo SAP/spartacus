@@ -22,6 +22,7 @@ export default defineConfig(
       '**/dist',
       '**/out-tsc',
       'projects/storefrontapp-e2e-cypress/**',
+      '**/vitest.config.ts',
     ],
   },
   {

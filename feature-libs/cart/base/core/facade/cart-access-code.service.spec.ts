@@ -9,7 +9,6 @@ import { CartAccessCodeService } from './cart-access-code.service';
 import { CommandService, QueryService } from '@spartacus/core';
 import { CartAccessCodeConnector } from '../connectors';
 import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
 
 describe('CartAccessCodeService', () => {
   let service: CartAccessCodeService;
@@ -18,13 +17,13 @@ describe('CartAccessCodeService', () => {
 
   beforeEach(() => {
     const commandServiceMock = {
-      create: createSpy().and.callFake((fn: any) => ({
+      create: vi.fn().mockImplementation((fn: any) => ({
         execute: fn,
       })),
     };
 
     const cartAccessCodeConnectorMock = {
-      getCartAccessCode: createSpy().and.returnValue(of('mockAccessCode')),
+      getCartAccessCode: vi.fn().mockReturnValue(of('mockAccessCode')),
     };
 
     TestBed.configureTestingModule({

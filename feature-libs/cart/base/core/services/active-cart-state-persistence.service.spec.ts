@@ -14,6 +14,7 @@ import {
 } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { ActiveCartStatePersistenceService } from './active-cart-state-persistence.service';
+import { vi } from 'vitest';
 
 const BASE_SITE = 'electronics-spa';
 
@@ -129,7 +130,7 @@ describe('ActiveCartStatePersistenceService', () => {
 
   describe('clearGuestCartState', () => {
     it('should remove the storage entry entirely rather than leaving an empty value', () => {
-      spyOn(winRef.localStorage as Storage, 'removeItem').and.callThrough();
+      vi.spyOn(winRef.localStorage as Storage, 'removeItem');
       winRef.localStorage?.setItem(
         STORAGE_KEY,
         JSON.stringify([{ product: { code: 'code' }, quantity: 1 }])

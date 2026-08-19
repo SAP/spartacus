@@ -10,6 +10,26 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
+   * When enabled, `GoogleMapRendererService` renders store locations using
+   * Google's `AdvancedMarkerElement` instead of the deprecated `Marker` class.
+   * This loads the optional `marker` library and requires a `mapId` to be set
+   * in the store finder configuration.
+   *
+   * Affects: `GoogleMapRendererService`
+   */
+  useAdvancedGoogleMarkers?: boolean;
+
+  /**
+   * When enabled, the Google Maps JavaScript API script in
+   * `GoogleMapRendererService` is loaded with the `loading=async` URL
+   * parameter, opting into Google's async bootstrap loader. This resolves the
+   * "Google Maps JavaScript API has been loaded directly without loading=async"
+   * performance warning.
+   *
+   * Affects: `GoogleMapRendererService`
+   */
+  useGoogleMapsAsyncLoading?: boolean;
+  /**
    * Adds a keyboard accessible zoom button to the `ProductImageZoomViewComponent`.
    */
   a11yKeyboardAccessibleZoom?: boolean;
@@ -699,9 +719,24 @@ export interface FeatureTogglesInterface {
    * Affects: `StorefrontComponent`
    */
   a11yFocusBreadcrumbOnNavigation?: boolean;
+
+  /**
+   * When enabled, the navigation chevron (`--list-bg`) rendered on the
+   * organization (My Company) list rows and detail navigation cards uses a
+   * higher-contrast stroke so it meets the WCAG 1.4.11 non-text contrast
+   * requirement (>=3:1 in the default theme; 7:1 in high-contrast themes).
+   * The default-theme stroke changes from `#D3D6DA` (~1.4:1) to `#556b82`
+   * (~5.3:1), and dedicated black/white strokes are applied in the
+   * high-contrast light/dark themes.
+   *
+   * Affects: `ListComponent` (`cx-org-list`)
+   */
+  a11yNavigationChevronContrast?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  useAdvancedGoogleMarkers: false,
+  useGoogleMapsAsyncLoading: false,
   alignNavigationMenuWithHeader: false,
   a11yKeyboardAccessibleZoom: true,
   a11yPreventCartItemsFormRedundantRecreation: true,
@@ -725,14 +760,14 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableQuotePurchaseOrderNumber: true,
   enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: false,
-  a11yCustomerTicketingVisualFocusFix: false,
+  a11yCustomerTicketingVisualFocusFix: true,
   a11yMessagingListKeyboardFocus: false,
   orderOverviewCardsInlinePadding: false,
   a11yStoreFinderListItemFocus: false,
   a11yFixSearchBoxDoubleFocus: false,
   a11yFacetFilterByLabel: false,
-  removeDuplicatedOrderHistoryHeader: false,
-  a11yCardNotificationMessage: false,
+  removeDuplicatedOrderHistoryHeader: true,
+  a11yCardNotificationMessage: true,
   searchBoxRecentSearchesRemoval: false,
   cdsBottomHeaderSlotAdjustPosition: false,
   enableB2BUnitSearch: false,
@@ -790,4 +825,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yAddressFormInitialFocus: false,
   a11yFocusBreadcrumbOnNavigation: false,
   useAiSearch: false,
+  a11yNavigationChevronContrast: false,
 };

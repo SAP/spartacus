@@ -1,5 +1,11 @@
+import { vi } from 'vitest';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import * as isDevModeFunc from '@angular/core';
+import { isDevMode } from '@angular/core';
+
+vi.mock('@angular/core', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@angular/core')>();
+  return { ...actual, isDevMode: vi.fn() };
+});
 import { HttpErrorModel } from '../model/index';
 import { LoggerService } from '../logger';
 import { tryNormalizeHttpError } from './try-normalize-http-error';
@@ -10,7 +16,7 @@ describe('tryNormalizeHttpError', () => {
   let mockLogger: LoggerService;
 
   beforeEach(() => {
-    mockLogger = jasmine.createSpyObj('LoggerService', ['error']);
+    mockLogger = { error: vi.fn() };
   });
 
   it('should return the normalized error when input is an HttpErrorModel', () => {
@@ -22,6 +28,7 @@ describe('tryNormalizeHttpError', () => {
   });
 
   it('should return the original error when input is not HttpErrorModel or HttpErrorResponse', () => {
+    vi.mocked(isDevMode).mockReturnValue(true);
     const inputError = new Error('An error occurred');
 
     const result = tryNormalizeHttpError(inputError, mockLogger);
@@ -41,8 +48,8 @@ describe('tryNormalizeHttpError', () => {
     });
 
     it('should log an error to the console in dev mode if logger is not provided', () => {
-      spyOnProperty(isDevModeFunc, 'isDevMode').and.returnValue(() => true);
-      spyOn(console, 'error');
+      vi.mocked(isDevMode).mockReturnValue(true);
+      vi.spyOn(console, 'error');
       const error = 'xxx';
       tryNormalizeHttpError(error, logger);
       // eslint-disable-next-line no-console
@@ -53,8 +60,8 @@ describe('tryNormalizeHttpError', () => {
     });
 
     it('should log an error to the logger in dev mode if logger is provided', () => {
-      spyOnProperty(isDevModeFunc, 'isDevMode').and.returnValue(() => true);
-      spyOn(logger, 'error');
+      vi.mocked(isDevMode).mockReturnValue(true);
+      vi.spyOn(logger, 'error');
       const error = 'xxx';
       tryNormalizeHttpError(error, logger);
       expect(logger.error).toHaveBeenCalledWith(
@@ -76,7 +83,7 @@ describe('tryNormalizeHttpError', () => {
 
       const result = tryNormalizeHttpError(mockError, logger);
       expect(result).toEqual(
-        jasmine.objectContaining({
+        expect.objectContaining({
           message: mockError.message,
           status: mockError.status,
           statusText: mockError.statusText,
@@ -96,7 +103,7 @@ describe('tryNormalizeHttpError', () => {
       });
       const result = tryNormalizeHttpError(mockError, logger);
       expect(result).toEqual(
-        jasmine.objectContaining({
+        expect.objectContaining({
           message: mockError.message,
           status: mockError.status,
           statusText: mockError.statusText,
@@ -121,7 +128,7 @@ describe('tryNormalizeHttpError', () => {
       });
       const result = tryNormalizeHttpError(mockError, logger);
       expect(result).toEqual(
-        jasmine.objectContaining({
+        expect.objectContaining({
           message: mockError.message,
           status: mockError.status,
           statusText: mockError.statusText,

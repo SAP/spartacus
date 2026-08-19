@@ -19,7 +19,7 @@ import {
 import { FormErrorsModule, IconComponent } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { QuickOrderFormComponent } from './quick-order-form.component';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 
 const mockProductCode: string = 'mockCode';
 const mockProductCode2: string = 'mockCode2';
@@ -128,11 +128,8 @@ describe('QuickOrderFormComponent', () => {
 
   describe('on add method', () => {
     it('should trigger addProduct', () => {
-      spyOn(quickOrderService, 'addProduct').and.callThrough();
-      spyOn(
-        quickOrderService,
-        'clearNonPurchasableProductError'
-      ).and.callThrough();
+      vi.spyOn(quickOrderService, 'addProduct');
+      vi.spyOn(quickOrderService, 'clearNonPurchasableProductError');
       component.add(mockProduct, mockEvent);
 
       expect(
@@ -142,12 +139,9 @@ describe('QuickOrderFormComponent', () => {
     });
 
     it('should not trigger addProduct because of non purchasable product', () => {
-      spyOn(component, 'clear').and.callThrough();
-      spyOn(quickOrderService, 'addProduct').and.callThrough();
-      spyOn(
-        quickOrderService,
-        'setNonPurchasableProductError'
-      ).and.callThrough();
+      vi.spyOn(component, 'clear');
+      vi.spyOn(quickOrderService, 'addProduct');
+      vi.spyOn(quickOrderService, 'setNonPurchasableProductError');
       component.add(mockNonPurchasableProduct, mockEvent);
 
       expect(quickOrderService.addProduct).not.toHaveBeenCalledWith(
@@ -167,7 +161,7 @@ describe('QuickOrderFormComponent', () => {
     });
 
     it('first on the list', () => {
-      spyOn(component, 'add').and.callThrough();
+      vi.spyOn(component, 'add');
       component.results = [mockProduct];
 
       component.addProduct(mockEvent);
@@ -177,7 +171,7 @@ describe('QuickOrderFormComponent', () => {
   });
 
   it('with not trigger addProduct on input enter with more than one product in results list', () => {
-    spyOn(component, 'add').and.callThrough();
+    vi.spyOn(component, 'add');
     component.results = [mockProduct, mockProduct2];
 
     component.addProduct(mockEvent);
@@ -212,7 +206,7 @@ describe('QuickOrderFormComponent', () => {
       const ev = {
         preventDefault() {},
       };
-      spyOn(ev, 'preventDefault').and.callThrough();
+      vi.spyOn(ev, 'preventDefault');
 
       component.form?.get('product')?.setValue('test');
       component.clear(ev as Event);

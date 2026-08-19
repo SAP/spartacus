@@ -39,7 +39,7 @@ describe('ImportEntriesFormComponent', () => {
   });
 
   it('should close dialog on close method', () => {
-    spyOn(component.closeEvent, 'emit');
+    vi.spyOn(component.closeEvent, 'emit');
     const mockCloseReason = 'Close Import Products Dialog';
     component.close(mockCloseReason);
 

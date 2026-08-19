@@ -1,8 +1,8 @@
-import { inject, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
+import { TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
-import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
+import { firstValueFrom, lastValueFrom, of } from 'rxjs';
 import { Config } from '../../config/config-tokens';
 import { FeatureToggles } from '../../features-config/feature-toggles/feature-toggles-tokens';
 import { BaseSite, SiteTheme } from '../../model/misc.model';
@@ -12,7 +12,6 @@ import { SiteThemeActions } from '../store/actions';
 import { SiteThemeStoreModule } from '../store/site-theme-store.module';
 import { StateWithSiteTheme } from '../store/state';
 import { SiteThemeService } from './site-theme.service';
-import createSpy = jasmine.createSpy;
 
 const mockDefaultTheme = 'default';
 const mockThemes: SiteTheme[] = [
@@ -33,11 +32,6 @@ const mockSiteThemeConfig: Config = {
 };
 
 describe('SiteThemeService', () => {
-  const mockSelect1 = createSpy('select').and.returnValue(() => of(mockThemes));
-  const mockSelect2 = createSpy('select').and.returnValue(() =>
-    of(mockActiveTheme)
-  );
-
   let service: SiteThemeService;
   let store: Store<StateWithSiteTheme>;
   let featureToggles: FeatureToggles;
@@ -63,17 +57,14 @@ describe('SiteThemeService', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
     service = TestBed.inject(SiteThemeService);
     featureToggles = TestBed.inject(FeatureToggles);
   });
 
-  it('should SiteThemeService is injected', inject(
-    [SiteThemeService],
-    (Service: SiteThemeService) => {
-      expect(Service).toBeTruthy();
-    }
-  ));
+  it('should SiteThemeService is injected', () => {
+    expect(service).toBeTruthy();
+  });
 
   it('should not load themes when service is constructed', () => {
     expect(store.dispatch).toHaveBeenCalledTimes(0);
@@ -103,7 +94,7 @@ describe('SiteThemeService', () => {
     it('should fall back to the active base site theme when no static theme is configured', () => {
       // Drop the static theme from config so the CMS path kicks in.
       (mockSiteThemeConfig.context as { theme?: string[] }).theme = undefined;
-      spyOn(baseSiteService, 'get').and.returnValue(
+      vi.spyOn(baseSiteService, 'get').mockReturnValue(
         of({ uid: 'electronics-spa', theme: 'lambda' } as BaseSite)
       );
 
@@ -116,22 +107,18 @@ describe('SiteThemeService', () => {
     });
   });
 
-  it('should be able to get theme', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
-    service.getAll().subscribe((results) => {
-      expect(results).toEqual(mockThemes);
-    });
+  it('should be able to get theme', async () => {
+    const getAll = await lastValueFrom(service.getAll());
+    expect(getAll).toEqual(mockThemes);
   });
 
-  it('should be able to get active theme', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
-    service.getActive().subscribe((results) => {
-      expect(results).toEqual(mockActiveTheme);
-    });
+  it('should be able to get active theme', async () => {
+    store.dispatch(new SiteThemeActions.SetActiveSiteTheme(mockActiveTheme));
+    const result = await firstValueFrom(service.getActive());
+    expect(result).toEqual(mockActiveTheme);
   });
 
   it('should not set active theme', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
     service.setActive('dark_new');
     expect(store.dispatch).not.toHaveBeenCalledWith(
       new SiteThemeActions.SetActiveSiteTheme('dark_new')
@@ -140,7 +127,7 @@ describe('SiteThemeService', () => {
 
   describe('isInitialized', () => {
     it('should return TRUE if a theme is initialized', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
+      store.dispatch(new SiteThemeActions.SetActiveSiteTheme(mockActiveTheme));
       expect(service.isInitialized()).toBeTruthy();
     });
   });

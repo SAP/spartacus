@@ -5,7 +5,7 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   Address,
   ConverterService,
@@ -74,7 +74,7 @@ export class OccOpfTokenisationUserPaymentAdapter extends OccUserPaymentAdapter 
     const paymentDetail = this.rawPaymentDetailsById.get(paymentMethodID);
 
     const payload: Occ.PaymentDetails = {
-      ...(paymentDetail ?? {}),
+      ...paymentDetail,
       id: paymentMethodID,
       accountHolderName: this.getAccountHolderName(paymentDetail),
       billingAddress: this.buildBillingAddress(paymentDetail),

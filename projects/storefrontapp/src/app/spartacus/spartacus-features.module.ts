@@ -296,6 +296,8 @@ if (environment.cpq) {
     },
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
+        useAdvancedGoogleMarkers: true,
+        useGoogleMapsAsyncLoading: true,
         productConfiguratorConsolidatedButtonDisabling: true,
         improvedTabStyling: true,
         alignNavigationMenuWithHeader: true,
@@ -384,6 +386,7 @@ if (environment.cpq) {
         a11yAddressFormInitialFocus: true,
         a11yFocusBreadcrumbOnNavigation: true,
         useAiSearch: true,
+        a11yNavigationChevronContrast: true,
       };
       return appFeatureToggles;
     }),
