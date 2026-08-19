@@ -75,8 +75,10 @@ function statusMessageReportsCode(
   if (!statusMessage) {
     return false;
   }
-  const escaped = code.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  return new RegExp(`product code ${escaped}(?!\\w)`, 'i').test(statusMessage);
+  const escaped = code.replaceAll(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`);
+  return new RegExp(String.raw`product code ${escaped}(?!\w)`, 'i').test(
+    statusMessage
+  );
 }
 
 /**
