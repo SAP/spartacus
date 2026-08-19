@@ -4,8 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  ViewChild,
+} from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -27,6 +33,7 @@ import { ConfiguratorAttributeSelectionBaseComponent } from '../base/configurato
   imports: [
     NgIf,
     NgFor,
+    NgTemplateOutlet,
     IconComponent,
     TranslatePipe,
     ConfiguratorAttributeProductCardComponent,
@@ -47,6 +54,19 @@ export class ConfiguratorAttributeContainerComponent extends ConfiguratorAttribu
    * The section starts expanded.
    */
   availableProductsExpanded = true;
+
+  /**
+   * Whether the available-products drop-down panel is open.
+   */
+  isAvailableProductsDropdownOpen = false;
+
+  /**
+   * Search term used to filter available products in the drop-down panel.
+   */
+  availableProductsSearchTerm = '';
+
+  @ViewChild('availableProductsSearchInput')
+  protected availableProductsSearchInput?: ElementRef<HTMLInputElement>;
 
   constructor() {
     super();
@@ -69,6 +89,36 @@ export class ConfiguratorAttributeContainerComponent extends ConfiguratorAttribu
   }
 
   /**
+   * Whether available products are shown as a searchable drop-down instead of
+   * a list of product cards. This is the case when the number of available
+   * products is larger than `cpqContainerDropDownListThreshold`.
+   */
+  get showAvailableProductsAsDropdown(): boolean {
+    return this.availableProducts.length > this.availableProductsListThreshold;
+  }
+
+  /**
+   * Available products filtered by the current search term. The term is matched
+   * (case-insensitively) against the row id, product name and product system id.
+   * Search is only applied while the drop-down is open.
+   */
+  get filteredAvailableProducts(): Configurator.ContainerRow[] {
+    const products = this.availableProducts;
+    if (!this.isAvailableProductsDropdownOpen) {
+      return products;
+    }
+    const term = this.availableProductsSearchTerm.trim().toLowerCase();
+    if (!term) {
+      return products;
+    }
+    return products.filter((row) =>
+      [row.id, row.productName, row.productSystemId]
+        .filter((field): field is string => !!field)
+        .some((field) => field.toLowerCase().includes(term))
+    );
+  }
+
+  /**
    * Icon for the selected-products toggle: minus when expanded, plus when collapsed.
    */
   get selectedProductsToggleIcon(): ICON_TYPE {
@@ -87,6 +137,28 @@ export class ConfiguratorAttributeContainerComponent extends ConfiguratorAttribu
   }
 
   /**
+   * Caret icon for the available-products drop-down trigger.
+   */
+  get availableProductsDropdownIcon(): ICON_TYPE {
+    return this.isAvailableProductsDropdownOpen
+      ? ICON_TYPE.CARET_UP
+      : ICON_TYPE.CARET_DOWN;
+  }
+
+  /**
+   * Returns the original index of a row within the available products, so the
+   * product card receives a stable index even when the list is filtered.
+   *
+   * @param row - Available container row
+   * @returns Original index of the row
+   */
+  getAvailableProductIndex(row: Configurator.ContainerRow): number {
+    return this.availableProducts.findIndex(
+      (candidate) => candidate.id === row.id
+    );
+  }
+
+  /**
    * Opens or closes the selected-products accordion section.
    */
   toggleSelectedProducts(): void {
@@ -98,6 +170,52 @@ export class ConfiguratorAttributeContainerComponent extends ConfiguratorAttribu
    */
   toggleAvailableProducts(): void {
     this.availableProductsExpanded = !this.availableProductsExpanded;
+    if (!this.availableProductsExpanded) {
+      this.closeAvailableProductsDropdown();
+    }
+  }
+
+  /**
+   * Opens the available-products drop-down panel and focuses the search input.
+   *
+   * @param event - User event that opened the drop-down
+   */
+  openAvailableProductsDropdown(event: Event): void {
+    event.stopPropagation();
+    this.isAvailableProductsDropdownOpen = true;
+    this.focusAvailableProductsSearchInput();
+  }
+
+  /**
+   * Opens or closes the available-products drop-down panel.
+   *
+   * @param event - User event that toggled the drop-down
+   */
+  toggleAvailableProductsDropdown(event: Event): void {
+    event.stopPropagation();
+    this.isAvailableProductsDropdownOpen =
+      !this.isAvailableProductsDropdownOpen;
+    if (this.isAvailableProductsDropdownOpen) {
+      this.focusAvailableProductsSearchInput();
+    } else {
+      this.clearAvailableProductsSearch();
+    }
+  }
+
+  /**
+   * Closes the available-products drop-down panel and clears the search term.
+   */
+  closeAvailableProductsDropdown(): void {
+    this.isAvailableProductsDropdownOpen = false;
+    this.clearAvailableProductsSearch();
+  }
+
+  /**
+   * Closes the available-products drop-down when clicking outside of it.
+   */
+  @HostListener('document:click')
+  onDocumentClick(): void {
+    this.closeAvailableProductsDropdown();
   }
 
   /**
@@ -174,6 +292,28 @@ export class ConfiguratorAttributeContainerComponent extends ConfiguratorAttribu
       loading$: this.loading$,
       containerRow: row,
     };
+  }
+
+  protected get availableProductsListThreshold(): number {
+    return (
+      this.configuratorUISettingsConfig.productConfigurator
+        ?.cpqContainerDropDownListThreshold ?? 10
+    );
+  }
+
+  protected clearAvailableProductsSearch(): void {
+    this.availableProductsSearchTerm = '';
+  }
+
+  /**
+   * Focuses the search input on the next tick so Angular can first remove the
+   * `readonly` attribute applied while the drop-down is closed.
+   */
+  protected focusAvailableProductsSearchInput(): void {
+    setTimeout(() => {
+      const searchInput = this.availableProductsSearchInput?.nativeElement;
+      searchInput?.focus();
+    });
   }
 
   protected getContainerRows(): Configurator.ContainerRow[] {
