@@ -446,9 +446,7 @@ export class ConfiguratorBasicEffects {
 
                   if (
                     action.type ===
-                      ConfiguratorActions.ADD_CONTAINER_ROW_SUCCESS ||
-                    action.type ===
-                      ConfiguratorActions.COPY_CONTAINER_ROW_SUCCESS
+                    ConfiguratorActions.ADD_CONTAINER_ROW_SUCCESS
                   ) {
                     const firstTabId =
                       this.configuratorBasicEffectService.getFirstTabIdOfNewlyAddedContainerRow(

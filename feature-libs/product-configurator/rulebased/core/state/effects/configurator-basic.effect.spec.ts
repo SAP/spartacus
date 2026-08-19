@@ -1174,7 +1174,7 @@ describe('ConfiguratorEffect', () => {
       );
     });
 
-    it('should navigate to the first nested tab when the copied container row carries a configuration', () => {
+    it('should not navigate when the copied container row carries a configuration', () => {
       const rowGroupId = `${Configurator.ContainerRowGroupIdPrefix}@1111@row-copy`;
       const firstTabId = 'NESTED-TAB-COPY';
       const existingRow: Configurator.ContainerRow = {
@@ -1258,23 +1258,17 @@ describe('ConfiguratorEffect', () => {
         );
       const updatePrices = new ConfiguratorActions.UpdatePriceSummary({
         ...nextConfiguration,
-        interactionState: { currentGroup: firstTabId },
+        interactionState: { currentGroup: groupId },
       });
       const searchVariantsForNext = new ConfiguratorActions.SearchVariants(
         nextConfiguration
       );
-      const changeGroup = new ConfiguratorActions.ChangeGroup({
-        configuration: nextConfiguration,
-        groupId: firstTabId,
-        parentGroupId: rowGroupId,
-      });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcde)', {
+      const expected = cold('-(bcd)', {
         b: finalizeSuccess,
         c: updatePrices,
         d: searchVariantsForNext,
-        e: changeGroup,
       });
       expect(configEffects.updateConfigurationSuccess$).toBeObservable(
         expected
