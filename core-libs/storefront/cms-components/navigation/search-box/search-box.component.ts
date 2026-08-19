@@ -172,14 +172,14 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     if (!this.searchBoxRecentSearchesRemovalEnabled) {
       return true;
     }
-    return this.hasQuery;
+    return this.hasQuery || this.searchBoxActive;
   }
 
   protected getAriaControls(): string | null {
     if (!this.searchBoxRecentSearchesRemovalEnabled) {
       return 'results';
     }
-    return this.hasQuery ? 'results' : null;
+    return this.isResultsPanelVisible() ? 'results' : null;
   }
 
   /**
@@ -188,15 +188,20 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    */
   protected isMobileState: boolean | null = null;
 
-  private readonly searchBoxRecentSearchesRemovalEnabled =
+  protected readonly searchBoxRecentSearchesRemovalEnabled =
     this.featureToggles.searchBoxRecentSearchesRemoval;
 
   /**
    * Returns true when the current results represent a \"no results\" state.
-   * Used to hide recent searches when there are no suggestions or products.
+   * Used to hide recent searches when a typed query has no suggestions or products.
+   * An empty query is not a no-results state, so recent searches can still render.
    */
   isNoResults(result: SearchResults | null | undefined): boolean {
     if (!result) {
+      return false;
+    }
+    const query = this.searchInputEl?.nativeElement?.value ?? '';
+    if (!query.trim()) {
       return false;
     }
     const hasSuggestions = (result.suggestions?.length ?? 0) > 0;
@@ -271,6 +276,21 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
         );
         this.subscriptions.add(isMobileSubscription);
       }
+
+      const emptyOuterResultsSubscription =
+        this.searchBoxComponentService.emptyOuterResults$.subscribe(() => {
+          const emptyQuery = !(
+            this.searchInputEl?.nativeElement?.value ?? ''
+          ).trim();
+          if (
+            this.searchBoxActive &&
+            emptyQuery &&
+            this.isMobileState === false
+          ) {
+            this.close(true);
+          }
+        });
+      this.subscriptions.add(emptyOuterResultsSubscription);
     }
 
     const routeStateSubscription = this.routingService
@@ -326,7 +346,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       if (!trimmedQuery) {
         this.hasQuery = false;
         this.searchBoxComponentService.clearResults();
-        this.close(true);
+        this.open();
+        this.checkOuterResults();
         return;
       }
 
@@ -346,22 +367,19 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * Opens the type-ahead searchBox
    */
   open(): void {
+    const emptyQuery = !(this.searchInputEl?.nativeElement?.value ?? '').trim();
+    if (this.searchBoxRecentSearchesRemovalEnabled && emptyQuery) {
+      this.hasQuery = false;
+      this.searchBoxComponentService.clearResults();
+    }
+
     if (!this.searchBoxActive) {
-      if (this.searchBoxRecentSearchesRemovalEnabled) {
-        const inputValue = this.searchInputEl?.nativeElement?.value ?? '';
-        const trimmed = inputValue.trim();
-
-        // On desktop, do not open results when there is no query.
-        // On mobile, always allow opening to show the panel.
-        if (this.isMobileState === false && !trimmed) {
-          return;
-        }
-      }
-
       this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, true);
       this.searchBoxActive = true;
       this.searchInputEl?.nativeElement.focus();
+      this.changeDetectorRef.detectChanges();
     }
+    this.checkOuterResults();
   }
 
   /**
@@ -454,8 +472,18 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       'cx-trending-searches .trending-searches'
     );
     const results = this.elementRef.nativeElement.querySelector('.results');
-    if (recentSearches || trendingSearches) {
-      this.renderer.addClass(results, 'has-outer-results');
+    const hasOuterResults = !!(recentSearches || trendingSearches);
+    if (results) {
+      if (hasOuterResults) {
+        this.renderer.addClass(results, 'has-outer-results');
+      } else {
+        this.renderer.removeClass(results, 'has-outer-results');
+      }
+    }
+
+    const emptyQuery = !(this.searchInputEl?.nativeElement?.value ?? '').trim();
+    if (emptyQuery) {
+      this.searchBoxComponentService.setSearchResultsShown(hasOuterResults);
     }
   }
 

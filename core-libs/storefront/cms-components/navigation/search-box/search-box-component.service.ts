@@ -21,6 +21,7 @@ import {
   Observable,
   of,
   ReplaySubject,
+  Subject,
 } from 'rxjs';
 import { map, switchMap, tap, filter, take } from 'rxjs/operators';
 import {
@@ -38,6 +39,7 @@ export class SearchBoxComponentService {
   chosenWord = new ReplaySubject<string>();
   sharedEvent = new ReplaySubject<KeyboardEvent>();
   searchCompleted = new BehaviorSubject<boolean>(false);
+  emptyOuterResults$ = new Subject<void>();
 
   protected enableRecentSearches: boolean = false;
   protected enableTrendingSearches: boolean = false;
@@ -160,6 +162,8 @@ export class SearchBoxComponentService {
    */
   clearResults() {
     this.searchService.clearResults();
+    this.enableTrendingSearches = false;
+    this.enableRecentSearches = false;
     this.toggleBodyClass(HAS_SEARCH_RESULT_CLASS, false);
 
     // Reset search completion state
@@ -220,14 +224,23 @@ export class SearchBoxComponentService {
    * * the is any search suggestion OR
    * * there is a message.
    *
+   * An empty query only counts as having results when trending or recent
+   * searches are available. Leftover OCC products or a no-match message
+   * from a previous search must not keep the panel open.
+   *
    * Otherwise it returns false.
    */
   protected hasResults(results: SearchResults): boolean {
+    if (this.currentQueryLength === 0) {
+      return this.enableTrendingSearches || this.enableRecentSearches;
+    }
     return (
       (!!results.products && results.products.length > 0) ||
       (!!results.suggestions && results.suggestions.length > 0) ||
       !!results.message ||
-      !!results.recentSearches
+      !!results.recentSearches ||
+      this.enableTrendingSearches ||
+      this.enableRecentSearches
     );
   }
 
@@ -354,10 +367,32 @@ export class SearchBoxComponentService {
   }
 
   setTrendingSearches(enabled: boolean = false) {
+    const hadTrendingSearches = this.enableTrendingSearches;
     this.enableTrendingSearches = enabled;
+    this.syncOuterResultsClass();
+    if (hadTrendingSearches && !enabled && !this.enableRecentSearches) {
+      this.emptyOuterResults$.next();
+    }
   }
 
   setRecentSearches(enabled: boolean = false) {
+    const hadRecentSearches = this.enableRecentSearches;
     this.enableRecentSearches = enabled;
+    this.syncOuterResultsClass();
+    if (hadRecentSearches && !enabled && !this.enableTrendingSearches) {
+      this.emptyOuterResults$.next();
+    }
+  }
+
+  protected syncOuterResultsClass(): void {
+    if (this.enableTrendingSearches || this.enableRecentSearches) {
+      this.toggleBodyClass(HAS_SEARCH_RESULT_CLASS, true);
+    } else if (this.currentQueryLength === 0) {
+      this.toggleBodyClass(HAS_SEARCH_RESULT_CLASS, false);
+    }
+  }
+
+  setSearchResultsShown(shown: boolean): void {
+    this.toggleBodyClass(HAS_SEARCH_RESULT_CLASS, shown);
   }
 }

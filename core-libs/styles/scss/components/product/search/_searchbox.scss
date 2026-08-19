@@ -421,9 +421,7 @@
       z-index: 1;
       @include type('6');
       @include media-breakpoint-down(sm) {
-        display: block;
-        right: 12px;
-        top: 20px;
+        display: none;
       }
     }
     @include forFeature('searchBoxRecentSearchesRemoval') {
@@ -451,6 +449,11 @@
       margin-top: 14px;
       overflow: hidden;
       flex-wrap: wrap;
+
+      &:not(:has(.products)) {
+        height: auto;
+        align-content: flex-start;
+      }
 
       .search-panel-header {
         width: 100%;
@@ -652,6 +655,7 @@
       }
 
       cx-recent-searches {
+        display: block;
         flex-wrap: wrap;
         list-style: none;
         padding-inline-start: 0;
@@ -691,6 +695,9 @@
       }
       .trending-searches-container {
         display: none;
+        &.d-block:not(:has(.trending-searches)) {
+          display: none !important;
+        }
         &:has(.trending-searches) {
           width: 20%;
           @include media-breakpoint-down(sm) {

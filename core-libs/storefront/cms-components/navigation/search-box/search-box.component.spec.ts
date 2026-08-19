@@ -26,6 +26,7 @@ import {
   Observable,
   of,
   ReplaySubject,
+  Subject,
 } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
@@ -132,6 +133,7 @@ describe('SearchBoxComponent', () => {
   {
     chosenWord = new ReplaySubject<string>();
     sharedEvent = new ReplaySubject<KeyboardEvent>();
+    emptyOuterResults$ = new Subject<void>();
 
     launchSearchPage = jasmine.createSpy('launchSearchPage');
     getResults = jasmine.createSpy('search').and.callFake(() => {
@@ -155,6 +157,7 @@ describe('SearchBoxComponent', () => {
     search() {}
     toggleBodyClass() {}
     clearResults() {}
+    setSearchResultsShown(_shown: boolean) {}
   }
 
   beforeEach(waitForAsync(() => {

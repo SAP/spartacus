@@ -119,6 +119,10 @@ describe('SearchBoxComponentService', () => {
     eventService = TestBed.inject(EventService);
   });
 
+  afterEach(() => {
+    document.body.classList.remove('has-searchbox-results');
+  });
+
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
@@ -243,6 +247,33 @@ describe('SearchBoxComponentService', () => {
       expect(result.message).toBeTruthy();
 
       expect(result.message).toEqual('searchBox.help.noMatch');
+    });
+
+    it('should not mark the body as having searchbox results for leftover OCC data when the query is empty', () => {
+      spyOn(searchBoxService, 'getResults').and.returnValue(
+        of({ products: [] })
+      );
+      spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(of([]));
+
+      service.getResults(searchBoxConfig).subscribe();
+
+      expect(
+        document.body.classList.contains('has-searchbox-results')
+      ).toBeFalse();
+    });
+
+    it('should mark the body as having searchbox results when trending searches are enabled with an empty query', () => {
+      spyOn(searchBoxService, 'getResults').and.returnValue(of({}));
+      spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(of([]));
+
+      service.getResults(searchBoxConfig).subscribe();
+      service.setTrendingSearches(true);
+
+      expect(
+        document.body.classList.contains('has-searchbox-results')
+      ).toBeTrue();
+
+      service.setTrendingSearches(false);
     });
 
     it('should not get a message when there are products ', () => {
