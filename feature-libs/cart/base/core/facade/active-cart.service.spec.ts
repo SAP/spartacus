@@ -831,7 +831,7 @@ describe('ActiveCartService', () => {
 
     describe('guestCartMerge', () => {
       it('should add the persisted entries and clear storage without deleting the guest cart', () => {
-        vi.spyOn(multiCartFacade, 'deleteCart');
+        vi.spyOn(multiCartFacade, 'deleteCart').mockImplementation(() => {});
         vi.spyOn(service as any, 'addEntriesGuestMerge').mockImplementation(
           () => {}
         );
