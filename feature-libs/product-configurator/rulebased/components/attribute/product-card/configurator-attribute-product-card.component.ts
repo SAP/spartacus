@@ -175,9 +175,10 @@ export class ConfiguratorAttributeProductCardComponent
   }
 
   /**
-   * Verifies whether the card should render the overflow menu instead of add/remove
-   * buttons. The menu is shown only for selected products that define
-   * container-row actions. Available products keep the add button.
+   * Verifies whether the card should render the overflow menu. The menu is shown
+   * only for selected products that define container-row actions. When the card
+   * is in container context but no actions are defined, neither the menu nor
+   * the default add/remove/select buttons are shown.
    *
    * @returns - overflow menu visible?
    */
@@ -186,6 +187,20 @@ export class ConfiguratorAttributeProductCardComponent
       !!this.productCardOptions.productBoundValue?.selected &&
       !!this.productCardOptions.containerRow?.actions?.length
     );
+  }
+
+  /**
+   * Whether to render ADD, REMOVE, or SELECT. These buttons are used outside
+   * the container context. Available (unselected) container products keep the
+   * add button. Selected container products never fall back to these buttons.
+   *
+   * @returns - default action buttons visible?
+   */
+  get showDefaultActions(): boolean {
+    if (!this.productCardOptions.containerRow) {
+      return true;
+    }
+    return !this.productCardOptions.productBoundValue?.selected;
   }
 
   /**
