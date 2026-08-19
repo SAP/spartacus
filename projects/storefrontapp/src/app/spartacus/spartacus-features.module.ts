@@ -386,6 +386,7 @@ if (environment.cpq) {
         cartValidationDisplayBackendMessages: true,
         configuratorIssuesNotificationForConfigurableOnly: true,
         globalMessageCloseButtonPadding: true,
+        a11yItemCounterValueText: true,
         a11yNavigationChevronContrast: true,
       };
       return appFeatureToggles;

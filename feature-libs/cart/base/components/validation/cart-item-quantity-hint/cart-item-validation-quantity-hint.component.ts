@@ -5,20 +5,25 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  Optional,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { EMPTY, Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { CartItemValidationService } from '@spartacus/cart/base/core';
 import {
   CartItemContext,
   CartModificationQuantityInfo,
 } from '@spartacus/cart/base/root';
+
+/**
+ * The per-item quantity hint together with the product name and code, so the
+ * hint can name which product is affected and be associated (via a stable id
+ * derived from the code) with the quantity stepper for screen readers.
+ */
+interface CartItemQuantityHint extends CartModificationQuantityInfo {
+  name?: string;
+  code?: string;
+}
 
 /**
  * Renders the per-item `Min qty` / `Max qty` hint under the quantity stepper for
@@ -35,13 +40,20 @@ import {
 })
 export class CartItemValidationQuantityHintComponent {
   protected cartItemValidationService = inject(CartItemValidationService);
+  protected cartItemContext = inject(CartItemContext, { optional: true });
 
-  constructor(@Optional() protected cartItemContext: CartItemContext) {}
-
-  readonly quantityInfo$: Observable<CartModificationQuantityInfo> =
+  readonly quantityInfo$: Observable<CartItemQuantityHint> =
     this.cartItemContext?.item$.pipe(
       switchMap((item) =>
-        this.cartItemValidationService.getQuantityInfo$(item.product?.code)
+        this.cartItemValidationService
+          .getQuantityInfo$(item.product?.code)
+          .pipe(
+            map((info) => ({
+              ...info,
+              name: item.product?.name,
+              code: item.product?.code,
+            }))
+          )
       )
     ) ?? EMPTY;
 }

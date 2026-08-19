@@ -4,6 +4,10 @@ import {
   CartValidationStatusCode,
 } from '@spartacus/cart/base/root';
 import { RouterState, RoutingService, FeatureToggles } from '@spartacus/core';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from '@spartacus/core/testing/mock-feature-toggles';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { CartValidationStateService } from './cart-validation-state.service';
 
@@ -34,10 +38,9 @@ class MockRoutingService implements Partial<RoutingService> {
 
 describe('CartValidationStateService', () => {
   let service: CartValidationStateService;
-  const featureToggles: FeatureToggles = {};
+  let featureToggles: MockFeatureTogglesController;
 
   beforeEach(() => {
-    featureToggles.cartValidationDisplayBackendMessages = true;
     TestBed.configureTestingModule({
       providers: [
         CartValidationStateService,
@@ -45,11 +48,22 @@ describe('CartValidationStateService', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
-        { provide: FeatureToggles, useValue: featureToggles },
+        provideMockFeatureToggles({
+          cartValidationDisplayBackendMessages: true,
+        }),
+        // The service injects `FeatureToggles` via the `@spartacus/core` barrel,
+        // which under the vitest test aliases is a different class instance than
+        // the one `provideMockFeatureToggles` registers internally; `useExisting`
+        // bridges the two so the service reads the mocked toggle value.
+        {
+          provide: FeatureToggles,
+          useExisting: MockFeatureTogglesController,
+        },
       ],
     });
 
     service = TestBed.inject(CartValidationStateService);
+    featureToggles = TestBed.inject(MockFeatureTogglesController);
   });
 
   afterEach(() => {
@@ -115,7 +129,7 @@ describe('CartValidationStateService', () => {
   });
 
   it('should still clear on the cart page when the toggle is disabled', () => {
-    featureToggles.cartValidationDisplayBackendMessages = false;
+    featureToggles.set('cartValidationDisplayBackendMessages', false);
     routerStateSubject.next({ navigationId: 30 } as any);
     service.updateValidationResultAndRoutingId(mockData);
 

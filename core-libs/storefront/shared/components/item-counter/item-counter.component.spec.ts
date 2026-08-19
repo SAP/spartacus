@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockKeyboardFocusDirective } from '@spartacus/storefront';
 import { FocusDirective } from '../../../layout/a11y/keyboard-focus/focus.directive';
 import { ItemCounterComponent } from './item-counter.component';
@@ -19,15 +20,22 @@ describe('ItemCounterComponent', () => {
   let component: ItemCounterComponent;
   let fixture: ComponentFixture<ItemCounterComponent>;
 
-  beforeEach(waitForAsync(() => {
+  function configure(
+    toggles: Record<string, boolean> = {}
+  ): void {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, ItemCounterComponent],
+      providers: [provideMockFeatureToggles(toggles)],
     })
       .overrideComponent(ItemCounterComponent, {
         remove: { imports: [TranslatePipe, FocusDirective] },
         add: { imports: [MockTranslatePipe, MockKeyboardFocusDirective] },
       })
       .compileComponents();
+  }
+
+  beforeEach(waitForAsync(() => {
+    configure();
   }));
 
   beforeEach(() => {
@@ -246,5 +254,53 @@ describe('ItemCounterComponent', () => {
 
       expect(component.control.value).toEqual(10);
     });
+
+    it('should not set aria-describedby on any control by default', () => {
+      const controls = fixture.debugElement.queryAll(
+        By.css('button, input')
+      );
+      controls.forEach((control) =>
+        expect(
+          control.nativeElement.hasAttribute('aria-describedby')
+        ).toBe(false)
+      );
+    });
+
+    it('should describe the input and both buttons when ariaDescribedById is set', () => {
+      component.ariaDescribedById = 'hint-id';
+      fixture.detectChanges();
+
+      const controls = fixture.debugElement.queryAll(
+        By.css('button, input')
+      );
+      expect(controls.length).toBe(3);
+      controls.forEach((control) =>
+        expect(control.nativeElement.getAttribute('aria-describedby')).toBe(
+          'hint-id'
+        )
+      );
+    });
+
+    it('should NOT set aria-valuetext when the toggle is off', () => {
+      const input: HTMLInputElement = fixture.debugElement.query(
+        By.css('input')
+      ).nativeElement;
+      expect(input.hasAttribute('aria-valuetext')).toBe(false);
+    });
+
+    it('should set aria-valuetext to the literal value when the toggle is on', waitForAsync(() => {
+      TestBed.resetTestingModule();
+      configure({ a11yItemCounterValueText: true });
+      fixture = TestBed.createComponent(ItemCounterComponent);
+      component = fixture.componentInstance;
+      component.control = <UntypedFormControl>form.get('quantity');
+      component.control.setValue(2);
+      fixture.detectChanges();
+
+      const input: HTMLInputElement = fixture.debugElement.query(
+        By.css('input')
+      ).nativeElement;
+      expect(input.getAttribute('aria-valuetext')).toBe('2');
+    }));
   });
 });

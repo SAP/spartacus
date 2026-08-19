@@ -12,6 +12,7 @@ import {
   CartValidationFacade,
   cartModificationMatchesCode,
   CartModificationQuantityInfo,
+  isQuantityLimitViolation,
   parseCartModificationQuantityInfo,
 } from '@spartacus/cart/base/root';
 import { CartConfigService } from './cart-config.service';
@@ -83,8 +84,10 @@ export class CartItemValidationService {
     if (!cached) {
       cached = this.cartValidationFacade.getValidationResults().pipe(
         map((modifications) =>
-          modifications.some((mod) =>
-            cartModificationMatchesCode(mod, code, true)
+          modifications.some(
+            (mod) =>
+              cartModificationMatchesCode(mod, code, true) &&
+              isQuantityLimitViolation(mod)
           )
         ),
         distinctUntilChanged(),

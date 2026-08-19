@@ -40,7 +40,10 @@ export function parseCartModificationQuantityInfo(
  * A modification matches when its `entry` references the product code. When the
  * backend does not provide an `entry` (e.g. for `below_min_quantity`) and
  * `displayBackendMessages` is enabled, it falls back to matching the product code
- * embedded in the free-text `statusMessage`.
+ * that the free-text `statusMessage` reports after the `"product code "` phrase
+ * (e.g. `"...for product code 300938 has..."`). Anchoring on that phrase avoids
+ * false positives where the code also appears as a quantity token such as
+ * `Max=<code>` / `Actual=<code>`.
  */
 export function cartModificationMatchesCode(
   modification: CartModification,
@@ -55,8 +58,25 @@ export function cartModificationMatchesCode(
     !modification.entry &&
     code != null &&
     code.length > 0 &&
-    !!modification.statusMessage?.includes(code)
+    statusMessageReportsCode(modification.statusMessage, code)
   );
+}
+
+/**
+ * Whether `statusMessage` reports the given product `code` right after the
+ * `"product code "` phrase, matching the whole code (bounded by a non-word
+ * character or the end of the string) so that e.g. code `50` does not match a
+ * `Max=50` token elsewhere in the message.
+ */
+function statusMessageReportsCode(
+  statusMessage: string | undefined,
+  code: string
+): boolean {
+  if (!statusMessage) {
+    return false;
+  }
+  const escaped = code.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`product code ${escaped}(?!\\w)`, 'i').test(statusMessage);
 }
 
 /**

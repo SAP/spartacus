@@ -2,6 +2,7 @@
   <div
     class="cx-qty-hint"
     *ngIf="qty.min !== undefined || qty.max !== undefined"
+    [attr.id]="qty.code ? 'cx-qty-hint-' + qty.code : null"
   >
     <span *ngIf="qty.min !== undefined">{{
       'validation.minQuantity' | cxTranslate: { min: qty.min }

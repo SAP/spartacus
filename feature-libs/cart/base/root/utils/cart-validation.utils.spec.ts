@@ -103,5 +103,34 @@ describe('cart-validation.utils', () => {
         false
       );
     });
+
+    it('should NOT match when the code only appears as a quantity token', () => {
+      // `code = 50` must not be matched by the `Max=50` token; matching is
+      // anchored on the `"product code <code>"` phrase.
+      const maxViolation: CartModification = {
+        statusCode: 'exceed_max_quantity',
+        statusMessage:
+          'The maximum allowed quantity for product code 300938 has been exceeded. Max=50, Actual=51.',
+      };
+      expect(cartModificationMatchesCode(maxViolation, '50', true)).toBe(false);
+    });
+
+    it('should match the exact code reported after the "product code" phrase', () => {
+      const maxViolation: CartModification = {
+        statusCode: 'exceed_max_quantity',
+        statusMessage:
+          'The maximum allowed quantity for product code 300938 has been exceeded. Max=5, Actual=6.',
+      };
+      expect(cartModificationMatchesCode(maxViolation, '300938', true)).toBe(
+        true
+      );
+    });
+
+    it('should NOT match a code that is only a prefix of the reported code', () => {
+      // `3009` must not match `product code 300938`.
+      expect(cartModificationMatchesCode(entryLess, 'productCode', true)).toBe(
+        false
+      );
+    });
   });
 });

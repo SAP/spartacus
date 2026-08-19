@@ -131,6 +131,9 @@
         [readonly]="!item.updateable || readonly || options.isSaveForLater"
         [max]="item.product?.stock?.stockLevel"
         [allowZero]="true"
+        [ariaDescribedById]="
+          item.product?.code ? 'cx-qty-hint-' + item.product?.code : ''
+        "
       >
       </cx-item-counter>
     </div>

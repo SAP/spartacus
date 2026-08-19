@@ -17,6 +17,10 @@ import {
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
+  CartItemValidationService,
+  CartValidationStateService,
+} from '@spartacus/cart/base/core';
+import {
   ActiveCartFacade,
   CartItemComponentOptions,
   CartOutlets,
@@ -36,12 +40,8 @@ import {
   useFeatureStyles,
 } from '@spartacus/core';
 import { OutletContextData, OutletDirective } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
-import { map, startWith, take, tap } from 'rxjs/operators';
-import {
-  CartItemValidationService,
-  CartValidationStateService,
-} from '@spartacus/cart/base/core';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { map, startWith, switchMap, tap } from 'rxjs/operators';
 import { CartItemListRowComponent } from '../cart-item-list-row/cart-item-list-row.component';
 
 interface ItemListContext {
@@ -118,6 +118,9 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   protected cartValidationFacade = inject(CartValidationFacade);
   protected cartValidationStateService = inject(CartValidationStateService);
   protected cartItemValidationService = inject(CartItemValidationService);
+
+  protected revalidate$ = new Subject<void>();
+
   constructor(
     protected activeCartService: ActiveCartFacade,
     protected selectiveCartService: SelectiveCartFacade,
@@ -148,6 +151,16 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       this.userIdService
         ?.getUserId()
         .subscribe((userId) => (this.userId = userId))
+    );
+
+    this.subscription.add(
+      this.revalidate$
+        .pipe(switchMap(() => this.cartValidationFacade.validateCart()))
+        .subscribe((cartModificationList) =>
+          this.cartValidationStateService.updateValidationResultAndRoutingId(
+            cartModificationList.cartModifications ?? []
+          )
+        )
     );
 
     // Validate the cart on entry so problematic products are highlighted from the
@@ -376,16 +389,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     ) {
       return;
     }
-    this.subscription.add(
-      this.cartValidationFacade
-        .validateCart()
-        .pipe(take(1))
-        .subscribe((cartModificationList) =>
-          this.cartValidationStateService.updateValidationResultAndRoutingId(
-            cartModificationList.cartModifications ?? []
-          )
-        )
-    );
+    this.revalidate$.next();
   }
 
   getOptions(item: OrderEntry): CartItemComponentOptions {

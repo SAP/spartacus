@@ -10,6 +10,10 @@ import {
   CartValidationFacade,
 } from '@spartacus/cart/base/root';
 import { FeatureToggles } from '@spartacus/core';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from '@spartacus/core/testing/mock-feature-toggles';
 import { firstValueFrom, ReplaySubject } from 'rxjs';
 import { CartConfigService } from './cart-config.service';
 import { CartItemValidationService } from './cart-item-validation.service';
@@ -23,12 +27,11 @@ const belowMinModification: CartModification = {
 describe('CartItemValidationService', () => {
   let service: CartItemValidationService;
   let results$: ReplaySubject<CartModification[]>;
-  const featureToggles: FeatureToggles = {};
+  let featureToggles: MockFeatureTogglesController;
   let cartValidationEnabled: boolean;
 
   beforeEach(() => {
     results$ = new ReplaySubject<CartModification[]>(1);
-    featureToggles.cartValidationDisplayBackendMessages = true;
     cartValidationEnabled = true;
 
     TestBed.configureTestingModule({
@@ -42,11 +45,18 @@ describe('CartItemValidationService', () => {
           provide: CartConfigService,
           useValue: { isCartValidationEnabled: () => cartValidationEnabled },
         },
-        { provide: FeatureToggles, useValue: featureToggles },
+        provideMockFeatureToggles({
+          cartValidationDisplayBackendMessages: true,
+        }),
+        {
+          provide: FeatureToggles,
+          useExisting: MockFeatureTogglesController,
+        },
       ],
     });
 
     service = TestBed.inject(CartItemValidationService);
+    featureToggles = TestBed.inject(MockFeatureTogglesController);
   });
 
   describe('isEnabled', () => {
@@ -55,7 +65,7 @@ describe('CartItemValidationService', () => {
     });
 
     it('should be false when the toggle is off', () => {
-      featureToggles.cartValidationDisplayBackendMessages = false;
+      featureToggles.set('cartValidationDisplayBackendMessages', false);
       expect(service.isEnabled()).toBe(false);
     });
 
@@ -79,7 +89,7 @@ describe('CartItemValidationService', () => {
     });
 
     it('should be empty when disabled', async () => {
-      featureToggles.cartValidationDisplayBackendMessages = false;
+      featureToggles.set('cartValidationDisplayBackendMessages', false);
       results$.next([belowMinModification]);
       const info = await firstValueFrom(service.getQuantityInfo$('PR0000'));
       expect(info).toEqual({});

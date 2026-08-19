@@ -84,4 +84,15 @@ describe('CartItemValidationQuantityHintComponent', () => {
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.cx-qty-hint')).toBeNull();
   });
+
+  it('should expose a stable id derived from the product code for aria-describedby', () => {
+    cartItemContext.item$.next({
+      product: { code: 'PR0000', name: 'Test Camera' },
+    });
+    quantityInfo$.next({ max: 10 });
+    fixture.detectChanges();
+
+    const hint = fixture.nativeElement.querySelector('.cx-qty-hint');
+    expect(hint?.getAttribute('id')).toBe('cx-qty-hint-PR0000');
+  });
 });

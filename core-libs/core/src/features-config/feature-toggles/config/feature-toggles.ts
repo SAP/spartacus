@@ -365,6 +365,16 @@ export interface FeatureTogglesInterface {
   a11yVocalizeDropdownItemCount?: boolean;
 
   /**
+   * When enabled, the `ItemCounterComponent` quantity input exposes an
+   * `aria-valuetext` equal to its literal value. This prevents screen readers
+   * (notably VoiceOver) from announcing the value as a percentage of the
+   * `min`/`max` range (e.g. "0.3%") instead of the actual quantity.
+   *
+   * Affects: `ItemCounterComponent`
+   */
+  a11yItemCounterValueText?: boolean;
+
+  /**
    * When enabled, keystrokes inside an ng-select (combobox dropdown) are treated
    * as navigation rather than form filling. This preserves the focus outline
    * (removes the `mouse-focus` class) when the user opens a dropdown with the
@@ -791,6 +801,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFormFieldSectionLegend: false,
   a11yImproveCheckoutFocus: false,
   a11yVocalizeDropdownItemCount: false,
+  a11yItemCounterValueText: false,
   a11yRestoreFocusOnNgSelect: false,
   a11yKeepFocusOnConsentManagementButtons: false,
   useEnhancedSecurePasswordValidators: false,
