@@ -248,7 +248,9 @@ describe('ProductListItemComponent in product-list', () => {
 
   describe('when productListItemSummaryReadMore is enabled', () => {
     beforeEach(() => {
-      const featuresConfig = TestBed.inject(FeaturesConfig) as { features: Record<string, unknown> };
+      const featuresConfig = TestBed.inject(FeaturesConfig) as {
+        features: Record<string, unknown>;
+      };
       featuresConfig.features['productListItemSummaryReadMore'] = true;
       fixture = TestBed.createComponent(ProductListItemComponent);
       component = fixture.componentInstance;
@@ -259,7 +261,9 @@ describe('ProductListItemComponent in product-list', () => {
       fixture.detectChanges();
     });
     afterEach(() => {
-      const featuresConfig = TestBed.inject(FeaturesConfig) as { features: Record<string, unknown> };
+      const featuresConfig = TestBed.inject(FeaturesConfig) as {
+        features: Record<string, unknown>;
+      };
       featuresConfig.features['productListItemSummaryReadMore'] = false;
     });
     it('should display product summary with a cx-read-more', () => {
