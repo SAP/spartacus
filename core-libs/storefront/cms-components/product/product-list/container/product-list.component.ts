@@ -26,6 +26,7 @@ import {
 } from '../product-view/product-view.component';
 import { ProductListComponentService } from './product-list-component.service';
 import { ProductScrollComponent } from './product-scroll/product-scroll.component';
+import { OutletDirective } from '../../../../cms-structure/outlet/outlet.directive';
 
 @Component({
   selector: 'cx-product-list',
@@ -41,6 +42,7 @@ import { ProductScrollComponent } from './product-scroll/product-scroll.componen
     ProductScrollComponent,
     AsyncPipe,
     TranslatePipe,
+    OutletDirective,
   ],
 })
 export class ProductListComponent implements OnInit, OnDestroy {

@@ -18,6 +18,7 @@ import {
 import {
   BehaviorSubject,
   combineLatest,
+  merge,
   Observable,
   of,
   ReplaySubject,
@@ -48,7 +49,11 @@ export class SearchBoxComponentService {
   readonly lastSearchWasAi$: Observable<boolean> = this._lastSearchWasAi$.asObservable();
 
   private readonly _lastAiQuery$ = new BehaviorSubject<string>('');
-  readonly lastAiQuery$: Observable<string> = this._lastAiQuery$.asObservable();
+  private readonly _restoredAiQuery$ = new BehaviorSubject<string>('');
+  // aiSearchTrigger$ fires only on explicit user search (ENTER) — used by backend to start stream
+  readonly aiSearchTrigger$: Observable<string> = this._lastAiQuery$.asObservable();
+  // lastAiQuery$ merges both explicit and restored queries — used by criteria/badges components
+  readonly lastAiQuery$: Observable<string> = merge(this._lastAiQuery$, this._restoredAiQuery$);
 
   protected enableRecentSearches: boolean = false;
   protected enableTrendingSearches: boolean = false;
@@ -431,13 +436,17 @@ export class SearchBoxComponentService {
       const raw = storage?.getItem('cx_ai_context');
       if (!raw) return;
       const { query, ts } = JSON.parse(raw) as { query: string; ts: number };
-      // Ignore if older than 30 minutes
       if (Date.now() - ts > 30 * 60 * 1000) {
         storage?.removeItem('cx_ai_context');
         return;
       }
+      const navEntries = this.winRef.nativeWindow?.performance?.getEntriesByType?.('navigation') as PerformanceNavigationTiming[] | undefined;
+      if (navEntries?.[0]?.type === 'reload') {
+        storage?.removeItem('cx_ai_context');
+        return;
+      }
       this._lastSearchWasAi$.next(true);
-      this._lastAiQuery$.next(query);
+      this._restoredAiQuery$.next(query);
     } catch {}
   }
 

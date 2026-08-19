@@ -98,6 +98,8 @@
     "closeSearchPanel": "Close",
     "queryError": "Your search query is incorrectly formatted. Please remove special characters like \":\" and try again.",
     "aiPlaceholder": "Describe what you're looking for in natural language. AI search may take a bit longer.",
+    "aiSearching": "AI searching",
+    "aiSearchError": "AI search failed",
     "aiToggle": {
       "groupLabel": "Search mode",
       "regular": "Switch to standard search",

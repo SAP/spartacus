@@ -800,7 +800,9 @@ export class SearchBoxComponent implements OnInit, AfterViewInit, OnDestroy {
             suggestion.toLowerCase() === trimmedValue.toLowerCase()
         );
 
-        this.close(true);
+        if (!this.isAiModeActive) {
+          this.close(true);
+        }
         this.launchSearchResult(trimmedValue);
         this.updateChosenWord(trimmedValue);
 

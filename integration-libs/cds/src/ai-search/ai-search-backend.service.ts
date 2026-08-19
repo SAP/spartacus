@@ -9,9 +9,13 @@ import {
   BehaviorSubject,
   Observable,
   Subscription,
+  catchError,
   distinctUntilChanged,
   filter,
+  of,
   skip,
+  switchMap,
+  tap,
 } from 'rxjs';
 import { SemanticPathService, WindowRef } from '@spartacus/core';
 import { SearchBoxComponentService } from '@spartacus/storefront';
@@ -38,6 +42,11 @@ export interface AiSearchProgressEvent {
   message: string;
 }
 
+export interface AiSearchMeta {
+  total: number;
+  elapsed_seconds: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AiSearchBackendService implements OnDestroy {
   private readonly searchBoxService = inject(SearchBoxComponentService);
@@ -52,31 +61,49 @@ export class AiSearchBackendService implements OnDestroy {
   private readonly _lastAnswer$ = new BehaviorSubject<string | null>(null);
   readonly lastAnswer$ = this._lastAnswer$.asObservable();
 
+  private readonly _lastMeta$ = new BehaviorSubject<AiSearchMeta | null>(null);
+  readonly lastMeta$ = this._lastMeta$.asObservable();
+
   private readonly _progress$ = new BehaviorSubject<AiSearchProgressEvent | null>(null);
   readonly progress$ = this._progress$.asObservable();
 
   private readonly _isSearching$ = new BehaviorSubject<boolean>(false);
   readonly isSearching$ = this._isSearching$.asObservable();
 
+  private readonly _lastError$ = new BehaviorSubject<string | null>(null);
+  readonly lastError$ = this._lastError$.asObservable();
+
   private readonly subscription = new Subscription();
 
   constructor() {
-    // Stream disabled — using mock data via AiProductCriteriaService
     this.subscription.add(
-      this.searchBoxService.lastAiQuery$.pipe(
+      this.searchBoxService.aiSearchTrigger$.pipe(
         skip(1),
         distinctUntilChanged(),
         filter((query) => !!query && query.trim().length > 0),
-      ).subscribe((query) => {
-        const path = this.semanticPathService.transform({
-          cxRoute: 'search',
-          params: { query },
-        });
-        const url = '/' + path.join('/');
-        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-          this.router.navigateByUrl(url);
-        });
-      })
+        switchMap((query) =>
+          this.searchStream(query).pipe(
+            tap((result) => {
+              if (result) {
+                this.searchBoxService.markAiSearchLaunched(true);
+                const path = this.semanticPathService.transform({
+                  cxRoute: 'search',
+                  params: { query },
+                });
+                const url = '/' + path.join('/');
+                this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                  this.router.navigateByUrl(url);
+                });
+              }
+            }),
+            catchError((err) => {
+              this._isSearching$.next(false);
+              this._lastError$.next(err?.message ?? 'Unknown error');
+              return of(null);
+            })
+          )
+        )
+      ).subscribe()
     );
   }
 
@@ -89,6 +116,7 @@ export class AiSearchBackendService implements OnDestroy {
 
       this._isSearching$.next(true);
       this._progress$.next(null);
+      this._lastError$.next(null);
 
       const controller = new AbortController();
 
@@ -128,6 +156,7 @@ export class AiSearchBackendService implements OnDestroy {
 
               if (event['step'] === 'result') {
                 const result = event['result'] as AiBackendSearchResponse;
+                console.log('[AI Backend] step:result — products:', result.products?.length, 'answer:', result.answer);
                 const map = new Map<string, AiProductCriteria>();
                 for (const product of result.products ?? []) {
                   if (product.code) {
@@ -136,19 +165,26 @@ export class AiSearchBackendService implements OnDestroy {
                       totalCount: product.criteria_total,
                       criteria: product.criteria_detail,
                     });
+                    console.log('[AI Backend] stored criteria for', product.code, ':', product.criteria_matched, '/', product.criteria_total);
                   }
                 }
                 this._lastAnswer$.next(result.answer ?? null);
+                this._lastMeta$.next({
+                  total: result.total ?? 0,
+                  elapsed_seconds: result.elapsed_seconds ?? 0,
+                });
                 this._lastResults$.next(map);
                 this._isSearching$.next(false);
                 this._progress$.next(null);
-                console.log('[AI Search] result', result);
+                this._lastError$.next(null);
                 observer.next(result);
                 observer.complete();
               } else if (event['step'] === 'error') {
+                const msg = (event['message'] as string) ?? 'AI search error';
                 this._isSearching$.next(false);
                 this._progress$.next(null);
-                observer.error(new Error(event['message'] as string));
+                this._lastError$.next(msg);
+                observer.error(new Error(msg));
               } else {
                 this._progress$.next({
                   step: event['step'] as string,
@@ -162,6 +198,7 @@ export class AiSearchBackendService implements OnDestroy {
           if (err?.name !== 'AbortError') {
             this._isSearching$.next(false);
             this._progress$.next(null);
+            this._lastError$.next(err?.message ?? 'Network error');
             observer.error(err);
           }
         });
@@ -171,7 +208,17 @@ export class AiSearchBackendService implements OnDestroy {
   }
 
   getCriteriaForProduct(code: string): AiProductCriteria | null {
-    return this._lastResults$.getValue().get(code) ?? null;
+    const map = this._lastResults$.getValue();
+    console.log('[AI Backend] getCriteriaForProduct', code, 'map size:', map.size, 'keys:', [...map.keys()].slice(0, 5));
+    return map.get(code) ?? null;
+  }
+
+  getAllResults(): Map<string, AiProductCriteria> {
+    return this._lastResults$.getValue();
+  }
+
+  clearError(): void {
+    this._lastError$.next(null);
   }
 
   ngOnDestroy(): void {

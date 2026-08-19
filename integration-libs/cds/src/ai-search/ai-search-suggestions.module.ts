@@ -36,6 +36,7 @@ import { ProductListOutlets, ProductDetailOutlets } from '@spartacus/storefront'
     I18nModule,
     IconModule,
   ],
+  // DecimalPipe (number pipe) is provided by CommonModule
   providers: [
     provideOutlet({
       id: SearchBoxOutlets.AI_SEARCH_PANEL,

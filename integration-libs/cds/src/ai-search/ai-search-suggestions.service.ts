@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { Observable, of, defer } from 'rxjs';
+import { map, skip, take } from 'rxjs/operators';
+import { SearchboxService } from '@spartacus/core';
 
 export interface AiSearchSuggestion {
   phrase: string;
@@ -22,21 +24,10 @@ const INSPIRATION_PHRASES: string[] = [
   'Wireless headphones with long battery life for commuting',
 ];
 
-// Autocomplete suffixes appended after the typed query
-const AUTOCOMPLETE_SUFFIXES: string[] = [
-  '',
-  ' live video feed',
-  ' 4K camera control',
-  ' for monitoring',
-  ' battery',
-];
-
-/**
- * Placeholder service for AI-powered search suggestions (CXCDS-18834).
- * Replace with a real AI endpoint once backend is ready.
- */
 @Injectable({ providedIn: 'root' })
 export class AiSearchSuggestionsService {
+  private readonly searchboxService = inject(SearchboxService);
+
   getSuggestions(query: string): Observable<AiSearchSuggestion[]> {
     if (!query || query.trim().length === 0) {
       return of(
@@ -47,13 +38,33 @@ export class AiSearchSuggestionsService {
         }))
       );
     }
+
     const trimmed = query.trim();
-    return of(
-      AUTOCOMPLETE_SUFFIXES.map((suffix) => ({
-        phrase: trimmed + suffix,
-        matchedPrefix: trimmed,
-        suffix,
-      }))
-    );
+
+    return defer(() => {
+      this.searchboxService.searchSuggestions(trimmed, { pageSize: 5 });
+      return this.searchboxService.getSuggestionResults().pipe(
+        skip(1),
+        take(1),
+        map((suggestions) => {
+          if (!suggestions || suggestions.length === 0) {
+            return [];
+          }
+          return suggestions
+            .filter((s) => !!s.value)
+            .map((s) => {
+              const value = s.value as string;
+              const suffix = value.startsWith(trimmed)
+                ? value.slice(trimmed.length)
+                : value;
+              return {
+                phrase: value,
+                matchedPrefix: value.startsWith(trimmed) ? trimmed : '',
+                suffix,
+              };
+            });
+        })
+      );
+    });
   }
 }

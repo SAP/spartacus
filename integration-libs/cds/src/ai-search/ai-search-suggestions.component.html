@@ -1,31 +1,52 @@
 <div class="cx-ai-search-panel">
 
-  <!-- Info hint (always visible) -->
-  <div class="cx-ai-panel-hint">
+  <!-- Info hint (visible only when not searching) -->
+  <div class="cx-ai-panel-hint" *ngIf="!(isSearching$ | async)">
     <cx-icon class="cx-ai-panel-hint-icon" [type]="iconTypes.INFO"></cx-icon>
     <span>{{ 'searchBox.aiPlaceholder' | cxTranslate }}</span>
   </div>
 
-  <!-- Stream progress: shown while backend is processing -->
-  <ng-container *ngIf="isSearching$ | async">
-    <div class="cx-ai-stream-progress" aria-live="polite" aria-atomic="true">
-      <div class="cx-ai-loader-dots">
-        <span></span><span></span><span></span>
-      </div>
-      <span *ngIf="progress$ | async as progress" class="cx-ai-stream-message">
-        {{ progress.message }}
-      </span>
+  <!-- Error state -->
+  <ng-container *ngIf="(lastError$ | async) as errorMsg">
+    <div class="cx-ai-error" role="alert">
+      <cx-icon class="cx-ai-error-icon" [type]="iconTypes.ERROR"></cx-icon>
+      <span class="cx-ai-error-message">{{ 'searchBox.aiSearchError' | cxTranslate }}: {{ errorMsg }}</span>
+      <button class="cx-ai-error-dismiss" (click)="dismissError()" [attr.aria-label]="'common.close' | cxTranslate">
+        <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+      </button>
     </div>
   </ng-container>
 
-  <!-- Loader: shown while debouncing mock suggestions -->
-  <div *ngIf="isLoading && !isQueryEmpty && !(isSearching$ | async)" class="cx-ai-loader" aria-live="polite">
-    <div class="cx-ai-loader-dots">
-      <span></span><span></span><span></span>
-    </div>
-  </div>
+  <!-- Stream progress: shown while backend is processing -->
+  <ng-container *ngIf="isSearching$ | async">
+    <div class="cx-ai-stream-progress" aria-live="polite" aria-atomic="true">
 
-  <ng-container *ngIf="!isLoading && !(isSearching$ | async)">
+      <div class="cx-ai-searching-icon">
+        <span class="cx-ai-orbit-star cx-ai-orbit-star--a">
+          <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4.7739 5.5177C5.0042 4.8274 5.9957 4.8275 6.226 5.5177C7.0371 7.8988 8.0986 8.9593 10.4819 9.7697C11.1728 10.0098 11.1728 11.0005 10.4819 11.2306C8.0987 12.041 7.0371 13.1015 6.226 15.4826C5.9956 16.1726 5.0042 16.1726 4.7739 15.4826C3.9628 13.1015 2.9012 12.041 0.518 11.2306C-0.1727 10.9904 -0.1726 9.9999 0.518 9.7697C2.9012 8.9593 3.9628 7.8988 4.7739 5.5177Z" fill="currentColor"/>
+          </svg>
+        </span>
+        <span class="cx-ai-orbit-star cx-ai-orbit-star--b">
+          <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.6049 0.28432C12.735 -0.0948 13.2648 -0.09474 13.395 0.28432C13.835 1.58216 14.4153 2.16146 15.7153 2.60072C16.095 2.7306 16.0951 3.2697 15.7153 3.3996C14.4153 3.8388 13.835 4.4181 13.395 5.716C13.2647 6.0948 12.7351 6.0948 12.6049 5.716C12.1649 4.4181 11.5846 3.8388 10.2846 3.3996C9.9051 3.2696 9.9052 2.73073 10.2846 2.60072C11.5846 2.16146 12.1649 1.58216 12.6049 0.28432Z" fill="currentColor"/>
+          </svg>
+        </span>
+      </div>
+
+      <div class="cx-ai-searching-label">
+        <span class="cx-ai-searching-title">
+          {{ 'searchBox.aiSearching' | cxTranslate }}<span class="cx-ai-typing-dots"><span>.</span><span>.</span><span>.</span></span>
+        </span>
+        <span *ngIf="progress$ | async as progress" class="cx-ai-searching-step">
+          {{ progress.message }}
+        </span>
+      </div>
+
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!(isSearching$ | async) && !(lastError$ | async)">
     <ng-container *ngIf="suggestions$ | async as suggestions">
 
       <!-- Empty state: read-only inspiration phrases (not clickable) -->

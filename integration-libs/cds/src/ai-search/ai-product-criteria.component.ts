@@ -8,49 +8,47 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  OnInit,
 } from '@angular/core';
-import { catchError, combineLatest, Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { catchError, combineLatest, defer, Observable, of, switchMap } from 'rxjs';
 import { OutletContextData, SearchBoxComponentService } from '@spartacus/storefront';
 import {
   AiProductCriteria,
   AiProductCriteriaService,
 } from './ai-product-criteria.service';
+import { AiSearchBackendService } from './ai-search-backend.service';
 
 @Component({
   selector: 'cx-ai-product-criteria',
   templateUrl: './ai-product-criteria.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
   standalone: false,
 })
-export class AiProductCriteriaComponent implements OnInit {
+export class AiProductCriteriaComponent {
   protected outletContext = inject(OutletContextData, {
     optional: true,
   }) as OutletContextData | null;
   protected criteriaService = inject(AiProductCriteriaService);
   protected searchBoxService = inject(SearchBoxComponentService);
+  private readonly backendService = inject(AiSearchBackendService);
 
-  criteria$: Observable<AiProductCriteria | null> = of(null);
   private static idCounter = 0;
   readonly tooltipId = `cx-ai-criteria-tooltip-${++AiProductCriteriaComponent.idCounter}`;
 
-  ngOnInit(): void {
-    const ctx = this.outletContext?.context;
-    const product = ctx?.product;
-
-    this.criteria$ = combineLatest([
+  readonly criteria$: Observable<AiProductCriteria | null> = defer(() => {
+    this.searchBoxService.restoreAiContextFromStorage();
+    const product = this.outletContext?.context?.product;
+    return combineLatest([
       this.searchBoxService.lastSearchWasAi$,
-      this.searchBoxService.lastAiQuery$,
+      this.backendService.isSearching$,
     ]).pipe(
-      switchMap(([lastSearchWasAi, query]) => {
-        if (!lastSearchWasAi || !product?.code) return of(null);
-        return this.criteriaService
-          .getCriteria(product.code, query)
-          .pipe(catchError(() => of(null)));
+      switchMap(([lastSearchWasAi, isSearching]) => {
+        if (!lastSearchWasAi || isSearching || !product?.code) return of(null);
+        return this.criteriaService.getCriteria(product.code, '').pipe(
+          catchError(() => of(null))
+        );
       })
     );
-  }
+  });
 
   isFullMatch(criteria: AiProductCriteria): boolean {
     return criteria.matchedCount === criteria.totalCount;

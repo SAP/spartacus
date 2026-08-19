@@ -18,9 +18,9 @@ import {
   switchMap,
   Subscription,
   shareReplay,
-  debounceTime,
-  tap,
   distinctUntilChanged,
+  pairwise,
+  filter,
 } from 'rxjs';
 import { Router } from '@angular/router';
 import { SemanticPathService } from '@spartacus/core';
@@ -43,8 +43,8 @@ export class AiSearchSuggestionsComponent implements OnInit, OnDestroy {
   suggestions$: Observable<AiSearchSuggestion[]> = EMPTY;
   isSearching$: Observable<boolean>;
   progress$: Observable<AiSearchProgressEvent | null>;
+  lastError$: Observable<string | null>;
   isQueryEmpty = true;
-  isLoading = false;
 
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
@@ -59,6 +59,7 @@ export class AiSearchSuggestionsComponent implements OnInit, OnDestroy {
   constructor() {
     this.isSearching$ = this.backendService.isSearching$;
     this.progress$ = this.backendService.progress$;
+    this.lastError$ = this.backendService.lastError$;
   }
 
   ngOnInit(): void {
@@ -75,17 +76,23 @@ export class AiSearchSuggestionsComponent implements OnInit, OnDestroy {
     );
 
     this.suggestions$ = query$.pipe(
-      tap(() => {
-        this.isLoading = true;
-        this.cdr.markForCheck();
-      }),
-      debounceTime(300),
       switchMap((query: string) => this.aiSearchService.getSuggestions(query)),
-      tap(() => {
-        this.isLoading = false;
-        this.cdr.markForCheck();
-      }),
       shareReplay({ bufferSize: 1, refCount: true })
+    );
+
+    // Close panel after stream completes successfully (true → false, no error)
+    this.subscription.add(
+      this.backendService.isSearching$.pipe(
+        pairwise(),
+        filter(([prev, curr]) => prev === true && curr === false)
+      ).subscribe(() => {
+        // Only close if there was no error (error state keeps panel open to show message)
+        this.backendService.lastError$.pipe(
+          filter(err => !err)
+        ).subscribe(() => {
+          this.searchBoxComponentService.clearResults();
+        }).unsubscribe();
+      })
     );
   }
 
@@ -97,6 +104,10 @@ export class AiSearchSuggestionsComponent implements OnInit, OnDestroy {
       params: { query: phrase },
     });
     this.router.navigate(path);
+  }
+
+  dismissError(): void {
+    this.backendService.clearError();
   }
 
   shareEvent(event: KeyboardEvent): void {
