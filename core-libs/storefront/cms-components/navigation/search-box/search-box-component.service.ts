@@ -7,7 +7,7 @@
 import { inject, Injectable } from '@angular/core';
 import {
   EventService,
-  FeatureConfigService,
+  FeatureToggles,
   isNotUndefined,
   ProductSearchPage,
   RoutingService,
@@ -48,7 +48,7 @@ export class SearchBoxComponentService {
   emptyOuterResults$ = new Subject<void>();
 
   // DELIBERATELY PRIVATE PROPERTY, to remove easily in the future
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   protected enableRecentSearches: boolean = false;
   protected enableTrendingSearches: boolean = false;
@@ -171,7 +171,7 @@ export class SearchBoxComponentService {
    */
   clearResults() {
     this.searchService.clearResults();
-    if (this.featureConfigService.isEnabled('searchBoxRecentSearchesRemoval')) {
+    if (this.featureToggles.searchBoxRecentSearchesRemoval) {
       this.enableTrendingSearches = false;
       this.enableRecentSearches = false;
     }
@@ -243,24 +243,26 @@ export class SearchBoxComponentService {
    * Otherwise it returns false.
    */
   protected hasResults(results: SearchResults): boolean {
-    const hasOccOrMessage =
-      (!!results.products && results.products.length > 0) ||
-      (!!results.suggestions && results.suggestions.length > 0) ||
-      !!results.message ||
-      !!results.recentSearches;
-
-    if (this.featureConfigService.isEnabled('searchBoxRecentSearchesRemoval')) {
-      if (this.currentQueryLength === 0) {
-        return this.enableTrendingSearches || this.enableRecentSearches;
-      }
-      return (
-        hasOccOrMessage ||
-        this.enableTrendingSearches ||
-        this.enableRecentSearches
-      );
+    if (!this.featureToggles.searchBoxRecentSearchesRemoval) {
+      return this.hasOccResults(results);
     }
+    if (this.currentQueryLength === 0) {
+      return this.hasOuterSearches();
+    }
+    return this.hasOccResults(results) || this.hasOuterSearches();
+  }
 
-    return hasOccOrMessage;
+  protected hasOccResults(results: SearchResults): boolean {
+    return (
+      !!results.products?.length ||
+      !!results.suggestions?.length ||
+      !!results.message ||
+      !!results.recentSearches
+    );
+  }
+
+  protected hasOuterSearches(): boolean {
+    return this.enableTrendingSearches || this.enableRecentSearches;
   }
 
   /**
@@ -388,9 +390,7 @@ export class SearchBoxComponentService {
   setTrendingSearches(enabled: boolean = false) {
     const hadTrendingSearches = this.enableTrendingSearches;
     this.enableTrendingSearches = enabled;
-    if (
-      !this.featureConfigService.isEnabled('searchBoxRecentSearchesRemoval')
-    ) {
+    if (!this.featureToggles.searchBoxRecentSearchesRemoval) {
       return;
     }
     this.syncOuterResultsClass();
@@ -402,9 +402,7 @@ export class SearchBoxComponentService {
   setRecentSearches(enabled: boolean = false) {
     const hadRecentSearches = this.enableRecentSearches;
     this.enableRecentSearches = enabled;
-    if (
-      !this.featureConfigService.isEnabled('searchBoxRecentSearchesRemoval')
-    ) {
+    if (!this.featureToggles.searchBoxRecentSearchesRemoval) {
       return;
     }
     this.syncOuterResultsClass();

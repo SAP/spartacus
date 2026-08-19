@@ -3,7 +3,7 @@ import {
   CmsComponent,
   createFrom,
   EventService,
-  FeatureConfigService,
+  FeatureToggles,
   I18nTestingModule,
   Product,
   ProductSearchPage,
@@ -68,12 +68,6 @@ class MockTranslationService {
   }
 }
 
-class MockFeatureConfigService {
-  isEnabled(_feature: string): boolean {
-    return false;
-  }
-}
-
 const mockSearchResults: ProductSearchPage = {
   products: [
     {
@@ -100,8 +94,11 @@ describe('SearchBoxComponentService', () => {
   let service: SearchBoxComponentService;
   let searchBoxService: SearchboxService;
   let eventService: EventService;
-  let featureConfigService: FeatureConfigService;
+  let featureToggles: FeatureToggles;
   beforeEach(() => {
+    featureToggles = {
+      searchBoxRecentSearchesRemoval: false,
+    };
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       providers: [
@@ -118,7 +115,7 @@ describe('SearchBoxComponentService', () => {
           useClass: MockSearchBoxService,
         },
         { provide: TranslationService, useClass: MockTranslationService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        { provide: FeatureToggles, useValue: featureToggles },
         SearchBoxComponentService,
         WindowRef,
       ],
@@ -126,7 +123,6 @@ describe('SearchBoxComponentService', () => {
     service = TestBed.inject(SearchBoxComponentService);
     searchBoxService = TestBed.inject(SearchboxService);
     eventService = TestBed.inject(EventService);
-    featureConfigService = TestBed.inject(FeatureConfigService);
   });
 
   afterEach(() => {
@@ -260,7 +256,7 @@ describe('SearchBoxComponentService', () => {
     });
 
     it('should not mark the body as having searchbox results for leftover OCC data when the query is empty', () => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+      featureToggles.searchBoxRecentSearchesRemoval = true;
       spyOn(searchBoxService, 'getResults').and.returnValue(
         of({ products: [] })
       );
@@ -274,7 +270,7 @@ describe('SearchBoxComponentService', () => {
     });
 
     it('should mark the body as having searchbox results when trending searches are enabled with an empty query', () => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+      featureToggles.searchBoxRecentSearchesRemoval = true;
       spyOn(searchBoxService, 'getResults').and.returnValue(of({}));
       spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(of([]));
 
@@ -286,6 +282,24 @@ describe('SearchBoxComponentService', () => {
       ).toBeTrue();
 
       service.setTrendingSearches(false);
+    });
+
+    it('should mark the body as having searchbox results for OCC data when the query is not empty', () => {
+      featureToggles.searchBoxRecentSearchesRemoval = true;
+      spyOn(searchBoxService, 'getResults').and.returnValue(
+        of(mockSearchResults)
+      );
+      spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(of([]));
+
+      service.search('ab', {
+        ...searchBoxConfig,
+        minCharactersBeforeRequest: 3,
+      });
+      service.getResults(searchBoxConfig).subscribe();
+
+      expect(
+        document.body.classList.contains('has-searchbox-results')
+      ).toBeTrue();
     });
 
     it('should not get a message when there are products ', () => {
