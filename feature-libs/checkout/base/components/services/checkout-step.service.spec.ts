@@ -13,7 +13,6 @@ import {
 import { of } from 'rxjs';
 import { CheckoutFlowOrchestratorService } from './checkout-flow-orchestrator.service';
 import { CheckoutStepService } from './checkout-step.service';
-import createSpy = jasmine.createSpy;
 
 const checkoutConfig: CheckoutConfig = {
   checkout: {
@@ -54,8 +53,8 @@ class MockRoutingConfigService implements Partial<RoutingConfigService> {
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go = createSpy();
-  getRouterState = createSpy().and.returnValue(
+  go = vi.fn();
+  getRouterState = vi.fn().mockReturnValue(
     of({
       state: {
         context: {
@@ -108,29 +107,29 @@ describe('CheckoutStepService', () => {
   });
 
   it('should be able to go back to cart', () => {
-    spyOn(service, 'getPreviousCheckoutStepUrl').and.returnValue(null);
+    vi.spyOn(service, 'getPreviousCheckoutStepUrl').mockReturnValue(null);
     service.back(<any>{});
     expect(routingService.go).toHaveBeenCalledWith('cart');
   });
 
   it('should be able to go back to next step', () => {
-    spyOn(service, 'getPreviousCheckoutStepUrl').and.returnValue('back');
+    vi.spyOn(service, 'getPreviousCheckoutStepUrl').mockReturnValue('back');
     service.back(<any>{});
     expect(routingService.go).toHaveBeenCalledWith('back');
   });
 
   it('should be able to go next', () => {
-    spyOn(service, 'getNextCheckoutStepUrl').and.returnValue('next');
+    vi.spyOn(service, 'getNextCheckoutStepUrl').mockReturnValue('next');
     service.next(<any>{});
     expect(routingService.go).toHaveBeenCalledWith('next');
   });
 
   it('should be able to get back button text: backToCart', () => {
-    spyOn(service, 'getPreviousCheckoutStepUrl').and.returnValue(null);
+    vi.spyOn(service, 'getPreviousCheckoutStepUrl').mockReturnValue(null);
     expect(service.getBackBntText(<any>{})).toEqual('checkout.backToCart');
   });
   it('should be able to get back button text: backToCart', () => {
-    spyOn(service, 'getPreviousCheckoutStepUrl').and.returnValue('back');
+    vi.spyOn(service, 'getPreviousCheckoutStepUrl').mockReturnValue('back');
     expect(service.getBackBntText(<any>{})).toEqual('common.back');
   });
 
