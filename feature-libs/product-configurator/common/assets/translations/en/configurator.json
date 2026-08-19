@@ -57,7 +57,10 @@
       "noOptionSelectedMsg": "No option selected",
       "notVisibleAttributeMsg": "This attribute is not visible to the user",
       "selectedProducts": "Selected Products ({{count}})",
-      "availableProducts": "Available Products ({{count}})"
+      "availableProducts": "Available Products ({{count}})",
+      "selectAvailableProducts": "Select products",
+      "searchAvailableProducts": "Search",
+      "noAvailableProductsFound": "No results found"
     },
     "button": {
       "previous": "Previous",
@@ -244,6 +247,7 @@
       "expandSelectedProducts": "Expand selected products",
       "collapseAvailableProducts": "Collapse available products",
       "expandAvailableProducts": "Expand available products",
+      "toggleAvailableProductsDropdown": "Toggle available products drop-down",
       "openContainerRowActionsMenu": "Open actions menu for {{ product }}"
     },
     "variantCarousel": {
