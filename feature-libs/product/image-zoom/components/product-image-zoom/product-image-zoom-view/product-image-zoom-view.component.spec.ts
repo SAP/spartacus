@@ -25,15 +25,17 @@ import {
   BREAKPOINT,
   BreakpointService,
   CurrentProductService,
+  FeatureDirective,
   IconComponent,
   MediaComponent,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import { vi } from 'vitest';
 
 import { ProductImageZoomThumbnailsComponent } from '../product-image-zoom-thumbnails/product-image-zoom-thumbnails.component';
 import { ProductImageZoomViewComponent } from './product-image-zoom-view.component';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { MockFeatureTogglesController, provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const firstImage = {
   zoom: {
@@ -144,6 +146,7 @@ describe('ProductImageZoomViewComponent', () => {
           imports: [
             TranslatePipe,
             CxDatePipe,
+            FeatureDirective,
             IconComponent,
             MediaComponent,
             ProductImageZoomThumbnailsComponent,
@@ -153,6 +156,7 @@ describe('ProductImageZoomViewComponent', () => {
           imports: [
             MockTranslatePipe,
             MockDatePipe,
+            MockFeatureDirective,
             MockIconComponent,
             MockMediaComponent,
             MockProductImageZoomThumbnailsComponent,
@@ -167,6 +171,7 @@ describe('ProductImageZoomViewComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductImageZoomViewComponent);
     productImageZoomViewComponent = fixture.componentInstance;
+    (productImageZoomViewComponent as any)['featureToggles'] = TestBed.inject(MockFeatureTogglesController);
     fixture.detectChanges();
   });
 
