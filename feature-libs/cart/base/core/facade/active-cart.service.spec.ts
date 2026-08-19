@@ -22,7 +22,7 @@ import {
 } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { vi } from 'vitest';
-import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
+import { MockFeatureTogglesController, provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 import { ActiveCartService } from './active-cart.service';
 
 const userId$ = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);
@@ -72,9 +72,7 @@ const MockWindowRef = {
       store[key] = `${value}`;
     },
     removeItem: (key: string): void => {
-      if (key in store) {
-        store[key] = undefined;
-      }
+      delete store[key];
     },
   },
   isBrowser(): boolean {
@@ -343,7 +341,7 @@ describe('ActiveCartService', () => {
         'oAuthRedirectCodeFlow'
       );
 
-      expect(storedOauthFlowKey).toBeUndefined();
+      expect(storedOauthFlowKey).toBeNull();
     });
   });
 
@@ -765,6 +763,7 @@ describe('ActiveCartService', () => {
         ],
       });
       service = TestBed.inject(ActiveCartService);
+      (service as any)['featureToggles'] = TestBed.inject(MockFeatureTogglesController);
       winRef = TestBed.inject(WindowRef);
       multiCartFacade = TestBed.inject(MultiCartFacade);
     });
