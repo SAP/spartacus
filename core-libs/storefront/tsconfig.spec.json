@@ -31,8 +31,6 @@
   "files": ["../../testing/setup-vitest.ts"],
   "include": [
     "**/*.ts",
-    "../../core-libs/core/src/**/*.ts",
-    "../../core-libs/storefront/**/*.ts",
-    "../../feature-libs/**/*.ts"
+    "../../core-libs/core/src/**/*.ts"
   ]
 }
