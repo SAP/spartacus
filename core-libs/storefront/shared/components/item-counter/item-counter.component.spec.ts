@@ -20,9 +20,7 @@ describe('ItemCounterComponent', () => {
   let component: ItemCounterComponent;
   let fixture: ComponentFixture<ItemCounterComponent>;
 
-  function configure(
-    toggles: Record<string, boolean> = {}
-  ): void {
+  function configure(toggles: Record<string, boolean> = {}): void {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, ItemCounterComponent],
       providers: [provideMockFeatureToggles(toggles)],
@@ -256,13 +254,11 @@ describe('ItemCounterComponent', () => {
     });
 
     it('should not set aria-describedby on any control by default', () => {
-      const controls = fixture.debugElement.queryAll(
-        By.css('button, input')
-      );
+      const controls = fixture.debugElement.queryAll(By.css('button, input'));
       controls.forEach((control) =>
-        expect(
-          control.nativeElement.hasAttribute('aria-describedby')
-        ).toBe(false)
+        expect(control.nativeElement.hasAttribute('aria-describedby')).toBe(
+          false
+        )
       );
     });
 
@@ -270,9 +266,7 @@ describe('ItemCounterComponent', () => {
       component.ariaDescribedById = 'hint-id';
       fixture.detectChanges();
 
-      const controls = fixture.debugElement.queryAll(
-        By.css('button, input')
-      );
+      const controls = fixture.debugElement.queryAll(By.css('button, input'));
       expect(controls.length).toBe(3);
       controls.forEach((control) =>
         expect(control.nativeElement.getAttribute('aria-describedby')).toBe(

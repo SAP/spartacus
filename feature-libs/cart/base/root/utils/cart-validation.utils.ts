@@ -4,7 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CartModification, CartValidationStatusCode } from '../models/cart.model';
+import {
+  CartModification,
+  CartValidationStatusCode,
+} from '../models/cart.model';
 
 /**
  * Minimum / maximum order quantity parsed out of a cart modification's

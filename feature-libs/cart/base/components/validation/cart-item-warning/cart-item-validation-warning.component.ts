@@ -45,17 +45,19 @@ export class CartItemValidationWarningComponent {
     this.cartConfigService.isCartValidationEnabled() &&
     !!this.featureToggles.cartValidationDisplayBackendMessages;
 
-  cartModification$ = this.cartValidationFacade.getValidationResults().pipe(
-    map((modificationList) =>
-      modificationList.find((modification) =>
-        cartModificationMatchesCode(
-          modification,
-          this.code,
-          this.displayBackendMessages
+  cartModification$ = this.cartValidationFacade
+    .getValidationResults()
+    .pipe(
+      map((modificationList) =>
+        modificationList.find((modification) =>
+          cartModificationMatchesCode(
+            modification,
+            this.code,
+            this.displayBackendMessages
+          )
         )
       )
-    )
-  );
+    );
 
   constructor(protected cartValidationFacade: CartValidationFacade) {}
 
