@@ -279,7 +279,7 @@ describe('ConfiguratorActions', () => {
       };
 
     describe('CopyContainerRow', () => {
-      it('Should create the action', () => {
+      it('should create the action', () => {
         const action = new ConfiguratorActions.CopyContainerRow(
           copyContainerRowParameters
         );
@@ -298,7 +298,7 @@ describe('ConfiguratorActions', () => {
     });
 
     describe('CopyContainerRowFail', () => {
-      it('Should create the action', () => {
+      it('should create the action', () => {
         const error = { message: 'anError' };
         const action = new ConfiguratorActions.CopyContainerRowFail({
           parameters: copyContainerRowParameters,
@@ -323,7 +323,7 @@ describe('ConfiguratorActions', () => {
     });
 
     describe('CopyContainerRowSuccess', () => {
-      it('Should create the action', () => {
+      it('should create the action', () => {
         const action = new ConfiguratorActions.CopyContainerRowSuccess(
           CONFIGURATION
         );
