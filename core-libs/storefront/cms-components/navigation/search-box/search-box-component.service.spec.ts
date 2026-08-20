@@ -115,7 +115,7 @@ describe('SearchBoxComponentService', () => {
           useClass: MockSearchBoxService,
         },
         { provide: TranslationService, useClass: MockTranslationService },
-        ...provideMockFeatureToggles({
+        provideMockFeatureToggles({
           searchBoxRecentSearchesRemoval: false,
           searchBoxEmptyQueryResultsPanel: false,
         }),
