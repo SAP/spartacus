@@ -21,7 +21,6 @@ class MockTranslatePipe implements PipeTransform {
 
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
-  compact$ = new ReplaySubject<boolean>(1);
 }
 
 const quantityInfo$ = new ReplaySubject<{ min?: number; max?: number }>(1);
@@ -59,7 +58,6 @@ describe('CartItemValidationQuantityHintComponent', () => {
       CartItemContext
     ) as unknown as MockCartItemContext;
     cartItemContext.item$.next({ product: { code: 'PR0000' } });
-    cartItemContext.compact$.next(false);
   });
 
   it('should render the Min qty hint', () => {
@@ -83,13 +81,6 @@ describe('CartItemValidationQuantityHintComponent', () => {
 
   it('should render nothing when there is no min/max', () => {
     quantityInfo$.next({});
-    fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('.cx-qty-hint')).toBeNull();
-  });
-
-  it('should render nothing in the compact context (e.g. added-to-cart dialog)', () => {
-    cartItemContext.compact$.next(true);
-    quantityInfo$.next({ min: 5 });
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.cx-qty-hint')).toBeNull();
   });
