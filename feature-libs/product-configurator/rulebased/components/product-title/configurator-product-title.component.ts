@@ -70,7 +70,7 @@ interface ConfiguratorProductTitleView {
 })
 export class ConfiguratorProductTitleComponent {
   protected configuratorUtilsService = inject(ConfiguratorUtilsService);
-  protected featureToggles = inject(FeatureToggles);
+  private featureToggles = inject(FeatureToggles);
 
   protected readonly SLASH_SEPARATOR = '/';
 
