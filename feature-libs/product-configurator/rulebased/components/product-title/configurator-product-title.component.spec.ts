@@ -682,35 +682,6 @@ describe('ConfigProductTitleComponent', () => {
     });
   });
 
-  describe('productTitle$', () => {
-    it('should emit the catalog product name', () => {
-      setDataForProductConfiguration();
-      initialize();
-
-      let title: string | undefined;
-      component.productTitle$
-        .subscribe((emitted) => (title = emitted))
-        .unsubscribe();
-
-      expect(title).toBe(PRODUCT_NAME);
-    });
-
-    it('should emit an empty title when the catalog product has no name', () => {
-      setDataForProductConfiguration();
-      spyOn(productService, 'get').and.returnValue(
-        of({ ...mockProduct, name: undefined })
-      );
-      initialize();
-
-      let title: string | undefined;
-      component.productTitle$
-        .subscribe((emitted) => (title = emitted))
-        .unsubscribe();
-
-      expect(title).toBe('');
-    });
-  });
-
   describe('ghost style', () => {
     it('should remove the ghost style when product title data is available', () => {
       setDataForProductConfiguration();

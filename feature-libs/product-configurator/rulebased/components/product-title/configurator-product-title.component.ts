@@ -29,7 +29,7 @@ import {
   MediaComponent,
 } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
-import { catchError, map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorUtilsService } from '../../core/facade/utils/configurator-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -70,9 +70,9 @@ interface ConfiguratorProductTitleView {
 })
 export class ConfiguratorProductTitleComponent {
   protected configuratorUtilsService = inject(ConfiguratorUtilsService);
-  private featureToggles = inject(FeatureToggles);
+  protected featureToggles = inject(FeatureToggles);
 
-  private readonly SLASH_SEPARATOR = '/';
+  protected readonly SLASH_SEPARATOR = '/';
 
   @HostBinding('class.ghost') ghostStyle = true;
 
@@ -97,29 +97,28 @@ export class ConfiguratorProductTitleComponent {
   productTitleData$: Observable<ConfiguratorProductTitleView> =
     this.routerData$.pipe(
       switchMap((routerData) =>
-        this.configuration$.pipe(
-          switchMap((configuration) =>
-            this.buildProductTitleData(routerData, configuration)
+        this.configuratorCommonsService
+          .getConfiguration(routerData.owner)
+          .pipe(
+            switchMap((configuration) =>
+              this.buildProductTitleData(routerData, configuration)
+            )
           )
-        )
       ),
       tap(() => {
         this.ghostStyle = false;
-      }),
-      shareReplay({ bufferSize: 1, refCount: true })
+      })
     );
 
+  /**
+   * Catalog product used for the expandable details.
+   *
+   * @deprecated since 221121.17 - Use `productTitleData$` and read
+   * `product` from the view instead. This observable remains for
+   * backward compatibility and will be removed in a future major version.
+   */
   product$: Observable<Product | undefined> = this.productTitleData$.pipe(
     map((data) => data.product)
-  );
-
-  /**
-   * Heading text. Slash-separated nested container path when
-   * `productConfiguratorCPQContainer` is enabled; otherwise the base
-   * product name.
-   */
-  productTitle$: Observable<string> = this.productTitleData$.pipe(
-    map((data) => data.title)
   );
 
   protected getProductCode(container: {
