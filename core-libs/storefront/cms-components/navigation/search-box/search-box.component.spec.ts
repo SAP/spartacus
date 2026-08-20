@@ -389,7 +389,7 @@ describe('SearchBoxComponent', () => {
           By.css('.results')
         ).nativeElement;
         (searchBoxComponent as any).featureToggles = {
-          searchBoxRecentSearchesRemoval: true,
+          searchBoxEmptyQueryResultsPanel: true,
         };
         spyOn(searchBoxComponent['renderer'], 'removeClass');
 

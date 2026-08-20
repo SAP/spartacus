@@ -98,6 +98,7 @@ describe('SearchBoxComponentService', () => {
   beforeEach(() => {
     featureToggles = {
       searchBoxRecentSearchesRemoval: false,
+      searchBoxEmptyQueryResultsPanel: false,
     };
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
@@ -256,7 +257,7 @@ describe('SearchBoxComponentService', () => {
     });
 
     it('should not mark the body as having searchbox results for leftover OCC data when the query is empty', () => {
-      featureToggles.searchBoxRecentSearchesRemoval = true;
+      featureToggles.searchBoxEmptyQueryResultsPanel = true;
       spyOn(searchBoxService, 'getResults').and.returnValue(
         of({ products: [] })
       );
@@ -270,7 +271,7 @@ describe('SearchBoxComponentService', () => {
     });
 
     it('should mark the body as having searchbox results when trending searches are enabled with an empty query', () => {
-      featureToggles.searchBoxRecentSearchesRemoval = true;
+      featureToggles.searchBoxEmptyQueryResultsPanel = true;
       spyOn(searchBoxService, 'getResults').and.returnValue(of({}));
       spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(of([]));
 
@@ -285,7 +286,7 @@ describe('SearchBoxComponentService', () => {
     });
 
     it('should mark the body as having searchbox results for OCC data when the query is not empty', () => {
-      featureToggles.searchBoxRecentSearchesRemoval = true;
+      featureToggles.searchBoxEmptyQueryResultsPanel = true;
       spyOn(searchBoxService, 'getResults').and.returnValue(
         of(mockSearchResults)
       );

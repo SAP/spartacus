@@ -161,7 +161,7 @@
       ></ng-template>
     </ng-container>
     <!--RESULT  PRODUCTS-->
-    <div class="products" *cxFeature="'!searchBoxRecentSearchesRemoval'">
+    <div class="products" *cxFeature="'!searchBoxEmptyQueryResultsPanel'">
       <h3 *ngIf="result.products?.length">
         {{ 'searchBox.products' | cxTranslate }}
       </h3>
@@ -216,7 +216,7 @@
         </ng-template>
       </ng-container>
     </div>
-    <ng-container *cxFeature="'searchBoxRecentSearchesRemoval'">
+    <ng-container *cxFeature="'searchBoxEmptyQueryResultsPanel'">
       <div class="products" *ngIf="hasQuery">
         <h3 *ngIf="result.products?.length">
           {{ 'searchBox.products' | cxTranslate }}

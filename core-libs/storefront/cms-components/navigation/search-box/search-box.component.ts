@@ -160,25 +160,30 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   /**
    * Tracks whether the search box currently has a non-empty query.
-   * Used with searchBoxRecentSearchesRemoval to decide if results should be rendered.
+   * Used with searchBoxRecentSearchesRemoval and
+   * searchBoxEmptyQueryResultsPanel to decide if results should be rendered.
    */
   protected hasQuery = false;
 
   /**
    * Whether the results panel should be visible for the current state.
-   * When searchBoxRecentSearchesRemoval is disabled, matches develop behavior.
+   * When both related toggles are disabled, matches develop behavior.
    */
   isResultsPanelVisible(): boolean {
-    if (this.featureToggles.searchBoxRecentSearchesRemoval) {
+    if (this.featureToggles.searchBoxEmptyQueryResultsPanel) {
       return this.hasQuery || this.searchBoxActive;
+    } else if (this.featureToggles.searchBoxRecentSearchesRemoval) {
+      return this.hasQuery;
     } else {
       return true;
     }
   }
 
   protected getAriaControls(): string | null {
-    if (this.featureToggles.searchBoxRecentSearchesRemoval) {
+    if (this.featureToggles.searchBoxEmptyQueryResultsPanel) {
       return this.isResultsPanelVisible() ? 'results' : null;
+    } else if (this.featureToggles.searchBoxRecentSearchesRemoval) {
+      return this.hasQuery ? 'results' : null;
     } else {
       return 'results';
     }
@@ -193,14 +198,14 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   /**
    * Returns true when the current results represent a \"no results\" state.
    * Used to hide recent searches when a typed query has no suggestions or products.
-   * When `searchBoxRecentSearchesRemoval` is enabled, an empty query is not a
+   * When `searchBoxEmptyQueryResultsPanel` is enabled, an empty query is not a
    * no-results state, so recent searches can still render.
    */
   isNoResults(result: SearchResults | null | undefined): boolean {
     if (!result) {
       return false;
     }
-    if (this.featureToggles.searchBoxRecentSearchesRemoval) {
+    if (this.featureToggles.searchBoxEmptyQueryResultsPanel) {
       const query = this.searchInputEl?.nativeElement?.value ?? '';
       if (!query.trim()) {
         return false;
@@ -228,6 +233,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService
   ) {
     useFeatureStyles('searchBoxRecentSearchesRemoval');
+    useFeatureStyles('searchBoxEmptyQueryResultsPanel');
     useFeatureStyles('a11yFixSearchBoxDoubleFocus');
   }
 
@@ -270,6 +276,9 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     if (this.featureToggles.searchBoxRecentSearchesRemoval) {
       this.subscribeToRecentSearchesRemoval();
     }
+    if (this.featureToggles.searchBoxEmptyQueryResultsPanel) {
+      this.subscribeToEmptyOuterResults();
+    }
 
     const routeStateSubscription = this.routingService
       .getRouterState()
@@ -305,8 +314,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Subscribes to config, viewport, and empty trending/recent search lists.
-   * Override to change which streams are observed for recent-searches removal.
+   * Subscribes to config and viewport for recent-searches removal.
+   * Override to change which streams are observed.
    */
   protected subscribeToRecentSearchesRemoval(): void {
     const configSubscription = this.config$.subscribe();
@@ -319,8 +328,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       );
       this.subscriptions.add(isMobileSubscription);
     }
-
-    this.subscribeToEmptyOuterResults();
   }
 
   /**
@@ -328,6 +335,14 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * Override to change that empty-list behaviour.
    */
   protected subscribeToEmptyOuterResults(): void {
+    const isMobile$ = this.isMobile;
+    if (isMobile$) {
+      const isMobileSubscription = isMobile$.subscribe(
+        (isMobile) => (this.isMobileState = isMobile ?? false)
+      );
+      this.subscriptions.add(isMobileSubscription);
+    }
+
     const emptyOuterResultsSubscription =
       this.searchBoxComponentService.emptyOuterResults$.subscribe(() => {
         const emptyQuery = !(
@@ -358,7 +373,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * Closes the searchBox and opens the search result page.
    */
   search(query: string): void {
-    if (this.featureToggles.searchBoxRecentSearchesRemoval) {
+    if (this.featureToggles.searchBoxEmptyQueryResultsPanel) {
       const trimmedQuery = query?.trim() ?? '';
 
       if (!trimmedQuery) {
@@ -366,13 +381,25 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
         this.searchBoxComponentService.clearResults();
         this.open();
         this.checkOuterResults();
-        return;
+      } else {
+        this.hasQuery = true;
+        this.searchBoxComponentService.search(trimmedQuery, this.config);
+        this.checkOuterResults();
+        this.open();
       }
+    } else if (this.featureToggles.searchBoxRecentSearchesRemoval) {
+      const trimmedQuery = query?.trim() ?? '';
 
-      this.hasQuery = true;
-      this.searchBoxComponentService.search(trimmedQuery, this.config);
-      this.checkOuterResults();
-      this.open();
+      if (!trimmedQuery) {
+        this.hasQuery = false;
+        this.searchBoxComponentService.clearResults();
+        this.close(true);
+      } else {
+        this.hasQuery = true;
+        this.searchBoxComponentService.search(trimmedQuery, this.config);
+        this.checkOuterResults();
+        this.open();
+      }
     } else {
       this.searchBoxComponentService.search(query, this.config);
       this.checkOuterResults();
@@ -384,7 +411,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * Opens the type-ahead searchBox
    */
   open(): void {
-    if (this.featureToggles.searchBoxRecentSearchesRemoval) {
+    if (this.featureToggles.searchBoxEmptyQueryResultsPanel) {
       const emptyQuery = !(
         this.searchInputEl?.nativeElement?.value ?? ''
       ).trim();
@@ -395,12 +422,43 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     }
 
     if (!this.searchBoxActive) {
-      this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, true);
-      this.searchBoxActive = true;
-      this.searchInputEl?.nativeElement.focus();
-      this.changeDetectorRef.detectChanges();
+      if (this.featureToggles.searchBoxEmptyQueryResultsPanel) {
+        this.searchBoxComponentService.toggleBodyClass(
+          SEARCHBOX_IS_ACTIVE,
+          true
+        );
+        this.searchBoxActive = true;
+        this.searchInputEl?.nativeElement.focus();
+        this.changeDetectorRef.detectChanges();
+      } else if (this.featureToggles.searchBoxRecentSearchesRemoval) {
+        const inputValue = this.searchInputEl?.nativeElement?.value ?? '';
+        const trimmed = inputValue.trim();
+
+        // On desktop, do not open results when there is no query.
+        // On mobile, always allow opening to show the panel.
+        if (this.isMobileState === false && !trimmed) {
+          return;
+        }
+
+        this.searchBoxComponentService.toggleBodyClass(
+          SEARCHBOX_IS_ACTIVE,
+          true
+        );
+        this.searchBoxActive = true;
+        this.searchInputEl?.nativeElement.focus();
+      } else {
+        this.searchBoxComponentService.toggleBodyClass(
+          SEARCHBOX_IS_ACTIVE,
+          true
+        );
+        this.searchBoxActive = true;
+        this.searchInputEl?.nativeElement.focus();
+      }
     }
-    this.checkOuterResults();
+
+    if (this.featureToggles.searchBoxEmptyQueryResultsPanel) {
+      this.checkOuterResults();
+    }
   }
 
   /**
@@ -497,12 +555,12 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     if (results) {
       if (hasOuterResults) {
         this.renderer.addClass(results, 'has-outer-results');
-      } else if (this.featureToggles.searchBoxRecentSearchesRemoval) {
+      } else if (this.featureToggles.searchBoxEmptyQueryResultsPanel) {
         this.renderer.removeClass(results, 'has-outer-results');
       }
     }
 
-    if (this.featureToggles.searchBoxRecentSearchesRemoval) {
+    if (this.featureToggles.searchBoxEmptyQueryResultsPanel) {
       const emptyQuery = !(
         this.searchInputEl?.nativeElement?.value ?? ''
       ).trim();
@@ -861,7 +919,9 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   clear(el: HTMLInputElement): void {
     this.disableClose();
     el.value = '';
-    if (this.featureToggles.searchBoxRecentSearchesRemoval) {
+    if (this.featureToggles.searchBoxEmptyQueryResultsPanel) {
+      this.hasQuery = false;
+    } else if (this.featureToggles.searchBoxRecentSearchesRemoval) {
       this.hasQuery = false;
     }
     this.searchBoxComponentService.clearResults();

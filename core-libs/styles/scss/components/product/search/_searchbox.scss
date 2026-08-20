@@ -424,7 +424,7 @@
         display: block;
         right: 12px;
         top: 20px;
-        @include forFeature('searchBoxRecentSearchesRemoval') {
+        @include forFeature('searchBoxEmptyQueryResultsPanel') {
           display: none;
         }
       }
@@ -455,7 +455,7 @@
       overflow: hidden;
       flex-wrap: wrap;
 
-      @include forFeature('searchBoxRecentSearchesRemoval') {
+      @include forFeature('searchBoxEmptyQueryResultsPanel') {
         &:not(:has(.products)) {
           height: auto;
           align-content: flex-start;
@@ -662,7 +662,7 @@
       }
 
       cx-recent-searches {
-        @include forFeature('searchBoxRecentSearchesRemoval') {
+        @include forFeature('searchBoxEmptyQueryResultsPanel') {
           display: block;
         }
         flex-wrap: wrap;
@@ -704,7 +704,7 @@
       }
       .trending-searches-container {
         display: none;
-        @include forFeature('searchBoxRecentSearchesRemoval') {
+        @include forFeature('searchBoxEmptyQueryResultsPanel') {
           &.d-block:not(:has(.trending-searches)) {
             display: none !important;
           }
