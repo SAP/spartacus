@@ -9,6 +9,14 @@
     <ng-container *ngTemplateOutlet="formBody" />
   </ng-container>
 
+  <!--
+    Buttons are rendered outside the `cxFocus` autofocus host on purpose:
+    in Safari a `<button>` doesn't take focus on click, so if it lived inside
+    the host, focus would fall to the host and its autofocus would redirect to
+    the first field (country select). Keeping them outside prevents that jump.
+  -->
+  <ng-container *ngTemplateOutlet="formButtons" />
+
   <ng-template #formBody>
     <div class="form-group" formGroupName="country">
       <ng-container *ngIf="countries$ | async as countries">
@@ -449,6 +457,9 @@
         </label>
       </div>
     </div>
+  </ng-template>
+
+  <ng-template #formButtons>
     <div class="cx-address-form-btns">
       <div class="row">
         <div class="col-md-13 col-lg-6" *ngIf="showCancelBtn">

@@ -670,5 +670,87 @@ describe('AddressFormComponent', () => {
 
       expect(getFocusForm()).toBeNull();
     });
+
+    it('should render the action buttons outside the cxFocus host', () => {
+      featureTogglesController.set('a11yAddressFormInitialFocus', true);
+      fixture.detectChanges();
+
+      const focusHost: HTMLElement = getFocusForm().nativeElement;
+      const submitBtn = fixture.debugElement.query(
+        By.css('.btn-primary')
+      )?.nativeElement;
+      const backBtn = fixture.debugElement.query(
+        By.css('.btn-secondary')
+      )?.nativeElement;
+
+      expect(submitBtn).toBeTruthy();
+      expect(backBtn).toBeTruthy();
+      // In Safari a `<button>` doesn't take focus on click; keeping the buttons
+      // out of the autofocus host prevents focus from jumping to the first field.
+      expect(focusHost.contains(submitBtn)).toBe(false);
+      expect(focusHost.contains(backBtn)).toBe(false);
+    });
+
+    it('should focus the first invalid field on invalid submit when toggle is on', () => {
+      featureTogglesController.set('a11yAddressFormInitialFocus', true);
+      spyOn(component as any, 'focusFirstInvalidField');
+
+      component.verifyAddress(); // form is invalid by default
+
+      expect(component['focusFirstInvalidField']).toHaveBeenCalled();
+    });
+
+    it('should not focus the first invalid field on invalid submit when toggle is off', () => {
+      featureTogglesController.set('a11yAddressFormInitialFocus', false);
+      spyOn(component as any, 'focusFirstInvalidField');
+
+      component.verifyAddress(); // form is invalid by default
+
+      expect(component['focusFirstInvalidField']).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('focusFirstInvalidField', () => {
+    beforeEach(() => {
+      spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(
+        of(mockCountries)
+      );
+      spyOn(userProfileFacade, 'getTitles').and.returnValue(of([]));
+      spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
+      component.ngOnInit();
+      fixture.detectChanges();
+    });
+
+    it('should focus the inner input of the invalid country ng-select', (done) => {
+      const countryInput: HTMLElement = fixture.debugElement.query(
+        By.css('ng-select.country-select input')
+      ).nativeElement;
+      spyOn(countryInput, 'focus');
+
+      component['focusFirstInvalidField']();
+
+      // the method defers focus to a macrotask, so assert after it runs
+      setTimeout(() => {
+        expect(countryInput.focus).toHaveBeenCalled();
+        done();
+      });
+    });
+
+    it('should focus the first invalid text input when preceding selects are valid', (done) => {
+      (controls.country as UntypedFormGroup).controls['isocode'].setValue('AD');
+      fixture.detectChanges();
+
+      const firstNameInput: HTMLElement = fixture.debugElement.query(
+        By.css('[formcontrolname=firstName]')
+      ).nativeElement;
+      spyOn(firstNameInput, 'focus');
+
+      component['focusFirstInvalidField']();
+
+      setTimeout(() => {
+        expect(firstNameInput.focus).toHaveBeenCalled();
+        done();
+      });
+    });
   });
 });
