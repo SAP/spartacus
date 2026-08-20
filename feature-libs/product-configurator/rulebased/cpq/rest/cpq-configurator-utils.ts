@@ -9,13 +9,14 @@ import { Configurator } from '@spartacus/product-configurator/rulebased';
 interface CpqUpdateInformation {
   standardAttributeCode: string;
   tabId: string;
+  rowId?: string;
 }
 export class CpqConfiguratorUtils {
   /**
    * Collects information that we need to fire a CPQ update
    *
-   * @param {Configurator.Attribute} attribute Configurator attribute
-   * @returns {CpqUpdateInformation} Update information
+   * @param attribute - Configurator attribute
+   * @returns Update information
    */
   static getUpdateInformation(
     attribute: Configurator.Attribute
@@ -28,7 +29,8 @@ export class CpqConfiguratorUtils {
     if (attributeCode && groupId) {
       return {
         standardAttributeCode: attributeCode.toString(),
-        tabId: groupId,
+        tabId: CpqConfiguratorUtils.getTabId(groupId),
+        rowId: attribute.containerRowId,
       };
     } else {
       throw new Error(
@@ -44,7 +46,7 @@ export class CpqConfiguratorUtils {
    * configuration independently. Only the trailing CPQ tab ID must be sent to
    * the backend.
    *
-   * @param groupId Configurator group ID
+   * @param groupId - Configurator group ID
    * @returns CPQ tab ID
    */
   static getTabId(groupId: string): string {
@@ -55,17 +57,23 @@ export class CpqConfiguratorUtils {
 
   /**
    * Finds first changed attribute
-   * @param {Configurator.Configuration} source Configuration
-   * @returns {Configurator.Attribute} First attribute of first group
+   *
+   * Walks the first-child group path because configuration extracts for nested
+   * container-row attributes put the change on a leaf group, not on the root.
+   *
+   * @param source - Configuration
+   * @returns First attribute of the first leaf group along the extract path
    */
   static findFirstChangedAttribute(
     source: Configurator.Configuration
   ): Configurator.Attribute {
-    const firstGroup: Configurator.Group = source.groups[0];
-    if (firstGroup.attributes) {
-      return firstGroup.attributes[0];
-    } else {
-      throw new Error('No changed attributes found');
+    let group: Configurator.Group | undefined = source.groups[0];
+    while (group) {
+      if (group.attributes && group.attributes.length > 0) {
+        return group.attributes[0];
+      }
+      group = group.subGroups?.[0];
     }
+    throw new Error('No changed attributes found');
   }
 }

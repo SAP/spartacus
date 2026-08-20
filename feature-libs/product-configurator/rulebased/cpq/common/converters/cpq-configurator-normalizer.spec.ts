@@ -570,7 +570,7 @@ describe('CpqConfiguratorNormalizer', () => {
 
       cpqConfiguratorNormalizer['convertAttribute'](
         cpqAttributeNoSysId,
-        cpqGroupId,
+        cpqGroupId.toString(),
         CURRENCY,
         attributeList
       );
@@ -603,7 +603,7 @@ describe('CpqConfiguratorNormalizer', () => {
 
       cpqConfiguratorNormalizer['convertAttribute'](
         cpqAttribute,
-        cpqGroupId,
+        cpqGroupId.toString(),
         CURRENCY,
         attributeList
       );
@@ -648,7 +648,7 @@ describe('CpqConfiguratorNormalizer', () => {
 
       cpqConfiguratorNormalizer['convertAttribute'](
         cpqAttributeOnlyOneSysId,
-        cpqGroupId,
+        cpqGroupId.toString(),
         CURRENCY,
         attributeList
       );
@@ -680,7 +680,7 @@ describe('CpqConfiguratorNormalizer', () => {
 
       cpqConfiguratorNormalizer['convertAttribute'](
         cpqAttribute2,
-        cpqGroupId,
+        cpqGroupId.toString(),
         CURRENCY,
         attributeList
       );
@@ -714,7 +714,7 @@ describe('CpqConfiguratorNormalizer', () => {
       };
       cpqConfiguratorNormalizer['convertAttribute'](
         cpqAttributeWithoutLabel,
-        cpqGroupId,
+        cpqGroupId.toString(),
         CURRENCY,
         attributeList
       );
@@ -728,7 +728,7 @@ describe('CpqConfiguratorNormalizer', () => {
 
       cpqConfiguratorNormalizer['convertAttribute'](
         cpqAttribute,
-        cpqGroupId,
+        cpqGroupId.toString(),
         CURRENCY,
         attributeList
       );
@@ -2205,6 +2205,9 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(nestedAttrGroup.attributes?.length).toBe(1);
       expect(nestedAttrGroup.attributes?.[0].containerRowId).toBe(
         rowWithConfigId
+      );
+      expect(nestedAttrGroup.attributes?.[0].groupId).toBe(
+        expectedNestedTabGroupId
       );
       expect(nestedAttrGroup.attributes?.[0].attrCode).toBe(nestedAttrCode);
     });

@@ -453,6 +453,36 @@ describe('CpqConfigurationOccService', () => {
     );
   });
 
+  it('should pass rowId as query parameter when updating a nested container-row attribute', () => {
+    const rowId = '018';
+    spyOn(converterService, 'convert').and.returnValue({
+      ...updateAttribute,
+      rowId,
+    });
+    serviceUnderTest.updateAttribute(configuration).subscribe((config) => {
+      expect(config.errorMessages).toBe(errorMessages);
+    });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return req.method === 'PATCH' && req.url === 'updateCpqAttribute';
+    });
+    mockReq.flush(cpqConfiguration);
+
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'updateCpqAttribute',
+      {
+        urlParams: {
+          configurationId: configId,
+          attributeCode: attributeCode,
+        },
+        queryParams: {
+          tabId: tabId,
+          rowId,
+        },
+      }
+    );
+  });
+
   it('should add a container row, retrieve configuration and call normalizer', () => {
     const addContainerRowParams: Configurator.AddContainerRowParameters = {
       configId: configId,
@@ -593,6 +623,39 @@ describe('CpqConfigurationOccService', () => {
         },
         queryParams: {
           tabId: tabId,
+        },
+      }
+    );
+  });
+
+  it('should pass rowId as query parameter when updating a nested container-row value quantity', () => {
+    const rowId = '018';
+    spyOn(converterService, 'convert').and.returnValue({
+      ...updateValue,
+      rowId,
+    });
+    serviceUnderTest.updateValueQuantity(configuration).subscribe((config) => {
+      expect(config.errorMessages).toBe(errorMessages);
+    });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'PATCH' && req.url === 'updateCpqAttributeValueQuantity'
+      );
+    });
+    mockReq.flush(cpqConfiguration);
+
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'updateCpqAttributeValueQuantity',
+      {
+        urlParams: {
+          configurationId: configId,
+          attributeCode: attributeCode,
+          attributeValueId: attributeValueId,
+        },
+        queryParams: {
+          tabId: tabId,
+          rowId,
         },
       }
     );
