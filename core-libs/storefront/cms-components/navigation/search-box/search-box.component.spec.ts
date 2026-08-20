@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import {
   CmsSearchBoxComponent,
+  FeatureConfigService,
   MockTranslatePipe,
   PageType,
   ProductSearchService,
@@ -183,6 +184,12 @@ describe('SearchBoxComponent', () => {
         {
           provide: RoutingService,
           useClass: MockRoutingService,
+        },
+        {
+          provide: FeatureConfigService,
+          useValue: {
+            isEnabled: (feature: string) => feature.startsWith('!'),
+          },
         },
       ],
     })
