@@ -10,10 +10,14 @@ import {
   Component,
   ElementRef,
   HostListener,
+  inject,
   ViewChild,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
+import { take } from 'rxjs/operators';
+import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
+import { ConfiguratorUtilsService } from '../../../../core/facade/utils/configurator-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import {
   ConfiguratorAttributeProductCardComponent,
@@ -40,6 +44,9 @@ import { ConfiguratorAttributeSelectionBaseComponent } from '../base/configurato
   ],
 })
 export class ConfiguratorAttributeContainerComponent extends ConfiguratorAttributeSelectionBaseComponent {
+  protected configuratorGroupsService = inject(ConfiguratorGroupsService);
+  protected configuratorUtilsService = inject(ConfiguratorUtilsService);
+
   attribute: Configurator.Attribute;
   ownerKey: string;
 
@@ -247,6 +254,44 @@ export class ConfiguratorAttributeContainerComponent extends ConfiguratorAttribu
   }
 
   /**
+   * Copies the given selected product in the container.
+   *
+   * @param row - Selected container row to copy
+   */
+  onCopy(row: Configurator.ContainerRow): void {
+    this.loading$.next(true);
+    this.configuratorCommonsService.copyContainerRow(this.ownerKey, row.id);
+  }
+
+  /**
+   * Navigates to the first tab of the nested configuration of the given
+   * selected container row.
+   *
+   * @param row - Selected container row to edit
+   */
+  onEdit(row: Configurator.ContainerRow): void {
+    const rowGroupId = row.groupId;
+    if (!rowGroupId) {
+      return;
+    }
+    this.configuratorCommonsService
+      .getConfiguration(this.attributeComponentContext.owner)
+      .pipe(take(1))
+      .subscribe((configuration) => {
+        const firstTabId = this.configuratorUtilsService.getOptionalGroupById(
+          configuration.groups,
+          rowGroupId
+        )?.subGroups[0]?.id;
+        if (firstTabId) {
+          this.configuratorGroupsService.navigateToGroup(
+            configuration,
+            firstTabId
+          );
+        }
+      });
+  }
+
+  /**
    * Handles an action selected from a product card overflow menu.
    *
    * @param row - Container row the action applies to
@@ -262,6 +307,12 @@ export class ConfiguratorAttributeContainerComponent extends ConfiguratorAttribu
         break;
       case Configurator.ContainerRowAction.ADD:
         this.onAdd(row);
+        break;
+      case Configurator.ContainerRowAction.EDIT:
+        this.onEdit(row);
+        break;
+      case Configurator.ContainerRowAction.COPY:
+        this.onCopy(row);
         break;
       default:
         break;

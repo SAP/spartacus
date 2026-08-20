@@ -31,6 +31,8 @@ export function defaultOccCpqConfiguratorConfigFactory(): OccConfig {
           updateCpqAttributeValueQuantity:
             'cpqconfigurator/${configurationId}/attributes/${attributeCode}/values/${attributeValueId}?tabId=${tabId}',
           createCpqContainerRow: 'cpqconfigurator/${configurationId}/rows',
+          copyCpqContainerRow:
+            'cpqconfigurator/${configurationId}/rows/${rowId}/copyRow',
           removeCpqContainerRow:
             'cpqconfigurator/${configurationId}/rows/${rowId}',
           readCpqConfigurationForCartEntryFull:

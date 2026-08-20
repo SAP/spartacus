@@ -16,6 +16,7 @@ import {
 } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CpqConfiguratorUtils } from '../rest/cpq-configurator-utils';
 import { CpqConfiguratorOccService } from './cpq-configurator-occ.service';
 
 @Injectable()
@@ -44,12 +45,14 @@ export class CpqConfiguratorOccAdapter implements RulebasedConfiguratorAdapter {
     groupId: string,
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    return this.cpqOccService.readConfiguration(configId, groupId).pipe(
-      map((configResponse) => {
-        configResponse.owner = owner;
-        return configResponse;
-      })
-    );
+    return this.cpqOccService
+      .readConfiguration(configId, CpqConfiguratorUtils.getTabId(groupId))
+      .pipe(
+        map((configResponse) => {
+          configResponse.owner = owner;
+          return configResponse;
+        })
+      );
   }
 
   updateConfiguration(
@@ -71,6 +74,17 @@ export class CpqConfiguratorOccAdapter implements RulebasedConfiguratorAdapter {
     parameters: Configurator.AddContainerRowParameters
   ): Observable<Configurator.Configuration> {
     return this.cpqOccService.addContainerRow(parameters).pipe(
+      map((configResponse) => {
+        configResponse.owner = parameters.owner;
+        return configResponse;
+      })
+    );
+  }
+
+  copyContainerRow(
+    parameters: Configurator.CopyContainerRowParameters
+  ): Observable<Configurator.Configuration> {
+    return this.cpqOccService.copyContainerRow(parameters).pipe(
       map((configResponse) => {
         configResponse.owner = parameters.owner;
         return configResponse;

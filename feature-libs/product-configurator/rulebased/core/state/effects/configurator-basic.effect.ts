@@ -22,6 +22,7 @@ import {
   mergeMap,
   switchMap,
   take,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
 import { ConfiguratorGroupStatusService } from '../../facade/configurator-group-status.service';
@@ -37,6 +38,18 @@ type updateConfigurationSuccessResultType =
   | ConfiguratorActions.UpdatePriceSummary
   | ConfiguratorActions.SearchVariants
   | ConfiguratorActions.ChangeGroup;
+
+type updateConfigurationSuccessActionType =
+  | ConfiguratorActions.UpdateConfigurationSuccess
+  | ConfiguratorActions.AddContainerRowSuccess
+  | ConfiguratorActions.CopyContainerRowSuccess
+  | ConfiguratorActions.RemoveContainerRowSuccess;
+
+type updateConfigurationFailActionType =
+  | ConfiguratorActions.UpdateConfigurationFail
+  | ConfiguratorActions.AddContainerRowFail
+  | ConfiguratorActions.CopyContainerRowFail
+  | ConfiguratorActions.RemoveContainerRowFail;
 
 @Injectable()
 /**
@@ -224,6 +237,37 @@ export class ConfiguratorBasicEffects {
     )
   );
 
+  copyContainerRow$: Observable<
+    | ConfiguratorActions.CopyContainerRowSuccess
+    | ConfiguratorActions.CopyContainerRowFail
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ConfiguratorActions.COPY_CONTAINER_ROW),
+      map((action: ConfiguratorActions.CopyContainerRow) => action.payload),
+      concatMap((parameters: Configurator.CopyContainerRowParameters) => {
+        return this.configuratorCommonsConnector
+          .copyContainerRow(parameters)
+          .pipe(
+            map((configuration: Configurator.Configuration) => {
+              return new ConfiguratorActions.CopyContainerRowSuccess({
+                ...configuration,
+                owner: parameters.owner,
+              });
+            }),
+            catchError((error) => {
+              const errorPayload = tryNormalizeHttpError(error, this.logger);
+              return [
+                new ConfiguratorActions.CopyContainerRowFail({
+                  parameters,
+                  error: errorPayload,
+                }),
+              ];
+            })
+          );
+      })
+    )
+  );
+
   removeContainerRow$: Observable<
     | ConfiguratorActions.RemoveContainerRowSuccess
     | ConfiguratorActions.RemoveContainerRowFail
@@ -362,17 +406,11 @@ export class ConfiguratorBasicEffects {
         ofType(
           ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS,
           ConfiguratorActions.ADD_CONTAINER_ROW_SUCCESS,
+          ConfiguratorActions.COPY_CONTAINER_ROW_SUCCESS,
           ConfiguratorActions.REMOVE_CONTAINER_ROW_SUCCESS
         ),
-        map(
-          (
-            action:
-              | ConfiguratorActions.UpdateConfigurationSuccess
-              | ConfiguratorActions.AddContainerRowSuccess
-              | ConfiguratorActions.RemoveContainerRowSuccess
-          ) => action.payload
-        ),
-        mergeMap((payload: Configurator.Configuration) => {
+        mergeMap((action: updateConfigurationSuccessActionType) => {
+          const payload = action.payload;
           return this.store.pipe(
             select(ConfiguratorSelectors.hasPendingChanges(payload.owner.key)),
             take(1),
@@ -383,19 +421,43 @@ export class ConfiguratorBasicEffects {
                   ConfiguratorSelectors.getCurrentGroup(payload.owner.key)
                 ),
                 take(1),
-                map((currentGroupId) => {
+                withLatestFrom(
+                  this.store.pipe(
+                    select(
+                      ConfiguratorSelectors.getConfigurationFactory(
+                        payload.owner.key
+                      )
+                    )
+                  )
+                ),
+                map(([currentGroupId, previousConfiguration]) => {
                   const applicableCurrentGroupId =
                     currentGroupId &&
                     !currentGroupId.startsWith(Configurator.ConflictIdPrefix)
                       ? currentGroupId
                       : undefined;
 
-                  const groupIdFromPayload =
+                  let groupIdFromPayload =
                     applicableCurrentGroupId ??
                     this.configuratorBasicEffectService.getFirstGroupWithAttributes(
                       payload,
                       payload.interactionState.isConflictResolutionMode
                     );
+
+                  if (
+                    action.type ===
+                    ConfiguratorActions.ADD_CONTAINER_ROW_SUCCESS
+                  ) {
+                    const firstTabId =
+                      this.configuratorBasicEffectService.getFirstTabIdOfNewlyAddedContainerRow(
+                        previousConfiguration,
+                        payload
+                      );
+                    if (firstTabId) {
+                      groupIdFromPayload = firstTabId;
+                    }
+                  }
+
                   const parentGroupFromPayload =
                     this.configuratorGroupUtilsService.getParentGroup(
                       payload.groups,
@@ -404,7 +466,6 @@ export class ConfiguratorBasicEffects {
                         groupIdFromPayload
                       )
                     );
-
                   return {
                     applicableCurrentGroupId,
                     groupIdFromPayload,
@@ -458,52 +519,47 @@ export class ConfiguratorBasicEffects {
         ofType(
           ConfiguratorActions.UPDATE_CONFIGURATION_FAIL,
           ConfiguratorActions.ADD_CONTAINER_ROW_FAIL,
+          ConfiguratorActions.COPY_CONTAINER_ROW_FAIL,
           ConfiguratorActions.REMOVE_CONTAINER_ROW_FAIL
         ),
-        mergeMap(
-          (
-            action:
-              | ConfiguratorActions.UpdateConfigurationFail
-              | ConfiguratorActions.AddContainerRowFail
-              | ConfiguratorActions.RemoveContainerRowFail
-          ) => {
-            const ownerKey =
-              action.type === ConfiguratorActions.ADD_CONTAINER_ROW_FAIL ||
-              action.type === ConfiguratorActions.REMOVE_CONTAINER_ROW_FAIL
-                ? action.payload.parameters.owner.key
-                : action.payload.configuration.owner.key;
-            const configurationFromAction =
-              action.type === ConfiguratorActions.UPDATE_CONFIGURATION_FAIL
-                ? of(action.payload.configuration)
-                : this.store.pipe(
-                    select(
-                      ConfiguratorSelectors.getConfigurationFactory(ownerKey)
-                    ),
-                    take(1)
-                  );
+        mergeMap((action: updateConfigurationFailActionType) => {
+          const ownerKey =
+            action.type === ConfiguratorActions.ADD_CONTAINER_ROW_FAIL ||
+            action.type === ConfiguratorActions.COPY_CONTAINER_ROW_FAIL ||
+            action.type === ConfiguratorActions.REMOVE_CONTAINER_ROW_FAIL
+              ? action.payload.parameters.owner.key
+              : action.payload.configuration.owner.key;
+          const configurationFromAction =
+            action.type === ConfiguratorActions.UPDATE_CONFIGURATION_FAIL
+              ? of(action.payload.configuration)
+              : this.store.pipe(
+                  select(
+                    ConfiguratorSelectors.getConfigurationFactory(ownerKey)
+                  ),
+                  take(1)
+                );
 
-            return configurationFromAction.pipe(
-              filter((configuration) =>
-                this.configuratorGroupUtilsService.isConfigurationCreated(
-                  configuration
-                )
-              ),
-              switchMap((configuration) =>
-                this.store.pipe(
-                  select(ConfiguratorSelectors.hasPendingChanges(ownerKey)),
-                  take(1),
-                  filter((hasPendingChanges) => !hasPendingChanges),
-                  map(
-                    () =>
-                      new ConfiguratorActions.UpdateConfigurationFinalizeFail(
-                        configuration
-                      )
-                  )
+          return configurationFromAction.pipe(
+            filter((configuration) =>
+              this.configuratorGroupUtilsService.isConfigurationCreated(
+                configuration
+              )
+            ),
+            switchMap((configuration) =>
+              this.store.pipe(
+                select(ConfiguratorSelectors.hasPendingChanges(ownerKey)),
+                take(1),
+                filter((hasPendingChanges) => !hasPendingChanges),
+                map(
+                  () =>
+                    new ConfiguratorActions.UpdateConfigurationFinalizeFail(
+                      configuration
+                    )
                 )
               )
-            );
-          }
-        )
+            )
+          );
+        })
       )
     );
 
@@ -552,6 +608,18 @@ export class ConfiguratorBasicEffects {
               action.payload.groupId
             ).pipe(
               switchMap((configuration: Configurator.Configuration) => {
+                // Cached CPQ tabs reuse the store snapshot, including a stale
+                // menuParentGroup. Stamp the navigation target so the group
+                // menu drills in together with the form.
+                const configurationWithNavigationState: Configurator.Configuration =
+                  {
+                    ...configuration,
+                    interactionState: {
+                      ...configuration.interactionState,
+                      currentGroup: action.payload.groupId,
+                      menuParentGroup: action.payload.parentGroupId,
+                    },
+                  };
                 return [
                   new ConfiguratorActions.SetCurrentGroup({
                     entityKey: action.payload.configuration.owner.key,
@@ -562,7 +630,7 @@ export class ConfiguratorBasicEffects {
                     menuParentGroup: action.payload.parentGroupId,
                   }),
                   new ConfiguratorActions.ReadConfigurationSuccess(
-                    configuration
+                    configurationWithNavigationState
                   ),
                   new ConfiguratorActions.UpdatePriceSummary({
                     ...configuration,

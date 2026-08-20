@@ -6,6 +6,7 @@
 
 import * as configuration from '../../../helpers/product-configurator';
 import * as configurationCpq from '../../../helpers/product-configurator-cpq';
+import * as configurationCpqContainer from '../../../helpers/product-configurator-cpq-container';
 import * as configurationOverview from '../../../helpers/product-configurator-overview';
 import * as configurationOverviewCpq from '../../../helpers/product-configurator-overview-cpq';
 import * as configurationCart from '../../../helpers/product-configurator-cart';
@@ -93,6 +94,25 @@ const ATTR_NAMES = {
   ],
 };
 
+/***************************** */
+/** Configurable Train */
+const PROD_CODE_TRAIN = 'CONF_TRAIN';
+const GRP_TR_GENERAL = 'GENERAL';
+/** Choose Configurable Train Components */
+const ATTR_TR_COM = '3157';
+const ATTR_TR_COM_LABEL = 'Choose Configurable Train Components';
+/** Configurable Locomotive */
+const VAL_TR_LOCOMOTIVE = 'Configurable Locomotive';
+/** Configurable Wagon */
+const VAL_TR_WAGON = 'Configurable Wagon';
+/** Multiple-unit control */
+const VAL_TR_MULTIPLE_UNIT = 'Multiple-unit control';
+const TRAIN_AVAILABLE_PRODUCTS = [
+  VAL_TR_LOCOMOTIVE,
+  VAL_TR_WAGON,
+  VAL_TR_MULTIPLE_UNIT,
+];
+
 const testConfig = [
   {
     name: 'CPQ Configuration',
@@ -107,6 +127,7 @@ testConfig.forEach((config) => {
     };
     beforeEach(() => {
       cy.cxConfig(cpqSettings);
+      cy.log('config.backendURL: ', config.backendURL);
       configuration.defineAliases(config.backendURL);
       cy.visit('/');
       clickAllowAllFromBanner();
@@ -548,6 +569,128 @@ testConfig.forEach((config) => {
           );
         });
       });
+    });
+
+    describe.only('Container Handling', () => {
+      const containerLayouts = [
+        {
+          name: 'when available products are shown as cards',
+          expectDropdown: false,
+        },
+        {
+          name: 'when available products are shown as a searchable drop-down',
+          dropDownThreshold: 2,
+          expectDropdown: true,
+        },
+      ];
+
+      containerLayouts.forEach(
+        ({ name, dropDownThreshold, expectDropdown }) => {
+          describe(name, () => {
+            beforeEach(() => {
+              configurationCpqContainer.defineContainerAliases(
+                config.backendURL
+              );
+              cy.cxConfig({
+                productConfigurator:
+                  dropDownThreshold === undefined
+                    ? {}
+                    : {
+                        cpqContainerDropDownListThreshold: dropDownThreshold,
+                      },
+              });
+              configurationCpq.goToCPQConfigurationPage(
+                POWERTOOLS,
+                PROD_CODE_TRAIN
+              );
+              configurationCpqContainer.checkContainerAttributeDisplayed(
+                ATTR_TR_COM
+              );
+              configurationCpq.checkAttributeHeaderDisplayed([
+                ATTR_TR_COM_LABEL,
+              ]);
+            });
+
+            it('should start with no selected products and three available products', () => {
+              configurationCpqContainer.checkSelectedProducts(ATTR_TR_COM, 0);
+              configurationCpqContainer.checkAvailableProducts(ATTR_TR_COM, {
+                count: 3,
+                products: TRAIN_AVAILABLE_PRODUCTS,
+                dropdown: expectDropdown,
+              });
+            });
+
+            it('should hide available products when the section is collapsed', () => {
+              configurationCpqContainer.checkAvailableProducts(ATTR_TR_COM, {
+                count: 3,
+                products: TRAIN_AVAILABLE_PRODUCTS,
+                dropdown: expectDropdown,
+              });
+              configurationCpqContainer.collapseContainerSection(
+                configurationCpqContainer.AVAILABLE_PRODUCTS,
+                ATTR_TR_COM
+              );
+              configurationCpqContainer.checkContainerSectionCardCount(
+                configurationCpqContainer.AVAILABLE_PRODUCTS,
+                ATTR_TR_COM,
+                0
+              );
+              configurationCpqContainer.expandContainerSection(
+                configurationCpqContainer.AVAILABLE_PRODUCTS,
+                ATTR_TR_COM
+              );
+              configurationCpqContainer.checkAvailableProducts(ATTR_TR_COM, {
+                count: 3,
+                products: TRAIN_AVAILABLE_PRODUCTS,
+                dropdown: expectDropdown,
+              });
+            });
+
+            it('should add, edit, copy and remove selected products', () => {
+              configurationCpqContainer.addProductAndReturnToParent(
+                ATTR_TR_COM,
+                VAL_TR_LOCOMOTIVE,
+                GRP_TR_GENERAL
+              );
+              configurationCpqContainer.checkSelectedProducts(ATTR_TR_COM, 1, [
+                VAL_TR_LOCOMOTIVE,
+              ]);
+
+              configurationCpqContainer.editSelectedProductAndReturnToParent(
+                ATTR_TR_COM,
+                VAL_TR_LOCOMOTIVE,
+                0,
+                GRP_TR_GENERAL
+              );
+              configurationCpqContainer.checkSelectedProducts(ATTR_TR_COM, 1, [
+                VAL_TR_LOCOMOTIVE,
+              ]);
+
+              configurationCpqContainer.copySelectedProductAndReturnToParent(
+                ATTR_TR_COM,
+                VAL_TR_LOCOMOTIVE,
+                0
+              );
+              configurationCpqContainer.checkSelectedProducts(ATTR_TR_COM, 2);
+
+              configurationCpqContainer.addProductAndReturnToParent(
+                ATTR_TR_COM,
+                VAL_TR_WAGON,
+                GRP_TR_GENERAL,
+                4
+              );
+              configurationCpqContainer.checkSelectedProducts(ATTR_TR_COM, 6);
+
+              configurationCpqContainer.removeSelectedProductAndWait(
+                ATTR_TR_COM,
+                VAL_TR_WAGON,
+                0
+              );
+              configurationCpqContainer.checkSelectedProducts(ATTR_TR_COM, 5);
+            });
+          });
+        }
+      );
     });
 
     function editConfigurationFromCartEntry(numberOfCartItems: number) {

@@ -270,6 +270,75 @@ describe('ConfiguratorActions', () => {
     });
   });
 
+  describe('CopyContainerRow Actions', () => {
+    const copyContainerRowParameters: Configurator.CopyContainerRowParameters =
+      {
+        configId: CONFIG_ID,
+        owner: OWNER,
+        rowId: '3',
+      };
+
+    describe('CopyContainerRow', () => {
+      it('should create the action', () => {
+        const action = new ConfiguratorActions.CopyContainerRow(
+          copyContainerRowParameters
+        );
+
+        expect({ ...action }).toEqual({
+          type: ConfiguratorActions.COPY_CONTAINER_ROW,
+          payload: copyContainerRowParameters,
+          meta: {
+            entityType: CONFIGURATOR_DATA,
+            entityId: OWNER_KEY,
+            loader: { load: true },
+            processesCountDiff: 1,
+          },
+        });
+      });
+    });
+
+    describe('CopyContainerRowFail', () => {
+      it('should create the action', () => {
+        const error = { message: 'anError' };
+        const action = new ConfiguratorActions.CopyContainerRowFail({
+          parameters: copyContainerRowParameters,
+          error: error,
+        });
+
+        expect({ ...action }).toEqual({
+          error,
+          type: ConfiguratorActions.COPY_CONTAINER_ROW_FAIL,
+          payload: {
+            parameters: copyContainerRowParameters,
+            error: error,
+          },
+          meta: {
+            entityType: CONFIGURATOR_DATA,
+            entityId: OWNER_KEY,
+            loader: { error: error },
+            processesCountDiff: -1,
+          },
+        });
+      });
+    });
+
+    describe('CopyContainerRowSuccess', () => {
+      it('should create the action', () => {
+        const action = new ConfiguratorActions.CopyContainerRowSuccess(
+          CONFIGURATION
+        );
+        expect({ ...action }).toEqual({
+          type: ConfiguratorActions.COPY_CONTAINER_ROW_SUCCESS,
+          payload: CONFIGURATION,
+          meta: StateUtils.entityProcessesDecrementMeta(
+            CONFIGURATOR_DATA,
+            OWNER_KEY
+          ),
+        });
+      });
+    });
+  });
+
   describe('RemoveContainerRow Actions', () => {
     const removeContainerRowParameters: Configurator.RemoveContainerRowParameters =
       {

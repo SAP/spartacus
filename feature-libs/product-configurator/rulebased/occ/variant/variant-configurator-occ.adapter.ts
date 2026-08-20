@@ -395,6 +395,12 @@ export class VariantConfiguratorOccAdapter
     );
   }
 
+  copyContainerRow(): Observable<Configurator.Configuration> {
+    throw new Error(
+      'copyContainerRow is not supported for the variant configurator'
+    );
+  }
+
   removeContainerRow(): Observable<Configurator.Configuration> {
     throw new Error(
       'removeContainerRow is not supported for the variant configurator'

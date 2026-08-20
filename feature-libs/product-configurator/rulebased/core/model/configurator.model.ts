@@ -243,6 +243,12 @@ export namespace Configurator {
     rowId: string;
   }
 
+  export interface CopyContainerRowParameters {
+    configId: string;
+    owner: CommonConfigurator.Owner;
+    rowId: string;
+  }
+
   export interface UpdateConfigurationForCartEntryParameters {
     userId: string;
     cartId: string;

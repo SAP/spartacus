@@ -525,6 +525,42 @@ describe('CpqConfigurationOccService', () => {
     );
   });
 
+  it('should copy a container row, retrieve configuration and call normalizer', () => {
+    const copyContainerRowParams: Configurator.CopyContainerRowParameters = {
+      configId: configId,
+      owner: configuration.owner,
+      rowId: '3',
+    };
+    serviceUnderTest
+      .copyContainerRow(copyContainerRowParams)
+      .subscribe((config) => {
+        expect(config.errorMessages).toBe(errorMessages);
+      });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'POST' &&
+        req.url === 'copyCpqContainerRow' &&
+        req.body === null
+      );
+    });
+    mockReq.flush(cpqConfiguration);
+
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      CPQ_CONFIGURATOR_NORMALIZER
+    );
+
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'copyCpqContainerRow',
+      {
+        urlParams: {
+          configurationId: configId,
+          rowId: '3',
+        },
+      }
+    );
+  });
+
   it('should call serializer, update an attribute value quantity, retrieve configuration and call normalizer', () => {
     spyOn(converterService, 'convert').and.returnValue(updateValue);
     serviceUnderTest.updateValueQuantity(configuration).subscribe((config) => {

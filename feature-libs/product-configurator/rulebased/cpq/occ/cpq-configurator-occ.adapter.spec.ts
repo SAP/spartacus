@@ -104,6 +104,7 @@ describe('CpqConfiguratorOccAdapter', () => {
       'readConfigurationForOrderEntry',
       'readConfigurationForQuoteEntry',
       'addContainerRow',
+      'copyContainerRow',
       'removeContainerRow',
     ]);
 
@@ -146,6 +147,9 @@ describe('CpqConfiguratorOccAdapter', () => {
       return of(productConfiguration);
     });
     asSpy(mockedOccService.addContainerRow).and.callFake(() => {
+      return of(productConfiguration);
+    });
+    asSpy(mockedOccService.copyContainerRow).and.callFake(() => {
       return of(productConfiguration);
     });
     asSpy(mockedOccService.removeContainerRow).and.callFake(() => {
@@ -194,6 +198,18 @@ describe('CpqConfiguratorOccAdapter', () => {
         expect(mockedOccService.readConfiguration).toHaveBeenCalledWith(
           productConfiguration.configId,
           groupId
+        );
+      });
+  });
+
+  it('should pass only the CPQ tab ID to OCC service when reading a tab of a nested configuration', () => {
+    const nestedTabGroupId = `${Configurator.ContainerRowGroupIdPrefix}@1067@c7764679-8b9c@57`;
+    adapterUnderTest
+      .readConfiguration(productConfiguration.configId, nestedTabGroupId, owner)
+      .subscribe(() => {
+        expect(mockedOccService.readConfiguration).toHaveBeenCalledWith(
+          productConfiguration.configId,
+          '57'
         );
       });
   });
@@ -262,6 +278,20 @@ describe('CpqConfiguratorOccAdapter', () => {
     adapterUnderTest.addContainerRow(parameters).subscribe((config) => {
       expect(config.owner).toEqual(owner);
       expect(mockedOccService.addContainerRow).toHaveBeenCalledWith(parameters);
+    });
+  });
+
+  it('should delegate copyContainerRow to OCC service and map owner', () => {
+    const parameters: Configurator.CopyContainerRowParameters = {
+      configId: productConfiguration.configId,
+      owner: owner,
+      rowId: '3',
+    };
+    adapterUnderTest.copyContainerRow(parameters).subscribe((config) => {
+      expect(config.owner).toEqual(owner);
+      expect(mockedOccService.copyContainerRow).toHaveBeenCalledWith(
+        parameters
+      );
     });
   });
 

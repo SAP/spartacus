@@ -12,6 +12,8 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
+import { ConfiguratorUtilsService } from '../../../../core/facade/utils/configurator-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
@@ -87,9 +89,17 @@ class MockProductCardComponent {
 class MockConfiguratorCommonsService {
   addContainerRow(): void {}
   removeContainerRow(): void {}
+  copyContainerRow(): void {}
   isConfigurationLoading(): Observable<boolean> {
     return of(false);
   }
+  getConfiguration(): Observable<Configurator.Configuration> {
+    return of(ConfiguratorTestUtils.createConfiguration('config-id'));
+  }
+}
+
+class MockConfiguratorGroupsService {
+  navigateToGroup(): void {}
 }
 
 describe('ConfiguratorAttributeContainerComponent', () => {
@@ -97,6 +107,11 @@ describe('ConfiguratorAttributeContainerComponent', () => {
   let fixture: ComponentFixture<ConfiguratorAttributeContainerComponent>;
   let htmlElem: HTMLElement;
   let configuratorCommonsService: ConfiguratorCommonsService;
+  let configuratorGroupsService: ConfiguratorGroupsService;
+
+  const rowGroupId = 'CONTAINER_ROW@1111@row-1';
+  const firstTabId = 'CONTAINER_ROW@1111@row-1@1';
+  const secondTabId = 'CONTAINER_ROW@1111@row-1@2';
 
   function createAttribute(
     rows: Configurator.ContainerRow[] = [
@@ -167,6 +182,11 @@ describe('ConfiguratorAttributeContainerComponent', () => {
           useClass: MockConfiguratorCommonsService,
         },
         {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
+        },
+        ConfiguratorUtilsService,
+        {
           provide: ConfiguratorStorefrontUtilsService,
           useValue: {},
         },
@@ -186,6 +206,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
     component.attribute = createAttribute();
   });
 
@@ -804,6 +825,129 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     });
   });
 
+  describe('onCopy', () => {
+    it('should call copyContainerRow when the `COPY` action is clicked', () => {
+      spyOn(configuratorCommonsService, 'copyContainerRow');
+
+      clickProductCardAction(0, '[data-row-action="COPY"]');
+
+      expect(configuratorCommonsService.copyContainerRow).toHaveBeenCalledWith(
+        component.ownerKey,
+        'row-1'
+      );
+    });
+
+    it('should set loading$ before calling copyContainerRow', () => {
+      spyOn(configuratorCommonsService, 'copyContainerRow');
+
+      clickProductCardAction(0, '[data-row-action="COPY"]');
+
+      expect(component.loading$.value).toBe(true);
+    });
+  });
+
+  describe('onEdit', () => {
+    function createNestedRowGroup(
+      subGroups: Configurator.Group[]
+    ): Configurator.Group {
+      return {
+        id: rowGroupId,
+        groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+        attributes: [],
+        subGroups,
+      };
+    }
+
+    function createConfigurationWithNestedRow(
+      rowGroup?: Configurator.Group
+    ): Configurator.Configuration {
+      return {
+        ...ConfiguratorTestUtils.createConfiguration('config-id'),
+        groups: [
+          {
+            id: 'testGroup',
+            attributes: [],
+            subGroups: rowGroup ? [rowGroup] : [],
+          },
+        ],
+      };
+    }
+
+    function createConfigurableRow(): Configurator.ContainerRow {
+      return {
+        id: 'row-1',
+        productName: 'Product A',
+        productSystemId: 'SYS_A',
+        selected: true,
+        groupId: rowGroupId,
+      };
+    }
+
+    it('should navigate to the first tab of the nested configuration', () => {
+      const configuration = createConfigurationWithNestedRow(
+        createNestedRowGroup([
+          {
+            id: firstTabId,
+            groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+            attributes: [],
+            subGroups: [],
+          },
+          {
+            id: secondTabId,
+            groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+            attributes: [],
+            subGroups: [],
+          },
+        ])
+      );
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(configuration)
+      );
+      spyOn(configuratorGroupsService, 'navigateToGroup');
+
+      component.onEdit(createConfigurableRow());
+
+      expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalledWith(
+        configuration,
+        firstTabId
+      );
+    });
+
+    it('should not navigate when groupId is missing', () => {
+      spyOn(configuratorCommonsService, 'getConfiguration');
+      spyOn(configuratorGroupsService, 'navigateToGroup');
+
+      component.onEdit(component.selectedProducts[0]);
+
+      expect(
+        configuratorCommonsService.getConfiguration
+      ).not.toHaveBeenCalled();
+      expect(configuratorGroupsService.navigateToGroup).not.toHaveBeenCalled();
+    });
+
+    it('should not navigate when the nested row group cannot be resolved', () => {
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(createConfigurationWithNestedRow())
+      );
+      spyOn(configuratorGroupsService, 'navigateToGroup');
+
+      component.onEdit(createConfigurableRow());
+
+      expect(configuratorGroupsService.navigateToGroup).not.toHaveBeenCalled();
+    });
+
+    it('should not navigate when the nested row group has no tabs', () => {
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(createConfigurationWithNestedRow(createNestedRowGroup([])))
+      );
+      spyOn(configuratorGroupsService, 'navigateToGroup');
+
+      component.onEdit(createConfigurableRow());
+
+      expect(configuratorGroupsService.navigateToGroup).not.toHaveBeenCalled();
+    });
+  });
+
   describe('onRowAction', () => {
     it('should remove row when `DELETE` is clicked', () => {
       spyOn(configuratorCommonsService, 'removeContainerRow');
@@ -828,17 +972,25 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       );
     });
 
-    it('should ignore actions that are not yet handled', () => {
-      spyOn(configuratorCommonsService, 'removeContainerRow');
-      spyOn(configuratorCommonsService, 'addContainerRow');
+    it('should edit row when `EDIT` is clicked', () => {
+      spyOn(component, 'onEdit');
 
       clickProductCardAction(0, '[data-row-action="EDIT"]');
+
+      expect(component.onEdit).toHaveBeenCalledWith(
+        component.selectedProducts[0]
+      );
+    });
+
+    it('should copy row when `COPY` is clicked', () => {
+      spyOn(configuratorCommonsService, 'copyContainerRow');
+
       clickProductCardAction(0, '[data-row-action="COPY"]');
 
-      expect(
-        configuratorCommonsService.removeContainerRow
-      ).not.toHaveBeenCalled();
-      expect(configuratorCommonsService.addContainerRow).not.toHaveBeenCalled();
+      expect(configuratorCommonsService.copyContainerRow).toHaveBeenCalledWith(
+        component.ownerKey,
+        'row-1'
+      );
     });
   });
 

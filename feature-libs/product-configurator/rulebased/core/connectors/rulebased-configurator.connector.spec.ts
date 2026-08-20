@@ -97,6 +97,11 @@ class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
       of('addContainerRow' + parameters.configId)
   );
 
+  copyContainerRow = createSpy().and.callFake(
+    (parameters: Configurator.CopyContainerRowParameters) =>
+      of('copyContainerRow' + parameters.configId)
+  );
+
   removeContainerRow = createSpy().and.callFake(
     (parameters: Configurator.RemoveContainerRowParameters) =>
       of('removeContainerRow' + parameters.configId)
@@ -328,6 +333,18 @@ describe('RulebasedConfiguratorConnector', () => {
     service.addContainerRow(parameters).subscribe((res) => (result = res));
     expect(result).toBe('addContainerRow' + CONFIG_ID);
     expect(adapter[0].addContainerRow).toHaveBeenCalledWith(parameters);
+  });
+
+  it('should call adapter on copyContainerRow', () => {
+    const parameters: Configurator.CopyContainerRowParameters = {
+      configId: CONFIG_ID,
+      owner: productConfiguration.owner,
+      rowId: '3',
+    };
+    let result;
+    service.copyContainerRow(parameters).subscribe((res) => (result = res));
+    expect(result).toBe('copyContainerRow' + CONFIG_ID);
+    expect(adapter[0].copyContainerRow).toHaveBeenCalledWith(parameters);
   });
 
   it('should call adapter on removeContainerRow', () => {

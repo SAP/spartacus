@@ -407,6 +407,85 @@ describe('ConfiguratorGroupMenuComponent', () => {
     ).toBe(mockProductConfiguration.groups[2].subGroups[0].id);
   });
 
+  describe('condenseGroups with container row groups', () => {
+    const nestedTabGroup: Configurator.Group = {
+      id: 'CONTAINER_ROW@1067@row-1@57',
+      description: 'General',
+      name: 'TAB_57',
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      attributes: [{ name: 'nestedAttr' }],
+      subGroups: [],
+    };
+
+    const rowGroup: Configurator.Group = {
+      id: 'CONTAINER_ROW@1067@row-1',
+      description: 'Selected Product',
+      name: 'PRODUCT_SYS_ID',
+      groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+      attributes: [],
+      subGroups: [nestedTabGroup],
+    };
+
+    const tabGroup: Configurator.Group = {
+      id: 'TAB_WITH_CONTAINER',
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      attributes: [],
+      subGroups: [rowGroup],
+    };
+
+    beforeEach(() => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+    });
+
+    it('should keep a tab that only holds a container row group', () => {
+      expect(component.condenseGroups([tabGroup]).map((group) => group.id)) //
+        .toEqual([tabGroup.id]);
+    });
+
+    it('should condense a container row group into its single tab', () => {
+      expect(component.condenseGroups([rowGroup]).map((group) => group.id)) //
+        .toEqual([nestedTabGroup.id]);
+    });
+
+    it('should retain the container row description and name when merging with its single tab', () => {
+      const condensed = component.condenseGroups([rowGroup])[0];
+      expect(condensed.id).toBe(nestedTabGroup.id);
+      expect(condensed.description).toBe(rowGroup.description);
+      expect(condensed.name).toBe(rowGroup.name);
+      expect(condensed.groupType).toBe(nestedTabGroup.groupType);
+    });
+
+    it('should not condense a container row group that has several tabs', () => {
+      const rowWithTwoTabs: Configurator.Group = {
+        ...rowGroup,
+        subGroups: [
+          nestedTabGroup,
+          { ...nestedTabGroup, id: 'CONTAINER_ROW@1067@row-1@58' },
+        ],
+      };
+      expect(
+        component.condenseGroups([rowWithTwoTabs]).map((group) => group.id)
+      ).toEqual([rowWithTwoTabs.id]);
+    });
+
+    it('should still replace a group that carries attributes with its single child', () => {
+      const parentWithAttributes: Configurator.Group = {
+        id: 'PARENT_WITH_ATTRIBUTES',
+        description: 'Parent',
+        name: 'PARENT',
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        attributes: [{ name: 'parentAttr' }],
+        subGroups: [nestedTabGroup],
+      };
+      const condensed = component.condenseGroups([parentWithAttributes])[0];
+      expect(condensed.id).toBe(nestedTabGroup.id);
+      expect(condensed.description).toBe(nestedTabGroup.description);
+      expect(condensed.name).toBe(nestedTabGroup.name);
+    });
+  });
+
   it('should get correct parent group for condensed groups', () => {
     productConfigurationObservable = of(mockProductConfiguration);
     routerStateObservable = of(mockRouterState);
@@ -479,6 +558,68 @@ describe('ConfiguratorGroupMenuComponent', () => {
         0
       );
       expect(hamburgerMenuService.toggle).toHaveBeenCalledTimes(0);
+    });
+
+    it('should display subgroups if clicking on the currently selected group that has subgroups', () => {
+      const configWithCurrentParentGroup = structuredClone(
+        mockProductConfiguration
+      );
+      const parentGroup = configWithCurrentParentGroup.groups[2];
+      configWithCurrentParentGroup.interactionState.currentGroup =
+        parentGroup.id;
+      productConfigurationObservable = of(configWithCurrentParentGroup);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+
+      component.click(parentGroup);
+
+      expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalledWith(
+        configWithCurrentParentGroup.owner,
+        parentGroup.id
+      );
+      expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalledTimes(
+        0
+      );
+    });
+
+    it('should navigate to a different group that has container row subgroups', () => {
+      const nestedTabGroup: Configurator.Group = {
+        id: 'CONTAINER_ROW@1067@row-1@1',
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        attributes: [{ name: 'nestedAttr' }],
+        subGroups: [],
+      };
+      const rowGroup: Configurator.Group = {
+        id: 'CONTAINER_ROW@1067@row-1',
+        groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+        attributes: [],
+        subGroups: [nestedTabGroup],
+      };
+      const rootTab: Configurator.Group = {
+        id: '1',
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        attributes: [{ name: 'containerAttr' }],
+        subGroups: [rowGroup],
+      };
+      const configWithNestedCurrentGroup = structuredClone(
+        mockProductConfiguration
+      );
+      configWithNestedCurrentGroup.groups = [rootTab];
+      configWithNestedCurrentGroup.interactionState.currentGroup =
+        nestedTabGroup.id;
+      productConfigurationObservable = of(configWithNestedCurrentGroup);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+
+      component.click(rootTab, nestedTabGroup);
+
+      expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalledWith(
+        configWithNestedCurrentGroup,
+        rootTab.id
+      );
+      expect(
+        configuratorGroupsService.setMenuParentGroup
+      ).toHaveBeenCalledTimes(0);
     });
   });
 

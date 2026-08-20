@@ -1592,7 +1592,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       expect(component.isActionsMenuOpen).toBe(false);
     });
 
-    it('should keep `ADD / REMOVE` buttons when no row actions are defined', () => {
+    it('should keep `ADD / REMOVE` buttons when the card is not in container context', () => {
       component.productCardOptions.multiSelect = true;
       setProductBoundValueAttributes(component);
       fixture.detectChanges();
@@ -1601,6 +1601,36 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         htmlElem.querySelector('.cx-product-card-actions-menu-toggle')
       ).toBeFalsy();
       expect(htmlElem.querySelector('button.btn')).toBeTruthy();
+    });
+
+    it('should not render overflow menu or add/remove buttons when selected container row has no actions', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions([]);
+      fixture.detectChanges();
+
+      expect(
+        htmlElem.querySelector('.cx-product-card-actions-menu-toggle')
+      ).toBeFalsy();
+      expect(htmlElem.querySelector('button.btn')).toBeFalsy();
+    });
+
+    it('should not render overflow menu or add/remove buttons when selected container row has undefined actions', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      component.productCardOptions.containerRow = {
+        id: 'row-1',
+        productSystemId: 'PRODUCT_CODE',
+        selected: true,
+      };
+      fixture.detectChanges();
+
+      expect(component.hasContainerRowActions).toBe(false);
+      expect(component.showDefaultActions).toBe(false);
+      expect(
+        htmlElem.querySelector('.cx-product-card-actions-menu-toggle')
+      ).toBeFalsy();
+      expect(htmlElem.querySelector('button.btn')).toBeFalsy();
     });
   });
 });

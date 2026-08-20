@@ -31,6 +31,11 @@ export const ADD_CONTAINER_ROW_FAIL = '[Configurator] Add Container Row Fail';
 export const ADD_CONTAINER_ROW_SUCCESS =
   '[Configurator] Add Container Row Success';
 
+export const COPY_CONTAINER_ROW = '[Configurator] Copy Container Row';
+export const COPY_CONTAINER_ROW_FAIL = '[Configurator] Copy Container Row Fail';
+export const COPY_CONTAINER_ROW_SUCCESS =
+  '[Configurator] Copy Container Row Success';
+
 export const REMOVE_CONTAINER_ROW = '[Configurator] Remove Container Row';
 export const REMOVE_CONTAINER_ROW_FAIL =
   '[Configurator] Remove Container Row Fail';
@@ -241,6 +246,30 @@ export class AddContainerRowFail
 
 export class AddContainerRowSuccess extends StateUtils.EntityProcessesDecrementAction {
   readonly type = ADD_CONTAINER_ROW_SUCCESS;
+
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATOR_DATA, payload.owner.key);
+  }
+}
+
+export class CopyContainerRow extends StateUtils.EntityProcessesIncrementAction {
+  readonly type = COPY_CONTAINER_ROW;
+
+  constructor(public payload: Configurator.CopyContainerRowParameters) {
+    super(CONFIGURATOR_DATA, payload.owner.key);
+    setPendingLoader(this);
+  }
+}
+
+export class CopyContainerRowFail
+  extends ContainerRowFailAction<Configurator.CopyContainerRowParameters>
+  implements ErrorAction
+{
+  readonly type = COPY_CONTAINER_ROW_FAIL;
+}
+
+export class CopyContainerRowSuccess extends StateUtils.EntityProcessesDecrementAction {
+  readonly type = COPY_CONTAINER_ROW_SUCCESS;
 
   constructor(public payload: Configurator.Configuration) {
     super(CONFIGURATOR_DATA, payload.owner.key);
@@ -507,6 +536,9 @@ export type ConfiguratorAction =
   | AddContainerRow
   | AddContainerRowFail
   | AddContainerRowSuccess
+  | CopyContainerRow
+  | CopyContainerRowFail
+  | CopyContainerRowSuccess
   | RemoveContainerRow
   | RemoveContainerRowFail
   | RemoveContainerRowSuccess

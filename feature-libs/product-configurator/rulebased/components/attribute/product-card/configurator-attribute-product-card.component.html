@@ -64,7 +64,7 @@
           class="cx-product-card-action-btn"
           *ngIf="!productCardOptions?.singleDropdown"
         >
-          <ng-container *ngIf="hasContainerRowActions; else defaultActions">
+          <ng-container *ngIf="hasContainerRowActions">
             <div
               class="cx-product-card-actions-menu"
               (click)="$event.stopPropagation()"
@@ -124,7 +124,7 @@
             </div>
           </ng-container>
 
-          <ng-template #defaultActions>
+          <ng-container *ngIf="showDefaultActions">
             <ng-container *ngIf="productCardOptions?.multiSelect; else single">
               <ng-container
                 *ngIf="
@@ -448,7 +448,7 @@
                 </ng-container>
               </ng-template>
             </ng-template>
-          </ng-template>
+          </ng-container>
         </div>
       </div>
     </div>

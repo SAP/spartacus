@@ -37,12 +37,36 @@ export type uiType =
   | 'input'
   | 'dropdownProduct'
   | 'radioGroupProduct'
-  | 'checkBoxListProduct';
+  | 'checkBoxListProduct'
+  | 'container';
 
+/**
+ * Registers intercepts for create/update/read of a configuration.
+ * Trailing `/**` globs also match container row URLs (`.../rows`, `.../rows/...`);
+ * those are excluded so container row intercepts can observe them.
+ *
+ * @param {string} backendUrl - OCC configurator URL glob, e.g. `/occ/v2/powertools-spa/cpqconfigurator/**`
+ */
 export function defineAliases(backendUrl: string) {
-  cy.intercept('POST', backendUrl).as('createConfig');
-  cy.intercept('PATCH', backendUrl).as('updateConfig');
-  cy.intercept('GET', backendUrl).as('readConfig');
+  const path = toPathMatcherExcludingRows(backendUrl);
+  cy.intercept({ method: 'POST', path }).as('createConfig');
+  cy.intercept({ method: 'PATCH', path }).as('updateConfig');
+  cy.intercept({ method: 'GET', path }).as('readConfig');
+}
+
+/**
+ * Converts a configurator URL glob into a matcher that does not include `/rows` endpoints.
+ *
+ * @param {string} backendUrl - OCC configurator URL glob
+ * @return {string | RegExp} - Glob as-is, or a regex when `backendUrl` ends with `/**`
+ */
+function toPathMatcherExcludingRows(backendUrl: string): string | RegExp {
+  if (!backendUrl.endsWith('/**')) {
+    return backendUrl;
+  }
+  const prefix = backendUrl.slice(0, -3);
+  const escaped = prefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`^${escaped}(?!/[^/?]+/rows(?:/|\\?|$))`);
 }
 
 /**
@@ -513,11 +537,45 @@ export function navigateToOverviewPage(): void {
  * @param {number} groupIndex - Group index
  */
 export function clickOnGroupByGroupIndex(groupIndex: number): void {
+  cy.log('clickOnGroupByGroupIndex');
   cy.get('cx-configurator-group-menu .cx-menu-item')
     .not('.cx-menu-conflict')
     .eq(groupIndex)
     .should('be.visible')
     .click();
+}
+
+const GROUP_MENU_BACK_SELECTOR =
+  'cx-configurator-group-menu:visible .cx-menu-back';
+
+/**
+ * Verifies that the group-menu Back control is displayed.
+ */
+export function checkGroupMenuBackDisplayed(): void {
+  cy.get(GROUP_MENU_BACK_SELECTOR).should('be.visible');
+}
+
+/**
+ * Clicks the group-menu Back control.
+ */
+export function clickGroupMenuBack(): void {
+  cy.get(GROUP_MENU_BACK_SELECTOR).should('be.visible').click();
+  checkUpdatingMessageNotDisplayed();
+}
+
+/**
+ * Clicks a group-menu item by its visible name.
+ * The item may appear more than once; the first match is clicked.
+ *
+ * @param {string} groupName - Group name shown in the menu
+ */
+export function clickGroupMenuItem(groupName: string): void {
+  cy.get('cx-configurator-group-menu:visible .cx-menu-item')
+    .not('.cx-menu-conflict')
+    .contains(groupName)
+    .should('be.visible')
+    .click();
+  checkUpdatingMessageNotDisplayed();
 }
 
 /**
