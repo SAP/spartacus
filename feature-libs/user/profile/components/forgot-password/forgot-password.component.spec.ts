@@ -141,8 +141,17 @@ describe('ForgotPasswordComponent', () => {
     it('should navigate to login on cancel', () => {
       spyOn(routingService, 'go');
       const cancelBtn = el.query(By.css('button.btn-secondary'));
-      cancelBtn.triggerEventHandler('click');
+      cancelBtn.nativeElement.click();
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
+    });
+
+    it('should not submit the form on cancel', () => {
+      spyOn(component, 'onSubmit');
+
+      const cancelBtn = el.query(By.css('button.btn-secondary'));
+      cancelBtn.nativeElement.click();
+
+      expect(component.onSubmit).not.toHaveBeenCalled();
     });
   });
 });

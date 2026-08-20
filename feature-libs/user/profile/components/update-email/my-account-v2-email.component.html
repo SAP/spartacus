@@ -140,7 +140,11 @@
         </label>
 
         <div class="btn-group">
-          <button class="btn button-cancel button" (click)="cancelEdit()">
+          <button
+            type="button"
+            class="btn button-cancel button"
+            (click)="cancelEdit()"
+          >
             {{ 'common.cancel' | cxTranslate }}
           </button>
           <button

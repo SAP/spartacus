@@ -227,6 +227,18 @@ describe('MyAccountV2EmailComponent', () => {
       const submitBtn = el.query(By.css('button.btn-primary'));
       expect(submitBtn).toBeNull();
     });
+
+    it('when cancel is called it should not submit the form', () => {
+      spyOn(component, 'onSubmit');
+      component.onEdit();
+      fixture.detectChanges();
+
+      const cancelBtn = el.query(By.css('button.button-cancel'));
+      cancelBtn.nativeElement.click();
+      fixture.detectChanges();
+
+      expect(component.onSubmit).not.toHaveBeenCalled();
+    });
   });
 
   describe('Accessibility', () => {

@@ -174,11 +174,23 @@ describe('MyAccountV2PasswordComponent', () => {
 
     it('should clean input box', () => {
       fixture.detectChanges();
-      const buttons = fixture.debugElement.queryAll(
+      const cancelButton = fixture.debugElement.query(
         By.css('.myaccount-password-button-cancel')
       );
-      buttons[0].triggerEventHandler('click', null);
+      cancelButton.nativeElement.click();
       expect(el.queryAll(By.css('form-control')).length).toEqual(0);
+    });
+
+    it('should not submit the form when cancel is clicked', () => {
+      spyOn(component, 'onSubmit');
+      fixture.detectChanges();
+
+      const cancelButton = fixture.debugElement.query(
+        By.css('.myaccount-password-button-cancel')
+      );
+      cancelButton.nativeElement.click();
+
+      expect(component.onSubmit).not.toHaveBeenCalled();
     });
 
     it('should hide cx message strip when close clicked', () => {

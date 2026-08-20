@@ -20,11 +20,11 @@ import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
-import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, of } from 'rxjs';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import { UpdatePasswordComponent } from './update-password.component';
@@ -165,8 +165,17 @@ describe('UpdatePasswordComponent', () => {
     it('should navigate to home on cancel', () => {
       spyOn(routingService, 'go');
       const cancelBtn = el.query(By.css('button.btn-secondary'));
-      cancelBtn.triggerEventHandler('click');
+      cancelBtn.nativeElement.click();
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+    });
+
+    it('should not submit the form on cancel', () => {
+      spyOn(component, 'onSubmit');
+
+      const cancelBtn = el.query(By.css('button.btn-secondary'));
+      cancelBtn.nativeElement.click();
+
+      expect(component.onSubmit).not.toHaveBeenCalled();
     });
   });
 
