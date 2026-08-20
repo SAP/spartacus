@@ -5,14 +5,12 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
   FeaturesConfigModule,
+  FeatureToggles,
   I18nTestingModule,
   ImageGroup,
   MockDatePipe,
@@ -35,7 +33,10 @@ import { vi } from 'vitest';
 
 import { ProductImageZoomThumbnailsComponent } from '../product-image-zoom-thumbnails/product-image-zoom-thumbnails.component';
 import { ProductImageZoomViewComponent } from './product-image-zoom-view.component';
-import { MockFeatureTogglesController, provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const firstImage = {
   zoom: {
@@ -136,9 +137,12 @@ describe('ProductImageZoomViewComponent', () => {
       providers: [
         { provide: CurrentProductService, useClass: MockCurrentProductService },
         { provide: BreakpointService, useClass: MockBreakpointService },
-        provideMockFeatureToggles({
-          a11yKeyboardAccessibleZoom: true,
-        }),
+        {
+          provide: FeatureToggles,
+          useValue: {
+            a11yKeyboardAccessibleZoom: true,
+          },
+        },
       ],
     })
       .overrideComponent(ProductImageZoomViewComponent, {
@@ -171,7 +175,6 @@ describe('ProductImageZoomViewComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductImageZoomViewComponent);
     productImageZoomViewComponent = fixture.componentInstance;
-    (productImageZoomViewComponent as any)['featureToggles'] = TestBed.inject(MockFeatureTogglesController);
     fixture.detectChanges();
   });
 

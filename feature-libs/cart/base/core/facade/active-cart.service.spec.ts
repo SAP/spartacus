@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
+  FeatureToggles,
   getLastValueSync,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
@@ -741,7 +742,6 @@ describe('ActiveCartService', () => {
     // context (spartacus⚿<baseSite>⚿<key>). `pendingGuestCartMerge` is the
     // (protected) key held by ActiveCartStatePersistenceService.
     const STORAGE_KEY = `spartacus⚿${BASE_SITE}⚿pendingGuestCartMerge`;
-
     beforeEach(() => {
       winRef?.localStorage?.removeItem(STORAGE_KEY);
       TestBed.resetTestingModule();
@@ -756,14 +756,16 @@ describe('ActiveCartService', () => {
             provide: SiteContextParamsService,
             useValue: { getValues: () => of([BASE_SITE]) },
           },
-          provideMockFeatureToggles({
-            authorizationCodeFlowByDefault: true,
-            mergeGuestCartOnCodeFlowLogin: true,
-          }),
+          {
+            provide: FeatureToggles,
+            useValue: {
+              authorizationCodeFlowByDefault: true,
+              mergeGuestCartOnCodeFlowLogin: true,
+            }
+          }
         ],
       });
       service = TestBed.inject(ActiveCartService);
-      (service as any)['featureToggles'] = TestBed.inject(MockFeatureTogglesController);
       winRef = TestBed.inject(WindowRef);
       multiCartFacade = TestBed.inject(MultiCartFacade);
     });

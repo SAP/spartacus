@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ScriptLoader } from '@spartacus/core';
+import { FeatureToggles, ScriptLoader } from '@spartacus/core';
 // eslint-disable-next-line @nx/workspace-no-self-public-api-import -- ESLint is misfiring here: core and root are not the same library — they're separate entry points
 import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
 import { vi } from 'vitest';
@@ -11,6 +11,7 @@ import { StoreFinderConfig } from '../config/store-finder-config';
 import { StoreFinderService } from '../facade/store-finder.service';
 import { GoogleMapRendererService } from './google-map-renderer.service';
 import { StoreLocationService } from './store-location.service';
+import { Provider } from '@angular/core';
 
 const MAP_DOM_ELEMENT_INNER_HTML = 'map dom element inner html';
 const MOCK_MAPS_API_KEY = `mock-maps-api-key`;
@@ -131,31 +132,35 @@ describe('GoogleMapRendererService', () => {
   let storeLocationServiceMock: StoreLocationService;
   let mapDomElement: HTMLElement;
   let config: StoreFinderConfig;
-  let featureToggles: MockFeatureTogglesController;
 
-  beforeEach(() => {
+  const featureToggles = {
+    useAdvancedGoogleMarkers: false
+  };
+
+  const staticProviders: Provider[] = [
+    GoogleMapRendererService,
+    { provide: ScriptLoader, useClass: ScriptLoaderMock },
+    {
+      provide: StoreFinderService,
+      useClass: StoreFinderServiceMock,
+    },
+    {
+      provide: StoreLocationService,
+      useClass: StoreLocationServiceMock,
+    },
+  ];
+
+  const createTestBed = async(featureToggles: any) => {
     vi.useFakeTimers();
     advancedMarkerInstances = [];
     mapInstances = [];
 
-    const bed = TestBed.configureTestingModule({
+    const bed = await TestBed.configureTestingModule({
       providers: [
-        GoogleMapRendererService,
-        { provide: ScriptLoader, useClass: ScriptLoaderMock },
-        {
-          provide: StoreFinderService,
-          useClass: StoreFinderServiceMock,
-        },
-        {
-          provide: StoreLocationService,
-          useClass: StoreLocationServiceMock,
-        },
-        {
-          provide: StoreFinderConfig,
-          useValue: { googleMaps: { ...mockGoogleMapsConfig } },
-        },
-        provideMockFeatureToggles({ useAdvancedGoogleMarkers: false }),
-      ],
+        ...staticProviders,
+        { provide: StoreFinderConfig, useValue: { googleMaps: { ...mockGoogleMapsConfig } } },
+        { provide: FeatureToggles, useValue: { ...featureToggles } },
+      ]
     });
 
     mapDomElement = document.createElement('div');
@@ -164,11 +169,11 @@ describe('GoogleMapRendererService', () => {
     storeFinderServiceMock = bed.inject(StoreFinderService);
     storeLocationServiceMock = bed.inject(StoreLocationService);
     config = TestBed.inject(StoreFinderConfig);
-    featureToggles = TestBed.inject(MockFeatureTogglesController);
-    // The service is `providedIn: 'root'` so its `inject(FeatureToggles)` resolves
-    // from the root injector, bypassing the TestBed override. Point it at the mock
-    // controller directly so that `featureToggles.set(...)` calls are visible to it.
-    (googleMapRendererService as any)['featureToggles'] = featureToggles;
+  };
+
+  beforeEach(async () => {
+    TestBed.resetTestingModule();
+    await createTestBed(featureToggles);
   });
 
   afterEach(() => {
@@ -284,8 +289,9 @@ describe('GoogleMapRendererService', () => {
   });
 
   describe('with useGoogleMapsAsyncLoading enabled', () => {
-    beforeEach(() => {
-      featureToggles.set('useGoogleMapsAsyncLoading', true);
+    beforeEach( async () => {
+      TestBed.resetTestingModule();
+      await createTestBed({...featureToggles, useGoogleMapsAsyncLoading: true});
       setApiKey(MOCK_MAPS_API_KEY);
     });
 
@@ -314,12 +320,14 @@ describe('GoogleMapRendererService', () => {
 
     it('should draw the map from the global callback and clean it up', async () => {
       let callbackName: string | undefined;
-      vi.spyOn(scriptLoaderMock, 'embedScript').mockImplementation((options: any) => {
-        callbackName = options.params?.callback;
-        (window as any)['google'] = createGoogleMock();
-        // Emulate Google invoking the global callback once the API is ready.
-        (window as any)[callbackName as string]();
-      });
+      vi.spyOn(scriptLoaderMock, 'embedScript').mockImplementation(
+        (options: any) => {
+          callbackName = options.params?.callback;
+          (window as any)['google'] = createGoogleMock();
+          // Emulate Google invoking the global callback once the API is ready.
+          (window as any)[callbackName as string]();
+        }
+      );
 
       googleMapRendererService.renderMap(
         mapDomElement,
@@ -334,8 +342,9 @@ describe('GoogleMapRendererService', () => {
   });
 
   describe('with useAdvancedGoogleMarkers enabled', () => {
-    beforeEach(() => {
-      featureToggles.set('useAdvancedGoogleMarkers', true);
+    beforeEach(async () => {
+      TestBed.resetTestingModule();
+      await createTestBed({...featureToggles, useAdvancedGoogleMarkers: true});
       setApiKey(MOCK_MAPS_API_KEY);
     });
 
