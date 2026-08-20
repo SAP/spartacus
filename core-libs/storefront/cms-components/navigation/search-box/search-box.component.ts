@@ -411,6 +411,22 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * Opens the type-ahead searchBox
    */
   open(): void {
+    this.clearLeftoverResultsForEmptyQuery();
+
+    if (!this.searchBoxActive) {
+      this.activateSearchBox();
+    }
+
+    if (this.featureToggles.searchBoxEmptyQueryResultsPanel) {
+      this.checkOuterResults();
+    }
+  }
+
+  /**
+   * Clears leftover OCC results when the empty-query panel toggle is on
+   * and the input is empty. Override to change that cleanup.
+   */
+  protected clearLeftoverResultsForEmptyQuery(): void {
     if (this.featureToggles.searchBoxEmptyQueryResultsPanel) {
       const emptyQuery = !(
         this.searchInputEl?.nativeElement?.value ?? ''
@@ -420,45 +436,44 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
         this.searchBoxComponentService.clearResults();
       }
     }
+  }
 
-    if (!this.searchBoxActive) {
-      if (this.featureToggles.searchBoxEmptyQueryResultsPanel) {
-        this.searchBoxComponentService.toggleBodyClass(
-          SEARCHBOX_IS_ACTIVE,
-          true
-        );
-        this.searchBoxActive = true;
-        this.searchInputEl?.nativeElement.focus();
-        this.changeDetectorRef.detectChanges();
-      } else if (this.featureToggles.searchBoxRecentSearchesRemoval) {
-        const inputValue = this.searchInputEl?.nativeElement?.value ?? '';
-        const trimmed = inputValue.trim();
+  /**
+   * Activates the search box UI. Override to change how the panel is opened.
+   */
+  protected activateSearchBox(): void {
+    if (this.featureToggles.searchBoxEmptyQueryResultsPanel) {
+      this.setSearchBoxActive();
+      this.changeDetectorRef.detectChanges();
+    } else if (this.featureToggles.searchBoxRecentSearchesRemoval) {
+      if (this.shouldSkipDesktopEmptyOpen()) {
+        return;
+      }
+      this.setSearchBoxActive();
+    } else {
+      this.setSearchBoxActive();
+    }
+  }
 
-        // On desktop, do not open results when there is no query.
-        // On mobile, always allow opening to show the panel.
-        if (this.isMobileState === false && !trimmed) {
-          return;
-        }
-
-        this.searchBoxComponentService.toggleBodyClass(
-          SEARCHBOX_IS_ACTIVE,
-          true
-        );
-        this.searchBoxActive = true;
-        this.searchInputEl?.nativeElement.focus();
-      } else {
-        this.searchBoxComponentService.toggleBodyClass(
-          SEARCHBOX_IS_ACTIVE,
-          true
-        );
-        this.searchBoxActive = true;
-        this.searchInputEl?.nativeElement.focus();
+  /**
+   * On desktop with recent-searches removal, do not open results when there
+   * is no query. On mobile, always allow opening to show the panel.
+   */
+  protected shouldSkipDesktopEmptyOpen(): boolean {
+    const inputValue = this.searchInputEl?.nativeElement?.value ?? '';
+    const trimmed = inputValue.trim();
+    if (this.isMobileState === false) {
+      if (!trimmed) {
+        return true;
       }
     }
+    return false;
+  }
 
-    if (this.featureToggles.searchBoxEmptyQueryResultsPanel) {
-      this.checkOuterResults();
-    }
+  protected setSearchBoxActive(): void {
+    this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, true);
+    this.searchBoxActive = true;
+    this.searchInputEl?.nativeElement.focus();
   }
 
   /**
@@ -919,11 +934,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   clear(el: HTMLInputElement): void {
     this.disableClose();
     el.value = '';
-    if (this.featureToggles.searchBoxEmptyQueryResultsPanel) {
-      this.hasQuery = false;
-    } else if (this.featureToggles.searchBoxRecentSearchesRemoval) {
-      this.hasQuery = false;
-    }
+    this.hasQuery = false;
     this.searchBoxComponentService.clearResults();
 
     // Use Timeout to run after blur event to prevent the searchbox from closing on mobile
