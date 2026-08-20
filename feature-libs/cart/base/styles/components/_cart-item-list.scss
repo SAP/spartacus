@@ -206,5 +206,15 @@
         }
       }
     }
+
+    .cx-qty-hint {
+      flex-basis: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
+      @include type('8');
+      color: var(--cx-color-warning);
+    }
   }
 }

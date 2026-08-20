@@ -6,14 +6,14 @@
 
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
-import { EMPTY, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
 import { CartItemValidationService } from '@spartacus/cart/base/core';
 import {
   CartItemContext,
   CartModificationQuantityInfo,
 } from '@spartacus/cart/base/root';
+import { TranslatePipe } from '@spartacus/core';
+import { combineLatest, EMPTY, Observable, of } from 'rxjs';
+import { map, startWith, switchMap } from 'rxjs/operators';
 
 /**
  * The per-item quantity hint together with the product name and code, so the
@@ -31,6 +31,10 @@ interface CartItemQuantityHint extends CartModificationQuantityInfo {
  *
  * Reads the current item from the injected `CartItemContext` and derives the hint
  * Rendered into the `CartOutlets.ITEM_VALIDATION_QUANTITY_HINT` outlet.
+ *
+ * Suppressed in the compact context (e.g. the added-to-cart dialog), which reuses
+ * the shared validation results without re-validating and so would otherwise show
+ * a stale hint from the last cart visit.
  */
 @Component({
   selector: 'cx-cart-item-validation-quantity-hint',
@@ -42,18 +46,25 @@ export class CartItemValidationQuantityHintComponent {
   protected cartItemValidationService = inject(CartItemValidationService);
   protected cartItemContext = inject(CartItemContext, { optional: true });
 
-  readonly quantityInfo$: Observable<CartItemQuantityHint> =
-    this.cartItemContext?.item$.pipe(
-      switchMap((item) =>
-        this.cartItemValidationService
-          .getQuantityInfo$(item.product?.code)
-          .pipe(
-            map((info) => ({
-              ...info,
-              name: item.product?.name,
-              code: item.product?.code,
-            }))
-          )
+  readonly quantityInfo$: Observable<CartItemQuantityHint> = this
+    .cartItemContext
+    ? combineLatest([
+        this.cartItemContext.item$,
+        this.cartItemContext.compact$.pipe(startWith(false)),
+      ]).pipe(
+        switchMap(([item, compact]) =>
+          compact
+            ? of<CartItemQuantityHint>({})
+            : this.cartItemValidationService
+                .getQuantityInfo$(item.product?.code)
+                .pipe(
+                  map((info) => ({
+                    ...info,
+                    name: item.product?.name,
+                    code: item.product?.code,
+                  }))
+                )
+        )
       )
-    ) ?? EMPTY;
+    : EMPTY;
 }

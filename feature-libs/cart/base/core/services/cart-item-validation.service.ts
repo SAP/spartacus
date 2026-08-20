@@ -56,8 +56,10 @@ export class CartItemValidationService {
     if (!cached) {
       cached = this.cartValidationFacade.getValidationResults().pipe(
         map((modifications) => {
-          const modification = modifications.find((mod) =>
-            cartModificationMatchesCode(mod, code, true)
+          const modification = modifications.find(
+            (mod) =>
+              cartModificationMatchesCode(mod, code, true) &&
+              isQuantityLimitViolation(mod)
           );
           return modification
             ? parseCartModificationQuantityInfo(modification.statusMessage)
