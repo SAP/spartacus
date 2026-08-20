@@ -381,6 +381,26 @@ describe('SearchBoxComponent', () => {
         expect(fixture.debugElement.query(By.css('.results'))).toBeTruthy();
       }));
 
+      it('should remove has-outer-results when the feature is enabled and there are no outer results', () => {
+        fixture.componentRef.setInput('queryText', 'test input');
+        fixture.detectChanges();
+
+        const results = fixture.debugElement.query(
+          By.css('.results')
+        ).nativeElement;
+        (searchBoxComponent as any).featureToggles = {
+          searchBoxRecentSearchesRemoval: true,
+        };
+        spyOn(searchBoxComponent['renderer'], 'removeClass');
+
+        searchBoxComponent['checkOuterResults']();
+
+        expect(searchBoxComponent['renderer'].removeClass).toHaveBeenCalledWith(
+          results,
+          'has-outer-results'
+        );
+      });
+
       it('should contain a message after search', () => {
         fixture.componentRef.setInput(
           'queryText',

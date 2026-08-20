@@ -497,10 +497,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     if (results) {
       if (hasOuterResults) {
         this.renderer.addClass(results, 'has-outer-results');
-      } else {
-        if (this.featureToggles.searchBoxRecentSearchesRemoval) {
-          this.renderer.removeClass(results, 'has-outer-results');
-        }
+      } else if (this.featureToggles.searchBoxRecentSearchesRemoval) {
+        this.renderer.removeClass(results, 'has-outer-results');
       }
     }
 
