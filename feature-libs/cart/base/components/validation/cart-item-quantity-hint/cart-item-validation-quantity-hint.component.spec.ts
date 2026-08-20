@@ -87,7 +87,7 @@ describe('CartItemValidationQuantityHintComponent', () => {
 
   it('should expose a stable id derived from the product code for aria-describedby', () => {
     cartItemContext.item$.next({
-      product: { code: 'PR0000', name: 'Test Camera' },
+      product: { code: 'PR0000' },
     });
     quantityInfo$.next({ max: 10 });
     fixture.detectChanges();

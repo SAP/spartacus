@@ -16,12 +16,11 @@ import { EMPTY, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 /**
- * The per-item quantity hint together with the product name and code, so the
- * hint can name which product is affected and be associated (via a stable id
- * derived from the code) with the quantity stepper for screen readers.
+ * The per-item quantity hint together with the product code, so the hint can be
+ * associated (via a stable id derived from the code) with the quantity stepper
+ * for screen readers.
  */
 interface CartItemQuantityHint extends CartModificationQuantityInfo {
-  name?: string;
   code?: string;
 }
 
@@ -54,7 +53,6 @@ export class CartItemValidationQuantityHintComponent {
           .pipe(
             map((info) => ({
               ...info,
-              name: item.product?.name,
               code: item.product?.code,
             }))
           )
