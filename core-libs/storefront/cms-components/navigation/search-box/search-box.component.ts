@@ -462,10 +462,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   protected shouldSkipDesktopEmptyOpen(): boolean {
     const inputValue = this.searchInputEl?.nativeElement?.value ?? '';
     const trimmed = inputValue.trim();
-    if (this.isMobileState === false) {
-      if (!trimmed) {
-        return true;
-      }
+    if (this.isMobileState === false && !trimmed) {
+      return true;
     }
     return false;
   }
