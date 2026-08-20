@@ -273,11 +273,17 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   );
 
   ngOnInit(): void {
+    let subscribeToMobileViewport = false;
     if (this.featureToggles.searchBoxRecentSearchesRemoval) {
       this.subscribeToRecentSearchesRemoval();
+      subscribeToMobileViewport = true;
     }
     if (this.featureToggles.searchBoxEmptyQueryResultsPanel) {
       this.subscribeToEmptyOuterResults();
+      subscribeToMobileViewport = true;
+    }
+    if (subscribeToMobileViewport) {
+      this.subscribeToMobileViewport();
     }
 
     const routeStateSubscription = this.routingService
@@ -314,13 +320,17 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Subscribes to config and viewport for recent-searches removal.
-   * Override to change which streams are observed.
+   * Subscribes to search box config.
    */
   protected subscribeToRecentSearchesRemoval(): void {
     const configSubscription = this.config$.subscribe();
     this.subscriptions.add(configSubscription);
+  }
 
+  /**
+   * Subscribes to viewport size so desktop and mobile search box behaviour can differ.
+   */
+  protected subscribeToMobileViewport(): void {
     const isMobile$ = this.isMobile;
     if (isMobile$) {
       const isMobileSubscription = isMobile$.subscribe(
@@ -332,17 +342,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   /**
    * Closes the desktop search box when trending and recent searches become empty.
-   * Override to change that empty-list behaviour.
    */
   protected subscribeToEmptyOuterResults(): void {
-    const isMobile$ = this.isMobile;
-    if (isMobile$) {
-      const isMobileSubscription = isMobile$.subscribe(
-        (isMobile) => (this.isMobileState = isMobile ?? false)
-      );
-      this.subscriptions.add(isMobileSubscription);
-    }
-
     const emptyOuterResultsSubscription =
       this.searchBoxComponentService.emptyOuterResults$.subscribe(() => {
         const emptyQuery = !(
@@ -411,7 +412,9 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * Opens the type-ahead searchBox
    */
   open(): void {
-    this.clearLeftoverResultsForEmptyQuery();
+    if (this.featureToggles.searchBoxEmptyQueryResultsPanel) {
+      this.clearLeftoverResultsForEmptyQuery();
+    }
 
     if (!this.searchBoxActive) {
       this.activateSearchBox();
@@ -423,18 +426,13 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Clears leftover OCC results when the empty-query panel toggle is on
-   * and the input is empty. Override to change that cleanup.
+   * Clears leftover OCC results when the input is empty.
    */
   protected clearLeftoverResultsForEmptyQuery(): void {
-    if (this.featureToggles.searchBoxEmptyQueryResultsPanel) {
-      const emptyQuery = !(
-        this.searchInputEl?.nativeElement?.value ?? ''
-      ).trim();
-      if (emptyQuery) {
-        this.hasQuery = false;
-        this.searchBoxComponentService.clearResults();
-      }
+    const emptyQuery = !(this.searchInputEl?.nativeElement?.value ?? '').trim();
+    if (emptyQuery) {
+      this.hasQuery = false;
+      this.searchBoxComponentService.clearResults();
     }
   }
 

@@ -3,7 +3,6 @@ import {
   CmsComponent,
   createFrom,
   EventService,
-  FeatureToggles,
   I18nTestingModule,
   Product,
   ProductSearchPage,
@@ -13,6 +12,10 @@ import {
   TranslationService,
   WindowRef,
 } from '@spartacus/core';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -94,12 +97,8 @@ describe('SearchBoxComponentService', () => {
   let service: SearchBoxComponentService;
   let searchBoxService: SearchboxService;
   let eventService: EventService;
-  let featureToggles: FeatureToggles;
+  let featureToggles: MockFeatureTogglesController;
   beforeEach(() => {
-    featureToggles = {
-      searchBoxRecentSearchesRemoval: false,
-      searchBoxEmptyQueryResultsPanel: false,
-    };
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       providers: [
@@ -116,7 +115,10 @@ describe('SearchBoxComponentService', () => {
           useClass: MockSearchBoxService,
         },
         { provide: TranslationService, useClass: MockTranslationService },
-        { provide: FeatureToggles, useValue: featureToggles },
+        ...provideMockFeatureToggles({
+          searchBoxRecentSearchesRemoval: false,
+          searchBoxEmptyQueryResultsPanel: false,
+        }),
         SearchBoxComponentService,
         WindowRef,
       ],
@@ -124,6 +126,7 @@ describe('SearchBoxComponentService', () => {
     service = TestBed.inject(SearchBoxComponentService);
     searchBoxService = TestBed.inject(SearchboxService);
     eventService = TestBed.inject(EventService);
+    featureToggles = TestBed.inject(MockFeatureTogglesController);
   });
 
   afterEach(() => {
@@ -257,7 +260,7 @@ describe('SearchBoxComponentService', () => {
     });
 
     it('should not mark the body as having searchbox results for leftover OCC data when the query is empty', () => {
-      featureToggles.searchBoxEmptyQueryResultsPanel = true;
+      featureToggles.set('searchBoxEmptyQueryResultsPanel', true);
       spyOn(searchBoxService, 'getResults').and.returnValue(
         of({ products: [] })
       );
@@ -271,7 +274,7 @@ describe('SearchBoxComponentService', () => {
     });
 
     it('should mark the body as having searchbox results when trending searches are enabled with an empty query', () => {
-      featureToggles.searchBoxEmptyQueryResultsPanel = true;
+      featureToggles.set('searchBoxEmptyQueryResultsPanel', true);
       spyOn(searchBoxService, 'getResults').and.returnValue(of({}));
       spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(of([]));
 
@@ -286,7 +289,7 @@ describe('SearchBoxComponentService', () => {
     });
 
     it('should mark the body as having searchbox results for OCC data when the query is not empty', () => {
-      featureToggles.searchBoxEmptyQueryResultsPanel = true;
+      featureToggles.set('searchBoxEmptyQueryResultsPanel', true);
       spyOn(searchBoxService, 'getResults').and.returnValue(
         of(mockSearchResults)
       );
