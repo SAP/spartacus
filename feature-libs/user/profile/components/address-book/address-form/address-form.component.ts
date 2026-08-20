@@ -43,8 +43,8 @@ import {
   TranslatePipe,
   TranslationService,
   UserAddressService,
+  HierarchicalAddressConfig
 } from '@spartacus/core';
-import { HierarchicalAddressConfig } from '../../../../../../core-libs/core/src/user/config/hierarchical-address-config';
 import {
   FocusDirective,
   FormErrorsComponent,

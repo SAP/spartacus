@@ -14,8 +14,8 @@ import {
   LanguageService,
   TranslatePipe,
   TranslationService,
+  HierarchicalAddressConfig
 } from '@spartacus/core';
-import { HierarchicalAddressConfig } from '../../../../../core-libs/core/src/user/config/hierarchical-address-config';
 import {
   Card,
   CardComponent,
