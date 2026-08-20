@@ -3,12 +3,11 @@ import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutDeliveryAddressAdapter } from './checkout-delivery-address.adapter';
 import { CheckoutDeliveryAddressConnector } from './checkout-delivery-address.connector';
-import createSpy = jasmine.createSpy;
 
 class MockCheckoutDeliveryAdapter implements CheckoutDeliveryAddressAdapter {
-  createAddress = createSpy().and.returnValue(of({}));
-  setAddress = createSpy().and.returnValue(of({}));
-  clearCheckoutDeliveryAddress = createSpy().and.returnValue(of({}));
+  createAddress = vi.fn().mockReturnValue(of({}));
+  setAddress = vi.fn().mockReturnValue(of({}));
+  clearCheckoutDeliveryAddress = vi.fn().mockReturnValue(of({}));
 }
 
 describe('CheckoutDeliveryAddressConnector', () => {
