@@ -221,8 +221,8 @@ export class CpqConfiguratorOccService {
   /**
    * Copies a container row of the CPQ configuration and returns the resulting configuration.
    *
-   * @param {Configurator.CopyContainerRowParameters} parameters - Copy container row parameters
-   * @returns {Observable<Configurator.Configuration>} - Updated configuration
+   * @param parameters - Copy container row parameters
+   * @returns - Updated configuration
    */
   copyContainerRow(
     parameters: Configurator.CopyContainerRowParameters

@@ -44,8 +44,8 @@ export class CpqConfiguratorUtils {
    * configuration independently. Only the trailing CPQ tab ID must be sent to
    * the backend.
    *
-   * @param {string} groupId Configurator group ID
-   * @returns {string} CPQ tab ID
+   * @param groupId Configurator group ID
+   * @returns CPQ tab ID
    */
   static getTabId(groupId: string): string {
     return groupId.startsWith(`${Configurator.ContainerRowGroupIdPrefix}@`)

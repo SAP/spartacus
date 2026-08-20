@@ -227,8 +227,8 @@ export class ConfiguratorGroupMenuComponent {
    * Those children are nested product configurations, so the parent
    * remains a navigable tab rather than a structural folder.
    *
-   * @param {Configurator.Group} group - Given group
-   * @return {boolean} - `true` if a child is a container row group
+   * @param group - Given group
+   * @return - `true` if a child is a container row group
    */
   protected hasContainerRowSubGroups(group: Configurator.Group): boolean {
     return (
@@ -287,8 +287,8 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Determines whether a group is replaced by its single sub group in the menu.
    *
-   * @param {Configurator.Group} group - Given group
-   * @return {boolean} - Is the group condensed?
+   * @param group - Given group
+   * @return - Is the group condensed?
    */
   protected isCondensed(group: Configurator.Group): boolean {
     return (
@@ -307,8 +307,8 @@ export class ConfiguratorGroupMenuComponent {
    * groups (e.g. CPQ container row groups) are merged with their single
    * child so that the menu keeps the parent's description.
    *
-   * @param {Configurator.Group} group - Given group
-   * @return {boolean} - `true` if the group has no attributes
+   * @param group - Given group
+   * @return - `true` if the group has no attributes
    */
   protected hasNoAttributes(group: Configurator.Group): boolean {
     return !group.attributes?.length;
@@ -319,9 +319,9 @@ export class ConfiguratorGroupMenuComponent {
    * remains the navigation target, while the parent's description and name
    * are shown in the menu.
    *
-   * @param {Configurator.Group} group - Parent group
-   * @param {Configurator.Group} child - Condensed child group
-   * @return {Configurator.Group} - Merged group
+   * @param group - Parent group
+   * @param child - Condensed child group
+   * @return - Merged group
    */
   protected mergeWithSingleChild(
     group: Configurator.Group,
