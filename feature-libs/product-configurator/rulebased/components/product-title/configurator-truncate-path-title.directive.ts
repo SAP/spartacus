@@ -50,7 +50,7 @@ export function truncatePathTitle(
       return truncated;
     }
   }
-  return ELLIPSIS_PREFIX + parts[parts.length - 1];
+  return ELLIPSIS_PREFIX + parts.at(-1);
 }
 
 /**
