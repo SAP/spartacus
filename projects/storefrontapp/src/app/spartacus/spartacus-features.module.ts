@@ -296,6 +296,8 @@ if (environment.cpq) {
     },
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
+        useAdvancedGoogleMarkers: true,
+        useGoogleMapsAsyncLoading: true,
         productConfiguratorConsolidatedButtonDisabling: true,
         productConfiguratorCPQContainer: true,
         improvedTabStyling: true,

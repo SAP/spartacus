@@ -10,6 +10,26 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
+   * When enabled, `GoogleMapRendererService` renders store locations using
+   * Google's `AdvancedMarkerElement` instead of the deprecated `Marker` class.
+   * This loads the optional `marker` library and requires a `mapId` to be set
+   * in the store finder configuration.
+   *
+   * Affects: `GoogleMapRendererService`
+   */
+  useAdvancedGoogleMarkers?: boolean;
+
+  /**
+   * When enabled, the Google Maps JavaScript API script in
+   * `GoogleMapRendererService` is loaded with the `loading=async` URL
+   * parameter, opting into Google's async bootstrap loader. This resolves the
+   * "Google Maps JavaScript API has been loaded directly without loading=async"
+   * performance warning.
+   *
+   * Affects: `GoogleMapRendererService`
+   */
+  useGoogleMapsAsyncLoading?: boolean;
+  /**
    * Adds a keyboard accessible zoom button to the `ProductImageZoomViewComponent`.
    */
   a11yKeyboardAccessibleZoom?: boolean;
@@ -728,6 +748,8 @@ export interface FeatureTogglesInterface {
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  useAdvancedGoogleMarkers: false,
+  useGoogleMapsAsyncLoading: false,
   alignNavigationMenuWithHeader: false,
   a11yKeyboardAccessibleZoom: true,
   a11yPreventCartItemsFormRedundantRecreation: true,
