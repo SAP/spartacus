@@ -40,43 +40,31 @@
           width: 80%;
         }
 
+        // TODO: (CXSPA-14099) - Remove feature flag next major release.
+        @include forFeature('productConfiguratorCPQContainer') {
+          // Centered title: subtract twice the button width so the path
+          // cannot overlay show more / show less.
+          inline-size: calc(100% - 16rem);
+          overflow: hidden;
+
+          @include media-breakpoint-down(sm) {
+            width: unset;
+            inline-size: calc(100% - 5rem);
+          }
+        }
+
         span {
           @include cx-configurator-truncate-content();
           -webkit-line-clamp: unset;
           line-break: auto;
           text-align: center;
-        }
-      }
 
-      a {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        align-self: flex-end;
-        cursor: pointer;
-        margin-block-start: -25px;
-        margin-inline-end: 5px;
-        font-weight: normal;
-        color: var(--cx-color-text);
-
-        &:hover {
-          text-decoration: none;
-        }
-
-        cx-icon {
-          margin-inline-start: 5px;
-          margin-inline-end: 5px;
-          align-self: center;
-        }
-
-        @include media-breakpoint-down(xs) {
-          margin-block-start: -20px;
-        }
-
-        .cx-toggle-details-link-text {
-          text-decoration: underline;
-          @include media-breakpoint-down(xs) {
-            display: none;
+          // TODO: (CXSPA-14099) - Remove feature flag next major release.
+          @include forFeature('productConfiguratorCPQContainer') {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
         }
       }
@@ -108,6 +96,13 @@
           text-decoration: underline;
           @include media-breakpoint-down(xs) {
             display: none;
+          }
+
+          // TODO: (CXSPA-14099) - Remove feature flag next major release.
+          @include forFeature('productConfiguratorCPQContainer') {
+            @include media-breakpoint-down(sm) {
+              display: none;
+            }
           }
         }
       }

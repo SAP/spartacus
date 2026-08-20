@@ -17,6 +17,7 @@ import {
   ProductScope,
   ProductService,
   TranslatePipe,
+  useFeatureStyles,
 } from '@spartacus/core';
 import {
   ConfiguratorRouter,
@@ -34,6 +35,7 @@ import { ConfiguratorUtilsService } from '../../core/facade/utils/configurator-u
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import { ConfiguratorMainAriaLabelledByDirective } from './configurator-product-title.directive';
+import { ConfiguratorTruncatePathTitleDirective } from './configurator-truncate-path-title.directive';
 
 /**
  * View model for the product title: the heading can include the nested
@@ -59,6 +61,7 @@ interface ConfiguratorProductTitleView {
   imports: [
     NgIf,
     ConfiguratorMainAriaLabelledByDirective,
+    ConfiguratorTruncatePathTitleDirective,
     IconComponent,
     MediaComponent,
     AsyncPipe,
@@ -270,7 +273,9 @@ export class ConfiguratorProductTitleComponent {
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected productService: ProductService,
     protected configExpertModeService: ConfiguratorExpertModeService
-  ) {}
+  ) {
+    useFeatureStyles('productConfiguratorCPQContainer');
+  }
 
   triggerDetails(): void {
     this.showMore = !this.showMore;

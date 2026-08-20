@@ -4,11 +4,12 @@
       <span
         id="cxConfigProductName"
         [cxConfiguratorMainAriaLabelledBy]="'cxConfigProductName'"
+        [cxConfiguratorTruncatePathTitle]="data.title"
+        [attr.title]="data.title"
+        [attr.aria-label]="data.title"
         role="heading"
         aria-level="1"
-      >
-        {{ data.title }}
-      </span>
+      ></span>
     </div>
     <button (click)="triggerDetails()" [attr.aria-expanded]="showMore">
       <ng-container *ngIf="!showMore">

@@ -904,6 +904,23 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
+    it('should expose the full nested path as the heading tooltip and accessible name', () => {
+      setDataForNestedContainerProduct(true);
+      stubCatalogProducts();
+      initialize();
+
+      const fullTitle =
+        PRODUCT_NAME +
+        ' / ' +
+        NESTED_PRODUCT_NAME +
+        ' / ' +
+        INNER_NESTED_PRODUCT_NAME;
+      const titleSpan = htmlElem.querySelector('#cxConfigProductName');
+
+      expect(titleSpan?.getAttribute('title')).toBe(fullTitle);
+      expect(titleSpan?.getAttribute('aria-label')).toBe(fullTitle);
+    });
+
     it('should load catalog details of the base product', () => {
       setDataForNestedContainerProduct();
       stubCatalogProducts();
