@@ -1,0 +1,51 @@
+<ng-container *ngIf="criteria$ | async as criteria">
+  <div
+    class="cx-ai-criteria"
+    [class.cx-ai-criteria--full]="isFullMatch(criteria)"
+    [class.cx-ai-criteria--partial]="!isFullMatch(criteria)"
+  >
+    <span class="cx-ai-criteria-badge" [attr.aria-describedby]="tooltipId">
+      <ng-container *ngIf="isFullMatch(criteria); else partialLabel">
+        <span>{{ 'searchBox.aiCriteria.fullMatch' | cxTranslate }}</span>
+      </ng-container>
+      <ng-template #partialLabel>
+        <span>{{
+          'searchBox.aiCriteria.partialMatch'
+            | cxTranslate
+              : {
+                  matched: criteria.matchedCount,
+                  total: criteria.totalCount
+                }
+        }}</span>
+      </ng-template>
+      <span class="cx-ai-criteria-help-icon" aria-hidden="true">?</span>
+    </span>
+
+    <div class="cx-ai-criteria-tooltip" [id]="tooltipId" role="tooltip">
+      <p class="cx-ai-criteria-tooltip-title">{{
+        'searchBox.aiCriteria.tooltipTitle'
+          | cxTranslate
+            : {
+                matched: criteria.matchedCount,
+                total: criteria.totalCount
+              }
+      }}</p>
+      <ul class="cx-ai-criteria-list">
+        <li
+          *ngFor="let criterion of criteria.criteria"
+          class="cx-ai-criteria-item"
+          [class.cx-ai-criteria-item--matched]="criterion.matched"
+          [class.cx-ai-criteria-item--missed]="!criterion.matched"
+        >
+          {{ criterion.label }} -
+          <span class="cx-ai-criteria-status">{{
+            (criterion.matched
+              ? 'searchBox.aiCriteria.matched'
+              : 'searchBox.aiCriteria.notMatched'
+            ) | cxTranslate
+          }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</ng-container>

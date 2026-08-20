@@ -14,6 +14,7 @@ import {
   HostListener,
   inject,
   Input,
+  AfterViewInit,
   OnDestroy,
   OnInit,
   Optional,
@@ -91,7 +92,7 @@ const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
     FeatureDirective,
   ],
 })
-export class SearchBoxComponent implements OnInit, OnDestroy {
+export class SearchBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   private elementRef = inject(ElementRef);
   private renderer = inject(Renderer2);
   private readonly featureToggles = inject(FeatureToggles);
@@ -132,6 +133,9 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   @ViewChild('searchInput') searchInputEl: any;
 
   @ViewChild('searchButton') searchButton: ElementRef<HTMLElement>;
+  @ViewChild('aiToggleContainer') aiToggleContainer: ElementRef<HTMLElement>;
+  @ViewChild('regularBtn') regularBtn: ElementRef<HTMLElement>;
+  @ViewChild('aiBtn') aiBtn: ElementRef<HTMLElement>;
 
   @HostListener('keydown.escape')
   onEscape() {
@@ -147,6 +151,10 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   iconTypes = ICON_TYPE;
+
+  readonly isAiSearchEnabled: boolean = !!this.featureToggles.useAiSearch;
+
+  isAiModeActive = false;
 
   searchBoxActive: boolean = false;
 
@@ -304,6 +312,14 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       );
 
     this.subscriptions.add(UIEventSubscription);
+
+    if (this.isAiSearchEnabled) {
+      const preferredAiMode = this.searchBoxComponentService.getAiModePreference();
+      if (preferredAiMode) {
+        this.isAiModeActive = true;
+        this.searchBoxComponentService.setAiMode(true);
+      }
+    }
   }
 
   /**
@@ -353,7 +369,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
         // On desktop, do not open results when there is no query.
         // On mobile, always allow opening to show the panel.
-        if (this.isMobileState === false && !trimmed) {
+        // In AI mode, always allow opening (AI panel shows inspiration even with empty input).
+        if (this.isMobileState === false && !trimmed && !this.isAiModeActive) {
           return;
         }
       }
@@ -743,6 +760,12 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     if (!query || query.trim().length === 0) {
       return;
     }
+    this.searchBoxComponentService.markAiSearchLaunched(this.isAiModeActive);
+    if (this.isAiModeActive) {
+      this.searchBoxComponentService.setAiQuery(query.trim());
+      // Keep panel open to show stream progress; navigation happens after stream completes.
+      return;
+    }
     this.close();
     this.searchBoxComponentService.launchSearchPage(query);
   }
@@ -777,7 +800,9 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
             suggestion.toLowerCase() === trimmedValue.toLowerCase()
         );
 
-        this.close(true);
+        if (!this.isAiModeActive) {
+          this.close(true);
+        }
         this.launchSearchResult(trimmedValue);
         this.updateChosenWord(trimmedValue);
 
@@ -822,9 +847,50 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngAfterViewInit(): void {
+    if (this.isAiSearchEnabled) {
+      setTimeout(() => this.updatePillPosition(this.isAiModeActive), 0);
+    }
+  }
+
+  private updatePillPosition(isAi: boolean): void {
+    const container = this.aiToggleContainer?.nativeElement;
+    const regularBtnEl = this.regularBtn?.nativeElement;
+    const aiBtnEl = this.aiBtn?.nativeElement;
+    if (!container || !regularBtnEl || !aiBtnEl) {
+      return;
+    }
+    const pillEl = container.querySelector<HTMLElement>('.cx-ai-pill');
+    if (!pillEl) {
+      return;
+    }
+    const regularWidth = regularBtnEl.offsetWidth;
+    const aiWidth = aiBtnEl.offsetWidth;
+    pillEl.style.width = `${isAi ? aiWidth : regularWidth}px`;
+    const dividerEl = container.querySelector<HTMLElement>('.cx-ai-toggle-divider');
+    // AI button starts at divider's right edge = offsetLeft + offsetWidth
+    const aiStartX = dividerEl
+      ? dividerEl.offsetLeft + dividerEl.offsetWidth
+      : regularWidth + 13;
+    pillEl.style.transform = isAi
+      ? `translateX(${aiStartX}px)`
+      : 'translateX(0)';
+  }
+
+  toggleAiMode(active: boolean): void {
+    this.isAiModeActive = active;
+    this.searchBoxComponentService.setAiMode(active);
+    this.updatePillPosition(active);
+    this.changeDetectorRef?.detectChanges();
+    if (active) {
+      this.open();
+    }
+  }
+
   /**
    * Component cleanup
    */
+
   ngOnDestroy(): void {
     this.subscriptions?.unsubscribe();
   }

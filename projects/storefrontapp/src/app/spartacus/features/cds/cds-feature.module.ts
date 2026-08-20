@@ -4,21 +4,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
-import { CdsConfig, CdsModule } from '@spartacus/cds';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { AiSearchSuggestionsModule, CdsConfig, CdsModule } from '@spartacus/cds';
+import {
+  cdsTranslationChunksConfig,
+  cdsTranslationsDe,
+  cdsTranslationsEn,
+  cdsTranslationsJa,
+  cdsTranslationsZh,
+} from '@spartacus/cds/assets';
 import {
   I18nConfig,
   provideConfig,
   provideConfigFactory,
   WindowRef,
 } from '@spartacus/core';
-import {
-  cdsTranslationChunksConfig,
-  cdsTranslationsEn,
-  cdsTranslationsJa,
-  cdsTranslationsDe,
-  cdsTranslationsZh,
-} from '@spartacus/cds/assets';
+import { SearchBoxComponentService } from '@spartacus/storefront';
 
 /**
  * Only differences to the default cds config, they are merged together.
@@ -31,7 +32,12 @@ const cds1: CdsConfig = {
   cds: {
     baseSite: ['electronics-spa', 'electronics', 'electronics-standalone'],
     tenant: 'argotest',
-    baseUrl: 'https://api.stage.context.cloud.sap',
+    baseUrl: 'https://htplasocha-main.api.stage.context.cloud.sap',
+    endpoints: {
+      strategyProducts:
+        '/strategy/v1/sites/main/strategies/93c38f76-9d83-47af-a664-6a9f0b5de74a/products',
+      searchIntelligence: '/search-intelligence/v1/sites/main/trendingSearches',
+    },
     profileTag: {
       javascriptUrl:
         'https://tag.static.stage.context.cloud.sap/js/profile-tag.js',
@@ -82,7 +88,7 @@ function cdsConfigFactory(windowRef: WindowRef): CdsConfig {
 }
 
 @NgModule({
-  imports: [CdsModule.forRoot()],
+  imports: [CdsModule.forRoot(), AiSearchSuggestionsModule],
   providers: [
     provideConfig(<I18nConfig>{
       i18n: {
@@ -97,6 +103,21 @@ function cdsConfigFactory(windowRef: WindowRef): CdsConfig {
       },
     }),
     provideConfigFactory(cdsConfigFactory, [WindowRef]),
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (winRef: WindowRef, searchBoxSvc: SearchBoxComponentService) => () => {
+        if (winRef.isBrowser()) {
+          const params = new URLSearchParams(winRef.location.search);
+          if (params.has('aiDebug')) {
+            searchBoxSvc.markAiSearchLaunched(true);
+          } else {
+            searchBoxSvc.restoreAiContextFromStorage();
+          }
+        }
+      },
+      deps: [WindowRef, SearchBoxComponentService],
+      multi: true,
+    },
   ],
 })
 export class CdsFeatureModule {}

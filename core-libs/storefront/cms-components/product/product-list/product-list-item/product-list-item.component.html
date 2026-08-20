@@ -46,6 +46,8 @@
       </div>
     </ng-template>
 
+    <ng-template [cxOutlet]="ProductListOutlets.ITEM_AI_CRITERIA" [cxOutletContext]="{ product: product, itemIndex: itemIndex }"></ng-template>
+
     <div class="row">
       <div class="col-12 col-md-7 col-xl-7">
         <p

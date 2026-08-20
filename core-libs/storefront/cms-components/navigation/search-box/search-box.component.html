@@ -2,16 +2,17 @@
   [attr.aria-label]="'searchBox.productSearch' | cxTranslate"
   role="search"
   class="cx-searchbox-container"
+  [class.cx-searchbox--ai-mode]="isAiSearchEnabled && isAiModeActive"
 >
   <label class="searchbox" [class.dirty]="!!searchInput?.value">
     <span class="cx-input-label">{{ 'common.search' | cxTranslate }}</span>
     <div class="cx-label-inner-container">
       <input
         #searchInput
-        [placeholder]="'searchBox.placeholder' | cxTranslate"
+        [placeholder]="(isAiSearchEnabled && isAiModeActive) ? ('searchBox.aiPlaceholder' | cxTranslate) : ('searchBox.placeholder' | cxTranslate)"
         autocomplete="off"
         aria-describedby="initialDescription"
-        [attr.aria-controls]="getAriaControls()"
+        [attr.aria-controls]="(isAiSearchEnabled && isAiModeActive) ? 'results-ai' : getAriaControls()"
         [attr.tabindex]="getTabIndex(isMobile | async)"
         (click)="open()"
         (input)="search(searchInput.value)"
@@ -34,12 +35,54 @@
       </button>
 
       <div
-        role="presentation"
-        class="search-icon"
-        [title]="'common.productSearchDescription' | cxTranslate"
+        *ngIf="isAiSearchEnabled; else searchIcon"
+        #aiToggleContainer
+        class="cx-ai-mode-toggle"
+        role="group"
+        [attr.aria-label]="'searchBox.aiToggle.groupLabel' | cxTranslate"
       >
-        <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+        <div class="cx-ai-pill" aria-hidden="true"></div>
+        <button
+          #regularBtn
+          class="cx-ai-toggle-btn cx-ai-toggle-regular"
+          [title]="'searchBox.aiToggle.regularTooltip' | cxTranslate"
+          [class.active]="!isAiModeActive"
+          [attr.aria-pressed]="!isAiModeActive"
+          [attr.aria-label]="'searchBox.aiToggle.regular' | cxTranslate"
+          (mousedown)="preventDefault($event)"
+          (click)="toggleAiMode(false)"
+        >
+          <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+          <span class="cx-ai-toggle-label">{{ 'searchBox.aiToggle.regularLabel' | cxTranslate }}</span>
+        </button>
+        <span class="cx-ai-toggle-divider" aria-hidden="true"></span>
+        <button
+          #aiBtn
+          class="cx-ai-toggle-btn cx-ai-toggle-ai"
+          [title]="'searchBox.aiToggle.aiTooltip' | cxTranslate"
+          [class.active]="isAiModeActive"
+          [attr.aria-pressed]="isAiModeActive"
+          [attr.aria-label]="'searchBox.aiToggle.ai' | cxTranslate"
+          (mousedown)="preventDefault($event)"
+          (click)="toggleAiMode(true)"
+        >
+          <svg class="cx-ai-icon" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4.7739 5.5177C5.0042 4.8274 5.9957 4.8275 6.226 5.5177C7.0371 7.8988 8.0986 8.9593 10.4819 9.7697C11.1728 10.0098 11.1728 11.0005 10.4819 11.2306C8.0987 12.041 7.0371 13.1015 6.226 15.4826C5.9956 16.1726 5.0042 16.1726 4.7739 15.4826C3.9628 13.1015 2.9012 12.041 0.518 11.2306C-0.1727 10.9904 -0.1726 9.9999 0.518 9.7697C2.9012 8.9593 3.9628 7.8988 4.7739 5.5177ZM12.6049 0.28432C12.735 -0.0948 13.2648 -0.09474 13.395 0.28432C13.835 1.58216 14.4153 2.16146 15.7153 2.60072C16.095 2.7306 16.0951 3.2697 15.7153 3.3996C14.4153 3.8388 13.835 4.4181 13.395 5.716C13.2647 6.0948 12.7351 6.0948 12.6049 5.716C12.1649 4.4181 11.5846 3.8388 10.2846 3.3996C9.9051 3.2696 9.9052 2.73073 10.2846 2.60072C11.5846 2.16146 12.1649 1.58216 12.6049 0.28432Z" fill="currentColor"/>
+          </svg>
+          <span class="cx-ai-toggle-label">{{ 'searchBox.aiToggle.aiLabel' | cxTranslate }}</span>
+        </button>
       </div>
+
+      <ng-template #searchIcon>
+        <div
+          role="presentation"
+          class="search-icon"
+          [title]="'common.productSearchDescription' | cxTranslate"
+        >
+          <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+        </div>
+      </ng-template>
+
     </div>
     <button
       #searchButton
@@ -61,9 +104,37 @@
   {{ 'searchBox.initialDescription' | cxTranslate }}
 </span>
 
+<!-- AI MODE PANEL: shown when AI mode is active and search box is open -->
+<div
+  *ngIf="isAiSearchEnabled && isAiModeActive && searchBoxActive"
+  class="results cx-ai-results"
+  id="results-ai"
+>
+  <div class="cx-ai-panel-header">
+    <span class="cx-ai-panel-title">
+      <svg class="cx-ai-panel-title-icon" aria-hidden="true" width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4.7739 5.5177C5.0042 4.8274 5.9957 4.8275 6.226 5.5177C7.0371 7.8988 8.0986 8.9593 10.4819 9.7697C11.1728 10.0098 11.1728 11.0005 10.4819 11.2306C8.0987 12.041 7.0371 13.1015 6.226 15.4826C5.9956 16.1726 5.0042 16.1726 4.7739 15.4826C3.9628 13.1015 2.9012 12.041 0.518 11.2306C-0.1727 10.9904 -0.1726 9.9999 0.518 9.7697C2.9012 8.9593 3.9628 7.8988 4.7739 5.5177ZM12.6049 0.28432C12.735 -0.0948 13.2648 -0.09474 13.395 0.28432C13.835 1.58216 14.4153 2.16146 15.7153 2.60072C16.095 2.7306 16.0951 3.2697 15.7153 3.3996C14.4153 3.8388 13.835 4.4181 13.395 5.716C13.2647 6.0948 12.7351 6.0948 12.6049 5.716C12.1649 4.4181 11.5846 3.8388 10.2846 3.3996C9.9051 3.2696 9.9052 2.73073 10.2846 2.60072C11.5846 2.16146 12.1649 1.58216 12.6049 0.28432Z" fill="currentColor"/>
+      </svg>
+      {{ 'searchBox.aiToggle.aiLabel' | cxTranslate }}
+    </span>
+    <button
+      class="btn btn-tertiary search-panel-close-btn cx-ai-panel-close"
+      (keydown.arrowdown)="focusPreviousGroup($any($event))"
+      (click)="close()"
+    >
+      {{ 'searchBox.closeSearchPanel' | cxTranslate }}
+    </button>
+  </div>
+  <ng-template
+    [cxOutlet]="searchBoxOutlets.AI_SEARCH_PANEL"
+    [cxOutletContext]="{ isAiModeActive: isAiModeActive }"
+  ></ng-template>
+</div>
+
+<!-- REGULAR PANEL: standard search results (hidden in AI mode) -->
 <ng-container *ngIf="results$ | async as result">
   <div
-    *ngIf="isResultsPanelVisible()"
+    *ngIf="!(isAiSearchEnabled && isAiModeActive) && isResultsPanelVisible()"
     class="results"
     id="results"
     (click)="close(true)"
@@ -160,6 +231,7 @@
         }"
       ></ng-template>
     </ng-container>
+
     <!--RESULT  PRODUCTS-->
     <div class="products">
       <h3 *ngIf="result.products?.length">

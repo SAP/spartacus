@@ -40,6 +40,8 @@
   </div>
 </ng-template>
 
+<ng-template [cxOutlet]="ProductListOutlets.ITEM_AI_CRITERIA" [cxOutletContext]="{ product: product, itemIndex: itemIndex }"></ng-template>
+
 <ng-template [cxOutlet]="ProductListOutlets.ITEM_ACTIONS">
   <ng-container *ngIf="!hideAddToCartButton">
     <ng-container cxInnerComponentsHost></ng-container>
