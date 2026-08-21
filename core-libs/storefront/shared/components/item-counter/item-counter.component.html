@@ -6,10 +6,12 @@
   [cxFocus]="{ key: 'decrement' }"
   attr.aria-label="{{ 'itemCounter.removeOne' | cxTranslate }}"
   title="{{ 'itemCounter.removeOne' | cxTranslate }}"
+  [attr.aria-describedby]="ariaDescribedById || null"
 >
   -
 </button>
 <input
+  *cxFeature="'a11yItemCounterValueText'"
   #qty
   type="number"
   [min]="min"
@@ -21,7 +23,23 @@
   (keyup.enter)="updateValue()"
   [cxFocus]="{ key: 'qty' }"
   attr.aria-label="{{ 'itemCounter.quantity' | cxTranslate }}"
-  [attr.aria-describedby]="ariaDescribedById"
+  [attr.aria-describedby]="ariaDescribedById || null"
+  [attr.aria-valuetext]="control.value"
+/>
+<input
+  *cxFeature="'!a11yItemCounterValueText'"
+  #qty
+  type="number"
+  [min]="min"
+  [max]="max"
+  [step]="step"
+  [readonly]="readonly"
+  [tabindex]="readonly ? -1 : 0"
+  [formControl]="control"
+  (keyup.enter)="updateValue()"
+  [cxFocus]="{ key: 'qty' }"
+  attr.aria-label="{{ 'itemCounter.quantity' | cxTranslate }}"
+  [attr.aria-describedby]="ariaDescribedById || null"
 />
 <button
   type="button"
@@ -30,6 +48,7 @@
   [cxFocus]="{ key: 'increment' }"
   attr.aria-label="{{ 'itemCounter.addOneMore' | cxTranslate }}"
   title="{{ 'itemCounter.addOneMore' | cxTranslate }}"
+  [attr.aria-describedby]="ariaDescribedById || null"
 >
   +
 </button>

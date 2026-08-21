@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import {
   CmsSearchBoxComponent,
+  FeatureConfigService,
   MockTranslatePipe,
   PageType,
   ProductSearchService,
@@ -20,6 +21,7 @@ import {
   Observable,
   of,
   ReplaySubject,
+  Subject,
 } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
@@ -126,6 +128,7 @@ describe('SearchBoxComponent', () => {
   {
     chosenWord = new ReplaySubject<string>();
     sharedEvent = new ReplaySubject<KeyboardEvent>();
+    emptyOuterResults$ = new Subject<void>();
 
     launchSearchPage = vi.fn();
     getResults = vi.fn().mockImplementation(() => {
@@ -145,6 +148,7 @@ describe('SearchBoxComponent', () => {
     search() {}
     toggleBodyClass() {}
     clearResults() {}
+    setSearchResultsShown(_shown: boolean) {}
   }
 
   beforeEach(async () => {
@@ -170,6 +174,12 @@ describe('SearchBoxComponent', () => {
         {
           provide: RoutingService,
           useClass: MockRoutingService,
+        },
+        {
+          provide: FeatureConfigService,
+          useValue: {
+            isEnabled: (feature: string) => feature.startsWith('!'),
+          },
         },
       ],
     })
@@ -361,6 +371,26 @@ describe('SearchBoxComponent', () => {
         fixture.detectChanges();
 
         expect(fixture.debugElement.query(By.css('.results'))).toBeTruthy();
+      });
+
+      it('should remove has-outer-results when the feature is enabled and there are no outer results', () => {
+        fixture.componentRef.setInput('queryText', 'test input');
+        fixture.detectChanges();
+
+        const results = fixture.debugElement.query(
+          By.css('.results')
+        ).nativeElement;
+        (searchBoxComponent as any).featureToggles = {
+          searchBoxEmptyQueryResultsPanel: true,
+        };
+        spyOn(searchBoxComponent['renderer'], 'removeClass');
+
+        searchBoxComponent['checkOuterResults']();
+
+        expect(searchBoxComponent['renderer'].removeClass).toHaveBeenCalledWith(
+          results,
+          'has-outer-results'
+        );
       });
 
       it('should contain a message after search', () => {

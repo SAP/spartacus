@@ -194,6 +194,41 @@ describe('ConfigureIssuesNotificationComponent', () => {
       );
     });
 
+    describe('hasIssues with configuratorIssuesNotificationForConfigurableOnly toggle', () => {
+      const errorEntry: OrderEntry = {
+        statusSummaryList: [
+          { numberOfIssues: 2, status: OrderEntryStatus.Error },
+        ],
+        product: { configurable: false },
+      };
+
+      it('should report issues for a non-configurable product when the toggle is off', () => {
+        component[
+          'featureToggles'
+        ].configuratorIssuesNotificationForConfigurableOnly = false;
+        expect(component.hasIssues(errorEntry)).toBe(true);
+      });
+
+      it('should NOT report issues for a non-configurable product when the toggle is on', () => {
+        component[
+          'featureToggles'
+        ].configuratorIssuesNotificationForConfigurableOnly = true;
+        expect(component.hasIssues(errorEntry)).toBe(false);
+      });
+
+      it('should still report issues for a configurable product when the toggle is on', () => {
+        component[
+          'featureToggles'
+        ].configuratorIssuesNotificationForConfigurableOnly = true;
+        expect(
+          component.hasIssues({
+            ...errorEntry,
+            product: { configurable: true },
+          })
+        ).toBe(true);
+      });
+    });
+
     describe('shouldShowButton', () => {
       beforeEach(() => {
         const quantityControl = new UntypedFormControl();

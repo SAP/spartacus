@@ -49,6 +49,7 @@
           cx-cart-item-list-row
           role="row"
           class="cx-item-list-row"
+          [class.cx-validation-highlight]="hasValidationIssue$(item) | async"
           [items]="items"
           [item]="item"
           [quantityControl]="control.get('quantity')"

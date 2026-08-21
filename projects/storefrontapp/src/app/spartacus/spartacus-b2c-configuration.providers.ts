@@ -31,6 +31,7 @@ export const spartacusB2cConfigurationProviders = makeEnvironmentProviders([
   }),
   provideConfig({
     cart: {
+      validation: { enabled: true },
       selectiveCart: {
         enabled: true,
       },
