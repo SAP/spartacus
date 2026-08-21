@@ -16,6 +16,7 @@ export default defineConfig({
       '@spartacus/storefront/testing/mock-feature-directive': `${import.meta.dirname}/../../core-libs/storefront/shared/test/mock-feature-directive.ts`,
       '@spartacus/core/testing/i18n': `${import.meta.dirname}/../../core-libs/core/src/i18n/testing/index.ts`,
       '@spartacus/core/testing/url-testing': `${import.meta.dirname}/../../core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module.ts`,
+      'core-libs/core/src/features-config/feature-toggles/testing': `${import.meta.dirname}/../../core-libs/core/src/features-config/feature-toggles/testing`
     },
   },
   plugins: [angular(), nxViteTsPaths()],

@@ -25,6 +25,7 @@ import {
   SearchBoxSuggestionSelectedEvent,
 } from './search-box.events';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
+import { vi } from 'vitest';
 
 const mockQueryString = '?query=mockQuery';
 
@@ -266,39 +267,39 @@ describe('SearchBoxComponentService', () => {
 
     it('should not mark the body as having searchbox results for leftover OCC data when the query is empty', () => {
       featureToggles.set('searchBoxEmptyQueryResultsPanel', true);
-      spyOn(searchBoxService, 'getResults').and.returnValue(
+      vi.spyOn(searchBoxService, 'getResults').mockReturnValue(
         of({ products: [] })
       );
-      spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(of([]));
+      vi.spyOn(searchBoxService, 'getSuggestionResults').mockReturnValue(of([]));
 
       service.getResults(searchBoxConfig).subscribe();
 
       expect(
         document.body.classList.contains('has-searchbox-results')
-      ).toBeFalse();
+      ).toBe(false);
     });
 
     it('should mark the body as having searchbox results when trending searches are enabled with an empty query', () => {
       featureToggles.set('searchBoxEmptyQueryResultsPanel', true);
-      spyOn(searchBoxService, 'getResults').and.returnValue(of({}));
-      spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(of([]));
+      vi.spyOn(searchBoxService, 'getResults').mockReturnValue(of({}));
+      vi.spyOn(searchBoxService, 'getSuggestionResults').mockReturnValue(of([]));
 
       service.getResults(searchBoxConfig).subscribe();
       service.setTrendingSearches(true);
 
       expect(
         document.body.classList.contains('has-searchbox-results')
-      ).toBeTrue();
+      ).toBe(true);
 
       service.setTrendingSearches(false);
     });
 
     it('should mark the body as having searchbox results for OCC data when the query is not empty', () => {
       featureToggles.set('searchBoxEmptyQueryResultsPanel', true);
-      spyOn(searchBoxService, 'getResults').and.returnValue(
+      vi.spyOn(searchBoxService, 'getResults').mockReturnValue(
         of(mockSearchResults)
       );
-      spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(of([]));
+      vi.spyOn(searchBoxService, 'getSuggestionResults').mockReturnValue(of([]));
 
       service.search('ab', {
         ...searchBoxConfig,
@@ -308,7 +309,7 @@ describe('SearchBoxComponentService', () => {
 
       expect(
         document.body.classList.contains('has-searchbox-results')
-      ).toBeTrue();
+      ).toBe(true);
     });
 
     it('should not get a message when there are products ', () => {

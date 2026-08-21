@@ -34,6 +34,7 @@ import {
   SearchBoxSuggestionSelectedEvent,
 } from './search-box.events';
 import { SearchResults } from './search-box.model';
+import { vi } from 'vitest';
 
 const mockSearchBoxComponentData: CmsSearchBoxComponent = {
   uid: '001',
@@ -383,7 +384,7 @@ describe('SearchBoxComponent', () => {
         (searchBoxComponent as any).featureToggles = {
           searchBoxEmptyQueryResultsPanel: true,
         };
-        spyOn(searchBoxComponent['renderer'], 'removeClass');
+        vi.spyOn(searchBoxComponent['renderer'], 'removeClass');
 
         searchBoxComponent['checkOuterResults']();
 

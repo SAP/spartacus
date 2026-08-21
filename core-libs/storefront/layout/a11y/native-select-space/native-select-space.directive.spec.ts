@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FeatureToggles } from '@spartacus/core';
-import { provideMockFeatureToggles } from '@spartacus/core/testing/feature-toggles';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { NativeSelectSpaceDirective } from './native-select-space.directive';
 import { vi } from 'vitest';
 

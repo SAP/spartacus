@@ -1,4 +1,4 @@
-import { DebugElement } from '@angular/core';
+import { DebugElement, Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
@@ -6,11 +6,36 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { MockKeyboardFocusDirective } from '@spartacus/storefront';
+import {
+  FeatureDirective,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { FocusDirective } from '../../../layout/a11y/keyboard-focus/focus.directive';
 import { ItemCounterComponent } from './item-counter.component';
+import { MockKeyboardFocusDirective } from '../../../layout';
+
+let activeToggles: Record<string, boolean> = {};
+
+@Directive({ selector: '[cxFeature]' })
+class TestFeatureDirective {
+  constructor(
+    private templateRef: TemplateRef<any>,
+    private viewContainer: ViewContainerRef
+  ) {}
+
+  @Input() set cxFeature(feature: string) {
+    const negated = feature.startsWith('!');
+    const key = negated ? feature.slice(1) : feature;
+    const enabled = activeToggles[key] ?? true;
+    const show = negated ? !enabled : enabled;
+    if (show) {
+      this.viewContainer.createEmbeddedView(this.templateRef);
+    } else {
+      this.viewContainer.clear();
+    }
+  }
+}
 
 const form = new UntypedFormGroup({
   quantity: new UntypedFormControl('1'),
@@ -20,20 +45,24 @@ describe('ItemCounterComponent', () => {
   let component: ItemCounterComponent;
   let fixture: ComponentFixture<ItemCounterComponent>;
 
-  function configure(toggles: Record<string, boolean> = {}): void {
-    TestBed.configureTestingModule({
+  async function configure(
+    toggles: Record<string, boolean> = {}
+  ): Promise<void> {
+    activeToggles = toggles;
+    await TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, ItemCounterComponent],
-      providers: [provideMockFeatureToggles(toggles)],
     })
       .overrideComponent(ItemCounterComponent, {
-        remove: { imports: [TranslatePipe, FocusDirective] },
-        add: { imports: [MockTranslatePipe, MockKeyboardFocusDirective] },
+        remove: { imports: [TranslatePipe, FocusDirective, FeatureDirective] },
+        add: { imports: [MockTranslatePipe, MockKeyboardFocusDirective, TestFeatureDirective] },
       })
       .compileComponents();
   }
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    await configure();
     fixture = TestBed.createComponent(ItemCounterComponent);
+    component = fixture.componentInstance;
 
     component.control = <UntypedFormControl>form.get('quantity');
 
@@ -275,16 +304,22 @@ describe('ItemCounterComponent', () => {
       );
     });
 
-    it('should NOT set aria-valuetext when the toggle is off', () => {
+    it('should NOT set aria-valuetext when the toggle is off', async () => {
+      await TestBed.resetTestingModule();
+      await configure({ a11yItemCounterValueText: false });
+      fixture = TestBed.createComponent(ItemCounterComponent);
+      component = fixture.componentInstance;
+      component.control = <UntypedFormControl>form.get('quantity');
+      fixture.detectChanges();
       const input: HTMLInputElement = fixture.debugElement.query(
         By.css('input')
       ).nativeElement;
       expect(input.hasAttribute('aria-valuetext')).toBe(false);
     });
 
-    it('should set aria-valuetext to the literal value when the toggle is on', waitForAsync(() => {
-      TestBed.resetTestingModule();
-      configure({ a11yItemCounterValueText: true });
+    it('should set aria-valuetext to the literal value when the toggle is on', async () => {
+      await TestBed.resetTestingModule();
+      await configure({ a11yItemCounterValueText: true });
       fixture = TestBed.createComponent(ItemCounterComponent);
       component = fixture.componentInstance;
       component.control = <UntypedFormControl>form.get('quantity');
@@ -295,6 +330,6 @@ describe('ItemCounterComponent', () => {
         By.css('input')
       ).nativeElement;
       expect(input.getAttribute('aria-valuetext')).toBe('2');
-    }));
+    });
   });
 });
