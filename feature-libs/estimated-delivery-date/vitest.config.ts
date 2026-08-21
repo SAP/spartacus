@@ -29,7 +29,6 @@ export default defineConfig({
         '**/public_api.ts',
         '**/index.ts',
         '**/*.module.ts',
-        '../../testing/setup-test.ts',
         'vitest.config.ts',
       ],
       thresholds: { statements: 90, lines: 90, branches: 80, functions: 90 },
