@@ -1,5 +1,5 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   I18nModule,
@@ -64,7 +64,7 @@ describe('MyAccountV2ConsignmentEntriesComponent', () => {
   let fixture: ComponentFixture<MyAccountV2ConsignmentEntriesComponent>;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nModule,
@@ -77,7 +77,7 @@ describe('MyAccountV2ConsignmentEntriesComponent', () => {
         { provide: LanguageService, useClass: MockLanguageService },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2ConsignmentEntriesComponent);
