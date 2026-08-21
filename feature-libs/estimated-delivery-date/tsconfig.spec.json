@@ -14,6 +14,6 @@
     "moduleResolution": "bundler",
     "allowJs": true
   },
-  "files": ["../../testing/setup-test.ts"],
+  "files": ["../../testing/setup-vitest.ts"],
   "include": ["vitest.config.ts", "**/*.spec.ts", "**/*.d.ts"]
 }
