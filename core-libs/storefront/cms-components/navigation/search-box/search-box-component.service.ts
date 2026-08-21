@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   EventService,
+  FeatureToggles,
   isNotUndefined,
   ProductSearchPage,
   RoutingService,
@@ -21,6 +22,7 @@ import {
   Observable,
   of,
   ReplaySubject,
+  Subject,
 } from 'rxjs';
 import { map, switchMap, tap, filter, take } from 'rxjs/operators';
 import {
@@ -38,6 +40,15 @@ export class SearchBoxComponentService {
   chosenWord = new ReplaySubject<string>();
   sharedEvent = new ReplaySubject<KeyboardEvent>();
   searchCompleted = new BehaviorSubject<boolean>(false);
+  /**
+   * Emits when trending and recent searches both become empty while the
+   * search box was showing those lists. Used by `SearchBoxComponent` when
+   * `searchBoxEmptyQueryResultsPanel` is enabled.
+   */
+  emptyOuterResults$ = new Subject<void>();
+
+  // DELIBERATELY PRIVATE PROPERTY, to remove easily in the future
+  private featureToggles = inject(FeatureToggles);
 
   protected enableRecentSearches: boolean = false;
   protected enableTrendingSearches: boolean = false;
@@ -160,6 +171,10 @@ export class SearchBoxComponentService {
    */
   clearResults() {
     this.searchService.clearResults();
+    if (this.featureToggles.searchBoxEmptyQueryResultsPanel) {
+      this.enableTrendingSearches = false;
+      this.enableRecentSearches = false;
+    }
     this.toggleBodyClass(HAS_SEARCH_RESULT_CLASS, false);
 
     // Reset search completion state
@@ -220,15 +235,35 @@ export class SearchBoxComponentService {
    * * the is any search suggestion OR
    * * there is a message.
    *
+   * When `searchBoxEmptyQueryResultsPanel` is enabled, an empty query only
+   * counts as having results when trending or recent searches are available.
+   * Leftover OCC products or a no-match message from a previous search must
+   * not keep the panel open.
+   *
    * Otherwise it returns false.
    */
   protected hasResults(results: SearchResults): boolean {
+    if (this.featureToggles.searchBoxEmptyQueryResultsPanel) {
+      if (this.currentQueryLength === 0) {
+        return this.hasOuterSearches();
+      }
+      return this.hasOccResults(results) || this.hasOuterSearches();
+    } else {
+      return this.hasOccResults(results);
+    }
+  }
+
+  protected hasOccResults(results: SearchResults): boolean {
     return (
-      (!!results.products && results.products.length > 0) ||
-      (!!results.suggestions && results.suggestions.length > 0) ||
+      !!results.products?.length ||
+      !!results.suggestions?.length ||
       !!results.message ||
       !!results.recentSearches
     );
+  }
+
+  protected hasOuterSearches(): boolean {
+    return this.enableTrendingSearches || this.enableRecentSearches;
   }
 
   /**
@@ -354,10 +389,41 @@ export class SearchBoxComponentService {
   }
 
   setTrendingSearches(enabled: boolean = false) {
+    const hadTrendingSearches = this.enableTrendingSearches;
     this.enableTrendingSearches = enabled;
+    if (this.featureToggles.searchBoxEmptyQueryResultsPanel) {
+      this.syncOuterResultsClass();
+      if (hadTrendingSearches && !enabled && !this.enableRecentSearches) {
+        this.emptyOuterResults$.next();
+      }
+    }
   }
 
   setRecentSearches(enabled: boolean = false) {
+    const hadRecentSearches = this.enableRecentSearches;
     this.enableRecentSearches = enabled;
+    if (this.featureToggles.searchBoxEmptyQueryResultsPanel) {
+      this.syncOuterResultsClass();
+      if (hadRecentSearches && !enabled && !this.enableTrendingSearches) {
+        this.emptyOuterResults$.next();
+      }
+    }
+  }
+
+  protected syncOuterResultsClass(): void {
+    if (this.enableTrendingSearches || this.enableRecentSearches) {
+      this.toggleBodyClass(HAS_SEARCH_RESULT_CLASS, true);
+    } else if (this.currentQueryLength === 0) {
+      this.toggleBodyClass(HAS_SEARCH_RESULT_CLASS, false);
+    }
+  }
+
+  /**
+   * Toggles the `has-searchbox-results` body class. Used by `SearchBoxComponent`
+   * when `searchBoxEmptyQueryResultsPanel` is enabled to sync the overlay with
+   * trending and recent search lists in the DOM.
+   */
+  setSearchResultsShown(shown: boolean): void {
+    this.toggleBodyClass(HAS_SEARCH_RESULT_CLASS, shown);
   }
 }
