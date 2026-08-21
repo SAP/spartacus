@@ -12,6 +12,10 @@ import {
   TranslationService,
   WindowRef,
 } from '@spartacus/core';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -93,6 +97,7 @@ describe('SearchBoxComponentService', () => {
   let service: SearchBoxComponentService;
   let searchBoxService: SearchboxService;
   let eventService: EventService;
+  let featureToggles: MockFeatureTogglesController;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
@@ -110,6 +115,10 @@ describe('SearchBoxComponentService', () => {
           useClass: MockSearchBoxService,
         },
         { provide: TranslationService, useClass: MockTranslationService },
+        provideMockFeatureToggles({
+          searchBoxRecentSearchesRemoval: false,
+          searchBoxEmptyQueryResultsPanel: false,
+        }),
         SearchBoxComponentService,
         WindowRef,
       ],
@@ -117,6 +126,11 @@ describe('SearchBoxComponentService', () => {
     service = TestBed.inject(SearchBoxComponentService);
     searchBoxService = TestBed.inject(SearchboxService);
     eventService = TestBed.inject(EventService);
+    featureToggles = TestBed.inject(MockFeatureTogglesController);
+  });
+
+  afterEach(() => {
+    document.body.classList.remove('has-searchbox-results');
   });
 
   it('should be created', () => {
@@ -243,6 +257,53 @@ describe('SearchBoxComponentService', () => {
       expect(result.message).toBeTruthy();
 
       expect(result.message).toEqual('searchBox.help.noMatch');
+    });
+
+    it('should not mark the body as having searchbox results for leftover OCC data when the query is empty', () => {
+      featureToggles.set('searchBoxEmptyQueryResultsPanel', true);
+      spyOn(searchBoxService, 'getResults').and.returnValue(
+        of({ products: [] })
+      );
+      spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(of([]));
+
+      service.getResults(searchBoxConfig).subscribe();
+
+      expect(
+        document.body.classList.contains('has-searchbox-results')
+      ).toBeFalse();
+    });
+
+    it('should mark the body as having searchbox results when trending searches are enabled with an empty query', () => {
+      featureToggles.set('searchBoxEmptyQueryResultsPanel', true);
+      spyOn(searchBoxService, 'getResults').and.returnValue(of({}));
+      spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(of([]));
+
+      service.getResults(searchBoxConfig).subscribe();
+      service.setTrendingSearches(true);
+
+      expect(
+        document.body.classList.contains('has-searchbox-results')
+      ).toBeTrue();
+
+      service.setTrendingSearches(false);
+    });
+
+    it('should mark the body as having searchbox results for OCC data when the query is not empty', () => {
+      featureToggles.set('searchBoxEmptyQueryResultsPanel', true);
+      spyOn(searchBoxService, 'getResults').and.returnValue(
+        of(mockSearchResults)
+      );
+      spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(of([]));
+
+      service.search('ab', {
+        ...searchBoxConfig,
+        minCharactersBeforeRequest: 3,
+      });
+      service.getResults(searchBoxConfig).subscribe();
+
+      expect(
+        document.body.classList.contains('has-searchbox-results')
+      ).toBeTrue();
     });
 
     it('should not get a message when there are products ', () => {
