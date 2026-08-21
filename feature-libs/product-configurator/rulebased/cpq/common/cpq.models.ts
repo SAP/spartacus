@@ -165,6 +165,9 @@ export namespace Cpq {
     standardAttributeCode: string;
     changeAttributeValue: ChangeAttributeValue;
     tabId: string;
+    /** Identifier of the container row this attribute belongs to. Only set for
+     * nested (row) configuration updates. */
+    rowId?: string;
   }
 
   /**
@@ -196,6 +199,9 @@ export namespace Cpq {
     attributeValueId: string;
     quantity: number;
     tabId: string;
+    /** Identifier of the container row this attribute belongs to. Only set for
+     * nested (row) configuration updates. */
+    rowId?: string;
   }
 
   /**

@@ -35,12 +35,14 @@ const cpqAttributeIsLineItem2 = false;
 const cpqAttributeHasConflict2 = false;
 const cpqAttributeUserInput2 = 'USER_INPUT_2';
 
-const cpqGroupId = 1;
+const cpqGroupIdNumber = 1;
+const cpqGroupId = '1';
 const cpqGroupName = 'GROUP_NAME';
 const cpqGroupDisplayName = 'GROUP_DISPLAY_NAME';
 const cpqGroupIsIncomplete = false;
 
-const cpqGroupId2 = 2;
+const cpqGroupId2Number = 2;
+const cpqGroupId2 = '2';
 
 const configuratorAttributeQuantity = Number(cpqAttributeQuantity);
 const configuratorAttributeDataType =
@@ -104,7 +106,7 @@ const cpqAttribute2: Cpq.Attribute = {
 const cpqAttributes: Cpq.Attribute[] = [cpqAttribute];
 
 const cpqTab: Cpq.Tab = {
-  id: cpqGroupId,
+  id: cpqGroupIdNumber,
   name: cpqGroupName,
   displayName: cpqGroupDisplayName,
   isIncomplete: cpqGroupIsIncomplete,
@@ -112,7 +114,7 @@ const cpqTab: Cpq.Tab = {
 };
 
 const cpqTab2: Cpq.Tab = {
-  id: cpqGroupId2,
+  id: cpqGroupId2Number,
   name: 'GROUP_NAME2',
   displayName: 'GROUP_DISPLAY_NAME2',
   isIncomplete: false,
@@ -221,9 +223,9 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.consistent).toBe(true);
       expect(result.totalNumberOfIssues).toBe(0);
       expect(result.groups.length).toBe(2);
-      expect(result.groups[0].id).toBe(cpqGroupId.toString());
+      expect(result.groups[0].id).toBe(cpqGroupId);
       expect(result.groups[0].attributes?.length).toBe(0);
-      expect(result.groups[1].id).toBe(cpqGroupId2.toString());
+      expect(result.groups[1].id).toBe(cpqGroupId2);
       expect(result.groups[1].attributes?.length).toBe(0);
       expect(result.priceSummary?.currentTotal?.formattedValue).toBe(
         '$3,333.33'
@@ -570,7 +572,7 @@ describe('CpqConfiguratorNormalizer', () => {
 
       cpqConfiguratorNormalizer['convertAttribute'](
         cpqAttributeNoSysId,
-        cpqGroupId,
+        cpqGroupIdNumber,
         CURRENCY,
         attributeList
       );
@@ -586,7 +588,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(attribute.isLineItem).toBe(cpqAttributeIsLineItem);
       expect(attribute.uiType).toBe(Configurator.UiType.RADIOBUTTON);
       expect(attribute.selectedSingleValue).toBe(cpqValuePavId.toString());
-      expect(attribute.groupId).toBe(cpqGroupId.toString());
+      expect(attribute.groupId).toBe(cpqGroupId);
       expect(attribute.userInput).toBe(cpqAttributeUserInput);
       expect(attribute.hasConflicts).toBe(cpqAttributeHasConflict);
       expect(attribute.incomplete).toBe(false);
@@ -603,7 +605,7 @@ describe('CpqConfiguratorNormalizer', () => {
 
       cpqConfiguratorNormalizer['convertAttribute'](
         cpqAttribute,
-        cpqGroupId,
+        cpqGroupIdNumber,
         CURRENCY,
         attributeList
       );
@@ -619,7 +621,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(attribute.isLineItem).toBe(cpqAttributeIsLineItem);
       expect(attribute.uiType).toBe(Configurator.UiType.RADIOBUTTON_PRODUCT);
       expect(attribute.selectedSingleValue).toBe(cpqValuePavId.toString());
-      expect(attribute.groupId).toBe(cpqGroupId.toString());
+      expect(attribute.groupId).toBe(cpqGroupId);
       expect(attribute.userInput).toBe(cpqAttributeUserInput);
       expect(attribute.hasConflicts).toBe(cpqAttributeHasConflict);
       expect(attribute.incomplete).toBe(false);
@@ -648,7 +650,7 @@ describe('CpqConfiguratorNormalizer', () => {
 
       cpqConfiguratorNormalizer['convertAttribute'](
         cpqAttributeOnlyOneSysId,
-        cpqGroupId,
+        cpqGroupIdNumber,
         CURRENCY,
         attributeList
       );
@@ -664,7 +666,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(attribute.isLineItem).toBe(cpqAttributeIsLineItem);
       expect(attribute.uiType).toBe(Configurator.UiType.RADIOBUTTON_PRODUCT);
       expect(attribute.selectedSingleValue).toBe(cpqValuePavId.toString());
-      expect(attribute.groupId).toBe(cpqGroupId.toString());
+      expect(attribute.groupId).toBe(cpqGroupId);
       expect(attribute.userInput).toBe(cpqAttributeUserInput);
       expect(attribute.hasConflicts).toBe(cpqAttributeHasConflict);
       expect(attribute.incomplete).toBe(false);
@@ -680,7 +682,7 @@ describe('CpqConfiguratorNormalizer', () => {
 
       cpqConfiguratorNormalizer['convertAttribute'](
         cpqAttribute2,
-        cpqGroupId,
+        cpqGroupIdNumber,
         CURRENCY,
         attributeList
       );
@@ -696,7 +698,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(attribute.isLineItem).toBe(cpqAttributeIsLineItem2);
       expect(attribute.uiType).toBe(Configurator.UiType.STRING);
       expect(attribute.selectedSingleValue).toBeUndefined();
-      expect(attribute.groupId).toBe(cpqGroupId.toString());
+      expect(attribute.groupId).toBe(cpqGroupId);
       expect(attribute.userInput).toBe(cpqAttributeUserInput2);
       expect(attribute.hasConflicts).toBe(cpqAttributeHasConflict2);
       expect(attribute.incomplete).toBe(false);
@@ -714,7 +716,7 @@ describe('CpqConfiguratorNormalizer', () => {
       };
       cpqConfiguratorNormalizer['convertAttribute'](
         cpqAttributeWithoutLabel,
-        cpqGroupId,
+        cpqGroupIdNumber,
         CURRENCY,
         attributeList
       );
@@ -728,7 +730,7 @@ describe('CpqConfiguratorNormalizer', () => {
 
       cpqConfiguratorNormalizer['convertAttribute'](
         cpqAttribute,
-        cpqGroupId,
+        cpqGroupIdNumber,
         CURRENCY,
         attributeList
       );
@@ -752,7 +754,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(groups.length).toBe(1);
       expect(flatGroups.length).toBe(1);
       const group: Configurator.Group = groups[0];
-      expect(group.id).toBe(cpqGroupId.toString());
+      expect(group.id).toBe(cpqGroupId);
       expect(group.name).toBe(cpqGroupName);
       expect(group.description).toBe(cpqGroupDisplayName);
       expect(group.configurable).toBe(true);
@@ -763,7 +765,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(group.attributes?.length).toBe(1);
       if (group.attributes) {
         expect(group.attributes[0].attrCode).toBe(cpqAttributeStdAttrCode);
-        expect(group.attributes[0].groupId).toBe(cpqGroupId.toString());
+        expect(group.attributes[0].groupId).toBe(cpqGroupId);
       } else {
         fail();
       }
@@ -2206,6 +2208,9 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(nestedAttrGroup.attributes?.[0].containerRowId).toBe(
         rowWithConfigId
       );
+      expect(nestedAttrGroup.attributes?.[0].groupId).toBe(
+        expectedNestedTabGroupId
+      );
       expect(nestedAttrGroup.attributes?.[0].attrCode).toBe(nestedAttrCode);
     });
 
@@ -2238,7 +2243,7 @@ describe('CpqConfiguratorNormalizer', () => {
         configurationWithContainers([containerWithRows])
       );
       const flatGroupIds = result.flatGroups.map((group) => group.id);
-      expect(flatGroupIds.indexOf(cpqGroupId.toString())).toBeLessThan(
+      expect(flatGroupIds.indexOf(cpqGroupId)).toBeLessThan(
         flatGroupIds.indexOf(expectedNestedTabGroupId)
       );
     });
@@ -2255,7 +2260,7 @@ describe('CpqConfiguratorNormalizer', () => {
                 selected: true,
                 configuration: {
                   completed: false,
-                  tabs: [{ ...nestedTab, id: cpqGroupId }],
+                  tabs: [{ ...nestedTab, id: cpqGroupIdNumber }],
                 },
               },
             ],
@@ -2264,7 +2269,7 @@ describe('CpqConfiguratorNormalizer', () => {
       );
 
       const rootTabGroup = result.groups[0];
-      expect(rootTabGroup.id).toBe(cpqGroupId.toString());
+      expect(rootTabGroup.id).toBe(cpqGroupId);
       const nestedTabGroup = rootTabGroup.subGroups[0].subGroups[0];
       expect(nestedTabGroup.id).toBe(`${expectedRowGroupId}@${cpqGroupId}`);
       expect(nestedTabGroup.id).not.toBe(rootTabGroup.id);

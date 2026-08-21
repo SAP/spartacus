@@ -177,6 +177,22 @@ export function selectAttributeAndWait(
 }
 
 /**
+ * Selects an attribute value, waits for the OCC update, and verifies it is selected.
+ *
+ * @param {string} attributeName - Attribute name
+ * @param {configuration.uiType} uiType - UI type
+ * @param {string} valueName - Value name
+ */
+export function selectAttributeAndCheck(
+  attributeName: string,
+  uiType: configuration.uiType,
+  valueName: string
+): void {
+  selectAttributeAndWait(attributeName, uiType, valueName);
+  configuration.checkValueSelected(uiType, attributeName, valueName);
+}
+
+/**
  * Verifies whether a corresponding UI type not selected.
  *
  * @param {configuration.uiType} uiType - UI type

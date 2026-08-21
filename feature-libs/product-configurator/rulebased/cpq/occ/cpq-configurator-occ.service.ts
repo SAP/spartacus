@@ -125,8 +125,8 @@ export class CpqConfiguratorOccService {
    * Creates a new default runtime configuration for the given product id
    * and read it from the CPQ system over OCC.
    *
-   * @param {string} productSystemId - Product system ID
-   * @returns {Observable<Configurator.Configuration>} - Created configuration
+   * @param productSystemId - Product system ID
+   * @returns Created configuration
    */
   createConfiguration(
     productSystemId: string
@@ -139,9 +139,9 @@ export class CpqConfiguratorOccService {
   /**
    * Retrieves a configuration from the CPQ system over OCC by its configuration ID and for a certain tab.
    *
-   * @param {string} configId - Configuration ID
-   * @param {string} tabId - Tab ID
-   * @returns {Observable<Configurator.Configuration>} - Retrieved configuration
+   * @param configId - Configuration ID
+   * @param tabId - Tab ID
+   * @returns Retrieved configuration
    */
   readConfiguration(
     configId: string,
@@ -155,8 +155,8 @@ export class CpqConfiguratorOccService {
   /**
    * Retrieves a configuration overview from the CPQ system over OCC by its configuration ID.
    *
-   * @param {string} configId - Configuration ID
-   * @returns {Observable<Configurator.Overview>} - Retrieved overview
+   * @param configId - Configuration ID
+   * @returns Retrieved overview
    */
   readConfigurationOverview(
     configId: string
@@ -170,8 +170,8 @@ export class CpqConfiguratorOccService {
    * Updates an attribute of the runtime configuration for the given configuration id and attribute code
    * and read the desired configuration tab from the CPQ system over OCC.
    *
-   * @param {Configurator.Configuration} configuration - Configuration
-   * @returns {Observable<Configurator.Configuration>} - Updated configuration
+   * @param configuration - Configuration
+   * @returns Updated configuration
    */
   updateAttribute(
     configuration: Configurator.Configuration
@@ -189,8 +189,8 @@ export class CpqConfiguratorOccService {
    * Updates a quantity for an attribute of the runtime configuration for the given configuration id and attribute code
    * and read the desired configuration tab from the CPQ system over OCC.
    *
-   * @param {Configurator.Configuration} configuration - Configuration
-   * @returns {Observable<Configurator.Configuration>} - Updated configuration
+   * @param configuration - Configuration
+   * @returns Updated configuration
    */
   updateValueQuantity(
     configuration: Configurator.Configuration
@@ -207,8 +207,8 @@ export class CpqConfiguratorOccService {
   /**
    * Adds a new container row to the CPQ configuration and returns the resulting configuration.
    *
-   * @param {Configurator.AddContainerRowParameters} parameters - Add container row parameters
-   * @returns {Observable<Configurator.Configuration>} - Updated configuration
+   * @param parameters - Add container row parameters
+   * @returns Updated configuration
    */
   addContainerRow(
     parameters: Configurator.AddContainerRowParameters
@@ -235,8 +235,8 @@ export class CpqConfiguratorOccService {
   /**
    * Deletes a container row from the CPQ configuration and returns the resulting configuration.
    *
-   * @param {Configurator.RemoveContainerRowParameters} parameters - Remove container row parameters
-   * @returns {Observable<Configurator.Configuration>} - Updated configuration
+   * @param parameters - Remove container row parameters
+   * @returns Updated configuration
    */
   removeContainerRow(
     parameters: Configurator.RemoveContainerRowParameters
@@ -249,8 +249,8 @@ export class CpqConfiguratorOccService {
   /**
    * Retrieves a configuration assigned to a cart entry.
    *
-   * @param {CommonConfigurator.ReadConfigurationFromCartEntryParameters} parameters - Cart entry parameters
-   * @returns {Observable<Configurator.Configuration>} - Retrieved configuration
+   * @param parameters - Cart entry parameters
+   * @returns Retrieved configuration
    */
   readConfigurationForCartEntry(
     parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
@@ -263,8 +263,8 @@ export class CpqConfiguratorOccService {
   /**
    * Retrieves a configuration assigned to an order entry.
    *
-   * @param {CommonConfigurator.ReadConfigurationFromOrderEntryParameters} parameters - Order entry parameters
-   * @returns {Observable<Configurator.Configuration>} - Retrieved configuration
+   * @param parameters - Order entry parameters
+   * @returns Retrieved configuration
    */
   readConfigurationForOrderEntry(
     parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
@@ -320,7 +320,10 @@ export class CpqConfiguratorOccService {
         configurationId: updateAttribute.configurationId,
         attributeCode: updateAttribute.standardAttributeCode,
       },
-      queryParams: { tabId: updateAttribute.tabId },
+      queryParams: {
+        tabId: updateAttribute.tabId,
+        ...(updateAttribute.rowId ? { rowId: updateAttribute.rowId } : {}),
+      },
     });
     return this.http.patch<Cpq.Configuration>(
       url,
@@ -339,7 +342,10 @@ export class CpqConfiguratorOccService {
           attributeCode: updateValue.standardAttributeCode,
           attributeValueId: updateValue.attributeValueId,
         },
-        queryParams: { tabId: updateValue.tabId },
+        queryParams: {
+          tabId: updateValue.tabId,
+          ...(updateValue.rowId ? { rowId: updateValue.rowId } : {}),
+        },
       }
     );
     return this.http.patch<Cpq.Configuration>(url, {
