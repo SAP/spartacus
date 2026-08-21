@@ -27,10 +27,8 @@
     .alert {
       justify-content: space-between;
       text-align: start;
-      padding-block-start: 1rem;
-      padding-block-end: 1rem;
-      padding-inline-start: 2.5rem;
-      padding-inline-end: 2.5rem;
+      padding-block: 1rem;
+      padding-inline: 2.5rem;
 
       .close {
         position: static;
@@ -40,7 +38,6 @@
 
         &::before {
           content: none;
-          margin: 0;
         }
       }
     }
