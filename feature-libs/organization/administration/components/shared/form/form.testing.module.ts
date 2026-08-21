@@ -5,7 +5,6 @@
  */
 
 import { Component, Input, NgModule } from '@angular/core';
-import { vi } from 'vitest';
 import { CurrentItemService } from '../current-item.service';
 import { FormService } from './form.service';
 
@@ -21,7 +20,7 @@ export class MockBudgetFormService {}
 
 class MockCurrentItemService {}
 class MockFormService {
-  getForm = vi.fn();
+  getForm = () => {};
 }
 
 @NgModule({
