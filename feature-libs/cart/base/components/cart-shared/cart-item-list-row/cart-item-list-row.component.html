@@ -131,9 +131,15 @@
         [readonly]="!item.updateable || readonly || options.isSaveForLater"
         [max]="item.product?.stock?.stockLevel"
         [allowZero]="true"
+        [ariaDescribedById]="
+          item.product?.code ? 'cx-qty-hint-' + item.product?.code : ''
+        "
       >
       </cx-item-counter>
     </div>
+    <ng-template
+      [cxOutlet]="CartOutlets.ITEM_VALIDATION_QUANTITY_HINT"
+    ></ng-template>
   </td>
   <!-- Total -->
   <ng-container *ngIf="options.isSaveForLater; else total">
