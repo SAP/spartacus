@@ -29,6 +29,7 @@ import {
 } from '@spartacus/core';
 import {
   FocusDirective,
+  FocusFirstInvalidFieldDirective,
   FormErrorsModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
@@ -697,22 +698,32 @@ describe('AddressFormComponent', () => {
       expect(focusHost.contains(backBtn)).toBe(false);
     });
 
+    const getFocusFirstInvalidFieldDirective =
+      (): FocusFirstInvalidFieldDirective =>
+        fixture.debugElement
+          .query(By.directive(FocusFirstInvalidFieldDirective))
+          .injector.get(FocusFirstInvalidFieldDirective);
+
     it('should focus the first invalid field on invalid submit when toggle is on', () => {
       featureTogglesController.set('a11yAddressFormInitialFocus', true);
-      spyOn(component as any, 'focusFirstInvalidField');
+      fixture.detectChanges();
+      const directive = getFocusFirstInvalidFieldDirective();
+      spyOn(directive, 'focusFirstInvalidField');
 
       component.verifyAddress(); // form is invalid by default
 
-      expect(component['focusFirstInvalidField']).toHaveBeenCalled();
+      expect(directive.focusFirstInvalidField).toHaveBeenCalled();
     });
 
     it('should not focus the first invalid field on invalid submit when toggle is off', () => {
       featureTogglesController.set('a11yAddressFormInitialFocus', false);
-      spyOn(component as any, 'focusFirstInvalidField');
+      fixture.detectChanges();
+      const directive = getFocusFirstInvalidFieldDirective();
+      spyOn(directive, 'focusFirstInvalidField');
 
       component.verifyAddress(); // form is invalid by default
 
-      expect(component['focusFirstInvalidField']).not.toHaveBeenCalled();
+      expect(directive.focusFirstInvalidField).not.toHaveBeenCalled();
     });
 
     it('should start with autofocus disabled', () => {
@@ -780,6 +791,8 @@ describe('AddressFormComponent', () => {
   });
 
   describe('focusFirstInvalidField', () => {
+    let focusFirstInvalidFieldDirective: FocusFirstInvalidFieldDirective;
+
     beforeEach(() => {
       spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(
         of(mockCountries)
@@ -788,6 +801,9 @@ describe('AddressFormComponent', () => {
       spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
       component.ngOnInit();
       fixture.detectChanges();
+      focusFirstInvalidFieldDirective = fixture.debugElement
+        .query(By.directive(FocusFirstInvalidFieldDirective))
+        .injector.get(FocusFirstInvalidFieldDirective);
     });
 
     it('should focus the inner input of the invalid country ng-select', (done) => {
@@ -796,9 +812,9 @@ describe('AddressFormComponent', () => {
       ).nativeElement;
       spyOn(countryInput, 'focus');
 
-      component['focusFirstInvalidField']();
+      focusFirstInvalidFieldDirective.focusFirstInvalidField();
 
-      // the method defers focus to a macrotask, so assert after it runs
+      // the directive defers focus to a macrotask, so assert after it runs
       setTimeout(() => {
         expect(countryInput.focus).toHaveBeenCalled();
         done();
@@ -814,7 +830,7 @@ describe('AddressFormComponent', () => {
       ).nativeElement;
       spyOn(firstNameInput, 'focus');
 
-      component['focusFirstInvalidField']();
+      focusFirstInvalidFieldDirective.focusFirstInvalidField();
 
       setTimeout(() => {
         expect(firstNameInput.focus).toHaveBeenCalled();

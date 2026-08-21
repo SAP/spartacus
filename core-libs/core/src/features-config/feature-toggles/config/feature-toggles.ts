@@ -673,6 +673,15 @@ export interface FeatureTogglesInterface {
   a11yAddressFormInitialFocus?: boolean;
 
   /**
+   * When enabled, the payment form focuses the first invalid field after a
+   * failed submit, so keyboard and screen reader users land directly on the
+   * control that needs attention.
+   *
+   * Affects: `CheckoutPaymentFormComponent`
+   */
+  a11yPaymentFormFocus?: boolean;
+
+  /**
    * When enabled, after navigating to a `CategoryPage` (e.g. a Product Listing Page)
    * via a header navigation link, keyboard focus moves to the first anchor inside
    * `cx-breadcrumb` (resolved via `StorefrontComponent.categoryPageFocusSelector`)
@@ -783,6 +792,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFocusIndicatorContrast: false,
   a11yDisabledButtonContrast: false,
   a11yAddressFormInitialFocus: false,
+  a11yPaymentFormFocus: false,
   a11yFocusBreadcrumbOnNavigation: false,
   a11yNavigationChevronContrast: false,
 };

@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
+
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
@@ -24,6 +25,7 @@ import {
 } from '@spartacus/core';
 import {
   CardComponent,
+  FocusFirstInvalidFieldDirective,
   FormErrorsModule,
   ICON_TYPE,
   IconComponent,
@@ -31,6 +33,10 @@ import {
   NgSelectA11yModule,
   SpinnerComponent,
 } from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
@@ -252,6 +258,7 @@ describe('CheckoutPaymentFormComponent', () => {
           provide: CheckoutBillingAddressFormService,
           useClass: MockCheckoutBillingAddressFormService,
         },
+        provideMockFeatureToggles({ a11yPaymentFormFocus: true }),
       ],
     })
       .overrideComponent(CheckoutPaymentFormComponent, {
@@ -354,6 +361,41 @@ describe('CheckoutPaymentFormComponent', () => {
     expect(component.closeForm.emit).toHaveBeenCalled();
   });
 
+  describe('a11yPaymentFormFocus', () => {
+    let featureTogglesController: MockFeatureTogglesController;
+
+    const getFocusFirstInvalidFieldDirective =
+      (): FocusFirstInvalidFieldDirective =>
+        fixture.debugElement
+          .query(By.directive(FocusFirstInvalidFieldDirective))
+          .injector.get(FocusFirstInvalidFieldDirective);
+
+    beforeEach(() => {
+      featureTogglesController = TestBed.inject(MockFeatureTogglesController);
+      fixture.detectChanges();
+    });
+
+    it('should focus the first invalid field on invalid submit when toggle is on', () => {
+      featureTogglesController.set('a11yPaymentFormFocus', true);
+      const directive = getFocusFirstInvalidFieldDirective();
+      spyOn(directive, 'focusFirstInvalidField');
+
+      component.next(); // form is invalid by default
+
+      expect(directive.focusFirstInvalidField).toHaveBeenCalled();
+    });
+
+    it('should not focus the first invalid field on invalid submit when toggle is off', () => {
+      featureTogglesController.set('a11yPaymentFormFocus', false);
+      const directive = getFocusFirstInvalidFieldDirective();
+      spyOn(directive, 'focusFirstInvalidField');
+
+      component.next(); // form is invalid by default
+
+      expect(directive.focusFirstInvalidField).not.toHaveBeenCalled();
+    });
+  });
+
   describe('UI continue button', () => {
     const getContinueBtn = () =>
       fixture.debugElement.query(By.css('.btn-primary'));
@@ -396,9 +438,7 @@ describe('CheckoutPaymentFormComponent', () => {
       // set values for payment form
       controls.payment['accountHolderName'].setValue('test accountHolderName');
       controls.payment['cardNumber'].setValue('test cardNumber');
-      controls.payment.cardType['controls'].code.setValue(
-        'test card type code'
-      );
+      controls.payment.cardType.get('code')?.setValue('test card type code');
       controls.payment['expiryMonth'].setValue('test expiryMonth');
       controls.payment['expiryYear'].setValue('test expiryYear');
       controls.payment['cvn'].setValue('test cvn');

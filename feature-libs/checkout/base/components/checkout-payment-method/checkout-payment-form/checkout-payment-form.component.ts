@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,6 +12,7 @@ import {
   Input,
   OnInit,
   Output,
+  ViewChild,
   inject,
 } from '@angular/core';
 import {
@@ -28,6 +29,8 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   CardType,
+  FeatureDirective,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   PaymentDetails,
@@ -37,6 +40,8 @@ import {
   UserPaymentService,
 } from '@spartacus/core';
 import {
+  FocusDirective,
+  FocusFirstInvalidFieldDirective,
   FormErrorsComponent,
   FormRequiredAsterisksComponent,
   FormRequiredLegendComponent,
@@ -56,12 +61,16 @@ import { CheckoutBillingAddressFormComponent } from '../../checkout-billing-addr
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
+    NgTemplateOutlet,
+    FeatureDirective,
+    FocusDirective,
     FormRequiredLegendComponent,
     FormsModule,
     ReactiveFormsModule,
     FormRequiredAsterisksComponent,
     NgSelectComponent,
     NgSelectA11yDirective,
+    FocusFirstInvalidFieldDirective,
     FormErrorsComponent,
     IconComponent,
     CheckoutBillingAddressFormComponent,
@@ -99,6 +108,9 @@ export class CheckoutPaymentFormComponent implements OnInit {
   @Output()
   setPaymentDetails = new EventEmitter<any>();
 
+  @ViewChild(FocusFirstInvalidFieldDirective)
+  protected firstInvalidFieldFocus?: FocusFirstInvalidFieldDirective;
+
   paymentForm: UntypedFormGroup = this.fb.group({
     cardType: this.fb.group({
       code: [null, Validators.required],
@@ -112,6 +124,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
   });
 
   protected billingAddressService = inject(CheckoutBillingAddressFormService);
+  private featureToggles = inject(FeatureToggles);
   constructor(
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -199,6 +212,10 @@ export class CheckoutPaymentFormComponent implements OnInit {
 
       if (!sameAsDeliveryAddress) {
         this.billingAddressService.markAllAsTouched();
+      }
+
+      if (this.featureToggles.a11yPaymentFormFocus) {
+        this.firstInvalidFieldFocus?.focusFirstInvalidField();
       }
     }
   }

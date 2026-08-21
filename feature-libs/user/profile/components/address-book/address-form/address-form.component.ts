@@ -48,6 +48,7 @@ import {
 import {
   FocusConfig,
   FocusDirective,
+  FocusFirstInvalidFieldDirective,
   FormErrorsComponent,
   FormRequiredAsterisksComponent,
   FormRequiredLegendComponent,
@@ -92,6 +93,7 @@ import {
     AsyncPipe,
     FeatureDirective,
     FocusDirective,
+    FocusFirstInvalidFieldDirective,
     TranslatePipe,
   ],
 })
@@ -149,6 +151,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   backToAddress = new EventEmitter<any>();
 
   @ViewChild('submit') element: ElementRef;
+
+  @ViewChild(FocusFirstInvalidFieldDirective)
+  protected firstInvalidFieldFocus?: FocusFirstInvalidFieldDirective;
 
   subscription: Subscription = new Subscription();
 
@@ -500,41 +505,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         GlobalMessageType.MSG_TYPE_ASSISTIVE
       );
       if (this.featureToggles.a11yAddressFormInitialFocus) {
-        this.focusFirstInvalidField();
+        this.firstInvalidFieldFocus?.focusFirstInvalidField();
       }
     }
-  }
-
-  /**
-   * Moves focus to the first invalid form control after a failed submit.
-   *
-   * Counterpart to the data-driven initial focus set up in `ngOnInit`: unlike
-   * that case, we can't rely on `cxFocus` here because it always targets the
-   * first focusable field, whereas a failed submit must land on the *specific*
-   * invalid one — hence the direct DOM query.
-   *
-   * This is needed for the `a11yAddressFormInitialFocus` feature: the form is
-   * wrapped in a `cxFocus` autofocus host with `tabindex="-1"`. In Safari a
-   * `<button>` doesn't receive focus on click, so focus falls to that host and
-   * its autofocus redirects to the first focusable field (the country select),
-   * regardless of which field is actually invalid. We defer to a macrotask so
-   * this runs after that autofocus and lands the user on the real error.
-   */
-  protected focusFirstInvalidField(): void {
-    setTimeout(() => {
-      const host = this.elementRef.nativeElement as HTMLElement;
-      const firstInvalid = host.querySelector<HTMLElement>(
-        'input.ng-invalid, select.ng-invalid, textarea.ng-invalid, ng-select.ng-invalid'
-      );
-      if (!firstInvalid) {
-        return;
-      }
-      // `ng-select` isn't focusable itself; focus its inner input. Plain
-      // inputs/selects/textareas have no nested input, so we focus them directly.
-      const focusable =
-        firstInvalid.querySelector<HTMLElement>('input') ?? firstInvalid;
-      focusable.focus();
-    });
   }
 
   openSuggestedAddress(results: AddressValidation): void {
