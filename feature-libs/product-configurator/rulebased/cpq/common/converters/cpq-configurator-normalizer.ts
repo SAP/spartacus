@@ -108,10 +108,11 @@ export class CpqConfiguratorNormalizer
     sourceAttributes.forEach((sourceAttribute) =>
       this.convertAttribute(
         sourceAttribute,
-        groupId,
+        source.id,
         currency,
         attributes,
-        containerRowId
+        containerRowId,
+        parentRowGroupId
       )
     );
 
@@ -163,7 +164,7 @@ export class CpqConfiguratorNormalizer
     sourceAttributes.forEach((sourceAttribute) =>
       this.convertAttribute(
         sourceAttribute,
-        '1',
+        1,
         currency,
         attributes,
         containerRowId
@@ -348,10 +349,11 @@ export class CpqConfiguratorNormalizer
 
   protected convertAttribute(
     sourceAttribute: Cpq.Attribute,
-    groupId: string,
+    groupId: number,
     currency: string,
     attributeList: Configurator.Attribute[],
-    containerRowId?: string
+    containerRowId?: string,
+    parentRowGroupId?: string
   ): void {
     const attribute: Configurator.Attribute = {
       attrCode: sourceAttribute.stdAttrCode,
@@ -369,7 +371,7 @@ export class CpqConfiguratorNormalizer
           sourceAttribute
         ),
       quantity: Number(sourceAttribute.quantity),
-      groupId,
+      groupId: this.createTabGroupId(groupId, parentRowGroupId),
       userInput: sourceAttribute.userInput,
       hasConflicts: sourceAttribute.hasConflict,
       selectedSingleValue: undefined,
