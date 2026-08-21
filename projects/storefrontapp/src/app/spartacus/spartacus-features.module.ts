@@ -379,7 +379,7 @@ if (environment.cpq) {
         a11yFormErrorIconContrast: true,
         a11yFocusIndicatorContrast: true,
         a11yDisabledButtonContrast: true,
-        a11yAddressFormInitialFocus: true,
+        a11yImproveAddressFormFocus: true,
         a11yFocusBreadcrumbOnNavigation: true,
         a11yNavigationChevronContrast: true,
       };
