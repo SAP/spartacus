@@ -389,12 +389,12 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
       // This avoids NG0100 from a null→polite transition during a CD cycle
       (configuratorStorefrontUtilsService as any).setLastSelected(
         component.attribute.name,
-        component.attribute.values![0].valueCode
+        (component.attribute.values ?? [])[0].valueCode
       );
       vi.spyOn(
         configuratorStorefrontUtilsService,
         'assembleValuesForMultiSelectAttributes'
-      ).mockReturnValue(component.attribute.values);
+      ).mockReturnValue(component.attribute.values ?? []);
       component.listenForPriceChanges = true;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
