@@ -113,6 +113,24 @@ export interface FeatureTogglesInterface {
   searchBoxRecentSearchesRemoval?: boolean;
 
   /**
+   * Controls the empty-query results panel in `SearchBoxComponent`.
+   *
+   * Before (disabled):
+   * - With `searchBoxRecentSearchesRemoval` enabled, an empty query closes the
+   *   results panel on desktop. Clearing the query closes the panel.
+   * - Without that toggle, desktop can show the results panel with an empty query.
+   *
+   * After (enabled):
+   * - On desktop, an empty query opens the results panel only when trending or
+   *   recent searches are available; otherwise the panel stays closed.
+   * - Clearing the query does not keep leftover OCC suggestions, products, or a
+   *   no-match message in the panel.
+   * - On mobile, the search box stays open for an empty query so the input is
+   *   not collapsed. The search panel Close button is hidden; Clear remains.
+   */
+  searchBoxEmptyQueryResultsPanel?: boolean;
+
+  /**
    * Corrects `BottomHeaderSlot` layout when CDS registers `MerchandisingCarouselComponent`
    * beside `BreadcrumbComponent` (e.g. on search results pages in sample data).
    *
@@ -768,6 +786,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   removeDuplicatedOrderHistoryHeader: true,
   a11yCardNotificationMessage: true,
   searchBoxRecentSearchesRemoval: false,
+  searchBoxEmptyQueryResultsPanel: false,
   cdsBottomHeaderSlotAdjustPosition: false,
   enableB2BUnitSearch: false,
   enableB2BCostCenterSearch: false,
