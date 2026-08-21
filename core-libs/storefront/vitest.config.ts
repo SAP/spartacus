@@ -16,7 +16,7 @@ export default defineConfig({
       '@spartacus/storefront/testing/mock-feature-directive': `${import.meta.dirname}/../../core-libs/storefront/shared/test/mock-feature-directive.ts`,
       '@spartacus/core/testing/i18n': `${import.meta.dirname}/../../core-libs/core/src/i18n/testing/index.ts`,
       '@spartacus/core/testing/url-testing': `${import.meta.dirname}/../../core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module.ts`,
-      'core-libs/core/src/features-config/feature-toggles/testing': `${import.meta.dirname}/../../core-libs/core/src/features-config/feature-toggles/testing`
+      'core-libs/core/src/features-config/feature-toggles/testing': `${import.meta.dirname}/../../core-libs/core/src/features-config/feature-toggles/testing`,
     },
   },
   plugins: [angular(), nxViteTsPaths()],
@@ -34,11 +34,7 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['lcov'],
       reportsDirectory: `${import.meta.dirname}/../../coverage/storefront`,
-      exclude: [
-        '**/public_api.ts',
-        '**/index.ts',
-        '**/*.module.ts',
-      ],
+      exclude: ['**/public_api.ts', '**/index.ts', '**/*.module.ts'],
       thresholds: {
         statements: 90,
         lines: 90,

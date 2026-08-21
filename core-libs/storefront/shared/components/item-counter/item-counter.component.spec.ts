@@ -1,4 +1,10 @@
-import { DebugElement, Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+import {
+  DebugElement,
+  Directive,
+  Input,
+  TemplateRef,
+  ViewContainerRef,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
@@ -54,7 +60,13 @@ describe('ItemCounterComponent', () => {
     })
       .overrideComponent(ItemCounterComponent, {
         remove: { imports: [TranslatePipe, FocusDirective, FeatureDirective] },
-        add: { imports: [MockTranslatePipe, MockKeyboardFocusDirective, TestFeatureDirective] },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockKeyboardFocusDirective,
+            TestFeatureDirective,
+          ],
+        },
       })
       .compileComponents();
   }

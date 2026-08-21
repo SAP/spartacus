@@ -270,26 +270,30 @@ describe('SearchBoxComponentService', () => {
       vi.spyOn(searchBoxService, 'getResults').mockReturnValue(
         of({ products: [] })
       );
-      vi.spyOn(searchBoxService, 'getSuggestionResults').mockReturnValue(of([]));
+      vi.spyOn(searchBoxService, 'getSuggestionResults').mockReturnValue(
+        of([])
+      );
 
       service.getResults(searchBoxConfig).subscribe();
 
-      expect(
-        document.body.classList.contains('has-searchbox-results')
-      ).toBe(false);
+      expect(document.body.classList.contains('has-searchbox-results')).toBe(
+        false
+      );
     });
 
     it('should mark the body as having searchbox results when trending searches are enabled with an empty query', () => {
       featureToggles.set('searchBoxEmptyQueryResultsPanel', true);
       vi.spyOn(searchBoxService, 'getResults').mockReturnValue(of({}));
-      vi.spyOn(searchBoxService, 'getSuggestionResults').mockReturnValue(of([]));
+      vi.spyOn(searchBoxService, 'getSuggestionResults').mockReturnValue(
+        of([])
+      );
 
       service.getResults(searchBoxConfig).subscribe();
       service.setTrendingSearches(true);
 
-      expect(
-        document.body.classList.contains('has-searchbox-results')
-      ).toBe(true);
+      expect(document.body.classList.contains('has-searchbox-results')).toBe(
+        true
+      );
 
       service.setTrendingSearches(false);
     });
@@ -299,7 +303,9 @@ describe('SearchBoxComponentService', () => {
       vi.spyOn(searchBoxService, 'getResults').mockReturnValue(
         of(mockSearchResults)
       );
-      vi.spyOn(searchBoxService, 'getSuggestionResults').mockReturnValue(of([]));
+      vi.spyOn(searchBoxService, 'getSuggestionResults').mockReturnValue(
+        of([])
+      );
 
       service.search('ab', {
         ...searchBoxConfig,
@@ -307,9 +313,9 @@ describe('SearchBoxComponentService', () => {
       });
       service.getResults(searchBoxConfig).subscribe();
 
-      expect(
-        document.body.classList.contains('has-searchbox-results')
-      ).toBe(true);
+      expect(document.body.classList.contains('has-searchbox-results')).toBe(
+        true
+      );
     });
 
     it('should not get a message when there are products ', () => {
