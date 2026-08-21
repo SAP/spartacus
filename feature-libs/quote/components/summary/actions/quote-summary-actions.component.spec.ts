@@ -975,30 +975,38 @@ describe('QuoteSummaryActionsComponent', () => {
       beforeEach(() => {
         vi.spyOn(quoteStorefrontUtilsService, 'getElement').mockImplementation(
           (selector) => {
-            if (selector === 'cx-page-slot.CenterRightContent') return slot;
+            if (selector === 'cx-page-slot.CenterRightContent') {
+              return slot;
+            }
             return null;
           }
         );
 
         vi.spyOn(quoteStorefrontUtilsService, 'getHeight').mockImplementation(
           (selector) => {
-            if (selector === 'cx-quote-summary-actions section') return 250;
+            if (selector === 'cx-quote-summary-actions section') {
+              return 250;
+            }
             return 0;
           }
         );
       });
 
       it('should adjust bottom property to zero when there is enough spare viewport', () => {
-        vi.spyOn(quoteStorefrontUtilsService, 'getDomRectValue').mockImplementation(
-          (selector, property) => {
-            if (selector === '.BottomHeaderSlot' && property === 'bottom') return 250;
-            return undefined;
+        vi.spyOn(
+          quoteStorefrontUtilsService,
+          'getDomRectValue'
+        ).mockImplementation((selector, property) => {
+          if (selector === '.BottomHeaderSlot' && property === 'bottom') {
+            return 250;
           }
-        );
+          return undefined;
+        });
 
-        vi.spyOn(quoteStorefrontUtilsService, 'getWindowHeight').mockReturnValue(
-          800
-        );
+        vi.spyOn(
+          quoteStorefrontUtilsService,
+          'getWindowHeight'
+        ).mockReturnValue(800);
 
         component.ngAfterViewInit();
 
@@ -1010,16 +1018,20 @@ describe('QuoteSummaryActionsComponent', () => {
       });
 
       it('should adjust bottom property accordingly when there is not enough spare viewport', () => {
-        vi.spyOn(quoteStorefrontUtilsService, 'getDomRectValue').mockImplementation(
-          (selector, property) => {
-            if (selector === '.BottomHeaderSlot' && property === 'bottom') return 378;
-            return undefined;
+        vi.spyOn(
+          quoteStorefrontUtilsService,
+          'getDomRectValue'
+        ).mockImplementation((selector, property) => {
+          if (selector === '.BottomHeaderSlot' && property === 'bottom') {
+            return 378;
           }
-        );
+          return undefined;
+        });
 
-        vi.spyOn(quoteStorefrontUtilsService, 'getWindowHeight').mockReturnValue(
-          500
-        );
+        vi.spyOn(
+          quoteStorefrontUtilsService,
+          'getWindowHeight'
+        ).mockReturnValue(500);
         component.ngAfterViewInit();
 
         expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
@@ -1030,7 +1042,9 @@ describe('QuoteSummaryActionsComponent', () => {
       });
 
       it('should make action buttons sticky when intersecting', () => {
-        vi.spyOn(intersectionService, 'isIntersecting').mockReturnValue(of(true));
+        vi.spyOn(intersectionService, 'isIntersecting').mockReturnValue(
+          of(true)
+        );
         component.ngAfterViewInit();
 
         expect(component.isFixedPosition).toBe(false);
