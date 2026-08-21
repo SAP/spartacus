@@ -296,6 +296,8 @@ if (environment.cpq) {
     },
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
+        useAdvancedGoogleMarkers: true,
+        useGoogleMapsAsyncLoading: true,
         productConfiguratorConsolidatedButtonDisabling: true,
         improvedTabStyling: true,
         alignNavigationMenuWithHeader: true,
@@ -329,6 +331,7 @@ if (environment.cpq) {
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
         searchBoxRecentSearchesRemoval: true,
+        searchBoxEmptyQueryResultsPanel: true,
         cdsBottomHeaderSlotAdjustPosition: true,
         enableB2BUnitSearch: true,
         enableB2BCostCenterSearch: true,
@@ -383,6 +386,10 @@ if (environment.cpq) {
         a11yDisabledButtonContrast: true,
         a11yAddressFormInitialFocus: true,
         a11yFocusBreadcrumbOnNavigation: true,
+        cartValidationDisplayBackendMessages: true,
+        configuratorIssuesNotificationForConfigurableOnly: true,
+        globalMessageCloseButtonPadding: true,
+        a11yItemCounterValueText: true,
         a11yNavigationChevronContrast: true,
       };
       return appFeatureToggles;

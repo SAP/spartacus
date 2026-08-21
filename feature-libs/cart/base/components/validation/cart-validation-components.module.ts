@@ -7,9 +7,14 @@
 import { NgModule } from '@angular/core';
 import { CartValidationWarningsModule } from './cart-warnings/cart-validation-warnings.module';
 import { CartItemValidationWarningModule } from './cart-item-warning/cart-item-validation-warning.module';
+import { CartItemValidationQuantityHintModule } from './cart-item-quantity-hint/cart-item-validation-quantity-hint.module';
 
 @NgModule({
-  imports: [CartValidationWarningsModule, CartItemValidationWarningModule],
+  imports: [
+    CartValidationWarningsModule,
+    CartItemValidationWarningModule,
+    CartItemValidationQuantityHintModule,
+  ],
   providers: [],
 })
 export class CartValidationComponentsModule {}

@@ -4,12 +4,11 @@ import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutCostCenterAdapter } from './checkout-cost-center.adapter';
 import { CheckoutCostCenterConnector } from './checkout-cost-center.connector';
-import createSpy = jasmine.createSpy;
 
 class MockCheckoutCostCenterAdapter
   implements Partial<CheckoutCostCenterAdapter>
 {
-  setCostCenter = createSpy().and.returnValue(of({}));
+  setCostCenter = vi.fn().mockReturnValue(of({}));
 }
 
 describe('CheckoutCostCenterConnector', () => {
