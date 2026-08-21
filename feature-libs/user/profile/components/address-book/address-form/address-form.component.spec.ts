@@ -654,7 +654,7 @@ describe('AddressFormComponent', () => {
     });
   });
 
-  describe('a11yAddressFormInitialFocus', () => {
+  describe('a11yImproveAddressFormFocus', () => {
     let featureTogglesController: MockFeatureTogglesController;
 
     const getFocusForm = (): DebugElement =>
@@ -664,22 +664,22 @@ describe('AddressFormComponent', () => {
       featureTogglesController = TestBed.inject(MockFeatureTogglesController);
     });
 
-    it('should apply cxFocus to the form when a11yAddressFormInitialFocus is true', () => {
-      featureTogglesController.set('a11yAddressFormInitialFocus', true);
+    it('should apply cxFocus to the form when a11yImproveAddressFormFocus is true', () => {
+      featureTogglesController.set('a11yImproveAddressFormFocus', true);
       fixture.detectChanges();
 
       expect(getFocusForm()).toBeTruthy();
     });
 
-    it('should not apply cxFocus to the form when a11yAddressFormInitialFocus is false', () => {
-      featureTogglesController.set('a11yAddressFormInitialFocus', false);
+    it('should not apply cxFocus to the form when a11yImproveAddressFormFocus is false', () => {
+      featureTogglesController.set('a11yImproveAddressFormFocus', false);
       fixture.detectChanges();
 
       expect(getFocusForm()).toBeNull();
     });
 
     it('should render the action buttons outside the cxFocus host', () => {
-      featureTogglesController.set('a11yAddressFormInitialFocus', true);
+      featureTogglesController.set('a11yImproveAddressFormFocus', true);
       fixture.detectChanges();
 
       const focusHost: HTMLElement = getFocusForm().nativeElement;
@@ -705,7 +705,7 @@ describe('AddressFormComponent', () => {
           .injector.get(FocusFirstInvalidFieldDirective);
 
     it('should focus the first invalid field on invalid submit when toggle is on', () => {
-      featureTogglesController.set('a11yAddressFormInitialFocus', true);
+      featureTogglesController.set('a11yImproveAddressFormFocus', true);
       fixture.detectChanges();
       const directive = getFocusFirstInvalidFieldDirective();
       spyOn(directive, 'focusFirstInvalidField');
@@ -716,7 +716,7 @@ describe('AddressFormComponent', () => {
     });
 
     it('should not focus the first invalid field on invalid submit when toggle is off', () => {
-      featureTogglesController.set('a11yAddressFormInitialFocus', false);
+      featureTogglesController.set('a11yImproveAddressFormFocus', false);
       fixture.detectChanges();
       const directive = getFocusFirstInvalidFieldDirective();
       spyOn(directive, 'focusFirstInvalidField');
@@ -731,7 +731,7 @@ describe('AddressFormComponent', () => {
     });
 
     it('should enable autofocus once the country data has loaded', fakeAsync(() => {
-      featureTogglesController.set('a11yAddressFormInitialFocus', true);
+      featureTogglesController.set('a11yImproveAddressFormFocus', true);
       spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(
         of(mockCountries)
       );
@@ -745,7 +745,7 @@ describe('AddressFormComponent', () => {
     }));
 
     it('should not steal focus when the user has already focused a form field', fakeAsync(() => {
-      featureTogglesController.set('a11yAddressFormInitialFocus', true);
+      featureTogglesController.set('a11yImproveAddressFormFocus', true);
       spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(
         of(mockCountries)
       );
@@ -768,7 +768,7 @@ describe('AddressFormComponent', () => {
     }));
 
     it('should not enable autofocus while the country list is empty', fakeAsync(() => {
-      featureTogglesController.set('a11yAddressFormInitialFocus', true);
+      featureTogglesController.set('a11yImproveAddressFormFocus', true);
       spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
 
       component.ngOnInit();
@@ -778,7 +778,7 @@ describe('AddressFormComponent', () => {
     }));
 
     it('should not enable autofocus when the toggle is off', fakeAsync(() => {
-      featureTogglesController.set('a11yAddressFormInitialFocus', false);
+      featureTogglesController.set('a11yImproveAddressFormFocus', false);
       spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(
         of(mockCountries)
       );

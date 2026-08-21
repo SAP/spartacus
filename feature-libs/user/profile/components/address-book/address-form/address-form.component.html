@@ -5,12 +5,12 @@
   cxFocusFirstInvalidField
   novalidate
 >
-  <ng-container *cxFeature="'a11yAddressFormInitialFocus'">
+  <ng-container *cxFeature="'a11yImproveAddressFormFocus'">
     <div [cxFocus]="focusConfig">
       <ng-container *ngTemplateOutlet="formBody" />
     </div>
   </ng-container>
-  <ng-container *cxFeature="'!a11yAddressFormInitialFocus'">
+  <ng-container *cxFeature="'!a11yImproveAddressFormFocus'">
     <ng-container *ngTemplateOutlet="formBody" />
   </ng-container>
 

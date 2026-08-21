@@ -207,7 +207,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     // `titles$`. This is intentionally data-driven rather than DOM-driven; the
     // post-submit counterpart, `focusFirstInvalidField()`, has to query the DOM
     // instead because it needs the *specific* invalid field, not just the first.
-    if (this.featureToggles.a11yAddressFormInitialFocus) {
+    if (this.featureToggles.a11yImproveAddressFormFocus) {
       this.subscription.add(
         this.countries$
           .pipe(
@@ -504,7 +504,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         { key: 'formErrors.globalMessage' },
         GlobalMessageType.MSG_TYPE_ASSISTIVE
       );
-      if (this.featureToggles.a11yAddressFormInitialFocus) {
+      if (this.featureToggles.a11yImproveAddressFormFocus) {
         this.firstInvalidFieldFocus?.focusFirstInvalidField();
       }
     }

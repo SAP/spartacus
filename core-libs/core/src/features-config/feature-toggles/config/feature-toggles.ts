@@ -666,11 +666,11 @@ export interface FeatureTogglesInterface {
 
   /**
    * When enabled, the address form applies the `cxFocus` directive with autofocus
-   * to manage initial keyboard focus.
+   * to manage initial keyboard focus and uses new directive cxFocusFirstInvalidField.
    *
    * Affects: `AddressFormComponent`
    */
-  a11yAddressFormInitialFocus?: boolean;
+  a11yImproveAddressFormFocus?: boolean;
 
   /**
    * When enabled, after navigating to a `CategoryPage` (e.g. a Product Listing Page)
@@ -782,7 +782,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFormErrorIconContrast: false,
   a11yFocusIndicatorContrast: false,
   a11yDisabledButtonContrast: false,
-  a11yAddressFormInitialFocus: false,
+  a11yImproveAddressFormFocus: false,
   a11yFocusBreadcrumbOnNavigation: false,
   a11yNavigationChevronContrast: false,
 };
