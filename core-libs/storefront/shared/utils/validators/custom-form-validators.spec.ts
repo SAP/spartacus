@@ -496,8 +496,8 @@ describe('FormValidationService', () => {
         (date) => new Date(date)
       );
       validateFn(form);
-      expect(form.get('startDate').hasError('max')).toBeTrue();
-      expect(form.get('endDate').hasError('min')).toBeTrue();
+      expect(form.get('startDate').hasError('max')).toBe(true);
+      expect(form.get('endDate').hasError('min')).toBe(true);
     });
   });
 });

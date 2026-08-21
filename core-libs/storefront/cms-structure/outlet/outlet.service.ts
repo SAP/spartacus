@@ -33,7 +33,7 @@ export class OutletService<T = TemplateRef<any> | ComponentFactory<any>> {
    */
   add(
     outlet: string,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
+
     factory: T,
     position?: OutletPosition
   ): void;
