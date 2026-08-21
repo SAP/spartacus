@@ -5,10 +5,9 @@ import { OutletService } from '../../../cms-structure';
 import { TableConfig } from './config/table.config';
 import { TableRendererService } from './table-renderer.service';
 import { TableOptions, TableStructure } from './table.model';
-import createSpy = jasmine.createSpy;
 
 class MockOutletService {
-  add = createSpy('add');
+  add = vi.fn();
 }
 
 @Component({
@@ -60,7 +59,7 @@ const mockTableWithoutHeaderAndDataComponent: TableStructure = {
 };
 
 class MockComponentFactoryResolver {
-  resolveComponentFactory = createSpy('resolveComponentFactory');
+  resolveComponentFactory = vi.fn();
 }
 
 describe('TableRendererService', () => {

@@ -31,6 +31,10 @@ describe('TrapFocusService', () => {
   let service: TrapFocusService;
   let fixture: ComponentFixture<MockComponent>;
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [MockComponent],
@@ -60,7 +64,7 @@ describe('TrapFocusService', () => {
     it('should return true when there are children', () => {
       const host = fixture.debugElement.query(By.css('#b')).nativeElement;
       const children = fixture.debugElement.queryAll(By.css('#b > *'));
-      spyOn(service, 'findFocusable').and.returnValue(
+      vi.spyOn(service, 'findFocusable').mockReturnValue(
         children.map((c) => c.nativeElement)
       );
       expect(service.hasFocusableChildren(host)).toBeTruthy();
@@ -78,14 +82,14 @@ describe('TrapFocusService', () => {
     beforeEach(() => {
       host = fixture.debugElement.query(By.css('#b')).nativeElement;
       children = fixture.debugElement.queryAll(By.css('#b > *'));
-      spyOn(service, 'findFocusable').and.returnValue(
+      vi.spyOn(service, 'findFocusable').mockReturnValue(
         children.map((c) => c.nativeElement)
       );
     });
 
     it('should stop bubbling event', () => {
-      spyOn(event, 'preventDefault');
-      spyOn(event, 'stopPropagation');
+      vi.spyOn(event, 'preventDefault');
+      vi.spyOn(event, 'stopPropagation');
       service.moveFocus(host, { trap: true }, 1, event as KeyboardEvent);
       expect(event.preventDefault).toHaveBeenCalled();
       expect(event.stopPropagation).toHaveBeenCalled();
@@ -95,7 +99,7 @@ describe('TrapFocusService', () => {
       it('should focus next element', () => {
         const current = fixture.debugElement.query(By.css('#b1')).nativeElement;
         const next = fixture.debugElement.query(By.css('#b2')).nativeElement;
-        spyOn(next, 'focus').and.callThrough();
+        vi.spyOn(next, 'focus');
 
         (event as any).target = current;
         service.moveFocus(
@@ -114,7 +118,7 @@ describe('TrapFocusService', () => {
         beforeEach(() => {
           last = fixture.debugElement.query(By.css('#b5')).nativeElement;
           next = fixture.debugElement.query(By.css('#b1')).nativeElement;
-          spyOn(next, 'focus').and.callThrough();
+          vi.spyOn(next, 'focus');
           (event as any).target = last;
         });
 
@@ -164,8 +168,8 @@ describe('TrapFocusService', () => {
         });
 
         it(`should not stop bubbling on last element if trap = 'start'`, () => {
-          spyOn(event, 'preventDefault');
-          spyOn(event, 'stopPropagation');
+          vi.spyOn(event, 'preventDefault');
+          vi.spyOn(event, 'stopPropagation');
 
           service.moveFocus(
             host,
@@ -184,7 +188,7 @@ describe('TrapFocusService', () => {
       it('should focus prev element', () => {
         const current = fixture.debugElement.query(By.css('#b3')).nativeElement;
         const prev = fixture.debugElement.query(By.css('#b2')).nativeElement;
-        spyOn(prev, 'focus').and.callThrough();
+        vi.spyOn(prev, 'focus');
 
         (event as any).target = current;
         service.moveFocus(
@@ -199,7 +203,7 @@ describe('TrapFocusService', () => {
       it('should focus prev element', () => {
         const current = fixture.debugElement.query(By.css('#b3')).nativeElement;
         const prev = fixture.debugElement.query(By.css('#b2')).nativeElement;
-        spyOn(prev, 'focus').and.callThrough();
+        vi.spyOn(prev, 'focus');
 
         (event as any).target = current;
         service.moveFocus(
@@ -218,7 +222,7 @@ describe('TrapFocusService', () => {
         beforeEach(() => {
           current = fixture.debugElement.query(By.css('#b1')).nativeElement;
           next = fixture.debugElement.query(By.css('#b5')).nativeElement;
-          spyOn(next, 'focus').and.callThrough();
+          vi.spyOn(next, 'focus');
           (event as any).target = current;
         });
 
@@ -258,8 +262,8 @@ describe('TrapFocusService', () => {
         });
 
         it(`should not stop bubbling on last element if trap = 'end'`, () => {
-          spyOn(event, 'preventDefault');
-          spyOn(event, 'stopPropagation');
+          vi.spyOn(event, 'preventDefault');
+          vi.spyOn(event, 'stopPropagation');
 
           service.moveFocus(
             host,

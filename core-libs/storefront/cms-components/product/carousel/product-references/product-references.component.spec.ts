@@ -6,7 +6,7 @@ import {
   PipeTransform,
   TemplateRef,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -20,7 +20,7 @@ import {
   UrlPipe,
 } from '@spartacus/core';
 import { CarouselScrollingComponent } from '@spartacus/storefront';
-import { MediaComponent } from 'core-libs/storefront/shared/components/media/media.component';
+import { MediaComponent } from '../../../../shared/components/media/media.component';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
@@ -33,7 +33,7 @@ import { ProductReferencesComponent } from './product-references.component';
     <ng-container *ngFor="let item$ of items">
       <ng-container
         *ngTemplateOutlet="template; context: { item: item$ | async }"
-      ></ng-container>
+      />
     </ng-container>
   `,
   imports: [FeaturesConfigModule, NgTemplateOutlet, AsyncPipe, NgFor],
@@ -169,11 +169,11 @@ describe('ProductReferencesComponent', () => {
       .compileComponents();
   });
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     fixture = TestBed.createComponent(ProductReferencesComponent);
     productReferenceService = TestBed.inject(ProductReferenceService);
     component = fixture.componentInstance;
-  }));
+  });
 
   it('should emit component data', () => {
     fixture.detectChanges();
@@ -192,7 +192,9 @@ describe('ProductReferencesComponent', () => {
 
   it('should get productCode', () => {
     fixture.detectChanges();
-    spyOn(productReferenceService, 'cleanReferences').and.stub();
+    vi.spyOn(productReferenceService, 'cleanReferences').mockImplementation(
+      () => {}
+    );
 
     let result: string;
     component['productCode$']
@@ -205,8 +207,8 @@ describe('ProductReferencesComponent', () => {
 
   it('should have 2 items', () => {
     fixture.detectChanges();
-    spyOn(productReferenceService, 'loadProductReferences').and.callThrough();
-    spyOn(productReferenceService, 'getProductReferences').and.callThrough();
+    vi.spyOn(productReferenceService, 'loadProductReferences');
+    vi.spyOn(productReferenceService, 'getProductReferences');
 
     let items: Observable<Product>[];
     component.items$.subscribe((i) => (items = i)).unsubscribe();
@@ -242,12 +244,12 @@ describe('ProductReferencesComponent', () => {
     const productNameElement = fixture.debugElement.query(
       By.css('a:first-child h4')
     ).nativeElement;
-    expect(productNameElement.innerText).toEqual('product reference 1');
+    expect(productNameElement.textContent).toEqual('product reference 1');
 
     const priceElement = fixture.debugElement.query(
       By.css('a:last-child .price')
     ).nativeElement;
-    expect(priceElement.innerText).toEqual('$200.00');
+    expect(priceElement.textContent).toEqual('$200.00');
 
     const productImage = fixture.debugElement.query(
       By.css('a:first-child cx-media')

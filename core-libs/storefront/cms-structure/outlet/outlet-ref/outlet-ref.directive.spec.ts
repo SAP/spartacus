@@ -1,6 +1,6 @@
 import { NgIf } from '@angular/common';
 import { Component, TemplateRef } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
 import { OutletDirective } from '../outlet.directive';
@@ -39,28 +39,29 @@ class MockDeferLoaderService {
   }
 }
 
-/**
- * Returns the innerText of the fixture
- */
 function getContent(fixture: ComponentFixture<any>): string {
-  return fixture.debugElement.nativeElement.innerText;
+  return fixture.debugElement.nativeElement.textContent.trim();
 }
 
 /**
- * Re-renders whole cxOutlet by destroying and recreating it.
- * It's needed in tests, because cxOutlet won't re-render itself after the list of declared OutletRefs change.
+ * Re-renders the cxOutlet by toggling outletVisible off/on.
+ * Uses detectChanges(false) + markForCheck() to avoid NG0100: OutletDirective.render()
+ * calls vcr.clear() during ngOnChanges which corrupts LView binding state, causing
+ * the no-changes verifier in a subsequent detectChanges() to throw.
  */
 function refreshOutlet(fixture: ComponentFixture<TestContainerComponent>) {
   fixture.componentInstance.outletVisible = false;
-  fixture.detectChanges();
+  fixture.changeDetectorRef.markForCheck();
+  fixture.detectChanges(false);
   fixture.componentInstance.outletVisible = true;
-  fixture.detectChanges();
+  fixture.changeDetectorRef.markForCheck();
+  fixture.detectChanges(false);
 }
 
 describe('OutletRefDirective', () => {
   let service: OutletService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [TestContainerComponent, OutletDirective, OutletRefDirective],
       providers: [
@@ -68,7 +69,7 @@ describe('OutletRefDirective', () => {
         { provide: DeferLoaderService, useClass: MockDeferLoaderService },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     service = TestBed.inject(OutletService);
@@ -98,12 +99,8 @@ describe('OutletRefDirective', () => {
 
   it('should re-register template on cxOutletRef re-creation', () => {
     const fixture = TestBed.createComponent(TestContainerComponent);
-
-    // destroy and re-define OutletRef
     fixture.componentInstance.outletRefVisible = false;
-    fixture.detectChanges();
     fixture.componentInstance.outletRefVisible = true;
-    fixture.detectChanges();
 
     refreshOutlet(fixture);
 
