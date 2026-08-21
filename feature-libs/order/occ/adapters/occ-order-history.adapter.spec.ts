@@ -7,7 +7,7 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
   OccConfig,
@@ -31,7 +31,7 @@ import {
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,
-} from 'core-libs/core/src/occ/adapters/user/unit-test.helper';
+} from '@spartacus/core/occ/testing';
 import { OccOrderHistoryAdapter } from './occ-order-history.adapter';
 
 const userId = '123';
@@ -78,9 +78,9 @@ describe('OccOrderHistoryAdapter', () => {
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
     occFieldsService = TestBed.inject(OccFieldsService);
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(converter, 'convert').and.callThrough();
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
+    vi.spyOn(converter, 'pipeable');
+    vi.spyOn(converter, 'convert');
+    vi.spyOn(occEnpointsService, 'buildUrl');
   });
 
   afterEach(() => {
@@ -88,7 +88,7 @@ describe('OccOrderHistoryAdapter', () => {
   });
 
   describe('getUserOrders', () => {
-    it('should fetch user Orders with default options', waitForAsync(() => {
+    it('should fetch user Orders with default options', () => {
       const PAGE_SIZE = 5;
       occOrderHistoryAdapter.loadHistory(userId, PAGE_SIZE).subscribe();
       httpMock.expectOne((req: HttpRequest<any>) => {
@@ -98,9 +98,9 @@ describe('OccOrderHistoryAdapter', () => {
         urlParams: { userId },
         queryParams: { pageSize: PAGE_SIZE.toString() },
       });
-    }));
+    });
 
-    it('should fetch user Orders with defined options', waitForAsync(() => {
+    it('should fetch user Orders with defined options', () => {
       const PAGE_SIZE = 5;
       const currentPage = 1;
       const sort = 'byDate';
@@ -119,7 +119,7 @@ describe('OccOrderHistoryAdapter', () => {
           sort,
         },
       });
-    }));
+    });
 
     it('should use converter', () => {
       occOrderHistoryAdapter.loadHistory(userId).subscribe();
@@ -133,7 +133,7 @@ describe('OccOrderHistoryAdapter', () => {
   });
 
   describe('getOrder', () => {
-    it('should fetch a single order without quote code', waitForAsync(() => {
+    it('should fetch a single order without quote code', () => {
       occOrderHistoryAdapter.load(userId, orderData.code).subscribe();
       httpMock.expectOne((req: HttpRequest<any>) => {
         return req.method === 'GET';
@@ -147,14 +147,12 @@ describe('OccOrderHistoryAdapter', () => {
           urlParams: { userId, orderId: orderData.code },
         }
       );
-    }));
-    it('should fetch a single order', waitForAsync(() => {
-      spyOnProperty(
-        mockOrderConfig,
-        'showOrderQuoteLink',
-        'get'
-      ).and.returnValue(true);
-      spyOn(occFieldsService, 'getOptimalUrlGroups').and.callThrough();
+    });
+    it('should fetch a single order', () => {
+      vi.spyOn(mockOrderConfig, 'showOrderQuoteLink', 'get').mockReturnValue(
+        true
+      );
+      vi.spyOn(occFieldsService, 'getOptimalUrlGroups');
       occOrderHistoryAdapter.load(userId, orderData.code).subscribe();
       httpMock.expectOne((req: HttpRequest<any>) => {
         return req.method === 'GET';
@@ -166,7 +164,7 @@ describe('OccOrderHistoryAdapter', () => {
         urlParams: { userId, orderId: orderData.code },
       });
       expect(occFieldsService.getOptimalUrlGroups).toHaveBeenCalled();
-    }));
+    });
 
     it('should use converter', () => {
       occOrderHistoryAdapter.load(userId, orderData.code).subscribe();
@@ -176,7 +174,7 @@ describe('OccOrderHistoryAdapter', () => {
   });
 
   describe('getConsignmentTracking', () => {
-    it('should fetch a consignment tracking', waitForAsync(() => {
+    it('should fetch a consignment tracking', () => {
       const tracking: ConsignmentTracking = {
         trackingID: '1234567890',
         trackingEvents: [],
@@ -196,7 +194,7 @@ describe('OccOrderHistoryAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(tracking);
-    }));
+    });
 
     it('should use converter', () => {
       occOrderHistoryAdapter
@@ -214,7 +212,7 @@ describe('OccOrderHistoryAdapter', () => {
   });
 
   describe('cancel', () => {
-    it('should be able to cancel an order', waitForAsync(() => {
+    it('should be able to cancel an order', () => {
       const cancelRequestInput: CancellationRequestEntryInputList = {
         cancellationRequestEntryInputs: [{ orderEntryNumber: 0, quantity: 1 }],
       };
@@ -234,11 +232,11 @@ describe('OccOrderHistoryAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush({});
       expect(result).toEqual({});
-    }));
+    });
   });
 
   describe('createReturnRequest', () => {
-    it('should be able to create an order return request', waitForAsync(() => {
+    it('should be able to create an order return request', () => {
       const returnRequestInput: ReturnRequestEntryInputList = {
         orderCode: orderData.code,
         returnRequestEntryInputs: [{ orderEntryNumber: 0, quantity: 1 }],
@@ -263,7 +261,7 @@ describe('OccOrderHistoryAdapter', () => {
         returnRequestInput,
         ORDER_RETURN_REQUEST_INPUT_SERIALIZER
       );
-    }));
+    });
 
     it('should use converter', () => {
       const returnRequestInput: ReturnRequestEntryInputList = {};
@@ -282,7 +280,7 @@ describe('OccOrderHistoryAdapter', () => {
   });
 
   describe('loadReturnRequestList', () => {
-    it('should fetch order return request list with default options', waitForAsync(() => {
+    it('should fetch order return request list with default options', () => {
       occOrderHistoryAdapter.loadReturnRequestList(userId).subscribe();
       httpMock.expectOne((req: HttpRequest<any>) => {
         return req.method === 'GET';
@@ -291,9 +289,9 @@ describe('OccOrderHistoryAdapter', () => {
         urlParams: { userId },
         queryParams: {},
       });
-    }));
+    });
 
-    it('should fetch user order return request list with defined options', waitForAsync(() => {
+    it('should fetch user order return request list with defined options', () => {
       const PAGE_SIZE = 5;
       const currentPage = 1;
       const sort = 'byDate';
@@ -312,7 +310,7 @@ describe('OccOrderHistoryAdapter', () => {
           sort,
         },
       });
-    }));
+    });
 
     it('should use converter', () => {
       occOrderHistoryAdapter.loadReturnRequestList(userId).subscribe();
@@ -326,7 +324,7 @@ describe('OccOrderHistoryAdapter', () => {
   });
 
   describe('loadReturnRequestDetail', () => {
-    it('should be able to load an order return request data', waitForAsync(() => {
+    it('should be able to load an order return request data', () => {
       let result;
       occOrderHistoryAdapter
         .loadReturnRequestDetail(userId, 'test')
@@ -344,7 +342,7 @@ describe('OccOrderHistoryAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush({});
       expect(result).toEqual({});
-    }));
+    });
 
     it('should use converter', () => {
       occOrderHistoryAdapter
@@ -362,7 +360,7 @@ describe('OccOrderHistoryAdapter', () => {
   });
 
   describe('cancelReturnRequest', () => {
-    it('should be able to cancel one return request', waitForAsync(() => {
+    it('should be able to cancel one return request', () => {
       let result;
       occOrderHistoryAdapter
         .cancelReturnRequest(userId, 'returnCode', { status: 'CANCELLING' })
@@ -378,6 +376,6 @@ describe('OccOrderHistoryAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush({});
       expect(result).toEqual({});
-    }));
+    });
   });
 });

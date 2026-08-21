@@ -86,7 +86,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
 
   describe('loadReplenishmentOrderDetails$', () => {
     it('should load replenishment order details', () => {
-      spyOn(connector, 'load').and.returnValue(of(mockReplenishmentOrder));
+      vi.spyOn(connector, 'load').mockReturnValue(of(mockReplenishmentOrder));
 
       const action = new OrderActions.LoadReplenishmentOrderDetails({
         userId: mockUserId,
@@ -105,7 +105,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
     });
 
     it('should return an error when it fails to load a replenishment order details', () => {
-      spyOn(connector, 'load').and.returnValue(throwError(() => mockError));
+      vi.spyOn(connector, 'load').mockReturnValue(throwError(() => mockError));
 
       const action = new OrderActions.LoadReplenishmentOrderDetails({
         userId: mockUserId,
@@ -126,7 +126,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
 
   describe('cancelReplenishmentOrder$', () => {
     it('should cancel a replenishment order', () => {
-      spyOn(connector, 'cancelReplenishmentOrder').and.returnValue(
+      vi.spyOn(connector, 'cancelReplenishmentOrder').mockReturnValue(
         of(mockReplenishmentOrder)
       );
 
@@ -147,7 +147,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
     });
 
     it('should return an error when it fails to cancel a replenishment order', () => {
-      spyOn(connector, 'cancelReplenishmentOrder').and.returnValue(
+      vi.spyOn(connector, 'cancelReplenishmentOrder').mockReturnValue(
         throwError(() => mockError)
       );
 
