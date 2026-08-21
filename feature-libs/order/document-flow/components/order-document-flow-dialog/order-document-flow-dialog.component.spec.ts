@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { StoreModule } from '@ngrx/store';
 import {
@@ -16,7 +16,7 @@ import {
   MessageComponentModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { Observable, of, throwError } from 'rxjs';
+import { firstValueFrom, Observable, of, throwError } from 'rxjs';
 import { OrderDocumentFlowFacade } from '../../root/facade';
 import {
   OrderSubsequentDocument,
@@ -25,8 +25,6 @@ import {
 import { OrderDocumentFlowDialogComponent } from './order-document-flow-dialog.component';
 import { OrderSubsequentDocumentNodeComponent } from './order-document-flow-list';
 import { OrderDocumentOrderEntryListComponent } from './order-document-order-entry-list';
-
-import createSpy = jasmine.createSpy;
 
 const orderCode = '00001004';
 
@@ -101,14 +99,14 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 describe('OrderDocumentFlowDialogComponent', () => {
   let component: OrderDocumentFlowDialogComponent;
   let fixture: ComponentFixture<OrderDocumentFlowDialogComponent>;
-  let orderDocumentFlowFacade: jasmine.SpyObj<OrderDocumentFlowFacade>;
+  let orderDocumentFlowFacade: vi.MockObj<OrderDocumentFlowFacade>;
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(waitForAsync(() => {
-    const orderDocumentFlowFacadeSpy = jasmine.createSpyObj(
-      'OrderDocumentFlowFacade',
-      ['getOrderSubsequentDocuments', 'getOrderSubsequentDocumentEntries']
-    );
+  beforeEach(async () => {
+    const orderDocumentFlowFacadeSpy = {
+      getOrderSubsequentDocuments: vi.fn(),
+      getOrderSubsequentDocumentEntries: vi.fn(),
+    };
 
     TestBed.configureTestingModule({
       imports: [
@@ -130,7 +128,7 @@ describe('OrderDocumentFlowDialogComponent', () => {
         },
         {
           provide: ChangeDetectorRef,
-          useValue: { markForCheck: createSpy('markForCheck') },
+          useValue: { markForCheck: vi.fn('markForCheck') },
         },
       ],
       schemas: [NO_ERRORS_SCHEMA],
@@ -160,17 +158,17 @@ describe('OrderDocumentFlowDialogComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     orderDocumentFlowFacade = TestBed.inject(
       OrderDocumentFlowFacade
-    ) as jasmine.SpyObj<OrderDocumentFlowFacade>;
+    ) as anyObj<OrderDocumentFlowFacade>;
     launchDialogService = TestBed.inject(LaunchDialogService);
-    orderDocumentFlowFacade.getOrderSubsequentDocuments.and.returnValue(
+    orderDocumentFlowFacade.getOrderSubsequentDocuments.mockReturnValue(
       of(subsequentDocumentsData)
     );
-    orderDocumentFlowFacade.getOrderSubsequentDocumentEntries.and.returnValue(
+    orderDocumentFlowFacade.getOrderSubsequentDocumentEntries.mockReturnValue(
       of(subsequentDocumentEntryData)
     );
     fixture = TestBed.createComponent(OrderDocumentFlowDialogComponent);
@@ -182,7 +180,7 @@ describe('OrderDocumentFlowDialogComponent', () => {
   });
 
   it('should close dialogue when modal is dismissed', () => {
-    spyOn(launchDialogService, 'closeDialog').and.callThrough();
+    vi.spyOn(launchDialogService, 'closeDialog');
     const closeReason = 'mock close';
     component.close(closeReason);
 
@@ -190,49 +188,41 @@ describe('OrderDocumentFlowDialogComponent', () => {
   });
 
   describe('subsequent documents observable', () => {
-    it('should return subsequent document array', (done) => {
-      orderDocumentFlowFacade.getOrderSubsequentDocuments.and.returnValue(
+    it('should return subsequent document array', async () => {
+      orderDocumentFlowFacade.getOrderSubsequentDocuments.mockReturnValue(
         of(subsequentDocumentsData)
       );
       (component as any).orderCode$ = of(orderCode);
 
       expect(component.documents$).toBeDefined();
-      component.documents$
-        .subscribe((documents) => {
-          expect(documents).toEqual(subsequentDocumentsData);
-          done();
-        })
-        .unsubscribe();
+      const documents = await firstValueFrom(component.documents$);
+      expect(documents).toEqual(subsequentDocumentsData);
       expect(
         orderDocumentFlowFacade.getOrderSubsequentDocuments
       ).toHaveBeenCalled();
     });
 
-    it('should return empty array on error', (done) => {
-      orderDocumentFlowFacade.getOrderSubsequentDocuments.and.returnValue(
+    it('should return empty array on error', async () => {
+      orderDocumentFlowFacade.getOrderSubsequentDocuments.mockReturnValue(
         throwError(() => 'mockError')
       );
       (component as any).orderCode$ = of(orderCode);
 
-      component.documents$
-        .subscribe((documents) => {
-          expect(documents).toEqual([]);
-          done();
-        })
-        .unsubscribe();
+      const documents = await firstValueFrom(component.documents$);
+      expect(documents).toEqual([]);
       expect(
         orderDocumentFlowFacade.getOrderSubsequentDocuments
       ).toHaveBeenCalled();
     });
 
-    it('should update loadError signal on error', (done) => {
-      orderDocumentFlowFacade.getOrderSubsequentDocuments.and.returnValue(
+    it('should update loadError signal on error', async () => {
+      orderDocumentFlowFacade.getOrderSubsequentDocuments.mockReturnValue(
         throwError(() => 'mockError')
       );
       expect(component.loadError()).toBe(false);
 
       (component as any).orderCode$ = of(orderCode);
-      component.documents$.subscribe(() => done()).unsubscribe();
+      await firstValueFrom(component.documents$);
 
       expect(component.loadError()).toBe(true);
       expect(
@@ -242,8 +232,8 @@ describe('OrderDocumentFlowDialogComponent', () => {
   });
 
   describe('subsequent document entries observable', () => {
-    it('should return subsequent document entry array', (done) => {
-      orderDocumentFlowFacade.getOrderSubsequentDocumentEntries.and.returnValue(
+    it('should return subsequent document entry array', async () => {
+      orderDocumentFlowFacade.getOrderSubsequentDocumentEntries.mockReturnValue(
         of(subsequentDocumentEntryData)
       );
       (component as any).orderCode$ = of(orderCode);
@@ -251,38 +241,30 @@ describe('OrderDocumentFlowDialogComponent', () => {
       component.onDocumentSelection(subsequentDocumentsData[0]);
 
       expect(component.selectedDocumentEntries$).toBeDefined();
-      component.selectedDocumentEntries$
-        .subscribe((entries) => {
-          expect(entries).toEqual(subsequentDocumentEntryData);
-          done();
-        })
-        .unsubscribe();
+      const entries = await firstValueFrom(component.selectedDocumentEntries$);
+      expect(entries).toEqual(subsequentDocumentEntryData);
       expect(
         orderDocumentFlowFacade.getOrderSubsequentDocumentEntries
       ).toHaveBeenCalled();
     });
 
-    it('should return empty array on error', (done) => {
-      orderDocumentFlowFacade.getOrderSubsequentDocumentEntries.and.returnValue(
+    it('should return empty array on error', async () => {
+      orderDocumentFlowFacade.getOrderSubsequentDocumentEntries.mockReturnValue(
         throwError(() => 'mockError')
       );
       (component as any).orderCode$ = of(orderCode);
       fixture.detectChanges();
       component.onDocumentSelection(subsequentDocumentsData[0]);
 
-      component.selectedDocumentEntries$
-        .subscribe((entries) => {
-          expect(entries).toEqual([]);
-          done();
-        })
-        .unsubscribe();
+      const entries = await firstValueFrom(component.selectedDocumentEntries$);
+      expect(entries).toEqual([]);
       expect(
         orderDocumentFlowFacade.getOrderSubsequentDocumentEntries
       ).toHaveBeenCalled();
     });
 
-    it('should update loadError signal on error', (done) => {
-      orderDocumentFlowFacade.getOrderSubsequentDocumentEntries.and.returnValue(
+    it('should update loadError signal on error', async () => {
+      orderDocumentFlowFacade.getOrderSubsequentDocumentEntries.mockReturnValue(
         throwError(() => 'mockError')
       );
       expect(component.loadError()).toBe(false);
@@ -291,7 +273,7 @@ describe('OrderDocumentFlowDialogComponent', () => {
       fixture.detectChanges();
       component.onDocumentSelection(subsequentDocumentsData[0]);
 
-      component.selectedDocumentEntries$.subscribe(() => done()).unsubscribe();
+      await firstValueFrom(component.selectedDocumentEntries$);
 
       expect(component.loadError()).toBe(true);
       expect(
@@ -300,8 +282,8 @@ describe('OrderDocumentFlowDialogComponent', () => {
     });
 
     describe('cache', () => {
-      it('should cache successful fetch', (done) => {
-        orderDocumentFlowFacade.getOrderSubsequentDocumentEntries.and.returnValue(
+      it('should cache successful fetch', async () => {
+        orderDocumentFlowFacade.getOrderSubsequentDocumentEntries.mockReturnValue(
           of(subsequentDocumentEntryData)
         );
         (component as any).orderCode$ = of(orderCode);
@@ -309,58 +291,45 @@ describe('OrderDocumentFlowDialogComponent', () => {
         component.onDocumentSelection(subsequentDocumentsData[0]);
 
         expect(component.selectedDocumentEntries$).toBeDefined();
-        component.selectedDocumentEntries$
-          .subscribe((entries) => {
-            expect(entries).toEqual(subsequentDocumentEntryData);
-          })
-          .unsubscribe();
+        const entries1 = await firstValueFrom(
+          component.selectedDocumentEntries$
+        );
+        expect(entries1).toEqual(subsequentDocumentEntryData);
 
-        component.selectedDocumentEntries$
-          .subscribe((entries) => {
-            expect(entries).toEqual(subsequentDocumentEntryData);
-            done();
-          })
-          .unsubscribe();
+        const entries2 = await firstValueFrom(
+          component.selectedDocumentEntries$
+        );
+        expect(entries2).toEqual(subsequentDocumentEntryData);
 
         expect(
           orderDocumentFlowFacade.getOrderSubsequentDocumentEntries
         ).toHaveBeenCalledTimes(1);
       });
-      it('should not cache empty fetch', (done) => {
-        orderDocumentFlowFacade.getOrderSubsequentDocumentEntries.and.returnValue(
+      it('should not cache empty fetch', async () => {
+        orderDocumentFlowFacade.getOrderSubsequentDocumentEntries.mockReturnValue(
           of([])
         );
         (component as any).orderCode$ = of(orderCode);
         fixture.detectChanges();
         component.onDocumentSelection(subsequentDocumentsData[0]);
 
-        component.selectedDocumentEntries$.subscribe().unsubscribe();
-
-        component.selectedDocumentEntries$
-          .subscribe(() => {
-            done();
-          })
-          .unsubscribe();
+        await firstValueFrom(component.selectedDocumentEntries$);
+        await firstValueFrom(component.selectedDocumentEntries$);
 
         expect(
           orderDocumentFlowFacade.getOrderSubsequentDocumentEntries
         ).toHaveBeenCalledTimes(2);
       });
-      it('should not cache on fetch error', (done) => {
-        orderDocumentFlowFacade.getOrderSubsequentDocumentEntries.and.returnValue(
+      it('should not cache on fetch error', async () => {
+        orderDocumentFlowFacade.getOrderSubsequentDocumentEntries.mockReturnValue(
           throwError(() => 'mockError')
         );
         (component as any).orderCode$ = of(orderCode);
         fixture.detectChanges();
         component.onDocumentSelection(subsequentDocumentsData[0]);
 
-        component.selectedDocumentEntries$.subscribe().unsubscribe();
-
-        component.selectedDocumentEntries$
-          .subscribe(() => {
-            done();
-          })
-          .unsubscribe();
+        await firstValueFrom(component.selectedDocumentEntries$);
+        await firstValueFrom(component.selectedDocumentEntries$);
 
         expect(
           orderDocumentFlowFacade.getOrderSubsequentDocumentEntries
@@ -384,7 +353,7 @@ describe('OrderDocumentFlowDialogComponent', () => {
         expect(goBackButtonEls.length).toBe(1);
       });
       it('should display info message strip on empty fetch', () => {
-        orderDocumentFlowFacade.getOrderSubsequentDocumentEntries.and.returnValue(
+        orderDocumentFlowFacade.getOrderSubsequentDocumentEntries.mockReturnValue(
           of([])
         );
         fixture = TestBed.createComponent(OrderDocumentFlowDialogComponent);
@@ -403,7 +372,7 @@ describe('OrderDocumentFlowDialogComponent', () => {
         expect(documentEntryListEls.length).toBe(0);
       });
       it('should display error message strip on error fetch', () => {
-        orderDocumentFlowFacade.getOrderSubsequentDocumentEntries.and.returnValue(
+        orderDocumentFlowFacade.getOrderSubsequentDocumentEntries.mockReturnValue(
           throwError(() => 'mockError')
         );
         fixture = TestBed.createComponent(OrderDocumentFlowDialogComponent);
@@ -459,7 +428,7 @@ describe('OrderDocumentFlowDialogComponent', () => {
         expect(goBackButtonEls.length).toBe(0);
       });
       it('should display info message strip on empty fetch', () => {
-        orderDocumentFlowFacade.getOrderSubsequentDocuments.and.returnValue(
+        orderDocumentFlowFacade.getOrderSubsequentDocuments.mockReturnValue(
           of([])
         );
         fixture = TestBed.createComponent(OrderDocumentFlowDialogComponent);
@@ -476,7 +445,7 @@ describe('OrderDocumentFlowDialogComponent', () => {
         expect(documentListEls.length).toBe(0);
       });
       it('should display error message strip on error fetch', () => {
-        orderDocumentFlowFacade.getOrderSubsequentDocuments.and.returnValue(
+        orderDocumentFlowFacade.getOrderSubsequentDocuments.mockReturnValue(
           throwError(() => 'mockError')
         );
         fixture = TestBed.createComponent(OrderDocumentFlowDialogComponent);

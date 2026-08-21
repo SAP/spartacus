@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { ReturnRequest } from '@spartacus/order/root';
 import { MediaComponent } from '@spartacus/storefront';
@@ -30,7 +30,7 @@ describe('ReturnRequestItemsComponent', () => {
   let component: ReturnRequestItemsComponent;
   let fixture: ComponentFixture<ReturnRequestItemsComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ReturnRequestItemsComponent],
       providers: [
@@ -42,7 +42,7 @@ describe('ReturnRequestItemsComponent', () => {
         add: { imports: [MockTranslatePipe, MockMediaComponent] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReturnRequestItemsComponent);
