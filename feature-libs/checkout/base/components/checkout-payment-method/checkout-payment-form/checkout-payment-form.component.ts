@@ -214,7 +214,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
         this.billingAddressService.markAllAsTouched();
       }
 
-      if (this.featureToggles.a11yPaymentFormFocus) {
+      if (this.featureToggles.a11yImproveCheckoutFocus) {
         this.firstInvalidFieldFocus?.focusFirstInvalidField();
       }
     }

@@ -380,7 +380,6 @@ if (environment.cpq) {
         a11yFocusIndicatorContrast: true,
         a11yDisabledButtonContrast: true,
         a11yAddressFormInitialFocus: true,
-        a11yPaymentFormFocus: true,
         a11yFocusBreadcrumbOnNavigation: true,
         a11yNavigationChevronContrast: true,
       };

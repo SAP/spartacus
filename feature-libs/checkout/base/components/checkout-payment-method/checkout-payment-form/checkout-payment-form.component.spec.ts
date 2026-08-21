@@ -258,7 +258,7 @@ describe('CheckoutPaymentFormComponent', () => {
           provide: CheckoutBillingAddressFormService,
           useClass: MockCheckoutBillingAddressFormService,
         },
-        provideMockFeatureToggles({ a11yPaymentFormFocus: true }),
+        provideMockFeatureToggles({ a11yImproveCheckoutFocus: true }),
       ],
     })
       .overrideComponent(CheckoutPaymentFormComponent, {
@@ -361,7 +361,7 @@ describe('CheckoutPaymentFormComponent', () => {
     expect(component.closeForm.emit).toHaveBeenCalled();
   });
 
-  describe('a11yPaymentFormFocus', () => {
+  describe('a11yImproveCheckoutFocus', () => {
     let featureTogglesController: MockFeatureTogglesController;
 
     const getFocusFirstInvalidFieldDirective =
@@ -376,7 +376,7 @@ describe('CheckoutPaymentFormComponent', () => {
     });
 
     it('should focus the first invalid field on invalid submit when toggle is on', () => {
-      featureTogglesController.set('a11yPaymentFormFocus', true);
+      featureTogglesController.set('a11yImproveCheckoutFocus', true);
       const directive = getFocusFirstInvalidFieldDirective();
       spyOn(directive, 'focusFirstInvalidField');
 
@@ -386,7 +386,7 @@ describe('CheckoutPaymentFormComponent', () => {
     });
 
     it('should not focus the first invalid field on invalid submit when toggle is off', () => {
-      featureTogglesController.set('a11yPaymentFormFocus', false);
+      featureTogglesController.set('a11yImproveCheckoutFocus', false);
       const directive = getFocusFirstInvalidFieldDirective();
       spyOn(directive, 'focusFirstInvalidField');
 
