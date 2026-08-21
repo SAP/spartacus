@@ -4,7 +4,13 @@ import {
   Directive,
   Input,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -708,6 +714,69 @@ describe('AddressFormComponent', () => {
 
       expect(component['focusFirstInvalidField']).not.toHaveBeenCalled();
     });
+
+    it('should start with autofocus disabled', () => {
+      expect(component.focusConfig).toEqual({ autofocus: false });
+    });
+
+    it('should enable autofocus once the country data has loaded', fakeAsync(() => {
+      featureTogglesController.set('a11yAddressFormInitialFocus', true);
+      spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(
+        of(mockCountries)
+      );
+
+      component.ngOnInit();
+      tick(); // flush the deferred macrotask
+
+      expect(component.focusConfig.autofocus).toBe(true);
+      // a `refreshFocus` token is set to re-trigger the directive's focus logic
+      expect(component.focusConfig.refreshFocus).toBeTruthy();
+    }));
+
+    it('should not steal focus when the user has already focused a form field', fakeAsync(() => {
+      featureTogglesController.set('a11yAddressFormInitialFocus', true);
+      spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(
+        of(mockCountries)
+      );
+
+      // Simulate the user having engaged with the form before the (deferred)
+      // country data arrives — the focus refresh must not yank focus back.
+      const host: HTMLElement = fixture.nativeElement;
+      const input = document.createElement('input');
+      host.appendChild(input);
+      document.body.appendChild(host);
+      input.focus();
+      expect(document.activeElement).toBe(input);
+
+      component.ngOnInit();
+      tick();
+
+      expect(component.focusConfig).toEqual({ autofocus: false });
+
+      document.body.removeChild(host);
+    }));
+
+    it('should not enable autofocus while the country list is empty', fakeAsync(() => {
+      featureTogglesController.set('a11yAddressFormInitialFocus', true);
+      spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
+
+      component.ngOnInit();
+      tick();
+
+      expect(component.focusConfig).toEqual({ autofocus: false });
+    }));
+
+    it('should not enable autofocus when the toggle is off', fakeAsync(() => {
+      featureTogglesController.set('a11yAddressFormInitialFocus', false);
+      spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(
+        of(mockCountries)
+      );
+
+      component.ngOnInit();
+      tick();
+
+      expect(component.focusConfig).toEqual({ autofocus: false });
+    }));
   });
 
   describe('focusFirstInvalidField', () => {
