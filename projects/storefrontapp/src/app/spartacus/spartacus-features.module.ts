@@ -386,6 +386,10 @@ if (environment.cpq) {
         a11yDisabledButtonContrast: true,
         a11yAddressFormInitialFocus: true,
         a11yFocusBreadcrumbOnNavigation: true,
+        cartValidationDisplayBackendMessages: true,
+        configuratorIssuesNotificationForConfigurableOnly: true,
+        globalMessageCloseButtonPadding: true,
+        a11yItemCounterValueText: true,
         a11yNavigationChevronContrast: true,
       };
       return appFeatureToggles;
