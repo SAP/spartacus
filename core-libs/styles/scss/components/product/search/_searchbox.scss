@@ -424,6 +424,9 @@
         display: block;
         right: 12px;
         top: 20px;
+        @include forFeature('searchBoxEmptyQueryResultsPanel') {
+          display: none;
+        }
       }
     }
     @include forFeature('searchBoxRecentSearchesRemoval') {
@@ -451,6 +454,13 @@
       margin-top: 14px;
       overflow: hidden;
       flex-wrap: wrap;
+
+      @include forFeature('searchBoxEmptyQueryResultsPanel') {
+        &:not(:has(.products)) {
+          height: auto;
+          align-content: flex-start;
+        }
+      }
 
       .search-panel-header {
         width: 100%;
@@ -652,6 +662,9 @@
       }
 
       cx-recent-searches {
+        @include forFeature('searchBoxEmptyQueryResultsPanel') {
+          display: block;
+        }
         flex-wrap: wrap;
         list-style: none;
         padding-inline-start: 0;
@@ -691,6 +704,11 @@
       }
       .trending-searches-container {
         display: none;
+        @include forFeature('searchBoxEmptyQueryResultsPanel') {
+          &.d-block:not(:has(.trending-searches)) {
+            display: none !important;
+          }
+        }
         &:has(.trending-searches) {
           width: 20%;
           @include media-breakpoint-down(sm) {
