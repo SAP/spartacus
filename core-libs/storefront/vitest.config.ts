@@ -37,7 +37,6 @@ export default defineConfig({
         '**/public_api.ts',
         '**/index.ts',
         '**/*.module.ts',
-        'setup-test.ts',
       ],
       thresholds: {
         statements: 90,
