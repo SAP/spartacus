@@ -5,10 +5,9 @@ import {
   ConfigInitializerService,
   DeferLoadingStrategy,
 } from '@spartacus/core';
-import { of, Subject } from 'rxjs';
+import { firstValueFrom, of, Subject } from 'rxjs';
 import { CmsComponentsService } from './cms-components.service';
 import { CmsFeaturesService } from '@spartacus/storefront';
-import createSpy = jasmine.createSpy;
 
 let service: CmsComponentsService;
 
@@ -52,8 +51,8 @@ const mockComponents: string[] = [
 class MockCmsFeaturesService implements Partial<CmsFeaturesService> {
   private testResovler = new Subject();
 
-  hasFeatureFor = createSpy().and.callFake((type) => type === 'feature');
-  getModule = createSpy();
+  hasFeatureFor = vi.fn().mockImplementation((type) => type === 'feature');
+  getModule = vi.fn();
 
   getCmsMapping() {
     return this.testResovler;
@@ -92,12 +91,10 @@ describe('CmsComponentsService', () => {
   });
 
   describe('determineMappings', () => {
-    it('should return observable and pass component types', (done) => {
+    it('should return observable and pass component types', async () => {
       const testTypes = ['a', 'b'];
-      service.determineMappings(testTypes).subscribe((types) => {
-        expect(types).toBe(testTypes);
-        done();
-      });
+      const types = await firstValueFrom(service.determineMappings(testTypes));
+      expect(types).toBe(testTypes);
     });
     it('should resolve features before emitting values', () => {
       const cmsFeaturesService = TestBed.inject<MockCmsFeaturesService>(

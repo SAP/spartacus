@@ -1,16 +1,47 @@
-import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  DebugElement,
+  Directive,
+  Input,
+  TemplateRef,
+  ViewContainerRef,
+} from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { MockKeyboardFocusDirective } from '@spartacus/storefront';
+import {
+  FeatureDirective,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { FocusDirective } from '../../../layout/a11y/keyboard-focus/focus.directive';
 import { ItemCounterComponent } from './item-counter.component';
+import { MockKeyboardFocusDirective } from '../../../layout';
+
+let activeToggles: Record<string, boolean> = {};
+
+@Directive({ selector: '[cxFeature]' })
+class TestFeatureDirective {
+  constructor(
+    private templateRef: TemplateRef<any>,
+    private viewContainer: ViewContainerRef
+  ) {}
+
+  @Input() set cxFeature(feature: string) {
+    const negated = feature.startsWith('!');
+    const key = negated ? feature.slice(1) : feature;
+    const enabled = activeToggles[key] ?? true;
+    const show = negated ? !enabled : enabled;
+    if (show) {
+      this.viewContainer.createEmbeddedView(this.templateRef);
+    } else {
+      this.viewContainer.clear();
+    }
+  }
+}
 
 const form = new UntypedFormGroup({
   quantity: new UntypedFormControl('1'),
@@ -20,23 +51,28 @@ describe('ItemCounterComponent', () => {
   let component: ItemCounterComponent;
   let fixture: ComponentFixture<ItemCounterComponent>;
 
-  function configure(toggles: Record<string, boolean> = {}): void {
-    TestBed.configureTestingModule({
+  async function configure(
+    toggles: Record<string, boolean> = {}
+  ): Promise<void> {
+    activeToggles = toggles;
+    await TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, ItemCounterComponent],
-      providers: [provideMockFeatureToggles(toggles)],
     })
       .overrideComponent(ItemCounterComponent, {
-        remove: { imports: [TranslatePipe, FocusDirective] },
-        add: { imports: [MockTranslatePipe, MockKeyboardFocusDirective] },
+        remove: { imports: [TranslatePipe, FocusDirective, FeatureDirective] },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockKeyboardFocusDirective,
+            TestFeatureDirective,
+          ],
+        },
       })
       .compileComponents();
   }
 
-  beforeEach(waitForAsync(() => {
-    configure();
-  }));
-
-  beforeEach(() => {
+  beforeEach(async () => {
+    await configure();
     fixture = TestBed.createComponent(ItemCounterComponent);
     component = fixture.componentInstance;
 
@@ -44,23 +80,24 @@ describe('ItemCounterComponent', () => {
 
     component.control.setValue(1);
     component.control.markAsPristine();
-    fixture.detectChanges();
   });
 
   it('should create ItemCounterComponent', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should update the input value when the control value is changed', () => {
+    component.control.setValue(5);
+    fixture.detectChanges();
     const input: HTMLInputElement = fixture.debugElement.query(
       By.css('input')
     ).nativeElement;
-    component.control.setValue(5);
-    fixture.detectChanges();
     expect(input.value).toEqual('5');
   });
 
-  it('should update the form control when the input is changed', waitForAsync(() => {
+  it('should update the form control when the input is changed', async () => {
+    fixture.detectChanges();
     const input: HTMLInputElement = fixture.debugElement.query(
       By.css('input')
     ).nativeElement;
@@ -71,24 +108,24 @@ describe('ItemCounterComponent', () => {
     fixture.detectChanges();
 
     expect(component.control.value).toEqual(10);
-  }));
+  });
 
   describe('readonly', () => {
-    it('should add readonly class', waitForAsync(() => {
+    it('should add readonly class', async () => {
       component.readonly = true;
       fixture.detectChanges();
       expect(
         (<HTMLElement>fixture.debugElement.nativeElement).classList
       ).toContain('readonly');
-    }));
+    });
 
-    it('should not add readonly class', waitForAsync(() => {
+    it('should not add readonly class', async () => {
       component.readonly = false;
       fixture.detectChanges();
       expect(
         (<HTMLElement>fixture.debugElement.nativeElement).classList
       ).not.toContain('readonly');
-    }));
+    });
   });
 
   describe('validate value', () => {
@@ -108,8 +145,9 @@ describe('ItemCounterComponent', () => {
       expect(component.control.value).toEqual(3);
     });
 
-    it('should avoid invalid characters in the input to silently fail', waitForAsync(() => {
+    it('should avoid invalid characters in the input to silently fail', async () => {
       component.min = 5;
+      fixture.detectChanges();
       const input: HTMLInputElement = fixture.debugElement.query(
         By.css('input')
       ).nativeElement;
@@ -119,7 +157,7 @@ describe('ItemCounterComponent', () => {
       fixture.detectChanges();
 
       expect(input.value).toEqual('5');
-    }));
+    });
 
     it('should ignore 0 value in case `allowZero` is set to true', () => {
       component.allowZero = true;
@@ -140,6 +178,7 @@ describe('ItemCounterComponent', () => {
 
   describe('increment()', () => {
     it('should increase form control value when plus button is used', () => {
+      fixture.detectChanges();
       const button: DebugElement[] = fixture.debugElement.queryAll(
         By.css('button')
       );
@@ -149,6 +188,7 @@ describe('ItemCounterComponent', () => {
     });
 
     it('should mark the control "dirty" when the value increases', () => {
+      fixture.detectChanges();
       expect(component.control.dirty).toBe(false);
       const button: DebugElement[] = fixture.debugElement.queryAll(
         By.css('button')
@@ -200,9 +240,9 @@ describe('ItemCounterComponent', () => {
     });
 
     it('should mark the control "dirty" when the value decreases', () => {
-      expect(component.control.dirty).toBe(false);
       component.control.setValue(5);
       fixture.detectChanges();
+      expect(component.control.dirty).toBe(false);
       const button: DebugElement[] = fixture.debugElement.queryAll(
         By.css('button')
       );
@@ -242,6 +282,7 @@ describe('ItemCounterComponent', () => {
 
   describe('a11y', () => {
     it('should update value on enter', () => {
+      fixture.detectChanges();
       const input: HTMLInputElement = fixture.debugElement.query(
         By.css('input')
       ).nativeElement;
@@ -275,16 +316,22 @@ describe('ItemCounterComponent', () => {
       );
     });
 
-    it('should NOT set aria-valuetext when the toggle is off', () => {
+    it('should NOT set aria-valuetext when the toggle is off', async () => {
+      await TestBed.resetTestingModule();
+      await configure({ a11yItemCounterValueText: false });
+      fixture = TestBed.createComponent(ItemCounterComponent);
+      component = fixture.componentInstance;
+      component.control = <UntypedFormControl>form.get('quantity');
+      fixture.detectChanges();
       const input: HTMLInputElement = fixture.debugElement.query(
         By.css('input')
       ).nativeElement;
       expect(input.hasAttribute('aria-valuetext')).toBe(false);
     });
 
-    it('should set aria-valuetext to the literal value when the toggle is on', waitForAsync(() => {
-      TestBed.resetTestingModule();
-      configure({ a11yItemCounterValueText: true });
+    it('should set aria-valuetext to the literal value when the toggle is on', async () => {
+      await TestBed.resetTestingModule();
+      await configure({ a11yItemCounterValueText: true });
       fixture = TestBed.createComponent(ItemCounterComponent);
       component = fixture.componentInstance;
       component.control = <UntypedFormControl>form.get('quantity');
@@ -295,6 +342,6 @@ describe('ItemCounterComponent', () => {
         By.css('input')
       ).nativeElement;
       expect(input.getAttribute('aria-valuetext')).toBe('2');
-    }));
+    });
   });
 });

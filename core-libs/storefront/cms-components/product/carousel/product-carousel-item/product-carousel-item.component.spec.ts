@@ -8,7 +8,7 @@ import {
   PipeTransform,
   SimpleChange,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -83,7 +83,7 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
     },
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
@@ -123,7 +123,7 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductCarouselItemComponent);
@@ -131,16 +131,16 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
     componentInjector = fixture.debugElement.injector;
 
     component.item = mockProduct;
-
     component.ngOnChanges({});
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should display product name', () => {
+    fixture.detectChanges();
     expect(
       fixture.debugElement.nativeElement.querySelector('.cx-product-name')
         .textContent
@@ -148,12 +148,14 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
   });
 
   it('should display product formatted price', () => {
+    fixture.detectChanges();
     expect(
       fixture.debugElement.nativeElement.querySelector('.price').textContent
     ).toContain(component.item.price.formattedValue);
   });
 
   it('should display product image', () => {
+    fixture.detectChanges();
     expect(
       fixture.debugElement.nativeElement.querySelector('cx-media')
     ).not.toBeNull();
@@ -177,7 +179,7 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
     const contextSource: ProductListItemContextSource = componentInjector.get(
       ProductListItemContextSource
     );
-    spyOn(contextSource.product$, 'next');
+    vi.spyOn(contextSource.product$, 'next');
     component.item = mockProduct;
     component.ngOnChanges({
       item: { currentValue: component.item } as SimpleChange,
@@ -186,38 +188,38 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
   });
 
   describe('UI test', () => {
-    it('should render product name in template', waitForAsync(() => {
+    it('should render product name in template', async () => {
+      fixture.detectChanges();
       const el = fixture.debugElement.query(By.css('h3'));
       expect(el.nativeElement).toBeTruthy();
-      expect(el.nativeElement.innerText).toEqual('Test product');
-    }));
+      expect(el.nativeElement.textContent?.trim()).toEqual('Test product');
+    });
 
-    it('should render product price in template', waitForAsync(() => {
+    it('should render product price in template', async () => {
+      fixture.detectChanges();
       const el = fixture.debugElement.query(By.css('.price'));
       expect(el.nativeElement).toBeTruthy();
-      expect(el.nativeElement.innerText).toEqual('$100,00');
-    }));
+      expect(el.nativeElement.textContent?.trim()).toEqual('$100,00');
+    });
 
-    it('should render product primary image for the first item', waitForAsync(() => {
+    it('should render product primary image for the first item', async () => {
+      fixture.detectChanges();
       const el = fixture.debugElement.query(By.css('cx-media'));
       expect(el.nativeElement).toBeTruthy();
-    }));
+    });
 
-    it('should render missing product image for the 2nd item as well', waitForAsync(() => {
+    it('should render missing product image for the 2nd item as well', async () => {
+      fixture.detectChanges();
       const el = fixture.debugElement.query(By.css('cx-media'));
       expect(el.nativeElement).toBeTruthy();
-    }));
+    });
 
     describe('LCP context handling', () => {
       describe('when contains LCP element', () => {
-        beforeEach(() => {
-          mockLcpPresence$.next(LcpPresence.HAS_LCP);
-        });
-
         it('should prioritize downloading the image of the FIRST carousel item', () => {
+          mockLcpPresence$.next(LcpPresence.HAS_LCP);
           fixture.componentInstance.itemIndex = 0;
           fixture.detectChanges();
-
           const mediaComponents = fixture.debugElement.queryAll(
             By.directive(MockMediaComponent)
           );
@@ -227,6 +229,7 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
         });
 
         it('should NOT prioritize downloading the image of the carousel items other than the first', () => {
+          mockLcpPresence$.next(LcpPresence.HAS_LCP);
           fixture.componentInstance.itemIndex = 1;
           fixture.detectChanges();
 
@@ -240,11 +243,9 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
       });
 
       describe('when does NOT contain LCP element', () => {
-        beforeEach(() => {
-          mockLcpPresence$.next(LcpPresence.NO_LCP);
-        });
-
         it('should NOT prioritize downloading the image', () => {
+          fixture.detectChanges();
+          mockLcpPresence$.next(LcpPresence.NO_LCP);
           const mediaComponents = fixture.debugElement.queryAll(
             By.directive(MockMediaComponent)
           );
