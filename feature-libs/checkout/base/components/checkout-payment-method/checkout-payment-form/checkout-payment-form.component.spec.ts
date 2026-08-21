@@ -1,5 +1,16 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DebugElement,
+  Input,
+} from '@angular/core';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -13,7 +24,6 @@ import {
   CardType,
   Country,
   CxDatePipe,
-  FeatureDirective,
   GlobalMessageService,
   I18nTestingModule,
   MockDatePipe,
@@ -25,6 +35,7 @@ import {
 } from '@spartacus/core';
 import {
   CardComponent,
+  FocusDirective,
   FocusFirstInvalidFieldDirective,
   FormErrorsModule,
   ICON_TYPE,
@@ -37,7 +48,6 @@ import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
   CheckoutBillingAddressFormComponent,
@@ -270,7 +280,6 @@ describe('CheckoutPaymentFormComponent', () => {
             CheckoutBillingAddressFormComponent,
             IconComponent,
             SpinnerComponent,
-            FeatureDirective,
           ],
         },
         add: {
@@ -282,7 +291,6 @@ describe('CheckoutPaymentFormComponent', () => {
             MockBillingAddressFormComponent,
             MockCxIconComponent,
             MockSpinnerComponent,
-            MockFeatureDirective,
           ],
         },
       })
@@ -364,6 +372,9 @@ describe('CheckoutPaymentFormComponent', () => {
   describe('a11yImproveCheckoutFocus', () => {
     let featureTogglesController: MockFeatureTogglesController;
 
+    const getFocusForm = (): DebugElement =>
+      fixture.debugElement.query(By.directive(FocusDirective));
+
     const getFocusFirstInvalidFieldDirective =
       (): FocusFirstInvalidFieldDirective =>
         fixture.debugElement
@@ -372,11 +383,48 @@ describe('CheckoutPaymentFormComponent', () => {
 
     beforeEach(() => {
       featureTogglesController = TestBed.inject(MockFeatureTogglesController);
+    });
+
+    it('should apply cxFocus to the form when a11yImproveCheckoutFocus is true', () => {
+      featureTogglesController.set('a11yImproveCheckoutFocus', true);
       fixture.detectChanges();
+
+      expect(getFocusForm()).toBeTruthy();
+    });
+
+    it('should not apply cxFocus to the form when a11yImproveCheckoutFocus is false', () => {
+      featureTogglesController.set('a11yImproveCheckoutFocus', false);
+      fixture.detectChanges();
+
+      expect(getFocusForm()).toBeNull();
+    });
+
+    it('should render the action buttons outside the cxFocus host', () => {
+      featureTogglesController.set('a11yImproveCheckoutFocus', true);
+      mockCheckoutPaymentService.getPaymentCardTypes =
+        createSpy().and.returnValue(of(mockCardTypes));
+      component.paymentMethodsCount = 0;
+      fixture.detectChanges();
+
+      const focusHost: HTMLElement = getFocusForm().nativeElement;
+      const submitBtn = fixture.debugElement.query(
+        By.css('.btn-primary')
+      )?.nativeElement;
+      const backBtn = fixture.debugElement.query(
+        By.css('.btn-secondary')
+      )?.nativeElement;
+
+      expect(submitBtn).toBeTruthy();
+      expect(backBtn).toBeTruthy();
+      // In Safari a `<button>` doesn't take focus on click; keeping the buttons
+      // out of the autofocus host prevents focus from jumping to the first field.
+      expect(focusHost.contains(submitBtn)).toBe(false);
+      expect(focusHost.contains(backBtn)).toBe(false);
     });
 
     it('should focus the first invalid field on invalid submit when toggle is on', () => {
       featureTogglesController.set('a11yImproveCheckoutFocus', true);
+      fixture.detectChanges();
       const directive = getFocusFirstInvalidFieldDirective();
       spyOn(directive, 'focusFirstInvalidField');
 
@@ -387,6 +435,7 @@ describe('CheckoutPaymentFormComponent', () => {
 
     it('should not focus the first invalid field on invalid submit when toggle is off', () => {
       featureTogglesController.set('a11yImproveCheckoutFocus', false);
+      fixture.detectChanges();
       const directive = getFocusFirstInvalidFieldDirective();
       spyOn(directive, 'focusFirstInvalidField');
 
@@ -394,6 +443,67 @@ describe('CheckoutPaymentFormComponent', () => {
 
       expect(directive.focusFirstInvalidField).not.toHaveBeenCalled();
     });
+
+    it('should start with autofocus disabled', () => {
+      expect(component.focusConfig).toEqual({ autofocus: false });
+    });
+
+    it('should enable autofocus once the card type data has loaded', fakeAsync(() => {
+      featureTogglesController.set('a11yImproveCheckoutFocus', true);
+      mockCheckoutPaymentService.getPaymentCardTypes =
+        createSpy().and.returnValue(of(mockCardTypes));
+
+      component.ngOnInit();
+      tick(); // flush the deferred macrotask
+
+      expect(component.focusConfig.autofocus).toBe(true);
+      // a `refreshFocus` token is set to re-trigger the directive's focus logic
+      expect(component.focusConfig.refreshFocus).toBeTruthy();
+    }));
+
+    it('should not steal focus when the user has already focused a form field', fakeAsync(() => {
+      featureTogglesController.set('a11yImproveCheckoutFocus', true);
+      mockCheckoutPaymentService.getPaymentCardTypes =
+        createSpy().and.returnValue(of(mockCardTypes));
+
+      // Simulate the user having engaged with the form before the (deferred)
+      // card type data arrives — the focus refresh must not yank focus back.
+      const host: HTMLElement = fixture.nativeElement;
+      const input = document.createElement('input');
+      host.appendChild(input);
+      document.body.appendChild(host);
+      input.focus();
+      expect(document.activeElement).toBe(input);
+
+      component.ngOnInit();
+      tick();
+
+      expect(component.focusConfig).toEqual({ autofocus: false });
+
+      document.body.removeChild(host);
+    }));
+
+    it('should not enable autofocus while the card type list is empty', fakeAsync(() => {
+      featureTogglesController.set('a11yImproveCheckoutFocus', true);
+      mockCheckoutPaymentService.getPaymentCardTypes =
+        createSpy().and.returnValue(of([]));
+
+      component.ngOnInit();
+      tick();
+
+      expect(component.focusConfig).toEqual({ autofocus: false });
+    }));
+
+    it('should not enable autofocus when the toggle is off', fakeAsync(() => {
+      featureTogglesController.set('a11yImproveCheckoutFocus', false);
+      mockCheckoutPaymentService.getPaymentCardTypes =
+        createSpy().and.returnValue(of(mockCardTypes));
+
+      component.ngOnInit();
+      tick();
+
+      expect(component.focusConfig).toEqual({ autofocus: false });
+    }));
   });
 
   describe('UI continue button', () => {

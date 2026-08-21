@@ -8,7 +8,7 @@
     novalidate
   >
     <ng-container *cxFeature="'a11yImproveCheckoutFocus'">
-      <div [cxFocus]="{ autofocus: true }">
+      <div [cxFocus]="focusConfig">
         <ng-container *ngTemplateOutlet="formBody" />
       </div>
     </ng-container>
