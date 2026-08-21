@@ -7,12 +7,12 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { LoggerService, OccConfig, OccEndpointsService } from '@spartacus/core';
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,
-} from 'core-libs/core/src/occ/adapters/user/unit-test.helper';
+} from '@spartacus/core/occ/testing';
 import { OrderAttachments } from '@spartacus/order/root';
 import { OccOrderAttachmentsAdapter } from '@spartacus/order/occ';
 
@@ -55,14 +55,14 @@ describe('OccOrderAttachmentsAdapter', () => {
     adapter = TestBed.inject(OccOrderAttachmentsAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     occEndpointsService = TestBed.inject(OccEndpointsService);
-    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
+    vi.spyOn(occEndpointsService, 'buildUrl');
   });
 
   afterEach(() => {
     httpMock.verify();
   });
 
-  it('should fetch array of order attachments for logged in user', waitForAsync(() => {
+  it('should fetch array of order attachments for logged in user', () => {
     const subscription = adapter
       .getOrderAttachments(userId, orderId)
       .subscribe();
@@ -76,9 +76,9 @@ describe('OccOrderAttachmentsAdapter', () => {
     request.flush(attachmentsData);
     httpMock.verify();
     subscription.unsubscribe();
-  }));
+  });
 
-  it("should fetch order attachment blob for logged in user's", waitForAsync(() => {
+  it("should fetch order attachment blob for logged in user's", () => {
     const subscription = adapter
       .downloadOrderAttachment(userId, orderId, attachmentId)
       .subscribe();
@@ -92,5 +92,5 @@ describe('OccOrderAttachmentsAdapter', () => {
     request.flush(blobData);
     httpMock.verify();
     subscription.unsubscribe();
-  }));
+  });
 });

@@ -1,5 +1,5 @@
 import { Component, DebugElement, Directive, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
@@ -113,7 +113,7 @@ describe('ReorderDialogComponent', () => {
   let el: DebugElement;
   let reorderOrderFacade: ReorderOrderFacade;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
@@ -153,7 +153,7 @@ describe('ReorderDialogComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReorderDialogComponent);
@@ -184,7 +184,7 @@ describe('ReorderDialogComponent', () => {
     });
     it('should success message when there are no cart modifications ', () => {
       component.showDecisionPrompt$.next(true);
-      spyOn(reorderOrderFacade, 'reorder').and.returnValue(
+      vi.spyOn(reorderOrderFacade, 'reorder').mockReturnValue(
         of({ cartModifications: [] })
       );
       fixture.detectChanges();
@@ -195,12 +195,17 @@ describe('ReorderDialogComponent', () => {
       expect(el.query(By.css('.success')).nativeElement).toBeDefined();
     });
     it('should restore focus after content updates', () => {
-      const focusSpy = spyOn(el.query(By.css('.close')).nativeElement, 'focus');
       fixture.detectChanges();
+      const closeEl = el.query(By.css('.close')).nativeElement;
+      closeEl.focus = vi.fn();
+      vi.spyOn(
+        component.selectFocusUtility,
+        'findFirstFocusable'
+      ).mockReturnValue(closeEl);
       el.queryAll(
         By.css('.cx-reorder-dialog-footer div button')
       )[1].nativeElement.dispatchEvent(new MouseEvent('click'));
-      expect(focusSpy).toHaveBeenCalled();
+      expect(closeEl.focus).toHaveBeenCalled();
     });
   });
 });
