@@ -72,7 +72,7 @@ const ATTR_CAM_PROF = '2968';
 const VAL_CAM_PROF_Y = '8953';
 /** Insurance */
 const ATTR_CAM_INS = '2899';
-/** No Option Selcted */
+/** No Option Selected */
 const VAL_NO_OPT_SEL = '###RETRACT_VALUE_CODE###';
 /** Insurance Select 2 years */
 const VAL_CB_INS_Y2 = '8735';
@@ -98,6 +98,10 @@ const ATTR_NAMES = {
 /** Configurable Train */
 const PROD_CODE_TRAIN = 'CONF_TRAIN';
 const GRP_TR_GENERAL = 'GENERAL';
+/** Choose Train Type */
+const ATTR_TR_TYPE = '3152';
+/** Train Type 1 */
+const VAL_TR_Type_01 = '9476';
 /** Choose Configurable Train Components */
 const ATTR_TR_COM = '3157';
 const ATTR_TR_COM_LABEL = 'Choose Configurable Train Components';
@@ -112,6 +116,28 @@ const TRAIN_AVAILABLE_PRODUCTS = [
   VAL_TR_WAGON,
   VAL_TR_MULTIPLE_UNIT,
 ];
+/** Choose Wagon Type */
+const ATTR_WAGON_TYPE = '3155';
+/** Wagon Type 1 */
+const VAL_WAGON_Type_01 = '9486';
+/** Choose Wagon Color */
+const ATTR_WAGON_COLOR = '3156';
+/** Blue */
+const VAL_WAGON_COLOR_BL = '9491';
+/** Technical Settings */
+const GRP_WAGON_TECH = 'Technical Settings';
+/** Choose Wagon Components */
+const ATTR_WAGON_COMPONENTS = '3159';
+/** Configurable Wagon Cabin */
+const VAL_WAGON_CABIN = 'Configurable Wagon Cabin';
+/** Choose Cabin Type */
+const ATTR_WAGON_CABIN_TYPE = '3158';
+/** Cabin Type 1 */
+const VAL_WAGON_CABIN_TYPE_1 = '9495';
+/** Choose Seats */
+const ATTR_WAGON_CABIN_SEATS = '3264';
+/** Seats with Desks */
+const VAL_WAGON_CABIN_SEATS_WITH_DESKS = '9803';
 
 const testConfig = [
   {
@@ -571,12 +597,13 @@ testConfig.forEach((config) => {
       });
     });
 
-    describe.only('Container Handling', () => {
+    describe('Container Handling', () => {
       const containerLayouts = [
         {
           name: 'when available products are shown as cards',
           expectDropdown: false,
         },
+
         {
           name: 'when available products are shown as a searchable drop-down',
           dropDownThreshold: 2,
@@ -687,6 +714,51 @@ testConfig.forEach((config) => {
                 0
               );
               configurationCpqContainer.checkSelectedProducts(ATTR_TR_COM, 5);
+            });
+
+            it('should update attributes of nested container products', () => {
+              // Choose Train Type → Train Type 1
+              configurationCpq.selectAttributeAndCheck(
+                ATTR_TR_TYPE,
+                RADGRP,
+                VAL_TR_Type_01
+              );
+              // Choose Configurable Train Components → add Configurable Wagon
+              configurationCpqContainer.addAvailableProductAndWait(
+                ATTR_TR_COM,
+                VAL_TR_WAGON
+              );
+              // Choose Wagon Type → Wagon Type 1
+              configurationCpq.selectAttributeAndCheck(
+                ATTR_WAGON_TYPE,
+                RADGRP,
+                VAL_WAGON_Type_01
+              );
+              // Choose Wagon Color → Blue
+              configurationCpq.selectAttributeAndCheck(
+                ATTR_WAGON_COLOR,
+                RADGRP,
+                VAL_WAGON_COLOR_BL
+              );
+              // Next group: Technical Settings
+              configuration.clickOnNextBtn(GRP_WAGON_TECH);
+              // Choose Wagon Components → add Configurable Wagon Cabin
+              configurationCpqContainer.addAvailableProductAndWait(
+                ATTR_WAGON_COMPONENTS,
+                VAL_WAGON_CABIN
+              );
+              // Choose Cabin Type → Cabin Type 1
+              configurationCpq.selectAttributeAndCheck(
+                ATTR_WAGON_CABIN_TYPE,
+                RADGRP,
+                VAL_WAGON_CABIN_TYPE_1
+              );
+              // Choose Seats → Seats with Desks
+              configurationCpq.selectAttributeAndCheck(
+                ATTR_WAGON_CABIN_SEATS,
+                CHKBOX,
+                VAL_WAGON_CABIN_SEATS_WITH_DESKS
+              );
             });
           });
         }
