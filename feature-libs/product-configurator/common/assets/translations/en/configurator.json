@@ -76,7 +76,7 @@
       "add": "Add",
       "remove": "Remove",
       "edit": "Edit",
-      "copy": "Copy",
+      "duplicate": "Duplicate",
       "exit": "Exit Configuration",
       "exitMobile": "Exit",
       "cancelConfiguration": "Cancel Configuration",
