@@ -60,7 +60,10 @@
       "availableProducts": "Available Products ({{count}})",
       "selectAvailableProducts": "Select products",
       "searchAvailableProducts": "Search",
-      "noAvailableProductsFound": "No results found"
+      "noAvailableProductsFound": "No results found",
+      "containerMinMaxRows": "Select between {{minRows}} and {{maxRows}} products",
+      "containerMinRows": "Select at least {{minRows}} products",
+      "containerMaxRows": "Select a maximum of {{maxRows}} products"
     },
     "button": {
       "previous": "Previous",

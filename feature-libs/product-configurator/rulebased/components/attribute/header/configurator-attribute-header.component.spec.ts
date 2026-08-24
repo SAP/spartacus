@@ -189,6 +189,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     component.attribute.required = false;
     component.attribute.incomplete = true;
     component.attribute.domainOnDemand = false;
+    component.attribute.container = undefined;
     component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
     component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
     component.isNavigationToGroupEnabled = true;
@@ -378,6 +379,57 @@ describe('ConfigAttributeHeaderComponent', () => {
         expect,
         htmlElem,
         'cx-configurator-show-more'
+      );
+    });
+
+    it('should not render container row info if container is not present', () => {
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-container-info'
+      );
+    });
+
+    it('should not render container row info if neither minRows nor maxRows is set', () => {
+      component.attribute.container = { rows: [] };
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-container-info'
+      );
+    });
+
+    it('should render container row info when both minRows and maxRows are set', () => {
+      component.attribute.container = { minRows: 2, maxRows: 5, rows: [] };
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-container-info',
+        'configurator.attribute.containerMinMaxRows maxRows:5 minRows:2'
+      );
+    });
+
+    it('should render container row info when only minRows is set', () => {
+      component.attribute.container = { minRows: 2, rows: [] };
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-container-info',
+        'configurator.attribute.containerMinRows maxRows:undefined minRows:2'
+      );
+    });
+
+    it('should render container row info when only maxRows is set', () => {
+      component.attribute.container = { maxRows: 5, rows: [] };
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-container-info',
+        'configurator.attribute.containerMaxRows maxRows:5 minRows:undefined'
       );
     });
   });
@@ -1151,6 +1203,45 @@ describe('ConfigAttributeHeaderComponent', () => {
       ((configuratorUISettingsConfig.productConfigurator ??=
         {}).descriptions ??= {}).attributeDescriptionLength = 110;
       expect(component.getAttributeDescriptionLength()).toEqual(110);
+    });
+  });
+
+  describe('getContainerRowInfoKey', () => {
+    it('should return undefined if container is not present', () => {
+      expect(component.getContainerRowInfoKey()).toBeUndefined();
+    });
+
+    it('should return undefined if neither minRows nor maxRows is set', () => {
+      component.attribute.container = { rows: [] };
+      expect(component.getContainerRowInfoKey()).toBeUndefined();
+    });
+
+    it('should return min/max key if both minRows and maxRows are set', () => {
+      component.attribute.container = { minRows: 1, maxRows: 4, rows: [] };
+      expect(component.getContainerRowInfoKey()).toBe(
+        'configurator.attribute.containerMinMaxRows'
+      );
+    });
+
+    it('should return min key if only minRows is set', () => {
+      component.attribute.container = { minRows: 1, rows: [] };
+      expect(component.getContainerRowInfoKey()).toBe(
+        'configurator.attribute.containerMinRows'
+      );
+    });
+
+    it('should return max key if only maxRows is set', () => {
+      component.attribute.container = { maxRows: 4, rows: [] };
+      expect(component.getContainerRowInfoKey()).toBe(
+        'configurator.attribute.containerMaxRows'
+      );
+    });
+
+    it('should treat minRows of 0 as available', () => {
+      component.attribute.container = { minRows: 0, maxRows: 4, rows: [] };
+      expect(component.getContainerRowInfoKey()).toBe(
+        'configurator.attribute.containerMinMaxRows'
+      );
     });
   });
 

@@ -327,4 +327,27 @@ export class ConfiguratorAttributeHeaderComponent
         ?.attributeDescriptionLength ?? 100
     );
   }
+
+  /**
+   * Retrieves the translation key for container min/max row information.
+   * The key depends on whether both bounds, only a minimum, or only a
+   * maximum is available.
+   *
+   * @returns the translation key, or `undefined` if neither bound is set
+   */
+  getContainerRowInfoKey(): string | undefined {
+    const hasMinRows = this.attribute.container?.minRows != null;
+    const hasMaxRows = this.attribute.container?.maxRows != null;
+
+    if (hasMinRows && hasMaxRows) {
+      return 'configurator.attribute.containerMinMaxRows';
+    }
+    if (hasMinRows) {
+      return 'configurator.attribute.containerMinRows';
+    }
+    if (hasMaxRows) {
+      return 'configurator.attribute.containerMaxRows';
+    }
+    return undefined;
+  }
 }

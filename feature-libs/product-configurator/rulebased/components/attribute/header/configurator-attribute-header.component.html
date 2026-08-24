@@ -33,6 +33,19 @@
   [tabIndex]="0"
 ></cx-configurator-show-more>
 <div
+  *ngIf="getContainerRowInfoKey() as containerRowInfoKey"
+  class="cx-container-info"
+>
+  {{
+    containerRowInfoKey
+      | cxTranslate
+        : {
+            minRows: attribute.container?.minRows,
+            maxRows: attribute.container?.maxRows,
+          }
+  }}
+</div>
+<div
   *ngIf="attribute.hasConflicts"
   class="cx-conflict-msg"
   id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
