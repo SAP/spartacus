@@ -1633,4 +1633,131 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       expect(htmlElem.querySelector('button.btn')).toBeFalsy();
     });
   });
+
+  describe('container row messages', () => {
+    function setContainerRowMessages(
+      errorMessages?: string[],
+      warningMessages?: string[]
+    ): void {
+      component.productCardOptions.containerRow = {
+        id: 'row-1',
+        productSystemId: 'PRODUCT_CODE',
+        selected: true,
+        errorMessages,
+        warningMessages,
+      };
+    }
+
+    it('should not render messages if container row has none', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowMessages();
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.container-error-message'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.container-warning-message'
+      );
+    });
+
+    it('should render error messages for a selected container product', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowMessages(['Too many units', 'Invalid selection']);
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.container-error-message',
+        2
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.container-error-message',
+        'Too many units'
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.container-error-message',
+        'Invalid selection',
+        1
+      );
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.container-error-symbol'
+      );
+    });
+
+    it('should render warning messages for a selected container product', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowMessages(undefined, [
+        'Check quantity',
+        'Review selection',
+      ]);
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.container-warning-message',
+        2
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.container-warning-message',
+        'Check quantity'
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.container-warning-message',
+        'Review selection',
+        1
+      );
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.container-warning-symbol'
+      );
+    });
+
+    it('should return empty arrays if messages are undefined', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowMessages();
+
+      expect(component.containerErrorMessages).toEqual([]);
+      expect(component.containerWarningMessages).toEqual([]);
+    });
+
+    it('should pass warning and error data to the message template', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowMessages(['Too many units'], ['Check quantity']);
+
+      const [warnings, errors] = component.containerMessageGroups;
+
+      expect(warnings.messages).toEqual(['Check quantity']);
+      expect(warnings.messageClass).toBe('container-warning-message');
+      expect(warnings.iconClass).toBe('container-warning-symbol');
+      expect(warnings.uiKeyPrefix).toBe('row-warning-msg');
+      expect(errors.messages).toEqual(['Too many units']);
+      expect(errors.messageClass).toBe('container-error-message');
+      expect(errors.iconClass).toBe('container-error-symbol');
+      expect(errors.uiKeyPrefix).toBe('row-error-msg');
+      expect(errors.role).toBe('alert');
+    });
+  });
 });

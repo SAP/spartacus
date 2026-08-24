@@ -82,14 +82,18 @@ export class CpqConfiguratorNormalizer
     );
   }
 
-  protected generateWarningMessages(source: Cpq.Configuration): string[] {
+  protected generateWarningMessages(
+    source: Cpq.Configuration | Cpq.NestedProductConfiguration
+  ): string[] {
     return [
       ...(source.failedValidations ?? []),
       ...(source.incompleteMessages ?? []),
     ];
   }
 
-  protected generateErrorMessages(source: Cpq.Configuration): string[] {
+  protected generateErrorMessages(
+    source: Cpq.Configuration | Cpq.NestedProductConfiguration
+  ): string[] {
     return [...(source.errorMessages ?? []), ...(source.invalidMessages ?? [])];
   }
 
@@ -682,6 +686,7 @@ export class CpqConfiguratorNormalizer
     currency: string,
     flatGroupList: Configurator.Group[]
   ): Configurator.ContainerRow {
+    const nestedConfiguration = source.configuration;
     const row: Configurator.ContainerRow = {
       id: source.id,
       productSystemId: source.productSystemId,
@@ -690,9 +695,12 @@ export class CpqConfiguratorNormalizer
       actions: this.convertContainerRowActions(source.actions),
     };
 
-    if (source.configuration) {
+    if (nestedConfiguration) {
+      row.errorMessages = this.generateErrorMessages(nestedConfiguration);
+      row.warningMessages = this.generateWarningMessages(nestedConfiguration);
+
       const rowGroup = this.convertNestedConfiguration(
-        source.configuration,
+        nestedConfiguration,
         source,
         attrCode,
         currency,

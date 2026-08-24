@@ -72,6 +72,10 @@ export namespace Cpq {
    */
   export interface NestedProductConfiguration {
     completed?: boolean;
+    incompleteMessages?: string[];
+    invalidMessages?: string[];
+    failedValidations?: string[];
+    errorMessages?: string[];
     messages?: Message[];
     tabs?: Tab[];
     containers?: Container[];

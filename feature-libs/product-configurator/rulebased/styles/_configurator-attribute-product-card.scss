@@ -175,9 +175,11 @@
         }
       }
 
-      &.deselection-error-message {
+      &.deselection-error-message,
+      &.container-error-message,
+      &.container-warning-message {
         display: inline-block;
-        width: 80%;
+        width: 95%;
       }
     }
 
@@ -259,12 +261,20 @@
     }
   }
 
-  .deselection-error-message {
+  .deselection-error-message,
+  .container-error-message {
     padding-top: 5px;
     color: var(--cx-color-danger);
   }
 
-  .deselection-error-symbol {
+  .container-warning-message {
+    padding-top: 5px;
+    color: var(--cx-color-warning);
+  }
+
+  .deselection-error-symbol,
+  .container-error-symbol,
+  .container-warning-symbol {
     padding: 5px;
   }
 }

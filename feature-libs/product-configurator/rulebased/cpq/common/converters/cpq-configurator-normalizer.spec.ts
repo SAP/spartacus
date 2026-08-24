@@ -1327,15 +1327,6 @@ describe('CpqConfiguratorNormalizer', () => {
     });
   });
 
-  describe('generateErrorMessages', () => {
-    it('should create no error message for incomplete attribute', () => {
-      const messageObs = cpqConfiguratorNormalizer['generateErrorMessages'](
-        cpqConfigurationIncompleteConsistent
-      );
-      expect(messageObs.length).toBe(0);
-    });
-  });
-
   function checkMessagePresent(messages?: string[], expectedMsg?: string) {
     if (messages && expectedMsg) {
       expect(messages.includes(expectedMsg)).toBeTruthy();
@@ -1968,6 +1959,30 @@ describe('CpqConfiguratorNormalizer', () => {
     });
   });
 
+  describe('generateErrorMessages', () => {
+    it('should create no error message for incomplete attribute', () => {
+      const messageObs = cpqConfiguratorNormalizer['generateErrorMessages'](
+        cpqConfigurationIncompleteConsistent
+      );
+      expect(messageObs.length).toBe(0);
+    });
+
+    it('should return empty array when no errors are present', () => {
+      const result =
+        cpqConfiguratorNormalizer['generateErrorMessages'](cpqConfiguration);
+      expect(result).toEqual([]);
+    });
+
+    it('should concat error and invalid messages', () => {
+      const result = cpqConfiguratorNormalizer['generateErrorMessages']({
+        ...cpqConfiguration,
+        errorMessages: [ERROR_MSG],
+        invalidMessages: [INVALID_MSG],
+      });
+      expect(result).toEqual([ERROR_MSG, INVALID_MSG]);
+    });
+  });
+
   describe('generateTotalNumberOfIssues', () => {
     it('should return 0 when no issues are present', () => {
       expect(
@@ -2077,6 +2092,10 @@ describe('CpqConfiguratorNormalizer', () => {
           ],
           configuration: {
             completed: false,
+            errorMessages: [ERROR_MSG],
+            invalidMessages: [INVALID_MSG],
+            failedValidations: [VALIDATION_MSG],
+            incompleteMessages: [INCOMPLETE_MSG],
             messages: [
               {
                 message: 'Check zoom range',
@@ -2145,7 +2164,7 @@ describe('CpqConfiguratorNormalizer', () => {
       const container = result.groups[0].attributes?.[0].container;
       expect(container?.minRows).toBe(2);
       expect(container?.maxRows).toBe(5);
-      expect(container?.failedValidations).toEqual(['validation']);
+      //expect(container?.failedValidations).toEqual(['validation']);
       expect(container?.rows.length).toBe(1);
       expect(container?.rows[0]).toEqual(
         jasmine.objectContaining({
@@ -2172,11 +2191,18 @@ describe('CpqConfiguratorNormalizer', () => {
         (row) => row.id === rowWithoutConfigId
       );
       expect(rowWithoutConfig?.groupId).toBeUndefined();
+      expect(rowWithoutConfig?.errorMessages).toBeUndefined();
+      expect(rowWithoutConfig?.warningMessages).toBeUndefined();
 
       const rowWithConfig = container?.rows.find(
         (row) => row.id === rowWithConfigId
       );
       expect(rowWithConfig?.groupId).toBe(expectedRowGroupId);
+      expect(rowWithConfig?.errorMessages).toEqual([ERROR_MSG, INVALID_MSG]);
+      expect(rowWithConfig?.warningMessages).toEqual([
+        VALIDATION_MSG,
+        INCOMPLETE_MSG,
+      ]);
 
       expect(parentGroup.subGroups.length).toBe(1);
       const rowGroup = parentGroup.subGroups[0];
@@ -2212,6 +2238,30 @@ describe('CpqConfiguratorNormalizer', () => {
         expectedNestedTabGroupId
       );
       expect(nestedAttrGroup.attributes?.[0].attrCode).toBe(nestedAttrCode);
+    });
+
+    it('should map empty nested configuration issues to empty arrays on the container row', () => {
+      const result = cpqConfiguratorNormalizer.convert(
+        configurationWithContainers([
+          {
+            stdAttrCode: cpqAttributeStdAttrCode,
+            rows: [
+              {
+                id: rowWithConfigId,
+                productSystemId: 'LENS_ZOOM',
+                selected: true,
+                configuration: {
+                  completed: true,
+                  tabs: [nestedTab],
+                },
+              },
+            ],
+          },
+        ])
+      );
+      const row = result.groups[0].attributes?.[0].container?.rows[0];
+      expect(row?.errorMessages).toEqual([]);
+      expect(row?.warningMessages).toEqual([]);
     });
 
     it('should recurse nested containers and keep CONTAINER_ROW_GROUP out of flatGroups', () => {

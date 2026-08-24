@@ -76,6 +76,8 @@ export namespace Configurator {
     /** Id of the group carrying the nested configuration of this row.
      * Only present if the row is selected and configurable. */
     groupId?: string;
+    errorMessages?: string[];
+    warningMessages?: string[];
   }
 
   export interface Value {

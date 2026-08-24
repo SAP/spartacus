@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import {
+  AsyncPipe,
+  NgClass,
+  NgFor,
+  NgIf,
+  NgTemplateOutlet,
+} from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -73,6 +79,24 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   containerRow?: Configurator.ContainerRow;
 }
 
+/**
+ * Display data for one severity of container-row messages on the product card.
+ */
+interface ConfiguratorAttributeProductCardMessageGroup {
+  /** Messages of this severity. */
+  messages: string[];
+  /** CSS class applied to the message row. */
+  messageClass: string;
+  /** CSS class applied to the severity icon. */
+  iconClass: string;
+  /** Icon representing the message severity. */
+  iconType: ICON_TYPE;
+  /** Prefix used to build a unique UI key for the message row. */
+  uiKeyPrefix: string;
+  /** Optional ARIA role, for example `alert` for errors. */
+  role?: string;
+}
+
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   templateUrl: './configurator-attribute-product-card.component.html',
@@ -81,6 +105,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
     NgIf,
     NgFor,
     NgClass,
+    NgTemplateOutlet,
     MediaComponent,
     ConfiguratorShowMoreComponent,
     ConfiguratorAttributeQuantityComponent,
@@ -210,6 +235,50 @@ export class ConfiguratorAttributeProductCardComponent
    */
   get containerRowActions(): Configurator.ContainerRowAction[] {
     return this.productCardOptions.containerRow?.actions ?? [];
+  }
+
+  /**
+   * Error messages of the bound container row.
+   *
+   * @returns - row error messages
+   */
+  get containerErrorMessages(): string[] {
+    return this.productCardOptions.containerRow?.errorMessages ?? [];
+  }
+
+  /**
+   * Warning messages of the bound container row.
+   *
+   * @returns - row warning messages
+   */
+  get containerWarningMessages(): string[] {
+    return this.productCardOptions.containerRow?.warningMessages ?? [];
+  }
+
+  /**
+   * Warning and error groups of the bound container row.
+   * Passed as context to the shared product-card message template.
+   *
+   * @returns - message groups
+   */
+  get containerMessageGroups(): ConfiguratorAttributeProductCardMessageGroup[] {
+    return [
+      {
+        messages: this.containerWarningMessages,
+        messageClass: 'container-warning-message',
+        iconClass: 'container-warning-symbol',
+        iconType: this.iconType.WARNING,
+        uiKeyPrefix: 'row-warning-msg',
+      },
+      {
+        messages: this.containerErrorMessages,
+        messageClass: 'container-error-message',
+        iconClass: 'container-error-symbol',
+        iconType: this.iconType.ERROR,
+        uiKeyPrefix: 'row-error-msg',
+        role: 'alert',
+      },
+    ];
   }
 
   get focusConfig(): FocusConfig {
