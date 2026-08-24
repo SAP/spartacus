@@ -78,6 +78,72 @@ const configWithOnlyOneMessage: Configurator.Configuration = {
   warningMessages: ['test warning message 1'],
 };
 
+const ROOT_TAB_ID = '1';
+const ROW_GROUP_ID = 'CONTAINER_ROW@1067@row-1';
+const NESTED_TAB_ID = 'CONTAINER_ROW@1067@row-1@1';
+const INNER_ROW_GROUP_ID = 'CONTAINER_ROW@2000@row-2';
+const INNER_NESTED_TAB_ID = 'CONTAINER_ROW@2000@row-2@1';
+
+const nestedInfoMessage1 = 'test nested info message 1';
+const nestedInfoMessage2 = 'test nested info message 2';
+const nestedWarningMessage1 = 'test nested warning message 1';
+const nestedWarningMessage2 = 'test nested warning message 2';
+const innerNestedInfoMessage = 'test inner nested info message';
+
+function createContainerRowGroup(
+  groupId: string,
+  subGroups: Configurator.Group[],
+  messages?: Configurator.Message[]
+): Configurator.Group {
+  return {
+    ...ConfiguratorTestUtils.createGroup(groupId),
+    groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+    subGroups: subGroups,
+    messages: messages,
+  };
+}
+
+/**
+ * Creates a configuration with root level messages and a container row within a
+ * container row, so that the messages of the viewed nested configuration can be
+ * distinguished from the root and the enclosing ones.
+ */
+function createConfigWithContainerRows(
+  currentGroup: string,
+  rowGroupMessages?: Configurator.Message[]
+): Configurator.Configuration {
+  const innerRowGroup = createContainerRowGroup(
+    INNER_ROW_GROUP_ID,
+    [ConfiguratorTestUtils.createGroup(INNER_NESTED_TAB_ID)],
+    [
+      {
+        message: innerNestedInfoMessage,
+        severity: Configurator.MessageSeverity.INFO,
+      },
+    ]
+  );
+  const rowGroup = createContainerRowGroup(
+    ROW_GROUP_ID,
+    [
+      {
+        ...ConfiguratorTestUtils.createGroup(NESTED_TAB_ID),
+        subGroups: [innerRowGroup],
+      },
+    ],
+    rowGroupMessages
+  );
+  return {
+    ...configWithMessages,
+    groups: [
+      {
+        ...ConfiguratorTestUtils.createGroup(ROOT_TAB_ID),
+        subGroups: [rowGroup],
+      },
+    ],
+    interactionState: { currentGroup: currentGroup },
+  };
+}
+
 let configuration: Configurator.Configuration;
 
 class MockConfiguratorRouterExtractorService {
@@ -276,6 +342,144 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
       htmlElem,
       '.cx-warning-message.open'
     );
+  });
+
+  describe('nested configuration', () => {
+    it('should render info messages as warnings and warning messages as errors', () => {
+      configuration = createConfigWithContainerRows(NESTED_TAB_ID, [
+        {
+          message: nestedInfoMessage1,
+          severity: Configurator.MessageSeverity.INFO,
+        },
+        {
+          message: nestedWarningMessage1,
+          severity: Configurator.MessageSeverity.WARNING,
+        },
+        {
+          message: nestedInfoMessage2,
+          severity: Configurator.MessageSeverity.INFO,
+        },
+        {
+          message: nestedWarningMessage2,
+          severity: Configurator.MessageSeverity.WARNING,
+        },
+      ]);
+      component.toggleWarnings();
+      component.toggleErrors();
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-warning-message:nth-child(1)',
+        nestedInfoMessage1
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-warning-message:nth-child(2)',
+        nestedInfoMessage2
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-error-message:nth-child(1)',
+        nestedWarningMessage1
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-error-message:nth-child(2)',
+        nestedWarningMessage2
+      );
+    });
+
+    it('should not render the messages of the root configuration', () => {
+      configuration = createConfigWithContainerRows(NESTED_TAB_ID, [
+        {
+          message: nestedInfoMessage1,
+          severity: Configurator.MessageSeverity.INFO,
+        },
+      ]);
+      fixture.detectChanges();
+
+      expect(htmlElem.textContent).not.toContain(errorMessage1);
+      expect(htmlElem.textContent).not.toContain(warningMessage1);
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-error-message'
+      );
+    });
+
+    it('should render a message without severity as warning', () => {
+      configuration = createConfigWithContainerRows(NESTED_TAB_ID, [
+        { message: nestedInfoMessage1 },
+      ]);
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-warning-message',
+        nestedInfoMessage1
+      );
+    });
+
+    it('should not render any message if the nested configuration has none', () => {
+      configuration = createConfigWithContainerRows(NESTED_TAB_ID);
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.alert-message'
+      );
+    });
+
+    it('should only render the messages of the innermost nested configuration', () => {
+      configuration = createConfigWithContainerRows(INNER_NESTED_TAB_ID, [
+        {
+          message: nestedInfoMessage1,
+          severity: Configurator.MessageSeverity.INFO,
+        },
+      ]);
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-warning-message',
+        innerNestedInfoMessage
+      );
+      expect(htmlElem.textContent).not.toContain(nestedInfoMessage1);
+    });
+
+    it('should render the messages of the root configuration if a root group is viewed', () => {
+      configuration = createConfigWithContainerRows(ROOT_TAB_ID, [
+        {
+          message: nestedInfoMessage1,
+          severity: Configurator.MessageSeverity.INFO,
+        },
+      ]);
+      component.toggleWarnings();
+      component.toggleErrors();
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-warning-message:nth-child(1)',
+        warningMessage1
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-error-message:nth-child(1)',
+        errorMessage1
+      );
+      expect(htmlElem.textContent).not.toContain(nestedInfoMessage1);
+    });
   });
 
   describe('Accessibility', () => {
