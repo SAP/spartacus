@@ -49,7 +49,7 @@ describe('CustomerTicketingReopenComponentService', () => {
   describe('enableReopenButton()', () => {
     it('should be false if the status is not closed', () => {
       mockTicket.status = { id: STATUS.CLOSED, name: STATUS_NAME.CLOSED };
-      spyOn(facade, 'getTicket').and.returnValue(of(mockTicket));
+      vi.spyOn(facade, 'getTicket').mockReturnValue(of(mockTicket));
 
       service.enableReopenButton().subscribe((data) => {
         expect(data).toEqual(false);
@@ -60,7 +60,7 @@ describe('CustomerTicketingReopenComponentService', () => {
       mockTicket.availableStatusTransitions = [
         { id: 'OTHERS', name: 'OTHERS' },
       ];
-      spyOn(facade, 'getTicket').and.returnValue(of(mockTicket));
+      vi.spyOn(facade, 'getTicket').mockReturnValue(of(mockTicket));
       service.enableReopenButton().subscribe((data) => {
         expect(data).toEqual(false);
       });
@@ -70,7 +70,7 @@ describe('CustomerTicketingReopenComponentService', () => {
       mockTicket.availableStatusTransitions = [
         { id: STATUS.OPEN, name: STATUS_NAME.OPEN },
       ];
-      spyOn(facade, 'getTicket').and.returnValue(of(mockTicket));
+      vi.spyOn(facade, 'getTicket').mockReturnValue(of(mockTicket));
       service.enableReopenButton().subscribe((data) => {
         expect(data).toEqual(true);
       });

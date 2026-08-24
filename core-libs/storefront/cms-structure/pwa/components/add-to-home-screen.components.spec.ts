@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { AddToHomeScreenService } from '../services/add-to-home-screen.service';
 import { AddToHomeScreenComponent } from './add-to-home-screen.component';
-import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-add-to-home',
@@ -16,7 +15,7 @@ class ExampleAddToHomeScreenComponent extends AddToHomeScreenComponent {
 }
 
 class MockAddToHomeScreenService {
-  firePrompt = createSpy();
+  firePrompt = vi.fn();
   canPrompt$: Observable<boolean> = of(true);
 }
 
@@ -25,7 +24,7 @@ describe('AddToHomeScreenComponent', () => {
   let fixture: ComponentFixture<ExampleAddToHomeScreenComponent>;
   let mockAddToHomeScreenService: AddToHomeScreenService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ExampleAddToHomeScreenComponent],
       providers: [
@@ -37,7 +36,7 @@ describe('AddToHomeScreenComponent', () => {
     }).compileComponents();
 
     mockAddToHomeScreenService = TestBed.inject(AddToHomeScreenService);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ExampleAddToHomeScreenComponent);

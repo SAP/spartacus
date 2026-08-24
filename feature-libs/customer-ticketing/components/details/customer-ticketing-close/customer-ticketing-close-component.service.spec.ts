@@ -50,7 +50,7 @@ describe('CustomerTicketingCloseComponentService', () => {
   describe('enableCloseButton()', () => {
     it('should be false if the status is not open or in process', () => {
       mockTicket.status = { id: STATUS.CLOSED, name: STATUS_NAME.CLOSED };
-      spyOn(facade, 'getTicket').and.returnValue(of(mockTicket));
+      vi.spyOn(facade, 'getTicket').mockReturnValue(of(mockTicket));
 
       service.enableCloseButton().subscribe((data) => {
         expect(data).toEqual(false);
@@ -62,7 +62,7 @@ describe('CustomerTicketingCloseComponentService', () => {
       mockTicket.availableStatusTransitions = [
         { id: STATUS.OPEN, name: STATUS_NAME.OPEN },
       ];
-      spyOn(facade, 'getTicket').and.returnValue(of(mockTicket));
+      vi.spyOn(facade, 'getTicket').mockReturnValue(of(mockTicket));
       service.enableCloseButton().subscribe((data) => {
         expect(data).toEqual(false);
       });
@@ -73,7 +73,7 @@ describe('CustomerTicketingCloseComponentService', () => {
       mockTicket.availableStatusTransitions = [
         { id: STATUS.CLOSED, name: STATUS_NAME.CLOSED },
       ];
-      spyOn(facade, 'getTicket').and.returnValue(of(mockTicket));
+      vi.spyOn(facade, 'getTicket').mockReturnValue(of(mockTicket));
       service.enableCloseButton().subscribe((data) => {
         expect(data).toEqual(true);
       });

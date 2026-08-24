@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SelectFocusUtility } from './select-focus.util';
 
@@ -57,7 +57,7 @@ describe('SelectFocusUtility', () => {
   let service: SelectFocusUtility;
   let fixture: ComponentFixture<MockComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [MockComponent],
       providers: [SelectFocusUtility],
@@ -65,7 +65,14 @@ describe('SelectFocusUtility', () => {
 
     service = TestBed.inject(SelectFocusUtility);
     fixture = TestBed.createComponent(MockComponent);
-  }));
+    // jsdom has no layout engine — offsetParent is always null, so isHidden()
+    // always returns true. Default to not-hidden; CSS-visibility tests override below.
+    vi.spyOn(service as any, 'isHidden').mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   it('should inject service', () => {
     expect(service).toBeTruthy();
@@ -97,6 +104,25 @@ describe('SelectFocusUtility', () => {
     });
 
     describe('hide by css', () => {
+      beforeEach(() => {
+        // jsdom cannot compute styles from <style> tags so we simulate the CSS
+        // rules manually: elements are hidden when the host has `.hide` AND the
+        // element matches the selectors that the CSS would hide (#e1, .parent,
+        // .ancestor descendants).
+        vi.spyOn(service as any, 'isHidden').mockImplementation(
+          (el: HTMLElement) => {
+            const host = fixture.debugElement.query(By.css('#e')).nativeElement;
+            if (!host.classList.contains('hide')) {
+              return false;
+            }
+            return (
+              el.id === 'e1' ||
+              !!el.closest('.parent') ||
+              !!el.closest('.ancestor')
+            );
+          }
+        );
+      });
       it('should find 5 focusable elements which are not hidden by css', () => {
         const host: HTMLElement = fixture.debugElement.query(
           By.css('#e')

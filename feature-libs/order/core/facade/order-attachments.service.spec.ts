@@ -5,7 +5,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import {
   OrderAttachmentsConnector,
   OrderAttachmentsService,
@@ -70,34 +70,26 @@ describe('OrderAttachmentsService', () => {
   });
 
   beforeEach(() => {
-    spyOn(connector, 'getOrderAttachments').and.callThrough();
-    spyOn(connector, 'downloadOrderAttachment').and.callThrough();
-    spyOn(userIdService, 'takeUserId').and.callThrough();
+    vi.spyOn(connector, 'getOrderAttachments');
+    vi.spyOn(connector, 'downloadOrderAttachment');
+    vi.spyOn(userIdService, 'takeUserId');
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should getOrderAttachments call connector', (done) => {
-    service
-      .getOrderAttachments(orderCode)
-      .subscribe((result) => {
-        expect(result).toEqual(attachmentsData);
-        done();
-      })
-      .unsubscribe();
+  it('should getOrderAttachments call connector', async () => {
+    const result = await firstValueFrom(service.getOrderAttachments(orderCode));
+    expect(result).toEqual(attachmentsData);
     expect(connector.getOrderAttachments).toHaveBeenCalled();
   });
 
-  it('should getOrderAttachment call connector', (done) => {
-    service
-      .downloadOrderAttachment(orderCode, attachmentId)
-      .subscribe((result) => {
-        expect(result).toEqual(blobData);
-        done();
-      })
-      .unsubscribe();
+  it('should getOrderAttachment call connector', async () => {
+    const result = await firstValueFrom(
+      service.downloadOrderAttachment(orderCode, attachmentId)
+    );
+    expect(result).toEqual(blobData);
     expect(connector.downloadOrderAttachment).toHaveBeenCalled();
   });
 });
