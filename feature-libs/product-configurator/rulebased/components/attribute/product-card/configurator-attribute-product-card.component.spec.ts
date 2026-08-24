@@ -1546,7 +1546,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         component.getContainerRowActionLabel(
           Configurator.ContainerRowAction.COPY
         )
-      ).toBe('configurator.button.copy');
+      ).toBe('configurator.button.duplicate');
       expect(
         component.getContainerRowActionLabel(
           Configurator.ContainerRowAction.ADD

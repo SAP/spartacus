@@ -392,7 +392,7 @@ export class ConfiguratorAttributeProductCardComponent
       case Configurator.ContainerRowAction.EDIT:
         return 'configurator.button.edit';
       case Configurator.ContainerRowAction.COPY:
-        return 'configurator.button.copy';
+        return 'configurator.button.duplicate';
       case Configurator.ContainerRowAction.ADD:
         return 'configurator.button.add';
       default:
