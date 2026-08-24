@@ -1,17 +1,17 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { OCC_USER_ID_CURRENT, UserIdService } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
 import { of } from 'rxjs';
 import { UserAccountService } from './user-account.service';
 import { UserAccountConnector } from '@spartacus/user/account/core';
-import createSpy = jasmine.createSpy;
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = createSpy().and.returnValue(of(OCC_USER_ID_CURRENT));
+  takeUserId = vi.fn().mockReturnValue(of(OCC_USER_ID_CURRENT));
 }
 
 class MockUserAccountConnector implements Partial<UserAccountConnector> {
-  get = createSpy().and.callFake((uid: string) =>
+  get = vi.fn().mockImplementation((uid: string) =>
     of({
       uid,
     })

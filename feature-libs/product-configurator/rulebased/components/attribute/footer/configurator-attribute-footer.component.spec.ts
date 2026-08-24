@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -57,7 +57,6 @@ function createComponentWithData(
   component.attribute.uiType = Configurator.UiType.STRING;
   component.attribute.userInput = '';
 
-  fixture.detectChanges();
   return component;
 }
 
@@ -79,7 +78,7 @@ const owner = ConfiguratorModelUtils.createOwner(
 );
 
 describe('ConfigAttributeFooterComponent', () => {
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -105,10 +104,11 @@ describe('ConfigAttributeFooterComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   it('should render an empty component because showRequiredMessageForUserInput$ is `false`', () => {
     createComponentWithData(false).ngOnInit();
+    fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
@@ -118,6 +118,7 @@ describe('ConfigAttributeFooterComponent', () => {
 
   it('should render a required message for release version less than 6.2', () => {
     createComponentWithData().ngOnInit();
+    fixture.detectChanges();
     expect(component).toBeTruthy();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -128,6 +129,7 @@ describe('ConfigAttributeFooterComponent', () => {
 
   it('should render a required message if attribute has no value, yet.', () => {
     createComponentWithData();
+    fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -360,6 +362,7 @@ describe('ConfigAttributeFooterComponent', () => {
   describe('Accessibility', () => {
     beforeEach(() => {
       createComponentWithData(true);
+      fixture.detectChanges();
     });
 
     it("should contain div element with class name 'cx-required-error-msg' and 'aria-label' attribute that defines an accessible name to label the current element", () => {

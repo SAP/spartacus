@@ -14,6 +14,7 @@ import {
 } from '@spartacus/core';
 import { Subject, of } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { vi } from 'vitest';
 import { UserAccountConfig } from '../config/user-account-config';
 import { UserAccountFacade } from '../facade/user-account.facade';
 import {
@@ -21,23 +22,26 @@ import {
   UserLoginCurrencyPersistenceService,
 } from './user-login-currency-persistence.service';
 import { UserLoginCurrencyService } from './user-login-currency.service';
-import createSpy = jasmine.createSpy;
 
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.callFake((eventType: any) =>
-    mockEventStream$.asObservable().pipe(filter((e) => e instanceof eventType))
-  );
+  get = vi
+    .fn()
+    .mockImplementation((eventType: any) =>
+      mockEventStream$
+        .asObservable()
+        .pipe(filter((e) => e instanceof eventType))
+    );
 }
 
 class MockCurrencyService implements Partial<CurrencyService> {
-  getActive = createSpy().and.returnValue(of('USD'));
-  setActive = createSpy();
+  getActive = vi.fn().mockReturnValue(of('USD'));
+  setActive = vi.fn();
 }
 
 class MockUserAccountFacade implements Partial<UserAccountFacade> {
-  get = createSpy().and.returnValue(
+  get = vi.fn().mockReturnValue(
     of({
       currency: { isocode: 'EUR', name: 'Euro', active: true, symbol: '€' },
     })
@@ -49,14 +53,14 @@ const mockStorage: { [key: string]: string | undefined } = {};
 class MockUserLoginCurrencyPersistenceService
   implements Partial<UserLoginCurrencyPersistenceService>
 {
-  savePreLoginCurrency = createSpy().and.callFake((isocode: string) => {
+  savePreLoginCurrency = vi.fn().mockImplementation((isocode: string) => {
     mockStorage[PRE_LOGIN_CURRENCY_STORAGE_KEY] = JSON.stringify(isocode);
   });
-  getPreLoginCurrency = createSpy().and.callFake(() => {
+  getPreLoginCurrency = vi.fn().mockImplementation(() => {
     const raw = mockStorage[PRE_LOGIN_CURRENCY_STORAGE_KEY];
     return raw ? (JSON.parse(raw) as string) : null;
   });
-  clearPreLoginCurrency = createSpy().and.callFake(() => {
+  clearPreLoginCurrency = vi.fn().mockImplementation(() => {
     delete mockStorage[PRE_LOGIN_CURRENCY_STORAGE_KEY];
   });
 }
@@ -128,7 +132,7 @@ describe('UserLoginCurrencyService', () => {
       });
 
       it('should not call setActive when OCC user has no currency', () => {
-        (userAccountFacade.get as jasmine.Spy).and.returnValue(
+        vi.mocked(userAccountFacade.get).mockReturnValue(
           of({ currency: undefined })
         );
 
@@ -138,7 +142,7 @@ describe('UserLoginCurrencyService', () => {
       });
 
       it('should not call setActive when OCC user currency has no isocode', () => {
-        (userAccountFacade.get as jasmine.Spy).and.returnValue(
+        vi.mocked(userAccountFacade.get).mockReturnValue(
           of({ currency: { name: 'Euro' } })
         );
 
@@ -148,7 +152,7 @@ describe('UserLoginCurrencyService', () => {
       });
 
       it('should not call setActive when OCC currency matches pre-login currency', () => {
-        (userAccountFacade.get as jasmine.Spy).and.returnValue(
+        vi.mocked(userAccountFacade.get).mockReturnValue(
           of({ currency: { isocode: 'USD' } })
         );
 
@@ -161,9 +165,9 @@ describe('UserLoginCurrencyService', () => {
     describe('on LogoutEvent', () => {
       it('should restore pre-login currency and clear storage', () => {
         mockStorage[PRE_LOGIN_CURRENCY_STORAGE_KEY] = JSON.stringify('GBP');
-        (
-          currencyPersistence.getPreLoginCurrency as jasmine.Spy
-        ).and.returnValue('GBP');
+        vi.mocked(currencyPersistence.getPreLoginCurrency).mockReturnValue(
+          'GBP'
+        );
 
         mockEventStream$.next(new LogoutEvent());
 

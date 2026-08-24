@@ -16,6 +16,7 @@ import {
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
+import { vi } from 'vitest';
 import { ProductImageZoomTriggerComponent } from './product-image-zoom-trigger.component';
 
 @Component({
@@ -75,7 +76,7 @@ describe('ProductImageZoomTriggerComponent', () => {
 
   describe('expandImage', () => {
     beforeEach(() => {
-      spyOn(launchDialogService, 'launch').and.returnValue(
+      vi.spyOn(launchDialogService, 'launch').mockReturnValue(
         of(testDialogComponent)
       );
     });
@@ -90,7 +91,7 @@ describe('ProductImageZoomTriggerComponent', () => {
     });
 
     it('should call LaunchDialogService clear on close', () => {
-      spyOn(launchDialogService, 'clear');
+      vi.spyOn(launchDialogService, 'clear');
 
       component.triggerZoom();
 
@@ -100,7 +101,7 @@ describe('ProductImageZoomTriggerComponent', () => {
     });
 
     it('should destroy component on close', () => {
-      spyOn(testDialogComponent, 'destroy');
+      vi.spyOn(testDialogComponent, 'destroy');
 
       component.triggerZoom();
 
@@ -110,7 +111,7 @@ describe('ProductImageZoomTriggerComponent', () => {
 
   describe('on expandImage set ', () => {
     it('with true value should call triggerZoom method', () => {
-      spyOn(component, 'triggerZoom');
+      vi.spyOn(component, 'triggerZoom');
 
       fixture.componentInstance.expandImage = true;
 
@@ -118,7 +119,7 @@ describe('ProductImageZoomTriggerComponent', () => {
     });
 
     it('with false value should not call triggerZoom method', () => {
-      spyOn(component, 'triggerZoom');
+      vi.spyOn(component, 'triggerZoom');
 
       fixture.componentInstance.expandImage = false;
 
