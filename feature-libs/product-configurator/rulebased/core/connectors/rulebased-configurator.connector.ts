@@ -60,6 +60,30 @@ export class RulebasedConfiguratorConnector {
     ).updateConfiguration(configuration);
   }
 
+  addContainerRow(
+    parameters: Configurator.AddContainerRowParameters
+  ): Observable<Configurator.Configuration> {
+    return this.getAdapter(parameters.owner.configuratorType).addContainerRow(
+      parameters
+    );
+  }
+
+  copyContainerRow(
+    parameters: Configurator.CopyContainerRowParameters
+  ): Observable<Configurator.Configuration> {
+    return this.getAdapter(parameters.owner.configuratorType).copyContainerRow(
+      parameters
+    );
+  }
+
+  removeContainerRow(
+    parameters: Configurator.RemoveContainerRowParameters
+  ): Observable<Configurator.Configuration> {
+    return this.getAdapter(
+      parameters.owner.configuratorType
+    ).removeContainerRow(parameters);
+  }
+
   addToCart(
     parameters: Configurator.AddToCartParameters
   ): Observable<CartModification> {

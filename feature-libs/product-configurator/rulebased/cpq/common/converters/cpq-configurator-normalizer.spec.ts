@@ -35,12 +35,14 @@ const cpqAttributeIsLineItem2 = false;
 const cpqAttributeHasConflict2 = false;
 const cpqAttributeUserInput2 = 'USER_INPUT_2';
 
-const cpqGroupId = 1;
+const cpqGroupIdNumber = 1;
+const cpqGroupId = '1';
 const cpqGroupName = 'GROUP_NAME';
 const cpqGroupDisplayName = 'GROUP_DISPLAY_NAME';
 const cpqGroupIsIncomplete = false;
 
-const cpqGroupId2 = 2;
+const cpqGroupId2Number = 2;
+const cpqGroupId2 = '2';
 
 const configuratorAttributeQuantity = Number(cpqAttributeQuantity);
 const configuratorAttributeDataType =
@@ -104,7 +106,7 @@ const cpqAttribute2: Cpq.Attribute = {
 const cpqAttributes: Cpq.Attribute[] = [cpqAttribute];
 
 const cpqTab: Cpq.Tab = {
-  id: cpqGroupId,
+  id: cpqGroupIdNumber,
   name: cpqGroupName,
   displayName: cpqGroupDisplayName,
   isIncomplete: cpqGroupIsIncomplete,
@@ -112,7 +114,7 @@ const cpqTab: Cpq.Tab = {
 };
 
 const cpqTab2: Cpq.Tab = {
-  id: cpqGroupId2,
+  id: cpqGroupId2Number,
   name: 'GROUP_NAME2',
   displayName: 'GROUP_DISPLAY_NAME2',
   isIncomplete: false,
@@ -221,9 +223,9 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.consistent).toBe(true);
       expect(result.totalNumberOfIssues).toBe(0);
       expect(result.groups.length).toBe(2);
-      expect(result.groups[0].id).toBe(cpqGroupId.toString());
+      expect(result.groups[0].id).toBe(cpqGroupId);
       expect(result.groups[0].attributes?.length).toBe(0);
-      expect(result.groups[1].id).toBe(cpqGroupId2.toString());
+      expect(result.groups[1].id).toBe(cpqGroupId2);
       expect(result.groups[1].attributes?.length).toBe(0);
       expect(result.priceSummary?.currentTotal?.formattedValue).toBe(
         '$3,333.33'
@@ -570,7 +572,7 @@ describe('CpqConfiguratorNormalizer', () => {
 
       cpqConfiguratorNormalizer['convertAttribute'](
         cpqAttributeNoSysId,
-        cpqGroupId,
+        cpqGroupIdNumber,
         CURRENCY,
         attributeList
       );
@@ -586,7 +588,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(attribute.isLineItem).toBe(cpqAttributeIsLineItem);
       expect(attribute.uiType).toBe(Configurator.UiType.RADIOBUTTON);
       expect(attribute.selectedSingleValue).toBe(cpqValuePavId.toString());
-      expect(attribute.groupId).toBe(cpqGroupId.toString());
+      expect(attribute.groupId).toBe(cpqGroupId);
       expect(attribute.userInput).toBe(cpqAttributeUserInput);
       expect(attribute.hasConflicts).toBe(cpqAttributeHasConflict);
       expect(attribute.incomplete).toBe(false);
@@ -603,7 +605,7 @@ describe('CpqConfiguratorNormalizer', () => {
 
       cpqConfiguratorNormalizer['convertAttribute'](
         cpqAttribute,
-        cpqGroupId,
+        cpqGroupIdNumber,
         CURRENCY,
         attributeList
       );
@@ -619,7 +621,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(attribute.isLineItem).toBe(cpqAttributeIsLineItem);
       expect(attribute.uiType).toBe(Configurator.UiType.RADIOBUTTON_PRODUCT);
       expect(attribute.selectedSingleValue).toBe(cpqValuePavId.toString());
-      expect(attribute.groupId).toBe(cpqGroupId.toString());
+      expect(attribute.groupId).toBe(cpqGroupId);
       expect(attribute.userInput).toBe(cpqAttributeUserInput);
       expect(attribute.hasConflicts).toBe(cpqAttributeHasConflict);
       expect(attribute.incomplete).toBe(false);
@@ -648,7 +650,7 @@ describe('CpqConfiguratorNormalizer', () => {
 
       cpqConfiguratorNormalizer['convertAttribute'](
         cpqAttributeOnlyOneSysId,
-        cpqGroupId,
+        cpqGroupIdNumber,
         CURRENCY,
         attributeList
       );
@@ -664,7 +666,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(attribute.isLineItem).toBe(cpqAttributeIsLineItem);
       expect(attribute.uiType).toBe(Configurator.UiType.RADIOBUTTON_PRODUCT);
       expect(attribute.selectedSingleValue).toBe(cpqValuePavId.toString());
-      expect(attribute.groupId).toBe(cpqGroupId.toString());
+      expect(attribute.groupId).toBe(cpqGroupId);
       expect(attribute.userInput).toBe(cpqAttributeUserInput);
       expect(attribute.hasConflicts).toBe(cpqAttributeHasConflict);
       expect(attribute.incomplete).toBe(false);
@@ -680,7 +682,7 @@ describe('CpqConfiguratorNormalizer', () => {
 
       cpqConfiguratorNormalizer['convertAttribute'](
         cpqAttribute2,
-        cpqGroupId,
+        cpqGroupIdNumber,
         CURRENCY,
         attributeList
       );
@@ -696,7 +698,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(attribute.isLineItem).toBe(cpqAttributeIsLineItem2);
       expect(attribute.uiType).toBe(Configurator.UiType.STRING);
       expect(attribute.selectedSingleValue).toBeUndefined();
-      expect(attribute.groupId).toBe(cpqGroupId.toString());
+      expect(attribute.groupId).toBe(cpqGroupId);
       expect(attribute.userInput).toBe(cpqAttributeUserInput2);
       expect(attribute.hasConflicts).toBe(cpqAttributeHasConflict2);
       expect(attribute.incomplete).toBe(false);
@@ -714,7 +716,7 @@ describe('CpqConfiguratorNormalizer', () => {
       };
       cpqConfiguratorNormalizer['convertAttribute'](
         cpqAttributeWithoutLabel,
-        cpqGroupId,
+        cpqGroupIdNumber,
         CURRENCY,
         attributeList
       );
@@ -728,7 +730,7 @@ describe('CpqConfiguratorNormalizer', () => {
 
       cpqConfiguratorNormalizer['convertAttribute'](
         cpqAttribute,
-        cpqGroupId,
+        cpqGroupIdNumber,
         CURRENCY,
         attributeList
       );
@@ -752,7 +754,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(groups.length).toBe(1);
       expect(flatGroups.length).toBe(1);
       const group: Configurator.Group = groups[0];
-      expect(group.id).toBe(cpqGroupId.toString());
+      expect(group.id).toBe(cpqGroupId);
       expect(group.name).toBe(cpqGroupName);
       expect(group.description).toBe(cpqGroupDisplayName);
       expect(group.configurable).toBe(true);
@@ -763,7 +765,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(group.attributes?.length).toBe(1);
       if (group.attributes) {
         expect(group.attributes[0].attrCode).toBe(cpqAttributeStdAttrCode);
-        expect(group.attributes[0].groupId).toBe(cpqGroupId.toString());
+        expect(group.attributes[0].groupId).toBe(cpqGroupId);
       } else {
         fail();
       }
@@ -893,6 +895,19 @@ describe('CpqConfiguratorNormalizer', () => {
         };
         expect(cpqConfiguratorNormalizer['convertAttributeType'](cpqAttr)).toBe(
           Configurator.UiType.STRING
+        );
+      });
+
+      it('should return UIType CONTAINER for CPQ DisplayAs CONTAINER', () => {
+        const cpqAttr: Cpq.Attribute = {
+          pA_ID: 1,
+          stdAttrCode: 2,
+          displayAs: Cpq.DisplayAs.CONTAINER,
+          isEnabled: true,
+          values: [],
+        };
+        expect(cpqConfiguratorNormalizer['convertAttributeType'](cpqAttr)).toBe(
+          Configurator.UiType.CONTAINER
         );
       });
 
@@ -1986,6 +2001,307 @@ describe('CpqConfiguratorNormalizer', () => {
           PA_ID: 456,
         })
       ).toBe('456');
+    });
+  });
+
+  describe('containers', () => {
+    const nestedAttrCode = 612;
+    const nestedAttribute: Cpq.Attribute = {
+      pA_ID: 99,
+      stdAttrCode: nestedAttrCode,
+      label: 'Accessories',
+      displayAs: Cpq.DisplayAs.RADIO_BUTTON,
+      isEnabled: true,
+      values: [
+        {
+          paV_ID: 1,
+          valueCode: 'ACC1',
+          valueDisplay: 'Accessory 1',
+          selected: true,
+        },
+      ],
+    };
+
+    const nestedTab: Cpq.Tab = {
+      id: 57,
+      name: 'NESTED_TAB',
+      displayName: 'Nested Tab',
+      isIncomplete: false,
+      isSelected: true,
+      attributes: [nestedAttribute],
+    };
+
+    const rowWithConfigId = '018';
+    const rowWithoutConfigId = '017';
+
+    const expectedRowGroupId = `${Configurator.ContainerRowGroupIdPrefix}@${cpqAttributeStdAttrCode}@${rowWithConfigId}`;
+    const expectedNestedTabGroupId = `${expectedRowGroupId}@${nestedTab.id}`;
+
+    const nestedContainerOnNestedAttr: Cpq.Container = {
+      stdAttrCode: nestedAttrCode,
+      minRows: 0,
+      maxRows: 4,
+      rows: [
+        {
+          id: '019',
+          productSystemId: 'UV_FILTER_KIT',
+          productName: 'UV Filter Kit',
+          selected: true,
+          actions: [Cpq.ContainerRowAction.DELETE],
+        },
+      ],
+    };
+
+    const containerWithRows: Cpq.Container = {
+      stdAttrCode: cpqAttributeStdAttrCode,
+      minRows: 1,
+      maxRows: 15,
+      failedValidations: ['Too many units'],
+      rows: [
+        {
+          id: rowWithoutConfigId,
+          productSystemId: 'LENS_50MM',
+          productName: '50mm Lens',
+          selected: true,
+          actions: [Cpq.ContainerRowAction.DELETE, Cpq.ContainerRowAction.COPY],
+        },
+        {
+          id: rowWithConfigId,
+          productSystemId: 'LENS_ZOOM',
+          productName: 'Zoom Lens',
+          selected: true,
+          actions: [
+            Cpq.ContainerRowAction.DELETE,
+            Cpq.ContainerRowAction.EDIT,
+            Cpq.ContainerRowAction.COPY,
+          ],
+          configuration: {
+            completed: false,
+            messages: [
+              {
+                message: 'Check zoom range',
+                severity: Cpq.MessageSeverity.WARNING,
+              },
+              {
+                message: 'Info only',
+                severity: Cpq.MessageSeverity.INFO,
+              },
+            ],
+            tabs: [nestedTab],
+            containers: [nestedContainerOnNestedAttr],
+          },
+        },
+      ],
+    };
+
+    function configurationWithContainers(
+      containers: Cpq.Container[]
+    ): Cpq.Configuration {
+      return {
+        ...cpqConfiguration,
+        tabs: [
+          {
+            ...cpqTab,
+            attributes: [cpqAttribute],
+          },
+        ],
+        sapContainers: containers,
+      };
+    }
+
+    it('should leave attribute without container when no matching sapContainers entry exists', () => {
+      const result = cpqConfiguratorNormalizer.convert(
+        configurationWithContainers([
+          {
+            stdAttrCode: 999,
+            rows: [],
+          },
+        ])
+      );
+      expect(result.groups[0].attributes?.[0].container).toBeUndefined();
+      expect(result.groups[0].subGroups.length).toBe(0);
+    });
+
+    it('should attach matching container metadata and row actions to the attribute', () => {
+      const result = cpqConfiguratorNormalizer.convert(
+        configurationWithContainers([
+          {
+            stdAttrCode: cpqAttributeStdAttrCode,
+            minRows: 2,
+            maxRows: 5,
+            failedValidations: ['validation'],
+            rows: [
+              {
+                id: '1',
+                productSystemId: 'P1',
+                productName: 'Product 1',
+                selected: false,
+                actions: [Cpq.ContainerRowAction.ADD],
+              },
+            ],
+          },
+        ])
+      );
+      const container = result.groups[0].attributes?.[0].container;
+      expect(container?.minRows).toBe(2);
+      expect(container?.maxRows).toBe(5);
+      expect(container?.failedValidations).toEqual(['validation']);
+      expect(container?.rows.length).toBe(1);
+      expect(container?.rows[0]).toEqual(
+        jasmine.objectContaining({
+          id: '1',
+          productSystemId: 'P1',
+          productName: 'Product 1',
+          selected: false,
+          actions: [Configurator.ContainerRowAction.ADD],
+        })
+      );
+      expect(container?.rows[0].groupId).toBeUndefined();
+      expect(result.groups[0].subGroups.length).toBe(0);
+    });
+
+    it('should create CONTAINER_ROW_GROUP for rows with nested configuration', () => {
+      const result = cpqConfiguratorNormalizer.convert(
+        configurationWithContainers([containerWithRows])
+      );
+      const parentGroup = result.groups[0];
+      const container = parentGroup.attributes?.[0].container;
+      expect(container?.rows.length).toBe(2);
+
+      const rowWithoutConfig = container?.rows.find(
+        (row) => row.id === rowWithoutConfigId
+      );
+      expect(rowWithoutConfig?.groupId).toBeUndefined();
+
+      const rowWithConfig = container?.rows.find(
+        (row) => row.id === rowWithConfigId
+      );
+      expect(rowWithConfig?.groupId).toBe(expectedRowGroupId);
+
+      expect(parentGroup.subGroups.length).toBe(1);
+      const rowGroup = parentGroup.subGroups[0];
+      expect(rowGroup.id).toBe(expectedRowGroupId);
+      expect(rowGroup.groupType).toBe(
+        Configurator.GroupType.CONTAINER_ROW_GROUP
+      );
+      expect(rowGroup.name).toBe('LENS_ZOOM');
+      expect(rowGroup.description).toBe('Zoom Lens');
+      expect(rowGroup.complete).toBe(false);
+      expect(rowGroup.messages).toEqual([
+        {
+          message: 'Check zoom range',
+          severity: Configurator.MessageSeverity.WARNING,
+        },
+        {
+          message: 'Info only',
+          severity: Configurator.MessageSeverity.INFO,
+        },
+      ]);
+
+      expect(rowGroup.subGroups.length).toBe(1);
+      const nestedAttrGroup = rowGroup.subGroups[0];
+      expect(nestedAttrGroup.id).toBe(expectedNestedTabGroupId);
+      expect(nestedAttrGroup.groupType).toBe(
+        Configurator.GroupType.ATTRIBUTE_GROUP
+      );
+      expect(nestedAttrGroup.attributes?.length).toBe(1);
+      expect(nestedAttrGroup.attributes?.[0].containerRowId).toBe(
+        rowWithConfigId
+      );
+      expect(nestedAttrGroup.attributes?.[0].groupId).toBe(
+        expectedNestedTabGroupId
+      );
+      expect(nestedAttrGroup.attributes?.[0].attrCode).toBe(nestedAttrCode);
+    });
+
+    it('should recurse nested containers and keep CONTAINER_ROW_GROUP out of flatGroups', () => {
+      const result = cpqConfiguratorNormalizer.convert(
+        configurationWithContainers([containerWithRows])
+      );
+      const nestedAttrGroup = result.groups[0].subGroups[0].subGroups[0];
+      const nestedContainer = nestedAttrGroup.attributes?.[0].container;
+      expect(nestedContainer?.minRows).toBe(0);
+      expect(nestedContainer?.maxRows).toBe(4);
+      expect(nestedContainer?.rows[0].id).toBe('019');
+      expect(nestedContainer?.rows[0].groupId).toBeUndefined();
+
+      const flatGroupTypes = result.flatGroups.map((group) => group.groupType);
+      expect(flatGroupTypes).toContain(Configurator.GroupType.ATTRIBUTE_GROUP);
+      expect(flatGroupTypes).not.toContain(
+        Configurator.GroupType.CONTAINER_ROW_GROUP
+      );
+      expect(
+        result.flatGroups.some((group) => group.id === expectedRowGroupId)
+      ).toBe(false);
+      expect(
+        result.flatGroups.some((group) => group.id === expectedNestedTabGroupId)
+      ).toBe(true);
+    });
+
+    it('should list a nested tab after its parent tab in flatGroups', () => {
+      const result = cpqConfiguratorNormalizer.convert(
+        configurationWithContainers([containerWithRows])
+      );
+      const flatGroupIds = result.flatGroups.map((group) => group.id);
+      expect(flatGroupIds.indexOf(cpqGroupId)).toBeLessThan(
+        flatGroupIds.indexOf(expectedNestedTabGroupId)
+      );
+    });
+
+    it('should keep nested tab group IDs unique when CPQ reuses a root tab ID', () => {
+      const result = cpqConfiguratorNormalizer.convert(
+        configurationWithContainers([
+          {
+            ...containerWithRows,
+            rows: [
+              {
+                id: rowWithConfigId,
+                productSystemId: 'LENS_ZOOM',
+                selected: true,
+                configuration: {
+                  completed: false,
+                  tabs: [{ ...nestedTab, id: cpqGroupIdNumber }],
+                },
+              },
+            ],
+          },
+        ])
+      );
+
+      const rootTabGroup = result.groups[0];
+      expect(rootTabGroup.id).toBe(cpqGroupId);
+      const nestedTabGroup = rootTabGroup.subGroups[0].subGroups[0];
+      expect(nestedTabGroup.id).toBe(`${expectedRowGroupId}@${cpqGroupId}`);
+      expect(nestedTabGroup.id).not.toBe(rootTabGroup.id);
+
+      const flatGroupIds = result.flatGroups.map((group) => group.id);
+      expect(new Set(flatGroupIds).size).toBe(flatGroupIds.length);
+    });
+
+    it('should attach sapContainers on the generic-group path when no tabs exist', () => {
+      const result = cpqConfiguratorNormalizer.convert({
+        productSystemId: cpqProductSystemId,
+        currencyISOCode: CURRENCY,
+        attributes: [cpqAttribute],
+        incompleteAttributes: [],
+        sapContainers: [
+          {
+            stdAttrCode: cpqAttributeStdAttrCode,
+            minRows: 1,
+            maxRows: 3,
+            rows: [
+              {
+                id: '7',
+                productSystemId: 'GENERIC_ROW',
+                selected: true,
+              },
+            ],
+          },
+        ],
+      });
+      expect(result.groups[0].id).toBe('1');
+      expect(result.groups[0].attributes?.[0].container?.minRows).toBe(1);
+      expect(result.groups[0].attributes?.[0].container?.rows[0].id).toBe('7');
     });
   });
 });

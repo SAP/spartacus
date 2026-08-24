@@ -32,7 +32,7 @@ import {
 } from '@spartacus/storefront';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../core/model/configurator.model';
@@ -204,6 +204,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         },
         provideMockFeatureToggles({
           productConfiguratorConsolidatedButtonDisabling: true,
+          productConfiguratorCPQContainer: true,
         }),
       ],
     })
@@ -472,7 +473,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       initSelectedMultiSelectRemoveButton(true);
 
       const button = fixture.debugElement.query(
-        By.css('button.btn-secondary')
+        By.css('button.btn-tertiary')
       ).nativeElement;
       expect(button.innerText).toContain('configurator.button.remove');
       expect(button.disabled).toBe(true);
@@ -486,7 +487,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       initSelectedMultiSelectRemoveButton(true);
 
       const button = fixture.debugElement.query(
-        By.css('button.btn-secondary')
+        By.css('button.btn-tertiary')
       ).nativeElement;
       expect(button.innerText).toContain('configurator.button.remove');
       expect(button.disabled).toBe(false);
@@ -538,7 +539,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       initUnselectedPrimaryButton(false, true);
 
       const button = fixture.debugElement.query(
-        By.css('button.btn-primary')
+        By.css('button.btn-secondary')
       ).nativeElement;
       expect(button.innerText).toContain('configurator.button.select');
       expect(button.disabled).toBe(false);
@@ -548,7 +549,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       initUnselectedPrimaryButton(false, false);
 
       const button = fixture.debugElement.query(
-        By.css('button.btn-primary')
+        By.css('button.btn-secondary')
       ).nativeElement;
       expect(button.innerText).toContain('configurator.button.select');
       expect(button.disabled).toBe(true);
@@ -558,7 +559,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       initUnselectedPrimaryButton(true, true);
 
       const button = fixture.debugElement.query(
-        By.css('button.btn-primary')
+        By.css('button.btn-secondary')
       ).nativeElement;
       expect(button.innerText).toContain('configurator.button.add');
       expect(button.disabled).toBe(false);
@@ -568,10 +569,89 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       initUnselectedPrimaryButton(true, false);
 
       const button = fixture.debugElement.query(
-        By.css('button.btn-primary')
+        By.css('button.btn-secondary')
       ).nativeElement;
       expect(button.innerText).toContain('configurator.button.add');
       expect(button.disabled).toBe(true);
+    });
+  });
+
+  describe('productConfiguratorCPQContainer feature toggle', () => {
+    function initWithCpqContainerToggle(
+      toggleEnabled: boolean,
+      options: { multiSelect: boolean; selected: boolean }
+    ): void {
+      // `*cxFeature` resolves its (static) expression only once, when the
+      // embedded view is created. The toggle state has to be set before the
+      // first change detection.
+      featureToggles.set('productConfiguratorCPQContainer', toggleEnabled);
+      fixture = TestBed.createComponent(
+        ConfiguratorAttributeProductCardComponent
+      );
+      htmlElem = fixture.nativeElement;
+      component = fixture.componentInstance;
+      component.productCardOptions = {
+        hideRemoveButton: false,
+        multiSelect: options.multiSelect,
+        productBoundValue: createValue(
+          '888',
+          'description',
+          [createImage('url', 'alt')],
+          1,
+          options.selected,
+          '1111-2222',
+          'Lorem Ipsum Dolor'
+        ),
+        singleDropdown: false,
+        withQuantity: true,
+        attributeId: 123,
+        attributeLabel: 'Attribute Label',
+        attributeName: 'Attribute Name',
+        itemCount: 3,
+        itemIndex: 1,
+      };
+      fixture.detectChanges();
+    }
+
+    it('should use tertiary class for the multi-select remove button when the toggle is enabled', () => {
+      initWithCpqContainerToggle(true, { multiSelect: true, selected: true });
+
+      const button = fixture.debugElement.query(
+        By.css('button.btn-tertiary')
+      ).nativeElement;
+      expect(button.innerText).toContain('configurator.button.remove');
+    });
+
+    it('should use secondary class for the multi-select remove button when the toggle is disabled', () => {
+      initWithCpqContainerToggle(false, { multiSelect: true, selected: true });
+
+      const button = fixture.debugElement.query(
+        By.css('button.btn-secondary')
+      ).nativeElement;
+      expect(button.innerText).toContain('configurator.button.remove');
+      expect(htmlElem.querySelector('button.btn-tertiary')).toBeFalsy();
+    });
+
+    it('should use secondary class for the single-select button when the toggle is enabled', () => {
+      initWithCpqContainerToggle(true, { multiSelect: false, selected: false });
+
+      const button = fixture.debugElement.query(
+        By.css('button.btn-secondary')
+      ).nativeElement;
+      expect(button.innerText).toContain('configurator.button.select');
+    });
+
+    it('should use primary class for the single-select button when the toggle is disabled', () => {
+      initWithCpqContainerToggle(false, {
+        multiSelect: false,
+        selected: false,
+      });
+
+      const button = fixture.debugElement.query(
+        By.css('button.btn-primary')
+      ).nativeElement;
+      expect(button.innerText).toContain('configurator.button.select');
+      expect(htmlElem.querySelector('button.btn-secondary')).toBeFalsy();
     });
   });
 
@@ -644,6 +724,30 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           component.productCardOptions.productBoundValue
         )
       ).toEqual(productTransformed);
+    });
+
+    it('should fall back to configuration value when catalog product is missing', (done) => {
+      const productService = TestBed.inject(ProductService);
+      spyOn(productService, 'get').and.returnValue(of(undefined));
+
+      component.ngOnInit();
+      component.product$.subscribe((catalogProduct) => {
+        expect(catalogProduct).toEqual(productTransformed);
+        done();
+      });
+    });
+
+    it('should fall back to configuration value when catalog lookup errors', (done) => {
+      const productService = TestBed.inject(ProductService);
+      spyOn(productService, 'get').and.returnValue(
+        throwError(() => new Error("Product with code '1111-2222' not found!"))
+      );
+
+      component.ngOnInit();
+      component.product$.subscribe((catalogProduct) => {
+        expect(catalogProduct).toEqual(productTransformed);
+        done();
+      });
     });
 
     it('should display quantity when props withQuantity is true', () => {
@@ -1289,13 +1393,13 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       );
     });
 
-    it("should contain button element with class name 'btn-primary' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+    it("should contain button element with class name 'btn-secondary' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
       const itemIndex = component.productCardOptions.itemIndex + 1;
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
         'button',
-        'btn-primary',
+        'btn-secondary',
         0,
         'aria-label',
         'configurator.a11y.itemOfAttributeUnselectedWithPrice attribute:' +
@@ -1312,17 +1416,221 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       );
     });
 
-    it("should contain button element with class name 'btn-primary' and 'aria-describedby' that indicates the ID of the element that describe the elements", () => {
+    it("should contain button element with class name 'btn-secondary' and 'aria-describedby' that indicates the ID of the element that describe the elements", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
         'button',
-        'btn-primary',
+        'btn-secondary',
         0,
         'aria-describedby',
         'cx-configurator--label--' + component.productCardOptions.attributeName,
         'configurator.button.select'
       );
+    });
+  });
+
+  describe('container row actions menu', () => {
+    function setContainerRowActions(
+      actions: Configurator.ContainerRowAction[]
+    ): void {
+      component.productCardOptions.containerRow = {
+        id: 'row-1',
+        productSystemId: 'PRODUCT_CODE',
+        selected: true,
+        actions,
+      };
+    }
+
+    it('should show overflow menu toggle instead of add/remove when selected row actions are defined', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions([
+        Configurator.ContainerRowAction.DELETE,
+        Configurator.ContainerRowAction.EDIT,
+      ]);
+      fixture.detectChanges();
+
+      expect(
+        htmlElem.querySelector('.cx-product-card-actions-menu-toggle')
+      ).toBeTruthy();
+      expect(htmlElem.querySelector('button.btn')).toBeFalsy();
+    });
+
+    it('should show `ADD` button for available products even when row actions are defined', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component, false);
+      setContainerRowActions([
+        Configurator.ContainerRowAction.ADD,
+        Configurator.ContainerRowAction.EDIT,
+      ]);
+      fixture.detectChanges();
+
+      expect(
+        htmlElem.querySelector('.cx-product-card-actions-menu-toggle')
+      ).toBeFalsy();
+      expect(htmlElem.querySelector('button.btn-secondary')).toBeTruthy();
+    });
+
+    it('should render `ELLIPSIS` icon on overflow menu toggle', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions([Configurator.ContainerRowAction.DELETE]);
+      fixture.detectChanges();
+
+      expect(
+        htmlElem.querySelector('.cx-product-card-actions-menu-toggle cx-icon')
+      ).toBeTruthy();
+    });
+
+    it('should open menu with one item per action', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions([
+        Configurator.ContainerRowAction.DELETE,
+        Configurator.ContainerRowAction.EDIT,
+        Configurator.ContainerRowAction.COPY,
+      ]);
+      fixture.detectChanges();
+
+      const toggle = htmlElem.querySelector(
+        '.cx-product-card-actions-menu-toggle'
+      ) as HTMLButtonElement;
+      toggle.click();
+      fixture.detectChanges();
+
+      expect(
+        htmlElem.querySelectorAll('.cx-product-card-actions-menu-item').length
+      ).toBe(3);
+    });
+
+    it('should emit handleRowAction when menu item is clicked', () => {
+      spyOn(component.handleRowAction, 'emit');
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions([
+        Configurator.ContainerRowAction.DELETE,
+        Configurator.ContainerRowAction.EDIT,
+      ]);
+      fixture.detectChanges();
+
+      const toggle = htmlElem.querySelector(
+        '.cx-product-card-actions-menu-toggle'
+      ) as HTMLButtonElement;
+      toggle.click();
+      fixture.detectChanges();
+
+      const menuItem = htmlElem.querySelector(
+        '.cx-product-card-actions-menu-item button'
+      ) as HTMLButtonElement;
+      menuItem.click();
+
+      expect(component.handleRowAction.emit).toHaveBeenCalledWith(
+        Configurator.ContainerRowAction.DELETE
+      );
+      expect(component.isActionsMenuOpen).toBe(false);
+    });
+
+    it('should resolve translation keys for row actions', () => {
+      expect(
+        component.getContainerRowActionLabel(
+          Configurator.ContainerRowAction.DELETE
+        )
+      ).toBe('configurator.button.remove');
+      expect(
+        component.getContainerRowActionLabel(
+          Configurator.ContainerRowAction.EDIT
+        )
+      ).toBe('configurator.button.edit');
+      expect(
+        component.getContainerRowActionLabel(
+          Configurator.ContainerRowAction.COPY
+        )
+      ).toBe('configurator.button.duplicate');
+      expect(
+        component.getContainerRowActionLabel(
+          Configurator.ContainerRowAction.ADD
+        )
+      ).toBe('configurator.button.add');
+      expect(
+        component.getContainerRowActionLabel(
+          'UNKNOWN' as Configurator.ContainerRowAction
+        )
+      ).toBe('UNKNOWN');
+    });
+
+    it('should toggle overflow menu and stop click propagation', () => {
+      const event = jasmine.createSpyObj('event', ['stopPropagation']);
+
+      component.toggleActionsMenu(event);
+      expect(event.stopPropagation).toHaveBeenCalled();
+      expect(component.isActionsMenuOpen).toBe(true);
+
+      component.toggleActionsMenu(event);
+      expect(component.isActionsMenuOpen).toBe(false);
+    });
+
+    it('should close the overflow menu on document click', () => {
+      component.isActionsMenuOpen = true;
+      fixture.detectChanges();
+
+      htmlElem.ownerDocument.dispatchEvent(
+        new MouseEvent('click', { bubbles: true })
+      );
+
+      expect(component.isActionsMenuOpen).toBe(false);
+    });
+
+    it('should close the overflow menu on escape key', () => {
+      component.isActionsMenuOpen = true;
+      fixture.detectChanges();
+
+      htmlElem.ownerDocument.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })
+      );
+
+      expect(component.isActionsMenuOpen).toBe(false);
+    });
+
+    it('should keep `ADD / REMOVE` buttons when the card is not in container context', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      fixture.detectChanges();
+
+      expect(
+        htmlElem.querySelector('.cx-product-card-actions-menu-toggle')
+      ).toBeFalsy();
+      expect(htmlElem.querySelector('button.btn')).toBeTruthy();
+    });
+
+    it('should not render overflow menu or add/remove buttons when selected container row has no actions', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions([]);
+      fixture.detectChanges();
+
+      expect(
+        htmlElem.querySelector('.cx-product-card-actions-menu-toggle')
+      ).toBeFalsy();
+      expect(htmlElem.querySelector('button.btn')).toBeFalsy();
+    });
+
+    it('should not render overflow menu or add/remove buttons when selected container row has undefined actions', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      component.productCardOptions.containerRow = {
+        id: 'row-1',
+        productSystemId: 'PRODUCT_CODE',
+        selected: true,
+      };
+      fixture.detectChanges();
+
+      expect(component.hasContainerRowActions).toBe(false);
+      expect(component.showDefaultActions).toBe(false);
+      expect(
+        htmlElem.querySelector('.cx-product-card-actions-menu-toggle')
+      ).toBeFalsy();
+      expect(htmlElem.querySelector('button.btn')).toBeFalsy();
     });
   });
 });

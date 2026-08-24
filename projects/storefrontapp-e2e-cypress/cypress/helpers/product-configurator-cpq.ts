@@ -79,7 +79,6 @@ export function checkConfigPageDisplayed(): void {
   configuration.checkGroupTitleDisplayed();
   configuration.checkGroupFormDisplayed();
   configuration.checkGroupMenuDisplayed();
-  configuration.checkPreviousAndNextBtnsDisplayed();
   configuration.checkPriceSummaryDisplayed();
   configuration.checkAddToCartBtnDisplayed();
   checkProductTitleDisplayed();
@@ -175,6 +174,22 @@ export function selectAttributeAndWait(
 ): void {
   configuration.selectAttribute(attributeName, uiType, valueName);
   cy.wait('@updateConfig');
+}
+
+/**
+ * Selects an attribute value, waits for the OCC update, and verifies it is selected.
+ *
+ * @param {string} attributeName - Attribute name
+ * @param {configuration.uiType} uiType - UI type
+ * @param {string} valueName - Value name
+ */
+export function selectAttributeAndCheck(
+  attributeName: string,
+  uiType: configuration.uiType,
+  valueName: string
+): void {
+  selectAttributeAndWait(attributeName, uiType, valueName);
+  configuration.checkValueSelected(uiType, attributeName, valueName);
 }
 
 /**

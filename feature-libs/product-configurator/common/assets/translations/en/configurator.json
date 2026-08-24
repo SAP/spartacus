@@ -55,7 +55,12 @@
       "deselectionNotPossible": "Add a different product before removing this one",
       "dropDownSelectMsg": "Make a selection",
       "noOptionSelectedMsg": "No option selected",
-      "notVisibleAttributeMsg": "This attribute is not visible to the user"
+      "notVisibleAttributeMsg": "This attribute is not visible to the user",
+      "selectedProducts": "Selected Products ({{count}})",
+      "availableProducts": "Available Products ({{count}})",
+      "selectAvailableProducts": "Select products",
+      "searchAvailableProducts": "Search",
+      "noAvailableProductsFound": "No results found"
     },
     "button": {
       "previous": "Previous",
@@ -67,6 +72,8 @@
       "select": "Select",
       "add": "Add",
       "remove": "Remove",
+      "edit": "Edit",
+      "duplicate": "Duplicate",
       "exit": "Exit Configuration",
       "exitMobile": "Exit",
       "cancelConfiguration": "Cancel Configuration",
@@ -235,7 +242,13 @@
       "closeConflictSolverModal": "Close conflict solver modal",
       "closeRestartDialog": "Close the \"Unfinished Configuration\" dialog and navigate back to the product details page",
       "description": "Click to see a description for value {{ value }}",
-      "showOptionsForAttribute": "Show options for attribute {{ attribute }}"
+      "showOptionsForAttribute": "Show options for attribute {{ attribute }}",
+      "collapseSelectedProducts": "Collapse selected products",
+      "expandSelectedProducts": "Expand selected products",
+      "collapseAvailableProducts": "Collapse available products",
+      "expandAvailableProducts": "Expand available products",
+      "toggleAvailableProductsDropdown": "Toggle available products drop-down",
+      "openContainerRowActionsMenu": "Open actions menu for {{ product }}"
     },
     "variantCarousel": {
       "title": "Pre-configured Versions"

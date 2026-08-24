@@ -993,6 +993,26 @@ describe('OccConfigurationVariantAdapter', () => {
     mockReq.flush(variantSearchResult);
   });
 
+  it('should throw for addContainerRow because it is not supported for the variant configurator', () => {
+    expect(() => occConfiguratorVariantAdapter.addContainerRow()).toThrowError(
+      'addContainerRow is not supported for the variant configurator'
+    );
+  });
+
+  it('should throw for copyContainerRow because it is not supported for the variant configurator', () => {
+    expect(() => occConfiguratorVariantAdapter.copyContainerRow()).toThrowError(
+      'copyContainerRow is not supported for the variant configurator'
+    );
+  });
+
+  it('should throw for removeContainerRow because it is not supported for the variant configurator', () => {
+    expect(() =>
+      occConfiguratorVariantAdapter.removeContainerRow()
+    ).toThrowError(
+      'removeContainerRow is not supported for the variant configurator'
+    );
+  });
+
   it('should return configurator type', () => {
     expect(occConfiguratorVariantAdapter.getConfiguratorType()).toEqual(
       ConfiguratorType.VARIANT

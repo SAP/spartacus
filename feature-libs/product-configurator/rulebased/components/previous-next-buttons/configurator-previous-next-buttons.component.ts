@@ -95,6 +95,19 @@ export class ConfiguratorPreviousNextButtonsComponent {
     );
   }
 
+  /**
+   * Previous/Next walk `flatGroups`. A single root group can still have
+   * nested groups (e.g. CPQ one tab with selected container products).
+   *
+   * @param configuration - Configuration
+   * @return - `true` if more than one navigable group exists
+   */
+  hasMultipleNavigableGroups(
+    configuration: Configurator.Configuration
+  ): boolean {
+    return configuration.flatGroups.length > 1;
+  }
+
   isFirstGroup(owner: CommonConfigurator.Owner): Observable<boolean> {
     return this.configuratorGroupsService
       .getPreviousGroupId(owner)

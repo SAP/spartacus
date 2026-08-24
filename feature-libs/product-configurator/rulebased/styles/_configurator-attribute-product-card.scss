@@ -39,6 +39,11 @@
 
       &.column {
         flex-direction: column;
+        // TODO: (CXSPA-14099) - Remove feature flag next major release.
+        @include forFeature('productConfiguratorCPQContainer') {
+          flex-wrap: nowrap;
+          align-items: stretch;
+        }
       }
 
       .cx-product-card-quantity-price {
@@ -95,6 +100,78 @@
 
         @include media-breakpoint-up(md) {
           align-self: flex-end;
+        }
+
+        // TODO: (CXSPA-14099) - Remove feature flag next major release.
+        @include forFeature('productConfiguratorCPQContainer') {
+          width: 100%;
+          justify-content: flex-end;
+        }
+      }
+
+      .cx-product-card-actions-menu {
+        position: relative;
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .cx-product-card-actions-menu-toggle {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        background-color: transparent;
+        padding-block-start: 8px;
+        padding-block-end: 8px;
+        padding-inline-end: 0;
+        cursor: pointer;
+        color: var(--cx-color-primary);
+
+        cx-icon {
+          color: var(--cx-color-primary);
+        }
+      }
+
+      .cx-product-card-actions-menu-list {
+        position: absolute;
+        inset-block-start: 100%;
+        inset-inline-end: 0;
+        z-index: 10;
+        min-width: 8rem;
+        margin: 0;
+        padding-block-start: 0;
+        padding-block-end: 0;
+        padding-inline-start: 0;
+        padding-inline-end: 0;
+        list-style: none;
+        background-color: #fff;
+        border: 1px solid var(--cx-color-light);
+        border-radius: var(--cx-border-radius);
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+        .cx-product-card-actions-menu-item {
+          &:not(:last-child) {
+            border-bottom: 1px solid var(--cx-color-light);
+          }
+
+          button {
+            width: 100%;
+            border: none;
+            background-color: transparent;
+            text-align: start;
+            padding-block-start: 0.75rem;
+            padding-block-end: 0.75rem;
+            padding-inline-start: 1rem;
+            padding-inline-end: 1rem;
+            cursor: pointer;
+
+            &:hover,
+            &:focus {
+              background-color: var(--cx-color-background);
+            }
+          }
         }
       }
 
@@ -155,6 +232,11 @@
 
       @include media-breakpoint-down(sm) {
         width: 100%;
+        // TODO: (CXSPA-14099) - Remove feature flag next major release.
+        @include forFeature('productConfiguratorCPQContainer') {
+          display: flex;
+          justify-content: flex-end;
+        }
       }
 
       .btn {

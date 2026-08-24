@@ -35,6 +35,41 @@ describe('CpqConfiguratorUtils', () => {
         CpqConfiguratorUtils.findFirstChangedAttribute(emptyConfiguration)
       ).toThrow();
     });
+
+    it('should find the changed attribute on a nested container-row extract', () => {
+      const nestedGroupId = `${Configurator.ContainerRowGroupIdPrefix}@1067@c7764679-8b9c@57`;
+      const nestedAttribute: Configurator.Attribute = {
+        ...attributeCheckBoxes,
+        groupId: nestedGroupId,
+        containerRowId: 'c7764679-8b9c',
+      };
+      const nestedExtract: Configurator.Configuration = {
+        ...ConfiguratorTestUtils.createConfiguration('1'),
+        groups: [
+          {
+            ...ConfiguratorTestUtils.createGroup('1'),
+            subGroups: [
+              {
+                ...ConfiguratorTestUtils.createGroup(
+                  `${Configurator.ContainerRowGroupIdPrefix}@1067@c7764679-8b9c`
+                ),
+                groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+                subGroups: [
+                  {
+                    ...ConfiguratorTestUtils.createGroup(nestedGroupId),
+                    attributes: [nestedAttribute],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+
+      expect(
+        CpqConfiguratorUtils.findFirstChangedAttribute(nestedExtract)
+      ).toBe(nestedAttribute);
+    });
   });
 
   describe('getUpdateInformation', () => {
@@ -50,6 +85,46 @@ describe('CpqConfiguratorUtils', () => {
       expect(() =>
         CpqConfiguratorUtils.getUpdateInformation(attributeRadioButtons)
       ).toThrow();
+    });
+
+    it('should extract tabId and rowId from a nested container-row attribute', () => {
+      const nestedGroupId = `${Configurator.ContainerRowGroupIdPrefix}@1067@c7764679-8b9c@57`;
+      const nestedAttribute: Configurator.Attribute = {
+        ...attributeCheckBoxes,
+        groupId: nestedGroupId,
+        containerRowId: 'c7764679-8b9c',
+      };
+
+      const updateInformation =
+        CpqConfiguratorUtils.getUpdateInformation(nestedAttribute);
+
+      expect(updateInformation.standardAttributeCode).toBe(attrCode.toString());
+      expect(updateInformation.tabId).toBe('57');
+      expect(updateInformation.rowId).toBe('c7764679-8b9c');
+    });
+
+    it('should omit rowId when containerRowId is not set', () => {
+      const updateInformation =
+        CpqConfiguratorUtils.getUpdateInformation(attributeCheckBoxes);
+
+      expect(updateInformation.rowId).toBeUndefined();
+    });
+  });
+
+  describe('getTabId', () => {
+    it('should return the group ID unchanged for a tab of the root configuration', () => {
+      expect(CpqConfiguratorUtils.getTabId('57')).toBe('57');
+    });
+
+    it('should return the trailing CPQ tab ID for a tab of a nested configuration', () => {
+      const nestedTabGroupId = `${Configurator.ContainerRowGroupIdPrefix}@1067@c7764679-8b9c@57`;
+      expect(CpqConfiguratorUtils.getTabId(nestedTabGroupId)).toBe('57');
+    });
+
+    it('should not touch group IDs that only happen to contain a separator', () => {
+      expect(CpqConfiguratorUtils.getTabId('SOME_GROUP@57')).toBe(
+        'SOME_GROUP@57'
+      );
     });
   });
 });

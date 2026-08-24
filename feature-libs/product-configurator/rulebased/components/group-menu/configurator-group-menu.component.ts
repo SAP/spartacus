@@ -145,17 +145,12 @@ export class ConfiguratorGroupMenuComponent {
    */
   click(group: Configurator.Group, currentGroup?: Configurator.Group): void {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
-      if (configuration.interactionState.currentGroup === group.id) {
-        return;
-      }
-      if (!this.configuratorGroupsService.hasSubGroups(group)) {
-        this.configuratorGroupsService.navigateToGroup(configuration, group.id);
-        this.hamburgerMenuService.toggle(true);
-
-        this.configUtils.scrollToConfigurationElement(
-          '.VariantConfigurationTemplate, .CpqConfigurationTemplate'
-        );
-      } else {
+      const isDifferentGroup =
+        configuration.interactionState.currentGroup !== group.id;
+      if (
+        this.configuratorGroupsService.hasSubGroups(group) &&
+        !(isDifferentGroup && this.hasContainerRowSubGroups(group))
+      ) {
         this.configuratorGroupsService.setMenuParentGroup(
           configuration.owner,
           group.id
@@ -163,6 +158,13 @@ export class ConfiguratorGroupMenuComponent {
         if (currentGroup) {
           this.setFocusForSubGroup(group, currentGroup.id);
         }
+      } else if (isDifferentGroup) {
+        this.configuratorGroupsService.navigateToGroup(configuration, group.id);
+        this.hamburgerMenuService.toggle(true);
+
+        this.configUtils.scrollToConfigurationElement(
+          '.VariantConfigurationTemplate, .CpqConfigurationTemplate'
+        );
       }
     });
   }
@@ -221,6 +223,23 @@ export class ConfiguratorGroupMenuComponent {
   }
 
   /**
+   * Checks whether any direct child is a container row group.
+   * Those children are nested product configurations, so the parent
+   * remains a navigable tab rather than a structural folder.
+   *
+   * @param group - Given group
+   * @return - `true` if a child is a container row group
+   */
+  protected hasContainerRowSubGroups(group: Configurator.Group): boolean {
+    return (
+      group.subGroups?.some(
+        (subGroup) =>
+          subGroup.groupType === Configurator.GroupType.CONTAINER_ROW_GROUP
+      ) ?? false
+    );
+  }
+
+  /**
    * Retrieves observable of parent group for a group
    * @param group
    * @returns Parent group, undefined in case input group is already on root level
@@ -241,12 +260,7 @@ export class ConfiguratorGroupMenuComponent {
   getCondensedParentGroup(
     parentGroup: Configurator.Group
   ): Observable<Configurator.Group | undefined> {
-    if (
-      parentGroup &&
-      parentGroup.subGroups &&
-      parentGroup.subGroups.length === 1 &&
-      parentGroup.groupType !== Configurator.GroupType.CONFLICT_HEADER_GROUP
-    ) {
+    if (parentGroup && parentGroup.subGroups && this.isCondensed(parentGroup)) {
       return this.getParentGroup(parentGroup).pipe(
         switchMap((group) => {
           return group ? this.getCondensedParentGroup(group) : of(group);
@@ -259,15 +273,65 @@ export class ConfiguratorGroupMenuComponent {
 
   condenseGroups(groups: Configurator.Group[]): Configurator.Group[] {
     return groups.flatMap((group) => {
-      if (
-        group.subGroups.length === 1 &&
-        group.groupType !== Configurator.GroupType.CONFLICT_HEADER_GROUP
-      ) {
-        return this.condenseGroups(group.subGroups);
+      if (this.isCondensed(group)) {
+        const condensedChildren = this.condenseGroups(group.subGroups);
+        return this.hasNoAttributes(group) && condensedChildren.length === 1
+          ? this.mergeWithSingleChild(group, condensedChildren[0])
+          : condensedChildren;
       } else {
         return group;
       }
     });
+  }
+
+  /**
+   * Determines whether a group is replaced by its single sub group in the menu.
+   *
+   * @param group - Given group
+   * @return - Is the group condensed?
+   */
+  protected isCondensed(group: Configurator.Group): boolean {
+    return (
+      group.subGroups.length === 1 &&
+      group.groupType !== Configurator.GroupType.CONFLICT_HEADER_GROUP &&
+      // A container row group is a nested product configuration rather than a
+      // structural group. Condensing its parent away would hide the attributes of
+      // the parent, among them the container that the row belongs to.
+      group.subGroups[0].groupType !==
+        Configurator.GroupType.CONTAINER_ROW_GROUP
+    );
+  }
+
+  /**
+   * Verifies whether the group carries no attributes. Empty structural
+   * groups (e.g. CPQ container row groups) are merged with their single
+   * child so that the menu keeps the parent's description.
+   *
+   * @param group - Given group
+   * @return - `true` if the group has no attributes
+   */
+  protected hasNoAttributes(group: Configurator.Group): boolean {
+    return !group.attributes?.length;
+  }
+
+  /**
+   * Merges a structural parent with its only condensed child: the child
+   * remains the navigation target, while the parent's description and name
+   * are shown in the menu.
+   *
+   * @param group - Parent group
+   * @param child - Condensed child group
+   * @return - Merged group
+   */
+  protected mergeWithSingleChild(
+    group: Configurator.Group,
+    child: Configurator.Group
+  ): Configurator.Group {
+    return {
+      ...child,
+      description: group.description ?? child.description,
+      name: group.name ?? child.name,
+    };
   }
 
   /**

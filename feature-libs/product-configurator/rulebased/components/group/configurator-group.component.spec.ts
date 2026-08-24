@@ -40,6 +40,7 @@ import { ConfiguratorAttributeHeaderComponent } from '../attribute/header/config
 import { ConfiguratorAttributeProductCardComponentOptions } from '../attribute/product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeCheckBoxListComponent } from '../attribute/types/checkbox-list/configurator-attribute-checkbox-list.component';
 import { ConfiguratorAttributeCheckBoxComponent } from '../attribute/types/checkbox/configurator-attribute-checkbox.component';
+import { ConfiguratorAttributeContainerComponent } from '../attribute/types/container/configurator-attribute-container.component';
 import { ConfiguratorAttributeDropDownComponent } from '../attribute/types/drop-down/configurator-attribute-drop-down.component';
 import { ConfiguratorAttributeInputFieldComponent } from '../attribute/types/input-field/configurator-attribute-input-field.component';
 import { ConfiguratorAttributeMultiSelectionBundleComponent } from '../attribute/types/multi-selection-bundle/configurator-attribute-multi-selection-bundle.component';
@@ -282,6 +283,7 @@ const mockConfiguratorAttributeCompositionConfig: ConfiguratorAttributeCompositi
           ConfiguratorAttributeMultiSelectionBundleComponent,
         AttributeType_dropdownProduct:
           ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
+        AttributeType_container: ConfiguratorAttributeContainerComponent,
       },
     },
   };
@@ -332,6 +334,7 @@ describe('ConfiguratorGroupComponent', () => {
         ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
         ConfiguratorAttributeSingleSelectionBundleComponent,
         ConfiguratorAttributeMultiSelectionBundleComponent,
+        ConfiguratorAttributeContainerComponent,
       ],
       providers: [
         {
@@ -625,6 +628,14 @@ describe('ConfiguratorGroupComponent', () => {
         expect,
         htmlElem,
         'cx-configurator-attribute-multi-selection-bundle'
+      );
+    });
+
+    it('should support container attribute type', () => {
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-container'
       );
     });
   });

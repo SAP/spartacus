@@ -1,14 +1,15 @@
-<ng-container *ngIf="product$ | async as product; else ghostProductTitle">
+<ng-container *ngIf="productTitleData$ | async as data; else ghostProductTitle">
   <div class="cx-general-product-info">
     <div class="cx-title">
       <span
         id="cxConfigProductName"
         [cxConfiguratorMainAriaLabelledBy]="'cxConfigProductName'"
+        [cxConfiguratorTruncatePathTitle]="data.title"
+        [attr.title]="data.title"
+        [attr.aria-label]="data.title"
         role="heading"
         aria-level="1"
-      >
-        {{ product.name }}
-      </span>
+      ></span>
     </div>
     <button (click)="triggerDetails()" [attr.aria-expanded]="showMore">
       <ng-container *ngIf="!showMore">
@@ -20,7 +21,7 @@
         <cx-icon
           [attr.aria-label]="
             'configurator.a11y.showMoreProductInfo'
-              | cxTranslate: { product: product.name }
+              | cxTranslate: { product: data.product?.name }
           "
           [type]="iconTypes.CARET_DOWN"
         ></cx-icon>
@@ -33,7 +34,7 @@
         <cx-icon
           [attr.aria-label]="
             'configurator.a11y.showLessProductInfo'
-              | cxTranslate: { product: product.name }
+              | cxTranslate: { product: data.product?.name }
           "
           [type]="iconTypes.CARET_UP"
         ></cx-icon>
@@ -42,7 +43,7 @@
     <div class="cx-details" [class.open]="showMore">
       <div class="cx-details-image" aria-hidden="true">
         <cx-media
-          [container]="product?.images?.PRIMARY"
+          [container]="data.product?.images?.PRIMARY"
           format="product"
         ></cx-media>
       </div>
@@ -52,26 +53,26 @@
       >
         <div class="cx-detail-title">
           <span
-            *ngIf="product.name"
+            *ngIf="data.product?.name"
             [attr.title]="'configurator.a11y.productName' | cxTranslate"
           >
-            {{ product.name }}
+            {{ data.product?.name }}
           </span>
         </div>
         <div class="cx-code">
           <span
-            *ngIf="product.code"
+            *ngIf="data.product?.code"
             [attr.title]="'configurator.a11y.productCode' | cxTranslate"
           >
-            {{ product.code }}
+            {{ data.product?.code }}
           </span>
         </div>
         <div class="cx-description">
           <span
-            *ngIf="product.description"
+            *ngIf="data.product?.description"
             [attr.title]="'configurator.a11y.productDescription' | cxTranslate"
           >
-            {{ product.description }}
+            {{ data.product?.description }}
           </span>
         </div>
 

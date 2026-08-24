@@ -401,6 +401,98 @@ describe('ConfiguratorCommonsService', () => {
     ).toHaveBeenCalledWith(changedAttribute, productConfiguration, updateType);
   });
 
+  it('should add a container row, accessing the store', () => {
+    cart.code = 'X';
+    cartObs = of(cart);
+    spyOnProperty(ngrxStore, 'select').and.returnValue(
+      () => () => of(productConfiguration)
+    );
+
+    serviceUnderTest.addContainerRow(OWNER_PRODUCT.key, 598, PRODUCT_CODE, '3');
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorActions.AddContainerRow({
+        configId: productConfiguration.configId,
+        owner: productConfiguration.owner,
+        stdAttrCode: 598,
+        productSystemId: PRODUCT_CODE,
+        parentRowId: '3',
+      })
+    );
+  });
+
+  it('should do nothing on addContainerRow in case cart updates are pending', () => {
+    isStableObservable = of(false);
+    cart.code = 'X';
+    cartObs = of(cart);
+
+    serviceUnderTest.addContainerRow(OWNER_PRODUCT.key, 598, PRODUCT_CODE);
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(
+      jasmine.any(ConfiguratorActions.AddContainerRow)
+    );
+  });
+
+  it('should remove a container row, accessing the store', () => {
+    cart.code = 'X';
+    cartObs = of(cart);
+    spyOnProperty(ngrxStore, 'select').and.returnValue(
+      () => () => of(productConfiguration)
+    );
+
+    serviceUnderTest.removeContainerRow(OWNER_PRODUCT.key, '3');
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorActions.RemoveContainerRow({
+        configId: productConfiguration.configId,
+        owner: productConfiguration.owner,
+        rowId: '3',
+      })
+    );
+  });
+
+  it('should do nothing on removeContainerRow in case cart updates are pending', () => {
+    isStableObservable = of(false);
+    cart.code = 'X';
+    cartObs = of(cart);
+
+    serviceUnderTest.removeContainerRow(OWNER_PRODUCT.key, '3');
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(
+      jasmine.any(ConfiguratorActions.RemoveContainerRow)
+    );
+  });
+
+  it('should copy a container row, accessing the store', () => {
+    cart.code = 'X';
+    cartObs = of(cart);
+    spyOnProperty(ngrxStore, 'select').and.returnValue(
+      () => () => of(productConfiguration)
+    );
+
+    serviceUnderTest.copyContainerRow(OWNER_PRODUCT.key, '3');
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorActions.CopyContainerRow({
+        configId: productConfiguration.configId,
+        owner: productConfiguration.owner,
+        rowId: '3',
+      })
+    );
+  });
+
+  it('should do nothing on copyContainerRow in case cart updates are pending', () => {
+    isStableObservable = of(false);
+    cart.code = 'X';
+    cartObs = of(cart);
+
+    serviceUnderTest.copyContainerRow(OWNER_PRODUCT.key, '3');
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(
+      jasmine.any(ConfiguratorActions.CopyContainerRow)
+    );
+  });
+
   describe('getConfigurationWithOverview', () => {
     configurationWithOverview = {
       ...ConfiguratorTestUtils.createConfiguration(

@@ -40,6 +40,61 @@ export namespace Cpq {
     attributes?: Attribute[]; // attributes of current selected tab
     configurationId?: string;
     hasFullConfigurationState?: boolean;
+    sapContainers?: Container[];
+    messages?: Message[];
+  }
+
+  /**
+   * A CPQ container linked to a configuration attribute via stdAttrCode.
+   */
+  export interface Container {
+    stdAttrCode: number;
+    minRows?: number;
+    maxRows?: number;
+    failedValidations?: string[];
+    rows?: ContainerRow[];
+  }
+
+  /**
+   * A single, individually configurable sub-product instance within a container.
+   */
+  export interface ContainerRow {
+    id: string;
+    productSystemId?: string;
+    productName?: string;
+    selected?: boolean;
+    actions?: ContainerRowAction[];
+    configuration?: NestedProductConfiguration;
+  }
+
+  /**
+   * Nested product configuration carried by a container row.
+   */
+  export interface NestedProductConfiguration {
+    completed?: boolean;
+    messages?: Message[];
+    tabs?: Tab[];
+    containers?: Container[];
+  }
+
+  /**
+   * A message issued by the configuration engine, including severity.
+   */
+  export interface Message {
+    message?: string;
+    severity?: MessageSeverity;
+  }
+
+  export enum ContainerRowAction {
+    DELETE = 'DELETE',
+    EDIT = 'EDIT',
+    COPY = 'COPY',
+    ADD = 'ADD',
+  }
+
+  export enum MessageSeverity {
+    INFO = 'info',
+    WARNING = 'warning',
   }
 
   /**
@@ -110,6 +165,9 @@ export namespace Cpq {
     standardAttributeCode: string;
     changeAttributeValue: ChangeAttributeValue;
     tabId: string;
+    /** Identifier of the container row this attribute belongs to. Only set for
+     * nested (row) configuration updates. */
+    rowId?: string;
   }
 
   /**
@@ -121,6 +179,16 @@ export namespace Cpq {
     userInput?: string;
     quantity?: number;
   }
+
+  /**
+   * Request payload for adding a new row to a CPQ container.
+   */
+  export interface AddContainerRowInput {
+    stdAttrCode: number;
+    productSystemId: string;
+    parentRowId?: string;
+  }
+
   /**
    *
    * An interface representing the structure for update quantity of CPQ configuration attribute value.
@@ -131,6 +199,9 @@ export namespace Cpq {
     attributeValueId: string;
     quantity: number;
     tabId: string;
+    /** Identifier of the container row this attribute belongs to. Only set for
+     * nested (row) configuration updates. */
+    rowId?: string;
   }
 
   /**
@@ -143,6 +214,7 @@ export namespace Cpq {
     DROPDOWN = 3,
     LIST_BOX = 4,
     LIST_BOX_MULTI = 5,
+    CONTAINER = 57,
     READ_ONLY = 71,
     INPUT = 95,
     AUTO_COMPLETE_CUSTOM = 102,
