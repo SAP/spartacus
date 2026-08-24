@@ -95,6 +95,17 @@
   <cx-icon [type]="iconTypes.ERROR"></cx-icon>
   {{ getRequiredMessageKey() | cxTranslate }}
 </div>
+<div
+  *ngFor="let failedValidation of failedValidations; let i = index"
+  class="cx-validation-error-msg"
+  id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}-validation-{{
+    i
+  }}"
+  [attr.aria-label]="failedValidation"
+>
+  <cx-icon [type]="iconTypes.ERROR"></cx-icon>
+  {{ failedValidation }}
+</div>
 <img
   *ngIf="hasImage"
   class="cx-attribute-img"

@@ -432,6 +432,88 @@ describe('ConfigAttributeHeaderComponent', () => {
         'configurator.attribute.containerMaxRows maxRows:5 minRows:undefined'
       );
     });
+
+    it('should not render failed validation messages if container is not present', () => {
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-validation-error-msg'
+      );
+    });
+
+    it('should not render failed validation messages if failedValidations is empty', () => {
+      component.attribute.container = { rows: [], failedValidations: [] };
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-required-error-msg'
+      );
+    });
+
+    it('should render a failed validation message', () => {
+      component.attribute.container = {
+        rows: [],
+        failedValidations: ['Too many units'],
+      };
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-validation-error-msg',
+        'Too many units'
+      );
+    });
+
+    it('should render failed validation messages after the required message', () => {
+      component.attribute.required = true;
+      component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      component.attribute.container = {
+        rows: [],
+        failedValidations: ['Too many units'],
+      };
+      component.ngOnInit();
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-required-error-msg',
+        'configurator.attribute.singleSelectRequiredMessage'
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-validation-error-msg',
+        'Too many units'
+      );
+    });
+
+    it('should render multiple failed validation messages', () => {
+      component.attribute.container = {
+        rows: [],
+        failedValidations: ['Too many units', 'Invalid selection'],
+      };
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectNumberOfElements(
+        expect,
+        htmlElem,
+        '.cx-validation-error-msg',
+        2
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-validation-error-msg',
+        'Too many units'
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-validation-error-msg',
+        'Invalid selection',
+        1
+      );
+    });
   });
 
   describe('getRequiredMessageKey', () => {
@@ -1030,6 +1112,23 @@ describe('ConfigAttributeHeaderComponent', () => {
         'configurator.attribute.singleSelectRequiredMessage'
       );
     });
+
+    it("should contain div element with 'aria-label' attribute for a failed container validation", () => {
+      component.attribute.container = {
+        rows: [],
+        failedValidations: ['Too many units'],
+      };
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-validation-error-msg',
+        undefined,
+        'aria-label',
+        'Too many units'
+      );
+    });
   });
 
   describe('Navigate to corresponding group', () => {
@@ -1242,6 +1341,28 @@ describe('ConfigAttributeHeaderComponent', () => {
       expect(component.getContainerRowInfoKey()).toBe(
         'configurator.attribute.containerMinMaxRows'
       );
+    });
+  });
+
+  describe('failedValidations', () => {
+    it('should return empty array if container is not present', () => {
+      expect(component.failedValidations).toEqual([]);
+    });
+
+    it('should return empty array if failedValidations is undefined', () => {
+      component.attribute.container = { rows: [] };
+      expect(component.failedValidations).toEqual([]);
+    });
+
+    it('should return failed validations from container', () => {
+      component.attribute.container = {
+        rows: [],
+        failedValidations: ['Too many units', 'Invalid selection'],
+      };
+      expect(component.failedValidations).toEqual([
+        'Too many units',
+        'Invalid selection',
+      ]);
     });
   });
 

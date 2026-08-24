@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -33,6 +33,7 @@ import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-a
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
+    NgFor,
     IconComponent,
     ConfiguratorShowOptionsComponent,
     ConfiguratorShowMoreComponent,
@@ -349,5 +350,14 @@ export class ConfiguratorAttributeHeaderComponent
       return 'configurator.attribute.containerMaxRows';
     }
     return undefined;
+  }
+
+  /**
+   * Retrieves failed container validations to display as error messages.
+   *
+   * @returns the list of failed validation messages, or an empty array
+   */
+  get failedValidations(): string[] {
+    return this.attribute.container?.failedValidations ?? [];
   }
 }
