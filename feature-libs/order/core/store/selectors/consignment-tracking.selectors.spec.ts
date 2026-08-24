@@ -17,7 +17,7 @@ describe('Consignment Tracking Selectors', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
   describe('getConsignmentTracking', () => {
     it('should return the consignment tracking state from the store', () => {

@@ -21,6 +21,7 @@ import {
 } from '@spartacus/storefront';
 import { AddToCartModule } from '../add-to-cart/add-to-cart.module';
 import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
+import { CartItemValidationQuantityHintModule } from '../validation/cart-item-quantity-hint/cart-item-validation-quantity-hint.module';
 import { CartItemValidationWarningModule } from '../validation/cart-item-warning/cart-item-validation-warning.module';
 import { CartItemListRowComponent } from './cart-item-list-row/cart-item-list-row.component';
 import { CartItemListComponent } from './cart-item-list/cart-item-list.component';
@@ -31,6 +32,7 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
   imports: [
     AtMessageModule,
     CartCouponModule,
+    CartItemValidationQuantityHintModule,
     CartItemValidationWarningModule,
     CommonModule,
     I18nModule,

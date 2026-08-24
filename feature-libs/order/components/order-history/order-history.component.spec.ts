@@ -6,7 +6,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Params, RouterModule } from '@angular/router';
 import {
@@ -158,7 +158,7 @@ describe('OrderHistoryComponent', () => {
   let orderHistoryFacade: OrderHistoryFacade;
   let routingService: RoutingService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [RouterModule.forRoot([]), OrderHistoryComponent],
       providers: [
@@ -195,7 +195,7 @@ describe('OrderHistoryComponent', () => {
 
     orderHistoryFacade = TestBed.inject(OrderHistoryFacade);
     routingService = TestBed.inject(RoutingService);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderHistoryComponent);
@@ -224,7 +224,7 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should redirect when clicking on order id', () => {
-    spyOn(routingService, 'go').and.stub();
+    vi.spyOn(routingService, 'go').mockImplementation(() => {});
 
     fixture.detectChanges();
     const rows = fixture.debugElement.queryAll(
@@ -244,7 +244,7 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should set correctly sort code', () => {
-    spyOn(orderHistoryFacade, 'loadOrderList').and.stub();
+    vi.spyOn(orderHistoryFacade, 'loadOrderList').mockImplementation(() => {});
 
     component.changeSortCode('byOrderNumber');
 
@@ -257,7 +257,7 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should set correctly page', () => {
-    spyOn(orderHistoryFacade, 'loadOrderList').and.stub();
+    vi.spyOn(orderHistoryFacade, 'loadOrderList').mockImplementation(() => {});
 
     component.sortType = 'byDate';
     component.pageChange(1);
@@ -346,7 +346,7 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should clear order history data when component destroy', () => {
-    spyOn(orderHistoryFacade, 'clearOrderList').and.stub();
+    vi.spyOn(orderHistoryFacade, 'clearOrderList').mockImplementation(() => {});
 
     component.ngOnDestroy();
     expect(orderHistoryFacade.clearOrderList).toHaveBeenCalledWith();

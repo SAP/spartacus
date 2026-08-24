@@ -8,7 +8,7 @@ import { Component, Input, NgModule, Output } from '@angular/core';
 
 // PRIVATE TESTING UTIL
 @Component({
-  template: '<ng-content></ng-content>',
+  template: '<ng-content />',
   selector: 'cx-split-view',
 })
 export class MockSplitViewComponent {
@@ -16,7 +16,7 @@ export class MockSplitViewComponent {
 }
 
 @Component({
-  template: '<ng-content></ng-content>',
+  template: '<ng-content />',
   selector: 'cx-view',
 })
 export class MockViewComponent {
