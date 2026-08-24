@@ -91,6 +91,8 @@ export class ForgotPasswordComponentService {
       OAuthFlow.ResourceOwnerPasswordFlow
     ) {
       this.routingService.go({ cxRoute: 'login' });
+    } else {
+      this.routingService.go({ cxRoute: 'loginForm' });
     }
   }
 }
