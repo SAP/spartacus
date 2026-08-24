@@ -84,7 +84,7 @@ describe('ReplenishmentOrderHistoryConnector', () => {
   });
 
   it('load should call adapter', () => {
-    spyOn(adapter, 'load').and.returnValue(of(mockReplenishmentOrder));
+    vi.spyOn(adapter, 'load').mockReturnValue(of(mockReplenishmentOrder));
 
     let result: ReplenishmentOrder;
 
@@ -98,7 +98,7 @@ describe('ReplenishmentOrderHistoryConnector', () => {
   });
 
   it('loadReplenishmentDetailsHistory should call adapter', () => {
-    spyOn(adapter, 'loadReplenishmentDetailsHistory').and.returnValue(
+    vi.spyOn(adapter, 'loadReplenishmentDetailsHistory').mockReturnValue(
       of(mockOrderHistoryList)
     );
 
@@ -120,7 +120,7 @@ describe('ReplenishmentOrderHistoryConnector', () => {
   });
 
   it('cancelReplenishmentOrder should call adapter', () => {
-    spyOn(adapter, 'cancelReplenishmentOrder').and.returnValue(
+    vi.spyOn(adapter, 'cancelReplenishmentOrder').mockReturnValue(
       of(mockReplenishmentOrder)
     );
 
@@ -139,7 +139,7 @@ describe('ReplenishmentOrderHistoryConnector', () => {
   });
 
   it('loadHistory should call adapter', () => {
-    spyOn(adapter, 'loadHistory').and.returnValue(of(mockOrderHistoryList));
+    vi.spyOn(adapter, 'loadHistory').mockReturnValue(of(mockOrderHistoryList));
     let result: ReplenishmentOrderList;
     connector
       .loadHistory('user3')

@@ -1,5 +1,5 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FocusDirective } from '../../../../layout/a11y/keyboard-focus/focus.directive';
 import {
   KeyboardFocusTestingModule,
@@ -26,7 +26,7 @@ describe('TabPanelComponent', () => {
   let component: TabPanelComponent;
   let fixture: ComponentFixture<TabPanelComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [TabPanelComponent, MockComponent],
     })
@@ -35,20 +35,21 @@ describe('TabPanelComponent', () => {
         add: { imports: [MockKeyboardFocusDirective] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TabPanelComponent);
     component = fixture.componentInstance;
     component.tab = mockTab;
-    fixture.detectChanges();
   });
 
   it('should create an instance', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should have correct attribues when is open in TAB mode', () => {
+    fixture.detectChanges();
     const tabPanel = document.querySelector('div[role="tabpanel"]');
     expect(tabPanel?.getAttribute('id')).toEqual('section-1');
     expect(tabPanel?.getAttribute('tabindex')).toEqual('0');

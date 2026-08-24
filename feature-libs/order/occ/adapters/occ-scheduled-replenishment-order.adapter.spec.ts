@@ -8,7 +8,7 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
   HttpErrorModel,
@@ -87,7 +87,7 @@ describe(`OccScheduledReplenishmentOrderAdapter`, () => {
   let httpMock: HttpTestingController;
   let converter: ConverterService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [
         OccScheduledReplenishmentOrderAdapter,
@@ -97,7 +97,7 @@ describe(`OccScheduledReplenishmentOrderAdapter`, () => {
         provideHttpClientTesting(),
       ],
     });
-  }));
+  });
 
   beforeEach(() => {
     occAdapter = TestBed.inject(OccScheduledReplenishmentOrderAdapter);
@@ -105,7 +105,7 @@ describe(`OccScheduledReplenishmentOrderAdapter`, () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
 
-    spyOn(converter, 'pipeable').and.callThrough();
+    vi.spyOn(converter, 'pipeable');
   });
 
   afterEach(() => {
@@ -144,8 +144,15 @@ describe(`OccScheduledReplenishmentOrderAdapter`, () => {
   });
 
   describe(`back-off`, () => {
-    it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-      spyOn(httpClient, 'post').and.returnValue(
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it(`should unsuccessfully backOff on Jalo error`, async () => {
+      vi.spyOn(httpClient, 'post').mockReturnValue(
         throwError(() => mockJaloError)
       );
 
@@ -160,17 +167,17 @@ describe(`OccScheduledReplenishmentOrderAdapter`, () => {
         .pipe(take(1))
         .subscribe({ error: (err) => (result = err) });
 
-      tick(4200);
+      await vi.advanceTimersByTimeAsync(4200);
 
       expect(result).toEqual(mockNormalizedJaloError);
 
       subscription.unsubscribe();
-    }));
+    });
 
-    it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+    it(`should successfully backOff on Jalo error and recover after the 2nd retry`, async () => {
       let calledTimes = -1;
 
-      spyOn(httpClient, 'post').and.returnValue(
+      vi.spyOn(httpClient, 'post').mockReturnValue(
         defer(() => {
           calledTimes++;
           if (calledTimes === 3) {
@@ -194,18 +201,18 @@ describe(`OccScheduledReplenishmentOrderAdapter`, () => {
         });
 
       // 1*1*300 = 300
-      tick(300);
+      await vi.advanceTimersByTimeAsync(300);
       expect(result).toEqual(undefined);
 
       // 2*2*300 = 1200
-      tick(1200);
+      await vi.advanceTimersByTimeAsync(1200);
       expect(result).toEqual(undefined);
 
       // 3*3*300 = 2700
-      tick(2700);
+      await vi.advanceTimersByTimeAsync(2700);
 
       expect(result).toEqual(mockReplenishmentOrder);
       subscription.unsubscribe();
-    }));
+    });
   });
 });

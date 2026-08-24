@@ -113,6 +113,24 @@ export interface FeatureTogglesInterface {
   searchBoxRecentSearchesRemoval?: boolean;
 
   /**
+   * Controls the empty-query results panel in `SearchBoxComponent`.
+   *
+   * Before (disabled):
+   * - With `searchBoxRecentSearchesRemoval` enabled, an empty query closes the
+   *   results panel on desktop. Clearing the query closes the panel.
+   * - Without that toggle, desktop can show the results panel with an empty query.
+   *
+   * After (enabled):
+   * - On desktop, an empty query opens the results panel only when trending or
+   *   recent searches are available; otherwise the panel stays closed.
+   * - Clearing the query does not keep leftover OCC suggestions, products, or a
+   *   no-match message in the panel.
+   * - On mobile, the search box stays open for an empty query so the input is
+   *   not collapsed. The search panel Close button is hidden; Clear remains.
+   */
+  searchBoxEmptyQueryResultsPanel?: boolean;
+
+  /**
    * Corrects `BottomHeaderSlot` layout when CDS registers `MerchandisingCarouselComponent`
    * beside `BreadcrumbComponent` (e.g. on search results pages in sample data).
    *
@@ -383,6 +401,16 @@ export interface FeatureTogglesInterface {
    * Affects: cxNgSelectA11y
    */
   a11yVocalizeDropdownItemCount?: boolean;
+
+  /**
+   * When enabled, the `ItemCounterComponent` quantity input exposes an
+   * `aria-valuetext` equal to its literal value. This prevents screen readers
+   * (notably VoiceOver) from announcing the value as a percentage of the
+   * `min`/`max` range (e.g. "0.3%") instead of the actual quantity.
+   *
+   * Affects: `ItemCounterComponent`
+   */
+  a11yItemCounterValueText?: boolean;
 
   /**
    * When enabled, keystrokes inside an ng-select (combobox dropdown) are treated
@@ -734,6 +762,32 @@ export interface FeatureTogglesInterface {
   a11yFocusBreadcrumbOnNavigation?: boolean;
 
   /**
+   * When enabled (with the `cart.validation.enabled` config), surfaces backend
+   * min/max order quantity validation in the cart: highlights violating rows and
+   * shows a per-item `Min qty` / `Max qty` hint parsed from the backend
+   * `statusMessage`, re-validating on entry and on quantity change. On checkout the
+   * `CartValidationGuard` blocks and shows a generic message.
+   */
+  cartValidationDisplayBackendMessages?: boolean;
+
+  /**
+   * When enabled, `ConfiguratorIssuesNotificationComponent` only shows its cart
+   * "issues" notification for configurable products, so non-configurable entries
+   * (e.g. with min/max quantity validation errors) no longer trigger it.
+   *
+   * Affects: `ConfiguratorIssuesNotificationComponent`
+   */
+  configuratorIssuesNotificationForConfigurableOnly?: boolean;
+
+  /**
+   * When enabled, `GlobalMessageComponent` reserves space for the close button so
+   * that long, multi-line message text does not render underneath it.
+   *
+   * Affects: `GlobalMessageComponent`
+   */
+  globalMessageCloseButtonPadding?: boolean;
+
+  /**
    * When enabled, the navigation chevron (`--list-bg`) rendered on the
    * organization (My Company) list rows and detail navigation cards uses a
    * higher-contrast stroke so it meets the WCAG 1.4.11 non-text contrast
@@ -782,6 +836,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   removeDuplicatedOrderHistoryHeader: true,
   a11yCardNotificationMessage: true,
   searchBoxRecentSearchesRemoval: false,
+  searchBoxEmptyQueryResultsPanel: false,
   cdsBottomHeaderSlotAdjustPosition: false,
   enableB2BUnitSearch: false,
   enableB2BCostCenterSearch: false,
@@ -801,6 +856,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFormFieldSectionLegend: false,
   a11yImproveCheckoutFocus: false,
   a11yVocalizeDropdownItemCount: false,
+  a11yItemCounterValueText: false,
   a11yRestoreFocusOnNgSelect: false,
   a11yKeepFocusOnConsentManagementButtons: false,
   useEnhancedSecurePasswordValidators: false,
@@ -838,5 +894,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yDisabledButtonContrast: false,
   a11yAddressFormInitialFocus: false,
   a11yFocusBreadcrumbOnNavigation: false,
+  cartValidationDisplayBackendMessages: false,
+  configuratorIssuesNotificationForConfigurableOnly: false,
+  globalMessageCloseButtonPadding: false,
   a11yNavigationChevronContrast: false,
 };

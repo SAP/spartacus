@@ -1,13 +1,11 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   ReplenishmentOrder,
   ScheduleReplenishmentForm,
 } from '@spartacus/order/root';
-import { of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom, of } from 'rxjs';
 import { ScheduledReplenishmentOrderAdapter } from './scheduled-replenishment-order.adapter';
 import { ScheduledReplenishmentOrderConnector } from './scheduled-replenishment-order.connector';
-import createSpy = jasmine.createSpy;
 
 const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
   numberOfDays: 'test-number-days',
@@ -23,14 +21,14 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
 class MockScheduledReplenishmentOrderAdapter
   implements ScheduledReplenishmentOrderAdapter
 {
-  scheduleReplenishmentOrder = createSpy().and.returnValue(of({}));
+  scheduleReplenishmentOrder = vi.fn().mockReturnValue(of({}));
 }
 
 describe('Scheduled Replenishment Order Connector', () => {
   let adapter: ScheduledReplenishmentOrderAdapter;
   let connector: ScheduledReplenishmentOrderConnector;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [
         ScheduledReplenishmentOrderConnector,
@@ -40,7 +38,7 @@ describe('Scheduled Replenishment Order Connector', () => {
         },
       ],
     });
-  }));
+  });
 
   beforeEach(() => {
     adapter = TestBed.inject(ScheduledReplenishmentOrderAdapter);
@@ -51,28 +49,25 @@ describe('Scheduled Replenishment Order Connector', () => {
     expect(connector).toBeTruthy();
   });
 
-  it('scheduleReplenishmentOrder should call adapter', (done) => {
-    adapter.scheduleReplenishmentOrder = createSpy().and.returnValue(
-      of(mockReplenishmentOrder)
-    );
+  it('scheduleReplenishmentOrder should call adapter', async () => {
+    adapter.scheduleReplenishmentOrder = vi
+      .fn()
+      .mockReturnValue(of(mockReplenishmentOrder));
 
-    connector
-      .scheduleReplenishmentOrder(
+    const result = await firstValueFrom(
+      connector.scheduleReplenishmentOrder(
         'cartId',
         mockReplenishmentOrderFormData,
         true,
         'userId'
       )
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(adapter.scheduleReplenishmentOrder).toHaveBeenCalledWith(
-          'cartId',
-          mockReplenishmentOrderFormData,
-          true,
-          'userId'
-        );
-        expect(result).toEqual(mockReplenishmentOrder);
-        done();
-      });
+    );
+    expect(adapter.scheduleReplenishmentOrder).toHaveBeenCalledWith(
+      'cartId',
+      mockReplenishmentOrderFormData,
+      true,
+      'userId'
+    );
+    expect(result).toEqual(mockReplenishmentOrder);
   });
 });
