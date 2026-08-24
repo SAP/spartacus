@@ -264,19 +264,19 @@ export class ConfiguratorAttributeProductCardComponent
   get containerMessageGroups(): ConfiguratorAttributeProductCardMessageGroup[] {
     return [
       {
-        messages: this.containerWarningMessages,
-        messageClass: 'container-warning-message',
-        iconClass: 'container-warning-symbol',
-        iconType: this.iconType.WARNING,
-        uiKeyPrefix: 'row-warning-msg',
-      },
-      {
         messages: this.containerErrorMessages,
         messageClass: 'container-error-message',
         iconClass: 'container-error-symbol',
         iconType: this.iconType.ERROR,
         uiKeyPrefix: 'row-error-msg',
         role: 'alert',
+      },
+      {
+        messages: this.containerWarningMessages,
+        messageClass: 'container-warning-message',
+        iconClass: 'container-warning-symbol',
+        iconType: this.iconType.WARNING,
+        uiKeyPrefix: 'row-warning-msg',
       },
     ];
   }

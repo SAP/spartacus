@@ -1742,22 +1742,22 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       expect(component.containerWarningMessages).toEqual([]);
     });
 
-    it('should pass warning and error data to the message template', () => {
+    it('should pass error and warning data to the message template', () => {
       component.productCardOptions.multiSelect = true;
       setProductBoundValueAttributes(component);
       setContainerRowMessages(['Too many units'], ['Check quantity']);
 
-      const [warnings, errors] = component.containerMessageGroups;
+      const [errors, warnings] = component.containerMessageGroups;
 
-      expect(warnings.messages).toEqual(['Check quantity']);
-      expect(warnings.messageClass).toBe('container-warning-message');
-      expect(warnings.iconClass).toBe('container-warning-symbol');
-      expect(warnings.uiKeyPrefix).toBe('row-warning-msg');
       expect(errors.messages).toEqual(['Too many units']);
       expect(errors.messageClass).toBe('container-error-message');
       expect(errors.iconClass).toBe('container-error-symbol');
       expect(errors.uiKeyPrefix).toBe('row-error-msg');
       expect(errors.role).toBe('alert');
+      expect(warnings.messages).toEqual(['Check quantity']);
+      expect(warnings.messageClass).toBe('container-warning-message');
+      expect(warnings.iconClass).toBe('container-warning-symbol');
+      expect(warnings.uiKeyPrefix).toBe('row-warning-msg');
     });
   });
 });
