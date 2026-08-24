@@ -142,25 +142,24 @@ describe('AddressBookComponent', () => {
           },
         },
       ],
-    })
-      .overrideComponent(AddressBookComponent, {
-        remove: {
-          imports: [
-            TranslatePipe,
-            CxDatePipe,
-            AddressFormComponent,
-            FeatureDirective,
-          ],
-        },
-        add: {
-          imports: [
-            MockTranslatePipe,
-            MockDatePipe,
-            MockAddressFormComponent,
-            MockFeatureDirective,
-          ],
-        },
-      });
+    }).overrideComponent(AddressBookComponent, {
+      remove: {
+        imports: [
+          TranslatePipe,
+          CxDatePipe,
+          AddressFormComponent,
+          FeatureDirective,
+        ],
+      },
+      add: {
+        imports: [
+          MockTranslatePipe,
+          MockDatePipe,
+          MockAddressFormComponent,
+          MockFeatureDirective,
+        ],
+      },
+    });
     await TestBed.compileComponents();
   });
 
@@ -305,9 +304,13 @@ describe('AddressBookComponent', () => {
         addressBookComponentService,
         'getAddressesStateLoading'
       ).mockReturnValue(isLoading.asObservable());
-      vi.spyOn(addressBookComponentService, 'getAddressesError')
-        .mockReturnValue(isError.asObservable());
-      (addressBookComponentService.addUserAddress as ReturnType<typeof vi.fn>).mockClear();
+      vi.spyOn(
+        addressBookComponentService,
+        'getAddressesError'
+      ).mockReturnValue(isError.asObservable());
+      (
+        addressBookComponentService.addUserAddress as ReturnType<typeof vi.fn>
+      ).mockClear();
     });
 
     afterEach(() => {
@@ -367,9 +370,15 @@ describe('AddressBookComponent', () => {
         addressBookComponentService,
         'getAddressesStateLoading'
       ).mockReturnValue(isLoading.asObservable());
-      vi.spyOn(addressBookComponentService, 'getAddressesError')
-        .mockReturnValue(isError.asObservable());
-      (addressBookComponentService.updateUserAddress as ReturnType<typeof vi.fn>).mockClear();
+      vi.spyOn(
+        addressBookComponentService,
+        'getAddressesError'
+      ).mockReturnValue(isError.asObservable());
+      (
+        addressBookComponentService.updateUserAddress as ReturnType<
+          typeof vi.fn
+        >
+      ).mockClear();
     });
 
     afterEach(() => {
@@ -423,7 +432,9 @@ describe('AddressBookComponent', () => {
         country: { name: 'China', isocode: 'CN' },
         region: { name: 'Beijing Region', isocode: 'CN-11' },
       };
-      const card = await firstValueFrom(component.getCardContent(addressWithNames));
+      const card = await firstValueFrom(
+        component.getCardContent(addressWithNames)
+      );
       expect(card.text?.some((t: string) => t.includes('Beijing'))).toBe(true);
     });
 

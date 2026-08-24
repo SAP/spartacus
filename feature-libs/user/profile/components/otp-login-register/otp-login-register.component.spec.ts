@@ -46,7 +46,6 @@ import { RegisterComponentService } from '../register';
 import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-account-constants';
 import { OneTimePasswordRegisterComponent } from './otp-login-register.component';
 
-
 const mockRegisterFormData: any = {
   titleCode: 'Mr',
   firstName: 'John',
@@ -355,7 +354,9 @@ describe('OneTimePasswordRegisterComponent', () => {
   const toggleAnonymousConsentMethod = 'toggleAnonymousConsent';
   describe(`${toggleAnonymousConsentMethod}`, () => {
     it('should call anonymousConsentsService.giveConsent when the consent is given', () => {
-      vi.spyOn(anonymousConsentService, 'giveConsent').mockImplementation(() => {});
+      vi.spyOn(anonymousConsentService, 'giveConsent').mockImplementation(
+        () => {}
+      );
       component.ngOnInit();
 
       controls['newsletter'].setValue(true);
@@ -363,7 +364,9 @@ describe('OneTimePasswordRegisterComponent', () => {
       expect(anonymousConsentService.giveConsent).toHaveBeenCalled();
     });
     it('should call anonymousConsentsService.withdrawConsent when the consent is NOT given', () => {
-      vi.spyOn(anonymousConsentService, 'withdrawConsent').mockImplementation(() => {});
+      vi.spyOn(anonymousConsentService, 'withdrawConsent').mockImplementation(
+        () => {}
+      );
       component.ngOnInit();
 
       controls['newsletter'].setValue(false);
@@ -374,7 +377,9 @@ describe('OneTimePasswordRegisterComponent', () => {
 
   describe('isConsentGiven', () => {
     it('should call anonymousConsentsService.isConsentGiven', () => {
-      vi.spyOn(anonymousConsentService, 'isConsentGiven').mockImplementation(() => {});
+      vi.spyOn(anonymousConsentService, 'isConsentGiven').mockImplementation(
+        () => {}
+      );
       const mockConsent: AnonymousConsent = {
         consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
       };

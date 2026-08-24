@@ -96,7 +96,11 @@ describe('OneTimePasswordLoginFormComponent', () => {
 
   describe('ngOnInit', () => {
     it('should restore form values from sessionStorage', () => {
-      const storageSpy = { getItem: vi.fn(), setItem: vi.fn(), removeItem: vi.fn() };
+      const storageSpy = {
+        getItem: vi.fn(),
+        setItem: vi.fn(),
+        removeItem: vi.fn(),
+      };
       storageSpy.getItem.mockImplementation((key) =>
         key === OTP_LOGIN_STATE_STORAGE_KEY
           ? JSON.stringify({ loginId: 'test@email.com' })
@@ -111,7 +115,11 @@ describe('OneTimePasswordLoginFormComponent', () => {
     });
 
     it('should not patch form when sessionStorage has no credentials', () => {
-      const storageSpy = { getItem: vi.fn(), setItem: vi.fn(), removeItem: vi.fn() };
+      const storageSpy = {
+        getItem: vi.fn(),
+        setItem: vi.fn(),
+        removeItem: vi.fn(),
+      };
       storageSpy.getItem.mockReturnValue(null);
       vi.spyOn(winRef, 'sessionStorage', 'get').mockReturnValue(
         storageSpy as any
@@ -122,7 +130,11 @@ describe('OneTimePasswordLoginFormComponent', () => {
     });
 
     it('should clear sessionStorage after reading', () => {
-      const storageSpy = { getItem: vi.fn(), setItem: vi.fn(), removeItem: vi.fn() };
+      const storageSpy = {
+        getItem: vi.fn(),
+        setItem: vi.fn(),
+        removeItem: vi.fn(),
+      };
       storageSpy.getItem.mockImplementation((key) =>
         key === OTP_LOGIN_STATE_STORAGE_KEY
           ? JSON.stringify({ loginId: 'test@email.com' })

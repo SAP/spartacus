@@ -261,10 +261,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
 
   it('should deselect values onChangeValueQuantity if quantity is set to zero', () => {
     fixture.detectChanges(); // initialize attributeCheckBoxForms via ngOnInit
-    vi.spyOn(
-      component['configuratorCommonsService'],
-      'updateConfiguration'
-    );
+    vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
 
     vi.spyOn(
       configuratorStorefrontUtilsService,
@@ -324,10 +321,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
   });
 
   it('should call emit of selectionChange onChangeValueQuantity if quantity is set to 1', () => {
-    vi.spyOn(
-      component['configuratorCommonsService'],
-      'updateConfiguration'
-    );
+    vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
     vi.spyOn(
       configuratorStorefrontUtilsService,
       'assembleValuesForMultiSelectAttributes'
@@ -362,10 +356,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
   });
 
   it('should not call facade update onChangeValueQuantity if value does not exist', () => {
-    vi.spyOn(
-      component['configuratorCommonsService'],
-      'updateConfiguration'
-    );
+    vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
     vi.spyOn(
       configuratorStorefrontUtilsService,
       'assembleValuesForMultiSelectAttributes'
@@ -386,10 +377,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
   });
 
   it('should call facade update onChangeQuantity', () => {
-    vi.spyOn(
-      component['configuratorCommonsService'],
-      'updateConfiguration'
-    );
+    vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
     component.onChangeQuantity(2);
     expect(
       component['configuratorCommonsService'].updateConfiguration

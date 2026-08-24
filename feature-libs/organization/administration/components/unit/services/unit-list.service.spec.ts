@@ -21,7 +21,6 @@ import { TREE_TOGGLE } from './unit-tree.model';
 import { UnitTreeService } from './unit-tree.service';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
-
 function verifyExpandedAll({ values }: EntitiesModel<B2BUnitTreeNode>) {
   expect(values.length).toEqual(7);
   values.forEach((element) => {
@@ -727,11 +726,11 @@ describe('UnitListService', () => {
 
       it('should preserve expand state when search is cleared', () => {
         // Set manual expansion: only root expanded
-        treeService.isExpanded = vi.fn().mockImplementation(
-          (id: string, _level: number) => {
+        treeService.isExpanded = vi
+          .fn()
+          .mockImplementation((id: string, _level: number) => {
             return id === 'Rustic';
-          }
-        );
+          });
 
         let result: EntitiesModel<B2BUnitTreeNode>;
         mockTree$.next(mockedTree);

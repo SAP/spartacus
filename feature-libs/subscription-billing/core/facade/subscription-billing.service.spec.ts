@@ -130,7 +130,11 @@ describe('SubscriptionBillingService', () => {
 
     it('should call connectors getSubscriptionBillsList', async () => {
       const data = await firstValueFrom(
-        service.getSubscriptionBillsList(mockPageSize, mockCurrentPage, mockSort)
+        service.getSubscriptionBillsList(
+          mockPageSize,
+          mockCurrentPage,
+          mockSort
+        )
       );
       expect(connector.getSubscriptionBillsList).toHaveBeenCalledWith(
         mockUserId,

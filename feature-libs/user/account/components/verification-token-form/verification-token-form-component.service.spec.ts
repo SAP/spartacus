@@ -62,9 +62,9 @@ function createForm(username: string, password: string, csrf: string) {
 }
 
 class MockVerificationTokenFacade implements Partial<VerificationTokenFacade> {
-  createVerificationToken = vi.fn().mockReturnValue(
-    of({ tokenId: 'testTokenId', expiresIn: '300' })
-  );
+  createVerificationToken = vi
+    .fn()
+    .mockReturnValue(of({ tokenId: 'testTokenId', expiresIn: '300' }));
 }
 
 class MockGlobalMessageService {

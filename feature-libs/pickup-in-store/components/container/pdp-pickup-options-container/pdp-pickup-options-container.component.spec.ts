@@ -32,7 +32,6 @@ import { PickupOptionsStubComponent } from '../../presentational/pickup-options/
 import { CurrentLocationService } from '../../services/current-location.service';
 import { MockLaunchDialogService } from '../pickup-option-dialog/pickup-option-dialog.component.spec';
 
-
 class MockPickupLocationsSearchFacade
   implements Partial<PickupLocationsSearchFacade>
 {
@@ -54,9 +53,9 @@ class MockPickupLocationsSearchFacade
   setBrowserLocation = vi.fn();
   toggleHideOutOfStock = vi.fn();
   stockLevelAtStore = vi.fn();
-  getStockLevelAtStore = vi.fn().mockReturnValue(
-    of({ stockLevel: { displayName: 'London School' } })
-  );
+  getStockLevelAtStore = vi
+    .fn()
+    .mockReturnValue(of({ stockLevel: { displayName: 'London School' } }));
   getStoreDetails = vi.fn().mockReturnValue(of({ name: 'London School' }));
   loadStoreDetails = vi.fn();
 }
@@ -147,14 +146,8 @@ describe('PdpPickupOptionsComponent', () => {
 
     vi.spyOn(currentProductService, 'getProduct');
     vi.spyOn(launchDialogService, 'openDialog');
-    vi.spyOn(
-      intendedPickupLocationService,
-      'removeIntendedLocation'
-    );
-    vi.spyOn(
-      intendedPickupLocationService,
-      'setIntendedLocation'
-    );
+    vi.spyOn(intendedPickupLocationService, 'removeIntendedLocation');
+    vi.spyOn(intendedPickupLocationService, 'setIntendedLocation');
 
     fixture.detectChanges();
   };
@@ -197,10 +190,7 @@ describe('PdpPickupOptionsComponent', () => {
     });
 
     it('should get the intended pickup location for the product on init', () => {
-      vi.spyOn(
-        intendedPickupLocationService,
-        'getIntendedLocation'
-      );
+      vi.spyOn(intendedPickupLocationService, 'getIntendedLocation');
 
       component.ngOnInit();
 
@@ -249,10 +239,7 @@ describe('PdpPickupOptionsComponent', () => {
     });
 
     it('should make no calls', () => {
-      vi.spyOn(
-        intendedPickupLocationService,
-        'getIntendedLocation'
-      );
+      vi.spyOn(intendedPickupLocationService, 'getIntendedLocation');
 
       component.ngOnInit();
 

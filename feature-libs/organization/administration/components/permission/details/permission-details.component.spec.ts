@@ -27,7 +27,6 @@ import { MessageTestingModule } from '../../shared/message/message.testing.modul
 import { MessageService } from '../../shared/message/services/message.service';
 import { PermissionDetailsComponent } from './permission-details.component';
 
-
 const mockCode = 'p1';
 
 class MockPermissionItemService implements Partial<ItemService<Permission>> {

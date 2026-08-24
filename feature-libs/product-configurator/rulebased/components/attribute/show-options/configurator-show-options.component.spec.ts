@@ -92,10 +92,7 @@ describe('ConfiguratorShowOptionsComponent', () => {
           configuratorCommonsService,
           'isConfigurationLoading'
         ).mockReturnValue(configurationLoading);
-        vi.spyOn(
-          configuratorStorefrontUtilsService,
-          'focusFirstActiveElement'
-        );
+        vi.spyOn(configuratorStorefrontUtilsService, 'focusFirstActiveElement');
         component['focusFirstValue']();
         flush();
         expect(

@@ -286,10 +286,7 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
 
   describe('select multi images', () => {
     it('should not call service in case uiType READ_ONLY_MULTI_SELECTION_IMAGE', () => {
-      vi.spyOn(
-        component['configuratorCommonsService'],
-        'updateConfiguration'
-      );
+      vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
       component.attribute.uiType =
         Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
       value1.selected = true;

@@ -179,7 +179,12 @@ describe('ConfiguratorTextfieldService', () => {
     it('should create a configuration if nothing is present in store yet', () => {
       vi.spyOn(store, 'pipe').mockImplementationOnce((..._ops: any[]) => {
         const [, tapOp, mapOp, filterOp, mapOp2] = _ops;
-        return of(loaderStateNothingPresent).pipe(tapOp, mapOp, filterOp, mapOp2);
+        return of(loaderStateNothingPresent).pipe(
+          tapOp,
+          mapOp,
+          filterOp,
+          mapOp2
+        );
       });
       const configurationFromStore =
         serviceUnderTest.createConfiguration(owner);
@@ -262,10 +267,7 @@ describe('ConfiguratorTextfieldService', () => {
 
   it('should update a configuration, accessing the store', () => {
     vi.spyOn(store, 'pipe').mockReturnValueOnce(of(productConfiguration));
-    vi.spyOn(
-      serviceUnderTest,
-      'createNewConfigurationWithChange'
-    );
+    vi.spyOn(serviceUnderTest, 'createNewConfigurationWithChange');
 
     serviceUnderTest.updateConfiguration(changedAttribute);
 

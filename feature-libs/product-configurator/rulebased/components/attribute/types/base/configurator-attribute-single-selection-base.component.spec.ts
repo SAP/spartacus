@@ -133,14 +133,8 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     configuratorAttributeQuantityService = TestBed.inject(
       ConfiguratorAttributeQuantityService
     );
-    vi.spyOn(
-      configuratorAttributeQuantityService,
-      'withQuantity'
-    );
-    vi.spyOn(
-      configuratorAttributeQuantityService,
-      'disableQuantityActions'
-    );
+    vi.spyOn(configuratorAttributeQuantityService, 'withQuantity');
+    vi.spyOn(configuratorAttributeQuantityService, 'disableQuantityActions');
 
     component = fixture.componentInstance;
 
@@ -191,10 +185,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
 
   describe('onSelect', () => {
     it('should call emit of selectionChange onSelect', () => {
-      vi.spyOn(
-        component['configuratorCommonsService'],
-        'updateConfiguration'
-      );
+      vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
       component.onSelect(changedSelectedValue);
       expect(
         component['configuratorCommonsService'].updateConfiguration
@@ -217,10 +208,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     });
 
     it('should not call emit of selectionChange in case no user input is present', () => {
-      vi.spyOn(
-        component['configuratorCommonsService'],
-        'updateConfiguration'
-      );
+      vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
       component.onSelectAdditionalValue(configFormUpdateEvent);
       expect(
         component['configuratorCommonsService'].updateConfiguration
@@ -230,10 +218,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     it('should call facade update in case user input is present', () => {
       configFormUpdateEvent.changedAttribute.userInput = 'userInput';
 
-      vi.spyOn(
-        component['configuratorCommonsService'],
-        'updateConfiguration'
-      );
+      vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
       component.onSelectAdditionalValue(configFormUpdateEvent);
       expect(
         component['configuratorCommonsService'].updateConfiguration
@@ -248,10 +233,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
   describe('onHandleQuantity', () => {
     it('should call facade update onHandleQuantity', () => {
       const quantity = 2;
-      vi.spyOn(
-        component['configuratorCommonsService'],
-        'updateConfiguration'
-      );
+      vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
       component.onHandleQuantity(quantity);
       expect(
         component['configuratorCommonsService'].updateConfiguration
@@ -265,10 +247,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
 
   describe('onChangeQuantity', () => {
     it('should call emit of onSelect(empty)', () => {
-      vi.spyOn(
-        component['configuratorCommonsService'],
-        'updateConfiguration'
-      );
+      vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
       component.onChangeQuantity(undefined);
       expect(
         component['configuratorCommonsService'].updateConfiguration
@@ -288,10 +267,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
 
     it('should call facade update onChangeQuantity', () => {
       const quantity = 10;
-      vi.spyOn(
-        component['configuratorCommonsService'],
-        'updateConfiguration'
-      );
+      vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
       component.onChangeQuantity(quantity);
       expect(
         component['configuratorCommonsService'].updateConfiguration

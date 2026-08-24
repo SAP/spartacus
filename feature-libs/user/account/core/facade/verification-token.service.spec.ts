@@ -23,9 +23,9 @@ const verificationToken: VerificationToken = {
 };
 
 class MockUserAccountConnector implements Partial<UserAccountConnector> {
-  createVerificationToken = vi.fn().mockImplementation(() =>
-    of(verificationToken)
-  );
+  createVerificationToken = vi
+    .fn()
+    .mockImplementation(() => of(verificationToken));
 }
 
 describe('VerificationTokenService', () => {

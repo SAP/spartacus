@@ -88,10 +88,7 @@ describe('QuoteListComponentService', () => {
 
   beforeEach(() => {
     vi.restoreAllMocks();
-    translateSpy = vi.spyOn(
-      MockTranslationService.prototype,
-      'translate'
-    );
+    translateSpy = vi.spyOn(MockTranslationService.prototype, 'translate');
 
     classUnderTest = TestBed.inject(QuoteListComponentService);
   });

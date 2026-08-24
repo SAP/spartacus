@@ -269,10 +269,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     createComponentWithData();
     fixture.detectChanges();
     component.ownerKey = ownerKey;
-    vi.spyOn(
-      component['configuratorCommonsService'],
-      'updateConfiguration'
-    );
+    vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
     component.onSelect(component.attributeDropDownForm.value);
     expect(
       component['configuratorCommonsService'].updateConfiguration

@@ -4,10 +4,7 @@ import {
   PipeTransform,
   Type,
 } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-      } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 
 import {
@@ -161,10 +158,7 @@ describe('ConfigTabBarComponent', () => {
       KeyboardFocusService as Type<KeyboardFocusService>
     );
     vi.spyOn(keyboardFocusService, 'clear');
-    vi.spyOn(
-      configuratorStorefrontUtilsService,
-      'focusFirstActiveElement'
-    );
+    vi.spyOn(configuratorStorefrontUtilsService, 'focusFirstActiveElement');
     routingService = TestBed.inject(RoutingService as Type<RoutingService>);
   });
 
@@ -488,8 +482,12 @@ describe('ConfigTabBarComponent', () => {
   });
 
   describe('Focus handling on navigation', () => {
-    beforeEach(() => { vi.useFakeTimers(); });
-    afterEach(() => { vi.useRealTimers(); });
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
     it('focusOverviewInTabBar should call clear and focusFirstActiveElement', async () => {
       vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(configWithOverview)

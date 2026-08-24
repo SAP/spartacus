@@ -368,7 +368,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         By.css('button.btn')
       ).nativeElement;
 
-      expect(button.textContent?.trim()).toContain('configurator.button.select');
+      expect(button.textContent?.trim()).toContain(
+        'configurator.button.select'
+      );
     });
 
     it('should button have deselect text when card type is no multi select and card is selected', () => {
@@ -380,7 +382,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         By.css('button.btn')
       ).nativeElement;
 
-      expect(button.textContent?.trim()).toContain('configurator.button.deselect');
+      expect(button.textContent?.trim()).toContain(
+        'configurator.button.deselect'
+      );
     });
 
     it('should button have add text when card type is multi select and card is no selected', () => {
@@ -406,7 +410,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         By.css('button.btn')
       ).nativeElement;
 
-      expect(button.textContent?.trim()).toContain('configurator.button.remove');
+      expect(button.textContent?.trim()).toContain(
+        'configurator.button.remove'
+      );
     });
 
     it('should show deselection error message when removing required attribute', () => {
@@ -492,7 +498,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.btn-secondary')
       ).nativeElement;
-      expect(button.textContent?.trim()).toContain('configurator.button.remove');
+      expect(button.textContent?.trim()).toContain(
+        'configurator.button.remove'
+      );
       expect(button.disabled).toBe(true);
     });
 
@@ -506,7 +514,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.btn-secondary')
       ).nativeElement;
-      expect(button.textContent?.trim()).toContain('configurator.button.remove');
+      expect(button.textContent?.trim()).toContain(
+        'configurator.button.remove'
+      );
       expect(button.disabled).toBe(false);
     });
   });
@@ -558,7 +568,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.btn-primary')
       ).nativeElement;
-      expect(button.textContent?.trim()).toContain('configurator.button.select');
+      expect(button.textContent?.trim()).toContain(
+        'configurator.button.select'
+      );
       expect(button.disabled).toBe(false);
     });
 
@@ -568,7 +580,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.btn-primary')
       ).nativeElement;
-      expect(button.textContent?.trim()).toContain('configurator.button.select');
+      expect(button.textContent?.trim()).toContain(
+        'configurator.button.select'
+      );
       expect(button.disabled).toBe(true);
     });
 

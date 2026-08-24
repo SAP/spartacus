@@ -384,10 +384,7 @@ describe('ConfiguratorGroupComponent', () => {
     configuratorGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
-    vi.spyOn(
-      configuratorCommonsService,
-      'isConfigurationLoading'
-    );
+    vi.spyOn(configuratorCommonsService, 'isConfigurationLoading');
     vi.spyOn(configuratorGroupsService, 'setGroupStatusVisited');
 
     configExpertModeService = TestBed.inject(
@@ -420,9 +417,10 @@ describe('ConfiguratorGroupComponent', () => {
     });
 
     it('should display conflict description and suggestions for a conflict group', () => {
-      vi.spyOn(configuratorGroupsService, 'isConflictGroupType').mockReturnValue(
-        true
-      );
+      vi.spyOn(
+        configuratorGroupsService,
+        'isConflictGroupType'
+      ).mockReturnValue(true);
       const component = createComponent();
       component.group =
         ConfigurationTestData.productConfigurationWithConflicts.groups[0].subGroups[0];
@@ -667,18 +665,20 @@ describe('ConfiguratorGroupComponent', () => {
 
   describe('displayConflictDescription', () => {
     it('should return true if group is conflict group and has a name', () => {
-      vi.spyOn(configuratorGroupsService, 'isConflictGroupType').mockReturnValue(
-        true
-      );
+      vi.spyOn(
+        configuratorGroupsService,
+        'isConflictGroupType'
+      ).mockReturnValue(true);
       expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
         true
       );
     });
 
     it('should return false if group is standard group', () => {
-      vi.spyOn(configuratorGroupsService, 'isConflictGroupType').mockReturnValue(
-        false
-      );
+      vi.spyOn(
+        configuratorGroupsService,
+        'isConflictGroupType'
+      ).mockReturnValue(false);
       expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
         false
       );
@@ -691,9 +691,10 @@ describe('ConfiguratorGroupComponent', () => {
     });
 
     it('should return false if group is conflict group and does not have a name', () => {
-      vi.spyOn(configuratorGroupsService, 'isConflictGroupType').mockReturnValue(
-        true
-      );
+      vi.spyOn(
+        configuratorGroupsService,
+        'isConflictGroupType'
+      ).mockReturnValue(true);
       conflictGroup.name = '';
       expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
         false

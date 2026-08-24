@@ -5,7 +5,6 @@ import { of } from 'rxjs';
 import { PermissionAdapter } from './permission.adapter';
 import { PermissionConnector } from './permission.connector';
 
-
 const userId = 'userId';
 const permissionCode = 'permissionCode';
 
@@ -17,18 +16,10 @@ const types: OrderApprovalPermissionType[] = [{ code: 'test', name: 'name' }];
 
 class MockPermissionAdapter implements PermissionAdapter {
   load = vi.fn().mockReturnValue(of(permission));
-  loadList = vi.fn().mockReturnValue(
-    of([permission])
-  );
-  create = vi.fn().mockReturnValue(
-    of(permission)
-  );
-  update = vi.fn().mockReturnValue(
-    of(permission)
-  );
-  loadTypes = vi.fn().mockReturnValue(
-    of(types)
-  );
+  loadList = vi.fn().mockReturnValue(of([permission]));
+  create = vi.fn().mockReturnValue(of(permission));
+  update = vi.fn().mockReturnValue(of(permission));
+  loadTypes = vi.fn().mockReturnValue(of(types));
 }
 
 describe('PermissionConnector', () => {

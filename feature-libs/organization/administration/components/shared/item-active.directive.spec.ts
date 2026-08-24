@@ -7,7 +7,6 @@ import { ItemActiveDirective } from './item-active.directive';
 import { ItemService } from './item.service';
 import { MessageService } from './message/services/message.service';
 
-
 const mockCode = 'mc1';
 
 @Component({

@@ -27,7 +27,9 @@ class MockUserGroupAdapter implements UserGroupAdapter {
   create = vi.fn().mockReturnValue(of(userGroup));
   update = vi.fn().mockReturnValue(of(userGroup));
   delete = vi.fn().mockReturnValue(of(userGroup));
-  loadAvailableOrderApprovalPermissions = vi.fn().mockReturnValue(of([permission]));
+  loadAvailableOrderApprovalPermissions = vi
+    .fn()
+    .mockReturnValue(of([permission]));
   loadAvailableOrgCustomers = vi.fn().mockReturnValue(of([member]));
   assignMember = vi.fn();
   assignOrderApprovalPermission = vi.fn();

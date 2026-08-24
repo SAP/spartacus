@@ -12,10 +12,12 @@ class MockUserIdService implements Partial<UserIdService> {
 }
 
 class MockUserProfileConnector implements Partial<UserProfileConnector> {
-  updateEmail = vi.fn().mockImplementation(
-    (_userId: string, _currentPassword: string, _newUserId: string) =>
-      of(undefined)
-  );
+  updateEmail = vi
+    .fn()
+    .mockImplementation(
+      (_userId: string, _currentPassword: string, _newUserId: string) =>
+        of(undefined)
+    );
 }
 
 describe('UserEmailService', () => {

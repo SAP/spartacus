@@ -200,7 +200,9 @@ describe('OrderApprovalListComponent?', () => {
   });
 
   it('should set correctly page', () => {
-    vi.spyOn(orderApprovalService, 'loadOrderApprovals').mockImplementation(() => {});
+    vi.spyOn(orderApprovalService, 'loadOrderApprovals').mockImplementation(
+      () => {}
+    );
 
     component.sortType = 'byDate';
     component.pageChange(1);

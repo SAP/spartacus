@@ -21,7 +21,7 @@ import {
   FeatureDirective,
   PageMetaService,
   RoutingService,
-  TranslatePipe
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   FormErrorsComponent,

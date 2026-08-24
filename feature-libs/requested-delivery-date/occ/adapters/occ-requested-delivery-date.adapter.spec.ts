@@ -99,7 +99,9 @@ describe('OccRequestedDeliveryDateAdapter', () => {
     });
 
     it(`should result in error when Validation Error is thrown`, () => {
-      vi.spyOn(httpClient, 'put').mockReturnValue(throwError(mockValidationError));
+      vi.spyOn(httpClient, 'put').mockReturnValue(
+        throwError(mockValidationError)
+      );
 
       let result: HttpErrorModel | undefined;
       const subscription = service

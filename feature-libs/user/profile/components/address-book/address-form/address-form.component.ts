@@ -43,7 +43,7 @@ import {
   TranslatePipe,
   TranslationService,
   UserAddressService,
-  HierarchicalAddressConfig
+  HierarchicalAddressConfig,
 } from '@spartacus/core';
 import {
   FocusDirective,

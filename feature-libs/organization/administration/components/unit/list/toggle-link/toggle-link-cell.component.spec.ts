@@ -129,15 +129,11 @@ describe('ToggleLinkCellComponent', () => {
 
     it('should enable keyboard controls', () => {
       const mockTableElement = {
-        querySelectorAll: vi
-          .fn()
-          .mockReturnValue(mockSiblingElements),
+        querySelectorAll: vi.fn().mockReturnValue(mockSiblingElements),
       };
       component['elementRef'] = {
         nativeElement: {
-          closest: vi
-            .fn()
-            .mockReturnValue(mockTableElement),
+          closest: vi.fn().mockReturnValue(mockTableElement),
         },
       };
       vi.spyOn(component, 'onSpace').mockImplementation(() => {});

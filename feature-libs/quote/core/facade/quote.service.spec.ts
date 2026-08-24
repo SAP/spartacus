@@ -31,7 +31,14 @@ import {
 } from '@spartacus/quote/root';
 import { ViewConfig } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
-import { BehaviorSubject, EMPTY, Observable, firstValueFrom, of, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  EMPTY,
+  Observable,
+  firstValueFrom,
+  of,
+  throwError,
+} from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { QuoteConnector } from '../connectors';
 import { QuoteDetailsReloadQueryEvent } from '../event/quote.events';
@@ -250,7 +257,9 @@ describe('QuoteService', () => {
     quoteActionResult: Observable<unknown>
   ) {
     const isPerforming = await firstValueFrom(
-      quoteActionResult.pipe(switchMap(() => classUnderTest['isActionPerforming$']))
+      quoteActionResult.pipe(
+        switchMap(() => classUnderTest['isActionPerforming$'])
+      )
     );
     expect(isPerforming).toBe(false);
   }
@@ -531,7 +540,9 @@ describe('QuoteService', () => {
 
   describe('performQuoteAction', () => {
     it('should call respective connector method', async () => {
-      await firstValueFrom(classUnderTest.performQuoteAction(quote, quoteAction.type));
+      await firstValueFrom(
+        classUnderTest.performQuoteAction(quote, quoteAction.type)
+      );
       expect(quoteConnector.performQuoteAction).toHaveBeenCalledWith(
         userId,
         quote.code,
@@ -540,7 +551,9 @@ describe('QuoteService', () => {
     });
 
     it('should raise re-load event', async () => {
-      await firstValueFrom(classUnderTest.performQuoteAction(quote, quoteAction.type));
+      await firstValueFrom(
+        classUnderTest.performQuoteAction(quote, quoteAction.type)
+      );
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
         QuoteDetailsReloadQueryEvent
@@ -548,9 +561,9 @@ describe('QuoteService', () => {
     });
 
     it('should raise re-load event, even if action fails', async () => {
-      quoteConnector.performQuoteAction = vi.fn().mockReturnValue(
-        throwError({})
-      );
+      quoteConnector.performQuoteAction = vi
+        .fn()
+        .mockReturnValue(throwError({}));
       await firstValueFrom(
         classUnderTest.performQuoteAction(quote, quoteAction.type)
       ).catch(() => {});
@@ -562,7 +575,9 @@ describe('QuoteService', () => {
 
     describe('on submit', () => {
       it('should create new cart and navigate to quote list, but not reload', async () => {
-        await firstValueFrom(classUnderTest.performQuoteAction(quote, QuoteActionType.SUBMIT));
+        await firstValueFrom(
+          classUnderTest.performQuoteAction(quote, QuoteActionType.SUBMIT)
+        );
         expect(cartUtilsService.handleCartAndGoToQuoteList).toHaveBeenCalled();
         expect(eventService.dispatch).not.toHaveBeenCalledWith(
           {},
@@ -579,7 +594,9 @@ describe('QuoteService', () => {
 
     describe('on cancel', () => {
       it('should create new cart and navigate to quote list', async () => {
-        await firstValueFrom(classUnderTest.performQuoteAction(quote, QuoteActionType.CANCEL));
+        await firstValueFrom(
+          classUnderTest.performQuoteAction(quote, QuoteActionType.CANCEL)
+        );
         expect(cartUtilsService.handleCartAndGoToQuoteList).toHaveBeenCalled();
       });
 
@@ -592,12 +609,16 @@ describe('QuoteService', () => {
 
     describe('on edit', () => {
       it('should load quote cart', async () => {
-        await firstValueFrom(classUnderTest.performQuoteAction(quote, QuoteActionType.EDIT));
+        await firstValueFrom(
+          classUnderTest.performQuoteAction(quote, QuoteActionType.EDIT)
+        );
         checkQuoteCartFacadeCalls();
       });
 
       it('should trigger a quote refresh', async () => {
-        await firstValueFrom(classUnderTest.performQuoteAction(quote, QuoteActionType.EDIT));
+        await firstValueFrom(
+          classUnderTest.performQuoteAction(quote, QuoteActionType.EDIT)
+        );
         expect(eventService.dispatch).toHaveBeenCalledWith(
           {},
           QuoteDetailsReloadQueryEvent
@@ -606,7 +627,10 @@ describe('QuoteService', () => {
 
       it('should trigger quote re-read in case quote does not carry a cart id', async () => {
         await firstValueFrom(
-          classUnderTest.performQuoteAction(quoteWithoutCartId, QuoteActionType.EDIT)
+          classUnderTest.performQuoteAction(
+            quoteWithoutCartId,
+            QuoteActionType.EDIT
+          )
         );
         expect(quoteConnector.getQuote).toHaveBeenCalledWith(
           userId,
@@ -623,13 +647,17 @@ describe('QuoteService', () => {
 
     describe('on checkout', () => {
       it('should load cart on checkout and signal that checkout is allowed', async () => {
-        await firstValueFrom(classUnderTest.performQuoteAction(quote, QuoteActionType.CHECKOUT));
+        await firstValueFrom(
+          classUnderTest.performQuoteAction(quote, QuoteActionType.CHECKOUT)
+        );
         checkQuoteCartFacadeCalls();
         expect(quoteCartService.setCheckoutAllowed).toHaveBeenCalledWith(true);
       });
 
       it('should navigate to checkout', async () => {
-        await firstValueFrom(classUnderTest.performQuoteAction(quote, QuoteActionType.CHECKOUT));
+        await firstValueFrom(
+          classUnderTest.performQuoteAction(quote, QuoteActionType.CHECKOUT)
+        );
         expect(routingService.go).toHaveBeenCalledWith({
           cxRoute: 'checkout',
         });
@@ -649,7 +677,9 @@ describe('QuoteService', () => {
         );
       });
       it('trigger navigation to quotes list', async () => {
-        await firstValueFrom(classUnderTest.performQuoteAction(quote, QuoteActionType.REJECT));
+        await firstValueFrom(
+          classUnderTest.performQuoteAction(quote, QuoteActionType.REJECT)
+        );
         expect(routingService.go).toHaveBeenCalledWith({
           cxRoute: 'quotes',
         });
@@ -663,7 +693,9 @@ describe('QuoteService', () => {
         );
       });
       it('trigger navigation to quotes list', async () => {
-        await firstValueFrom(classUnderTest.performQuoteAction(quote, QuoteActionType.APPROVE));
+        await firstValueFrom(
+          classUnderTest.performQuoteAction(quote, QuoteActionType.APPROVE)
+        );
         expect(routingService.go).toHaveBeenCalledWith({
           cxRoute: 'quotes',
         });
@@ -731,7 +763,9 @@ describe('QuoteService', () => {
         message: 'some error',
         details: [],
       }).subscribe({
-        complete: () => { completed = true; },
+        complete: () => {
+          completed = true;
+        },
         error: (error) => {
           expect(error).toEqual({ message: 'some error', details: [] });
         },
@@ -785,7 +819,10 @@ describe('QuoteService', () => {
     const vendorQuoteCode = vendorQuote.code;
     const vendorQuoteAttachmentId = vendorQuote.sapAttachments[0].id;
     const response = await firstValueFrom(
-      classUnderTest.downloadAttachment(vendorQuoteCode, vendorQuoteAttachmentId)
+      classUnderTest.downloadAttachment(
+        vendorQuoteCode,
+        vendorQuoteAttachmentId
+      )
     );
     expect(quoteConnector.downloadAttachment).toHaveBeenCalledWith(
       userId,

@@ -1,8 +1,5 @@
 import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-      } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
@@ -104,14 +101,15 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
       },
     };
 
-    vi.spyOn(
-      component['configuratorCommonsService'],
-      'updateConfiguration'
-    );
+    vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
   });
 
-  beforeEach(() => { vi.useFakeTimers(); });
-  afterEach(() => { vi.useRealTimers(); });
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+  });
 
   it('should create', () => {
     fixture.detectChanges();

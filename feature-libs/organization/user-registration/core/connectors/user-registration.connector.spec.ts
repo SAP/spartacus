@@ -5,7 +5,6 @@ import { of } from 'rxjs';
 import { UserRegistrationAdapter } from './user-registration.adapter';
 import { UserRegistrationConnector } from './user-registration.connector';
 
-
 const userData: OrganizationUserRegistration = {
   titleCode: 'Mr',
   firstName: 'John',

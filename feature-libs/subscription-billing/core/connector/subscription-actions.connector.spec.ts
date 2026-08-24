@@ -117,7 +117,11 @@ describe('SubscriptionActionsConnector', () => {
 
       await expect(
         firstValueFrom(
-          connector.cancelSubscription(userId, subscriptionCode, cancellationDetails)
+          connector.cancelSubscription(
+            userId,
+            subscriptionCode,
+            cancellationDetails
+          )
         )
       ).rejects.toBe(error);
     });

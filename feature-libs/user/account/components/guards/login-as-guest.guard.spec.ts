@@ -85,9 +85,7 @@ describe('LoginAsGuestGuard', () => {
 
     it('should return true if IS_GUEST_USER_CHECKOUT_KEY is not set to true', () => {
       featureToggles.authorizationCodeFlowByDefault = true;
-      (mockWindowRef.localStorage?.getItem as any).mockReturnValue(
-        'false'
-      );
+      (mockWindowRef.localStorage?.getItem as any).mockReturnValue('false');
       guard.canActivate().subscribe((result) => {
         expect(result).toBe(true);
       });
@@ -99,9 +97,7 @@ describe('LoginAsGuestGuard', () => {
 
     it('should return true if IS_GUEST_USER_CHECKOUT_KEY is not set', () => {
       featureToggles.authorizationCodeFlowByDefault = true;
-      (mockWindowRef.localStorage?.getItem as any).mockReturnValue(
-        null
-      );
+      (mockWindowRef.localStorage?.getItem as any).mockReturnValue(null);
       guard.canActivate().subscribe((result) => {
         expect(result).toBe(true);
       });

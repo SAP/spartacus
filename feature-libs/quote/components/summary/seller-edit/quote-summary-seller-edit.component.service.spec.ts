@@ -81,27 +81,37 @@ describe('QuoteSummarySellerEditComponentService', () => {
 
   describe('parseDiscountValue', () => {
     it('should parse string', async () => {
-      const result = await firstValueFrom(classUnderTest.parseDiscountValue('100.00'));
+      const result = await firstValueFrom(
+        classUnderTest.parseDiscountValue('100.00')
+      );
       expect(result).toBe(100);
     });
 
     it('should consider locale specific decimal separator', async () => {
-      const result = await firstValueFrom(classUnderTest.parseDiscountValue('100.77'));
+      const result = await firstValueFrom(
+        classUnderTest.parseDiscountValue('100.77')
+      );
       expect(result).toBe(100.77);
     });
 
     it('should ignore locale specific grouping separator', async () => {
-      const result = await firstValueFrom(classUnderTest.parseDiscountValue('1,000.77'));
+      const result = await firstValueFrom(
+        classUnderTest.parseDiscountValue('1,000.77')
+      );
       expect(result).toBe(1000.77);
     });
 
     it('should handle undefined discount value by returning 0', async () => {
-      const result = await firstValueFrom(classUnderTest.parseDiscountValue(undefined));
+      const result = await firstValueFrom(
+        classUnderTest.parseDiscountValue(undefined)
+      );
       expect(result).toBe(0);
     });
 
     it('should handle null discount value by returning 0', async () => {
-      const result = await firstValueFrom(classUnderTest.parseDiscountValue(null));
+      const result = await firstValueFrom(
+        classUnderTest.parseDiscountValue(null)
+      );
       expect(result).toBe(0);
     });
   });

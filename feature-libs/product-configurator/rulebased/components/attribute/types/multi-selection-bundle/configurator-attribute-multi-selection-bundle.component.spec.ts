@@ -305,10 +305,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   });
 
   it('should call facade update onChangeValueQuantity', () => {
-    vi.spyOn(
-      component['configuratorCommonsService'],
-      'updateConfiguration'
-    );
+    vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
 
     component.ngOnInit();
 
@@ -337,10 +334,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   });
 
   it('should call facade update on event onDeselect', () => {
-    vi.spyOn(
-      component['configuratorCommonsService'],
-      'updateConfiguration'
-    );
+    vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
 
     component.ngOnInit();
 
@@ -384,10 +378,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   });
 
   it('should call selectionChange on event onSelect', () => {
-    vi.spyOn(
-      component['configuratorCommonsService'],
-      'updateConfiguration'
-    );
+    vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
 
     component.ngOnInit();
 
@@ -460,10 +451,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   });
 
   it('should call facade update onDeselectAll', () => {
-    vi.spyOn(
-      component['configuratorCommonsService'],
-      'updateConfiguration'
-    );
+    vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
     component.ngOnInit();
     component.onDeselectAll();
     expect(

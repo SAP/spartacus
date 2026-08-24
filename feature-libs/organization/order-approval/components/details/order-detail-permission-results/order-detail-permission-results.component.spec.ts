@@ -86,20 +86,24 @@ describe('OrderDetailPermissionResultsComponent', () => {
 
     for (let i = 0; i < mockOrder.permissionResults.length; i++) {
       expect(
-        element.query(
-          By.css(`tr:nth-of-type(${i + 1}) td.cx-approval-approverName`)
-        ).nativeElement.textContent?.trim()
+        element
+          .query(By.css(`tr:nth-of-type(${i + 1}) td.cx-approval-approverName`))
+          .nativeElement.textContent?.trim()
       ).toContain(mockOrder.permissionResults[i].approverName);
       expect(
-        element.query(
-          By.css(`tr:nth-of-type(${i + 1}) td.cx-approval-statusDisplay`)
-        ).nativeElement.textContent?.trim()
+        element
+          .query(
+            By.css(`tr:nth-of-type(${i + 1}) td.cx-approval-statusDisplay`)
+          )
+          .nativeElement.textContent?.trim()
       ).toContain(mockOrder.permissionResults[i].statusDisplay);
 
       expect(
-        element.query(
-          By.css(`tr:nth-of-type(${i + 1}) td.cx-approval-approvalNotes`)
-        ).nativeElement.textContent?.trim()
+        element
+          .query(
+            By.css(`tr:nth-of-type(${i + 1}) td.cx-approval-approvalNotes`)
+          )
+          .nativeElement.textContent?.trim()
       ).toContain(
         mockOrder.permissionResults[i].approverNotes ||
           'orderApprovalDetails.permissionResults.noApprovalComments'

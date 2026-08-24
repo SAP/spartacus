@@ -1,8 +1,5 @@
 import { Component, Input, Type } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-      } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import {
   ActiveCartFacade,
@@ -545,11 +542,11 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
       ConfiguratorCartService as Type<ConfiguratorCartService>
     );
     vi.spyOn(configuratorCartService, 'getEntry');
-    vi.spyOn(configuratorStorefrontUtilsService, 'changeStyling').mockImplementation(() => {});
     vi.spyOn(
       configuratorStorefrontUtilsService,
-      'focusFirstActiveElement'
-    );
+      'changeStyling'
+    ).mockImplementation(() => {});
+    vi.spyOn(configuratorStorefrontUtilsService, 'focusFirstActiveElement');
     vi.spyOn(keyboardFocusService, 'clear');
     fixture.detectChanges();
   });
@@ -651,8 +648,12 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   });
 
   describe('onAddToCart', () => {
-    beforeEach(() => { vi.useFakeTimers(); });
-    afterEach(() => { vi.useRealTimers(); });
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
     it('should navigate to OV in case configuration is cart bound and we are on product config page', async () => {
       mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
       performUpdateCart();
@@ -748,8 +749,12 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   });
 
   describe('navigateForProductBound', () => {
-    beforeEach(() => { vi.useFakeTimers(); });
-    afterEach(() => { vi.useRealTimers(); });
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
     it('should navigate to OV in case configuration is product bound and we are on product config page', async () => {
       mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
       ensureProductBound();
@@ -884,9 +889,10 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
 
   describe('Floating button', () => {
     it('should make button sticky', async () => {
-      vi.spyOn(configuratorStorefrontUtilsService, 'getElement').mockReturnValue(
-        elementMock as unknown as HTMLElement
-      );
+      vi.spyOn(
+        configuratorStorefrontUtilsService,
+        'getElement'
+      ).mockReturnValue(elementMock as unknown as HTMLElement);
       vi.spyOn(intersectionService, 'isIntersecting').mockReturnValue(of(true));
       component.ngOnInit();
       await firstValueFrom(component.container$.pipe(delay(0)));
@@ -900,9 +906,10 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
     });
 
     it('should make button fixed when not intersecting', async () => {
-      vi.spyOn(configuratorStorefrontUtilsService, 'getElement').mockReturnValue(
-        elementMock as unknown as HTMLElement
-      );
+      vi.spyOn(
+        configuratorStorefrontUtilsService,
+        'getElement'
+      ).mockReturnValue(elementMock as unknown as HTMLElement);
       component.ngOnInit();
       await firstValueFrom(component.container$.pipe(delay(0)));
       vi.spyOn(intersectionService, 'isIntersecting');
@@ -1114,8 +1121,12 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   });
 
   describe('Focus handling on navigation', () => {
-    beforeEach(() => { vi.useFakeTimers(); });
-    afterEach(() => { vi.useRealTimers(); });
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
     it('focusOverviewInTabBar should call clear and focusFirstActiveElement', async () => {
       component['focusOverviewInTabBar']();
       await vi.advanceTimersByTimeAsync(1); // needed because of delay(0) in focusOverviewInTabBar

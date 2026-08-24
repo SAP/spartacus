@@ -15,7 +15,6 @@ import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';
 import { RulebasedConfiguratorConnector } from './rulebased-configurator.connector';
 import { vi } from 'vitest';
 
-
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '1234-56-7890';
 const CONFIG_ID_TEMPLATE = '1234-56-aaab';
@@ -62,48 +61,60 @@ const cartModification: CartModification = {};
 class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
   public configuratorType: string;
 
-  readConfigurationForCartEntry = vi.fn().mockImplementation(() =>
-    of(productConfiguration)
-  );
-  readConfigurationForOrderEntry = vi.fn().mockImplementation(() =>
-    of(productConfiguration)
-  );
-  updateConfigurationForCartEntry = vi.fn().mockImplementation(() =>
-    of(cartModification)
-  );
-  getConfigurationOverview = vi.fn().mockImplementation((configId: string) =>
-    of('getConfigurationOverview' + configId)
-  );
+  readConfigurationForCartEntry = vi
+    .fn()
+    .mockImplementation(() => of(productConfiguration));
+  readConfigurationForOrderEntry = vi
+    .fn()
+    .mockImplementation(() => of(productConfiguration));
+  updateConfigurationForCartEntry = vi
+    .fn()
+    .mockImplementation(() => of(cartModification));
+  getConfigurationOverview = vi
+    .fn()
+    .mockImplementation((configId: string) =>
+      of('getConfigurationOverview' + configId)
+    );
 
-  searchVariants = vi.fn().mockImplementation((configId: string) =>
-    of([{ productCode: PRODUCT_CODE + configId }])
-  );
+  searchVariants = vi
+    .fn()
+    .mockImplementation((configId: string) =>
+      of([{ productCode: PRODUCT_CODE + configId }])
+    );
 
-  readPriceSummary = vi.fn().mockImplementation((configId: string) =>
-    of('readPriceSummary' + configId)
-  );
+  readPriceSummary = vi
+    .fn()
+    .mockImplementation((configId: string) =>
+      of('readPriceSummary' + configId)
+    );
 
-  readConfiguration = vi.fn().mockImplementation((configId: string) =>
-    of('readConfiguration' + configId)
-  );
+  readConfiguration = vi
+    .fn()
+    .mockImplementation((configId: string) =>
+      of('readConfiguration' + configId)
+    );
 
-  updateConfiguration = vi.fn().mockImplementation(
-    (configuration: Configurator.Configuration) =>
+  updateConfiguration = vi
+    .fn()
+    .mockImplementation((configuration: Configurator.Configuration) =>
       of('updateConfiguration' + configuration.configId)
-  );
+    );
 
-  updateConfigurationOverview = vi.fn().mockImplementation(
-    (ovInput: Configurator.Overview) =>
+  updateConfigurationOverview = vi
+    .fn()
+    .mockImplementation((ovInput: Configurator.Overview) =>
       of('updateConfigurationOverview' + ovInput.configId)
-  );
+    );
 
-  createConfiguration = vi.fn().mockImplementation(
-    (owner: CommonConfigurator.Owner) => of('createConfiguration' + owner)
-  );
+  createConfiguration = vi
+    .fn()
+    .mockImplementation((owner: CommonConfigurator.Owner) =>
+      of('createConfiguration' + owner)
+    );
 
-  addToCart = vi.fn().mockImplementation((configId: string) =>
-    of('addToCart' + configId)
-  );
+  addToCart = vi
+    .fn()
+    .mockImplementation((configId: string) => of('addToCart' + configId));
   getConfiguratorType(): string {
     return this.configuratorType ?? CONFIGURATOR_TYPE;
   }

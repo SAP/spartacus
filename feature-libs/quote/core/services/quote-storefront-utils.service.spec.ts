@@ -147,7 +147,10 @@ describe('QuoteStorefrontUtilsService', () => {
 
       mockedWindow.innerWidth = undefined;
       // jsdom has no layout engine — clientWidth is always 0; mock it so the viewport check passes
-      Object.defineProperty(list, 'clientWidth', { value: 1000, configurable: true });
+      Object.defineProperty(list, 'clientWidth', {
+        value: 1000,
+        configurable: true,
+      });
 
       expect(classUnderTest['isInViewport'](list)).toBe(true);
     });
@@ -159,7 +162,10 @@ describe('QuoteStorefrontUtilsService', () => {
 
       mockedWindow.innerHeight = undefined;
       // jsdom has no layout engine — clientHeight is always 0; mock it so the viewport check passes
-      Object.defineProperty(list, 'clientHeight', { value: 1000, configurable: true });
+      Object.defineProperty(list, 'clientHeight', {
+        value: 1000,
+        configurable: true,
+      });
 
       expect(classUnderTest['isInViewport'](list)).toBe(true);
     });
@@ -191,7 +197,10 @@ describe('QuoteStorefrontUtilsService', () => {
 
     it('should return offsetHeight of the element because component is in viewport', () => {
       mockedWindow.innerWidth = 1000;
-      Object.defineProperty(list, 'offsetHeight', { value: 50, configurable: true });
+      Object.defineProperty(list, 'offsetHeight', {
+        value: 50,
+        configurable: true,
+      });
       expect(classUnderTest['getHeight']('cx-quote-list')).toBeGreaterThan(0);
     });
   });
@@ -212,7 +221,16 @@ describe('QuoteStorefrontUtilsService', () => {
         x: 10,
         y: 10,
         toJSON() {
-          return { top: 10, left: 10, right: 260, bottom: 510, width: 250, height: 500, x: 10, y: 10 };
+          return {
+            top: 10,
+            left: 10,
+            right: 260,
+            bottom: 510,
+            width: 250,
+            height: 500,
+            x: 10,
+            y: 10,
+          };
         },
       } as DOMRect);
     });
@@ -243,7 +261,9 @@ describe('QuoteStorefrontUtilsService', () => {
     });
 
     it('should return zero if nativeWindow is undefined', () => {
-      vi.spyOn(windowRef, 'isBrowser').mockReturnValueOnce(true).mockReturnValueOnce(false);
+      vi.spyOn(windowRef, 'isBrowser')
+        .mockReturnValueOnce(true)
+        .mockReturnValueOnce(false);
       expect(classUnderTest.getWindowHeight()).toBe(0);
     });
 

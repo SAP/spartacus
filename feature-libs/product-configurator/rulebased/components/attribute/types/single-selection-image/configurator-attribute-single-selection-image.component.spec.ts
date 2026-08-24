@@ -259,10 +259,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
 
   describe('select single image', () => {
     it('should not call service for update and in case attribute is read-only', () => {
-      vi.spyOn(
-        component['configuratorCommonsService'],
-        'updateConfiguration'
-      );
+      vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
       component.attribute.uiType =
         Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
       value2.selected = true;

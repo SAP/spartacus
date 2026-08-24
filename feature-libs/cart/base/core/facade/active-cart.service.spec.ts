@@ -23,7 +23,10 @@ import {
 } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { vi } from 'vitest';
-import { MockFeatureTogglesController, provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from '@spartacus/core/testing/mock-feature-toggles';
 import { ActiveCartService } from './active-cart.service';
 
 const userId$ = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);
@@ -761,8 +764,8 @@ describe('ActiveCartService', () => {
             useValue: {
               authorizationCodeFlowByDefault: true,
               mergeGuestCartOnCodeFlowLogin: true,
-            }
-          }
+            },
+          },
         ],
       });
       service = TestBed.inject(ActiveCartService);

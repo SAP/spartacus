@@ -114,7 +114,10 @@ describe('SubscriptionDetailsComponent', () => {
     const mode = 'cancel';
 
     (component as any).subscriptionDetails$ = of(subscription);
-    const openDialogSpy = vi.spyOn(launchDialogService, 'openDialogAndSubscribe');
+    const openDialogSpy = vi.spyOn(
+      launchDialogService,
+      'openDialogAndSubscribe'
+    );
 
     component.showSubscriptionActionsDialog(mode);
 

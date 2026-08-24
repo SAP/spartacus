@@ -1,9 +1,6 @@
 import { vi } from 'vitest';
 import { Component, DebugElement, Input } from '@angular/core';
-import {
-  ComponentFixture,
-    TestBed,
-  } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { Observable, of } from 'rxjs';
@@ -219,8 +216,12 @@ describe('AccountSummaryHeaderComponent', () => {
       label: string,
       value: string
     ) => {
-      expect(container?.nativeElement?.firstChild?.textContent?.trim()).toEqual(label);
-      expect(container?.nativeElement?.lastChild?.textContent?.trim()).toEqual(value);
+      expect(container?.nativeElement?.firstChild?.textContent?.trim()).toEqual(
+        label
+      );
+      expect(container?.nativeElement?.lastChild?.textContent?.trim()).toEqual(
+        value
+      );
     };
 
     const cards = fixture.debugElement.queryAll(By.css('cx-card'));

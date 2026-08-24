@@ -61,30 +61,30 @@ const customer = {
 
 class MockUserGroupConnector implements Partial<UserGroupConnector> {
   get = vi.fn().mockReturnValue(of(userGroup));
-  getList = vi.fn().mockReturnValue(
-    of({ values: [userGroup], pagination, sorts })
-  );
+  getList = vi
+    .fn()
+    .mockReturnValue(of({ values: [userGroup], pagination, sorts }));
   create = vi.fn().mockReturnValue(of(userGroup));
   update = vi.fn().mockReturnValue(of(userGroup));
   delete = vi.fn().mockReturnValue(of(userGroup));
-  getAvailableOrderApprovalPermissions = vi.fn().mockReturnValue(
-    of({ values: [permission], pagination, sorts })
-  );
-  assignOrderApprovalPermission = vi.fn().mockReturnValue(
-    of({ id: permissionUid, selected: true })
-  );
-  unassignOrderApprovalPermission = vi.fn().mockReturnValue(
-    of({ id: permissionUid, selected: false })
-  );
-  getAvailableOrgCustomers = vi.fn().mockReturnValue(
-    of({ values: [customer], pagination, sorts })
-  );
-  assignMember = vi.fn().mockReturnValue(
-    of({ id: customerId, selected: true })
-  );
-  unassignMember = vi.fn().mockReturnValue(
-    of({ id: customerId, selected: false })
-  );
+  getAvailableOrderApprovalPermissions = vi
+    .fn()
+    .mockReturnValue(of({ values: [permission], pagination, sorts }));
+  assignOrderApprovalPermission = vi
+    .fn()
+    .mockReturnValue(of({ id: permissionUid, selected: true }));
+  unassignOrderApprovalPermission = vi
+    .fn()
+    .mockReturnValue(of({ id: permissionUid, selected: false }));
+  getAvailableOrgCustomers = vi
+    .fn()
+    .mockReturnValue(of({ values: [customer], pagination, sorts }));
+  assignMember = vi
+    .fn()
+    .mockReturnValue(of({ id: customerId, selected: true }));
+  unassignMember = vi
+    .fn()
+    .mockReturnValue(of({ id: customerId, selected: false }));
   unassignAllMembers = vi.fn().mockReturnValue(of(null));
 }
 
@@ -167,9 +167,9 @@ describe('UserGroup Effects', () => {
     });
 
     it('should return LoadUserGroupFail action if userGroup not updated', () => {
-      userGroupConnector.get = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      userGroupConnector.get = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new UserGroupActions.LoadUserGroup({
         userId,
         userGroupId,
@@ -207,9 +207,9 @@ describe('UserGroup Effects', () => {
     });
 
     it('should return LoadUserGroupsFail action if userGroups not loaded', () => {
-      userGroupConnector.getList = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      userGroupConnector.getList = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new UserGroupActions.LoadUserGroups({
         userId,
         params,
@@ -244,9 +244,9 @@ describe('UserGroup Effects', () => {
     });
 
     it('should return CreateUserGroupFail action if userGroup not created', () => {
-      userGroupConnector.create = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      userGroupConnector.create = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new UserGroupActions.CreateUserGroup({
         userId,
         userGroup,
@@ -285,9 +285,9 @@ describe('UserGroup Effects', () => {
     });
 
     it('should return UpdateUserGroupFail action if userGroup not created', () => {
-      userGroupConnector.update = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      userGroupConnector.update = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new UserGroupActions.UpdateUserGroup({
         userId,
         userGroupId,
@@ -331,9 +331,9 @@ describe('UserGroup Effects', () => {
     });
 
     it('should return DeleteUserGroupFail action if userGroup not created', () => {
-      userGroupConnector.delete = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      userGroupConnector.delete = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new UserGroupActions.DeleteUserGroup({
         userId,
         userGroupId,
@@ -383,8 +383,9 @@ describe('UserGroup Effects', () => {
     });
 
     it('should return LoadPermissionFail action if permissions not loaded', () => {
-      userGroupConnector.getAvailableOrderApprovalPermissions =
-        vi.fn().mockReturnValue(throwError(() => httpErrorResponse));
+      userGroupConnector.getAvailableOrderApprovalPermissions = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new UserGroupActions.LoadPermissions({
         userId,
         userGroupId,
@@ -429,8 +430,9 @@ describe('UserGroup Effects', () => {
     });
 
     it('should return CreateUserGroupOrderApprovalPermissionFail action if permission not assigned', () => {
-      userGroupConnector.assignOrderApprovalPermission =
-        vi.fn().mockReturnValue(throwError(() => httpErrorResponse));
+      userGroupConnector.assignOrderApprovalPermission = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new UserGroupActions.AssignPermission({
         userId,
         userGroupId,
@@ -473,8 +475,9 @@ describe('UserGroup Effects', () => {
     });
 
     it('should return DeleteUserGroupOrderApprovalPermissionFail action if permission not unassigned', () => {
-      userGroupConnector.unassignOrderApprovalPermission =
-        vi.fn().mockReturnValue(throwError(() => httpErrorResponse));
+      userGroupConnector.unassignOrderApprovalPermission = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new UserGroupActions.UnassignPermission({
         userId,
         userGroupId,
@@ -525,9 +528,9 @@ describe('UserGroup Effects', () => {
     });
 
     it('should return LoadUserGroupAvailableOrgCustomersFail action if users not loaded', () => {
-      userGroupConnector.getAvailableOrgCustomers = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      userGroupConnector.getAvailableOrgCustomers = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new UserGroupActions.LoadAvailableOrgCustomers({
         userId,
         userGroupId,
@@ -574,9 +577,9 @@ describe('UserGroup Effects', () => {
     });
 
     it('should return CreateUserGroupOrderApprovalPermissionFail action if user not assigned', () => {
-      userGroupConnector.assignMember = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      userGroupConnector.assignMember = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new UserGroupActions.AssignMember({
         userId,
         userGroupId,
@@ -623,9 +626,9 @@ describe('UserGroup Effects', () => {
     });
 
     it('should return DeleteUserGroupMemberSuccessFail action if users not unassigned', () => {
-      userGroupConnector.unassignMember = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      userGroupConnector.unassignMember = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new UserGroupActions.UnassignMember({
         userId,
         userGroupId,
@@ -670,9 +673,9 @@ describe('UserGroup Effects', () => {
     });
 
     it('should return DeleteUserGroupMemberSuccessFail action if users not unassigned', () => {
-      userGroupConnector.unassignAllMembers = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      userGroupConnector.unassignAllMembers = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new UserGroupActions.UnassignAllMembers({
         userId,
         userGroupId,

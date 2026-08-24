@@ -24,7 +24,10 @@ import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-confi
 import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
-import { CONFIGURATOR_FEATURE, StateWithConfigurator } from '../configurator-state';
+import {
+  CONFIGURATOR_FEATURE,
+  StateWithConfigurator,
+} from '../configurator-state';
 import { getConfiguratorReducers } from './../reducers/index';
 import * as fromEffects from './configurator-cart.effect';
 import { vi } from 'vitest';
@@ -156,7 +159,9 @@ describe('ConfiguratorCartEffect', () => {
   beforeEach(() => {
     addToCartMock = vi.fn().mockReturnValue(of(cartModification));
     updateCartEntryMock = vi.fn().mockReturnValue(of(cartModification));
-    readConfigurationForOrderEntryMock = vi.fn().mockReturnValue(of(productConfiguration));
+    readConfigurationForOrderEntryMock = vi
+      .fn()
+      .mockReturnValue(of(productConfiguration));
 
     class MockConnector {
       addToCart = addToCartMock;
@@ -256,7 +261,9 @@ describe('ConfiguratorCartEffect', () => {
         new ConfiguratorActions.CreateConfigurationSuccess(productConfiguration)
       );
       store.dispatch(
-        new ConfiguratorActions.CreateConfigurationSuccess(configurationCartBound)
+        new ConfiguratorActions.CreateConfigurationSuccess(
+          configurationCartBound
+        )
       );
 
       const removeCartBoundConfigurationsAction =

@@ -134,7 +134,7 @@ describe('GoogleMapRendererService', () => {
   let config: StoreFinderConfig;
 
   const featureToggles = {
-    useAdvancedGoogleMarkers: false
+    useAdvancedGoogleMarkers: false,
   };
 
   const staticProviders: Provider[] = [
@@ -150,7 +150,7 @@ describe('GoogleMapRendererService', () => {
     },
   ];
 
-  const createTestBed = async(featureToggles: any) => {
+  const createTestBed = async (featureToggles: any) => {
     vi.useFakeTimers();
     advancedMarkerInstances = [];
     mapInstances = [];
@@ -158,9 +158,12 @@ describe('GoogleMapRendererService', () => {
     const bed = await TestBed.configureTestingModule({
       providers: [
         ...staticProviders,
-        { provide: StoreFinderConfig, useValue: { googleMaps: { ...mockGoogleMapsConfig } } },
+        {
+          provide: StoreFinderConfig,
+          useValue: { googleMaps: { ...mockGoogleMapsConfig } },
+        },
         { provide: FeatureToggles, useValue: { ...featureToggles } },
-      ]
+      ],
     });
 
     mapDomElement = document.createElement('div');
@@ -289,9 +292,12 @@ describe('GoogleMapRendererService', () => {
   });
 
   describe('with useGoogleMapsAsyncLoading enabled', () => {
-    beforeEach( async () => {
+    beforeEach(async () => {
       TestBed.resetTestingModule();
-      await createTestBed({...featureToggles, useGoogleMapsAsyncLoading: true});
+      await createTestBed({
+        ...featureToggles,
+        useGoogleMapsAsyncLoading: true,
+      });
       setApiKey(MOCK_MAPS_API_KEY);
     });
 
@@ -344,7 +350,10 @@ describe('GoogleMapRendererService', () => {
   describe('with useAdvancedGoogleMarkers enabled', () => {
     beforeEach(async () => {
       TestBed.resetTestingModule();
-      await createTestBed({...featureToggles, useAdvancedGoogleMarkers: true});
+      await createTestBed({
+        ...featureToggles,
+        useAdvancedGoogleMarkers: true,
+      });
       setApiKey(MOCK_MAPS_API_KEY);
     });
 

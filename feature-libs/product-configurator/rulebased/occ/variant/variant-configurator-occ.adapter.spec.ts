@@ -274,7 +274,6 @@ describe('OccConfigurationVariantAdapter', () => {
 
           //check if expert mode data has been transferred to model
           expect(resultConfiguration.kbKey?.kbLogsys).toBe(kbLogSys);
-
         });
 
       //this call doesn't do the actual mapping but retrieves the map function,
@@ -421,7 +420,6 @@ describe('OccConfigurationVariantAdapter', () => {
 
         //check if expert mode data has been transferred to model
         expect(resultConfiguration.kbKey?.kbLogsys).toBe(kbLogSys);
-
       });
 
     const mockReq = httpMock.expectOne((req) => {
@@ -501,7 +499,6 @@ describe('OccConfigurationVariantAdapter', () => {
         expect(resultConfiguration.configId).toEqual(configId);
         //check if expert mode data has been transferred to model
         expect(resultConfiguration.kbKey?.kbLogsys).toBe(kbLogSys);
-
       });
 
     const mockReq = httpMock.expectOne((req) => {
@@ -656,7 +653,6 @@ describe('OccConfigurationVariantAdapter', () => {
 
           //check if expert mode data has been transferred to model
           expect(resultConfiguration.kbKey?.kbLogsys).toBe(kbLogSys);
-
         });
 
       const mockReq = httpMock.expectOne((req) => {

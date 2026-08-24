@@ -1,7 +1,4 @@
-import {
-  ComponentFixture,
-    TestBed,
-  } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { vi } from 'vitest';
 
 import { I18nTestingModule, Price, TranslatePipe } from '@spartacus/core';

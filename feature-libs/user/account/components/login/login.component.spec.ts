@@ -178,7 +178,9 @@ describe('LoginComponent', () => {
     });
 
     it('should contain the dynamic slot: HeaderLinks', () => {
-      const spy = vi.spyOn(component, 'onRootNavBtnAdded').mockImplementation(() => {});
+      const spy = vi
+        .spyOn(component, 'onRootNavBtnAdded')
+        .mockImplementation(() => {});
       component.ngOnInit();
       fixture.detectChanges();
       spy.mockRestore();
@@ -212,9 +214,9 @@ describe('LoginComponent', () => {
       component.ngOnInit();
       fixture.detectChanges();
 
-      expect(fixture.debugElement.nativeElement.textContent?.trim()).not.toContain(
-        'miniLogin.signInRegister'
-      );
+      expect(
+        fixture.debugElement.nativeElement.textContent?.trim()
+      ).not.toContain('miniLogin.signInRegister');
     });
   });
 });

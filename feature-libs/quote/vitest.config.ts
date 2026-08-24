@@ -50,8 +50,8 @@ export default defineConfig({
       ],
     ],
     alias: {
-      "core-libs/storefront/shared/test/mock-feature-directive":`${root}/core-libs/storefront/shared/test/mock-feature-directive`,
-      "core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module":`${root}/core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module`
-    }
+      'core-libs/storefront/shared/test/mock-feature-directive': `${root}/core-libs/storefront/shared/test/mock-feature-directive`,
+      'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module': `${root}/core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module`,
+    },
   },
 });

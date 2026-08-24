@@ -125,9 +125,9 @@ describe('DeleteItemComponent', () => {
       const mockItem = { code: 'b2', active: true };
       const deletedItem = { code: 'b1', active: false };
       vi.spyOn(messageService, 'add').mockReturnValue(eventData);
-      organizationItemService.delete = vi.fn().mockReturnValue(
-        of({ status: LoadStatus.SUCCESS, item: deletedItem })
-      );
+      organizationItemService.delete = vi
+        .fn()
+        .mockReturnValue(of({ status: LoadStatus.SUCCESS, item: deletedItem }));
       component.delete(mockItem);
       eventData.next({ confirm: true });
       expect(messageService.add).toHaveBeenCalledWith({

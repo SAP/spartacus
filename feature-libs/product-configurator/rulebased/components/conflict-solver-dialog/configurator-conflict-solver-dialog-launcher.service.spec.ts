@@ -109,7 +109,9 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
     vi.useRealTimers();
   });
 
-  beforeEach(() => { vi.useFakeTimers(); });
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
 
   describe('conflictGroups observable', () => {
     let configRouterData: ConfiguratorRouter.Data;
@@ -123,7 +125,9 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
       routerData$ = of(configRouterData);
       initLauncherService();
       let data: any;
-      listener.conflictGroupAndRouterData$.pipe(take(1)).subscribe((d) => { data = d; });
+      listener.conflictGroupAndRouterData$.pipe(take(1)).subscribe((d) => {
+        data = d;
+      });
       groupSubject.next(group);
       await vi.advanceTimersByTimeAsync(0);
       expect(data.conflictGroup).toEqual(group);

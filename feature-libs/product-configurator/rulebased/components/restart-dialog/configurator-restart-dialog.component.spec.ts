@@ -125,7 +125,9 @@ describe('ConfiguratorRestartDialogComponent', () => {
   it('should ignore invalid dialog data', async () => {
     dialogDataSender.next(undefined);
     dialogDataSender.complete();
-    const dialogData = await lastValueFrom(component.dialogData$, { defaultValue: undefined });
+    const dialogData = await lastValueFrom(component.dialogData$, {
+      defaultValue: undefined,
+    });
     // dialogData$ filters out undefined, so completion without emit is valid
     expect(true).toBe(true); // stream completed without error
   });

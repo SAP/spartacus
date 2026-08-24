@@ -148,14 +148,8 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       ConfiguratorCartEntryBundleInfoService as Type<ConfiguratorCartEntryBundleInfoService>
     );
 
-    vi.spyOn(
-      commonConfigUtilsService,
-      'isBundleBasedConfigurator'
-    );
-    vi.spyOn(
-      configCartEntryBundleInfoService,
-      'retrieveLineItems'
-    );
+    vi.spyOn(commonConfigUtilsService, 'isBundleBasedConfigurator');
+    vi.spyOn(configCartEntryBundleInfoService, 'retrieveLineItems');
 
     breakpointService = TestBed.inject(
       BreakpointService as Type<BreakpointService>

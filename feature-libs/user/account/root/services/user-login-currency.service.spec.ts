@@ -26,9 +26,13 @@ import { UserLoginCurrencyService } from './user-login-currency.service';
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockEventService implements Partial<EventService> {
-  get = vi.fn().mockImplementation((eventType: any) =>
-    mockEventStream$.asObservable().pipe(filter((e) => e instanceof eventType))
-  );
+  get = vi
+    .fn()
+    .mockImplementation((eventType: any) =>
+      mockEventStream$
+        .asObservable()
+        .pipe(filter((e) => e instanceof eventType))
+    );
 }
 
 class MockCurrencyService implements Partial<CurrencyService> {

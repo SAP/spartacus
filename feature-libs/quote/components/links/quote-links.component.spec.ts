@@ -1,7 +1,4 @@
-import {
-  ComponentFixture,
-    TestBed,
-  } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { vi } from 'vitest';
 import { Router, RouterModule, Routes } from '@angular/router';
 import {
@@ -284,10 +281,9 @@ describe('QuoteLinksComponent', () => {
     });
 
     it('should download the proposal document attached when Download button is clicked', () => {
-      const spyDownloadAttachment = vi.spyOn(
-        quoteFacade,
-        'downloadAttachment'
-      ).mockReturnValue(of(mockQuoteAttachment()));
+      const spyDownloadAttachment = vi
+        .spyOn(quoteFacade, 'downloadAttachment')
+        .mockReturnValue(of(mockQuoteAttachment()));
       const spyDownload = vi.spyOn(fileDownloadService, 'download');
       mockQuoteDetails$.next(vendorQuote);
       fixture.detectChanges();
@@ -308,10 +304,9 @@ describe('QuoteLinksComponent', () => {
     });
 
     it('should display error message when download fails', () => {
-      const spyDownloadAttachment = vi.spyOn(
-        quoteFacade,
-        'downloadAttachment'
-      ).mockReturnValue(throwError(() => new Error(errorResponse.message)));
+      const spyDownloadAttachment = vi
+        .spyOn(quoteFacade, 'downloadAttachment')
+        .mockReturnValue(throwError(() => new Error(errorResponse.message)));
       const spyMessage = vi.spyOn(globalMessageService, 'add');
       mockQuoteDetails$.next(vendorQuote);
       fixture.detectChanges();

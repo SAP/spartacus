@@ -88,11 +88,7 @@ describe('UpdateProfileComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        FormErrorsModule,
-        UpdateProfileComponent,
-      ],
+      imports: [ReactiveFormsModule, FormErrorsModule, UpdateProfileComponent],
       providers: [
         {
           provide: UpdateProfileComponentService,

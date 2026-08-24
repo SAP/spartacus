@@ -11,7 +11,6 @@ import { Observable, firstValueFrom, of } from 'rxjs';
 import { UserProfileConnector } from '../connectors/user-profile.connector';
 import { UserProfileService } from './user-profile.service';
 
-
 class MockUserProfileConnector implements Partial<UserProfileConnector> {
   update = vi.fn().mockReturnValue(of(undefined));
   getTitles = vi.fn().mockReturnValue(

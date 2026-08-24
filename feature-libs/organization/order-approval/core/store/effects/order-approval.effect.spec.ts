@@ -27,7 +27,6 @@ import {
 import { OrderApprovalActions } from '../actions/index';
 import * as fromEffects from './order-approval.effect';
 
-
 const httpErrorResponse = new HttpErrorResponse({
   error: 'error',
   headers: new HttpHeaders().set('xxx', 'xxx'),
@@ -52,9 +51,9 @@ const sorts = [{ selected: true, name: 'code' }];
 
 class MockOrderApprovalConnector {
   get = vi.fn().mockReturnValue(of(orderApproval));
-  getList = vi.fn().mockReturnValue(
-    of({ values: [orderApproval], pagination, sorts })
-  );
+  getList = vi
+    .fn()
+    .mockReturnValue(of({ values: [orderApproval], pagination, sorts }));
   makeDecision = vi.fn().mockReturnValue(of(orderApprovalDecision));
 }
 
@@ -136,9 +135,9 @@ describe('OrderApproval Effects', () => {
     });
 
     it('should return LoadOrderApprovalFail action if orderApproval not updated', () => {
-      orderApprovalConnector.get = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      orderApprovalConnector.get = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new OrderApprovalActions.LoadOrderApproval({
         userId,
         orderApprovalCode,
@@ -184,9 +183,9 @@ describe('OrderApproval Effects', () => {
     });
 
     it('should return LoadOrderApprovalsFail action if orderApprovals not loaded', () => {
-      orderApprovalConnector.getList = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      orderApprovalConnector.getList = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new OrderApprovalActions.LoadOrderApprovals({
         userId,
         params,
@@ -233,7 +232,9 @@ describe('OrderApproval Effects', () => {
     });
 
     it('should return MakeDecisionFail action if decision not created', () => {
-      orderApprovalConnector.makeDecision = vi.fn().mockReturnValue(throwError(() => httpErrorResponse));
+      orderApprovalConnector.makeDecision = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new OrderApprovalActions.MakeDecision({
         userId,
         orderApprovalCode,

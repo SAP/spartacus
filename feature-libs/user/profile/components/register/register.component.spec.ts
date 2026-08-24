@@ -353,8 +353,9 @@ describe('RegisterComponent', () => {
 
   describe('register', () => {
     it('should register with valid form', () => {
-      regComponentService.collectDataFromRegisterForm =
-        vi.fn().mockReturnValue({
+      regComponentService.collectDataFromRegisterForm = vi
+        .fn()
+        .mockReturnValue({
           firstName: mockRegisterFormData.firstName,
           lastName: mockRegisterFormData.lastName,
           uid: mockRegisterFormData.email_lowercase,
@@ -403,7 +404,9 @@ describe('RegisterComponent', () => {
   const toggleAnonymousConsentMethod = 'toggleAnonymousConsent';
   describe(`${toggleAnonymousConsentMethod}`, () => {
     it('should call anonymousConsentsService.giveConsent when the consent is given', () => {
-      vi.spyOn(anonymousConsentService, 'giveConsent').mockImplementation(() => {});
+      vi.spyOn(anonymousConsentService, 'giveConsent').mockImplementation(
+        () => {}
+      );
       component.ngOnInit();
 
       controls['newsletter'].setValue(true);
@@ -411,7 +414,9 @@ describe('RegisterComponent', () => {
       expect(anonymousConsentService.giveConsent).toHaveBeenCalled();
     });
     it('should call anonymousConsentsService.withdrawConsent when the consent is NOT given', () => {
-      vi.spyOn(anonymousConsentService, 'withdrawConsent').mockImplementation(() => {});
+      vi.spyOn(anonymousConsentService, 'withdrawConsent').mockImplementation(
+        () => {}
+      );
       component.ngOnInit();
 
       controls['newsletter'].setValue(false);
@@ -422,7 +427,9 @@ describe('RegisterComponent', () => {
 
   describe('isConsentGiven', () => {
     it('should call anonymousConsentsService.isConsentGiven', () => {
-      vi.spyOn(anonymousConsentService, 'isConsentGiven').mockImplementation(() => {});
+      vi.spyOn(anonymousConsentService, 'isConsentGiven').mockImplementation(
+        () => {}
+      );
       const mockConsent: AnonymousConsent = {
         consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
       };

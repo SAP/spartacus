@@ -21,7 +21,6 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 
-
 const orderApprovalCode = 'testCode';
 const userId = 'userId';
 const orderApproval: OrderApproval = {

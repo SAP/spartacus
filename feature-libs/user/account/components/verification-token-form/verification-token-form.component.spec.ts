@@ -57,9 +57,9 @@ class MockFormComponentService
   });
   isUpdating$ = isBusySubject;
   login = vi.fn().mockImplementation(() => {});
-  createVerificationToken = vi.fn().mockReturnValue(
-    of({ tokenId: 'testTokenId', expiresIn: '300' })
-  );
+  createVerificationToken = vi
+    .fn()
+    .mockReturnValue(of({ tokenId: 'testTokenId', expiresIn: '300' }));
   displayMessage = vi.fn('displayMessage').mockImplementation(() => {});
 }
 
@@ -276,7 +276,11 @@ describe('VerificationTokenFormComponent', () => {
     it('should navigate to login and save loginId to sessionStorage', () => {
       component.target = 'user@example.com';
       component.password = 'myPass';
-      const storageSpy = { getItem: vi.fn(), setItem: vi.fn(), removeItem: vi.fn() };
+      const storageSpy = {
+        getItem: vi.fn(),
+        setItem: vi.fn(),
+        removeItem: vi.fn(),
+      };
       vi.spyOn(winRef, 'sessionStorage', 'get').mockReturnValue(
         storageSpy as any
       );

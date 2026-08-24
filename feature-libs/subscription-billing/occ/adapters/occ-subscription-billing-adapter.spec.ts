@@ -155,7 +155,12 @@ describe('OccSubscriptionBillingAdapter', () => {
       const sort = 'byBillingDateDesc';
 
       const resultPromise = firstValueFrom(
-        service.getSubscriptionBillsList(mockCustomerId, PAGE_SIZE, currentPage, sort)
+        service.getSubscriptionBillsList(
+          mockCustomerId,
+          PAGE_SIZE,
+          currentPage,
+          sort
+        )
       );
 
       const mockReq = httpMock.expectOne((req) => {

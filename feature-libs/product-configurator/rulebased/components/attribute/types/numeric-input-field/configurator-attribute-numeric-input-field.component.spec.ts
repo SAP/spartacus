@@ -4,10 +4,7 @@ import {
   Directive,
   Input,
 } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   FeaturesConfig,
@@ -192,10 +189,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       defaultConfiguratorUISettingsConfig.productConfigurator
         ?.updateDebounceTime?.input ?? component['FALLBACK_DEBOUNCE_TIME'];
 
-    vi.spyOn(
-      component['configuratorCommonsService'],
-      'updateConfiguration'
-    );
+    vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
   });
 
   function checkForValidity(
@@ -229,8 +223,12 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  beforeEach(() => { vi.useFakeTimers(); });
-  afterEach(() => { vi.useRealTimers(); });
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+  });
 
   it('should not consider empty required input field as invalid, despite that it will be marked as error on the UI, so that engine is still called', () => {
     component.attribute.required = true;

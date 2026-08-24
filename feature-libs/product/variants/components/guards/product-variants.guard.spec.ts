@@ -79,14 +79,20 @@ describe('ProductVariantsGuard', () => {
   it('should return true if product is purchasable', async () => {
     vi.spyOn(productService, 'get').mockReturnValue(of(mockPurchasableProduct));
 
-    const val = await firstValueFrom(guard.canActivate(activatedRoute).pipe(take(1)));
+    const val = await firstValueFrom(
+      guard.canActivate(activatedRoute).pipe(take(1))
+    );
     expect(val).toBeTruthy();
   });
 
   it('should return url for product variant if product is non-purchasable', async () => {
-    vi.spyOn(productService, 'get').mockReturnValue(of(mockNonPurchasableProduct));
+    vi.spyOn(productService, 'get').mockReturnValue(
+      of(mockNonPurchasableProduct)
+    );
 
-    const val = await firstValueFrom(guard.canActivate(activatedRoute).pipe(take(1)));
+    const val = await firstValueFrom(
+      guard.canActivate(activatedRoute).pipe(take(1))
+    );
     expect(val.toString()).toEqual(
       '/product/purchasableTest123/nonPurchasableProduct'
     );

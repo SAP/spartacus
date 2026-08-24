@@ -134,7 +134,11 @@ describe('SubscriptionService', () => {
       const mockSort = 'byId';
 
       const state = await firstValueFrom(
-        service.getSubscriptionListState(mockCurrentPage, mockPageSize, mockSort)
+        service.getSubscriptionListState(
+          mockCurrentPage,
+          mockPageSize,
+          mockSort
+        )
       );
       expect(connector.getSubscriptionList).toHaveBeenCalledWith(
         mockUserId,

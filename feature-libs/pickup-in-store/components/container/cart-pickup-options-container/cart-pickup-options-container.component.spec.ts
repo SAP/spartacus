@@ -1,9 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ElementRef } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-    } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import {
   CmsService,
@@ -379,7 +376,9 @@ describe('CartPickupOptionsContainerComponent', () => {
         { product: { code: 'ABC' } },
         { product: { code: 'DEF' } },
       ];
-      vi.spyOn(activeCartService, 'getEntries').mockReturnValue(of(mockEntries));
+      vi.spyOn(activeCartService, 'getEntries').mockReturnValue(
+        of(mockEntries)
+      );
       const result = await firstValueFrom(component.disableControls$);
       expect(result).toBe(false);
     });

@@ -62,10 +62,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     configuratorAttributePriceChangeService = TestBed.inject(
       ConfiguratorAttributePriceChangeService as Type<ConfiguratorAttributePriceChangeService>
     );
-    vi.spyOn(
-      configuratorAttributePriceChangeService,
-      'getChangedPrices'
-    );
+    vi.spyOn(configuratorAttributePriceChangeService, 'getChangedPrices');
 
     currentAttribute = {
       name: 'attributeId',

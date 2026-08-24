@@ -141,8 +141,9 @@ describe('StoreFinderListItemComponent', () => {
     const encodedName = name.replace(' ', '%20');
     const link = fixture.debugElement
       .queryAll(By.css('.cx-store-name'))
-      .find((el) => el.nativeElement.textContent?.trim() === displayName)
-      ?.nativeElement;
+      .find(
+        (el) => el.nativeElement.textContent?.trim() === displayName
+      )?.nativeElement;
     expect(link.getAttribute('href')).toEqual(`/${encodedName}`);
   });
 });

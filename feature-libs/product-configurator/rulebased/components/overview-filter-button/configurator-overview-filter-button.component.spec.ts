@@ -65,7 +65,9 @@ function initMocks() {
   (mockConfigCommonsService.getConfiguration as any).mockReturnValue(
     of(ovConfig)
   );
-  (mockLaunchDialogService.openDialogAndSubscribe as any).mockReturnValue(EMPTY);
+  (mockLaunchDialogService.openDialogAndSubscribe as any).mockReturnValue(
+    EMPTY
+  );
 }
 
 @Component({

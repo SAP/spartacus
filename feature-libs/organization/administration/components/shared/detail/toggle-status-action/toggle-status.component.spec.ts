@@ -191,9 +191,9 @@ describe('ToggleStatusComponent', () => {
       const mockItem = { code: 'b2', active: true };
       const updatedItem = { code: 'b1', active: false };
       vi.spyOn(messageService, 'add').mockReturnValue(eventData);
-      organizationItemService.update = vi.fn().mockReturnValue(
-        of({ status: LoadStatus.SUCCESS, item: updatedItem })
-      );
+      organizationItemService.update = vi
+        .fn()
+        .mockReturnValue(of({ status: LoadStatus.SUCCESS, item: updatedItem }));
       component.toggle(mockItem);
       eventData.next({ confirm: true });
       expect(messageService.add).toHaveBeenCalledWith({

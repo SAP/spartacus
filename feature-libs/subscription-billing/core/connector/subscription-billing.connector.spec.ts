@@ -174,7 +174,10 @@ describe('SubscriptionBillingConnector', () => {
 
       await expect(
         firstValueFrom(
-          connector.getSubscriptionBillByCode(userId, mockBillData.documentNumber ?? '')
+          connector.getSubscriptionBillByCode(
+            userId,
+            mockBillData.documentNumber ?? ''
+          )
         )
       ).rejects.toBe(error);
     });

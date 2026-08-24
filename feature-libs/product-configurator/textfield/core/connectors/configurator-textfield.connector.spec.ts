@@ -11,7 +11,6 @@ import { ConfiguratorTextfieldAdapter } from './configurator-textfield.adapter';
 import { ConfiguratorTextfieldConnector } from './configurator-textfield.connector';
 import { vi } from 'vitest';
 
-
 const USER_ID = 'theUser';
 const CART_ID = '98876';
 
@@ -28,16 +27,16 @@ class MockConfiguratorTextfieldAdapter implements ConfiguratorTextfieldAdapter {
 
   addToCart = vi.fn().mockImplementation(() => of(cartModification));
 
-  updateConfigurationForCartEntry = vi.fn().mockImplementation(() =>
-    of(cartModification)
-  );
+  updateConfigurationForCartEntry = vi
+    .fn()
+    .mockImplementation(() => of(cartModification));
 
-  readConfigurationForCartEntry = vi.fn().mockImplementation(() =>
-    of(configuration)
-  );
-  readConfigurationForOrderEntry = vi.fn().mockImplementation(() =>
-    of(configuration)
-  );
+  readConfigurationForCartEntry = vi
+    .fn()
+    .mockImplementation(() => of(configuration));
+  readConfigurationForOrderEntry = vi
+    .fn()
+    .mockImplementation(() => of(configuration));
 }
 
 describe('ConfiguratorTextfieldConnector', () => {

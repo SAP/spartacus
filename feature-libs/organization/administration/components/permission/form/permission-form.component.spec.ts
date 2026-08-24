@@ -34,7 +34,6 @@ import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { PermissionItemService } from '../services/permission-item.service';
 import { PermissionFormComponent } from './permission-form.component';
 
-
 const mockForm = new UntypedFormGroup({
   code: new UntypedFormControl(),
   periodRange: new UntypedFormControl(),

@@ -24,7 +24,6 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 
-
 const userId = 'userId';
 const orgCustomerId = 'orgCustomerId';
 const orgCustomer: B2BUser = {

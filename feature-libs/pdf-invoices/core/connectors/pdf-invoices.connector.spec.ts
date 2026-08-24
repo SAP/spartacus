@@ -8,7 +8,6 @@ import { vi } from 'vitest';
 import { PDFInvoicesAdapter } from './pdf-invoices.adapter';
 import { PDFInvoicesConnector } from './pdf-invoices.connector';
 
-
 const mockUserId = 'userId1';
 const mockOrderId = '15092023';
 const mockExternalSystemId = 'IMPERIAL';
@@ -21,18 +20,22 @@ const mockInvoiceQueryParams: InvoiceQueryParams = {
 };
 
 class MockPDFInvoicesAdapter implements Partial<PDFInvoicesAdapter> {
-  getInvoicesForOrder = vi.fn().mockImplementation(
-    (_userId: string, _orderId: string, _queryParams: InvoiceQueryParams) =>
-      of({})
-  );
-  getInvoicePDF = vi.fn().mockImplementation(
-    (
-      _userId: string,
-      _orderId: string,
-      _invoiceId: string,
-      _externalSystemId?: string
-    ) => of({})
-  );
+  getInvoicesForOrder = vi
+    .fn()
+    .mockImplementation(
+      (_userId: string, _orderId: string, _queryParams: InvoiceQueryParams) =>
+        of({})
+    );
+  getInvoicePDF = vi
+    .fn()
+    .mockImplementation(
+      (
+        _userId: string,
+        _orderId: string,
+        _invoiceId: string,
+        _externalSystemId?: string
+      ) => of({})
+    );
 }
 
 describe('PDFInvoicesConnector', () => {
@@ -60,7 +63,11 @@ describe('PDFInvoicesConnector', () => {
 
   it('should call adapter when getInvoicesForOrder is invoked', async () => {
     const result = await firstValueFrom(
-      pdfInvoicesConnector.getInvoicesForOrder(mockUserId, mockOrderId, mockInvoiceQueryParams)
+      pdfInvoicesConnector.getInvoicesForOrder(
+        mockUserId,
+        mockOrderId,
+        mockInvoiceQueryParams
+      )
     );
     expect(result).toEqual({});
     expect(adapter.getInvoicesForOrder).toHaveBeenCalledWith(

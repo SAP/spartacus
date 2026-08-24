@@ -33,9 +33,7 @@ class MockOrgUnitAdapter implements OrgUnitAdapter {
   create = vi.fn().mockReturnValue(of(orgUnit));
   update = vi.fn().mockReturnValue(of(orgUnit));
   loadTree = vi.fn().mockReturnValue(of(orgUnit));
-  loadApprovalProcesses = vi.fn().mockReturnValue(
-    of([approvalProcess])
-  );
+  loadApprovalProcesses = vi.fn().mockReturnValue(of([approvalProcess]));
   loadUsers = vi.fn().mockReturnValue(EMPTY);
   assignRole = vi.fn().mockReturnValue(EMPTY);
   unassignRole = vi.fn().mockReturnValue(EMPTY);

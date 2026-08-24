@@ -7,9 +7,10 @@ vi.mock('@spartacus/storefront', async (importActual) => {
   return {
     ...actual,
     getPageTitle: (pageMetaService: any) =>
-      pageMetaService
-        .getMeta()
-        .pipe(filter(isNotNullable), map((meta: any) => (meta.heading || meta.title) ?? '')),
+      pageMetaService.getMeta().pipe(
+        filter(isNotNullable),
+        map((meta: any) => (meta.heading || meta.title) ?? '')
+      ),
   };
 });
 
@@ -133,7 +134,13 @@ describe('MyAccountV2EmailComponent', () => {
     })
       .overrideComponent(MyAccountV2EmailComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe, SpinnerComponent, FeatureDirective],
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            SpinnerComponent,
+            FeatureDirective,
+          ],
         },
         add: {
           imports: [

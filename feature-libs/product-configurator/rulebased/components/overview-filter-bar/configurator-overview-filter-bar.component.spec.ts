@@ -425,10 +425,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
 
     describe('focusElementById', () => {
       it('should call getElement method of ConfiguratorStorefrontUtilsService using # as prefix', () => {
-        vi.spyOn(
-          configuratorStorefrontUtilsService,
-          'getElement'
-        );
+        vi.spyOn(configuratorStorefrontUtilsService, 'getElement');
         component['focusElementById'](FIRST_FILTER_CHECKBOX_ID);
         expect(
           configuratorStorefrontUtilsService.getElement
@@ -437,18 +434,20 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
 
       it('should call focus method of html element', () => {
         let mockElement = { focus: vi.fn() };
-        vi.spyOn(configuratorStorefrontUtilsService, 'getElement').mockReturnValue(
-          mockElement
-        );
+        vi.spyOn(
+          configuratorStorefrontUtilsService,
+          'getElement'
+        ).mockReturnValue(mockElement);
         component['focusElementById'](FIRST_FILTER_CHECKBOX_ID);
         expect(mockElement.focus).toHaveBeenCalled();
       });
 
       it('should not call focus method if getElement returns null', () => {
         let mockElement = { focus: vi.fn() };
-        vi.spyOn(configuratorStorefrontUtilsService, 'getElement').mockReturnValue(
-          null
-        );
+        vi.spyOn(
+          configuratorStorefrontUtilsService,
+          'getElement'
+        ).mockReturnValue(null);
         component['focusElementById'](FIRST_FILTER_CHECKBOX_ID);
         expect(mockElement.focus).not.toHaveBeenCalled();
       });

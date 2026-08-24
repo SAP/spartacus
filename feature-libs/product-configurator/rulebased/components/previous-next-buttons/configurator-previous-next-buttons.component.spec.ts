@@ -167,10 +167,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     configuratorStorefrontUtilsService = TestBed.inject(
       ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
     );
-    vi.spyOn(
-      configuratorStorefrontUtilsService,
-      'focusFirstAttribute'
-    );
+    vi.spyOn(configuratorStorefrontUtilsService, 'focusFirstAttribute');
   });
 
   it('should create', () => {
@@ -289,16 +286,17 @@ describe('ConfigPreviousNextButtonsComponent', () => {
         b: ConfigurationTestData.GROUP_ID_2,
       });
 
-      vi.spyOn(configurationGroupsService, 'getPreviousGroupId').mockReturnValue(
-        previousGroup
-      );
+      vi.spyOn(
+        configurationGroupsService,
+        'getPreviousGroupId'
+      ).mockReturnValue(previousGroup);
       vi.spyOn(configurationGroupsService, 'navigateToGroup');
 
       classUnderTest.onPrevious(config);
       flush();
-      expect(
-        configurationGroupsService.navigateToGroup
-      ).toHaveBeenCalledTimes(1);
+      expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(
+        1
+      );
     });
   });
 
@@ -316,9 +314,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
 
       classUnderTest.onNext(config);
       flush();
-      expect(
-        configurationGroupsService.navigateToGroup
-      ).toHaveBeenCalledTimes(1);
+      expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(
+        1
+      );
     });
   });
 

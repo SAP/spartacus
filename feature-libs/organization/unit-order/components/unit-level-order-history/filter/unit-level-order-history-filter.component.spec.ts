@@ -7,10 +7,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { PaginationModel, TranslatePipe } from '@spartacus/core';
@@ -272,10 +269,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
 
   describe('mobile view', () => {
     it('should emit a buyer value when filtered by a buyer', () => {
-      const spy = vi.spyOn(
-        component,
-        'searchUnitLevelOrdersForMobile'
-      );
+      const spy = vi.spyOn(component, 'searchUnitLevelOrdersForMobile');
       vi.spyOn(component.filterListEvent, 'emit');
 
       const form = component.filterFormMobile;
@@ -303,10 +297,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     });
 
     it('should emit a unit value when filtered by a unit', () => {
-      const spy = vi.spyOn(
-        component,
-        'searchUnitLevelOrdersForMobile'
-      );
+      const spy = vi.spyOn(component, 'searchUnitLevelOrdersForMobile');
       vi.spyOn(component.filterListEvent, 'emit');
 
       const form = component.filterFormMobile;
@@ -333,10 +324,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     });
 
     it('should emit a buyer and a unit value when filtered by buyer and unit', () => {
-      const spy = vi.spyOn(
-        component,
-        'searchUnitLevelOrdersForMobile'
-      );
+      const spy = vi.spyOn(component, 'searchUnitLevelOrdersForMobile');
       vi.spyOn(component.filterListEvent, 'emit');
 
       const form = component.filterFormMobile;

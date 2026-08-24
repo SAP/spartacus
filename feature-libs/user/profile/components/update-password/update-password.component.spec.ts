@@ -103,9 +103,15 @@ describe('UpdatePasswordComponent', () => {
       ],
     })
       .overrideComponent(UpdatePasswordComponent, {
-        remove: { imports: [TranslatePipe, SpinnerComponent, FeatureDirective] },
+        remove: {
+          imports: [TranslatePipe, SpinnerComponent, FeatureDirective],
+        },
         add: {
-          imports: [MockTranslatePipe, MockCxSpinnerComponent, MockFeatureDirective],
+          imports: [
+            MockTranslatePipe,
+            MockCxSpinnerComponent,
+            MockFeatureDirective,
+          ],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })

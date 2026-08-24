@@ -54,20 +54,14 @@ describe(`ConfiguratorLogoutEventListener`, () => {
     configuratorExpertModeService = TestBed.inject(
       ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
     );
-    vi.spyOn(
-      configuratorExpertModeService,
-      'setExpModeRequested'
-    );
+    vi.spyOn(configuratorExpertModeService, 'setExpModeRequested');
     vi.spyOn(configuratorExpertModeService, 'setExpModeActive');
 
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
 
-    vi.spyOn(
-      configuratorCommonsService,
-      'removeProductBoundConfigurations'
-    );
+    vi.spyOn(configuratorCommonsService, 'removeProductBoundConfigurations');
   });
 
   describe(`onLogout`, () => {

@@ -1,8 +1,5 @@
 import { Component, DOCUMENT, Input } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-      } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { vi } from 'vitest';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, I18nTestingModule } from '@spartacus/core';
@@ -98,7 +95,9 @@ describe('QuoteCommentsComponent', () => {
       setQuoteEntriesExpanded: vi.fn(),
       getQuoteEntriesExpanded: vi.fn(),
     } as any;
-    (mockQuoteItemsComponentService.getQuoteEntriesExpanded as vi.Mock).mockReturnValue(of(true));
+    (
+      mockQuoteItemsComponentService.getQuoteEntriesExpanded as vi.Mock
+    ).mockReturnValue(of(true));
     quoteItemsComponentService = TestBed.inject(QuoteItemsComponentService);
   });
 
@@ -462,7 +461,9 @@ describe('QuoteCommentsComponent', () => {
       aTagProduct2 = createElementMock('Product 2');
       const mockedATags = [aTagProduct1, aTagProduct2];
       const document = TestBed.inject(DOCUMENT);
-      vi.spyOn(document, 'getElementsByTagName').mockReturnValue(<any>mockedATags);
+      vi.spyOn(document, 'getElementsByTagName').mockReturnValue(
+        <any>mockedATags
+      );
       quoteItemsComponentService = TestBed.inject(QuoteItemsComponentService);
     });
 

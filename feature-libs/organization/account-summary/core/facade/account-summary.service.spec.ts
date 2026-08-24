@@ -25,9 +25,7 @@ const routerStateSubject = new BehaviorSubject<RouterState>({
 } as unknown as RouterState);
 
 class MockRoutingService implements Partial<RoutingService> {
-  getRouterState = vi.fn().mockReturnValue(
-    routerStateSubject.asObservable()
-  );
+  getRouterState = vi.fn().mockReturnValue(routerStateSubject.asObservable());
 }
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -101,7 +99,9 @@ class MockAccountSummaryConnector implements Partial<AccountSummaryConnector> {
 
   getDocumentList = vi.fn().mockReturnValue(of(accountSummaryDocumentsResult));
 
-  getDocumentAttachment = vi.fn().mockReturnValue(of(new Blob([], { type: 'application/pdf' })));
+  getDocumentAttachment = vi
+    .fn()
+    .mockReturnValue(of(new Blob([], { type: 'application/pdf' })));
 }
 
 describe('AccountSummaryService', () => {

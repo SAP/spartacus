@@ -247,10 +247,7 @@ describe('ConfiguratorCommonsService', () => {
     configuratorCartService = TestBed.inject(
       ConfiguratorCartService as Type<ConfiguratorCartService>
     );
-    vi.spyOn(
-      configuratorUtilsService,
-      'createConfigurationExtract'
-    );
+    vi.spyOn(configuratorUtilsService, 'createConfigurationExtract');
     vi.spyOn(store, 'dispatch');
   });
 
@@ -531,7 +528,11 @@ describe('ConfiguratorCommonsService', () => {
 
   describe('getOrCreateConfiguration', () => {
     it('should return an unchanged observable of product configurations in case configurations exist and carry valid config IDs', () => {
-      const configurationObs = callGetOrCreate(serviceUnderTest, OWNER_PRODUCT, store);
+      const configurationObs = callGetOrCreate(
+        serviceUnderTest,
+        OWNER_PRODUCT,
+        store
+      );
       expect(configurationObs).toBeObservable(
         cold('x-y', {
           x: productConfiguration,
@@ -541,10 +542,7 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should delegate to config cart service for cart bound configurations', () => {
-      vi.spyOn(
-        configuratorCartService,
-        'readConfigurationForCartEntry'
-      );
+      vi.spyOn(configuratorCartService, 'readConfigurationForCartEntry');
 
       serviceUnderTest.getOrCreateConfiguration(OWNER_CART_ENTRY);
 
@@ -554,10 +552,7 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should delegate to config cart service for order bound configurations', () => {
-      vi.spyOn(
-        configuratorCartService,
-        'readConfigurationForOrderEntry'
-      );
+      vi.spyOn(configuratorCartService, 'readConfigurationForOrderEntry');
 
       serviceUnderTest.getOrCreateConfiguration(OWNER_ORDER_ENTRY);
 
@@ -567,9 +562,10 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should create a new configuration if not existing yet', () => {
-      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
-        loading: false,
-      };
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
+        {
+          loading: false,
+        };
       const obs = cold('x', { x: productConfigurationLoaderState });
       // Intercept the pipe call to inject our test observable while still running service operators
       vi.spyOn(store, 'pipe').mockImplementationOnce((..._ops: any[]) => {
@@ -589,9 +585,10 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should hand over configuration ID template to action', () => {
-      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
-        loading: false,
-      };
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
+        {
+          loading: false,
+        };
       const obs = cold('x', { x: productConfigurationLoaderState });
       vi.spyOn(store, 'pipe').mockImplementationOnce((..._ops: any[]) => {
         const [, tap, filter, map] = _ops;
@@ -611,9 +608,10 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should not create a new configuration if not existing yet but status is loading', () => {
-      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
-        loading: true,
-      };
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
+        {
+          loading: true,
+        };
       const obs = cold('x', { x: productConfigurationLoaderState });
       vi.spyOn(store, 'pipe').mockImplementationOnce((..._ops: any[]) => {
         const [, tap, filter, map] = _ops;
@@ -626,10 +624,11 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should not create a new configuration if existing yet but erroneous', () => {
-      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
-        loading: false,
-        error: true,
-      };
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
+        {
+          loading: false,
+          error: true,
+        };
       const obs = cold('x', { x: productConfigurationLoaderState });
       vi.spyOn(store, 'pipe').mockImplementationOnce((..._ops: any[]) => {
         const [, tap, filter, map] = _ops;
@@ -652,7 +651,9 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should return true in case of conflicts', async () => {
-      vi.spyOn(store, 'pipe').mockReturnValueOnce(of(productConfigurationWithConflicts));
+      vi.spyOn(store, 'pipe').mockReturnValueOnce(
+        of(productConfigurationWithConflicts)
+      );
       const hasConflicts = await firstValueFrom(
         serviceUnderTest.hasConflicts(OWNER_PRODUCT)
       );

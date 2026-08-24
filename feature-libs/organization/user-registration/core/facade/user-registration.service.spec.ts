@@ -5,7 +5,6 @@ import { OrganizationUserRegistration } from '@spartacus/organization/user-regis
 import { UserRegistrationConnector } from '../connectors';
 import { UserRegistrationService } from './user-registration.service';
 
-
 const mockOrganizationUser: OrganizationUserRegistration = {
   titleCode: 'Mr.',
   firstName: 'John',
@@ -17,10 +16,11 @@ const mockOrganizationUser: OrganizationUserRegistration = {
 class MockUserRegistrationConnector
   implements Partial<UserRegistrationConnector>
 {
-  registerUser = vi.fn().mockImplementation(
-    (mockOrganizationUser: OrganizationUserRegistration) =>
+  registerUser = vi
+    .fn()
+    .mockImplementation((mockOrganizationUser: OrganizationUserRegistration) =>
       of(mockOrganizationUser)
-  );
+    );
 }
 
 describe('UserRegistrationService', () => {

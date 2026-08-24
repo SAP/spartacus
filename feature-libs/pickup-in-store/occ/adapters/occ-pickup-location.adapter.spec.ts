@@ -108,7 +108,9 @@ describe(`OccPickupLocationAdapter`, () => {
     });
     it('should call normalized http error for getStoreDetails', async () => {
       vi.useFakeTimers();
-      vi.spyOn(httpClient, 'get').mockReturnValue(throwError(() => mockJaloError));
+      vi.spyOn(httpClient, 'get').mockReturnValue(
+        throwError(() => mockJaloError)
+      );
       let result: HttpErrorModel | undefined;
       const subscription = occAdapter
         .getStoreDetails(storeName)

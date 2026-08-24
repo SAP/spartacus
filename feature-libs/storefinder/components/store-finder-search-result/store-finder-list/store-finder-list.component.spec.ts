@@ -132,7 +132,9 @@ describe('StoreFinderListComponent', () => {
     fixture.detectChanges();
     const itemNumber = 4;
     const storeListItemMock = { scrollIntoView: function () {} };
-    vi.spyOn(document, 'getElementById').mockReturnValue(storeListItemMock as any);
+    vi.spyOn(document, 'getElementById').mockReturnValue(
+      storeListItemMock as any
+    );
     vi.spyOn(storeListItemMock, 'scrollIntoView');
 
     component.selectStoreItemList(itemNumber);

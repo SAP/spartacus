@@ -344,7 +344,9 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
       it('should not delegate to keyboard focus service because form is undefined', () => {
         vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
-        vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(undefined);
+        vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(
+          undefined
+        );
         vi.spyOn(keyboardFocusService, 'findFocusable').mockReturnValue([]);
         classUnderTest.focusFirstActiveElement('elementSelector');
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
@@ -848,7 +850,9 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     });
 
     it('should return zero because nativeWindow is undefined', () => {
-      vi.spyOn(windowRef, 'isBrowser').mockReturnValueOnce(true).mockReturnValue(false);
+      vi.spyOn(windowRef, 'isBrowser')
+        .mockReturnValueOnce(true)
+        .mockReturnValue(false);
       expect(classUnderTest.getSpareViewportHeight()).toBe(0);
     });
 

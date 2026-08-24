@@ -215,10 +215,7 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
   describe('onHandleAttributeQuantity', () => {
     it('should call facade update onHandleAttributeQuantity', () => {
       const quantity = 2;
-      vi.spyOn(
-        component['configuratorCommonsService'],
-        'updateConfiguration'
-      );
+      vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
       component['onHandleAttributeQuantity'](quantity);
       expect(
         component['configuratorCommonsService'].updateConfiguration

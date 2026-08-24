@@ -51,11 +51,11 @@ function initTestComponent() {
   );
 
   vi.spyOn(configuratorStorefrontUtilsService, 'getElement');
-  vi.spyOn(configuratorStorefrontUtilsService, 'changeStyling').mockImplementation(() => {});
   vi.spyOn(
     configuratorStorefrontUtilsService,
-    'getSpareViewportHeight'
-  );
+    'changeStyling'
+  ).mockImplementation(() => {});
+  vi.spyOn(configuratorStorefrontUtilsService, 'getSpareViewportHeight');
 }
 
 class MockConfiguratorCommonsService {

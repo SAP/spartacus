@@ -199,7 +199,9 @@ describe('ConfiguratorEffect', () => {
     readPriceSummaryMock = vi.fn().mockReturnValue(of(productConfiguration));
     readMock = vi.fn().mockReturnValue(of(productConfiguration));
     overviewMock = vi.fn().mockReturnValue(of(productConfiguration.overview));
-    updateOverviewMock = vi.fn().mockReturnValue(of(productConfiguration.overview));
+    updateOverviewMock = vi
+      .fn()
+      .mockReturnValue(of(productConfiguration.overview));
 
     class MockConnector {
       createConfiguration = createMock;
@@ -989,9 +991,11 @@ describe('ConfiguratorEffect', () => {
         productConfiguration.owner.key;
 
       vi.spyOn(store, 'pipe').mockReturnValueOnce(
-        of(new ConfiguratorActions.RemoveConfiguration({
-          ownerKey: [productConfiguration.owner.key],
-        }))
+        of(
+          new ConfiguratorActions.RemoveConfiguration({
+            ownerKey: [productConfiguration.owner.key],
+          })
+        )
       );
 
       const removeProductBoundConfigurationsAction =

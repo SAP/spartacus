@@ -158,7 +158,10 @@ describe('UserRegistrationOTPFormComponent', () => {
   });
 
   it('should not submit if form is invalid', () => {
-    vi.spyOn(verificationTokenFacade, 'createVerificationToken').mockReturnValue(
+    vi.spyOn(
+      verificationTokenFacade,
+      'createVerificationToken'
+    ).mockReturnValue(
       of({
         expiresIn: '300',
         tokenId: 'mockTokenId',
@@ -186,7 +189,10 @@ describe('UserRegistrationOTPFormComponent', () => {
   });
 
   it('should submit form when valid', () => {
-    vi.spyOn(verificationTokenFacade, 'createVerificationToken').mockReturnValue(
+    vi.spyOn(
+      verificationTokenFacade,
+      'createVerificationToken'
+    ).mockReturnValue(
       of({
         expiresIn: '300',
         tokenId: 'mockTokenId',
@@ -218,7 +224,10 @@ describe('UserRegistrationOTPFormComponent', () => {
   });
 
   it('should mark all fields as touched if form is invalid', () => {
-    vi.spyOn(verificationTokenFacade, 'createVerificationToken').mockReturnValue(
+    vi.spyOn(
+      verificationTokenFacade,
+      'createVerificationToken'
+    ).mockReturnValue(
       of({
         expiresIn: '300',
         tokenId: 'mockTokenId',
@@ -274,9 +283,10 @@ describe('UserRegistrationOTPFormComponent', () => {
       status: 400,
       url: 'https://localhost:9002/occ/v2/electronics-spa/users/anonymous/verificationToken?lang=en&curr=USD',
     });
-    vi.spyOn(verificationTokenFacade, 'createVerificationToken').mockReturnValue(
-      throwError(() => httpErrorResponse)
-    );
+    vi.spyOn(
+      verificationTokenFacade,
+      'createVerificationToken'
+    ).mockReturnValue(throwError(() => httpErrorResponse));
     component.onSubmit();
 
     expect(routingService.go).toHaveBeenCalled();

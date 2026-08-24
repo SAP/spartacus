@@ -105,7 +105,9 @@ describe(`OccStockAdapter`, () => {
     });
     it('should call normalized http error for loadStockLevels', async () => {
       vi.useFakeTimers();
-      vi.spyOn(httpClient, 'get').mockReturnValue(throwError(() => mockJaloError));
+      vi.spyOn(httpClient, 'get').mockReturnValue(
+        throwError(() => mockJaloError)
+      );
       let result: HttpErrorModel | undefined;
       const subscription = occAdapter
         .loadStockLevels(productCode, locationParam)
@@ -137,7 +139,9 @@ describe(`OccStockAdapter`, () => {
     });
     it('should call normalized http error for loadStockLevelAtStore', async () => {
       vi.useFakeTimers();
-      vi.spyOn(httpClient, 'get').mockReturnValue(throwError(() => mockJaloError));
+      vi.spyOn(httpClient, 'get').mockReturnValue(
+        throwError(() => mockJaloError)
+      );
       let result: HttpErrorModel | undefined;
       const subscription = occAdapter
         .loadStockLevelAtStore(productCode, storeName)

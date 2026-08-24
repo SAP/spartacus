@@ -120,7 +120,12 @@ describe('OccSubscriptionAdapter', () => {
       const sort = 'byId';
 
       const resultPromise = firstValueFrom(
-        service.getSubscriptionList(mockCustomerId, PAGE_SIZE, currentPage, sort)
+        service.getSubscriptionList(
+          mockCustomerId,
+          PAGE_SIZE,
+          currentPage,
+          sort
+        )
       );
 
       const mockReq = httpMock.expectOne((req) => {

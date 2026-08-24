@@ -7,9 +7,10 @@ vi.mock('@spartacus/storefront', async (importActual) => {
   return {
     ...actual,
     getPageTitle: (pageMetaService: any) =>
-      pageMetaService
-        .getMeta()
-        .pipe(filter(isNotNullable), map((meta: any) => (meta.heading || meta.title) ?? '')),
+      pageMetaService.getMeta().pipe(
+        filter(isNotNullable),
+        map((meta: any) => (meta.heading || meta.title) ?? '')
+      ),
   };
 });
 

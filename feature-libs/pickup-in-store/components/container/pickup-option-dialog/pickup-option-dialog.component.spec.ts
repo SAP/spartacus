@@ -238,10 +238,7 @@ describe('PickupOptionDialogComponent', () => {
     const mockCloseReason = 'CLOSE_WITHOUT_SELECTION';
     component.productCode = 'productCode';
     vi.spyOn(launchDialogService, 'closeDialog');
-    vi.spyOn(
-      intendedPickupLocationFacade,
-      'getIntendedLocation'
-    );
+    vi.spyOn(intendedPickupLocationFacade, 'getIntendedLocation');
     vi.spyOn(intendedPickupLocationFacade, 'setPickupOption');
 
     component.close(mockCloseReason);
@@ -263,9 +260,10 @@ describe('PickupOptionDialogComponent', () => {
 
   it('should filter if store name is defined', () => {
     const mockCloseReason = 'CLOSE_WITHOUT_SELECTION';
-    vi.spyOn(intendedPickupLocationFacade, 'getIntendedLocation').mockReturnValue(
-      of({ name: 'testStoreName', pickupOption: 'pickup' })
-    );
+    vi.spyOn(
+      intendedPickupLocationFacade,
+      'getIntendedLocation'
+    ).mockReturnValue(of({ name: 'testStoreName', pickupOption: 'pickup' }));
     vi.spyOn(launchDialogService, 'closeDialog');
 
     component.close(mockCloseReason);

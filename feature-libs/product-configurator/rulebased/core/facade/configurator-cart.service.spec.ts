@@ -167,7 +167,9 @@ describe('ConfiguratorCartService', () => {
           value: productConfiguration,
         };
 
-      vi.spyOn(store, 'pipe').mockReturnValueOnce(of(productConfigurationLoaderState));
+      vi.spyOn(store, 'pipe').mockReturnValueOnce(
+        of(productConfigurationLoaderState)
+      );
       vi.spyOn(store, 'dispatch');
 
       serviceUnderTest
@@ -282,7 +284,9 @@ describe('ConfiguratorCartService', () => {
           value: productConfiguration,
         };
 
-      vi.spyOn(store, 'pipe').mockReturnValueOnce(of(productConfigurationLoaderState));
+      vi.spyOn(store, 'pipe').mockReturnValueOnce(
+        of(productConfigurationLoaderState)
+      );
       vi.spyOn(store, 'dispatch');
 
       serviceUnderTest

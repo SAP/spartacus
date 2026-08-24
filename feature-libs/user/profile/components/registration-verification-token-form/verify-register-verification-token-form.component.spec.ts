@@ -62,9 +62,9 @@ class MockFormComponentService
     tokenCode: new UntypedFormControl(),
   });
   isUpdating$ = new BehaviorSubject(false);
-  createVerificationToken = vi.fn().mockReturnValue(
-    of({ tokenId: 'testTokenId', expiresIn: '300' })
-  );
+  createVerificationToken = vi
+    .fn()
+    .mockReturnValue(of({ tokenId: 'testTokenId', expiresIn: '300' }));
   displayMessage = vi.fn('displayMessage').mockImplementation(() => {});
 }
 
@@ -235,9 +235,9 @@ describe('RegistrationVerificationTokenFormComponent', () => {
       const httpErrorResponse = new HttpErrorResponse({
         status: 400,
       });
-      service.register = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      service.register = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       component.registerForm.patchValue(mockRegisterFormData);
       component.ngOnInit();
       component.onSubmit();
@@ -270,9 +270,10 @@ describe('RegistrationVerificationTokenFormComponent', () => {
     it('should resend OTP', () => {
       component.target = 'example@example.com';
       vi.spyOn(component, 'startWaitTimeInterval');
-      vi.spyOn(component, 'createRegistrationVerificationToken').mockReturnValue(
-        of({ tokenId: 'mock_tokenId', expiresIn: '300' })
-      );
+      vi.spyOn(
+        component,
+        'createRegistrationVerificationToken'
+      ).mockReturnValue(of({ tokenId: 'mock_tokenId', expiresIn: '300' }));
 
       component.resendOTP();
 

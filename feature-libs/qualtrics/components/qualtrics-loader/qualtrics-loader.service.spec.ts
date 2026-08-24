@@ -90,8 +90,12 @@ describe('QualtricsLoaderService', () => {
     let qsiUnload: ReturnType<typeof vi.spyOn>;
 
     beforeEach(() => {
-      qsiRun = vi.spyOn(winRef.nativeWindow['QSI'].API, 'run').mockImplementation(() => {});
-      qsiUnload = vi.spyOn(winRef.nativeWindow['QSI'].API, 'unload').mockImplementation(() => {});
+      qsiRun = vi
+        .spyOn(winRef.nativeWindow['QSI'].API, 'run')
+        .mockImplementation(() => {});
+      qsiUnload = vi
+        .spyOn(winRef.nativeWindow['QSI'].API, 'unload')
+        .mockImplementation(() => {});
     });
 
     it('should not load Qualtrics when the qsi_js_loaded event is not triggered', () => {
@@ -117,7 +121,9 @@ describe('QualtricsLoaderService', () => {
       });
 
       it('should unload when a script is alread in the DOM', () => {
-        vi.spyOn(winRef.document, 'querySelector').mockReturnValue({} as Element);
+        vi.spyOn(winRef.document, 'querySelector').mockReturnValue(
+          {} as Element
+        );
         service.addScript(mockScript);
         expect(qsiUnload).toHaveBeenCalled();
       });

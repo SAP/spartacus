@@ -81,10 +81,12 @@ describe('QuoteItemsComponent', () => {
       retrieveQuoteEntries: vi.fn(),
     } as any;
     (eventService.get as vi.Mock).mockReturnValue(EMPTY);
-    (quoteItemsComponentService.getQuoteEntriesExpanded as vi.Mock).mockReturnValue(
-      true
-    );
-    (quoteItemsComponentService.retrieveQuoteEntries as vi.Mock).mockReturnValue(
+    (
+      quoteItemsComponentService.getQuoteEntriesExpanded as vi.Mock
+    ).mockReturnValue(true);
+    (
+      quoteItemsComponentService.retrieveQuoteEntries as vi.Mock
+    ).mockReturnValue(
       of({
         entries: quote.entries,
         readOnly: true,

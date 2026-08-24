@@ -42,10 +42,7 @@ describe(`ConfiguratorLanguageSetEventListener`, () => {
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
 
-    vi.spyOn(
-      configuratorCommonsService,
-      'removeProductBoundConfigurations'
-    );
+    vi.spyOn(configuratorCommonsService, 'removeProductBoundConfigurations');
   });
 
   describe(`onLanguageSet`, () => {

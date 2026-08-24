@@ -38,9 +38,9 @@ class MockFormComponentService
     tokenCode: new UntypedFormControl(),
   });
   login = vi.fn().mockImplementation(() => {});
-  createVerificationToken = vi.fn().mockReturnValue(
-    of({ tokenId: 'testTokenId', expiresIn: '300' })
-  );
+  createVerificationToken = vi
+    .fn()
+    .mockReturnValue(of({ tokenId: 'testTokenId', expiresIn: '300' }));
   displayMessage = vi.fn().mockImplementation(() => {});
 }
 

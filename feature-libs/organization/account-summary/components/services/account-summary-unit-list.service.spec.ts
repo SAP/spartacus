@@ -15,7 +15,6 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AccountSummaryUnitListService } from './account-summary-unit-list.service';
 import * as _augmented from '../model/augmented.model';
 
-
 const treeToggle$ = new BehaviorSubject({});
 class MockUnitTreeService {
   treeToggle$ = treeToggle$.asObservable();

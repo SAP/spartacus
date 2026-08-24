@@ -159,10 +159,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
       'scrollToConfigurationElement'
     );
 
-    vi.spyOn(
-      configuratorStorefrontUtilsService,
-      'focusFirstAttribute'
-    );
+    vi.spyOn(configuratorStorefrontUtilsService, 'focusFirstAttribute');
 
     vi.spyOn(configuratorCommonsService, 'updateConfiguration');
 

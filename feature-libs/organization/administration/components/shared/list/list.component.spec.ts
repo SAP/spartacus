@@ -349,7 +349,9 @@ describe('ListComponent', () => {
 
         let hlink = el.query(By.css('a.button.primary.create'));
         expect(hlink).toBeTruthy();
-        expect(hlink.nativeElement.textContent?.trim()).toBe('organization.add');
+        expect(hlink.nativeElement.textContent?.trim()).toBe(
+          'organization.add'
+        );
         let button = el.query(By.css('button.button.primary.create'));
         expect(button).toBeNull();
       });
@@ -367,7 +369,9 @@ describe('ListComponent', () => {
         expect(hlink).toBeNull();
         let button = el.query(By.css('button.button.primary.create'));
         expect(button).toBeTruthy();
-        expect(button.nativeElement.textContent?.trim()).toBe('organization.manageUsers');
+        expect(button.nativeElement.textContent?.trim()).toBe(
+          'organization.manageUsers'
+        );
       });
     });
 

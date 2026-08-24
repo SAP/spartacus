@@ -74,9 +74,10 @@ describe('SubscriptionActionsService', () => {
       const res = await firstValueFrom(
         service.getEffectiveCancellationDate(subscriptionCode)
       );
-      expect(
-        cancelConnector.getEffectiveCancellationDate
-      ).toHaveBeenCalledWith(userId, subscriptionCode);
+      expect(cancelConnector.getEffectiveCancellationDate).toHaveBeenCalledWith(
+        userId,
+        subscriptionCode
+      );
       expect(res).toBe('mockDate');
     });
     it('should emit error when userId or code is missing', async () => {
@@ -84,10 +85,14 @@ describe('SubscriptionActionsService', () => {
 
       await expect(
         firstValueFrom(
-          service.cancelSubscription({ subscriptionEndAt: '2026-01-01' }, undefined)
+          service.cancelSubscription(
+            { subscriptionEndAt: '2026-01-01' },
+            undefined
+          )
         )
       ).rejects.toMatchObject({
-        message: 'Cannot cancel subscription: missing user ID or subscription code.',
+        message:
+          'Cannot cancel subscription: missing user ID or subscription code.',
       });
     });
     it('should emit error when userId or subscriptionCode is missing in getEffectiveCancellationDate', async () => {
@@ -96,7 +101,8 @@ describe('SubscriptionActionsService', () => {
       await expect(
         firstValueFrom(service.getEffectiveCancellationDate(undefined))
       ).rejects.toMatchObject({
-        message: 'Cannot fetch cancellation effective date: missing user ID or subscription code.',
+        message:
+          'Cannot fetch cancellation effective date: missing user ID or subscription code.',
       });
     });
   });
@@ -125,9 +131,12 @@ describe('SubscriptionActionsService', () => {
       userIdService.getUserId.mockReturnValue(of(null as any));
 
       await expect(
-        firstValueFrom(service.cancelSubscription(cancellationDetails, undefined))
+        firstValueFrom(
+          service.cancelSubscription(cancellationDetails, undefined)
+        )
       ).rejects.toMatchObject({
-        message: 'Cannot cancel subscription: missing user ID or subscription code.',
+        message:
+          'Cannot cancel subscription: missing user ID or subscription code.',
       });
     });
   });
@@ -153,7 +162,8 @@ describe('SubscriptionActionsService', () => {
       await expect(
         firstValueFrom(service.reverseCancellation(undefined))
       ).rejects.toMatchObject({
-        message: 'Cannot reverse cancellation: missing user ID or subscription code.',
+        message:
+          'Cannot reverse cancellation: missing user ID or subscription code.',
       });
     });
   });
@@ -187,7 +197,8 @@ describe('SubscriptionActionsService', () => {
       await expect(
         firstValueFrom(service.withdrawSubscription(withdrawalData, undefined))
       ).rejects.toMatchObject({
-        message: 'Cannot withdraw subscription: missing user ID or subscription code.',
+        message:
+          'Cannot withdraw subscription: missing user ID or subscription code.',
       });
     });
   });

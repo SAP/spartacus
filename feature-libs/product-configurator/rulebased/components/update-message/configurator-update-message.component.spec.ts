@@ -1,8 +1,5 @@
 import { Component, Type } from '@angular/core';
-import {
-  ComponentFixture,
-    TestBed,
-    } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -105,8 +102,12 @@ describe('ConfiguratorUpdateMessageComponent', () => {
     configuratorUtils.setOwnerKey(owner);
   });
 
-  beforeEach(() => { vi.useFakeTimers(); });
-  afterEach(() => { vi.useRealTimers(); });
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+  });
 
   it('should create component', () => {
     expect(component).toBeDefined();

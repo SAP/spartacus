@@ -133,7 +133,11 @@ describe('OccPDFInvoicesAdapter', () => {
   describe(`get invoices for an order`, () => {
     it(`should show PDF Invoices for given user id, order id`, async () => {
       const resultPromise = firstValueFrom(
-        occPDFInvoicesAdapter.getInvoicesForOrder(mockUserId, mockOrderId, mockInvoiceQueryParams)
+        occPDFInvoicesAdapter.getInvoicesForOrder(
+          mockUserId,
+          mockOrderId,
+          mockInvoiceQueryParams
+        )
       );
 
       const mockReq = httpMock.expectOne((req) => {
@@ -165,8 +169,11 @@ describe('OccPDFInvoicesAdapter', () => {
 
       let result: HttpErrorModel | undefined;
       await firstValueFrom(
-        occPDFInvoicesAdapter
-          .getInvoicesForOrder(mockUserId, mockOrderId, mockInvoiceQueryParams)
+        occPDFInvoicesAdapter.getInvoicesForOrder(
+          mockUserId,
+          mockOrderId,
+          mockInvoiceQueryParams
+        )
       ).catch((err: any) => {
         result = err;
       });
@@ -186,7 +193,11 @@ describe('OccPDFInvoicesAdapter', () => {
     });
     it(`should download PDF Invoices for given user id, order id`, async () => {
       const resultPromise = firstValueFrom(
-        occPDFInvoicesAdapter.getInvoicePDF(mockUserId, mockOrderId, mockInvoiceId)
+        occPDFInvoicesAdapter.getInvoicePDF(
+          mockUserId,
+          mockOrderId,
+          mockInvoiceId
+        )
       );
 
       const mockReq = httpMock.expectOne((req) => {

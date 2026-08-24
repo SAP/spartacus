@@ -138,12 +138,16 @@ describe('CpqConfiguratorOccAdapter', () => {
     asSpy(mockedOccService.getConfigIdForCartEntry).mockImplementation(() => {
       return of(productConfiguration.configId);
     });
-    asSpy(mockedOccService.readConfigurationForCartEntry).mockImplementation(() => {
-      return of(productConfiguration);
-    });
-    asSpy(mockedOccService.readConfigurationForOrderEntry).mockImplementation(() => {
-      return of(productConfiguration);
-    });
+    asSpy(mockedOccService.readConfigurationForCartEntry).mockImplementation(
+      () => {
+        return of(productConfiguration);
+      }
+    );
+    asSpy(mockedOccService.readConfigurationForOrderEntry).mockImplementation(
+      () => {
+        return of(productConfiguration);
+      }
+    );
 
     TestBed.configureTestingModule({
       providers: [

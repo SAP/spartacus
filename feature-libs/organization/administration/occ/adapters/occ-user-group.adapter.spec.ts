@@ -19,7 +19,6 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 
-
 const userGroupId = 'testUid';
 const permissionUid = 'permissionUid';
 const memberUid = 'memberUid';

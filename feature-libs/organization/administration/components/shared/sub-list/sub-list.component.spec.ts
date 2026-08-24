@@ -176,7 +176,9 @@ describe('SubListComponent', () => {
 
   describe('with  data', () => {
     beforeEach(() => {
-      vi.spyOn(organizationListService, 'getData').mockReturnValue(of(mockList));
+      vi.spyOn(organizationListService, 'getData').mockReturnValue(
+        of(mockList)
+      );
       fixture = TestBed.createComponent(SubListComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();

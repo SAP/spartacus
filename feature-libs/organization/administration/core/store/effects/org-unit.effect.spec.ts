@@ -32,7 +32,6 @@ import { B2BUnitNode } from '../../model/unit-node.model';
 import { B2BUserActions, OrgUnitActions } from '../actions/index';
 import * as fromEffects from './org-unit.effect';
 
-
 const httpErrorResponse = new HttpErrorResponse({
   error: 'error',
   headers: new HttpHeaders().set('xxx', 'xxx'),
@@ -152,9 +151,9 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return LoadOrgUnitFail action if orgUnit not updated', () => {
-      orgUnitConnector.get = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      orgUnitConnector.get = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId });
       const completion = new OrgUnitActions.LoadOrgUnitFail({
         orgUnitId,
@@ -182,9 +181,9 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return LoadOrgUnitNodesFail action if orgUnits not loaded', () => {
-      orgUnitConnector.getList = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      orgUnitConnector.getList = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new OrgUnitActions.LoadOrgUnitNodes({ userId });
       const completion = new OrgUnitActions.LoadOrgUnitNodesFail({ error });
       actions$ = hot('-a', { a: action });
@@ -208,9 +207,9 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return LoadOrgUnitNodesFail action if orgUnits not loaded', () => {
-      orgUnitConnector.create = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      orgUnitConnector.create = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new OrgUnitActions.CreateUnit({ userId, unit: orgUnit });
       const completion1 = new OrgUnitActions.CreateUnitFail({
         unitCode: orgUnitId,
@@ -246,9 +245,9 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return UpdateOrgUnitNodesFail action if orgUnits not loaded', () => {
-      orgUnitConnector.update = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      orgUnitConnector.update = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new OrgUnitActions.UpdateUnit({
         userId,
         unitCode: orgUnitId,
@@ -299,9 +298,9 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return CreateAddressFail action if address is not loaded', () => {
-      orgUnitConnector.createAddress = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      orgUnitConnector.createAddress = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new OrgUnitActions.CreateAddress({
         userId,
         orgUnitId,
@@ -349,9 +348,9 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return UpdateAddressFail action if address is not loaded', () => {
-      orgUnitConnector.updateAddress = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      orgUnitConnector.updateAddress = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new OrgUnitActions.UpdateAddress({
         userId,
         orgUnitId,
@@ -397,9 +396,9 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return DeleteAddressFail action if address is not loaded', () => {
-      orgUnitConnector.deleteAddress = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      orgUnitConnector.deleteAddress = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new OrgUnitActions.DeleteAddress({
         userId,
         orgUnitId,
@@ -446,9 +445,9 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return AssignRoleFail action if address is not loaded', () => {
-      orgUnitConnector.assignRole = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      orgUnitConnector.assignRole = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new OrgUnitActions.AssignRole({
         userId,
         orgCustomerId,
@@ -494,9 +493,9 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return UnassignRoleFail action if address is not loaded', () => {
-      orgUnitConnector.unassignRole = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      orgUnitConnector.unassignRole = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new OrgUnitActions.UnassignRole({
         userId,
         orgCustomerId,
@@ -545,9 +544,9 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return AssignApproverFail action if address is not loaded', () => {
-      orgUnitConnector.assignApprover = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      orgUnitConnector.assignApprover = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new OrgUnitActions.AssignApprover({
         userId,
         orgUnitId,
@@ -599,9 +598,9 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return UnassignApproverFail action if address is not loaded', () => {
-      orgUnitConnector.unassignApprover = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      orgUnitConnector.unassignApprover = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new OrgUnitActions.UnassignApprover({
         userId,
         orgUnitId,
@@ -644,9 +643,9 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return LoadApprovalProcessesFail action if address is not loaded', () => {
-      orgUnitConnector.getApprovalProcesses = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      orgUnitConnector.getApprovalProcesses = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new OrgUnitActions.LoadApprovalProcesses({
         userId,
       });
@@ -698,9 +697,9 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return LoadUsersFail action if address is not loaded', () => {
-      orgUnitConnector.getUsers = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      orgUnitConnector.getUsers = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new OrgUnitActions.LoadAssignedUsers({
         userId,
         orgUnitId,
@@ -740,9 +739,9 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return LoadTreeFail action if address is not loaded', () => {
-      orgUnitConnector.getTree = vi.fn().mockReturnValue(
-        throwError(() => httpErrorResponse)
-      );
+      orgUnitConnector.getTree = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new OrgUnitActions.LoadTree({
         userId,
       });

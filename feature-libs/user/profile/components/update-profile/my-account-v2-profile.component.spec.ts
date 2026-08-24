@@ -101,7 +101,12 @@ describe('MyAccountV2ProfileComponent', () => {
     })
       .overrideComponent(MyAccountV2ProfileComponent, {
         remove: {
-          imports: [TranslatePipe, SpinnerComponent, NgSelectA11yDirective, FeatureDirective],
+          imports: [
+            TranslatePipe,
+            SpinnerComponent,
+            NgSelectA11yDirective,
+            FeatureDirective,
+          ],
         },
         add: {
           imports: [

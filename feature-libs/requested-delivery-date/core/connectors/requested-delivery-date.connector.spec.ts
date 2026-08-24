@@ -14,7 +14,9 @@ class MockRequestedDeliveryDateAdapter
 {
   setRequestedDeliveryDate = vi
     .fn()
-    .mockImplementation((_userId: string, _cartId: string, _date: Date) => of());
+    .mockImplementation((_userId: string, _cartId: string, _date: Date) =>
+      of()
+    );
 }
 
 describe('RequestedDeliveryDateConnector', () => {

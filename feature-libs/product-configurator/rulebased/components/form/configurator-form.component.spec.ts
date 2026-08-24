@@ -1,8 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-      } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -317,32 +314,17 @@ describe('ConfiguratorFormComponent', () => {
     );
 
     vi.spyOn(configuratorGroupsService, 'setGroupStatusVisited');
-    vi.spyOn(
-      configuratorGroupsService,
-      'navigateToConflictSolver'
-    );
+    vi.spyOn(configuratorGroupsService, 'navigateToConflictSolver');
 
-    vi.spyOn(
-      configuratorGroupsService,
-      'navigateToFirstIncompleteGroup'
-    );
+    vi.spyOn(configuratorGroupsService, 'navigateToFirstIncompleteGroup');
 
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
-    vi.spyOn(
-      configuratorCommonsService,
-      'isConfigurationLoading'
-    );
-    vi.spyOn(
-      configuratorCommonsService,
-      'getOrCreateConfiguration'
-    );
+    vi.spyOn(configuratorCommonsService, 'isConfigurationLoading');
+    vi.spyOn(configuratorCommonsService, 'getOrCreateConfiguration');
     vi.spyOn(configuratorCommonsService, 'getConfiguration');
-    vi.spyOn(
-      configuratorCommonsService,
-      'checkConflictSolverDialog'
-    );
+    vi.spyOn(configuratorCommonsService, 'checkConflictSolverDialog');
 
     globalMessageService = TestBed.inject(
       GlobalMessageService as Type<GlobalMessageService>
@@ -533,8 +515,12 @@ describe('ConfiguratorFormComponent', () => {
   });
 
   describe('ngOnInit()', () => {
-    beforeEach(() => { vi.useFakeTimers(); });
-    afterEach(() => { vi.useRealTimers(); });
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
     it('should call getConfiguration in order to prepare conflict check', () => {
       routerStateObservable = mockRouterStateWithQueryParams({});
       createComponentWithData();

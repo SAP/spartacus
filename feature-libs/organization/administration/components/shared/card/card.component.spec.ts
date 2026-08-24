@@ -121,7 +121,9 @@ describe('CardComponent', () => {
         const el: HTMLElement = fixture.debugElement.query(
           By.css('.title h4')
         ).nativeElement;
-        expect(el.textContent?.trim()).toContain('organization.budget.subtitle');
+        expect(el.textContent?.trim()).toContain(
+          'organization.budget.subtitle'
+        );
       });
 
       it('should have back button by default', () => {

@@ -227,8 +227,12 @@ describe('AddressFormComponent', () => {
   });
 
   it('should call ngOnInit to get countries data even when they not exist', async () => {
-    vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(of([]));
-    vi.spyOn(userAddressService, 'loadDeliveryCountries').mockImplementation(() => {});
+    vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(
+      of([])
+    );
+    vi.spyOn(userAddressService, 'loadDeliveryCountries').mockImplementation(
+      () => {}
+    );
 
     vi.spyOn(userAddressService, 'getRegions').mockReturnValue(of([]));
 
@@ -274,7 +278,9 @@ describe('AddressFormComponent', () => {
   });
 
   it('should add address with address verification result "accept"', () => {
-    vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(of([]));
+    vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(
+      of([])
+    );
     vi.spyOn(userProfileFacade, 'getTitles').mockReturnValue(of([]));
     vi.spyOn(userAddressService, 'getRegions').mockReturnValue(of([]));
 
@@ -293,7 +299,9 @@ describe('AddressFormComponent', () => {
   });
 
   it('should display error message on address verification result "reject"', () => {
-    vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(of([]));
+    vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(
+      of([])
+    );
     vi.spyOn(userProfileFacade, 'getTitles').mockReturnValue(of([]));
     vi.spyOn(userAddressService, 'getRegions').mockReturnValue(of([]));
 
@@ -317,7 +325,9 @@ describe('AddressFormComponent', () => {
   });
 
   it('should open suggested address dialog with address verification result "review"', () => {
-    vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(of([]));
+    vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(
+      of([])
+    );
     vi.spyOn(userProfileFacade, 'getTitles').mockReturnValue(of([]));
     vi.spyOn(userAddressService, 'getRegions').mockReturnValue(of([]));
 
@@ -412,7 +422,9 @@ describe('AddressFormComponent', () => {
 
   it('should set isHierarchicalAddressFormat and add validators when CN is selected', () => {
     vi.spyOn(userAddressService, 'getRegions').mockReturnValue(of([]));
-    (component as any).featureToggles = { enableHierarchicalAddressFormat: true };
+    (component as any).featureToggles = {
+      enableHierarchicalAddressFormat: true,
+    };
     (component as any).hierarchicalAddressConfig = {
       hierarchicalAddress: { countriesUsingHierarchicalAddressFormat: ['CN'] },
     };
@@ -432,7 +444,9 @@ describe('AddressFormComponent', () => {
   });
 
   it('should reset town and district when region changes for CN address', () => {
-    (component as any).featureToggles = { enableHierarchicalAddressFormat: true };
+    (component as any).featureToggles = {
+      enableHierarchicalAddressFormat: true,
+    };
     component.isHierarchicalAddressFormat = true;
     component.addressForm.get('town')?.setValue('old-town');
     component.addressForm.get('district')?.setValue('old-district');
@@ -463,28 +477,36 @@ describe('AddressFormComponent', () => {
   });
 
   it('should initialize cities as empty array', () => {
-    vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(of([]));
+    vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(
+      of([])
+    );
     vi.spyOn(userAddressService, 'getRegions').mockReturnValue(of([]));
     component.ngOnInit();
     expect(component.cities).toEqual([]);
   });
 
   it('should initialize districts as empty array', () => {
-    vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(of([]));
+    vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(
+      of([])
+    );
     vi.spyOn(userAddressService, 'getRegions').mockReturnValue(of([]));
     component.ngOnInit();
     expect(component.districts).toEqual([]);
   });
 
   it('should have empty cities when no region is selected', () => {
-    vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(of([]));
+    vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(
+      of([])
+    );
     vi.spyOn(userAddressService, 'getRegions').mockReturnValue(of([]));
     component.ngOnInit();
     expect(component.cities).toEqual([]);
   });
 
   it('should have empty districts when no city is selected', () => {
-    vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(of([]));
+    vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(
+      of([])
+    );
     vi.spyOn(userAddressService, 'getRegions').mockReturnValue(of([]));
     component.ngOnInit();
     expect(component.districts).toEqual([]);
@@ -509,7 +531,9 @@ describe('AddressFormComponent', () => {
       fixture.debugElement.query(By.css('.btn-primary'));
 
     it('should call "verifyAddress" function when being clicked and when form is valid', () => {
-      vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(of([]));
+      vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(
+        of([])
+      );
       vi.spyOn(userProfileFacade, 'getTitles').mockReturnValue(of([]));
       vi.spyOn(userAddressService, 'getRegions').mockReturnValue(of([]));
       vi.spyOn(component, 'verifyAddress');
@@ -552,7 +576,9 @@ describe('AddressFormComponent', () => {
       fixture.detectChanges();
       expect(
         // eslint-disable-next-line no-restricted-syntax
-        fixture.nativeElement.querySelector('.btn-secondary').textContent?.trim()
+        fixture.nativeElement
+          .querySelector('.btn-secondary')
+          .textContent?.trim()
       ).toEqual('Back to cart');
     });
 
@@ -561,7 +587,9 @@ describe('AddressFormComponent', () => {
       fixture.detectChanges();
       expect(
         // eslint-disable-next-line no-restricted-syntax
-        fixture.nativeElement.querySelector('.btn-secondary').textContent?.trim()
+        fixture.nativeElement
+          .querySelector('.btn-secondary')
+          .textContent?.trim()
       ).toEqual('addressForm.chooseAddress');
     });
   });
@@ -653,7 +681,6 @@ describe('AddressFormComponent', () => {
       expect(component.isHierarchicalAddressFormat).toBe(false);
     });
   });
-
 });
 
 describe('AddressFormComponent - a11yAddressFormInitialFocus', () => {
@@ -678,7 +705,10 @@ describe('AddressFormComponent - a11yAddressFormInitialFocus', () => {
         { provide: GlobalMessageService, useValue: { add: vi.fn() } },
         { provide: UserProfileFacade, useClass: MockUserProfileFacade },
         { provide: LanguageService, useClass: MockLanguageService },
-        provideMockFeatureToggles({ ...mockFeatureToggles, a11yAddressFormInitialFocus: true }),
+        provideMockFeatureToggles({
+          ...mockFeatureToggles,
+          a11yAddressFormInitialFocus: true,
+        }),
         {
           provide: HierarchicalAddressConfig,
           useValue: {
@@ -690,7 +720,10 @@ describe('AddressFormComponent - a11yAddressFormInitialFocus', () => {
       ],
     });
     TestBed.overrideComponent(AddressFormComponent, {
-      add: { changeDetection: ChangeDetectionStrategy.Eager, imports: [MockFeatureDirective] },
+      add: {
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MockFeatureDirective],
+      },
       remove: { imports: [FeatureDirective] },
     });
     await TestBed.compileComponents();

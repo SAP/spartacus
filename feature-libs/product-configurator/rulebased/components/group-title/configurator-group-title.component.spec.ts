@@ -148,7 +148,9 @@ describe('ConfiguratorGroupTitleComponent', () => {
 
     configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     configuratorUtils.setOwnerKey(config.owner);
-    vi.spyOn(configuratorGroupsService, 'navigateToGroup').mockImplementation(() => {});
+    vi.spyOn(configuratorGroupsService, 'navigateToGroup').mockImplementation(
+      () => {}
+    );
 
     configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);
 
@@ -160,7 +162,10 @@ describe('ConfiguratorGroupTitleComponent', () => {
       ConfiguratorStorefrontUtilsService
     );
 
-    vi.spyOn(configuratorStorefrontUtilsService, 'changeStyling').mockImplementation(() => {});
+    vi.spyOn(
+      configuratorStorefrontUtilsService,
+      'changeStyling'
+    ).mockImplementation(() => {});
     vi.spyOn(configuratorStorefrontUtilsService, 'removeStyling');
     vi.spyOn(
       configuratorStorefrontUtilsService,

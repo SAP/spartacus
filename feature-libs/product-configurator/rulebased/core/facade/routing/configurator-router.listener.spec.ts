@@ -91,10 +91,7 @@ describe('ConfiguratorRouterListener', () => {
       ConfiguratorQuantityService as Type<ConfiguratorQuantityService>
     );
 
-    vi.spyOn(
-      configuratorCartService,
-      'removeCartBoundConfigurations'
-    );
+    vi.spyOn(configuratorCartService, 'removeCartBoundConfigurations');
     vi.spyOn(configuratorQuantityService, 'setQuantity');
   });
 
