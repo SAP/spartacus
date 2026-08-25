@@ -33,10 +33,21 @@ export default defineConfig({
       tsconfig: `${import.meta.dirname}/tsconfig.spec.json`,
     },
     coverage: {
+      enabled: true,
       provider: 'v8',
-      reporter: ['lcov'],
+      reporter: ['text-summary', 'html', 'lcov'],
       reportsDirectory: `${import.meta.dirname}/../../coverage/checkout`,
-      exclude: ['**/public_api.ts', '**/index.ts', '**/*.module.ts'],
+      include: ['**/*.ts'],
+      exclude: [
+        '**/*.spec.ts',
+        '**/public_api.ts',
+        '**/index.ts',
+        '**/*.module.ts',
+        '**/vitest.config.ts',
+        '**/assets/**',
+        '**/testing/**',
+        '**/schematics/**',
+      ],
       thresholds: { statements: 90, lines: 90, branches: 80, functions: 90 },
     },
     reporters: [
