@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -30,10 +29,11 @@ import {
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, of } from 'rxjs';
+import { vi } from 'vitest';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import { UpdatePasswordComponent } from './update-password.component';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 
 @Component({
   selector: 'cx-spinner',
@@ -185,7 +185,7 @@ describe('UpdatePasswordComponent', () => {
     });
 
     it('should not submit the form on cancel', () => {
-      spyOn(component, 'onSubmit');
+      vi.spyOn(component, 'onSubmit');
 
       const cancelBtn = el.query(By.css('button.btn-secondary'));
       cancelBtn.nativeElement.click();

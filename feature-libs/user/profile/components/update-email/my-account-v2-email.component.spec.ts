@@ -44,13 +44,13 @@ import {
   PasswordVisibilityToggleModule,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, Subject, of } from 'rxjs';
 import { UserProfileFacade } from '../../root/facade';
 import { MyAccountV2EmailComponent } from './my-account-v2-email.component';
@@ -250,24 +250,28 @@ describe('MyAccountV2EmailComponent', () => {
       expect(service.save).toHaveBeenCalled();
     });
 
-    it('when cancel is called. submit button is not visible', () => {
-      component.form.enable();
-      component.cancelEdit();
-      detectChanges();
-      const submitBtn = el.query(By.css('button.btn-primary'));
-      expect(submitBtn).toBeNull();
-    });
+    describe('when cancel is called', () => {
+      it('should remove the submit button', () => {
+        component.form.enable();
+        component.cancelEdit();
+        detectChanges();
+        const submitBtn = el.query(By.css('button.btn-primary'));
+        expect(submitBtn).toBeNull();
+      });
 
-    it('when cancel is called it should not submit the form', () => {
-      spyOn(component, 'onSubmit');
-      component.onEdit();
-      fixture.detectChanges();
+      it('it should not submit the form', () => {
+        vi.spyOn(component, 'onSubmit');
+        const editBtn = el.query(By.css('button.editButton'));
+        editBtn.nativeElement.click();
+        component.onEdit();
+        fixture.detectChanges();
 
-      const cancelBtn = el.query(By.css('button.button-cancel'));
-      cancelBtn.nativeElement.click();
-      fixture.detectChanges();
+        const cancelBtn = el.query(By.css('button.button-cancel'));
+        cancelBtn.nativeElement.click();
+        fixture.detectChanges();
 
-      expect(component.onSubmit).not.toHaveBeenCalled();
+        expect(component.onSubmit).not.toHaveBeenCalled();
+      });
     });
   });
 

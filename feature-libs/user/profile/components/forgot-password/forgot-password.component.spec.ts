@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
@@ -17,6 +16,7 @@ import {
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
+import { vi } from 'vitest';
 import { ForgotPasswordComponentService } from './forgot-password-component.service';
 import { ForgotPasswordComponent } from './forgot-password.component';
 
@@ -146,7 +146,7 @@ describe('ForgotPasswordComponent', () => {
     });
 
     it('should not submit the form on cancel', () => {
-      spyOn(component, 'onSubmit');
+      vi.spyOn(component, 'onSubmit');
 
       const cancelBtn = el.query(By.css('button.btn-secondary'));
       cancelBtn.nativeElement.click();
