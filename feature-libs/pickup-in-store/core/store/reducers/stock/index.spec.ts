@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { Action, ActionReducer } from '@ngrx/store';
 import { ClearStockData, StockLevel } from '../../actions/stock.action';
 import { StockState } from '../../stock-state';
@@ -19,8 +20,7 @@ describe('Stock meta-reducer', () => {
   it('should clear stock state for ClearStockData action', () => {
     const action = new ClearStockData();
 
-    const reducer: ActionReducer<StockState, Action> =
-      jasmine.createSpy('reducer');
+    const reducer: ActionReducer<StockState, Action> = vi.fn();
 
     clearStockState(reducer)(state, action);
     expect(reducer).toHaveBeenCalledWith(undefined, action);
@@ -29,8 +29,7 @@ describe('Stock meta-reducer', () => {
   it('should not clear stock state for other actions', () => {
     const action = new StockLevel({ productCode: 'code', location: '' });
 
-    const reducer: ActionReducer<StockState, Action> =
-      jasmine.createSpy('reducer');
+    const reducer: ActionReducer<StockState, Action> = vi.fn();
 
     clearStockState(reducer)(state, action);
     expect(reducer).toHaveBeenCalledWith(state, action);

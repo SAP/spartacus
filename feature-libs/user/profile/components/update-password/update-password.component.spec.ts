@@ -1,9 +1,10 @@
+import { vi } from 'vitest';
 import {
   ChangeDetectionStrategy,
   Component,
   DebugElement,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -11,14 +12,18 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
+  FeatureDirective,
   I18nTestingModule,
+  MockTranslatePipe,
   PageMeta,
   PageMetaService,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
+  SpinnerComponent,
 } from '@spartacus/storefront';
 import {
   MockFeatureTogglesController,
@@ -28,7 +33,7 @@ import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes
 import { BehaviorSubject, of } from 'rxjs';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import { UpdatePasswordComponent } from './update-password.component';
-import createSpy = jasmine.createSpy;
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 
 @Component({
   selector: 'cx-spinner',
@@ -53,8 +58,8 @@ class MockUpdatePasswordService
     newPasswordConfirm: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
-  updatePassword = createSpy().and.stub();
-  resetForm = createSpy().and.stub();
+  updatePassword = vi.fn().mockImplementation(() => {});
+  resetForm = vi.fn().mockImplementation(() => {});
 }
 
 class MockRoutingService implements Partial<RoutingService> {
@@ -76,7 +81,7 @@ describe('UpdatePasswordComponent', () => {
   let routingService: RoutingService;
   let service: UpdatePasswordComponentService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -98,10 +103,20 @@ describe('UpdatePasswordComponent', () => {
       ],
     })
       .overrideComponent(UpdatePasswordComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        remove: {
+          imports: [TranslatePipe, SpinnerComponent, FeatureDirective],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCxSpinnerComponent,
+            MockFeatureDirective,
+          ],
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UpdatePasswordComponent);
@@ -151,7 +166,7 @@ describe('UpdatePasswordComponent', () => {
 
   describe('Form Interactions', () => {
     it('should call onSubmit() method on submit', () => {
-      const request = spyOn(component, 'onSubmit');
+      const request = vi.spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
       form.triggerEventHandler('submit', null);
       expect(request).toHaveBeenCalled();
@@ -163,7 +178,7 @@ describe('UpdatePasswordComponent', () => {
     });
 
     it('should navigate to home on cancel', () => {
-      spyOn(routingService, 'go');
+      vi.spyOn(routingService, 'go');
       const cancelBtn = el.query(By.css('button.btn-secondary'));
       cancelBtn.nativeElement.click();
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });

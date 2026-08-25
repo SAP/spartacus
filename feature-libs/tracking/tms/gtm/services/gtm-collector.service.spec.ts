@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { LoginEvent, WindowRef } from '@spartacus/core';
 import { WindowObject } from '@spartacus/tracking/tms/core';
+import { vi } from 'vitest';
 import '../config/default-gtm.config';
 import { GtmCollectorConfig } from '../config/default-gtm.config';
 import { GtmCollectorService } from './gtm-collector.service';
@@ -52,8 +53,8 @@ describe('GtmCollectorService', () => {
     });
 
     it('should embed the script tag', () => {
-      spyOn(winRef.document, 'getElementsByTagName').and.callThrough();
-      spyOn(winRef.document, 'createElement').and.callThrough();
+      vi.spyOn(winRef.document, 'getElementsByTagName');
+      vi.spyOn(winRef.document, 'createElement');
       const windowObject = {} as WindowObject;
 
       service.init(config, windowObject);

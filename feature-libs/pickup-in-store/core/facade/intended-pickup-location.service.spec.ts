@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
@@ -21,8 +22,8 @@ describe('IntendedPickupLocationService', () => {
 
     service = TestBed.inject(IntendedPickupLocationService);
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch');
-    spyOn(store, 'pipe');
+    vi.spyOn(store, 'dispatch');
+    vi.spyOn(store, 'pipe');
   });
 
   it('should be created', () => {

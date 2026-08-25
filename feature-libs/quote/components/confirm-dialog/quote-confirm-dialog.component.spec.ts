@@ -1,5 +1,6 @@
+import { vi } from 'vitest';
 import { Component, Directive, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CxDatePipe,
   LanguageService,
@@ -81,7 +82,7 @@ describe('QuoteConfirmDialogComponent', () => {
     data$ = dialogDataSender;
   }
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [QuoteConfirmDialogComponent],
       providers: [
@@ -108,7 +109,7 @@ describe('QuoteConfirmDialogComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     dialogDataSender = new BehaviorSubject({
@@ -119,7 +120,7 @@ describe('QuoteConfirmDialogComponent', () => {
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);
     cxDatePipe = TestBed.inject(CxDatePipe);
-    spyOn(launchDialogService, 'closeDialog');
+    vi.spyOn(launchDialogService, 'closeDialog');
     component.ngOnInit();
     fixture.detectChanges();
   });

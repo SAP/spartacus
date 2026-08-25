@@ -1,9 +1,25 @@
+import { vi } from 'vitest';
+
+vi.mock('@spartacus/storefront', async (importActual) => {
+  const actual = await importActual<typeof import('@spartacus/storefront')>();
+  const { filter, map } = await import('rxjs/operators');
+  const isNotNullable = <T>(value: T): value is NonNullable<T> => value != null;
+  return {
+    ...actual,
+    getPageTitle: (pageMetaService: any) =>
+      pageMetaService.getMeta().pipe(
+        filter(isNotNullable),
+        map((meta: any) => (meta.heading || meta.title) ?? '')
+      ),
+  };
+});
+
 import {
   ChangeDetectionStrategy,
   Component,
   DebugElement,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -20,12 +36,14 @@ import {
   PageMetaService,
   TranslatePipe,
   UrlPipe,
+  FeatureDirective,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
   SpinnerComponent,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
@@ -35,7 +53,6 @@ import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes
 import { BehaviorSubject, of } from 'rxjs';
 import { MyAccountV2PasswordComponent } from './my-account-v2-password.component';
 import { UpdatePasswordComponentService } from './update-password-component.service';
-import createSpy = jasmine.createSpy;
 
 const mockPageMeta: PageMeta = { title: 'Test Title', heading: 'Test Heading' };
 class MockPageMetaService implements Partial<PageMetaService> {
@@ -65,12 +82,12 @@ class MockUpdatePasswordService
     newPasswordConfirm: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
-  updatePassword = createSpy().and.stub();
-  resetForm = createSpy().and.stub();
+  updatePassword = vi.fn().mockImplementation(() => {});
+  resetForm = vi.fn().mockImplementation(() => {});
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy().and.stub();
+  add = vi.fn().mockImplementation(() => {});
 }
 
 describe('MyAccountV2PasswordComponent', () => {
@@ -80,7 +97,7 @@ describe('MyAccountV2PasswordComponent', () => {
 
   let service: UpdatePasswordComponentService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -100,7 +117,13 @@ describe('MyAccountV2PasswordComponent', () => {
     })
       .overrideComponent(MyAccountV2PasswordComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe, SpinnerComponent],
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            SpinnerComponent,
+            FeatureDirective,
+          ],
         },
         add: {
           imports: [
@@ -108,19 +131,19 @@ describe('MyAccountV2PasswordComponent', () => {
             MockDatePipe,
             MockUrlPipe,
             MockCxSpinnerComponent,
+            MockFeatureDirective,
           ],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2PasswordComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     service = TestBed.inject(UpdatePasswordComponentService);
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -161,7 +184,8 @@ describe('MyAccountV2PasswordComponent', () => {
 
   describe('Form Interactions', () => {
     it('should call onSubmit() method on submit', () => {
-      const request = spyOn(component, 'onSubmit');
+      fixture.detectChanges();
+      const request = vi.spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
       form.triggerEventHandler('submit', null);
       expect(request).toHaveBeenCalled();

@@ -1,9 +1,9 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { of } from 'rxjs';
 import { QuoteCartService } from './quote-cart.service';
-import createSpy = jasmine.createSpy;
 
 const cartId = '8762';
 const quoteAttachedToCart = '6524';
@@ -13,10 +13,10 @@ const cart: Cart = {
 };
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  reloadActiveCart = createSpy().and.stub();
-  takeActiveCartId = createSpy().and.returnValue(of(cartId));
-  requireLoadedCart = createSpy().and.returnValue(of(cart));
-  getActive = createSpy().and.returnValue(of(cart));
+  reloadActiveCart = vi.fn().mockImplementation(() => {});
+  takeActiveCartId = vi.fn().mockReturnValue(of(cartId));
+  requireLoadedCart = vi.fn().mockReturnValue(of(cart));
+  getActive = vi.fn().mockReturnValue(of(cart));
 }
 
 describe('QuoteCartService', () => {

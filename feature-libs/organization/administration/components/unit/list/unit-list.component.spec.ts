@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -17,7 +18,6 @@ import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { UnitTreeService } from '../services/unit-tree.service';
-import createSpy = jasmine.createSpy;
 
 @Component({
   template: '<ng-content select="[actions]"></ng-content>',
@@ -30,8 +30,8 @@ class MockListComponent {
 }
 
 class MockUnitTreeService {
-  expandAll = createSpy('expandAll');
-  collapseAll = createSpy('collapseAll');
+  expandAll = vi.fn();
+  collapseAll = vi.fn();
 }
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
@@ -91,8 +91,8 @@ describe('UnitListComponent', () => {
   });
 
   it('should render links', () => {
-    expect(expandAll.innerText).toEqual('orgUnit.tree.expandAll');
-    expect(collapseAll.innerText).toEqual('orgUnit.tree.collapseAll');
+    expect(expandAll.textContent?.trim()).toEqual('orgUnit.tree.expandAll');
+    expect(collapseAll.textContent?.trim()).toEqual('orgUnit.tree.collapseAll');
   });
 
   it('should call expandAll', () => {

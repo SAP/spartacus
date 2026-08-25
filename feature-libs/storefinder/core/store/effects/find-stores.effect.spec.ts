@@ -3,10 +3,10 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { vi } from 'vitest';
 import { StoreFinderConnector } from '../../connectors/store-finder.connector';
 import { StoreFinderActions } from '../actions/index';
 import * as fromEffects from './find-stores.effect';
-import createSpy = jasmine.createSpy;
 import { GeoPoint, SearchConfig } from '@spartacus/core';
 import {
   provideHttpClient,
@@ -17,8 +17,8 @@ const singleStoreResult = {};
 const searchResult: any = { stores: [] };
 
 const mockStoreFinderConnector = {
-  get: createSpy('connector.get').and.returnValue(of(singleStoreResult)),
-  search: createSpy('connector.search').and.returnValue(of(searchResult)),
+  get: vi.fn().mockReturnValue(of(singleStoreResult)),
+  search: vi.fn().mockReturnValue(of(searchResult)),
 };
 
 describe('FindStores Effects', () => {
