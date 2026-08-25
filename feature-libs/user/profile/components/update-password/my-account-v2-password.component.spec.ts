@@ -28,6 +28,7 @@ import {
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
+  FeatureDirective,
   GlobalMessageService,
   I18nTestingModule,
   MockDatePipe,
@@ -36,20 +37,19 @@ import {
   PageMetaService,
   TranslatePipe,
   UrlPipe,
-  FeatureDirective,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, of } from 'rxjs';
 import { MyAccountV2PasswordComponent } from './my-account-v2-password.component';
 import { UpdatePasswordComponentService } from './update-password-component.service';
@@ -198,11 +198,23 @@ describe('MyAccountV2PasswordComponent', () => {
 
     it('should clean input box', () => {
       fixture.detectChanges();
-      const buttons = fixture.debugElement.queryAll(
+      const cancelButton = fixture.debugElement.query(
         By.css('.myaccount-password-button-cancel')
       );
-      buttons[0].triggerEventHandler('click', null);
+      cancelButton.nativeElement.click();
       expect(el.queryAll(By.css('form-control')).length).toEqual(0);
+    });
+
+    it('should not submit the form when cancel is clicked', () => {
+      vi.spyOn(component, 'onSubmit');
+      fixture.detectChanges();
+
+      const cancelButton = fixture.debugElement.query(
+        By.css('.myaccount-password-button-cancel')
+      );
+      cancelButton.nativeElement.click();
+
+      expect(component.onSubmit).not.toHaveBeenCalled();
     });
 
     it('should hide cx message strip when close clicked', () => {
