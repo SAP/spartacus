@@ -281,8 +281,7 @@ export class CpqConfiguratorNormalizerUtilsService {
       source.sapContainers,
       'root.sapContainers'
     );
-    const total = rootContribution + nestedContribution;
-    return total;
+    return rootContribution + nestedContribution;
   }
 
   /**
@@ -304,14 +303,14 @@ export class CpqConfiguratorNormalizerUtilsService {
     const failedValidations = source.failedValidations?.length ?? 0;
     const errorMessages = source.errorMessages?.length ?? 0;
     const typedMessages = this.countTypedMessages(source);
-    const total =
+    return (
       incompleteAttributes +
       incompleteMessages +
       invalidMessages +
       failedValidations +
       errorMessages +
-      typedMessages;
-    return total;
+      typedMessages
+    );
   }
 
   /**
@@ -363,7 +362,7 @@ export class CpqConfiguratorNormalizerUtilsService {
     if (!containers?.length) {
       return 0;
     }
-    const total = containers.reduce((containerTotal, container) => {
+    return containers.reduce((containerTotal, container) => {
       const rowIssues = (container.rows ?? []).reduce((rowTotal, row) => {
         if (!row.configuration) {
           return rowTotal;
@@ -379,7 +378,6 @@ export class CpqConfiguratorNormalizerUtilsService {
       }, 0);
       return containerTotal + rowIssues;
     }, 0);
-    return total;
   }
 
   /**
