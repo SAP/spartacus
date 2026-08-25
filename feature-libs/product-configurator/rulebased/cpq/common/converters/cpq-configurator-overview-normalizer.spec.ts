@@ -201,6 +201,77 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     ).toBe(0);
   });
 
+  it('should include nested container-row issues in totalNumberOfIssues', () => {
+    const configurationWithNestedIssues: Cpq.Configuration = {
+      ...completeAndConsistentInput,
+      sapContainers: [
+        {
+          stdAttrCode: 11,
+          rows: [
+            {
+              id: '018',
+              productSystemId: 'LENS_ZOOM',
+              configuration: {
+                completed: false,
+                errorMessages: [ERROR_MSG],
+                invalidMessages: [INVALID_MSG],
+                failedValidations: [VALIDATION_MSG],
+                incompleteMessages: [INCOMPLETE_MSG],
+                messages: [
+                  {
+                    message: 'Check zoom range',
+                    severity: Cpq.MessageSeverity.WARNING,
+                  },
+                  {
+                    message: 'Info only',
+                    severity: Cpq.MessageSeverity.INFO,
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    };
+    expect(
+      serviceUnderTest.convert(configurationWithNestedIssues)
+        .totalNumberOfIssues
+    ).toBe(6);
+  });
+
+  it('should include incomplete nested tab attributes in totalNumberOfIssues', () => {
+    const configurationWithNestedIssues: Cpq.Configuration = {
+      ...completeAndConsistentInput,
+      sapContainers: [
+        {
+          stdAttrCode: 11,
+          rows: [
+            {
+              id: '018',
+              productSystemId: 'LENS_ZOOM',
+              configuration: {
+                completed: false,
+                tabs: [
+                  {
+                    id: 1,
+                    attributes: [
+                      { pA_ID: 1, stdAttrCode: 11, incomplete: true },
+                      { pA_ID: 2, stdAttrCode: 12, incomplete: true },
+                    ],
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    };
+    expect(
+      serviceUnderTest.convert(configurationWithNestedIssues)
+        .totalNumberOfIssues
+    ).toBe(2);
+  });
+
   it('should prepare price summary', () => {
     const convertedPriceSummary = serviceUnderTest.convert(input).priceSummary;
     expect(convertedPriceSummary?.currentTotal?.formattedValue).toBe(

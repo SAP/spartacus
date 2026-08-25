@@ -2240,6 +2240,43 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(nestedAttrGroup.attributes?.[0].attrCode).toBe(nestedAttrCode);
     });
 
+    it('should include nested container-row issues in totalNumberOfIssues', () => {
+      const result = cpqConfiguratorNormalizer.convert(
+        configurationWithContainers([containerWithRows])
+      );
+      expect(result.totalNumberOfIssues).toBe(6);
+    });
+
+    it('should include incomplete nested tab attributes in totalNumberOfIssues', () => {
+      const nestedAttributeIncomplete: Cpq.Attribute = {
+        ...nestedAttribute,
+        incomplete: true,
+      };
+      const containerWithIncompleteNestedAttribute: Cpq.Container = {
+        ...containerWithRows,
+        rows: containerWithRows.rows?.map((row) =>
+          row.id === rowWithConfigId
+            ? {
+                ...row,
+                configuration: {
+                  ...row.configuration,
+                  tabs: [
+                    {
+                      ...nestedTab,
+                      attributes: [nestedAttributeIncomplete],
+                    },
+                  ],
+                },
+              }
+            : row
+        ),
+      };
+      const result = cpqConfiguratorNormalizer.convert(
+        configurationWithContainers([containerWithIncompleteNestedAttribute])
+      );
+      expect(result.totalNumberOfIssues).toBe(7);
+    });
+
     it('should map empty nested configuration issues to empty arrays on the container row', () => {
       const result = cpqConfiguratorNormalizer.convert(
         configurationWithContainers([

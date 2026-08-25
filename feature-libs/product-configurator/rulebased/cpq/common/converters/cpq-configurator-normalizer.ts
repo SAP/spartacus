@@ -73,12 +73,8 @@ export class CpqConfiguratorNormalizer
   }
 
   protected generateTotalNumberOfIssues(source: Cpq.Configuration): number {
-    return (
-      (source.incompleteAttributes?.length ?? 0) +
-      (source.incompleteMessages?.length ?? 0) +
-      (source.invalidMessages?.length ?? 0) +
-      (source.failedValidations?.length ?? 0) +
-      (source.errorMessages?.length ?? 0)
+    return this.cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues(
+      source
     );
   }
 

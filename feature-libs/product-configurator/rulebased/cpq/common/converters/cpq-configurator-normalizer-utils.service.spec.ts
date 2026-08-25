@@ -508,4 +508,135 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(attribute)
     ).toBe('');
   });
+
+  describe('issue counting', () => {
+    const ERROR_MSG = 'This is an error message';
+    const VALIDATION_MSG = 'this is a failed validation';
+    const INVALID_MSG = 'This is an invalid message';
+    const INCOMPLETE_ATTR_1 = 'Attribute1';
+    const INCOMPLETE_ATTR_2 = 'Attribute2';
+    const INCOMPLETE_MSG = 'incomplete message';
+
+    const rootConfiguration: Cpq.Configuration = {
+      productSystemId: 'productSystemId',
+      currencyISOCode: CURRENCY,
+      incompleteMessages: [INCOMPLETE_MSG],
+      incompleteAttributes: [INCOMPLETE_ATTR_1, INCOMPLETE_ATTR_2],
+      invalidMessages: [INVALID_MSG],
+      failedValidations: [VALIDATION_MSG],
+      errorMessages: [ERROR_MSG],
+      messages: [
+        { message: 'Typed warning', severity: Cpq.MessageSeverity.WARNING },
+        { message: 'Typed info', severity: Cpq.MessageSeverity.INFO },
+        { message: '' },
+      ],
+    };
+
+    const nestedConfiguration: Cpq.NestedProductConfiguration = {
+      completed: false,
+      errorMessages: [ERROR_MSG],
+      invalidMessages: [INVALID_MSG],
+      failedValidations: [VALIDATION_MSG],
+      incompleteMessages: [INCOMPLETE_MSG],
+      messages: [
+        { message: 'Check zoom range', severity: Cpq.MessageSeverity.WARNING },
+        { message: 'Info only', severity: Cpq.MessageSeverity.INFO },
+      ],
+    };
+
+    it('should count root-level issues including typed messages', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService.countIssues(rootConfiguration)
+      ).toBe(8);
+    });
+
+    it('should count nested configuration issues from tab attributes marked incomplete', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService.countIssues(nestedConfiguration)
+      ).toBe(6);
+      expect(
+        cpqConfiguratorNormalizerUtilsService.countIssues({
+          ...nestedConfiguration,
+          tabs: [
+            {
+              id: 1,
+              attributes: [
+                { pA_ID: 1, stdAttrCode: 11, incomplete: true },
+                { pA_ID: 2, stdAttrCode: 12, incomplete: true },
+                { pA_ID: 3, stdAttrCode: 13, incomplete: false },
+              ],
+            },
+            {
+              id: 2,
+              attributes: [{ pA_ID: 4, stdAttrCode: 14, incomplete: true }],
+            },
+          ],
+        })
+      ).toBe(9);
+    });
+
+    it('should count issues in nested container configurations', () => {
+      const containers: Cpq.Container[] = [
+        {
+          stdAttrCode: 1,
+          rows: [
+            {
+              id: '1',
+              configuration: nestedConfiguration,
+            },
+          ],
+        },
+      ];
+      expect(
+        cpqConfiguratorNormalizerUtilsService.countIssuesInContainers(
+          containers
+        )
+      ).toBe(6);
+    });
+
+    it('should count issues recursively in nested containers', () => {
+      const containers: Cpq.Container[] = [
+        {
+          stdAttrCode: 1,
+          rows: [
+            {
+              id: '1',
+              configuration: {
+                ...nestedConfiguration,
+                containers: [
+                  {
+                    stdAttrCode: 2,
+                    rows: [
+                      {
+                        id: '2',
+                        configuration: {
+                          completed: false,
+                          errorMessages: [ERROR_MSG],
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ];
+      expect(
+        cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues({
+          ...rootConfiguration,
+          sapContainers: containers,
+        })
+      ).toBe(15);
+    });
+
+    it('should return zero when no issues exist', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues({
+          productSystemId: 'productSystemId',
+          currencyISOCode: CURRENCY,
+        })
+      ).toBe(0);
+    });
+  });
 });

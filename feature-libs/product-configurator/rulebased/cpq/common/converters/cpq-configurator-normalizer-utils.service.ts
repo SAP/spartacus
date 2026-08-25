@@ -263,6 +263,109 @@ export class CpqConfiguratorNormalizerUtilsService {
   }
 
   /**
+   * Calculates the total number of issues for a CPQ configuration,
+   * including issues in nested container-row configurations.
+   *
+   * @param source - CPQ configuration
+   * @returns Total number of issues
+   */
+  calculateTotalNumberOfIssues(source: Cpq.Configuration): number {
+    const rootContribution = this.countIssues(source);
+    const nestedContribution = this.countIssuesInContainers(
+      source.sapContainers,
+      'root.sapContainers'
+    );
+    const total = rootContribution + nestedContribution;
+    return total;
+  }
+
+  /**
+   * Counts issues on a CPQ configuration or nested product configuration.
+   *
+   * @param source - CPQ configuration or nested product configuration
+   * @param context - Optional context label for temporary logging
+   * @returns Number of issues at this level
+   */
+  countIssues(
+    source: Cpq.Configuration | Cpq.NestedProductConfiguration
+  ): number {
+    const incompleteAttributes =
+      'incompleteAttributes' in source
+        ? (source.incompleteAttributes?.length ?? 0)
+        : this.countIncompleteAttributesInTabs(source);
+    const incompleteMessages = source.incompleteMessages?.length ?? 0;
+    const invalidMessages = source.invalidMessages?.length ?? 0;
+    const failedValidations = source.failedValidations?.length ?? 0;
+    const errorMessages = source.errorMessages?.length ?? 0;
+    const typedMessages =
+      source.messages?.filter((message) => !!message.message).length ?? 0;
+    const total =
+      incompleteAttributes +
+      incompleteMessages +
+      invalidMessages +
+      failedValidations +
+      errorMessages +
+      typedMessages;
+    return total;
+  }
+
+  /**
+   * Counts attributes marked as incomplete within all tabs of a configuration.
+   * Used for nested product configurations where incomplete attributes are
+   * indicated per attribute rather than via the root-level incompleteAttributes
+   * array.
+   *
+   * @param source - CPQ configuration or nested product configuration
+   * @returns Number of incomplete attributes across all tabs
+   */
+  countIncompleteAttributesInTabs(
+    source: Cpq.Configuration | Cpq.NestedProductConfiguration
+  ): number {
+    return (
+      source.tabs?.reduce(
+        (count, tab) =>
+          count +
+          (tab.attributes?.filter((attribute) => attribute.incomplete === true)
+            .length ?? 0),
+        0
+      ) ?? 0
+    );
+  }
+
+  /**
+   * Recursively counts issues in nested container configurations.
+   *
+   * @param containers - CPQ containers
+   * @param context - Optional context label for temporary logging
+   * @returns Number of issues in nested configurations
+   */
+  countIssuesInContainers(
+    containers?: Cpq.Container[],
+    context = 'unknown'
+  ): number {
+    if (!containers?.length) {
+      return 0;
+    }
+    const total = containers.reduce((containerTotal, container) => {
+      const rowIssues = (container.rows ?? []).reduce((rowTotal, row) => {
+        if (!row.configuration) {
+          return rowTotal;
+        }
+        const rowContext = `${context}.container[${container.stdAttrCode}].row[${row.id}]`;
+        const configurationIssues = this.countIssues(row.configuration);
+        const nestedContainerIssues = this.countIssuesInContainers(
+          row.configuration.containers,
+          `${rowContext}.containers`
+        );
+        const rowContribution = configurationIssues + nestedContainerIssues;
+        return rowTotal + rowContribution;
+      }, 0);
+      return containerTotal + rowIssues;
+    }, 0);
+    return total;
+  }
+
+  /**
    * Gets the current language.
    *
    * @return {string} - current language
