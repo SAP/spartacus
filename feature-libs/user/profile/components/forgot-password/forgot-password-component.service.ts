@@ -83,16 +83,22 @@ export class ForgotPasswordComponentService {
   /**
    * Redirects the user back to the login page.
    *
-   * This only happens in case of the `ResourceOwnerPasswordFlow` OAuth flow.
+   * When the custom login page is enabled and the OAuth flow is not
+   * `ResourceOwnerPasswordFlow`, the user is routed to the `loginForm` page.
+   * Otherwise, the user is routed to the `login` page.
    */
   protected redirect() {
     if (
-      this.authConfigService.getOAuthFlow() ===
+      this.authConfigService.customLoginEnabled() &&
+      this.authConfigService.getOAuthFlow() !==
+        OAuthFlow.ResourceOwnerPasswordFlow
+    ) {
+      this.routingService.go({ cxRoute: 'loginForm' });
+    } else if (
+      this.authConfigService.getOAuthFlow() ==
       OAuthFlow.ResourceOwnerPasswordFlow
     ) {
       this.routingService.go({ cxRoute: 'login' });
-    } else {
-      this.routingService.go({ cxRoute: 'loginForm' });
     }
   }
 }

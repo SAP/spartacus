@@ -24,6 +24,9 @@ class MockAuthConfigService implements Partial<AuthConfigService> {
   getOAuthFlow() {
     return OAuthFlow.ResourceOwnerPasswordFlow;
   }
+  customLoginEnabled() {
+    return false;
+  }
 }
 class MockGlobalMessageService {
   add = createSpy().and.stub();
@@ -104,12 +107,23 @@ describe('ForgotPasswordComponentService', () => {
         expect(service.form.reset).toHaveBeenCalled();
       });
 
-      it('should not redirect when flow different than ResourceOwnerPasswordFlow is used', () => {
+      it('should not redirect when flow different than ResourceOwnerPasswordFlow is used and custom login is disabled', () => {
         spyOn(authConfigService, 'getOAuthFlow').and.returnValue(
           OAuthFlow.ImplicitFlow
         );
         service.requestEmail();
         expect(routingService.go).not.toHaveBeenCalled();
+      });
+
+      it('should redirect to loginForm when custom login is enabled and flow is not ResourceOwnerPasswordFlow', () => {
+        spyOn(authConfigService, 'getOAuthFlow').and.returnValue(
+          OAuthFlow.ImplicitFlow
+        );
+        spyOn(authConfigService, 'customLoginEnabled').and.returnValue(true);
+        service.requestEmail();
+        expect(routingService.go).toHaveBeenCalledWith({
+          cxRoute: 'loginForm',
+        });
       });
     });
 
