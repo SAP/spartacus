@@ -36,7 +36,16 @@ export default defineConfig({
       reporter: ['text-summary', 'html', 'lcov'],
       reportsDirectory: `${import.meta.dirname}/../../coverage/storefront`,
       include: ['**/*.ts'],
-      exclude: ['**/*.spec.ts', '**/public_api.ts', '**/index.ts', '**/*.module.ts', '**/vitest.config.ts', '**/assets/**', '**/testing/**', '**/schematics/**'],
+      exclude: [
+        '**/*.spec.ts',
+        '**/public_api.ts',
+        '**/index.ts',
+        '**/*.module.ts',
+        '**/vitest.config.ts',
+        '**/assets/**',
+        '**/testing/**',
+        '**/schematics/**',
+      ],
       thresholds: {
         statements: 90,
         lines: 90,
