@@ -57,7 +57,7 @@ export class ConfiguratorUtilsService {
       return currentGroup;
     }
     const groupFound = this.getGroupFromSubGroups(groups, groupId);
-    return groupFound ? groupFound : groups[0];
+    return groupFound ?? groups[0];
   }
 
   /**
@@ -72,9 +72,7 @@ export class ConfiguratorUtilsService {
     groupId: string
   ): Configurator.Group | undefined {
     const currentGroup = groups.find((group) => group.id === groupId);
-    return currentGroup
-      ? currentGroup
-      : this.getGroupFromSubGroups(groups, groupId);
+    return currentGroup ?? this.getGroupFromSubGroups(groups, groupId);
   }
 
   protected getGroupByIdIfPresent(
@@ -93,7 +91,7 @@ export class ConfiguratorUtilsService {
     groups: Configurator.Group[],
     groupId: string
   ): Configurator.Group | undefined {
-    const groupFound = groups
+    return groups
       .map((group) => {
         return group.subGroups
           ? this.getGroupByIdIfPresent(group.subGroups, groupId)
@@ -101,7 +99,6 @@ export class ConfiguratorUtilsService {
       })
       .filter((foundGroup) => foundGroup)
       .pop();
-    return groupFound;
   }
 
   /**
@@ -259,11 +256,10 @@ export class ConfiguratorUtilsService {
   protected buildGroupForExtract(
     group: Configurator.Group
   ): Configurator.Group {
-    const changedGroup: Configurator.Group = {
+    return {
       groupType: group.groupType,
       id: group.id,
       subGroups: [],
     };
-    return changedGroup;
   }
 }

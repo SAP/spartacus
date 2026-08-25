@@ -452,10 +452,12 @@
         </div>
       </div>
     </div>
-    <ng-container *ngFor="let group of containerMessageGroups">
-      <ng-container
-        *ngTemplateOutlet="containerRowMessage; context: { group: group }"
-      ></ng-container>
+    <ng-container *ngIf="messages$ | async as messages">
+      <ng-container *ngFor="let group of getContainerMessageGroups(messages)">
+        <ng-container
+          *ngTemplateOutlet="containerRowMessage; context: { group: group }"
+        ></ng-container>
+      </ng-container>
     </ng-container>
     <ng-container *ngIf="showDeselectionNotPossible">
       <div

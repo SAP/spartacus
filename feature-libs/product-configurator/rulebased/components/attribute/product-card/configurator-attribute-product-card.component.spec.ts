@@ -25,6 +25,10 @@ import {
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import {
+  ConfiguratorRouter,
+  ConfiguratorRouterExtractorService,
+} from '@spartacus/product-configurator/common';
+import {
   FocusDirective,
   ItemCounterComponent,
   KeyboardFocusService,
@@ -35,7 +39,10 @@ import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes
 import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
+import { ConfiguratorUtilsService } from '../../../core/facade/utils/configurator-utils.service';
 import { Configurator } from '../../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import {
   ConfiguratorPriceComponent,
   ConfiguratorPriceComponentOptions,
@@ -83,6 +90,20 @@ const productTransformed: Product = {
 class MockProductService {
   get(): Observable<Product> {
     return of(product);
+  }
+}
+
+let configuration$: BehaviorSubject<Configurator.Configuration>;
+
+class MockConfiguratorRouterExtractorService {
+  extractRouterData(): Observable<ConfiguratorRouter.Data> {
+    return of({} as ConfiguratorRouter.Data);
+  }
+}
+
+class MockConfiguratorCommonsService {
+  getConfiguration(): Observable<Configurator.Configuration> {
+    return configuration$;
   }
 }
 
@@ -202,6 +223,15 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useValue: {},
         },
+        {
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockConfiguratorRouterExtractorService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        ConfiguratorUtilsService,
         provideMockFeatureToggles({
           productConfiguratorConsolidatedButtonDisabling: true,
           productConfiguratorCPQContainer: true,
@@ -235,6 +265,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
   }));
 
   beforeEach(() => {
+    configuration$ = new BehaviorSubject(
+      ConfiguratorTestUtils.createConfiguration('config-id')
+    );
     featureToggles = TestBed.inject(MockFeatureTogglesController);
     fixture = TestBed.createComponent(
       ConfiguratorAttributeProductCardComponent
@@ -1635,17 +1668,49 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
   });
 
   describe('container row messages', () => {
+    const rowGroupId = 'CONTAINER_ROW@123@row-1';
+
+    function takeMessages(): {
+      errorMessages: string[];
+      warningMessages: string[];
+    } {
+      let result!: { errorMessages: string[]; warningMessages: string[] };
+      component.messages$
+        .pipe(take(1))
+        .subscribe((messages) => (result = messages));
+      return result;
+    }
+
+    function setConfigurationGroups(groups: Configurator.Group[]): void {
+      configuration$.next({
+        ...ConfiguratorTestUtils.createConfiguration('config-id'),
+        groups,
+      });
+    }
+
     function setContainerRowMessages(
-      errorMessages?: string[],
-      warningMessages?: string[]
+      messages?: Configurator.Message[],
+      options?: { groupId?: string; omitGroupId?: boolean }
     ): void {
+      const groupId = options?.omitGroupId
+        ? undefined
+        : (options?.groupId ?? rowGroupId);
       component.productCardOptions.containerRow = {
         id: 'row-1',
         productSystemId: 'PRODUCT_CODE',
         selected: true,
-        errorMessages,
-        warningMessages,
+        groupId,
       };
+      setConfigurationGroups(
+        groupId
+          ? [
+              {
+                ...ConfiguratorTestUtils.createGroup(groupId),
+                messages,
+              },
+            ]
+          : []
+      );
     }
 
     it('should not render messages if container row has none', () => {
@@ -1666,10 +1731,19 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       );
     });
 
-    it('should render error messages for a selected container product', () => {
+    it('should render error messages for warning severity of the row group', () => {
       component.productCardOptions.multiSelect = true;
       setProductBoundValueAttributes(component);
-      setContainerRowMessages(['Too many units', 'Invalid selection']);
+      setContainerRowMessages([
+        {
+          message: 'Too many units',
+          severity: Configurator.MessageSeverity.WARNING,
+        },
+        {
+          message: 'Invalid selection',
+          severity: Configurator.MessageSeverity.WARNING,
+        },
+      ]);
       fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
@@ -1698,12 +1772,18 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       );
     });
 
-    it('should render warning messages for a selected container product', () => {
+    it('should render warning messages for info severity of the row group', () => {
       component.productCardOptions.multiSelect = true;
       setProductBoundValueAttributes(component);
-      setContainerRowMessages(undefined, [
-        'Check quantity',
-        'Review selection',
+      setContainerRowMessages([
+        {
+          message: 'Check quantity',
+          severity: Configurator.MessageSeverity.INFO,
+        },
+        {
+          message: 'Review selection',
+          severity: Configurator.MessageSeverity.INFO,
+        },
       ]);
       fixture.detectChanges();
 
@@ -1733,21 +1813,155 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       );
     });
 
+    it('should treat messages without severity as warnings', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowMessages([{ message: 'Unspecified message' }]);
+
+      expect(takeMessages()).toEqual({
+        errorMessages: [],
+        warningMessages: ['Unspecified message'],
+      });
+    });
+
+    it('should return empty arrays if no container row is bound', () => {
+      expect(takeMessages()).toEqual({
+        errorMessages: [],
+        warningMessages: [],
+      });
+    });
+
     it('should return empty arrays if messages are undefined', () => {
       component.productCardOptions.multiSelect = true;
       setProductBoundValueAttributes(component);
       setContainerRowMessages();
 
-      expect(component.containerErrorMessages).toEqual([]);
-      expect(component.containerWarningMessages).toEqual([]);
+      expect(takeMessages()).toEqual({
+        errorMessages: [],
+        warningMessages: [],
+      });
+    });
+
+    it('should return empty arrays if the container row has no groupId', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowMessages(
+        [
+          {
+            message: 'Too many units',
+            severity: Configurator.MessageSeverity.WARNING,
+          },
+        ],
+        { omitGroupId: true }
+      );
+
+      expect(takeMessages()).toEqual({
+        errorMessages: [],
+        warningMessages: [],
+      });
+    });
+
+    it('should return empty arrays if the configuration has no groups', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      component.productCardOptions.containerRow = {
+        id: 'row-1',
+        productSystemId: 'PRODUCT_CODE',
+        selected: true,
+        groupId: rowGroupId,
+      };
+
+      expect(takeMessages()).toEqual({
+        errorMessages: [],
+        warningMessages: [],
+      });
+    });
+
+    it('should return empty arrays if no matching row group exists', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      component.productCardOptions.containerRow = {
+        id: 'row-1',
+        productSystemId: 'PRODUCT_CODE',
+        selected: true,
+        groupId: rowGroupId,
+      };
+      setConfigurationGroups([
+        ConfiguratorTestUtils.createGroup('other-group'),
+      ]);
+
+      expect(takeMessages()).toEqual({
+        errorMessages: [],
+        warningMessages: [],
+      });
+    });
+
+    it('should not fall back to root configuration messages', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      component.productCardOptions.containerRow = {
+        id: 'row-1',
+        productSystemId: 'PRODUCT_CODE',
+        selected: true,
+        groupId: rowGroupId,
+      };
+      configuration$.next({
+        ...ConfiguratorTestUtils.createConfiguration('config-id'),
+        errorMessages: ['Root error'],
+        warningMessages: ['Root warning'],
+        groups: [ConfiguratorTestUtils.createGroup('other-group')],
+      });
+
+      expect(takeMessages()).toEqual({
+        errorMessages: [],
+        warningMessages: [],
+      });
+    });
+
+    it('should look up messages from a nested subgroup by groupId', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      component.productCardOptions.containerRow = {
+        id: 'row-1',
+        productSystemId: 'PRODUCT_CODE',
+        selected: true,
+        groupId: rowGroupId,
+      };
+      const nestedGroup = {
+        ...ConfiguratorTestUtils.createGroup(rowGroupId),
+        messages: [
+          {
+            message: 'Nested warning',
+            severity: Configurator.MessageSeverity.WARNING,
+          },
+        ],
+      };
+      setConfigurationGroups([
+        {
+          ...ConfiguratorTestUtils.createGroup('parent-group'),
+          subGroups: [nestedGroup],
+        },
+      ]);
+
+      expect(takeMessages().errorMessages).toEqual(['Nested warning']);
     });
 
     it('should pass error and warning data to the message template', () => {
       component.productCardOptions.multiSelect = true;
       setProductBoundValueAttributes(component);
-      setContainerRowMessages(['Too many units'], ['Check quantity']);
+      setContainerRowMessages([
+        {
+          message: 'Too many units',
+          severity: Configurator.MessageSeverity.WARNING,
+        },
+        {
+          message: 'Check quantity',
+          severity: Configurator.MessageSeverity.INFO,
+        },
+      ]);
 
-      const [errors, warnings] = component.containerMessageGroups;
+      const [errors, warnings] =
+        component.getContainerMessageGroups(takeMessages());
 
       expect(errors.messages).toEqual(['Too many units']);
       expect(errors.messageClass).toBe('container-error-message');

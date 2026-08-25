@@ -78,18 +78,14 @@ export class CpqConfiguratorNormalizer
     );
   }
 
-  protected generateWarningMessages(
-    source: Cpq.Configuration | Cpq.NestedProductConfiguration
-  ): string[] {
+  protected generateWarningMessages(source: Cpq.Configuration): string[] {
     return [
       ...(source.failedValidations ?? []),
       ...(source.incompleteMessages ?? []),
     ];
   }
 
-  protected generateErrorMessages(
-    source: Cpq.Configuration | Cpq.NestedProductConfiguration
-  ): string[] {
+  protected generateErrorMessages(source: Cpq.Configuration): string[] {
     return [...(source.errorMessages ?? []), ...(source.invalidMessages ?? [])];
   }
 
@@ -692,9 +688,6 @@ export class CpqConfiguratorNormalizer
     };
 
     if (nestedConfiguration) {
-      row.errorMessages = this.generateErrorMessages(nestedConfiguration);
-      row.warningMessages = this.generateWarningMessages(nestedConfiguration);
-
       const rowGroup = this.convertNestedConfiguration(
         nestedConfiguration,
         source,

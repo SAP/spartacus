@@ -2191,18 +2191,11 @@ describe('CpqConfiguratorNormalizer', () => {
         (row) => row.id === rowWithoutConfigId
       );
       expect(rowWithoutConfig?.groupId).toBeUndefined();
-      expect(rowWithoutConfig?.errorMessages).toBeUndefined();
-      expect(rowWithoutConfig?.warningMessages).toBeUndefined();
 
       const rowWithConfig = container?.rows.find(
         (row) => row.id === rowWithConfigId
       );
       expect(rowWithConfig?.groupId).toBe(expectedRowGroupId);
-      expect(rowWithConfig?.errorMessages).toEqual([ERROR_MSG, INVALID_MSG]);
-      expect(rowWithConfig?.warningMessages).toEqual([
-        VALIDATION_MSG,
-        INCOMPLETE_MSG,
-      ]);
 
       expect(parentGroup.subGroups.length).toBe(1);
       const rowGroup = parentGroup.subGroups[0];
@@ -2277,7 +2270,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.totalNumberOfIssues).toBe(7);
     });
 
-    it('should map empty nested configuration issues to empty arrays on the container row', () => {
+    it('should leave nested group messages undefined when nested configuration has no messages', () => {
       const result = cpqConfiguratorNormalizer.convert(
         configurationWithContainers([
           {
@@ -2297,8 +2290,10 @@ describe('CpqConfiguratorNormalizer', () => {
         ])
       );
       const row = result.groups[0].attributes?.[0].container?.rows[0];
-      expect(row?.errorMessages).toEqual([]);
-      expect(row?.warningMessages).toEqual([]);
+      expect(row?.groupId).toBe(
+        `${Configurator.ContainerRowGroupIdPrefix}@${cpqAttributeStdAttrCode}@${rowWithConfigId}`
+      );
+      expect(result.groups[0].subGroups[0].messages).toBeUndefined();
     });
 
     it('should recurse nested containers and keep CONTAINER_ROW_GROUP out of flatGroups', () => {

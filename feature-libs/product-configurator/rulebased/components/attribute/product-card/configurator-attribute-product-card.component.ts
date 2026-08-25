@@ -16,6 +16,7 @@ import {
   Component,
   EventEmitter,
   HostListener,
+  inject,
   Input,
   OnInit,
   Output,
@@ -28,7 +29,10 @@ import {
   TranslationService,
   useFeatureStyles,
 } from '@spartacus/core';
-import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
+import {
+  ConfiguratorProductScope,
+  ConfiguratorRouterExtractorService,
+} from '@spartacus/product-configurator/common';
 import {
   FocusConfig,
   FocusDirective,
@@ -38,7 +42,9 @@ import {
   MediaComponent,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
-import { catchError, map, take, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
+import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
+import { ConfiguratorUtilsService } from '../../../core/facade/utils/configurator-utils.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import { QuantityUpdateEvent } from '../../form/configurator-form.event';
 import {
@@ -77,6 +83,14 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   itemCount: number;
   itemIndex: number;
   containerRow?: Configurator.ContainerRow;
+}
+
+/**
+ * View model of the messages to display for the bound container row.
+ */
+interface ConfiguratorMessagesView {
+  warningMessages: string[];
+  errorMessages: string[];
 }
 
 /**
@@ -121,6 +135,24 @@ export class ConfiguratorAttributeProductCardComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
+  protected configuratorUtilsService = inject(ConfiguratorUtilsService);
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+
+  /**
+   * Messages of the nested configuration that belongs to the bound container
+   * row. Looked up from the row group identified by `containerRow.groupId`.
+   */
+  messages$: Observable<ConfiguratorMessagesView> =
+    this.configRouterExtractorService.extractRouterData().pipe(
+      switchMap((routerData) =>
+        this.configuratorCommonsService.getConfiguration(routerData.owner)
+      ),
+      map((configuration) => this.getMessages(configuration))
+    );
+
   product$: Observable<Product>;
   loading$ = new BehaviorSubject<boolean>(true);
   /**
@@ -162,16 +194,17 @@ export class ConfiguratorAttributeProductCardComponent
 
     this.product$ = this.productService
       .get(
-        productSystemId ? productSystemId : '',
+        productSystemId || '',
         ConfiguratorProductScope.CONFIGURATOR_PRODUCT_CARD
       )
       .pipe(
         map((respProduct) => {
-          return respProduct
-            ? respProduct
-            : this.transformToProductType(
-                this.productCardOptions.productBoundValue
-              );
+          return (
+            respProduct ??
+            this.transformToProductType(
+              this.productCardOptions.productBoundValue
+            )
+          );
         }),
         catchError(() =>
           of(
@@ -238,33 +271,18 @@ export class ConfiguratorAttributeProductCardComponent
   }
 
   /**
-   * Error messages of the bound container row.
-   *
-   * @returns - row error messages
-   */
-  get containerErrorMessages(): string[] {
-    return this.productCardOptions.containerRow?.errorMessages ?? [];
-  }
-
-  /**
-   * Warning messages of the bound container row.
-   *
-   * @returns - row warning messages
-   */
-  get containerWarningMessages(): string[] {
-    return this.productCardOptions.containerRow?.warningMessages ?? [];
-  }
-
-  /**
    * Warning and error groups of the bound container row.
    * Passed as context to the shared product-card message template.
    *
+   * @param messages - Messages of the bound container row
    * @returns - message groups
    */
-  get containerMessageGroups(): ConfiguratorAttributeProductCardMessageGroup[] {
+  getContainerMessageGroups(
+    messages: ConfiguratorMessagesView
+  ): ConfiguratorAttributeProductCardMessageGroup[] {
     return [
       {
-        messages: this.containerErrorMessages,
+        messages: messages.errorMessages,
         messageClass: 'container-error-message',
         iconClass: 'container-error-symbol',
         iconType: this.iconType.ERROR,
@@ -272,13 +290,71 @@ export class ConfiguratorAttributeProductCardComponent
         role: 'alert',
       },
       {
-        messages: this.containerWarningMessages,
+        messages: messages.warningMessages,
         messageClass: 'container-warning-message',
         iconClass: 'container-warning-symbol',
         iconType: this.iconType.WARNING,
         uiKeyPrefix: 'row-warning-msg',
       },
     ];
+  }
+
+  /**
+   * Determines the messages to display for the bound container row.
+   *
+   * @param configuration - Current configuration
+   * @returns Messages of the nested configuration of the bound container row
+   */
+  protected getMessages(
+    configuration: Configurator.Configuration
+  ): ConfiguratorMessagesView {
+    const containerRowGroup = this.getContainerRowGroup(configuration);
+    return this.splitMessagesBySeverity(containerRowGroup?.messages);
+  }
+
+  /**
+   * Retrieves the group that carries the nested configuration of the bound
+   * container row, using the row's `groupId`.
+   *
+   * @param configuration - Current configuration
+   * @returns Container row group, or `undefined` if the row is not
+   * configurable or the group cannot be found
+   */
+  protected getContainerRowGroup(
+    configuration: Configurator.Configuration
+  ): Configurator.Group | undefined {
+    const groupId = this.productCardOptions.containerRow?.groupId;
+    if (!groupId || !configuration.groups?.length) {
+      return undefined;
+    }
+    return this.configuratorUtilsService.getOptionalGroupById(
+      configuration.groups,
+      groupId
+    );
+  }
+
+  /**
+   * Splits the messages of a nested configuration into the display buckets.
+   * Such messages carry severity `info` or `warning`: `info` is rendered as
+   * warning, `warning` as error. A message without severity is treated
+   * like `info`.
+   *
+   * @param messages - Messages of a nested configuration
+   * @returns Messages grouped by the severity they are rendered with
+   */
+  protected splitMessagesBySeverity(
+    messages?: Configurator.Message[]
+  ): ConfiguratorMessagesView {
+    const warningMessages: string[] = [];
+    const errorMessages: string[] = [];
+    messages?.forEach((message) => {
+      if (message.severity === Configurator.MessageSeverity.WARNING) {
+        errorMessages.push(message.message);
+      } else {
+        warningMessages.push(message.message);
+      }
+    });
+    return { warningMessages, errorMessages };
   }
 
   get focusConfig(): FocusConfig {
