@@ -1,5 +1,4 @@
 import { Location } from '@angular/common';
-import { ComponentFactoryResolver } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
 import {
@@ -26,10 +25,6 @@ const MockWindowRef = {
     },
   },
 };
-
-class MockComponentFactoryResolver {
-  resolveComponentFactory() {}
-}
 
 class MockOutletService {
   add() {}
@@ -63,10 +58,6 @@ describe('AsmEnablerService', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: WindowRef, useValue: MockWindowRef },
-        {
-          provide: ComponentFactoryResolver,
-          useClass: MockComponentFactoryResolver,
-        },
         { provide: OutletService, useClass: MockOutletService },
         { provide: Location, useClass: MockLocation },
         { provide: LayoutConfig, useValue: mockLaunchConfig },

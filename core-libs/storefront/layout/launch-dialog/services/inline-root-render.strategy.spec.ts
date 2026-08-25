@@ -1,8 +1,4 @@
-import {
-  ApplicationRef,
-  Component,
-  ComponentFactoryResolver,
-} from '@angular/core';
+import { ApplicationRef, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { vi } from 'vitest';
 import { LayoutConfig } from '../../config/layout-config';
@@ -33,26 +29,6 @@ const mockLaunchConfig: LayoutConfig = {
   },
 };
 
-const hostView = {
-  attachToAppRef: vi.fn(),
-  detachFromAppRef: vi.fn(),
-  destroy: vi.fn(),
-};
-const testComponentNativeNode = document.createElement('div');
-
-class MockComponentFactoryResolver {
-  resolveComponentFactory() {
-    return {
-      create: () => {
-        return {
-          hostView,
-          location: { nativeElement: testComponentNativeNode },
-        };
-      },
-    } as any;
-  }
-}
-
 describe('InlineRootRenderStrategy', () => {
   let fixture: ComponentFixture<MockRootComponent>;
   let inlineRootRenderStrategy: InlineRootRenderStrategy;
@@ -60,14 +36,8 @@ describe('InlineRootRenderStrategy', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [MockRootComponent],
-      providers: [
-        InlineRootRenderStrategy,
-        {
-          provide: ComponentFactoryResolver,
-          useClass: MockComponentFactoryResolver,
-        },
-      ],
+      imports: [MockRootComponent, TestComponent],
+      providers: [InlineRootRenderStrategy],
     }).compileComponents();
 
     appRef = TestBed.inject(ApplicationRef);
@@ -99,10 +69,15 @@ describe('InlineRootRenderStrategy', () => {
         'TEST_INLINE_ROOT' as LAUNCH_CALLER
       );
 
-      expect(appRef.attachView).toHaveBeenCalledWith(hostView as any);
+      expect(appRef.attachView).toHaveBeenCalledTimes(1);
       expect(
         fixture.componentRef.location.nativeElement.appendChild
-      ).toHaveBeenCalledWith(testComponentNativeNode);
+      ).toHaveBeenCalledTimes(1);
+      // the created component's host node is appended to the root component
+      const appendedNode = vi.mocked(
+        fixture.componentRef.location.nativeElement.appendChild
+      ).mock.calls[0][0];
+      expect(appendedNode).toBeInstanceOf(HTMLElement);
     });
   });
 

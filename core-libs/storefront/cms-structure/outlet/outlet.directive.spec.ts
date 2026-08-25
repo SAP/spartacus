@@ -2,7 +2,6 @@ import { ApplicationRef, AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  ComponentFactoryResolver,
   Inject,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -326,7 +325,7 @@ describe('OutletDirective', () => {
     });
   });
 
-  describe('ComponentFactory in outlet', () => {
+  describe('Component in outlet', () => {
     let mockContextSubject$: BehaviorSubject<string>;
 
     @Component({
@@ -381,10 +380,9 @@ describe('OutletDirective', () => {
 
     it('should render component', () => {
       const outletService = TestBed.inject(OutletService);
-      const cfr = TestBed.inject(ComponentFactoryResolver);
       outletService.add(
         keptOutlet,
-        cfr.resolveComponentFactory(MockOutletComponent)
+        MockOutletComponent
       );
       const fixture = TestBed.createComponent(MockTemplateComponent);
       fixture.detectChanges();
@@ -395,10 +393,9 @@ describe('OutletDirective', () => {
 
     it('should render component BEFORE', () => {
       const outletService = TestBed.inject(OutletService);
-      const cfr = TestBed.inject(ComponentFactoryResolver);
       outletService.add(
         keptOutlet,
-        cfr.resolveComponentFactory(MockOutletComponent),
+        MockOutletComponent,
         OutletPosition.BEFORE
       );
       const fixture = TestBed.createComponent(MockTemplateComponent);
@@ -413,10 +410,9 @@ describe('OutletDirective', () => {
 
     it('should render component AFTER', () => {
       const outletService = TestBed.inject(OutletService);
-      const cfr = TestBed.inject(ComponentFactoryResolver);
       outletService.add(
         keptOutlet,
-        cfr.resolveComponentFactory(MockOutletComponent),
+        MockOutletComponent,
         OutletPosition.AFTER
       );
       const fixture = TestBed.createComponent(MockTemplateComponent);
@@ -431,10 +427,9 @@ describe('OutletDirective', () => {
 
     it('should inject OutletContextData into component', () => {
       const outletService = TestBed.inject(OutletService);
-      const cfr = TestBed.inject(ComponentFactoryResolver);
       outletService.add(
         keptOutlet,
-        cfr.resolveComponentFactory(MockOutletComponent)
+        MockOutletComponent
       );
       const fixture = TestBed.createComponent(MockTemplateComponent);
       fixture.detectChanges();
@@ -452,10 +447,9 @@ describe('OutletDirective', () => {
 
     it('should emit new context to OutletContextData.context$ observable', () => {
       const outletService = TestBed.inject(OutletService);
-      const cfr = TestBed.inject(ComponentFactoryResolver);
       outletService.add(
         keptOutlet,
-        cfr.resolveComponentFactory(MockOutletComponent)
+        MockOutletComponent
       );
       const fixture = TestBed.createComponent(MockTemplateComponent);
       fixture.detectChanges();
@@ -512,10 +506,9 @@ describe('OutletDirective', () => {
     describe('with angular component', () => {
       it('should be able to get componentRef or viewRef', () => {
         const outletService = TestBed.inject(OutletService);
-        const cfr = TestBed.inject(ComponentFactoryResolver);
         outletService.add(
           keptOutlet,
-          cfr.resolveComponentFactory(MockOutletComponent)
+          MockOutletComponent
         );
 
         const fixture = TestBed.createComponent(MockTestOutletComponent);

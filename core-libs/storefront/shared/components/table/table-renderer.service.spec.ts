@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver } from '@angular/core';
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { TableHeader, TableService } from '.';
 import { OutletService } from '../../../cms-structure';
@@ -58,13 +58,9 @@ const mockTableWithoutHeaderAndDataComponent: TableStructure = {
   // data: [{ name: 'my name', code: '123' }],
 };
 
-class MockComponentFactoryResolver {
-  resolveComponentFactory = vi.fn();
-}
-
 describe('TableRendererService', () => {
   let service: TableRendererService;
-  let componentFactoryResolver: ComponentFactoryResolver;
+  let outletService: OutletService;
 
   describe('with global configured cell components', () => {
     beforeEach(() => {
@@ -78,10 +74,6 @@ describe('TableRendererService', () => {
           TableService,
           { provide: OutletService, useClass: MockOutletService },
           {
-            provide: ComponentFactoryResolver,
-            useClass: MockComponentFactoryResolver,
-          },
-          {
             provide: TableConfig,
             useValue: {
               tableOptions: {
@@ -93,21 +85,21 @@ describe('TableRendererService', () => {
         ],
       });
       service = TestBed.inject(TableRendererService);
-      componentFactoryResolver = TestBed.inject(ComponentFactoryResolver);
+      outletService = TestBed.inject(OutletService);
     });
 
     describe('add()', () => {
       it('should add global components', () => {
         service.add(mockTableWithoutHeaderAndDataComponent);
-        expect(
-          componentFactoryResolver.resolveComponentFactory
-        ).toHaveBeenCalledWith(MockGlobalHeaderComponent);
-        expect(
-          componentFactoryResolver.resolveComponentFactory
-        ).toHaveBeenCalledWith(MockGlobalDataComponent);
-        expect(
-          componentFactoryResolver.resolveComponentFactory
-        ).toHaveBeenCalledTimes(6);
+        expect(outletService.add).toHaveBeenCalledWith(
+          expect.any(String),
+          MockGlobalHeaderComponent
+        );
+        expect(outletService.add).toHaveBeenCalledWith(
+          expect.any(String),
+          MockGlobalDataComponent
+        );
+        expect(outletService.add).toHaveBeenCalledTimes(6);
       });
     });
   });
@@ -123,15 +115,11 @@ describe('TableRendererService', () => {
         providers: [
           TableService,
           { provide: OutletService, useClass: MockOutletService },
-          {
-            provide: ComponentFactoryResolver,
-            useClass: MockComponentFactoryResolver,
-          },
           { provide: TableConfig, useValue: {} },
         ],
       });
       service = TestBed.inject(TableRendererService);
-      componentFactoryResolver = TestBed.inject(ComponentFactoryResolver);
+      outletService = TestBed.inject(OutletService);
     });
 
     it('should inject service', () => {
@@ -141,44 +129,43 @@ describe('TableRendererService', () => {
     describe('add()', () => {
       it('should not add any components', () => {
         service.add(emptyTableStructure);
-        expect(
-          componentFactoryResolver.resolveComponentFactory
-        ).not.toHaveBeenCalled();
+        expect(outletService.add).not.toHaveBeenCalled();
       });
 
       it('should add MockComponent for header', () => {
         service.add(mockTableWithHeaderComponent);
-        expect(
-          componentFactoryResolver.resolveComponentFactory
-        ).toHaveBeenCalledTimes(1);
+        expect(outletService.add).toHaveBeenCalledTimes(1);
 
-        expect(
-          componentFactoryResolver.resolveComponentFactory
-        ).toHaveBeenCalledWith(MockHeaderComponent);
+        expect(outletService.add).toHaveBeenCalledWith(
+          expect.any(String),
+          MockHeaderComponent
+        );
       });
 
       it('should add MockComponent for data', () => {
         service.add(mockTableWithHeaderAndDataComponent);
-        expect(
-          componentFactoryResolver.resolveComponentFactory
-        ).toHaveBeenCalledWith(MockHeaderComponent);
-        expect(
-          componentFactoryResolver.resolveComponentFactory
-        ).toHaveBeenCalledWith(MockDataComponent);
-        expect(
-          componentFactoryResolver.resolveComponentFactory
-        ).toHaveBeenCalledWith(MockCodeRendererComponent);
+        expect(outletService.add).toHaveBeenCalledWith(
+          expect.any(String),
+          MockHeaderComponent
+        );
+        expect(outletService.add).toHaveBeenCalledWith(
+          expect.any(String),
+          MockDataComponent
+        );
+        expect(outletService.add).toHaveBeenCalledWith(
+          expect.any(String),
+          MockCodeRendererComponent
+        );
       });
 
       it('should not add renderers multiple times', () => {
         service.add(mockTableWithHeaderComponent);
         service.add(mockTableWithHeaderComponent);
-        expect(
-          componentFactoryResolver.resolveComponentFactory
-        ).toHaveBeenCalledWith(MockHeaderComponent);
-        expect(
-          componentFactoryResolver.resolveComponentFactory
-        ).toHaveBeenCalledTimes(1);
+        expect(outletService.add).toHaveBeenCalledWith(
+          expect.any(String),
+          MockHeaderComponent
+        );
+        expect(outletService.add).toHaveBeenCalledTimes(1);
       });
     });
 
