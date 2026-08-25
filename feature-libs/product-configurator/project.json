@@ -20,7 +20,8 @@
     "test-vitest": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx vitest run --config feature-libs/product-configurator/vitest.config.ts --coverage"
+        "command": "npx vitest run --config vitest.config.ts",
+        "cwd": "{projectRoot}"
       }
     },
     "test-jest": {
