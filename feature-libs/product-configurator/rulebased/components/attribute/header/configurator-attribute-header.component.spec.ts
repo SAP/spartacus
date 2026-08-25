@@ -593,6 +593,24 @@ describe('ConfigAttributeHeaderComponent', () => {
         'singleSelectAdditionalRequiredMessage'
       );
     });
+
+    it('should return a container message with minRows as count', () => {
+      component.attribute.uiType = Configurator.UiType.CONTAINER;
+      component.attribute.container = { minRows: 3, rows: [] };
+      expect(component.getRequiredMessageKey()).toEqual({
+        key: 'configurator.attribute.containerRequiredMessage',
+        params: { count: 3 },
+      });
+    });
+
+    it('should default container message count to 1 if minRows is not set', () => {
+      component.attribute.uiType = Configurator.UiType.CONTAINER;
+      component.attribute.container = { rows: [] };
+      expect(component.getRequiredMessageKey()).toEqual({
+        key: 'configurator.attribute.containerRequiredMessage',
+        params: { count: 1 },
+      });
+    });
   });
 
   describe('Required message at the attribute level', () => {
@@ -656,6 +674,19 @@ describe('ConfigAttributeHeaderComponent', () => {
         expect,
         htmlElem,
         '.cx-required-error-msg'
+      );
+    });
+
+    it('should render container required message with minRows as count', () => {
+      component.attribute.uiType = Configurator.UiType.CONTAINER;
+      component.attribute.container = { minRows: 2, rows: [] };
+      component.showRequiredMessageForDomainAttribute$ = of(true);
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-required-error-msg',
+        'configurator.attribute.containerRequiredMessage count:2'
       );
     });
   });

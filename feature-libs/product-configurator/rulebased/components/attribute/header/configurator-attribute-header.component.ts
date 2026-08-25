@@ -12,7 +12,12 @@ import {
   isDevMode,
   OnInit,
 } from '@angular/core';
-import { Config, LoggerService, TranslatePipe } from '@spartacus/core';
+import {
+  Config,
+  LoggerService,
+  TranslatePipe,
+  Translatable,
+} from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -88,10 +93,18 @@ export class ConfiguratorAttributeHeaderComponent
 
   /**
    * Get message key for the required message. Is different for multi- and single selection values
-   *  @return {string} - required message key
+   * and for container attributes. Container messages include `count` from `minRows`
+   * so i18n can pick singular vs plural.
+   *
+   * @return required message key, or a translatable with params for containers
    */
-  getRequiredMessageKey(): string {
-    if (this.isSingleSelection()) {
+  getRequiredMessageKey(): string | Translatable {
+    if (this.isContainerSelection()) {
+      return {
+        key: 'configurator.attribute.containerRequiredMessage',
+        params: { count: this.attribute.container?.minRows ?? 1 },
+      };
+    } else if (this.isSingleSelection()) {
       return this.isWithAdditionalValues(this.attribute)
         ? 'configurator.attribute.singleSelectAdditionalRequiredMessage'
         : 'configurator.attribute.singleSelectRequiredMessage';
@@ -107,6 +120,15 @@ export class ConfiguratorAttributeHeaderComponent
       case Configurator.UiType.CHECKBOXLIST:
       case Configurator.UiType.CHECKBOXLIST_PRODUCT:
       case Configurator.UiType.MULTI_SELECTION_IMAGE: {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  protected isContainerSelection(): boolean {
+    switch (this.attribute.uiType) {
+      case Configurator.UiType.CONTAINER: {
         return true;
       }
     }

@@ -742,7 +742,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
         );
     });
 
-    it('should not return COMPLETE style class if group is complete, consistent and type is CPQ', () => {
+    it('should return COMPLETE style class if group is complete, consistent and type is CPQ', () => {
       productConfigurationObservable = of(mockProductConfiguration);
       routerStateObservable = of(mockRouterState);
       mockGroupVisited = true;
@@ -756,7 +756,9 @@ describe('ConfiguratorGroupMenuComponent', () => {
           mockProductConfiguration
         )
         .pipe(take(1))
-        .subscribe((style) => expect(style).toEqual(baseStyleClass));
+        .subscribe((style) =>
+          expect(style).toEqual(baseStyleClass + completeStyleClass)
+        );
     });
 
     it('should return WARNING style class if group is inconsistent and type is variant', () => {
@@ -1006,7 +1008,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
       );
     });
 
-    it("should not contain 'COMPLETE' class despite the group is complete and has been visited but the type is CPQ", () => {
+    it("should contain 'COMPLETE' class because the group is complete, has been visited and the type is CPQ", () => {
       clonedSimpleConfig.complete = true;
       clonedSimpleConfig.groups[0].complete = true;
       clonedSimpleConfig.groups[0].consistent = true;
@@ -1015,7 +1017,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
       isConflictGroupType = false;
       initialize();
 
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         '.cx-menu-item.COMPLETE'

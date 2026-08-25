@@ -566,40 +566,66 @@ export class CpqConfiguratorNormalizer
     //Default value for incomplete is false
     attribute.incomplete = false;
 
-    switch (attribute.uiType) {
-      case Configurator.UiType.RADIOBUTTON:
-      case Configurator.UiType.RADIOBUTTON_PRODUCT:
-      case Configurator.UiType.DROPDOWN:
-      case Configurator.UiType.DROPDOWN_PRODUCT:
-      case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
-        if (
-          !attribute.selectedSingleValue ||
-          attribute.selectedSingleValue === Configurator.RetractValueCode
-        ) {
-          attribute.incomplete = true;
-        }
-        break;
-      }
-      case Configurator.UiType.NUMERIC:
-      case Configurator.UiType.STRING: {
-        if (!attribute.userInput) {
-          attribute.incomplete = true;
-        }
-        break;
-      }
-
-      case Configurator.UiType.CHECKBOXLIST:
-      case Configurator.UiType.CHECKBOXLIST_PRODUCT:
-      case Configurator.UiType.CHECKBOX:
-      case Configurator.UiType.MULTI_SELECTION_IMAGE: {
-        const isOneValueSelected =
-          attribute.values?.find((value) => value.selected) !== undefined;
-        if (!isOneValueSelected) {
-          attribute.incomplete = true;
-        }
-        break;
-      }
+    const singleValueTypes = [
+      Configurator.UiType.RADIOBUTTON,
+      Configurator.UiType.RADIOBUTTON_PRODUCT,
+      Configurator.UiType.DROPDOWN,
+      Configurator.UiType.DROPDOWN_PRODUCT,
+      Configurator.UiType.SINGLE_SELECTION_IMAGE,
+    ];
+    const inputTypes = [
+      Configurator.UiType.NUMERIC,
+      Configurator.UiType.STRING,
+    ];
+    const multiValueTypes = [
+      Configurator.UiType.CHECKBOXLIST,
+      Configurator.UiType.CHECKBOXLIST_PRODUCT,
+      Configurator.UiType.CHECKBOX,
+      Configurator.UiType.MULTI_SELECTION_IMAGE,
+    ];
+    const uiType = attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED;
+    if (singleValueTypes.includes(uiType)) {
+      this.compileAttributeIncompleteSingleLevel(attribute);
+    } else if (inputTypes.includes(uiType)) {
+      this.compileAttributeIncompleteInputTypes(attribute);
+    } else if (multiValueTypes.includes(uiType)) {
+      this.compileAttributeIncompleteMultiSelect(attribute);
+    } else if (uiType === Configurator.UiType.CONTAINER) {
+      this.compileAttributeIncompleteContainer(attribute);
     }
+  }
+
+  protected compileAttributeIncompleteSingleLevel(
+    attribute: Configurator.Attribute
+  ): void {
+    if (
+      !attribute.selectedSingleValue ||
+      attribute.selectedSingleValue === Configurator.RetractValueCode
+    ) {
+      attribute.incomplete = true;
+    }
+  }
+
+  protected compileAttributeIncompleteInputTypes(
+    attribute: Configurator.Attribute
+  ): void {
+    if (!attribute.userInput) {
+      attribute.incomplete = true;
+    }
+  }
+
+  protected compileAttributeIncompleteMultiSelect(
+    attribute: Configurator.Attribute
+  ): void {
+    attribute.incomplete = !attribute.values?.some((value) => value.selected);
+  }
+
+  protected compileAttributeIncompleteContainer(
+    attribute: Configurator.Attribute
+  ): void {
+    attribute.incomplete = !attribute.container?.rows?.some(
+      (row) => row.selected
+    );
   }
 
   protected hasValueToBeIgnored(
@@ -644,8 +670,23 @@ export class CpqConfiguratorNormalizer
           currency,
           flatGroupList
         );
+        this.applyContainerRequired(attribute);
+        this.compileAttributeIncomplete(attribute);
       }
     });
+  }
+
+  /**
+   * Marks a container attribute as required when `minRows` is at least 1,
+   * even if the source CPQ attribute is not required.
+   */
+  protected applyContainerRequired(attribute: Configurator.Attribute): void {
+    if (
+      attribute.uiType === Configurator.UiType.CONTAINER &&
+      (attribute.container?.minRows ?? 0) >= 1
+    ) {
+      attribute.required = true;
+    }
   }
 
   protected convertContainer(

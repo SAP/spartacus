@@ -1198,6 +1198,49 @@ describe('CpqConfiguratorNormalizer', () => {
       );
       expect(attributeMSIWOValue.incomplete).toBe(true);
     });
+
+    it('should set incomplete by container type correctly', () => {
+      const attributeWithSelectedRow: Configurator.Attribute = {
+        name: 'ATTRIBUTE_NAME',
+        uiType: Configurator.UiType.CONTAINER,
+        container: { rows: [{ id: '1', selected: true }] },
+      };
+      const attributeWithUnselectedRow: Configurator.Attribute = {
+        name: 'ATTRIBUTE_NAME',
+        uiType: Configurator.UiType.CONTAINER,
+        container: { rows: [{ id: '1', selected: false }] },
+      };
+      const attributeWithEmptyRows: Configurator.Attribute = {
+        name: 'ATTRIBUTE_NAME',
+        uiType: Configurator.UiType.CONTAINER,
+        container: { rows: [] },
+      };
+
+      cpqConfiguratorNormalizer['compileAttributeIncomplete'](
+        attributeWithSelectedRow
+      );
+      cpqConfiguratorNormalizer['compileAttributeIncomplete'](
+        attributeWithUnselectedRow
+      );
+      cpqConfiguratorNormalizer['compileAttributeIncomplete'](
+        attributeWithEmptyRows
+      );
+
+      expect(attributeWithSelectedRow.incomplete).toBe(false);
+      expect(attributeWithUnselectedRow.incomplete).toBe(true);
+      expect(attributeWithEmptyRows.incomplete).toBe(true);
+    });
+
+    it('should cover situation that container attribute does not have a container', () => {
+      const attributeWithoutContainer: Configurator.Attribute = {
+        name: 'ATTRIBUTE_NAME',
+        uiType: Configurator.UiType.CONTAINER,
+      };
+      cpqConfiguratorNormalizer['compileAttributeIncomplete'](
+        attributeWithoutContainer
+      );
+      expect(attributeWithoutContainer.incomplete).toBe(true);
+    });
   });
 
   describe('hasValueToBeIgnored', () => {
@@ -2128,6 +2171,35 @@ describe('CpqConfiguratorNormalizer', () => {
       };
     }
 
+    function convertContainerAttribute(
+      required: boolean,
+      minRows?: number
+    ): Configurator.Attribute | undefined {
+      return cpqConfiguratorNormalizer.convert({
+        ...cpqConfiguration,
+        tabs: [
+          {
+            ...cpqTab,
+            attributes: [
+              {
+                ...cpqAttribute,
+                displayAs: Cpq.DisplayAs.CONTAINER,
+                required,
+                values: [],
+              },
+            ],
+          },
+        ],
+        sapContainers: [
+          {
+            stdAttrCode: cpqAttributeStdAttrCode,
+            minRows,
+            rows: [],
+          },
+        ],
+      }).groups[0].attributes?.[0];
+    }
+
     it('should leave attribute without container when no matching sapContainers entry exists', () => {
       const result = cpqConfiguratorNormalizer.convert(
         configurationWithContainers([
@@ -2177,6 +2249,76 @@ describe('CpqConfiguratorNormalizer', () => {
       );
       expect(container?.rows[0].groupId).toBeUndefined();
       expect(result.groups[0].subGroups.length).toBe(0);
+    });
+
+    it('should mark container attribute complete when a row is selected', () => {
+      const result = cpqConfiguratorNormalizer.convert({
+        ...cpqConfiguration,
+        tabs: [
+          {
+            ...cpqTab,
+            attributes: [
+              {
+                ...cpqAttribute,
+                displayAs: Cpq.DisplayAs.CONTAINER,
+                values: [],
+              },
+            ],
+          },
+        ],
+        sapContainers: [
+          {
+            stdAttrCode: cpqAttributeStdAttrCode,
+            rows: [{ id: '1', selected: true }],
+          },
+        ],
+      });
+      expect(result.groups[0].attributes?.[0].incomplete).toBe(false);
+    });
+
+    it('should mark container attribute incomplete when no row is selected', () => {
+      const result = cpqConfiguratorNormalizer.convert({
+        ...cpqConfiguration,
+        tabs: [
+          {
+            ...cpqTab,
+            attributes: [
+              {
+                ...cpqAttribute,
+                displayAs: Cpq.DisplayAs.CONTAINER,
+                values: [],
+              },
+            ],
+          },
+        ],
+        sapContainers: [
+          {
+            stdAttrCode: cpqAttributeStdAttrCode,
+            rows: [{ id: '1', selected: false }],
+          },
+        ],
+      });
+      expect(result.groups[0].attributes?.[0].incomplete).toBe(true);
+    });
+
+    it('should set container attribute required when minRows is 1 even if source is not required', () => {
+      expect(convertContainerAttribute(false, 1)?.required).toBe(true);
+    });
+
+    it('should set container attribute required when minRows is greater than 1 even if source is not required', () => {
+      expect(convertContainerAttribute(false, 2)?.required).toBe(true);
+    });
+
+    it('should keep container attribute not required when minRows is 0', () => {
+      expect(convertContainerAttribute(false, 0)?.required).toBe(false);
+    });
+
+    it('should keep container attribute not required when minRows is not set', () => {
+      expect(convertContainerAttribute(false)?.required).toBe(false);
+    });
+
+    it('should keep container attribute required when source is required and minRows is 0', () => {
+      expect(convertContainerAttribute(true, 0)?.required).toBe(true);
     });
 
     it('should create CONTAINER_ROW_GROUP for rows with nested configuration', () => {

@@ -414,12 +414,7 @@ export class ConfiguratorGroupMenuComponent {
         ) {
           groupStatusStyle = groupStatusStyle + this.WARNING;
         }
-        if (
-          configuration.owner.configuratorType !== CLOUDCPQ_CONFIGURATOR_TYPE &&
-          group.complete &&
-          group.consistent &&
-          isVisited
-        ) {
+        if (group.complete && group.consistent && isVisited) {
           groupStatusStyle = groupStatusStyle + this.COMPLETE;
         }
         if (!group.complete && isVisited) {
