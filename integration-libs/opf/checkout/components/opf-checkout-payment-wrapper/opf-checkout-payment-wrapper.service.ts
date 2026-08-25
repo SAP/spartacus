@@ -145,7 +145,11 @@ export class OpfCheckoutPaymentWrapperService {
               paymentSessionId,
               otpKey: params.otpKey,
               config: {
+                configurationId: params.config?.configurationId,
                 browserInfo: params.config?.browserInfo,
+                channel: params.config?.channel,
+                resultURL: params.config?.resultURL,
+                cancelURL: params.config?.cancelURL,
               },
             });
           }
