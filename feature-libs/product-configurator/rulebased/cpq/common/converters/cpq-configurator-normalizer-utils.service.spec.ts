@@ -546,16 +546,18 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
 
     it('should count root-level issues including typed messages', () => {
       expect(
-        cpqConfiguratorNormalizerUtilsService.countIssues(rootConfiguration)
+        cpqConfiguratorNormalizerUtilsService['countIssues'](rootConfiguration)
       ).toBe(8);
     });
 
     it('should count nested configuration issues from tab attributes marked incomplete', () => {
       expect(
-        cpqConfiguratorNormalizerUtilsService.countIssues(nestedConfiguration)
+        cpqConfiguratorNormalizerUtilsService['countIssues'](
+          nestedConfiguration
+        )
       ).toBe(6);
       expect(
-        cpqConfiguratorNormalizerUtilsService.countIssues({
+        cpqConfiguratorNormalizerUtilsService['countIssues']({
           ...nestedConfiguration,
           tabs: [
             {
@@ -588,9 +590,49 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
         },
       ];
       expect(
-        cpqConfiguratorNormalizerUtilsService.countIssuesInContainers(
+        cpqConfiguratorNormalizerUtilsService['countIssuesInContainers'](
           containers
         )
+      ).toBe(6);
+    });
+
+    it('should only count root typed messages when messages are present', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues(
+          rootConfiguration
+        )
+      ).toBe(2);
+    });
+
+    it('should count all root message containers when messages are absent', () => {
+      const rootWithoutMessages: Cpq.Configuration = {
+        ...rootConfiguration,
+        messages: undefined,
+      };
+      expect(
+        cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues(
+          rootWithoutMessages
+        )
+      ).toBe(6);
+    });
+
+    it('should still count all nested message containers when nested messages are present', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues({
+          productSystemId: 'productSystemId',
+          currencyISOCode: CURRENCY,
+          sapContainers: [
+            {
+              stdAttrCode: 1,
+              rows: [
+                {
+                  id: '1',
+                  configuration: nestedConfiguration,
+                },
+              ],
+            },
+          ],
+        })
       ).toBe(6);
     });
 
@@ -627,7 +669,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
           ...rootConfiguration,
           sapContainers: containers,
         })
-      ).toBe(15);
+      ).toBe(9);
     });
 
     it('should return zero when no issues exist', () => {

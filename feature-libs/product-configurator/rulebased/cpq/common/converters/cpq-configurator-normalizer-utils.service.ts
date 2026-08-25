@@ -266,11 +266,17 @@ export class CpqConfiguratorNormalizerUtilsService {
    * Calculates the total number of issues for a CPQ configuration,
    * including issues in nested container-row configurations.
    *
+   * When the root configuration contains at least one typed message,
+   * only `messages` are counted at root level. Other root-level message
+   * containers are ignored. Nested configurations are counted unchanged.
+   *
    * @param source - CPQ configuration
    * @returns Total number of issues
    */
   calculateTotalNumberOfIssues(source: Cpq.Configuration): number {
-    const rootContribution = this.countIssues(source);
+    const rootTypedMessages = this.countTypedMessages(source);
+    const rootContribution =
+      rootTypedMessages > 0 ? rootTypedMessages : this.countIssues(source);
     const nestedContribution = this.countIssuesInContainers(
       source.sapContainers,
       'root.sapContainers'
@@ -286,7 +292,7 @@ export class CpqConfiguratorNormalizerUtilsService {
    * @param context - Optional context label for temporary logging
    * @returns Number of issues at this level
    */
-  countIssues(
+  protected countIssues(
     source: Cpq.Configuration | Cpq.NestedProductConfiguration
   ): number {
     const incompleteAttributes =
@@ -297,8 +303,7 @@ export class CpqConfiguratorNormalizerUtilsService {
     const invalidMessages = source.invalidMessages?.length ?? 0;
     const failedValidations = source.failedValidations?.length ?? 0;
     const errorMessages = source.errorMessages?.length ?? 0;
-    const typedMessages =
-      source.messages?.filter((message) => !!message.message).length ?? 0;
+    const typedMessages = this.countTypedMessages(source);
     const total =
       incompleteAttributes +
       incompleteMessages +
@@ -310,6 +315,18 @@ export class CpqConfiguratorNormalizerUtilsService {
   }
 
   /**
+   * Counts typed messages with non-empty message text.
+   *
+   * @param source - CPQ configuration or nested product configuration
+   * @returns Number of typed messages
+   */
+  protected countTypedMessages(
+    source: Cpq.Configuration | Cpq.NestedProductConfiguration
+  ): number {
+    return source.messages?.filter((message) => !!message.message).length ?? 0;
+  }
+
+  /**
    * Counts attributes marked as incomplete within all tabs of a configuration.
    * Used for nested product configurations where incomplete attributes are
    * indicated per attribute rather than via the root-level incompleteAttributes
@@ -318,7 +335,7 @@ export class CpqConfiguratorNormalizerUtilsService {
    * @param source - CPQ configuration or nested product configuration
    * @returns Number of incomplete attributes across all tabs
    */
-  countIncompleteAttributesInTabs(
+  protected countIncompleteAttributesInTabs(
     source: Cpq.Configuration | Cpq.NestedProductConfiguration
   ): number {
     return (
@@ -339,7 +356,7 @@ export class CpqConfiguratorNormalizerUtilsService {
    * @param context - Optional context label for temporary logging
    * @returns Number of issues in nested configurations
    */
-  countIssuesInContainers(
+  protected countIssuesInContainers(
     containers?: Cpq.Container[],
     context = 'unknown'
   ): number {
