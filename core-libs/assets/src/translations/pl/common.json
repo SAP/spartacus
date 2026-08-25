@@ -33,7 +33,11 @@
     "zoomOut": "Pomniejsz",
     "selected": "Wybrane",
     "expand": "Rozwiń",
-    "collapse": "Zwiń"
+    "collapse": "Zwiń",
+    "readMore": "Więcej",
+    "readLess": "Mniej",
+    "language": "Język",
+    "currency": "Waluta"
   },
   "pageMetaResolver": {
     "category": {

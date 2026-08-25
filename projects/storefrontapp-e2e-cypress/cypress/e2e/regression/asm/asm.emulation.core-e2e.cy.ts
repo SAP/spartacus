@@ -40,6 +40,8 @@ context('Assisted Service Module', () => {
 
       cy.log('--> Add product to cart and go to checkout');
       checkout.goToCheapProductDetailsPage();
+      cy.log('Waiting for SSR timeout to pass (8s)');
+      cy.wait(8000);
       checkout.addCheapProductToCartAndBeginCheckoutForSignedInCustomer();
 
       cy.log('--> Go through delivery form');
@@ -109,7 +111,7 @@ context('Assisted Service Module', () => {
         cy.get('button.close[title="Close ASM"]').click();
         cy.get('a[role="link"]').contains('Sign In / Register').click();
       });
-      login(customer.email, customer.password);
+      login(customer.email, customer.password, true);
       cy.get('cx-login .cx-login-greet').should('be.visible');
       checkout.visitHomePage('asm=true');
 

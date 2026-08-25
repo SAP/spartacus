@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   MockTranslatePipe,
@@ -24,6 +24,7 @@ import { ConfiguratorOverviewFilterComponent } from '../overview-filter/configur
 import { ConfiguratorOverviewMenuComponent } from '../overview-menu/configurator-overview-menu.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorOverviewSidebarComponent } from './configurator-overview-sidebar.component';
+import { vi } from 'vitest';
 
 const OWNER: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -45,17 +46,16 @@ function initTestComponent() {
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
   component.ghostStyle = false;
-  fixture.detectChanges();
   configuratorStorefrontUtilsService = TestBed.inject(
     ConfiguratorStorefrontUtilsService
   );
 
-  spyOn(configuratorStorefrontUtilsService, 'getElement').and.callThrough();
-  spyOn(configuratorStorefrontUtilsService, 'changeStyling').and.stub();
-  spyOn(
+  vi.spyOn(configuratorStorefrontUtilsService, 'getElement');
+  vi.spyOn(
     configuratorStorefrontUtilsService,
-    'getSpareViewportHeight'
-  ).and.callThrough();
+    'changeStyling'
+  ).mockImplementation(() => {});
+  vi.spyOn(configuratorStorefrontUtilsService, 'getSpareViewportHeight');
 }
 
 class MockConfiguratorCommonsService {
@@ -114,7 +114,7 @@ class MockConfiguratorOverviewMenuComponent {
 }
 
 describe('ConfiguratorOverviewSidebarComponent', () => {
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ConfiguratorOverviewSidebarComponent],
       providers: [
@@ -158,13 +158,15 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
       })
       .compileComponents();
     initTestComponent();
-  }));
+  });
 
   it('should create component', () => {
+    fixture.detectChanges();
     expect(component).toBeDefined();
   });
 
   it('should render overview menu component by default', () => {
+    fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -173,6 +175,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
   });
 
   it('should render overview filter component when filter tab is selected', () => {
+    fixture.detectChanges();
     // click filter button
     fixture.debugElement
       .queryAll(By.css('.cx-menu-bar button'))[1]
@@ -186,6 +189,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
   });
 
   it('should render overview filter component when filter tab is selected by enter-key', () => {
+    fixture.detectChanges();
     // keypress on filter button
     fixture.debugElement
       .queryAll(By.css('.cx-menu-bar button'))[1]
@@ -199,6 +203,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
   });
 
   it('should render overview filter component when filter tab is selected by space-key', () => {
+    fixture.detectChanges();
     // keypress on filter button
     fixture.debugElement
       .queryAll(By.css('.cx-menu-bar button'))[1]
@@ -211,10 +216,15 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     );
   });
 
-  it('should render overview menu component when menu tab is selected', () => {
-    component.onFilter();
+  it('should render overview menu component when menu tab is selected', async () => {
     fixture.detectChanges();
-    // click menu button
+    await fixture.whenStable();
+    // Switch to filter tab first
+    fixture.debugElement
+      .queryAll(By.css('.cx-menu-bar button'))[1]
+      .triggerEventHandler('click');
+    fixture.detectChanges();
+    // click menu button to switch back
     fixture.debugElement
       .queryAll(By.css('.cx-menu-bar button'))[0]
       .triggerEventHandler('click');
@@ -226,8 +236,13 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     );
   });
 
-  it('should render overview menu component when menu tab is selected by enter-key', () => {
-    component.onFilter();
+  it('should render overview menu component when menu tab is selected by enter-key', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+    // Switch to filter tab first
+    fixture.debugElement
+      .queryAll(By.css('.cx-menu-bar button'))[1]
+      .triggerEventHandler('click');
     fixture.detectChanges();
     // keypress on menu button
     fixture.debugElement
@@ -241,8 +256,13 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     );
   });
 
-  it('should render overview menu component when menu tab is selected by space-key', () => {
-    component.onFilter();
+  it('should render overview menu component when menu tab is selected by space-key', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+    // Switch to filter tab first
+    fixture.debugElement
+      .queryAll(By.css('.cx-menu-bar button'))[1]
+      .triggerEventHandler('click');
     fixture.detectChanges();
     // keypress on menu button
     fixture.debugElement

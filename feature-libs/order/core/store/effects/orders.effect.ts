@@ -37,7 +37,7 @@ export class OrdersEffect {
         map((action: OrderActions.LoadUserOrders) => action.payload),
         switchMap((payload) => {
           return (
-            Boolean(payload.replenishmentOrderCode)
+            payload.replenishmentOrderCode
               ? this.replenishmentOrderConnector.loadReplenishmentDetailsHistory(
                   payload.userId,
                   payload.replenishmentOrderCode ?? '',

@@ -9,7 +9,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import {
   B2BUnit,
-  FeatureConfigService,
+  FeatureToggles,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
@@ -50,10 +50,10 @@ import { UnitItemService } from '../services/unit-item.service';
   ],
 })
 export class UnitDetailsComponent {
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   get isA11yCardNotificationMessageFeatureEnabled(): boolean {
-    return this.featureConfigService.isEnabled('a11yCardNotificationMessage');
+    return !!this.featureToggles.a11yCardNotificationMessage;
   }
 
   model$: Observable<B2BUnit> = this.itemService.key$.pipe(

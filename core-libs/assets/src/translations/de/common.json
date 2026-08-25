@@ -33,7 +33,11 @@
     "zoomOut": "Verkleinern",
     "selected": "Ausgewählt",
     "expand": "Expandieren",
-    "collapse": "Komprimieren"
+    "collapse": "Komprimieren",
+    "readMore": "Mehr lesen",
+    "readLess": "Weniger lesen",
+    "language": "Sprache",
+    "currency": "Währung"
   },
   "pageMetaResolver": {
     "category": {

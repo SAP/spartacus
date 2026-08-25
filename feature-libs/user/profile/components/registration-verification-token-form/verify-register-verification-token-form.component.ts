@@ -24,7 +24,7 @@ import {
 } from '@angular/forms';
 import {
   AuthConfigService,
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   OAuthFlow,
@@ -80,13 +80,11 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
   protected launchDialogService: LaunchDialogService =
     inject(LaunchDialogService);
 
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
   protected passwordValidators = this.getPasswordValidators();
 
   getPasswordValidators(): any {
-    return this.featureConfigService.isEnabled(
-      'useEnhancedSecurePasswordValidators'
-    )
+    return this.featureToggles.useEnhancedSecurePasswordValidators
       ? [
           ...CustomFormValidators.securePasswordValidators,
           CustomFormValidators.mustEndWithLegalCharacter,
@@ -120,7 +118,7 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
   );
 
   ngOnInit() {
-    if (!!history.state) {
+    if (history.state) {
       this.tokenId = history.state['tokenId'];
       this.target = history.state['loginId'];
       this.titleCode = history.state['titleCode'];
@@ -152,7 +150,7 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
       !this.lastName
     ) {
       this.router.go(
-        this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+        this.featureToggles.authorizationCodeFlowByDefault
           ? { cxRoute: 'register' }
           : ['/login/register']
       );
@@ -260,7 +258,7 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
       this.router.go('login');
     }
 
-    if (this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')) {
+    if (this.featureToggles.authorizationCodeFlowByDefault) {
       this.router.go({ cxRoute: 'login' });
     }
     this.service.postRegisterMessage();

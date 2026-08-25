@@ -13,19 +13,16 @@ import {
 import { RouterLink } from '@angular/router';
 import {
   CmsProductReferencesComponent,
-  FeatureDirective,
   isNotNullable,
   Product,
   ProductReference,
   ProductReferenceService,
   UrlPipe,
-  useFeatureStyles,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CarouselScrollingComponent } from '../../../../shared/components/carousel-scrolling/carousel-scrolling.component';
-import { CarouselComponent } from '../../../../shared/components/carousel/carousel.component';
 import { MediaComponent } from '../../../../shared/components/media/media.component';
 import { CurrentProductService } from '../../current-product.service';
 
@@ -34,10 +31,8 @@ import { CurrentProductService } from '../../current-product.service';
   templateUrl: './product-references.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    FeatureDirective,
     NgIf,
     CarouselScrollingComponent,
-    CarouselComponent,
     RouterLink,
     MediaComponent,
     AsyncPipe,
@@ -49,9 +44,7 @@ export class ProductReferencesComponent {
     protected cmsComponentData: CmsComponentData<CmsProductReferencesComponent>,
     protected currentProductService: CurrentProductService,
     protected productReferenceService: ProductReferenceService
-  ) {
-    useFeatureStyles('productCarouselScrolling');
-  }
+  ) {}
 
   protected get componentData$(): Observable<CmsProductReferencesComponent> {
     return this.cmsComponentData.data$.pipe(filter((data) => Boolean(data)));

@@ -14,13 +14,20 @@ import {
 import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
 import { lastValueFrom } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { provideConfigInitializerFactory } from '../../config/config-initializer';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { provideDefaultConfigFactory } from '../../config/config-providers';
 import { provideConfigValidator } from '../../config/config-validator/config-validator';
-import { LOCATION_INITIALIZED_MULTI } from '../../routing/location-initialized-multi/location-initialized-multi';
+import { FeatureToggles } from '../../features-config/feature-toggles';
+import {
+  LocationInitializerFactory,
+  provideLocationInitializerFactory,
+} from '../../routing/location-initialized-multi/location-initialized-multi';
+import { AuthConfigInitializer } from './config/auth-config-initializer';
 import { baseUrlConfigValidator } from './config/base-url-config-validator';
 import { defaultAuthConfigFactory } from './config/default-auth-config';
 import { UserAuthEventModule } from './events/user-auth-event.module';
+import { AuthNotificationService } from './facade';
 import { AuthService } from './facade/auth.service';
 import { interceptors } from './http-interceptors/index';
 import { AuthStatePersistenceService } from './services/auth-state-persistence.service';
@@ -60,7 +67,7 @@ export function authStatePersistenceFactory(
  * browser storage and in-memory storage.
  * This is required to handle the OAuth callback.
  */
-const authInitializedFactory = () => {
+const authInitializedFactory: LocationInitializerFactory = () => {
   const authService = inject(AuthService);
   const configInit = inject(ConfigInitializerService);
   const platformId = inject(PLATFORM_ID);
@@ -71,6 +78,18 @@ const authInitializedFactory = () => {
   authStatePersistenceFactory(authStatePersistenceService)();
   return checkOAuthParamsInUrl(authService, configInit, platformId);
 };
+
+/**
+ * Calls the listen function to initialize the service.
+ */
+export const authNotificationInitializerFactory: LocationInitializerFactory =
+  () => {
+    let notificationService: AuthNotificationService | undefined;
+    if (inject(FeatureToggles).propagateLogoutToAllTabs) {
+      notificationService = inject(AuthNotificationService);
+    }
+    return () => Promise.resolve(notificationService?.listen());
+  };
 
 /**
  * Authentication module for a user. Handlers requests for logged in users,
@@ -86,16 +105,19 @@ export class UserAuthModule {
       providers: [
         provideDefaultConfigFactory(defaultAuthConfigFactory),
         provideConfigValidator(baseUrlConfigValidator),
+        provideConfigInitializerFactory(() =>
+          // When removing this feature toggle, switch to `provideConfigInitializer`
+          inject(FeatureToggles).asyncAuthConfigInitializer
+            ? inject(AuthConfigInitializer)
+            : null
+        ),
         ...interceptors,
         {
           provide: OAuthStorage,
           useExisting: AuthStorageService,
         },
-        {
-          provide: LOCATION_INITIALIZED_MULTI,
-          useFactory: authInitializedFactory,
-          multi: true,
-        },
+        provideLocationInitializerFactory(authNotificationInitializerFactory),
+        provideLocationInitializerFactory(authInitializedFactory),
       ],
     };
   }

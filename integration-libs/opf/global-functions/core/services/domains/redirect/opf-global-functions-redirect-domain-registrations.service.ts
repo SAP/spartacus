@@ -56,7 +56,6 @@ export class OpfGlobalFunctionsRedirectDomainRegistrationsService {
         // this is intentional
       },
     }: {
-      cartId: string;
       additionalData: Array<OpfKeyValueMap>;
       submitSuccess: OpfPaymentMerchantCallback;
       submitPending: OpfPaymentMerchantCallback;

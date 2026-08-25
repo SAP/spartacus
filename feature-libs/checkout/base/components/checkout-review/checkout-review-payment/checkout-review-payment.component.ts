@@ -12,6 +12,7 @@ import {
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 import {
+  FeatureDirective,
   PaymentDetails,
   TranslatePipe,
   TranslationService,
@@ -21,6 +22,7 @@ import { billingAddressCard, paymentMethodCard } from '@spartacus/order/root';
 import {
   Card,
   CardComponent,
+  FocusDirective,
   ICON_TYPE,
   IconComponent,
 } from '@spartacus/storefront';
@@ -39,6 +41,8 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
     IconComponent,
     AsyncPipe,
     TranslatePipe,
+    FocusDirective,
+    FeatureDirective,
     UrlPipe,
   ],
 })

@@ -6,7 +6,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { StoreModule } from '@ngrx/store';
@@ -33,6 +33,7 @@ import {
   ConfiguratorAttributeQuantityComponentOptions,
 } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
+import { vi } from 'vitest';
 
 function createValue(
   code: string,
@@ -92,6 +93,9 @@ class MockConfiguratorShowMoreComponent {
 
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
+  isConfigurationLoading(): Observable<boolean> {
+    return of(false);
+  }
 }
 
 let showRequiredErrorMessage: boolean;
@@ -151,11 +155,10 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       incomplete: true,
       values,
     };
-    fixture.detectChanges();
     return component;
   }
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.overrideComponent(ConfiguratorAttributeDropDownComponent, {
       set: {
         providers: [
@@ -211,10 +214,11 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   it('should create', () => {
     createComponentWithData();
+    fixture.detectChanges();
     expect(component).toBeTruthy();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -225,6 +229,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
 
   it('should render an empty component in case showRequiredErrorMessage$ is `false`', () => {
     createComponentWithData(false);
+    fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
@@ -256,16 +261,15 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
 
   it('should set selectedSingleValue on init', () => {
     createComponentWithData();
+    fixture.detectChanges();
     expect(component.attributeDropDownForm.value).toEqual(selectedValue);
   });
 
   it('should call updateConfiguration on select', () => {
     createComponentWithData();
+    fixture.detectChanges();
     component.ownerKey = ownerKey;
-    spyOn(
-      component['configuratorCommonsService'],
-      'updateConfiguration'
-    ).and.callThrough();
+    vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
     component.onSelect(component.attributeDropDownForm.value);
     expect(
       component['configuratorCommonsService'].updateConfiguration
@@ -401,6 +405,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
   describe('getSelectedValueDescription', () => {
     it('should return blank if no description provided at model level on any selected value', () => {
       createComponentWithData();
+      fixture.detectChanges();
       component.attribute.values = [];
       expect(component.getSelectedValueDescription()).toBe('');
     });
@@ -457,6 +462,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     });
 
     it("should contain label element with class name 'cx-visually-hidden' that hides label content on the UI", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -471,6 +477,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     });
 
     it("should contain select element with class name 'form-control' and 'aria-describedby' attribute that indicates the ID of the element that describe the elements", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

@@ -53,7 +53,7 @@ describe('Feature Config Utils', () => {
             testFeature: '1.0',
           },
         };
-        expect(isFeatureEnabled(config, 'testFeature')).toBeTruthy();
+        expect(isFeatureEnabled(config, 'testFeature' as any)).toBeTruthy();
       });
 
       it('should return false if feature is disabled for level', () => {
@@ -63,7 +63,7 @@ describe('Feature Config Utils', () => {
             testFeature: '1.2',
           },
         };
-        expect(isFeatureEnabled(config, 'testFeature')).toBeFalsy();
+        expect(isFeatureEnabled(config, 'testFeature' as any)).toBeFalsy();
       });
 
       it('should return false if feature is disabled for level with negation', () => {
@@ -73,7 +73,7 @@ describe('Feature Config Utils', () => {
             testFeature: '1.2',
           },
         };
-        expect(isFeatureEnabled(config, '!testFeature')).toBeFalsy();
+        expect(isFeatureEnabled(config, '!testFeature' as any)).toBeFalsy();
       });
 
       it('should return true if feature is disabled for level with negation', () => {
@@ -84,7 +84,7 @@ describe('Feature Config Utils', () => {
           },
         };
 
-        expect(isFeatureEnabled(config, '!testFeature')).toBeTruthy();
+        expect(isFeatureEnabled(config, '!testFeature' as any)).toBeTruthy();
       });
     });
 
@@ -95,7 +95,7 @@ describe('Feature Config Utils', () => {
             testFeature: true,
           },
         };
-        expect(isFeatureEnabled(config, 'testFeature')).toBeTruthy();
+        expect(isFeatureEnabled(config, 'testFeature' as any)).toBeTruthy();
       });
       it('should return false if feature is disabled', () => {
         const config: FeaturesConfig = {
@@ -103,7 +103,7 @@ describe('Feature Config Utils', () => {
             testFeature: false,
           },
         };
-        expect(isFeatureEnabled(config, 'testFeature')).toBeFalsy();
+        expect(isFeatureEnabled(config, 'testFeature' as any)).toBeFalsy();
       });
       it('should return false if feature is enabled but negation is used', () => {
         const config: FeaturesConfig = {
@@ -111,7 +111,7 @@ describe('Feature Config Utils', () => {
             testFeature: true,
           },
         };
-        expect(isFeatureEnabled(config, '!testFeature')).toBeFalsy();
+        expect(isFeatureEnabled(config, '!testFeature' as any)).toBeFalsy();
       });
       it('should return true if feature is disabled but negation is used', () => {
         const config: FeaturesConfig = {
@@ -119,7 +119,7 @@ describe('Feature Config Utils', () => {
             testFeature: false,
           },
         };
-        expect(isFeatureEnabled(config, '!testFeature')).toBeTruthy();
+        expect(isFeatureEnabled(config, '!testFeature' as any)).toBeTruthy();
       });
     });
   });

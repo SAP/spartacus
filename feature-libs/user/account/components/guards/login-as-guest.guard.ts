@@ -7,7 +7,7 @@
 import { Injectable, inject } from '@angular/core';
 import { GuardResult, Router } from '@angular/router';
 import {
-  FeatureConfigService,
+  FeatureToggles,
   SemanticPathService,
   WindowRef,
 } from '@spartacus/core';
@@ -18,7 +18,7 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root',
 })
 export class LoginAsGuestGuard {
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
   protected windowRef = inject(WindowRef);
   protected router = inject(Router);
   protected semanticPathService = inject(SemanticPathService);
@@ -29,7 +29,7 @@ export class LoginAsGuestGuard {
 
   canActivate(): Observable<GuardResult> {
     if (
-      this.featureConfigService.isEnabled('authorizationCodeFlowByDefault') &&
+      this.featureToggles.authorizationCodeFlowByDefault &&
       this.windowRef.localStorage?.getItem(IS_GUEST_USER_CHECKOUT_KEY) ===
         'true'
     ) {

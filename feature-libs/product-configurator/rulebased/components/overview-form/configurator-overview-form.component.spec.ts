@@ -1,10 +1,9 @@
 import { Component, Injectable, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  FeatureConfigService,
   FeaturesConfigModule,
   I18nTestingModule,
   MockTranslatePipe,
@@ -159,7 +158,7 @@ class MockDirectionService implements Partial<DirectionService> {
 }
 
 describe('ConfigurationOverviewFormComponent', () => {
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -193,7 +192,7 @@ describe('ConfigurationOverviewFormComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
   beforeEach(() => {
     routerStateObservable = null;
     configurationObservable = null;
@@ -470,18 +469,6 @@ describe('ConfigurationOverviewFormComponent', () => {
   });
 
   describe('Accessibility', () => {
-    function setFeatureToggle(featureToggleEnabled: boolean) {
-      spyOn(TestBed.inject(FeatureConfigService), 'isEnabled').and.callFake(
-        (feature: string) => {
-          if (featureToggleEnabled) {
-            return feature === 'a11yConfiguratorOverviewHeaderVPC';
-          }
-          return feature === '!a11yConfiguratorOverviewHeaderVPC';
-        }
-      );
-      initialize();
-    }
-
     function expectSpan(
       container: HTMLElement,
       selector: string,
@@ -507,8 +494,7 @@ describe('ConfigurationOverviewFormComponent', () => {
     });
 
     it("should contain action span element with class name 'cx-visually-hidden' within a H2 section, that hides span element content on the UI", () => {
-      setFeatureToggle(true);
-
+      initialize();
       const h2s = htmlElem.querySelectorAll('h2');
       expectSpan(
         h2s[0] as HTMLElement,
@@ -516,18 +502,6 @@ describe('ConfigurationOverviewFormComponent', () => {
         'configurator.a11y.group group:Group 1'
       );
       expectSpan(h2s[0] as HTMLElement, 'span[aria-hidden="true"]', 'Group 1');
-    });
-
-    it("should contain action span element with class name 'cx-visually-hidden' that hides span element content on the UI", () => {
-      setFeatureToggle(false);
-
-      const divs = htmlElem.querySelectorAll('div.cx-group.topLevel');
-      expectSpan(
-        divs[0] as HTMLElement,
-        'span.cx-visually-hidden',
-        'configurator.a11y.group group:Group 1'
-      );
-      expectSpan(divs[0] as HTMLElement, 'h2[aria-hidden="true"]', 'Group 1');
     });
   });
 

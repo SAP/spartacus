@@ -10,7 +10,7 @@ import {
   AuthService,
   Command,
   CommandService,
-  FeatureConfigService,
+  FeatureToggles,
   RoutingService,
   UserActions,
 } from '@spartacus/core';
@@ -27,7 +27,7 @@ import { UserProfileService } from './user-profile.service';
 
 @Injectable()
 export class UserRegisterService implements UserRegisterFacade {
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
   protected routingService = inject(RoutingService);
 
   protected registerCommand: Command<{ user: UserSignUp }, User> =
@@ -51,9 +51,7 @@ export class UserRegisterService implements UserRegisterFacade {
   > = this.command.create((payload) =>
     this.userConnector.registerGuest(payload.guid, payload.password).pipe(
       tap((user) => {
-        if (
-          !this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
-        ) {
+        if (!this.featureToggles.authorizationCodeFlowByDefault) {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           this.authService.loginWithCredentials(user.uid!, payload.password);
         } else {

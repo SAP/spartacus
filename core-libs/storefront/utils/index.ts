@@ -4,5 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './form-utils';
 export * from './address-number-utils';
+export * from './directive-state-transfer.service';
+export * from './form-utils';

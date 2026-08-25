@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   Component,
   EventEmitter,
@@ -32,13 +33,12 @@ import {
   PaginationComponent,
   SortingComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteListComponentService } from './quote-list-component.service';
 import { QuoteListComponent } from './quote-list.component';
-import createSpy = jasmine.createSpy;
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 
 const mockCartId = '1234';
 const mockPagination: PaginationModel = {
@@ -122,8 +122,8 @@ class MockCommerceQuotesListComponentService
   quotesState$ = mockQuoteListState$.asObservable();
   sort = new BehaviorSubject('byCode');
   currentPage = new BehaviorSubject(0);
-  setSorting = createSpy();
-  setPage = createSpy();
+  setSorting = vi.fn();
+  setPage = vi.fn();
 }
 
 class MockLanguageService {

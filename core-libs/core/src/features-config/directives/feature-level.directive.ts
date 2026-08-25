@@ -7,6 +7,9 @@
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { FeatureConfigService } from '../services/feature-config.service';
 
+/**
+ * @deprecated  Unused directive. Please use named feature flags instead of feature level.
+ */
 @Directive({ selector: '[cxFeatureLevel]' })
 export class FeatureLevelDirective {
   constructor(

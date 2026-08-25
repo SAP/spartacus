@@ -1,22 +1,23 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { vi } from 'vitest';
+import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   AuthConfigService,
   AuthService,
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageService,
   I18nTestingModule,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { of } from 'rxjs';
 import { VerificationTokenFacade } from '../../root/facade';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
-import createSpy = jasmine.createSpy;
 
 class MockAuthService implements Partial<AuthService> {
-  otpLoginWithCredentials = createSpy().and.returnValue(of({}));
-  isUserLoggedIn = createSpy().and.returnValue(of(true));
-  getCsrfToken = createSpy().and.returnValue(
+  otpLoginWithCredentials = vi.fn().mockReturnValue(of({}));
+  isUserLoggedIn = vi.fn().mockReturnValue(of(true));
+  getCsrfToken = vi.fn().mockReturnValue(
     of({
       headerName: 'CSFR',
       parameterName: '_csfr',
@@ -25,11 +26,9 @@ class MockAuthService implements Partial<AuthService> {
   );
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled(_feature: string): boolean {
-    return false;
-  }
-}
+const mockFeatureToggles: FeatureToggles = {
+  authorizationCodeFlowByDefault: false,
+};
 
 class MockAuthConfigService implements Partial<AuthConfigService> {
   getCustomLoginFormEndpoint() {
@@ -63,14 +62,14 @@ function createForm(username: string, password: string, csrf: string) {
 }
 
 class MockVerificationTokenFacade implements Partial<VerificationTokenFacade> {
-  createVerificationToken = createSpy().and.returnValue(
-    of({ tokenId: 'testTokenId', expiresIn: '300' })
-  );
+  createVerificationToken = vi
+    .fn()
+    .mockReturnValue(of({ tokenId: 'testTokenId', expiresIn: '300' }));
 }
 
 class MockGlobalMessageService {
-  add = createSpy().and.stub();
-  remove = createSpy().and.stub();
+  add = vi.fn().mockImplementation(() => {});
+  remove = vi.fn().mockImplementation(() => {});
 }
 
 describe('VerificationTokenFormComponentService', () => {
@@ -78,7 +77,7 @@ describe('VerificationTokenFormComponentService', () => {
   let authService: AuthService;
   let facade: VerificationTokenFacade;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       declarations: [],
@@ -90,10 +89,10 @@ describe('VerificationTokenFormComponentService', () => {
           provide: VerificationTokenFacade,
           useClass: MockVerificationTokenFacade,
         },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     service = TestBed.inject(VerificationTokenFormComponentService);
@@ -144,7 +143,7 @@ describe('VerificationTokenFormComponentService', () => {
       });
 
       it('should reset the form', () => {
-        spyOn(service.form, 'reset').and.stub();
+        vi.spyOn(service.form, 'reset').mockImplementation(() => {});
         service.login();
         expect(service.form.reset).toHaveBeenCalled();
       });
@@ -164,15 +163,15 @@ describe('VerificationTokenFormComponentService', () => {
       });
 
       it('should not reset the form', () => {
-        spyOn(service.form, 'reset').and.stub();
+        vi.spyOn(service.form, 'reset').mockImplementation(() => {});
         service.login();
         expect(service.form.reset).not.toHaveBeenCalled();
       });
     });
   });
   describe('new flow', () => {
-    // Reset test module to reconfigure FeatureConfigService
-    beforeEach(waitForAsync(() => {
+    // Reset test module to reconfigure FeatureToggles
+    beforeEach(async () => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
         providers: [
@@ -184,16 +183,14 @@ describe('VerificationTokenFormComponentService', () => {
           },
           { provide: AuthConfigService, useClass: MockAuthConfigService },
           {
-            provide: FeatureConfigService,
-            useClass: class {
-              isEnabled(_feature: string): boolean {
-                return true;
-              }
-            },
+            provide: FeatureToggles,
+            useValue: {
+              authorizationCodeFlowByDefault: true,
+            } satisfies FeatureToggles,
           },
         ],
       }).compileComponents();
-    }));
+    });
 
     beforeEach(() => {
       service = TestBed.inject(VerificationTokenFormComponentService);
@@ -220,7 +217,7 @@ describe('VerificationTokenFormComponentService', () => {
 
         it('should request email', () => {
           const form = createForm(tokenId, tokenCode, csrf);
-          const submitSpy = spyOn(form, 'submit');
+          const submitSpy = vi.spyOn(form, 'submit');
           service.login(form);
           expect(submitSpy).toHaveBeenCalledWith();
         });
@@ -237,7 +234,7 @@ describe('VerificationTokenFormComponentService', () => {
 
         it('should not login', () => {
           const form = createForm(tokenId, tokenCode, csrf);
-          const submitSpy = spyOn(form, 'submit');
+          const submitSpy = vi.spyOn(form, 'submit');
           service.login(form);
           expect(submitSpy).not.toHaveBeenCalled();
         });

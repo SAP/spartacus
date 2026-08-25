@@ -25,13 +25,14 @@ import {
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import {
-  FeatureConfigService,
+  FeatureToggles,
   TranslationService,
   useFeatureStyles,
 } from '@spartacus/core';
 import { filter, merge, take } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { BREAKPOINT, BreakpointService } from '../../../layout';
+import { BREAKPOINT } from '../../../layout/config/layout-config';
+import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 
 const ARIA_LABEL = 'aria-label';
 const ARIA_HIDDEN = 'aria-hidden';
@@ -49,7 +50,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
   protected domSanitizer = inject(DomSanitizer);
   protected selectComponent = inject(NgSelectComponent);
   protected destroyRef = inject(DestroyRef);
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
   protected platformId = inject(PLATFORM_ID);
   protected selectObserver: MutationObserver | null = null;
   protected breakpointService = inject(BreakpointService, { optional: true });
@@ -84,7 +85,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
    */
   @HostListener('keydown')
   onKeyDown() {
-    if (!this.featureConfigService.isEnabled('a11yRestoreFocusOnNgSelect')) {
+    if (!this.featureToggles.a11yRestoreFocusOnNgSelect) {
       return;
     }
     Promise.resolve().then(() => {
@@ -99,7 +100,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
     private elementRef: ElementRef
   ) {
     useFeatureStyles('a11yNgSelectUnicodeCarets');
-    if (this.featureConfigService.isEnabled('a11yVocalizeDropdownItemCount')) {
+    if (this.featureToggles.a11yVocalizeDropdownItemCount) {
       this.vocalizeItemCount();
     }
   }
@@ -156,9 +157,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
     }
 
     if (inputCombobox.readOnly && isPlatformBrowser(this.platformId)) {
-      if (
-        this.featureConfigService.isEnabled('a11yNgSelectReadonlyInputValue')
-      ) {
+      if (this.featureToggles.a11yNgSelectReadonlyInputValue) {
         this.setInputValue(inputCombobox);
         this.selectObserver = new MutationObserver(() => {
           this.setInputValue(inputCombobox);

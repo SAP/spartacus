@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject } from '@angular/core';
-import { FeatureToggles } from '@spartacus/core';
 import {
   LayoutConfig,
   SlotConfig,
@@ -157,6 +155,20 @@ function applyUnifiedHeaderSlots(config: LayoutConfig): void {
   }
 }
 
+/**
+ * Removes the `pageFold` property from the `LandingPage2Template`,
+ * `CategoryPageTemplate` and `ProductDetailsPageTemplate` layout configs.
+ *
+ * Always applied to the factory-produced config to avoid CLS (Cumulative
+ * Layout Shift) regressions: the `pageFold` property caused CMS components
+ * to be rendered only after a small delay even in SSR pages, which caused
+ * a layout shift.
+ *
+ * Note: the `pageFold` values are still present in the deprecated
+ * `layoutConfig` const to preserve behavior for consumers that use
+ * `provideConfig(layoutConfig)` directly instead of
+ * `provideConfigFactory(layoutConfigFactory)`.
+ */
 function applyWithoutPageFold(config: LayoutConfig): void {
   const homepageConfig =
     (config?.layoutSlots?.LandingPage2Template as SlotConfig) ?? {};
@@ -177,15 +189,10 @@ function applyWithoutPageFold(config: LayoutConfig): void {
  */
 export function layoutConfigFactory(): LayoutConfig {
   const config: LayoutConfig = JSON.parse(JSON.stringify(layoutConfig));
-  const featureToggles = inject(FeatureToggles);
 
-  if (featureToggles.unifiedDefaultHeaderSlotsAcrossBreakpoints) {
-    applyUnifiedHeaderSlots(config);
-  }
+  applyUnifiedHeaderSlots(config);
 
-  if (featureToggles.defaultLayoutConfigWithoutPageFold) {
-    applyWithoutPageFold(config);
-  }
+  applyWithoutPageFold(config);
 
   return config;
 }

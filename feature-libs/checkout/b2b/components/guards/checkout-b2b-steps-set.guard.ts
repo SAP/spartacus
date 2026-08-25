@@ -82,7 +82,7 @@ export class CheckoutB2BStepsSetGuard extends CheckoutStepsSetGuard {
         if (currentIndex >= 0) {
           currentStep = steps[currentIndex];
         }
-        if (Boolean(currentStep)) {
+        if (currentStep) {
           return this.isB2BStepSet(steps[currentIndex - 1], isAccount);
         } else {
           if (isDevMode()) {

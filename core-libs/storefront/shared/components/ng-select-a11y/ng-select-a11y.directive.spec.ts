@@ -3,20 +3,44 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { FeatureConfigService, TranslationService } from '@spartacus/core';
+import { FeatureToggles, TranslationService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { NgSelectA11yDirective } from './ng-select-a11y.directive';
 import { NgSelectA11yModule } from './ng-select-a11y.module';
 
+class MockMutationObserver {
+  private callback: MutationCallback;
+  observe = vi.fn();
+  disconnect = vi.fn();
+  takeRecords = vi.fn().mockReturnValue([]);
+  constructor(callback: MutationCallback) {
+    this.callback = callback;
+  }
+  trigger(mutations: MutationRecord[] = []) {
+    this.callback(mutations, this as unknown as MutationObserver);
+  }
+}
+
+const originalMutationObserver = globalThis.MutationObserver;
+
+beforeEach(() => {
+  globalThis.MutationObserver =
+    MockMutationObserver as unknown as typeof MutationObserver;
+});
+
+afterEach(() => {
+  globalThis.MutationObserver = originalMutationObserver;
+});
+
 @Component({
   template: `
     <ng-select
+      id="1"
       [searchable]="isSearchable"
       [cxNgSelectA11y]="{ ariaLabel: 'Size', ariaControls: 'size-results' }"
       [items]="[1, 2, 3]"
       [(ngModel)]="selected"
-    >
-    </ng-select>
+    />
     <div id="size-results"></div>
   `,
   imports: [NgSelectA11yModule, NgSelectModule],
@@ -34,8 +58,7 @@ class MockComponent {
       [cxNgSelectA11y]="{ ariaLabel: 'Size', ariaControls: 'size-results' }"
       [items]="[]"
       [(ngModel)]="selected"
-    >
-    </ng-select>
+    />
     <div id="size-results"></div>
   `,
   imports: [NgSelectA11yModule, NgSelectModule, FormsModule],
@@ -45,11 +68,11 @@ class MockNoItemsComponent {
   selected = null;
 }
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
+const mockFeatureToggles: FeatureToggles = {
+  a11yRestoreFocusOnNgSelect: true,
+  a11yVocalizeDropdownItemCount: true,
+  a11yNgSelectReadonlyInputValue: true,
+};
 
 class MockTranslationService {
   translate() {
@@ -72,7 +95,7 @@ describe('NgSelectA11yDirective', () => {
         NgSelectA11yDirective,
       ],
       providers: [
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        { provide: FeatureToggles, useValue: mockFeatureToggles },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
     }).compileComponents();
@@ -108,46 +131,65 @@ describe('NgSelectA11yDirective', () => {
     expect(arrowWrapper.getAttribute('aria-hidden')).toBe('true');
   });
 
-  it('should set the input value from the selected option text', (done) => {
+  it('should set the input value from the selected option text', async () => {
     directive['platformId'] = 'browser';
     fixture.detectChanges();
     const ngSelectInstance = getNgSelect().componentInstance;
     ngSelectInstance.writeValue(component.selected);
     ngSelectInstance.detectChanges();
 
-    // Wait for the mutation observer to update the input value
-    setTimeout(() => {
-      const select = getNgSelect().nativeElement;
-      const inputElement = select.querySelector('input');
+    const select = getNgSelect().nativeElement;
+    const valueLabel = select.querySelector('.ng-value-label');
+    if (valueLabel) {
+      Object.defineProperty(valueLabel, 'innerText', {
+        get: () => `${component.selected}`,
+        configurable: true,
+      });
+    }
 
-      expect(inputElement.value).toContain(`${component.selected}`);
-      done();
-    });
+    (directive['selectObserver'] as unknown as MockMutationObserver).trigger();
+    await new Promise((resolve) => setTimeout(resolve));
+    const inputElement = select.querySelector('input');
+
+    expect(inputElement.value).toContain(`${component.selected}`);
   });
 
-  it('should update input value when selection changes', (done) => {
+  it('should update input value when selection changes', async () => {
     directive['platformId'] = 'browser';
     fixture.detectChanges();
     const ngSelectInstance = getNgSelect().componentInstance;
     ngSelectInstance.writeValue(component.selected);
     ngSelectInstance.detectChanges();
 
-    // Wait for the mutation observer to update the input value
-    setTimeout(() => {
-      const select = getNgSelect().nativeElement;
-      const inputElement = select.querySelector('input');
+    const select = getNgSelect().nativeElement;
+    const getValueLabel = () => select.querySelector('.ng-value-label');
 
-      expect(inputElement.value).toContain(`${component.selected}`);
+    let currentSelected = component.selected;
+    const defineInnerText = () => {
+      const el = getValueLabel();
+      if (el) {
+        Object.defineProperty(el, 'innerText', {
+          get: () => `${currentSelected}`,
+          configurable: true,
+        });
+      }
+    };
 
-      component.selected = 2;
-      ngSelectInstance.writeValue(component.selected);
-      ngSelectInstance.detectChanges();
+    defineInnerText();
+    (directive['selectObserver'] as unknown as MockMutationObserver).trigger();
+    await new Promise((resolve) => setTimeout(resolve));
+    const inputElement = select.querySelector('input');
+    expect(inputElement.value).toContain(`${component.selected}`);
 
-      setTimeout(() => {
-        expect(inputElement.value).toContain(`${component.selected}`);
-        done();
-      });
-    });
+    currentSelected = 2;
+    component.selected = 2;
+    ngSelectInstance.writeValue(component.selected);
+    ngSelectInstance.detectChanges();
+    defineInnerText();
+
+    (directive['selectObserver'] as unknown as MockMutationObserver).trigger();
+    await new Promise((resolve) => setTimeout(resolve));
+    expect(inputElement.value).toContain(`${component.selected}`);
   });
 
   describe('vocalizeItemCount()', () => {
@@ -161,7 +203,7 @@ describe('NgSelectA11yDirective', () => {
 
     it('should call translate with the correct key and item count', () => {
       const translationService = TestBed.inject(TranslationService);
-      spyOn(translationService, 'translate').and.returnValue(of('3 items'));
+      vi.spyOn(translationService, 'translate').mockReturnValue(of('3 items'));
       fixture.detectChanges();
       // We expect count 3 because of the MockComponent defined at the top contains [items]="[1, 2, 3]"
       expect(translationService.translate).toHaveBeenCalledWith(
@@ -172,7 +214,7 @@ describe('NgSelectA11yDirective', () => {
 
     it('should use count 0 when items is an empty array', () => {
       const translationService = TestBed.inject(TranslationService);
-      spyOn(translationService, 'translate').and.returnValue(of('0 items'));
+      vi.spyOn(translationService, 'translate').mockReturnValue(of('0 items'));
 
       const emptyFixture = TestBed.createComponent(MockNoItemsComponent);
       emptyFixture.detectChanges();
@@ -209,11 +251,11 @@ describe('NgSelectA11yDirective', () => {
         ],
         providers: [
           {
-            provide: FeatureConfigService,
+            provide: FeatureToggles,
             useValue: {
-              isEnabled: (flag: string) =>
-                flag !== 'a11yVocalizeDropdownItemCount',
-            },
+              ...mockFeatureToggles,
+              a11yVocalizeDropdownItemCount: false,
+            } satisfies FeatureToggles,
           },
           { provide: TranslationService, useClass: MockTranslationService },
         ],
@@ -242,8 +284,8 @@ describe('NgSelectA11yDirective', () => {
     });
 
     it('should NOT remove "mouse-focus" class when toggle is disabled', async () => {
-      const featureConfigService = TestBed.inject(FeatureConfigService);
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+      const featureToggles = TestBed.inject(FeatureToggles);
+      featureToggles.a11yRestoreFocusOnNgSelect = false;
 
       fixture.detectChanges();
       const ngSelectEl = getNgSelect().nativeElement;

@@ -44,7 +44,6 @@ describe('OpfApiQuickBuyAdapter', () => {
 
   const applePaySessionRequest: ApplePaySessionVerificationRequest = {
     validationUrl: 'https://example.com',
-    cartId: 'test',
     initiative: 'web',
     initiativeContext: 'test',
   };

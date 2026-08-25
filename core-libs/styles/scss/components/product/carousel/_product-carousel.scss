@@ -1,9 +1,6 @@
 %cx-product-carousel {
   display: flex;
-
-  @include forFeature('productCarouselScrolling') {
-    max-width: 100%;
-  }
+  max-width: 100%;
 
   a {
     display: flex;
@@ -40,10 +37,8 @@
     align-self: center;
     width: 60%;
 
-    @include forFeature('productCarouselScrolling') {
-      &.is-loading {
-        background-color: #f5f5f5;
-      }
+    &.is-loading {
+      background-color: #f5f5f5;
     }
 
     &.is-missing {

@@ -17,7 +17,9 @@ const resolveEnvPlugin: Plugin = {
           env[key] = true;
         } else if (process.env[key] === 'false') {
           env[key] = false;
-        } else env[key] = process.env[key];
+        } else {
+          env[key] = process.env[key];
+        }
       }
     });
     build.initialOptions.define = {

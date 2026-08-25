@@ -103,7 +103,6 @@ describe('OpfGlobalFunctionsRedirectDomainRegistrationsService', () => {
       });
 
       container.submitCompleteRedirect?.({
-        cartId: 'mock-cart',
         additionalData: [],
         submitSuccess: () => {},
         submitPending: () => {},
@@ -125,7 +124,6 @@ describe('OpfGlobalFunctionsRedirectDomainRegistrationsService', () => {
       });
 
       (container.submitCompleteRedirect as any)?.({
-        cartId: 'mock-cart',
         additionalData: [],
         submitSuccess: () => {},
         submitPending: () => {},

@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   ActiveCartFacade,
   Cart,
+  CartItemQuantityService,
   CartUiEventAddToCart,
   OrderEntry,
 } from '@spartacus/cart/base/root';
@@ -214,7 +215,7 @@ describe('AddToCartComponent', () => {
   }
 
   function getTextFromAddToCartButton(): string {
-    return getButton().query(By.css('span')).nativeElement.innerText;
+    return getButton().query(By.css('span')).nativeElement.textContent?.trim();
   }
 
   function getButton(): DebugElement {
@@ -240,7 +241,7 @@ describe('AddToCartComponent', () => {
       });
 
       it('should load entry by product code from currentProductService', () => {
-        spyOn(currentProductService, 'getProduct').and.returnValue(
+        vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
           of(mockProduct)
         );
         addToCartComponent.ngOnInit();
@@ -252,7 +253,7 @@ describe('AddToCartComponent', () => {
       });
 
       it('should not have stock based on current product', () => {
-        spyOn(currentProductService, 'getProduct').and.returnValue(
+        vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
           of({
             stock: { stockLevelStatus: 'outOfStock' },
           })
@@ -273,7 +274,7 @@ describe('AddToCartComponent', () => {
         const currentProduct = new BehaviorSubject<Product>(mockProduct);
 
         //Product 1
-        spyOn(currentProductService, 'getProduct').and.returnValue(
+        vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
           currentProduct
         );
         addToCartComponent.ngOnInit();
@@ -292,7 +293,7 @@ describe('AddToCartComponent', () => {
       });
 
       it('should disable input when the product has no stock', () => {
-        spyOn(currentProductService, 'getProduct').and.returnValue(
+        vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
           of(mockNoStockProduct)
         );
         addToCartComponent.ngOnInit();
@@ -311,11 +312,11 @@ describe('AddToCartComponent', () => {
     it('should call addToCart()', () => {
       addToCartComponent.productCode = productCode;
       addToCartComponent.ngOnInit();
-      spyOn(activeCartFacade, 'addEntry').and.callThrough();
-      spyOn(activeCartFacade, 'getEntries').and.returnValue(
+      vi.spyOn(activeCartFacade, 'addEntry');
+      vi.spyOn(activeCartFacade, 'getEntries').mockReturnValue(
         of([mockCartEntry])
       );
-      spyOn(activeCartFacade, 'isStable').and.returnValue(of(true));
+      vi.spyOn(activeCartFacade, 'isStable').mockReturnValue(of(true));
       addToCartComponent.quantity = 1;
 
       addToCartComponent.addToCart();
@@ -331,14 +332,14 @@ describe('AddToCartComponent', () => {
       it('should return if item qty is 0', () => {
         addToCartComponent.addToCartForm.get('quantity')?.setValue(0);
         addToCartComponent.productCode = mockProductCode;
-        spyOn(activeCartFacade, 'addEntry').and.stub();
+        vi.spyOn(activeCartFacade, 'addEntry').mockImplementation(() => {});
         addToCartComponent.addToCart();
         expect(activeCartFacade.addEntry).not.toHaveBeenCalled();
       });
       it('should add item to cart via ActiveCartFacade', () => {
         addToCartComponent.addToCartForm.get('quantity')?.setValue(1);
         addToCartComponent.productCode = mockProductCode;
-        spyOn(activeCartFacade, 'addEntry').and.stub();
+        vi.spyOn(activeCartFacade, 'addEntry').mockImplementation(() => {});
         addToCartComponent.addToCart();
         expect(activeCartFacade.addEntry).toHaveBeenCalledWith(
           mockProductCode,
@@ -350,7 +351,7 @@ describe('AddToCartComponent', () => {
         addToCartComponent.addToCartForm.get('quantity')?.setValue(1);
         addToCartComponent.productCode = mockProductCode;
         addToCartComponent.pickupStore = 'testStore';
-        spyOn(activeCartFacade, 'addEntry').and.stub();
+        vi.spyOn(activeCartFacade, 'addEntry').mockImplementation(() => {});
         addToCartComponent.addToCart();
         expect(activeCartFacade.addEntry).toHaveBeenCalledWith(
           mockProductCode,
@@ -359,10 +360,10 @@ describe('AddToCartComponent', () => {
         );
       });
       it('should dispatch the add to cart UI event', () => {
-        spyOn(activeCartFacade, 'getEntries').and.returnValue(
+        vi.spyOn(activeCartFacade, 'getEntries').mockReturnValue(
           of([{}, {}] as OrderEntry[])
         );
-        spyOn(eventService, 'dispatch').and.callThrough();
+        vi.spyOn(eventService, 'dispatch');
 
         addToCartComponent.addToCartForm.get('quantity')?.setValue(1);
         addToCartComponent.productCode = mockProductCode;
@@ -370,10 +371,10 @@ describe('AddToCartComponent', () => {
         uiEvent.productCode = mockProductCode;
         uiEvent.numberOfEntriesBeforeAdd = 2;
         uiEvent.quantity = 1;
-        spyOn(
+        vi.spyOn(
           addToCartComponent as any,
           'createCartUiEventAddToCart'
-        ).and.returnValue(uiEvent);
+        ).mockReturnValue(uiEvent);
 
         addToCartComponent.addToCart();
 
@@ -387,11 +388,11 @@ describe('AddToCartComponent', () => {
         addToCartComponent.savedCart = mockSavedCart;
         addToCartComponent.showQuantity = false;
         addToCartComponent.ngOnInit();
-        spyOn(activeCartFacade, 'addEntry').and.callThrough();
-        spyOn(activeCartFacade, 'getEntries').and.returnValue(
+        vi.spyOn(activeCartFacade, 'addEntry');
+        vi.spyOn(activeCartFacade, 'getEntries').mockReturnValue(
           of([mockCartEntry])
         );
-        spyOn(activeCartFacade, 'isStable').and.returnValue(of(true));
+        vi.spyOn(activeCartFacade, 'isStable').mockReturnValue(of(true));
 
         addToCartComponent.addToCart();
         expect(activeCartFacade.addEntry).toHaveBeenCalledWith(
@@ -473,7 +474,7 @@ describe('AddToCartComponent', () => {
 
       it('should show the addToCart button for currentProduct', () => {
         addToCartComponent.productCode = null;
-        spyOn(currentProductService, 'getProduct').and.returnValue(
+        vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
           of(mockProduct)
         );
         addToCartComponent.ngOnInit();
@@ -482,7 +483,7 @@ describe('AddToCartComponent', () => {
       });
       it('should hide the addToCart button for currentProduct', () => {
         addToCartComponent.productCode = null;
-        spyOn(currentProductService, 'getProduct').and.returnValue(
+        vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
           of(mockNoStockProduct)
         );
         addToCartComponent.ngOnInit();
@@ -500,7 +501,7 @@ describe('AddToCartComponent', () => {
 
     describe('Inventory Display test', () => {
       it('should display inventory quantity when enabled', () => {
-        spyOn(currentProductService, 'getProduct').and.returnValue(
+        vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
           of(mockProduct)
         );
 
@@ -512,12 +513,12 @@ describe('AddToCartComponent', () => {
         fixture.detectChanges();
 
         expect(
-          el.query(By.css('.info')).nativeElement.innerText.trim()
+          el.query(By.css('.info')).nativeElement.textContent?.trim()
         ).toEqual(mockProduct.stock?.stockLevel + ' addToCart.inStock');
       });
 
       it('should NOT display inventory when disabled', () => {
-        spyOn(currentProductService, 'getProduct').and.returnValue(
+        vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
           of(mockProduct)
         );
 
@@ -525,12 +526,12 @@ describe('AddToCartComponent', () => {
         fixture.detectChanges();
 
         expect(
-          el.query(By.css('.info')).nativeElement.innerText.trim()
+          el.query(By.css('.info')).nativeElement.textContent?.trim()
         ).toEqual('addToCart.inStock');
       });
 
       it('should display out of stock inventory when enabled and out of stock', () => {
-        spyOn(currentProductService, 'getProduct').and.returnValue(
+        vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
           of(mockNoStockProduct)
         );
 
@@ -542,12 +543,12 @@ describe('AddToCartComponent', () => {
         fixture.detectChanges();
 
         expect(
-          el.query(By.css('.info')).nativeElement.innerText.trim()
+          el.query(By.css('.info')).nativeElement.textContent?.trim()
         ).toEqual('addToCart.outOfStock');
       });
 
       it('should display out of stock when inventory display disabled', () => {
-        spyOn(currentProductService, 'getProduct').and.returnValue(
+        vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
           of(mockNoStockProduct)
         );
 
@@ -555,12 +556,12 @@ describe('AddToCartComponent', () => {
         fixture.detectChanges();
 
         expect(
-          el.query(By.css('.info')).nativeElement.innerText.trim()
+          el.query(By.css('.info')).nativeElement.textContent?.trim()
         ).toEqual('addToCart.outOfStock');
       });
 
       it('should display `In Stock` when product forced in stock status and inventory display enabled', () => {
-        spyOn(currentProductService, 'getProduct').and.returnValue(
+        vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
           of(mockProduct2)
         );
 
@@ -572,12 +573,12 @@ describe('AddToCartComponent', () => {
         fixture.detectChanges();
 
         expect(
-          el.query(By.css('.info')).nativeElement.innerText.trim()
+          el.query(By.css('.info')).nativeElement.textContent?.trim()
         ).toEqual('addToCart.inStock');
       });
 
       it('should display `+` when product stock level threshold applied when inventory display enabled', () => {
-        spyOn(currentProductService, 'getProduct').and.returnValue(
+        vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
           of(mockProduct3)
         );
 
@@ -589,12 +590,12 @@ describe('AddToCartComponent', () => {
         fixture.detectChanges();
 
         expect(
-          el.query(By.css('.info')).nativeElement.innerText.trim()
+          el.query(By.css('.info')).nativeElement.textContent?.trim()
         ).toEqual(mockProduct3.stock?.stockLevel + '+ addToCart.inStock');
       });
 
       it('should return max quantity as string in getInventory()', () => {
-        spyOn(currentProductService, 'getProduct').and.returnValue(
+        vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
           of(mockProduct)
         );
 
@@ -610,7 +611,7 @@ describe('AddToCartComponent', () => {
       });
 
       it('should return empty string in getInventory() when out of stock', () => {
-        spyOn(currentProductService, 'getProduct').and.returnValue(
+        vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
           of(mockNoStockProduct)
         );
 
@@ -622,7 +623,7 @@ describe('AddToCartComponent', () => {
       });
 
       it('should return empty string in getInventory() when force InStock', () => {
-        spyOn(currentProductService, 'getProduct').and.returnValue(
+        vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
           of(mockProduct2)
         );
 
@@ -634,7 +635,7 @@ describe('AddToCartComponent', () => {
       });
 
       it('should return threshold value with + in getInventory()', () => {
-        spyOn(currentProductService, 'getProduct').and.returnValue(
+        vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
           of(mockProduct3)
         );
 
@@ -650,7 +651,7 @@ describe('AddToCartComponent', () => {
       });
 
       it('should return empty string for subscription products in getInventory()', () => {
-        spyOn(currentProductService, 'getProduct').and.returnValue(
+        vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
           of(mockProduct4)
         );
 
@@ -665,6 +666,41 @@ describe('AddToCartComponent', () => {
         expect(obtained).toEqual('');
       });
     });
+
+    describe('subscribeToQuantityChanges', () => {
+      let cartItemQuantityService: CartItemQuantityService;
+
+      beforeEach(() => {
+        cartItemQuantityService = TestBed.inject(CartItemQuantityService);
+      });
+
+      it('should call setQuantity with initial form value on init', () => {
+        vi.spyOn(cartItemQuantityService, 'setQuantity');
+        addToCartComponent.addToCartForm.get('quantity')?.setValue(3);
+
+        addToCartComponent['subscribeToQuantityChanges']();
+
+        expect(cartItemQuantityService.setQuantity).toHaveBeenCalledWith(3);
+      });
+
+      it('should call setQuantity when quantity form control value changes', () => {
+        vi.spyOn(cartItemQuantityService, 'setQuantity');
+        addToCartComponent['subscribeToQuantityChanges']();
+
+        addToCartComponent.addToCartForm.get('quantity')?.setValue(5);
+
+        expect(cartItemQuantityService.setQuantity).toHaveBeenCalledWith(5);
+      });
+
+      it('should fall back to 1 when quantity value is null', () => {
+        vi.spyOn(cartItemQuantityService, 'setQuantity');
+        addToCartComponent.addToCartForm.get('quantity')?.setValue(null);
+
+        addToCartComponent['subscribeToQuantityChanges']();
+
+        expect(cartItemQuantityService.setQuantity).toHaveBeenCalledWith(1);
+      });
+    });
   });
 
   describe('with ProductListItemContext', () => {
@@ -675,7 +711,7 @@ describe('AddToCartComponent', () => {
       TestBed.compileComponents();
       stubSeviceAndCreateComponent();
 
-      spyOn(currentProductService, 'getProduct').and.returnValue(
+      vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
         of(mockProduct)
       );
       addToCartComponent.productCode = undefined;

@@ -1,36 +1,23 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   ANONYMOUS_CONSENT_STATUS,
   ConsentTemplate,
-  FeatureConfigService,
   I18nTestingModule,
 } from '@spartacus/core';
 import { MyAccountV2ConsentManagementFormComponent } from './my-account-v2-consent-management-form.component';
-
-class MockFeatureConfigService {
-  isEnabled(): boolean {
-    return true;
-  }
-}
 
 describe('MyAccountV2ConsentManagementFormComponent', () => {
   let component: MyAccountV2ConsentManagementFormComponent;
   let fixture: ComponentFixture<MyAccountV2ConsentManagementFormComponent>;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, MyAccountV2ConsentManagementFormComponent],
-      providers: [
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
-      ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
@@ -41,11 +28,10 @@ describe('MyAccountV2ConsentManagementFormComponent', () => {
     component.requiredConsents = [];
     component.consent = null;
     el = fixture.debugElement;
-
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -93,7 +79,7 @@ describe('MyAccountV2ConsentManagementFormComponent', () => {
         const consentGiven = true;
         component.consentGiven = consentGiven;
         component.consentTemplate = mockConsentTemplate;
-        spyOn(component.consentChanged, 'emit').and.stub();
+        vi.spyOn(component.consentChanged, 'emit').mockImplementation(() => {});
 
         component.onConsentChange();
 
@@ -133,7 +119,7 @@ describe('MyAccountV2ConsentManagementFormComponent', () => {
         },
       };
       it('should call onConsentChange()', () => {
-        spyOn(component, 'onConsentChange').and.stub();
+        vi.spyOn(component, 'onConsentChange').mockImplementation(() => {});
 
         component.consentTemplate = mockConsentTemplate;
         component.consentGiven = true;

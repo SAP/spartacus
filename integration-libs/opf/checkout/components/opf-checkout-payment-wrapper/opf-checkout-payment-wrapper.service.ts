@@ -11,7 +11,7 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   DEFAULT_AUTHORIZATION_ERROR_RETRIES_COUNT,
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -32,6 +32,7 @@ import { OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE } from '@spartacus/opf/checkout/r
 import { getBrowserInfo } from '@spartacus/opf/payment/core';
 import {
   OpfPaymentBrowserInfo,
+  OpfPaymentChannel,
   OpfPaymentConfig,
   OpfPaymentFacade,
   OpfPaymentRenderMethodEvent,
@@ -60,11 +61,9 @@ export class OpfCheckoutPaymentWrapperService {
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected cartAccessCodeFacade = inject(CartAccessCodeFacade);
   protected winRef = inject(WindowRef);
-  private readonly featureConfigService = inject(FeatureConfigService);
+  private readonly featureToggles = inject(FeatureToggles);
 
   protected lastPaymentOptionId?: number;
-  protected readonly isUpdatePaymentTransactionFeatureEnabled =
-    'opfCheckoutUseUpdatePaymentTransaction';
 
   protected renderPaymentMethodEvent$ =
     new BehaviorSubject<OpfPaymentRenderMethodEvent>({
@@ -97,12 +96,15 @@ export class OpfCheckoutPaymentWrapperService {
     return this.renderPaymentMethodEvent$.asObservable();
   }
 
+  removePaymentProviderResources(): void {
+    this.opfResourceLoaderService.clearAllResources();
+  }
+
   initiatePayment(
     paymentOptionId: number
   ): Observable<OpfPaymentSessionData | Error> {
-    const useUpdatePaymentTransaction = this.featureConfigService.isEnabled(
-      this.isUpdatePaymentTransactionFeatureEnabled
-    );
+    const useUpdatePaymentTransaction =
+      this.featureToggles.opfCheckoutUseUpdatePaymentTransaction;
 
     this.lastPaymentOptionId = paymentOptionId;
     this.renderPaymentMethodEvent$.next({
@@ -125,7 +127,6 @@ export class OpfCheckoutPaymentWrapperService {
           filter((response) => Boolean(response?.accessCode)),
           map(({ accessCode: otpKey }) =>
             this.getPaymentInitiationConfig(
-              cartId,
               otpKey,
               paymentOptionId,
               getBrowserInfo(this.winRef?.nativeWindow)
@@ -144,7 +145,11 @@ export class OpfCheckoutPaymentWrapperService {
               paymentSessionId,
               otpKey: params.otpKey,
               config: {
+                configurationId: params.config?.configurationId,
                 browserInfo: params.config?.browserInfo,
+                channel: params.config?.channel,
+                resultURL: params.config?.resultURL,
+                cancelURL: params.config?.cancelURL,
               },
             });
           }
@@ -379,7 +384,6 @@ export class OpfCheckoutPaymentWrapperService {
   }
 
   protected getPaymentInitiationConfig(
-    cartId: string,
     otpKey: string,
     paymentOptionId: number,
     browserInfo?: OpfPaymentBrowserInfo
@@ -387,8 +391,8 @@ export class OpfCheckoutPaymentWrapperService {
     return {
       otpKey,
       config: {
-        cartId,
         browserInfo,
+        channel: OpfPaymentChannel.BROWSER,
         configurationId: String(paymentOptionId),
         resultURL: this.routingService.getFullUrl({
           cxRoute: 'paymentVerificationResult',

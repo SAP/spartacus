@@ -149,6 +149,8 @@ Cypress.Commands.add(
     );
 
     cy.contains('a[role="link"]', 'Sign In / Register').click();
+    cy.log('Waiting for SSR timeout to pass (8s)');
+    cy.wait(8000);
     cy.get('input[name="username"]').clear().type(customer);
     cy.get('input[name="password"]').clear().type(pwd);
     cy.contains('button.btn-primary', 'Sign In').should('be.visible');

@@ -1,11 +1,12 @@
+import { vi } from 'vitest';
 import { Component, OnInit } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FeatureStylesService } from '../services/feature-styles.service';
 import { useFeatureStyles } from './use-feature-styles';
 
 class MockFeatureStylesService {
-  registerUsage = jasmine.createSpy('registerUsage');
-  unregisterUsage = jasmine.createSpy('unregisterUsage');
+  registerUsage = vi.fn();
+  unregisterUsage = vi.fn();
 }
 
 @Component({
@@ -14,7 +15,7 @@ class MockFeatureStylesService {
 })
 class TestComponent {
   constructor() {
-    useFeatureStyles('testFeatureFlag');
+    useFeatureStyles('testFeatureFlag' as any);
   }
 }
 
@@ -24,7 +25,7 @@ class TestComponent {
 })
 class ErroneousTestComponent implements OnInit {
   ngOnInit() {
-    useFeatureStyles('testFeatureFlag');
+    useFeatureStyles('testFeatureFlag' as any);
   }
 }
 
@@ -42,21 +43,27 @@ describe('useFeatureStyles', () => {
 
   describe('when called in constructor of component', () => {
     it(`should register usage of feature flag's styles`, () => {
-      expect(service.registerUsage).not.toHaveBeenCalledWith('testFeatureFlag');
+      expect(service.registerUsage).not.toHaveBeenCalledWith(
+        'testFeatureFlag' as any
+      );
       TestBed.createComponent(TestComponent);
-      expect(service.registerUsage).toHaveBeenCalledWith('testFeatureFlag');
+      expect(service.registerUsage).toHaveBeenCalledWith(
+        'testFeatureFlag' as any
+      );
     });
 
     it(`should unregister usage of feature flag's styles on component destroy`, () => {
       expect(service.unregisterUsage).not.toHaveBeenCalledWith(
-        'testFeatureFlag'
+        'testFeatureFlag' as any
       );
       const fixture = TestBed.createComponent(TestComponent);
       expect(service.unregisterUsage).not.toHaveBeenCalledWith(
-        'testFeatureFlag'
+        'testFeatureFlag' as any
       );
       fixture.destroy();
-      expect(service.unregisterUsage).toHaveBeenCalledWith('testFeatureFlag');
+      expect(service.unregisterUsage).toHaveBeenCalledWith(
+        'testFeatureFlag' as any
+      );
     });
   });
 

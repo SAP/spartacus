@@ -10,18 +10,25 @@ import {
   isFeatureEnabled,
   isFeatureLevel,
 } from '../utils/feature-config-utils';
+import { FeatureToggleExpression } from '../feature-toggles';
 
+/**
+ * @deprecated - Use FeatureToggles instead
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class FeatureConfigService {
   constructor(protected config: FeaturesConfig) {}
 
+  /**
+   * @deprecated - features level is no longer used
+   */
   isLevel(version: string): boolean {
     return isFeatureLevel(this.config, version);
   }
 
-  isEnabled(feature: string) {
+  isEnabled(feature: FeatureToggleExpression) {
     return isFeatureEnabled(this.config, feature);
   }
 }

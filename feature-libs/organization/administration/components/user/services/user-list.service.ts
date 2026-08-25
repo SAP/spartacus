@@ -9,7 +9,7 @@ import {
   B2BUser,
   B2BUserRole,
   EntitiesModel,
-  FeatureConfigService,
+  FeatureToggles,
   isNotUndefined,
   PaginationModel,
 } from '@spartacus/core';
@@ -40,7 +40,7 @@ export interface UserModel {
 })
 export class UserListService extends ListService<UserModel> {
   protected tableType = OrganizationTableType.USER;
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     protected tableService: TableService,
@@ -90,6 +90,6 @@ export class UserListService extends ListService<UserModel> {
    * Enable search functionality for user list based on feature toggle.
    */
   override isSearchEnabled(): boolean {
-    return this.featureConfigService.isEnabled('enableB2BCustomerSearch');
+    return !!this.featureToggles.enableB2BCustomerSearch;
   }
 }

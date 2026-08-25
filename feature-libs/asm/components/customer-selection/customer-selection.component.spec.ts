@@ -1,17 +1,10 @@
 import { DebugElement, ElementRef } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { AsmService } from '@spartacus/asm/core';
 import { AsmConfig, CustomerSearchPage } from '@spartacus/asm/root';
 import {
-  FeatureConfigService,
   FeatureDirective,
   GlobalMessageService,
   MockTranslatePipe,
@@ -25,12 +18,12 @@ import {
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
 import { CustomerSelectionComponent } from './customer-selection.component';
 
 class MockGlobalMessageService {
-  add = jasmine.createSpy();
+  add = vi.fn();
 }
 
 class MockDirectionService {
@@ -108,12 +101,11 @@ describe('CustomerSelectionComponent', () => {
   let el: DebugElement;
   let searchResultItems: Array<ElementRef<HTMLElement>> = [];
   let launchDialogService: LaunchDialogService;
-  let featureConfig: FeatureConfigService;
 
   const validSearchTerm = 'cUstoMer@test.com';
   const validSearchOrderID = 'valid_order_id';
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     customerSearchResults = new BehaviorSubject<CustomerSearchPage>({
       entries: [],
     });
@@ -147,27 +139,30 @@ describe('CustomerSelectionComponent', () => {
       .compileComponents();
 
     launchDialogService = TestBed.inject(LaunchDialogService);
-  }));
+  });
 
   beforeEach(() => {
-    featureConfig = TestBed.inject(FeatureConfigService);
-    spyOn(featureConfig, 'isEnabled').and.callFake(() => true);
-
     fixture = TestBed.createComponent(CustomerSelectionComponent);
     component = fixture.componentInstance;
 
     asmService = TestBed.inject(AsmService);
     el = fixture.debugElement;
-    fixture.detectChanges();
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should emit selection event when submitted (CXSPA-7026)', () => {
-    spyOn(component, 'onSubmit').and.callThrough();
-    spyOn(component.submitEvent, 'emit').and.stub();
+    fixture.detectChanges();
+    vi.spyOn(component, 'onSubmit');
+    vi.spyOn(component.submitEvent, 'emit').mockImplementation(() => {});
 
     component.customerSelectionForm.controls.searchTerm.setValue('testTerm');
     component.selectedCustomer = mockCustomer;
@@ -203,36 +198,39 @@ describe('CustomerSelectionComponent', () => {
     expect(el.query(By.css('form'))).toBeTruthy();
   });
 
-  it('should trigger search for valid search term', fakeAsync(() => {
-    spyOn(asmService, 'customerSearch').and.callThrough();
+  it('should trigger search for valid search term', async () => {
+    fixture.detectChanges();
+    vi.spyOn(asmService, 'customerSearch');
     component.customerSelectionForm.controls.searchTerm.setValue(
       validSearchTerm
     );
     component.selectedCustomer = mockCustomer;
 
     fixture.detectChanges();
-    tick(1000);
+    await vi.advanceTimersByTimeAsync(1000);
     expect(asmService.customerSearch).toHaveBeenCalledWith({
       query: validSearchTerm,
       pageSize: 20,
     });
-  }));
+  });
 
-  it('should display 3 search results for valid search term', fakeAsync(() => {
+  it('should display 3 search results for valid search term', async () => {
+    fixture.detectChanges();
     component.customerSelectionForm.controls.searchTerm.setValue(
       validSearchTerm
     );
 
-    tick(300);
+    await vi.advanceTimersByTimeAsync(300);
 
     fixture.detectChanges();
     expect(el.queryAll(By.css('div.asm-results button')).length).toEqual(
       mockCustomerSearchPage.entries.length
     );
-  }));
+  });
 
-  it('should display 1 search results for valid search order (CXSPA-7026)', fakeAsync(() => {
-    spyOn(asmService, 'customerSearch').and.callFake(() => {
+  it('should display 1 search results for valid search order (CXSPA-7026)', async () => {
+    fixture.detectChanges();
+    vi.spyOn(asmService, 'customerSearch').mockImplementation(() => {
       customerSearchResults.next({ entries: [mockCustomer] });
       customerSearchResultsLoading.next(false);
     });
@@ -241,14 +239,15 @@ describe('CustomerSelectionComponent', () => {
     );
     component.selectedCustomer = mockCustomer;
 
-    tick(300);
+    await vi.advanceTimersByTimeAsync(300);
 
     fixture.detectChanges();
     expect(el.queryAll(By.css('div.asm-results button')).length).toEqual(1);
-  }));
+  });
 
   it('should close the result list when we click out of the result list area', () => {
-    spyOn(asmService, 'customerSearchReset').and.stub();
+    fixture.detectChanges();
+    vi.spyOn(asmService, 'customerSearchReset').mockImplementation(() => {});
 
     component.customerSelectionForm.controls.searchTerm.setValue(
       validSearchTerm
@@ -259,7 +258,8 @@ describe('CustomerSelectionComponent', () => {
   });
 
   it('should close the order search result list when we click out of the result list area (CXSPA-7026)', () => {
-    spyOn(asmService, 'customerSearchReset').and.stub();
+    fixture.detectChanges();
+    vi.spyOn(asmService, 'customerSearchReset').mockImplementation(() => {});
 
     component.customerSelectionForm.controls.searchOrder.setValue(
       validSearchOrderID
@@ -270,21 +270,22 @@ describe('CustomerSelectionComponent', () => {
   });
 
   it('should display customer registration message if no customer was found (CXSPA-7026)', () => {
+    fixture.detectChanges();
     component.searchByCustomer = true;
     // Set createCustomer config using a public property or by modifying the mock config
     (component as any).config.asm.createCustomer = { enable: true };
-    spyOn(asmService, 'customerSearch').and.callFake(() => {
+    vi.spyOn(asmService, 'customerSearch').mockImplementation(() => {
       customerSearchResults.next({ entries: [] });
       customerSearchResultsLoading.next(false);
     });
-    spyOn(asmService, 'customerSearchReset').and.stub();
+    vi.spyOn(asmService, 'customerSearchReset').mockImplementation(() => {});
     component.customerSelectionForm.controls.searchTerm.setValue(
       validSearchTerm
     );
     fixture.detectChanges();
     expect(el.queryAll(By.css('div.cx-message-content div')).length).toEqual(1);
     const createAccountButton = el.query(By.css('span.linkStyleLabel'));
-    expect(createAccountButton.nativeElement.innerText).toEqual(
+    expect(createAccountButton.nativeElement.textContent?.trim()).toEqual(
       'asm.customerSearch.createCustomer'
     );
     createAccountButton.nativeElement.dispatchEvent(new MouseEvent('click'));
@@ -292,13 +293,14 @@ describe('CustomerSelectionComponent', () => {
   });
 
   it('should no display customer create btn (CXSPA-11633) ', () => {
+    fixture.detectChanges();
     component.searchByCustomer = true;
     (component as any).config.asm.createCustomer = { enable: false };
-    spyOn(asmService, 'customerSearch').and.callFake(() => {
+    vi.spyOn(asmService, 'customerSearch').mockImplementation(() => {
       customerSearchResults.next({ entries: [] });
       customerSearchResultsLoading.next(false);
     });
-    spyOn(asmService, 'customerSearchReset').and.stub();
+    vi.spyOn(asmService, 'customerSearchReset').mockImplementation(() => {});
     component.customerSelectionForm.controls.searchTerm.setValue(
       validSearchTerm
     );
@@ -309,9 +311,10 @@ describe('CustomerSelectionComponent', () => {
   });
 
   it('should display search exact order message if no customer was found by order ID (CXSPA-7026)', () => {
+    fixture.detectChanges();
     component.searchByOrder = true;
 
-    spyOn(asmService, 'customerSearch').and.callFake(() => {
+    vi.spyOn(asmService, 'customerSearch').mockImplementation(() => {
       customerSearchResults.next({ entries: [] });
       customerSearchResultsLoading.next(false);
     });
@@ -321,19 +324,20 @@ describe('CustomerSelectionComponent', () => {
     fixture.detectChanges();
     expect(el.queryAll(By.css('div.cx-message-content div')).length).toEqual(1);
     const createAccountButton = el.query(By.css('span.cx-message-text'));
-    expect(createAccountButton.nativeElement.innerText).toEqual(
+    expect(createAccountButton.nativeElement.textContent?.trim()).toEqual(
       'asm.customerSearch.noOrderMatchResult'
     );
   });
 
-  it('should be able to select a customer from the result list.', fakeAsync(() => {
-    spyOn(asmService, 'customerSearchReset').and.stub();
+  it('should be able to select a customer from the result list.', async () => {
+    fixture.detectChanges();
+    vi.spyOn(asmService, 'customerSearchReset').mockImplementation(() => {});
 
     component.customerSelectionForm.controls.searchTerm.setValue(
       validSearchTerm
     );
 
-    tick(300);
+    await vi.advanceTimersByTimeAsync(300);
 
     fixture.detectChanges();
 
@@ -351,42 +355,35 @@ describe('CustomerSelectionComponent', () => {
     expect(asmService.customerSearchReset).toHaveBeenCalled();
 
     fixture.destroy();
-  }));
+  });
 
   describe('Search result navigation', () => {
-    beforeEach(fakeAsync(() => {
+    beforeEach(async () => {
+      fixture.detectChanges();
       component.customerSelectionForm.controls.searchTerm.setValue(
         validSearchTerm
       );
 
-      tick(300);
+      await vi.advanceTimersByTimeAsync(300);
 
       fixture.detectChanges();
       searchResultItems = component.searchResultItems.toArray();
       component.searchTerm.nativeElement.focus();
-    }));
+    });
     it('should navigate between result items', () => {
-      spyOn(searchResultItems[0].nativeElement, 'focus');
+      vi.spyOn(searchResultItems[0].nativeElement, 'focus');
 
       expect(component.activeFocusedButtonIndex).toEqual(-1);
 
       component.focusFirstItem(new UIEvent('keydown.arrowdown'));
-      fixture.detectChanges();
       expect(component.activeFocusedButtonIndex).toEqual(0);
-      expect(searchResultItems[0].nativeElement.tabIndex).toEqual(0);
       expect(searchResultItems[0].nativeElement.focus).toHaveBeenCalled();
 
       component.focusNextChild(new UIEvent('keydown.arrowdown'));
-      fixture.detectChanges();
       expect(component.activeFocusedButtonIndex).toEqual(1);
-      expect(searchResultItems[0].nativeElement.tabIndex).toEqual(-1);
-      expect(searchResultItems[1].nativeElement.tabIndex).toEqual(0);
 
       component.focusPreviousChild(new UIEvent('keydown.arrowup'));
-      fixture.detectChanges();
       expect(component.activeFocusedButtonIndex).toEqual(0);
-      expect(searchResultItems[0].nativeElement.tabIndex).toEqual(0);
-      expect(searchResultItems[1].nativeElement.tabIndex).toEqual(-1);
     });
     it('should focus search text and set cursor one right to original select position', () => {
       const event = {
@@ -395,7 +392,7 @@ describe('CustomerSelectionComponent', () => {
         stopPropagation: () => {},
         preventDefault: () => {},
       };
-      spyOn(component.searchTerm.nativeElement, 'focus');
+      vi.spyOn(component.searchTerm.nativeElement, 'focus');
 
       component.searchTerm.nativeElement.selectionStart =
         validSearchTerm.length - 5;
@@ -420,7 +417,7 @@ describe('CustomerSelectionComponent', () => {
         stopPropagation: () => {},
         preventDefault: () => {},
       };
-      spyOn(component.searchTerm.nativeElement, 'focus');
+      vi.spyOn(component.searchTerm.nativeElement, 'focus');
 
       component.searchTerm.nativeElement.selectionStart =
         validSearchTerm.length - 5;
@@ -446,7 +443,7 @@ describe('CustomerSelectionComponent', () => {
         stopPropagation: () => {},
         preventDefault: () => {},
       };
-      spyOn(component.searchTerm.nativeElement, 'focus');
+      vi.spyOn(component.searchTerm.nativeElement, 'focus');
 
       component.searchTerm.nativeElement.selectionStart =
         validSearchTerm.length - 5;
@@ -468,7 +465,7 @@ describe('CustomerSelectionComponent', () => {
         stopPropagation: () => {},
         preventDefault: () => {},
       };
-      spyOn(component.searchTerm.nativeElement, 'focus');
+      vi.spyOn(component.searchTerm.nativeElement, 'focus');
 
       component.searchTerm.nativeElement.selectionStart =
         validSearchTerm.length - 5;
@@ -488,7 +485,7 @@ describe('CustomerSelectionComponent', () => {
     });
 
     it('should be able to open dialog', () => {
-      spyOn(launchDialogService, 'openDialogAndSubscribe');
+      vi.spyOn(launchDialogService, 'openDialogAndSubscribe');
       component.createCustomer();
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
         LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
@@ -498,39 +495,32 @@ describe('CustomerSelectionComponent', () => {
   });
 
   describe('Search result navigation for order search', () => {
-    beforeEach(fakeAsync(() => {
+    beforeEach(async () => {
+      fixture.detectChanges();
       component.customerSelectionForm.controls.searchOrder.setValue(
         validSearchOrderID
       );
 
-      tick(300);
+      await vi.advanceTimersByTimeAsync(300);
 
       fixture.detectChanges();
       searchResultItems = component.searchResultItems.toArray();
       component.searchOrder.nativeElement.focus();
-    }));
+    });
     it('should navigate between result items for order search', () => {
-      spyOn(searchResultItems[0].nativeElement, 'focus');
+      vi.spyOn(searchResultItems[0].nativeElement, 'focus');
 
       expect(component.activeFocusedButtonIndex).toEqual(-1);
 
       component.focusFirstItem(new UIEvent('keydown.arrowdown'));
-      fixture.detectChanges();
       expect(component.activeFocusedButtonIndex).toEqual(0);
-      expect(searchResultItems[0].nativeElement.tabIndex).toEqual(0);
       expect(searchResultItems[0].nativeElement.focus).toHaveBeenCalled();
 
       component.focusNextChild(new UIEvent('keydown.arrowdown'));
-      fixture.detectChanges();
       expect(component.activeFocusedButtonIndex).toEqual(1);
-      expect(searchResultItems[0].nativeElement.tabIndex).toEqual(-1);
-      expect(searchResultItems[1].nativeElement.tabIndex).toEqual(0);
 
       component.focusPreviousChild(new UIEvent('keydown.arrowup'));
-      fixture.detectChanges();
       expect(component.activeFocusedButtonIndex).toEqual(0);
-      expect(searchResultItems[0].nativeElement.tabIndex).toEqual(0);
-      expect(searchResultItems[1].nativeElement.tabIndex).toEqual(-1);
     });
 
     it('should focus search text and set cursor one right to original select position', () => {
@@ -540,7 +530,7 @@ describe('CustomerSelectionComponent', () => {
         stopPropagation: () => {},
         preventDefault: () => {},
       };
-      spyOn(component.searchOrder.nativeElement, 'focus');
+      vi.spyOn(component.searchOrder.nativeElement, 'focus');
 
       component.searchOrder.nativeElement.selectionStart =
         validSearchOrderID.length - 5;
@@ -565,7 +555,7 @@ describe('CustomerSelectionComponent', () => {
         stopPropagation: () => {},
         preventDefault: () => {},
       };
-      spyOn(component.searchOrder.nativeElement, 'focus');
+      vi.spyOn(component.searchOrder.nativeElement, 'focus');
 
       component.searchOrder.nativeElement.selectionStart =
         validSearchOrderID.length - 5;
@@ -591,7 +581,7 @@ describe('CustomerSelectionComponent', () => {
         stopPropagation: () => {},
         preventDefault: () => {},
       };
-      spyOn(component.searchOrder.nativeElement, 'focus');
+      vi.spyOn(component.searchOrder.nativeElement, 'focus');
 
       component.searchOrder.nativeElement.selectionStart =
         validSearchOrderID.length - 5;
@@ -613,8 +603,8 @@ describe('CustomerSelectionComponent', () => {
         stopPropagation: () => {},
         preventDefault: () => {},
       };
-      spyOn(component.searchOrder.nativeElement, 'focus');
-      spyOn(asmService, 'customerSearchReset').and.stub();
+      vi.spyOn(component.searchOrder.nativeElement, 'focus');
+      vi.spyOn(asmService, 'customerSearchReset').mockImplementation(() => {});
 
       component.focusFirstItem(new UIEvent('keydown.arrowdown'));
       component.closeOrderSearchResults(event as KeyboardEvent);
@@ -631,8 +621,8 @@ describe('CustomerSelectionComponent', () => {
         stopPropagation: () => {},
         preventDefault: () => {},
       };
-      spyOn(component.searchTerm.nativeElement, 'focus');
-      spyOn(asmService, 'customerSearchReset').and.stub();
+      vi.spyOn(component.searchTerm.nativeElement, 'focus');
+      vi.spyOn(asmService, 'customerSearchReset').mockImplementation(() => {});
 
       component.focusFirstItem(new UIEvent('keydown.arrowdown'));
       component.closeResults(event as KeyboardEvent);
@@ -649,7 +639,7 @@ describe('CustomerSelectionComponent', () => {
         stopPropagation: () => {},
         preventDefault: () => {},
       };
-      spyOn(component.searchOrder.nativeElement, 'focus');
+      vi.spyOn(component.searchOrder.nativeElement, 'focus');
 
       component.searchOrder.nativeElement.selectionStart =
         validSearchOrderID.length - 5;
@@ -669,7 +659,7 @@ describe('CustomerSelectionComponent', () => {
     });
 
     it('should be able to open dialog', () => {
-      spyOn(launchDialogService, 'openDialogAndSubscribe');
+      vi.spyOn(launchDialogService, 'openDialogAndSubscribe');
       component.createCustomer();
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
         LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,

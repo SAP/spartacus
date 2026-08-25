@@ -8,7 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
+import { FeatureToggles } from '../../../features-config';
 import { LoggerService } from '../../../logger';
 import { Address, AddressValidation } from '../../../model/address.model';
 import {
@@ -32,7 +32,7 @@ const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 @Injectable()
 export class OccUserAddressAdapter implements UserAddressAdapter {
   protected logger = inject(LoggerService);
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     protected http: HttpClient,
@@ -48,9 +48,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
       ...CONTENT_TYPE_JSON_HEADER,
     });
 
-    const options = this.featureConfigService.isEnabled(
-      'enableHierarchicalAddressFormat'
-    )
+    const options = this.featureToggles.enableHierarchicalAddressFormat
       ? { headers, params: { fields: 'addresses(FULL)' } }
       : { headers };
 

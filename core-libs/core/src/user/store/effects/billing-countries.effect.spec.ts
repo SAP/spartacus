@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
@@ -36,7 +37,7 @@ describe('Billing Countries effect', () => {
     effect = TestBed.inject(BillingCountriesEffect);
     service = TestBed.inject(SiteConnector);
 
-    spyOn(service, 'getCountries').and.returnValue(of(mockCountries));
+    vi.spyOn(service, 'getCountries').mockReturnValue(of(mockCountries));
   });
 
   describe('loadBillingCountries$', () => {

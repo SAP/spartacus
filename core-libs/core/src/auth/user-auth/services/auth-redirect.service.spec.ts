@@ -1,3 +1,4 @@
+import { vi, Mock } from 'vitest';
 import { Component, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
@@ -8,7 +9,7 @@ import {
   UrlTree,
 } from '@angular/router';
 import {
-  FeatureConfigService,
+  FeatureToggles,
   SiteContextUrlParams,
   SiteContextUrlSerializer,
 } from '@spartacus/core';
@@ -18,8 +19,8 @@ import { AuthRedirectStorageService } from './auth-redirect-storage.service';
 import { AuthRedirectService } from './auth-redirect.service';
 
 class MockRoutingService implements Partial<RoutingService> {
-  go = jasmine.createSpy('go');
-  goByUrl = jasmine.createSpy('goByUrl');
+  go = vi.fn();
+  goByUrl = vi.fn();
 }
 
 class MockAuthFlowRoutesService implements Partial<AuthFlowRoutesService> {
@@ -72,7 +73,12 @@ describe('AuthRedirectService', () => {
       providers: [
         AuthRedirectService,
         AuthRedirectStorageService,
-        FeatureConfigService,
+        {
+          provide: FeatureToggles,
+          useValue: {
+            redirectOnlyOnTrueNavigationEnd: false,
+          } satisfies FeatureToggles,
+        },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: AuthFlowRoutesService, useClass: MockAuthFlowRoutesService },
         {
@@ -93,8 +99,8 @@ describe('AuthRedirectService', () => {
     authRedirectStorageService = TestBed.inject(AuthRedirectStorageService);
     siteContextUrlSerializer = TestBed.inject(SiteContextUrlSerializer);
 
-    spyOn(authRedirectStorageService, 'setRedirectUrl').and.callThrough();
-    spyOn(authRedirectStorageService, 'getRedirectUrl').and.callThrough();
+    vi.spyOn(authRedirectStorageService, 'setRedirectUrl');
+    vi.spyOn(authRedirectStorageService, 'getRedirectUrl');
   });
 
   describe('redirect', () => {
@@ -152,16 +158,16 @@ describe('AuthRedirectService', () => {
       authRedirectStorageService = TestBed.inject(AuthRedirectStorageService);
       router = TestBed.inject(Router);
       zone = TestBed.inject(NgZone);
-      const featureConfigService = TestBed.inject(FeatureConfigService);
-      spyOn(authRedirectStorageService, 'setRedirectUrl').and.callThrough();
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+      const featureToggles = TestBed.inject(FeatureToggles);
+      featureToggles.redirectOnlyOnTrueNavigationEnd = true;
+      vi.spyOn(authRedirectStorageService, 'setRedirectUrl');
 
       TestBed.inject(AuthRedirectService);
     });
 
     it('should NOT save redirect url when NavigationEnd was caused by a guard redirect (UrlTree)', async () => {
       await zone.run(() => router.navigateByUrl('/some/url/after/redirects'));
-      (authRedirectStorageService.setRedirectUrl as jasmine.Spy).calls.reset();
+      vi.mocked(authRedirectStorageService.setRedirectUrl).mockReset();
 
       await zone.run(() => router.navigateByUrl('/guarded/url'));
 
@@ -173,7 +179,7 @@ describe('AuthRedirectService', () => {
 
   describe('saveCurrentNavigationUrl', () => {
     it('should save the url of the current navigation', () => {
-      spyOn(router, 'getCurrentNavigation').and.returnValue(<Navigation>{
+      vi.spyOn(router, 'getCurrentNavigation').mockReturnValue(<Navigation>{
         finalUrl: router.parseUrl('/anticipated/url'),
       });
       service.saveCurrentNavigationUrl();
@@ -183,7 +189,7 @@ describe('AuthRedirectService', () => {
     });
 
     it('should NOT save the url of the current navigation if it is a part of the auth flow', () => {
-      spyOn(router, 'getCurrentNavigation').and.returnValue(<Navigation>{
+      vi.spyOn(router, 'getCurrentNavigation').mockReturnValue(<Navigation>{
         initialUrl: router.parseUrl('/login'),
         finalUrl: router.parseUrl('/login'),
       });
@@ -192,13 +198,13 @@ describe('AuthRedirectService', () => {
     });
 
     it('should NOT save the url when there is no pending navigation', () => {
-      spyOn(router, 'getCurrentNavigation').and.returnValue(null);
+      vi.spyOn(router, 'getCurrentNavigation').mockReturnValue(null);
       service.saveCurrentNavigationUrl();
       expect(authRedirectStorageService.setRedirectUrl).not.toHaveBeenCalled();
     });
 
     it('should NOT save the url when finalUrl was not yet determined for the current navigation (before RouteRecognized event happened)', () => {
-      spyOn(router, 'getCurrentNavigation').and.returnValue(<Navigation>{
+      vi.spyOn(router, 'getCurrentNavigation').mockReturnValue(<Navigation>{
         initialUrl: router.parseUrl('/login'),
         finalUrl: undefined,
       });
@@ -209,9 +215,10 @@ describe('AuthRedirectService', () => {
 
   describe('setRedirectUrl', () => {
     it('should save the passed url without site context parameters', () => {
-      spyOn<any>(service, 'getUrlWithoutSiteContextParams').and.returnValue(
-        '/c/123'
-      );
+      vi.spyOn<any, any>(
+        service,
+        'getUrlWithoutSiteContextParams'
+      ).mockReturnValue('/c/123');
       service.setRedirectUrl('/custom/url/en/USD/c/123');
       expect(authRedirectStorageService.setRedirectUrl).toHaveBeenCalledWith(
         '/c/123'
@@ -227,12 +234,9 @@ describe('AuthRedirectService', () => {
   describe('getUrlWithoutSiteContextParams', () => {
     it('should return url without site context parameters', () => {
       const inputUrl = '/custom/url/en/USD/c/123';
-      spyOn(
-        siteContextUrlSerializer,
-        'urlExtractContextParameters'
-      ).and.callThrough();
+      vi.spyOn(siteContextUrlSerializer, 'urlExtractContextParameters');
       const result = (service as any).getUrlWithoutSiteContextParams(inputUrl);
-      expect(result).toEqual(jasmine.any(String));
+      expect(result).toEqual(expect.any(String));
       expect(
         siteContextUrlSerializer.urlExtractContextParameters
       ).toHaveBeenCalledWith(inputUrl);

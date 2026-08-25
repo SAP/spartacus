@@ -1,0 +1,152 @@
+on:
+  schedule:
+    - cron: "0 9 * * *"
+  workflow_dispatch:
+
+name: Sync active release branches to private repo
+
+permissions:
+  contents: read
+
+jobs:
+  identify_active_release_branches:
+    name: Identify release branches
+    runs-on: ubuntu-latest
+    outputs:
+      active_release_branches: ${{ steps.filter_branches.outputs.active_release_branches }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - name: Read released major version from RBSC
+        id: read_version
+        env:
+          RBSC_TOKEN: ${{ secrets.RBSC_TOKEN }}
+          RBSC_REGISTRY_URL: ${{ vars.RBSC_REGISTRY_URL }}
+        run: |
+          set -euo pipefail
+
+          # Fail early with a clear message if the registry URL isn't configured,
+          # otherwise npm will silently fall back to the public registry and we don't want that.
+          if [[ -z "${RBSC_REGISTRY_URL}" ]]; then
+            echo "Error: RBSC_REGISTRY_URL is empty (check the repo/environment variable)"
+            exit 1
+          fi
+
+          # Configure auth for the RBSC-hosted @spartacus scope.
+          # npm's auth lines use the //host/path form (scheme stripped).
+          RBSC_HOST_PATH="${RBSC_REGISTRY_URL#https:}"
+          cat > ~/.npmrc <<EOF
+          @spartacus:registry=${RBSC_REGISTRY_URL}
+          ${RBSC_HOST_PATH}:_auth=${RBSC_TOKEN}
+          ${RBSC_HOST_PATH}:always-auth=true
+          EOF
+
+          # Latest published version of @spartacus/core (e.g. 221121.13.1) -> major is the middle component (13)
+          # Use the 'release' dist-tag: the RBSC registry has no 'latest' tag, so 'npm view ... version'
+          # (which resolves 'latest' by default) returns an empty string.
+          # Capture stderr so an auth/registry failure surfaces instead of an empty VERSION.
+          if ! VERSION=$(npm view @spartacus/core@release version 2>npm-view.err); then
+            echo "Error: 'npm view @spartacus/core@release version' failed:"
+            cat npm-view.err
+            exit 1
+          fi
+          if [[ -z "$VERSION" ]]; then
+            echo "Error: 'npm view @spartacus/core@release version' returned no version"
+            cat npm-view.err
+            exit 1
+          fi
+          MAJOR_VERSION=$(echo "$VERSION" | awk -F. '{print $2}')
+          if ! [[ "$MAJOR_VERSION" =~ ^[0-9]+$ ]]; then
+            echo "Error: could not extract numeric major from '$VERSION'"
+            exit 1
+          fi
+          echo "Released version: $VERSION (major=$MAJOR_VERSION)"
+          echo "major_version=$MAJOR_VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Filter release branches with major > released major
+        id: filter_branches
+        env:
+          MAJOR_VERSION: ${{ steps.read_version.outputs.major_version }}
+        run: |
+          # List remote branches matching release/221121.<number>.x
+          BRANCHES=$(git ls-remote --heads "https://github.com/${GITHUB_REPOSITORY}.git" 'refs/heads/release/221121.*.x' \
+            | awk '{print $2}' \
+            | sed 's#^refs/heads/##' \
+            | grep -E '^release/221121\.[0-9]+\.x$' || true)
+
+          ACTIVE_BRANCHES=""
+          while IFS= read -r BRANCH; do
+            [[ -z "$BRANCH" ]] && continue
+            # Extract the middle number from release/221121.<N>.x
+            BRANCH_MAJOR=$(echo "$BRANCH" | awk -F. '{print $2}')
+            if [[ "$BRANCH_MAJOR" =~ ^[0-9]+$ ]] && (( BRANCH_MAJOR > MAJOR_VERSION )); then
+              ACTIVE_BRANCHES+="${BRANCH}"$'\n'
+            fi
+          done <<< "$BRANCHES"
+          ACTIVE_BRANCHES="${ACTIVE_BRANCHES%$'\n'}"
+
+          echo "Active release branches (major > ${MAJOR_VERSION}):"
+          echo "$ACTIVE_BRANCHES"
+
+          {
+            echo 'active_release_branches<<EOF'
+            echo "$ACTIVE_BRANCHES"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
+  create_dry-run_branches_for_active_release_branches:
+    name: Create dry-run branches
+    runs-on: ubuntu-latest
+    needs: identify_active_release_branches
+    if: needs.identify_active_release_branches.outputs.active_release_branches != ''
+    permissions:
+      contents: write
+      actions: write
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - name: Create dry-run branches from each active release branch
+        id: create_branches
+        env:
+          ACTIVE_RELEASE_BRANCHES: ${{ needs.identify_active_release_branches.outputs.active_release_branches }}
+        run: |
+          DRY_RUN_BRANCHES=""
+          while IFS= read -r SRC_BRANCH; do
+            [[ -z "$SRC_BRANCH" ]] && continue
+
+            # release/221121.<N>.x -> release-221121.<N>.x-dry-run
+            DRY_RUN_BRANCH="${SRC_BRANCH//\//-}-dry-run"
+
+            echo "---------------------------------------------------------------------------------------------------------------------------"
+            echo "Syncing '${DRY_RUN_BRANCH}' to latest of '${SRC_BRANCH}'"
+
+            # Force-push source branch's tip to the dry-run branch.
+            # Creates it if missing; overwrites it to match the source branch tip if it already exists.
+            git fetch origin "${SRC_BRANCH}"
+            git push origin --force "refs/remotes/origin/${SRC_BRANCH}:refs/heads/${DRY_RUN_BRANCH}"
+
+            DRY_RUN_BRANCHES+="${DRY_RUN_BRANCH}"$'\n'
+          done <<< "$ACTIVE_RELEASE_BRANCHES"
+
+          DRY_RUN_BRANCHES="${DRY_RUN_BRANCHES%$'\n'}"
+
+          echo "Created dry-run branches:"
+          echo "$DRY_RUN_BRANCHES"
+
+          {
+            echo 'dry_run_branches<<EOF'
+            echo "$DRY_RUN_BRANCHES"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Trigger repo-sync.yml for each dry-run branch
+        env:
+          DRY_RUN_BRANCHES: ${{ steps.create_branches.outputs.dry_run_branches }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          while IFS= read -r BRANCH; do
+            [[ -z "$BRANCH" ]] && continue
+            echo "Dispatching repo-sync.yml for branch: ${BRANCH}"
+            gh workflow run repo-sync.yml \
+              --ref develop \
+              -f branch_to_sync="${BRANCH}"
+          done <<< "$DRY_RUN_BRANCHES"

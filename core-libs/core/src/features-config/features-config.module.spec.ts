@@ -11,7 +11,10 @@ import {
 import { FeaturesConfigModule } from './features-config.module';
 import { FeatureConfigService } from './services/feature-config.service';
 
-const testToggle = 'testToggle';
+// Generic test flag - not declared in FeatureTogglesInterface, used purely
+// to verify the mechanics of FeatureToggles / FeaturesConfig precedence.
+// `as any` because the actual key isn't part of FeatureTogglesInterface.
+const testToggle: any = 'testToggle';
 
 describe('when FeaturesConfigModule.forRoot() is imported,', () => {
   function setProviders(providers: Provider[]) {

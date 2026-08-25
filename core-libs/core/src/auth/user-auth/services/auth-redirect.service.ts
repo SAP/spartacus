@@ -17,7 +17,7 @@ import { RoutingService } from '../../../routing/facade/routing.service';
 import { SiteContextUrlSerializer } from '../../../site-context/services/site-context-url-serializer';
 import { AuthFlowRoutesService } from './auth-flow-routes.service';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
-import { FeatureConfigService } from '../../../features-config';
+import { FeatureToggles } from '../../../features-config';
 /**
  * Responsible for saving last accessed page (or attempted) before login and for redirecting to that page after login.
  */
@@ -26,7 +26,7 @@ import { FeatureConfigService } from '../../../features-config';
 })
 export class AuthRedirectService implements OnDestroy {
   protected siteContextUrlSerializer = inject(SiteContextUrlSerializer);
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   /**
    * This service is responsible for remembering the last page before the authentication. "The last page" can be:
@@ -60,9 +60,7 @@ export class AuthRedirectService implements OnDestroy {
    * overwriting the saved redirect URL
    */
   protected init() {
-    if (
-      this.featureConfigService.isEnabled('redirectOnlyOnTrueNavigationEnd')
-    ) {
+    if (this.featureToggles.redirectOnlyOnTrueNavigationEnd) {
       this.manageSavedRedirectUriOnTrueNavigations();
     } else {
       this.subscription = this.router.events.subscribe((event: any) => {

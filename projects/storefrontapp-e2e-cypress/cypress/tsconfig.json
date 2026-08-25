@@ -6,6 +6,7 @@
     "allowJs": true,
     "baseUrl": "../node_modules",
     "strict": false,
+    "typeRoots": ["../node_modules/@types", "../node_modules"],
     "types": ["cypress", "@testing-library/cypress", "cypress-file-upload"],
     "target": "es5",
     "lib": ["esnext", "dom"]

@@ -5,7 +5,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -14,6 +14,7 @@ import {
   CmsSiteContextSelectorComponent,
   contextServiceMapProvider,
   CurrencyService,
+  FeatureDirective,
   I18nTestingModule,
   Language,
   LANGUAGE_CONTEXT_ID,
@@ -23,12 +24,13 @@ import {
   TranslationService,
   UrlPipe,
 } from '@spartacus/core';
-import { MockTranslationService } from 'core-libs/core/src/i18n/testing/mock-translation.service';
+import { MockTranslationService } from '@spartacus/core/src/i18n/testing/mock-translation.service';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { IconComponent } from '../icon';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
-import { IconComponent } from '../icon';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
@@ -56,19 +58,6 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
 
   const mockActiveLang = 'en';
 
-  const MockLanguageService = {
-    active: mockActiveLang,
-    getAll(): Observable<Language[]> {
-      return of(mockLanguages);
-    },
-    getActive(): Observable<string> {
-      return of(this.active);
-    },
-    setActive(isocode: string): void {
-      this.active = isocode;
-    },
-  };
-
   const mockComponentData: CmsSiteContextSelectorComponent = {
     uid: 'LanguageComponent',
     typeCode: 'SiteContextSelectorComponent',
@@ -83,7 +72,20 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
     data$: of(mockComponentData),
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
+    const MockLanguageService = {
+      active: mockActiveLang,
+      getAll(): Observable<Language[]> {
+        return of(mockLanguages);
+      },
+      getActive(): Observable<string> {
+        return of(this.active);
+      },
+      setActive(isocode: string): void {
+        this.active = isocode;
+      },
+    };
+
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
@@ -113,7 +115,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
     })
       .overrideComponent(SiteContextSelectorComponent, {
         remove: {
-          imports: [UrlPipe, IconComponent, TranslatePipe],
+          imports: [UrlPipe, IconComponent, TranslatePipe, FeatureDirective],
         },
         add: {
           providers: [
@@ -122,11 +124,16 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
               useClass: SiteContextComponentService,
             },
           ],
-          imports: [MockUrlPipe, MockCxIconComponent, MockTranslatePipe],
+          imports: [
+            MockUrlPipe,
+            MockCxIconComponent,
+            MockTranslatePipe,
+            MockFeatureDirective,
+          ],
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SiteContextSelectorComponent);
@@ -172,5 +179,14 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
     const selectBox = el.query(By.css('select'));
     const select = <HTMLSelectElement>selectBox.nativeElement;
     expect(select.options.length).toEqual(mockLanguages.length);
+  });
+
+  it('should have the selected attribute on the active language option', () => {
+    const options = el.queryAll(By.css('.cx-select-wrapper option'));
+    const withSelectedAttr = options.filter((opt) =>
+      opt.nativeElement.hasAttribute('selected')
+    );
+    expect(withSelectedAttr.length).toBe(1);
+    expect(withSelectedAttr[0].nativeElement.value).toBe(mockActiveLang);
   });
 });

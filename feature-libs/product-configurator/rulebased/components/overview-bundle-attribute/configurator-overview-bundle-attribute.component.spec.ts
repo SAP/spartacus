@@ -1,16 +1,15 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CxNumericPipe,
-  FeatureConfigService,
   I18nTestingModule,
   ImageType,
   Product,
   ProductService,
 } from '@spartacus/core';
 import { MediaModule } from '@spartacus/storefront';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -68,15 +67,11 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
   let component: ConfiguratorOverviewBundleAttributeComponent;
   let fixture: ComponentFixture<ConfiguratorOverviewBundleAttributeComponent>;
   let htmlElem: HTMLElement;
-  let featureConfigService: FeatureConfigService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [MediaModule, ConfiguratorOverviewBundleAttributeComponent],
-      providers: [
-        { provide: ProductService, useClass: MockProductService },
-        FeatureConfigService,
-      ],
+      providers: [{ provide: ProductService, useClass: MockProductService }],
     })
       .overrideComponent(ConfiguratorOverviewBundleAttributeComponent, {
         remove: {
@@ -87,7 +82,7 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
@@ -95,7 +90,6 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
     );
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
-    featureConfigService = TestBed.inject(FeatureConfigService);
   });
 
   beforeEach(() => {
@@ -108,28 +102,22 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
   });
 
   describe('product', () => {
-    it('should use dummy product if no product code exists', (done: DoneFn) => {
+    it('should use dummy product if no product code exists', async () => {
       product$.next(noCommerceProduct);
 
       fixture.detectChanges();
 
-      component.product$.pipe(take(1)).subscribe((product: Product) => {
-        expect(product).toEqual(noCommerceProduct);
-
-        done();
-      });
+      const product = await firstValueFrom(component.product$);
+      expect(product).toEqual(noCommerceProduct);
     });
 
-    it('should exist with product code', (done: DoneFn) => {
+    it('should exist with product code', async () => {
       product$.next(mockProduct);
 
       fixture.detectChanges();
 
-      component.product$.pipe(take(1)).subscribe((product: Product) => {
-        expect(product).toEqual(mockProduct);
-
-        done();
-      });
+      const product = await firstValueFrom(component.product$);
+      expect(product).toEqual(mockProduct);
     });
   });
 
@@ -155,8 +143,6 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
 
     describe('product image', () => {
       it('should be visible if primary', () => {
-        spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
-
         product$.next(mockProduct);
 
         fixture.detectChanges();

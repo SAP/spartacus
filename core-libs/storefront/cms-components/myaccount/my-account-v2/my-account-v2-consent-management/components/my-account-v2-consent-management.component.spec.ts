@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   AnonymousConsentsConfig,
@@ -16,14 +16,16 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   MockTranslatePipe,
+  PageMeta,
+  PageMetaService,
   Translatable,
   TranslatePipe,
   UserConsentService,
 } from '@spartacus/core';
+import { EMPTY, Observable, of } from 'rxjs';
 import { SpinnerComponent } from '../../../../../shared/components/spinner/spinner.component';
 import { MyAccountV2ConsentManagementFormComponent } from './consent-form/my-account-v2-consent-management-form.component';
-import { EMPTY, Observable, of } from 'rxjs';
-import { ConsentManagementComponentService } from '../../../consent-management';
+import { ConsentManagementComponentService } from '../../../consent-management/consent-management-component.service';
 import { MyAccountV2ConsentManagementComponent } from './my-account-v2-consent-management.component';
 
 @Component({
@@ -105,6 +107,14 @@ class AuthServiceMock {
   }
 }
 
+const mockPageMeta: PageMeta = {
+  title: 'Consent Management',
+  heading: 'Consent Management',
+};
+class MockPageMetaService implements Partial<PageMetaService> {
+  getMeta = () => of(mockPageMeta);
+}
+
 const mockConsentTemplate: ConsentTemplate = {
   id: 'mock ID',
   version: 0,
@@ -123,7 +133,7 @@ describe('MyAccountV2ConsentManagementComponent', () => {
   let anonymousConsentsConfig: AnonymousConsentsConfig;
   let anonymousConsentsService: AnonymousConsentsService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     const mockAnonymousConsentsConfig = {
       anonymousConsents: {},
     };
@@ -146,6 +156,7 @@ describe('MyAccountV2ConsentManagementComponent', () => {
           provide: AnonymousConsentsConfig,
           useValue: mockAnonymousConsentsConfig,
         },
+        { provide: PageMetaService, useClass: MockPageMetaService },
       ],
     })
       .overrideComponent(MyAccountV2ConsentManagementComponent, {
@@ -165,7 +176,7 @@ describe('MyAccountV2ConsentManagementComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2ConsentManagementComponent);
@@ -176,11 +187,10 @@ describe('MyAccountV2ConsentManagementComponent', () => {
     globalMessageService = TestBed.inject(GlobalMessageService);
     anonymousConsentsConfig = TestBed.inject(AnonymousConsentsConfig);
     anonymousConsentsService = TestBed.inject(AnonymousConsentsService);
-
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -194,16 +204,18 @@ describe('MyAccountV2ConsentManagementComponent', () => {
 
   describe('component method tests', () => {
     describe('ngOnInit', () => {
-      it('should combine all loading flags into one', () => {
-        spyOn(userService, 'getConsentsResultLoading').and.returnValue(
+      it('should combine all loading flags into one', async () => {
+        vi.useFakeTimers();
+        vi.spyOn(userService, 'getConsentsResultLoading').mockReturnValue(
           of(true)
         );
-        spyOn(userService, 'getGiveConsentResultLoading').and.returnValue(
+        vi.spyOn(userService, 'getGiveConsentResultLoading').mockReturnValue(
           of(false)
         );
-        spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
-          of(false)
-        );
+        vi.spyOn(
+          userService,
+          'getWithdrawConsentResultLoading'
+        ).mockReturnValue(of(false));
 
         component.ngOnInit();
         expect(userService.getConsentsResultLoading).toHaveBeenCalled();
@@ -211,16 +223,25 @@ describe('MyAccountV2ConsentManagementComponent', () => {
         expect(userService.getWithdrawConsentResultLoading).toHaveBeenCalled();
 
         let loadingResult = false;
-        component.loading$
-          .subscribe((result) => (loadingResult = result))
-          .unsubscribe();
+        const sub = component.loading$.subscribe(
+          (result) => (loadingResult = result)
+        );
+        await vi.advanceTimersByTimeAsync(300);
+        vi.useRealTimers();
+        sub.unsubscribe();
         expect(loadingResult).toEqual(true);
       });
 
       it('should call all init methods', () => {
-        spyOn<any>(component, consentListInitMethod).and.stub();
-        spyOn<any>(component, giveConsentInitMethod).and.stub();
-        spyOn<any>(component, withdrawConsentInitMethod).and.stub();
+        vi.spyOn<any>(component, consentListInitMethod).mockImplementation(
+          () => {}
+        );
+        vi.spyOn<any>(component, giveConsentInitMethod).mockImplementation(
+          () => {}
+        );
+        vi.spyOn<any>(component, withdrawConsentInitMethod).mockImplementation(
+          () => {}
+        );
 
         component.ngOnInit();
         expect(component[consentListInitMethod]).toHaveBeenCalled();
@@ -233,11 +254,11 @@ describe('MyAccountV2ConsentManagementComponent', () => {
       describe('when there are no consents loaded', () => {
         const mockTemplateList = [] as ConsentTemplate[];
         it('should trigger the loadConsents method', () => {
-          spyOn(userService, 'getConsents').and.returnValue(
+          vi.spyOn(userService, 'getConsents').mockReturnValue(
             of(mockTemplateList)
           );
-          spyOn<any>(component, consentsExistsMethod).and.returnValue(false);
-          spyOn(userService, 'loadConsents').and.stub();
+          vi.spyOn<any>(component, consentsExistsMethod).mockReturnValue(false);
+          vi.spyOn(userService, 'loadConsents').mockImplementation(() => {});
 
           component[consentListInitMethod]();
 
@@ -255,11 +276,11 @@ describe('MyAccountV2ConsentManagementComponent', () => {
       describe('when the consents are already present', () => {
         const mockTemplateList: ConsentTemplate[] = [mockConsentTemplate];
         it('should not trigger loading of consents and should return consent template list', () => {
-          spyOn(userService, 'getConsents').and.returnValue(
+          vi.spyOn(userService, 'getConsents').mockReturnValue(
             of(mockTemplateList)
           );
-          spyOn<any>(component, consentsExistsMethod).and.returnValue(true);
-          spyOn(userService, 'loadConsents').and.stub();
+          vi.spyOn<any>(component, consentsExistsMethod).mockReturnValue(true);
+          vi.spyOn(userService, 'loadConsents').mockImplementation(() => {});
 
           component[consentListInitMethod]();
 
@@ -277,16 +298,16 @@ describe('MyAccountV2ConsentManagementComponent', () => {
       describe('when the anonymousConsents.consentManagementPage config is defined', () => {
         it(`should call ${hideAnonymousConsentsMethod} method`, () => {
           const mockTemplateList: ConsentTemplate[] = [mockConsentTemplate];
-          spyOn(userService, 'getConsents').and.returnValue(
+          vi.spyOn(userService, 'getConsents').mockReturnValue(
             of(mockTemplateList)
           );
-          spyOn<any>(component, hideAnonymousConsentsMethod).and.returnValue(
+          vi.spyOn<any>(component, hideAnonymousConsentsMethod).mockReturnValue(
             mockTemplateList
           );
           const mockAnonymousConsentTemplates: ConsentTemplate[] = [
             { id: 'MARKETING' },
           ];
-          spyOn(anonymousConsentsService, 'getTemplates').and.returnValue(
+          vi.spyOn(anonymousConsentsService, 'getTemplates').mockReturnValue(
             of(mockAnonymousConsentTemplates)
           );
           anonymousConsentsConfig.anonymousConsents.consentManagementPage = {};
@@ -309,16 +330,22 @@ describe('MyAccountV2ConsentManagementComponent', () => {
 
     describe(giveConsentInitMethod, () => {
       it('should reset the processing state', () => {
-        spyOn(userService, 'resetGiveConsentProcessState').and.stub();
+        vi.spyOn(
+          userService,
+          'resetGiveConsentProcessState'
+        ).mockImplementation(() => {});
         component[giveConsentInitMethod]();
         expect(userService.resetGiveConsentProcessState).toHaveBeenCalled();
       });
       it(`should call ${onConsentGivenSuccessMethod}`, () => {
         const success = true;
-        spyOn(userService, 'getGiveConsentResultSuccess').and.returnValue(
+        vi.spyOn(userService, 'getGiveConsentResultSuccess').mockReturnValue(
           of(success)
         );
-        spyOn<any>(component, onConsentGivenSuccessMethod).and.stub();
+        vi.spyOn<any>(
+          component,
+          onConsentGivenSuccessMethod
+        ).mockImplementation(() => {});
 
         component[giveConsentInitMethod]();
         expect(component[onConsentGivenSuccessMethod]).toHaveBeenCalledWith(
@@ -329,20 +356,28 @@ describe('MyAccountV2ConsentManagementComponent', () => {
 
     describe(withdrawConsentInitMethod, () => {
       it('should reset the processing state', () => {
-        spyOn(userService, 'resetWithdrawConsentProcessState').and.stub();
+        vi.spyOn(
+          userService,
+          'resetWithdrawConsentProcessState'
+        ).mockImplementation(() => {});
         component[withdrawConsentInitMethod]();
         expect(userService.resetWithdrawConsentProcessState).toHaveBeenCalled();
       });
       it(`should load all consents if the withdrawal was successful and call ${onConsentWithdrawnSuccessMethod}`, () => {
         const withdrawalSuccess = true;
-        spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
-          of(false)
-        );
-        spyOn(userService, 'getWithdrawConsentResultSuccess').and.returnValue(
-          of(withdrawalSuccess)
-        );
-        spyOn(userService, 'loadConsents').and.stub();
-        spyOn<any>(component, onConsentWithdrawnSuccessMethod).and.stub();
+        vi.spyOn(
+          userService,
+          'getWithdrawConsentResultLoading'
+        ).mockReturnValue(of(false));
+        vi.spyOn(
+          userService,
+          'getWithdrawConsentResultSuccess'
+        ).mockReturnValue(of(withdrawalSuccess));
+        vi.spyOn(userService, 'loadConsents').mockImplementation(() => {});
+        vi.spyOn<any>(
+          component,
+          onConsentWithdrawnSuccessMethod
+        ).mockImplementation(() => {});
 
         component[withdrawConsentInitMethod]();
 
@@ -352,13 +387,15 @@ describe('MyAccountV2ConsentManagementComponent', () => {
         );
       });
       it('should NOT load all consents if the withdrawal was NOT successful', () => {
-        spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
-          of(false)
-        );
-        spyOn(userService, 'getWithdrawConsentResultSuccess').and.returnValue(
-          of(false)
-        );
-        spyOn(userService, 'loadConsents').and.stub();
+        vi.spyOn(
+          userService,
+          'getWithdrawConsentResultLoading'
+        ).mockReturnValue(of(false));
+        vi.spyOn(
+          userService,
+          'getWithdrawConsentResultSuccess'
+        ).mockReturnValue(of(false));
+        vi.spyOn(userService, 'loadConsents').mockImplementation(() => {});
 
         component[withdrawConsentInitMethod]();
 
@@ -401,8 +438,8 @@ describe('MyAccountV2ConsentManagementComponent', () => {
     describe('onConsentChange', () => {
       describe('when the consent was given', () => {
         it('should call facades giveConsent method', () => {
-          spyOn(userService, 'giveConsent').and.stub();
-          spyOn(userService, 'withdrawConsent').and.stub();
+          vi.spyOn(userService, 'giveConsent').mockImplementation(() => {});
+          vi.spyOn(userService, 'withdrawConsent').mockImplementation(() => {});
 
           component.onConsentChange({
             given: true,
@@ -418,8 +455,8 @@ describe('MyAccountV2ConsentManagementComponent', () => {
       });
       describe('when the consent was NOT given', () => {
         it('should call facades withdrawConsent method', () => {
-          spyOn(userService, 'giveConsent').and.stub();
-          spyOn(userService, 'withdrawConsent').and.stub();
+          vi.spyOn(userService, 'giveConsent').mockImplementation(() => {});
+          vi.spyOn(userService, 'withdrawConsent').mockImplementation(() => {});
 
           component.onConsentChange({
             given: false,
@@ -438,8 +475,11 @@ describe('MyAccountV2ConsentManagementComponent', () => {
     describe(onConsentGivenSuccessMethod, () => {
       describe('when the consent was NOT successfully given', () => {
         it('should NOT reset the processing state and display a success message', () => {
-          spyOn(userService, 'resetGiveConsentProcessState').and.stub();
-          spyOn(globalMessageService, 'add').and.stub();
+          vi.spyOn(
+            userService,
+            'resetGiveConsentProcessState'
+          ).mockImplementation(() => {});
+          vi.spyOn(globalMessageService, 'add').mockImplementation(() => {});
 
           component[onConsentGivenSuccessMethod](false);
 
@@ -451,8 +491,11 @@ describe('MyAccountV2ConsentManagementComponent', () => {
       });
       describe('when the consent was successfully given', () => {
         it('should reset the processing state and display a success message', () => {
-          spyOn(userService, 'resetGiveConsentProcessState').and.stub();
-          spyOn(globalMessageService, 'add').and.stub();
+          vi.spyOn(
+            userService,
+            'resetGiveConsentProcessState'
+          ).mockImplementation(() => {});
+          vi.spyOn(globalMessageService, 'add').mockImplementation(() => {});
 
           component[onConsentGivenSuccessMethod](true);
 
@@ -468,8 +511,11 @@ describe('MyAccountV2ConsentManagementComponent', () => {
     describe(onConsentWithdrawnSuccessMethod, () => {
       describe('when the consent was NOT successfully withdrawn', () => {
         it('should NOT reset the processing state and display a success message', () => {
-          spyOn(userService, 'resetWithdrawConsentProcessState').and.stub();
-          spyOn(globalMessageService, 'add').and.stub();
+          vi.spyOn(
+            userService,
+            'resetWithdrawConsentProcessState'
+          ).mockImplementation(() => {});
+          vi.spyOn(globalMessageService, 'add').mockImplementation(() => {});
 
           component[onConsentWithdrawnSuccessMethod](false);
 
@@ -481,8 +527,11 @@ describe('MyAccountV2ConsentManagementComponent', () => {
       });
       describe('when the consent was successfully withdrawn', () => {
         it('should reset the processing state and display a success message', () => {
-          spyOn(userService, 'resetWithdrawConsentProcessState').and.stub();
-          spyOn(globalMessageService, 'add').and.stub();
+          vi.spyOn(
+            userService,
+            'resetWithdrawConsentProcessState'
+          ).mockImplementation(() => {});
+          vi.spyOn(globalMessageService, 'add').mockImplementation(() => {});
 
           component[onConsentWithdrawnSuccessMethod](true);
 
@@ -523,19 +572,20 @@ describe('MyAccountV2ConsentManagementComponent', () => {
     describe('rejectAll', () => {
       describe('when no consent is given', () => {
         it('should not call userConsentService.withdrawConsent', () => {
-          spyOn(userService, 'withdrawConsent').and.stub();
-          spyOn(userService, 'loadConsents').and.stub();
+          vi.spyOn(userService, 'withdrawConsent').mockImplementation(() => {});
+          vi.spyOn(userService, 'loadConsents').mockImplementation(() => {});
           component.rejectAll([]);
           expect(userService.withdrawConsent).not.toHaveBeenCalled();
         });
       });
       describe('when consents are given', () => {
         it('should call userConsentService.withdrawConsent for each', () => {
-          spyOn(userService, 'withdrawConsent').and.stub();
-          spyOn(userService, 'isConsentGiven').and.returnValue(true);
-          spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
-            of(false)
-          );
+          vi.spyOn(userService, 'withdrawConsent').mockImplementation(() => {});
+          vi.spyOn(userService, 'isConsentGiven').mockReturnValue(true);
+          vi.spyOn(
+            userService,
+            'getWithdrawConsentResultLoading'
+          ).mockReturnValue(of(false));
 
           component.rejectAll([mockConsentTemplate]);
 
@@ -551,10 +601,12 @@ describe('MyAccountV2ConsentManagementComponent', () => {
           anonymousConsentsConfig.anonymousConsents.requiredConsents = [
             mockConsentTemplate[0],
           ];
-          spyOn(userService, 'withdrawConsent').and.stub();
-          spyOn(userService, 'loadConsents').and.stub();
-          spyOn(userService, 'isConsentGiven').and.returnValue(true);
-          spyOn<any>(component, isRequiredConsentMethod).and.returnValue(true);
+          vi.spyOn(userService, 'withdrawConsent').mockImplementation(() => {});
+          vi.spyOn(userService, 'loadConsents').mockImplementation(() => {});
+          vi.spyOn(userService, 'isConsentGiven').mockReturnValue(true);
+          vi.spyOn<any>(component, isRequiredConsentMethod).mockReturnValue(
+            true
+          );
 
           component.rejectAll([mockConsentTemplate]);
 
@@ -566,17 +618,17 @@ describe('MyAccountV2ConsentManagementComponent', () => {
     describe('allowAll', () => {
       describe('when no consent is withdrawn', () => {
         it('should not call userConsentService.giveConsent', () => {
-          spyOn(userService, 'giveConsent').and.stub();
-          spyOn(userService, 'loadConsents').and.stub();
+          vi.spyOn(userService, 'giveConsent').mockImplementation(() => {});
+          vi.spyOn(userService, 'loadConsents').mockImplementation(() => {});
           component.allowAll([]);
           expect(userService.giveConsent).not.toHaveBeenCalled();
         });
       });
       describe('when consents are withdrawn', () => {
         it('should call userConsentService.giveConsent for each', () => {
-          spyOn(userService, 'giveConsent').and.stub();
-          spyOn(userService, 'isConsentWithdrawn').and.returnValue(true);
-          spyOn(userService, 'getGiveConsentResultLoading').and.returnValue(
+          vi.spyOn(userService, 'giveConsent').mockImplementation(() => {});
+          vi.spyOn(userService, 'isConsentWithdrawn').mockReturnValue(true);
+          vi.spyOn(userService, 'getGiveConsentResultLoading').mockReturnValue(
             of(false)
           );
 
@@ -594,10 +646,12 @@ describe('MyAccountV2ConsentManagementComponent', () => {
           anonymousConsentsConfig.anonymousConsents.requiredConsents = [
             mockConsentTemplate[0],
           ];
-          spyOn(userService, 'giveConsent').and.stub();
-          spyOn(userService, 'loadConsents').and.stub();
-          spyOn(userService, 'isConsentWithdrawn').and.returnValue(true);
-          spyOn<any>(component, isRequiredConsentMethod).and.returnValue(true);
+          vi.spyOn(userService, 'giveConsent').mockImplementation(() => {});
+          vi.spyOn(userService, 'loadConsents').mockImplementation(() => {});
+          vi.spyOn(userService, 'isConsentWithdrawn').mockReturnValue(true);
+          vi.spyOn<any>(component, isRequiredConsentMethod).mockReturnValue(
+            true
+          );
 
           component.allowAll([mockConsentTemplate]);
 
@@ -608,9 +662,17 @@ describe('MyAccountV2ConsentManagementComponent', () => {
 
     describe('ngOnDestroy', () => {
       it('should unsubscribe and reset the processing states', () => {
-        spyOn(component['subscriptions'], 'unsubscribe').and.stub();
-        spyOn(userService, 'resetGiveConsentProcessState').and.stub();
-        spyOn(userService, 'resetWithdrawConsentProcessState').and.stub();
+        vi.spyOn(component['subscriptions'], 'unsubscribe').mockImplementation(
+          () => {}
+        );
+        vi.spyOn(
+          userService,
+          'resetGiveConsentProcessState'
+        ).mockImplementation(() => {});
+        vi.spyOn(
+          userService,
+          'resetWithdrawConsentProcessState'
+        ).mockImplementation(() => {});
 
         component.ngOnDestroy();
 
@@ -630,7 +692,7 @@ describe('MyAccountV2ConsentManagementComponent', () => {
             showAnonymousConsents: false,
             hideConsents,
           };
-          spyOn(userService, 'filterConsentTemplates').and.returnValue(
+          vi.spyOn(userService, 'filterConsentTemplates').mockReturnValue(
             mockConsentTemplates
           );
 
@@ -651,7 +713,7 @@ describe('MyAccountV2ConsentManagementComponent', () => {
             showAnonymousConsents: true,
             hideConsents,
           };
-          spyOn(userService, 'filterConsentTemplates').and.returnValue(
+          vi.spyOn(userService, 'filterConsentTemplates').mockReturnValue(
             mockConsentTemplates
           );
 
@@ -676,63 +738,99 @@ describe('MyAccountV2ConsentManagementComponent', () => {
   describe('component UI tests', () => {
     describe('spinner', () => {
       describe('when consents are loading', () => {
-        it('should show spinner', () => {
-          spyOn(userService, 'getConsentsResultLoading').and.returnValue(
+        it('should show spinner', async () => {
+          vi.useFakeTimers();
+          vi.spyOn(userService, 'getConsentsResultLoading').mockReturnValue(
             of(true)
           );
-          spyOn(userService, 'getGiveConsentResultLoading').and.returnValue(
+          vi.spyOn(userService, 'getGiveConsentResultLoading').mockReturnValue(
             of(false)
           );
-          spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
-            of(false)
+          vi.spyOn(
+            userService,
+            'getWithdrawConsentResultLoading'
+          ).mockReturnValue(of(false));
+          vi.spyOn<any>(component, consentListInitMethod).mockImplementation(
+            () => {}
           );
-          spyOn<any>(component, consentListInitMethod).and.stub();
-          spyOn<any>(component, giveConsentInitMethod).and.stub();
-          spyOn<any>(component, withdrawConsentInitMethod).and.stub();
+          vi.spyOn<any>(component, giveConsentInitMethod).mockImplementation(
+            () => {}
+          );
+          vi.spyOn<any>(
+            component,
+            withdrawConsentInitMethod
+          ).mockImplementation(() => {});
 
           component.ngOnInit();
+          fixture.detectChanges();
+          await vi.advanceTimersByTimeAsync(300);
+          vi.useRealTimers();
           fixture.detectChanges();
 
           expect(el.query(By.css('cx-spinner'))).toBeTruthy();
         });
       });
       describe('when a consent is being given', () => {
-        it('should show spinner', () => {
-          spyOn(userService, 'getConsentsResultLoading').and.returnValue(
+        it('should show spinner', async () => {
+          vi.useFakeTimers();
+          vi.spyOn(userService, 'getConsentsResultLoading').mockReturnValue(
             of(false)
           );
-          spyOn(userService, 'getGiveConsentResultLoading').and.returnValue(
+          vi.spyOn(userService, 'getGiveConsentResultLoading').mockReturnValue(
             of(true)
           );
-          spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
-            of(false)
+          vi.spyOn(
+            userService,
+            'getWithdrawConsentResultLoading'
+          ).mockReturnValue(of(false));
+          vi.spyOn<any>(component, consentListInitMethod).mockImplementation(
+            () => {}
           );
-          spyOn<any>(component, consentListInitMethod).and.stub();
-          spyOn<any>(component, giveConsentInitMethod).and.stub();
-          spyOn<any>(component, withdrawConsentInitMethod).and.stub();
+          vi.spyOn<any>(component, giveConsentInitMethod).mockImplementation(
+            () => {}
+          );
+          vi.spyOn<any>(
+            component,
+            withdrawConsentInitMethod
+          ).mockImplementation(() => {});
 
           component.ngOnInit();
+          fixture.detectChanges();
+          await vi.advanceTimersByTimeAsync(300);
+          vi.useRealTimers();
           fixture.detectChanges();
 
           expect(el.query(By.css('cx-spinner'))).toBeTruthy();
         });
       });
       describe('when a consent is being withdrawn', () => {
-        it('should show spinner', () => {
-          spyOn(userService, 'getConsentsResultLoading').and.returnValue(
+        it('should show spinner', async () => {
+          vi.useFakeTimers();
+          vi.spyOn(userService, 'getConsentsResultLoading').mockReturnValue(
             of(false)
           );
-          spyOn(userService, 'getGiveConsentResultLoading').and.returnValue(
+          vi.spyOn(userService, 'getGiveConsentResultLoading').mockReturnValue(
             of(false)
           );
-          spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
-            of(true)
+          vi.spyOn(
+            userService,
+            'getWithdrawConsentResultLoading'
+          ).mockReturnValue(of(true));
+          vi.spyOn<any>(component, consentListInitMethod).mockImplementation(
+            () => {}
           );
-          spyOn<any>(component, consentListInitMethod).and.stub();
-          spyOn<any>(component, giveConsentInitMethod).and.stub();
-          spyOn<any>(component, withdrawConsentInitMethod).and.stub();
+          vi.spyOn<any>(component, giveConsentInitMethod).mockImplementation(
+            () => {}
+          );
+          vi.spyOn<any>(
+            component,
+            withdrawConsentInitMethod
+          ).mockImplementation(() => {});
 
           component.ngOnInit();
+          fixture.detectChanges();
+          await vi.advanceTimersByTimeAsync(300);
+          vi.useRealTimers();
           fixture.detectChanges();
 
           expect(el.query(By.css('cx-spinner'))).toBeTruthy();
@@ -741,16 +839,17 @@ describe('MyAccountV2ConsentManagementComponent', () => {
 
       describe('when nothing is being loaded', () => {
         it('should NOT show the spinner but rather diplay a checkbox for each consent', () => {
-          spyOn(userService, 'getConsentsResultLoading').and.returnValue(
+          vi.spyOn(userService, 'getConsentsResultLoading').mockReturnValue(
             of(false)
           );
-          spyOn(userService, 'getGiveConsentResultLoading').and.returnValue(
+          vi.spyOn(userService, 'getGiveConsentResultLoading').mockReturnValue(
             of(false)
           );
-          spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
-            of(false)
-          );
-          spyOn(userService, 'getConsents').and.returnValue(
+          vi.spyOn(
+            userService,
+            'getWithdrawConsentResultLoading'
+          ).mockReturnValue(of(false));
+          vi.spyOn(userService, 'getConsents').mockReturnValue(
             of([
               mockConsentTemplate,
               mockConsentTemplate,

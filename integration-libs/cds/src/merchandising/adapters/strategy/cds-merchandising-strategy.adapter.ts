@@ -5,13 +5,13 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable, switchMap, take } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { Observable, of, switchMap, take } from 'rxjs';
 import { CdsEndpointsService } from '../../../services/cds-endpoints.service';
 import { MerchandisingStrategyAdapter } from '../../connectors/strategy/merchandising-strategy.adapter';
 import { StrategyProducts } from '../../model/strategy-products.model';
 import { StrategyRequest } from './../../../cds-models/cds-strategy-request.model';
-import { BaseSiteService } from '@spartacus/core';
+import { BaseSiteService, WindowRef } from '@spartacus/core';
 
 const STRATEGY_PRODUCTS_ENDPOINT_KEY = 'strategyProducts';
 
@@ -19,6 +19,8 @@ const STRATEGY_PRODUCTS_ENDPOINT_KEY = 'strategyProducts';
 export class CdsMerchandisingStrategyAdapter
   implements MerchandisingStrategyAdapter
 {
+  protected windowRef = inject(WindowRef);
+
   constructor(
     private cdsEndpointsService: CdsEndpointsService,
     private baseSiteService: BaseSiteService,
@@ -29,6 +31,10 @@ export class CdsMerchandisingStrategyAdapter
     strategyId: string,
     strategyRequest: StrategyRequest = {}
   ): Observable<StrategyProducts> {
+    if (!this.windowRef.isBrowser()) {
+      return of({ products: [] });
+    }
+
     let headers: HttpHeaders = new HttpHeaders();
     if (strategyRequest.headers && strategyRequest.headers.consentReference) {
       headers = headers.set(

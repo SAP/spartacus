@@ -5,12 +5,7 @@
  */
 
 import { Injectable, inject, isDevMode } from '@angular/core';
-import {
-  Config,
-  FeatureConfigService,
-  Image,
-  LoggerService,
-} from '@spartacus/core';
+import { Config, FeatureToggles, Image, LoggerService } from '@spartacus/core';
 import { MediaConfig } from './media.config';
 import {
   ImageLoadingStrategy,
@@ -44,7 +39,7 @@ export class MediaService {
   private _sortedPictureFormats: { code: string; mediaQuery: string }[];
   private _reversedFormats: { code: string; size: MediaFormatSize }[];
 
-  private readonly featureConfigService = inject(FeatureConfigService);
+  private readonly featureToggles = inject(FeatureToggles);
   protected logger = inject(LoggerService);
 
   constructor(protected config: Config) {}
@@ -163,17 +158,12 @@ export class MediaService {
   /**
    * Reads the loading strategy from the `MediaConfig`.
    *
-   * Defaults to `ImageLoadingStrategy.EAGER`.
+   * Defaults to `ImageLoadingStrategy.LAZY`.
    */
   get loadingStrategy(): ImageLoadingStrategy {
-    const fallbackStrategy = this.featureConfigService.isEnabled(
-      'lazyLoadImagesByDefault'
-    )
-      ? ImageLoadingStrategy.LAZY
-      : ImageLoadingStrategy.EAGER;
-
     return (
-      (this.config as MediaConfig)?.imageLoadingStrategy ?? fallbackStrategy
+      (this.config as MediaConfig)?.imageLoadingStrategy ??
+      ImageLoadingStrategy.LAZY
     );
   }
 
@@ -304,7 +294,7 @@ export class MediaService {
 
     const srcset = formats.reduce((set, format) => {
       const image = (media as MediaContainer)[format.code];
-      if (!!image) {
+      if (image) {
         if (set) {
           set += ', ';
         }
@@ -412,7 +402,7 @@ export class MediaService {
       this.config.backend?.occ?.baseUrl ??
       '';
 
-    if (!this.featureConfigService.isEnabled('enableMediaPrefix')) {
+    if (!this.featureToggles.enableMediaPrefix) {
       return baseUrl;
     }
 

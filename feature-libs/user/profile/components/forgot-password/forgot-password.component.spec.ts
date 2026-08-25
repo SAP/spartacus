@@ -1,5 +1,6 @@
+import { vi } from 'vitest';
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
@@ -18,7 +19,6 @@ import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feat
 import { BehaviorSubject } from 'rxjs';
 import { ForgotPasswordComponentService } from './forgot-password-component.service';
 import { ForgotPasswordComponent } from './forgot-password.component';
-import createSpy = jasmine.createSpy;
 
 const isBusySubject = new BehaviorSubject(false);
 class MockForgotPasswordService
@@ -28,8 +28,8 @@ class MockForgotPasswordService
     userEmail: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
-  requestEmail = createSpy().and.stub();
-  resetForm = createSpy().and.stub();
+  requestEmail = vi.fn().mockImplementation(() => {});
+  resetForm = vi.fn().mockImplementation(() => {});
 }
 
 class MockRoutingService implements Partial<RoutingService> {
@@ -43,7 +43,7 @@ describe('ForgotPasswordComponent', () => {
   let service: ForgotPasswordComponentService;
   let routingService: RoutingService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ForgotPasswordComponent],
       providers: [
@@ -78,7 +78,7 @@ describe('ForgotPasswordComponent', () => {
         add: { imports: [MockTranslatePipe] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ForgotPasswordComponent);
@@ -127,7 +127,7 @@ describe('ForgotPasswordComponent', () => {
 
   describe('Form Interactions', () => {
     it('should call onSubmit() method on submit', () => {
-      const request = spyOn(component, 'onSubmit');
+      const request = vi.spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
       form.triggerEventHandler('submit', null);
       expect(request).toHaveBeenCalled();
@@ -139,7 +139,7 @@ describe('ForgotPasswordComponent', () => {
     });
 
     it('should navigate to login on cancel', () => {
-      spyOn(routingService, 'go');
+      vi.spyOn(routingService, 'go');
       const cancelBtn = el.query(By.css('button.btn-secondary'));
       cancelBtn.triggerEventHandler('click');
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });

@@ -6,7 +6,7 @@
 
 import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FeatureConfigService, TranslatePipe } from '@spartacus/core';
+import { FeatureToggles, TranslatePipe } from '@spartacus/core';
 import {
   FocusDirective,
   ICON_TYPE,
@@ -23,9 +23,9 @@ import { BaseMessageComponent } from '../base-message.component';
 export class NotificationMessageComponent extends BaseMessageComponent {
   closeIcon = ICON_TYPE.CLOSE;
 
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   get isA11yCardNotificationMessageFeatureEnabled(): boolean {
-    return this.featureConfigService.isEnabled('a11yCardNotificationMessage');
+    return !!this.featureToggles.a11yCardNotificationMessage;
   }
 }

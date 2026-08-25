@@ -3,16 +3,14 @@ import { ProductMultiDimensionalSelectorService } from './product-multi-dimensio
 import { ProductMultiDimensionalSelectorImagesService } from './product-multi-dimensional-selector-images.service';
 import { Product, VariantMatrixElement } from '@spartacus/core';
 import { VariantCategoryGroup } from '../model';
+import { vi } from 'vitest';
 
 describe('ProductMultiDimensionalSelectorService', () => {
   let service: ProductMultiDimensionalSelectorService;
-  let imagesService: jasmine.SpyObj<ProductMultiDimensionalSelectorImagesService>;
+  let imagesService: any;
 
   beforeEach(() => {
-    const imagesServiceSpy = jasmine.createSpyObj(
-      'ProductMultiDimensionalSelectorImagesService',
-      ['getVariantOptionImage']
-    );
+    const imagesServiceSpy = { getVariantOptionImage: vi.fn() };
 
     TestBed.configureTestingModule({
       providers: [
@@ -27,7 +25,7 @@ describe('ProductMultiDimensionalSelectorService', () => {
     service = TestBed.inject(ProductMultiDimensionalSelectorService);
     imagesService = TestBed.inject(
       ProductMultiDimensionalSelectorImagesService
-    ) as jasmine.SpyObj<ProductMultiDimensionalSelectorImagesService>;
+    ) as any;
   });
 
   describe('getVariants', () => {
@@ -59,7 +57,7 @@ describe('ProductMultiDimensionalSelectorService', () => {
         categories: [{ code: 'B2C_Blue' }],
         code: 'Blue',
       };
-      imagesService.getVariantOptionImage.and.returnValue(undefined);
+      imagesService.getVariantOptionImage.mockReturnValue(undefined);
 
       const result = service.getVariants(product);
 
@@ -93,7 +91,7 @@ describe('ProductMultiDimensionalSelectorService', () => {
         variantOption: { code: 'Blue_code', variantOptionQualifiers: [] },
         elements: [],
       };
-      imagesService.getVariantOptionImage.and.returnValue(undefined);
+      imagesService.getVariantOptionImage.mockReturnValue(undefined);
 
       const result = service['createVariantOptionCategory'](element);
 
@@ -108,7 +106,7 @@ describe('ProductMultiDimensionalSelectorService', () => {
         variantOption: { code: undefined, variantOptionQualifiers: undefined },
         elements: [],
       };
-      imagesService.getVariantOptionImage.and.returnValue(undefined);
+      imagesService.getVariantOptionImage.mockReturnValue(undefined);
 
       const result = service['createVariantOptionCategory'](element);
 

@@ -4,7 +4,7 @@ import {
   Renderer2,
   ViewContainerRef,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CmsComponent,
   CmsConfig,
@@ -104,7 +104,7 @@ describe('InnerComponentsHostDirective', () => {
   describe('UI tests', () => {
     let fixture: ComponentFixture<HostComponent>;
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(async () => {
       TestBed.configureTestingModule({
         imports: [
           PageComponentModule.forRoot(),
@@ -140,7 +140,7 @@ describe('InnerComponentsHostDirective', () => {
         ],
       }).compileComponents();
       fixture = TestBed.createComponent(HostComponent);
-    }));
+    });
 
     it('should render inner components', () => {
       fixture.detectChanges();

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
@@ -9,6 +10,7 @@ import { ConfiguratorAttributeCompositionContext } from '../../composition/confi
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from './configurator-attribute-multi-selection-base.component';
+import { vi } from 'vitest';
 
 const createTestValue = (
   price: number | undefined,
@@ -45,15 +47,20 @@ class ExampleConfiguratorAttributeMultiSelectionComponent extends ConfiguratorAt
     );
   }
 }
+const isConfigurationLoading$ = new BehaviorSubject<boolean>(false);
+
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
+  isConfigurationLoading(): Observable<boolean> {
+    return isConfigurationLoading$.asObservable();
+  }
 }
 
 describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
   let component: ConfiguratorAttributeMultiSelectionBaseComponent;
   let fixture: ComponentFixture<ExampleConfiguratorAttributeMultiSelectionComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -75,7 +82,7 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   function createValue(code: string, name: string, isSelected: boolean) {
     const value: Configurator.Value = {
@@ -88,6 +95,7 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
   let values: Configurator.Value[];
 
   beforeEach(() => {
+    isConfigurationLoading$.next(false);
     const value1 = createValue('1', 'val1', true);
     const value2 = createValue('2', 'val2', false);
     const value3 = createValue('3', 'val3', true);
@@ -108,20 +116,50 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
       values: values,
       required: true,
     };
-
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
+  });
+
+  describe('resetLoadingOnConfigurationUpdate', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
+    it('should reset loading$ once the configuration update round trip finished, even if the attribute did not change', () => {
+      component.loading$.next(true);
+      expect(component.loading$.value).toBe(true);
+
+      isConfigurationLoading$.next(false);
+      expect(component.loading$.value).toBe(false);
+    });
+
+    it('should keep loading$ untouched while the configuration is still loading', () => {
+      component.loading$.next(true);
+
+      isConfigurationLoading$.next(true);
+      expect(component.loading$.value).toBe(true);
+    });
+
+    it('should stop resetting loading$ after component destruction', () => {
+      component.ngOnDestroy();
+      component.loading$.next(true);
+
+      isConfigurationLoading$.next(false);
+      expect(component.loading$.value).toBe(true);
+    });
   });
 
   describe('withQuantity', () => {
     it('should allow quantity', () => {
+      fixture.detectChanges();
       expect(component.withQuantity).toBe(true);
     });
     it('should be able to handle empty UI type', () => {
       component.attribute.uiType = undefined;
+      fixture.detectChanges();
       expect(component.withQuantity).toBe(false);
     });
   });
@@ -144,6 +182,7 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
 
   describe('disableQuantityActions', () => {
     it('should allow quantity actions', () => {
+      fixture.detectChanges();
       expect(component.disableQuantityActions).toBe(false);
     });
   });
@@ -176,10 +215,7 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
   describe('onHandleAttributeQuantity', () => {
     it('should call facade update onHandleAttributeQuantity', () => {
       const quantity = 2;
-      spyOn(
-        component['configuratorCommonsService'],
-        'updateConfiguration'
-      ).and.callThrough();
+      vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
       component['onHandleAttributeQuantity'](quantity);
       expect(
         component['configuratorCommonsService'].updateConfiguration

@@ -99,6 +99,8 @@ export abstract class FeaturesConfig {
     consignmentTracking?: boolean;
 
     /**
+     * @deprecated - this feature will be moved into INJECTION_TOKEN in https://jira.tools.sap/browse/CXSPA-13592
+     *
      * The 3.0 version introduced an unified configuration that emits new configuration
      * every time lazy loaded module is instantiated. To ease transition to this new
      * mechanism, the same changes are also published to global Config token under

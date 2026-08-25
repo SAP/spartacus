@@ -19,11 +19,7 @@ import {
   Renderer2,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import {
-  FeatureConfigService,
-  TranslatePipe,
-  WindowRef,
-} from '@spartacus/core';
+import { FeatureToggles, TranslatePipe, WindowRef } from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
 import {
   debounceTime,
@@ -31,7 +27,8 @@ import {
   filter,
   take,
 } from 'rxjs/operators';
-import { BREAKPOINT, BreakpointService } from '../../../layout';
+import { BREAKPOINT } from '../../../layout/config/layout-config';
+import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
 import { IconComponent } from '../../misc/icon/icon.component';
 import { ICON_TYPE } from '../../misc/icon/index';
@@ -109,7 +106,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   protected breakpointService = inject(BreakpointService);
   isDesktop$ = this.breakpointService.isUp(BREAKPOINT.lg);
 
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     private router: Router,
@@ -159,11 +156,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       this.winRef.nativeWindow?.location.href.includes(navNode.url)
     ) {
       this.reinitializeMenu();
-      if (
-        this.featureConfigService?.isEnabled(
-          'navigationMenuCloseOnSameLinkClick'
-        )
-      ) {
+      if (this.featureToggles?.navigationMenuCloseOnSameLinkClick) {
         this.hamburgerMenuService.toggle(true);
       } else {
         this.hamburgerMenuService.toggle();
@@ -206,14 +199,23 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   }
 
   toggleOpen(event: UIEvent): void {
-    if (event.type === 'keydown') {
+    const isKeyboard = event.type === 'keydown' || event.type === 'keyup';
+    if (this.featureToggles?.a11yNavigationSpaceKeyOnKeyUp) {
+      if (event.type === 'keydown') {
+        event.preventDefault();
+        return;
+      }
+    } else if (event.type === 'keyup') {
+      return;
+    }
+    if (isKeyboard) {
       event.preventDefault();
     }
     this.ariaCollapseNodes();
     const node = <HTMLElement>event.currentTarget;
     const parentNode = <HTMLElement>node.parentNode;
     if (this.openNodes.includes(parentNode)) {
-      if (event.type === 'keydown') {
+      if (isKeyboard) {
         this.back();
       } else {
         this.openNodes = this.openNodes.filter((n) => n !== parentNode);
@@ -234,6 +236,14 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    * Opens dropdown and starts keyboard navigation
    */
   onSpace(event: UIEvent): void {
+    if (this.featureToggles?.a11yNavigationSpaceKeyOnKeyUp) {
+      if (event.type === 'keydown') {
+        event.preventDefault();
+        return;
+      }
+    } else if (event.type === 'keyup') {
+      return;
+    }
     this.hamburgerMenuService.isExpanded
       .pipe(take(1))
       .subscribe((isExpanded) => {

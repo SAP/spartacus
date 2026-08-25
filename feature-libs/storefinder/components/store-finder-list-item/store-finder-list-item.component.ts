@@ -7,7 +7,7 @@
 import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TranslatePipe } from '@spartacus/core';
+import { TranslatePipe, useFeatureStyles } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { StoreFinderOutlets } from '@spartacus/storefinder/root';
 import { OutletDirective } from '@spartacus/storefront';
@@ -34,6 +34,7 @@ export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
 
   constructor(protected storeFinderService: StoreFinderService) {
     super(storeFinderService);
+    useFeatureStyles('a11yStoreFinderListItemFocus');
   }
 
   handleStoreItemClick() {

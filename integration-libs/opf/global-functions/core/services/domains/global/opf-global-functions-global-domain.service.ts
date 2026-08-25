@@ -38,7 +38,7 @@ import {
 } from '@spartacus/opf/payment/root';
 import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { Observable, combineLatest, lastValueFrom, of, throwError } from 'rxjs';
+import { Observable, combineLatest, lastValueFrom, throwError } from 'rxjs';
 import { filter, map, skip, switchMap, take } from 'rxjs/operators';
 import { OpfGlobalFunctionsSharedService } from '../../opf-global-functions-shared.service';
 
@@ -138,9 +138,7 @@ export class OpfGlobalFunctionsGlobalDomainService {
         return Promise.reject(new Error('configurationId is required'));
       }
 
-      const cartId$ = paymentConfig.cartId
-        ? of(paymentConfig.cartId)
-        : this.activeCartFacade.getActiveCartId().pipe(take(1));
+      const cartId$ = this.activeCartFacade.getActiveCartId().pipe(take(1));
 
       const userId$ = this.userIdService.getUserId().pipe(take(1));
       return lastValueFrom(
@@ -285,11 +283,7 @@ export class OpfGlobalFunctionsGlobalDomainService {
       map((response) => this.sharedService.extractOtpKey(response)),
       filter(Boolean),
       switchMap((otpKey) =>
-        this.buildAndInitiatePaymentConfig(
-          paymentConfig,
-          cartId,
-          otpKey as string
-        )
+        this.buildAndInitiatePaymentConfig(paymentConfig, otpKey as string)
       ),
       take(1)
     );
@@ -297,12 +291,10 @@ export class OpfGlobalFunctionsGlobalDomainService {
 
   protected buildAndInitiatePaymentConfig(
     paymentConfig: OpfPaymentConfig,
-    cartId: string,
     otpKey: string
   ): Observable<OpfPaymentSessionData> {
     const configWithDefaults: OpfPaymentConfig = {
       ...paymentConfig,
-      cartId: paymentConfig.cartId ?? cartId,
       channel: paymentConfig.channel ?? OpfPaymentChannel.BROWSER,
       browserInfo:
         paymentConfig.browserInfo ?? getBrowserInfo(this.winRef.nativeWindow),

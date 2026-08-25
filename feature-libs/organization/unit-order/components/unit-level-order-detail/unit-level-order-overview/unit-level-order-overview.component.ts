@@ -106,7 +106,7 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
       filter(() => Boolean(hasPaymentInfo)),
       map(([textTitle, textAccount, textCard]) => ({
         title: textTitle,
-        text: [Boolean(hasPaymentInfo) ? textCard : textAccount],
+        text: [hasPaymentInfo ? textCard : textAccount],
       }))
     );
   }

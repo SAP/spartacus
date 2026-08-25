@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -30,6 +30,7 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
+import { vi } from 'vitest';
 
 const mockProductConfiguration = ConfigurationTestData.productConfiguration;
 const PRODUCT_CODE = ConfigurationTestData.PRODUCT_CODE;
@@ -199,7 +200,6 @@ function initialize() {
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
   component.ghostStyle = false;
-  fixture.detectChanges();
 }
 
 function setDataForProductConfiguration() {
@@ -273,6 +273,7 @@ function setDataForCartEntry() {
   mockRouterState.state.semanticRoute = ROUTE_CONFIGURATION;
   mockRouterData.owner.type = CommonConfigurator.OwnerType.CART_ENTRY;
   mockRouterData.owner.id = CART_ENTRY_KEY;
+  mockRouterData.isOwnerCartEntry = true;
   mockRouterData.productCode = CART_ENTRY_SUFFIX + PRODUCT_CODE;
 }
 
@@ -327,7 +328,7 @@ function setDataForQuoteEntry() {
 }
 
 describe('ConfigProductTitleComponent', () => {
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -371,23 +372,25 @@ describe('ConfigProductTitleComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     mockRouterData = structuredClone(baseMockRouterData);
     initialize();
+    fixture.detectChanges();
 
     configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);
-    spyOn(configExpertModeService, 'setExpModeRequested').and.callThrough();
-    spyOn(configExpertModeService, 'setExpModeActive').and.callThrough();
+    vi.spyOn(configExpertModeService, 'setExpModeRequested');
+    vi.spyOn(configExpertModeService, 'setExpModeActive');
 
     productService = TestBed.inject(ProductService);
-    spyOn(productService, 'get').and.returnValue(productObservable);
+    vi.spyOn(productService, 'get').mockReturnValue(productObservable);
   });
 
   it('should create component', () => {
     setDataForProductConfiguration();
     initialize();
+    fixture.detectChanges();
     expect(component).toBeDefined();
   });
 
@@ -395,6 +398,7 @@ describe('ConfigProductTitleComponent', () => {
     it('should get product name as part of product configuration via config product code', () => {
       setDataForProductConfiguration();
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         PRODUCT_CODE,
@@ -406,6 +410,7 @@ describe('ConfigProductTitleComponent', () => {
       setDataForProductConfiguration();
       mockRouterData.productCode = PRODUCT_SUFFIX + PRODUCT_CODE;
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         mockRouterData.productCode,
@@ -418,6 +423,7 @@ describe('ConfigProductTitleComponent', () => {
       mockConfiguration.productCode = PRODUCT_CODE;
       mockRouterData.productCode = undefined;
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         PRODUCT_CODE,
@@ -425,9 +431,41 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
-    it('should get product name as part of product configuration in case configuration is cart bound and product is provided with routing data', () => {
+    it('should prefer config product code over routing data product code in case configuration is cart bound', () => {
+      // For cart entries the configuration is authoritative, so the config
+      // product code wins even if a (potentially stale) product code is
+      // provided via routing data.
       setDataForCartEntry();
       initialize();
+      fixture.detectChanges();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        PRODUCT_CODE,
+        ProductScope.LIST
+      );
+    });
+
+    it('should ignore a stale routing data product code in case configuration is cart bound (browser back after cart entry deletion)', () => {
+      setDataForCartEntry();
+      mockConfiguration.productCode = PRODUCT_CODE;
+      // Simulates a stale URL product code that no longer matches the cart
+      // entry which has been re-read after a preceding entry was deleted.
+      mockRouterData.productCode = CART_ENTRY_SUFFIX + 'STALE_PRODUCT';
+      initialize();
+      fixture.detectChanges();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        PRODUCT_CODE,
+        ProductScope.LIST
+      );
+    });
+
+    it('should fall back to routing data product code in case configuration is cart bound but config has no product code', () => {
+      setDataForCartEntry();
+      mockConfiguration.productCode = undefined as unknown as string;
+      mockConfiguration.overview = undefined;
+      initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         CART_ENTRY_SUFFIX + PRODUCT_CODE,
@@ -440,6 +478,7 @@ describe('ConfigProductTitleComponent', () => {
       mockConfiguration.productCode = PRODUCT_CODE;
       mockRouterData.productCode = undefined;
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         PRODUCT_CODE,
@@ -450,6 +489,7 @@ describe('ConfigProductTitleComponent', () => {
     it('should get product name as part of product configuration in case configuration is saved cart bound and product code is provided with routing data', () => {
       setDataForSavedCartEntry();
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         SAVED_CART_ENTRY_SUFFIX + PRODUCT_CODE,
@@ -462,6 +502,7 @@ describe('ConfigProductTitleComponent', () => {
       mockConfiguration.productCode = PRODUCT_CODE;
       mockRouterData.productCode = undefined;
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         PRODUCT_CODE,
@@ -472,6 +513,7 @@ describe('ConfigProductTitleComponent', () => {
     it('should get product name as part of product configuration in case configuration is quote bound and product code is provided with routing data', () => {
       setDataForQuoteEntry();
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         QUOTE_ENTRY_SUFFIX + PRODUCT_CODE,
@@ -482,6 +524,7 @@ describe('ConfigProductTitleComponent', () => {
     it('should get product name as part of product from overview in case configuration is order bound and product code is not provided with routing data', () => {
       setDataForOrderEntry();
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         ORDER_ENTRY_SUFFIX + PRODUCT_CODE,
@@ -493,6 +536,7 @@ describe('ConfigProductTitleComponent', () => {
   it('should render initial content properly', () => {
     setDataForProductConfiguration();
     initialize();
+    fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -521,6 +565,7 @@ describe('ConfigProductTitleComponent', () => {
   it('should render show more case - default', () => {
     setDataForProductConfiguration();
     initialize();
+    fixture.detectChanges();
     component.triggerDetails();
     changeDetectorRef.detectChanges();
 
@@ -542,6 +587,7 @@ describe('ConfigProductTitleComponent', () => {
   it('should render properly for navigation from order entry', () => {
     setDataForOrderEntry();
     initialize();
+    fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -558,6 +604,7 @@ describe('ConfigProductTitleComponent', () => {
   it('should render kb key details properly', () => {
     setDataForProductConfiguration();
     initialize();
+    fixture.detectChanges();
 
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -623,6 +670,7 @@ describe('ConfigProductTitleComponent', () => {
     beforeEach(() => {
       setDataForProductConfiguration();
       initialize();
+      fixture.detectChanges();
     });
 
     it("should contain cx-icon element with an 'aria-label' attribute that defines an accessible name to label the current element", () => {

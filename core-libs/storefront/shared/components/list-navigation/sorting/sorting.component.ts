@@ -16,11 +16,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
-import {
-  FeatureConfigService,
-  SortModel,
-  TranslatePipe,
-} from '@spartacus/core';
+import { FeatureToggles, SortModel, TranslatePipe } from '@spartacus/core';
 import { FocusDirective } from '../../../../layout/a11y/keyboard-focus/focus.directive';
 import { NgSelectA11yDirective } from '../../ng-select-a11y/ng-select-a11y.directive';
 
@@ -57,14 +53,14 @@ export class SortingComponent {
   @Output()
   sortListEvent: EventEmitter<string>;
 
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   constructor() {
     this.sortListEvent = new EventEmitter<string>();
   }
 
   sortList(sortCode: string): void {
-    if (!this.featureConfigService.isEnabled('a11yRestoreFocusOnNgSelect')) {
+    if (!this.featureToggles.a11yRestoreFocusOnNgSelect) {
       this.sortListEvent.emit(sortCode);
       return;
     }
@@ -102,7 +98,7 @@ export class SortingComponent {
 
   protected focusCombobox(): void {
     // Renderer2 does not expose way for focusing elements
-    // eslint-disable-next-line no-restricted-syntax
+
     this.ngSelectComponent()
       .element.querySelector<HTMLElement>('[role="combobox"]')
       ?.focus({ preventScroll: true });

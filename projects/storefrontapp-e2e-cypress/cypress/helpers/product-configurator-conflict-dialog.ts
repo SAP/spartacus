@@ -114,15 +114,29 @@ export function selectAttributeAndWait(
   uiType: configuration.uiType,
   value: string
 ) {
+  // The dialog re-renders on every config/pricing store update (conflictGroup$
+  // is driven by getConfiguration). Clicking while a re-render is in flight
+  // yields a flaky "element detached from DOM" error on the radio input.
+  cy.get('cx-configurator-conflict-solver-dialog').should('be.visible');
+  configuration.checkUpdatingMessageNotDisplayed();
+
   cy.get('cx-configurator-conflict-solver-dialog').within(() =>
+    // force=true: skip scrollIntoView + actionability waits that race with
+    // Angular replacing the input inside the modal.
+    // isPricingEnabled=true: wait for pricing so a late pricing response does
+    // not detach the value element of the *next* click.
     configurationVc.selectAttributeAndWait(
       attributeName,
       uiType,
       value,
+      true,
       false,
-      false
+      true
     )
   );
+
+  // Network wait resolves before Angular CD finishes; ensure UI is idle again.
+  configuration.checkUpdatingMessageNotDisplayed();
 }
 /**
  * closes the conflict solver dialog via the close button

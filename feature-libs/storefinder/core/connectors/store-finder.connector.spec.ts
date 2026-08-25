@@ -1,20 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+import { vi } from 'vitest';
 import { StoreFinderAdapter } from './store-finder.adapter';
 import { StoreFinderConnector } from './store-finder.connector';
-import createSpy = jasmine.createSpy;
 import { GeoPoint, SearchConfig } from '@spartacus/core';
 
 class MockStoreFinderAdapter implements StoreFinderAdapter {
-  search = createSpy('adapter.search').and.returnValue(
-    of(`adapter.search result`)
-  );
-
-  load = createSpy('adapter.load').and.returnValue(of(`adapter.load result`));
-
-  loadCounts = createSpy('adapter.loadCounts').and.returnValue(
-    of(`adapter.loadCounts result`)
-  );
+  search = vi.fn().mockReturnValue(of(`adapter.search result`));
+  load = vi.fn().mockReturnValue(of(`adapter.load result`));
+  loadCounts = vi.fn().mockReturnValue(of(`adapter.loadCounts result`));
 }
 
 describe('StoreFinderConnector', () => {

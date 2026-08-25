@@ -12,6 +12,7 @@ export enum CartOutlets {
   LIST_ITEM = 'cx-cart-item-list-row',
   ITEM_DETAILS = 'cx-cart-item.details',
   ITEM_CONFIGURATOR_ISSUES = 'cx-configurator-issues-notification',
+  ITEM_VALIDATION_QUANTITY_HINT = 'cx-cart-item-validation-quantity-hint',
   ITEM_BUNDLE_DETAILS = 'cx-cart-item.bundle-details',
   ITEM_DELIVERY_DETAILS = 'cx-cart-item.delivery-details',
   ORDER_SUMMARY = 'cx-order-summary',

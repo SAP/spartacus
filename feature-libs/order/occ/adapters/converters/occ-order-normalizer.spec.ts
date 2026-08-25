@@ -31,7 +31,7 @@ describe('OccOrderNormalizer', () => {
     });
     service = TestBed.inject(OccOrderNormalizer);
     converter = TestBed.inject(ConverterService);
-    spyOn(converter, 'convert').and.callThrough();
+    vi.spyOn(converter, 'convert');
   });
 
   it('should be created', () => {

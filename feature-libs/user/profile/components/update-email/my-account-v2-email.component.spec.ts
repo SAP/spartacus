@@ -1,9 +1,25 @@
+import { vi } from 'vitest';
+
+vi.mock('@spartacus/storefront', async (importActual) => {
+  const actual = await importActual<typeof import('@spartacus/storefront')>();
+  const { filter, map } = await import('rxjs/operators');
+  const isNotNullable = <T>(value: T): value is NonNullable<T> => value != null;
+  return {
+    ...actual,
+    getPageTitle: (pageMetaService: any) =>
+      pageMetaService.getMeta().pipe(
+        filter(isNotNullable),
+        map((meta: any) => (meta.heading || meta.title) ?? '')
+      ),
+  };
+});
+
 import {
   ChangeDetectionStrategy,
   Component,
   DebugElement,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -12,10 +28,13 @@ import {
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
+  FeatureDirective,
   GlobalMessageService,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
+  PageMeta,
+  PageMetaService,
   TranslatePipe,
   UrlPipe,
   User,
@@ -25,13 +44,22 @@ import {
   PasswordVisibilityToggleModule,
   SpinnerComponent,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, Subject, of } from 'rxjs';
 import { UserProfileFacade } from '../../root/facade';
 import { MyAccountV2EmailComponent } from './my-account-v2-email.component';
 import { UpdateEmailComponentService } from './update-email-component.service';
-import createSpy = jasmine.createSpy;
+
+const mockPageMeta: PageMeta = { title: 'Test Title', heading: 'Test Heading' };
+class MockPageMetaService implements Partial<PageMetaService> {
+  getMeta = () => of(mockPageMeta);
+}
 
 @Component({
   selector: 'cx-spinner',
@@ -58,12 +86,12 @@ class MockMyAccountV2EmailService
     password: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
-  save = createSpy().and.stub();
-  resetForm = createSpy().and.stub();
+  save = vi.fn().mockImplementation(() => {});
+  resetForm = vi.fn().mockImplementation(() => {});
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy().and.stub();
+  add = vi.fn().mockImplementation(() => {});
 }
 
 const sampleUser: User = {
@@ -82,7 +110,7 @@ describe('MyAccountV2EmailComponent', () => {
 
   let service: UpdateEmailComponentService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -100,11 +128,19 @@ describe('MyAccountV2EmailComponent', () => {
           useClass: MockNewProfileFacade,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: PageMetaService, useClass: MockPageMetaService },
+        ...provideMockFeatureToggles({ a11yFormFieldSectionLegend: true }),
       ],
     })
       .overrideComponent(MyAccountV2EmailComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe, SpinnerComponent],
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            SpinnerComponent,
+            FeatureDirective,
+          ],
         },
         add: {
           imports: [
@@ -112,22 +148,29 @@ describe('MyAccountV2EmailComponent', () => {
             MockDatePipe,
             MockUrlPipe,
             MockCxSpinnerComponent,
+            MockFeatureDirective,
           ],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2EmailComponent);
     component = fixture.componentInstance;
-    component.onEdit();
     el = fixture.debugElement;
     service = TestBed.inject(UpdateEmailComponentService);
     TestBed.inject(UserProfileFacade);
-    fixture.detectChanges();
+    fixture.detectChanges(); // trigger ngOnInit first
+    component.onEdit();
   });
+
+  // Helper to run CD without triggering checkNoChanges (avoids NG0100 from
+  // async pipes re-subscribing to synchronously-emitting observables)
+  function detectChanges() {
+    fixture.componentRef.changeDetectorRef.detectChanges();
+  }
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -137,7 +180,7 @@ describe('MyAccountV2EmailComponent', () => {
     it('should disable the submit button when form is disabled', () => {
       component.form.disable();
       component.onEdit();
-      fixture.detectChanges();
+      detectChanges();
       const submitBtn: HTMLButtonElement = el.query(
         By.css('.btn-primary')
       ).nativeElement;
@@ -146,7 +189,7 @@ describe('MyAccountV2EmailComponent', () => {
 
     it('should show the spinner', () => {
       isBusySubject.next(true);
-      fixture.detectChanges();
+      detectChanges();
       expect(el.query(By.css('cx-spinner'))).toBeTruthy();
     });
   });
@@ -155,20 +198,20 @@ describe('MyAccountV2EmailComponent', () => {
     it('should enable the submit button', () => {
       component.form.enable();
       component.onEdit();
-      fixture.detectChanges();
+      detectChanges();
       const submitBtn = el.query(By.css('.btn-primary'));
       expect(submitBtn.nativeElement.disabled).toBeFalsy();
     });
 
     it('should not show the spinner', () => {
       isBusySubject.next(false);
-      fixture.detectChanges();
+      detectChanges();
       expect(el.query(By.css('cx-spinner'))).toBeNull();
     });
 
     it('should show cx message strip', () => {
       component.onEdit();
-      fixture.detectChanges();
+      detectChanges();
       const cxMsg = el.query(By.css('cx-message'));
       expect(cxMsg.nativeElement).toBeTruthy();
     });
@@ -176,7 +219,7 @@ describe('MyAccountV2EmailComponent', () => {
     it('should hide cx message strip when close clicked', () => {
       component.onEdit();
       component.closeDialogConfirmationAlert();
-      fixture.detectChanges();
+      detectChanges();
       const cxMsg = el.query(By.css('cx-message'));
       expect(cxMsg).toBeNull();
     });
@@ -185,7 +228,7 @@ describe('MyAccountV2EmailComponent', () => {
   describe('idle - display', () => {
     it('should hide the submit button', () => {
       component.ngOnInit();
-      fixture.detectChanges();
+      detectChanges();
       expect(el.query(By.css('form'))).toBeNull();
     });
   });
@@ -193,8 +236,8 @@ describe('MyAccountV2EmailComponent', () => {
   describe('Form Interactions', () => {
     it('should call onSubmit() method on submit', () => {
       component.onEdit();
-      fixture.detectChanges();
-      const request = spyOn(component, 'onSubmit');
+      detectChanges();
+      const request = vi.spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
       form.triggerEventHandler('submit', null);
       expect(request).toHaveBeenCalled();
@@ -210,9 +253,45 @@ describe('MyAccountV2EmailComponent', () => {
     it('when cancel is called. submit button is not visible', () => {
       component.form.enable();
       component.cancelEdit();
-      fixture.detectChanges();
+      detectChanges();
       const submitBtn = el.query(By.css('button.btn-primary'));
       expect(submitBtn).toBeNull();
+    });
+  });
+
+  describe('Accessibility', () => {
+    let toggleController: MockFeatureTogglesController;
+
+    beforeEach(() => {
+      toggleController = TestBed.inject(MockFeatureTogglesController);
+    });
+
+    describe('when a11yFormFieldSectionLegend is enabled', () => {
+      beforeEach(() => {
+        toggleController.set('a11yFormFieldSectionLegend', true);
+        component.onEdit();
+        detectChanges();
+      });
+
+      it('should render a fieldset with a visible legend', () => {
+        const legend = el.query(By.css('fieldset > legend'));
+        expect(legend).toBeTruthy();
+        expect(legend.nativeElement.textContent.trim()).toContain(
+          'myAccountV2Email.myEmailAddress'
+        );
+      });
+    });
+
+    describe('when a11yFormFieldSectionLegend is disabled', () => {
+      beforeEach(() => {
+        toggleController.set('a11yFormFieldSectionLegend', false);
+        component.onEdit();
+        detectChanges();
+      });
+
+      it('should render a fieldset', () => {
+        expect(el.query(By.css('fieldset'))).toBeTruthy();
+      });
     });
   });
 });

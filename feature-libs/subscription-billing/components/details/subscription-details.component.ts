@@ -55,7 +55,9 @@ export class SubscriptionDetailsComponent implements OnInit {
 
   showSubscriptionActionsDialog(mode: SubscriptionActionMode): void {
     this.subscriptionDetails$.pipe(take(1)).subscribe((subscription) => {
-      if (!subscription) return;
+      if (!subscription) {
+        return;
+      }
 
       const dataToPass = {
         ...subscription,

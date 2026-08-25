@@ -1,6 +1,7 @@
 <ng-container *ngIf="consignment && consignment.status">
   <div *ngIf="consignmentStatus.includes(consignment.status)">
     <button
+      #element
       (click)="openTrackingDialog(consignment)"
       class="btn btn-secondary btn-track"
       type="button"

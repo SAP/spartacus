@@ -87,7 +87,9 @@ describe('Order Details effect', () => {
 
   describe('loadOrderDetails$', () => {
     it('should load order details', () => {
-      spyOn(orderHistoryConnector, 'get').and.returnValue(of(mockOrderDetails));
+      vi.spyOn(orderHistoryConnector, 'get').mockReturnValue(
+        of(mockOrderDetails)
+      );
       const action = new OrderActions.LoadOrderDetails(mockOrderDetailsParams);
 
       const completion = new OrderActions.LoadOrderDetailsSuccess(
@@ -101,7 +103,7 @@ describe('Order Details effect', () => {
     });
 
     it('should handle failures for load order details', () => {
-      spyOn(orderHistoryConnector, 'get').and.returnValue(
+      vi.spyOn(orderHistoryConnector, 'get').mockReturnValue(
         throwError(() => error)
       );
 
@@ -118,7 +120,7 @@ describe('Order Details effect', () => {
 
   describe('cancelOrder$', () => {
     it('should cancel an order', () => {
-      spyOn(orderHistoryConnector, 'cancel').and.returnValue(of({}));
+      vi.spyOn(orderHistoryConnector, 'cancel').mockReturnValue(of({}));
 
       const action = new OrderActions.CancelOrder(mockCancelOrderParams);
 
@@ -131,7 +133,7 @@ describe('Order Details effect', () => {
     });
 
     it('should handle failures for cancel an order', () => {
-      spyOn(orderHistoryConnector, 'cancel').and.returnValue(
+      vi.spyOn(orderHistoryConnector, 'cancel').mockReturnValue(
         throwError(() => error)
       );
 
@@ -149,7 +151,7 @@ describe('Order Details effect', () => {
   describe('resetOrderDetails$', () => {
     it('should reload order details', () => {
       const mockOrder = { code: 'testOrder' };
-      spyOn(orderHistoryConnector, 'get').and.returnValue(of(mockOrder));
+      vi.spyOn(orderHistoryConnector, 'get').mockReturnValue(of(mockOrder));
 
       store.dispatch(new OrderActions.LoadOrderDetailsSuccess(mockOrder));
 

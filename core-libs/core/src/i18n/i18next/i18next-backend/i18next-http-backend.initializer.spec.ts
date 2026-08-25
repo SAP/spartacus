@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import type { i18n } from 'i18next';
 import i18nextHttpBackend from 'i18next-http-backend';
@@ -68,7 +69,7 @@ describe('I18nextHttpBackendInitializer', () => {
 
     it('should use `i18next-http-backend` i18next backend', () => {
       config.i18n = { backend: { loadPath: 'test/path' } };
-      spyOn(i18next, 'use');
+      vi.spyOn(i18next, 'use');
 
       initializer.initialize();
 
@@ -78,7 +79,7 @@ describe('I18nextHttpBackendInitializer', () => {
     describe('when config i18n.backend.loadPath is set', () => {
       describe('in non-server platform', () => {
         beforeEach(() => {
-          spyOn(windowRef, 'isBrowser').and.returnValue(true);
+          vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
         });
 
         describe('with relative path starting with "./"', () => {
@@ -136,8 +137,8 @@ describe('I18nextHttpBackendInitializer', () => {
         const serverRequestOrigin = 'http://server.com';
 
         beforeEach(() => {
-          spyOn(windowRef, 'isBrowser').and.returnValue(false);
-          spyOnProperty(windowRef, 'location', 'get').and.returnValue({
+          vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
+          vi.spyOn(windowRef, 'location', 'get', 'get').mockReturnValue({
             origin: serverRequestOrigin,
           });
         });

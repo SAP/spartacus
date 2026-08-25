@@ -8,7 +8,7 @@ import {
   PipeTransform,
   SimpleChange,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ControlContainer,
   ReactiveFormsModule,
@@ -32,7 +32,7 @@ import {
   OutletModule,
   PromotionsComponent,
 } from '@spartacus/storefront';
-import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
+import { MockFeatureLevelDirective } from '@spartacus/storefront/testing/mock-feature-level-directive';
 import { CartItemValidationWarningComponent } from '../../validation/cart-item-warning/cart-item-validation-warning.component';
 import { CartItemComponent } from './cart-item.component';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
@@ -111,12 +111,7 @@ describe('CartItemComponent', () => {
   let fixture: ComponentFixture<CartItemComponent>;
   let el: DebugElement;
 
-  const featureConfig = jasmine.createSpyObj('FeatureConfigService', [
-    'isEnabled',
-    'isLevel',
-  ]);
-
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -159,7 +154,7 @@ describe('CartItemComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemComponent);
@@ -172,7 +167,7 @@ describe('CartItemComponent', () => {
     };
     cartItemComponent.quantityControl = new UntypedFormControl('1');
     cartItemComponent.quantityControl.markAsPristine();
-    spyOn(cartItemComponent, 'removeItem').and.callThrough();
+    vi.spyOn(cartItemComponent, 'removeItem');
     fixture.detectChanges();
     el = fixture.debugElement;
   });
@@ -199,7 +194,7 @@ describe('CartItemComponent', () => {
     });
 
     it('should push change of input "compact" to context', () => {
-      spyOn(cartItemContextSource.compact$, 'next');
+      vi.spyOn(cartItemContextSource.compact$, 'next');
       cartItemComponent.compact = true;
       cartItemComponent.ngOnChanges({
         compact: { currentValue: cartItemComponent.compact } as SimpleChange,
@@ -210,7 +205,7 @@ describe('CartItemComponent', () => {
     });
 
     it('should push change of input "readonly" to context', () => {
-      spyOn(cartItemContextSource.readonly$, 'next');
+      vi.spyOn(cartItemContextSource.readonly$, 'next');
       cartItemComponent.readonly = true;
       cartItemComponent.ngOnChanges({
         readonly: { currentValue: cartItemComponent.readonly } as SimpleChange,
@@ -221,7 +216,7 @@ describe('CartItemComponent', () => {
     });
 
     it('should push change of input "item" to context', () => {
-      spyOn(cartItemContextSource.item$, 'next');
+      vi.spyOn(cartItemContextSource.item$, 'next');
       cartItemComponent.item = { orderCode: '123' };
       cartItemComponent.ngOnChanges({
         item: { currentValue: cartItemComponent.item } as SimpleChange,
@@ -232,7 +227,7 @@ describe('CartItemComponent', () => {
     });
 
     it('should push change of input "quantityControl" to context', () => {
-      spyOn(cartItemContextSource.quantityControl$, 'next');
+      vi.spyOn(cartItemContextSource.quantityControl$, 'next');
       cartItemComponent.quantityControl = new UntypedFormControl(2);
       cartItemComponent.ngOnChanges({
         quantityControl: {
@@ -245,7 +240,7 @@ describe('CartItemComponent', () => {
     });
 
     it('should push change of input "promotionLocation" to context', () => {
-      spyOn(cartItemContextSource.location$, 'next');
+      vi.spyOn(cartItemContextSource.location$, 'next');
       cartItemComponent.promotionLocation = PromotionLocation.Order;
       cartItemComponent.ngOnChanges({
         promotionLocation: {
@@ -258,7 +253,7 @@ describe('CartItemComponent', () => {
     });
 
     it('should push change of input "options" to context', () => {
-      spyOn(cartItemContextSource.options$, 'next');
+      vi.spyOn(cartItemContextSource.options$, 'next');
       cartItemComponent.options = { isSaveForLater: true };
       cartItemComponent.ngOnChanges({
         options: { currentValue: cartItemComponent.options } as SimpleChange,
@@ -270,12 +265,10 @@ describe('CartItemComponent', () => {
   });
 
   it('should create cart details component', () => {
-    featureConfig.isEnabled.and.returnValue(true);
     expect(cartItemComponent).toBeTruthy();
 
     fixture.detectChanges();
 
-    featureConfig.isEnabled.and.returnValue(false);
     expect(cartItemComponent).toBeTruthy();
   });
 
@@ -323,7 +316,7 @@ describe('CartItemComponent', () => {
       const infoContainer: HTMLElement = el.query(
         By.css('.cx-info-container')
       ).nativeElement;
-      expect(infoContainer.innerText).toContain(
+      expect(infoContainer.textContent?.trim()).toContain(
         `${variant.name}: ${variant.value}`
       );
     });

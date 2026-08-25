@@ -18,4 +18,10 @@
     text-underline-position: from-font;
     text-decoration-skip-ink: none;
   }
+
+  @include forFeature('a11yRegistrationTermsAsteriskMargin') {
+    .form-check-label :is(a, button) + cx-form-required-asterisks {
+      margin-inline-start: 6px;
+    }
+  }
 }

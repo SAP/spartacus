@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   Component,
   EventEmitter,
@@ -236,7 +237,7 @@ describe('UnitLevelOrderHistoryComponent', () => {
   });
 
   it('should redirect when clicking on order id', () => {
-    spyOn(routingService, 'go').and.stub();
+    vi.spyOn(routingService, 'go').mockImplementation(() => {});
 
     fixture.detectChanges();
     const rows = fixture.debugElement.queryAll(
@@ -252,7 +253,7 @@ describe('UnitLevelOrderHistoryComponent', () => {
   });
 
   it('should set correctly sort code', () => {
-    spyOn(unitOrderFacade, 'loadOrderList').and.stub();
+    vi.spyOn(unitOrderFacade, 'loadOrderList').mockImplementation(() => {});
 
     component.changeSortCode('byOrderNumber');
 
@@ -266,7 +267,7 @@ describe('UnitLevelOrderHistoryComponent', () => {
   });
 
   it('should set correctly page', () => {
-    spyOn(unitOrderFacade, 'loadOrderList').and.stub();
+    vi.spyOn(unitOrderFacade, 'loadOrderList').mockImplementation(() => {});
 
     component.changeSortCode('byDate');
     component.pageChange(1);
@@ -332,7 +333,7 @@ describe('UnitLevelOrderHistoryComponent', () => {
   });
 
   it('should clear order history data when component destroy', () => {
-    spyOn(unitOrderFacade, 'clearOrderList').and.stub();
+    vi.spyOn(unitOrderFacade, 'clearOrderList').mockImplementation(() => {});
 
     component.ngOnDestroy();
     expect(unitOrderFacade.clearOrderList).toHaveBeenCalledWith();
@@ -352,7 +353,7 @@ describe('UnitLevelOrderHistoryComponent', () => {
   });
 
   it('should set correct filters', () => {
-    spyOn(unitOrderFacade, 'loadOrderList').and.stub();
+    vi.spyOn(unitOrderFacade, 'loadOrderList').mockImplementation(() => {});
 
     let orderHistoryQueryParam: OrderHistoryQueryParams = {
       currentPage: 0,

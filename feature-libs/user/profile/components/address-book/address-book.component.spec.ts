@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   Component,
   DebugElement,
@@ -5,13 +6,13 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   Address,
   CxDatePipe,
-  FeatureConfigService,
   FeatureDirective,
+  FeatureToggles,
   GlobalMessageService,
   HierarchicalAddressConfig,
   I18nTestingModule,
@@ -23,13 +24,14 @@ import {
 } from '@spartacus/core';
 import { CardModule, SpinnerModule } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Observable, of } from 'rxjs';
 import { AddressFormComponent } from '../public_api';
 import { AddressBookComponent } from './address-book.component';
 import { AddressBookComponentService } from './address-book.component.service';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 class MockGlobalMessageService {
-  add = jasmine.createSpy();
+  add = vi.fn();
 }
 
 class MockLanguageService {
@@ -38,9 +40,9 @@ class MockLanguageService {
   }
 }
 
-class MockFeatureConfigService {
-  isEnabled = jasmine.createSpy().and.returnValue(true);
-}
+const mockFeatureToggles: FeatureToggles = {
+  enableHierarchicalAddressFormat: true,
+};
 
 const mockAddress: Address = {
   id: '123',
@@ -64,11 +66,11 @@ const isLoading = new BehaviorSubject<boolean>(false);
 const isError = new BehaviorSubject<boolean>(false);
 
 class MockComponentService {
-  loadAddresses = jasmine.createSpy();
-  addUserAddress = jasmine.createSpy();
-  updateUserAddress = jasmine.createSpy();
-  deleteUserAddress = jasmine.createSpy();
-  setAddressAsDefault = jasmine.createSpy();
+  loadAddresses = vi.fn();
+  addUserAddress = vi.fn();
+  updateUserAddress = vi.fn();
+  deleteUserAddress = vi.fn();
+  setAddressAsDefault = vi.fn();
   getAddressesStateLoading(): Observable<boolean> {
     return isLoading.asObservable();
   }
@@ -120,7 +122,7 @@ describe('AddressBookComponent', () => {
   let el: DebugElement;
   let addressBookComponentService: AddressBookComponentService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [SpinnerModule, CardModule, AddressBookComponent],
       providers: [
@@ -130,10 +132,7 @@ describe('AddressBookComponent', () => {
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: LanguageService, useClass: MockLanguageService },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         {
           provide: HierarchicalAddressConfig,
           useValue: {
@@ -143,34 +142,34 @@ describe('AddressBookComponent', () => {
           },
         },
       ],
-    })
-      .overrideComponent(AddressBookComponent, {
-        remove: {
-          imports: [
-            TranslatePipe,
-            CxDatePipe,
-            AddressFormComponent,
-            FeatureDirective,
-          ],
-        },
-        add: {
-          imports: [
-            MockTranslatePipe,
-            MockDatePipe,
-            MockAddressFormComponent,
-            MockFeatureDirective,
-          ],
-        },
-      })
-      .compileComponents();
-  }));
+    }).overrideComponent(AddressBookComponent, {
+      remove: {
+        imports: [
+          TranslatePipe,
+          CxDatePipe,
+          AddressFormComponent,
+          FeatureDirective,
+        ],
+      },
+      add: {
+        imports: [
+          MockTranslatePipe,
+          MockDatePipe,
+          MockAddressFormComponent,
+          MockFeatureDirective,
+        ],
+      },
+    });
+    await TestBed.compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddressBookComponent);
     component = fixture.componentInstance;
-    spyOn(component, 'addAddressButtonHandle');
+    vi.spyOn(component, 'addAddressButtonHandle');
     el = fixture.debugElement;
     addressBookComponentService = TestBed.inject(AddressBookComponentService);
+    TestBed.inject(FeatureToggles).enableHierarchicalAddressFormat = true;
 
     isLoading.next(false);
     component.ngOnInit();
@@ -207,35 +206,35 @@ describe('AddressBookComponent', () => {
   });
 
   it('should call editAddressButtonHandle(address: Address)', () => {
-    spyOn(component, 'editAddressButtonHandle');
+    vi.spyOn(component, 'editAddressButtonHandle');
     component.editAddressButtonHandle(mockAddress);
 
     expect(component.editAddressButtonHandle).toHaveBeenCalledWith(mockAddress);
   });
 
   it('should call addAddressSubmit(address: Address)', () => {
-    spyOn(component, 'addAddressSubmit');
+    vi.spyOn(component, 'addAddressSubmit');
     component.addAddressSubmit(mockAddress);
 
     expect(component.addAddressSubmit).toHaveBeenCalledWith(mockAddress);
   });
 
   it('should call addAddressCancel()', () => {
-    spyOn(component, 'addAddressCancel');
+    vi.spyOn(component, 'addAddressCancel');
     component.addAddressCancel();
 
     expect(component.addAddressCancel).toHaveBeenCalledWith();
   });
 
   it('should call editAddressSubmit(address: Address)', () => {
-    spyOn(component, 'editAddressSubmit');
+    vi.spyOn(component, 'editAddressSubmit').mockImplementation(() => {});
     component.editAddressSubmit(mockAddress);
 
     expect(component.editAddressSubmit).toHaveBeenCalledWith(mockAddress);
   });
 
   it('should call editAddressCancel()', () => {
-    spyOn(component, 'editAddressCancel');
+    vi.spyOn(component, 'editAddressCancel');
     component.editAddressCancel();
 
     expect(component.editAddressCancel).toHaveBeenCalledWith();
@@ -254,9 +253,10 @@ describe('AddressBookComponent', () => {
     );
   });
 
-  it('should display default label on address default', () => {
+  it('should display default label on address default', async () => {
     mockAddress.defaultAddress = true;
-    fixture.detectChanges();
+    fixture.componentRef.changeDetectorRef.detectChanges();
+    await fixture.whenStable();
     const element = el.query(By.css('.card-header'));
     expect(element.nativeElement.textContent).toContain(
       ' ✓ addressCard.default '
@@ -279,7 +279,7 @@ describe('AddressBookComponent', () => {
   });
 
   it('should handle edit on card', () => {
-    spyOn(component, 'deleteAddress');
+    vi.spyOn(component, 'deleteAddress');
 
     component.setEdit(mockAddress.id || '1');
     expect(component.editCard).toEqual(mockAddress.id);
@@ -300,11 +300,21 @@ describe('AddressBookComponent', () => {
     beforeEach(() => {
       isLoading.next(false);
       isError.next(false);
-      spyOn(
+      vi.spyOn(
         addressBookComponentService,
         'getAddressesStateLoading'
-      ).and.callThrough();
-      spyOn(addressBookComponentService, 'getAddressesError').and.callThrough();
+      ).mockReturnValue(isLoading.asObservable());
+      vi.spyOn(
+        addressBookComponentService,
+        'getAddressesError'
+      ).mockReturnValue(isError.asObservable());
+      (
+        addressBookComponentService.addUserAddress as ReturnType<typeof vi.fn>
+      ).mockClear();
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
     });
 
     it('should close the form when addUserAddress succeeds', () => {
@@ -356,11 +366,23 @@ describe('AddressBookComponent', () => {
     beforeEach(() => {
       isLoading.next(false);
       isError.next(false);
-      spyOn(
+      vi.spyOn(
         addressBookComponentService,
         'getAddressesStateLoading'
-      ).and.callThrough();
-      spyOn(addressBookComponentService, 'getAddressesError').and.callThrough();
+      ).mockReturnValue(isLoading.asObservable());
+      vi.spyOn(
+        addressBookComponentService,
+        'getAddressesError'
+      ).mockReturnValue(isError.asObservable());
+      (
+        addressBookComponentService.updateUserAddress as ReturnType<
+          typeof vi.fn
+        >
+      ).mockClear();
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
     });
 
     it('should close the form when updateUserAddress succeeds', () => {
@@ -398,21 +420,27 @@ describe('AddressBookComponent', () => {
   });
 
   describe('getCardContent', () => {
-    it('should use city name and country name when available', () => {
+    it('should use city name and country name when available', async () => {
+      (component as any).hierarchicalAddressConfig = {
+        hierarchicalAddress: {
+          countriesUsingHierarchicalAddressFormat: ['CN'],
+        },
+      };
       const addressWithNames: Address = {
         ...mockAddress,
         city: { name: 'Beijing', isocode: 'CN-11-1' },
         country: { name: 'China', isocode: 'CN' },
         region: { name: 'Beijing Region', isocode: 'CN-11' },
       };
-      let card: any;
-      component.getCardContent(addressWithNames).subscribe((c) => (card = c));
-      expect(card.text.some((t: string) => t.includes('Beijing'))).toBe(true);
+      const card = await firstValueFrom(
+        component.getCardContent(addressWithNames)
+      );
+      expect(card.text?.some((t: string) => t.includes('Beijing'))).toBe(true);
     });
 
     it('should use legacy region+country format when toggle is off', () => {
-      const featureConfigService = TestBed.inject(FeatureConfigService);
-      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
+      const featureToggles = TestBed.inject(FeatureToggles);
+      featureToggles.enableHierarchicalAddressFormat = false;
       let card: any;
       component.getCardContent(mockAddress).subscribe((c) => (card = c));
       expect(card.text.some((t: string) => t.includes('JP-27, JP'))).toBe(true);
@@ -420,11 +448,11 @@ describe('AddressBookComponent', () => {
   });
 
   describe('toggle off behavior', () => {
-    let featureConfigService: FeatureConfigService;
+    let featureToggles: FeatureToggles;
 
     beforeEach(() => {
-      featureConfigService = TestBed.inject(FeatureConfigService);
-      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
+      featureToggles = TestBed.inject(FeatureToggles);
+      featureToggles.enableHierarchicalAddressFormat = false;
     });
 
     it('addAddressSubmit should close the form immediately and add the address', () => {
@@ -477,17 +505,17 @@ describe('AddressBookComponent', () => {
     it('should set correct header for add new address', () => {
       component.showEditAddressForm = false;
       component.showAddAddressForm = true;
-      fixture.detectChanges();
+      fixture.componentRef.changeDetectorRef.detectChanges();
 
-      expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
+      expect(el.query(By.css('h2')).nativeElement.textContent?.trim()).toEqual(
         'addressBook.addNewDeliveryAddress'
       );
     });
     it('should set correct header for edit address', () => {
       component.editAddressButtonHandle(mockAddress);
-      fixture.detectChanges();
+      fixture.componentRef.changeDetectorRef.detectChanges();
 
-      expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
+      expect(el.query(By.css('h2')).nativeElement.textContent?.trim()).toEqual(
         'addressBook.editDeliveryAddress'
       );
     });

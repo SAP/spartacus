@@ -24,7 +24,7 @@ import {
   NgSwitchDefault,
   NgTemplateOutlet,
 } from '@angular/common';
-import { FeatureDirective, TranslatePipe } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorOverviewAttributeComponent } from '../overview-attribute/configurator-overview-attribute.component';
@@ -41,7 +41,6 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
     NgTemplateOutlet,
     NgFor,
     NgClass,
-    FeatureDirective,
     NgSwitch,
     NgSwitchCase,
     ConfiguratorOverviewAttributeComponent,

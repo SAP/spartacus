@@ -4,7 +4,7 @@ import {
   Directive,
   Input,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -38,6 +38,7 @@ import { ConfiguratorStorefrontUtilsService } from '../../../service/configurato
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
+import { vi } from 'vitest';
 
 const VALUE_DISPLAY_NAME = 'val2';
 class MockGroupService {}
@@ -80,7 +81,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
   const groupId = 'testGroup';
   const attributeName = 'attributeName';
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.overrideComponent(
       ConfiguratorAttributeSingleSelectionImageComponent,
       {}
@@ -140,7 +141,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   function createImage(url: string, altText: string): Configurator.Image {
     const configImage: Configurator.Image = {
@@ -198,10 +199,10 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
       values: values,
     };
     component.ownerKey = ownerKey;
-    fixture.detectChanges();
   });
 
   it('should create a component', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -230,7 +231,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
       By.css('cx-popover > .popover-body > span')
     );
     expect(description).toBeTruthy();
-    expect(description.nativeElement.innerText).toBe(
+    expect(description.nativeElement.textContent?.trim()).toBe(
       (component.attribute.values ?? [{}])[1].description
     );
     infoButton.click(); // hide popover after test again
@@ -258,10 +259,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
 
   describe('select single image', () => {
     it('should not call service for update and in case attribute is read-only', () => {
-      spyOn(
-        component['configuratorCommonsService'],
-        'updateConfiguration'
-      ).and.callThrough();
+      vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
       component.attribute.uiType =
         Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
       value2.selected = true;
@@ -309,6 +307,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
 
   describe('Accessibility', () => {
     it("should contain input element with class name 'form-input' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -324,6 +323,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
     });
 
     it("should contain input element with class name 'form-input' and 'aria-describedby' attribute that indicates the ID of the element that describe the elements", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -336,6 +336,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
     });
 
     it("should contain input elements with class name 'form-input' and 'checked' attribute that indicates the current 'checked' state of widgete", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

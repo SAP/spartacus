@@ -42,11 +42,7 @@ describe('Update SSR Migration', () => {
     import { fileURLToPath } from 'node:url';
     import AppServerModule from './main.server';
 
-    const ngExpressEngine = NgExpressEngineDecorator.get(engine, {
-      ssrFeatureToggles: {
-        limitCacheByMemory: true,
-      },
-    });
+    const ngExpressEngine = NgExpressEngineDecorator.get(engine);
 
     // The Express app is exported so that it can be used by serverless Functions.
     export function app(): express.Express {

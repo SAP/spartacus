@@ -17,10 +17,10 @@ if [ "$3" != "" ] ; then
 fi
 
 if [ "$DIR" != "self" ] ; then
-  rm -rf $DIR
-  git clone --single-branch --branch $BRANCH https://github.com/SAP/spartacus.git $DIR
-  cd $DIR
-  git checkout $COMMIT
+  rm -rf "$DIR"
+  git clone --single-branch --branch "$BRANCH" https://github.com/SAP/spartacus.git "$DIR"
+  cd "$DIR"
+  git checkout "$COMMIT"
 fi
 
 # # Directory for reports

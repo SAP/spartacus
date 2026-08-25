@@ -6,11 +6,10 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Order, OrderPlacedEvent } from '@spartacus/order/root';
-import { EMPTY, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { EMPTY, firstValueFrom, of } from 'rxjs';
 import { OrderConnector } from '../connectors/order.connector';
 import { OrderService } from './order.service';
-import createSpy = jasmine.createSpy;
+import { vi } from 'vitest';
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = 'cartID';
@@ -18,22 +17,22 @@ const termsChecked = true;
 const mockOrder: Order = { code: 'mockOrderCode' };
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
-  takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
-  isGuestCart = createSpy().and.returnValue(of(false));
+  takeActiveCartId = vi.fn().mockReturnValue(of(mockCartId));
+  isGuestCart = vi.fn().mockReturnValue(of(false));
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = createSpy().and.returnValue(of(mockUserId));
+  takeUserId = vi.fn().mockReturnValue(of(mockUserId));
 }
 
 class MockOrderConnector implements Partial<OrderConnector> {
-  placeOrder = createSpy().and.returnValue(of(mockOrder));
-  placePaymentAuthorizedOrder = createSpy().and.returnValue(of(mockOrder));
+  placeOrder = vi.fn().mockReturnValue(of(mockOrder));
+  placePaymentAuthorizedOrder = vi.fn().mockReturnValue(of(mockOrder));
 }
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(EMPTY);
-  dispatch = createSpy();
+  get = vi.fn().mockReturnValue(EMPTY);
+  dispatch = vi.fn();
 }
 
 describe(`OrderService`, () => {
@@ -117,60 +116,54 @@ describe(`OrderService`, () => {
         OrderPlacedEvent
       );
     });
+
+    it(`should place order for explicit cartId`, () => {
+      const explicitCartId = 'quick-buy-cart-id';
+
+      service
+        .placePaymentAuthorizedOrder(termsChecked, explicitCartId)
+        .subscribe();
+
+      expect(connector.placePaymentAuthorizedOrder).toHaveBeenCalledWith(
+        mockUserId,
+        explicitCartId,
+        termsChecked
+      );
+    });
   });
 
   describe(`getOrderDetails`, () => {
-    it(`should return falsy when there's no order`, (done) => {
-      service
-        .getOrderDetails()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toBeFalsy();
-          done();
-        });
+    it(`should return falsy when there's no order`, async () => {
+      const result = await firstValueFrom(service.getOrderDetails());
+      expect(result).toBeFalsy();
     });
 
-    it(`should return an order when it is placed`, (done) => {
+    it(`should return an order when it is placed`, async () => {
       service.placeOrder(termsChecked);
 
-      service
-        .getOrderDetails()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(mockOrder);
-          done();
-        });
+      const result = await firstValueFrom(service.getOrderDetails());
+      expect(result).toEqual(mockOrder);
     });
   });
 
   describe(`clearPlacedOrder`, () => {
-    it(`should clear the order`, (done) => {
+    it(`should clear the order`, async () => {
       service.placeOrder(termsChecked);
       service.clearPlacedOrder();
 
-      service
-        .getOrderDetails()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(undefined);
-          done();
-        });
+      const result = await firstValueFrom(service.getOrderDetails());
+      expect(result).toEqual(undefined);
     });
   });
 
   describe(`setPlacedOrder`, () => {
-    it(`should set a new order`, (done) => {
+    it(`should set a new order`, async () => {
       const newMockOrder: Order = { code: 'newMockCode' };
 
       service.setPlacedOrder(newMockOrder);
 
-      service
-        .getOrderDetails()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(newMockOrder);
-          done();
-        });
+      const result = await firstValueFrom(service.getOrderDetails());
+      expect(result).toEqual(newMockOrder);
     });
   });
 
@@ -180,28 +173,26 @@ describe(`OrderService`, () => {
       { orderCode: 'deliveryEntry' },
     ];
 
-    it('should be able to get pickup entries', (done) => {
-      service.getOrderDetails = jasmine
-        .createSpy('getOrderDetails')
-        .and.returnValue(of({ code: 'testOrder', entries }));
+    it('should be able to get pickup entries', async () => {
+      vi.spyOn(service, 'getOrderDetails').mockReturnValue(
+        of({ code: 'testOrder', entries })
+      );
 
-      service.getPickupEntries().subscribe((pickupEntries) => {
-        expect(pickupEntries.length).toEqual(1);
-        expect(pickupEntries[0].orderCode).toEqual('pickupEntry');
-        done();
-      });
+      const pickupEntries = await firstValueFrom(service.getPickupEntries());
+      expect(pickupEntries.length).toEqual(1);
+      expect(pickupEntries[0].orderCode).toEqual('pickupEntry');
     });
 
-    it('should be able to get delivery entries', (done) => {
-      service.getOrderDetails = jasmine
-        .createSpy('getOrderDetails')
-        .and.returnValue(of({ code: 'testOrder', entries }));
+    it('should be able to get delivery entries', async () => {
+      vi.spyOn(service, 'getOrderDetails').mockReturnValue(
+        of({ code: 'testOrder', entries })
+      );
 
-      service.getDeliveryEntries().subscribe((deliveryEntries) => {
-        expect(deliveryEntries.length).toEqual(1);
-        expect(deliveryEntries[0].orderCode).toEqual('deliveryEntry');
-        done();
-      });
+      const deliveryEntries = await firstValueFrom(
+        service.getDeliveryEntries()
+      );
+      expect(deliveryEntries.length).toEqual(1);
+      expect(deliveryEntries[0].orderCode).toEqual('deliveryEntry');
     });
   });
 });

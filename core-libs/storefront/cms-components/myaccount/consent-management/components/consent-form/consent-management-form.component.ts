@@ -22,7 +22,7 @@ import {
   ANONYMOUS_CONSENT_STATUS,
   AnonymousConsent,
   ConsentTemplate,
-  FeatureConfigService,
+  FeatureToggles,
   TranslatePipe,
 } from '@spartacus/core';
 
@@ -60,7 +60,7 @@ export class ConsentManagementFormComponent
 
   private hadFocus = false;
   private document = inject(ElementRef).nativeElement.ownerDocument;
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   constructor() {
     // Intentional empty constructor
@@ -76,9 +76,7 @@ export class ConsentManagementFormComponent
     }
     if (
       changes.disabled?.currentValue === true &&
-      this.featureConfigService.isEnabled(
-        'a11yConsentManagementFocusPreservation'
-      )
+      this.featureToggles.a11yConsentManagementFocusPreservation
     ) {
       this.hadFocus =
         this.checkboxInput?.nativeElement === this.document.activeElement;
@@ -90,9 +88,7 @@ export class ConsentManagementFormComponent
       this.hadFocus &&
       !this.disabled &&
       this.checkboxInput?.nativeElement &&
-      this.featureConfigService.isEnabled(
-        'a11yConsentManagementFocusPreservation'
-      )
+      this.featureToggles.a11yConsentManagementFocusPreservation
     ) {
       this.hadFocus = false;
       this.checkboxInput.nativeElement.focus();

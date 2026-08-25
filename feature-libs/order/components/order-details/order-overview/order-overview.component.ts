@@ -17,6 +17,7 @@ import {
   TranslatePipe,
   TranslationService,
   UrlPipe,
+  useFeatureStyles,
 } from '@spartacus/core';
 import {
   OrderConfig,
@@ -74,7 +75,9 @@ export class OrderOverviewComponent {
     protected translation: TranslationService,
     protected orderDetailsService: OrderDetailsService,
     protected component: CmsComponentData<CmsOrderDetailOverviewComponent>
-  ) {}
+  ) {
+    useFeatureStyles('orderOverviewCardsInlinePadding');
+  }
 
   getReplenishmentCodeCardContent(orderCode: string): Observable<Card> {
     return this.translation.translate('orderDetails.replenishmentId').pipe(
@@ -191,7 +194,7 @@ export class OrderOverviewComponent {
     ]).pipe(
       map(([textTitle, textAccount, textCard]) => ({
         title: textTitle,
-        text: [Boolean(hasPaymentInfo) ? textCard : textAccount],
+        text: [hasPaymentInfo ? textCard : textAccount],
       }))
     );
   }
@@ -250,8 +253,8 @@ export class OrderOverviewComponent {
     return combineLatest([
       this.translation.translate('paymentForm.payment'),
       this.translation.translate('paymentCard.expires', {
-        month: Boolean(payment) ? payment.expiryMonth : '',
-        year: Boolean(payment) ? payment.expiryYear : '',
+        month: payment ? payment.expiryMonth : '',
+        year: payment ? payment.expiryYear : '',
       }),
     ]).pipe(
       filter(() => Boolean(payment)),

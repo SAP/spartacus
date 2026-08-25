@@ -17,9 +17,15 @@ import {
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
+  CartItemValidationService,
+  CartValidationStateService,
+} from '@spartacus/cart/base/core';
+import {
   ActiveCartFacade,
   CartItemComponentOptions,
   CartOutlets,
+  CartType,
+  CartValidationFacade,
   ConsignmentEntry,
   MultiCartFacade,
   OrderEntry,
@@ -27,15 +33,15 @@ import {
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
 import {
-  FeatureConfigService,
+  FeatureToggles,
   ProductCatalogService,
   TranslatePipe,
   UserIdService,
   useFeatureStyles,
 } from '@spartacus/core';
 import { OutletContextData, OutletDirective } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
-import { map, startWith, tap } from 'rxjs/operators';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { map, startWith, switchMap, tap } from 'rxjs/operators';
 import { CartItemListRowComponent } from '../cart-item-list-row/cart-item-list-row.component';
 
 interface ItemListContext {
@@ -81,7 +87,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   protected _items: OrderEntry[] = [];
   form: UntypedFormGroup = new UntypedFormGroup({});
 
-  @Input('items')
+  @Input()
   set items(items: OrderEntry[]) {
     this._setItems(items);
   }
@@ -91,7 +97,13 @@ export class CartItemListComponent implements OnInit, OnDestroy {
 
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
-  @Input('cartIsLoading') set setLoading(value: boolean) {
+  @Input() set cartIsLoading(value: boolean) {
+    this.setLoading = value; // CXSPA-13739: Replace with underlying logic
+  }
+
+  /** @deprecated Use `cartIsLoading` */
+  // CXSPA-13739: Move logic to `cartIsLoading` when removing
+  set setLoading(value: boolean) {
     if (!this.readonly) {
       // Whenever the cart is loading, we disable the complete form
       // to avoid any user interaction with the cart.
@@ -102,7 +114,13 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     }
   }
   readonly CartOutlets = CartOutlets;
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
+  protected cartValidationFacade = inject(CartValidationFacade);
+  protected cartValidationStateService = inject(CartValidationStateService);
+  protected cartItemValidationService = inject(CartItemValidationService);
+
+  protected revalidate$ = new Subject<void>();
+
   constructor(
     protected activeCartService: ActiveCartFacade,
     protected selectiveCartService: SelectiveCartFacade,
@@ -112,6 +130,18 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     @Optional() protected outlet?: OutletContextData<ItemListContext>
   ) {
     useFeatureStyles('a11yCartItemListHideEmptyOutlets');
+    useFeatureStyles('cartValidationDisplayBackendMessages');
+  }
+
+  /**
+   * Emits whether the given item currently breaks a min/max order quantity rule,
+   * used to highlight the violating row. Active only when cart validation is enabled
+   * and the `cartValidationDisplayBackendMessages` feature toggle is on.
+   */
+  hasValidationIssue$(item: OrderEntry): Observable<boolean> {
+    return this.cartItemValidationService.hasValidationIssue$(
+      item.product?.code
+    );
   }
 
   ngOnInit(): void {
@@ -122,6 +152,20 @@ export class CartItemListComponent implements OnInit, OnDestroy {
         ?.getUserId()
         .subscribe((userId) => (this.userId = userId))
     );
+
+    this.subscription.add(
+      this.revalidate$
+        .pipe(switchMap(() => this.cartValidationFacade.validateCart()))
+        .subscribe((cartModificationList) =>
+          this.cartValidationStateService.updateValidationResultAndRoutingId(
+            cartModificationList.cartModifications ?? []
+          )
+        )
+    );
+
+    // Validate the cart on entry so problematic products are highlighted from the
+    // start; Proceed to Checkout then only adds the error message on top.
+    this.revalidateCart();
   }
 
   protected _setItems(
@@ -152,7 +196,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
         this.promotionLocation = context.promotionLocation;
       }
       if (context.cartIsLoading !== undefined) {
-        this.setLoading = context.cartIsLoading;
+        this.cartIsLoading = context.cartIsLoading;
       }
       this.updateItemsOnContextChange(context, contextRequiresRerender);
     });
@@ -163,9 +207,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     contextRequiresRerender: boolean
   ) {
     const preventRedundantRecreationEnabled =
-      this.featureConfigService.isEnabled(
-        'a11yPreventCartItemsFormRedundantRecreation'
-      );
+      this.featureToggles.a11yPreventCartItemsFormRedundantRecreation;
     if (
       context.items !== undefined &&
       (!preventRedundantRecreationEnabled ||
@@ -318,10 +360,36 @@ export class CartItemListComponent implements OnInit, OnDestroy {
               value.quantity
             );
           }
+          this.revalidateCart();
         }
       }),
       map(() => <UntypedFormGroup>this.form.get(this.getControlName(item)))
     );
+  }
+
+  /**
+   * Re-runs cart validation after a quantity change so the per-item quantity hints,
+   * row highlighting and checkout banner reflect the current cart. The validation
+   * command waits for the cart to become stable before running.
+   *
+   * Only runs for the active, editable cart list: `validateCart()` always targets
+   * the active cart, so validating from a read-only, save-for-later or non-active
+   * cart list (e.g. saved cart details, which renders this list with
+   * `CartType.SELECTIVE`) would be meaningless and can trigger a backend error.
+   * Gated by the `cartValidationDisplayBackendMessages` feature toggle
+   * (via the service) and the `cart.validation.enabled` config.
+   */
+  protected revalidateCart(): void {
+    if (
+      this.readonly ||
+      this.options.isSaveForLater ||
+      (this.options.cartType !== undefined &&
+        this.options.cartType !== CartType.ACTIVE) ||
+      !this.cartItemValidationService.isEnabled()
+    ) {
+      return;
+    }
+    this.revalidate$.next();
   }
 
   getOptions(item: OrderEntry): CartItemComponentOptions {

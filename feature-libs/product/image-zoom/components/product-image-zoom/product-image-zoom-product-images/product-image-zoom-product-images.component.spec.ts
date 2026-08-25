@@ -1,12 +1,10 @@
 import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
-  FeatureConfigService,
   FeaturesConfigModule,
-  FeatureToggles,
   ImageGroup,
   MockDatePipe,
   MockTranslatePipe,
@@ -14,7 +12,6 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import {
-  CarouselComponent,
   CarouselScrollingComponent,
   CurrentProductService,
   ImageFetchPriority,
@@ -23,10 +20,11 @@ import {
   LcpPresence,
   MediaComponent,
 } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, firstValueFrom, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ProductImageZoomTriggerComponent } from '../product-image-zoom-trigger/product-image-zoom-trigger.component';
 import { ProductImageZoomProductImagesComponent } from './product-image-zoom-product-images.component';
+import { vi } from 'vitest';
 
 const firstImage = {
   zoom: {
@@ -94,25 +92,6 @@ class MockMediaComponent {
 }
 
 @Component({
-  selector: 'cx-carousel',
-  template: `
-    cx-carousel
-    <ng-container *ngFor="let item$ of items">
-      <ng-container
-        *ngTemplateOutlet="template; context: { item: item$ | async }"
-      ></ng-container>
-    </ng-container>
-  `,
-  imports: [NgFor, NgTemplateOutlet, AsyncPipe],
-})
-class MockCarouselComponent {
-  @Input() items: any;
-  @Input() itemWidth: any;
-  @Input() template: any;
-  @Input() hideIndicators: any;
-}
-
-@Component({
   selector: 'cx-carousel-scrolling',
   template: `
     cx-carousel-scrolling
@@ -141,33 +120,13 @@ class MockProductImageZoomTriggerComponent {
   @Output() dialogClose = new EventEmitter<void>();
 }
 
-let mockFeatureToggles: FeatureToggles;
-
-class MockFeatureConfigService {
-  isEnabled(
-    feature: keyof FeatureToggles | `!${keyof FeatureToggles}`
-  ): boolean {
-    const hasNegation = feature.startsWith('!');
-    const featureName = (
-      hasNegation ? feature.slice(1) : feature
-    ) as keyof FeatureToggles;
-
-    return hasNegation
-      ? !mockFeatureToggles[featureName]
-      : !!mockFeatureToggles[featureName];
-  }
-}
-
 describe('ProductImageZoomProductImagesComponent', () => {
   let component: ProductImageZoomProductImagesComponent;
   let fixture: ComponentFixture<ProductImageZoomProductImagesComponent>;
   let currentProductService: CurrentProductService;
   let mockLcpPresence$: BehaviorSubject<LcpPresence>;
 
-  beforeEach(waitForAsync(() => {
-    mockFeatureToggles = {
-      productCarouselScrolling: true,
-    };
+  beforeEach(async () => {
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
@@ -177,7 +136,6 @@ describe('ProductImageZoomProductImagesComponent', () => {
         ProductImageZoomProductImagesComponent,
       ],
       providers: [
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         {
           provide: LCP_PRESENCE,
           useValue: mockLcpPresence$,
@@ -194,7 +152,6 @@ describe('ProductImageZoomProductImagesComponent', () => {
             TranslatePipe,
             CxDatePipe,
             MediaComponent,
-            CarouselComponent,
             CarouselScrollingComponent,
             ProductImageZoomTriggerComponent,
           ],
@@ -204,7 +161,6 @@ describe('ProductImageZoomProductImagesComponent', () => {
             MockTranslatePipe,
             MockDatePipe,
             MockMediaComponent,
-            MockCarouselComponent,
             MockCarouselScrollingComponent,
             MockProductImageZoomTriggerComponent,
           ],
@@ -213,22 +169,22 @@ describe('ProductImageZoomProductImagesComponent', () => {
       .compileComponents();
 
     currentProductService = TestBed.inject(CurrentProductService);
-  }));
+  });
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     fixture = TestBed.createComponent(ProductImageZoomProductImagesComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('with multiple pictures', () => {
-    beforeEach(waitForAsync(() => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
+    beforeEach(async () => {
+      vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
         of(mockDataWithMultiplePictures)
       );
 
       fixture = TestBed.createComponent(ProductImageZoomProductImagesComponent);
       component = fixture.componentInstance;
-    }));
+    });
 
     it('should be created', () => {
       fixture.detectChanges();
@@ -242,40 +198,29 @@ describe('ProductImageZoomProductImagesComponent', () => {
       expect(result.zoom.url).toEqual('zoom-1.jpg');
     });
 
-    it('should have 2 thumbnails', waitForAsync(() => {
+    it('should have 2 thumbnails', async () => {
       fixture.detectChanges();
       let items: Observable<Product>[];
       component.thumbs$.subscribe((i) => (items = i));
       expect(items.length).toBe(2);
-    }));
+    });
 
-    it('should have thumb with url in first product', waitForAsync(() => {
+    it('should have thumb with url in first product', async () => {
       fixture.detectChanges();
       let thumbs: Observable<Product>[];
       component.thumbs$.subscribe((i) => (thumbs = i));
       let thumb: any;
       thumbs[0].subscribe((p) => (thumb = p));
       expect(thumb.container.thumbnail.url).toEqual('thumb-1.jpg');
-    }));
+    });
 
     describe('UI test', () => {
-      describe('when feature toggle "productCarouselScrolling" is enabled', () => {
-        it('should have cx-carousel-scrolling element', () => {
-          fixture.detectChanges();
-          const carousel = fixture.debugElement.query(
-            By.css('cx-carousel-scrolling')
-          );
-          expect(carousel).toBeTruthy();
-        });
-      });
-
-      describe('when feature toggle "productCarouselScrolling" is disabled', () => {
-        it('should have cx-carousel element', () => {
-          mockFeatureToggles.productCarouselScrolling = false;
-          fixture.detectChanges();
-          const carousel = fixture.debugElement.query(By.css('cx-carousel'));
-          expect(carousel).toBeTruthy();
-        });
+      it('should have cx-carousel-scrolling element', () => {
+        fixture.detectChanges();
+        const carousel = fixture.debugElement.query(
+          By.css('cx-carousel-scrolling')
+        );
+        expect(carousel).toBeTruthy();
       });
 
       it('should have 2 rendered templates', () => {
@@ -343,7 +288,7 @@ describe('ProductImageZoomProductImagesComponent', () => {
 
   describe('with one pictures', () => {
     beforeEach(() => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
+      vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
         of(mockDataWithOnePicture)
       );
 
@@ -362,11 +307,11 @@ describe('ProductImageZoomProductImagesComponent', () => {
       expect(result.zoom.url).toEqual('zoom-1.jpg');
     });
 
-    it('should not have thumbnails in case there is only one GALLERY image', waitForAsync(() => {
+    it('should not have thumbnails in case there is only one GALLERY image', async () => {
       let items: Observable<Product>[];
       component.thumbs$.subscribe((i) => (items = i));
       expect(items.length).toBe(0);
-    }));
+    });
 
     describe('(UI test)', () => {
       it('should not render cx-carousel-scrolling for one GALLERY image', () => {
@@ -417,7 +362,7 @@ describe('ProductImageZoomProductImagesComponent', () => {
 
   describe('without pictures', () => {
     beforeEach(() => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
+      vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
         of(mockDataWitoutPrimaryPictures)
       );
 
@@ -465,12 +410,10 @@ describe('ProductImageZoomProductImagesComponent', () => {
     });
   });
 
-  it('should emit new value for expandImage on triggerZoom', (done) => {
+  it('should emit new value for expandImage on triggerZoom', async () => {
     component.triggerZoom(true);
 
-    component.expandImage.pipe(take(1)).subscribe((value) => {
-      expect(value).toBeTruthy();
-      done();
-    });
+    const value = await firstValueFrom(component.expandImage);
+    expect(value).toBeTruthy();
   });
 });

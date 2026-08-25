@@ -19,45 +19,6 @@
   }
 }
 
-// @deprecated since 2211.41.0 - use instead `%progress-bar-loading-animation `
-%progress-bar-loading {
-  @keyframes loading {
-    0% {
-      margin-inline-start: 0px;
-      margin-inline-end: 100%;
-    }
-    50% {
-      margin-inline-start: 25%;
-      margin-inline-end: 0%;
-    }
-    100% {
-      margin-inline-start: 100%;
-      margin-inline-end: 0;
-    }
-  }
-
-  &:after {
-    animation: loading 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  }
-}
-
-// @deprecated since 2211.41.0  - use instead `%progress-bar-loaded-animation `
-%progress-bar-loaded {
-  @keyframes loaded {
-    0% {
-      margin-inline-start: 50%;
-      margin-inline-end: 100%;
-    }
-    100% {
-      margin-inline-start: 100%;
-      margin-inline-end: 0;
-    }
-  }
-  &:after {
-    animation: loaded 0.5s;
-  }
-}
-
 %progress-bar-loading-animation {
   @keyframes progress-bar-loading-animation {
     0% {

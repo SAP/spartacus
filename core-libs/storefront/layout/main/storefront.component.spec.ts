@@ -1,6 +1,12 @@
 import { Component, DebugElement, Directive, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FeatureDirective, RoutingService } from '@spartacus/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  FeatureDirective,
+  FeatureToggles,
+  PageContext,
+  PageType,
+  RoutingService,
+} from '@spartacus/core';
 import { GlobalMessageComponent } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
@@ -9,7 +15,7 @@ import {
   PageSlotComponent,
   PageTemplateDirective,
 } from '../../cms-structure';
-import { MockFeatureDirective } from '../../shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { SkipLinkService } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 import { StorefrontComponent } from './storefront.component';
@@ -41,6 +47,9 @@ class MockFooterComponent {}
 class MockRoutingService {
   isNavigating(): Observable<boolean> {
     return EMPTY;
+  }
+  getPageContext(): Observable<PageContext> {
+    return of(new PageContext('homepage'));
   }
 }
 
@@ -88,8 +97,9 @@ describe('StorefrontComponent', () => {
   let el: DebugElement;
   let routingService: RoutingService;
   let skipLinkService: SkipLinkService;
+  let featureToggles: FeatureToggles;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [
         {
@@ -133,7 +143,7 @@ describe('StorefrontComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StorefrontComponent);
@@ -141,6 +151,7 @@ describe('StorefrontComponent', () => {
     el = fixture.debugElement;
     routingService = TestBed.inject(RoutingService);
     skipLinkService = TestBed.inject(SkipLinkService);
+    featureToggles = TestBed.inject(FeatureToggles);
   });
 
   it('should create', () => {
@@ -148,7 +159,7 @@ describe('StorefrontComponent', () => {
   });
 
   it('should contain start-navigating class', () => {
-    spyOn(routingService, 'isNavigating').and.returnValue(of(true));
+    vi.spyOn(routingService, 'isNavigating').mockReturnValue(of(true));
     fixture.detectChanges();
     expect(
       el.nativeElement.classList.contains('start-navigating')
@@ -156,14 +167,14 @@ describe('StorefrontComponent', () => {
   });
 
   it('should contain stop-navigating class', () => {
-    spyOn(routingService, 'isNavigating').and.returnValue(of(false));
+    vi.spyOn(routingService, 'isNavigating').mockReturnValue(of(false));
     fixture.detectChanges();
     expect(el.nativeElement.classList.contains('stop-navigating')).toBeTruthy();
     expect(el.nativeElement.classList.contains('start-navigating')).toBeFalsy();
   });
 
   it('should collapse menu when header is expanded', () => {
-    spyOn(component, 'collapseMenu').and.callThrough();
+    vi.spyOn(component, 'collapseMenu');
 
     const mockTarget = {};
     mockTarget['className'] = 'is-expanded';
@@ -178,7 +189,7 @@ describe('StorefrontComponent', () => {
   });
 
   it('should NOT collapse menu when header is NOT expanded', () => {
-    spyOn(component, 'collapseMenu').and.callThrough();
+    vi.spyOn(component, 'collapseMenu');
 
     const mockTarget = {};
     mockTarget['nodeName'] = 'DIV';
@@ -204,11 +215,13 @@ describe('StorefrontComponent', () => {
     });
 
     it('should call skipLinkService.scrollToTarget when navigation ends and document has active element', () => {
-      spyOn(skipLinkService, 'scrollToTarget');
+      vi.spyOn(skipLinkService, 'scrollToTarget');
+      featureToggles.a11yFocusBreadcrumbOnNavigation = false;
 
       const mockDocument = {
         activeElement: document.createElement('button'),
         body: document.createElement('body'),
+        querySelector: () => null,
       };
       component['document'] = mockDocument as any;
 
@@ -218,17 +231,104 @@ describe('StorefrontComponent', () => {
     });
 
     it('should not call skipLinkService.scrollToTarget when navigation ends and focus is on body', () => {
-      spyOn(skipLinkService, 'scrollToTarget');
+      vi.spyOn(skipLinkService, 'scrollToTarget');
       const body = document.createElement('body');
       const mockDocument = {
         activeElement: body,
         body,
+        querySelector: () => null,
       };
       component['document'] = mockDocument as any;
 
       component['onNavigation'](false);
 
       expect(skipLinkService.scrollToTarget).not.toHaveBeenCalled();
+    });
+
+    it('should call scrollToTarget cx-main when toggle is off', () => {
+      vi.spyOn(skipLinkService, 'scrollToTarget');
+      featureToggles.a11yFocusBreadcrumbOnNavigation = false;
+
+      const mockDocument = {
+        activeElement: document.createElement('button'),
+        body: document.createElement('body'),
+        querySelector: () => null,
+      };
+      component['document'] = mockDocument as any;
+
+      component['onNavigation'](false);
+
+      expect(skipLinkService.scrollToTarget).toHaveBeenCalledWith('cx-main');
+    });
+
+    it('should focus breadcrumb first link when toggle is on, page is CategoryPage and breadcrumb is present', async () => {
+      vi.useFakeTimers();
+      vi.spyOn(skipLinkService, 'scrollToTarget');
+      vi.spyOn(routingService, 'getPageContext').mockReturnValue(
+        of(new PageContext('category', PageType.CATEGORY_PAGE))
+      );
+      featureToggles.a11yFocusBreadcrumbOnNavigation = true;
+
+      const mockAnchor = document.createElement('a');
+      vi.spyOn(mockAnchor, 'focus');
+
+      const mockDocument = {
+        activeElement: document.createElement('button'),
+        body: document.createElement('body'),
+        querySelector: (selector: string) =>
+          selector === component['categoryPageFocusSelector']
+            ? mockAnchor
+            : null,
+      };
+      component['document'] = mockDocument as any;
+
+      component['onNavigation'](false);
+      await vi.advanceTimersByTimeAsync(0);
+      vi.useRealTimers();
+
+      expect(mockAnchor.focus).toHaveBeenCalled();
+      expect(skipLinkService.scrollToTarget).not.toHaveBeenCalled();
+    });
+
+    it('should fall back to scrollToTarget cx-main when toggle is on, page is CategoryPage but no breadcrumb is present', async () => {
+      vi.useFakeTimers();
+      vi.spyOn(skipLinkService, 'scrollToTarget');
+      vi.spyOn(routingService, 'getPageContext').mockReturnValue(
+        of(new PageContext('category', PageType.CATEGORY_PAGE))
+      );
+      featureToggles.a11yFocusBreadcrumbOnNavigation = true;
+
+      const mockDocument = {
+        activeElement: document.createElement('button'),
+        body: document.createElement('body'),
+        querySelector: () => null,
+      };
+      component['document'] = mockDocument as any;
+
+      component['onNavigation'](false);
+      await vi.advanceTimersByTimeAsync(0);
+      vi.useRealTimers();
+
+      expect(skipLinkService.scrollToTarget).toHaveBeenCalledWith('cx-main');
+    });
+
+    it('should call scrollToTarget cx-main when toggle is on but page is not CategoryPage', () => {
+      vi.spyOn(skipLinkService, 'scrollToTarget');
+      vi.spyOn(routingService, 'getPageContext').mockReturnValue(
+        of(new PageContext('my-account', PageType.CONTENT_PAGE))
+      );
+      featureToggles.a11yFocusBreadcrumbOnNavigation = true;
+
+      const mockDocument = {
+        activeElement: document.createElement('button'),
+        body: document.createElement('body'),
+        querySelector: () => null,
+      };
+      component['document'] = mockDocument as any;
+
+      component['onNavigation'](false);
+
+      expect(skipLinkService.scrollToTarget).toHaveBeenCalledWith('cx-main');
     });
   });
 });

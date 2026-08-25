@@ -8,7 +8,7 @@ import { inject, Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
-import { FeatureConfigService } from '../../features-config/services/feature-config.service';
+import { FeatureToggles } from '../../features-config';
 import { Currency } from '../../model/misc.model';
 import { isNotNullable } from '../../util/type-guards';
 import { getContextParameterValues } from '../config/context-config-utils';
@@ -24,7 +24,7 @@ import { SiteContext } from './site-context.interface';
  */
 @Injectable()
 export class CurrencyService implements SiteContext<Currency> {
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     protected store: Store<StateWithSiteContext>,
@@ -44,7 +44,7 @@ export class CurrencyService implements SiteContext<Currency> {
       }),
       filter(isNotNullable),
       map((currencies) =>
-        this.featureConfigService.isEnabled('showOnlyActiveCurrencies')
+        this.featureToggles.showOnlyActiveCurrencies
           ? currencies.filter((currency) => currency.active)
           : currencies
       )

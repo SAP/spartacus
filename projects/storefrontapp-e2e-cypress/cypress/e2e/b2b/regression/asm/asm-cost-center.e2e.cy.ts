@@ -13,6 +13,7 @@ import {
   getB2BAgent,
 } from '../../../../sample-data/asm-flow';
 import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
+import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 
 context('B2B - ASM Account Checkout', () => {
   const invalid_cost_center = 'Rustic_Global';
@@ -21,16 +22,8 @@ context('B2B - ASM Account Checkout', () => {
   const b2bAgent = getB2BAgent();
 
   before(() => {
-    cy.window().then((win) => win.sessionStorage.clear());
+    clearAllStorage();
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
-  });
-
-  beforeEach(() => {
-    cy.restoreLocalStorage();
-  });
-
-  afterEach(() => {
-    cy.saveLocalStorage();
   });
 
   it('should show error on invalid cost center', () => {
@@ -49,6 +42,8 @@ context('B2B - ASM Account Checkout', () => {
     cy.log('--> Agent emulate customer');
     asm.startCustomerEmulation(customer, true);
 
+    cy.log('Waiting for SSR timeout to pass (8s)');
+    cy.wait(8000);
     b2bCheckout.addB2bProductToCartAndCheckout();
     cy.get('cx-payment-type').within(() => {
       cy.findByText('Account').click({ force: true });
