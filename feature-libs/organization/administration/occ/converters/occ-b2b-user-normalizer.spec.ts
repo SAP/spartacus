@@ -23,6 +23,7 @@ describe('B2BUserNormalizer', () => {
     active: true,
     uid: orgCustomerId,
     email: orgCustomerId,
+    customerId: orgCustomerId,
   };
 
   beforeEach(() => {
@@ -48,8 +49,22 @@ describe('B2BUserNormalizer', () => {
     expect(result).toEqual(convertedOrgCustomer);
   });
 
+  it('should use uid as customerId fallback when customerId is missing', () => {
+    const result = service.convert({ uid: orgCustomerId });
+    expect(result.customerId).toEqual(orgCustomerId);
+  });
+
+  it('should not override customerId when already present', () => {
+    const existingCustomerId = 'existing-customer-id';
+    const result = service.convert({
+      uid: orgCustomerId,
+      customerId: existingCustomerId,
+    } as Occ.B2BUser);
+    expect(result.customerId).toEqual(existingCustomerId);
+  });
+
   it('should convert B2B User with applied target', () => {
     const result = service.convert(orgCustomer, {});
-    expect(result).toEqual({ email: orgCustomerId });
+    expect(result).toEqual({ email: orgCustomerId, customerId: orgCustomerId });
   });
 });

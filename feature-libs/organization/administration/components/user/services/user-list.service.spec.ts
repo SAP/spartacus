@@ -23,6 +23,16 @@ const mockUserEntities: EntitiesModel<B2BUser> = {
   ],
 };
 
+const mockUserEntitiesWithMissingFields: EntitiesModel<B2BUser> = {
+  values: [
+    {
+      uid,
+      orgUnit: undefined,
+      roles: undefined,
+    },
+  ],
+};
+
 class MockB2BUserService {
   getList(): Observable<EntitiesModel<B2BUser>> {
     return of(mockUserEntities);
@@ -87,6 +97,22 @@ describe('UserListService', () => {
       let result: EntitiesModel<User>;
       service.getData().subscribe((table) => (result = table));
       expect(result.values[0].uid).toEqual(uid);
+    });
+
+    it('should use empty object as default when orgUnit is undefined', () => {
+      (TestBed.inject(B2BUserService) as any).getList = () =>
+        of(mockUserEntitiesWithMissingFields);
+      let result: EntitiesModel<any>;
+      service.getData().subscribe((table) => (result = table));
+      expect(result.values[0].unit).toEqual({});
+    });
+
+    it('should use empty array as default when roles is undefined', () => {
+      (TestBed.inject(B2BUserService) as any).getList = () =>
+        of(mockUserEntitiesWithMissingFields);
+      let result: EntitiesModel<any>;
+      service.getData().subscribe((table) => (result = table));
+      expect(result.values[0].roles).toEqual([]);
     });
 
     describe('isSearchEnabled()', () => {

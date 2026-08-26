@@ -77,10 +77,10 @@ export class UserListService extends ListService<UserModel> {
       sorts,
       values: values.map((value: any) => ({
         ...value,
-        unit: value.orgUnit,
-        roles: value.roles?.filter((role: any) =>
-          availableRoles.includes(role)
-        ),
+        unit: value?.orgUnit ?? {},
+        roles:
+          value?.roles?.filter((role: any) => availableRoles.includes(role)) ??
+          [],
       })),
     };
     return userModels;
