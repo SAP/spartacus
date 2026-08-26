@@ -267,16 +267,20 @@ export class CpqConfiguratorNormalizerUtilsService {
    * including issues in nested container-row configurations.
    *
    * When the root configuration contains at least one typed message,
-   * only `messages` are counted at root level. Other root-level message
-   * containers are ignored. Nested configurations are counted unchanged.
+   * those `messages` plus `incompleteAttributes` are counted at root
+   * level. Other root-level message containers are ignored. Nested
+   * configurations are counted unchanged.
    *
    * @param source - CPQ configuration
    * @returns Total number of issues
    */
   calculateTotalNumberOfIssues(source: Cpq.Configuration): number {
     const rootTypedMessages = this.countTypedMessages(source);
+    const incompleteAttributes = source.incompleteAttributes?.length ?? 0;
     const rootContribution =
-      rootTypedMessages > 0 ? rootTypedMessages : this.countIssues(source);
+      rootTypedMessages > 0
+        ? rootTypedMessages + incompleteAttributes
+        : this.countIssues(source);
     const nestedContribution = this.countIssuesInContainers(
       source.sapContainers,
       'root.sapContainers'

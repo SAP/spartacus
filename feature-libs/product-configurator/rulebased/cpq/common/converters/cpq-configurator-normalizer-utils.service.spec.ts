@@ -596,12 +596,33 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       ).toBe(6);
     });
 
-    it('should only count root typed messages when messages are present', () => {
+    it('should count root typed messages and incomplete attributes when messages are present', () => {
       expect(
         cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues(
           rootConfiguration
         )
+      ).toBe(4);
+    });
+
+    it('should count only typed messages when incomplete attributes are absent', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues({
+          ...rootConfiguration,
+          incompleteAttributes: undefined,
+        })
       ).toBe(2);
+    });
+
+    it('should ignore legacy root message arrays when typed messages are present', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues({
+          ...rootConfiguration,
+          errorMessages: [ERROR_MSG, ERROR_MSG],
+          invalidMessages: [INVALID_MSG, INVALID_MSG],
+          failedValidations: [VALIDATION_MSG],
+          incompleteMessages: [INCOMPLETE_MSG],
+        })
+      ).toBe(4);
     });
 
     it('should count all root message containers when messages are absent', () => {
@@ -669,7 +690,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
           ...rootConfiguration,
           sapContainers: containers,
         })
-      ).toBe(9);
+      ).toBe(11);
     });
 
     it('should return zero when no issues exist', () => {
