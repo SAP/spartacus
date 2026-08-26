@@ -51,7 +51,7 @@ export namespace Cpq {
     stdAttrCode: number;
     minRows?: number;
     maxRows?: number;
-    failedValidations?: string[];
+    messages?: Message[];
     rows?: ContainerRow[];
   }
 

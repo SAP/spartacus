@@ -27,6 +27,12 @@ import { ConfiguratorGroupsService } from '../../../core/facade/configurator-gro
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
+import {
+  ConfiguratorMessageComponent,
+  ConfiguratorMessageGroup,
+  ConfiguratorMessagesView,
+  splitMessagesBySeverity,
+} from '../../message/configurator-message.component';
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorShowOptionsComponent } from '../show-options/configurator-show-options.component';
@@ -42,6 +48,7 @@ import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-a
     IconComponent,
     ConfiguratorShowOptionsComponent,
     ConfiguratorShowMoreComponent,
+    ConfiguratorMessageComponent,
     AsyncPipe,
     TranslatePipe,
   ],
@@ -102,7 +109,7 @@ export class ConfiguratorAttributeHeaderComponent
     if (this.isContainerSelection()) {
       return {
         key: 'configurator.attribute.containerRequiredMessage',
-        params: { count: this.attribute.container?.minRows ?? 1 },
+        params: { count: this.attribute.container?.minRows || 1 },
       };
     } else if (this.isSingleSelection()) {
       return this.isWithAdditionalValues(this.attribute)
@@ -127,12 +134,7 @@ export class ConfiguratorAttributeHeaderComponent
   }
 
   protected isContainerSelection(): boolean {
-    switch (this.attribute.uiType) {
-      case Configurator.UiType.CONTAINER: {
-        return true;
-      }
-    }
-    return false;
+    return this.attribute.uiType === Configurator.UiType.CONTAINER;
   }
 
   protected isSingleSelection(): boolean {
@@ -182,10 +184,7 @@ export class ConfiguratorAttributeHeaderComponent
    * @return {boolean} - 'true' if the group type is 'attribute group' otherwise 'false'
    */
   isAttributeGroup(): boolean {
-    if (Configurator.GroupType.ATTRIBUTE_GROUP === this.groupType) {
-      return true;
-    }
-    return false;
+    return Configurator.GroupType.ATTRIBUTE_GROUP === this.groupType;
   }
 
   /**
@@ -375,11 +374,38 @@ export class ConfiguratorAttributeHeaderComponent
   }
 
   /**
-   * Retrieves failed container validations to display as error messages.
+   * Container messages split into the display buckets. Severity `warning` is
+   * rendered as error, `info` (or missing severity) as warning.
    *
-   * @returns the list of failed validation messages, or an empty array
+   * @returns Messages grouped by the severity they are rendered with
    */
-  get failedValidations(): string[] {
-    return this.attribute.container?.failedValidations ?? [];
+  get messages(): ConfiguratorMessagesView {
+    return splitMessagesBySeverity(this.attribute.container?.messages);
+  }
+
+  /**
+   * Retrieves warning and error groups of the bound container.
+   *
+   * @param messages - Messages of the bound container
+   * @returns - message groups
+   */
+  getMessageGroups(
+    messages: ConfiguratorMessagesView
+  ): ConfiguratorMessageGroup[] {
+    return [
+      {
+        messages: messages.errorMessages,
+        messageClass: 'cx-error-msg',
+        iconType: this.iconTypes.ERROR,
+        uiKeyPrefix: 'error-msg',
+        role: 'alert',
+      },
+      {
+        messages: messages.warningMessages,
+        messageClass: 'cx-warning-msg',
+        iconType: this.iconTypes.WARNING,
+        uiKeyPrefix: 'warning-msg',
+      },
+    ].filter((group) => group.messages.length > 0);
   }
 }

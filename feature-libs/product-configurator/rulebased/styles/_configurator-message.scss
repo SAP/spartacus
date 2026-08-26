@@ -1,0 +1,11 @@
+%cx-configurator-message {
+  display: contents;
+
+  .cx-error-msg {
+    @include cx-configurator-error-msg();
+  }
+
+  .cx-warning-msg {
+    @include cx-configurator-warning-msg();
+  }
+}

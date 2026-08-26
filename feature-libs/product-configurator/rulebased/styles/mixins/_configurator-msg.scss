@@ -3,3 +3,12 @@
   line-height: 1.2;
   padding-block-end: 10px;
 }
+
+@mixin cx-configurator-severity-msg($color) {
+  color: $color;
+  font-size: 14px;
+
+  cx-icon {
+    padding-inline-end: 5px;
+  }
+}

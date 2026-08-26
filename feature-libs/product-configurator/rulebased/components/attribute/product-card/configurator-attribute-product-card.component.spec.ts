@@ -1946,7 +1946,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       expect(takeMessages().errorMessages).toEqual(['Nested warning']);
     });
 
-    it('should pass error and warning data to the message template', () => {
+    it('should pass error and warning data to the message component', () => {
       component.productCardOptions.multiSelect = true;
       setProductBoundValueAttributes(component);
       setContainerRowMessages([
@@ -1964,12 +1964,16 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         component.getContainerMessageGroups(takeMessages());
 
       expect(errors.messages).toEqual(['Too many units']);
-      expect(errors.messageClass).toBe('container-error-message');
+      expect(errors.messageClass).toBe(
+        'cx-product-card-rows container-error-message'
+      );
       expect(errors.iconClass).toBe('container-error-symbol');
       expect(errors.uiKeyPrefix).toBe('row-error-msg');
       expect(errors.role).toBe('alert');
       expect(warnings.messages).toEqual(['Check quantity']);
-      expect(warnings.messageClass).toBe('container-warning-message');
+      expect(warnings.messageClass).toBe(
+        'cx-product-card-rows container-warning-message'
+      );
       expect(warnings.iconClass).toBe('container-warning-symbol');
       expect(warnings.uiKeyPrefix).toBe('row-warning-msg');
     });

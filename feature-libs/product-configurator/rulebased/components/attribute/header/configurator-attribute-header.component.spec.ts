@@ -433,44 +433,64 @@ describe('ConfigAttributeHeaderComponent', () => {
       );
     });
 
-    it('should not render failed validation messages if container is not present', () => {
+    it('should not render error messages if container is not present', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-validation-error-msg'
+        '.cx-error-msg'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-warning-msg'
       );
     });
 
-    it('should not render failed validation messages if failedValidations is empty', () => {
-      component.attribute.container = { rows: [], failedValidations: [] };
+    it('should not render messages if the container message list is empty', () => {
+      component.attribute.container = { rows: [], messages: [] };
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-required-error-msg'
+        '.cx-error-msg'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-warning-msg'
       );
     });
 
-    it('should render a failed validation message', () => {
+    it('should render an error message', () => {
       component.attribute.container = {
         rows: [],
-        failedValidations: ['Too many units'],
+        messages: [
+          {
+            message: 'Too many units',
+            severity: Configurator.MessageSeverity.WARNING,
+          },
+        ],
       };
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-validation-error-msg',
+        '.cx-error-msg',
         'Too many units'
       );
     });
 
-    it('should render failed validation messages after the required message', () => {
+    it('should render error messages after the required message', () => {
       component.attribute.required = true;
       component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
       component.attribute.container = {
         rows: [],
-        failedValidations: ['Too many units'],
+        messages: [
+          {
+            message: 'Too many units',
+            severity: Configurator.MessageSeverity.WARNING,
+          },
+        ],
       };
       component.ngOnInit();
       fixture.detectChanges();
@@ -483,35 +503,63 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-validation-error-msg',
+        '.cx-error-msg',
         'Too many units'
       );
     });
 
-    it('should render multiple failed validation messages', () => {
+    it('should render multiple error messages', () => {
       component.attribute.container = {
         rows: [],
-        failedValidations: ['Too many units', 'Invalid selection'],
+        messages: [
+          {
+            message: 'Too many units',
+            severity: Configurator.MessageSeverity.WARNING,
+          },
+          {
+            message: 'Invalid selection',
+            severity: Configurator.MessageSeverity.WARNING,
+          },
+        ],
       };
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectNumberOfElements(
         expect,
         htmlElem,
-        '.cx-validation-error-msg',
+        '.cx-error-msg',
         2
       );
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-validation-error-msg',
+        '.cx-error-msg',
         'Too many units'
       );
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-validation-error-msg',
+        '.cx-error-msg',
         'Invalid selection',
         1
+      );
+    });
+
+    it('should render warning messages for info severity', () => {
+      component.attribute.container = {
+        rows: [],
+        messages: [
+          {
+            message: 'Check quantity',
+            severity: Configurator.MessageSeverity.INFO,
+          },
+        ],
+      };
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-warning-msg',
+        'Check quantity'
       );
     });
   });
@@ -606,6 +654,15 @@ describe('ConfigAttributeHeaderComponent', () => {
     it('should default container message count to 1 if minRows is not set', () => {
       component.attribute.uiType = Configurator.UiType.CONTAINER;
       component.attribute.container = { rows: [] };
+      expect(component.getRequiredMessageKey()).toEqual({
+        key: 'configurator.attribute.containerRequiredMessage',
+        params: { count: 1 },
+      });
+    });
+
+    it('should default container message count to 1 if minRows is 0', () => {
+      component.attribute.uiType = Configurator.UiType.CONTAINER;
+      component.attribute.container = { minRows: 0, rows: [] };
       expect(component.getRequiredMessageKey()).toEqual({
         key: 'configurator.attribute.containerRequiredMessage',
         params: { count: 1 },
@@ -1144,17 +1201,22 @@ describe('ConfigAttributeHeaderComponent', () => {
       );
     });
 
-    it("should contain div element with 'aria-label' attribute for a failed container validation", () => {
+    it("should contain div element with 'aria-label' attribute for a container error message", () => {
       component.attribute.container = {
         rows: [],
-        failedValidations: ['Too many units'],
+        messages: [
+          {
+            message: 'Too many units',
+            severity: Configurator.MessageSeverity.WARNING,
+          },
+        ],
       };
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
         'div',
-        'cx-validation-error-msg',
+        'cx-error-msg',
         undefined,
         'aria-label',
         'Too many units'
@@ -1375,25 +1437,66 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
   });
 
-  describe('failedValidations', () => {
-    it('should return empty array if container is not present', () => {
-      expect(component.failedValidations).toEqual([]);
+  describe('messages', () => {
+    it('should return empty arrays if container is not present', () => {
+      expect(component.messages).toEqual({
+        errorMessages: [],
+        warningMessages: [],
+      });
     });
 
-    it('should return empty array if failedValidations is undefined', () => {
+    it('should return empty arrays if list of messages is undefined', () => {
       component.attribute.container = { rows: [] };
-      expect(component.failedValidations).toEqual([]);
+      expect(component.messages).toEqual({
+        errorMessages: [],
+        warningMessages: [],
+      });
     });
 
-    it('should return failed validations from container', () => {
+    it('should split warning severity as errors and info as warnings', () => {
       component.attribute.container = {
         rows: [],
-        failedValidations: ['Too many units', 'Invalid selection'],
+        messages: [
+          {
+            message: 'Too many units',
+            severity: Configurator.MessageSeverity.WARNING,
+          },
+          {
+            message: 'Check quantity',
+            severity: Configurator.MessageSeverity.INFO,
+          },
+        ],
       };
-      expect(component.failedValidations).toEqual([
-        'Too many units',
-        'Invalid selection',
-      ]);
+      expect(component.messages).toEqual({
+        errorMessages: ['Too many units'],
+        warningMessages: ['Check quantity'],
+      });
+    });
+
+    it('should pass error and warning data to the message component', () => {
+      component.attribute.container = {
+        rows: [],
+        messages: [
+          {
+            message: 'Too many units',
+            severity: Configurator.MessageSeverity.WARNING,
+          },
+          {
+            message: 'Check quantity',
+            severity: Configurator.MessageSeverity.INFO,
+          },
+        ],
+      };
+
+      const [errors, warnings] = component.getMessageGroups(component.messages);
+
+      expect(errors.messages).toEqual(['Too many units']);
+      expect(errors.messageClass).toBe('cx-error-msg');
+      expect(errors.uiKeyPrefix).toBe('error-msg');
+      expect(errors.role).toBe('alert');
+      expect(warnings.messages).toEqual(['Check quantity']);
+      expect(warnings.messageClass).toBe('cx-warning-msg');
+      expect(warnings.uiKeyPrefix).toBe('warning-msg');
     });
   });
 

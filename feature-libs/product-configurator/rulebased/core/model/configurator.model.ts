@@ -60,7 +60,7 @@ export namespace Configurator {
   export interface Container {
     minRows?: number;
     maxRows?: number;
-    failedValidations?: string[];
+    messages?: Message[];
     rows: ContainerRow[];
   }
 

@@ -2114,7 +2114,7 @@ describe('CpqConfiguratorNormalizer', () => {
       stdAttrCode: cpqAttributeStdAttrCode,
       minRows: 1,
       maxRows: 15,
-      failedValidations: ['Too many units'],
+      messages: [{ message: 'Too many units' }],
       rows: [
         {
           id: rowWithoutConfigId,
@@ -2220,7 +2220,7 @@ describe('CpqConfiguratorNormalizer', () => {
             stdAttrCode: cpqAttributeStdAttrCode,
             minRows: 2,
             maxRows: 5,
-            failedValidations: ['validation'],
+            messages: [{ message: 'validation' }],
             rows: [
               {
                 id: '1',

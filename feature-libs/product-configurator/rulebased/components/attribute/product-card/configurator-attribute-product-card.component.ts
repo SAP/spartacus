@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AsyncPipe,
-  NgClass,
-  NgFor,
-  NgIf,
-  NgTemplateOutlet,
-} from '@angular/common';
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -47,6 +41,12 @@ import { ConfiguratorCommonsService } from '../../../core/facade/configurator-co
 import { ConfiguratorUtilsService } from '../../../core/facade/utils/configurator-utils.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import { QuantityUpdateEvent } from '../../form/configurator-form.event';
+import {
+  ConfiguratorMessageComponent,
+  ConfiguratorMessageGroup,
+  ConfiguratorMessagesView,
+  splitMessagesBySeverity,
+} from '../../message/configurator-message.component';
 import {
   ConfiguratorPriceComponent,
   ConfiguratorPriceComponentOptions,
@@ -85,32 +85,6 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   containerRow?: Configurator.ContainerRow;
 }
 
-/**
- * View model of the messages to display for the bound container row.
- */
-interface ConfiguratorMessagesView {
-  warningMessages: string[];
-  errorMessages: string[];
-}
-
-/**
- * Display data for one severity of container-row messages on the product card.
- */
-interface ConfiguratorAttributeProductCardMessageGroup {
-  /** Messages of this severity. */
-  messages: string[];
-  /** CSS class applied to the message row. */
-  messageClass: string;
-  /** CSS class applied to the severity icon. */
-  iconClass: string;
-  /** Icon representing the message severity. */
-  iconType: ICON_TYPE;
-  /** Prefix used to build a unique UI key for the message row. */
-  uiKeyPrefix: string;
-  /** Optional ARIA role, for example `alert` for errors. */
-  role?: string;
-}
-
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   templateUrl: './configurator-attribute-product-card.component.html',
@@ -119,11 +93,11 @@ interface ConfiguratorAttributeProductCardMessageGroup {
     NgIf,
     NgFor,
     NgClass,
-    NgTemplateOutlet,
     MediaComponent,
     ConfiguratorShowMoreComponent,
     ConfiguratorAttributeQuantityComponent,
     ConfiguratorPriceComponent,
+    ConfiguratorMessageComponent,
     FocusDirective,
     IconComponent,
     AsyncPipe,
@@ -272,18 +246,18 @@ export class ConfiguratorAttributeProductCardComponent
 
   /**
    * Warning and error groups of the bound container row.
-   * Passed as context to the shared product-card message template.
+   * Passed to `cx-configurator-message` for display.
    *
    * @param messages - Messages of the bound container row
    * @returns - message groups
    */
   getContainerMessageGroups(
     messages: ConfiguratorMessagesView
-  ): ConfiguratorAttributeProductCardMessageGroup[] {
+  ): ConfiguratorMessageGroup[] {
     return [
       {
         messages: messages.errorMessages,
-        messageClass: 'container-error-message',
+        messageClass: 'cx-product-card-rows container-error-message',
         iconClass: 'container-error-symbol',
         iconType: this.iconType.ERROR,
         uiKeyPrefix: 'row-error-msg',
@@ -291,12 +265,12 @@ export class ConfiguratorAttributeProductCardComponent
       },
       {
         messages: messages.warningMessages,
-        messageClass: 'container-warning-message',
+        messageClass: 'cx-product-card-rows container-warning-message',
         iconClass: 'container-warning-symbol',
         iconType: this.iconType.WARNING,
         uiKeyPrefix: 'row-warning-msg',
       },
-    ];
+    ].filter((group) => group.messages.length > 0);
   }
 
   /**
@@ -309,7 +283,7 @@ export class ConfiguratorAttributeProductCardComponent
     configuration: Configurator.Configuration
   ): ConfiguratorMessagesView {
     const containerRowGroup = this.getContainerRowGroup(configuration);
-    return this.splitMessagesBySeverity(containerRowGroup?.messages);
+    return splitMessagesBySeverity(containerRowGroup?.messages);
   }
 
   /**
@@ -331,30 +305,6 @@ export class ConfiguratorAttributeProductCardComponent
       configuration.groups,
       groupId
     );
-  }
-
-  /**
-   * Splits the messages of a nested configuration into the display buckets.
-   * Such messages carry severity `info` or `warning`: `info` is rendered as
-   * warning, `warning` as error. A message without severity is treated
-   * like `info`.
-   *
-   * @param messages - Messages of a nested configuration
-   * @returns Messages grouped by the severity they are rendered with
-   */
-  protected splitMessagesBySeverity(
-    messages?: Configurator.Message[]
-  ): ConfiguratorMessagesView {
-    const warningMessages: string[] = [];
-    const errorMessages: string[] = [];
-    messages?.forEach((message) => {
-      if (message.severity === Configurator.MessageSeverity.WARNING) {
-        errorMessages.push(message.message);
-      } else {
-        warningMessages.push(message.message);
-      }
-    });
-    return { warningMessages, errorMessages };
   }
 
   get focusConfig(): FocusConfig {

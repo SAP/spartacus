@@ -453,11 +453,20 @@
       </div>
     </div>
     <ng-container *ngIf="messages$ | async as messages">
-      <ng-container *ngFor="let group of getContainerMessageGroups(messages)">
-        <ng-container
-          *ngTemplateOutlet="containerRowMessage; context: { group: group }"
-        ></ng-container>
-      </ng-container>
+      <cx-configurator-message
+        *ngFor="let group of getContainerMessageGroups(messages)"
+        [messages]="group.messages"
+        [messageClass]="group.messageClass"
+        [iconClass]="group.iconClass"
+        [iconType]="group.iconType"
+        [role]="group.role"
+        [idPrefix]="
+          createAttributeUiKey(
+            group.uiKeyPrefix,
+            productCardOptions.productBoundValue.valueCode
+          )
+        "
+      />
     </ng-container>
     <ng-container *ngIf="showDeselectionNotPossible">
       <div
@@ -478,24 +487,3 @@
     </ng-container>
   </div>
 </ng-container>
-
-<ng-template #containerRowMessage let-group="group">
-  <ng-container *ngFor="let message of group.messages; let i = index">
-    <div
-      class="cx-product-card-rows"
-      [ngClass]="group.messageClass"
-      aria-live="assertive"
-      aria-atomic="true"
-      [attr.role]="group.role"
-      id="{{
-        createAttributeUiKey(
-          group.uiKeyPrefix,
-          productCardOptions.productBoundValue.valueCode
-        )
-      }}-{{ i }}"
-    >
-      <cx-icon [ngClass]="group.iconClass" [type]="group.iconType"></cx-icon>
-      {{ message }}
-    </div>
-  </ng-container>
-</ng-template>

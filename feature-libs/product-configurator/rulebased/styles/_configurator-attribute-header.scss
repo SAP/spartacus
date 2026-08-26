@@ -19,10 +19,6 @@
 
   @include cx-configurator-required-error-msg();
 
-  .cx-validation-error-msg {
-    @include cx-configurator-error-msg();
-  }
-
   .cx-conflict-msg,
   .cx-hidden-msg {
     display: inline-flex;

@@ -701,7 +701,7 @@ export class CpqConfiguratorNormalizer
     return {
       minRows: source.minRows,
       maxRows: source.maxRows,
-      failedValidations: source.failedValidations,
+      messages: this.convertMessages(source.messages),
       rows: (source.rows ?? []).map((row) =>
         this.convertContainerRow(
           row,

@@ -341,6 +341,10 @@ export class ConfiguratorAttributeBaseComponent {
   }
 
   protected isRequiredErrorMsg(attribute: Configurator.Attribute): boolean {
+    console.warn(
+      'isRequiredErrorMsg: ',
+      (attribute.required && attribute.incomplete) || false
+    );
     return (attribute.required && attribute.incomplete) || false;
   }
 
