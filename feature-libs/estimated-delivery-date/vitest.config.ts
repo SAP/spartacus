@@ -36,6 +36,7 @@ export default defineConfig({
         '**/assets/**',
         '**/testing/**',
         '**/schematics/**',
+        'setup-jest.ts',
       ],
       thresholds: { statements: 90, lines: 90, functions: 90 },
     },

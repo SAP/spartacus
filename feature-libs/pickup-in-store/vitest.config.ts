@@ -48,6 +48,7 @@ export default defineConfig({
         '**/assets/**',
         '**/testing/**',
         '**/schematics/**',
+        'setup-jest.ts',
         '../../testing/setup-vitest.ts',
       ],
       thresholds: {

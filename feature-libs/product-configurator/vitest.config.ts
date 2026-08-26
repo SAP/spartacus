@@ -47,6 +47,8 @@ export default defineConfig({
         '**/assets/**',
         '**/testing/**',
         '**/schematics/**',
+        'setup-jest.ts',
+        'textfield/root/**',
         '../../testing/setup-vitest.ts',
       ],
       thresholds: {
