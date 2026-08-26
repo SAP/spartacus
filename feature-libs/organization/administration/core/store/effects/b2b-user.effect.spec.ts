@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpErrorResponse,
   HttpHeaders,
@@ -34,7 +35,6 @@ import {
   UserGroupActions,
 } from '../actions/index';
 import * as fromEffects from './b2b-user.effect';
-import createSpy = jasmine.createSpy;
 
 const httpErrorResponse = new HttpErrorResponse({
   error: 'error',
@@ -99,52 +99,50 @@ class MockLoggerService {
 }
 
 class MockRoutingService {
-  go = createSpy('go').and.stub();
-  getRouterState = createSpy('getRouterState').and.returnValue(
-    of(mockRouterState)
-  );
+  go = vi.fn().mockImplementation(() => {});
+  getRouterState = vi.fn().mockReturnValue(of(mockRouterState));
 }
 class MockB2BUserConnector {
-  get = createSpy().and.returnValue(of(orgCustomer));
-  getList = createSpy().and.returnValue(
-    of({ values: [orgCustomer], pagination, sorts })
-  );
-  getUserGroups = createSpy().and.returnValue(
-    of({ values: [userGroup], pagination, sorts })
-  );
-  getApprovers = createSpy().and.returnValue(
-    of({ values: [orgCustomer], pagination, sorts })
-  );
-  getPermissions = createSpy().and.returnValue(
-    of({ values: [permission], pagination, sorts })
-  );
-  assignApprover = createSpy().and.returnValue(
-    of({ id: approverId, selected: true })
-  );
-  unassignApprover = createSpy().and.returnValue(
-    of({ id: approverId, selected: false })
-  );
-  assignPermission = createSpy().and.returnValue(
-    of({ id: permissionId, selected: true })
-  );
-  unassignPermission = createSpy().and.returnValue(
-    of({ id: permissionId, selected: false })
-  );
-  assignUserGroup = createSpy().and.returnValue(
-    of({ id: userGroupId, selected: true })
-  );
-  unassignUserGroup = createSpy().and.returnValue(
-    of({ id: userGroupId, selected: false })
-  );
-  create = createSpy().and.returnValue(of(orgCustomer));
-  update = createSpy().and.returnValue(of(orgCustomer));
+  get = vi.fn().mockReturnValue(of(orgCustomer));
+  getList = vi
+    .fn()
+    .mockReturnValue(of({ values: [orgCustomer], pagination, sorts }));
+  getUserGroups = vi
+    .fn()
+    .mockReturnValue(of({ values: [userGroup], pagination, sorts }));
+  getApprovers = vi
+    .fn()
+    .mockReturnValue(of({ values: [orgCustomer], pagination, sorts }));
+  getPermissions = vi
+    .fn()
+    .mockReturnValue(of({ values: [permission], pagination, sorts }));
+  assignApprover = vi
+    .fn()
+    .mockReturnValue(of({ id: approverId, selected: true }));
+  unassignApprover = vi
+    .fn()
+    .mockReturnValue(of({ id: approverId, selected: false }));
+  assignPermission = vi
+    .fn()
+    .mockReturnValue(of({ id: permissionId, selected: true }));
+  unassignPermission = vi
+    .fn()
+    .mockReturnValue(of({ id: permissionId, selected: false }));
+  assignUserGroup = vi
+    .fn()
+    .mockReturnValue(of({ id: userGroupId, selected: true }));
+  unassignUserGroup = vi
+    .fn()
+    .mockReturnValue(of({ id: userGroupId, selected: false }));
+  create = vi.fn().mockReturnValue(of(orgCustomer));
+  update = vi.fn().mockReturnValue(of(orgCustomer));
 }
 class MockUserAccountFacade implements Partial<UserAccountFacade> {
-  get = createSpy().and.returnValue(of(mockCurrentUser));
+  get = vi.fn().mockReturnValue(of(mockCurrentUser));
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  getUserId = createSpy().and.returnValue(of('current'));
+  getUserId = vi.fn().mockReturnValue(of('current'));
 }
 
 const error = tryNormalizeHttpError(httpErrorResponse, new MockLoggerService());
@@ -209,9 +207,9 @@ describe('B2B User Effects', () => {
     });
 
     it('should return LoadB2BUserFail action if user not loaded', () => {
-      b2bUserConnector.get = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
-      );
+      b2bUserConnector.get = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new B2BUserActions.LoadB2BUser({ userId, orgCustomerId });
       const completion = new B2BUserActions.LoadB2BUserFail({
         orgCustomerId,
@@ -241,9 +239,9 @@ describe('B2B User Effects', () => {
     });
 
     it('should return LoadB2BUsersFail action if B2B Users not loaded', () => {
-      b2bUserConnector.getList = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
-      );
+      b2bUserConnector.getList = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new B2BUserActions.LoadB2BUsers({ userId, params });
       const completion = new B2BUserActions.LoadB2BUsersFail({ error, params });
       actions$ = hot('-a', { a: action });
@@ -279,9 +277,9 @@ describe('B2B User Effects', () => {
     });
 
     it('should return LoadB2BUserUserGroupsFail action if B2BUser UserGroup not loaded', () => {
-      b2bUserConnector.getUserGroups = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
-      );
+      b2bUserConnector.getUserGroups = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new B2BUserActions.LoadB2BUserUserGroups({
         userId,
         orgCustomerId,
@@ -325,9 +323,9 @@ describe('B2B User Effects', () => {
     });
 
     it('should return CreateB2BUserFail action if user not created', () => {
-      b2bUserConnector.create = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
-      );
+      b2bUserConnector.create = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new B2BUserActions.CreateB2BUser({ userId, orgCustomer });
       const completion1 = new B2BUserActions.CreateB2BUserFail({
         orgCustomerId,
@@ -364,9 +362,9 @@ describe('B2B User Effects', () => {
     });
 
     it('should return UpdateB2BUserFail action if user not updated', () => {
-      b2bUserConnector.update = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
-      );
+      b2bUserConnector.update = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new B2BUserActions.UpdateB2BUser({
         userId,
         orgCustomerId,
@@ -435,9 +433,9 @@ describe('B2B User Effects', () => {
     });
 
     it('should return LoadB2BUserApproversFail action if approvers not loaded', () => {
-      b2bUserConnector.getApprovers = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
-      );
+      b2bUserConnector.getApprovers = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new B2BUserActions.LoadB2BUserApprovers({
         userId,
         orgCustomerId,
@@ -487,9 +485,9 @@ describe('B2B User Effects', () => {
     });
 
     it('should return LoadB2BUserApproversFail action if Permissions not loaded', () => {
-      b2bUserConnector.getPermissions = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
-      );
+      b2bUserConnector.getPermissions = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new B2BUserActions.LoadB2BUserPermissions({
         userId,
         orgCustomerId,
@@ -535,9 +533,9 @@ describe('B2B User Effects', () => {
     });
 
     it('should return AssignB2BUserApproverFail action if approver not assigned', () => {
-      b2bUserConnector.assignApprover = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
-      );
+      b2bUserConnector.assignApprover = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new B2BUserActions.AssignB2BUserApprover({
         userId,
         orgCustomerId,
@@ -584,9 +582,9 @@ describe('B2B User Effects', () => {
     });
 
     it('should return UnassignB2BUserApproverFail action if approver not unassigned', () => {
-      b2bUserConnector.unassignApprover = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
-      );
+      b2bUserConnector.unassignApprover = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new B2BUserActions.UnassignB2BUserApprover({
         userId,
         orgCustomerId,
@@ -634,9 +632,9 @@ describe('B2B User Effects', () => {
     });
 
     it('should return AssignB2BUserPermissionFail action if permission not assigned', () => {
-      b2bUserConnector.assignPermission = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
-      );
+      b2bUserConnector.assignPermission = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new B2BUserActions.AssignB2BUserPermission({
         userId,
         orgCustomerId,
@@ -684,9 +682,9 @@ describe('B2B User Effects', () => {
     });
 
     it('should return UnassignB2BUserPermissionFail action if permission not unassigned', () => {
-      b2bUserConnector.unassignPermission = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
-      );
+      b2bUserConnector.unassignPermission = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new B2BUserActions.UnassignB2BUserPermission({
         userId,
         orgCustomerId,
@@ -734,9 +732,9 @@ describe('B2B User Effects', () => {
     });
 
     it('should return AssignB2BUserUserGroupFail action if UserGroup was not assigned', () => {
-      b2bUserConnector.assignUserGroup = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
-      );
+      b2bUserConnector.assignUserGroup = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new B2BUserActions.AssignB2BUserUserGroup({
         userId,
         orgCustomerId,
@@ -784,9 +782,9 @@ describe('B2B User Effects', () => {
     });
 
     it('should return UnassignB2BUserUserGroupFail action if UserGroup was not unassigned', () => {
-      b2bUserConnector.unassignUserGroup = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
-      );
+      b2bUserConnector.unassignUserGroup = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new B2BUserActions.UnassignB2BUserUserGroup({
         userId,
         orgCustomerId,

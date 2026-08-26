@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, PRODUCT_NORMALIZER } from '@spartacus/core';
 import { QuoteState } from '@spartacus/quote/root';
@@ -34,7 +35,7 @@ describe('OccQuoteEntryNormalizer', () => {
 
     classUnderTest = TestBed.inject(OccQuoteEntryNormalizer);
     converterService = TestBed.inject(ConverterService);
-    spyOn(converterService, 'convert').and.callThrough();
+    vi.spyOn(converterService, 'convert');
   });
 
   it('should be created', () => {

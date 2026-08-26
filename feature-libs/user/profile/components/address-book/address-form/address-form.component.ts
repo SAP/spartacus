@@ -37,13 +37,13 @@ import {
   FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
-  HierarchicalAddressConfig,
   LanguageService,
   Region,
   Title,
   TranslatePipe,
   TranslationService,
   UserAddressService,
+  HierarchicalAddressConfig,
 } from '@spartacus/core';
 import {
   FocusDirective,

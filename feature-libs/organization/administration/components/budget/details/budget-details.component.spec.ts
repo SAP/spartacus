@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import {
@@ -16,13 +17,12 @@ import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { ItemService } from '../../shared/item.service';
 import { MessageTestingModule } from '../../shared/message/message.testing.module';
 import { BudgetDetailsComponent } from './budget-details.component';
-import createSpy = jasmine.createSpy;
 
 const mockCode = 'b1';
 
 class MockBudgetItemService implements Partial<ItemService<Budget>> {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(EMPTY);
+  load = vi.fn().mockReturnValue(EMPTY);
   error$ = of(false);
   current$ = of({});
 }

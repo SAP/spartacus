@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
 import { Card, OutletContextData } from '@spartacus/storefront';
 import { of } from 'rxjs';
+import { vi } from 'vitest';
 import { OrderOverviewDeliveryDateComponent } from './order-overview-delivery-date.component';
 
 describe('OrderOverviewDeliveryDateComponent', () => {
@@ -9,9 +10,7 @@ describe('OrderOverviewDeliveryDateComponent', () => {
   let fixture: ComponentFixture<OrderOverviewDeliveryDateComponent>;
 
   const translationServiceMock = {
-    translate: jasmine
-      .createSpy('translate')
-      .and.returnValue(of('Translated Text')),
+    translate: vi.fn().mockReturnValue(of('Translated Text')),
   };
 
   beforeEach(async () => {
@@ -61,7 +60,7 @@ describe('OrderOverviewDeliveryDateComponent', () => {
   });
 
   it('should unsubscribe from subscription on component destruction', () => {
-    spyOn(component['subscription'], 'unsubscribe');
+    vi.spyOn(component['subscription'], 'unsubscribe');
     component.ngOnDestroy();
     expect(component['subscription'].unsubscribe).toHaveBeenCalled();
   });

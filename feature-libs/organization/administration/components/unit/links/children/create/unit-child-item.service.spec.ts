@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
@@ -11,7 +12,6 @@ import { EMPTY, Observable, of } from 'rxjs';
 import { UnitFormService } from '../../../form/unit-form.service';
 import { CurrentUnitChildService } from './current-unit-child.service';
 import { UnitChildItemService } from './unit-child-item.service';
-import createSpy = jasmine.createSpy;
 
 const mockCode = 'u1';
 class MockRoutingService {
@@ -33,7 +33,7 @@ class MockOrgUnitService {
 class MockUnitFormService {}
 class MockCurrentUnitChildService {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(EMPTY);
+  load = vi.fn().mockReturnValue(EMPTY);
   error$ = of(false);
 }
 describe('UnitChildItemService', () => {
@@ -63,7 +63,7 @@ describe('UnitChildItemService', () => {
   });
 
   it('should create item with parentUnitUid', () => {
-    spyOn(unitService, 'create').and.callThrough();
+    vi.spyOn(unitService, 'create');
     const form = new UntypedFormGroup({});
     form.setControl('name', new UntypedFormControl('Child Unit Name'));
     form.setControl(
@@ -83,7 +83,7 @@ describe('UnitChildItemService', () => {
 
   it('should launch orgUnitChildren with parentUnitUid uid', () => {
     const routingService = TestBed.inject(RoutingService);
-    spyOn(routingService, 'go').and.callThrough();
+    vi.spyOn(routingService, 'go');
     service.launchDetails({
       uid: 'child-uid',
       name: 'foo bar',

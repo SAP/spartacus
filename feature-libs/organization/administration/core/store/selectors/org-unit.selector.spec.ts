@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { Address, B2BUnit, ListModel, StateUtils } from '@spartacus/core';
@@ -61,7 +62,7 @@ describe('OrgUnit Selectors', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   describe('getOrgUnitsState ', () => {

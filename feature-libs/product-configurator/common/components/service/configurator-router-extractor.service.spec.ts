@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   I18nTestingModule,
   RouterState,
@@ -29,7 +29,7 @@ class MockRoutingService {
 describe('ConfigRouterExtractorService', () => {
   let serviceUnderTest: ConfiguratorRouterExtractorService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       providers: [
@@ -39,7 +39,7 @@ describe('ConfigRouterExtractorService', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
   beforeEach(() => {
     serviceUnderTest = TestBed.inject(
       ConfiguratorRouterExtractorService as Type<ConfiguratorRouterExtractorService>
@@ -162,7 +162,7 @@ describe('ConfigRouterExtractorService', () => {
         .unsubscribe();
     });
 
-    it('should tell from the URL if we need to resolve issues without ignoring conflicts of a configuration', (done) => {
+    it('should tell from the URL if we need to resolve issues without ignoring conflicts of a configuration', async () => {
       mockRouterState.state.queryParams = { resolveIssues: 'true' };
       let routerData: ConfiguratorRouter.Data;
       serviceUnderTest
@@ -171,12 +171,11 @@ describe('ConfigRouterExtractorService', () => {
           routerData = data;
           expect(routerData.resolveIssues).toBe(true);
           expect(routerData.skipConflicts).toBe(false);
-          done();
         })
         .unsubscribe();
     });
 
-    it('should tell from the URL if we need to skip conflicts while resolving issues of a configuration', (done) => {
+    it('should tell from the URL if we need to skip conflicts while resolving issues of a configuration', async () => {
       mockRouterState.state.queryParams = {
         resolveIssues: 'true',
         skipConflicts: 'true',
@@ -188,7 +187,6 @@ describe('ConfigRouterExtractorService', () => {
           routerData = data;
           expect(routerData.resolveIssues).toBe(true);
           expect(routerData.skipConflicts).toBe(true);
-          done();
         })
         .unsubscribe();
     });
