@@ -6,7 +6,6 @@
 
 import { Injectable, inject } from '@angular/core';
 import {
-  B2BUnit,
   B2BUser,
   B2BUserRole,
   EntitiesModel,
@@ -28,7 +27,7 @@ import { OrganizationTableType } from '../../shared/organization.model';
 export interface UserModel {
   uid?: string;
   name?: string;
-  unit?: B2BUnit;
+  orgUnit?: any;
   roles?: string[];
 }
 
