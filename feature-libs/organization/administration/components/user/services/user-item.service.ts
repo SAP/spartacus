@@ -53,9 +53,16 @@ export class UserItemService extends ItemService<B2BUser> {
     return 'orgUserDetails';
   }
 
+  protected override buildRouteParams(item?: B2BUser): any {
+    return {
+      ...item,
+      customerId: item?.customerId ?? item?.uid,
+    };
+  }
+
   // @override to avoid errors while creation
   launchDetails(item: B2BUser): void {
-    if (item.customerId !== null) {
+    if (item.customerId ?? item.uid) {
       super.launchDetails(item);
     }
   }
