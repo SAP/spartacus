@@ -679,7 +679,7 @@ export class CpqConfiguratorNormalizer
   /**
    * Marks a container attribute as required when `minRows` is at least 1,
    * even if the source CPQ attribute is not required. CPQ signals a
-   * container as non-complete in case nothing is selected even if it's marked as non-required 
+   * container as non-complete in case nothing is selected even if it's marked as non-required
    * attribute in CPQ modeling
    */
   protected applyContainerRequired(attribute: Configurator.Attribute): void {
