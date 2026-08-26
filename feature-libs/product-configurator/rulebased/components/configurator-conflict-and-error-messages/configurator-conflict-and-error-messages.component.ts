@@ -6,7 +6,7 @@
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
+import { FeatureToggles, TranslatePipe } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -33,6 +33,7 @@ interface ConfiguratorMessagesView {
 })
 export class ConfiguratorConflictAndErrorMessagesComponent {
   protected configuratorUtilsService = inject(ConfiguratorUtilsService);
+  private featureToggles = inject(FeatureToggles);
 
   iconTypes = ICON_TYPE;
 
@@ -86,6 +87,10 @@ export class ConfiguratorConflictAndErrorMessagesComponent {
    * Determines the messages to display for the given configuration, taking the
    * nested configuration that is currently viewed into account.
    *
+   * When `productConfiguratorCPQContainer` is enabled and the configuration
+   * has the full CPQ state, root messages are taken from the typed
+   * `messages` list rather than from `warningMessages`/`errorMessages`.
+   *
    * @param configuration - Current configuration
    * @returns Messages of the currently viewed configuration
    */
@@ -93,13 +98,32 @@ export class ConfiguratorConflictAndErrorMessagesComponent {
     configuration: Configurator.Configuration
   ): ConfiguratorMessagesView {
     const containerRowGroup = this.getCurrentContainerRowGroup(configuration);
-    if (!containerRowGroup) {
-      return {
-        infoMessages: configuration.warningMessages ?? [],
-        warningMessages: configuration.errorMessages ?? [],
-      };
+    if (containerRowGroup) {
+      return this.splitMessagesBySeverity(containerRowGroup.messages);
     }
-    return this.splitMessagesBySeverity(containerRowGroup.messages);
+    if (this.shouldUseTypedRootMessages(configuration)) {
+      return this.splitMessagesBySeverity(configuration.messages);
+    }
+    return {
+      infoMessages: configuration.warningMessages ?? [],
+      warningMessages: configuration.errorMessages ?? [],
+    };
+  }
+
+  /**
+   * Whether root messages should be read from the typed `messages` list.
+   *
+   * @param configuration - Current configuration
+   * @returns `true` when the CPQ container feature is enabled and the
+   * configuration has the full CPQ state
+   */
+  protected shouldUseTypedRootMessages(
+    configuration: Configurator.Configuration
+  ): boolean {
+    return (
+      !!this.featureToggles.productConfiguratorCPQContainer &&
+      !!configuration.hasFullConfigurationState
+    );
   }
 
   /**
@@ -131,12 +155,12 @@ export class ConfiguratorConflictAndErrorMessagesComponent {
   }
 
   /**
-   * Splits the messages of a nested configuration into the display buckets
-   * `infoMessages` and `warningMessages`. Such messages carry severity `info`
-   * or `warning`: `info` is rendered as warning, `warning` as error. A
-   * message without severity is treated like `info`.
+   * Splits typed messages into the display buckets `infoMessages` and
+   * `warningMessages`. Such messages carry severity `info` or `warning`:
+   * `info` is rendered as warning, `warning` as error. A message without
+   * severity is treated like `info`.
    *
-   * @param messages - Messages of a nested configuration
+   * @param messages - Typed messages of a configuration
    * @returns Messages grouped by the severity they are rendered with
    */
   protected splitMessagesBySeverity(

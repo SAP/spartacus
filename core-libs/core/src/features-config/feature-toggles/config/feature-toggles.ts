@@ -707,9 +707,12 @@ export interface FeatureTogglesInterface {
    * Nested container products
    * are also reflected in the configurator product title (slash-separated
    * path) and in the product-title details.
+   * When a CPQ configuration has `hasFullConfigurationState`, root-level
+   * conflict and error messages are taken from the typed `messages` list.
    *
    * Affects: `ConfiguratorAttributeProductCardComponent`,
-   * `ConfiguratorProductTitleComponent`
+   * `ConfiguratorProductTitleComponent`,
+   * `ConfiguratorConflictAndErrorMessagesComponent`
    */
   productConfiguratorCPQContainer?: boolean;
 

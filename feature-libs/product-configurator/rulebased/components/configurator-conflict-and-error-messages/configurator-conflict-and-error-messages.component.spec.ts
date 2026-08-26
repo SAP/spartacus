@@ -4,6 +4,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
 import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
+import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
@@ -89,6 +93,9 @@ const nestedInfoMessage2 = 'test nested info message 2';
 const nestedWarningMessage1 = 'test nested warning message 1';
 const nestedWarningMessage2 = 'test nested warning message 2';
 const innerNestedInfoMessage = 'test inner nested info message';
+const typedInfoMessage = 'typed info message';
+const typedWarningMessage = 'typed warning message';
+const typedUnspecifiedMessage = 'typed unspecified message';
 
 function createContainerRowGroup(
   groupId: string,
@@ -176,6 +183,7 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
   let fixture: ComponentFixture<ConfiguratorConflictAndErrorMessagesComponent>;
   let configuratorUtils: CommonConfiguratorUtilsService;
   let htmlElem: HTMLElement;
+  let featureToggles: MockFeatureTogglesController;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -194,6 +202,9 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
           useClass: MockConfiguratorCommonsService,
         },
         { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+        provideMockFeatureToggles({
+          productConfiguratorCPQContainer: false,
+        }),
       ],
     }).overrideComponent(ConfiguratorConflictAndErrorMessagesComponent, {
       remove: {
@@ -203,6 +214,9 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
     });
   }));
   beforeEach(() => {
+    featureToggles = TestBed.inject(MockFeatureTogglesController);
+    featureToggles.set('productConfiguratorCPQContainer', false);
+
     fixture = TestBed.createComponent(
       ConfiguratorConflictAndErrorMessagesComponent
     );
@@ -479,6 +493,175 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
         errorMessage1
       );
       expect(htmlElem.textContent).not.toContain(nestedInfoMessage1);
+    });
+  });
+
+  describe('typed root messages with productConfiguratorCPQContainer', () => {
+    const typedRootMessages: Configurator.Message[] = [
+      {
+        message: typedInfoMessage,
+        severity: Configurator.MessageSeverity.INFO,
+      },
+      {
+        message: typedWarningMessage,
+        severity: Configurator.MessageSeverity.WARNING,
+      },
+      { message: typedUnspecifiedMessage },
+    ];
+
+    function createConfigWithTypedRootMessages(
+      hasFullConfigurationState?: boolean,
+      messages?: Configurator.Message[]
+    ): Configurator.Configuration {
+      return {
+        ...configWithMessages,
+        hasFullConfigurationState,
+        messages,
+      };
+    }
+
+    it('should render legacy messages when the feature toggle is disabled even if hasFullConfigurationState is true', () => {
+      configuration = createConfigWithTypedRootMessages(
+        true,
+        typedRootMessages
+      );
+      component.toggleWarnings();
+      component.toggleErrors();
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-warning-message:nth-child(1)',
+        warningMessage1
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-error-message:nth-child(1)',
+        errorMessage1
+      );
+      expect(htmlElem.textContent).not.toContain(typedInfoMessage);
+      expect(htmlElem.textContent).not.toContain(typedWarningMessage);
+    });
+
+    it('should render legacy messages when hasFullConfigurationState is false', () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+      configuration = createConfigWithTypedRootMessages(
+        false,
+        typedRootMessages
+      );
+      component.toggleWarnings();
+      component.toggleErrors();
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-warning-message:nth-child(1)',
+        warningMessage1
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-error-message:nth-child(1)',
+        errorMessage1
+      );
+      expect(htmlElem.textContent).not.toContain(typedInfoMessage);
+    });
+
+    it('should render legacy messages when hasFullConfigurationState is absent', () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+      configuration = createConfigWithTypedRootMessages(
+        undefined,
+        typedRootMessages
+      );
+      component.toggleWarnings();
+      component.toggleErrors();
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-warning-message:nth-child(1)',
+        warningMessage1
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-error-message:nth-child(1)',
+        errorMessage1
+      );
+    });
+
+    it('should render typed messages as warnings and errors when the feature is enabled', () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+      configuration = createConfigWithTypedRootMessages(
+        true,
+        typedRootMessages
+      );
+      component.toggleWarnings();
+      component.toggleErrors();
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-warning-message:nth-child(1)',
+        typedInfoMessage
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-warning-message:nth-child(2)',
+        typedUnspecifiedMessage
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-error-message:nth-child(1)',
+        typedWarningMessage
+      );
+      expect(htmlElem.textContent).not.toContain(warningMessage1);
+      expect(htmlElem.textContent).not.toContain(errorMessage1);
+    });
+
+    it('should not render any message when typed messages are empty', () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+      configuration = createConfigWithTypedRootMessages(true, []);
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.alert-message'
+      );
+      expect(htmlElem.textContent).not.toContain(warningMessage1);
+      expect(htmlElem.textContent).not.toContain(errorMessage1);
+    });
+
+    it('should still render nested configuration messages rather than typed root messages', () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+      configuration = {
+        ...createConfigWithContainerRows(NESTED_TAB_ID, [
+          {
+            message: nestedInfoMessage1,
+            severity: Configurator.MessageSeverity.INFO,
+          },
+        ]),
+        hasFullConfigurationState: true,
+        messages: typedRootMessages,
+      };
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-warning-message',
+        nestedInfoMessage1
+      );
+      expect(htmlElem.textContent).not.toContain(typedInfoMessage);
+      expect(htmlElem.textContent).not.toContain(warningMessage1);
     });
   });
 

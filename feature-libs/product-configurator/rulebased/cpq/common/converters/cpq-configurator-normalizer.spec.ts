@@ -435,6 +435,50 @@ describe('CpqConfiguratorNormalizer', () => {
       checkMessagePresent(mappedConfiguration.warningMessages, INCOMPLETE_MSG);
     });
 
+    it('should map typed root messages and hasFullConfigurationState', () => {
+      const mappedConfiguration = cpqConfiguratorNormalizer.convert({
+        ...cpqConfigurationIncompleteInconsistent,
+        messages: [
+          {
+            message: 'Check zoom range',
+            severity: Cpq.MessageSeverity.WARNING,
+          },
+          {
+            message: 'Info only',
+            severity: Cpq.MessageSeverity.INFO,
+          },
+        ],
+      });
+      expect(mappedConfiguration.hasFullConfigurationState).toBe(true);
+      expect(mappedConfiguration.messages).toEqual([
+        {
+          message: 'Check zoom range',
+          severity: Configurator.MessageSeverity.WARNING,
+        },
+        {
+          message: 'Info only',
+          severity: Configurator.MessageSeverity.INFO,
+        },
+      ]);
+      expect(mappedConfiguration.errorMessages?.length).toBe(2);
+      expect(mappedConfiguration.warningMessages?.length).toBe(2);
+    });
+
+    it('should leave typed root messages undefined when the source has none', () => {
+      const mappedConfiguration =
+        cpqConfiguratorNormalizer.convert(cpqConfiguration);
+      expect(mappedConfiguration.hasFullConfigurationState).toBe(true);
+      expect(mappedConfiguration.messages).toBeUndefined();
+    });
+
+    it('should map hasFullConfigurationState false', () => {
+      const mappedConfiguration = cpqConfiguratorNormalizer.convert({
+        ...cpqConfiguration,
+        hasFullConfigurationState: false,
+      });
+      expect(mappedConfiguration.hasFullConfigurationState).toBe(false);
+    });
+
     it('should enable pricing', () => {
       const mappedConfiguration =
         cpqConfiguratorNormalizer.convert(cpqConfiguration);

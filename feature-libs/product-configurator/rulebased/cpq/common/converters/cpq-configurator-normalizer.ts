@@ -44,6 +44,8 @@ export class CpqConfiguratorNormalizer
       interactionState: {},
       errorMessages: this.generateErrorMessages(source),
       warningMessages: this.generateWarningMessages(source),
+      messages: this.convertMessages(source.messages),
+      hasFullConfigurationState: source.hasFullConfigurationState,
       pricingEnabled: true,
     };
 

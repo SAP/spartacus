@@ -144,6 +144,17 @@ export namespace Configurator {
     updateType?: UpdateType;
     errorMessages?: string[];
     warningMessages?: string[];
+    /**
+     * Typed messages from the configuration engine, including severity.
+     * Used for CPQ when `hasFullConfigurationState` is true.
+     */
+    messages?: Message[];
+    /**
+     * Whether the CPQ payload contains the full configuration state
+     * (all tabs, typed messages). When true, root messages are taken from
+     * `messages` rather than from `errorMessages`/`warningMessages`.
+     */
+    hasFullConfigurationState?: boolean;
     variants?: Variant[];
     kbKey?: KB;
     pricingEnabled?: boolean;
