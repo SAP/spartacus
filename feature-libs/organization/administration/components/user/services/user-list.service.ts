@@ -28,7 +28,6 @@ import { OrganizationTableType } from '../../shared/organization.model';
 export interface UserModel {
   uid?: string;
   name?: string;
-  orgUnit?: B2BUnit;
   unit?: B2BUnit;
   roles?: string[];
 }
