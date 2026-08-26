@@ -75,11 +75,11 @@ export class UserListService extends ListService<UserModel> {
     const userModels: EntitiesModel<UserModel> = {
       pagination,
       sorts,
-      values: values.map((value: any) => ({
+      values: values.map((value: B2BUser) => ({
         ...value,
         unit: value?.orgUnit ?? {},
         roles:
-          value?.roles?.filter((role: any) => availableRoles.includes(role)) ??
+          value?.roles?.filter((role: string) => availableRoles.includes(role as B2BUserRole)) ??
           [],
       })),
     };
