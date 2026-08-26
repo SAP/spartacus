@@ -90,10 +90,7 @@ export class CardComponent<T extends BaseItem> {
   }
 
   protected refreshMessages(item: T | undefined) {
-    if (
-      this.itemKey !== undefined &&
-      this.resolveItemKey(item) !== this.itemKey
-    ) {
+    if (this.itemKey !== undefined && this.resolveItemKey(item) !== this.itemKey) {
       this.messageService.clear();
     }
     this.itemKey = this.resolveItemKey(item);
