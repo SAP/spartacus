@@ -8,10 +8,10 @@ import {
   FeatureToggles,
   User,
 } from '@spartacus/core';
+import { UserListService, UserModel } from './user-list.service';
 import { B2BUserService } from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { UserListService } from './user-list.service';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const uid = 'user';
@@ -100,17 +100,17 @@ describe('UserListService', () => {
     });
 
     it('should use empty object as default when orgUnit is undefined', () => {
-      (TestBed.inject(B2BUserService) as any).getList = () =>
+      (TestBed.inject(B2BUserService) as unknown as { getList: () => Observable<EntitiesModel<B2BUser>> }).getList = () =>
         of(mockUserEntitiesWithMissingFields);
-      let result: EntitiesModel<any>;
+      let result: EntitiesModel<UserModel>;
       service.getData().subscribe((table) => (result = table));
       expect(result.values[0].unit).toEqual({});
     });
 
     it('should use empty array as default when roles is undefined', () => {
-      (TestBed.inject(B2BUserService) as any).getList = () =>
+      (TestBed.inject(B2BUserService) as unknown as { getList: () => Observable<EntitiesModel<B2BUser>> }).getList = () =>
         of(mockUserEntitiesWithMissingFields);
-      let result: EntitiesModel<any>;
+      let result: EntitiesModel<UserModel>;
       service.getData().subscribe((table) => (result = table));
       expect(result.values[0].roles).toEqual([]);
     });
