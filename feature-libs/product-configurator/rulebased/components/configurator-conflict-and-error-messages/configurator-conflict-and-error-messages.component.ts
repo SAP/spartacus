@@ -21,8 +21,8 @@ import { Configurator } from '../../core/model/configurator.model';
  * or the root configuration.
  */
 interface ConfiguratorMessagesView {
+  infoMessages: string[];
   warningMessages: string[];
-  errorMessages: string[];
 }
 
 @Component({
@@ -95,8 +95,8 @@ export class ConfiguratorConflictAndErrorMessagesComponent {
     const containerRowGroup = this.getCurrentContainerRowGroup(configuration);
     if (!containerRowGroup) {
       return {
-        warningMessages: configuration.warningMessages ?? [],
-        errorMessages: configuration.errorMessages ?? [],
+        infoMessages: configuration.warningMessages ?? [],
+        warningMessages: configuration.errorMessages ?? [],
       };
     }
     return this.splitMessagesBySeverity(containerRowGroup.messages);
@@ -131,10 +131,10 @@ export class ConfiguratorConflictAndErrorMessagesComponent {
   }
 
   /**
-   * Splits the messages of a nested configuration into the display buckets.
-   * Such messages carry severity `info` or `warning`: `info` is rendered as
-   * warning, `warning` as error. A message without severity is treated
-   * like `info`.
+   * Splits the messages of a nested configuration into the display buckets
+   * `infoMessages` and `warningMessages`. Such messages carry severity `info`
+   * or `warning`: `info` is rendered as warning, `warning` as error. A
+   * message without severity is treated like `info`.
    *
    * @param messages - Messages of a nested configuration
    * @returns Messages grouped by the severity they are rendered with
@@ -142,15 +142,15 @@ export class ConfiguratorConflictAndErrorMessagesComponent {
   protected splitMessagesBySeverity(
     messages?: Configurator.Message[]
   ): ConfiguratorMessagesView {
+    const infoMessages: string[] = [];
     const warningMessages: string[] = [];
-    const errorMessages: string[] = [];
     messages?.forEach((message) => {
       if (message.severity === Configurator.MessageSeverity.WARNING) {
-        errorMessages.push(message.message);
-      } else {
         warningMessages.push(message.message);
+      } else {
+        infoMessages.push(message.message);
       }
     });
-    return { warningMessages, errorMessages };
+    return { infoMessages, warningMessages };
   }
 }
