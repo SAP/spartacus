@@ -85,15 +85,14 @@ export class CardComponent<T extends BaseItem> {
     return this.previous as string;
   }
 
+  protected resolveItemKey(item: T | undefined): string | undefined {
+    return item?.code ?? item?.uid ?? item?.customerId;
+  }
+
   protected refreshMessages(item: T | undefined) {
-    if (
-      this.itemKey !== undefined &&
-      item?.code !== this.itemKey &&
-      item?.uid !== this.itemKey &&
-      item?.customerId !== this.itemKey
-    ) {
+    if (this.itemKey !== undefined && this.resolveItemKey(item) !== this.itemKey) {
       this.messageService.clear();
     }
-    this.itemKey = item?.code ?? item?.uid ?? item?.customerId;
+    this.itemKey = this.resolveItemKey(item);
   }
 }
