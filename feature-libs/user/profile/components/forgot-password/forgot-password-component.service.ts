@@ -91,7 +91,10 @@ export class ForgotPasswordComponentService {
     const flow = this.authConfigService.getOAuthFlow();
     if (flow === OAuthFlow.ResourceOwnerPasswordFlow) {
       this.routingService.go({ cxRoute: 'login' });
-    } else if (this.authConfigService.customLoginEnabled()) {
+    } else if (
+      flow === OAuthFlow.AuthorizationCode &&
+      this.authConfigService.customLoginEnabled()
+    ) {
       this.routingService.go({ cxRoute: 'loginForm' });
     }
   }
