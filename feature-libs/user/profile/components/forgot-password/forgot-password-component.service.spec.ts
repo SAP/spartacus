@@ -115,9 +115,9 @@ describe('ForgotPasswordComponentService', () => {
         expect(routingService.go).not.toHaveBeenCalled();
       });
 
-      it('should redirect to loginForm when custom login is enabled and flow is not ResourceOwnerPasswordFlow', () => {
+      it('should redirect to loginForm when custom login is enabled and flow is AuthorizationCode', () => {
         vi.spyOn(authConfigService, 'getOAuthFlow').mockReturnValue(
-          OAuthFlow.ImplicitFlow
+          OAuthFlow.AuthorizationCode
         );
         vi.spyOn(authConfigService, 'customLoginEnabled').mockReturnValue(true);
         service.requestEmail();
