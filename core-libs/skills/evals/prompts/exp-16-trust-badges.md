@@ -1,0 +1,1 @@
+Below the Add to Cart button on every product details page, add a "Trust" section showing three badges with small icons and labels: "Free shipping over $50", "30-day returns", and "Authentic warranty". The badges should appear on all PDPs, and the section should sit directly under the Add to Cart button on both desktop and mobile.

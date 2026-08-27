@@ -1,0 +1,1 @@
+Add a loyalty points feature. Show the user's loyalty point balance on the product detail page and on the cart page. The loyalty data comes from a REST API endpoint /loyalty/points/{userId}. Allow users to redeem points at checkout.

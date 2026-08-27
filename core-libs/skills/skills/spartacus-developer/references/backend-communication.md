@@ -1,3 +1,8 @@
+---
+pattern-id: 1
+name: "No direct HttpClient (Facade→Connector→Adapter pipeline)"
+---
+
 # Backend Communication
 
 ## Rule

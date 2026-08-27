@@ -1,0 +1,171 @@
+{
+  "$comment": "Eval test cases for the spartacus-developer skill, following the agentskills.io evaluating-skills shape (skill_name + evals[] with id/prompt/expected_output/assertions). Two spartacus-specific extensions: `prompt_file` (the harness sends the .md verbatim to the LLM, so the prompt text lives there, not inline) and `targets` (pattern ids from the reference-file frontmatter, powering --skill/--pattern narrowing). `assertions` are human-readable checks; the LLM judge in ratings/spartacus-adherence.mjs is the primary grader, assertions document what 'good' looks like per task.",
+  "skill_name": "spartacus-developer",
+  "evals": [
+    {
+      "id": "exp-01-recently-viewed",
+      "prompt_file": "exp-01-recently-viewed.md",
+      "targets": [1, 7, 8, 15],
+      "expected_output": "A recently-viewed carousel wired via CMS, tracking through Spartacus services, SSR-safe storage, OnPush + async, global SCSS.",
+      "assertions": [
+        "Tracking reads/writes storage behind an SSR guard (isPlatformBrowser/WindowRef) or the component is marked disableSSR",
+        "Components declare ChangeDetectionStrategy.OnPush and use the async pipe",
+        "Styles live in global SCSS, not component styleUrls/inline styles"
+      ]
+    },
+    {
+      "id": "exp-02-override-product-card",
+      "prompt_file": "exp-02-override-product-card.md",
+      "targets": [2, 4, 11],
+      "expected_output": "ProductListItemComponent extended (not copied) and remapped via cmsComponents in the correct injector.",
+      "assertions": [
+        "Extends the Spartacus component class rather than copying its source",
+        "Remaps the CMS component type via provideConfig cmsComponents",
+        "Override is provided in the product feature's injector, not blindly in AppModule"
+      ]
+    },
+    {
+      "id": "exp-03-store-locator",
+      "prompt_file": "exp-03-store-locator.md",
+      "targets": [1, 2, 3, 10],
+      "expected_output": "Reuses the OOTB store-finder feature; no direct HttpClient, no Angular routes/loadChildren for CMS pages.",
+      "assertions": [
+        "Uses the existing @spartacus/storefinder feature rather than building from scratch",
+        "No HttpClient injected in components/services",
+        "No loadChildren / RouterModule route for the CMS-managed page"
+      ]
+    },
+    {
+      "id": "exp-04-gift-wrapping",
+      "prompt_file": "exp-04-gift-wrapping.md",
+      "targets": [1, 4, 6],
+      "expected_output": "Checkout extension using Commands/Queries + Adapter pipeline, provided in the checkout wrapper module.",
+      "assertions": [
+        "Backend calls go through a Connector/Adapter pipeline, not HttpClient",
+        "State uses the Command/Query pattern matching checkout (not a bare BehaviorSubject)",
+        "Extension is provided in the checkout feature wrapper module"
+      ]
+    },
+    {
+      "id": "exp-06-style-component",
+      "prompt_file": "exp-06-style-component.md",
+      "targets": [2, 8, 9],
+      "expected_output": "Quick-view modal wired via CMS/launch, styled with global SCSS, strings via cxTranslate.",
+      "assertions": [
+        "Styles are global SCSS, not component-scoped",
+        "User-facing strings use the cxTranslate pipe",
+        "Rendered via CMS mapping or LaunchDialogService, not a raw Angular route"
+      ]
+    },
+    {
+      "id": "exp-07-loyalty-points",
+      "prompt_file": "exp-07-loyalty-points.md",
+      "targets": [1, 6, 7, 8, 9],
+      "expected_output": "Full facade->connector->adapter pipeline, Commands/Queries, OnPush, global SCSS, i18n.",
+      "assertions": [
+        "Full Facade -> Connector -> Adapter pipeline with OccEndpointsService",
+        "Components use OnPush + async pipe",
+        "Strings via cxTranslate; styles in global SCSS"
+      ]
+    },
+    {
+      "id": "exp-08-checkout-step",
+      "prompt_file": "exp-08-checkout-step.md",
+      "targets": [1, 5, 6, 7],
+      "expected_output": "Checkout step using Commands/Queries + Adapter, provideConfig, OnPush.",
+      "assertions": [
+        "State uses Command/Query services, not a BehaviorSubject",
+        "Configuration uses provideConfig (not provideDefaultConfig)",
+        "Backend access via Adapter pipeline; component uses OnPush"
+      ]
+    },
+    {
+      "id": "exp-09-promo-banner",
+      "prompt_file": "exp-09-promo-banner.md",
+      "targets": [2, 5, 8],
+      "expected_output": "CMS component with real placement on category pages, provideConfig, global SCSS.",
+      "assertions": [
+        "Component is CMS-mapped AND actually placed (outlet/cmsStructure), not just declared",
+        "Uses provideConfig, not provideDefaultConfig",
+        "Styles in global SCSS"
+      ]
+    },
+    {
+      "id": "exp-10-faq-page",
+      "prompt_file": "exp-10-faq-page.md",
+      "targets": [2, 8, 9, 13],
+      "expected_output": "FAQ page via CMS + configurable routing, i18n strings + cxUrl footer link, global SCSS.",
+      "assertions": [
+        "Page defined via CMS structure + RoutingConfig, not a raw Angular route",
+        "Footer link uses the cxUrl pipe; strings use cxTranslate",
+        "Styles in global SCSS"
+      ]
+    },
+    {
+      "id": "exp-12-extend-addtocart",
+      "prompt_file": "exp-12-extend-addtocart.md",
+      "targets": [5, 8, 9, 11],
+      "expected_output": "AddToCartComponent extended minimally, provideConfig, global SCSS, cxTranslate tooltip.",
+      "assertions": [
+        "Extends AddToCartComponent rather than copying it",
+        "Uses provideConfig for CMS mapping and i18n",
+        "Tooltip string via cxTranslate; on-sale styles in global SCSS"
+      ]
+    },
+    {
+      "id": "exp-13-loyalty-points-field",
+      "prompt_file": "exp-13-loyalty-points-field.md",
+      "targets": [7, 8, 9, 12, 16],
+      "expected_output": "PRODUCT_NORMALIZER with multi:true + declaration merging, outlet placement, OnPush, i18n, global SCSS.",
+      "assertions": [
+        "Registers a Converter on PRODUCT_NORMALIZER with multi: true",
+        "Augments the Product model via declaration merging",
+        "Placed via provideOutlet; label via cxTranslate; styles global; OnPush"
+      ]
+    },
+    {
+      "id": "exp-16-trust-badges",
+      "prompt_file": "exp-16-trust-badges.md",
+      "targets": [8, 9, 16],
+      "expected_output": "Trust badges added via provideOutlet (AFTER), i18n labels, global SCSS.",
+      "assertions": [
+        "Added via provideOutlet (position AFTER), not by replacing a component",
+        "Labels use cxTranslate",
+        "Styles in global SCSS"
+      ]
+    },
+    {
+      "id": "exp-17-cookie-consent",
+      "prompt_file": "exp-17-cookie-consent.md",
+      "targets": [2, 8, 15],
+      "expected_output": "SSR-safe cookie banner (isPlatformBrowser/disableSSR), CMS-wired, global SCSS.",
+      "assertions": [
+        "localStorage access is SSR-guarded or the component is disableSSR",
+        "Banner is CMS-wired so it can be toggled from the backend",
+        "Styles in global SCSS"
+      ]
+    },
+    {
+      "id": "exp-18-product-comparison",
+      "prompt_file": "exp-18-product-comparison.md",
+      "targets": [2, 6, 10],
+      "expected_output": "Comparison feature using appropriate Spartacus state, CMS-wired, reusing existing primitives.",
+      "assertions": [
+        "Comparison state uses a Spartacus-appropriate state approach (facade/NgRx or Command/Query), not ad-hoc globals",
+        "Checks for existing Spartacus primitives before building from scratch",
+        "UI wired via CMS/outlets rather than raw routes where applicable"
+      ]
+    },
+    {
+      "id": "exp-19-subscription-tracker",
+      "prompt_file": "exp-19-subscription-tracker.md",
+      "targets": [1, 7, 9],
+      "expected_output": "Newsletter form posting via Adapter pipeline (no direct HttpClient), OnPush, i18n strings.",
+      "assertions": [
+        "POST goes through a Connector/Adapter pipeline, not direct HttpClient in the component",
+        "Component uses OnPush",
+        "All user-facing strings use cxTranslate"
+      ]
+    }
+  ]
+}

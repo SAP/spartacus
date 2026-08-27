@@ -2,3 +2,6 @@
 project.json
 sub-folder/
 .pipeline/
+
+# Eval / metrics harness — dev tooling, never shipped to customers.
+evals/

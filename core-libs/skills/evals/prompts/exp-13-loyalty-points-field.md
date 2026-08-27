@@ -1,0 +1,1 @@
+The OCC backend has been extended to return a custom `loyaltyPoints` field (integer) on each product response. On the product details page, show a small green label under the price that reads: "Earn {loyaltyPoints} loyalty points with this purchase." Make sure the custom field is typed correctly in TypeScript so it's available on the Product model everywhere in the app.

@@ -1,3 +1,8 @@
+---
+pattern-id: 15
+name: "Mark browser-only components with disableSSR / guard with isPlatformBrowser"
+---
+
 # SSR Safety — Browser-Only Code
 
 ## Rule

@@ -1,3 +1,9 @@
+---
+pattern-id: 12
+name: "Add custom backend fields via normalizers with multi: true"
+regex-checks: [spartacus-normalizer-multi]
+---
+
 # Normalizers — Adding Custom Backend Fields
 
 ## Rule

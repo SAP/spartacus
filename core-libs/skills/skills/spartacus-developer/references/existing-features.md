@@ -1,3 +1,8 @@
+---
+pattern-id: 10
+name: "Check if the feature already exists in Spartacus before building"
+---
+
 # Check Existing Features
 
 ## Rule

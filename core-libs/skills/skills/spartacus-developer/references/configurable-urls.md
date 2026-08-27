@@ -1,3 +1,8 @@
+---
+pattern-id: 13
+name: "Change URL patterns via routing config, not new Angular routes"
+---
+
 # Routing & Configurable URLs
 
 ## Rule — Generating links

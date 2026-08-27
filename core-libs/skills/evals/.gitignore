@@ -1,0 +1,25 @@
+# Eval harness generated artefacts — never commit.
+
+# Dependency install
+node_modules/
+
+# Templates built by init-template (fresh Spartacus apps, large; reproducible)
+template-bare/
+template-skills/
+template-skills-baseline/
+
+# web-codegen-scorer per-run output (reports, generated workspaces, traces)
+.web-codegen-scorer/
+
+# Per-experiment LLM judge verdicts (machine-readable sidecars for the report)
+.adherence-verdicts/
+
+# Aggregated results + built report
+matrix-results.json
+pattern-comparison.json
+skills-impact-report.html
+
+# Logs
+*.log
+
+# NOTE: system-instructions-empty.md IS committed (the zero-byte control prompt).

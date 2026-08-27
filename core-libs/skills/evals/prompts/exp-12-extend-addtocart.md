@@ -1,0 +1,1 @@
+Customize the default Add to Cart button in this Spartacus storefront so that when the current product is on sale (i.e., has a discounted price compared to its list price), the button shows a small flame icon next to the label and a tooltip "Limited-time offer" on hover. The customization must apply on both the product details page and on product listing pages.

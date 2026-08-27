@@ -1,3 +1,9 @@
+---
+pattern-id: 3
+name: "CMS-driven lazy loading (featureModules, not loadChildren)"
+regex-checks: [spartacus-no-loadchildren]
+---
+
 # Lazy Loading
 
 ## Rule

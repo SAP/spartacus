@@ -1,3 +1,9 @@
+---
+pattern-id: 14
+name: "Inject Spartacus facades, never the NgRx Store directly"
+regex-checks: [spartacus-no-ngrx-store]
+---
+
 # Use Spartacus Public Services, Not the NgRx `Store`
 
 ## Rule

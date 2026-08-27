@@ -1,3 +1,8 @@
+---
+pattern-id: 11
+name: "Extend Spartacus classes, don't copy source code"
+---
+
 # Extending Spartacus Classes
 
 ## Rule

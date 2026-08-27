@@ -1,0 +1,1 @@
+Add a promotional banner that displays a configurable marketing message above the product list on all category pages. The banner text and background color should be manageable from the CMS backoffice.

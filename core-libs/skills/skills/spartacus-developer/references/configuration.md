@@ -1,3 +1,9 @@
+---
+pattern-id: 5
+name: "Use provideConfig in customer apps (not provideDefaultConfig)"
+regex-checks: [spartacus-use-provideconfig]
+---
+
 # Configuration System
 
 ## Rule

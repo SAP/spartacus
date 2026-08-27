@@ -1,3 +1,8 @@
+---
+pattern-id: 8
+name: "Use global SCSS, not component-scoped styleUrls/inline styles"
+---
+
 # Styling / CSS Architecture
 
 ## Rule

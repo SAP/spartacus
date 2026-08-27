@@ -1,3 +1,9 @@
+---
+pattern-id: 7
+name: "Prefer OnPush + async pipe (avoid imperative .subscribe with mutable state)"
+regex-checks: [spartacus-no-imperative-subscribe]
+---
+
 # RxJS Subscriptions in Components and Services
 
 ## Rule

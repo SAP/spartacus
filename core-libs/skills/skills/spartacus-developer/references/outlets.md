@@ -1,3 +1,8 @@
+---
+pattern-id: 16
+name: "Use outlets for targeted UI additions, not wholesale replacement"
+---
+
 # Outlets — Targeted UI Additions
 
 ## Rule

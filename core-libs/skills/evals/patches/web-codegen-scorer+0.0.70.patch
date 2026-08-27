@@ -1,0 +1,22 @@
+diff --git a/node_modules/web-codegen-scorer/runner/codegen/ai-sdk/anthropic.js b/node_modules/web-codegen-scorer/runner/codegen/ai-sdk/anthropic.js
+index 11fdee7..d95ed40 100644
+--- a/node_modules/web-codegen-scorer/runner/codegen/ai-sdk/anthropic.js
++++ b/node_modules/web-codegen-scorer/runner/codegen/ai-sdk/anthropic.js
+@@ -14,7 +14,16 @@ export const ANTHROPIC_MODELS = [
+ ];
+ export async function getAiSdkModelOptionsForAnthropic(rawModelName) {
+     const modelName = rawModelName;
+-    const provideModel = createAnthropic({ apiKey: process.env['ANTHROPIC_API_KEY'] });
++    // Patch (spartacus-codegen-scorer): support the Hyperspace AI proxy.
++    // When `ANTHROPIC_AUTH_TOKEN` is set, route through Bearer auth and pin
++    // the proxy base URL (path differs from the public Anthropic API:
++    // `/anthropic/v1` instead of `/v1`). Falls back to the standard
++    // `ANTHROPIC_API_KEY` + default base URL when no proxy token is set.
++    const authToken = process.env['ANTHROPIC_AUTH_TOKEN'];
++    const proxyBaseURL = process.env['ANTHROPIC_AISDK_BASE_URL'] || (authToken ? 'http://localhost:6655/anthropic/v1' : undefined);
++    const provideModel = createAnthropic(authToken
++        ? { authToken, baseURL: proxyBaseURL }
++        : { apiKey: process.env['ANTHROPIC_API_KEY'] });
+     switch (modelName) {
+         case 'claude-opus-4.1-no-thinking':
+         case 'claude-opus-4.1-with-thinking-16k':

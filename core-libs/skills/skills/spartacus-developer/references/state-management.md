@@ -1,3 +1,8 @@
+---
+pattern-id: 6
+name: "Match the feature's state pattern (NgRx vs Commands/Queries)"
+---
+
 # State Management
 
 ## Rule

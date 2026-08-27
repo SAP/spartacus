@@ -1,3 +1,8 @@
+---
+pattern-id: 4
+name: "Provide customizations in the correct injector (wrapper module for lazy features)"
+---
+
 # Correct Injector Placement
 
 ## Rule

@@ -1,3 +1,8 @@
+---
+pattern-id: 2
+name: "Wire components through CMS, not the Angular Router"
+---
+
 # CMS Component Wiring
 
 ## Rule

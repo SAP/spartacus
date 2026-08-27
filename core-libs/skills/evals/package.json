@@ -1,0 +1,27 @@
+{
+  "name": "@spartacus/skills-evals",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Eval harness for @spartacus/skills. Measures the impact of the spartacus-developer skill on AI-generated Spartacus code (impact mode) and checks whether a skill edit helped or hurt (compare mode). Dev tooling — never published (see ../.npmignore).",
+  "scripts": {
+    "postinstall": "patch-package && node ./scripts/link-claude.mjs",
+    "init-template": "node ./scripts/init-template.mjs",
+    "test": "node ./lib/patterns.test.mjs && node ./lib/select-prompts.test.mjs",
+
+    "eval:impact": "node ./scripts/run-eval.mjs --mode=impact",
+    "eval:compare": "node ./scripts/run-eval.mjs --mode=compare",
+    "eval:smoke": "node ./scripts/run-eval.mjs --mode=impact --model=claude-4.5-haiku --prompt-filter=exp-01 --limit=1",
+
+    "aggregate": "node ./scripts/aggregate.mjs",
+    "report": "node ./report/build-report.mjs && web-codegen-scorer report"
+  },
+  "devDependencies": {
+    "@ai-sdk/anthropic": "^2.0.60",
+    "@anthropic-ai/claude-code": "^2.1.123",
+    "ai": "^5.0.98",
+    "patch-package": "^8.0.1",
+    "postinstall-postinstall": "^2.1.0",
+    "web-codegen-scorer": "^0.0.70"
+  }
+}

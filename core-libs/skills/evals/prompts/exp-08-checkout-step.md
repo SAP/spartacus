@@ -1,0 +1,1 @@
+Add a "Delivery Instructions" step to the checkout flow. The user should be able to enter special delivery notes (e.g. "leave at the back door") and select a preferred delivery time slot. This step should appear between the delivery address and delivery mode steps.
