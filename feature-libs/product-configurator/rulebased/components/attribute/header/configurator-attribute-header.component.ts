@@ -100,8 +100,8 @@ export class ConfiguratorAttributeHeaderComponent
 
   /**
    * Get message key for the required message. Is different for multi- and single selection values
-   * and for container attributes. Container messages include `count` from `minRows`
-   * so i18n can pick singular vs plural.
+   * and for container attributes. Container messages include `count` for the remaining
+   * products needed to meet `minRows`, so i18n can pick singular vs plural.
    *
    * @return required message key, or a translatable with params for containers
    */
@@ -109,7 +109,7 @@ export class ConfiguratorAttributeHeaderComponent
     if (this.isContainerSelection()) {
       return {
         key: 'configurator.attribute.containerRequiredMessage',
-        params: { count: this.attribute.container?.minRows || 1 },
+        params: { count: this.getContainerRemainingRequiredCount() },
       };
     } else if (this.isSingleSelection()) {
       return this.isWithAdditionalValues(this.attribute)
@@ -135,6 +135,20 @@ export class ConfiguratorAttributeHeaderComponent
 
   protected isContainerSelection(): boolean {
     return this.attribute.uiType === Configurator.UiType.CONTAINER;
+  }
+
+  /**
+   * Remaining products needed to meet the container `minRows` requirement.
+   * At least 1 so i18n can still render a sensible required message.
+   *
+   * @returns remaining product count
+   * @protected
+   */
+  protected getContainerRemainingRequiredCount(): number {
+    const minRows = this.attribute.container?.minRows || 1;
+    const selectedRows =
+      this.attribute.container?.rows?.filter((row) => row.selected).length ?? 0;
+    return Math.max(minRows - selectedRows, 1);
   }
 
   protected isSingleSelection(): boolean {

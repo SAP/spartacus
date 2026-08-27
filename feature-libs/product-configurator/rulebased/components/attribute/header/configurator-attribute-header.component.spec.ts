@@ -642,31 +642,59 @@ describe('ConfigAttributeHeaderComponent', () => {
       );
     });
 
-    it('should return a container message with minRows as count', () => {
+    it('should return a container message with remaining products as count', () => {
       component.attribute.uiType = Configurator.UiType.CONTAINER;
+      component.attribute.container = {
+        minRows: 4,
+        rows: [
+          { id: '1', selected: true },
+          { id: '2', selected: true },
+        ],
+      };
+      expect(component.getRequiredMessageKey()).toEqual({
+        key: 'configurator.attribute.containerRequiredMessage',
+        params: { count: 2 },
+      });
+    });
+  });
+
+  describe('getContainerRemainingRequiredCount', () => {
+    it('should return minRows when no rows are selected', () => {
       component.attribute.container = { minRows: 3, rows: [] };
-      expect(component.getRequiredMessageKey()).toEqual({
-        key: 'configurator.attribute.containerRequiredMessage',
-        params: { count: 3 },
-      });
+      expect(component['getContainerRemainingRequiredCount']()).toBe(3);
     });
 
-    it('should default container message count to 1 if minRows is not set', () => {
-      component.attribute.uiType = Configurator.UiType.CONTAINER;
+    it('should subtract selected rows from minRows', () => {
+      component.attribute.container = {
+        minRows: 4,
+        rows: [
+          { id: '1', selected: true },
+          { id: '2', selected: true },
+          { id: '3', selected: false },
+        ],
+      };
+      expect(component['getContainerRemainingRequiredCount']()).toBe(2);
+    });
+
+    it('should default to 1 if minRows is not set', () => {
       component.attribute.container = { rows: [] };
-      expect(component.getRequiredMessageKey()).toEqual({
-        key: 'configurator.attribute.containerRequiredMessage',
-        params: { count: 1 },
-      });
+      expect(component['getContainerRemainingRequiredCount']()).toBe(1);
     });
 
-    it('should default container message count to 1 if minRows is 0', () => {
-      component.attribute.uiType = Configurator.UiType.CONTAINER;
+    it('should default to 1 if minRows is 0', () => {
       component.attribute.container = { minRows: 0, rows: [] };
-      expect(component.getRequiredMessageKey()).toEqual({
-        key: 'configurator.attribute.containerRequiredMessage',
-        params: { count: 1 },
-      });
+      expect(component['getContainerRemainingRequiredCount']()).toBe(1);
+    });
+
+    it('should default to 1 if remaining products are zero', () => {
+      component.attribute.container = {
+        minRows: 2,
+        rows: [
+          { id: '1', selected: true },
+          { id: '2', selected: true },
+        ],
+      };
+      expect(component['getContainerRemainingRequiredCount']()).toBe(1);
     });
   });
 
@@ -734,9 +762,15 @@ describe('ConfigAttributeHeaderComponent', () => {
       );
     });
 
-    it('should render container required message with minRows as count', () => {
+    it('should render container required message with remaining products as count', () => {
       component.attribute.uiType = Configurator.UiType.CONTAINER;
-      component.attribute.container = { minRows: 2, rows: [] };
+      component.attribute.container = {
+        minRows: 4,
+        rows: [
+          { id: '1', selected: true },
+          { id: '2', selected: true },
+        ],
+      };
       component.showRequiredMessageForDomainAttribute$ = of(true);
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementToContainText(

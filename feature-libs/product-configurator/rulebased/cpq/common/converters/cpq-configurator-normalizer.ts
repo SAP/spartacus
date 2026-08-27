@@ -21,6 +21,15 @@ export class CpqConfiguratorNormalizer
     protected translation: TranslationService
   ) {}
 
+  /**
+   * Converts a CPQ configuration to the configurator-independent model.
+   *
+   * `errorMessages` and `warningMessages` are deprecated since 221121.17.
+   * Use `messages` instead, which will be used in the components.
+   *
+   * @param source - CPQ configuration
+   * @param target - optional target configuration to be filled
+   */
   convert(
     source: Cpq.Configuration,
     target?: Configurator.Configuration
@@ -80,6 +89,16 @@ export class CpqConfiguratorNormalizer
     );
   }
 
+  /**
+   * Collects warning messages from failed validations and incomplete messages.
+   *
+   * @deprecated since 221121.17 - Use `messages` (`convertMessages`) instead,
+   * which will be used in the components. This method remains for backward
+   * compatibility and will be removed in a future major version.
+   *
+   * @param source - CPQ configuration
+   * @returns Warning messages
+   */
   protected generateWarningMessages(source: Cpq.Configuration): string[] {
     return [
       ...(source.failedValidations ?? []),
@@ -87,6 +106,16 @@ export class CpqConfiguratorNormalizer
     ];
   }
 
+  /**
+   * Collects error messages from error and invalid messages.
+   *
+   * @deprecated since 221121.17 - Use `messages` (`convertMessages`) instead,
+   * which will be used in the components. This method remains for backward
+   * compatibility and will be removed in a future major version.
+   *
+   * @param source - CPQ configuration
+   * @returns Error messages
+   */
   protected generateErrorMessages(source: Cpq.Configuration): string[] {
     return [...(source.errorMessages ?? []), ...(source.invalidMessages ?? [])];
   }
@@ -564,6 +593,12 @@ export class CpqConfiguratorNormalizer
     return uiType;
   }
 
+  /**
+   * Marks an attribute as incomplete when it has no selected value or user input.
+   *
+   * @param attribute - converted attribute
+   * @protected
+   */
   protected compileAttributeIncomplete(attribute: Configurator.Attribute) {
     //Default value for incomplete is false
     attribute.incomplete = false;
@@ -597,6 +632,12 @@ export class CpqConfiguratorNormalizer
     }
   }
 
+  /**
+   * Marks a single selection attribute as incomplete when it has no selected value or the retract value is selected.
+   *
+   * @param attribute - converted attribute
+   * @protected
+   */
   protected compileAttributeIncompleteSingleLevel(
     attribute: Configurator.Attribute
   ): void {
@@ -608,6 +649,12 @@ export class CpqConfiguratorNormalizer
     }
   }
 
+  /**
+   * Marks an input type attribute as incomplete when it has no user input.
+   *
+   * @param attribute - converted attribute
+   * @protected
+   */
   protected compileAttributeIncompleteInputTypes(
     attribute: Configurator.Attribute
   ): void {
@@ -616,18 +663,31 @@ export class CpqConfiguratorNormalizer
     }
   }
 
+  /**
+   * Marks a multi selection attribute as incomplete when it has no selected values.
+   *
+   * @param attribute - converted attribute
+   * @protected
+   */
   protected compileAttributeIncompleteMultiSelect(
     attribute: Configurator.Attribute
   ): void {
     attribute.incomplete = !attribute.values?.some((value) => value.selected);
   }
 
+  /**
+   * Marks a container attribute as incomplete when the number of selected rows is less than the minimum required rows.
+   *
+   * @param attribute - converted attribute
+   * @protected
+   */
   protected compileAttributeIncompleteContainer(
     attribute: Configurator.Attribute
   ): void {
-    attribute.incomplete = !attribute.container?.rows?.some(
-      (row) => row.selected
-    );
+    const selectedRows =
+      attribute.container?.rows?.filter((row) => row.selected).length ?? 0;
+    const minRows = attribute.container?.minRows ?? 0;
+    attribute.incomplete = selectedRows < minRows;
   }
 
   protected hasValueToBeIgnored(
@@ -683,6 +743,8 @@ export class CpqConfiguratorNormalizer
    * even if the source CPQ attribute is not required. CPQ signals a
    * container as non-complete in case nothing is selected even if it's marked as non-required
    * attribute in CPQ modeling
+   *
+   * @param attribute - converted attribute
    */
   protected applyContainerRequired(attribute: Configurator.Attribute): void {
     if (

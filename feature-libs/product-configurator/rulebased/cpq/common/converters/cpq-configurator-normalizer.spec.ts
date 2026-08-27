@@ -211,12 +211,12 @@ describe('CpqConfiguratorNormalizer', () => {
     );
   });
 
-  it('should be created', () => {
+  it('should create an injectable normalizer instance', () => {
     expect(cpqConfiguratorNormalizer).toBeTruthy();
   });
 
   describe('convert', () => {
-    it('should convert a configuration into the configurator independent format', () => {
+    it('should map product code, completeness, groups, prices and an empty configId', () => {
       const result = cpqConfiguratorNormalizer.convert(cpqConfiguration);
       expect(result.productCode).toBe(cpqProductSystemId);
       expect(result.complete).toBe(true);
@@ -237,7 +237,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.configId).toBe('');
     });
 
-    it('should use tab attributes for CPQ version V2 or higher', () => {
+    it('should assign each tab its own attributes when hasFullConfigurationState is true', () => {
       const result = cpqConfiguratorNormalizer.convert({
         ...cpqConfiguration,
         hasFullConfigurationState: true,
@@ -262,7 +262,7 @@ describe('CpqConfiguratorNormalizer', () => {
       );
     });
 
-    it('should set configuration id if provided', () => {
+    it('should copy configurationId onto configId', () => {
       const result = cpqConfiguratorNormalizer.convert({
         ...cpqConfiguration,
         configurationId: cpqConfigurationId,
@@ -270,7 +270,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.configId).toBe(cpqConfigurationId);
     });
 
-    it('should set target to incomplete if incomplete attributes are undefined', () => {
+    it('should treat missing incompleteAttributes as a complete configuration', () => {
       const result = cpqConfiguratorNormalizer.convert({
         ...cpqConfiguration,
         incompleteAttributes: undefined,
@@ -278,7 +278,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.complete).toBe(true);
     });
 
-    it('should set target to inconsistent if invalid messages are present and others empty', () => {
+    it('should mark the configuration inconsistent when only invalidMessages are present (other issue lists empty)', () => {
       const result = cpqConfiguratorNormalizer.convert({
         ...cpqConfigurationIncompleteInconsistent,
         failedValidations: [],
@@ -288,7 +288,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.consistent).toBe(false);
     });
 
-    it('should set target to inconsistent if invalid messages are present and others undefined', () => {
+    it('should mark the configuration inconsistent when only invalidMessages are present (other issue lists undefined)', () => {
       const result = cpqConfiguratorNormalizer.convert({
         ...cpqConfigurationIncompleteInconsistent,
         failedValidations: undefined,
@@ -298,7 +298,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.consistent).toBe(false);
     });
 
-    it('should set target to inconsistent if failed validations are present and others empty', () => {
+    it('should mark the configuration inconsistent when only failedValidations are present (other issue lists empty)', () => {
       const result = cpqConfiguratorNormalizer.convert({
         ...cpqConfigurationIncompleteInconsistent,
         invalidMessages: [],
@@ -308,7 +308,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.consistent).toBe(false);
     });
 
-    it('should set target to inconsistent if failed validations are present and others undefined', () => {
+    it('should mark the configuration inconsistent when only failedValidations are present (other issue lists undefined)', () => {
       const result = cpqConfiguratorNormalizer.convert({
         ...cpqConfigurationIncompleteInconsistent,
         invalidMessages: undefined,
@@ -318,7 +318,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.consistent).toBe(false);
     });
 
-    it('should set target to inconsistent if incomplete messages are present and others empty', () => {
+    it('should mark the configuration inconsistent when only incompleteMessages are present (other issue lists empty)', () => {
       const result = cpqConfiguratorNormalizer.convert({
         ...cpqConfigurationIncompleteInconsistent,
         invalidMessages: [],
@@ -328,7 +328,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.consistent).toBe(false);
     });
 
-    it('should set target to inconsistent if incomplete messages are present and others undefined', () => {
+    it('should mark the configuration inconsistent when only incompleteMessages are present (other issue lists undefined)', () => {
       const result = cpqConfiguratorNormalizer.convert({
         ...cpqConfigurationIncompleteInconsistent,
         invalidMessages: undefined,
@@ -338,7 +338,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.consistent).toBe(false);
     });
 
-    it('should set target to inconsistent if error messages are present and others empty', () => {
+    it('should mark the configuration inconsistent when only errorMessages are present (other issue lists empty)', () => {
       const result = cpqConfiguratorNormalizer.convert({
         ...cpqConfigurationIncompleteInconsistent,
         invalidMessages: [],
@@ -348,7 +348,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.consistent).toBe(false);
     });
 
-    it('should set target to inconsistent if error messages are present and others undefined', () => {
+    it('should mark the configuration inconsistent when only errorMessages are present (other issue lists undefined)', () => {
       const result = cpqConfiguratorNormalizer.convert({
         ...cpqConfigurationIncompleteInconsistent,
         invalidMessages: undefined,
@@ -358,7 +358,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.consistent).toBe(false);
     });
 
-    it('should convert an incomplete inconsistent configuration', () => {
+    it('should mark the configuration incomplete and inconsistent when both issues and incomplete attributes exist', () => {
       const result = cpqConfiguratorNormalizer.convert(
         cpqConfigurationIncompleteInconsistent
       );
@@ -368,7 +368,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.totalNumberOfIssues).toBe(6);
     });
 
-    it('should convert a complete inconsistent configuration', () => {
+    it('should mark the configuration complete but inconsistent when only consistency issues exist', () => {
       const result = cpqConfiguratorNormalizer.convert(
         cpqConfigurationCompleteInconsistent
       );
@@ -378,7 +378,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.totalNumberOfIssues).toBe(4);
     });
 
-    it('should create one group (generic) if no tabs are present (undefined)', () => {
+    it('should fall back to a single generic group when tabs are undefined', () => {
       const result = cpqConfiguratorNormalizer.convert({
         ...cpqConfigurationCompleteInconsistent,
         tabs: undefined,
@@ -386,7 +386,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.groups.length).toBe(1);
     });
 
-    it('should handle situation that both attributes and tabs are undefined, and create the generic group without attributes ', () => {
+    it('should create an empty generic group when both tabs and attributes are undefined', () => {
       const result = cpqConfiguratorNormalizer.convert({
         ...cpqConfigurationCompleteInconsistent,
         attributes: undefined,
@@ -396,7 +396,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.groups[0].attributes).toEqual([]);
     });
 
-    it('should handle situation that attributes are undefined and create groups without attributes', () => {
+    it('should convert tabs to groups with empty attributes when source attributes are undefined', () => {
       const result = cpqConfiguratorNormalizer.convert({
         ...cpqConfigurationCompleteInconsistent,
         attributes: undefined,
@@ -406,7 +406,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.groups[1].attributes).toEqual([]);
     });
 
-    it('should create a complete generic group if no tabs and no incomplete attributes are defined ', () => {
+    it('should mark the generic group complete when tabs and incompleteAttributes are undefined', () => {
       const result = cpqConfiguratorNormalizer.convert({
         ...cpqConfigurationCompleteInconsistent,
         incompleteAttributes: undefined,
@@ -416,7 +416,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.groups[0].complete).toBe(true);
     });
 
-    it('should map error message from conflict, errror and invalid messages and incomplete attributes', () => {
+    it('should collect errorMessages from error and invalid messages', () => {
       const mappedConfiguration = cpqConfiguratorNormalizer.convert(
         cpqConfigurationIncompleteInconsistent
       );
@@ -426,7 +426,7 @@ describe('CpqConfiguratorNormalizer', () => {
       checkMessagePresent(mappedConfiguration.errorMessages, INVALID_MSG);
     });
 
-    it('should map warning message from failed validations', () => {
+    it('should collect warningMessages from failed validations and incomplete messages', () => {
       const mappedConfiguration = cpqConfiguratorNormalizer.convert(
         cpqConfigurationIncompleteInconsistent
       );
@@ -435,7 +435,7 @@ describe('CpqConfiguratorNormalizer', () => {
       checkMessagePresent(mappedConfiguration.warningMessages, INCOMPLETE_MSG);
     });
 
-    it('should map typed root messages and hasFullConfigurationState', () => {
+    it('should map typed messages with severity and keep hasFullConfigurationState true', () => {
       const mappedConfiguration = cpqConfiguratorNormalizer.convert({
         ...cpqConfigurationIncompleteInconsistent,
         messages: [
@@ -471,7 +471,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(mappedConfiguration.messages).toBeUndefined();
     });
 
-    it('should map hasFullConfigurationState false', () => {
+    it('should preserve hasFullConfigurationState when the source sets it to false', () => {
       const mappedConfiguration = cpqConfiguratorNormalizer.convert({
         ...cpqConfiguration,
         hasFullConfigurationState: false,
@@ -479,7 +479,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(mappedConfiguration.hasFullConfigurationState).toBe(false);
     });
 
-    it('should enable pricing', () => {
+    it('should always enable pricing on the converted configuration', () => {
       const mappedConfiguration =
         cpqConfiguratorNormalizer.convert(cpqConfiguration);
       expect(mappedConfiguration.pricingEnabled).toBe(true);
@@ -487,13 +487,13 @@ describe('CpqConfiguratorNormalizer', () => {
   });
 
   describe('convertValueCode', () => {
-    it('should return `###RETRACT_VALUE_CODE###` in case value code is zero', () => {
+    it('should map paV_ID 0 to the retract value code', () => {
       expect(cpqConfiguratorNormalizer['convertValueCode'](0)).toEqual(
         Configurator.RetractValueCode
       );
     });
 
-    it('should return string of value code in case not zero', () => {
+    it('should stringify a non-zero paV_ID as the valueCode', () => {
       const pav_ID = 8462;
       expect(cpqConfiguratorNormalizer['convertValueCode'](pav_ID)).toEqual(
         pav_ID.toString()
@@ -502,7 +502,7 @@ describe('CpqConfiguratorNormalizer', () => {
   });
 
   describe('convertValue', () => {
-    it('should convert values', () => {
+    it('should map valueCode, name, display, description, productSystemId, selected and quantity', () => {
       const cpqAttr: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -528,7 +528,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(value.quantity).toBe(3);
     });
 
-    it('should map prices during value conversion', () => {
+    it('should map valuePrice and valuePriceTotal (quantity × unit price) onto the converted value', () => {
       const cpqAttr: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -557,7 +557,7 @@ describe('CpqConfiguratorNormalizer', () => {
       });
     });
 
-    it('should remove value "No option selected" for required DDLB when a "real" value already selected', () => {
+    it('should skip the retract option for a required dropdown that already has a real selection', () => {
       const cpqValueA: Cpq.Value = { paV_ID: 0, selected: false };
       const cpqValueB: Cpq.Value = { paV_ID: 1, selected: true };
       const cpqAttr: Cpq.Attribute = {
@@ -577,7 +577,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(values.length).toBe(0);
     });
 
-    it('should not remove value "No option selected" for non required DDLB when a "real" value already selected', () => {
+    it('should keep the retract option for a non-required dropdown that already has a real selection', () => {
       const cpqValueA: Cpq.Value = { paV_ID: 0, selected: false };
       const cpqValueB: Cpq.Value = { paV_ID: 1, selected: true };
       const cpqAttr: Cpq.Attribute = {
@@ -599,8 +599,8 @@ describe('CpqConfiguratorNormalizer', () => {
     });
   });
 
-  describe('convertValue', () => {
-    it('should convert attributes with values - no sysId', () => {
+  describe('convertAttribute', () => {
+    it('should map a radio-button attribute whose values have no product sysId', () => {
       const attributeList: Configurator.Attribute[] = [];
 
       const cpqValueNoSysId1: Cpq.Value = { ...cpqValue };
@@ -644,7 +644,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(values?.[0].valueCode).toBe(cpqValuePavId.toString());
     });
 
-    it('should convert attributes with values - with many sysId', () => {
+    it('should map a radio-button-product attribute when multiple values have a product sysId', () => {
       const attributeList: Configurator.Attribute[] = [];
 
       cpqConfiguratorNormalizer['convertAttribute'](
@@ -681,7 +681,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(values?.length).toBe(2);
     });
 
-    it('should convert attributes with values - with only 1 sysId', () => {
+    it('should still use the product radio-button ui type when only one value has a sysId', () => {
       const attributeList: Configurator.Attribute[] = [];
 
       const cpqValueNoSysId: Cpq.Value = { ...cpqValue };
@@ -721,7 +721,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(values?.length).toBe(2);
     });
 
-    it('should convert attributes without values', () => {
+    it('should map a string input attribute that has no values', () => {
       const attributeList: Configurator.Attribute[] = [];
 
       cpqConfiguratorNormalizer['convertAttribute'](
@@ -751,7 +751,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(values?.length).toBe(undefined);
     });
 
-    it('should use attribute name when attribute label is not available', () => {
+    it('should fall back to the CPQ name when the attribute label is missing', () => {
       const attributeList: Configurator.Attribute[] = [];
       const cpqAttributeWithoutLabel: Cpq.Attribute = {
         ...cpqAttribute,
@@ -769,7 +769,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(attribute.label).toBe('AttributeName');
     });
 
-    it('should mark all attributes visible', () => {
+    it('should set visible to true on every converted attribute', () => {
       const attributeList: Configurator.Attribute[] = [];
 
       cpqConfiguratorNormalizer['convertAttribute'](
@@ -785,7 +785,7 @@ describe('CpqConfiguratorNormalizer', () => {
   });
 
   describe('convertGroup', () => {
-    it('should convert a group', () => {
+    it('should map tab id, name, completeness and attributes onto an attribute group', () => {
       const groups: Configurator.Group[] = [];
       const flatGroups: Configurator.Group[] = [];
       cpqConfiguratorNormalizer['convertGroup'](
@@ -815,7 +815,7 @@ describe('CpqConfiguratorNormalizer', () => {
       }
     });
 
-    it('should convert a generic group', () => {
+    it('should build the _GEN group with translated description and source attributes', () => {
       const groups: Configurator.Group[] = [];
       const flatGroups: Configurator.Group[] = [];
       const incompleteAttributes: string[] = ['Attribute1', 'Attribute2'];
@@ -847,8 +847,8 @@ describe('CpqConfiguratorNormalizer', () => {
   });
 
   describe('convertAttributeType', () => {
-    describe('when dealing with attribute with at least one value containing sysId', () => {
-      it('should return UIType RADIOBUTTON_PRODUCT for CPQ DisplayAs RADIO_BUTTON', () => {
+    describe('when at least one value has a productSystemId', () => {
+      it('should map RADIO_BUTTON with a product value to RADIOBUTTON_PRODUCT', () => {
         const cpqAttr: Cpq.Attribute = {
           pA_ID: 1,
           stdAttrCode: 2,
@@ -861,7 +861,7 @@ describe('CpqConfiguratorNormalizer', () => {
         );
       });
 
-      it('should return UIType DROPDOWN_PRODUCT for CPQ DisplayAs DROPDOWN', () => {
+      it('should map DROPDOWN with a product value to DROPDOWN_PRODUCT', () => {
         const cpqAttr: Cpq.Attribute = {
           pA_ID: 1,
           stdAttrCode: 2,
@@ -874,7 +874,7 @@ describe('CpqConfiguratorNormalizer', () => {
         );
       });
 
-      it('should return UIType CHECKBOXLIST_PRODUCT for CPQ DisplayAs CHECK_BOX', () => {
+      it('should map CHECK_BOX with a product value to CHECKBOXLIST_PRODUCT', () => {
         const cpqAttr: Cpq.Attribute = {
           pA_ID: 1,
           stdAttrCode: 2,
@@ -888,8 +888,8 @@ describe('CpqConfiguratorNormalizer', () => {
       });
     });
 
-    describe('when dealing with attribute with no values containing sysId', () => {
-      it('should return UIType RADIOBUTTON for CPQ DisplayAs RADIO_BUTTON', () => {
+    describe('when no value has a productSystemId', () => {
+      it('should map RADIO_BUTTON without a product value to RADIOBUTTON', () => {
         const cpqAttr: Cpq.Attribute = {
           pA_ID: 1,
           stdAttrCode: 2,
@@ -902,7 +902,7 @@ describe('CpqConfiguratorNormalizer', () => {
         );
       });
 
-      it('should return UIType DROPDOWN for CPQ DisplayAs DROPDOWN', () => {
+      it('should map DROPDOWN without a product value to DROPDOWN', () => {
         const cpqAttr: Cpq.Attribute = {
           pA_ID: 1,
           stdAttrCode: 2,
@@ -915,7 +915,7 @@ describe('CpqConfiguratorNormalizer', () => {
         );
       });
 
-      it('should return UIType CHECKBOXLIST for CPQ DisplayAs CHECK_BOX', () => {
+      it('should map CHECK_BOX without a product value to CHECKBOXLIST', () => {
         const cpqAttr: Cpq.Attribute = {
           pA_ID: 1,
           stdAttrCode: 2,
@@ -928,7 +928,7 @@ describe('CpqConfiguratorNormalizer', () => {
         );
       });
 
-      it('should return UIType STRING for CPQ DisplayAs INPUT and DataType INPUT_STRING', () => {
+      it('should map INPUT with INPUT_STRING data type to STRING', () => {
         const cpqAttr: Cpq.Attribute = {
           pA_ID: 1,
           stdAttrCode: 2,
@@ -942,7 +942,7 @@ describe('CpqConfiguratorNormalizer', () => {
         );
       });
 
-      it('should return UIType CONTAINER for CPQ DisplayAs CONTAINER', () => {
+      it('should map CONTAINER displayAs to CONTAINER ui type', () => {
         const cpqAttr: Cpq.Attribute = {
           pA_ID: 1,
           stdAttrCode: 2,
@@ -955,7 +955,7 @@ describe('CpqConfiguratorNormalizer', () => {
         );
       });
 
-      it('should return UIType NOT_IMPLEMENTED for CPQ DisplayAs INPUT and DataType differt from INPUT_STRING', () => {
+      it('should map INPUT with a non-string data type to NOT_IMPLEMENTED', () => {
         const cpqAttr: Cpq.Attribute = {
           pA_ID: 1,
           stdAttrCode: 2,
@@ -969,7 +969,7 @@ describe('CpqConfiguratorNormalizer', () => {
         );
       });
 
-      it('should return UIType NOT_IMPLEMENTED for CPQ DisplayAs READ_ONLY', () => {
+      it('should map CPQ READ_ONLY displayAs to NOT_IMPLEMENTED', () => {
         const cpqAttr: Cpq.Attribute = {
           pA_ID: 1,
           stdAttrCode: 2,
@@ -982,7 +982,7 @@ describe('CpqConfiguratorNormalizer', () => {
         );
       });
 
-      it('should return UIType NOT_IMPLEMENTED for unknown (not supported) CPQ DisplayAs', () => {
+      it('should map an unsupported displayAs such as LIST_BOX to NOT_IMPLEMENTED', () => {
         const cpqAttr: Cpq.Attribute = {
           pA_ID: 1,
           stdAttrCode: 2,
@@ -995,7 +995,7 @@ describe('CpqConfiguratorNormalizer', () => {
         );
       });
 
-      it('should return UIType READ_ONLY for supported CPQ DisplayAs when attribute is not enabled', () => {
+      it('should map a supported displayAs to READ_ONLY when isEnabled is false', () => {
         const cpqAttr: Cpq.Attribute = {
           pA_ID: 1,
           stdAttrCode: 2,
@@ -1007,7 +1007,7 @@ describe('CpqConfiguratorNormalizer', () => {
         );
       });
 
-      it('should return UIType READ_ONLY for supported CPQ DisplayAs when attribute enabled facet is not defined', () => {
+      it('should map a supported displayAs to READ_ONLY when isEnabled is undefined', () => {
         const cpqAttr: Cpq.Attribute = {
           pA_ID: 1,
           stdAttrCode: 2,
@@ -1019,7 +1019,7 @@ describe('CpqConfiguratorNormalizer', () => {
         );
       });
 
-      it('should return UIType NOT_IMPLEMENTED for not supported CPQ DisplayAs when attribute is not enabled', () => {
+      it('should keep LIST_BOX as NOT_IMPLEMENTED even when isEnabled is false', () => {
         const cpqAttr: Cpq.Attribute = {
           pA_ID: 1,
           stdAttrCode: 2,
@@ -1034,37 +1034,39 @@ describe('CpqConfiguratorNormalizer', () => {
     });
   });
 
-  it('should set selectedSingleValue', () => {
-    const configAttribute: Configurator.Attribute = {
-      name: 'ATTRIBUTE_NAME',
-      values: [{ valueCode: 'VK1' }, { valueCode: 'VK2', selected: true }],
-    };
-    cpqConfiguratorNormalizer['setSelectedSingleValue'](configAttribute);
-    expect(configAttribute.selectedSingleValue).toBe('VK2');
-  });
+  describe('setSelectedSingleValue', () => {
+    it('should copy the valueCode when exactly one value is selected', () => {
+      const configAttribute: Configurator.Attribute = {
+        name: 'ATTRIBUTE_NAME',
+        values: [{ valueCode: 'VK1' }, { valueCode: 'VK2', selected: true }],
+      };
+      cpqConfiguratorNormalizer['setSelectedSingleValue'](configAttribute);
+      expect(configAttribute.selectedSingleValue).toBe('VK2');
+    });
 
-  it('should not set selectedSingleValue for multi-valued attributes', () => {
-    const configAttribute: Configurator.Attribute = {
-      name: 'ATTRIBUTE_NAME',
-      values: [
-        { valueCode: 'VK1', selected: true },
-        { valueCode: 'VK2', selected: true },
-      ],
-    };
-    cpqConfiguratorNormalizer['setSelectedSingleValue'](configAttribute);
-    expect(configAttribute.selectedSingleValue).toBeUndefined();
-  });
+    it('should leave selectedSingleValue unset when more than one value is selected', () => {
+      const configAttribute: Configurator.Attribute = {
+        name: 'ATTRIBUTE_NAME',
+        values: [
+          { valueCode: 'VK1', selected: true },
+          { valueCode: 'VK2', selected: true },
+        ],
+      };
+      cpqConfiguratorNormalizer['setSelectedSingleValue'](configAttribute);
+      expect(configAttribute.selectedSingleValue).toBeUndefined();
+    });
 
-  it('should not set selectedSingleValue when attribute has no values', () => {
-    const configAttribute: Configurator.Attribute = {
-      name: 'ATTRIBUTE_NAME',
-    };
-    cpqConfiguratorNormalizer['setSelectedSingleValue'](configAttribute);
-    expect(configAttribute.selectedSingleValue).toBeUndefined();
+    it('should leave selectedSingleValue unset when the attribute has no values', () => {
+      const configAttribute: Configurator.Attribute = {
+        name: 'ATTRIBUTE_NAME',
+      };
+      cpqConfiguratorNormalizer['setSelectedSingleValue'](configAttribute);
+      expect(configAttribute.selectedSingleValue).toBeUndefined();
+    });
   });
 
   describe('compileAttributeIncomplete', () => {
-    it('should set incomplete by radio button, dropdown and single-selection-image type correctly', () => {
+    it('should mark single-selection attributes incomplete unless a value is selected', () => {
       const attributeRBWithValues: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
         uiType: Configurator.UiType.RADIOBUTTON,
@@ -1123,7 +1125,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(attributeSSIWithValues.incomplete).toBe(false);
     });
 
-    it('should set incomplete by input type correctly', () => {
+    it('should mark string and numeric attributes incomplete unless userInput is set', () => {
       const attributeStringWithValues: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
         uiType: Configurator.UiType.STRING,
@@ -1164,7 +1166,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(attributeNumericWoValues.incomplete).toBe(true);
     });
 
-    it('should set incomplete by checkbox, checkboxlist and multi-selection-image type correctly', () => {
+    it('should mark multi-select attributes incomplete unless at least one value is selected', () => {
       const valuesWOSelectedOne: Configurator.Value[] = [
         { name: 'name1', selected: false, valueCode: cpqValueCode },
         { name: 'name2', selected: false, valueCode: cpqValueCode2 },
@@ -1231,7 +1233,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(attributeMSIWithValue.incomplete).toBe(false);
     });
 
-    it('should cover situation that multi select image attribute does not have values', () => {
+    it('should mark a multi-selection image incomplete when values are undefined', () => {
       const attributeMSIWOValue: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
         uiType: Configurator.UiType.MULTI_SELECTION_IMAGE,
@@ -1243,26 +1245,32 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(attributeMSIWOValue.incomplete).toBe(true);
     });
 
-    it('should set incomplete by container type correctly', () => {
+    it('should mark a CONTAINER attribute complete when selected rows meet minRows', () => {
       const attributeWithSelectedRow: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
         uiType: Configurator.UiType.CONTAINER,
-        container: { rows: [{ id: '1', selected: true }] },
-      };
-      const attributeWithUnselectedRow: Configurator.Attribute = {
-        name: 'ATTRIBUTE_NAME',
-        uiType: Configurator.UiType.CONTAINER,
-        container: { rows: [{ id: '1', selected: false }] },
-      };
-      const attributeWithEmptyRows: Configurator.Attribute = {
-        name: 'ATTRIBUTE_NAME',
-        uiType: Configurator.UiType.CONTAINER,
-        container: { rows: [] },
+        container: { minRows: 1, rows: [{ id: '1', selected: true }] },
       };
 
       cpqConfiguratorNormalizer['compileAttributeIncomplete'](
         attributeWithSelectedRow
       );
+
+      expect(attributeWithSelectedRow.incomplete).toBe(false);
+    });
+
+    it('should mark a CONTAINER attribute incomplete when selected rows are below minRows', () => {
+      const attributeWithUnselectedRow: Configurator.Attribute = {
+        name: 'ATTRIBUTE_NAME',
+        uiType: Configurator.UiType.CONTAINER,
+        container: { minRows: 1, rows: [{ id: '1', selected: false }] },
+      };
+      const attributeWithEmptyRows: Configurator.Attribute = {
+        name: 'ATTRIBUTE_NAME',
+        uiType: Configurator.UiType.CONTAINER,
+        container: { minRows: 1, rows: [] },
+      };
+
       cpqConfiguratorNormalizer['compileAttributeIncomplete'](
         attributeWithUnselectedRow
       );
@@ -1270,20 +1278,28 @@ describe('CpqConfiguratorNormalizer', () => {
         attributeWithEmptyRows
       );
 
-      expect(attributeWithSelectedRow.incomplete).toBe(false);
       expect(attributeWithUnselectedRow.incomplete).toBe(true);
       expect(attributeWithEmptyRows.incomplete).toBe(true);
     });
 
-    it('should cover situation that container attribute does not have a container', () => {
+    it('should mark a CONTAINER attribute complete when minRows is omitted (defaults to 0)', () => {
       const attributeWithoutContainer: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
         uiType: Configurator.UiType.CONTAINER,
       };
+      const attributeWithUnselectedRow: Configurator.Attribute = {
+        name: 'ATTRIBUTE_NAME',
+        uiType: Configurator.UiType.CONTAINER,
+        container: { rows: [{ id: '1', selected: false }] },
+      };
       cpqConfiguratorNormalizer['compileAttributeIncomplete'](
         attributeWithoutContainer
       );
-      expect(attributeWithoutContainer.incomplete).toBe(true);
+      cpqConfiguratorNormalizer['compileAttributeIncomplete'](
+        attributeWithUnselectedRow
+      );
+      expect(attributeWithoutContainer.incomplete).toBe(false);
+      expect(attributeWithUnselectedRow.incomplete).toBe(false);
     });
   });
 
@@ -1291,7 +1307,7 @@ describe('CpqConfiguratorNormalizer', () => {
     const cpqValueA: Cpq.Value = { paV_ID: 0, selected: false };
     const cpqValueB: Cpq.Value = { paV_ID: 1, selected: true };
 
-    it('should deal with situation that required is undefined in attribute', () => {
+    it('should not ignore the retract option when required is undefined', () => {
       const cpqAttr: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -1303,7 +1319,7 @@ describe('CpqConfiguratorNormalizer', () => {
       ).toBe(false);
     });
 
-    it('should determine the "No option selected" value for required DDLB as "to be ignored" when a "real" value already selected', () => {
+    it('should ignore the retract option on a required dropdown that already has a real selection', () => {
       const cpqAttr: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -1316,7 +1332,7 @@ describe('CpqConfiguratorNormalizer', () => {
       ).toBe(true);
     });
 
-    it('should determine the "No option selected" value for non required DDLB as not "to be ignored" when a "real" value already selected', () => {
+    it('should keep the retract option on a non-required dropdown that already has a real selection', () => {
       const cpqAttr: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -1329,7 +1345,7 @@ describe('CpqConfiguratorNormalizer', () => {
       ).toBe(false);
     });
 
-    it('should determine the "No option selected" value for not DDLB as not "to be ignored" when a "real" value already selected', () => {
+    it('should keep the retract option on a required radio button', () => {
       const cpqAttr: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -1342,7 +1358,7 @@ describe('CpqConfiguratorNormalizer', () => {
       ).toBe(false);
     });
 
-    it('should determine the "No option selected" value for required DDLB as not "to be ignored" when no "real" value already selected', () => {
+    it('should keep the retract option on a required dropdown with no real selection', () => {
       const cpqValueB: Cpq.Value = { paV_ID: 1, selected: false };
       const cpqAttr: Cpq.Attribute = {
         pA_ID: 1,
@@ -1356,7 +1372,7 @@ describe('CpqConfiguratorNormalizer', () => {
       ).toBe(false);
     });
 
-    it('should determine the "real" value for required DDLB as not "to be ignored" when another "real" value already selected', () => {
+    it('should never ignore a real (non-retract) dropdown value', () => {
       const cpqValueA: Cpq.Value = { paV_ID: 2, selected: false };
       const cpqAttr: Cpq.Attribute = {
         pA_ID: 1,
@@ -1372,7 +1388,7 @@ describe('CpqConfiguratorNormalizer', () => {
   });
 
   describe('getTabAttributes', () => {
-    it('should return tab attributes when version supports full tab payload', () => {
+    it("should use the tab's own attributes when hasFullConfigurationState is true", () => {
       const source: Cpq.Configuration = {
         ...cpqConfiguration,
         hasFullConfigurationState: true,
@@ -1386,7 +1402,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result).toEqual([cpqAttribute2]);
     });
 
-    it('should return global source attributes for selected tab when version is not defined', () => {
+    it('should use configuration.attributes for the selected tab when hasFullConfigurationState is undefined', () => {
       const source: Cpq.Configuration = {
         ...cpqConfiguration,
         hasFullConfigurationState: undefined,
@@ -1400,7 +1416,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result).toEqual(source.attributes);
     });
 
-    it('should return empty array for non-selected tab when version is not defined', () => {
+    it('should return no attributes for an unselected tab when hasFullConfigurationState is false', () => {
       const source: Cpq.Configuration = {
         ...cpqConfiguration,
         hasFullConfigurationState: false,
@@ -1438,7 +1454,7 @@ describe('CpqConfiguratorNormalizer', () => {
     };
     const values: Configurator.Value[] = [];
 
-    it('should convert value display - contain cpq value display for radio-buttons', () => {
+    it('should keep the CPQ valueDisplay for radio buttons', () => {
       cpqConfiguratorNormalizer['convertValue'](
         mockCpqValue,
         cpqAttr,
@@ -1455,7 +1471,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(value.valueDisplay).toEqual(mockCpqValue.valueDisplay);
     });
 
-    it('should convert value display - contain drop-down select message', () => {
+    it('should use the drop-down select message for a selected retract option', () => {
       const mockCpqValue: Cpq.Value = {
         paV_ID: 0,
         valueDisplay: 'No option selected',
@@ -1486,7 +1502,7 @@ describe('CpqConfiguratorNormalizer', () => {
       );
     });
 
-    it('should convert value display - contain cpq value display for selected real drop-down value (paV_ID not 0)', () => {
+    it('should keep the CPQ valueDisplay for a selected real dropdown value', () => {
       const mockCpqValue: Cpq.Value = {
         paV_ID: 5,
         valueDisplay: 'Red',
@@ -1510,7 +1526,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(value.valueDisplay).toEqual(mockCpqValue.valueDisplay);
     });
 
-    it('should convert value display - contain cpq value display for drop-down list', () => {
+    it('should keep the CPQ valueDisplay for an unselected dropdown value', () => {
       cpqConfiguratorNormalizer['convertValue'](
         mockCpqValue,
         cpqAttr,
@@ -1528,7 +1544,7 @@ describe('CpqConfiguratorNormalizer', () => {
   });
 
   describe('isUITypeReadOnly', () => {
-    it('should return true for READ_ONLY ui type', () => {
+    it('should identify READ_ONLY as a read-only ui type', () => {
       const attribute: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
         uiType: Configurator.UiType.READ_ONLY,
@@ -1538,7 +1554,7 @@ describe('CpqConfiguratorNormalizer', () => {
       );
     });
 
-    it('should return false for non READ_ONLY ui type', () => {
+    it('should not identify a selectable ui type such as RADIOBUTTON as read-only', () => {
       const attribute: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
         uiType: Configurator.UiType.RADIOBUTTON,
@@ -1563,47 +1579,47 @@ describe('CpqConfiguratorNormalizer', () => {
       ).toBe(expected);
     }
 
-    it('should return true for RADIOBUTTON ui type', () => {
+    it('should treat RADIOBUTTON as a single-selection ui type', () => {
       expectSingleSelectionUiType(Configurator.UiType.RADIOBUTTON, true);
     });
 
-    it('should return true for DROPDOWN ui type', () => {
+    it('should treat DROPDOWN as a single-selection ui type', () => {
       expectSingleSelectionUiType(Configurator.UiType.DROPDOWN, true);
     });
 
-    it('should return false for SINGLE_SELECTION_IMAGE ui type', () => {
+    it('should not treat SINGLE_SELECTION_IMAGE as a single-selection ui type', () => {
       expectSingleSelectionUiType(
         Configurator.UiType.SINGLE_SELECTION_IMAGE,
         false
       );
     });
 
-    it('should return true for DROPDOWN_PRODUCT ui type', () => {
+    it('should treat DROPDOWN_PRODUCT as a single-selection ui type', () => {
       expectSingleSelectionUiType(Configurator.UiType.DROPDOWN_PRODUCT, true);
     });
 
-    it('should return true for RADIOBUTTON_PRODUCT ui type', () => {
+    it('should treat RADIOBUTTON_PRODUCT as a single-selection ui type', () => {
       expectSingleSelectionUiType(
         Configurator.UiType.RADIOBUTTON_PRODUCT,
         true
       );
     });
 
-    it('should return false for CHECKBOX ui type', () => {
+    it('should not treat CHECKBOXLIST as a single-selection ui type', () => {
       expectSingleSelectionUiType(Configurator.UiType.CHECKBOXLIST, false);
     });
 
-    it('should return false for STRING ui type', () => {
+    it('should not treat STRING as a single-selection ui type', () => {
       expectSingleSelectionUiType(Configurator.UiType.STRING, false);
     });
 
-    it('should return false for READ_ONLY ui type', () => {
+    it('should not treat READ_ONLY as a single-selection ui type', () => {
       expectSingleSelectionUiType(Configurator.UiType.READ_ONLY, false);
     });
   });
 
   describe('isNoValueSelected', () => {
-    it('should return true when no value is selected', () => {
+    it('should treat the attribute as having no selection when every value is unselected', () => {
       const cpqAttr: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -1617,14 +1633,14 @@ describe('CpqConfiguratorNormalizer', () => {
       );
     });
 
-    it('should return true when values are undefined', () => {
+    it('should treat the attribute as having no selection when it has no values array', () => {
       const cpqAttr: Cpq.Attribute = { pA_ID: 1, stdAttrCode: 2 };
       expect(cpqConfiguratorNormalizer['isNoValueSelected'](cpqAttr)).toBe(
         true
       );
     });
 
-    it('should return false when at least one value is selected', () => {
+    it('should treat the attribute as having a selection when any value is selected', () => {
       const cpqAttr: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -1640,7 +1656,7 @@ describe('CpqConfiguratorNormalizer', () => {
   });
 
   describe('hasRetractValue', () => {
-    it('should return true when a value with paV_ID 0 (retract) is present', () => {
+    it('should detect a retract option when a value with paV_ID 0 exists', () => {
       const cpqAttr: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -1652,7 +1668,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(cpqConfiguratorNormalizer['hasRetractValue'](cpqAttr)).toBe(true);
     });
 
-    it('should return false when no value with paV_ID 0 is present', () => {
+    it('should not detect a retract option when only real values exist', () => {
       const cpqAttr: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -1664,14 +1680,14 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(cpqConfiguratorNormalizer['hasRetractValue'](cpqAttr)).toBe(false);
     });
 
-    it('should return false when values are undefined', () => {
+    it('should not detect a retract option when the attribute has no values array', () => {
       const cpqAttr: Cpq.Attribute = { pA_ID: 1, stdAttrCode: 2 };
       expect(cpqConfiguratorNormalizer['hasRetractValue'](cpqAttr)).toBe(false);
     });
   });
 
   describe('setRetractValueDisplay', () => {
-    it('should use drop-down select message for selected DROPDOWN', () => {
+    it('should show the drop-down select prompt for a selected DROPDOWN retract value', () => {
       const value: Configurator.Value = { valueCode: '0', selected: true };
       const attribute: Configurator.Attribute = {
         name: 'attr_1',
@@ -1684,7 +1700,7 @@ describe('CpqConfiguratorNormalizer', () => {
       );
     });
 
-    it('should use drop-down select message for selected DROPDOWN_PRODUCT', () => {
+    it('should show the drop-down select prompt for a selected DROPDOWN_PRODUCT retract value', () => {
       const value: Configurator.Value = { valueCode: '0', selected: true };
       const attribute: Configurator.Attribute = {
         name: 'attr_2',
@@ -1697,7 +1713,7 @@ describe('CpqConfiguratorNormalizer', () => {
       );
     });
 
-    it('should use no option selected message for non-selected DROPDOWN', () => {
+    it('should show "no option selected" for an unselected DROPDOWN retract value', () => {
       const value: Configurator.Value = { valueCode: '0', selected: false };
       const attribute: Configurator.Attribute = {
         name: 'attr_2',
@@ -1710,7 +1726,7 @@ describe('CpqConfiguratorNormalizer', () => {
       );
     });
 
-    it('should use drop-down select message for non-selected DROPDOWN_PRODUCT', () => {
+    it('should show "no option selected" for an unselected DROPDOWN_PRODUCT retract value', () => {
       const value: Configurator.Value = { valueCode: '0', selected: false };
       const attribute: Configurator.Attribute = {
         name: 'attr_2',
@@ -1723,7 +1739,7 @@ describe('CpqConfiguratorNormalizer', () => {
       );
     });
 
-    it('should use no option selected message for non-dropdown types', () => {
+    it('should show "no option selected" for a selected RADIOBUTTON retract value', () => {
       const value: Configurator.Value = { valueCode: '0', selected: true };
       const attribute: Configurator.Attribute = {
         name: 'attr_3',
@@ -1738,7 +1754,7 @@ describe('CpqConfiguratorNormalizer', () => {
   });
 
   describe('addRetractValue', () => {
-    it('should add a retract value for not required single selection ui types', () => {
+    it('should add a selected retract option for optional radio and dropdown attributes', () => {
       const sourceAttribute: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -1768,7 +1784,7 @@ describe('CpqConfiguratorNormalizer', () => {
       });
     });
 
-    it('should not add a retract value for not required SINGLE_SELECTION_IMAGE attributes', () => {
+    it('should not add a retract option for optional SINGLE_SELECTION_IMAGE attributes', () => {
       const sourceAttribute: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -1789,7 +1805,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(values.length).toBe(0);
     });
 
-    it('should not add a retract value for required drop-down ui types', () => {
+    it('should not add a retract option for required dropdown attributes', () => {
       const sourceAttribute: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -1815,7 +1831,7 @@ describe('CpqConfiguratorNormalizer', () => {
       });
     });
 
-    it('should not add a retract value for required RADIOBUTTON attributes', () => {
+    it('should not add a retract option for required RADIOBUTTON attributes', () => {
       const sourceAttribute: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -1836,7 +1852,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(values.length).toBe(0);
     });
 
-    it('should not add a retract value for READ_ONLY attributes', () => {
+    it('should not add a retract option when the attribute is READ_ONLY', () => {
       const sourceAttribute: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -1855,7 +1871,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(values.length).toBe(0);
     });
 
-    it('should not add a retract value when a retract value (paV_ID 0) is already present', () => {
+    it('should not add another retract option if CPQ already sent paV_ID 0', () => {
       const sourceAttribute: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -1874,7 +1890,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(values.length).toBe(0);
     });
 
-    it('should not add a retract value for unsupported ui types', () => {
+    it('should not add a retract option for multi-select ui types such as CHECKBOXLIST', () => {
       const sourceAttribute: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -1895,7 +1911,7 @@ describe('CpqConfiguratorNormalizer', () => {
   });
 
   describe('addRequiredSelectionPromptValue', () => {
-    it('should add a documentation value for required drop-down ui types when no value is selected', () => {
+    it('should add a prompt option for a required dropdown with no selection', () => {
       const sourceAttribute: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -1923,7 +1939,7 @@ describe('CpqConfiguratorNormalizer', () => {
       });
     });
 
-    it('should not add a documentation value for required drop-down ui types when a value is selected', () => {
+    it('should not add a prompt option when a required dropdown already has a selection', () => {
       const sourceAttribute: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -1944,7 +1960,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(values.length).toBe(0);
     });
 
-    it('should not add a documentation value for not required drop-down ui types', () => {
+    it('should not add a prompt option for an optional dropdown', () => {
       const sourceAttribute: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -1965,7 +1981,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(values.length).toBe(0);
     });
 
-    it('should not add a documentation value for required RADIOBUTTON attributes', () => {
+    it('should not add a prompt option for a required RADIOBUTTON', () => {
       const sourceAttribute: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -1986,7 +2002,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(values.length).toBe(0);
     });
 
-    it('should not add a documentation value for READ_ONLY attributes', () => {
+    it('should not add a prompt option when the attribute is READ_ONLY', () => {
       const sourceAttribute: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -2007,7 +2023,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(values.length).toBe(0);
     });
 
-    it('should not add a documentation value when a retract value (paV_ID 0) is already present', () => {
+    it('should not add a prompt option if CPQ already sent paV_ID 0', () => {
       const sourceAttribute: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -2030,13 +2046,13 @@ describe('CpqConfiguratorNormalizer', () => {
   });
 
   describe('generateWarningMessages', () => {
-    it('should return empty array when no warnings are present', () => {
+    it('should return an empty list when there are no failed validations or incomplete messages', () => {
       const result =
         cpqConfiguratorNormalizer['generateWarningMessages'](cpqConfiguration);
       expect(result).toEqual([]);
     });
 
-    it('should concat failed validations and incomplete messages', () => {
+    it('should concatenate failedValidations and incompleteMessages', () => {
       const result = cpqConfiguratorNormalizer['generateWarningMessages']({
         ...cpqConfiguration,
         failedValidations: [VALIDATION_MSG],
@@ -2047,20 +2063,20 @@ describe('CpqConfiguratorNormalizer', () => {
   });
 
   describe('generateErrorMessages', () => {
-    it('should create no error message for incomplete attribute', () => {
+    it('should not treat incomplete attributes as error messages', () => {
       const messageObs = cpqConfiguratorNormalizer['generateErrorMessages'](
         cpqConfigurationIncompleteConsistent
       );
       expect(messageObs.length).toBe(0);
     });
 
-    it('should return empty array when no errors are present', () => {
+    it('should return an empty list when there are no error or invalid messages', () => {
       const result =
         cpqConfiguratorNormalizer['generateErrorMessages'](cpqConfiguration);
       expect(result).toEqual([]);
     });
 
-    it('should concat error and invalid messages', () => {
+    it('should concatenate errorMessages and invalidMessages', () => {
       const result = cpqConfiguratorNormalizer['generateErrorMessages']({
         ...cpqConfiguration,
         errorMessages: [ERROR_MSG],
@@ -2071,7 +2087,7 @@ describe('CpqConfiguratorNormalizer', () => {
   });
 
   describe('generateTotalNumberOfIssues', () => {
-    it('should return 0 when no issues are present', () => {
+    it('should return 0 for a complete, consistent configuration', () => {
       expect(
         cpqConfiguratorNormalizer['generateTotalNumberOfIssues'](
           cpqConfiguration
@@ -2079,7 +2095,7 @@ describe('CpqConfiguratorNormalizer', () => {
       ).toBe(0);
     });
 
-    it('should sum up all issue sources', () => {
+    it('should add incomplete attributes, conflicts, errors, invalid messages, failed validations and incomplete messages', () => {
       expect(
         cpqConfiguratorNormalizer['generateTotalNumberOfIssues'](
           cpqConfigurationIncompleteInconsistent
@@ -2089,7 +2105,7 @@ describe('CpqConfiguratorNormalizer', () => {
   });
 
   describe('mapPAId', () => {
-    it("should map standard field name 'pA_ID' if present", () => {
+    it('should prefer pA_ID when both pA_ID and PA_ID are present', () => {
       expect(
         cpqConfiguratorNormalizer['mapPAId'](<any>{
           pA_ID: 123,
@@ -2097,7 +2113,7 @@ describe('CpqConfiguratorNormalizer', () => {
         })
       ).toBe('123');
     });
-    it("should map fallback field name 'PA_ID' if standard field name 'pA_ID' is not present", () => {
+    it('should fall back to PA_ID when pA_ID is missing', () => {
       expect(
         cpqConfiguratorNormalizer['mapPAId'](<any>{
           PA_ID: 456,
@@ -2244,7 +2260,7 @@ describe('CpqConfiguratorNormalizer', () => {
       }).groups[0].attributes?.[0];
     }
 
-    it('should leave attribute without container when no matching sapContainers entry exists', () => {
+    it('should not attach a container when no sapContainers entry matches the attribute code', () => {
       const result = cpqConfiguratorNormalizer.convert(
         configurationWithContainers([
           {
@@ -2257,7 +2273,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.groups[0].subGroups.length).toBe(0);
     });
 
-    it('should attach matching container metadata and row actions to the attribute', () => {
+    it('should map minRows, maxRows, rows and add-actions onto the matching attribute', () => {
       const result = cpqConfiguratorNormalizer.convert(
         configurationWithContainers([
           {
@@ -2295,7 +2311,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.groups[0].subGroups.length).toBe(0);
     });
 
-    it('should mark container attribute complete when a row is selected', () => {
+    it('should mark a CONTAINER attribute complete when selected rows meet minRows (or minRows is omitted)', () => {
       const result = cpqConfiguratorNormalizer.convert({
         ...cpqConfiguration,
         tabs: [
@@ -2320,7 +2336,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.groups[0].attributes?.[0].incomplete).toBe(false);
     });
 
-    it('should mark container attribute incomplete when no row is selected', () => {
+    it('should mark a CONTAINER attribute incomplete when selected rows are below minRows', () => {
       const result = cpqConfiguratorNormalizer.convert({
         ...cpqConfiguration,
         tabs: [
@@ -2338,6 +2354,7 @@ describe('CpqConfiguratorNormalizer', () => {
         sapContainers: [
           {
             stdAttrCode: cpqAttributeStdAttrCode,
+            minRows: 1,
             rows: [{ id: '1', selected: false }],
           },
         ],
@@ -2345,27 +2362,27 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.groups[0].attributes?.[0].incomplete).toBe(true);
     });
 
-    it('should set container attribute required when minRows is 1 even if source is not required', () => {
+    it('should force required=true when minRows is 1 even if the CPQ attribute is optional', () => {
       expect(convertContainerAttribute(false, 1)?.required).toBe(true);
     });
 
-    it('should set container attribute required when minRows is greater than 1 even if source is not required', () => {
+    it('should force required=true when minRows is greater than 1 even if the CPQ attribute is optional', () => {
       expect(convertContainerAttribute(false, 2)?.required).toBe(true);
     });
 
-    it('should keep container attribute not required when minRows is 0', () => {
+    it('should leave an optional CPQ attribute optional when minRows is 0', () => {
       expect(convertContainerAttribute(false, 0)?.required).toBe(false);
     });
 
-    it('should keep container attribute not required when minRows is not set', () => {
+    it('should leave an optional CPQ attribute optional when minRows is omitted', () => {
       expect(convertContainerAttribute(false)?.required).toBe(false);
     });
 
-    it('should keep container attribute required when source is required and minRows is 0', () => {
+    it('should keep a required CPQ attribute required when minRows is 0', () => {
       expect(convertContainerAttribute(true, 0)?.required).toBe(true);
     });
 
-    it('should create CONTAINER_ROW_GROUP for rows with nested configuration', () => {
+    it('should create a CONTAINER_ROW_GROUP with nested tab, messages and row groupId', () => {
       const result = cpqConfiguratorNormalizer.convert(
         configurationWithContainers([containerWithRows])
       );
@@ -2426,7 +2443,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.totalNumberOfIssues).toBe(6);
     });
 
-    it('should include incomplete nested tab attributes in totalNumberOfIssues', () => {
+    it('should include incomplete nested-tab attributes in totalNumberOfIssues', () => {
       const nestedAttributeIncomplete: Cpq.Attribute = {
         ...nestedAttribute,
         incomplete: true,
@@ -2456,7 +2473,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.totalNumberOfIssues).toBe(7);
     });
 
-    it('should leave nested group messages undefined when nested configuration has no messages', () => {
+    it('should leave row-group messages undefined when the nested configuration has none', () => {
       const result = cpqConfiguratorNormalizer.convert(
         configurationWithContainers([
           {
@@ -2482,7 +2499,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.groups[0].subGroups[0].messages).toBeUndefined();
     });
 
-    it('should recurse nested containers and keep CONTAINER_ROW_GROUP out of flatGroups', () => {
+    it('should attach nested containers and keep CONTAINER_ROW_GROUP out of flatGroups', () => {
       const result = cpqConfiguratorNormalizer.convert(
         configurationWithContainers([containerWithRows])
       );
@@ -2506,7 +2523,7 @@ describe('CpqConfiguratorNormalizer', () => {
       ).toBe(true);
     });
 
-    it('should list a nested tab after its parent tab in flatGroups', () => {
+    it('should append a nested container-row tab after its parent in flatGroups', () => {
       const result = cpqConfiguratorNormalizer.convert(
         configurationWithContainers([containerWithRows])
       );
@@ -2516,7 +2533,7 @@ describe('CpqConfiguratorNormalizer', () => {
       );
     });
 
-    it('should keep nested tab group IDs unique when CPQ reuses a root tab ID', () => {
+    it('should prefix a nested tab id with the row group id when CPQ reuses a root tab id', () => {
       const result = cpqConfiguratorNormalizer.convert(
         configurationWithContainers([
           {
@@ -2546,7 +2563,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(new Set(flatGroupIds).size).toBe(flatGroupIds.length);
     });
 
-    it('should attach sapContainers on the generic-group path when no tabs exist', () => {
+    it('should attach matching sapContainers when convert falls back to the generic group', () => {
       const result = cpqConfiguratorNormalizer.convert({
         productSystemId: cpqProductSystemId,
         currencyISOCode: CURRENCY,

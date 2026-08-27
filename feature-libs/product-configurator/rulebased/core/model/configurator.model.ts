@@ -142,7 +142,17 @@ export namespace Configurator {
     isCartEntryUpdateRequired?: boolean;
     interactionState: InteractionState;
     updateType?: UpdateType;
+    /**
+     * @deprecated since 221121.17 - Use `messages` instead, which will be
+     * used in the components. This property remains for backward
+     * compatibility and will be removed in a future major version.
+     */
     errorMessages?: string[];
+    /**
+     * @deprecated since 221121.17 - Use `messages` instead, which will be
+     * used in the components. This property remains for backward
+     * compatibility and will be removed in a future major version.
+     */
     warningMessages?: string[];
     /**
      * Typed messages from the configuration engine, including severity.
