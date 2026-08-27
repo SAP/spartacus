@@ -16,7 +16,7 @@ import { CmsComponentData } from '../../../cms-structure/index';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { LayoutConfig } from '../../../layout/config/layout-config';
-import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { TabComponent } from '../tab/tab.component';
 import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
 

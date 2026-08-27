@@ -15,13 +15,13 @@ import {
   LanguageService,
   TranslationService,
 } from '@spartacus/core';
-import { MockTranslationService } from '@spartacus/core/testing/i18n';
+import { MockTranslationService } from 'core-libs/core/src/i18n/testing';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { LanguageCurrencyComponent } from './language-currency.component';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
-import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 
 @Component({
   selector: 'cx-icon',

@@ -9,7 +9,7 @@ import {
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
-import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { NEVER, Observable, of } from 'rxjs';
 import { IconComponent } from '../icon/icon.component';
 import { GlobalMessageComponent } from './global-message.component';

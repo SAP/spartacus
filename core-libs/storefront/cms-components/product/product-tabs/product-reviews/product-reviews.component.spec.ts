@@ -17,7 +17,7 @@ import {
 } from '../../../../shared/index';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductReviewsComponent } from './product-reviews.component';
-import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 
 const productCode = '123';
 const product = { code: productCode, text: 'bla' };

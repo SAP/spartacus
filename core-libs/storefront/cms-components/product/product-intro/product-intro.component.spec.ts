@@ -12,7 +12,7 @@ import {
   ComponentCreateEvent,
   StarRatingComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductIntroComponent } from './product-intro.component';

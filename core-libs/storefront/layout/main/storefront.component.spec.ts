@@ -15,7 +15,7 @@ import {
   PageSlotComponent,
   PageTemplateDirective,
 } from '../../cms-structure';
-import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { SkipLinkService } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 import { StorefrontComponent } from './storefront.component';
