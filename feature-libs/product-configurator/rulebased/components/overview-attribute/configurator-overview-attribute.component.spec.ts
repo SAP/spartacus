@@ -1,5 +1,5 @@
 import { Component, Input, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
@@ -11,6 +11,7 @@ import {
   ConfiguratorPriceComponentOptions,
 } from '../price/configurator-price.component';
 import { ConfiguratorOverviewAttributeComponent } from './configurator-overview-attribute.component';
+import { vi } from 'vitest';
 
 @Component({
   selector: 'cx-configurator-price',
@@ -27,7 +28,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
   let htmlElem: HTMLElement;
   let breakpointService: BreakpointService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -43,7 +44,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
         imports: [MockConfiguratorPriceComponent],
       },
     });
-  }));
+  });
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorOverviewAttributeComponent);
     component = fixture.componentInstance;
@@ -52,7 +53,6 @@ describe('ConfigurationOverviewAttributeComponent', () => {
       attribute: 'Test Attribute Name',
       value: 'Test Attribute Value',
     };
-    fixture.detectChanges();
 
     breakpointService = TestBed.inject(
       BreakpointService as Type<BreakpointService>
@@ -60,10 +60,12 @@ describe('ConfigurationOverviewAttributeComponent', () => {
   });
 
   it('should create component', () => {
+    fixture.detectChanges();
     expect(component).toBeDefined();
   });
 
   it('should show attribute value', () => {
+    fixture.detectChanges();
     expect(htmlElem.querySelectorAll('.cx-attribute-value').length).toBe(1);
 
     expect(htmlElem.querySelectorAll('.cx-attribute-label').length).toBe(1);
@@ -99,7 +101,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
 
   describe('isDesktop', () => {
     it('should return `false` because we deal with mobile widget', () => {
-      spyOn(breakpointService, 'isUp').and.returnValue(of(false));
+      vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(false));
       let result: boolean;
       component
         .isDesktop()
@@ -111,7 +113,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
     });
 
     it('should return `true` because we deal with desktop widget', () => {
-      spyOn(breakpointService, 'isUp').and.returnValue(of(true));
+      vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(true));
       let result: boolean;
       component
         .isDesktop()
@@ -138,12 +140,11 @@ describe('ConfigurationOverviewAttributeComponent', () => {
           value: 10,
         },
       };
-      fixture.detectChanges();
 
       breakpointService = TestBed.inject(
         BreakpointService as Type<BreakpointService>
       );
-      spyOn(breakpointService, 'isUp').and.returnValue(of(true));
+      vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(true));
     });
 
     it("should contain span element with class name 'cx-visually-hidden' without price that hides span element content on the UI", () => {
@@ -175,6 +176,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
     });
 
     it("should contain span element with class name 'cx-visually-hidden' with price that hides span element content on the UI", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -193,6 +195,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
     });
 
     it("should contain div element with class name 'cx-attribute-value' and 'aria-hidden' attribute that removes div element from the accessibility tree", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -205,6 +208,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
     });
 
     it("should contain div element with class name 'cx-attribute-label' and 'aria-hidden' attribute that removes div element from the accessibility tree", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

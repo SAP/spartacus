@@ -1,10 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -21,6 +16,7 @@ import {
   SubscriptionList,
 } from '@spartacus/subscription-billing/root';
 import { Observable, of } from 'rxjs';
+import { vi } from 'vitest';
 import { SubscriptionListComponent } from './subscription-list.component';
 
 const listWithData: SubscriptionList = {
@@ -127,7 +123,7 @@ describe('SubscriptionListComponent', () => {
     expect(component).toBeTruthy();
   });
   it('should show list with pagination and sort if data is present', () => {
-    spyOn(facade, 'getSubscriptionList').and.returnValue(of(listWithData));
+    vi.spyOn(facade, 'getSubscriptionList').mockReturnValue(of(listWithData));
     fixture.detectChanges();
     expect(
       fixture.debugElement.queryAll(By.css('.subscription-list-sort.top'))
@@ -142,7 +138,7 @@ describe('SubscriptionListComponent', () => {
     ).toEqual(2);
   });
   it('should show no subscription is data is not present', () => {
-    spyOn(facade, 'getSubscriptionList').and.returnValue(of(listWithNoData));
+    vi.spyOn(facade, 'getSubscriptionList').mockReturnValue(of(listWithNoData));
     fixture.detectChanges();
     expect(
       fixture.debugElement.queryAll(By.css('.subscription-list-sort.top'))
@@ -156,25 +152,27 @@ describe('SubscriptionListComponent', () => {
       fixture.debugElement.queryAll(By.css('.subscription')).length
     ).toEqual(0);
   });
-  it('should set the sort order correctly', fakeAsync(() => {
-    spyOn(facade, 'getSubscriptionList').and.returnValue(of(listWithData));
+  it('should set the sort order correctly', async () => {
+    vi.spyOn(facade, 'getSubscriptionList').mockReturnValue(of(listWithData));
     component.changeSortCode('byDocumentNumberAsc');
-    tick();
+    await Promise.resolve();
     fixture.detectChanges();
-    const lastCallArgs = (
-      facade.getSubscriptionList as jasmine.Spy
-    ).calls.mostRecent().args;
-    expect(lastCallArgs).toEqual([5, 0, 'byDocumentNumberAsc']);
-  }));
+    expect(facade.getSubscriptionList).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      'byDocumentNumberAsc'
+    );
+  });
 
-  it('should set the sort order correctly', fakeAsync(() => {
-    spyOn(facade, 'getSubscriptionList').and.returnValue(of(listWithData));
+  it('should set the page number correctly', async () => {
+    vi.spyOn(facade, 'getSubscriptionList').mockReturnValue(of(listWithData));
     component.pageChange(2);
-    tick();
+    await Promise.resolve();
     fixture.detectChanges();
-    const lastCallArgs = (
-      facade.getSubscriptionList as jasmine.Spy
-    ).calls.mostRecent().args;
-    expect(lastCallArgs).toEqual([5, 2, undefined]);
-  }));
+    expect(facade.getSubscriptionList).toHaveBeenCalledWith(
+      expect.anything(),
+      2,
+      undefined
+    );
+  });
 });

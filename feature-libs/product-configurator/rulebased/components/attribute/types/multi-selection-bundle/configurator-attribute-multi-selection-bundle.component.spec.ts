@@ -5,13 +5,14 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { ActivatedRoute } from '@angular/router';
 import {
   CxDatePipe,
+  FeatureConfigService,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
@@ -46,6 +47,7 @@ import {
   ConfiguratorAttributeQuantityComponentOptions,
 } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurator-attribute-multi-selection-bundle.component';
+import { vi } from 'vitest';
 
 @Component({
   selector: 'cx-configurator-attribute-product-card',
@@ -144,7 +146,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     return value;
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -172,6 +174,22 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
         }),
       ],
     })
+      .overrideProvider(FeatureConfigService, {
+        useFactory: () => {
+          const ctrl = TestBed.inject(
+            MockFeatureTogglesController
+          ) as unknown as Record<string, unknown>;
+          return {
+            isEnabled: (feature: string) => {
+              const negated = feature.startsWith('!');
+              const key = negated ? feature.slice(1) : feature;
+              const val = !!ctrl[key];
+              return negated ? !val : val;
+            },
+            isLevel: () => false,
+          };
+        },
+      })
       .overrideComponent(ConfiguratorAttributeMultiSelectionBundleComponent, {
         remove: {
           imports: [
@@ -202,7 +220,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     const values: Configurator.Value[] = [
@@ -259,11 +277,10 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
       groupId: 'testGroup',
       values: values,
     };
-
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -288,10 +305,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   });
 
   it('should call facade update onChangeValueQuantity', () => {
-    spyOn(
-      component['configuratorCommonsService'],
-      'updateConfiguration'
-    ).and.callThrough();
+    vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
 
     component.ngOnInit();
 
@@ -320,10 +334,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   });
 
   it('should call facade update on event onDeselect', () => {
-    spyOn(
-      component['configuratorCommonsService'],
-      'updateConfiguration'
-    ).and.callThrough();
+    vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
 
     component.ngOnInit();
 
@@ -367,10 +378,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   });
 
   it('should call selectionChange on event onSelect', () => {
-    spyOn(
-      component['configuratorCommonsService'],
-      'updateConfiguration'
-    ).and.callThrough();
+    vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
 
     component.ngOnInit();
 
@@ -414,7 +422,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   });
 
   it('should not fail on a subsequent selection when the values got frozen after a previous round trip (e.g. CPQ API V2 not re-creating the attribute)', () => {
-    spyOn(component['configuratorCommonsService'], 'updateConfiguration');
+    vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
     component.ngOnInit();
 
     // Simulates the NgRx runtime deep-freezing the values that were handed
@@ -443,10 +451,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   });
 
   it('should call facade update onDeselectAll', () => {
-    spyOn(
-      component['configuratorCommonsService'],
-      'updateConfiguration'
-    ).and.callThrough();
+    vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
     component.ngOnInit();
     component.onDeselectAll();
     expect(
@@ -455,13 +460,13 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   });
 
   it('should call onHandleAttributeQuantity of event onChangeAttributeQuantity', () => {
-    spyOn<any>(component, 'onHandleAttributeQuantity');
+    vi.spyOn<any>(component, 'onHandleAttributeQuantity');
     component.onChangeAttributeQuantity(2);
     expect(component['onHandleAttributeQuantity']).toHaveBeenCalled();
   });
 
   it('should call onDeselectAll of event onChangeAttributeQuantity', () => {
-    spyOn(component, 'onDeselectAll');
+    vi.spyOn(component, 'onDeselectAll');
     component.onChangeAttributeQuantity(0);
     expect(component.onDeselectAll).toHaveBeenCalled();
   });

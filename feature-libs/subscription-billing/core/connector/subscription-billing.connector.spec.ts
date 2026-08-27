@@ -1,11 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { of, throwError } from 'rxjs';
+import { firstValueFrom, of, throwError } from 'rxjs';
 import { SubscriptionBillingAdapter } from './subscription-billing.adapter';
 import { SubscriptionBillingConnector } from './subscription-billing.connector';
 import {
   SubscriptionBill,
   SubscriptionBillsList,
 } from '@spartacus/subscription-billing/root';
+import { vi } from 'vitest';
 
 const mockBillData: SubscriptionBill = {
   billAt: '2026-04-11T00:00:00+0000',
@@ -92,13 +93,13 @@ const listWithData: SubscriptionBillsList = {
 
 describe('SubscriptionBillingConnector', () => {
   let connector: SubscriptionBillingConnector;
-  let adapter: jasmine.SpyObj<SubscriptionBillingAdapter>;
+  let adapter: any;
 
   beforeEach(() => {
-    const adapterSpy = jasmine.createSpyObj('SubscriptionBillingAdapter', [
-      'getSubscriptionBillsList',
-      'getSubscriptionBillByCode',
-    ]);
+    const adapterSpy = {
+      getSubscriptionBillsList: vi.fn(),
+      getSubscriptionBillByCode: vi.fn(),
+    };
 
     TestBed.configureTestingModule({
       providers: [
@@ -108,9 +109,7 @@ describe('SubscriptionBillingConnector', () => {
     });
 
     connector = TestBed.inject(SubscriptionBillingConnector);
-    adapter = TestBed.inject(
-      SubscriptionBillingAdapter
-    ) as jasmine.SpyObj<SubscriptionBillingAdapter>;
+    adapter = TestBed.inject(SubscriptionBillingAdapter) as any;
   });
 
   it('should be created', () => {
@@ -122,7 +121,7 @@ describe('SubscriptionBillingConnector', () => {
       const userId = 'current';
       const expectedResponse = of(listWithData);
 
-      adapter.getSubscriptionBillsList.and.returnValue(expectedResponse);
+      adapter.getSubscriptionBillsList.mockReturnValue(expectedResponse);
 
       const result = connector.getSubscriptionBillsList(userId, 5, 1);
       expect(adapter.getSubscriptionBillsList).toHaveBeenCalledWith(
@@ -135,18 +134,15 @@ describe('SubscriptionBillingConnector', () => {
       expect(result).toBe(expectedResponse);
     });
 
-    it('should handle errors', (done) => {
+    it('should handle errors', async () => {
       const userId = 'current';
       const error = new Error('Cancel error');
 
-      adapter.getSubscriptionBillsList.and.returnValue(throwError(() => error));
+      adapter.getSubscriptionBillsList.mockReturnValue(throwError(() => error));
 
-      connector.getSubscriptionBillsList(userId, 5, 1).subscribe({
-        error: (e) => {
-          expect(e).toBe(error);
-          done();
-        },
-      });
+      await expect(
+        firstValueFrom(connector.getSubscriptionBillsList(userId, 5, 1))
+      ).rejects.toBe(error);
     });
   });
 
@@ -155,7 +151,7 @@ describe('SubscriptionBillingConnector', () => {
       const userId = 'current';
       const expectedResponse = of(mockBillData);
 
-      adapter.getSubscriptionBillByCode.and.returnValue(expectedResponse);
+      adapter.getSubscriptionBillByCode.mockReturnValue(expectedResponse);
 
       const result = connector.getSubscriptionBillByCode(
         userId,
@@ -168,22 +164,22 @@ describe('SubscriptionBillingConnector', () => {
       expect(result).toBe(expectedResponse);
     });
 
-    it('should handle errors', (done) => {
+    it('should handle errors', async () => {
       const userId = 'current';
       const error = new Error('Cancel error');
 
-      adapter.getSubscriptionBillByCode.and.returnValue(
+      adapter.getSubscriptionBillByCode.mockReturnValue(
         throwError(() => error)
       );
 
-      connector
-        .getSubscriptionBillByCode(userId, mockBillData.documentNumber ?? '')
-        .subscribe({
-          error: (e) => {
-            expect(e).toBe(error);
-            done();
-          },
-        });
+      await expect(
+        firstValueFrom(
+          connector.getSubscriptionBillByCode(
+            userId,
+            mockBillData.documentNumber ?? ''
+          )
+        )
+      ).rejects.toBe(error);
     });
   });
 });
