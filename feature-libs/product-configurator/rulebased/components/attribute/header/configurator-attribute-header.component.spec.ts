@@ -418,7 +418,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         expect,
         htmlElem,
         '.cx-container-info',
-        'configurator.attribute.containerMinRows maxRows:undefined minRows:2'
+        'configurator.attribute.containerMinRows count:2'
       );
     });
 
@@ -429,7 +429,39 @@ describe('ConfigAttributeHeaderComponent', () => {
         expect,
         htmlElem,
         '.cx-container-info',
-        'configurator.attribute.containerMaxRows maxRows:5 minRows:undefined'
+        'configurator.attribute.containerMaxRows count:5'
+      );
+    });
+
+    it('should render max-only info when minRows is 0', () => {
+      component.attribute.container = { minRows: 0, maxRows: 10, rows: [] };
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-container-info',
+        'configurator.attribute.containerMaxRows count:10'
+      );
+    });
+
+    it('should render exact-count info when minRows equals maxRows', () => {
+      component.attribute.container = { minRows: 1, maxRows: 1, rows: [] };
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-container-info',
+        'configurator.attribute.containerExactRows count:1'
+      );
+    });
+
+    it('should not render container row info if minRows is 0 and maxRows is not set', () => {
+      component.attribute.container = { minRows: 0, rows: [] };
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-container-info'
       );
     });
 
@@ -1442,32 +1474,62 @@ describe('ConfigAttributeHeaderComponent', () => {
       expect(component.getContainerRowInfoKey()).toBeUndefined();
     });
 
-    it('should return min/max key if both minRows and maxRows are set', () => {
+    it('should return undefined if minRows is 0 and maxRows is not set', () => {
+      component.attribute.container = { minRows: 0, rows: [] };
+      expect(component.getContainerRowInfoKey()).toBeUndefined();
+    });
+
+    it('should return undefined if minRows and maxRows are 0', () => {
+      component.attribute.container = { minRows: 0, maxRows: 0, rows: [] };
+      expect(component.getContainerRowInfoKey()).toBeUndefined();
+    });
+
+    it('should return min/max translatable if both minRows and maxRows are set and differ', () => {
       component.attribute.container = { minRows: 1, maxRows: 4, rows: [] };
-      expect(component.getContainerRowInfoKey()).toBe(
-        'configurator.attribute.containerMinMaxRows'
-      );
+      expect(component.getContainerRowInfoKey()).toEqual({
+        key: 'configurator.attribute.containerMinMaxRows',
+        params: { minRows: 1, maxRows: 4 },
+      });
     });
 
-    it('should return min key if only minRows is set', () => {
+    it('should return min translatable if only minRows is set', () => {
       component.attribute.container = { minRows: 1, rows: [] };
-      expect(component.getContainerRowInfoKey()).toBe(
-        'configurator.attribute.containerMinRows'
-      );
+      expect(component.getContainerRowInfoKey()).toEqual({
+        key: 'configurator.attribute.containerMinRows',
+        params: { count: 1 },
+      });
     });
 
-    it('should return max key if only maxRows is set', () => {
+    it('should return max translatable if only maxRows is set', () => {
       component.attribute.container = { maxRows: 4, rows: [] };
-      expect(component.getContainerRowInfoKey()).toBe(
-        'configurator.attribute.containerMaxRows'
-      );
+      expect(component.getContainerRowInfoKey()).toEqual({
+        key: 'configurator.attribute.containerMaxRows',
+        params: { count: 4 },
+      });
     });
 
-    it('should treat minRows of 0 as available', () => {
+    it('should treat minRows of 0 as no minimum', () => {
       component.attribute.container = { minRows: 0, maxRows: 4, rows: [] };
-      expect(component.getContainerRowInfoKey()).toBe(
-        'configurator.attribute.containerMinMaxRows'
-      );
+      expect(component.getContainerRowInfoKey()).toEqual({
+        key: 'configurator.attribute.containerMaxRows',
+        params: { count: 4 },
+      });
+    });
+
+    it('should treat maxRows of 0 as no maximum', () => {
+      component.attribute.container = { minRows: 2, maxRows: 0, rows: [] };
+      expect(component.getContainerRowInfoKey()).toEqual({
+        key: 'configurator.attribute.containerMinRows',
+        params: { count: 2 },
+      });
+    });
+
+    it('should return exact-count translatable if minRows equals maxRows', () => {
+      component.attribute.container = { minRows: 3, maxRows: 3, rows: [] };
+      expect(component.getContainerRowInfoKey()).toEqual({
+        key: 'configurator.attribute.containerExactRows',
+        params: { count: 3 },
+      });
     });
   });
 

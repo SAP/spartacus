@@ -365,24 +365,41 @@ export class ConfiguratorAttributeHeaderComponent
   }
 
   /**
-   * Retrieves the translation key for container min/max row information.
-   * The key depends on whether both bounds, only a minimum, or only a
-   * maximum is available.
+   * Retrieves the translatable for container min/max row information.
+   * A bound of 0 is treated as unset so it does not appear in the text.
+   * When both bounds are set and equal, an exact-count message is used.
    *
-   * @returns the translation key, or `undefined` if neither bound is set
+   * @returns the translatable, or `undefined` if there is no meaningful bound
    */
-  getContainerRowInfoKey(): string | undefined {
-    const hasMinRows = this.attribute.container?.minRows != null;
-    const hasMaxRows = this.attribute.container?.maxRows != null;
+  getContainerRowInfoKey(): Translatable | undefined {
+    const minRows = this.attribute.container?.minRows;
+    const maxRows = this.attribute.container?.maxRows;
+    const hasMinRows = minRows != null && minRows > 0;
+    const hasMaxRows = maxRows != null && maxRows > 0;
 
     if (hasMinRows && hasMaxRows) {
-      return 'configurator.attribute.containerMinMaxRows';
+      if (minRows === maxRows) {
+        return {
+          key: 'configurator.attribute.containerExactRows',
+          params: { count: minRows },
+        };
+      }
+      return {
+        key: 'configurator.attribute.containerMinMaxRows',
+        params: { minRows, maxRows },
+      };
     }
     if (hasMinRows) {
-      return 'configurator.attribute.containerMinRows';
+      return {
+        key: 'configurator.attribute.containerMinRows',
+        params: { count: minRows },
+      };
     }
     if (hasMaxRows) {
-      return 'configurator.attribute.containerMaxRows';
+      return {
+        key: 'configurator.attribute.containerMaxRows',
+        params: { count: maxRows },
+      };
     }
     return undefined;
   }

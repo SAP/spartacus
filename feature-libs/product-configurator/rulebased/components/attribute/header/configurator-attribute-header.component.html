@@ -36,14 +36,7 @@
   *ngIf="getContainerRowInfoKey() as containerRowInfoKey"
   class="cx-container-info"
 >
-  {{
-    containerRowInfoKey
-      | cxTranslate
-        : {
-            minRows: attribute.container?.minRows,
-            maxRows: attribute.container?.maxRows,
-          }
-  }}
+  {{ containerRowInfoKey | cxTranslate }}
 </div>
 <div
   *ngIf="attribute.hasConflicts"
