@@ -183,6 +183,58 @@ describe('ConfiguratorGroupStatusService', () => {
       );
     });
 
+    it('should return a complete navigable group that hosts a container with a warning message', () => {
+      const containerGroup = createAttributeGroup(GROUP_ID_1, {
+        complete: true,
+      });
+      containerGroup.attributes = [
+        {
+          name: 'CONTAINER_ATTR',
+          uiType: Configurator.UiType.CONTAINER,
+          container: {
+            rows: [],
+            messages: [
+              {
+                message: 'Container requires attention',
+                severity: Configurator.MessageSeverity.WARNING,
+              },
+            ],
+          },
+        },
+      ];
+      const configuration = createConfig([containerGroup], [containerGroup]);
+
+      expect(classUnderTest.getFirstIncompleteGroup(configuration)?.id).toBe(
+        GROUP_ID_1
+      );
+    });
+
+    it('should not treat a complete group with only a container info message as incomplete', () => {
+      const containerGroup = createAttributeGroup(GROUP_ID_1, {
+        complete: true,
+      });
+      containerGroup.attributes = [
+        {
+          name: 'CONTAINER_ATTR',
+          uiType: Configurator.UiType.CONTAINER,
+          container: {
+            rows: [],
+            messages: [
+              {
+                message: 'Check quantity',
+                severity: Configurator.MessageSeverity.INFO,
+              },
+            ],
+          },
+        },
+      ];
+      const configuration = createConfig([containerGroup], [containerGroup]);
+
+      expect(
+        classUnderTest.getFirstIncompleteGroup(configuration)
+      ).toBeUndefined();
+    });
+
     it('should not treat a complete group with only an info message as incomplete', () => {
       const infoGroup = createAttributeGroup(GROUP_ID_1, {
         complete: true,

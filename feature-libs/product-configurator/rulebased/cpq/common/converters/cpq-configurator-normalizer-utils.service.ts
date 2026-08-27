@@ -359,6 +359,21 @@ export class CpqConfiguratorNormalizerUtilsService {
    * @param context - Optional context label for temporary logging
    * @returns Number of issues in nested configurations
    */
+  /**
+   * Counts warning messages at container level with non-empty message text.
+   *
+   * @param container - CPQ container
+   * @returns Number of container-level warning messages
+   */
+  protected countContainerWarningMessages(container: Cpq.Container): number {
+    return (
+      container.messages?.filter(
+        (message) =>
+          !!message.message && message.severity === Cpq.MessageSeverity.WARNING
+      ).length ?? 0
+    );
+  }
+
   protected countIssuesInContainers(
     containers?: Cpq.Container[],
     context = 'unknown'
@@ -367,6 +382,8 @@ export class CpqConfiguratorNormalizerUtilsService {
       return 0;
     }
     return containers.reduce((containerTotal, container) => {
+      const containerWarningMessages =
+        this.countContainerWarningMessages(container);
       const rowIssues = (container.rows ?? []).reduce((rowTotal, row) => {
         if (!row.configuration) {
           return rowTotal;
@@ -380,7 +397,7 @@ export class CpqConfiguratorNormalizerUtilsService {
         const rowContribution = configurationIssues + nestedContainerIssues;
         return rowTotal + rowContribution;
       }, 0);
-      return containerTotal + rowIssues;
+      return containerTotal + containerWarningMessages + rowIssues;
     }, 0);
   }
 

@@ -44,7 +44,8 @@ export class ConfiguratorGroupStatusService {
   /**
    * Returns the first non-conflict group of the configuration which is not
    * completed. A group is considered incomplete when its `complete` flag is
-   * falsy or when it carries at least one message with warning severity.
+   * falsy, when it carries at least one message with warning severity, or
+   * when one of its container attributes carries a warning message.
    *
    * Groups that are not navigation targets (not present in `flatGroups`, e.g.
    * a container row group) are resolved to a navigable descendant, for example
@@ -102,14 +103,19 @@ export class ConfiguratorGroupStatusService {
   }
 
   /**
-   * Whether the group is incomplete due to its `complete` flag or due to
-   * warning messages.
+   * Whether the group is incomplete due to its `complete` flag, due to
+   * warning messages, or due to container-level warning messages on one of
+   * its attributes.
    *
    * @param group - Group to check
    * @returns `true` if the group should be treated as incomplete
    */
   protected isIncompleteGroup(group: Configurator.Group): boolean {
-    return !group.complete || this.hasWarningMessages(group);
+    return (
+      !group.complete ||
+      this.hasWarningMessages(group) ||
+      this.hasContainerWarningMessages(group)
+    );
   }
 
   /**
@@ -122,6 +128,23 @@ export class ConfiguratorGroupStatusService {
     return (
       group.messages?.some(
         (message) => message.severity === Configurator.MessageSeverity.WARNING
+      ) ?? false
+    );
+  }
+
+  /**
+   * Whether the group hosts a container attribute with at least one warning
+   * message at container level.
+   *
+   * @param group - Group to check
+   * @returns `true` if a container warning message is present
+   */
+  protected hasContainerWarningMessages(group: Configurator.Group): boolean {
+    return (
+      group.attributes?.some((attribute) =>
+        attribute.container?.messages?.some(
+          (message) => message.severity === Configurator.MessageSeverity.WARNING
+        )
       ) ?? false
     );
   }

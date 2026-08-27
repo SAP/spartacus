@@ -596,6 +596,33 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       ).toBe(6);
     });
 
+    it('should count container-level warning messages', () => {
+      const containers: Cpq.Container[] = [
+        {
+          stdAttrCode: 1,
+          messages: [
+            {
+              message: 'Container warning',
+              severity: Cpq.MessageSeverity.WARNING,
+            },
+            { message: 'Info only', severity: Cpq.MessageSeverity.INFO },
+            { message: '', severity: Cpq.MessageSeverity.WARNING },
+          ],
+          rows: [
+            {
+              id: '1',
+              configuration: nestedConfiguration,
+            },
+          ],
+        },
+      ];
+      expect(
+        cpqConfiguratorNormalizerUtilsService['countIssuesInContainers'](
+          containers
+        )
+      ).toBe(7);
+    });
+
     it('should count root typed messages and incomplete attributes when messages are present', () => {
       expect(
         cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues(
