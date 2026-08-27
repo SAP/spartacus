@@ -15,7 +15,7 @@ export default defineConfig({
       'core-libs/storefront/shared/test/mock-feature-directive': `${import.meta.dirname}/../../core-libs/storefront/shared/test/mock-feature-directive.ts`,
       'core-libs/core/src/i18n/testing': `${import.meta.dirname}/../../core-libs/core/src/i18n/testing/index.ts`,
       'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module': `${import.meta.dirname}/../../core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module.ts`,
-      'core-libs/core/src/features-config/feature-toggles/testing': `${import.meta.dirname}/../../core-libs/core/src/features-config/feature-toggles/testing`,
+      'core-libs/core/src/features-config/feature-toggles/testing': `${import.meta.dirname}/../../core-libs/core/src/features-config/feature-toggles/testing/index.ts`,
     },
   },
   plugins: [angular(), nxViteTsPaths()],
