@@ -20,6 +20,9 @@ export class OccB2BUserNormalizer implements Converter<Occ.B2BUser, B2BUser> {
       target = { ...(source as any) } as B2BUser;
     }
     target.email = source?.uid;
+    if (!target.customerId) {
+      target.customerId = source?.uid;
+    }
 
     return target;
   }
