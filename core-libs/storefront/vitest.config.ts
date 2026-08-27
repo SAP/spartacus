@@ -22,7 +22,7 @@ export default defineConfig({
   test: {
     pool: 'forks',
     watch: false,
-    globals: true,
+    isolate: true,
     environment: 'jsdom',
     setupFiles: ['../../testing/setup-vitest.ts'],
     include: ['**/*.spec.ts'],
