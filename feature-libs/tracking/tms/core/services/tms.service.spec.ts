@@ -7,6 +7,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { vi } from 'vitest';
 import { TmsCollectorConfig, TmsConfig } from '../config/tms-config';
 import { TmsCollector, WindowObject } from '../model/tms.model';
 import { TmsService } from './tms.service';
@@ -69,12 +70,12 @@ describe('TmsService', () => {
     gtmCollector = TestBed.inject(GtmCollectorMock);
     aepCollector = TestBed.inject(AepCollectorMock);
 
-    spyOn(gtmCollector, 'init').and.callThrough();
-    spyOn(gtmCollector, 'map').and.callThrough();
-    spyOn(gtmCollector, 'pushEvent').and.callThrough();
-    spyOn(aepCollector, 'init').and.callThrough();
-    spyOn(aepCollector, 'map').and.callThrough();
-    spyOn(aepCollector, 'pushEvent').and.callThrough();
+    vi.spyOn(gtmCollector, 'init');
+    vi.spyOn(gtmCollector, 'map');
+    vi.spyOn(gtmCollector, 'pushEvent');
+    vi.spyOn(aepCollector, 'init');
+    vi.spyOn(aepCollector, 'map');
+    vi.spyOn(aepCollector, 'pushEvent');
   });
 
   it('should be created', () => {

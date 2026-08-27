@@ -136,7 +136,7 @@ export class WishListEffects {
         )
       ),
       switchMap(([, userId, wishListId]) => {
-        if (Boolean(wishListId)) {
+        if (wishListId) {
           return this.cartConnector.load(userId, wishListId).pipe(
             switchMap((wishList) => [
               new WishListActions.LoadWishListSuccess({

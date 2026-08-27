@@ -12,7 +12,7 @@ import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { HttpErrorHandler } from '../http-error.handler';
 import { Translatable } from '../../../../i18n/translatable';
-import { FeatureConfigService } from '../../../../features-config/services/feature-config.service';
+import { FeatureToggles } from '../../../../features-config';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
@@ -21,7 +21,7 @@ const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 })
 export class BadRequestHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.BAD_REQUEST;
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   handleError(request: HttpRequest<any>, response: HttpErrorResponse): void {
     this.handleBadPassword(request, response);
@@ -47,11 +47,7 @@ export class BadRequestHandler extends HttpErrorHandler {
         errorMessage:
           response.error.error_description || response.message || '',
       };
-      if (
-        this.featureConfigService.isEnabled(
-          'enablePasswordExpiredErrorTranslation'
-        )
-      ) {
+      if (this.featureToggles.enablePasswordExpiredErrorTranslation) {
         const isPasswordExpiredError = key.startsWith(
           `${translationPrefix}.password_expired_for_the_user`
         );

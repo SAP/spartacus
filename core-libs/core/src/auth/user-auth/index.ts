@@ -5,17 +5,19 @@
  */
 
 export * from './config/auth-config';
+export * from './config/auth-config-initializer';
+export { USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT } from './config/default-auth-config';
 export * from './events/index';
 export * from './facade/index';
 export * from './guards/index';
 export * from './http-interceptors/auth.interceptor';
 export * from './http-interceptors/token-revocation.interceptor';
+export * from './models/auth-notification.model';
 export * from './models/auth-token.model';
+export * from './models/csrf-response';
 export * from './models/oauth-flow';
 export * from './models/oauth-try-login-response';
-export * from './models/csrf-response';
 export * from './services/index';
 export * from './store/actions';
 export { UserAuthModule } from './user-auth.module';
 export * from './utils/index';
-export { USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT } from './config/default-auth-config';

@@ -31,13 +31,17 @@ import {
 import { OpfGlobalMessageService } from '@spartacus/opf/base/root';
 import {
   OPF_QUICK_BUY_DEFAULT_MERCHANT_NAME,
+  OpfQuickBuyDeliveryType,
   OpfQuickBuyLocation,
 } from '@spartacus/opf/quick-buy/root';
 import { BehaviorSubject, of, throwError } from 'rxjs';
+import { OpfQuickBuyActiveCartTransactionService } from './context/opf-quick-buy-active-cart-transaction.service';
+import { OpfQuickBuySingleProductTransactionService } from './context/opf-quick-buy-single-product-transaction.service';
 import { OpfQuickBuyTransactionService } from './opf-quick-buy-transaction.service';
 
 describe('OpfQuickBuyTransactionService', () => {
   let service: OpfQuickBuyTransactionService;
+  let singleProductTransactionService: jasmine.SpyObj<OpfQuickBuySingleProductTransactionService>;
   let activeCartFacade: jasmine.SpyObj<ActiveCartFacade>;
   let checkoutDeliveryModesFacade: jasmine.SpyObj<CheckoutDeliveryModesFacade>;
   let checkoutDeliveryAddressFacade: jasmine.SpyObj<CheckoutDeliveryAddressFacade>;
@@ -109,11 +113,37 @@ describe('OpfQuickBuyTransactionService', () => {
       'createCartGuestUser',
       'updateCartGuestUser',
     ]);
+    singleProductTransactionService = jasmine.createSpyObj(
+      'OpfQuickBuySingleProductTransactionService',
+      [
+        'prepareTransactionCart',
+        'getTransactionDeliveryType',
+        'getTransactionDeliveryInfo',
+        'checkStableCart',
+        'getSupportedDeliveryModes',
+        'setDeliveryAddress',
+        'setBillingAddress',
+        'getDeliveryAddress',
+        'getCurrentCart',
+        'getCurrentCartId',
+        'getCurrentCartTotalPrice',
+        'setDeliveryMode',
+        'getSelectedDeliveryMode',
+        'createCartGuestUser',
+        'updateCartGuestUserEmail',
+        'handleCartGuestUser',
+      ]
+    );
 
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [
         OpfQuickBuyTransactionService,
+        OpfQuickBuyActiveCartTransactionService,
+        {
+          provide: OpfQuickBuySingleProductTransactionService,
+          useValue: singleProductTransactionService,
+        },
         { provide: ActiveCartFacade, useValue: activeCartFacade },
         {
           provide: CheckoutDeliveryModesFacade,
@@ -140,6 +170,7 @@ describe('OpfQuickBuyTransactionService', () => {
     });
 
     service = TestBed.inject(OpfQuickBuyTransactionService);
+    service['transactionContext'] = OpfQuickBuyLocation.CART;
   });
 
   describe('checkStableCart', () => {
@@ -578,6 +609,133 @@ describe('OpfQuickBuyTransactionService', () => {
           expect(multiCartFacade.reloadCart).toHaveBeenCalled();
         })
         .unsubscribe();
+    });
+  });
+
+  describe('single product context delegation', () => {
+    const mockCart = { guid: 'product-cart' } as Cart;
+    const mockAddress: Address = { firstName: 'John' };
+    const mockDeliveryMode: DeliveryMode = {
+      code: 'standard',
+      name: 'Standard',
+    };
+
+    beforeEach(() => {
+      service['transactionContext'] = OpfQuickBuyLocation.PRODUCT;
+      singleProductTransactionService.prepareTransactionCart.and.returnValue(
+        of(mockCart)
+      );
+      singleProductTransactionService.checkStableCart.and.returnValue(of(true));
+      singleProductTransactionService.getSupportedDeliveryModes.and.returnValue(
+        of([mockDeliveryMode])
+      );
+      singleProductTransactionService.setDeliveryAddress.and.returnValue(
+        of('address-id')
+      );
+      singleProductTransactionService.setBillingAddress.and.returnValue(
+        of(true)
+      );
+      singleProductTransactionService.getDeliveryAddress.and.returnValue(
+        of(mockAddress)
+      );
+      singleProductTransactionService.getCurrentCart.and.returnValue(
+        of(mockCart)
+      );
+      singleProductTransactionService.getCurrentCartId.and.returnValue(
+        of('product-cart')
+      );
+      singleProductTransactionService.getCurrentCartTotalPrice.and.returnValue(
+        of(99)
+      );
+      singleProductTransactionService.setDeliveryMode.and.returnValue(
+        of(mockDeliveryMode)
+      );
+      singleProductTransactionService.getSelectedDeliveryMode.and.returnValue(
+        of(mockDeliveryMode)
+      );
+      singleProductTransactionService.createCartGuestUser.and.returnValue(
+        of(true)
+      );
+      singleProductTransactionService.updateCartGuestUserEmail.and.returnValue(
+        of(true)
+      );
+      singleProductTransactionService.handleCartGuestUser.and.returnValue(
+        of(true)
+      );
+      singleProductTransactionService.getTransactionDeliveryType.and.returnValue(
+        of(OpfQuickBuyDeliveryType.SHIPPING)
+      );
+      singleProductTransactionService.getTransactionDeliveryInfo.and.returnValue(
+        of({ type: OpfQuickBuyDeliveryType.SHIPPING })
+      );
+    });
+
+    it('should delegate all cart operations to single product transaction service', (done) => {
+      service.prepareTransactionCart().subscribe((cart) => {
+        expect(cart).toBe(mockCart);
+        expect(
+          singleProductTransactionService.prepareTransactionCart
+        ).toHaveBeenCalled();
+      });
+
+      service.checkStableCart().subscribe((isStable) => {
+        expect(isStable).toBe(true);
+        expect(
+          singleProductTransactionService.checkStableCart
+        ).toHaveBeenCalled();
+      });
+
+      service.getSupportedDeliveryModes().subscribe((modes) => {
+        expect(modes).toEqual([mockDeliveryMode]);
+      });
+
+      service.setDeliveryAddress(mockAddress).subscribe((addressId) => {
+        expect(addressId).toBe('address-id');
+        expect(
+          singleProductTransactionService.setDeliveryAddress
+        ).toHaveBeenCalledWith(mockAddress);
+      });
+
+      service.setBillingAddress(mockAddress).subscribe((result) => {
+        expect(result).toBe(true);
+      });
+
+      service.getDeliveryAddress().subscribe((address) => {
+        expect(address).toBe(mockAddress);
+      });
+
+      service.getCurrentCart().subscribe((cart) => {
+        expect(cart).toBe(mockCart);
+      });
+
+      service.getCurrentCartId().subscribe((cartId) => {
+        expect(cartId).toBe('product-cart');
+      });
+
+      service.getCurrentCartTotalPrice().subscribe((total) => {
+        expect(total).toBe(99);
+      });
+
+      service.setDeliveryMode('standard').subscribe((mode) => {
+        expect(mode).toBe(mockDeliveryMode);
+      });
+
+      service.getSelectedDeliveryMode().subscribe((mode) => {
+        expect(mode).toBe(mockDeliveryMode);
+      });
+
+      service.getTransactionDeliveryType().subscribe((type) => {
+        expect(type).toBe(OpfQuickBuyDeliveryType.SHIPPING);
+      });
+
+      service.getTransactionDeliveryInfo().subscribe((info) => {
+        expect(info.type).toBe(OpfQuickBuyDeliveryType.SHIPPING);
+        done();
+      });
+
+      service.createCartGuestUser().subscribe();
+      service.updateCartGuestUserEmail('guest@test.com').subscribe();
+      service.handleCartGuestUser().subscribe();
     });
   });
 });

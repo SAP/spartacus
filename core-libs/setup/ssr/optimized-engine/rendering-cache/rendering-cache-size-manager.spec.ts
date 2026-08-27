@@ -20,7 +20,6 @@ describe('RenderingCacheSizeManager', () => {
     mockCalculator = { calculateSize: jest.fn() };
     options = {
       cacheSizeMemory: 1000,
-      ssrFeatureToggles: { limitCacheByMemory: true },
       logger: mockLogger,
       cacheEntrySizeCalculator: mockCalculator,
     };
@@ -30,17 +29,6 @@ describe('RenderingCacheSizeManager', () => {
   describe('constructor', () => {
     it('should initialize with valid options', () => {
       expect(renderingCacheSizeManager).toBeDefined();
-    });
-
-    it('should log error when `options.ssrFeatureToggles.limitCacheByMemory` is false', () => {
-      if (options.ssrFeatureToggles) {
-        options.ssrFeatureToggles.limitCacheByMemory = false;
-      }
-      new RenderingCacheSizeManager(options);
-      expect(mockLogger.error).toHaveBeenCalledWith(
-        'Cannot use `RenderingCacheSizeManager` when `ssrFeatureToggles.limitCacheByMemory` is false!',
-        {}
-      );
     });
 
     it('should log error when `options.cacheEntrySizeCalculator.calculateSize` is not a function', () => {

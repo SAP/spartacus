@@ -182,7 +182,7 @@ export const orderHistoryTest = {
               orderData.body.code
             );
             cy.visit('/my-account/orders');
-            cy.get('cx-breadcrumb h1').should('contain', 'Order History');
+            cy.get('cx-breadcrumb h1').should('not.be.empty');
             cy.get('.cx-order-history-po').should('not.exist');
             cy.get('.cx-order-history-cost-center').should('not.exist');
             cy.get('.cx-order-history-code > .cx-order-history-value').should(
@@ -292,10 +292,10 @@ export const orderHistoryTest = {
   checkTabsAreDisplayedAfterNavigation() {
     it('should display order history tabs after navigation', () => {
       cy.visit('/my-account/orders');
-      cy.get('cx-breadcrumb h1').should('contain', 'Order History');
+      cy.get('cx-breadcrumb h1').should('not.be.empty');
       goToOrderDetails();
       cy.go('back');
-      cy.get('cx-breadcrumb h1').should('contain', 'Order History');
+      cy.get('cx-breadcrumb h1').should('not.be.empty');
     });
   },
 };

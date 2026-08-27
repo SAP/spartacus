@@ -1,5 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -9,17 +9,19 @@ import {
   contextServiceMapProvider,
   Currency,
   CurrencyService,
+  FeatureDirective,
   I18nTestingModule,
   Language,
   LanguageService,
   TranslationService,
 } from '@spartacus/core';
-import { MockTranslationService } from 'core-libs/core/src/i18n/testing/mock-translation.service';
+import { MockTranslationService } from '@spartacus/core/testing/i18n';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { LanguageCurrencyComponent } from './language-currency.component';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 
 @Component({
   selector: 'cx-icon',
@@ -85,7 +87,7 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
     data$: of(mockComponentData),
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
@@ -116,17 +118,21 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
       ],
     })
       .overrideComponent(SiteContextSelectorComponent, {
-        set: {
+        remove: {
+          imports: [FeatureDirective],
+        },
+        add: {
           providers: [
             {
               provide: SiteContextComponentService,
               useClass: SiteContextComponentService,
             },
           ],
+          imports: [MockFeatureDirective],
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LanguageCurrencyComponent);
@@ -141,13 +147,17 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
   });
 
   it('should contain a language select with number of options', () => {
-    const selectBox = el.queryAll(By.css('cx-site-context-selector select'))[0];
+    const selectBox = el.query(
+      By.css('cx-site-context-selector:first-of-type .cx-select-wrapper select')
+    );
     const select = <HTMLSelectElement>selectBox.nativeElement;
     expect(select.options.length).toEqual(mockLanguages.length);
   });
 
   it('should contain a currency select with number of options', () => {
-    const selectBox = el.queryAll(By.css('cx-site-context-selector select'))[1];
+    const selectBox = el.query(
+      By.css('cx-site-context-selector:last-of-type .cx-select-wrapper select')
+    );
     const select = <HTMLSelectElement>selectBox.nativeElement;
     expect(select.options.length).toEqual(mockCurrencies.length);
   });

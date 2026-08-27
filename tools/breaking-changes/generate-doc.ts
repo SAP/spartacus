@@ -70,7 +70,7 @@ function getBreakingChangeDoc(apiElement: any): string {
     apiElement,
     apiElementMigrationCommentData
   );
-  if (!!migrationComment) {
+  if (migrationComment) {
     doc += migrationComment + '\n';
   }
   doc += getChangedDoc(apiElement);
@@ -107,10 +107,10 @@ ${common.generateTopLevelApiDeletedComment(apiElement)}
 
 function getMovedDoc(apiElement: any): string {
   let movedDoc = '';
-  if (!!apiElement.newApiElement.entryPoint) {
+  if (apiElement.newApiElement.entryPoint) {
     movedDoc = movedDoc + `moved to ${apiElement.newApiElement.entryPoint}\n`;
   }
-  if (!!apiElement.newApiElement.namespace) {
+  if (apiElement.newApiElement.namespace) {
     movedDoc =
       movedDoc + `moved to namespace ${apiElement.newApiElement.namespace}\n`;
   }
@@ -122,7 +122,7 @@ function getMovedOrRenamedComment(apiElement: any): string {
     apiElement,
     renamedApiLookupData
   );
-  if (!!migrationComment) {
+  if (migrationComment) {
     return `${migrationComment}\n`;
   } else {
     return '';
@@ -172,7 +172,7 @@ ${MD_CODEBLOCK}${common.getMemberStateDoc(
           )}${MD_CODEBLOCK}
 `;
 
-          if (!!memberMigrationComment) {
+          if (memberMigrationComment) {
             doc += `\n${memberMigrationComment}\n`;
           }
           break;

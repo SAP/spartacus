@@ -7,9 +7,9 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import {
   CustomerCoupon,
   CustomerCouponSearchResult,
@@ -25,7 +25,7 @@ import {
   PaginationComponent,
   SortingComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { LAUNCH_CALLER, LaunchDialogService } from '../../../layout/index';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
@@ -157,9 +157,10 @@ class MockSortingComponent {
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  openDialogAndSubscribe(_caller: LAUNCH_CALLER, _openElement?: ElementRef) {
+  openDialog(_caller: LAUNCH_CALLER, _openElement?: ElementRef) {
     return EMPTY;
   }
+  closeDialog(_reason: string) {}
 }
 
 describe('MyCouponsComponent', () => {
@@ -168,25 +169,22 @@ describe('MyCouponsComponent', () => {
   let el: DebugElement;
   let launchDialogService: LaunchDialogService;
 
-  const customerCouponService = jasmine.createSpyObj('CustomerCouponService', [
-    'getCustomerCoupons',
-    'getCustomerCouponsLoading',
-    'loadCustomerCoupons',
-    'subscribeCustomerCoupon',
-    'unsubscribeCustomerCoupon',
-    'getSubscribeCustomerCouponResultLoading',
-    'getUnsubscribeCustomerCouponResultLoading',
-    'getSubscribeCustomerCouponResultError',
-    'getUnsubscribeCustomerCouponResultError',
-  ]);
+  const customerCouponService = {
+    getCustomerCoupons: vi.fn(),
+    getCustomerCouponsLoading: vi.fn(),
+    loadCustomerCoupons: vi.fn(),
+    subscribeCustomerCoupon: vi.fn(),
+    unsubscribeCustomerCoupon: vi.fn(),
+    getSubscribeCustomerCouponResultLoading: vi.fn(),
+    getUnsubscribeCustomerCouponResultLoading: vi.fn(),
+    getSubscribeCustomerCouponResultError: vi.fn(),
+    getUnsubscribeCustomerCouponResultError: vi.fn(),
+  };
 
-  const myCouponsComponentService = jasmine.createSpyObj(
-    'MyCouponsComponentService',
-    ['getSortLabels']
-  );
+  const myCouponsComponentService = { getSortLabels: vi.fn() };
   const subscriptionFail = new BehaviorSubject<boolean>(false);
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         RouterModule.forRoot([]),
@@ -238,7 +236,7 @@ describe('MyCouponsComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyCouponsComponent);
@@ -246,27 +244,29 @@ describe('MyCouponsComponent', () => {
     el = fixture.debugElement;
     launchDialogService = TestBed.inject(LaunchDialogService);
 
-    customerCouponService.getCustomerCoupons.and.returnValue(
+    customerCouponService.getCustomerCoupons.mockReturnValue(
       of(emptyCouponResult)
     );
-    customerCouponService.getCustomerCouponsLoading.and.returnValue(of(false));
-    customerCouponService.loadCustomerCoupons.and.stub();
-    customerCouponService.subscribeCustomerCoupon.and.stub();
-    customerCouponService.unsubscribeCustomerCoupon.and.stub();
-    customerCouponService.getSubscribeCustomerCouponResultLoading.and.returnValue(
+    customerCouponService.getCustomerCouponsLoading.mockReturnValue(of(false));
+    customerCouponService.loadCustomerCoupons.mockImplementation(() => {});
+    customerCouponService.subscribeCustomerCoupon.mockImplementation(() => {});
+    customerCouponService.unsubscribeCustomerCoupon.mockImplementation(
+      () => {}
+    );
+    customerCouponService.getSubscribeCustomerCouponResultLoading.mockReturnValue(
       subLoading$
     );
-    customerCouponService.getUnsubscribeCustomerCouponResultLoading.and.returnValue(
+    customerCouponService.getUnsubscribeCustomerCouponResultLoading.mockReturnValue(
       unsubLoading$
     );
-    customerCouponService.getSubscribeCustomerCouponResultError.and.returnValue(
+    customerCouponService.getSubscribeCustomerCouponResultError.mockReturnValue(
       subscriptionFail
     );
-    customerCouponService.getUnsubscribeCustomerCouponResultError.and.returnValue(
+    customerCouponService.getUnsubscribeCustomerCouponResultError.mockReturnValue(
       subscriptionFail
     );
 
-    myCouponsComponentService.getSortLabels.and.returnValue(of(sortLabels));
+    myCouponsComponentService.getSortLabels.mockReturnValue(of(sortLabels));
   });
 
   it('should create', () => {
@@ -276,7 +276,7 @@ describe('MyCouponsComponent', () => {
 
   it('should display header', () => {
     fixture.detectChanges();
-    expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
+    expect(el.query(By.css('h2')).nativeElement.textContent.trim()).toEqual(
       'myCoupons.myCoupons'
     );
   });
@@ -293,13 +293,13 @@ describe('MyCouponsComponent', () => {
   });
 
   it('should show spinner when loading', () => {
-    customerCouponService.getCustomerCouponsLoading.and.returnValue(of(true));
+    customerCouponService.getCustomerCouponsLoading.mockReturnValue(of(true));
     fixture.detectChanges();
     expect(el.query(By.css('cx-spinner'))).toBeTruthy();
   });
 
   it('should be able to show coupons', () => {
-    customerCouponService.getCustomerCoupons.and.returnValue(
+    customerCouponService.getCustomerCoupons.mockReturnValue(
       of(couponsSearchResult)
     );
     fixture.detectChanges();
@@ -343,7 +343,7 @@ describe('MyCouponsComponent', () => {
   });
 
   it('should be able to change coupon notification', () => {
-    customerCouponService.getCustomerCoupons.and.returnValue(
+    customerCouponService.getCustomerCoupons.mockReturnValue(
       of(couponsSearchResult)
     );
     fixture.detectChanges();
@@ -368,10 +368,46 @@ describe('MyCouponsComponent', () => {
   });
 
   it('should be able to open coupon claim dialog if has hash str in location', () => {
-    spyOn(component, 'getHashStr').and.returnValue(String('#testcode'));
+    vi.spyOn(component, 'getHashStr').mockReturnValue(String('#testcode'));
+    vi.spyOn(launchDialogService, 'openDialog').mockReturnValue(EMPTY);
     component.ngOnInit();
-    spyOn(launchDialogService, 'openDialogAndSubscribe').and.stub();
     fixture.detectChanges();
-    expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
+    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+      LAUNCH_CALLER.CLAIM_DIALOG,
+      component['host'],
+      undefined,
+      { coupon: 'testcode', pageSize: 10 }
+    );
+  });
+
+  describe('focus restoration after dialog close', () => {
+    it('should pass the host element ref to openDialog so focus is restored on close', () => {
+      vi.spyOn(component, 'getHashStr').mockReturnValue('#testcode');
+      vi.spyOn(launchDialogService, 'openDialog').mockReturnValue(EMPTY);
+
+      component.ngOnInit();
+      fixture.detectChanges();
+
+      expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+        LAUNCH_CALLER.CLAIM_DIALOG,
+        component['host'],
+        undefined,
+        { coupon: 'testcode', pageSize: 10 }
+      );
+    });
+  });
+
+  describe('navigation', () => {
+    it('should close the dialog on NavigationStart', () => {
+      const router = TestBed.inject(Router);
+      vi.spyOn(launchDialogService, 'closeDialog');
+
+      fixture.detectChanges();
+      router.navigate(['/']);
+
+      expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
+        'Navigation'
+      );
+    });
   });
 });

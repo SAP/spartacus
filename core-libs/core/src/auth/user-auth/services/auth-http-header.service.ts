@@ -33,7 +33,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
+import { FeatureToggles } from '../../../features-config';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
@@ -88,7 +88,7 @@ export const DELEGATED_AUTH_HTTP_HEADER_SERVICE =
   providedIn: 'root',
 })
 export class AuthHttpHeaderService implements OnDestroy {
-  private featureConfig = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   /**
    * Starts the refresh of the access token
@@ -263,7 +263,7 @@ export class AuthHttpHeaderService implements OnDestroy {
    * Logout user, redirected to login page and informs about expired session.
    */
   public handleExpiredRefreshToken(): void {
-    if (!this.featureConfig.isEnabled('enableExpiredRefreshTokenHandlers')) {
+    if (!this.featureToggles.enableExpiredRefreshTokenHandlers) {
       this.handleExpiredRefreshTokenFallback();
       return;
     }

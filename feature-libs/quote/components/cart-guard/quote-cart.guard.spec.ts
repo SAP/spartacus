@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 
 import {
@@ -6,11 +7,10 @@ import {
   RoutingService,
   SemanticPathService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { QuoteCartService } from '../../core/services/quote-cart.service';
 import { QUOTE_CODE } from '../../core/testing/quote-test-utils';
 import { QuoteCartGuard } from './quote-cart.guard';
-import createSpy = jasmine.createSpy;
 
 const URL_PARTS = ['/', 'my-account', 'quote', QUOTE_CODE];
 
@@ -56,7 +56,7 @@ const routerStateCart: RouterState = {
 };
 
 class MockRoutingService {
-  go = createSpy();
+  go = vi.fn();
   getRouterState() {
     return of(routerState);
   }
@@ -105,52 +105,42 @@ describe('QuoteCartGuard', () => {
   });
 
   describe('canActivate', () => {
-    it('should return true if quote cart is not present', (done) => {
-      classUnderTest.canActivate().subscribe((canActive) => {
-        expect(canActive).toBe(true);
-        done();
-      });
+    it('should return true if quote cart is not present', async () => {
+      const canActive = await firstValueFrom(classUnderTest.canActivate());
+      expect(canActive).toBe(true);
     });
 
-    it('should redirect if quote cart is present', (done) => {
+    it('should redirect if quote cart is present', async () => {
       isQuoteCartActive = true;
       quoteId = QUOTE_CODE;
-      classUnderTest.canActivate().subscribe((canActive) => {
-        expect(canActive.toString()).toContain(QUOTE_CODE);
-        done();
-      });
+      const canActive = await firstValueFrom(classUnderTest.canActivate());
+      expect(canActive.toString()).toContain(QUOTE_CODE);
     });
 
-    it('should allow a navigation to checkout if service allows it', (done) => {
+    it('should allow a navigation to checkout if service allows it', async () => {
       isQuoteCartActive = true;
       checkoutAllowed = true;
       quoteId = QUOTE_CODE;
-      classUnderTest.canActivate().subscribe((result) => {
-        expect(result).toBe(true);
-        done();
-      });
+      const result = await firstValueFrom(classUnderTest.canActivate());
+      expect(result).toBe(true);
     });
 
-    it('should allow a navigation to checkout if service allows it, current state is checkout and nextState is undefined', (done) => {
+    it('should allow a navigation to checkout if service allows it, current state is checkout and nextState is undefined', async () => {
       isQuoteCartActive = true;
       checkoutAllowed = true;
       routerState = routerStateCheckoutWoNextState;
       quoteId = QUOTE_CODE;
-      classUnderTest.canActivate().subscribe((result) => {
-        expect(result).toBe(true);
-        done();
-      });
+      const result = await firstValueFrom(classUnderTest.canActivate());
+      expect(result).toBe(true);
     });
 
-    it('should not allow a navigation to cart if service allows checkout', (done) => {
+    it('should not allow a navigation to cart if service allows checkout', async () => {
       isQuoteCartActive = true;
       checkoutAllowed = true;
       routerState = routerStateCart;
       quoteId = QUOTE_CODE;
-      classUnderTest.canActivate().subscribe((result) => {
-        expect(result.toString()).toContain(QUOTE_CODE);
-        done();
-      });
+      const result = await firstValueFrom(classUnderTest.canActivate());
+      expect(result.toString()).toContain(QUOTE_CODE);
     });
   });
 });

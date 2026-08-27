@@ -138,7 +138,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     ) {
       this.selectedCustomer = undefined;
     }
-    if (Boolean(this.selectedCustomer)) {
+    if (this.selectedCustomer) {
       return;
     }
     this.asmService.customerSearchReset();
@@ -152,10 +152,10 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   }
 
   protected handleSearchByCustomer(searchTermValue: string) {
-    if (!!this.selectedCustomer) {
+    if (this.selectedCustomer) {
       this.selectedCustomer = undefined;
     }
-    if (!!this.customerSelectionForm.controls.searchOrder.value) {
+    if (this.customerSelectionForm.controls.searchOrder.value) {
       this.customerSelectionForm.controls.searchOrder.setValue(undefined, {
         emitEvent: false,
       });
@@ -172,10 +172,10 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   }
 
   protected handleSearchByOrder(searchOrderValue: string) {
-    if (!!this.selectedCustomer) {
+    if (this.selectedCustomer) {
       this.selectedCustomer = undefined;
     }
-    if (!!this.customerSelectionForm.controls.searchTerm.value) {
+    if (this.customerSelectionForm.controls.searchTerm.value) {
       this.customerSelectionForm.controls.searchTerm.setValue(undefined, {
         emitEvent: false,
       });
@@ -219,7 +219,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    if (!!this.selectedCustomer) {
+    if (this.selectedCustomer) {
       this.submitEvent.emit({
         customerId: this.selectedCustomer.customerId,
         parameters: {
@@ -232,7 +232,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   }
 
   onDocumentClick(event: UIEvent) {
-    if (Boolean(this.resultList)) {
+    if (this.resultList) {
       if (
         this.resultList.nativeElement.contains(event.target) ||
         this.searchTerm.nativeElement.contains(event.target)

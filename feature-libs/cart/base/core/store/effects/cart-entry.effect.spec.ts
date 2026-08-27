@@ -17,7 +17,6 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import createSpy = jasmine.createSpy;
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -38,7 +37,7 @@ describe('Cart effect', () => {
   const cartId = 'testCartId';
 
   const mockGlobalMessageService = {
-    add: createSpy('add'),
+    add: vi.fn(),
   };
 
   beforeEach(() => {
@@ -52,9 +51,9 @@ describe('Cart effect', () => {
     };
 
     const mockCartEntryConnector: Partial<CartEntryConnector> = {
-      add: createSpy().and.returnValue(of(mockCartModification)),
-      remove: createSpy().and.returnValue(of({})),
-      update: createSpy().and.returnValue(of(mockCartModification)),
+      add: vi.fn().mockReturnValue(of(mockCartModification)),
+      remove: vi.fn().mockReturnValue(of({})),
+      update: vi.fn().mockReturnValue(of(mockCartModification)),
     };
 
     TestBed.configureTestingModule({

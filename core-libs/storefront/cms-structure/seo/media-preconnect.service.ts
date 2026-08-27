@@ -5,9 +5,9 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { PageMetaLinkService } from './page-meta-link.service';
-import { WindowRef, FeatureToggles } from '@spartacus/core';
+import { WindowRef } from '@spartacus/core';
 import { MediaService } from '../../shared/components/media/media.service';
+import { PageMetaLinkService } from './page-meta-link.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,14 +15,9 @@ import { MediaService } from '../../shared/components/media/media.service';
 export class MediaPreconnectService {
   protected pageMetaLinkService = inject(PageMetaLinkService);
   protected mediaService = inject(MediaService);
-  private featureToggles = inject(FeatureToggles);
   protected windowRef = inject(WindowRef);
 
   addPreconnectLink(): void {
-    if (!this.featureToggles.createMediaPreconnectLink) {
-      return;
-    }
-
     const url = this.mediaService.getBaseUrl();
     let domain: string | undefined;
     try {

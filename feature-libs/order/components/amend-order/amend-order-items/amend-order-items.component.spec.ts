@@ -1,12 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { ItemCounterComponent, MediaComponent } from '@spartacus/storefront';
 import { OrderAmendService } from '../amend-order.service';
 import { CancelOrReturnItemsComponent } from './amend-order-items.component';
-
-import createSpy = jasmine.createSpy;
 
 const mockEntries = [
   {
@@ -49,7 +47,7 @@ class MockItemCounterComponent {
 }
 
 class MockOrderAmendService {
-  getAmendedPrice = createSpy();
+  getAmendedPrice = vi.fn();
   getForm() {}
   getMaxAmendQuantity() {
     return 99;
@@ -61,7 +59,7 @@ describe('CancelOrReturnItemsComponent', () => {
   let fixture: ComponentFixture<CancelOrReturnItemsComponent>;
   let orderAmendService: OrderAmendService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [CancelOrReturnItemsComponent],
       providers: [
@@ -84,7 +82,7 @@ describe('CancelOrReturnItemsComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CancelOrReturnItemsComponent);

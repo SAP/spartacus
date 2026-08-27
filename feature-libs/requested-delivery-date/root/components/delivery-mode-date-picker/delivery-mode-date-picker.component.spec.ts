@@ -18,6 +18,7 @@ import {
   OutletContextData,
 } from '@spartacus/storefront';
 import { of, throwError } from 'rxjs';
+import { vi } from 'vitest';
 import { RequestedDeliveryDateFacade } from '../../facade/requested-delivery-date.facade';
 import { DeliveryModeDatePickerComponent } from './delivery-mode-date-picker.component';
 
@@ -26,9 +27,7 @@ describe('DeliveryModeDatePickerComponent', () => {
   let fixture: ComponentFixture<DeliveryModeDatePickerComponent>;
 
   const requestedDelDateFacadeMock = {
-    setRequestedDeliveryDate: jasmine
-      .createSpy('setRequestedDeliveryDate')
-      .and.returnValue(of({})),
+    setRequestedDeliveryDate: vi.fn().mockReturnValue(of({})),
   };
 
   const mockedGlobalMessageService = {
@@ -41,9 +40,7 @@ describe('DeliveryModeDatePickerComponent', () => {
   };
 
   const translationServiceMock = {
-    translate: jasmine
-      .createSpy('translate')
-      .and.returnValue(of('Delivery Date')),
+    translate: vi.fn().mockReturnValue(of('Delivery Date')),
   };
 
   beforeEach(async () => {
@@ -84,14 +81,17 @@ describe('DeliveryModeDatePickerComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DeliveryModeDatePickerComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    // NOTE: no fixture.detectChanges() here — each test sets its own state first
+    // to avoid NG0100 ExpressionChangedAfterItHasBeenCheckedError
   });
 
   afterEach(() => {
+    vi.restoreAllMocks();
     fixture.destroy();
   });
 
   it('should create the component', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -109,7 +109,6 @@ describe('DeliveryModeDatePickerComponent', () => {
       });
       const textTitle = 'Delivery Date';
 
-      component.ngOnInit();
       fixture.detectChanges();
 
       let card: Card = {};
@@ -151,7 +150,6 @@ describe('DeliveryModeDatePickerComponent', () => {
       });
       const datePickerLab = 'requestedDeliveryDate.datePickerLabel';
 
-      component.ngOnInit();
       fixture.detectChanges();
 
       const datePickerLabelEl = fixture.debugElement.query(
@@ -172,7 +170,7 @@ describe('DeliveryModeDatePickerComponent', () => {
     component['cartEntry'] = {
       requestedRetrievalAt,
     } as any;
-    component.ngOnInit();
+    fixture.detectChanges();
     expect(component['form'].get('requestDeliveryDate')?.value).toEqual(
       requestedRetrievalAt
     );
@@ -187,7 +185,7 @@ describe('DeliveryModeDatePickerComponent', () => {
         uid: 'current',
       },
     } as any;
-    component.ngOnInit();
+    fixture.detectChanges();
     expect(component['requestedRetrievalAt']).toEqual(earliestRetrievalAt);
     expect(component['form'].get('requestDeliveryDate')?.value).toEqual(
       earliestRetrievalAt
@@ -197,8 +195,8 @@ describe('DeliveryModeDatePickerComponent', () => {
     ).toHaveBeenCalled();
   });
 
-  it('should call setRequestedDeliveryDate when form value changes and show info message on success', (done) => {
-    spyOn(component['globalMessageService'], 'add');
+  it('should call setRequestedDeliveryDate when form value changes and show info message on success', async () => {
+    vi.spyOn(component['globalMessageService'], 'add');
     const requestedRetrievalAt = '2023-05-03';
     const earliestRetrievalAt = '2023-09-15';
     const data = TestBed.inject(OutletContextData);
@@ -214,7 +212,6 @@ describe('DeliveryModeDatePickerComponent', () => {
       readonly: false,
     });
 
-    component.ngOnInit();
     fixture.detectChanges();
     const newRequestedRetrievalAt = '2023-09-15';
     component['form'].patchValue({
@@ -231,23 +228,26 @@ describe('DeliveryModeDatePickerComponent', () => {
     expect(
       component['requestedDelDateFacade'].setRequestedDeliveryDate
     ).toHaveBeenCalled();
-    component['requestedDelDateFacade']
-      .setRequestedDeliveryDate('current', '123', newRequestedRetrievalAt)
-      .subscribe(() => {
-        expect(component['globalMessageService'].add).toHaveBeenCalledWith(
-          { key: 'requestedDeliveryDate.successMessage' },
-          GlobalMessageType.MSG_TYPE_INFO
-        );
-        done();
-      });
+
+    await new Promise<void>((resolve) => {
+      component['requestedDelDateFacade']
+        .setRequestedDeliveryDate('current', '123', newRequestedRetrievalAt)
+        .subscribe(() => {
+          expect(component['globalMessageService'].add).toHaveBeenCalledWith(
+            { key: 'requestedDeliveryDate.successMessage' },
+            GlobalMessageType.MSG_TYPE_INFO
+          );
+          resolve();
+        });
+    });
   });
 
   it('should NOT call setRequestedDeliveryDate when a date less than earliestRetrievalAt is provided', () => {
-    spyOn(component, 'setRequestedDeliveryDate');
+    vi.spyOn(component, 'setRequestedDeliveryDate');
 
-    component['requestedDelDateFacade'].setRequestedDeliveryDate = jasmine
-      .createSpy('setRequestedDeliveryDate')
-      .and.returnValue(of({}));
+    component['requestedDelDateFacade'].setRequestedDeliveryDate = vi
+      .fn()
+      .mockReturnValue(of({}));
 
     const requestedRetrievalAt = '2023-05-03';
     const earliestRetrievalAt = '2023-09-15';
@@ -264,7 +264,6 @@ describe('DeliveryModeDatePickerComponent', () => {
       readonly: false,
     });
 
-    component.ngOnInit();
     fixture.detectChanges();
     const newRequestedRetrievalAt = '2023-01-01';
     component['form'].patchValue({
@@ -285,7 +284,7 @@ describe('DeliveryModeDatePickerComponent', () => {
   });
 
   it('should NOT show the date picker when the component outlet value is read only', () => {
-    spyOn(component, 'setRequestedDeliveryDate');
+    vi.spyOn(component, 'setRequestedDeliveryDate');
     const requestedRetrievalAt = '2023-05-03';
     const earliestRetrievalAt = '2023-09-15';
     const data = TestBed.inject(OutletContextData);
@@ -301,7 +300,6 @@ describe('DeliveryModeDatePickerComponent', () => {
       readonly: true,
     });
 
-    component.ngOnInit();
     fixture.detectChanges();
     const datePickerEl: HTMLInputElement = fixture.debugElement.query(
       By.css('cx-date-picker')
@@ -313,12 +311,12 @@ describe('DeliveryModeDatePickerComponent', () => {
     expect(datePickerReadOnlyEl.innerHTML).not.toBeNull();
   });
 
-  it('should show error message when backend OCC API returns UnknownResourceError', (done) => {
-    spyOn(component['globalMessageService'], 'add');
+  it('should show error message when backend OCC API returns UnknownResourceError', async () => {
+    vi.spyOn(component['globalMessageService'], 'add');
 
-    component['requestedDelDateFacade'].setRequestedDeliveryDate = jasmine
-      .createSpy('setRequestedDeliveryDate')
-      .and.returnValue(
+    component['requestedDelDateFacade'].setRequestedDeliveryDate = vi
+      .fn()
+      .mockReturnValue(
         throwError({
           error: {
             errors: [
@@ -340,7 +338,7 @@ describe('DeliveryModeDatePickerComponent', () => {
         uid: 'current',
       },
     } as any;
-    component.ngOnInit();
+    fixture.detectChanges();
     expect(component['requestedRetrievalAt']).toEqual(earliestRetrievalAt);
     expect(component['form'].get('requestDeliveryDate')?.value).toEqual(
       earliestRetrievalAt
@@ -349,21 +347,24 @@ describe('DeliveryModeDatePickerComponent', () => {
       component['requestedDelDateFacade'].setRequestedDeliveryDate
     ).toHaveBeenCalled();
 
-    component['requestedDelDateFacade']
-      .setRequestedDeliveryDate('current', '123', earliestRetrievalAt)
-      .subscribe({
-        error: () => {
-          expect(component['globalMessageService'].add).toHaveBeenCalledWith(
-            { key: 'requestedDeliveryDate.errorMessage' },
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-          done();
-        },
-      });
+    await new Promise<void>((resolve) => {
+      component['requestedDelDateFacade']
+        .setRequestedDeliveryDate('current', '123', earliestRetrievalAt)
+        .subscribe({
+          error: () => {
+            expect(component['globalMessageService'].add).toHaveBeenCalledWith(
+              { key: 'requestedDeliveryDate.errorMessage' },
+              GlobalMessageType.MSG_TYPE_ERROR
+            );
+            resolve();
+          },
+        });
+    });
   });
 
   it('should unsubscribe from subscription on component destruction', () => {
-    spyOn(component['subscription'], 'unsubscribe');
+    fixture.detectChanges();
+    vi.spyOn(component['subscription'], 'unsubscribe');
     component.ngOnDestroy();
     expect(component['subscription'].unsubscribe).toHaveBeenCalled();
   });

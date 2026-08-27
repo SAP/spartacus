@@ -90,8 +90,8 @@ describe('BadCartRequestHandler', () => {
     service = TestBed.inject(BadCartRequestHandler);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
-    spyOn(globalMessageService, 'add');
-    spyOn(globalMessageService, 'remove');
+    vi.spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'remove');
   });
 
   it('should be created', () => {
@@ -103,12 +103,12 @@ describe('BadCartRequestHandler', () => {
   });
 
   it('should match cart  error', () => {
-    spyOn(HttpErrorHandler.prototype, 'hasMatch').and.returnValue(true);
+    vi.spyOn(HttpErrorHandler.prototype, 'hasMatch').mockReturnValue(true);
     expect(service.hasMatch(MockCartErrorResponse)).toBe(true);
   });
 
   it('should not have a match when super.hasMatch() is false', () => {
-    spyOn(HttpErrorHandler.prototype, 'hasMatch').and.returnValue(false);
+    vi.spyOn(HttpErrorHandler.prototype, 'hasMatch').mockReturnValue(false);
     expect(service.hasMatch(MockCartErrorResponse)).toBe(false);
   });
 

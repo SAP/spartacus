@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import {
   ATTRIBUTE_1_CHECKBOX,
@@ -132,11 +132,11 @@ const groupListWithConflictsAndAttributesOnRootLevel: Configurator.Group[] = [
 describe('ConfiguratorBasicEffectService', () => {
   let classUnderTest: ConfiguratorBasicEffectService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [ConfiguratorBasicEffectService],
     }).compileComponents();
-  }));
+  });
   beforeEach(() => {
     classUnderTest = TestBed.inject(
       ConfiguratorBasicEffectService as Type<ConfiguratorBasicEffectService>
@@ -189,6 +189,70 @@ describe('ConfiguratorBasicEffectService', () => {
           )
         );
       }).toThrow();
+    });
+  });
+
+  describe('getConfigurationIfTabAlreadyLoaded', () => {
+    const owner = ConfiguratorModelUtils.createInitialOwner();
+
+    it('should return configuration when requested tab is loaded with attributes', () => {
+      const result = classUnderTest.getConfigurationIfTabAlreadyLoaded(
+        productConfiguration,
+        CONFIG_ID,
+        GROUP_ID_8,
+        owner
+      );
+      expect(result).toBeDefined();
+      expect(result?.owner).toBe(owner);
+      expect(result?.interactionState.currentGroup).toBe(GROUP_ID_8);
+    });
+
+    it('should return undefined when configuration is not defined', () => {
+      expect(
+        classUnderTest.getConfigurationIfTabAlreadyLoaded(
+          undefined as unknown as Configurator.Configuration,
+          CONFIG_ID,
+          GROUP_ID_8,
+          owner
+        )
+      ).toBeUndefined();
+    });
+
+    it('should return undefined when no group id is provided', () => {
+      expect(
+        classUnderTest.getConfigurationIfTabAlreadyLoaded(
+          productConfiguration,
+          CONFIG_ID,
+          '',
+          owner
+        )
+      ).toBeUndefined();
+    });
+
+    it('should return undefined when requested config id does not match', () => {
+      expect(
+        classUnderTest.getConfigurationIfTabAlreadyLoaded(
+          productConfiguration,
+          'other-config-id',
+          GROUP_ID_8,
+          owner
+        )
+      ).toBeUndefined();
+    });
+
+    it('should return undefined when requested group has no attributes', () => {
+      const configuration: Configurator.Configuration = {
+        ...productConfiguration,
+        groups: [{ id: GROUP_ID_1, attributes: [], subGroups: [] }],
+      };
+      expect(
+        classUnderTest.getConfigurationIfTabAlreadyLoaded(
+          configuration,
+          CONFIG_ID,
+          GROUP_ID_1,
+          owner
+        )
+      ).toBeUndefined();
     });
   });
 

@@ -12,10 +12,11 @@ import {
   Input,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Breadcrumb, TranslatePipe } from '@spartacus/core';
+import { Breadcrumb, FeatureDirective, TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
 import { FocusDirective } from '../../../../../layout/a11y/keyboard-focus/focus.directive';
+import { AtMessageDirective } from '../../../../../shared/components/assistive-technology-message/assistive-technology-message.directive';
 import { IconComponent } from '../../../../misc/icon/icon.component';
 import { FacetList } from '../facet.model';
 import { FacetService } from '../services/facet.service';
@@ -33,9 +34,11 @@ import { FacetService } from '../services/facet.service';
     NgFor,
     RouterLink,
     FocusDirective,
+    FeatureDirective,
     IconComponent,
     AsyncPipe,
     TranslatePipe,
+    AtMessageDirective,
   ],
 })
 export class ActiveFacetsComponent {
@@ -81,6 +84,8 @@ export class ActiveFacetsComponent {
    */
   removeFilterWithSpacebar(event?: Event): void {
     event?.preventDefault(); // Avoid spacebar scroll
-    event?.target?.dispatchEvent(new MouseEvent('click', { cancelable: true }));
+    event?.target?.dispatchEvent(
+      new MouseEvent('click', { cancelable: true, bubbles: true })
+    );
   }
 }

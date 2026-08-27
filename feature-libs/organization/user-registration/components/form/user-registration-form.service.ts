@@ -14,7 +14,7 @@ import {
 import {
   AuthConfigService,
   Country,
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   OAuthFlow,
@@ -37,7 +37,7 @@ import { filter, switchMap, take, tap } from 'rxjs/operators';
 })
 export class UserRegistrationFormService {
   private _form: FormGroup = this.buildForm();
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   /*
    * Initializes form structure for registration.
@@ -172,7 +172,7 @@ export class UserRegistrationFormService {
     if (
       this.authConfigService.getOAuthFlow() ===
         OAuthFlow.ResourceOwnerPasswordFlow ||
-      this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+      this.featureToggles.authorizationCodeFlowByDefault
     ) {
       this.routingService.go({ cxRoute: 'login' });
     }

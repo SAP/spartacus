@@ -55,6 +55,8 @@ describe('OpfGiftCardApplyComponent', () => {
     },
   };
 
+  const isGiftCardCoveredSubject = new BehaviorSubject<boolean>(false);
+
   beforeEach(async () => {
     mockActiveCartFacade = jasmine.createSpyObj('ActiveCartFacade', [
       'getActive',
@@ -73,7 +75,10 @@ describe('OpfGiftCardApplyComponent', () => {
 
     mockPaymentEventsService = jasmine.createSpyObj('OpfPaymentEventsService', [
       'emitIsGiftCardCoveredTotalAmountEvent',
+      'emitReinitiatePaymentEvent',
     ]);
+    mockPaymentEventsService.isGiftCardCoveredTotalAmountEvent$ =
+      isGiftCardCoveredSubject.asObservable();
 
     mockActiveCartFacade.getActive.and.returnValue(cartSubject.asObservable());
     mockGiftCardFacade.isGiftCardEnabled.and.returnValue(of(true));
@@ -146,6 +151,17 @@ describe('OpfGiftCardApplyComponent', () => {
     );
   });
 
+  it('should emit reinitiatePaymentEvent after applying gift card', () => {
+    component.giftCardForm.setValue({ cardNumber: '12345678', pin: '123' });
+    mockGiftCardFacade.applyGiftCard.and.returnValue(of(void 0));
+
+    component.addGiftCard();
+
+    expect(
+      mockPaymentEventsService.emitReinitiatePaymentEvent
+    ).toHaveBeenCalled();
+  });
+
   it('should handle error when applying gift card fails', () => {
     component.giftCardForm.setValue({
       cardNumber: '12345678',
@@ -193,14 +209,6 @@ describe('OpfGiftCardApplyComponent', () => {
     expect(
       mockPaymentEventsService.emitIsGiftCardCoveredTotalAmountEvent
     ).toHaveBeenCalledWith(false);
-  });
-
-  it('should unsubscribe on destroy', () => {
-    spyOn(component['subscription'], 'unsubscribe');
-
-    component.ngOnDestroy();
-
-    expect(component['subscription'].unsubscribe).toHaveBeenCalled();
   });
 
   it('should return applied gift cards from cart$', (done) => {

@@ -1,5 +1,5 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   I18nTestingModule,
@@ -8,7 +8,7 @@ import {
 } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { EMPTY, of } from 'rxjs';
+import { EMPTY, firstValueFrom, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailReorderComponent } from './order-detail-reorder.component';
 
@@ -56,7 +56,7 @@ describe('Order detail reorder component', () => {
   let fixture: ComponentFixture<OrderDetailReorderComponent>;
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, OrderDetailReorderComponent],
       providers: [
@@ -74,7 +74,7 @@ describe('Order detail reorder component', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailReorderComponent);
@@ -95,7 +95,7 @@ describe('Order detail reorder component', () => {
   });
 
   it('should launch dialog on reorder button click', () => {
-    spyOn(launchDialogService, 'openDialog').and.stub();
+    vi.spyOn(launchDialogService, 'openDialog').mockImplementation(() => {});
     fixture.detectChanges();
     fixture.debugElement
       .query(By.css('.btn'))
@@ -111,14 +111,12 @@ describe('Order detail reorder component', () => {
     );
   });
 
-  it('disable$ should return true if no entry product is in catalogue', (done) => {
+  it('disable$ should return true if no entry product is in catalogue', async () => {
     component.order$ = of(mockOrder);
     component.ngOnInit();
 
-    component.disabled$.subscribe((disabled) => {
-      expect(disabled).toBeTruthy();
-      done();
-    });
+    const disabled = await firstValueFrom(component.disabled$);
+    expect(disabled).toBeTruthy();
   });
 
   it('button should be disabled if disable$ emits true', () => {

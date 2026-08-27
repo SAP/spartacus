@@ -113,7 +113,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
     const product = this.form.get('product')?.value;
 
-    if (!!product) {
+    if (product) {
       this.featureToggles.a11yQuickOrderResetFocus
         ? this.form.reset({}, { emitEvent: false })
         : this.form.reset();

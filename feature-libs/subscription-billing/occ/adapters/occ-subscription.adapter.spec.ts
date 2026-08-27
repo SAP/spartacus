@@ -12,7 +12,7 @@ import {
   SubscriptionDetail,
   SubscriptionList,
 } from '@spartacus/subscription-billing/root';
-import { take } from 'rxjs';
+import { firstValueFrom, take } from 'rxjs';
 import { OccSubscriptionAdapter } from './occ-subscription.adapter';
 const mockDetail: SubscriptionDetail = {
   id: '01',
@@ -92,14 +92,10 @@ describe('OccSubscriptionAdapter', () => {
   });
 
   describe('getSubscriptionByCode', () => {
-    it('should get subscription details for the given subscription id', (done) => {
-      service
-        .getSubscriptionByCode(mockCustomerId, mockSubscriptionId)
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(mockDetail);
-          done();
-        });
+    it('should get subscription details for the given subscription id', async () => {
+      const resultPromise = firstValueFrom(
+        service.getSubscriptionByCode(mockCustomerId, mockSubscriptionId)
+      );
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -111,22 +107,26 @@ describe('OccSubscriptionAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockDetail);
+
+      const result = await resultPromise;
+      expect(result).toEqual(mockDetail);
     });
   });
 
   describe('getSubscriptionList', () => {
-    it('should get list of subscriptions for the given customer id', (done) => {
+    it('should get list of subscriptions for the given customer id', async () => {
       const PAGE_SIZE = 5;
       const currentPage = 1;
       const sort = 'byId';
 
-      service
-        .getSubscriptionList(mockCustomerId, PAGE_SIZE, currentPage, sort)
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(mockList);
-          done();
-        });
+      const resultPromise = firstValueFrom(
+        service.getSubscriptionList(
+          mockCustomerId,
+          PAGE_SIZE,
+          currentPage,
+          sort
+        )
+      );
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -139,6 +139,9 @@ describe('OccSubscriptionAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockList);
+
+      const result = await resultPromise;
+      expect(result).toEqual(mockList);
     });
   });
 });

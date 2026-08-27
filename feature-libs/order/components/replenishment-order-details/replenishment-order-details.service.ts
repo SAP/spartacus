@@ -30,7 +30,7 @@ export class ReplenishmentOrderDetailsService {
 
   protected replenishmentOrderLoad$ = this.replenishmentOrderCode$.pipe(
     tap((replenishmentOrderCode: string) => {
-      if (Boolean(replenishmentOrderCode)) {
+      if (replenishmentOrderCode) {
         this.replenishmentOrderHistoryFacade.loadReplenishmentOrderDetails(
           replenishmentOrderCode
         );

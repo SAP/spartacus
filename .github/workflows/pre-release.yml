@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Spartacus
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Validate version format
         uses: ./.github/actions/validate-version
         with:
@@ -32,7 +32,7 @@ jobs:
         id: current-run-major-version
         run: echo "MAJOR_VERSION=${SPARTACUS_VERSION%%.*}" >> $GITHUB_OUTPUT
       - name: Tagging the branch of release/${{ steps.current-run-major-version.outputs.MAJOR_VERSION}}.x
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           github-server-url: "https://github.tools.sap"
           repository: "cx-commerce/spartacussampledata"
@@ -46,13 +46,21 @@ jobs:
     name: Publishing Spartacus Sample Data
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
+        with:
+          client-id: ${{ vars.CLOUD_REPO_APP_CLIENT_ID }}
+          private-key: ${{ secrets.CLOUD_REPO_APP_PRIVATE_KEY }}
+          owner: sap-samples
+          repositories: cloud-commerce-sample-setup
       - name: create release with sample data assets
         env:
           GHT_USER: ${{ vars.GHT_USER }}
           GHT_PRIVATE_REPO_TOKEN: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
-          GH_TOKEN: ${{ secrets.GH_TEMPORARY_TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           ci-scripts/publish-sample-data.sh

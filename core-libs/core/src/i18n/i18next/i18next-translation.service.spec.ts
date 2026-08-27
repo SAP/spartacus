@@ -1,8 +1,13 @@
-import * as AngularCore from '@angular/core';
+import { vi } from 'vitest';
+import { isDevMode } from '@angular/core';
+
+vi.mock('@angular/core', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@angular/core')>();
+  return { ...actual, isDevMode: vi.fn() };
+});
 import { TestBed } from '@angular/core/testing';
 import { i18n } from 'i18next';
 import { first, take } from 'rxjs/operators';
-import { FeatureConfigService } from '../../features-config';
 import { I18nConfig } from '../config/i18n-config';
 import { TranslationChunkService } from '../translation-chunk.service';
 import { I18NEXT_INSTANCE } from './i18next-instance';
@@ -32,16 +37,13 @@ const getNamespacedKeys = (key: string | string[]) => {
 describe('I18nextTranslationService', () => {
   let service: I18nextTranslationService;
   let i18next: i18n;
-  let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
     const mockTranslationChunk = {
-      getChunkNameForKey: jasmine
-        .createSpy('getChunkNameForKey')
-        .and.returnValue(testChunk),
+      getChunkNameForKey: vi.fn().mockReturnValue(testChunk),
     };
 
-    spyOn(console, 'warn');
+    vi.spyOn(console, 'warn');
 
     TestBed.configureTestingModule({
       providers: [
@@ -51,19 +53,19 @@ describe('I18nextTranslationService', () => {
           useValue: mockTranslationChunk,
         },
         I18nextTranslationService,
-        FeatureConfigService,
       ],
     });
 
     service = TestBed.inject(I18nextTranslationService);
     i18next = TestBed.inject(I18NEXT_INSTANCE);
-    featureConfigService = TestBed.inject(FeatureConfigService);
   });
 
   describe('loadChunks', () => {
     it('should return result of i18next.loadChunks', () => {
       const expectedResult = new Promise(() => {});
-      spyOn(i18next, 'loadNamespaces').and.returnValue(expectedResult as any);
+      vi.spyOn(i18next, 'loadNamespaces').mockReturnValue(
+        expectedResult as any
+      );
       const chunks = ['chunk1', 'chunk2'];
       const result = service.loadChunks(chunks);
       expect(i18next.loadNamespaces).toHaveBeenCalledWith(chunks);
@@ -75,9 +77,9 @@ describe('I18nextTranslationService', () => {
     describe(' when i18next is NOT initialized', () => {
       beforeEach(() => {
         i18next.isInitialized = false;
-        spyOn(i18next, 'loadNamespaces');
-        spyOn(i18next, 'exists');
-        spyOn(i18next, 't');
+        vi.spyOn(i18next, 'loadNamespaces');
+        vi.spyOn(i18next, 'exists');
+        vi.spyOn(i18next, 't');
       });
 
       it('should return and not call translate method', () => {
@@ -102,11 +104,11 @@ describe('I18nextTranslationService', () => {
 
         describe(', when key exists,', () => {
           beforeEach(() => {
-            spyOn(i18next, 'exists').and.returnValue(true);
+            vi.spyOn(i18next, 'exists').mockReturnValue(true);
           });
 
           it('should emit result of i18next.t', () => {
-            spyOn(i18next, 't').and.returnValue('value');
+            vi.spyOn(i18next, 't').mockReturnValue('value');
             let result;
             service
               .translate(key, testOptions)
@@ -120,8 +122,8 @@ describe('I18nextTranslationService', () => {
 
         describe(', when key does NOT exist,', () => {
           beforeEach(() => {
-            spyOn(i18next, 'exists').and.returnValue(false);
-            spyOn(i18next, 'loadNamespaces').and.returnValue(
+            vi.spyOn(i18next, 'exists').mockReturnValue(false);
+            vi.spyOn(i18next, 'loadNamespaces').mockReturnValue(
               new Promise(() => {})
             );
           });
@@ -149,22 +151,22 @@ describe('I18nextTranslationService', () => {
 
             expect(i18next.loadNamespaces).toHaveBeenCalledWith(
               Array(namespacedKeys.length).fill(`${testChunk}`),
-              jasmine.any(Function)
+              expect.any(Function)
             );
           });
         });
 
         describe(', when key does NOT exist even after chunk was loaded,', () => {
           beforeEach(() => {
-            spyOn(i18next, 'exists').and.returnValue(false);
-            spyOn(i18next, 'loadNamespaces').and.callFake(((
+            vi.spyOn(i18next, 'exists').mockReturnValue(false);
+            vi.spyOn(i18next, 'loadNamespaces').mockImplementation(((
               _namespaces,
               onChunkLoad
             ) => onChunkLoad()) as any);
           });
 
           it('should emit key in brackets for non-production', () => {
-            spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+            vi.mocked(isDevMode).mockReturnValue(true);
 
             let result;
             service
@@ -175,9 +177,7 @@ describe('I18nextTranslationService', () => {
           });
 
           it('should return non-breaking space for production', () => {
-            spyOnProperty(AngularCore, 'isDevMode').and.returnValue(
-              () => false
-            );
+            vi.mocked(isDevMode).mockReturnValue(false);
             let result;
             service
               .translate(key, testOptions)
@@ -202,12 +202,14 @@ describe('I18nextTranslationService', () => {
         describe(', when language changed,', () => {
           it('should emit result of i18next.t in new language', () => {
             let languageChangedCallback;
-            spyOn(i18next, 'off');
-            spyOn(i18next, 'on').and.callFake(
+            vi.spyOn(i18next, 'off');
+            vi.spyOn(i18next, 'on').mockImplementation(
               (_event, callback) => (languageChangedCallback = callback)
             );
-            spyOn(i18next, 'exists').and.returnValue(true);
-            spyOn(i18next, 't').and.returnValues('value1', 'value2');
+            vi.spyOn(i18next, 'exists').mockReturnValue(true);
+            vi.spyOn(i18next, 't')
+              .mockReturnValueOnce('value1')
+              .mockReturnValueOnce('value2');
 
             let result;
             service

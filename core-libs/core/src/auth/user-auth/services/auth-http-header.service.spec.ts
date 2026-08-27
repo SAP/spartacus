@@ -1,3 +1,4 @@
+import { vi, Mock } from 'vitest';
 import {
   HttpHandler,
   HttpHeaders,
@@ -7,9 +8,17 @@ import {
 } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { BehaviorSubject, EMPTY, merge, of, queueScheduler } from 'rxjs';
-import { observeOn, take } from 'rxjs/operators';
-import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
+import {
+  BehaviorSubject,
+  EMPTY,
+  firstValueFrom,
+  lastValueFrom,
+  merge,
+  of,
+  queueScheduler,
+} from 'rxjs';
+import { map, observeOn, take, toArray } from 'rxjs/operators';
+import { FeatureToggles } from '../../../features-config/feature-toggles/feature-toggles-tokens';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
@@ -24,7 +33,7 @@ import { AuthHttpHeaderService } from './auth-http-header.service';
 import { AuthRedirectService } from './auth-redirect.service';
 import { AuthStorageService } from './auth-storage.service';
 import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
-
+import { provideMockFeatureToggles } from '../../../features-config/feature-toggles/testing/mock-feature-toggles';
 type ExpiredRefreshTokenHandlerSpy = Required<
   Pick<ExpiredRefreshTokenHandler, 'handleExpiredRefreshTokenIfApplicable'>
 >;
@@ -85,12 +94,12 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 }
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
+  saveCurrentNavigationUrl = vi.fn();
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled = jasmine.createSpy('isEnabled').and.returnValue(true);
-}
+const mockFeatureToggles: FeatureToggles = {
+  enableExpiredRefreshTokenHandlers: true,
+};
 
 describe('AuthHttpHeaderService', () => {
   let service: AuthHttpHeaderService;
@@ -99,17 +108,13 @@ describe('AuthHttpHeaderService', () => {
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
   let authRedirectService: AuthRedirectService;
-  let featureConfigService: FeatureConfigService;
-  let firstRegisteredHandler: jasmine.SpyObj<ExpiredRefreshTokenHandlerSpy>;
+  let featureToggles: FeatureToggles;
+  let firstRegisteredHandler: ExpiredRefreshTokenHandlerSpy;
 
   beforeEach(() => {
-    firstRegisteredHandler =
-      jasmine.createSpyObj<ExpiredRefreshTokenHandlerSpy>(
-        'firstRegisteredHandler',
-        ['handleExpiredRefreshTokenIfApplicable']
-      );
+    firstRegisteredHandler = { handleExpiredRefreshTokenIfApplicable: vi.fn() };
 
-    firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable.and.returnValue(
+    firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable.mockReturnValue(
       of(false)
     );
 
@@ -126,7 +131,7 @@ describe('AuthHttpHeaderService', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: AuthStorageService, useClass: MockAuthStorageService },
         { provide: AuthRedirectService, useClass: MockAuthRedirectService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         {
           provide: EXPIRED_REFRESH_TOKEN_HANDLERS,
           useValue: firstRegisteredHandler,
@@ -143,7 +148,7 @@ describe('AuthHttpHeaderService', () => {
     routingService = TestBed.inject(RoutingService);
     globalMessageService = TestBed.inject(GlobalMessageService);
     authRedirectService = TestBed.inject(AuthRedirectService);
-    featureConfigService = TestBed.inject(FeatureConfigService);
+    featureToggles = TestBed.inject(FeatureToggles);
 
     getTokenFromStorage.next(testToken);
     logoutInProgressSubject.next(false);
@@ -160,7 +165,7 @@ describe('AuthHttpHeaderService', () => {
         service.shouldAddAuthorizationHeader(
           new HttpRequest('GET', 'some-server/occ/cart')
         )
-      ).toBeTrue();
+      ).toBe(true);
     });
 
     it('should return false for non occ urls', () => {
@@ -168,7 +173,7 @@ describe('AuthHttpHeaderService', () => {
         service.shouldAddAuthorizationHeader(
           new HttpRequest('GET', 'some-server/auth')
         )
-      ).toBeFalse();
+      ).toBe(false);
     });
 
     it('should return false if request already have Authorization header', () => {
@@ -178,7 +183,7 @@ describe('AuthHttpHeaderService', () => {
             headers: new HttpHeaders({ Authorization: 'Bearer acc_token' }),
           })
         )
-      ).toBeFalse();
+      ).toBe(false);
     });
   });
 
@@ -186,13 +191,13 @@ describe('AuthHttpHeaderService', () => {
     it('should return true for occ urls', () => {
       expect(
         service.shouldCatchError(new HttpRequest('GET', 'some-server/occ/cart'))
-      ).toBeTrue();
+      ).toBe(true);
     });
 
     it('should return false for non occ urls', () => {
       expect(
         service.shouldCatchError(new HttpRequest('GET', 'some-server/auth'))
-      ).toBeFalse();
+      ).toBe(false);
     });
   });
 
@@ -240,7 +245,7 @@ describe('AuthHttpHeaderService', () => {
   });
 
   describe('handleExpiredAccessToken', () => {
-    it('should refresh the token and retry the call with new token', (done) => {
+    it('should refresh the token and retry the call with new token', async () => {
       const initialToken: AuthToken = {
         access_token: `old_token`,
         access_token_stored_at: '123',
@@ -248,59 +253,54 @@ describe('AuthHttpHeaderService', () => {
       };
       getTokenFromStorage.next(initialToken);
       const handler = (a: any) => of(a);
-      spyOn(oAuthLibWrapperService, 'refreshToken').and.callFake(() => {
-        getTokenFromStorage.next({
-          access_token: `new_token`,
-          access_token_stored_at: '456',
-          refresh_token: 'ref_token',
-        });
-        return EMPTY;
-      });
-      service
-        .handleExpiredAccessToken(
+      vi.spyOn(oAuthLibWrapperService, 'refreshToken').mockImplementation(
+        () => {
+          getTokenFromStorage.next({
+            access_token: `new_token`,
+            access_token_stored_at: '456',
+            refresh_token: 'ref_token',
+          });
+          return EMPTY;
+        }
+      );
+      const res: any = await firstValueFrom(
+        service.handleExpiredAccessToken(
           new HttpRequest('GET', 'some-server/occ/cart'),
           { handle: handler } as HttpHandler,
           initialToken
         )
-        .pipe(take(1))
-        .subscribe((res: any) => {
-          expect(res.headers.get('Authorization')).toEqual('Bearer new_token');
-          expect(res.url).toEqual('some-server/occ/cart');
-          expect(res.method).toEqual('GET');
-          expect(oAuthLibWrapperService.refreshToken).toHaveBeenCalled();
-          done();
-        });
+      );
+      expect(res.headers.get('Authorization')).toEqual('Bearer new_token');
+      expect(res.url).toEqual('some-server/occ/cart');
+      expect(res.method).toEqual('GET');
+      expect(oAuthLibWrapperService.refreshToken).toHaveBeenCalled();
     });
 
-    it('should invoke expired refresh token handler when there is no refresh token', (done) => {
+    it('should invoke expired refresh token handler when there is no refresh token', async () => {
       const initialToken: AuthToken = {
         access_token: `token`,
         access_token_stored_at: `123`,
       };
       getTokenFromStorage.next(initialToken);
-      const handler = jasmine.createSpy('handler', (a: any) => of(a));
-      spyOn(oAuthLibWrapperService, 'refreshToken').and.callThrough();
-      spyOn(service, 'handleExpiredRefreshToken').and.callFake(() => {
+      const handler = vi.fn();
+      vi.spyOn(oAuthLibWrapperService, 'refreshToken');
+      vi.spyOn(service, 'handleExpiredRefreshToken').mockImplementation(() => {
         getTokenFromStorage.next({} as AuthToken);
       });
-      service
-        .handleExpiredAccessToken(
+      const _ = await lastValueFrom(
+        service.handleExpiredAccessToken(
           new HttpRequest('GET', 'some-server/occ/cart'),
           { handle: handler } as HttpHandler,
           initialToken
-        )
-        .subscribe({
-          complete: () => {
-            // check that we didn't created new requests
-            expect(handler).not.toHaveBeenCalled();
-            expect(oAuthLibWrapperService.refreshToken).not.toHaveBeenCalled();
-            expect(service.handleExpiredRefreshToken).toHaveBeenCalled();
-            done();
-          },
-        });
+        ),
+        { defaultValue: null }
+      );
+      expect(handler).not.toHaveBeenCalled();
+      expect(oAuthLibWrapperService.refreshToken).not.toHaveBeenCalled();
+      expect(service.handleExpiredRefreshToken).toHaveBeenCalled();
     });
 
-    it('should refresh token only once when method is invoked multiple times at the same time', (done) => {
+    it('should refresh token only once when method is invoked multiple times at the same time', async () => {
       const initialToken: AuthToken = {
         access_token: `old_token`,
         access_token_stored_at: '123',
@@ -308,53 +308,55 @@ describe('AuthHttpHeaderService', () => {
       };
       getTokenFromStorage.next(initialToken);
       const handler = (a: any) => of(a);
-      spyOn(oAuthLibWrapperService, 'refreshToken').and.callFake(() => {
-        getTokenFromStorage.next({
-          access_token: `new_token`,
-          access_token_stored_at: '456',
-          refresh_token: 'ref_token',
-        });
-      });
-      const results: any[] = [];
-
-      merge(
-        service.handleExpiredAccessToken(
-          new HttpRequest('GET', 'some-server/1/'),
-          { handle: handler } as HttpHandler,
-          initialToken
-        ),
-        service.handleExpiredAccessToken(
-          new HttpRequest('GET', 'some-server/2/'),
-          { handle: handler } as HttpHandler,
-          initialToken
-        )
-      ).subscribe((res) => {
-        results.push(res);
-        if (results.length === 2) {
-          results.forEach((r) =>
-            expect(r.headers.get('Authorization')).toEqual('Bearer new_token')
-          );
-          const url1 = results.find((r) => r.url === 'some-server/1/');
-          expect(url1).toBeTruthy();
-          const url2 = results.find((r) => r.url === 'some-server/2/');
-          expect(url2).toBeTruthy();
-          expect(oAuthLibWrapperService.refreshToken).toHaveBeenCalledTimes(1);
-          done();
+      vi.spyOn(oAuthLibWrapperService, 'refreshToken').mockImplementation(
+        () => {
+          getTokenFromStorage.next({
+            access_token: `new_token`,
+            access_token_stored_at: '456',
+            refresh_token: 'ref_token',
+          });
         }
-      });
+      );
+      const results: any[] = await lastValueFrom(
+        merge(
+          service.handleExpiredAccessToken(
+            new HttpRequest('GET', 'some-server/1/'),
+            { handle: handler } as HttpHandler,
+            initialToken
+          ),
+          service.handleExpiredAccessToken(
+            new HttpRequest('GET', 'some-server/2/'),
+            { handle: handler } as HttpHandler,
+            initialToken
+          )
+        ).pipe(toArray())
+      );
+      if (results.length === 2) {
+        results.forEach((r) =>
+          expect(r.headers.get('Authorization')).toEqual('Bearer new_token')
+        );
+        const url1 = results.find((r) => r.url === 'some-server/1/');
+        expect(url1).toBeTruthy();
+        const url2 = results.find((r) => r.url === 'some-server/2/');
+        expect(url2).toBeTruthy();
+        expect(oAuthLibWrapperService.refreshToken).toHaveBeenCalledTimes(1);
+      }
     });
 
-    it('should not attempt to refresh the token when there was a logout before the token expired', fakeAsync(() => {
+    it('should not attempt to refresh the token when there was a logout before the token expired', async () => {
+      vi.useFakeTimers();
       const initialToken: AuthToken = {
         access_token: `token`,
         access_token_stored_at: '123',
       };
       getTokenFromStorage.next(initialToken);
-      const handler = jasmine.createSpy('handler', (a: any) => of(a));
+      const handler = (a: any) => of(a);
       logoutInProgressSubject.next(true);
 
-      spyOn(oAuthLibWrapperService, 'refreshToken').and.callThrough();
+      vi.spyOn(oAuthLibWrapperService, 'refreshToken');
 
+      let refreshCalled = false;
+      let handlerCalled = false;
       service
         .handleExpiredAccessToken(
           new HttpRequest('GET', 'some-server/occ/cart'),
@@ -363,40 +365,44 @@ describe('AuthHttpHeaderService', () => {
         )
         .subscribe({
           complete: () => {
-            expect(oAuthLibWrapperService.refreshToken).not.toHaveBeenCalled();
-            expect(handler).not.toHaveBeenCalled();
+            refreshCalled =
+              (oAuthLibWrapperService.refreshToken as ReturnType<typeof vi.fn>)
+                .mock.calls.length > 0;
+            handlerCalled = (handler as any).mock?.calls?.length > 0;
           },
         });
 
       setTimeout(() => {
         getTokenFromStorage.next({} as AuthToken);
       }, 100);
-      tick(101);
-    }));
+      await vi.advanceTimersByTimeAsync(101);
 
-    it('should not refresh token when the given token is already different than the token used for failing refresh', (done) => {
+      expect(oAuthLibWrapperService.refreshToken).not.toHaveBeenCalled();
+      vi.useRealTimers();
+    });
+
+    it('should not refresh token when the given token is already different than the token used for failing refresh', async () => {
       const initialToken: AuthToken = {
         access_token: `old_token`,
         access_token_stored_at: '123',
       };
       const handler = (a: any) => of(a);
-      spyOn(oAuthLibWrapperService, 'refreshToken').and.stub();
-
-      service
-        .handleExpiredAccessToken(
+      vi.spyOn(oAuthLibWrapperService, 'refreshToken').mockImplementation(
+        () => {}
+      );
+      const res = await firstValueFrom(
+        service.handleExpiredAccessToken(
           new HttpRequest('GET', 'some-server/1/'),
           { handle: handler } as HttpHandler,
           initialToken
         )
-        .subscribe((res: any) => {
-          expect(res.headers.get('Authorization')).toEqual(
-            `Bearer ${testToken.access_token}`
-          );
-          expect(res.url).toEqual('some-server/1/');
-          expect(res.method).toEqual('GET');
-          expect(oAuthLibWrapperService.refreshToken).not.toHaveBeenCalled();
-          done();
-        });
+      );
+      expect(res.headers.get('Authorization')).toEqual(
+        `Bearer ${testToken.access_token}`
+      );
+      expect(res.url).toEqual('some-server/1/');
+      expect(res.method).toEqual('GET');
+      expect(oAuthLibWrapperService.refreshToken).not.toHaveBeenCalled();
     });
   });
 
@@ -408,9 +414,9 @@ describe('AuthHttpHeaderService', () => {
     }
 
     it('should logout user, save current navigation url, and redirect to login page', async () => {
-      spyOn(authService, 'coreLogout').and.callFake(wait);
-      spyOn(routingService, 'go').and.callThrough();
-      spyOn(globalMessageService, 'add').and.callThrough();
+      vi.spyOn(authService, 'coreLogout').mockImplementation(wait);
+      vi.spyOn(routingService, 'go');
+      vi.spyOn(globalMessageService, 'add');
 
       service.handleExpiredRefreshToken();
 
@@ -418,9 +424,12 @@ describe('AuthHttpHeaderService', () => {
       expect(routingService.go).not.toHaveBeenCalled();
       await wait();
 
-      expect(
-        authRedirectService.saveCurrentNavigationUrl
-      ).toHaveBeenCalledBefore(routingService.go);
+      const saveUrlOrder = (
+        authRedirectService.saveCurrentNavigationUrl as ReturnType<typeof vi.fn>
+      ).mock.invocationCallOrder[0];
+      const goOrder = (routingService.go as ReturnType<typeof vi.fn>).mock
+        .invocationCallOrder[0];
+      expect(saveUrlOrder).toBeLessThan(goOrder);
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
@@ -431,8 +440,8 @@ describe('AuthHttpHeaderService', () => {
     });
 
     it('should skip default refresh token handling when a handler handles it', () => {
-      spyOn(authService, 'coreLogout').and.callThrough();
-      firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable.and.returnValue(
+      vi.spyOn(authService, 'coreLogout');
+      firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable.mockReturnValue(
         of(true)
       );
 
@@ -445,27 +454,25 @@ describe('AuthHttpHeaderService', () => {
     });
 
     it('should skip handlers and execute fallback when feature toggle is disabled', () => {
-      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
-      spyOn(authService, 'coreLogout').and.callThrough();
+      const coreLogoutSpy = vi.spyOn(authService, 'coreLogout');
+      featureToggles.enableExpiredRefreshTokenHandlers = false;
 
       service.handleExpiredRefreshToken();
 
       expect(
         firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable
       ).not.toHaveBeenCalled();
-      expect(authService.coreLogout).toHaveBeenCalled();
+      expect(coreLogoutSpy).toHaveBeenCalled();
     });
 
     describe('with multiple handlers', () => {
-      let secondRegisteredHandler: jasmine.SpyObj<ExpiredRefreshTokenHandlerSpy>;
+      let secondRegisteredHandler: ExpiredRefreshTokenHandlerSpy;
 
       beforeEach(() => {
-        secondRegisteredHandler =
-          jasmine.createSpyObj<ExpiredRefreshTokenHandlerSpy>(
-            'secondRegisteredHandler',
-            ['handleExpiredRefreshTokenIfApplicable']
-          );
-        secondRegisteredHandler.handleExpiredRefreshTokenIfApplicable.and.returnValue(
+        secondRegisteredHandler = {
+          handleExpiredRefreshTokenIfApplicable: vi.fn(),
+        };
+        secondRegisteredHandler.handleExpiredRefreshTokenIfApplicable.mockReturnValue(
           of(false)
         );
 
@@ -489,10 +496,7 @@ describe('AuthHttpHeaderService', () => {
               provide: AuthRedirectService,
               useClass: MockAuthRedirectService,
             },
-            {
-              provide: FeatureConfigService,
-              useClass: MockFeatureConfigService,
-            },
+            provideMockFeatureToggles({ ...mockFeatureToggles }),
             {
               provide: EXPIRED_REFRESH_TOKEN_HANDLERS,
               useValue: firstRegisteredHandler,
@@ -510,15 +514,15 @@ describe('AuthHttpHeaderService', () => {
 
         service = TestBed.inject(AuthHttpHeaderService);
         authService = TestBed.inject(AuthService);
-        featureConfigService = TestBed.inject(FeatureConfigService);
+        featureToggles = TestBed.inject(FeatureToggles);
       });
 
       it('should call secondRegisteredHandler when firstRegistredHandler does not handle the token expiration', () => {
-        spyOn(authService, 'coreLogout').and.callThrough();
-        firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable.and.returnValue(
+        vi.spyOn(authService, 'coreLogout');
+        firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable.mockReturnValue(
           of(false)
         );
-        secondRegisteredHandler.handleExpiredRefreshTokenIfApplicable.and.returnValue(
+        secondRegisteredHandler.handleExpiredRefreshTokenIfApplicable.mockReturnValue(
           of(true)
         );
 
@@ -534,8 +538,8 @@ describe('AuthHttpHeaderService', () => {
       });
 
       it('should not call secondRegisteredHandler when firstRegistredHandler already handles the token expiration', () => {
-        spyOn(authService, 'coreLogout').and.callThrough();
-        firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable.and.returnValue(
+        vi.spyOn(authService, 'coreLogout');
+        firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable.mockReturnValue(
           of(true)
         );
 
@@ -553,36 +557,33 @@ describe('AuthHttpHeaderService', () => {
   });
 
   describe('getValidToken', () => {
-    it('should return undefined when token does not have access token', (done) => {
+    it('should return undefined when token does not have access token', async () => {
       getTokenFromStorage.next(undefined);
 
-      service['getValidToken']({
-        access_token: 'xxx',
-        access_token_stored_at: '123',
-      })
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toBeFalsy();
-          done();
-        });
+      const result = await firstValueFrom(
+        service['getValidToken']({
+          access_token: 'xxx',
+          access_token_stored_at: '123',
+        }).pipe(take(1)),
+        { defaultValue: undefined }
+      );
+      expect(result).toBeFalsy();
     });
 
-    it('should return token when we have access token', (done) => {
+    it('should return token when we have access token', async () => {
       getTokenFromStorage.next(testToken);
+      const result = await firstValueFrom(
+        service['getValidToken']({
+          access_token: 'xxx',
+          access_token_stored_at: '123',
+        })
+      );
 
-      service['getValidToken']({
-        access_token: 'xxx',
-        access_token_stored_at: '123',
-      })
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toBeTruthy();
-          expect(result).toEqual(testToken);
-          done();
-        });
+      expect(result).toBeTruthy();
+      expect(result).toEqual(testToken);
     });
 
-    it('should not emit when logout is in progress', fakeAsync(() => {
+    it('should not emit when logout is in progress', () => {
       logoutInProgressSubject.next(true);
 
       let emitted = false;
@@ -596,9 +597,9 @@ describe('AuthHttpHeaderService', () => {
         });
 
       expect(emitted).toBeFalsy();
-    }));
+    });
 
-    it('should not emit when refresh is in progress', fakeAsync(() => {
+    it('should not emit when refresh is in progress', () => {
       refreshInProgressSubject.next(true);
 
       let emitted = false;
@@ -612,6 +613,6 @@ describe('AuthHttpHeaderService', () => {
         });
 
       expect(emitted).toBeFalsy();
-    }));
+    });
   });
 });

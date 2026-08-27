@@ -4,25 +4,24 @@ set -o pipefail
 
 function validateStylesLint {
     echo "----"
-    echo "Running styleslint"
+    echo "Running stylelint"
     npm run lint:styles
 }
 
 function validateTsConfigFile {
     echo "Validating ${TSCONFIGFILE_TO_VALIDATE} integrity"
     LOCAL_ENV_LIB_PATH_OCCURENCES=$(grep -c "core-libs/storefront/public_api" ${TSCONFIGFILE_TO_VALIDATE} || true)
-    if [ $LOCAL_ENV_LIB_PATH_OCCURENCES \> 0 ];
-    then
-        echo "ERROR: ${TSCONFIGFILE_TO_VALIDATE} file is invalid. Found [${LOCAL_ENV_LIB_PATH}].";
+    if [ $LOCAL_ENV_LIB_PATH_OCCURENCES \> 0 ]; then
+        echo "ERROR: ${TSCONFIGFILE_TO_VALIDATE} file is invalid. Found [${LOCAL_ENV_LIB_PATH}]."
         echo "A proper ng-packager build in /dist should be used in this context."
         exit 1
     else
-        echo "${TSCONFIGFILE_TO_VALIDATE} file is valid.";
-    fi;
+        echo "${TSCONFIGFILE_TO_VALIDATE} file is valid."
+    fi
 }
 
 function validateNoHardCodedText {
-    echo "Validating no hardcoded text (usint i18n-lint)"
+    echo "Validating no hardcoded text (using i18n-lint)"
     npm run i18n-lint
 }
 
@@ -75,7 +74,7 @@ results=$(grep -rl --include "*.ts" "from 'storefrontlib'" core-libs/storefront 
 if [[ -z "$results" ]]; then
     echo "Success: storefrontlib does not seem to import itself."
 else
-    echo "ERROR: Detected occurrence(s) where storefronlib imports itself in these files:"
+    echo "ERROR: Detected occurrence(s) where storefrontlib imports itself in these files:"
     echo "$results"
     exit 1
 fi
@@ -83,12 +82,12 @@ fi
 validateStylesLint
 
 echo "Validating code linting"
-node --max_old_space_size=3584 ./node_modules/nx/bin/nx run-many --all --target=lint
+node --max_old_space_size=3584 ./node_modules/nx/dist/bin/nx.js run-many --all --target=lint
 
 echo "-----"
 
 echo "Validating code formatting (using prettier)"
-npm run prettier 2>&1 |  tee prettier.log
+npm run prettier 2>&1 | tee prettier.log
 results=$(tail -1 prettier.log | grep projects || true)
 if [[ -z "$results" ]]; then
     echo "Success: Codebase has been prettified correctly"

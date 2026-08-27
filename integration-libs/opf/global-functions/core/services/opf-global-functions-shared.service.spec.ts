@@ -178,7 +178,7 @@ describe('OpfGlobalFunctionsSharedService', () => {
       spyOn(launchDialogService, 'clear').and.callThrough();
 
       await service.submit(
-        { ...submitOptions, cartId: 'mock-cart' },
+        { ...submitOptions },
         mockPaymentSessionId,
         {} as ViewContainerRef
       );
@@ -192,7 +192,7 @@ describe('OpfGlobalFunctionsSharedService', () => {
 
       const submitCancel = (): void => {};
       await service.submit(
-        { ...submitOptions, cartId: 'mock-cart', submitCancel },
+        { ...submitOptions, submitCancel },
         mockPaymentSessionId
       );
 
@@ -236,7 +236,7 @@ describe('OpfGlobalFunctionsSharedService', () => {
       spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
 
       await service.submitComplete(
-        { ...submitOptions, cartId: 'mock-cart' },
+        { ...submitOptions },
         mockPaymentSessionId,
         {} as ViewContainerRef
       );
@@ -249,7 +249,7 @@ describe('OpfGlobalFunctionsSharedService', () => {
 
       const submitCancel = (): void => {};
       await service.submitComplete(
-        { ...submitOptions, cartId: 'mock-cart', submitCancel },
+        { ...submitOptions, submitCancel },
         mockPaymentSessionId
       );
 

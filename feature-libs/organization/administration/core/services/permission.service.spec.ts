@@ -1,4 +1,5 @@
-import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { vi } from 'vitest';
+import { inject, TestBed } from '@angular/core/testing';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store, StoreModule } from '@ngrx/store';
 import {
@@ -68,8 +69,8 @@ describe('PermissionService', () => {
     store = TestBed.inject(Store);
     service = TestBed.inject(PermissionService);
     userIdService = TestBed.inject(UserIdService);
-    spyOn(store, 'dispatch').and.callThrough();
-    spyOn(userIdService, 'takeUserId').and.callThrough();
+    vi.spyOn(store, 'dispatch');
+    vi.spyOn(userIdService, 'takeUserId');
 
     actions$ = TestBed.inject(ActionsSubject);
     takeUserId$ = new BehaviorSubject(userId);
@@ -83,8 +84,9 @@ describe('PermissionService', () => {
   ));
 
   describe('get permission', () => {
-    it('get() should trigger load permission details when they are not present in the store', fakeAsync(() => {
-      spyOn(service, 'loadPermission').and.callThrough();
+    it('get() should trigger load permission details when they are not present in the store', async () => {
+      vi.useFakeTimers();
+      vi.spyOn(service, 'loadPermission');
       const sub = service.get(permissionCode).subscribe();
 
       actions$
@@ -95,10 +97,11 @@ describe('PermissionService', () => {
           );
         });
 
-      tick();
+      await vi.advanceTimersByTimeAsync(0);
+      vi.useRealTimers();
       expect(service.loadPermission).toHaveBeenCalledWith(permissionCode);
       sub.unsubscribe();
-    }));
+    });
 
     it('get() should be able to get permission details when they are present in the store', () => {
       store.dispatch(
@@ -272,13 +275,13 @@ describe('PermissionService', () => {
   describe('getErrorState', () => {
     it('getErrorState() should be able to get status error', () => {
       let errorState: boolean;
-      spyOn<any>(service, 'getPermissionState').and.returnValue(
+      vi.spyOn<any>(service, 'getPermissionState').mockReturnValue(
         of({ loading: false, success: false, error: true })
       );
 
       service.getErrorState('code').subscribe((error) => (errorState = error));
 
-      expect(errorState).toBeTrue();
+      expect(errorState).toBe(true);
     });
   });
 });

@@ -13,8 +13,17 @@ import {
   NgSwitch,
   NgSwitchCase,
 } from '@angular/common';
-import { Component, Inject, Input, ViewChild } from '@angular/core';
-import { PointOfService, TranslatePipe } from '@spartacus/core';
+import {
+  Component,
+  effect,
+  ElementRef,
+  Inject,
+  inject,
+  Input,
+  viewChild,
+  ViewChild,
+} from '@angular/core';
+import { FeatureToggles, PointOfService, TranslatePipe } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { StoreFinderListItemComponent } from '../../store-finder-list-item/store-finder-list-item.component';
@@ -56,12 +65,21 @@ export class StoreFinderListComponent {
   iconTypes = ICON_TYPE;
   displayModes = LocationDisplayMode;
   activeDisplayMode = LocationDisplayMode.LIST_VIEW;
+  readonly backButton = viewChild<ElementRef<HTMLButtonElement>>('backButton');
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     private storeFinderService: StoreFinderService,
     @Inject(DOCUMENT) private document: any
   ) {
     this.isDetailsModeVisible = false;
+
+    if (this.featureToggles.a11yStoreFinderFocusOnBackButton) {
+      // Fires when backButton enters the DOM (signal goes undefined → ElementRef), moving focus to it.
+      effect(() => {
+        this.backButton()?.nativeElement?.focus();
+      });
+    }
   }
 
   centerStoreOnMapByIndex(index: number, location: PointOfService): void {

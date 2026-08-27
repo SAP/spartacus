@@ -1,9 +1,25 @@
+import { vi } from 'vitest';
+
+vi.mock('@spartacus/storefront', async (importActual) => {
+  const actual = await importActual<typeof import('@spartacus/storefront')>();
+  const { filter, map } = await import('rxjs/operators');
+  const isNotNullable = <T>(value: T): value is NonNullable<T> => value != null;
+  return {
+    ...actual,
+    getPageTitle: (pageMetaService: any) =>
+      pageMetaService.getMeta().pipe(
+        filter(isNotNullable),
+        map((meta: any) => (meta.heading || meta.title) ?? '')
+      ),
+  };
+});
+
 import {
   ChangeDetectionStrategy,
   Component,
   DebugElement,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -12,10 +28,13 @@ import {
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
+  FeatureDirective,
   GlobalMessageService,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
+  PageMeta,
+  PageMetaService,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
@@ -24,12 +43,21 @@ import {
   PasswordVisibilityToggleModule,
   SpinnerComponent,
 } from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { BehaviorSubject } from 'rxjs';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { BehaviorSubject, of } from 'rxjs';
 import { MyAccountV2PasswordComponent } from './my-account-v2-password.component';
 import { UpdatePasswordComponentService } from './update-password-component.service';
-import createSpy = jasmine.createSpy;
+
+const mockPageMeta: PageMeta = { title: 'Test Title', heading: 'Test Heading' };
+class MockPageMetaService implements Partial<PageMetaService> {
+  getMeta = () => of(mockPageMeta);
+}
 
 @Component({
   selector: 'cx-spinner',
@@ -54,12 +82,12 @@ class MockUpdatePasswordService
     newPasswordConfirm: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
-  updatePassword = createSpy().and.stub();
-  resetForm = createSpy().and.stub();
+  updatePassword = vi.fn().mockImplementation(() => {});
+  resetForm = vi.fn().mockImplementation(() => {});
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy().and.stub();
+  add = vi.fn().mockImplementation(() => {});
 }
 
 describe('MyAccountV2PasswordComponent', () => {
@@ -69,7 +97,7 @@ describe('MyAccountV2PasswordComponent', () => {
 
   let service: UpdatePasswordComponentService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -83,11 +111,19 @@ describe('MyAccountV2PasswordComponent', () => {
           useClass: MockUpdatePasswordService,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: PageMetaService, useClass: MockPageMetaService },
+        ...provideMockFeatureToggles({ a11yFormFieldSectionLegend: true }),
       ],
     })
       .overrideComponent(MyAccountV2PasswordComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe, SpinnerComponent],
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            SpinnerComponent,
+            FeatureDirective,
+          ],
         },
         add: {
           imports: [
@@ -95,19 +131,19 @@ describe('MyAccountV2PasswordComponent', () => {
             MockDatePipe,
             MockUrlPipe,
             MockCxSpinnerComponent,
+            MockFeatureDirective,
           ],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2PasswordComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     service = TestBed.inject(UpdatePasswordComponentService);
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -148,7 +184,8 @@ describe('MyAccountV2PasswordComponent', () => {
 
   describe('Form Interactions', () => {
     it('should call onSubmit() method on submit', () => {
-      const request = spyOn(component, 'onSubmit');
+      fixture.detectChanges();
+      const request = vi.spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
       form.triggerEventHandler('submit', null);
       expect(request).toHaveBeenCalled();
@@ -161,11 +198,23 @@ describe('MyAccountV2PasswordComponent', () => {
 
     it('should clean input box', () => {
       fixture.detectChanges();
-      const buttons = fixture.debugElement.queryAll(
+      const cancelButton = fixture.debugElement.query(
         By.css('.myaccount-password-button-cancel')
       );
-      buttons[0].triggerEventHandler('click', null);
+      cancelButton.nativeElement.click();
       expect(el.queryAll(By.css('form-control')).length).toEqual(0);
+    });
+
+    it('should not submit the form when cancel is clicked', () => {
+      vi.spyOn(component, 'onSubmit');
+      fixture.detectChanges();
+
+      const cancelButton = fixture.debugElement.query(
+        By.css('.myaccount-password-button-cancel')
+      );
+      cancelButton.nativeElement.click();
+
+      expect(component.onSubmit).not.toHaveBeenCalled();
     });
 
     it('should hide cx message strip when close clicked', () => {
@@ -173,6 +222,40 @@ describe('MyAccountV2PasswordComponent', () => {
       fixture.detectChanges();
       const cxMsg = el.query(By.css('cx-message'));
       expect(cxMsg).toBeNull();
+    });
+  });
+
+  describe('Accessibility', () => {
+    let toggleController: MockFeatureTogglesController;
+
+    beforeEach(() => {
+      toggleController = TestBed.inject(MockFeatureTogglesController);
+    });
+
+    describe('when a11yFormFieldSectionLegend is enabled', () => {
+      beforeEach(() => {
+        toggleController.set('a11yFormFieldSectionLegend', true);
+        fixture.detectChanges();
+      });
+
+      it('should render a fieldset with a visible legend', () => {
+        const legend = el.query(By.css('fieldset > legend'));
+        expect(legend).toBeTruthy();
+        expect(legend.nativeElement.textContent.trim()).toContain(
+          'myAccountV2PasswordForm.newPasswordTitle'
+        );
+      });
+    });
+
+    describe('when a11yFormFieldSectionLegend is disabled', () => {
+      beforeEach(() => {
+        toggleController.set('a11yFormFieldSectionLegend', false);
+        fixture.detectChanges();
+      });
+
+      it('should render a fieldset', () => {
+        expect(el.query(By.css('fieldset'))).toBeTruthy();
+      });
     });
   });
 });

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CmsBannerCarouselComponent,
   CmsBannerCarouselEffect,
@@ -33,7 +33,7 @@ describe('CreateComponent', () => {
   let bannerCarouselComponent: BannerCarouselComponent;
   let fixture: ComponentFixture<BannerCarouselComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         BannerCarouselComponent,
@@ -46,7 +46,7 @@ describe('CreateComponent', () => {
         { provide: CmsService, useClass: MockCmsService },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BannerCarouselComponent);

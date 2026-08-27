@@ -1,14 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import {
-  FeatureConfigService,
+  FeatureToggles,
   SemanticPathService,
   WindowRef,
 } from '@spartacus/core';
 import { CdcLoginAsGuestGuard } from './cdc-login-as-guest.guard';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
-const mockFeatureConfigService = {
-  isEnabled: jasmine.createSpy().and.returnValue(true),
+const mockFeatureToggles: FeatureToggles = {
+  authorizationCodeFlowByDefault: true,
 };
 
 const mockWindowRef = {
@@ -32,10 +33,7 @@ describe('CdcLoginAsGuestGuard', () => {
     TestBed.configureTestingModule({
       providers: [
         Router,
-        {
-          provide: FeatureConfigService,
-          useValue: mockFeatureConfigService,
-        },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         {
           provide: SemanticPathService,
           useClass: MockSemanticPathService,
@@ -60,7 +58,6 @@ describe('CdcLoginAsGuestGuard', () => {
 
   it('should use overridden login route', (done) => {
     spyOn(semanticPathService, 'get');
-    mockFeatureConfigService.isEnabled.and.returnValue(true);
     guard.canActivate().subscribe(() => {
       expect(semanticPathService.get).toHaveBeenCalledWith('login');
       done();

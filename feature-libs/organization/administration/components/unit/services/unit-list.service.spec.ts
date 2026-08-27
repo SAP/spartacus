@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { vi } from 'vitest';
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { EntitiesModel, FeatureConfigService } from '@spartacus/core';
+import { EntitiesModel, FeatureToggles } from '@spartacus/core';
 import {
   B2BUnitNode,
   B2BUnitTreeNode,
@@ -18,13 +19,12 @@ import { UnitItemService } from './unit-item.service';
 import { UnitListService } from './unit-list.service';
 import { TREE_TOGGLE } from './unit-tree.model';
 import { UnitTreeService } from './unit-tree.service';
-
-import createSpy = jasmine.createSpy;
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 function verifyExpandedAll({ values }: EntitiesModel<B2BUnitTreeNode>) {
   expect(values.length).toEqual(7);
   values.forEach((element) => {
-    expect(element.expanded).toBeTrue();
+    expect(element.expanded).toBe(true);
   });
 }
 
@@ -33,7 +33,7 @@ function verifyCollapsedAll({ values }: EntitiesModel<B2BUnitTreeNode>) {
 
   expect(values.length).toEqual(1);
   expect(root.uid).toEqual(mockedTree.id);
-  expect(root.expanded).toBeFalse();
+  expect(root.expanded).toBe(false);
   expect(root.depthLevel).toEqual(0);
   expect(root.count).toEqual(mockedTree.children.length);
 }
@@ -313,18 +313,18 @@ export class MockTableService {
 
 export class MockUnitTreeService {
   treeToggle$ = treeToggle$.asObservable();
-  initialize = createSpy('initialize');
-  isExpanded = createSpy('isExpanded').and.returnValue(false);
+  initialize = vi.fn();
+  isExpanded = vi.fn().mockReturnValue(false);
 }
 
-class MockFeatureConfigService {
-  isEnabled = createSpy('isEnabled').and.returnValue(false);
-}
+const mockFeatureToggles: FeatureToggles = {
+  enableB2BUnitSearch: false,
+};
 
 describe('UnitListService', () => {
   let service: UnitListService;
   let treeService: UnitTreeService;
-  let featureConfigService: FeatureConfigService;
+  let featureToggles: FeatureToggles;
 
   describe('with table config', () => {
     beforeEach(() => {
@@ -349,15 +349,12 @@ describe('UnitListService', () => {
               key$: of(mockedTree.id),
             },
           },
-          {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
-          },
+          provideMockFeatureToggles({ ...mockFeatureToggles }),
         ],
       });
       service = TestBed.inject(UnitListService);
       treeService = TestBed.inject(UnitTreeService);
-      featureConfigService = TestBed.inject(FeatureConfigService);
+      featureToggles = TestBed.inject(FeatureToggles);
     });
 
     it('should inject service', () => {
@@ -378,7 +375,7 @@ describe('UnitListService', () => {
     it('should get expanded all items structure', () => {
       let result: EntitiesModel<B2BUnitTreeNode>;
       mockTree$.next(mockedTree);
-      treeService.isExpanded = createSpy().and.returnValue(true);
+      treeService.isExpanded = vi.fn().mockReturnValue(true);
 
       service.getData().subscribe((table) => (result = table));
 
@@ -388,7 +385,7 @@ describe('UnitListService', () => {
     it('should automatically sort unit tree by name', () => {
       let result: EntitiesModel<B2BUnitTreeNode>;
       mockTree$.next(mockedTreeBeforeConvert);
-      treeService.isExpanded = createSpy().and.returnValue(true);
+      treeService.isExpanded = vi.fn().mockReturnValue(true);
 
       service.getData().subscribe((table) => (result = table));
 
@@ -397,19 +394,13 @@ describe('UnitListService', () => {
 
     describe('isSearchEnabled', () => {
       it('should return true when enableB2BUnitSearch toggle is enabled', () => {
-        featureConfigService.isEnabled = createSpy().and.returnValue(true);
-        expect(service.isSearchEnabled()).toBeTrue();
-        expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-          'enableB2BUnitSearch'
-        );
+        featureToggles.enableB2BUnitSearch = true;
+        expect(service.isSearchEnabled()).toBe(true);
       });
 
       it('should return false when enableB2BUnitSearch toggle is disabled', () => {
-        featureConfigService.isEnabled = createSpy().and.returnValue(false);
-        expect(service.isSearchEnabled()).toBeFalse();
-        expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-          'enableB2BUnitSearch'
-        );
+        featureToggles.enableB2BUnitSearch = false;
+        expect(service.isSearchEnabled()).toBe(false);
       });
     });
 
@@ -437,9 +428,9 @@ describe('UnitListService', () => {
         // Result is root node (ancestor of match)
         expect(result.id).toEqual('Rustic');
         // Root is in forceExpandIds as ancestor
-        expect(forceExpandIds.has('Rustic')).toBeTrue();
+        expect(forceExpandIds.has('Rustic')).toBe(true);
         // 'Rustic Services' is NOT in forceExpandIds (it matched itself)
-        expect(forceExpandIds.has('Rustic Services')).toBeFalse();
+        expect(forceExpandIds.has('Rustic Services')).toBe(false);
         // Only matching branch kept under root
         expect(result.children.length).toEqual(1);
         expect(result.children[0].id).toEqual('Rustic Services');
@@ -476,8 +467,8 @@ describe('UnitListService', () => {
         expect(result.id).toEqual('Rustic');
 
         // Ancestors should be in forceExpandIds
-        expect(forceExpandIds.has('Rustic')).toBeTrue();
-        expect(forceExpandIds.has('Rustic Services')).toBeTrue();
+        expect(forceExpandIds.has('Rustic')).toBe(true);
+        expect(forceExpandIds.has('Rustic Services')).toBe(true);
 
         // Only the matching branch remains
         expect(result.children.length).toEqual(1);
@@ -519,8 +510,8 @@ describe('UnitListService', () => {
         );
 
         expect(result).toBeDefined();
-        expect(forceExpandIds.has('Rustic')).toBeTrue();
-        expect(forceExpandIds.has('Rustic Services')).toBeTrue();
+        expect(forceExpandIds.has('Rustic')).toBe(true);
+        expect(forceExpandIds.has('Rustic Services')).toBe(true);
       });
 
       it('should match by node id', () => {
@@ -535,16 +526,16 @@ describe('UnitListService', () => {
 
         expect(result).toBeDefined();
         // Ancestors should be force-expanded
-        expect(forceExpandIds.has('Rustic')).toBeTrue();
-        expect(forceExpandIds.has('Rustic Retail')).toBeTrue();
-        expect(forceExpandIds.has('Custom Retail')).toBeTrue();
+        expect(forceExpandIds.has('Rustic')).toBe(true);
+        expect(forceExpandIds.has('Rustic Retail')).toBe(true);
+        expect(forceExpandIds.has('Custom Retail')).toBe(true);
       });
     });
 
     describe('convertListItem with forceExpandIds', () => {
       it('should force-expand nodes in forceExpandIds', () => {
         const forceExpandIds = new Set<string>(['Rustic', 'Rustic Services']);
-        treeService.isExpanded = createSpy().and.returnValue(false);
+        treeService.isExpanded = vi.fn().mockReturnValue(false);
 
         const result = (service as any).convertListItem(
           mockedTree,
@@ -557,19 +548,19 @@ describe('UnitListService', () => {
         // Root 'Rustic' should be expanded via forceExpandIds
         const root = result.values[0];
         expect(root.uid).toEqual('Rustic');
-        expect(root.expanded).toBeTrue();
+        expect(root.expanded).toBe(true);
 
         // 'Rustic Services' should also be expanded via forceExpandIds
         const rusticServices = result.values.find(
           (v: B2BUnitTreeNode) => v.uid === 'Rustic Services'
         );
         expect(rusticServices).toBeDefined();
-        expect(rusticServices.expanded).toBeTrue();
+        expect(rusticServices.expanded).toBe(true);
       });
 
       it('should not force-expand nodes NOT in forceExpandIds', () => {
         const forceExpandIds = new Set<string>(['Rustic']);
-        treeService.isExpanded = createSpy().and.returnValue(false);
+        treeService.isExpanded = vi.fn().mockReturnValue(false);
 
         const result = (service as any).convertListItem(
           mockedTree,
@@ -580,25 +571,25 @@ describe('UnitListService', () => {
 
         // Root should be expanded (in forceExpandIds)
         const root = result.values[0];
-        expect(root.expanded).toBeTrue();
+        expect(root.expanded).toBe(true);
 
         // 'Rustic Retail' is NOT in forceExpandIds and isExpanded returns false
         const rusticRetail = result.values.find(
           (v: B2BUnitTreeNode) => v.uid === 'Rustic Retail'
         );
         expect(rusticRetail).toBeDefined();
-        expect(rusticRetail.expanded).toBeFalse();
+        expect(rusticRetail.expanded).toBe(false);
       });
 
       it('should fall back to unitTreeService.isExpanded when no forceExpandIds', () => {
-        treeService.isExpanded = createSpy().and.returnValue(false);
+        treeService.isExpanded = vi.fn().mockReturnValue(false);
 
         const result = (service as any).convertListItem(mockedTree);
 
         expect(result).toBeDefined();
         // Without forceExpandIds, all nodes use isExpanded (returns false)
         const root = result.values[0];
-        expect(root.expanded).toBeFalse();
+        expect(root.expanded).toBe(false);
         expect(result.values.length).toEqual(1); // Only root since collapsed
       });
     });
@@ -607,7 +598,7 @@ describe('UnitListService', () => {
       it('should filter tree when query is non-empty', () => {
         let result: EntitiesModel<B2BUnitTreeNode>;
         mockTree$.next(mockedTree);
-        treeService.isExpanded = createSpy().and.returnValue(false);
+        treeService.isExpanded = vi.fn().mockReturnValue(false);
 
         service.getData().subscribe((table) => {
           result = table;
@@ -621,9 +612,9 @@ describe('UnitListService', () => {
         // Visible: Rustic (expanded), Rustic Services (expanded), Services West
         expect(result.values.length).toEqual(3);
         expect(result.values[0].uid).toEqual('Rustic');
-        expect(result.values[0].expanded).toBeTrue();
+        expect(result.values[0].expanded).toBe(true);
         expect(result.values[1].uid).toEqual('Rustic Services');
-        expect(result.values[1].expanded).toBeTrue();
+        expect(result.values[1].expanded).toBe(true);
         expect(result.values[2].uid).toEqual('Services West');
         expect(result.pagination.totalResults).toEqual(3);
       });
@@ -631,7 +622,7 @@ describe('UnitListService', () => {
       it('should filter when query is non-empty (min-char check is handled by component pipe)', () => {
         let result: EntitiesModel<B2BUnitTreeNode>;
         mockTree$.next(mockedTree);
-        treeService.isExpanded = createSpy().and.returnValue(false);
+        treeService.isExpanded = vi.fn().mockReturnValue(false);
 
         service.getData().subscribe((table) => {
           result = table;
@@ -648,7 +639,7 @@ describe('UnitListService', () => {
       it('should not filter when query is empty', () => {
         let result: EntitiesModel<B2BUnitTreeNode>;
         mockTree$.next(mockedTree);
-        treeService.isExpanded = createSpy().and.returnValue(false);
+        treeService.isExpanded = vi.fn().mockReturnValue(false);
 
         service.getData().subscribe((table) => {
           result = table;
@@ -663,7 +654,7 @@ describe('UnitListService', () => {
       it('should not filter when query is only whitespace', () => {
         let result: EntitiesModel<B2BUnitTreeNode>;
         mockTree$.next(mockedTree);
-        treeService.isExpanded = createSpy().and.returnValue(false);
+        treeService.isExpanded = vi.fn().mockReturnValue(false);
 
         service.getData().subscribe((table) => {
           result = table;
@@ -678,7 +669,7 @@ describe('UnitListService', () => {
       it('should return empty result when no search results', () => {
         let result: EntitiesModel<B2BUnitTreeNode> | undefined;
         mockTree$.next(mockedTree);
-        treeService.isExpanded = createSpy().and.returnValue(false);
+        treeService.isExpanded = vi.fn().mockReturnValue(false);
 
         service.getData().subscribe((table) => {
           result = table;
@@ -694,7 +685,7 @@ describe('UnitListService', () => {
       it('should show parent match with all children preserved', () => {
         let result: EntitiesModel<B2BUnitTreeNode>;
         mockTree$.next(mockedTree);
-        treeService.isExpanded = createSpy().and.returnValue(false);
+        treeService.isExpanded = vi.fn().mockReturnValue(false);
 
         service.getData().subscribe((table) => {
           result = table;
@@ -706,9 +697,9 @@ describe('UnitListService', () => {
         expect(result).toBeDefined();
         // Rustic (ancestor, force-expanded) -> Rustic Services (self-match, NOT force-expanded, uses isExpanded=false)
         expect(result.values[0].uid).toEqual('Rustic');
-        expect(result.values[0].expanded).toBeTrue(); // forceExpandIds
+        expect(result.values[0].expanded).toBe(true); // forceExpandIds
         expect(result.values[1].uid).toEqual('Rustic Services');
-        expect(result.values[1].expanded).toBeFalse(); // self-match, isExpanded returns false
+        expect(result.values[1].expanded).toBe(false); // self-match, isExpanded returns false
         // Total: 2 visible nodes (Rustic Services collapsed, its children hidden)
         expect(result.values.length).toEqual(2);
         // But Rustic Services still has children count
@@ -718,7 +709,7 @@ describe('UnitListService', () => {
       it('should trim and lowercase query before filtering', () => {
         let result: EntitiesModel<B2BUnitTreeNode>;
         mockTree$.next(mockedTree);
-        treeService.isExpanded = createSpy().and.returnValue(false);
+        treeService.isExpanded = vi.fn().mockReturnValue(false);
 
         service.getData().subscribe((table) => {
           result = table;
@@ -730,16 +721,16 @@ describe('UnitListService', () => {
         // Should find 'Services West' despite leading/trailing spaces and casing
         expect(
           result.values.some((v: B2BUnitTreeNode) => v.uid === 'Services West')
-        ).toBeTrue();
+        ).toBe(true);
       });
 
       it('should preserve expand state when search is cleared', () => {
         // Set manual expansion: only root expanded
-        treeService.isExpanded = createSpy().and.callFake(
-          (id: string, _level: number) => {
+        treeService.isExpanded = vi
+          .fn()
+          .mockImplementation((id: string, _level: number) => {
             return id === 'Rustic';
-          }
-        );
+          });
 
         let result: EntitiesModel<B2BUnitTreeNode>;
         mockTree$.next(mockedTree);
@@ -757,11 +748,11 @@ describe('UnitListService', () => {
 
         // Root is expanded (manual state), children visible but collapsed
         expect(result.values[0].uid).toEqual('Rustic');
-        expect(result.values[0].expanded).toBeTrue();
+        expect(result.values[0].expanded).toBe(true);
         // Root's children should be visible since root is expanded
         expect(result.values.length).toEqual(3); // Rustic + 2 children (both collapsed)
-        expect(result.values[1].expanded).toBeFalse();
-        expect(result.values[2].expanded).toBeFalse();
+        expect(result.values[1].expanded).toBe(false);
+        expect(result.values[2].expanded).toBe(false);
       });
     });
   });

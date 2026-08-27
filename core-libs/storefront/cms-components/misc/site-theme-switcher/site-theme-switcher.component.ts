@@ -6,9 +6,16 @@
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { SiteTheme, TranslatePipe, TranslationService } from '@spartacus/core';
+import {
+  FeatureDirective,
+  SiteTheme,
+  TranslatePipe,
+  TranslationService,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { NativeSelectSpaceDirective } from '../../../layout/a11y/native-select-space/native-select-space.directive';
 import { IconComponent } from '../icon/icon.component';
 import { ICON_TYPE } from '../icon/icon.model';
 import { SiteThemeSwitcherComponentService } from './site-theme-switcher.component.service';
@@ -20,13 +27,23 @@ import { SiteThemeSwitcherComponentService } from './site-theme-switcher.compone
   selector: 'cx-site-theme-switcher',
   templateUrl: './site-theme-switcher.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, IconComponent, AsyncPipe, TranslatePipe],
+  imports: [
+    NgIf,
+    NgFor,
+    IconComponent,
+    AsyncPipe,
+    TranslatePipe,
+    FeatureDirective,
+    NativeSelectSpaceDirective,
+  ],
 })
 export class SiteThemeSwitcherComponent {
   readonly translationService = inject(TranslationService);
   iconTypes = ICON_TYPE;
 
-  constructor() {}
+  constructor() {
+    useFeatureStyles('a11ySiteContextCaretClick');
+  }
 
   protected themeSwitcherComponentService = inject(
     SiteThemeSwitcherComponentService

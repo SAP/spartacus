@@ -4,7 +4,7 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   AuthRedirectService,
   AuthService,
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageService,
   SemanticPathService,
   WindowRef,
@@ -14,40 +14,40 @@ import { User } from '@spartacus/user/account/root';
 import { EMPTY, of } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutAuthGuard } from './checkout-auth.guard';
-import createSpy = jasmine.createSpy;
+import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 
 class AuthServiceStub implements Partial<AuthService> {
-  isUserLoggedIn = createSpy().and.returnValue(EMPTY);
+  isUserLoggedIn = vi.fn().mockReturnValue(EMPTY);
 }
 
 class ActiveCartServiceStub implements Partial<ActiveCartFacade> {
-  getAssignedUser = createSpy().and.returnValue(EMPTY);
-  isGuestCart = createSpy().and.returnValue(of(true));
-  isStable = createSpy().and.returnValue(of(true));
+  getAssignedUser = vi.fn().mockReturnValue(EMPTY);
+  isGuestCart = vi.fn().mockReturnValue(of(true));
+  isStable = vi.fn().mockReturnValue(of(true));
 }
 
 class MockSemanticPathService implements Partial<SemanticPathService> {
-  get = createSpy().and.returnValue(`/login`);
+  get = vi.fn().mockReturnValue(`/login`);
 }
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  saveCurrentNavigationUrl = createSpy();
+  saveCurrentNavigationUrl = vi.fn();
 }
 
 class MockCheckoutConfigService implements Partial<CheckoutConfigService> {
-  isGuestCheckout = createSpy().and.returnValue(false);
+  isGuestCheckout = vi.fn().mockReturnValue(false);
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy();
+  add = vi.fn();
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled = createSpy();
-}
+const mockFeatureToggles: FeatureToggles = {
+  authorizationCodeFlowByDefault: false,
+};
 
 const MockWindowRef = {
-  localStorage: { setItem: createSpy(), removeItem: createSpy() },
+  localStorage: { setItem: vi.fn(), removeItem: vi.fn() },
 };
 
 describe('CheckoutAuthGuard', () => {
@@ -56,7 +56,7 @@ describe('CheckoutAuthGuard', () => {
   let authRedirectService: AuthRedirectService;
   let activeCartService: ActiveCartFacade;
   let checkoutConfigService: CheckoutConfigService;
-  let featureConfigService: FeatureConfigService;
+  let featureToggles: FeatureToggles;
   let windowRef: WindowRef;
 
   beforeEach(() => {
@@ -87,10 +87,7 @@ describe('CheckoutAuthGuard', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         {
           provide: WindowRef,
           useValue: MockWindowRef,
@@ -102,19 +99,19 @@ describe('CheckoutAuthGuard', () => {
     authRedirectService = TestBed.inject(AuthRedirectService);
     activeCartService = TestBed.inject(ActiveCartFacade);
     checkoutConfigService = TestBed.inject(CheckoutConfigService);
-    featureConfigService = TestBed.inject(FeatureConfigService);
+    featureToggles = TestBed.inject(FeatureToggles);
     windowRef = TestBed.inject(WindowRef);
   });
 
   describe(', when user is NOT authorized,', () => {
     beforeEach(() => {
-      authService.isUserLoggedIn = createSpy().and.returnValue(of(false));
+      authService.isUserLoggedIn = vi.fn().mockReturnValue(of(false));
     });
 
     describe('and cart does NOT have a user, ', () => {
       beforeEach(() => {
-        activeCartService.getAssignedUser = createSpy().and.returnValue(of({}));
-        activeCartService.isGuestCart = createSpy().and.returnValue(of(false));
+        activeCartService.getAssignedUser = vi.fn().mockReturnValue(of({}));
+        activeCartService.isGuestCart = vi.fn().mockReturnValue(of(false));
       });
 
       it('should notify AuthRedirectService with the current navigation', () => {
@@ -124,13 +121,11 @@ describe('CheckoutAuthGuard', () => {
 
       describe('when authorizationCodeFlowByDefault feature flag is enabled', () => {
         beforeEach(() => {
-          (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
+          featureToggles.authorizationCodeFlowByDefault = true;
         });
 
         it('should return url to login and not set IS_GUEST_USER_CHECKOUT_KEY when guestCheckout feature disabled', () => {
-          (
-            checkoutConfigService.isGuestCheckout as jasmine.Spy
-          ).and.returnValue(false);
+          (checkoutConfigService.isGuestCheckout as any).mockReturnValue(false);
 
           let result: boolean | UrlTree | RedirectCommand | undefined;
           checkoutGuard
@@ -138,16 +133,11 @@ describe('CheckoutAuthGuard', () => {
             .subscribe((value) => (result = value))
             .unsubscribe();
           expect(result?.toString()).toEqual(`/login`);
-          expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-            'authorizationCodeFlowByDefault'
-          );
           expect(windowRef.localStorage?.setItem).not.toHaveBeenCalled();
         });
 
         it('should return url to login and set IS_GUEST_USER_CHECKOUT_KEY when guestCheckout feature enabled', () => {
-          (
-            checkoutConfigService.isGuestCheckout as jasmine.Spy
-          ).and.returnValue(true);
+          (checkoutConfigService.isGuestCheckout as any).mockReturnValue(true);
 
           let result: boolean | UrlTree | RedirectCommand | undefined;
           checkoutGuard
@@ -155,9 +145,6 @@ describe('CheckoutAuthGuard', () => {
             .subscribe((value) => (result = value))
             .unsubscribe();
           expect(result?.toString()).toEqual(`/login`);
-          expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-            'authorizationCodeFlowByDefault'
-          );
           expect(windowRef.localStorage?.setItem).toHaveBeenCalledWith(
             IS_GUEST_USER_CHECKOUT_KEY,
             'true'
@@ -167,9 +154,7 @@ describe('CheckoutAuthGuard', () => {
 
       describe('when authorizationCodeFlowByDefault feature flag is disabled', () => {
         beforeEach(() => {
-          (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(
-            false
-          );
+          featureToggles.authorizationCodeFlowByDefault = false;
         });
 
         it('should return url to login without forced flag when guestCheckout feature disabled', () => {
@@ -179,15 +164,10 @@ describe('CheckoutAuthGuard', () => {
             .subscribe((value) => (result = value))
             .unsubscribe();
           expect(result?.toString()).toEqual(`/login`);
-          expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-            'authorizationCodeFlowByDefault'
-          );
         });
 
         it('should return url to login with forced flag when guestCheckout feature enabled', () => {
-          (
-            checkoutConfigService.isGuestCheckout as jasmine.Spy
-          ).and.returnValue(true);
+          (checkoutConfigService.isGuestCheckout as any).mockReturnValue(true);
 
           let result: boolean | UrlTree | RedirectCommand | undefined;
           checkoutGuard
@@ -195,18 +175,17 @@ describe('CheckoutAuthGuard', () => {
             .subscribe((value) => (result = value))
             .unsubscribe();
           expect(result?.toString()).toEqual(`/login?forced=true`);
-          expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-            'authorizationCodeFlowByDefault'
-          );
         });
       });
     });
 
     describe('and cart has a user, ', () => {
       beforeEach(() => {
-        activeCartService.getAssignedUser = createSpy().and.returnValue(
-          of(of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User))
-        );
+        activeCartService.getAssignedUser = vi
+          .fn()
+          .mockReturnValue(
+            of(of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User))
+          );
       });
 
       it('should return true', () => {
@@ -222,9 +201,9 @@ describe('CheckoutAuthGuard', () => {
 
   describe(', when user is in checkout pages,', () => {
     it('should NOT redirect route when cart is unstable', () => {
-      activeCartService.isStable = createSpy().and.returnValue(of(false));
-      activeCartService.isGuestCart = createSpy().and.returnValue(of(false));
-      authService.isUserLoggedIn = createSpy().and.returnValue(of(true));
+      activeCartService.isStable = vi.fn().mockReturnValue(of(false));
+      activeCartService.isGuestCart = vi.fn().mockReturnValue(of(false));
+      authService.isUserLoggedIn = vi.fn().mockReturnValue(of(true));
 
       checkoutGuard.canActivate().subscribe().unsubscribe();
       expect(
@@ -235,12 +214,12 @@ describe('CheckoutAuthGuard', () => {
 
   describe(', when user is authorized,', () => {
     beforeEach(() => {
-      authService.isUserLoggedIn = createSpy().and.returnValue(of(true));
+      authService.isUserLoggedIn = vi.fn().mockReturnValue(of(true));
     });
 
     describe('and cart does NOT have a user, ', () => {
       beforeEach(() => {
-        activeCartService.getAssignedUser = createSpy().and.returnValue(of({}));
+        activeCartService.getAssignedUser = vi.fn().mockReturnValue(of({}));
       });
 
       it('should return true', () => {
@@ -255,9 +234,11 @@ describe('CheckoutAuthGuard', () => {
 
     describe('and cart has a user, ', () => {
       beforeEach(() => {
-        activeCartService.getAssignedUser = createSpy().and.returnValue(
-          of(of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User))
-        );
+        activeCartService.getAssignedUser = vi
+          .fn()
+          .mockReturnValue(
+            of(of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User))
+          );
       });
 
       it('should redirect to same route when cart is stable', () => {

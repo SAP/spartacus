@@ -4,7 +4,7 @@ import {
   CartAccessCodeFacade,
 } from '@spartacus/cart/base/root';
 import {
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageService,
   RouterState,
   RoutingService,
@@ -19,6 +19,7 @@ import {
 import { OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE } from '@spartacus/opf/checkout/root';
 import { getBrowserInfo } from '@spartacus/opf/payment/core';
 import {
+  OpfPaymentChannel,
   OpfPaymentFacade,
   OpfPaymentRenderPattern,
   OpfPaymentSessionData,
@@ -45,7 +46,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
   let orderFacadeMock: jasmine.SpyObj<OrderFacade>;
   let opfMetadataStoreServiceMock: jasmine.SpyObj<OpfMetadataStoreService>;
   let windowRefMock: jasmine.SpyObj<WindowRef>;
-  let featureConfigServiceMock: jasmine.SpyObj<FeatureConfigService>;
+  let featureToggles: FeatureToggles;
 
   beforeEach(() => {
     opfPaymentFacadeMock = jasmine.createSpyObj('OpfPaymentFacade', [
@@ -79,10 +80,9 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       ['updateOpfMetadata']
     );
     windowRefMock = jasmine.createSpyObj('WindowRef', ['nativeWindow']);
-    featureConfigServiceMock = jasmine.createSpyObj('FeatureConfigService', [
-      'isEnabled',
-    ]);
-    featureConfigServiceMock.isEnabled.and.returnValue(false);
+    featureToggles = {
+      opfCheckoutUseUpdatePaymentTransaction: false,
+    };
 
     routingServiceMock.getRouterState.and.returnValue(
       of({
@@ -115,8 +115,8 @@ describe('OpfCheckoutPaymentWrapperService', () => {
           useValue: windowRefMock,
         },
         {
-          provide: FeatureConfigService,
-          useValue: featureConfigServiceMock,
+          provide: FeatureToggles,
+          useValue: featureToggles,
         },
       ],
     });
@@ -178,9 +178,9 @@ describe('OpfCheckoutPaymentWrapperService', () => {
         otpKey: mockOtpKey,
         config: {
           configurationId: mockPaymentOptionId.toString(),
-          cartId: mockCartId,
           resultURL: mockUrl,
           cancelURL: mockUrl,
+          channel: OpfPaymentChannel.BROWSER,
           browserInfo: getBrowserInfo(windowRefMock.nativeWindow),
         },
       });
@@ -543,13 +543,9 @@ describe('OpfCheckoutPaymentWrapperService', () => {
   it('should set payment initiation config', () => {
     const mockOtpKey = 'otpKey';
     const mockPaymentOptionId = 123;
-    const mockActiveCartId = 'cartId';
     routingServiceMock.getFullUrl.and.returnValue(mockUrl);
 
-    activeCartServiceMock.getActiveCartId.and.returnValue(of(mockActiveCartId));
-
     const config = service['getPaymentInitiationConfig'](
-      mockActiveCartId,
       mockOtpKey,
       mockPaymentOptionId,
       getBrowserInfo(windowRefMock.nativeWindow)
@@ -559,9 +555,9 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       otpKey: mockOtpKey,
       config: {
         configurationId: mockPaymentOptionId.toString(),
-        cartId: mockActiveCartId,
         resultURL: mockUrl,
         cancelURL: mockUrl,
+        channel: OpfPaymentChannel.BROWSER,
         browserInfo: getBrowserInfo(windowRefMock.nativeWindow),
       },
     });
@@ -596,7 +592,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
   });
 
   it('should not call updatePaymentTransaction on first initiate when feature is enabled', (done) => {
-    featureConfigServiceMock.isEnabled.and.returnValue(true);
+    featureToggles.opfCheckoutUseUpdatePaymentTransaction = true;
 
     const mockPaymentSessionData: OpfPaymentSessionData = {
       pattern: OpfPaymentRenderPattern.HOSTED_FIELDS,
@@ -632,7 +628,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
   });
 
   it('should call updatePaymentTransaction when matching stored session exists and feature is enabled', (done) => {
-    featureConfigServiceMock.isEnabled.and.returnValue(true);
+    featureToggles.opfCheckoutUseUpdatePaymentTransaction = true;
 
     const mockPaymentSessionData: OpfPaymentSessionData = {
       pattern: OpfPaymentRenderPattern.HOSTED_FIELDS,
@@ -665,7 +661,11 @@ describe('OpfCheckoutPaymentWrapperService', () => {
         paymentSessionId: 'stored-session',
         otpKey: mockOtpKey,
         config: {
+          configurationId: String(mockPaymentOptionId),
           browserInfo: getBrowserInfo(windowRefMock.nativeWindow),
+          channel: OpfPaymentChannel.BROWSER,
+          resultURL: mockUrl,
+          cancelURL: mockUrl,
         },
       });
       done();

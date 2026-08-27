@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
@@ -34,17 +35,18 @@ describe('StoreSearchComponent', () => {
     fixture = TestBed.createComponent(StoreSearchComponent);
     currentLocationService = TestBed.inject(CurrentLocationService);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeDefined();
   });
 
   it('onFindStores emits a location and returns false', () => {
+    fixture.detectChanges();
     const location = 'a location';
-    spyOn(component, 'onFindStores').and.callThrough();
-    spyOn(component.findStores, 'emit').and.callThrough();
+    vi.spyOn(component, 'onFindStores');
+    vi.spyOn(component.findStores, 'emit');
     const RESULT = component.onFindStores(location);
     expect(component.onFindStores).toHaveBeenCalledWith(location);
     expect(component.findStores.emit).toHaveBeenCalledWith({ location });
@@ -52,20 +54,21 @@ describe('StoreSearchComponent', () => {
   });
 
   it('onHideOutOfStock emits eventHideOutOfStock', () => {
-    spyOn(component.eventHideOutOfStock, 'emit');
+    fixture.detectChanges();
+    vi.spyOn(component.eventHideOutOfStock, 'emit');
     expect(component.hideOutOfStock).toEqual(false);
     component.onHideOutOfStock();
     expect(component.eventHideOutOfStock.emit).toHaveBeenCalledWith(true);
-    component.hideOutOfStock = !component.hideOutOfStock;
-    fixture.detectChanges();
+    fixture.componentRef.setInput('hideOutOfStock', true);
     component.onHideOutOfStock();
     expect(component.eventHideOutOfStock.emit).toHaveBeenCalledWith(false);
   });
 
   it('useMyLocation makes findStores emit a location', () => {
-    spyOn(currentLocationService, 'getCurrentLocation').and.callThrough();
-    spyOn(component.showSpinner, 'emit').and.callThrough();
-    spyOn(component.findStores, 'emit').and.callThrough();
+    fixture.detectChanges();
+    vi.spyOn(currentLocationService, 'getCurrentLocation');
+    vi.spyOn(component.showSpinner, 'emit');
+    vi.spyOn(component.findStores, 'emit');
 
     component.useMyLocation();
 

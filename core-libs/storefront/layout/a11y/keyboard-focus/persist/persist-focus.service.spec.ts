@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SelectFocusUtility } from '../services/select-focus.util';
 import { PersistFocusService } from './persist-focus.service';
@@ -18,7 +18,7 @@ describe('PersistFocusService', () => {
   let service: PersistFocusService;
   let fixture: ComponentFixture<MockComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [MockComponent],
       providers: [
@@ -32,7 +32,7 @@ describe('PersistFocusService', () => {
 
     service = TestBed.inject(PersistFocusService);
     fixture = TestBed.createComponent(MockComponent);
-  }));
+  });
 
   it('should inject service', () => {
     expect(service).toBeTruthy();

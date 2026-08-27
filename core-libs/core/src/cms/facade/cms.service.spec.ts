@@ -1,7 +1,7 @@
+import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
-import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { EMPTY, Observable, of } from 'rxjs';
+import { EMPTY, firstValueFrom, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { PageType } from '../../model/cms.model';
 import { PageContext, RoutingService } from '../../routing/index';
@@ -13,7 +13,6 @@ import { CmsActions } from '../store/actions/index';
 import { StateWithCms } from '../store/cms-state';
 import * as fromReducers from '../store/reducers/index';
 import { CmsService } from './cms.service';
-import createSpy = jasmine.createSpy;
 
 class MockRoutingService {
   getPageContext(): Observable<PageContext> {
@@ -64,7 +63,7 @@ describe('CmsService', () => {
 
     store = TestBed.inject(Store);
     routingService = TestBed.inject(RoutingService);
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   it('should be created', inject([CmsService], (service: CmsService) => {
@@ -95,22 +94,12 @@ describe('CmsService', () => {
             type: PageType.CATALOG_PAGE,
           };
 
-          spyOn(routingService, 'getPageContext').and.returnValue(
+          vi.spyOn(routingService, 'getPageContext').mockReturnValue(
             of(currentPageContext)
           );
-          spyOn(routingService, 'getNextPageContext').and.returnValue(
+          vi.spyOn(routingService, 'getNextPageContext').mockReturnValue(
             of(nextPageContext)
           );
-
-          const mockLoaderState: StateUtils.LoaderState<boolean> = {
-            success: false,
-            loading: false,
-            error: false,
-          };
-          const mockSelect = createSpy('select').and.returnValue(() =>
-            of(mockLoaderState)
-          );
-          spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
           const uid = 'mockUid';
           service.getComponentData(uid).pipe(take(1)).subscribe().unsubscribe();
@@ -152,22 +141,12 @@ describe('CmsService', () => {
             type: PageType.CATALOG_PAGE,
           };
 
-          spyOn(routingService, 'getPageContext').and.returnValue(
+          vi.spyOn(routingService, 'getPageContext').mockReturnValue(
             of(currentPageContext)
           );
-          spyOn(routingService, 'getNextPageContext').and.returnValue(
+          vi.spyOn(routingService, 'getNextPageContext').mockReturnValue(
             of(nextPageContext)
           );
-
-          const mockLoaderState: StateUtils.LoaderState<boolean> = {
-            success: false,
-            loading: false,
-            error: false,
-          };
-          const mockSelect = createSpy('select').and.returnValue(() =>
-            of(mockLoaderState)
-          );
-          spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
           const uid = 'mockUid';
           service
@@ -190,47 +169,53 @@ describe('CmsService', () => {
 
   it('getContentSlot should be able to get content slot by position', inject(
     [CmsService],
-    (service: CmsService) => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of(mockContentSlot)
-      );
-      spyOn(routingService, 'getPageContext').and.returnValue(
-        of({ id: 'test' })
+    async (service: CmsService) => {
+      const pageContext: PageContext = {
+        id: 'test',
+        type: PageType.CONTENT_PAGE,
+      };
+      const pageWithSlot: Page = {
+        pageId: 'test',
+        slots: { Section1: mockContentSlot },
+      };
+
+      vi.spyOn(routingService, 'getPageContext').mockReturnValue(
+        of(pageContext)
       );
 
-      let contentSlotReturned: ContentSlotData;
-      service
-        .getContentSlot('Section1')
-        .subscribe((value) => {
-          contentSlotReturned = value;
-        })
-        .unsubscribe();
+      store.dispatch(
+        new CmsActions.LoadCmsPageDataSuccess(pageContext, pageWithSlot)
+      );
 
-      expect(contentSlotReturned).toBe(mockContentSlot);
+      const contentSlotReturned: ContentSlotData = await firstValueFrom(
+        service.getContentSlot('Section1')
+      );
+
+      expect(contentSlotReturned).toEqual(mockContentSlot);
     }
   ));
 
   it('getNavigationEntryItems should be able to get navigation entry items by navigationNodeUid', inject(
     [CmsService],
-    (service: CmsService) => {
+    async (service: CmsService) => {
       const testUid = 'test_uid';
-      const mockNodeItem: NodeItem = {
-        testUid: {
-          uid: 'test',
-        },
+      const mockComponent = { uid: 'testUid', typeCode: 'CMSLinkComponent' };
+      const expectedNodeItem: NodeItem = {
+        [`${mockComponent.uid}_AbstractCMSComponent`]: mockComponent,
       };
-      const mockSelect = createSpy('select').and.returnValue(() =>
-        of(mockNodeItem)
+
+      store.dispatch(
+        new CmsActions.LoadCmsNavigationItemsSuccess({
+          nodeId: testUid,
+          components: [mockComponent],
+        })
       );
-      spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
-      let result: NodeItem;
-      service
-        .getNavigationEntryItems(testUid)
-        .subscribe((value) => (result = value))
-        .unsubscribe();
+      const result: NodeItem = await firstValueFrom(
+        service.getNavigationEntryItems(testUid)
+      );
 
-      expect(result).toEqual(mockNodeItem);
+      expect(result).toEqual(expectedNodeItem);
     }
   ));
 
@@ -250,7 +235,7 @@ describe('CmsService', () => {
   it('getCurrentPage should expose the current page', inject(
     [CmsService],
     (service: CmsService) => {
-      spyOn(routingService, 'getPageContext').and.returnValue(
+      vi.spyOn(routingService, 'getPageContext').mockReturnValue(
         of(testPageContext)
       );
 
@@ -273,7 +258,7 @@ describe('CmsService', () => {
   it('should be able to refresh the latest cms page', inject(
     [CmsService],
     (service: CmsService) => {
-      spyOn(routingService, 'getPageContext').and.returnValue(
+      vi.spyOn(routingService, 'getPageContext').mockReturnValue(
         of(testPageContext)
       );
 
@@ -371,12 +356,7 @@ describe('CmsService', () => {
     it('should dispatch a load action if the load was not attempted', inject(
       [CmsService],
       (service: CmsService) => {
-        const mockedEntity: StateUtils.LoaderState<string> = {};
-        const mockSelect = createSpy('select').and.returnValue(() =>
-          of(mockedEntity)
-        );
-        spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
-
+        // Empty state — no load attempted
         service.hasPage(testPageContext).subscribe().unsubscribe();
 
         expect(store.dispatch).toHaveBeenCalledWith(
@@ -388,11 +368,10 @@ describe('CmsService', () => {
     it('should NOT dispatch a load action if the load was attempted', inject(
       [CmsService],
       (service: CmsService) => {
-        const mockedEntity: StateUtils.LoaderState<string> = { success: true };
-        const mockSelect = createSpy('select').and.returnValue(() =>
-          of(mockedEntity)
+        // Dispatch success first so load is marked as attempted
+        store.dispatch(
+          new CmsActions.LoadCmsPageDataSuccess(testPageContext, page)
         );
-        spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
         service.hasPage(testPageContext).subscribe().unsubscribe();
 
@@ -406,12 +385,6 @@ describe('CmsService', () => {
       it('should dispatch a load action if the load was not attempted', inject(
         [CmsService],
         (service: CmsService) => {
-          const mockedEntity: StateUtils.LoaderState<string> = {};
-          const mockSelect = createSpy('select').and.returnValue(() =>
-            of(mockedEntity)
-          );
-          spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
-
           service.hasPage(testPageContext, true).subscribe().unsubscribe();
 
           expect(store.dispatch).toHaveBeenCalledWith(
@@ -423,13 +396,9 @@ describe('CmsService', () => {
       it('should dispatch a load action with if the load was attempted', inject(
         [CmsService],
         (service: CmsService) => {
-          const mockedEntity: StateUtils.LoaderState<string> = {
-            success: true,
-          };
-          const mockSelect = createSpy('select').and.returnValue(() =>
-            of(mockedEntity)
+          store.dispatch(
+            new CmsActions.LoadCmsPageDataSuccess(testPageContext, page)
           );
-          spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
           service.hasPage(testPageContext, true).subscribe().unsubscribe();
 
@@ -442,45 +411,24 @@ describe('CmsService', () => {
 
     it('should return true if the load was successful', inject(
       [CmsService],
-      (service: CmsService) => {
-        const mockedEntity: StateUtils.LoaderState<string> = {
-          success: true,
-          value: '',
-        };
-        const mockSelect = createSpy('select').and.returnValue(() =>
-          of(mockedEntity)
+      async (service: CmsService) => {
+        store.dispatch(
+          new CmsActions.LoadCmsPageDataSuccess(testPageContext, page)
         );
-        spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
-        let result: boolean;
-        service
-          .hasPage(testPageContext)
-          .subscribe((value) => (result = value))
-          .unsubscribe();
-
+        const result = await firstValueFrom(service.hasPage(testPageContext));
         expect(result).toEqual(true);
       }
     ));
 
     it('should return false if the there was an error', inject(
       [CmsService],
-      (service: CmsService) => {
-        const mockedEntity: StateUtils.LoaderState<string> = {
-          success: false,
-          error: true,
-          value: undefined,
-        };
-        const mockSelect = createSpy('select').and.returnValue(() =>
-          of(mockedEntity)
+      async (service: CmsService) => {
+        store.dispatch(
+          new CmsActions.LoadCmsPageDataFail(testPageContext, 'error')
         );
-        spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
-        let result: boolean;
-        service
-          .hasPage(testPageContext)
-          .subscribe((value) => (result = value))
-          .unsubscribe();
-
+        const result = await firstValueFrom(service.hasPage(testPageContext));
         expect(result).toEqual(false);
       }
     ));
@@ -494,7 +442,7 @@ describe('CmsService', () => {
     });
 
     it('should call "hasPage"', inject([CmsService], (service: CmsService) => {
-      spyOn(service, 'hasPage').and.returnValue(of(false));
+      vi.spyOn(service, 'hasPage').mockReturnValue(of(false));
       service.getPage(pageContext, true);
       expect(service.hasPage).toHaveBeenCalledWith(pageContext, true);
     }));
@@ -502,8 +450,8 @@ describe('CmsService', () => {
     it('should return result of "getPageState" when page exists', inject(
       [CmsService],
       (service: CmsService) => {
-        spyOn(service, 'hasPage').and.returnValue(of(true));
-        spyOn(service, 'getPageState').and.returnValue(
+        vi.spyOn(service, 'hasPage').mockReturnValue(of(true));
+        vi.spyOn(service, 'getPageState').mockReturnValue(
           of({ pageId: 'testId' } as any)
         );
 
@@ -517,8 +465,8 @@ describe('CmsService', () => {
     it('should emit null when page does not exist', inject(
       [CmsService],
       (service: CmsService) => {
-        spyOn(service, 'hasPage').and.returnValue(of(false));
-        spyOn(service, 'getPageState');
+        vi.spyOn(service, 'hasPage').mockReturnValue(of(false));
+        vi.spyOn(service, 'getPageState');
 
         let result;
         service.getPage(pageContext, true).subscribe((res) => (result = res));

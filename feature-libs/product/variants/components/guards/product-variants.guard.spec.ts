@@ -6,8 +6,9 @@ import {
   RoutingConfig,
   SemanticPathService,
 } from '@spartacus/core';
-import { EMPTY, Observable, of } from 'rxjs';
+import { EMPTY, Observable, firstValueFrom, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { vi } from 'vitest';
 import { ProductVariantsGuard } from './product-variants.guard';
 
 const mockPurchasableProduct = {
@@ -75,43 +76,36 @@ describe('ProductVariantsGuard', () => {
     productService = TestBed.inject(ProductService);
   });
 
-  it('should return true if product is purchasable', (done) => {
-    spyOn(productService, 'get').and.returnValue(of(mockPurchasableProduct));
+  it('should return true if product is purchasable', async () => {
+    vi.spyOn(productService, 'get').mockReturnValue(of(mockPurchasableProduct));
 
-    guard
-      .canActivate(activatedRoute)
-      .pipe(take(1))
-      .subscribe((val) => {
-        expect(val).toBeTruthy();
-        done();
-      });
+    const val = await firstValueFrom(
+      guard.canActivate(activatedRoute).pipe(take(1))
+    );
+    expect(val).toBeTruthy();
   });
 
-  it('should return url for product variant if product is non-purchasable', (done) => {
-    spyOn(productService, 'get').and.returnValue(of(mockNonPurchasableProduct));
+  it('should return url for product variant if product is non-purchasable', async () => {
+    vi.spyOn(productService, 'get').mockReturnValue(
+      of(mockNonPurchasableProduct)
+    );
 
-    guard
-      .canActivate(activatedRoute)
-      .pipe(take(1))
-      .subscribe((val) => {
-        expect(val.toString()).toEqual(
-          '/product/purchasableTest123/nonPurchasableProduct'
-        );
-        done();
-      });
+    const val = await firstValueFrom(
+      guard.canActivate(activatedRoute).pipe(take(1))
+    );
+    expect(val.toString()).toEqual(
+      '/product/purchasableTest123/nonPurchasableProduct'
+    );
   });
 
-  it('should return true if no productCode in route parameter (launch from smartedit)', (done) => {
+  it('should return true if no productCode in route parameter (launch from smartedit)', async () => {
     const activatedRouteWithoutParams = {
       params: {},
     } as unknown as ActivatedRouteSnapshot;
 
-    guard
-      .canActivate(activatedRouteWithoutParams)
-      .pipe(take(1))
-      .subscribe((val) => {
-        expect(val).toBeTruthy();
-        done();
-      });
+    const val = await firstValueFrom(
+      guard.canActivate(activatedRouteWithoutParams).pipe(take(1))
+    );
+    expect(val).toBeTruthy();
   });
 });

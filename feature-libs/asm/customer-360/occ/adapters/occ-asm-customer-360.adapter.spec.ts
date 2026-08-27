@@ -15,7 +15,7 @@ import {
   DynamicAttributes,
   OccEndpointsService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, firstValueFrom } from 'rxjs';
 import { OccAsmCustomer360Adapter } from './occ-asm-customer-360.adapter';
 import {
   provideHttpClient,
@@ -60,15 +60,15 @@ describe('OccAsmCustomer360Adapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converterService = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
-    spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
+    vi.spyOn(converterService, 'pipeable');
+    vi.spyOn(occEnpointsService, 'buildUrl');
   });
 
   it('should be created', () => {
     expect(occAsmCustomer360Adapter).toBeTruthy();
   });
 
-  it('should get customer 360 data', (done) => {
+  it('should get customer 360 data', async () => {
     const request: AsmCustomer360Request = {
       queries: [
         {
@@ -89,12 +89,9 @@ describe('OccAsmCustomer360Adapter', () => {
       ],
     };
 
-    occAsmCustomer360Adapter
-      .getAsmCustomer360Data(request)
-      .subscribe((backendResponse) => {
-        expect(backendResponse).toBe(response);
-        done();
-      });
+    const resultPromise = firstValueFrom(
+      occAsmCustomer360Adapter.getAsmCustomer360Data(request)
+    );
 
     const mockReq = httpMock.expectOne((req) => {
       return (
@@ -105,9 +102,11 @@ describe('OccAsmCustomer360Adapter', () => {
     });
 
     mockReq.flush(response);
+
+    expect(await resultPromise).toBe(response);
   });
 
-  it('should get customer 360 data', (done) => {
+  it('should get customer 360 data', async () => {
     const request: AsmCustomer360Request = {
       queries: [
         {
@@ -128,12 +127,9 @@ describe('OccAsmCustomer360Adapter', () => {
       ],
     };
 
-    occAsmCustomer360Adapter
-      .getAsmCustomer360Data(request)
-      .subscribe((backendResponse) => {
-        expect(backendResponse).toBe(response);
-        done();
-      });
+    const resultPromise = firstValueFrom(
+      occAsmCustomer360Adapter.getAsmCustomer360Data(request)
+    );
 
     const mockReq = httpMock.expectOne((req) => {
       return (
@@ -144,5 +140,7 @@ describe('OccAsmCustomer360Adapter', () => {
     });
 
     mockReq.flush(response);
+
+    expect(await resultPromise).toBe(response);
   });
 });

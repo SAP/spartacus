@@ -1,14 +1,12 @@
 import { Component, ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Priority } from '@spartacus/core';
-import { take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 import { CmsComponentsService } from '../../../services/cms-components.service';
 import { CxApiService } from '../services/cx-api.service';
 import { WebComponentHandler } from './web-component.handler';
 
-const mockCmsMappingService = jasmine.createSpyObj('CmsMappingService', [
-  'getComponentMapping',
-]);
+const mockCmsMappingService = { getComponentMapping: vi.fn() };
 
 @Component({
   template: '',
@@ -50,20 +48,17 @@ describe('WebComponentHandler', () => {
     expect(handler.getPriority()).toEqual(Priority.LOW);
   });
 
-  it('should launch component', (done) => {
+  it('should launch component', async () => {
     const fixture = TestBed.createComponent(WrapperComponent);
     fixture.detectChanges();
 
-    handler
-      .launcher(
+    const { elementRef } = await firstValueFrom(
+      handler.launcher(
         { component: '#my-webcomponent' },
         fixture.componentInstance.vcr
       )
-      .pipe(take(1))
-      .subscribe(({ elementRef }) => {
-        expect(elementRef.nativeElement.tagName).toBe('MY-WEBCOMPONENT');
-        done();
-      });
+    );
+    expect(elementRef.nativeElement.tagName).toBe('MY-WEBCOMPONENT');
   });
 
   it('should load script for component', () => {
@@ -75,7 +70,6 @@ describe('WebComponentHandler', () => {
         { component: 'test.js#my-webcomponent' },
         fixture.componentInstance.vcr
       )
-      .pipe(take(1))
       .subscribe()
       .unsubscribe();
 

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,7 +8,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { Cart, OrderEntry } from '@spartacus/cart/base/root';
@@ -15,7 +16,6 @@ import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import {
   AuthService,
   CxDatePipe,
-  FeatureConfigService,
   FeatureDirective,
   I18nTestingModule,
   MockDatePipe,
@@ -29,10 +29,9 @@ import {
   CurrentProductService,
   IconComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
+import { BehaviorSubject, Observable, of, firstValueFrom } from 'rxjs';
 import { AddToWishListComponent } from './add-to-wish-list.component';
-import createSpy = jasmine.createSpy;
 const mockProduct: Product = {
   code: 'xxx',
   name: 'product',
@@ -79,8 +78,8 @@ class MockAuthService {
 const productSubject = new BehaviorSubject(mockProduct);
 
 class MockWishListService {
-  addEntry = createSpy();
-  removeEntry = createSpy();
+  addEntry = vi.fn();
+  removeEntry = vi.fn();
   getWishList() {
     return of(mockWishList);
   }
@@ -90,7 +89,7 @@ class MockWishListService {
 }
 
 class MockCurrentProductService {
-  getProduct = createSpy().and.returnValue(productSubject);
+  getProduct = vi.fn().mockReturnValue(productSubject);
 }
 
 @Component({
@@ -106,12 +105,6 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
-
 @Directive({ selector: '[cxAtMessage]' })
 class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
@@ -123,7 +116,7 @@ describe('AddToWishListComponent', () => {
   let wishListFacade: WishListFacade;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -137,7 +130,6 @@ describe('AddToWishListComponent', () => {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
         },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     })
       .overrideComponent(AddToWishListComponent, {
@@ -164,7 +156,7 @@ describe('AddToWishListComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddToWishListComponent);
@@ -173,7 +165,6 @@ describe('AddToWishListComponent', () => {
     wishListFacade = TestBed.inject(WishListFacade);
 
     el = fixture.debugElement;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -181,6 +172,10 @@ describe('AddToWishListComponent', () => {
   });
 
   describe('add', () => {
+    beforeEach(() => {
+      vi.spyOn(component as any, 'restoreFocus').mockImplementation(() => {});
+    });
+
     it('should add product to wish list', () => {
       component.add(mockProduct);
 
@@ -189,6 +184,10 @@ describe('AddToWishListComponent', () => {
   });
 
   describe('remove', () => {
+    beforeEach(() => {
+      vi.spyOn(component as any, 'restoreFocus').mockImplementation(() => {});
+    });
+
     it('should remove product from wish list', () => {
       component.remove(mockCartEntry);
 
@@ -233,7 +232,9 @@ describe('AddToWishListComponent', () => {
       });
 
       it('should show add to wish list if product is NOT the in wish list', () => {
-        component.wishListEntries$ = of([]);
+        vi.spyOn(wishListFacade, 'getWishList').mockReturnValue(
+          of({ ...mockWishList, entries: [] })
+        );
         fixture.detectChanges();
         expect(el.query(By.css('.button-add')).nativeElement).toBeDefined();
       });
@@ -258,20 +259,16 @@ describe('AddToWishListComponent', () => {
   });
 
   describe('getWishListEntries', () => {
-    it('should return the wishlist entries from the facade', (done) => {
-      component['getWishListEntries']().subscribe((wishList) => {
-        expect(wishList).toEqual(mockWishList.entries);
-        done();
-      });
+    it('should return the wishlist entries from the facade', async () => {
+      const wishList = await firstValueFrom(component['getWishListEntries']());
+      expect(wishList).toEqual(mockWishList.entries);
     });
-    it('should return an empty list if entries are falsy', (done) => {
-      spyOn(wishListFacade, 'getWishList').and.returnValue(
+    it('should return an empty list if entries are falsy', async () => {
+      vi.spyOn(wishListFacade, 'getWishList').mockReturnValue(
         of({ ...mockWishList, entries: undefined })
       );
-      component['getWishListEntries']().subscribe((wishList) => {
-        expect(wishList).toEqual([]);
-        done();
-      });
+      const wishList = await firstValueFrom(component['getWishListEntries']());
+      expect(wishList).toEqual([]);
     });
   });
 
@@ -279,7 +276,7 @@ describe('AddToWishListComponent', () => {
     it('should refocus on removeFromWishlistButton', () => {
       component.removeFromWishlistButton = {
         nativeElement: {
-          focus: jasmine.createSpy('focus'),
+          focus: vi.fn(),
         },
       };
       component.loading$ = of(false);
@@ -294,7 +291,7 @@ describe('AddToWishListComponent', () => {
     it('should refocus on addToWishlistButton', () => {
       component.addToWishlistButton = {
         nativeElement: {
-          focus: jasmine.createSpy('focus'),
+          focus: vi.fn(),
         },
       } as any;
 

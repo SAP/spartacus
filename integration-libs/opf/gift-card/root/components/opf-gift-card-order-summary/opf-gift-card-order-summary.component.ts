@@ -6,7 +6,7 @@
 import { CommonModule, NgIf } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
 import { I18nModule, RoutingService, TranslatePipe } from '@spartacus/core';
-import { Subscription, map } from 'rxjs';
+import { map } from 'rxjs';
 
 import { AppliedCouponsComponent } from '@spartacus/cart/base/components';
 import { Cart } from '@spartacus/cart/base/root';
@@ -29,7 +29,6 @@ export class OpfGiftCardOrderSummaryComponent {
   @Input() cart: Cart | Order;
   protected checkoutStepService = inject(CheckoutStepService);
   protected router = inject(Router);
-  protected subscription = new Subscription();
   protected routingService = inject(RoutingService);
 
   isPaymentAndReviewStep$ = this.routingService

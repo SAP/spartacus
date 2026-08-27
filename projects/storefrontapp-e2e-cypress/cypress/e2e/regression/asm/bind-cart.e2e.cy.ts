@@ -89,7 +89,7 @@ context('Assisted Service Module', () => {
         cy.get('button.close[title="Close ASM"]').click();
         cy.get('a[role="link"]').contains('Sign In / Register').click();
       });
-      login(customerForBindCart.email, customerForBindCart.password);
+      login(customerForBindCart.email, customerForBindCart.password, true);
       cy.get('cx-login .cx-login-greet').should('be.visible');
 
       cy.log("--> Verify anonymous cart is now the user's active cart");
@@ -200,7 +200,8 @@ context('Assisted Service Module', () => {
       });
       login(
         customerForReplaceBindCart.email,
-        customerForReplaceBindCart.password
+        customerForReplaceBindCart.password,
+        true
       );
       cy.get('cx-login .cx-login-greet').should('be.visible');
 

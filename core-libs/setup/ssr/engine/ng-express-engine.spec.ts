@@ -187,7 +187,12 @@ function getTestRequest(overrides: Record<string, unknown> = {}): unknown {
     get: (header: string) => (header === 'host' ? 'localhost:4200' : undefined),
     protocol: 'http',
     baseUrl: '',
-    url: 'http://localhost:4200',
+    // Express's `req.url` is the path portion, not a full URL.
+    // The engine builds the final render URL via
+    // `${protocol}://${host}${baseUrl}${url}`, so passing a full URL here
+    // would produce a malformed concatenated URL that newer
+    // `@angular/platform-server` versions reject during host validation.
+    url: '/',
     ...overrides,
   };
 }
@@ -256,7 +261,7 @@ describe('ngExpressEngine', () => {
         if (err) {
           throw err;
         }
-        expect(html).toContain('url:http://localhost:4200');
+        expect(html).toContain('url:/');
         done();
       }
     );

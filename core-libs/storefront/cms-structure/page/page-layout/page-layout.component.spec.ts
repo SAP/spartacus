@@ -1,11 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, Injectable, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CmsService, ContentSlotData, Page } from '@spartacus/core';
-import { TestModule } from 'core-libs/core/src/config/services/configuration.service.spec';
+import {
+  CmsService,
+  Config,
+  ContentSlotData,
+  Page,
+  provideConfig,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
+import { DirectiveStateTransferService } from '../../../utils';
 import { OutletDirective } from '../../outlet';
 import { PageSlotComponent } from '../slot';
 import { PageLayoutComponent } from './page-layout.component';
@@ -32,7 +39,7 @@ class MockPageTemplateComponent {}
 
 @Component({
   selector: 'cx-page-header-test',
-  template: ` <cx-page-layout section="header"> </cx-page-layout> `,
+  template: ` <cx-page-layout section="header" /> `,
   imports: [PageLayoutComponent],
 })
 class MockHeaderComponent {}
@@ -92,6 +99,22 @@ class MockDeferLoaderService {
   }
 }
 
+class MockDirectiveStateTransferService
+  implements Partial<DirectiveStateTransferService>
+{
+  _data: Record<string, string> = {};
+
+  get(_el: HTMLElement, key: string): string | undefined {
+    return this._data[key];
+  }
+  set(_el: HTMLElement, key: string, value: string): void {
+    this._data[key] = value;
+  }
+  clear(_el: HTMLElement, key: string): void {
+    delete this._data[key];
+  }
+}
+
 describe('PageLayoutComponent', () => {
   let pageLayoutComponent: MockPageTemplateComponent;
   let fixture: ComponentFixture<MockPageTemplateComponent>;
@@ -112,6 +135,10 @@ describe('PageLayoutComponent', () => {
         },
         { provide: PageLayoutService, useClass: MockPageLayoutService },
         { provide: DeferLoaderService, useClass: MockDeferLoaderService },
+        {
+          provide: DirectiveStateTransferService,
+          useClass: MockDirectiveStateTransferService,
+        },
       ],
     })
       .overrideComponent(MockPageTemplateComponent, {
@@ -159,9 +186,14 @@ describe('SectionLayoutComponent', () => {
   let sectionLayoutComponent: MockHeaderComponent;
   let fixture: ComponentFixture<MockHeaderComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [TestModule],
+      imports: [
+        CommonModule,
+        OutletDirective,
+        MockHeaderComponent,
+        MockDynamicSlotComponent,
+      ],
       providers: [
         {
           provide: CmsService,
@@ -169,9 +201,13 @@ describe('SectionLayoutComponent', () => {
         },
         { provide: PageLayoutService, useClass: MockPageLayoutService },
         { provide: DeferLoaderService, useClass: MockDeferLoaderService },
+        {
+          provide: DirectiveStateTransferService,
+          useClass: MockDirectiveStateTransferService,
+        },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MockHeaderComponent);

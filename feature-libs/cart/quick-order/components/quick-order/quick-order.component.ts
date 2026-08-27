@@ -60,7 +60,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     this.component.data$.pipe(
       map((data) => data.quickOrderListLimit),
       tap((limit) => {
-        if (!!limit) {
+        if (limit) {
           this.quickOrderService.setListLimit(limit);
         }
       })

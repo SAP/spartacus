@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -31,15 +32,13 @@ import { PickupOptionsStubComponent } from '../../presentational/pickup-options/
 import { CurrentLocationService } from '../../services/current-location.service';
 import { MockLaunchDialogService } from '../pickup-option-dialog/pickup-option-dialog.component.spec';
 
-import createSpy = jasmine.createSpy;
-
 class MockPickupLocationsSearchFacade
   implements Partial<PickupLocationsSearchFacade>
 {
-  startSearch = createSpy();
-  hasSearchStarted = createSpy();
-  isSearchRunning = createSpy();
-  getSearchResults = createSpy().and.returnValue(
+  startSearch = vi.fn();
+  hasSearchStarted = vi.fn();
+  isSearchRunning = vi.fn();
+  getSearchResults = vi.fn().mockReturnValue(
     of([
       {
         name: 'preferredStore',
@@ -49,16 +48,16 @@ class MockPickupLocationsSearchFacade
       },
     ])
   );
-  clearSearchResults = createSpy();
-  getHideOutOfStock = createSpy();
-  setBrowserLocation = createSpy();
-  toggleHideOutOfStock = createSpy();
-  stockLevelAtStore = createSpy();
-  getStockLevelAtStore = createSpy().and.returnValue(
-    of({ stockLevel: { displayName: 'London School' } })
-  );
-  getStoreDetails = createSpy().and.returnValue(of({ name: 'London School' }));
-  loadStoreDetails = createSpy();
+  clearSearchResults = vi.fn();
+  getHideOutOfStock = vi.fn();
+  setBrowserLocation = vi.fn();
+  toggleHideOutOfStock = vi.fn();
+  stockLevelAtStore = vi.fn();
+  getStockLevelAtStore = vi
+    .fn()
+    .mockReturnValue(of({ stockLevel: { displayName: 'London School' } }));
+  getStoreDetails = vi.fn().mockReturnValue(of({ name: 'London School' }));
+  loadStoreDetails = vi.fn();
 }
 
 export class MockCurrentProductService {
@@ -145,16 +144,10 @@ describe('PdpPickupOptionsComponent', () => {
 
     currentProductService = TestBed.inject(CurrentProductService);
 
-    spyOn(currentProductService, 'getProduct').and.callThrough();
-    spyOn(launchDialogService, 'openDialog').and.callThrough();
-    spyOn(
-      intendedPickupLocationService,
-      'removeIntendedLocation'
-    ).and.callThrough();
-    spyOn(
-      intendedPickupLocationService,
-      'setIntendedLocation'
-    ).and.callThrough();
+    vi.spyOn(currentProductService, 'getProduct');
+    vi.spyOn(launchDialogService, 'openDialog');
+    vi.spyOn(intendedPickupLocationService, 'removeIntendedLocation');
+    vi.spyOn(intendedPickupLocationService, 'setIntendedLocation');
 
     fixture.detectChanges();
   };
@@ -170,7 +163,7 @@ describe('PdpPickupOptionsComponent', () => {
     });
 
     it('should not open dialog', () => {
-      spyOn(component, 'openDialog');
+      vi.spyOn(component, 'openDialog');
       component.onPickupOptionChange({
         option: 'pickup',
         triggerElement: {} as ElementRef,
@@ -179,10 +172,10 @@ describe('PdpPickupOptionsComponent', () => {
     });
 
     it('should handle invalid intended location on init', async () => {
-      spyOn(
+      vi.spyOn(
         intendedPickupLocationService,
         'getIntendedLocation'
-      ).and.returnValue(of({ pickupOption: 'pickup', displayName: undefined }));
+      ).mockReturnValue(of({ pickupOption: 'pickup', displayName: undefined }));
       const displayLocation = await firstValueFrom(
         component.displayPickupLocation$
       );
@@ -191,16 +184,13 @@ describe('PdpPickupOptionsComponent', () => {
 
     it('should unsubscribe from any subscriptions when destroyed', () => {
       component.subscription = new Subscription();
-      spyOn(component.subscription, 'unsubscribe');
+      vi.spyOn(component.subscription, 'unsubscribe');
       component.ngOnDestroy();
       expect(component.subscription.unsubscribe).toHaveBeenCalled();
     });
 
     it('should get the intended pickup location for the product on init', () => {
-      spyOn(
-        intendedPickupLocationService,
-        'getIntendedLocation'
-      ).and.callThrough();
+      vi.spyOn(intendedPickupLocationService, 'getIntendedLocation');
 
       component.ngOnInit();
 
@@ -211,11 +201,11 @@ describe('PdpPickupOptionsComponent', () => {
     });
 
     it('should return undefined if intendedLocation.displayName is not defined', async () => {
-      spyOn(
+      vi.spyOn(
         intendedPickupLocationService,
         'getIntendedLocation'
-      ).and.returnValue(of({ pickupOption: 'pickup', displayName: undefined }));
-      spyOn(component, 'setIntendedPickupLocation');
+      ).mockReturnValue(of({ pickupOption: 'pickup', displayName: undefined }));
+      vi.spyOn(component, 'setIntendedPickupLocation');
       const displayLocation = await firstValueFrom(
         component.displayPickupLocation$
       );
@@ -223,10 +213,10 @@ describe('PdpPickupOptionsComponent', () => {
     });
 
     it('setIntendedPickupLocation should set pickupOption as delivery', async () => {
-      spyOn(
+      vi.spyOn(
         preferredStoreFacade,
         'getPreferredStoreWithProductInStock'
-      ).and.returnValue(
+      ).mockReturnValue(
         of({ name: 'London School', displayName: 'London School' })
       );
       component.setIntendedPickupLocation('productCode');
@@ -249,10 +239,7 @@ describe('PdpPickupOptionsComponent', () => {
     });
 
     it('should make no calls', () => {
-      spyOn(
-        intendedPickupLocationService,
-        'getIntendedLocation'
-      ).and.callThrough();
+      vi.spyOn(intendedPickupLocationService, 'getIntendedLocation');
 
       component.ngOnInit();
 
@@ -303,7 +290,7 @@ describe('PdpPickupOptionsComponent', () => {
     });
 
     it('should not call getPreferredStore if display name is set', () => {
-      spyOn(preferredStoreFacade, 'getPreferredStore$');
+      vi.spyOn(preferredStoreFacade, 'getPreferredStore$');
 
       expect(preferredStoreFacade.getPreferredStore$).not.toHaveBeenCalled();
     });

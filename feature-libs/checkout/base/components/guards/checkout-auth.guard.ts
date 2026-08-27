@@ -10,7 +10,7 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   AuthRedirectService,
   AuthService,
-  FeatureConfigService,
+  FeatureToggles,
   SemanticPathService,
   WindowRef,
 } from '@spartacus/core';
@@ -23,8 +23,7 @@ import { CheckoutConfigService } from '../services/checkout-config.service';
   providedIn: 'root',
 })
 export class CheckoutAuthGuard {
-  // Name `featureConfig` instead of `featureConfigService` to avoid clash with `FeatureConfigService` in `OpfCheckoutAuthGuard`
-  private featureConfig = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
   protected windowRef = inject(WindowRef);
 
   constructor(
@@ -59,7 +58,7 @@ export class CheckoutAuthGuard {
 
   protected handleAnonymousUser(): boolean | UrlTree {
     this.authRedirectService.saveCurrentNavigationUrl();
-    if (this.featureConfig.isEnabled('authorizationCodeFlowByDefault')) {
+    if (this.featureToggles.authorizationCodeFlowByDefault) {
       if (this.checkoutConfigService.isGuestCheckout()) {
         this.windowRef.localStorage?.setItem(
           IS_GUEST_USER_CHECKOUT_KEY,

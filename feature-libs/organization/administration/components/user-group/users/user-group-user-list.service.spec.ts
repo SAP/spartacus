@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { B2BUser, EntitiesModel } from '@spartacus/core';
@@ -91,8 +92,8 @@ describe('UserGroupUserListService', () => {
   });
 
   it('should assign permission', () => {
-    spyOn(userGroupService, 'assignMember').and.callThrough();
-    spyOn(userService, 'getLoadingStatus').and.callThrough();
+    vi.spyOn(userGroupService, 'assignMember');
+    vi.spyOn(userService, 'getLoadingStatus');
 
     expect(service.assign('userGroupCode', 'customerId')).toEqual(
       mockItemStatus
@@ -105,8 +106,8 @@ describe('UserGroupUserListService', () => {
   });
 
   it('should unassign permission', () => {
-    spyOn(userGroupService, 'unassignMember').and.callThrough();
-    spyOn(userService, 'getLoadingStatus').and.callThrough();
+    vi.spyOn(userGroupService, 'unassignMember');
+    vi.spyOn(userService, 'getLoadingStatus');
 
     expect(service.unassign('userGroupCode', 'customerId')).toEqual(
       mockItemStatus

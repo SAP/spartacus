@@ -41,6 +41,7 @@
           "OPF-Cta",
           "OPF-Global-Functions",
           "OPF-Quick-Buy",
+          "OPF-Quick-Buy-Pickup-In-Store",
           "OPF-Gift-Card",
           "OPF-Tokenisation"
         ],
@@ -84,6 +85,11 @@
             "value": "OPF-Quick-Buy",
             "label": "OPF Quick Buy",
             "checked": true
+          },
+          {
+            "value": "OPF-Quick-Buy-Pickup-In-Store",
+            "label": "OPF Quick Buy Pickup In Store",
+            "checked": false
           },
           {
             "value": "OPF-Tokenisation",

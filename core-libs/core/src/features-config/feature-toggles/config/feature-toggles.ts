@@ -10,6 +10,26 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
+   * When enabled, `GoogleMapRendererService` renders store locations using
+   * Google's `AdvancedMarkerElement` instead of the deprecated `Marker` class.
+   * This loads the optional `marker` library and requires a `mapId` to be set
+   * in the store finder configuration.
+   *
+   * Affects: `GoogleMapRendererService`
+   */
+  useAdvancedGoogleMarkers?: boolean;
+
+  /**
+   * When enabled, the Google Maps JavaScript API script in
+   * `GoogleMapRendererService` is loaded with the `loading=async` URL
+   * parameter, opting into Google's async bootstrap loader. This resolves the
+   * "Google Maps JavaScript API has been loaded directly without loading=async"
+   * performance warning.
+   *
+   * Affects: `GoogleMapRendererService`
+   */
+  useGoogleMapsAsyncLoading?: boolean;
+  /**
    * Adds a keyboard accessible zoom button to the `ProductImageZoomViewComponent`.
    */
   a11yKeyboardAccessibleZoom?: boolean;
@@ -24,6 +44,12 @@ export interface FeatureTogglesInterface {
    * Adds label to 'StoreFinderSearchComponent' store search input field.
    */
   a11yStoreFinderLabel?: boolean;
+
+  /**
+   * Moves focus to the 'Back' button when store details are shown in the
+   * store finder list, so keyboard users are not left without a focused element.
+   */
+  a11yStoreFinderFocusOnBackButton?: boolean;
 
   /**
    * Enables the dedicated B2B register section on the login page,
@@ -44,28 +70,10 @@ export interface FeatureTogglesInterface {
   a11yAddPaddingToCarouselPanel?: boolean;
 
   /**
-   * Introduces read more directive for presenting elements with long text.
-   * Affects: ProductReviewsComponent
-   */
-  readMoreDirective?: boolean;
-
-  /**
    * Introduces the read more directive in product list item summary
    * Affects: ProductListItemComponent
    */
   productListItemSummaryReadMore?: boolean;
-
-  /**
-   * Introduces characters left for product review form elements.
-   * Affects: ProductReviewsComponent
-   */
-  productReviewCharactersLeft?: boolean;
-
-  /**
-   * Ensures on configurator overview page, that group titles are recognized as heading
-   * in VPC mode when navigating with the 'H' key.
-   */
-  a11yConfiguratorOverviewHeaderVPC?: boolean;
 
   /**
    * Fixes accessibility issue in FutureStockAccordionComponent where aria-controls
@@ -90,67 +98,6 @@ export interface FeatureTogglesInterface {
   a11yPreventWindowsHighContrastOverride?: boolean;
 
   /**
-   * When enabled, it uses the StoreLocationService for getDirections, getStoreLatitude,
-   * and getStoreLongitude instead of StoreFinderFacade (deprecated)
-   * The logic behind it stays the same
-   * Affects: MyPreferredStoreComponent
-   */
-  storeFinderFacadeCleanup?: boolean;
-
-  /**
-   * When enabled, the default routing config for the product page is no longer just:
-   * `paths: ['product/:productCode/:name']`
-   * but:
-   * `paths: ['product/:productCode/:name', 'product/:productCode'],`
-   *
-   * It means that the old URL scheme of generating links and matching URLs is preserved,
-   * but now also a shorter alias (without product name) is accepted when matching the URL.
-   */
-  defaultProductPageRouteAllowsNoProductName?: boolean;
-
-  /**
-   * When enabled, the product cards in the product list page will have a forced consistent size.
-   * Affects the styles of: ProductGridItemComponent, ProductListItemComponent.
-   */
-  consistentSizeProductCards?: boolean;
-
-  /**
-   * Reserve horizontal space for Star Rating component to prevent CLS on PDP.
-   * When enabled, the `cx-star-rating` component will reserve horizontal space for the star rating component to prevent CLS on PDP
-   * Otherwise the component has no width initially, and gets wider only after a delay.
-   * when Font Awesome font is loaded and Star icons are rendered.
-   */
-  reserveHorizontalSpaceStarRating?: boolean;
-
-  /**
-   * Feature flag to enable using `transform: translateX` instead of animating the `margin` property
-   * for the top progress bar animation.
-   *
-   * ## Why this flag exists:
-   * Animating the `margin` property has two major downsides:
-   *
-   * 1. **Cumulative Layout Shift (CLS)**: Changing margin causes layout shifts that negatively impact visual stability.
-   * 2. **Performance impact**: Margin animations trigger browser re-layouts (reflows), increasing layout and paint costs,
-   *    which contributes to poor performance metrics like Total Blocking Time (TBT).
-   *
-   * ## When enabled:
-   * The top progress bar will animate using `transform: translateX(...)`, which is a GPU-accelerated,
-   * layout-independent operation that improves visual performance and avoids layout shifts.
-   */
-  topProgressBarUseTransformAnimation?: boolean;
-
-  /**
-   * Feature flag to disable the margin animation for the cx-page-slot component.
-   * Disables the CSS animation on the `margin` property in the `cx-page-slot` component.
-   * This animation was originally part of the legacy "defer loading" and "below the fold"
-   * mechanism in Spartacus. Since this mechanism is no longer used in the current storefront,
-   * the animation causes unnecessary layout shifts (CLS) and increased rendering cost (TBT).
-   *
-   * Enabling this flag removes the margin animation to improve performance and user experience.
-   */
-  disableCxPageSlotMarginAnimation?: boolean;
-
-  /**
    * Updates recent-searches UX in `SearchBoxComponent` and CDS recent searches.
    *
    * Before (disabled):
@@ -164,6 +111,24 @@ export interface FeatureTogglesInterface {
    * - Recent searches are hidden in no-results states.
    */
   searchBoxRecentSearchesRemoval?: boolean;
+
+  /**
+   * Controls the empty-query results panel in `SearchBoxComponent`.
+   *
+   * Before (disabled):
+   * - With `searchBoxRecentSearchesRemoval` enabled, an empty query closes the
+   *   results panel on desktop. Clearing the query closes the panel.
+   * - Without that toggle, desktop can show the results panel with an empty query.
+   *
+   * After (enabled):
+   * - On desktop, an empty query opens the results panel only when trending or
+   *   recent searches are available; otherwise the panel stays closed.
+   * - Clearing the query does not keep leftover OCC suggestions, products, or a
+   *   no-match message in the panel.
+   * - On mobile, the search box stays open for an empty query so the input is
+   *   not collapsed. The search panel Close button is hidden; Clear remains.
+   */
+  searchBoxEmptyQueryResultsPanel?: boolean;
 
   /**
    * Corrects `BottomHeaderSlot` layout when CDS registers `MerchandisingCarouselComponent`
@@ -186,31 +151,6 @@ export interface FeatureTogglesInterface {
   cdsBottomHeaderSlotAdjustPosition?: boolean;
 
   /**
-   * When enabled, the new carousel component `<cx-carousel-scrolling>` will be used
-   * in the following components instead of the old `<cx-carousel>`:
-   * - `ProductCarouselComponent`
-   * - `ProductReferencesComponent`
-   * - `ProductImagesComponent` and related `ProductImageZoomProductImagesComponent`
-   *
-   * The previous carousel had number of issues:
-   * - Caused huge layout shift when transitioning from SSR to CSR on desktop viewport,
-   *     because in SSR there was rendered just 1 carousel item, but in desktop CSR 4 items
-   *     appeared after a while (especially noticeable with Chrome DevTools Network throttling)
-   * - Eagerly-loaded images also from invisible slides, even when Spartacus was configured
-   *     to lazy load of all images: `provideConfig({ imageLoadingStrategy: ImageLoadingStrategy.LAZY})`
-   * - Was not swipe-friendly on mobile devices
-   *
-   * The new carousel:
-   * - Doesn't suffer from huge layout shifts when transitioning from SSR to CSR anymore, because of
-   *    rendering the same HTML both in SSR and when CSR kicks in after a delay,
-   *    so the same number of carousel items is visible in SSR HTML and CSR HTML.
-   * - It's lazy loading invisible images thanks to native horizontal scrolling (when Spartacus
-   *    is configured to lazy load all images: `provideConfig({ imageLoadingStrategy: ImageLoadingStrategy.LAZY})`)
-   * - It's swipe-friendly on touch devices thanks to its native horizontal scrolling
-   */
-  productCarouselScrolling?: boolean;
-
-  /**
    * Feature flag to enable using the new LOGIN_EVENTS token instead of the ActionsSubject LOGIN stream for tracking.
    *
    * When enabled, the new LOGIN_EVENTS token will be used instead of the ActionsSubject LOGIN stream.
@@ -220,18 +160,6 @@ export interface FeatureTogglesInterface {
    * Used in `ProfileTagLifecycleService`
    */
   cdsLoginEventsToken?: boolean;
-
-  /**
-   * Feature flag to enable using <link rel=preconnect> in the index.html.
-   *
-   * ## When enabled:
-   * Adding rel=preconnect to a <link> informs the browser that your page intends to establish a connection to another domain,
-   * and that you'd like the process to start as soon as possible. Resources will load more quickly because the setup process
-   * has already been completed by the time the browser requests them.
-   *
-   * Note: Preconnecting is not needed (and won't be performed) if the domain of the media base url is the same as the storefront's domain.
-   */
-  createMediaPreconnectLink?: boolean;
 
   /**
    * When enabled, sets the default oAuth configuration to use authorization code flow with PKCE.
@@ -244,60 +172,15 @@ export interface FeatureTogglesInterface {
   authorizationCodeFlowByDefault?: boolean;
 
   /**
-   * Feature flag to enable consistent header slot structure across breakpoints to reduce
-   * layout shift and improve Cumulative Layout Shift (CLS) scores.
+   * When enabled, refreshes the CSRF token before submitting the login form in the
+   * Authorization Code Flow. This ensures the token is valid even if the user has
+   * waited on the login page past the Authorization Server session timeout, preventing
+   * an HTTP 403 response from the backend that would otherwise strand the user on a
+   * backend error page.
    *
-   * On desktop devices (non-mobile), some header and navigation elements were rendered
-   * only after client-side rendering (CSR), resulting in noticeable layout shifts. This negatively
-   * affected the user experience and CLS performance.
-   *
-   * When enabled:
-   * - Desktop uses the same header slot structure as mobile.
-   * - Reduces layout shift and improves perceived performance and visual stability.
-   *
-   *  ⚠️ To fully enable this feature, replace `provideConfig(layoutConfig)` in your codebase
-   * with `provideConfigFactory(layoutConfigFactory)`.
+   * NOTE: Only applies when `authorizationCodeFlowByDefault` is also enabled.
    */
-  unifiedDefaultHeaderSlotsAcrossBreakpoints?: boolean;
-
-  /**
-   * Flag to enable reserving space for product images to prevent CLS (Cumulative Layout Shift) issues.
-   *
-   * When enabled, it ensures that appropriate space is reserved for images before they load,
-   * maintaining layout stability across the following contexts:
-   *
-   * - **PDP (Product Detail Page)**: Reserves space for the main product image.
-   * - **PLP (Product Listing Page) - List View**: Reserves space for each product image in list layout.
-   * - **PLP (Product Listing Page) - Grid View**: Reserves space for each product image in grid layout.
-   *
-   * This helps improve Core Web Vitals by preventing layout shifts as images load.
-   */
-  reserveSpaceForImagesOnPdpAndPlp?: boolean;
-
-  /**
-   * Feature flag to control the default image loading strategy.
-   *
-   * By default, the `MediaComponent` used the `loading="eager"` attribute for all images,
-   * due to the fallback logic in the `MediaService`, which defaults to
-   * `imageLoadingStrategy: EAGER` when no explicit configuration is provided.
-   *
-   * This flag, when enabled, changes the default image loading behavior to use
-   * `loading="lazy"` instead. This ensures that images below the fold are not downloaded
-   * immediately, reducing unnecessary network usage and improving performance.
-   *
-   * Lazy loading frees up bandwidth to prioritize more important assets,
-   * such as the largest content element on the page, which can positively
-   * impact the LCP (Largest Contentful Paint) metric.
-   *
-   * When all images are lazy loaded by default, you should explicitly prioritize LCP images,
-   * by specifying CMS component IDs via the Spartacus config:
-   * `provideConfig({ lcpCmsComponents: ... })`
-   * ... or by passing the special input directly to the `MediaComponent`:
-   * `<cx-media [fetchPriority]="ImageFetchPriority.HIGH" ... >`
-   *
-   * Set to `true` to enable lazy loading by default.
-   */
-  lazyLoadImagesByDefault?: boolean;
+  authorizationCodeFlowByDefaultCsrfTokenRefresh?: boolean;
 
   /**
    * Feature flag to enable incrementing the processes count for the merge cart action.
@@ -320,24 +203,6 @@ export interface FeatureTogglesInterface {
    * Affects: `AuthService`
    */
   dispatchLoginActionOnlyWhenTokenReceived?: boolean;
-
-  /**
-   * Previously the default Spartacus layout config contained the property `pageFold`
-   * for the following layouts:
-   * - `LandingPage2Template`
-   * - `CategoryPageTemplate`
-   * - `ProductDetailsPageTemplate`
-   *
-   * When this feature toggle is enabled, the `pageFold` property is removed from those layout configs.
-   *
-   * It is to improve the CLS (Cumulative Layout Shift) metric. Previously the `pageFold` property
-   * caused the CMS components to be rendered only after a small delay even in SSR pages,
-   * which caused a layout shift.
-   *
-   * ⚠️ To fully enable this feature toggle, you need to also replace `provideConfig(layoutConfig)`
-   * in your codebase with `provideConfigFactory(layoutConfigFactory)`.
-   */
-  defaultLayoutConfigWithoutPageFold?: boolean;
 
   /**
    * When this feature toggle is enabled, the navigation menu will close when clicking on the same link.
@@ -379,10 +244,43 @@ export interface FeatureTogglesInterface {
   enableMediaPrefix?: boolean;
 
   /**
+   * Fixes focus ring on store name links overflowing into the address text below.
+   * Affects: StoreFinderListItemComponent
+   */
+  a11yStoreFinderListItemFocus?: boolean;
+
+  /**
+   * Fixes double focus indicator on the search input field in `SearchBoxComponent`
+   * when navigating with the keyboard.
+   * A global `input:focus` rule in forms.scss applies `visible-focus()` to the input element,
+   * while `.cx-label-inner-container:focus-within` also applies it to the container,
+   * resulting in two visible focus rings simultaneously.
+   * When enabled, the input's own focus outline is suppressed so only the container ring is shown.
+   * Affects: SearchBoxComponent
+   */
+  a11yFixSearchBoxDoubleFocus?: boolean;
+
+  /**
    * Fixes keyboard focus not being visible when tabbing between some buttons
    * on Customer Ticketing dialog.
    */
   a11yCustomerTicketingVisualFocusFix?: boolean;
+
+  /**
+   * Fixes keyboard focus and screen reader date announcement for the
+   * chat messaging list items. Moves tabindex and aria-label to the
+   * role="listitem" element so all messages are keyboard-reachable
+   * and dates are announced by VoiceOver and JAWS.
+   * Affects: MessagingComponent
+   */
+  a11yMessagingListKeyboardFocus?: boolean;
+
+  /**
+   * Applies a `10rem` inline-start padding to the order overview cards
+   * (`.cx-order-details-cards`) on large screens. When disabled, the cards are
+   * not pushed inward, avoiding the horizontal shift on wide viewports.
+   */
+  orderOverviewCardsInlinePadding?: boolean;
 
   /**
    * Adds Filter By label to product facets when in desktop mode.
@@ -400,6 +298,13 @@ export interface FeatureTogglesInterface {
    * Affects: `NotificationMessageComponent`, `CellComponent`, `UnitDetailsComponent`, `TableComponent`
    */
   a11yCardNotificationMessage?: boolean;
+
+  /**
+   * When enabled, increases the color contrast of the close button in the
+   * global message component to meet WCAG contrast requirements.
+   * Affects: `GlobalMessageComponent`
+   */
+  a11yIncreaseContastGlobalMessageCloseButton?: boolean;
 
   /**
    * When enabled, allows searching cost centers by name in the organization.
@@ -463,6 +368,13 @@ export interface FeatureTogglesInterface {
   a11yListSemanticsForFacets?: boolean;
 
   /**
+   * In `ActiveFacetsComponent`, announces filter changes to screen readers.
+   * Before: no announcement when a filter is added or removed from the applied filters section.
+   * After: an assertive `aria-live` message is read out — "Filter added: <name>" or "Filter removed: <name>".
+   */
+  a11yFilteredFacetAnnouncement?: boolean;
+
+  /**
    * Hides empty outlet wrapper elements in the cart item list table when they have no content.
    * Otherwise screen readers would interpret them as extra table columns.
    * Affects: CartItemListComponent
@@ -491,6 +403,16 @@ export interface FeatureTogglesInterface {
   a11yVocalizeDropdownItemCount?: boolean;
 
   /**
+   * When enabled, the `ItemCounterComponent` quantity input exposes an
+   * `aria-valuetext` equal to its literal value. This prevents screen readers
+   * (notably VoiceOver) from announcing the value as a percentage of the
+   * `min`/`max` range (e.g. "0.3%") instead of the actual quantity.
+   *
+   * Affects: `ItemCounterComponent`
+   */
+  a11yItemCounterValueText?: boolean;
+
+  /**
    * When enabled, keystrokes inside an ng-select (combobox dropdown) are treated
    * as navigation rather than form filling. This preserves the focus outline
    * (removes the `mouse-focus` class) when the user opens a dropdown with the
@@ -500,10 +422,23 @@ export interface FeatureTogglesInterface {
   a11yRestoreFocusOnNgSelect?: boolean;
 
   /**
+   * When enabled change disabled to aria-disabled on consent management buttons to keep focus when loading state toggle
+   * Affects: ConsentManagementFormComponent
+   */
+  a11yKeepFocusOnConsentManagementButtons?: boolean;
+
+  /**
    * When enabled, forms using CustomFormValidators.securePasswordValidators will include:
    * CustomFormValidators.mustEndWithLegalCharacter
    */
   useEnhancedSecurePasswordValidators?: boolean;
+
+  /**
+   * When enabled, uses `POST /carts/{cartId}/applyVoucher` with the voucherId
+   * in the request body instead of `POST /carts/{cartId}/vouchers?voucherId={voucherId}`.
+   * Requires the corresponding OCC endpoint to be available on the backend (from 2211.28 version).
+   */
+  enableApplyVoucherEndpoint?: boolean;
 
   /**
    * When enabled, uses `POST /carts/{cartId}/removeVoucher` with the voucherId
@@ -530,6 +465,30 @@ export interface FeatureTogglesInterface {
    * Affects: VisibleFocusDirective, ConsentManagementFormComponent, ConsentManagementComponent
    */
   a11yConsentManagementFocusPreservation?: boolean;
+
+  /**
+   * Preserves keyboard focus on the selected delivery mode radio button
+   * during checkout when navigating with the keyboard.
+   * Affects: CheckoutDeliveryModeComponent, VisibleFocusDirective
+   */
+  a11yDeliveryModeFocusPreservation?: boolean;
+
+  /**
+   * When enabled, wraps form controls in a `<fieldset>` with `aria-labelledby`
+   * referencing the visible page heading, so screen readers announce the section
+   * heading when any field in the group receives focus.
+   * Affects: UpdateProfileComponent, MyAccountV2ProfileComponent,
+   *          UpdatePasswordComponent, MyAccountV2PasswordComponent,
+   *          UpdateEmailComponent, MyAccountV2EmailComponent,
+   *          ConsentManagementComponent
+   */
+  a11yFormFieldSectionLegend?: boolean;
+
+  /**
+   * Improve auto focus during checkout process.
+   * Affects: CheckoutPaymentMethodComponent
+   */
+  a11yImproveCheckoutFocus?: boolean;
 
   /**
    * When enabled, `AuthHttpHeaderService` executes DI-provided
@@ -572,11 +531,32 @@ export interface FeatureTogglesInterface {
   a11yCouponNotificationChannelsLinkStyling?: boolean;
 
   /**
+   * When enabled, fixes the caret visibility on the Language and Theme selectors
+   * by wrapping the select and caret icon in a container that displays the
+   * focus ring around both elements instead of overlapping the caret.
+   * Affects: SiteContextSelectorComponent, SiteThemeSwitcherComponent
+   */
+  a11ySiteContextCaretClick?: boolean;
+
+  /**
    * When enabled, fixes a known issue where the last remembered route after logout is the route to which the logout has redirected
    */
   redirectOnlyOnTrueNavigationEnd?: boolean;
 
+  /**
+   * When enabled, sanitizes the URL used to compute the page's canonical URL
+   * (in `PageLinkService.getCanonicalUrl`). The URL is parsed and validated,
+   * rejecting malformed URLs and any non-`http(s)` protocols (e.g. `javascript:`,
+   * `data:`), which are replaced with an empty string.
+   * Affects: PageLinkService
+   */
   pageLinkSanitizeCanonicalUrl?: boolean;
+
+  /**
+   * When enabled, OPF components use `DestroyRef` + `takeUntilDestroyed` for
+   * subscription management instead of manual `Subscription` objects and `ngOnDestroy`.
+   */
+  opfUseDestroyRef?: boolean;
 
   /**
    * When enabled, the address book and address form support hierarchical
@@ -600,49 +580,249 @@ export interface FeatureTogglesInterface {
    * Legacy behavior uses `initiatePayment`.
    */
   opfCheckoutUseUpdatePaymentTransaction?: boolean;
+  /**
+   * When enabled, adds an 8px top margin to the "Add to Wish List" button
+   * for consistent spacing.
+   * Affects: AddToWishListComponent
+   */
+  a11yAddToWishListBtnMargin?: boolean;
+
+  /**
+   * When enabled, adds an inline margin of 6px to the required asterisk
+   * next to the Terms & Conditions link on the registration page.
+   * Affects: RegisterComponent, OtpLoginRegisterComponent
+   */
+  a11yRegistrationTermsAsteriskMargin?: boolean;
+
+  /**
+   * When enabled, applies a 6px bottom margin to product names in both
+   * product grid and product list items for consistent spacing.
+   * Affects: ProductGridItemComponent, ProductListItemComponent
+   */
+  a11yProductListItemNameMargin?: boolean;
+
+  /**
+   * When enabled, logging out on a tab will issue logout on all other open tabs.  This prevents leaking
+   * authenticated data through stale tabs.
+   */
+  propagateLogoutToAllTabs?: boolean;
+
+  /**
+   * When enabled, adds support for asynchronous configuration of the oAuth service and adds a default
+   * initializer to adjust the oauth client details based on URL context parameters.
+   *
+   * This flag only takes effect when the flag `authorizationCodeFlowByDefault` is enabled.
+   */
+  asyncAuthConfigInitializer?: boolean;
+
+  /**
+   * When enabled, adds site isolation decorator to the user credentials submitted during the Custom
+   * Login Page form submission.
+   */
+  siteIsolationForCustomLoginPage?: boolean;
+
+  /**
+   * When enabled, the navigation menu buttons (e.g. "My Account") and dropdown
+   * headers activate on spacebar key *release* (`keyup`) rather than key *press*
+   * (`keydown`), preventing the action from firing repeatedly while the key is
+   * held down.
+   * Fixes WCAG 2.5.2 (Pointer Cancellation) ACC-270.16 (Level A).
+   * Affects: `NavigationUIComponent`, 'NativeSelectSpaceDirective'
+   */
+  a11yNavigationSpaceKeyOnKeyUp?: boolean;
+
+  /**
+   * When enabled, the storefront's active theme follows the `theme` field of
+   * the active base site (configured in SAP Commerce BackOffice). The theme
+   * is applied as a CSS class on the app's root element by `ThemeService`.
+   *
+   * Without this toggle, the CMS `theme` field is ignored whenever the
+   * storefront statically configures `context.baseSite` (the common case),
+   * because `SiteContextConfigInitializer` does not run in that scenario.
+   *
+   * Precedence: static `config.context.theme` wins, then a user-picked
+   * optional theme from the Theme Switcher (e.g. high-contrast), then the
+   * CMS `BaseSite.theme`.
+   *
+   * Affects: `SiteThemeInitializer`
+   */
+  applyBaseSiteThemeFromCms?: boolean;
+
+  /**
+   * When enabled, only addresses with `shippingAddress` not explicitly set to `false`
+   * are shown on the B2B checkout delivery address step.
+   */
+  b2bCheckoutShippingAddressFilter?: boolean;
+
+  /**
+   * Refines the `cx-tab` active/hover border: anchors it to the bottom of
+   * the button, and rounds its bottom corners.
+   */
+  improvedTabStyling?: boolean;
+
+  /**
+   * When enabled, a guest cart is merged into the user cart after login even
+   * when the login uses the OAuth 2.1 authorization-code flow (which fully
+   * re-bootstraps the SPA and wipes in-memory state).
+   *
+   * The guest cart entries are persisted to storage before the redirect and
+   * re-added to the user cart after login. This is needed because the backend
+   * rejects a native merge of a guest cart (`"Cart is not anonymous"`), and the
+   * guest cart is no longer reachable with the user token after login.
+   *
+   * NOTE: Most relevant when `authorizationCodeFlowByDefault` is enabled.
+   *
+   * Affects: `ActiveCartService`
+   */
+  mergeGuestCartOnCodeFlowLogin?: boolean;
+
+  /**
+   * When enabled, triggers a full page reload after a language switch so that
+   * all `href` attributes (banners, navigation links, mini-cart, login) reflect
+   * the new language immediately without requiring a manual page refresh.
+   *
+   * During SSR the reload is skipped — the server renders the page in the
+   * requested language without any reload mechanism.
+   *
+   * Affects: `LanguagesEffects`
+   */
+  reloadOnLanguageChange?: boolean;
+
+  /**
+   * When enabled, the product configurator product card action buttons are
+   * consistently disabled while a configuration update round trip is in
+   * progress (`disableActions$`). In particular, the multi-select "Remove"
+   * (secondary) button is disabled during loading to prevent triggering a
+   * concurrent, potentially conflicting request.
+   *
+   * Affects: `ConfiguratorAttributeProductCardComponent`
+   */
+  productConfiguratorConsolidatedButtonDisabling?: boolean;
+
+  /**
+   * When enabled, the form-error icon glyph (`cx-form-errors`) uses the
+   * `--cx-color-danger-accent` color instead of `--cx-color-inverse`, so it
+   * stays legible on the danger background in the high-contrast dark theme
+   * (black glyph instead of white).
+   *
+   * Affects: `FormErrorsComponent`
+   */
+  a11yFormErrorIconContrast?: boolean;
+
+  /**
+   * When enabled, the default theme's keyboard focus indicator color
+   * (`--cx-color-visual-focus`) is darkened so the focus outline of all UI
+   * elements (input fields, search box, comboboxes, checkboxes, radio buttons,
+   * etc.) meets the WCAG 1.4.11 non-text contrast requirement of >=3:1 against
+   * the adjacent surface.
+   */
+  a11yFocusIndicatorContrast?: boolean;
+
+  /**
+   * When enabled, disabled action buttons (`.btn-primary`, `.btn-secondary`,
+   * `.btn-tertiary`) use the new `--cx-color-disabled` token instead of
+   * `--cx-color-border-focus`, so their border/background/text meet the
+   * WCAG 1.4.11 3:1 (7:1 in high-contrast themes) non-text contrast
+   * requirement.
+   */
+  a11yDisabledButtonContrast?: boolean;
+
+  /**
+   * When enabled, the address form applies the `cxFocus` directive with autofocus
+   * to manage initial keyboard focus.
+   *
+   * Affects: `AddressFormComponent`
+   */
+  a11yAddressFormInitialFocus?: boolean;
+
+  /**
+   * When enabled, after navigating to a `CategoryPage` (e.g. a Product Listing Page)
+   * via a header navigation link, keyboard focus moves to the first anchor inside
+   * `cx-breadcrumb` (resolved via `StorefrontComponent.categoryPageFocusSelector`)
+   * rather than the first focusable element in `<main>`.
+   * Falls back to the existing `cx-main` skip-link target when no breadcrumb is present
+   * or the destination is not a CategoryPage.
+   *
+   * Affects: `StorefrontComponent`
+   */
+  a11yFocusBreadcrumbOnNavigation?: boolean;
+
+  /**
+   * When enabled (with the `cart.validation.enabled` config), surfaces backend
+   * min/max order quantity validation in the cart: highlights violating rows and
+   * shows a per-item `Min qty` / `Max qty` hint parsed from the backend
+   * `statusMessage`, re-validating on entry and on quantity change. On checkout the
+   * `CartValidationGuard` blocks and shows a generic message.
+   */
+  cartValidationDisplayBackendMessages?: boolean;
+
+  /**
+   * When enabled, `ConfiguratorIssuesNotificationComponent` only shows its cart
+   * "issues" notification for configurable products, so non-configurable entries
+   * (e.g. with min/max quantity validation errors) no longer trigger it.
+   *
+   * Affects: `ConfiguratorIssuesNotificationComponent`
+   */
+  configuratorIssuesNotificationForConfigurableOnly?: boolean;
+
+  /**
+   * When enabled, `GlobalMessageComponent` reserves space for the close button so
+   * that long, multi-line message text does not render underneath it.
+   *
+   * Affects: `GlobalMessageComponent`
+   */
+  globalMessageCloseButtonPadding?: boolean;
+
+  /**
+   * When enabled, the navigation chevron (`--list-bg`) rendered on the
+   * organization (My Company) list rows and detail navigation cards uses a
+   * higher-contrast stroke so it meets the WCAG 1.4.11 non-text contrast
+   * requirement (>=3:1 in the default theme; 7:1 in high-contrast themes).
+   * The default-theme stroke changes from `#D3D6DA` (~1.4:1) to `#556b82`
+   * (~5.3:1), and dedicated black/white strokes are applied in the
+   * high-contrast light/dark themes.
+   *
+   * Affects: `ListComponent` (`cx-org-list`)
+   */
+  a11yNavigationChevronContrast?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  useAdvancedGoogleMarkers: false,
+  useGoogleMapsAsyncLoading: false,
   alignNavigationMenuWithHeader: false,
-  a11yKeyboardAccessibleZoom: false,
-  a11yPreventCartItemsFormRedundantRecreation: false,
-  a11yStoreFinderLabel: false,
+  a11yKeyboardAccessibleZoom: true,
+  a11yPreventCartItemsFormRedundantRecreation: true,
+  a11yStoreFinderLabel: true,
+  a11yStoreFinderFocusOnBackButton: false,
   a11yB2BRegisterComponent: false,
-  a11yLinkBtnsToTertiaryBtns: false,
-  a11yAddPaddingToCarouselPanel: false,
-  a11yNgSelectUnicodeCarets: false,
+  a11yIncreaseContastGlobalMessageCloseButton: false,
+  a11yLinkBtnsToTertiaryBtns: true,
+  a11yAddPaddingToCarouselPanel: true,
+  a11yNgSelectUnicodeCarets: true,
   a11yPreventWindowsHighContrastOverride: false,
-  readMoreDirective: true,
   productListItemSummaryReadMore: false,
-  productReviewCharactersLeft: true,
-  a11yConfiguratorOverviewHeaderVPC: true,
-  a11yFutureStockAccordionAriaControls: false,
-  storeFinderFacadeCleanup: true,
-  defaultProductPageRouteAllowsNoProductName: true,
-  consistentSizeProductCards: true,
-  reserveHorizontalSpaceStarRating: true,
-  topProgressBarUseTransformAnimation: true,
-  disableCxPageSlotMarginAnimation: true,
-  productCarouselScrolling: true,
+  a11yFutureStockAccordionAriaControls: true,
   cdsLoginEventsToken: true,
-  createMediaPreconnectLink: true,
-  unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
-  reserveSpaceForImagesOnPdpAndPlp: true,
-  lazyLoadImagesByDefault: true,
   authorizationCodeFlowByDefault: true,
+  authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
   incrementProcessesCountForMergeCart: true,
   dispatchLoginActionOnlyWhenTokenReceived: true,
-  defaultLayoutConfigWithoutPageFold: true,
   navigationMenuCloseOnSameLinkClick: true,
   enablePasswordExpiredErrorTranslation: true,
   enableQuotePurchaseOrderNumber: true,
   enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: false,
-  a11yCustomerTicketingVisualFocusFix: false,
+  a11yCustomerTicketingVisualFocusFix: true,
+  a11yMessagingListKeyboardFocus: false,
+  orderOverviewCardsInlinePadding: false,
+  a11yStoreFinderListItemFocus: false,
+  a11yFixSearchBoxDoubleFocus: false,
   a11yFacetFilterByLabel: false,
-  removeDuplicatedOrderHistoryHeader: false,
-  a11yCardNotificationMessage: false,
+  removeDuplicatedOrderHistoryHeader: true,
+  a11yCardNotificationMessage: true,
   searchBoxRecentSearchesRemoval: false,
+  searchBoxEmptyQueryResultsPanel: false,
   cdsBottomHeaderSlotAdjustPosition: false,
   enableB2BUnitSearch: false,
   enableB2BCostCenterSearch: false,
@@ -653,13 +833,20 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showOnlyActiveCurrencies: false,
   a11yAddedToCartDialogHeading: false,
   a11yListSemanticsForFacets: false,
+  a11yFilteredFacetAnnouncement: false,
   a11yCartItemListHideEmptyOutlets: false,
   a11yReviewsKeyboardControls: false,
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yConsentManagementFocusPreservation: false,
+  a11yDeliveryModeFocusPreservation: false,
+  a11yFormFieldSectionLegend: false,
+  a11yImproveCheckoutFocus: false,
   a11yVocalizeDropdownItemCount: false,
+  a11yItemCounterValueText: false,
   a11yRestoreFocusOnNgSelect: false,
+  a11yKeepFocusOnConsentManagementButtons: false,
   useEnhancedSecurePasswordValidators: false,
+  enableApplyVoucherEndpoint: false,
   enableRemoveVoucherEndpoint: false,
   showSortFieldsOnlyAtTop: false,
   showRequiredAsterisks: false,
@@ -668,8 +855,32 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   opfPaymentVerificationCheckProcessingCartOnErrorOnly: false,
   a11yQuickOrderResetFocus: false,
   a11yCouponNotificationChannelsLinkStyling: false,
+  a11ySiteContextCaretClick: false,
   redirectOnlyOnTrueNavigationEnd: false,
   pageLinkSanitizeCanonicalUrl: false,
+  opfUseDestroyRef: false,
   enableHierarchicalAddressFormat: false,
   opfCheckoutUseUpdatePaymentTransaction: false,
+  a11yRegistrationTermsAsteriskMargin: false,
+  a11yAddToWishListBtnMargin: false,
+  a11yProductListItemNameMargin: false,
+  propagateLogoutToAllTabs: false,
+  asyncAuthConfigInitializer: false,
+  siteIsolationForCustomLoginPage: false,
+  applyBaseSiteThemeFromCms: false,
+  a11yNavigationSpaceKeyOnKeyUp: false,
+  b2bCheckoutShippingAddressFilter: false,
+  improvedTabStyling: false,
+  reloadOnLanguageChange: false,
+  productConfiguratorConsolidatedButtonDisabling: false,
+  mergeGuestCartOnCodeFlowLogin: false,
+  a11yFormErrorIconContrast: false,
+  a11yFocusIndicatorContrast: false,
+  a11yDisabledButtonContrast: false,
+  a11yAddressFormInitialFocus: false,
+  a11yFocusBreadcrumbOnNavigation: false,
+  cartValidationDisplayBackendMessages: false,
+  configuratorIssuesNotificationForConfigurableOnly: false,
+  globalMessageCloseButtonPadding: false,
+  a11yNavigationChevronContrast: false,
 };

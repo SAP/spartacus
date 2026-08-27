@@ -7,26 +7,13 @@
 </ng-container>
 
 <ng-container *ngIf="thumbs$ | async as thumbs">
-  <ng-container *cxFeature="'productCarouselScrolling'">
-    <cx-carousel-scrolling
-      *ngIf="thumbs.length"
-      class="thumbs"
-      [items]="thumbs"
-      [template]="thumb"
-      [trackByFn]="trackByFn"
-    ></cx-carousel-scrolling>
-  </ng-container>
-
-  <ng-container *cxFeature="'!productCarouselScrolling'">
-    <cx-carousel
-      *ngIf="thumbs.length"
-      class="thumbs"
-      [items]="thumbs"
-      itemWidth="120px"
-      [hideIndicators]="false"
-      [template]="thumb"
-    ></cx-carousel>
-  </ng-container>
+  <cx-carousel-scrolling
+    *ngIf="thumbs.length"
+    class="thumbs"
+    [items]="thumbs"
+    [template]="thumb"
+    [trackByFn]="trackByFn"
+  ></cx-carousel-scrolling>
 </ng-container>
 
 <ng-template #thumb let-item="item">

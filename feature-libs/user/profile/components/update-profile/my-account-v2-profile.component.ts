@@ -17,12 +17,17 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
-import { TranslatePipe } from '@spartacus/core';
+import {
+  FeatureDirective,
+  PageMetaService,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   FormErrorsComponent,
   NgSelectA11yDirective,
   SpinnerComponent,
   TruncationTooltipDirective,
+  getPageTitle,
 } from '@spartacus/storefront';
 import { User } from '@spartacus/user/account/root';
 import { Title } from '@spartacus/user/profile/root';
@@ -46,10 +51,12 @@ import { UpdateProfileComponentService } from './update-profile-component.servic
     AsyncPipe,
     TranslatePipe,
     TruncationTooltipDirective,
+    FeatureDirective,
   ],
 })
 export class MyAccountV2ProfileComponent implements OnInit {
   protected service = inject(UpdateProfileComponentService);
+  protected pageMetaService = inject(PageMetaService);
   ngOnInit(): void {
     this.isEditing = false;
   }
@@ -60,6 +67,7 @@ export class MyAccountV2ProfileComponent implements OnInit {
   user$: Observable<User> = this.service.user$;
   isEditing: boolean;
   originalEditValue: User;
+  pageTitle$ = getPageTitle(this.pageMetaService);
 
   onSubmit(): void {
     this.service.updateProfile();

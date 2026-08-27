@@ -50,9 +50,11 @@ export function addStorefrontComponentToAppComponent(
           // Save changes to tree
           formatFile(sourceFile);
           tree.overwrite(sourceFile.getFilePath(), sourceFile.getFullText());
-          context.logger.info(
-            `✅ Added StorefrontComponent to ${APP_COMPONENT} imports`
-          );
+          if (options.debug) {
+            context.logger.info(
+              `✅ Added StorefrontComponent to ${APP_COMPONENT} imports`
+            );
+          }
           break;
         }
       }

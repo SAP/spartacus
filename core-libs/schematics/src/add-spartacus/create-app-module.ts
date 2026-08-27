@@ -38,9 +38,11 @@ export function createAppModule(options: SpartacusOptions): Rule {
     );
 
     if (!appModuleExists) {
-      context.logger.info(
-        `✏️ Creating app.module.ts for standalone application...`
-      );
+      if (options.debug) {
+        context.logger.info(
+          `✏️ Creating app.module.ts for standalone application...`
+        );
+      }
 
       // Find the app directory
       let appDir: string | null = null;
@@ -63,8 +65,10 @@ export class AppModule {}
 `;
 
       tree.create(appModulePath, appModuleContent);
-      context.logger.info(`✅ Created ${appModulePath}`);
-    } else {
+      if (options.debug) {
+        context.logger.info(`✅ Created ${appModulePath}`);
+      }
+    } else if (options.debug) {
       context.logger.info(`✅ ${APP_MODULE} already exists`);
     }
 

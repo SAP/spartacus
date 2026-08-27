@@ -5,8 +5,14 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import {
+  Component,
+  ElementRef,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { NavigationStart, Router, RouterLink } from '@angular/router';
 import {
   CustomerCouponSearchResult,
   CustomerCouponService,
@@ -16,7 +22,7 @@ import {
   useFeatureStyles,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { filter, map, take, tap } from 'rxjs/operators';
 import { LAUNCH_CALLER, LaunchDialogService } from '../../../layout/index';
 import { PaginationComponent } from '../../../shared/components/list-navigation/pagination/pagination.component';
 import { SortingComponent } from '../../../shared/components/list-navigation/sorting/sorting.component';
@@ -89,6 +95,8 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
   }>;
 
   protected launchDialogService = inject(LaunchDialogService);
+  protected host = inject(ElementRef<HTMLElement>);
+  protected router = inject(Router);
 
   constructor(
     protected couponService: CustomerCouponService,
@@ -136,16 +144,30 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
         })
     );
 
+    /* Close the claim dialog on navigation so it doesn't persist across routes. */
+    this.subscriptions.add(
+      this.router.events
+        .pipe(filter((event) => event instanceof NavigationStart))
+        .subscribe(() => {
+          this.launchDialogService.closeDialog('Navigation');
+        })
+    );
+
     const resultStr = decodeURIComponent(this.getHashStr());
     const index = resultStr.indexOf('#');
     if (index !== -1) {
       const couponCode = resultStr.substring(index + 1);
       if (couponCode !== undefined && couponCode.length > 0) {
-        this.launchDialogService.openDialogAndSubscribe(
+        const dialog = this.launchDialogService.openDialog(
           LAUNCH_CALLER.CLAIM_DIALOG,
+          /* Dialog opened via URL hash — this.host is the focus-return target (no trigger button). */
+          this.host,
           undefined,
           { coupon: couponCode, pageSize: this.PAGE_SIZE }
         );
+        if (dialog) {
+          this.subscriptions.add(dialog.pipe(take(1)).subscribe());
+        }
       }
     }
   }

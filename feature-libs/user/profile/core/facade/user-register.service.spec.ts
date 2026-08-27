@@ -1,7 +1,8 @@
+import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import {
   AuthService,
-  FeatureConfigService,
+  FeatureToggles,
   OCC_USER_ID_CURRENT,
   RoutingService,
   User,
@@ -13,37 +14,37 @@ import { UserSignUp } from '@spartacus/user/profile/root';
 import { Observable, of } from 'rxjs';
 import { UserProfileService } from './user-profile.service';
 import { UserRegisterService } from './user-register.service';
-import createSpy = jasmine.createSpy;
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 class MockUserProfileService implements Partial<UserProfileService> {
   get(): Observable<User> {
     return of({ uid: OCC_USER_ID_CURRENT });
   }
-  getTitles = createSpy().and.returnValue(of([]));
+  getTitles = vi.fn().mockReturnValue(of([]));
 }
 
 class MockUserProfileConnector implements Partial<UserProfileConnector> {
-  register = createSpy().and.callFake((user) => of(user));
-  registerGuest = createSpy().and.callFake((uid, _password) => of({ uid }));
+  register = vi.fn().mockImplementation((user) => of(user));
+  registerGuest = vi.fn().mockImplementation((uid, _password) => of({ uid }));
 }
 
 class MockAuthService implements Partial<AuthService> {
-  loginWithCredentials = createSpy().and.returnValue(Promise.resolve());
+  loginWithCredentials = vi.fn().mockReturnValue(Promise.resolve());
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go = createSpy().and.returnValue(Promise.resolve());
+  go = vi.fn().mockReturnValue(Promise.resolve());
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled = createSpy().and.returnValue(false);
-}
+const mockFeatureToggles: FeatureToggles = {
+  authorizationCodeFlowByDefault: false,
+};
 
 describe('UserRegisterService', () => {
   let service: UserRegisterService;
   let connector: UserProfileConnector;
   let authService: AuthService;
-  let featureConfigService: FeatureConfigService;
+  let featureToggles: FeatureToggles;
   let routingService: RoutingService;
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -55,7 +56,7 @@ describe('UserRegisterService', () => {
           useClass: MockUserProfileConnector,
         },
         { provide: UserProfileService, useClass: MockUserProfileService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         { provide: RoutingService, useClass: MockRoutingService },
         UserRegisterService,
       ],
@@ -64,7 +65,7 @@ describe('UserRegisterService', () => {
     service = TestBed.inject(UserRegisterService);
     connector = TestBed.inject(UserProfileConnector);
     authService = TestBed.inject(AuthService);
-    featureConfigService = TestBed.inject(FeatureConfigService);
+    featureToggles = TestBed.inject(FeatureToggles);
     routingService = TestBed.inject(RoutingService);
   });
 
@@ -96,7 +97,7 @@ describe('UserRegisterService', () => {
   describe('registerGuest', () => {
     describe('when authorizationCodeFlowByDefault is enabled', () => {
       beforeEach(() => {
-        (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
+        featureToggles.authorizationCodeFlowByDefault = true;
       });
       it('should be able to register guest and redirect to login', () => {
         service.registerGuest('guid', 'password');
@@ -106,14 +107,11 @@ describe('UserRegisterService', () => {
         );
         expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
         expect(authService.loginWithCredentials).not.toHaveBeenCalled();
-        expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-          'authorizationCodeFlowByDefault'
-        );
       });
     });
     describe('when authorizationCodeFlowByDefault is disabled', () => {
       beforeEach(() => {
-        (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
+        featureToggles.authorizationCodeFlowByDefault = false;
       });
       it('should be able to register guest and login with credentials', () => {
         service.registerGuest('guid', 'password');
@@ -126,9 +124,6 @@ describe('UserRegisterService', () => {
           'password'
         );
         expect(routingService.go).not.toHaveBeenCalled();
-        expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-          'authorizationCodeFlowByDefault'
-        );
       });
     });
   });

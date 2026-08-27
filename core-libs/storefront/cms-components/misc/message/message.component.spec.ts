@@ -1,5 +1,5 @@
 import { Component, DebugElement, Directive, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
@@ -14,7 +14,7 @@ import {
   ICON_TYPE,
   IconComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { MessageComponent } from './message.component';
 
 @Component({
@@ -47,7 +47,7 @@ describe('MessageComponent', () => {
   let fixture: ComponentFixture<MessageComponent>;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [MessageComponent],
     })
@@ -72,16 +72,16 @@ describe('MessageComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MessageComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    fixture.detectChanges();
   });
 
   it('should create message component', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -101,6 +101,7 @@ describe('MessageComponent', () => {
 
   it('should show <ng-content> content', () => {
     const testFixture = TestBed.createComponent(TestHostComponent);
+    testFixture.detectChanges();
     const element = testFixture.debugElement.query(
       By.css('cx-message')
     ).nativeElement;
@@ -108,7 +109,8 @@ describe('MessageComponent', () => {
   });
 
   it('should show close button and trigger close action', () => {
-    spyOn(component.closeMessage, 'emit');
+    fixture.detectChanges();
+    vi.spyOn(component.closeMessage, 'emit');
 
     const button = el.query(By.css('.cx-message .close')).nativeElement;
     button.click();
@@ -129,7 +131,7 @@ describe('MessageComponent', () => {
   });
 
   it('should show action button and trigger button action', () => {
-    spyOn(component.buttonAction, 'emit');
+    vi.spyOn(component.buttonAction, 'emit');
     component.actionButtonText = 'Test';
     fixture.detectChanges();
 
@@ -144,7 +146,11 @@ describe('MessageComponent', () => {
   });
 
   it('should focus on messageContainer after a message with an accordion renders', () => {
-    const focusSpy = spyOn(component.messageContainer.nativeElement, 'focus');
+    fixture.detectChanges();
+    const focusSpy = vi.spyOn(
+      component.messageContainer.nativeElement,
+      'focus'
+    );
     component.accordionText = 'Test';
 
     component.ngAfterViewInit();
@@ -153,7 +159,11 @@ describe('MessageComponent', () => {
   });
 
   it('should focus on messageContainer after a message with a button renders', () => {
-    const focusSpy = spyOn(component.messageContainer.nativeElement, 'focus');
+    fixture.detectChanges();
+    const focusSpy = vi.spyOn(
+      component.messageContainer.nativeElement,
+      'focus'
+    );
     component.actionButtonText = 'Test';
 
     component.ngAfterViewInit();

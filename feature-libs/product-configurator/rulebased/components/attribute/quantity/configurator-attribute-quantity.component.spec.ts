@@ -1,17 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import {
-  ComponentFixture,
-  discardPeriodicTasks,
-  fakeAsync,
-  TestBed,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
+import { ItemCounterComponent } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import { ConfiguratorAttributeQuantityComponent } from './configurator-attribute-quantity.component';
+import { vi } from 'vitest';
 
 const fakeDebounceTime = 750;
 const changedQty = 9;
@@ -41,7 +36,7 @@ function initializeWithObs(disableObs: Observable<boolean>) {
     initialQuantity: 1,
     disableQuantityActions$: disableObs,
   };
-  spyOn(component.changeQuantity, 'emit').and.callThrough();
+  vi.spyOn(component.changeQuantity, 'emit');
   fixture.detectChanges();
 }
 @Component({
@@ -57,13 +52,9 @@ class MockItemCounterComponent {
 }
 
 describe(' ConfiguratorAttributeQuantityComponent', () => {
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        ConfiguratorAttributeQuantityComponent,
-        MockItemCounterComponent,
-      ],
+      imports: [I18nTestingModule, ConfiguratorAttributeQuantityComponent],
       providers: [
         {
           provide: ConfiguratorUISettingsConfig,
@@ -72,12 +63,23 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorAttributeQuantityComponent, {
+        remove: { imports: [ItemCounterComponent] },
+        add: { imports: [MockItemCounterComponent] },
+      })
+      .overrideComponent(ConfiguratorAttributeQuantityComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })
       .compileComponents();
-  }));
+  });
+
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+  });
 
   it('should create', () => {
     initialize(false);
@@ -90,56 +92,52 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
     expect(component.changeQuantity.emit).toHaveBeenCalled();
   });
 
-  it('should not emit change event on quantity change if debounce time has not yet passed', fakeAsync(() => {
+  it('should not emit change event on quantity change if debounce time has not yet passed', async () => {
     initialize(false);
     component.quantity.setValue(changedQty);
     fixture.detectChanges();
-    tick(fakeDebounceTime - 100);
+    await vi.advanceTimersByTimeAsync(fakeDebounceTime - 100);
     expect(component.changeQuantity.emit).not.toHaveBeenCalled();
-    discardPeriodicTasks();
-  }));
+  });
 
-  it('should emit change event on quantity change after debounce time has passed', fakeAsync(() => {
+  it('should emit change event on quantity change after debounce time has passed', async () => {
     initialize(false);
     component.quantity.setValue(changedQty);
     fixture.detectChanges();
-    tick(fakeDebounceTime + 10);
+    await vi.advanceTimersByTimeAsync(fakeDebounceTime + 10);
     expect(component.changeQuantity.emit).toHaveBeenCalled();
-    discardPeriodicTasks();
-  }));
+  });
 
   it('should de-activate quantity control if options say so', () => {
     initialize(true);
     expect(component.quantity.disabled).toBe(true);
   });
 
-  it('should not emit same quantity twice just because it gets disabled in between', fakeAsync(() => {
+  it('should not emit same quantity twice just because it gets disabled in between', async () => {
     const subject = new BehaviorSubject(false);
     initializeWithObs(subject);
 
     component.quantity.setValue(changedQty);
     fixture.detectChanges();
-    tick(fakeDebounceTime + 10);
+    await vi.advanceTimersByTimeAsync(fakeDebounceTime + 10);
     subject.next(true);
     subject.next(false);
-    tick(fakeDebounceTime + 10);
+    await vi.advanceTimersByTimeAsync(fakeDebounceTime + 10);
 
     expect(component.changeQuantity.emit).toHaveBeenCalledTimes(1);
-    discardPeriodicTasks();
-  }));
+  });
 
-  it('should not emit initial quantity just because it gets disabled in between', fakeAsync(() => {
+  it('should not emit initial quantity just because it gets disabled in between', async () => {
     const subject = new BehaviorSubject(false);
     initializeWithObs(subject);
     subject.next(true);
     subject.next(false);
-    tick(fakeDebounceTime + 10);
+    await vi.advanceTimersByTimeAsync(fakeDebounceTime + 10);
 
     expect(component.changeQuantity.emit).not.toHaveBeenCalled();
-    discardPeriodicTasks();
-  }));
+  });
 
-  it('should not emit same quantity twice just because it gets enabled multiple times', fakeAsync(() => {
+  it('should not emit same quantity twice just because it gets enabled multiple times', async () => {
     const subject = new BehaviorSubject(false);
     initializeWithObs(subject);
     subject.next(false);
@@ -147,8 +145,30 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
 
     component.quantity.setValue(changedQty);
     fixture.detectChanges();
-    tick(fakeDebounceTime + 10);
+    await vi.advanceTimersByTimeAsync(fakeDebounceTime + 10);
     expect(component.changeQuantity.emit).toHaveBeenCalledTimes(1);
-    discardPeriodicTasks();
-  }));
+  });
+
+  it('should emit zero, reset the control to the initial quantity and re-arm the subscription when resetToInitialQuantityOnZero is set', async () => {
+    const subject = new BehaviorSubject(false);
+    initializeWithObs(subject);
+    component.quantityOptions.initialQuantity = 1;
+    component.quantityOptions.resetToInitialQuantityOnZero = true;
+
+    component.quantity.setValue(0);
+    fixture.detectChanges();
+    await vi.advanceTimersByTimeAsync(fakeDebounceTime + 10);
+
+    expect(component.changeQuantity.emit).toHaveBeenCalledWith(0);
+    // control snapped back to initial quantity without an extra emission
+    expect(component.quantity.value).toBe(1);
+    expect(component.changeQuantity.emit).toHaveBeenCalledTimes(1);
+
+    // subscription is re-armed, so a subsequent reduction to zero emits again
+    component.quantity.setValue(0);
+    fixture.detectChanges();
+    await vi.advanceTimersByTimeAsync(fakeDebounceTime + 10);
+
+    expect(component.changeQuantity.emit).toHaveBeenCalledTimes(2);
+  });
 });

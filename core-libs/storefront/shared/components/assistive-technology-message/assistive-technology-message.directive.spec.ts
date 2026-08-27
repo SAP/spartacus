@@ -8,12 +8,12 @@ import {
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { AtMessageModule } from './assistive-technology-message.module';
-import createSpy = jasmine.createSpy;
+import { vi } from 'vitest';
 
 @Component({
   template: `
     <button class="cancel-btn" [cxAtMessage]="'common.cancel' | cxTranslate">
-      Action
+      <span class="cancel-label">Action</span>
     </button>
     <button
       class="results-btn"
@@ -36,10 +36,10 @@ import createSpy = jasmine.createSpy;
 class MockComponent {}
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy().and.stub();
-  get = createSpy().and.returnValue(of([GlobalMessageType.MSG_TYPE_ASSISTIVE]));
+  add = vi.fn().mockImplementation(() => {});
+  remove = vi.fn().mockImplementation(() => {});
+  get = vi.fn().mockReturnValue(of([GlobalMessageType.MSG_TYPE_ASSISTIVE]));
 }
-
 describe('AtMessageDirective', () => {
   let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
@@ -103,6 +103,37 @@ describe('AtMessageDirective', () => {
     getConfirmationButton().nativeElement.click();
     expect(globalMessageService.add).toHaveBeenCalledWith(
       expectedMessage,
+      GlobalMessageType.MSG_TYPE_ASSISTIVE
+    );
+  });
+
+  it('should add assistive global message when clicking a child element of the host', () => {
+    fixture.detectChanges();
+    const childSpan =
+      getCancelButton().nativeElement.querySelector('.cancel-label');
+    childSpan.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      'common.cancel',
+      GlobalMessageType.MSG_TYPE_ASSISTIVE
+    );
+  });
+
+  it('should remove existing assistive message before adding the new one', () => {
+    const globalMessageService = TestBed.inject(GlobalMessageService);
+    vi.spyOn(globalMessageService, 'get').mockReturnValueOnce(
+      of({
+        [GlobalMessageType.MSG_TYPE_ASSISTIVE]: [{ raw: 'old message' }],
+      })
+    );
+
+    fixture.detectChanges();
+    getCancelButton().nativeElement.click();
+
+    expect(globalMessageService.remove).toHaveBeenCalledWith(
+      GlobalMessageType.MSG_TYPE_ASSISTIVE
+    );
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      'common.cancel',
       GlobalMessageType.MSG_TYPE_ASSISTIVE
     );
   });

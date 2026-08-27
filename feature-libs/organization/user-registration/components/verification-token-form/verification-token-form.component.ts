@@ -22,7 +22,7 @@ import {
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import {
-  FeatureConfigService,
+  FeatureToggles,
   RoutingService,
   TranslatePipe,
   UrlPipe,
@@ -61,7 +61,7 @@ import { RegisterVerificationTokenFormComponentService } from './verification-to
   ],
 })
 export class RegisterVerificationTokenFormComponent implements OnInit {
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
   protected service: RegisterVerificationTokenFormComponentService = inject(
     RegisterVerificationTokenFormComponentService
   );
@@ -96,7 +96,7 @@ export class RegisterVerificationTokenFormComponent implements OnInit {
   waitTimeForRateLimit: number = 300;
 
   ngOnInit() {
-    if (!!history.state) {
+    if (history.state) {
       this.registerData = history.state['registrationDataForm'];
       this.tokenId = history.state['tokenId'];
       this.target = history.state['loginId'];
@@ -121,7 +121,7 @@ export class RegisterVerificationTokenFormComponent implements OnInit {
           {}
         );
         this.routingService.go(
-          this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+          this.featureToggles.authorizationCodeFlowByDefault
             ? { cxRoute: 'register' }
             : ['/login/register']
         );

@@ -7,7 +7,6 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import {
@@ -33,7 +32,9 @@ import {
   StateWithConfigurator,
 } from '../configurator-state';
 import { getConfiguratorReducers } from './../reducers/index';
+import { ConfiguratorBasicEffectService } from './configurator-basic-effect.service';
 import * as fromEffects from './configurator-basic.effect';
+import { vi } from 'vitest';
 
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
@@ -52,6 +53,13 @@ const owner: CommonConfigurator.Owner = {
   id: productCode,
   key: 'product/CONF_LAPTOP',
   configuratorType: ConfiguratorType.VARIANT,
+};
+
+const cpqOwner: CommonConfigurator.Owner = {
+  type: CommonConfigurator.OwnerType.PRODUCT,
+  id: productCode,
+  key: 'product/CONF_LAPTOP_CPQ',
+  configuratorType: ConfiguratorType.CPQ,
 };
 
 const group: Configurator.Group = {
@@ -172,33 +180,28 @@ class MockLoggerService {
 }
 
 describe('ConfiguratorEffect', () => {
-  let createMock: jasmine.Spy;
-  let readMock: jasmine.Spy;
-  let updateConfigurationMock: jasmine.Spy;
-  let readPriceSummaryMock: jasmine.Spy;
-  let overviewMock: jasmine.Spy;
-  let updateOverviewMock: jasmine.Spy;
+  let createMock: vi.Mock;
+  let readMock: vi.Mock;
+  let updateConfigurationMock: vi.Mock;
+  let readPriceSummaryMock: vi.Mock;
+  let overviewMock: vi.Mock;
+  let updateOverviewMock: vi.Mock;
   let configEffects: fromEffects.ConfiguratorBasicEffects;
+  let configuratorBasicEffectService: ConfiguratorBasicEffectService;
 
   let store: Store<StateWithConfigurator>;
 
   let actions$: Observable<any>;
 
   beforeEach(() => {
-    createMock = jasmine.createSpy().and.returnValue(of(productConfiguration));
-    updateConfigurationMock = jasmine
-      .createSpy()
-      .and.returnValue(of(productConfiguration));
-    readPriceSummaryMock = jasmine
-      .createSpy()
-      .and.returnValue(of(productConfiguration));
-    readMock = jasmine.createSpy().and.returnValue(of(productConfiguration));
-    overviewMock = jasmine
-      .createSpy()
-      .and.returnValue(of(productConfiguration.overview));
-    updateOverviewMock = jasmine
-      .createSpy()
-      .and.returnValue(of(productConfiguration.overview));
+    createMock = vi.fn().mockReturnValue(of(productConfiguration));
+    updateConfigurationMock = vi.fn().mockReturnValue(of(productConfiguration));
+    readPriceSummaryMock = vi.fn().mockReturnValue(of(productConfiguration));
+    readMock = vi.fn().mockReturnValue(of(productConfiguration));
+    overviewMock = vi.fn().mockReturnValue(of(productConfiguration.overview));
+    updateOverviewMock = vi
+      .fn()
+      .mockReturnValue(of(productConfiguration.overview));
 
     class MockConnector {
       createConfiguration = createMock;
@@ -234,7 +237,14 @@ describe('ConfiguratorEffect', () => {
     configEffects = TestBed.inject(
       fromEffects.ConfiguratorBasicEffects as Type<fromEffects.ConfiguratorBasicEffects>
     );
+    configuratorBasicEffectService = TestBed.inject(
+      ConfiguratorBasicEffectService as Type<ConfiguratorBasicEffectService>
+    );
     store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('should provide configuration effects', () => {
@@ -319,7 +329,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case something goes wrong', () => {
-      createMock.and.returnValue(throwError(() => errorResponse));
+      createMock.mockReturnValue(throwError(() => errorResponse));
 
       const action = new ConfiguratorActions.CreateConfiguration({
         owner: productConfiguration.owner,
@@ -357,8 +367,57 @@ describe('ConfiguratorEffect', () => {
       expect(configEffects.readConfiguration$).toBeObservable(expected);
     });
 
+    it('should serve an already loaded CPQ tab from the store without calling the connector', () => {
+      const cachedConfiguration: Configurator.Configuration = {
+        ...ConfiguratorTestUtils.createConfiguration(configId, cpqOwner),
+      };
+      vi.spyOn(
+        configuratorBasicEffectService,
+        'getConfigurationIfTabAlreadyLoaded'
+      ).mockReturnValue(cachedConfiguration);
+      readMock.mockClear();
+
+      const action = new ConfiguratorActions.ReadConfiguration({
+        configuration: {
+          ...ConfiguratorTestUtils.createConfiguration(configId, cpqOwner),
+        },
+        groupId: 'cpq-tab',
+      });
+      const completion = new ConfiguratorActions.ReadConfigurationSuccess(
+        cachedConfiguration
+      );
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(configEffects.readConfiguration$).toBeObservable(expected);
+      expect(readMock).not.toHaveBeenCalled();
+    });
+
+    it('should not consult the store cache for non-CPQ configurator types', () => {
+      const cacheSpy = vi.spyOn(
+        configuratorBasicEffectService,
+        'getConfigurationIfTabAlreadyLoaded'
+      );
+
+      const action = new ConfiguratorActions.ReadConfiguration({
+        configuration: {
+          ...ConfiguratorTestUtils.createConfiguration(configId, owner),
+        },
+        groupId: '',
+      });
+      const completion = new ConfiguratorActions.ReadConfigurationSuccess(
+        productConfiguration
+      );
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(configEffects.readConfiguration$).toBeObservable(expected);
+      expect(cacheSpy).not.toHaveBeenCalled();
+      expect(readMock).toHaveBeenCalled();
+    });
+
     it('should emit a fail action in case connector raises an error', () => {
-      readMock.and.returnValue(throwError(() => errorResponse));
+      readMock.mockReturnValue(throwError(() => errorResponse));
       const action = new ConfiguratorActions.ReadConfiguration({
         configuration: productConfiguration,
         groupId: '',
@@ -413,7 +472,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case connector raises an error', () => {
-      readMock.and.returnValue(throwError(() => errorResponse));
+      readMock.mockReturnValue(throwError(() => errorResponse));
 
       const readConfigurationFailAction =
         new ConfiguratorActions.ReadConfigurationFail({
@@ -461,7 +520,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case something goes wrong', () => {
-      overviewMock.and.returnValue(throwError(() => errorResponse));
+      overviewMock.mockReturnValue(throwError(() => errorResponse));
       const overviewAction = new ConfiguratorActions.GetConfigurationOverview(
         productConfiguration
       );
@@ -501,7 +560,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case something goes wrong', () => {
-      updateOverviewMock.and.returnValue(throwError(() => errorResponse));
+      updateOverviewMock.mockReturnValue(throwError(() => errorResponse));
       const overviewAction =
         new ConfiguratorActions.UpdateConfigurationOverview(
           productConfiguration
@@ -543,7 +602,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case something goes wrong', () => {
-      updateConfigurationMock.and.returnValue(throwError(() => errorResponse));
+      updateConfigurationMock.mockReturnValue(throwError(() => errorResponse));
       const payloadInput = productConfiguration;
       const action = new ConfiguratorActions.UpdateConfiguration(payloadInput);
 
@@ -555,6 +614,34 @@ describe('ConfiguratorEffect', () => {
       const expected = cold('-b', { b: failAction });
 
       expect(configEffects.updateConfiguration$).toBeObservable(expected);
+    });
+
+    it('should process concurrent updates for a configuration strictly sequentially (concatMap, not mergeMap)', () => {
+      // Give the connector some virtual "processing time" so that overlapping vs.
+      // sequential handling becomes observable on the marble time line. The same cold
+      // observable is replayed relative to each (sequential) subscription.
+      updateConfigurationMock.mockReturnValue(
+        cold('--(c|)', { c: productConfiguration })
+      );
+      const action = new ConfiguratorActions.UpdateConfiguration(
+        productConfiguration
+      );
+      const completion = new ConfiguratorActions.UpdateConfigurationSuccess(
+        productConfiguration
+      );
+
+      // Two rapid updates for the same configuration are dispatched at the same frame.
+      actions$ = hot('-(ab)', { a: action, b: action });
+
+      // With concatMap the second update is only sent after the first has completed,
+      // so the two success actions are emitted two frames apart (frames 3 and 5).
+      // With mergeMap both inner requests would run in parallel and complete together
+      // at frame 3 ('---(bc)') - which is exactly the race that triggers the CPQ V2
+      // "Only one value can be selected" (HTTP 400) error.
+      const expected = cold('---b-c', { b: completion, c: completion });
+
+      expect(configEffects.updateConfiguration$).toBeObservable(expected);
+      expect(updateConfigurationMock).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -573,7 +660,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case something goes wrong', () => {
-      readPriceSummaryMock.and.returnValue(throwError(() => errorResponse));
+      readPriceSummaryMock.mockReturnValue(throwError(() => errorResponse));
       const payloadInput = productConfiguration;
       const updatePriceSummaryAction =
         new ConfiguratorActions.UpdatePriceSummary(payloadInput);
@@ -671,7 +758,7 @@ describe('ConfiguratorEffect', () => {
       );
     });
 
-    it('should raise UpdateConfigurationFinalize, UpdatePrices and ChangeGroup with group id of conflict group in case conflicts exist but current group is a conflict group', () => {
+    it('should raise UpdateConfigurationFinalize, UpdatePrices and ChangeGroup when current group is a conflict group', () => {
       store.dispatch(
         new ConfiguratorActions.SetCurrentGroup({
           entityKey: productConfiguration.owner.key,
@@ -861,7 +948,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit ReadConfigurationFail in case read call is not successful', () => {
-      readMock.and.returnValue(throwError(() => errorResponse));
+      readMock.mockReturnValue(throwError(() => errorResponse));
       const payloadInput: Configurator.Configuration = {
         ...ConfiguratorTestUtils.createConfiguration(configId, owner),
         productCode: productCode,
@@ -900,12 +987,16 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit remove configuration action for configurations that are purely product bound', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of(configurationState)
-      );
-
       entitiesInConfigurationState[productConfiguration.owner.key] =
         productConfiguration.owner.key;
+
+      vi.spyOn(store, 'pipe').mockReturnValueOnce(
+        of(
+          new ConfiguratorActions.RemoveConfiguration({
+            ownerKey: [productConfiguration.owner.key],
+          })
+        )
+      );
 
       const removeProductBoundConfigurationsAction =
         new ConfiguratorActions.RemoveProductBoundConfigurations();

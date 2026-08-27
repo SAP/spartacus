@@ -1,15 +1,11 @@
+import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import { UntypedFormBuilder } from '@angular/forms';
-import {
-  FeatureConfigService,
-  GlobalMessageService,
-  GlobalMessageType,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
 import { RegisterComponentService } from './register-component.service';
 
-import createSpy = jasmine.createSpy;
 const mockRegisterFormData: any = {
   titleCode: 'Mr',
   firstName: 'John',
@@ -24,17 +20,11 @@ const mockRegisterFormData: any = {
 };
 
 class MockUserRegisterFacade implements Partial<UserRegisterFacade> {
-  getTitles = createSpy().and.returnValue(of([]));
-  register = createSpy().and.callFake((user: any) => of(user));
+  getTitles = vi.fn().mockReturnValue(of([]));
+  register = vi.fn().mockImplementation((user: any) => of(user));
 }
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy();
-}
-
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
+  add = vi.fn();
 }
 
 describe('RegisterComponentService', () => {
@@ -50,7 +40,6 @@ describe('RegisterComponentService', () => {
         UntypedFormBuilder,
         { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
 
@@ -101,7 +90,7 @@ describe('RegisterComponentService', () => {
   });
 
   it('generateAdditionalConsentsFormControl', () => {
-    spyOn(fb, 'array').and.callThrough();
+    vi.spyOn(fb, 'array');
     service.generateAdditionalConsentsFormControl();
     expect(fb.array).toHaveBeenCalled();
   });

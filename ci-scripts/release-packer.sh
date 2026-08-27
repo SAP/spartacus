@@ -41,6 +41,8 @@ function pack {
         cp -r core-libs/styles/* ../.
     elif [[ $PACKAGE == 'schematics' ]]; then
         cp -r core-libs/schematics/* ../.
+    elif [[ $PACKAGE == 'skills' ]]; then
+        cp -r core-libs/skills/* ../.
     elif [[ $PACKAGE == 'storefront' ]]; then
         append_npmignore "dist/storefront" "$CONTENT"
         cp -r dist/storefront/* ../.

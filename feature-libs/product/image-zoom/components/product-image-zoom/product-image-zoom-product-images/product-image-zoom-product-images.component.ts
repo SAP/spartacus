@@ -6,9 +6,8 @@
 
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FeatureDirective, Product, TranslatePipe } from '@spartacus/core';
+import { Product, TranslatePipe } from '@spartacus/core';
 import {
-  CarouselComponent,
   CarouselScrollingComponent,
   CurrentProductService,
   FocusableCarouselItemDirective,
@@ -28,9 +27,7 @@ import { ProductImageZoomTriggerComponent } from '../product-image-zoom-trigger/
     LcpContextDirective,
     MediaComponent,
     ProductImageZoomTriggerComponent,
-    FeatureDirective,
     CarouselScrollingComponent,
-    CarouselComponent,
     FocusableCarouselItemDirective,
     AsyncPipe,
     TranslatePipe,

@@ -4,7 +4,7 @@ import {
   PipeTransform,
   Type,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RouterModule } from '@angular/router';
 import {
@@ -24,6 +24,7 @@ import { Observable, of } from 'rxjs';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 import { ConfiguratorTextfieldAddToCartButtonComponent } from './configurator-textfield-add-to-cart-button.component';
+import { vi } from 'vitest';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const URL_CONFIGURATION = 'host:port/electronics-spa/en/USD/configureTEXTFIELD';
@@ -84,7 +85,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
     expect(seenText).toBe(buttonText);
   }
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ConfiguratorTextfieldAddToCartButtonComponent,
@@ -111,7 +112,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
@@ -145,7 +146,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
   });
 
   it('should navigate to cart and call addToCart on core service when onAddToCart was triggered ', () => {
-    spyOn(textfieldService, 'addToCart').and.callThrough();
+    vi.spyOn(textfieldService, 'addToCart');
 
     classUnderTest.onAddToCart();
 
@@ -158,7 +159,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
   it('should navigate to cart when onAddToCart was triggered and owner points to cart entry ', () => {
     OWNER.type = CommonConfigurator.OwnerType.CART_ENTRY;
 
-    spyOn(textfieldService, 'updateCartEntry').and.callThrough();
+    vi.spyOn(textfieldService, 'updateCartEntry');
 
     classUnderTest.onAddToCart();
     expect(textfieldService.updateCartEntry).toHaveBeenCalledWith(
