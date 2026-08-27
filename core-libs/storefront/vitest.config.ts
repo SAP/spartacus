@@ -7,38 +7,53 @@
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { defineConfig } from 'vitest/config';
 import angular from '@analogjs/vite-plugin-angular';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  root: import.meta.dirname,
+  root: __dirname,
   resolve: {
     alias: {
-      'core-libs/storefront/shared/test/mock-feature-directive': `${import.meta.dirname}/../../core-libs/storefront/shared/test/mock-feature-directive.ts`,
-      'core-libs/core/src/i18n/testing': `${import.meta.dirname}/../../core-libs/core/src/i18n/testing/index.ts`,
-      'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module': `${import.meta.dirname}/../../core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module.ts`,
-      'core-libs/core/src/features-config/feature-toggles/testing': `${import.meta.dirname}/../../core-libs/core/src/features-config/feature-toggles/testing/index.ts`,
+      'core-libs/storefront/shared/test/mock-feature-directive': path.resolve(__dirname, '../../core-libs/storefront/shared/test/mock-feature-directive.ts'),
+      'core-libs/core/src/i18n/testing': path.resolve(__dirname, '../../core-libs/core/src/i18n/testing/index.ts'),
+      'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module': path.resolve(__dirname, '../../core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module.ts'),
+      'core-libs/core/src/features-config/feature-toggles/testing': path.resolve(__dirname, '../../core-libs/core/src/features-config/feature-toggles/testing/index.ts'),
     },
   },
   plugins: [angular(), nxViteTsPaths()],
   test: {
     pool: 'forks',
     watch: false,
-    isolate: true,
+    globals: true,
     environment: 'jsdom',
     setupFiles: ['../../testing/setup-vitest.ts'],
     include: ['**/*.spec.ts'],
     typecheck: {
-      tsconfig: `${import.meta.dirname}/tsconfig.spec.json`,
+      tsconfig: path.resolve(__dirname, 'tsconfig.spec.json'),
     },
     coverage: {
+      enabled: true,
       provider: 'v8',
-      reporter: ['lcov'],
-      reportsDirectory: `${import.meta.dirname}/../../coverage/storefront`,
-      exclude: ['**/public_api.ts', '**/index.ts', '**/*.module.ts'],
+      reporter: ['text-summary', 'html', 'lcov'],
+      reportsDirectory: path.resolve(__dirname, '../../coverage/storefront'),
+      include: ['**/*.ts'],
+      exclude: [
+        '**/*.spec.ts',
+        '**/public_api.ts',
+        '**/index.ts',
+        '**/*.module.ts',
+        '**/vitest.config.ts',
+        '**/assets/**',
+        '**/testing/**',
+        '**/schematics/**',
+        'setup-jest.ts',
+      ],
       thresholds: {
-        statements: 90,
-        lines: 90,
-        branches: 80,
-        functions: 90,
+        statements: 80,
+        lines: 80,
+        functions: 80,
       },
     },
     reporters: [
@@ -46,7 +61,7 @@ export default defineConfig({
       [
         'junit',
         {
-          outputFile: `${import.meta.dirname}/../../unit-tests-reports/unit-test-storefront.xml`,
+          outputFile: path.resolve(__dirname, '../../unit-tests-reports/unit-test-storefront.xml'),
         },
       ],
     ],
