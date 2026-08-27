@@ -24,6 +24,7 @@ import { OpfCtaFacade } from '@spartacus/opf/cta/root';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY } from 'rxjs';
 import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
+import { OpfQuickBuyFacade } from '@spartacus/opf/quick-buy/root';
 import { OpfGlobalFunctionsGlobalDomainRegistrationsService } from './opf-global-functions-global-domain-registrations.service';
 import { OpfGlobalFunctionsGlobalDomainService } from './opf-global-functions-global-domain.service';
 import { OpfGlobalFunctionsSharedService } from '../../opf-global-functions-shared.service';
@@ -90,6 +91,10 @@ class MockRoutingService implements Partial<RoutingService> {
 class MockOpfQuickBuyTransactionService
   implements Partial<OpfQuickBuyTransactionService> {}
 
+class MockOpfQuickBuyFacade implements Partial<OpfQuickBuyFacade> {
+  getApplePayWebSession = jasmine.createSpy('getApplePayWebSession');
+}
+
 function createOpfPaymentFacadeMock(): jasmine.SpyObj<OpfPaymentFacade> {
   return jasmine.createSpyObj('OpfPaymentFacade', [
     'submitPayment',
@@ -133,6 +138,7 @@ describe('OpfGlobalFunctionsGlobalDomainRegistrationsService', () => {
           provide: OpfQuickBuyTransactionService,
           useClass: MockOpfQuickBuyTransactionService,
         },
+        { provide: OpfQuickBuyFacade, useClass: MockOpfQuickBuyFacade },
       ],
     });
     service = TestBed.inject(
@@ -174,6 +180,7 @@ describe('OpfGlobalFunctionsGlobalDomainRegistrationsService', () => {
       expect(container.verifyPayment).toBeDefined();
       expect(container.submit).toBeDefined();
       expect(container.submitComplete).toBeDefined();
+      expect(container.getApplePayWebSession).toBeDefined();
     });
 
     it('should handle getCart through registered function', async () => {

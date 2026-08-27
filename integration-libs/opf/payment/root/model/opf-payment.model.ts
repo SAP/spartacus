@@ -12,6 +12,10 @@ import {
   OpfKeyValueMap,
 } from '@spartacus/opf/base/root';
 import {
+  ApplePaySessionVerificationRequest,
+  ApplePaySessionVerificationResponse,
+} from '@spartacus/opf/quick-buy/root';
+import {
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
 } from './opf-payment-verification.model';
@@ -89,6 +93,9 @@ export interface OpfPaymentGlobalMethods {
   updateCartGuestUserEmail?(email: string): Promise<boolean>;
   createCartGuestUser?(): Promise<boolean>;
   handle3DSRedirect?(threeDsURL: string): Promise<void>;
+  getApplePayWebSession?(
+    request: ApplePaySessionVerificationRequest
+  ): Promise<ApplePaySessionVerificationResponse>;
 }
 
 export interface OpfPaymentBrowserInfo {
