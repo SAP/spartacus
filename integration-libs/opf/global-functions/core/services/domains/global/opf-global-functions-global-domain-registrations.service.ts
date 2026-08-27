@@ -181,7 +181,7 @@ export class OpfGlobalFunctionsGlobalDomainRegistrationsService {
   protected registerGetApplePayWebSession(
     container: OpfPaymentGlobalMethods
   ): void {
-    container.getApplePayWebSession = (
+    (container as any).getApplePayWebSession = (
       request: ApplePaySessionVerificationRequest
     ): Promise<ApplePaySessionVerificationResponse> =>
       this.domainService.getApplePayWebSession(request);
