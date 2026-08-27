@@ -88,17 +88,11 @@ export class ForgotPasswordComponentService {
    * Otherwise, the user is routed to the `login` page.
    */
   protected redirect() {
-    if (
-      this.authConfigService.customLoginEnabled() &&
-      this.authConfigService.getOAuthFlow() !==
-        OAuthFlow.ResourceOwnerPasswordFlow
-    ) {
-      this.routingService.go({ cxRoute: 'loginForm' });
-    } else if (
-      this.authConfigService.getOAuthFlow() ==
-      OAuthFlow.ResourceOwnerPasswordFlow
-    ) {
+    const flow = this.authConfigService.getOAuthFlow();
+    if (flow === OAuthFlow.ResourceOwnerPasswordFlow) {
       this.routingService.go({ cxRoute: 'login' });
+    } else if (this.authConfigService.customLoginEnabled()) {
+      this.routingService.go({ cxRoute: 'loginForm' });
     }
   }
 }

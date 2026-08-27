@@ -116,10 +116,10 @@ describe('ForgotPasswordComponentService', () => {
       });
 
       it('should redirect to loginForm when custom login is enabled and flow is not ResourceOwnerPasswordFlow', () => {
-        spyOn(authConfigService, 'getOAuthFlow').and.returnValue(
+        vi.spyOn(authConfigService, 'getOAuthFlow').mockReturnValue(
           OAuthFlow.ImplicitFlow
         );
-        spyOn(authConfigService, 'customLoginEnabled').and.returnValue(true);
+        vi.spyOn(authConfigService, 'customLoginEnabled').mockReturnValue(true);
         service.requestEmail();
         expect(routingService.go).toHaveBeenCalledWith({
           cxRoute: 'loginForm',
