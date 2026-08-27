@@ -12,8 +12,12 @@ import {
 } from '@angular/platform-browser/testing';
 import 'zone.js';
 import 'zone.js/testing';
+import '@analogjs/vitest-angular/setup-zone';
 
 getTestBed().initTestEnvironment(
   BrowserTestingModule,
-  platformBrowserTesting()
+  platformBrowserTesting(),
+  {
+    teardown: { destroyAfterEach: true }
+  }
 );
