@@ -92,10 +92,6 @@ export class CpqConfiguratorNormalizer
   /**
    * Collects warning messages from failed validations and incomplete messages.
    *
-   * @deprecated since 221121.17 - Use `messages` (`convertMessages`) instead,
-   * which will be used in the components. This method remains for backward
-   * compatibility and will be removed in a future major version.
-   *
    * @param source - CPQ configuration
    * @returns Warning messages
    */
@@ -107,11 +103,7 @@ export class CpqConfiguratorNormalizer
   }
 
   /**
-   * Collects error messages from error and invalid messages.
-   *
-   * @deprecated since 221121.17 - Use `messages` (`convertMessages`) instead,
-   * which will be used in the components. This method remains for backward
-   * compatibility and will be removed in a future major version.
+   * Collects error messages from error and invalid messages.   *
    *
    * @param source - CPQ configuration
    * @returns Error messages
