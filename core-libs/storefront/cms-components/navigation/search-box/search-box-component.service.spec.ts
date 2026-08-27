@@ -18,6 +18,7 @@ import {
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { vi } from 'vitest';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
 import {
@@ -25,7 +26,6 @@ import {
   SearchBoxSuggestionSelectedEvent,
 } from './search-box.events';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
-import { vi } from 'vitest';
 
 const mockQueryString = '?query=mockQuery';
 

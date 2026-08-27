@@ -9,12 +9,12 @@ import {
   EventService,
   FeatureToggles,
   isNotUndefined,
+  ProductActions,
   ProductSearchPage,
   RoutingService,
   SearchboxService,
   TranslationService,
   WindowRef,
-  ProductActions,
 } from '@spartacus/core';
 import {
   BehaviorSubject,
@@ -24,7 +24,7 @@ import {
   ReplaySubject,
   Subject,
 } from 'rxjs';
-import { map, switchMap, tap, filter, take } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import {
   SearchBoxProductSelectedEvent,
   SearchBoxSuggestionSelectedEvent,
@@ -135,7 +135,7 @@ export class SearchBoxComponentService {
     if (
       productsComplete &&
       suggestionsComplete &&
-      this.currentQueryLength > 0
+      this.currentQueryLength >= 1
     ) {
       this.searchCompleted.next(true);
     }
