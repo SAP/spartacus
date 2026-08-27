@@ -79,8 +79,9 @@ export class UserListService extends ListService<UserModel> {
         ...value,
         unit: value?.orgUnit ?? {},
         roles:
-          value?.roles?.filter((role: string) => availableRoles.includes(role as B2BUserRole)) ??
-          [],
+          value?.roles?.filter((role: string) =>
+            availableRoles.includes(role as B2BUserRole)
+          ) ?? [],
       })),
     };
     return userModels;

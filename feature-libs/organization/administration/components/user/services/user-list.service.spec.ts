@@ -100,16 +100,22 @@ describe('UserListService', () => {
     });
 
     it('should use empty object as default when orgUnit is undefined', () => {
-      (TestBed.inject(B2BUserService) as unknown as { getList: () => Observable<EntitiesModel<B2BUser>> }).getList = () =>
-        of(mockUserEntitiesWithMissingFields);
+      (
+        TestBed.inject(B2BUserService) as unknown as {
+          getList: () => Observable<EntitiesModel<B2BUser>>;
+        }
+      ).getList = () => of(mockUserEntitiesWithMissingFields);
       let result: EntitiesModel<UserModel>;
       service.getData().subscribe((table) => (result = table));
       expect(result.values[0].unit).toEqual({});
     });
 
     it('should use empty array as default when roles is undefined', () => {
-      (TestBed.inject(B2BUserService) as unknown as { getList: () => Observable<EntitiesModel<B2BUser>> }).getList = () =>
-        of(mockUserEntitiesWithMissingFields);
+      (
+        TestBed.inject(B2BUserService) as unknown as {
+          getList: () => Observable<EntitiesModel<B2BUser>>;
+        }
+      ).getList = () => of(mockUserEntitiesWithMissingFields);
       let result: EntitiesModel<UserModel>;
       service.getData().subscribe((table) => (result = table));
       expect(result.values[0].roles).toEqual([]);
