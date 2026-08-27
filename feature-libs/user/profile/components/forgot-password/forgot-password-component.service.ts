@@ -83,9 +83,7 @@ export class ForgotPasswordComponentService {
   /**
    * Redirects the user back to the login page.
    *
-   * Routes to `login` when the OAuth flow is `ResourceOwnerPasswordFlow`.
-   * Routes to `loginForm` when custom login is enabled.
-   * No navigation occurs for other OAuth flows, as they require navigation to an external login page.
+   * This only happens in case of the `ResourceOwnerPasswordFlow` OAuth flow  or `AuthorizationCode`  with custom login page enabled.
    */
   protected redirect() {
     const flow = this.authConfigService.getOAuthFlow();
