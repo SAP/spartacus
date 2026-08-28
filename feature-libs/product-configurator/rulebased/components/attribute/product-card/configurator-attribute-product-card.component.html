@@ -558,7 +558,7 @@
           >
             <cx-configurator-message
               id="{{
-                createValueUiKey(
+                createContainerUiKey(
                   group.uiKeyPrefix,
                   productCardOptions.attribute.name,
                   productCardOptions.productBoundValue.valueCode
@@ -572,9 +572,10 @@
               [showIcon]="group.showIcon"
               [role]="group.role"
               [idPrefix]="
-                createAttributeUiKey(
+                createContainerUiKey(
                   group.uiKeyPrefix,
-                  productCardOptions.attribute.name
+                  productCardOptions.attribute.name,
+                  productCardOptions.productBoundValue.valueCode
                 )
               "
             />

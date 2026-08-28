@@ -101,8 +101,6 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   itemCount: number;
   itemIndex: number;
   containerRow?: Configurator.ContainerRow;
-  /** Whether container min/max info and required messages are shown. */
-  includeContainerContextMessages?: boolean;
   groupId?: string;
 }
 
@@ -141,8 +139,8 @@ export class ConfiguratorAttributeProductCardComponent
   /**
    * Messages of the nested configuration that belongs to the bound container
    * row. Looked up from the row group identified by `containerRow.groupId`.
-   * When {@link ConfiguratorAttributeProductCardComponentOptions.includeContainerContextMessages}
-   * is set, container min/max info and required messages are prepended.
+   * For unselected container rows, container min/max info and required
+   * messages are prepended.
    */
   messages$: Observable<ConfiguratorMessagesView> =
     this.configRouterExtractorService
@@ -295,9 +293,8 @@ export class ConfiguratorAttributeProductCardComponent
     return this.configuratorMessageService.prependContainerContextMessageGroups(
       messagesView,
       {
-        containerInfoMessageClass: 'cx-product-card-rows cx-container-info-msg',
-        requiredErrorMessageClass:
-          'cx-product-card-rows cx-container-error-msg',
+        containerInfoMessageClass: 'cx-container-info-msg',
+        requiredErrorMessageClass: 'cx-container-error-msg',
         requiredErrorIconClass: 'cx-container-error-symbol',
         iconTypeError: this.iconType.ERROR,
         containerInfoUiKeyPrefix: 'row-container-info-msg',
@@ -325,7 +322,10 @@ export class ConfiguratorAttributeProductCardComponent
         containerRowGroup?.messages
       );
 
-    if (!this.productCardOptions.includeContainerContextMessages) {
+    if (
+      !this.productCardOptions.containerRow ||
+      this.productCardOptions.containerRow.selected
+    ) {
       return engineMessages;
     }
 
@@ -367,7 +367,8 @@ export class ConfiguratorAttributeProductCardComponent
     owner: CommonConfigurator.Owner
   ): Observable<boolean> {
     if (
-      !this.productCardOptions.includeContainerContextMessages ||
+      !this.productCardOptions.containerRow ||
+      this.productCardOptions.containerRow.selected ||
       !this.productCardOptions.groupId
     ) {
       return of(false);

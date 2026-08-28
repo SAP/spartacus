@@ -2052,7 +2052,6 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
     it('should prepend container context messages before row messages', () => {
       component.productCardOptions.multiSelect = true;
-      component.productCardOptions.includeContainerContextMessages = true;
       component.productCardOptions.attribute.container = {
         rows: [{ id: '1', selected: true }],
       };
@@ -2070,6 +2069,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       // Cast to `any` to avoid strict typing issues in the test helper.
       component.productCardOptions.containerRow = {
         ...(component.productCardOptions.containerRow as any),
+        selected: false,
         minRows: 2,
         maxRows: 4,
       } as any as Configurator.ContainerRow;

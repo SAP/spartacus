@@ -343,7 +343,6 @@ export class ConfiguratorAttributeContainerComponent extends ConfiguratorAttribu
       itemIndex: index,
       loading$: this.loading$,
       containerRow: row,
-      includeContainerContextMessages: !row.selected,
       groupId: this.attributeComponentContext.group.id,
     };
   }

@@ -81,6 +81,23 @@ export class ConfiguratorAttributeBaseComponent {
   }
 
   /**
+   * Creates unique key for config message on the UI
+   *
+   * @param prefix for key depending on usage (e.g. uiType, label)
+   * @param attributeId - attribute id
+   * @param valueId - optional value id
+   */
+  createContainerUiKey(
+    prefix: string,
+    attributeId: string,
+    valueId?: string
+  ): string {
+    return valueId
+      ? this.createValueUiKey(prefix, attributeId, valueId)
+      : this.createAttributeUiKey(prefix, attributeId);
+  }
+
+  /**
    * Creates unique key for config value to be sent to configurator
    *
    * @param currentAttribute

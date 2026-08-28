@@ -605,21 +605,24 @@ describe('ConfiguratorAttributeContainerComponent', () => {
         'cx-configurator-attribute-product-card'
       );
       expect(cards[0].id).toBe(
-        component.createAttributeValueIdForConfigurator(
-          component.attribute,
+        component.createValueUiKey(
+          'selected-products',
+          component.attribute.name,
           'row-1'
         )
       );
       expect(cards[1].id).toBe(
-        component.createAttributeValueIdForConfigurator(
-          component.attribute,
-          'row-2'
+        component.createValueUiKey(
+          'available-products',
+          component.attribute.name,
+          '0'
         )
       );
       expect(cards[2].id).toBe(
-        component.createAttributeValueIdForConfigurator(
-          component.attribute,
-          'row-3'
+        component.createValueUiKey(
+          'available-products',
+          component.attribute.name,
+          '1'
         )
       );
     });
@@ -715,7 +718,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       expect(options.loading$).toBe(component.loading$);
     });
 
-    it('should include container context on all unselected cards', () => {
+    it('should reflect selection state via containerRow.selected on all cards', () => {
       const selectedRow = component.selectedProducts[0];
       const selectedCardOptions = component.extractProductCardParameters(
         selectedRow,
@@ -734,13 +737,9 @@ describe('ConfiguratorAttributeContainerComponent', () => {
         component.availableProducts.length
       );
 
-      expect(selectedCardOptions.includeContainerContextMessages).toBe(false);
-      expect(firstAvailableCardOptions.includeContainerContextMessages).toBe(
-        true
-      );
-      expect(secondAvailableCardOptions.includeContainerContextMessages).toBe(
-        true
-      );
+      expect(selectedCardOptions.containerRow?.selected).toBe(true);
+      expect(firstAvailableCardOptions.containerRow?.selected).toBeFalsy();
+      expect(secondAvailableCardOptions.containerRow?.selected).toBeFalsy();
       expect(firstAvailableCardOptions.attribute.container?.rows).toBe(
         component.attribute.container?.rows
       );
