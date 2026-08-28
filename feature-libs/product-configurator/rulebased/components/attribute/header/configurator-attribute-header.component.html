@@ -35,7 +35,6 @@
 <cx-configurator-message
   *ngFor="
     let group of getMessageGroups(
-      messages,
       (showRequiredMessageForDomainAttribute$ | async) ?? false
     )
   "

@@ -10,7 +10,7 @@
         'configurator.a11y.itemOfAttribute'
           | cxTranslate
             : {
-                attribute: productCardOptions.attributeLabel,
+                attribute: productCardOptions.attribute.label,
               }
       "
     >
@@ -83,7 +83,7 @@
                   [attr.aria-describedby]="
                     createAttributeUiKey(
                       'label',
-                      productCardOptions.attributeName
+                      productCardOptions.attribute.name
                     )
                   "
                 >
@@ -98,7 +98,7 @@
                   [attr.aria-describedby]="
                     createAttributeUiKey(
                       'label',
-                      productCardOptions.attributeName
+                      productCardOptions.attribute.name
                     )
                   "
                 >
@@ -117,7 +117,7 @@
                   [attr.aria-describedby]="
                     createAttributeUiKey(
                       'label',
-                      productCardOptions.attributeName
+                      productCardOptions.attribute.name
                     )
                   "
                 >
@@ -136,7 +136,7 @@
                   [attr.aria-describedby]="
                     createAttributeUiKey(
                       'label',
-                      productCardOptions.attributeName
+                      productCardOptions.attribute.name
                     )
                   "
                 >
@@ -162,7 +162,7 @@
                   [attr.aria-describedby]="
                     createAttributeUiKey(
                       'label',
-                      productCardOptions.attributeName
+                      productCardOptions.attribute.name
                     )
                   "
                 >
@@ -181,7 +181,7 @@
                   [attr.aria-describedby]="
                     createAttributeUiKey(
                       'label',
-                      productCardOptions.attributeName
+                      productCardOptions.attribute.name
                     )
                   "
                 >
@@ -209,7 +209,7 @@
                     [attr.aria-describedby]="
                       createAttributeUiKey(
                         'label',
-                        productCardOptions.attributeName
+                        productCardOptions.attribute.name
                       )
                     "
                   >
@@ -237,7 +237,7 @@
           id="{{
             createAttributeUiKey(
               'attribute-msg',
-              productCardOptions.attributeName
+              productCardOptions.attribute.name
             )
           }}"
         >
@@ -258,7 +258,7 @@
         'configurator.a11y.itemOfAttribute'
           | cxTranslate
             : {
-                attribute: productCardOptions.attributeLabel,
+                attribute: productCardOptions.attribute.label,
               }
       "
     >
@@ -269,7 +269,7 @@
               [container]="product.images?.PRIMARY"
               format="product"
               aria-hidden="true"
-            ></cx-media>
+            />
           </div>
 
           <div class="cx-product-card-info">
@@ -288,7 +288,7 @@
               [textSize]="45"
               [productName]="product.code"
               [tabIndex]="0"
-            ></cx-configurator-show-more>
+            />
           </div>
         </div>
         <div
@@ -301,12 +301,12 @@
                 *ngIf="showQuantity"
                 (changeQuantity)="onChangeQuantity($event)"
                 [quantityOptions]="extractQuantityParameters()"
-              ></cx-configurator-attribute-quantity>
+              />
             </div>
             <div class="cx-product-card-price">
               <cx-configurator-price
                 [formula]="extractPriceFormulaParameters()"
-              ></cx-configurator-price>
+              />
             </div>
           </div>
           <div class="cx-product-card-action">
@@ -341,10 +341,7 @@
                             }
                     "
                   >
-                    <cx-icon
-                      [type]="iconType.ELLIPSIS"
-                      aria-hidden="true"
-                    ></cx-icon>
+                    <cx-icon [type]="iconType.ELLIPSIS" aria-hidden="true" />
                   </button>
                   <ul
                     *ngIf="isActionsMenuOpen"
@@ -396,7 +393,7 @@
                       [attr.aria-describedby]="
                         createAttributeUiKey(
                           'label',
-                          productCardOptions.attributeName
+                          productCardOptions.attribute.name
                         )
                       "
                     >
@@ -413,7 +410,7 @@
                       [attr.aria-describedby]="
                         createAttributeUiKey(
                           'label',
-                          productCardOptions.attributeName
+                          productCardOptions.attribute.name
                         )
                       "
                     >
@@ -434,7 +431,7 @@
                       [attr.aria-describedby]="
                         createAttributeUiKey(
                           'label',
-                          productCardOptions.attributeName
+                          productCardOptions.attribute.name
                         )
                       "
                     >
@@ -455,7 +452,7 @@
                       [attr.aria-describedby]="
                         createAttributeUiKey(
                           'label',
-                          productCardOptions.attributeName
+                          productCardOptions.attribute.name
                         )
                       "
                     >
@@ -483,7 +480,7 @@
                       [attr.aria-describedby]="
                         createAttributeUiKey(
                           'label',
-                          productCardOptions.attributeName
+                          productCardOptions.attribute.name
                         )
                       "
                     >
@@ -504,7 +501,7 @@
                       [attr.aria-describedby]="
                         createAttributeUiKey(
                           'label',
-                          productCardOptions.attributeName
+                          productCardOptions.attribute.name
                         )
                       "
                     >
@@ -532,7 +529,7 @@
                         [attr.aria-describedby]="
                           createAttributeUiKey(
                             'label',
-                            productCardOptions.attributeName
+                            productCardOptions.attribute.name
                           )
                         "
                       >
@@ -554,7 +551,7 @@
         </div>
       </div>
       <ng-container *ngIf="messages$ | async as messages">
-        <ng-container *ngIf="getContainerMessageGroups(messages) as groups">
+        <ng-container *ngIf="getMessageGroups(messages) as groups">
           <div
             class="cx-product-card message"
             *ngIf="groups.length > 0 || showDeselectionNotPossible"
@@ -563,7 +560,7 @@
               id="{{
                 createValueUiKey(
                   group.uiKeyPrefix,
-                  productCardOptions.attributeName,
+                  productCardOptions.attribute.name,
                   productCardOptions.productBoundValue.valueCode
                 )
               }}"
@@ -577,7 +574,7 @@
               [idPrefix]="
                 createAttributeUiKey(
                   group.uiKeyPrefix,
-                  productCardOptions.attributeName
+                  productCardOptions.attribute.name
                 )
               "
             />
@@ -590,14 +587,11 @@
                 id="{{
                   createAttributeUiKey(
                     'attribute-msg',
-                    productCardOptions.attributeName
+                    productCardOptions.attribute.name
                   )
                 }}"
               >
-                <cx-icon
-                  class="deselection-error-symbol"
-                  type="ERROR"
-                ></cx-icon>
+                <cx-icon class="deselection-error-symbol" type="ERROR" />
                 {{
                   'configurator.attribute.deselectionNotPossible' | cxTranslate
                 }}

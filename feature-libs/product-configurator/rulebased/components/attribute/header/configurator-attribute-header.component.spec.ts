@@ -1426,7 +1426,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   describe('messages', () => {
     it('should return empty arrays if container is not present', () => {
-      expect(component.messages).toEqual({
+      expect(component.getContainerMessages()).toEqual({
         infoMessages: [],
         errorMessages: [],
         warningMessages: [],
@@ -1435,7 +1435,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
     it('should return empty arrays if list of messages is undefined', () => {
       component.attribute.container = { rows: [] };
-      expect(component.messages).toEqual({
+      expect(component.getContainerMessages()).toEqual({
         infoMessages: [],
         errorMessages: [],
         warningMessages: [],
@@ -1456,7 +1456,7 @@ describe('ConfigAttributeHeaderComponent', () => {
           },
         ],
       };
-      expect(component.messages).toEqual({
+      expect(component.getContainerMessages()).toEqual({
         infoMessages: ['Check quantity'],
         warningMessages: ['Too many units'],
         errorMessages: [],
@@ -1478,7 +1478,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         ],
       };
 
-      const groups = component.getMessageGroups(component.messages);
+      const groups = component.getMessageGroups();
       const warnings = groups.find(
         (group) => group.uiKeyPrefix === 'warning-msg'
       );

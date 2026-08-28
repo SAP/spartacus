@@ -321,7 +321,7 @@ export class ConfiguratorAttributeBaseComponent {
    * makes sense when CPQ is active. In case the method is called in the wrong context, an exception will
    * be thrown
    *
-   * @param {Configurator.Attribute} Attribute
+   * @param {Configurator.Attribute} attribute
    * @returns {number} Attribute code
    */
   protected getAttributeCode(attribute: Configurator.Attribute): number {

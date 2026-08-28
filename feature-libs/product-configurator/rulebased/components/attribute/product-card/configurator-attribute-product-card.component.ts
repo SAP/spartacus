@@ -36,7 +36,7 @@ import {
   KeyboardFocusService,
   MediaComponent,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
 import {
@@ -71,6 +71,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   fallbackFocusId?: string;
   multiSelect?: boolean;
   productBoundValue: Configurator.Value;
+  attribute: Configurator.Attribute;
   singleDropdown?: boolean;
   withQuantity?: boolean;
   /**
@@ -79,22 +80,29 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
    * This prevents the user from triggering concurrent requests with potential conflicting content that might cause unexpected behavior.
    */
   loading$?: Observable<boolean>;
+  /**
+   * @deprecated since 221121.17 - Use `this.getAttributeCode(this.attribute)` instead which will be
+   * used in the components. This property remains for backward
+   * compatibility and will be removed in a future major version.
+   */
   attributeId: number;
+  /**
+   * @deprecated since 221121.17 - Use `attribute.label` instead which will be
+   * used in the components. This property remains for backward
+   * compatibility and will be removed in a future major version.
+   */
   attributeLabel?: string;
+  /**
+   * @deprecated since 221121.17 - Use `attribute.name` instead which will be
+   * used in the components. This property remains for backward
+   * compatibility and will be removed in a future major version.
+   */
   attributeName: string;
   itemCount: number;
   itemIndex: number;
   containerRow?: Configurator.ContainerRow;
-  /** Sibling rows of the parent container, used only to compute the remaining
-   * count for the container required message. */
-  rows?: Configurator.ContainerRow[];
-  /** Whether the parent attribute is required. */
-  attributeRequired?: boolean;
-  /** Whether the parent attribute is incomplete. */
-  attributeIncomplete?: boolean;
   /** Whether container min/max info and required messages are shown. */
   includeContainerContextMessages?: boolean;
-  owner?: CommonConfigurator.Owner;
   groupId?: string;
 }
 
@@ -270,50 +278,22 @@ export class ConfiguratorAttributeProductCardComponent
   }
 
   /**
-   * Warning and error message groups of the bound container row.
-   * Passed to `cx-configurator-message` for display.
+   * Retrieves info, warning, and error message groups of the bound container.
    *
    * @param messages - Messages of the bound container row
    * @returns - message groups
    */
-  getContainerMessageGroups(
+  getMessageGroups(
     messages: ConfiguratorMessagesView
   ): ConfiguratorMessageGroup[] {
-    const filteredMessages =
+    const messagesView =
       this.configuratorMessageService.filterMessagesByProductSelection(
         messages,
         !!this.productCardOptions.productBoundValue?.selected
       );
 
-    const severityGroups: ConfiguratorMessageGroup[] = [
-      {
-        messages: filteredMessages.infoMessages,
-        messageClass: 'cx-product-card-rows cx-container-info-msg',
-        showIcon: false,
-        uiKeyPrefix: 'row-info-msg',
-      },
-      {
-        messages: filteredMessages.errorMessages,
-        messageClass: 'cx-product-card-rows cx-container-error-msg',
-        iconClass: 'container-error-symbol',
-        iconType: this.iconType.ERROR,
-        showIcon: true,
-        uiKeyPrefix: 'row-error-msg',
-        role: 'alert',
-      },
-      {
-        messages: filteredMessages.warningMessages,
-        messageClass: 'cx-product-card-rows cx-container-warning-msg',
-        iconClass: 'container-warning-symbol',
-        iconType: this.iconType.WARNING,
-        showIcon: true,
-        uiKeyPrefix: 'row-warning-msg',
-      },
-    ].filter((group) => group.messages.length > 0);
-
     return this.configuratorMessageService.prependContainerContextMessageGroups(
-      severityGroups,
-      filteredMessages,
+      messagesView,
       {
         containerInfoMessageClass: 'cx-product-card-rows cx-container-info-msg',
         requiredErrorMessageClass:
@@ -354,7 +334,7 @@ export class ConfiguratorAttributeProductCardComponent
       {
         minRows: this.productCardOptions.containerRow?.minRows,
         maxRows: this.productCardOptions.containerRow?.maxRows,
-        rows: this.productCardOptions.rows,
+        rows: this.productCardOptions.attribute.container?.rows,
         includeContainerInfo: true,
         includeRequiredError: showRequiredMessage,
         getContainerRowInfoKey: (minRows, maxRows) =>
@@ -372,8 +352,8 @@ export class ConfiguratorAttributeProductCardComponent
    */
   protected shouldShowContainerRequiredMessage(): boolean {
     return (
-      !!this.productCardOptions.attributeRequired &&
-      !!this.productCardOptions.attributeIncomplete
+      !!this.productCardOptions.attribute.required &&
+      !!this.productCardOptions.attribute.incomplete
     );
   }
 
@@ -422,13 +402,12 @@ export class ConfiguratorAttributeProductCardComponent
   }
 
   get focusConfig(): FocusConfig {
-    const focusConfig = {
+    return {
       key: this.createFocusId(
-        this.productCardOptions.attributeId.toString(),
+        this.getAttributeCode(this.productCardOptions.attribute).toString(),
         this.productCardOptions.productBoundValue.valueCode
       ),
     };
-    return focusConfig;
   }
 
   onHandleSelect(): void {
@@ -466,7 +445,7 @@ export class ConfiguratorAttributeProductCardComponent
 
   /**
    * Verifies whether the product card refers to a selected value
-   * @return {boolean} - Selected?
+   * @return - Selected?
    */
   isProductCardSelected(): boolean {
     const isProductCardSelected =
@@ -481,21 +460,20 @@ export class ConfiguratorAttributeProductCardComponent
    * Checks if price needs to be displayed. This is the
    * case if either value price, quantity or value price total
    * are present
-   * @return {boolean} - Price display?
+   * @return - Price display?
    */
   hasPriceDisplay(): boolean {
     const productPrice =
       this.productCardOptions.productBoundValue.valuePrice ||
       this.productCardOptions.productBoundValue.quantity ||
       this.productCardOptions.productBoundValue.valuePriceTotal;
-
-    return productPrice ? true : false;
+    return !!productPrice;
   }
 
   /**
    * Extract corresponding price formula parameters
    *
-   *  @return {ConfiguratorPriceComponentOptions} - New price formula
+   *  @return - New price formula
    */
   extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
     if (!this.productCardOptions.multiSelect) {
@@ -515,7 +493,7 @@ export class ConfiguratorAttributeProductCardComponent
   /**
    *  Extract corresponding quantity parameters
    *
-   * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
+   * @return - New quantity options
    */
   extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
     const quantityFromOptions =
@@ -535,13 +513,11 @@ export class ConfiguratorAttributeProductCardComponent
   /**
    * Verifies whether the value code is defined.
    *
-   * @param {string} valueCode - Value code
-   * @return {boolean} - 'true' if the value code is defined, otherwise 'false'
+   * @param valueCode - Value code
+   * @return - 'true' if the value code is defined, otherwise 'false'
    */
   isValueCodeDefined(valueCode: string | null | undefined): boolean {
-    return valueCode && valueCode !== Configurator.RetractValueCode
-      ? true
-      : false;
+    return !!(valueCode && valueCode !== Configurator.RetractValueCode);
   }
 
   protected transformToProductType(
@@ -634,7 +610,7 @@ export class ConfiguratorAttributeProductCardComponent
         this.translation
           .translate('configurator.a11y.itemOfAttributeUnselectedWithPrice', {
             item: product.code,
-            attribute: this.productCardOptions?.attributeLabel,
+            attribute: this.productCardOptions.attribute.label,
             itemIndex: index,
             itemCount: this.productCardOptions.itemCount,
             price:
@@ -647,7 +623,7 @@ export class ConfiguratorAttributeProductCardComponent
         this.translation
           .translate('configurator.a11y.itemOfAttributeUnselected', {
             item: product.code,
-            attribute: this.productCardOptions?.attributeLabel,
+            attribute: this.productCardOptions?.attribute.label,
             itemIndex: index,
             itemCount: this.productCardOptions.itemCount,
           })
@@ -657,7 +633,7 @@ export class ConfiguratorAttributeProductCardComponent
     } else {
       this.translation
         .translate('configurator.a11y.selectNoItemOfAttribute', {
-          attribute: this.productCardOptions?.attributeLabel,
+          attribute: this.productCardOptions?.attribute.label,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
         })
@@ -679,7 +655,7 @@ export class ConfiguratorAttributeProductCardComponent
           'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice',
           {
             item: product.code,
-            attribute: this.productCardOptions?.attributeLabel,
+            attribute: this.productCardOptions?.attribute.label,
             itemIndex: index,
             itemCount: this.productCardOptions.itemCount,
             price:
@@ -693,7 +669,7 @@ export class ConfiguratorAttributeProductCardComponent
       this.translation
         .translate('configurator.a11y.itemOfAttributeSelectedPressToUnselect', {
           item: product.code,
-          attribute: this.productCardOptions?.attributeLabel,
+          attribute: this.productCardOptions?.attribute.label,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
         })
@@ -714,7 +690,7 @@ export class ConfiguratorAttributeProductCardComponent
       this.translation
         .translate('configurator.a11y.itemOfAttributeSelectedWithPrice', {
           item: product.code,
-          attribute: this.productCardOptions?.attributeLabel,
+          attribute: this.productCardOptions?.attribute.label,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
           price:
@@ -727,7 +703,7 @@ export class ConfiguratorAttributeProductCardComponent
       this.translation
         .translate('configurator.a11y.itemOfAttributeSelected', {
           item: product.code,
-          attribute: this.productCardOptions?.attributeLabel,
+          attribute: this.productCardOptions?.attribute.label,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
         })
@@ -750,7 +726,7 @@ export class ConfiguratorAttributeProductCardComponent
           'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice',
           {
             item: product.code,
-            attribute: this.productCardOptions?.attributeLabel,
+            attribute: this.productCardOptions?.attribute.label,
             itemIndex: index,
             itemCount: this.productCardOptions.itemCount,
             price:
@@ -764,7 +740,7 @@ export class ConfiguratorAttributeProductCardComponent
       this.translation
         .translate('configurator.a11y.itemOfAttributeSelectedPressToUnselect', {
           item: product.code,
-          attribute: this.productCardOptions?.attributeLabel,
+          attribute: this.productCardOptions?.attribute.label,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
         })
@@ -785,7 +761,7 @@ export class ConfiguratorAttributeProductCardComponent
       this.translation
         .translate('configurator.a11y.itemOfAttributeUnselectedWithPrice', {
           item: product.code,
-          attribute: this.productCardOptions?.attributeLabel,
+          attribute: this.productCardOptions?.attribute.label,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
           price:
@@ -798,7 +774,7 @@ export class ConfiguratorAttributeProductCardComponent
       this.translation
         .translate('configurator.a11y.itemOfAttributeUnselected', {
           item: product.code,
-          attribute: this.productCardOptions?.attributeLabel,
+          attribute: this.productCardOptions?.attribute.label,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
         })

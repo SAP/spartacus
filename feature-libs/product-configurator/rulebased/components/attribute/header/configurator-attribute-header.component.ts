@@ -355,7 +355,7 @@ export class ConfiguratorAttributeHeaderComponent
    *
    * @returns Messages grouped by severity
    */
-  get messages(): ConfiguratorMessagesView {
+  getContainerMessages(): ConfiguratorMessagesView {
     return this.configuratorMessageService.enrichMessagesWithContainerContext(
       this.configuratorMessageService.splitMessagesBySeverity(
         this.attribute.container?.messages
@@ -378,15 +378,12 @@ export class ConfiguratorAttributeHeaderComponent
    * Retrieves info, warning, and error message groups of the bound container.
    * Container min/max info and required errors are rendered first.
    *
-   * @param messages - Messages of the bound container
    * @param showRequiredMessage - Whether the required message should be shown
    * @returns - message groups
    */
-  getMessageGroups(
-    messages: ConfiguratorMessagesView,
-    showRequiredMessage = false
-  ): ConfiguratorMessageGroup[] {
-    const messagesWithRequired =
+  getMessageGroups(showRequiredMessage = false): ConfiguratorMessageGroup[] {
+    const messages = this.getContainerMessages();
+    const messagesView =
       showRequiredMessage && this.isContainerSelection()
         ? this.configuratorMessageService.enrichMessagesWithContainerContext(
             messages,
@@ -404,34 +401,9 @@ export class ConfiguratorAttributeHeaderComponent
           )
         : messages;
 
-    const severityGroups: ConfiguratorMessageGroup[] = [
-      {
-        messages: messagesWithRequired.infoMessages,
-        messageClass: 'cx-info-msg',
-        showIcon: false,
-        uiKeyPrefix: 'info-msg',
-      },
-      {
-        messages: messagesWithRequired.errorMessages,
-        messageClass: 'cx-error-msg',
-        iconType: this.iconTypes.ERROR,
-        showIcon: true,
-        uiKeyPrefix: 'error-msg',
-        role: 'alert',
-      },
-      {
-        messages: messagesWithRequired.warningMessages,
-        messageClass: 'cx-warning-msg',
-        iconType: this.iconTypes.WARNING,
-        showIcon: true,
-        uiKeyPrefix: 'warning-msg',
-      },
-    ].filter((group) => group.messages.length > 0);
-
     const groups =
       this.configuratorMessageService.prependContainerContextMessageGroups(
-        severityGroups,
-        messagesWithRequired,
+        messagesView,
         {
           containerInfoMessageClass: 'cx-container-info-msg',
           requiredErrorMessageClass: 'cx-required-error-msg',

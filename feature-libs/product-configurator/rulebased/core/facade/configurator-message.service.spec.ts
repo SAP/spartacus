@@ -213,14 +213,6 @@ describe('ConfiguratorMessageService', () => {
   describe('prependContainerContextMessageGroups', () => {
     it('should place container context groups before severity groups', () => {
       const groups = service.prependContainerContextMessageGroups(
-        [
-          {
-            messages: ['Error'],
-            messageClass: 'error',
-            showIcon: true,
-            uiKeyPrefix: 'error-msg',
-          },
-        ],
         {
           infoMessages: [],
           warningMessages: [],

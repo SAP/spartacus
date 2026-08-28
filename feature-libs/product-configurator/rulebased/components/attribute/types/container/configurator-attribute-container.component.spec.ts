@@ -678,8 +678,8 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       );
 
       expect(options.multiSelect).toBe(true);
-      expect(options.attributeId).toBe(1111);
-      expect(options.attributeName).toBe('attributeName');
+      expect(options.attribute.attrCode).toBe(1111);
+      expect(options.attribute.name).toBe('attributeName');
       expect(options.itemCount).toBe(1);
       expect(options.itemIndex).toBe(0);
       expect(options.productBoundValue).toEqual({
@@ -741,13 +741,13 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       expect(secondAvailableCardOptions.includeContainerContextMessages).toBe(
         true
       );
-      expect(firstAvailableCardOptions.rows).toBe(
+      expect(firstAvailableCardOptions.attribute.container?.rows).toBe(
         component.attribute.container?.rows
       );
-      expect(firstAvailableCardOptions.attributeRequired).toBe(
+      expect(firstAvailableCardOptions.attribute.required).toBe(
         component.attribute.required
       );
-      expect(firstAvailableCardOptions.attributeIncomplete).toBe(
+      expect(firstAvailableCardOptions.attribute.incomplete).toBe(
         component.attribute.incomplete
       );
     });

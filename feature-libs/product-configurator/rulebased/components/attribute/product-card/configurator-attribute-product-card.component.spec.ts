@@ -296,6 +296,12 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       hideRemoveButton: false,
       multiSelect: false,
       productBoundValue: value,
+      attribute: {
+        attrCode: 123,
+        label: 'Attribute Label',
+        name: 'Attribute Name',
+        container: { rows: [] },
+      },
       singleDropdown: false,
       withQuantity: true,
       attributeId: 123,
@@ -562,6 +568,11 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           '1111-2222',
           'Lorem Ipsum Dolor'
         ),
+        attribute: {
+          attrCode: 123,
+          label: 'Attribute Label',
+          name: 'Attribute Name',
+        },
         singleDropdown: false,
         withQuantity: true,
         disableAllButtons: true,
@@ -641,6 +652,11 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           '1111-2222',
           'Lorem Ipsum Dolor'
         ),
+        attribute: {
+          attrCode: 123,
+          label: 'Attribute Label',
+          name: 'Attribute Name',
+        },
         singleDropdown: false,
         withQuantity: true,
         attributeId: 123,
@@ -1463,7 +1479,8 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         'btn-secondary',
         0,
         'aria-describedby',
-        'cx-configurator--label--' + component.productCardOptions.attributeName,
+        'cx-configurator--label--' +
+          component.productCardOptions.attribute.name,
         'configurator.button.select'
       );
     });
@@ -1793,26 +1810,26 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
-        '.cx-container-error-msg',
+        '.cx-error-msg',
         2
       );
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-container-error-msg',
+        '.cx-error-msg',
         'Too many units'
       );
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-container-error-msg',
+        '.cx-error-msg',
         'Invalid selection',
         1
       );
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.container-error-symbol'
+        '.cx-error-msg cx-icon'
       );
     });
 
@@ -1834,19 +1851,19 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
-        '.cx-container-info-msg',
+        '.cx-info-msg',
         2
       );
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-container-info-msg',
+        '.cx-info-msg',
         'Check quantity'
       );
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-container-info-msg',
+        '.cx-info-msg',
         'Review selection',
         1
       );
@@ -2036,9 +2053,11 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     it('should prepend container context messages before row messages', () => {
       component.productCardOptions.multiSelect = true;
       component.productCardOptions.includeContainerContextMessages = true;
-      component.productCardOptions.rows = [{ id: '1', selected: true }];
-      component.productCardOptions.attributeRequired = true;
-      component.productCardOptions.attributeIncomplete = true;
+      component.productCardOptions.attribute.container = {
+        rows: [{ id: '1', selected: true }],
+      };
+      component.productCardOptions.attribute.required = true;
+      component.productCardOptions.attribute.incomplete = true;
       component.productCardOptions.groupId = 'group-id';
       setProductBoundValueAttributes(component, false);
       setContainerRowMessages([
@@ -2055,12 +2074,12 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         maxRows: 4,
       } as any as Configurator.ContainerRow;
 
-      const groups = component.getContainerMessageGroups(takeMessages());
+      const groups = component.getMessageGroups(takeMessages());
 
       expect(groups.map((group) => group.uiKeyPrefix)).toEqual([
         'row-container-info-msg',
         'row-required-msg',
-        'row-warning-msg',
+        'warning-msg',
       ]);
     });
 
@@ -2078,20 +2097,16 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         },
       ]);
 
-      const groups = component.getContainerMessageGroups(takeMessages());
-      const errors = groups.find(
-        (group) => group.uiKeyPrefix === 'row-error-msg'
-      );
+      const groups = component.getMessageGroups(takeMessages());
+      const errors = groups.find((group) => group.uiKeyPrefix === 'error-msg');
 
       expect(errors?.messages).toEqual(['Too many units']);
-      expect(errors?.messageClass).toBe(
-        'cx-product-card-rows cx-container-error-msg'
-      );
-      expect(errors?.iconClass).toBe('container-error-symbol');
+      expect(errors?.messageClass).toBe('cx-error-msg');
+      expect(errors?.iconClass).toBeUndefined();
       expect(errors?.showIcon).toBe(true);
-      expect(errors?.uiKeyPrefix).toBe('row-error-msg');
+      expect(errors?.uiKeyPrefix).toBe('error-msg');
       expect(
-        groups.find((group) => group.uiKeyPrefix === 'row-info-msg')
+        groups.find((group) => group.uiKeyPrefix === 'info-msg')
       ).toBeUndefined();
     });
 
@@ -2101,7 +2116,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       setContainerRowMessages([
         {
           message: 'Too many units',
-          severity: Configurator.MessageSeverity.WARNING,
+          severity: Configurator.MessageSeverity.ERROR,
         },
         {
           message: 'Check quantity',
@@ -2109,25 +2124,15 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         },
       ]);
 
-      const groups = component.getContainerMessageGroups(takeMessages());
-      const info = groups.find((group) => group.uiKeyPrefix === 'row-info-msg');
-      const warning = groups.find(
-        (group) => group.uiKeyPrefix === 'row-warning-msg'
-      );
+      const groups = component.getMessageGroups(takeMessages());
+      const info = groups.find((group) => group.uiKeyPrefix === 'info-msg');
+      const error = groups.find((group) => group.uiKeyPrefix === 'error-msg');
 
       expect(info?.messages).toEqual(['Check quantity']);
-      expect(info?.messageClass).toBe(
-        'cx-product-card-rows cx-container-info-msg'
-      );
+      expect(info?.messageClass).toBe('cx-info-msg');
       expect(info?.showIcon).toBe(false);
-      expect(info?.uiKeyPrefix).toBe('row-info-msg');
-      expect(warning?.messages).toEqual(['Too many units']);
-      expect(warning?.messageClass).toBe(
-        'cx-product-card-rows cx-container-warning-msg'
-      );
-      expect(warning?.iconClass).toBe('container-warning-symbol');
-      expect(warning?.showIcon).toBe(true);
-      expect(warning?.uiKeyPrefix).toBe('row-warning-msg');
+      expect(info?.uiKeyPrefix).toBe('info-msg');
+      expect(error).toBeUndefined();
     });
   });
 

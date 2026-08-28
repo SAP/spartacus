@@ -145,7 +145,6 @@ export class ConfiguratorMessageService {
     context: ConfiguratorContainerMessagesContext
   ): ConfiguratorMessagesView {
     const enriched: ConfiguratorMessagesView = { ...view };
-
     if (context.includeContainerInfo) {
       const containerInfo = context.getContainerRowInfoKey(
         context.minRows,
@@ -176,16 +175,51 @@ export class ConfiguratorMessageService {
   }
 
   /**
-   * Prepends container info and required message groups before other groups.
+   * Builds severity based message groups (info, error, warning) from a
+   * message view, keeping only the groups that actually contain messages.
    *
-   * @param groups - Message groups built from engine messages
-   * @param messages - View that may contain container context messages
-   * @param options - Styling and icon configuration for the prepended groups
-   * @returns Groups with container context messages first
+   * @param messages - Messages grouped by severity
+   * @returns Non-empty severity message groups
+   */
+  buildSeverityMessageGroups(
+    messages: ConfiguratorMessagesView
+  ): ConfiguratorMessageGroup[] {
+    return [
+      {
+        messages: messages.infoMessages,
+        messageClass: 'cx-info-msg',
+        showIcon: false,
+        uiKeyPrefix: 'info-msg',
+      },
+      {
+        messages: messages.errorMessages,
+        messageClass: 'cx-error-msg',
+        iconType: ICON_TYPE.ERROR,
+        showIcon: true,
+        uiKeyPrefix: 'error-msg',
+        role: 'alert',
+      },
+      {
+        messages: messages.warningMessages,
+        messageClass: 'cx-warning-msg',
+        iconType: ICON_TYPE.WARNING,
+        showIcon: true,
+        uiKeyPrefix: 'warning-msg',
+      },
+    ].filter((group) => group.messages.length > 0);
+  }
+
+  /**
+   * Builds the severity message groups from the given view and prepends the
+   * container info and required message groups before them.
+   *
+   * @param messagesView - View that may contain container context messages view
+   * @param options - Styling and icon configuration for the prepended messageGroups
+   * @returns Groups with container context messagesView first, followed by the
+   * severity based message groups
    */
   prependContainerContextMessageGroups(
-    groups: ConfiguratorMessageGroup[],
-    messages: ConfiguratorMessagesView,
+    messagesView: ConfiguratorMessagesView,
     options: {
       containerInfoMessageClass: string;
       requiredErrorMessageClass: string;
@@ -195,20 +229,21 @@ export class ConfiguratorMessageService {
       requiredErrorUiKeyPrefix: string;
     }
   ): ConfiguratorMessageGroup[] {
+    const messageGroups = this.buildSeverityMessageGroups(messagesView);
     const prependedGroups: ConfiguratorMessageGroup[] = [];
 
-    if (messages.containerInfoMessages?.length) {
+    if (messagesView.containerInfoMessages?.length) {
       prependedGroups.push({
-        messages: messages.containerInfoMessages,
+        messages: messagesView.containerInfoMessages,
         messageClass: options.containerInfoMessageClass,
         showIcon: false,
         uiKeyPrefix: options.containerInfoUiKeyPrefix,
       });
     }
 
-    if (messages.requiredErrorMessages?.length) {
+    if (messagesView.requiredErrorMessages?.length) {
       prependedGroups.push({
-        messages: messages.requiredErrorMessages,
+        messages: messagesView.requiredErrorMessages,
         messageClass: options.requiredErrorMessageClass,
         iconClass: options.requiredErrorIconClass,
         iconType: options.iconTypeError,
@@ -218,6 +253,6 @@ export class ConfiguratorMessageService {
       });
     }
 
-    return [...prependedGroups, ...groups];
+    return [...prependedGroups, ...messageGroups];
   }
 }
