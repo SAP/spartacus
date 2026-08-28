@@ -453,11 +453,11 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(mappedConfiguration.messages).toEqual([
         {
           message: 'Check zoom range',
-          severity: Configurator.MessageSeverity.WARNING,
+          severity: Configurator.MessageSeverity.ERROR,
         },
         {
           message: 'Info only',
-          severity: Configurator.MessageSeverity.INFO,
+          severity: Configurator.MessageSeverity.WARNING,
         },
       ]);
       expect(mappedConfiguration.errorMessages?.length).toBe(2);
@@ -2412,11 +2412,11 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(rowGroup.messages).toEqual([
         {
           message: 'Check zoom range',
-          severity: Configurator.MessageSeverity.WARNING,
+          severity: Configurator.MessageSeverity.ERROR,
         },
         {
           message: 'Info only',
-          severity: Configurator.MessageSeverity.INFO,
+          severity: Configurator.MessageSeverity.WARNING,
         },
       ]);
 

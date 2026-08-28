@@ -11,7 +11,7 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { ConfiguratorTranslatableMessage } from '../../core/facade/configurator-message.service';
 
 /**
- * Presentational component that renders a list of configurator messages,
+ * Presentational component that renders a list of messages,
  * each optionally with a severity icon and message text. Consumers pass styling,
  * icon type, icon visibility, ARIA role, and an optional id prefix so the same
  * component can be reused on product cards, attribute headers, and similar surfaces.

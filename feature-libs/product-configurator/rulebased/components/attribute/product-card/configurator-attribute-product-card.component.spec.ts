@@ -1757,7 +1757,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       setContainerRowMessages([
         {
           message: 'Too many units',
-          severity: Configurator.MessageSeverity.WARNING,
+          severity: Configurator.MessageSeverity.ERROR,
         },
       ]);
       fixture.detectChanges();
@@ -1781,11 +1781,11 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       setContainerRowMessages([
         {
           message: 'Too many units',
-          severity: Configurator.MessageSeverity.WARNING,
+          severity: Configurator.MessageSeverity.ERROR,
         },
         {
           message: 'Invalid selection',
-          severity: Configurator.MessageSeverity.WARNING,
+          severity: Configurator.MessageSeverity.ERROR,
         },
       ]);
       fixture.detectChanges();
@@ -1793,26 +1793,26 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
-        '.cx-container-warning-msg',
+        '.cx-container-error-msg',
         2
       );
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-container-warning-msg',
+        '.cx-container-error-msg',
         'Too many units'
       );
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-container-warning-msg',
+        '.cx-container-error-msg',
         'Invalid selection',
         1
       );
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.container-warning-symbol'
+        '.container-error-symbol'
       );
     });
 
@@ -2047,7 +2047,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           severity: Configurator.MessageSeverity.WARNING,
         },
       ]);
-      // setContainerRowMessages resets containerRow, so apply the min/max rows afterwards.
+      // setContainerRowMessages resets containerRow, so apply the min/max rows afterward.
       // Cast to `any` to avoid strict typing issues in the test helper.
       component.productCardOptions.containerRow = {
         ...(component.productCardOptions.containerRow as any),
@@ -2060,6 +2060,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       expect(groups.map((group) => group.uiKeyPrefix)).toEqual([
         'row-container-info-msg',
         'row-required-msg',
+        'row-warning-msg',
       ]);
     });
 
@@ -2069,7 +2070,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       setContainerRowMessages([
         {
           message: 'Too many units',
-          severity: Configurator.MessageSeverity.WARNING,
+          severity: Configurator.MessageSeverity.ERROR,
         },
         {
           message: 'Check quantity',
@@ -2078,17 +2079,17 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       ]);
 
       const groups = component.getContainerMessageGroups(takeMessages());
-      const warnings = groups.find(
-        (group) => group.uiKeyPrefix === 'row-warning-msg'
+      const errors = groups.find(
+        (group) => group.uiKeyPrefix === 'row-error-msg'
       );
 
-      expect(warnings?.messages).toEqual(['Too many units']);
-      expect(warnings?.messageClass).toBe(
-        'cx-product-card-rows cx-container-warning-msg'
+      expect(errors?.messages).toEqual(['Too many units']);
+      expect(errors?.messageClass).toBe(
+        'cx-product-card-rows cx-container-error-msg'
       );
-      expect(warnings?.iconClass).toBe('container-warning-symbol');
-      expect(warnings?.showIcon).toBe(true);
-      expect(warnings?.uiKeyPrefix).toBe('row-warning-msg');
+      expect(errors?.iconClass).toBe('container-error-symbol');
+      expect(errors?.showIcon).toBe(true);
+      expect(errors?.uiKeyPrefix).toBe('row-error-msg');
       expect(
         groups.find((group) => group.uiKeyPrefix === 'row-info-msg')
       ).toBeUndefined();
@@ -2110,6 +2111,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       const groups = component.getContainerMessageGroups(takeMessages());
       const info = groups.find((group) => group.uiKeyPrefix === 'row-info-msg');
+      const warning = groups.find(
+        (group) => group.uiKeyPrefix === 'row-warning-msg'
+      );
 
       expect(info?.messages).toEqual(['Check quantity']);
       expect(info?.messageClass).toBe(
@@ -2117,9 +2121,13 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       );
       expect(info?.showIcon).toBe(false);
       expect(info?.uiKeyPrefix).toBe('row-info-msg');
-      expect(
-        groups.find((group) => group.uiKeyPrefix === 'row-warning-msg')
-      ).toBeUndefined();
+      expect(warning?.messages).toEqual(['Too many units']);
+      expect(warning?.messageClass).toBe(
+        'cx-product-card-rows cx-container-warning-msg'
+      );
+      expect(warning?.iconClass).toBe('container-warning-symbol');
+      expect(warning?.showIcon).toBe(true);
+      expect(warning?.uiKeyPrefix).toBe('row-warning-msg');
     });
   });
 
@@ -2140,7 +2148,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       const params = component.extractPriceFormulaParameters();
       expect(params.price).toBe(productBoundValue.valuePrice);
-      expect(params.isLightedUp).toBeTrue();
+      expect(params.isLightedUp).toBe(true);
       expect((params as any).quantity).toBeUndefined();
     });
 
@@ -2168,23 +2176,23 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       expect((params as any).priceTotal).toBe(
         productBoundValue.valuePriceTotal
       );
-      expect(params.isLightedUp).toBeTrue();
+      expect(params.isLightedUp).toBe(true);
     });
 
     it('should determine product card selection correctly', () => {
       // selected and not single dropdown => true
       setProductBoundValueAttributes(component, true);
       component.productCardOptions.singleDropdown = false;
-      expect(component.isProductCardSelected()).toBeTrue();
+      expect(component.isProductCardSelected()).toBe(true);
 
       // singleDropdown true => false
       component.productCardOptions.singleDropdown = true;
-      expect(component.isProductCardSelected()).toBeFalse();
+      expect(component.isProductCardSelected()).toBe(false);
 
       // not selected => false
       setProductBoundValueAttributes(component, false);
       component.productCardOptions.singleDropdown = false;
-      expect(component.isProductCardSelected()).toBeFalse();
+      expect(component.isProductCardSelected()).toBe(false);
     });
 
     it('should emit row action and close menu onHandleRowAction', () => {

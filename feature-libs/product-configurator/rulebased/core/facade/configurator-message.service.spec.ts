@@ -207,8 +207,8 @@ describe('ConfiguratorMessageService', () => {
     it('should keep warnings only for selected products', () => {
       expect(service.filterMessagesByProductSelection(view, true)).toEqual({
         infoMessages: [],
-        warningMessages: ['Warning'],
-        errorMessages: [],
+        warningMessages: [],
+        errorMessages: ['Error'],
         containerInfoMessages: [],
         requiredErrorMessages: [],
       });
@@ -217,8 +217,8 @@ describe('ConfiguratorMessageService', () => {
     it('should keep info and errors only for unselected products', () => {
       expect(service.filterMessagesByProductSelection(view, false)).toEqual({
         infoMessages: ['Info'],
-        warningMessages: [],
-        errorMessages: ['Error'],
+        warningMessages: ['Warning'],
+        errorMessages: [],
         containerInfoMessages: [
           {
             key: 'configurator.attribute.containerMinRows',

@@ -25,9 +25,6 @@ export interface ConfiguratorMessagesView {
   requiredErrorMessages?: Translatable[];
 }
 
-/**
- * Display data for one severity of configurator messages.
- */
 export interface ConfiguratorMessageGroup {
   /**
    * Messages of this severity. Plain strings are rendered as-is, while
@@ -70,9 +67,7 @@ export interface ConfiguratorContainerMessagesContext {
 /**
  * Reusable service that groups, merges, filters and enriches configurator
  * messages so that the logic can be shared by any component that renders
- * configurator messages. Keeping this logic in a service (rather than in the
- * presentational `ConfiguratorMessageComponent`) allows customers to override
- * the component while still being able to reuse the message processing.
+ * configurator messages.
  */
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorMessageService {
@@ -80,7 +75,7 @@ export class ConfiguratorMessageService {
    * Splits configurator messages into severity buckets.
    * A message without severity is treated like `info`.
    *
-   * @param messages - Messages issued by the configuration engine
+   * @param messages - Messages by the configuration engine
    * @returns Messages grouped by severity
    */
   splitMessagesBySeverity(
@@ -141,7 +136,8 @@ export class ConfiguratorMessageService {
 
   /**
    * Filters messages for a container product card by selection state.
-   * Selected products show warnings; unselected products show info and errors.
+   * Selected products show error messages,
+   * unselected products show info, error, container relevant and required messages.
    *
    * @param view - Messages grouped by severity
    * @param selected - Whether the product card is selected
@@ -155,7 +151,7 @@ export class ConfiguratorMessageService {
       return {
         ...view,
         infoMessages: [],
-        errorMessages: [],
+        warningMessages: [],
         containerInfoMessages: [],
         requiredErrorMessages: [],
       };
@@ -163,7 +159,7 @@ export class ConfiguratorMessageService {
 
     return {
       ...view,
-      warningMessages: [],
+      errorMessages: [],
     };
   }
 

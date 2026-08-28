@@ -853,17 +853,27 @@ export class CpqConfiguratorNormalizer
       }));
   }
 
+  /**
+   * Converts CPQ message severity to the configurator-independent model.
+   *
+   * Note: This is NOT a one-to-one mapping. CPQ severity levels are intentionally
+   * escalated to be more strict in the configurator model:
+   * - CPQ INFO is mapped to CONFIGURATOR WARNING (informational messages become warnings)
+   * - CPQ WARNING is mapped to CONFIGURATOR ERROR (warnings become errors)
+   * This escalation ensures that important information from CPQ is more prominently
+   * surfaced to users in the configurator UI.
+   *
+   * @param severity - CPQ message severity
+   * @returns Escalated Configurator message severity, or `undefined` if the CPQ severity is not recognized
+   * @protected
+   */
   protected convertMessageSeverity(
-    severity?: string
+    severity?: Cpq.MessageSeverity
   ): Configurator.MessageSeverity | undefined {
     switch (severity) {
       case Cpq.MessageSeverity.INFO:
-      case Configurator.MessageSeverity.INFO:
-        return Configurator.MessageSeverity.INFO;
-      case Cpq.MessageSeverity.WARNING:
-      case Configurator.MessageSeverity.WARNING:
         return Configurator.MessageSeverity.WARNING;
-      case Configurator.MessageSeverity.ERROR:
+      case Cpq.MessageSeverity.WARNING:
         return Configurator.MessageSeverity.ERROR;
       default:
         return undefined;

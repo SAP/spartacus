@@ -44,8 +44,8 @@ describe('ConfiguratorMessageComponent', () => {
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     component.messages = ['First message', 'Second message'];
-    component.messageClass = 'container-error-message';
-    component.iconClass = 'container-error-symbol';
+    component.messageClass = 'cx-error-message';
+    component.iconClass = 'cx-error-symbol';
     component.iconType = ICON_TYPE.ERROR;
     component.showIcon = true;
     component.idPrefix = 'cx-configurator--row-error-msg--888';
@@ -84,19 +84,19 @@ describe('ConfiguratorMessageComponent', () => {
     CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
       expect,
       htmlElem,
-      '.container-error-message',
+      '.cx-error-message',
       2
     );
     CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
-      '.container-error-message',
+      '.cx-error-message',
       'First message'
     );
     CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
-      '.container-error-message',
+      '.cx-error-message',
       'Second message',
       1
     );
@@ -108,7 +108,7 @@ describe('ConfiguratorMessageComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.container-error-symbol'
+      '.cx-error-symbol'
     );
   });
 
@@ -161,7 +161,7 @@ describe('ConfiguratorMessageComponent', () => {
         expect,
         htmlElem,
         'div',
-        'container-error-message',
+        'cx-error-message',
         0,
         'aria-live',
         'assertive'
@@ -170,7 +170,7 @@ describe('ConfiguratorMessageComponent', () => {
         expect,
         htmlElem,
         'div',
-        'container-error-message',
+        'cx-error-message',
         0,
         'aria-atomic',
         'true'
@@ -179,7 +179,7 @@ describe('ConfiguratorMessageComponent', () => {
         expect,
         htmlElem,
         'div',
-        'container-error-message',
+        'cx-error-message',
         0,
         'role',
         'alert'
@@ -188,7 +188,7 @@ describe('ConfiguratorMessageComponent', () => {
         expect,
         htmlElem,
         'div',
-        'container-error-message',
+        'cx-error-message',
         0,
         'aria-label',
         'First message'
@@ -197,7 +197,7 @@ describe('ConfiguratorMessageComponent', () => {
         expect,
         htmlElem,
         'div',
-        'container-error-message',
+        'cx-error-message',
         0,
         'id',
         'cx-configurator--row-error-msg--888-0'
@@ -206,7 +206,7 @@ describe('ConfiguratorMessageComponent', () => {
         expect,
         htmlElem,
         'div',
-        'container-error-message',
+        'cx-error-message',
         1,
         'id',
         'cx-configurator--row-error-msg--888-1'
