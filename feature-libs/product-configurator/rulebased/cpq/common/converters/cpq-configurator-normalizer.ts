@@ -24,9 +24,6 @@ export class CpqConfiguratorNormalizer
   /**
    * Converts a CPQ configuration to the configurator-independent model.
    *
-   * `errorMessages` and `warningMessages` are deprecated since 221121.17.
-   * Use `messages` instead, which will be used in the components.
-   *
    * @param source - CPQ configuration
    * @param target - optional target configuration to be filled
    */
@@ -780,8 +777,8 @@ export class CpqConfiguratorNormalizer
     const nestedConfiguration = source.configuration;
     const row: Configurator.ContainerRow = {
       id: source.id,
-      minRows: 2, //source.minRows,
-      maxRows: 10, //source.maxRows,
+      minRows: source.minRows,
+      maxRows: source.maxRows,
       productSystemId: source.productSystemId,
       productName: source.productName,
       selected: source.selected,
