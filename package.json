@@ -216,6 +216,7 @@
     "@nx/eslint-plugin": "^22.7.6",
     "@nx/jest": "^22.7.6",
     "@nx/vite": "^22.7.6",
+    "@nx/vitest": "^22.7.8",
     "@nx/workspace": "^22.7.6",
     "@sapui5/ts-types-esm": "1.120.1",
     "@schematics/angular": "^21.2.19",

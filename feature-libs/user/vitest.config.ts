@@ -7,19 +7,21 @@
 import angular from '@analogjs/vite-plugin-angular';
 import { defineConfig } from 'vitest/config';
 import path from 'path';
-import { fileURLToPath } from 'url';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const root = `${import.meta.dirname}/../..`;
 
 export default defineConfig({
-  root: __dirname,
+  root: import.meta.dirname,
   plugins: [angular()],
   resolve: {
+    tsconfigPaths: true,
     alias: {
-      'core-libs/storefront/shared/test/mock-feature-directive': path.resolve(__dirname, '../../core-libs/storefront/shared/test/mock-feature-directive.ts'),
-      'core-libs/core/src/features-config/feature-toggles/testing': path.resolve(__dirname, '../../core-libs/core/src/features-config/feature-toggles/testing/index.ts'),
-      'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe': path.resolve(__dirname, '../../core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe.ts'),
-      'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module': path.resolve(__dirname, '../../core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module.ts'),
+      '@spartacus/core': path.resolve(__dirname, '../../core-libs/core/public_api.ts'),
+      '@spartacus/storefront': path.resolve(__dirname, '../../core-libs/storefront/public_api.ts'),
+      'core-libs/storefront/shared/test/mock-feature-directive': `${root}/core-libs/storefront/shared/test/mock-feature-directive.ts`,
+      'core-libs/core/src/features-config/feature-toggles/testing': `${root}/core-libs/core/src/features-config/feature-toggles/testing/index.ts`,
+      'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe': `${root}/core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe.ts`,
+      'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module': `${root}/core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module.ts`,
     },
   },
   test: {
@@ -30,30 +32,23 @@ export default defineConfig({
     setupFiles: ['../../testing/setup-vitest.ts'],
     include: ['**/*.spec.ts'],
     typecheck: {
-      tsconfig: path.resolve(__dirname, 'tsconfig.spec.json'),
+      tsconfig: `${import.meta.dirname}/tsconfig.spec.json`,
     },
     coverage: {
-      enabled: true,
       provider: 'v8',
-      reporter: ['text-summary', 'html', 'lcov'],
-      reportsDirectory: path.resolve(__dirname, '../../coverage/user'),
-      include: ['**/*.ts'],
+      reporter: ['lcov'],
+      reportsDirectory: `${import.meta.dirname}/../../coverage/user`,
       exclude: [
-        '**/*.spec.ts',
         '**/public_api.ts',
         '**/index.ts',
         '**/*.module.ts',
-        '**/vitest.config.ts',
-        '**/assets/**',
-        '**/testing/**',
-        '**/schematics/**',
-        'setup-jest.ts',
         '../../testing/setup-vitest.ts',
       ],
       thresholds: {
-        statements: 80,
-        lines: 80,
-        functions: 80,
+        statements: 90,
+        lines: 90,
+        branches: 80,
+        functions: 90,
       },
     },
     reporters: [
@@ -61,7 +56,7 @@ export default defineConfig({
       [
         'junit',
         {
-          outputFile: path.resolve(__dirname, '../../unit-tests-reports/unit-test-user.xml'),
+          outputFile: `${import.meta.dirname}/../../unit-tests-reports/unit-test-user.xml`,
         },
       ],
     ],

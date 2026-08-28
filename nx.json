@@ -3,6 +3,14 @@
     "appsDir": "projects/storefrontapp",
     "libsDir": "feature-libs"
   },
+  "plugins": [
+    {
+      "plugin": "@nx/vitest",
+      "options": {
+        "testTargetName": "test-vitest"
+      }
+    }
+  ],
   "targetDefaults": {
     "build": {
       "cache": true
