@@ -13,7 +13,15 @@ import {
 import 'zone.js';
 import 'zone.js/testing';
 
-getTestBed().initTestEnvironment(
-  BrowserTestingModule,
-  platformBrowserTesting()
-);
+const testBed = getTestBed();
+
+beforeEach(() => {
+  testBed.resetTestingModule();
+});
+
+if (!testBed.platform) {
+  testBed.initTestEnvironment(
+    BrowserTestingModule,
+    platformBrowserTesting()
+  );
+}
