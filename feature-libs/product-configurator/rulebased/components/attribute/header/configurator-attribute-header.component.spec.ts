@@ -386,7 +386,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-container-info'
+        '.cx-container-info-msg'
       );
     });
 
@@ -396,7 +396,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-container-info'
+        '.cx-container-info-msg'
       );
     });
 
@@ -406,7 +406,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-container-info',
+        '.cx-container-info-msg',
         'configurator.attribute.containerMinMaxRows maxRows:5 minRows:2'
       );
     });
@@ -417,7 +417,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-container-info',
+        '.cx-container-info-msg',
         'configurator.attribute.containerMinRows count:2'
       );
     });
@@ -428,7 +428,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-container-info',
+        '.cx-container-info-msg',
         'configurator.attribute.containerMaxRows count:5'
       );
     });
@@ -439,7 +439,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-container-info',
+        '.cx-container-info-msg',
         'configurator.attribute.containerMaxRows count:10'
       );
     });
@@ -450,7 +450,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-container-info',
+        '.cx-container-info-msg',
         'configurator.attribute.containerExactRows count:1'
       );
     });
@@ -461,7 +461,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-container-info'
+        '.cx-container-info-msg'
       );
     });
 
@@ -493,7 +493,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       );
     });
 
-    it('should render an error message', () => {
+    it('should render a warning message', () => {
       component.attribute.container = {
         rows: [],
         messages: [
@@ -507,12 +507,12 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-error-msg',
+        '.cx-warning-msg',
         'Too many units'
       );
     });
 
-    it('should render error messages after the required message', () => {
+    it('should render warning messages after the required message', () => {
       component.attribute.required = true;
       component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
       component.attribute.container = {
@@ -535,12 +535,12 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-error-msg',
+        '.cx-warning-msg',
         'Too many units'
       );
     });
 
-    it('should render multiple error messages', () => {
+    it('should render multiple warning messages', () => {
       component.attribute.container = {
         rows: [],
         messages: [
@@ -558,25 +558,25 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectNumberOfElements(
         expect,
         htmlElem,
-        '.cx-error-msg',
+        '.cx-warning-msg',
         2
       );
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-error-msg',
+        '.cx-warning-msg',
         'Too many units'
       );
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-error-msg',
+        '.cx-warning-msg',
         'Invalid selection',
         1
       );
     });
 
-    it('should render warning messages for info severity', () => {
+    it('should render info messages for info severity', () => {
       component.attribute.container = {
         rows: [],
         messages: [
@@ -590,7 +590,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-warning-msg',
+        '.cx-info-msg',
         'Check quantity'
       );
     });
@@ -687,46 +687,6 @@ describe('ConfigAttributeHeaderComponent', () => {
         key: 'configurator.attribute.containerRequiredMessage',
         params: { count: 2 },
       });
-    });
-  });
-
-  describe('getContainerRemainingRequiredCount', () => {
-    it('should return minRows when no rows are selected', () => {
-      component.attribute.container = { minRows: 3, rows: [] };
-      expect(component['getContainerRemainingRequiredCount']()).toBe(3);
-    });
-
-    it('should subtract selected rows from minRows', () => {
-      component.attribute.container = {
-        minRows: 4,
-        rows: [
-          { id: '1', selected: true },
-          { id: '2', selected: true },
-          { id: '3', selected: false },
-        ],
-      };
-      expect(component['getContainerRemainingRequiredCount']()).toBe(2);
-    });
-
-    it('should default to 1 if minRows is not set', () => {
-      component.attribute.container = { rows: [] };
-      expect(component['getContainerRemainingRequiredCount']()).toBe(1);
-    });
-
-    it('should default to 1 if minRows is 0', () => {
-      component.attribute.container = { minRows: 0, rows: [] };
-      expect(component['getContainerRemainingRequiredCount']()).toBe(1);
-    });
-
-    it('should default to 1 if remaining products are zero', () => {
-      component.attribute.container = {
-        minRows: 2,
-        rows: [
-          { id: '1', selected: true },
-          { id: '2', selected: true },
-        ],
-      };
-      expect(component['getContainerRemainingRequiredCount']()).toBe(1);
     });
   });
 
@@ -1267,7 +1227,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       );
     });
 
-    it("should contain div element with 'aria-label' attribute for a container error message", () => {
+    it("should contain div element with 'aria-label' attribute for a container warning message", () => {
       component.attribute.container = {
         rows: [],
         messages: [
@@ -1282,7 +1242,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         expect,
         htmlElem,
         'div',
-        'cx-error-msg',
+        'cx-warning-msg',
         undefined,
         'aria-label',
         'Too many units'
@@ -1464,78 +1424,10 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
   });
 
-  describe('getContainerRowInfoKey', () => {
-    it('should return undefined if container is not present', () => {
-      expect(component.getContainerRowInfoKey()).toBeUndefined();
-    });
-
-    it('should return undefined if neither minRows nor maxRows is set', () => {
-      component.attribute.container = { rows: [] };
-      expect(component.getContainerRowInfoKey()).toBeUndefined();
-    });
-
-    it('should return undefined if minRows is 0 and maxRows is not set', () => {
-      component.attribute.container = { minRows: 0, rows: [] };
-      expect(component.getContainerRowInfoKey()).toBeUndefined();
-    });
-
-    it('should return undefined if minRows and maxRows are 0', () => {
-      component.attribute.container = { minRows: 0, maxRows: 0, rows: [] };
-      expect(component.getContainerRowInfoKey()).toBeUndefined();
-    });
-
-    it('should return min/max translatable if both minRows and maxRows are set and differ', () => {
-      component.attribute.container = { minRows: 1, maxRows: 4, rows: [] };
-      expect(component.getContainerRowInfoKey()).toEqual({
-        key: 'configurator.attribute.containerMinMaxRows',
-        params: { minRows: 1, maxRows: 4 },
-      });
-    });
-
-    it('should return min translatable if only minRows is set', () => {
-      component.attribute.container = { minRows: 1, rows: [] };
-      expect(component.getContainerRowInfoKey()).toEqual({
-        key: 'configurator.attribute.containerMinRows',
-        params: { count: 1 },
-      });
-    });
-
-    it('should return max translatable if only maxRows is set', () => {
-      component.attribute.container = { maxRows: 4, rows: [] };
-      expect(component.getContainerRowInfoKey()).toEqual({
-        key: 'configurator.attribute.containerMaxRows',
-        params: { count: 4 },
-      });
-    });
-
-    it('should treat minRows of 0 as no minimum', () => {
-      component.attribute.container = { minRows: 0, maxRows: 4, rows: [] };
-      expect(component.getContainerRowInfoKey()).toEqual({
-        key: 'configurator.attribute.containerMaxRows',
-        params: { count: 4 },
-      });
-    });
-
-    it('should treat maxRows of 0 as no maximum', () => {
-      component.attribute.container = { minRows: 2, maxRows: 0, rows: [] };
-      expect(component.getContainerRowInfoKey()).toEqual({
-        key: 'configurator.attribute.containerMinRows',
-        params: { count: 2 },
-      });
-    });
-
-    it('should return exact-count translatable if minRows equals maxRows', () => {
-      component.attribute.container = { minRows: 3, maxRows: 3, rows: [] };
-      expect(component.getContainerRowInfoKey()).toEqual({
-        key: 'configurator.attribute.containerExactRows',
-        params: { count: 3 },
-      });
-    });
-  });
-
   describe('messages', () => {
     it('should return empty arrays if container is not present', () => {
       expect(component.messages).toEqual({
+        infoMessages: [],
         errorMessages: [],
         warningMessages: [],
       });
@@ -1544,12 +1436,13 @@ describe('ConfigAttributeHeaderComponent', () => {
     it('should return empty arrays if list of messages is undefined', () => {
       component.attribute.container = { rows: [] };
       expect(component.messages).toEqual({
+        infoMessages: [],
         errorMessages: [],
         warningMessages: [],
       });
     });
 
-    it('should split warning severity as errors and info as warnings', () => {
+    it('should split messages by severity', () => {
       component.attribute.container = {
         rows: [],
         messages: [
@@ -1564,12 +1457,13 @@ describe('ConfigAttributeHeaderComponent', () => {
         ],
       };
       expect(component.messages).toEqual({
-        errorMessages: ['Too many units'],
-        warningMessages: ['Check quantity'],
+        infoMessages: ['Check quantity'],
+        warningMessages: ['Too many units'],
+        errorMessages: [],
       });
     });
 
-    it('should pass error and warning data to the message component', () => {
+    it('should pass error, warning, and info data to the message component', () => {
       component.attribute.container = {
         rows: [],
         messages: [
@@ -1584,15 +1478,20 @@ describe('ConfigAttributeHeaderComponent', () => {
         ],
       };
 
-      const [errors, warnings] = component.getMessageGroups(component.messages);
+      const groups = component.getMessageGroups(component.messages);
+      const warnings = groups.find(
+        (group) => group.uiKeyPrefix === 'warning-msg'
+      );
+      const info = groups.find((group) => group.uiKeyPrefix === 'info-msg');
 
-      expect(errors.messages).toEqual(['Too many units']);
-      expect(errors.messageClass).toBe('cx-error-msg');
-      expect(errors.uiKeyPrefix).toBe('error-msg');
-      expect(errors.role).toBe('alert');
-      expect(warnings.messages).toEqual(['Check quantity']);
-      expect(warnings.messageClass).toBe('cx-warning-msg');
-      expect(warnings.uiKeyPrefix).toBe('warning-msg');
+      expect(warnings?.messages).toEqual(['Too many units']);
+      expect(warnings?.messageClass).toBe('cx-warning-msg');
+      expect(warnings?.showIcon).toBe(true);
+      expect(warnings?.uiKeyPrefix).toBe('warning-msg');
+      expect(info?.messages).toEqual(['Check quantity']);
+      expect(info?.messageClass).toBe('cx-info-msg');
+      expect(info?.showIcon).toBe(false);
+      expect(info?.uiKeyPrefix).toBe('info-msg');
     });
   });
 

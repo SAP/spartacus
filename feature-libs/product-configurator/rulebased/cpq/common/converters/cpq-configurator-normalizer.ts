@@ -780,6 +780,8 @@ export class CpqConfiguratorNormalizer
     const nestedConfiguration = source.configuration;
     const row: Configurator.ContainerRow = {
       id: source.id,
+      minRows: source.minRows,
+      maxRows: source.maxRows,
       productSystemId: source.productSystemId,
       productName: source.productName,
       selected: source.selected,
@@ -861,6 +863,8 @@ export class CpqConfiguratorNormalizer
       case Cpq.MessageSeverity.WARNING:
       case Configurator.MessageSeverity.WARNING:
         return Configurator.MessageSeverity.WARNING;
+      case Configurator.MessageSeverity.ERROR:
+        return Configurator.MessageSeverity.ERROR;
       default:
         return undefined;
     }

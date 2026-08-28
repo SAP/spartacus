@@ -24,6 +24,7 @@ import {
   useFeatureStyles,
 } from '@spartacus/core';
 import {
+  CommonConfigurator,
   ConfiguratorProductScope,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
@@ -45,6 +46,9 @@ import {
   ConfiguratorMessageComponent,
   ConfiguratorMessageGroup,
   ConfiguratorMessagesView,
+  enrichMessagesWithContainerContext,
+  filterMessagesByProductSelection,
+  prependContainerContextMessageGroups,
   splitMessagesBySeverity,
 } from '../../message/configurator-message.component';
 import {
@@ -52,6 +56,7 @@ import {
   ConfiguratorPriceComponentOptions,
 } from '../../price/configurator-price.component';
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
+import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import {
   ConfiguratorAttributeQuantityComponent,
   ConfiguratorAttributeQuantityComponentOptions,
@@ -83,6 +88,17 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   itemCount: number;
   itemIndex: number;
   containerRow?: Configurator.ContainerRow;
+  /** Sibling rows of the parent container, used only to compute the remaining
+   * count for the container required message. */
+  rows?: Configurator.ContainerRow[];
+  /** Whether the parent attribute is required. */
+  attributeRequired?: boolean;
+  /** Whether the parent attribute is incomplete. */
+  attributeIncomplete?: boolean;
+  /** Whether container min/max info and required messages are shown. */
+  includeContainerContextMessages?: boolean;
+  owner?: CommonConfigurator.Owner;
+  groupId?: string;
 }
 
 @Component({
@@ -114,18 +130,29 @@ export class ConfiguratorAttributeProductCardComponent
   protected configRouterExtractorService = inject(
     ConfiguratorRouterExtractorService
   );
+  protected configUtils = inject(ConfiguratorStorefrontUtilsService);
 
   /**
    * Messages of the nested configuration that belongs to the bound container
    * row. Looked up from the row group identified by `containerRow.groupId`.
+   * When {@link ConfiguratorAttributeProductCardComponentOptions.includeContainerContextMessages}
+   * is set, container min/max info and required messages are prepended.
    */
   messages$: Observable<ConfiguratorMessagesView> =
-    this.configRouterExtractorService.extractRouterData().pipe(
-      switchMap((routerData) =>
-        this.configuratorCommonsService.getConfiguration(routerData.owner)
-      ),
-      map((configuration) => this.getMessages(configuration))
-    );
+    this.configRouterExtractorService
+      .extractRouterData()
+      .pipe(
+        switchMap((routerData) =>
+          combineLatest([
+            this.configuratorCommonsService.getConfiguration(routerData.owner),
+            this.getShowRequiredMessage$(routerData.owner),
+          ]).pipe(
+            map(([configuration, showRequiredMessage]) =>
+              this.getMessages(configuration, showRequiredMessage)
+            )
+          )
+        )
+      );
 
   product$: Observable<Product>;
   loading$ = new BehaviorSubject<boolean>(true);
@@ -254,36 +281,118 @@ export class ConfiguratorAttributeProductCardComponent
   getContainerMessageGroups(
     messages: ConfiguratorMessagesView
   ): ConfiguratorMessageGroup[] {
-    return [
+    const filteredMessages = filterMessagesByProductSelection(
+      messages,
+      !!this.productCardOptions.productBoundValue?.selected
+    );
+
+    const severityGroups: ConfiguratorMessageGroup[] = [
       {
-        messages: messages.errorMessages,
-        messageClass: 'cx-product-card-rows container-error-message',
+        messages: filteredMessages.infoMessages,
+        messageClass: 'cx-product-card-rows cx-container-info-msg',
+        showIcon: false,
+        uiKeyPrefix: 'row-info-msg',
+      },
+      {
+        messages: filteredMessages.errorMessages,
+        messageClass: 'cx-product-card-rows cx-container-error-msg',
         iconClass: 'container-error-symbol',
         iconType: this.iconType.ERROR,
+        showIcon: true,
         uiKeyPrefix: 'row-error-msg',
         role: 'alert',
       },
       {
-        messages: messages.warningMessages,
-        messageClass: 'cx-product-card-rows container-warning-message',
+        messages: filteredMessages.warningMessages,
+        messageClass: 'cx-product-card-rows cx-container-warning-msg',
         iconClass: 'container-warning-symbol',
         iconType: this.iconType.WARNING,
+        showIcon: true,
         uiKeyPrefix: 'row-warning-msg',
       },
     ].filter((group) => group.messages.length > 0);
+
+    return prependContainerContextMessageGroups(
+      severityGroups,
+      filteredMessages,
+      {
+        containerInfoMessageClass: 'cx-product-card-rows cx-container-info-msg',
+        requiredErrorMessageClass:
+          'cx-product-card-rows cx-container-error-msg',
+        requiredErrorIconClass: 'cx-container-error-symbol',
+        iconTypeError: this.iconType.ERROR,
+        containerInfoUiKeyPrefix: 'row-container-info-msg',
+        requiredErrorUiKeyPrefix: 'row-required-msg',
+      }
+    );
   }
 
   /**
    * Determines the messages to display for the bound container row.
+   * When container context messages are enabled, the row min/max info and
+   * required errors are included before row-level engine messages.
    *
    * @param configuration - Current configuration
+   * @param showRequiredMessage - Whether the required message should be shown
    * @returns Messages of the nested configuration of the bound container row
    */
   protected getMessages(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
+    showRequiredMessage = false
   ): ConfiguratorMessagesView {
     const containerRowGroup = this.getContainerRowGroup(configuration);
-    return splitMessagesBySeverity(containerRowGroup?.messages);
+    const engineMessages = splitMessagesBySeverity(containerRowGroup?.messages);
+
+    if (!this.productCardOptions.includeContainerContextMessages) {
+      return engineMessages;
+    }
+
+    return enrichMessagesWithContainerContext(engineMessages, {
+      minRows: this.productCardOptions.containerRow?.minRows,
+      maxRows: this.productCardOptions.containerRow?.maxRows,
+      rows: this.productCardOptions.rows,
+      includeContainerInfo: true,
+      includeRequiredError: showRequiredMessage,
+      getContainerRowInfoKey: (minRows, maxRows) =>
+        this.getContainerRowInfoKey(minRows, maxRows),
+      getContainerRequiredMessageKey: (minRows, rows) =>
+        this.getContainerRequiredMessageKey(minRows, rows),
+    });
+  }
+
+  /**
+   * Whether the container required message should be considered.
+   *
+   * @returns `true` when the parent attribute is required and incomplete
+   */
+  protected shouldShowContainerRequiredMessage(): boolean {
+    return (
+      !!this.productCardOptions.attributeRequired &&
+      !!this.productCardOptions.attributeIncomplete
+    );
+  }
+
+  /**
+   * Resolves whether the required message can be shown for the parent group.
+   *
+   * @param owner - Configuration owner
+   * @returns Observable that emits whether the required message is shown
+   */
+  protected getShowRequiredMessage$(
+    owner: CommonConfigurator.Owner
+  ): Observable<boolean> {
+    if (
+      !this.productCardOptions.includeContainerContextMessages ||
+      !this.productCardOptions.groupId
+    ) {
+      return of(false);
+    }
+
+    return this.configUtils
+      .isCartEntryOrGroupVisited(owner, this.productCardOptions.groupId)
+      .pipe(
+        map((visited) => visited && this.shouldShowContainerRequiredMessage())
+      );
   }
 
   /**

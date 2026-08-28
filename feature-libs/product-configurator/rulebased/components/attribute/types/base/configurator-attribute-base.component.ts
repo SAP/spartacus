@@ -5,7 +5,7 @@
  */
 
 import { inject } from '@angular/core';
-import { TranslationService } from '@spartacus/core';
+import { Translatable, TranslationService } from '@spartacus/core';
 import { Observable, of, take } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
@@ -88,13 +88,20 @@ export class ConfiguratorAttributeBaseComponent {
    */
   createAttributeValueIdForConfigurator(
     currentAttribute: Configurator.Attribute,
-    value: string
+    value?: string
   ): string {
-    return this.createValueUiKey(
-      this.getUiType(currentAttribute),
-      currentAttribute.name,
-      value
-    );
+    if (value) {
+      return this.createValueUiKey(
+        this.getUiType(currentAttribute),
+        currentAttribute.name,
+        value
+      );
+    } else {
+      return this.createAttributeUiKey(
+        this.getUiType(currentAttribute),
+        currentAttribute.name
+      );
+    }
   }
 
   protected getUiType(attribute: Configurator.Attribute): string {
@@ -370,6 +377,89 @@ export class ConfiguratorAttributeBaseComponent {
       return selectedValue.valueCode === Configurator.RetractValueCode;
     }
     return true;
+  }
+
+  /**
+   * Retrieves the translatable for container min/max row information.
+   * A bound of 0 is treated as unset so it does not appear in the text.
+   * When both bounds are set and equal, an exact-count message is used.
+   *
+   * @param minRows - optional minimum row count
+   * @param maxRows - optional maximum row count
+   * @returns the translatable, or `undefined` if there is no meaningful bound
+   */
+  getContainerRowInfoKey(
+    minRows?: number,
+    maxRows?: number
+  ): Translatable | undefined {
+    const hasMinRows = minRows != null && minRows > 0;
+    const hasMaxRows = maxRows != null && maxRows > 0;
+
+    if (hasMinRows && hasMaxRows) {
+      if (minRows === maxRows) {
+        return {
+          key: 'configurator.attribute.containerExactRows',
+          params: { count: minRows },
+        };
+      }
+      return {
+        key: 'configurator.attribute.containerMinMaxRows',
+        params: { minRows, maxRows },
+      };
+    }
+    if (hasMinRows) {
+      return {
+        key: 'configurator.attribute.containerMinRows',
+        params: { count: minRows },
+      };
+    }
+    if (hasMaxRows) {
+      return {
+        key: 'configurator.attribute.containerMaxRows',
+        params: { count: maxRows },
+      };
+    }
+    return undefined;
+  }
+
+  /**
+   * Remaining products needed to meet the container `minRows` requirement.
+   * At least 1 so i18n can still render a sensible required message.
+   *
+   * @param minRows - optional minimum row count
+   * @param rows - optional container rows used to count selected products
+   * @returns remaining product count
+   */
+  getContainerRemainingRequiredCount(
+    minRows?: number,
+    rows?: Configurator.ContainerRow[]
+  ): number {
+    const effectiveMinRows = minRows || 1;
+    const selectedRows = rows?.filter((row) => row.selected).length ?? 0;
+    return Math.max(effectiveMinRows - selectedRows, 0);
+  }
+
+  /**
+   * Retrieves the translatable for the container required message.
+   *
+   * @param minRows - optional minimum row count
+   * @param rows - optional container rows used to count selected products
+   * @returns translatable for the required message
+   */
+  getContainerRequiredMessageKey(
+    minRows?: number,
+    rows?: Configurator.ContainerRow[]
+  ): Translatable | undefined {
+    const count = this.getContainerRemainingRequiredCount(minRows, rows);
+    if (count && count >= 1) {
+      return {
+        key: 'configurator.attribute.containerRequiredMessage',
+        params: {
+          count: this.getContainerRemainingRequiredCount(minRows, rows),
+        },
+      };
+    }
+    return undefined;
   }
 
   /**

@@ -56,8 +56,4 @@
     display: flex;
     flex-direction: column;
   }
-
-  .cx-container-info {
-    @include cx-configurator-msg();
-  }
 }

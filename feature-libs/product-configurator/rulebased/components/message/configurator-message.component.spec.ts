@@ -1,10 +1,16 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { I18nTestingModule } from '@spartacus/core';
 import { ICON_TYPE, IconLoaderService } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
 import {
   ConfiguratorMessageComponent,
+  ConfiguratorMessagesView,
+  enrichMessagesWithContainerContext,
+  filterMessagesByProductSelection,
+  mergeMessagesViews,
+  prependContainerContextMessageGroups,
   splitMessagesBySeverity,
 } from './configurator-message.component';
 
@@ -29,7 +35,7 @@ describe('ConfiguratorMessageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ConfiguratorMessageComponent],
+      imports: [ConfiguratorMessageComponent, I18nTestingModule],
       providers: [
         { provide: IconLoaderService, useClass: MockIconFontLoaderService },
       ],
@@ -50,6 +56,7 @@ describe('ConfiguratorMessageComponent', () => {
     component.messageClass = 'container-error-message';
     component.iconClass = 'container-error-symbol';
     component.iconType = ICON_TYPE.ERROR;
+    component.showIcon = true;
     component.idPrefix = 'cx-configurator--row-error-msg--888';
     component.role = 'alert';
   });
@@ -114,14 +121,26 @@ describe('ConfiguratorMessageComponent', () => {
     );
   });
 
-  it('should not render an icon if iconType is not provided', () => {
-    component.iconType = undefined;
+  it('should not render an icon if showIcon is false', () => {
+    component.showIcon = false;
     fixture.detectChanges();
 
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
       'cx-icon'
+    );
+  });
+
+  it('should render translatable messages', () => {
+    component.messages = [{ key: 'configurator.attribute.containerMinRows' }];
+    component.messageClass = 'container-info-message';
+    fixture.detectChanges();
+
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.container-info-message'
     );
   });
 
@@ -207,12 +226,13 @@ describe('ConfiguratorMessageComponent', () => {
   describe('splitMessagesBySeverity', () => {
     it('should return empty arrays if messages are undefined', () => {
       expect(splitMessagesBySeverity()).toEqual({
+        infoMessages: [],
         errorMessages: [],
         warningMessages: [],
       });
     });
 
-    it('should map warning severity to errors and info to warnings', () => {
+    it('should map severities to the corresponding buckets', () => {
       expect(
         splitMessagesBySeverity([
           {
@@ -223,20 +243,239 @@ describe('ConfiguratorMessageComponent', () => {
             message: 'Check quantity',
             severity: Configurator.MessageSeverity.INFO,
           },
+          {
+            message: 'Invalid configuration',
+            severity: Configurator.MessageSeverity.ERROR,
+          },
         ])
       ).toEqual({
-        errorMessages: ['Too many units'],
-        warningMessages: ['Check quantity'],
+        infoMessages: ['Check quantity'],
+        warningMessages: ['Too many units'],
+        errorMessages: ['Invalid configuration'],
       });
     });
 
-    it('should treat messages without severity as warnings', () => {
+    it('should treat messages without severity as info', () => {
       expect(
         splitMessagesBySeverity([{ message: 'Unspecified message' }])
       ).toEqual({
+        infoMessages: ['Unspecified message'],
         errorMessages: [],
-        warningMessages: ['Unspecified message'],
+        warningMessages: [],
       });
+    });
+  });
+
+  describe('enrichMessagesWithContainerContext', () => {
+    it('should prepend container info and required messages', () => {
+      expect(
+        enrichMessagesWithContainerContext(
+          {
+            infoMessages: ['Info'],
+            warningMessages: [],
+            errorMessages: ['Error'],
+          },
+          {
+            minRows: 2,
+            maxRows: 4,
+            rows: [],
+            includeContainerInfo: true,
+            includeRequiredError: true,
+            getContainerRowInfoKey: () => ({
+              key: 'configurator.attribute.containerMinMaxRows',
+              params: { minRows: 2, maxRows: 4 },
+            }),
+            getContainerRequiredMessageKey: () => ({
+              key: 'configurator.attribute.containerRequiredMessage',
+              params: { count: 2 },
+            }),
+          }
+        )
+      ).toEqual({
+        infoMessages: ['Info'],
+        warningMessages: [],
+        errorMessages: ['Error'],
+        containerInfoMessages: [
+          {
+            key: 'configurator.attribute.containerMinMaxRows',
+            params: { minRows: 2, maxRows: 4 },
+          },
+        ],
+        requiredErrorMessages: [
+          {
+            key: 'configurator.attribute.containerRequiredMessage',
+            params: { count: 2 },
+          },
+        ],
+      });
+    });
+
+    it('should preserve existing container context when include flags are false', () => {
+      expect(
+        enrichMessagesWithContainerContext(
+          {
+            infoMessages: ['Info'],
+            warningMessages: [],
+            errorMessages: ['Error'],
+            containerInfoMessages: [
+              {
+                key: 'configurator.attribute.containerMinRows',
+                params: { count: 2 },
+              },
+            ],
+          },
+          {
+            minRows: 2,
+            rows: [],
+            includeContainerInfo: false,
+            includeRequiredError: true,
+            getContainerRowInfoKey: () => ({
+              key: 'configurator.attribute.containerMinMaxRows',
+              params: { minRows: 2, maxRows: 4 },
+            }),
+            getContainerRequiredMessageKey: () => ({
+              key: 'configurator.attribute.containerRequiredMessage',
+              params: { count: 1 },
+            }),
+          }
+        )
+      ).toEqual({
+        infoMessages: ['Info'],
+        warningMessages: [],
+        errorMessages: ['Error'],
+        containerInfoMessages: [
+          {
+            key: 'configurator.attribute.containerMinRows',
+            params: { count: 2 },
+          },
+        ],
+        requiredErrorMessages: [
+          {
+            key: 'configurator.attribute.containerRequiredMessage',
+            params: { count: 1 },
+          },
+        ],
+      });
+    });
+  });
+
+  describe('mergeMessagesViews', () => {
+    it('should append messages by severity', () => {
+      expect(
+        mergeMessagesViews(
+          {
+            infoMessages: ['Info 1'],
+            warningMessages: ['Warning 1'],
+            errorMessages: ['Error 1'],
+          },
+          {
+            infoMessages: ['Info 2'],
+            warningMessages: ['Warning 2'],
+            errorMessages: ['Error 2'],
+          }
+        )
+      ).toEqual({
+        infoMessages: ['Info 1', 'Info 2'],
+        warningMessages: ['Warning 1', 'Warning 2'],
+        errorMessages: ['Error 1', 'Error 2'],
+        containerInfoMessages: [],
+        requiredErrorMessages: [],
+      });
+    });
+  });
+
+  describe('filterMessagesByProductSelection', () => {
+    const view: ConfiguratorMessagesView = {
+      infoMessages: ['Info'],
+      warningMessages: ['Warning'],
+      errorMessages: ['Error'],
+      containerInfoMessages: [
+        {
+          key: 'configurator.attribute.containerMinRows',
+          params: { count: 2 },
+        },
+      ],
+      requiredErrorMessages: [
+        {
+          key: 'configurator.attribute.containerRequiredMessage',
+          params: { count: 1 },
+        },
+      ],
+    };
+
+    it('should keep warnings only for selected products', () => {
+      expect(filterMessagesByProductSelection(view, true)).toEqual({
+        infoMessages: [],
+        warningMessages: ['Warning'],
+        errorMessages: [],
+        containerInfoMessages: [],
+        requiredErrorMessages: [],
+      });
+    });
+
+    it('should keep info and errors only for unselected products', () => {
+      expect(filterMessagesByProductSelection(view, false)).toEqual({
+        infoMessages: ['Info'],
+        warningMessages: [],
+        errorMessages: ['Error'],
+        containerInfoMessages: [
+          {
+            key: 'configurator.attribute.containerMinRows',
+            params: { count: 2 },
+          },
+        ],
+        requiredErrorMessages: [
+          {
+            key: 'configurator.attribute.containerRequiredMessage',
+            params: { count: 1 },
+          },
+        ],
+      });
+    });
+  });
+
+  describe('prependContainerContextMessageGroups', () => {
+    it('should place container context groups before severity groups', () => {
+      const groups = prependContainerContextMessageGroups(
+        [
+          {
+            messages: ['Error'],
+            messageClass: 'error',
+            showIcon: true,
+            uiKeyPrefix: 'error-msg',
+          },
+        ],
+        {
+          infoMessages: [],
+          warningMessages: [],
+          errorMessages: ['Error'],
+          containerInfoMessages: [
+            {
+              key: 'configurator.attribute.containerMinRows',
+              params: { count: 2 },
+            },
+          ],
+          requiredErrorMessages: [
+            {
+              key: 'configurator.attribute.containerRequiredMessage',
+              params: { count: 1 },
+            },
+          ],
+        },
+        {
+          containerInfoMessageClass: 'info',
+          requiredErrorMessageClass: 'required',
+          iconTypeError: ICON_TYPE.ERROR,
+          containerInfoUiKeyPrefix: 'container-info-msg',
+          requiredErrorUiKeyPrefix: 'required-msg',
+        }
+      );
+
+      expect(groups.map((group) => group.uiKeyPrefix)).toEqual([
+        'container-info-msg',
+        'required-msg',
+        'error-msg',
+      ]);
     });
   });
 });

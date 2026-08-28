@@ -359,7 +359,7 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
   });
 
   describe('nested configuration', () => {
-    it('should render info messages as warnings and warning messages as errors', () => {
+    it('should render info and warning messages in the warning section', () => {
       configuration = createConfigWithContainerRows(NESTED_TAB_ID, [
         {
           message: nestedInfoMessage1,
@@ -397,14 +397,19 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-error-message:nth-child(1)',
+        '.cx-warning-message:nth-child(3)',
         nestedWarningMessage1
       );
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-error-message:nth-child(2)',
+        '.cx-warning-message:nth-child(4)',
         nestedWarningMessage2
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-error-message'
       );
     });
 
@@ -426,7 +431,7 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
       );
     });
 
-    it('should render a message without severity as warning', () => {
+    it('should render a message without severity as info in the warning section', () => {
       configuration = createConfigWithContainerRows(NESTED_TAB_ID, [
         { message: nestedInfoMessage1 },
       ]);
@@ -594,7 +599,7 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
       );
     });
 
-    it('should render typed messages as warnings and errors when the feature is enabled', () => {
+    it('should render typed and legacy messages together when the feature is enabled', () => {
       featureToggles.set('productConfiguratorCPQContainer', true);
       configuration = createConfigWithTypedRootMessages(
         true,
@@ -619,25 +624,46 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-error-message:nth-child(1)',
+        '.cx-warning-message:nth-child(3)',
         typedWarningMessage
       );
-      expect(htmlElem.textContent).not.toContain(warningMessage1);
-      expect(htmlElem.textContent).not.toContain(errorMessage1);
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-warning-message:nth-child(4)',
+        warningMessage1
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-error-message:nth-child(1)',
+        errorMessage1
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-error-message:nth-child(2)',
+        errorMessage2
+      );
     });
 
-    it('should not render any message when typed messages are empty', () => {
+    it('should still render legacy messages when typed messages are empty', () => {
       featureToggles.set('productConfiguratorCPQContainer', true);
       configuration = createConfigWithTypedRootMessages(true, []);
       fixture.detectChanges();
 
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.alert-message'
+        '.cx-warning-message:nth-child(1)',
+        warningMessage1
       );
-      expect(htmlElem.textContent).not.toContain(warningMessage1);
-      expect(htmlElem.textContent).not.toContain(errorMessage1);
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-error-message:nth-child(1)',
+        errorMessage1
+      );
     });
 
     it('should still render nested configuration messages rather than typed root messages', () => {

@@ -1,13 +1,12 @@
-<ng-container *ngFor="let message of messages; let i = index">
-  <div
-    [ngClass]="messageClass"
-    aria-live="assertive"
-    aria-atomic="true"
-    [attr.role]="role"
-    [attr.aria-label]="message"
-    [attr.id]="getMessageId(i)"
-  >
-    <cx-icon *ngIf="iconType" [ngClass]="iconClass" [type]="iconType" />
-    {{ message }}
-  </div>
-</ng-container>
+<div
+  *ngFor="let message of messages; let i = index"
+  [ngClass]="messageClass"
+  aria-live="assertive"
+  aria-atomic="true"
+  [attr.role]="role"
+  [attr.aria-label]="isString(message) ? message : (message | cxTranslate)"
+  [attr.id]="getMessageId(i)"
+>
+  <cx-icon *ngIf="showIcon" [ngClass]="iconClass" [type]="iconType!" />
+  {{ isString(message) ? message : (message | cxTranslate) }}
+</div>

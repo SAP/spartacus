@@ -342,6 +342,12 @@ export class ConfiguratorAttributeContainerComponent extends ConfiguratorAttribu
       itemIndex: index,
       loading$: this.loading$,
       containerRow: row,
+      rows: this.attribute.container?.rows,
+      attributeRequired: this.attribute.required,
+      attributeIncomplete: this.attribute.incomplete,
+      includeContainerContextMessages: !row.selected,
+      owner: this.attributeComponentContext.owner,
+      groupId: this.attributeComponentContext.group.id,
     };
   }
 

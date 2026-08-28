@@ -32,12 +32,24 @@
   [productName]="getLabel(expMode, attribute.label, attribute.name)"
   [tabIndex]="0"
 ></cx-configurator-show-more>
-<div
-  *ngIf="getContainerRowInfoKey() as containerRowInfoKey"
-  class="cx-container-info"
->
-  {{ containerRowInfoKey | cxTranslate }}
-</div>
+<cx-configurator-message
+  *ngFor="
+    let group of getMessageGroups(
+      messages,
+      showRequiredMessageForDomainAttribute$ | async
+    )
+  "
+  [messages]="group.messages"
+  [messageClass]="group.messageClass"
+  [iconType]="group.iconType"
+  [showIcon]="group.showIcon"
+  [role]="group.role"
+  [idPrefix]="
+    createAttributeUiKey('attribute-msg', attribute.name) +
+    '-' +
+    group.uiKeyPrefix
+  "
+/>
 <div
   *ngIf="attribute.hasConflicts"
   class="cx-conflict-msg"
@@ -79,27 +91,6 @@
     </ng-container>
   </ng-container>
 </div>
-<div
-  *ngIf="showRequiredMessageForDomainAttribute$ | async"
-  class="cx-required-error-msg"
-  id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
-  [attr.aria-label]="getRequiredMessageKey() | cxTranslate"
->
-  <cx-icon [type]="iconTypes.ERROR"></cx-icon>
-  {{ getRequiredMessageKey() | cxTranslate }}
-</div>
-<cx-configurator-message
-  *ngFor="let group of getMessageGroups(messages)"
-  [messages]="group.messages"
-  [messageClass]="group.messageClass"
-  [iconType]="group.iconType"
-  [role]="group.role"
-  [idPrefix]="
-    createAttributeUiKey('attribute-msg', attribute.name) +
-    '-' +
-    group.uiKeyPrefix
-  "
-/>
 <img
   *ngIf="hasImage"
   class="cx-attribute-img"

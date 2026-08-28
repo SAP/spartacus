@@ -69,6 +69,8 @@ export namespace Configurator {
    */
   export interface ContainerRow {
     id: string;
+    minRows?: number;
+    maxRows?: number;
     productSystemId?: string;
     productName?: string;
     selected?: boolean;
@@ -305,6 +307,7 @@ export namespace Configurator {
   export enum MessageSeverity {
     INFO = 'info',
     WARNING = 'warning',
+    ERROR = 'error',
   }
 
   export enum UiType {

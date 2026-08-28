@@ -14,16 +14,11 @@ import { map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorUtilsService } from '../../core/facade/utils/configurator-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
-
-/**
- * View model of the messages to display. These belong to the configuration the
- * user currently views, which is either a nested (container row) configuration
- * or the root configuration.
- */
-interface ConfiguratorMessagesView {
-  infoMessages: string[];
-  warningMessages: string[];
-}
+import {
+  ConfiguratorMessagesView,
+  mergeMessagesViews,
+  splitMessagesBySeverity,
+} from '../message/configurator-message.component';
 
 @Component({
   selector: 'cx-configuration-conflict-and-error-messages',
@@ -99,14 +94,22 @@ export class ConfiguratorConflictAndErrorMessagesComponent {
   ): ConfiguratorMessagesView {
     const containerRowGroup = this.getCurrentContainerRowGroup(configuration);
     if (containerRowGroup) {
-      return this.splitMessagesBySeverity(containerRowGroup.messages);
+      return splitMessagesBySeverity(containerRowGroup.messages);
     }
     if (this.shouldUseTypedRootMessages(configuration)) {
-      return this.splitMessagesBySeverity(configuration.messages);
+      return mergeMessagesViews(
+        splitMessagesBySeverity(configuration.messages),
+        {
+          infoMessages: [],
+          warningMessages: configuration.warningMessages ?? [],
+          errorMessages: configuration.errorMessages ?? [],
+        }
+      );
     }
     return {
-      infoMessages: configuration.warningMessages ?? [],
-      warningMessages: configuration.errorMessages ?? [],
+      infoMessages: [],
+      warningMessages: configuration.warningMessages ?? [],
+      errorMessages: configuration.errorMessages ?? [],
     };
   }
 
@@ -152,29 +155,5 @@ export class ConfiguratorConflictAndErrorMessagesComponent {
     return groupPath.find(
       (group) => group.groupType === Configurator.GroupType.CONTAINER_ROW_GROUP
     );
-  }
-
-  /**
-   * Splits typed messages into the display buckets `infoMessages` and
-   * `warningMessages`. Such messages carry severity `info` or `warning`:
-   * `info` is rendered as warning, `warning` as error. A message without
-   * severity is treated like `info`.
-   *
-   * @param messages - Typed messages of a configuration
-   * @returns Messages grouped by the severity they are rendered with
-   */
-  protected splitMessagesBySeverity(
-    messages?: Configurator.Message[]
-  ): ConfiguratorMessagesView {
-    const infoMessages: string[] = [];
-    const warningMessages: string[] = [];
-    messages?.forEach((message) => {
-      if (message.severity === Configurator.MessageSeverity.WARNING) {
-        warningMessages.push(message.message);
-      } else {
-        infoMessages.push(message.message);
-      }
-    });
-    return { infoMessages, warningMessages };
   }
 }

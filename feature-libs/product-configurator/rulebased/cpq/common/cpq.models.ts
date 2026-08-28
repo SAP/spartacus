@@ -60,6 +60,8 @@ export namespace Cpq {
    */
   export interface ContainerRow {
     id: string;
+    minRows?: number;
+    maxRows?: number;
     productSystemId?: string;
     productName?: string;
     selected?: boolean;

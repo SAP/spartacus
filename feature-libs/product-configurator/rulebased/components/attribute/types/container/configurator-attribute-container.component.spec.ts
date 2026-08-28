@@ -715,6 +715,43 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       expect(options.loading$).toBe(component.loading$);
     });
 
+    it('should include container context on all unselected cards', () => {
+      const selectedRow = component.selectedProducts[0];
+      const selectedCardOptions = component.extractProductCardParameters(
+        selectedRow,
+        0,
+        component.selectedProducts.length
+      );
+      const availableRow = component.availableProducts[0];
+      const firstAvailableCardOptions = component.extractProductCardParameters(
+        availableRow,
+        0,
+        component.availableProducts.length
+      );
+      const secondAvailableCardOptions = component.extractProductCardParameters(
+        component.availableProducts[1],
+        1,
+        component.availableProducts.length
+      );
+
+      expect(selectedCardOptions.includeContainerContextMessages).toBe(false);
+      expect(firstAvailableCardOptions.includeContainerContextMessages).toBe(
+        true
+      );
+      expect(secondAvailableCardOptions.includeContainerContextMessages).toBe(
+        true
+      );
+      expect(firstAvailableCardOptions.rows).toBe(
+        component.attribute.container?.rows
+      );
+      expect(firstAvailableCardOptions.attributeRequired).toBe(
+        component.attribute.required
+      );
+      expect(firstAvailableCardOptions.attributeIncomplete).toBe(
+        component.attribute.incomplete
+      );
+    });
+
     it('should pass the container row to the product card', () => {
       const row = component.selectedProducts[0];
       const options = component.extractProductCardParameters(

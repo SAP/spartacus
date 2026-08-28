@@ -723,6 +723,97 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     });
   });
 
+  describe('getContainerRowInfoKey', () => {
+    it('should return undefined if neither minRows nor maxRows is set', () => {
+      expect(classUnderTest.getContainerRowInfoKey()).toBeUndefined();
+    });
+
+    it('should return undefined if minRows is 0 and maxRows is not set', () => {
+      expect(classUnderTest.getContainerRowInfoKey(0)).toBeUndefined();
+    });
+
+    it('should return undefined if minRows and maxRows are 0', () => {
+      expect(classUnderTest.getContainerRowInfoKey(0, 0)).toBeUndefined();
+    });
+
+    it('should return min/max translatable if both minRows and maxRows are set and differ', () => {
+      expect(classUnderTest.getContainerRowInfoKey(1, 4)).toEqual({
+        key: 'configurator.attribute.containerMinMaxRows',
+        params: { minRows: 1, maxRows: 4 },
+      });
+    });
+
+    it('should return min translatable if only minRows is set', () => {
+      expect(classUnderTest.getContainerRowInfoKey(1)).toEqual({
+        key: 'configurator.attribute.containerMinRows',
+        params: { count: 1 },
+      });
+    });
+
+    it('should return max translatable if only maxRows is set', () => {
+      expect(classUnderTest.getContainerRowInfoKey(undefined, 4)).toEqual({
+        key: 'configurator.attribute.containerMaxRows',
+        params: { count: 4 },
+      });
+    });
+
+    it('should treat minRows of 0 as no minimum', () => {
+      expect(classUnderTest.getContainerRowInfoKey(0, 4)).toEqual({
+        key: 'configurator.attribute.containerMaxRows',
+        params: { count: 4 },
+      });
+    });
+
+    it('should treat maxRows of 0 as no maximum', () => {
+      expect(classUnderTest.getContainerRowInfoKey(2, 0)).toEqual({
+        key: 'configurator.attribute.containerMinRows',
+        params: { count: 2 },
+      });
+    });
+
+    it('should return exact-count translatable if minRows equals maxRows', () => {
+      expect(classUnderTest.getContainerRowInfoKey(3, 3)).toEqual({
+        key: 'configurator.attribute.containerExactRows',
+        params: { count: 3 },
+      });
+    });
+  });
+
+  describe('getContainerRemainingRequiredCount', () => {
+    it('should return minRows when no rows are selected', () => {
+      expect(classUnderTest.getContainerRemainingRequiredCount(3, [])).toBe(3);
+    });
+
+    it('should subtract selected rows from minRows', () => {
+      expect(
+        classUnderTest.getContainerRemainingRequiredCount(4, [
+          { id: '1', selected: true },
+          { id: '2', selected: true },
+          { id: '3', selected: false },
+        ])
+      ).toBe(2);
+    });
+
+    it('should default to 1 if minRows is not set', () => {
+      expect(
+        classUnderTest.getContainerRemainingRequiredCount(undefined, [])
+      ).toBe(1);
+    });
+
+    it('should default to 1 if minRows is 0', () => {
+      expect(classUnderTest.getContainerRemainingRequiredCount(0, [])).toBe(1);
+    });
+
+    it('should default to 0 if remaining products are zero', () => {
+      expect(
+        classUnderTest.getContainerRemainingRequiredCount(2, [
+          { id: '1', selected: true },
+          { id: '2', selected: true },
+        ])
+      ).toBe(0);
+    });
+  });
+
   describe('enrichValueWithPrice', () => {
     const value: Configurator.Value = { valueCode: 'val', selected: true };
     it('should return original value if no price is known', () => {

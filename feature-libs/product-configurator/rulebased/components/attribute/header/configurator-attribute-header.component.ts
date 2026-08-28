@@ -15,8 +15,8 @@ import {
 import {
   Config,
   LoggerService,
-  TranslatePipe,
   Translatable,
+  TranslatePipe,
 } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
@@ -31,6 +31,8 @@ import {
   ConfiguratorMessageComponent,
   ConfiguratorMessageGroup,
   ConfiguratorMessagesView,
+  enrichMessagesWithContainerContext,
+  prependContainerContextMessageGroups,
   splitMessagesBySeverity,
 } from '../../message/configurator-message.component';
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
@@ -107,10 +109,10 @@ export class ConfiguratorAttributeHeaderComponent
    */
   getRequiredMessageKey(): string | Translatable {
     if (this.isContainerSelection()) {
-      return {
-        key: 'configurator.attribute.containerRequiredMessage',
-        params: { count: this.getContainerRemainingRequiredCount() },
-      };
+      return this.getContainerRequiredMessageKey(
+        this.attribute.container?.minRows,
+        this.attribute.container?.rows
+      );
     } else if (this.isSingleSelection()) {
       return this.isWithAdditionalValues(this.attribute)
         ? 'configurator.attribute.singleSelectAdditionalRequiredMessage'
@@ -135,20 +137,6 @@ export class ConfiguratorAttributeHeaderComponent
 
   protected isContainerSelection(): boolean {
     return this.attribute.uiType === Configurator.UiType.CONTAINER;
-  }
-
-  /**
-   * Remaining products needed to meet the container `minRows` requirement.
-   * At least 1 so i18n can still render a sensible required message.
-   *
-   * @returns remaining product count
-   * @protected
-   */
-  protected getContainerRemainingRequiredCount(): number {
-    const minRows = this.attribute.container?.minRows || 1;
-    const selectedRows =
-      this.attribute.container?.rows?.filter((row) => row.selected).length ?? 0;
-    return Math.max(minRows - selectedRows, 1);
   }
 
   protected isSingleSelection(): boolean {
@@ -363,80 +351,107 @@ export class ConfiguratorAttributeHeaderComponent
         ?.attributeDescriptionLength ?? 100
     );
   }
-
   /**
-   * Retrieves the translatable for container min/max row information.
-   * A bound of 0 is treated as unset so it does not appear in the text.
-   * When both bounds are set and equal, an exact-count message is used.
+   * Container messages split into severity buckets.
    *
-   * @returns the translatable, or `undefined` if there is no meaningful bound
-   */
-  getContainerRowInfoKey(): Translatable | undefined {
-    const minRows = this.attribute.container?.minRows;
-    const maxRows = this.attribute.container?.maxRows;
-    const hasMinRows = minRows != null && minRows > 0;
-    const hasMaxRows = maxRows != null && maxRows > 0;
-
-    if (hasMinRows && hasMaxRows) {
-      if (minRows === maxRows) {
-        return {
-          key: 'configurator.attribute.containerExactRows',
-          params: { count: minRows },
-        };
-      }
-      return {
-        key: 'configurator.attribute.containerMinMaxRows',
-        params: { minRows, maxRows },
-      };
-    }
-    if (hasMinRows) {
-      return {
-        key: 'configurator.attribute.containerMinRows',
-        params: { count: minRows },
-      };
-    }
-    if (hasMaxRows) {
-      return {
-        key: 'configurator.attribute.containerMaxRows',
-        params: { count: maxRows },
-      };
-    }
-    return undefined;
-  }
-
-  /**
-   * Container messages split into the display buckets. Severity `warning` is
-   * rendered as error, `info` (or missing severity) as warning.
-   *
-   * @returns Messages grouped by the severity they are rendered with
+   * @returns Messages grouped by severity
    */
   get messages(): ConfiguratorMessagesView {
-    return splitMessagesBySeverity(this.attribute.container?.messages);
+    return enrichMessagesWithContainerContext(
+      splitMessagesBySeverity(this.attribute.container?.messages),
+      {
+        minRows: this.attribute.container?.minRows,
+        maxRows: this.attribute.container?.maxRows,
+        rows: this.attribute.container?.rows,
+        includeContainerInfo: !!this.attribute.container,
+        includeRequiredError: false,
+        getContainerRowInfoKey: (minRows, maxRows) =>
+          this.getContainerRowInfoKey(minRows, maxRows),
+        getContainerRequiredMessageKey: (minRows, rows) =>
+          this.getContainerRequiredMessageKey(minRows, rows),
+      }
+    );
   }
 
   /**
-   * Retrieves warning and error groups of the bound container.
+   * Retrieves info, warning, and error groups of the bound container.
+   * Container min/max info and required errors are rendered first.
    *
    * @param messages - Messages of the bound container
+   * @param showRequiredMessage - Whether the required message should be shown
    * @returns - message groups
    */
   getMessageGroups(
-    messages: ConfiguratorMessagesView
+    messages: ConfiguratorMessagesView,
+    showRequiredMessage = false
   ): ConfiguratorMessageGroup[] {
-    return [
+    const messagesWithRequired =
+      showRequiredMessage && this.isContainerSelection()
+        ? enrichMessagesWithContainerContext(messages, {
+            minRows: this.attribute.container?.minRows,
+            maxRows: this.attribute.container?.maxRows,
+            rows: this.attribute.container?.rows,
+            includeContainerInfo: false,
+            includeRequiredError: true,
+            getContainerRowInfoKey: (minRows, maxRows) =>
+              this.getContainerRowInfoKey(minRows, maxRows),
+            getContainerRequiredMessageKey: (minRows, rows) =>
+              this.getContainerRequiredMessageKey(minRows, rows),
+          })
+        : messages;
+
+    const severityGroups: ConfiguratorMessageGroup[] = [
       {
-        messages: messages.errorMessages,
+        messages: messagesWithRequired.infoMessages,
+        messageClass: 'cx-info-msg',
+        showIcon: false,
+        uiKeyPrefix: 'info-msg',
+      },
+      {
+        messages: messagesWithRequired.errorMessages,
         messageClass: 'cx-error-msg',
         iconType: this.iconTypes.ERROR,
+        showIcon: true,
         uiKeyPrefix: 'error-msg',
         role: 'alert',
       },
       {
-        messages: messages.warningMessages,
+        messages: messagesWithRequired.warningMessages,
         messageClass: 'cx-warning-msg',
         iconType: this.iconTypes.WARNING,
+        showIcon: true,
         uiKeyPrefix: 'warning-msg',
       },
     ].filter((group) => group.messages.length > 0);
+
+    const groups = prependContainerContextMessageGroups(
+      severityGroups,
+      messagesWithRequired,
+      {
+        containerInfoMessageClass: 'cx-container-info-msg',
+        requiredErrorMessageClass: 'cx-required-error-msg',
+        iconTypeError: this.iconTypes.ERROR,
+        containerInfoUiKeyPrefix: 'container-info-msg',
+        requiredErrorUiKeyPrefix: 'required-msg',
+      }
+    );
+
+    if (showRequiredMessage && !this.isContainerSelection()) {
+      const requiredMessage = this.getRequiredMessageKey();
+      groups.unshift({
+        messages: [
+          typeof requiredMessage === 'string'
+            ? { key: requiredMessage }
+            : requiredMessage,
+        ],
+        messageClass: 'cx-required-error-msg',
+        iconType: this.iconTypes.ERROR,
+        showIcon: true,
+        uiKeyPrefix: 'required-msg',
+        role: 'alert',
+      });
+    }
+
+    return groups;
   }
 }
