@@ -39,18 +39,15 @@ import {
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
+import {
+  ConfiguratorMessageGroup,
+  ConfiguratorMessageService,
+  ConfiguratorMessagesView,
+} from '../../../core/facade/configurator-message.service';
 import { ConfiguratorUtilsService } from '../../../core/facade/utils/configurator-utils.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import { QuantityUpdateEvent } from '../../form/configurator-form.event';
-import {
-  ConfiguratorMessageComponent,
-  ConfiguratorMessageGroup,
-  ConfiguratorMessagesView,
-  enrichMessagesWithContainerContext,
-  filterMessagesByProductSelection,
-  prependContainerContextMessageGroups,
-  splitMessagesBySeverity,
-} from '../../message/configurator-message.component';
+import { ConfiguratorMessageComponent } from '../../message/configurator-message.component';
 import {
   ConfiguratorPriceComponent,
   ConfiguratorPriceComponentOptions,
@@ -131,6 +128,7 @@ export class ConfiguratorAttributeProductCardComponent
     ConfiguratorRouterExtractorService
   );
   protected configUtils = inject(ConfiguratorStorefrontUtilsService);
+  protected configuratorMessageService = inject(ConfiguratorMessageService);
 
   /**
    * Messages of the nested configuration that belongs to the bound container
@@ -272,7 +270,7 @@ export class ConfiguratorAttributeProductCardComponent
   }
 
   /**
-   * Warning and error groups of the bound container row.
+   * Warning and error message groups of the bound container row.
    * Passed to `cx-configurator-message` for display.
    *
    * @param messages - Messages of the bound container row
@@ -281,10 +279,11 @@ export class ConfiguratorAttributeProductCardComponent
   getContainerMessageGroups(
     messages: ConfiguratorMessagesView
   ): ConfiguratorMessageGroup[] {
-    const filteredMessages = filterMessagesByProductSelection(
-      messages,
-      !!this.productCardOptions.productBoundValue?.selected
-    );
+    const filteredMessages =
+      this.configuratorMessageService.filterMessagesByProductSelection(
+        messages,
+        !!this.productCardOptions.productBoundValue?.selected
+      );
 
     const severityGroups: ConfiguratorMessageGroup[] = [
       {
@@ -312,7 +311,7 @@ export class ConfiguratorAttributeProductCardComponent
       },
     ].filter((group) => group.messages.length > 0);
 
-    return prependContainerContextMessageGroups(
+    return this.configuratorMessageService.prependContainerContextMessageGroups(
       severityGroups,
       filteredMessages,
       {
@@ -341,23 +340,29 @@ export class ConfiguratorAttributeProductCardComponent
     showRequiredMessage = false
   ): ConfiguratorMessagesView {
     const containerRowGroup = this.getContainerRowGroup(configuration);
-    const engineMessages = splitMessagesBySeverity(containerRowGroup?.messages);
+    const engineMessages =
+      this.configuratorMessageService.splitMessagesBySeverity(
+        containerRowGroup?.messages
+      );
 
     if (!this.productCardOptions.includeContainerContextMessages) {
       return engineMessages;
     }
 
-    return enrichMessagesWithContainerContext(engineMessages, {
-      minRows: this.productCardOptions.containerRow?.minRows,
-      maxRows: this.productCardOptions.containerRow?.maxRows,
-      rows: this.productCardOptions.rows,
-      includeContainerInfo: true,
-      includeRequiredError: showRequiredMessage,
-      getContainerRowInfoKey: (minRows, maxRows) =>
-        this.getContainerRowInfoKey(minRows, maxRows),
-      getContainerRequiredMessageKey: (minRows, rows) =>
-        this.getContainerRequiredMessageKey(minRows, rows),
-    });
+    return this.configuratorMessageService.enrichMessagesWithContainerContext(
+      engineMessages,
+      {
+        minRows: this.productCardOptions.containerRow?.minRows,
+        maxRows: this.productCardOptions.containerRow?.maxRows,
+        rows: this.productCardOptions.rows,
+        includeContainerInfo: true,
+        includeRequiredError: showRequiredMessage,
+        getContainerRowInfoKey: (minRows, maxRows) =>
+          this.getContainerRowInfoKey(minRows, maxRows),
+        getContainerRequiredMessageKey: (minRows, rows) =>
+          this.getContainerRequiredMessageKey(minRows, rows),
+      }
+    );
   }
 
   /**

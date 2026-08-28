@@ -12,13 +12,12 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import {
+  ConfiguratorMessageService,
+  ConfiguratorMessagesView,
+} from '../../core/facade/configurator-message.service';
 import { ConfiguratorUtilsService } from '../../core/facade/utils/configurator-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
-import {
-  ConfiguratorMessagesView,
-  mergeMessagesViews,
-  splitMessagesBySeverity,
-} from '../message/configurator-message.component';
 
 @Component({
   selector: 'cx-configuration-conflict-and-error-messages',
@@ -28,6 +27,7 @@ import {
 })
 export class ConfiguratorConflictAndErrorMessagesComponent {
   protected configuratorUtilsService = inject(ConfiguratorUtilsService);
+  protected configuratorMessageService = inject(ConfiguratorMessageService);
   private featureToggles = inject(FeatureToggles);
 
   iconTypes = ICON_TYPE;
@@ -94,11 +94,15 @@ export class ConfiguratorConflictAndErrorMessagesComponent {
   ): ConfiguratorMessagesView {
     const containerRowGroup = this.getCurrentContainerRowGroup(configuration);
     if (containerRowGroup) {
-      return splitMessagesBySeverity(containerRowGroup.messages);
+      return this.configuratorMessageService.splitMessagesBySeverity(
+        containerRowGroup.messages
+      );
     }
     if (this.shouldUseTypedRootMessages(configuration)) {
-      return mergeMessagesViews(
-        splitMessagesBySeverity(configuration.messages),
+      return this.configuratorMessageService.mergeMessagesViews(
+        this.configuratorMessageService.splitMessagesBySeverity(
+          configuration.messages
+        ),
         {
           infoMessages: [],
           warningMessages: configuration.warningMessages ?? [],

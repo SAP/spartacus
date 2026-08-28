@@ -36,7 +36,7 @@
   *ngFor="
     let group of getMessageGroups(
       messages,
-      showRequiredMessageForDomainAttribute$ | async
+      (showRequiredMessageForDomainAttribute$ | async) ?? false
     )
   "
   [messages]="group.messages"
