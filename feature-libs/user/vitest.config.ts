@@ -18,6 +18,7 @@ export default defineConfig({
   },
   test: {
     pool: 'forks',
+    isolate: true,
     watch: false,
     globals: true,
     environment: 'jsdom',

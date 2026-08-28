@@ -1,9 +1,8 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   AuthConfigService,
   AuthService,
-  FeatureConfigService,
   FeatureToggles,
   GlobalMessageService,
   I18nTestingModule,
