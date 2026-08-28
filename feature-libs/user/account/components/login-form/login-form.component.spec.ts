@@ -1,6 +1,5 @@
-import { vi } from 'vitest';
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -18,10 +17,11 @@ import {
   UrlPipe,
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
 import { LoginFormComponent } from './login-form.component';
+import { vi } from 'vitest';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 
 const isBusySubject = new BehaviorSubject(false);
 class MockLoginFormComponentService

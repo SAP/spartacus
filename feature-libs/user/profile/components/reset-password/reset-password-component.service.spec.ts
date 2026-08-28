@@ -1,9 +1,9 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import {
-  FeatureToggles,
+  FeatureConfigService,
   FeaturesConfigModule,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -18,6 +18,7 @@ import {
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { ResetPasswordComponentService } from './reset-password-component.service';
+import { vi } from 'vitest';
 
 const resetToken = '123#Token';
 const routerState$: BehaviorSubject<any> = new BehaviorSubject({

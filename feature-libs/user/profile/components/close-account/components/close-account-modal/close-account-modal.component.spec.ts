@@ -1,6 +1,5 @@
-import { vi } from 'vitest';
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   AuthService,
   GlobalMessageService,
@@ -19,6 +18,7 @@ import {
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { Observable, of, throwError } from 'rxjs';
 import { CloseAccountModalComponent } from './close-account-modal.component';
+import createSpy = jasmine.createSpy;
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = vi.fn();

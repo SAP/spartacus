@@ -1,19 +1,3 @@
-import { vi } from 'vitest';
-
-vi.mock('@spartacus/storefront', async (importActual) => {
-  const actual = await importActual<typeof import('@spartacus/storefront')>();
-  const { filter, map } = await import('rxjs/operators');
-  const isNotNullable = <T>(value: T): value is NonNullable<T> => value != null;
-  return {
-    ...actual,
-    getPageTitle: (pageMetaService: any) =>
-      pageMetaService.getMeta().pipe(
-        filter(isNotNullable),
-        map((meta: any) => (meta.heading || meta.title) ?? '')
-      ),
-  };
-});
-
 import {
   ChangeDetectionStrategy,
   Component,
@@ -53,6 +37,7 @@ import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feat
 import { BehaviorSubject, of } from 'rxjs';
 import { MyAccountV2PasswordComponent } from './my-account-v2-password.component';
 import { UpdatePasswordComponentService } from './update-password-component.service';
+import { vi } from 'vitest';
 
 const mockPageMeta: PageMeta = { title: 'Test Title', heading: 'Test Heading' };
 class MockPageMetaService implements Partial<PageMetaService> {

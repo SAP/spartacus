@@ -1,7 +1,6 @@
-import { vi } from 'vitest';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -21,6 +20,7 @@ import {
 import { of, throwError } from 'rxjs';
 import { OTP_LOGIN_STATE_STORAGE_KEY } from '../user-account-constants';
 import { OneTimePasswordLoginFormComponent } from './otp-login-form.component';
+import createSpy = jasmine.createSpy;
 
 const verificationTokenCreation: VerificationTokenCreation = {
   purpose: 'LOGIN',

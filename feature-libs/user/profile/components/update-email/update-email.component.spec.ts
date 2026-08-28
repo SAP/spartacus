@@ -1,57 +1,18 @@
-import { vi } from 'vitest';
+import { ChangeDetectionStrategy, Component, DebugElement } from "@angular/core";
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from "@angular/forms";
+import { CxDatePipe, FeaturesConfig, I18nTestingModule, MockDatePipe, MockTranslatePipe, PageMeta, PageMetaService, TranslatePipe, UrlPipe } from "@spartacus/core";
+import { FormErrorsModule, PasswordVisibilityToggleModule, SpinnerComponent } from "@spartacus/storefront";
+import { UrlTestingModule } from "core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module";
+import { BehaviorSubject, of } from "rxjs";
+import { UpdateEmailComponentService } from "./update-email-component.service";
+import { vi } from "vitest";
+import { UpdateEmailComponent } from "./update-email.component";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { RouterModule } from "@angular/router";
+import { MockFeatureTogglesController, provideMockFeatureToggles } from "core-libs/core/src/features-config/feature-toggles/testing/mock-feature-toggles";
+import { MockUrlPipe } from "core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe";
+import { By } from "@angular/platform-browser";
 
-vi.mock('@spartacus/storefront', async (importActual) => {
-  const actual = await importActual<typeof import('@spartacus/storefront')>();
-  const { filter, map } = await import('rxjs/operators');
-  const isNotNullable = <T>(value: T): value is NonNullable<T> => value != null;
-  return {
-    ...actual,
-    getPageTitle: (pageMetaService: any) =>
-      pageMetaService.getMeta().pipe(
-        filter(isNotNullable),
-        map((meta: any) => (meta.heading || meta.title) ?? '')
-      ),
-  };
-});
-
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DebugElement,
-} from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  ReactiveFormsModule,
-  UntypedFormControl,
-  UntypedFormGroup,
-} from '@angular/forms';
-import { By } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
-import {
-  CxDatePipe,
-  FeaturesConfig,
-  I18nTestingModule,
-  MockDatePipe,
-  MockTranslatePipe,
-  PageMeta,
-  PageMetaService,
-  TranslatePipe,
-  UrlPipe,
-} from '@spartacus/core';
-import {
-  FormErrorsModule,
-  PasswordVisibilityToggleModule,
-  SpinnerComponent,
-} from '@spartacus/storefront';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
-import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { BehaviorSubject, of } from 'rxjs';
-import { UpdateEmailComponentService } from './update-email-component.service';
-import { UpdateEmailComponent } from './update-email.component';
 
 @Component({
   selector: 'cx-spinner',

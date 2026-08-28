@@ -3,37 +3,26 @@ import {
   Component,
   DebugElement,
 } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import {
-  FeatureDirective,
-  I18nTestingModule,
-  MockTranslatePipe,
-  PageMeta,
-  PageMetaService,
-  RoutingService,
-  TranslatePipe,
-} from '@spartacus/core';
+import { FeatureDirective, I18nTestingModule, MockTranslatePipe, PageMeta, PageMetaService, RoutingService, TranslatePipe } from '@spartacus/core';
 import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, of } from 'rxjs';
-import { vi } from 'vitest';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import { UpdatePasswordComponent } from './update-password.component';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { vi } from 'vitest';
+import { MockFeatureTogglesController, provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing/mock-feature-toggles';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 
 @Component({
   selector: 'cx-spinner',

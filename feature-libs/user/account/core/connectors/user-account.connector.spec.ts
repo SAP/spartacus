@@ -1,9 +1,9 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { VerificationToken, VerificationTokenCreation } from '../../root/model';
 import { UserAccountAdapter } from './user-account.adapter';
 import { UserAccountConnector } from './user-account.connector';
+import createSpy = jasmine.createSpy;
 
 const verificationTokenCreation: VerificationTokenCreation = {
   purpose: 'LOGIN',

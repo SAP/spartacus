@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,7 +6,7 @@ import {
   Directive,
   Input,
 } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -13,27 +14,15 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  FeatureDirective,
-  FeaturesConfig,
-  MockTranslatePipe,
-  PageMeta,
-  PageMetaService,
-  TranslatePipe,
-} from '@spartacus/core';
-import {
-  FormErrorsModule,
-  NgSelectA11yDirective,
-  SpinnerComponent,
-} from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { FeatureDirective, FeaturesConfig, FeaturesConfigModule, I18nTestingModule, MockTranslatePipe, PageMeta, PageMetaService, TranslatePipe } from '@spartacus/core';
+import { FormErrorsModule, NgSelectA11yDirective, SpinnerComponent } from '@spartacus/storefront';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, Subject, of } from 'rxjs';
 import { MyAccountV2ProfileComponent } from './my-account-v2-profile.component';
 import { UpdateProfileComponentService } from './update-profile-component.service';
+import { vi } from 'vitest';
+import { MockFeatureTogglesController, provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing/mock-feature-toggles';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 
 const mockPageMeta: PageMeta = { title: 'Test Title', heading: 'Test Heading' };
 class MockPageMetaService implements Partial<PageMetaService> {

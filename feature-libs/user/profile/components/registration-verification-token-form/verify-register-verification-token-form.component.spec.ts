@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 /*
  * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
@@ -31,10 +30,11 @@ import {
   LaunchDialogService,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
 import { RegistrationVerificationTokenFormComponent } from './verify-register-verification-token-form.component';
-import { RegistrationVerificationTokenFormComponentService } from './verify-register-verification-token-form.service';
+import { RegistrationVerificationTokenFormComponentService } from './verify-register-verification-token-form.service'
+import { vi } from 'vitest';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 
 const mockSecurePassword = 'strongPas$!123';
 const mockInvalidPassword = 'strongPas$!123|';
@@ -65,7 +65,7 @@ class MockFormComponentService
   createVerificationToken = vi
     .fn()
     .mockReturnValue(of({ tokenId: 'testTokenId', expiresIn: '300' }));
-  displayMessage = vi.fn('displayMessage').mockImplementation(() => {});
+  displayMessage: any = vi.fn('displayMessage').mockImplementation(() => {});
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {

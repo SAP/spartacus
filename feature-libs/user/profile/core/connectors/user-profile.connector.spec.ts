@@ -1,9 +1,9 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { UserSignUp } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
 import { UserProfileAdapter } from './user-profile.adapter';
 import { UserProfileConnector } from './user-profile.connector';
+import createSpy = jasmine.createSpy;
 
 class MockUserAdapter implements UserProfileAdapter {
   update = vi.fn('update').mockReturnValue(of({}));

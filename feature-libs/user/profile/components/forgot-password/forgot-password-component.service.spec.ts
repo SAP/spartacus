@@ -1,5 +1,4 @@
-import { vi } from 'vitest';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   AuthConfigService,
@@ -12,6 +11,7 @@ import { FormErrorsModule } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
 import { ForgotPasswordComponentService } from './forgot-password-component.service';
+import createSpy = jasmine.createSpy;
 
 class MockUserPasswordService implements Partial<UserPasswordFacade> {
   requestForgotPasswordEmail = vi.fn().mockReturnValue(of({}));

@@ -1,6 +1,5 @@
-import { vi } from 'vitest';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -18,6 +17,7 @@ import { PageSlotComponent } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { LoginComponent } from './login.component';
+import createSpy = jasmine.createSpy;
 
 const mockUserDetails: User = {
   displayUid: 'Display Uid',

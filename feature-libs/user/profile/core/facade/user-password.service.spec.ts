@@ -1,9 +1,9 @@
-import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import { OCC_USER_ID_CURRENT, UserIdService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { UserPasswordService } from './user-password.service';
 import { UserProfileConnector } from '@spartacus/user/profile/core';
+import createSpy = jasmine.createSpy;
 
 class MockUserIdService implements Partial<UserIdService> {
   takeUserId(): Observable<string> {

@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
@@ -11,6 +10,7 @@ import { FormErrorsModule } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { EMPTY, of } from 'rxjs';
 import { UpdateProfileComponentService } from './update-profile-component.service';
+import createSpy = jasmine.createSpy;
 
 const mockUser = {
   customerId: '123',

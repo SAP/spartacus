@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import {
   Component,
   DebugElement,
@@ -6,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   Address,
@@ -23,12 +22,13 @@ import {
   User,
 } from '@spartacus/core';
 import { CardModule, SpinnerModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, firstValueFrom, Observable, of } from 'rxjs';
 import { AddressFormComponent } from '../public_api';
 import { AddressBookComponent } from './address-book.component';
 import { AddressBookComponentService } from './address-book.component.service';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { vi } from 'vitest';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing/mock-feature-toggles';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 
 class MockGlobalMessageService {
   add = vi.fn();

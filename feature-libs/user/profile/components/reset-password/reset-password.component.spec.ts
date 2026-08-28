@@ -1,6 +1,5 @@
-import { vi } from 'vitest';
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -14,10 +13,11 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
 import { ResetPasswordComponentService } from './reset-password-component.service';
 import { ResetPasswordComponent } from './reset-password.component';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { vi } from 'vitest';
 
 const isBusySubject = new BehaviorSubject(false);
 const tokenSubject: BehaviorSubject<any> = new BehaviorSubject('123');

@@ -1,10 +1,15 @@
-import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import { UntypedFormBuilder } from '@angular/forms';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  GlobalMessageService,
+  GlobalMessageType,
+} from '@spartacus/core';
 import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
 import { RegisterComponentService } from './register-component.service';
+
+import createSpy = jasmine.createSpy;
 
 const mockRegisterFormData: any = {
   titleCode: 'Mr',

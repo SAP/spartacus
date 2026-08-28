@@ -1,7 +1,7 @@
-import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import {
   AuthService,
+  FeatureConfigService,
   FeatureToggles,
   OCC_USER_ID_CURRENT,
   RoutingService,
@@ -14,7 +14,8 @@ import { UserSignUp } from '@spartacus/user/profile/root';
 import { Observable, of } from 'rxjs';
 import { UserProfileService } from './user-profile.service';
 import { UserRegisterService } from './user-register.service';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing/mock-feature-toggles';
+import { vi } from 'vitest';
 
 class MockUserProfileService implements Partial<UserProfileService> {
   get(): Observable<User> {

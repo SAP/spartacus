@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import {
   ChangeDetectionStrategy,
   DebugElement,
@@ -23,20 +22,14 @@ import {
   Title,
   UserAddressService,
 } from '@spartacus/core';
-import {
-  FocusDirective,
-  FormErrorsModule,
-  LaunchDialogService,
-} from '@spartacus/storefront';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
-import { BehaviorSubject, EMPTY, Observable, firstValueFrom, of } from 'rxjs';
+import { FocusDirective, FormErrorsModule, LaunchDialogService } from '@spartacus/storefront';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
+import { BehaviorSubject, EMPTY, firstValueFrom, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { UserProfileFacade } from '../../../root/facade/user-profile.facade';
 import { AddressFormComponent } from './address-form.component';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing/mock-feature-toggles';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { vi } from 'vitest';
 
 const mockTitles: Title[] = [
   {

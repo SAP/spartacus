@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -12,8 +11,10 @@ import {
   RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { LoginRegisterComponent } from './login-register.component';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { vi } from 'vitest';
+
 class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }

@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import {
   CxEvent,
@@ -9,6 +8,7 @@ import {
 } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { UserAccountEventListener } from './user-account-event.listener';
+import createSpy = jasmine.createSpy;
 
 const mockEventStream$ = new Subject<CxEvent>();
 

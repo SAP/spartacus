@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import {
   AuthService,
@@ -7,9 +6,11 @@ import {
 } from '@spartacus/core';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { Title } from '@spartacus/user/profile/root';
-import { Observable, firstValueFrom, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { UserProfileConnector } from '../connectors/user-profile.connector';
 import { UserProfileService } from './user-profile.service';
+
+import createSpy = jasmine.createSpy;
 
 class MockUserProfileConnector implements Partial<UserProfileConnector> {
   update = vi.fn().mockReturnValue(of(undefined));

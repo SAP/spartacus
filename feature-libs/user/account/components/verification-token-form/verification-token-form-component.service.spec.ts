@@ -1,18 +1,19 @@
-import { vi } from 'vitest';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   AuthConfigService,
   AuthService,
+  FeatureConfigService,
   FeatureToggles,
   GlobalMessageService,
   I18nTestingModule,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { of } from 'rxjs';
 import { VerificationTokenFacade } from '../../root/facade';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing/mock-feature-toggles';
+import { vi } from 'vitest';
 
 class MockAuthService implements Partial<AuthService> {
   otpLoginWithCredentials = vi.fn().mockReturnValue(of({}));

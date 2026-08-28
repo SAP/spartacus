@@ -1,5 +1,4 @@
-import { vi } from 'vitest';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import {
   AuthRedirectService,
@@ -13,6 +12,8 @@ import { FormErrorsModule } from '@spartacus/storefront';
 import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
 import { UpdateEmailComponentService } from './update-email-component.service';
+import createSpy = jasmine.createSpy;
+
 class MockUserEmailService implements Partial<UserEmailFacade> {
   update = vi.fn().mockReturnValue(of({}));
 }

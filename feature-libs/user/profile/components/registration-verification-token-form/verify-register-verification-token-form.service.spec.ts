@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 /*
  * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
@@ -6,10 +5,15 @@ import { vi } from 'vitest';
  */
 import { inject, TestBed } from '@angular/core/testing';
 import { UntypedFormBuilder } from '@angular/forms';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  GlobalMessageService,
+  GlobalMessageType,
+} from '@spartacus/core';
 import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
 
+import createSpy = jasmine.createSpy;
 import { RegistrationVerificationTokenFormComponentService } from './verify-register-verification-token-form.service';
 
 class MockUserRegisterFacade implements Partial<UserRegisterFacade> {

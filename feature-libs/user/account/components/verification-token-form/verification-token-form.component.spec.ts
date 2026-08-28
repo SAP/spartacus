@@ -1,11 +1,10 @@
-import { vi } from 'vitest';
 import {
   ChangeDetectorRef,
   DebugElement,
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -36,6 +35,7 @@ import {
 } from '../user-account-constants';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
 import { VerificationTokenFormComponent } from './verification-token-form.component';
+import createSpy = jasmine.createSpy;
 
 const isBusySubject = new BehaviorSubject(false);
 

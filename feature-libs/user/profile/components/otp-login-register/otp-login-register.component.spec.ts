@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 /*
  * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
@@ -6,7 +5,7 @@ import { vi } from 'vitest';
  */
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -45,6 +44,8 @@ import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { RegisterComponentService } from '../register';
 import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-account-constants';
 import { OneTimePasswordRegisterComponent } from './otp-login-register.component';
+
+import createSpy = jasmine.createSpy;
 
 const mockRegisterFormData: any = {
   titleCode: 'Mr',

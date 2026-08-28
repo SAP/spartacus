@@ -1,5 +1,4 @@
-import { vi } from 'vitest';
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import {
   AbstractControl,
   ReactiveFormsModule,
@@ -8,6 +7,7 @@ import {
 import {
   AuthRedirectService,
   AuthService,
+  FeatureConfigService,
   FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
@@ -19,6 +19,7 @@ import { FormErrorsModule } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
 import { UpdatePasswordComponentService } from './update-password-component.service';
+import { vi } from 'vitest';
 
 const mockSecurePassword = 'strongPas$!123';
 const mockInvalidPassword = 'strongPas$!123|';

@@ -1,6 +1,5 @@
-import { vi } from 'vitest';
 import { Component, DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   AbstractControl,
   ReactiveFormsModule,
@@ -19,8 +18,9 @@ import {
   BaseSiteService,
   ConsentTemplate,
   CxDatePipe,
-  FeatureToggles,
+  FeatureConfigService,
   FeatureDirective,
+  FeatureToggles,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
@@ -42,10 +42,11 @@ import {
   PasswordVisibilityToggleModule,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { EMPTY, Observable, Subject, of } from 'rxjs';
 import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';
+import { vi } from 'vitest';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 
 const mockSecurePassword = 'strongPas$!123';
 const mockInvalidPassword = 'strongPas$!123|';
@@ -447,7 +448,7 @@ describe('RegisterComponent', () => {
     });
 
     it('should disable input when register consent is required', () => {
-      vi.spyOn<any>(component, isConsentRequiredMethod).mockReturnValue(true);
+      vi.spyOn<any, any>(component, isConsentRequiredMethod).mockReturnValue(true);
       fixture.detectChanges();
       fixture.detectChanges();
       expect(controls['newsletter'].status).toEqual('DISABLED');

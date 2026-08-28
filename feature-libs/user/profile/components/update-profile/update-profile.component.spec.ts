@@ -1,10 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DebugElement,
-  Directive,
-  Input,
-} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, DebugElement, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
@@ -12,8 +7,8 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { NgSelectModule } from '@ng-select/ng-select';
 import {
+  FeatureDirective,
   MockTranslatePipe,
   MockTranslationService,
   PageMeta,
@@ -21,7 +16,6 @@ import {
   RoutingService,
   TranslatePipe,
   TranslationService,
-  FeatureDirective,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
@@ -29,14 +23,11 @@ import {
   SpinnerComponent,
   TruncationTooltipDirective,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { BehaviorSubject, of } from 'rxjs';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 import { UpdateProfileComponent } from './update-profile.component';
+import { MockFeatureTogglesController, provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing/mock-feature-toggles';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 
 @Component({
   selector: 'cx-spinner',

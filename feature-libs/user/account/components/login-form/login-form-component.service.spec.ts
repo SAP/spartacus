@@ -1,6 +1,4 @@
-import { vi } from 'vitest';
-import { Provider } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   ActivatedRoute,
@@ -21,16 +19,12 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { Observable, of, throwError } from 'rxjs';
-import {
-  LOGIN_ERROR_KEY,
-  SESSION_EXPIRED_ERROR,
-} from '../user-account-constants';
 import { LoginFormComponentService } from './login-form-component.service';
+import { MockFeatureTogglesController, provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing/mock-feature-toggles';
+import { Provider } from '@angular/core';
+import { vi } from 'vitest';
+import { LOGIN_ERROR_KEY, SESSION_EXPIRED_ERROR } from '../user-account-constants';
 
 class MockWinRef {
   localStorage = { setItem: vi.fn(), removeItem: vi.fn() };

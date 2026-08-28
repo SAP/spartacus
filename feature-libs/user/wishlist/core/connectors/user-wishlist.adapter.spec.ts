@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 /*
  * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
@@ -13,6 +12,7 @@ import { UserWishlistAdapter } from './user-wishlist.adapter';
  * Concrete stub that fulfils the abstract class contract.
  * Each method is individually spied on in tests.
  */
+
 class MockUserWishlistAdapter extends UserWishlistAdapter {
   getWishlist(_userId: string): Observable<Wishlist> {
     return of({ id: 'mock-id', entries: [] });
