@@ -599,7 +599,7 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
       );
     });
 
-    it('should render typed and legacy messages together when the feature is enabled', () => {
+    it('should render only typed messages when the feature is enabled', () => {
       featureToggles.set('productConfiguratorCPQContainer', true);
       configuration = createConfigWithTypedRootMessages(
         true,
@@ -627,42 +627,42 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
         '.cx-warning-message:nth-child(3)',
         typedWarningMessage
       );
-      CommonConfiguratorTestUtilsService.expectElementToContainText(
-        expect,
-        htmlElem,
-        '.cx-warning-message:nth-child(4)',
-        warningMessage1
-      );
-      CommonConfiguratorTestUtilsService.expectElementToContainText(
-        expect,
-        htmlElem,
-        '.cx-error-message:nth-child(1)',
-        errorMessage1
-      );
-      CommonConfiguratorTestUtilsService.expectElementToContainText(
-        expect,
-        htmlElem,
-        '.cx-error-message:nth-child(2)',
-        errorMessage2
-      );
+      expect(htmlElem.textContent).not.toContain(warningMessage1);
+      expect(htmlElem.textContent).not.toContain(errorMessage1);
+      expect(htmlElem.textContent).not.toContain(errorMessage2);
     });
 
-    it('should still render legacy messages when typed messages are empty', () => {
+    it('should not render legacy messages when typed messages are empty', () => {
       featureToggles.set('productConfiguratorCPQContainer', true);
       configuration = createConfigWithTypedRootMessages(true, []);
       fixture.detectChanges();
 
+      expect(htmlElem.querySelector('.cx-warning-message')).toBeNull();
+      expect(htmlElem.querySelector('.cx-error-message')).toBeNull();
+    });
+
+    it('should render a message only once when it is present in both the typed and the legacy list', () => {
+      const duplicateMessage = 'Clean-Up services are needed in addition';
+      featureToggles.set('productConfiguratorCPQContainer', true);
+      configuration = {
+        ...configWOMessages,
+        hasFullConfigurationState: true,
+        warningMessages: [duplicateMessage],
+        messages: [
+          {
+            message: duplicateMessage,
+            severity: Configurator.MessageSeverity.WARNING,
+          },
+        ],
+      };
+      fixture.detectChanges();
+
+      expect(htmlElem.querySelectorAll('.cx-warning-message').length).toBe(1);
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-warning-message:nth-child(1)',
-        warningMessage1
-      );
-      CommonConfiguratorTestUtilsService.expectElementToContainText(
-        expect,
-        htmlElem,
-        '.cx-error-message:nth-child(1)',
-        errorMessage1
+        '.cx-warning-message',
+        duplicateMessage
       );
     });
 

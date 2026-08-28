@@ -104,37 +104,6 @@ export class ConfiguratorMessageService {
   }
 
   /**
-   * Appends message views by severity without removing duplicates.
-   *
-   * @param views - Message views to merge
-   * @returns Combined message view
-   */
-  mergeMessagesViews(
-    ...views: ConfiguratorMessagesView[]
-  ): ConfiguratorMessagesView {
-    return views.reduce<ConfiguratorMessagesView>(
-      (merged, view) => ({
-        infoMessages: [...merged.infoMessages, ...view.infoMessages],
-        warningMessages: [...merged.warningMessages, ...view.warningMessages],
-        errorMessages: [...merged.errorMessages, ...view.errorMessages],
-        containerInfoMessages: [
-          ...(merged.containerInfoMessages ?? []),
-          ...(view.containerInfoMessages ?? []),
-        ],
-        requiredErrorMessages: [
-          ...(merged.requiredErrorMessages ?? []),
-          ...(view.requiredErrorMessages ?? []),
-        ],
-      }),
-      {
-        infoMessages: [],
-        warningMessages: [],
-        errorMessages: [],
-      }
-    );
-  }
-
-  /**
    * Filters messages for a container product card by selection state.
    * Selected products show error messages,
    * unselected products show info, error, container relevant and required messages.

@@ -99,15 +99,8 @@ export class ConfiguratorConflictAndErrorMessagesComponent {
       );
     }
     if (this.shouldUseTypedRootMessages(configuration)) {
-      return this.configuratorMessageService.mergeMessagesViews(
-        this.configuratorMessageService.splitMessagesBySeverity(
-          configuration.messages
-        ),
-        {
-          infoMessages: [],
-          warningMessages: configuration.warningMessages ?? [],
-          errorMessages: configuration.errorMessages ?? [],
-        }
+      return this.configuratorMessageService.splitMessagesBySeverity(
+        configuration.messages
       );
     }
     return {

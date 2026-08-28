@@ -160,31 +160,6 @@ describe('ConfiguratorMessageService', () => {
     });
   });
 
-  describe('mergeMessagesViews', () => {
-    it('should append messages by severity', () => {
-      expect(
-        service.mergeMessagesViews(
-          {
-            infoMessages: ['Info 1'],
-            warningMessages: ['Warning 1'],
-            errorMessages: ['Error 1'],
-          },
-          {
-            infoMessages: ['Info 2'],
-            warningMessages: ['Warning 2'],
-            errorMessages: ['Error 2'],
-          }
-        )
-      ).toEqual({
-        infoMessages: ['Info 1', 'Info 2'],
-        warningMessages: ['Warning 1', 'Warning 2'],
-        errorMessages: ['Error 1', 'Error 2'],
-        containerInfoMessages: [],
-        requiredErrorMessages: [],
-      });
-    });
-  });
-
   describe('filterMessagesByProductSelection', () => {
     const view: ConfiguratorMessagesView = {
       infoMessages: ['Info'],
