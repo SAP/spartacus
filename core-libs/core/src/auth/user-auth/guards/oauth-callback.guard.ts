@@ -19,7 +19,6 @@ import { AuthRedirectService } from '../services';
  * In a browser, send the user to the URL stored in AuthRedirectService
  * when the user is already authenticated, or the login page when anonymous.
  */
-// TODO: what happens in error scenario (bad credentials)?
 @Injectable({
   providedIn: 'root',
 })
@@ -32,7 +31,7 @@ export class OAuthCallbackGuard {
 
   canActivate(): Observable<GuardResult> {
     if (!this.windowRef.isBrowser()) {
-      // always render oauth callback in SSR.
+      // always render oauth callback page in SSR.
       return of(true);
     }
 
