@@ -60,6 +60,7 @@ export const defaultAuthConfig: AuthConfig = {
       oidc: false,
       clearHashAfterLogin: false,
       responseType: 'code',
+      redirectUri: '/oauth-callback',
     },
     customLoginPage: {
       csrfEndpoint: '/csrf',

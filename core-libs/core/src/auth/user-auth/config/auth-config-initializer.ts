@@ -8,6 +8,7 @@ import { inject, Injectable } from '@angular/core';
 import { combineLatest, firstValueFrom, map, Observable } from 'rxjs';
 import { ConfigInitializer } from '../../../config/config-initializer/config-initializer';
 import { ConfigInitializerService } from '../../../config/config-initializer/config-initializer.service';
+import { FeatureToggles } from '../../../features-config/feature-toggles';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { BASE_SITE_CONTEXT_ID } from '../../../site-context/providers/context-ids';
 import { SiteContextParamsService } from '../../../site-context/services';
@@ -26,6 +27,8 @@ export class AuthConfigInitializer implements ConfigInitializer {
   protected baseSiteService = inject(BaseSiteService);
   protected siteContextParamsService = inject(SiteContextParamsService);
   protected windowRef = inject(WindowRef);
+
+  private featureToggles = inject(FeatureToggles);
 
   protected isSSR = !this.windowRef.isBrowser();
 
@@ -59,22 +62,67 @@ export class AuthConfigInitializer implements ConfigInitializer {
       : config.authentication?.client_id;
   }
 
+  /**
+   * Generates the Redirect URI based on provided static config and the dynamic base site.
+   *
+   * **When the "oauthCallbackPage" feature flag is disabled:**
+   *
+   * Appends the base site to the redirect URI.
+   *
+   * **When the "oauthCallbackPage" feature flag is enabled:**
+   *
+   * The configured redirect URI will be
+   * modified depending on whether it is relative or absolute.
+   * - Relative URIs are interpreted as a custom oAuth callback path.  The page origin will be used
+   *   for the host, and base site will be added if enabled before the custom path.
+   * - Absolute (and protocol-relative) URIs will be treated as the intended value.  The base site
+   *   will be appended to the path if enabled.
+   */
   protected generateRedirectUri(activeBaseSite: string, config: AuthConfig) {
     const addBaseSiteToRedirectUri =
       config.authentication?.initializerOptions?.addBaseSiteToRedirectUri;
 
-    // urlRoot is the provided config value or the system default
-    const urlRoot =
-      config.authentication?.OAuthLibConfig?.redirectUri ??
-      this.getDefaultRedirectUri();
+    if (this.featureToggles.oauthCallbackPage) {
+      const configuredRedirectUri =
+        config.authentication?.OAuthLibConfig?.redirectUri;
+      const shouldAppendBaseSite =
+        addBaseSiteToRedirectUri === true ||
+        (addBaseSiteToRedirectUri === 'auto' && this.baseSiteInUrl());
 
-    if (
-      addBaseSiteToRedirectUri === true ||
-      (addBaseSiteToRedirectUri === 'auto' && this.baseSiteInUrl())
-    ) {
-      return `${urlRoot}/${encodeURIComponent(activeBaseSite)}`;
+      // if the redirect URI is absolute or protocol-relative
+      if (configuredRedirectUri?.match(/^(https?:)?\/\//)) {
+        // no further processing, return redirect URI with the appended base site
+        return shouldAppendBaseSite
+          ? `${configuredRedirectUri}/${encodeURIComponent(activeBaseSite)}`
+          : configuredRedirectUri;
+      }
+
+      // relative URL will be interpreted as custom callback path
+      const urlSegments = [this.getDefaultRedirectUri() as string];
+
+      if (shouldAppendBaseSite) {
+        urlSegments.push(encodeURIComponent(activeBaseSite));
+      }
+
+      if (configuredRedirectUri) {
+        urlSegments.push(this.trimLeadingSlash(configuredRedirectUri));
+      }
+
+      return urlSegments.join('/');
     } else {
-      return urlRoot;
+      // urlRoot is the provided config value or the system default
+      const urlRoot =
+        config.authentication?.OAuthLibConfig?.redirectUri ??
+        this.getDefaultRedirectUri();
+
+      if (
+        addBaseSiteToRedirectUri === true ||
+        (addBaseSiteToRedirectUri === 'auto' && this.baseSiteInUrl())
+      ) {
+        return `${urlRoot}/${encodeURIComponent(activeBaseSite)}`;
+      } else {
+        return urlRoot;
+      }
     }
   }
 
@@ -85,6 +133,12 @@ export class AuthConfigInitializer implements ConfigInitializer {
   }
 
   protected getDefaultRedirectUri() {
-    return !this.isSSR ? this.windowRef.nativeWindow?.location.origin : '';
+    return !this.isSSR
+      ? (this.windowRef.nativeWindow?.location.origin as string)
+      : '';
+  }
+
+  protected trimLeadingSlash(path: string): string {
+    return path.charAt(0) === '/' ? path.substring(1) : path;
   }
 }

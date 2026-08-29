@@ -785,6 +785,25 @@ export interface FeatureTogglesInterface {
    * Affects: `ListComponent` (`cx-org-list`)
    */
   a11yNavigationChevronContrast?: boolean;
+
+  /**
+   * Enables support for a dedicated oAuth callback page to be used for the
+   * Return URI in Authorization Code Flow.
+   *
+   * 1. Adds new route 'oauthCallback' to the default `RoutingConfig`.
+   *
+   * 2. Defines a CMS Component for 'OauthCallbackComponent' using the `SpinnerComponent`.
+   *
+   * 3. Modifies the AuthConfigInitializer's generation of Redirect URI.
+   *    The configured redirect URI will be modified depending on whether it is
+   *    relative or absolute.
+   *    - Relative URIs are interpreted as a custom oAuth callback path.  The
+   *      page origin will be used for the host, and base site will be added if
+   *      enabled before the custom path.
+   *    - Absolute (and protocol-relative) URIs will be treated as the intended
+   *      value.  The base site will be appended to the path if enabled.
+   */
+  oauthCallbackPage?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -883,4 +902,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   configuratorIssuesNotificationForConfigurableOnly: false,
   globalMessageCloseButtonPadding: false,
   a11yNavigationChevronContrast: false,
+  oauthCallbackPage: false,
 };

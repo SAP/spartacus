@@ -24,6 +24,7 @@ export function defaultUserAccountComponentsConfig(): CmsConfig {
       [USER_ACCOUNT_FEATURE]: {
         cmsComponents: [
           'LoginComponent',
+          'OAuthCallbackComponent',
           'ReturningCustomerLoginComponent',
           'VerifyOTPTokenComponent',
           'ReturningCustomerRegisterComponent',
