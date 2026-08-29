@@ -8,9 +8,10 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 
-import { Router, UrlTree } from '@angular/router';
-import { OppsLoginRequiredGuard } from './opps-login-required.guard';
+import { signal } from '@angular/core';
+import { Navigation, Router, UrlTree } from '@angular/router';
 import { OppsConfig } from '../config/opps-config';
+import { OppsLoginRequiredGuard } from './opps-login-required.guard';
 
 const mockConfig = {
   opps: {
@@ -53,21 +54,18 @@ class MockRouter implements Partial<Router> {
   parseUrl(_url: string): UrlTree {
     return { root: 'test-login' } as any;
   }
-  getCurrentNavigation(): any {
-    let output = {
-      id: 1,
-      previousNavigation: null,
-      trigger: 'imperative',
-      finalUrl: {
-        queryParams: {},
-        fragment: '',
-      },
-      initialUrl: {} as any,
-      extractedUrl: {} as any,
-      extras: {},
-    };
-    return output;
-  }
+  currentNavigation = signal((<Partial<Navigation>>{
+    id: 1,
+    previousNavigation: null,
+    trigger: 'imperative',
+    finalUrl: {
+      queryParams: {},
+      fragment: '',
+    } as UrlTree,
+    initialUrl: {} as any,
+    extractedUrl: {} as any,
+    extras: {},
+  }) as Navigation | null);
 }
 describe('OppsLoginRequiredGuard', () => {
   let guard: OppsLoginRequiredGuard;

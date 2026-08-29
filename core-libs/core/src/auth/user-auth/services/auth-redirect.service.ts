@@ -97,7 +97,7 @@ export class AuthRedirectService implements OnDestroy {
    * the url is a part of the user login flow.
    */
   saveCurrentNavigationUrl(): void {
-    const navigation = this.router.getCurrentNavigation();
+    const navigation = this.router.currentNavigation();
     if (!navigation?.finalUrl) {
       return;
     }
