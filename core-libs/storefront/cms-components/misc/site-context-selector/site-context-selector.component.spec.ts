@@ -24,13 +24,13 @@ import {
   TranslationService,
   UrlPipe,
 } from '@spartacus/core';
-import { MockTranslationService } from '@spartacus/core/src/i18n/testing/mock-translation.service';
+import { MockTranslationService } from '@spartacus/core/testing/i18n';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { IconComponent } from '../icon';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
-import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
