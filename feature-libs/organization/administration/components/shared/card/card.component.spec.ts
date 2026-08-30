@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -24,14 +25,13 @@ import { ItemService } from '../item.service';
 import { MessageComponent } from '../message/message.component';
 import { MessageTestingModule } from '../message/message.testing.module';
 import { CardComponent } from './card.component';
-import createSpy = jasmine.createSpy;
 
 const mockItem = { foo: 'bar' };
 
 class MockItemService {
   key$ = of('key');
   current$ = of(mockItem);
-  launchDetails = createSpy('launchDetails');
+  launchDetails = vi.fn();
 }
 
 class MockGlobalMessageService {
@@ -114,14 +114,16 @@ describe('CardComponent', () => {
         const el: HTMLElement = fixture.debugElement.query(
           By.css('.title h3')
         ).nativeElement;
-        expect(el.innerText).toContain('organization.budget.title');
+        expect(el.textContent?.trim()).toContain('organization.budget.title');
       });
 
       it('should have localized h4 subtitle', () => {
         const el: HTMLElement = fixture.debugElement.query(
           By.css('.title h4')
         ).nativeElement;
-        expect(el.innerText).toContain('organization.budget.subtitle');
+        expect(el.textContent?.trim()).toContain(
+          'organization.budget.subtitle'
+        );
       });
 
       it('should have back button by default', () => {
@@ -146,7 +148,7 @@ describe('CardComponent', () => {
         const el: HTMLElement = fixture.debugElement.query(
           By.css('button.close')
         ).nativeElement;
-        expect(el.innerText).toContain('organization.assign');
+        expect(el.textContent?.trim()).toContain('organization.assign');
       });
     });
   });
@@ -157,7 +159,7 @@ describe('CardComponent', () => {
       const ev = {
         stopPropagation: () => {},
       };
-      spyOn(component.view, 'toggle');
+      vi.spyOn(component.view, 'toggle');
       component.closeView(ev as MouseEvent);
       expect(component.view.toggle).toHaveBeenCalledWith(true);
     });
@@ -183,7 +185,7 @@ describe('CardComponent', () => {
         By.css('cx-popover > .popover-body > p')
       );
       expect(el).toBeTruthy();
-      expect(el.nativeElement.innerText.trim()).toBe(
+      expect(el.nativeElement.textContent?.trim()).toBe(
         'organization.budget.hint'
       );
     });

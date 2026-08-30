@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -21,6 +21,7 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupTitleComponent } from './configurator-group-title.component';
+import { vi } from 'vitest';
 
 const config: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
@@ -94,7 +95,7 @@ describe('ConfiguratorGroupTitleComponent', () => {
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
   let hamburgerMenuService: HamburgerMenuService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
     TestBed.configureTestingModule({
       imports: [
@@ -136,7 +137,7 @@ describe('ConfiguratorGroupTitleComponent', () => {
         add: { imports: [MockHamburgerMenuComponent] },
       })
       .compileComponents();
-  }));
+  });
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorGroupTitleComponent);
     component = fixture.componentInstance;
@@ -147,32 +148,37 @@ describe('ConfiguratorGroupTitleComponent', () => {
 
     configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     configuratorUtils.setOwnerKey(config.owner);
-    spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
+    vi.spyOn(configuratorGroupsService, 'navigateToGroup').mockImplementation(
+      () => {}
+    );
 
     configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);
 
     breakpointService = TestBed.inject(BreakpointService);
 
-    spyOn(breakpointService, 'isUp').and.returnValue(of(false));
+    vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(false));
 
     configuratorStorefrontUtilsService = TestBed.inject(
       ConfiguratorStorefrontUtilsService
     );
 
-    spyOn(configuratorStorefrontUtilsService, 'changeStyling').and.stub();
-    spyOn(configuratorStorefrontUtilsService, 'removeStyling');
-    spyOn(
+    vi.spyOn(
+      configuratorStorefrontUtilsService,
+      'changeStyling'
+    ).mockImplementation(() => {});
+    vi.spyOn(configuratorStorefrontUtilsService, 'removeStyling');
+    vi.spyOn(
       configuratorStorefrontUtilsService,
       'focusFirstActiveElement'
-    ).and.stub();
+    ).mockImplementation(() => {});
 
     hamburgerMenuService = TestBed.inject(HamburgerMenuService);
-    spyOn(hamburgerMenuService, 'toggle').and.callThrough();
+    vi.spyOn(hamburgerMenuService, 'toggle');
   });
 
   it('should create component with expanded hamburger menu icon', () => {
     hamburgerMenuService.toggle(false);
-    spyOn(breakpointService, 'isDown').and.returnValue(of(true));
+    vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(true));
     fixture.detectChanges();
     expect(component).toBeDefined();
     expect(
@@ -194,7 +200,7 @@ describe('ConfiguratorGroupTitleComponent', () => {
   });
 
   it('should create component with hamburger menu icon', () => {
-    spyOn(breakpointService, 'isDown').and.returnValue(of(true));
+    vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(true));
     fixture.detectChanges();
     expect(component).toBeDefined();
     CommonConfiguratorTestUtilsService.expectElementPresent(
@@ -228,7 +234,7 @@ describe('ConfiguratorGroupTitleComponent', () => {
 
   describe('getGroupTitle', () => {
     it('should return group title', () => {
-      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
+      vi.spyOn(configExpertModeService, 'getExpModeActive').mockReturnValue(
         of(false)
       );
       expect(component.getGroupTitle(config.groups[0])).toEqual(
@@ -237,7 +243,7 @@ describe('ConfiguratorGroupTitleComponent', () => {
     });
 
     it('should return group title for expert mode', () => {
-      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
+      vi.spyOn(configExpertModeService, 'getExpModeActive').mockReturnValue(
         of(true)
       );
       const groupMenuTitle =
@@ -248,7 +254,7 @@ describe('ConfiguratorGroupTitleComponent', () => {
     it('should return conflict group title for expert mode', () => {
       const configForExpMode =
         ConfigurationTestData.productConfigurationWithConflicts;
-      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
+      vi.spyOn(configExpertModeService, 'getExpModeActive').mockReturnValue(
         of(true)
       );
       fixture.detectChanges();
@@ -260,7 +266,7 @@ describe('ConfiguratorGroupTitleComponent', () => {
 
   describe('isMobile', () => {
     it('should not render hamburger menu in desktop mode', () => {
-      spyOn(breakpointService, 'isDown').and.returnValue(of(false));
+      vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(false));
       fixture.detectChanges();
 
       component.isMobile().subscribe((isMobile) => {
@@ -274,7 +280,7 @@ describe('ConfiguratorGroupTitleComponent', () => {
     });
 
     it('should render hamburger menu in mobile mode', () => {
-      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
+      vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(true));
       fixture.detectChanges();
 
       component.isMobile().subscribe((isMobile) => {
@@ -290,7 +296,7 @@ describe('ConfiguratorGroupTitleComponent', () => {
 
   describe('ngOnDestroy', () => {
     it('should unsubscribe and remove styling on ngOnDestroy', () => {
-      const spyUnsubscribe = spyOn(Subscription.prototype, 'unsubscribe');
+      const spyUnsubscribe = vi.spyOn(Subscription.prototype, 'unsubscribe');
       component.ngOnDestroy();
       expect(spyUnsubscribe).toHaveBeenCalled();
       expect(

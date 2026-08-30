@@ -31,7 +31,8 @@ import {
 } from '@spartacus/core';
 import { filter, merge, take } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { BREAKPOINT, BreakpointService } from '../../../layout';
+import { BREAKPOINT } from '../../../layout/config/layout-config';
+import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 
 const ARIA_LABEL = 'aria-label';
 const ARIA_HIDDEN = 'aria-hidden';

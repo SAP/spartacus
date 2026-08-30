@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { FormBuilder, UntypedFormGroup } from '@angular/forms';
 import {
@@ -92,7 +93,7 @@ describe('RegisterVerificationTokenFormComponentService', () => {
   });
 
   it('should redirect to login page', () => {
-    spyOn(routingService, 'go').and.callThrough();
+    vi.spyOn(routingService, 'go');
 
     service.registerUser(service.form.value).subscribe().unsubscribe();
 
@@ -102,7 +103,7 @@ describe('RegisterVerificationTokenFormComponentService', () => {
   });
 
   it('should display a success message after registration', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
 
     service.registerUser(service.form.value).subscribe().unsubscribe();
 
@@ -117,7 +118,7 @@ describe('RegisterVerificationTokenFormComponentService', () => {
   });
 
   it('should call buildMessageContent and translate correctly', () => {
-    spyOn(translationService, 'translate').and.callThrough();
+    vi.spyOn(translationService, 'translate');
 
     const formValue = {
       phoneNumber: '123456789',
@@ -153,7 +154,7 @@ describe('RegisterVerificationTokenFormComponentService', () => {
   });
 
   it('should call registerUser with correct data', () => {
-    spyOn(userRegistrationFacade, 'registerUser').and.callThrough();
+    vi.spyOn(userRegistrationFacade, 'registerUser');
 
     service.form.setValue({
       tokenId: 'testTokenId',

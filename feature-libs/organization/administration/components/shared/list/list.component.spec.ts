@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -15,7 +16,6 @@ import {
   EntitiesModel,
   FeatureDirective,
   I18nTestingModule,
-  Translatable,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
@@ -39,7 +39,6 @@ import { EMPTY, of } from 'rxjs';
 import { ItemService } from '../item.service';
 import { ListComponent } from './list.component';
 import { ListService } from './list.service';
-import createSpy = jasmine.createSpy;
 
 interface Mock {
   code: string;
@@ -69,10 +68,10 @@ const mockEmptyList: EntitiesModel<Mock> = {
 };
 
 class MockBaseListService {
-  view = createSpy('view');
-  sort = createSpy('sort');
-  search = createSpy('search');
-  clearSearch = createSpy('clearSearch');
+  view = vi.fn();
+  sort = vi.fn();
+  search = vi.fn();
+  clearSearch = vi.fn();
   getData() {
     return EMPTY;
   }
@@ -95,15 +94,13 @@ class MockBaseListService {
     return 'organization.search.placeholder';
   }
   onCreateButtonClick(): void {}
-  getCreateButtonType = createSpy('getCreateButtonType');
-  getCreateButtonLabel(): Translatable {
-    return { key: 'organization.add' };
-  }
+  getCreateButtonType = vi.fn();
+  getCreateButtonLabel = vi.fn().mockReturnValue({ key: 'organization.add' });
 }
 
 class MockItemService {
   key$ = EMPTY;
-  launchDetails = createSpy('launchDetails');
+  launchDetails = vi.fn();
 }
 
 class ActivatedRouteMock {
@@ -209,8 +206,8 @@ describe('ListComponent', () => {
 
   describe('with table data', () => {
     beforeEach(() => {
-      spyOn(service, 'getData').and.returnValue(of(mockList));
-      spyOn(service, 'key').and.callThrough();
+      vi.spyOn(service, 'getData').mockReturnValue(of(mockList));
+      vi.spyOn(service, 'key');
       fixture = TestBed.createComponent(MockListComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -273,7 +270,7 @@ describe('ListComponent', () => {
 
   describe('without table data', () => {
     beforeEach(() => {
-      spyOn(service, 'getData').and.returnValue(of(mockEmptyList));
+      vi.spyOn(service, 'getData').mockReturnValue(of(mockEmptyList));
       fixture = TestBed.createComponent(MockListComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -292,7 +289,7 @@ describe('ListComponent', () => {
 
   describe('hint', () => {
     beforeEach(() => {
-      spyOn(service, 'getData').and.returnValue(of(mockEmptyList));
+      vi.spyOn(service, 'getData').mockReturnValue(of(mockEmptyList));
       fixture = TestBed.createComponent(MockListComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -312,19 +309,19 @@ describe('ListComponent', () => {
         By.css('cx-popover > .popover-body > p')
       );
       expect(el).toBeTruthy();
-      expect(el.nativeElement.innerText.trim()).toBe('orgBudget.hint');
+      expect(el.nativeElement.textContent?.trim()).toBe('orgBudget.hint');
     });
   });
 
   describe('onCreateButtonClick', () => {
     beforeEach(() => {
-      spyOn(service, 'getData').and.returnValue(of(mockEmptyList));
+      vi.spyOn(service, 'getData').mockReturnValue(of(mockEmptyList));
       fixture = TestBed.createComponent(MockListComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
     });
     it('should process click of create button', () => {
-      spyOn(service, 'onCreateButtonClick').and.callThrough();
+      vi.spyOn(service, 'onCreateButtonClick');
       component.onCreateButtonClick();
       expect(service.onCreateButtonClick).toHaveBeenCalled();
     });
@@ -334,17 +331,16 @@ describe('ListComponent', () => {
     let el: DebugElement;
 
     beforeEach(() => {
-      spyOn(service, 'getData').and.returnValue(of(mockEmptyList));
+      vi.spyOn(service, 'getData').mockReturnValue(of(mockEmptyList));
       fixture = TestBed.createComponent(MockListComponent);
       el = fixture.debugElement;
       component = fixture.componentInstance;
-      fixture.detectChanges();
     });
 
     describe('it should show create functionality by default', () => {
       it('it should show Hyperlink with correct label and not Button', () => {
-        service.getCreateButtonType = createSpy().and.returnValue('LINK');
-        service.getCreateButtonLabel = createSpy().and.returnValue({
+        service.getCreateButtonType = vi.fn().mockReturnValue('LINK');
+        service.getCreateButtonLabel = vi.fn().mockReturnValue({
           key: 'organization.add',
         });
         component.createButtonType = service.getCreateButtonType();
@@ -353,14 +349,16 @@ describe('ListComponent', () => {
 
         let hlink = el.query(By.css('a.button.primary.create'));
         expect(hlink).toBeTruthy();
-        expect(hlink.nativeElement.innerText).toBe('organization.add');
+        expect(hlink.nativeElement.textContent?.trim()).toBe(
+          'organization.add'
+        );
         let button = el.query(By.css('button.button.primary.create'));
         expect(button).toBeNull();
       });
 
       it('it should show Button with correct label and not Hyperlink', () => {
-        service.getCreateButtonType = createSpy().and.returnValue('BUTTON');
-        service.getCreateButtonLabel = createSpy().and.returnValue({
+        service.getCreateButtonType = vi.fn().mockReturnValue('BUTTON');
+        service.getCreateButtonLabel = vi.fn().mockReturnValue({
           key: 'organization.manageUsers',
         });
         component.createButtonType = service.getCreateButtonType();
@@ -371,13 +369,15 @@ describe('ListComponent', () => {
         expect(hlink).toBeNull();
         let button = el.query(By.css('button.button.primary.create'));
         expect(button).toBeTruthy();
-        expect(button.nativeElement.innerText).toBe('organization.manageUsers');
+        expect(button.nativeElement.textContent?.trim()).toBe(
+          'organization.manageUsers'
+        );
       });
     });
 
     describe('it should not show create functionality', () => {
       it('it should not show Hyperlink', () => {
-        service.getCreateButtonType = createSpy().and.returnValue('LINK');
+        service.getCreateButtonType = vi.fn().mockReturnValue('LINK');
         component.hideAddButton = true;
         component.createButtonType = service.getCreateButtonType();
         fixture.detectChanges();
@@ -389,7 +389,7 @@ describe('ListComponent', () => {
       });
 
       it('it should not show Button', () => {
-        service.getCreateButtonType = createSpy().and.returnValue('BUTTON');
+        service.getCreateButtonType = vi.fn().mockReturnValue('BUTTON');
         component.createButtonType = service.getCreateButtonType();
         component.hideAddButton = true;
         fixture.detectChanges();
@@ -404,7 +404,7 @@ describe('ListComponent', () => {
 
   describe('Search functionality', () => {
     beforeEach(() => {
-      spyOn(service, 'getData').and.returnValue(of(mockList));
+      vi.spyOn(service, 'getData').mockReturnValue(of(mockList));
       fixture = TestBed.createComponent(MockListComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -417,7 +417,7 @@ describe('ListComponent', () => {
       });
 
       it('should reflect service isSearchEnabled value', () => {
-        spyOn(service, 'isSearchEnabled').and.returnValue(true);
+        vi.spyOn(service, 'isSearchEnabled').mockReturnValue(true);
         const newFixture = TestBed.createComponent(MockListComponent);
         const newComponent = newFixture.componentInstance;
         expect(newComponent.isSearchEnabled).toBe(true);

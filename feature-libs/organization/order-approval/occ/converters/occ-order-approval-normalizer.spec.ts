@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { ConverterService, Occ, OccConfig } from '@spartacus/core';
@@ -52,7 +53,7 @@ describe('OrderApprovalNormalizer', () => {
       OccOrderApprovalNormalizer as Type<OccOrderApprovalNormalizer>
     );
     converter = TestBed.inject(ConverterService);
-    spyOn(converter, 'convert').and.callFake(
+    vi.spyOn(converter, 'convert').mockImplementation(
       (order) =>
         ({
           ...order,

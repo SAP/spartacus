@@ -23,6 +23,7 @@ import {
   ReplaySubject,
   Subject,
 } from 'rxjs';
+import { vi } from 'vitest';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
 import { MediaComponent } from '../../../shared/components/media/media.component';
@@ -34,7 +35,6 @@ import {
   SearchBoxSuggestionSelectedEvent,
 } from './search-box.events';
 import { SearchResults } from './search-box.model';
-import { vi } from 'vitest';
 
 const mockSearchBoxComponentData: CmsSearchBoxComponent = {
   uid: '001',
@@ -372,6 +372,26 @@ describe('SearchBoxComponent', () => {
         fixture.detectChanges();
 
         expect(fixture.debugElement.query(By.css('.results'))).toBeTruthy();
+      });
+
+      it('should remove has-outer-results when the feature is enabled and there are no outer results', () => {
+        fixture.componentRef.setInput('queryText', 'test input');
+        fixture.detectChanges();
+
+        const results = fixture.debugElement.query(
+          By.css('.results')
+        ).nativeElement;
+        (searchBoxComponent as any).featureToggles = {
+          searchBoxEmptyQueryResultsPanel: true,
+        };
+        vi.spyOn(searchBoxComponent['renderer'], 'removeClass');
+
+        searchBoxComponent['checkOuterResults']();
+
+        expect(searchBoxComponent['renderer'].removeClass).toHaveBeenCalledWith(
+          results,
+          'has-outer-results'
+        );
       });
 
       it('should remove has-outer-results when the feature is enabled and there are no outer results', () => {

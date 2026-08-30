@@ -671,9 +671,13 @@ describe('CartItemListComponent', () => {
     });
 
     it('should not call _setItems when neither contextRequiresRerender nor isItemsChanged are true', () => {
-      configureTestingModule().overrideProvider(OutletContextData, {
-        useValue: { context$ },
-      });
+      configureTestingModule()
+        .overrideProvider(OutletContextData, {
+          useValue: { context$ },
+        })
+        .overrideProvider(FeatureToggles, {
+          useValue: { a11yPreventCartItemsFormRedundantRecreation: true },
+        });
       TestBed.compileComponents();
       stubServiceAndCreateComponent();
 
@@ -682,9 +686,6 @@ describe('CartItemListComponent', () => {
       // and feature toggle is explicitly enabled (dual-token issue under Vite)
       component.readonly = mockContext.readonly;
       fixture.componentRef.setInput('items', mockContext.items);
-      (component as any)['featureToggles'] = {
-        a11yPreventCartItemsFormRedundantRecreation: true,
-      };
 
       const spySetItems = vi.spyOn(<any>component, '_setItems');
       component.ngOnInit();

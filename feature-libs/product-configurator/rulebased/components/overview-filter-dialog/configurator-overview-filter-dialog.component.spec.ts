@@ -1,5 +1,5 @@
 import { Component, Directive, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
@@ -22,6 +22,7 @@ import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorOverviewFilterComponent } from '../overview-filter/configurator-overview-filter.component';
 import { ConfiguratorOverviewFilterDialogComponent } from './configurator-overview-filter-dialog.component';
+import { vi } from 'vitest';
 
 let component: ConfiguratorOverviewFilterDialogComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFilterDialogComponent>;
@@ -40,7 +41,7 @@ function initialize() {
 
 function initializeMocks() {
   mockLaunchDialogService = {
-    closeDialog: jasmine.createSpy(),
+    closeDialog: vi.fn(),
     data$: of(ovConfig),
   };
 }
@@ -67,7 +68,7 @@ export class MockKeyboadFocusDirective {
 }
 
 describe('ConfiguratorOverviewFilterDialogComponent', () => {
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     initializeMocks();
     TestBed.configureTestingModule({
       imports: [ConfiguratorOverviewFilterDialogComponent],
@@ -98,7 +99,7 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   it('should create component', () => {
     initialize();

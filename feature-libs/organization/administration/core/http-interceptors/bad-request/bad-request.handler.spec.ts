@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import {
@@ -87,7 +88,7 @@ describe('OrganizationBadRequestHandler', () => {
   });
 
   it('should handle unit conflict', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     service.handleError(MockRequest, MockUnitConflictResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -100,7 +101,7 @@ describe('OrganizationBadRequestHandler', () => {
   });
 
   it('should handle cost center conflict', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     service.handleError(MockRequest, MockCostCenterConflictResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -113,7 +114,7 @@ describe('OrganizationBadRequestHandler', () => {
   });
 
   it('should handle permission conflict', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     service.handleError(MockRequest, MockPermissionConflictResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -126,7 +127,7 @@ describe('OrganizationBadRequestHandler', () => {
   });
 
   it('should handle unknown conflict', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     service.handleError(MockRequest, MockUnknownConflictResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -139,7 +140,7 @@ describe('OrganizationBadRequestHandler', () => {
   });
 
   it('should not handle conflict if error response does not have enough info', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     service.handleError(MockRequest, {
       error: {},
     } as HttpErrorResponse);
