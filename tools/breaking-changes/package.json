@@ -32,7 +32,7 @@
     "glob": "^7.2.0",
     "stringify-object": "7.0.0",
     "ts-node": "^10.9.1",
-    "typescript": "^5.0.0"
+    "typescript": "^7.0.0"
   },
   "overrides": {
     "fast-uri@^3": "3.1.4",
