@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import {
@@ -9,7 +10,6 @@ import {
 } from '../../root/model';
 import { AccountSummaryAdapter } from './account-summary.adapter';
 import { AccountSummaryConnector } from './account-summary.connector';
-import createSpy = jasmine.createSpy;
 
 const userId = 'userId';
 const orgUnitId = 'orgUnit';
@@ -63,16 +63,10 @@ const accountSummaryDocumentsResult: AccountSummaryList = {
 
 const accountSummaryAttachmentFile = new Blob();
 class MockAccountSummaryAdapter implements AccountSummaryAdapter {
-  getDocumentAttachment = createSpy('getDocumentAttachment').and.returnValue(
-    accountSummaryAttachmentFile
-  );
+  getDocumentAttachment = vi.fn().mockReturnValue(accountSummaryAttachmentFile);
 
-  getAccountSummary = createSpy('getAccountSummary').and.returnValue(
-    of(accountSummaryResult)
-  );
-  getDocumentList = createSpy('getDocumentList').and.returnValue(
-    of(accountSummaryDocumentsResult)
-  );
+  getAccountSummary = vi.fn().mockReturnValue(of(accountSummaryResult));
+  getDocumentList = vi.fn().mockReturnValue(of(accountSummaryDocumentsResult));
 }
 
 describe('AccountSummaryConnector', () => {

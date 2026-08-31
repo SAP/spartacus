@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   ORDER_ENTRY_PROMOTIONS_NORMALIZER,
   PromotionResult,
@@ -22,7 +22,7 @@ describe('OccReplenishmentOrderNormalizer', () => {
   let normalizer: OccReplenishmentOrderNormalizer;
   let converter: ConverterService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [
         OccReplenishmentOrderNormalizer,
@@ -32,13 +32,13 @@ describe('OccReplenishmentOrderNormalizer', () => {
         },
       ],
     });
-  }));
+  });
 
   beforeEach(() => {
     normalizer = TestBed.inject(OccReplenishmentOrderNormalizer);
     converter = TestBed.inject(ConverterService);
 
-    spyOn(converter, 'convert').and.callThrough();
+    vi.spyOn(converter, 'convert');
   });
 
   it('should create', () => {

@@ -1,5 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -149,7 +149,7 @@ describe('OrderDetailItemsComponent', () => {
   let mockOrderDetailsService: OrderDetailsService;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     mockOrderDetailsService = <OrderDetailsService>{
       isOrderDetailsLoading(): Observable<boolean> {
         return of(false);
@@ -187,7 +187,7 @@ describe('OrderDetailItemsComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailItemsComponent);
@@ -252,7 +252,7 @@ describe('OrderDetailItemsComponent', () => {
   });
 
   it('should show promotions on replenishment details', () => {
-    spyOn(mockOrderDetailsService, 'getOrderDetails').and.returnValue(
+    vi.spyOn(mockOrderDetailsService, 'getOrderDetails').mockReturnValue(
       of(mockReplenishmentOrder)
     );
     let order: ReplenishmentOrder;

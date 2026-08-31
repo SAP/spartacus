@@ -32,7 +32,7 @@ class MockTemplate1Component extends MockTemplateComponent {}
 @Component({
   template: `
     <div id="host2">
-      <ng-template cxPageTemplateStyle> </ng-template>
+      <ng-template cxPageTemplateStyle />
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -56,7 +56,7 @@ class MockTemplate3Component extends MockTemplateComponent {}
 @Component({
   template: `
     <div id="host4">
-      <ng-template cxPageTemplateStyle="customClass2"> </ng-template>
+      <ng-template cxPageTemplateStyle="customClass2" />
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -68,7 +68,7 @@ class MockTemplate4Component extends MockTemplateComponent {}
   template: `
     <div id="host5">
       <ng-template>
-        <ng-template cxPageTemplateStyle> </ng-template>
+        <ng-template cxPageTemplateStyle />
       </ng-template>
     </div>
   `,
@@ -131,9 +131,9 @@ describe('PageTemplateDirective', () => {
     directiveStateTransferService = TestBed.inject(
       DirectiveStateTransferService
     );
-    spyOn(directiveStateTransferService, 'get').and.callThrough();
-    spyOn(directiveStateTransferService, 'set').and.callThrough();
-    spyOn(directiveStateTransferService, 'clear').and.callThrough();
+    vi.spyOn(directiveStateTransferService, 'get');
+    vi.spyOn(directiveStateTransferService, 'set');
+    vi.spyOn(directiveStateTransferService, 'clear');
   });
 
   type HostID = '#host1' | '#host2' | '#host3' | '#host4' | '#host5' | '#host6';
@@ -210,9 +210,7 @@ describe('PageTemplateDirective', () => {
   });
 
   it('should remove the transfer state class', () => {
-    (directiveStateTransferService.get as jasmine.Spy).and.returnValue(
-      oldClass
-    );
+    (directiveStateTransferService.get as any).mockReturnValue(oldClass);
 
     const el = createHostComponent('#host6');
 

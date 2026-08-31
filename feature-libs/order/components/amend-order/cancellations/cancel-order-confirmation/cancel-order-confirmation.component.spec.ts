@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -22,8 +22,6 @@ import { Order } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
 import { CancelOrderConfirmationComponent } from './cancel-order-confirmation.component';
-
-import createSpy = jasmine.createSpy;
 
 @Component({
   template: '',
@@ -63,7 +61,7 @@ mockOrder.entries.forEach((entry) => {
 });
 
 class MockOrderAmendService {
-  save = createSpy();
+  save = vi.fn();
   getForm() {
     return of(mockForm);
   }
@@ -77,7 +75,7 @@ describe('CancelOrderConfirmationComponent', () => {
   let fixture: ComponentFixture<CancelOrderConfirmationComponent>;
   let service: OrderAmendService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
@@ -108,7 +106,7 @@ describe('CancelOrderConfirmationComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CancelOrderConfirmationComponent);

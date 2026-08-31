@@ -8,8 +8,7 @@ import {
   RoutingConfig,
   SemanticPathService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Observable, firstValueFrom, of } from 'rxjs';
 import { LogoutGuard } from './logout.guard';
 
 class MockAuthService implements Partial<AuthService> {
@@ -95,7 +94,7 @@ describe('LogoutGuard', () => {
 
   describe('When user is authorized,', () => {
     beforeEach(() => {
-      spyOn(authService, 'coreLogout').and.callThrough();
+      vi.spyOn(authService, 'coreLogout');
     });
 
     it('should logout and clear user state', async () => {
@@ -103,44 +102,29 @@ describe('LogoutGuard', () => {
       expect(authService.coreLogout).toHaveBeenCalled();
     });
 
-    it('should return redirect url to home page if app not protected', (done) => {
-      spyOnProperty(protectedRoutesService, 'shouldProtect').and.returnValue(
+    it('should return redirect url to home page if app not protected', async () => {
+      vi.spyOn(protectedRoutesService, 'shouldProtect', 'get').mockReturnValue(
         false
       );
 
-      logoutGuard
-        .canActivate()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result.toString()).toBe('/');
-          done();
-        });
+      const result = await firstValueFrom(logoutGuard.canActivate());
+      expect(result.toString()).toBe('/');
     });
 
-    it('should return redirect url to login page if app protected', (done) => {
-      spyOnProperty(protectedRoutesService, 'shouldProtect').and.returnValue(
+    it('should return redirect url to login page if app protected', async () => {
+      vi.spyOn(protectedRoutesService, 'shouldProtect', 'get').mockReturnValue(
         true
       );
 
-      logoutGuard
-        .canActivate()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result.toString()).toBe('/login');
-          done();
-        });
+      const result = await firstValueFrom(logoutGuard.canActivate());
+      expect(result.toString()).toBe('/login');
     });
 
-    it('should return true if the logout page exists', (done) => {
-      spyOn(cmsService, 'hasPage').and.returnValue(of(true));
+    it('should return true if the logout page exists', async () => {
+      vi.spyOn(cmsService, 'hasPage').mockReturnValue(of(true));
 
-      logoutGuard
-        .canActivate()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toBe(true);
-          done();
-        });
+      const result = await firstValueFrom(logoutGuard.canActivate());
+      expect(result).toBe(true);
     });
   });
 });

@@ -1,4 +1,5 @@
-import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { vi } from 'vitest';
+import { inject, TestBed } from '@angular/core/testing';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store, StoreModule } from '@ngrx/store';
 import {
@@ -128,8 +129,8 @@ describe('OrgUnitService', () => {
     store = TestBed.inject(Store);
     service = TestBed.inject(OrgUnitService);
     userIdService = TestBed.inject(UserIdService);
-    spyOn(store, 'dispatch').and.callThrough();
-    spyOn(userIdService, 'takeUserId').and.callThrough();
+    vi.spyOn(store, 'dispatch');
+    vi.spyOn(userIdService, 'takeUserId');
 
     actions$ = TestBed.inject(ActionsSubject);
     takeUserId$ = new BehaviorSubject(userId);
@@ -143,8 +144,9 @@ describe('OrgUnitService', () => {
   ));
 
   describe('get orgUnit', () => {
-    it('get() should trigger load orgUnit details when they are not present in the store', fakeAsync(() => {
-      spyOn(service, 'load').and.callThrough();
+    it('get() should trigger load orgUnit details when they are not present in the store', async () => {
+      vi.useFakeTimers();
+      vi.spyOn(service, 'load');
       const sub = service.get(orgUnitId).subscribe();
 
       actions$
@@ -155,10 +157,11 @@ describe('OrgUnitService', () => {
           );
         });
 
-      tick();
+      await vi.advanceTimersByTimeAsync(0);
+      vi.useRealTimers();
       expect(service.load).toHaveBeenCalledWith(orgUnitId);
       sub.unsubscribe();
-    }));
+    });
 
     it('get() should be able to get orgUnit details when they are present in the store', () => {
       store.dispatch(new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]));
@@ -769,13 +772,13 @@ describe('OrgUnitService', () => {
   describe('getErrorState', () => {
     it('getErrorState() should be able to get status error', () => {
       let errorState: boolean;
-      spyOn<any>(service, 'getOrgUnitState').and.returnValue(
+      vi.spyOn<any>(service, 'getOrgUnitState').mockReturnValue(
         of({ loading: false, success: false, error: true })
       );
 
       service.getErrorState('code').subscribe((error) => (errorState = error));
 
-      expect(errorState).toBeTrue();
+      expect(errorState).toBe(true);
     });
   });
 });

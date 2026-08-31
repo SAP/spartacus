@@ -3,7 +3,6 @@ import { OrderEntry } from '@spartacus/cart/base/root';
 import { OrderHistoryFacade } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { OrderDetailsOrderEntriesContext } from './order-details-order-entries.context';
-import createSpy = jasmine.createSpy;
 
 const mockEntries: OrderEntry[] = [
   {
@@ -13,7 +12,7 @@ const mockEntries: OrderEntry[] = [
 ];
 
 class MockOrderHistoryFacade implements Partial<OrderHistoryFacade> {
-  getOrderDetails = createSpy().and.returnValue(of({ entries: mockEntries }));
+  getOrderDetails = vi.fn().mockReturnValue(of({ entries: mockEntries }));
 }
 
 describe('OrderDetailsOrderEntriesContext', () => {

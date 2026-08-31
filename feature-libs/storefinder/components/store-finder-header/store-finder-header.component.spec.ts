@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CxDatePipe,
   MockDatePipe,
@@ -21,7 +21,7 @@ describe('StoreFinderHeaderComponent', () => {
   let component: StoreFinderHeaderComponent;
   let fixture: ComponentFixture<StoreFinderHeaderComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [StoreFinderHeaderComponent],
       providers: [
@@ -41,7 +41,7 @@ describe('StoreFinderHeaderComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderHeaderComponent);
