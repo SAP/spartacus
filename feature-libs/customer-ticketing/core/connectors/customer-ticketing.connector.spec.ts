@@ -9,8 +9,6 @@ import { take } from 'rxjs/operators';
 import { CustomerTicketingAdapter } from './customer-ticketing.adapter';
 import { CustomerTicketingConnector } from './customer-ticketing.connector';
 
-import createSpy = jasmine.createSpy;
-
 const mockTicketDetails: TicketDetails = {
   id: '1',
   subject: 'mockTicket',
@@ -27,14 +25,14 @@ const mockTicketStarter: TicketStarter = {
 class MockCustomerTicketingAdapter
   implements Partial<CustomerTicketingAdapter>
 {
-  getTicket = createSpy().and.returnValue(of(mockTicketDetails));
-  getTickets = createSpy().and.returnValue(EMPTY);
-  getTicketCategories = createSpy().and.returnValue(EMPTY);
-  getTicketAssociatedObjects = createSpy().and.returnValue(EMPTY);
-  createTicketEvent = createSpy().and.returnValue(of(mockTicketEvent));
-  uploadAttachment = createSpy().and.returnValue(EMPTY);
-  downloadAttachment = createSpy().and.returnValue(EMPTY);
-  createTicket = createSpy().and.returnValue(EMPTY);
+  getTicket = vi.fn().mockReturnValue(of(mockTicketDetails));
+  getTickets = vi.fn().mockReturnValue(EMPTY);
+  getTicketCategories = vi.fn().mockReturnValue(EMPTY);
+  getTicketAssociatedObjects = vi.fn().mockReturnValue(EMPTY);
+  createTicketEvent = vi.fn().mockReturnValue(of(mockTicketEvent));
+  uploadAttachment = vi.fn().mockReturnValue(EMPTY);
+  downloadAttachment = vi.fn().mockReturnValue(EMPTY);
+  createTicket = vi.fn().mockReturnValue(EMPTY);
 }
 
 describe('CustomerTicketingConnentor', () => {

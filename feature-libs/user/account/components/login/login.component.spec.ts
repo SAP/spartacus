@@ -1,5 +1,6 @@
+import { vi } from 'vitest';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -17,7 +18,6 @@ import { PageSlotComponent } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { LoginComponent } from './login.component';
-import createSpy = jasmine.createSpy;
 
 const mockUserDetails: User = {
   displayUid: 'Display Uid',
@@ -28,7 +28,7 @@ const mockUserDetails: User = {
 };
 
 class MockAuthService {
-  login = createSpy();
+  login = vi.fn();
   isUserLoggedIn(): Observable<boolean> {
     return of(true);
   }
@@ -37,7 +37,7 @@ class MockAuthService {
   }
 }
 class MockRoutingService {
-  go = createSpy('go');
+  go = vi.fn();
 }
 class MockUserAccountFacade {
   get(): Observable<User> {
@@ -78,7 +78,7 @@ describe('LoginComponent', () => {
 
   let authService: AuthService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [LoginComponent, I18nTestingModule],
       providers: [
@@ -115,13 +115,12 @@ describe('LoginComponent', () => {
       .compileComponents();
 
     authService = TestBed.inject(AuthService);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     component.ngOnInit();
-    fixture.detectChanges();
   });
 
   it('should be created', () => {
@@ -141,7 +140,7 @@ describe('LoginComponent', () => {
   });
 
   it('should not get user details when token is lacking', () => {
-    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+    vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
 
     let user;
     component.ngOnInit();
@@ -162,25 +161,29 @@ describe('LoginComponent', () => {
     });
 
     it('should display greeting message when the user is logged in', () => {
-      expect(fixture.debugElement.nativeElement.innerText).toContain(
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.textContent?.trim()).toContain(
         expectedGreeting
       );
     });
 
     it('should display the register message when the user is not logged in', () => {
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
       component.ngOnInit();
       fixture.detectChanges();
 
-      expect(fixture.debugElement.nativeElement.innerText).toContain(
+      expect(fixture.debugElement.nativeElement.textContent?.trim()).toContain(
         'miniLogin.signInRegister'
       );
     });
 
     it('should contain the dynamic slot: HeaderLinks', () => {
-      spyOn(component, 'onRootNavBtnAdded').and.callThrough();
+      const spy = vi
+        .spyOn(component, 'onRootNavBtnAdded')
+        .mockImplementation(() => {});
       component.ngOnInit();
       fixture.detectChanges();
+      spy.mockRestore();
       expectedGreeting = 'Testing;';
       const expectedRootNavBtn = fixture.debugElement.query(
         By.css('cx-navigation-ui nav ul li:first-child button')
@@ -195,25 +198,25 @@ describe('LoginComponent', () => {
     });
 
     it('should  display login when using asm client', () => {
-      spyOn(authService, 'isUsingASMClient').and.returnValue(of(false));
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+      vi.spyOn(authService, 'isUsingASMClient').mockReturnValue(of(false));
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
       component.ngOnInit();
       fixture.detectChanges();
 
-      expect(fixture.debugElement.nativeElement.innerText).toContain(
+      expect(fixture.debugElement.nativeElement.textContent?.trim()).toContain(
         'miniLogin.signInRegister'
       );
     });
 
     it('should not display login when using asm client', () => {
-      spyOn(authService, 'isUsingASMClient').and.returnValue(of(true));
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+      vi.spyOn(authService, 'isUsingASMClient').mockReturnValue(of(true));
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
       component.ngOnInit();
       fixture.detectChanges();
 
-      expect(fixture.debugElement.nativeElement.innerText).not.toContain(
-        'miniLogin.signInRegister'
-      );
+      expect(
+        fixture.debugElement.nativeElement.textContent?.trim()
+      ).not.toContain('miniLogin.signInRegister');
     });
   });
 });

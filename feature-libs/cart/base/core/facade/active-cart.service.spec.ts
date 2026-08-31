@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
+  FeatureToggles,
   getLastValueSync,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
@@ -22,7 +23,10 @@ import {
 } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { vi } from 'vitest';
-import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from '@spartacus/core/testing/mock-feature-toggles';
 import { ActiveCartService } from './active-cart.service';
 
 const userId$ = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);
@@ -72,9 +76,7 @@ const MockWindowRef = {
       store[key] = `${value}`;
     },
     removeItem: (key: string): void => {
-      if (key in store) {
-        store[key] = undefined;
-      }
+      delete store[key];
     },
   },
   isBrowser(): boolean {
@@ -343,7 +345,7 @@ describe('ActiveCartService', () => {
         'oAuthRedirectCodeFlow'
       );
 
-      expect(storedOauthFlowKey).toBeUndefined();
+      expect(storedOauthFlowKey).toBeNull();
     });
   });
 
@@ -743,7 +745,6 @@ describe('ActiveCartService', () => {
     // context (spartacus⚿<baseSite>⚿<key>). `pendingGuestCartMerge` is the
     // (protected) key held by ActiveCartStatePersistenceService.
     const STORAGE_KEY = `spartacus⚿${BASE_SITE}⚿pendingGuestCartMerge`;
-
     beforeEach(() => {
       winRef?.localStorage?.removeItem(STORAGE_KEY);
       TestBed.resetTestingModule();
@@ -758,10 +759,13 @@ describe('ActiveCartService', () => {
             provide: SiteContextParamsService,
             useValue: { getValues: () => of([BASE_SITE]) },
           },
-          provideMockFeatureToggles({
-            authorizationCodeFlowByDefault: true,
-            mergeGuestCartOnCodeFlowLogin: true,
-          }),
+          {
+            provide: FeatureToggles,
+            useValue: {
+              authorizationCodeFlowByDefault: true,
+              mergeGuestCartOnCodeFlowLogin: true,
+            },
+          },
         ],
       });
       service = TestBed.inject(ActiveCartService);
@@ -831,7 +835,7 @@ describe('ActiveCartService', () => {
 
     describe('guestCartMerge', () => {
       it('should add the persisted entries and clear storage without deleting the guest cart', () => {
-        vi.spyOn(multiCartFacade, 'deleteCart');
+        vi.spyOn(multiCartFacade, 'deleteCart').mockImplementation(() => {});
         vi.spyOn(service as any, 'addEntriesGuestMerge').mockImplementation(
           () => {}
         );

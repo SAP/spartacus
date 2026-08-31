@@ -1,9 +1,9 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { Cart, MultiCartFacade } from '@spartacus/cart/base/root';
-import { Observable, of } from 'rxjs';
+import { Observable, firstValueFrom, of } from 'rxjs';
 import { UserIdService, RoutingService } from '@spartacus/core';
 import { CartUtilsService } from './cart-utils.service';
-import createSpy = jasmine.createSpy;
 
 const newCart: Cart = {};
 
@@ -20,7 +20,7 @@ class MockUserIdService implements Partial<UserIdService> {
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go = createSpy();
+  go = vi.fn();
 }
 
 describe('CartUtilsService', () => {
@@ -42,8 +42,8 @@ describe('CartUtilsService', () => {
     userIdService = TestBed.inject(UserIdService);
     routingService = TestBed.inject(RoutingService);
     multiCartFacade = TestBed.inject(MultiCartFacade);
-    spyOn(userIdService, 'takeUserId').and.returnValue(of('current'));
-    spyOn(multiCartFacade, 'createCart').and.callThrough();
+    vi.spyOn(userIdService, 'takeUserId').mockReturnValue(of('current'));
+    vi.spyOn(multiCartFacade, 'createCart');
   });
 
   it('should be created', () => {
@@ -51,12 +51,10 @@ describe('CartUtilsService', () => {
   });
 
   describe('createNewCart', () => {
-    it('should create a new cart ', (done) => {
-      classUnderTest['createNewCart']().subscribe((cart) => {
-        expect(cart).toBe(newCart);
-        expect(userIdService.takeUserId).toHaveBeenCalled();
-        done();
-      });
+    it('should create a new cart ', async () => {
+      const cart = await firstValueFrom(classUnderTest['createNewCart']());
+      expect(cart).toBe(newCart);
+      expect(userIdService.takeUserId).toHaveBeenCalled();
     });
   });
 

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
@@ -32,8 +33,6 @@ import { FormComponent } from '../../shared';
 import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { PermissionItemService } from '../services/permission-item.service';
 import { PermissionFormComponent } from './permission-form.component';
-
-import createSpy = jasmine.createSpy;
 
 const mockForm = new UntypedFormGroup({
   code: new UntypedFormControl(),
@@ -76,7 +75,7 @@ const mockPermissionTypes: OrderApprovalPermissionType[] = [
   },
 ];
 class MockPermissionService {
-  getTypes = createSpy('getTypes').and.returnValue(of(mockPermissionTypes));
+  getTypes = vi.fn().mockReturnValue(of(mockPermissionTypes));
 }
 
 describe('PermissionFormComponent', () => {
@@ -130,9 +129,9 @@ describe('PermissionFormComponent', () => {
     currencyService = TestBed.inject(CurrencyService);
     b2bUnitService = TestBed.inject(OrgUnitService);
 
-    spyOn(currencyService, 'getAll').and.callThrough();
-    spyOn(b2bUnitService, 'getActiveUnitList').and.callThrough();
-    spyOn(b2bUnitService, 'loadList').and.callThrough();
+    vi.spyOn(currencyService, 'getAll');
+    vi.spyOn(b2bUnitService, 'getActiveUnitList');
+    vi.spyOn(b2bUnitService, 'loadList');
   });
 
   beforeEach(() => {

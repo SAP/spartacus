@@ -162,12 +162,12 @@ describe('PageLayoutService', () => {
 
   describe('Page template 1', () => {
     beforeEach(() => {
-      spyOn(cmsService, 'getCurrentPage').and.returnValue(of(page_1));
+      vi.spyOn(cmsService, 'getCurrentPage').mockReturnValue(of(page_1));
     });
 
     describe('mobile (xs)', () => {
       beforeEach(() => {
-        spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+        vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
           of(BREAKPOINT.xs)
         );
       });
@@ -192,7 +192,7 @@ describe('PageLayoutService', () => {
 
       it('should use Page Layout Handlers', () => {
         const pageLayoutHandler = TestBed.inject(PAGE_LAYOUT_HANDLER)[0];
-        spyOn(pageLayoutHandler, 'handle').and.callThrough();
+        vi.spyOn(pageLayoutHandler, 'handle');
         pageLayoutService.getSlots('footer').subscribe();
         expect(pageLayoutHandler.handle).toHaveBeenCalled();
       });
@@ -200,7 +200,7 @@ describe('PageLayoutService', () => {
 
     describe('tablet (md)', () => {
       beforeEach(() => {
-        spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+        vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
           of(BREAKPOINT.md)
         );
       });
@@ -227,7 +227,7 @@ describe('PageLayoutService', () => {
 
     describe('desktop (lg)', () => {
       beforeEach(() => {
-        spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+        vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
           of(BREAKPOINT.lg)
         );
       });
@@ -255,12 +255,12 @@ describe('PageLayoutService', () => {
 
   describe('Page template 2', () => {
     beforeEach(() => {
-      spyOn(cmsService, 'getCurrentPage').and.returnValue(of(page_2));
+      vi.spyOn(cmsService, 'getCurrentPage').mockReturnValue(of(page_2));
     });
 
     describe('mobile (xs)', () => {
       beforeEach(() => {
-        spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+        vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
           of(BREAKPOINT.xs)
         );
       });
@@ -276,7 +276,7 @@ describe('PageLayoutService', () => {
 
     describe('mobile (md)', () => {
       beforeEach(() => {
-        spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+        vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
           of(BREAKPOINT.md)
         );
       });
@@ -293,7 +293,7 @@ describe('PageLayoutService', () => {
 
     describe('desktop (lg)', () => {
       beforeEach(() => {
-        spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+        vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
           of(BREAKPOINT.lg)
         );
       });
@@ -310,8 +310,8 @@ describe('PageLayoutService', () => {
 
   describe('Page template 3', () => {
     beforeEach(() => {
-      spyOn(cmsService, 'getCurrentPage').and.returnValue(of(page_3));
-      spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+      vi.spyOn(cmsService, 'getCurrentPage').mockReturnValue(of(page_3));
+      vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
         of(BREAKPOINT.lg)
       );
     });
@@ -330,7 +330,7 @@ describe('PageLayoutService', () => {
     describe('single page fold for all breakpoints', () => {
       Object.keys(BREAKPOINT).forEach((breakpoint) => {
         it('should return page-fold for large ' + breakpoint, () => {
-          spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+          vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
             of(breakpoint as BREAKPOINT)
           );
           let results;
@@ -346,7 +346,7 @@ describe('PageLayoutService', () => {
     describe('specific page-fold for 2 breakpoints', () => {
       const pageTemplate = 'template_with_2_specific_page_folds';
       it('should return extra small page slot for XS', () => {
-        spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+        vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
           of(BREAKPOINT.xs)
         );
         let results;
@@ -357,7 +357,7 @@ describe('PageLayoutService', () => {
         expect(results).toEqual('slot-xs');
       });
       it('should also return extra small page slot for SM', () => {
-        spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+        vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
           of(BREAKPOINT.sm)
         );
         let results;
@@ -368,7 +368,7 @@ describe('PageLayoutService', () => {
         expect(results).toEqual('slot-xs');
       });
       it('should return medium page slot for MD', () => {
-        spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+        vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
           of(BREAKPOINT.md)
         );
         let results;
@@ -379,7 +379,7 @@ describe('PageLayoutService', () => {
         expect(results).toEqual('slot-md');
       });
       it('should also return medium page slot for LG', () => {
-        spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+        vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
           of(BREAKPOINT.lg)
         );
         let results;
@@ -390,7 +390,7 @@ describe('PageLayoutService', () => {
         expect(results).toEqual('slot-md');
       });
       it('should also return medium page slot for XL', () => {
-        spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+        vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
           of(BREAKPOINT.xl)
         );
         let results;
@@ -404,7 +404,7 @@ describe('PageLayoutService', () => {
 
     describe('any breakpoint', () => {
       beforeEach(() => {
-        spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+        vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
           of(BREAKPOINT.md)
         );
       });
@@ -454,7 +454,7 @@ describe('PageLayoutService', () => {
 
   describe('no page layout confguration', () => {
     it('should not return page slot when there is no layout configuration', () => {
-      spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+      vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
         of(BREAKPOINT.md)
       );
       let results;

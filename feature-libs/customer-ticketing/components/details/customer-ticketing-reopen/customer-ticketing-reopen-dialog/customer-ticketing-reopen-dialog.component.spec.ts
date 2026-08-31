@@ -23,15 +23,14 @@ import {
 } from '@spartacus/storefront';
 import { EMPTY, of } from 'rxjs';
 import { CustomerTicketingReopenDialogComponent } from './customer-ticketing-reopen-dialog.component';
-import createSpy = jasmine.createSpy;
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
 
 class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
-  createTicketEvent = createSpy().and.returnValue(EMPTY);
-  uploadAttachment = createSpy().and.returnValue(EMPTY);
+  createTicketEvent = vi.fn().mockReturnValue(EMPTY);
+  uploadAttachment = vi.fn().mockReturnValue(EMPTY);
 }
 
 class MockRoutingService implements Partial<RoutingService> {
@@ -150,9 +149,9 @@ describe('CustomerTicketingReopenDialogComponent', () => {
           addedByAgent: true,
           ticketEventAttachments: [{}],
         };
-        (
-          customerTicketingFacade.createTicketEvent as jasmine.Spy
-        ).and.returnValue(of(mockTicketEvent));
+        (customerTicketingFacade.createTicketEvent as any).mockReturnValue(
+          of(mockTicketEvent)
+        );
 
         component.reopenRequest();
 

@@ -1,5 +1,6 @@
+import { vi } from 'vitest';
 import { Component, DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AbstractControl,
   ReactiveFormsModule,
@@ -45,7 +46,6 @@ import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feat
 import { EMPTY, Observable, Subject, of } from 'rxjs';
 import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';
-import createSpy = jasmine.createSpy;
 
 const mockSecurePassword = 'strongPas$!123';
 const mockInvalidPassword = 'strongPas$!123|';
@@ -95,15 +95,15 @@ class MockUrlPipe implements PipeTransform {
 class MockSpinnerComponent {}
 
 class MockGlobalMessageService {
-  add = createSpy();
-  remove = createSpy();
+  add = vi.fn();
+  remove = vi.fn();
   get() {
     return EMPTY;
   }
 }
 
 class MockRoutingService {
-  go = createSpy();
+  go = vi.fn();
 }
 
 class MockAnonymousConsentsService {
@@ -136,12 +136,12 @@ const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
 class MockRegisterComponentService
   implements Partial<RegisterComponentService>
 {
-  getTitles = createSpy().and.returnValue(of(mockTitlesList));
-  register = createSpy().and.returnValue(of(undefined));
-  postRegisterMessage = createSpy();
-  getAdditionalConsents = createSpy();
-  generateAdditionalConsentsFormControl = createSpy();
-  collectDataFromRegisterForm = createSpy();
+  getTitles = vi.fn().mockReturnValue(of(mockTitlesList));
+  register = vi.fn().mockReturnValue(of(undefined));
+  postRegisterMessage = vi.fn();
+  getAdditionalConsents = vi.fn();
+  generateAdditionalConsentsFormControl = vi.fn();
+  collectDataFromRegisterForm = vi.fn();
 }
 
 class MockSiteAdapter {
@@ -181,7 +181,7 @@ describe('RegisterComponent', () => {
   let registerComponentService: RegisterComponentService;
   let featureToggles: FeatureToggles;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -253,7 +253,7 @@ describe('RegisterComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);
@@ -301,7 +301,7 @@ describe('RegisterComponent', () => {
     });
 
     it('should handle error when title code is required from the backend config', () => {
-      spyOn(globalMessageService, 'get').and.returnValue(
+      vi.spyOn(globalMessageService, 'get').mockReturnValue(
         of({
           [GlobalMessageType.MSG_TYPE_ERROR]: [
             { raw: 'This field is required.' },
@@ -323,7 +323,7 @@ describe('RegisterComponent', () => {
 
     it('should show spinner when loading = true', () => {
       const register = new Subject();
-      (regComponentService.register as any).and.returnValue(register);
+      (regComponentService.register as any).mockReturnValue(register);
       component.ngOnInit();
       component.registerUser();
       fixture.detectChanges();
@@ -353,8 +353,9 @@ describe('RegisterComponent', () => {
 
   describe('register', () => {
     it('should register with valid form', () => {
-      regComponentService.collectDataFromRegisterForm =
-        createSpy().and.returnValue({
+      regComponentService.collectDataFromRegisterForm = vi
+        .fn()
+        .mockReturnValue({
           firstName: mockRegisterFormData.firstName,
           lastName: mockRegisterFormData.lastName,
           uid: mockRegisterFormData.email_lowercase,
@@ -389,7 +390,7 @@ describe('RegisterComponent', () => {
     });
 
     it('should not redirect in different flow that ResourceOwnerPasswordFlow', () => {
-      spyOn(authConfigService, 'getOAuthFlow').and.returnValue(
+      vi.spyOn(authConfigService, 'getOAuthFlow').mockReturnValue(
         OAuthFlow.ImplicitFlow
       );
       component.ngOnInit();
@@ -403,7 +404,9 @@ describe('RegisterComponent', () => {
   const toggleAnonymousConsentMethod = 'toggleAnonymousConsent';
   describe(`${toggleAnonymousConsentMethod}`, () => {
     it('should call anonymousConsentsService.giveConsent when the consent is given', () => {
-      spyOn(anonymousConsentService, 'giveConsent').and.stub();
+      vi.spyOn(anonymousConsentService, 'giveConsent').mockImplementation(
+        () => {}
+      );
       component.ngOnInit();
 
       controls['newsletter'].setValue(true);
@@ -411,7 +414,9 @@ describe('RegisterComponent', () => {
       expect(anonymousConsentService.giveConsent).toHaveBeenCalled();
     });
     it('should call anonymousConsentsService.withdrawConsent when the consent is NOT given', () => {
-      spyOn(anonymousConsentService, 'withdrawConsent').and.stub();
+      vi.spyOn(anonymousConsentService, 'withdrawConsent').mockImplementation(
+        () => {}
+      );
       component.ngOnInit();
 
       controls['newsletter'].setValue(false);
@@ -422,7 +427,9 @@ describe('RegisterComponent', () => {
 
   describe('isConsentGiven', () => {
     it('should call anonymousConsentsService.isConsentGiven', () => {
-      spyOn(anonymousConsentService, 'isConsentGiven').and.stub();
+      vi.spyOn(anonymousConsentService, 'isConsentGiven').mockImplementation(
+        () => {}
+      );
       const mockConsent: AnonymousConsent = {
         consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
       };
@@ -440,7 +447,8 @@ describe('RegisterComponent', () => {
     });
 
     it('should disable input when register consent is required', () => {
-      spyOn<any>(component, isConsentRequiredMethod).and.returnValue(true);
+      vi.spyOn<any>(component, isConsentRequiredMethod).mockReturnValue(true);
+      fixture.detectChanges();
       fixture.detectChanges();
       expect(controls['newsletter'].status).toEqual('DISABLED');
     });
@@ -450,7 +458,7 @@ describe('RegisterComponent', () => {
     let captchaComponent: DebugElement;
     beforeEach(() => {
       captchaComponent = fixture.debugElement.query(By.css('cx-captcha'));
-      spyOn(component, 'registerUser').and.callThrough();
+      vi.spyOn(component, 'registerUser');
       mockRegisterFormData.captcha = false;
       component.registerForm.patchValue(mockRegisterFormData);
     });
@@ -472,7 +480,7 @@ describe('RegisterComponent', () => {
     });
 
     it('should confirm captcha', () => {
-      spyOn(component, 'captchaConfirmed').and.callThrough();
+      vi.spyOn(component, 'captchaConfirmed');
 
       captchaComponent.triggerEventHandler('enabled', true);
       captchaComponent.triggerEventHandler('confirmed', true);

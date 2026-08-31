@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Product, TranslatePipe, TranslationService } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import {
@@ -8,6 +8,7 @@ import {
   SubscriptionProductService,
 } from '@spartacus/subscription-billing/root';
 import { Observable, of } from 'rxjs';
+import { vi } from 'vitest';
 import { SubscriptionProductPriceComponent } from './subscription-product-price.component';
 const mockOneTime: OneTimeCharge[] = [{ name: 'one' }, { name: 'two' }];
 const mockRecurring: RecurringCharge[] = [{ price: { value: 1 } }];
@@ -55,7 +56,7 @@ describe('SubscriptionProductPriceComponent', () => {
   let component: SubscriptionProductPriceComponent;
   let fixture: ComponentFixture<SubscriptionProductPriceComponent>;
   let productService: SubscriptionProductService;
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [SubscriptionProductPriceComponent],
       providers: [
@@ -73,11 +74,11 @@ describe('SubscriptionProductPriceComponent', () => {
       })
       .compileComponents();
     productService = TestBed.inject(SubscriptionProductService);
-  }));
+  });
   describe('for a null product', () => {
     beforeEach(() => {
-      spyOn(productService, 'getSubscriptionData').and.returnValue(of(null));
-      spyOn(productService, 'isSubscription').and.returnValue(true);
+      vi.spyOn(productService, 'getSubscriptionData').mockReturnValue(of(null));
+      vi.spyOn(productService, 'isSubscription').mockReturnValue(true);
       fixture = TestBed.createComponent(SubscriptionProductPriceComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -99,8 +100,8 @@ describe('SubscriptionProductPriceComponent', () => {
   });
   describe('for a mock product without price plan', () => {
     beforeEach(() => {
-      spyOn(productService, 'isSubscription').and.returnValue(true);
-      spyOn(productService, 'getSubscriptionData').and.returnValue(
+      vi.spyOn(productService, 'isSubscription').mockReturnValue(true);
+      vi.spyOn(productService, 'getSubscriptionData').mockReturnValue(
         of(mockProduct1)
       );
       fixture = TestBed.createComponent(SubscriptionProductPriceComponent);
@@ -125,8 +126,8 @@ describe('SubscriptionProductPriceComponent', () => {
   });
   describe('for a mock product with price plan', () => {
     beforeEach(() => {
-      spyOn(productService, 'isSubscription').and.returnValue(true);
-      spyOn(productService, 'getSubscriptionData').and.returnValue(
+      vi.spyOn(productService, 'isSubscription').mockReturnValue(true);
+      vi.spyOn(productService, 'getSubscriptionData').mockReturnValue(
         of(mockProduct2)
       );
       fixture = TestBed.createComponent(SubscriptionProductPriceComponent);

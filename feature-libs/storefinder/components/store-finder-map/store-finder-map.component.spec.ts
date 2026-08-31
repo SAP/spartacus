@@ -1,6 +1,7 @@
 import { DebugElement, ElementRef, SimpleChange } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GoogleMapRendererService } from '@spartacus/storefinder/core';
+import { vi } from 'vitest';
 import { StoreFinderMapComponent } from './store-finder-map.component';
 
 class MapRendererServiceMock {
@@ -40,7 +41,7 @@ describe('StoreFinderMapComponent', () => {
 
   it('should render map', () => {
     // given
-    spyOn(mapRendererService, 'renderMap');
+    vi.spyOn(mapRendererService, 'renderMap');
 
     // when locations are changed
     component.locations = [location];
@@ -52,13 +53,13 @@ describe('StoreFinderMapComponent', () => {
     expect(mapRendererService.renderMap).toHaveBeenCalledWith(
       mapDomElement,
       [location],
-      jasmine.any(Function)
+      expect.any(Function)
     );
   });
 
   it('should not render map when locations are not changed', () => {
     // given
-    spyOn(mapRendererService, 'renderMap');
+    vi.spyOn(mapRendererService, 'renderMap');
 
     // when locations are changed
     component.locations = [location];
@@ -71,7 +72,7 @@ describe('StoreFinderMapComponent', () => {
   });
 
   it('should center map', () => {
-    spyOn(mapRendererService, 'centerMap');
+    vi.spyOn(mapRendererService, 'centerMap');
     component.centerMap(0, 0);
     expect(mapRendererService.centerMap).toHaveBeenCalledWith(0, 0);
   });

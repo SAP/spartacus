@@ -1,13 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { ContextService, RoutingContextService } from '@spartacus/storefront';
-import createSpy = jasmine.createSpy;
 
 const mockContext: any = { data: [1, 2, 3] };
 const token = 'TOKEN';
 
 class MockRoutingContextService implements Partial<RoutingContextService> {
-  get = createSpy('get').and.returnValue(of(mockContext));
+  get = vi.fn().mockReturnValue(of(mockContext));
 }
 
 describe('ContextService', () => {

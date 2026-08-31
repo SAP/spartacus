@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule, PaymentDetails } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { of } from 'rxjs';
@@ -42,7 +42,7 @@ describe('OrderDetailBillingComponent', () => {
   let component: OrderDetailBillingComponent;
   let fixture: ComponentFixture<OrderDetailBillingComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, OrderDetailBillingComponent],
       providers: [
@@ -52,7 +52,7 @@ describe('OrderDetailBillingComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailBillingComponent);

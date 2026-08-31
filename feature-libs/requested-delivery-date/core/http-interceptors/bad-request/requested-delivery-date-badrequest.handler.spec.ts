@@ -5,6 +5,7 @@ import {
   GlobalMessageType,
   HttpResponseStatus,
 } from '@spartacus/core';
+import { vi } from 'vitest';
 import { RequestedDeliveryDateBadRequestHandler } from './requested-delivery-date-badrequest.handler';
 
 class MockGlobalMessageService {
@@ -51,7 +52,7 @@ describe('RequestedDeliveryDateBadRequestHandler', () => {
   });
 
   it('should handle wrong date bad request', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     service.handleError(MockRequest, MockRDDBadRequestResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(

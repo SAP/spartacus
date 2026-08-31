@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
@@ -95,8 +96,8 @@ describe('UserGroupFormComponent', () => {
 
     b2bUnitService = TestBed.inject(OrgUnitService);
 
-    spyOn(b2bUnitService, 'getActiveUnitList').and.callThrough();
-    spyOn(b2bUnitService, 'loadList').and.callThrough();
+    vi.spyOn(b2bUnitService, 'getActiveUnitList');
+    vi.spyOn(b2bUnitService, 'loadList');
   });
 
   beforeEach(() => {

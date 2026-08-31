@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { UrlTree } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
@@ -8,10 +9,9 @@ import {
 } from '@spartacus/core';
 import { B2BUserService } from '../services';
 import { UserGuard } from './user.guard';
-import createSpy = jasmine.createSpy;
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy('add');
+  add = vi.fn();
 }
 
 class MockB2BUserService implements Partial<B2BUserService> {
@@ -58,14 +58,14 @@ describe('UserGuard', () => {
   describe('canActivate()', () => {
     it('should return true when updating user is allowed', () => {
       let result: boolean | UrlTree;
-      spyOn(b2bUserService, 'isUpdatingUserAllowed').and.returnValue(true);
+      vi.spyOn(b2bUserService, 'isUpdatingUserAllowed').mockReturnValue(true);
       result = guard.canActivate();
       expect(result).toEqual(true);
     });
 
     it('should return organization url for redirection when updating user is not allowed', () => {
       let result: boolean | UrlTree;
-      spyOn(b2bUserService, 'isUpdatingUserAllowed').and.returnValue(false);
+      vi.spyOn(b2bUserService, 'isUpdatingUserAllowed').mockReturnValue(false);
       result = guard.canActivate();
       expect(result.toString()).toBe('/organization');
       expect(globalMessageService.add).toHaveBeenCalledWith(

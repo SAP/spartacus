@@ -12,7 +12,7 @@ describe('FormUtils', () => {
     describe('for any form control', () => {
       it('should call #updateValueAndValidity', () => {
         const control = new UntypedFormControl();
-        spyOn(control, 'updateValueAndValidity');
+        vi.spyOn(control, 'updateValueAndValidity');
 
         FormUtils.deepUpdateValueAndValidity(control);
 
@@ -24,7 +24,7 @@ describe('FormUtils', () => {
 
       it('should call #updateValueAndValidity with `emitEvent` false', () => {
         const control = new UntypedFormControl();
-        spyOn(control, 'updateValueAndValidity');
+        vi.spyOn(control, 'updateValueAndValidity');
 
         FormUtils.deepUpdateValueAndValidity(control, { emitEvent: false });
 
@@ -40,11 +40,11 @@ describe('FormUtils', () => {
         const control = fb.group({
           person: fb.group({ name: '', age: '' }),
         });
-        spyOn(control, 'updateValueAndValidity');
+        vi.spyOn(control, 'updateValueAndValidity');
 
-        spyOn(control.get('person'), 'updateValueAndValidity');
-        spyOn(control.get('person').get('name'), 'updateValueAndValidity');
-        spyOn(control.get('person').get('age'), 'updateValueAndValidity');
+        vi.spyOn(control.get('person'), 'updateValueAndValidity');
+        vi.spyOn(control.get('person').get('name'), 'updateValueAndValidity');
+        vi.spyOn(control.get('person').get('age'), 'updateValueAndValidity');
 
         FormUtils.deepUpdateValueAndValidity(control);
 
@@ -74,7 +74,7 @@ describe('FormUtils', () => {
         const control = fb.group({
           person: fb.group({ name: '', age: '' }),
         });
-        spyOn(control.get('person').get('age'), 'updateValueAndValidity');
+        vi.spyOn(control.get('person').get('age'), 'updateValueAndValidity');
 
         FormUtils.deepUpdateValueAndValidity(control, { emitEvent: false });
 
@@ -94,15 +94,15 @@ describe('FormUtils', () => {
           fb.group({ name: '', age: '' }),
         ]);
 
-        spyOn(control, 'updateValueAndValidity');
+        vi.spyOn(control, 'updateValueAndValidity');
 
-        spyOn(control.get('0'), 'updateValueAndValidity');
-        spyOn(control.get('0').get('name'), 'updateValueAndValidity');
-        spyOn(control.get('0').get('age'), 'updateValueAndValidity');
+        vi.spyOn(control.get('0'), 'updateValueAndValidity');
+        vi.spyOn(control.get('0').get('name'), 'updateValueAndValidity');
+        vi.spyOn(control.get('0').get('age'), 'updateValueAndValidity');
 
-        spyOn(control.get('1'), 'updateValueAndValidity');
-        spyOn(control.get('1').get('name'), 'updateValueAndValidity');
-        spyOn(control.get('1').get('age'), 'updateValueAndValidity');
+        vi.spyOn(control.get('1'), 'updateValueAndValidity');
+        vi.spyOn(control.get('1').get('name'), 'updateValueAndValidity');
+        vi.spyOn(control.get('1').get('age'), 'updateValueAndValidity');
 
         FormUtils.deepUpdateValueAndValidity(control);
 
@@ -145,7 +145,7 @@ describe('FormUtils', () => {
         fb.group({ name: '', age: '' }),
         fb.group({ name: '', age: '' }),
       ]);
-      spyOn(control.get('0').get('age'), 'updateValueAndValidity');
+      vi.spyOn(control.get('0').get('age'), 'updateValueAndValidity');
 
       FormUtils.deepUpdateValueAndValidity(control, { emitEvent: false });
 

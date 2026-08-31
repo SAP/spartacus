@@ -18,7 +18,7 @@ import {
   ReactiveFormsModule,
   UntypedFormControl,
 } from '@angular/forms';
-import { TranslatePipe } from '@spartacus/core';
+import { FeatureDirective, TranslatePipe } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 import { FocusDirective } from '../../../layout/a11y/keyboard-focus/focus.directive';
@@ -31,7 +31,13 @@ import { FocusDirective } from '../../../layout/a11y/keyboard-focus/focus.direct
 @Component({
   selector: 'cx-item-counter',
   templateUrl: './item-counter.component.html',
-  imports: [FocusDirective, FormsModule, ReactiveFormsModule, TranslatePipe],
+  imports: [
+    FeatureDirective,
+    FocusDirective,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslatePipe,
+  ],
 })
 export class ItemCounterComponent implements OnInit, OnDestroy {
   /**
