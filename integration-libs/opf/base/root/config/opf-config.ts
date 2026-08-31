@@ -80,6 +80,11 @@ export abstract class OpfConfig {
         cssFiles: string[];
       }
     >;
+    /**
+     * When enabled, a cart access code is generated and sent as the
+     * `sap-commerce-cloud-access-code` header on the `getActiveConfigurations` request.
+     */
+    enableActiveConfigurationAccessCodeHeader?: boolean;
   };
 }
 

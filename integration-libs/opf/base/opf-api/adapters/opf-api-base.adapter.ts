@@ -7,8 +7,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import {
+  ActiveCartFacade,
+  CartAccessCodeFacade,
+} from '@spartacus/cart/base/root';
+import {
   ConverterService,
   LoggerService,
+  UserIdService,
   tryNormalizeHttpError,
 } from '@spartacus/core';
 import {
@@ -17,14 +22,15 @@ import {
   OpfEndpointsService,
 } from '@spartacus/opf/base/core';
 import {
+  OPF_CC_ACCESS_CODE_HEADER,
   OPF_CC_PUBLIC_KEY_HEADER,
   OpfActiveConfigurationsQuery,
   OpfActiveConfigurationsResponse,
   OpfConfig,
   OpfMetadataStatePersistanceService,
 } from '@spartacus/opf/base/root';
-import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class OpfApiBaseAdapter implements OpfBaseAdapter {
@@ -36,6 +42,9 @@ export class OpfApiBaseAdapter implements OpfBaseAdapter {
     OpfMetadataStatePersistanceService
   );
   protected logger = inject(LoggerService);
+  protected userIdService = inject(UserIdService);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected cartAccessCodeFacade = inject(CartAccessCodeFacade);
 
   protected headerWithNoLanguage: { [name: string]: string } = {
     accept: 'application/json',
@@ -56,24 +65,18 @@ export class OpfApiBaseAdapter implements OpfBaseAdapter {
   getActiveConfigurations(
     query?: OpfActiveConfigurationsQuery
   ): Observable<OpfActiveConfigurationsResponse> {
-    const headers = new HttpHeaders(this.header).set(
-      OPF_CC_PUBLIC_KEY_HEADER,
-      this.config.opf?.commerceCloudPublicKey || ''
+    return this.getHeaders().pipe(
+      switchMap((headers) =>
+        this.http.get<OpfActiveConfigurationsResponse>(
+          this.getActiveConfigurationsEndpoint(query),
+          { headers }
+        )
+      ),
+      catchError((error) => {
+        throw tryNormalizeHttpError(error, this.logger);
+      }),
+      this.converter.pipeable(OPF_ACTIVE_CONFIGURATIONS_NORMALIZER)
     );
-
-    return this.http
-      .get<OpfActiveConfigurationsResponse>(
-        this.getActiveConfigurationsEndpoint(query),
-        {
-          headers,
-        }
-      )
-      .pipe(
-        catchError((error) => {
-          throw tryNormalizeHttpError(error, this.logger);
-        }),
-        this.converter.pipeable(OPF_ACTIVE_CONFIGURATIONS_NORMALIZER)
-      );
   }
 
   protected getActiveConfigurationsEndpoint(
@@ -82,5 +85,35 @@ export class OpfApiBaseAdapter implements OpfBaseAdapter {
     return this.opfEndpointsService.buildUrl('getActiveConfigurations', {
       queryParams: query,
     });
+  }
+
+  protected getHeaders(): Observable<HttpHeaders> {
+    const headers = new HttpHeaders(this.header).set(
+      OPF_CC_PUBLIC_KEY_HEADER,
+      this.config.opf?.commerceCloudPublicKey || ''
+    );
+
+    if (this.config.opf?.enableActiveConfigurationAccessCodeHeader !== true) {
+      return of(headers);
+    }
+
+    return this.getAccessCode().pipe(
+      map((accessCode) => headers.set(OPF_CC_ACCESS_CODE_HEADER, accessCode))
+    );
+  }
+
+  protected getAccessCode(): Observable<string> {
+    return this.userIdService.takeUserId().pipe(
+      switchMap((userId) =>
+        this.activeCartFacade
+          .takeActiveCartId()
+          .pipe(
+            switchMap((cartId) =>
+              this.cartAccessCodeFacade.getCartAccessCode(userId, cartId)
+            )
+          )
+      ),
+      map((response) => response?.accessCode ?? '')
+    );
   }
 }

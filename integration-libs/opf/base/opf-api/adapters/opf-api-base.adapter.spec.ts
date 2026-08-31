@@ -17,6 +17,7 @@ import { TestBed } from '@angular/core/testing';
 import { ConverterService, LoggerService } from '@spartacus/core';
 import { OpfEndpointsService } from '@spartacus/opf/base/core';
 import {
+  OPF_CC_ACCESS_CODE_HEADER,
   OPF_CC_PUBLIC_KEY_HEADER,
   OpfActiveConfiguration,
   OpfActiveConfigurationsPagination,
@@ -25,8 +26,13 @@ import {
   OpfMetadataStatePersistanceService,
   OpfPaymentProviderType,
 } from '@spartacus/opf/base/root';
-import { map } from 'rxjs';
+import { map, of } from 'rxjs';
 import { OpfApiBaseAdapter } from './opf-api-base.adapter';
+import {
+  ActiveCartFacade,
+  CartAccessCodeFacade,
+} from '@spartacus/cart/base/root';
+import { UserIdService } from '@spartacus/core';
 
 const mockActiveConfigurationsPagination: OpfActiveConfigurationsPagination = {
   totalPages: 1,
@@ -112,6 +118,15 @@ describe('OpfApiBaseAdapter', () => {
           useClass: MockOpfMetadataStatePersistanceService,
         },
         { provide: OpfConfig, useValue: mockOpfConfig },
+        { provide: UserIdService, useValue: { takeUserId: () => of('') } },
+        {
+          provide: ActiveCartFacade,
+          useValue: { takeActiveCartId: () => of('') },
+        },
+        {
+          provide: CartAccessCodeFacade,
+          useValue: { getCartAccessCode: () => of(null) },
+        },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
@@ -163,5 +178,101 @@ describe('OpfApiBaseAdapter', () => {
 
     const req = httpMock.expectOne('test-url/getActiveConfigurations');
     req.flush(mockErrorResponse, { status: 404, statusText: 'Not Found' });
+  });
+});
+
+describe('OpfApiBaseAdapter - enableActiveConfigurationAccessCodeHeader', () => {
+  let service: OpfApiBaseAdapter;
+  let httpMock: HttpTestingController;
+  let converter: ConverterService;
+  let userIdServiceMock: jasmine.SpyObj<UserIdService>;
+  let activeCartFacadeMock: jasmine.SpyObj<ActiveCartFacade>;
+  let cartAccessCodeFacadeMock: jasmine.SpyObj<CartAccessCodeFacade>;
+
+  beforeEach(() => {
+    userIdServiceMock = jasmine.createSpyObj('UserIdService', ['takeUserId']);
+    activeCartFacadeMock = jasmine.createSpyObj('ActiveCartFacade', [
+      'takeActiveCartId',
+    ]);
+    cartAccessCodeFacadeMock = jasmine.createSpyObj('CartAccessCodeFacade', [
+      'getCartAccessCode',
+    ]);
+    userIdServiceMock.takeUserId.and.returnValue(of('user1'));
+    activeCartFacadeMock.takeActiveCartId.and.returnValue(of('cart1'));
+    cartAccessCodeFacadeMock.getCartAccessCode.and.returnValue(
+      of({ accessCode: 'test-access-code' })
+    );
+
+    TestBed.configureTestingModule({
+      providers: [
+        OpfApiBaseAdapter,
+        ConverterService,
+        { provide: LoggerService, useClass: MockLoggerService },
+        { provide: OpfEndpointsService, useClass: MockOpfEndpointsService },
+        {
+          provide: OpfMetadataStatePersistanceService,
+          useClass: MockOpfMetadataStatePersistanceService,
+        },
+        {
+          provide: OpfConfig,
+          useValue: {
+            opf: {
+              commerceCloudPublicKey: 'test-public-key',
+              enableActiveConfigurationAccessCodeHeader: true,
+            },
+          },
+        },
+        { provide: UserIdService, useValue: userIdServiceMock },
+        { provide: ActiveCartFacade, useValue: activeCartFacadeMock },
+        { provide: CartAccessCodeFacade, useValue: cartAccessCodeFacadeMock },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ],
+    });
+
+    service = TestBed.inject(OpfApiBaseAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converter = TestBed.inject(ConverterService);
+    spyOn(converter, 'pipeable').and.returnValue(
+      map(() => mockActiveConfigurationsResponse)
+    );
+  });
+
+  afterEach(() => {
+    httpMock.verify();
+  });
+
+  it('should include access code header', () => {
+    service.getActiveConfigurations().subscribe();
+
+    const req = httpMock.expectOne('test-url/getActiveConfigurations');
+    expect(req.request.headers.get(OPF_CC_PUBLIC_KEY_HEADER)).toBe(
+      'test-public-key'
+    );
+    expect(req.request.headers.get(OPF_CC_ACCESS_CODE_HEADER)).toBe(
+      'test-access-code'
+    );
+    req.flush(mockActiveConfigurations);
+  });
+
+  it('should call getCartAccessCode with userId and cartId', () => {
+    service.getActiveConfigurations().subscribe();
+
+    httpMock.expectOne('test-url/getActiveConfigurations').flush([]);
+
+    expect(cartAccessCodeFacadeMock.getCartAccessCode).toHaveBeenCalledWith(
+      'user1',
+      'cart1'
+    );
+  });
+
+  it('should send empty string when getCartAccessCode returns null', () => {
+    cartAccessCodeFacadeMock.getCartAccessCode.and.returnValue(of(null));
+
+    service.getActiveConfigurations().subscribe();
+
+    const req = httpMock.expectOne('test-url/getActiveConfigurations');
+    expect(req.request.headers.get(OPF_CC_ACCESS_CODE_HEADER)).toBe('');
+    req.flush([]);
   });
 });
