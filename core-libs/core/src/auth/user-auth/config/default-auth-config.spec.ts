@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { FeatureToggles } from '@spartacus/core';
+import { FeatureToggles } from '../../../features-config/feature-toggles';
 import { AuthConfig } from './auth-config';
 import { defaultAuthConfigFactory } from './default-auth-config';
 

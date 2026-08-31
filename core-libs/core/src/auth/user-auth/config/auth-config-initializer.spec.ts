@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { FeatureToggles } from '@spartacus/core';
 import { delay, Observable, of } from 'rxjs';
 import { vi } from 'vitest';
 import { Config } from '../../../config';
 import { ConfigInitializerService } from '../../../config/config-initializer';
+import { FeatureToggles } from '../../../features-config/feature-toggles';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { BASE_SITE_CONTEXT_ID } from '../../../site-context/providers/context-ids';
 import { SiteContextParamsService } from '../../../site-context/services';
@@ -26,7 +26,7 @@ class MockAuthConfig implements AuthConfig {
         NonNullable<AuthConfig['authentication']>['initializerOptions']
       >['addBaseSiteToRedirectUri'],
     },
-  };
+  } satisfies AuthConfig['authentication'];
 }
 
 const mockActiveBaseSite = 'activeBaseSite';
@@ -226,6 +226,58 @@ describe('AuthConfigInitializer', () => {
         });
 
         describe('when redirect URI is defined', () => {
+          const absoluteUri = 'http://example.com';
+          const protocolRelativeUri = '//example.com';
+          const relativeUri = '/my-path';
+
+          it('should append base site to path when absolute redirect URI is set', async () => {
+            authConfig.authentication.OAuthLibConfig.redirectUri = absoluteUri;
+            const expected: AuthConfig = {
+              authentication: {
+                client_id: mockClientId,
+                OAuthLibConfig: {
+                  redirectUri: `${absoluteUri}/${mockActiveBaseSite}`,
+                },
+              },
+            };
+
+            const actual = await service.configFactory();
+
+            expect(actual).toEqual(expected);
+          });
+
+          it('should append base site to path when protocol-relative redirect URI is set', async () => {
+            authConfig.authentication.OAuthLibConfig.redirectUri =
+              protocolRelativeUri;
+            const expected: AuthConfig = {
+              authentication: {
+                client_id: mockClientId,
+                OAuthLibConfig: {
+                  redirectUri: `${protocolRelativeUri}/${mockActiveBaseSite}`,
+                },
+              },
+            };
+
+            const actual = await service.configFactory();
+
+            expect(actual).toEqual(expected);
+          });
+
+          it('should prefix with origin and base site when relative redirect URI is set', async () => {
+            authConfig.authentication.OAuthLibConfig.redirectUri = relativeUri;
+            const expected: AuthConfig = {
+              authentication: {
+                client_id: mockClientId,
+                OAuthLibConfig: {
+                  redirectUri: `${mockOrigin}/${mockActiveBaseSite}${relativeUri}`,
+                },
+              },
+            };
+
+            const actual = await service.configFactory();
+
+            expect(actual).toEqual(expected);
+          });
         });
       });
     });

@@ -110,10 +110,7 @@ export function defaultAuthConfigFactory(): AuthConfig {
       } satisfies AuthConfig;
 
       delete config.authentication.initializerOptions;
-
-      if (!oauthCallbackPage) {
-        delete config.authentication.OAuthLibConfig?.redirectUri;
-      }
+      delete config.authentication.OAuthLibConfig?.redirectUri;
 
       return config;
     }
