@@ -6,16 +6,14 @@
 
 import angular from '@analogjs/vite-plugin-angular';
 import { defineConfig } from 'vitest/config';
+import tsconfigPaths from 'vite-tsconfig-paths';
 import path from 'path';
 
 const root = `${import.meta.dirname}/../..`;
 
 export default defineConfig({
   root: import.meta.dirname,
-  plugins: [angular()],
-  resolve: {
-    tsconfigPaths: true,
-  },
+  plugins: [angular(), tsconfigPaths({ root })],
   test: {
     pool: 'forks',
     isolate: true,
