@@ -507,6 +507,39 @@ describe('ConfiguratorGroupsService', () => {
 
       expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
+    it('should navigate to the first root-level tab when only root typed messages exist', () => {
+      const firstTabId = 'root-tab-1';
+      const firstTab: Configurator.Group = {
+        ...ConfiguratorTestUtils.createGroup(firstTabId),
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        complete: true,
+      };
+      const configuration: Configurator.Configuration = {
+        ...ConfiguratorTestUtils.createConfiguration('1'),
+        groups: [firstTab],
+        flatGroups: [firstTab],
+        messages: [
+          {
+            message: 'Clean-Up services are needed in addition',
+            severity: Configurator.MessageSeverity.WARNING,
+          },
+        ],
+      };
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(configuration)
+      );
+
+      classUnderTest.navigateToFirstIncompleteGroup(configuration.owner);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.ChangeGroup({
+          configuration: configuration,
+          groupId: firstTabId,
+          parentGroupId: undefined,
+          conflictResolutionMode: false,
+        })
+      );
+    });
     it('should navigate to the nested tab of a container row group flagged by a warning message', () => {
       const nestedTabId = 'CONTAINER_ROW@1067@row-1@1';
       const rowGroupId = 'CONTAINER_ROW@1067@row-1';

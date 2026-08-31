@@ -43,9 +43,12 @@ export class ConfiguratorGroupStatusService {
 
   /**
    * Returns the first non-conflict group of the configuration which is not
-   * completed. A group is considered incomplete when its `complete` flag is
-   * falsy, when it carries at least one message with warning severity, or
-   * when one of its container attributes carries a warning message.
+   * completed. When the root configuration carries typed messages in
+   * `configuration.messages`, the root is considered incomplete first and the
+   * first navigable top-level group is returned. Otherwise a group is
+   * considered incomplete when its `complete` flag is falsy, when it carries
+   * at least one message with warning severity, or when one of its container
+   * attributes carries a warning message.
    *
    * Groups that are not navigation targets (not present in `flatGroups`, e.g.
    * a container row group) are resolved to a navigable descendant, for example
@@ -62,10 +65,60 @@ export class ConfiguratorGroupStatusService {
     const navigableGroupIds = new Set(
       configuration.flatGroups?.map((group) => group.id) ?? []
     );
+    if (this.hasRootMessages(configuration)) {
+      return this.getFirstRootLevelNavigableGroup(
+        configuration.groups ?? [],
+        navigableGroupIds
+      );
+    }
     return this.findFirstIncompleteGroup(
       configuration.groups ?? [],
       navigableGroupIds
     );
+  }
+
+  /**
+   * Whether the root configuration carries at least one typed message with
+   * non-empty text.
+   *
+   * @param configuration - Configuration
+   * @returns `true` when root typed messages are present
+   */
+  protected hasRootMessages(
+    configuration: Configurator.Configuration
+  ): boolean {
+    return (
+      configuration.messages?.some((message) => !!message.message) ?? false
+    );
+  }
+
+  /**
+   * Returns the first navigable group at the root level of the configuration.
+   * Only direct entries in `configuration.groups` are considered; nested
+   * subGroups are not searched unless a non-navigable top-level group must be
+   * resolved to a navigable descendant.
+   *
+   * @param groups - Top-level groups of the configuration
+   * @param navigableGroupIds - IDs of groups that are valid navigation targets
+   * @returns First root-level navigable group, or undefined
+   */
+  protected getFirstRootLevelNavigableGroup(
+    groups: Configurator.Group[],
+    navigableGroupIds: Set<string>
+  ): Configurator.Group | undefined {
+    for (const group of groups) {
+      if (this.isConflictRelatedGroup(group)) {
+        continue;
+      }
+      if (navigableGroupIds.has(group.id)) {
+        return group;
+      }
+      const target = this.getNavigationTargetForGroup(group, navigableGroupIds);
+      if (target) {
+        return target;
+      }
+    }
+    return undefined;
   }
 
   /**

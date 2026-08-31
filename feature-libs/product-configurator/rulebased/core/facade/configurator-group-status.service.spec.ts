@@ -4,6 +4,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import {
   GROUP_ID_1,
+  GROUP_ID_2,
   GROUP_ID_3,
   GROUP_ID_4,
   GROUP_ID_5,
@@ -143,12 +144,14 @@ describe('ConfiguratorGroupStatusService', () => {
 
     function createConfig(
       groups: Configurator.Group[],
-      flatGroups: Configurator.Group[]
+      flatGroups: Configurator.Group[],
+      options: { messages?: Configurator.Message[] } = {}
     ): Configurator.Configuration {
       return {
         ...ConfiguratorTestUtils.createConfiguration('1'),
         groups,
         flatGroups,
+        messages: options.messages,
       };
     }
 
@@ -411,6 +414,108 @@ describe('ConfiguratorGroupStatusService', () => {
       const configuration = createConfig(
         [conflictHeader, attributeGroup],
         [conflictHeader.subGroups[0], attributeGroup]
+      );
+
+      expect(classUnderTest.getFirstIncompleteGroup(configuration)?.id).toBe(
+        GROUP_ID_1
+      );
+    });
+
+    it('should return the first root-level navigable group when the root carries typed messages', () => {
+      const firstTab = createAttributeGroup(GROUP_ID_1, { complete: true });
+      const secondTab = createAttributeGroup(GROUP_ID_2, { complete: true });
+      const configuration = createConfig(
+        [firstTab, secondTab],
+        [firstTab, secondTab],
+        {
+          messages: [
+            {
+              message: 'Clean-Up services are needed in addition',
+              severity: Configurator.MessageSeverity.WARNING,
+            },
+          ],
+        }
+      );
+
+      expect(classUnderTest.getFirstIncompleteGroup(configuration)?.id).toBe(
+        GROUP_ID_1
+      );
+    });
+
+    it('should prefer the root over a nested incomplete group when the root carries typed messages', () => {
+      const incompleteNestedTab = createAttributeGroup(NESTED_TAB_2_ID, {
+        complete: false,
+      });
+      const rowGroup = createRowGroup(
+        ROW_GROUP_ID,
+        [
+          createAttributeGroup(NESTED_TAB_ID, { complete: true }),
+          incompleteNestedTab,
+        ],
+        { complete: true }
+      );
+      const parentTab = createAttributeGroup(PARENT_TAB_ID, {
+        complete: true,
+        subGroups: [rowGroup],
+      });
+      const configuration = createConfig(
+        [parentTab],
+        [parentTab, incompleteNestedTab],
+        {
+          messages: [
+            {
+              message: 'Clean-Up services are needed in addition',
+              severity: Configurator.MessageSeverity.ERROR,
+            },
+          ],
+        }
+      );
+
+      expect(classUnderTest.getFirstIncompleteGroup(configuration)?.id).toBe(
+        PARENT_TAB_ID
+      );
+    });
+
+    it('should not treat empty root typed messages as incomplete', () => {
+      const completeGroup = createAttributeGroup(GROUP_ID_1, {
+        complete: true,
+      });
+      const configuration = createConfig([completeGroup], [completeGroup], {
+        messages: [{ message: '' }],
+      });
+
+      expect(
+        classUnderTest.getFirstIncompleteGroup(configuration)
+      ).toBeUndefined();
+    });
+
+    it('should skip a conflict group at root level when the root carries typed messages', () => {
+      const conflictHeader: Configurator.Group = {
+        ...ConfiguratorTestUtils.createGroup('CONFLICT_HEADER'),
+        groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
+        complete: false,
+        subGroups: [
+          {
+            ...ConfiguratorTestUtils.createGroup('CONFLICT_1'),
+            groupType: Configurator.GroupType.CONFLICT_GROUP,
+            complete: false,
+          },
+        ],
+      };
+      const attributeGroup = createAttributeGroup(GROUP_ID_1, {
+        complete: true,
+      });
+      const configuration = createConfig(
+        [conflictHeader, attributeGroup],
+        [conflictHeader.subGroups[0], attributeGroup],
+        {
+          messages: [
+            {
+              message: 'Clean-Up services are needed in addition',
+              severity: Configurator.MessageSeverity.WARNING,
+            },
+          ],
+        }
       );
 
       expect(classUnderTest.getFirstIncompleteGroup(configuration)?.id).toBe(
