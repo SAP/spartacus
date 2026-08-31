@@ -93,13 +93,13 @@ export class OpfApiBaseAdapter implements OpfBaseAdapter {
       this.config.opf?.commerceCloudPublicKey || ''
     );
 
-    if (this.config.opf?.enableActiveConfigurationAccessCodeHeader !== true) {
-      return of(headers);
+    if (this.config.opf?.enableActiveConfigurationAccessCodeHeader) {
+      return this.getAccessCode().pipe(
+        map((accessCode) => headers.set(OPF_CC_ACCESS_CODE_HEADER, accessCode))
+      );
     }
 
-    return this.getAccessCode().pipe(
-      map((accessCode) => headers.set(OPF_CC_ACCESS_CODE_HEADER, accessCode))
-    );
+    return of(headers);
   }
 
   protected getAccessCode(): Observable<string> {
