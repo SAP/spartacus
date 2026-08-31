@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { EntitiesModel } from '@spartacus/core';
@@ -72,7 +73,7 @@ describe('PermissionListService', () => {
     });
 
     it('should get empty table with 10 rows', () => {
-      spyOn(permissionService, 'getList').and.returnValue(of(undefined));
+      vi.spyOn(permissionService, 'getList').mockReturnValue(of(undefined));
       let result: EntitiesModel<PermissionModel>;
       service.getData().subscribe((table) => (result = table));
       expect(result.values.length).toBe(10);

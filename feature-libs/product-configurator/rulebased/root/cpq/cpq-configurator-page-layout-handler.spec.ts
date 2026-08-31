@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   ConfiguratorModelUtils,
   ConfiguratorRouter,
@@ -92,7 +92,7 @@ const sectionContent = 'content';
 describe('CpqConfiguratorPageLayoutHandler', () => {
   let classUnderTest: CpqConfiguratorPageLayoutHandler;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [
         {
@@ -109,7 +109,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
   beforeEach(() => {
     classUnderTest = TestBed.inject(
       CpqConfiguratorPageLayoutHandler as Type<CpqConfiguratorPageLayoutHandler>

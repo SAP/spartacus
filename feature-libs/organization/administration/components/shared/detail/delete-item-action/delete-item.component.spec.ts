@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
@@ -11,7 +12,6 @@ import { ItemService } from '../../item.service';
 import { ConfirmationMessageData } from '../../message/confirmation/confirmation-message.model';
 import { MessageService } from '../../message/services/message.service';
 import { DeleteItemComponent } from './delete-item.component';
-import createSpy = jasmine.createSpy;
 
 class MockMessageService {
   add() {
@@ -68,7 +68,7 @@ describe('DeleteItemComponent', () => {
       organizationItemService = TestBed.inject(ItemService);
       messageService = TestBed.inject(MessageService);
 
-      spyOn(organizationItemService, 'delete').and.returnValue(EMPTY);
+      vi.spyOn(organizationItemService, 'delete').mockReturnValue(EMPTY);
     });
 
     it('should not enable active items right away', () => {
@@ -78,7 +78,7 @@ describe('DeleteItemComponent', () => {
     });
 
     it('should prompt a disable confirmation prompt', () => {
-      spyOn(messageService, 'add').and.returnValue(new Subject());
+      vi.spyOn(messageService, 'add').mockReturnValue(new Subject());
       const mockItem = { code: 'b2', active: true };
       component.delete(mockItem);
       expect(messageService.add).toHaveBeenCalledWith({
@@ -97,7 +97,7 @@ describe('DeleteItemComponent', () => {
 
     it('should confirm disabling', () => {
       const eventData: Subject<ConfirmationMessageData> = new Subject();
-      spyOn(messageService, 'add').and.returnValue(eventData);
+      vi.spyOn(messageService, 'add').mockReturnValue(eventData);
       const mockItem = { code: 'b2', active: true };
       component.delete(mockItem);
       eventData.next({ confirm: true });
@@ -109,7 +109,7 @@ describe('DeleteItemComponent', () => {
 
     it('should confirm disabling with additional param', () => {
       const eventData: Subject<ConfirmationMessageData> = new Subject();
-      spyOn(messageService, 'add').and.returnValue(eventData);
+      vi.spyOn(messageService, 'add').mockReturnValue(eventData);
       const mockItem = { code: 'b2', active: true };
       component.additionalParam = 'unitId';
       component.delete(mockItem);
@@ -124,10 +124,10 @@ describe('DeleteItemComponent', () => {
       const eventData: Subject<ConfirmationMessageData> = new Subject();
       const mockItem = { code: 'b2', active: true };
       const deletedItem = { code: 'b1', active: false };
-      spyOn(messageService, 'add').and.returnValue(eventData);
-      organizationItemService.delete = createSpy().and.returnValue(
-        of({ status: LoadStatus.SUCCESS, item: deletedItem })
-      );
+      vi.spyOn(messageService, 'add').mockReturnValue(eventData);
+      organizationItemService.delete = vi
+        .fn()
+        .mockReturnValue(of({ status: LoadStatus.SUCCESS, item: deletedItem }));
       component.delete(mockItem);
       eventData.next({ confirm: true });
       expect(messageService.add).toHaveBeenCalledWith({
@@ -140,7 +140,7 @@ describe('DeleteItemComponent', () => {
 
     it('should cancel disabling', () => {
       const eventData: Subject<ConfirmationMessageData> = new Subject();
-      spyOn(messageService, 'add').and.returnValue(eventData);
+      vi.spyOn(messageService, 'add').mockReturnValue(eventData);
       const mockItem = { code: 'b2', active: true };
       component.delete(mockItem);
       eventData.next({ close: true });

@@ -1,5 +1,5 @@
 import { Component, DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -52,7 +52,7 @@ describe('MyAccountV2OrderDetailsActionsComponent', () => {
   let el: DebugElement;
   let event: EventService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [RouterModule.forRoot([])],
       providers: [
@@ -67,7 +67,7 @@ describe('MyAccountV2OrderDetailsActionsComponent', () => {
       })
       .compileComponents();
     event = TestBed.inject(EventService);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2OrderDetailsActionsComponent);
@@ -95,8 +95,8 @@ describe('MyAccountV2OrderDetailsActionsComponent', () => {
   });
 
   it('should trigger download invoices event', () => {
-    spyOn(component, 'showDialog').and.callThrough();
-    spyOn(event, 'dispatch');
+    vi.spyOn(component, 'showDialog');
+    vi.spyOn(event, 'dispatch');
     component.order$ = of(mockOrder1);
     fixture.detectChanges();
     let download_button = fixture.debugElement.nativeElement.querySelector(

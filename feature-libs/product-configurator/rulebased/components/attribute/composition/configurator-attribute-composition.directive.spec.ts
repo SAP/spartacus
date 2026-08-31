@@ -4,13 +4,13 @@ import { LoggerService } from '@spartacus/core';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { ConfiguratorAttributeCompositionConfig } from './configurator-attribute-composition.config';
 import { ConfiguratorAttributeCompositionDirective } from './configurator-attribute-composition.directive';
-import createSpy = jasmine.createSpy;
+import { vi } from 'vitest';
 
 class TestComponent {}
 
 class MockViewContainerRef {
-  clear = createSpy('vcr.clear');
-  createComponent = createSpy('vcr.createComponent');
+  clear = vi.fn();
+  createComponent = vi.fn();
 }
 
 describe('ConfiguratorAttributeCompositionDirective', () => {
@@ -26,7 +26,7 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
       ViewContainerRef as Type<ViewContainerRef>
     );
     loggerService = TestBed.inject(LoggerService as Type<LoggerService>);
-    spyOn(loggerService, 'warn').and.callThrough();
+    vi.spyOn(loggerService, 'warn');
 
     classUnderTest['context'] = ConfiguratorTestUtils.getAttributeContext();
   }

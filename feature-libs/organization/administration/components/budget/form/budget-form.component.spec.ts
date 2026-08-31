@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
@@ -136,9 +137,9 @@ describe('BudgetFormComponent', () => {
     currencyService = TestBed.inject(CurrencyService);
     b2bUnitService = TestBed.inject(OrgUnitService);
 
-    spyOn(currencyService, 'getAll').and.callThrough();
-    spyOn(b2bUnitService, 'getActiveUnitList').and.callThrough();
-    spyOn(b2bUnitService, 'loadList').and.callThrough();
+    vi.spyOn(currencyService, 'getAll');
+    vi.spyOn(b2bUnitService, 'getActiveUnitList');
+    vi.spyOn(b2bUnitService, 'loadList');
   });
 
   beforeEach(() => {

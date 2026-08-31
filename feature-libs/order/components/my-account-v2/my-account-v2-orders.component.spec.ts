@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -97,7 +97,7 @@ describe(' MyAccountV2OrdersComponent', () => {
   let fixture: ComponentFixture<MyAccountV2OrdersComponent>;
   let service: MyAccountV2OrderHistoryService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [RouterModule.forRoot([]), MyAccountV2OrdersComponent],
       providers: [
@@ -128,7 +128,7 @@ describe(' MyAccountV2OrdersComponent', () => {
       })
       .compileComponents();
     service = TestBed.inject(MyAccountV2OrderHistoryService);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2OrdersComponent);
@@ -211,7 +211,7 @@ describe(' MyAccountV2OrdersComponent', () => {
   });
 
   it('on destroy', () => {
-    spyOn(service, 'clearOrderList').and.stub();
+    vi.spyOn(service, 'clearOrderList').mockImplementation(() => {});
     component.ngOnDestroy();
     expect(service.clearOrderList).toHaveBeenCalled();
   });

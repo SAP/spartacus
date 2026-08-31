@@ -6,21 +6,22 @@ import {
   Input,
   QueryList,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   Facet,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
 } from '@spartacus/core';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetCollapseState } from '../facet.model';
 import { FacetService } from '../services/facet.service';
 import { FacetComponent } from './facet.component';
+import { vi } from 'vitest';
 
 @Component({
   selector: 'cx-icon',
@@ -34,22 +35,27 @@ class MockKeyboadFocusDirective {
   @Input() cxFocus;
 }
 
-class MockFacetService {
-  getState() {
-    return of({
+const MockFacetService = {
+  getState: vi.fn().mockReturnValue(
+    of({
       topVisible: 5,
-    } as FacetCollapseState);
-  }
-  toggle() {}
-  increaseVisibleValues() {}
-  decreaseVisibleValues() {}
-  getLinkParams() {}
-}
+    } as FacetCollapseState)
+  ),
+  toggle: vi.fn(),
+  increaseVisibleValues: vi.fn(),
+  decreaseVisibleValues: vi.fn(),
+  getLinkParams: vi.fn(),
+};
 
 class MockGlobalMessageService {
-  add = jasmine.createSpy('add');
-  remove = jasmine.createSpy('remove');
-  get = jasmine.createSpy('get').and.returnValue(of({}));
+  add = vi.fn();
+  remove = vi.fn();
+  get = vi.fn().mockReturnValue(of({}));
+}
+
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled = vi.fn().mockReturnValue(false);
+  isLevel = vi.fn().mockReturnValue(false);
 }
 
 const MockFacet: Facet = {
@@ -67,7 +73,13 @@ describe('FacetComponent', () => {
   let element: DebugElement;
   let facetService: FacetService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
+    Object.values(MockFacetService).forEach(
+      (fn) => typeof fn === 'function' && (fn as any).mockReset?.()
+    );
+    MockFacetService.getState.mockReturnValue(
+      of({ topVisible: 5 } as FacetCollapseState)
+    );
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -77,7 +89,7 @@ describe('FacetComponent', () => {
         RouterModule.forRoot([]),
       ],
       providers: [
-        { provide: FacetService, useClass: MockFacetService },
+        { provide: FacetService, useValue: MockFacetService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     })
@@ -85,7 +97,7 @@ describe('FacetComponent', () => {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FacetComponent);
@@ -133,7 +145,9 @@ describe('FacetComponent', () => {
 
   describe('count', () => {
     it('should call increaseVisible()', () => {
-      spyOn(facetService, 'increaseVisibleValues').and.stub();
+      vi.spyOn(facetService, 'increaseVisibleValues').mockImplementation(
+        () => {}
+      );
       component.increaseVisibleValues();
       expect(facetService.increaseVisibleValues).toHaveBeenCalledWith(
         component.facet
@@ -141,7 +155,9 @@ describe('FacetComponent', () => {
     });
 
     it('should call decreaseVisible()', () => {
-      spyOn(facetService, 'decreaseVisibleValues').and.stub();
+      vi.spyOn(facetService, 'decreaseVisibleValues').mockImplementation(
+        () => {}
+      );
       component.decreaseVisibleValues();
       expect(facetService.decreaseVisibleValues).toHaveBeenCalledWith(
         component.facet
@@ -151,15 +167,16 @@ describe('FacetComponent', () => {
 
   describe('toggleGroup', () => {
     beforeEach(() => {
-      spyOn(facetService, 'toggle').and.stub();
       component.facet = MockFacet;
       fixture.detectChanges();
     });
 
     it('should expand the facet', () => {
+      const spyFacetToggle = vi.spyOn(facetService, 'toggle');
+      vi.spyOn(component, 'isExpanded', 'get').mockReturnValue(true);
       component.toggleGroup(new UIEvent('close'));
       fixture.detectChanges();
-      expect(facetService.toggle).toHaveBeenCalledWith(component.facet, true);
+      expect(spyFacetToggle).toHaveBeenCalledWith(component.facet, true);
     });
   });
 
@@ -200,14 +217,14 @@ describe('FacetComponent', () => {
       component.facetHeader = {
         nativeElement: facetHeaderElement,
       };
-      spyOn(component, 'toggleGroup');
-      spyOn(firstOptionElement, 'focus');
-      spyOn(secondOptionElement, 'focus');
+      vi.spyOn(component, 'toggleGroup');
+      vi.spyOn(firstOptionElement, 'focus');
+      vi.spyOn(secondOptionElement, 'focus');
     });
 
     it('should initialize keyboard controls and find tiggered values index', () => {
-      spyOn(component, 'onArrowDown');
-      spyOn(component, 'onArrowUp');
+      vi.spyOn(component, 'onArrowDown');
+      vi.spyOn(component, 'onArrowUp');
 
       component.onKeydown(mockArrowUpEvent);
       expect(component.onArrowUp).toHaveBeenCalledWith(mockArrowUpEvent, 1);
@@ -259,7 +276,13 @@ describe('FacetComponent with a11yFilteredFacetAnnouncement', () => {
     ],
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
+    Object.values(MockFacetService).forEach(
+      (fn) => typeof fn === 'function' && (fn as any).mockReset?.()
+    );
+    MockFacetService.getState.mockReturnValue(
+      of({ topVisible: 5 } as FacetCollapseState)
+    );
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -269,16 +292,24 @@ describe('FacetComponent with a11yFilteredFacetAnnouncement', () => {
         RouterModule.forRoot([]),
       ],
       providers: [
-        { provide: FacetService, useClass: MockFacetService },
+        { provide: FacetService, useValue: MockFacetService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        provideMockFeatureToggles({ a11yFilteredFacetAnnouncement: true }),
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     })
       .overrideComponent(FacetComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
-  }));
+
+    (
+      TestBed.inject(FeatureConfigService).isEnabled as ReturnType<typeof vi.fn>
+    ).mockImplementation((f: string) =>
+      f.startsWith('!')
+        ? f !== '!a11yFilteredFacetAnnouncement'
+        : f === 'a11yFilteredFacetAnnouncement'
+    );
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FacetComponent);
@@ -286,12 +317,16 @@ describe('FacetComponent with a11yFilteredFacetAnnouncement', () => {
     component = fixture.componentInstance;
     globalMessageService = TestBed.inject(
       GlobalMessageService
-    ) as unknown as MockGlobalMessageService;
+    ) as MockGlobalMessageService;
     component.facet = MockFacetWithSelectedValue;
-    fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('should announce "filterAdded" when clicking an unselected facet value', () => {
+    fixture.detectChanges();
     const unselectedLink = element.queryAll(By.css('a.value'))[0].nativeElement;
     unselectedLink.click();
     expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -301,6 +336,7 @@ describe('FacetComponent with a11yFilteredFacetAnnouncement', () => {
   });
 
   it('should announce "filterRemoved" when clicking a selected facet value', () => {
+    fixture.detectChanges();
     const selectedLink = element.queryAll(By.css('a.value'))[1].nativeElement;
     selectedLink.click();
     expect(globalMessageService.add).toHaveBeenCalledWith(

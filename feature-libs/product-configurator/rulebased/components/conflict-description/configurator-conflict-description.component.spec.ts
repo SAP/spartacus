@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -19,7 +19,7 @@ describe('ConfigurationConflictDescriptionComponent', () => {
   let fixture: ComponentFixture<ConfiguratorConflictDescriptionComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ConfiguratorConflictDescriptionComponent, MockCxIconComponent],
       providers: [],
@@ -30,7 +30,7 @@ describe('ConfigurationConflictDescriptionComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorConflictDescriptionComponent);

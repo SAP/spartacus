@@ -27,10 +27,10 @@ import {
   FormErrorsComponent,
   FormRequiredAsterisksComponent,
   FormRequiredLegendComponent,
-  getPageTitle,
   NgSelectA11yDirective,
   SpinnerComponent,
   TruncationTooltipDirective,
+  getPageTitle,
 } from '@spartacus/storefront';
 import { Title } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';

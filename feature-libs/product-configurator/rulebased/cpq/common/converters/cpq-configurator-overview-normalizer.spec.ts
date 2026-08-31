@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { LanguageService, TranslationService } from '@spartacus/core';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
@@ -147,7 +147,7 @@ class MockTranslationService {
 describe('CpqConfiguratorOverviewNormalizer', () => {
   let serviceUnderTest: CpqConfiguratorOverviewNormalizer;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [
         CpqConfiguratorOverviewNormalizer,
@@ -167,7 +167,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
       CpqConfiguratorOverviewNormalizer as Type<CpqConfiguratorOverviewNormalizer>
     );
     attr = structuredClone(attrBase);
-  }));
+  });
 
   it('should be created', () => {
     expect(serviceUnderTest).toBeDefined();

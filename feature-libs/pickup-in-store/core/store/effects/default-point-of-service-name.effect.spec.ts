@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpErrorResponse,
   provideHttpClient,
@@ -92,7 +93,7 @@ describe('DefaultPointOfServiceEffect', () => {
   });
 
   it('should fetch preferred store value from localstorage if its not present in userProfile and call LoadDefaultPointOfServiceSuccess', () => {
-    spyOn(userProfileService, 'get').and.returnValue(of({}));
+    vi.spyOn(userProfileService, 'get').mockReturnValue(of({}));
 
     winRef.localStorage?.setItem(
       'preferred_store',
@@ -118,7 +119,7 @@ describe('DefaultPointOfServiceEffect', () => {
 
   it('should emit empty name and displayName if there is a error', () => {
     const error = new HttpErrorResponse({ error: 'error' });
-    spyOn(userProfileService, 'get').and.returnValue(
+    vi.spyOn(userProfileService, 'get').mockReturnValue(
       new Observable((subscriber) => subscriber.error(error))
     );
     const action = LoadDefaultPointOfService();
