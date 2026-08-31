@@ -55,6 +55,7 @@ function addWithNoHttpTransferCacheToAppConfig(sourceFile: SourceFile): void {
         'provideClientHydration',
         'withNoHttpTransferCache',
         'withEventReplay',
+        'withIncrementalHydration',
       ],
     },
   ]);
@@ -102,7 +103,7 @@ function findProvideClientHydrationCall(
 }
 
 /**
- * Ensure provideClientHydration has withEventReplay() and withNoHttpTransferCache()
+ * Ensure provideClientHydration has withEventReplay(), withNoHttpTransferCache(), and withIncrementalHydration()
  */
 function ensureHydrationArguments(callExpression: CallExpression): void {
   const args = callExpression.getArguments();
@@ -114,6 +115,9 @@ function ensureHydrationArguments(callExpression: CallExpression): void {
   const hasNoHttpTransferCache = argTexts.some((arg) =>
     arg.includes('withNoHttpTransferCache')
   );
+  const hasIncrementalHydration = argTexts.some((arg) =>
+    arg.includes('withIncrementalHydration')
+  );
 
   const newArgs: string[] = [];
 
@@ -123,6 +127,10 @@ function ensureHydrationArguments(callExpression: CallExpression): void {
 
   if (!hasNoHttpTransferCache) {
     newArgs.push('withNoHttpTransferCache()');
+  }
+
+  if (!hasIncrementalHydration) {
+    newArgs.push('withIncrementalHydration()');
   }
 
   if (newArgs.length > 0) {
@@ -136,7 +144,7 @@ function ensureHydrationArguments(callExpression: CallExpression): void {
 }
 
 /**
- * Add provideClientHydration(withEventReplay(), withNoHttpTransferCache()) to providers
+ * Add provideClientHydration(withEventReplay(), withNoHttpTransferCache(), withIncrementalHydration()) to providers
  */
 function addProvideClientHydrationCall(providersArray: Node): void {
   if (!Node.isArrayLiteralExpression(providersArray)) {
@@ -144,6 +152,6 @@ function addProvideClientHydrationCall(providersArray: Node): void {
   }
 
   providersArray.addElement(
-    'provideClientHydration(withEventReplay(), withNoHttpTransferCache())'
+    'provideClientHydration(withEventReplay(), withNoHttpTransferCache(), withIncrementalHydration())'
   );
 }

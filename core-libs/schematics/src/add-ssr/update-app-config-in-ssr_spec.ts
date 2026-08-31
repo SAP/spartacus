@@ -86,11 +86,37 @@ export const appConfig: ApplicationConfig = {
     )) as UnitTestTree;
   });
 
-  it('should provide `provideClientHydration(withEventReplay(), withNoHttpTransferCache())` in app.config.ts', async () => {
+  it('should provide `provideClientHydration(withEventReplay(), withNoHttpTransferCache(), withIncrementalHydration())` in app.config.ts', async () => {
     const appConfig = tree.readText('/src/app/app.config.ts');
     expect(appConfig).toContain(
-      'provideClientHydration(withEventReplay(), withNoHttpTransferCache())'
+      'provideClientHydration(withEventReplay(), withNoHttpTransferCache(), withIncrementalHydration())'
     );
     expect(appConfig).toMatchSnapshot();
+  });
+
+  it('should not duplicate withIncrementalHydration() when provideClientHydration already contains it', async () => {
+    const existingContent = `
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import { provideClientHydration, withEventReplay, withIncrementalHydration, withNoHttpTransferCache } from "@angular/platform-browser";
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideClientHydration(withEventReplay(), withNoHttpTransferCache(), withIncrementalHydration())
+  ]
+};
+`;
+    const baseTree = tree.branch();
+    baseTree.overwrite('/src/app/app.config.ts', existingContent);
+
+    const resultTree = (await firstValueFrom(
+      schematicRunner.callRule(updateAppConfigInSsr(defaultOptions), baseTree)
+    )) as UnitTestTree;
+
+    const appConfig = resultTree.readText('/src/app/app.config.ts');
+    const occurrences = (appConfig.match(/withIncrementalHydration/g) ?? [])
+      .length;
+    expect(occurrences).toBe(2); // one in import, one in call — not duplicated
   });
 });
