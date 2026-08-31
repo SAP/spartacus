@@ -1,9 +1,25 @@
+import { vi } from 'vitest';
+
+vi.mock('@spartacus/storefront', async (importActual) => {
+  const actual = await importActual<typeof import('@spartacus/storefront')>();
+  const { filter, map } = await import('rxjs/operators');
+  const isNotNullable = <T>(value: T): value is NonNullable<T> => value != null;
+  return {
+    ...actual,
+    getPageTitle: (pageMetaService: any) =>
+      pageMetaService.getMeta().pipe(
+        filter(isNotNullable),
+        map((meta: any) => (meta.heading || meta.title) ?? '')
+      ),
+  };
+});
+
 import {
   ChangeDetectionStrategy,
   Component,
   DebugElement,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -13,6 +29,7 @@ import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
+  FeaturesConfig,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
@@ -35,7 +52,6 @@ import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes
 import { BehaviorSubject, of } from 'rxjs';
 import { UpdateEmailComponentService } from './update-email-component.service';
 import { UpdateEmailComponent } from './update-email.component';
-import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-spinner',
@@ -58,8 +74,8 @@ class MockUpdateEmailService implements Partial<UpdateEmailComponentService> {
     password: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
-  save = createSpy().and.stub();
-  resetForm = createSpy().and.stub();
+  save = vi.fn().mockImplementation(() => {});
+  resetForm = vi.fn().mockImplementation(() => {});
 }
 
 const mockPageMeta: PageMeta = {
@@ -77,7 +93,7 @@ describe('UpdateEmailComponent', () => {
 
   let service: UpdateEmailComponentService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -92,6 +108,10 @@ describe('UpdateEmailComponent', () => {
           useClass: MockUpdateEmailService,
         },
         { provide: PageMetaService, useClass: MockPageMetaService },
+        {
+          provide: FeaturesConfig,
+          useValue: { features: { a11yFormFieldSectionLegend: true } },
+        },
         ...provideMockFeatureToggles({ a11yFormFieldSectionLegend: true }),
       ],
     })
@@ -110,7 +130,7 @@ describe('UpdateEmailComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UpdateEmailComponent);
@@ -159,7 +179,7 @@ describe('UpdateEmailComponent', () => {
 
   describe('Form Interactions', () => {
     it('should call onSubmit() method on submit', () => {
-      const request = spyOn(component, 'onSubmit');
+      const request = vi.spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
       form.triggerEventHandler('submit', null);
       expect(request).toHaveBeenCalled();

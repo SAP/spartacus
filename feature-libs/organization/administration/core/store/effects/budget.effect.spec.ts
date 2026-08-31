@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpErrorResponse,
   HttpHeaders,
@@ -25,8 +26,6 @@ import { Observable, of, throwError } from 'rxjs';
 import { BudgetActions } from '../actions/index';
 import * as fromEffects from './budget.effect';
 
-import createSpy = jasmine.createSpy;
-
 const httpErrorResponse = new HttpErrorResponse({
   error: 'error',
   headers: new HttpHeaders().set('xxx', 'xxx'),
@@ -52,12 +51,12 @@ const pagination = { currentPage: 1 };
 const sorts = [{ selected: true, name: 'code' }];
 
 class MockBudgetConnector {
-  get = createSpy().and.returnValue(of(budget));
-  getList = createSpy().and.returnValue(
-    of({ values: [budget], pagination, sorts })
-  );
-  create = createSpy().and.returnValue(of(budget));
-  update = createSpy().and.returnValue(of(budget));
+  get = vi.fn().mockReturnValue(of(budget));
+  getList = vi
+    .fn()
+    .mockReturnValue(of({ values: [budget], pagination, sorts }));
+  create = vi.fn().mockReturnValue(of(budget));
+  update = vi.fn().mockReturnValue(of(budget));
 }
 class MockLoggerService {
   log(): void {}
@@ -124,9 +123,9 @@ describe('Budget Effects', () => {
     });
 
     it('should return LoadBudgetFail action if budget not updated', () => {
-      budgetConnector.get = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
-      );
+      budgetConnector.get = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new BudgetActions.LoadBudget({ userId, budgetCode });
       const completion = new BudgetActions.LoadBudgetFail({
         budgetCode,
@@ -158,9 +157,9 @@ describe('Budget Effects', () => {
     });
 
     it('should return LoadBudgetsFail action if budgets not loaded', () => {
-      budgetConnector.getList = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
-      );
+      budgetConnector.getList = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new BudgetActions.LoadBudgets({ userId, params });
       const completion = new BudgetActions.LoadBudgetsFail({ error, params });
       actions$ = hot('-a', { a: action });
@@ -184,9 +183,9 @@ describe('Budget Effects', () => {
     });
 
     it('should return CreateBudgetFail action if budget not created', () => {
-      budgetConnector.create = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
-      );
+      budgetConnector.create = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new BudgetActions.CreateBudget({ userId, budget });
       const completion1 = new BudgetActions.CreateBudgetFail({
         budgetCode,
@@ -222,9 +221,9 @@ describe('Budget Effects', () => {
     });
 
     it('should return UpdateBudgetFail action if budget not created', () => {
-      budgetConnector.update = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
-      );
+      budgetConnector.update = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new BudgetActions.UpdateBudget({
         userId,
         budgetCode,

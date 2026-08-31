@@ -1,17 +1,30 @@
 <ng-container *ngIf="cartModification$ | async as cartModification">
-  <div class="alert alert-info" *ngIf="isVisible">
+  <div
+    class="alert alert-info"
+    *ngIf="isVisible && !isQuantityLimitViolation(cartModification)"
+  >
     <span class="alert-icon">
-      <cx-icon [type]="iconTypes.INFO"></cx-icon>
+      <cx-icon [type]="iconTypes.INFO" />
     </span>
-    <span>
-      {{
-        'validation.' + cartModification.statusCode
-          | cxTranslate
-            : {
-                quantity: cartModification.quantityAdded,
-              }
-      }}
+    <span
+      *ngIf="
+        displayBackendMessages && cartModification.statusMessage;
+        else translatedMessage
+      "
+    >
+      {{ cartModification.statusMessage }}
     </span>
+    <ng-template #translatedMessage>
+      <span>
+        {{
+          'validation.' + cartModification.statusCode
+            | cxTranslate
+              : {
+                  quantity: cartModification.quantityAdded,
+                }
+        }}
+      </span>
+    </ng-template>
 
     <button
       class="close"

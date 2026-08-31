@@ -1,9 +1,9 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { VerificationToken, VerificationTokenCreation } from '../../root/model';
 import { UserAccountAdapter } from './user-account.adapter';
 import { UserAccountConnector } from './user-account.connector';
-import createSpy = jasmine.createSpy;
 
 const verificationTokenCreation: VerificationTokenCreation = {
   purpose: 'LOGIN',
@@ -17,10 +17,10 @@ const verificationToken: VerificationToken = {
 };
 
 class MockUserAdapter implements UserAccountAdapter {
-  createVerificationToken = createSpy('createVerificationToken').and.callFake(
-    () => of(verificationToken)
-  );
-  load = createSpy('load').and.callFake((userId) => of(`load-${userId}`));
+  createVerificationToken = vi
+    .fn('createVerificationToken')
+    .mockImplementation(() => of(verificationToken));
+  load = vi.fn('load').mockImplementation((userId) => of(`load-${userId}`));
 }
 
 describe('UserConnector', () => {

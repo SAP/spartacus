@@ -1,9 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+import { vi } from 'vitest';
 import { RequestedDeliveryDateConnector } from '../connectors/requested-delivery-date.connector';
 import { RequestedDeliveryDateService } from './requested-delivery-date.service';
-
-import createSpy = jasmine.createSpy;
 
 const mockUserId = 'userId1';
 const mockCartId = '00012345';
@@ -12,7 +11,7 @@ const mockRequestedDate = '15-09-2023';
 class MockRequestedDeliveryDateConnector
   implements Partial<RequestedDeliveryDateConnector>
 {
-  setRequestedDeliveryDate = createSpy().and.callFake(() => of());
+  setRequestedDeliveryDate = vi.fn().mockImplementation(() => of());
 }
 
 describe('RequestedDeliveryDateService', () => {

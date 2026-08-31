@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { B2BUnit, B2BUser, B2BUserRole, EntitiesModel } from '@spartacus/core';
@@ -87,8 +88,8 @@ describe('UnitAssignedApproverListService', () => {
   });
 
   it('should clear approvers data before load', () => {
-    spyOn(unitService, 'clearAssignedUsersList');
-    spyOn(unitService, 'getUsers').and.returnValue(EMPTY);
+    vi.spyOn(unitService, 'clearAssignedUsersList');
+    vi.spyOn(unitService, 'getUsers').mockReturnValue(EMPTY);
 
     service.getData('u1').subscribe();
     expect(unitService.clearAssignedUsersList).toHaveBeenCalledWith(

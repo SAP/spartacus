@@ -1,16 +1,16 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 
 import { StockAdapter } from './stock.adapter';
 import { StockConnector } from './stock.connector';
-import createSpy = jasmine.createSpy;
 
 describe('StockConnector', () => {
   let service: StockConnector;
   let adapter: StockAdapter;
 
   const MockStockAdapter = {
-    loadStockLevels: createSpy(),
-    loadStockLevelAtStore: createSpy(),
+    loadStockLevels: vi.fn(),
+    loadStockLevelAtStore: vi.fn(),
   };
 
   beforeEach(() => {

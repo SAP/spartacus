@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { BulkPrice } from '../../core/model/bulk-price.model';
 
 import { BulkPricingTableComponent } from './bulk-pricing-table.component';
@@ -143,7 +144,7 @@ describe('BulkPricingTableComponent', () => {
 
   describe('getPrices', () => {
     it('should call getBulkPrices with a right parameter', () => {
-      spyOn(bulkPricingService, 'getBulkPrices').and.callThrough();
+      vi.spyOn(bulkPricingService, 'getBulkPrices');
 
       component
         .getPrices()

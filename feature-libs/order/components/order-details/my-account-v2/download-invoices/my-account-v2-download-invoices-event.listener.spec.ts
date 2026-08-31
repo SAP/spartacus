@@ -50,14 +50,14 @@ describe('MyAccountV2DownloadInvoicesEventListener', () => {
   });
   describe('onDownloadInvoices', () => {
     it('should receive event and trigger dialog opening', () => {
-      spyOn(listener as any, 'openDialog').and.stub();
+      vi.spyOn(listener as any, 'openDialog').mockImplementation(() => {});
       mockEventStream$.next(mockEvent);
       expect(listener['openDialog']).toHaveBeenCalledWith(mockEvent);
     });
   });
   describe('openDialog', () => {
     it('should open download invoices dialog', () => {
-      spyOn(launchDialogService, 'openDialog').and.stub();
+      vi.spyOn(launchDialogService, 'openDialog').mockImplementation(() => {});
       listener['openDialog'](mockEvent);
       expect(launchDialogService.openDialog).toHaveBeenCalledWith(
         LAUNCH_CALLER.DOWNLOAD_ORDER_INVOICES,

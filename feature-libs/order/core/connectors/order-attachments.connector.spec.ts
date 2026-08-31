@@ -5,7 +5,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import {
   OrderAttachmentsAdapter,
   OrderAttachmentsConnector,
@@ -58,27 +58,21 @@ describe('OrderAttachmentsConnector', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should getOrderAttachments call adapter', (done) => {
-    spyOn(adapter, 'getOrderAttachments').and.callThrough();
-    service
-      .getOrderAttachments(userId, orderCode)
-      .subscribe((result) => {
-        expect(result).toBe(attachmentsData);
-        done();
-      })
-      .unsubscribe();
+  it('should getOrderAttachments call adapter', async () => {
+    vi.spyOn(adapter, 'getOrderAttachments');
+    const result = await firstValueFrom(
+      service.getOrderAttachments(userId, orderCode)
+    );
+    expect(result).toBe(attachmentsData);
     expect(adapter.getOrderAttachments).toHaveBeenCalled();
   });
 
-  it('should getOrderAttachment call adapter', (done) => {
-    spyOn(adapter, 'downloadOrderAttachment').and.callThrough();
-    service
-      .downloadOrderAttachment(userId, orderCode, attachmentId)
-      .subscribe((result) => {
-        expect(result).toEqual(blobData);
-        done();
-      })
-      .unsubscribe();
+  it('should getOrderAttachment call adapter', async () => {
+    vi.spyOn(adapter, 'downloadOrderAttachment');
+    const result = await firstValueFrom(
+      service.downloadOrderAttachment(userId, orderCode, attachmentId)
+    );
+    expect(result).toEqual(blobData);
     expect(adapter.downloadOrderAttachment).toHaveBeenCalled();
   });
 });

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { FormRequiredAsterisksComponent } from './form-required-asterisks.component';
 
@@ -6,11 +6,11 @@ describe('FormRequiredAsterisksComponent', () => {
   let component: FormRequiredAsterisksComponent;
   let fixture: ComponentFixture<FormRequiredAsterisksComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, FormRequiredAsterisksComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FormRequiredAsterisksComponent);
@@ -25,7 +25,7 @@ describe('FormRequiredAsterisksComponent', () => {
   it('should render correctly', () => {
     fixture.detectChanges();
     expect(component.titleTranslation).toEqual('common.required');
-    expect(fixture.debugElement.nativeElement.innerText).toBe('*');
+    expect(fixture.debugElement.nativeElement.textContent?.trim()).toBe('*');
   });
 
   it('should render correctly, when provided titleTranslation input value', () => {
@@ -33,7 +33,7 @@ describe('FormRequiredAsterisksComponent', () => {
     component.titleTranslation = translation;
     fixture.detectChanges();
     expect(component.titleTranslation).toEqual(translation);
-    expect(fixture.debugElement.nativeElement.innerText).toBe('*');
+    expect(fixture.debugElement.nativeElement.textContent?.trim()).toBe('*');
     expect(
       fixture.debugElement.nativeElement.querySelector('abbr.required-asterisk')
         .title
