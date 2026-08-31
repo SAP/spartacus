@@ -21,7 +21,7 @@ import {
 import { FormErrorsModule } from '@spartacus/storefront';
 import { Observable, of, throwError } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
-import { MockFeatureTogglesController, provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing/mock-feature-toggles';
+import { MockFeatureTogglesController, provideMockFeatureToggles } from '../../../../../../core-libs/core/src/features-config/feature-toggles/testing/mock-feature-toggles';
 import { Provider } from '@angular/core';
 import { vi } from 'vitest';
 import { LOGIN_ERROR_KEY, SESSION_EXPIRED_ERROR } from '../user-account-constants';

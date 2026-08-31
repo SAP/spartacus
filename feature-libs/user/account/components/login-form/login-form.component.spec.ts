@@ -21,7 +21,7 @@ import { BehaviorSubject } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
 import { LoginFormComponent } from './login-form.component';
 import { vi } from 'vitest';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../../../../core-libs/storefront/shared/test/mock-feature-directive';
 
 const isBusySubject = new BehaviorSubject(false);
 class MockLoginFormComponentService

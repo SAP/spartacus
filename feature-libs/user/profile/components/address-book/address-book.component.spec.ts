@@ -27,8 +27,8 @@ import { AddressFormComponent } from '../public_api';
 import { AddressBookComponent } from './address-book.component';
 import { AddressBookComponentService } from './address-book.component.service';
 import { vi } from 'vitest';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing/mock-feature-toggles';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { provideMockFeatureToggles } from '../../../../../../core-libs/core/src/features-config/feature-toggles/testing/mock-feature-toggles';
+import { MockFeatureDirective } from '../../../../../../core-libs/storefront/shared/test/mock-feature-directive';
 
 class MockGlobalMessageService {
   add = vi.fn();

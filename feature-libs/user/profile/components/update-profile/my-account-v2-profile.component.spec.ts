@@ -21,8 +21,8 @@ import { BehaviorSubject, Subject, of } from 'rxjs';
 import { MyAccountV2ProfileComponent } from './my-account-v2-profile.component';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 import { vi } from 'vitest';
-import { MockFeatureTogglesController, provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing/mock-feature-toggles';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureTogglesController, provideMockFeatureToggles } from '../../../../../../core-libs/core/src/features-config/feature-toggles/testing/mock-feature-toggles';
+import { MockFeatureDirective } from '../../../../../../core-libs/storefront/shared/test/mock-feature-directive';
 
 const mockPageMeta: PageMeta = { title: 'Test Title', heading: 'Test Heading' };
 class MockPageMetaService implements Partial<PageMetaService> {

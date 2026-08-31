@@ -19,7 +19,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog.component';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../../../../../../core-libs/storefront/shared/test/mock-feature-directive';
 
 const mockData = {
   enteredAddress: {},

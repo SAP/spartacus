@@ -26,8 +26,8 @@ import {
 import { BehaviorSubject, of } from 'rxjs';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 import { UpdateProfileComponent } from './update-profile.component';
-import { MockFeatureTogglesController, provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing/mock-feature-toggles';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureTogglesController, provideMockFeatureToggles } from '../../../../../../core-libs/core/src/features-config/feature-toggles/testing/mock-feature-toggles';
+import { MockFeatureDirective } from '../../../../../../core-libs/storefront/shared/test/mock-feature-directive';
 
 @Component({
   selector: 'cx-spinner',

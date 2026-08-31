@@ -34,7 +34,7 @@ import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
 import { RegistrationVerificationTokenFormComponent } from './verify-register-verification-token-form.component';
 import { RegistrationVerificationTokenFormComponentService } from './verify-register-verification-token-form.service'
 import { vi } from 'vitest';
-import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { MockUrlPipe } from '../../../../../../core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 
 const mockSecurePassword = 'strongPas$!123';
 const mockInvalidPassword = 'strongPas$!123|';

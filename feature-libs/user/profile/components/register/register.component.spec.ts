@@ -46,7 +46,7 @@ import { EMPTY, Observable, Subject, of } from 'rxjs';
 import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';
 import { vi } from 'vitest';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../../../../core-libs/storefront/shared/test/mock-feature-directive';
 
 const mockSecurePassword = 'strongPas$!123';
 const mockInvalidPassword = 'strongPas$!123|';

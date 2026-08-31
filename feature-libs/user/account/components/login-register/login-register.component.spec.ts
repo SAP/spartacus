@@ -12,7 +12,7 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import { LoginRegisterComponent } from './login-register.component';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../../../../core-libs/storefront/shared/test/mock-feature-directive';
 import { vi } from 'vitest';
 
 class MockRoutingService implements Partial<RoutingService> {

@@ -30,10 +30,10 @@ import {
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
-import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+} from '../../../../../../core-libs/core/src/features-config/feature-toggles/testing';
+import { MockUrlPipe } from '../../../../../../core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { UrlTestingModule } from '../../../../../../core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockFeatureDirective } from '../../../../../../core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, of } from 'rxjs';
 import { MyAccountV2PasswordComponent } from './my-account-v2-password.component';
 import { UpdatePasswordComponentService } from './update-password-component.service';

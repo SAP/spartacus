@@ -10,7 +10,7 @@ import {
 } from '@spartacus/core';
 import { IS_GUEST_USER_CHECKOUT_KEY } from '@spartacus/storefront';
 import { LoginAsGuestGuard } from './login-as-guest.guard';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing/mock-feature-toggles';
+import { provideMockFeatureToggles } from '../../../../../../core-libs/core/src/features-config/feature-toggles/testing/mock-feature-toggles';
 
 const mockFeatureToggles: FeatureToggles = {
   authorizationCodeFlowByDefault: true,
