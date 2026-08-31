@@ -24,7 +24,7 @@ export type containerSection =
  * Overflow-menu actions on a selected product card.
  * Labels must match the visible button text.
  */
-export type containerRowAction = 'Add' | 'Remove' | 'Edit' | 'Copy';
+export type containerRowAction = 'Add' | 'Remove' | 'Edit' | 'Duplicate';
 
 /**
  * Expected state of the Available Products section.
@@ -634,7 +634,7 @@ export function copySelectedProductAndWait(
   productName: string,
   index: number
 ): void {
-  selectSelectedProductAction(attributeName, productName, index, 'Copy');
+  selectSelectedProductAction(attributeName, productName, index, 'Duplicate');
   waitForContainerRow(COPY_CONTAINER_ROW_ALIAS);
 }
 
