@@ -3,19 +3,18 @@ import { ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
 import { of } from 'rxjs';
 import { Product, ProductService, SemanticPathService } from '@spartacus/core';
 import { ProductMultiDimensionalSelectorGuard } from './product-multi-dimensional-selector.guard';
+import { vi } from 'vitest';
 
 describe('ProductMultiDimensionalSelectorGuard', () => {
   let guard: ProductMultiDimensionalSelectorGuard;
-  let productService: jasmine.SpyObj<ProductService>;
-  let semanticPathService: jasmine.SpyObj<SemanticPathService>;
-  let router: jasmine.SpyObj<Router>;
+  let productService: any;
+  let semanticPathService: any;
+  let router: any;
 
   beforeEach(() => {
-    const productServiceSpy = jasmine.createSpyObj('ProductService', ['get']);
-    const semanticPathServiceSpy = jasmine.createSpyObj('SemanticPathService', [
-      'transform',
-    ]);
-    const routerSpy = jasmine.createSpyObj('Router', ['createUrlTree']);
+    const productServiceSpy = { get: vi.fn() };
+    const semanticPathServiceSpy = { transform: vi.fn() };
+    const routerSpy = { createUrlTree: vi.fn() };
 
     TestBed.configureTestingModule({
       providers: [
@@ -27,13 +26,9 @@ describe('ProductMultiDimensionalSelectorGuard', () => {
     });
 
     guard = TestBed.inject(ProductMultiDimensionalSelectorGuard);
-    productService = TestBed.inject(
-      ProductService
-    ) as jasmine.SpyObj<ProductService>;
-    semanticPathService = TestBed.inject(
-      SemanticPathService
-    ) as jasmine.SpyObj<SemanticPathService>;
-    router = TestBed.inject(Router) as jasmine.SpyObj<Router>;
+    productService = TestBed.inject(ProductService) as any;
+    semanticPathService = TestBed.inject(SemanticPathService) as any;
+    router = TestBed.inject(Router) as any;
   });
 
   describe('canActivate', () => {
@@ -61,7 +56,7 @@ describe('ProductMultiDimensionalSelectorGuard', () => {
       const route = new ActivatedRouteSnapshot();
       route.params = { productCode: 'testProductCode' };
       const product: Product = { code: 'testProductCode', purchasable: true };
-      productService.get.and.returnValue(of(product));
+      productService.get.mockReturnValue(of(product));
 
       guard.canActivate(route).subscribe((result) => {
         expect(result).toBe(true);
@@ -76,9 +71,9 @@ describe('ProductMultiDimensionalSelectorGuard', () => {
         purchasable: false,
         variantOptions: [{ code: 'variantCode', stock: { stockLevel: 10 } }],
       };
-      productService.get.and.returnValue(of(product));
+      productService.get.mockReturnValue(of(product));
       const urlTree = new UrlTree();
-      router.createUrlTree.and.returnValue(urlTree);
+      router.createUrlTree.mockReturnValue(urlTree);
 
       guard.canActivate(route).subscribe((result) => {
         expect(result).toBe(urlTree);
@@ -93,7 +88,7 @@ describe('ProductMultiDimensionalSelectorGuard', () => {
         purchasable: false,
         variantOptions: [],
       };
-      productService.get.and.returnValue(of(product));
+      productService.get.mockReturnValue(of(product));
 
       guard.canActivate(route).subscribe((result) => {
         expect(result).toBe(false);
@@ -108,10 +103,10 @@ describe('ProductMultiDimensionalSelectorGuard', () => {
         variantOptions: [{ code: 'variantCode', stock: { stockLevel: 10 } }],
       };
       const variantProduct: Product = { code: 'variantCode' };
-      productService.get.and.returnValue(of(variantProduct));
+      productService.get.mockReturnValue(of(variantProduct));
       const urlTree = new UrlTree();
-      router.createUrlTree.and.returnValue(urlTree);
-      semanticPathService.transform.and.returnValue([
+      router.createUrlTree.mockReturnValue(urlTree);
+      semanticPathService.transform.mockReturnValue([
         '/product',
         'variantCode',
       ]);
@@ -133,10 +128,10 @@ describe('ProductMultiDimensionalSelectorGuard', () => {
         variantOptions: [{ code: 'variantCode', stock: { stockLevel: 0 } }],
       };
       const variantProduct: Product = { code: 'variantCode' };
-      productService.get.and.returnValue(of(variantProduct));
+      productService.get.mockReturnValue(of(variantProduct));
       const urlTree = new UrlTree();
-      router.createUrlTree.and.returnValue(urlTree);
-      semanticPathService.transform.and.returnValue([
+      router.createUrlTree.mockReturnValue(urlTree);
+      semanticPathService.transform.mockReturnValue([
         '/product',
         'variantCode',
       ]);

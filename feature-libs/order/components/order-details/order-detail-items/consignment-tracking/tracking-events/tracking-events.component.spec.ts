@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
@@ -15,7 +15,7 @@ import {
   KeyboardFocusTestingModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { MockUrlPipe } from '@spartacus/core/routing/testing';
 import { EMPTY, Observable, of } from 'rxjs';
 import { MockFocusDirective } from '../../../order-detail-reorder/reorder-dialog/reorder-dialog.component.spec';
 import { TrackingEventsComponent } from './tracking-events.component';
@@ -33,12 +33,12 @@ describe('TrackingEventsComponent', () => {
   let component: TrackingEventsComponent;
   let fixture: ComponentFixture<TrackingEventsComponent>;
   let el: DebugElement;
-  const userOrderService = jasmine.createSpyObj('UserOrderService', [
-    'clearConsignmentTracking',
-  ]);
+  const userOrderService = {
+    clearConsignmentTracking: vi.fn(),
+  };
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [KeyboardFocusTestingModule, I18nTestingModule],
       providers: [
@@ -62,14 +62,14 @@ describe('TrackingEventsComponent', () => {
       .compileComponents();
 
     launchDialogService = TestBed.inject(LaunchDialogService);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TrackingEventsComponent);
     el = fixture.debugElement;
     component = fixture.componentInstance;
     component.shipDate = shipDate;
-    userOrderService.clearConsignmentTracking.and.stub();
+    userOrderService.clearConsignmentTracking.mockImplementation(() => {});
   });
 
   it('should create', () => {
@@ -125,7 +125,7 @@ describe('TrackingEventsComponent', () => {
   });
 
   it('should be able to close dialog', () => {
-    spyOn(launchDialogService, 'closeDialog').and.stub();
+    vi.spyOn(launchDialogService, 'closeDialog').mockImplementation(() => {});
     fixture.detectChanges();
     el.query(By.css('.btn-dismiss')).nativeElement.click();
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith('Cross click');
@@ -133,8 +133,8 @@ describe('TrackingEventsComponent', () => {
   });
 
   it('should emit handleClick event', () => {
-    spyOn(component, 'handleClick').and.callThrough();
-    spyOn(component, 'close');
+    vi.spyOn(component, 'handleClick');
+    vi.spyOn(component, 'close');
 
     expect(component.handleClick).toHaveBeenCalledTimes(0);
 

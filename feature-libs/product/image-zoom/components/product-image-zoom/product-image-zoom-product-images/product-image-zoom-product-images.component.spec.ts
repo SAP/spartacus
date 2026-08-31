@@ -1,6 +1,6 @@
 import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
@@ -20,10 +20,11 @@ import {
   LcpPresence,
   MediaComponent,
 } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, firstValueFrom, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ProductImageZoomTriggerComponent } from '../product-image-zoom-trigger/product-image-zoom-trigger.component';
 import { ProductImageZoomProductImagesComponent } from './product-image-zoom-product-images.component';
+import { vi } from 'vitest';
 
 const firstImage = {
   zoom: {
@@ -125,7 +126,7 @@ describe('ProductImageZoomProductImagesComponent', () => {
   let currentProductService: CurrentProductService;
   let mockLcpPresence$: BehaviorSubject<LcpPresence>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
@@ -168,22 +169,22 @@ describe('ProductImageZoomProductImagesComponent', () => {
       .compileComponents();
 
     currentProductService = TestBed.inject(CurrentProductService);
-  }));
+  });
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     fixture = TestBed.createComponent(ProductImageZoomProductImagesComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('with multiple pictures', () => {
-    beforeEach(waitForAsync(() => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
+    beforeEach(async () => {
+      vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
         of(mockDataWithMultiplePictures)
       );
 
       fixture = TestBed.createComponent(ProductImageZoomProductImagesComponent);
       component = fixture.componentInstance;
-    }));
+    });
 
     it('should be created', () => {
       fixture.detectChanges();
@@ -197,21 +198,21 @@ describe('ProductImageZoomProductImagesComponent', () => {
       expect(result.zoom.url).toEqual('zoom-1.jpg');
     });
 
-    it('should have 2 thumbnails', waitForAsync(() => {
+    it('should have 2 thumbnails', async () => {
       fixture.detectChanges();
       let items: Observable<Product>[];
       component.thumbs$.subscribe((i) => (items = i));
       expect(items.length).toBe(2);
-    }));
+    });
 
-    it('should have thumb with url in first product', waitForAsync(() => {
+    it('should have thumb with url in first product', async () => {
       fixture.detectChanges();
       let thumbs: Observable<Product>[];
       component.thumbs$.subscribe((i) => (thumbs = i));
       let thumb: any;
       thumbs[0].subscribe((p) => (thumb = p));
       expect(thumb.container.thumbnail.url).toEqual('thumb-1.jpg');
-    }));
+    });
 
     describe('UI test', () => {
       it('should have cx-carousel-scrolling element', () => {
@@ -287,7 +288,7 @@ describe('ProductImageZoomProductImagesComponent', () => {
 
   describe('with one pictures', () => {
     beforeEach(() => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
+      vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
         of(mockDataWithOnePicture)
       );
 
@@ -306,11 +307,11 @@ describe('ProductImageZoomProductImagesComponent', () => {
       expect(result.zoom.url).toEqual('zoom-1.jpg');
     });
 
-    it('should not have thumbnails in case there is only one GALLERY image', waitForAsync(() => {
+    it('should not have thumbnails in case there is only one GALLERY image', async () => {
       let items: Observable<Product>[];
       component.thumbs$.subscribe((i) => (items = i));
       expect(items.length).toBe(0);
-    }));
+    });
 
     describe('(UI test)', () => {
       it('should not render cx-carousel-scrolling for one GALLERY image', () => {
@@ -361,7 +362,7 @@ describe('ProductImageZoomProductImagesComponent', () => {
 
   describe('without pictures', () => {
     beforeEach(() => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
+      vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
         of(mockDataWitoutPrimaryPictures)
       );
 
@@ -409,12 +410,10 @@ describe('ProductImageZoomProductImagesComponent', () => {
     });
   });
 
-  it('should emit new value for expandImage on triggerZoom', (done) => {
+  it('should emit new value for expandImage on triggerZoom', async () => {
     component.triggerZoom(true);
 
-    component.expandImage.pipe(take(1)).subscribe((value) => {
-      expect(value).toBeTruthy();
-      done();
-    });
+    const value = await firstValueFrom(component.expandImage);
+    expect(value).toBeTruthy();
   });
 });

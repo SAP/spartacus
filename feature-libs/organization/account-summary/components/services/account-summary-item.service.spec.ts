@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { B2BUnit, RoutingService } from '@spartacus/core';
 import {
@@ -44,7 +45,7 @@ describe('AccountSummaryItemService', () => {
   });
 
   it('should launch account summary detail route with unit uid', () => {
-    spyOn(routingService, 'go').and.callThrough();
+    vi.spyOn(routingService, 'go');
     service.launchDetails(testB2BUnit);
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'orgAccountSummaryDetails',

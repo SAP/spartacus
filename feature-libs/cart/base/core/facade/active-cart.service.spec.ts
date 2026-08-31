@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
+  FeatureToggles,
   getLastValueSync,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
@@ -12,9 +13,20 @@ import {
   UserIdService,
   WindowRef,
 } from '@spartacus/core';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  EMPTY,
+  firstValueFrom,
+  Observable,
+  of,
+  Subject,
+} from 'rxjs';
 import { take } from 'rxjs/operators';
+import { vi } from 'vitest';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from '@spartacus/core/testing/mock-feature-toggles';
 import { ActiveCartService } from './active-cart.service';
 
 const userId$ = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);
@@ -64,9 +76,7 @@ const MockWindowRef = {
       store[key] = `${value}`;
     },
     removeItem: (key: string): void => {
-      if (key in store) {
-        store[key] = undefined;
-      }
+      delete store[key];
     },
   },
   isBrowser(): boolean {
@@ -114,7 +124,7 @@ describe('ActiveCartService', () => {
         processesCount: 0,
       });
       service['activeCartId$'] = of('code');
-      spyOn<any>(service, 'load').and.callThrough();
+      vi.spyOn(service, 'load');
       service['initActiveCart']();
       let result;
       service
@@ -165,11 +175,9 @@ describe('ActiveCartService', () => {
   });
 
   describe('takeActive', () => {
-    it('should NOT emit if the cart is NOT stable', (done) => {
+    it('should NOT emit if the cart is NOT stable', () => {
       const isStableMock = new Subject<boolean>();
-      service.isStable = jasmine
-        .createSpy('isStable')
-        .and.returnValue(isStableMock);
+      service.isStable = vi.fn().mockReturnValue(isStableMock);
 
       let emissions = 0;
       service
@@ -180,21 +188,16 @@ describe('ActiveCartService', () => {
       isStableMock.next(false);
 
       expect(emissions).toBe(0);
-      done();
     });
 
-    it('should emit only when the cart is stable', (done) => {
+    it('should emit only when the cart is stable', () => {
       const mockCart: Cart = {
         code: 'code',
       };
       const isStableMock = new Subject<boolean>();
 
-      service.isStable = jasmine
-        .createSpy('isStable')
-        .and.returnValue(isStableMock);
-      service.getActive = jasmine
-        .createSpy('getActive')
-        .and.returnValue(of(mockCart));
+      service.isStable = vi.fn().mockReturnValue(isStableMock);
+      service.getActive = vi.fn().mockReturnValue(of(mockCart));
 
       let result: Cart | undefined;
       service
@@ -205,7 +208,6 @@ describe('ActiveCartService', () => {
       isStableMock.next(true);
 
       expect(result).toEqual(mockCart);
-      done();
     });
   });
 
@@ -236,11 +238,9 @@ describe('ActiveCartService', () => {
   });
 
   describe('takeActiveCartId', () => {
-    it('should NOT emit if the cart ID is NOT stable', (done) => {
+    it('should NOT emit if the cart ID is NOT stable', () => {
       const isStableMock = new Subject<boolean>();
-      service.isStable = jasmine
-        .createSpy('isStable')
-        .and.returnValue(isStableMock);
+      service.isStable = vi.fn().mockReturnValue(isStableMock);
 
       let emissions = 0;
       service
@@ -251,19 +251,14 @@ describe('ActiveCartService', () => {
       isStableMock.next(false);
 
       expect(emissions).toBe(0);
-      done();
     });
 
-    it('should emit only when the cart ID is stable', (done) => {
+    it('should emit only when the cart ID is stable', () => {
       const mockCartId = 'xxx';
       const isStableMock = new Subject<boolean>();
 
-      service.isStable = jasmine
-        .createSpy('isStable')
-        .and.returnValue(isStableMock);
-      service.getActiveCartId = jasmine
-        .createSpy('getActiveCartId')
-        .and.returnValue(of(mockCartId));
+      service.isStable = vi.fn().mockReturnValue(isStableMock);
+      service.getActiveCartId = vi.fn().mockReturnValue(of(mockCartId));
 
       let result: string | undefined;
       service
@@ -274,13 +269,14 @@ describe('ActiveCartService', () => {
       isStableMock.next(true);
 
       expect(result).toEqual(mockCartId);
-      done();
     });
   });
 
   describe('getEntries', () => {
     it('should return cart entries', () => {
-      spyOn(multiCartFacade, 'getEntries').and.returnValue(of([mockCartEntry]));
+      vi.spyOn(multiCartFacade, 'getEntries').mockReturnValue(
+        of([mockCartEntry])
+      );
       service['activeCartId$'] = of('cartId');
 
       let result;
@@ -296,7 +292,9 @@ describe('ActiveCartService', () => {
 
   describe('getLastEntry', () => {
     it('should return last entry by product code', () => {
-      spyOn(multiCartFacade, 'getLastEntry').and.returnValue(of(mockCartEntry));
+      vi.spyOn(multiCartFacade, 'getLastEntry').mockReturnValue(
+        of(mockCartEntry)
+      );
       service['activeCartId$'] = of('cartId');
 
       let result;
@@ -314,28 +312,18 @@ describe('ActiveCartService', () => {
   });
 
   describe('isStable', () => {
-    it('should return true when isStable returns true', (done) => {
-      spyOn(multiCartFacade, 'isStable').and.returnValue(of(true));
+    it('should return true when isStable returns true', async () => {
+      vi.spyOn(multiCartFacade, 'isStable').mockReturnValue(of(true));
 
-      service
-        .isStable()
-        .pipe(take(1))
-        .subscribe((val) => {
-          expect(val).toBe(true);
-          done();
-        });
+      const val = await firstValueFrom(service.isStable());
+      expect(val).toBe(true);
     });
 
-    it('should return false when isStable returns false', (done) => {
-      spyOn(multiCartFacade, 'isStable').and.returnValue(of(false));
+    it('should return false when isStable returns false', async () => {
+      vi.spyOn(multiCartFacade, 'isStable').mockReturnValue(of(false));
 
-      service
-        .isStable()
-        .pipe(take(1))
-        .subscribe((val) => {
-          expect(val).toBe(false);
-          done();
-        });
+      const val = await firstValueFrom(service.isStable());
+      expect(val).toBe(false);
     });
   });
 
@@ -357,13 +345,13 @@ describe('ActiveCartService', () => {
         'oAuthRedirectCodeFlow'
       );
 
-      expect(storedOauthFlowKey).toBeUndefined();
+      expect(storedOauthFlowKey).toBeNull();
     });
   });
 
   describe('loadOrMerge', () => {
     it('should load cart when cartId is default "current"', () => {
-      spyOn(multiCartFacade, 'loadCart').and.callThrough();
+      vi.spyOn(multiCartFacade, 'loadCart');
 
       service['loadOrMerge'](
         OCC_CART_ID_CURRENT,
@@ -380,7 +368,7 @@ describe('ActiveCartService', () => {
     });
 
     it('should be called if user is logged in with code flow', () => {
-      spyOn<any>(service, 'loadOrMerge').and.callFake(() => {});
+      vi.spyOn(service, 'loadOrMerge').mockImplementation(() => {});
       winRef.localStorage?.setItem('oAuthRedirectCodeFlow', 'true');
 
       service['detectUserChange']();
@@ -389,8 +377,8 @@ describe('ActiveCartService', () => {
     });
 
     it('should merge guest cart', () => {
-      spyOn<any>(service, 'guestCartMerge').and.callFake(() => {});
-      spyOn(service, 'isGuestCart').and.returnValue(of(true));
+      vi.spyOn(service, 'guestCartMerge').mockImplementation(() => {});
+      vi.spyOn(service, 'isGuestCart').mockReturnValue(of(true));
       service['loadOrMerge'](
         'cartId',
         OCC_USER_ID_CURRENT,
@@ -401,7 +389,7 @@ describe('ActiveCartService', () => {
     });
 
     it('should dispatch load for current -> emulated user switch', () => {
-      spyOn(multiCartFacade, 'loadCart').and.callThrough();
+      vi.spyOn(multiCartFacade, 'loadCart');
 
       service['loadOrMerge']('cartId', 'ala-ma-kota', OCC_USER_ID_CURRENT);
       expect(multiCartFacade['loadCart']).toHaveBeenCalledWith({
@@ -414,7 +402,9 @@ describe('ActiveCartService', () => {
     });
 
     it('should dispatch merge for non guest cart', () => {
-      spyOn(multiCartFacade, 'mergeToCurrentCart').and.stub();
+      vi.spyOn(multiCartFacade, 'mergeToCurrentCart').mockImplementation(
+        () => {}
+      );
 
       service['loadOrMerge']('cartId', 'userId', OCC_USER_ID_ANONYMOUS);
 
@@ -430,7 +420,7 @@ describe('ActiveCartService', () => {
 
   describe('load', () => {
     it('should load if user is not anonymous and cartId is the default "current"', () => {
-      spyOn(multiCartFacade, 'loadCart').and.callThrough();
+      vi.spyOn(multiCartFacade, 'loadCart');
       service['load'](OCC_CART_ID_CURRENT, OCC_USER_ID_CURRENT);
 
       expect(multiCartFacade['loadCart']).toHaveBeenCalledWith({
@@ -443,7 +433,7 @@ describe('ActiveCartService', () => {
     });
 
     it('should load if user is anonymous and cartId is provided', () => {
-      spyOn(multiCartFacade, 'loadCart').and.callThrough();
+      vi.spyOn(multiCartFacade, 'loadCart');
       service['load']('cartId', OCC_USER_ID_ANONYMOUS);
 
       expect(multiCartFacade['loadCart']).toHaveBeenCalledWith({
@@ -456,7 +446,7 @@ describe('ActiveCartService', () => {
     });
 
     it('should not load if user is anonymous and cartId is default "current"', () => {
-      spyOn(multiCartFacade, 'loadCart').and.callThrough();
+      vi.spyOn(multiCartFacade, 'loadCart');
       service['load'](OCC_CART_ID_CURRENT, OCC_USER_ID_ANONYMOUS);
 
       expect(multiCartFacade['loadCart']).not.toHaveBeenCalled();
@@ -465,10 +455,10 @@ describe('ActiveCartService', () => {
 
   describe('addEntry', () => {
     it('should just add entry after cart is provided', () => {
-      spyOn<any>(service, 'requireLoadedCart').and.returnValue(
+      vi.spyOn(service, 'requireLoadedCart').mockReturnValue(
         of({ code: 'code', guid: 'guid' })
       );
-      spyOn(multiCartFacade, 'addEntry').and.callThrough();
+      vi.spyOn(multiCartFacade, 'addEntry');
       userId$.next(OCC_USER_ID_ANONYMOUS);
 
       service.addEntry('productCode', 2);
@@ -483,10 +473,10 @@ describe('ActiveCartService', () => {
     });
 
     it('should handle pickup in store', () => {
-      spyOn<any>(service, 'requireLoadedCart').and.returnValue(
+      vi.spyOn(service, 'requireLoadedCart').mockReturnValue(
         of({ code: 'code', guid: 'guid' })
       );
-      spyOn(multiCartFacade, 'addEntry').and.callThrough();
+      vi.spyOn(multiCartFacade, 'addEntry');
       userId$.next(OCC_USER_ID_ANONYMOUS);
 
       service.addEntry('productCode', 2, 'pickupStore');
@@ -505,7 +495,7 @@ describe('ActiveCartService', () => {
     it('should call multiCartFacade remove entry method with active cart', () => {
       userId$.next('userId');
       service['activeCartId$'] = of('cartId');
-      spyOn(multiCartFacade, 'removeEntry').and.callThrough();
+      vi.spyOn(multiCartFacade, 'removeEntry');
 
       service.removeEntry({
         entryNumber: 3,
@@ -522,7 +512,7 @@ describe('ActiveCartService', () => {
     it('should call multiCartFacade update entry method with active cart', () => {
       userId$.next('userId');
       service['activeCartId$'] = of('cartId');
-      spyOn(multiCartFacade, 'updateEntry').and.callThrough();
+      vi.spyOn(multiCartFacade, 'updateEntry');
 
       service.updateEntry(1, 2);
       expect(multiCartFacade['updateEntry']).toHaveBeenCalledWith(
@@ -538,7 +528,7 @@ describe('ActiveCartService', () => {
     it('should handle pickup in store', () => {
       userId$.next('userId');
       service['activeCartId$'] = of('cartId');
-      spyOn(multiCartFacade, 'updateEntry').and.callThrough();
+      vi.spyOn(multiCartFacade, 'updateEntry');
 
       service.updateEntry(1, 2, 'pickupStore');
       expect(multiCartFacade['updateEntry']).toHaveBeenCalledWith(
@@ -554,7 +544,7 @@ describe('ActiveCartService', () => {
     it('should switch from pickup to delivery', () => {
       userId$.next('userId');
       service['activeCartId$'] = of('cartId');
-      spyOn(multiCartFacade, 'updateEntry').and.callThrough();
+      vi.spyOn(multiCartFacade, 'updateEntry');
 
       service.updateEntry(1, 2, undefined, true);
       expect(multiCartFacade['updateEntry']).toHaveBeenCalledWith(
@@ -570,7 +560,7 @@ describe('ActiveCartService', () => {
 
   describe('getEntry', () => {
     it('should return entry by product code', () => {
-      spyOn(multiCartFacade, 'getEntry').and.returnValue(of(mockCartEntry));
+      vi.spyOn(multiCartFacade, 'getEntry').mockReturnValue(of(mockCartEntry));
       service['activeCartId$'] = of('cartId');
 
       let result;
@@ -589,7 +579,9 @@ describe('ActiveCartService', () => {
 
   describe('getLastEntry', () => {
     it('should return last entry by product code', () => {
-      spyOn(multiCartFacade, 'getLastEntry').and.returnValue(of(mockCartEntry));
+      vi.spyOn(multiCartFacade, 'getLastEntry').mockReturnValue(
+        of(mockCartEntry)
+      );
       service['activeCartId$'] = of('cartId');
 
       let result;
@@ -610,7 +602,7 @@ describe('ActiveCartService', () => {
     it('should assign email to active cart', () => {
       userId$.next('userId');
       service['activeCartId$'] = of('cartId');
-      spyOn(multiCartFacade, 'assignEmail').and.callThrough();
+      vi.spyOn(multiCartFacade, 'assignEmail');
 
       service.addEmail('test@email.com');
       expect(multiCartFacade.assignEmail).toHaveBeenCalledWith(
@@ -701,8 +693,8 @@ describe('ActiveCartService', () => {
 
   describe('addEntries', () => {
     it('should add multiple entries at once', () => {
-      spyOn(multiCartFacade, 'addEntries').and.callThrough();
-      spyOn<any>(service, 'requireLoadedCart').and.returnValue(
+      vi.spyOn(multiCartFacade, 'addEntries');
+      vi.spyOn(service, 'requireLoadedCart').mockReturnValue(
         of({ code: 'someCode', guid: 'guid' })
       );
       userId$.next('someUserId');
@@ -727,10 +719,10 @@ describe('ActiveCartService', () => {
 
   describe('guestCartMerge', () => {
     it('should delete cart and add entries from previous cart', () => {
-      spyOn(multiCartFacade, 'deleteCart').and.callThrough();
-      spyOn(service, 'addEntries').and.callThrough();
-      spyOn(service, 'getEntries').and.returnValue(of([mockCartEntry]));
-      spyOn<any>(service, 'addEntriesGuestMerge').and.callThrough();
+      vi.spyOn(multiCartFacade, 'deleteCart');
+      vi.spyOn(service, 'addEntries');
+      vi.spyOn(service, 'getEntries').mockReturnValue(of([mockCartEntry]));
+      vi.spyOn(service, 'addEntriesGuestMerge');
 
       service['guestCartMerge']('cartId');
       expect(service['addEntriesGuestMerge']).toHaveBeenCalledWith([
@@ -753,7 +745,6 @@ describe('ActiveCartService', () => {
     // context (spartacus⚿<baseSite>⚿<key>). `pendingGuestCartMerge` is the
     // (protected) key held by ActiveCartStatePersistenceService.
     const STORAGE_KEY = `spartacus⚿${BASE_SITE}⚿pendingGuestCartMerge`;
-
     beforeEach(() => {
       winRef?.localStorage?.removeItem(STORAGE_KEY);
       TestBed.resetTestingModule();
@@ -768,10 +759,13 @@ describe('ActiveCartService', () => {
             provide: SiteContextParamsService,
             useValue: { getValues: () => of([BASE_SITE]) },
           },
-          provideMockFeatureToggles({
-            authorizationCodeFlowByDefault: true,
-            mergeGuestCartOnCodeFlowLogin: true,
-          }),
+          {
+            provide: FeatureToggles,
+            useValue: {
+              authorizationCodeFlowByDefault: true,
+              mergeGuestCartOnCodeFlowLogin: true,
+            },
+          },
         ],
       });
       service = TestBed.inject(ActiveCartService);
@@ -789,7 +783,7 @@ describe('ActiveCartService', () => {
           user: { name: OCC_USER_ID_GUEST },
           entries: [mockCartEntry],
         };
-        spyOn(service, 'getActive').and.returnValue(of(guestCart));
+        vi.spyOn(service, 'getActive').mockReturnValue(of(guestCart));
 
         service['persistGuestCartForCodeFlowMerge']();
 
@@ -803,7 +797,7 @@ describe('ActiveCartService', () => {
           user: { name: 'John', uid: 'john@sap.com' },
           entries: [mockCartEntry],
         };
-        spyOn(service, 'getActive').and.returnValue(of(normalCart));
+        vi.spyOn(service, 'getActive').mockReturnValue(of(normalCart));
 
         service['persistGuestCartForCodeFlowMerge']();
 
@@ -813,8 +807,8 @@ describe('ActiveCartService', () => {
 
     describe('loadOrMerge', () => {
       it('should route to guestCartMerge when a pending guest merge is persisted', () => {
-        spyOn<any>(service, 'guestCartMerge').and.callFake(() => {});
-        spyOn(service, 'isGuestCart').and.returnValue(of(false));
+        vi.spyOn(service as any, 'guestCartMerge').mockImplementation(() => {});
+        vi.spyOn(service, 'isGuestCart').mockReturnValue(of(false));
         winRef.localStorage?.setItem(
           STORAGE_KEY,
           JSON.stringify([{ product: { code: 'code' }, quantity: 1 }])
@@ -830,8 +824,8 @@ describe('ActiveCartService', () => {
       });
 
       it('should merge normally when nothing is persisted', () => {
-        spyOn(multiCartFacade, 'mergeToCurrentCart').and.stub();
-        spyOn(service, 'isGuestCart').and.returnValue(of(false));
+        vi.spyOn(multiCartFacade, 'mergeToCurrentCart');
+        vi.spyOn(service, 'isGuestCart').mockReturnValue(of(false));
 
         service['loadOrMerge']('cartId', 'userId', OCC_USER_ID_ANONYMOUS);
 
@@ -841,8 +835,10 @@ describe('ActiveCartService', () => {
 
     describe('guestCartMerge', () => {
       it('should add the persisted entries and clear storage without deleting the guest cart', () => {
-        spyOn(multiCartFacade, 'deleteCart').and.callThrough();
-        spyOn<any>(service, 'addEntriesGuestMerge').and.callFake(() => {});
+        vi.spyOn(multiCartFacade, 'deleteCart').mockImplementation(() => {});
+        vi.spyOn(service as any, 'addEntriesGuestMerge').mockImplementation(
+          () => {}
+        );
         const persisted = [{ product: { code: 'code' }, quantity: 1 }];
         winRef.localStorage?.setItem(STORAGE_KEY, JSON.stringify(persisted));
 
@@ -857,8 +853,10 @@ describe('ActiveCartService', () => {
       });
 
       it('should remove the storage key entirely rather than leaving an empty value', () => {
-        spyOn<any>(service, 'addEntriesGuestMerge').and.callFake(() => {});
-        spyOn(winRef.localStorage as Storage, 'removeItem').and.callThrough();
+        vi.spyOn(service as any, 'addEntriesGuestMerge').mockImplementation(
+          () => {}
+        );
+        vi.spyOn(winRef.localStorage as Storage, 'removeItem');
         winRef.localStorage?.setItem(
           STORAGE_KEY,
           JSON.stringify([{ product: { code: 'code' }, quantity: 1 }])
@@ -912,9 +910,9 @@ describe('ActiveCartService', () => {
     });
 
     it('should not read persisted state in loadOrMerge and merge normally', () => {
-      spyOn<any>(service, 'guestCartMerge').and.callFake(() => {});
-      spyOn(multiCartFacade, 'mergeToCurrentCart').and.stub();
-      spyOn(service, 'isGuestCart').and.returnValue(of(false));
+      vi.spyOn(service as any, 'guestCartMerge').mockImplementation(() => {});
+      vi.spyOn(multiCartFacade, 'mergeToCurrentCart');
+      vi.spyOn(service, 'isGuestCart').mockReturnValue(of(false));
       winRef.localStorage?.setItem(
         STORAGE_KEY,
         JSON.stringify([{ product: { code: 'code' }, quantity: 1 }])
@@ -931,9 +929,13 @@ describe('ActiveCartService', () => {
     });
 
     it('should not use persisted state in guestCartMerge and fall back to deleting the guest cart', () => {
-      spyOn(multiCartFacade, 'deleteCart').and.stub();
-      spyOn<any>(service, 'addEntriesGuestMerge').and.callFake(() => {});
-      spyOn(service, 'getEntries').and.returnValue(of([mockCartEntry]));
+      vi.spyOn(multiCartFacade, 'deleteCart').mockImplementation(() => {});
+      vi.spyOn(service as any, 'addEntriesGuestMerge').mockImplementation(
+        () => {}
+      );
+      vi.spyOn(service, 'getEntries').mockImplementation(() =>
+        of([mockCartEntry])
+      );
       winRef.localStorage?.setItem(
         STORAGE_KEY,
         JSON.stringify([{ product: { code: 'code' }, quantity: 1 }])
@@ -967,25 +969,23 @@ describe('ActiveCartService', () => {
       };
     });
 
-    it('should return cart if this already exists without loading again and creating new one', (done) => {
-      spyOn<any>(service, 'load').and.callThrough();
-      spyOn(multiCartFacade, 'createCart').and.callThrough();
+    it('should return cart if this already exists without loading again and creating new one', async () => {
+      vi.spyOn(service, 'load');
+      vi.spyOn(multiCartFacade, 'createCart');
 
       service['cartEntity$'] = of(cartState);
 
-      service.requireLoadedCart().subscribe((cart) => {
-        expect(cart).toEqual(cartState.value);
-        expect(service['load']).not.toHaveBeenCalled();
-        expect(multiCartFacade.createCart).not.toHaveBeenCalled();
-        done();
-      });
+      const cart = await firstValueFrom(service.requireLoadedCart());
+      expect(cart).toEqual(cartState.value);
+      expect(service['load']).not.toHaveBeenCalled();
+      expect(multiCartFacade.createCart).not.toHaveBeenCalled();
     });
 
-    it('should try to load cart for logged user if it is not already loaded', (done) => {
+    it('should try to load cart for logged user if it is not already loaded', async () => {
       const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>(
         {}
       );
-      spyOn<any>(service, 'load').and.callFake(() => {
+      vi.spyOn(service, 'load').mockImplementation(() => {
         cart$.next({
           loading: false,
           success: true,
@@ -995,23 +995,21 @@ describe('ActiveCartService', () => {
           },
         });
       });
-      spyOn(multiCartFacade, 'createCart').and.callThrough();
+      vi.spyOn(multiCartFacade, 'createCart');
 
       service['cartEntity$'] = cart$.asObservable();
       userId$.next(OCC_USER_ID_CURRENT);
 
-      service['requireLoadedCart']().subscribe((cart) => {
-        expect(cart).toEqual(cartState.value);
-        expect(service['load']).toHaveBeenCalledWith(
-          OCC_CART_ID_CURRENT,
-          OCC_USER_ID_CURRENT
-        );
-        expect(multiCartFacade.createCart).not.toHaveBeenCalled();
-        done();
-      });
+      const cart = await firstValueFrom(service['requireLoadedCart']());
+      expect(cart).toEqual(cartState.value);
+      expect(service['load']).toHaveBeenCalledWith(
+        OCC_CART_ID_CURRENT,
+        OCC_USER_ID_CURRENT
+      );
+      expect(multiCartFacade.createCart).not.toHaveBeenCalled();
     });
 
-    it('should not load cart for logged user if it is loading', (done) => {
+    it('should not load cart for logged user if it is loading', async () => {
       const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>(
         {}
       );
@@ -1021,21 +1019,13 @@ describe('ActiveCartService', () => {
         success: false,
         error: false,
       });
-      spyOn<any>(service, 'load').and.callThrough();
-      spyOn(multiCartFacade, 'createCart').and.callThrough();
+      vi.spyOn(service, 'load');
+      vi.spyOn(multiCartFacade, 'createCart');
 
       service['cartEntity$'] = cart$.asObservable();
       userId$.next(OCC_USER_ID_CURRENT);
 
-      service['requireLoadedCart']().subscribe((cart) => {
-        expect(cart).toEqual(cartState.value);
-        expect(service['load']).not.toHaveBeenCalledWith(
-          OCC_CART_ID_CURRENT,
-          OCC_USER_ID_CURRENT
-        );
-        expect(multiCartFacade.createCart).not.toHaveBeenCalled();
-        done();
-      });
+      const cartPromise = firstValueFrom(service['requireLoadedCart']());
       // init loading done
       cart$.next({
         loading: false,
@@ -1045,14 +1035,21 @@ describe('ActiveCartService', () => {
           code: 'code',
         },
       });
+      const cart = await cartPromise;
+      expect(cart).toEqual(cartState.value);
+      expect(service['load']).not.toHaveBeenCalledWith(
+        OCC_CART_ID_CURRENT,
+        OCC_USER_ID_CURRENT
+      );
+      expect(multiCartFacade.createCart).not.toHaveBeenCalled();
     });
 
-    it('should try to create cart after failed load cart for logged user', (done) => {
+    it('should try to create cart after failed load cart for logged user', async () => {
       userId$.next(OCC_USER_ID_CURRENT);
       const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>(
         {}
       );
-      spyOn<any>(service, 'load').and.callFake(() => {
+      vi.spyOn(service, 'load').mockImplementation(() => {
         cart$.next({
           loading: false,
           success: false,
@@ -1060,7 +1057,7 @@ describe('ActiveCartService', () => {
           value: undefined,
         });
       });
-      spyOn(multiCartFacade, 'createCart').and.callFake(() => {
+      vi.spyOn(multiCartFacade, 'createCart').mockImplementation(() => {
         cart$.next({
           loading: false,
           success: true,
@@ -1074,29 +1071,27 @@ describe('ActiveCartService', () => {
 
       service['cartEntity$'] = cart$.asObservable();
 
-      service['requireLoadedCart']().subscribe((cart) => {
-        expect(cart).toEqual(cartState.value);
-        expect(service['load']).toHaveBeenCalledWith(
-          OCC_CART_ID_CURRENT,
-          OCC_USER_ID_CURRENT
-        );
-        expect(multiCartFacade.createCart).toHaveBeenCalledWith({
-          userId: OCC_USER_ID_CURRENT,
-          extraData: {
-            active: true,
-          },
-        });
-        done();
+      const cart = await firstValueFrom(service['requireLoadedCart']());
+      expect(cart).toEqual(cartState.value);
+      expect(service['load']).toHaveBeenCalledWith(
+        OCC_CART_ID_CURRENT,
+        OCC_USER_ID_CURRENT
+      );
+      expect(multiCartFacade.createCart).toHaveBeenCalledWith({
+        userId: OCC_USER_ID_CURRENT,
+        extraData: {
+          active: true,
+        },
       });
     });
 
-    it('should try to create cart for anonymous user', (done) => {
+    it('should try to create cart for anonymous user', async () => {
       const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>(
         {}
       );
-      spyOn<any>(service, 'load').and.callThrough();
+      vi.spyOn(service, 'load');
 
-      spyOn(multiCartFacade, 'createCart').and.callFake(() => {
+      vi.spyOn(multiCartFacade, 'createCart').mockImplementation(() => {
         cart$.next({
           loading: false,
           success: true,
@@ -1111,72 +1106,55 @@ describe('ActiveCartService', () => {
       userId$.next(OCC_USER_ID_ANONYMOUS);
       service['cartEntity$'] = cart$.asObservable();
 
-      service['requireLoadedCart']().subscribe((cart) => {
-        expect(cart).toEqual(cartState.value);
-        expect(service['load']).not.toHaveBeenCalled();
-        expect(multiCartFacade.createCart).toHaveBeenCalledWith({
-          userId: OCC_USER_ID_ANONYMOUS,
-          extraData: {
-            active: true,
-          },
-        });
-        done();
+      const cart = await firstValueFrom(service['requireLoadedCart']());
+      expect(cart).toEqual(cartState.value);
+      expect(service['load']).not.toHaveBeenCalled();
+      expect(multiCartFacade.createCart).toHaveBeenCalledWith({
+        userId: OCC_USER_ID_ANONYMOUS,
+        extraData: {
+          active: true,
+        },
       });
     });
   });
 
   describe('hasPickupItems and hasDeliveryItems', () => {
-    it('cart has pickup items', (done) => {
+    it('cart has pickup items', async () => {
       const mockCart: Cart = {
         pickupItemsQuantity: 1,
       };
-      service.getActive = jasmine
-        .createSpy('getActive')
-        .and.returnValue(of(mockCart));
+      service.getActive = vi.fn().mockReturnValue(of(mockCart));
 
-      service.hasPickupItems().subscribe((hasPickup) => {
-        expect(hasPickup).toBeTruthy();
-        done();
-      });
+      const hasPickup = await firstValueFrom(service.hasPickupItems());
+      expect(hasPickup).toBeTruthy();
     });
 
-    it('cart does not have pickup items', (done) => {
+    it('cart does not have pickup items', async () => {
       const mockCart = {
         code: 'test',
       };
-      service.getActive = jasmine
-        .createSpy('getActive')
-        .and.returnValue(of(mockCart));
+      service.getActive = vi.fn().mockReturnValue(of(mockCart));
 
-      service.hasPickupItems().subscribe((hasPickup) => {
-        expect(hasPickup).toBeFalsy();
-        done();
-      });
+      const hasPickup = await firstValueFrom(service.hasPickupItems());
+      expect(hasPickup).toBeFalsy();
     });
 
-    it('should be able to get whether cart has delivery items', (done) => {
+    it('should be able to get whether cart has delivery items', async () => {
       let mockCart: Cart = {
         deliveryItemsQuantity: 1,
       };
-      service.getActive = jasmine
-        .createSpy('getActive')
-        .and.returnValue(of(mockCart));
+      service.getActive = vi.fn().mockReturnValue(of(mockCart));
 
-      service.hasDeliveryItems().subscribe((hasDelivery) => {
-        expect(hasDelivery).toBeTruthy();
-        done();
-      });
+      const hasDelivery = await firstValueFrom(service.hasDeliveryItems());
+      expect(hasDelivery).toBeTruthy();
 
       mockCart = {
         code: 'test',
       };
-      service.getActive = jasmine
-        .createSpy('getActive')
-        .and.returnValue(of(mockCart));
+      service.getActive = vi.fn().mockReturnValue(of(mockCart));
 
-      service.hasDeliveryItems().subscribe((hasPickup) => {
-        expect(hasPickup).toBeFalsy();
-      });
+      const hasPickup = await firstValueFrom(service.hasDeliveryItems());
+      expect(hasPickup).toBeFalsy();
     });
   });
 
@@ -1186,28 +1164,22 @@ describe('ActiveCartService', () => {
       { orderCode: 'deliveryEntry' },
     ];
 
-    it('should be able to get pickup entries', (done) => {
-      service.getEntries = jasmine
-        .createSpy('getEntries')
-        .and.returnValue(of(entries));
+    it('should be able to get pickup entries', async () => {
+      service.getEntries = vi.fn().mockReturnValue(of(entries));
 
-      service.getPickupEntries().subscribe((pickupEntries) => {
-        expect(pickupEntries.length).toEqual(1);
-        expect(pickupEntries[0].orderCode).toEqual('pickupEntry');
-        done();
-      });
+      const pickupEntries = await firstValueFrom(service.getPickupEntries());
+      expect(pickupEntries.length).toEqual(1);
+      expect(pickupEntries[0].orderCode).toEqual('pickupEntry');
     });
 
-    it('should be able to get delivery entries', (done) => {
-      service.getEntries = jasmine
-        .createSpy('getEntries')
-        .and.returnValue(of(entries));
+    it('should be able to get delivery entries', async () => {
+      service.getEntries = vi.fn().mockReturnValue(of(entries));
 
-      service.getDeliveryEntries().subscribe((deliveryEntries) => {
-        expect(deliveryEntries.length).toEqual(1);
-        expect(deliveryEntries[0].orderCode).toEqual('deliveryEntry');
-        done();
-      });
+      const deliveryEntries = await firstValueFrom(
+        service.getDeliveryEntries()
+      );
+      expect(deliveryEntries.length).toEqual(1);
+      expect(deliveryEntries[0].orderCode).toEqual('deliveryEntry');
     });
   });
 });

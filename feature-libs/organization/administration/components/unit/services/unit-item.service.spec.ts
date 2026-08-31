@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
@@ -9,7 +10,6 @@ import { EMPTY, of } from 'rxjs';
 import { UnitFormService } from '../form/unit-form.service';
 import { CurrentUnitService } from './current-unit.service';
 import { UnitItemService } from './unit-item.service';
-import createSpy = jasmine.createSpy;
 
 const mockCode = 'u1';
 class MockRoutingService {
@@ -38,7 +38,7 @@ class MockUnitFormService {}
 
 class MockCurrentUnitService {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(EMPTY);
+  load = vi.fn().mockReturnValue(EMPTY);
   error$ = of(false);
 }
 
@@ -66,26 +66,26 @@ describe('UnitItemService', () => {
   });
 
   it('should load unit', () => {
-    spyOn(unitService, 'get').and.callThrough();
+    vi.spyOn(unitService, 'get');
     service.load('123').subscribe();
     expect(unitService.get).toHaveBeenCalledWith('123');
   });
 
   it('should get unit from facade', () => {
-    spyOn(unitService, 'get').and.callThrough();
+    vi.spyOn(unitService, 'get');
     service.load('123').subscribe();
     expect(unitService.get).toHaveBeenCalledWith('123');
   });
 
   it('should load unit on each request', () => {
-    spyOn(unitService, 'load').and.callThrough();
+    vi.spyOn(unitService, 'load');
     service.load('123').subscribe();
     expect(unitService.load).toHaveBeenCalledWith('123');
   });
 
   it('should update existing unit', () => {
-    spyOn(unitService, 'update').and.callThrough();
-    spyOn(unitService, 'getLoadingStatus').and.callThrough();
+    vi.spyOn(unitService, 'update');
+    vi.spyOn(unitService, 'getLoadingStatus');
 
     expect(service.save(form, 'existingCode')).toEqual(mockItemStatus);
     expect(unitService.update).toHaveBeenCalledWith('existingCode', {
@@ -96,8 +96,8 @@ describe('UnitItemService', () => {
   });
 
   it('should create new unit', () => {
-    spyOn(unitService, 'create').and.callThrough();
-    spyOn(unitService, 'getLoadingStatus').and.callThrough();
+    vi.spyOn(unitService, 'create');
+    vi.spyOn(unitService, 'getLoadingStatus');
 
     expect(service.save(form)).toEqual(mockItemStatus);
     expect(unitService.create).toHaveBeenCalledWith({
@@ -109,7 +109,7 @@ describe('UnitItemService', () => {
 
   it('should launch unit detail route', () => {
     const routingService = TestBed.inject(RoutingService);
-    spyOn(routingService, 'go').and.callThrough();
+    vi.spyOn(routingService, 'go');
     service.launchDetails({ name: 'foo bar' });
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'orgUnitDetails',

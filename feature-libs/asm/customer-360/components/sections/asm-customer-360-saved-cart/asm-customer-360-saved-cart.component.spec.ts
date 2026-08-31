@@ -123,7 +123,7 @@ describe('AsmCustomer360SavedCartComponent', () => {
     },
   };
 
-  const productService = jasmine.createSpyObj('ProductService', ['get']);
+  const productService = { get: vi.fn() };
   @Component({
     template: '',
     selector: 'cx-media',
@@ -172,7 +172,7 @@ describe('AsmCustomer360SavedCartComponent', () => {
 
     const mockProductService = TestBed.inject(ProductService);
 
-    (<jasmine.Spy>mockProductService.get).and.callFake((code: string) => {
+    (mockProductService.get as any).mockImplementation((code: string) => {
       switch (code) {
         case '553637':
           return of(mockProduct1);
@@ -243,7 +243,7 @@ describe('AsmCustomer360SavedCartComponent', () => {
   });
 
   it('should navigate Product Detail', () => {
-    spyOn(contextSource.navigate$, 'next').and.stub();
+    vi.spyOn(contextSource.navigate$, 'next').mockImplementation(() => {});
     const productName = el.queryAll(
       By.css(
         'cx-asm-customer-360-product-item .cx-asm-customer-360-product-item-name'
@@ -262,7 +262,7 @@ describe('AsmCustomer360SavedCartComponent', () => {
   });
 
   it('should navigate saved cart detail', () => {
-    spyOn(contextSource.navigate$, 'next').and.stub();
+    vi.spyOn(contextSource.navigate$, 'next').mockImplementation(() => {});
     const header = el.queryAll(
       By.css('.product-listing-header .cx-overview-title-link')
     )[0];

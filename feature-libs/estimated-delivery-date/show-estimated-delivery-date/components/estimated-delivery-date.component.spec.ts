@@ -1,19 +1,18 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import { LanguageService } from '@spartacus/core';
-import { Consignment, Order, OrderHistoryFacade } from '@spartacus/order/root';
 import {
   CxDatePipe,
   I18nTestingModule,
+  LanguageService,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
   TranslationService,
-} from 'core-libs/core/src/i18n';
-import { Observable, ReplaySubject, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+} from '@spartacus/core';
+import { Consignment, Order, OrderHistoryFacade } from '@spartacus/order/root';
+import { Observable, ReplaySubject, firstValueFrom, of } from 'rxjs';
 import { ArrivalSlots } from '../../root/model';
 import { EstimatedDeliveryDateComponent } from './estimated-delivery-date.component';
 
@@ -60,7 +59,7 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
   let mockCartItemContext: MockCartItemContext;
   let mockOrderHistoryFacade: MockOrderHistoryFacade;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -90,7 +89,7 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EstimatedDeliveryDateComponent);
@@ -106,26 +105,19 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should expose orderEntry$', (done) => {
+  it('should expose orderEntry$', async () => {
     const orderEntry: Partial<OrderEntry & Array<ArrivalSlots>> = {
       orderCode: '123',
       arrivalSlots: [],
     };
-    component.orderEntry$.pipe(take(1)).subscribe((value) => {
-      expect(value).toBe(orderEntry);
-      done();
-    });
-
     mockCartItemContext.item$.next(orderEntry);
+    const value = await firstValueFrom(component.orderEntry$);
+    expect(value).toBe(orderEntry);
   });
 
-  it('should expose consignments$', (done) => {
-    component.consignments$.pipe(take(1)).subscribe((value) => {
-      expect(value).toBeTruthy;
-      done();
-    });
-
-    mockOrderHistoryFacade.getOrderDetails().pipe();
+  it('should expose consignments$', async () => {
+    const value = await firstValueFrom(component.consignments$);
+    expect(value).toBeTruthy;
   });
 
   it('should return empty string when no date is provided', () => {

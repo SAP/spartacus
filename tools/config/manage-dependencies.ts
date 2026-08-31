@@ -401,8 +401,12 @@ function filterNativeNodeAPIs(
               // Don't allow to use node api outside of schematics files
               if (imp.usageIn.spec || imp.usageIn.lib) {
                 imp.files.forEach((file) => {
-                  // Allow to use Node APIs in SSR
-                  if (!file.includes('ssr')) {
+                  // Allow to use Node APIs in SSR and in build-time config files
+                  // (e.g. vitest.config.ts), which are never shipped to the browser
+                  if (
+                    !file.includes('ssr') &&
+                    !file.endsWith('vitest.config.ts')
+                  ) {
                     errorsFound = true;
                     error(
                       file,
@@ -526,7 +530,8 @@ function categorizeUsageOfDependencies(
           file.endsWith('spec.ts') ||
           file === `${lib.directory}/test.ts` ||
           file === `${lib.directory}/src/test.ts` ||
-          file === `${lib.directory}/setup-jest.ts`
+          file === `${lib.directory}/setup-jest.ts` ||
+          file === `${lib.directory}/vitest.config.ts`
         ) {
           imp.usageIn.spec = true;
         } else if (file.includes('schematics')) {

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RoutingService } from '@spartacus/core';
@@ -146,7 +147,7 @@ describe('CurrentItemService', () => {
   describe('model$', () => {
     it('should call getModel() with route parameter', () => {
       const mockBudget = { name: 'test cost center' };
-      spyOn(service, 'getItem').and.returnValue(of(mockBudget));
+      vi.spyOn(service, 'getItem').mockReturnValue(of(mockBudget));
 
       let result;
       service.item$.subscribe((value) => (result = value));
@@ -156,7 +157,7 @@ describe('CurrentItemService', () => {
     });
 
     it('should not call getModel() with route parameter', () => {
-      spyOn(service, 'getItem');
+      vi.spyOn(service, 'getItem');
 
       let result;
       service.item$.subscribe((value) => (result = value));
@@ -166,7 +167,7 @@ describe('CurrentItemService', () => {
     });
 
     it('should resolve model', () => {
-      spyOn(service, 'getItem').and.returnValue(
+      vi.spyOn(service, 'getItem').mockReturnValue(
         of({
           code: mockCode,
           name: 'I am a mock',
@@ -181,7 +182,7 @@ describe('CurrentItemService', () => {
     });
 
     it('should no longer resolve model', () => {
-      spyOn(service, 'getItem').and.returnValue(
+      vi.spyOn(service, 'getItem').mockReturnValue(
         of({
           code: mockCode,
           name: 'I am a mock',

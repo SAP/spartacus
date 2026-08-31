@@ -33,7 +33,7 @@ describe('OccCartNormalizer', () => {
 
     occCartNormalizer = TestBed.inject(OccCartNormalizer);
     converter = TestBed.inject(ConverterService);
-    spyOn(converter, 'convert').and.callThrough();
+    vi.spyOn(converter, 'convert');
   });
 
   it('should be created', () => {

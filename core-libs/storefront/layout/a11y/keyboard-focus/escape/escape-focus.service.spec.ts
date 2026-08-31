@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { EscapeFocusConfig } from '../keyboard-focus.model';
 import { SelectFocusUtility } from '../services';
 import { EscapeFocusService } from './escape-focus.service';
+import { vi } from 'vitest';
 
 @Component({ template: '<div id="a"></div><div id="b" tabindex="5"></div>' })
 class MockComponent {}
@@ -16,7 +17,7 @@ describe('EscapeFocusService', () => {
   let focusUtility: SelectFocusUtility;
   let fixture: ComponentFixture<MockComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [MockComponent],
       providers: [
@@ -32,7 +33,7 @@ describe('EscapeFocusService', () => {
     focusUtility = TestBed.inject(SelectFocusUtility);
 
     fixture = TestBed.createComponent(MockComponent);
-  }));
+  });
 
   it('should inject service', () => {
     expect(service).toBeTruthy();
@@ -63,18 +64,18 @@ describe('EscapeFocusService', () => {
   describe('handleEscape()', () => {
     let el: HTMLElement;
     const ev = {
-      preventDefault() {},
-      stopPropagation() {},
+      preventDefault: vi.fn(),
+      stopPropagation: vi.fn(),
       target: undefined,
     };
 
     beforeEach(() => {
-      spyOn(ev, 'preventDefault');
-      spyOn(ev, 'stopPropagation');
+      vi.spyOn(ev, 'preventDefault');
+      vi.spyOn(ev, 'stopPropagation');
 
       el = fixture.debugElement.query(By.css('#a')).nativeElement;
 
-      spyOn(el, 'focus');
+      vi.spyOn(el, 'focus');
     });
 
     describe('focusOnEscape = true', () => {
@@ -93,7 +94,7 @@ describe('EscapeFocusService', () => {
         beforeEach(() => {
           ev.target = el;
 
-          spyOn(focusUtility, 'findFirstFocusable');
+          vi.spyOn(focusUtility, 'findFirstFocusable');
         });
         it('should not focus', () => {
           service.handleEscape(
@@ -131,6 +132,7 @@ describe('EscapeFocusService', () => {
       });
 
       it('should not stop event bubbling', () => {
+        vi.clearAllMocks();
         service.handleEscape(el, { focusOnEscape: false }, ev as KeyboardEvent);
         expect(ev.preventDefault).not.toHaveBeenCalled();
         expect(ev.stopPropagation).not.toHaveBeenCalled();

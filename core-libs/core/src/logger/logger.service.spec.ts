@@ -1,3 +1,4 @@
+import { vi, Mock } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { LoggerService } from './logger.service';
 
@@ -25,7 +26,7 @@ describe('LoggerService', () => {
   ['log', 'warn', 'error', 'info', 'debug'].forEach((method) => {
     testInput.forEach((input) => {
       it(`should ${method}`, () => {
-        const methodSpy: jasmine.Spy<jasmine.Func> = spyOn(
+        const methodSpy: Mock<Mock> = vi.spyOn(
           console,
           method as keyof Console
         );

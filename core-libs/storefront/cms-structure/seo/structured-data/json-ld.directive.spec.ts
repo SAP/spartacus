@@ -55,7 +55,7 @@ describe('JsonLdDirective', () => {
 
   it('should encode malicious html code', () => {
     const template = `<span [cxJsonLd]="{foo: 'bar<script>alert(1)</script>'}">hello</span>`;
-    spyOn(console, 'warn').and.stub();
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
     fixture = createTestComponent(template);
     fixture.detectChanges();
     expect(fixture.nativeElement.innerHTML).toContain('&lt;script&gt;');
@@ -63,7 +63,7 @@ describe('JsonLdDirective', () => {
 
   it('should encode deep nested malicious html code', () => {
     const template = `<span [cxJsonLd]="[{ foo: { bar: { deep: 'before <script>alert()</script>and after' } }},]"></span>`;
-    spyOn(console, 'warn').and.stub();
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
     fixture = createTestComponent(template);
     fixture.detectChanges();
     expect(fixture.nativeElement.innerHTML).toContain('&lt;script&gt;');

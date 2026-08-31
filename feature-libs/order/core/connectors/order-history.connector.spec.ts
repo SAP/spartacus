@@ -2,46 +2,49 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { OrderHistoryAdapter } from './order-history.adapter';
 import { OrderHistoryConnector } from './order-history.connector';
-import createSpy = jasmine.createSpy;
 
 class MockOrderHistoryAdapter implements OrderHistoryAdapter {
-  load = createSpy('OrderHistoryAdapter.load').and.callFake(
-    (userId, orderCode) => of(`order-${userId}-${orderCode}`)
-  );
+  load = vi
+    .fn('OrderHistoryAdapter.load')
+    .mockImplementation((userId, orderCode) =>
+      of(`order-${userId}-${orderCode}`)
+    );
 
-  loadHistory = createSpy('OrderHistoryAdapter.loadHistory').and.callFake(
-    (userId) => of(`orderHistory-${userId}`)
-  );
+  loadHistory = vi
+    .fn('OrderHistoryAdapter.loadHistory')
+    .mockImplementation((userId) => of(`orderHistory-${userId}`));
 
-  getConsignmentTracking = createSpy(
-    'OrderHistoryAdapter.getConsignmentTracking'
-  ).and.callFake((orderCode, consignmentCode, userId) =>
-    of(`consignmentTracking-${userId}-${orderCode}-${consignmentCode}`)
-  );
+  getConsignmentTracking = vi
+    .fn('OrderHistoryAdapter.getConsignmentTracking')
+    .mockImplementation((orderCode, consignmentCode, userId) =>
+      of(`consignmentTracking-${userId}-${orderCode}-${consignmentCode}`)
+    );
 
-  createReturnRequest = createSpy(
-    'OrderHistoryAdapter.createReturnRequest'
-  ).and.callFake((userId, {}) => of(`orderReturnRequest-${userId}`));
+  createReturnRequest = vi
+    .fn('OrderHistoryAdapter.createReturnRequest')
+    .mockImplementation((userId, {}) => of(`orderReturnRequest-${userId}`));
 
-  loadReturnRequestList = createSpy(
-    'OrderHistoryAdapter.loadReturnRequestList'
-  ).and.callFake((userId) => of(`loadReturnRequestList-${userId}`));
+  loadReturnRequestList = vi
+    .fn('OrderHistoryAdapter.loadReturnRequestList')
+    .mockImplementation((userId) => of(`loadReturnRequestList-${userId}`));
 
-  loadReturnRequestDetail = createSpy(
-    'OrderHistoryAdapter.loadReturnRequestDetail'
-  ).and.callFake((userId, returnRequestCode) =>
-    of(`loadReturnRequestDetail-${userId}-${returnRequestCode}`)
-  );
+  loadReturnRequestDetail = vi
+    .fn('OrderHistoryAdapter.loadReturnRequestDetail')
+    .mockImplementation((userId, returnRequestCode) =>
+      of(`loadReturnRequestDetail-${userId}-${returnRequestCode}`)
+    );
 
-  cancel = createSpy('OrderHistoryAdapter.cancel').and.callFake(
-    (userId, orderCode, {}) => of(`cancel-${userId}-${orderCode}`)
-  );
+  cancel = vi
+    .fn('OrderHistoryAdapter.cancel')
+    .mockImplementation((userId, orderCode, {}) =>
+      of(`cancel-${userId}-${orderCode}`)
+    );
 
-  cancelReturnRequest = createSpy(
-    'OrderHistoryAdapter.cancelReturnRequest'
-  ).and.callFake((userId, returnRequestCode, {}) =>
-    of(`cancelReturnRequest-${userId}-${returnRequestCode}`)
-  );
+  cancelReturnRequest = vi
+    .fn('OrderHistoryAdapter.cancelReturnRequest')
+    .mockImplementation((userId, returnRequestCode, {}) =>
+      of(`cancelReturnRequest-${userId}-${returnRequestCode}`)
+    );
 }
 
 describe('OrderHistoryConnector', () => {

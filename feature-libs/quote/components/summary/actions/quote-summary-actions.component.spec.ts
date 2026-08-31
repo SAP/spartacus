@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
@@ -22,7 +23,7 @@ import {
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, firstValueFrom, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
 import {
@@ -32,7 +33,6 @@ import {
 import { ConfirmationContext } from '../../confirm-dialog/quote-confirm-dialog.model';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 import { QuoteSummaryActionsComponent } from './quote-summary-actions.component';
-import createSpy = jasmine.createSpy;
 
 const mockCartId = '1234';
 const mockCode = '3333';
@@ -142,7 +142,7 @@ class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
     return EMPTY;
   }
 
-  requote = createSpy();
+  requote = vi.fn();
 }
 
 class MockTranslationService implements Partial<TranslationService> {
@@ -232,7 +232,7 @@ describe('QuoteSummaryActionsComponent', () => {
     intersectionService = TestBed.inject(IntersectionService);
     mockQuoteDetails$.next(mockQuote);
     dialogClose$ = new BehaviorSubject<any | undefined>(undefined);
-    spyOn(quoteStorefrontUtilsService, 'changeStyling').and.callThrough();
+    vi.spyOn(quoteStorefrontUtilsService, 'changeStyling');
   });
 
   it('should create component', () => {
@@ -240,15 +240,13 @@ describe('QuoteSummaryActionsComponent', () => {
     expect(quoteFacade).toBeDefined();
   });
 
-  it('should read quote details state', (done) => {
-    component.quoteDetails$.pipe(take(1)).subscribe((state) => {
-      expect(state).toEqual(mockQuote);
-      done();
-    });
+  it('should read quote details state', async () => {
+    const state = await firstValueFrom(component.quoteDetails$);
+    expect(state).toEqual(mockQuote);
   });
 
   it('should open confirmation dialog when action is SUBMIT', () => {
-    spyOn(launchDialogService, 'openDialog');
+    vi.spyOn(launchDialogService, 'openDialog');
     const quoteForSubmitAction: Quote = {
       ...mockQuote,
       allowedActions: [
@@ -281,7 +279,7 @@ describe('QuoteSummaryActionsComponent', () => {
   });
 
   it('should open confirmation dialog when action is EDIT and state is BUYER_OFFER', () => {
-    spyOn(launchDialogService, 'openDialog');
+    vi.spyOn(launchDialogService, 'openDialog');
     const quoteInBuyerOfferState: Quote = {
       ...mockQuote,
       allowedActions: [
@@ -317,7 +315,7 @@ describe('QuoteSummaryActionsComponent', () => {
   });
 
   it('should not open confirmation dialog when action is CANCEL and state is BUYER_DRAFT', () => {
-    spyOn(launchDialogService, 'openDialog');
+    vi.spyOn(launchDialogService, 'openDialog');
     const quoteInBuyerDraftState: Quote = {
       ...mockQuote,
       allowedActions: [
@@ -338,7 +336,7 @@ describe('QuoteSummaryActionsComponent', () => {
   });
 
   it('should not open confirmation dialog when action is EDIT and state is BUYER_DRAFT and cart is empty', () => {
-    spyOn(launchDialogService, 'openDialog');
+    vi.spyOn(launchDialogService, 'openDialog');
     const quoteInBuyerDraftState: Quote = {
       ...mockQuote,
       allowedActions: [
@@ -359,7 +357,7 @@ describe('QuoteSummaryActionsComponent', () => {
   });
 
   it('should not open confirmation dialog when action is EDIT and state is BUYER_DRAFT and cart is not empty but is a quote cart', () => {
-    spyOn(launchDialogService, 'openDialog');
+    vi.spyOn(launchDialogService, 'openDialog');
     const quoteInBuyerDraftState: Quote = {
       ...mockQuote,
       allowedActions: [
@@ -382,7 +380,7 @@ describe('QuoteSummaryActionsComponent', () => {
   });
 
   it('should open confirmation dialog when action is EDIT and state is BUYER_DRAFT and cart is not empty', () => {
-    spyOn(launchDialogService, 'openDialog');
+    vi.spyOn(launchDialogService, 'openDialog');
     const quoteInBuyerDraftState: Quote = {
       ...mockQuote,
       allowedActions: [
@@ -419,7 +417,7 @@ describe('QuoteSummaryActionsComponent', () => {
   });
 
   it('should open confirmation dialog when action is REQUOTE and state is EXPIRED', () => {
-    spyOn(launchDialogService, 'openDialog');
+    vi.spyOn(launchDialogService, 'openDialog');
     const expiredQuote: Quote = {
       ...mockQuote,
       allowedActions: [{ type: QuoteActionType.REQUOTE, isPrimary: true }],
@@ -447,7 +445,7 @@ describe('QuoteSummaryActionsComponent', () => {
   });
 
   it('should open confirmation dialog when action is REQUOTE and state is CANCELLED and cart has entries', () => {
-    spyOn(launchDialogService, 'openDialog');
+    vi.spyOn(launchDialogService, 'openDialog');
     const cancelledQuote: Quote = {
       ...mockQuote,
       allowedActions: [{ type: QuoteActionType.REQUOTE, isPrimary: true }],
@@ -477,7 +475,7 @@ describe('QuoteSummaryActionsComponent', () => {
   });
 
   it('should not open confirmation dialog when action is REQUOTE and state is CANCELLED and cart has no entries', () => {
-    spyOn(launchDialogService, 'openDialog');
+    vi.spyOn(launchDialogService, 'openDialog');
     const cancelledQuote: Quote = {
       ...mockQuote,
       allowedActions: [{ type: QuoteActionType.REQUOTE, isPrimary: true }],
@@ -493,7 +491,7 @@ describe('QuoteSummaryActionsComponent', () => {
   });
 
   it('should not open confirmation dialog when action is REQUOTE and state is CANCELLED and cart has entries but is a quote-cart', () => {
-    spyOn(launchDialogService, 'openDialog');
+    vi.spyOn(launchDialogService, 'openDialog');
     const cancelledQuote: Quote = {
       ...mockQuote,
       allowedActions: [{ type: QuoteActionType.REQUOTE, isPrimary: true }],
@@ -558,7 +556,7 @@ describe('QuoteSummaryActionsComponent', () => {
     });
 
     it('should disable submit button if threshold is not met and raise message', () => {
-      spyOn(globalMessageService, 'add').and.callThrough();
+      vi.spyOn(globalMessageService, 'add');
       mockQuoteDetails$.next(quoteFailingThreshold);
       fixture.detectChanges();
 
@@ -606,7 +604,7 @@ describe('QuoteSummaryActionsComponent', () => {
     });
 
     it('should not raise message in case threshold not met and submit action not present', () => {
-      spyOn(globalMessageService, 'add').and.callThrough();
+      vi.spyOn(globalMessageService, 'add');
       mockQuoteDetails$.next(cancellableQuote);
       fixture.detectChanges();
 
@@ -615,7 +613,7 @@ describe('QuoteSummaryActionsComponent', () => {
   });
 
   it('should perform quote action when action is SUBMIT and confirm dialogClose reason is yes', () => {
-    spyOn(quoteFacade, 'performQuoteAction').and.callThrough();
+    vi.spyOn(quoteFacade, 'performQuoteAction');
     const newMockQuoteWithSubmitAction: Quote = {
       ...mockQuote,
       allowedActions: [
@@ -639,7 +637,7 @@ describe('QuoteSummaryActionsComponent', () => {
   });
 
   it("should click on 'CANCEL' button", () => {
-    spyOn(quoteFacade, 'performQuoteAction').and.callThrough();
+    vi.spyOn(quoteFacade, 'performQuoteAction');
     const newMockQuoteWithSubmitAction: Quote = {
       ...mockQuote,
       allowedActions: [
@@ -661,7 +659,7 @@ describe('QuoteSummaryActionsComponent', () => {
   });
 
   it("should click on 'REQUOTE' button", () => {
-    spyOn(quoteFacade, 'performQuoteAction').and.callThrough();
+    vi.spyOn(quoteFacade, 'performQuoteAction');
     fixture.detectChanges();
     const requoteButton = CommonQuoteTestUtilsService.getHTMLElement(
       htmlElem,
@@ -770,8 +768,8 @@ describe('QuoteSummaryActionsComponent', () => {
   describe('handleConfirmationDialogClose', () => {
     let context: ConfirmationContext;
     beforeEach(() => {
-      spyOn(quoteFacade, 'performQuoteAction').and.callThrough();
-      spyOn(globalMessageService, 'add').and.callThrough();
+      vi.spyOn(quoteFacade, 'performQuoteAction');
+      vi.spyOn(globalMessageService, 'add');
       context = {
         quote: mockQuote,
         title: 'title',
@@ -920,8 +918,8 @@ describe('QuoteSummaryActionsComponent', () => {
 
   describe('handleScroll', () => {
     it('should call handleScroll method', () => {
-      spyOn(quoteStorefrontUtilsService, 'getElement').and.returnValue(slot);
-      spyOn(quoteStorefrontUtilsService, 'getWindowHeight').and.returnValue(
+      vi.spyOn(quoteStorefrontUtilsService, 'getElement').mockReturnValue(slot);
+      vi.spyOn(quoteStorefrontUtilsService, 'getWindowHeight').mockReturnValue(
         500
       );
       component.handleScroll();
@@ -936,12 +934,12 @@ describe('QuoteSummaryActionsComponent', () => {
 
   describe('getActionButtonsHeight', () => {
     it('should return the default height of action buttons', () => {
-      spyOn(quoteStorefrontUtilsService, 'getHeight').and.returnValue(0);
+      vi.spyOn(quoteStorefrontUtilsService, 'getHeight').mockReturnValue(0);
       expect(component['getActionButtonsHeight']()).toBe(226);
     });
 
     it('should return the actual height of action buttons', () => {
-      spyOn(quoteStorefrontUtilsService, 'getHeight').and.returnValue(300);
+      vi.spyOn(quoteStorefrontUtilsService, 'getHeight').mockReturnValue(300);
       expect(component['getActionButtonsHeight']()).toBe(300);
     });
   });
@@ -975,23 +973,40 @@ describe('QuoteSummaryActionsComponent', () => {
   describe('Floating action buttons', () => {
     describe('mobile device', () => {
       beforeEach(() => {
-        spyOn(quoteStorefrontUtilsService, 'getElement')
-          .withArgs('cx-page-slot.CenterRightContent')
-          .and.returnValue(slot);
+        vi.spyOn(quoteStorefrontUtilsService, 'getElement').mockImplementation(
+          (selector) => {
+            if (selector === 'cx-page-slot.CenterRightContent') {
+              return slot;
+            }
+            return null;
+          }
+        );
 
-        spyOn(quoteStorefrontUtilsService, 'getHeight')
-          .withArgs('cx-quote-summary-actions section')
-          .and.returnValue(250);
+        vi.spyOn(quoteStorefrontUtilsService, 'getHeight').mockImplementation(
+          (selector) => {
+            if (selector === 'cx-quote-summary-actions section') {
+              return 250;
+            }
+            return 0;
+          }
+        );
       });
 
       it('should adjust bottom property to zero when there is enough spare viewport', () => {
-        spyOn(quoteStorefrontUtilsService, 'getDomRectValue')
-          .withArgs('.BottomHeaderSlot', 'bottom')
-          .and.returnValue(250);
+        vi.spyOn(
+          quoteStorefrontUtilsService,
+          'getDomRectValue'
+        ).mockImplementation((selector, property) => {
+          if (selector === '.BottomHeaderSlot' && property === 'bottom') {
+            return 250;
+          }
+          return undefined;
+        });
 
-        spyOn(quoteStorefrontUtilsService, 'getWindowHeight').and.returnValue(
-          800
-        );
+        vi.spyOn(
+          quoteStorefrontUtilsService,
+          'getWindowHeight'
+        ).mockReturnValue(800);
 
         component.ngAfterViewInit();
 
@@ -1003,13 +1018,20 @@ describe('QuoteSummaryActionsComponent', () => {
       });
 
       it('should adjust bottom property accordingly when there is not enough spare viewport', () => {
-        spyOn(quoteStorefrontUtilsService, 'getDomRectValue')
-          .withArgs('.BottomHeaderSlot', 'bottom')
-          .and.returnValue(378);
+        vi.spyOn(
+          quoteStorefrontUtilsService,
+          'getDomRectValue'
+        ).mockImplementation((selector, property) => {
+          if (selector === '.BottomHeaderSlot' && property === 'bottom') {
+            return 378;
+          }
+          return undefined;
+        });
 
-        spyOn(quoteStorefrontUtilsService, 'getWindowHeight').and.returnValue(
-          500
-        );
+        vi.spyOn(
+          quoteStorefrontUtilsService,
+          'getWindowHeight'
+        ).mockReturnValue(500);
         component.ngAfterViewInit();
 
         expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
@@ -1020,7 +1042,9 @@ describe('QuoteSummaryActionsComponent', () => {
       });
 
       it('should make action buttons sticky when intersecting', () => {
-        spyOn(intersectionService, 'isIntersecting').and.returnValue(of(true));
+        vi.spyOn(intersectionService, 'isIntersecting').mockReturnValue(
+          of(true)
+        );
         component.ngAfterViewInit();
 
         expect(component.isFixedPosition).toBe(false);

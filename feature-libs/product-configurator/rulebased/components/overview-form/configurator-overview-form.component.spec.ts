@@ -1,5 +1,5 @@
 import { Component, Injectable, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -158,7 +158,7 @@ class MockDirectionService implements Partial<DirectionService> {
 }
 
 describe('ConfigurationOverviewFormComponent', () => {
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -192,7 +192,7 @@ describe('ConfigurationOverviewFormComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
   beforeEach(() => {
     routerStateObservable = null;
     configurationObservable = null;
