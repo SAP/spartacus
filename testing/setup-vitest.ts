@@ -20,8 +20,7 @@ beforeEach(() => {
 });
 
 if (!testBed.platform) {
-  testBed.initTestEnvironment(
-    BrowserTestingModule,
-    platformBrowserTesting()
-  );
+  testBed.initTestEnvironment(BrowserTestingModule, platformBrowserTesting(), {
+    teardown: { destroyAfterEach: true },
+  });
 }
