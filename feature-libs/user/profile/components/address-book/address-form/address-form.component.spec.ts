@@ -27,8 +27,8 @@ import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject, EMPTY, firstValueFrom, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AddressFormComponent } from './address-form.component';
-import { provideMockFeatureToggles } from '../../../../../../../core-libs/core/src/features-config/feature-toggles/testing/mock-feature-toggles';
-import { MockFeatureDirective } from '../../../../../../../core-libs/storefront/shared/test/mock-feature-directive';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/feature-toggles/mock-feature-toggles';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { vi } from 'vitest';
 
 const mockTitles: Title[] = [

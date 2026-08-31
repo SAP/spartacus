@@ -19,10 +19,10 @@ import {
 import { BehaviorSubject, of } from 'rxjs';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import { UpdatePasswordComponent } from './update-password.component';
-import { UrlTestingModule } from '../../../../../../core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { UrlTestingModule } from '@spartacus/core/testing/url-testing-module';
 import { vi } from 'vitest';
-import { MockFeatureTogglesController, provideMockFeatureToggles } from '../../../../../../core-libs/core/src/features-config/feature-toggles/testing/mock-feature-toggles';
-import { MockFeatureDirective } from '../../../../../../core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureTogglesController, provideMockFeatureToggles } from '@spartacus/core/testing/feature-toggles/mock-feature-toggles';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 
 @Component({
   selector: 'cx-spinner',

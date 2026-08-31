@@ -11,7 +11,7 @@ import { FormErrorsModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { VerificationTokenFacade } from '../../root/facade';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
-import { provideMockFeatureToggles } from '../../../../../../core-libs/core/src/features-config/feature-toggles/testing/mock-feature-toggles';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/feature-toggles/mock-feature-toggles';
 import { vi } from 'vitest';
 
 class MockAuthService implements Partial<AuthService> {

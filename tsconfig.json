@@ -794,7 +794,12 @@
       "@spartacus/cdc/assets": ["integration-libs/cdc/assets/public_api"],
       "@spartacus/storefront": ["core-libs/storefront/public_api"],
       "@spartacus/core": ["core-libs/core/public_api"],
-      "@spartacus/assets": ["core-libs/assets/src/public_api"]
+      "@spartacus/assets": ["core-libs/assets/src/public_api"],
+      "@spartacus/core/testing/feature-toggles": ["core-libs/core/src/features-config/feature-toggles/testing/index.ts"],
+      "@spartacus/core/testing/feature-toggles/mock-feature-toggles": ["core-libs/core/src/features-config/feature-toggles/testing/mock-feature-toggles.ts"],
+      "@spartacus/core/testing/mock-url-pipe": ["core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe.ts"],
+      "@spartacus/core/testing/url-testing-module": ["core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module.ts"],
+      "@spartacus/storefront/testing/mock-feature-directive": ["core-libs/storefront/shared/test/mock-feature-directive.ts"]
     },
     "useDefineForClassFields": false
   },

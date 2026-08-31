@@ -16,7 +16,7 @@ import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { ResetPasswordComponentService } from './reset-password-component.service';
 import { ResetPasswordComponent } from './reset-password.component';
-import { MockFeatureDirective } from '../../../../../../core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { vi } from 'vitest';
 
 const isBusySubject = new BehaviorSubject(false);

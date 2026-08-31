@@ -18,7 +18,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ForgotPasswordComponentService } from './forgot-password-component.service';
 import { ForgotPasswordComponent } from './forgot-password.component';
 import { vi } from 'vitest';
-import { MockFeatureDirective } from '../../../../../../core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 
 const isBusySubject = new BehaviorSubject(false);
 class MockForgotPasswordService

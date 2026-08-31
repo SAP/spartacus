@@ -31,10 +31,10 @@ import {
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
-} from '../../../../../../core-libs/core/src/features-config/feature-toggles/testing';
-import { MockUrlPipe } from '../../../../../../core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
-import { UrlTestingModule } from '../../../../../../core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { MockFeatureDirective } from '../../../../../../core-libs/storefront/shared/test/mock-feature-directive';
+} from '@spartacus/core/testing/feature-toggles';
+import { MockUrlPipe } from '@spartacus/core/testing/mock-url-pipe';
+import { UrlTestingModule } from '@spartacus/core/testing/url-testing-module';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { BehaviorSubject, Subject, of } from 'rxjs';
 import { UserProfileFacade } from '../../root/facade';
 import { MyAccountV2EmailComponent } from './my-account-v2-email.component';
