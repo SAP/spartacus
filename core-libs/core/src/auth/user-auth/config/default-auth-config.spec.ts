@@ -23,7 +23,6 @@ const expectedAuthorizationCodeDefault: AuthConfig = {
   },
 };
 
-/** Complete configuration when all flags are enabled */
 const expectedAsyncAuthConfigInitializer: AuthConfig = {
   authentication: {
     client_id: 'mobile_android_public',
@@ -39,6 +38,32 @@ const expectedAsyncAuthConfigInitializer: AuthConfig = {
       oidc: false,
       clearHashAfterLogin: false,
       responseType: 'code',
+    },
+    customLoginPage: { csrfEndpoint: '/csrf', loginFormEndpoint: '/login' },
+    initializerOptions: {
+      baseSiteSuffix: 'auto',
+      addBaseSiteToRedirectUri: 'auto',
+    },
+  },
+};
+
+/** Complete configuration when all flags are enabled */
+const expectedOAuthCallbackConfig: AuthConfig = {
+  authentication: {
+    client_id: 'mobile_android_public',
+    tokenEndpoint: '/oauth/token',
+    revokeEndpoint: '/oauth/revoke',
+    loginUrl: '/oauth/authorize',
+    OAuthLibConfig: {
+      scope: '',
+      customTokenParameters: ['token_type'],
+      strictDiscoveryDocumentValidation: false,
+      skipIssuerCheck: true,
+      disablePKCE: false,
+      oidc: false,
+      clearHashAfterLogin: false,
+      responseType: 'code',
+      redirectUri: '/oauth-callback',
     },
     customLoginPage: { csrfEndpoint: '/csrf', loginFormEndpoint: '/login' },
     initializerOptions: {
@@ -81,6 +106,7 @@ describe('defaultAuthConfigFactory', () => {
           useValue: {
             authorizationCodeFlowByDefault: false,
             asyncAuthConfigInitializer: false,
+            oauthCallbackPage: false,
           } satisfies FeatureToggles,
         },
       ],
@@ -115,6 +141,19 @@ describe('defaultAuthConfigFactory', () => {
         const actual = TestBed.runInInjectionContext(defaultAuthConfigFactory);
 
         expect(actual).toEqual(expectedAsyncAuthConfigInitializer);
+      });
+      describe('with oauthCallbackPage flag enabled', () => {
+        beforeEach(() => {
+          featureToggles.oauthCallbackPage = true;
+        });
+
+        it('should provide the auth config with redirectUri set to oauth callback path', () => {
+          const actual = TestBed.runInInjectionContext(
+            defaultAuthConfigFactory
+          );
+
+          expect(actual).toEqual(expectedOAuthCallbackConfig);
+        });
       });
     });
   });

@@ -119,7 +119,7 @@ export class AuthConfigInitializer implements ConfigInitializer {
         addBaseSiteToRedirectUri === true ||
         (addBaseSiteToRedirectUri === 'auto' && this.baseSiteInUrl())
       ) {
-        return `${urlRoot}/${encodeURIComponent(activeBaseSite)}`;
+        return `${urlRoot}/${this.trimLeadingSlash(encodeURIComponent(activeBaseSite))}`;
       } else {
         return urlRoot;
       }

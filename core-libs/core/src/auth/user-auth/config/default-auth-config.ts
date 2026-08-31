@@ -74,24 +74,49 @@ export const defaultAuthConfig: AuthConfig = {
 };
 
 export function defaultAuthConfigFactory(): AuthConfig {
-  const { authorizationCodeFlowByDefault, asyncAuthConfigInitializer } =
-    inject(FeatureToggles);
+  const {
+    authorizationCodeFlowByDefault,
+    asyncAuthConfigInitializer,
+    oauthCallbackPage,
+  } = inject(FeatureToggles);
 
   if (authorizationCodeFlowByDefault) {
-    if (!asyncAuthConfigInitializer) {
+    if (asyncAuthConfigInitializer) {
+      if (oauthCallbackPage) {
+        return defaultAuthConfig;
+      } else {
+        const config = {
+          authentication: {
+            ...defaultAuthConfig.authentication,
+            OAuthLibConfig: {
+              ...defaultAuthConfig.authentication?.OAuthLibConfig,
+            },
+          },
+        } satisfies AuthConfig;
+
+        delete config.authentication.OAuthLibConfig?.redirectUri;
+
+        return config;
+      }
+    } else {
       const config = {
         authentication: {
           ...defaultAuthConfig.authentication,
           initializerOptions: undefined,
+          OAuthLibConfig: {
+            ...defaultAuthConfig.authentication?.OAuthLibConfig,
+          },
         },
       } satisfies AuthConfig;
 
       delete config.authentication.initializerOptions;
 
+      if (!oauthCallbackPage) {
+        delete config.authentication.OAuthLibConfig?.redirectUri;
+      }
+
       return config;
     }
-
-    return defaultAuthConfig;
   } else {
     const config = {
       authentication: {
@@ -110,6 +135,7 @@ export function defaultAuthConfigFactory(): AuthConfig {
     delete config.authentication.OAuthLibConfig.responseType;
     delete config.authentication.customLoginPage;
     delete config.authentication.initializerOptions;
+    delete config.authentication.OAuthLibConfig?.redirectUri;
 
     return config;
   }

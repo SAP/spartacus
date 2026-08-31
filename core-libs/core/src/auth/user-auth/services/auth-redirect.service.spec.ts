@@ -1,4 +1,3 @@
-import { vi, Mock } from 'vitest';
 import { Component, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
@@ -13,6 +12,7 @@ import {
   SiteContextUrlParams,
   SiteContextUrlSerializer,
 } from '@spartacus/core';
+import { vi } from 'vitest';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthFlowRoutesService } from './auth-flow-routes.service';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
@@ -179,7 +179,7 @@ describe('AuthRedirectService', () => {
 
   describe('saveCurrentNavigationUrl', () => {
     it('should save the url of the current navigation', () => {
-      vi.spyOn(router, 'getCurrentNavigation').mockReturnValue(<Navigation>{
+      vi.spyOn(router, 'currentNavigation').mockReturnValue(<Navigation>{
         finalUrl: router.parseUrl('/anticipated/url'),
       });
       service.saveCurrentNavigationUrl();
