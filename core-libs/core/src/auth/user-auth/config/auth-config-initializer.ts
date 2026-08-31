@@ -81,14 +81,13 @@ export class AuthConfigInitializer implements ConfigInitializer {
   protected generateRedirectUri(activeBaseSite: string, config: AuthConfig) {
     const addBaseSiteToRedirectUri =
       config.authentication?.initializerOptions?.addBaseSiteToRedirectUri;
+    const shouldAppendBaseSite =
+      addBaseSiteToRedirectUri === true ||
+      (addBaseSiteToRedirectUri === 'auto' && this.baseSiteInUrl());
+    const configuredRedirectUri =
+      config.authentication?.OAuthLibConfig?.redirectUri;
 
     if (this.featureToggles.oauthCallbackPage) {
-      const configuredRedirectUri =
-        config.authentication?.OAuthLibConfig?.redirectUri;
-      const shouldAppendBaseSite =
-        addBaseSiteToRedirectUri === true ||
-        (addBaseSiteToRedirectUri === 'auto' && this.baseSiteInUrl());
-
       // if the redirect URI is absolute or protocol-relative
       if (configuredRedirectUri?.match(/^(https?:)?\/\//)) {
         // no further processing, return redirect URI with the appended base site
@@ -98,7 +97,7 @@ export class AuthConfigInitializer implements ConfigInitializer {
       }
 
       // relative URL will be interpreted as custom callback path
-      const urlSegments = [this.getDefaultRedirectUri() as string];
+      const urlSegments: string[] = [this.getDefaultRedirectUri() ?? ''];
 
       if (shouldAppendBaseSite) {
         urlSegments.push(encodeURIComponent(activeBaseSite));
@@ -111,14 +110,9 @@ export class AuthConfigInitializer implements ConfigInitializer {
       return urlSegments.join('/');
     } else {
       // urlRoot is the provided config value or the system default
-      const urlRoot =
-        config.authentication?.OAuthLibConfig?.redirectUri ??
-        this.getDefaultRedirectUri();
+      const urlRoot = configuredRedirectUri ?? this.getDefaultRedirectUri();
 
-      if (
-        addBaseSiteToRedirectUri === true ||
-        (addBaseSiteToRedirectUri === 'auto' && this.baseSiteInUrl())
-      ) {
+      if (shouldAppendBaseSite) {
         return `${urlRoot}/${this.trimLeadingSlash(encodeURIComponent(activeBaseSite))}`;
       } else {
         return urlRoot;
@@ -133,12 +127,10 @@ export class AuthConfigInitializer implements ConfigInitializer {
   }
 
   protected getDefaultRedirectUri() {
-    return !this.isSSR
-      ? (this.windowRef.nativeWindow?.location.origin as string)
-      : '';
+    return !this.isSSR ? this.windowRef.nativeWindow?.location.origin : '';
   }
 
   protected trimLeadingSlash(path: string): string {
-    return path.charAt(0) === '/' ? path.substring(1) : path;
+    return path.startsWith('/') ? path.substring(1) : path;
   }
 }
