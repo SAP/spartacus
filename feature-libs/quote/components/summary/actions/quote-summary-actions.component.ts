@@ -96,22 +96,24 @@ export class QuoteSummaryActionsComponent
 
   ngOnInit(): void {
     //submit button present and threshold not reached: Display message
-    this.quoteDetails$.pipe(take(1)).subscribe((quote) => {
-      const mustDisableAction = quote.allowedActions.find((action) =>
-        this.mustDisableAction(action.type, quote)
-      );
-      if (mustDisableAction) {
-        this.globalMessageService.add(
-          {
-            key: 'quote.commons.minRequestInitiationNote',
-            params: {
-              minValue: quote.threshold,
-            },
-          },
-          GlobalMessageType.MSG_TYPE_WARNING
+    this.subscription.add(
+      this.quoteDetails$.subscribe((quote) => {
+        const mustDisableAction = quote.allowedActions.find((action) =>
+          this.mustDisableAction(action.type, quote)
         );
-      }
-    });
+        if (mustDisableAction) {
+          this.globalMessageService.add(
+            {
+              key: 'quote.commons.minRequestInitiationNote',
+              params: {
+                minValue: quote.threshold,
+              },
+            },
+            GlobalMessageType.MSG_TYPE_WARNING
+          );
+        }
+      })
+    );
   }
 
   /**
