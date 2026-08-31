@@ -20,6 +20,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   TranslatePipe,
@@ -69,6 +70,7 @@ export interface CardWithAddress {
 })
 export class CheckoutDeliveryAddressComponent implements OnInit {
   protected checkoutConfigService = inject(CheckoutConfigService);
+  private featureToggles = inject(FeatureToggles);
   protected busy$ = new BehaviorSubject<boolean>(false);
 
   cards$: Observable<CardWithAddress[]>;
@@ -135,10 +137,14 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
 
     const role = isSelected ? 'region' : 'group';
 
+    const fullName = address.firstName + ' ' + address.lastName;
     return {
       role,
       title: address.defaultAddress ? textDefaultDeliveryAddress : '',
-      textBold: address.firstName + ' ' + address.lastName,
+      textBold:
+        this.featureToggles.addTitleToAddressCard && !!address.title
+          ? address.title + ' ' + fullName
+          : fullName,
       text: [
         address.line1,
         address.line2,
