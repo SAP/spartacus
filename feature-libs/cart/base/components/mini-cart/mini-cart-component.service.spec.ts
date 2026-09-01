@@ -343,7 +343,9 @@ describe('MiniCartComponentService', () => {
 
   describe('getUpdating', () => {
     it('should return false when no active cart is required (lazy path)', () => {
-      vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(cold('f', booleanValues));
+      vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(
+        cold('f', booleanValues)
+      );
       vi.spyOn(activeCartFacade, 'isStable').mockImplementation(() => {});
       expect(service.getUpdating()).toBeObservable(cold('f', booleanValues));
       expect(activeCartFacade.isStable).not.toHaveBeenCalled();
@@ -356,7 +358,9 @@ describe('MiniCartComponentService', () => {
       // debounce window.
       vi.useFakeTimers();
       try {
-        vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(of(true));
+        vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(
+          of(true)
+        );
         const isStable$ = new BehaviorSubject<boolean>(true);
         vi.spyOn(activeCartFacade, 'isStable').mockReturnValue(
           isStable$.asObservable()
@@ -382,7 +386,9 @@ describe('MiniCartComponentService', () => {
     it('should emit true after debounce when isStable() flips to false', () => {
       vi.useFakeTimers();
       try {
-        vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(of(true));
+        vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(
+          of(true)
+        );
         const isStable$ = new BehaviorSubject<boolean>(false);
         vi.spyOn(activeCartFacade, 'isStable').mockReturnValue(
           isStable$.asObservable()
@@ -410,7 +416,9 @@ describe('MiniCartComponentService', () => {
     it('should release the gate when isStable() recovers (false → true → false cycle)', () => {
       vi.useFakeTimers();
       try {
-        vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(of(true));
+        vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(
+          of(true)
+        );
         const isStable$ = new BehaviorSubject<boolean>(true);
         vi.spyOn(activeCartFacade, 'isStable').mockReturnValue(
           isStable$.asObservable()
@@ -442,7 +450,9 @@ describe('MiniCartComponentService', () => {
     it('should suppress flicker: rapid stable=false→true within debounce produces no transient true', () => {
       vi.useFakeTimers();
       try {
-        vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(of(true));
+        vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(
+          of(true)
+        );
         const isStable$ = new BehaviorSubject<boolean>(true);
         vi.spyOn(activeCartFacade, 'isStable').mockReturnValue(
           isStable$.asObservable()
@@ -478,7 +488,9 @@ describe('MiniCartComponentService', () => {
     it('should dedup repeated isStable()=true emissions via distinctUntilChanged', () => {
       vi.useFakeTimers();
       try {
-        vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(of(true));
+        vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(
+          of(true)
+        );
         const isStable$ = new BehaviorSubject<boolean>(true);
         vi.spyOn(activeCartFacade, 'isStable').mockReturnValue(
           isStable$.asObservable()
