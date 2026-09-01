@@ -62,7 +62,6 @@ export class QuoteSummaryActionsComponent
   protected activeCartFacade = inject(ActiveCartFacade);
   protected quoteStorefrontUtilsService = inject(QuoteStorefrontUtilsService);
   protected intersectionService = inject(IntersectionService);
-  protected featureToggle = inject(FeatureToggles);
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   cartDetails$: Observable<Cart> = this.activeCartFacade.getActive();
@@ -81,7 +80,9 @@ export class QuoteSummaryActionsComponent
   protected readonly ACTION_BUTTONS_HEIGHT = 226;
   protected readonly AMOUNT_OF_ACTION_BUTTONS = 2;
   protected readonly BOTTOM = 'bottom';
-  protected readonly showWarningMessageOnRequoteButtonClickToggle = this.featureToggle.showWarningMessageOnRequoteButtonClick;
+  private featureToggle = inject(FeatureToggles);
+  private showWarningMessageOnRequoteButtonClickToggle =
+    this.featureToggle.showWarningMessageOnRequoteButtonClick;
 
   @HostListener('window:resize')
   handleResize(): void {

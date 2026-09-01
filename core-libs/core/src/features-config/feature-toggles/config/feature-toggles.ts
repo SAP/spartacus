@@ -755,9 +755,9 @@ export interface FeatureTogglesInterface {
 
   /**
    * When enabled, the requote button when clicked in the cancelled quote details page
-   * will show a warning message to the user that the quote-cart should have a minimum 
+   * will show a warning message to the user that the quote-cart should have a minimum
    * threshold value of items to be able to proceed with the requote process.
-   * 
+   *
    * Affects: `QuoteSummaryActionsComponent`
    */
   showWarningMessageOnRequoteButtonClick?: boolean;
