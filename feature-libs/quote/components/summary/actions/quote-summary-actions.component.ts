@@ -81,8 +81,6 @@ export class QuoteSummaryActionsComponent
   protected readonly AMOUNT_OF_ACTION_BUTTONS = 2;
   protected readonly BOTTOM = 'bottom';
   private featureToggle = inject(FeatureToggles);
-  private showWarningMessageOnRequoteButtonClickToggle =
-    this.featureToggle.showWarningMessageOnRequoteButtonClick;
 
   @HostListener('window:resize')
   handleResize(): void {
@@ -99,7 +97,7 @@ export class QuoteSummaryActionsComponent
   }
 
   ngOnInit(): void {
-    if (this.showWarningMessageOnRequoteButtonClickToggle) {
+    if (this.featureToggle.showWarningMessageOnRequoteButtonClick) {
       this.subscription.add(
         this.quoteDetails$.subscribe((quote) => {
           const mustDisableAction = quote.allowedActions.find((action) =>
