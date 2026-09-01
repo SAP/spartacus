@@ -388,6 +388,7 @@ if (environment.cpq) {
         globalMessageCloseButtonPadding: true,
         a11yItemCounterValueText: true,
         a11yNavigationChevronContrast: true,
+        showWarningMessageOnRequoteButtonClick: true,
       };
       return appFeatureToggles;
     }),

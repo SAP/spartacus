@@ -752,6 +752,15 @@ export interface FeatureTogglesInterface {
    * Affects: `ListComponent` (`cx-org-list`)
    */
   a11yNavigationChevronContrast?: boolean;
+
+  /**
+   * When enabled, the requote button when clicked in the cancelled quote details page
+   * will show a warning message to the user that the quote-cart should have a minimum 
+   * threshold value of items to be able to proceed with the requote process.
+   * 
+   * Affects: `QuoteSummaryActionsComponent`
+   */
+  showWarningMessageOnRequoteButtonClick?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -847,4 +856,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   configuratorIssuesNotificationForConfigurableOnly: false,
   globalMessageCloseButtonPadding: false,
   a11yNavigationChevronContrast: false,
+  showWarningMessageOnRequoteButtonClick: false,
 };

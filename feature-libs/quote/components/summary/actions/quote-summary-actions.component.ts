@@ -18,6 +18,7 @@ import {
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   TranslatePipe,
@@ -61,6 +62,7 @@ export class QuoteSummaryActionsComponent
   protected activeCartFacade = inject(ActiveCartFacade);
   protected quoteStorefrontUtilsService = inject(QuoteStorefrontUtilsService);
   protected intersectionService = inject(IntersectionService);
+  protected featureToggle = inject(FeatureToggles);
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   cartDetails$: Observable<Cart> = this.activeCartFacade.getActive();
@@ -79,6 +81,7 @@ export class QuoteSummaryActionsComponent
   protected readonly ACTION_BUTTONS_HEIGHT = 226;
   protected readonly AMOUNT_OF_ACTION_BUTTONS = 2;
   protected readonly BOTTOM = 'bottom';
+  protected readonly showWarningMessageOnRequoteButtonClickToggle = this.featureToggle.showWarningMessageOnRequoteButtonClick;
 
   @HostListener('window:resize')
   handleResize(): void {
@@ -95,9 +98,28 @@ export class QuoteSummaryActionsComponent
   }
 
   ngOnInit(): void {
-    //submit button present and threshold not reached: Display message
-    this.subscription.add(
-      this.quoteDetails$.subscribe((quote) => {
+    if (this.showWarningMessageOnRequoteButtonClickToggle) {
+      this.subscription.add(
+        this.quoteDetails$.subscribe((quote) => {
+          const mustDisableAction = quote.allowedActions.find((action) =>
+            this.mustDisableAction(action.type, quote)
+          );
+          if (mustDisableAction) {
+            this.globalMessageService.add(
+              {
+                key: 'quote.commons.minRequestInitiationNote',
+                params: {
+                  minValue: quote.threshold,
+                },
+              },
+              GlobalMessageType.MSG_TYPE_WARNING
+            );
+          }
+        })
+      );
+    } else {
+      //submit button present and threshold not reached: Display message
+      this.quoteDetails$.pipe(take(1)).subscribe((quote) => {
         const mustDisableAction = quote.allowedActions.find((action) =>
           this.mustDisableAction(action.type, quote)
         );
@@ -112,8 +134,8 @@ export class QuoteSummaryActionsComponent
             GlobalMessageType.MSG_TYPE_WARNING
           );
         }
-      })
-    );
+      });
+    }
   }
 
   /**
