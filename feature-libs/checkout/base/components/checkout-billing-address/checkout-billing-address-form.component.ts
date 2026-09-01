@@ -207,10 +207,9 @@ export class CheckoutBillingAddressFormComponent implements OnInit {
               region = address.region.isocode + ', ';
             }
             const numbers = getAddressNumbers(address, textPhone, textMobile);
-            const fullName = address.firstName + ' ' + address.lastName;
 
             return {
-              textBold: fullName,
+              textBold: address.firstName + ' ' + address.lastName,
               text: [
                 address.line1,
                 address.line2,

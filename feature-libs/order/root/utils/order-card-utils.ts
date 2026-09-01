@@ -120,15 +120,13 @@ export function billingAddressCard(
   const region = paymentDetails.billingAddress?.region?.isocode
     ? paymentDetails.billingAddress?.region?.isocode + ', '
     : '';
-  const fullName =
-    paymentDetails.billingAddress?.firstName +
-    ' ' +
-    paymentDetails.billingAddress?.lastName;
   return {
     title: textTitle,
     text: [
       textBillTo,
-      fullName,
+      paymentDetails.billingAddress?.firstName +
+        ' ' +
+        paymentDetails.billingAddress?.lastName,
       paymentDetails.billingAddress?.line1,
       paymentDetails.billingAddress?.town +
         ', ' +
