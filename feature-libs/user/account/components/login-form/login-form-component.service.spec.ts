@@ -103,6 +103,8 @@ class MockAuthConfigService implements Partial<AuthConfigService> {
 class MockCsrfStateService implements Partial<CsrfStateService> {
   get = vi.fn().mockReturnValue({ token: 'token' });
   set = vi.fn().mockImplementation(() => {});
+  getAuthReqId = vi.fn().mockReturnValue(undefined);
+  setAuthReqId = vi.fn();
 }
 
 class MockAuthMultisiteIsolationService
@@ -680,6 +682,126 @@ describe('LoginFormComponentService', () => {
           expect(
             (service as any).resolveLoginErrorKey('some_unknown_error')
           ).toBe('customLoginPage.badRequest.unknown_error');
+        });
+      });
+
+      describe('concurrentLoginPagesSupport', () => {
+        let mockFeatureTogglesController: MockFeatureTogglesController;
+        let csrfStateService: CsrfStateService;
+
+        function setupWithToggles(
+          toggles: Record<string, boolean>,
+          authReqIdValue: string | undefined = undefined
+        ) {
+          TestBed.resetTestingModule();
+          TestBed.configureTestingModule({
+            providers: [...providers],
+          });
+          TestBed.overrideProvider(FeatureToggles, {
+            useFactory: () => TestBed.inject(MockFeatureTogglesController),
+          });
+          mockFeatureTogglesController = TestBed.inject(
+            MockFeatureTogglesController
+          );
+          mockFeatureTogglesController.set(
+            'authorizationCodeFlowByDefault',
+            true
+          );
+          mockFeatureTogglesController.set(
+            'authorizationCodeFlowByDefaultCsrfTokenRefresh',
+            true
+          );
+          for (const [key, value] of Object.entries(toggles)) {
+            mockFeatureTogglesController.set(key as any, value);
+          }
+          csrfStateService = TestBed.inject(CsrfStateService);
+          (csrfStateService.getAuthReqId as any).mockReturnValue(authReqIdValue);
+          service = TestBed.inject(LoginFormComponentService);
+          authService = TestBed.inject(AuthService);
+          winRef = TestBed.inject(WindowRef);
+        }
+
+        describe('when concurrentLoginPagesSupport is disabled (default)', () => {
+          beforeEach(() => {
+            setupWithToggles({ concurrentLoginPagesSupport: false });
+          });
+          it('should not add auth_req_id form control', () => {
+            expect(service.form.get('auth_req_id')).toBeNull();
+          });
+
+          it('authReqId getter should return undefined', () => {
+            expect(service.authReqId).toBeUndefined();
+          });
+
+          it('should not update auth_req_id control on login submit', () => {
+            service.form.setValue({
+              userId: 'test@email.com',
+              password: 'secret',
+              csrf: 'token',
+            });
+            const form = createForm('test@email.com', 'secret', 'token');
+            vi.spyOn(form, 'submit');
+            service.login(form);
+            expect(csrfStateService.getAuthReqId).not.toHaveBeenCalled();
+          });
+        });
+
+        describe('when concurrentLoginPagesSupport is enabled and auth_req_id is present', () => {
+          beforeEach(() => {
+            setupWithToggles({ concurrentLoginPagesSupport: true }, 'req-xyz');
+          });
+
+          it('should add auth_req_id form control in initCustomLogin', () => {
+            expect(service.form.get('auth_req_id')).not.toBeNull();
+            expect(service.form.get('auth_req_id')?.value).toBe('req-xyz');
+          });
+
+          it('authReqId getter should return the value from CsrfStateService', () => {
+            expect(service.authReqId).toBe('req-xyz');
+          });
+
+          it('should pass auth_req_id to refreshCsrfToken on login submit', () => {
+            service.form.setValue({
+              userId: 'test@email.com',
+              password: 'secret',
+              csrf: 'token',
+              auth_req_id: 'req-xyz',
+            });
+            const form = createForm('test@email.com', 'secret', 'token');
+            vi.spyOn(form, 'submit');
+            service.login(form);
+            expect(authService.refreshCsrfToken).toHaveBeenCalledWith(
+              'req-xyz'
+            );
+          });
+
+          it('should update auth_req_id control value before submit (CSRF refresh path)', () => {
+            service.form.setValue({
+              userId: 'test@email.com',
+              password: 'secret',
+              csrf: 'token',
+              auth_req_id: 'old-value',
+            });
+            (csrfStateService.getAuthReqId as any).mockReturnValue('req-xyz');
+            const form = createForm('test@email.com', 'secret', 'token');
+            vi.spyOn(form, 'submit');
+            service.login(form);
+            expect(service.form.get('auth_req_id')?.value).toBe('req-xyz');
+          });
+        });
+
+        describe('when concurrentLoginPagesSupport is enabled and no auth_req_id', () => {
+          beforeEach(() => {
+            setupWithToggles({ concurrentLoginPagesSupport: true }, undefined);
+          });
+
+          it('should NOT add auth_req_id form control when auth_req_id is absent', () => {
+            expect(service.form.get('auth_req_id')).toBeNull();
+          });
+
+          it('authReqId getter should return undefined when no auth_req_id stored', () => {
+            expect(service.authReqId).toBeUndefined();
+          });
         });
       });
     });
