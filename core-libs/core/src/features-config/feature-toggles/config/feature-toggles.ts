@@ -10,6 +10,26 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
+   * When enabled, `GoogleMapRendererService` renders store locations using
+   * Google's `AdvancedMarkerElement` instead of the deprecated `Marker` class.
+   * This loads the optional `marker` library and requires a `mapId` to be set
+   * in the store finder configuration.
+   *
+   * Affects: `GoogleMapRendererService`
+   */
+  useAdvancedGoogleMarkers?: boolean;
+
+  /**
+   * When enabled, the Google Maps JavaScript API script in
+   * `GoogleMapRendererService` is loaded with the `loading=async` URL
+   * parameter, opting into Google's async bootstrap loader. This resolves the
+   * "Google Maps JavaScript API has been loaded directly without loading=async"
+   * performance warning.
+   *
+   * Affects: `GoogleMapRendererService`
+   */
+  useGoogleMapsAsyncLoading?: boolean;
+  /**
    * Adds a keyboard accessible zoom button to the `ProductImageZoomViewComponent`.
    */
   a11yKeyboardAccessibleZoom?: boolean;
@@ -93,6 +113,24 @@ export interface FeatureTogglesInterface {
   searchBoxRecentSearchesRemoval?: boolean;
 
   /**
+   * Controls the empty-query results panel in `SearchBoxComponent`.
+   *
+   * Before (disabled):
+   * - With `searchBoxRecentSearchesRemoval` enabled, an empty query closes the
+   *   results panel on desktop. Clearing the query closes the panel.
+   * - Without that toggle, desktop can show the results panel with an empty query.
+   *
+   * After (enabled):
+   * - On desktop, an empty query opens the results panel only when trending or
+   *   recent searches are available; otherwise the panel stays closed.
+   * - Clearing the query does not keep leftover OCC suggestions, products, or a
+   *   no-match message in the panel.
+   * - On mobile, the search box stays open for an empty query so the input is
+   *   not collapsed. The search panel Close button is hidden; Clear remains.
+   */
+  searchBoxEmptyQueryResultsPanel?: boolean;
+
+  /**
    * Corrects `BottomHeaderSlot` layout when CDS registers `MerchandisingCarouselComponent`
    * beside `BreadcrumbComponent` (e.g. on search results pages in sample data).
    *
@@ -111,17 +149,6 @@ export interface FeatureTogglesInterface {
    *   inner `cx-carousel`; otherwise the host is hidden and does not affect layout.
    */
   cdsBottomHeaderSlotAdjustPosition?: boolean;
-
-  /**
-   * Feature flag to enable using the new LOGIN_EVENTS token instead of the ActionsSubject LOGIN stream for tracking.
-   *
-   * When enabled, the new LOGIN_EVENTS token will be used instead of the ActionsSubject LOGIN stream.
-   * This is needed to support code flow authentication. If we are using the ActionsSubject LOGIN stream,
-   * the login event won't be captured once we are redirected back from the auth server.
-   *
-   * Used in `ProfileTagLifecycleService`
-   */
-  cdsLoginEventsToken?: boolean;
 
   /**
    * When enabled, sets the default oAuth configuration to use authorization code flow with PKCE.
@@ -143,28 +170,6 @@ export interface FeatureTogglesInterface {
    * NOTE: Only applies when `authorizationCodeFlowByDefault` is also enabled.
    */
   authorizationCodeFlowByDefaultCsrfTokenRefresh?: boolean;
-
-  /**
-   * Feature flag to enable incrementing the processes count for the merge cart action.
-   *
-   * When enabled, the processes count will be incremented for the merge cart action.
-   * This is needed to prevent premature cart loading, that especially affects the authorization code flow that requires redirection to the auth server and back.
-   */
-  incrementProcessesCountForMergeCart?: boolean;
-
-  /**
-   * Controls when the Login action is dispatched during OAuth URL parameter checking.
-   *
-   * When set to `true`, enables the new behavior where the Login action is only dispatched when
-   * `tokenReceived` is true, meaning the token was received during the current `tryLogin()` attempt.
-   *
-   * When set to `false`, maintains the legacy behavior where the Login action will be dispatched in all
-   * successful login scenarios during `checkOAuthParamsInUrl()`, regardless of whether the token was
-   * received in the current attempt or retrieved from storage (e.g., page refresh).
-   *
-   * Affects: `AuthService`
-   */
-  dispatchLoginActionOnlyWhenTokenReceived?: boolean;
 
   /**
    * When this feature toggle is enabled, the navigation menu will close when clicking on the same link.
@@ -363,6 +368,16 @@ export interface FeatureTogglesInterface {
    * Affects: cxNgSelectA11y
    */
   a11yVocalizeDropdownItemCount?: boolean;
+
+  /**
+   * When enabled, the `ItemCounterComponent` quantity input exposes an
+   * `aria-valuetext` equal to its literal value. This prevents screen readers
+   * (notably VoiceOver) from announcing the value as a percentage of the
+   * `min`/`max` range (e.g. "0.3%") instead of the actual quantity.
+   *
+   * Affects: `ItemCounterComponent`
+   */
+  a11yItemCounterValueText?: boolean;
 
   /**
    * When enabled, keystrokes inside an ng-select (combobox dropdown) are treated
@@ -645,6 +660,22 @@ export interface FeatureTogglesInterface {
   improvedTabStyling?: boolean;
 
   /**
+   * When enabled, a guest cart is merged into the user cart after login even
+   * when the login uses the OAuth 2.1 authorization-code flow (which fully
+   * re-bootstraps the SPA and wipes in-memory state).
+   *
+   * The guest cart entries are persisted to storage before the redirect and
+   * re-added to the user cart after login. This is needed because the backend
+   * rejects a native merge of a guest cart (`"Cart is not anonymous"`), and the
+   * guest cart is no longer reachable with the user token after login.
+   *
+   * NOTE: Most relevant when `authorizationCodeFlowByDefault` is enabled.
+   *
+   * Affects: `ActiveCartService`
+   */
+  mergeGuestCartOnCodeFlowLogin?: boolean;
+
+  /**
    * When enabled, triggers a full page reload after a language switch so that
    * all `href` attributes (banners, navigation links, mini-cart, login) reflect
    * the new language immediately without requiring a manual page refresh.
@@ -697,11 +728,11 @@ export interface FeatureTogglesInterface {
 
   /**
    * When enabled, the address form applies the `cxFocus` directive with autofocus
-   * to manage initial keyboard focus.
+   * to manage initial keyboard focus and uses new directive cxFocusFirstInvalidField.
    *
    * Affects: `AddressFormComponent`
    */
-  a11yAddressFormInitialFocus?: boolean;
+  a11yImproveAddressFormFocus?: boolean;
 
   /**
    * When enabled, after navigating to a `CategoryPage` (e.g. a Product Listing Page)
@@ -714,9 +745,50 @@ export interface FeatureTogglesInterface {
    * Affects: `StorefrontComponent`
    */
   a11yFocusBreadcrumbOnNavigation?: boolean;
+
+  /**
+   * When enabled (with the `cart.validation.enabled` config), surfaces backend
+   * min/max order quantity validation in the cart: highlights violating rows and
+   * shows a per-item `Min qty` / `Max qty` hint parsed from the backend
+   * `statusMessage`, re-validating on entry and on quantity change. On checkout the
+   * `CartValidationGuard` blocks and shows a generic message.
+   */
+  cartValidationDisplayBackendMessages?: boolean;
+
+  /**
+   * When enabled, `ConfiguratorIssuesNotificationComponent` only shows its cart
+   * "issues" notification for configurable products, so non-configurable entries
+   * (e.g. with min/max quantity validation errors) no longer trigger it.
+   *
+   * Affects: `ConfiguratorIssuesNotificationComponent`
+   */
+  configuratorIssuesNotificationForConfigurableOnly?: boolean;
+
+  /**
+   * When enabled, `GlobalMessageComponent` reserves space for the close button so
+   * that long, multi-line message text does not render underneath it.
+   *
+   * Affects: `GlobalMessageComponent`
+   */
+  globalMessageCloseButtonPadding?: boolean;
+
+  /**
+   * When enabled, the navigation chevron (`--list-bg`) rendered on the
+   * organization (My Company) list rows and detail navigation cards uses a
+   * higher-contrast stroke so it meets the WCAG 1.4.11 non-text contrast
+   * requirement (>=3:1 in the default theme; 7:1 in high-contrast themes).
+   * The default-theme stroke changes from `#D3D6DA` (~1.4:1) to `#556b82`
+   * (~5.3:1), and dedicated black/white strokes are applied in the
+   * high-contrast light/dark themes.
+   *
+   * Affects: `ListComponent` (`cx-org-list`)
+   */
+  a11yNavigationChevronContrast?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  useAdvancedGoogleMarkers: false,
+  useGoogleMapsAsyncLoading: false,
   alignNavigationMenuWithHeader: false,
   a11yKeyboardAccessibleZoom: true,
   a11yPreventCartItemsFormRedundantRecreation: true,
@@ -730,25 +802,23 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPreventWindowsHighContrastOverride: false,
   productListItemSummaryReadMore: false,
   a11yFutureStockAccordionAriaControls: true,
-  cdsLoginEventsToken: true,
   authorizationCodeFlowByDefault: true,
   authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
-  incrementProcessesCountForMergeCart: true,
-  dispatchLoginActionOnlyWhenTokenReceived: true,
   navigationMenuCloseOnSameLinkClick: true,
   enablePasswordExpiredErrorTranslation: true,
   enableQuotePurchaseOrderNumber: true,
   enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: false,
-  a11yCustomerTicketingVisualFocusFix: false,
+  a11yCustomerTicketingVisualFocusFix: true,
   a11yMessagingListKeyboardFocus: false,
   orderOverviewCardsInlinePadding: false,
   a11yStoreFinderListItemFocus: false,
   a11yFixSearchBoxDoubleFocus: false,
   a11yFacetFilterByLabel: false,
-  removeDuplicatedOrderHistoryHeader: false,
-  a11yCardNotificationMessage: false,
+  removeDuplicatedOrderHistoryHeader: true,
+  a11yCardNotificationMessage: true,
   searchBoxRecentSearchesRemoval: false,
+  searchBoxEmptyQueryResultsPanel: false,
   cdsBottomHeaderSlotAdjustPosition: false,
   enableB2BUnitSearch: false,
   enableB2BCostCenterSearch: false,
@@ -768,6 +838,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFormFieldSectionLegend: false,
   a11yImproveCheckoutFocus: false,
   a11yVocalizeDropdownItemCount: false,
+  a11yItemCounterValueText: false,
   a11yRestoreFocusOnNgSelect: false,
   a11yKeepFocusOnConsentManagementButtons: false,
   useEnhancedSecurePasswordValidators: false,
@@ -799,9 +870,14 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   improvedTabStyling: false,
   reloadOnLanguageChange: false,
   productConfiguratorConsolidatedButtonDisabling: false,
+  mergeGuestCartOnCodeFlowLogin: false,
   a11yFormErrorIconContrast: false,
   a11yFocusIndicatorContrast: false,
   a11yDisabledButtonContrast: false,
-  a11yAddressFormInitialFocus: false,
+  a11yImproveAddressFormFocus: false,
   a11yFocusBreadcrumbOnNavigation: false,
+  cartValidationDisplayBackendMessages: false,
+  configuratorIssuesNotificationForConfigurableOnly: false,
+  globalMessageCloseButtonPadding: false,
+  a11yNavigationChevronContrast: false,
 };

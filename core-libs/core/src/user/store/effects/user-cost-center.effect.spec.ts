@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -43,7 +44,7 @@ describe('Payment Types effect', () => {
       UserCostCenterConnector as Type<UserCostCenterConnector>
     );
 
-    spyOn(service, 'getActiveList').and.returnValue(of(mockCostCenters));
+    vi.spyOn(service, 'getActiveList').mockReturnValue(of(mockCostCenters));
   });
 
   describe('loadActiveCostCenters$', () => {

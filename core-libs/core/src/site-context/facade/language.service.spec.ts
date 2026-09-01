@@ -1,6 +1,6 @@
+import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
-import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { SiteContextConfig } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -10,7 +10,6 @@ import { SiteContextActions } from '../store/actions/index';
 import { SiteContextStoreModule } from '../store/site-context-store.module';
 import { StateWithSiteContext } from '../store/state';
 import { LanguageService } from './language.service';
-import createSpy = jasmine.createSpy;
 
 const mockLanguages: Language[] = [
   { active: true, isocode: 'ja', name: 'Japanese' },
@@ -35,13 +34,6 @@ class MockSiteConnector {
 }
 
 describe('LanguageService', () => {
-  const mockSelect1 = createSpy('select').and.returnValue(() =>
-    of(mockLanguages)
-  );
-  const mockSelect2 = createSpy('select').and.returnValue(() =>
-    of(mockActiveLang)
-  );
-
   let service: LanguageService;
   let store: Store<StateWithSiteContext>;
 
@@ -60,7 +52,7 @@ describe('LanguageService', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
     service = TestBed.inject(LanguageService);
   });
 
@@ -76,14 +68,14 @@ describe('LanguageService', () => {
   });
 
   it('should be able to get languages', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
+    vi.spyOn(store, 'pipe').mockReturnValueOnce(of(mockLanguages));
     service.getAll().subscribe((results) => {
       expect(results).toEqual(mockLanguages);
     });
   });
 
   it('should be able to get active languages', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
+    vi.spyOn(store, 'pipe').mockReturnValueOnce(of(mockActiveLang));
     service.getActive().subscribe((results) => {
       expect(results).toEqual(mockActiveLang);
     });
@@ -91,6 +83,7 @@ describe('LanguageService', () => {
 
   describe('set activeLanguage(isocode)', () => {
     it('shouldselect active language', () => {
+      vi.spyOn(store, 'pipe').mockReturnValueOnce(of(null));
       service.setActive('ja');
       expect(store.dispatch).toHaveBeenCalledWith(
         new SiteContextActions.SetActiveLanguage('ja')
@@ -100,7 +93,7 @@ describe('LanguageService', () => {
 
   describe('isInitialized', () => {
     it('should return TRUE if a language is initialized', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
+      vi.spyOn(store, 'pipe').mockReturnValueOnce(of(mockActiveLang));
       expect(service.isInitialized()).toBeTruthy();
     });
   });

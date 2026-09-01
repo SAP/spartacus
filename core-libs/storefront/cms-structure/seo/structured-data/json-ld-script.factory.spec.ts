@@ -1,10 +1,13 @@
-import * as AngularCore from '@angular/core';
-import { PLATFORM_ID } from '@angular/core';
+import { isDevMode, PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
 import { JsonLdScriptFactory } from './json-ld-script.factory';
 import { StructuredDataFactory } from './structured-data.factory';
-
+import { vi } from 'vitest';
+vi.mock('@angular/core', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@angular/core')>();
+  return { ...actual, isDevMode: vi.fn() };
+});
 describe('JsonLdScriptFactory', () => {
   let service: JsonLdScriptFactory | StructuredDataFactory;
   let winRef: WindowRef;
@@ -41,7 +44,7 @@ describe('JsonLdScriptFactory', () => {
 
     describe('security', () => {
       beforeEach(() => {
-        spyOn(console, 'warn').and.stub();
+        vi.spyOn(console, 'warn').mockImplementation(() => {});
       });
       it('should escape html tags within malicious code', () => {
         service.build([{ foo: 'bar-2<script>alert()</script>' }]);
@@ -93,7 +96,7 @@ describe('JsonLdScriptFactory', () => {
     });
 
     it('should not build in production mode', () => {
-      spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
+      vi.mocked(isDevMode).mockReturnValue(false);
       service.build([{ foo: 'bar-a' }]);
       const scriptElement = winRef.document.getElementById('json-ld');
       // we might have left over script tag generated in former tests...
@@ -103,7 +106,7 @@ describe('JsonLdScriptFactory', () => {
     });
 
     it('should build in dev mode', () => {
-      spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => true);
+      vi.mocked(isDevMode).mockReturnValue(true);
       service.build([{ foo: 'bar-b' }]);
       const scriptElement = winRef.document.getElementById('json-ld');
       // we might have left over script tag generated in former tests, so

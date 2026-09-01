@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
@@ -18,7 +18,7 @@ describe('ProductViewComponent in product-list', () => {
   let component: ProductViewComponent;
   let fixture: ComponentFixture<ProductViewComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [NgSelectModule, FormsModule, ProductViewComponent],
     })
@@ -27,7 +27,7 @@ describe('ProductViewComponent in product-list', () => {
         add: { imports: [MockTranslatePipe, MockCxIconComponent] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductViewComponent);
@@ -41,14 +41,14 @@ describe('ProductViewComponent in product-list', () => {
   });
 
   it('should emit grid (default) sort event', () => {
-    spyOn(component.modeChange, 'emit');
+    vi.spyOn(component.modeChange, 'emit');
     component.changeMode();
     expect(component.modeChange.emit).toHaveBeenCalledWith(ViewModes.Grid);
   });
 
   it('should emit list sort event', () => {
     component.mode = ViewModes.Grid;
-    spyOn(component.modeChange, 'emit');
+    vi.spyOn(component.modeChange, 'emit');
     component.changeMode();
     expect(component.modeChange.emit).toHaveBeenCalledWith(ViewModes.List);
   });

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpClient,
   HttpErrorResponse,
@@ -8,7 +9,7 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   BaseOccUrlProperties,
   DynamicAttributes,
@@ -63,7 +64,7 @@ describe(`OccPickupLocationAdapter`, () => {
   let httpMock: HttpTestingController;
   let occEndpointService: OccEndpointsService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [
         OccPickupLocationAdapter,
@@ -73,14 +74,14 @@ describe(`OccPickupLocationAdapter`, () => {
         provideHttpClientTesting(),
       ],
     });
-  }));
+  });
   beforeEach(() => {
     occAdapter = TestBed.inject(OccPickupLocationAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     httpClient = TestBed.inject(HttpClient);
 
     occEndpointService = TestBed.inject(OccEndpointsService);
-    spyOn(occEndpointService, 'buildUrl').and.callThrough();
+    vi.spyOn(occEndpointService, 'buildUrl');
   });
   afterEach(() => {
     httpMock.verify();
@@ -105,18 +106,22 @@ describe(`OccPickupLocationAdapter`, () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
     });
-    it('should call normalized http error for getStoreDetails', fakeAsync(() => {
-      spyOn(httpClient, 'get').and.returnValue(throwError(() => mockJaloError));
+    it('should call normalized http error for getStoreDetails', async () => {
+      vi.useFakeTimers();
+      vi.spyOn(httpClient, 'get').mockReturnValue(
+        throwError(() => mockJaloError)
+      );
       let result: HttpErrorModel | undefined;
       const subscription = occAdapter
         .getStoreDetails(storeName)
         .pipe(take(1))
         .subscribe({ error: (err) => (result = err) });
 
-      tick(4200);
+      await vi.advanceTimersByTimeAsync(4200);
+      vi.useRealTimers();
       expect(result).toEqual(mockNormalizedJaloError);
 
       subscription.unsubscribe();
-    }));
+    });
   });
 });

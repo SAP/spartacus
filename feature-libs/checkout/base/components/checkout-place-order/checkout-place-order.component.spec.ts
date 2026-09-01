@@ -24,23 +24,22 @@ import {
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { OrderFacade } from '@spartacus/order/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, of } from 'rxjs';
 import { CheckoutPlaceOrderComponent } from './checkout-place-order.component';
-import createSpy = jasmine.createSpy;
 
 class MockOrderFacade implements Partial<OrderFacade> {
-  placeOrder = createSpy().and.returnValue(of({}));
+  placeOrder = vi.fn().mockReturnValue(of({}));
 
-  clearOrder = createSpy();
+  clearOrder = vi.fn();
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go = createSpy().and.returnValue(Promise.resolve(true));
+  go = vi.fn().mockReturnValue(Promise.resolve(true));
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  launch = createSpy();
-  clear = createSpy();
+  launch = vi.fn();
+  clear = vi.fn();
 }
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
@@ -62,7 +61,7 @@ describe('CheckoutPlaceOrderComponent', () => {
   let launchDialogService: LaunchDialogService;
   let activeCartFacade: MockActiveCartFacade;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     const mockCurrencyService = {
       getActive: () => of('USD'),
     };
@@ -91,7 +90,7 @@ describe('CheckoutPlaceOrderComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutPlaceOrderComponent);
@@ -136,13 +135,11 @@ describe('CheckoutPlaceOrderComponent', () => {
     });
   });
 
-  it('should combine currency and language into params$', (done) => {
+  it('should combine currency and language into params$', async () => {
     component.ngOnInit();
-    component.params$.subscribe(([currency, language]) => {
-      expect(currency).toBe('USD');
-      expect(language).toBe('en');
-      done();
-    });
+    const [currency, language] = await firstValueFrom(component.params$);
+    expect(currency).toBe('USD');
+    expect(language).toBe('en');
   });
 
   describe('Place order UI', () => {
@@ -193,7 +190,7 @@ describe('CheckoutPlaceOrderComponent', () => {
         fixture.debugElement.nativeElement.querySelector(
           '.cx-place-order-cart-updating'
         ).hidden
-      ).toBeFalse();
+      ).toBeFalsy();
     });
 
     it('should NOT render the cart-updating hint while the cart is stable', () => {
@@ -204,7 +201,7 @@ describe('CheckoutPlaceOrderComponent', () => {
         fixture.debugElement.nativeElement.querySelector(
           '.cx-place-order-cart-updating'
         ).hidden
-      ).toBeTrue();
+      ).toBeTruthy();
     });
   });
 

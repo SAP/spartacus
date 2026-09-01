@@ -17,7 +17,6 @@ import { SemanticPathService } from '../../../routing/configurable-routes/url-tr
 import { WindowRef } from '../../../window/window-ref';
 import { AuthFlowRoutesService } from '../services/auth-flow-routes.service';
 import { FederatedLoginGuard } from './federated-login.guard';
-import createSpy = jasmine.createSpy;
 
 class MockFederatedLoginService implements Partial<FederatedLoginService> {
   enabled = false;
@@ -26,17 +25,17 @@ class MockFederatedLoginService implements Partial<FederatedLoginService> {
 }
 
 class MockAuthFlowRoutesService implements Partial<AuthFlowRoutesService> {
-  isAuthFlow = createSpy().and.returnValue(false);
+  isAuthFlow = vi.fn().mockReturnValue(false);
 }
 
 class MockSemanticPathService implements Partial<SemanticPathService> {
-  get = createSpy().and.callFake((route: string) => `/${route}`);
+  get = vi.fn().mockImplementation((route: string) => `/${route}`);
 }
 
 class MockRouter implements Partial<Router> {
-  parseUrl = createSpy().and.callFake(
-    (url: string) => ({ root: url }) as unknown as UrlTree
-  );
+  parseUrl = vi
+    .fn()
+    .mockImplementation((url: string) => ({ root: url }) as unknown as UrlTree);
 }
 
 class MockWindowRef implements Partial<WindowRef> {
@@ -120,7 +119,7 @@ describe('FederatedLoginGuard', () => {
 
       it('should continue when on a valid route', async () => {
         federatedLoginService.origin = 'https://storefront1.de';
-        authFlowRoutesService.isAuthFlow.and.returnValue(true);
+        authFlowRoutesService.isAuthFlow.mockReturnValue(true);
 
         const guardResult = await firstValueFrom(
           guard.canActivate(
@@ -142,9 +141,7 @@ describe('FederatedLoginGuard', () => {
           routerState = {
             url: '/login?ctx=',
           } as RouterStateSnapshot;
-          (semanticPathService.get as jasmine.Spy).and.returnValue(
-            '/not-found'
-          );
+          (semanticPathService.get as Mock).mockReturnValue('/not-found');
         });
 
         it('should redirect to the notFound route', async () => {
@@ -180,7 +177,7 @@ describe('FederatedLoginGuard', () => {
         });
 
         it('should avoid an infinite loop when the notFound route is not configured', async () => {
-          (semanticPathService.get as jasmine.Spy).and.returnValue(undefined);
+          (semanticPathService.get as Mock).mockReturnValue(undefined);
 
           const guardResult = await firstValueFrom(
             guard.canActivate(activatedRoute, routerState)
@@ -198,9 +195,7 @@ describe('FederatedLoginGuard', () => {
         });
 
         it('should continue with a valid route', async () => {
-          (authFlowRoutesService.isAuthFlow as jasmine.Spy).and.returnValue(
-            true
-          );
+          (authFlowRoutesService.isAuthFlow as Mock).mockReturnValue(true);
           const url = '/login';
 
           const guardResult = await firstValueFrom(
@@ -214,9 +209,7 @@ describe('FederatedLoginGuard', () => {
         });
 
         it('should redirect when on an invalid route', async () => {
-          (authFlowRoutesService.isAuthFlow as jasmine.Spy).and.returnValue(
-            false
-          );
+          (authFlowRoutesService.isAuthFlow as Mock).mockReturnValue(false);
           const url = '/login';
           const expectedRedirectURL = `${storefrontOrigin}${url}`;
 

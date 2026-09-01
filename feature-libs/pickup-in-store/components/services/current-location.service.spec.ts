@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
 import { CurrentLocationService } from './current-location.service';
@@ -57,12 +58,12 @@ describe('CurrentLocationService', () => {
     });
 
     it('should get the current location from the browser API', () => {
-      spyOn(
+      vi.spyOn(
         (windowRef.nativeWindow as Window).navigator.geolocation,
         'getCurrentPosition'
-      ).and.callThrough();
+      );
 
-      const successCallback: PositionCallback = jasmine.createSpy();
+      const successCallback: PositionCallback = vi.fn();
       const errorCallback: PositionErrorCallback = () => {};
       const options: PositionOptions = {};
 
@@ -83,7 +84,7 @@ describe('CurrentLocationService', () => {
     });
 
     it('should do nothing if the native window is undefined', () => {
-      const successCallback: PositionCallback = jasmine.createSpy();
+      const successCallback: PositionCallback = vi.fn();
       const errorCallback: PositionErrorCallback = () => {};
       const options: PositionOptions = {};
 

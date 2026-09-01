@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { SubscriptionAdapter } from './subscription.adapter';
 import { SubscriptionConnector } from './subscription.connector';
-import createSpy = jasmine.createSpy;
 import {
   SubscriptionDetail,
   SubscriptionList,
 } from '@spartacus/subscription-billing/root';
 import { of, take } from 'rxjs';
+import { vi } from 'vitest';
 const mockDetail: SubscriptionDetail = {
   id: '01',
   documentNumber: '2081',
@@ -57,8 +57,8 @@ const mockList: SubscriptionList = {
   ],
 };
 class MockSubscriptionAdapter implements Partial<SubscriptionAdapter> {
-  getSubscriptionByCode = createSpy().and.returnValue(of(mockDetail));
-  getSubscriptionList = createSpy().and.returnValue(of(mockList));
+  getSubscriptionByCode = vi.fn().mockReturnValue(of(mockDetail));
+  getSubscriptionList = vi.fn().mockReturnValue(of(mockList));
 }
 describe('SubscriptionConnector', () => {
   let service: SubscriptionConnector;

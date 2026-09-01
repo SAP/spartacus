@@ -19,7 +19,6 @@ import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/fe
 import { ProgressButtonModule } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { CartProceedToCheckoutComponent } from './cart-proceed-to-checkout.component';
-import createSpy = jasmine.createSpy;
 
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
@@ -63,7 +62,7 @@ describe('CartProceedToCheckoutComponent', () => {
         },
         {
           provide: ChangeDetectorRef,
-          useValue: { markForCheck: createSpy('markForCheck') },
+          useValue: { markForCheck: vi.fn() },
         },
         ...provideMockFeatureToggles({ enableCartSlowNetworkResilience: true }),
       ],

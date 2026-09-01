@@ -101,14 +101,16 @@ describe('MiniCartComponent', () => {
     });
 
     it('should contain number of items in cart', () => {
-      const cartItemsNumber = fixture.debugElement.query(By.css('.count'))
-        .nativeElement.innerText;
+      const cartItemsNumber = fixture.debugElement
+        .query(By.css('.count'))
+        .nativeElement.textContent?.trim();
       expect(cartItemsNumber).toEqual('miniCart.count count:7');
     });
     it('should contain total price of the cart', () => {
-      const cartItemsNumber = fixture.debugElement.query(By.css('.total'))
-        .nativeElement.innerText;
-      expect(cartItemsNumber).toEqual('miniCart.total total:122$ ');
+      const cartItemsNumber = fixture.debugElement
+        .query(By.css('.total'))
+        .nativeElement.textContent?.trim();
+      expect(cartItemsNumber).toEqual('miniCart.total total:122$');
     });
 
     it('should not render the updating indicator when updating$ is false', () => {

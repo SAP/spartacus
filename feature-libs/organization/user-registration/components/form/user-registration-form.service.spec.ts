@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
@@ -13,7 +14,6 @@ import {
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
 import { UserRegistrationFormService } from './user-registration-form.service';
-import createSpy = jasmine.createSpy;
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add() {}
@@ -24,15 +24,15 @@ class MockRoutingService implements Partial<RoutingService> {
 }
 
 class MockUserAddressService implements Partial<UserAddressService> {
-  getDeliveryCountries = createSpy().and.returnValue(of([]));
-  getRegions = createSpy().and.returnValue(of([]));
+  getDeliveryCountries = vi.fn().mockReturnValue(of([]));
+  getRegions = vi.fn().mockReturnValue(of([]));
   loadDeliveryCountries(): void {
     return;
   }
 }
 
 class MockUserRegisterFacade implements Partial<UserRegisterFacade> {
-  getTitles = createSpy().and.returnValue(of([]));
+  getTitles = vi.fn().mockReturnValue(of([]));
 }
 
 class MockTranslationService implements Partial<TranslationService> {
@@ -179,7 +179,7 @@ describe('UserRegistrationFormService', () => {
   });
 
   it('should redirect to login page', () => {
-    spyOn(routingService, 'go').and.callThrough();
+    vi.spyOn(routingService, 'go');
 
     service.registerUser(service.form).subscribe().unsubscribe();
 

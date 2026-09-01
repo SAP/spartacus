@@ -15,8 +15,6 @@ import { EMPTY, of } from 'rxjs';
 import { ScheduledReplenishmentOrderConnector } from '../connectors/scheduled-replenishment-order.connector';
 import { ScheduledReplenishmentOrderService } from './scheduled-replenishment-order.service';
 
-import createSpy = jasmine.createSpy;
-
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = 'cartID';
 const mockReplenishmentOrder: ReplenishmentOrder = {
@@ -28,29 +26,29 @@ const mockScheduleReplenishmentForm: ScheduleReplenishmentForm = {
 const termsChecked = true;
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
-  takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
-  isGuestCart = createSpy().and.returnValue(of(false));
+  takeActiveCartId = vi.fn().mockReturnValue(of(mockCartId));
+  isGuestCart = vi.fn().mockReturnValue(of(false));
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = createSpy().and.returnValue(of(mockUserId));
+  takeUserId = vi.fn().mockReturnValue(of(mockUserId));
 }
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(EMPTY);
-  dispatch = createSpy();
+  get = vi.fn().mockReturnValue(EMPTY);
+  dispatch = vi.fn();
 }
 
 class MockScheduledReplenishmentOrderConnector
   implements Partial<ScheduledReplenishmentOrderConnector>
 {
-  scheduleReplenishmentOrder = createSpy().and.returnValue(
-    of(mockReplenishmentOrder)
-  );
+  scheduleReplenishmentOrder = vi
+    .fn()
+    .mockReturnValue(of(mockReplenishmentOrder));
 }
 
 class MockOrderFacade implements Partial<OrderFacade> {
-  setPlacedOrder = createSpy();
+  setPlacedOrder = vi.fn();
 }
 
 describe(`ScheduledReplenishmentOrderService`, () => {

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { EMPTY, of } from 'rxjs';
 import { SplitViewService } from '../split-view.service';
@@ -37,7 +37,7 @@ describe('ViewComponent', () => {
   let service: SplitViewService;
   let globalMessageService: GlobalMessageService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ViewComponent],
       providers: [
@@ -51,7 +51,7 @@ describe('ViewComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewComponent);
@@ -59,10 +59,10 @@ describe('ViewComponent', () => {
     service = TestBed.inject(SplitViewService);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
-    spyOn(service, 'add').and.stub();
-    spyOn(service, 'remove').and.stub();
-    spyOn(service, 'toggle').and.stub();
-    spyOn(globalMessageService, 'add').and.stub();
+    vi.spyOn(service, 'add').mockImplementation(() => {});
+    vi.spyOn(service, 'remove').mockImplementation(() => {});
+    vi.spyOn(service, 'toggle').mockImplementation(() => {});
+    vi.spyOn(globalMessageService, 'add').mockImplementation(() => {});
   });
 
   it('should create', () => {

@@ -15,6 +15,11 @@ import {
   OpfPaymentVerificationResponse,
 } from '@spartacus/opf/payment/root';
 import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
+import {
+  ApplePaySessionVerificationRequest,
+  ApplePaySessionVerificationResponse,
+  OpfQuickBuyFacade,
+} from '@spartacus/opf/quick-buy/root';
 import { of } from 'rxjs';
 import { RoutingService, UserIdService, WindowRef } from '@spartacus/core';
 import { CartAccessCodeFacade } from '@spartacus/cart/base/root';
@@ -134,6 +139,12 @@ class MockOpfQuickBuyTransactionService
     .and.returnValue(of(true));
 }
 
+class MockOpfQuickBuyFacade implements Partial<OpfQuickBuyFacade> {
+  getApplePayWebSession = jasmine
+    .createSpy('getApplePayWebSession')
+    .and.returnValue(of({} as ApplePaySessionVerificationResponse));
+}
+
 function createOpfPaymentFacadeMock(): jasmine.SpyObj<OpfPaymentFacade> {
   return jasmine.createSpyObj('OpfPaymentFacade', [
     'submitPayment',
@@ -173,6 +184,7 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
           provide: OpfQuickBuyTransactionService,
           useClass: MockOpfQuickBuyTransactionService,
         },
+        { provide: OpfQuickBuyFacade, useClass: MockOpfQuickBuyFacade },
       ],
     });
     service = TestBed.inject(OpfGlobalFunctionsGlobalDomainService);
@@ -378,6 +390,37 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
     it('should normalize payment config from object', () => {
       const config = { configurationId: '2301' };
       expect(service['normalizePaymentConfig'](config)).toEqual(config);
+    });
+  });
+
+  describe('getApplePayWebSession', () => {
+    it('should call opfQuickBuyFacade.getApplePayWebSession and return session response', async () => {
+      const mockRequest: ApplePaySessionVerificationRequest = {
+        validationUrl: 'https://apple.com/validate',
+        initiative: 'web',
+        initiativeContext: 'example.com',
+      };
+      const mockResponse: ApplePaySessionVerificationResponse = {
+        epochTimestamp: 1234567890,
+        expiresAt: 1234567890,
+        merchantSessionIdentifier: 'merchant-session-id',
+        nonce: 'nonce-value',
+        merchantIdentifier: 'merchant-identifier',
+        domainName: 'example.com',
+        displayName: 'Test Store',
+        signature: 'signature-value',
+      };
+      const opfQuickBuyFacade = TestBed.inject(
+        OpfQuickBuyFacade
+      ) as unknown as MockOpfQuickBuyFacade;
+      opfQuickBuyFacade.getApplePayWebSession.and.returnValue(of(mockResponse));
+
+      const result = await service.getApplePayWebSession(mockRequest);
+
+      expect(opfQuickBuyFacade.getApplePayWebSession).toHaveBeenCalledWith(
+        mockRequest
+      );
+      expect(result).toEqual(mockResponse);
     });
   });
 });

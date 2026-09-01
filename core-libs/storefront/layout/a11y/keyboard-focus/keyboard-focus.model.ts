@@ -14,7 +14,6 @@ export enum MOVE_FOCUS {
   PREV = -1,
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface BaseFocusConfig {}
 
 export interface VisibleFocusConfig {
@@ -147,5 +146,4 @@ export interface LockFocusConfig extends TrapFocusConfig {
   lock?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface FocusConfig extends LockFocusConfig {}

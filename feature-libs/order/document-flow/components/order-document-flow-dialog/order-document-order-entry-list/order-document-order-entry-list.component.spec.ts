@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { By } from '@angular/platform-browser';
 import {
@@ -36,7 +36,7 @@ describe('OrderDocumentOrderEntryListComponent', () => {
   let component: OrderDocumentOrderEntryListComponent;
   let fixture: ComponentFixture<OrderDocumentOrderEntryListComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, OrderDocumentOrderEntryListComponent],
       providers: [],
@@ -50,7 +50,7 @@ describe('OrderDocumentOrderEntryListComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDocumentOrderEntryListComponent);

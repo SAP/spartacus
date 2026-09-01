@@ -72,6 +72,9 @@
     "configurationError": "Resolve the issues in the configuration for cart entries first.",
     "pricingError": "Configurator pricing is currently not available. Checkout/quote submission is not possible. Please try again later.",
     "unresolvableIssues": "The product configuration requires additional entries in the back end. As a result, you cannot proceed. Please contact support.",
+    "cartQuantityLimitsViolated": "Some items in your cart are outside the allowed quantity limits. Please review the highlighted items.",
+    "minQuantity": "Min qty: {{ min }}",
+    "maxQuantity": "Max qty: {{ max }}",
     "inProgress": "Processing"
   }
 }
