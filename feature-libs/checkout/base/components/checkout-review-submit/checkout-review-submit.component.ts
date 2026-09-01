@@ -170,17 +170,7 @@ export class CheckoutReviewSubmitComponent {
         const region = paymentDetails.billingAddress?.region?.isocode
           ? paymentDetails.billingAddress?.region?.isocode + ', '
           : '';
-        let fullName =
-          paymentDetails.billingAddress?.firstName +
-          ' ' +
-          paymentDetails.billingAddress?.lastName;
-        if (
-          this.featureToggles.addTitleToAddressCard &&
-          !!paymentDetails.billingAddress?.title &&
-          fullName
-        ) {
-          fullName = paymentDetails.billingAddress.title + ' ' + fullName;
-        }
+
         return {
           title: textTitle,
           textBold: paymentDetails.accountHolderName,
@@ -189,7 +179,9 @@ export class CheckoutReviewSubmitComponent {
             {
               title: billingAddress + ':',
               text: [
-                fullName,
+                paymentDetails.billingAddress?.firstName +
+                  ' ' +
+                  paymentDetails.billingAddress?.lastName,
                 paymentDetails.billingAddress?.line1,
                 paymentDetails.billingAddress?.town +
                   ', ' +

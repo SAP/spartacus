@@ -35,6 +35,7 @@ import {
 import { MockIconComponent } from '@spartacus/storefront/testing/icon-testing-module';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { of } from 'rxjs';
+import { vi } from 'vitest';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutReviewSubmitComponent } from './checkout-review-submit.component';
 
@@ -456,38 +457,6 @@ describe('CheckoutReviewSubmitComponent - addTitleToAddressCard feature toggle',
         .subscribe((c) => (card = c));
 
       expect(card?.textBold).toEqual('John Doe');
-    });
-  });
-
-  describe('getPaymentMethodCard', () => {
-    it('should NOT prepend the title to the billing name when the toggle is OFF', async () => {
-      await configure(false);
-      let card: Card | undefined;
-      component
-        .getPaymentMethodCard(mockPaymentDetailsWithTitle)
-        .subscribe((c) => (card = c));
-
-      expect(card?.paragraphs?.[0].text?.[0]).toEqual('John Smith');
-    });
-
-    it('should prepend the title to the billing name when the toggle is ON and a title is present', async () => {
-      await configure(true);
-      let card: Card | undefined;
-      component
-        .getPaymentMethodCard(mockPaymentDetailsWithTitle)
-        .subscribe((c) => (card = c));
-
-      expect(card?.paragraphs?.[0].text?.[0]).toEqual('Mr. John Smith');
-    });
-
-    it('should NOT prepend the title to the billing name when the toggle is ON but no title is present', async () => {
-      await configure(true);
-      let card: Card | undefined;
-      component
-        .getPaymentMethodCard(mockPaymentDetailsWithoutTitle)
-        .subscribe((c) => (card = c));
-
-      expect(card?.paragraphs?.[0].text?.[0]).toEqual('John Smith');
     });
   });
 });
