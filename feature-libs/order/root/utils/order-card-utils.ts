@@ -16,7 +16,8 @@ export function deliveryAddressCard(
   textPhone: string,
   textMobile: string,
   deliveryAddress: Address,
-  countryName?: string
+  countryName?: string,
+  addTitleToAddressCard = false
 ): Card {
   if (!countryName) {
     countryName = deliveryAddress?.country?.name as string;
@@ -39,6 +40,10 @@ export function deliveryAddressCard(
     fullName = deliveryAddress.firstName;
   } else if (deliveryAddress.lastName) {
     fullName = deliveryAddress.lastName;
+  }
+
+  if (addTitleToAddressCard && !!deliveryAddress.title && fullName) {
+    fullName = deliveryAddress.title + ' ' + fullName;
   }
 
   return {
@@ -98,18 +103,28 @@ export function paymentMethodCard(
 export function billingAddressCard(
   textTitle: string,
   textBillTo: string,
-  paymentDetails: PaymentDetails
+  paymentDetails: PaymentDetails,
+  addTitleToAddressCard = false
 ): Card {
   const region = paymentDetails.billingAddress?.region?.isocode
     ? paymentDetails.billingAddress?.region?.isocode + ', '
     : '';
+  let fullName =
+    paymentDetails.billingAddress?.firstName +
+    ' ' +
+    paymentDetails.billingAddress?.lastName;
+  if (
+    addTitleToAddressCard &&
+    !!paymentDetails.billingAddress?.title &&
+    fullName
+  ) {
+    fullName = paymentDetails.billingAddress.title + ' ' + fullName;
+  }
   return {
     title: textTitle,
     text: [
       textBillTo,
-      paymentDetails.billingAddress?.firstName +
-        ' ' +
-        paymentDetails.billingAddress?.lastName,
+      fullName,
       paymentDetails.billingAddress?.line1,
       paymentDetails.billingAddress?.town +
         ', ' +

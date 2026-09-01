@@ -16,6 +16,15 @@
     "moduleResolution": "bundler",
     "esModuleInterop": true,
     "paths": {
+      "@spartacus/storefront/testing/icon-testing-module": [
+        "core-libs/storefront/cms-components/misc/icon/index"
+      ],
+      "@spartacus/core/testing/mock-feature-toggles": [
+        "core-libs/core/src/features-config/feature-toggles/testing/index"
+      ],
+      "@spartacus/storefront/testing/mock-feature-directive": [
+        "core-libs/storefront/shared/test/index"
+      ],
       "@spartacus/schematics": ["core-libs/schematics/index"],
       "@spartacus/setup": ["core-libs/setup/public_api"],
       "@spartacus/setup/ssr": ["core-libs/setup/ssr/public_api"],

@@ -1,5 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule, PaymentDetails } from '@spartacus/core';
+import {
+  FeatureToggles,
+  I18nTestingModule,
+  PaymentDetails,
+} from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
@@ -103,5 +107,46 @@ describe('OrderDetailBillingComponent', () => {
     ).toBeFalsy();
 
     expect(component.isPaymentInfoCardFull(mockPaymentDetails)).toBeTruthy();
+  });
+
+  describe('addTitleToAddressCard feature toggle', () => {
+    let featureToggles: FeatureToggles;
+    const mockPaymentDetailsWithTitle: PaymentDetails = {
+      ...mockPaymentDetails,
+      billingAddress: {
+        ...mockPaymentDetails.billingAddress,
+        title: 'Dr.',
+      },
+    };
+
+    beforeEach(() => {
+      featureToggles = TestBed.inject(FeatureToggles);
+      featureToggles.addTitleToAddressCard = false;
+    });
+
+    it('should not prefix the title when the toggle is OFF', () => {
+      featureToggles.addTitleToAddressCard = false;
+      component
+        .getBillingAddressCard(mockPaymentDetailsWithTitle)
+        .subscribe((card) => {
+          expect(card.text?.[1]).toEqual('John Smith');
+        });
+    });
+
+    it('should prefix the title when the toggle is ON and the billing address has a title', () => {
+      featureToggles.addTitleToAddressCard = true;
+      component
+        .getBillingAddressCard(mockPaymentDetailsWithTitle)
+        .subscribe((card) => {
+          expect(card.text?.[1]).toEqual('Dr. John Smith');
+        });
+    });
+
+    it('should not prefix the title when the toggle is ON but the billing address has no title', () => {
+      featureToggles.addTitleToAddressCard = true;
+      component.getBillingAddressCard(mockPaymentDetails).subscribe((card) => {
+        expect(card.text?.[1]).toEqual('John Smith');
+      });
+    });
   });
 });

@@ -543,11 +543,6 @@ export interface FeatureTogglesInterface {
 
   /**
    * When enabled, the title on the address is added to the line containing the full name (Card.boldText).
-   * Affects:
-   * - `AddressBookComponent`
-   * - `CheckoutDeliveryAddressComponent`
-   * - `CheckoutDeliveryAddressComponent`
-   * - `B2BCheckoutDeliveryAddressComponent`
    */
   addTitleToAddressCard?: boolean;
 
