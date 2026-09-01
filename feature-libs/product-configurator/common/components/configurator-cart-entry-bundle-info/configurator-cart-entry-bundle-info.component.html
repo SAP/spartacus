@@ -6,15 +6,36 @@
           'configurator.header.items' | cxTranslate: { count: numberOfItems }
         }}
       </div>
-      <button
-        (click)="toggleItems()"
-        [attr.aria-expanded]="!this.hideItems"
-        [attr.aria-label]="getItemsMsg(numberOfItems)"
-      >
+      <ng-container *ngIf="navigateToOverview$ | async; else toggleItemsButton">
+        <span
+          id="{{ getItemsLinkMsgId(orderEntry) }}"
+          class="cx-visually-hidden"
+        >
+          {{ getItemsLinkMsg(numberOfItems) }}
+        </span>
         <div class="cx-toggle-hide-items">
-          {{ getButtonText() }}
+          <cx-configure-cart-entry
+            [cartEntry]="orderEntry"
+            [readOnly]="true"
+            [msgBanner]="false"
+            [disabled]="false"
+            [isBundleOverviewLink]="true"
+            [a11yDescriptionId]="getItemsLinkMsgId(orderEntry)"
+          ></cx-configure-cart-entry>
         </div>
-      </button>
+      </ng-container>
+
+      <ng-template #toggleItemsButton>
+        <button
+          (click)="toggleItems()"
+          [attr.aria-expanded]="!this.hideItems"
+          [attr.aria-label]="getItemsMsg(numberOfItems)"
+        >
+          <div class="cx-toggle-hide-items">
+            {{ getButtonText() }}
+          </div>
+        </button>
+      </ng-template>
 
       <div class="cx-item-infos" [class.open]="!hideItems">
         <div

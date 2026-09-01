@@ -5,18 +5,21 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, Optional } from '@angular/core';
+import { Component, Optional, inject } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import {
   CxNumericPipe,
+  FeatureToggles,
   TranslatePipe,
   TranslationService,
+  useFeatureStyles,
 } from '@spartacus/core';
 import { BreakpointService } from '@spartacus/storefront';
-import { EMPTY, Observable } from 'rxjs';
+import { EMPTY, Observable, combineLatest } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
+import { CommonConfiguratorUISettingsConfig } from '../config/common-configurator-ui-settings.config';
 import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-cart-entry.component';
 import { LineItem } from './configurator-cart-entry-bundle-info.model';
 import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entry-bundle-info.service';
@@ -38,13 +41,18 @@ import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entr
   ],
 })
 export class ConfiguratorCartEntryBundleInfoComponent {
+  protected config = inject(CommonConfiguratorUISettingsConfig);
+  private featureToggles = inject(FeatureToggles);
+
   constructor(
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected configCartEntryBundleInfoService: ConfiguratorCartEntryBundleInfoService,
     protected breakpointService: BreakpointService,
     protected translation: TranslationService,
     @Optional() protected cartItemContext?: CartItemContext
-  ) {}
+  ) {
+    useFeatureStyles('productConfiguratorCPQContainer');
+  }
 
   readonly orderEntry$: Observable<OrderEntry> =
     this.cartItemContext?.item$ ?? EMPTY;
@@ -93,6 +101,58 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   readonly shouldShowButton$: Observable<boolean> =
     this.commonConfigUtilsService.isActiveCartContext(this.cartItemContext);
 
+  /**
+   * Emits 'true' if the number of line items exceeds the configured threshold and
+   * a navigation to the configuration overview is possible. In that case the items
+   * are not expanded in place, but the user is taken to the overview page instead.
+   */
+  readonly navigateToOverview$: Observable<boolean> = combineLatest([
+    this.numberOfLineItems$,
+    this.shouldShowButton$,
+  ]).pipe(
+    map(
+      ([numberOfLineItems, shouldShowButton]) =>
+        !!this.featureToggles.productConfiguratorCPQContainer &&
+        shouldShowButton &&
+        numberOfLineItems > this.getCpqProductCartEntriesThreshold()
+    )
+  );
+
+  /**
+   * Retrieves the maximum number of line items that are expanded within the cart entry.
+   *
+   * @returns {number} - the configured threshold
+   */
+  getCpqProductCartEntriesThreshold(): number {
+    return (
+      this.config.productConfigurator?.cpqProductCartEntriesThreshold ?? 10
+    );
+  }
+
+  /**
+   * Compiles the accessibility description of the link that navigates to the
+   * configuration overview.
+   *
+   * @param {number} items - number of line items
+   * @returns {string} - accessibility description
+   */
+  getItemsLinkMsg(items: number): string {
+    let translatedText = '';
+    this.translation
+      .translate('configurator.a11y.cartEntryBundleInfo', {
+        count: items,
+        items: items,
+      })
+      .pipe(take(1))
+      .subscribe((text) => (translatedText = text));
+
+    return translatedText;
+  }
+
+  getItemsLinkMsgId(entry: OrderEntry): string {
+    return 'cx-item-list-info-' + entry.entryNumber;
+  }
+
   getButtonText(translatedText?: string): string {
     if (!translatedText) {
       translatedText = '';
@@ -115,7 +175,10 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   getItemsMsg(items: number): string {
     let translatedText = '';
     this.translation
-      .translate('configurator.a11y.cartEntryBundleInfo', { items: items })
+      .translate('configurator.a11y.cartEntryBundleInfo', {
+        count: items,
+        items: items,
+      })
       .pipe(take(1))
       .subscribe((text) => (translatedText = text));
 
