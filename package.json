@@ -273,7 +273,7 @@
     "nx": "^22.7.6",
     "parse5": "^8.0.0",
     "pm2": "^7.0.0",
-    "postcss": "^8.5.10",
+    "postcss": "^8.5.24",
     "postcss-scss": "^4.0.6",
     "prettier": "~3.5.0",
     "rimraf": "^6.0.0",
@@ -321,7 +321,7 @@
     "vite": "8.1.5",
     "ws@^8": "8.21.0",
     "browser-sync": {
-      "immutable": "4.3.9"
+      "immutable": "5.1.9"
     },
     "immutable@^5": "5.1.8",
     "fast-uri@^3": "3.1.4",
