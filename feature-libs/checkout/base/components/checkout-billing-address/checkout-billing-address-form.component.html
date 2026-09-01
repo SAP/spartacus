@@ -164,7 +164,19 @@
             class="form-control"
             placeholder="{{ 'addressForm.aptSuite' | cxTranslate }}"
             formControlName="line2"
+            [attr.aria-invalid]="
+              billingAddressForm.get('line2')?.touched &&
+              billingAddressForm.get('line2')?.invalid
+            "
+            [attr.aria-errormessage]="'line2Error'"
           />
+          <cx-form-errors
+            id="line2Error"
+            [translationParams]="{
+              label: 'addressForm.address2' | cxTranslate,
+            }"
+            [control]="billingAddressForm.get('line2')"
+          ></cx-form-errors>
         </label>
       </div>
       <div class="row">

@@ -137,7 +137,16 @@
         class="form-control"
         placeholder="{{ 'orgUnitAddress.aptSuite' | cxTranslate }}"
         formControlName="line2"
+        [attr.aria-invalid]="
+          form.get('line2')?.touched && form.get('line2')?.invalid
+        "
+        [attr.aria-errormessage]="'line2Error'"
       />
+      <cx-form-errors
+        id="line2Error"
+        [translationParams]="{ label: 'orgUnitAddress.address2' | cxTranslate }"
+        [control]="form.get('line2')"
+      ></cx-form-errors>
     </label>
 
     <label class="full-width">
@@ -149,7 +158,16 @@
         class="form-control"
         placeholder="{{ 'orgUnitAddress.phoneNumber' | cxTranslate }}"
         formControlName="phone"
+        [attr.aria-invalid]="
+          form.get('phone')?.touched && form.get('phone')?.invalid
+        "
+        [attr.aria-errormessage]="'phoneError'"
       />
+      <cx-form-errors
+        id="phoneError"
+        [translationParams]="{ label: 'orgUnitAddress.phoneNumber' | cxTranslate }"
+        [control]="form.get('phone')"
+      ></cx-form-errors>
     </label>
 
     <label>

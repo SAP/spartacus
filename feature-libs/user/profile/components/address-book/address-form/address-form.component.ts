@@ -163,18 +163,18 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       isocode: [null, Validators.required],
     }),
     titleCode: [''],
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    line1: ['', Validators.required],
-    line2: [''],
-    town: ['', Validators.required],
+    firstName: ['', [Validators.required, Validators.maxLength(256)]],
+    lastName: ['', [Validators.required, Validators.maxLength(256)]],
+    line1: ['', [Validators.required, Validators.maxLength(256)]],
+    line2: ['', Validators.maxLength(256)],
+    town: ['', [Validators.required, Validators.maxLength(256)]],
     region: this.fb.group({
       isocode: [null, Validators.required],
     }),
     district: [null],
-    postalCode: ['', Validators.required],
-    phone: '',
-    cellphone: '',
+    postalCode: ['', [Validators.required, Validators.maxLength(256)]],
+    phone: ['', Validators.maxLength(256)],
+    cellphone: ['', Validators.maxLength(256)],
     defaultAddress: [false],
   });
 
@@ -417,10 +417,13 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.selectedCity$.next('');
 
     if (this.isHierarchicalAddressFormat) {
-      cellphoneControl?.setValidators([Validators.required]);
+      cellphoneControl?.setValidators([
+        Validators.required,
+        Validators.maxLength(256),
+      ]);
       districtControl?.setValidators([Validators.required]);
     } else {
-      cellphoneControl?.clearValidators();
+      cellphoneControl?.setValidators([Validators.maxLength(256)]);
       districtControl?.clearValidators();
       townControl?.enable();
       districtControl?.enable();

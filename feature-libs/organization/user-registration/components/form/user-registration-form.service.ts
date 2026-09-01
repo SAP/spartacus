@@ -59,7 +59,7 @@ export class UserRegistrationFormService {
         isocode: [null],
       }),
       postalCode: [''],
-      phoneNumber: [''],
+      phoneNumber: ['', Validators.maxLength(256)],
       message: [''],
     });
   }

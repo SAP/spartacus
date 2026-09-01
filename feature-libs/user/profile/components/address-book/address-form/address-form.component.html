@@ -176,6 +176,18 @@
           class="form-control"
           placeholder="{{ 'addressForm.aptSuite' | cxTranslate }}"
           formControlName="line2"
+          [attr.aria-invalid]="
+            addressForm.get('line2')?.touched &&
+            addressForm.get('line2')?.invalid
+          "
+          [attr.aria-errormessage]="'line2Error'"
+        />
+        <cx-form-errors
+          id="line2Error"
+          [translationParams]="{
+            label: 'addressForm.address2' | cxTranslate,
+          }"
+          [control]="addressForm.get('line2')"
         />
       </label>
     </div>
@@ -390,6 +402,18 @@
               'addressForm.phoneNumber.placeholder' | cxTranslate
             }}"
             formControlName="phone"
+            [attr.aria-invalid]="
+              addressForm.get('phone')?.touched &&
+              addressForm.get('phone')?.invalid
+            "
+            [attr.aria-errormessage]="'phoneError'"
+          />
+          <cx-form-errors
+            id="phoneError"
+            [translationParams]="{
+              label: 'addressForm.phoneNumber.label' | cxTranslate,
+            }"
+            [control]="addressForm.get('phone')"
           />
         </label>
       </div>
@@ -414,11 +438,19 @@
                 'addressForm.cellphone.placeholder' | cxTranslate
               }}"
               formControlName="cellphone"
+              [attr.aria-invalid]="
+                addressForm.get('cellphone')?.touched &&
+                addressForm.get('cellphone')?.invalid
+              "
+              [attr.aria-errormessage]="'cellphoneError'"
             />
             <cx-form-errors
-              *ngIf="isHierarchicalAddressFormat"
+              id="cellphoneError"
               [translationParams]="{
-                label: 'addressForm.cellphone.requiredLabel' | cxTranslate,
+                label: (isHierarchicalAddressFormat
+                  ? 'addressForm.cellphone.requiredLabel'
+                  : 'addressForm.cellphone.label'
+                ) | cxTranslate,
               }"
               [control]="addressForm.get('cellphone')"
             />
@@ -438,6 +470,18 @@
                 'addressForm.cellphone.placeholder' | cxTranslate
               }}"
               formControlName="cellphone"
+              [attr.aria-invalid]="
+                addressForm.get('cellphone')?.touched &&
+                addressForm.get('cellphone')?.invalid
+              "
+              [attr.aria-errormessage]="'cellphoneError'"
+            />
+            <cx-form-errors
+              id="cellphoneError"
+              [translationParams]="{
+                label: 'addressForm.cellphone.label' | cxTranslate,
+              }"
+              [control]="addressForm.get('cellphone')"
             />
           </label>
         </div>

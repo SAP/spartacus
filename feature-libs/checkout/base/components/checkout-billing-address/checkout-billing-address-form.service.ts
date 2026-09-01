@@ -20,18 +20,18 @@ export class CheckoutBillingAddressFormService {
   getBillingAddressForm(): UntypedFormGroup {
     if (!this.form) {
       this.form = this.fb.group({
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        line1: ['', Validators.required],
-        line2: [''],
-        town: ['', Validators.required],
+        firstName: ['', [Validators.required, Validators.maxLength(256)]],
+        lastName: ['', [Validators.required, Validators.maxLength(256)]],
+        line1: ['', [Validators.required, Validators.maxLength(256)]],
+        line2: ['', Validators.maxLength(256)],
+        town: ['', [Validators.required, Validators.maxLength(256)]],
         region: this.fb.group({
           isocodeShort: [null, Validators.required],
         }),
         country: this.fb.group({
           isocode: [null, Validators.required],
         }),
-        postalCode: ['', Validators.required],
+        postalCode: ['', [Validators.required, Validators.maxLength(256)]],
       });
     }
     return this.form;
