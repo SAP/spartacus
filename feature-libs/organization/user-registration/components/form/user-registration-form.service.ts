@@ -47,10 +47,19 @@ export class UserRegistrationFormService {
   protected buildForm(): FormGroup {
     return this.formBuilder.group({
       titleCode: [null],
-      firstName: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
-      lastName: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
-      companyName: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
-      email: ['', [Validators.required, CustomFormValidators.emailValidator, Validators.maxLength(this.maxFieldLength)]],
+      firstName: [
+        '',
+        [Validators.required, Validators.maxLength(this.maxFieldLength)],
+      ],
+      lastName: [
+        '',
+        [Validators.required, Validators.maxLength(this.maxFieldLength)],
+      ],
+      companyName: [
+        '',
+        [Validators.required, Validators.maxLength(this.maxFieldLength)],
+      ],
+      email: ['', [Validators.required, CustomFormValidators.emailValidator]],
       country: this.formBuilder.group({
         isocode: [null],
       }),
