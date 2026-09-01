@@ -181,7 +181,7 @@ describe('OpfApiBaseAdapter', () => {
   });
 });
 
-describe('OpfApiBaseAdapter - enableActiveConfigurationAccessCodeHeader', () => {
+describe('OpfApiBaseAdapter - enableGetActiveConfigurationsAccessCodeHeader', () => {
   let service: OpfApiBaseAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
@@ -218,7 +218,7 @@ describe('OpfApiBaseAdapter - enableActiveConfigurationAccessCodeHeader', () => 
           useValue: {
             opf: {
               commerceCloudPublicKey: 'test-public-key',
-              enableActiveConfigurationAccessCodeHeader: true,
+              enableGetActiveConfigurationsAccessCodeHeader: true,
             },
           },
         },

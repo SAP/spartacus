@@ -93,7 +93,7 @@ export class OpfApiBaseAdapter implements OpfBaseAdapter {
       this.config.opf?.commerceCloudPublicKey || ''
     );
 
-    if (this.config.opf?.enableActiveConfigurationAccessCodeHeader) {
+    if (this.config.opf?.enableGetActiveConfigurationsAccessCodeHeader) {
       return this.getAccessCode().pipe(
         map((accessCode) => headers.set(OPF_CC_ACCESS_CODE_HEADER, accessCode))
       );
