@@ -803,8 +803,8 @@ export interface FeatureTogglesInterface {
    *    - Relative URIs are interpreted as a custom oAuth callback path.  The
    *      page origin will be used for the host, and base site will be added if
    *      enabled before the custom path.
-   *    - Absolute (and protocol-relative) URIs will be treated as the intended
-   *      value.  The base site will be appended to the path if enabled.
+   *    - Absolute URIs will be treated as the intended value.  The base site
+   *      will be appended to the path if enabled.
    */
   oauthCallbackPage?: boolean;
 }

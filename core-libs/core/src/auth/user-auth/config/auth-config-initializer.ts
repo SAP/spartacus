@@ -28,9 +28,9 @@ export class AuthConfigInitializer implements ConfigInitializer {
   protected siteContextParamsService = inject(SiteContextParamsService);
   protected windowRef = inject(WindowRef);
 
-  private featureToggles = inject(FeatureToggles);
-
   protected isSSR = !this.windowRef.isBrowser();
+
+  private featureToggles = inject(FeatureToggles);
 
   protected resolveConfig(): Observable<AuthConfig> {
     return combineLatest({
@@ -75,35 +75,30 @@ export class AuthConfigInitializer implements ConfigInitializer {
    * modified depending on whether it is relative or absolute.
    * - Relative URIs are interpreted as a custom oAuth callback path.  The page origin will be used
    *   for the host, and base site will be added if enabled before the custom path.
-   * - Absolute (and protocol-relative) URIs will be treated as the intended value.  The base site
+   * - Absolute URIs will be treated as the intended value.  The base site
    *   will be appended to the path if enabled.
    */
   protected generateRedirectUri(activeBaseSite: string, config: AuthConfig) {
-    const addBaseSiteToRedirectUri =
-      config.authentication?.initializerOptions?.addBaseSiteToRedirectUri;
-    const shouldAppendBaseSite =
-      addBaseSiteToRedirectUri === true ||
-      (addBaseSiteToRedirectUri === 'auto' && this.baseSiteInUrl());
+    const shouldAppendBaseSite = this.appendBaseSiteEnabled(config);
     const configuredRedirectUri =
       config.authentication?.OAuthLibConfig?.redirectUri;
 
     if (this.featureToggles.oauthCallbackPage) {
-      // if the redirect URI is absolute or protocol-relative
-      if (configuredRedirectUri?.match(/^(https?:)?\/\//)) {
-        // no further processing, return redirect URI with the appended base site
-        return shouldAppendBaseSite
-          ? `${configuredRedirectUri}/${encodeURIComponent(activeBaseSite)}`
-          : configuredRedirectUri;
-      }
+      const isAbsolute = !!configuredRedirectUri?.match(/^https?:\/\//);
 
-      // relative URL will be interpreted as custom callback path
-      const urlSegments: string[] = [this.getDefaultRedirectUri() ?? ''];
+      // use absolute redirect URI as URL base
+      const urlSegments: string[] = [
+        isAbsolute
+          ? (configuredRedirectUri as string)
+          : (this.getDefaultRedirectUri() ?? ''),
+      ];
 
       if (shouldAppendBaseSite) {
         urlSegments.push(encodeURIComponent(activeBaseSite));
       }
 
-      if (configuredRedirectUri) {
+      // Use relative redirect URI as page path
+      if (!isAbsolute && configuredRedirectUri) {
         urlSegments.push(this.trimLeadingSlash(configuredRedirectUri));
       }
 
@@ -118,6 +113,16 @@ export class AuthConfigInitializer implements ConfigInitializer {
         return urlRoot;
       }
     }
+  }
+
+  protected appendBaseSiteEnabled(config: AuthConfig) {
+    const addBaseSiteToRedirectUri =
+      config.authentication?.initializerOptions?.addBaseSiteToRedirectUri;
+
+    return (
+      addBaseSiteToRedirectUri === true ||
+      (addBaseSiteToRedirectUri === 'auto' && this.baseSiteInUrl())
+    );
   }
 
   protected baseSiteInUrl() {

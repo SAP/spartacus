@@ -198,39 +198,30 @@ describe('AuthConfigInitializer', () => {
       });
 
       describe('when oauthBaseSite is enabled', () => {
+        const absoluteUri = 'http://example.com';
+        const relativeUri = '/my-path';
+
         beforeEach(() => {
           featureToggles.oauthCallbackPage = true;
         });
 
-        it('should initialize an undefined redirect URI and append base site', async () => {
-          const expected = `${mockOrigin}/${mockActiveBaseSite}`;
-          const config = await service.configFactory();
+        describe('when redirect URI is undefined', () => {
+          it('should initialize an undefined redirect URI and append base site', async () => {
+            const expected = `${mockOrigin}/${mockActiveBaseSite}`;
+            const config = await service.configFactory();
 
-          expect(config.authentication?.OAuthLibConfig?.redirectUri).toEqual(
-            expected
-          );
+            expect(config.authentication?.OAuthLibConfig?.redirectUri).toEqual(
+              expected
+            );
+          });
         });
 
-        it('should escape URL-unsafe characters in the base-site', async () => {
-          const unsafeBaseSite = 'a/b c';
-          const expected = `${mockOrigin}/a%2Fb%20c`;
-          vi.spyOn(baseSiteService, 'getActive').mockReturnValue(
-            of(unsafeBaseSite)
-          );
+        describe('when redirect URI is an absolute URI', () => {
+          beforeEach(() => {
+            authConfig.authentication.OAuthLibConfig.redirectUri = absoluteUri;
+          });
 
-          const config = await service.configFactory();
-
-          expect(config.authentication?.OAuthLibConfig?.redirectUri).toBe(
-            expected
-          );
-        });
-
-        describe('when redirect URI is defined', () => {
-          const absoluteUri = 'http://example.com';
-          const protocolRelativeUri = '//example.com';
-          const relativeUri = '/my-path';
-
-          it('should append base site to path when absolute redirect URI is set', async () => {
+          it('should append base site as the last path segment', async () => {
             authConfig.authentication.OAuthLibConfig.redirectUri = absoluteUri;
             const expected: AuthConfig = {
               authentication: {
@@ -245,26 +236,14 @@ describe('AuthConfigInitializer', () => {
 
             expect(actual).toEqual(expected);
           });
+        });
 
-          it('should append base site to path when protocol-relative redirect URI is set', async () => {
-            authConfig.authentication.OAuthLibConfig.redirectUri =
-              protocolRelativeUri;
-            const expected: AuthConfig = {
-              authentication: {
-                client_id: mockClientId,
-                OAuthLibConfig: {
-                  redirectUri: `${protocolRelativeUri}/${mockActiveBaseSite}`,
-                },
-              },
-            };
-
-            const actual = await service.configFactory();
-
-            expect(actual).toEqual(expected);
+        describe('when redirect URI is a relative URI', () => {
+          beforeEach(() => {
+            authConfig.authentication.OAuthLibConfig.redirectUri = relativeUri;
           });
 
-          it('should prefix with origin and base site when relative redirect URI is set', async () => {
-            authConfig.authentication.OAuthLibConfig.redirectUri = relativeUri;
+          it('should use redirect URI as page path with origin and base site as the base URL', async () => {
             const expected: AuthConfig = {
               authentication: {
                 client_id: mockClientId,
@@ -278,6 +257,20 @@ describe('AuthConfigInitializer', () => {
 
             expect(actual).toEqual(expected);
           });
+        });
+
+        it('should escape URL-unsafe characters in the base-site', async () => {
+          const unsafeBaseSite = 'a/b c';
+          vi.spyOn(baseSiteService, 'getActive').mockReturnValue(
+            of(unsafeBaseSite)
+          );
+          const expected = `${mockOrigin}/a%2Fb%20c`;
+
+          const config = await service.configFactory();
+
+          expect(config.authentication?.OAuthLibConfig?.redirectUri).toBe(
+            expected
+          );
         });
       });
     });
