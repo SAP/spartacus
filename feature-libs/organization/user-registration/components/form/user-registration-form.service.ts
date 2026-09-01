@@ -54,10 +54,7 @@ export class UserRegistrationFormService {
       firstName: ['', [Validators.required, ...maxLength]],
       lastName: ['', [Validators.required, ...maxLength]],
       companyName: ['', [Validators.required, ...maxLength]],
-      email: [
-        '',
-        [Validators.required, CustomFormValidators.emailValidator, ...maxLength],
-      ],
+      email: ['', [Validators.required, CustomFormValidators.emailValidator]],
       country: this.formBuilder.group({
         isocode: [null],
       }),
