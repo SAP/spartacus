@@ -940,14 +940,14 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       ).toBe(2);
     });
 
-    it('should default to 1 if minRows is not set', () => {
+    it('should return 0 if minRows is not set', () => {
       expect(
         classUnderTest.getContainerRemainingRequiredCount(undefined, [])
-      ).toBe(1);
+      ).toBe(0);
     });
 
-    it('should default to 1 if minRows is 0', () => {
-      expect(classUnderTest.getContainerRemainingRequiredCount(0, [])).toBe(1);
+    it('should return 0 if minRows is 0', () => {
+      expect(classUnderTest.getContainerRemainingRequiredCount(0, [])).toBe(0);
     });
 
     it('should treat undefined rows as no selection', () => {
@@ -967,7 +967,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
   describe('enrichValueWithPrice', () => {
     const value: Configurator.Value = { valueCode: 'val', selected: true };
     it('should return original value if no price is known', () => {
-      expect(classUnderTest.enrichValueWithPrice(value, undefined)).toBe(value);
+      expect(classUnderTest.enrichValueWithPrice(value, {})).toBe(value);
     });
 
     it('should return new value if price is known', () => {

@@ -441,7 +441,7 @@ export class ConfiguratorAttributeBaseComponent {
 
   /**
    * Remaining products needed to meet the container `minRows` requirement.
-   * At least 1 so i18n can still render a sensible required message.
+   * A bound of 0 or an unset value is treated as no minimum.
    *
    * @param minRows - optional minimum row count
    * @param rows - optional container rows used to count selected products
@@ -451,7 +451,7 @@ export class ConfiguratorAttributeBaseComponent {
     minRows?: number,
     rows?: Configurator.ContainerRow[]
   ): number {
-    const effectiveMinRows = minRows || 1;
+    const effectiveMinRows = minRows != null && minRows > 0 ? minRows : 0;
     const selectedRows = rows?.filter((row) => row.selected).length ?? 0;
     return Math.max(effectiveMinRows - selectedRows, 0);
   }
