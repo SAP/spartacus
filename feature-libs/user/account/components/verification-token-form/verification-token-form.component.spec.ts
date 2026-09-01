@@ -29,6 +29,7 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
+import { vi } from 'vitest';
 import {
   ONE_TIME_PASSWORD_LOGIN_PURPOSE,
   OTP_LOGIN_STATE_STORAGE_KEY,
@@ -124,6 +125,7 @@ describe('VerificationTokenFormComponent', () => {
   });
 
   beforeEach(() => {
+    vi.useFakeTimers();
     fixture = TestBed.createComponent(VerificationTokenFormComponent);
     service = TestBed.inject(VerificationTokenFormComponentService);
     launchDialogService = TestBed.inject(LaunchDialogService);
@@ -140,6 +142,10 @@ describe('VerificationTokenFormComponent', () => {
       },
       ''
     );
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it('should create component', () => {

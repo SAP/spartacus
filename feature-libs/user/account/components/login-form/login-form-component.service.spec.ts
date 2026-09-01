@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   ActivatedRoute,
@@ -9,6 +9,7 @@ import {
   AuthConfigService,
   AuthMultisiteIsolationService,
   AuthService,
+  CSRFResponse,
   CsrfStateService,
   FeatureToggles,
   FederatedLoginService,
@@ -21,10 +22,16 @@ import {
 import { FormErrorsModule } from '@spartacus/storefront';
 import { Observable, of, throwError } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
-import { MockFeatureTogglesController, provideMockFeatureToggles } from '@spartacus/core/testing/feature-toggles/mock-feature-toggles';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from '@spartacus/core/testing/feature-toggles/mock-feature-toggles';
 import { Provider } from '@angular/core';
 import { vi } from 'vitest';
-import { LOGIN_ERROR_KEY, SESSION_EXPIRED_ERROR } from '../user-account-constants';
+import {
+  LOGIN_ERROR_KEY,
+  SESSION_EXPIRED_ERROR,
+} from '../user-account-constants';
 
 class MockWinRef {
   localStorage = { setItem: vi.fn(), removeItem: vi.fn() };
@@ -41,7 +48,6 @@ class MockWinRef {
     return true;
   }
 }
-
 class MockAuthService implements Partial<AuthService> {
   loginWithCredentials = vi.fn().mockReturnValue(of({}));
   isUserLoggedIn = vi.fn().mockReturnValue(of(true));
@@ -180,6 +186,7 @@ describe('LoginFormComponentService', () => {
 
   afterEach(() => {
     vi.restoreAllMocks();
+    TestBed.resetTestingModule();
   });
 
   it('should create service', () => {
@@ -227,7 +234,7 @@ describe('LoginFormComponentService', () => {
       beforeEach(() => {
         service.form.setValue({
           userId,
-          password,
+          password
         });
       });
 
@@ -240,9 +247,9 @@ describe('LoginFormComponentService', () => {
       });
 
       it('should reset the form', () => {
-        vi.spyOn(service.form, 'reset').mockImplementation(() => {});
+        const spyReset = vi.spyOn(service.form, 'reset').mockImplementation(() => {});
         service.login();
-        expect(service.form.reset).toHaveBeenCalled();
+        expect(spyReset).toHaveBeenCalled();
       });
     });
 
@@ -278,6 +285,10 @@ describe('LoginFormComponentService', () => {
           useFactory: () => TestBed.inject(MockFeatureTogglesController),
         });
         await TestBed.compileComponents();
+      });
+
+      afterEach(() => {
+        mockFeatureTogglesController?.reset({ ...mockFeatureToggles });
       });
 
       beforeEach(() => {
@@ -494,6 +505,10 @@ describe('LoginFormComponentService', () => {
             useFactory: () => TestBed.inject(MockFeatureTogglesController),
           });
           await TestBed.compileComponents();
+        });
+
+        afterEach(() => {
+          mockFeatureTogglesController?.reset({ ...mockFeatureToggles });
         });
 
         beforeEach(() => {

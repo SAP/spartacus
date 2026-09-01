@@ -137,8 +137,8 @@ const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
 class MockRegisterComponentService
   implements Partial<RegisterComponentService>
 {
-  getTitles = vi.fn().mockReturnValue(of(mockTitlesList));
-  register = vi.fn().mockReturnValue(of(undefined));
+  getTitles = vi.fn();
+  register = vi.fn();
   postRegisterMessage = vi.fn();
   getAdditionalConsents = vi.fn();
   generateAdditionalConsentsFormControl = vi.fn();
@@ -267,6 +267,9 @@ describe('RegisterComponent', () => {
     featureToggles = TestBed.inject(FeatureToggles);
     featureToggles.useEnhancedSecurePasswordValidators = false;
     featureToggles.authorizationCodeFlowByDefault = false;
+
+    (regComponentService.getTitles as any).mockReturnValue(of(mockTitlesList));
+    (regComponentService.register as any).mockReturnValue(of(undefined));
 
     component = fixture.componentInstance;
 

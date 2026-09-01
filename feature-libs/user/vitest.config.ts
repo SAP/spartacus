@@ -17,6 +17,8 @@ export default defineConfig({
   test: {
     pool: 'forks',
     isolate: true,
+    clearMocks: true,
+    restoreMocks: true,
     watch: false,
     globals: true,
     environment: 'jsdom',

@@ -16,7 +16,7 @@ import {
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
-import { BehaviorSubject, of, throwError } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, of, throwError } from 'rxjs';
 import { ResetPasswordComponentService } from './reset-password-component.service';
 import { vi } from 'vitest';
 
@@ -86,6 +86,13 @@ describe('ResetPasswordComponentService', () => {
   });
   describe(' - ', () => {
     beforeEach(() => {
+      routerState$.next({
+        state: {
+          queryParams: {
+            token: resetToken,
+          },
+        },
+      });
       service = TestBed.inject(ResetPasswordComponentService);
 
       userPasswordService = TestBed.inject(UserPasswordFacade);
@@ -123,11 +130,8 @@ describe('ResetPasswordComponentService', () => {
     });
 
     describe('resetToken$', () => {
-      it('should return token', () => {
-        let result;
-        service.resetToken$
-          .subscribe((value) => (result = value))
-          .unsubscribe();
+      it('should return token', async() => {
+        const result = await firstValueFrom(service.resetToken$);
         expect(result).toEqual(resetToken);
       });
 

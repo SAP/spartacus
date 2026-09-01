@@ -40,12 +40,11 @@ import {
   SpinnerComponent,
 } from '@spartacus/storefront';
 import { VerificationTokenFacade } from '@spartacus/user/account/root';
-import { EMPTY, Observable, of, throwError } from 'rxjs';
+import { EMPTY, firstValueFrom, Observable, of, throwError } from 'rxjs';
+import { vi } from 'vitest';
 import { RegisterComponentService } from '../register';
 import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-account-constants';
 import { OneTimePasswordRegisterComponent } from './otp-login-register.component';
-
-import createSpy = jasmine.createSpy;
 
 const mockRegisterFormData: any = {
   titleCode: 'Mr',
@@ -115,7 +114,7 @@ const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
 class MockRegisterComponentService
   implements Partial<RegisterComponentService>
 {
-  getTitles = vi.fn().mockReturnValue(of(mockTitlesList));
+  getTitles = vi.fn();
   getAdditionalConsents = vi.fn();
   generateAdditionalConsentsFormControl = vi.fn();
 }
@@ -159,6 +158,7 @@ describe('OneTimePasswordRegisterComponent', () => {
   let globalMessageService: GlobalMessageService;
   let anonymousConsentService: AnonymousConsentsService;
   let registrationVerificationTokenFacade: VerificationTokenFacade;
+  let regComponentService: RegisterComponentService;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
@@ -232,11 +232,18 @@ describe('OneTimePasswordRegisterComponent', () => {
       VerificationTokenFacade
     );
     mockRoutingService = TestBed.inject(RoutingService);
+    regComponentService = TestBed.inject(RegisterComponentService);
+
+    (regComponentService.getTitles as any).mockReturnValue(of(mockTitlesList));
 
     component = fixture.componentInstance;
 
     fixture.detectChanges();
     controls = component.registerForm.controls;
+  });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
   });
 
   it('should create', () => {
@@ -256,15 +263,11 @@ describe('OneTimePasswordRegisterComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should load titles', () => {
+    it('should load titles', async() => {
       component.ngOnInit();
 
-      let titleList: Title[];
-      component.titles$
-        .subscribe((data) => {
-          titleList = data;
-        })
-        .unsubscribe();
+      let titleList: Title[] = await firstValueFrom(component.titles$);
+
       expect(titleList).toEqual(mockTitlesList);
     });
 

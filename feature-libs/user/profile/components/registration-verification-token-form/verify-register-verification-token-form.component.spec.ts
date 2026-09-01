@@ -139,6 +139,7 @@ describe('RegistrationVerificationTokenFormComponent', () => {
   });
 
   beforeEach(() => {
+    vi.useFakeTimers();
     fixture = TestBed.createComponent(
       RegistrationVerificationTokenFormComponent
     );
@@ -163,6 +164,10 @@ describe('RegistrationVerificationTokenFormComponent', () => {
       },
       ''
     );
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it('should create component', () => {

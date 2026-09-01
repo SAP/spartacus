@@ -3,7 +3,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import {
-  FeatureConfigService,
   FeatureToggles,
   SemanticPathService,
   WindowRef,
@@ -11,6 +10,8 @@ import {
 import { IS_GUEST_USER_CHECKOUT_KEY } from '@spartacus/storefront';
 import { LoginAsGuestGuard } from './login-as-guest.guard';
 import { provideMockFeatureToggles } from '@spartacus/core/testing/feature-toggles/mock-feature-toggles';
+import { vi } from 'vitest';
+import { firstValueFrom } from 'rxjs';
 
 const mockFeatureToggles: FeatureToggles = {
   authorizationCodeFlowByDefault: true,
@@ -18,13 +19,13 @@ const mockFeatureToggles: FeatureToggles = {
 
 const mockWindowRef = {
   localStorage: {
-    getItem: vi.fn().mockReturnValue('true'),
+    getItem: vi.fn(),
     removeItem: vi.fn(),
   },
 };
 
 const mockSemanticPathService = {
-  get: vi.fn().mockReturnValue('loginForm'),
+  get: vi.fn(),
 };
 
 describe('LoginAsGuestGuard', () => {
@@ -36,7 +37,7 @@ describe('LoginAsGuestGuard', () => {
     TestBed.configureTestingModule({
       providers: [
         Router,
-        provideMockFeatureToggles({ ...mockFeatureToggles }),
+        ...provideMockFeatureToggles({ ...mockFeatureToggles }),
         {
           provide: SemanticPathService,
           useValue: mockSemanticPathService,
@@ -53,7 +54,8 @@ describe('LoginAsGuestGuard', () => {
   });
 
   beforeEach(() => {
-    mockWindowRef.localStorage.removeItem.mockClear();
+    mockWindowRef.localStorage.getItem.mockReturnValue('true');
+    mockSemanticPathService.get.mockReturnValue('loginForm');
   });
 
   it('should be created', () => {
@@ -70,11 +72,10 @@ describe('LoginAsGuestGuard', () => {
   });
 
   describe('when authorizationCodeFlowByDefault feature flag is enabled', () => {
-    it('should return url to login with `forced` query param when IS_GUEST_USER_CHECKOUT_KEY is set to true', () => {
+    it('should return url to login with `forced` query param when IS_GUEST_USER_CHECKOUT_KEY is set to true', async () => {
       featureToggles.authorizationCodeFlowByDefault = true;
-      guard.canActivate().subscribe((result) => {
-        expect(result.toString()).toBe('/loginForm?forced=true');
-      });
+      const result = await firstValueFrom(guard.canActivate());
+      expect(result.toString()).toBe('/loginForm?forced=true');
       expect(windowRef.localStorage?.getItem).toHaveBeenCalledWith(
         IS_GUEST_USER_CHECKOUT_KEY
       );
@@ -83,24 +84,22 @@ describe('LoginAsGuestGuard', () => {
       );
     });
 
-    it('should return true if IS_GUEST_USER_CHECKOUT_KEY is not set to true', () => {
+    it('should return true if IS_GUEST_USER_CHECKOUT_KEY is not set to true', async () => {
       featureToggles.authorizationCodeFlowByDefault = true;
       (mockWindowRef.localStorage?.getItem as any).mockReturnValue('false');
-      guard.canActivate().subscribe((result) => {
-        expect(result).toBe(true);
-      });
+      const result = await firstValueFrom(guard.canActivate());
+      expect(result).toBe(true);
       expect(windowRef.localStorage?.getItem).toHaveBeenCalledWith(
         IS_GUEST_USER_CHECKOUT_KEY
       );
       expect(windowRef.localStorage?.removeItem).not.toHaveBeenCalled();
     });
 
-    it('should return true if IS_GUEST_USER_CHECKOUT_KEY is not set', () => {
+    it('should return true if IS_GUEST_USER_CHECKOUT_KEY is not set', async () => {
       featureToggles.authorizationCodeFlowByDefault = true;
       (mockWindowRef.localStorage?.getItem as any).mockReturnValue(null);
-      guard.canActivate().subscribe((result) => {
-        expect(result).toBe(true);
-      });
+      const result = await firstValueFrom(guard.canActivate());
+      expect(result).toBe(true);
       expect(windowRef.localStorage?.getItem).toHaveBeenCalledWith(
         IS_GUEST_USER_CHECKOUT_KEY
       );

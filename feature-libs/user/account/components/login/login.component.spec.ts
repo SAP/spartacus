@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -17,7 +17,7 @@ import { PageSlotComponent } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { LoginComponent } from './login.component';
-import createSpy = jasmine.createSpy;
+import { vi } from 'vitest';
 
 const mockUserDetails: User = {
   displayUid: 'Display Uid',
@@ -70,13 +70,15 @@ class MockUrlPipe implements PipeTransform {
   transform(): void {}
 }
 
-let expectedGreeting = `miniLogin.userGreeting name:${mockUserDetails.name}`;
+let expectedGreeting: string;
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
 
   let authService: AuthService;
+
+  expectedGreeting = `miniLogin.userGreeting name:${mockUserDetails.name}`;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
@@ -184,7 +186,7 @@ describe('LoginComponent', () => {
       component.ngOnInit();
       fixture.detectChanges();
       spy.mockRestore();
-      expectedGreeting = 'Testing;';
+      const localGreeting = 'Testing;';
       const expectedRootNavBtn = fixture.debugElement.query(
         By.css('cx-navigation-ui nav ul li:first-child button')
       );
@@ -192,9 +194,9 @@ describe('LoginComponent', () => {
         target: expectedRootNavBtn.nativeNode,
       } as MutationRecord;
       expect(expectedRootNavBtn.nativeElement.ariaLabel).toBe(null);
-      component.onRootNavBtnAdded(mockedMutation, expectedGreeting);
+      component.onRootNavBtnAdded(mockedMutation, localGreeting);
       expect(expectedRootNavBtn).not.toBeNull();
-      expect(expectedRootNavBtn.nativeElement.ariaLabel).toBe(expectedGreeting);
+      expect(expectedRootNavBtn.nativeElement.ariaLabel).toBe(localGreeting);
     });
 
     it('should  display login when using asm client', () => {

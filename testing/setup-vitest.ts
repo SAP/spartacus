@@ -13,14 +13,10 @@ import {
 import 'zone.js';
 import 'zone.js/testing';
 
-const testBed = getTestBed();
-
 beforeEach(() => {
-  testBed.resetTestingModule();
-});
-
-if (!testBed.platform) {
-  testBed.initTestEnvironment(BrowserTestingModule, platformBrowserTesting(), {
+  getTestBed().resetTestEnvironment();
+  getTestBed().initTestEnvironment(BrowserTestingModule, platformBrowserTesting(), {
     teardown: { destroyAfterEach: true },
   });
-}
+  vi.resetAllMocks();
+});
