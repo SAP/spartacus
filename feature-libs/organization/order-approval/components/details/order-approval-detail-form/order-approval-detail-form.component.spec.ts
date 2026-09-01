@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   Component,
   DebugElement,
@@ -175,16 +176,16 @@ describe('OrderApprovalDetailFormComponent', () => {
 
   it('should have comment as optional for approval.', () => {
     displayDecisionForm(APPROVE);
-    expect(component.approvalForm.valid).toBeTrue();
+    expect(component.approvalForm.valid).toBe(true);
   });
 
   it('should have comment as optional for rejection.', () => {
     displayDecisionForm(REJECT);
-    expect(component.approvalForm.valid).toBeFalse();
+    expect(component.approvalForm.valid).toBe(false);
   });
 
   it('should not submit rejection without comment.', () => {
-    spyOn(orderApprovalService, 'makeDecision').and.stub();
+    vi.spyOn(orderApprovalService, 'makeDecision').mockImplementation(() => {});
     displayDecisionForm(REJECT);
     clickButton('orderApprovalDetails.form.submit_' + REJECT);
     expect(orderApprovalService.makeDecision).not.toHaveBeenCalled();
@@ -235,7 +236,7 @@ describe('OrderApprovalDetailFormComponent', () => {
   }
 
   function submitDecisionForm(decision: OrderApprovalDecisionValue) {
-    spyOn(orderApprovalService, 'makeDecision').and.stub();
+    vi.spyOn(orderApprovalService, 'makeDecision').mockImplementation(() => {});
     const testComment = 'Decision comment ' + decision;
     component.approvalForm.controls.comment.setValue(testComment);
     clickButton('orderApprovalDetails.form.submit_' + decision);

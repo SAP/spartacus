@@ -1,10 +1,11 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   DebugElement,
+  Directive,
+  Input,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -13,13 +14,19 @@ import {
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  FeaturesConfigModule,
-  I18nTestingModule,
+  FeatureDirective,
+  FeaturesConfig,
+  MockTranslatePipe,
   PageMeta,
   PageMetaService,
+  TranslatePipe,
 } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
-import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import {
+  FormErrorsModule,
+  NgSelectA11yDirective,
+  SpinnerComponent,
+} from '@spartacus/storefront';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
@@ -27,26 +34,22 @@ import {
 import { BehaviorSubject, Subject, of } from 'rxjs';
 import { MyAccountV2ProfileComponent } from './my-account-v2-profile.component';
 import { UpdateProfileComponentService } from './update-profile-component.service';
-import createSpy = jasmine.createSpy;
 
 const mockPageMeta: PageMeta = { title: 'Test Title', heading: 'Test Heading' };
 class MockPageMetaService implements Partial<PageMetaService> {
   getMeta = () => of(mockPageMeta);
 }
+
 @Component({
   selector: 'cx-spinner',
-  template: ` <div>spinner</div> `,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    I18nTestingModule,
-    FormErrorsModule,
-    UrlTestingModule,
-    NgSelectModule,
-    FeaturesConfigModule,
-  ],
+  template: '',
 })
 class MockCxSpinnerComponent {}
+
+@Directive({ selector: '[cxNgSelectA11y]' })
+class MockNgSelectA11yDirective {
+  @Input() cxNgSelectA11y: { ariaLabel?: string; ariaControls?: string };
+}
 
 const isBusySubject = new BehaviorSubject(false);
 
@@ -61,7 +64,7 @@ class MockProfileService implements Partial<UpdateProfileComponentService> {
     lastName: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
-  updateProfile = createSpy().and.stub();
+  updateProfile = vi.fn().mockImplementation(() => {});
 }
 
 describe('MyAccountV2ProfileComponent', () => {
@@ -71,43 +74,67 @@ describe('MyAccountV2ProfileComponent', () => {
 
   let service: UpdateProfileComponentService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
-        CommonModule,
         ReactiveFormsModule,
-        I18nTestingModule,
         FormErrorsModule,
-        UrlTestingModule,
         NgSelectModule,
-        FeaturesConfigModule,
         MyAccountV2ProfileComponent,
         MockCxSpinnerComponent,
+        MockNgSelectA11yDirective,
       ],
       providers: [
         {
           provide: UpdateProfileComponentService,
           useClass: MockProfileService,
         },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.2' },
+          },
+        },
         { provide: PageMetaService, useClass: MockPageMetaService },
         ...provideMockFeatureToggles({ a11yFormFieldSectionLegend: true }),
       ],
     })
       .overrideComponent(MyAccountV2ProfileComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        remove: {
+          imports: [
+            TranslatePipe,
+            SpinnerComponent,
+            NgSelectA11yDirective,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCxSpinnerComponent,
+            MockNgSelectA11yDirective,
+            MockFeatureDirective,
+          ],
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2ProfileComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    component.onEdit();
     service = TestBed.inject(UpdateProfileComponentService);
-
-    fixture.detectChanges();
+    fixture.detectChanges(); // trigger ngOnInit first
+    component.onEdit();
   });
+
+  // Helper to run CD without triggering checkNoChanges (avoids NG0100 from
+  // async pipes re-subscribing to synchronously-emitting observables)
+  function detectChanges() {
+    fixture.componentRef.changeDetectorRef.detectChanges();
+  }
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -117,7 +144,7 @@ describe('MyAccountV2ProfileComponent', () => {
     it('should disable the submit button when form is disabled', () => {
       component.form.disable();
       component.onEdit();
-      fixture.detectChanges();
+      detectChanges();
       const submitBtn: HTMLButtonElement = el.query(
         By.css('.btn-primary')
       ).nativeElement;
@@ -126,7 +153,7 @@ describe('MyAccountV2ProfileComponent', () => {
 
     it('should show the spinner', () => {
       isBusySubject.next(true);
-      fixture.detectChanges();
+      detectChanges();
       expect(el.query(By.css('cx-spinner'))).toBeTruthy();
     });
   });
@@ -135,14 +162,14 @@ describe('MyAccountV2ProfileComponent', () => {
     it('should enable the submit button', () => {
       component.form.enable();
       component.onEdit();
-      fixture.detectChanges();
+      detectChanges();
       const submitBtn = el.query(By.css('.btn-primary'));
       expect(submitBtn.nativeElement.disabled).toBeFalsy();
     });
 
     it('should not show the spinner', () => {
       isBusySubject.next(false);
-      fixture.detectChanges();
+      detectChanges();
       expect(el.query(By.css('cx-spinner'))).toBeNull();
     });
   });
@@ -150,7 +177,7 @@ describe('MyAccountV2ProfileComponent', () => {
   describe('idle - display', () => {
     it('should hide the submit button', () => {
       component.ngOnInit();
-      fixture.detectChanges();
+      detectChanges();
       expect(el.query(By.css('form'))).toBeNull();
     });
   });
@@ -158,8 +185,8 @@ describe('MyAccountV2ProfileComponent', () => {
   describe('Form Interactions', () => {
     it('should call onSubmit() method on submit', () => {
       component.onEdit();
-      fixture.detectChanges();
-      const request = spyOn(component, 'onSubmit');
+      detectChanges();
+      const request = vi.spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
       form.triggerEventHandler('submit', null);
       expect(request).toHaveBeenCalled();
@@ -172,8 +199,9 @@ describe('MyAccountV2ProfileComponent', () => {
 
     it('when cancel is called. submit button is not visible', () => {
       component.form.enable();
-      fixture.detectChanges();
+      detectChanges();
       component.cancelEdit();
+      detectChanges();
       const submitBtn = el.query(By.css('button.btn-primary'));
       expect(submitBtn).toBeNull();
     });
@@ -190,7 +218,7 @@ describe('MyAccountV2ProfileComponent', () => {
       beforeEach(() => {
         toggleController.set('a11yFormFieldSectionLegend', true);
         component.onEdit();
-        fixture.detectChanges();
+        detectChanges();
       });
 
       it('should render a fieldset with a visible legend', () => {
@@ -206,7 +234,7 @@ describe('MyAccountV2ProfileComponent', () => {
       beforeEach(() => {
         toggleController.set('a11yFormFieldSectionLegend', false);
         component.onEdit();
-        fixture.detectChanges();
+        detectChanges();
       });
 
       it('should render a fieldset', () => {

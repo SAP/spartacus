@@ -6,6 +6,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { of } from 'rxjs';
+import { vi } from 'vitest';
 import { defaultSmartEditConfig } from '../config/default-smart-edit-config';
 import { SmartEditConfig } from '../config/smart-edit-config';
 import { SmartEditLauncherService } from './smart-edit-launcher.service';
@@ -67,7 +68,7 @@ describe('SmartEditLauncherService', () => {
 
   describe('should get whether Spartacus is launched in SmartEdit', () => {
     it('launched in smartEdit when storefrontPreviewRoute matches, and there is cmsTicketId', () => {
-      spyOn(location, 'path').and.returnValue(
+      vi.spyOn(location, 'path').mockReturnValue(
         '/any/cx-preview?cmsTicketId=test-cms-ticket-id'
       );
       const launched = smartEditLauncherService.isLaunchedInSmartEdit();
@@ -75,7 +76,7 @@ describe('SmartEditLauncherService', () => {
     });
 
     it('not launched in smartEdit when storefrontPreviewRoute does not matches', () => {
-      spyOn(location, 'path').and.returnValue(
+      vi.spyOn(location, 'path').mockReturnValue(
         '/any/cx-something?cmsTicketId=test-cms-ticket-id'
       );
       const launched = smartEditLauncherService.isLaunchedInSmartEdit();
@@ -83,13 +84,13 @@ describe('SmartEditLauncherService', () => {
     });
 
     it('not launched in smartEdit when there is no cmsTicketId', () => {
-      spyOn(location, 'path').and.returnValue('/any/cx-preview');
+      vi.spyOn(location, 'path').mockReturnValue('/any/cx-preview');
       const launched = smartEditLauncherService.isLaunchedInSmartEdit();
       expect(launched).toBeFalsy();
     });
 
     it('should persist cmsTicketId to sessionStorage on initial SmartEdit launch', () => {
-      spyOn(location, 'path').and.returnValue(
+      vi.spyOn(location, 'path').mockReturnValue(
         '/any/cx-preview?cmsTicketId=abc123'
       );
       expect(sessionStorage.getItem('smartedit.cmsTicketId')).toBeNull();
@@ -100,10 +101,9 @@ describe('SmartEditLauncherService', () => {
     });
 
     it('should restore cmsTicketId from sessionStorage when full page redirect occurs after initial launch', () => {
-      spyOn(location, 'path').and.returnValues(
-        '/any/cx-preview?cmsTicketId=abc123',
-        '/any/login/callback?code=auth-code'
-      );
+      vi.spyOn(location, 'path')
+        .mockReturnValueOnce('/any/cx-preview?cmsTicketId=abc123')
+        .mockReturnValueOnce('/any/login/callback?code=auth-code');
       expect(sessionStorage.getItem('smartedit.cmsTicketId')).toBeNull();
       const launched = smartEditLauncherService.isLaunchedInSmartEdit();
       expect(launched).toBeTruthy();
@@ -115,10 +115,9 @@ describe('SmartEditLauncherService', () => {
     });
 
     it('should prefer cmsTicketId from URL over sessionStorage', () => {
-      spyOn(location, 'path').and.returnValues(
-        '/any/cx-preview?cmsTicketId=abc123',
-        '/any/cx-preview?cmsTicketId=def456'
-      );
+      vi.spyOn(location, 'path')
+        .mockReturnValueOnce('/any/cx-preview?cmsTicketId=abc123')
+        .mockReturnValueOnce('/any/cx-preview?cmsTicketId=def456');
       expect(sessionStorage.getItem('smartedit.cmsTicketId')).toBeNull();
       const launched = smartEditLauncherService.isLaunchedInSmartEdit();
       expect(launched).toBeTruthy();
@@ -132,10 +131,10 @@ describe('SmartEditLauncherService', () => {
 
   describe('should lazy load SmartEditModule', () => {
     it('lazy load SmartEditModule', () => {
-      spyOn(location, 'path').and.returnValue(
+      vi.spyOn(location, 'path').mockReturnValue(
         '/any/cx-preview?cmsTicketId=test-cms-ticket-id'
       );
-      spyOn(featureModules, 'resolveFeature').and.callThrough();
+      vi.spyOn(featureModules, 'resolveFeature');
 
       smartEditLauncherService.load();
       expect(featureModules.resolveFeature).toHaveBeenCalledWith('smartEdit');
@@ -143,10 +142,10 @@ describe('SmartEditLauncherService', () => {
   });
 
   it('should be able to load webApplicationInjector.js', () => {
-    spyOn(location, 'path').and.returnValue(
+    vi.spyOn(location, 'path').mockReturnValue(
       '/any/cx-preview?cmsTicketId=test-cms-ticket-id'
     );
-    spyOn(scriptLoader, 'embedScript').and.callThrough();
+    vi.spyOn(scriptLoader, 'embedScript');
 
     smartEditLauncherService.load();
     expect(scriptLoader.embedScript).toHaveBeenCalled();
@@ -154,9 +153,9 @@ describe('SmartEditLauncherService', () => {
 
   describe('SSR behavior', () => {
     it('should not read cmsTicketId from sessionStorage when not in browser', () => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
       sessionStorage.setItem('smartedit.cmsTicketId', 'abc123');
-      spyOn(location, 'path').and.returnValue(
+      vi.spyOn(location, 'path').mockReturnValue(
         '/any/login/callback?code=auth-code'
       );
 
@@ -167,8 +166,8 @@ describe('SmartEditLauncherService', () => {
     });
 
     it('should not store cmsTicketId in sessionStorage when not in browser', () => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(false);
-      spyOn(location, 'path').and.returnValue(
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
+      vi.spyOn(location, 'path').mockReturnValue(
         '/any/cx-preview?cmsTicketId=abc123'
       );
 

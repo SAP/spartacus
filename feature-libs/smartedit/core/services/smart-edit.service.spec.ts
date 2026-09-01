@@ -9,6 +9,7 @@ import {
   ScriptLoader,
 } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
+import { vi } from 'vitest';
 import { defaultSmartEditConfig } from '../../root/config/default-smart-edit-config';
 import { SmartEditConfig } from '../../root/config/smart-edit-config';
 import { SmartEditService } from './smart-edit.service';
@@ -62,8 +63,8 @@ describe('SmartEditService', () => {
     baseSiteService = TestBed.inject(BaseSiteService);
     scriptLoader = TestBed.inject(ScriptLoader);
 
-    spyOn(routingService, 'go').and.stub();
-    spyOn(scriptLoader, 'embedScript').and.callThrough();
+    vi.spyOn(routingService, 'go').mockImplementation(() => {});
+    vi.spyOn(scriptLoader, 'embedScript');
   });
 
   it('should SmartEditService is injected', () => {
@@ -72,13 +73,13 @@ describe('SmartEditService', () => {
 
   describe('should add page contract', () => {
     it('should add CSS classes in body tag', () => {
-      spyOn(baseSiteService, 'get').and.returnValue(
+      vi.spyOn(baseSiteService, 'get').mockReturnValue(
         of({
           defaultPreviewProductCode: 'test product code',
           defaultPreviewCategoryCode: 'test category code',
         })
       );
-      spyOn(cmsService, 'getCurrentPage').and.returnValues(
+      vi.spyOn(cmsService, 'getCurrentPage').mockReturnValueOnce(
         of({
           pageId: 'testPageId',
           properties: {
@@ -149,22 +150,22 @@ describe('SmartEditService', () => {
 
   describe('should render cms components', () => {
     it('should render a slot (refresh page by Id)', () => {
-      spyOn(cmsService, 'clearComponentState').and.stub();
-      spyOn(cmsService, 'refreshPageById').and.stub();
+      vi.spyOn(cmsService, 'clearComponentState').mockImplementation(() => {});
+      vi.spyOn(cmsService, 'refreshPageById').mockImplementation(() => {});
       service['_currentPageId'] = 'testPageId';
       service['renderComponent']('test-slot');
       expect(cmsService.clearComponentState).toHaveBeenCalledWith();
       expect(cmsService.refreshPageById).toHaveBeenCalledWith('testPageId');
     });
     it('should render a slot (refresh latest page)', () => {
-      spyOn(cmsService, 'clearComponentState').and.stub();
-      spyOn(cmsService, 'refreshLatestPage').and.stub();
+      vi.spyOn(cmsService, 'clearComponentState').mockImplementation(() => {});
+      vi.spyOn(cmsService, 'refreshLatestPage').mockImplementation(() => {});
       service['renderComponent']('test-slot');
       expect(cmsService.clearComponentState).toHaveBeenCalledWith();
       expect(cmsService.refreshLatestPage).toHaveBeenCalled();
     });
     it('should render a component', () => {
-      spyOn(cmsService, 'refreshComponent').and.stub();
+      vi.spyOn(cmsService, 'refreshComponent').mockImplementation(() => {});
       service['renderComponent']('test-component', 'banner', 'test-slot');
       expect(cmsService.refreshComponent).toHaveBeenCalledWith(
         'test-component'

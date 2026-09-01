@@ -7,7 +7,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { ReturnRequestList } from '@spartacus/order/root';
-import * as fromProcessReducers from 'core-libs/core/src/process/store/reducers/index';
+import * as fromProcessReducers from '@spartacus/core/process/store/reducers';
 import { of, throwError } from 'rxjs';
 import { OrderActions } from '../store/actions';
 import { ORDER_FEATURE } from '../store/order-state';
@@ -45,7 +45,7 @@ describe('OrderReturnRequestService', () => {
     userIdService = TestBed.inject(UserIdService);
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   it('should OrderReturnRequestService is injected', inject(
@@ -148,7 +148,7 @@ describe('OrderReturnRequestService', () => {
   });
 
   it('should NOT load order return requests list when user is anonymous', () => {
-    spyOn(userIdService, 'takeUserId').and.callFake(() => {
+    vi.spyOn(userIdService, 'takeUserId').mockImplementation(() => {
       return throwError(() => 'Error');
     });
 

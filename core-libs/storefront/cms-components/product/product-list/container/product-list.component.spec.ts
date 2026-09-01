@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
@@ -38,7 +38,6 @@ import {
 } from '../product-view/product-view.component';
 import { ProductListComponentService } from './product-list-component.service';
 import { ProductListComponent } from './product-list.component';
-import createSpy = jasmine.createSpy;
 
 const mockProducts = [
   { code: 'p1', name: 'Product 1' },
@@ -146,7 +145,7 @@ class MockViewConfig {
 }
 
 class MockGlobalMessageService {
-  add = createSpy();
+  add = vi.fn();
 }
 
 describe('ProductListComponent', () => {
@@ -155,16 +154,16 @@ describe('ProductListComponent', () => {
   let componentService: ProductListComponentService;
   let mockModel$: BehaviorSubject<ProductSearchPage>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     mockModel$ = new BehaviorSubject<ProductSearchPage>({
       products: mockProducts,
     } as ProductSearchPage);
 
     class MockProductListComponentService {
-      setQuery = createSpy('setQuery');
-      viewPage = createSpy('viewPage');
-      sort = createSpy('sort');
-      getPageItems = createSpy('getPageItems');
+      setQuery = vi.fn();
+      viewPage = vi.fn();
+      sort = vi.fn();
+      getPageItems = vi.fn();
       model$ = mockModel$;
     }
 
@@ -228,7 +227,7 @@ describe('ProductListComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductListComponent);

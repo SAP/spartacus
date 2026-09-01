@@ -45,8 +45,8 @@ describe('ThemeService', () => {
   });
 
   it('should set new theme ', () => {
-    spyOn(service, 'setTheme');
-    spyOn(mockSiteThemeService, 'getActive').and.returnValue(
+    vi.spyOn(service, 'setTheme');
+    vi.spyOn(mockSiteThemeService, 'getActive').mockReturnValue(
       of('custom-theme')
     );
 
@@ -76,7 +76,7 @@ describe('ThemeService', () => {
   });
 
   it('should clean up subscriptions on destroy', () => {
-    spyOn(service['subscription'], 'unsubscribe').and.callThrough();
+    vi.spyOn(service['subscription'], 'unsubscribe');
     service.ngOnDestroy();
     expect(service['subscription'].unsubscribe).toHaveBeenCalled();
   });

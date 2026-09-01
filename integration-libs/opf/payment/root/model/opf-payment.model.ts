@@ -200,9 +200,12 @@ export interface OpfPaymentUpdateConfig {
 }
 
 export interface OpfPaymentUpdatePayload {
+  configurationId?: string;
   channel?: string;
   browserInfo?: OpfPaymentBrowserInfo;
   additionalData?: Array<OpfKeyValueMap>;
+  resultURL?: string;
+  cancelURL?: string;
 }
 
 export interface OpfPaymentConfig {

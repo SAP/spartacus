@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { StateUtils } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import {
@@ -117,11 +117,11 @@ function mergeChangesAndGetFirstGroup(
 describe('ConfiguratorUtilsService', () => {
   let classUnderTest: ConfiguratorUtilsService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [ConfiguratorUtilsService],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     classUnderTest = TestBed.inject(
