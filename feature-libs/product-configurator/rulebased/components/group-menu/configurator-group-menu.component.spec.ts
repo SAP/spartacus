@@ -212,10 +212,11 @@ class MockConfiguratorStorefrontUtilsService {
   }
 
   scrollToConfigurationElement(): void {}
-
   setFocus(): void {}
-
   focusFirstActiveElement(): void {}
+  isCartEntryOrGroupVisited(): Observable<boolean> {
+    return of(mockGroupVisited);
+  }
 }
 
 let component: ConfiguratorGroupMenuComponent;
@@ -312,6 +313,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
     configUtils = TestBed.inject(ConfiguratorStorefrontUtilsService);
     spyOn(configUtils, 'setFocus').and.stub();
     spyOn(configUtils, 'focusFirstActiveElement').and.stub();
+    spyOn(configUtils, 'isCartEntryOrGroupVisited').and.callThrough();
 
     configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     configuratorUtils.setOwnerKey(mockProductConfiguration.owner);
@@ -673,7 +675,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
         .pipe(take(1))
         .subscribe();
 
-      expect(configuratorGroupsService.isGroupVisited).toHaveBeenCalled();
+      expect(configUtils.isCartEntryOrGroupVisited).toHaveBeenCalled();
       expect(configuratorGroupsService.isConflictGroupType).toHaveBeenCalled();
     });
 
@@ -1352,7 +1354,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
         });
     });
 
-    it('should return appropriate (only inListOfGroups) aria-describedby if group is complete, consistent and type is CPQ', (done) => {
+    it('should return appropriate (ICONSUCCESS) aria-describedby if group is complete, consistent and type is CPQ', (done) => {
       clonedProductConfiguration.groups[1].complete = true;
       clonedProductConfiguration.groups[1].consistent = true;
       clonedProductConfiguration.owner.configuratorType = typeCPQ;
@@ -1365,7 +1367,9 @@ describe('ConfiguratorGroupMenuComponent', () => {
         )
         .pipe(take(1))
         .subscribe((describedby) => {
-          expect(describedby.trim()).toEqual('inListOfGroups');
+          expect(describedby.trim()).toEqual(
+            'ICONSUCCESS1234-56-7892 inListOfGroups'
+          );
           done();
         });
     });

@@ -117,7 +117,9 @@ export class CpqConfiguratorNormalizer
     flatGroupList: Configurator.Group[],
     containers?: Cpq.Container[],
     containerRowId?: string,
-    parentRowGroupId?: string
+    parentRowGroupId?: string,
+    parentGroup?: Configurator.Group,
+    ancestorGroups: Configurator.Group[] = []
   ) {
     const groupId = this.createTabGroupId(source.id, parentRowGroupId);
     const attributes: Configurator.Attribute[] = [];
@@ -150,6 +152,8 @@ export class CpqConfiguratorNormalizer
     groupList.push(group);
 
     this.attachContainers(group, containers, currency, flatGroupList);
+    const ancestors = parentGroup ? [parentGroup, ...ancestorGroups] : [];
+    this.compileGroupComplete(group, ancestors);
   }
 
   /**
@@ -206,6 +210,7 @@ export class CpqConfiguratorNormalizer
     flatGroupList.push(group);
 
     this.attachContainers(group, containers, currency, flatGroupList);
+    this.compileGroupComplete(group);
   }
 
   protected isUITypeReadOnly(attribute: Configurator.Attribute): boolean {
@@ -665,7 +670,9 @@ export class CpqConfiguratorNormalizer
   }
 
   /**
-   * Marks a container attribute as incomplete when the number of selected rows is less than the minimum required rows.
+   * Marks a container attribute as incomplete when the total number of selected
+   * rows is below the container `minRows`, or when the number of selected
+   * instances of a product is below that product row's `minRows`.
    *
    * @param attribute - converted attribute
    * @protected
@@ -673,10 +680,62 @@ export class CpqConfiguratorNormalizer
   protected compileAttributeIncompleteContainer(
     attribute: Configurator.Attribute
   ): void {
-    const selectedRows =
-      attribute.container?.rows?.filter((row) => row.selected).length ?? 0;
-    const minRows = attribute.container?.minRows ?? 0;
-    attribute.incomplete = selectedRows < minRows;
+    const rows = attribute.container?.rows ?? [];
+    const totalSelectedRows = rows.filter((row) => row.selected).length;
+    const containerMinRows = attribute.container?.minRows ?? 0;
+
+    if (containerMinRows > 0 && totalSelectedRows < containerMinRows) {
+      attribute.incomplete = true;
+      return;
+    }
+
+    attribute.incomplete = this.hasContainerRowMinRowsNotMet(rows);
+  }
+
+  /**
+   * Returns whether any product row's `minRows` requirement is not met.
+   * Requirements are evaluated per product (`productSystemId`), falling back
+   * to the row `id` when no product system id is present.
+   *
+   * @param rows - container rows
+   * @returns `true` when at least one row `minRows` is not satisfied
+   * @protected
+   */
+  protected hasContainerRowMinRowsNotMet(
+    rows: Configurator.ContainerRow[]
+  ): boolean {
+    const requirements = new Map<
+      string,
+      {
+        minRows: number;
+        match: (row: Configurator.ContainerRow) => boolean;
+      }
+    >();
+
+    rows.forEach((row) => {
+      const minRows = row.minRows ?? 0;
+      if (minRows <= 0) {
+        return;
+      }
+
+      const productKey = row.productSystemId ?? `id:${row.id}`;
+      const existing = requirements.get(productKey);
+      if (!existing || minRows > existing.minRows) {
+        requirements.set(productKey, {
+          minRows,
+          match: row.productSystemId
+            ? (entry) => entry.productSystemId === row.productSystemId
+            : (entry) => entry.id === row.id,
+        });
+      }
+    });
+
+    return Array.from(requirements.values()).some(({ minRows, match }) => {
+      const selectedCount = rows.filter(
+        (row) => row.selected && match(row)
+      ).length;
+      return selectedCount < minRows;
+    });
   }
 
   protected hasValueToBeIgnored(
@@ -694,6 +753,61 @@ export class CpqConfiguratorNormalizer
         value.paV_ID === 0) ??
       false
     );
+  }
+
+  /**
+   * Sets the group's completeness to `false` when any attribute in the group
+   * or any subgroup is incomplete, propagates incompleteness down to a single
+   * subgroup, and propagates incompleteness to all ancestor groups.
+   *
+   * @param group - converted group
+   * @param ancestorGroups - parent groups up to the root
+   * @protected
+   */
+  protected compileGroupComplete(
+    group: Configurator.Group,
+    ancestorGroups: Configurator.Group[] = []
+  ): void {
+    if (group.attributes?.some((attribute) => attribute.incomplete)) {
+      group.complete = false;
+    }
+    if (group.subGroups.some((subGroup) => subGroup.complete === false)) {
+      group.complete = false;
+    }
+    if (group.complete === false) {
+      this.propagateGroupIncompletenessToSingleSubGroup(group);
+      this.propagateGroupIncompletenessToAncestors(ancestorGroups);
+    }
+  }
+
+  /**
+   * Propagates incompleteness to the only subgroup when the parent group has
+   * exactly one child. This is required for nested container-row groups that
+   * are condensed with their single tab in the group menu.
+   *
+   * @param group - converted group
+   * @protected
+   */
+  protected propagateGroupIncompletenessToSingleSubGroup(
+    group: Configurator.Group
+  ): void {
+    if (group.subGroups.length === 1) {
+      group.subGroups[0].complete = false;
+    }
+  }
+
+  /**
+   * Marks all ancestor groups as incomplete.
+   *
+   * @param ancestorGroups - parent groups up to the root
+   * @protected
+   */
+  protected propagateGroupIncompletenessToAncestors(
+    ancestorGroups: Configurator.Group[]
+  ): void {
+    ancestorGroups.forEach((ancestor) => {
+      ancestor.complete = false;
+    });
   }
 
   /**
@@ -728,18 +842,24 @@ export class CpqConfiguratorNormalizer
   }
 
   /**
-   * Marks a container attribute as required when `minRows` is at least 1,
-   * even if the source CPQ attribute is not required. CPQ signals a
-   * container as non-complete in case nothing is selected even if it's marked as non-required
-   * attribute in CPQ modeling
+   * Marks a container attribute as required when the container or any of its
+   * rows has `minRows` of at least 1, even if the source CPQ attribute is not
+   * required. CPQ signals a container as non-complete in case nothing is
+   * selected even if it's marked as non-required attribute in CPQ modeling.
    *
    * @param attribute - converted attribute
    */
   protected applyContainerRequired(attribute: Configurator.Attribute): void {
-    if (
-      attribute.uiType === Configurator.UiType.CONTAINER &&
-      (attribute.container?.minRows ?? 0) >= 1
-    ) {
+    if (attribute.uiType !== Configurator.UiType.CONTAINER) {
+      return;
+    }
+
+    const hasContainerMinRows = (attribute.container?.minRows ?? 0) >= 1;
+    const hasRowMinRows = attribute.container?.rows?.some(
+      (row) => (row.minRows ?? 0) >= 1
+    );
+
+    if (hasContainerMinRows || hasRowMinRows) {
       attribute.required = true;
     }
   }
@@ -791,7 +911,8 @@ export class CpqConfiguratorNormalizer
         source,
         attrCode,
         currency,
-        flatGroupList
+        flatGroupList,
+        parentGroup
       );
       parentGroup.subGroups.push(rowGroup);
       row.groupId = rowGroup.id;
@@ -805,7 +926,8 @@ export class CpqConfiguratorNormalizer
     row: Cpq.ContainerRow,
     attrCode: number,
     currency: string,
-    flatGroupList: Configurator.Group[]
+    flatGroupList: Configurator.Group[],
+    parentGroup: Configurator.Group
   ): Configurator.Group {
     const rowGroup: Configurator.Group = {
       id: `${Configurator.ContainerRowGroupIdPrefix}@${attrCode}@${row.id}`,
@@ -820,6 +942,7 @@ export class CpqConfiguratorNormalizer
       messages: this.convertMessages(source.messages),
     };
 
+    const ancestors = [parentGroup];
     source.tabs?.forEach((tab) =>
       this.convertGroup(
         tab,
@@ -829,9 +952,13 @@ export class CpqConfiguratorNormalizer
         flatGroupList,
         source.containers,
         row.id,
-        rowGroup.id
+        rowGroup.id,
+        rowGroup,
+        ancestors
       )
     );
+
+    this.compileGroupComplete(rowGroup, ancestors);
 
     return rowGroup;
   }
