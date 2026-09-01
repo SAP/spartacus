@@ -133,7 +133,7 @@ export class ConfiguratorAttributeContainerComponent
     configuration: Configurator.Configuration,
     showRequiredMessage: boolean
   ): Record<string, ConfiguratorMessageGroup[]> {
-    const map: Record<string, ConfiguratorMessageGroup[]> = {};
+    const messagesMap: Record<string, ConfiguratorMessageGroup[]> = {};
     const rows = this.getContainerRows();
     rows.forEach((row) => {
       const view = this.getRowMessages(
@@ -142,9 +142,9 @@ export class ConfiguratorAttributeContainerComponent
         rows,
         showRequiredMessage
       );
-      map[row.id] = this.getRowMessageGroups(view, !!row.selected);
+      messagesMap[row.id] = this.getRowMessageGroups(view, !!row.selected);
     });
-    return map;
+    return messagesMap;
   }
 
   /**
@@ -187,8 +187,8 @@ export class ConfiguratorAttributeContainerComponent
         includeRequiredError: showRequiredMessage,
         getContainerRowInfoKey: (minRows, maxRows) =>
           this.getContainerRowInfoKey(minRows, maxRows),
-        getContainerRequiredMessageKey: (minRows, rows) =>
-          this.getContainerRequiredMessageKey(minRows, rows),
+        getContainerRequiredMessageKey: (minRows, containerRows) =>
+          this.getContainerRequiredMessageKey(minRows, containerRows),
       }
     );
   }
