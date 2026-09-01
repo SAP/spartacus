@@ -287,10 +287,6 @@ describe('LoginFormComponentService', () => {
         await TestBed.compileComponents();
       });
 
-      afterEach(() => {
-        mockFeatureTogglesController?.reset({ ...mockFeatureToggles });
-      });
-
       beforeEach(() => {
         mockFeatureTogglesController = TestBed.inject(
           MockFeatureTogglesController
@@ -505,10 +501,6 @@ describe('LoginFormComponentService', () => {
             useFactory: () => TestBed.inject(MockFeatureTogglesController),
           });
           await TestBed.compileComponents();
-        });
-
-        afterEach(() => {
-          mockFeatureTogglesController?.reset({ ...mockFeatureToggles });
         });
 
         beforeEach(() => {

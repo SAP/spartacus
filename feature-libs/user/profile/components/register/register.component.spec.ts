@@ -42,11 +42,12 @@ import {
   PasswordVisibilityToggleModule,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import { EMPTY, Observable, Subject, of } from 'rxjs';
+import { EMPTY, Observable, Subject, firstValueFrom, of } from 'rxjs';
 import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';
 import { vi } from 'vitest';
 import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/feature-toggles';
 
 const mockSecurePassword = 'strongPas$!123';
 const mockInvalidPassword = 'strongPas$!123|';
@@ -180,10 +181,9 @@ describe('RegisterComponent', () => {
   let anonymousConsentService: AnonymousConsentsService;
   let authConfigService: AuthConfigService;
   let registerComponentService: RegisterComponentService;
-  let featureToggles: FeatureToggles;
 
-  beforeEach(async () => {
-    TestBed.configureTestingModule({
+  const configureTestBed = async (featureToggles: { [key: string]: any }) => {
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         FormErrorsModule,
@@ -231,6 +231,10 @@ describe('RegisterComponent', () => {
           provide: LanguageService,
           useClass: MockLanguageService,
         },
+        {
+          provide: FeatureToggles,
+          useValue: {...featureToggles},
+        },
       ],
     })
       .overrideComponent(RegisterComponent, {
@@ -254,6 +258,13 @@ describe('RegisterComponent', () => {
         },
       })
       .compileComponents();
+  };
+
+  beforeEach(async () => {
+    await configureTestBed({
+      useEnhancedSecurePasswordValidators: false,
+      authorizationCodeFlowByDefault: false,
+    });
   });
 
   beforeEach(() => {
@@ -264,9 +275,6 @@ describe('RegisterComponent', () => {
     anonymousConsentService = TestBed.inject(AnonymousConsentsService);
     authConfigService = TestBed.inject(AuthConfigService);
     registerComponentService = TestBed.inject(RegisterComponentService);
-    featureToggles = TestBed.inject(FeatureToggles);
-    featureToggles.useEnhancedSecurePasswordValidators = false;
-    featureToggles.authorizationCodeFlowByDefault = false;
 
     (regComponentService.getTitles as any).mockReturnValue(of(mockTitlesList));
     (regComponentService.register as any).mockReturnValue(of(undefined));
@@ -294,14 +302,10 @@ describe('RegisterComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should load titles', () => {
+    it('should load titles', async () => {
       component.ngOnInit();
-
-      component.titles$
-        .subscribe((data) => {
-          expect(data).toEqual(mockTitlesList);
-        })
-        .unsubscribe();
+      const title = await firstValueFrom(component.titles$);
+      expect(title).toEqual(mockTitlesList);
     });
 
     it('should handle error when title code is required from the backend config', () => {
@@ -451,7 +455,9 @@ describe('RegisterComponent', () => {
     });
 
     it('should disable input when register consent is required', () => {
-      vi.spyOn<any, any>(component, isConsentRequiredMethod).mockReturnValue(true);
+      vi.spyOn<any, any>(component, isConsentRequiredMethod).mockReturnValue(
+        true
+      );
       fixture.detectChanges();
       fixture.detectChanges();
       expect(controls['newsletter'].status).toEqual('DISABLED');
@@ -497,8 +503,15 @@ describe('RegisterComponent', () => {
   });
 
   describe('password validators', () => {
+    beforeEach(() => {
+      TestBed.resetTestingModule();
+    });
     it('should validate password ends with legal character when useEnhancedSecurePasswordValidators is enabled', () => {
-      featureToggles.useEnhancedSecurePasswordValidators = true;
+
+      configureTestBed({
+        useEnhancedSecurePasswordValidators: true,
+        authorizationCodeFlowByDefault: false,
+      });
 
       fixture = TestBed.createComponent(RegisterComponent);
       component = fixture.componentInstance;
