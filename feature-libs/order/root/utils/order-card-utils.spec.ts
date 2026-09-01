@@ -223,54 +223,5 @@ describe('Order Card utils', () => {
         mockPaymentDetails.billingAddress?.postalCode,
       ]);
     });
-
-    describe('addTitleToAddressCard feature toggle', () => {
-      const mockPaymentDetailsWithTitle: PaymentDetails = {
-        ...mockPaymentDetails,
-        billingAddress: {
-          ...mockPaymentDetails.billingAddress,
-          title: 'Dr.',
-        },
-      };
-
-      it('should not prefix the title when the flag is not provided (default)', () => {
-        const card = billingAddressCard(
-          'title',
-          'billTo',
-          mockPaymentDetailsWithTitle
-        );
-        expect(card.text?.[1]).toEqual('John Smith');
-      });
-
-      it('should prefix the title when the flag is true and the billing address has a title', () => {
-        const card = billingAddressCard(
-          'title',
-          'billTo',
-          mockPaymentDetailsWithTitle,
-          true
-        );
-        expect(card.text?.[1]).toEqual('Dr. John Smith');
-      });
-
-      it('should not prefix the title when the flag is true but the billing address has no title', () => {
-        const card = billingAddressCard(
-          'title',
-          'billTo',
-          mockPaymentDetails,
-          true
-        );
-        expect(card.text?.[1]).toEqual('John Smith');
-      });
-
-      it('should not prefix the title when the flag is false even if the billing address has a title', () => {
-        const card = billingAddressCard(
-          'title',
-          'billTo',
-          mockPaymentDetailsWithTitle,
-          false
-        );
-        expect(card.text?.[1]).toEqual('John Smith');
-      });
-    });
   });
 });

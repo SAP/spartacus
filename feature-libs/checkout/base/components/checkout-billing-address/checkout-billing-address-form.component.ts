@@ -17,7 +17,6 @@ import {
   Address,
   AddressValidation,
   Country,
-  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   Region,
@@ -84,7 +83,6 @@ export class CheckoutBillingAddressFormComponent implements OnInit {
   protected billingAddressFormService = inject(
     CheckoutBillingAddressFormService
   );
-  private featureToggles = inject(FeatureToggles);
   ngOnInit(): void {
     this.countries$ = this.userPaymentService.getAllBillingCountries().pipe(
       tap((countries) => {
@@ -212,10 +210,7 @@ export class CheckoutBillingAddressFormComponent implements OnInit {
             const fullName = address.firstName + ' ' + address.lastName;
 
             return {
-              textBold:
-                this.featureToggles.addTitleToAddressCard && !!address.title
-                  ? address.title + ' ' + fullName
-                  : fullName,
+              textBold: fullName,
               text: [
                 address.line1,
                 address.line2,

@@ -7,7 +7,6 @@ import {
   Address,
   AddressValidation,
   Country,
-  FeatureToggles,
   GlobalMessageService,
   I18nTestingModule,
   UserAddressService,
@@ -98,7 +97,6 @@ describe('CheckoutBillingAddressFormComponent', () => {
   let mockUserPaymentService: MockUserPaymentService;
   let mockGlobalMessageService: MockGlobalMessageService;
   let userAddressService: UserAddressService;
-  let featureToggles: FeatureToggles;
 
   beforeEach(async () => {
     mockCheckoutDeliveryService = new MockCheckoutDeliveryService();
@@ -136,7 +134,6 @@ describe('CheckoutBillingAddressFormComponent', () => {
 
   beforeEach(() => {
     userAddressService = TestBed.inject(UserAddressService);
-    featureToggles = TestBed.inject(FeatureToggles);
     fixture = TestBed.createComponent(CheckoutBillingAddressFormComponent);
     component = fixture.componentInstance;
   });
@@ -226,47 +223,6 @@ describe('CheckoutBillingAddressFormComponent', () => {
       'zip',
       undefined,
     ]);
-  });
-
-  describe('addTitleToAddressCard feature toggle', () => {
-    const addressWithTitle: Address = {
-      ...mockAddress,
-      title: 'Mr.',
-    };
-    const addressWithoutTitle: Address = {
-      ...mockAddress,
-      title: undefined,
-    };
-
-    it('should not prepend the title when the toggle is OFF', async () => {
-      featureToggles.addTitleToAddressCard = false;
-
-      const card = await firstValueFrom(
-        component.getAddressCardContent(addressWithTitle)
-      );
-
-      expect(card?.textBold).toEqual('John Doe');
-    });
-
-    it('should prepend the title when the toggle is ON and the address has a title', async () => {
-      featureToggles.addTitleToAddressCard = true;
-
-      const card = await firstValueFrom(
-        component.getAddressCardContent(addressWithTitle)
-      );
-
-      expect(card?.textBold).toEqual('Mr. John Doe');
-    });
-
-    it('should not prepend the title when the toggle is ON but the address has no title', async () => {
-      featureToggles.addTitleToAddressCard = true;
-
-      const card = await firstValueFrom(
-        component.getAddressCardContent(addressWithoutTitle)
-      );
-
-      expect(card?.textBold).toEqual('John Doe');
-    });
   });
 
   it('should call verifyAddress() when billing address not same as shipping', () => {

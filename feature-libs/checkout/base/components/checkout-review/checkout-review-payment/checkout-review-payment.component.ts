@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   CheckoutPaymentFacade,
@@ -13,7 +13,6 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   FeatureDirective,
-  FeatureToggles,
   PaymentDetails,
   TranslatePipe,
   TranslationService,
@@ -48,7 +47,6 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   ],
 })
 export class CheckoutReviewPaymentComponent {
-  private featureToggles = inject(FeatureToggles);
   iconTypes = ICON_TYPE;
 
   paymentDetailsStepRoute = this.checkoutStepService.getCheckoutStepRoute(
@@ -87,12 +85,7 @@ export class CheckoutReviewPaymentComponent {
       this.translationService.translate('addressCard.billTo'),
     ]).pipe(
       map(([billingAddress, billTo]) =>
-        billingAddressCard(
-          billingAddress,
-          billTo,
-          paymentDetails,
-          this.featureToggles.addTitleToAddressCard
-        )
+        billingAddressCard(billingAddress, billTo, paymentDetails)
       )
     );
   }

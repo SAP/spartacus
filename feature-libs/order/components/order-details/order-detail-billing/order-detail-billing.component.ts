@@ -5,13 +5,9 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
-import {
-  FeatureToggles,
-  PaymentDetails,
-  TranslationService,
-} from '@spartacus/core';
+import { PaymentDetails, TranslationService } from '@spartacus/core';
 import {
   Order,
   billingAddressCard,
@@ -29,7 +25,6 @@ import { OrderDetailsService } from '../order-details.service';
   imports: [NgIf, CardComponent, AsyncPipe, OutletModule],
 })
 export class OrderDetailBillingComponent {
-  private featureToggles = inject(FeatureToggles);
   order$: Observable<Order | undefined> =
     this.orderDetailsService.getOrderDetails();
   readonly cartOutlets = CartOutlets;
@@ -58,12 +53,7 @@ export class OrderDetailBillingComponent {
       this.translationService.translate('addressCard.billTo'),
     ]).pipe(
       map(([billingAddress, billTo]) =>
-        billingAddressCard(
-          billingAddress,
-          billTo,
-          paymentDetails,
-          this.featureToggles.addTitleToAddressCard
-        )
+        billingAddressCard(billingAddress, billTo, paymentDetails)
       )
     );
   }

@@ -16,7 +16,6 @@ import {
 import {
   CxDatePipe,
   FeatureConfigService,
-  FeatureToggles,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
@@ -31,7 +30,6 @@ import {
   FocusDirective,
 } from '@spartacus/storefront';
 import { IconTestingModule } from '@spartacus/storefront/testing/icon-testing-module';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { of } from 'rxjs';
 import { vi } from 'vitest';
 import { CheckoutStepService } from '../../services/checkout-step.service';
@@ -280,99 +278,5 @@ describe('CheckoutReviewPaymentComponent - a11yImproveCheckoutFocus', () => {
       ).toBeTruthy();
       expect(() => summary.injector.get(MockFocusDirective)).toThrow();
     });
-  });
-});
-
-describe('CheckoutReviewPaymentComponent - addTitleToAddressCard feature toggle', () => {
-  let component: CheckoutReviewPaymentComponent;
-  let fixture: ComponentFixture<CheckoutReviewPaymentComponent>;
-
-  const mockPaymentDetailsWithTitle: PaymentDetails = {
-    ...mockPaymentDetails,
-    billingAddress: {
-      ...mockPaymentDetails.billingAddress,
-      title: 'Mr.',
-    },
-  };
-  const mockPaymentDetailsWithoutTitle: PaymentDetails = {
-    ...mockPaymentDetails,
-    billingAddress: {
-      ...mockPaymentDetails.billingAddress,
-      title: undefined,
-    },
-  };
-
-  async function configure(addTitleToAddressCard: boolean) {
-    await TestBed.configureTestingModule({
-      imports: [
-        RouterModule.forRoot([]),
-        IconTestingModule,
-        CheckoutReviewPaymentComponent,
-      ],
-      providers: [
-        {
-          provide: CheckoutPaymentFacade,
-          useClass: MockCheckoutPaymentService,
-        },
-        {
-          provide: CheckoutStepService,
-          useClass: MockCheckoutStepService,
-        },
-        provideMockFeatureToggles({ addTitleToAddressCard }),
-      ],
-    })
-      .overrideComponent(CheckoutReviewPaymentComponent, {
-        remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe, CardComponent],
-        },
-        add: {
-          imports: [
-            MockTranslatePipe,
-            MockDatePipe,
-            MockUrlPipe,
-            MockCardComponent,
-          ],
-        },
-      })
-      .compileComponents();
-
-    fixture = TestBed.createComponent(CheckoutReviewPaymentComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  }
-
-  it('should NOT prepend the title to the billing name when the toggle is OFF', async () => {
-    await configure(false);
-    let card: Card | undefined;
-    component
-      .getBillingAddressCard(mockPaymentDetailsWithTitle)
-      .subscribe((c) => (card = c));
-
-    expect(card?.text?.[1]).toEqual('John Smith');
-  });
-
-  it('should prepend the title to the billing name when the toggle is ON and a title is present', async () => {
-    await configure(true);
-    let card: Card | undefined;
-    component
-      .getBillingAddressCard(mockPaymentDetailsWithTitle)
-      .subscribe((c) => (card = c));
-
-    expect(card?.text?.[1]).toEqual('Mr. John Smith');
-  });
-
-  it('should NOT prepend the title to the billing name when the toggle is ON but no title is present', async () => {
-    await configure(true);
-    let card: Card | undefined;
-    component
-      .getBillingAddressCard(mockPaymentDetailsWithoutTitle)
-      .subscribe((c) => (card = c));
-
-    expect(card?.text?.[1]).toEqual('John Smith');
-  });
-
-  it('should reflect the toggle value read from the injected FeatureToggles', async () => {
-    await configure(true);
-    expect(TestBed.inject(FeatureToggles).addTitleToAddressCard).toBe(true);
   });
 });

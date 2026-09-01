@@ -115,23 +115,15 @@ export function paymentMethodCard(
 export function billingAddressCard(
   textTitle: string,
   textBillTo: string,
-  paymentDetails: PaymentDetails,
-  addTitleToAddressCard = false
+  paymentDetails: PaymentDetails
 ): Card {
   const region = paymentDetails.billingAddress?.region?.isocode
     ? paymentDetails.billingAddress?.region?.isocode + ', '
     : '';
-  let fullName =
+  const fullName =
     paymentDetails.billingAddress?.firstName +
     ' ' +
     paymentDetails.billingAddress?.lastName;
-  if (
-    addTitleToAddressCard &&
-    !!paymentDetails.billingAddress?.title &&
-    fullName
-  ) {
-    fullName = paymentDetails.billingAddress.title + ' ' + fullName;
-  }
   return {
     title: textTitle,
     text: [
