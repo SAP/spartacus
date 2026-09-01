@@ -165,12 +165,15 @@
             placeholder="{{ 'addressForm.aptSuite' | cxTranslate }}"
             formControlName="line2"
             [attr.aria-invalid]="
-              billingAddressForm.get('line2')?.touched &&
-              billingAddressForm.get('line2')?.invalid
+              isMaxLengthEnabled
+                ? billingAddressForm.get('line2')?.touched &&
+                  billingAddressForm.get('line2')?.invalid
+                : null
             "
-            [attr.aria-errormessage]="'line2Error'"
+            [attr.aria-errormessage]="isMaxLengthEnabled ? 'line2Error' : null"
           />
           <cx-form-errors
+            *ngIf="isMaxLengthEnabled"
             id="line2Error"
             [translationParams]="{
               label: 'addressForm.address2' | cxTranslate,
