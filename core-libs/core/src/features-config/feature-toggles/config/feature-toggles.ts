@@ -151,17 +151,6 @@ export interface FeatureTogglesInterface {
   cdsBottomHeaderSlotAdjustPosition?: boolean;
 
   /**
-   * Feature flag to enable using the new LOGIN_EVENTS token instead of the ActionsSubject LOGIN stream for tracking.
-   *
-   * When enabled, the new LOGIN_EVENTS token will be used instead of the ActionsSubject LOGIN stream.
-   * This is needed to support code flow authentication. If we are using the ActionsSubject LOGIN stream,
-   * the login event won't be captured once we are redirected back from the auth server.
-   *
-   * Used in `ProfileTagLifecycleService`
-   */
-  cdsLoginEventsToken?: boolean;
-
-  /**
    * When enabled, sets the default oAuth configuration to use authorization code flow with PKCE.
    * This results in a more secure authorization scheme as the default configuration.
    *
@@ -181,28 +170,6 @@ export interface FeatureTogglesInterface {
    * NOTE: Only applies when `authorizationCodeFlowByDefault` is also enabled.
    */
   authorizationCodeFlowByDefaultCsrfTokenRefresh?: boolean;
-
-  /**
-   * Feature flag to enable incrementing the processes count for the merge cart action.
-   *
-   * When enabled, the processes count will be incremented for the merge cart action.
-   * This is needed to prevent premature cart loading, that especially affects the authorization code flow that requires redirection to the auth server and back.
-   */
-  incrementProcessesCountForMergeCart?: boolean;
-
-  /**
-   * Controls when the Login action is dispatched during OAuth URL parameter checking.
-   *
-   * When set to `true`, enables the new behavior where the Login action is only dispatched when
-   * `tokenReceived` is true, meaning the token was received during the current `tryLogin()` attempt.
-   *
-   * When set to `false`, maintains the legacy behavior where the Login action will be dispatched in all
-   * successful login scenarios during `checkOAuthParamsInUrl()`, regardless of whether the token was
-   * received in the current attempt or retrieved from storage (e.g., page refresh).
-   *
-   * Affects: `AuthService`
-   */
-  dispatchLoginActionOnlyWhenTokenReceived?: boolean;
 
   /**
    * When this feature toggle is enabled, the navigation menu will close when clicking on the same link.
@@ -729,11 +696,11 @@ export interface FeatureTogglesInterface {
 
   /**
    * When enabled, the address form applies the `cxFocus` directive with autofocus
-   * to manage initial keyboard focus.
+   * to manage initial keyboard focus and uses new directive cxFocusFirstInvalidField.
    *
    * Affects: `AddressFormComponent`
    */
-  a11yAddressFormInitialFocus?: boolean;
+  a11yImproveAddressFormFocus?: boolean;
 
   /**
    * When enabled, after navigating to a `CategoryPage` (e.g. a Product Listing Page)
@@ -825,11 +792,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPreventWindowsHighContrastOverride: false,
   productListItemSummaryReadMore: false,
   a11yFutureStockAccordionAriaControls: true,
-  cdsLoginEventsToken: true,
   authorizationCodeFlowByDefault: true,
   authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
-  incrementProcessesCountForMergeCart: true,
-  dispatchLoginActionOnlyWhenTokenReceived: true,
   navigationMenuCloseOnSameLinkClick: true,
   enablePasswordExpiredErrorTranslation: true,
   enableQuotePurchaseOrderNumber: true,
@@ -899,7 +863,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFormErrorIconContrast: false,
   a11yFocusIndicatorContrast: false,
   a11yDisabledButtonContrast: false,
-  a11yAddressFormInitialFocus: false,
+  a11yImproveAddressFormFocus: false,
   a11yFocusBreadcrumbOnNavigation: false,
   cartValidationDisplayBackendMessages: false,
   configuratorIssuesNotificationForConfigurableOnly: false,

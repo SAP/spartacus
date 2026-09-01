@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import {
   ChangeDetectionStrategy,
   DebugElement,
@@ -25,6 +24,7 @@ import {
 } from '@spartacus/core';
 import {
   FocusDirective,
+  FocusFirstInvalidFieldDirective,
   FormErrorsModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
@@ -33,8 +33,9 @@ import {
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
-import { BehaviorSubject, EMPTY, Observable, firstValueFrom, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, firstValueFrom, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { vi } from 'vitest';
 import { UserProfileFacade } from '../../../root/facade/user-profile.facade';
 import { AddressFormComponent } from './address-form.component';
 
@@ -161,6 +162,14 @@ describe('AddressFormComponent', () => {
 
   const defaultAddressCheckbox = (): DebugElement =>
     fixture.debugElement.query(By.css('[formcontrolname=defaultAddress]'));
+
+  // The component/directive defer focus work to a `setTimeout(0)` macrotask.
+  // `of(...)` emits synchronously, so the timer is scheduled during `ngOnInit`;
+  // awaiting a real macrotask (a later `setTimeout(0)`) lets it run before we
+  // assert, without needing `fakeAsync`/`tick` (unsupported by the vitest zone
+  // setup) or the deprecated `done` callback.
+  const flushMacrotask = (): Promise<void> =>
+    new Promise((resolve) => setTimeout(resolve));
 
   beforeEach(async () => {
     mockGlobalMessageService = {
@@ -379,7 +388,7 @@ describe('AddressFormComponent', () => {
   });
 
   it('should not call verifyAddress() when address does not have change', () => {
-    vi.spyOn(userAddressService, 'verifyAddress').mockImplementation(() => {});
+    vi.spyOn(userAddressService, 'verifyAddress').mockReturnValue(of({}));
     component.ngOnInit();
     component.addressForm.setValue(mockAddress);
     component.verifyAddress();
@@ -681,60 +690,230 @@ describe('AddressFormComponent', () => {
       expect(component.isHierarchicalAddressFormat).toBe(false);
     });
   });
-});
 
-describe('AddressFormComponent - a11yAddressFormInitialFocus', () => {
-  let fixture: ComponentFixture<AddressFormComponent>;
+  describe('a11yImproveAddressFormFocus', () => {
+    let featureTogglesController: MockFeatureTogglesController;
 
-  const getFocusForm = (): DebugElement =>
-    fixture.debugElement.query(By.directive(FocusDirective));
+    const getFocusForm = (): DebugElement =>
+      fixture.debugElement.query(By.directive(FocusDirective));
 
-  beforeEach(async () => {
-    TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        NgSelectModule,
-        I18nTestingModule,
-        FormErrorsModule,
-        AddressFormComponent,
-        MockNgSelectA11yDirective,
-      ],
-      providers: [
-        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        { provide: UserAddressService, useClass: MockUserAddressService },
-        { provide: GlobalMessageService, useValue: { add: vi.fn() } },
-        { provide: UserProfileFacade, useClass: MockUserProfileFacade },
-        { provide: LanguageService, useClass: MockLanguageService },
-        provideMockFeatureToggles({
-          ...mockFeatureToggles,
-          a11yAddressFormInitialFocus: true,
-        }),
-        {
-          provide: HierarchicalAddressConfig,
-          useValue: {
-            hierarchicalAddress: {
-              countriesUsingHierarchicalAddressFormat: ['CN'],
+    beforeEach(async () => {
+      // This block needs a different module setup than the outer `beforeEach`
+      // (which replaces `FeatureDirective` with a mock that always renders):
+      // here we keep the real `*cxFeature` so toggling `a11yImproveAddressFormFocus`
+      // actually gates the `cxFocus` host. Reset first — the outer `beforeEach`
+      // has already instantiated the module, and you can't reconfigure (or
+      // `inject`) after that without a reset.
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        imports: [
+          ReactiveFormsModule,
+          NgSelectModule,
+          I18nTestingModule,
+          FormErrorsModule,
+          AddressFormComponent,
+          MockNgSelectA11yDirective,
+        ],
+        providers: [
+          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+          { provide: UserAddressService, useClass: MockUserAddressService },
+          { provide: GlobalMessageService, useValue: { add: vi.fn() } },
+          { provide: UserProfileFacade, useClass: MockUserProfileFacade },
+          { provide: LanguageService, useClass: MockLanguageService },
+          provideMockFeatureToggles({
+            ...mockFeatureToggles,
+            a11yImproveAddressFormFocus: true,
+          }),
+          {
+            provide: HierarchicalAddressConfig,
+            useValue: {
+              hierarchicalAddress: {
+                countriesUsingHierarchicalAddressFormat: ['CN'],
+              },
             },
           },
-        },
-      ],
+        ],
+      });
+
+      await TestBed.compileComponents();
+
+      featureTogglesController = TestBed.inject(MockFeatureTogglesController);
+      userAddressService = TestBed.inject(UserAddressService);
+      userProfileFacade = TestBed.inject(UserProfileFacade);
+      fixture = TestBed.createComponent(AddressFormComponent);
+      component = fixture.componentInstance;
     });
-    TestBed.overrideComponent(AddressFormComponent, {
-      add: {
-        changeDetection: ChangeDetectionStrategy.Eager,
-        imports: [MockFeatureDirective],
-      },
-      remove: { imports: [FeatureDirective] },
+
+    it('should apply cxFocus to the form when a11yImproveAddressFormFocus is true', () => {
+      featureTogglesController.set('a11yImproveAddressFormFocus', true);
+      fixture.detectChanges();
+
+      expect(getFocusForm()).toBeTruthy();
     });
-    await TestBed.compileComponents();
+
+    it('should not apply cxFocus to the form when a11yImproveAddressFormFocus is false', () => {
+      featureTogglesController.set('a11yImproveAddressFormFocus', false);
+      fixture.detectChanges();
+
+      expect(getFocusForm()).toBeNull();
+    });
+
+    it('should render the action buttons outside the cxFocus host', () => {
+      featureTogglesController.set('a11yImproveAddressFormFocus', true);
+      fixture.detectChanges();
+
+      const focusHost: HTMLElement = getFocusForm().nativeElement;
+      const submitBtn = fixture.debugElement.query(
+        By.css('.btn-primary')
+      )?.nativeElement;
+      const backBtn = fixture.debugElement.query(
+        By.css('.btn-secondary')
+      )?.nativeElement;
+
+      expect(submitBtn).toBeTruthy();
+      expect(backBtn).toBeTruthy();
+      // In Safari a `<button>` doesn't take focus on click; keeping the buttons
+      // out of the autofocus host prevents focus from jumping to the first field.
+      expect(focusHost.contains(submitBtn)).toBe(false);
+      expect(focusHost.contains(backBtn)).toBe(false);
+    });
+
+    const getFocusFirstInvalidFieldDirective =
+      (): FocusFirstInvalidFieldDirective =>
+        fixture.debugElement
+          .query(By.directive(FocusFirstInvalidFieldDirective))
+          .injector.get(FocusFirstInvalidFieldDirective);
+
+    it('should focus the first invalid field on invalid submit when toggle is on', () => {
+      featureTogglesController.set('a11yImproveAddressFormFocus', true);
+      fixture.detectChanges();
+      const directive = getFocusFirstInvalidFieldDirective();
+      vi.spyOn(directive, 'focusFirstInvalidField');
+
+      component.verifyAddress(); // form is invalid by default
+
+      expect(directive.focusFirstInvalidField).toHaveBeenCalled();
+    });
+
+    it('should not focus the first invalid field on invalid submit when toggle is off', () => {
+      featureTogglesController.set('a11yImproveAddressFormFocus', false);
+      fixture.detectChanges();
+      const directive = getFocusFirstInvalidFieldDirective();
+      vi.spyOn(directive, 'focusFirstInvalidField');
+
+      component.verifyAddress(); // form is invalid by default
+
+      expect(directive.focusFirstInvalidField).not.toHaveBeenCalled();
+    });
+
+    it('should start with autofocus disabled', () => {
+      expect(component.focusConfig).toEqual({ autofocus: false });
+    });
+
+    it('should enable autofocus once the country data has loaded', async () => {
+      featureTogglesController.set('a11yImproveAddressFormFocus', true);
+      vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(
+        of(mockCountries)
+      );
+
+      component.ngOnInit();
+      await flushMacrotask(); // flush the deferred macrotask
+
+      expect(component.focusConfig.autofocus).toBe(true);
+      // a `refreshFocus` token is set to re-trigger the directive's focus logic
+      expect(component.focusConfig.refreshFocus).toBeTruthy();
+    });
+
+    it('should not steal focus when the user has already focused a form field', async () => {
+      featureTogglesController.set('a11yImproveAddressFormFocus', true);
+      vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(
+        of(mockCountries)
+      );
+
+      // Simulate the user having engaged with the form before the (deferred)
+      // country data arrives — the focus refresh must not yank focus back.
+      const host: HTMLElement = fixture.nativeElement;
+      const input = document.createElement('input');
+      host.appendChild(input);
+      document.body.appendChild(host);
+      input.focus();
+      expect(document.activeElement).toBe(input);
+
+      component.ngOnInit();
+      await flushMacrotask();
+
+      expect(component.focusConfig).toEqual({ autofocus: false });
+
+      document.body.removeChild(host);
+    });
+
+    it('should not enable autofocus while the country list is empty', async () => {
+      featureTogglesController.set('a11yImproveAddressFormFocus', true);
+      vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(
+        of([])
+      );
+
+      component.ngOnInit();
+      await flushMacrotask();
+
+      expect(component.focusConfig).toEqual({ autofocus: false });
+    });
+
+    it('should not enable autofocus when the toggle is off', async () => {
+      featureTogglesController.set('a11yImproveAddressFormFocus', false);
+      vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(
+        of(mockCountries)
+      );
+
+      component.ngOnInit();
+      await flushMacrotask();
+
+      expect(component.focusConfig).toEqual({ autofocus: false });
+    });
   });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(AddressFormComponent);
-    fixture.detectChanges();
-  });
+  describe('focusFirstInvalidField', () => {
+    let focusFirstInvalidFieldDirective: FocusFirstInvalidFieldDirective;
 
-  it('should apply cxFocus to the form when a11yAddressFormInitialFocus is enabled', () => {
-    expect(getFocusForm()).toBeTruthy();
+    beforeEach(() => {
+      vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(
+        of(mockCountries)
+      );
+      vi.spyOn(userProfileFacade, 'getTitles').mockReturnValue(of([]));
+      vi.spyOn(userAddressService, 'getRegions').mockReturnValue(of([]));
+      component.ngOnInit();
+      fixture.detectChanges();
+      focusFirstInvalidFieldDirective = fixture.debugElement
+        .query(By.directive(FocusFirstInvalidFieldDirective))
+        .injector.get(FocusFirstInvalidFieldDirective);
+    });
+
+    it('should focus the inner input of the invalid country ng-select', async () => {
+      const countryInput: HTMLElement = fixture.debugElement.query(
+        By.css('ng-select.country-select input')
+      ).nativeElement;
+      vi.spyOn(countryInput, 'focus');
+
+      focusFirstInvalidFieldDirective.focusFirstInvalidField();
+
+      // the directive defers focus to a macrotask, so assert after it runs
+      await flushMacrotask();
+      expect(countryInput.focus).toHaveBeenCalled();
+    });
+
+    it('should focus the first invalid text input when preceding selects are valid', async () => {
+      (controls.country as UntypedFormGroup).controls['isocode'].setValue('AD');
+      fixture.detectChanges();
+
+      const firstNameInput: HTMLElement = fixture.debugElement.query(
+        By.css('[formcontrolname=firstName]')
+      ).nativeElement;
+      vi.spyOn(firstNameInput, 'focus');
+
+      focusFirstInvalidFieldDirective.focusFirstInvalidField();
+
+      await flushMacrotask();
+      expect(firstNameInput.focus).toHaveBeenCalled();
+    });
   });
 });

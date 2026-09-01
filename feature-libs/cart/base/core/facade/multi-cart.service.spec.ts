@@ -1,9 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+// eslint-disable-next-line @nx/workspace-no-self-public-api-import -- ESLint is misfiring here: core and root are not the same library — they're separate entry points
 import { Cart, CartType } from '@spartacus/cart/base/root';
-import { FeatureToggles, UserIdService } from '@spartacus/core';
-import { of, firstValueFrom } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { UserIdService } from '@spartacus/core';
+import { firstValueFrom, of } from 'rxjs';
+import { vi } from 'vitest';
 import { CartActions } from '../store/actions';
 import {
   MULTI_CART_FEATURE,
@@ -11,7 +12,6 @@ import {
 } from '../store/multi-cart-state';
 import * as fromReducers from '../store/reducers/index';
 import { MultiCartService } from './multi-cart.service';
-import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 
 const testCart: Cart = {
   code: 'xxx',
@@ -59,15 +59,9 @@ class MockUserIdService implements Partial<UserIdService> {
   });
 }
 
-const mockFeatureToggles: FeatureToggles = {
-  incrementProcessesCountForMergeCart: false,
-  authorizationCodeFlowByDefault: false,
-};
-
 describe('MultiCartService', () => {
   let service: MultiCartService;
   let store: Store<StateWithMultiCart>;
-  let featureToggles: FeatureToggles;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -81,13 +75,11 @@ describe('MultiCartService', () => {
       providers: [
         MultiCartService,
         { provide: UserIdService, useClass: MockUserIdService },
-        provideMockFeatureToggles({ ...mockFeatureToggles }),
       ],
     });
 
     store = TestBed.inject(Store);
     service = TestBed.inject(MultiCartService);
-    featureToggles = TestBed.inject(FeatureToggles);
     vi.spyOn(store, 'dispatch');
   });
 
@@ -107,7 +99,7 @@ describe('MultiCartService', () => {
             active: true,
           },
           cart: testCart,
-          cartId: testCart.code,
+          cartId: testCart.code as string,
         })
       );
 
@@ -152,7 +144,7 @@ describe('MultiCartService', () => {
             active: true,
           },
           cart: testCart,
-          cartId: testCart.code,
+          cartId: testCart.code as string,
         })
       );
 
@@ -182,11 +174,11 @@ describe('MultiCartService', () => {
             active: true,
           },
           cart: testCart,
-          cartId: testCart.code,
+          cartId: testCart.code as string,
         })
       );
 
-      expect(result).toEqual(testCart.entries[1]);
+      expect(result).toEqual(testCart.entries?.[1]);
     });
 
     it('should return undefined in case product is not available in cart', () => {
@@ -204,7 +196,7 @@ describe('MultiCartService', () => {
             active: true,
           },
           cart: testCart,
-          cartId: testCart.code,
+          cartId: testCart.code as string,
         })
       );
 
@@ -226,7 +218,7 @@ describe('MultiCartService', () => {
             active: true,
           },
           cart: testCart,
-          cartId: testCart.code,
+          cartId: testCart.code as string,
         })
       );
       const isStable = await firstValueFrom(service.isStable('xxx'));
@@ -283,7 +275,7 @@ describe('MultiCartService', () => {
       store.dispatch(
         new CartActions.SetCartTypeIndex({
           cartType: CartType.NEW_CREATED,
-          cartId: testCart.code,
+          cartId: testCart.code as string,
         })
       );
       expect(result).toEqual(testCart);
@@ -311,7 +303,7 @@ describe('MultiCartService', () => {
       store.dispatch(
         new CartActions.SetCartTypeIndex({
           cartType: CartType.ACTIVE,
-          cartId: testCart.code,
+          cartId: testCart.code as string,
         })
       );
       expect(result).toEqual(testCart);
@@ -319,71 +311,23 @@ describe('MultiCartService', () => {
   });
 
   describe('mergeToCurrentCart', () => {
-    describe('feature flag incrementProcessesCountForMergeCart is enabled', () => {
-      it('should merge cart', () => {
-        vi.spyOn(service as any, 'generateTempCartId').mockReturnValue(
-          'temp-uuid'
-        );
-        featureToggles.incrementProcessesCountForMergeCart = true;
-        featureToggles.authorizationCodeFlowByDefault = false;
-        service.mergeToCurrentCart({
-          userId: 'userId',
-          cartId: 'cartId',
-          extraData: {},
-        });
-        expect(store.dispatch).toHaveBeenCalledWith(
-          new CartActions.MergeCartAndIncrementProcessesCount({
-            userId: 'userId',
-            extraData: {},
-            cartId: 'cartId',
-            tempCartId: 'temp-uuid',
-          })
-        );
+    it('should merge cart', () => {
+      vi.spyOn(service as any, 'generateTempCartId').mockReturnValue(
+        'temp-uuid'
+      );
+      service.mergeToCurrentCart({
+        userId: 'userId',
+        cartId: 'cartId',
+        extraData: {},
       });
-    });
-    describe('feature flag authorizationCodeFlowByDefault is enabled', () => {
-      it('should merge cart', () => {
-        vi.spyOn(service as any, 'generateTempCartId').mockReturnValue(
-          'temp-uuid'
-        );
-        featureToggles.authorizationCodeFlowByDefault = true;
-        featureToggles.incrementProcessesCountForMergeCart = false;
-        service.mergeToCurrentCart({
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.MergeCartAndIncrementProcessesCount({
           userId: 'userId',
-          cartId: 'cartId',
           extraData: {},
-        });
-        expect(store.dispatch).toHaveBeenCalledWith(
-          new CartActions.MergeCartAndIncrementProcessesCount({
-            userId: 'userId',
-            extraData: {},
-            cartId: 'cartId',
-            tempCartId: 'temp-uuid',
-          })
-        );
-      });
-    });
-    describe('feature flags incrementProcessesCountForMergeCart and authorizationCodeFlowByDefault are disabled', () => {
-      it('should merge cart', () => {
-        vi.spyOn(service as any, 'generateTempCartId').mockReturnValue(
-          'temp-uuid'
-        );
-        featureToggles.incrementProcessesCountForMergeCart = false;
-        featureToggles.authorizationCodeFlowByDefault = false;
-        service.mergeToCurrentCart({
-          userId: 'userId',
           cartId: 'cartId',
-          extraData: {},
-        });
-        expect(store.dispatch).toHaveBeenCalledWith(
-          new CartActions.MergeCart({
-            userId: 'userId',
-            extraData: {},
-            cartId: 'cartId',
-            tempCartId: 'temp-uuid',
-          })
-        );
-      });
+          tempCartId: 'temp-uuid',
+        })
+      );
     });
   });
 
@@ -425,7 +369,7 @@ describe('MultiCartService', () => {
             active: true,
           },
           cart: testCart,
-          cartId: testCart.code,
+          cartId: testCart.code as string,
         })
       );
 
@@ -562,7 +506,7 @@ describe('MultiCartService', () => {
     it('should return cart entry', () => {
       let result;
       service
-        .getEntry('xxx', testCart.entries[0].product.code)
+        .getEntry('xxx', testCart.entries?.[0]?.product?.code as string)
         .subscribe((cart) => {
           result = cart;
         });
@@ -576,11 +520,11 @@ describe('MultiCartService', () => {
             active: true,
           },
           cart: testCart,
-          cartId: testCart.code,
+          cartId: testCart.code as string,
         })
       );
 
-      expect(result).toEqual(testCart.entries[0]);
+      expect(result).toEqual(testCart.entries?.[0]);
     });
   });
 
@@ -600,11 +544,11 @@ describe('MultiCartService', () => {
             active: true,
           },
           cart: testCart,
-          cartId: testCart.code,
+          cartId: testCart.code as string,
         })
       );
 
-      expect(result).toEqual(testCart.entries[1]);
+      expect(result).toEqual(testCart.entries?.[1]);
     });
   });
 
