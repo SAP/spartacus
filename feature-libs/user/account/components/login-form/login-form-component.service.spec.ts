@@ -715,7 +715,9 @@ describe('LoginFormComponentService', () => {
             mockFeatureTogglesController.set(key as any, value);
           }
           csrfStateService = TestBed.inject(CsrfStateService);
-          (csrfStateService.getAuthReqId as any).mockReturnValue(authReqIdValue);
+          (csrfStateService.getAuthReqId as any).mockReturnValue(
+            authReqIdValue
+          );
           service = TestBed.inject(LoginFormComponentService);
           authService = TestBed.inject(AuthService);
           winRef = TestBed.inject(WindowRef);

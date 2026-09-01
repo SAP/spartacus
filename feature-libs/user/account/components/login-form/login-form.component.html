@@ -69,29 +69,18 @@
 
   <ng-container *cxFeature="'authorizationCodeFlowByDefault'">
     @if (csrf) {
-      <input
-        formControlName="csrf"
-        type="hidden"
-        [name]="csrf.parameterName"
-      />
+      <input formControlName="csrf" type="hidden" [name]="csrf.parameterName" />
     }
   </ng-container>
 
   <ng-container *cxFeature="'concurrentLoginPagesSupport'">
     @if (authReqId) {
-      <input
-        formControlName="auth_req_id"
-        type="hidden"
-        name="auth_req_id"
-      />
+      <input formControlName="auth_req_id" type="hidden" name="auth_req_id" />
     }
   </ng-container>
 
   @if (showResetPassword) {
-    <a
-      [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl"
-      class="btn-link"
-    >
+    <a [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl" class="btn-link">
       {{ 'loginForm.forgotPassword' | cxTranslate }}
     </a>
   }
