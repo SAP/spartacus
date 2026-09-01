@@ -1118,7 +1118,7 @@ describe('ActiveCartService', () => {
       });
     });
 
-    it('should share the same observable for concurrent requireLoadedCart calls (race condition prevention)', (done) => {
+    it('should share the same observable for concurrent requireLoadedCart calls (race condition prevention)', async () => {
       // This test verifies the fix for race condition on slow networks
       // where multiple rapid addEntry() calls could trigger parallel cart creations.
       // With shareReplay caching, concurrent calls share the same cart creation flow.
@@ -1127,8 +1127,8 @@ describe('ActiveCartService', () => {
       );
       let createCartCallCount = 0;
 
-      spyOn<any>(service, 'load').and.callThrough();
-      spyOn(multiCartFacade, 'createCart').and.callFake(() => {
+      vi.spyOn(service as any, 'load');
+      vi.spyOn(multiCartFacade, 'createCart').mockImplementation(() => {
         createCartCallCount++;
         // Simulate delayed cart creation
         setTimeout(() => {
@@ -1150,36 +1150,38 @@ describe('ActiveCartService', () => {
       let completedCount = 0;
       const expectedCart = { code: 'code' };
 
-      // Simulate 3 concurrent addEntry calls triggering requireLoadedCart
-      service['requireLoadedCart']().subscribe((cart) => {
-        expect(cart).toEqual(expectedCart);
-        completedCount++;
-        checkDone();
-      });
-
-      service['requireLoadedCart']().subscribe((cart) => {
-        expect(cart).toEqual(expectedCart);
-        completedCount++;
-        checkDone();
-      });
-
-      service['requireLoadedCart']().subscribe((cart) => {
-        expect(cart).toEqual(expectedCart);
-        completedCount++;
-        checkDone();
-      });
-
-      function checkDone() {
-        if (completedCount === 3) {
-          // Critical assertion: createCart should only be called once
-          // even though we called requireLoadedCart 3 times concurrently
-          expect(createCartCallCount).toBe(1);
-          done();
+      return new Promise<void>((resolve) => {
+        function checkDone() {
+          if (completedCount === 3) {
+            // Critical assertion: createCart should only be called once
+            // even though we called requireLoadedCart 3 times concurrently
+            expect(createCartCallCount).toBe(1);
+            resolve();
+          }
         }
-      }
+
+        // Simulate 3 concurrent addEntry calls triggering requireLoadedCart
+        service['requireLoadedCart']().subscribe((cart) => {
+          expect(cart).toEqual(expectedCart);
+          completedCount++;
+          checkDone();
+        });
+
+        service['requireLoadedCart']().subscribe((cart) => {
+          expect(cart).toEqual(expectedCart);
+          completedCount++;
+          checkDone();
+        });
+
+        service['requireLoadedCart']().subscribe((cart) => {
+          expect(cart).toEqual(expectedCart);
+          completedCount++;
+          checkDone();
+        });
+      });
     });
 
-    it('should clear cached observable after completion for subsequent calls', (done) => {
+    it('should clear cached observable after completion for subsequent calls', async () => {
       // Verify that after one cart creation completes, a new call gets a fresh observable
       const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>({
         loading: false,
@@ -1192,21 +1194,23 @@ describe('ActiveCartService', () => {
       userId$.next(OCC_USER_ID_ANONYMOUS);
 
       // First call - should cache and return
-      service['requireLoadedCart']()
-        .pipe(take(1))
-        .subscribe((cart) => {
-          expect(cart).toEqual({ code: 'existingCart' });
+      return new Promise<void>((resolve) => {
+        service['requireLoadedCart']()
+          .pipe(take(1))
+          .subscribe((cart) => {
+            expect(cart).toEqual({ code: 'existingCart' });
 
-          // After first call completes, the cache should be cleared
-          // Accessing private property for testing
-          setTimeout(() => {
-            expect(service['loadedCart$']).toBeNull();
-            done();
-          }, 10);
-        });
+            // After first call completes, the cache should be cleared
+            // Accessing private property for testing
+            setTimeout(() => {
+              expect(service['loadedCart$']).toBeNull();
+              resolve();
+            }, 10);
+          });
+      });
     });
 
-    it('should clear cached observable on error for subsequent retry', (done) => {
+    it('should clear cached observable on error for subsequent retry', async () => {
       // This tests that the cache is cleared after an observable completes,
       // allowing retry attempts to get a fresh pipeline
       const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>({
@@ -1224,21 +1228,23 @@ describe('ActiveCartService', () => {
       expect(service['loadedCart$']).not.toBeNull();
 
       // Subscribe and complete
-      obs1.pipe(take(1)).subscribe({
-        next: (cart) => {
-          expect(cart).toEqual({ code: 'testCart' });
-        },
-        complete: () => {
-          // After completion, cache should be cleared via tap/finalize
-          setTimeout(() => {
-            expect(service['loadedCart$']).toBeNull();
+      return new Promise<void>((resolve) => {
+        obs1.pipe(take(1)).subscribe({
+          next: (cart) => {
+            expect(cart).toEqual({ code: 'testCart' });
+          },
+          complete: () => {
+            // After completion, cache should be cleared via tap/finalize
+            setTimeout(() => {
+              expect(service['loadedCart$']).toBeNull();
 
-            // A subsequent call should create a new observable (fresh retry)
-            const obs2 = service['requireLoadedCart']();
-            expect(obs2).not.toBe(obs1);
-            done();
-          }, 10);
-        },
+              // A subsequent call should create a new observable (fresh retry)
+              const obs2 = service['requireLoadedCart']();
+              expect(obs2).not.toBe(obs1);
+              resolve();
+            }, 10);
+          },
+        });
       });
     });
 
@@ -1363,7 +1369,7 @@ describe('ActiveCartService', () => {
       expect(normalObs).not.toBe(guestObs);
     });
 
-    it('should clear loadedCart$ via finalize when the inner pipeline errors', (done) => {
+    it('should clear loadedCart$ via finalize when the inner pipeline errors', async () => {
       // Build a cartEntity$ that emits a successful cart-state, so the inner
       // pipeline runs to completion and `tap → loadedCart$ = null` fires.
       // This exercises the "cleanup on terminal event" branch of the gate
@@ -1377,42 +1383,49 @@ describe('ActiveCartService', () => {
       service['cartEntity$'] = cart$.asObservable();
       userId$.next(OCC_USER_ID_ANONYMOUS);
 
-      service['requireLoadedCart']().subscribe({
-        next: () => {
-          // After completion, both tap() and finalize() must have nulled the
-          // cache; a subsequent call builds a fresh pipeline.
-          setTimeout(() => {
-            expect(service['loadedCart$']).toBeNull();
-            const next = service['requireLoadedCart']();
-            expect(service['loadedCart$']).not.toBeNull();
-            expect(next).toBeDefined();
-            done();
-          }, 10);
-        },
+      return new Promise<void>((resolve) => {
+        service['requireLoadedCart']().subscribe({
+          next: () => {
+            // After completion, both tap() and finalize() must have nulled the
+            // cache; a subsequent call builds a fresh pipeline.
+            setTimeout(() => {
+              expect(service['loadedCart$']).toBeNull();
+              const next = service['requireLoadedCart']();
+              expect(service['loadedCart$']).not.toBeNull();
+              expect(next).toBeDefined();
+              resolve();
+            }, 10);
+          },
+        });
       });
     });
 
-    it('should clear loadedCart$ when the last subscriber unsubscribes mid-flight', (done) => {
+    it('should clear loadedCart$ when the last subscriber unsubscribes mid-flight', async () => {
       // refCount=true tears the inner pipeline down on the last unsubscribe,
       // which fires `finalize` and clears the cache. Use never-emitting
       // upstream sources so the pipeline can't complete synchronously.
-      const cart$ = new Subject<StateUtils.ProcessesLoaderState<Cart>>();
-      service['cartEntity$'] = cart$.asObservable();
-      service['activeCartId$'] = new Subject<string>().asObservable();
-      userId$.next(OCC_USER_ID_ANONYMOUS);
+      vi.useFakeTimers();
+      try {
+        const cart$ = new Subject<StateUtils.ProcessesLoaderState<Cart>>();
+        service['cartEntity$'] = cart$.asObservable();
+        service['activeCartId$'] = new Subject<string>().asObservable();
+        userId$.next(OCC_USER_ID_ANONYMOUS);
 
-      const obs = service['requireLoadedCart']();
-      expect(service['loadedCart$']).not.toBeNull();
+        const obs = service['requireLoadedCart']();
+        expect(service['loadedCart$']).not.toBeNull();
 
-      const sub = obs.subscribe();
-      expect(service['loadedCart$']).not.toBeNull();
+        const sub = obs.subscribe();
+        expect(service['loadedCart$']).not.toBeNull();
 
-      sub.unsubscribe();
+        sub.unsubscribe();
 
-      setTimeout(() => {
+        // Advance timers to allow finalize to execute
+        vi.advanceTimersByTime(100);
+
         expect(service['loadedCart$']).toBeNull();
-        done();
-      }, 10);
+      } finally {
+        vi.useRealTimers();
+      }
     });
   });
 

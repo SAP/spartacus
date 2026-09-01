@@ -2,10 +2,7 @@ import { vi } from 'vitest';
 import { Component, Input } from '@angular/core';
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
-  tick,
-  waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CartConfigService } from '@spartacus/cart/base/core';
@@ -25,7 +22,7 @@ import {
   RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 import { PromotionsModule, SpinnerComponent } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CartCouponComponent } from '../cart-coupon';
@@ -115,9 +112,9 @@ describe('CartDetailsComponent', () => {
 
   const mockRoutingService = { go: vi.fn() };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     stable$.next(true);
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [PromotionsModule, CartDetailsComponent],
       providers: [
         { provide: SelectiveCartFacade, useValue: mockSelectiveCartFacade },
@@ -158,7 +155,7 @@ describe('CartDetailsComponent', () => {
     mockCartConfig.isSelectiveCartEnabled.mockReturnValue(true);
     mockSelectiveCartFacade.isStable.mockReturnValue(of(true));
     mockAuthService.isUserLoggedIn.mockReturnValue(of(false));
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartDetailsComponent);
@@ -234,63 +231,78 @@ describe('CartDetailsComponent', () => {
       expect(banner).toBeNull();
     });
 
-    it('should render banner with a11y attrs and spinner when cart is unstable', fakeAsync(() => {
-      stable$.next(false);
-      fixture.detectChanges();
-      // updating$ has a 250ms debounceTime; advance past it.
-      tick(250);
-      fixture.detectChanges();
-      const banner = fixture.debugElement.query(
-        By.css('.cx-cart-details-updating')
-      );
-      expect(banner).not.toBeNull();
-      expect(banner.attributes['role']).toBe('status');
-      expect(banner.attributes['aria-live']).toBe('polite');
-      const spinner = banner.query(By.css('cx-spinner'));
-      expect(spinner).not.toBeNull();
-      expect(spinner.attributes['aria-hidden']).toBe('true');
-    }));
+    it('should render banner with a11y attrs and spinner when cart is unstable', () => {
+      vi.useFakeTimers();
+      try {
+        stable$.next(false);
+        fixture.detectChanges();
+        // updating$ has a 250ms debounceTime; advance past it.
+        vi.advanceTimersByTime(250);
+        fixture.detectChanges();
+        const banner = fixture.debugElement.query(
+          By.css('.cx-cart-details-updating')
+        );
+        expect(banner).not.toBeNull();
+        expect(banner.attributes['role']).toBe('status');
+        expect(banner.attributes['aria-live']).toBe('polite');
+        const spinner = banner.query(By.css('cx-spinner'));
+        expect(spinner).not.toBeNull();
+        expect(spinner.attributes['aria-hidden']).toBe('true');
+      } finally {
+        vi.useRealTimers();
+      }
+    });
 
-    it('should hide the banner once the cart becomes stable again (gate release)', fakeAsync(() => {
-      // unstable → debounce → banner appears
-      stable$.next(false);
-      fixture.detectChanges();
-      tick(250);
-      fixture.detectChanges();
-      expect(
-        fixture.debugElement.query(By.css('.cx-cart-details-updating'))
-      ).not.toBeNull();
+    it('should hide the banner once the cart becomes stable again (gate release)', () => {
+      vi.useFakeTimers();
+      try {
+        // unstable → debounce → banner appears
+        stable$.next(false);
+        fixture.detectChanges();
+        vi.advanceTimersByTime(250);
+        fixture.detectChanges();
+        expect(
+          fixture.debugElement.query(By.css('.cx-cart-details-updating'))
+        ).not.toBeNull();
 
-      // stable → debounce → banner disappears
-      stable$.next(true);
-      tick(250);
-      fixture.detectChanges();
-      expect(
-        fixture.debugElement.query(By.css('.cx-cart-details-updating'))
-      ).toBeNull();
-    }));
+        // stable → debounce → banner disappears
+        stable$.next(true);
+        vi.advanceTimersByTime(250);
+        fixture.detectChanges();
+        expect(
+          fixture.debugElement.query(By.css('.cx-cart-details-updating'))
+        ).toBeNull();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
 
-    it('should suppress flicker: rapid unstable→stable within debounce window keeps banner hidden', fakeAsync(() => {
-      // Within the 250ms debounce window, !stable=true → false → true → false.
-      // debounceTime emits the trailing value (false); distinctUntilChanged
-      // dedups against the seed `false` from startWith. The user must NOT see
-      // a transient banner mount.
-      stable$.next(false); // !stable=true
-      tick(50);
-      stable$.next(true); // !stable=false (matches seed)
-      tick(50);
-      stable$.next(false); // !stable=true
-      tick(50);
-      stable$.next(true); // !stable=false (matches seed)
+    it('should suppress flicker: rapid unstable→stable within debounce window keeps banner hidden', () => {
+      vi.useFakeTimers();
+      try {
+        // Within the 250ms debounce window, !stable=true → false → true → false.
+        // debounceTime emits the trailing value (false); distinctUntilChanged
+        // dedups against the seed `false` from startWith. The user must NOT see
+        // a transient banner mount.
+        stable$.next(false); // !stable=true
+        vi.advanceTimersByTime(50);
+        stable$.next(true); // !stable=false (matches seed)
+        vi.advanceTimersByTime(50);
+        stable$.next(false); // !stable=true
+        vi.advanceTimersByTime(50);
+        stable$.next(true); // !stable=false (matches seed)
 
-      // Let the debounce window close fully.
-      tick(300);
-      fixture.detectChanges();
+        // Let the debounce window close fully.
+        vi.advanceTimersByTime(300);
+        fixture.detectChanges();
 
-      expect(
-        fixture.debugElement.query(By.css('.cx-cart-details-updating'))
-      ).toBeNull();
-    }));
+        expect(
+          fixture.debugElement.query(By.css('.cx-cart-details-updating'))
+        ).toBeNull();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
 
     it('should NOT render the banner on initial mount (startWith(false) seed)', () => {
       // No isStable() flip — the BehaviorSubject default is true. With
@@ -309,24 +321,24 @@ describe('CartDetailsComponent — enableCartSlowNetworkResilience OFF', () => {
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
 
-  const mockSelectiveCartFacade = jasmine.createSpyObj('SelectiveCartFacade', [
-    'getCart',
-    'removeEntry',
-    'getEntries',
-    'isStable',
-    'addEntry',
-  ]);
-  const mockCartConfig = jasmine.createSpyObj('CartConfigService', [
-    'isSelectiveCartEnabled',
-  ]);
-  const mockAuthService = jasmine.createSpyObj('AuthService', [
-    'isUserLoggedIn',
-  ]);
-  const mockRoutingService = jasmine.createSpyObj('RoutingService', ['go']);
+  const mockSelectiveCartFacade = {
+    getCart: vi.fn(),
+    removeEntry: vi.fn(),
+    getEntries: vi.fn(),
+    isStable: vi.fn(),
+    addEntry: vi.fn(),
+  };
+  const mockCartConfig = {
+    isSelectiveCartEnabled: vi.fn(),
+  };
+  const mockAuthService = {
+    isUserLoggedIn: vi.fn(),
+  };
+  const mockRoutingService = { go: vi.fn() };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     stable$.next(false);
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [PromotionsModule, CartDetailsComponent],
       providers: [
         { provide: SelectiveCartFacade, useValue: mockSelectiveCartFacade },
@@ -361,26 +373,31 @@ describe('CartDetailsComponent — enableCartSlowNetworkResilience OFF', () => {
       })
       .compileComponents();
 
-    mockCartConfig.isSelectiveCartEnabled.and.returnValue(true);
-    mockSelectiveCartFacade.isStable.and.returnValue(of(true));
-    mockAuthService.isUserLoggedIn.and.returnValue(of(false));
-  }));
+    mockCartConfig.isSelectiveCartEnabled.mockReturnValue(true);
+    mockSelectiveCartFacade.isStable.mockReturnValue(of(true));
+    mockAuthService.isUserLoggedIn.mockReturnValue(of(false));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartDetailsComponent);
     component = fixture.componentInstance;
   });
 
-  it('should NOT render the updating banner even when cart is unstable', fakeAsync(() => {
-    stable$.next(false);
-    fixture.detectChanges();
-    tick(250);
-    fixture.detectChanges();
+  it('should NOT render the updating banner even when cart is unstable', () => {
+    vi.useFakeTimers();
+    try {
+      stable$.next(false);
+      fixture.detectChanges();
+      vi.advanceTimersByTime(250);
+      fixture.detectChanges();
 
-    const banner = fixture.debugElement.query(
-      By.css('.cx-cart-details-updating')
-    );
-    expect(banner).toBeNull();
-    expect(component).toBeTruthy();
-  }));
+      const banner = fixture.debugElement.query(
+        By.css('.cx-cart-details-updating')
+      );
+      expect(banner).toBeNull();
+      expect(component).toBeTruthy();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
 });

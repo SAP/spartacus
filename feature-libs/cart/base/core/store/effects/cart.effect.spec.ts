@@ -20,8 +20,8 @@ import {
   tryNormalizeHttpError,
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
-import * as fromClientAuthReducers from 'core-libs/core/src/auth/client-auth/store/reducers/index';
-import * as fromUserReducers from 'core-libs/core/src/user/store/reducers/index';
+import * as fromClientAuthReducers from '@spartacus/core/testing/client-auth-reducers';
+import * as fromUserReducers from '@spartacus/core/testing/user-reducers';
 import {
   firstValueFrom,
   ReplaySubject,
@@ -428,12 +428,7 @@ describe('Cart effect', () => {
       });
     });
 
-    it('should NOT dispatch LoadCart while pending processes remain (CXSPA-10582)', (done) => {
-      // Drive both the Actions$ stream (mocked) and the store state in
-      // lockstep. CartAddEntry/CartAddEntrySuccess extend
-      // EntityProcessesIncrement/DecrementAction, so dispatching them to the
-      // store mutates processesCount; we also push them through actions$ so
-      // the effect's ofType(...) sees them.
+    it('should NOT dispatch LoadCart while pending processes remain (CXSPA-10582)', async () => {
       const actionsSubject = new ReplaySubject<any>();
       actions$ = actionsSubject.asObservable();
 
@@ -475,32 +470,29 @@ describe('Cart effect', () => {
         })
       );
 
-      setTimeout(() => {
-        expect(emissions.length).toBe(0);
+      await new Promise((r) => setTimeout(r, 0));
+      expect(emissions.length).toBe(0);
 
-        // Final success drains the queue → processesCount = 0 → trailing
-        // LoadCart fires.
-        send(
-          new CartActions.CartAddEntrySuccess({
-            userId,
-            cartId,
-            productCode: 'B',
-            quantity: 1,
-          })
-        );
+      // Final success drains the queue → processesCount = 0 → trailing
+      // LoadCart fires.
+      send(
+        new CartActions.CartAddEntrySuccess({
+          userId,
+          cartId,
+          productCode: 'B',
+          quantity: 1,
+        })
+      );
 
-        setTimeout(() => {
-          expect(emissions.length).toBeGreaterThanOrEqual(1);
-          emissions.forEach((a) => {
-            expect(a).toEqual(new CartActions.LoadCart({ userId, cartId }));
-          });
-          sub.unsubscribe();
-          done();
-        }, 0);
-      }, 0);
+      await new Promise((r) => setTimeout(r, 0));
+      expect(emissions.length).toBeGreaterThanOrEqual(1);
+      emissions.forEach((a) => {
+        expect(a).toEqual(new CartActions.LoadCart({ userId, cartId }));
+      });
+      sub.unsubscribe();
     });
 
-    it('should dispatch LoadCart per cartId group (rapid multi-product adds across the SAME cart collapse to one trailing reload)', (done) => {
+    it('should dispatch LoadCart per cartId group (rapid multi-product adds across the SAME cart collapse to one trailing reload)', async () => {
       const actionsSubject = new ReplaySubject<any>();
       actions$ = actionsSubject.asObservable();
 
@@ -538,33 +530,30 @@ describe('Cart effect', () => {
         );
       }
 
-      setTimeout(() => {
-        expect(emissions.length).toBe(0);
+      await new Promise((r) => setTimeout(r, 0));
+      expect(emissions.length).toBe(0);
 
-        // Final success drains the queue.
-        send(
-          new CartActions.CartAddEntrySuccess({
-            userId,
-            cartId,
-            productCode: 'P4',
-            quantity: 1,
-          })
-        );
+      // Final success drains the queue.
+      send(
+        new CartActions.CartAddEntrySuccess({
+          userId,
+          cartId,
+          productCode: 'P4',
+          quantity: 1,
+        })
+      );
 
-        setTimeout(() => {
-          // All queued successes resolve at quiescence; groupBy + concatMap
-          // means we may see ≥ 1 LoadCarts but they all target the same
-          // cartId — the important property is "at least one trailing
-          // reload, never zero".
-          expect(emissions.length).toBeGreaterThanOrEqual(1);
-          emissions.forEach((a) => expect(a.payload.cartId).toBe(cartId));
-          sub.unsubscribe();
-          done();
-        }, 0);
-      }, 0);
+      await new Promise((r) => setTimeout(r, 0));
+      // All queued successes resolve at quiescence; groupBy + concatMap
+      // means we may see ≥ 1 LoadCarts but they all target the same
+      // cartId — the important property is "at least one trailing
+      // reload, never zero".
+      expect(emissions.length).toBeGreaterThanOrEqual(1);
+      emissions.forEach((a) => expect(a.payload.cartId).toBe(cartId));
+      sub.unsubscribe();
     });
 
-    it('should keep different cartIds in flight independent (each waits its own falling edge)', (done) => {
+    it('should keep different cartIds in flight independent (each waits its own falling edge)', async () => {
       const cartIdA = 'cartA';
       const cartIdB = 'cartB';
       const actionsSubject = new ReplaySubject<any>();
@@ -608,33 +597,30 @@ describe('Cart effect', () => {
         })
       );
 
-      setTimeout(() => {
-        const aLoads = emissions.filter((e) => e.payload.cartId === cartIdA);
-        const bLoads = emissions.filter((e) => e.payload.cartId === cartIdB);
-        expect(aLoads.length).toBeGreaterThanOrEqual(1);
-        expect(bLoads.length).toBe(0);
+      await new Promise((r) => setTimeout(r, 0));
+      const aLoads = emissions.filter((e) => e.payload.cartId === cartIdA);
+      const bLoads = emissions.filter((e) => e.payload.cartId === cartIdB);
+      expect(aLoads.length).toBeGreaterThanOrEqual(1);
+      expect(bLoads.length).toBe(0);
 
-        // Now drain cartB.
-        send(
-          new CartActions.CartAddEntrySuccess({
-            userId,
-            cartId: cartIdB,
-            productCode: 'B',
-            quantity: 1,
-          })
-        );
+      // Now drain cartB.
+      send(
+        new CartActions.CartAddEntrySuccess({
+          userId,
+          cartId: cartIdB,
+          productCode: 'B',
+          quantity: 1,
+        })
+      );
 
-        setTimeout(() => {
-          expect(
-            emissions.filter((e) => e.payload.cartId === cartIdB).length
-          ).toBeGreaterThanOrEqual(1);
-          sub.unsubscribe();
-          done();
-        }, 0);
-      }, 0);
+      await new Promise((r) => setTimeout(r, 0));
+      expect(
+        emissions.filter((e) => e.payload.cartId === cartIdB).length
+      ).toBeGreaterThanOrEqual(1);
+      sub.unsubscribe();
     });
 
-    it('should start a fresh wait for the next CartAddEntrySuccess on the same cart after a falling edge', (done) => {
+    it('should start a fresh wait for the next CartAddEntrySuccess on the same cart after a falling edge', async () => {
       const actionsSubject = new ReplaySubject<any>();
       actions$ = actionsSubject.asObservable();
 
@@ -666,36 +652,33 @@ describe('Cart effect', () => {
         })
       );
 
-      setTimeout(() => {
-        const round1Count = emissions.length;
-        expect(round1Count).toBeGreaterThanOrEqual(1);
+      await new Promise((r) => setTimeout(r, 0));
+      const round1Count = emissions.length;
+      expect(round1Count).toBeGreaterThanOrEqual(1);
 
-        // Round 2: another burst on the SAME cartId. The inner take(1) must
-        // NOT have permanently terminated this cartId's stream.
-        send(
-          new CartActions.CartAddEntry({
-            userId,
-            cartId,
-            productCode: 'B',
-            quantity: 1,
-          })
-        );
-        send(
-          new CartActions.CartAddEntrySuccess({
-            userId,
-            cartId,
-            productCode: 'B',
-            quantity: 1,
-          })
-        );
+      // Round 2: another burst on the SAME cartId. The inner take(1) must
+      // NOT have permanently terminated this cartId's stream.
+      send(
+        new CartActions.CartAddEntry({
+          userId,
+          cartId,
+          productCode: 'B',
+          quantity: 1,
+        })
+      );
+      send(
+        new CartActions.CartAddEntrySuccess({
+          userId,
+          cartId,
+          productCode: 'B',
+          quantity: 1,
+        })
+      );
 
-        setTimeout(() => {
-          expect(emissions.length).toBeGreaterThan(round1Count);
-          emissions.forEach((a) => expect(a.payload.cartId).toBe(cartId));
-          sub.unsubscribe();
-          done();
-        }, 0);
-      }, 0);
+      await new Promise((r) => setTimeout(r, 0));
+      expect(emissions.length).toBeGreaterThan(round1Count);
+      emissions.forEach((a) => expect(a.payload.cartId).toBe(cartId));
+      sub.unsubscribe();
     });
   });
 
@@ -854,10 +837,10 @@ describe('Cart effect — enableCartSlowNetworkResilience OFF (legacy refreshWit
 
   beforeEach(() => {
     class MockCartConnector {
-      create = createSpy().and.returnValue(of(testCart));
-      load = createSpy().and.returnValue(of(testCart));
-      addEmail = createSpy().and.returnValue(of({}));
-      delete = createSpy().and.returnValue(of({}));
+      create = vi.fn().mockReturnValue(of(testCart));
+      load = vi.fn().mockReturnValue(of(testCart));
+      addEmail = vi.fn().mockReturnValue(of({}));
+      delete_ = vi.fn().mockReturnValue(of({}));
     }
 
     TestBed.configureTestingModule({

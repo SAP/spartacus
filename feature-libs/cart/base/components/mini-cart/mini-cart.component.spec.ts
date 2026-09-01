@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -11,7 +12,7 @@ import {
   UrlCommandRoute,
   UrlPipe,
 } from '@spartacus/core';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 import { IconComponent } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { MiniCartComponentService } from './mini-cart-component.service';
@@ -51,9 +52,9 @@ describe('MiniCartComponent', () => {
   let miniCartComponent: MiniCartComponent;
   let fixture: ComponentFixture<MiniCartComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     updating$.next(false);
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [RouterLink, MiniCartComponent],
       providers: [
         provideRouter([]),
@@ -78,7 +79,7 @@ describe('MiniCartComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MiniCartComponent);

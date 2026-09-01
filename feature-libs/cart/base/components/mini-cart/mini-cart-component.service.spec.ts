@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
@@ -7,7 +8,7 @@ import {
   StatePersistenceService,
   StorageSyncType,
 } from '@spartacus/core';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 import { cold } from 'jasmine-marbles';
 import { BehaviorSubject, EMPTY, Observable, of, ReplaySubject } from 'rxjs';
 import { MiniCartComponentService } from './mini-cart-component.service';
@@ -342,140 +343,163 @@ describe('MiniCartComponentService', () => {
 
   describe('getUpdating', () => {
     it('should return false when no active cart is required (lazy path)', () => {
-      spyOn(service as any, 'activeCartRequired').and.returnValue(
-        cold('f', booleanValues)
-      );
-      spyOn(activeCartFacade, 'isStable').and.stub();
+      vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(cold('f', booleanValues));
+      vi.spyOn(activeCartFacade, 'isStable').mockImplementation(() => {});
       expect(service.getUpdating()).toBeObservable(cold('f', booleanValues));
       expect(activeCartFacade.isStable).not.toHaveBeenCalled();
     });
 
-    it('should emit only `false` and never re-emit `true` while isStable() stays true', fakeAsync(() => {
+    it('should emit only `false` and never re-emit `true` while isStable() stays true', () => {
       // The original marble (`cold('t', ...)` ) only spans one frame and
       // never advances past debounceTime(250) — meaning the assertion was a
-      // false positive. fakeAsync + tick(>250) actually exercises the
+      // false positive. vi.useFakeTimers + advanceTimersByTime(>250) actually exercises the
       // debounce window.
-      spyOn(service as any, 'activeCartRequired').and.returnValue(of(true));
-      const isStable$ = new BehaviorSubject<boolean>(true);
-      spyOn(activeCartFacade, 'isStable').and.returnValue(
-        isStable$.asObservable()
-      );
+      vi.useFakeTimers();
+      try {
+        vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(of(true));
+        const isStable$ = new BehaviorSubject<boolean>(true);
+        vi.spyOn(activeCartFacade, 'isStable').mockReturnValue(
+          isStable$.asObservable()
+        );
 
-      const emissions: boolean[] = [];
-      const sub = service.getUpdating().subscribe((v) => emissions.push(v));
+        const emissions: boolean[] = [];
+        const sub = service.getUpdating().subscribe((v) => emissions.push(v));
 
-      // Synchronous startWith(false) only.
-      expect(emissions).toEqual([false]);
+        // Synchronous startWith(false) only.
+        expect(emissions).toEqual([false]);
 
-      // Advance well past the 250ms window — !stable=false equals the seed,
-      // distinctUntilChanged dedups, no second emission.
-      tick(500);
-      expect(emissions).toEqual([false]);
+        // Advance well past the 250ms window — !stable=false equals the seed,
+        // distinctUntilChanged dedups, no second emission.
+        vi.advanceTimersByTime(500);
+        expect(emissions).toEqual([false]);
 
-      sub.unsubscribe();
-    }));
+        sub.unsubscribe();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
 
-    it('should emit true after debounce when isStable() flips to false', fakeAsync(() => {
-      spyOn(service as any, 'activeCartRequired').and.returnValue(of(true));
-      const isStable$ = new BehaviorSubject<boolean>(false);
-      spyOn(activeCartFacade, 'isStable').and.returnValue(
-        isStable$.asObservable()
-      );
+    it('should emit true after debounce when isStable() flips to false', () => {
+      vi.useFakeTimers();
+      try {
+        vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(of(true));
+        const isStable$ = new BehaviorSubject<boolean>(false);
+        vi.spyOn(activeCartFacade, 'isStable').mockReturnValue(
+          isStable$.asObservable()
+        );
 
-      const emissions: boolean[] = [];
-      const sub = service.getUpdating().subscribe((v) => emissions.push(v));
+        const emissions: boolean[] = [];
+        const sub = service.getUpdating().subscribe((v) => emissions.push(v));
 
-      // startWith(false) fires synchronously.
-      expect(emissions).toEqual([false]);
+        // startWith(false) fires synchronously.
+        expect(emissions).toEqual([false]);
 
-      // debounceTime(250) holds the !stable=true emission until 250ms elapse.
-      tick(249);
-      expect(emissions).toEqual([false]);
+        // debounceTime(250) holds the !stable=true emission until 250ms elapse.
+        vi.advanceTimersByTime(249);
+        expect(emissions).toEqual([false]);
 
-      tick(1);
-      expect(emissions).toEqual([false, true]);
+        vi.advanceTimersByTime(1);
+        expect(emissions).toEqual([false, true]);
 
-      sub.unsubscribe();
-    }));
+        sub.unsubscribe();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
 
-    it('should release the gate when isStable() recovers (false → true → false cycle)', fakeAsync(() => {
-      spyOn(service as any, 'activeCartRequired').and.returnValue(of(true));
-      const isStable$ = new BehaviorSubject<boolean>(true);
-      spyOn(activeCartFacade, 'isStable').and.returnValue(
-        isStable$.asObservable()
-      );
+    it('should release the gate when isStable() recovers (false → true → false cycle)', () => {
+      vi.useFakeTimers();
+      try {
+        vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(of(true));
+        const isStable$ = new BehaviorSubject<boolean>(true);
+        vi.spyOn(activeCartFacade, 'isStable').mockReturnValue(
+          isStable$.asObservable()
+        );
 
-      const emissions: boolean[] = [];
-      const sub = service.getUpdating().subscribe((v) => emissions.push(v));
+        const emissions: boolean[] = [];
+        const sub = service.getUpdating().subscribe((v) => emissions.push(v));
 
-      // Initial: stable → seed false; debounce window passes silently.
-      tick(250);
-      expect(emissions).toEqual([false]);
+        // Initial: stable → seed false; debounce window passes silently.
+        vi.advanceTimersByTime(250);
+        expect(emissions).toEqual([false]);
 
-      // Flip unstable → after 250ms debounce, true emits.
-      isStable$.next(false);
-      tick(250);
-      expect(emissions).toEqual([false, true]);
+        // Flip unstable → after 250ms debounce, true emits.
+        isStable$.next(false);
+        vi.advanceTimersByTime(250);
+        expect(emissions).toEqual([false, true]);
 
-      // Flip stable again → after 250ms debounce, false emits (gate releases).
-      isStable$.next(true);
-      tick(250);
-      expect(emissions).toEqual([false, true, false]);
+        // Flip stable again → after 250ms debounce, false emits (gate releases).
+        isStable$.next(true);
+        vi.advanceTimersByTime(250);
+        expect(emissions).toEqual([false, true, false]);
 
-      sub.unsubscribe();
-    }));
+        sub.unsubscribe();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
 
-    it('should suppress flicker: rapid stable=false→true within debounce produces no transient true', fakeAsync(() => {
-      spyOn(service as any, 'activeCartRequired').and.returnValue(of(true));
-      const isStable$ = new BehaviorSubject<boolean>(true);
-      spyOn(activeCartFacade, 'isStable').and.returnValue(
-        isStable$.asObservable()
-      );
+    it('should suppress flicker: rapid stable=false→true within debounce produces no transient true', () => {
+      vi.useFakeTimers();
+      try {
+        vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(of(true));
+        const isStable$ = new BehaviorSubject<boolean>(true);
+        vi.spyOn(activeCartFacade, 'isStable').mockReturnValue(
+          isStable$.asObservable()
+        );
 
-      const emissions: boolean[] = [];
-      const sub = service.getUpdating().subscribe((v) => emissions.push(v));
+        const emissions: boolean[] = [];
+        const sub = service.getUpdating().subscribe((v) => emissions.push(v));
 
-      // Fast burst inside the 250ms window: false → true → false on isStable
-      // becomes !stable: true → false → true (mapped). debounceTime(250)
-      // holds the trailing value; distinctUntilChanged dedups against the
-      // seed `false`. The user must NOT see a transient `true`.
-      isStable$.next(false); // !stable=true
-      tick(50);
-      isStable$.next(true); // !stable=false (matches seed)
-      tick(50);
-      isStable$.next(false); // !stable=true
-      tick(50);
-      isStable$.next(true); // !stable=false (matches seed)
+        // Fast burst inside the 250ms window: false → true → false on isStable
+        // becomes !stable: true → false → true (mapped). debounceTime(250)
+        // holds the trailing value; distinctUntilChanged dedups against the
+        // seed `false`. The user must NOT see a transient `true`.
+        isStable$.next(false); // !stable=true
+        vi.advanceTimersByTime(50);
+        isStable$.next(true); // !stable=false (matches seed)
+        vi.advanceTimersByTime(50);
+        isStable$.next(false); // !stable=true
+        vi.advanceTimersByTime(50);
+        isStable$.next(true); // !stable=false (matches seed)
 
-      // Let any debounced emission fire.
-      tick(300);
+        // Let any debounced emission fire.
+        vi.advanceTimersByTime(300);
 
-      // Final value matches the seed; distinctUntilChanged suppresses it.
-      expect(emissions).toEqual([false]);
+        // Final value matches the seed; distinctUntilChanged suppresses it.
+        expect(emissions).toEqual([false]);
 
-      sub.unsubscribe();
-    }));
+        sub.unsubscribe();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
 
-    it('should dedup repeated isStable()=true emissions via distinctUntilChanged', fakeAsync(() => {
-      spyOn(service as any, 'activeCartRequired').and.returnValue(of(true));
-      const isStable$ = new BehaviorSubject<boolean>(true);
-      spyOn(activeCartFacade, 'isStable').and.returnValue(
-        isStable$.asObservable()
-      );
+    it('should dedup repeated isStable()=true emissions via distinctUntilChanged', () => {
+      vi.useFakeTimers();
+      try {
+        vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(of(true));
+        const isStable$ = new BehaviorSubject<boolean>(true);
+        vi.spyOn(activeCartFacade, 'isStable').mockReturnValue(
+          isStable$.asObservable()
+        );
 
-      const emissions: boolean[] = [];
-      const sub = service.getUpdating().subscribe((v) => emissions.push(v));
+        const emissions: boolean[] = [];
+        const sub = service.getUpdating().subscribe((v) => emissions.push(v));
 
-      isStable$.next(true);
-      tick(300);
-      isStable$.next(true);
-      tick(300);
-      isStable$.next(true);
-      tick(300);
+        isStable$.next(true);
+        vi.advanceTimersByTime(300);
+        isStable$.next(true);
+        vi.advanceTimersByTime(300);
+        isStable$.next(true);
+        vi.advanceTimersByTime(300);
 
-      expect(emissions).toEqual([false]);
-      sub.unsubscribe();
-    }));
+        expect(emissions).toEqual([false]);
+        sub.unsubscribe();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
   });
 });
 
@@ -506,7 +530,7 @@ describe('MiniCartComponentService — enableCartSlowNetworkResilience OFF', () 
   });
 
   it('should emit only `false` and never subscribe to activeCartFacade.isStable()', () => {
-    spyOn(activeCartFacade, 'isStable').and.stub();
+    vi.spyOn(activeCartFacade, 'isStable').mockImplementation(() => {});
     expect(service.getUpdating()).toBeObservable(cold('(f|)', booleanValues));
     expect(activeCartFacade.isStable).not.toHaveBeenCalled();
   });
