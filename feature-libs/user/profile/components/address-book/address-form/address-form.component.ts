@@ -105,6 +105,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   protected hierarchicalAddressConfig = inject(HierarchicalAddressConfig);
   protected elementRef = inject(ElementRef);
 
+  protected get isMaxLengthEnabled(): boolean {
+    return this.featureToggles.enableFormFieldMaxLength ?? false;
+  }
+
   countries$: Observable<Country[]>;
   titles$: Observable<Title[]>;
   regions$: Observable<Region[]>;
@@ -160,25 +164,33 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   protected readonly maxFieldLength = 256;
 
-  addressForm: UntypedFormGroup = this.fb.group({
-    country: this.fb.group({
-      isocode: [null, Validators.required],
-    }),
-    titleCode: [''],
-    firstName: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
-    lastName: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
-    line1: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
-    line2: ['', Validators.maxLength(this.maxFieldLength)],
-    town: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
-    region: this.fb.group({
-      isocode: [null, Validators.required],
-    }),
-    district: [null],
-    postalCode: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
-    phone: ['', Validators.maxLength(this.maxFieldLength)],
-    cellphone: ['', Validators.maxLength(this.maxFieldLength)],
-    defaultAddress: [false],
-  });
+  addressForm: UntypedFormGroup = this.buildForm();
+
+  protected buildForm(): UntypedFormGroup {
+    const maxLength = this.featureToggles.enableFormFieldMaxLength
+      ? [Validators.maxLength(this.maxFieldLength)]
+      : [];
+
+    return this.fb.group({
+      country: this.fb.group({
+        isocode: [null, Validators.required],
+      }),
+      titleCode: [''],
+      firstName: ['', [Validators.required, ...maxLength]],
+      lastName: ['', [Validators.required, ...maxLength]],
+      line1: ['', [Validators.required, ...maxLength]],
+      line2: ['', maxLength],
+      town: ['', [Validators.required, ...maxLength]],
+      region: this.fb.group({
+        isocode: [null, Validators.required],
+      }),
+      district: [null],
+      postalCode: ['', [Validators.required, ...maxLength]],
+      phone: ['', maxLength],
+      cellphone: ['', maxLength],
+      defaultAddress: [false],
+    });
+  }
 
   constructor(
     protected fb: UntypedFormBuilder,
@@ -418,14 +430,15 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.selectedRegion$.next('');
     this.selectedCity$.next('');
 
+    const maxLength = this.isMaxLengthEnabled
+      ? [Validators.maxLength(this.maxFieldLength)]
+      : [];
+
     if (this.isHierarchicalAddressFormat) {
-      cellphoneControl?.setValidators([
-        Validators.required,
-        Validators.maxLength(this.maxFieldLength),
-      ]);
+      cellphoneControl?.setValidators([Validators.required, ...maxLength]);
       districtControl?.setValidators([Validators.required]);
     } else {
-      cellphoneControl?.setValidators([Validators.maxLength(this.maxFieldLength)]);
+      cellphoneControl?.setValidators(maxLength);
       districtControl?.clearValidators();
       townControl?.enable();
       districtControl?.enable();

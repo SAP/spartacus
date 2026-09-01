@@ -10,29 +10,33 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { Address } from '@spartacus/core';
+import { Address, FeatureToggles } from '@spartacus/core';
 
 @Injectable()
 export class CheckoutBillingAddressFormService {
   protected fb: UntypedFormBuilder = inject(UntypedFormBuilder);
   protected billingAddress: Address | undefined = undefined;
   protected readonly maxFieldLength = 256;
+  private featureToggles = inject(FeatureToggles);
   private form: UntypedFormGroup;
   getBillingAddressForm(): UntypedFormGroup {
     if (!this.form) {
+      const maxLength = this.featureToggles.enableFormFieldMaxLength
+        ? [Validators.maxLength(this.maxFieldLength)]
+        : [];
       this.form = this.fb.group({
-        firstName: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
-        lastName: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
-        line1: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
-        line2: ['', Validators.maxLength(this.maxFieldLength)],
-        town: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
+        firstName: ['', [Validators.required, ...maxLength]],
+        lastName: ['', [Validators.required, ...maxLength]],
+        line1: ['', [Validators.required, ...maxLength]],
+        line2: ['', maxLength],
+        town: ['', [Validators.required, ...maxLength]],
         region: this.fb.group({
           isocodeShort: [null, Validators.required],
         }),
         country: this.fb.group({
           isocode: [null, Validators.required],
         }),
-        postalCode: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
+        postalCode: ['', [Validators.required, ...maxLength]],
       });
     }
     return this.form;

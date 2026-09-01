@@ -49,6 +49,7 @@
               [cxNgSelectA11y]="{}"
             />
             <cx-form-errors
+              *ngIf="isMaxLengthEnabled"
               [translationParams]="{
                 label: 'addressForm.country' | cxTranslate,
               }"
@@ -177,12 +178,15 @@
           placeholder="{{ 'addressForm.aptSuite' | cxTranslate }}"
           formControlName="line2"
           [attr.aria-invalid]="
-            addressForm.get('line2')?.touched &&
-            addressForm.get('line2')?.invalid
+            isMaxLengthEnabled
+              ? addressForm.get('line2')?.touched &&
+                addressForm.get('line2')?.invalid
+              : null
           "
-          [attr.aria-errormessage]="'line2Error'"
+          [attr.aria-errormessage]="isMaxLengthEnabled ? 'line2Error' : null"
         />
         <cx-form-errors
+          *ngIf="isMaxLengthEnabled"
           id="line2Error"
           [translationParams]="{
             label: 'addressForm.address2' | cxTranslate,
@@ -403,12 +407,15 @@
             }}"
             formControlName="phone"
             [attr.aria-invalid]="
-              addressForm.get('phone')?.touched &&
-              addressForm.get('phone')?.invalid
+              isMaxLengthEnabled
+                ? addressForm.get('phone')?.touched &&
+                  addressForm.get('phone')?.invalid
+                : null
             "
-            [attr.aria-errormessage]="'phoneError'"
+            [attr.aria-errormessage]="isMaxLengthEnabled ? 'phoneError' : null"
           />
           <cx-form-errors
+            *ngIf="isMaxLengthEnabled"
             id="phoneError"
             [translationParams]="{
               label: 'addressForm.phoneNumber.label' | cxTranslate,
@@ -439,18 +446,24 @@
               }}"
               formControlName="cellphone"
               [attr.aria-invalid]="
-                addressForm.get('cellphone')?.touched &&
-                addressForm.get('cellphone')?.invalid
+                isMaxLengthEnabled
+                  ? addressForm.get('cellphone')?.touched &&
+                    addressForm.get('cellphone')?.invalid
+                  : null
               "
-              [attr.aria-errormessage]="'cellphoneError'"
+              [attr.aria-errormessage]="
+                isMaxLengthEnabled ? 'cellphoneError' : null
+              "
             />
             <cx-form-errors
+              *ngIf="isMaxLengthEnabled"
               id="cellphoneError"
               [translationParams]="{
-                label: (isHierarchicalAddressFormat
-                  ? 'addressForm.cellphone.requiredLabel'
-                  : 'addressForm.cellphone.label'
-                ) | cxTranslate,
+                label:
+                  (isHierarchicalAddressFormat
+                    ? 'addressForm.cellphone.requiredLabel'
+                    : 'addressForm.cellphone.label'
+                  ) | cxTranslate,
               }"
               [control]="addressForm.get('cellphone')"
             />
@@ -471,12 +484,17 @@
               }}"
               formControlName="cellphone"
               [attr.aria-invalid]="
-                addressForm.get('cellphone')?.touched &&
-                addressForm.get('cellphone')?.invalid
+                isMaxLengthEnabled
+                  ? addressForm.get('cellphone')?.touched &&
+                    addressForm.get('cellphone')?.invalid
+                  : null
               "
-              [attr.aria-errormessage]="'cellphoneError'"
+              [attr.aria-errormessage]="
+                isMaxLengthEnabled ? 'cellphoneError' : null
+              "
             />
             <cx-form-errors
+              *ngIf="isMaxLengthEnabled"
               id="cellphoneError"
               [translationParams]="{
                 label: 'addressForm.cellphone.label' | cxTranslate,

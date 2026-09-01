@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -16,6 +16,7 @@ import {
   Address,
   B2BUnit,
   Country,
+  FeatureToggles,
   Region,
   Title,
   TranslatePipe,
@@ -65,6 +66,12 @@ export class UnitAddressFormComponent implements OnInit {
   regions$: Observable<Region[]> = this.formService.getRegions();
 
   unit$: Observable<B2BUnit | undefined> = this.currentUnitService.item$;
+
+  private featureToggles = inject(FeatureToggles);
+
+  protected get isMaxLengthEnabled(): boolean {
+    return this.featureToggles.enableFormFieldMaxLength ?? false;
+  }
 
   constructor(
     protected itemService: ItemService<Address>,

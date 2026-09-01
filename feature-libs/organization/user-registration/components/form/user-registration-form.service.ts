@@ -37,40 +37,38 @@ import { filter, switchMap, take, tap } from 'rxjs/operators';
 })
 export class UserRegistrationFormService {
   protected readonly maxFieldLength = 256;
+  private featureToggles = inject(FeatureToggles);
 
   private _form: FormGroup = this.buildForm();
-  private featureToggles = inject(FeatureToggles);
 
   /*
    * Initializes form structure for registration.
    */
   protected buildForm(): FormGroup {
+    const maxLength = this.featureToggles.enableFormFieldMaxLength
+      ? [Validators.maxLength(this.maxFieldLength)]
+      : [];
+
     return this.formBuilder.group({
       titleCode: [null],
-      firstName: [
+      firstName: ['', [Validators.required, ...maxLength]],
+      lastName: ['', [Validators.required, ...maxLength]],
+      companyName: ['', [Validators.required, ...maxLength]],
+      email: [
         '',
-        [Validators.required, Validators.maxLength(this.maxFieldLength)],
+        [Validators.required, CustomFormValidators.emailValidator, ...maxLength],
       ],
-      lastName: [
-        '',
-        [Validators.required, Validators.maxLength(this.maxFieldLength)],
-      ],
-      companyName: [
-        '',
-        [Validators.required, Validators.maxLength(this.maxFieldLength)],
-      ],
-      email: ['', [Validators.required, CustomFormValidators.emailValidator]],
       country: this.formBuilder.group({
         isocode: [null],
       }),
-      line1: ['', Validators.maxLength(this.maxFieldLength)],
-      line2: ['', Validators.maxLength(this.maxFieldLength)],
-      town: ['', Validators.maxLength(this.maxFieldLength)],
+      line1: ['', maxLength],
+      line2: ['', maxLength],
+      town: ['', maxLength],
       region: this.formBuilder.group({
         isocode: [null],
       }),
-      postalCode: ['', Validators.maxLength(this.maxFieldLength)],
-      phoneNumber: ['', Validators.maxLength(this.maxFieldLength)],
+      postalCode: ['', maxLength],
+      phoneNumber: ['', maxLength],
       message: [''],
     });
   }
