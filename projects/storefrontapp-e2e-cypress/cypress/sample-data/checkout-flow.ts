@@ -65,7 +65,7 @@ export function getSampleUser() {
     titleCode: 'Mr',
     firstName: 'Cypress',
     lastName: 'customer',
-    fullName: 'Cypress customer',
+    fullName: 'Mr. Cypress customer',
     password: 'Pas!sword123.',
     email: generateMail(randomString(), true),
     phone: '+919555555555',
