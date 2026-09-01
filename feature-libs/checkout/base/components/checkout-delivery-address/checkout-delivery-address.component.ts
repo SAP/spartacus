@@ -137,14 +137,10 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
 
     const role = isSelected ? 'region' : 'group';
 
-    const fullName = address.firstName + ' ' + address.lastName;
     return {
       role,
       title: address.defaultAddress ? textDefaultDeliveryAddress : '',
-      textBold:
-        this.featureToggles.addTitleToAddressCard && !!address.title
-          ? address.title + ' ' + fullName
-          : fullName,
+      textBold: this.getCardName(address),
       text: [
         address.line1,
         address.line2,
@@ -160,6 +156,13 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         ? 'addressBook.defaultDeliveryAddress'
         : 'addressBook.additionalDeliveryAddress',
     } as Card;
+  }
+
+  protected getCardName(address: Address): string {
+    const fullName = address.firstName + ' ' + address.lastName;
+    return this.featureToggles.addTitleToAddressCard && !!address.title
+      ? address.title + ' ' + fullName
+      : fullName;
   }
 
   selectAddress(address: Address): void {

@@ -223,13 +223,10 @@ export class AddressBookComponent implements OnInit, OnDestroy {
               numbers,
             ];
           }
-          const fullName = address.firstName + ' ' + address.lastName;
+          const fullName = this.getCardName(address);
           return {
             role: 'application',
-            textBold:
-              this.featureToggles.addTitleToAddressCard && !!address.title
-                ? address.title + ' ' + fullName
-                : fullName,
+            textBold: fullName,
             text,
             actions: actions,
             header: address.defaultAddress ? `✓ ${defaultText}` : '',
@@ -241,6 +238,13 @@ export class AddressBookComponent implements OnInit, OnDestroy {
         }
       )
     );
+  }
+
+  protected getCardName(address: Address): string {
+    const fullName = address.firstName + ' ' + address.lastName;
+    return this.featureToggles.addTitleToAddressCard && !!address.title
+      ? address.title + ' ' + fullName
+      : fullName;
   }
 
   protected buildLocationLine(address: Address): string {
