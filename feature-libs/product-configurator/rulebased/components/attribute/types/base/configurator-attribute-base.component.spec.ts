@@ -161,6 +161,21 @@ describe('ConfiguratorAttributeBaseComponent', () => {
         )
       ).toBe('cx-configurator--radioGroup--attributeId--valueId');
     });
+
+    it('falls back to the attribute id when no value is given', () => {
+      expect(
+        classUnderTest.createAttributeValueIdForConfigurator(currentAttribute)
+      ).toBe('cx-configurator--radioGroup--attributeId');
+    });
+
+    it('uses the "not implemented" ui type when the attribute has none', () => {
+      expect(
+        classUnderTest.createAttributeValueIdForConfigurator(
+          attributeIncomplete,
+          'valueId'
+        )
+      ).toBe('cx-configurator--not_implemented--name--valueId');
+    });
   });
 
   describe('getImage', () => {
@@ -425,6 +440,137 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       const value = ConfiguratorTestUtils.createValue('valueCode', 10);
       expect(classUnderTest['getValuePrice'](value)).toEqual(
         ' [+' + value.valuePrice?.formattedValue + ']'
+      );
+    });
+
+    it('returns empty string when value is selected even if price is set', () => {
+      const value = ConfiguratorTestUtils.createValue('valueCode', 10, true);
+      expect(classUnderTest['getValuePrice'](value)).toEqual('');
+    });
+  });
+
+  describe('createContainerUiKey', () => {
+    it('returns attribute key when valueId is omitted', () => {
+      expect(classUnderTest.createContainerUiKey('prefix', 'attributeId')).toBe(
+        'cx-configurator--prefix--attributeId'
+      );
+    });
+
+    it('returns value key when valueId is provided', () => {
+      expect(
+        classUnderTest.createContainerUiKey('prefix', 'attributeId', 'valueId')
+      ).toBe('cx-configurator--prefix--attributeId--valueId');
+    });
+  });
+
+  describe('getContainerRequiredMessageKey', () => {
+    it('returns translatable when remaining count is at least 1', () => {
+      expect(
+        classUnderTest.getContainerRequiredMessageKey(4, [
+          { id: '1', selected: true },
+        ])
+      ).toEqual({
+        key: 'configurator.attribute.containerRequiredMessage',
+        params: { count: 3 },
+      });
+    });
+
+    it('returns undefined when minimum selection is satisfied', () => {
+      expect(
+        classUnderTest.getContainerRequiredMessageKey(2, [
+          { id: '1', selected: true },
+          { id: '2', selected: true },
+        ])
+      ).toBeUndefined();
+    });
+  });
+
+  describe('getSelectedValue', () => {
+    it('returns the selected value from attribute values', () => {
+      currentAttribute.values = [
+        ConfiguratorTestUtils.createValue('123', 10, true),
+        ConfiguratorTestUtils.createValue('456', 15),
+      ];
+      expect(
+        classUnderTest['getSelectedValue'](currentAttribute)?.valueCode
+      ).toBe('123');
+    });
+
+    it('returns undefined when no value is selected', () => {
+      currentAttribute.values = [ConfiguratorTestUtils.createValue('456', 15)];
+      expect(
+        classUnderTest['getSelectedValue'](currentAttribute)
+      ).toBeUndefined();
+    });
+  });
+
+  describe('getAriaLabelGeneric', () => {
+    it('returns empty string when value is undefined', () => {
+      expect(
+        classUnderTest['getAriaLabelGeneric'](currentAttribute, undefined)
+      ).toBe('');
+    });
+
+    it('returns translated label including value and attribute', () => {
+      const value = ConfiguratorTestUtils.createValue('123', 10);
+      value.valueDisplay = 'Red';
+      currentAttribute.label = 'Color';
+      expect(
+        classUnderTest['getAriaLabelGeneric'](currentAttribute, value)
+      ).toContain('Red');
+    });
+
+    it('uses selected-value key when considerSelectionState is true and value is selected', () => {
+      const value = ConfiguratorTestUtils.createValue('123', 10, true);
+      value.valueDisplay = 'Red';
+      currentAttribute.label = 'Color';
+      expect(
+        classUnderTest['getAriaLabelGeneric'](currentAttribute, value, true)
+      ).toContain('configurator.a11y.selectedValueOfAttributeFull');
+    });
+  });
+
+  describe('extractValuePriceFormulaParameters', () => {
+    it('maps quantity, prices and selection state from value', () => {
+      const value = ConfiguratorTestUtils.createValue('123', 10, true);
+      value.quantity = 2;
+      expect(classUnderTest.extractValuePriceFormulaParameters(value)).toEqual({
+        quantity: 2,
+        price: value.valuePrice,
+        priceTotal: value.valuePriceTotal,
+        isLightedUp: true,
+      });
+    });
+
+    it('returns empty option fields when value is undefined', () => {
+      expect(
+        classUnderTest.extractValuePriceFormulaParameters(undefined)
+      ).toEqual({
+        quantity: undefined,
+        price: undefined,
+        priceTotal: undefined,
+        isLightedUp: undefined,
+      });
+    });
+  });
+
+  describe('isLastSelected', () => {
+    it('delegates to ConfiguratorStorefrontUtilsService', () => {
+      const utils = TestBed.inject(
+        ConfiguratorStorefrontUtilsService
+      ) as unknown as {
+        isLastSelected: jasmine.Spy;
+      };
+      utils.isLastSelected = jasmine
+        .createSpy('isLastSelected')
+        .and.returnValue(true);
+
+      expect(classUnderTest.isLastSelected('attributeName', 'valueCode')).toBe(
+        true
+      );
+      expect(utils.isLastSelected).toHaveBeenCalledWith(
+        'attributeName',
+        'valueCode'
       );
     });
   });
@@ -802,6 +948,10 @@ describe('ConfiguratorAttributeBaseComponent', () => {
 
     it('should default to 1 if minRows is 0', () => {
       expect(classUnderTest.getContainerRemainingRequiredCount(0, [])).toBe(1);
+    });
+
+    it('should treat undefined rows as no selection', () => {
+      expect(classUnderTest.getContainerRemainingRequiredCount(3)).toBe(3);
     });
 
     it('should default to 0 if remaining products are zero', () => {

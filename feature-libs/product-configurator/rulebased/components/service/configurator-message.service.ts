@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { Translatable } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { Configurator } from '../model/configurator.model';
+import { Configurator } from '../../core/model/configurator.model';
 
 /** Message rendered via the translation pipe. */
 export type ConfiguratorTranslatableMessage = string | Translatable;
@@ -33,8 +33,6 @@ export interface ConfiguratorMessageGroup {
   messages: ConfiguratorTranslatableMessage[];
   /** CSS class applied to the message row. */
   messageClass: string;
-  /** CSS class applied to the severity icon. */
-  iconClass?: string;
   /** Icon representing the message severity. */
   iconType?: ICON_TYPE;
   /** Whether the severity icon is displayed. */
@@ -223,7 +221,6 @@ export class ConfiguratorMessageService {
     options: {
       containerInfoMessageClass: string;
       requiredErrorMessageClass: string;
-      requiredErrorIconClass?: string;
       iconTypeError: ICON_TYPE;
       containerInfoUiKeyPrefix: string;
       requiredErrorUiKeyPrefix: string;
@@ -245,7 +242,6 @@ export class ConfiguratorMessageService {
       prependedGroups.push({
         messages: messagesView.requiredErrorMessages,
         messageClass: options.requiredErrorMessageClass,
-        iconClass: options.requiredErrorIconClass,
         iconType: options.iconTypeError,
         showIcon: true,
         uiKeyPrefix: options.requiredErrorUiKeyPrefix,

@@ -28,7 +28,7 @@ import {
   ConfiguratorMessageGroup,
   ConfiguratorMessageService,
   ConfiguratorMessagesView,
-} from '../../../core/facade/configurator-message.service';
+} from '../../service/configurator-message.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';

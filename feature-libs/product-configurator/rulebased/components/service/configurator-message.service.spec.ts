@@ -6,7 +6,7 @@
 
 import { TestBed } from '@angular/core/testing';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { Configurator } from '../model/configurator.model';
+import { Configurator } from '../../core/model/configurator.model';
 import {
   ConfiguratorMessageService,
   ConfiguratorMessagesView,
@@ -20,12 +20,12 @@ describe('ConfiguratorMessageService', () => {
     service = TestBed.inject(ConfiguratorMessageService);
   });
 
-  it('should be created', () => {
+  it('should create', () => {
     expect(service).toBeTruthy();
   });
 
   describe('splitMessagesBySeverity', () => {
-    it('should return empty arrays if messages are undefined', () => {
+    it('returns empty buckets when messages are undefined', () => {
       expect(service.splitMessagesBySeverity()).toEqual({
         infoMessages: [],
         errorMessages: [],
@@ -33,7 +33,7 @@ describe('ConfiguratorMessageService', () => {
       });
     });
 
-    it('should map severities to the corresponding buckets', () => {
+    it('maps ERROR, WARNING and INFO to separate buckets', () => {
       expect(
         service.splitMessagesBySeverity([
           {
@@ -56,7 +56,7 @@ describe('ConfiguratorMessageService', () => {
       });
     });
 
-    it('should treat messages without severity as info', () => {
+    it('treats missing severity as info', () => {
       expect(
         service.splitMessagesBySeverity([{ message: 'Unspecified message' }])
       ).toEqual({
@@ -68,7 +68,7 @@ describe('ConfiguratorMessageService', () => {
   });
 
   describe('enrichMessagesWithContainerContext', () => {
-    it('should prepend container info and required messages', () => {
+    it('adds container info and required messages when include flags are true', () => {
       expect(
         service.enrichMessagesWithContainerContext(
           {
@@ -111,7 +111,7 @@ describe('ConfiguratorMessageService', () => {
       });
     });
 
-    it('should preserve existing container context when include flags are false', () => {
+    it('skips container info when includeContainerInfo is false', () => {
       expect(
         service.enrichMessagesWithContainerContext(
           {
@@ -179,7 +179,7 @@ describe('ConfiguratorMessageService', () => {
       ],
     };
 
-    it('should keep warnings only for selected products', () => {
+    it('keeps engine errors only and clears info, warning and container context for selected products', () => {
       expect(service.filterMessagesByProductSelection(view, true)).toEqual({
         infoMessages: [],
         warningMessages: [],
@@ -189,7 +189,7 @@ describe('ConfiguratorMessageService', () => {
       });
     });
 
-    it('should keep info and errors only for unselected products', () => {
+    it('keeps info, warning and container context and clears engine errors for unselected products', () => {
       expect(service.filterMessagesByProductSelection(view, false)).toEqual({
         infoMessages: ['Info'],
         warningMessages: ['Warning'],
@@ -211,7 +211,7 @@ describe('ConfiguratorMessageService', () => {
   });
 
   describe('prependContainerContextMessageGroups', () => {
-    it('should place container context groups before severity groups', () => {
+    it('places container info and required groups before severity groups', () => {
       const groups = service.prependContainerContextMessageGroups(
         {
           infoMessages: [],

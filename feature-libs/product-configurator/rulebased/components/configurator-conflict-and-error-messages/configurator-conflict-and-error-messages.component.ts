@@ -15,7 +15,7 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import {
   ConfiguratorMessageService,
   ConfiguratorMessagesView,
-} from '../../core/facade/configurator-message.service';
+} from '../service/configurator-message.service';
 import { ConfiguratorUtilsService } from '../../core/facade/utils/configurator-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
 

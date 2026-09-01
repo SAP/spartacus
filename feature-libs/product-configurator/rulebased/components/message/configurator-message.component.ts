@@ -8,7 +8,7 @@ import { NgClass, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
-import { ConfiguratorTranslatableMessage } from '../../core/facade/configurator-message.service';
+import { ConfiguratorTranslatableMessage } from '../service/configurator-message.service';
 
 /**
  * Presentational component that renders a list of messages,
@@ -34,10 +34,6 @@ export class ConfiguratorMessageComponent {
    * CSS class applied to each message row.
    */
   @Input() messageClass?: string;
-  /**
-   * CSS class applied to the severity icon.
-   */
-  @Input() iconClass?: string;
   /**
    * Icon representing the message severity.
    */

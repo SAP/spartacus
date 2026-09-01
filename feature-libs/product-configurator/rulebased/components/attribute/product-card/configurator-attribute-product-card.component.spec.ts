@@ -25,11 +25,8 @@ import {
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import {
-  ConfiguratorRouter,
-  ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
-import {
   FocusDirective,
+  ICON_TYPE,
   ItemCounterComponent,
   KeyboardFocusService,
   MediaModule,
@@ -39,10 +36,8 @@ import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes
 import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
-import { ConfiguratorUtilsService } from '../../../core/facade/utils/configurator-utils.service';
+import { ConfiguratorMessageGroup } from '../../service/configurator-message.service';
 import { Configurator } from '../../../core/model/configurator.model';
-import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import {
   ConfiguratorPriceComponent,
   ConfiguratorPriceComponentOptions,
@@ -93,23 +88,9 @@ class MockProductService {
   }
 }
 
-let configuration$: BehaviorSubject<Configurator.Configuration>;
-
 class MockConfiguratorStorefrontUtilsService {
   isCartEntryOrGroupVisited(): Observable<boolean> {
     return of(true);
-  }
-}
-
-class MockConfiguratorRouterExtractorService {
-  extractRouterData(): Observable<ConfiguratorRouter.Data> {
-    return of({} as ConfiguratorRouter.Data);
-  }
-}
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return configuration$;
   }
 }
 
@@ -229,15 +210,6 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfiguratorStorefrontUtilsService,
         },
-        {
-          provide: ConfiguratorRouterExtractorService,
-          useClass: MockConfiguratorRouterExtractorService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        ConfiguratorUtilsService,
         provideMockFeatureToggles({
           productConfiguratorConsolidatedButtonDisabling: true,
           productConfiguratorCPQContainer: true,
@@ -271,9 +243,6 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
   }));
 
   beforeEach(() => {
-    configuration$ = new BehaviorSubject(
-      ConfiguratorTestUtils.createConfiguration('config-id')
-    );
     featureToggles = TestBed.inject(MockFeatureTogglesController);
     fixture = TestBed.createComponent(
       ConfiguratorAttributeProductCardComponent
@@ -1691,448 +1660,264 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
   });
 
   describe('container row messages', () => {
-    const rowGroupId = 'CONTAINER_ROW@123@row-1';
-
-    function takeMessages(): {
-      errorMessages: string[];
-      warningMessages: string[];
-      infoMessages: string[];
-    } {
-      let result!: {
-        errorMessages: string[];
-        warningMessages: string[];
-        infoMessages: string[];
+    // Message groups are pre-built by the parent container and passed via
+    // `productCardOptions.messages`. The card only renders what it receives.
+    function errorGroup(messages: string[]): ConfiguratorMessageGroup {
+      return {
+        messages,
+        messageClass: 'cx-error-msg',
+        iconType: ICON_TYPE.ERROR,
+        showIcon: true,
+        uiKeyPrefix: 'error-msg',
+        role: 'alert',
       };
-      component.messages$
-        .pipe(take(1))
-        .subscribe((messages) => (result = messages));
-      return result;
     }
 
-    function setConfigurationGroups(groups: Configurator.Group[]): void {
-      configuration$.next({
-        ...ConfiguratorTestUtils.createConfiguration('config-id'),
-        groups,
-      });
+    function infoGroup(messages: string[]): ConfiguratorMessageGroup {
+      return {
+        messages,
+        messageClass: 'cx-info-msg',
+        showIcon: false,
+        uiKeyPrefix: 'info-msg',
+      };
     }
 
-    function setContainerRowMessages(
-      messages?: Configurator.Message[],
-      options?: { groupId?: string; omitGroupId?: boolean }
-    ): void {
-      const groupId = options?.omitGroupId
-        ? undefined
-        : (options?.groupId ?? rowGroupId);
-      component.productCardOptions.containerRow = {
-        id: 'row-1',
-        productSystemId: 'PRODUCT_CODE',
-        selected: true,
-        groupId,
+    function containerInfoGroup(messages: string[]): ConfiguratorMessageGroup {
+      return {
+        messages,
+        messageClass: 'cx-container-info-msg',
+        showIcon: false,
+        uiKeyPrefix: 'row-container-info-msg',
       };
-      setConfigurationGroups(
-        groupId
-          ? [
-              {
-                ...ConfiguratorTestUtils.createGroup(groupId),
-                messages,
-              },
-            ]
-          : []
-      );
     }
 
-    it('should not render messages if container row has none', () => {
-      component.productCardOptions.multiSelect = true;
-      setProductBoundValueAttributes(component);
-      setContainerRowMessages();
-      fixture.detectChanges();
+    function requiredErrorGroup(messages: string[]): ConfiguratorMessageGroup {
+      return {
+        messages,
+        messageClass: 'cx-container-error-msg',
+        iconType: ICON_TYPE.ERROR,
+        showIcon: true,
+        uiKeyPrefix: 'row-required-msg',
+        role: 'alert',
+      };
+    }
 
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.container-error-msg'
-      );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.container-warning-msg'
-      );
-    });
-
-    it('should not render the message container when there are no messages and no deselection error', () => {
-      component.productCardOptions.multiSelect = true;
-      setProductBoundValueAttributes(component);
-      setContainerRowMessages();
-      fixture.detectChanges();
-
-      expect(htmlElem.querySelector('.cx-product-card.message')).toBeFalsy();
-    });
-
-    it('should render the message container when there are messages', () => {
-      component.productCardOptions.multiSelect = true;
-      setProductBoundValueAttributes(component);
-      setContainerRowMessages([
-        {
-          message: 'Too many units',
-          severity: Configurator.MessageSeverity.ERROR,
-        },
-      ]);
-      fixture.detectChanges();
-
-      expect(htmlElem.querySelector('.cx-product-card.message')).toBeTruthy();
-    });
-
-    it('should render the message container when a deselection error is shown', () => {
-      component.productCardOptions.multiSelect = true;
-      setProductBoundValueAttributes(component);
-      setContainerRowMessages();
-      component.showDeselectionNotPossible = true;
-      fixture.detectChanges();
-
-      expect(htmlElem.querySelector('.cx-product-card.message')).toBeTruthy();
-    });
-
-    it('should render warning messages for warning severity of the row group', () => {
-      component.productCardOptions.multiSelect = true;
-      setProductBoundValueAttributes(component);
-      setContainerRowMessages([
-        {
-          message: 'Too many units',
-          severity: Configurator.MessageSeverity.ERROR,
-        },
-        {
-          message: 'Invalid selection',
-          severity: Configurator.MessageSeverity.ERROR,
-        },
-      ]);
-      fixture.detectChanges();
-
-      CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
-        expect,
-        htmlElem,
-        '.cx-error-msg',
-        2
-      );
-      CommonConfiguratorTestUtilsService.expectElementToContainText(
-        expect,
-        htmlElem,
-        '.cx-error-msg',
-        'Too many units'
-      );
-      CommonConfiguratorTestUtilsService.expectElementToContainText(
-        expect,
-        htmlElem,
-        '.cx-error-msg',
-        'Invalid selection',
-        1
-      );
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-error-msg cx-icon'
-      );
-    });
-
-    it('should render info messages for info severity of unselected row group', () => {
-      component.productCardOptions.multiSelect = true;
-      setProductBoundValueAttributes(component, false);
-      setContainerRowMessages([
-        {
-          message: 'Check quantity',
-          severity: Configurator.MessageSeverity.INFO,
-        },
-        {
-          message: 'Review selection',
-          severity: Configurator.MessageSeverity.INFO,
-        },
-      ]);
-      fixture.detectChanges();
-
-      CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
-        expect,
-        htmlElem,
-        '.cx-info-msg',
-        2
-      );
-      CommonConfiguratorTestUtilsService.expectElementToContainText(
-        expect,
-        htmlElem,
-        '.cx-info-msg',
-        'Check quantity'
-      );
-      CommonConfiguratorTestUtilsService.expectElementToContainText(
-        expect,
-        htmlElem,
-        '.cx-info-msg',
-        'Review selection',
-        1
-      );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-container-info-symbol'
-      );
-    });
-
-    it('should treat messages without severity as info', () => {
-      component.productCardOptions.multiSelect = true;
-      setProductBoundValueAttributes(component);
-      setContainerRowMessages([{ message: 'Unspecified message' }]);
-
-      expect(takeMessages()).toEqual({
-        errorMessages: [],
-        warningMessages: [],
-        infoMessages: ['Unspecified message'],
-      });
-    });
-
-    it('should return empty arrays if no container row is bound', () => {
-      expect(takeMessages()).toEqual({
-        errorMessages: [],
-        warningMessages: [],
-        infoMessages: [],
-      });
-    });
-
-    it('should return empty arrays if messages are undefined', () => {
-      component.productCardOptions.multiSelect = true;
-      setProductBoundValueAttributes(component);
-      setContainerRowMessages();
-
-      expect(takeMessages()).toEqual({
-        errorMessages: [],
-        warningMessages: [],
-        infoMessages: [],
-      });
-    });
-
-    it('should return empty arrays if the container row has no groupId', () => {
-      component.productCardOptions.multiSelect = true;
-      setProductBoundValueAttributes(component);
-      setContainerRowMessages(
-        [
-          {
-            message: 'Too many units',
-            severity: Configurator.MessageSeverity.WARNING,
-          },
-        ],
-        { omitGroupId: true }
-      );
-
-      expect(takeMessages()).toEqual({
-        errorMessages: [],
-        warningMessages: [],
-        infoMessages: [],
-      });
-    });
-
-    it('should return empty arrays if the configuration has no groups', () => {
-      component.productCardOptions.multiSelect = true;
-      setProductBoundValueAttributes(component);
+    function setMessages(groups: ConfiguratorMessageGroup[]): void {
       component.productCardOptions.containerRow = {
         id: 'row-1',
         productSystemId: 'PRODUCT_CODE',
         selected: true,
-        groupId: rowGroupId,
       };
+      component.productCardOptions.messages = groups;
+    }
 
-      expect(takeMessages()).toEqual({
-        errorMessages: [],
-        warningMessages: [],
-        infoMessages: [],
+    describe('message container visibility', () => {
+      it('hides container when there are no messages and no deselection error', () => {
+        component.productCardOptions.multiSelect = true;
+        setProductBoundValueAttributes(component);
+        setMessages([]);
+        fixture.detectChanges();
+
+        expect(htmlElem.querySelector('.cx-product-card.message')).toBeFalsy();
+      });
+
+      it('shows container when message groups are provided', () => {
+        component.productCardOptions.multiSelect = true;
+        setProductBoundValueAttributes(component);
+        setMessages([errorGroup(['Too many units'])]);
+        fixture.detectChanges();
+
+        expect(htmlElem.querySelector('.cx-product-card.message')).toBeTruthy();
+      });
+
+      it('shows container when deselection error is active', () => {
+        component.productCardOptions.multiSelect = true;
+        setProductBoundValueAttributes(component);
+        setMessages([]);
+        component.showDeselectionNotPossible = true;
+        fixture.detectChanges();
+
+        expect(htmlElem.querySelector('.cx-product-card.message')).toBeTruthy();
+      });
+
+      it('hides container when messages are undefined and no deselection error', () => {
+        component.productCardOptions.multiSelect = true;
+        setProductBoundValueAttributes(component);
+        component.productCardOptions.messages = undefined;
+        fixture.detectChanges();
+
+        expect(htmlElem.querySelector('.cx-product-card.message')).toBeFalsy();
       });
     });
 
-    it('should return empty arrays if no matching row group exists', () => {
-      component.productCardOptions.multiSelect = true;
-      setProductBoundValueAttributes(component);
-      component.productCardOptions.containerRow = {
-        id: 'row-1',
-        productSystemId: 'PRODUCT_CODE',
-        selected: true,
-        groupId: rowGroupId,
-      };
-      setConfigurationGroups([
-        ConfiguratorTestUtils.createGroup('other-group'),
-      ]);
+    describe('message group rendering', () => {
+      it('renders no message rows when groups are empty', () => {
+        component.productCardOptions.multiSelect = true;
+        setProductBoundValueAttributes(component);
+        setMessages([]);
+        fixture.detectChanges();
 
-      expect(takeMessages()).toEqual({
-        errorMessages: [],
-        warningMessages: [],
-        infoMessages: [],
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-error-msg'
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-info-msg'
+        );
+      });
+
+      it('renders error group rows with icon', () => {
+        component.productCardOptions.multiSelect = true;
+        setProductBoundValueAttributes(component);
+        setMessages([errorGroup(['Too many units', 'Invalid selection'])]);
+        fixture.detectChanges();
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+          expect,
+          htmlElem,
+          '.cx-error-msg',
+          2
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-error-msg',
+          'Too many units'
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-error-msg',
+          'Invalid selection',
+          1
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-error-msg cx-icon'
+        );
+      });
+
+      it('renders info group rows without icon', () => {
+        component.productCardOptions.multiSelect = true;
+        setProductBoundValueAttributes(component, false);
+        setMessages([infoGroup(['Check quantity', 'Review selection'])]);
+        fixture.detectChanges();
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+          expect,
+          htmlElem,
+          '.cx-info-msg',
+          2
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-info-msg',
+          'Check quantity'
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-info-msg',
+          'Review selection',
+          1
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-info-msg cx-icon'
+        );
+      });
+
+      it('renders one cx-configurator-message per group', () => {
+        component.productCardOptions.multiSelect = true;
+        setProductBoundValueAttributes(component);
+        setMessages([
+          errorGroup(['Too many units']),
+          infoGroup(['Check quantity']),
+        ]);
+        fixture.detectChanges();
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+          expect,
+          htmlElem,
+          'cx-configurator-message',
+          2
+        );
+      });
+
+      it('renders container info, required and engine groups together', () => {
+        component.productCardOptions.multiSelect = true;
+        setProductBoundValueAttributes(component, false);
+        setMessages([
+          containerInfoGroup(['Select at least 2 products']),
+          requiredErrorGroup(['Required selection missing']),
+          infoGroup(['Review selection']),
+        ]);
+        fixture.detectChanges();
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+          expect,
+          htmlElem,
+          'cx-configurator-message',
+          3
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-container-info-msg'
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-container-error-msg cx-icon'
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-container-info-msg',
+          'Select at least 2 products'
+        );
+      });
+
+      it('renders row messages alongside deselection error', () => {
+        component.productCardOptions.multiSelect = true;
+        setProductBoundValueAttributes(component);
+        setMessages([errorGroup(['Too many units'])]);
+        component.showDeselectionNotPossible = true;
+        fixture.detectChanges();
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+          expect,
+          htmlElem,
+          'cx-configurator-message',
+          1
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-deselection-error-msg'
+        );
       });
     });
 
-    it('should not fall back to root configuration messages', () => {
-      component.productCardOptions.multiSelect = true;
-      setProductBoundValueAttributes(component);
-      component.productCardOptions.containerRow = {
-        id: 'row-1',
-        productSystemId: 'PRODUCT_CODE',
-        selected: true,
-        groupId: rowGroupId,
-      };
-      configuration$.next({
-        ...ConfiguratorTestUtils.createConfiguration('config-id'),
-        errorMessages: ['Root error'],
-        warningMessages: ['Root warning'],
-        groups: [ConfiguratorTestUtils.createGroup('other-group')],
+    describe('when messages input is undefined', () => {
+      it('shows deselection error without row messages', () => {
+        component.productCardOptions.multiSelect = true;
+        setProductBoundValueAttributes(component);
+        component.productCardOptions.messages = undefined;
+        component.showDeselectionNotPossible = true;
+        fixture.detectChanges();
+
+        expect(htmlElem.querySelector('.cx-product-card.message')).toBeTruthy();
+        expect(
+          htmlElem.querySelector('.cx-deselection-error-msg')
+        ).toBeTruthy();
       });
-
-      expect(takeMessages()).toEqual({
-        errorMessages: [],
-        warningMessages: [],
-        infoMessages: [],
-      });
-    });
-
-    it('should look up messages from a nested subgroup by groupId', () => {
-      component.productCardOptions.multiSelect = true;
-      setProductBoundValueAttributes(component);
-      component.productCardOptions.containerRow = {
-        id: 'row-1',
-        productSystemId: 'PRODUCT_CODE',
-        selected: true,
-        groupId: rowGroupId,
-      };
-      const nestedGroup = {
-        ...ConfiguratorTestUtils.createGroup(rowGroupId),
-        messages: [
-          {
-            message: 'Nested warning',
-            severity: Configurator.MessageSeverity.WARNING,
-          },
-        ],
-      };
-      setConfigurationGroups([
-        {
-          ...ConfiguratorTestUtils.createGroup('parent-group'),
-          subGroups: [nestedGroup],
-        },
-      ]);
-
-      expect(takeMessages().warningMessages).toEqual(['Nested warning']);
-    });
-
-    it('should not render info messages on selected products', () => {
-      component.productCardOptions.multiSelect = true;
-      setProductBoundValueAttributes(component, true);
-      setContainerRowMessages([
-        {
-          message: 'Check quantity',
-          severity: Configurator.MessageSeverity.INFO,
-        },
-      ]);
-      fixture.detectChanges();
-
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-container-info-msg'
-      );
-    });
-
-    it('should not render warning messages on unselected products', () => {
-      component.productCardOptions.multiSelect = true;
-      setProductBoundValueAttributes(component, false);
-      setContainerRowMessages([
-        {
-          message: 'Too many units',
-          severity: Configurator.MessageSeverity.WARNING,
-        },
-      ]);
-      fixture.detectChanges();
-
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.container-warning-msg'
-      );
-    });
-
-    it('should prepend container context messages before row messages', () => {
-      component.productCardOptions.multiSelect = true;
-      component.productCardOptions.attribute.container = {
-        rows: [{ id: '1', selected: true }],
-      };
-      component.productCardOptions.attribute.required = true;
-      component.productCardOptions.attribute.incomplete = true;
-      component.productCardOptions.groupId = 'group-id';
-      setProductBoundValueAttributes(component, false);
-      setContainerRowMessages([
-        {
-          message: 'Too many units',
-          severity: Configurator.MessageSeverity.WARNING,
-        },
-      ]);
-      // setContainerRowMessages resets containerRow, so apply the min/max rows afterward.
-      // Cast to `any` to avoid strict typing issues in the test helper.
-      component.productCardOptions.containerRow = {
-        ...(component.productCardOptions.containerRow as any),
-        selected: false,
-        minRows: 2,
-        maxRows: 4,
-      } as any as Configurator.ContainerRow;
-
-      const groups = component.getMessageGroups(takeMessages());
-
-      expect(groups.map((group) => group.uiKeyPrefix)).toEqual([
-        'row-container-info-msg',
-        'row-required-msg',
-        'warning-msg',
-      ]);
-    });
-
-    it('should pass warning data to selected product cards', () => {
-      component.productCardOptions.multiSelect = true;
-      setProductBoundValueAttributes(component, true);
-      setContainerRowMessages([
-        {
-          message: 'Too many units',
-          severity: Configurator.MessageSeverity.ERROR,
-        },
-        {
-          message: 'Check quantity',
-          severity: Configurator.MessageSeverity.INFO,
-        },
-      ]);
-
-      const groups = component.getMessageGroups(takeMessages());
-      const errors = groups.find((group) => group.uiKeyPrefix === 'error-msg');
-
-      expect(errors?.messages).toEqual(['Too many units']);
-      expect(errors?.messageClass).toBe('cx-error-msg');
-      expect(errors?.iconClass).toBeUndefined();
-      expect(errors?.showIcon).toBe(true);
-      expect(errors?.uiKeyPrefix).toBe('error-msg');
-      expect(
-        groups.find((group) => group.uiKeyPrefix === 'info-msg')
-      ).toBeUndefined();
-    });
-
-    it('should pass info data to unselected product cards', () => {
-      component.productCardOptions.multiSelect = true;
-      setProductBoundValueAttributes(component, false);
-      setContainerRowMessages([
-        {
-          message: 'Too many units',
-          severity: Configurator.MessageSeverity.ERROR,
-        },
-        {
-          message: 'Check quantity',
-          severity: Configurator.MessageSeverity.INFO,
-        },
-      ]);
-
-      const groups = component.getMessageGroups(takeMessages());
-      const info = groups.find((group) => group.uiKeyPrefix === 'info-msg');
-      const error = groups.find((group) => group.uiKeyPrefix === 'error-msg');
-
-      expect(info?.messages).toEqual(['Check quantity']);
-      expect(info?.messageClass).toBe('cx-info-msg');
-      expect(info?.showIcon).toBe(false);
-      expect(info?.uiKeyPrefix).toBe('info-msg');
-      expect(error).toBeUndefined();
     });
   });
 
@@ -2198,6 +1983,42 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       setProductBoundValueAttributes(component, false);
       component.productCardOptions.singleDropdown = false;
       expect(component.isProductCardSelected()).toBe(false);
+    });
+
+    it('should not show quantity when withQuantity is undefined', () => {
+      component.productCardOptions.withQuantity = undefined;
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+
+      expect(component.showQuantity).toBe(false);
+    });
+
+    it('should return no row actions when the card is not in container context', () => {
+      component.productCardOptions.containerRow = undefined;
+
+      expect(component.containerRowActions).toEqual([]);
+    });
+
+    it('should not mark the card as selected when the selection state is undefined', () => {
+      component.productCardOptions.productBoundValue.selected = undefined;
+      component.productCardOptions.singleDropdown = false;
+
+      expect(component.isProductCardSelected()).toBe(false);
+    });
+
+    it('should fall back to a zero initial quantity when no quantity is set', () => {
+      component.productCardOptions.productBoundValue.quantity = undefined;
+
+      expect(component.extractQuantityParameters().initialQuantity).toBe(0);
+    });
+
+    it('should not reset to the initial quantity when hideRemoveButton is undefined', () => {
+      component.productCardOptions.hideRemoveButton = undefined;
+      setProductBoundValueAttributes(component, true, 2);
+
+      expect(
+        component.extractQuantityParameters().resetToInitialQuantityOnZero
+      ).toBe(false);
     });
 
     it('should emit row action and close menu onHandleRowAction', () => {

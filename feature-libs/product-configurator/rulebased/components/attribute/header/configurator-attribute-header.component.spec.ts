@@ -19,6 +19,7 @@ import { Configurator } from '../../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
+import { ConfiguratorMessageService } from '../../service/configurator-message.service';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
@@ -1577,6 +1578,183 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
       fixture.detectChanges();
       expect(component['needsRequiredAttributeErrorMsg']()).toBe(true);
+    });
+  });
+
+  describe('isMultiSelection', () => {
+    it('returns true for CHECKBOXLIST', () => {
+      component.attribute.uiType = Configurator.UiType.CHECKBOXLIST;
+      expect(component['isMultiSelection']).toBe(true);
+    });
+
+    it('returns false for RADIOBUTTON', () => {
+      component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      expect(component['isMultiSelection']).toBe(false);
+    });
+  });
+
+  describe('isContainerSelection', () => {
+    it('returns true for CONTAINER ui type', () => {
+      component.attribute.uiType = Configurator.UiType.CONTAINER;
+      expect(component['isContainerSelection']()).toBe(true);
+    });
+
+    it('returns false for non-container ui types', () => {
+      component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      expect(component['isContainerSelection']()).toBe(false);
+    });
+  });
+
+  describe('getMessageGroups', () => {
+    it('prepends required container message when showRequiredMessage is true', () => {
+      component.attribute.uiType = Configurator.UiType.CONTAINER;
+      component.attribute.container = {
+        minRows: 3,
+        rows: [{ id: '1', selected: true }],
+      };
+
+      const groups = component.getMessageGroups(true);
+
+      expect(groups.map((group) => group.uiKeyPrefix)).toContain(
+        'required-msg'
+      );
+    });
+
+    it('prepends domain required message for non-container attributes', () => {
+      component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      component.attribute.required = true;
+
+      const groups = component.getMessageGroups(true);
+
+      expect(groups[0].uiKeyPrefix).toBe('required-msg');
+      expect(groups[0].messages[0]).toEqual({
+        key: 'configurator.attribute.singleSelectRequiredMessage',
+      });
+    });
+
+    it('does not prepend required message when showRequiredMessage is false', () => {
+      component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      component.attribute.required = true;
+
+      const groups = component.getMessageGroups(false);
+
+      expect(groups.some((group) => group.uiKeyPrefix === 'required-msg')).toBe(
+        false
+      );
+    });
+
+    it('keeps a translatable required message unchanged', () => {
+      component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      component.attribute.required = true;
+      const translatable = {
+        key: 'configurator.attribute.containerRequiredMessage',
+        params: { count: 2 },
+      };
+      spyOn(component, 'getRequiredMessageKey').and.returnValue(translatable);
+
+      const groups = component.getMessageGroups(true);
+
+      expect(groups[0].messages[0]).toEqual(translatable);
+    });
+
+    it('does not prepend a required group when no message key is resolved', () => {
+      component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      component.attribute.required = true;
+      spyOn(component, 'getRequiredMessageKey').and.returnValue(undefined);
+
+      const groups = component.getMessageGroups(true);
+
+      expect(groups.some((group) => group.uiKeyPrefix === 'required-msg')).toBe(
+        false
+      );
+    });
+  });
+
+  describe('container message context callbacks', () => {
+    let configuratorMessageService: ConfiguratorMessageService;
+    let enrichSpy: jasmine.Spy;
+
+    beforeEach(() => {
+      configuratorMessageService = TestBed.inject(ConfiguratorMessageService);
+      enrichSpy = spyOn(
+        configuratorMessageService,
+        'enrichMessagesWithContainerContext'
+      ).and.callThrough();
+    });
+
+    it('wires the required-message callback passed by getContainerMessages', () => {
+      component.attribute.container = {
+        minRows: 4,
+        rows: [{ id: '1', selected: true }],
+      };
+
+      component.getContainerMessages();
+
+      const context = enrichSpy.calls.mostRecent().args[1];
+      expect(
+        context.getContainerRequiredMessageKey(4, [{ id: '1', selected: true }])
+      ).toEqual({
+        key: 'configurator.attribute.containerRequiredMessage',
+        params: { count: 3 },
+      });
+    });
+
+    it('wires the row-info callback passed by getMessageGroups for containers', () => {
+      component.attribute.uiType = Configurator.UiType.CONTAINER;
+      component.attribute.container = { minRows: 2, maxRows: 5, rows: [] };
+
+      component.getMessageGroups(true);
+
+      const context = enrichSpy.calls.mostRecent().args[1];
+      expect(context.getContainerRowInfoKey(2, 5)).toEqual({
+        key: 'configurator.attribute.containerMinMaxRows',
+        params: { minRows: 2, maxRows: 5 },
+      });
+    });
+  });
+
+  describe('logError', () => {
+    beforeEach(() => {
+      // the global beforeEach replaces logError with a no-op, restore the real one
+      delete (component as unknown as Record<string, unknown>)['logError'];
+    });
+
+    it('logs the given text via the logger service', () => {
+      const logger = component['logger'];
+      spyOn(logger, 'error');
+
+      component['logError']('Attribute was not found in any conflict group.');
+
+      expect(logger.error).toHaveBeenCalledWith(
+        'Attribute was not found in any conflict group.'
+      );
+    });
+  });
+
+  describe('ngOnInit', () => {
+    it('emits true when group is visited and attribute needs required message', (done) => {
+      isCartEntryOrGroupVisited = true;
+      component.attribute.required = true;
+      component.attribute.incomplete = true;
+      component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      component.ngOnInit();
+
+      component.showRequiredMessageForDomainAttribute$.subscribe((show) => {
+        expect(show).toBe(true);
+        done();
+      });
+    });
+
+    it('emits false when group has not been visited', (done) => {
+      isCartEntryOrGroupVisited = false;
+      component.attribute.required = true;
+      component.attribute.incomplete = true;
+      component.ngOnInit();
+
+      component.showRequiredMessageForDomainAttribute$.subscribe((show) => {
+        expect(show).toBe(false);
+        done();
+      });
     });
   });
 });

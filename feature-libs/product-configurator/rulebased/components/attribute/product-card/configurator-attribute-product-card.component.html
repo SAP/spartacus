@@ -550,56 +550,53 @@
           </div>
         </div>
       </div>
-      <ng-container *ngIf="messages$ | async as messages">
-        <ng-container *ngIf="getMessageGroups(messages) as groups">
-          <div
-            class="cx-product-card message"
-            *ngIf="groups.length > 0 || showDeselectionNotPossible"
-          >
-            <cx-configurator-message
+      <ng-container *ngIf="productCardOptions?.messages ?? [] as groups">
+        <div
+          class="cx-product-card message"
+          *ngIf="groups.length > 0 || showDeselectionNotPossible"
+        >
+          <cx-configurator-message
+            id="{{
+              createContainerUiKey(
+                group.uiKeyPrefix,
+                productCardOptions.attribute.name,
+                productCardOptions.productBoundValue.valueCode
+              )
+            }}"
+            *ngFor="let group of groups"
+            [messages]="group.messages"
+            [messageClass]="group.messageClass"
+            [iconType]="group.iconType"
+            [showIcon]="group.showIcon"
+            [role]="group.role"
+            [idPrefix]="
+              createContainerUiKey(
+                group.uiKeyPrefix,
+                productCardOptions.attribute.name,
+                productCardOptions.productBoundValue.valueCode
+              )
+            "
+          />
+          <ng-container *ngIf="showDeselectionNotPossible">
+            <div
+              class="cx-product-card-rows cx-deselection-error-msg"
+              aria-live="assertive"
+              aria-atomic="true"
+              role="alert"
               id="{{
-                createContainerUiKey(
-                  group.uiKeyPrefix,
-                  productCardOptions.attribute.name,
-                  productCardOptions.productBoundValue.valueCode
+                createAttributeUiKey(
+                  'attribute-msg',
+                  productCardOptions.attribute.name
                 )
               }}"
-              *ngFor="let group of groups"
-              [messages]="group.messages"
-              [messageClass]="group.messageClass"
-              [iconClass]="group.iconClass"
-              [iconType]="group.iconType"
-              [showIcon]="group.showIcon"
-              [role]="group.role"
-              [idPrefix]="
-                createContainerUiKey(
-                  group.uiKeyPrefix,
-                  productCardOptions.attribute.name,
-                  productCardOptions.productBoundValue.valueCode
-                )
-              "
-            />
-            <ng-container *ngIf="showDeselectionNotPossible">
-              <div
-                class="cx-product-card-rows cx-deselection-error-msg"
-                aria-live="assertive"
-                aria-atomic="true"
-                role="alert"
-                id="{{
-                  createAttributeUiKey(
-                    'attribute-msg',
-                    productCardOptions.attribute.name
-                  )
-                }}"
-              >
-                <cx-icon class="deselection-error-symbol" type="ERROR" />
-                {{
-                  'configurator.attribute.deselectionNotPossible' | cxTranslate
-                }}
-              </div>
-            </ng-container>
-          </div>
-        </ng-container>
+            >
+              <cx-icon class="deselection-error-symbol" type="ERROR" />
+              {{
+                'configurator.attribute.deselectionNotPossible' | cxTranslate
+              }}
+            </div>
+          </ng-container>
+        </div>
       </ng-container>
     </div>
   </ng-container>

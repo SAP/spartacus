@@ -59,10 +59,15 @@ describe('ConfiguratorGroupMenuService', () => {
     expect(classUnderTest).toBeTruthy();
   });
 
-  describe('getFocusedElementTabIndex', () => {
-    it('should return index of focused element', () => {
+  describe('getFocusedGroupIndex', () => {
+    it('returns index of focused element', () => {
       groups.toArray()[2].nativeElement?.focus();
       expect(classUnderTest['getFocusedGroupIndex'](groups)).toBe(2);
+    });
+
+    it('returns undefined when no group element has focus', () => {
+      (document.activeElement as HTMLElement)?.blur?.();
+      expect(classUnderTest['getFocusedGroupIndex'](groups)).toBeUndefined();
     });
   });
 
@@ -126,6 +131,14 @@ describe('ConfiguratorGroupMenuService', () => {
       } else {
         fail('Group menu not available');
       }
+    });
+
+    it('syncs from focused element when current index differs', () => {
+      groups.toArray()[2].nativeElement?.focus();
+
+      classUnderTest['focusNextGroup'](0, groups);
+
+      expect(document.activeElement?.id).toBe('groupId-0');
     });
   });
 
@@ -205,9 +218,35 @@ describe('ConfiguratorGroupMenuService', () => {
       focusedElement = document.activeElement;
       expect(focusedElement?.id).toBe('groupId-1');
     });
+
+    it('calls preventDefault on every key press', () => {
+      const event = new KeyboardEvent('keydown', { code: 'ArrowDown' });
+      spyOn(event, 'preventDefault');
+
+      classUnderTest.switchGroupOnArrowPress(event, 0, groups);
+
+      expect(event.preventDefault).toHaveBeenCalled();
+    });
+
+    it('does not move focus for non-arrow keys', () => {
+      groups.toArray()[0].nativeElement?.focus();
+      const event = new KeyboardEvent('keydown', { code: 'Enter' });
+
+      classUnderTest.switchGroupOnArrowPress(event, 0, groups);
+
+      expect(document.activeElement?.id).toBe('groupId-0');
+    });
   });
 
   describe('isBackBtnFocused', () => {
+    it('should return `undefined` because no group list is provided', () => {
+      expect(
+        classUnderTest['isBackBtnFocused'](
+          undefined as unknown as QueryList<ElementRef<HTMLElement>>
+        )
+      ).toBeUndefined();
+    });
+
     it('should return `false` because there is no `cx-menu-back` in the group menu', () => {
       groups.toArray()[2].nativeElement?.focus();
       expect(classUnderTest['isBackBtnFocused'](groups)).toBe(false);
@@ -228,6 +267,24 @@ describe('ConfiguratorGroupMenuService', () => {
         fail('Group menu not available');
       }
     });
+
+    it('returns false when back button exists but is not focused', () => {
+      const backButton = createBackButton();
+      const groupMenu = document.querySelector(
+        'main cx-configurator-group-menu'
+      );
+      if (!groupMenu) {
+        fail('Group menu not available');
+        return;
+      }
+      groupMenu.prepend(backButton);
+      const array = groups.toArray();
+      array.unshift(new ElementRef(backButton));
+      groups.reset(array);
+      groups.toArray()[1].nativeElement?.focus();
+
+      expect(classUnderTest.isBackBtnFocused(groups)).toBe(false);
+    });
   });
 
   describe('isActiveGroupInGroupList', () => {
@@ -240,6 +297,12 @@ describe('ConfiguratorGroupMenuService', () => {
         .toArray()[1]
         .nativeElement.setAttribute('class', 'active cx-menu-item');
       expect(classUnderTest['isActiveGroupInGroupList'](groups)).toBe(true);
+    });
+
+    it('returns false when groups query list is empty', () => {
+      const emptyGroups = new QueryList<ElementRef<HTMLElement>>();
+      emptyGroups.reset([]);
+      expect(classUnderTest.isActiveGroupInGroupList(emptyGroups)).toBe(false);
     });
   });
 });

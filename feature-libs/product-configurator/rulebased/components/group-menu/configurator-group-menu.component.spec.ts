@@ -2036,4 +2036,157 @@ describe('ConfiguratorGroupMenuComponent', () => {
       });
     });
   });
+
+  describe('hasContainerRowSubGroups', () => {
+    it('returns true when a direct child is a container row group', () => {
+      const group: Configurator.Group = {
+        id: 'parent',
+        subGroups: [
+          {
+            id: 'row',
+            groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+            subGroups: [],
+          },
+        ],
+      };
+
+      expect(component['hasContainerRowSubGroups'](group)).toBe(true);
+    });
+
+    it('returns false when no container row children exist', () => {
+      const group: Configurator.Group = {
+        id: 'parent',
+        subGroups: [
+          {
+            id: 'child',
+            groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+            subGroups: [],
+          },
+        ],
+      };
+
+      expect(component['hasContainerRowSubGroups'](group)).toBe(false);
+    });
+  });
+
+  describe('isCondensed', () => {
+    it('returns false when the single child is a container row group', () => {
+      const group: Configurator.Group = {
+        id: 'parent',
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        subGroups: [
+          {
+            id: 'row',
+            groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+            subGroups: [],
+          },
+        ],
+      };
+
+      expect(component['isCondensed'](group)).toBe(false);
+    });
+
+    it('returns true for a single non-conflict child', () => {
+      const group: Configurator.Group = {
+        id: 'parent',
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        subGroups: [
+          {
+            id: 'child',
+            groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+            subGroups: [],
+          },
+        ],
+      };
+
+      expect(component['isCondensed'](group)).toBe(true);
+    });
+  });
+
+  describe('hasNoAttributes', () => {
+    it('returns true when attributes are missing or empty', () => {
+      expect(component['hasNoAttributes']({ id: 'group', subGroups: [] })).toBe(
+        true
+      );
+      expect(
+        component['hasNoAttributes']({
+          id: 'group',
+          attributes: [],
+          subGroups: [],
+        })
+      ).toBe(true);
+    });
+
+    it('returns false when the group carries attributes', () => {
+      expect(
+        component['hasNoAttributes']({
+          id: 'group',
+          attributes: [{ name: 'attr' }],
+          subGroups: [],
+        })
+      ).toBe(false);
+    });
+  });
+
+  describe('isDialogActive', () => {
+    it('returns true when showConflictSolverDialog is set', () => {
+      expect(
+        component.isDialogActive({
+          interactionState: { showConflictSolverDialog: true },
+        } as Configurator.Configuration)
+      ).toBe(true);
+    });
+
+    it('returns false when showConflictSolverDialog is unset', () => {
+      expect(
+        component.isDialogActive({
+          interactionState: {},
+        } as Configurator.Configuration)
+      ).toBe(false);
+    });
+  });
+
+  describe('createIconId', () => {
+    it('concatenates icon prefix, type and group id', () => {
+      expect(component.createIconId(ICON_TYPE.ERROR, 'group-1')).toBe(
+        'ICON' + ICON_TYPE.ERROR + 'group-1'
+      );
+    });
+  });
+
+  describe('isConflictHeader', () => {
+    it('returns true for conflict header groups', () => {
+      expect(
+        component.isConflictHeader({
+          groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
+        } as Configurator.Group)
+      ).toBe(true);
+    });
+
+    it('returns false for attribute groups', () => {
+      expect(
+        component.isConflictHeader({
+          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        } as Configurator.Group)
+      ).toBe(false);
+    });
+  });
+
+  describe('isConflictGroup', () => {
+    it('returns true for conflict groups', () => {
+      expect(
+        component.isConflictGroup({
+          groupType: Configurator.GroupType.CONFLICT_GROUP,
+        } as Configurator.Group)
+      ).toBe(true);
+    });
+
+    it('returns false for attribute groups', () => {
+      expect(
+        component.isConflictGroup({
+          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        } as Configurator.Group)
+      ).toBe(false);
+    });
+  });
 });

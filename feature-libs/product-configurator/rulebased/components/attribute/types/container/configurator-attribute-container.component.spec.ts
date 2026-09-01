@@ -9,7 +9,7 @@ import {
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
@@ -87,6 +87,10 @@ class MockProductCardComponent {
 }
 
 class MockConfiguratorCommonsService {
+  configuration$ = new BehaviorSubject(
+    ConfiguratorTestUtils.createConfiguration('config-id')
+  );
+
   addContainerRow(): void {}
   removeContainerRow(): void {}
   copyContainerRow(): void {}
@@ -94,7 +98,7 @@ class MockConfiguratorCommonsService {
     return of(false);
   }
   getConfiguration(): Observable<Configurator.Configuration> {
-    return of(ConfiguratorTestUtils.createConfiguration('config-id'));
+    return this.configuration$;
   }
 }
 
@@ -188,7 +192,9 @@ describe('ConfiguratorAttributeContainerComponent', () => {
         ConfiguratorUtilsService,
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useValue: {},
+          useValue: {
+            isCartEntryOrGroupVisited: () => of(true),
+          },
         },
       ],
     })
@@ -788,6 +794,746 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     });
   });
 
+  describe('buildMessagesMap', () => {
+    const rowGroupId = 'CONTAINER_ROW@1111@row-1';
+
+    function configurationWithRowMessages(
+      groupId: string,
+      messages: Configurator.Message[]
+    ): Configurator.Configuration {
+      return {
+        ...ConfiguratorTestUtils.createConfiguration('config-id'),
+        groups: [
+          {
+            ...ConfiguratorTestUtils.createGroup(groupId),
+            messages,
+          },
+        ],
+      };
+    }
+
+    it('builds severity groups from row group messages on init', () => {
+      component.attribute = createAttribute([
+        {
+          id: 'row-1',
+          productName: 'Product A',
+          productSystemId: 'SYS_A',
+          selected: true,
+          groupId: rowGroupId,
+        },
+      ]);
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(
+          configurationWithRowMessages(rowGroupId, [
+            {
+              message: 'Too many units',
+              severity: Configurator.MessageSeverity.ERROR,
+            },
+          ])
+        )
+      );
+
+      component.ngOnInit();
+
+      const options = component.extractProductCardParameters(
+        component.selectedProducts[0],
+        0,
+        1
+      );
+      const errorGroup = options.messages?.find(
+        (group) => group.uiKeyPrefix === 'error-msg'
+      );
+      expect(errorGroup?.messages).toEqual(['Too many units']);
+      expect(errorGroup?.messageClass).toBe('cx-error-msg');
+    });
+
+    it('resolves messages from nested subgroups', () => {
+      const nestedGroup = {
+        ...ConfiguratorTestUtils.createGroup(rowGroupId),
+        messages: [
+          {
+            message: 'Nested error',
+            severity: Configurator.MessageSeverity.ERROR,
+          },
+        ],
+      };
+      component.attribute = createAttribute([
+        {
+          id: 'row-1',
+          productName: 'Product A',
+          productSystemId: 'SYS_A',
+          selected: true,
+          groupId: rowGroupId,
+        },
+      ]);
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of({
+          ...ConfiguratorTestUtils.createConfiguration('config-id'),
+          groups: [
+            {
+              ...ConfiguratorTestUtils.createGroup('parent-group'),
+              subGroups: [nestedGroup],
+            },
+          ],
+        })
+      );
+
+      component.ngOnInit();
+
+      const options = component.extractProductCardParameters(
+        component.selectedProducts[0],
+        0,
+        1
+      );
+      expect(
+        options.messages?.find((group) => group.uiKeyPrefix === 'error-msg')
+          ?.messages
+      ).toEqual(['Nested error']);
+    });
+
+    it('builds a separate map entry per container row', () => {
+      const selectedRowGroupId = 'CONTAINER_ROW@1111@row-1';
+      const availableRowGroupId = 'CONTAINER_ROW@1111@row-2';
+      component.attribute = createAttribute([
+        {
+          id: 'row-1',
+          productName: 'Product A',
+          productSystemId: 'SYS_A',
+          selected: true,
+          groupId: selectedRowGroupId,
+        },
+        {
+          id: 'row-2',
+          productName: 'Product B',
+          productSystemId: 'SYS_B',
+          selected: false,
+          groupId: availableRowGroupId,
+        },
+      ]);
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of({
+          ...ConfiguratorTestUtils.createConfiguration('config-id'),
+          groups: [
+            {
+              ...ConfiguratorTestUtils.createGroup(selectedRowGroupId),
+              messages: [
+                {
+                  message: 'Selected row error',
+                  severity: Configurator.MessageSeverity.ERROR,
+                },
+              ],
+            },
+            {
+              ...ConfiguratorTestUtils.createGroup(availableRowGroupId),
+              messages: [
+                {
+                  message: 'Available row info',
+                  severity: Configurator.MessageSeverity.INFO,
+                },
+              ],
+            },
+          ],
+        })
+      );
+
+      component.ngOnInit();
+
+      const selectedOptions = component.extractProductCardParameters(
+        component.selectedProducts[0],
+        0,
+        1
+      );
+      const availableOptions = component.extractProductCardParameters(
+        component.availableProducts[0],
+        0,
+        1
+      );
+
+      expect(
+        selectedOptions.messages?.find(
+          (group) => group.uiKeyPrefix === 'error-msg'
+        )?.messages
+      ).toEqual(['Selected row error']);
+      expect(
+        availableOptions.messages?.find(
+          (group) => group.uiKeyPrefix === 'info-msg'
+        )?.messages
+      ).toEqual(['Available row info']);
+    });
+
+    it('updates row messages when configuration changes', () => {
+      const configuration$ = new BehaviorSubject(
+        configurationWithRowMessages(rowGroupId, [
+          {
+            message: 'Initial error',
+            severity: Configurator.MessageSeverity.ERROR,
+          },
+        ])
+      );
+      component.attribute = createAttribute([
+        {
+          id: 'row-1',
+          productName: 'Product A',
+          productSystemId: 'SYS_A',
+          selected: true,
+          groupId: rowGroupId,
+        },
+      ]);
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        configuration$
+      );
+      component.ngOnInit();
+
+      let options = component.extractProductCardParameters(
+        component.selectedProducts[0],
+        0,
+        1
+      );
+      expect(
+        options.messages?.find((group) => group.uiKeyPrefix === 'error-msg')
+          ?.messages
+      ).toEqual(['Initial error']);
+
+      configuration$.next(
+        configurationWithRowMessages(rowGroupId, [
+          {
+            message: 'Updated error',
+            severity: Configurator.MessageSeverity.ERROR,
+          },
+        ])
+      );
+
+      options = component.extractProductCardParameters(
+        component.selectedProducts[0],
+        0,
+        1
+      );
+      expect(
+        options.messages?.find((group) => group.uiKeyPrefix === 'error-msg')
+          ?.messages
+      ).toEqual(['Updated error']);
+    });
+  });
+
+  describe('getRowMessageGroups', () => {
+    const selectedRowGroupId = 'CONTAINER_ROW@1111@row-1';
+    const availableRowGroupId = 'CONTAINER_ROW@1111@row-2';
+
+    function configurationWithMessages(
+      groupId: string,
+      messages: Configurator.Message[]
+    ): Configurator.Configuration {
+      return {
+        ...ConfiguratorTestUtils.createConfiguration('config-id'),
+        groups: [
+          {
+            ...ConfiguratorTestUtils.createGroup(groupId),
+            messages,
+          },
+        ],
+      };
+    }
+
+    function mockVisited(visited: boolean): void {
+      const utils = TestBed.inject(ConfiguratorStorefrontUtilsService);
+      spyOn(utils, 'isCartEntryOrGroupVisited').and.returnValue(of(visited));
+    }
+
+    describe('selected rows', () => {
+      it('includes error severity groups from row group messages', () => {
+        component.attribute = createAttribute([
+          {
+            id: 'row-1',
+            productName: 'Product A',
+            productSystemId: 'SYS_A',
+            selected: true,
+            groupId: selectedRowGroupId,
+          },
+        ]);
+        spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+          of(
+            configurationWithMessages(selectedRowGroupId, [
+              {
+                message: 'Some info',
+                severity: Configurator.MessageSeverity.INFO,
+              },
+              {
+                message: 'Too many units',
+                severity: Configurator.MessageSeverity.ERROR,
+              },
+            ])
+          )
+        );
+
+        component.ngOnInit();
+
+        const options = component.extractProductCardParameters(
+          component.selectedProducts[0],
+          0,
+          1
+        );
+        const prefixes = options.messages?.map((group) => group.uiKeyPrefix);
+        expect(prefixes).toContain('error-msg');
+        expect(prefixes).not.toContain('info-msg');
+      });
+
+      it('excludes container info messages', () => {
+        component.attribute = {
+          name: 'attributeName',
+          attrCode: 1111,
+          uiType: Configurator.UiType.CONTAINER,
+          required: true,
+          groupId: 'testGroup',
+          container: {
+            maxRows: 4,
+            rows: [
+              {
+                id: 'row-1',
+                productName: 'Product A',
+                productSystemId: 'SYS_A',
+                selected: true,
+                groupId: selectedRowGroupId,
+              },
+            ],
+          },
+        };
+        spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+          of(configurationWithMessages(selectedRowGroupId, []))
+        );
+
+        component.ngOnInit();
+
+        const options = component.extractProductCardParameters(
+          component.selectedProducts[0],
+          0,
+          1
+        );
+        expect(
+          options.messages?.some(
+            (group) => group.uiKeyPrefix === 'row-container-info-msg'
+          )
+        ).toBeFalsy();
+      });
+
+      it('excludes warning messages', () => {
+        component.attribute = createAttribute([
+          {
+            id: 'row-1',
+            productName: 'Product A',
+            productSystemId: 'SYS_A',
+            selected: true,
+            groupId: selectedRowGroupId,
+          },
+        ]);
+        spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+          of(
+            configurationWithMessages(selectedRowGroupId, [
+              {
+                message: 'Too many units',
+                severity: Configurator.MessageSeverity.WARNING,
+              },
+            ])
+          )
+        );
+
+        component.ngOnInit();
+
+        const options = component.extractProductCardParameters(
+          component.selectedProducts[0],
+          0,
+          1
+        );
+        expect(
+          options.messages?.map((group) => group.uiKeyPrefix)
+        ).not.toContain('warning-msg');
+      });
+    });
+
+    describe('unselected rows', () => {
+      it('prepends container info when row bounds are set', () => {
+        component.attribute = {
+          name: 'attributeName',
+          attrCode: 1111,
+          uiType: Configurator.UiType.CONTAINER,
+          required: true,
+          groupId: 'testGroup',
+          container: {
+            rows: [
+              {
+                id: 'row-2',
+                productName: 'Product B',
+                productSystemId: 'SYS_B',
+                selected: false,
+                groupId: availableRowGroupId,
+                maxRows: 4,
+              },
+            ],
+          },
+        };
+        spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+          of(configurationWithMessages(availableRowGroupId, []))
+        );
+
+        component.ngOnInit();
+
+        const options = component.extractProductCardParameters(
+          component.availableProducts[0],
+          0,
+          1
+        );
+        expect(options.messages?.map((group) => group.uiKeyPrefix)).toContain(
+          'row-container-info-msg'
+        );
+      });
+
+      it('includes info and excludes engine errors', () => {
+        component.attribute = {
+          name: 'attributeName',
+          attrCode: 1111,
+          uiType: Configurator.UiType.CONTAINER,
+          groupId: 'testGroup',
+          container: {
+            rows: [
+              {
+                id: 'row-2',
+                productName: 'Product B',
+                productSystemId: 'SYS_B',
+                selected: false,
+                groupId: availableRowGroupId,
+              },
+            ],
+          },
+        };
+        spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+          of(
+            configurationWithMessages(availableRowGroupId, [
+              {
+                message: 'Some info',
+                severity: Configurator.MessageSeverity.INFO,
+              },
+              {
+                message: 'Engine error',
+                severity: Configurator.MessageSeverity.ERROR,
+              },
+            ])
+          )
+        );
+
+        component.ngOnInit();
+
+        const options = component.extractProductCardParameters(
+          component.availableProducts[0],
+          0,
+          1
+        );
+        const prefixes = options.messages?.map((group) => group.uiKeyPrefix);
+        expect(prefixes).toContain('info-msg');
+        expect(prefixes).not.toContain('error-msg');
+      });
+
+      it('includes warning messages', () => {
+        component.attribute = {
+          name: 'attributeName',
+          attrCode: 1111,
+          uiType: Configurator.UiType.CONTAINER,
+          groupId: 'testGroup',
+          container: {
+            rows: [
+              {
+                id: 'row-2',
+                productName: 'Product B',
+                productSystemId: 'SYS_B',
+                selected: false,
+                groupId: availableRowGroupId,
+              },
+            ],
+          },
+        };
+        spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+          of(
+            configurationWithMessages(availableRowGroupId, [
+              {
+                message: 'Too many units',
+                severity: Configurator.MessageSeverity.WARNING,
+              },
+            ])
+          )
+        );
+
+        component.ngOnInit();
+
+        const options = component.extractProductCardParameters(
+          component.availableProducts[0],
+          0,
+          1
+        );
+        expect(options.messages?.map((group) => group.uiKeyPrefix)).toContain(
+          'warning-msg'
+        );
+      });
+
+      it('places container info and required before engine messages', () => {
+        mockVisited(true);
+        component.attribute = {
+          name: 'attributeName',
+          attrCode: 1111,
+          uiType: Configurator.UiType.CONTAINER,
+          required: true,
+          incomplete: true,
+          groupId: 'testGroup',
+          container: {
+            minRows: 2,
+            rows: [
+              {
+                id: 'row-2',
+                productName: 'Product B',
+                productSystemId: 'SYS_B',
+                selected: false,
+                groupId: availableRowGroupId,
+                minRows: 2,
+                maxRows: 4,
+              },
+            ],
+          },
+        };
+        spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+          of(
+            configurationWithMessages(availableRowGroupId, [
+              {
+                message: 'Engine info',
+                severity: Configurator.MessageSeverity.INFO,
+              },
+            ])
+          )
+        );
+
+        component.ngOnInit();
+
+        const options = component.extractProductCardParameters(
+          component.availableProducts[0],
+          0,
+          1
+        );
+        expect(options.messages?.map((group) => group.uiKeyPrefix)).toEqual([
+          'row-container-info-msg',
+          'row-required-msg',
+          'info-msg',
+        ]);
+        expect(
+          options.messages?.find(
+            (group) => group.uiKeyPrefix === 'row-container-info-msg'
+          )?.messageClass
+        ).toBe('cx-container-info-msg');
+        expect(
+          options.messages?.find(
+            (group) => group.uiKeyPrefix === 'row-required-msg'
+          )?.messageClass
+        ).toBe('cx-container-error-msg');
+      });
+    });
+
+    describe('without row groupId', () => {
+      it('returns empty groups when row has no groupId', () => {
+        component.attribute = createAttribute([
+          {
+            id: 'row-1',
+            productName: 'Product A',
+            productSystemId: 'SYS_A',
+            selected: true,
+          },
+        ]);
+        spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+          of(ConfiguratorTestUtils.createConfiguration('config-id'))
+        );
+
+        component.ngOnInit();
+
+        const options = component.extractProductCardParameters(
+          component.selectedProducts[0],
+          0,
+          1
+        );
+        expect(options.messages).toEqual([]);
+      });
+
+      it('returns empty groups when row is not in the cache', () => {
+        const options = component.extractProductCardParameters(
+          {
+            id: 'unknown-row',
+            productName: 'Product Z',
+            productSystemId: 'SYS_Z',
+            selected: false,
+          },
+          0,
+          1
+        );
+
+        expect(options.messages).toEqual([]);
+      });
+    });
+
+    describe('required message gating', () => {
+      it('prepends required message when visited, required and incomplete', () => {
+        mockVisited(true);
+        component.attribute = {
+          name: 'attributeName',
+          attrCode: 1111,
+          uiType: Configurator.UiType.CONTAINER,
+          required: true,
+          incomplete: true,
+          groupId: 'testGroup',
+          container: {
+            minRows: 2,
+            rows: [
+              {
+                id: 'row-2',
+                productName: 'Product B',
+                productSystemId: 'SYS_B',
+                selected: false,
+                groupId: availableRowGroupId,
+                minRows: 2,
+              },
+            ],
+          },
+        };
+        spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+          of(configurationWithMessages(availableRowGroupId, []))
+        );
+
+        component.ngOnInit();
+
+        const options = component.extractProductCardParameters(
+          component.availableProducts[0],
+          0,
+          1
+        );
+        expect(options.messages?.map((group) => group.uiKeyPrefix)).toContain(
+          'row-required-msg'
+        );
+      });
+
+      it('omits required message when parent group has no id', () => {
+        TestBed.inject(ConfiguratorAttributeCompositionContext).group = {
+          id: undefined as unknown as string,
+          subGroups: [],
+        };
+        component.attribute = {
+          name: 'attributeName',
+          attrCode: 1111,
+          uiType: Configurator.UiType.CONTAINER,
+          required: true,
+          incomplete: true,
+          groupId: 'testGroup',
+          container: {
+            minRows: 2,
+            rows: [
+              {
+                id: 'row-2',
+                productName: 'Product B',
+                productSystemId: 'SYS_B',
+                selected: false,
+                groupId: availableRowGroupId,
+                minRows: 2,
+              },
+            ],
+          },
+        };
+        spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+          of(configurationWithMessages(availableRowGroupId, []))
+        );
+
+        component.ngOnInit();
+
+        const options = component.extractProductCardParameters(
+          component.availableProducts[0],
+          0,
+          1
+        );
+        expect(
+          options.messages?.map((group) => group.uiKeyPrefix)
+        ).not.toContain('row-required-msg');
+      });
+
+      it('omits required message when group has not been visited', () => {
+        mockVisited(false);
+        component.attribute = {
+          name: 'attributeName',
+          attrCode: 1111,
+          uiType: Configurator.UiType.CONTAINER,
+          required: true,
+          incomplete: true,
+          groupId: 'testGroup',
+          container: {
+            minRows: 2,
+            rows: [
+              {
+                id: 'row-2',
+                productName: 'Product B',
+                productSystemId: 'SYS_B',
+                selected: false,
+                groupId: availableRowGroupId,
+                minRows: 2,
+              },
+            ],
+          },
+        };
+        spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+          of(configurationWithMessages(availableRowGroupId, []))
+        );
+
+        component.ngOnInit();
+
+        const options = component.extractProductCardParameters(
+          component.availableProducts[0],
+          0,
+          1
+        );
+        expect(
+          options.messages?.map((group) => group.uiKeyPrefix)
+        ).not.toContain('row-required-msg');
+      });
+
+      it('omits required message when attribute is complete', () => {
+        mockVisited(true);
+        component.attribute = {
+          name: 'attributeName',
+          attrCode: 1111,
+          uiType: Configurator.UiType.CONTAINER,
+          required: true,
+          incomplete: false,
+          groupId: 'testGroup',
+          container: {
+            minRows: 2,
+            rows: [
+              {
+                id: 'row-2',
+                productName: 'Product B',
+                productSystemId: 'SYS_B',
+                selected: false,
+                groupId: availableRowGroupId,
+                minRows: 2,
+              },
+            ],
+          },
+        };
+        spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+          of(configurationWithMessages(availableRowGroupId, []))
+        );
+
+        component.ngOnInit();
+
+        const options = component.extractProductCardParameters(
+          component.availableProducts[0],
+          0,
+          1
+        );
+        expect(
+          options.messages?.map((group) => group.uiKeyPrefix)
+        ).not.toContain('row-required-msg');
+      });
+    });
+  });
+
   describe('onAdd', () => {
     it('should call addContainerRow when the `ADD` button is clicked', () => {
       spyOn(configuratorCommonsService, 'addContainerRow');
@@ -1027,6 +1773,27 @@ describe('ConfiguratorAttributeContainerComponent', () => {
         component.ownerKey,
         'row-1'
       );
+    });
+
+    it('should ignore an unknown row action', () => {
+      spyOn(configuratorCommonsService, 'addContainerRow');
+      spyOn(configuratorCommonsService, 'removeContainerRow');
+      spyOn(configuratorCommonsService, 'copyContainerRow');
+      spyOn(component, 'onEdit');
+
+      component.onRowAction(
+        component.selectedProducts[0],
+        'UNKNOWN' as Configurator.ContainerRowAction
+      );
+
+      expect(configuratorCommonsService.addContainerRow).not.toHaveBeenCalled();
+      expect(
+        configuratorCommonsService.removeContainerRow
+      ).not.toHaveBeenCalled();
+      expect(
+        configuratorCommonsService.copyContainerRow
+      ).not.toHaveBeenCalled();
+      expect(component.onEdit).not.toHaveBeenCalled();
     });
   });
 

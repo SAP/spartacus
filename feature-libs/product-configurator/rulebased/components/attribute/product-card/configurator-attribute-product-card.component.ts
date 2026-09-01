@@ -10,7 +10,6 @@ import {
   Component,
   EventEmitter,
   HostListener,
-  inject,
   Input,
   OnInit,
   Output,
@@ -23,11 +22,7 @@ import {
   TranslationService,
   useFeatureStyles,
 } from '@spartacus/core';
-import {
-  CommonConfigurator,
-  ConfiguratorProductScope,
-  ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
+import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
 import {
   FocusConfig,
   FocusDirective,
@@ -37,14 +32,8 @@ import {
   MediaComponent,
 } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
-import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
-import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
-import {
-  ConfiguratorMessageGroup,
-  ConfiguratorMessageService,
-  ConfiguratorMessagesView,
-} from '../../../core/facade/configurator-message.service';
-import { ConfiguratorUtilsService } from '../../../core/facade/utils/configurator-utils.service';
+import { catchError, map, take, tap } from 'rxjs/operators';
+import { ConfiguratorMessageGroup } from '../../service/configurator-message.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import { QuantityUpdateEvent } from '../../form/configurator-form.event';
 import { ConfiguratorMessageComponent } from '../../message/configurator-message.component';
@@ -53,7 +42,6 @@ import {
   ConfiguratorPriceComponentOptions,
 } from '../../price/configurator-price.component';
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
-import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import {
   ConfiguratorAttributeQuantityComponent,
   ConfiguratorAttributeQuantityComponentOptions,
@@ -80,6 +68,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
    * This prevents the user from triggering concurrent requests with potential conflicting content that might cause unexpected behavior.
    */
   loading$?: Observable<boolean>;
+  messages?: ConfiguratorMessageGroup[];
   /**
    * @deprecated since 221121.17 - Use `this.getAttributeCode(this.attribute)` instead which will be
    * used in the components. This property remains for backward
@@ -101,7 +90,6 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   itemCount: number;
   itemIndex: number;
   containerRow?: Configurator.ContainerRow;
-  groupId?: string;
 }
 
 @Component({
@@ -128,36 +116,6 @@ export class ConfiguratorAttributeProductCardComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
-  protected configuratorUtilsService = inject(ConfiguratorUtilsService);
-  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
-  protected configRouterExtractorService = inject(
-    ConfiguratorRouterExtractorService
-  );
-  protected configUtils = inject(ConfiguratorStorefrontUtilsService);
-  protected configuratorMessageService = inject(ConfiguratorMessageService);
-
-  /**
-   * Messages of the nested configuration that belongs to the bound container
-   * row. Looked up from the row group identified by `containerRow.groupId`.
-   * For unselected container rows, container min/max info and required
-   * messages are prepended.
-   */
-  messages$: Observable<ConfiguratorMessagesView> =
-    this.configRouterExtractorService
-      .extractRouterData()
-      .pipe(
-        switchMap((routerData) =>
-          combineLatest([
-            this.configuratorCommonsService.getConfiguration(routerData.owner),
-            this.getShowRequiredMessage$(routerData.owner),
-          ]).pipe(
-            map(([configuration, showRequiredMessage]) =>
-              this.getMessages(configuration, showRequiredMessage)
-            )
-          )
-        )
-      );
-
   product$: Observable<Product>;
   loading$ = new BehaviorSubject<boolean>(true);
   /**
@@ -273,133 +231,6 @@ export class ConfiguratorAttributeProductCardComponent
    */
   get containerRowActions(): Configurator.ContainerRowAction[] {
     return this.productCardOptions.containerRow?.actions ?? [];
-  }
-
-  /**
-   * Retrieves info, warning, and error message groups of the bound container.
-   *
-   * @param messages - Messages of the bound container row
-   * @returns - message groups
-   */
-  getMessageGroups(
-    messages: ConfiguratorMessagesView
-  ): ConfiguratorMessageGroup[] {
-    const messagesView =
-      this.configuratorMessageService.filterMessagesByProductSelection(
-        messages,
-        !!this.productCardOptions.productBoundValue?.selected
-      );
-
-    return this.configuratorMessageService.prependContainerContextMessageGroups(
-      messagesView,
-      {
-        containerInfoMessageClass: 'cx-container-info-msg',
-        requiredErrorMessageClass: 'cx-container-error-msg',
-        requiredErrorIconClass: 'cx-container-error-symbol',
-        iconTypeError: this.iconType.ERROR,
-        containerInfoUiKeyPrefix: 'row-container-info-msg',
-        requiredErrorUiKeyPrefix: 'row-required-msg',
-      }
-    );
-  }
-
-  /**
-   * Determines the messages to display for the bound container row.
-   * When container context messages are enabled, the row min/max info and
-   * required errors are included before row-level engine messages.
-   *
-   * @param configuration - Current configuration
-   * @param showRequiredMessage - Whether the required message should be shown
-   * @returns Messages of the nested configuration of the bound container row
-   */
-  protected getMessages(
-    configuration: Configurator.Configuration,
-    showRequiredMessage = false
-  ): ConfiguratorMessagesView {
-    const containerRowGroup = this.getContainerRowGroup(configuration);
-    const engineMessages =
-      this.configuratorMessageService.splitMessagesBySeverity(
-        containerRowGroup?.messages
-      );
-
-    if (
-      !this.productCardOptions.containerRow ||
-      this.productCardOptions.containerRow.selected
-    ) {
-      return engineMessages;
-    }
-
-    return this.configuratorMessageService.enrichMessagesWithContainerContext(
-      engineMessages,
-      {
-        minRows: this.productCardOptions.containerRow?.minRows,
-        maxRows: this.productCardOptions.containerRow?.maxRows,
-        rows: this.productCardOptions.attribute.container?.rows,
-        includeContainerInfo: true,
-        includeRequiredError: showRequiredMessage,
-        getContainerRowInfoKey: (minRows, maxRows) =>
-          this.getContainerRowInfoKey(minRows, maxRows),
-        getContainerRequiredMessageKey: (minRows, rows) =>
-          this.getContainerRequiredMessageKey(minRows, rows),
-      }
-    );
-  }
-
-  /**
-   * Whether the container required message should be considered.
-   *
-   * @returns `true` when the parent attribute is required and incomplete
-   */
-  protected shouldShowContainerRequiredMessage(): boolean {
-    return (
-      !!this.productCardOptions.attribute.required &&
-      !!this.productCardOptions.attribute.incomplete
-    );
-  }
-
-  /**
-   * Resolves whether the required message can be shown for the parent group.
-   *
-   * @param owner - Configuration owner
-   * @returns Observable that emits whether the required message is shown
-   */
-  protected getShowRequiredMessage$(
-    owner: CommonConfigurator.Owner
-  ): Observable<boolean> {
-    if (
-      !this.productCardOptions.containerRow ||
-      this.productCardOptions.containerRow.selected ||
-      !this.productCardOptions.groupId
-    ) {
-      return of(false);
-    }
-
-    return this.configUtils
-      .isCartEntryOrGroupVisited(owner, this.productCardOptions.groupId)
-      .pipe(
-        map((visited) => visited && this.shouldShowContainerRequiredMessage())
-      );
-  }
-
-  /**
-   * Retrieves the group that carries the nested configuration of the bound
-   * container row, using the row's `groupId`.
-   *
-   * @param configuration - Current configuration
-   * @returns Container row group, or `undefined` if the row is not
-   * configurable or the group cannot be found
-   */
-  protected getContainerRowGroup(
-    configuration: Configurator.Configuration
-  ): Configurator.Group | undefined {
-    const groupId = this.productCardOptions.containerRow?.groupId;
-    if (!groupId || !configuration.groups?.length) {
-      return undefined;
-    }
-    return this.configuratorUtilsService.getOptionalGroupById(
-      configuration.groups,
-      groupId
-    );
   }
 
   get focusConfig(): FocusConfig {

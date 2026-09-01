@@ -45,7 +45,6 @@ describe('ConfiguratorMessageComponent', () => {
     htmlElem = fixture.nativeElement;
     component.messages = ['First message', 'Second message'];
     component.messageClass = 'cx-error-message';
-    component.iconClass = 'cx-error-symbol';
     component.iconType = ICON_TYPE.ERROR;
     component.showIcon = true;
     component.idPrefix = 'cx-configurator--row-error-msg--888';
@@ -56,87 +55,95 @@ describe('ConfiguratorMessageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render nothing if messages are undefined', () => {
-    component.messages = undefined;
-    fixture.detectChanges();
+  describe('template rendering', () => {
+    describe('when messages are missing', () => {
+      it('renders no rows when messages are undefined', () => {
+        component.messages = undefined;
+        fixture.detectChanges();
 
-    CommonConfiguratorTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      'div'
-    );
-  });
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          'div'
+        );
+      });
 
-  it('should render nothing if messages are empty', () => {
-    component.messages = [];
-    fixture.detectChanges();
+      it('renders no rows when messages are empty', () => {
+        component.messages = [];
+        fixture.detectChanges();
 
-    CommonConfiguratorTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      'div'
-    );
-  });
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          'div'
+        );
+      });
+    });
 
-  it('should render a row for each message', () => {
-    fixture.detectChanges();
+    describe('when messages are provided', () => {
+      it('renders one row per message with messageClass and text', () => {
+        fixture.detectChanges();
 
-    CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
-      expect,
-      htmlElem,
-      '.cx-error-message',
-      2
-    );
-    CommonConfiguratorTestUtilsService.expectElementToContainText(
-      expect,
-      htmlElem,
-      '.cx-error-message',
-      'First message'
-    );
-    CommonConfiguratorTestUtilsService.expectElementToContainText(
-      expect,
-      htmlElem,
-      '.cx-error-message',
-      'Second message',
-      1
-    );
-  });
+        CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+          expect,
+          htmlElem,
+          '.cx-error-message',
+          2
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-error-message',
+          'First message'
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-error-message',
+          'Second message',
+          1
+        );
+      });
 
-  it('should render the severity icon', () => {
-    fixture.detectChanges();
+      it('renders cx-icon when showIcon is true', () => {
+        fixture.detectChanges();
 
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      '.cx-error-symbol'
-    );
-  });
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          'cx-icon'
+        );
+      });
 
-  it('should not render an icon if showIcon is false', () => {
-    component.showIcon = false;
-    fixture.detectChanges();
+      it('omits cx-icon when showIcon is false', () => {
+        component.showIcon = false;
+        fixture.detectChanges();
 
-    CommonConfiguratorTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      'cx-icon'
-    );
-  });
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          'cx-icon'
+        );
+      });
 
-  it('should render translatable messages', () => {
-    component.messages = [{ key: 'configurator.attribute.containerMinRows' }];
-    component.messageClass = 'container-info-message';
-    fixture.detectChanges();
+      it('resolves translatable messages via the translation pipe', () => {
+        component.messages = [
+          { key: 'configurator.attribute.containerMinRows' },
+        ];
+        component.messageClass = 'container-info-message';
+        fixture.detectChanges();
 
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      '.container-info-message'
-    );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.container-info-message'
+        );
+      });
+    });
   });
 
   describe('getMessageId', () => {
-    it('should append the index to the id prefix', () => {
+    it('appends index to idPrefix', () => {
       expect(component.getMessageId(0)).toBe(
         'cx-configurator--row-error-msg--888-0'
       );
@@ -145,18 +152,18 @@ describe('ConfiguratorMessageComponent', () => {
       );
     });
 
-    it('should return undefined if no prefix is provided', () => {
+    it('returns undefined without idPrefix', () => {
       component.idPrefix = undefined;
       expect(component.getMessageId(0)).toBeUndefined();
     });
   });
 
-  describe('Accessibility', () => {
+  describe('accessibility', () => {
     beforeEach(() => {
       fixture.detectChanges();
     });
 
-    it('should set aria-live, aria-atomic, role and id on each message row', () => {
+    it('sets aria-live, aria-atomic, role, aria-label and id on each row', () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
