@@ -26,6 +26,8 @@ import { FormService } from '../../../../shared/form/form.service';
   providedIn: 'root',
 })
 export class UnitAddressFormService extends FormService<Address> {
+  protected readonly maxFieldLength = 256;
+
   constructor(
     protected userAddressService: UserAddressService,
     protected userProfileFacade: UserProfileFacade
@@ -39,15 +41,15 @@ export class UnitAddressFormService extends FormService<Address> {
     form.setControl('titleCode', new UntypedFormControl(''));
     form.setControl(
       'firstName',
-      new UntypedFormControl('', [Validators.required, Validators.maxLength(256)])
+      new UntypedFormControl('', [Validators.required, Validators.maxLength(this.maxFieldLength)])
     );
     form.setControl(
       'lastName',
-      new UntypedFormControl('', [Validators.required, Validators.maxLength(256)])
+      new UntypedFormControl('', [Validators.required, Validators.maxLength(this.maxFieldLength)])
     );
-    form.setControl('line1', new UntypedFormControl('', [Validators.required, Validators.maxLength(256)]));
-    form.setControl('line2', new UntypedFormControl('', Validators.maxLength(256)));
-    form.setControl('town', new UntypedFormControl('', [Validators.required, Validators.maxLength(256)]));
+    form.setControl('line1', new UntypedFormControl('', [Validators.required, Validators.maxLength(this.maxFieldLength)]));
+    form.setControl('line2', new UntypedFormControl('', Validators.maxLength(this.maxFieldLength)));
+    form.setControl('town', new UntypedFormControl('', [Validators.required, Validators.maxLength(this.maxFieldLength)]));
     form.setControl(
       'country',
       new UntypedFormGroup({
@@ -62,10 +64,10 @@ export class UnitAddressFormService extends FormService<Address> {
     );
     form.setControl(
       'postalCode',
-      new UntypedFormControl('', [Validators.required, Validators.maxLength(256)])
+      new UntypedFormControl('', [Validators.required, Validators.maxLength(this.maxFieldLength)])
     );
-    form.setControl('phone', new UntypedFormControl('', Validators.maxLength(256)));
-    form.setControl('cellphone', new UntypedFormControl('', Validators.maxLength(256)));
+    form.setControl('phone', new UntypedFormControl('', Validators.maxLength(this.maxFieldLength)));
+    form.setControl('cellphone', new UntypedFormControl('', Validators.maxLength(this.maxFieldLength)));
 
     this.form = form;
   }

@@ -16,22 +16,23 @@ import { Address } from '@spartacus/core';
 export class CheckoutBillingAddressFormService {
   protected fb: UntypedFormBuilder = inject(UntypedFormBuilder);
   protected billingAddress: Address | undefined = undefined;
+  protected readonly maxFieldLength = 256;
   private form: UntypedFormGroup;
   getBillingAddressForm(): UntypedFormGroup {
     if (!this.form) {
       this.form = this.fb.group({
-        firstName: ['', [Validators.required, Validators.maxLength(256)]],
-        lastName: ['', [Validators.required, Validators.maxLength(256)]],
-        line1: ['', [Validators.required, Validators.maxLength(256)]],
-        line2: ['', Validators.maxLength(256)],
-        town: ['', [Validators.required, Validators.maxLength(256)]],
+        firstName: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
+        lastName: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
+        line1: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
+        line2: ['', Validators.maxLength(this.maxFieldLength)],
+        town: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
         region: this.fb.group({
           isocodeShort: [null, Validators.required],
         }),
         country: this.fb.group({
           isocode: [null, Validators.required],
         }),
-        postalCode: ['', [Validators.required, Validators.maxLength(256)]],
+        postalCode: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
       });
     }
     return this.form;

@@ -158,23 +158,25 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   subscription: Subscription = new Subscription();
 
+  protected readonly maxFieldLength = 256;
+
   addressForm: UntypedFormGroup = this.fb.group({
     country: this.fb.group({
       isocode: [null, Validators.required],
     }),
     titleCode: [''],
-    firstName: ['', [Validators.required, Validators.maxLength(256)]],
-    lastName: ['', [Validators.required, Validators.maxLength(256)]],
-    line1: ['', [Validators.required, Validators.maxLength(256)]],
-    line2: ['', Validators.maxLength(256)],
-    town: ['', [Validators.required, Validators.maxLength(256)]],
+    firstName: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
+    lastName: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
+    line1: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
+    line2: ['', Validators.maxLength(this.maxFieldLength)],
+    town: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
     region: this.fb.group({
       isocode: [null, Validators.required],
     }),
     district: [null],
-    postalCode: ['', [Validators.required, Validators.maxLength(256)]],
-    phone: ['', Validators.maxLength(256)],
-    cellphone: ['', Validators.maxLength(256)],
+    postalCode: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
+    phone: ['', Validators.maxLength(this.maxFieldLength)],
+    cellphone: ['', Validators.maxLength(this.maxFieldLength)],
     defaultAddress: [false],
   });
 
@@ -419,11 +421,11 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     if (this.isHierarchicalAddressFormat) {
       cellphoneControl?.setValidators([
         Validators.required,
-        Validators.maxLength(256),
+        Validators.maxLength(this.maxFieldLength),
       ]);
       districtControl?.setValidators([Validators.required]);
     } else {
-      cellphoneControl?.setValidators([Validators.maxLength(256)]);
+      cellphoneControl?.setValidators([Validators.maxLength(this.maxFieldLength)]);
       districtControl?.clearValidators();
       townControl?.enable();
       districtControl?.enable();

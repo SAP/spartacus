@@ -36,6 +36,8 @@ import { filter, switchMap, take, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class UserRegistrationFormService {
+  protected readonly maxFieldLength = 256;
+
   private _form: FormGroup = this.buildForm();
   private featureToggles = inject(FeatureToggles);
 
@@ -45,21 +47,21 @@ export class UserRegistrationFormService {
   protected buildForm(): FormGroup {
     return this.formBuilder.group({
       titleCode: [null],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      companyName: ['', Validators.required],
-      email: ['', [Validators.required, CustomFormValidators.emailValidator]],
+      firstName: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
+      lastName: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
+      companyName: ['', [Validators.required, Validators.maxLength(this.maxFieldLength)]],
+      email: ['', [Validators.required, CustomFormValidators.emailValidator, Validators.maxLength(this.maxFieldLength)]],
       country: this.formBuilder.group({
         isocode: [null],
       }),
-      line1: [''],
-      line2: [''],
-      town: [''],
+      line1: ['', Validators.maxLength(this.maxFieldLength)],
+      line2: ['', Validators.maxLength(this.maxFieldLength)],
+      town: ['', Validators.maxLength(this.maxFieldLength)],
       region: this.formBuilder.group({
         isocode: [null],
       }),
-      postalCode: [''],
-      phoneNumber: ['', Validators.maxLength(256)],
+      postalCode: ['', Validators.maxLength(this.maxFieldLength)],
+      phoneNumber: ['', Validators.maxLength(this.maxFieldLength)],
       message: [''],
     });
   }
