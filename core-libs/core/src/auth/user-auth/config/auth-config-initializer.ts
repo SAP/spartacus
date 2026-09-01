@@ -53,11 +53,7 @@ export class AuthConfigInitializer implements ConfigInitializer {
   }
 
   protected generateClientId(activeBaseSite: string, config: AuthConfig) {
-    const baseSiteSuffix =
-      config.authentication?.initializerOptions?.baseSiteSuffix;
-
-    return baseSiteSuffix === true ||
-      (baseSiteSuffix === 'auto' && this.baseSiteInUrl())
+    return this.addBaseSiteToClientIdEnabled(config)
       ? `${config.authentication?.client_id ?? ''}_${activeBaseSite}`
       : config.authentication?.client_id;
   }
@@ -79,7 +75,7 @@ export class AuthConfigInitializer implements ConfigInitializer {
    *   will be appended to the path if enabled.
    */
   protected generateRedirectUri(activeBaseSite: string, config: AuthConfig) {
-    const shouldAppendBaseSite = this.appendBaseSiteEnabled(config);
+    const shouldAppendBaseSite = this.addBaseSiteToRedirectUriEnabled(config);
     const configuredRedirectUri =
       config.authentication?.OAuthLibConfig?.redirectUri;
 
@@ -115,7 +111,23 @@ export class AuthConfigInitializer implements ConfigInitializer {
     }
   }
 
-  protected appendBaseSiteEnabled(config: AuthConfig) {
+  /**
+   * Should client ID be suffixed with the base site
+   */
+  protected addBaseSiteToClientIdEnabled(config: AuthConfig) {
+    const baseSiteSuffix =
+      config.authentication?.initializerOptions?.baseSiteSuffix;
+
+    return (
+      baseSiteSuffix === true ||
+      (baseSiteSuffix === 'auto' && this.baseSiteInUrl())
+    );
+  }
+
+  /**
+   * Should redirect URI include the base site
+   */
+  protected addBaseSiteToRedirectUriEnabled(config: AuthConfig) {
     const addBaseSiteToRedirectUri =
       config.authentication?.initializerOptions?.addBaseSiteToRedirectUri;
 
