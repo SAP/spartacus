@@ -17,14 +17,19 @@ Identify and fix accessibility issues sourced from Jira.
 - **1.1** Use the `sap-jira` MCP server to search for a11y issues with this JQL:
 
   ```jql
-  project = CXSPA AND component = "cfe--accessibility" AND status = "TO DO" ORDER BY priority DESC
+  project = CXSPA AND component = "cfe--accessibility" AND statusCategory = "To Do" AND sprint in openSprints() AND assignee is EMPTY AND issuetype != Epic ORDER BY priority DESC
   ```
+
+  Note: this project has no status literally named `TO DO`; its open issues use the
+  status `Open`, which belongs to the `To Do` status category. Filtering by
+  `statusCategory = "To Do"` matches all not-yet-started statuses regardless of their
+  exact name.
 
 - **1.2** Print the results in a comprehensive (non-exhaustive) table including at least:
   issue key, summary, status, priority, and component(s).
 
-### 2. Execution
-- **2.1** Spawn one agent per Jira issue.
+<!-- ### 2. Execution
+- **2.1** Spawn one agent per Jira issue (at most one agent at a time).
 - **2.1.1** Transition the Jira issue from **"TO DO"** to **"IN PROGRESS"** using the `sap-jira` MCP server.
 - **2.2** Create a branch from `develop` named `a11y/[issue-key]` (e.g. `a11y/CXSPA-1234`).
 - **2.3** Determine whether a feature toggle or feature directive is necessary with the following rule:
@@ -56,6 +61,6 @@ Identify and fix accessibility issues sourced from Jira.
 - **3.3** Add a comment to the Jira issue via the `sap-jira` MCP server linking the PR URL.
 - **3.4** Transition the Jira issue from **"IN PROGRESS"** to **"CODE REVIEW"** using the
   `sap-jira` MCP server.
-- **3.5** Checkout back to `develop`.
+- **3.5** Checkout back to `develop`. -->
 
 </a11y-skill>
