@@ -1,11 +1,6 @@
+import { vi } from 'vitest';
 import { Pipe, PipeTransform } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
@@ -392,7 +387,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
       // win before the toggle-ON gate consults isStable().
       controls.termsAndConditions.setValue(true);
       component.currentOrderType = undefined as any;
-      const isStableSpy = spyOn(activeCartFacade, 'isStable').and.callThrough();
+      const isStableSpy = vi.spyOn(activeCartFacade, 'isStable');
 
       component.submitForm();
 
@@ -406,32 +401,39 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
   });
 
   describe('safety-valve timeout (subclass inherits parent wiring)', () => {
-    it('should release the gate after 10s even when isStable stays false', fakeAsync(() => {
-      controls.termsAndConditions.setValue(true);
-      activeCartFacade.isStable$.next(false);
-      fixture.detectChanges();
+    it('should release the gate after 10s even when isStable stays false', () => {
+      vi.useFakeTimers();
+      try {
+        controls.termsAndConditions.setValue(true);
+        activeCartFacade.isStable$.next(false);
+        fixture.detectChanges();
 
-      const emissions: boolean[] = [];
-      const sub = component.isCartUpdating$.subscribe((v) => emissions.push(v));
+        const emissions: boolean[] = [];
+        const sub = component.isCartUpdating$.subscribe((v) =>
+          emissions.push(v)
+        );
 
-      // Gate engaged on the subclass component too.
-      expect(
-        fixture.debugElement.nativeElement.querySelector('.btn-primary')
-          .disabled
-      ).toEqual(true);
+        // Gate engaged on the subclass component too.
+        expect(
+          fixture.debugElement.nativeElement.querySelector('.btn-primary')
+            .disabled
+        ).toEqual(true);
 
-      tick(10_000);
-      fixture.detectChanges();
+        vi.advanceTimersByTime(10_000);
+        fixture.detectChanges();
 
-      expect(
-        fixture.debugElement.nativeElement.querySelector('.btn-primary')
-          .disabled
-      ).toEqual(false);
+        expect(
+          fixture.debugElement.nativeElement.querySelector('.btn-primary')
+            .disabled
+        ).toEqual(false);
 
-      expect(emissions[emissions.length - 1]).toBe(false);
-      expect(emissions).toContain(true);
-      sub.unsubscribe();
-    }));
+        expect(emissions[emissions.length - 1]).toBe(false);
+        expect(emissions).toContain(true);
+        sub.unsubscribe();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
   });
 
   function submitForm(orderType: ORDER_TYPE, isTermsCondition: boolean): void {
@@ -449,10 +451,10 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent — enableCartSlowNe
   let scheduledReplenishmentOrderFacade: ScheduledReplenishmentOrderFacade;
   let activeCartFacade: MockActiveCartFacade;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     const mockCurrencyService = { getActive: () => of('USD') };
     const mockLanguageService = { getActive: () => of('en') };
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         RouterModule.forRoot([]),
         ReactiveFormsModule,
@@ -483,7 +485,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent — enableCartSlowNe
         add: { imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

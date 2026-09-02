@@ -1271,7 +1271,7 @@ describe('ActiveCartService', () => {
       expect(service['loadedCart$']).toBeNull();
     });
 
-    it('should create new pipeline for calls after previous completion', (done) => {
+    it('should create new pipeline for calls after previous completion', async () => {
       // Verifies that after a successful cart creation completes, subsequent
       // calls get a fresh pipeline (not stale cached data)
       let callCount = 0;
@@ -1285,33 +1285,35 @@ describe('ActiveCartService', () => {
       service['cartEntity$'] = cart$.asObservable();
       userId$.next(OCC_USER_ID_ANONYMOUS);
 
-      // First call
-      service['requireLoadedCart']()
-        .pipe(take(1))
-        .subscribe((cart) => {
-          callCount++;
-          expect(cart).toEqual({ code: 'cart1' });
+      return new Promise<void>((resolve) => {
+        // First call
+        service['requireLoadedCart']()
+          .pipe(take(1))
+          .subscribe((cart) => {
+            callCount++;
+            expect(cart).toEqual({ code: 'cart1' });
 
-          // After first completes, update cart and make second call
-          setTimeout(() => {
-            cart$.next({
-              loading: false,
-              success: true,
-              error: false,
-              value: { code: 'cart2' },
-            });
-
-            service['requireLoadedCart']()
-              .pipe(take(1))
-              .subscribe((secondCart) => {
-                callCount++;
-                // Second call should get fresh data, not cached cart1
-                expect(secondCart).toEqual({ code: 'cart2' });
-                expect(callCount).toBe(2);
-                done();
+            // After first completes, update cart and make second call
+            setTimeout(() => {
+              cart$.next({
+                loading: false,
+                success: true,
+                error: false,
+                value: { code: 'cart2' },
               });
-          }, 20);
-        });
+
+              service['requireLoadedCart']()
+                .pipe(take(1))
+                .subscribe((secondCart) => {
+                  callCount++;
+                  // Second call should get fresh data, not cached cart1
+                  expect(secondCart).toEqual({ code: 'cart2' });
+                  expect(callCount).toBe(2);
+                  resolve();
+                });
+            }, 20);
+          });
+      });
     });
 
     it('should leave loadedCart$ null until the first non-guest-merge call', () => {

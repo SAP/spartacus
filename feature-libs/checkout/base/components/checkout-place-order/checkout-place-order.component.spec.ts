@@ -1,11 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
@@ -26,6 +20,7 @@ import { OrderFacade } from '@spartacus/order/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, firstValueFrom, of } from 'rxjs';
 import { CheckoutPlaceOrderComponent } from './checkout-place-order.component';
+import { vi } from 'vitest';
 
 class MockOrderFacade implements Partial<OrderFacade> {
   placeOrder = vi.fn().mockReturnValue(of({}));
@@ -228,7 +223,7 @@ describe('CheckoutPlaceOrderComponent', () => {
     it('should early-return on an invalid form WITHOUT consulting isStable()', () => {
       // T&C unchecked → form invalid. The toggle-ON gate must NOT trigger
       // an isStable() subscription on the form-invalid branch.
-      const isStableSpy = spyOn(activeCartFacade, 'isStable').and.callThrough();
+      const isStableSpy = vi.spyOn(activeCartFacade, 'isStable');
 
       component.submitForm();
 
@@ -271,39 +266,46 @@ describe('CheckoutPlaceOrderComponent', () => {
   });
 
   describe('safety-valve timeout', () => {
-    it('should release the gate after the safety-valve timeout even when isStable stays false', fakeAsync(() => {
-      controls.termsAndConditions.setValue(true);
-      activeCartFacade.isStable$.next(false);
-      fixture.detectChanges();
+    it('should release the gate after the safety-valve timeout even when isStable stays false', () => {
+      vi.useFakeTimers();
+      try {
+        controls.termsAndConditions.setValue(true);
+        activeCartFacade.isStable$.next(false);
+        fixture.detectChanges();
 
-      // Capture the full emission sequence so we can pin the order: the
-      // gate must close (`true`) before re-opening (`false`) at 10s.
-      const emissions: boolean[] = [];
-      const sub = component.isCartUpdating$.subscribe((v) => emissions.push(v));
+        // Capture the full emission sequence so we can pin the order: the
+        // gate must close (`true`) before re-opening (`false`) at 10s.
+        const emissions: boolean[] = [];
+        const sub = component.isCartUpdating$.subscribe((v) =>
+          emissions.push(v)
+        );
 
-      // Gate engaged: button is disabled.
-      expect(
-        fixture.debugElement.nativeElement.querySelector('.btn-primary')
-          .disabled
-      ).toEqual(true);
+        // Gate engaged: button is disabled.
+        expect(
+          fixture.debugElement.nativeElement.querySelector('.btn-primary')
+            .disabled
+        ).toEqual(true);
 
-      // Advance past the 10s safety-valve.
-      tick(10_000);
-      fixture.detectChanges();
+        // Advance past the 10s safety-valve.
+        vi.advanceTimersByTime(10_000);
+        fixture.detectChanges();
 
-      // Gate has released regardless of isStable being false.
-      expect(
-        fixture.debugElement.nativeElement.querySelector('.btn-primary')
-          .disabled
-      ).toEqual(false);
+        // Gate has released regardless of isStable being false.
+        expect(
+          fixture.debugElement.nativeElement.querySelector('.btn-primary')
+            .disabled
+        ).toEqual(false);
 
-      // Last emission must be `false` — the safety-valve unsticks the gate.
-      expect(emissions[emissions.length - 1]).toBe(false);
-      // The sequence must contain at least one `true` (gate engaged before
-      // the valve fired).
-      expect(emissions).toContain(true);
-      sub.unsubscribe();
-    }));
+        // Last emission must be `false` — the safety-valve unsticks the gate.
+        expect(emissions[emissions.length - 1]).toBe(false);
+        // The sequence must contain at least one `true` (gate engaged before
+        // the valve fired).
+        expect(emissions).toContain(true);
+        sub.unsubscribe();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
   });
 
   function submitForm(isTermsCondition: boolean): void {
@@ -320,7 +322,7 @@ describe('CheckoutPlaceOrderComponent — enableCartSlowNetworkResilience OFF', 
   let launchDialogService: LaunchDialogService;
   let activeCartFacade: MockActiveCartFacade;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     const mockCurrencyService = { getActive: () => of('USD') };
     const mockLanguageService = { getActive: () => of('en') };
     TestBed.configureTestingModule({
@@ -341,7 +343,7 @@ describe('CheckoutPlaceOrderComponent — enableCartSlowNetworkResilience OFF', 
         add: { imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutPlaceOrderComponent);
