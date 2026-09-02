@@ -17,13 +17,12 @@
         ariaLabelDropdown="{{
           'common.ngSelectDropdownOptionsList' | cxTranslate
         }}"
-      >
-      </ng-select>
+      />
 
       <cx-form-errors
         [translationParams]="{ label: 'orgUser.title' | cxTranslate }"
         [control]="form.get('titleCode')"
-      ></cx-form-errors>
+      />
     </label>
     <label>
       <span class="label-content required">
@@ -46,7 +45,7 @@
         id="firstNameError"
         [translationParams]="{ label: 'orgUser.firstName' | cxTranslate }"
         [control]="form.get('firstName')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label>
@@ -70,7 +69,7 @@
         id="lastNameError"
         [translationParams]="{ label: 'orgUser.lastName' | cxTranslate }"
         [control]="form.get('lastName')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label>
@@ -94,7 +93,7 @@
         id="emailError"
         [translationParams]="{ label: 'orgUser.email' | cxTranslate }"
         [control]="form.get('email')"
-      ></cx-form-errors>
+      />
     </label>
 
     <fieldset required="true" class="full-width" formArrayName="roles">
@@ -163,13 +162,12 @@
         ariaLabelDropdown="{{
           'common.ngSelectDropdownOptionsList' | cxTranslate
         }}"
-      >
-      </ng-select>
+      />
 
       <cx-form-errors
         [translationParams]="{ label: 'orgUser.orgUnit' | cxTranslate }"
         [control]="form.get('orgUnit.uid')"
-      ></cx-form-errors>
+      />
     </label>
 
     <div *ngIf="isAssignedToApprovers" class="full-width">

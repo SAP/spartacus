@@ -47,7 +47,7 @@
         title="{{ 'documentFlow.dialog.orderItems' | cxTranslate }}"
         (click)="onDocumentSelection(document)"
       >
-        <cx-icon [type]="iconTypes.CARET_RIGHT"></cx-icon>
+        <cx-icon [type]="iconTypes.CARET_RIGHT" />
       </button>
     </td>
   </tr>
@@ -57,6 +57,5 @@
     [selectedDocument]="selectedDocument"
     [depth]="depth + 1"
     (documentSelected)="onDocumentSelection($event)"
-  >
-  </cx-order-subsequent-document-node>
+  />
 </ng-container>

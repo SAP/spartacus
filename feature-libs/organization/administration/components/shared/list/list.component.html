@@ -39,7 +39,7 @@
                     : { title: viewType + '.groupName' | cxTranslate }
               "
             >
-              <cx-icon [type]="iconTypes.INFO"> </cx-icon>
+              <cx-icon [type]="iconTypes.INFO" />
             </button>
           </h2>
         </div>
@@ -69,7 +69,7 @@
                   [attr.aria-label]="'organization.search.label' | cxTranslate"
                   [title]="'organization.search.label' | cxTranslate"
                 >
-                  <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+                  <cx-icon [type]="iconTypes.SEARCH" />
                 </button>
                 <button
                   *ngIf="searchQuery"
@@ -79,7 +79,7 @@
                   [attr.aria-label]="'organization.search.clear' | cxTranslate"
                   [title]="'organization.search.clear' | cxTranslate"
                 >
-                  <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+                  <cx-icon [type]="iconTypes.CLOSE" />
                 </button>
               </div>
             </label>
@@ -117,7 +117,7 @@
             </ng-select>
           </label>
 
-          <ng-content select="[actions]"></ng-content>
+          <ng-content select="[actions]" />
 
           <ng-container
             *ngIf="
@@ -159,8 +159,7 @@
           [data]="cachedValues"
           [i18nRoot]="domainType"
           role="tree"
-        >
-        </cx-table>
+        />
 
         <!-- List content when not loading -->
         <cx-table
@@ -171,8 +170,7 @@
           [currentItem]="{ property: key, value: currentKey$ | async }"
           (launch)="launchItem($event)"
           role="tree"
-        >
-        </cx-table>
+        />
 
         <!-- Empty list when not loading and no data -->
         <ng-container
@@ -186,8 +184,7 @@
               [data]="[]"
               [i18nRoot]="domainType"
               role="tree"
-            >
-            </cx-table>
+            />
             <p class="cx-no-results">
               {{ 'organization.search.noResultsFound' | cxTranslate }}
             </p>
@@ -204,12 +201,12 @@
         <cx-pagination
           [pagination]="data.pagination"
           (viewPageEvent)="browse($any(data.pagination), $event)"
-        ></cx-pagination>
+        />
       </div>
     </cx-view>
 
     <!-- nested split views are rendered inside child routes -->
-    <router-outlet></router-outlet>
+    <router-outlet />
   </ng-container>
 </cx-split-view>
 

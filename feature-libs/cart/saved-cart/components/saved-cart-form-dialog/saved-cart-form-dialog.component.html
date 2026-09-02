@@ -35,7 +35,7 @@
           [attr.aria-label]="'common.close' | cxTranslate"
         >
           <span aria-hidden="true">
-            <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+            <cx-icon [type]="iconTypes.CLOSE" />
           </span>
         </button>
       </div>
@@ -218,7 +218,7 @@
                     label: 'savedCartDialog.savedCartName' | cxTranslate,
                   }"
                   [control]="form.get('name')"
-                ></cx-form-errors>
+                />
               </label>
             </ng-container>
           </div>
@@ -249,7 +249,7 @@
                   label: 'savedCartDialog.savedCartDescription' | cxTranslate,
                 }"
                 [control]="form.get('description')"
-              ></cx-form-errors>
+              />
 
               <p class="cx-saved-carts-input-hint">
                 {{
