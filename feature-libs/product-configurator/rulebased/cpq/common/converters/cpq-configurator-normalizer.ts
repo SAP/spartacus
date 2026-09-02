@@ -588,14 +588,17 @@ export class CpqConfiguratorNormalizer
   }
 
   /**
-   * Marks an attribute as incomplete when it has no selected value or user input.
+   * Marks a required attribute as incomplete when it has no selected value or user input.
    *
    * @param attribute - converted attribute
    * @protected
    */
   protected compileAttributeIncomplete(attribute: Configurator.Attribute) {
-    //Default value for incomplete is false
     attribute.incomplete = false;
+
+    if (!attribute.required) {
+      return;
+    }
 
     const singleValueTypes = [
       Configurator.UiType.RADIOBUTTON,
@@ -757,8 +760,10 @@ export class CpqConfiguratorNormalizer
 
   /**
    * Sets the group's completeness to `false` when any attribute in the group
-   * or any subgroup is incomplete, propagates incompleteness down to a single
-   * subgroup, and propagates incompleteness to all ancestor groups.
+   * or any subgroup is incomplete, when the group carries error messages, or
+   * when a container attribute carries error messages, propagates incompleteness
+   * down to a single subgroup, and propagates incompleteness to all ancestor
+   * groups.
    *
    * @param group - converted group
    * @param ancestorGroups - parent groups up to the root
@@ -771,6 +776,9 @@ export class CpqConfiguratorNormalizer
     if (group.attributes?.some((attribute) => attribute.incomplete)) {
       group.complete = false;
     }
+    if (this.hasGroupErrorMessages(group)) {
+      group.complete = false;
+    }
     if (group.subGroups.some((subGroup) => subGroup.complete === false)) {
       group.complete = false;
     }
@@ -778,6 +786,40 @@ export class CpqConfiguratorNormalizer
       this.propagateGroupIncompletenessToSingleSubGroup(group);
       this.propagateGroupIncompletenessToAncestors(ancestorGroups);
     }
+  }
+
+  /**
+   * Verifies whether the group or one of its container attributes carries at least one
+   * message with error severity.
+   *
+   * @param group - converted group
+   * @returns `true` when an error message is present
+   * @protected
+   */
+  protected hasGroupErrorMessages(group: Configurator.Group): boolean {
+    if (this.hasErrorMessages(group.messages)) {
+      return true;
+    }
+    return (
+      group.attributes?.some((attribute) =>
+        this.hasErrorMessages(attribute.container?.messages)
+      ) ?? false
+    );
+  }
+
+  /**
+   * Verifies whether the message list carries at least one message with error severity.
+   *
+   * @param messages - typed messages
+   * @returns `true` when an error message is present
+   * @protected
+   */
+  protected hasErrorMessages(messages?: Configurator.Message[]): boolean {
+    return (
+      messages?.some(
+        (message) => message.severity === Configurator.MessageSeverity.ERROR
+      ) ?? false
+    );
   }
 
   /**

@@ -1069,31 +1069,37 @@ describe('CpqConfiguratorNormalizer', () => {
     it('should mark single-selection attributes incomplete unless a value is selected', () => {
       const attributeRBWithValues: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
+        required: true,
         uiType: Configurator.UiType.RADIOBUTTON,
         selectedSingleValue: 'SomeValue',
       };
       const attributeRBWoValues: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
+        required: true,
         uiType: Configurator.UiType.RADIOBUTTON,
         selectedSingleValue: '',
       };
       const attributeDDWithValues: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
+        required: true,
         uiType: Configurator.UiType.DROPDOWN,
         selectedSingleValue: 'SomeValue',
       };
       const attributeDDWoValues: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
+        required: true,
         uiType: Configurator.UiType.DROPDOWN,
         selectedSingleValue: '',
       };
       const attributeSSIWithValues: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
+        required: true,
         uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
         selectedSingleValue: 'SomeValue',
       };
       const attributeSSIWoValues: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
+        required: true,
         uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
         selectedSingleValue: '',
       };
@@ -1128,21 +1134,25 @@ describe('CpqConfiguratorNormalizer', () => {
     it('should mark string and numeric attributes incomplete unless userInput is set', () => {
       const attributeStringWithValues: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
+        required: true,
         uiType: Configurator.UiType.STRING,
         userInput: 'User Input',
       };
       const attributeStringWoValues: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
+        required: true,
         uiType: Configurator.UiType.STRING,
         userInput: '',
       };
       const attributeNumericWithValues: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
+        required: true,
         uiType: Configurator.UiType.NUMERIC,
         userInput: '123',
       };
       const attributeNumericWoValues: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
+        required: true,
         uiType: Configurator.UiType.NUMERIC,
         userInput: '',
       };
@@ -1177,31 +1187,37 @@ describe('CpqConfiguratorNormalizer', () => {
       ];
       const attributeCheckboxWOValue: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
+        required: true,
         uiType: Configurator.UiType.CHECKBOX,
         values: valuesWOSelectedOne,
       };
       const attributeCheckboxWithValue: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
+        required: true,
         uiType: Configurator.UiType.CHECKBOX,
         values: valuesWithSelectedOne,
       };
       const attributeCheckboxlistWOValue: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
+        required: true,
         uiType: Configurator.UiType.CHECKBOXLIST,
         values: valuesWOSelectedOne,
       };
       const attributeCheckboxlistWithValue: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
+        required: true,
         uiType: Configurator.UiType.CHECKBOXLIST,
         values: valuesWithSelectedOne,
       };
       const attributeMSIWOValue: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
+        required: true,
         uiType: Configurator.UiType.MULTI_SELECTION_IMAGE,
         values: valuesWOSelectedOne,
       };
       const attributeMSIWithValue: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
+        required: true,
         uiType: Configurator.UiType.MULTI_SELECTION_IMAGE,
         values: valuesWithSelectedOne,
       };
@@ -1236,6 +1252,7 @@ describe('CpqConfiguratorNormalizer', () => {
     it('should mark a multi-selection image incomplete when values are undefined', () => {
       const attributeMSIWOValue: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
+        required: true,
         uiType: Configurator.UiType.MULTI_SELECTION_IMAGE,
         values: undefined,
       };
@@ -1248,6 +1265,7 @@ describe('CpqConfiguratorNormalizer', () => {
     it('should mark a CONTAINER attribute complete when selected rows meet minRows', () => {
       const attributeWithSelectedRow: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
+        required: true,
         uiType: Configurator.UiType.CONTAINER,
         container: { minRows: 1, rows: [{ id: '1', selected: true }] },
       };
@@ -1262,11 +1280,13 @@ describe('CpqConfiguratorNormalizer', () => {
     it('should mark a CONTAINER attribute incomplete when selected rows are below minRows', () => {
       const attributeWithUnselectedRow: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
+        required: true,
         uiType: Configurator.UiType.CONTAINER,
         container: { minRows: 1, rows: [{ id: '1', selected: false }] },
       };
       const attributeWithEmptyRows: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
+        required: true,
         uiType: Configurator.UiType.CONTAINER,
         container: { minRows: 1, rows: [] },
       };
@@ -1305,6 +1325,7 @@ describe('CpqConfiguratorNormalizer', () => {
     it('should mark a CONTAINER attribute incomplete when a row minRows is not met', () => {
       const attributeWithRowMinRows: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
+        required: true,
         uiType: Configurator.UiType.CONTAINER,
         container: {
           minRows: 0,
@@ -1365,6 +1386,7 @@ describe('CpqConfiguratorNormalizer', () => {
       ];
       const completeAttribute: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
+        required: true,
         uiType: Configurator.UiType.CONTAINER,
         container: { minRows: 7, maxRows: 10, rows },
       };
@@ -1412,6 +1434,31 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(belowContainerMinRows.incomplete).toBe(true);
       expect(belowRowAMinRows.incomplete).toBe(true);
       expect(belowRowCMinRows.incomplete).toBe(true);
+    });
+
+    it('should not mark non-required attributes incomplete', () => {
+      const attributeWithoutValue: Configurator.Attribute = {
+        name: 'ATTRIBUTE_NAME',
+        required: false,
+        uiType: Configurator.UiType.STRING,
+        userInput: '',
+      };
+      const attributeWithUnselectedContainer: Configurator.Attribute = {
+        name: 'ATTRIBUTE_NAME',
+        required: false,
+        uiType: Configurator.UiType.CONTAINER,
+        container: { minRows: 1, rows: [{ id: '1', selected: false }] },
+      };
+
+      cpqConfiguratorNormalizer['compileAttributeIncomplete'](
+        attributeWithoutValue
+      );
+      cpqConfiguratorNormalizer['compileAttributeIncomplete'](
+        attributeWithUnselectedContainer
+      );
+
+      expect(attributeWithoutValue.incomplete).toBe(false);
+      expect(attributeWithUnselectedContainer.incomplete).toBe(false);
     });
   });
 
@@ -1572,6 +1619,225 @@ describe('CpqConfiguratorNormalizer', () => {
       cpqConfiguratorNormalizer['compileGroupComplete'](group);
 
       expect(group.complete).toBe(false);
+    });
+
+    it('should set group complete to false when the group carries an error message', () => {
+      const group: Configurator.Group = {
+        id: '1',
+        complete: true,
+        consistent: true,
+        subGroups: [],
+        messages: [
+          {
+            message: 'Too many units',
+            severity: Configurator.MessageSeverity.ERROR,
+          },
+        ],
+      };
+
+      cpqConfiguratorNormalizer['compileGroupComplete'](group);
+
+      expect(group.complete).toBe(false);
+    });
+
+    it('should set group complete to false when a container attribute carries an error message', () => {
+      const group: Configurator.Group = {
+        id: '1',
+        complete: true,
+        consistent: true,
+        subGroups: [],
+        attributes: [
+          {
+            name: 'CONTAINER_ATTR',
+            uiType: Configurator.UiType.CONTAINER,
+            container: {
+              rows: [],
+              messages: [
+                {
+                  message: 'Container validation failed',
+                  severity: Configurator.MessageSeverity.ERROR,
+                },
+              ],
+            },
+          },
+        ],
+      };
+
+      cpqConfiguratorNormalizer['compileGroupComplete'](group);
+
+      expect(group.complete).toBe(false);
+    });
+
+    it('should leave group complete when only warning messages are present', () => {
+      const group: Configurator.Group = {
+        id: '1',
+        complete: true,
+        consistent: true,
+        subGroups: [],
+        messages: [
+          {
+            message: 'Check quantity',
+            severity: Configurator.MessageSeverity.WARNING,
+          },
+        ],
+        attributes: [
+          {
+            name: 'CONTAINER_ATTR',
+            uiType: Configurator.UiType.CONTAINER,
+            container: {
+              rows: [],
+              messages: [
+                {
+                  message: 'Container requires attention',
+                  severity: Configurator.MessageSeverity.WARNING,
+                },
+              ],
+            },
+          },
+        ],
+      };
+
+      cpqConfiguratorNormalizer['compileGroupComplete'](group);
+
+      expect(group.complete).toBe(true);
+    });
+  });
+
+  describe('hasErrorMessages', () => {
+    it('should return true when the list contains an error message', () => {
+      expect(
+        cpqConfiguratorNormalizer['hasErrorMessages']([
+          {
+            message: 'Validation failed',
+            severity: Configurator.MessageSeverity.ERROR,
+          },
+        ])
+      ).toBe(true);
+    });
+
+    it('should return false when the list contains only warning messages', () => {
+      expect(
+        cpqConfiguratorNormalizer['hasErrorMessages']([
+          {
+            message: 'Check quantity',
+            severity: Configurator.MessageSeverity.WARNING,
+          },
+        ])
+      ).toBe(false);
+    });
+
+    it('should return false when the list contains only info messages', () => {
+      expect(
+        cpqConfiguratorNormalizer['hasErrorMessages']([
+          {
+            message: 'Informational tip',
+            severity: Configurator.MessageSeverity.INFO,
+          },
+        ])
+      ).toBe(false);
+    });
+
+    it('should return false when severity is undefined', () => {
+      expect(
+        cpqConfiguratorNormalizer['hasErrorMessages']([
+          { message: 'Unspecified tip' },
+        ])
+      ).toBe(false);
+    });
+
+    it('should return false when messages are undefined or empty', () => {
+      expect(cpqConfiguratorNormalizer['hasErrorMessages'](undefined)).toBe(
+        false
+      );
+      expect(cpqConfiguratorNormalizer['hasErrorMessages']([])).toBe(false);
+    });
+  });
+
+  describe('hasGroupErrorMessages', () => {
+    it('should return true when the group carries an error message', () => {
+      const group: Configurator.Group = {
+        id: '1',
+        subGroups: [],
+        messages: [
+          {
+            message: 'Too many units',
+            severity: Configurator.MessageSeverity.ERROR,
+          },
+        ],
+      };
+
+      expect(cpqConfiguratorNormalizer['hasGroupErrorMessages'](group)).toBe(
+        true
+      );
+    });
+
+    it('should return true when a container attribute carries an error message', () => {
+      const group: Configurator.Group = {
+        id: '1',
+        subGroups: [],
+        attributes: [
+          {
+            name: 'CONTAINER_ATTR',
+            uiType: Configurator.UiType.CONTAINER,
+            container: {
+              rows: [],
+              messages: [
+                {
+                  message: 'Container validation failed',
+                  severity: Configurator.MessageSeverity.ERROR,
+                },
+              ],
+            },
+          },
+        ],
+      };
+
+      expect(cpqConfiguratorNormalizer['hasGroupErrorMessages'](group)).toBe(
+        true
+      );
+    });
+
+    it('should return false when only warning messages are present', () => {
+      const group: Configurator.Group = {
+        id: '1',
+        subGroups: [],
+        messages: [
+          {
+            message: 'Check quantity',
+            severity: Configurator.MessageSeverity.WARNING,
+          },
+        ],
+        attributes: [
+          {
+            name: 'CONTAINER_ATTR',
+            uiType: Configurator.UiType.CONTAINER,
+            container: {
+              rows: [],
+              messages: [
+                {
+                  message: 'Container requires attention',
+                  severity: Configurator.MessageSeverity.WARNING,
+                },
+              ],
+            },
+          },
+        ],
+      };
+
+      expect(cpqConfiguratorNormalizer['hasGroupErrorMessages'](group)).toBe(
+        false
+      );
+    });
+
+    it('should return false when the group has no messages', () => {
+      const group: Configurator.Group = {
+        id: '1',
+        subGroups: [],
+      };
+
+      expect(cpqConfiguratorNormalizer['hasGroupErrorMessages'](group)).toBe(
+        false
+      );
     });
   });
 
