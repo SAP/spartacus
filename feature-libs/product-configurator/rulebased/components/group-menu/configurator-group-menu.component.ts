@@ -168,15 +168,19 @@ export class ConfiguratorGroupMenuComponent {
   }
 
   /**
-   * Navigate up and set focus if current group information is provided
+   * Navigates up one menu level and restores keyboard focus when the
+   * current group is provided.
    *
-   * @param currentGroup - Current group
+   * Navigation only runs while a submenu is open (`displayedParentGroup`
+   * is set). Focus is applied after the menu parent is updated so the
+   * target item is already rendered. See {@link setFocusOnNavigateUp}.
+   *
+   * @param currentGroup - Currently selected group; required for focus restoration
    */
   navigateUp(currentGroup?: Configurator.Group): void {
     this.displayedParentGroup$
       .pipe(take(1))
       .subscribe((displayedParentGroup) => {
-        //we only navigate up if we are not on a sub level group
         if (displayedParentGroup) {
           const grandParentGroup$ = this.getParentGroup(displayedParentGroup);
           this.configuration$.pipe(take(1)).subscribe((configuration) => {
@@ -185,13 +189,17 @@ export class ConfiguratorGroupMenuComponent {
                 configuration.owner,
                 grandParentGroup ? grandParentGroup.id : undefined
               );
+              if (currentGroup) {
+                this.setFocusOnNavigateUp(
+                  currentGroup,
+                  displayedParentGroup,
+                  configuration
+                );
+              }
             });
           });
         }
       });
-    if (currentGroup) {
-      this.setFocusForMainMenu(currentGroup.id);
-    }
   }
 
   /**
@@ -297,7 +305,7 @@ export class ConfiguratorGroupMenuComponent {
   }
 
   /**
-   * Determines whether a group is replaced by its single sub group in the menu.
+   * Determines whether a group is replaced by its single subgroup in the menu.
    *
    * @param group - Given group
    * @return - Is the group condensed?
@@ -606,21 +614,114 @@ export class ConfiguratorGroupMenuComponent {
   }
 
   /**
-   * Persists the keyboard focus state for the given key
-   * from the subgroup menu by forwards navigation.
+   * Restores keyboard focus after navigating up from a submenu.
    *
-   * @param group - Group
-   * @param currentGroupId - Current group ID
+   * Focus normally returns to the displayed parent group header. When the
+   * current group shares the same visible menu level as that parent
+   * (siblings or condensed equivalents), focus stays on the current group's
+   * menu item instead.
+   *
+   * @param currentGroup - Currently selected group
+   * @param parentGroup - Parent group displayed in the submenu header
+   * @param configuration - Current configuration
+   */
+  protected setFocusOnNavigateUp(
+    currentGroup: Configurator.Group,
+    parentGroup: Configurator.Group,
+    configuration: Configurator.Configuration
+  ): void {
+    const key = this.isSameLevelGroup(currentGroup, parentGroup, configuration)
+      ? currentGroup.id
+      : parentGroup.id;
+    this.configUtils.setFocus(key);
+  }
+
+  /**
+   * Resolves the parent group as shown in the condensed menu.
+   *
+   * Walks up the structural hierarchy and skips intermediate groups that
+   * are hidden because they have only a single subgroup in the menu.
+   *
+   * @param group - Group whose menu parent is requested
+   * @param configuration - Current configuration
+   * @returns Visible menu parent, or `undefined` at root level
+   */
+  protected getMenuParentGroup(
+    group: Configurator.Group,
+    configuration: Configurator.Configuration
+  ): Configurator.Group | undefined {
+    let parentGroup = this.configuratorGroupsService.getParentGroup(
+      configuration.groups,
+      group
+    );
+
+    while (parentGroup && this.isCondensed(parentGroup)) {
+      parentGroup = this.configuratorGroupsService.getParentGroup(
+        configuration.groups,
+        parentGroup
+      );
+    }
+
+    return parentGroup;
+  }
+
+  /**
+   * Checks whether two groups appear on the same level in the condensed menu.
+   *
+   * Compares each group's visible menu parent (see {@link getMenuParentGroup}).
+   * Groups with the same parent — including a condensed child and a root-level
+   * sibling — are treated as being on the same menu level.
+   *
+   * @param groupA - First group
+   * @param groupB - Second group
+   * @param configuration - Current configuration
+   * @returns `true` when both groups share the same visible menu parent
+   */
+  protected isSameLevelGroup(
+    groupA: Configurator.Group,
+    groupB: Configurator.Group,
+    configuration: Configurator.Configuration
+  ): boolean {
+    const parentGroupA = this.getMenuParentGroup(groupA, configuration);
+    const parentGroupB = this.getMenuParentGroup(groupB, configuration);
+
+    return parentGroupA?.id === parentGroupB?.id;
+  }
+
+  /**
+   * Restores keyboard focus when drilling into a subgroup from the main menu.
+   *
+   * Focus moves to the selected direct child when it is visible in the
+   * submenu. For nested selections (grandchild or deeper), focus moves to
+   * the back button because no matching direct child item exists.
+   *
+   * @param group - Group whose submenu was opened
+   * @param currentGroupId - Currently selected group ID
    */
   setFocusForSubGroup(
     group: Configurator.Group,
     currentGroupId?: string
   ): void {
-    let key: string | undefined = 'cx-menu-back';
-    if (this.containsSelectedGroup(group, currentGroupId)) {
-      key = currentGroupId;
-    }
+    const key = this.hasDirectSelectedSubgroup(group, currentGroupId)
+      ? currentGroupId
+      : 'cx-menu-back';
     this.configUtils.setFocus(key);
+  }
+
+  /**
+   * Checks whether the current selection is a direct child of the given group.
+   *
+   * @param group - Group whose direct children are checked
+   * @param currentGroupId - Currently selected group ID
+   * @returns `true` when a direct child matches the current selection
+   */
+  protected hasDirectSelectedSubgroup(
+    group: Configurator.Group,
+    currentGroupId?: string
+  ): boolean {
+    return !!group.subGroups?.some((subGroup) =>
+      this.isGroupSelected(subGroup.id, currentGroupId)
+    );
   }
 
   /**
