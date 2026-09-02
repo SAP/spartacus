@@ -36,7 +36,21 @@ jobs:
           node-version: '20'
       - name: NPM
         run: npm ci
+      - name: Get changed files
+        id: changed_files
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
+        with:
+          result-encoding: string
+          script: |
+            const files = await github.paginate(github.rest.pulls.listFiles, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              per_page: 100,
+            });
+            return files.map((file) => file.filename).join('\n');
       - name: Check configurations
         run: npm run config:check
         env:
           FORCE_COLOR: 2 # Support colors from chalk
+          CHANGED_FILES: ${{ steps.changed_files.outputs.result }}

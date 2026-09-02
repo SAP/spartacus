@@ -17,12 +17,13 @@ import { Command } from 'commander';
 import { readFileSync, writeFileSync } from 'fs';
 import { globSync } from 'glob';
 import { chalk } from '../chalk';
+import { checkLockFiles } from './check-lock-files';
 import { NG_PACKAGE_JSON, PACKAGE_JSON } from './const';
 import { manageDependencies } from './manage-dependencies';
 import { manageTsConfigs } from './tsconfig-paths';
 
 // ------------ Utilities ------------
-
+/* eslint-disable no-console */
 /**
  * Logger when everything was ok
  */
@@ -283,8 +284,7 @@ const repository = librariesPaths
  * In fix mode (`config:update`), writes the corrected version automatically.
  */
 function syncAiMigrationVersion(): void {
-  const MIGRATIONS_PATH =
-    'core-libs/schematics/src/migrations/migrations.json';
+  const MIGRATIONS_PATH = 'core-libs/schematics/src/migrations/migrations.json';
   const SCHEMATICS_PACKAGE_PATH = 'core-libs/schematics/package.json';
   const MIGRATION_KEY = 'add-or-update-ai-skills';
 
@@ -328,6 +328,7 @@ manageDependencies(repository, options);
 // Keep it after dependencies, because fixes from deps might might result in different tsconfig files
 manageTsConfigs(repository, options);
 syncAiMigrationVersion();
+checkLockFiles(options);
 
 if (options.generateDeps) {
   // re-generate dependencies.json file.
