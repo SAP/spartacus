@@ -20,6 +20,7 @@ export interface SampleUser {
   firstName?: string;
   lastName?: string;
   fullName?: string;
+  addressName?: string;
   password?: string;
   email?: string;
   phone?: string;
@@ -65,7 +66,8 @@ export function getSampleUser() {
     titleCode: 'Mr',
     firstName: 'Cypress',
     lastName: 'customer',
-    fullName: 'Mr. Cypress customer',
+    fullName: 'Cypress customer',
+    addressName: 'Mr. Cypress customer',
     password: 'Pas!sword123.',
     email: generateMail(randomString(), true),
     phone: '+919555555555',
