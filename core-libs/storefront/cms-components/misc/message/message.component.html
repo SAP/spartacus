@@ -7,7 +7,7 @@
   <div class="cx-message-content">
     <div role="presentation" class="cx-message-header">
       <span role="presentation" class="cx-message-icon">
-        <cx-icon role="presentation" [type]="getIconType"></cx-icon>
+        <cx-icon role="presentation" [type]="getIconType" />
       </span>
 
       <span class="cx-message-text">
@@ -26,7 +26,7 @@
         <cx-icon
           [type]="showBody ? 'CARET_UP' : 'CARET_DOWN'"
           class="cx-message-accordion-icon"
-        ></cx-icon>
+        />
       </button>
 
       <button
@@ -48,12 +48,12 @@
         class="close"
         type="button"
       >
-        <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        <cx-icon [type]="iconTypes.CLOSE" />
       </button>
     </div>
 
     <div *ngIf="showBody || !accordionText" class="cx-message-body">
-      <ng-content></ng-content>
+      <ng-content />
     </div>
   </div>
 </div>

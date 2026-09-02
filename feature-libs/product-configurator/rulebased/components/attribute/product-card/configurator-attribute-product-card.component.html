@@ -18,7 +18,7 @@
           [container]="product.images?.PRIMARY"
           format="product"
           aria-hidden="true"
-        ></cx-media>
+        />
       </div>
 
       <div class="cx-product-card-info">
@@ -37,7 +37,7 @@
           [textSize]="45"
           [productName]="product.code"
           [tabIndex]="0"
-        ></cx-configurator-show-more>
+        />
       </div>
     </div>
 
@@ -51,12 +51,10 @@
             *ngIf="showQuantity"
             (changeQuantity)="onChangeQuantity($event)"
             [quantityOptions]="extractQuantityParameters()"
-          ></cx-configurator-attribute-quantity>
+          />
         </div>
         <div class="cx-product-card-price">
-          <cx-configurator-price
-            [formula]="extractPriceFormulaParameters()"
-          ></cx-configurator-price>
+          <cx-configurator-price [formula]="extractPriceFormulaParameters()" />
         </div>
       </div>
       <div class="cx-product-card-action">
@@ -239,7 +237,7 @@
           )
         }}"
       >
-        <cx-icon class="deselection-error-symbol" type="ERROR"></cx-icon>
+        <cx-icon class="deselection-error-symbol" type="ERROR" />
         {{ 'configurator.attribute.deselectionNotPossible' | cxTranslate }}
       </div>
     </ng-container>

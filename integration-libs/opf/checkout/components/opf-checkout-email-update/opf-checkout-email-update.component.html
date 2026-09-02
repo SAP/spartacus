@@ -6,7 +6,7 @@
     <label>
       <span class="label-content">
         {{ 'checkoutLogin.emailAddress.label' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <ng-template [ngTemplateOutlet]="requiredAsterisk" />
       </span>
       <input
         required="true"
@@ -27,7 +27,7 @@
           label: 'checkoutLogin.emailAddress.label' | cxTranslate,
         }"
         [control]="checkoutLoginForm.get('email')"
-      ></cx-form-errors>
+      />
     </label>
   </div>
 
@@ -35,7 +35,7 @@
     <label>
       <span class="label-content">
         {{ 'checkoutLogin.confirmEmail.label' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <ng-template [ngTemplateOutlet]="requiredAsterisk" />
       </span>
       <input
         required="true"
@@ -56,7 +56,7 @@
           label: 'checkoutLogin.confirmEmail.label' | cxTranslate,
         }"
         [control]="checkoutLoginForm.get('emailConfirmation')"
-      ></cx-form-errors>
+      />
     </label>
   </div>
 

@@ -33,7 +33,7 @@
       else billingAddress
     "
   >
-    <cx-card [content]="getAddressCardContent(deliveryAddress)"></cx-card>
+    <cx-card [content]="getAddressCardContent(deliveryAddress)" />
   </ng-container>
 
   <!-- TODO:#future-checkout do we really want this? We can always pass more inputs to the copied address form component to make it more modular -->
@@ -70,12 +70,11 @@
                 [cxNgSelectA11y]="{
                   ariaLabel: 'addressForm.country' | cxTranslate,
                 }"
-              >
-              </ng-select>
+              />
               <cx-form-errors
                 id="isocodeError"
                 [control]="billingAddressForm.get('country.isocode')"
-              ></cx-form-errors>
+              />
             </label>
           </div>
         </ng-container>
@@ -103,7 +102,7 @@
           <cx-form-errors
             id="firstNameError"
             [control]="billingAddressForm.get('firstName')"
-          ></cx-form-errors>
+          />
         </label>
       </div>
       <div class="form-group">
@@ -127,7 +126,7 @@
           <cx-form-errors
             id="lastNameError"
             [control]="billingAddressForm.get('lastName')"
-          ></cx-form-errors>
+          />
         </label>
       </div>
       <div class="form-group">
@@ -151,7 +150,7 @@
           <cx-form-errors
             id="line1Error"
             [control]="billingAddressForm.get('line1')"
-          ></cx-form-errors>
+          />
         </label>
       </div>
       <div class="form-group">
@@ -189,7 +188,7 @@
             <cx-form-errors
               id="townError"
               [control]="billingAddressForm.get('town')"
-            ></cx-form-errors>
+            />
           </label>
         </div>
         <div class="form-group col-md-6">
@@ -215,7 +214,7 @@
             <cx-form-errors
               id="postalCodeError"
               [control]="billingAddressForm.get('postalCode')"
-            ></cx-form-errors>
+            />
           </label>
         </div>
         <ng-container
@@ -250,12 +249,11 @@
                   [cxNgSelectA11y]="{
                     ariaLabel: 'addressForm.state' | cxTranslate,
                   }"
-                >
-                </ng-select>
+                />
                 <cx-form-errors
                   id="isocodeShortError"
                   [control]="billingAddressForm.get('region.isocodeShort')"
-                ></cx-form-errors>
+                />
               </label>
             </div>
           </ng-container>

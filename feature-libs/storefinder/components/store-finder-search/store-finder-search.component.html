@@ -24,10 +24,10 @@
           [ngClass]="{
             'disabled-action': !(queryInput.value && queryInput.value.length),
           }"
-        ></cx-icon>
+        />
       </div>
     </div>
-    <ng-template [ngTemplateOutlet]="searchActionButtons"></ng-template>
+    <ng-template [ngTemplateOutlet]="searchActionButtons" />
   </div>
 
   <div class="row align-items-end" *cxFeature="'a11yStoreFinderLabel'">
@@ -64,12 +64,12 @@
                   queryInput.value && queryInput.value.length
                 ),
               }"
-            ></cx-icon>
+            />
           </div>
         </label>
       </div>
     </div>
-    <ng-template [ngTemplateOutlet]="searchActionButtons"></ng-template>
+    <ng-template [ngTemplateOutlet]="searchActionButtons" />
   </div>
 </div>
 

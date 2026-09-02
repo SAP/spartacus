@@ -27,7 +27,7 @@
             "
             [truncateParagraphText]="true"
             [charactersLimit]="getCharactersLimitForCardTile()"
-          ></cx-card>
+          />
           <button
             [attr.aria-label]="'quote.header.overview.a11y.edit' | cxTranslate"
             [attr.title]="'quote.header.overview.a11y.edit' | cxTranslate"
@@ -35,7 +35,7 @@
             class="link cx-action-link cx-edit-btn"
             (click)="toggleEditMode()"
           >
-            <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
+            <cx-icon [type]="iconTypes.PENCIL" />
           </button>
         </ng-container>
         <cx-quote-header-buyer-edit
@@ -49,7 +49,7 @@
           "
           (saveCard)="save(quoteDetails, $event)"
           (cancelCard)="cancel()"
-        ></cx-quote-header-buyer-edit>
+        />
       </div>
       <div class="cx-summary-card">
         <cx-card
@@ -59,7 +59,7 @@
               quoteDetails.expirationTime | cxDate
             ) | async
           "
-        ></cx-card>
+        />
       </div>
       <div class="cx-summary-card">
         <cx-card
@@ -69,7 +69,7 @@
               quoteDetails.updatedTime | cxDate
             ) | async
           "
-        ></cx-card>
+        />
       </div>
     </div>
   </div>

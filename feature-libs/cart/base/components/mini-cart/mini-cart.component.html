@@ -4,7 +4,7 @@
   [title]="'miniCart.item' | cxTranslate: { count: data.quantity }"
   [routerLink]="{ cxRoute: 'cart' } | cxUrl"
 >
-  <cx-icon [type]="iconTypes.CART"></cx-icon>
+  <cx-icon [type]="iconTypes.CART" />
 
   <span class="total">
     {{ 'miniCart.total' | cxTranslate: { total: total$ | async } }}

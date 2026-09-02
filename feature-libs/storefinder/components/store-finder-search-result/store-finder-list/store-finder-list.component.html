@@ -4,7 +4,7 @@
       <div class="col-md-12">
         <cx-store-finder-pagination-details
           [pagination]="locations.pagination"
-        ></cx-store-finder-pagination-details>
+        />
       </div>
       <div class="text-left cx-back-wrapper">
         <div class="cx-visually-hidden">
@@ -16,7 +16,7 @@
           *ngIf="isDetailsModeVisible"
           (click)="hideStoreDetails()"
         >
-          <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
+          <cx-icon [type]="iconTypes.CARET_LEFT" />
           {{ 'storeFinder.back' | cxTranslate }}
         </button>
       </div>
@@ -27,7 +27,7 @@
           <cx-store-finder-store-description
             [location]="storeDetails"
             [disableMap]="true"
-          ></cx-store-finder-store-description>
+          />
         </div>
         <ol class="cx-list" *ngIf="!isDetailsModeVisible">
           <li
@@ -50,7 +50,7 @@
                   locations.pagination.pageSize +
                 1
               "
-            ></cx-store-finder-list-item>
+            />
           </li>
         </ol>
       </div>
@@ -59,7 +59,7 @@
           #storeMap
           [locations]="locations.stores"
           (selectedStoreItem)="selectStoreItemList($event)"
-        ></cx-store-finder-map>
+        />
       </div>
     </div>
 
@@ -99,7 +99,7 @@
                   <cx-store-finder-store-description
                     [location]="storeDetails"
                     [disableMap]="true"
-                  ></cx-store-finder-store-description>
+                  />
                 </div>
                 <ol class="cx-list" *ngIf="!isDetailsModeVisible">
                   <li
@@ -124,7 +124,7 @@
                           locations.pagination.pageSize +
                         1
                       "
-                    ></cx-store-finder-list-item>
+                    />
                   </li>
                 </ol>
               </div>
@@ -143,7 +143,7 @@
                     selectedStore ? [selectedStore] : locations.stores
                   "
                   (selectedStoreItem)="selectStoreItemList($event)"
-                ></cx-store-finder-map>
+                />
               </div>
             </div>
           </ng-template>

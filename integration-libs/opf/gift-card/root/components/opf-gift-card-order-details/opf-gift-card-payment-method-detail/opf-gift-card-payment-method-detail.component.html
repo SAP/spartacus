@@ -5,7 +5,7 @@
         *ngIf="!isPaymentMethodDetailsInfoPresent; else giftCardPartialPayment"
       >
         <div class="cx-gift-card-full-payment">
-          <cx-card [content]="getPaymentMethodCardContent() | async"></cx-card>
+          <cx-card [content]="getPaymentMethodCardContent() | async" />
         </div>
       </ng-container>
 
@@ -13,7 +13,7 @@
         <div class="cx-gift-card-partial-payment">
           <cx-card
             [content]="{ text: ['opfGiftCard.giftCardPayment' | cxTranslate] }"
-          ></cx-card>
+          />
         </div>
       </ng-template>
     </div>

@@ -25,7 +25,7 @@
           label: 'orgCostCenter.name' | cxTranslate,
         }"
         [control]="form.get('name')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label>
@@ -50,7 +50,7 @@
           label: 'orgCostCenter.code' | cxTranslate,
         }"
         [control]="form.get('code')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label formGroupName="currency">
@@ -72,15 +72,14 @@
         ariaLabelDropdown="{{
           'common.ngSelectDropdownOptionsList' | cxTranslate
         }}"
-      >
-      </ng-select>
+      />
 
       <cx-form-errors
         [translationParams]="{
           label: 'orgCostCenter.currency' | cxTranslate,
         }"
         [control]="form.get('currency.isocode')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label [formGroup]="$any(form.get('unit'))">
@@ -101,15 +100,14 @@
         ariaLabelDropdown="{{
           'common.ngSelectDropdownOptionsList' | cxTranslate
         }}"
-      >
-      </ng-select>
+      />
 
       <cx-form-errors
         [translationParams]="{
           label: 'orgCostCenter.unit' | cxTranslate,
         }"
         [control]="form.get('unit.uid')"
-      ></cx-form-errors>
+      />
     </label>
   </ng-container>
 </cx-org-form>

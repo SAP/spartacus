@@ -38,7 +38,7 @@
         (click)="onDialogClose('Cross click')"
       >
         <span
-          ><small><cx-icon [type]="iconTypes.CLOSE"></cx-icon></small
+          ><small><cx-icon [type]="iconTypes.CLOSE" /></small
         ></span>
       </button>
     </div>
@@ -97,7 +97,7 @@
         <!-- Loading spinner only if mode is cancel -->
         <ng-template #loading>
           <div class="d-flex justify-content-center p-4">
-            <cx-spinner></cx-spinner>
+            <cx-spinner />
           </div>
         </ng-template>
       </div>
@@ -130,7 +130,7 @@
         (click)="onDialogClose('close-dialog')"
       >
         <span aria-hidden="true">
-          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+          <cx-icon [type]="iconTypes.CLOSE" />
         </span>
       </button>
     </div>

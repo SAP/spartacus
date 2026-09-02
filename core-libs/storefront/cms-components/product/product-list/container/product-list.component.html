@@ -20,7 +20,7 @@
                   [ariaLabel]="'productList.sortResults' | cxTranslate"
                   ariaControls="product-results-list"
                   placeholder="{{ 'productList.sortBy' | cxTranslate }}"
-                ></cx-sorting>
+                />
               </label>
               <div *ngIf="!isInfiniteScroll" class="col-auto">
                 <div
@@ -34,14 +34,14 @@
                     queryParam="currentPage"
                     [defaultPage]="0"
                     paginationID="pagination-top"
-                  ></cx-pagination>
+                  />
                 </div>
               </div>
               <div class="col-auto ml-auto ml-lg-0">
                 <cx-product-view
                   (modeChange)="setViewMode($event)"
                   [mode]="viewMode"
-                ></cx-product-view>
+                />
               </div>
             </div>
           </div>
@@ -55,7 +55,7 @@
                     [product]="product"
                     [itemIndex]="i"
                     class="col-12 col-sm-6 col-md-4"
-                  ></cx-product-grid-item>
+                  />
                 </div>
               </ng-container>
 
@@ -65,7 +65,7 @@
                   [product]="product"
                   [itemIndex]="i"
                   class="cx-product-search-list"
-                ></cx-product-list-item>
+                />
               </ng-container>
             </ng-container>
 
@@ -75,7 +75,7 @@
                 [scrollConfig]="scrollConfig"
                 [model]="model"
                 [inputViewMode]="viewMode"
-              ></cx-product-scroll>
+              />
             </ng-template>
           </div>
           <div class="cx-sorting bottom">
@@ -91,7 +91,7 @@
                   [ariaLabel]="'productList.sortResults' | cxTranslate"
                   ariaControls="product-results-list"
                   placeholder="{{ 'productList.sortBy' | cxTranslate }}"
-                ></cx-sorting>
+                />
               </label>
               <div
                 *ngIf="!isInfiniteScroll"
@@ -106,14 +106,14 @@
                     queryParam="currentPage"
                     [defaultPage]="0"
                     paginationID="pagination-bottom"
-                  ></cx-pagination>
+                  />
                 </div>
               </div>
               <div class="col-auto ml-auto ml-lg-0">
                 <cx-product-view
                   (modeChange)="setViewMode($event)"
                   [mode]="viewMode"
-                ></cx-product-view>
+                />
               </div>
             </div>
           </div>

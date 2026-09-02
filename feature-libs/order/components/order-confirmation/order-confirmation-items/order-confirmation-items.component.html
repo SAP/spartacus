@@ -2,9 +2,7 @@
   <h3 class="cx-order-items-header">
     {{ 'checkoutOrderConfirmation.orderItems' | cxTranslate }}
   </h3>
-  <cx-promotions
-    [promotions]="order.appliedOrderPromotions || []"
-  ></cx-promotions>
+  <cx-promotions [promotions]="order.appliedOrderPromotions || []" />
 
   <ng-template
     [cxAbstractOrderContext]="{
@@ -17,6 +15,5 @@
       readonly: true,
       promotionLocation: promotionLocation,
     }"
-  >
-  </ng-template>
+  />
 </div>

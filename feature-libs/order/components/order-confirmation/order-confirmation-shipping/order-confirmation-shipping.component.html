@@ -10,7 +10,7 @@
         <div class="cx-review-summary-card cx-review-card-address">
           <cx-card
             [content]="getDeliveryAddressCard(order.deliveryAddress) | async"
-          ></cx-card>
+          />
         </div>
       </div>
 
@@ -19,7 +19,7 @@
         <div class="cx-review-summary-card cx-review-card-address">
           <cx-card
             [content]="getDeliveryModeCard(order.deliveryMode) | async"
-          ></cx-card>
+          />
         </div>
       </div>
     </div>
@@ -36,8 +36,7 @@
           items: entries,
           readonly: true,
         }"
-      >
-      </ng-template>
+      />
     </div>
   </ng-container>
 </div>

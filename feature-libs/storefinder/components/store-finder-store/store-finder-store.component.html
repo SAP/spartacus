@@ -11,7 +11,7 @@
     </div>
     <div class="cx-store-actions">
       <button class="btn btn-block btn-secondary" (click)="goBack()">
-        <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
+        <cx-icon [type]="iconTypes.CARET_LEFT" />
         {{ 'storeFinder.backToList' | cxTranslate }}
       </button>
     </div>
@@ -20,12 +20,12 @@
         <cx-store-finder-store-description
           [disableMap]="disableMap"
           [location]="location"
-        ></cx-store-finder-store-description>
+        />
       </div>
     </div>
   </div>
 </div>
 
 <ng-template #loading>
-  <div class="cx-spinner"><cx-spinner></cx-spinner></div>
+  <div class="cx-spinner"><cx-spinner /></div>
 </ng-template>

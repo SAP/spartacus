@@ -44,7 +44,7 @@
                 placeholder="{{ 'orderHistory.sortBy' | cxTranslate }}"
                 [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
                 ariaControls="order-history-table"
-              ></cx-sorting>
+              />
             </label>
             <div
               *ngIf="type.orderHistory.pagination.totalPages > 1"
@@ -54,7 +54,7 @@
                 [pagination]="type.orderHistory.pagination"
                 (viewPageEvent)="pageChange($event)"
                 paginationID="pagination-top"
-              ></cx-pagination>
+              />
             </div>
           </div>
 
@@ -223,7 +223,7 @@
                 [pagination]="type.orderHistory.pagination"
                 (viewPageEvent)="pageChange($event)"
                 paginationID="pagination-bottom"
-              ></cx-pagination>
+              />
             </div>
           </div>
         </ng-container>

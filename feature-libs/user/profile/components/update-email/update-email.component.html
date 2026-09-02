@@ -1,4 +1,4 @@
-<cx-spinner class="overlay" *ngIf="isUpdating$ | async"> </cx-spinner>
+<cx-spinner class="overlay" *ngIf="isUpdating$ | async" />
 <cx-form-required-legend />
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
   <fieldset>
@@ -35,7 +35,7 @@
           label: 'updateEmailForm.newEmailAddress.label' | cxTranslate,
         }"
         [control]="form.get('email')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label>
@@ -65,7 +65,7 @@
           label: 'updateEmailForm.confirmNewEmailAddress.label' | cxTranslate,
         }"
         [control]="form.get('confirmEmail')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label>
@@ -93,7 +93,7 @@
           label: 'updateEmailForm.password.label' | cxTranslate,
         }"
         [control]="form.get('password')"
-      ></cx-form-errors>
+      />
     </label>
 
     <a
