@@ -13,6 +13,7 @@ import {
 } from '@spartacus/organization/user-registration/root';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { UserRegistrationFormService } from './user-registration-form.service';
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -185,6 +186,58 @@ describe('UserRegistrationFormService', () => {
 
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'login',
+    });
+  });
+});
+
+describe('UserRegistrationFormService — enableFormFieldMaxLength', () => {
+  const overLength = 'a'.repeat(257);
+
+  const baseProviders = () => [
+    FormBuilder,
+    { provide: RoutingService, useClass: MockRoutingService },
+    { provide: UserAddressService, useClass: MockUserAddressService },
+    { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+    { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },
+    { provide: TranslationService, useClass: MockTranslationService },
+    { provide: UserRegistrationFacade, useClass: MockUserRegistrationFacade },
+  ];
+
+  describe('when enabled', () => {
+    let service: UserRegistrationFormService;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          ...baseProviders(),
+          ...provideMockFeatureToggles({ enableFormFieldMaxLength: true }),
+        ],
+      });
+      service = TestBed.inject(UserRegistrationFormService);
+    });
+
+    it('should add maxLength validator to form fields', () => {
+      service.form.get('firstName')!.setValue(overLength);
+      expect(service.form.get('firstName')!.hasError('maxlength')).toBe(true);
+    });
+  });
+
+  describe('when disabled', () => {
+    let service: UserRegistrationFormService;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          ...baseProviders(),
+          ...provideMockFeatureToggles({ enableFormFieldMaxLength: false }),
+        ],
+      });
+      service = TestBed.inject(UserRegistrationFormService);
+    });
+
+    it('should not add maxLength validator to form fields', () => {
+      service.form.get('firstName')!.setValue(overLength);
+      expect(service.form.get('firstName')!.hasError('maxlength')).toBe(false);
     });
   });
 });

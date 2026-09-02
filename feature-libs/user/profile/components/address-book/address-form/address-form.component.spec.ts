@@ -917,3 +917,79 @@ describe('AddressFormComponent', () => {
     });
   });
 });
+
+describe('AddressFormComponent — enableFormFieldMaxLength', () => {
+  const overLength = 'a'.repeat(257);
+
+  const setupModule = (enabled: boolean) =>
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        AddressFormComponent,
+        MockNgSelectA11yDirective,
+      ],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        { provide: UserAddressService, useClass: MockUserAddressService },
+        { provide: GlobalMessageService, useValue: { add: () => {} } },
+        { provide: UserProfileFacade, useClass: MockUserProfileFacade },
+        { provide: LanguageService, useClass: MockLanguageService },
+        {
+          provide: HierarchicalAddressConfig,
+          useValue: {
+            hierarchicalAddress: {
+              countriesUsingHierarchicalAddressFormat: ['CN'],
+            },
+          },
+        },
+        ...provideMockFeatureToggles({ enableFormFieldMaxLength: enabled }),
+      ],
+    })
+      .overrideComponent(AddressFormComponent, {
+        add: { changeDetection: ChangeDetectionStrategy.Eager },
+      })
+      .compileComponents();
+
+  describe('when enabled', () => {
+    let component: AddressFormComponent;
+
+    beforeEach(async () => {
+      await setupModule(true);
+      const fixture = TestBed.createComponent(AddressFormComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('isMaxLengthEnabled should return true', () => {
+      expect(component['isMaxLengthEnabled']).toBe(true);
+    });
+
+    it('should add maxLength validator to line1', () => {
+      component.addressForm.get('line1')!.setValue(overLength);
+      expect(component.addressForm.get('line1')!.hasError('maxlength')).toBe(true);
+    });
+  });
+
+  describe('when disabled', () => {
+    let component: AddressFormComponent;
+
+    beforeEach(async () => {
+      await setupModule(false);
+      const fixture = TestBed.createComponent(AddressFormComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('isMaxLengthEnabled should return false', () => {
+      expect(component['isMaxLengthEnabled']).toBe(false);
+    });
+
+    it('should not add maxLength validator to line1', () => {
+      component.addressForm.get('line1')!.setValue(overLength);
+      expect(component.addressForm.get('line1')!.hasError('maxlength')).toBe(false);
+    });
+  });
+});
