@@ -975,6 +975,11 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           htmlElem,
           'button'
         );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-item-infos'
+        );
       });
 
       it('should render the link in read only mode with the show text', () => {
@@ -1006,6 +1011,11 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           expect,
           htmlElem,
           'button'
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-item-infos'
         );
       });
 
