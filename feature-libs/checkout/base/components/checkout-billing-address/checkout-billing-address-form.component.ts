@@ -17,7 +17,6 @@ import {
   Address,
   AddressValidation,
   Country,
-  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   Region,
@@ -84,11 +83,6 @@ export class CheckoutBillingAddressFormComponent implements OnInit {
   protected billingAddressFormService = inject(
     CheckoutBillingAddressFormService
   );
-  private featureToggles = inject(FeatureToggles);
-
-  protected get isMaxLengthEnabled(): boolean {
-    return this.featureToggles.enableFormFieldMaxLength ?? false;
-  }
 
   ngOnInit(): void {
     this.countries$ = this.userPaymentService.getAllBillingCountries().pipe(

@@ -159,27 +159,33 @@
           <span class="label-content">{{
             'addressForm.address2' | cxTranslate
           }}</span>
+          <ng-container *cxFeature="'enableFormFieldMaxLength'">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="{{ 'addressForm.aptSuite' | cxTranslate }}"
+              formControlName="line2"
+              [attr.aria-invalid]="
+                billingAddressForm.get('line2')?.touched &&
+                billingAddressForm.get('line2')?.invalid
+              "
+              [attr.aria-errormessage]="'line2Error'"
+            />
+            <cx-form-errors
+              id="line2Error"
+              [translationParams]="{
+                label: 'addressForm.address2' | cxTranslate,
+              }"
+              [control]="billingAddressForm.get('line2')"
+            ></cx-form-errors>
+          </ng-container>
           <input
+            *cxFeature="'!enableFormFieldMaxLength'"
             type="text"
             class="form-control"
             placeholder="{{ 'addressForm.aptSuite' | cxTranslate }}"
             formControlName="line2"
-            [attr.aria-invalid]="
-              isMaxLengthEnabled
-                ? billingAddressForm.get('line2')?.touched &&
-                  billingAddressForm.get('line2')?.invalid
-                : null
-            "
-            [attr.aria-errormessage]="isMaxLengthEnabled ? 'line2Error' : null"
           />
-          <cx-form-errors
-            *ngIf="isMaxLengthEnabled"
-            id="line2Error"
-            [translationParams]="{
-              label: 'addressForm.address2' | cxTranslate,
-            }"
-            [control]="billingAddressForm.get('line2')"
-          ></cx-form-errors>
         </label>
       </div>
       <div class="row">

@@ -758,7 +758,8 @@ export interface FeatureTogglesInterface {
    * in address and registration forms, providing visible error feedback instead
    * of silently blocking input at the HTML level.
    *
-   * Affects: `UserRegistrationFormService`
+   * Affects: `UserRegistrationFormService`, `CheckoutBillingAddressFormService`,
+   * `AddressFormComponent`, `UnitAddressFormService`
    */
   enableFormFieldMaxLength?: boolean;
 }
