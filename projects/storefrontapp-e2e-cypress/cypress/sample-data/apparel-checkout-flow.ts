@@ -13,7 +13,8 @@ export function getApparelCheckoutUser() {
   return {
     firstName: 'Cypress',
     lastName: 'Customer',
-    fullName: 'Mr. Cypress Customer',
+    fullName: 'Cypress Customer',
+    addressName: 'Mr. Cypress Customer',
     password: 'Pw4al!l.',
     email: generateMail(randomString(), true),
     phone: '44 7911 123456',
