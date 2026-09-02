@@ -117,6 +117,11 @@ describe('ResetPasswordComponentService', () => {
 
     describe('resetToken$', () => {
       it('should return token', async () => {
+        routerState$.next({
+          state: {
+            queryParams: { token: resetToken },
+          },
+        });
         const result = await firstValueFrom(service.resetToken$);
         expect(result).toEqual(resetToken);
       });

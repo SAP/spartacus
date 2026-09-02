@@ -50,17 +50,21 @@ import { RegisterComponent } from './register.component';
 const mockSecurePassword = 'strongPas$!123';
 const mockInvalidPassword = 'strongPas$!123|';
 
-const mockRegisterFormData: any = {
-  titleCode: 'Mr',
-  firstName: 'John',
-  lastName: 'Doe',
-  email: 'JohnDoe@thebest.john.intheworld.com',
-  email_lowercase: 'johndoe@thebest.john.intheworld.com',
-  termsandconditions: true,
-  password: mockSecurePassword,
-  passwordconf: mockSecurePassword,
-  newsletter: true,
-  captcha: true,
+let mockRegisterFormData: any = {};
+
+const initMockRegisterForm = () => {
+  mockRegisterFormData = {
+    titleCode: 'Mr',
+    firstName: 'John',
+    lastName: 'Doe',
+    email: 'JohnDoe@thebest.john.intheworld.com',
+    email_lowercase: 'johndoe@thebest.john.intheworld.com',
+    termsandconditions: true,
+    password: mockSecurePassword,
+    passwordconf: mockSecurePassword,
+    newsletter: true,
+    captcha: true,
+  };
 };
 
 const mockTitlesList: Title[] = [
@@ -168,7 +172,7 @@ class MockLanguageService {
   }
 }
 
-describe.skip('RegisterComponent', () => {
+describe('RegisterComponent', () => {
   let controls: any;
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
@@ -179,10 +183,14 @@ describe.skip('RegisterComponent', () => {
   let anonymousConsentService: AnonymousConsentsService;
   let authConfigService: AuthConfigService;
   let registerComponentService: RegisterComponentService;
-  let featureToggles: FeatureToggles;
 
-  beforeEach(async () => {
-    TestBed.configureTestingModule({
+  const configureTestingModule = async (
+    featureToggles: { [key: string]: any } = {
+      useEnhancedSecurePasswordValidators: false,
+      authorizationCodeFlowByDefault: false,
+    }
+  ) => {
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         FormErrorsModule,
@@ -230,6 +238,10 @@ describe.skip('RegisterComponent', () => {
           provide: LanguageService,
           useClass: MockLanguageService,
         },
+        {
+          provide: FeatureToggles,
+          useValue: {...featureToggles},
+        },
       ],
     })
       .overrideComponent(RegisterComponent, {
@@ -253,6 +265,10 @@ describe.skip('RegisterComponent', () => {
         },
       })
       .compileComponents();
+  };
+
+  beforeEach(async () => {
+    await configureTestingModule();
   });
 
   beforeEach(() => {
@@ -263,13 +279,12 @@ describe.skip('RegisterComponent', () => {
     anonymousConsentService = TestBed.inject(AnonymousConsentsService);
     authConfigService = TestBed.inject(AuthConfigService);
     registerComponentService = TestBed.inject(RegisterComponentService);
-    featureToggles = TestBed.inject(FeatureToggles);
-    featureToggles.useEnhancedSecurePasswordValidators = false;
-    featureToggles.authorizationCodeFlowByDefault = false;
 
     component = fixture.componentInstance;
 
     fixture.detectChanges();
+
+    initMockRegisterForm();
     controls = component.registerForm.controls;
   });
 
@@ -350,17 +365,28 @@ describe.skip('RegisterComponent', () => {
 
   describe('register', () => {
     it('should register with valid form', () => {
-      regComponentService.collectDataFromRegisterForm = vi
-        .fn()
-        .mockReturnValue({
-          firstName: mockRegisterFormData.firstName,
-          lastName: mockRegisterFormData.lastName,
-          uid: mockRegisterFormData.email_lowercase,
-          password: mockRegisterFormData.password,
-          titleCode: mockRegisterFormData.titleCode,
-        });
+      const getInvalidControls = () => {
+        const invalid: string[] = [];
+        const controls = component.registerForm.controls;
+        for (const name in controls) {
+          if (controls[name].invalid) {
+            invalid.push(name);
+          }
+        }
+        return invalid;
+      };
+      vi.spyOn(
+        registerComponentService,
+        'collectDataFromRegisterForm'
+      ).mockReturnValue({
+        firstName: mockRegisterFormData.firstName,
+        lastName: mockRegisterFormData.lastName,
+        uid: mockRegisterFormData.email_lowercase,
+        password: mockRegisterFormData.password,
+        titleCode: mockRegisterFormData.titleCode,
+      });
       component.registerForm.patchValue(mockRegisterFormData);
-      component.ngOnInit();
+      component.registerForm.updateValueAndValidity();
       component.submitForm();
       expect(regComponentService.register).toHaveBeenCalledWith({
         firstName: mockRegisterFormData.firstName,
@@ -490,9 +516,12 @@ describe.skip('RegisterComponent', () => {
   });
 
   describe('password validators', () => {
-    it('should validate password ends with legal character when useEnhancedSecurePasswordValidators is enabled', () => {
-      featureToggles.useEnhancedSecurePasswordValidators = true;
-
+    it('should validate password ends with legal character when useEnhancedSecurePasswordValidators is enabled', async () => {
+      TestBed.resetTestingModule();
+      await configureTestingModule({
+        useEnhancedSecurePasswordValidators: true,
+        authorizationCodeFlowByDefault: false,
+      });
       fixture = TestBed.createComponent(RegisterComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();

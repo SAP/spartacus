@@ -29,9 +29,7 @@ const mockUserDetails: User = {
 
 class MockAuthService {
   login = vi.fn();
-  isUserLoggedIn(): Observable<boolean> {
-    return of(true);
-  }
+  isUserLoggedIn = vi.fn().mockReturnValue(of(true));
   isUsingASMClient(): Observable<boolean> {
     return of(false);
   }
@@ -70,9 +68,9 @@ class MockUrlPipe implements PipeTransform {
   transform(): void {}
 }
 
-let expectedGreeting = `miniLogin.userGreeting name:${mockUserDetails.name}`;
-
 describe('LoginComponent', () => {
+  let expectedGreeting = '';
+
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
 
@@ -119,6 +117,7 @@ describe('LoginComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
+    expectedGreeting = `miniLogin.userGreeting name:${mockUserDetails.name}`;
     component = fixture.componentInstance;
     component.ngOnInit();
   });
@@ -138,11 +137,9 @@ describe('LoginComponent', () => {
   });
 
   it('should not get user details when token is lacking', async () => {
-    vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
-
-    const userAsync = firstValueFrom(component.user$);
+    vi.spyOn(authService, 'isUserLoggedIn').mockReturnValueOnce(of(false));
     component.ngOnInit();
-    const user = await userAsync;
+    const user = await firstValueFrom(component.user$);
     expect(user).toBeFalsy();
   });
 

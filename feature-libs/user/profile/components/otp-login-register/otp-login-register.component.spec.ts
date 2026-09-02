@@ -46,14 +46,18 @@ import { RegisterComponentService } from '../register';
 import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-account-constants';
 import { OneTimePasswordRegisterComponent } from './otp-login-register.component';
 
-const mockRegisterFormData: any = {
-  titleCode: 'Mr',
-  firstName: 'John',
-  lastName: 'Doe',
-  email: 'johndoe@thebest.john.intheworld.com',
-  termsandconditions: true,
-  newsletter: true,
-  captcha: true,
+let mockRegisterFormData: any = {};
+
+const initMockRegisterFormData = () => {
+  mockRegisterFormData = {
+    titleCode: 'Mr',
+    firstName: 'John',
+    lastName: 'Doe',
+    email: 'johndoe@thebest.john.intheworld.com',
+    termsandconditions: true,
+    newsletter: true,
+    captcha: true,
+  };
 };
 
 const mockTitlesList: Title[] = [
@@ -236,6 +240,7 @@ describe('OneTimePasswordRegisterComponent', () => {
 
     fixture.detectChanges();
     controls = component.registerForm.controls;
+    initMockRegisterFormData();
   });
 
   it('should create', () => {
