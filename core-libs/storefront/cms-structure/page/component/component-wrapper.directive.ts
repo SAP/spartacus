@@ -45,20 +45,6 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   @Output() cxComponentRef = new EventEmitter<ComponentRef<any>>();
 
   /**
-   * Marks this component as NOT being a direct child of a content slot, i.e. a
-   * component nested inside a container component's attribute (e.g. a tab inside
-   * `CMSTabParagraphContainer`, a slide inside a carousel, or an inner component).
-   *
-   * When set to `true`, the SmartEdit component HTML markup contract is not applied,
-   * so SmartEdit does not offer a "Remove" action for the nested component (which
-   * would fail with 404 because it is not a direct child of the slot).
-   *
-   * Containers that render nested children bind this to the `FeatureToggles` flag
-   * `enableSmartEditContractForDirectSlotChildrenOnly` so that the behavior is opt-in.
-   */
-  @Input() cxComponentWrapperNested = false;
-
-  /**
    * This property in unsafe, i.e.
    * - cmpRef can be set later because of lazy loading or deferred loading
    * - cmpRef can be not set at all if for example, web components are used as cms components
@@ -150,12 +136,6 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   }
 
   private decorate(elementRef: ElementRef): void {
-    // Nested components (not direct children of a content slot) must not receive the
-    // SmartEdit component HTML markup contract, otherwise SmartEdit renders a "Remove"
-    // action that fails with 404 (SLOT_COMPONENT_COMPONENT_NOT_IN_SLOT).
-    if (this.cxComponentWrapperNested) {
-      return;
-    }
     this.dynamicAttributeService.addAttributesToComponent(
       elementRef.nativeElement,
       this.renderer,

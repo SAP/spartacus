@@ -19,7 +19,6 @@ import {
 import {
   CmsService,
   CMSTabParagraphContainer,
-  FeaturesConfigModule,
   WindowRef,
 } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
@@ -53,7 +52,6 @@ const defaultTabConfig = {
     OutletDirective,
     ComponentWrapperDirective,
     AsyncPipe,
-    FeaturesConfigModule,
   ],
 })
 export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
@@ -123,6 +121,10 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
               return {
                 ...tab,
                 title: `${data.uid}.tabs.${tab.uid}`,
+                // These components are nested inside the container's `components`
+                // attribute, not direct children of a content slot. SmartEdit uses
+                // this flag to skip the component contract (no "Remove"/404).
+                nested: true,
               };
             })
           )

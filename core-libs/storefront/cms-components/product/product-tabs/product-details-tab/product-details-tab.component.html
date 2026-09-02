@@ -6,15 +6,7 @@
     <ng-container *ngIf="child">
       <ng-template [cxOutlet]="child.flexType" [cxOutletContext]="{}">
         <div class="container">
-          <ng-container *cxFeature="'enableSmartEditContractForDirectSlotChildrenOnly'">
-            <ng-container
-              [cxComponentWrapper]="child"
-              [cxComponentWrapperNested]="true"
-            ></ng-container>
-          </ng-container>
-          <ng-container *cxFeature="'!enableSmartEditContractForDirectSlotChildrenOnly'">
-            <ng-container [cxComponentWrapper]="child"></ng-container>
-          </ng-container>
+          <ng-container [cxComponentWrapper]="child"></ng-container>
         </div>
       </ng-template>
     </ng-container>
