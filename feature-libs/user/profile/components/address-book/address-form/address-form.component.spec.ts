@@ -969,7 +969,9 @@ describe('AddressFormComponent — enableFormFieldMaxLength', () => {
 
     it('should add maxLength validator to line1', () => {
       component.addressForm.get('line1')?.setValue(overLength);
-      expect(component.addressForm.get('line1')?.hasError('maxlength')).toBe(true);
+      expect(component.addressForm.get('line1')?.hasError('maxlength')).toBe(
+        true
+      );
     });
   });
 
@@ -989,7 +991,9 @@ describe('AddressFormComponent — enableFormFieldMaxLength', () => {
 
     it('should not add maxLength validator to line1', () => {
       component.addressForm.get('line1')?.setValue(overLength);
-      expect(component.addressForm.get('line1')?.hasError('maxlength')).toBe(false);
+      expect(component.addressForm.get('line1')?.hasError('maxlength')).toBe(
+        false
+      );
     });
   });
 });

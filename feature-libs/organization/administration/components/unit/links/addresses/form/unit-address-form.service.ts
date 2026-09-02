@@ -53,9 +53,15 @@ export class UnitAddressFormService extends FormService<Address> {
       'lastName',
       new UntypedFormControl('', [Validators.required, ...maxLength])
     );
-    form.setControl('line1', new UntypedFormControl('', [Validators.required, ...maxLength]));
+    form.setControl(
+      'line1',
+      new UntypedFormControl('', [Validators.required, ...maxLength])
+    );
     form.setControl('line2', new UntypedFormControl('', maxLength));
-    form.setControl('town', new UntypedFormControl('', [Validators.required, ...maxLength]));
+    form.setControl(
+      'town',
+      new UntypedFormControl('', [Validators.required, ...maxLength])
+    );
     form.setControl(
       'country',
       new UntypedFormGroup({
