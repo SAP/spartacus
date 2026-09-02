@@ -9,6 +9,7 @@ import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import {
   CmsService,
   ContentSlotComponentData,
+  FeaturesConfigModule,
   CmsBannerCarouselComponent as model,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -24,7 +25,7 @@ import { CarouselComponent } from '../../../shared/components/carousel/carousel.
   selector: 'cx-banner-carousel',
   templateUrl: 'banner-carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, CarouselComponent, ComponentWrapperDirective, AsyncPipe],
+  imports: [NgIf, CarouselComponent, ComponentWrapperDirective, AsyncPipe, FeaturesConfigModule],
 })
 export class BannerCarouselComponent {
   private componentData$: Observable<model> = this.componentData.data$.pipe(

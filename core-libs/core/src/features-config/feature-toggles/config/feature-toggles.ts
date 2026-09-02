@@ -752,6 +752,25 @@ export interface FeatureTogglesInterface {
    * Affects: `ListComponent` (`cx-org-list`)
    */
   a11yNavigationChevronContrast?: boolean;
+
+  /**
+   * When enabled, the SmartEdit component HTML markup contract (the
+   * `data-smartedit-component-*` attributes and the `smartEditComponent` class)
+   * is applied only to components that are DIRECT children of a content slot.
+   *
+   * Components nested inside a container component's attribute (e.g. a tab inside
+   * `CMSTabParagraphContainer`, a slide inside `BannerCarouselComponent`, or a
+   * child rendered by `ProductDetailsTabComponent` / `InnerComponentsHostDirective`)
+   * no longer receive the contract, so SmartEdit does not offer a "Remove" action
+   * for them. Removing such a nested component would call the slot-component admin
+   * endpoint and fail with 404 (SLOT_COMPONENT_COMPONENT_NOT_IN_SLOT), because the
+   * component is not a direct child of the slot.
+   *
+   * Affects: `ComponentWrapperDirective`, `InnerComponentsHostDirective`,
+   * `TabParagraphContainerComponent`, `BannerCarouselComponent`,
+   * `ProductDetailsTabComponent`
+   */
+  enableSmartEditContractForDirectSlotChildrenOnly?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -847,4 +866,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   configuratorIssuesNotificationForConfigurableOnly: false,
   globalMessageCloseButtonPadding: false,
   a11yNavigationChevronContrast: false,
+  enableSmartEditContractForDirectSlotChildrenOnly: false,
 };

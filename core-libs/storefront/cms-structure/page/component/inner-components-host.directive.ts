@@ -6,6 +6,7 @@
 
 import {
   Directive,
+  inject,
   Injector,
   OnDestroy,
   OnInit,
@@ -16,6 +17,7 @@ import {
   CmsComponent,
   DynamicAttributeService,
   EventService,
+  FeatureToggles,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
@@ -34,6 +36,8 @@ export class InnerComponentsHostDirective implements OnInit, OnDestroy {
 
   protected componentWrappers: any[] = [];
   protected subscription?: Subscription;
+
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     protected data: CmsComponentData<CmsComponent>,
@@ -71,6 +75,12 @@ export class InnerComponentsHostDirective implements OnInit, OnDestroy {
       this.eventService
     );
     componentWrapper.cxComponentWrapper = { flexType: component, uid: '' };
+    // Inner components are not direct children of a content slot, so (when the
+    // toggle is enabled) they must not receive the SmartEdit component contract.
+    // Read the flag directly at the point of use (no extra field), per guideline.
+    if (this.featureToggles.enableSmartEditContractForDirectSlotChildrenOnly) {
+      componentWrapper.cxComponentWrapperNested = true;
+    }
     componentWrapper.ngOnInit();
     this.componentWrappers.push(componentWrapper);
   }

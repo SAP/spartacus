@@ -5,10 +5,19 @@
       [cxOutlet]="component.flexType"
       #tabRef
     >
-      <ng-container
-        [cxComponentWrapper]="component"
-        (cxComponentRef)="tabCompLoaded($event, component.uid)"
-      ></ng-container>
+      <ng-container *cxFeature="'enableSmartEditContractForDirectSlotChildrenOnly'">
+        <ng-container
+          [cxComponentWrapper]="component"
+          [cxComponentWrapperNested]="true"
+          (cxComponentRef)="tabCompLoaded($event, component.uid)"
+        ></ng-container>
+      </ng-container>
+      <ng-container *cxFeature="'!enableSmartEditContractForDirectSlotChildrenOnly'">
+        <ng-container
+          [cxComponentWrapper]="component"
+          (cxComponentRef)="tabCompLoaded($event, component.uid)"
+        ></ng-container>
+      </ng-container>
     </ng-template>
   </cx-tab>
 </ng-container>

@@ -7,12 +7,25 @@
 ></cx-carousel>
 
 <ng-template #template let-item="item">
-  <ng-container
-    [cxComponentWrapper]="{
-      flexType: item.typeCode,
-      typeCode: item.typeCode,
-      uid: item?.uid,
-    }"
-  >
+  <ng-container *cxFeature="'enableSmartEditContractForDirectSlotChildrenOnly'">
+    <ng-container
+      [cxComponentWrapper]="{
+        flexType: item.typeCode,
+        typeCode: item.typeCode,
+        uid: item?.uid,
+      }"
+      [cxComponentWrapperNested]="true"
+    >
+    </ng-container>
+  </ng-container>
+  <ng-container *cxFeature="'!enableSmartEditContractForDirectSlotChildrenOnly'">
+    <ng-container
+      [cxComponentWrapper]="{
+        flexType: item.typeCode,
+        typeCode: item.typeCode,
+        uid: item?.uid,
+      }"
+    >
+    </ng-container>
   </ng-container>
 </ng-template>
