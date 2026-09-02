@@ -53,6 +53,7 @@ import { ORDER_MODULE } from '../order-schematics-config';
 export interface SpartacusOpfOptions extends LibraryOptions {
   opfBaseUrl?: string;
   commerceCloudPublicKey?: string;
+  enableGetActiveConfigurationsAccessCodeHeader?: boolean;
 }
 
 export const OPF_FOLDER_NAME = 'opf';
@@ -507,6 +508,9 @@ function buildOpfConfig(
               options.commerceCloudPublicKey ||
               'PLACEHOLDER_COMMERCE_CLOUD_PUBLIC_KEY'
             }",
+            enableGetActiveConfigurationsAccessCodeHeader: ${
+              options.enableGetActiveConfigurationsAccessCodeHeader ?? true
+            },
           },
         }`,
     },
