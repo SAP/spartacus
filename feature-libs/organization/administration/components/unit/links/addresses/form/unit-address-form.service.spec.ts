@@ -46,9 +46,9 @@ describe('UnitAddressFormService — enableFormFieldMaxLength', () => {
     });
 
     it('should add maxLength validator to form fields', () => {
-      const control = service.getForm()!.get('firstName')!;
-      control.setValue(overLength);
-      expect(control.hasError('maxlength')).toBe(true);
+      const control = service.getForm()?.get('firstName');
+      control?.setValue(overLength);
+      expect(control?.hasError('maxlength')).toBe(true);
     });
   });
 
@@ -66,9 +66,9 @@ describe('UnitAddressFormService — enableFormFieldMaxLength', () => {
     });
 
     it('should not add maxLength validator to form fields', () => {
-      const control = service.getForm()!.get('firstName')!;
-      control.setValue(overLength);
-      expect(control.hasError('maxlength')).toBe(false);
+      const control = service.getForm()?.get('firstName');
+      control?.setValue(overLength);
+      expect(control?.hasError('maxlength')).toBe(false);
     });
   });
 });

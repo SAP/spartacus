@@ -217,8 +217,8 @@ describe('UserRegistrationFormService — enableFormFieldMaxLength', () => {
     });
 
     it('should add maxLength validator to form fields', () => {
-      service.form.get('firstName')!.setValue(overLength);
-      expect(service.form.get('firstName')!.hasError('maxlength')).toBe(true);
+      service.form.get('firstName')?.setValue(overLength);
+      expect(service.form.get('firstName')?.hasError('maxlength')).toBe(true);
     });
   });
 
@@ -236,8 +236,8 @@ describe('UserRegistrationFormService — enableFormFieldMaxLength', () => {
     });
 
     it('should not add maxLength validator to form fields', () => {
-      service.form.get('firstName')!.setValue(overLength);
-      expect(service.form.get('firstName')!.hasError('maxlength')).toBe(false);
+      service.form.get('firstName')?.setValue(overLength);
+      expect(service.form.get('firstName')?.hasError('maxlength')).toBe(false);
     });
   });
 });

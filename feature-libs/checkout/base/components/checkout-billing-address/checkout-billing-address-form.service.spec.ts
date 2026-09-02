@@ -116,9 +116,9 @@ describe('CheckoutBillingAddressFormService — enableFormFieldMaxLength', () =>
     });
 
     it('should add maxLength validator to form fields', () => {
-      const control = service.getBillingAddressForm().get('firstName')!;
-      control.setValue(overLength);
-      expect(control.hasError('maxlength')).toBe(true);
+      const control = service.getBillingAddressForm().get('firstName');
+      control?.setValue(overLength);
+      expect(control?.hasError('maxlength')).toBe(true);
     });
   });
 
@@ -136,9 +136,9 @@ describe('CheckoutBillingAddressFormService — enableFormFieldMaxLength', () =>
     });
 
     it('should not add maxLength validator to form fields', () => {
-      const control = service.getBillingAddressForm().get('firstName')!;
-      control.setValue(overLength);
-      expect(control.hasError('maxlength')).toBe(false);
+      const control = service.getBillingAddressForm().get('firstName');
+      control?.setValue(overLength);
+      expect(control?.hasError('maxlength')).toBe(false);
     });
   });
 });
