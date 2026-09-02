@@ -324,11 +324,19 @@ function syncAiMigrationVersion(): void {
   }
 }
 
+// Run the cheap lock-file check first so a PR that forgot to update its
+// `package-lock.json` fails fast, without waiting for the slower dependency,
+// tsconfig and `generate:deps` steps below.
+checkLockFiles(options);
+if (!options.fix && errorsCount > 0) {
+  console.log(chalk.red(`\nErrors: ${errorsCount}\n`));
+  process.exit(1);
+}
+
 manageDependencies(repository, options);
 // Keep it after dependencies, because fixes from deps might might result in different tsconfig files
 manageTsConfigs(repository, options);
 syncAiMigrationVersion();
-checkLockFiles(options);
 
 if (options.generateDeps) {
   // re-generate dependencies.json file.
