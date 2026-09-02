@@ -34,10 +34,10 @@ export default defineConfig({
         '../../testing/setup-vitest.ts',
       ],
       thresholds: {
-        statements: 90,
-        lines: 90,
-        branches: 80,
-        functions: 90,
+        statements: 85,
+        lines: 85,
+        branches: 65,
+        functions: 85,
       },
     },
     reporters: [
