@@ -28,9 +28,14 @@ Identify and fix accessibility issues sourced from Jira.
 - **1.2** Print the results in a comprehensive (non-exhaustive) table including at least:
   issue key, summary, status, priority, and component(s).
 
-<!-- ### 2. Execution
+### 2. Execution
 - **2.1** Spawn one agent per Jira issue (at most one agent at a time).
+<!-- DISABLED — Jira write op. The connected `sap-jira` MCP server is read-only
+     (no transition tool). Re-enable this step once a write-capable Jira MCP (or a
+     REST token) is available.
 - **2.1.1** Transition the Jira issue from **"TO DO"** to **"IN PROGRESS"** using the `sap-jira` MCP server.
+-->
+
 - **2.2** Create a branch from `develop` named `a11y/[issue-key]` (e.g. `a11y/CXSPA-1234`).
 - **2.3** Determine whether a feature toggle or feature directive is necessary with the following rule:
   - Any change to the template affected is protected behind a feature toggle.
@@ -58,9 +63,13 @@ Identify and fix accessibility issues sourced from Jira.
 - **3.1** Push the branch to remote.
 - **3.2** Create a PR with the GitHub CLI (`gh`) and output a short summary of what was
   fixed in the PR description. Reference the Jira issue key in the PR title/description.
+<!-- DISABLED — Jira write op. The connected `sap-jira` MCP server is read-only
+     (no add-comment tool). Re-enable this step once a write-capable Jira MCP (or a
+     REST token) is available.
 - **3.3** Add a comment to the Jira issue via the `sap-jira` MCP server linking the PR URL.
 - **3.4** Transition the Jira issue from **"IN PROGRESS"** to **"CODE REVIEW"** using the
   `sap-jira` MCP server.
-- **3.5** Checkout back to `develop`. -->
+-->
+- **3.5** Checkout back to `develop`.
 
 </a11y-skill>
