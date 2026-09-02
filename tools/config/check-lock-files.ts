@@ -78,7 +78,7 @@ export function checkLockFiles(options: ProgramOptions): void {
     dot: true,
   }).map(toPosix);
 
-  let violations = 0;
+  let hasViolations = false;
 
   lockFilePaths.forEach((lockPath) => {
     const directory =
@@ -96,7 +96,7 @@ export function checkLockFiles(options: ProgramOptions): void {
     const lockChanged = changed.has(lockPath);
 
     if (packageJsonChanged && !lockChanged) {
-      violations++;
+      hasViolations = true;
       error(
         packageJsonPath,
         [
@@ -112,7 +112,7 @@ export function checkLockFiles(options: ProgramOptions): void {
     }
   });
 
-  if (violations === 0) {
+  if (!hasViolations) {
     success();
   }
 }
