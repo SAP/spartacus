@@ -50,17 +50,17 @@ function run_vitest_group_tests {
     if [[ -n "$UNIT_TEST_GROUP_PROJECTS" ]]; then
         echo "Running VITEST unit tests for selected projects: $UNIT_TEST_GROUP_PROJECTS"
         log_selected_projects "VITEST" "$UNIT_TEST_GROUP_PROJECTS"
-        npx nx run-many --target=test-vitest --projects="$UNIT_TEST_GROUP_PROJECTS"
+        npx nx run-many --target=test-vitest --projects="$UNIT_TEST_GROUP_PROJECTS" -- --coverage
     else
         echo "Running ALL VITEST unit tests for migrated libraries"
-        npx nx run-many --all --target=test-vitest
+        npx nx run-many --all --target=test-vitest -- --coverage
     fi
     return 0
 }
 
 function run_vitest_affected_tests {
     echo "Running VITEST unit tests for affected migrated libraries"
-    npx nx affected --target=test-vitest
+    npx nx affected --target=test-vitest -- --coverage
     return 0
 }
 
