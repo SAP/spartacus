@@ -115,7 +115,7 @@
     },
     "enableGetActiveConfigurationsAccessCodeHeader": {
       "type": "boolean",
-      "description": "When enabled, a cart access code is generated and sent as the sap-commerce-cloud-access-code header on the getActiveConfigurations request.",
+      "description": "When enabled, a cart access code is generated and sent as the sap-commerce-cloud-access-code header on the getActiveConfigurations request. This is required for Intelligent Routing.",
       "default": true
     }
   },
