@@ -958,9 +958,31 @@ export class CpqConfiguratorNormalizer
       );
       parentGroup.subGroups.push(rowGroup);
       row.groupId = rowGroup.id;
+    } else {
+      row.actions = this.filterEditActionWhenNoNestedConfiguration(row.actions);
     }
 
     return row;
+  }
+
+  /**
+   * Removes the EDIT action when CPQ sends it without a nested configuration.
+   *
+   * @param actions - Container row actions
+   * @returns Actions without EDIT when no nested configuration is available
+   */
+  protected filterEditActionWhenNoNestedConfiguration(
+    actions: Configurator.ContainerRowAction[] | undefined
+  ): Configurator.ContainerRowAction[] | undefined {
+    if (!actions?.length) {
+      return actions;
+    }
+
+    const filteredActions = actions.filter(
+      (action) => action !== Configurator.ContainerRowAction.EDIT
+    );
+
+    return filteredActions.length ? filteredActions : undefined;
   }
 
   protected convertNestedConfiguration(

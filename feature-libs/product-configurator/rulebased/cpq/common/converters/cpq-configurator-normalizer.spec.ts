@@ -3172,6 +3172,69 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(new Set(flatGroupIds).size).toBe(flatGroupIds.length);
     });
 
+    it('should keep EDIT when the nested configuration is available', () => {
+      const result = cpqConfiguratorNormalizer.convert(
+        configurationWithContainers([containerWithRows])
+      );
+      const rowWithConfig =
+        result.groups[0].attributes?.[0].container?.rows.find(
+          (row) => row.id === rowWithConfigId
+        );
+      expect(rowWithConfig?.actions).toContain(
+        Configurator.ContainerRowAction.EDIT
+      );
+    });
+
+    it('should remove EDIT when CPQ sends it without a nested configuration', () => {
+      const result = cpqConfiguratorNormalizer.convert(
+        configurationWithContainers([
+          {
+            stdAttrCode: cpqAttributeStdAttrCode,
+            rows: [
+              {
+                id: rowWithoutConfigId,
+                productSystemId: 'LENS_50MM',
+                productName: '50mm Lens',
+                selected: true,
+                actions: [
+                  Cpq.ContainerRowAction.DELETE,
+                  Cpq.ContainerRowAction.EDIT,
+                  Cpq.ContainerRowAction.COPY,
+                ],
+              },
+            ],
+          },
+        ])
+      );
+      const row = result.groups[0].attributes?.[0].container?.rows[0];
+      expect(row?.groupId).toBeUndefined();
+      expect(row?.actions).toEqual([
+        Configurator.ContainerRowAction.DELETE,
+        Configurator.ContainerRowAction.COPY,
+      ]);
+    });
+
+    it('should set actions to undefined when EDIT is the only action and no nested configuration is available', () => {
+      const result = cpqConfiguratorNormalizer.convert(
+        configurationWithContainers([
+          {
+            stdAttrCode: cpqAttributeStdAttrCode,
+            rows: [
+              {
+                id: rowWithoutConfigId,
+                productSystemId: 'LENS_50MM',
+                productName: '50mm Lens',
+                selected: true,
+                actions: [Cpq.ContainerRowAction.EDIT],
+              },
+            ],
+          },
+        ])
+      );
+      const row = result.groups[0].attributes?.[0].container?.rows[0];
+      expect(row?.actions).toBeUndefined();
+    });
+
     it('should attach matching sapContainers when convert falls back to the generic group', () => {
       const result = cpqConfiguratorNormalizer.convert({
         productSystemId: cpqProductSystemId,
