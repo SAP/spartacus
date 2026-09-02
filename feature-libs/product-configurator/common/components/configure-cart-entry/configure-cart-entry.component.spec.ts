@@ -499,6 +499,26 @@ describe('ConfigureCartEntryComponent', () => {
           });
       });
 
+      it('should set "navigateToCart" for a bundle overview link', (done) => {
+        component.isBundleOverviewLink = true;
+        component.queryParams$
+          .pipe(take(1), delay(0))
+          .subscribe((queryParams) => {
+            expect(queryParams.navigateToCart).toBe(true);
+            done();
+          });
+      });
+
+      it('should not set "navigateToCart" for a regular configuration link', (done) => {
+        component.isBundleOverviewLink = false;
+        component.queryParams$
+          .pipe(take(1), delay(0))
+          .subscribe((queryParams) => {
+            expect(queryParams.navigateToCart).toBe(false);
+            done();
+          });
+      });
+
       it('should contain "productCode" parameter in case product code is relevant', (done) => {
         component.cartEntry = {
           entryNumber: 0,

@@ -287,14 +287,16 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
 
   /**
    * Decides on the resource key for the button that is rendered in display only mode.
-   * For a cart entry the user returns to the cart, which is reflected in the button description.
+   * For a cart entry overview opened from the bundle information, the user returns
+   * to the cart, which is reflected in the button description.
    *
    * @param routerData - Reflects the current router state
    * @returns - The resource key that controls the button description
    */
   getDisplayOnlyButtonResourceKey(routerData: ConfiguratorRouter.Data): string {
     return this.featureToggles.productConfiguratorCPQContainer &&
-      routerData.owner.type === CommonConfigurator.OwnerType.CART_ENTRY
+      routerData.owner.type === CommonConfigurator.OwnerType.CART_ENTRY &&
+      routerData.navigateToCart
       ? 'configurator.addToCart.buttonBackToCart'
       : 'configurator.addToCart.buttonClose';
   }

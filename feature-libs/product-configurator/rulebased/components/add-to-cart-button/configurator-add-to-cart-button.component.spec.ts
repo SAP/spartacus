@@ -1078,12 +1078,14 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
     let featureToggles: MockFeatureTogglesController;
 
     function createRouterData(
-      ownerType: CommonConfigurator.OwnerType
+      ownerType: CommonConfigurator.OwnerType,
+      navigateToCart = false
     ): ConfiguratorRouter.Data {
       return {
         pageType: ConfiguratorRouter.PageType.OVERVIEW,
         displayOnly: true,
         owner: { ...mockOwner, type: ownerType },
+        navigateToCart,
       };
     }
 
@@ -1095,7 +1097,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
       featureToggles.set('productConfiguratorCPQContainer', true);
       expect(
         component.getDisplayOnlyButtonResourceKey(
-          createRouterData(CommonConfigurator.OwnerType.CART_ENTRY)
+          createRouterData(CommonConfigurator.OwnerType.CART_ENTRY, true)
         )
       ).toBe('configurator.addToCart.buttonBackToCart');
     });
@@ -1104,7 +1106,16 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
       featureToggles.set('productConfiguratorCPQContainer', true);
       expect(
         component.getDisplayOnlyButtonResourceKey(
-          createRouterData(CommonConfigurator.OwnerType.ORDER_ENTRY)
+          createRouterData(CommonConfigurator.OwnerType.ORDER_ENTRY, true)
+        )
+      ).toBe('configurator.addToCart.buttonClose');
+    });
+
+    it('should return `configurator.addToCart.buttonClose` for a regular cart entry overview', () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+      expect(
+        component.getDisplayOnlyButtonResourceKey(
+          createRouterData(CommonConfigurator.OwnerType.CART_ENTRY)
         )
       ).toBe('configurator.addToCart.buttonClose');
     });
@@ -1113,7 +1124,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
       featureToggles.set('productConfiguratorCPQContainer', false);
       expect(
         component.getDisplayOnlyButtonResourceKey(
-          createRouterData(CommonConfigurator.OwnerType.CART_ENTRY)
+          createRouterData(CommonConfigurator.OwnerType.CART_ENTRY, true)
         )
       ).toBe('configurator.addToCart.buttonClose');
     });
@@ -1121,6 +1132,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
     it('should render `Back to Cart` on the display only button of a cart entry', () => {
       featureToggles.set('productConfiguratorCPQContainer', true);
       setRouterTestDataReadOnlyCart();
+      mockRouterData.navigateToCart = true;
       initialize();
 
       CommonConfiguratorTestUtilsService.expectElementToContainText(
