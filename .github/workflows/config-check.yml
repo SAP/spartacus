@@ -27,6 +27,10 @@ jobs:
     if: ${{ needs.detect_changes.outputs.RUN_CHECKS == 'true' }}
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          # Fetch the base branch so the config check can diff `package.json`
+          # dependency fields against it (see check-lock-files.ts).
+          fetch-depth: 0
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@d07a454dad7609a92316b57b23c9ccfd4f59af66 # 0.13.1
         with:
@@ -54,3 +58,5 @@ jobs:
         env:
           FORCE_COLOR: 2 # Support colors from chalk
           CHANGED_FILES: ${{ steps.changed_files.outputs.result }}
+          # Base revision the PR targets, used to diff dependency fields.
+          BASE_REF: ${{ github.event.pull_request.base.sha }}

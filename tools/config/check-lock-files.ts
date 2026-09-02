@@ -12,7 +12,8 @@
  * `package.json` and a `package-lock.json` file.
  */
 
-import { existsSync } from 'fs';
+import { execSync } from 'child_process';
+import { existsSync, readFileSync } from 'fs';
 import { globSync } from 'glob';
 import * as path from 'path';
 import { chalk } from '../chalk';
@@ -20,6 +21,23 @@ import { PACKAGE_JSON } from './const';
 import { ProgramOptions, error, reportProgress, success } from './index';
 
 const PACKAGE_LOCK_JSON = 'package-lock.json';
+
+/**
+ * Fields of a `package.json` that influence the resolved dependency tree and
+ * therefore the `package-lock.json`. Changes to any other field (e.g.
+ * `scripts`, `description`, tooling config) do not require a lock file update.
+ */
+const DEPENDENCY_FIELDS = [
+  'dependencies',
+  'devDependencies',
+  'optionalDependencies',
+  'peerDependencies',
+  'peerDependenciesMeta',
+  'bundleDependencies',
+  'bundledDependencies',
+  'overrides',
+  'workspaces',
+] as const;
 
 /**
  * Read the list of files changed by the pull request, provided by the CI
@@ -49,6 +67,76 @@ function toPosix(filePath: string): string {
 }
 
 /**
+ * Extract only the dependency-relevant fields from a `package.json`, so two
+ * revisions can be compared while ignoring unrelated changes (scripts,
+ * description, tooling config, ...).
+ *
+ * @param content parsed `package.json` content
+ */
+function pickDependencyFields(content: Record<string, unknown>): string {
+  const relevant: Record<string, unknown> = {};
+  for (const field of DEPENDENCY_FIELDS) {
+    if (content[field] !== undefined) {
+      relevant[field] = content[field];
+    }
+  }
+  return JSON.stringify(relevant);
+}
+
+/**
+ * Return the content of a file at a given git revision, or `undefined` when it
+ * cannot be read (e.g. the file did not exist at that revision, or the revision
+ * is not available locally).
+ *
+ * @param revision git revision (branch, tag or SHA)
+ * @param filePath repository-relative file path
+ */
+function readFileAtRevision(
+  revision: string,
+  filePath: string
+): string | undefined {
+  try {
+    return execSync(`git show ${revision}:${filePath}`, {
+      encoding: 'utf-8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    });
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Determine whether the dependency-relevant fields of a `package.json` changed
+ * between the base revision and the working tree.
+ *
+ * When the base revision is unavailable (not fetched, or the file is new) we
+ * conservatively assume the dependencies changed, so the lock file check still
+ * applies.
+ *
+ * @param packageJsonPath repository-relative path to the `package.json`
+ * @param baseRevision base git revision to compare against
+ */
+function dependenciesChanged(
+  packageJsonPath: string,
+  baseRevision: string
+): boolean {
+  const baseContent = readFileAtRevision(baseRevision, packageJsonPath);
+  if (baseContent === undefined) {
+    return true;
+  }
+
+  try {
+    const base = pickDependencyFields(JSON.parse(baseContent));
+    const current = pickDependencyFields(
+      JSON.parse(readFileSync(packageJsonPath, 'utf-8'))
+    );
+    return base !== current;
+  } catch {
+    return true;
+  }
+}
+
+/**
  * Verify that every modified `package.json` has its sibling `package-lock.json`
  * updated as well.
  *
@@ -71,6 +159,11 @@ export function checkLockFiles(options: ProgramOptions): void {
   }
 
   const changed = new Set(changedFiles.map(toPosix));
+
+  // Base revision to diff against, so we only flag changes that actually affect
+  // the dependency tree. When it is not provided we fall back to flagging any
+  // `package.json` change (previous, path-only behaviour).
+  const baseRevision = process.env.BASE_REF?.trim();
 
   // Every directory that has a lock file (and thus a sibling `package.json`).
   const lockFilePaths = globSync(`**/${PACKAGE_LOCK_JSON}`, {
@@ -95,21 +188,29 @@ export function checkLockFiles(options: ProgramOptions): void {
     const packageJsonChanged = changed.has(packageJsonPath);
     const lockChanged = changed.has(lockPath);
 
-    if (packageJsonChanged && !lockChanged) {
-      hasViolations = true;
-      error(
-        packageJsonPath,
-        [
-          `\`${packageJsonPath}\` was modified but \`${lockPath}\` was not updated.`,
-        ],
-        [
-          `Run \`${chalk.bold('npm install')}\`${
-            directory === '.' ? '' : ` in \`${directory}\``
-          } to regenerate the lock file,`,
-          `then commit the updated \`${lockPath}\`.`,
-        ]
-      );
+    if (!packageJsonChanged || lockChanged) {
+      return;
     }
+
+    // `package.json` changed without a lock update: only a real problem when
+    // the dependency-relevant fields are what changed.
+    if (baseRevision && !dependenciesChanged(packageJsonPath, baseRevision)) {
+      return;
+    }
+
+    hasViolations = true;
+    error(
+      packageJsonPath,
+      [
+        `\`${packageJsonPath}\` was modified but \`${lockPath}\` was not updated.`,
+      ],
+      [
+        `Run \`${chalk.bold('npm install')}\`${
+          directory === '.' ? '' : ` in \`${directory}\``
+        } to regenerate the lock file,`,
+        `then commit the updated \`${lockPath}\`.`,
+      ]
+    );
   });
 
   if (!hasViolations) {
