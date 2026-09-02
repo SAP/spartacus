@@ -83,6 +83,7 @@ export abstract class OpfConfig {
     /**
      * When enabled, a cart access code is generated and sent as the
      * `sap-commerce-cloud-access-code` header on the `getActiveConfigurations` request.
+     * This is required for Intelligent Routing.
      */
     enableGetActiveConfigurationsAccessCodeHeader?: boolean;
   };
