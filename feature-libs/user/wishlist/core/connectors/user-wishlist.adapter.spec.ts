@@ -5,7 +5,7 @@ import { vi } from 'vitest';
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Observable, of } from 'rxjs';
+import { Observable, firstValueFrom, of } from 'rxjs';
 import { Wishlist, WishlistEntry } from '@spartacus/user/wishlist/root';
 import { UserWishlistAdapter } from './user-wishlist.adapter';
 
@@ -69,11 +69,10 @@ describe('UserWishlistAdapter', () => {
       expect(typeof adapter.getWishlist).toBe('function');
     });
 
-    it('should accept userId and return an Observable<Wishlist>', () => {
+    it('should accept userId and return an Observable<Wishlist>', async () => {
       vi.spyOn(adapter, 'getWishlist').mockReturnValue(of(mockWishlist));
 
-      let result: Wishlist | undefined;
-      adapter.getWishlist(MOCK_USER_ID).subscribe((wl) => (result = wl));
+      const result = await firstValueFrom(adapter.getWishlist(MOCK_USER_ID));
 
       expect(adapter.getWishlist).toHaveBeenCalledWith(MOCK_USER_ID);
       expect(result).toEqual(mockWishlist);
@@ -91,13 +90,12 @@ describe('UserWishlistAdapter', () => {
       expect(typeof adapter.addEntry).toBe('function');
     });
 
-    it('should accept userId, wishlistId, productCode and return Observable<WishlistEntry>', () => {
+    it('should accept userId, wishlistId, productCode and return Observable<WishlistEntry>', async () => {
       vi.spyOn(adapter, 'addEntry').mockReturnValue(of(mockEntry));
 
-      let result: WishlistEntry | undefined;
-      adapter
-        .addEntry(MOCK_USER_ID, MOCK_WISHLIST_ID, MOCK_PRODUCT_CODE)
-        .subscribe((e) => (result = e));
+      const result = await firstValueFrom(
+        adapter.addEntry(MOCK_USER_ID, MOCK_WISHLIST_ID, MOCK_PRODUCT_CODE)
+      );
 
       expect(adapter.addEntry).toHaveBeenCalledWith(
         MOCK_USER_ID,
@@ -125,20 +123,18 @@ describe('UserWishlistAdapter', () => {
       expect(typeof adapter.removeEntry).toBe('function');
     });
 
-    it('should accept userId, wishlistId, entryId and return Observable<void>', () => {
+    it('should accept userId, wishlistId, entryId and return Observable<void>', async () => {
       vi.spyOn(adapter, 'removeEntry').mockReturnValue(of(undefined as void));
 
-      let called = false;
-      adapter
-        .removeEntry(MOCK_USER_ID, MOCK_WISHLIST_ID, MOCK_ENTRY_ID)
-        .subscribe(() => (called = true));
+      await firstValueFrom(
+        adapter.removeEntry(MOCK_USER_ID, MOCK_WISHLIST_ID, MOCK_ENTRY_ID)
+      );
 
       expect(adapter.removeEntry).toHaveBeenCalledWith(
         MOCK_USER_ID,
         MOCK_WISHLIST_ID,
         MOCK_ENTRY_ID
       );
-      expect(called).toBe(true);
     });
 
     it('should forward all three arguments to the implementation', () => {

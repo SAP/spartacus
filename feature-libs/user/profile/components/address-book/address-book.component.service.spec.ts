@@ -1,8 +1,7 @@
 import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { Address, User, UserAddressService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Observable, firstValueFrom, of } from 'rxjs';
 import { AddressBookComponentService } from './address-book.component.service';
 
 const mockAddresses: Address[] = [
@@ -66,31 +65,19 @@ describe('AddressBookComponentService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should getAddresses() return addresses', () => {
-    service
-      .getAddresses()
-      .pipe(take(1))
-      .subscribe((addresses: Address[]) => {
-        expect(addresses).toEqual(mockAddresses);
-      });
+  it('should getAddresses() return addresses', async () => {
+    const addresses = await firstValueFrom(service.getAddresses());
+    expect(addresses).toEqual(mockAddresses);
   });
 
-  it('should getAddressesStateLoading() return loading state', () => {
-    service
-      .getAddressesStateLoading()
-      .pipe(take(1))
-      .subscribe((state: boolean) => {
-        expect(state).toEqual(false);
-      });
+  it('should getAddressesStateLoading() return loading state', async () => {
+    const state = await firstValueFrom(service.getAddressesStateLoading());
+    expect(state).toEqual(false);
   });
 
-  it('should getAddressesError() return error state', () => {
-    service
-      .getAddressesError()
-      .pipe(take(1))
-      .subscribe((error: boolean) => {
-        expect(error).toEqual(false);
-      });
+  it('should getAddressesError() return error state', async () => {
+    const error = await firstValueFrom(service.getAddressesError());
+    expect(error).toEqual(false);
   });
 
   it('should loadAddresses() load addresses', () => {

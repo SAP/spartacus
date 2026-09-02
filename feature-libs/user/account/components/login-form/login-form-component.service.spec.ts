@@ -25,7 +25,7 @@ import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { Observable, of, throwError } from 'rxjs';
+import { firstValueFrom, Observable, of, throwError } from 'rxjs';
 import {
   LOGIN_ERROR_KEY,
   SESSION_EXPIRED_ERROR,
@@ -216,16 +216,16 @@ describe('LoginFormComponentService', () => {
     const userId = 'test@email.com';
     const password = 'secret';
 
-    it('should not patch user id', () => {
-      service.isUpdating$.subscribe().unsubscribe();
+    it('should not patch user id', async () => {
+      await firstValueFrom(service.isUpdating$);
       expect(service.form.value.userId).toEqual('');
     });
 
-    it('should patch user id', () => {
+    it('should patch user id', async () => {
       vi.spyOn(winRef, 'nativeWindow', 'get').mockReturnValue({
         history: { state: { newUid: 'test.user@shop.com' } },
       } as Window);
-      service.isUpdating$.subscribe().unsubscribe();
+      await firstValueFrom(service.isUpdating$);
       expect(service.form.value.userId).toEqual('test.user@shop.com');
     });
 
@@ -455,8 +455,7 @@ describe('LoginFormComponentService', () => {
         it('should reset busy state to false on CSRF refresh failure', async () => {
           const form = createForm(userId, password, csrf);
           vi.spyOn(form, 'submit');
-          let busyValue: boolean | undefined;
-          service.isUpdating$.subscribe((v) => (busyValue = v));
+          let busyValue: boolean | undefined = await firstValueFrom(service.isUpdating$);
           service.login(form);
           expect(busyValue).toBe(false);
         });

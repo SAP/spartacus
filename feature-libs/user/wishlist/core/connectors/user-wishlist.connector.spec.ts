@@ -6,7 +6,7 @@
 
 import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { Wishlist, WishlistEntry } from '@spartacus/user/wishlist/root';
 import { UserWishlistAdapter } from './user-wishlist.adapter';
 import { UserWishlistConnector } from './user-wishlist.connector';
@@ -68,9 +68,8 @@ describe('UserWishlistConnector', () => {
       expect(adapter.getWishlist).toHaveBeenCalledTimes(1);
     });
 
-    it('should return the Observable emitted by the adapter', () => {
-      let result: Wishlist | undefined;
-      connector.getWishlist(MOCK_USER_ID).subscribe((wl) => (result = wl));
+    it('should return the Observable emitted by the adapter', async () => {
+      const result = await firstValueFrom(connector.getWishlist(MOCK_USER_ID));
       expect(result).toEqual(mockWishlist);
     });
 
@@ -94,11 +93,10 @@ describe('UserWishlistConnector', () => {
       expect(adapter.addEntry).toHaveBeenCalledTimes(1);
     });
 
-    it('should return the Observable<WishlistEntry> emitted by the adapter', () => {
-      let result: WishlistEntry | undefined;
-      connector
-        .addEntry(MOCK_USER_ID, MOCK_WISHLIST_ID, MOCK_PRODUCT_CODE)
-        .subscribe((e) => (result = e));
+    it('should return the Observable<WishlistEntry> emitted by the adapter', async () => {
+      const result = await firstValueFrom(
+        connector.addEntry(MOCK_USER_ID, MOCK_WISHLIST_ID, MOCK_PRODUCT_CODE)
+      );
       expect(result).toEqual(mockEntry);
     });
 
@@ -124,12 +122,10 @@ describe('UserWishlistConnector', () => {
       expect(adapter.removeEntry).toHaveBeenCalledTimes(1);
     });
 
-    it('should return the Observable<void> emitted by the adapter', () => {
-      let completed = false;
-      connector
-        .removeEntry(MOCK_USER_ID, MOCK_WISHLIST_ID, MOCK_ENTRY_ID)
-        .subscribe({ complete: () => (completed = true) });
-      expect(completed).toBe(true);
+    it('should return the Observable<void> emitted by the adapter', async () => {
+      await firstValueFrom(
+        connector.removeEntry(MOCK_USER_ID, MOCK_WISHLIST_ID, MOCK_ENTRY_ID)
+      );
     });
 
     it('should not call getWishlist or addEntry', () => {

@@ -2,7 +2,7 @@ import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { OCC_USER_ID_CURRENT, UserIdService } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { UserAccountService } from './user-account.service';
 import { UserAccountConnector } from '@spartacus/user/account/core';
 
@@ -40,24 +40,18 @@ describe('UserAccountService', () => {
   });
 
   describe('get user details', () => {
-    it('should get user details from query', () => {
-      let userDetails: User;
-      service
-        .get()
-        .subscribe((data) => {
-          userDetails = data;
-        })
-        .unsubscribe();
+    it('should get user details from query', async () => {
+      const userDetails: User | undefined = await firstValueFrom(service.get());
       expect(userDetails).toEqual({ uid: 'current' });
     });
 
-    it('should call connector when data is not present in the store', () => {
-      service.get().subscribe().unsubscribe();
+    it('should call connector when data is not present in the store', async () => {
+      await firstValueFrom(service.get());
       expect(connector.get).toHaveBeenCalledWith('current');
     });
 
-    it('should load user details', () => {
-      service.get().subscribe();
+    it('should load user details', async () => {
+      await firstValueFrom(service.get());
       const userIdService = TestBed.inject(UserIdService);
       expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(connector.get).toHaveBeenCalledWith('current');

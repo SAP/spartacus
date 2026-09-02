@@ -16,7 +16,7 @@ import {
 } from '@spartacus/core';
 import { PageSlotComponent } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { LoginComponent } from './login.component';
 
 const mockUserDetails: User = {
@@ -127,24 +127,22 @@ describe('LoginComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have user details when token exists', () => {
-    let user;
-    component.user$.subscribe((result) => (user = result));
+  it('should have user details when token exists', async () => {
+    const user = await firstValueFrom(component.user$);
     expect(user).toEqual(mockUserDetails);
   });
 
-  it('should have greeting details when token exists', () => {
-    let greeting;
-    component.greeting$.subscribe((result) => (greeting = result));
+  it('should have greeting details when token exists', async () => {
+    const greeting = await firstValueFrom(component.greeting$);
     expect(greeting).toEqual(expectedGreeting);
   });
 
-  it('should not get user details when token is lacking', () => {
+  it('should not get user details when token is lacking', async () => {
     vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
 
-    let user;
+    const userAsync = firstValueFrom(component.user$);
     component.ngOnInit();
-    component.user$.subscribe((result) => (user = result));
+    const user = await userAsync;
     expect(user).toBeFalsy();
   });
 

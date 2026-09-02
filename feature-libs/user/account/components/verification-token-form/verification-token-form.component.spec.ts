@@ -124,6 +124,7 @@ describe('VerificationTokenFormComponent', () => {
   });
 
   beforeEach(() => {
+    vi.useFakeTimers();
     fixture = TestBed.createComponent(VerificationTokenFormComponent);
     service = TestBed.inject(VerificationTokenFormComponentService);
     launchDialogService = TestBed.inject(LaunchDialogService);
