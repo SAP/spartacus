@@ -724,6 +724,119 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
   });
 
+  describe('isGroupCompleted', () => {
+    const group: Configurator.Group = {
+      id: GROUP_ID_1,
+      complete: true,
+      consistent: true,
+      attributes: [],
+      subGroups: [],
+    };
+
+    beforeEach(() => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+    });
+
+    it('should return true when group is complete, consistent, and visited', () => {
+      expect(component['isGroupCompleted'](group, true)).toBe(true);
+    });
+
+    it('should return false when group is not complete', () => {
+      expect(
+        component['isGroupCompleted']({ ...group, complete: false }, true)
+      ).toBe(false);
+    });
+
+    it('should return false when group is not consistent', () => {
+      expect(
+        component['isGroupCompleted']({ ...group, consistent: false }, true)
+      ).toBe(false);
+    });
+
+    it('should return false when group has not been visited', () => {
+      expect(component['isGroupCompleted'](group, false)).toBe(false);
+    });
+  });
+
+  describe('isGroupFaulty', () => {
+    const group: Configurator.Group = {
+      id: GROUP_ID_1,
+      complete: false,
+      consistent: true,
+      attributes: [],
+      subGroups: [],
+    };
+
+    beforeEach(() => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+    });
+
+    it('should return true when group is incomplete and visited', () => {
+      expect(component['isGroupFaulty'](group, true)).toBe(true);
+    });
+
+    it('should return false when group is complete and visited', () => {
+      expect(
+        component['isGroupFaulty']({ ...group, complete: true }, true)
+      ).toBe(false);
+    });
+
+    it('should return false when group is incomplete and not visited', () => {
+      expect(component['isGroupFaulty'](group, false)).toBe(false);
+    });
+  });
+
+  describe('hasGroupWarning', () => {
+    const group: Configurator.Group = {
+      id: GROUP_ID_1,
+      complete: true,
+      consistent: false,
+      attributes: [],
+      subGroups: [],
+    };
+    const configuration: Configurator.Configuration = {
+      ...mockProductConfiguration,
+      owner: {
+        ...mockProductConfiguration.owner,
+        configuratorType: typeVariant,
+      },
+    };
+
+    beforeEach(() => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+    });
+
+    it('should return true when group is inconsistent and configurator type is not Cloud CPQ', () => {
+      expect(component['hasGroupWarning'](group, configuration)).toBe(true);
+    });
+
+    it('should return false when group is inconsistent and configurator type is CPQ', () => {
+      const cpqConfiguration: Configurator.Configuration = {
+        ...configuration,
+        owner: {
+          ...configuration.owner,
+          configuratorType: typeCPQ,
+        },
+      };
+      expect(component['hasGroupWarning'](group, cpqConfiguration)).toBe(false);
+    });
+
+    it('should return false when group is consistent', () => {
+      expect(
+        component['hasGroupWarning'](
+          { ...group, consistent: true },
+          configuration
+        )
+      ).toBe(false);
+    });
+  });
+
   describe('getGroupStatusStyles', () => {
     it('should return COMPLETE style class  for variant configurator if group is complete and consistent', () => {
       productConfigurationObservable = of(mockProductConfiguration);

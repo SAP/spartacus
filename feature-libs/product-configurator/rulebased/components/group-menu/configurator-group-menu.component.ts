@@ -102,10 +102,6 @@ export class ConfiguratorGroupMenuComponent {
       })
     );
 
-  /**
-   * Groups displayed in the menu for the current parent level,
-   * after condensing single-child structural groups.
-   */
   displayedGroups$: Observable<Configurator.Group[]> =
     this.displayedParentGroup$.pipe(
       switchMap((parentGroup) => {
@@ -410,6 +406,59 @@ export class ConfiguratorGroupMenuComponent {
   }
 
   /**
+   * Verifies whether a group is complete, consistent, and has been visited.
+   *
+   * @param group - Current group
+   * @param isVisited - Whether the group has been visited
+   * @returns `true` when the group is complete and consistent and visited
+   * @protected
+   */
+  protected isGroupCompleted(
+    group: Configurator.Group,
+    isVisited: boolean
+  ): boolean {
+    return Boolean(group.complete && group.consistent && isVisited);
+  }
+
+  /**
+   * Verifies whether a group is incomplete and has been visited.
+   *
+   * @param group - Current group
+   * @param isVisited - Whether the group has been visited
+   * @returns `true` when the group is faulty (incomplete) and visited
+   * @protected
+   */
+  protected isGroupFaulty(
+    group: Configurator.Group,
+    isVisited: boolean
+  ): boolean {
+    return Boolean(!group.complete && isVisited);
+  }
+
+  /**
+   * Verifies whether a group should show a warning indicator.
+   *
+   * In the VCP context, a warning indicates that the group has conflicts
+   * (is inconsistent). CPQ does not have conflicts, so this returns `false`
+   * for Cloud CPQ configurators.
+   *
+   * @param group - Current group
+   * @param configuration - Configuration
+   * @returns `true` when the group has conflicts in a VCP context
+   * @protected
+   */
+  protected hasGroupWarning(
+    group: Configurator.Group,
+    configuration: Configurator.Configuration
+  ): boolean {
+    const CLOUDCPQ_CONFIGURATOR_TYPE = 'CLOUDCPQCONFIGURATOR';
+    return Boolean(
+      configuration.owner.configuratorType !== CLOUDCPQ_CONFIGURATOR_TYPE &&
+        !group.consistent
+    );
+  }
+
+  /**
    * Returns group-status style classes dependent on completeness, conflicts, visited status and configurator type.
    *
    * @param group - Current group
@@ -422,18 +471,14 @@ export class ConfiguratorGroupMenuComponent {
   ): Observable<string> {
     return this.isGroupVisited(group, configuration).pipe(
       map((isVisited) => {
-        const CLOUDCPQ_CONFIGURATOR_TYPE = 'CLOUDCPQCONFIGURATOR';
         let groupStatusStyle: string = 'cx-menu-item';
-        if (
-          configuration.owner.configuratorType !== CLOUDCPQ_CONFIGURATOR_TYPE &&
-          !group.consistent
-        ) {
+        if (this.hasGroupWarning(group, configuration)) {
           groupStatusStyle = groupStatusStyle + this.WARNING;
         }
-        if (group.complete && group.consistent && isVisited) {
+        if (this.isGroupCompleted(group, isVisited)) {
           groupStatusStyle = groupStatusStyle + this.COMPLETE;
         }
-        if (!group.complete && isVisited) {
+        if (this.isGroupFaulty(group, isVisited)) {
           groupStatusStyle = groupStatusStyle + this.ERROR;
         }
         return groupStatusStyle;
@@ -685,39 +730,71 @@ export class ConfiguratorGroupMenuComponent {
     configuration: Configurator.Configuration
   ): Observable<string> {
     return this.isGroupVisited(group, configuration).pipe(
-      map((isVisited) => {
-        const CLOUDCPQ_CONFIGURATOR_TYPE = 'CLOUDCPQCONFIGURATOR';
-        let ariaDescribedby: string = '';
-        if (
-          configuration.owner.configuratorType !== CLOUDCPQ_CONFIGURATOR_TYPE &&
-          !group.consistent &&
-          group.groupType &&
-          !this.isConflictGroupType(group.groupType)
-        ) {
-          ariaDescribedby =
-            ariaDescribedby + this.createIconId(ICON_TYPE.WARNING, group.id);
-        }
-        if (group.complete && group.consistent && isVisited) {
-          ariaDescribedby =
-            ariaDescribedby +
-            ' ' +
-            this.createIconId(ICON_TYPE.SUCCESS, group.id);
-        }
-        if (!group.complete && isVisited) {
-          ariaDescribedby =
-            ariaDescribedby +
-            ' ' +
-            this.createIconId(ICON_TYPE.ERROR, group.id);
-        }
-        if (this.hasSubGroups(group)) {
-          ariaDescribedby =
-            ariaDescribedby +
-            ' ' +
-            this.createIconId(ICON_TYPE.CARET_RIGHT, group.id);
-        }
-        ariaDescribedby = ariaDescribedby + ' inListOfGroups';
-        return ariaDescribedby;
-      })
+      map((isVisited) =>
+        this.buildAriaDescribedby(group, configuration, isVisited)
+      )
+    );
+  }
+
+  /**
+   * Builds aria-describedby value for a group menu item.
+   *
+   * @param group - Current group
+   * @param configuration - Configuration
+   * @param isVisited - Whether the group has been visited
+   * @returns aria-describedby value
+   * @protected
+   */
+  protected buildAriaDescribedby(
+    group: Configurator.Group,
+    configuration: Configurator.Configuration,
+    isVisited: boolean
+  ): string {
+    let ariaDescribedby = '';
+
+    if (this.shouldShowWarningAriaIcon(group, configuration)) {
+      ariaDescribedby =
+        ariaDescribedby +
+        (this.createIconId(ICON_TYPE.WARNING, group.id) ?? '');
+    }
+    if (this.isGroupCompleted(group, isVisited)) {
+      ariaDescribedby =
+        ariaDescribedby +
+        ' ' +
+        (this.createIconId(ICON_TYPE.SUCCESS, group.id) ?? '');
+    }
+    if (this.isGroupFaulty(group, isVisited)) {
+      ariaDescribedby =
+        ariaDescribedby +
+        ' ' +
+        (this.createIconId(ICON_TYPE.ERROR, group.id) ?? '');
+    }
+    if (this.hasSubGroups(group)) {
+      ariaDescribedby =
+        ariaDescribedby +
+        ' ' +
+        (this.createIconId(ICON_TYPE.CARET_RIGHT, group.id) ?? '');
+    }
+    ariaDescribedby = ariaDescribedby + ' inListOfGroups';
+    return ariaDescribedby;
+  }
+
+  /**
+   * Verifies whether the warning icon should be referenced in aria-describedby.
+   *
+   * @param group - Current group
+   * @param configuration - Configuration
+   * @returns `true` when the warning icon applies
+   * @protected
+   */
+  protected shouldShowWarningAriaIcon(
+    group: Configurator.Group,
+    configuration: Configurator.Configuration
+  ): boolean {
+    return (
+      this.hasGroupWarning(group, configuration) &&
+      Boolean(group.groupType) &&
+      !this.isConflictGroupType(group.groupType)
     );
   }
 
