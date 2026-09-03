@@ -6,7 +6,7 @@
 
 import { environment } from '../../environments/environment';
 
-const defaultBaseSite = [
+const baseSites = [
   'electronics-spa',
   'electronics-spa-standalone',
   'electronics',
@@ -23,8 +23,8 @@ const defaultBaseSite = [
  * in `server.ts`, so both read the same source of truth.
  */
 export const baseSite = environment.epdVisualization
-  ? ['electronics-epdvisualization-spa'].concat(defaultBaseSite)
-  : defaultBaseSite;
+  ? ['electronics-epdvisualization-spa'].concat(baseSites)
+  : baseSites;
 
 /** Default baseSite used when a request URL carries no site information. */
 export const defaultBaseSiteId = baseSite[0];
