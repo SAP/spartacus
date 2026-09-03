@@ -60,7 +60,11 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
         }
         a {
           text-transform: capitalize;
-          color: var(--cx-color-primary);
+          // Use the darker primary-accent so the link meets 4.5:1 against the
+          // breadcrumb background (--cx-color-background, #f4f4f4 in the default
+          // theme). The base primary (#1f7bc0) only reaches ~4.1:1 there,
+          // whereas primary-accent (#055f9f) reaches ~6.07:1.
+          color: var(--cx-color-primary-accent);
           padding: 0px 5px;
 
           &:focus {

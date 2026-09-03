@@ -2,7 +2,13 @@
   padding: 32px 0;
   text-align: center;
   @include type();
-  color: var(--cx-color-text);
+  // Enforce the theme text color on the footer copyright notice so any
+  // CMS-provided inline gray (e.g. rgb(170,170,170) / #aaa, ~2.32:1 on white)
+  // cannot override it. `!important` is required to win over the non-important
+  // inline `style="color:..."` set by CMS content. Using the theme variable
+  // keeps it adaptive: default theme #14293a gives ~14.9:1 on white, and
+  // high-contrast light (#000000) meets the required 7:1.
+  color: var(--cx-color-text) !important;
   background-color: var(--cx-color-inverse);
   margin-bottom: -1.5rem;
 
