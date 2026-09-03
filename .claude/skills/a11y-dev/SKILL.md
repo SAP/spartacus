@@ -79,4 +79,17 @@ Identify and fix accessibility issues sourced from Jira.
 - **3.5** Checkout back to the branch the skill was executed on (the one captured in
   step 2.2), **not** `develop`.
 
+### 4. Report token consumption & cost
+- **4.1** After all issues have been processed, share a summary of the token
+  consumption and estimated cost for the **full skill execution**. Aggregate the usage
+  reported by every agent spawned in step 2.1 (input tokens, output tokens, cache
+  read/write tokens where available, and total tokens), plus the orchestrator's own
+  usage.
+- **4.2** Present it as a table with one row per Jira issue and a final **Total** row.
+  Suggested columns: issue key, input tokens, output tokens, total tokens, estimated
+  cost (USD).
+- **4.3** Compute the estimated cost from the token counts using the per-token pricing
+  of the model used for the run, and state which model and pricing assumptions were
+  used. If exact usage numbers are unavailable for a step, say so rather than guessing.
+
 </a11y-skill>
