@@ -9,6 +9,10 @@ Identify and fix accessibility issues sourced from Jira.
 - The `sap-jira` MCP server must be connected and authenticated (run `/mcp` if its
   tools are unavailable). All Jira reads, transitions, and comments below go through
   this server's tools.
+- Permissions for this skill are configured in `.claude/settings.local.json` (never
+  `.claude/settings.json`). That file grants full permission to edit existing files
+  and add new files (`Edit` and `Write`) so the fix flow runs without approval
+  prompts.
 
 ## Steps
 - Unless it is a critical change that needs addressing by a developer, do not interrupt the flow for approvals of executions.
@@ -36,7 +40,9 @@ Identify and fix accessibility issues sourced from Jira.
 - **2.1.1** Transition the Jira issue from **"TO DO"** to **"IN PROGRESS"** using the `sap-jira` MCP server.
 -->
 
-- **2.2** Create a branch from `develop` named `a11y/[issue-key]` (e.g. `a11y/CXSPA-1234`).
+- **2.2** First capture the current branch — the branch the skill was executed on
+  (e.g. `git rev-parse --abbrev-ref HEAD`) — so it can be restored in step 3.5. Then
+  create a branch from `develop` named `a11y/[issue-key]` (e.g. `a11y/CXSPA-1234`).
 - **2.3** Determine whether a feature toggle or feature directive is necessary with the following rule:
   - Any change to the template affected is protected behind a feature toggle.
   - The feature toggle's default value is set to `false` in the file: `core-libs/core/src/features-config/feature-toggles/config/feature-toggles.ts`
@@ -70,6 +76,7 @@ Identify and fix accessibility issues sourced from Jira.
 - **3.4** Transition the Jira issue from **"IN PROGRESS"** to **"CODE REVIEW"** using the
   `sap-jira` MCP server.
 -->
-- **3.5** Checkout back to `develop`.
+- **3.5** Checkout back to the branch the skill was executed on (the one captured in
+  step 2.2), **not** `develop`.
 
 </a11y-skill>
