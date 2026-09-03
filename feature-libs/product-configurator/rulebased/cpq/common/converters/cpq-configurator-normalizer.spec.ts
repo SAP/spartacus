@@ -1384,23 +1384,24 @@ describe('CpqConfiguratorNormalizer', () => {
         { id: 'C3', productSystemId: 'PROD_C', selected: true },
         { id: 'X', productSystemId: 'PROD_X', selected: true },
       ];
+      const attributeContainer = { minRows: 7, maxRows: 10, rows };
       const completeAttribute: Configurator.Attribute = {
         name: 'ATTRIBUTE_NAME',
         required: true,
         uiType: Configurator.UiType.CONTAINER,
-        container: { minRows: 7, maxRows: 10, rows },
+        container: attributeContainer,
       };
       const belowContainerMinRows: Configurator.Attribute = {
         ...completeAttribute,
         container: {
-          ...completeAttribute.container!,
+          ...attributeContainer,
           rows: rows.slice(0, 6),
         },
       };
       const belowRowAMinRows: Configurator.Attribute = {
         ...completeAttribute,
         container: {
-          ...completeAttribute.container!,
+          ...attributeContainer,
           rows: [
             {
               id: 'A',
@@ -1416,7 +1417,7 @@ describe('CpqConfiguratorNormalizer', () => {
       const belowRowCMinRows: Configurator.Attribute = {
         ...completeAttribute,
         container: {
-          ...completeAttribute.container!,
+          ...attributeContainer,
           rows: rows.slice(0, 5),
         },
       };
