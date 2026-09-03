@@ -765,6 +765,10 @@ export class CpqConfiguratorNormalizer
    * down to a single subgroup, and propagates incompleteness to all ancestor
    * groups.
    *
+   * Also flags the group with `incompleteBecauseOfChild` when it is only
+   * incomplete because of an incomplete subgroup, so that the issue navigation
+   * can skip it in favour of the group that actually carries the issue.
+   *
    * @param group - converted group
    * @param ancestorGroups - parent groups up to the root
    * @protected
@@ -773,19 +777,35 @@ export class CpqConfiguratorNormalizer
     group: Configurator.Group,
     ancestorGroups: Configurator.Group[] = []
   ): void {
-    if (group.attributes?.some((attribute) => attribute.incomplete)) {
+    const ownIssue = this.hasOwnIncompletenessReason(group);
+    const childIncomplete = group.subGroups.some(
+      (subGroup) => subGroup.complete === false
+    );
+    if (ownIssue || childIncomplete) {
       group.complete = false;
     }
-    if (this.hasGroupErrorMessages(group)) {
-      group.complete = false;
-    }
-    if (group.subGroups.some((subGroup) => subGroup.complete === false)) {
-      group.complete = false;
-    }
+    group.incompleteBecauseOfChild =
+      group.complete === false && !ownIssue && childIncomplete;
     if (group.complete === false) {
       this.propagateGroupIncompletenessToSingleSubGroup(group);
       this.propagateGroupIncompletenessToAncestors(ancestorGroups);
     }
+  }
+
+  /**
+   * Verifies whether the group carries a reason for incompleteness on its own,
+   * namely an incomplete attribute (including an unmet container `minRows`) or
+   * an error message on the group or on one of its container attributes.
+   *
+   * @param group - converted group
+   * @returns `true` when the group is incomplete for its own reasons
+   * @protected
+   */
+  protected hasOwnIncompletenessReason(group: Configurator.Group): boolean {
+    return (
+      (group.attributes?.some((attribute) => attribute.incomplete) ?? false) ||
+      this.hasGroupErrorMessages(group)
+    );
   }
 
   /**
@@ -877,33 +897,9 @@ export class CpqConfiguratorNormalizer
           currency,
           flatGroupList
         );
-        this.applyContainerRequired(attribute);
         this.compileAttributeIncomplete(attribute);
       }
     });
-  }
-
-  /**
-   * Marks a container attribute as required when the container or any of its
-   * rows has `minRows` of at least 1, even if the source CPQ attribute is not
-   * required. CPQ signals a container as non-complete in case nothing is
-   * selected even if it's marked as non-required attribute in CPQ modeling.
-   *
-   * @param attribute - converted attribute
-   */
-  protected applyContainerRequired(attribute: Configurator.Attribute): void {
-    if (attribute.uiType !== Configurator.UiType.CONTAINER) {
-      return;
-    }
-
-    const hasContainerMinRows = (attribute.container?.minRows ?? 0) >= 1;
-    const hasRowMinRows = attribute.container?.rows?.some(
-      (row) => (row.minRows ?? 0) >= 1
-    );
-
-    if (hasContainerMinRows || hasRowMinRows) {
-      attribute.required = true;
-    }
   }
 
   protected convertContainer(

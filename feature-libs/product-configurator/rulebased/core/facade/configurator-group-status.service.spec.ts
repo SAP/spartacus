@@ -112,6 +112,7 @@ describe('ConfiguratorGroupStatusService', () => {
       id: string,
       options: {
         complete?: boolean;
+        incompleteBecauseOfChild?: boolean;
         messages?: Configurator.Message[];
         subGroups?: Configurator.Group[];
       } = {}
@@ -120,6 +121,7 @@ describe('ConfiguratorGroupStatusService', () => {
         ...ConfiguratorTestUtils.createGroup(id),
         groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
         complete: options.complete,
+        incompleteBecauseOfChild: options.incompleteBecauseOfChild,
         messages: options.messages,
         subGroups: options.subGroups ?? [],
       };
@@ -130,6 +132,7 @@ describe('ConfiguratorGroupStatusService', () => {
       subGroups: Configurator.Group[],
       options: {
         complete?: boolean;
+        incompleteBecauseOfChild?: boolean;
         messages?: Configurator.Message[];
       } = {}
     ): Configurator.Group {
@@ -137,6 +140,7 @@ describe('ConfiguratorGroupStatusService', () => {
         ...ConfiguratorTestUtils.createGroup(id),
         groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
         complete: options.complete,
+        incompleteBecauseOfChild: options.incompleteBecauseOfChild,
         messages: options.messages,
         subGroups,
       };
@@ -169,7 +173,7 @@ describe('ConfiguratorGroupStatusService', () => {
       ).toBe(productConfigurationWithConflicts.flatGroups[3].id);
     });
 
-    it('should return a complete navigable group that carries a warning message', () => {
+    it('should not treat a complete group with a warning message as incomplete', () => {
       const warningGroup = createAttributeGroup(GROUP_ID_1, {
         complete: true,
         messages: [
@@ -181,12 +185,12 @@ describe('ConfiguratorGroupStatusService', () => {
       });
       const configuration = createConfig([warningGroup], [warningGroup]);
 
-      expect(classUnderTest.getFirstIncompleteGroup(configuration)?.id).toBe(
-        GROUP_ID_1
-      );
+      expect(
+        classUnderTest.getFirstIncompleteGroup(configuration)
+      ).toBeUndefined();
     });
 
-    it('should return a complete navigable group that hosts a container with a warning message', () => {
+    it('should not treat a complete group with a container warning message as incomplete', () => {
       const containerGroup = createAttributeGroup(GROUP_ID_1, {
         complete: true,
       });
@@ -207,9 +211,9 @@ describe('ConfiguratorGroupStatusService', () => {
       ];
       const configuration = createConfig([containerGroup], [containerGroup]);
 
-      expect(classUnderTest.getFirstIncompleteGroup(configuration)?.id).toBe(
-        GROUP_ID_1
-      );
+      expect(
+        classUnderTest.getFirstIncompleteGroup(configuration)
+      ).toBeUndefined();
     });
 
     it('should not treat a complete group with only a container info message as incomplete', () => {
@@ -270,12 +274,12 @@ describe('ConfiguratorGroupStatusService', () => {
       ).toBeUndefined();
     });
 
-    it('should resolve a container row group with a warning message to its first nested tab', () => {
+    it('should resolve an incomplete container row group to its first nested tab', () => {
       const nestedTab = createAttributeGroup(NESTED_TAB_ID, {
         complete: true,
       });
       const rowGroup = createRowGroup(ROW_GROUP_ID, [nestedTab], {
-        complete: true,
+        complete: false,
         messages: [
           {
             message: 'Check zoom range',
@@ -294,7 +298,7 @@ describe('ConfiguratorGroupStatusService', () => {
       );
     });
 
-    it('should prefer an incomplete nested tab over the first nested tab of a warning row group', () => {
+    it('should prefer an incomplete nested tab over the first nested tab of an incomplete row group', () => {
       const completeNestedTab = createAttributeGroup(NESTED_TAB_ID, {
         complete: true,
       });
@@ -305,7 +309,7 @@ describe('ConfiguratorGroupStatusService', () => {
         ROW_GROUP_ID,
         [completeNestedTab, incompleteNestedTab],
         {
-          complete: true,
+          complete: false,
           messages: [
             {
               message: 'Check zoom range',
@@ -351,7 +355,7 @@ describe('ConfiguratorGroupStatusService', () => {
         complete: true,
       });
       const rowGroup = createRowGroup(ROW_GROUP_ID, [nestedTab], {
-        complete: true,
+        complete: false,
         messages: [
           {
             message: 'Check zoom range',
@@ -372,9 +376,9 @@ describe('ConfiguratorGroupStatusService', () => {
       );
     });
 
-    it('should skip a non-navigable group without navigable descendants and continue', () => {
+    it('should skip a non-navigable incomplete group without navigable descendants and continue', () => {
       const orphanRowGroup = createRowGroup(ROW_GROUP_ID, [], {
-        complete: true,
+        complete: false,
         messages: [
           {
             message: 'Check zoom range',
@@ -421,7 +425,7 @@ describe('ConfiguratorGroupStatusService', () => {
       );
     });
 
-    it('should return the first root-level navigable group when the root carries typed messages', () => {
+    it('should not treat root typed messages as incomplete', () => {
       const firstTab = createAttributeGroup(GROUP_ID_1, { complete: true });
       const secondTab = createAttributeGroup(GROUP_ID_2, { complete: true });
       const configuration = createConfig(
@@ -437,12 +441,12 @@ describe('ConfiguratorGroupStatusService', () => {
         }
       );
 
-      expect(classUnderTest.getFirstIncompleteGroup(configuration)?.id).toBe(
-        GROUP_ID_1
-      );
+      expect(
+        classUnderTest.getFirstIncompleteGroup(configuration)
+      ).toBeUndefined();
     });
 
-    it('should prefer the root over a nested incomplete group when the root carries typed messages', () => {
+    it('should return a nested incomplete group even when the root carries typed messages', () => {
       const incompleteNestedTab = createAttributeGroup(NESTED_TAB_2_ID, {
         complete: false,
       });
@@ -472,7 +476,7 @@ describe('ConfiguratorGroupStatusService', () => {
       );
 
       expect(classUnderTest.getFirstIncompleteGroup(configuration)?.id).toBe(
-        PARENT_TAB_ID
+        NESTED_TAB_2_ID
       );
     });
 
@@ -489,7 +493,7 @@ describe('ConfiguratorGroupStatusService', () => {
       ).toBeUndefined();
     });
 
-    it('should skip a conflict group at root level when the root carries typed messages', () => {
+    it('should not treat root typed messages as incomplete when only conflict groups are incomplete', () => {
       const conflictHeader: Configurator.Group = {
         ...ConfiguratorTestUtils.createGroup('CONFLICT_HEADER'),
         groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
@@ -518,8 +522,140 @@ describe('ConfiguratorGroupStatusService', () => {
         }
       );
 
+      expect(
+        classUnderTest.getFirstIncompleteGroup(configuration)
+      ).toBeUndefined();
+    });
+
+    it('should skip a parent tab that is incomplete only because of a child and return the nested tab', () => {
+      const nestedTab = createAttributeGroup(NESTED_TAB_ID, {
+        complete: false,
+      });
+      const rowGroup = createRowGroup(ROW_GROUP_ID, [nestedTab], {
+        complete: false,
+        incompleteBecauseOfChild: true,
+      });
+      const parentTab = createAttributeGroup(PARENT_TAB_ID, {
+        complete: false,
+        incompleteBecauseOfChild: true,
+        subGroups: [rowGroup],
+      });
+      const configuration = createConfig([parentTab], [parentTab, nestedTab]);
+
       expect(classUnderTest.getFirstIncompleteGroup(configuration)?.id).toBe(
-        GROUP_ID_1
+        NESTED_TAB_ID
+      );
+    });
+
+    it('should skip a parent tab that is incomplete only because of a child even when it carries a warning message', () => {
+      const nestedTab = createAttributeGroup(NESTED_TAB_ID, {
+        complete: false,
+      });
+      const rowGroup = createRowGroup(ROW_GROUP_ID, [nestedTab], {
+        complete: false,
+        incompleteBecauseOfChild: true,
+      });
+      const parentTab = createAttributeGroup(PARENT_TAB_ID, {
+        complete: false,
+        incompleteBecauseOfChild: true,
+        subGroups: [rowGroup],
+        messages: [
+          {
+            message: 'Check zoom range',
+            severity: Configurator.MessageSeverity.WARNING,
+          },
+        ],
+      });
+      const configuration = createConfig([parentTab], [parentTab, nestedTab]);
+
+      expect(classUnderTest.getFirstIncompleteGroup(configuration)?.id).toBe(
+        NESTED_TAB_ID
+      );
+    });
+
+    it('should prefer the nested tab of a flagged parent over a later tab carrying an issue', () => {
+      const nestedTab = createAttributeGroup(NESTED_TAB_ID, {
+        complete: false,
+      });
+      const parentTab = createAttributeGroup(PARENT_TAB_ID, {
+        complete: false,
+        incompleteBecauseOfChild: true,
+        subGroups: [
+          createRowGroup(ROW_GROUP_ID, [nestedTab], {
+            complete: false,
+            incompleteBecauseOfChild: true,
+          }),
+        ],
+      });
+      const laterTab = createAttributeGroup(LATER_TAB_ID, { complete: false });
+      const configuration = createConfig(
+        [parentTab, laterTab],
+        [parentTab, nestedTab, laterTab]
+      );
+
+      expect(classUnderTest.getFirstIncompleteGroup(configuration)?.id).toBe(
+        NESTED_TAB_ID
+      );
+    });
+
+    it('should return a later tab carrying an issue when the flagged parent has no incomplete descendant', () => {
+      const parentTab = createAttributeGroup(PARENT_TAB_ID, {
+        complete: false,
+        incompleteBecauseOfChild: true,
+        subGroups: [
+          createRowGroup(
+            ROW_GROUP_ID,
+            [createAttributeGroup(NESTED_TAB_ID, { complete: true })],
+            { complete: true }
+          ),
+        ],
+      });
+      const laterTab = createAttributeGroup(LATER_TAB_ID, { complete: false });
+      const nestedTab = parentTab.subGroups[0].subGroups[0];
+      const configuration = createConfig(
+        [parentTab, laterTab],
+        [parentTab, nestedTab, laterTab]
+      );
+
+      expect(classUnderTest.getFirstIncompleteGroup(configuration)?.id).toBe(
+        LATER_TAB_ID
+      );
+    });
+
+    it('should fall back to a flagged group when no other incomplete group exists', () => {
+      const parentTab = createAttributeGroup(PARENT_TAB_ID, {
+        complete: false,
+        incompleteBecauseOfChild: true,
+        subGroups: [
+          createRowGroup(
+            ROW_GROUP_ID,
+            [createAttributeGroup(NESTED_TAB_ID, { complete: true })],
+            { complete: true }
+          ),
+        ],
+      });
+      const configuration = createConfig([parentTab], [parentTab]);
+
+      expect(classUnderTest.getFirstIncompleteGroup(configuration)?.id).toBe(
+        PARENT_TAB_ID
+      );
+    });
+
+    it('should return an incomplete parent tab that is not flagged', () => {
+      const nestedTab = createAttributeGroup(NESTED_TAB_ID, {
+        complete: true,
+      });
+      const rowGroup = createRowGroup(ROW_GROUP_ID, [nestedTab], {
+        complete: true,
+      });
+      const parentTab = createAttributeGroup(PARENT_TAB_ID, {
+        complete: false,
+        subGroups: [rowGroup],
+      });
+      const configuration = createConfig([parentTab], [parentTab, nestedTab]);
+
+      expect(classUnderTest.getFirstIncompleteGroup(configuration)?.id).toBe(
+        PARENT_TAB_ID
       );
     });
   });

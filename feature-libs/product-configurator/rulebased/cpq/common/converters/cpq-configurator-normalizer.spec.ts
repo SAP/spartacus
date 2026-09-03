@@ -1701,6 +1701,212 @@ describe('CpqConfiguratorNormalizer', () => {
 
       expect(group.complete).toBe(true);
     });
+
+    it('should flag the group as incompleteBecauseOfChild when only a sub group is incomplete', () => {
+      const group: Configurator.Group = {
+        id: '1',
+        complete: true,
+        consistent: true,
+        subGroups: [
+          {
+            id: '2',
+            complete: false,
+            consistent: true,
+            subGroups: [],
+          },
+        ],
+        attributes: [
+          {
+            name: 'CONTAINER_ATTR',
+            uiType: Configurator.UiType.CONTAINER,
+            incomplete: false,
+          },
+        ],
+      };
+
+      cpqConfiguratorNormalizer['compileGroupComplete'](group);
+
+      expect(group.complete).toBe(false);
+      expect(group.incompleteBecauseOfChild).toBe(true);
+    });
+
+    it('should not flag the group as incompleteBecauseOfChild when one of its own attributes is incomplete', () => {
+      const group: Configurator.Group = {
+        id: '1',
+        complete: true,
+        consistent: true,
+        subGroups: [
+          {
+            id: '2',
+            complete: false,
+            consistent: true,
+            subGroups: [],
+          },
+        ],
+        attributes: [
+          {
+            name: 'ATTRIBUTE_NAME',
+            incomplete: true,
+          },
+        ],
+      };
+
+      cpqConfiguratorNormalizer['compileGroupComplete'](group);
+
+      expect(group.complete).toBe(false);
+      expect(group.incompleteBecauseOfChild).toBe(false);
+    });
+
+    it('should not flag the group as incompleteBecauseOfChild when a container attribute carries an error message', () => {
+      const group: Configurator.Group = {
+        id: '1',
+        complete: true,
+        consistent: true,
+        subGroups: [
+          {
+            id: '2',
+            complete: false,
+            consistent: true,
+            subGroups: [],
+          },
+        ],
+        attributes: [
+          {
+            name: 'CONTAINER_ATTR',
+            uiType: Configurator.UiType.CONTAINER,
+            incomplete: false,
+            container: {
+              rows: [],
+              messages: [
+                {
+                  message: 'Container validation failed',
+                  severity: Configurator.MessageSeverity.ERROR,
+                },
+              ],
+            },
+          },
+        ],
+      };
+
+      cpqConfiguratorNormalizer['compileGroupComplete'](group);
+
+      expect(group.incompleteBecauseOfChild).toBe(false);
+    });
+
+    it('should not flag a group as incompleteBecauseOfChild that CPQ reports as incomplete without any sub group', () => {
+      const group: Configurator.Group = {
+        id: '1',
+        complete: false,
+        consistent: true,
+        subGroups: [],
+      };
+
+      cpqConfiguratorNormalizer['compileGroupComplete'](group);
+
+      expect(group.incompleteBecauseOfChild).toBe(false);
+    });
+
+    it('should not flag a complete group as incompleteBecauseOfChild', () => {
+      const group: Configurator.Group = {
+        id: '1',
+        complete: true,
+        consistent: true,
+        subGroups: [],
+      };
+
+      cpqConfiguratorNormalizer['compileGroupComplete'](group);
+
+      expect(group.incompleteBecauseOfChild).toBe(false);
+    });
+
+    it('should flag ancestor groups as incompleteBecauseOfChild when their own completeness is compiled', () => {
+      const rootGroup: Configurator.Group = {
+        id: '1',
+        complete: true,
+        consistent: true,
+        subGroups: [],
+      };
+      const rowGroup: Configurator.Group = {
+        id: '2',
+        complete: true,
+        consistent: true,
+        subGroups: [],
+      };
+      const nestedGroup: Configurator.Group = {
+        id: '3',
+        complete: true,
+        consistent: true,
+        subGroups: [],
+        attributes: [
+          {
+            name: 'ATTRIBUTE_NAME',
+            incomplete: true,
+          },
+        ],
+      };
+      rowGroup.subGroups = [nestedGroup];
+      rootGroup.subGroups = [rowGroup];
+
+      cpqConfiguratorNormalizer['compileGroupComplete'](nestedGroup, [
+        rowGroup,
+        rootGroup,
+      ]);
+      cpqConfiguratorNormalizer['compileGroupComplete'](rowGroup, [rootGroup]);
+      cpqConfiguratorNormalizer['compileGroupComplete'](rootGroup);
+
+      expect(nestedGroup.incompleteBecauseOfChild).toBe(false);
+      expect(rowGroup.incompleteBecauseOfChild).toBe(true);
+      expect(rootGroup.incompleteBecauseOfChild).toBe(true);
+    });
+  });
+
+  describe('hasOwnIncompletenessReason', () => {
+    it('should return false when neither an attribute is incomplete nor an error message is present', () => {
+      const group: Configurator.Group = {
+        id: '1',
+        subGroups: [],
+        attributes: [{ name: 'ATTRIBUTE_NAME', incomplete: false }],
+        messages: [
+          {
+            message: 'Check quantity',
+            severity: Configurator.MessageSeverity.WARNING,
+          },
+        ],
+      };
+
+      expect(
+        cpqConfiguratorNormalizer['hasOwnIncompletenessReason'](group)
+      ).toBe(false);
+    });
+
+    it('should return true when an attribute is incomplete', () => {
+      const group: Configurator.Group = {
+        id: '1',
+        subGroups: [],
+        attributes: [{ name: 'ATTRIBUTE_NAME', incomplete: true }],
+      };
+
+      expect(
+        cpqConfiguratorNormalizer['hasOwnIncompletenessReason'](group)
+      ).toBe(true);
+    });
+
+    it('should return true when the group carries an error message', () => {
+      const group: Configurator.Group = {
+        id: '1',
+        subGroups: [],
+        messages: [
+          {
+            message: 'Validation failed',
+            severity: Configurator.MessageSeverity.ERROR,
+          },
+        ],
+      };
+
+      expect(
+        cpqConfiguratorNormalizer['hasOwnIncompletenessReason'](group)
+      ).toBe(true);
+    });
   });
 
   describe('hasErrorMessages', () => {
@@ -2901,54 +3107,12 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.groups[0].complete).toBe(false);
     });
 
-    it('should force required=true when minRows is 1 even if the CPQ attribute is optional', () => {
-      expect(convertContainerAttribute(false, 1)?.required).toBe(true);
-    });
-
-    it('should force required=true when minRows is greater than 1 even if the CPQ attribute is optional', () => {
-      expect(convertContainerAttribute(false, 2)?.required).toBe(true);
-    });
-
     it('should leave an optional CPQ attribute optional when minRows is 0', () => {
       expect(convertContainerAttribute(false, 0)?.required).toBe(false);
     });
 
     it('should leave an optional CPQ attribute optional when minRows is omitted', () => {
       expect(convertContainerAttribute(false)?.required).toBe(false);
-    });
-
-    it('should force required=true when a row minRows is at least 1 even if the container minRows is 0', () => {
-      const attribute = cpqConfiguratorNormalizer.convert({
-        ...cpqConfiguration,
-        tabs: [
-          {
-            ...cpqTab,
-            attributes: [
-              {
-                ...cpqAttribute,
-                displayAs: Cpq.DisplayAs.CONTAINER,
-                required: false,
-                values: [],
-              },
-            ],
-          },
-        ],
-        sapContainers: [
-          {
-            stdAttrCode: cpqAttributeStdAttrCode,
-            minRows: 0,
-            rows: [
-              {
-                id: '1',
-                productSystemId: 'P1',
-                minRows: 2,
-              },
-            ],
-          },
-        ],
-      }).groups[0].attributes?.[0];
-
-      expect(attribute?.required).toBe(true);
     });
 
     it('should leave an optional CPQ attribute optional when neither container nor row minRows is set', () => {
@@ -3043,6 +3207,38 @@ describe('CpqConfiguratorNormalizer', () => {
       );
       expect(nestedAttrGroup.attributes?.[0].attrCode).toBe(nestedAttrCode);
       expect(nestedAttrGroup.complete).toBe(false);
+    });
+
+    it('should flag the parent tab as incompleteBecauseOfChild when only the nested tab is incomplete', () => {
+      const result = cpqConfiguratorNormalizer.convert(
+        configurationWithContainers([
+          {
+            stdAttrCode: cpqAttributeStdAttrCode,
+            rows: [
+              {
+                id: rowWithConfigId,
+                productSystemId: 'LENS_ZOOM',
+                selected: true,
+                configuration: {
+                  completed: true,
+                  tabs: [{ ...nestedTab, isIncomplete: true, attributes: [] }],
+                },
+              },
+            ],
+          },
+        ])
+      );
+
+      const parentGroup = result.groups[0];
+      const rowGroup = parentGroup.subGroups[0];
+      const nestedTabGroup = rowGroup.subGroups[0];
+
+      expect(nestedTabGroup.complete).toBe(false);
+      expect(nestedTabGroup.incompleteBecauseOfChild).toBe(false);
+      expect(rowGroup.complete).toBe(false);
+      expect(rowGroup.incompleteBecauseOfChild).toBe(true);
+      expect(parentGroup.complete).toBe(false);
+      expect(parentGroup.incompleteBecauseOfChild).toBe(true);
     });
 
     it('should include nested container-row issues in totalNumberOfIssues', () => {

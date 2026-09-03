@@ -507,7 +507,7 @@ describe('ConfiguratorGroupsService', () => {
 
       expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
-    it('should navigate to the first root-level tab when only root typed messages exist', () => {
+    it('should not navigate when only root typed messages exist and all groups are complete', () => {
       const firstTabId = 'root-tab-1';
       const firstTab: Configurator.Group = {
         ...ConfiguratorTestUtils.createGroup(firstTabId),
@@ -531,16 +531,9 @@ describe('ConfiguratorGroupsService', () => {
 
       classUnderTest.navigateToFirstIncompleteGroup(configuration.owner);
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new ConfiguratorActions.ChangeGroup({
-          configuration: configuration,
-          groupId: firstTabId,
-          parentGroupId: undefined,
-          conflictResolutionMode: false,
-        })
-      );
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
-    it('should navigate to the nested tab of a container row group flagged by a warning message', () => {
+    it('should navigate to the nested tab of an incomplete container row group', () => {
       const nestedTabId = 'CONTAINER_ROW@1067@row-1@1';
       const rowGroupId = 'CONTAINER_ROW@1067@row-1';
       const parentTabId = 'parent-tab';
@@ -552,7 +545,7 @@ describe('ConfiguratorGroupsService', () => {
       const rowGroup: Configurator.Group = {
         ...ConfiguratorTestUtils.createGroup(rowGroupId),
         groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
-        complete: true,
+        complete: false,
         messages: [
           {
             message: 'Check zoom range',

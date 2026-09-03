@@ -102,6 +102,10 @@ export namespace Configurator {
     groupType?: GroupType;
     configurable?: boolean;
     complete?: boolean;
+    /** Set to `true` when the group itself has no issue and is only incomplete
+     * because at least one of its subgroups is incomplete. Such a group is not a
+     * target for issue navigation. */
+    incompleteBecauseOfChild?: boolean;
     consistent?: boolean;
     subGroups: Group[];
     /** Messages from a nested (container row) configuration, including severity. */

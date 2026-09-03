@@ -43,17 +43,20 @@ export class ConfiguratorGroupStatusService {
 
   /**
    * Returns the first non-conflict group of the configuration which is not
-   * completed. When the root configuration carries typed messages in
-   * `configuration.messages`, the root is considered incomplete first and the
-   * first navigable top-level group is returned. Otherwise a group is
-   * considered incomplete when its `complete` flag is falsy, when it carries
-   * at least one message with warning severity, or when one of its container
-   * attributes carries a warning message.
+   * completed. A group is considered incomplete when its `complete` flag is
+   * falsy. Typed messages are not evaluated here; the backend and normalizers
+   * already reflect them in the completeness state.
    *
    * Groups that are not navigation targets (not present in `flatGroups`, e.g.
    * a container row group) are resolved to a navigable descendant, for example
    * the first tab of a nested container row configuration. Returns `undefined`
    * if no such group exists.
+   *
+   * Groups that are flagged with `incompleteBecauseOfChild` are skipped, because
+   * they are only incomplete because of one of their children. The search
+   * continues in their subgroups, so that the group actually carrying the issue
+   * is returned. Only if this search does not find any group, flagged groups are
+   * considered as well.
    *
    * @param {Configurator.Configuration} configuration - Configuration
    *
@@ -65,60 +68,17 @@ export class ConfiguratorGroupStatusService {
     const navigableGroupIds = new Set(
       configuration.flatGroups?.map((group) => group.id) ?? []
     );
-    if (this.hasRootMessages(configuration)) {
-      return this.getFirstRootLevelNavigableGroup(
+    return (
+      this.findFirstIncompleteGroup(
         configuration.groups ?? [],
         navigableGroupIds
-      );
-    }
-    return this.findFirstIncompleteGroup(
-      configuration.groups ?? [],
-      navigableGroupIds
+      ) ??
+      this.findFirstIncompleteGroup(
+        configuration.groups ?? [],
+        navigableGroupIds,
+        false
+      )
     );
-  }
-
-  /**
-   * Whether the root configuration carries at least one typed message with
-   * non-empty text.
-   *
-   * @param configuration - Configuration
-   * @returns `true` when root typed messages are present
-   */
-  protected hasRootMessages(
-    configuration: Configurator.Configuration
-  ): boolean {
-    return (
-      configuration.messages?.some((message) => !!message.message) ?? false
-    );
-  }
-
-  /**
-   * Returns the first navigable group at the root level of the configuration.
-   * Only direct entries in `configuration.groups` are considered; nested
-   * subGroups are not searched unless a non-navigable top-level group must be
-   * resolved to a navigable descendant.
-   *
-   * @param groups - Top-level groups of the configuration
-   * @param navigableGroupIds - IDs of groups that are valid navigation targets
-   * @returns First root-level navigable group, or undefined
-   */
-  protected getFirstRootLevelNavigableGroup(
-    groups: Configurator.Group[],
-    navigableGroupIds: Set<string>
-  ): Configurator.Group | undefined {
-    for (const group of groups) {
-      if (this.isConflictRelatedGroup(group)) {
-        continue;
-      }
-      if (navigableGroupIds.has(group.id)) {
-        return group;
-      }
-      const target = this.getNavigationTargetForGroup(group, navigableGroupIds);
-      if (target) {
-        return target;
-      }
-    }
-    return undefined;
   }
 
   /**
@@ -126,27 +86,40 @@ export class ConfiguratorGroupStatusService {
    *
    * @param groups - Groups to search
    * @param navigableGroupIds - IDs of groups that are valid navigation targets
+   * @param skipIncompleteBecauseOfChild - Whether groups that are only incomplete
+   *  because of one of their children are skipped
    * @returns First incomplete navigable group, or undefined
    */
   protected findFirstIncompleteGroup(
     groups: Configurator.Group[],
-    navigableGroupIds: Set<string>
+    navigableGroupIds: Set<string>,
+    skipIncompleteBecauseOfChild = true
   ): Configurator.Group | undefined {
     for (const group of groups) {
       if (this.isConflictRelatedGroup(group)) {
         continue;
       }
-      if (this.isIncompleteGroup(group)) {
+      if (
+        this.isIncompleteGroup(group) &&
+        !(
+          skipIncompleteBecauseOfChild && this.isIncompleteBecauseOfChild(group)
+        )
+      ) {
         const target = navigableGroupIds.has(group.id)
           ? group
-          : this.getNavigationTargetForGroup(group, navigableGroupIds);
+          : this.getNavigationTargetForGroup(
+              group,
+              navigableGroupIds,
+              skipIncompleteBecauseOfChild
+            );
         if (target) {
           return target;
         }
       }
       const nestedGroup = this.findFirstIncompleteGroup(
         group.subGroups ?? [],
-        navigableGroupIds
+        navigableGroupIds,
+        skipIncompleteBecauseOfChild
       );
       if (nestedGroup) {
         return nestedGroup;
@@ -156,50 +129,24 @@ export class ConfiguratorGroupStatusService {
   }
 
   /**
-   * Whether the group is incomplete due to its `complete` flag, due to
-   * warning messages, or due to container-level warning messages on one of
-   * its attributes.
+   * Whether the group is incomplete only because one of its children is
+   * incomplete, and is therefore no target for the issue navigation.
+   *
+   * @param group - Group to check
+   * @returns `true` if the group is only incomplete because of a child
+   */
+  protected isIncompleteBecauseOfChild(group: Configurator.Group): boolean {
+    return group.incompleteBecauseOfChild === true;
+  }
+
+  /**
+   * Whether the group is incomplete based on its `complete` flag.
    *
    * @param group - Group to check
    * @returns `true` if the group should be treated as incomplete
    */
   protected isIncompleteGroup(group: Configurator.Group): boolean {
-    return (
-      !group.complete ||
-      this.hasWarningMessages(group) ||
-      this.hasContainerWarningMessages(group)
-    );
-  }
-
-  /**
-   * Whether the group carries at least one message with warning severity.
-   *
-   * @param group - Group to check
-   * @returns `true` if a warning message is present
-   */
-  protected hasWarningMessages(group: Configurator.Group): boolean {
-    return (
-      group.messages?.some(
-        (message) => message.severity === Configurator.MessageSeverity.WARNING
-      ) ?? false
-    );
-  }
-
-  /**
-   * Whether the group hosts a container attribute with at least one warning
-   * message at container level.
-   *
-   * @param group - Group to check
-   * @returns `true` if a container warning message is present
-   */
-  protected hasContainerWarningMessages(group: Configurator.Group): boolean {
-    return (
-      group.attributes?.some((attribute) =>
-        attribute.container?.messages?.some(
-          (message) => message.severity === Configurator.MessageSeverity.WARNING
-        )
-      ) ?? false
-    );
+    return !group.complete;
   }
 
   /**
@@ -223,15 +170,19 @@ export class ConfiguratorGroupStatusService {
    *
    * @param group - Non-navigable incomplete group
    * @param navigableGroupIds - IDs of groups that are valid navigation targets
+   * @param skipIncompleteBecauseOfChild - Whether groups that are only incomplete
+   *  because of one of their children are skipped
    * @returns Navigable descendant, or undefined if none exists
    */
   protected getNavigationTargetForGroup(
     group: Configurator.Group,
-    navigableGroupIds: Set<string>
+    navigableGroupIds: Set<string>,
+    skipIncompleteBecauseOfChild = true
   ): Configurator.Group | undefined {
     const incompleteDescendant = this.findFirstIncompleteGroup(
       group.subGroups ?? [],
-      navigableGroupIds
+      navigableGroupIds,
+      skipIncompleteBecauseOfChild
     );
     if (incompleteDescendant) {
       return incompleteDescendant;
