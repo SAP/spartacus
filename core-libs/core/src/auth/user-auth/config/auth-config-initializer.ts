@@ -104,7 +104,7 @@ export class AuthConfigInitializer implements ConfigInitializer {
       const urlRoot = configuredRedirectUri ?? this.getDefaultRedirectUri();
 
       if (shouldAppendBaseSite) {
-        return `${urlRoot}/${this.trimLeadingSlash(encodeURIComponent(activeBaseSite))}`;
+        return `${urlRoot}/${encodeURIComponent(activeBaseSite)}`;
       } else {
         return urlRoot;
       }

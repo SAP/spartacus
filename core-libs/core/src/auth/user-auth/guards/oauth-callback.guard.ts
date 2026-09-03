@@ -23,11 +23,11 @@ import { AuthRedirectService } from '../services';
   providedIn: 'root',
 })
 export class OAuthCallbackGuard {
-  authService = inject(AuthService);
-  authRedirectService = inject(AuthRedirectService);
-  router = inject(Router);
-  semanticPathService = inject(SemanticPathService);
-  windowRef = inject(WindowRef);
+  protected authService = inject(AuthService);
+  protected authRedirectService = inject(AuthRedirectService);
+  protected router = inject(Router);
+  protected semanticPathService = inject(SemanticPathService);
+  protected windowRef = inject(WindowRef);
 
   canActivate(): Observable<GuardResult> {
     if (!this.windowRef.isBrowser()) {

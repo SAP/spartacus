@@ -760,7 +760,7 @@ export interface FeatureTogglesInterface {
    * Requires feature flags `authorizationCodeFlowByDefault` and `asyncAuthConfigInitializer`
    * to be enabled.
    *
-   * 1. Adds new route 'oauthCallback' to the default `RoutingConfig`.
+   * 1. Adds new route 'oAuthCallback' to the default `RoutingConfig`.
    *
    * 2. Defines a CMS Component for 'OauthCallbackComponent' using the `SpinnerComponent`.
    *
