@@ -60,10 +60,14 @@ Identify and fix accessibility issues sourced from Jira.
   (e.g. `git rev-parse --abbrev-ref HEAD`) — so it can be restored in step 3.5. Then
   create a branch from `develop` named `a11y/[issue-key]` (e.g. `a11y/CXSPA-1234`).
 - **2.3** Determine whether a feature toggle or feature directive is necessary with the following rule:
-  - Any change to the template affected is protected behind a feature toggle.
+  - **Every change is protected behind a feature toggle** — this applies to both
+    **template (`.html`) changes and style (`.scss`) changes**. A pure style/contrast
+    fix is *not* exempt; it must be gated too.
   - The feature toggle's default value is set to `false` in the file: `core-libs/core/src/features-config/feature-toggles/config/feature-toggles.ts`
   - The feature toggle's providers override the value to set it to `true` in our implementation of the storefront's file: `projects/storefrontapp/src/app/spartacus/spartacus-features.module.ts`
-  - Use this example as a baseline where the label was changed for div:
+
+  **Template changes** — gate markup with the `*cxFeature` directive. Example where a
+  label replaced a div:
 
 ```html
 <div
@@ -75,6 +79,38 @@ Identify and fix accessibility issues sourced from Jira.
   *cxFeature="'!showSortFieldsOnlyAtTop'"
 >
 ```
+
+  **Style changes** — gate the new/changed SCSS rules with the `forFeature` mixin, and
+  activate them from the owning component by calling `useFeatureStyles` (imported from
+  `@spartacus/core`) in the component constructor. Example (feature flag
+  `alignNavigationMenuWithHeader`):
+
+```scss
+// component .scss — wrap only the changed declarations
+.cx-some-element {
+  color: var(--cx-color-text);
+
+  @include forFeature('alignNavigationMenuWithHeader') {
+    color: var(--cx-color-primary-accent);
+  }
+}
+```
+
+```ts
+// owning component .ts
+import { useFeatureStyles } from '@spartacus/core';
+
+constructor() {
+  useFeatureStyles('alignNavigationMenuWithHeader');
+}
+```
+
+  Note: `forFeature` scopes the styles to an ancestor selector that `useFeatureStyles`
+  adds to the DOM when the toggle is on, so the SCSS gate and the `useFeatureStyles`
+  call must reference the **same** flag name. Styles in shared/global SCSS (e.g.
+  `core-libs/styles`) with no single owning component should still be wrapped in
+  `forFeature`, with `useFeatureStyles` called from the component that renders the
+  affected element.
 
 - **2.4** Fix the issue using the Jira issue summary & description (fetch the full issue
   details from the `sap-jira` MCP server when needed).
