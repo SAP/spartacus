@@ -15,7 +15,20 @@ Identify and fix accessibility issues sourced from Jira.
   prompts.
 
 ## Steps
-- Unless it is a critical change that needs addressing by a developer, do not interrupt the flow for approvals of executions.
+
+### Autonomy (applies to every step and every spawned agent)
+- Run the entire flow autonomously. Default to **yes** for every decision, tool
+  execution, edit, commit, push, and PR creation — do **not** pause to ask the user
+  for confirmation or approval.
+- The **only** exception is a **critical** change that genuinely requires a human
+  developer's judgment — for example: a change that would break the public API, a
+  security-sensitive change, deleting/overwriting work you did not create, or a fix
+  that cannot be done without editing something the skill explicitly says to stop for.
+  In those cases, and only those, stop and surface the concern to the user.
+- Never interrupt the flow merely to report progress or to get sign-off on routine
+  work. Proceed, then report results at the end.
+- When spawning agents (step 2.1), pass this same autonomy rule into their prompt so
+  they also never prompt back except for a critical change.
 
 ### 1. Fetch accessibility issues from Jira
 - **1.1** Use the `sap-jira` MCP server to search for a11y issues with this JQL:
