@@ -29,6 +29,9 @@ Identify and fix accessibility issues sourced from Jira.
   work. Proceed, then report results at the end.
 - When spawning agents (step 2.1), pass this same autonomy rule into their prompt so
   they also never prompt back except for a critical change.
+- **Never create or modify `.claude/settings.json`.** Any settings changes needed
+  while executing this skill go into `.claude/settings.local.json` only. Pass this rule
+  into every spawned agent's prompt as well.
 
 ### 1. Fetch accessibility issues from Jira
 - **1.1** Use the `sap-jira` MCP server to search for a11y issues with this JQL:
@@ -79,9 +82,15 @@ Identify and fix accessibility issues sourced from Jira.
   what was fixed. Reference the issue key in the message (e.g. `fix: <summary> (CXSPA-1234)`).
 
 ### 3. Publish results
-- **3.1** Push the branch to remote.
-- **3.2** Create a PR with the GitHub CLI (`gh`) and output a short summary of what was
-  fixed in the PR description. Reference the Jira issue key in the PR title/description.
+- **Authentication** — all GitHub operations authenticate against `https://github.com`
+  using a personal access token read from the `GH_PAT` environment variable. Never hard-code
+  or print the token. If `GH_PAT` is unset, stop and surface this to the user.
+- **3.1** Push the branch to remote over HTTPS using the token, e.g.
+  `git push "https://${GH_PAT}@github.com/SAP/spartacus.git" HEAD`.
+- **3.2** Create a PR with the GitHub CLI (`gh`) authenticated via the token —
+  `GH_TOKEN="$GH_PAT" GH_HOST=github.com gh pr create ...` — and output a short summary
+  of what was fixed in the PR description. Reference the Jira issue key in the PR
+  title/description.
 <!-- DISABLED — Jira write op. The connected `sap-jira` MCP server is read-only
      (no add-comment tool). Re-enable this step once a write-capable Jira MCP (or a
      REST token) is available.
