@@ -547,6 +547,38 @@ export interface FeatureTogglesInterface {
    * Legacy behavior uses `initiatePayment`.
    */
   opfCheckoutUseUpdatePaymentTransaction?: boolean;
+
+  /**
+   * Enables the CXSPA-10582 fixes that make the active cart resilient to
+   * slow networks: rapid multi-product add-to-cart bursts no longer lose
+   * line items, the Place Order / Proceed-to-Checkout buttons stay disabled
+   * until cart writes settle, and the mini-cart / cart page surface an
+   * "updating" indicator so users see the in-flight state.
+   *
+   * When OFF, all of the following revert to pre-fix behaviour:
+   * - `MultiCartReducer` no longer merges `CART_ADD_ENTRY_SUCCESS` payload
+   *   into the cart entity ahead of the trailing GET reconcile.
+   * - `CartEffects.refreshWithoutProcesses$` returns to the synchronous
+   *   per-success LoadCart dispatch (the downstream "drop LoadCart while
+   *   pending" filter then swallows refreshes mid-burst).
+   * - `ActiveCartService.requireLoadedCart` skips the in-flight cart
+   *   creation cache.
+   * - `CheckoutPlaceOrderComponent` (base + scheduled-replenishment) no
+   *   longer gates `submitForm()` on `isStable()` and exposes no
+   *   `isCartUpdating$`.
+   * - `MiniCartComponent` hides the updating indicator and keeps the
+   *   count/total visible at all times.
+   * - `CartDetailsComponent` hides the "Updating cart" banner.
+   * - `CartProceedToCheckoutComponent` does not gate `[disabled]` /
+   *   `[loading]` on `isStable()`.
+   *
+   * Affects: ActiveCartService, CartEffects, MultiCartReducer,
+   * MiniCartComponent, CartDetailsComponent, CartProceedToCheckoutComponent,
+   * CheckoutPlaceOrderComponent,
+   * CheckoutScheduledReplenishmentPlaceOrderComponent
+   */
+  enableCartSlowNetworkResilience?: boolean;
+
   /**
    * When enabled, adds an 8px top margin to the "Add to Wish List" button
    * for consistent spacing.
@@ -786,30 +818,30 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enablePasswordExpiredErrorTranslation: true,
   enableQuotePurchaseOrderNumber: true,
   enableReturnOrderReturnableQuantityConsigmentFallback: true,
-  enableMediaPrefix: false,
+  enableMediaPrefix: true,
   a11yCustomerTicketingVisualFocusFix: true,
   a11yMessagingListKeyboardFocus: false,
   orderOverviewCardsInlinePadding: false,
   a11yStoreFinderListItemFocus: false,
   a11yFixSearchBoxDoubleFocus: false,
-  a11yFacetFilterByLabel: false,
+  a11yFacetFilterByLabel: true,
   removeDuplicatedOrderHistoryHeader: true,
   a11yCardNotificationMessage: true,
   searchBoxRecentSearchesRemoval: false,
   searchBoxEmptyQueryResultsPanel: false,
   cdsBottomHeaderSlotAdjustPosition: false,
-  enableB2BUnitSearch: false,
-  enableB2BCostCenterSearch: false,
-  enableB2BCustomerSearch: false,
-  a11yCarouselPreventNavigationFocus: false,
-  a11yNgSelectReadonlyInputValue: false,
-  a11yPasswordVisibilityToggle: false,
-  showOnlyActiveCurrencies: false,
-  a11yAddedToCartDialogHeading: false,
-  a11yListSemanticsForFacets: false,
+  enableB2BUnitSearch: true,
+  enableB2BCostCenterSearch: true,
+  enableB2BCustomerSearch: true,
+  a11yCarouselPreventNavigationFocus: true,
+  a11yNgSelectReadonlyInputValue: true,
+  a11yPasswordVisibilityToggle: true,
+  showOnlyActiveCurrencies: true,
+  a11yAddedToCartDialogHeading: true,
+  a11yListSemanticsForFacets: true,
   a11yFilteredFacetAnnouncement: false,
-  a11yCartItemListHideEmptyOutlets: false,
-  a11yReviewsKeyboardControls: false,
+  a11yCartItemListHideEmptyOutlets: true,
+  a11yReviewsKeyboardControls: true,
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yConsentManagementFocusPreservation: false,
   a11yDeliveryModeFocusPreservation: false,
@@ -835,6 +867,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   opfUseDestroyRef: false,
   enableHierarchicalAddressFormat: false,
   opfCheckoutUseUpdatePaymentTransaction: false,
+  enableCartSlowNetworkResilience: false,
   a11yRegistrationTermsAsteriskMargin: false,
   a11yAddToWishListBtnMargin: false,
   a11yProductListItemNameMargin: false,
