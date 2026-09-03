@@ -174,6 +174,8 @@ describe('QuoteSummarySellerEditComponent', () => {
     component = fixture.componentInstance;
     quoteFacade = TestBed.inject(QuoteFacade);
     mockQuote.quoteDiscounts = {};
+    mockQuote.sapQuoteDiscountsRate = undefined;
+    mockQuote.sapQuoteDiscountsType = undefined;
     mockQuoteDetails$.next(mockQuote);
     quoteIsEditable = true;
   });

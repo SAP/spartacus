@@ -676,13 +676,18 @@ describe('QuoteListComponent', () => {
   });
 
   describe('isPaginationEnabled', () => {
+    beforeEach(() => {
+      //reset mock
+      mockPagination.currentPage = 0;
+      mockPagination.pageSize = 5;
+      mockPagination.sort = 'byCode';
+    });
     it('should not render pagination', () => {
       expect(component['isPaginationEnabled'](mockPagination)).toBe(false);
     });
 
     it('should  render pagination', () => {
-      mockPagination.totalPages = 3;
-      expect(component['isPaginationEnabled'](mockPagination)).toBe(true);
+      expect(component['isPaginationEnabled']({...mockPagination, totalPages: 3})).toBe(true);
     });
   });
 

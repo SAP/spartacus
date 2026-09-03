@@ -149,6 +149,7 @@ describe(`OccQuoteAdapter`, () => {
 
   afterEach(() => {
     httpTestingController.verify();
+    vi.restoreAllMocks();
   });
 
   it('getQuotes should return users quotes list', async () => {

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { vi } from 'vitest';
 
 import { FormControl, FormGroup } from '@angular/forms';
-import { LanguageService, TimeUtils } from '@spartacus/core';
+import { LanguageService, serviceMapFactory, TimeUtils } from '@spartacus/core';
 import { Quote, QuoteState } from '@spartacus/quote/root';
 import { Observable, firstValueFrom, of } from 'rxjs';
 import {
@@ -22,15 +22,16 @@ class MockLanguageService {
 }
 const maximumDecimalsForPercentageDiscount = 10;
 
-const quoteUIConfig: QuoteUIConfig = {
-  quote: {
-    maximumDecimalsForPercentageDiscount: maximumDecimalsForPercentageDiscount,
-  },
-};
 
 describe('QuoteSummarySellerEditComponentService', () => {
   let classUnderTest: QuoteSummarySellerEditComponentService;
   let quote: Quote;
+  let quoteUIConfig: QuoteUIConfig = {
+    quote: {
+      maximumDecimalsForPercentageDiscount: maximumDecimalsForPercentageDiscount,
+    },
+  };
+
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -51,6 +52,10 @@ describe('QuoteSummarySellerEditComponentService', () => {
       totalPrice: { value: TOTAL_PRICE },
       state: QuoteState.SELLER_DRAFT,
       isEditable: true,
+    };
+
+    quoteUIConfig.quote = {
+      maximumDecimalsForPercentageDiscount: maximumDecimalsForPercentageDiscount,
     };
   });
 
