@@ -7,6 +7,7 @@ import {
   FeatureToggles,
   GlobalMessageService,
   I18nTestingModule,
+  WindowRef,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
@@ -24,6 +25,22 @@ class MockAuthService implements Partial<AuthService> {
       token: 'token',
     })
   );
+}
+
+class MockWinRef {
+  localStorage = { setItem: vi.fn(), removeItem: vi.fn() };
+
+  sessionStorage = { setItem: vi.fn(), getItem: vi.fn(), removeItem: vi.fn() };
+
+  location = { href: '' } as Location;
+
+  get nativeWindow(): Window {
+    return { location: this.location } as Window;
+  }
+
+  isBrowser(): boolean {
+    return true;
+  }
 }
 
 const mockFeatureToggles: FeatureToggles = {
@@ -88,6 +105,10 @@ describe('VerificationTokenFormComponentService', () => {
         {
           provide: VerificationTokenFacade,
           useClass: MockVerificationTokenFacade,
+        },
+        {
+          provide: WindowRef,
+          useClass: MockWinRef
         },
         provideMockFeatureToggles({ ...mockFeatureToggles }),
       ],
