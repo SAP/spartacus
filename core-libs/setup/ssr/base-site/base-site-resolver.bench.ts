@@ -13,16 +13,16 @@
  *
  *   Mock-only scenarios (concurrency-cap + slow-occ) — no backend needed:
  *     npx ts-node \
- *       --project core-libs/setup/ssr/site-context/tsconfig.bench.json \
- *       core-libs/setup/ssr/site-context/base-site-resolver.bench.ts
+ *       --project core-libs/setup/ssr/base-site/tsconfig.bench.json \
+ *       core-libs/setup/ssr/base-site/base-site-resolver.bench.ts
  *
  *   Full run incl. per-call + concurrent against a real OCC backend:
  *     NODE_TLS_REJECT_UNAUTHORIZED=0 \
  *     CX_BASE_URL=https://your-backend:9002 \
  *     BENCH_REQUEST_URL=https://your-backend:9002/electronics-spa/en/USD/ \
  *     npx ts-node \
- *       --project core-libs/setup/ssr/site-context/tsconfig.bench.json \
- *       core-libs/setup/ssr/site-context/base-site-resolver.bench.ts
+ *       --project core-libs/setup/ssr/base-site/tsconfig.bench.json \
+ *       core-libs/setup/ssr/base-site/base-site-resolver.bench.ts
  *
  *   Notes:
  *   - `--project tsconfig.bench.json` scopes the compile to the 3 resolver files

@@ -20,9 +20,9 @@ import { dirname, join, resolve } from 'path';
 import bootstrap from './main.server';
 import { defaultBaseSiteId } from './app/spartacus/base-site.config';
 import { environment } from './environments/environment';
-import { PureNodeBaseSiteResolver } from '../../../core-libs/setup/ssr/site-context/pure-node-base-site-resolver';
-import { createBaseSiteRequestHandler } from '../../../core-libs/setup/ssr/site-context/base-site-request-handler';
-import { extractOccBaseUrlFromHtml } from '../../../core-libs/setup/ssr/site-context/occ-base-url-extractor';
+import { PureNodeBaseSiteResolver } from '../../../core-libs/setup/ssr/base-site/pure-node-base-site-resolver';
+import { createBaseSiteRequestHandler } from '../../../core-libs/setup/ssr/base-site/base-site-request-handler';
+import { extractOccBaseUrlFromHtml } from '../../../core-libs/setup/ssr/base-site/occ-base-url-extractor';
 
 const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(
