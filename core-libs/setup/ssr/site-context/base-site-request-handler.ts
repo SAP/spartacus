@@ -33,8 +33,10 @@ export interface BaseSiteRequestHandlerOptions {
   render: (baseSiteId: string | null) => string | Promise<string>;
   /** Response content type. Default: 'text/plain'. */
   contentType?: string;
-  /** `Retry-After` header value (seconds) sent with the 503. Default: 5. */
-  retryAfterSeconds?: number;
+  /** `Retry-After` (seconds) sent with 503 on concurrency cap. Default: 3. */
+  concurrencyLimitRetryAfterSeconds?: number;
+  /** `Retry-After` (seconds) sent with 503 when OCC is unavailable. Default: 25. */
+  occUnavailableRetryAfterSeconds?: number;
 }
 
 /**
@@ -54,7 +56,8 @@ export function createBaseSiteRequestHandler(
     resolver,
     render,
     contentType = 'text/plain',
-    retryAfterSeconds = 5,
+    concurrencyLimitRetryAfterSeconds = 3,
+    occUnavailableRetryAfterSeconds = 25,
   } = options;
 
   return async (req, res, next) => {
@@ -63,13 +66,16 @@ export function createBaseSiteRequestHandler(
       const body = await render(baseSiteId);
       res.type(contentType).send(body);
     } catch (err) {
-      if (
-        err instanceof ConcurrencyLimitError ||
-        err instanceof OccUnavailableError
-      ) {
+      if (err instanceof ConcurrencyLimitError) {
         res
           .status(503)
-          .set('Retry-After', String(retryAfterSeconds))
+          .set('Retry-After', String(concurrencyLimitRetryAfterSeconds))
+          .type(contentType)
+          .send('Service Unavailable');
+      } else if (err instanceof OccUnavailableError) {
+        res
+          .status(503)
+          .set('Retry-After', String(occUnavailableRetryAfterSeconds))
           .type(contentType)
           .send('Service Unavailable');
       } else {
