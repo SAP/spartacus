@@ -34,6 +34,16 @@
   </div>
 
   <button
+    *cxFeature="'enableCartSlowNetworkResilience'"
+    (click)="submitForm()"
+    class="btn btn-primary btn-block"
+    [disabled]="termsAndConditionInvalid || (isCartUpdating$ | async)"
+    [cxAtMessage]="'checkoutReview.orderInProcess' | cxTranslate"
+  >
+    {{ 'checkoutReview.placeOrder' | cxTranslate }}
+  </button>
+  <button
+    *cxFeature="'!enableCartSlowNetworkResilience'"
     (click)="submitForm()"
     class="btn btn-primary btn-block"
     [disabled]="termsAndConditionInvalid"
@@ -42,3 +52,11 @@
     {{ 'checkoutReview.placeOrder' | cxTranslate }}
   </button>
 </form>
+<div
+  *cxFeature="'enableCartSlowNetworkResilience'"
+  class="cx-place-order-cart-updating"
+  aria-live="polite"
+  [hidden]="!(isCartUpdating$ | async)"
+>
+  {{ 'checkoutReview.cartUpdating' | cxTranslate }}
+</div>

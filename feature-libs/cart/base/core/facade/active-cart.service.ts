@@ -29,6 +29,7 @@ import { Observable, Subscription, combineLatest, of, using } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
+  finalize,
   map,
   pairwise,
   shareReplay,
@@ -410,7 +411,63 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   // When the function `requireLoadedCart` is first called, the init cart loading for login user may not be done
   private checkInitLoad: boolean | undefined = undefined;
 
+  /**
+   * Cached observable for in-flight cart loading/creation.
+   * Prevents race conditions when multiple addEntry() calls happen rapidly
+   * before the cart is created - they all share the same cart creation flow.
+   * Only used when `enableCartSlowNetworkResilience` is enabled.
+   */
+  protected loadedCart$: Observable<Cart> | null = null;
+
   requireLoadedCart(forGuestMerge = false): Observable<Cart> {
+    // When the slow-network resilience toggle is OFF, fall back to the
+    // pre-CXSPA-10582 codepath that builds the pipeline fresh on every
+    // call. Extending clients that overrode requireLoadedCart will see
+    // identical behaviour to develop.
+    if (!this.featureToggles.enableCartSlowNetworkResilience) {
+      return this.buildRequireLoadedCartPipeline(forGuestMerge);
+    }
+
+    // For guest merge, don't use caching as it has special filtering requirements
+    // For normal flow, return cached observable if cart creation is in-flight
+    if (!forGuestMerge && this.loadedCart$) {
+      return this.loadedCart$;
+    }
+
+    const cart$ = this.buildRequireLoadedCartPipeline(forGuestMerge).pipe(
+      // Clear cache immediately after successful cart emission
+      // This allows new calls to get a fresh pipeline while concurrent
+      // subscribers still receive the same cart via shareReplay
+      tap(() => {
+        if (!forGuestMerge) {
+          this.loadedCart$ = null;
+        }
+      }),
+      // Share the same observable for all concurrent subscribers
+      shareReplay({ bufferSize: 1, refCount: true }),
+      // Clear cache on error or unsubscribe for cleanup
+      finalize(() => {
+        if (!forGuestMerge) {
+          this.loadedCart$ = null;
+        }
+      })
+    );
+
+    // Cache the observable for non-guest-merge flows
+    if (!forGuestMerge) {
+      this.loadedCart$ = cart$;
+    }
+
+    return cart$;
+  }
+
+  /**
+   * Internal method containing the cart loading/creation pipeline logic.
+   * Extracted to support caching in requireLoadedCart().
+   */
+  protected buildRequireLoadedCartPipeline(
+    forGuestMerge: boolean
+  ): Observable<Cart> {
     this.checkInitLoad = this.checkInitLoad === undefined;
 
     // For guest cart merge we want to filter guest cart in the whole stream
