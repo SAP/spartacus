@@ -55,10 +55,9 @@ Identify and fix accessibility issues sourced from Jira.
      REST token) is available.
 - **2.1.1** Transition the Jira issue from **"TO DO"** to **"IN PROGRESS"** using the `sap-jira` MCP server.
 -->
-
 - **2.2** First capture the current branch — the branch the skill was executed on
   (e.g. `git rev-parse --abbrev-ref HEAD`) — so it can be restored in step 3.5. Then
-  create a branch from `develop` named `a11y/[issue-key]` (e.g. `a11y/CXSPA-1234`).
+  create a branch from current branch named `a11y/[issue-key]` (e.g. `a11y/CXSPA-1234`).
 - **2.3** Determine whether a feature toggle or feature directive is necessary with the following rule:
   - **Every change is protected behind a feature toggle** — this applies to both
     **template (`.html`) changes and style (`.scss`) changes**. A pure style/contrast
@@ -125,8 +124,7 @@ constructor() {
   `git push "https://${GH_PAT}@github.com/SAP/spartacus.git" HEAD`.
 - **3.2** Create a PR with the GitHub CLI (`gh`) authenticated via the token —
   `GH_TOKEN="$GH_PAT" GH_HOST=github.com gh pr create ...` — and output a short summary
-  of what was fixed in the PR description. Reference the Jira issue key in the PR
-  title/description.
+  of what was fixed in the PR description. Apply the skill /pr-body for the created PR.
 <!-- DISABLED — Jira write op. The connected `sap-jira` MCP server is read-only
      (no add-comment tool). Re-enable this step once a write-capable Jira MCP (or a
      REST token) is available.
