@@ -11,6 +11,12 @@ import * as configuration from './product-configurator';
 import * as configurationVc from './product-configurator-vc';
 import * as productSearch from './product-search';
 
+const REQUIRED_ERROR_MSG_SELECTOR = '.cx-required-error-msg';
+const VALIDATION_MSG_SELECTOR = '.cx-validation-msg';
+const GLOBAL_CONFLICT_AND_ERROR_MESSAGES_SELECTOR =
+  'cx-configuration-conflict-and-error-messages';
+const GLOBAL_CONFLICT_AND_ERROR_MESSAGE_SELECTOR = `${GLOBAL_CONFLICT_AND_ERROR_MESSAGES_SELECTOR} .cx-warning-message, ${GLOBAL_CONFLICT_AND_ERROR_MESSAGES_SELECTOR} .cx-error-message`;
+
 /**
  * bundle types
  */
@@ -352,4 +358,130 @@ export function checkSuccessMessageNotDisplayed(): void {
  */
 export function searchForProduct(productName: string): void {
   productSearch.searchForProduct(productName);
+}
+
+/**
+ * Verifies that no required-field or validation messages are shown on the form.
+ */
+export function checkNoValidationMessagesDisplayed(): void {
+  cy.get('cx-configurator-form').within(() => {
+    cy.get(REQUIRED_ERROR_MSG_SELECTOR).should('not.exist');
+    cy.get(VALIDATION_MSG_SELECTOR).should('not.exist');
+  });
+}
+
+/**
+ * Returns the attribute message element id prefix for a given attribute code.
+ *
+ * @param {string} attributeCode - Attribute code
+ * @return {string} - Message id prefix
+ */
+function getAttributeMessageIdPrefix(attributeCode: string): string {
+  //cx-configurator--attribute-msg--3157-required-msg-0
+  return `#cx-configurator--attribute-msg--${attributeCode}-required-msg-0`;
+}
+
+/**
+ * Verifies that the required-field message is displayed for an attribute.
+ *
+ * @param {string} attributeCode - Attribute code
+ * @param {string} message - Optional expected message text
+ */
+export function checkRequiredFieldMessageDisplayed(
+  attributeCode: string,
+  message?: string
+): void {
+  const selector = getAttributeMessageIdPrefix(attributeCode);
+  cy.get(selector).should('be.visible');
+  if (message) {
+    cy.get(selector).should('contain.text', message);
+  }
+}
+
+/**
+ * Verifies that the required-field message is not displayed for an attribute.
+ *
+ * @param {string} attributeCode - Attribute code
+ */
+export function checkRequiredFieldMessageNotDisplayed(
+  attributeCode: string
+): void {
+  cy.get(getAttributeMessageIdPrefix(attributeCode)).should('not.exist');
+}
+
+/**
+ * Verifies the container required-field message for an attribute.
+ *
+ * @param {string} attributeCode - Attribute code
+ * @param {string} message - Expected message text
+ */
+export function checkContainerRequiredMessage(
+  attributeCode: string,
+  message: string
+): void {
+  checkRequiredFieldMessageDisplayed(attributeCode, message);
+}
+
+/**
+ * Verifies that a global warning or error message is displayed.
+ * CPQ may surface business messages as errors in
+ * `cx-configuration-conflict-and-error-messages`.
+ *
+ * @param {string} text - Expected message text
+ */
+export function checkGlobalWarningMessageDisplayed(text: string): void {
+  cy.get(GLOBAL_CONFLICT_AND_ERROR_MESSAGE_SELECTOR)
+    .contains(text.trim())
+    .should('be.visible');
+}
+
+/**
+ * Verifies that no global warning or error message is displayed.
+ */
+export function checkGlobalWarningMessageNotDisplayed(): void {
+  cy.get(GLOBAL_CONFLICT_AND_ERROR_MESSAGE_SELECTOR).should('not.exist');
+}
+
+/**
+ * Verifies whether status icon is not displayed for a group.
+ *
+ * @param {string} groupName - Group name
+ */
+export function checkStatusIconNotDisplayed(groupName: string): void {
+  configurationVc.checkStatusIconNotDisplayed(groupName);
+}
+
+/**
+ * Verifies whether status icon is displayed for a group.
+ *
+ * @param {string} groupName - Group name
+ * @param {string} status - Status class, e.g. ERROR
+ */
+export function checkStatusIconDisplayed(
+  groupName: string,
+  status: string
+): void {
+  configurationVc.checkStatusIconDisplayed(groupName, status);
+}
+
+/**
+ * Selects a radio-group value by attribute label and visible value text.
+ *
+ * @param {string} attributeLabel - Attribute label shown in the UI
+ * @param {string} valueText - Visible value text
+ */
+export function selectRadioByAttributeLabelAndWait(
+  attributeLabel: string,
+  valueText: string
+): void {
+  cy.contains('cx-configurator-attribute-header label span', attributeLabel)
+    .invoke('attr', 'id')
+    .then((labelId) => {
+      const attributeCode = labelId?.replace('cx-configurator--label--', '');
+      cy.get(`[id^="cx-configurator--radioGroup--${attributeCode}--"]`)
+        .contains(valueText)
+        .click();
+      cy.wait('@updateConfig');
+      configuration.checkUpdatingMessageNotDisplayed();
+    });
 }
