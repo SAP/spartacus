@@ -482,15 +482,17 @@ function takeOverPricingChanges(
   state: Configurator.Configuration
 ): Configurator.Configuration {
   const content = { ...action.payload };
-  const groups = state.groups;
+  const {
+    interactionState: _pricingInteractionState,
+    ...configurationWithoutInteractionState
+  } = content;
 
-  const result = {
+  const result: Configurator.Configuration = {
     ...state,
-    ...content,
-    groups: groups,
+    ...configurationWithoutInteractionState,
+    groups: state.groups,
     interactionState: {
       ...state.interactionState,
-      ...content.interactionState,
       issueNavigationDone: true,
     },
   };
