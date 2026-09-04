@@ -107,7 +107,7 @@ EPD_VISUALIZATION_BASE_URL=
 # The base URL and public key values are required for connection to Cloud Commerce Adapter (OPF)
 OPF_BASE_URL=
 OPF_CLIENT_PUBLIC_KEY=
-ENABLE_OPF_ACCESS_CODE_HEADER=true
+OPF_ACCESS_CODE_HEADER_ENABLED=true
 
 #NPM connection info
 #NPM_URL must start by 'https://' and end with '/' char
