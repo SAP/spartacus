@@ -784,6 +784,16 @@ export interface FeatureTogglesInterface {
    * Affects: `ListComponent` (`cx-org-list`)
    */
   a11yNavigationChevronContrast?: boolean;
+
+  /**
+   * When enabled, `Validators.maxLength` is applied to all text form fields
+   * in address and registration forms, providing visible error feedback instead
+   * of silently blocking input at the HTML level.
+   *
+   * Affects: `UserRegistrationFormService`, `CheckoutBillingAddressFormService`,
+   * `AddressFormComponent`, `UnitAddressFormService`
+   */
+  enableFormFieldMaxLength?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -880,4 +890,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   configuratorIssuesNotificationForConfigurableOnly: false,
   globalMessageCloseButtonPadding: false,
   a11yNavigationChevronContrast: false,
+  enableFormFieldMaxLength: false,
 };
