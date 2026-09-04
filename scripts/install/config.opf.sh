@@ -16,4 +16,4 @@ OPF_BASE_URL="https://cp96avkh5f-integrati2-s1.opf.commerce.stage.context.cloud.
 OPF_CLIENT_PUBLIC_KEY="A1XtvJflow62RieQAElw1/hNRnIWqtfCsBR8kVKUAXk="
 
 # Set to true to send sap-commerce-cloud-access-code header on getActiveConfigurations request (required for Intelligent Routing)
-ENABLE_OPF_ACCESS_CODE_HEADER=true
+OPF_ACCESS_CODE_HEADER_ENABLED=true
