@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { CmsParagraphComponent } from '@spartacus/core';
+import { CmsParagraphComponent, useFeatureStyles } from '@spartacus/core';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SupplementHashAnchorsPipe } from '../../../shared/pipes/suplement-hash-anchors/supplement-hash-anchors.pipe';
 
@@ -44,7 +44,9 @@ export class ParagraphComponent {
   constructor(
     public component: CmsComponentData<CmsParagraphComponent>,
     protected router: Router
-  ) {}
+  ) {
+    useFeatureStyles('a11yImproveContrastFooterBreadcrumb');
+  }
 
   public bypassSecurityTrustHtml(html: string = ''): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(html);

@@ -784,6 +784,22 @@ export interface FeatureTogglesInterface {
    * Affects: `ListComponent` (`cx-org-list`)
    */
   a11yNavigationChevronContrast?: boolean;
+
+  /**
+   * When enabled, the footer copyright notice and the breadcrumb links use
+   * higher-contrast colors so they meet the WCAG 1.4.3 text contrast
+   * requirement (>= 4.5:1 in the default theme) and WCAG 1.4.6 (>= 7:1 in
+   * high-contrast themes).
+   * The footer copyright color changes from the hardcoded `#aaa` (~2.32:1 on
+   * white) to `--cx-color-text` (~14.9:1 in the default theme and 21:1 in
+   * high-contrast light, adapting to every theme). The breadcrumb link color
+   * changes from `--cx-color-primary` to the darker `--cx-color-primary-accent`
+   * (#0f4880, ~8.45:1 against the `#f4f4f4` background).
+   *
+   * Affects: `ParagraphComponent` (`cx-paragraph`, `.cx-notice`) and
+   * `BreadcrumbComponent` (`cx-breadcrumb`)
+   */
+  a11yImproveContrastFooterBreadcrumb?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -880,4 +896,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   configuratorIssuesNotificationForConfigurableOnly: false,
   globalMessageCloseButtonPadding: false,
   a11yNavigationChevronContrast: false,
+  a11yImproveContrastFooterBreadcrumb: false,
 };
