@@ -2,9 +2,20 @@
   padding: 32px 0;
   text-align: center;
   @include type();
-  color: var(--cx-color-text);
+  // Legacy hardcoded gray (~2.32:1 on white) fails WCAG 1.4.3 / 1.4.6 and
+  // does not adapt to high-contrast themes.
+  color: #aaa;
   background-color: var(--cx-color-inverse);
   margin-bottom: -1.5rem;
+
+  // Footer copyright must meet WCAG 1.4.3 (>= 4.5:1) and 1.4.6 (>= 7:1 in
+  // high contrast). `--cx-color-text` yields ~14.9:1 on the default white
+  // background and adapts to the themes (21:1 in high-contrast light).
+  // See useFeatureStyles('a11yImproveContrastFooterBreadcrumb') in
+  // ParagraphComponent.
+  @include forFeature('a11yImproveContrastFooterBreadcrumb') {
+    color: var(--cx-color-text);
+  }
 
   @include cx-highContrastTheme {
     background-color: var(--cx-color-background);
