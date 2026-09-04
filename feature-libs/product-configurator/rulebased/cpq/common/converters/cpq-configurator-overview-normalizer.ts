@@ -152,13 +152,8 @@ export class CpqConfiguratorOverviewNormalizer
             ovValues.push(this.extractValue(valueSelected, attr, currency));
           });
         break;
-      case Cpq.DisplayAs.CONTAINER:
-        if (!this.featureToggles.productConfiguratorCPQContainer) {
-          this.logUnsupportedAttribute(attr);
-        }
-        break;
       default:
-        this.logUnsupportedAttribute(attr);
+        this.logUnsupportedAttributeIfNeeded(attr);
     }
     return ovValues;
   }
@@ -262,6 +257,15 @@ export class CpqConfiguratorOverviewNormalizer
     this.logger.warn(
       `Attribute '${attr.name}' (pA_ID=${(<any>attr).PA_ID}) is not supported and hence hidden from overview.`
     );
+  }
+
+  protected logUnsupportedAttributeIfNeeded(attr: Cpq.Attribute): void {
+    if (
+      attr.displayAs !== Cpq.DisplayAs.CONTAINER ||
+      !this.featureToggles.productConfiguratorCPQContainer
+    ) {
+      this.logUnsupportedAttribute(attr);
+    }
   }
 
   protected extractValue(
