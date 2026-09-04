@@ -2,6 +2,10 @@ import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { LanguageService, TranslationService } from '@spartacus/core';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { Observable, of } from 'rxjs';
 import { Cpq } from '../cpq.models';
 import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normalizer-utils.service';
@@ -146,6 +150,7 @@ class MockTranslationService {
 
 describe('CpqConfiguratorOverviewNormalizer', () => {
   let serviceUnderTest: CpqConfiguratorOverviewNormalizer;
+  let featureToggles: MockFeatureTogglesController;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -160,12 +165,16 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
           provide: TranslationService,
           useClass: MockTranslationService,
         },
+        provideMockFeatureToggles({
+          productConfiguratorCPQContainer: false,
+        }),
       ],
     });
 
     serviceUnderTest = TestBed.inject(
       CpqConfiguratorOverviewNormalizer as Type<CpqConfiguratorOverviewNormalizer>
     );
+    featureToggles = TestBed.inject(MockFeatureTogglesController);
     attr = structuredClone(attrBase);
   }));
 
@@ -511,6 +520,246 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     expect(ovAttrs[0].valuePriceTotal?.currencyIso).toBe(CURRENCY);
     expect(ovAttrs[0].valuePriceTotal?.value).toBe(123.45);
     expect(ovAttrs[0].valuePriceTotal?.formattedValue).toBe('$123.45');
+  });
+
+  describe('containers', () => {
+    const containerAttributeCode = 500;
+    const nestedContainerAttributeCode = 600;
+    const rootTabId = 1;
+    const nestedTabId = rootTabId;
+
+    const containerAttribute: Cpq.Attribute = {
+      pA_ID: 50,
+      stdAttrCode: containerAttributeCode,
+      name: 'Lenses',
+      displayAs: Cpq.DisplayAs.CONTAINER,
+      values: [],
+    };
+
+    const nestedInputAttribute: Cpq.Attribute = {
+      pA_ID: 60,
+      stdAttrCode: 601,
+      name: 'Lens Color',
+      displayAs: Cpq.DisplayAs.INPUT,
+      dataType: Cpq.DataType.INPUT_STRING,
+      userInput: 'Black',
+      values: [],
+    };
+
+    const nestedContainerAttribute: Cpq.Attribute = {
+      pA_ID: 61,
+      stdAttrCode: nestedContainerAttributeCode,
+      name: 'Filters',
+      displayAs: Cpq.DisplayAs.CONTAINER,
+      values: [],
+    };
+
+    const deepInputAttribute: Cpq.Attribute = {
+      pA_ID: 70,
+      stdAttrCode: 701,
+      name: 'Filter Color',
+      displayAs: Cpq.DisplayAs.INPUT,
+      dataType: Cpq.DataType.INPUT_STRING,
+      userInput: 'Clear',
+      values: [],
+    };
+
+    function createConfigurationWithContainers(): Cpq.Configuration {
+      return {
+        productSystemId: PRODUCT_CODE,
+        currencyISOCode: CURRENCY,
+        tabs: [
+          {
+            id: rootTabId,
+            displayName: 'Camera',
+            attributes: [structuredClone(containerAttribute)],
+          },
+        ],
+        sapContainers: [
+          {
+            stdAttrCode: containerAttributeCode,
+            rows: [
+              {
+                id: 'unselected',
+                productSystemId: 'UNSELECTED',
+                productName: 'Unselected Lens',
+                selected: false,
+              },
+              {
+                id: 'add',
+                productSystemId: 'ADD',
+                productName: 'Add Lens',
+                selected: true,
+                actions: [Cpq.ContainerRowAction.ADD],
+              },
+              {
+                id: 'fixed',
+                productSystemId: 'FIXED_LENS',
+                productName: '50mm Lens',
+                selected: true,
+              },
+              {
+                id: 'zoom',
+                productSystemId: 'ZOOM_LENS',
+                productName: 'Zoom Lens',
+                selected: true,
+                configuration: {
+                  tabs: [
+                    {
+                      id: nestedTabId,
+                      displayName: 'Lens Details',
+                      attributes: [
+                        structuredClone(nestedInputAttribute),
+                        structuredClone(nestedContainerAttribute),
+                      ],
+                    },
+                  ],
+                  containers: [
+                    {
+                      stdAttrCode: nestedContainerAttributeCode,
+                      rows: [
+                        {
+                          id: 'filter',
+                          productSystemId: 'UV_FILTER',
+                          productName: 'UV Filter',
+                          selected: true,
+                          configuration: {
+                            tabs: [
+                              {
+                                id: 2,
+                                displayName: 'Filter Details',
+                                attributes: [
+                                  structuredClone(deepInputAttribute),
+                                ],
+                              },
+                            ],
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
+      };
+    }
+
+    it('should preserve legacy behavior when the feature toggle is disabled', () => {
+      const loggerWarn = spyOn(serviceUnderTest['logger'], 'warn');
+
+      const result = serviceUnderTest.convert(
+        createConfigurationWithContainers()
+      );
+
+      expect(result.groups).toEqual([]);
+      expect(loggerWarn).toHaveBeenCalled();
+    });
+
+    it('should convert only selected container rows without nested configurations into bundle attributes', () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+
+      const result = serviceUnderTest.convert(
+        createConfigurationWithContainers()
+      );
+      const attributes = result.groups?.[0].attributes;
+
+      expect(attributes?.length).toBe(1);
+      expect(attributes?.[0]).toEqual(
+        jasmine.objectContaining({
+          attribute: 'Lenses',
+          attributeId: containerAttributeCode.toString(),
+          value: '50mm Lens',
+          valueId: 'fixed',
+          productCode: 'FIXED_LENS',
+          type: Configurator.AttributeOverviewType.BUNDLE,
+        })
+      );
+      expect(
+        attributes?.some((attribute) => attribute.value === 'Unselected Lens')
+      ).toBe(false);
+      expect(
+        attributes?.some((attribute) => attribute.value === 'Add Lens')
+      ).toBe(false);
+      expect(
+        attributes?.some((attribute) => attribute.value === 'Zoom Lens')
+      ).toBe(false);
+    });
+
+    it('should flatten a single nested group into its container row group', () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+
+      const result = serviceUnderTest.convert(
+        createConfigurationWithContainers()
+      );
+      const rootGroup = result.groups?.[0];
+      const rowGroup = rootGroup?.subGroups?.[0];
+      const nestedRowGroup = rowGroup?.subGroups?.[0];
+      const expectedRowGroupId = `${Configurator.ContainerRowGroupIdPrefix}@${containerAttributeCode}@zoom`;
+      const expectedNestedRowGroupId = `${Configurator.ContainerRowGroupIdPrefix}@${nestedContainerAttributeCode}@filter`;
+
+      expect(rootGroup?.id).toBe(rootTabId.toString());
+      expect(rowGroup?.id).toBe(expectedRowGroupId);
+      expect(rowGroup?.groupDescription).toBe('Zoom Lens');
+      expect(rowGroup?.attributes?.length).toBe(1);
+      expect(rowGroup?.attributes?.[0].value).toBe('Black');
+      expect(nestedRowGroup?.id).toBe(expectedNestedRowGroupId);
+      expect(nestedRowGroup?.groupDescription).toBe('UV Filter');
+      expect(nestedRowGroup?.attributes?.[0].value).toBe('Clear');
+      expect(nestedRowGroup?.subGroups).toEqual([]);
+    });
+
+    it('should preserve nested groups when a configuration contains multiple groups', () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+      const source = createConfigurationWithContainers();
+      const nestedConfiguration = source.sapContainers?.[0].rows?.find(
+        (row) => row.id === 'zoom'
+      )?.configuration;
+      if (!nestedConfiguration?.tabs) {
+        fail();
+        return;
+      }
+      nestedConfiguration.tabs.push({
+        id: 3,
+        displayName: 'Additional Lens Details',
+        attributes: [structuredClone(deepInputAttribute)],
+      });
+
+      const result = serviceUnderTest.convert(source);
+      const rowGroup = result.groups?.[0].subGroups?.[0];
+      const expectedRowGroupId = `${Configurator.ContainerRowGroupIdPrefix}@${containerAttributeCode}@zoom`;
+
+      expect(rowGroup?.attributes).toEqual([]);
+      expect(rowGroup?.subGroups?.length).toBe(2);
+      expect(rowGroup?.subGroups?.[0].id).toBe(
+        `${expectedRowGroupId}@${nestedTabId}`
+      );
+      expect(rowGroup?.subGroups?.[0].groupDescription).toBe('Lens Details');
+      expect(rowGroup?.subGroups?.[1].id).toBe(`${expectedRowGroupId}@3`);
+      expect(rowGroup?.subGroups?.[1].groupDescription).toBe(
+        'Additional Lens Details'
+      );
+    });
+
+    it('should not attach a container with a non-matching attribute code', () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+      const source = createConfigurationWithContainers();
+      source.sapContainers = [{ stdAttrCode: 999, rows: [] }];
+
+      const result = serviceUnderTest.convert(source);
+
+      expect(result.groups).toEqual([]);
+    });
+
+    it('should not log an unsupported warning for containers when the feature toggle is enabled', () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+      const loggerWarn = spyOn(serviceUnderTest['logger'], 'warn');
+
+      serviceUnderTest.convert(createConfigurationWithContainers());
+
+      expect(loggerWarn).not.toHaveBeenCalled();
+    });
   });
 
   describe('extractValue', () => {
