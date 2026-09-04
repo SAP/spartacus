@@ -201,7 +201,9 @@ export class ConfiguratorStateUtils {
     projection: (value: T, index: number) => T
   ): T[] | undefined {
     if (array) {
-      const index = array.findIndex(predicate);
+      const index = array.findIndex((value, index, obj) =>
+        predicate(value, index, obj)
+      );
       if (index === -1) {
         return array;
       }
