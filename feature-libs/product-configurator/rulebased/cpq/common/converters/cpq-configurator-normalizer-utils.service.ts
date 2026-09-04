@@ -25,9 +25,9 @@ export class CpqConfiguratorNormalizerUtilsService {
   /**
    * Converts quantity to be shown in the overview page
    *
-   * @param {Cpq.Value} value - CPQ Value
-   * @param {Cpq.Attribute} attribute - CPQ Attribute
-   * @returns {number} - Quantity
+   * @param value - CPQ Value
+   * @param attribute - CPQ Attribute
+   * @returns - Quantity
    */
   convertQuantity(
     value: Cpq.Value,
@@ -55,9 +55,9 @@ export class CpqConfiguratorNormalizerUtilsService {
   /**
    * Converts value price
    *
-   * @param { Cpq.Value} value - CPQ Value
-   * @param {string} currency - Currency code ISO
-   * @returns {Configurator.PriceDetails}
+   * @param value - CPQ Value
+   * @param currency - Currency code ISO
+   * @returns - price details
    */
   convertValuePrice(
     value: Cpq.Value,
@@ -77,9 +77,9 @@ export class CpqConfiguratorNormalizerUtilsService {
   /**
    * Calculates total value price
    *
-   * @param {number} quantity - Quantity
-   * @param {Configurator.PriceDetails} valuePrice - PriceDetails of the single value price
-   * @returns {Configurator.PriceDetails } - total value price
+   * @param quantity - Quantity
+   * @param valuePrice - PriceDetails of the single value price
+   * @returns - total value price
    */
   calculateValuePriceTotal(
     quantity: number,
@@ -100,9 +100,9 @@ export class CpqConfiguratorNormalizerUtilsService {
   /**
    * Calculates total attribute price
    *
-   * @param {Configurator.Attribute} attribute - Configurator Attribute
-   * @param {string} currency - Currency
-   * @returns {Configurator.PriceDetails} - total attribute price
+   * @param attribute - Configurator Attribute
+   * @param currency - Currency
+   * @returns - total attribute price
    */
   calculateAttributePriceTotal(
     attribute: Configurator.Attribute,
@@ -122,8 +122,8 @@ export class CpqConfiguratorNormalizerUtilsService {
   /**
    * Formats price for given PriceDetails object and Locale
    *
-   * @param {Configurator.PriceDetails} price - Price details
-   * @param {string} availableLocale - Original locale
+   * @param price - Price details
+   * @param availableLocale - Original locale
    */
   protected formatPriceForLocale(
     price: Configurator.PriceDetails,
@@ -145,8 +145,8 @@ export class CpqConfiguratorNormalizerUtilsService {
   /**
    * Converts the CPQ Attribute data type into the Configurator Attribute data type
    *
-   * @param {Cpq.Attribute} cpqAttribute - CPQ Attribute
-   * @returns {Configurator.DataType} Data type of the configurator attribute
+   * @param cpqAttribute - CPQ Attribute
+   * @returns - data type of the configurator attribute
    */
   convertDataType(cpqAttribute: Cpq.Attribute): Configurator.DataType {
     let dataType: Configurator.DataType;
@@ -209,8 +209,8 @@ export class CpqConfiguratorNormalizerUtilsService {
   /**
    * Converts price summary
    *
-   * @param {cpqConfiguration: Cpq.Configuration} cpqConfiguration - CPQ configuration
-   * @returns {Configurator.PriceSummary} - price summary
+   * @param cpqConfiguration - CPQ configuration
+   * @returns - price summary
    */
   convertPriceSummary(
     cpqConfiguration: Cpq.Configuration
@@ -257,8 +257,8 @@ export class CpqConfiguratorNormalizerUtilsService {
   /**
    * Verifies whether at least one value of a CPQ Attribute has an assigned product
    *
-   * @param {Cpq.Value[]} attributeValues - CPQ Attribute values
-   * @returns {boolean} - true, if at least one value of a CPQ Attribute has an assigned product
+   * @param attributeValues - CPQ Attribute values
+   * @returns - true, if at least one value of a CPQ Attribute has an assigned product
    */
   hasAnyProducts(attributeValues: Cpq.Value[]): boolean {
     return attributeValues.some((value: Cpq.Value) => value?.productSystemId);
@@ -267,8 +267,8 @@ export class CpqConfiguratorNormalizerUtilsService {
   /**
    * Convert attribute label
    *
-   * @param {attribute: Cpq.Attribute} attribute - CPQ Attribute
-   * @returns {string} - attribute label
+   * @param attribute - CPQ Attribute
+   * @returns - attribute label
    */
   convertAttributeLabel(attribute: Cpq.Attribute): string {
     return attribute.label
@@ -308,7 +308,6 @@ export class CpqConfiguratorNormalizerUtilsService {
    * Counts issues on a CPQ configuration or nested product configuration.
    *
    * @param source - CPQ configuration or nested product configuration
-   * @param context - Optional context label for temporary logging
    * @returns Number of issues at this level
    */
   protected countIssues(
@@ -369,13 +368,6 @@ export class CpqConfiguratorNormalizerUtilsService {
   }
 
   /**
-   * Recursively counts issues in nested container configurations.
-   *
-   * @param containers - CPQ containers
-   * @param context - Optional context label for temporary logging
-   * @returns Number of issues in nested configurations
-   */
-  /**
    * Counts warning messages at container level with non-empty message text.
    *
    * @param container - CPQ container
@@ -420,7 +412,7 @@ export class CpqConfiguratorNormalizerUtilsService {
   /**
    * Gets the current language.
    *
-   * @return {string} - current language
+   * @return - current language
    */
   protected getLanguage(): string {
     const lang = this.getActiveLanguage();
@@ -436,7 +428,7 @@ export class CpqConfiguratorNormalizerUtilsService {
   /**
    * Gets the active language.
    *
-   * @return {string} - active language
+   * @return - active language
    */
   protected getActiveLanguage(): string {
     let result;
@@ -451,7 +443,7 @@ export class CpqConfiguratorNormalizerUtilsService {
   /**
    * Logs the message for the missing local data.
    *
-   * @param {string} lang - Active language
+   * @param lang - Active language
    */
   protected reportMissingLocaleData(lang: string): void {
     if (isDevMode()) {

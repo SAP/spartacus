@@ -900,7 +900,7 @@ export class ConfiguratorGroupMenuComponent {
   }
 
   /**
-   * Returns the title shown for a group menu item. Includes the technical
+   * Retrieves the title shown for a group menu item. Includes the technical
    * group name when expert mode is active, except for conflict groups.
    *
    * @param group - Group to display

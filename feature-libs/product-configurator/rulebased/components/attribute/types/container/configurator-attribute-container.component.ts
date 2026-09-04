@@ -12,8 +12,8 @@ import {
   ElementRef,
   HostListener,
   inject,
-  ViewChild,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
@@ -22,8 +22,8 @@ import { map, take } from 'rxjs/operators';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { ConfiguratorUtilsService } from '../../../../core/facade/utils/configurator-utils.service';
 import {
-  ConfiguratorMessageService,
   ConfiguratorMessageGroup,
+  ConfiguratorMessageService,
   ConfiguratorMessagesView,
 } from '../../../service/configurator-message.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -102,12 +102,12 @@ export class ConfiguratorAttributeContainerComponent
   }
 
   ngOnInit(): void {
-    const owner = this.attributeComponentContext.owner;
-    const groupId = this.attributeComponentContext.group.id;
     this.subscription.add(
       combineLatest([
-        this.configuratorCommonsService.getConfiguration(owner),
-        this.getShowRequiredMessage$(groupId),
+        this.configuratorCommonsService.getConfiguration(
+          this.attributeComponentContext.owner
+        ),
+        this.getShowRequiredMessage$(this.attributeComponentContext.group.id),
       ]).subscribe(([configuration, showRequiredMessage]) => {
         this.messagesMap = this.buildMessagesMap(
           configuration,
@@ -148,8 +148,8 @@ export class ConfiguratorAttributeContainerComponent
   }
 
   /**
-   * Determines the messages to display for the given container row. When the
-   * row is not selected, the row min/max info and (when applicable) the
+   * Determines the messages to display for the given container row.
+   * When the row is not selected, the row min/max info and (when applicable) the
    * required error are included before the row-level engine messages.
    *
    * @param configuration - Current configuration
@@ -225,7 +225,7 @@ export class ConfiguratorAttributeContainerComponent
   }
 
   /**
-   * Whether the container required message should be considered.
+   * Verifies if the container required message should be considered.
    *
    * @returns `true` when the parent attribute is required and incomplete
    */

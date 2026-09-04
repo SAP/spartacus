@@ -111,7 +111,7 @@ export class ConfiguratorConflictAndErrorMessagesComponent {
   }
 
   /**
-   * Whether root messages should be read from the typed `messages` list.
+   * Verifies if root messages should be read from the typed `messages` list.
    *
    * @param configuration - Current configuration
    * @returns `true` when the CPQ container feature is enabled and the

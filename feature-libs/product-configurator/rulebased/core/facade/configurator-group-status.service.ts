@@ -28,9 +28,9 @@ export class ConfiguratorGroupStatusService {
   /**
    * Verifies whether the group has been visited.
    *
-   * @param {CommonConfigurator.Owner} owner - Configuration owner
-   * @param {string} groupId - Group ID
-   * @returns {Observable<boolean>} Has group been visited?
+   * @param owner - Configuration owner
+   * @param groupId - Group ID
+   * @returns - has group been visited?
    */
   isGroupVisited(
     owner: CommonConfigurator.Owner,
@@ -58,9 +58,8 @@ export class ConfiguratorGroupStatusService {
    * is returned. Only if this search does not find any group, flagged groups are
    * considered as well.
    *
-   * @param {Configurator.Configuration} configuration - Configuration
-   *
-   * @return {Configurator.Group} - First incomplete group or undefined
+   * @param configuration - Configuration
+   * @return - first incomplete group or undefined
    */
   getFirstIncompleteGroup(
     configuration: Configurator.Configuration
@@ -88,7 +87,7 @@ export class ConfiguratorGroupStatusService {
    * @param navigableGroupIds - IDs of groups that are valid navigation targets
    * @param skipIncompleteBecauseOfChild - Whether groups that are only incomplete
    *  because of one of their children are skipped
-   * @returns First incomplete navigable group, or undefined
+   * @returns - first incomplete navigable group, or undefined
    */
   protected findFirstIncompleteGroup(
     groups: Configurator.Group[],
@@ -129,32 +128,32 @@ export class ConfiguratorGroupStatusService {
   }
 
   /**
-   * Whether the group is incomplete only because one of its children is
+   * Verifies whether the group is incomplete only because one of its children is
    * incomplete, and is therefore no target for the issue navigation.
    *
    * @param group - Group to check
-   * @returns `true` if the group is only incomplete because of a child
+   * @returns - `true` if the group is only incomplete because of a child
    */
   protected isIncompleteBecauseOfChild(group: Configurator.Group): boolean {
     return group.incompleteBecauseOfChild === true;
   }
 
   /**
-   * Whether the group is incomplete based on its `complete` flag.
+   * Verifies whether the group is incomplete based on its `complete` flag.
    *
    * @param group - Group to check
-   * @returns `true` if the group should be treated as incomplete
+   * @returns - `true` if the group should be treated as incomplete
    */
   protected isIncompleteGroup(group: Configurator.Group): boolean {
     return !group.complete;
   }
 
   /**
-   * Whether the group belongs to the conflict solver area and must therefore
+   * Verifies whether the group belongs to the conflict solver area and must therefore
    * be skipped by the incomplete-group search.
    *
    * @param group - Group to check
-   * @returns `true` for conflict groups and conflict header groups
+   * @returns - `true` for conflict groups and conflict header groups
    */
   protected isConflictRelatedGroup(group: Configurator.Group): boolean {
     return (
@@ -172,7 +171,7 @@ export class ConfiguratorGroupStatusService {
    * @param navigableGroupIds - IDs of groups that are valid navigation targets
    * @param skipIncompleteBecauseOfChild - Whether groups that are only incomplete
    *  because of one of their children are skipped
-   * @returns Navigable descendant, or undefined if none exists
+   * @returns - navigable descendant, or undefined if none exists
    */
   protected getNavigationTargetForGroup(
     group: Configurator.Group,
@@ -191,11 +190,11 @@ export class ConfiguratorGroupStatusService {
   }
 
   /**
-   * Returns the first navigable descendant of the given group in pre-order.
+   * Retrieves the first navigable descendant of the given group in pre-order.
    *
    * @param group - Group whose descendants are searched
    * @param navigableGroupIds - IDs of groups that are valid navigation targets
-   * @returns First navigable descendant, or undefined
+   * @returns - first navigable descendant, or undefined
    */
   protected getFirstNavigableDescendant(
     group: Configurator.Group,
@@ -219,8 +218,8 @@ export class ConfiguratorGroupStatusService {
   /**
    * Determines whether the group has been visited or not.
    *
-   * @param {Configurator.Configuration} configuration - Configuration
-   * @param {string} groupId - Group ID
+   * @param configuration - Configuration
+   * @param groupId - Group ID
    */
   setGroupStatusVisited(
     configuration: Configurator.Configuration,
