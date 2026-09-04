@@ -6,7 +6,12 @@
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { CmsComponentWithChildren, CmsService, Product } from '@spartacus/core';
+import {
+  CmsComponentWithChildren,
+  CmsService,
+  FeaturesConfigModule,
+  Product,
+} from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { OutletDirective } from '../../../../cms-structure/outlet/outlet.directive';
@@ -18,7 +23,7 @@ import { CurrentProductService } from '../../current-product.service';
   selector: 'cx-product-details-tab',
   templateUrl: './product-details-tab.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, OutletDirective, ComponentWrapperDirective, AsyncPipe],
+  imports: [NgIf, NgFor, OutletDirective, ComponentWrapperDirective, AsyncPipe, FeaturesConfigModule],
 })
 export class ProductDetailsTabComponent implements OnInit {
   product$: Observable<Product | null>;

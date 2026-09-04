@@ -19,6 +19,7 @@ import {
 import {
   CmsService,
   CMSTabParagraphContainer,
+  FeaturesConfigModule,
   WindowRef,
 } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
@@ -52,6 +53,7 @@ const defaultTabConfig = {
     OutletDirective,
     ComponentWrapperDirective,
     AsyncPipe,
+    FeaturesConfigModule,
   ],
 })
 export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
