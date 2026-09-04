@@ -13,6 +13,7 @@ import {
   OnDestroy,
   OnInit,
   Optional,
+  inject,
 } from '@angular/core';
 import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import {
@@ -21,7 +22,12 @@ import {
   DeliveryMode,
   OrderEntry,
 } from '@spartacus/cart/base/root';
-import { Address, TranslatePipe, TranslationService } from '@spartacus/core';
+import {
+  Address,
+  FeatureToggles,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import {
   Order,
   OrderFacade,
@@ -69,6 +75,7 @@ export class OrderConfirmationShippingComponent implements OnInit, OnDestroy {
     );
 
   protected subscription = new Subscription();
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     protected orderFacade: OrderFacade,
@@ -110,7 +117,8 @@ export class OrderConfirmationShippingComponent implements OnInit, OnDestroy {
           textPhone,
           textMobile,
           deliveryAddress,
-          countryName
+          countryName,
+          this.featureToggles.addTitleToAddressCard
         )
       )
     );

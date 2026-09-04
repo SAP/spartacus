@@ -271,7 +271,7 @@ export function placeOrder() {
     .contains('cx-card', 'Ship To')
     .find('.cx-card-container')
     .within(() => {
-      cy.findByText(user.fullName);
+      cy.findByText(user.addressName);
       cy.findByText(user.address.line1);
       cy.findByText(user.address.line2);
     });
@@ -581,7 +581,7 @@ export function placeOrderWithCheapProduct(
     .contains('cx-card', 'Ship To')
     .find('.cx-card-container')
     .within(() => {
-      cy.findByText(sampleUser.fullName);
+      cy.findByText(sampleUser.addressName);
       cy.findByText(sampleUser.address.line1);
       cy.findByText(sampleUser.address.line2);
     });
@@ -633,7 +633,7 @@ export function verifyOrderConfirmationPageWithCheapProduct(
 
     cy.get('.cx-review-summary-card-container')
       .eq(0)
-      .should('contain', sampleUser.fullName);
+      .should('contain', sampleUser.addressName);
     cy.get('.cx-review-summary-card-container')
       .eq(0)
       .should('contain', sampleUser.address.line1);

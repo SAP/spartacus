@@ -12,12 +12,14 @@ import {
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 import {
   FormErrorsModule,
   LaunchDialogService,
   NgSelectA11yModule,
 } from '@spartacus/storefront';
 import { EMPTY, firstValueFrom, of } from 'rxjs';
+import { vi } from 'vitest';
 import { CheckoutBillingAddressFormComponent } from './checkout-billing-address-form.component';
 import { CheckoutBillingAddressFormService } from './checkout-billing-address-form.service';
 
@@ -121,6 +123,7 @@ describe('CheckoutBillingAddressFormComponent', () => {
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
         { provide: UserAddressService, useClass: MockUserAddressService },
         CheckoutBillingAddressFormService,
+        provideMockFeatureToggles({ addTitleToAddressCard: false }),
       ],
     })
       .overrideComponent(CheckoutBillingAddressFormComponent, {

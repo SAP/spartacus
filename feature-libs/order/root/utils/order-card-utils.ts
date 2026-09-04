@@ -16,7 +16,8 @@ export function deliveryAddressCard(
   textPhone: string,
   textMobile: string,
   deliveryAddress: Address,
-  countryName?: string
+  countryName?: string,
+  addTitleToAddressCard = false
 ): Card {
   if (!countryName) {
     countryName = deliveryAddress?.country?.name as string;
@@ -32,14 +33,7 @@ export function deliveryAddressCard(
   }
 
   const numbers = getAddressNumbers(deliveryAddress, textPhone, textMobile);
-  let fullName;
-  if (deliveryAddress.firstName && deliveryAddress.lastName) {
-    fullName = deliveryAddress.firstName + ' ' + deliveryAddress.lastName;
-  } else if (deliveryAddress.firstName) {
-    fullName = deliveryAddress.firstName;
-  } else if (deliveryAddress.lastName) {
-    fullName = deliveryAddress.lastName;
-  }
+  const fullName = getAddressFullName(deliveryAddress, addTitleToAddressCard);
 
   return {
     title: textTitle,
@@ -52,6 +46,29 @@ export function deliveryAddressCard(
       numbers,
     ],
   } as Card;
+}
+
+/**
+ * Builds the full name for an address, optionally prefixed with the title.
+ */
+function getAddressFullName(
+  address: Address,
+  addTitleToAddressCard: boolean
+): string | undefined {
+  let fullName;
+  if (address.firstName && address.lastName) {
+    fullName = address.firstName + ' ' + address.lastName;
+  } else if (address.firstName) {
+    fullName = address.firstName;
+  } else if (address.lastName) {
+    fullName = address.lastName;
+  }
+
+  if (addTitleToAddressCard && !!address.title && fullName) {
+    fullName = address.title + ' ' + fullName;
+  }
+
+  return fullName;
 }
 
 /**

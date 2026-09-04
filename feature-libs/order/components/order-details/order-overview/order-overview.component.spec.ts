@@ -6,6 +6,7 @@ import {
   Address,
   CmsOrderDetailOverviewComponent,
   CxDatePipe,
+  FeatureToggles,
   MockDatePipe,
   MockTranslatePipe,
   PaymentDetails,
@@ -16,6 +17,7 @@ import {
 import { Order, OrderConfig, ReplenishmentOrder } from '@spartacus/order/root';
 import { Card, CardComponent, CmsComponentData } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
+import { vi } from 'vitest';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderOverviewComponentService } from './order-overview-component.service';
 import { OrderOverviewComponent } from './order-overview.component';
@@ -576,6 +578,88 @@ describe('OrderOverviewComponent', () => {
       expect(componentService.shouldShowDeliveryMode).toHaveBeenCalledWith(
         undefined
       );
+    });
+  });
+
+  describe('addTitleToAddressCard feature toggle', () => {
+    let featureToggles: FeatureToggles;
+    const mockDeliveryAddressWithTitle: Address = {
+      ...mockDeliveryAddress,
+      title: 'Dr.',
+    };
+    const mockBillingAddressWithTitle: Address = {
+      ...mockBillingAddress,
+      title: 'Dr.',
+    };
+
+    beforeEach(() => {
+      vi.spyOn(translationService, 'translate').mockReturnValue(of('test'));
+      featureToggles = TestBed.inject(FeatureToggles);
+      featureToggles.addTitleToAddressCard = false;
+    });
+
+    describe('getAddressCardContent (delivery address)', () => {
+      it('should not prefix the title when the toggle is OFF', () => {
+        featureToggles.addTitleToAddressCard = false;
+        component
+          .getAddressCardContent(mockDeliveryAddressWithTitle)
+          .subscribe((card) => {
+            expect(card.textBold).toEqual('John Smith');
+          })
+          .unsubscribe();
+      });
+
+      it('should prefix the title when the toggle is ON and the address has a title', () => {
+        featureToggles.addTitleToAddressCard = true;
+        component
+          .getAddressCardContent(mockDeliveryAddressWithTitle)
+          .subscribe((card) => {
+            expect(card.textBold).toEqual('Dr. John Smith');
+          })
+          .unsubscribe();
+      });
+
+      it('should not prefix the title when the toggle is ON but the address has no title', () => {
+        featureToggles.addTitleToAddressCard = true;
+        component
+          .getAddressCardContent(mockDeliveryAddress)
+          .subscribe((card) => {
+            expect(card.textBold).toEqual('John Smith');
+          })
+          .unsubscribe();
+      });
+    });
+
+    describe('getBillingAddressCardContent (billing address)', () => {
+      it('should not prefix the title when the toggle is OFF', () => {
+        featureToggles.addTitleToAddressCard = false;
+        component
+          .getBillingAddressCardContent(mockBillingAddressWithTitle)
+          .subscribe((card) => {
+            expect(card.textBold).toEqual('John Smith');
+          })
+          .unsubscribe();
+      });
+
+      it('should prefix the title when the toggle is ON and the address has a title', () => {
+        featureToggles.addTitleToAddressCard = true;
+        component
+          .getBillingAddressCardContent(mockBillingAddressWithTitle)
+          .subscribe((card) => {
+            expect(card.textBold).toEqual('Dr. John Smith');
+          })
+          .unsubscribe();
+      });
+
+      it('should not prefix the title when the toggle is ON but the address has no title', () => {
+        featureToggles.addTitleToAddressCard = true;
+        component
+          .getBillingAddressCardContent(mockBillingAddress)
+          .subscribe((card) => {
+            expect(card.textBold).toEqual('John Smith');
+          })
+          .unsubscribe();
+      });
     });
   });
 

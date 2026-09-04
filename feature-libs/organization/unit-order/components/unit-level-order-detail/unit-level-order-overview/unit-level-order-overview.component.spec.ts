@@ -1,10 +1,10 @@
-import { vi } from 'vitest';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
   Address,
   CxDatePipe,
+  FeatureToggles,
   MockDatePipe,
   PaymentDetails,
   RequiredPick,
@@ -13,6 +13,7 @@ import {
 import { Order } from '@spartacus/order/root';
 import { Card, CardComponent } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
+import { vi } from 'vitest';
 import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service';
 import { UnitLevelOrderOverviewComponent } from './unit-level-order-overview.component';
 
@@ -442,6 +443,104 @@ describe('UnitLevelOrderOverviewComponent', () => {
       expect(component.getUnitNameCardContent).toHaveBeenCalledWith(
         mockOrder.orgUnit.name
       );
+    });
+  });
+
+  describe('addTitleToAddressCard feature toggle', () => {
+    const mockTitle = 'Mr.';
+    let featureToggles: FeatureToggles;
+
+    beforeEach(() => {
+      vi.spyOn(translationService, 'translate').mockReturnValue(of('test'));
+      featureToggles = TestBed.inject(FeatureToggles);
+    });
+
+    describe('getAddressCardContent (delivery address)', () => {
+      it('should NOT prepend the title when the toggle is OFF', () => {
+        featureToggles.addTitleToAddressCard = false;
+        const address: Address = { ...mockDeliveryAddress, title: mockTitle };
+
+        component
+          .getAddressCardContent(address)
+          .subscribe((data) => {
+            expect(data.textBold).toEqual(
+              `${address.firstName} ${address.lastName}`
+            );
+          })
+          .unsubscribe();
+      });
+
+      it('should prepend the title when the toggle is ON and a title is present', () => {
+        featureToggles.addTitleToAddressCard = true;
+        const address: Address = { ...mockDeliveryAddress, title: mockTitle };
+
+        component
+          .getAddressCardContent(address)
+          .subscribe((data) => {
+            expect(data.textBold).toEqual(
+              `${mockTitle} ${address.firstName} ${address.lastName}`
+            );
+          })
+          .unsubscribe();
+      });
+
+      it('should NOT prepend the title when the toggle is ON but no title is present', () => {
+        featureToggles.addTitleToAddressCard = true;
+        const address: Address = { ...mockDeliveryAddress, title: undefined };
+
+        component
+          .getAddressCardContent(address)
+          .subscribe((data) => {
+            expect(data.textBold).toEqual(
+              `${address.firstName} ${address.lastName}`
+            );
+          })
+          .unsubscribe();
+      });
+    });
+
+    describe('getBillingAddressCardContent (billing address)', () => {
+      it('should NOT prepend the title when the toggle is OFF', () => {
+        featureToggles.addTitleToAddressCard = false;
+        const address: Address = { ...mockBillingAddress, title: mockTitle };
+
+        component
+          .getBillingAddressCardContent(address)
+          .subscribe((data) => {
+            expect(data.textBold).toEqual(
+              `${address.firstName} ${address.lastName}`
+            );
+          })
+          .unsubscribe();
+      });
+
+      it('should prepend the title when the toggle is ON and a title is present', () => {
+        featureToggles.addTitleToAddressCard = true;
+        const address: Address = { ...mockBillingAddress, title: mockTitle };
+
+        component
+          .getBillingAddressCardContent(address)
+          .subscribe((data) => {
+            expect(data.textBold).toEqual(
+              `${mockTitle} ${address.firstName} ${address.lastName}`
+            );
+          })
+          .unsubscribe();
+      });
+
+      it('should NOT prepend the title when the toggle is ON but no title is present', () => {
+        featureToggles.addTitleToAddressCard = true;
+        const address: Address = { ...mockBillingAddress, title: undefined };
+
+        component
+          .getBillingAddressCardContent(address)
+          .subscribe((data) => {
+            expect(data.textBold).toEqual(
+              `${address.firstName} ${address.lastName}`
+            );
+          })
+          .unsubscribe();
+      });
     });
   });
 });

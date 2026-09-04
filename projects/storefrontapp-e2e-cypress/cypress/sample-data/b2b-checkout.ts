@@ -98,6 +98,7 @@ export const b2bAccountShipToUser: SampleUser = {
   email: 'powertools-test-user-with-orders@sap.cx.com',
   password: 'pw4all',
   fullName: 'Akiro Nakamura',
+  addressName: 'Mr. Akiro Nakamura',
   address: {
     city: 'Chicago',
     line1: '999 South Wacker Drive',

@@ -5,11 +5,18 @@ import {
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { Address, Country, I18nTestingModule, UrlPipe } from '@spartacus/core';
+import {
+  Address,
+  Country,
+  FeatureToggles,
+  I18nTestingModule,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   IconTestingModule,
   MockIconComponent,
 } from '@spartacus/storefront/testing/icon-testing-module';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { of } from 'rxjs';
 
 import {
@@ -247,5 +254,98 @@ describe('CheckoutReviewShippingComponent', () => {
     expect(component.deliveryAddressStepRoute).toEqual(
       mockCheckoutStep.routeName
     );
+  });
+});
+
+describe('CheckoutReviewShippingComponent - addTitleToAddressCard feature toggle', () => {
+  let component: CheckoutReviewShippingComponent;
+  let fixture: ComponentFixture<CheckoutReviewShippingComponent>;
+
+  const mockAddressWithTitle: Address = {
+    ...mockAddress,
+    title: 'Mr.',
+  };
+  const mockAddressWithoutTitle: Address = {
+    ...mockAddress,
+    title: undefined,
+  };
+
+  async function configure(addTitleToAddressCard: boolean) {
+    await TestBed.configureTestingModule({
+      imports: [
+        RouterModule.forRoot([]),
+        IconTestingModule,
+        OutletModule,
+        CheckoutReviewShippingComponent,
+      ],
+      providers: [
+        {
+          provide: CheckoutDeliveryAddressFacade,
+          useClass: MockCheckoutDeliveryAddressService,
+        },
+        {
+          provide: CheckoutDeliveryModesFacade,
+          useClass: MockCheckoutDeliveryModesService,
+        },
+        {
+          provide: CheckoutStepService,
+          useClass: MockCheckoutStepService,
+        },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        {
+          provide: ChangeDetectorRef,
+          useValue: { markForCheck: vi.fn() },
+        },
+        provideMockFeatureToggles({ addTitleToAddressCard }),
+      ],
+    })
+      .overrideComponent(CheckoutReviewShippingComponent, {
+        remove: {
+          imports: [CardComponent, UrlPipe, IconComponent],
+        },
+        add: {
+          imports: [MockUrlPipe, MockCardComponent, MockIconComponent],
+        },
+      })
+      .compileComponents();
+
+    fixture = TestBed.createComponent(CheckoutReviewShippingComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  }
+
+  it('should NOT prepend the title to the name when the toggle is OFF', async () => {
+    await configure(false);
+    let card: Card | undefined;
+    component
+      .getDeliveryAddressCard(mockAddressWithTitle, 'Canada')
+      .subscribe((c) => (card = c));
+
+    expect(card?.textBold).toEqual('John Doe');
+  });
+
+  it('should prepend the title to the name when the toggle is ON and a title is present', async () => {
+    await configure(true);
+    let card: Card | undefined;
+    component
+      .getDeliveryAddressCard(mockAddressWithTitle, 'Canada')
+      .subscribe((c) => (card = c));
+
+    expect(card?.textBold).toEqual('Mr. John Doe');
+  });
+
+  it('should NOT prepend the title to the name when the toggle is ON but no title is present', async () => {
+    await configure(true);
+    let card: Card | undefined;
+    component
+      .getDeliveryAddressCard(mockAddressWithoutTitle, 'Canada')
+      .subscribe((c) => (card = c));
+
+    expect(card?.textBold).toEqual('John Doe');
+  });
+
+  it('should reflect the toggle value read from the injected FeatureToggles', async () => {
+    await configure(true);
+    expect(TestBed.inject(FeatureToggles).addTitleToAddressCard).toBe(true);
   });
 });

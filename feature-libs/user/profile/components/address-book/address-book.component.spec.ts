@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import {
   Component,
   DebugElement,
@@ -23,12 +22,13 @@ import {
   User,
 } from '@spartacus/core';
 import { CardModule, SpinnerModule } from '@spartacus/storefront';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, firstValueFrom, Observable, of } from 'rxjs';
+import { vi } from 'vitest';
 import { AddressFormComponent } from '../public_api';
 import { AddressBookComponent } from './address-book.component';
 import { AddressBookComponentService } from './address-book.component.service';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 class MockGlobalMessageService {
   add = vi.fn();
@@ -472,6 +472,40 @@ describe('AddressBookComponent', () => {
       expect(
         addressBookComponentService.updateUserAddress
       ).toHaveBeenCalledWith(mockAddress.id, mockAddress);
+    });
+  });
+
+  describe('addTitleToAddressCard feature toggle', () => {
+    let featureToggles: FeatureToggles;
+    const addressWithTitle: Address = { ...mockAddress, title: 'Mr.' };
+    const addressWithoutTitle: Address = { ...mockAddress, title: undefined };
+
+    beforeEach(() => {
+      featureToggles = TestBed.inject(FeatureToggles);
+    });
+
+    it('should NOT prepend the title when the toggle is off', async () => {
+      featureToggles.addTitleToAddressCard = false;
+      const card = await firstValueFrom(
+        component.getCardContent(addressWithTitle)
+      );
+      expect(card.textBold).toEqual('John Doe');
+    });
+
+    it('should prepend the title when the toggle is on and title exists', async () => {
+      featureToggles.addTitleToAddressCard = true;
+      const card = await firstValueFrom(
+        component.getCardContent(addressWithTitle)
+      );
+      expect(card.textBold).toEqual('Mr. John Doe');
+    });
+
+    it('should NOT prepend the title when the toggle is on but title is missing', async () => {
+      featureToggles.addTitleToAddressCard = true;
+      const card = await firstValueFrom(
+        component.getCardContent(addressWithoutTitle)
+      );
+      expect(card.textBold).toEqual('John Doe');
     });
   });
 

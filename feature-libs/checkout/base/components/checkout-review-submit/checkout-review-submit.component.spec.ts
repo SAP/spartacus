@@ -33,7 +33,9 @@ import {
   PromotionsModule,
 } from '@spartacus/storefront';
 import { MockIconComponent } from '@spartacus/storefront/testing/icon-testing-module';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { of } from 'rxjs';
+import { vi } from 'vitest';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutReviewSubmitComponent } from './checkout-review-submit.component';
 
@@ -333,6 +335,128 @@ describe('CheckoutReviewSubmitComponent', () => {
     it('should contain total price', () => {
       fixture.detectChanges();
       expect(getCartTotalText()).toContain('$999.98');
+    });
+  });
+});
+
+describe('CheckoutReviewSubmitComponent - addTitleToAddressCard feature toggle', () => {
+  let component: CheckoutReviewSubmitComponent;
+  let fixture: ComponentFixture<CheckoutReviewSubmitComponent>;
+
+  const mockDeliveryAddressWithTitle: Address = {
+    ...mockAddress,
+    title: 'Mr.',
+  };
+  const mockDeliveryAddressWithoutTitle: Address = {
+    ...mockAddress,
+    title: undefined,
+  };
+
+  const mockPaymentDetailsBase: PaymentDetails = {
+    ...mockPaymentDetails,
+    billingAddress: {
+      firstName: 'John',
+      lastName: 'Smith',
+      line1: '2343 test address',
+      town: 'Montreal',
+      region: { isocode: 'QC' },
+      country: { isocode: 'CAN' },
+      postalCode: 'H2N 1E3',
+    },
+  };
+  const mockPaymentDetailsWithTitle: PaymentDetails = {
+    ...mockPaymentDetailsBase,
+    billingAddress: {
+      ...mockPaymentDetailsBase.billingAddress,
+      title: 'Mr.',
+    },
+  };
+  const mockPaymentDetailsWithoutTitle: PaymentDetails = {
+    ...mockPaymentDetailsBase,
+    billingAddress: {
+      ...mockPaymentDetailsBase.billingAddress,
+      title: undefined,
+    },
+  };
+
+  async function configure(addTitleToAddressCard: boolean) {
+    await TestBed.configureTestingModule({
+      imports: [
+        RouterModule.forRoot([]),
+        PromotionsModule,
+        OutletModule,
+        CheckoutReviewSubmitComponent,
+      ],
+      providers: [
+        {
+          provide: CheckoutDeliveryAddressFacade,
+          useClass: MockCheckoutDeliveryAddressService,
+        },
+        {
+          provide: CheckoutDeliveryModesFacade,
+          useClass: MockCheckoutDeliveryModesService,
+        },
+        {
+          provide: CheckoutPaymentFacade,
+          useClass: MockCheckoutPaymentService,
+        },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        {
+          provide: CheckoutStepService,
+          useClass: MockCheckoutStepService,
+        },
+        { provide: TranslationService, useClass: MockTranslationService },
+        provideMockFeatureToggles({ addTitleToAddressCard }),
+      ],
+    })
+      .overrideComponent(CheckoutReviewSubmitComponent, {
+        remove: {
+          imports: [TranslatePipe, UrlPipe, CardComponent, IconComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockUrlPipe,
+            MockCardComponent,
+            MockIconComponent,
+          ],
+        },
+      })
+      .compileComponents();
+
+    fixture = TestBed.createComponent(CheckoutReviewSubmitComponent);
+    component = fixture.componentInstance;
+  }
+
+  describe('getDeliveryAddressCard', () => {
+    it('should NOT prepend the title to the name when the toggle is OFF', async () => {
+      await configure(false);
+      let card: Card | undefined;
+      component
+        .getDeliveryAddressCard(mockDeliveryAddressWithTitle, 'Canada')
+        .subscribe((c) => (card = c));
+
+      expect(card?.textBold).toEqual('John Doe');
+    });
+
+    it('should prepend the title to the name when the toggle is ON and a title is present', async () => {
+      await configure(true);
+      let card: Card | undefined;
+      component
+        .getDeliveryAddressCard(mockDeliveryAddressWithTitle, 'Canada')
+        .subscribe((c) => (card = c));
+
+      expect(card?.textBold).toEqual('Mr. John Doe');
+    });
+
+    it('should NOT prepend the title to the name when the toggle is ON but no title is present', async () => {
+      await configure(true);
+      let card: Card | undefined;
+      component
+        .getDeliveryAddressCard(mockDeliveryAddressWithoutTitle, 'Canada')
+        .subscribe((c) => (card = c));
+
+      expect(card?.textBold).toEqual('John Doe');
     });
   });
 });

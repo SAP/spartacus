@@ -6,6 +6,7 @@ import {
   Address,
   Country,
   CxDatePipe,
+  FeatureToggles,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
@@ -20,6 +21,7 @@ import {
   PromotionsModule,
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
+import { vi } from 'vitest';
 import { OrderConfirmationShippingComponent } from './order-confirmation-shipping.component';
 
 // Mock pipes
@@ -241,6 +243,51 @@ describe('OrderConfirmationShippingComponent', () => {
       component.order$.subscribe((value) =>
         expect(value).toEqual({ code: 'test' })
       );
+    });
+  });
+
+  describe('addTitleToAddressCard feature toggle', () => {
+    const mockFeatureToggles: Partial<FeatureToggles> = {
+      addTitleToAddressCard: false,
+    };
+    const mockAddressWithTitle: Address = {
+      ...mockAddress,
+      title: 'Dr.',
+    };
+
+    beforeEach(() => {
+      mockFeatureToggles.addTitleToAddressCard = false;
+      configureTestingModule().overrideProvider(FeatureToggles, {
+        useValue: mockFeatureToggles,
+      });
+      stubSeviceAndCreateComponent();
+    });
+
+    it('should not prefix the title when the toggle is OFF', () => {
+      mockFeatureToggles.addTitleToAddressCard = false;
+      component
+        .getDeliveryAddressCard(mockAddressWithTitle, 'Canada')
+        .subscribe((card) => {
+          expect(card.textBold).toEqual('John Doe');
+        });
+    });
+
+    it('should prefix the title when the toggle is ON and the address has a title', () => {
+      mockFeatureToggles.addTitleToAddressCard = true;
+      component
+        .getDeliveryAddressCard(mockAddressWithTitle, 'Canada')
+        .subscribe((card) => {
+          expect(card.textBold).toEqual('Dr. John Doe');
+        });
+    });
+
+    it('should not prefix the title when the toggle is ON but the address has no title', () => {
+      mockFeatureToggles.addTitleToAddressCard = true;
+      component
+        .getDeliveryAddressCard(mockAddress, 'Canada')
+        .subscribe((card) => {
+          expect(card.textBold).toEqual('John Doe');
+        });
     });
   });
 });
