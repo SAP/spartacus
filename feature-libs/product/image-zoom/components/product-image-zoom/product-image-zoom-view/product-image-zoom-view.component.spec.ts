@@ -5,17 +5,12 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
   FeaturesConfigModule,
+  FeatureToggles,
   I18nTestingModule,
   ImageGroup,
   MockDatePipe,
@@ -28,14 +23,20 @@ import {
   BREAKPOINT,
   BreakpointService,
   CurrentProductService,
+  FeatureDirective,
   IconComponent,
   MediaComponent,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
+import { vi } from 'vitest';
 
 import { ProductImageZoomThumbnailsComponent } from '../product-image-zoom-thumbnails/product-image-zoom-thumbnails.component';
 import { ProductImageZoomViewComponent } from './product-image-zoom-view.component';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const firstImage = {
   zoom: {
@@ -136,9 +137,12 @@ describe('ProductImageZoomViewComponent', () => {
       providers: [
         { provide: CurrentProductService, useClass: MockCurrentProductService },
         { provide: BreakpointService, useClass: MockBreakpointService },
-        provideMockFeatureToggles({
-          a11yKeyboardAccessibleZoom: true,
-        }),
+        {
+          provide: FeatureToggles,
+          useValue: {
+            a11yKeyboardAccessibleZoom: true,
+          },
+        },
       ],
     })
       .overrideComponent(ProductImageZoomViewComponent, {
@@ -146,6 +150,7 @@ describe('ProductImageZoomViewComponent', () => {
           imports: [
             TranslatePipe,
             CxDatePipe,
+            FeatureDirective,
             IconComponent,
             MediaComponent,
             ProductImageZoomThumbnailsComponent,
@@ -155,6 +160,7 @@ describe('ProductImageZoomViewComponent', () => {
           imports: [
             MockTranslatePipe,
             MockDatePipe,
+            MockFeatureDirective,
             MockIconComponent,
             MockMediaComponent,
             MockProductImageZoomThumbnailsComponent,
@@ -174,7 +180,7 @@ describe('ProductImageZoomViewComponent', () => {
 
   describe('with multiple pictures', () => {
     beforeEach(() => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
+      vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
         of(mockDataWithMultiplePictures)
       );
       fixture = TestBed.createComponent(ProductImageZoomViewComponent);
@@ -190,19 +196,19 @@ describe('ProductImageZoomViewComponent', () => {
       expect(result.zoom.url).toEqual('zoom-1.jpg');
     });
 
-    it('should have 2 thumbnails', waitForAsync(() => {
+    it('should have 2 thumbnails', async () => {
       let items: Observable<ThumbnailsGroup>[];
       productImageZoomViewComponent.thumbnails$.subscribe((i) => (items = i));
       expect(items.length).toBe(2);
-    }));
+    });
 
-    it('should have thumb with url in first product', waitForAsync(() => {
+    it('should have thumb with url in first product', async () => {
       let thumbs: Observable<ThumbnailsGroup>[];
       productImageZoomViewComponent.thumbnails$.subscribe((i) => (thumbs = i));
       let thumb: any;
       thumbs[0].subscribe((p) => (thumb = p));
       expect(thumb.container.thumbnail.url).toEqual('thumb-1.jpg');
-    }));
+    });
 
     it('should zoom on click', () => {
       const defaultImageElement = fixture.debugElement.query(
@@ -227,7 +233,7 @@ describe('ProductImageZoomViewComponent', () => {
 
   describe('with one pictures', () => {
     beforeEach(() => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
+      vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
         of(mockDataWithOnePicture)
       );
       fixture = TestBed.createComponent(ProductImageZoomViewComponent);
@@ -247,16 +253,16 @@ describe('ProductImageZoomViewComponent', () => {
       expect(result.zoom.url).toEqual('zoom-1.jpg');
     });
 
-    it('should not have thumbnails in case there is only one GALLERY image', waitForAsync(() => {
+    it('should not have thumbnails in case there is only one GALLERY image', async () => {
       let items: Observable<ThumbnailsGroup>[];
       productImageZoomViewComponent.thumbnails$.subscribe((i) => (items = i));
       expect(items.length).toBe(0);
-    }));
+    });
   });
 
   describe('without pictures', () => {
     beforeEach(() => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
+      vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
         of(mockDataWithoutPrimaryPictures)
       );
 
@@ -426,10 +432,11 @@ describe('ProductImageZoomViewComponent', () => {
   });
 
   describe('a11y', () => {
-    it('should refocus on zoomButton after image loads', fakeAsync(() => {
+    it('should refocus on zoomButton after image loads', async () => {
+      vi.useFakeTimers();
       const mockZoomButton = {
         nativeElement: {
-          focus: jasmine.createSpy('focus'),
+          focus: vi.fn(),
         },
       };
       productImageZoomViewComponent.zoomButton = mockZoomButton;
@@ -437,10 +444,9 @@ describe('ProductImageZoomViewComponent', () => {
       productImageZoomViewComponent.zoom();
       productImageZoomViewComponent['imageLoaded'].next(true);
 
-      setTimeout(() => {
-        expect(mockZoomButton.nativeElement.focus).toHaveBeenCalled();
-      }, 1);
-      tick(1);
-    }));
+      await vi.advanceTimersByTimeAsync(1);
+      vi.useRealTimers();
+      expect(mockZoomButton.nativeElement.focus).toHaveBeenCalled();
+    });
   });
 });

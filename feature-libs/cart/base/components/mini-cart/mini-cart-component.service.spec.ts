@@ -1,4 +1,5 @@
-import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
   AuthService,
@@ -7,8 +8,9 @@ import {
   StatePersistenceService,
   StorageSyncType,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 import { cold } from 'jasmine-marbles';
-import { EMPTY, Observable, of, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of, ReplaySubject } from 'rxjs';
 import { MiniCartComponentService } from './mini-cart-component.service';
 
 const activeCart = new ReplaySubject<Cart>();
@@ -22,6 +24,9 @@ class MockAuthService implements Partial<AuthService> {
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActive(): Observable<Cart> {
     return activeCart.asObservable();
+  }
+  isStable(): Observable<boolean> {
+    return of(true);
   }
 }
 
@@ -83,6 +88,7 @@ describe('MiniCartComponentService', () => {
           useClass: MockSiteContextParamsService,
         },
         { provide: EventService, useClass: MockEventService },
+        ...provideMockFeatureToggles({ enableCartSlowNetworkResilience: true }),
       ],
     });
     service = TestBed.inject(MiniCartComponentService);
@@ -99,10 +105,10 @@ describe('MiniCartComponentService', () => {
 
   describe('getCartStateFromBrowserStorage', () => {
     it('should return the state from the browser storage', () => {
-      spyOn(siteContextParamsService, 'getValues').and.returnValue(
+      vi.spyOn(siteContextParamsService, 'getValues').mockReturnValue(
         cold('a', { a: [mockBaseSite] })
       );
-      spyOn(statePersistenceService, 'readStateFromStorage').and.returnValue(
+      vi.spyOn(statePersistenceService, 'readStateFromStorage').mockReturnValue(
         mockBrowserCartStateWithCart
       );
       const result = (service as any)['getCartStateFromBrowserStorage']();
@@ -114,7 +120,10 @@ describe('MiniCartComponentService', () => {
 
   describe('hasActiveCartInStorage', () => {
     it('should return true when the browser storage has an active cart.', () => {
-      spyOn(service as any, 'getCartStateFromBrowserStorage').and.returnValue(
+      vi.spyOn(
+        service as any,
+        'getCartStateFromBrowserStorage'
+      ).mockReturnValue(
         cold('a', {
           a: mockBrowserCartStateWithCart,
         })
@@ -125,7 +134,10 @@ describe('MiniCartComponentService', () => {
     });
 
     it('should return false when the browser storage has no active cart.', () => {
-      spyOn(service as any, 'getCartStateFromBrowserStorage').and.returnValue(
+      vi.spyOn(
+        service as any,
+        'getCartStateFromBrowserStorage'
+      ).mockReturnValue(
         cold('a', {
           a: mockBrowserCartStateNoCart,
         })
@@ -136,7 +148,10 @@ describe('MiniCartComponentService', () => {
     });
 
     it('should return false and then true if we swiitch to a site with a cart in storage.', () => {
-      spyOn(service as any, 'getCartStateFromBrowserStorage').and.returnValue(
+      vi.spyOn(
+        service as any,
+        'getCartStateFromBrowserStorage'
+      ).mockReturnValue(
         cold('a---b', {
           a: mockBrowserCartStateNoCart,
           b: mockBrowserCartStateWithCart,
@@ -150,14 +165,14 @@ describe('MiniCartComponentService', () => {
 
   describe('isCartCreated', () => {
     it('should return flase if no event is caught', () => {
-      spyOn(eventService, 'get').and.returnValue(cold('-'));
+      vi.spyOn(eventService, 'get').mockReturnValue(cold('-'));
 
       expect((service as any)['isCartCreated']()).toBeObservable(
         cold('f', booleanValues)
       );
     });
     it('should return true when the CreateCart event is caught', () => {
-      spyOn(eventService, 'get').and.returnValue(cold('e', { e: {} }));
+      vi.spyOn(eventService, 'get').mockReturnValue(cold('e', { e: {} }));
 
       expect((service as any)['isCartCreated']()).toBeObservable(
         cold('(ft)', booleanValues)
@@ -167,13 +182,13 @@ describe('MiniCartComponentService', () => {
 
   describe('activeCartRequired', () => {
     it('should return false if no user is logged in and no cart in browser storage and no new cart created', () => {
-      spyOn(service as any, 'hasActiveCartInStorage').and.returnValue(
+      vi.spyOn(service as any, 'hasActiveCartInStorage').mockReturnValue(
         cold('f', booleanValues)
       );
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(
         cold('f', booleanValues)
       );
-      spyOn(service as any, 'isCartCreated').and.returnValue(
+      vi.spyOn(service as any, 'isCartCreated').mockReturnValue(
         cold('f', booleanValues)
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
@@ -182,13 +197,13 @@ describe('MiniCartComponentService', () => {
     });
 
     it('should return true if there is a cart in browser storage', () => {
-      spyOn(service as any, 'hasActiveCartInStorage').and.returnValue(
+      vi.spyOn(service as any, 'hasActiveCartInStorage').mockReturnValue(
         cold('t', booleanValues)
       );
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(
         cold('f', booleanValues)
       );
-      spyOn(service as any, 'isCartCreated').and.returnValue(
+      vi.spyOn(service as any, 'isCartCreated').mockReturnValue(
         cold('f', booleanValues)
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
@@ -197,13 +212,13 @@ describe('MiniCartComponentService', () => {
     });
 
     it('should return true if a user is logged in.', () => {
-      spyOn(service as any, 'hasActiveCartInStorage').and.returnValue(
+      vi.spyOn(service as any, 'hasActiveCartInStorage').mockReturnValue(
         cold('f', booleanValues)
       );
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(
         cold('t', booleanValues)
       );
-      spyOn(service as any, 'isCartCreated').and.returnValue(
+      vi.spyOn(service as any, 'isCartCreated').mockReturnValue(
         cold('f', booleanValues)
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
@@ -212,13 +227,13 @@ describe('MiniCartComponentService', () => {
     });
 
     it('should return true if a cart iis created', () => {
-      spyOn(service as any, 'hasActiveCartInStorage').and.returnValue(
+      vi.spyOn(service as any, 'hasActiveCartInStorage').mockReturnValue(
         cold('t', booleanValues)
       );
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(
         cold('f', booleanValues)
       );
-      spyOn(service as any, 'isCartCreated').and.returnValue(
+      vi.spyOn(service as any, 'isCartCreated').mockReturnValue(
         cold('t', booleanValues)
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
@@ -227,13 +242,13 @@ describe('MiniCartComponentService', () => {
     });
 
     it('should eventually return true if ther is a cart in browser storage', () => {
-      spyOn(service as any, 'hasActiveCartInStorage').and.returnValue(
+      vi.spyOn(service as any, 'hasActiveCartInStorage').mockReturnValue(
         cold('f--t', booleanValues)
       );
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(
         cold('f', booleanValues)
       );
-      spyOn(service as any, 'isCartCreated').and.returnValue(
+      vi.spyOn(service as any, 'isCartCreated').mockReturnValue(
         cold('f', booleanValues)
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
@@ -242,13 +257,13 @@ describe('MiniCartComponentService', () => {
     });
 
     it('should eventually return true if a user eventually logs in.', () => {
-      spyOn(service as any, 'hasActiveCartInStorage').and.returnValue(
+      vi.spyOn(service as any, 'hasActiveCartInStorage').mockReturnValue(
         cold('f', booleanValues)
       );
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(
         cold('f--f--t', booleanValues)
       );
-      spyOn(service as any, 'isCartCreated').and.returnValue(
+      vi.spyOn(service as any, 'isCartCreated').mockReturnValue(
         cold('f', booleanValues)
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
@@ -257,13 +272,13 @@ describe('MiniCartComponentService', () => {
     });
 
     it('should eventually return true if a cart is eventually created.', () => {
-      spyOn(service as any, 'hasActiveCartInStorage').and.returnValue(
+      vi.spyOn(service as any, 'hasActiveCartInStorage').mockReturnValue(
         cold('f', booleanValues)
       );
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(
         cold('f', booleanValues)
       );
-      spyOn(service as any, 'isCartCreated').and.returnValue(
+      vi.spyOn(service as any, 'isCartCreated').mockReturnValue(
         cold('f--t', booleanValues)
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
@@ -274,16 +289,16 @@ describe('MiniCartComponentService', () => {
 
   describe('getTotalPrice', () => {
     it('should return default value when user has no cart', () => {
-      spyOn(service as any, 'activeCartRequired').and.returnValue(
+      vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(
         cold('f', booleanValues)
       );
-      spyOn(activeCartFacade, 'getActive').and.stub();
+      vi.spyOn(activeCartFacade, 'getActive').mockImplementation(() => {});
       expect(service.getTotalPrice()).toBeObservable(cold('a', { a: '' }));
       expect(activeCartFacade.getActive).not.toHaveBeenCalled();
     });
 
     it('should return value from activeCartFacade when user has a cart', () => {
-      spyOn(service as any, 'activeCartRequired').and.returnValue(
+      vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(
         cold('(t|)', booleanValues)
       );
       const mockActiveCart = {
@@ -292,7 +307,7 @@ describe('MiniCartComponentService', () => {
         },
       } as Partial<Cart>;
 
-      spyOn(activeCartFacade, 'getActive').and.returnValue(
+      vi.spyOn(activeCartFacade, 'getActive').mockReturnValue(
         cold('c', { c: mockActiveCart })
       );
       expect(service.getTotalPrice()).toBeObservable(cold('a', { a: '122$' }));
@@ -301,28 +316,234 @@ describe('MiniCartComponentService', () => {
 
   describe('getQuantity', () => {
     it('should return default value when user has no cart', () => {
-      spyOn(service as any, 'activeCartRequired').and.returnValue(
+      vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(
         cold('f', booleanValues)
       );
-      spyOn(activeCartFacade, 'getActive').and.stub();
+      vi.spyOn(activeCartFacade, 'getActive').mockImplementation(() => {});
       expect(service.getQuantity()).toBeObservable(cold('a', { a: 0 }));
       expect(activeCartFacade.getActive).not.toHaveBeenCalled();
     });
 
     it('should return value from activeCartFacade when user has a cart', () => {
-      spyOn(service as any, 'activeCartRequired').and.returnValue(
+      vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(
         cold('(t|)', booleanValues)
       );
       const mockActiveCart = {
         totalUnitCount: 7,
       } as Partial<Cart>;
 
-      spyOn(activeCartFacade, 'getActive').and.returnValue(
+      vi.spyOn(activeCartFacade, 'getActive').mockReturnValue(
         cold('c', { c: mockActiveCart })
       );
       expect(service.getQuantity()).toBeObservable(
         cold('(ab)', { a: 0, b: 7 })
       );
     });
+  });
+
+  describe('getUpdating', () => {
+    it('should return false when no active cart is required (lazy path)', () => {
+      vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(
+        cold('f', booleanValues)
+      );
+      vi.spyOn(activeCartFacade, 'isStable').mockImplementation(() => {});
+      expect(service.getUpdating()).toBeObservable(cold('f', booleanValues));
+      expect(activeCartFacade.isStable).not.toHaveBeenCalled();
+    });
+
+    it('should emit only `false` and never re-emit `true` while isStable() stays true', () => {
+      // The original marble (`cold('t', ...)` ) only spans one frame and
+      // never advances past debounceTime(250) — meaning the assertion was a
+      // false positive. vi.useFakeTimers + advanceTimersByTime(>250) actually exercises the
+      // debounce window.
+      vi.useFakeTimers();
+      try {
+        vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(
+          of(true)
+        );
+        const isStable$ = new BehaviorSubject<boolean>(true);
+        vi.spyOn(activeCartFacade, 'isStable').mockReturnValue(
+          isStable$.asObservable()
+        );
+
+        const emissions: boolean[] = [];
+        const sub = service.getUpdating().subscribe((v) => emissions.push(v));
+
+        // Synchronous startWith(false) only.
+        expect(emissions).toEqual([false]);
+
+        // Advance well past the 250ms window — !stable=false equals the seed,
+        // distinctUntilChanged dedups, no second emission.
+        vi.advanceTimersByTime(500);
+        expect(emissions).toEqual([false]);
+
+        sub.unsubscribe();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('should emit true after debounce when isStable() flips to false', () => {
+      vi.useFakeTimers();
+      try {
+        vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(
+          of(true)
+        );
+        const isStable$ = new BehaviorSubject<boolean>(false);
+        vi.spyOn(activeCartFacade, 'isStable').mockReturnValue(
+          isStable$.asObservable()
+        );
+
+        const emissions: boolean[] = [];
+        const sub = service.getUpdating().subscribe((v) => emissions.push(v));
+
+        // startWith(false) fires synchronously.
+        expect(emissions).toEqual([false]);
+
+        // debounceTime(250) holds the !stable=true emission until 250ms elapse.
+        vi.advanceTimersByTime(249);
+        expect(emissions).toEqual([false]);
+
+        vi.advanceTimersByTime(1);
+        expect(emissions).toEqual([false, true]);
+
+        sub.unsubscribe();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('should release the gate when isStable() recovers (false → true → false cycle)', () => {
+      vi.useFakeTimers();
+      try {
+        vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(
+          of(true)
+        );
+        const isStable$ = new BehaviorSubject<boolean>(true);
+        vi.spyOn(activeCartFacade, 'isStable').mockReturnValue(
+          isStable$.asObservable()
+        );
+
+        const emissions: boolean[] = [];
+        const sub = service.getUpdating().subscribe((v) => emissions.push(v));
+
+        // Initial: stable → seed false; debounce window passes silently.
+        vi.advanceTimersByTime(250);
+        expect(emissions).toEqual([false]);
+
+        // Flip unstable → after 250ms debounce, true emits.
+        isStable$.next(false);
+        vi.advanceTimersByTime(250);
+        expect(emissions).toEqual([false, true]);
+
+        // Flip stable again → after 250ms debounce, false emits (gate releases).
+        isStable$.next(true);
+        vi.advanceTimersByTime(250);
+        expect(emissions).toEqual([false, true, false]);
+
+        sub.unsubscribe();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('should suppress flicker: rapid stable=false→true within debounce produces no transient true', () => {
+      vi.useFakeTimers();
+      try {
+        vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(
+          of(true)
+        );
+        const isStable$ = new BehaviorSubject<boolean>(true);
+        vi.spyOn(activeCartFacade, 'isStable').mockReturnValue(
+          isStable$.asObservable()
+        );
+
+        const emissions: boolean[] = [];
+        const sub = service.getUpdating().subscribe((v) => emissions.push(v));
+
+        // Fast burst inside the 250ms window: false → true → false on isStable
+        // becomes !stable: true → false → true (mapped). debounceTime(250)
+        // holds the trailing value; distinctUntilChanged dedups against the
+        // seed `false`. The user must NOT see a transient `true`.
+        isStable$.next(false); // !stable=true
+        vi.advanceTimersByTime(50);
+        isStable$.next(true); // !stable=false (matches seed)
+        vi.advanceTimersByTime(50);
+        isStable$.next(false); // !stable=true
+        vi.advanceTimersByTime(50);
+        isStable$.next(true); // !stable=false (matches seed)
+
+        // Let any debounced emission fire.
+        vi.advanceTimersByTime(300);
+
+        // Final value matches the seed; distinctUntilChanged suppresses it.
+        expect(emissions).toEqual([false]);
+
+        sub.unsubscribe();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('should dedup repeated isStable()=true emissions via distinctUntilChanged', () => {
+      vi.useFakeTimers();
+      try {
+        vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(
+          of(true)
+        );
+        const isStable$ = new BehaviorSubject<boolean>(true);
+        vi.spyOn(activeCartFacade, 'isStable').mockReturnValue(
+          isStable$.asObservable()
+        );
+
+        const emissions: boolean[] = [];
+        const sub = service.getUpdating().subscribe((v) => emissions.push(v));
+
+        isStable$.next(true);
+        vi.advanceTimersByTime(300);
+        isStable$.next(true);
+        vi.advanceTimersByTime(300);
+        isStable$.next(true);
+        vi.advanceTimersByTime(300);
+
+        expect(emissions).toEqual([false]);
+        sub.unsubscribe();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+  });
+});
+
+describe('MiniCartComponentService — enableCartSlowNetworkResilience OFF', () => {
+  let service: MiniCartComponentService;
+  let activeCartFacade: ActiveCartFacade;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [],
+      providers: [
+        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
+        { provide: AuthService, useClass: MockAuthService },
+        {
+          provide: StatePersistenceService,
+          useClass: MockStatePersistenceService,
+        },
+        {
+          provide: SiteContextParamsService,
+          useClass: MockSiteContextParamsService,
+        },
+        { provide: EventService, useClass: MockEventService },
+        ...provideMockFeatureToggles({}),
+      ],
+    });
+    service = TestBed.inject(MiniCartComponentService);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
+  });
+
+  it('should emit only `false` and never subscribe to activeCartFacade.isStable()', () => {
+    vi.spyOn(activeCartFacade, 'isStable').mockImplementation(() => {});
+    expect(service.getUpdating()).toBeObservable(cold('(f|)', booleanValues));
+    expect(activeCartFacade.isStable).not.toHaveBeenCalled();
   });
 });

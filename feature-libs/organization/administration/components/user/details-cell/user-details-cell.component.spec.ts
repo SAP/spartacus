@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { B2BUser, B2BUserRight, B2BUserRole } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
@@ -47,8 +48,8 @@ describe('RolesCellComponent', () => {
 
     b2bUserService = TestBed.inject(B2BUserService);
 
-    spyOn(b2bUserService, 'getAllRights').and.callThrough();
-    spyOn(b2bUserService, 'getAllRoles').and.callThrough();
+    vi.spyOn(b2bUserService, 'getAllRights');
+    vi.spyOn(b2bUserService, 'getAllRoles');
   });
 
   beforeEach(() => {

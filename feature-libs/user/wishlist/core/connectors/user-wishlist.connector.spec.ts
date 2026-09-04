@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { Wishlist, WishlistEntry } from '@spartacus/user/wishlist/root';
@@ -12,7 +13,7 @@ import { UserWishlistConnector } from './user-wishlist.connector';
 
 describe('UserWishlistConnector', () => {
   let connector: UserWishlistConnector;
-  let adapter: jasmine.SpyObj<UserWishlistAdapter>;
+  let adapter: any;
 
   const MOCK_USER_ID = 'user-001';
   const MOCK_WISHLIST_ID = 'wishlist-uuid-123';
@@ -36,15 +37,15 @@ describe('UserWishlistConnector', () => {
   };
 
   beforeEach(() => {
-    adapter = jasmine.createSpyObj<UserWishlistAdapter>('UserWishlistAdapter', [
-      'getWishlist',
-      'addEntry',
-      'removeEntry',
-    ]);
+    adapter = {
+      getWishlist: vi.fn(),
+      addEntry: vi.fn(),
+      removeEntry: vi.fn(),
+    };
 
-    adapter.getWishlist.and.returnValue(of(mockWishlist));
-    adapter.addEntry.and.returnValue(of(mockEntry));
-    adapter.removeEntry.and.returnValue(of(undefined as void));
+    adapter.getWishlist.mockReturnValue(of(mockWishlist));
+    adapter.addEntry.mockReturnValue(of(mockEntry));
+    adapter.removeEntry.mockReturnValue(of(undefined as void));
 
     TestBed.configureTestingModule({
       providers: [

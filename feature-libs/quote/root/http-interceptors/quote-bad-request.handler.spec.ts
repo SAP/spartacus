@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import {
@@ -122,7 +123,7 @@ describe('QuoteBadRequestHandler', () => {
   });
 
   it('should handle threshold error', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     classUnderTest.handleError(mockRequest, mockQuoteUnderThresholdResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -134,7 +135,7 @@ describe('QuoteBadRequestHandler', () => {
   });
 
   it('should handle cart validation error', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     classUnderTest.handleError(mockRequest, mockCartValidationResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -146,7 +147,7 @@ describe('QuoteBadRequestHandler', () => {
   });
 
   it('should handle quote cart access error issues', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     classUnderTest.handleError(mockRequest, mockQuoteAccessErrorResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -158,7 +159,7 @@ describe('QuoteBadRequestHandler', () => {
   });
 
   it('should handle quote discount error', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     classUnderTest.handleError(mockRequest, mockQuoteDiscountResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -170,7 +171,7 @@ describe('QuoteBadRequestHandler', () => {
   });
 
   it('should handle expiration date error', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     classUnderTest.handleError(mockRequest, mockQuoteExpirationDateResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -182,7 +183,7 @@ describe('QuoteBadRequestHandler', () => {
   });
 
   it('should raise no message for IllegalArgumentErrors that are not related to quote discounts', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
 
     classUnderTest.handleError(mockRequest, mockIllegalArgumentResponse);
 
@@ -190,7 +191,7 @@ describe('QuoteBadRequestHandler', () => {
   });
 
   it('should be able to deal with an empty error response', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     classUnderTest.handleError(mockRequest, mockEmptyResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledTimes(0);

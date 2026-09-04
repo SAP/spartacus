@@ -4,11 +4,12 @@ import {
   EntityRemoveAllAction,
 } from './entity.action';
 import { entityReducer, initialEntityState } from './entity.reducer';
+import { vi } from 'vitest';
 
 describe('Entity reducer', () => {
-  const testSubReducer = jasmine
-    .createSpy()
-    .and.callFake((state = 'test', action) =>
+  const testSubReducer = vi
+    .fn()
+    .mockImplementation((state = 'test', action) =>
       action.payload ? action.payload : state
     );
 

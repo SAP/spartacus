@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import {
   MockTranslatePipe,
@@ -12,16 +12,14 @@ import {
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { ICON_TYPE, IconComponent, SpinnerModule } from '@spartacus/storefront';
 import { EMPTY } from 'rxjs';
+import { vi } from 'vitest';
 import { StoreFinderStoreDescriptionComponent } from '../store-finder-store-description/store-finder-store-description.component';
 import { StoreFinderStoreComponent } from './store-finder-store.component';
-import createSpy = jasmine.createSpy;
 
 class MockStoreFinderService implements Partial<StoreFinderService> {
-  getStoresLoading = createSpy('getStoresLoading');
-  getFindStoreEntityById = createSpy('getFindStoreEntityById').and.returnValue(
-    EMPTY
-  );
-  viewStoreById = createSpy('viewStoreById');
+  getStoresLoading = vi.fn();
+  getFindStoreEntityById = vi.fn().mockReturnValue(EMPTY);
+  viewStoreById = vi.fn();
 }
 
 @Component({
@@ -55,12 +53,12 @@ describe('StoreFinderStoreComponent', () => {
   let fixture: ComponentFixture<StoreFinderStoreComponent>;
   let routingService: RoutingService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [SpinnerModule, StoreFinderStoreComponent],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
-        { provide: RoutingService, useValue: { go: jasmine.createSpy() } },
+        { provide: RoutingService, useValue: { go: vi.fn() } },
         {
           provide: StoreFinderService,
           useClass: MockStoreFinderService,
@@ -88,7 +86,7 @@ describe('StoreFinderStoreComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     routingService = TestBed.inject(RoutingService);

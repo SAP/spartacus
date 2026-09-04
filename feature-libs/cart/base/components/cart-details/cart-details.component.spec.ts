@@ -1,5 +1,6 @@
+import { vi } from 'vitest';
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CartConfigService } from '@spartacus/cart/base/core';
 import {
@@ -18,12 +19,15 @@ import {
   RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
-import { PromotionsModule } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
+import { PromotionsModule, SpinnerComponent } from '@spartacus/storefront';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CartCouponComponent } from '../cart-coupon';
 import { CartItemListComponent } from '../cart-shared';
 import { CartValidationWarningsComponent } from '../public_api';
 import { CartDetailsComponent } from './cart-details.component';
+
+const stable$ = new BehaviorSubject<boolean>(true);
 
 class MockActiveCartService {
   removeEntry(): void {}
@@ -36,7 +40,7 @@ class MockActiveCartService {
     return of([{}]);
   }
   isStable(): Observable<boolean> {
-    return of(true);
+    return stable$.asObservable();
   }
 }
 
@@ -80,31 +84,34 @@ class MockCartCouponComponent {
 })
 class MockCartValidationWarningsComponent {}
 
+@Component({
+  selector: 'cx-spinner',
+  template: '',
+})
+class MockCxSpinnerComponent {}
+
 describe('CartDetailsComponent', () => {
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
   let activeCartService: ActiveCartFacade;
 
-  const mockSelectiveCartFacade = jasmine.createSpyObj('SelectiveCartFacade', [
-    'getCart',
-    'removeEntry',
-    'getEntries',
-    'isStable',
-    'addEntry',
-  ]);
+  const mockSelectiveCartFacade = {
+    getCart: vi.fn(),
+    removeEntry: vi.fn(),
+    getEntries: vi.fn(),
+    isStable: vi.fn(),
+    addEntry: vi.fn(),
+  };
 
-  const mockCartConfig = jasmine.createSpyObj('CartConfigService', [
-    'isSelectiveCartEnabled',
-  ]);
+  const mockCartConfig = { isSelectiveCartEnabled: vi.fn() };
 
-  const mockAuthService = jasmine.createSpyObj('AuthService', [
-    'isUserLoggedIn',
-  ]);
+  const mockAuthService = { isUserLoggedIn: vi.fn() };
 
-  const mockRoutingService = jasmine.createSpyObj('RoutingService', ['go']);
+  const mockRoutingService = { go: vi.fn() };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    stable$.next(true);
+    await TestBed.configureTestingModule({
       imports: [PromotionsModule, CartDetailsComponent],
       providers: [
         { provide: SelectiveCartFacade, useValue: mockSelectiveCartFacade },
@@ -114,10 +121,8 @@ describe('CartDetailsComponent', () => {
           provide: ActiveCartFacade,
           useClass: MockActiveCartService,
         },
-        {
-          provide: CartConfigService,
-          useValue: mockCartConfig,
-        },
+        { provide: CartConfigService, useValue: mockCartConfig },
+        ...provideMockFeatureToggles({ enableCartSlowNetworkResilience: true }),
       ],
     })
       .overrideComponent(CartDetailsComponent, {
@@ -128,6 +133,7 @@ describe('CartDetailsComponent', () => {
             CartItemListComponent,
             CartCouponComponent,
             CartValidationWarningsComponent,
+            SpinnerComponent,
           ],
         },
         add: {
@@ -137,14 +143,16 @@ describe('CartDetailsComponent', () => {
             MockCartItemListComponent,
             MockCartCouponComponent,
             MockCartValidationWarningsComponent,
+            MockCxSpinnerComponent,
           ],
         },
       })
       .compileComponents();
 
-    mockCartConfig.isSelectiveCartEnabled.and.returnValue(true);
-    mockSelectiveCartFacade.isStable.and.returnValue(of(true));
-  }));
+    mockCartConfig.isSelectiveCartEnabled.mockReturnValue(true);
+    mockSelectiveCartFacade.isStable.mockReturnValue(of(true));
+    mockAuthService.isUserLoggedIn.mockReturnValue(of(false));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartDetailsComponent);
@@ -163,11 +171,11 @@ describe('CartDetailsComponent', () => {
         code: 'PR0000',
       },
     };
-    mockAuthService.isUserLoggedIn.and.returnValue(of(true));
-    mockSelectiveCartFacade.addEntry.and.callThrough();
-    spyOn(activeCartService, 'removeEntry').and.callThrough();
-    spyOn(activeCartService, 'getEntries').and.callThrough();
-    spyOn(activeCartService, 'isStable').and.returnValue(of(true));
+    mockAuthService.isUserLoggedIn.mockReturnValue(of(true));
+    mockSelectiveCartFacade.addEntry;
+    vi.spyOn(activeCartService, 'removeEntry');
+    vi.spyOn(activeCartService, 'getEntries');
+    vi.spyOn(activeCartService, 'isStable').mockReturnValue(of(true));
     fixture.detectChanges();
     component.saveForLater(mockItem);
     expect(activeCartService.removeEntry).toHaveBeenCalledWith(mockItem);
@@ -184,14 +192,14 @@ describe('CartDetailsComponent', () => {
         code: 'PR0000',
       },
     };
-    mockAuthService.isUserLoggedIn.and.returnValue(of(false));
+    mockAuthService.isUserLoggedIn.mockReturnValue(of(false));
     component.saveForLater(mockItem);
     fixture.detectChanges();
     expect(mockRoutingService.go).toHaveBeenCalled();
   });
 
   it('should not show save for later when selective cart is disabled', () => {
-    mockCartConfig.isSelectiveCartEnabled.and.returnValue(of(false));
+    mockCartConfig.isSelectiveCartEnabled.mockReturnValue(of(false));
     fixture.detectChanges();
     const el = fixture.debugElement.query(By.css('button'));
     expect(el).toBe(null);
@@ -206,7 +214,187 @@ describe('CartDetailsComponent', () => {
   it('should display cart text with cart number', () => {
     fixture.detectChanges();
     const el = fixture.debugElement.query(By.css('.cx-total'));
-    const cartName = el.nativeElement.innerText;
+    const cartName = el.nativeElement.textContent?.trim();
     expect(cartName).toEqual('cartDetails.cartName code:123');
+  });
+
+  describe('updating banner', () => {
+    it('should not render banner when cart is stable', () => {
+      stable$.next(true);
+      fixture.detectChanges();
+      const banner = fixture.debugElement.query(
+        By.css('.cx-cart-details-updating')
+      );
+      expect(banner).toBeNull();
+    });
+
+    it('should render banner with a11y attrs and spinner when cart is unstable', () => {
+      vi.useFakeTimers();
+      try {
+        stable$.next(false);
+        fixture.detectChanges();
+        // updating$ has a 250ms debounceTime; advance past it.
+        vi.advanceTimersByTime(250);
+        fixture.detectChanges();
+        const banner = fixture.debugElement.query(
+          By.css('.cx-cart-details-updating')
+        );
+        expect(banner).not.toBeNull();
+        expect(banner.attributes['role']).toBe('status');
+        expect(banner.attributes['aria-live']).toBe('polite');
+        const spinner = banner.query(By.css('cx-spinner'));
+        expect(spinner).not.toBeNull();
+        expect(spinner.attributes['aria-hidden']).toBe('true');
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('should hide the banner once the cart becomes stable again (gate release)', () => {
+      vi.useFakeTimers();
+      try {
+        // unstable → debounce → banner appears
+        stable$.next(false);
+        fixture.detectChanges();
+        vi.advanceTimersByTime(250);
+        fixture.detectChanges();
+        expect(
+          fixture.debugElement.query(By.css('.cx-cart-details-updating'))
+        ).not.toBeNull();
+
+        // stable → debounce → banner disappears
+        stable$.next(true);
+        vi.advanceTimersByTime(250);
+        fixture.detectChanges();
+        expect(
+          fixture.debugElement.query(By.css('.cx-cart-details-updating'))
+        ).toBeNull();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('should suppress flicker: rapid unstable→stable within debounce window keeps banner hidden', () => {
+      vi.useFakeTimers();
+      try {
+        // Within the 250ms debounce window, !stable=true → false → true → false.
+        // debounceTime emits the trailing value (false); distinctUntilChanged
+        // dedups against the seed `false` from startWith. The user must NOT see
+        // a transient banner mount.
+        stable$.next(false); // !stable=true
+        vi.advanceTimersByTime(50);
+        stable$.next(true); // !stable=false (matches seed)
+        vi.advanceTimersByTime(50);
+        stable$.next(false); // !stable=true
+        vi.advanceTimersByTime(50);
+        stable$.next(true); // !stable=false (matches seed)
+
+        // Let the debounce window close fully.
+        vi.advanceTimersByTime(300);
+        fixture.detectChanges();
+
+        expect(
+          fixture.debugElement.query(By.css('.cx-cart-details-updating'))
+        ).toBeNull();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('should NOT render the banner on initial mount (startWith(false) seed)', () => {
+      // No isStable() flip — the BehaviorSubject default is true. With
+      // startWith(false), the first synchronous emission of updating$ must
+      // be `false`, so the banner is absent on the very first detectChanges.
+      fixture.detectChanges();
+
+      expect(
+        fixture.debugElement.query(By.css('.cx-cart-details-updating'))
+      ).toBeNull();
+    });
+  });
+});
+
+describe('CartDetailsComponent — enableCartSlowNetworkResilience OFF', () => {
+  let component: CartDetailsComponent;
+  let fixture: ComponentFixture<CartDetailsComponent>;
+
+  const mockSelectiveCartFacade = {
+    getCart: vi.fn(),
+    removeEntry: vi.fn(),
+    getEntries: vi.fn(),
+    isStable: vi.fn(),
+    addEntry: vi.fn(),
+  };
+  const mockCartConfig = {
+    isSelectiveCartEnabled: vi.fn(),
+  };
+  const mockAuthService = {
+    isUserLoggedIn: vi.fn(),
+  };
+  const mockRoutingService = { go: vi.fn() };
+
+  beforeEach(async () => {
+    stable$.next(false);
+    await TestBed.configureTestingModule({
+      imports: [PromotionsModule, CartDetailsComponent],
+      providers: [
+        { provide: SelectiveCartFacade, useValue: mockSelectiveCartFacade },
+        { provide: AuthService, useValue: mockAuthService },
+        { provide: RoutingService, useValue: mockRoutingService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        { provide: CartConfigService, useValue: mockCartConfig },
+        ...provideMockFeatureToggles({}),
+      ],
+    })
+      .overrideComponent(CartDetailsComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            CartItemListComponent,
+            CartCouponComponent,
+            CartValidationWarningsComponent,
+            SpinnerComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCartItemListComponent,
+            MockCartCouponComponent,
+            MockCartValidationWarningsComponent,
+            MockCxSpinnerComponent,
+          ],
+        },
+      })
+      .compileComponents();
+
+    mockCartConfig.isSelectiveCartEnabled.mockReturnValue(true);
+    mockSelectiveCartFacade.isStable.mockReturnValue(of(true));
+    mockAuthService.isUserLoggedIn.mockReturnValue(of(false));
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(CartDetailsComponent);
+    component = fixture.componentInstance;
+  });
+
+  it('should NOT render the updating banner even when cart is unstable', () => {
+    vi.useFakeTimers();
+    try {
+      stable$.next(false);
+      fixture.detectChanges();
+      vi.advanceTimersByTime(250);
+      fixture.detectChanges();
+
+      const banner = fixture.debugElement.query(
+        By.css('.cx-cart-details-updating')
+      );
+      expect(banner).toBeNull();
+      expect(component).toBeTruthy();
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
@@ -10,7 +11,6 @@ import { FormErrorsModule } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { EMPTY, of } from 'rxjs';
 import { UpdateProfileComponentService } from './update-profile-component.service';
-import createSpy = jasmine.createSpy;
 
 const mockUser = {
   customerId: '123',
@@ -20,13 +20,13 @@ const mockUser = {
 };
 
 class MockUserProfileFacade implements Partial<UserProfileFacade> {
-  get = createSpy('UserProfileFacade.get').and.returnValue(of({}));
-  getTitles = createSpy('UserProfileFacade.getTitles').and.returnValue(EMPTY);
-  update = createSpy('UserProfileFacade.update').and.returnValue(of({}));
-  close = createSpy('UserProfileFacade.close').and.returnValue(EMPTY);
+  get = vi.fn('UserProfileFacade.get').mockReturnValue(of({}));
+  getTitles = vi.fn('UserProfileFacade.getTitles').mockReturnValue(EMPTY);
+  update = vi.fn('UserProfileFacade.update').mockReturnValue(of({}));
+  close = vi.fn('UserProfileFacade.close').mockReturnValue(EMPTY);
 }
 class MockGlobalMessageService {
-  add = createSpy().and.stub();
+  add = vi.fn().mockImplementation(() => {});
 }
 
 describe('UpdateProfileComponentService', () => {
@@ -66,16 +66,16 @@ describe('UpdateProfileComponentService', () => {
       service['busy$'].next(true);
       let result;
       service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
-      expect(result).toBeTrue();
-      expect(service.form.disabled).toBeTrue();
+      expect(result).toBe(true);
+      expect(service.form.disabled).toBe(true);
     });
 
     it('should return false', () => {
       service['busy$'].next(false);
       let result;
       service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
-      expect(result).toBeFalse;
-      expect(service.form.disabled).toBeFalse();
+      expect(result).toBe(false);
+      expect(service.form.disabled).toBe(false);
     });
   });
 
@@ -101,7 +101,7 @@ describe('UpdateProfileComponentService', () => {
       });
 
       it('reset()', () => {
-        spyOn(service.form, 'reset').and.callThrough();
+        vi.spyOn(service.form, 'reset');
         service.updateProfile();
         expect(service.form.reset).toHaveBeenCalled();
       });

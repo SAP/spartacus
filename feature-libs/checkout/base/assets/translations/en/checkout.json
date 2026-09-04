@@ -41,7 +41,8 @@
     "editPaymentDetails": "Edit payment details, opens Payment Details page",
     "editPaymentType": "Edit payment method, opens Method of Payment page",
     "editDeliveryMode": "Edit delivery mode, opens Delivery Mode page",
-    "orderInProcess": "Order is in process. Please wait."
+    "orderInProcess": "Order is in process. Please wait.",
+    "cartUpdating": "Updating your cart… The order can be placed once cart updates finish."
   },
   "checkoutOrderConfirmation": {
     "confirmationOfOrder": "Confirmation of Order:",

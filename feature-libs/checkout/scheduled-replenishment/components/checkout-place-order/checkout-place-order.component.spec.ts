@@ -1,7 +1,9 @@
+import { vi } from 'vitest';
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CurrencyService,
   CxDatePipe,
@@ -13,6 +15,7 @@ import {
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import {
   DaysOfWeek,
   ORDER_TYPE,
@@ -29,7 +32,6 @@ import {
 import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
 import { CheckoutScheduledReplenishmentPlaceOrderComponent } from './checkout-place-order.component';
-import createSpy = jasmine.createSpy;
 
 const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
   numberOfDays: 'test-number-days',
@@ -46,41 +48,46 @@ const mockReplenishmentOrderFormData$ =
   );
 
 class MockOrderFacade implements Partial<OrderFacade> {
-  placeOrder = createSpy().and.returnValue(EMPTY);
-  clearPlacedOrder = createSpy();
+  placeOrder = vi.fn().mockReturnValue(EMPTY);
+  clearPlacedOrder = vi.fn();
 }
 
 class MockScheduledReplenishmentOrderFacade
   implements Partial<ScheduledReplenishmentOrderFacade>
 {
-  scheduleReplenishmentOrder = createSpy().and.returnValue(EMPTY);
+  scheduleReplenishmentOrder = vi.fn().mockReturnValue(EMPTY);
 }
 
 class MockCheckoutReplenishmentFormService
   implements Partial<CheckoutReplenishmentFormService>
 {
-  getOrderType = createSpy().and.returnValue(
-    of(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER)
-  );
-  getScheduleReplenishmentFormData = createSpy().and.returnValue(
-    mockReplenishmentOrderFormData$.asObservable()
-  );
-  setScheduleReplenishmentFormData = createSpy();
-  resetScheduleReplenishmentFormData = createSpy();
+  getOrderType = vi
+    .fn()
+    .mockReturnValue(of(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER));
+  getScheduleReplenishmentFormData = vi
+    .fn()
+    .mockReturnValue(mockReplenishmentOrderFormData$.asObservable());
+  setScheduleReplenishmentFormData = vi.fn();
+  resetScheduleReplenishmentFormData = vi.fn();
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go = createSpy().and.returnValue(Promise.resolve(true));
+  go = vi.fn().mockReturnValue(Promise.resolve(true));
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  launch = createSpy();
-  clear = createSpy();
+  launch = vi.fn();
+  clear = vi.fn();
+}
+
+class MockActiveCartFacade implements Partial<ActiveCartFacade> {
+  isStable$ = new BehaviorSubject<boolean>(true);
+  isStable = () => this.isStable$.asObservable();
 }
 
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
-  transform = createSpy();
+  transform = vi.fn();
 }
 
 describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
@@ -93,8 +100,9 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
   let routingService: RoutingService;
   let launchDialogService: LaunchDialogService;
   let scheduledReplenishmentOrderFacade: ScheduledReplenishmentOrderFacade;
+  let activeCartFacade: MockActiveCartFacade;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     const mockCurrencyService = {
       getActive: () => of('USD'),
     };
@@ -126,6 +134,11 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
         },
         { provide: CurrencyService, useValue: mockCurrencyService },
         { provide: LanguageService, useValue: mockLanguageService },
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartFacade,
+        },
+        ...provideMockFeatureToggles({ enableCartSlowNetworkResilience: true }),
       ],
     })
       .overrideComponent(CheckoutScheduledReplenishmentPlaceOrderComponent, {
@@ -137,7 +150,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
@@ -156,6 +169,9 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
     );
     routingService = TestBed.inject(RoutingService);
     launchDialogService = TestBed.inject(LaunchDialogService);
+    activeCartFacade = TestBed.inject(
+      ActiveCartFacade
+    ) as unknown as MockActiveCartFacade;
   });
 
   it('should be created', () => {
@@ -225,7 +241,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
 
   describe('when order was successfully placed', () => {
     it('should open popover dialog', () => {
-      spyOnProperty(component.checkoutSubmitForm, 'valid').and.returnValue(
+      vi.spyOn(component.checkoutSubmitForm, 'valid', 'get').mockReturnValue(
         true
       );
 
@@ -242,6 +258,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
 
   describe('Place order UI', () => {
     beforeEach(() => {
+      mockReplenishmentOrderFormData$.next(mockReplenishmentOrderFormData);
       component.ngOnInit();
       controls.termsAndConditions.setValue(true);
     });
@@ -268,6 +285,155 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
           .disabled
       ).toEqual(true);
     });
+
+    it('should have button DISABLED while the cart is unstable', () => {
+      activeCartFacade.isStable$.next(false);
+      fixture.detectChanges();
+
+      expect(
+        fixture.debugElement.nativeElement.querySelector('.btn-primary')
+          .disabled
+      ).toEqual(true);
+    });
+
+    it('should re-enable the button when the cart becomes stable again', () => {
+      activeCartFacade.isStable$.next(false);
+      fixture.detectChanges();
+      expect(
+        fixture.debugElement.nativeElement.querySelector('.btn-primary')
+          .disabled
+      ).toEqual(true);
+
+      activeCartFacade.isStable$.next(true);
+      fixture.detectChanges();
+      expect(
+        fixture.debugElement.nativeElement.querySelector('.btn-primary')
+          .disabled
+      ).toEqual(false);
+    });
+
+    it('should render the cart-updating hint while the cart is unstable', () => {
+      activeCartFacade.isStable$.next(false);
+      fixture.detectChanges();
+
+      expect(
+        fixture.debugElement.nativeElement.querySelector(
+          '.cx-place-order-cart-updating'
+        ).hidden
+      ).toBeFalsy();
+    });
+
+    it('should NOT render the cart-updating hint while the cart is stable', () => {
+      activeCartFacade.isStable$.next(true);
+      fixture.detectChanges();
+
+      expect(
+        fixture.debugElement.nativeElement.querySelector(
+          '.cx-place-order-cart-updating'
+        ).hidden
+      ).toBeTruthy();
+    });
+  });
+
+  describe('submitForm cart-stability guard', () => {
+    it('should NOT place a regular order if submitForm() is invoked while the cart is unstable', () => {
+      controls.termsAndConditions.setValue(true);
+      component.currentOrderType = ORDER_TYPE.PLACE_ORDER;
+      activeCartFacade.isStable$.next(false);
+
+      component.submitForm();
+
+      expect(launchDialogService.launch).not.toHaveBeenCalled();
+      expect(orderFacade.placeOrder).not.toHaveBeenCalled();
+    });
+
+    it('should NOT schedule a replenishment order if submitForm() is invoked while the cart is unstable', () => {
+      controls.termsAndConditions.setValue(true);
+      component.currentOrderType = ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER;
+      activeCartFacade.isStable$.next(false);
+
+      component.submitForm();
+
+      expect(launchDialogService.launch).not.toHaveBeenCalled();
+      expect(
+        scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder
+      ).not.toHaveBeenCalled();
+    });
+
+    it('should place the order once the cart becomes stable', () => {
+      controls.termsAndConditions.setValue(true);
+      component.currentOrderType = ORDER_TYPE.PLACE_ORDER;
+      activeCartFacade.isStable$.next(true);
+
+      component.submitForm();
+
+      expect(orderFacade.placeOrder).toHaveBeenCalled();
+    });
+
+    it('should schedule a replenishment order once the cart becomes stable', () => {
+      controls.termsAndConditions.setValue(true);
+      component.currentOrderType = ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER;
+      activeCartFacade.isStable$.next(true);
+
+      component.submitForm();
+
+      expect(
+        scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder
+      ).toHaveBeenCalled();
+    });
+
+    it('should early-return when currentOrderType is undefined WITHOUT consulting isStable()', () => {
+      // Form valid but order-type still missing — the form-state guard must
+      // win before the toggle-ON gate consults isStable().
+      controls.termsAndConditions.setValue(true);
+      component.currentOrderType = undefined as any;
+      const isStableSpy = vi.spyOn(activeCartFacade, 'isStable');
+
+      component.submitForm();
+
+      expect(isStableSpy).not.toHaveBeenCalled();
+      expect(orderFacade.placeOrder).not.toHaveBeenCalled();
+      expect(
+        scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder
+      ).not.toHaveBeenCalled();
+      expect(launchDialogService.launch).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('safety-valve timeout (subclass inherits parent wiring)', () => {
+    it('should release the gate after 10s even when isStable stays false', () => {
+      vi.useFakeTimers();
+      try {
+        controls.termsAndConditions.setValue(true);
+        activeCartFacade.isStable$.next(false);
+        fixture.detectChanges();
+
+        const emissions: boolean[] = [];
+        const sub = component.isCartUpdating$.subscribe((v) =>
+          emissions.push(v)
+        );
+
+        // Gate engaged on the subclass component too.
+        expect(
+          fixture.debugElement.nativeElement.querySelector('.btn-primary')
+            .disabled
+        ).toEqual(true);
+
+        vi.advanceTimersByTime(10_000);
+        fixture.detectChanges();
+
+        expect(
+          fixture.debugElement.nativeElement.querySelector('.btn-primary')
+            .disabled
+        ).toEqual(false);
+
+        expect(emissions[emissions.length - 1]).toBe(false);
+        expect(emissions).toContain(true);
+        sub.unsubscribe();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
   });
 
   function submitForm(orderType: ORDER_TYPE, isTermsCondition: boolean): void {
@@ -275,4 +441,86 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
     controls.termsAndConditions.setValue(isTermsCondition);
     component.submitForm();
   }
+});
+
+describe('CheckoutScheduledReplenishmentPlaceOrderComponent — enableCartSlowNetworkResilience OFF', () => {
+  let component: CheckoutScheduledReplenishmentPlaceOrderComponent;
+  let fixture: ComponentFixture<CheckoutScheduledReplenishmentPlaceOrderComponent>;
+  let controls: UntypedFormGroup['controls'];
+  let orderFacade: OrderFacade;
+  let scheduledReplenishmentOrderFacade: ScheduledReplenishmentOrderFacade;
+  let activeCartFacade: MockActiveCartFacade;
+
+  beforeEach(async () => {
+    const mockCurrencyService = { getActive: () => of('USD') };
+    const mockLanguageService = { getActive: () => of('en') };
+    await TestBed.configureTestingModule({
+      imports: [
+        RouterModule.forRoot([]),
+        ReactiveFormsModule,
+        AtMessageModule,
+        CheckoutScheduledReplenishmentPlaceOrderComponent,
+      ],
+      providers: [
+        { provide: OrderFacade, useClass: MockOrderFacade },
+        {
+          provide: CheckoutReplenishmentFormService,
+          useClass: MockCheckoutReplenishmentFormService,
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: ScheduledReplenishmentOrderFacade,
+          useClass: MockScheduledReplenishmentOrderFacade,
+        },
+        { provide: GlobalMessageService, useValue: {} },
+        { provide: CurrencyService, useValue: mockCurrencyService },
+        { provide: LanguageService, useValue: mockLanguageService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
+        ...provideMockFeatureToggles({}),
+      ],
+    })
+      .overrideComponent(CheckoutScheduledReplenishmentPlaceOrderComponent, {
+        remove: { imports: [TranslatePipe, CxDatePipe, UrlPipe] },
+        add: { imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe] },
+      })
+      .compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(
+      CheckoutScheduledReplenishmentPlaceOrderComponent
+    );
+    component = fixture.componentInstance;
+    controls = component.checkoutSubmitForm.controls;
+    orderFacade = TestBed.inject(OrderFacade);
+    scheduledReplenishmentOrderFacade = TestBed.inject(
+      ScheduledReplenishmentOrderFacade
+    );
+    activeCartFacade = TestBed.inject(
+      ActiveCartFacade
+    ) as unknown as MockActiveCartFacade;
+  });
+
+  it('should place a regular order without consulting isStable() when toggle is OFF', () => {
+    controls.termsAndConditions.setValue(true);
+    component.currentOrderType = ORDER_TYPE.PLACE_ORDER;
+    activeCartFacade.isStable$.next(false);
+
+    component.submitForm();
+
+    expect(orderFacade.placeOrder).toHaveBeenCalled();
+  });
+
+  it('should schedule a replenishment without consulting isStable() when toggle is OFF', () => {
+    controls.termsAndConditions.setValue(true);
+    component.currentOrderType = ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER;
+    activeCartFacade.isStable$.next(false);
+
+    component.submitForm();
+
+    expect(
+      scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder
+    ).toHaveBeenCalled();
+  });
 });

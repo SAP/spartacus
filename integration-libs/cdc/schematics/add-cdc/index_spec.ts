@@ -3,6 +3,7 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import semver from 'semver';
 import {
   CDC_B2B_FEATURE_NAME,
   CDC_FEATURE_NAME,
@@ -132,14 +133,16 @@ describe('Spartacus CDC schematics: ng-add', () => {
           ) {
             continue;
           }
-          // CXSPA-4872: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
-          // const expectedVersion = (peerDependencies as Record<
-          //   string,
-          //   string
-          // >)[toAdd];
-          const expectedDependency = dependencies[toAdd];
-          expect(expectedDependency).toBeTruthy();
-          // expect(expectedDependency).toEqual(expectedVersion);
+          const requiredVersion = (peerDependencies as Record<string, string>)[
+            toAdd
+          ]; // from `peerDependencies` in `integration-libs/cdc/package.json`
+          const installedVersion = dependencies[toAdd]; // version that `ng-add` schematic wrote into test app's package.json
+          expect(installedVersion).toBeTruthy();
+          const minRequiredVersion =
+            semver.minVersion(requiredVersion)?.version ?? '';
+          expect(
+            semver.intersects(minRequiredVersion, installedVersion)
+          ).toEqual(true);
         }
       });
       it('should add the feature using the lazy loading syntax', async () => {

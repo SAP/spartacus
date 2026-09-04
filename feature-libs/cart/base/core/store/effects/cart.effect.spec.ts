@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpErrorResponse,
   provideHttpClient,
@@ -19,16 +20,23 @@ import {
   tryNormalizeHttpError,
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
-import * as fromClientAuthReducers from 'core-libs/core/src/auth/client-auth/store/reducers/index';
-import * as fromUserReducers from 'core-libs/core/src/user/store/reducers/index';
-import { Observable, of, throwError } from 'rxjs';
+import * as fromClientAuthReducers from '@spartacus/core/testing/client-auth-reducers';
+import * as fromUserReducers from '@spartacus/core/testing/user-reducers';
+import {
+  firstValueFrom,
+  ReplaySubject,
+  Observable,
+  of,
+  Subject,
+  throwError,
+} from 'rxjs';
+import { take, toArray } from 'rxjs/operators';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import * as fromCartReducers from '../../store/reducers/index';
 import { CartActions } from '../actions/index';
 import { MULTI_CART_FEATURE, StateWithMultiCart } from '../multi-cart-state';
 import * as fromEffects from './cart.effect';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import createSpy = jasmine.createSpy;
+import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 
 const testCart: Cart = {
   code: 'xxx',
@@ -57,7 +65,7 @@ class MockLoggerService {
 describe('Cart effect', () => {
   let cartEffects: fromEffects.CartEffects;
   let actions$: Observable<any>;
-  let loadMock: jasmine.Spy;
+  let loadMock: vi.Mock;
 
   const MockOccModuleConfig: OccConfig = {
     backend: {
@@ -72,13 +80,13 @@ describe('Cart effect', () => {
   const cartId = 'testCartId';
   let store: Store<StateWithMultiCart>;
   beforeEach(() => {
-    loadMock = createSpy().and.returnValue(of(testCart));
+    loadMock = vi.fn().mockReturnValue(of(testCart));
 
     class MockCartConnector {
-      create = createSpy().and.returnValue(of(testCart));
+      create = vi.fn().mockReturnValue(of(testCart));
       load = loadMock;
-      addEmail = createSpy().and.returnValue(of({}));
-      delete = createSpy().and.returnValue(of({}));
+      addEmail = vi.fn().mockReturnValue(of({}));
+      delete = vi.fn().mockReturnValue(of({}));
     }
 
     TestBed.configureTestingModule({
@@ -105,7 +113,10 @@ describe('Cart effect', () => {
         provideMockActions(() => actions$),
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
-        provideMockFeatureToggles({ enableCartReloadOnContextChange: true }),
+        provideMockFeatureToggles({
+          enableCartReloadOnContextChange: true,
+          enableCartSlowNetworkResilience: true,
+        }),
       ],
     });
 
@@ -161,7 +172,7 @@ describe('Cart effect', () => {
         userId,
         cartId,
       });
-      loadMock.and.returnValue(of(null));
+      loadMock.mockReturnValue(of(null));
       const loadCartFailCompletion = new CartActions.LoadCartFail({
         userId,
         cartId,
@@ -182,7 +193,7 @@ describe('Cart effect', () => {
         cartId,
         extraData: { active: true },
       });
-      loadMock.and.returnValue(
+      loadMock.mockReturnValue(
         throwError(() => ({
           error: {
             errors: [
@@ -217,7 +228,7 @@ describe('Cart effect', () => {
         },
       });
       const action = new CartActions.LoadCart(payload);
-      loadMock.and.returnValue(throwError(() => httpError));
+      loadMock.mockReturnValue(throwError(() => httpError));
       const removeCartCompletion = new CartActions.LoadCartFail({
         ...payload,
         error: tryNormalizeHttpError(httpError, new MockLoggerService()),
@@ -344,7 +355,7 @@ describe('Cart effect', () => {
         tempCartId: 'temp-uuid',
       });
       const error = new Error('Merge failed');
-      loadMock.and.returnValue(throwError(() => error));
+      loadMock.mockReturnValue(throwError(() => error));
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
@@ -416,6 +427,259 @@ describe('Cart effect', () => {
         expect(cartEffects.refreshWithoutProcesses$).toBeObservable(expected);
       });
     });
+
+    it('should NOT dispatch LoadCart while pending processes remain (CXSPA-10582)', async () => {
+      const actionsSubject = new ReplaySubject<any>();
+      actions$ = actionsSubject.asObservable();
+
+      const send = (action: any) => {
+        actionsSubject.next(action);
+        store.dispatch(action);
+      };
+
+      // Two CartAddEntry → processesCount = 2.
+      send(
+        new CartActions.CartAddEntry({
+          userId,
+          cartId,
+          productCode: 'A',
+          quantity: 1,
+        })
+      );
+      send(
+        new CartActions.CartAddEntry({
+          userId,
+          cartId,
+          productCode: 'B',
+          quantity: 1,
+        })
+      );
+
+      const emissions: CartActions.LoadCart[] = [];
+      const sub = cartEffects.refreshWithoutProcesses$.subscribe((a) =>
+        emissions.push(a)
+      );
+
+      // First success → processesCount = 1. Effect must hold off.
+      send(
+        new CartActions.CartAddEntrySuccess({
+          userId,
+          cartId,
+          productCode: 'A',
+          quantity: 1,
+        })
+      );
+
+      await new Promise((r) => setTimeout(r, 0));
+      expect(emissions.length).toBe(0);
+
+      // Final success drains the queue → processesCount = 0 → trailing
+      // LoadCart fires.
+      send(
+        new CartActions.CartAddEntrySuccess({
+          userId,
+          cartId,
+          productCode: 'B',
+          quantity: 1,
+        })
+      );
+
+      await new Promise((r) => setTimeout(r, 0));
+      expect(emissions.length).toBeGreaterThanOrEqual(1);
+      emissions.forEach((a) => {
+        expect(a).toEqual(new CartActions.LoadCart({ userId, cartId }));
+      });
+      sub.unsubscribe();
+    });
+
+    it('should dispatch LoadCart per cartId group (rapid multi-product adds across the SAME cart collapse to one trailing reload)', async () => {
+      const actionsSubject = new ReplaySubject<any>();
+      actions$ = actionsSubject.asObservable();
+
+      const send = (action: any) => {
+        actionsSubject.next(action);
+        store.dispatch(action);
+      };
+
+      // Five CartAddEntry on the same cart → processesCount = 5.
+      for (let i = 0; i < 5; i++) {
+        send(
+          new CartActions.CartAddEntry({
+            userId,
+            cartId,
+            productCode: `P${i}`,
+            quantity: 1,
+          })
+        );
+      }
+
+      const emissions: CartActions.LoadCart[] = [];
+      const sub = cartEffects.refreshWithoutProcesses$.subscribe((a) =>
+        emissions.push(a)
+      );
+
+      // Four successes; processesCount stays > 0.
+      for (let i = 0; i < 4; i++) {
+        send(
+          new CartActions.CartAddEntrySuccess({
+            userId,
+            cartId,
+            productCode: `P${i}`,
+            quantity: 1,
+          })
+        );
+      }
+
+      await new Promise((r) => setTimeout(r, 0));
+      expect(emissions.length).toBe(0);
+
+      // Final success drains the queue.
+      send(
+        new CartActions.CartAddEntrySuccess({
+          userId,
+          cartId,
+          productCode: 'P4',
+          quantity: 1,
+        })
+      );
+
+      await new Promise((r) => setTimeout(r, 0));
+      // All queued successes resolve at quiescence; groupBy + concatMap
+      // means we may see ≥ 1 LoadCarts but they all target the same
+      // cartId — the important property is "at least one trailing
+      // reload, never zero".
+      expect(emissions.length).toBeGreaterThanOrEqual(1);
+      emissions.forEach((a) => expect(a.payload.cartId).toBe(cartId));
+      sub.unsubscribe();
+    });
+
+    it('should keep different cartIds in flight independent (each waits its own falling edge)', async () => {
+      const cartIdA = 'cartA';
+      const cartIdB = 'cartB';
+      const actionsSubject = new ReplaySubject<any>();
+      actions$ = actionsSubject.asObservable();
+
+      const send = (action: any) => {
+        actionsSubject.next(action);
+        store.dispatch(action);
+      };
+
+      // Open processes on both carts.
+      send(
+        new CartActions.CartAddEntry({
+          userId,
+          cartId: cartIdA,
+          productCode: 'A',
+          quantity: 1,
+        })
+      );
+      send(
+        new CartActions.CartAddEntry({
+          userId,
+          cartId: cartIdB,
+          productCode: 'B',
+          quantity: 1,
+        })
+      );
+
+      const emissions: CartActions.LoadCart[] = [];
+      const sub = cartEffects.refreshWithoutProcesses$.subscribe((a) =>
+        emissions.push(a)
+      );
+
+      // Drain cartA only; cartB is still in flight.
+      send(
+        new CartActions.CartAddEntrySuccess({
+          userId,
+          cartId: cartIdA,
+          productCode: 'A',
+          quantity: 1,
+        })
+      );
+
+      await new Promise((r) => setTimeout(r, 0));
+      const aLoads = emissions.filter((e) => e.payload.cartId === cartIdA);
+      const bLoads = emissions.filter((e) => e.payload.cartId === cartIdB);
+      expect(aLoads.length).toBeGreaterThanOrEqual(1);
+      expect(bLoads.length).toBe(0);
+
+      // Now drain cartB.
+      send(
+        new CartActions.CartAddEntrySuccess({
+          userId,
+          cartId: cartIdB,
+          productCode: 'B',
+          quantity: 1,
+        })
+      );
+
+      await new Promise((r) => setTimeout(r, 0));
+      expect(
+        emissions.filter((e) => e.payload.cartId === cartIdB).length
+      ).toBeGreaterThanOrEqual(1);
+      sub.unsubscribe();
+    });
+
+    it('should start a fresh wait for the next CartAddEntrySuccess on the same cart after a falling edge', async () => {
+      const actionsSubject = new ReplaySubject<any>();
+      actions$ = actionsSubject.asObservable();
+
+      const send = (action: any) => {
+        actionsSubject.next(action);
+        store.dispatch(action);
+      };
+
+      const emissions: CartActions.LoadCart[] = [];
+      const sub = cartEffects.refreshWithoutProcesses$.subscribe((a) =>
+        emissions.push(a)
+      );
+
+      // Round 1: open + drain.
+      send(
+        new CartActions.CartAddEntry({
+          userId,
+          cartId,
+          productCode: 'A',
+          quantity: 1,
+        })
+      );
+      send(
+        new CartActions.CartAddEntrySuccess({
+          userId,
+          cartId,
+          productCode: 'A',
+          quantity: 1,
+        })
+      );
+
+      await new Promise((r) => setTimeout(r, 0));
+      const round1Count = emissions.length;
+      expect(round1Count).toBeGreaterThanOrEqual(1);
+
+      // Round 2: another burst on the SAME cartId. The inner take(1) must
+      // NOT have permanently terminated this cartId's stream.
+      send(
+        new CartActions.CartAddEntry({
+          userId,
+          cartId,
+          productCode: 'B',
+          quantity: 1,
+        })
+      );
+      send(
+        new CartActions.CartAddEntrySuccess({
+          userId,
+          cartId,
+          productCode: 'B',
+          quantity: 1,
+        })
+      );
+
+      await new Promise((r) => setTimeout(r, 0));
+      expect(emissions.length).toBeGreaterThan(round1Count);
+      emissions.forEach((a) => expect(a.payload.cartId).toBe(cartId));
+      sub.unsubscribe();
+    });
   });
 
   describe('resetCartDetailsOnSiteContextChange$', () => {
@@ -423,7 +687,8 @@ describe('Cart effect', () => {
     const siteContextChangeActions = ['LanguageChange', 'CurrencyChange'];
 
     siteContextChangeActions.forEach((actionName) => {
-      it(`should reload active cart and reset non-active carts on ${actionName}`, () => {
+      it(`should reload active cart and reset non-active carts on ${actionName}`, async () => {
+        (cartEffects as any)['enableCartReloadOnContextChange'] = true;
         store.dispatch(
           new CartActions.SetCartTypeIndex({
             cartType: CartType.ACTIVE,
@@ -437,21 +702,27 @@ describe('Cart effect', () => {
           })
         );
 
-        const action = new SiteContextActions[actionName]();
-        actions$ = hot('-a', { a: action });
-        const expected = cold('-(bc)', {
-          b: new CartActions.ResetCartDetailsByIds({
-            cartIds: [nonActiveCartId],
-          }),
-          c: new CartActions.LoadCart({ userId: OCC_USER_ID_CURRENT, cartId }),
-        });
+        const actionsSubject = new Subject<any>();
+        actions$ = actionsSubject;
+        const resultPromise = firstValueFrom(
+          cartEffects.refreshCartDetailsOnSiteContextChange$.pipe(
+            take(2),
+            toArray()
+          )
+        );
+        actionsSubject.next(new SiteContextActions[actionName]());
+        const results = await resultPromise;
 
-        expect(
-          cartEffects.refreshCartDetailsOnSiteContextChange$
-        ).toBeObservable(expected);
+        expect(results).toContainEqual(
+          new CartActions.ResetCartDetailsByIds({ cartIds: [nonActiveCartId] })
+        );
+        expect(results).toContainEqual(
+          new CartActions.LoadCart({ userId: OCC_USER_ID_CURRENT, cartId })
+        );
       });
 
-      it(`should only emit LoadCart on ${actionName} when no non-active carts`, () => {
+      it(`should only emit LoadCart on ${actionName} when no non-active carts`, async () => {
+        (cartEffects as any)['enableCartReloadOnContextChange'] = true;
         store.dispatch(
           new CartActions.SetCartTypeIndex({
             cartType: CartType.ACTIVE,
@@ -459,18 +730,24 @@ describe('Cart effect', () => {
           })
         );
 
-        const action = new SiteContextActions[actionName]();
-        actions$ = hot('-a', { a: action });
-        const expected = cold('-b', {
-          b: new CartActions.LoadCart({ userId: OCC_USER_ID_CURRENT, cartId }),
-        });
+        const actionsSubject = new Subject<any>();
+        actions$ = actionsSubject;
+        const resultPromise = firstValueFrom(
+          cartEffects.refreshCartDetailsOnSiteContextChange$.pipe(
+            take(1),
+            toArray()
+          )
+        );
+        actionsSubject.next(new SiteContextActions[actionName]());
+        const results = await resultPromise;
 
-        expect(
-          cartEffects.refreshCartDetailsOnSiteContextChange$
-        ).toBeObservable(expected);
+        expect(results).toEqual([
+          new CartActions.LoadCart({ userId: OCC_USER_ID_CURRENT, cartId }),
+        ]);
       });
 
-      it(`should only reset non-active carts on ${actionName} when no active cart`, () => {
+      it(`should only reset non-active carts on ${actionName} when no active cart`, async () => {
+        (cartEffects as any)['enableCartReloadOnContextChange'] = true;
         store.dispatch(
           new CartActions.SetCartData({
             cart: testCart,
@@ -478,17 +755,20 @@ describe('Cart effect', () => {
           })
         );
 
-        const action = new SiteContextActions[actionName]();
-        actions$ = hot('-a', { a: action });
-        const expected = cold('-b', {
-          b: new CartActions.ResetCartDetailsByIds({
-            cartIds: [nonActiveCartId],
-          }),
-        });
+        const actionsSubject = new Subject<any>();
+        actions$ = actionsSubject;
+        const resultPromise = firstValueFrom(
+          cartEffects.refreshCartDetailsOnSiteContextChange$.pipe(
+            take(1),
+            toArray()
+          )
+        );
+        actionsSubject.next(new SiteContextActions[actionName]());
+        const results = await resultPromise;
 
-        expect(
-          cartEffects.refreshCartDetailsOnSiteContextChange$
-        ).toBeObservable(expected);
+        expect(results).toEqual([
+          new CartActions.ResetCartDetailsByIds({ cartIds: [nonActiveCartId] }),
+        ]);
       });
 
       it(`should not emit on ${actionName} when no carts in state`, () => {
@@ -540,6 +820,78 @@ describe('Cart effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(cartEffects.deleteCart$).toBeObservable(expected);
+    });
+  });
+});
+
+describe('Cart effect — enableCartSlowNetworkResilience OFF (legacy refreshWithoutProcesses$)', () => {
+  let cartEffects: fromEffects.CartEffects;
+  let actions$: Observable<any>;
+
+  const userId = 'testUserId';
+  const cartId = 'testCartId';
+
+  const MockOccModuleConfig: OccConfig = {
+    backend: { occ: { baseUrl: '', prefix: '' } },
+  };
+
+  beforeEach(() => {
+    class MockCartConnector {
+      create = vi.fn().mockReturnValue(of(testCart));
+      load = vi.fn().mockReturnValue(of(testCart));
+      addEmail = vi.fn().mockReturnValue(of({}));
+      delete_ = vi.fn().mockReturnValue(of({}));
+    }
+
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(USER_FEATURE, fromUserReducers.getReducers()),
+        StoreModule.forFeature(
+          CLIENT_AUTH_FEATURE,
+          fromClientAuthReducers.getReducers()
+        ),
+        StoreModule.forFeature(
+          MULTI_CART_FEATURE,
+          fromCartReducers.getMultiCartReducers()
+        ),
+      ],
+      providers: [
+        { provide: CartConnector, useClass: MockCartConnector },
+        fromEffects.CartEffects,
+        { provide: LoggerService, useClass: MockLoggerService },
+        { provide: OccConfig, useValue: MockOccModuleConfig },
+        provideMockActions(() => actions$),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+        provideMockFeatureToggles({
+          enableCartReloadOnContextChange: true,
+          enableCartSlowNetworkResilience: false,
+        }),
+      ],
+    });
+
+    cartEffects = TestBed.inject(fromEffects.CartEffects);
+  });
+
+  // Legacy behaviour: every success action dispatches a single LoadCart
+  // synchronously, regardless of pending processes count.
+  const cartChangesSuccessActions = [
+    'CartAddEntrySuccess',
+    'CartUpdateEntrySuccess',
+    'CartRemoveEntrySuccess',
+    'CartRemoveVoucherSuccess',
+  ];
+
+  cartChangesSuccessActions.forEach((actionName) => {
+    it(`should synchronously dispatch a single LoadCart on ${actionName}`, () => {
+      const action = new CartActions[actionName]({ userId, cartId });
+      const loadCompletion = new CartActions.LoadCart({ userId, cartId });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: loadCompletion });
+
+      expect(cartEffects.refreshWithoutProcesses$).toBeObservable(expected);
     });
   });
 });

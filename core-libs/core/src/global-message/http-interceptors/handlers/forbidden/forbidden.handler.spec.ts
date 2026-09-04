@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { HttpRequest } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { OccEndpointsService } from '@spartacus/core';
@@ -55,8 +56,8 @@ describe('ForbiddenHandler', () => {
   });
 
   it('should logout unauthorized user while logging', () => {
-    spyOn(authService, 'logout');
-    spyOn(occEndpoints, 'buildUrl').and.returnValue('/user');
+    vi.spyOn(authService, 'logout');
+    vi.spyOn(occEndpoints, 'buildUrl').mockReturnValue('/user');
     service.handleError({ url: '/user' } as HttpRequest<any>);
 
     expect(occEndpoints.buildUrl).toHaveBeenCalledWith('user', {
@@ -66,14 +67,14 @@ describe('ForbiddenHandler', () => {
   });
 
   it('should not logout unauthorized user in other case', () => {
-    spyOn(authService, 'logout');
+    vi.spyOn(authService, 'logout');
 
     service.handleError({ url: '' } as HttpRequest<any>);
     expect(authService.logout).not.toHaveBeenCalled();
   });
 
   it('should send common error to global message service', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
 
     service.handleError({ url: '' } as HttpRequest<any>);
     expect(globalMessageService.add).toHaveBeenCalledWith(

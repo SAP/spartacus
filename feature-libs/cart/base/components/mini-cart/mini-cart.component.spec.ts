@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -11,8 +12,9 @@ import {
   UrlCommandRoute,
   UrlPipe,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 import { IconComponent } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { MiniCartComponentService } from './mini-cart-component.service';
 import { MiniCartComponent } from './mini-cart.component';
 
@@ -32,6 +34,8 @@ class MockCxIconComponent {
   @Input() type;
 }
 
+const updating$ = new BehaviorSubject<boolean>(false);
+
 const mockMiniCartComponentService: Partial<MiniCartComponentService> = {
   getQuantity(): Observable<number> {
     return of(7);
@@ -39,14 +43,18 @@ const mockMiniCartComponentService: Partial<MiniCartComponentService> = {
   getTotalPrice(): Observable<string> {
     return of('122$');
   },
+  getUpdating(): Observable<boolean> {
+    return updating$.asObservable();
+  },
 };
 
 describe('MiniCartComponent', () => {
   let miniCartComponent: MiniCartComponent;
   let fixture: ComponentFixture<MiniCartComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    updating$.next(false);
+    await TestBed.configureTestingModule({
       imports: [RouterLink, MiniCartComponent],
       providers: [
         provideRouter([]),
@@ -54,6 +62,7 @@ describe('MiniCartComponent', () => {
           provide: MiniCartComponentService,
           useValue: mockMiniCartComponentService,
         },
+        ...provideMockFeatureToggles({ enableCartSlowNetworkResilience: true }),
       ],
     })
       .overrideComponent(MiniCartComponent, {
@@ -70,7 +79,7 @@ describe('MiniCartComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MiniCartComponent);
@@ -93,14 +102,56 @@ describe('MiniCartComponent', () => {
     });
 
     it('should contain number of items in cart', () => {
-      const cartItemsNumber = fixture.debugElement.query(By.css('.count'))
-        .nativeElement.innerText;
+      const cartItemsNumber = fixture.debugElement
+        .query(By.css('.count'))
+        .nativeElement.textContent?.trim();
       expect(cartItemsNumber).toEqual('miniCart.count count:7');
     });
     it('should contain total price of the cart', () => {
-      const cartItemsNumber = fixture.debugElement.query(By.css('.total'))
-        .nativeElement.innerText;
-      expect(cartItemsNumber).toEqual('miniCart.total total:122$ ');
+      const cartItemsNumber = fixture.debugElement
+        .query(By.css('.total'))
+        .nativeElement.textContent?.trim();
+      expect(cartItemsNumber).toEqual('miniCart.total total:122$');
+    });
+
+    it('should not render the updating indicator when updating$ is false', () => {
+      const indicator = fixture.debugElement.query(
+        By.css('.cx-mini-cart-updating')
+      );
+      expect(indicator).toBeNull();
+    });
+
+    it('should render the updating indicator when updating$ is true', () => {
+      updating$.next(true);
+      fixture.detectChanges();
+      const indicator = fixture.debugElement.query(
+        By.css('.cx-mini-cart-updating')
+      );
+      expect(indicator).not.toBeNull();
+      expect(indicator.attributes['role']).toBe('status');
+      expect(indicator.attributes['aria-live']).toBe('polite');
+      // Inline loader glyph (mirrors cx-progress-button) is rendered inside the
+      // indicator and is aria-hidden so the announcement comes from the
+      // parent label, not the spinning glyph.
+      const loaderContainer = indicator.query(By.css('.loader-container'));
+      expect(loaderContainer).not.toBeNull();
+      expect(loaderContainer.attributes['aria-hidden']).toBe('true');
+      const loader = indicator.query(By.css('.loader-container .loader'));
+      expect(loader).not.toBeNull();
+    });
+
+    it('should add is-updating class on the link while updating', () => {
+      updating$.next(true);
+      fixture.detectChanges();
+      const link = fixture.debugElement.query(By.css('a'));
+      expect(link.classes['is-updating']).toBe(true);
+    });
+
+    it('should hide the count and total while updating so the loader replaces them', () => {
+      updating$.next(true);
+      fixture.detectChanges();
+      expect(fixture.debugElement.query(By.css('.count'))).toBeNull();
+      expect(fixture.debugElement.query(By.css('.total'))).toBeNull();
     });
   });
 });
