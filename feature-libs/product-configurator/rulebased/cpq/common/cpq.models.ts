@@ -232,5 +232,6 @@ export namespace Cpq {
     QTY_ATTRIBUTE_LEVEL = 'Quantity',
     QTY_VALUE_LEVEL = 'Attr.Quantity',
     N_A = 'N/A',
+    CONTAINER = 'Container',
   }
 }

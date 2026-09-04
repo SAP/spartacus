@@ -361,6 +361,17 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     ).toBe(Configurator.DataType.USER_SELECTION_NO_QTY);
   });
 
+  it('should convert CPQ dataType CONTAINER', () => {
+    const attribute: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      dataType: Cpq.DataType.CONTAINER,
+    };
+    expect(
+      cpqConfiguratorNormalizerUtilsService.convertDataType(attribute)
+    ).toBe(Configurator.DataType.CONTAINER);
+  });
+
   it('should convert CPQ not supported dataType to NOT_IMPLEMENTED', () => {
     const attribute: Cpq.Attribute = {
       pA_ID: 1,

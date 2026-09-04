@@ -358,6 +358,7 @@ export namespace Configurator {
     USER_SELECTION_QTY_ATTRIBUTE_LEVEL = 'UserSelectionWithAttributeQuantity',
     USER_SELECTION_QTY_VALUE_LEVEL = 'UserSelectionWithValueQuantity',
     USER_SELECTION_NO_QTY = 'UserSelectionWithoutQuantity',
+    CONTAINER = 'Container',
     NOT_IMPLEMENTED = 'not_implemented',
   }
   export enum UpdateType {

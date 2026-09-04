@@ -183,6 +183,10 @@ export class CpqConfiguratorNormalizerUtilsService {
         }
         break;
       }
+      case Cpq.DataType.CONTAINER: {
+        dataType = Configurator.DataType.CONTAINER;
+        break;
+      }
       default: {
         dataType = Configurator.DataType.NOT_IMPLEMENTED;
       }
