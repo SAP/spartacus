@@ -168,19 +168,7 @@ export class CpqConfiguratorNormalizerUtilsService {
         break;
       }
       case Cpq.DataType.QTY_VALUE_LEVEL: {
-        if (
-          cpqAttribute.displayAs === Cpq.DisplayAs.RADIO_BUTTON ||
-          cpqAttribute.displayAs === Cpq.DisplayAs.DROPDOWN
-        ) {
-          dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
-        } else if (
-          cpqAttribute.displayAs === Cpq.DisplayAs.CHECK_BOX &&
-          !cpqAttribute.isLineItem
-        ) {
-          dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
-        } else {
-          dataType = Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL;
-        }
+        dataType = this.convertQtyValueLevelDataType(cpqAttribute);
         break;
       }
       case Cpq.DataType.CONTAINER: {
@@ -192,6 +180,30 @@ export class CpqConfiguratorNormalizerUtilsService {
       }
     }
     return dataType;
+  }
+
+  /**
+   * Converts CPQ QTY_VALUE_LEVEL data type into the configurator data type
+   *
+   * @param {Cpq.Attribute} cpqAttribute - CPQ Attribute
+   * @returns {Configurator.DataType} Data type of the configurator attribute
+   */
+  protected convertQtyValueLevelDataType(
+    cpqAttribute: Cpq.Attribute
+  ): Configurator.DataType {
+    if (
+      cpqAttribute.displayAs === Cpq.DisplayAs.RADIO_BUTTON ||
+      cpqAttribute.displayAs === Cpq.DisplayAs.DROPDOWN
+    ) {
+      return Configurator.DataType.USER_SELECTION_NO_QTY;
+    }
+    if (
+      cpqAttribute.displayAs === Cpq.DisplayAs.CHECK_BOX &&
+      !cpqAttribute.isLineItem
+    ) {
+      return Configurator.DataType.USER_SELECTION_NO_QTY;
+    }
+    return Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL;
   }
 
   /**
