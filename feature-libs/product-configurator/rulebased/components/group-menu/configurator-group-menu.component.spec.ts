@@ -30,6 +30,7 @@ import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
+import { ConfiguratorUtilsService } from '../../core/facade/utils/configurator-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import {
@@ -1325,35 +1326,6 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
   });
 
-  describe('setFocusForSubGroup', () => {
-    let clonedProductConfiguration: Configurator.Configuration;
-
-    beforeEach(() => {
-      clonedProductConfiguration = structuredClone(mockProductConfiguration);
-      productConfigurationObservable = of(clonedProductConfiguration);
-      routerStateObservable = of(mockRouterState);
-      initialize();
-    });
-
-    it('should set focus for back button', () => {
-      component.setFocusForSubGroup(
-        clonedProductConfiguration.groups[0],
-        'groupId-111'
-      );
-      expect(configUtils.setFocus).toHaveBeenCalled();
-      expect(configUtils.setFocus).toHaveBeenCalledWith('cx-menu-back');
-    });
-
-    it('should set focus for selected subgroup', () => {
-      component.setFocusForSubGroup(
-        clonedProductConfiguration.groups[2],
-        GROUP_ID_4
-      );
-      expect(configUtils.setFocus).toHaveBeenCalled();
-      expect(configUtils.setFocus).toHaveBeenCalledWith(GROUP_ID_4);
-    });
-  });
-
   describe('containsSelectedGroup', () => {
     let clonedProductConfiguration: Configurator.Configuration;
 
@@ -1922,6 +1894,15 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
 
     describe('navigateUp', () => {
+      let configuration: Configurator.Configuration;
+
+      beforeEach(() => {
+        configuration = structuredClone(mockProductConfiguration);
+        productConfigurationObservable = of(configuration);
+        routerStateObservable = of(mockRouterState);
+        initialize();
+      });
+
       it('should navigate up (and not set focus)', () => {
         spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
           of(mockProductConfiguration.groups[0])
@@ -1936,18 +1917,24 @@ describe('ConfiguratorGroupMenuComponent', () => {
         expect(configUtils.setFocus).toHaveBeenCalledTimes(0);
       });
 
-      it('should navigate up and set focus if current group is provided', () => {
+      it('should navigate up and set focus via setFocusOnNavigateUp when current group is provided', () => {
         spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
           of(mockProductConfiguration.groups[0])
         );
         spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
           mockProductConfiguration.groups[0]
         );
+        spyOn(component as any, 'setFocusOnNavigateUp').and.stub();
 
         component.navigateUp(mockProductConfiguration.groups[0]);
+
         expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
         expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
-        expect(configUtils.setFocus).toHaveBeenCalled();
+        expect(component['setFocusOnNavigateUp']).toHaveBeenCalledWith(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration.groups[0],
+          configuration
+        );
       });
 
       it('should navigate up, parent group null', () => {
@@ -2127,29 +2114,229 @@ describe('ConfiguratorGroupMenuComponent', () => {
       });
     });
 
+    describe('trackByFn', () => {
+      it('should return group ID', () => {
+        expect(component.trackByFn(0, simpleConfig.groups[0])).toBe(GROUP_ID_1);
+      });
+    });
+  });
+
+  function stubGetParentGroupWithRealImplementation(): void {
+    spyOn(configuratorGroupsService, 'getParentGroup').and.callFake(
+      (groups: Configurator.Group[], group: Configurator.Group) =>
+        TestBed.inject(ConfiguratorUtilsService).getParentGroup(groups, group)
+    );
+  }
+
+  describe('menu focus', () => {
+    let configuration: Configurator.Configuration;
+
+    beforeEach(() => {
+      configuration = structuredClone(mockProductConfiguration);
+      productConfigurationObservable = of(configuration);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+      stubGetParentGroupWithRealImplementation();
+    });
+
+    describe('hasDirectSelectedSubgroup', () => {
+      it('returns true when a direct child is selected', () => {
+        const group = configuration.groups[2];
+
+        expect(component['hasDirectSelectedSubgroup'](group, GROUP_ID_4)).toBe(
+          true
+        );
+      });
+
+      it('returns false when selection is nested deeper than direct children', () => {
+        const parentGroup = configuration.groups[3];
+
+        expect(
+          component['hasDirectSelectedSubgroup'](
+            parentGroup,
+            parentGroup.subGroups[1].subGroups[0].id
+          )
+        ).toBe(false);
+      });
+
+      it('returns false when no direct child matches the selection', () => {
+        expect(
+          component['hasDirectSelectedSubgroup'](
+            configuration.groups[0],
+            GROUP_ID_4
+          )
+        ).toBe(false);
+      });
+    });
+
+    describe('getMenuParentGroup', () => {
+      it('returns undefined for root-level groups', () => {
+        expect(
+          component['getMenuParentGroup'](
+            configuration.groups[0],
+            configuration
+          )
+        ).toBeUndefined();
+      });
+
+      it('skips condensed structural parents', () => {
+        const condensedChild = configuration.groups[2].subGroups[0];
+
+        expect(
+          component['getMenuParentGroup'](condensedChild, configuration)
+        ).toBeUndefined();
+      });
+
+      it('returns the visible menu parent for deeply nested groups', () => {
+        const nestedGroup = configuration.groups[3].subGroups[1].subGroups[0];
+
+        expect(
+          component['getMenuParentGroup'](nestedGroup, configuration)?.id
+        ).toBe(GROUP_ID_5);
+      });
+    });
+
+    describe('isSameLevelGroup', () => {
+      it('returns true for root-level groups', () => {
+        const groupA = configuration.groups[0];
+        const groupB = configuration.groups[1];
+
+        expect(
+          component['isSameLevelGroup'](groupA, groupB, configuration)
+        ).toBe(true);
+      });
+
+      it('returns true when groups share a condensed menu parent', () => {
+        const parentGroup = configuration.groups[3];
+        const directChild = parentGroup.subGroups[0];
+        const condensedChild = parentGroup.subGroups[1].subGroups[0];
+
+        expect(
+          component['isSameLevelGroup'](
+            directChild,
+            condensedChild,
+            configuration
+          )
+        ).toBe(true);
+      });
+
+      it('returns true when a condensed child is compared with a root-level group', () => {
+        const rootGroup = configuration.groups[1];
+        const condensedChild = configuration.groups[2].subGroups[0];
+
+        expect(
+          component['isSameLevelGroup'](
+            condensedChild,
+            rootGroup,
+            configuration
+          )
+        ).toBe(true);
+      });
+
+      it('returns false when one group is the menu parent of the other', () => {
+        const parentGroup = configuration.groups[3];
+        const childGroup = parentGroup.subGroups[0];
+
+        expect(
+          component['isSameLevelGroup'](childGroup, parentGroup, configuration)
+        ).toBe(false);
+      });
+    });
+
+    describe('setFocusOnNavigateUp', () => {
+      it('focuses the displayed parent when the current group is its descendant', () => {
+        const parentGroup = configuration.groups[3];
+        const childGroup = parentGroup.subGroups[1].subGroups[0];
+
+        component['setFocusOnNavigateUp'](
+          childGroup,
+          parentGroup,
+          configuration
+        );
+
+        expect(configUtils.setFocus).toHaveBeenCalledWith(parentGroup.id);
+      });
+
+      it('focuses the current group when it is on the same root menu level as the displayed parent', () => {
+        const parentGroup = configuration.groups[3];
+        const sameLevelGroup = configuration.groups[1];
+
+        component['setFocusOnNavigateUp'](
+          sameLevelGroup,
+          parentGroup,
+          configuration
+        );
+
+        expect(configUtils.setFocus).toHaveBeenCalledWith(sameLevelGroup.id);
+      });
+
+      it('focuses the current group when it is on the same condensed menu level as the displayed parent', () => {
+        const parentGroup = configuration.groups[3];
+        const condensedRootGroup = configuration.groups[2].subGroups[0];
+
+        component['setFocusOnNavigateUp'](
+          condensedRootGroup,
+          parentGroup,
+          configuration
+        );
+
+        expect(configUtils.setFocus).toHaveBeenCalledWith(
+          condensedRootGroup.id
+        );
+      });
+
+      it('focuses the current group when it is the displayed parent group', () => {
+        const parentGroup = configuration.groups[0];
+
+        component['setFocusOnNavigateUp'](
+          parentGroup,
+          parentGroup,
+          configuration
+        );
+
+        expect(configUtils.setFocus).toHaveBeenCalledWith(parentGroup.id);
+      });
+    });
+
+    describe('setFocusForSubGroup', () => {
+      it('should set focus for back button', () => {
+        component.setFocusForSubGroup(configuration.groups[0], 'groupId-111');
+
+        expect(configUtils.setFocus).toHaveBeenCalledWith('cx-menu-back');
+      });
+
+      it('should set focus for selected direct subgroup', () => {
+        component.setFocusForSubGroup(configuration.groups[2], GROUP_ID_4);
+
+        expect(configUtils.setFocus).toHaveBeenCalledWith(GROUP_ID_4);
+      });
+
+      it('should set focus for back button when selected group is a nested subgroup', () => {
+        const parentGroup = configuration.groups[3];
+
+        component.setFocusForSubGroup(
+          parentGroup,
+          parentGroup.subGroups[1].subGroups[0].id
+        );
+
+        expect(configUtils.setFocus).toHaveBeenCalledWith('cx-menu-back');
+      });
+    });
+
     describe('setFocusForMainMenu', () => {
       it('should set focus to a group that does not contain any subgroups`', () => {
         component.setFocusForMainMenu(GROUP_ID_2);
-        expect(configUtils.setFocus).toHaveBeenCalled();
         expect(configUtils.setFocus).toHaveBeenCalledWith(GROUP_ID_2);
       });
 
       it('should set focus to a child group if the parent group contains only one subgroup', () => {
         component.setFocusForMainMenu(GROUP_ID_4);
-        expect(configUtils.setFocus).toHaveBeenCalled();
         expect(configUtils.setFocus).toHaveBeenCalledWith(GROUP_ID_4);
       });
 
       it('should set focus to parent group that contains a current selected group', () => {
         component.setFocusForMainMenu(GROUP_ID_7);
-        expect(configUtils.setFocus).toHaveBeenCalled();
         expect(configUtils.setFocus).toHaveBeenCalledWith(GROUP_ID_5);
-      });
-    });
-
-    describe('trackByFn', () => {
-      it('should return group ID', () => {
-        expect(component.trackByFn(0, simpleConfig.groups[0])).toBe(GROUP_ID_1);
       });
     });
   });
