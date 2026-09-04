@@ -315,6 +315,30 @@ describe('ConfigRouterExtractorService', () => {
         .unsubscribe();
     });
 
+    it('should tell from the URL if the navigation to the cart is relevant', () => {
+      mockRouterState.state.queryParams = { navigateToCart: 'true' };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.navigateToCart).toBe(true);
+        })
+        .unsubscribe();
+    });
+
+    it('should tell from the URL if the navigation to the cart is not relevant', () => {
+      mockRouterState.state.queryParams = { navigateToCart: 'false' };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.navigateToCart).toBe(false);
+        })
+        .unsubscribe();
+    });
+
     it('should tell from the URL that a product code has been passed', () => {
       mockRouterState.state.queryParams = {
         productCode: PRODUCT_CODE,

@@ -35,6 +35,10 @@ import {
   ItemCounterComponent,
   KeyboardFocusService,
 } from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
@@ -504,6 +508,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
           useClass: MockMultiCartFacade,
         },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
+        provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
       ],
     })
       .overrideComponent(ConfiguratorAddToCartButtonComponent, {
@@ -1065,6 +1070,76 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
 
       expect(component.getButtonResourceKey(routerData, config)).toBe(
         'configurator.addToCart.button'
+      );
+    });
+  });
+
+  describe('getDisplayOnlyButtonResourceKey', () => {
+    let featureToggles: MockFeatureTogglesController;
+
+    function createRouterData(
+      ownerType: CommonConfigurator.OwnerType,
+      navigateToCart = false
+    ): ConfiguratorRouter.Data {
+      return {
+        pageType: ConfiguratorRouter.PageType.OVERVIEW,
+        displayOnly: true,
+        owner: { ...mockOwner, type: ownerType },
+        navigateToCart,
+      };
+    }
+
+    beforeEach(() => {
+      featureToggles = TestBed.inject(MockFeatureTogglesController);
+    });
+
+    it('should return `configurator.addToCart.buttonBackToCart` for a cart entry', () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+      expect(
+        component.getDisplayOnlyButtonResourceKey(
+          createRouterData(CommonConfigurator.OwnerType.CART_ENTRY, true)
+        )
+      ).toBe('configurator.addToCart.buttonBackToCart');
+    });
+
+    it('should return `configurator.addToCart.buttonClose` for an order entry', () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+      expect(
+        component.getDisplayOnlyButtonResourceKey(
+          createRouterData(CommonConfigurator.OwnerType.ORDER_ENTRY, true)
+        )
+      ).toBe('configurator.addToCart.buttonClose');
+    });
+
+    it('should return `configurator.addToCart.buttonClose` for a regular cart entry overview', () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+      expect(
+        component.getDisplayOnlyButtonResourceKey(
+          createRouterData(CommonConfigurator.OwnerType.CART_ENTRY)
+        )
+      ).toBe('configurator.addToCart.buttonClose');
+    });
+
+    it('should return `configurator.addToCart.buttonClose` for a cart entry if the feature toggle is not active', () => {
+      featureToggles.set('productConfiguratorCPQContainer', false);
+      expect(
+        component.getDisplayOnlyButtonResourceKey(
+          createRouterData(CommonConfigurator.OwnerType.CART_ENTRY, true)
+        )
+      ).toBe('configurator.addToCart.buttonClose');
+    });
+
+    it('should render `Back to Cart` on the display only button of a cart entry', () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+      setRouterTestDataReadOnlyCart();
+      mockRouterData.navigateToCart = true;
+      initialize();
+
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'button.btn-secondary.cx-display-only-btn',
+        'configurator.addToCart.buttonBackToCart'
       );
     });
   });

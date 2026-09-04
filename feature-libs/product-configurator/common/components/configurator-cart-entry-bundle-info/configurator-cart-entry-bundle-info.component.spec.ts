@@ -23,6 +23,10 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
+import {
   CommonConfiguratorUtilsService,
   ConfigurationInfo,
   ConfiguratorCartEntryBundleInfoService,
@@ -34,6 +38,7 @@ import { BreakpointService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, of, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
+import { CommonConfiguratorUISettingsConfig } from '../config/common-configurator-ui-settings.config';
 import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-entry-bundle-info.component';
 
 @Pipe({ name: 'cxNumeric' })
@@ -52,6 +57,8 @@ class MockConfigureCartEntryComponent {
   @Input() readOnly: boolean;
   @Input() msgBanner: boolean;
   @Input() disabled: boolean;
+  @Input() isBundleOverviewLink = false;
+  @Input() a11yDescriptionId?: string;
 }
 
 class MockCartItemContext implements Partial<CartItemContext> {
@@ -116,6 +123,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         {
           provide: ControlContainer,
         },
+        provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
       ],
     })
       .overrideComponent(ConfiguratorCartEntryBundleInfoComponent, {
@@ -714,7 +722,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         expect(
           component
             .getItemsMsg(numberOfItems)
-            .indexOf('configurator.a11y.cartEntryBundleInfo items:1')
+            .indexOf('configurator.a11y.cartEntryBundleInfo count:1 items:1')
         ).toBe(0);
       });
 
@@ -723,7 +731,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         expect(
           component
             .getItemsMsg(numberOfItems)
-            .indexOf('configurator.a11y.cartEntryBundleInfo items:4')
+            .indexOf('configurator.a11y.cartEntryBundleInfo count:4 items:4')
         ).toBe(0);
       });
     });
@@ -822,7 +830,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           undefined,
           undefined,
           'aria-label',
-          'configurator.a11y.cartEntryBundleInfo items:1configurator.header.hide'
+          'configurator.a11y.cartEntryBundleInfo count:1 items:1configurator.header.hide'
         );
 
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -922,6 +930,168 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           undefined,
           undefined,
           '5'
+        );
+      });
+    });
+
+    describe('navigation to the configuration overview', () => {
+      const TOGGLE_LINK = '.cx-toggle-hide-items cx-configure-cart-entry';
+
+      let featureToggles: MockFeatureTogglesController;
+
+      function emitCartEntry(location: PromotionLocation) {
+        mockCartItemContext.item$.next({
+          entryNumber: 3,
+          statusSummaryList: undefined,
+          configurationInfos: configurationInfos,
+          product: {
+            configurable: true,
+          },
+        });
+        mockCartItemContext.location$.next(location);
+        mockCartItemContext.readonly$.next(false);
+        mockCartItemContext.quantityControl$.next(new UntypedFormControl());
+        fixture.detectChanges();
+      }
+
+      beforeEach(() => {
+        featureToggles = TestBed.inject(MockFeatureTogglesController);
+        featureToggles.set('productConfiguratorCPQContainer', true);
+        spyOn(component, 'getCpqProductCartEntriesThreshold').and.returnValue(
+          2
+        );
+      });
+
+      it('should render a link to the overview instead of the toggle button if the threshold is exceeded', () => {
+        emitCartEntry(PromotionLocation.ActiveCart);
+
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          TOGGLE_LINK
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          'button'
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-item-infos'
+        );
+      });
+
+      it('should render the link in read only mode with the show text', () => {
+        emitCartEntry(PromotionLocation.ActiveCart);
+
+        const linkComponent = fixture.debugElement.query(
+          By.css(TOGGLE_LINK)
+        ).componentInstance;
+
+        expect(linkComponent.readOnly).toBe(true);
+        expect(linkComponent.msgBanner).toBe(false);
+        expect(linkComponent.disabled).toBe(false);
+        expect(linkComponent.isBundleOverviewLink).toBe(true);
+        expect(linkComponent.a11yDescriptionId).toBe('cx-item-list-info-3');
+      });
+
+      it('should render the toggle button if the threshold is not exceeded', () => {
+        (
+          component.getCpqProductCartEntriesThreshold as jasmine.Spy
+        ).and.returnValue(3);
+        emitCartEntry(PromotionLocation.ActiveCart);
+
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          TOGGLE_LINK
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          'button'
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-item-infos'
+        );
+      });
+
+      it('should render the toggle button if the feature toggle is not active', () => {
+        featureToggles.set('productConfiguratorCPQContainer', false);
+        emitCartEntry(PromotionLocation.ActiveCart);
+
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          TOGGLE_LINK
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          'button'
+        );
+      });
+
+      it('should render the toggle button for a saved cart, as no navigation to the overview is possible there', () => {
+        emitCartEntry(PromotionLocation.SavedCart);
+
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          TOGGLE_LINK
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          'button'
+        );
+      });
+
+      it('should render the toggle button for save for later, as no navigation to the overview is possible there', () => {
+        emitCartEntry(PromotionLocation.SaveForLater);
+
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          TOGGLE_LINK
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          'button'
+        );
+      });
+    });
+
+    describe('getCpqProductCartEntriesThreshold', () => {
+      it('should return the default threshold if nothing is configured', () => {
+        expect(component.getCpqProductCartEntriesThreshold()).toBe(10);
+      });
+
+      it('should return the configured threshold', () => {
+        TestBed.inject(CommonConfiguratorUISettingsConfig).productConfigurator =
+          {
+            cpqProductCartEntriesThreshold: 25,
+          };
+        expect(component.getCpqProductCartEntriesThreshold()).toBe(25);
+      });
+    });
+
+    describe('getItemsLinkMsg', () => {
+      it("should return 'configurator.a11y.cartEntryBundleInfo' with the number of items", () => {
+        expect(component.getItemsLinkMsg(4)).toBe(
+          'configurator.a11y.cartEntryBundleInfo count:4 items:4'
+        );
+      });
+    });
+
+    describe('getItemsLinkMsgId', () => {
+      it('should return an ID that is unique per cart entry', () => {
+        expect(component.getItemsLinkMsgId({ entryNumber: 4 })).toBe(
+          'cx-item-list-info-4'
         );
       });
     });

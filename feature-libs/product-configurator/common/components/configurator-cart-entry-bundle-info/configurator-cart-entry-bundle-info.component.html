@@ -6,48 +6,69 @@
           'configurator.header.items' | cxTranslate: { count: numberOfItems }
         }}
       </div>
-      <button
-        (click)="toggleItems()"
-        [attr.aria-expanded]="!this.hideItems"
-        [attr.aria-label]="getItemsMsg(numberOfItems)"
-      >
-        <div class="cx-toggle-hide-items">
-          {{ getButtonText() }}
-        </div>
-      </button>
-
-      <div class="cx-item-infos" [class.open]="!hideItems">
-        <div
-          *ngFor="let lineItem of lineItems$ | async; let i = index"
-          class="cx-item-info"
-          attr.aria-describedby="{{ getHiddenItemInfoId(i) }}"
+      <ng-container *ngIf="navigateToOverview$ | async; else toggleItemsButton">
+        <span
+          id="{{ getItemsLinkMsgId(orderEntry) }}"
+          class="cx-visually-hidden"
         >
-          <span id="{{ getHiddenItemInfoId(i) }}" class="cx-visually-hidden">
-            {{ getHiddenItemInfo(lineItem) }}
-          </span>
-          <div class="cx-item-name" aria-hidden="true">
-            {{ lineItem?.name }}
+          {{ getItemsLinkMsg(numberOfItems) }}
+        </span>
+        <div class="cx-toggle-hide-items">
+          <cx-configure-cart-entry
+            [cartEntry]="orderEntry"
+            [readOnly]="true"
+            [msgBanner]="false"
+            [disabled]="false"
+            [isBundleOverviewLink]="true"
+            [a11yDescriptionId]="getItemsLinkMsgId(orderEntry)"
+          ></cx-configure-cart-entry>
+        </div>
+      </ng-container>
+
+      <ng-template #toggleItemsButton>
+        <button
+          (click)="toggleItems()"
+          [attr.aria-expanded]="!this.hideItems"
+          [attr.aria-label]="getItemsMsg(numberOfItems)"
+        >
+          <div class="cx-toggle-hide-items">
+            {{ getButtonText() }}
           </div>
-          <div class="cx-item-quantity" aria-hidden="true">
-            <ng-container *ngIf="lineItem?.formattedQuantity">
-              <span class="cx-identifier">{{
-                'configurator.attribute.quantity' | cxTranslate
-              }}</span>
-              <span class="cx-item">{{
-                lineItem?.formattedQuantity | cxNumeric
-              }}</span>
-            </ng-container>
-          </div>
-          <div class="cx-item-price" aria-hidden="true">
-            <ng-container *ngIf="lineItem?.formattedPrice">
-              <span class="cx-identifier">{{
-                'configurator.overviewForm.itemPrice' | cxTranslate
-              }}</span>
-              <span class="cx-item">{{ lineItem?.formattedPrice }}</span>
-            </ng-container>
+        </button>
+
+        <div class="cx-item-infos" [class.open]="!hideItems">
+          <div
+            *ngFor="let lineItem of lineItems$ | async; let i = index"
+            class="cx-item-info"
+            attr.aria-describedby="{{ getHiddenItemInfoId(i) }}"
+          >
+            <span id="{{ getHiddenItemInfoId(i) }}" class="cx-visually-hidden">
+              {{ getHiddenItemInfo(lineItem) }}
+            </span>
+            <div class="cx-item-name" aria-hidden="true">
+              {{ lineItem?.name }}
+            </div>
+            <div class="cx-item-quantity" aria-hidden="true">
+              <ng-container *ngIf="lineItem?.formattedQuantity">
+                <span class="cx-identifier">{{
+                  'configurator.attribute.quantity' | cxTranslate
+                }}</span>
+                <span class="cx-item">{{
+                  lineItem?.formattedQuantity | cxNumeric
+                }}</span>
+              </ng-container>
+            </div>
+            <div class="cx-item-price" aria-hidden="true">
+              <ng-container *ngIf="lineItem?.formattedPrice">
+                <span class="cx-identifier">{{
+                  'configurator.overviewForm.itemPrice' | cxTranslate
+                }}</span>
+                <span class="cx-item">{{ lineItem?.formattedPrice }}</span>
+              </ng-container>
+            </div>
           </div>
         </div>
-      </div>
+      </ng-template>
     </ng-container>
     <ng-container *ngIf="quantityControl$ | async as quantityControl">
       <cx-configure-cart-entry

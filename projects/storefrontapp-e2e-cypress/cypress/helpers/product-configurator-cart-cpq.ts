@@ -442,6 +442,39 @@ export function checkAmountOfBundleItems(
 }
 
 /**
+ * Verifies that bundle items are represented by an overview link instead of
+ * being rendered inline.
+ *
+ * @param {number} cartItemIndex - Index of cart item
+ * @param {number} itemsAmount - Expected amount of bundle items
+ */
+export function checkBundleOverviewLink(
+  cartItemIndex: number,
+  itemsAmount: number
+): void {
+  findBundleItem(cartItemIndex).within(() => {
+    cy.get('.cx-number-items').should('contain', itemsAmount);
+    cy.get('button').should('not.exist');
+    cy.get('.cx-item-infos').should('not.exist');
+    cy.get('.cx-item-info').should('not.exist');
+    cy.get('.cx-toggle-hide-items a')
+      .should('contain', 'show')
+      .and('be.visible');
+  });
+}
+
+/**
+ * Navigates from a cart bundle to its read-only configuration overview.
+ *
+ * @param {number} cartItemIndex - Index of cart item
+ */
+export function clickOnBundleOverviewLink(cartItemIndex: number): void {
+  findBundleItem(cartItemIndex).within(() => {
+    cy.get('.cx-toggle-hide-items a').contains('show').click();
+  });
+}
+
+/**
  * Verifies the amount of cart entries.
  *
  * @param {number} expectedCount - Expected amount of cart entries
