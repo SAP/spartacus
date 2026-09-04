@@ -31,7 +31,7 @@
     <ng-container *ngIf="selectedProductsExpanded && selectedProducts.length">
       <cx-configurator-attribute-product-card
         *ngFor="let row of selectedProducts; let i = index"
-        id="{{ createAttributeValueIdForConfigurator(attribute, row.id) }}"
+        id="{{ createValueUiKey('selected-products', attribute.name, row.id) }}"
         (handleDeselect)="onRemove(row)"
         (handleRowAction)="onRowAction(row, $event)"
         [productCardOptions]="
@@ -162,7 +162,9 @@
 
 <ng-template #availableProductCard let-row let-i="index">
   <cx-configurator-attribute-product-card
-    id="{{ createAttributeValueIdForConfigurator(attribute, row.id) }}"
+    id="{{
+      createAttributeUiKey('available-products', attribute.name + '--' + i)
+    }}"
     (handleSelect)="onAdd(row)"
     (handleRowAction)="onRowAction(row, $event)"
     [productCardOptions]="

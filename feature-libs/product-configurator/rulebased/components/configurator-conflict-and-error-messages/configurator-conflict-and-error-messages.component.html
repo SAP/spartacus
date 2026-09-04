@@ -1,5 +1,7 @@
-<ng-container *ngIf="configuration$ | async as configuration">
-  <ng-container *ngIf="(configuration?.warningMessages?.length ?? 0) > 0">
+<ng-container *ngIf="messages$ | async as messages">
+  <ng-container
+    *ngIf="messages.infoMessages.length + messages.warningMessages.length > 0"
+  >
     <div
       aria-live="assertive"
       aria-atomic="true"
@@ -10,13 +12,17 @@
       </span>
       <span
         class="cx-warning-text"
-        *ngIf="(configuration?.warningMessages?.length ?? 0) > 1"
+        *ngIf="
+          messages.infoMessages.length + messages.warningMessages.length > 1
+        "
       >
         {{ 'configurator.header.multipleWarnings' | cxTranslate }}</span
       >
       <button
         (click)="toggleWarnings()"
-        *ngIf="(configuration?.warningMessages?.length ?? 0) > 1"
+        *ngIf="
+          messages.infoMessages.length + messages.warningMessages.length > 1
+        "
         class="cx-warning-toggle"
         [attr.aria-expanded]="showWarnings"
       >
@@ -32,21 +38,34 @@
       </button>
       <div
         class="cx-warning-messages"
-        [class.inline]="configuration?.warningMessages?.length === 1"
+        [class.inline]="
+          messages.infoMessages.length + messages.warningMessages.length === 1
+        "
       >
         <div
           class="cx-warning-message"
           [class.open]="
-            showWarnings || configuration?.warningMessages?.length === 1
+            showWarnings ||
+            messages.infoMessages.length + messages.warningMessages.length === 1
           "
-          *ngFor="let warningMessage of configuration.warningMessages"
+          *ngFor="let warningMessage of messages.infoMessages"
+        >
+          {{ warningMessage }}
+        </div>
+        <div
+          class="cx-warning-message"
+          [class.open]="
+            showWarnings ||
+            messages.infoMessages.length + messages.warningMessages.length === 1
+          "
+          *ngFor="let warningMessage of messages.warningMessages"
         >
           {{ warningMessage }}
         </div>
       </div>
     </div>
   </ng-container>
-  <ng-container *ngIf="(configuration?.errorMessages?.length ?? 0) > 0">
+  <ng-container *ngIf="messages.errorMessages.length > 0">
     <div
       aria-live="assertive"
       aria-atomic="true"
@@ -56,15 +75,12 @@
       <span class="alert-icon">
         <cx-icon type="ERROR"></cx-icon>
       </span>
-      <span
-        class="cx-error-text"
-        *ngIf="(configuration?.errorMessages?.length ?? 0) > 1"
-      >
+      <span class="cx-error-text" *ngIf="messages.errorMessages.length > 1">
         {{ 'configurator.header.multipleErrors' | cxTranslate }}</span
       >
       <button
         (click)="toggleErrors()"
-        *ngIf="(configuration?.errorMessages?.length ?? 0) > 1"
+        *ngIf="messages.errorMessages.length > 1"
         class="cx-error-toggle"
         [attr.aria-expanded]="showErrors"
       >
@@ -79,14 +95,12 @@
       </button>
       <div
         class="cx-error-messages"
-        [class.inline]="configuration?.errorMessages?.length === 1"
+        [class.inline]="messages.errorMessages.length === 1"
       >
         <div
           class="cx-error-message"
-          [class.open]="
-            showErrors || configuration?.errorMessages?.length === 1
-          "
-          *ngFor="let errorMessage of configuration.errorMessages"
+          [class.open]="showErrors || messages.errorMessages.length === 1"
+          *ngFor="let errorMessage of messages.errorMessages"
         >
           {{ errorMessage }}
         </div>

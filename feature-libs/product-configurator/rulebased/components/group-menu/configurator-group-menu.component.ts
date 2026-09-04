@@ -89,9 +89,7 @@ export class ConfiguratorGroupMenuComponent {
       this.configuratorGroupsService.getCurrentGroup(routerData.owner)
     )
   );
-  /**
-   * Current parent group. Undefined for top level groups
-   */
+
   displayedParentGroup$: Observable<Configurator.Group | undefined> =
     this.configuration$.pipe(
       switchMap((configuration) =>
@@ -138,10 +136,10 @@ export class ConfiguratorGroupMenuComponent {
   ) {}
 
   /**
-   * Selects group or navigates to sub-group depending on clicked group
+   * Selects group or navigates to subgroup depending on clicked group
    *
-   * @param {Configurator.Group} group - Target Group
-   * @param {Configurator.Group} currentGroup - Current group
+   * @param group - Target Group
+   * @param currentGroup - Current group
    */
   click(group: Configurator.Group, currentGroup?: Configurator.Group): void {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
@@ -170,15 +168,19 @@ export class ConfiguratorGroupMenuComponent {
   }
 
   /**
-   * Navigate up and set focus if current group information is provided
+   * Navigates up one menu level and restores keyboard focus when the
+   * current group is provided.
    *
-   * @param {Configurator.Group} currentGroup - Current group
+   * Navigation only runs while a submenu is open (`displayedParentGroup`
+   * is set). Focus is applied after the menu parent is updated so the
+   * target item is already rendered. See {@link setFocusOnNavigateUp}.
+   *
+   * @param currentGroup - Currently selected group; required for focus restoration
    */
   navigateUp(currentGroup?: Configurator.Group): void {
     this.displayedParentGroup$
       .pipe(take(1))
       .subscribe((displayedParentGroup) => {
-        //we only navigate up if we are not on a sub level group
         if (displayedParentGroup) {
           const grandParentGroup$ = this.getParentGroup(displayedParentGroup);
           this.configuration$.pipe(take(1)).subscribe((configuration) => {
@@ -187,20 +189,24 @@ export class ConfiguratorGroupMenuComponent {
                 configuration.owner,
                 grandParentGroup ? grandParentGroup.id : undefined
               );
+              if (currentGroup) {
+                this.setFocusOnNavigateUp(
+                  currentGroup,
+                  displayedParentGroup,
+                  configuration
+                );
+              }
             });
           });
         }
       });
-    if (currentGroup) {
-      this.setFocusForMainMenu(currentGroup.id);
-    }
   }
 
   /**
    * Retrieves the number of conflicts for the current group.
    *
-   * @param {Configurator.Group} group - Current group
-   * @return {string} - number of conflicts
+   * @param group - Current group
+   * @return - number of conflicts
    */
   getConflictNumber(group: Configurator.Group): string {
     if (
@@ -215,8 +221,8 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Verifies whether the current group has subgroups.
    *
-   * @param {Configurator.Group} group - Current group
-   * @return {boolean} - Returns 'true' if the current group has a subgroups, otherwise 'false'.
+   * @param group - Current group
+   * @return - Returns 'true' if the current group has a subgroups, otherwise 'false'.
    */
   hasSubGroups(group: Configurator.Group): boolean {
     return this.configuratorGroupsService.hasSubGroups(group);
@@ -257,6 +263,13 @@ export class ConfiguratorGroupMenuComponent {
     );
   }
 
+  /**
+   * Retrieves the parent group observable, condensing intermediate levels
+   * when the parent only has a single subgroup in the menu.
+   *
+   * @param parentGroup - Parent group to condense
+   * @returns Observable of the condensed parent group, or `undefined` at root level
+   */
   getCondensedParentGroup(
     parentGroup: Configurator.Group
   ): Observable<Configurator.Group | undefined> {
@@ -271,6 +284,13 @@ export class ConfiguratorGroupMenuComponent {
     }
   }
 
+  /**
+   * Flattens the group hierarchy for display in the menu by replacing
+   * single-child structural groups with their child when appropriate.
+   *
+   * @param groups - Groups to condense
+   * @returns Condensed group list for menu display
+   */
   condenseGroups(groups: Configurator.Group[]): Configurator.Group[] {
     return groups.flatMap((group) => {
       if (this.isCondensed(group)) {
@@ -285,7 +305,7 @@ export class ConfiguratorGroupMenuComponent {
   }
 
   /**
-   * Determines whether a group is replaced by its single sub group in the menu.
+   * Determines whether a group is replaced by its single subgroup in the menu.
    *
    * @param group - Given group
    * @return - Is the group condensed?
@@ -337,16 +357,16 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Returns true if group has been visited and if the group is not a conflict group.
    *
-   * @param {Configurator.Group} group - Current group
-   * @param {Configurator.Configuration} configuration - Configuration
-   * @return {Observable<boolean>} - true if visited and not a conflict group
+   * @param group - Current group
+   * @param configuration - Configuration
+   * @return - true if visited and not a conflict group
    */
   isGroupVisited(
     group: Configurator.Group,
     configuration: Configurator.Configuration
   ): Observable<boolean> {
-    return this.configuratorGroupsService
-      .isGroupVisited(configuration.owner, group.id)
+    return this.configUtils
+      .isCartEntryOrGroupVisited(configuration.owner, group.id)
       .pipe(
         map(
           (isVisited) =>
@@ -362,8 +382,8 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Verifies whether the current group is conflict one.
    *
-   * @param {Configurator.GroupType} groupType - Group type
-   * @return {boolean} - 'True' if the current group is conflict one, otherwise 'false'.
+   * @param groupType - Group type
+   * @return - 'True' if the current group is conflict one, otherwise 'false'.
    */
   isConflictGroupType(groupType: Configurator.GroupType | undefined): boolean {
     return groupType
@@ -374,8 +394,8 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Returns true if group is conflict header group.
    *
-   * @param {Configurator.Group} group - Current group
-   *  @return {boolean} - Returns 'true' if the current group is conflict header group, otherwise 'false'.
+   * @param group - Current group
+   *  @return - Returns 'true' if the current group is conflict header group, otherwise 'false'.
    */
   isConflictHeader(group: Configurator.Group): boolean {
     return (
@@ -386,19 +406,72 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Returns true if group is conflict group.
    *
-   * @param {Configurator.Group} group - Current group
-   *  @return {boolean} - Returns 'true' if the current group is conflict group, otherwise 'false'.
+   * @param group - Current group
+   *  @return - Returns 'true' if the current group is conflict group, otherwise 'false'.
    */
   isConflictGroup(group: Configurator.Group): boolean {
     return group && group.groupType === Configurator.GroupType.CONFLICT_GROUP;
   }
 
   /**
+   * Verifies whether a group is complete, consistent, and has been visited.
+   *
+   * @param group - Current group
+   * @param isVisited - Whether the group has been visited
+   * @returns `true` when the group is complete and consistent and visited
+   * @protected
+   */
+  protected isGroupCompleted(
+    group: Configurator.Group,
+    isVisited: boolean
+  ): boolean {
+    return Boolean(group.complete && group.consistent && isVisited);
+  }
+
+  /**
+   * Verifies whether a group is incomplete and has been visited.
+   *
+   * @param group - Current group
+   * @param isVisited - Whether the group has been visited
+   * @returns `true` when the group is faulty (incomplete) and visited
+   * @protected
+   */
+  protected isGroupFaulty(
+    group: Configurator.Group,
+    isVisited: boolean
+  ): boolean {
+    return Boolean(!group.complete && isVisited);
+  }
+
+  /**
+   * Verifies whether a group should show a warning indicator.
+   *
+   * In the VCP context, a warning indicates that the group has conflicts
+   * (is inconsistent). CPQ does not have conflicts, so this returns `false`
+   * for Cloud CPQ configurators.
+   *
+   * @param group - Current group
+   * @param configuration - Configuration
+   * @returns `true` when the group has conflicts in a VCP context
+   * @protected
+   */
+  protected hasGroupWarning(
+    group: Configurator.Group,
+    configuration: Configurator.Configuration
+  ): boolean {
+    const CLOUDCPQ_CONFIGURATOR_TYPE = 'CLOUDCPQCONFIGURATOR';
+    return Boolean(
+      configuration.owner.configuratorType !== CLOUDCPQ_CONFIGURATOR_TYPE &&
+        !group.consistent
+    );
+  }
+
+  /**
    * Returns group-status style classes dependent on completeness, conflicts, visited status and configurator type.
    *
-   * @param {Configurator.Group} group - Current group
-   * @param {Configurator.Configuration} configuration - Configuration
-   * @return {Observable<boolean>} - true if visited and not a conflict group
+   * @param group - Current group
+   * @param configuration - Configuration
+   * @returns CSS class names for the group menu item
    */
   getGroupStatusStyles(
     group: Configurator.Group,
@@ -406,23 +479,14 @@ export class ConfiguratorGroupMenuComponent {
   ): Observable<string> {
     return this.isGroupVisited(group, configuration).pipe(
       map((isVisited) => {
-        const CLOUDCPQ_CONFIGURATOR_TYPE = 'CLOUDCPQCONFIGURATOR';
         let groupStatusStyle: string = 'cx-menu-item';
-        if (
-          configuration.owner.configuratorType !== CLOUDCPQ_CONFIGURATOR_TYPE &&
-          !group.consistent
-        ) {
+        if (this.hasGroupWarning(group, configuration)) {
           groupStatusStyle = groupStatusStyle + this.WARNING;
         }
-        if (
-          configuration.owner.configuratorType !== CLOUDCPQ_CONFIGURATOR_TYPE &&
-          group.complete &&
-          group.consistent &&
-          isVisited
-        ) {
+        if (this.isGroupCompleted(group, isVisited)) {
           groupStatusStyle = groupStatusStyle + this.COMPLETE;
         }
-        if (!group.complete && isVisited) {
+        if (this.isGroupFaulty(group, isVisited)) {
           groupStatusStyle = groupStatusStyle + this.ERROR;
         }
         return groupStatusStyle;
@@ -441,8 +505,8 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Verifies whether the user navigates into a subgroup of the main group menu.
    *
-   * @param {KeyboardEvent} event - Keyboard event
-   * @returns {boolean} -'true' if the user navigates into the subgroup, otherwise 'false'.
+   * @param event - Keyboard event
+   * @returns -'true' if the user navigates into the subgroup, otherwise 'false'.
    * @protected
    */
   protected isForwardsNavigation(event: KeyboardEvent): boolean {
@@ -455,8 +519,8 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Verifies whether the user navigates from a subgroup back to the main group menu.
    *
-   * @param {KeyboardEvent} event - Keyboard event
-   * @returns {boolean} -'true' if the user navigates back into the main group menu, otherwise 'false'.
+   * @param event - Keyboard event
+   * @returns -'true' if the user navigates back into the main group menu, otherwise 'false'.
    * @protected
    */
   protected isBackNavigation(event: KeyboardEvent): boolean {
@@ -469,10 +533,10 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Switches the group on pressing an arrow key.
    *
-   * @param {KeyboardEvent} event - Keyboard event
-   * @param {string} groupIndex - Group index
-   * @param {Configurator.Group} targetGroup - Target group
-   * @param {Configurator.Group} currentGroup - Current group
+   * @param event - Keyboard event
+   * @param groupIndex - Group index
+   * @param targetGroup - Target group
+   * @param currentGroup - Current group
    */
   switchGroupOnArrowPress(
     event: KeyboardEvent,
@@ -504,7 +568,7 @@ export class ConfiguratorGroupMenuComponent {
    * Only if the active group is not in the list of displayed groups, the focus should be set to the first element of the menu ('X') otherwise
    * the focus is set to the active group menu item.
    *
-   * @param {KeyboardEvent} event - Keyboard event
+   * @param event - Keyboard event
    */
   protected handleFocusLoopInMobileMode(event: KeyboardEvent): void {
     this.breakpointService
@@ -531,7 +595,7 @@ export class ConfiguratorGroupMenuComponent {
    * Persists the keyboard focus state for the given key
    * from the main group menu by back navigation.
    *
-   * @param {string} currentGroupId - Current group ID
+   * @param currentGroupId - Current group ID
    */
   setFocusForMainMenu(currentGroupId?: string): void {
     let key: string | undefined = currentGroupId;
@@ -550,29 +614,122 @@ export class ConfiguratorGroupMenuComponent {
   }
 
   /**
-   * Persists the keyboard focus state for the given key
-   * from the subgroup menu by forwards navigation.
+   * Restores keyboard focus after navigating up from a submenu.
    *
-   * @param {Configurator.Group} group - Group
-   * @param {string} currentGroupId - Current group ID
+   * Focus normally returns to the displayed parent group header. When the
+   * current group shares the same visible menu level as that parent
+   * (siblings or condensed equivalents), focus stays on the current group's
+   * menu item instead.
+   *
+   * @param currentGroup - Currently selected group
+   * @param parentGroup - Parent group displayed in the submenu header
+   * @param configuration - Current configuration
+   */
+  protected setFocusOnNavigateUp(
+    currentGroup: Configurator.Group,
+    parentGroup: Configurator.Group,
+    configuration: Configurator.Configuration
+  ): void {
+    const key = this.isSameLevelGroup(currentGroup, parentGroup, configuration)
+      ? currentGroup.id
+      : parentGroup.id;
+    this.configUtils.setFocus(key);
+  }
+
+  /**
+   * Resolves the parent group as shown in the condensed menu.
+   *
+   * Walks up the structural hierarchy and skips intermediate groups that
+   * are hidden because they have only a single subgroup in the menu.
+   *
+   * @param group - Group whose menu parent is requested
+   * @param configuration - Current configuration
+   * @returns Visible menu parent, or `undefined` at root level
+   */
+  protected getMenuParentGroup(
+    group: Configurator.Group,
+    configuration: Configurator.Configuration
+  ): Configurator.Group | undefined {
+    let parentGroup = this.configuratorGroupsService.getParentGroup(
+      configuration.groups,
+      group
+    );
+
+    while (parentGroup && this.isCondensed(parentGroup)) {
+      parentGroup = this.configuratorGroupsService.getParentGroup(
+        configuration.groups,
+        parentGroup
+      );
+    }
+
+    return parentGroup;
+  }
+
+  /**
+   * Checks whether two groups appear on the same level in the condensed menu.
+   *
+   * Compares each group's visible menu parent (see {@link getMenuParentGroup}).
+   * Groups with the same parent — including a condensed child and a root-level
+   * sibling — are treated as being on the same menu level.
+   *
+   * @param groupA - First group
+   * @param groupB - Second group
+   * @param configuration - Current configuration
+   * @returns `true` when both groups share the same visible menu parent
+   */
+  protected isSameLevelGroup(
+    groupA: Configurator.Group,
+    groupB: Configurator.Group,
+    configuration: Configurator.Configuration
+  ): boolean {
+    const parentGroupA = this.getMenuParentGroup(groupA, configuration);
+    const parentGroupB = this.getMenuParentGroup(groupB, configuration);
+
+    return parentGroupA?.id === parentGroupB?.id;
+  }
+
+  /**
+   * Restores keyboard focus when drilling into a subgroup from the main menu.
+   *
+   * Focus moves to the selected direct child when it is visible in the
+   * submenu. For nested selections (grandchild or deeper), focus moves to
+   * the back button because no matching direct child item exists.
+   *
+   * @param group - Group whose submenu was opened
+   * @param currentGroupId - Currently selected group ID
    */
   setFocusForSubGroup(
     group: Configurator.Group,
     currentGroupId?: string
   ): void {
-    let key: string | undefined = 'cx-menu-back';
-    if (this.containsSelectedGroup(group, currentGroupId)) {
-      key = currentGroupId;
-    }
+    const key = this.hasDirectSelectedSubgroup(group, currentGroupId)
+      ? currentGroupId
+      : 'cx-menu-back';
     this.configUtils.setFocus(key);
+  }
+
+  /**
+   * Checks whether the current selection is a direct child of the given group.
+   *
+   * @param group - Group whose direct children are checked
+   * @param currentGroupId - Currently selected group ID
+   * @returns `true` when a direct child matches the current selection
+   */
+  protected hasDirectSelectedSubgroup(
+    group: Configurator.Group,
+    currentGroupId?: string
+  ): boolean {
+    return !!group.subGroups?.some((subGroup) =>
+      this.isGroupSelected(subGroup.id, currentGroupId)
+    );
   }
 
   /**
    * Verifies whether the parent group contains a selected group.
    *
-   * @param {Configurator.Group} group - Group
-   * @param {string} currentGroupId - Current group ID
-   * @returns {boolean} - 'true' if the parent group contains a selected group, otherwise 'false'
+   * @param group - Group
+   * @param currentGroupId - Current group ID
+   * @returns - 'true' if the parent group contains a selected group, otherwise 'false'
    */
   containsSelectedGroup(
     group: Configurator.Group,
@@ -586,12 +743,12 @@ export class ConfiguratorGroupMenuComponent {
   }
 
   /**
-   * Retrieves the tab index depending on if the the current group is selected
+   * Retrieves the tab index depending on if the current group is selected
    * or the parent group contains the selected group.
    *
-   * @param {Configurator.Group} group - Group
-   * @param {string} currentGroupId - Current group ID
-   * @returns {number} - tab index
+   * @param group - Group
+   * @param currentGroupId - Current group ID
+   * @returns - tab index
    */
   getTabIndex(group: Configurator.Group, currentGroupId: string): number {
     const isCurrentGroupPartOfGroupHierarchy =
@@ -603,9 +760,9 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Verifies whether the current group is selected.
    *
-   * @param {string} groupId - group ID
-   * @param {string} currentGroupId - Current group ID
-   * @returns {boolean} - 'true' if the current group is selected, otherwise 'false'
+   * @param groupId - group ID
+   * @param currentGroupId - Current group ID
+   * @returns - 'true' if the current group is selected, otherwise 'false'
    */
   isGroupSelected(groupId?: string, currentGroupId?: string): boolean {
     return groupId === currentGroupId;
@@ -614,8 +771,8 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Generates a group ID for aria-controls.
    *
-   * @param {string} groupId - group ID
-   * @returns {string | undefined} - generated group ID
+   * @param groupId - group ID
+   * @returns - generated group ID
    */
   createAriaControls(groupId?: string): string | undefined {
     return this.configUtils.createGroupId(groupId);
@@ -624,8 +781,8 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Generates aria-label for group menu item
    *
-   * @param {Configurator.Group} group - group
-   * @returns {string | undefined} - generated group ID
+   * @param group - Group
+   * @returns Translated aria-label for the group menu item
    */
   getAriaLabel(group: Configurator.Group): string {
     let translatedText = '';
@@ -654,9 +811,9 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Generates an id for icons.
    *
-   * @param {ICON_TYPE} type - icon type
-   * @param {string} groupId - group id
-   * @returns {string | undefined} - generated icon id
+   * @param type - icon type
+   * @param groupId - group id
+   * @returns - generated icon id
    */
   createIconId(type: ICON_TYPE, groupId?: string): string | undefined {
     return this.ICON + type + groupId;
@@ -665,56 +822,90 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Generates aria-describedby
    *
-   * @param {Configurator.Group} group - Current group
-   * @param {Configurator.Configuration} configuration - Configuration
-   * @return {Observable<string>} - aria-describedby
+   * @param group - Current group
+   * @param configuration - Configuration
+   * @return - aria-describedby
    */
   getAriaDescribedby(
     group: Configurator.Group,
     configuration: Configurator.Configuration
   ): Observable<string> {
     return this.isGroupVisited(group, configuration).pipe(
-      map((isVisited) => {
-        const CLOUDCPQ_CONFIGURATOR_TYPE = 'CLOUDCPQCONFIGURATOR';
-        let ariaDescribedby: string = '';
-        if (
-          configuration.owner.configuratorType !== CLOUDCPQ_CONFIGURATOR_TYPE &&
-          !group.consistent &&
-          group.groupType &&
-          !this.isConflictGroupType(group.groupType)
-        ) {
-          ariaDescribedby =
-            ariaDescribedby + this.createIconId(ICON_TYPE.WARNING, group.id);
-        }
-        if (
-          configuration.owner.configuratorType !== CLOUDCPQ_CONFIGURATOR_TYPE &&
-          group.complete &&
-          group.consistent &&
-          isVisited
-        ) {
-          ariaDescribedby =
-            ariaDescribedby +
-            ' ' +
-            this.createIconId(ICON_TYPE.SUCCESS, group.id);
-        }
-        if (!group.complete && isVisited) {
-          ariaDescribedby =
-            ariaDescribedby +
-            ' ' +
-            this.createIconId(ICON_TYPE.ERROR, group.id);
-        }
-        if (this.hasSubGroups(group)) {
-          ariaDescribedby =
-            ariaDescribedby +
-            ' ' +
-            this.createIconId(ICON_TYPE.CARET_RIGHT, group.id);
-        }
-        ariaDescribedby = ariaDescribedby + ' inListOfGroups';
-        return ariaDescribedby;
-      })
+      map((isVisited) =>
+        this.buildAriaDescribedby(group, configuration, isVisited)
+      )
     );
   }
 
+  /**
+   * Builds aria-describedby value for a group menu item.
+   *
+   * @param group - Current group
+   * @param configuration - Configuration
+   * @param isVisited - Whether the group has been visited
+   * @returns aria-describedby value
+   * @protected
+   */
+  protected buildAriaDescribedby(
+    group: Configurator.Group,
+    configuration: Configurator.Configuration,
+    isVisited: boolean
+  ): string {
+    let ariaDescribedby = '';
+
+    if (this.shouldShowWarningAriaIcon(group, configuration)) {
+      ariaDescribedby =
+        ariaDescribedby +
+        (this.createIconId(ICON_TYPE.WARNING, group.id) ?? '');
+    }
+    if (this.isGroupCompleted(group, isVisited)) {
+      ariaDescribedby =
+        ariaDescribedby +
+        ' ' +
+        (this.createIconId(ICON_TYPE.SUCCESS, group.id) ?? '');
+    }
+    if (this.isGroupFaulty(group, isVisited)) {
+      ariaDescribedby =
+        ariaDescribedby +
+        ' ' +
+        (this.createIconId(ICON_TYPE.ERROR, group.id) ?? '');
+    }
+    if (this.hasSubGroups(group)) {
+      ariaDescribedby =
+        ariaDescribedby +
+        ' ' +
+        (this.createIconId(ICON_TYPE.CARET_RIGHT, group.id) ?? '');
+    }
+    ariaDescribedby = ariaDescribedby + ' inListOfGroups';
+    return ariaDescribedby;
+  }
+
+  /**
+   * Verifies whether the warning icon should be referenced in aria-describedby.
+   *
+   * @param group - Current group
+   * @param configuration - Configuration
+   * @returns `true` when the warning icon applies
+   * @protected
+   */
+  protected shouldShowWarningAriaIcon(
+    group: Configurator.Group,
+    configuration: Configurator.Configuration
+  ): boolean {
+    return (
+      this.hasGroupWarning(group, configuration) &&
+      Boolean(group.groupType) &&
+      !this.isConflictGroupType(group.groupType)
+    );
+  }
+
+  /**
+   * Retrieves the title shown for a group menu item. Includes the technical
+   * group name when expert mode is active, except for conflict groups.
+   *
+   * @param group - Group to display
+   * @returns Group menu title
+   */
   getGroupMenuTitle(group: Configurator.Group): string | undefined {
     let title = group.description;
     if (!this.isConflictHeader(group) && !this.isConflictGroup(group)) {
@@ -730,6 +921,12 @@ export class ConfiguratorGroupMenuComponent {
     return title;
   }
 
+  /**
+   * Determines whether a group menu item should be shown.
+   *
+   * @param group - Group to check
+   * @returns Observable that emits `true` when the menu item is visible
+   */
   displayMenuItem(group: Configurator.Group): Observable<boolean> {
     return this.configuration$.pipe(
       map((configuration) => {
@@ -746,9 +943,10 @@ export class ConfiguratorGroupMenuComponent {
   }
 
   /**
-   * Checks if conflict solver dialog is active
-   * @param configuration
-   * @returns Conflict solver dialog active?
+   * Checks if conflict solver dialog is active.
+   *
+   * @param configuration - Configuration
+   * @returns - Conflict solver dialog active?
    */
   isDialogActive(configuration: Configurator.Configuration): boolean {
     return configuration.interactionState.showConflictSolverDialog ?? false;
@@ -757,6 +955,7 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * track-by function for the *ngFor generating the group menu,
    * returning the group id
+   *
    * @param _index
    * @param group
    * @returns groupId

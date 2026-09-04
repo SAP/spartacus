@@ -51,7 +51,7 @@ export namespace Cpq {
     stdAttrCode: number;
     minRows?: number;
     maxRows?: number;
-    failedValidations?: string[];
+    messages?: Message[];
     rows?: ContainerRow[];
   }
 
@@ -60,6 +60,8 @@ export namespace Cpq {
    */
   export interface ContainerRow {
     id: string;
+    minRows?: number;
+    maxRows?: number;
     productSystemId?: string;
     productName?: string;
     selected?: boolean;
@@ -72,6 +74,10 @@ export namespace Cpq {
    */
   export interface NestedProductConfiguration {
     completed?: boolean;
+    incompleteMessages?: string[];
+    invalidMessages?: string[];
+    failedValidations?: string[];
+    errorMessages?: string[];
     messages?: Message[];
     tabs?: Tab[];
     containers?: Container[];
@@ -226,5 +232,6 @@ export namespace Cpq {
     QTY_ATTRIBUTE_LEVEL = 'Quantity',
     QTY_VALUE_LEVEL = 'Attr.Quantity',
     N_A = 'N/A',
+    CONTAINER = 'Container',
   }
 }

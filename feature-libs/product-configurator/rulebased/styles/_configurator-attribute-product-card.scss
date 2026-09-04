@@ -1,8 +1,12 @@
 %cx-configurator-attribute-product-card {
   &:first-of-type {
-    .cx-product-card {
+    .cx-product-card-container {
       border-top: solid 1px var(--cx-color-light);
     }
+  }
+
+  .cx-product-card-container {
+    border-bottom: solid 1px var(--cx-color-light);
   }
 
   .cx-product-card {
@@ -10,7 +14,6 @@
     padding-block-end: 16px;
     width: 100%;
     min-height: 140px;
-    border-bottom: solid 1px var(--cx-color-light);
 
     @include media-breakpoint-down(sm) {
       padding-inline-start: 16px;
@@ -177,7 +180,15 @@
 
       &.deselection-error-message {
         display: inline-block;
-        width: 80%;
+        width: 95%;
+      }
+
+      &.cx-deselection-error-msg,
+      &.cx-container-error-msg,
+      &.cx-container-warning-msg,
+      &.cx-container-info-msg {
+        display: inline-block;
+        width: 100%;
       }
     }
 
@@ -248,8 +259,18 @@
         }
       }
     }
+
+    &.message {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      padding-inline-start: 16px;
+      padding-inline-end: 16px;
+      padding-block-end: 16px;
+    }
   }
 
+  .cx-product-card-container-selected,
   .cx-product-card-selected {
     flex-wrap: wrap;
     background-color: var(--cx-color-background);
@@ -260,6 +281,13 @@
   }
 
   .deselection-error-message {
+    padding-top: 5px;
+    color: var(--cx-color-danger);
+  }
+
+  .cx-deselection-error-msg {
+    font-size: 14px;
+    line-height: 1.2;
     padding-top: 5px;
     color: var(--cx-color-danger);
   }

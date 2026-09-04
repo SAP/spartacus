@@ -1,0 +1,12 @@
+<div
+  *ngFor="let message of messages; let i = index"
+  [ngClass]="messageClass"
+  aria-live="assertive"
+  aria-atomic="true"
+  [attr.role]="role"
+  [attr.aria-label]="isString(message) ? message : (message | cxTranslate)"
+  [attr.id]="getMessageId(i)"
+>
+  <cx-icon *ngIf="showIcon" [type]="iconType!" />
+  {{ isString(message) ? message : (message | cxTranslate) }}
+</div>

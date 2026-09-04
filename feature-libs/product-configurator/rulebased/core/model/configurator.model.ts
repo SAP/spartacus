@@ -60,7 +60,7 @@ export namespace Configurator {
   export interface Container {
     minRows?: number;
     maxRows?: number;
-    failedValidations?: string[];
+    messages?: Message[];
     rows: ContainerRow[];
   }
 
@@ -69,6 +69,8 @@ export namespace Configurator {
    */
   export interface ContainerRow {
     id: string;
+    minRows?: number;
+    maxRows?: number;
     productSystemId?: string;
     productName?: string;
     selected?: boolean;
@@ -100,6 +102,10 @@ export namespace Configurator {
     groupType?: GroupType;
     configurable?: boolean;
     complete?: boolean;
+    /** Set to `true` when the group itself has no issue and is only incomplete
+     * because at least one of its subgroups is incomplete. Such a group is not a
+     * target for issue navigation. */
+    incompleteBecauseOfChild?: boolean;
     consistent?: boolean;
     subGroups: Group[];
     /** Messages from a nested (container row) configuration, including severity. */
@@ -144,6 +150,17 @@ export namespace Configurator {
     updateType?: UpdateType;
     errorMessages?: string[];
     warningMessages?: string[];
+    /**
+     * Typed messages from the configuration engine, including severity.
+     * Used for CPQ when `hasFullConfigurationState` is true.
+     */
+    messages?: Message[];
+    /**
+     * Whether the CPQ payload contains the full configuration state
+     * (all tabs, typed messages). When true, root messages are taken from
+     * `messages` rather than from `errorMessages`/`warningMessages`.
+     */
+    hasFullConfigurationState?: boolean;
     variants?: Variant[];
     kbKey?: KB;
     pricingEnabled?: boolean;
@@ -294,6 +311,7 @@ export namespace Configurator {
   export enum MessageSeverity {
     INFO = 'info',
     WARNING = 'warning',
+    ERROR = 'error',
   }
 
   export enum UiType {
@@ -340,6 +358,7 @@ export namespace Configurator {
     USER_SELECTION_QTY_ATTRIBUTE_LEVEL = 'UserSelectionWithAttributeQuantity',
     USER_SELECTION_QTY_VALUE_LEVEL = 'UserSelectionWithValueQuantity',
     USER_SELECTION_NO_QTY = 'UserSelectionWithoutQuantity',
+    CONTAINER = 'Container',
     NOT_IMPLEMENTED = 'not_implemented',
   }
   export enum UpdateType {

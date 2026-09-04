@@ -58,6 +58,9 @@ import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.c
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupComponent } from './configurator-group.component';
 
+const config: Configurator.Configuration =
+  ConfigurationTestData.productConfiguration;
+
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
 const OWNER = ConfiguratorModelUtils.createOwner(
@@ -153,6 +156,10 @@ let currentGroupObservable: Observable<string> = EMPTY;
 let isConfigurationLoadingObservable: Observable<boolean> = EMPTY;
 
 class MockConfiguratorCommonsService {
+  getConfiguration(): Observable<Configurator.Configuration> {
+    return of(config);
+  }
+
   removeConfiguration(): void {}
 
   updateConfiguration(): void {}

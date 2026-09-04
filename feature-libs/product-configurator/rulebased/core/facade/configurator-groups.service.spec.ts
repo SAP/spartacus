@@ -507,6 +507,79 @@ describe('ConfiguratorGroupsService', () => {
 
       expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
+    it('should not navigate when only root typed messages exist and all groups are complete', () => {
+      const firstTabId = 'root-tab-1';
+      const firstTab: Configurator.Group = {
+        ...ConfiguratorTestUtils.createGroup(firstTabId),
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        complete: true,
+      };
+      const configuration: Configurator.Configuration = {
+        ...ConfiguratorTestUtils.createConfiguration('1'),
+        groups: [firstTab],
+        flatGroups: [firstTab],
+        messages: [
+          {
+            message: 'Clean-Up services are needed in addition',
+            severity: Configurator.MessageSeverity.WARNING,
+          },
+        ],
+      };
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(configuration)
+      );
+
+      classUnderTest.navigateToFirstIncompleteGroup(configuration.owner);
+
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
+    });
+    it('should navigate to the nested tab of an incomplete container row group', () => {
+      const nestedTabId = 'CONTAINER_ROW@1067@row-1@1';
+      const rowGroupId = 'CONTAINER_ROW@1067@row-1';
+      const parentTabId = 'parent-tab';
+      const nestedTab: Configurator.Group = {
+        ...ConfiguratorTestUtils.createGroup(nestedTabId),
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        complete: true,
+      };
+      const rowGroup: Configurator.Group = {
+        ...ConfiguratorTestUtils.createGroup(rowGroupId),
+        groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+        complete: false,
+        messages: [
+          {
+            message: 'Check zoom range',
+            severity: Configurator.MessageSeverity.WARNING,
+          },
+        ],
+        subGroups: [nestedTab],
+      };
+      const parentTab: Configurator.Group = {
+        ...ConfiguratorTestUtils.createGroup(parentTabId),
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        complete: true,
+        subGroups: [rowGroup],
+      };
+      const configuration: Configurator.Configuration = {
+        ...ConfiguratorTestUtils.createConfiguration('1'),
+        groups: [parentTab],
+        flatGroups: [parentTab, nestedTab],
+      };
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(configuration)
+      );
+
+      classUnderTest.navigateToFirstIncompleteGroup(configuration.owner);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.ChangeGroup({
+          configuration: configuration,
+          groupId: nestedTabId,
+          parentGroupId: rowGroupId,
+          conflictResolutionMode: false,
+        })
+      );
+    });
   });
 
   it('should delegate calls for parent group to the facade utils service', () => {

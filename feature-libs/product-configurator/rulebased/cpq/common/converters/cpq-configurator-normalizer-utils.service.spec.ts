@@ -361,6 +361,17 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     ).toBe(Configurator.DataType.USER_SELECTION_NO_QTY);
   });
 
+  it('should convert CPQ dataType CONTAINER', () => {
+    const attribute: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      dataType: Cpq.DataType.CONTAINER,
+    };
+    expect(
+      cpqConfiguratorNormalizerUtilsService.convertDataType(attribute)
+    ).toBe(Configurator.DataType.CONTAINER);
+  });
+
   it('should convert CPQ not supported dataType to NOT_IMPLEMENTED', () => {
     const attribute: Cpq.Attribute = {
       pA_ID: 1,
@@ -507,5 +518,226 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     expect(
       cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(attribute)
     ).toBe('');
+  });
+
+  describe('issue counting', () => {
+    const ERROR_MSG = 'This is an error message';
+    const VALIDATION_MSG = 'this is a failed validation';
+    const INVALID_MSG = 'This is an invalid message';
+    const INCOMPLETE_ATTR_1 = 'Attribute1';
+    const INCOMPLETE_ATTR_2 = 'Attribute2';
+    const INCOMPLETE_MSG = 'incomplete message';
+
+    const rootConfiguration: Cpq.Configuration = {
+      productSystemId: 'productSystemId',
+      currencyISOCode: CURRENCY,
+      incompleteMessages: [INCOMPLETE_MSG],
+      incompleteAttributes: [INCOMPLETE_ATTR_1, INCOMPLETE_ATTR_2],
+      invalidMessages: [INVALID_MSG],
+      failedValidations: [VALIDATION_MSG],
+      errorMessages: [ERROR_MSG],
+      messages: [
+        { message: 'Typed warning', severity: Cpq.MessageSeverity.WARNING },
+        { message: 'Typed info', severity: Cpq.MessageSeverity.INFO },
+        { message: '' },
+      ],
+    };
+
+    const nestedConfiguration: Cpq.NestedProductConfiguration = {
+      completed: false,
+      errorMessages: [ERROR_MSG],
+      invalidMessages: [INVALID_MSG],
+      failedValidations: [VALIDATION_MSG],
+      incompleteMessages: [INCOMPLETE_MSG],
+      messages: [
+        { message: 'Check zoom range', severity: Cpq.MessageSeverity.WARNING },
+        { message: 'Info only', severity: Cpq.MessageSeverity.INFO },
+      ],
+    };
+
+    it('should count root-level issues including typed messages', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService['countIssues'](rootConfiguration)
+      ).toBe(8);
+    });
+
+    it('should count nested configuration issues from tab attributes marked incomplete', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService['countIssues'](
+          nestedConfiguration
+        )
+      ).toBe(6);
+      expect(
+        cpqConfiguratorNormalizerUtilsService['countIssues']({
+          ...nestedConfiguration,
+          tabs: [
+            {
+              id: 1,
+              attributes: [
+                { pA_ID: 1, stdAttrCode: 11, incomplete: true },
+                { pA_ID: 2, stdAttrCode: 12, incomplete: true },
+                { pA_ID: 3, stdAttrCode: 13, incomplete: false },
+              ],
+            },
+            {
+              id: 2,
+              attributes: [{ pA_ID: 4, stdAttrCode: 14, incomplete: true }],
+            },
+          ],
+        })
+      ).toBe(9);
+    });
+
+    it('should count issues in nested container configurations', () => {
+      const containers: Cpq.Container[] = [
+        {
+          stdAttrCode: 1,
+          rows: [
+            {
+              id: '1',
+              configuration: nestedConfiguration,
+            },
+          ],
+        },
+      ];
+      expect(
+        cpqConfiguratorNormalizerUtilsService['countIssuesInContainers'](
+          containers
+        )
+      ).toBe(6);
+    });
+
+    it('should count container-level warning messages', () => {
+      const containers: Cpq.Container[] = [
+        {
+          stdAttrCode: 1,
+          messages: [
+            {
+              message: 'Container warning',
+              severity: Cpq.MessageSeverity.WARNING,
+            },
+            { message: 'Info only', severity: Cpq.MessageSeverity.INFO },
+            { message: '', severity: Cpq.MessageSeverity.WARNING },
+          ],
+          rows: [
+            {
+              id: '1',
+              configuration: nestedConfiguration,
+            },
+          ],
+        },
+      ];
+      expect(
+        cpqConfiguratorNormalizerUtilsService['countIssuesInContainers'](
+          containers
+        )
+      ).toBe(7);
+    });
+
+    it('should count root typed messages and incomplete attributes when messages are present', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues(
+          rootConfiguration
+        )
+      ).toBe(4);
+    });
+
+    it('should count only typed messages when incomplete attributes are absent', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues({
+          ...rootConfiguration,
+          incompleteAttributes: undefined,
+        })
+      ).toBe(2);
+    });
+
+    it('should ignore legacy root message arrays when typed messages are present', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues({
+          ...rootConfiguration,
+          errorMessages: [ERROR_MSG, ERROR_MSG],
+          invalidMessages: [INVALID_MSG, INVALID_MSG],
+          failedValidations: [VALIDATION_MSG],
+          incompleteMessages: [INCOMPLETE_MSG],
+        })
+      ).toBe(4);
+    });
+
+    it('should count all root message containers when messages are absent', () => {
+      const rootWithoutMessages: Cpq.Configuration = {
+        ...rootConfiguration,
+        messages: undefined,
+      };
+      expect(
+        cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues(
+          rootWithoutMessages
+        )
+      ).toBe(6);
+    });
+
+    it('should still count all nested message containers when nested messages are present', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues({
+          productSystemId: 'productSystemId',
+          currencyISOCode: CURRENCY,
+          sapContainers: [
+            {
+              stdAttrCode: 1,
+              rows: [
+                {
+                  id: '1',
+                  configuration: nestedConfiguration,
+                },
+              ],
+            },
+          ],
+        })
+      ).toBe(6);
+    });
+
+    it('should count issues recursively in nested containers', () => {
+      const containers: Cpq.Container[] = [
+        {
+          stdAttrCode: 1,
+          rows: [
+            {
+              id: '1',
+              configuration: {
+                ...nestedConfiguration,
+                containers: [
+                  {
+                    stdAttrCode: 2,
+                    rows: [
+                      {
+                        id: '2',
+                        configuration: {
+                          completed: false,
+                          errorMessages: [ERROR_MSG],
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ];
+      expect(
+        cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues({
+          ...rootConfiguration,
+          sapContainers: containers,
+        })
+      ).toBe(11);
+    });
+
+    it('should return zero when no issues exist', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues({
+          productSystemId: 'productSystemId',
+          currencyISOCode: CURRENCY,
+        })
+      ).toBe(0);
+    });
   });
 });

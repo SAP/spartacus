@@ -7,18 +7,27 @@
 import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
   inject,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
-import { take } from 'rxjs/operators';
+import { combineLatest, Observable, of } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { ConfiguratorUtilsService } from '../../../../core/facade/utils/configurator-utils.service';
+import {
+  ConfiguratorMessageGroup,
+  ConfiguratorMessageService,
+  ConfiguratorMessagesView,
+} from '../../../service/configurator-message.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import {
   ConfiguratorAttributeProductCardComponent,
   ConfiguratorAttributeProductCardComponentOptions,
@@ -43,9 +52,20 @@ import { ConfiguratorAttributeSelectionBaseComponent } from '../base/configurato
     ConfiguratorAttributeProductCardComponent,
   ],
 })
-export class ConfiguratorAttributeContainerComponent extends ConfiguratorAttributeSelectionBaseComponent {
+export class ConfiguratorAttributeContainerComponent
+  extends ConfiguratorAttributeSelectionBaseComponent
+  implements OnInit
+{
   protected configuratorGroupsService = inject(ConfiguratorGroupsService);
   protected configuratorUtilsService = inject(ConfiguratorUtilsService);
+  protected configuratorMessageService = inject(ConfiguratorMessageService);
+  protected configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
+  protected changeDetectorRef = inject(ChangeDetectorRef);
+
+  /** Cached mapping from container row id to pre-built message groups. */
+  protected messagesMap: Record<string, ConfiguratorMessageGroup[]> = {};
 
   attribute: Configurator.Attribute;
   ownerKey: string;
@@ -79,6 +99,157 @@ export class ConfiguratorAttributeContainerComponent extends ConfiguratorAttribu
     super();
     this.attribute = this.attributeComponentContext.attribute;
     this.ownerKey = this.attributeComponentContext.owner.key;
+  }
+
+  ngOnInit(): void {
+    this.subscription.add(
+      combineLatest([
+        this.configuratorCommonsService.getConfiguration(
+          this.attributeComponentContext.owner
+        ),
+        this.getShowRequiredMessage$(this.attributeComponentContext.group.id),
+      ]).subscribe(([configuration, showRequiredMessage]) => {
+        this.messagesMap = this.buildMessagesMap(
+          configuration,
+          showRequiredMessage
+        );
+        this.changeDetectorRef.markForCheck();
+      })
+    );
+  }
+
+  /**
+   * Builds the mapping from container row id to pre-built message groups for
+   * the given configuration. The expensive nested-group lookup and message
+   * enrichment is performed once per configuration update instead of once per
+   * rendered product card.
+   *
+   * @param configuration - Current configuration
+   * @param showRequiredMessage - Whether the container required message should
+   * be shown (parent group visited and attribute required and incomplete)
+   * @returns Mapping from row id to message groups
+   */
+  protected buildMessagesMap(
+    configuration: Configurator.Configuration,
+    showRequiredMessage: boolean
+  ): Record<string, ConfiguratorMessageGroup[]> {
+    const messagesMap: Record<string, ConfiguratorMessageGroup[]> = {};
+    const rows = this.getContainerRows();
+    rows.forEach((row) => {
+      const view = this.getRowMessages(
+        configuration,
+        row,
+        rows,
+        showRequiredMessage
+      );
+      messagesMap[row.id] = this.getRowMessageGroups(view, !!row.selected);
+    });
+    return messagesMap;
+  }
+
+  /**
+   * Determines the messages to display for the given container row.
+   * When the row is not selected, the row min/max info and (when applicable) the
+   * required error are included before the row-level engine messages.
+   *
+   * @param configuration - Current configuration
+   * @param row - Container row the messages belong to
+   * @param rows - All container rows, used to compute the required count
+   * @param showRequiredMessage - Whether the required message should be shown
+   * @returns Messages of the nested configuration of the given container row
+   */
+  protected getRowMessages(
+    configuration: Configurator.Configuration,
+    row: Configurator.ContainerRow,
+    rows: Configurator.ContainerRow[],
+    showRequiredMessage: boolean
+  ): ConfiguratorMessagesView {
+    const group = row.groupId
+      ? this.configuratorUtilsService.getOptionalGroupById(
+          configuration.groups,
+          row.groupId
+        )
+      : undefined;
+    const engineMessages =
+      this.configuratorMessageService.splitMessagesBySeverity(group?.messages);
+
+    if (row.selected) {
+      return engineMessages;
+    }
+
+    return this.configuratorMessageService.enrichMessagesWithContainerContext(
+      engineMessages,
+      {
+        minRows: row.minRows,
+        maxRows: row.maxRows,
+        rows: rows,
+        includeContainerInfo: true,
+        includeRequiredError: showRequiredMessage,
+        getContainerRowInfoKey: (minRows, maxRows) =>
+          this.getContainerRowInfoKey(minRows, maxRows),
+        getContainerRequiredMessageKey: (minRows, containerRows) =>
+          this.getContainerRequiredMessageKey(minRows, containerRows),
+      }
+    );
+  }
+
+  /**
+   * Filters the given messages by the product selection state and builds the
+   * info, warning, error, container info and required message groups of the
+   * bound container row.
+   *
+   * @param view - Messages of the bound container row
+   * @param selected - Whether the row (product) is selected
+   * @returns Message groups
+   */
+  protected getRowMessageGroups(
+    view: ConfiguratorMessagesView,
+    selected: boolean
+  ): ConfiguratorMessageGroup[] {
+    const messagesView =
+      this.configuratorMessageService.filterMessagesByProductSelection(
+        view,
+        selected
+      );
+
+    return this.configuratorMessageService.prependContainerContextMessageGroups(
+      messagesView,
+      {
+        containerInfoMessageClass: 'cx-container-info-msg',
+        requiredErrorMessageClass: 'cx-container-error-msg',
+        iconTypeError: ICON_TYPE.ERROR,
+        containerInfoUiKeyPrefix: 'row-container-info-msg',
+        requiredErrorUiKeyPrefix: 'row-required-msg',
+      }
+    );
+  }
+
+  /**
+   * Verifies if the container required message should be considered.
+   *
+   * @returns `true` when the parent attribute is required and incomplete
+   */
+  protected shouldShowContainerRequiredMessage(): boolean {
+    return !!this.attribute.required && !!this.attribute.incomplete;
+  }
+
+  /**
+   * Resolves whether the required message can be shown for the parent group.
+   * The message is only shown once the group (or cart entry) has been visited
+   * and the attribute is required and incomplete.
+   *
+   * @param groupId - Parent group id
+   * @returns Observable that emits whether the required message is shown
+   */
+  protected getShowRequiredMessage$(groupId?: string): Observable<boolean> {
+    if (!groupId) {
+      return of(false);
+    }
+    return this.configuratorStorefrontUtilsService
+      .isCartEntryOrGroupVisited(this.attributeComponentContext.owner, groupId)
+      .pipe(
+        map((visited) => visited && this.shouldShowContainerRequiredMessage())
+      );
   }
 
   /**
@@ -335,6 +506,7 @@ export class ConfiguratorAttributeContainerComponent extends ConfiguratorAttribu
     return {
       multiSelect: true,
       productBoundValue: this.mapRowToValue(row),
+      attribute: this.attribute,
       attributeId: this.getAttributeCode(this.attribute),
       attributeLabel: this.attribute.label,
       attributeName: this.attribute.name,
@@ -342,6 +514,7 @@ export class ConfiguratorAttributeContainerComponent extends ConfiguratorAttribu
       itemIndex: index,
       loading$: this.loading$,
       containerRow: row,
+      messages: this.messagesMap[row.id] ?? [],
     };
   }
 

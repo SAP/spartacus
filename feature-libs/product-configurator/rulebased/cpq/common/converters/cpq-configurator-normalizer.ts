@@ -21,6 +21,12 @@ export class CpqConfiguratorNormalizer
     protected translation: TranslationService
   ) {}
 
+  /**
+   * Converts a CPQ configuration to the configurator-independent model.
+   *
+   * @param source - CPQ configuration
+   * @param target - optional target configuration to be filled
+   */
   convert(
     source: Cpq.Configuration,
     target?: Configurator.Configuration
@@ -44,6 +50,8 @@ export class CpqConfiguratorNormalizer
       interactionState: {},
       errorMessages: this.generateErrorMessages(source),
       warningMessages: this.generateWarningMessages(source),
+      messages: this.convertMessages(source.messages),
+      hasFullConfigurationState: source.hasFullConfigurationState,
       pricingEnabled: true,
     };
 
@@ -73,15 +81,17 @@ export class CpqConfiguratorNormalizer
   }
 
   protected generateTotalNumberOfIssues(source: Cpq.Configuration): number {
-    return (
-      (source.incompleteAttributes?.length ?? 0) +
-      (source.incompleteMessages?.length ?? 0) +
-      (source.invalidMessages?.length ?? 0) +
-      (source.failedValidations?.length ?? 0) +
-      (source.errorMessages?.length ?? 0)
+    return this.cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues(
+      source
     );
   }
 
+  /**
+   * Collects warning messages from failed validations and incomplete messages.
+   *
+   * @param source - CPQ configuration
+   * @returns Warning messages
+   */
   protected generateWarningMessages(source: Cpq.Configuration): string[] {
     return [
       ...(source.failedValidations ?? []),
@@ -89,6 +99,12 @@ export class CpqConfiguratorNormalizer
     ];
   }
 
+  /**
+   * Collects error messages from error and invalid messages.   *
+   *
+   * @param source - CPQ configuration
+   * @returns Error messages
+   */
   protected generateErrorMessages(source: Cpq.Configuration): string[] {
     return [...(source.errorMessages ?? []), ...(source.invalidMessages ?? [])];
   }
@@ -101,7 +117,9 @@ export class CpqConfiguratorNormalizer
     flatGroupList: Configurator.Group[],
     containers?: Cpq.Container[],
     containerRowId?: string,
-    parentRowGroupId?: string
+    parentRowGroupId?: string,
+    parentGroup?: Configurator.Group,
+    ancestorGroups: Configurator.Group[] = []
   ) {
     const groupId = this.createTabGroupId(source.id, parentRowGroupId);
     const attributes: Configurator.Attribute[] = [];
@@ -134,6 +152,8 @@ export class CpqConfiguratorNormalizer
     groupList.push(group);
 
     this.attachContainers(group, containers, currency, flatGroupList);
+    const ancestors = parentGroup ? [parentGroup, ...ancestorGroups] : [];
+    this.compileGroupComplete(group, ancestors);
   }
 
   /**
@@ -190,6 +210,7 @@ export class CpqConfiguratorNormalizer
     flatGroupList.push(group);
 
     this.attachContainers(group, containers, currency, flatGroupList);
+    this.compileGroupComplete(group);
   }
 
   protected isUITypeReadOnly(attribute: Configurator.Attribute): boolean {
@@ -566,44 +587,158 @@ export class CpqConfiguratorNormalizer
     return uiType;
   }
 
+  /**
+   * Marks a required attribute as incomplete when it has no selected value or user input.
+   *
+   * @param attribute - converted attribute
+   * @protected
+   */
   protected compileAttributeIncomplete(attribute: Configurator.Attribute) {
-    //Default value for incomplete is false
     attribute.incomplete = false;
 
-    switch (attribute.uiType) {
-      case Configurator.UiType.RADIOBUTTON:
-      case Configurator.UiType.RADIOBUTTON_PRODUCT:
-      case Configurator.UiType.DROPDOWN:
-      case Configurator.UiType.DROPDOWN_PRODUCT:
-      case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
-        if (
-          !attribute.selectedSingleValue ||
-          attribute.selectedSingleValue === Configurator.RetractValueCode
-        ) {
-          attribute.incomplete = true;
-        }
-        break;
+    if (!attribute.required) {
+      return;
+    }
+
+    const singleValueTypes = [
+      Configurator.UiType.RADIOBUTTON,
+      Configurator.UiType.RADIOBUTTON_PRODUCT,
+      Configurator.UiType.DROPDOWN,
+      Configurator.UiType.DROPDOWN_PRODUCT,
+      Configurator.UiType.SINGLE_SELECTION_IMAGE,
+    ];
+    const inputTypes = [
+      Configurator.UiType.NUMERIC,
+      Configurator.UiType.STRING,
+    ];
+    const multiValueTypes = [
+      Configurator.UiType.CHECKBOXLIST,
+      Configurator.UiType.CHECKBOXLIST_PRODUCT,
+      Configurator.UiType.CHECKBOX,
+      Configurator.UiType.MULTI_SELECTION_IMAGE,
+    ];
+    const uiType = attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED;
+    if (singleValueTypes.includes(uiType)) {
+      this.compileAttributeIncompleteSingleLevel(attribute);
+    } else if (inputTypes.includes(uiType)) {
+      this.compileAttributeIncompleteInputTypes(attribute);
+    } else if (multiValueTypes.includes(uiType)) {
+      this.compileAttributeIncompleteMultiSelect(attribute);
+    } else if (uiType === Configurator.UiType.CONTAINER) {
+      this.compileAttributeIncompleteContainer(attribute);
+    }
+  }
+
+  /**
+   * Marks a single selection attribute as incomplete when it has no selected value or the retract value is selected.
+   *
+   * @param attribute - converted attribute
+   * @protected
+   */
+  protected compileAttributeIncompleteSingleLevel(
+    attribute: Configurator.Attribute
+  ): void {
+    if (
+      !attribute.selectedSingleValue ||
+      attribute.selectedSingleValue === Configurator.RetractValueCode
+    ) {
+      attribute.incomplete = true;
+    }
+  }
+
+  /**
+   * Marks an input type attribute as incomplete when it has no user input.
+   *
+   * @param attribute - converted attribute
+   * @protected
+   */
+  protected compileAttributeIncompleteInputTypes(
+    attribute: Configurator.Attribute
+  ): void {
+    if (!attribute.userInput) {
+      attribute.incomplete = true;
+    }
+  }
+
+  /**
+   * Marks a multi selection attribute as incomplete when it has no selected values.
+   *
+   * @param attribute - converted attribute
+   * @protected
+   */
+  protected compileAttributeIncompleteMultiSelect(
+    attribute: Configurator.Attribute
+  ): void {
+    attribute.incomplete = !attribute.values?.some((value) => value.selected);
+  }
+
+  /**
+   * Marks a container attribute as incomplete when the total number of selected
+   * rows is below the container `minRows`, or when the number of selected
+   * instances of a product is below that product row's `minRows`.
+   *
+   * @param attribute - converted attribute
+   * @protected
+   */
+  protected compileAttributeIncompleteContainer(
+    attribute: Configurator.Attribute
+  ): void {
+    const rows = attribute.container?.rows ?? [];
+    const totalSelectedRows = rows.filter((row) => row.selected).length;
+    const containerMinRows = attribute.container?.minRows ?? 0;
+
+    if (containerMinRows > 0 && totalSelectedRows < containerMinRows) {
+      attribute.incomplete = true;
+      return;
+    }
+
+    attribute.incomplete = this.hasContainerRowMinRowsNotMet(rows);
+  }
+
+  /**
+   * Returns whether any product row's `minRows` requirement is not met.
+   * Requirements are evaluated per product (`productSystemId`), falling back
+   * to the row `id` when no product system id is present.
+   *
+   * @param rows - container rows
+   * @returns `true` when at least one row `minRows` is not satisfied
+   * @protected
+   */
+  protected hasContainerRowMinRowsNotMet(
+    rows: Configurator.ContainerRow[]
+  ): boolean {
+    const requirements = new Map<
+      string,
+      {
+        minRows: number;
+        match: (row: Configurator.ContainerRow) => boolean;
       }
-      case Configurator.UiType.NUMERIC:
-      case Configurator.UiType.STRING: {
-        if (!attribute.userInput) {
-          attribute.incomplete = true;
-        }
-        break;
+    >();
+
+    rows.forEach((row) => {
+      const minRows = row.minRows ?? 0;
+      if (minRows <= 0) {
+        return;
       }
 
-      case Configurator.UiType.CHECKBOXLIST:
-      case Configurator.UiType.CHECKBOXLIST_PRODUCT:
-      case Configurator.UiType.CHECKBOX:
-      case Configurator.UiType.MULTI_SELECTION_IMAGE: {
-        const isOneValueSelected =
-          attribute.values?.find((value) => value.selected) !== undefined;
-        if (!isOneValueSelected) {
-          attribute.incomplete = true;
-        }
-        break;
+      const productKey = row.productSystemId ?? `id:${row.id}`;
+      const existing = requirements.get(productKey);
+      if (!existing || minRows > existing.minRows) {
+        requirements.set(productKey, {
+          minRows,
+          match: row.productSystemId
+            ? (entry) => entry.productSystemId === row.productSystemId
+            : (entry) => entry.id === row.id,
+        });
       }
-    }
+    });
+
+    return Array.from(requirements.values()).some(({ minRows, match }) => {
+      const selectedCount = rows.filter(
+        (row) => row.selected && match(row)
+      ).length;
+      return selectedCount < minRows;
+    });
   }
 
   protected hasValueToBeIgnored(
@@ -621,6 +756,120 @@ export class CpqConfiguratorNormalizer
         value.paV_ID === 0) ??
       false
     );
+  }
+
+  /**
+   * Sets the group's completeness to `false` when any attribute in the group
+   * or any subgroup is incomplete, when the group carries error messages, or
+   * when a container attribute carries error messages, propagates incompleteness
+   * down to a single subgroup, and propagates incompleteness to all ancestor
+   * groups.
+   *
+   * Also flags the group with `incompleteBecauseOfChild` when it is only
+   * incomplete because of an incomplete subgroup, so that the issue navigation
+   * can skip it in favour of the group that actually carries the issue.
+   *
+   * @param group - converted group
+   * @param ancestorGroups - parent groups up to the root
+   * @protected
+   */
+  protected compileGroupComplete(
+    group: Configurator.Group,
+    ancestorGroups: Configurator.Group[] = []
+  ): void {
+    const ownIssue = this.hasOwnIncompletenessReason(group);
+    const childIncomplete = group.subGroups.some(
+      (subGroup) => subGroup.complete === false
+    );
+    if (ownIssue || childIncomplete) {
+      group.complete = false;
+    }
+    group.incompleteBecauseOfChild =
+      group.complete === false && !ownIssue && childIncomplete;
+    if (group.complete === false) {
+      this.propagateGroupIncompletenessToSingleSubGroup(group);
+      this.propagateGroupIncompletenessToAncestors(ancestorGroups);
+    }
+  }
+
+  /**
+   * Verifies whether the group carries a reason for incompleteness on its own,
+   * namely an incomplete attribute (including an unmet container `minRows`) or
+   * an error message on the group or on one of its container attributes.
+   *
+   * @param group - converted group
+   * @returns `true` when the group is incomplete for its own reasons
+   * @protected
+   */
+  protected hasOwnIncompletenessReason(group: Configurator.Group): boolean {
+    return (
+      (group.attributes?.some((attribute) => attribute.incomplete) ?? false) ||
+      this.hasGroupErrorMessages(group)
+    );
+  }
+
+  /**
+   * Verifies whether the group or one of its container attributes carries at least one
+   * message with error severity.
+   *
+   * @param group - converted group
+   * @returns `true` when an error message is present
+   * @protected
+   */
+  protected hasGroupErrorMessages(group: Configurator.Group): boolean {
+    if (this.hasErrorMessages(group.messages)) {
+      return true;
+    }
+    return (
+      group.attributes?.some((attribute) =>
+        this.hasErrorMessages(attribute.container?.messages)
+      ) ?? false
+    );
+  }
+
+  /**
+   * Verifies whether the message list carries at least one message with error severity.
+   *
+   * @param messages - typed messages
+   * @returns `true` when an error message is present
+   * @protected
+   */
+  protected hasErrorMessages(messages?: Configurator.Message[]): boolean {
+    return (
+      messages?.some(
+        (message) => message.severity === Configurator.MessageSeverity.ERROR
+      ) ?? false
+    );
+  }
+
+  /**
+   * Propagates incompleteness to the only subgroup when the parent group has
+   * exactly one child. This is required for nested container-row groups that
+   * are condensed with their single tab in the group menu.
+   *
+   * @param group - converted group
+   * @protected
+   */
+  protected propagateGroupIncompletenessToSingleSubGroup(
+    group: Configurator.Group
+  ): void {
+    if (group.subGroups.length === 1) {
+      group.subGroups[0].complete = false;
+    }
+  }
+
+  /**
+   * Marks all ancestor groups as incomplete.
+   *
+   * @param ancestorGroups - parent groups up to the root
+   * @protected
+   */
+  protected propagateGroupIncompletenessToAncestors(
+    ancestorGroups: Configurator.Group[]
+  ): void {
+    ancestorGroups.forEach((ancestor) => {
+      ancestor.complete = false;
+    });
   }
 
   /**
@@ -648,6 +897,7 @@ export class CpqConfiguratorNormalizer
           currency,
           flatGroupList
         );
+        this.compileAttributeIncomplete(attribute);
       }
     });
   }
@@ -662,7 +912,7 @@ export class CpqConfiguratorNormalizer
     return {
       minRows: source.minRows,
       maxRows: source.maxRows,
-      failedValidations: source.failedValidations,
+      messages: this.convertMessages(source.messages),
       rows: (source.rows ?? []).map((row) =>
         this.convertContainerRow(
           row,
@@ -682,27 +932,53 @@ export class CpqConfiguratorNormalizer
     currency: string,
     flatGroupList: Configurator.Group[]
   ): Configurator.ContainerRow {
+    const nestedConfiguration = source.configuration;
     const row: Configurator.ContainerRow = {
       id: source.id,
+      minRows: source.minRows,
+      maxRows: source.maxRows,
       productSystemId: source.productSystemId,
       productName: source.productName,
       selected: source.selected,
       actions: this.convertContainerRowActions(source.actions),
     };
 
-    if (source.configuration) {
+    if (nestedConfiguration) {
       const rowGroup = this.convertNestedConfiguration(
-        source.configuration,
+        nestedConfiguration,
         source,
         attrCode,
         currency,
-        flatGroupList
+        flatGroupList,
+        parentGroup
       );
       parentGroup.subGroups.push(rowGroup);
       row.groupId = rowGroup.id;
+    } else {
+      row.actions = this.filterEditActionWhenNoNestedConfiguration(row.actions);
     }
 
     return row;
+  }
+
+  /**
+   * Removes the EDIT action when CPQ sends it without a nested configuration.
+   *
+   * @param actions - Container row actions
+   * @returns Actions without EDIT when no nested configuration is available
+   */
+  protected filterEditActionWhenNoNestedConfiguration(
+    actions: Configurator.ContainerRowAction[] | undefined
+  ): Configurator.ContainerRowAction[] | undefined {
+    if (!actions?.length) {
+      return actions;
+    }
+
+    const filteredActions = actions.filter(
+      (action) => action !== Configurator.ContainerRowAction.EDIT
+    );
+
+    return filteredActions.length ? filteredActions : undefined;
   }
 
   protected convertNestedConfiguration(
@@ -710,7 +986,8 @@ export class CpqConfiguratorNormalizer
     row: Cpq.ContainerRow,
     attrCode: number,
     currency: string,
-    flatGroupList: Configurator.Group[]
+    flatGroupList: Configurator.Group[],
+    parentGroup: Configurator.Group
   ): Configurator.Group {
     const rowGroup: Configurator.Group = {
       id: `${Configurator.ContainerRowGroupIdPrefix}@${attrCode}@${row.id}`,
@@ -725,6 +1002,7 @@ export class CpqConfiguratorNormalizer
       messages: this.convertMessages(source.messages),
     };
 
+    const ancestors = [parentGroup];
     source.tabs?.forEach((tab) =>
       this.convertGroup(
         tab,
@@ -734,9 +1012,13 @@ export class CpqConfiguratorNormalizer
         flatGroupList,
         source.containers,
         row.id,
-        rowGroup.id
+        rowGroup.id,
+        rowGroup,
+        ancestors
       )
     );
+
+    this.compileGroupComplete(rowGroup, ancestors);
 
     return rowGroup;
   }
@@ -755,16 +1037,28 @@ export class CpqConfiguratorNormalizer
       }));
   }
 
+  /**
+   * Converts CPQ message severity to the configurator-independent model.
+   *
+   * Note: This is NOT a one-to-one mapping. CPQ severity levels are intentionally
+   * escalated to be more strict in the configurator model:
+   * - CPQ INFO is mapped to CONFIGURATOR WARNING (informational messages become warnings)
+   * - CPQ WARNING is mapped to CONFIGURATOR ERROR (warnings become errors)
+   * This escalation ensures that important information from CPQ is more prominently
+   * surfaced to users in the configurator UI.
+   *
+   * @param severity - CPQ message severity
+   * @returns Escalated Configurator message severity, or `undefined` if the CPQ severity is not recognized
+   * @protected
+   */
   protected convertMessageSeverity(
-    severity?: string
+    severity?: Cpq.MessageSeverity
   ): Configurator.MessageSeverity | undefined {
     switch (severity) {
       case Cpq.MessageSeverity.INFO:
-      case Configurator.MessageSeverity.INFO:
-        return Configurator.MessageSeverity.INFO;
-      case Cpq.MessageSeverity.WARNING:
-      case Configurator.MessageSeverity.WARNING:
         return Configurator.MessageSeverity.WARNING;
+      case Cpq.MessageSeverity.WARNING:
+        return Configurator.MessageSeverity.ERROR;
       default:
         return undefined;
     }

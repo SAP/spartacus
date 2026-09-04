@@ -49,6 +49,8 @@
       "singleSelectRequiredMessage": "Select a value",
       "singleSelectAdditionalRequiredMessage": "Select or enter a value",
       "multiSelectRequiredMessage": "Select one or more values",
+      "containerRequiredMessage": "Add {{count}} more product",
+      "containerRequiredMessage_other": "Add {{count}} more products",
       "wrongNumericFormat": "Wrong format, this numerical attribute should be entered according to pattern {{pattern}}",
       "wrongNumericFormatMessage": "Enter the number in the following format: {{pattern}}",
       "wrongIntervalFormat": "Enter a value within the indicated boundaries",
@@ -60,7 +62,14 @@
       "availableProducts": "Available Products ({{count}})",
       "selectAvailableProducts": "Select products",
       "searchAvailableProducts": "Search",
-      "noAvailableProductsFound": "No results found"
+      "noAvailableProductsFound": "No results found",
+      "containerMinMaxRows": "Select {{minRows}} to {{maxRows}} products",
+      "containerMinRows": "Select at least {{count}} product",
+      "containerMinRows_other": "Select at least {{count}} products",
+      "containerMaxRows": "Select up to {{count}} product",
+      "containerMaxRows_other": "Select up to {{count}} products",
+      "containerExactRows": "Select {{count}} product",
+      "containerExactRows_other": "Select {{count}} products"
     },
     "button": {
       "previous": "Previous",

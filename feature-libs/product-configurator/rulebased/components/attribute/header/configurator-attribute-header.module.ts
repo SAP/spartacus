@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
+import { ConfiguratorMessageModule } from '../../message/configurator-message.module';
 import { ConfiguratorShowMoreModule } from '../../show-more/configurator-show-more.module';
 import { ConfiguratorAttributeCompositionConfig } from '../composition/configurator-attribute-composition.config';
 import { ConfiguratorShowOptionsModule } from '../show-options/configurator-show-options.module';
@@ -24,6 +25,7 @@ import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-h
     IconModule,
     NgSelectModule,
     ConfiguratorShowMoreModule,
+    ConfiguratorMessageModule,
     ConfiguratorShowOptionsModule,
     ConfiguratorAttributeHeaderComponent,
   ],

@@ -14,6 +14,7 @@ import {
   KeyboardFocusModule,
   MediaModule,
 } from '@spartacus/storefront';
+import { ConfiguratorMessageModule } from '../../message/configurator-message.module';
 import { ConfiguratorPriceModule } from '../../price/configurator-price.module';
 import { ConfiguratorShowMoreModule } from '../../show-more/configurator-show-more.module';
 import { ConfiguratorAttributeQuantityModule } from '../quantity/configurator-attribute-quantity.module';
@@ -32,6 +33,7 @@ import { ConfiguratorAttributeProductCardComponent } from './configurator-attrib
     ReactiveFormsModule,
     MediaModule,
     ConfiguratorPriceModule,
+    ConfiguratorMessageModule,
     KeyboardFocusModule,
     IconModule,
     ConfiguratorAttributeProductCardComponent,

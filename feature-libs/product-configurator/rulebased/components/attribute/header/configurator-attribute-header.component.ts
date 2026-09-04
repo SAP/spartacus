@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,16 +12,27 @@ import {
   isDevMode,
   OnInit,
 } from '@angular/core';
-import { Config, LoggerService, TranslatePipe } from '@spartacus/core';
+import {
+  Config,
+  LoggerService,
+  Translatable,
+  TranslatePipe,
+} from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { delay, filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../core/facade/configurator-groups.service';
+import {
+  ConfiguratorMessageGroup,
+  ConfiguratorMessageService,
+  ConfiguratorMessagesView,
+} from '../../service/configurator-message.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
+import { ConfiguratorMessageComponent } from '../../message/configurator-message.component';
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorShowOptionsComponent } from '../show-options/configurator-show-options.component';
@@ -33,9 +44,11 @@ import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-a
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
+    NgFor,
     IconComponent,
     ConfiguratorShowOptionsComponent,
     ConfiguratorShowMoreComponent,
+    ConfiguratorMessageComponent,
     AsyncPipe,
     TranslatePipe,
   ],
@@ -56,6 +69,7 @@ export class ConfiguratorAttributeHeaderComponent
 
   protected logger = inject(LoggerService);
   protected config = inject(Config);
+  protected configuratorMessageService = inject(ConfiguratorMessageService);
 
   constructor(
     protected configUtils: ConfiguratorStorefrontUtilsService,
@@ -87,10 +101,18 @@ export class ConfiguratorAttributeHeaderComponent
 
   /**
    * Get message key for the required message. Is different for multi- and single selection values
-   *  @return {string} - required message key
+   * and for container attributes. Container messages include `count` for the remaining
+   * products needed to meet `minRows`, so i18n can pick singular vs plural.
+   *
+   * @return required message key, or a translatable with params for containers
    */
-  getRequiredMessageKey(): string {
-    if (this.isSingleSelection()) {
+  getRequiredMessageKey(): string | Translatable | undefined {
+    if (this.isContainerSelection()) {
+      return this.getContainerRequiredMessageKey(
+        this.attribute.container?.minRows,
+        this.attribute.container?.rows
+      );
+    } else if (this.isSingleSelection()) {
       return this.isWithAdditionalValues(this.attribute)
         ? 'configurator.attribute.singleSelectAdditionalRequiredMessage'
         : 'configurator.attribute.singleSelectRequiredMessage';
@@ -110,6 +132,10 @@ export class ConfiguratorAttributeHeaderComponent
       }
     }
     return false;
+  }
+
+  protected isContainerSelection(): boolean {
+    return this.attribute.uiType === Configurator.UiType.CONTAINER;
   }
 
   protected isSingleSelection(): boolean {
@@ -159,10 +185,7 @@ export class ConfiguratorAttributeHeaderComponent
    * @return {boolean} - 'true' if the group type is 'attribute group' otherwise 'false'
    */
   isAttributeGroup(): boolean {
-    if (Configurator.GroupType.ATTRIBUTE_GROUP === this.groupType) {
-      return true;
-    }
-    return false;
+    return Configurator.GroupType.ATTRIBUTE_GROUP === this.groupType;
   }
 
   /**
@@ -326,5 +349,88 @@ export class ConfiguratorAttributeHeaderComponent
       this.configuratorUISettingsConfig.productConfigurator?.descriptions
         ?.attributeDescriptionLength ?? 100
     );
+  }
+  /**
+   * Container messages split into severity buckets.
+   *
+   * @returns Messages grouped by severity
+   */
+  getContainerMessages(): ConfiguratorMessagesView {
+    return this.configuratorMessageService.enrichMessagesWithContainerContext(
+      this.configuratorMessageService.splitMessagesBySeverity(
+        this.attribute.container?.messages
+      ),
+      {
+        minRows: this.attribute.container?.minRows,
+        maxRows: this.attribute.container?.maxRows,
+        rows: this.attribute.container?.rows,
+        includeContainerInfo: !!this.attribute.container,
+        includeRequiredError: false,
+        getContainerRowInfoKey: (minRows, maxRows) =>
+          this.getContainerRowInfoKey(minRows, maxRows),
+        getContainerRequiredMessageKey: (minRows, rows) =>
+          this.getContainerRequiredMessageKey(minRows, rows),
+      }
+    );
+  }
+
+  /**
+   * Retrieves info, warning, and error message groups of the bound container.
+   * Container min/max info and required errors are rendered first.
+   *
+   * @param showRequiredMessage - Whether the required message should be shown
+   * @returns - message groups
+   */
+  getMessageGroups(showRequiredMessage = false): ConfiguratorMessageGroup[] {
+    const messages = this.getContainerMessages();
+    const messagesView =
+      showRequiredMessage && this.isContainerSelection()
+        ? this.configuratorMessageService.enrichMessagesWithContainerContext(
+            messages,
+            {
+              minRows: this.attribute.container?.minRows,
+              maxRows: this.attribute.container?.maxRows,
+              rows: this.attribute.container?.rows,
+              includeContainerInfo: false,
+              includeRequiredError: true,
+              getContainerRowInfoKey: (minRows, maxRows) =>
+                this.getContainerRowInfoKey(minRows, maxRows),
+              getContainerRequiredMessageKey: (minRows, rows) =>
+                this.getContainerRequiredMessageKey(minRows, rows),
+            }
+          )
+        : messages;
+
+    const groups =
+      this.configuratorMessageService.prependContainerContextMessageGroups(
+        messagesView,
+        {
+          containerInfoMessageClass: 'cx-container-info-msg',
+          requiredErrorMessageClass: 'cx-required-error-msg',
+          iconTypeError: this.iconTypes.ERROR,
+          containerInfoUiKeyPrefix: 'container-info-msg',
+          requiredErrorUiKeyPrefix: 'required-msg',
+        }
+      );
+
+    if (showRequiredMessage && !this.isContainerSelection()) {
+      const requiredMessage = this.getRequiredMessageKey();
+      if (requiredMessage) {
+        groups.unshift({
+          messages: [
+            typeof requiredMessage === 'string'
+              ? { key: requiredMessage }
+              : requiredMessage,
+          ],
+          messageClass: 'cx-required-error-msg',
+          iconType: this.iconTypes.ERROR,
+          showIcon: true,
+          uiKeyPrefix: 'required-msg',
+          role: 'alert',
+        });
+      }
+    }
+
+    return groups;
   }
 }

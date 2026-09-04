@@ -186,12 +186,8 @@ export class CpqConfiguratorOverviewNormalizer
   }
 
   protected calculateTotalNumberOfIssues(source: Cpq.Configuration): number {
-    const numberOfIssues: number =
-      (source.incompleteAttributes?.length ?? 0) +
-      (source.incompleteMessages?.length ?? 0) +
-      (source.invalidMessages?.length ?? 0) +
-      (source.failedValidations?.length ?? 0) +
-      (source.errorMessages?.length ?? 0);
-    return numberOfIssues;
+    return this.cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues(
+      source
+    );
   }
 }
