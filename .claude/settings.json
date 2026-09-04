@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -rln \"cx-color-#{\\\\|@each \\\\$\" core-libs/styles/scss --include=\"*.scss\")"
+    ]
+  }
+}

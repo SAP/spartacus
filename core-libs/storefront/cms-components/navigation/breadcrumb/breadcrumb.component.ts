@@ -17,6 +17,7 @@ import {
   PageMetaService,
   TranslatePipe,
   TranslationService,
+  useFeatureStyles,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -47,6 +48,7 @@ export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
     private translation: TranslationService
   ) {
     super(component, pageMetaService);
+    useFeatureStyles('improveContrastFooterAndBreadcrumb');
   }
 
   ngOnInit(): void {

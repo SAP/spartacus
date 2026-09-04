@@ -26,6 +26,19 @@
       p {
         margin-bottom: 0;
       }
+
+      // The footer copyright text ships from the CMS with a hardcoded
+      // low-contrast color (#aaa, ~2.32:1 on white). Force a theme-adaptive
+      // color so it meets WCAG 1.4.3 (>=4.5:1 in the default theme and >=7:1
+      // in the high-contrast light theme). `!important` is required to override
+      // the inline color that comes from the CMS content.
+      @include forFeature('improveContrastFooterAndBreadcrumb') {
+        &,
+        p,
+        div {
+          color: var(--cx-color-text) !important;
+        }
+      }
     }
   }
 

@@ -63,6 +63,13 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
           color: var(--cx-color-primary);
           padding: 0px 5px;
 
+          // `--cx-color-primary` (#1f7bc0) only reaches ~4.1:1 on the breadcrumb
+          // background. Switch to the darker `--cx-color-primary-accent` so the
+          // link meets WCAG 1.4.3 (>=4.5:1).
+          @include forFeature('improveContrastFooterAndBreadcrumb') {
+            color: var(--cx-color-primary-accent);
+          }
+
           &:focus {
             outline-offset: -4px;
             box-shadow: inset 0 0 0 2px var(--cx-color-inverse);

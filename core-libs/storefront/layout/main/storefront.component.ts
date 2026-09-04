@@ -120,6 +120,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     useFeatureStyles('cdsBottomHeaderSlotAdjustPosition');
     useFeatureStyles('a11yFocusIndicatorContrast');
     useFeatureStyles('a11yDisabledButtonContrast');
+    useFeatureStyles('improveContrastFooterAndBreadcrumb');
   }
 
   ngOnInit(): void {
