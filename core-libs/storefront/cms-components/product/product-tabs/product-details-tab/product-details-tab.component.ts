@@ -45,7 +45,12 @@ export class ProductDetailsTabComponent implements OnInit {
                 };
               }
 
-              return child;
+              // These children are nested inside the container, not direct slot
+              // children. SmartEdit uses this flag to skip the component contract.
+              return {
+                ...child,
+                nested: true,
+              };
             })
           )
         )

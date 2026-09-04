@@ -70,7 +70,14 @@ export class InnerComponentsHostDirective implements OnInit, OnDestroy {
       this.cmsInjector,
       this.eventService
     );
-    componentWrapper.cxComponentWrapper = { flexType: component, uid: '' };
+    // Inner components are nested (not direct children of a content slot), so they
+    // must not receive the SmartEdit component contract. The `nested` flag is read
+    // by the SmartEdit component decorator.
+    componentWrapper.cxComponentWrapper = {
+      flexType: component,
+      uid: '',
+      nested: true,
+    };
     componentWrapper.ngOnInit();
     this.componentWrappers.push(componentWrapper);
   }
