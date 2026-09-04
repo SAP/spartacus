@@ -97,5 +97,13 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
     };
   }
 
+  if (featureToggles.oauthCallbackPage) {
+    (routingConfig.routing?.routes as RoutesConfig)['oAuthCallback'] = {
+      paths: ['oauth-callback'],
+      protected: false,
+      authFlow: true,
+    };
+  }
+
   return routingConfig;
 };
