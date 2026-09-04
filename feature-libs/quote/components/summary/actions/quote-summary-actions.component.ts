@@ -18,6 +18,7 @@ import {
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   TranslatePipe,
@@ -79,6 +80,7 @@ export class QuoteSummaryActionsComponent
   protected readonly ACTION_BUTTONS_HEIGHT = 226;
   protected readonly AMOUNT_OF_ACTION_BUTTONS = 2;
   protected readonly BOTTOM = 'bottom';
+  private featureToggle = inject(FeatureToggles);
 
   @HostListener('window:resize')
   handleResize(): void {
@@ -95,23 +97,44 @@ export class QuoteSummaryActionsComponent
   }
 
   ngOnInit(): void {
-    //submit button present and threshold not reached: Display message
-    this.quoteDetails$.pipe(take(1)).subscribe((quote) => {
-      const mustDisableAction = quote.allowedActions.find((action) =>
-        this.mustDisableAction(action.type, quote)
+    if (this.featureToggle.showWarningMessageOnRequoteButtonClick) {
+      this.subscription.add(
+        this.quoteDetails$.subscribe((quote) => {
+          const mustDisableAction = quote.allowedActions.find((action) =>
+            this.mustDisableAction(action.type, quote)
+          );
+          if (mustDisableAction) {
+            this.globalMessageService.add(
+              {
+                key: 'quote.commons.minRequestInitiationNote',
+                params: {
+                  minValue: quote.threshold,
+                },
+              },
+              GlobalMessageType.MSG_TYPE_WARNING
+            );
+          }
+        })
       );
-      if (mustDisableAction) {
-        this.globalMessageService.add(
-          {
-            key: 'quote.commons.minRequestInitiationNote',
-            params: {
-              minValue: quote.threshold,
-            },
-          },
-          GlobalMessageType.MSG_TYPE_WARNING
+    } else {
+      //submit button present and threshold not reached: Display message
+      this.quoteDetails$.pipe(take(1)).subscribe((quote) => {
+        const mustDisableAction = quote.allowedActions.find((action) =>
+          this.mustDisableAction(action.type, quote)
         );
-      }
-    });
+        if (mustDisableAction) {
+          this.globalMessageService.add(
+            {
+              key: 'quote.commons.minRequestInitiationNote',
+              params: {
+                minValue: quote.threshold,
+              },
+            },
+            GlobalMessageType.MSG_TYPE_WARNING
+          );
+        }
+      });
+    }
   }
 
   /**
