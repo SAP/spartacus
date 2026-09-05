@@ -61,6 +61,7 @@
     "build:punchout": "npm --prefix integration-libs/punchout run build:schematics && npx nx build punchout --configuration production",
     "config:update": "ts-node ./tools/config/index.ts --fix",
     "config:check": "ts-node ./tools/config/index.ts",
+    "manage-migrations": "ts-node ./tools/config/manage-migrations.ts --fix",
     "generate:deps": "ts-node ./tools/schematics/dependency-collector.ts",
     "e2e:open": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:open",
     "e2e:open:ci": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:open:ci",
