@@ -10,7 +10,7 @@ BACKEND_URL="https://api.c432wmya2v-teamspart3-s4-public.model-t.myhybris.cloud"
 
 # A comma separated list of base sites.
 # When empty, the base sites will not be explicitly specified in spartacus-configuration.module.ts
-BASE_SITE=
+BASE_SITE="electronics-spa,electronics,apparel-de,apparel-uk,apparel-uk-spa"
 
 OCC_PREFIX="/occ/v2/"
 
