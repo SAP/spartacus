@@ -11,6 +11,8 @@ import { viewportContext } from '../../../helpers/viewport-context';
 describe('Order History with no orders', () => {
   viewportContext(['mobile', 'desktop'], () => {
     describe('Order History for anonymous user', () => {
+      // Verifies that anonymous users cannot access the order history page and are redirected to the login page.
+      // The final check ensures the URL pathname contains '/login'.
       it('should redirect to login page for anonymous user', () => {
         cy.visit('/my-account/orders');
         cy.location('pathname').should('contain', '/login');
@@ -28,6 +30,8 @@ describe('Order History with no orders', () => {
         });
       });
 
+      // Tests that the order history page displays the no-orders message and clicking "Start Shopping" redirects to the homepage.
+      // The final check verifies that the homepage response has a status code of 200 and the banner is displayed.
       it('should display order history page and should be able to start shopping', () => {
         const homePage = waitForPage('homepage', 'getHomePage');
         cy.get('cx-breadcrumb h1').should('contain', 'Order History');

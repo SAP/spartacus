@@ -31,12 +31,16 @@ describe(
     });
 
     context('My Account V2 Profile Management ', () => {
+      // Tests keyboard navigation with the Tab key on the My Account V2 Profile page in display mode.
+      // The final check verifies that all configured elements are reachable in the correct tabbing order.
       it('should allow to navigate with tab key display mode (CXSPA-4442)', () => {
         myAccountV2UserProfileManagementTabbingOrder(
           config.myAccountV2ProfileDisplay
         );
       });
 
+      // Tests keyboard navigation with the Tab key on the My Account V2 Profile page in edit mode.
+      // The final check verifies that all configured form elements and buttons are reachable in the correct tabbing order.
       it('should allow to navigate with tab key edit mode (CXSPA-4442)', () => {
         myAccountV2UserProfileManagementTabbingOrder(
           config.myAccountV2ProfileEdit,
@@ -46,11 +50,15 @@ describe(
     });
 
     context('My Account V2 Email Management', () => {
+      // Tests keyboard navigation with the Tab key on the My Account V2 Email page in display mode.
+      // The final check verifies that all configured elements are reachable in the correct tabbing order.
       it('should allow to navigate with tab key display mode (CXSPA-4442)', () => {
         myAccountV2UserEmailManagementTabbingOrder(
           config.myAccountV2EmailDisplay
         );
       });
+      // Tests keyboard navigation with the Tab key on the My Account V2 Email page in edit mode.
+      // The final check verifies that all configured form elements and buttons are reachable in the correct tabbing order.
       it('should allow to navigate with tab key edit mode (CXSPA-4442)', () => {
         myAccountV2UserEmailManagementTabbingOrder(
           config.myAccountV2EmailEdit,
