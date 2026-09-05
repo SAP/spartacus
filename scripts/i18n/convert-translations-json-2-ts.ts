@@ -148,7 +148,7 @@ function stringify(obj: any, indent: string = ''): string {
       return '`' + obj.replace(/`/g, '\\`') + '`';
     }
     if (obj.includes("'")) {
-      return `"${obj.replace(/"/g, '\\"')}"`;
+      return `"${obj.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
     }
     return `'${obj}'`;
   } else if (typeof obj !== 'object' || obj === null) {
