@@ -8,6 +8,7 @@ import { inject, Injectable } from '@angular/core';
 import { CanActivate, GuardResult, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { FeatureToggles } from '../../../features-config';
 import { FederatedLoginService } from '../../../federated-login/services/federated-login.service';
 import {
   GlobalMessageService,
@@ -57,6 +58,7 @@ export class CustomLoginGuard implements CanActivate {
   protected globalMessageService = inject(GlobalMessageService);
   protected csrfStateService = inject(CsrfStateService);
   protected federatedLoginService = inject(FederatedLoginService);
+  private featureToggles = inject(FeatureToggles);
 
   canActivate(): Observable<GuardResult> {
     if (
@@ -67,9 +69,20 @@ export class CustomLoginGuard implements CanActivate {
       return of(true);
     }
 
-    return this.authService.getCsrfToken().pipe(
+    const authReqId = this.featureToggles.concurrentLoginPagesSupport
+      ? this.getAuthReqId()
+      : undefined;
+
+    const csrfToken$ = this.featureToggles.concurrentLoginPagesSupport
+      ? this.authService.refreshCsrfToken(authReqId)
+      : this.authService.getCsrfToken();
+
+    return csrfToken$.pipe(
       tap((token) => {
         this.csrfStateService.set(token);
+        if (this.featureToggles.concurrentLoginPagesSupport) {
+          this.csrfStateService.setAuthReqId(authReqId);
+        }
         this.clearRedirectCount();
       }),
       map(() => true),
@@ -90,17 +103,39 @@ export class CustomLoginGuard implements CanActivate {
           this.federatedLoginService.origin
         ) {
           // redirect to the origin site login so that PKCE is available to the origin
-          const originLoginUrl =
-            this.federatedLoginService.origin +
-            (this.semanticPathService.get('login') ?? '');
-          this.windowRef.location.href = originLoginUrl;
+          const originLoginPath = this.semanticPathService.get('login') ?? '';
+          const originBase = this.federatedLoginService.origin;
+          const target = new URL(originLoginPath, originBase);
+          if (this.featureToggles.concurrentLoginPagesSupport && authReqId) {
+            target.searchParams.set('auth_req_id', authReqId);
+          }
+          this.windowRef.location.href = target.href;
           // stop navigation
           return of(false);
         }
 
-        return this.createRoute('login');
+        return this.createRetryLoginRoute(authReqId);
       })
     );
+  }
+
+  protected getAuthReqId(): string | undefined {
+    return (
+      new URLSearchParams(this.windowRef.location.search ?? '').get(
+        'auth_req_id'
+      ) ?? undefined
+    );
+  }
+
+  protected createRetryLoginRoute(
+    authReqId: string | undefined
+  ): Observable<GuardResult> {
+    const loginPath = this.semanticPathService.get('login') ?? '';
+    if (authReqId) {
+      const params = new URLSearchParams({ auth_req_id: authReqId });
+      return of(this.router.parseUrl(`${loginPath}?${params.toString()}`));
+    }
+    return of(this.router.parseUrl(loginPath));
   }
 
   protected getRedirectCount() {

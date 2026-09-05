@@ -1,4 +1,4 @@
-<cx-spinner class="overlay" *ngIf="isUpdating$ | async"></cx-spinner>
+<cx-spinner class="overlay" *ngIf="isUpdating$ | async" />
 
 <form
   (ngSubmit)="onSubmit()"
@@ -33,7 +33,7 @@
         label: 'loginForm.emailAddress.label' | cxTranslate,
       }"
       [control]="form.get('userId')"
-    ></cx-form-errors>
+    />
   </label>
 
   <label>
@@ -62,7 +62,7 @@
         label: 'loginForm.password.label' | cxTranslate,
       }"
       [control]="form.get('password')"
-    ></cx-form-errors>
+    />
   </label>
 
   <ng-container *cxFeature="'authorizationCodeFlowByDefault'">
@@ -71,6 +71,15 @@
       formControlName="csrf"
       type="hidden"
       [name]="csrf.parameterName"
+    />
+  </ng-container>
+
+  <ng-container *cxFeature="'concurrentLoginPagesSupport'">
+    <input
+      *ngIf="authReqId"
+      formControlName="auth_req_id"
+      type="hidden"
+      name="auth_req_id"
     />
   </ng-container>
 
