@@ -1,28 +1,46 @@
 <input
   type="file"
+  hidden
   aria-hidden="true"
   [accept]="accept"
   [multiple]="multiple"
-  (change)="selectFile($event)"
+  (change)="onFilesSelected($event)"
+  [disabled]="disabled"
   #fileInput
 />
-<button
-  *ngIf="!customButton"
-  [attr.aria-label]="'common.selectFile' | cxTranslate"
-  class="btn btn-secondary"
-  type="button"
-  (click)="fileInput.click()"
->
-  <ng-content></ng-content>
-</button>
-<!-- TODO(Brian-Parth): CXEC-17196 -->
-<button
-  class="link cx-action-link"
-  *ngIf="customButton"
-  (click)="fileInput.click()"
->
-  <ng-container *ngTemplateOutlet="customButton"> </ng-container>
-</button>
-<p *ngFor="let file of selectedFiles">
-  {{ file?.name }}
-</p>
+
+@if (customButton) {
+  <button
+    class="link cx-action-link"
+    [disabled]="disabled"
+    (click)="openFileDialog()"
+  >
+    <ng-container *ngTemplateOutlet="customButton"/>
+  </button>
+} @else {
+  <button
+    class="btn btn-secondary"
+    type="button"
+    [attr.aria-label]="'common.selectFile' | cxTranslate"
+    (click)="openFileDialog()"
+  >
+    <ng-content/>
+  </button>
+}
+
+@for (file of files; track file.name + file.size + $index) {
+  <p>
+    {{ file?.name }}
+    @if (!disabled) {
+      <button
+        type="button"
+        class="btn"
+        [attr.aria-label]="'common.removeSelectedFile' | cxTranslate"
+        [title]="'common.removeSelectedFile' | cxTranslate"
+        (click)="removeFileByIndex($index)"
+      >
+        <cx-icon [type]="iconTypes.TRASH"></cx-icon>
+      </button>
+    }
+  </p>
+}
