@@ -5,6 +5,8 @@
  */
 
 import { Plugin } from 'esbuild';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
 
 // Environment Variables Plugin
 const resolveEnvPlugin: Plugin = {
@@ -22,6 +24,16 @@ const resolveEnvPlugin: Plugin = {
         }
       }
     });
+
+    // Expose the @spartacus/core version to the example storefrontapp (used in
+    // dev/sample sites only, to display bottom corner of site). Read here, in the
+    // Node-based build, to avoid a cross-project import from the app source.
+    env['CX_CORE_VERSION'] = JSON.parse(
+      readFileSync(
+        resolve(process.cwd(), 'core-libs/core/package.json'),
+        'utf8'
+      )
+    ).version;
     build.initialOptions.define = {
       ...build.initialOptions.define,
       'buildProcess.env': JSON.stringify(env),

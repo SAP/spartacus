@@ -30,4 +30,5 @@ interface Env {
   CX_ESTIMATED_DELIVERY_DATE: boolean;
   CX_S4_SERVICE: boolean;
   CX_PUNCHOUT: boolean;
+  CX_CORE_VERSION: string;
 }
