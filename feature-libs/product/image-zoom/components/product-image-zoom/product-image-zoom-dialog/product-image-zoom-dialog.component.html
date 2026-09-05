@@ -15,14 +15,12 @@
         (click)="close('cross click')"
       >
         <span aria-hidden="true">
-          <cx-icon [type]="iconType.CLOSE"></cx-icon>
+          <cx-icon [type]="iconType.CLOSE" />
         </span>
       </button>
     </div>
     <div class="modal-body cx-dialog-body">
-      <cx-product-image-zoom-view
-        [galleryIndex]="galleryIndex"
-      ></cx-product-image-zoom-view>
+      <cx-product-image-zoom-view [galleryIndex]="galleryIndex" />
     </div>
   </div>
 </div>

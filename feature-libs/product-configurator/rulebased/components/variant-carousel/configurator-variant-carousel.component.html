@@ -11,11 +11,10 @@
       [title]="title$ | async"
       [template]="carouselItem"
       itemWidth="285px"
-    >
-    </cx-carousel>
+    />
 
     <ng-template #carouselItem let-item="item">
-      <cx-product-carousel-item [item]="item"></cx-product-carousel-item>
+      <cx-product-carousel-item [item]="item" />
     </ng-template>
   </div>
 </ng-container>

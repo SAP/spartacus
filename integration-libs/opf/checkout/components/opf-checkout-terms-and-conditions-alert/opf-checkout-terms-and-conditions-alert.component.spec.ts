@@ -9,7 +9,7 @@ import { OpfCheckoutTermsAndConditionsAlertComponent } from './opf-checkout-term
 
 @Component({
   selector: 'cx-icon',
-  template: '<ng-content></ng-content>',
+  template: '<ng-content />',
 })
 class MockIconComponent {
   @Input() type: string;

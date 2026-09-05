@@ -20,7 +20,7 @@
             [value]="getDateRangeFieldValue()"
           />
           <button class="btn btn-tertiary btn-calendar">
-            <cx-icon class="fa fa-calendar"></cx-icon>
+            <cx-icon class="fa fa-calendar" />
           </button>
         </div>
         <button
@@ -43,7 +43,7 @@
         [selectedOption]="billingList.pagination?.sort"
         placeholder="{{ 'subscriptionBillsList.sortLabel' | cxTranslate }}"
         [ariaLabel]="'subscriptionBillsList.sortOrders'"
-      ></cx-sorting>
+      />
     </div>
   </div>
   <ng-container *ngIf="billingList.results?.length > 0; else noBills">
@@ -142,14 +142,14 @@
         <cx-pagination
           [pagination]="billingList.pagination"
           (viewPageEvent)="onPageChange($event)"
-        ></cx-pagination>
+        />
       </ng-container>
     </div>
   </ng-container>
 </ng-container>
 
 <ng-template #loading>
-  <cx-spinner></cx-spinner>
+  <cx-spinner />
 </ng-template>
 
 <ng-template #noBills>

@@ -25,7 +25,7 @@
         label: 'asm.loginForm.userId.label' | cxTranslate,
       }"
       [control]="csAgentLoginForm.get('userId')"
-    ></cx-form-errors>
+    />
   </label>
 
   <span class="label-content">
@@ -51,7 +51,7 @@
         label: 'asm.loginForm.password.label' | cxTranslate,
       }"
       [control]="csAgentLoginForm.get('password')"
-    ></cx-form-errors>
+    />
   </label>
   <button type="submit">
     {{ 'asm.loginForm.submit' | cxTranslate }}
@@ -62,4 +62,4 @@
   *ngIf="csAgentTokenLoading"
   aria-hidden="false"
   [attr.aria-label]="'common.loading' | cxTranslate"
-></cx-dot-spinner>
+/>

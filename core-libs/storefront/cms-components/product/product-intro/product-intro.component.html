@@ -1,6 +1,6 @@
 <ng-container *ngIf="product$ | async as product">
   <div class="rating" *ngIf="product?.averageRating">
-    <cx-star-rating [rating]="product?.averageRating ?? 0"></cx-star-rating>
+    <cx-star-rating [rating]="product?.averageRating ?? 0" />
 
     <div class="count">({{ product?.numberOfReviews }})</div>
     <!-- TODO: (CXSPA-7603) - Remove feature flag next major release. -->

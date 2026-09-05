@@ -36,7 +36,7 @@
                 [fitToContainer]="true"
                 [content]="card.content"
                 (sendCard)="selectPaymentMethod(card.paymentMethod)"
-              ></cx-card>
+              />
             </div>
           </div>
         </div>
@@ -64,18 +64,18 @@
       <cx-dp-payment-form
         (setPaymentDetails)="setPaymentDetails($event)"
         (closeForm)="hideNewPaymentForm()"
-      ></cx-dp-payment-form>
+      />
     </ng-template>
   </ng-container>
 
   <ng-template #loading>
-    <div class="cx-spinner"><cx-spinner></cx-spinner></div>
+    <div class="cx-spinner"><cx-spinner /></div>
   </ng-template>
 
   <ng-template #loadingPaymentDetails>
     <cx-dp-payment-callback
       (paymentDetailsAdded)="paymentDetailsAdded($event)"
       (closeCallback)="hideCallbackScreen()"
-    ></cx-dp-payment-callback>
+    />
   </ng-template>
 </ng-container>

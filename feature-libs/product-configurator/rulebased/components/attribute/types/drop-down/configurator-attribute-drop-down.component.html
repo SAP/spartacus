@@ -64,7 +64,7 @@
           )
         "
         [tabIndex]="0"
-      ></cx-configurator-show-more>
+      />
     </div>
     <div *ngIf="!withQuantity && getSelectedValue()" class="cx-value-price">
       <cx-configurator-price
@@ -73,18 +73,18 @@
             enrichValueWithPrice(getSelectedValue(), changedPrices)
           )
         "
-      ></cx-configurator-price>
+      />
     </div>
   </div>
   <div *ngIf="withQuantity" class="cx-attribute-level-quantity-price">
     <cx-configurator-attribute-quantity
       (changeQuantity)="onChangeQuantity($event, attributeDropDownForm)"
       [quantityOptions]="extractQuantityParameters(attributeDropDownForm)"
-    ></cx-configurator-attribute-quantity>
+    />
     <cx-configurator-price
       *ngIf="getSelectedValuePrice()"
       [formula]="extractPriceFormulaParameters()"
-    ></cx-configurator-price>
+    />
   </div>
 </ng-container>
 
@@ -92,11 +92,10 @@
   *ngIf="isAdditionalValueNumeric"
   class="cx-configurator-attribute-additional-value"
   [attr.aria-label]="'configurator.a11y.additionalValue' | cxTranslate"
-></cx-configurator-attribute-numeric-input-field>
+/>
 
 <cx-configurator-attribute-input-field
   *ngIf="isAdditionalValueAlphaNumeric"
   class="cx-configurator-attribute-additional-value"
   [attr.aria-label]="'configurator.a11y.additionalValue' | cxTranslate"
->
-</cx-configurator-attribute-input-field>
+/>

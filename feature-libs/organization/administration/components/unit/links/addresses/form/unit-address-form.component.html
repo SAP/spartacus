@@ -26,13 +26,12 @@
         ariaLabelDropdown="{{
           'common.ngSelectDropdownOptionsList' | cxTranslate
         }}"
-      >
-      </ng-select>
+      />
 
       <cx-form-errors
         [translationParams]="{ label: 'orgUnitAddress.country' | cxTranslate }"
         [control]="form.get('country.isocode')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label>
@@ -51,8 +50,7 @@
         ariaLabelDropdown="{{
           'common.ngSelectDropdownOptionsList' | cxTranslate
         }}"
-      >
-      </ng-select>
+      />
     </label>
 
     <label>
@@ -78,7 +76,7 @@
           label: 'orgUnitAddress.firstName' | cxTranslate,
         }"
         [control]="form.get('firstName')"
-      ></cx-form-errors>
+      />
     </label>
     <label>
       <span class="label-content required"
@@ -101,7 +99,7 @@
         id="lastNameError"
         [translationParams]="{ label: 'orgUnitAddress.lastName' | cxTranslate }"
         [control]="form.get('lastName')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label class="full-width">
@@ -125,7 +123,7 @@
         id="line1Error"
         [translationParams]="{ label: 'orgUnitAddress.address1' | cxTranslate }"
         [control]="form.get('line1')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label class="full-width">
@@ -213,7 +211,7 @@
         id="townError"
         [translationParams]="{ label: 'orgUnitAddress.city' | cxTranslate }"
         [control]="form.get('town')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label>
@@ -237,7 +235,7 @@
         id="postalCodeError"
         [translationParams]="{ label: 'orgUnitAddress.zipCode' | cxTranslate }"
         [control]="form.get('postalCode')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label></label>
@@ -266,13 +264,12 @@
           ariaLabelDropdown="{{
             'common.ngSelectDropdownOptionsList' | cxTranslate
           }}"
-        >
-        </ng-select>
+        />
 
         <cx-form-errors
           [translationParams]="{ label: 'orgUnitAddress.state' | cxTranslate }"
           [control]="form.get('region.isocode')"
-        ></cx-form-errors>
+        />
       </label>
     </ng-container>
   </ng-container>

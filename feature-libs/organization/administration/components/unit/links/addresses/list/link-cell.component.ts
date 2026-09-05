@@ -25,7 +25,7 @@ import { CellComponent } from '../../../../shared/table/cell.component';
         [routerLink]="{ cxRoute: route, params: getRouterModel(uid) } | cxUrl"
         [tabIndex]="tabIndex"
       >
-        <ng-container *ngTemplateOutlet="text"></ng-container>
+        <ng-container *ngTemplateOutlet="text" />
       </a>
     </ng-container>
 

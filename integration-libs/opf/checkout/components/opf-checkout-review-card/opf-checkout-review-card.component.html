@@ -1,5 +1,5 @@
 <ng-container *ngIf="cardContent$ | async as content">
-  <cx-card [content]="content"></cx-card>
+  <cx-card [content]="content" />
   <button
     *ngIf="editConfig?.route"
     class="cx-opf-card-review-edit-button"
@@ -9,6 +9,6 @@
         | cxTranslate
     "
   >
-    <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
+    <cx-icon [type]="iconTypes.PENCIL" />
   </button>
 </ng-container>

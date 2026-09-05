@@ -1,4 +1,4 @@
-<cx-spinner class="overlay" *ngIf="isUpdating$ | async"> </cx-spinner>
+<cx-spinner class="overlay" *ngIf="isUpdating$ | async" />
 <cx-form-required-legend />
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
   <fieldset>
@@ -55,7 +55,7 @@
           label: 'updateProfileForm.firstName.label' | cxTranslate,
         }"
         [control]="form.get('firstName')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label>
@@ -84,7 +84,7 @@
           label: 'updateProfileForm.lastName.label' | cxTranslate,
         }"
         [control]="form.get('lastName')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label>
@@ -112,7 +112,7 @@
           label: 'updateProfileForm.customerId' | cxTranslate,
         }"
         [control]="form.get('customerId')"
-      ></cx-form-errors>
+      />
     </label>
 
     <button

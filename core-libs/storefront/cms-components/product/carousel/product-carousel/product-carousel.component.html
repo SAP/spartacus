@@ -8,12 +8,8 @@
   [title]="title$ | async"
   [template]="carouselItem"
   [trackByFn]="trackByFn"
->
-</cx-carousel-scrolling>
+/>
 
 <ng-template #carouselItem let-item="item" let-itemIndex="itemIndex">
-  <cx-product-carousel-item
-    [item]="item"
-    [itemIndex]="itemIndex"
-  ></cx-product-carousel-item>
+  <cx-product-carousel-item [item]="item" [itemIndex]="itemIndex" />
 </ng-template>

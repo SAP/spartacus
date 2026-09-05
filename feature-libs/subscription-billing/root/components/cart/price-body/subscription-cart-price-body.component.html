@@ -7,7 +7,7 @@
           else noSubscriptions
         "
       >
-        <ng-container *ngTemplateOutlet="charges"></ng-container>
+        <ng-container *ngTemplateOutlet="charges" />
       </ng-container>
 
       <ng-template #noSubscriptions>
@@ -21,7 +21,7 @@
 
 <ng-container *ngIf="parent() === 'minicart'">
   <ng-container *ngIf="this.productService.isSubscription(item().product)">
-    <ng-container *ngTemplateOutlet="charges"></ng-container>
+    <ng-container *ngTemplateOutlet="charges" />
   </ng-container>
 </ng-container>
 

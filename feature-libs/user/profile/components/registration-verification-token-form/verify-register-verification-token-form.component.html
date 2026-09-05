@@ -12,7 +12,7 @@
         'verificationTokenForm.verificationCode.placeholder' | cxTranslate
       }}"
     />
-    <cx-form-errors [control]="registerForm.get('tokenCode')"></cx-form-errors>
+    <cx-form-errors [control]="registerForm.get('tokenCode')" />
     <div class="rate-limit-error-display" *ngIf="upToRateLimit">
       {{
         'register.rateLimitForRegistrationMessage'
@@ -86,7 +86,7 @@
           label: 'register.password.label' | cxTranslate,
         }"
         [control]="registerForm.get('password')"
-      ></cx-form-errors>
+      />
     </label>
   </div>
 
@@ -112,7 +112,7 @@
           label: 'register.confirmPassword.label' | cxTranslate,
         }"
         [control]="registerForm.get('passwordconf')"
-      ></cx-form-errors>
+      />
     </label>
   </div>
 
@@ -135,5 +135,5 @@
 </form>
 
 <ng-template #loading>
-  <div class="cx-spinner"><cx-spinner></cx-spinner></div>
+  <div class="cx-spinner"><cx-spinner /></div>
 </ng-template>

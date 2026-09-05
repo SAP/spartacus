@@ -30,7 +30,7 @@
         (click)="dismissModal('Close conflict solver dialog')"
       >
         <span aria-hidden="true">
-          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+          <cx-icon [type]="iconTypes.CLOSE" />
         </span>
       </button>
     </div>
@@ -38,7 +38,7 @@
     <!-- Modal Body -->
     <div class="cx-dialog-body modal-body">
       <div class="cx-msg-warning">
-        <cx-icon [type]="iconTypes.ERROR"></cx-icon>
+        <cx-icon [type]="iconTypes.ERROR" />
         {{ 'configurator.header.conflictWarning' | cxTranslate }}
       </div>
       <ng-container *ngIf="routerData$ | async as routerData">
@@ -47,8 +47,7 @@
             [group]="conflictGroup"
             [owner]="routerData.owner"
             [isNavigationToGroupEnabled]="false"
-          >
-          </cx-configurator-group> </ng-container
+          /> </ng-container
       ></ng-container>
     </div>
   </div>

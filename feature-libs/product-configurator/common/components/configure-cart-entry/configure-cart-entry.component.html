@@ -1,7 +1,7 @@
 <ng-container *ngIf="abstractOrderKey$ | async as abstractOrderKey">
   <ng-container *ngIf="cartEntry">
     <label *ngIf="isDisabled()" class="disabled-link">
-      <ng-container *ngIf="isDisabled(); then configureText"> </ng-container>
+      <ng-container *ngIf="isDisabled(); then configureText" />
     </label>
 
     <a
@@ -21,7 +21,7 @@
       cxAutoFocus
       attr.aria-describedby="{{ getResolveIssuesA11yDescription() }}"
     >
-      <ng-container *ngIf="!isDisabled(); then configureText"> </ng-container>
+      <ng-container *ngIf="!isDisabled(); then configureText" />
     </a>
   </ng-container>
 

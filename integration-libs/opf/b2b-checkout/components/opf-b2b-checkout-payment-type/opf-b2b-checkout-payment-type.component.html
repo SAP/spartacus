@@ -31,7 +31,7 @@
         [showBeforePaymentOptionsOutlet]="false"
         (paymentChange)="handlePaymentChange($event)"
         [forceDefaultPaymentOptionInputSelection]="true"
-      ></cx-opf-checkout-payments>
+      />
 
       <div class="cx-checkout-btns row">
         <div class="col-md-12 col-lg-6">
@@ -50,6 +50,6 @@
 </ng-container>
 <ng-template #loading>
   <div class="cx-spinner">
-    <cx-spinner></cx-spinner>
+    <cx-spinner />
   </div>
 </ng-template>
