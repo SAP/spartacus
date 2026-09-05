@@ -9,13 +9,13 @@ echo "-----"
 
 function run_vitest_migrated_tests {
     echo "Running VITEST unit tests for migrated libraries"
-    npx nx run-many --all --target=test-vitest
+    npx nx run-many --all --target=test-vitest -- --coverage
     return 0
 }
 
 function run_vitest_affected_tests {
     echo "Running VITEST unit tests for affected migrated libraries"
-    npx nx affected --target=test-vitest
+    npx nx affected --target=test-vitest -- --coverage
     return 0
 }
 

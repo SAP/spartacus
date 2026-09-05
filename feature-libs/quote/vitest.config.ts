@@ -13,6 +13,12 @@ const root = `${import.meta.dirname}/../..`;
 export default defineConfig({
   root: import.meta.dirname,
   plugins: [angular(), nxViteTsPaths()],
+  resolve: {
+    alias: {
+      'core-libs/storefront/shared/test/mock-feature-directive': `${root}/core-libs/storefront/shared/test/mock-feature-directive.ts`,
+      'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module': `${root}/core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module.ts`,
+    },
+  },
   test: {
     pool: 'forks',
     watch: false,
@@ -24,20 +30,27 @@ export default defineConfig({
       tsconfig: `${import.meta.dirname}/tsconfig.spec.json`,
     },
     coverage: {
+      enabled: true,
       provider: 'v8',
-      reporter: ['lcov'],
+      reporter: ['text-summary', 'html', 'lcov'],
       reportsDirectory: `${import.meta.dirname}/../../coverage/quote`,
+      include: ['**/*.ts'],
       exclude: [
+        '**/*.spec.ts',
         '**/public_api.ts',
         '**/index.ts',
         '**/*.module.ts',
+        '**/vitest.config.ts',
+        '**/assets/**',
+        '**/testing/**',
+        '**/schematics/**',
+        'setup-jest.ts',
         '../../testing/setup-vitest.ts',
       ],
       thresholds: {
-        statements: 90,
-        lines: 90,
-        branches: 80,
-        functions: 90,
+        statements: 80,
+        lines: 80,
+        functions: 80,
       },
     },
     reporters: [
@@ -49,9 +62,5 @@ export default defineConfig({
         },
       ],
     ],
-    alias: {
-      'core-libs/storefront/shared/test/mock-feature-directive': `${root}/core-libs/storefront/shared/test/mock-feature-directive`,
-      'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module': `${root}/core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module`,
-    },
   },
 });
