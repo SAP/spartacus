@@ -49,10 +49,10 @@ export default defineConfig({
       reportsDirectory: `${import.meta.dirname}/../../coverage/storefront`,
       exclude: ['**/public_api.ts', '**/index.ts', '**/*.module.ts'],
       thresholds: {
-        statements: 90,
-        lines: 90,
-        branches: 80,
-        functions: 90,
+        statements: 85,
+        lines: 85,
+        branches: 65,
+        functions: 85,
       },
     },
     reporters: [

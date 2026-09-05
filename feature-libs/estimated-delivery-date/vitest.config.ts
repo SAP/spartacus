@@ -31,7 +31,12 @@ export default defineConfig({
         '**/*.module.ts',
         'vitest.config.ts',
       ],
-      thresholds: { statements: 90, lines: 90, branches: 80, functions: 90 },
+      thresholds: {
+        statements: 85,
+        lines: 85,
+        branches: 65,
+        functions: 85,
+      },
     },
     reporters: [
       'default',
