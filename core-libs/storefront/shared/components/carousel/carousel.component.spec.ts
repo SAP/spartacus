@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   FeatureDirective as CxFeatureDirective,
+  FeatureToggles,
   LoggerService,
   MockTranslatePipe,
   Product,
@@ -57,7 +58,13 @@ describe('Carousel Component', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [CarouselComponent, MockTemplateComponent],
-      providers: [{ provide: CarouselService, useClass: MockCarouselService }],
+      providers: [
+        { provide: CarouselService, useClass: MockCarouselService },
+        {
+          provide: FeatureToggles,
+          useValue: { a11yCarouselPreventNavigationFocus: true },
+        },
+      ],
     })
       .overrideComponent(CarouselComponent, {
         add: {
@@ -286,6 +293,43 @@ describe('Carousel Component', () => {
           'true'
         );
       });
+
+      it('should preventDefault on mousedown of previous and next buttons', () => {
+        const prevButton = fixture.debugElement.query(By.css('button.previous'));
+        const nextButton = fixture.debugElement.query(By.css('button.next'));
+        const prevEvent = new MouseEvent('mousedown', { cancelable: true });
+        const nextEvent = new MouseEvent('mousedown', { cancelable: true });
+
+        prevButton.triggerEventHandler('mousedown', prevEvent);
+        nextButton.triggerEventHandler('mousedown', nextEvent);
+
+        expect(prevEvent.defaultPrevented).toBe(true);
+        expect(nextEvent.defaultPrevented).toBe(true);
+      });
+
+      it('should preventDefault on mousedown of indicator buttons', () => {
+        const indicators = fixture.debugElement.queryAll(
+          By.css('div.indicators button')
+        );
+        const event = new MouseEvent('mousedown', { cancelable: true });
+
+        indicators[1].triggerEventHandler('mousedown', event);
+
+        expect(event.defaultPrevented).toBe(true);
+      });
+
+      it('should stop click propagation on indicator buttons', () => {
+        const indicators = fixture.debugElement.queryAll(
+          By.css('div.indicators button')
+        );
+        const event = new MouseEvent('click', { cancelable: true, bubbles: true });
+        vi.spyOn(event, 'stopPropagation');
+
+        indicators[1].triggerEventHandler('click', event);
+
+        expect(event.stopPropagation).toHaveBeenCalled();
+        expect(component.activeSlide).toBe(4);
+      });
     });
 
     describe('carousel with 5 items divided by 2 slides', () => {
@@ -437,6 +481,43 @@ describe('Carousel Component', () => {
         component.setItems = mockProductArr;
         expect(component.activeSlide).toEqual(0);
       });
+    });
+  });
+
+  describe('navigation event handlers', () => {
+    it('should preventDefault on onNavigationMouseDown when the feature toggle is enabled', () => {
+      const event = {
+        preventDefault: vi.fn(),
+      } as unknown as MouseEvent;
+
+      component.onNavigationMouseDown(event);
+
+      expect(event.preventDefault).toHaveBeenCalled();
+    });
+
+    it('should not preventDefault on onNavigationMouseDown when the feature toggle is disabled', () => {
+      component['featureToggles'] = {
+        a11yCarouselPreventNavigationFocus: false,
+      };
+      const event = {
+        preventDefault: vi.fn(),
+      } as unknown as MouseEvent;
+
+      component.onNavigationMouseDown(event);
+
+      expect(event.preventDefault).not.toHaveBeenCalled();
+    });
+
+    it('should stopPropagation and set activeSlide on onIndicatorClick', () => {
+      const event = {
+        stopPropagation: vi.fn(),
+      } as unknown as MouseEvent;
+      component.activeSlide = 0;
+
+      component.onIndicatorClick(event, 3);
+
+      expect(event.stopPropagation).toHaveBeenCalled();
+      expect(component.activeSlide).toBe(3);
     });
   });
 
@@ -713,7 +794,13 @@ describe('Carousel Component tested in TestParentComponent', () => {
     TestChildComponent.destroyedCount = 0;
     TestBed.configureTestingModule({
       imports: [CarouselComponent, TestParentComponent, TestChildComponent],
-      providers: [{ provide: CarouselService, useClass: MockCarouselService }],
+      providers: [
+        { provide: CarouselService, useClass: MockCarouselService },
+        {
+          provide: FeatureToggles,
+          useValue: { a11yCarouselPreventNavigationFocus: true },
+        },
+      ],
     })
       .overrideComponent(CarouselComponent, {
         remove: { imports: [IconComponent, TranslatePipe] },

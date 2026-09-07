@@ -47,7 +47,6 @@ export class SearchBoxComponentService {
    */
   emptyOuterResults$ = new Subject<void>();
 
-  // DELIBERATELY PRIVATE PROPERTY, to remove easily in the future
   private featureToggles = inject(FeatureToggles);
 
   protected enableRecentSearches: boolean = false;

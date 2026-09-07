@@ -290,12 +290,19 @@ export interface FeatureTogglesInterface {
   enableB2BCustomerSearch?: boolean;
 
   /**
-   * When enabled (default: true), carousel navigation buttons call preventDefault on mousedown
-   * to fix unwanted blur in Safari when the carousel is inside modals or search boxes (broken by default in Safari).
+   * In `CarouselComponent`, previous, next, and indicator buttons call `preventDefault()`
+   * on `mousedown`.
    *
-   * Set to `false` if you rely on custom focus listeners (e.g. addEventListener('focus', ...)) on elements
-   * that contain or interact with the carousel, since preventing mousedown default can affect focus behavior.
-   * Affects: `CarouselComponent` (when preventNavigationFocus input is true, e.g. in SearchBoxComponent)
+   * Before: tapping those buttons (for example in Safari or iOS inside `SearchBoxComponent`)
+   * moved focus away from the search input and closed the search results.
+   * After: mousedown does not change focus, so the search overlay stays open and
+   * carousel navigation works on the first tap.
+   *
+   * Set to `false` if you rely on custom focus listeners on elements that contain
+   * or interact with the carousel, since preventing mousedown default can affect
+   * focus behavior.
+   *
+   * Affects: `CarouselComponent` (including when used by `SearchBoxComponent`)
    */
   a11yCarouselPreventNavigationFocus?: boolean;
 

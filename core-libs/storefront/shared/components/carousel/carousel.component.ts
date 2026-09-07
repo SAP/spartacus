@@ -27,6 +27,7 @@ import {
 } from '@angular/core';
 import {
   FeatureDirective as CxFeatureDirective,
+  FeatureToggles,
   LoggerService,
   TranslatePipe,
   useFeatureStyles,
@@ -132,6 +133,7 @@ export class CarouselComponent implements OnInit, OnChanges {
   activeSlide: number;
   size$: Observable<number>;
 
+  private featureToggles = inject(FeatureToggles);
   protected logger = inject(LoggerService);
 
   constructor(
@@ -154,11 +156,14 @@ export class CarouselComponent implements OnInit, OnChanges {
       .pipe(tap(() => (this.activeSlide = 0)));
   }
   /**
-   * Prevents default mousedown behavior on navigation buttons when enabled
-   * to avoid unwanted blur events (e.g., in Safari when carousel is used inside modals or search boxes).
+   * Prevents default mousedown behavior on navigation buttons (previous, next,
+   * and indicator dots) to avoid unwanted blur events (e.g., in Safari/iOS when
+   * the carousel is used inside modals or search boxes).
    */
   onNavigationMouseDown(event: MouseEvent): void {
-    event.preventDefault();
+    if (this.featureToggles.a11yCarouselPreventNavigationFocus) {
+      event.preventDefault();
+    }
   }
 
   /**
@@ -183,6 +188,14 @@ export class CarouselComponent implements OnInit, OnChanges {
     if (this.activeSlide !== 0) {
       this.activeSlide = this.activeSlide - size;
     }
+  }
+
+  /**
+   * Handler for indicator button clicks.
+   */
+  onIndicatorClick(event: MouseEvent, slideIndex: number): void {
+    event.stopPropagation();
+    this.activeSlide = slideIndex;
   }
 
   onItemKeydown(event: KeyboardEvent, size: number): void {
