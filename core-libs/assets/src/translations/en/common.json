@@ -209,6 +209,7 @@
       "cxContainsSpecialCharacters": "Password cannot contain special characters",
       "cxNoConsecutiveCharacters": "Password cannot contain consecutive identical characters",
       "cxMustEndWithLegalCharacter": "Password must end with a legal letter, digit, or character",
+      "maxlength": "Field {{label}} must not exceed {{requiredLength}} characters",
       "invalidTokenCodeError": "This code is not valid",
       "date": {
         "required": "Field {{label}} is required",
@@ -228,6 +229,7 @@
     "cxStarRatingEmpty": "Rating field is required",
     "cxNoSelectedItemToCancel": "Select at least one item",
     "cxNegativeAmount": "Amount must be equal or greater than zero",
+    "maxlength": "This field must not exceed {{requiredLength}} characters",
     "cxContainsSpecialCharacters": "Field cannot contain special characters",
     "date": {
       "required": "This field is required",

@@ -83,6 +83,7 @@ export class CheckoutBillingAddressFormComponent implements OnInit {
   protected billingAddressFormService = inject(
     CheckoutBillingAddressFormService
   );
+
   ngOnInit(): void {
     this.countries$ = this.userPaymentService.getAllBillingCountries().pipe(
       tap((countries) => {
