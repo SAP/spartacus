@@ -295,7 +295,9 @@ describe('Carousel Component', () => {
       });
 
       it('should preventDefault on mousedown of previous and next buttons', () => {
-        const prevButton = fixture.debugElement.query(By.css('button.previous'));
+        const prevButton = fixture.debugElement.query(
+          By.css('button.previous')
+        );
         const nextButton = fixture.debugElement.query(By.css('button.next'));
         const prevEvent = new MouseEvent('mousedown', { cancelable: true });
         const nextEvent = new MouseEvent('mousedown', { cancelable: true });
@@ -322,7 +324,10 @@ describe('Carousel Component', () => {
         const indicators = fixture.debugElement.queryAll(
           By.css('div.indicators button')
         );
-        const event = new MouseEvent('click', { cancelable: true, bubbles: true });
+        const event = new MouseEvent('click', {
+          cancelable: true,
+          bubbles: true,
+        });
         vi.spyOn(event, 'stopPropagation');
 
         indicators[1].triggerEventHandler('click', event);
