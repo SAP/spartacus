@@ -290,21 +290,30 @@ export interface FeatureTogglesInterface {
   enableB2BCustomerSearch?: boolean;
 
   /**
-   * In `CarouselComponent`, previous, next, and indicator buttons call `preventDefault()`
+   * When enabled (default: true), carousel navigation buttons call preventDefault on mousedown
+   * to fix unwanted blur in Safari when the carousel is inside modals or search boxes (broken by default in Safari).
+   *
+   * Set to `false` if you rely on custom focus listeners (e.g. addEventListener('focus', ...)) on elements
+   * that contain or interact with the carousel, since preventing mousedown default can affect focus behavior.
+   * Affects: `CarouselComponent` previous/next buttons (e.g. in SearchBoxComponent)
+   */
+  a11yCarouselPreventNavigationFocus?: boolean;
+
+  /**
+   * In `CarouselComponent`, indicator buttons (the slide dots) call `preventDefault()`
    * on `mousedown`.
    *
-   * Before: tapping those buttons (for example in Safari or iOS inside `SearchBoxComponent`)
+   * Before: tapping an indicator (for example in Safari or iOS inside `SearchBoxComponent`)
    * moved focus away from the search input and closed the search results.
    * After: mousedown does not change focus, so the search overlay stays open and
-   * carousel navigation works on the first tap.
+   * the indicator navigates on the first tap.
    *
-   * Set to `false` if you rely on custom focus listeners on elements that contain
-   * or interact with the carousel, since preventing mousedown default can affect
-   * focus behavior.
+   * This is separate from `a11yCarouselPreventNavigationFocus`, which only covers
+   * previous/next buttons.
    *
    * Affects: `CarouselComponent` (including when used by `SearchBoxComponent`)
    */
-  a11yCarouselPreventNavigationFocus?: boolean;
+  a11yCarouselPreventIndicatorFocus?: boolean;
 
   /**
    * Sets the ng-select (readonly) input value from the selected option text,
@@ -841,6 +850,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableB2BCostCenterSearch: true,
   enableB2BCustomerSearch: true,
   a11yCarouselPreventNavigationFocus: true,
+  a11yCarouselPreventIndicatorFocus: false,
   a11yNgSelectReadonlyInputValue: true,
   a11yPasswordVisibilityToggle: true,
   showOnlyActiveCurrencies: true,

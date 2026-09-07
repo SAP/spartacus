@@ -157,12 +157,20 @@ export class CarouselComponent implements OnInit, OnChanges {
       .pipe(tap(() => (this.activeSlide = 0)));
   }
   /**
-   * Prevents default mousedown behavior on navigation buttons (previous, next,
-   * and indicator dots) to avoid unwanted blur events (e.g., in Safari/iOS when
-   * the carousel is used inside modals or search boxes).
+   * Prevents default mousedown behavior on previous/next buttons to avoid
+   * unwanted blur events (e.g., in Safari when the carousel is used inside
+   * modals or search boxes).
    */
   onNavigationMouseDown(event: MouseEvent): void {
-    if (this.featureToggles.a11yCarouselPreventNavigationFocus) {
+    event.preventDefault();
+  }
+
+  /**
+   * Prevents default mousedown behavior on indicator buttons when the
+   * `a11yCarouselPreventIndicatorFocus` feature toggle is enabled.
+   */
+  onIndicatorMouseDown(event: MouseEvent): void {
+    if (this.featureToggles.a11yCarouselPreventIndicatorFocus) {
       event.preventDefault();
     }
   }

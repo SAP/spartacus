@@ -334,6 +334,7 @@ if (environment.cpq) {
         enableB2BCostCenterSearch: true,
         enableB2BCustomerSearch: true,
         a11yCarouselPreventNavigationFocus: true,
+        a11yCarouselPreventIndicatorFocus: true,
         a11yNgSelectReadonlyInputValue: true,
         a11yPasswordVisibilityToggle: true,
         a11yPreventWindowsHighContrastOverride: true,

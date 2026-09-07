@@ -62,7 +62,7 @@ describe('Carousel Component', () => {
         { provide: CarouselService, useClass: MockCarouselService },
         {
           provide: FeatureToggles,
-          useValue: { a11yCarouselPreventNavigationFocus: true },
+          useValue: { a11yCarouselPreventIndicatorFocus: true },
         },
       ],
     })
@@ -490,7 +490,7 @@ describe('Carousel Component', () => {
   });
 
   describe('navigation event handlers', () => {
-    it('should preventDefault on onNavigationMouseDown when the feature toggle is enabled', () => {
+    it('should preventDefault on onNavigationMouseDown', () => {
       const event = {
         preventDefault: vi.fn(),
       } as unknown as MouseEvent;
@@ -500,15 +500,25 @@ describe('Carousel Component', () => {
       expect(event.preventDefault).toHaveBeenCalled();
     });
 
-    it('should not preventDefault on onNavigationMouseDown when the feature toggle is disabled', () => {
+    it('should preventDefault on onIndicatorMouseDown when the feature toggle is enabled', () => {
+      const event = {
+        preventDefault: vi.fn(),
+      } as unknown as MouseEvent;
+
+      component.onIndicatorMouseDown(event);
+
+      expect(event.preventDefault).toHaveBeenCalled();
+    });
+
+    it('should not preventDefault on onIndicatorMouseDown when the feature toggle is disabled', () => {
       component['featureToggles'] = {
-        a11yCarouselPreventNavigationFocus: false,
+        a11yCarouselPreventIndicatorFocus: false,
       };
       const event = {
         preventDefault: vi.fn(),
       } as unknown as MouseEvent;
 
-      component.onNavigationMouseDown(event);
+      component.onIndicatorMouseDown(event);
 
       expect(event.preventDefault).not.toHaveBeenCalled();
     });
@@ -803,7 +813,7 @@ describe('Carousel Component tested in TestParentComponent', () => {
         { provide: CarouselService, useClass: MockCarouselService },
         {
           provide: FeatureToggles,
-          useValue: { a11yCarouselPreventNavigationFocus: true },
+          useValue: { a11yCarouselPreventIndicatorFocus: true },
         },
       ],
     })

@@ -113,7 +113,7 @@
     <ng-container *ngFor="let _ of items; let i = index">
       <button
         *ngIf="i % size === 0"
-        (mousedown)="onNavigationMouseDown($event)"
+        (mousedown)="onIndicatorMouseDown($event)"
         (click)="onIndicatorClick($event, i)"
         [attr.aria-current]="i === activeSlide"
         [attr.aria-disabled]="i === activeSlide"
