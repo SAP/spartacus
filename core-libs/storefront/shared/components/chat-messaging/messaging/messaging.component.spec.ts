@@ -245,11 +245,11 @@ describe('MessagingComponent', () => {
   describe('resetForm', () => {
     beforeEach(() => {
       fixture.detectChanges();
-      component.fileUploadComponent = { removeFile: vi.fn() } as any;
+      component.fileUploadComponent = { removeAllFiles: vi.fn() } as any;
     });
     it('should remove all files uploaded', () => {
       component.resetForm();
-      expect(component.fileUploadComponent?.removeFile).toHaveBeenCalled();
+      expect(component.fileUploadComponent?.removeAllFiles).toHaveBeenCalled();
     });
     it('should not fail if there is no file upload component', () => {
       component.fileUploadComponent = undefined;
