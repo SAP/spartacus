@@ -784,6 +784,16 @@ export interface FeatureTogglesInterface {
    * Affects: `ListComponent` (`cx-org-list`)
    */
   a11yNavigationChevronContrast?: boolean;
+
+  /**
+   * When enabled, `Validators.maxLength` is applied to all text form fields
+   * in address and registration forms, providing visible error feedback instead
+   * of silently blocking input at the HTML level.
+   *
+   * Affects: `UserRegistrationFormService`, `CheckoutBillingAddressFormService`,
+   * `AddressFormComponent`, `UnitAddressFormService`
+   */
+  enableFormFieldMaxLength?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -808,30 +818,30 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enablePasswordExpiredErrorTranslation: true,
   enableQuotePurchaseOrderNumber: true,
   enableReturnOrderReturnableQuantityConsigmentFallback: true,
-  enableMediaPrefix: false,
+  enableMediaPrefix: true,
   a11yCustomerTicketingVisualFocusFix: true,
   a11yMessagingListKeyboardFocus: false,
   orderOverviewCardsInlinePadding: false,
   a11yStoreFinderListItemFocus: false,
   a11yFixSearchBoxDoubleFocus: false,
-  a11yFacetFilterByLabel: false,
+  a11yFacetFilterByLabel: true,
   removeDuplicatedOrderHistoryHeader: true,
   a11yCardNotificationMessage: true,
   searchBoxRecentSearchesRemoval: false,
   searchBoxEmptyQueryResultsPanel: false,
   cdsBottomHeaderSlotAdjustPosition: false,
-  enableB2BUnitSearch: false,
-  enableB2BCostCenterSearch: false,
-  enableB2BCustomerSearch: false,
-  a11yCarouselPreventNavigationFocus: false,
-  a11yNgSelectReadonlyInputValue: false,
-  a11yPasswordVisibilityToggle: false,
-  showOnlyActiveCurrencies: false,
-  a11yAddedToCartDialogHeading: false,
-  a11yListSemanticsForFacets: false,
+  enableB2BUnitSearch: true,
+  enableB2BCostCenterSearch: true,
+  enableB2BCustomerSearch: true,
+  a11yCarouselPreventNavigationFocus: true,
+  a11yNgSelectReadonlyInputValue: true,
+  a11yPasswordVisibilityToggle: true,
+  showOnlyActiveCurrencies: true,
+  a11yAddedToCartDialogHeading: true,
+  a11yListSemanticsForFacets: true,
   a11yFilteredFacetAnnouncement: false,
-  a11yCartItemListHideEmptyOutlets: false,
-  a11yReviewsKeyboardControls: false,
+  a11yCartItemListHideEmptyOutlets: true,
+  a11yReviewsKeyboardControls: true,
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yConsentManagementFocusPreservation: false,
   a11yDeliveryModeFocusPreservation: false,
@@ -880,4 +890,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   configuratorIssuesNotificationForConfigurableOnly: false,
   globalMessageCloseButtonPadding: false,
   a11yNavigationChevronContrast: false,
+  enableFormFieldMaxLength: false,
 };
