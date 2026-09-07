@@ -793,7 +793,7 @@ export interface FeatureTogglesInterface {
    * Affects: `QuoteSummaryActionsComponent`
    */
   showWarningMessageOnRequoteButtonClick?: boolean;
-  
+
   /**
    * When enabled, `Validators.maxLength` is applied to all text form fields
    * in address and registration forms, providing visible error feedback instead
