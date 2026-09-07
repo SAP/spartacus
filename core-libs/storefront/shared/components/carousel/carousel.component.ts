@@ -133,6 +133,7 @@ export class CarouselComponent implements OnInit, OnChanges {
   activeSlide: number;
   size$: Observable<number>;
 
+  // DELIBERATELY PRIVATE PROPERTY, to remove easily in the future
   private featureToggles = inject(FeatureToggles);
   protected logger = inject(LoggerService);
 
