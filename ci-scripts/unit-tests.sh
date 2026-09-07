@@ -24,6 +24,7 @@ function log_selected_projects {
     echo "[$runner] Group will run $count project(s):"
     echo "$projects" | tr ',' '\n' | sed 's/^/  - /'
     echo "=================================================="
+    return 0
 }
 
 function run_karma_group_tests {
