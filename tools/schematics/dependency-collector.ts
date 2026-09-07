@@ -30,9 +30,6 @@ const packageJsonDirectories: string[] = [
   'package.json',
 ];
 
-// TODO CXSPA-13991: Re-include skills once it passes audit and ships in the release bundle.
-const excludedPackages: string[] = ['@spartacus/skills'];
-
 function cleanup(): void {
   if (fs.existsSync(fileName)) {
     fs.unlinkSync(fileName);
@@ -68,9 +65,6 @@ function collect(
       }
 
       const packageJson = readJson(`${dir}/${lib}/package.json`);
-      if (excludedPackages.includes(packageJson.name)) {
-        continue;
-      }
       collected = {
         ...collected,
         [packageJson.name]: packageJson.peerDependencies ?? {},
