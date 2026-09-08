@@ -215,7 +215,7 @@ describe('AsmCustomer360TableComponent', () => {
         [pageSize]="pageSize"
         [sortProperty]="sortProperty"
         (selectItem)="itemSelected($event)"
-      ></cx-asm-customer-360-table>
+      />
     `,
     imports: [AsmCustomer360TableComponent],
   })

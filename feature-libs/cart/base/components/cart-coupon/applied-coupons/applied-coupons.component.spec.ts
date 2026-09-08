@@ -31,8 +31,7 @@ class MockCxIconComponent {
       [vouchers]="coupons"
       [cartIsLoading]="cartIsLoading"
       [isReadOnly]="isReadOnly"
-    >
-    </cx-applied-coupons>
+    />
   `,
   imports: [I18nTestingModule, AppliedCouponsComponent],
 })

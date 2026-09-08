@@ -10,7 +10,7 @@
       [type]="globalMessageType.MSG_TYPE_CONFIRMATION"
       [isVisibleCloseButton]="false"
       [cxFocus]="{ autofocus: '.cx-message' }"
-    ></cx-message>
+    />
   </div>
   <cx-form-required-legend />
   <p class="cx-import-entries-subtitle">
@@ -28,10 +28,7 @@
     >
       {{ 'importEntriesDialog.selectFile' | cxTranslate }}
     </cx-file-upload>
-    <cx-form-errors
-      [control]="form.get('file')"
-      prefix="formErrors.file"
-    ></cx-form-errors>
+    <cx-form-errors [control]="form.get('file')" prefix="formErrors.file" />
   </label>
   <div class="cx-import-entries-row">
     <label>
@@ -50,10 +47,7 @@
         "
         [attr.aria-errormessage]="'nameError'"
       />
-      <cx-form-errors
-        id="nameError"
-        [control]="form.get('name')"
-      ></cx-form-errors>
+      <cx-form-errors id="nameError" [control]="form.get('name')" />
     </label>
   </div>
 
@@ -78,7 +72,7 @@
       <cx-form-errors
         id="descriptionError"
         [control]="form.get('description')"
-      ></cx-form-errors>
+      />
 
       <p class="cx-import-entries-input-hint">
         {{

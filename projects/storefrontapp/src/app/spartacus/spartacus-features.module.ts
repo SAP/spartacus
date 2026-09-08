@@ -368,6 +368,7 @@ if (environment.cpq) {
         opfUseDestroyRef: true,
         enableHierarchicalAddressFormat: true,
         opfCheckoutUseUpdatePaymentTransaction: true,
+        enableCartSlowNetworkResilience: true,
         a11yRegistrationTermsAsteriskMargin: true,
         a11yAddToWishListBtnMargin: true,
         a11yProductListItemNameMargin: true,
@@ -388,6 +389,7 @@ if (environment.cpq) {
         globalMessageCloseButtonPadding: true,
         a11yItemCounterValueText: true,
         a11yNavigationChevronContrast: true,
+        enableFormFieldMaxLength: true,
       };
       return appFeatureToggles;
     }),
