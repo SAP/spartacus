@@ -123,7 +123,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
    *
    * @returns {number} - the configured threshold
    */
-  getCartEntryBundleLineItemsThreshold(): number {
+  protected getCartEntryBundleLineItemsThreshold(): number {
     return (
       this.config.productConfigurator?.cartEntryBundleLineItemsThreshold ?? 10
     );
