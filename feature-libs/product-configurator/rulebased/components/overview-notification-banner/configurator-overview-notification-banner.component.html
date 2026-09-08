@@ -4,7 +4,7 @@
       class="cx-error-notification-banner"
       *ngIf="numberOfIssues$ | async as numberOfIssues"
     >
-      <cx-icon [type]="iconTypes.ERROR"></cx-icon>
+      <cx-icon [type]="iconTypes.ERROR" />
       <div class="cx-error-msg" id="cx-configurator-overview-error-msg">
         {{
           'configurator.notificationBanner.numberOfIssues'
@@ -37,7 +37,7 @@
       class="cx-conflict-notification-banner"
       *ngIf="numberOfConflicts$ | async as numberOfConflicts"
     >
-      <cx-icon [type]="iconTypes.WARNING"></cx-icon>
+      <cx-icon [type]="iconTypes.WARNING" />
       <div class="cx-conflict-msg" id="cx-configurator-overview-conflict-msg">
         {{
           'configurator.notificationBanner.numberOfConflicts'

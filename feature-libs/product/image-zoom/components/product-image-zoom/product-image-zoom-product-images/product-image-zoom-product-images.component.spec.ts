@@ -98,7 +98,7 @@ class MockMediaComponent {
     <ng-container *ngFor="let item$ of items">
       <ng-container
         *ngTemplateOutlet="template; context: { item: item$ | async }"
-      ></ng-container>
+      />
     </ng-container>
   `,
   imports: [NgFor, NgTemplateOutlet, AsyncPipe],
