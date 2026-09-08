@@ -9,11 +9,11 @@ import { Config } from '@spartacus/core';
 
 export interface CommonProductConfiguratorUISettingsConfig {
   /**
-   * Maximum number of CPQ bundle line items that are expanded inline on a cart entry.
+   * Maximum number of bundle line items that are expanded inline on a cart entry.
    * If the entry has more items, the 'show' link navigates to the read-only
    * configuration overview instead.
    */
-  cpqProductCartEntriesThreshold?: number;
+  cartEntryBundleLineItemsThreshold?: number;
 }
 
 @Injectable({

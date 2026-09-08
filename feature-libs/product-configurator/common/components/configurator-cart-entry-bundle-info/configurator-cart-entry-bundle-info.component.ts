@@ -114,7 +114,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
       ([numberOfLineItems, shouldShowButton]) =>
         !!this.featureToggles.productConfiguratorCPQContainer &&
         shouldShowButton &&
-        numberOfLineItems > this.getCpqProductCartEntriesThreshold()
+        numberOfLineItems > this.getCartEntryBundleLineItemsThreshold()
     )
   );
 
@@ -123,9 +123,9 @@ export class ConfiguratorCartEntryBundleInfoComponent {
    *
    * @returns {number} - the configured threshold
    */
-  getCpqProductCartEntriesThreshold(): number {
+  getCartEntryBundleLineItemsThreshold(): number {
     return (
-      this.config.productConfigurator?.cpqProductCartEntriesThreshold ?? 10
+      this.config.productConfigurator?.cartEntryBundleLineItemsThreshold ?? 10
     );
   }
 

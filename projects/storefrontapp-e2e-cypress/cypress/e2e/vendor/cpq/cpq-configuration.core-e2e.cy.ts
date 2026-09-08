@@ -599,7 +599,7 @@ testConfig.forEach((config) => {
       it('should navigate to the read-only overview when the bundle item threshold is exceeded', () => {
         cy.cxConfig({
           productConfigurator: {
-            cpqProductCartEntriesThreshold: 2,
+            cartEntryBundleLineItemsThreshold: 2,
           },
         });
         common.goToPDPage(POWERTOOLS, PROD_CODE_CAM);

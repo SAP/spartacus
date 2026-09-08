@@ -957,7 +957,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       beforeEach(() => {
         featureToggles = TestBed.inject(MockFeatureTogglesController);
         featureToggles.set('productConfiguratorCPQContainer', true);
-        spyOn(component, 'getCpqProductCartEntriesThreshold').and.returnValue(
+        spyOn(component, 'getCartEntryBundleLineItemsThreshold').and.returnValue(
           2
         );
       });
@@ -998,7 +998,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
       it('should render the toggle button if the threshold is not exceeded', () => {
         (
-          component.getCpqProductCartEntriesThreshold as jasmine.Spy
+          component.getCartEntryBundleLineItemsThreshold as jasmine.Spy
         ).and.returnValue(3);
         emitCartEntry(PromotionLocation.ActiveCart);
 
@@ -1066,17 +1066,17 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       });
     });
 
-    describe('getCpqProductCartEntriesThreshold', () => {
+    describe('getCartEntryBundleLineItemsThreshold', () => {
       it('should return the default threshold if nothing is configured', () => {
-        expect(component.getCpqProductCartEntriesThreshold()).toBe(10);
+        expect(component.getCartEntryBundleLineItemsThreshold()).toBe(10);
       });
 
       it('should return the configured threshold', () => {
         TestBed.inject(CommonConfiguratorUISettingsConfig).productConfigurator =
           {
-            cpqProductCartEntriesThreshold: 25,
+            cartEntryBundleLineItemsThreshold: 25,
           };
-        expect(component.getCpqProductCartEntriesThreshold()).toBe(25);
+        expect(component.getCartEntryBundleLineItemsThreshold()).toBe(25);
       });
     });
 

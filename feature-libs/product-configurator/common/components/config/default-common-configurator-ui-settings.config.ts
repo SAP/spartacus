@@ -9,6 +9,6 @@ import { CommonConfiguratorUISettingsConfig } from './common-configurator-ui-set
 export const defaultCommonConfiguratorUISettingsConfig: CommonConfiguratorUISettingsConfig =
   {
     productConfigurator: {
-      cpqProductCartEntriesThreshold: 10,
+      cartEntryBundleLineItemsThreshold: 10,
     },
   };
