@@ -110,6 +110,7 @@
       "buttonUpdateCart": "Done",
       "buttonDisplayOnly": "Done",
       "buttonClose": "Close",
+      "buttonBackToCart": "Back to Cart",
       "confirmation": "Configuration has been added to the cart",
       "confirmationUpdate": "Cart has been updated with configuration",
       "confirmationQuoteUpdate": "Quote has been updated with configuration",

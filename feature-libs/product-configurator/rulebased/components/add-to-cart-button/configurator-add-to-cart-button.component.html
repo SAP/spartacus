@@ -69,7 +69,9 @@
         class="cx-btn btn btn-block btn-secondary cx-display-only-btn"
         (click)="leaveConfigurationOverview()"
       >
-        {{ 'configurator.addToCart.buttonClose' | cxTranslate }}
+        {{
+          getDisplayOnlyButtonResourceKey(container.routerData) | cxTranslate
+        }}
       </button>
     </div>
   </ng-template>
