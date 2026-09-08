@@ -181,6 +181,9 @@ export class CpqConfiguratorOverviewNormalizer
         container?.rows
           ?.filter((row) => this.isSelectedContainerRow(row))
           .forEach((row) => {
+            group.attributes?.push(
+              this.convertContainerRowToAttribute(row, attribute)
+            );
             if (row.configuration) {
               group.subGroups ??= [];
               group.subGroups.push(
@@ -190,10 +193,6 @@ export class CpqConfiguratorOverviewNormalizer
                   attribute.stdAttrCode,
                   currency
                 )
-              );
-            } else {
-              group.attributes?.push(
-                this.convertContainerRowToAttribute(row, attribute)
               );
             }
           });

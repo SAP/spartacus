@@ -657,7 +657,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
       expect(loggerWarn).toHaveBeenCalled();
     });
 
-    it('should convert only selected container rows without nested configurations into bundle attributes', () => {
+    it('should convert selected container rows into bundle attributes', () => {
       featureToggles.set('productConfiguratorCPQContainer', true);
 
       const result = serviceUnderTest.convert(
@@ -665,7 +665,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
       );
       const attributes = result.groups?.[0].attributes;
 
-      expect(attributes?.length).toBe(1);
+      expect(attributes?.length).toBe(2);
       expect(attributes?.[0]).toEqual(
         jasmine.objectContaining({
           attribute: 'Lenses',
@@ -684,7 +684,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
       ).toBe(false);
       expect(
         attributes?.some((attribute) => attribute.value === 'Zoom Lens')
-      ).toBe(false);
+      ).toBe(true);
     });
 
     it('should flatten a single nested group into its container row group', () => {
@@ -702,8 +702,9 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
       expect(rootGroup?.id).toBe(rootTabId.toString());
       expect(rowGroup?.id).toBe(expectedRowGroupId);
       expect(rowGroup?.groupDescription).toBe('Zoom Lens');
-      expect(rowGroup?.attributes?.length).toBe(1);
+      expect(rowGroup?.attributes?.length).toBe(2);
       expect(rowGroup?.attributes?.[0].value).toBe('Black');
+      expect(rowGroup?.attributes?.[1].value).toBe('UV Filter');
       expect(nestedRowGroup?.id).toBe(expectedNestedRowGroupId);
       expect(nestedRowGroup?.groupDescription).toBe('UV Filter');
       expect(nestedRowGroup?.attributes?.[0].value).toBe('Clear');
