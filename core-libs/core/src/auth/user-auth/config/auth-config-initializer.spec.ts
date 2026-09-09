@@ -60,6 +60,9 @@ class MockWindowRef implements Partial<WindowRef> {
   }
 }
 
+const absoluteUri = 'http://example.com';
+const relativeUri = '/my-path';
+
 describe('AuthConfigInitializer', () => {
   let service: AuthConfigInitializer;
   let authConfig: MockAuthConfig;
@@ -159,7 +162,7 @@ describe('AuthConfigInitializer', () => {
           true;
       });
 
-      describe('when oauthBaseSite is disabled', () => {
+      describe('when oauthCallbackPage is disabled', () => {
         it('should initialize an empty redirect URI', async () => {
           const expected = `${mockOrigin}/${mockActiveBaseSite}`;
           const config = await service.configFactory();
@@ -197,10 +200,7 @@ describe('AuthConfigInitializer', () => {
         });
       });
 
-      describe('when oauthBaseSite is enabled', () => {
-        const absoluteUri = 'http://example.com';
-        const relativeUri = '/my-path';
-
+      describe('when oauthCallbackPage is enabled', () => {
         beforeEach(() => {
           featureToggles.oauthCallbackPage = true;
         });
@@ -216,7 +216,7 @@ describe('AuthConfigInitializer', () => {
           });
         });
 
-        describe('when redirect URI is an absolute URI', () => {
+        describe('when redirect URI is absolute', () => {
           beforeEach(() => {
             authConfig.authentication.OAuthLibConfig.redirectUri = absoluteUri;
           });
@@ -238,7 +238,7 @@ describe('AuthConfigInitializer', () => {
           });
         });
 
-        describe('when redirect URI is a relative URI', () => {
+        describe('when redirect URI is relative', () => {
           beforeEach(() => {
             authConfig.authentication.OAuthLibConfig.redirectUri = relativeUri;
           });
@@ -280,20 +280,164 @@ describe('AuthConfigInitializer', () => {
         authConfig.authentication.initializerOptions.addBaseSiteToRedirectUri =
           'auto';
       });
-      it('should initialize the redirect URI when baseSite is in the URL context parameters', async () => {
-        vi.spyOn(
-          siteContextParamsService,
-          'getUrlEncodingParameters'
-        ).mockReturnValue([BASE_SITE_CONTEXT_ID]);
-        const expected = `${mockOrigin}/${mockActiveBaseSite}`;
-        const config = await service.configFactory();
 
-        expect(config.authentication?.OAuthLibConfig?.redirectUri).toEqual(
-          expected
-        );
+      describe('when oauthCallbackPage is disabled', () => {
+        beforeEach(() => {
+          featureToggles.oauthCallbackPage = false;
+        });
+
+        it('should add baseSite to when baseSite is in the URL context parameters', async () => {
+          vi.spyOn(
+            siteContextParamsService,
+            'getUrlEncodingParameters'
+          ).mockReturnValue([BASE_SITE_CONTEXT_ID]);
+          const expected = `${mockOrigin}/${mockActiveBaseSite}`;
+          const config = await service.configFactory();
+
+          expect(config.authentication?.OAuthLibConfig?.redirectUri).toEqual(
+            expected
+          );
+        });
+
+        it('should not add baseSite to when baseSite is not in the URL context parameters', async () => {
+          vi.spyOn(
+            siteContextParamsService,
+            'getUrlEncodingParameters'
+          ).mockReturnValue([]);
+          const expected = `${mockOrigin}`;
+          const config = await service.configFactory();
+
+          expect(config.authentication?.OAuthLibConfig?.redirectUri).toEqual(
+            expected
+          );
+        });
+      });
+
+      describe('when oauthCallbackPage is enabled', () => {
+        beforeEach(() => {
+          featureToggles.oauthCallbackPage = true;
+        });
+
+        describe('when redirect URI is undefined', () => {
+          describe('when baseSite is in the URL context', () => {
+            beforeEach(() => {
+              vi.spyOn(
+                siteContextParamsService,
+                'getUrlEncodingParameters'
+              ).mockReturnValue([BASE_SITE_CONTEXT_ID]);
+            });
+
+            it('should initialize redirect URI to the origin and add base site', async () => {
+              const expected = `${mockOrigin}/${mockActiveBaseSite}`;
+              const config = await service.configFactory();
+
+              expect(
+                config.authentication?.OAuthLibConfig?.redirectUri
+              ).toEqual(expected);
+            });
+          });
+          describe('when baseSite is not in the URL context', () => {
+            beforeEach(() => {
+              vi.spyOn(
+                siteContextParamsService,
+                'getUrlEncodingParameters'
+              ).mockReturnValue([]);
+            });
+
+            it('should initialize redirect URI to the origin', async () => {
+              const expected = `${mockOrigin}`;
+              const config = await service.configFactory();
+
+              expect(
+                config.authentication?.OAuthLibConfig?.redirectUri
+              ).toEqual(expected);
+            });
+          });
+        });
+
+        describe('when redirect URI is relative', () => {
+          beforeEach(() => {
+            authConfig.authentication.OAuthLibConfig.redirectUri = relativeUri;
+          });
+
+          describe('when baseSite is in the URL context', () => {
+            beforeEach(() => {
+              vi.spyOn(
+                siteContextParamsService,
+                'getUrlEncodingParameters'
+              ).mockReturnValue([BASE_SITE_CONTEXT_ID]);
+            });
+
+            it('should initialize the redirect URI with origin, base site, and redirect URI path', async () => {
+              const expected = `${mockOrigin}/${mockActiveBaseSite}${relativeUri}`;
+              const config = await service.configFactory();
+
+              expect(
+                config.authentication?.OAuthLibConfig?.redirectUri
+              ).toEqual(expected);
+            });
+          });
+          describe('when baseSite is not in the URL context', () => {
+            beforeEach(() => {
+              vi.spyOn(
+                siteContextParamsService,
+                'getUrlEncodingParameters'
+              ).mockReturnValue([]);
+            });
+
+            it('should initialize the redirect URI to the origin and redirect URI path', async () => {
+              const expected = `${mockOrigin}${relativeUri}`;
+              const config = await service.configFactory();
+
+              expect(
+                config.authentication?.OAuthLibConfig?.redirectUri
+              ).toEqual(expected);
+            });
+          });
+        });
+
+        describe('when redirect URI is absolute', () => {
+          beforeEach(() => {
+            authConfig.authentication.OAuthLibConfig.redirectUri = absoluteUri;
+          });
+
+          describe('when baseSite is in the URL context', () => {
+            beforeEach(() => {
+              vi.spyOn(
+                siteContextParamsService,
+                'getUrlEncodingParameters'
+              ).mockReturnValue([BASE_SITE_CONTEXT_ID]);
+            });
+
+            it('should initialize the redirect URI with redirect and base site', async () => {
+              const expected = `${absoluteUri}/${mockActiveBaseSite}`;
+              const config = await service.configFactory();
+
+              expect(
+                config.authentication?.OAuthLibConfig?.redirectUri
+              ).toEqual(expected);
+            });
+          });
+          describe('when baseSite is not in the URL context', () => {
+            beforeEach(() => {
+              vi.spyOn(
+                siteContextParamsService,
+                'getUrlEncodingParameters'
+              ).mockReturnValue([]);
+            });
+
+            it('should initialize the redirect URI to the redirect URI', async () => {
+              const expected = `${absoluteUri}`;
+              const config = await service.configFactory();
+
+              expect(
+                config.authentication?.OAuthLibConfig?.redirectUri
+              ).toEqual(expected);
+            });
+          });
+        });
       });
     });
-
     describe('when baseSiteSuffix is false', () => {
       beforeEach(() => {
         authConfig.authentication.initializerOptions.baseSiteSuffix = false;

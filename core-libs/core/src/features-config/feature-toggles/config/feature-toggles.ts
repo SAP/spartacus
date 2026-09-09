@@ -760,11 +760,11 @@ export interface FeatureTogglesInterface {
    * Requires feature flags `authorizationCodeFlowByDefault` and `asyncAuthConfigInitializer`
    * to be enabled.
    *
-   * 1. Adds new route 'oAuthCallback' to the default `RoutingConfig`.
+   * 1. Add new route 'oAuthCallback' to the default `RoutingConfig`.
    *
-   * 2. Defines a CMS Component for 'OauthCallbackComponent' using the `SpinnerComponent`.
+   * 2. Define CMS Component for 'OauthCallbackComponent' using the `SpinnerComponent`.
    *
-   * 3. Modifies the AuthConfigInitializer's generation of Redirect URI.
+   * 3. Modify the AuthConfigInitializer's generation of Redirect URI.
    *    The configured redirect URI will be modified depending on whether it is
    *    relative or absolute.
    *    - Relative URIs are interpreted as a custom oAuth callback path.  The

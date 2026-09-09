@@ -67,11 +67,13 @@ export class AuthConfigInitializer implements ConfigInitializer {
    *
    * **When the "oauthCallbackPage" feature flag is enabled:**
    *
-   * The configured redirect URI will be
-   * modified depending on whether it is relative or absolute.
-   * - Relative URIs are interpreted as a custom oAuth callback path.  The page origin will be used
-   *   for the host, and base site will be added if enabled before the custom path.
-   * - Absolute URIs will be treated as the intended value.  The base site
+   * Initializes the redirect URI based on the value configured.
+   * - Undefined value will be initialized to the page origin. The base site
+   *   will be appended to the path if enabled
+   * - Relative URIs are not allowed in the oAuth 2.1 spec, so they will be interpreted
+   *   as a custom oAuth callback path.  The page origin will be used for the URI host
+   *   with the base site added, if enabled.  The custom path will be appended to the URI.
+   * - Absolute URIs will be used as the intended initialized value.  The base site
    *   will be appended to the path if enabled.
    */
   protected generateRedirectUri(activeBaseSite: string, config: AuthConfig) {
