@@ -21,6 +21,7 @@ import {
 
 import {
   CustomerCouponService,
+  FeatureDirective,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -46,6 +47,7 @@ import { IconComponent } from '../../../misc/icon/icon.component';
     FormRequiredAsterisksComponent,
     FormErrorsComponent,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class ClaimDialogComponent implements OnDestroy, OnInit {
