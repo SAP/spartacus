@@ -252,7 +252,10 @@ export class QuoteSummaryActionsComponent
 
   protected performAction(action: QuoteActionType, quote: Quote) {
     if (action === QuoteActionType.REQUOTE) {
-      if (this.featureToggle.showWarningMessageOnRequoteButtonClick && !this.isThresholdReached(quote)) {
+      if (
+        this.featureToggle.showWarningMessageOnRequoteButtonClick &&
+        !this.isThresholdReached(quote)
+      ) {
         this.globalMessageService.add(
           {
             key: 'quote.commons.minRequestInitiationNote',
