@@ -98,44 +98,23 @@ export class QuoteSummaryActionsComponent
   }
 
   ngOnInit(): void {
-    if (this.featureToggle.showWarningMessageOnRequoteButtonClick) {
-      this.quoteDetailsSubscription.add(
-        this.quoteDetails$.subscribe((quote) => {
-          const mustDisableAction = quote.allowedActions.find((action) =>
-            this.mustDisableAction(action.type, quote)
-          );
-          if (mustDisableAction) {
-            this.globalMessageService.add(
-              {
-                key: 'quote.commons.minRequestInitiationNote',
-                params: {
-                  minValue: quote.threshold,
-                },
-              },
-              GlobalMessageType.MSG_TYPE_WARNING
-            );
-          }
-        })
+    //submit button present and threshold not reached: Display message
+    this.quoteDetails$.pipe(take(1)).subscribe((quote) => {
+      const mustDisableAction = quote.allowedActions.find((action) =>
+        this.mustDisableAction(action.type, quote)
       );
-    } else {
-      //submit button present and threshold not reached: Display message
-      this.quoteDetails$.pipe(take(1)).subscribe((quote) => {
-        const mustDisableAction = quote.allowedActions.find((action) =>
-          this.mustDisableAction(action.type, quote)
-        );
-        if (mustDisableAction) {
-          this.globalMessageService.add(
-            {
-              key: 'quote.commons.minRequestInitiationNote',
-              params: {
-                minValue: quote.threshold,
-              },
+      if (mustDisableAction) {
+        this.globalMessageService.add(
+          {
+            key: 'quote.commons.minRequestInitiationNote',
+            params: {
+              minValue: quote.threshold,
             },
-            GlobalMessageType.MSG_TYPE_WARNING
-          );
-        }
-      });
-    }
+          },
+          GlobalMessageType.MSG_TYPE_WARNING
+        );
+      }
+    });
   }
 
   /**
@@ -274,6 +253,17 @@ export class QuoteSummaryActionsComponent
 
   protected performAction(action: QuoteActionType, quote: Quote) {
     if (action === QuoteActionType.REQUOTE) {
+      if (this.featureToggle.showWarningMessageOnRequoteButtonClick) {
+        this.globalMessageService.add(
+          {
+            key: 'quote.commons.minRequestInitiationNote',
+            params: {
+              minValue: quote.threshold,
+            },
+          },
+          GlobalMessageType.MSG_TYPE_WARNING
+        );
+      }
       this.requote(quote.code);
     } else {
       this.quoteFacade.performQuoteAction(quote, action);
