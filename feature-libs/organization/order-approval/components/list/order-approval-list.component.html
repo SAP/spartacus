@@ -21,7 +21,7 @@
             [selectedOption]="orderApprovals.pagination.sort"
             [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
             ariaControls="order-approval-table"
-          ></cx-sorting>
+          />
         </label>
       </div>
       <div class="cx-order-approval-pagination">
@@ -29,7 +29,7 @@
           [pagination]="orderApprovals.pagination"
           (viewPageEvent)="pageChange($event)"
           paginationID="pagination-top"
-        ></cx-pagination>
+        />
       </div>
     </div>
     <!-- TABLE -->
@@ -183,7 +183,7 @@
             [selectedOption]="orderApprovals.pagination.sort"
             [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
             ariaControls="order-approval-table"
-          ></cx-sorting>
+          />
         </label>
       </div>
       <div class="cx-order-approval-pagination">
@@ -191,7 +191,7 @@
           [pagination]="orderApprovals.pagination"
           (viewPageEvent)="pageChange($event)"
           paginationID="pagination-bottom"
-        ></cx-pagination>
+        />
       </div>
     </div>
   </ng-container>

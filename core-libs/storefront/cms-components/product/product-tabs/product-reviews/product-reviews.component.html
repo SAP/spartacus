@@ -16,7 +16,7 @@
         *ngIf="product.averageRating"
         class="rating"
         [rating]="product.averageRating"
-      ></cx-star-rating>
+      />
       <div class="rating" *ngIf="!product.averageRating">
         {{ 'productDetails.noReviews' | cxTranslate }}
       </div>
@@ -37,7 +37,7 @@
             (keydown.arrowup)="focusPreviousReview($event, i)"
           >
             <div class="title">{{ review.headline }}</div>
-            <cx-star-rating [rating]="review.rating ?? 0"></cx-star-rating>
+            <cx-star-rating [rating]="review.rating ?? 0" />
             <div class="name">
               {{ review.alias ? review.alias : review.principal?.name }}
             </div>
@@ -52,7 +52,7 @@
             *ngFor="let review of reviews | slice: 0 : maxListItems"
           >
             <div class="title">{{ review.headline }}</div>
-            <cx-star-rating [rating]="review.rating ?? 0"></cx-star-rating>
+            <cx-star-rating [rating]="review.rating ?? 0" />
             <div class="name">
               {{ review.alias ? review.alias : review.principal?.name }}
             </div>
@@ -168,7 +168,7 @@
             aria-labelledby="starRatingLabel"
             (change)="setRating($event)"
             [disabled]="false"
-          ></cx-star-rating>
+          />
 
           <cx-form-errors
             id="ratingError"
@@ -176,7 +176,7 @@
               label: 'productReview.rating' | cxTranslate,
             }"
             [control]="reviewForm.get('rating')"
-          ></cx-form-errors>
+          />
         </label>
       </div>
       <div class="form-group">

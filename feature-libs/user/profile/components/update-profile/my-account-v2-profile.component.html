@@ -1,5 +1,4 @@
-<cx-spinner class="overlay" *ngIf="(isUpdating$ | async) || !(user$ | async)">
-</cx-spinner>
+<cx-spinner class="overlay" *ngIf="(isUpdating$ | async) || !(user$ | async)" />
 <div>
   <div>
     <div class="flex-line">
@@ -87,7 +86,7 @@
               label: 'updateProfileForm.firstName.label' | cxTranslate,
             }"
             [control]="form.get('firstName')"
-          ></cx-form-errors>
+          />
         </label>
 
         <label>
@@ -111,7 +110,7 @@
               label: 'updateProfileForm.lastName.label' | cxTranslate,
             }"
             [control]="form.get('lastName')"
-          ></cx-form-errors>
+          />
         </label>
 
         <label>
@@ -137,7 +136,7 @@
               label: 'updateProfileForm.customerId' | cxTranslate,
             }"
             [control]="form.get('customerId')"
-          ></cx-form-errors>
+          />
         </label>
       </fieldset>
     </form>

@@ -8,7 +8,7 @@
     'productReview.ratedOutOf' | cxTranslate: { rating: rating.toFixed(1) }
   "
 >
-  <ng-container *ngTemplateOutlet="starRating"></ng-container>
+  <ng-container *ngTemplateOutlet="starRating" />
 </div>
 
 <ng-template #starRating>
@@ -26,5 +26,5 @@
       !disabled ? ('productReview.addRate' | cxTranslate: { count: i }) : null
     "
     [attr.aria-hidden]="disabled"
-  ></cx-icon>
+  />
 </ng-template>

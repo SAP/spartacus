@@ -14,7 +14,7 @@ import { AccountSummaryListComponent } from './account-summary-list.component';
 
 describe('AccountSummaryListComponent', () => {
   @Component({
-    template: '<ng-content select="[actions]"></ng-content>',
+    template: '<ng-content select="[actions]"/>',
     selector: 'cx-org-list',
   })
   class MockListComponent {
