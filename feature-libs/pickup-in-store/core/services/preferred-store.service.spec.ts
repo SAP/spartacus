@@ -60,8 +60,11 @@ describe('PreferredStoreService', () => {
   let pickupLocationSearchService: PickupLocationsSearchFacade;
   let store: Store<StateWithPickupLocations>;
 
-  const configureTestingModule = (withConfig = true, localStorage = true) => {
-    TestBed.configureTestingModule({
+  const configureTestingModule = async (
+    withConfig = true,
+    localStorage = true
+  ) => {
+    await TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature('pickup-option', fromReducers.getReducers()),
@@ -72,7 +75,12 @@ describe('PreferredStoreService', () => {
           provide: PickupInStoreConfig,
           useValue: MockPickupInStoreConfig(withConfig),
         },
-        { provide: WindowRef, useValue: localStorage ? MockWindowRef() : {} },
+        {
+          provide: WindowRef,
+          useFactory: () => {
+            return localStorage ? MockWindowRef() : {};
+          },
+        },
         {
           provide: PickupLocationsSearchFacade,
           useClass: MockPickupLocationsSearchService,
@@ -90,8 +98,8 @@ describe('PreferredStoreService', () => {
   };
 
   describe('with pickup in store config', () => {
-    beforeEach(() => {
-      configureTestingModule();
+    beforeEach(async () => {
+      await configureTestingModule();
     });
 
     it('should be created', () => {
