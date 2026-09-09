@@ -33,10 +33,7 @@
         for="paymentId-saved-cards"
       >
         <div class="cx-payment-type">
-          <cx-icon
-            [type]="iconTypes.CREDIT_CARD"
-            class="cx-payment-icon"
-          ></cx-icon>
+          <cx-icon [type]="iconTypes.CREDIT_CARD" class="cx-payment-icon" />
           <span>{{
             ctx.savedCardsHeading || ('opfCheckout.cards' | cxTranslate)
           }}</span>

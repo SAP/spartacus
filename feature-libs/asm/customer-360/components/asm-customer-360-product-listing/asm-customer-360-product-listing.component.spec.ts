@@ -50,8 +50,7 @@ describe('AsmCustomer360ProductListingComponent', () => {
         [headerText]="headerText"
         (clickHeader)="clickHeaderSpy.push(undefined)"
         (selectProduct)="selectProductSpy.push($event)"
-      >
-      </cx-asm-customer-360-product-listing>
+      />
 
       <ng-template #headerTemplate>
         <div id="product-listing-header-template"></div>
