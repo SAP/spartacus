@@ -189,7 +189,7 @@ describe('AuthRedirectService', () => {
     });
 
     it('should NOT save the url of the current navigation if it is a part of the auth flow', () => {
-      vi.spyOn(router, 'getCurrentNavigation').mockReturnValue(<Navigation>{
+      vi.spyOn(router, 'currentNavigation').mockReturnValue(<Navigation>{
         initialUrl: router.parseUrl('/login'),
         finalUrl: router.parseUrl('/login'),
       });
@@ -198,13 +198,13 @@ describe('AuthRedirectService', () => {
     });
 
     it('should NOT save the url when there is no pending navigation', () => {
-      vi.spyOn(router, 'getCurrentNavigation').mockReturnValue(null);
+      vi.spyOn(router, 'currentNavigation').mockReturnValue(null);
       service.saveCurrentNavigationUrl();
       expect(authRedirectStorageService.setRedirectUrl).not.toHaveBeenCalled();
     });
 
     it('should NOT save the url when finalUrl was not yet determined for the current navigation (before RouteRecognized event happened)', () => {
-      vi.spyOn(router, 'getCurrentNavigation').mockReturnValue(<Navigation>{
+      vi.spyOn(router, 'currentNavigation').mockReturnValue(<Navigation>{
         initialUrl: router.parseUrl('/login'),
         finalUrl: undefined,
       });
