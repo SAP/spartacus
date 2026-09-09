@@ -69,7 +69,6 @@ export class QuoteSummaryActionsComponent
   @ViewChild('element') element: ElementRef;
   QuoteActionType = QuoteActionType;
   protected subscription = new Subscription();
-  protected quoteDetailsSubscription = new Subscription();
   isFixedPosition: boolean = true;
 
   protected readonly CX_SECTION_SELECTOR = 'cx-quote-summary-actions section';
@@ -350,7 +349,6 @@ export class QuoteSummaryActionsComponent
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    this.quoteDetailsSubscription.unsubscribe();
   }
 
   protected isConfirmationDialogRequired(
