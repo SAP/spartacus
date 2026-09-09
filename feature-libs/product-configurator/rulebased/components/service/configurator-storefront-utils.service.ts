@@ -403,9 +403,7 @@ export class ConfiguratorStorefrontUtilsService {
       );
     }
 
-    return this.windowRef.document.querySelector(
-      querySelector
-    ) as HTMLElement;
+    return this.windowRef.document.querySelector(querySelector) as HTMLElement;
   }
 
   /**

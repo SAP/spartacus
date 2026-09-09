@@ -5,11 +5,7 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { TranslatePipe } from '@spartacus/core';
 import { Observable, OperatorFunction } from 'rxjs';
@@ -22,7 +18,13 @@ import { ConfiguratorOverviewMenuComponent } from '../overview-menu/configurator
   selector: 'cx-configurator-overview-menu-standalone',
   templateUrl: './configurator-overview-menu-standalone.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe, ConfiguratorOverviewMenuComponent],
+  imports: [
+    NgIf,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+    ConfiguratorOverviewMenuComponent,
+  ],
 })
 export class ConfiguratorOverviewMenuStandaloneComponent {
   @HostBinding('class.ghost') ghostStyle = true;
