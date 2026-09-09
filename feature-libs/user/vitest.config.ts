@@ -15,18 +15,7 @@ export default defineConfig({
   plugins: [angular(), nxViteTsPaths()],
   resolve: {
     alias: {
-      // Resolve the storefront barrel to source so a newly added `export *`
-      // symbol (e.g. FocusFirstInvalidFieldDirective) isn't dropped by esbuild's
-      // dependency pre-bundling under the barrel's circular re-exports, which
-      // would leave it `undefined` in a component's standalone `imports`.
       '@spartacus/storefront': `${root}/core-libs/storefront/public_api.ts`,
-      // Resolve the core barrel to source too, so DI tokens like
-      // FeatureConfigService/FeatureToggles are a single class identity. Without
-      // this, the component's `@spartacus/core` FeatureDirective injects a
-      // prebundled FeatureConfigService while `provideMockFeatureToggles`
-      // overrides the source one — the tokens don't match, `*cxFeature` never
-      // sees the mocked toggles, and gated content (e.g. the form body) never
-      // renders.
       '@spartacus/core': `${root}/core-libs/core/public_api.ts`,
       'core-libs/storefront/shared/test/mock-feature-directive': `${root}/core-libs/storefront/shared/test/mock-feature-directive.ts`,
       'core-libs/core/src/features-config/feature-toggles/testing': `${root}/core-libs/core/src/features-config/feature-toggles/testing/index.ts`,

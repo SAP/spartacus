@@ -159,10 +159,9 @@ describe('PreferredStoreService', () => {
         pickupLocationSearchService.getStockLevelAtStore
       ).toHaveBeenCalledWith(productCode, preferredStore.name);
     });
-  });
-
-  it('clearPreferredStore should be void', () => {
-    expect(preferredStoreFacade.clearPreferredStore()).toBeUndefined();
+    it('clearPreferredStore should be void', () => {
+      expect(preferredStoreFacade.clearPreferredStore()).toBeUndefined();
+    });
   });
 
   describe('without localStorage', () => {
