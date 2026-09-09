@@ -40,7 +40,7 @@ import createSpy = jasmine.createSpy;
     <ng-container *ngFor="let item$ of items">
       <ng-container
         *ngTemplateOutlet="template; context: { item: item$ | async }"
-      ></ng-container>
+      />
     </ng-container>
   `,
   imports: [NgTemplateOutlet, NgFor, AsyncPipe],
