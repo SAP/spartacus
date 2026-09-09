@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import {
   CxDatePipe,
   MockDatePipe,
@@ -82,7 +83,7 @@ describe('ProductImageZoomDialogComponent', () => {
 
   describe('close', () => {
     beforeEach(() => {
-      spyOn(component, 'close').and.callThrough();
+      vi.spyOn(component, 'close');
     });
 
     it('should call close dialog on handleClick', () => {
@@ -101,7 +102,7 @@ describe('ProductImageZoomDialogComponent', () => {
     });
 
     it('should call close dialog with the close reason', () => {
-      spyOn(launchDialogService, 'closeDialog').and.callThrough();
+      vi.spyOn(launchDialogService, 'closeDialog');
 
       component.close('cross clicked');
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
@@ -109,7 +110,7 @@ describe('ProductImageZoomDialogComponent', () => {
       );
     });
     it('should call close dialog without the close reason', () => {
-      spyOn(launchDialogService, 'closeDialog').and.callThrough();
+      vi.spyOn(launchDialogService, 'closeDialog');
 
       component.close();
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith('');

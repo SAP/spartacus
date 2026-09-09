@@ -1,5 +1,5 @@
 import { Component, Input, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
@@ -111,7 +111,7 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
   let htmlElem: HTMLElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -135,7 +135,7 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
       },
       add: { imports: [MockCxIconComponent] },
     });
-  }));
+  });
   beforeEach(() => {
     fixture = TestBed.createComponent(
       ConfiguratorConflictAndErrorMessagesComponent

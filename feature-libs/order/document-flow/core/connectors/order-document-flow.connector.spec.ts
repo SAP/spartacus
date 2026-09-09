@@ -5,7 +5,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 
 import { OrderDocumentFlowConnector } from './order-document-flow.connector';
 import { OrderDocumentFlowAdapter } from './order-document-flow.adapter';
@@ -108,32 +108,26 @@ describe('OrderDocumentFlowConnector', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should getOrderSubsequentDocuments call adapter', (done) => {
-    spyOn(adapter, 'getOrderSubsequentDocuments').and.callThrough();
-    service
-      .getOrderSubsequentDocuments(userId, orderCode)
-      .subscribe((result) => {
-        expect(result).toBe(subsequentDocumentsData);
-        done();
-      })
-      .unsubscribe();
+  it('should getOrderSubsequentDocuments call adapter', async () => {
+    vi.spyOn(adapter, 'getOrderSubsequentDocuments');
+    const result = await firstValueFrom(
+      service.getOrderSubsequentDocuments(userId, orderCode)
+    );
+    expect(result).toBe(subsequentDocumentsData);
     expect(adapter.getOrderSubsequentDocuments).toHaveBeenCalled();
   });
 
-  it('should getOrderSubsequentDocumentEntries call adapter', (done) => {
-    spyOn(adapter, 'getOrderSubsequentDocumentEntries').and.callThrough();
-    service
-      .getOrderSubsequentDocumentEntries(
+  it('should getOrderSubsequentDocumentEntries call adapter', async () => {
+    vi.spyOn(adapter, 'getOrderSubsequentDocumentEntries');
+    const result = await firstValueFrom(
+      service.getOrderSubsequentDocumentEntries(
         userId,
         orderCode,
         documentCategory,
         documentId
       )
-      .subscribe((result) => {
-        expect(result).toEqual(subsequentDocumentEntryData);
-        done();
-      })
-      .unsubscribe();
+    );
+    expect(result).toEqual(subsequentDocumentEntryData);
     expect(adapter.getOrderSubsequentDocumentEntries).toHaveBeenCalled();
   });
 });

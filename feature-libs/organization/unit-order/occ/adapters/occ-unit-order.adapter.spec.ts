@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpRequest,
   provideHttpClient,
@@ -7,7 +8,7 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import {
   ORDER_HISTORY_NORMALIZER,
@@ -42,9 +43,9 @@ describe('OccUnitOrderAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(converter, 'convert').and.callThrough();
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
+    vi.spyOn(converter, 'pipeable');
+    vi.spyOn(converter, 'convert');
+    vi.spyOn(occEnpointsService, 'buildUrl');
   });
 
   afterEach(() => {
@@ -52,7 +53,7 @@ describe('OccUnitOrderAdapter', () => {
   });
 
   describe('getUnitLevelOrders', () => {
-    it('should fetch unit Orders with default options', fakeAsync(() => {
+    it('should fetch unit Orders with default options', () => {
       const PAGE_SIZE = 5;
       occOrderHistoryAdapter
         .loadUnitOrderHistory(userId, PAGE_SIZE)
@@ -67,9 +68,9 @@ describe('OccUnitOrderAdapter', () => {
           queryParams: { pageSize: PAGE_SIZE.toString() },
         }
       );
-    }));
+    });
 
-    it('should fetch unit Orders with defined options', fakeAsync(() => {
+    it('should fetch unit Orders with defined options', () => {
       const PAGE_SIZE = 5;
       const currentPage = 1;
       const sort = 'byDate';
@@ -92,7 +93,7 @@ describe('OccUnitOrderAdapter', () => {
           },
         }
       );
-    }));
+    });
 
     it('should use converter', () => {
       occOrderHistoryAdapter.loadUnitOrderHistory(userId).subscribe();
@@ -106,7 +107,7 @@ describe('OccUnitOrderAdapter', () => {
   });
 
   describe('loadUnitOrderDetail', () => {
-    it('should fetch a single unit-level order', waitForAsync(() => {
+    it('should fetch a single unit-level order', async () => {
       occOrderHistoryAdapter
         .loadUnitOrderDetail(userId, orderDetailCode)
         .subscribe();
@@ -119,7 +120,7 @@ describe('OccUnitOrderAdapter', () => {
           urlParams: { userId, orderId: orderDetailCode },
         }
       );
-    }));
+    });
 
     it('should use converter', () => {
       occOrderHistoryAdapter

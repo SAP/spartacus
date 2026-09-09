@@ -1,6 +1,7 @@
+import { vi } from 'vitest';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -24,10 +25,9 @@ import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feat
 import { Observable, of, throwError } from 'rxjs';
 import { UserRegistrationFormService } from '../form';
 import { UserRegistrationOTPFormComponent } from './user-registration-otp-form.component';
-import createSpy = jasmine.createSpy;
 
 class MockRoutingService {
-  go = createSpy();
+  go = vi.fn();
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -116,7 +116,7 @@ describe('UserRegistrationOTPFormComponent', () => {
   let fixture: ComponentFixture<UserRegistrationOTPFormComponent>;
   let verificationTokenFacade: VerificationTokenFacade;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -140,7 +140,7 @@ describe('UserRegistrationOTPFormComponent', () => {
       ],
     });
     verificationTokenFacade = TestBed.inject(VerificationTokenFacade);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserRegistrationOTPFormComponent);
@@ -158,7 +158,10 @@ describe('UserRegistrationOTPFormComponent', () => {
   });
 
   it('should not submit if form is invalid', () => {
-    spyOn(verificationTokenFacade, 'createVerificationToken').and.returnValue(
+    vi.spyOn(
+      verificationTokenFacade,
+      'createVerificationToken'
+    ).mockReturnValue(
       of({
         expiresIn: '300',
         tokenId: 'mockTokenId',
@@ -186,7 +189,10 @@ describe('UserRegistrationOTPFormComponent', () => {
   });
 
   it('should submit form when valid', () => {
-    spyOn(verificationTokenFacade, 'createVerificationToken').and.returnValue(
+    vi.spyOn(
+      verificationTokenFacade,
+      'createVerificationToken'
+    ).mockReturnValue(
       of({
         expiresIn: '300',
         tokenId: 'mockTokenId',
@@ -218,13 +224,16 @@ describe('UserRegistrationOTPFormComponent', () => {
   });
 
   it('should mark all fields as touched if form is invalid', () => {
-    spyOn(verificationTokenFacade, 'createVerificationToken').and.returnValue(
+    vi.spyOn(
+      verificationTokenFacade,
+      'createVerificationToken'
+    ).mockReturnValue(
       of({
         expiresIn: '300',
         tokenId: 'mockTokenId',
       })
     );
-    spyOn(component.registerForm, 'markAllAsTouched').and.callThrough();
+    vi.spyOn(component.registerForm, 'markAllAsTouched');
     component.registerForm.patchValue({
       email: '',
     });
@@ -274,9 +283,10 @@ describe('UserRegistrationOTPFormComponent', () => {
       status: 400,
       url: 'https://localhost:9002/occ/v2/electronics-spa/users/anonymous/verificationToken?lang=en&curr=USD',
     });
-    spyOn(verificationTokenFacade, 'createVerificationToken').and.returnValue(
-      throwError(() => httpErrorResponse)
-    );
+    vi.spyOn(
+      verificationTokenFacade,
+      'createVerificationToken'
+    ).mockReturnValue(throwError(() => httpErrorResponse));
     component.onSubmit();
 
     expect(routingService.go).toHaveBeenCalled();

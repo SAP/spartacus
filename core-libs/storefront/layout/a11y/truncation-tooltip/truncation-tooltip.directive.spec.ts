@@ -30,7 +30,7 @@ describe('TruncationTooltipDirective', () => {
       value: 100,
       configurable: true,
     });
-    spyOn(inputNative, 'getBoundingClientRect').and.returnValue({
+    vi.spyOn(inputNative, 'getBoundingClientRect').mockReturnValue({
       top: 50,
       left: 20,
     } as DOMRect);

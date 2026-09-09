@@ -1,4 +1,5 @@
-import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { vi } from 'vitest';
+import { inject, TestBed } from '@angular/core/testing';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store, StoreModule } from '@ngrx/store';
 import {
@@ -104,8 +105,8 @@ describe('B2BUserService', () => {
     store = TestBed.inject(Store);
     service = TestBed.inject(B2BUserService);
     userIdService = TestBed.inject(UserIdService);
-    spyOn(store, 'dispatch').and.callThrough();
-    spyOn(userIdService, 'takeUserId').and.callThrough();
+    vi.spyOn(store, 'dispatch');
+    vi.spyOn(userIdService, 'takeUserId');
 
     actions$ = TestBed.inject(ActionsSubject);
     takeUserId$ = new BehaviorSubject(userId);
@@ -141,8 +142,9 @@ describe('B2BUserService', () => {
   });
 
   describe('get B2B user', () => {
-    it('get() should load B2B user when not present in the store', fakeAsync(() => {
-      spyOn(service, 'load').and.callThrough();
+    it('get() should load B2B user when not present in the store', async () => {
+      vi.useFakeTimers();
+      vi.spyOn(service, 'load');
       const sub = service.get(orgCustomerId).subscribe();
 
       actions$
@@ -153,10 +155,11 @@ describe('B2BUserService', () => {
           );
         });
 
-      tick();
+      await vi.advanceTimersByTimeAsync(0);
+      vi.useRealTimers();
       expect(service.load).toHaveBeenCalledWith(orgCustomerId);
       sub.unsubscribe();
-    }));
+    });
 
     it('get() should be able to get user when present in the store', () => {
       store.dispatch(
@@ -608,13 +611,13 @@ describe('B2BUserService', () => {
   describe('getErrorState', () => {
     it('getErrorState() should be able to get status error', () => {
       let errorState: boolean;
-      spyOn<any>(service, 'getB2BUserState').and.returnValue(
+      vi.spyOn<any>(service, 'getB2BUserState').mockReturnValue(
         of({ loading: false, success: false, error: true })
       );
 
       service.getErrorState('code').subscribe((error) => (errorState = error));
 
-      expect(errorState).toBeTrue();
+      expect(errorState).toBe(true);
     });
   });
 });

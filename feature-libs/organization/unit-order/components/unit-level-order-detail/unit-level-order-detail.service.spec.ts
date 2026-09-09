@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { RoutingService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
@@ -69,10 +70,10 @@ describe('UnitLevelOrderDetailService', () => {
     unitOrderFacade = TestBed.inject(UnitOrderFacade);
     routingService = TestBed.inject(RoutingService);
 
-    spyOn(routingService, 'getRouterState');
-    spyOn(unitOrderFacade, 'loadOrderDetails');
-    spyOn(unitOrderFacade, 'clearOrderDetails');
-    spyOn(unitOrderFacade, 'getOrderDetails').and.returnValue(of(mockOrder));
+    vi.spyOn(routingService, 'getRouterState');
+    vi.spyOn(unitOrderFacade, 'loadOrderDetails');
+    vi.spyOn(unitOrderFacade, 'clearOrderDetails');
+    vi.spyOn(unitOrderFacade, 'getOrderDetails').mockReturnValue(of(mockOrder));
   });
 
   it('should be created', () => {

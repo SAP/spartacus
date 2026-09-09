@@ -16,12 +16,12 @@
           items,
           parent: 'cart',
         }"
-      ></ng-template>
+      />
 
       <ng-template
         [cxOutlet]="CartOutlets.CPQ_QUOTE_HEADING"
         [cxOutletContext]="items"
-      ></ng-template>
+      />
       <th role="columnheader" scope="col" class="cx-item-list-qty">
         {{ 'cartItems.quantityFull' | cxTranslate }}
       </th>
@@ -49,6 +49,7 @@
           cx-cart-item-list-row
           role="row"
           class="cx-item-list-row"
+          [class.cx-validation-highlight]="hasValidationIssue$(item) | async"
           [items]="items"
           [item]="item"
           [quantityControl]="control.get('quantity')"

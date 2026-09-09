@@ -11,6 +11,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  forwardRef,
   inject,
   Input,
   OnDestroy,
@@ -46,7 +47,9 @@ import {
   UserAddressService,
 } from '@spartacus/core';
 import {
+  FocusConfig,
   FocusDirective,
+  FocusFirstInvalidFieldDirective,
   FormErrorsComponent,
   FormRequiredAsterisksComponent,
   FormRequiredLegendComponent,
@@ -55,6 +58,7 @@ import {
   NgSelectA11yDirective,
   sortTitles,
 } from '@spartacus/storefront';
+// eslint-disable-next-line @nx/workspace-no-self-public-api-import -- ESLint is misfiring here: core and root are not the same library — they're separate entry points
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import {
   BehaviorSubject,
@@ -63,7 +67,15 @@ import {
   of,
   Subscription,
 } from 'rxjs';
-import { filter, map, skip, switchMap, take, tap } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  shareReplay,
+  skip,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 
 @Component({
   selector: 'cx-address-form',
@@ -82,6 +94,7 @@ import { filter, map, skip, switchMap, take, tap } from 'rxjs/operators';
     AsyncPipe,
     FeatureDirective,
     FocusDirective,
+    FocusFirstInvalidFieldDirective,
     TranslatePipe,
   ],
 })
@@ -90,6 +103,11 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   protected cdr = inject(ChangeDetectorRef);
   private featureToggles = inject(FeatureToggles);
   protected hierarchicalAddressConfig = inject(HierarchicalAddressConfig);
+  protected elementRef = inject(ElementRef);
+
+  protected get isMaxLengthEnabled(): boolean {
+    return this.featureToggles.enableFormFieldMaxLength ?? false;
+  }
 
   countries$: Observable<Country[]>;
   titles$: Observable<Title[]>;
@@ -101,6 +119,14 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   cities: City[] = [];
   districts: CityDistrict[] = [];
   addresses$: Observable<Address[]>;
+
+  /**
+   * Drives the `cxFocus` autofocus host. Autofocus starts disabled and is
+   * enabled (with a `refreshFocus` token to re-trigger the directive) only once
+   * the country data has loaded, so focus lands on the country select rather
+   * than whichever field wins the async render race.
+   */
+  focusConfig: FocusConfig = { autofocus: false };
 
   @Input()
   addressData: Address;
@@ -131,27 +157,40 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   @ViewChild('submit') element: ElementRef;
 
+  @ViewChild(forwardRef(() => FocusFirstInvalidFieldDirective))
+  protected firstInvalidFieldFocus?: FocusFirstInvalidFieldDirective;
+
   subscription: Subscription = new Subscription();
 
-  addressForm: UntypedFormGroup = this.fb.group({
-    country: this.fb.group({
-      isocode: [null, Validators.required],
-    }),
-    titleCode: [''],
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    line1: ['', Validators.required],
-    line2: [''],
-    town: ['', Validators.required],
-    region: this.fb.group({
-      isocode: [null, Validators.required],
-    }),
-    district: [null],
-    postalCode: ['', Validators.required],
-    phone: '',
-    cellphone: '',
-    defaultAddress: [false],
-  });
+  protected readonly maxFieldLength = 256;
+
+  addressForm: UntypedFormGroup = this.buildForm();
+
+  protected buildForm(): UntypedFormGroup {
+    const maxLength = this.featureToggles.enableFormFieldMaxLength
+      ? [Validators.maxLength(this.maxFieldLength)]
+      : [];
+
+    return this.fb.group({
+      country: this.fb.group({
+        isocode: [null, Validators.required],
+      }),
+      titleCode: [''],
+      firstName: ['', [Validators.required, ...maxLength]],
+      lastName: ['', [Validators.required, ...maxLength]],
+      line1: ['', [Validators.required, ...maxLength]],
+      line2: ['', maxLength],
+      town: ['', [Validators.required, ...maxLength]],
+      region: this.fb.group({
+        isocode: [null, Validators.required],
+      }),
+      district: [null],
+      postalCode: ['', [Validators.required, ...maxLength]],
+      phone: ['', maxLength],
+      cellphone: ['', maxLength],
+      defaultAddress: [false],
+    });
+  }
 
   constructor(
     protected fb: UntypedFormBuilder,
@@ -163,8 +202,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // Fetching countries if no data stream was provided
-    this.countries$ =
+    // Fetching countries if no data stream was provided.
+    // `shareReplay` so the template's async pipe and the autofocus subscription
+    // below share a single execution (no duplicate `loadDeliveryCountries()`).
+    this.countries$ = (
       this.countries ||
       this.userAddressService.getDeliveryCountries().pipe(
         tap((countries: Country[]) => {
@@ -172,7 +213,43 @@ export class AddressFormComponent implements OnInit, OnDestroy {
             this.userAddressService.loadDeliveryCountries();
           }
         })
+      )
+    ).pipe(shareReplay({ bufferSize: 1, refCount: true }));
+
+    // Initial focus (form load): enable autofocus only once the country data
+    // has loaded, so the `cxFocus` host focuses the country select instead of
+    // whichever field wins the async render race between `countries$` and
+    // `titles$`. This is intentionally data-driven rather than DOM-driven; the
+    // post-submit counterpart, `focusFirstInvalidField()`, has to query the DOM
+    // instead because it needs the *specific* invalid field, not just the first.
+    if (this.featureToggles.a11yImproveAddressFormFocus) {
+      this.subscription.add(
+        this.countries$
+          .pipe(
+            filter((countries) => !!countries?.length),
+            take(1)
+          )
+          .subscribe(() => {
+            // The `countries$` emission and the change detection that renders
+            // the country select happen in the same tick; defer to a macrotask
+            // so the select exists in the DOM before `refreshFocus` re-triggers
+            // the directive's focus logic and picks the first focusable field.
+            setTimeout(() => {
+              // Don't steal focus if the user has already engaged with the
+              // form — this matters when country data loads slowly or a custom
+              // template renders a different (non-country) first field, where
+              // the deferred refresh would otherwise yank focus back to the top.
+              const active = document.activeElement;
+              const host = this.elementRef.nativeElement as HTMLElement;
+              if (active && active !== document.body && host.contains(active)) {
+                return;
+              }
+              this.focusConfig = { autofocus: true, refreshFocus: {} };
+              this.cdr.markForCheck();
+            });
+          })
       );
+    }
 
     // Fetching titles
     this.titles$ = this.getTitles();
@@ -353,11 +430,15 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.selectedRegion$.next('');
     this.selectedCity$.next('');
 
+    const maxLength = this.isMaxLengthEnabled
+      ? [Validators.maxLength(this.maxFieldLength)]
+      : [];
+
     if (this.isHierarchicalAddressFormat) {
-      cellphoneControl?.setValidators([Validators.required]);
+      cellphoneControl?.setValidators([Validators.required, ...maxLength]);
       districtControl?.setValidators([Validators.required]);
     } else {
-      cellphoneControl?.clearValidators();
+      cellphoneControl?.setValidators(maxLength);
       districtControl?.clearValidators();
       townControl?.enable();
       districtControl?.enable();
@@ -442,6 +523,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         { key: 'formErrors.globalMessage' },
         GlobalMessageType.MSG_TYPE_ASSISTIVE
       );
+      if (this.featureToggles.a11yImproveAddressFormFocus) {
+        this.firstInvalidFieldFocus?.focusFirstInvalidField();
+      }
     }
   }
 

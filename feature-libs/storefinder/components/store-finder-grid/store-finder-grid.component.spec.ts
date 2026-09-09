@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
+import { vi } from 'vitest';
 import {
   MockTranslatePipe,
   RoutingService,
@@ -11,7 +12,6 @@ import { StoreFinderService } from '@spartacus/storefinder/core';
 import { EMPTY, Observable } from 'rxjs';
 import { StoreFinderGridComponent } from './store-finder-grid.component';
 import { StoreFinderListItemComponent } from '../store-finder-list-item/store-finder-list-item.component';
-import createSpy = jasmine.createSpy;
 
 const countryIsoCode = 'CA';
 const regionIsoCode = 'CA-QC';
@@ -38,15 +38,13 @@ const mockActivatedRoute = {
 };
 
 class MockStoreFinderService implements Partial<StoreFinderService> {
-  getFindStoresEntities = createSpy('getFindStoresEntities').and.returnValue(
-    EMPTY
-  );
-  getStoresLoading = createSpy('getStoresLoading');
-  callFindStoresAction = createSpy('callFindStoresAction');
+  getFindStoresEntities = vi.fn().mockReturnValue(EMPTY);
+  getStoresLoading = vi.fn();
+  callFindStoresAction = vi.fn();
 }
 
 const mockRoutingService = {
-  go: createSpy('go'),
+  go: vi.fn(),
 };
 
 describe('StoreFinderGridComponent', () => {
@@ -55,7 +53,7 @@ describe('StoreFinderGridComponent', () => {
   let storeFinderService: StoreFinderService;
   let route: ActivatedRoute;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [StoreFinderGridComponent],
       providers: [
@@ -74,7 +72,7 @@ describe('StoreFinderGridComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderGridComponent);

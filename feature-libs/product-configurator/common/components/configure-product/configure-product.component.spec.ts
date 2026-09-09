@@ -22,6 +22,7 @@ import {
   ReadOnlyPostfix,
 } from './../../core/model/common-configurator.model';
 import { ConfigureProductComponent } from './configure-product.component';
+import { vi } from 'vitest';
 
 const productCode = 'CONF_LAPTOP';
 const configuratorType = ConfiguratorType.VARIANT;
@@ -165,7 +166,7 @@ function setupWithCurrentProductService(
   );
   routingService = TestBed.inject(RoutingService);
 
-  spyOn(currentProductService, 'getProduct').and.callThrough();
+  vi.spyOn(currentProductService, 'getProduct');
 
   fixture = TestBed.createComponent(ConfigureProductComponent);
   component = fixture.componentInstance;
@@ -208,22 +209,20 @@ describe('ConfigureProductComponent', () => {
     );
   });
 
-  it('should emit product in case it was launched with current product service', (done) => {
+  it('should emit product in case it was launched with current product service', async () => {
     setupWithCurrentProductService(true);
     component.product$.subscribe((product) => {
       expect(product).toBe(mockProduct);
-      done();
     });
   });
 
-  it('should emit non-configurable dummy in case it was launched with product service which emits null', (done) => {
+  it('should emit non-configurable dummy in case it was launched with product service which emits null', async () => {
     setupWithCurrentProductService(true, true, true);
     component['productListItemContext'] = null;
     component['currentProductService'] = null;
     fixture.detectChanges();
     component.product$.subscribe((product) => {
       expect(product).toEqual(mockProductNotConfigurable);
-      done();
     });
   });
 
@@ -237,40 +236,36 @@ describe('ConfigureProductComponent', () => {
     );
   });
 
-  it('should emit product in case it was launched with product item context', (done) => {
+  it('should emit product in case it was launched with product item context', async () => {
     setupWithCurrentProductService(false);
     component.product$.subscribe((product) => {
       expect(product).toBe(mockProduct);
-      done();
     });
   });
 
   describe('getProduct', () => {
-    it('should emit null in case both productListItemContext and currentProductService return null', (done) => {
+    it('should emit null in case both productListItemContext and currentProductService return null', async () => {
       setupWithCurrentProductService(true, true, true);
       component['getProduct']().subscribe((product) => {
         expect(product).toBe(null);
-        done();
       });
     });
 
-    it('should emit product in case it was launched with defined product item context', (done) => {
+    it('should emit product in case it was launched with defined product item context', async () => {
       setupWithCurrentProductService(false);
       component['getProduct']().subscribe((product) => {
         expect(product).toBe(mockProduct);
-        done();
       });
     });
 
-    it('should emit product in case it was launched with defined currentProductService', (done) => {
+    it('should emit product in case it was launched with defined currentProductService', async () => {
       setupWithCurrentProductService(true);
       component['getProduct']().subscribe((product) => {
         expect(product).toBe(mockProduct);
-        done();
       });
     });
 
-    it('should emit null in case both productListItemContext and currentProductService are undefined', (done) => {
+    it('should emit null in case both productListItemContext and currentProductService are undefined', async () => {
       setupWithCurrentProductService(true);
       component['productListItemContext'] = null;
       component['currentProductService'] = null;
@@ -278,7 +273,6 @@ describe('ConfigureProductComponent', () => {
 
       component['getProduct']().subscribe((product) => {
         expect(product).toBe(null);
-        done();
       });
     });
   });
@@ -446,7 +440,7 @@ describe('ConfigureProductComponent', () => {
     it('should navigate to a product configurator', () => {
       setupWithCurrentProductService(true);
       fixture.detectChanges();
-      spyOn(routingService, 'go');
+      vi.spyOn(routingService, 'go');
       const btn = fixture.debugElement.query(By.css('button'));
       btn.triggerEventHandler('click');
       expect(routingService.go).toHaveBeenCalledWith(

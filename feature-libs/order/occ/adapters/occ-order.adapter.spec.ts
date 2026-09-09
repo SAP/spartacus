@@ -8,7 +8,7 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
   HttpErrorModel,
@@ -18,7 +18,7 @@ import {
   tryNormalizeHttpError,
 } from '@spartacus/core';
 import { ORDER_NORMALIZER, Order } from '@spartacus/order/root';
-import { defer, of, throwError } from 'rxjs';
+import { defer, firstValueFrom, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OccOrderAdapter } from './occ-order.adapter';
 
@@ -94,7 +94,7 @@ describe('OccOrderAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
 
-    spyOn(converter, 'pipeable').and.callThrough();
+    vi.spyOn(converter, 'pipeable');
   });
 
   afterEach(() => {
@@ -102,14 +102,10 @@ describe('OccOrderAdapter', () => {
   });
 
   describe(`placeOrder`, () => {
-    it(`should be able to place order for the cart`, (done) => {
-      service
-        .placeOrder(userId, cartId, termsChecked)
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(orderData);
-          done();
-        });
+    it(`should be able to place order for the cart`, async () => {
+      const resultPromise = firstValueFrom(
+        service.placeOrder(userId, cartId, termsChecked)
+      );
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -122,15 +118,15 @@ describe('OccOrderAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orderData);
+
+      const result = await resultPromise;
+      expect(result).toEqual(orderData);
     });
 
-    it(`should use converter`, (done) => {
-      service
-        .placeOrder(userId, cartId, termsChecked)
-        .pipe(take(1))
-        .subscribe(() => {
-          done();
-        });
+    it(`should use converter`, async () => {
+      const resultPromise = firstValueFrom(
+        service.placeOrder(userId, cartId, termsChecked)
+      );
       httpMock
         .expectOne(
           (req) =>
@@ -139,12 +135,20 @@ describe('OccOrderAdapter', () => {
               `users/${userId}/orders?fields=FULL&cartId=${cartId}&termsChecked=${termsChecked}`
         )
         .flush({});
+      await resultPromise;
       expect(converter.pipeable).toHaveBeenCalledWith(ORDER_NORMALIZER);
     });
 
     describe(`back-off`, () => {
-      it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-        spyOn(httpClient, 'post').and.returnValue(
+      beforeEach(() => {
+        vi.useFakeTimers();
+      });
+      afterEach(() => {
+        vi.useRealTimers();
+      });
+
+      it(`should unsuccessfully backOff on Jalo error`, async () => {
+        vi.spyOn(httpClient, 'post').mockReturnValue(
           throwError(() => mockJaloError)
         );
 
@@ -154,17 +158,17 @@ describe('OccOrderAdapter', () => {
           .pipe(take(1))
           .subscribe({ error: (err) => (result = err) });
 
-        tick(4200);
+        await vi.advanceTimersByTimeAsync(4200);
 
         expect(result).toEqual(mockNormalizedJaloError);
 
         subscription.unsubscribe();
-      }));
+      });
 
-      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, async () => {
         let calledTimes = -1;
 
-        spyOn(httpClient, 'post').and.returnValue(
+        vi.spyOn(httpClient, 'post').mockReturnValue(
           defer(() => {
             calledTimes++;
             if (calledTimes === 3) {
@@ -183,31 +187,27 @@ describe('OccOrderAdapter', () => {
           });
 
         // 1*1*300 = 300
-        tick(300);
+        await vi.advanceTimersByTimeAsync(300);
         expect(result).toEqual(undefined);
 
         // 2*2*300 = 1200
-        tick(1200);
+        await vi.advanceTimersByTimeAsync(1200);
         expect(result).toEqual(undefined);
 
         // 3*3*300 = 2700
-        tick(2700);
+        await vi.advanceTimersByTimeAsync(2700);
 
         expect(result).toEqual({});
         subscription.unsubscribe();
-      }));
+      });
     });
   });
 
   describe(`placePaymentAuthorizedOrder`, () => {
-    it(`should be able to place order after the payment was authorized`, (done) => {
-      service
-        .placePaymentAuthorizedOrder(userId, cartId, termsChecked)
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(orderData);
-          done();
-        });
+    it(`should be able to place order after the payment was authorized`, async () => {
+      const resultPromise = firstValueFrom(
+        service.placePaymentAuthorizedOrder(userId, cartId, termsChecked)
+      );
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -220,15 +220,15 @@ describe('OccOrderAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orderData);
+
+      const result = await resultPromise;
+      expect(result).toEqual(orderData);
     });
 
-    it(`should use converter`, (done) => {
-      service
-        .placePaymentAuthorizedOrder(userId, cartId, termsChecked)
-        .pipe(take(1))
-        .subscribe(() => {
-          done();
-        });
+    it(`should use converter`, async () => {
+      const resultPromise = firstValueFrom(
+        service.placePaymentAuthorizedOrder(userId, cartId, termsChecked)
+      );
       httpMock
         .expectOne(
           (req) =>
@@ -237,12 +237,20 @@ describe('OccOrderAdapter', () => {
               `users/${userId}/orders/paymentAuthorizedOrderPlacement?fields=FULL&cartId=${cartId}&termsChecked=${termsChecked}`
         )
         .flush({});
+      await resultPromise;
       expect(converter.pipeable).toHaveBeenCalledWith(ORDER_NORMALIZER);
     });
 
     describe(`back-off`, () => {
-      it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-        spyOn(httpClient, 'post').and.returnValue(
+      beforeEach(() => {
+        vi.useFakeTimers();
+      });
+      afterEach(() => {
+        vi.useRealTimers();
+      });
+
+      it(`should unsuccessfully backOff on Jalo error`, async () => {
+        vi.spyOn(httpClient, 'post').mockReturnValue(
           throwError(() => mockJaloError)
         );
 
@@ -252,17 +260,17 @@ describe('OccOrderAdapter', () => {
           .pipe(take(1))
           .subscribe({ error: (err) => (result = err) });
 
-        tick(4200);
+        await vi.advanceTimersByTimeAsync(4200);
 
         expect(result).toEqual(mockNormalizedJaloError);
 
         subscription.unsubscribe();
-      }));
+      });
 
-      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, async () => {
         let calledTimes = -1;
 
-        spyOn(httpClient, 'post').and.returnValue(
+        vi.spyOn(httpClient, 'post').mockReturnValue(
           defer(() => {
             calledTimes++;
             if (calledTimes === 3) {
@@ -281,19 +289,19 @@ describe('OccOrderAdapter', () => {
           });
 
         // 1*1*300 = 300
-        tick(300);
+        await vi.advanceTimersByTimeAsync(300);
         expect(result).toEqual(undefined);
 
         // 2*2*300 = 1200
-        tick(1200);
+        await vi.advanceTimersByTimeAsync(1200);
         expect(result).toEqual(undefined);
 
         // 3*3*300 = 2700
-        tick(2700);
+        await vi.advanceTimersByTimeAsync(2700);
 
         expect(result).toEqual({});
         subscription.unsubscribe();
-      }));
+      });
     });
   });
 });

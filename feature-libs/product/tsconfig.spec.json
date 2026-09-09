@@ -2,11 +2,27 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/spec",
-    "types": ["jasmine", "node"],
     "module": "preserve",
     "strict": false,
-    "moduleResolution": "bundler"
+    "types": [
+      "vitest/globals",
+      "vitest/importMeta",
+      "vite/client",
+      "node",
+      "vitest"
+    ],
+    "moduleResolution": "bundler",
+    "allowJs": true,
+    "paths": {
+      "@spartacus/storefront/testing/mock-feature-directive": [
+        "../../core-libs/storefront/shared/test/mock-feature-directive.ts"
+      ]
+    }
   },
-  "files": ["test.ts"],
-  "include": ["**/*.spec.ts", "**/*.d.ts"]
+  "files": ["../../testing/setup-vitest.ts"],
+  "include": [
+    "**/*.ts",
+    "../../core-libs/core/src/**/*.ts",
+    "../../core-libs/storefront/**/*.ts"
+  ]
 }

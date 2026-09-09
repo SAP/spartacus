@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { ReturnRequest } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
@@ -11,9 +11,9 @@ const mockReturnRequest: ReturnRequest = {
 };
 
 class MockReturnRequestService {
-  cancelReturnRequest = jasmine.createSpy();
-  cancelSuccess = jasmine.createSpy();
-  backToList = jasmine.createSpy();
+  cancelReturnRequest = vi.fn();
+  cancelSuccess = vi.fn();
+  backToList = vi.fn();
   getReturnRequest(): Observable<ReturnRequest> {
     return of(mockReturnRequest);
   }
@@ -27,14 +27,14 @@ describe('ReturnRequestOverviewComponent', () => {
   let fixture: ComponentFixture<ReturnRequestOverviewComponent>;
   let returnRequestService: ReturnRequestService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReturnRequestOverviewComponent],
       providers: [
         { provide: ReturnRequestService, useClass: MockReturnRequestService },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReturnRequestOverviewComponent);

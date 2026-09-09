@@ -9,8 +9,7 @@ import { of } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldAdapter } from './configurator-textfield.adapter';
 import { ConfiguratorTextfieldConnector } from './configurator-textfield.connector';
-
-import createSpy = jasmine.createSpy;
+import { vi } from 'vitest';
 
 const USER_ID = 'theUser';
 const CART_ID = '98876';
@@ -22,22 +21,22 @@ const configuration: ConfiguratorTextfield.Configuration = {
 const cartModification: CartModification = {};
 
 class MockConfiguratorTextfieldAdapter implements ConfiguratorTextfieldAdapter {
-  readConfiguration = createSpy().and.callFake(() => of(configuration));
+  readConfiguration = vi.fn().mockImplementation(() => of(configuration));
 
-  createConfiguration = createSpy().and.callFake(() => of(configuration));
+  createConfiguration = vi.fn().mockImplementation(() => of(configuration));
 
-  addToCart = createSpy().and.callFake(() => of(cartModification));
+  addToCart = vi.fn().mockImplementation(() => of(cartModification));
 
-  updateConfigurationForCartEntry = createSpy().and.callFake(() =>
-    of(cartModification)
-  );
+  updateConfigurationForCartEntry = vi
+    .fn()
+    .mockImplementation(() => of(cartModification));
 
-  readConfigurationForCartEntry = createSpy().and.callFake(() =>
-    of(configuration)
-  );
-  readConfigurationForOrderEntry = createSpy().and.callFake(() =>
-    of(configuration)
-  );
+  readConfigurationForCartEntry = vi
+    .fn()
+    .mockImplementation(() => of(configuration));
+  readConfigurationForOrderEntry = vi
+    .fn()
+    .mockImplementation(() => of(configuration));
 }
 
 describe('ConfiguratorTextfieldConnector', () => {

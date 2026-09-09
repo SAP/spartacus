@@ -242,7 +242,7 @@ describe('SplitViewService', () => {
 
   describe('toggle()', () => {
     it('should add view during toggling if it was not added before', () => {
-      spyOn(service, 'add');
+      vi.spyOn(service, 'add');
       service.toggle(2);
       expect(service.add).toHaveBeenCalledWith(2, { hidden: false });
     });

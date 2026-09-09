@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   FeatureDirective,
@@ -9,12 +9,10 @@ import {
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { NEVER, Observable, of } from 'rxjs';
 import { IconComponent } from '../icon/icon.component';
 import { GlobalMessageComponent } from './global-message.component';
-import createSpy = jasmine.createSpy;
 
 const mockMessages: GlobalMessageEntities = {
   [GlobalMessageType.MSG_TYPE_CONFIRMATION]: [{ raw: 'Confirmation' }],
@@ -28,14 +26,14 @@ const mockMessagesWithAssistive: GlobalMessageEntities = {
 };
 
 class MockMessageService {
-  remove = createSpy();
+  remove = vi.fn();
   get(): Observable<GlobalMessageEntities> {
     return of(mockMessages);
   }
 }
 
 class MockMessageServiceWithAssistive {
-  remove = createSpy();
+  remove = vi.fn();
   get(): Observable<GlobalMessageEntities> {
     return of(mockMessagesWithAssistive);
   }
@@ -79,11 +77,19 @@ describe('GlobalMessageComponent', () => {
   let messageService: GlobalMessageService;
   let fixture: ComponentFixture<GlobalMessageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    configureTestBed([
-      { provide: GlobalMessageService, useClass: MockMessageService },
-    ]);
-  }));
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [GlobalMessageComponent],
+      providers: [
+        { provide: GlobalMessageService, useClass: MockMessageService },
+      ],
+    })
+      .overrideComponent(GlobalMessageComponent, {
+        remove: { imports: [IconComponent, TranslatePipe] },
+        add: { imports: [MockCxIconComponent, MockTranslatePipe] },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GlobalMessageComponent);
@@ -114,19 +120,18 @@ describe('GlobalMessageComponent', () => {
 describe('GlobalMessageComponent with a11yFilteredFacetAnnouncement disabled', () => {
   let fixture: ComponentFixture<GlobalMessageComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     // MockFeatureDirective only renders non-negated *cxFeature blocks.
     // With the toggle off, *cxFeature="'a11yFilteredFacetAnnouncement'" is not
     // negated but MockFeatureDirective renders it regardless of toggle value —
     // so we use provideMockFeatureToggles here for documentation purposes only.
-    configureTestBed([
+    await configureTestBed([
       {
         provide: GlobalMessageService,
         useClass: MockMessageServiceWithAssistive,
       },
-      provideMockFeatureToggles({ a11yFilteredFacetAnnouncement: false }),
     ]);
-  }));
+  });
 
   beforeEach(() => {
     fixture = createInitializedFixture();
@@ -150,15 +155,14 @@ describe('GlobalMessageComponent with a11yFilteredFacetAnnouncement disabled', (
 describe('GlobalMessageComponent with a11yFilteredFacetAnnouncement enabled', () => {
   let fixture: ComponentFixture<GlobalMessageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    configureTestBed([
+  beforeEach(async () => {
+    await configureTestBed([
       {
         provide: GlobalMessageService,
         useClass: MockMessageServiceWithAssistive,
       },
-      provideMockFeatureToggles({ a11yFilteredFacetAnnouncement: true }),
     ]);
-  }));
+  });
 
   beforeEach(() => {
     fixture = createInitializedFixture();
@@ -179,7 +183,7 @@ describe('GlobalMessageComponent with a11yFilteredFacetAnnouncement enabled', ()
   });
 
   it('should render empty container when there are no assistive messages', () => {
-    spyOn(TestBed.inject(GlobalMessageService), 'get').and.returnValue(
+    vi.spyOn(TestBed.inject(GlobalMessageService), 'get').mockReturnValue(
       of(mockMessages)
     );
 
@@ -194,15 +198,14 @@ describe('GlobalMessageComponent with a11yFilteredFacetAnnouncement enabled', ()
 describe('GlobalMessageComponent a11yFilteredFacetAnnouncement — aria-live container pre-existence', () => {
   let fixture: ComponentFixture<GlobalMessageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    configureTestBed([
+  beforeEach(async () => {
+    await configureTestBed([
       {
         provide: GlobalMessageService,
-        useValue: { get: () => NEVER, remove: createSpy() },
+        useValue: { get: () => NEVER, remove: vi.fn() },
       },
-      provideMockFeatureToggles({ a11yFilteredFacetAnnouncement: true }),
     ]);
-  }));
+  });
 
   beforeEach(() => {
     fixture = createInitializedFixture();

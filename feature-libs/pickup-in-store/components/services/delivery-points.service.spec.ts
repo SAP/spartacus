@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
@@ -93,10 +94,10 @@ describe('DeliveryPointsService', () => {
     pickupLocationsSearchService = TestBed.inject(PickupLocationsSearchFacade);
     orderFacade = TestBed.inject(OrderFacade);
 
-    spyOn(activeCartFacade, 'getPickupEntries').and.callThrough();
-    spyOn(pickupLocationsSearchService, 'loadStoreDetails').and.callThrough();
-    spyOn(pickupLocationsSearchService, 'getStoreDetails').and.callThrough();
-    spyOn(orderFacade, 'getPickupEntries').and.callThrough();
+    vi.spyOn(activeCartFacade, 'getPickupEntries');
+    vi.spyOn(pickupLocationsSearchService, 'loadStoreDetails');
+    vi.spyOn(pickupLocationsSearchService, 'getStoreDetails');
+    vi.spyOn(orderFacade, 'getPickupEntries');
   });
 
   it('should be created', () => {

@@ -84,7 +84,7 @@ describe('CheckoutConfigService', () => {
 
   describe('getPreferredDeliveryMode', () => {
     it('should call findMatchingDeliveryMode with ordered modes by price', () => {
-      const findMatchingDeliveryMode = spyOn(
+      const findMatchingDeliveryMode = vi.spyOn(
         service,
         'findMatchingDeliveryMode' as any
       );

@@ -71,7 +71,7 @@ describe('MyAccountV2ConsignmentTrackingComponent', () => {
     expect(component.orderCode).toEqual('');
   });
   it('should open tracking dialog', () => {
-    spyOn(component, 'openTrackingDialog');
+    vi.spyOn(component, 'openTrackingDialog');
     fixture.detectChanges();
     let tracking_button = fixture.debugElement.nativeElement.querySelector('a');
     tracking_button.click(mockConsignment);

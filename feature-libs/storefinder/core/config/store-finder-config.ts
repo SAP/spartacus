@@ -18,6 +18,7 @@ export abstract class StoreFinderConfig {
     scale?: number;
     selectedMarkerScale?: number;
     radius?: number;
+    mapId?: string;
   };
 }
 

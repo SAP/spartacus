@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { RoutingService } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/organization/administration/core';
@@ -46,7 +47,7 @@ describe('CurrentUnitChildService', () => {
 
   describe('model$', () => {
     it('should not load unit for child units', () => {
-      spyOn(unitService, 'get').and.callThrough();
+      vi.spyOn(unitService, 'get');
       service.item$.subscribe();
       mockParams.next({ [ROUTE_PARAMS.unitCode]: '123' });
       expect(unitService.get).not.toHaveBeenCalled();

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Order } from '@spartacus/order/root';
 import { OutletModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
@@ -53,7 +53,7 @@ describe('OrderDetailTotalsComponent', () => {
   let fixture: ComponentFixture<OrderDetailTotalsComponent>;
   let mockOrderDetailsService: OrderDetailsService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     mockOrderDetailsService = <OrderDetailsService>{
       getOrderDetails() {
         return of(mockOrder);
@@ -66,7 +66,7 @@ describe('OrderDetailTotalsComponent', () => {
         { provide: OrderDetailsService, useValue: mockOrderDetailsService },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailTotalsComponent);

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { PointOfService } from '@spartacus/core';
@@ -5,7 +6,6 @@ import { Observable, of } from 'rxjs';
 
 import { PickupLocationAdapter } from './pickup-location.adapter';
 import { PickupLocationConnector } from './pickup-location.connector';
-import createSpy = jasmine.createSpy;
 
 export class MockPickupLocationConnector {
   getStoreDetails(_storeName: string): Observable<PointOfService> {
@@ -21,7 +21,7 @@ export class MockPickupLocationConnectorWithError {
 }
 
 class MockPickupLocationAdapter implements PickupLocationAdapter {
-  getStoreDetails = createSpy();
+  getStoreDetails = vi.fn();
 }
 
 describe('PickupLocationConnector', () => {

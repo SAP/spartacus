@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
@@ -57,7 +58,7 @@ describe('ChildUnitItemService', () => {
   });
 
   it('should create item with unitUid', () => {
-    spyOn(userService, 'create').and.callThrough();
+    vi.spyOn(userService, 'create');
     const form = new UntypedFormGroup({});
     form.setControl('name', new UntypedFormControl('User name'));
     form.setControl(
@@ -78,7 +79,7 @@ describe('ChildUnitItemService', () => {
 
   it('should launch orgUnitChildren with unitUid uid', () => {
     const routingService = TestBed.inject(RoutingService);
-    spyOn(routingService, 'go').and.callThrough();
+    vi.spyOn(routingService, 'go');
     service.launchDetails({
       uid: 'uid',
       name: 'foo bar',

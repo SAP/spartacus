@@ -18,6 +18,7 @@ import {
 import { OccConfiguratorTextfieldAdapter } from '.';
 import { CONFIGURATION_TEXTFIELD_NORMALIZER } from '../core/connectors/converters';
 import { ConfiguratorTextfield } from '../core/model/configurator-textfield.model';
+import { vi } from 'vitest';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
@@ -117,9 +118,9 @@ describe('OccConfigurationTextfieldAdapter', () => {
       OccConfiguratorTextfieldAdapter as Type<OccConfiguratorTextfieldAdapter>
     );
 
-    spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(converterService, 'convert').and.callThrough();
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
+    vi.spyOn(converterService, 'pipeable');
+    vi.spyOn(converterService, 'convert');
+    vi.spyOn(occEnpointsService, 'buildUrl');
   });
 
   afterEach(() => {

@@ -171,7 +171,6 @@ export interface TableHeaderOutletContext {
   _i18nRoot?: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface TableDataOutletContext extends TableHeaderOutletContext {
   [property: string]: any;
 }

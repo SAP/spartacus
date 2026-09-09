@@ -1,9 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, Injectable, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CmsService, ContentSlotData, Page } from '@spartacus/core';
-import { TestModule } from 'core-libs/core/src/config/services/configuration.service.spec';
+import {
+  CmsService,
+  Config,
+  ContentSlotData,
+  Page,
+  provideConfig,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
 import { DirectiveStateTransferService } from '../../../utils';
@@ -33,7 +39,7 @@ class MockPageTemplateComponent {}
 
 @Component({
   selector: 'cx-page-header-test',
-  template: ` <cx-page-layout section="header"> </cx-page-layout> `,
+  template: ` <cx-page-layout section="header" /> `,
   imports: [PageLayoutComponent],
 })
 class MockHeaderComponent {}
@@ -180,9 +186,14 @@ describe('SectionLayoutComponent', () => {
   let sectionLayoutComponent: MockHeaderComponent;
   let fixture: ComponentFixture<MockHeaderComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [TestModule],
+      imports: [
+        CommonModule,
+        OutletDirective,
+        MockHeaderComponent,
+        MockDynamicSlotComponent,
+      ],
       providers: [
         {
           provide: CmsService,
@@ -196,7 +207,7 @@ describe('SectionLayoutComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MockHeaderComponent);

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
@@ -12,8 +13,8 @@ import {
 } from '@spartacus/organization/user-registration/root';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { UserRegistrationFormService } from './user-registration-form.service';
-import createSpy = jasmine.createSpy;
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add() {}
@@ -24,15 +25,15 @@ class MockRoutingService implements Partial<RoutingService> {
 }
 
 class MockUserAddressService implements Partial<UserAddressService> {
-  getDeliveryCountries = createSpy().and.returnValue(of([]));
-  getRegions = createSpy().and.returnValue(of([]));
+  getDeliveryCountries = vi.fn().mockReturnValue(of([]));
+  getRegions = vi.fn().mockReturnValue(of([]));
   loadDeliveryCountries(): void {
     return;
   }
 }
 
 class MockUserRegisterFacade implements Partial<UserRegisterFacade> {
-  getTitles = createSpy().and.returnValue(of([]));
+  getTitles = vi.fn().mockReturnValue(of([]));
 }
 
 class MockTranslationService implements Partial<TranslationService> {
@@ -179,12 +180,64 @@ describe('UserRegistrationFormService', () => {
   });
 
   it('should redirect to login page', () => {
-    spyOn(routingService, 'go').and.callThrough();
+    vi.spyOn(routingService, 'go');
 
     service.registerUser(service.form).subscribe().unsubscribe();
 
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'login',
+    });
+  });
+});
+
+describe('UserRegistrationFormService — enableFormFieldMaxLength', () => {
+  const overLength = 'a'.repeat(257);
+
+  const baseProviders = () => [
+    FormBuilder,
+    { provide: RoutingService, useClass: MockRoutingService },
+    { provide: UserAddressService, useClass: MockUserAddressService },
+    { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+    { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },
+    { provide: TranslationService, useClass: MockTranslationService },
+    { provide: UserRegistrationFacade, useClass: MockUserRegistrationFacade },
+  ];
+
+  describe('when enabled', () => {
+    let service: UserRegistrationFormService;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          ...baseProviders(),
+          ...provideMockFeatureToggles({ enableFormFieldMaxLength: true }),
+        ],
+      });
+      service = TestBed.inject(UserRegistrationFormService);
+    });
+
+    it('should add maxLength validator to form fields', () => {
+      service.form.get('firstName')?.setValue(overLength);
+      expect(service.form.get('firstName')?.hasError('maxlength')).toBe(true);
+    });
+  });
+
+  describe('when disabled', () => {
+    let service: UserRegistrationFormService;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          ...baseProviders(),
+          ...provideMockFeatureToggles({ enableFormFieldMaxLength: false }),
+        ],
+      });
+      service = TestBed.inject(UserRegistrationFormService);
+    });
+
+    it('should not add maxLength validator to form fields', () => {
+      service.form.get('firstName')?.setValue(overLength);
+      expect(service.form.get('firstName')?.hasError('maxlength')).toBe(false);
     });
   });
 });

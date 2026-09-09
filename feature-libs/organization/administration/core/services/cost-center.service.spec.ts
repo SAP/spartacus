@@ -1,4 +1,5 @@
-import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { vi } from 'vitest';
+import { inject, TestBed } from '@angular/core/testing';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store, StoreModule } from '@ngrx/store';
 import {
@@ -71,8 +72,8 @@ describe('CostCenterService', () => {
     store = TestBed.inject(Store);
     service = TestBed.inject(CostCenterService);
     userIdService = TestBed.inject(UserIdService);
-    spyOn(store, 'dispatch').and.callThrough();
-    spyOn(userIdService, 'takeUserId').and.callThrough();
+    vi.spyOn(store, 'dispatch');
+    vi.spyOn(userIdService, 'takeUserId');
 
     actions$ = TestBed.inject(ActionsSubject);
     takeUserId$ = new BehaviorSubject(userId);
@@ -86,8 +87,9 @@ describe('CostCenterService', () => {
   ));
 
   describe('get costCenter', () => {
-    it('get() should trigger load costCenter details when they are not present in the store', fakeAsync(() => {
-      spyOn(service, 'load').and.callThrough();
+    it('get() should trigger load costCenter details when they are not present in the store', async () => {
+      vi.useFakeTimers();
+      vi.spyOn(service, 'load');
       const sub = service.get(costCenterCode).subscribe();
 
       actions$
@@ -98,10 +100,11 @@ describe('CostCenterService', () => {
           );
         });
 
-      tick();
+      await vi.advanceTimersByTimeAsync(0);
+      vi.useRealTimers();
       expect(service.load).toHaveBeenCalledWith(costCenterCode);
       sub.unsubscribe();
-    }));
+    });
 
     it('get() should be able to get costCenter details when they are present in the store', () => {
       store.dispatch(
@@ -322,13 +325,13 @@ describe('CostCenterService', () => {
   describe('getErrorState', () => {
     it('getErrorState() should be able to get status error', () => {
       let errorState: boolean;
-      spyOn<any>(service, 'getCostCenterState').and.returnValue(
+      vi.spyOn<any>(service, 'getCostCenterState').mockReturnValue(
         of({ loading: false, success: false, error: true })
       );
 
       service.getErrorState('code').subscribe((error) => (errorState = error));
 
-      expect(errorState).toBeTrue();
+      expect(errorState).toBe(true);
     });
   });
 });

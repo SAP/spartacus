@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform, signal } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslatePipe, TranslationService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { UsageChargeType } from '../../../root/model';
@@ -77,7 +77,7 @@ const mockProduct2 = signal({ sapPricePlan: {} });
 describe('SubscriptionProductUsageChargeComponent', () => {
   let component: SubscriptionProductUsageChargeComponent;
   let fixture: ComponentFixture<SubscriptionProductUsageChargeComponent>;
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [SubscriptionProductUsageChargeComponent],
       providers: [
@@ -91,7 +91,7 @@ describe('SubscriptionProductUsageChargeComponent', () => {
       .compileComponents();
     fixture = TestBed.createComponent(SubscriptionProductUsageChargeComponent);
     component = fixture.componentInstance;
-  }));
+  });
   it('should be created', () => {
     Object.defineProperty(component, 'product', {
       get: () => signal(null),

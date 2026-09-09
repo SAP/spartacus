@@ -5,19 +5,18 @@ import {
   EventService,
 } from '@spartacus/core';
 import { GetSubscriptionByCodeReloadEvent } from '@spartacus/subscription-billing/root';
-import { throwError } from 'rxjs';
+import { firstValueFrom, throwError } from 'rxjs';
+import { vi } from 'vitest';
 import { SubscriptionActionsModalComponentService } from './subscription-actions-modal-component.service';
 
 describe('SubscriptionActionsModalComponentService', () => {
   let service: SubscriptionActionsModalComponentService;
-  let globalMessageService: jasmine.SpyObj<GlobalMessageService>;
-  let eventService: jasmine.SpyObj<EventService>;
+  let globalMessageService: any;
+  let eventService: any;
 
   beforeEach(() => {
-    const globalMessageSpy = jasmine.createSpyObj('GlobalMessageService', [
-      'add',
-    ]);
-    const eventServiceSpy = jasmine.createSpyObj('EventService', ['dispatch']);
+    const globalMessageSpy = { add: vi.fn() };
+    const eventServiceSpy = { dispatch: vi.fn() };
 
     TestBed.configureTestingModule({
       providers: [
@@ -28,52 +27,44 @@ describe('SubscriptionActionsModalComponentService', () => {
     });
 
     service = TestBed.inject(SubscriptionActionsModalComponentService);
-    globalMessageService = TestBed.inject(
-      GlobalMessageService
-    ) as jasmine.SpyObj<GlobalMessageService>;
-    eventService = TestBed.inject(EventService) as jasmine.SpyObj<EventService>;
+    globalMessageService = TestBed.inject(GlobalMessageService) as any;
+    eventService = TestBed.inject(EventService) as any;
   });
 
   describe('handleError', () => {
-    it('should call onDialogClose with "error" and show global error message', (done) => {
-      const onDialogClose = jasmine.createSpy('onDialogClose');
+    it('should call onDialogClose with "error" and show global error message', async () => {
+      const onDialogClose = vi.fn();
 
       const errorHandler = service.handleError(onDialogClose, 'test.error');
 
-      throwError(() => new Error('Test'))
-        .pipe(errorHandler)
-        .subscribe({
-          complete: () => {
-            expect(onDialogClose).toHaveBeenCalledWith('error');
-            expect(globalMessageService.add).toHaveBeenCalledWith(
-              { key: 'test.error' },
-              GlobalMessageType.MSG_TYPE_ERROR
-            );
-            done();
-          },
-        });
+      await firstValueFrom(
+        throwError(() => new Error('Test')).pipe(errorHandler)
+      ).catch(() => {});
+
+      expect(onDialogClose).toHaveBeenCalledWith('error');
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { key: 'test.error' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     });
 
-    it('should default to unknown error key if none provided', (done) => {
+    it('should default to unknown error key if none provided', async () => {
       const errorHandler = service.handleError();
 
-      throwError(() => new Error('Test'))
-        .pipe(errorHandler)
-        .subscribe({
-          complete: () => {
-            expect(globalMessageService.add).toHaveBeenCalledWith(
-              { key: 'subscriptionActions.unknownError' },
-              GlobalMessageType.MSG_TYPE_ERROR
-            );
-            done();
-          },
-        });
+      await firstValueFrom(
+        throwError(() => new Error('Test')).pipe(errorHandler)
+      ).catch(() => {});
+
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { key: 'subscriptionActions.unknownError' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     });
   });
 
   describe('handleSuccess', () => {
     it('should call onDialogClose with "Success", dispatch event, and show success message', () => {
-      const onDialogClose = jasmine.createSpy('onDialogClose');
+      const onDialogClose = vi.fn();
       const observer = service.handleSuccess(
         'test.success',
         onDialogClose,

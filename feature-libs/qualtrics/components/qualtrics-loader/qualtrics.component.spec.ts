@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { QualtricsConfig } from './config/qualtrics-config';
 import { QualtricsLoaderService } from './qualtrics-loader.service';
 import { QualtricsComponent } from './qualtrics.component';
@@ -33,7 +34,7 @@ describe('QualtricsComponent', () => {
 
   function stubSeviceAndCreateComponent() {
     service = TestBed.inject(QualtricsLoaderService);
-    spyOn(service, 'addScript').and.stub();
+    vi.spyOn(service, 'addScript').mockImplementation(() => {});
 
     fixture = TestBed.createComponent(QualtricsComponent);
     component = fixture.componentInstance;

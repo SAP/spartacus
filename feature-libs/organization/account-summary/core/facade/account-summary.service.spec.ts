@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import {
   OCC_USER_ID_CURRENT,
@@ -15,7 +16,6 @@ import {
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AccountSummaryConnector } from '../connectors';
 import { AccountSummaryService } from './account-summary.service';
-import createSpy = jasmine.createSpy;
 
 const routerStateSubject = new BehaviorSubject<RouterState>({
   state: {
@@ -25,9 +25,7 @@ const routerStateSubject = new BehaviorSubject<RouterState>({
 } as unknown as RouterState);
 
 class MockRoutingService implements Partial<RoutingService> {
-  getRouterState = createSpy().and.returnValue(
-    routerStateSubject.asObservable()
-  );
+  getRouterState = vi.fn().mockReturnValue(routerStateSubject.asObservable());
 }
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -97,17 +95,13 @@ const accountSummaryDocumentsResult: AccountSummaryList = {
 const accountSummaryDocumentBlob = new Blob([], { type: 'application/pdf' });
 
 class MockAccountSummaryConnector implements Partial<AccountSummaryConnector> {
-  getAccountSummary = createSpy(
-    'MockAccountSummaryConnector.getAccountSummary Spy'
-  ).and.returnValue(of(accountSummaryResult));
+  getAccountSummary = vi.fn().mockReturnValue(of(accountSummaryResult));
 
-  getDocumentList = createSpy(
-    'MockAccountSummaryConnector.getDocumentList Spy'
-  ).and.returnValue(of(accountSummaryDocumentsResult));
+  getDocumentList = vi.fn().mockReturnValue(of(accountSummaryDocumentsResult));
 
-  getDocumentAttachment = createSpy(
-    'MockAccountSummaryConnector.getDocumentAttachment Spy'
-  ).and.returnValue(of(new Blob([], { type: 'application/pdf' })));
+  getDocumentAttachment = vi
+    .fn()
+    .mockReturnValue(of(new Blob([], { type: 'application/pdf' })));
 }
 
 describe('AccountSummaryService', () => {

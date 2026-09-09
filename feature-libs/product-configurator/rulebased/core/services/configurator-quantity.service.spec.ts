@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { firstValueFrom } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ConfiguratorQuantityService } from './configurator-quantity.service';
 import { cold } from 'jasmine-marbles';
@@ -18,16 +19,11 @@ describe('ConfiguratorQuantityService', () => {
       expect(classUnderTest.getQuantity()).toBeObservable(cold(''));
     });
 
-    it('should return value that was set with setQuantity', (done) => {
+    it('should return value that was set with setQuantity', async () => {
       const result = 100;
       classUnderTest.setQuantity(result);
-      classUnderTest
-        .getQuantity()
-        .pipe(take(1))
-        .subscribe((quantity) => {
-          expect(quantity).toBe(result);
-          done();
-        });
+      const quantity = await firstValueFrom(classUnderTest.getQuantity());
+      expect(quantity).toBe(result);
     });
   });
 });

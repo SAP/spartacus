@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import {
   AuthService,
@@ -6,15 +7,13 @@ import {
 } from '@spartacus/core';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { Title } from '@spartacus/user/profile/root';
-import { Observable, of } from 'rxjs';
+import { Observable, firstValueFrom, of } from 'rxjs';
 import { UserProfileConnector } from '../connectors/user-profile.connector';
 import { UserProfileService } from './user-profile.service';
 
-import createSpy = jasmine.createSpy;
-
 class MockUserProfileConnector implements Partial<UserProfileConnector> {
-  update = createSpy().and.returnValue(of(undefined));
-  getTitles = createSpy().and.returnValue(
+  update = vi.fn().mockReturnValue(of(undefined));
+  getTitles = vi.fn().mockReturnValue(
     of([
       { code: 't1', name: 't1' },
       { code: 't2', name: 't2' },
@@ -25,11 +24,11 @@ class MockUserProfileConnector implements Partial<UserProfileConnector> {
 const testUser = { uid: 'testUser' };
 
 class MockUserAccountFacade implements Partial<UserAccountFacade> {
-  get = createSpy().and.returnValue(of(testUser));
+  get = vi.fn().mockReturnValue(of(testUser));
 }
 
 class MockAuthService implements Partial<AuthService> {
-  loginWithCredentials = createSpy().and.returnValue(Promise.resolve());
+  loginWithCredentials = vi.fn().mockReturnValue(Promise.resolve());
 }
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -67,11 +66,9 @@ describe('UserProfileService', () => {
     }
   ));
 
-  it('should be able to get user data', (done) => {
-    service.get().subscribe((data) => {
-      expect(data).toEqual(testUser);
-      done();
-    });
+  it('should be able to get user data', async () => {
+    const data = await firstValueFrom(service.get());
+    expect(data).toEqual(testUser);
   });
 
   it('should update user profile', () => {

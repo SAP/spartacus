@@ -1,10 +1,9 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { SearchConfig, OrderApprovalPermissionType } from '@spartacus/core';
 import { of } from 'rxjs';
 import { PermissionAdapter } from './permission.adapter';
 import { PermissionConnector } from './permission.connector';
-
-import createSpy = jasmine.createSpy;
 
 const userId = 'userId';
 const permissionCode = 'permissionCode';
@@ -16,19 +15,11 @@ const permission = {
 const types: OrderApprovalPermissionType[] = [{ code: 'test', name: 'name' }];
 
 class MockPermissionAdapter implements PermissionAdapter {
-  load = createSpy('PermissionAdapter.load').and.returnValue(of(permission));
-  loadList = createSpy('PermissionAdapter.loadList').and.returnValue(
-    of([permission])
-  );
-  create = createSpy('PermissionAdapter.create').and.returnValue(
-    of(permission)
-  );
-  update = createSpy('PermissionAdapter.update').and.returnValue(
-    of(permission)
-  );
-  loadTypes = createSpy('PermissionAdapter.loadTypes').and.returnValue(
-    of(types)
-  );
+  load = vi.fn().mockReturnValue(of(permission));
+  loadList = vi.fn().mockReturnValue(of([permission]));
+  create = vi.fn().mockReturnValue(of(permission));
+  update = vi.fn().mockReturnValue(of(permission));
+  loadTypes = vi.fn().mockReturnValue(of(types));
 }
 
 describe('PermissionConnector', () => {

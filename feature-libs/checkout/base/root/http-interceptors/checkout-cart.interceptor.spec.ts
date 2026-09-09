@@ -15,7 +15,6 @@ import { RoutingService } from '@spartacus/core';
 import { EMPTY, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { CheckoutCartInterceptor } from './checkout-cart.interceptor';
-import createSpy = jasmine.createSpy;
 
 const cartNotFoundStatus = { status: 400, statusText: 'Error' };
 const cartNotFoundError = {
@@ -30,13 +29,13 @@ const cartNotFoundError = {
 };
 
 class MockRoutingService implements Partial<RoutingService> {
-  go = createSpy().and.returnValue(Promise.resolve(undefined));
+  go = vi.fn().mockReturnValue(Promise.resolve(undefined));
 
-  getRouterState = createSpy().and.returnValue(EMPTY);
+  getRouterState = vi.fn().mockReturnValue(EMPTY);
 }
 
 class MultiCartServiceStub implements Partial<MultiCartFacade> {
-  reloadCart = createSpy();
+  reloadCart = vi.fn();
 }
 
 describe('CheckoutCartInterceptor', () => {
@@ -68,9 +67,11 @@ describe('CheckoutCartInterceptor', () => {
 
   describe('intercept', () => {
     it('should redirect to cart page if the cart is not found', () => {
-      routingService.getRouterState = createSpy().and.returnValue(
-        of({ state: { semanticRoute: 'checkoutDelivery' } } as any)
-      );
+      routingService.getRouterState = vi
+        .fn()
+        .mockReturnValue(
+          of({ state: { semanticRoute: 'checkoutDelivery' } } as any)
+        );
 
       const mockReq = createRequest();
 
@@ -81,9 +82,11 @@ describe('CheckoutCartInterceptor', () => {
     });
 
     it('should NOT do anything if the route is not part of checkout', () => {
-      routingService.getRouterState = createSpy().and.returnValue(
-        of({ state: { semanticRoute: 'orderConfirmation' } } as any)
-      );
+      routingService.getRouterState = vi
+        .fn()
+        .mockReturnValue(
+          of({ state: { semanticRoute: 'orderConfirmation' } } as any)
+        );
 
       const mockReq = createRequest();
 
@@ -94,9 +97,11 @@ describe('CheckoutCartInterceptor', () => {
     });
 
     it('should NOT reload cart if there is no subject', () => {
-      routingService.getRouterState = createSpy().and.returnValue(
-        of({ state: { semanticRoute: 'checkoutDelivery' } } as any)
-      );
+      routingService.getRouterState = vi
+        .fn()
+        .mockReturnValue(
+          of({ state: { semanticRoute: 'checkoutDelivery' } } as any)
+        );
 
       const mockReq = createRequest();
 
@@ -118,9 +123,11 @@ describe('CheckoutCartInterceptor', () => {
     });
 
     it('should NOT do anything if the error is not 400', () => {
-      routingService.getRouterState = createSpy().and.returnValue(
-        of({ state: { semanticRoute: 'checkoutDelivery' } } as any)
-      );
+      routingService.getRouterState = vi
+        .fn()
+        .mockReturnValue(
+          of({ state: { semanticRoute: 'checkoutDelivery' } } as any)
+        );
 
       const mockReq = createRequest();
 

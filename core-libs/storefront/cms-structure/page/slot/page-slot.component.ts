@@ -143,11 +143,15 @@ export class PageSlotComponent implements OnInit, OnDestroy {
 
     // host bindings
     this.pending = slot?.components?.length || 0;
-    this.hasComponents = slot?.components
-      ? slot?.components?.length > 0
-      : false;
+    this.hasComponents = slot?.components ? slot.components.length > 0 : false;
     if (cls && cls !== this.class) {
       this.class = cls;
+      // manually set classes for when change detection will not update host binding
+      this.renderer.setAttribute(
+        this.elementRef.nativeElement,
+        'class',
+        this.class
+      );
     }
 
     if (slot) {

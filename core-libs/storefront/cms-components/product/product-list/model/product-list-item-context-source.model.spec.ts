@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Product } from '@spartacus/core';
+import { firstValueFrom } from 'rxjs';
 import { ProductListItemContextSource } from './product-list-item-context-source.model';
 
 describe('ProductListItemContextSource', () => {
@@ -13,12 +14,10 @@ describe('ProductListItemContextSource', () => {
     contextSource = TestBed.inject(ProductListItemContextSource);
   });
 
-  it('should replay latest value of "product"', (done) => {
+  it('should replay latest value of "product"', async () => {
     const mockProduct: Product = { name: 'Test product' };
     contextSource.product$.next(mockProduct);
-    contextSource.product$.subscribe((product) => {
-      expect(product).toBe(mockProduct);
-      done();
-    });
+    const product = await firstValueFrom(contextSource.product$);
+    expect(product).toBe(mockProduct);
   });
 });

@@ -9,6 +9,7 @@ import { KeyboardFocusTestingModule } from '../../../layout/a11y/keyboard-focus/
 import { PositioningService } from '../../services/positioning/positioning.service';
 import { PopoverComponent } from './popover.component';
 import { PopoverEvent, PopoverPosition } from './popover.model';
+import { vi } from 'vitest';
 
 const mockPopoverPosition = 'top';
 
@@ -66,7 +67,7 @@ describe('PopoverComponent', () => {
   });
 
   it('should render `content` property', () => {
-    expect(fixture.debugElement.nativeNode.innerText).toContain(
+    expect(fixture.debugElement.nativeNode.textContent).toContain(
       mockPopoverProperties.content
     );
   });
@@ -93,7 +94,7 @@ describe('PopoverComponent', () => {
 
   it('should not display close button', () => {
     component.displayCloseButton = false;
-    fixture.detectChanges();
+    fixture.componentRef.changeDetectorRef.detectChanges(); //only this truly seems to trigger a cdref cycle, true fix would be to use signals...
     expect(fixture.debugElement.query(By.css('button.close'))).toBeFalsy();
   });
 

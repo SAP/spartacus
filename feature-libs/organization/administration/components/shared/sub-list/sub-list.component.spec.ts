@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -32,7 +33,6 @@ import { ListService } from '../list/list.service';
 import { MessageComponent } from '../message/message.component';
 import { MessageTestingModule } from '../message/message.testing.module';
 import { SubListComponent } from './sub-list.component';
-import createSpy = jasmine.createSpy;
 
 const mockList: EntitiesModel<any> = {
   values: [
@@ -71,8 +71,8 @@ class MockTableComponent {
 }
 
 class MockBaseListService {
-  view = createSpy('view');
-  sort = createSpy('sort');
+  view = vi.fn();
+  sort = vi.fn();
   getData() {
     return of(null);
   }
@@ -95,12 +95,12 @@ class MockBaseListService {
     return 'organization.search.placeholder';
   }
   onCreateButtonClick(): void {}
-  getCreateButtonType = createSpy('getCreateButtonType');
+  getCreateButtonType = vi.fn();
 }
 
 class MockItemService {
   key$ = of('key');
-  launchDetails = createSpy('launchDetails');
+  launchDetails = vi.fn();
 }
 
 class ActivatedRouteMock {
@@ -176,7 +176,9 @@ describe('SubListComponent', () => {
 
   describe('with  data', () => {
     beforeEach(() => {
-      spyOn(organizationListService, 'getData').and.returnValue(of(mockList));
+      vi.spyOn(organizationListService, 'getData').mockReturnValue(
+        of(mockList)
+      );
       fixture = TestBed.createComponent(SubListComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -204,7 +206,7 @@ describe('SubListComponent', () => {
 
   describe('without data', () => {
     beforeEach(() => {
-      spyOn(organizationListService, 'getData').and.returnValue(
+      vi.spyOn(organizationListService, 'getData').mockReturnValue(
         of(mockEmptyList)
       );
       fixture = TestBed.createComponent(SubListComponent);

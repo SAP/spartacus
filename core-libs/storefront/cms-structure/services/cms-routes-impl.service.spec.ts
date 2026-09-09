@@ -10,8 +10,8 @@ import { EMPTY, of } from 'rxjs';
 import { PageLayoutComponent } from '../page/page-layout/page-layout.component';
 import { CmsComponentsService } from './cms-components.service';
 import { CmsRoutesImplService } from './cms-routes-impl.service';
-import createSpy = jasmine.createSpy;
 import { GuardsComposer } from './guards-composer';
+import { vi } from 'vitest';
 
 describe('CmsRoutesImplService', () => {
   let service: CmsRoutesImplService;
@@ -40,8 +40,8 @@ describe('CmsRoutesImplService', () => {
   beforeEach(() => {
     mockRouter = {
       config: mockRouterConfig,
-      navigateByUrl: createSpy('router.navigateByUrl'),
-      resetConfig: createSpy('router.resetConfig'),
+      navigateByUrl: vi.fn(),
+      resetConfig: vi.fn(),
     };
 
     TestBed.configureTestingModule({
@@ -111,7 +111,7 @@ describe('CmsRoutesImplService', () => {
     });
 
     it('should include configured `data` property for cms driven route', () => {
-      spyOn(cmsMappingService, 'getChildRoutes').and.returnValue({
+      vi.spyOn(cmsMappingService, 'getChildRoutes').mockReturnValueOnce({
         parent: { data: { test: 'test data' } },
         children: [{ path: 'sub-route' }],
       });
@@ -176,7 +176,7 @@ describe('CmsRoutesImplService', () => {
     });
 
     it('should return true for content pages without cms driven route', () => {
-      spyOn(cmsMappingService, 'getChildRoutes').and.returnValue({});
+      vi.spyOn(cmsMappingService, 'getChildRoutes').mockReturnValue({});
 
       expect(
         service.handleCmsRoutesInGuard(
@@ -225,11 +225,11 @@ describe('CmsRoutesImplService', () => {
       const mockUrlTree = new UrlTree();
 
       const guardsComposer = TestBed.inject(GuardsComposer);
-      spyOn(guardsComposer, 'canActivate').and.returnValue(of(mockUrlTree));
+      vi.spyOn(guardsComposer, 'canActivate').mockReturnValue(of(mockUrlTree));
 
       const canActivateGuardFn = () => true;
 
-      spyOn(cmsMappingService, 'getChildRoutes').and.returnValue({
+      vi.spyOn(cmsMappingService, 'getChildRoutes').mockReturnValue({
         children: [{ path: 'test', canActivate: [canActivateGuardFn] }],
       });
 
@@ -240,9 +240,7 @@ describe('CmsRoutesImplService', () => {
         '/testRoute2'
       );
 
-      const newRouterConfig = (
-        mockRouter.resetConfig as jasmine.Spy
-      ).calls.mostRecent().args[0];
+      const newRouterConfig = (mockRouter.resetConfig as any).mock.lastCall[0];
       const newChildCmsRoutes = newRouterConfig[0].children;
       const testGuardFn = newChildCmsRoutes[0].canActivate[0];
       expect(typeof testGuardFn).toBe('function');
@@ -269,14 +267,14 @@ describe('CmsRoutesImplService', () => {
     it('should wrap Cms Guards recursively with a function', () => {
       const guardsComposer = TestBed.inject(GuardsComposer);
 
-      spyOn(guardsComposer, 'canActivate').and.returnValue(EMPTY);
+      vi.spyOn(guardsComposer, 'canActivate').mockReturnValue(EMPTY);
 
       class TestGuard1 {}
       class TestGuard2 {}
       class TestGuard3 {}
       class TestGuard4 {}
 
-      spyOn(cmsMappingService, 'getChildRoutes').and.returnValue({
+      vi.spyOn(cmsMappingService, 'getChildRoutes').mockReturnValue({
         children: [
           {
             path: 'test1',
@@ -303,25 +301,23 @@ describe('CmsRoutesImplService', () => {
         '/testRoute2'
       );
 
-      const newRouterConfig = (
-        mockRouter.resetConfig as jasmine.Spy
-      ).calls.mostRecent().args[0];
+      const newRouterConfig = (mockRouter.resetConfig as any).mock.lastCall[0];
       const newChildCmsRoutes = newRouterConfig[0].children;
 
       expect(newChildCmsRoutes).toEqual([
         {
           path: 'test1',
-          canActivate: [jasmine.any(Function)],
+          canActivate: [expect.any(Function)],
           children: [
             {
               path: 'nested1',
-              canActivate: [jasmine.any(Function), jasmine.any(Function)],
+              canActivate: [expect.any(Function), expect.any(Function)],
             },
           ],
         },
         {
           path: 'test2',
-          canActivate: [jasmine.any(Function)],
+          canActivate: [expect.any(Function)],
           children: [],
         },
       ]);

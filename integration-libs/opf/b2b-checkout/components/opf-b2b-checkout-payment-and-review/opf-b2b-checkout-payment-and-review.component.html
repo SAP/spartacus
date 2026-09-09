@@ -10,7 +10,7 @@
         route: getCheckoutStepUrl(checkoutStepTypePaymentType),
         ariaLabelKey: 'checkoutReview.editPoNumber',
       }"
-    ></cx-opf-checkout-review-card>
+    />
     <cx-opf-checkout-review-card
       [cardContent$]="
         getPaymentMethodNameCard(
@@ -21,7 +21,7 @@
         route: getCheckoutStepUrl(checkoutStepTypePaymentType),
         ariaLabelKey: 'checkoutReview.editPaymentMethod',
       }"
-    ></cx-opf-checkout-review-card>
+    />
     <cx-opf-checkout-review-card
       *ngIf="deliveryAddress$ | async as deliveryAddress"
       [cardContent$]="getDeliveryAddressCard(deliveryAddress)"
@@ -29,7 +29,7 @@
         route: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress),
         ariaLabelKey: 'checkoutReview.editDeliveryAddressDetails',
       }"
-    ></cx-opf-checkout-review-card>
+    />
 
     <cx-opf-checkout-review-card
       *ngIf="deliveryMode$ | async as deliveryMode"
@@ -38,7 +38,7 @@
         route: getCheckoutStepUrl(checkoutStepTypeDeliveryMode),
         ariaLabelKey: 'checkoutReview.editDeliveryMode',
       }"
-    ></cx-opf-checkout-review-card>
+    />
   </div>
 
   <cx-opf-checkout-terms-and-conditions-alert
@@ -47,7 +47,7 @@
     [isVisible]="termsAndConditionInvalid"
     [isExplicit]="explicitTermsAndConditions.value"
     [ngClass]="['for-mobile']"
-  ></cx-opf-checkout-terms-and-conditions-alert>
+  />
 
   <div
     *ngIf="explicitTermsAndConditions.value"
@@ -84,7 +84,7 @@
     </form>
   </div>
 
-  <cx-opf-checkout-billing-address-form></cx-opf-checkout-billing-address-form>
+  <cx-opf-checkout-billing-address-form />
 
   <cx-opf-checkout-payments
     [onlyPaymentWrapperMode]="true"
@@ -105,11 +105,11 @@
       [isVisible]="termsAndConditionInvalid"
       [isExplicit]="explicitTermsAndConditions.value"
       [ngClass]="['for-desktop']"
-    ></cx-opf-checkout-terms-and-conditions-alert>
+    />
   </cx-opf-checkout-payments>
 
   <cx-opf-checkout-review-cart-details
     [cart]="cart$ | async"
     [entries]="entries$ | async"
-  ></cx-opf-checkout-review-cart-details>
+  />
 </ng-container>

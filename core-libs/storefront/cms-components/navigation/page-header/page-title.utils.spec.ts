@@ -5,58 +5,52 @@
  */
 
 import { PageMeta, PageMetaService } from '@spartacus/core';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { getPageTitle } from './page-title.utils';
 
 describe('getPageTitle', () => {
-  let pageMetaService: jasmine.SpyObj<PageMetaService>;
+  let pageMetaService: any;
 
   beforeEach(() => {
-    pageMetaService = jasmine.createSpyObj('PageMetaService', ['getMeta']);
+    pageMetaService = { getMeta: vi.fn() };
   });
 
-  it('should return heading from pageMetaService when heading is present', (done) => {
+  it('should return heading from pageMetaService when heading is present', async () => {
     const meta: PageMeta = { heading: 'Page Heading', title: 'Page Title' };
-    pageMetaService.getMeta.and.returnValue(of(meta));
+    pageMetaService.getMeta.mockReturnValue(of(meta));
 
-    getPageTitle(pageMetaService).subscribe((result) => {
-      expect(result).toBe('Page Heading');
-      done();
-    });
+    const result = await firstValueFrom(getPageTitle(pageMetaService));
+    expect(result).toBe('Page Heading');
   });
 
-  it('should fall back to title when heading is absent', (done) => {
+  it('should fall back to title when heading is absent', async () => {
     const meta: PageMeta = { title: 'Page Title' };
-    pageMetaService.getMeta.and.returnValue(of(meta));
+    pageMetaService.getMeta.mockReturnValue(of(meta));
 
-    getPageTitle(pageMetaService).subscribe((result) => {
-      expect(result).toBe('Page Title');
-      done();
-    });
+    const result = await firstValueFrom(getPageTitle(pageMetaService));
+    expect(result).toBe('Page Title');
   });
 
-  it('should return empty string when both heading and title are absent', (done) => {
+  it('should return empty string when both heading and title are absent', async () => {
     const meta: PageMeta = {};
-    pageMetaService.getMeta.and.returnValue(of(meta));
+    pageMetaService.getMeta.mockReturnValue(of(meta));
 
-    getPageTitle(pageMetaService).subscribe((result) => {
-      expect(result).toBe('');
-      done();
-    });
+    const result = await firstValueFrom(getPageTitle(pageMetaService));
+    expect(result).toBe('');
   });
 
-  it('should filter out null meta emissions', (done) => {
-    pageMetaService.getMeta.and.returnValue(
+  it('should filter out null meta emissions', async () => {
+    pageMetaService.getMeta.mockReturnValue(
       of(null, { heading: 'After Null' }) as any
     );
 
     const results: string[] = [];
-    getPageTitle(pageMetaService).subscribe({
-      next: (result) => results.push(result),
-      complete: () => {
-        expect(results).toEqual(['After Null']);
-        done();
-      },
+    await new Promise<void>((resolve) => {
+      getPageTitle(pageMetaService).subscribe({
+        next: (result) => results.push(result),
+        complete: () => resolve(),
+      });
     });
+    expect(results).toEqual(['After Null']);
   });
 });

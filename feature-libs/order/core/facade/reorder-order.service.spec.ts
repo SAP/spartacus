@@ -9,8 +9,6 @@ import { config, of, Subject } from 'rxjs';
 import { ReorderOrderConnector } from '../connectors/reorder-order.connector';
 import { ReorderOrderService } from './reorder-order.service';
 
-import createSpy = jasmine.createSpy;
-
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockOrderId = 'orderID';
 const mockCartId = 'test-cart';
@@ -19,20 +17,20 @@ const mockCartModificationList: CartModificationList = {
 };
 
 class MockReorderOrderOrderConnector implements Partial<ReorderOrderConnector> {
-  reorder = createSpy().and.returnValue(of(mockCartModificationList));
+  reorder = vi.fn().mockReturnValue(of(mockCartModificationList));
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = createSpy().and.returnValue(of(OCC_USER_ID_CURRENT));
+  takeUserId = vi.fn().mockReturnValue(of(OCC_USER_ID_CURRENT));
 }
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  getActiveCartId = createSpy().and.returnValue(of(mockCartId));
+  getActiveCartId = vi.fn().mockReturnValue(of(mockCartId));
 }
 
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
-  deleteCart = createSpy();
-  getCartEntity = createSpy().and.returnValue(
+  deleteCart = vi.fn();
+  getCartEntity = vi.fn().mockReturnValue(
     of({
       value: undefined,
       loading: false,
@@ -120,7 +118,7 @@ describe(`ReorderOrderService`, () => {
       });
 
       it('should NOT delete cart when active cart does NOT exist before re-ordering', () => {
-        activeCartFacade.getActiveCartId = createSpy().and.returnValue(of(''));
+        activeCartFacade.getActiveCartId = vi.fn().mockReturnValue(of(''));
 
         service.reorder(mockOrderId);
 
@@ -128,7 +126,7 @@ describe(`ReorderOrderService`, () => {
       });
 
       it('should NOT allow to re-order when user is not logged in', () => {
-        userIdService.takeUserId = createSpy().and.returnValue(of(''));
+        userIdService.takeUserId = vi.fn().mockReturnValue(of(''));
 
         service.reorder(mockOrderId);
 
@@ -137,9 +135,9 @@ describe(`ReorderOrderService`, () => {
 
       it('should wait for cart entity to be removed before calling reorder', () => {
         const cartEntity$ = new Subject<any>();
-        multiCartFacade.getCartEntity = createSpy().and.returnValue(
-          cartEntity$.asObservable()
-        );
+        multiCartFacade.getCartEntity = vi
+          .fn()
+          .mockReturnValue(cartEntity$.asObservable());
 
         service.reorder(mockOrderId);
 
@@ -171,7 +169,7 @@ describe(`ReorderOrderService`, () => {
       });
 
       it('should NOT call getCartEntity when there is no active cart', () => {
-        activeCartFacade.getActiveCartId = createSpy().and.returnValue(of(''));
+        activeCartFacade.getActiveCartId = vi.fn().mockReturnValue(of(''));
 
         service.reorder(mockOrderId);
 

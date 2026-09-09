@@ -59,9 +59,10 @@ describe('Replenishment Orders effect', () => {
 
   describe('loadUserReplenishmentOrders$', () => {
     it('should load User Replenishment Orders', () => {
-      spyOn(replenishmentOrderHistoryConnector, 'loadHistory').and.returnValue(
-        of(mockUserReplenishmentOrders)
-      );
+      vi.spyOn(
+        replenishmentOrderHistoryConnector,
+        'loadHistory'
+      ).mockReturnValue(of(mockUserReplenishmentOrders));
       const action = new OrderActions.LoadUserReplenishmentOrders({
         userId: 'test@sap.com',
         pageSize: 5,
@@ -81,9 +82,10 @@ describe('Replenishment Orders effect', () => {
 
     it('should handle failures for load user Replenishment Orders', () => {
       const error = new Error('error');
-      spyOn(replenishmentOrderHistoryConnector, 'loadHistory').and.returnValue(
-        throwError(() => error)
-      );
+      vi.spyOn(
+        replenishmentOrderHistoryConnector,
+        'loadHistory'
+      ).mockReturnValue(throwError(() => error));
 
       const action = new OrderActions.LoadUserReplenishmentOrders({
         userId: 'test@sap.com',

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 /*
  * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
@@ -69,7 +70,7 @@ describe('UserWishlistAdapter', () => {
     });
 
     it('should accept userId and return an Observable<Wishlist>', () => {
-      spyOn(adapter, 'getWishlist').and.returnValue(of(mockWishlist));
+      vi.spyOn(adapter, 'getWishlist').mockReturnValue(of(mockWishlist));
 
       let result: Wishlist | undefined;
       adapter.getWishlist(MOCK_USER_ID).subscribe((wl) => (result = wl));
@@ -79,7 +80,7 @@ describe('UserWishlistAdapter', () => {
     });
 
     it('should forward the userId argument to the implementation', () => {
-      const spy = spyOn(adapter, 'getWishlist').and.callThrough();
+      const spy = vi.spyOn(adapter, 'getWishlist');
       adapter.getWishlist(MOCK_USER_ID).subscribe();
       expect(spy).toHaveBeenCalledWith(MOCK_USER_ID);
     });
@@ -91,7 +92,7 @@ describe('UserWishlistAdapter', () => {
     });
 
     it('should accept userId, wishlistId, productCode and return Observable<WishlistEntry>', () => {
-      spyOn(adapter, 'addEntry').and.returnValue(of(mockEntry));
+      vi.spyOn(adapter, 'addEntry').mockReturnValue(of(mockEntry));
 
       let result: WishlistEntry | undefined;
       adapter
@@ -107,7 +108,7 @@ describe('UserWishlistAdapter', () => {
     });
 
     it('should forward all three arguments to the implementation', () => {
-      const spy = spyOn(adapter, 'addEntry').and.callThrough();
+      const spy = vi.spyOn(adapter, 'addEntry');
       adapter
         .addEntry(MOCK_USER_ID, MOCK_WISHLIST_ID, MOCK_PRODUCT_CODE)
         .subscribe();
@@ -125,7 +126,7 @@ describe('UserWishlistAdapter', () => {
     });
 
     it('should accept userId, wishlistId, entryId and return Observable<void>', () => {
-      spyOn(adapter, 'removeEntry').and.returnValue(of(undefined as void));
+      vi.spyOn(adapter, 'removeEntry').mockReturnValue(of(undefined as void));
 
       let called = false;
       adapter
@@ -141,7 +142,7 @@ describe('UserWishlistAdapter', () => {
     });
 
     it('should forward all three arguments to the implementation', () => {
-      const spy = spyOn(adapter, 'removeEntry').and.callThrough();
+      const spy = vi.spyOn(adapter, 'removeEntry');
       adapter
         .removeEntry(MOCK_USER_ID, MOCK_WISHLIST_ID, MOCK_ENTRY_ID)
         .subscribe();

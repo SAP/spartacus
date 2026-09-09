@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { SearchConfig } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -7,7 +8,6 @@ import {
 } from '../../core/model/order-approval.model';
 import { OrderApprovalAdapter } from './order-approval.adapter';
 import { OrderApprovalConnector } from './order-approval.connector';
-import createSpy = jasmine.createSpy;
 
 const userId = 'userId';
 const orderApprovalCode = 'orderApprovalCode';
@@ -22,15 +22,9 @@ const orderApprvalDecision: OrderApprovalDecision = {
 };
 
 class MockOrderApprovalAdapter implements OrderApprovalAdapter {
-  load = createSpy('OrderApprovalAdapter.load').and.returnValue(
-    of(orderApproval)
-  );
-  loadList = createSpy('OrderApprovalAdapter.loadList').and.returnValue(
-    of([orderApproval])
-  );
-  makeDecision = createSpy('OrderApprovalAdapter.makeDecision').and.returnValue(
-    of(orderApprvalDecision)
-  );
+  load = vi.fn().mockReturnValue(of(orderApproval));
+  loadList = vi.fn().mockReturnValue(of([orderApproval]));
+  makeDecision = vi.fn().mockReturnValue(of(orderApprvalDecision));
 }
 
 describe('OrderApprovalConnector', () => {

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { PaginationModel } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -11,8 +12,6 @@ import {
 } from '@spartacus/quote/root';
 import { QuoteAdapter } from './quote.adapter';
 import { QuoteConnector } from './quote.connector';
-
-import createSpy = jasmine.createSpy;
 
 const userId = 'user1';
 const cartId = 'cart1';
@@ -30,53 +29,64 @@ const comment = {
 };
 
 class MockCommerceQuotesAdapter implements Partial<QuoteAdapter> {
-  getQuotes = createSpy('CommerceQuotesAdapter.getQuotes').and.callFake(
-    (userId: string, pagination: PaginationModel) =>
+  getQuotes = vi
+    .fn()
+    .mockImplementation((userId: string, pagination: PaginationModel) =>
       of(`getQuotes-${userId}-${pagination}`)
-  );
-  createQuote = createSpy('CommerceQuotesAdapter.createQuote').and.callFake(
-    (userId: string, quoteStarter: QuoteStarter) =>
+    );
+  createQuote = vi
+    .fn()
+    .mockImplementation((userId: string, quoteStarter: QuoteStarter) =>
       of(`createQuote-${userId}-${quoteStarter}`)
-  );
-  getQuote = createSpy('CommerceQuotesAdapter.getQuote').and.callFake(
-    (userId: string, quoteCode: string) => of(`getQuote-${userId}-${quoteCode}`)
-  );
-  editQuote = createSpy('CommerceQuotesAdapter.editQuote').and.callFake(
-    (userId: string, quoteCode: string, quoteMetadata: QuoteMetadata) =>
-      of(`editQuote-${userId}-${quoteCode}-${quoteMetadata}`)
-  );
-  performQuoteAction = createSpy(
-    'CommerceQuotesAdapter.performQuoteAction'
-  ).and.callFake(
-    (userId: string, quoteCode: string, quoteAction: QuoteActionType) =>
-      of(`performQuoteAction-${userId}-${quoteCode}-${quoteAction}`)
-  );
-  addComment = createSpy('CommerceQuotesAdapter.addComment').and.callFake(
-    (userId: string, quoteCode: string, quoteComment: Comment) =>
-      of(`addComment-${userId}-${quoteCode}-${quoteComment}`)
-  );
-  addDiscount = createSpy('CommerceQuotesAdapter.addDiscount').and.callFake(
-    (userId: string, quoteCode: string, discount: QuoteDiscount) =>
-      of(`addDiscount-${userId}-${quoteCode}-${discount}`)
-  );
-  addQuoteEntryComment = createSpy(
-    'CommerceQuotesAdapter.addQuoteEntryComment'
-  ).and.callFake(
-    (
-      userId: string,
-      quoteCode: string,
-      entryNumber: string,
-      comment: Comment
-    ) =>
-      of(
-        `addQuoteEntryComment-${userId}-${quoteCode}-${entryNumber}-${comment}`
-      )
-  );
-  downloadAttachment = createSpy(
-    'CommerceQuotesAdapter.downloadAttachment'
-  ).and.callFake((userId: string, quoteCode: string, attachmentId: string) =>
-    of(`downloadAttachment-${userId}-${quoteCode}-${attachmentId}`)
-  );
+    );
+  getQuote = vi
+    .fn()
+    .mockImplementation((userId: string, quoteCode: string) =>
+      of(`getQuote-${userId}-${quoteCode}`)
+    );
+  editQuote = vi
+    .fn()
+    .mockImplementation(
+      (userId: string, quoteCode: string, quoteMetadata: QuoteMetadata) =>
+        of(`editQuote-${userId}-${quoteCode}-${quoteMetadata}`)
+    );
+  performQuoteAction = vi
+    .fn('CommerceQuotesAdapter.performQuoteAction')
+    .mockImplementation(
+      (userId: string, quoteCode: string, quoteAction: QuoteActionType) =>
+        of(`performQuoteAction-${userId}-${quoteCode}-${quoteAction}`)
+    );
+  addComment = vi
+    .fn()
+    .mockImplementation(
+      (userId: string, quoteCode: string, quoteComment: Comment) =>
+        of(`addComment-${userId}-${quoteCode}-${quoteComment}`)
+    );
+  addDiscount = vi
+    .fn()
+    .mockImplementation(
+      (userId: string, quoteCode: string, discount: QuoteDiscount) =>
+        of(`addDiscount-${userId}-${quoteCode}-${discount}`)
+    );
+  addQuoteEntryComment = vi
+    .fn('CommerceQuotesAdapter.addQuoteEntryComment')
+    .mockImplementation(
+      (
+        userId: string,
+        quoteCode: string,
+        entryNumber: string,
+        comment: Comment
+      ) =>
+        of(
+          `addQuoteEntryComment-${userId}-${quoteCode}-${entryNumber}-${comment}`
+        )
+    );
+  downloadAttachment = vi
+    .fn('CommerceQuotesAdapter.downloadAttachment')
+    .mockImplementation(
+      (userId: string, quoteCode: string, attachmentId: string) =>
+        of(`downloadAttachment-${userId}-${quoteCode}-${attachmentId}`)
+    );
 }
 
 describe('QuoteConnector', () => {

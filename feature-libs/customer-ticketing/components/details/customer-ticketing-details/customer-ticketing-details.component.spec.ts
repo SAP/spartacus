@@ -3,6 +3,8 @@ import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
   EventService,
+  FeatureConfigService,
+  FeatureToggles,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
@@ -19,9 +21,8 @@ import { Card, CardModule } from '@spartacus/storefront';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+} from '@spartacus/core/testing/mock-feature-toggles';
+import { BehaviorSubject, Observable, firstValueFrom, of } from 'rxjs';
 import { CustomerTicketingDetailsComponent } from './customer-ticketing-details.component';
 
 const mockTicketId = '1';
@@ -51,7 +52,7 @@ class MockRoutingService implements Partial<RoutingService> {
 }
 
 class MockEventService implements Partial<EventService> {
-  dispatch<T extends object>(_event: T): void {}
+  dispatch = vi.fn();
 }
 
 describe('CustomerTicketingDetailsComponent', () => {
@@ -67,7 +68,8 @@ describe('CustomerTicketingDetailsComponent', () => {
         CustomerTicketingDetailsComponent,
       ],
       providers: [
-        provideMockFeatureToggles({ a11yMessagingListKeyboardFocus: false }),
+        ...provideMockFeatureToggles({ a11yMessagingListKeyboardFocus: false }),
+
         { provide: TranslationService, useClass: MockTranslationService },
         {
           provide: CustomerTicketingFacade,
@@ -85,9 +87,25 @@ describe('CustomerTicketingDetailsComponent', () => {
           imports: [MockTranslatePipe, MockDatePipe],
         },
       })
+      .overrideProvider(FeatureToggles, {
+        useFactory: () => TestBed.inject(MockFeatureTogglesController),
+      })
+      .overrideProvider(FeatureConfigService, {
+        useFactory: () => {
+          const controller = TestBed.inject(MockFeatureTogglesController);
+          return {
+            isEnabled: vi
+              .fn()
+              .mockImplementation(
+                (feature: string) =>
+                  !!(controller as Record<string, unknown>)[feature]
+              ),
+            isLevel: vi.fn().mockReturnValue(false),
+          };
+        },
+      })
       .compileComponents();
     eventService = TestBed.inject(EventService);
-    spyOn(eventService, 'dispatch').and.callThrough();
     routerParam$.next({ ticketCode: '1' });
   });
 
@@ -101,19 +119,16 @@ describe('CustomerTicketingDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should prepare content for card', (done) => {
+  it('should prepare content for card', async () => {
     const mockCardContent: Card = {
       text: ['1'],
       title: 'ID',
       customClass: '',
     };
-    component
-      .prepareCardContent(mockTicketId, 'ID')
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual(mockCardContent);
-        done();
-      });
+    const result = await firstValueFrom(
+      component.prepareCardContent(mockTicketId, 'ID')
+    );
+    expect(result).toEqual(mockCardContent);
   });
 
   describe('getStatusClass', () => {
@@ -180,6 +195,7 @@ describe('CustomerTicketingDetailsComponent', () => {
       it('should render ticket details with role="region" and aria-label', () => {
         toggleController.set('a11yMessagingListKeyboardFocus', true);
         const f = TestBed.createComponent(CustomerTicketingDetailsComponent);
+
         f.detectChanges();
         const region = f.debugElement.query(
           By.css('.cx-ticket-details[role="region"]')

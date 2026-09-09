@@ -22,7 +22,7 @@ class ChildComponent {
   selector: 'cx-test-host',
   template: `Parent:
     <div [cxProvideLcpPresence]="lcpPresence">
-      <cx-child></cx-child>
+      <cx-child />
     </div>`,
   imports: [ProvideLcpPresenceDirective, ChildComponent],
 })
@@ -39,7 +39,6 @@ describe('ProvideLcpContextDirective', () => {
       providers: [],
     });
     fixture = TestBed.createComponent(TestHostComponent);
-    fixture.detectChanges();
   });
 
   function getInjectedLcpPresence(): string {
@@ -49,12 +48,14 @@ describe('ProvideLcpContextDirective', () => {
   }
 
   it('should provide something, but not fallback to DEFAULT_LCP_PRESENCE', () => {
+    fixture.detectChanges();
     const child = fixture.debugElement.query(By.directive(ChildComponent));
     expect(child.componentInstance.lcpPresence$).toBeTruthy();
     expect(child.componentInstance.lcpPresence$).not.toBe(DEFAULT_LCP_PRESENCE);
   });
 
   it('should provide default NO_LCP when input is null', () => {
+    fixture.detectChanges();
     const injectedLcpPresence = getInjectedLcpPresence();
     expect(injectedLcpPresence).toBe(LcpPresence.HAS_LCP);
   });
@@ -66,15 +67,17 @@ describe('ProvideLcpContextDirective', () => {
     expect(injectedLcpPresence).toBe(LcpPresence.NO_LCP);
   });
 
-  it('should emit new value when input changes', () => {
+  it('should return NO_LCP from getInjectedLcpPresence when the value is set to NO_LCP', () => {
     fixture.componentInstance.lcpPresence = LcpPresence.NO_LCP;
     fixture.detectChanges();
-    let injectedLcpPresence = getInjectedLcpPresence();
+    const injectedLcpPresence = getInjectedLcpPresence();
     expect(injectedLcpPresence).toBe(LcpPresence.NO_LCP);
+  });
 
+  it('should return HAS_LCP from getInjectedLcpPresence when the value is set to HAS_LCP', () => {
     fixture.componentInstance.lcpPresence = LcpPresence.HAS_LCP;
     fixture.detectChanges();
-    injectedLcpPresence = getInjectedLcpPresence();
+    const injectedLcpPresence = getInjectedLcpPresence();
     expect(injectedLcpPresence).toBe(LcpPresence.HAS_LCP);
   });
 });

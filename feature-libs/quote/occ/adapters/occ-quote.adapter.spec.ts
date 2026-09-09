@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpRequest,
   provideHttpClient,
@@ -33,6 +34,7 @@ import {
   QuoteMetadata,
   QuoteStarter,
 } from '@spartacus/quote/root';
+import { firstValueFrom } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { OccQuoteAdapter } from './occ-quote.adapter';
@@ -139,24 +141,20 @@ describe(`OccQuoteAdapter`, () => {
     converterService = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
 
-    spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(converterService, 'pipeableMany').and.callThrough();
-    spyOn(converterService, 'convert').and.callThrough();
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
+    vi.spyOn(converterService, 'pipeable');
+    vi.spyOn(converterService, 'pipeableMany');
+    vi.spyOn(converterService, 'convert');
+    vi.spyOn(occEnpointsService, 'buildUrl');
   });
 
   afterEach(() => {
     httpTestingController.verify();
   });
 
-  it('getQuotes should return users quotes list', (done) => {
-    classUnderTest
-      .getQuotes(userId, pagination)
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual(mockQuoteList);
-        done();
-      });
+  it('getQuotes should return users quotes list', async () => {
+    const resultPromise = firstValueFrom(
+      classUnderTest.getQuotes(userId, pagination)
+    );
 
     const mockReq = httpTestingController.expectOne((req) =>
       isQuoteReq(
@@ -169,19 +167,18 @@ describe(`OccQuoteAdapter`, () => {
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(mockQuoteList);
+
+    const result = await resultPromise;
+    expect(result).toEqual(mockQuoteList);
     expect(converterService.pipeable).toHaveBeenCalledWith(
       QUOTE_LIST_NORMALIZER
     );
   });
 
-  it('createQuote should create quote based on provided cartId', (done) => {
-    classUnderTest
-      .createQuote(userId, mockQuoteStarter)
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual(mockQuote);
-        done();
-      });
+  it('createQuote should create quote based on provided cartId', async () => {
+    const resultPromise = firstValueFrom(
+      classUnderTest.createQuote(userId, mockQuoteStarter)
+    );
 
     const mockReq = httpTestingController.expectOne((req) =>
       isQuoteReq(req, 'POST', '')
@@ -190,6 +187,9 @@ describe(`OccQuoteAdapter`, () => {
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(mockQuote);
+
+    const result = await resultPromise;
+    expect(result).toEqual(mockQuote);
     expect(converterService.pipeable).toHaveBeenCalledWith(QUOTE_NORMALIZER);
     expect(converterService.convert).toHaveBeenCalledWith(
       mockQuoteStarter,
@@ -197,14 +197,10 @@ describe(`OccQuoteAdapter`, () => {
     );
   });
 
-  it('getQuote should return quote details based on provided quoteCode without orderCode', (done) => {
-    classUnderTest
-      .getQuote(userId, mockQuote.code)
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual(mockQuote);
-        done();
-      });
+  it('getQuote should return quote details based on provided quoteCode without orderCode', async () => {
+    const resultPromise = firstValueFrom(
+      classUnderTest.getQuote(userId, mockQuote.code)
+    );
 
     const mockReq = httpTestingController.expectOne((req) =>
       isQuoteReq(req, 'GET')
@@ -221,20 +217,19 @@ describe(`OccQuoteAdapter`, () => {
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(mockQuote);
+
+    const result = await resultPromise;
+    expect(result).toEqual(mockQuote);
     expect(converterService.pipeable).toHaveBeenCalledWith(QUOTE_NORMALIZER);
   });
 
-  it('getQuote should return quote details based on provided quoteCode', (done) => {
-    spyOnProperty(MockOrderConfig, 'showOrderQuoteLink', 'get').and.returnValue(
+  it('getQuote should return quote details based on provided quoteCode', async () => {
+    vi.spyOn(MockOrderConfig, 'showOrderQuoteLink', 'get').mockReturnValue(
       true
     );
-    classUnderTest
-      .getQuote(userId, mockQuote.code)
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual(mockQuote);
-        done();
-      });
+    const resultPromise = firstValueFrom(
+      classUnderTest.getQuote(userId, mockQuote.code)
+    );
 
     const mockReq = httpTestingController.expectOne((req) =>
       isQuoteReq(req, 'GET')
@@ -243,6 +238,9 @@ describe(`OccQuoteAdapter`, () => {
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(mockQuote);
+
+    const result = await resultPromise;
+    expect(result).toEqual(mockQuote);
     expect(converterService.pipeable).toHaveBeenCalledWith(QUOTE_NORMALIZER);
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('getQuote', {
       urlParams: { userId, quoteCode: mockQuote.code },
@@ -252,19 +250,10 @@ describe(`OccQuoteAdapter`, () => {
     });
   });
 
-  it('getQuote should call httpErrorHandler on error', (done) => {
-    classUnderTest
-      .getQuote(userId, mockQuote.code)
-      .pipe(take(1))
-      .subscribe(
-        () => {
-          fail('error expected');
-        },
-        (error) => {
-          expect(isErrorNormalized(error)).toBe(true);
-          done();
-        }
-      );
+  it('getQuote should call httpErrorHandler on error', async () => {
+    const resultPromise = firstValueFrom(
+      classUnderTest.getQuote(userId, mockQuote.code)
+    ).catch((error) => ({ error }));
 
     const mockReq = httpTestingController.expectOne((req) =>
       isQuoteReq(req, 'GET')
@@ -273,16 +262,15 @@ describe(`OccQuoteAdapter`, () => {
       status: 400,
       statusText: 'Bad request',
     });
+
+    const result = (await resultPromise) as any;
+    expect(isErrorNormalized(result.error)).toBe(true);
   });
 
-  it('editQuote should editQuote quote', (done) => {
-    classUnderTest
-      .editQuote(userId, mockQuote.code, mockQuoteMetadata)
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual(null);
-        done();
-      });
+  it('editQuote should editQuote quote', async () => {
+    const resultPromise = firstValueFrom(
+      classUnderTest.editQuote(userId, mockQuote.code, mockQuoteMetadata)
+    );
 
     const mockReq = httpTestingController.expectOne((req) =>
       isQuoteReq(req, 'PATCH')
@@ -291,20 +279,19 @@ describe(`OccQuoteAdapter`, () => {
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(null);
+
+    const result = await resultPromise;
+    expect(result).toEqual(null);
     expect(converterService.convert).toHaveBeenCalledWith(
       mockQuoteMetadata,
       QUOTE_METADATA_SERIALIZER
     );
   });
 
-  it('performQuoteAction should send action to be performed for quote', (done) => {
-    classUnderTest
-      .performQuoteAction(userId, mockQuote.code, mockQuoteAction)
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual(null);
-        done();
-      });
+  it('performQuoteAction should send action to be performed for quote', async () => {
+    const resultPromise = firstValueFrom(
+      classUnderTest.performQuoteAction(userId, mockQuote.code, mockQuoteAction)
+    );
 
     const mockReq = httpTestingController.expectOne((req) =>
       isQuoteReq(req, 'POST', `/${mockQuote.code}/action`)
@@ -313,20 +300,19 @@ describe(`OccQuoteAdapter`, () => {
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(null);
+
+    const result = await resultPromise;
+    expect(result).toEqual(null);
     expect(converterService.convert).toHaveBeenCalledWith(
       mockQuoteAction,
       QUOTE_ACTION_SERIALIZER
     );
   });
 
-  it('addComment should add comment to quote', (done) => {
-    classUnderTest
-      .addComment(userId, mockQuote.code, mockQuoteComment)
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual(null);
-        done();
-      });
+  it('addComment should add comment to quote', async () => {
+    const resultPromise = firstValueFrom(
+      classUnderTest.addComment(userId, mockQuote.code, mockQuoteComment)
+    );
 
     const mockReq = httpTestingController.expectOne((req) =>
       isQuoteReq(req, 'POST', `/${mockQuote.code}/comments`)
@@ -335,20 +321,19 @@ describe(`OccQuoteAdapter`, () => {
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(null);
+
+    const result = await resultPromise;
+    expect(result).toEqual(null);
     expect(converterService.convert).toHaveBeenCalledWith(
       mockQuoteComment,
       QUOTE_COMMENT_SERIALIZER
     );
   });
 
-  it('addDiscount should add discount to quote', (done) => {
-    classUnderTest
-      .addDiscount(userId, mockQuote.code, mockQuoteDiscount)
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual(null);
-        done();
-      });
+  it('addDiscount should add discount to quote', async () => {
+    const resultPromise = firstValueFrom(
+      classUnderTest.addDiscount(userId, mockQuote.code, mockQuoteDiscount)
+    );
 
     const mockReq = httpTestingController.expectOne((req) =>
       isQuoteReq(req, 'POST', `/${mockQuote.code}/discounts`)
@@ -357,25 +342,24 @@ describe(`OccQuoteAdapter`, () => {
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(null);
+
+    const result = await resultPromise;
+    expect(result).toEqual(null);
     expect(converterService.convert).toHaveBeenCalledWith(
       mockQuoteDiscount,
       QUOTE_DISCOUNT_SERIALIZER
     );
   });
 
-  it('addQuoteEntryComment should add comment to product entry in quote cart', (done) => {
-    classUnderTest
-      .addQuoteEntryComment(
+  it('addQuoteEntryComment should add comment to product entry in quote cart', async () => {
+    const resultPromise = firstValueFrom(
+      classUnderTest.addQuoteEntryComment(
         userId,
         mockQuote.code,
         productEntryNumber,
         mockQuoteEntryComment
       )
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual(null);
-        done();
-      });
+    );
 
     const mockReq = httpTestingController.expectOne((req) =>
       isQuoteReq(
@@ -388,6 +372,9 @@ describe(`OccQuoteAdapter`, () => {
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(null);
+
+    const result = await resultPromise;
+    expect(result).toEqual(null);
     expect(converterService.convert).toHaveBeenCalledWith(
       mockQuoteEntryComment,
       QUOTE_COMMENT_SERIALIZER
@@ -395,17 +382,17 @@ describe(`OccQuoteAdapter`, () => {
   });
 
   describe('downloadAttachment', () => {
-    it('should download proposal document based on provided quoteCode and attachmentId', (done) => {
+    it('should download proposal document based on provided quoteCode and attachmentId', async () => {
       const vendorQuoteCode = vendorQuote.code;
       const vendorQuoteAttachmentId = vendorQuote.sapAttachments[0].id;
 
-      classUnderTest
-        .downloadAttachment(userId, vendorQuoteCode, vendorQuoteAttachmentId)
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(mockQuoteAttachment());
-          done();
-        });
+      const resultPromise = firstValueFrom(
+        classUnderTest.downloadAttachment(
+          userId,
+          vendorQuoteCode,
+          vendorQuoteAttachmentId
+        )
+      );
 
       const mockReq = httpTestingController.expectOne(
         (req) =>
@@ -417,24 +404,22 @@ describe(`OccQuoteAdapter`, () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('blob');
       mockReq.flush(mockQuoteAttachment());
+
+      const result = await resultPromise;
+      expect(result).toEqual(mockQuoteAttachment());
     });
 
-    it('should call httpErrorHandler on error', (done) => {
+    it('should call httpErrorHandler on error', async () => {
       const vendorQuoteCode = vendorQuote.code;
       const vendorQuoteAttachmentId = vendorQuote.sapAttachments[0].id;
 
-      classUnderTest
-        .downloadAttachment(userId, vendorQuoteCode, vendorQuoteAttachmentId)
-        .pipe(take(1))
-        .subscribe({
-          next: () => {
-            fail('error expected');
-          },
-          error: (error) => {
-            expect(isErrorNormalized(error)).toBe(true);
-            done();
-          },
-        });
+      const resultPromise = firstValueFrom(
+        classUnderTest.downloadAttachment(
+          userId,
+          vendorQuoteCode,
+          vendorQuoteAttachmentId
+        )
+      ).catch((error) => ({ error }));
 
       const mockReq = httpTestingController.expectOne(
         (req) =>
@@ -446,6 +431,9 @@ describe(`OccQuoteAdapter`, () => {
         status: 400,
         statusText: 'Bad request',
       });
+
+      const result = (await resultPromise) as any;
+      expect(isErrorNormalized(result.error)).toBe(true);
     });
   });
 

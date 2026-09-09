@@ -27,8 +27,6 @@ import {
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { MyAccountV2DownloadInvoicesComponent } from './my-account-v2-download-invoices.component';
 
-import createSpy = jasmine.createSpy;
-
 const invoiceCount = 4;
 const invoicesEvent = {
   order: { code: 'order1' },
@@ -61,7 +59,7 @@ class MockPDFInvoicesFacade implements Partial<PDFInvoicesFacade> {
 }
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   data$ = of(invoicesEvent);
-  closeDialog = createSpy();
+  closeDialog = vi.fn();
 }
 class MockLanguageService {
   getActive(): Observable<string> {
@@ -148,7 +146,7 @@ describe('MyAccountV2DownloadInvoicesComponent', () => {
     expect(el).not.toBeNull();
   });
   it('should close the dialog', () => {
-    launchService.closeDialog = createSpy().and.stub();
+    launchService.closeDialog = vi.fn().mockImplementation(() => {});
     component.close();
     expect(launchService.closeDialog).toHaveBeenCalled();
   });

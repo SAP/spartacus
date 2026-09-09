@@ -21,7 +21,6 @@ import {
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { OrderConfirmationShippingComponent } from './order-confirmation-shipping.component';
-import createSpy = jasmine.createSpy;
 
 // Mock pipes
 
@@ -42,7 +41,7 @@ const mockAddress: Address = {
 };
 
 class MockOrderFacade implements Partial<OrderFacade> {
-  getOrderDetails = createSpy().and.returnValue(
+  getOrderDetails = vi.fn().mockReturnValue(
     of({
       entries: [
         {
@@ -160,7 +159,7 @@ describe('OrderConfirmationShippingComponent', () => {
 
   describe('use Order with different deliveryPointOfService value', () => {
     class MockOrderFacade implements Partial<OrderFacade> {
-      getOrderDetails = createSpy().and.returnValue(
+      getOrderDetails = vi.fn().mockReturnValue(
         of({
           entries: [
             {

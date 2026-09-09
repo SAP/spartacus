@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import {
   AuthService,
   MockTranslatePipe,
@@ -9,7 +10,6 @@ import { Quote, QuoteFacade } from '@spartacus/quote/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { QuoteRequestButtonComponent } from './quote-request-button.component';
-import createSpy = jasmine.createSpy;
 
 const quoteCode = 'quote1';
 const mockCreatedQuote: Quote = {
@@ -18,7 +18,7 @@ const mockCreatedQuote: Quote = {
   code: quoteCode,
 };
 class MockQuoteFacade implements Partial<QuoteFacade> {
-  createQuote = createSpy().and.returnValue(of(mockCreatedQuote));
+  createQuote = vi.fn().mockReturnValue(of(mockCreatedQuote));
 }
 
 const loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
@@ -31,7 +31,7 @@ describe('QuoteRequestButtonComponent', () => {
   let fixture: ComponentFixture<QuoteRequestButtonComponent>;
   let component: QuoteRequestButtonComponent;
   let quoteFacade: QuoteFacade;
-  const mockRoutingService = jasmine.createSpyObj('RoutingService', ['go']);
+  const mockRoutingService = { go: vi.fn() };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

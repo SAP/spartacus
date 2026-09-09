@@ -1,10 +1,9 @@
+import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { OrganizationUserRegistration } from '@spartacus/organization/user-registration/root';
 import { UserRegistrationConnector } from '../connectors';
 import { UserRegistrationService } from './user-registration.service';
-
-import createSpy = jasmine.createSpy;
 
 const mockOrganizationUser: OrganizationUserRegistration = {
   titleCode: 'Mr.',
@@ -17,10 +16,11 @@ const mockOrganizationUser: OrganizationUserRegistration = {
 class MockUserRegistrationConnector
   implements Partial<UserRegistrationConnector>
 {
-  registerUser = createSpy().and.callFake(
-    (mockOrganizationUser: OrganizationUserRegistration) =>
+  registerUser = vi
+    .fn()
+    .mockImplementation((mockOrganizationUser: OrganizationUserRegistration) =>
       of(mockOrganizationUser)
-  );
+    );
 }
 
 describe('UserRegistrationService', () => {

@@ -3,10 +3,10 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { vi } from 'vitest';
 import { StoreFinderConnector } from '../../connectors/store-finder.connector';
 import { StoreFinderActions } from '../actions/index';
 import * as fromEffects from './view-all-stores.effect';
-import createSpy = jasmine.createSpy;
 import { OccConfig, SiteContextActions } from '@spartacus/core';
 import { StoreCount } from '../../model/store-finder.model';
 import {
@@ -29,9 +29,7 @@ const storesCountResult: StoreCount[] = [
 ];
 
 const mockStoreFinderConnector = {
-  getCounts: createSpy('connector.getCounts').and.returnValue(
-    of(storesCountResult)
-  ),
+  getCounts: vi.fn().mockReturnValue(of(storesCountResult)),
 };
 
 describe('ViewAllStores Effects', () => {

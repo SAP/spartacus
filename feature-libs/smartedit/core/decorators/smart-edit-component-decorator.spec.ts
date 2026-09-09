@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { SmartEditService } from '../services/smart-edit.service';
 import { SmartEditComponentDecorator } from './smart-edit-component-decorator';
 
@@ -29,7 +30,7 @@ describe('SmartEditComponentDecorator', () => {
 
   it('should call addSmartEditContract', () => {
     const component = { properties: { smartedit: { uuid: 'test-id' } } };
-    spyOn(smartEditService, 'addSmartEditContract');
+    vi.spyOn(smartEditService, 'addSmartEditContract');
     decorator.decorate(null, null, component);
     expect(smartEditService.addSmartEditContract).toHaveBeenCalledWith(
       null,

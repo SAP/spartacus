@@ -40,7 +40,7 @@ describe('QuoteSummaryPricesComponent', () => {
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     withPrices();
-    fixture.detectChanges();
+    // No detectChanges() here — tests that change quote state call it themselves
   });
 
   function withPrices() {
@@ -51,10 +51,12 @@ describe('QuoteSummaryPricesComponent', () => {
   }
 
   it('should create component', () => {
+    fixture.detectChanges();
     expect(component).toBeDefined();
   });
 
   it('should display all prices and discounts when present', () => {
+    fixture.detectChanges();
     TestUtil.expectNumberOfElementsPresent(
       expect,
       htmlElem,

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
@@ -83,7 +84,7 @@ describe('UserGroupUserListComponent', () => {
   });
 
   it('should unassign all members', () => {
-    spyOn(userGroupUserListService, 'unassignAllMembers').and.callThrough();
+    vi.spyOn(userGroupUserListService, 'unassignAllMembers');
 
     component.unassignAll();
     expect(userGroupUserListService.unassignAllMembers).toHaveBeenCalledWith(
@@ -92,7 +93,7 @@ describe('UserGroupUserListComponent', () => {
   });
 
   it('should notify after unassign all members', () => {
-    spyOn(component.subList.messageService, 'add').and.callThrough();
+    vi.spyOn(component.subList.messageService, 'add');
 
     component.unassignAll();
     expect(component.subList.messageService.add).toHaveBeenCalledWith({

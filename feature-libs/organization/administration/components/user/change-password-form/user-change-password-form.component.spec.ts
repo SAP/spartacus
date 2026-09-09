@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
@@ -117,14 +118,14 @@ describe('UserChangePasswordFormComponent', () => {
   });
 
   it('should render the form', () => {
-    spyOn(formService, 'getForm').and.returnValue(mockForm);
+    vi.spyOn(formService, 'getForm').mockReturnValue(mockForm);
     fixture.detectChanges();
     const form = fixture.debugElement.queryAll(By.css('form input'));
     expect(form.length).toEqual(2);
   });
 
   it('should not render any form groups if the form is falsy', () => {
-    spyOn(formService, 'getForm').and.returnValue(undefined);
+    vi.spyOn(formService, 'getForm').mockReturnValue(undefined);
     fixture.detectChanges();
     const form = fixture.debugElement.query(By.css('form'));
     expect(form).toBeNull();

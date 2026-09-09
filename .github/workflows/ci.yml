@@ -15,7 +15,7 @@ permissions:
 
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-  NODE_VERSION: "20"
+  NODE_VERSION: "22"
   CONTINUUM_REGISTRY_TOKEN: ${{ secrets.CONTINUUM_REGISTRY_TOKEN }}
   SAP_COMMON_NPM_TOKEN: ${{ secrets.SAP_COMMON_NPM_TOKEN }}
 
@@ -108,54 +108,6 @@ jobs:
           cache-key: ${{ github.event.pull_request.base.sha || github.sha }}
       - name: Run linting validation
         run: ci-scripts/validate-lint.sh
-  check_new_feature_toggles:
-    needs: no_retries
-    name: Check for new feature toggles
-    runs-on: ubuntu-latest
-    if: github.ref_name == 'develop' || startsWith(github.ref_name, 'release/')
-    steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-        with:
-          fetch-depth: 0
-      - name: Check for new feature toggles
-        id: toggle-check
-        run: |
-          set +e
-          ci-scripts/check-new-feature-toggles.sh
-          exit_code=$?
-          echo "exit_code=$exit_code" >> $GITHUB_OUTPUT
-          exit $exit_code
-      - name: Prepare Slack User ID
-        if: always() && steps.toggle-check.outputs.new_toggles_found == 'true'
-        id: slack-user
-        run: |
-          USER_ID=$(echo '${{ vars.SLACK_TOGGLE_REVIEWER_ID }}' | tr -d '[:space:]')
-          echo "user_id=$USER_ID" >> $GITHUB_OUTPUT
-          echo "Cleaned user ID prepared for Slack mention"
-      - name: Send Slack notification for new toggles
-        if: always() && steps.toggle-check.outputs.new_toggles_found == 'true'
-        uses: slackapi/slack-github-action@dcb1066f776dd043e64d0e8ba94ca15cc7e1875d # v4.0.0
-        with:
-          method: chat.postMessage
-          token: ${{ secrets.SLACK_TOKEN }}
-          payload: |
-            channel: ${{ vars.FEATURE_TOGGLE_SLACK_NOTIFICATION_CHANNEL }}
-            text: "New Feature Toggles Added"
-            blocks:
-              - type: "section"
-                text:
-                  type: "mrkdwn"
-                  text: ":new: *New Feature Toggles Added :new:*\n\n<@${{ steps.slack-user.outputs.user_id }}> ${{ steps.toggle-check.outputs.new_toggle_count }} new feature toggle(s) have been added to the codebase:\n\n${{ steps.toggle-check.outputs.new_toggles_list }}\n\n*Please ensure these toggles are properly documented for customers*"
-              - type: "divider"
-              - type: "actions"
-                elements:
-                  - type: "button"
-                    text:
-                      type: "plain_text"
-                      text: "View Changes"
-                      emoji: true
-                    value: "view_changes"
-                    url: "${{ github.event.head_commit.url || github.event.pull_request.html_url }}"
   build_libs:
     needs: [no_retries, validate_e2e_execution]
     name: Build Spartacus libraries

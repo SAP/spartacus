@@ -12,7 +12,7 @@ permissions:
   actions: write
 
 env:
-  NODE_VERSION: '20'
+  NODE_VERSION: '22'
   CONTINUUM_REGISTRY_TOKEN: ${{ secrets.CONTINUUM_REGISTRY_TOKEN }}
 
 jobs:

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
@@ -63,9 +64,9 @@ describe('StoreListComponent', () => {
   });
 
   it('should get local stores on init', () => {
-    spyOn(pickupLocationsSearchService, 'getSearchResults');
-    spyOn(pickupLocationsSearchService, 'isSearchRunning');
-    spyOn(pickupLocationsSearchService, 'hasSearchStarted');
+    vi.spyOn(pickupLocationsSearchService, 'getSearchResults');
+    vi.spyOn(pickupLocationsSearchService, 'isSearchRunning');
+    vi.spyOn(pickupLocationsSearchService, 'hasSearchStarted');
 
     component.ngOnInit();
     expect(pickupLocationsSearchService.getSearchResults).toHaveBeenCalledWith(
@@ -77,7 +78,7 @@ describe('StoreListComponent', () => {
 
   it('should call getSearchResults with productCode', () => {
     component.productCode = 'productCode';
-    spyOn(pickupLocationsSearchService, 'getSearchResults');
+    vi.spyOn(pickupLocationsSearchService, 'getSearchResults');
     component.ngOnInit();
     expect(pickupLocationsSearchService.getSearchResults).toHaveBeenCalledWith(
       'productCode'
@@ -85,7 +86,7 @@ describe('StoreListComponent', () => {
   });
 
   it('should emit storeSelected', () => {
-    spyOn(component.storeSelected, 'emit');
+    vi.spyOn(component.storeSelected, 'emit');
     const pointOfService = {
       name: 'Store Name',
       displayName: 'Store Name',
@@ -95,7 +96,7 @@ describe('StoreListComponent', () => {
   });
 
   it('should call setIntendedLocation on IntendedPickupLocationService', () => {
-    spyOn(intendedPickupLocationService, 'setIntendedLocation');
+    vi.spyOn(intendedPickupLocationService, 'setIntendedLocation');
     const store: PointOfServiceStock = { stockInfo: {} };
     const location: AugmentedPointOfService = { pickupOption: 'pickup' };
     component.onSelectStore(store);

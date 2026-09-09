@@ -18,34 +18,28 @@ import {
 } from '@spartacus/product-multi-dimensional/selector/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { of } from 'rxjs';
+import { vi } from 'vitest';
 import { ProductMultiDimensionalSelectorComponent } from './product-multi-dimensional-selector.component';
 
 describe('ProductMultiDimensionalSelectorComponent', () => {
   let component: ProductMultiDimensionalSelectorComponent;
   let fixture: ComponentFixture<ProductMultiDimensionalSelectorComponent>;
 
-  let mockProductService: jasmine.SpyObj<ProductService>;
-  let mockRoutingService: jasmine.SpyObj<RoutingService>;
-  let mockMultiDimensionalService: jasmine.SpyObj<ProductMultiDimensionalSelectorService>;
-  let mockTranslationService: jasmine.SpyObj<TranslationService>;
-  let mockCurrentProductService: jasmine.SpyObj<CurrentProductService>;
+  let mockProductService: any;
+  let mockRoutingService: any;
+  let mockMultiDimensionalService: any;
+  let mockTranslationService: any;
+  let mockCurrentProductService: any;
 
   beforeEach(async () => {
-    mockProductService = jasmine.createSpyObj('ProductService', ['get']);
-    mockRoutingService = jasmine.createSpyObj('RoutingService', ['go']);
-    mockMultiDimensionalService = jasmine.createSpyObj(
-      'ProductMultiDimensionalSelectorService',
-      ['getVariants']
-    );
-    mockTranslationService = jasmine.createSpyObj('TranslationService', [
-      'translate',
-    ]);
-    mockTranslationService.translate.and.returnValue(of('test translation'));
+    mockProductService = { get: vi.fn() };
+    mockRoutingService = { go: vi.fn() };
+    mockMultiDimensionalService = { getVariants: vi.fn() };
+    mockTranslationService = { translate: vi.fn() };
+    mockTranslationService.translate.mockReturnValue(of('test translation'));
 
-    mockCurrentProductService = jasmine.createSpyObj('CurrentProductService', [
-      'getProduct',
-    ]);
-    mockCurrentProductService.getProduct.and.returnValue(
+    mockCurrentProductService = { getProduct: vi.fn() };
+    mockCurrentProductService.getProduct.mockReturnValue(
       of({
         code: 'productCode',
         multidimensional: true,
@@ -93,8 +87,8 @@ describe('ProductMultiDimensionalSelectorComponent', () => {
       const variants: VariantCategoryGroup[] = [
         { name: 'category1', hasImages: false, variantOptions: [] },
       ];
-      mockCurrentProductService.getProduct.and.returnValue(of(product));
-      mockMultiDimensionalService.getVariants.and.returnValue(variants);
+      mockCurrentProductService.getProduct.mockReturnValue(of(product));
+      mockMultiDimensionalService.getVariants.mockReturnValue(variants);
 
       fixture.detectChanges();
 
@@ -106,7 +100,7 @@ describe('ProductMultiDimensionalSelectorComponent', () => {
   describe('changeVariant', () => {
     it('should call routingService.go with the new product', () => {
       const newProduct = { code: 'newProductCode' } as Product;
-      mockProductService.get.and.returnValue(of(newProduct));
+      mockProductService.get.mockReturnValue(of(newProduct));
 
       component.changeVariant('newProductCode');
 
@@ -160,7 +154,7 @@ describe('ProductMultiDimensionalSelectorComponent', () => {
 
   describe('getCategoryName', () => {
     it('should return category name with selected value if hasImages is true', () => {
-      spyOn(component, 'getSelectedValue').and.returnValue('selectedValue');
+      vi.spyOn(component, 'getSelectedValue').mockReturnValue('selectedValue');
 
       const category: VariantCategoryGroup = {
         name: 'CategoryName',
@@ -184,7 +178,7 @@ describe('ProductMultiDimensionalSelectorComponent', () => {
     });
 
     it('should return only category name if selected value is empty', () => {
-      spyOn(component, 'getSelectedValue').and.returnValue('');
+      vi.spyOn(component, 'getSelectedValue').mockReturnValue('');
 
       const category: VariantCategoryGroup = {
         name: 'CategoryName',
@@ -201,20 +195,20 @@ describe('ProductMultiDimensionalSelectorComponent', () => {
     it('should return true if the code matches selectedProductCode', () => {
       component.selectedProductCode = 'option1';
       const result = component['isSelected']('option1');
-      expect(result).toBeTrue();
+      expect(result).toBe(true);
     });
 
     it('should return false if the code does not match selectedProductCode', () => {
       component.selectedProductCode = 'option1';
       const result = component['isSelected']('option2');
-      expect(result).toBeFalse();
+      expect(result).toBe(false);
     });
   });
 
   describe('onAriaLabel', () => {
     it('should return the aria label for selected option', () => {
-      spyOn(component as any, 'isSelected').and.returnValue(true);
-      mockTranslationService.translate.and.returnValue(of('Selected'));
+      vi.spyOn(component as any, 'isSelected').mockReturnValue(true);
+      mockTranslationService.translate.mockReturnValue(of('Selected'));
 
       const option = {
         code: 'option1',
@@ -228,8 +222,8 @@ describe('ProductMultiDimensionalSelectorComponent', () => {
     });
 
     it('should return the aria label for unselected option', () => {
-      spyOn(component as any, 'isSelected').and.returnValue(false);
-      mockTranslationService.translate.and.returnValue(of('Variant'));
+      vi.spyOn(component as any, 'isSelected').mockReturnValue(false);
+      mockTranslationService.translate.mockReturnValue(of('Variant'));
 
       const option = {
         code: 'option1',

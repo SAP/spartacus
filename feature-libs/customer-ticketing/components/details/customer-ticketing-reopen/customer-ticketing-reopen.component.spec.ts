@@ -8,8 +8,7 @@ import {
   TicketDetails,
 } from '@spartacus/customer-ticketing/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { BehaviorSubject, EMPTY, Observable, firstValueFrom } from 'rxjs';
 
 import { CustomerTicketingReopenComponentService } from './customer-ticketing-reopen-component.service';
 import { CustomerTicketingReopenComponent } from './customer-ticketing-reopen.component';
@@ -80,7 +79,7 @@ describe('CustomerTicketingReopenComponent', () => {
   });
 
   it('should trigger open dialog and open close request dialog', () => {
-    spyOn(launchDialogService, 'openDialog');
+    vi.spyOn(launchDialogService, 'openDialog');
     component.openDialog();
 
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
@@ -91,17 +90,15 @@ describe('CustomerTicketingReopenComponent', () => {
   });
 
   describe('enableReopenButton', () => {
-    it('should be false if the status is not closed', (done) => {
+    it('should be false if the status is not closed', async () => {
       mockTicket.status = { id: STATUS.OPEN, name: STATUS_NAME.OPEN };
       mockTicketDetails$.next(mockTicket);
 
-      component.enableReopenButton$.pipe(take(1)).subscribe((data) => {
-        expect(data).toEqual(false);
-        done();
-      });
+      const data = await firstValueFrom(component.enableReopenButton$);
+      expect(data).toEqual(false);
     });
 
-    it('should be false if available status is not open or in process', (done) => {
+    it('should be false if available status is not open or in process', async () => {
       mockTicket.status = { id: STATUS.CLOSED, name: STATUS_NAME.CLOSED };
       mockTicket.availableStatusTransitions = [
         { id: STATUS.CLOSED, name: STATUS_NAME.CLOSED },
@@ -110,13 +107,11 @@ describe('CustomerTicketingReopenComponent', () => {
 
       fixture.detectChanges();
 
-      component.enableReopenButton$.pipe(take(1)).subscribe((data) => {
-        expect(data).toEqual(false);
-        done();
-      });
+      const data = await firstValueFrom(component.enableReopenButton$);
+      expect(data).toEqual(false);
     });
 
-    it('should be true if status is close and available status is open or in process', (done) => {
+    it('should be true if status is close and available status is open or in process', async () => {
       mockTicket.status = { id: STATUS.CLOSED, name: STATUS_NAME.CLOSED };
       mockTicket.availableStatusTransitions = [
         { id: STATUS.OPEN, name: STATUS_NAME.OPEN },
@@ -125,10 +120,8 @@ describe('CustomerTicketingReopenComponent', () => {
 
       fixture.detectChanges();
 
-      component.enableReopenButton$.pipe(take(1)).subscribe((data) => {
-        expect(data).toEqual(true);
-        done();
-      });
+      const data = await firstValueFrom(component.enableReopenButton$);
+      expect(data).toEqual(true);
     });
   });
 });

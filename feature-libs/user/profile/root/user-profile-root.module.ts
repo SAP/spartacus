@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import {
   CmsConfig,
   provideDefaultConfigFactory,
@@ -15,6 +15,7 @@ import {
   USER_PROFILE_CORE_FEATURE,
   USER_PROFILE_FEATURE,
 } from './feature-name';
+import { UserCurrencyPreferenceSaverService } from './services/user-currency-preference-saver.service';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultUserProfileComponentsConfig(): CmsConfig {
@@ -50,4 +51,8 @@ export function defaultUserProfileComponentsConfig(): CmsConfig {
     },
   ],
 })
-export class UserProfileRootModule {}
+export class UserProfileRootModule {
+  protected _userCurrencyPreferenceSaverService = inject(
+    UserCurrencyPreferenceSaverService
+  );
+}

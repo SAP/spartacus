@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { CommonModule } from '@angular/common';
 import { Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -32,7 +33,6 @@ import { ItemService } from '../../shared/item.service';
 import { MessageTestingModule } from '../../shared/message/message.testing.module';
 import { MessageService } from '../../shared/message/services/message.service';
 import { UserDetailsComponent } from './user-details.component';
-import createSpy = jasmine.createSpy;
 
 const mockCode = 'c1';
 
@@ -46,7 +46,7 @@ const mockB2BUserWithoutRight: B2BUser = {
 
 class MockUserItemService implements Partial<ItemService<Budget>> {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(EMPTY);
+  load = vi.fn().mockReturnValue(EMPTY);
   error$ = of(false);
 }
 
@@ -135,9 +135,9 @@ describe('UserDetailsComponent', () => {
 
     b2bUserService = TestBed.inject(B2BUserService);
 
-    spyOn(b2bUserService, 'getAllRights').and.callThrough();
-    spyOn(b2bUserService, 'getAllRoles').and.callThrough();
-    spyOn(b2bUserService, 'isUpdatingUserAllowed').and.callThrough();
+    vi.spyOn(b2bUserService, 'getAllRights');
+    vi.spyOn(b2bUserService, 'getAllRoles');
+    vi.spyOn(b2bUserService, 'isUpdatingUserAllowed');
 
     fixture = TestBed.createComponent(UserDetailsComponent);
     itemService = fixture.componentRef.injector.get(ItemService);

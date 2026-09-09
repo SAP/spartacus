@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   EventService,
+  FeatureToggles,
   I18nTestingModule,
   MockTranslatePipe,
   TranslatePipe,
@@ -22,11 +23,11 @@ import {
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
+} from '@spartacus/core/testing/mock-feature-toggles';
 import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { CustomerTicketingMessagesComponentService } from './customer-ticketing-messages-component.service';
 import { CustomerTicketingMessagesComponent } from './customer-ticketing-messages.component';
-import createSpy = jasmine.createSpy;
+import { vi } from 'vitest';
 
 describe('CustomerTicketMessagesComponent', () => {
   let component: CustomerTicketingMessagesComponent;
@@ -47,9 +48,9 @@ describe('CustomerTicketMessagesComponent', () => {
     implements Partial<CustomerTicketingFacade>
   {
     createTicketEvent = () => createTicketResponse$;
-    getTicket = createSpy().and.returnValue(getTicket$.asObservable());
-    downloadAttachment = createSpy().and.returnValue(EMPTY);
-    uploadAttachment = createSpy().and.returnValue(EMPTY);
+    getTicket = vi.fn().mockReturnValue(getTicket$.asObservable());
+    downloadAttachment = vi.fn().mockReturnValue(EMPTY);
+    uploadAttachment = vi.fn().mockReturnValue(EMPTY);
   }
 
   class MockEventService implements Partial<EventService> {
@@ -71,7 +72,7 @@ describe('CustomerTicketMessagesComponent', () => {
       imports: [I18nTestingModule, CustomerTicketingMessagesComponent],
       providers: [
         CustomerTicketingMessagesComponentService,
-        provideMockFeatureToggles({ a11yMessagingListKeyboardFocus: false }),
+        ...provideMockFeatureToggles({ a11yMessagingListKeyboardFocus: false }),
         {
           provide: CustomerTicketingFacade,
           useClass: MockCustomerTicketingFacade,
@@ -86,6 +87,9 @@ describe('CustomerTicketMessagesComponent', () => {
         add: {
           imports: [MockTranslatePipe, MockCxMessagingComponent],
         },
+      })
+      .overrideProvider(FeatureToggles, {
+        useFactory: () => TestBed.inject(MockFeatureTogglesController),
       })
       .compileComponents();
 
@@ -105,7 +109,7 @@ describe('CustomerTicketMessagesComponent', () => {
 
   it('should call createTicketEvent on send', () => {
     const mustWaitForAttachment = false;
-    spyOn(customerTicketingFacade, 'createTicketEvent').and.callThrough();
+    vi.spyOn(customerTicketingFacade, 'createTicketEvent');
     component.onSend(mockSendEvent);
 
     expect(customerTicketingFacade.createTicketEvent).toHaveBeenCalledWith(
@@ -128,7 +132,7 @@ describe('CustomerTicketMessagesComponent', () => {
       },
     } as unknown as FileList;
 
-    spyOn(customerTicketingFacade, 'createTicketEvent').and.callThrough();
+    vi.spyOn(customerTicketingFacade, 'createTicketEvent');
     mockSendEvent.files = fileList;
     component.onSend(mockSendEvent);
 
@@ -150,7 +154,7 @@ describe('CustomerTicketMessagesComponent', () => {
       },
     } as unknown as FileList;
 
-    spyOn(customerTicketingFacade, 'createTicketEvent').and.callThrough();
+    vi.spyOn(customerTicketingFacade, 'createTicketEvent');
     mockSendEvent.files = fileList;
     component.onSend(mockSendEvent);
 

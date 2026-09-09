@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NavigationExtras } from '@angular/router';
 import {
   BaseOption,
@@ -10,6 +10,7 @@ import {
   VariantType,
 } from '@spartacus/core';
 import { ProductVariantColorSelectorComponent } from './product-variant-color-selector.component';
+import { vi } from 'vitest';
 
 const mockVariant: BaseOption = {
   selected: {
@@ -47,14 +48,14 @@ describe('ProductVariantColorSelectorComponent', () => {
   let fixture: ComponentFixture<ProductVariantColorSelectorComponent>;
   let routingService: RoutingService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ProductVariantColorSelectorComponent],
       providers: [{ provide: RoutingService, useClass: MockRoutingService }],
     }).compileComponents();
 
     routingService = TestBed.inject(RoutingService);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductVariantColorSelectorComponent);
@@ -68,7 +69,7 @@ describe('ProductVariantColorSelectorComponent', () => {
   });
 
   it('should go to product given code and name', () => {
-    spyOn(routingService, 'go').and.callThrough();
+    vi.spyOn(routingService, 'go');
     component.changeColor('test1', 'testProduct');
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'product',

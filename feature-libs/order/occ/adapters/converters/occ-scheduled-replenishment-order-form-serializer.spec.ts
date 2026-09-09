@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { TestingTimeUtils, TimeUtils } from '@spartacus/core';
 import { OccScheduledReplenishmentOrderFormSerializer } from './occ-scheduled-replenishment-order-form-serializer';
 
@@ -8,11 +8,11 @@ const mockDate = '2021-06-01';
 describe('OccScheduledReplenishmentOrderFormSerializer', () => {
   let serializer: OccScheduledReplenishmentOrderFormSerializer;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [OccScheduledReplenishmentOrderFormSerializer],
     });
-  }));
+  });
 
   beforeEach(() => {
     serializer = TestBed.inject(OccScheduledReplenishmentOrderFormSerializer);

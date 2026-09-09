@@ -5,7 +5,7 @@ import {
   ElementRef,
   Input,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FeatureToggles } from '@spartacus/core';
 import { BaseFocusService } from '../base/base-focus.service';
@@ -116,7 +116,7 @@ const MockRadioEnterEvent = {
 describe('VisibleFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   let featureToggles: FeatureToggles;
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [CustomFocusDirective, CustomFakeFocusDirective],
       providers: [
@@ -134,7 +134,7 @@ describe('VisibleFocusDirective', () => {
       .compileComponents();
     fixture = TestBed.createComponent(MockComponent);
     featureToggles = TestBed.inject(FeatureToggles);
-  }));
+  });
 
   beforeEach(() => {
     fixture.detectChanges();

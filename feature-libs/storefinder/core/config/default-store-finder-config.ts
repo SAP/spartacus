@@ -13,5 +13,9 @@ export const defaultStoreFinderConfig: StoreFinderConfig = {
     scale: 5,
     selectedMarkerScale: 17,
     radius: 50000,
+    // Required by advanced markers (feature toggle `useAdvancedGoogleMarkers`).
+    // 'DEMO_MAP_ID' is a Google-provided id that renders advanced markers
+    // without any Cloud-based map styling. Replace it with your own map id.
+    mapId: 'DEMO_MAP_ID',
   },
 };

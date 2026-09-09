@@ -9,9 +9,8 @@ import { Address, Country, I18nTestingModule, UrlPipe } from '@spartacus/core';
 import {
   IconTestingModule,
   MockIconComponent,
-} from 'core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module';
+} from '@spartacus/storefront/testing/icon-testing-module';
 import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
 
 import {
   ChangeDetectorRef,
@@ -71,18 +70,18 @@ const mockEntries: OrderEntry[] = [
 class MockCheckoutDeliveryAddressService
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  getDeliveryAddressState = createSpy().and.returnValue(
-    of({ loading: false, error: false, data: mockAddress })
-  );
+  getDeliveryAddressState = vi
+    .fn()
+    .mockReturnValue(of({ loading: false, error: false, data: mockAddress }));
 }
 
 class MockCheckoutDeliveryModesService
   implements Partial<CheckoutDeliveryModesFacade>
 {
-  getSupportedDeliveryModesState = createSpy().and.returnValue(
-    of({ loading: false, error: false, data: [] })
-  );
-  getSelectedDeliveryModeState = createSpy().and.returnValue(
+  getSupportedDeliveryModesState = vi
+    .fn()
+    .mockReturnValue(of({ loading: false, error: false, data: [] }));
+  getSelectedDeliveryModeState = vi.fn().mockReturnValue(
     of({
       loading: false,
       error: false,
@@ -106,13 +105,11 @@ class MockCheckoutStepService {
       type: [CheckoutStepType.DELIVERY_MODE],
     },
   ]);
-  getCheckoutStepRoute = createSpy().and.returnValue(
-    mockCheckoutStep.routeName
-  );
+  getCheckoutStepRoute = vi.fn().mockReturnValue(mockCheckoutStep.routeName);
 }
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
-  getDeliveryEntries = createSpy().and.returnValue(of(mockEntries));
+  getDeliveryEntries = vi.fn().mockReturnValue(of(mockEntries));
 }
 
 @Pipe({ name: 'cxUrl' })
@@ -164,7 +161,7 @@ describe('CheckoutReviewShippingComponent', () => {
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         {
           provide: ChangeDetectorRef,
-          useValue: { markForCheck: createSpy('markForCheck') },
+          useValue: { markForCheck: vi.fn() },
         },
       ],
     })

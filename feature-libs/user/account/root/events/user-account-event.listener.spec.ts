@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import {
   CxEvent,
@@ -8,17 +9,16 @@ import {
 } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { UserAccountEventListener } from './user-account-event.listener';
-import createSpy = jasmine.createSpy;
 
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(mockEventStream$.asObservable());
-  dispatch = createSpy();
+  get = vi.fn().mockReturnValue(mockEventStream$.asObservable());
+  dispatch = vi.fn();
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy();
+  add = vi.fn();
 }
 
 describe(`UserAccountEventListener`, () => {

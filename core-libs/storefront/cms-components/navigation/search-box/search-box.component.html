@@ -30,7 +30,7 @@
         (click)="clear(searchInput)"
         class="reset"
       >
-        <cx-icon [type]="iconTypes.RESET"></cx-icon>
+        <cx-icon [type]="iconTypes.RESET" />
       </button>
 
       <div
@@ -38,7 +38,7 @@
         class="search-icon"
         [title]="'common.productSearchDescription' | cxTranslate"
       >
-        <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+        <cx-icon [type]="iconTypes.SEARCH" />
       </div>
     </div>
     <button
@@ -48,7 +48,7 @@
       class="search"
       (click)="open()"
     >
-      <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+      <cx-icon [type]="iconTypes.SEARCH" />
     </button>
   </label>
 </div>
@@ -133,7 +133,7 @@
         [cxOutletContext]="{
           maxTrendingSearches: config.maxTrendingSearches,
         }"
-      ></ng-template>
+      />
     </div>
 
     <!--  RECENT SEARCHES-->
@@ -146,7 +146,7 @@
           searchBoxActive: searchBoxActive,
           maxRecentSearches: config.maxRecentSearches,
         }"
-      ></ng-template>
+      />
     </ng-container>
 
     <ng-container *cxFeature="'!searchBoxRecentSearchesRemoval'">
@@ -158,10 +158,10 @@
           searchBoxActive: searchBoxActive,
           maxRecentSearches: config.maxRecentSearches,
         }"
-      ></ng-template>
+      />
     </ng-container>
     <!--RESULT  PRODUCTS-->
-    <div class="products">
+    <div class="products" *cxFeature="'!searchBoxEmptyQueryResultsPanel'">
       <h3 *ngIf="result.products?.length">
         {{ 'searchBox.products' | cxTranslate }}
       </h3>
@@ -173,8 +173,7 @@
           [template]="carouselItem"
           itemWidth="160px"
           (keybordEvent)="carouselEventPropagator($event)"
-        >
-        </cx-carousel>
+        />
 
         <ng-template #carouselItem let-product="item">
           <a
@@ -204,18 +203,74 @@
               [container]="product.images?.PRIMARY"
               format="product"
               [alt]="product.name ?? ''"
-            ></cx-media>
+            />
             <h3 class="cx-product-name" [innerHtml]="product.nameHtml"></h3>
             <div class="price">
               {{ product.price?.formattedValue }}
             </div>
           </a>
           <div class="actions">
-            <ng-container cxInnerComponentsHost></ng-container>
+            <ng-container cxInnerComponentsHost />
           </div>
         </ng-template>
       </ng-container>
     </div>
+    <ng-container *cxFeature="'searchBoxEmptyQueryResultsPanel'">
+      <div class="products" *ngIf="hasQuery">
+        <h3 *ngIf="result.products?.length">
+          {{ 'searchBox.products' | cxTranslate }}
+        </h3>
+        <ng-container *ngIf="items$ | async as items">
+          <cx-carousel
+            role="region"
+            [attr.aria-label]="'searchBox.ariaLabelProducts' | cxTranslate"
+            [items]="items"
+            [template]="carouselItemFeature"
+            itemWidth="160px"
+            (keybordEvent)="carouselEventPropagator($event)"
+          />
+
+          <ng-template #carouselItemFeature let-product="item">
+            <a
+              tabindex="0"
+              [routerLink]="
+                {
+                  cxRoute: 'product',
+                  params: product,
+                } | cxUrl
+              "
+              [class.has-media]="config.displayProductImages"
+              (keydown.enter)="close(true)"
+              (keydown.escape)="close(true)"
+              (keydown.arrowleft)="carouselEventPropagator($any($event))"
+              (keydown.arrowright)="carouselEventPropagator($any($event))"
+              (keydown.arrowup)="carouselEventPropagator($any($event))"
+              (mousedown)="preventDefault($event)"
+              (click)="
+                dispatchProductEvent({
+                  freeText: searchInputEl?.nativeElement?.value,
+                  productCode: product.code,
+                })
+              "
+            >
+              <cx-media
+                tabindex="0"
+                [container]="product.images?.PRIMARY"
+                format="product"
+                [alt]="product.name ?? ''"
+              />
+              <h3 class="cx-product-name" [innerHtml]="product.nameHtml"></h3>
+              <div class="price">
+                {{ product.price?.formattedValue }}
+              </div>
+            </a>
+            <div class="actions">
+              <ng-container cxInnerComponentsHost />
+            </div>
+          </ng-template>
+        </ng-container>
+      </div>
+    </ng-container>
 
     <div
       class="search-panel-header"
@@ -237,8 +292,7 @@
           {{ 'searchBox.trendingSearches' | cxTranslate }}
         </h3>
         <ng-container *cxFeature="'searchBoxRecentSearchesRemoval'">
-          <ng-template [cxOutlet]="searchBoxOutlets.RECENT_SEARCHES_HEADER">
-          </ng-template>
+          <ng-template [cxOutlet]="searchBoxOutlets.RECENT_SEARCHES_HEADER" />
         </ng-container>
         <h3
           *cxFeature="'!searchBoxRecentSearchesRemoval'"

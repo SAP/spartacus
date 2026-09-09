@@ -55,7 +55,7 @@ describe('DirectiveStateTransferService', () => {
 
     describe('when in SSR', () => {
       beforeEach(() => {
-        spyOn(windowRef, 'isBrowser').and.returnValue(false);
+        vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
       });
 
       it('should apply data attribute to input element', () => {
@@ -89,7 +89,7 @@ describe('DirectiveStateTransferService', () => {
 
     describe('when in SSR', () => {
       beforeEach(() => {
-        spyOn(windowRef, 'isBrowser').and.returnValue(false);
+        vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
       });
 
       it('should remove the data attribute from input element', () => {

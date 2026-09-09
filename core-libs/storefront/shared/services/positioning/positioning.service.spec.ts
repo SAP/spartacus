@@ -81,7 +81,7 @@ describe('PositioningService', () => {
     targetElement = fixture.nativeElement.querySelector('#targetElement');
   });
 
-  xit('should calculate the element offset', () => {
+  it.skip('should calculate the element offset', () => {
     let position = positioningService.offset(element);
 
     expect(position.height).toBe(200);
@@ -92,7 +92,7 @@ describe('PositioningService', () => {
     expect(position.right).toBe(450);
   });
 
-  xit('should calculate the element offset when scrolled', () => {
+  it.skip('should calculate the element offset when scrolled', () => {
     document.documentElement.scrollTop = 1000;
     document.documentElement.scrollLeft = 1000;
 
@@ -107,7 +107,7 @@ describe('PositioningService', () => {
     document.documentElement.scrollLeft = 0;
   });
 
-  xit('should calculate the element position', () => {
+  it.skip('should calculate the element position', () => {
     let position = positioningService.position(element);
 
     expect(position.height).toBe(200);
@@ -118,7 +118,7 @@ describe('PositioningService', () => {
     expect(position.right).toBe(450);
   });
 
-  xit('should calculate the element position when scrolled', () => {
+  it.skip('should calculate the element position when scrolled', () => {
     document.documentElement.scrollTop = 1000;
     document.documentElement.scrollLeft = 1000;
 
@@ -133,7 +133,7 @@ describe('PositioningService', () => {
     document.documentElement.scrollLeft = 0;
   });
 
-  xit('should calculate the element position on positioned ancestor', () => {
+  it.skip('should calculate the element position on positioned ancestor', () => {
     let childElement = createElement(100, 150, 50, 75);
 
     element.style.position = 'relative';

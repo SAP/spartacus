@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -15,10 +16,9 @@ import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-
 import { Observable, of } from 'rxjs';
 import { UserAccountFacade } from '../../root/facade';
 import { MyAccountV2UserComponent } from './my-account-v2-user.component';
-import createSpy = jasmine.createSpy;
 
 class MockAuthService {
-  login = createSpy();
+  login = vi.fn();
   isUserLoggedIn(): Observable<boolean> {
     return of(true);
   }
@@ -36,7 +36,7 @@ const mockUserDetails: User = {
 };
 
 class MockRoutingService {
-  go = createSpy('go');
+  go = vi.fn();
 }
 class MockUserAccountFacade {
   get(): Observable<User> {

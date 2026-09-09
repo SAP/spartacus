@@ -1,5 +1,5 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -33,7 +33,7 @@ describe('OrderDetailActionsComponent', () => {
   let mockOrderDetailsService: OrderDetailsService;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     mockOrderDetailsService = <OrderDetailsService>{
       getOrderDetails() {
         return of(mockOrder);
@@ -57,7 +57,7 @@ describe('OrderDetailActionsComponent', () => {
         add: { imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailActionsComponent);

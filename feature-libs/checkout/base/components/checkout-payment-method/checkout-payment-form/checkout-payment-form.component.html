@@ -1,259 +1,282 @@
 <!-- FORM -->
 <ng-container *ngIf="!loading; else spinner">
   <cx-form-required-legend />
-  <form (ngSubmit)="next()" [formGroup]="paymentForm">
-    <div class="row">
-      <div class="col-md-12 col-xl-10">
-        <div class="form-group" formGroupName="cardType">
-          <ng-container *ngIf="cardTypes$ | async as cardTypes">
-            <div *ngIf="cardTypes.length !== 0">
-              <label>
-                <span class="label-content required"
-                  >{{ 'paymentForm.paymentType' | cxTranslate }}
-                  <cx-form-required-asterisks />
-                </span>
-                <ng-select
-                  [inputAttrs]="{ required: 'true' }"
-                  [searchable]="true"
-                  [clearable]="false"
-                  [items]="cardTypes"
-                  bindLabel="name"
-                  bindValue="code"
-                  placeholder="{{ 'paymentForm.selectOne' | cxTranslate }}"
-                  formControlName="code"
-                  id="card-type-select"
-                  ariaLabelDropdown="{{
-                    'common.ngSelectDropdownOptionsList' | cxTranslate
-                  }}"
-                  [cxNgSelectA11y]="{
-                    ariaLabel: 'paymentForm.paymentType' | cxTranslate,
-                  }"
-                >
-                </ng-select>
+  <form
+    (ngSubmit)="next()"
+    [formGroup]="paymentForm"
+    cxFocusFirstInvalidField
+    novalidate
+  >
+    <ng-container *cxFeature="'a11yImproveCheckoutFocus'">
+      <div [cxFocus]="focusConfig">
+        <ng-container *ngTemplateOutlet="formBody" />
+      </div>
+    </ng-container>
+    <ng-container *cxFeature="'!a11yImproveCheckoutFocus'">
+      <ng-container *ngTemplateOutlet="formBody" />
+    </ng-container>
 
-                <cx-form-errors
-                  [translationParams]="{
-                    label: 'paymentForm.paymentType' | cxTranslate,
-                  }"
-                  [control]="paymentForm.get('cardType.code')"
-                ></cx-form-errors>
-              </label>
-            </div>
-          </ng-container>
-        </div>
+    <!--
+      Buttons are rendered outside the `cxFocus` autofocus host on purpose:
+      in Safari a `<button>` doesn't take focus on click, so if it lived inside
+      the host, focus would fall to the host and its autofocus would redirect to
+      the first field (card type select). Keeping them outside prevents that jump.
+    -->
+    <ng-container *ngTemplateOutlet="formButtons" />
 
-        <div class="form-group">
-          <label>
-            <span class="label-content"
-              >{{ 'paymentForm.accountHolderName.label' | cxTranslate }}
-              <cx-form-required-asterisks />
-            </span>
-            <input
-              required="true"
-              class="form-control"
-              type="text"
-              placeholder="{{
-                'paymentForm.accountHolderName.placeholder' | cxTranslate
-              }}"
-              formControlName="accountHolderName"
-              [attr.aria-invalid]="
-                paymentForm.get('accountHolderName')?.touched &&
-                paymentForm.get('accountHolderName')?.invalid
-              "
-              [attr.aria-errormessage]="'accountHolderNameError'"
-            />
+    <ng-template #formBody>
+      <div class="row">
+        <div class="col-md-12 col-xl-10">
+          <div class="form-group" formGroupName="cardType">
+            <ng-container *ngIf="cardTypes$ | async as cardTypes">
+              <div *ngIf="cardTypes.length !== 0">
+                <label>
+                  <span class="label-content required"
+                    >{{ 'paymentForm.paymentType' | cxTranslate }}
+                    <cx-form-required-asterisks />
+                  </span>
+                  <ng-select
+                    [inputAttrs]="{ required: 'true' }"
+                    [searchable]="true"
+                    [clearable]="false"
+                    [items]="cardTypes"
+                    bindLabel="name"
+                    bindValue="code"
+                    placeholder="{{ 'paymentForm.selectOne' | cxTranslate }}"
+                    formControlName="code"
+                    id="card-type-select"
+                    ariaLabelDropdown="{{
+                      'common.ngSelectDropdownOptionsList' | cxTranslate
+                    }}"
+                    [cxNgSelectA11y]="{
+                      ariaLabel: 'paymentForm.paymentType' | cxTranslate,
+                    }"
+                  />
 
-            <cx-form-errors
-              id="accountHolderNameError"
-              [translationParams]="{
-                label: 'paymentForm.accountHolderName.label' | cxTranslate,
-              }"
-              [control]="paymentForm.get('accountHolderName')"
-            ></cx-form-errors>
-          </label>
-        </div>
-
-        <div class="form-group">
-          <label>
-            <span class="label-content"
-              >{{ 'paymentForm.cardNumber' | cxTranslate }}
-              <cx-form-required-asterisks />
-            </span>
-            <input
-              required="true"
-              type="text"
-              class="form-control"
-              formControlName="cardNumber"
-              [attr.aria-invalid]="
-                paymentForm.get('cardNumber')?.touched &&
-                paymentForm.get('cardNumber')?.invalid
-              "
-              [attr.aria-errormessage]="'cardNumberError'"
-            />
-
-            <cx-form-errors
-              id="cardNumberError"
-              [translationParams]="{
-                label: 'paymentForm.cardNumber' | cxTranslate,
-              }"
-              [control]="paymentForm.get('cardNumber')"
-            ></cx-form-errors>
-          </label>
-        </div>
-
-        <div class="row">
-          <div class="form-group col-md-8">
-            <fieldset class="cx-payment-form-exp-date">
-              <legend class="label-content">
-                {{ 'paymentForm.expirationDate' | cxTranslate }}
-                <cx-form-required-asterisks />
-              </legend>
-              <label class="cx-payment-form-exp-date-wrapper">
-                <ng-select
-                  [inputAttrs]="{ required: 'true' }"
-                  [searchable]="true"
-                  [clearable]="false"
-                  [items]="months"
-                  placeholder="{{ 'paymentForm.monthMask' | cxTranslate }}"
-                  formControlName="expiryMonth"
-                  id="month-select"
-                  ariaLabelDropdown="{{
-                    'common.ngSelectDropdownOptionsList' | cxTranslate
-                  }}"
-                  [cxNgSelectA11y]="{
-                    ariaLabel:
-                      'paymentForm.expirationMonth'
-                      | cxTranslate
-                        : { selected: paymentForm.get('expiryMonth')?.value },
-                  }"
-                >
-                </ng-select>
-
-                <cx-form-errors
-                  [translationParams]="{
-                    label: 'paymentForm.expirationDate' | cxTranslate,
-                  }"
-                  [control]="paymentForm.get('expiryMonth')"
-                ></cx-form-errors>
-              </label>
-              <label class="cx-payment-form-exp-date-wrapper">
-                <ng-select
-                  [inputAttrs]="{ required: 'true' }"
-                  [searchable]="true"
-                  [clearable]="false"
-                  [items]="years"
-                  placeholder="{{ 'paymentForm.yearMask' | cxTranslate }}"
-                  id="year-select"
-                  ariaLabelDropdown="{{
-                    'common.ngSelectDropdownOptionsList' | cxTranslate
-                  }}"
-                  [cxNgSelectA11y]="{
-                    ariaLabel:
-                      'paymentForm.expirationYear'
-                      | cxTranslate
-                        : { selected: paymentForm.get('expiryYear')?.value },
-                  }"
-                  formControlName="expiryYear"
-                >
-                </ng-select>
-
-                <cx-form-errors
-                  [translationParams]="{
-                    label: 'paymentForm.expirationDate' | cxTranslate,
-                  }"
-                  [control]="paymentForm.get('expiryYear')"
-                ></cx-form-errors>
-              </label>
-            </fieldset>
+                  <cx-form-errors
+                    [translationParams]="{
+                      label: 'paymentForm.paymentType' | cxTranslate,
+                    }"
+                    [control]="paymentForm.get('cardType.code')"
+                  />
+                </label>
+              </div>
+            </ng-container>
           </div>
 
-          <div class="form-group col-md-4">
+          <div class="form-group">
             <label>
-              <span class="label-content">
-                {{ 'paymentForm.securityCode' | cxTranslate }}
+              <span class="label-content"
+                >{{ 'paymentForm.accountHolderName.label' | cxTranslate }}
                 <cx-form-required-asterisks />
-                <cx-icon
-                  [type]="iconTypes.INFO"
-                  class="cx-payment-form-tooltip"
-                  placement="right"
-                  title="{{ 'paymentForm.securityCodeTitle' | cxTranslate }}"
-                  alt=""
-                  [attr.aria-label]="
-                    'paymentForm.securityCodeTitle' | cxTranslate
-                  "
-                ></cx-icon>
+              </span>
+              <input
+                required="true"
+                class="form-control"
+                type="text"
+                placeholder="{{
+                  'paymentForm.accountHolderName.placeholder' | cxTranslate
+                }}"
+                formControlName="accountHolderName"
+                [attr.aria-invalid]="
+                  paymentForm.get('accountHolderName')?.touched &&
+                  paymentForm.get('accountHolderName')?.invalid
+                "
+                [attr.aria-errormessage]="'accountHolderNameError'"
+              />
+
+              <cx-form-errors
+                id="accountHolderNameError"
+                [translationParams]="{
+                  label: 'paymentForm.accountHolderName.label' | cxTranslate,
+                }"
+                [control]="paymentForm.get('accountHolderName')"
+              />
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label>
+              <span class="label-content"
+                >{{ 'paymentForm.cardNumber' | cxTranslate }}
+                <cx-form-required-asterisks />
               </span>
               <input
                 required="true"
                 type="text"
                 class="form-control"
-                id="cVVNumber"
-                formControlName="cvn"
+                formControlName="cardNumber"
                 [attr.aria-invalid]="
-                  paymentForm.get('cvn')?.touched &&
-                  paymentForm.get('cvn')?.invalid
+                  paymentForm.get('cardNumber')?.touched &&
+                  paymentForm.get('cardNumber')?.invalid
                 "
-                [attr.aria-errormessage]="'cvnError'"
+                [attr.aria-errormessage]="'cardNumberError'"
               />
 
               <cx-form-errors
-                id="cvnError"
+                id="cardNumberError"
                 [translationParams]="{
-                  label: 'paymentForm.securityCode' | cxTranslate,
+                  label: 'paymentForm.cardNumber' | cxTranslate,
                 }"
-                [control]="paymentForm.get('cvn')"
-              ></cx-form-errors>
-            </label>
-          </div>
-        </div>
-
-        <div class="form-group" *ngIf="setAsDefaultField">
-          <div class="form-check">
-            <label>
-              <input
-                type="checkbox"
-                class="form-check-input"
-                (change)="toggleDefaultPaymentMethod()"
+                [control]="paymentForm.get('cardNumber')"
               />
-              <span class="form-check-label">{{
-                'paymentForm.setAsDefault' | cxTranslate
-              }}</span>
             </label>
           </div>
+
+          <div class="row">
+            <div class="form-group col-md-8">
+              <fieldset class="cx-payment-form-exp-date">
+                <legend class="label-content">
+                  {{ 'paymentForm.expirationDate' | cxTranslate }}
+                  <cx-form-required-asterisks />
+                </legend>
+                <label class="cx-payment-form-exp-date-wrapper">
+                  <ng-select
+                    [inputAttrs]="{ required: 'true' }"
+                    [searchable]="true"
+                    [clearable]="false"
+                    [items]="months"
+                    placeholder="{{ 'paymentForm.monthMask' | cxTranslate }}"
+                    formControlName="expiryMonth"
+                    id="month-select"
+                    ariaLabelDropdown="{{
+                      'common.ngSelectDropdownOptionsList' | cxTranslate
+                    }}"
+                    [cxNgSelectA11y]="{
+                      ariaLabel:
+                        'paymentForm.expirationMonth'
+                        | cxTranslate
+                          : { selected: paymentForm.get('expiryMonth')?.value },
+                    }"
+                  />
+
+                  <cx-form-errors
+                    [translationParams]="{
+                      label: 'paymentForm.expirationDate' | cxTranslate,
+                    }"
+                    [control]="paymentForm.get('expiryMonth')"
+                  />
+                </label>
+                <label class="cx-payment-form-exp-date-wrapper">
+                  <ng-select
+                    [inputAttrs]="{ required: 'true' }"
+                    [searchable]="true"
+                    [clearable]="false"
+                    [items]="years"
+                    placeholder="{{ 'paymentForm.yearMask' | cxTranslate }}"
+                    id="year-select"
+                    ariaLabelDropdown="{{
+                      'common.ngSelectDropdownOptionsList' | cxTranslate
+                    }}"
+                    [cxNgSelectA11y]="{
+                      ariaLabel:
+                        'paymentForm.expirationYear'
+                        | cxTranslate
+                          : { selected: paymentForm.get('expiryYear')?.value },
+                    }"
+                    formControlName="expiryYear"
+                  />
+
+                  <cx-form-errors
+                    [translationParams]="{
+                      label: 'paymentForm.expirationDate' | cxTranslate,
+                    }"
+                    [control]="paymentForm.get('expiryYear')"
+                  />
+                </label>
+              </fieldset>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>
+                <span class="label-content">
+                  {{ 'paymentForm.securityCode' | cxTranslate }}
+                  <cx-form-required-asterisks />
+                  <cx-icon
+                    [type]="iconTypes.INFO"
+                    class="cx-payment-form-tooltip"
+                    placement="right"
+                    title="{{ 'paymentForm.securityCodeTitle' | cxTranslate }}"
+                    alt=""
+                    [attr.aria-label]="
+                      'paymentForm.securityCodeTitle' | cxTranslate
+                    "
+                  />
+                </span>
+                <input
+                  required="true"
+                  type="text"
+                  class="form-control"
+                  id="cVVNumber"
+                  formControlName="cvn"
+                  [attr.aria-invalid]="
+                    paymentForm.get('cvn')?.touched &&
+                    paymentForm.get('cvn')?.invalid
+                  "
+                  [attr.aria-errormessage]="'cvnError'"
+                />
+
+                <cx-form-errors
+                  id="cvnError"
+                  [translationParams]="{
+                    label: 'paymentForm.securityCode' | cxTranslate,
+                  }"
+                  [control]="paymentForm.get('cvn')"
+                />
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group" *ngIf="setAsDefaultField">
+            <div class="form-check">
+              <label>
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  (change)="toggleDefaultPaymentMethod()"
+                />
+                <span class="form-check-label">{{
+                  'paymentForm.setAsDefault' | cxTranslate
+                }}</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- BILLING -->
+          <cx-checkout-billing-address-form />
         </div>
+      </div>
+    </ng-template>
 
-        <!-- BILLING -->
-        <cx-checkout-billing-address-form></cx-checkout-billing-address-form>
+    <ng-template #formButtons>
+      <!-- BUTTON SECTION -->
+      <div class="cx-checkout-btns row">
+        <div class="col-md-12 col-lg-6">
+          <button
+            *ngIf="paymentMethodsCount === 0"
+            class="btn btn-block btn-secondary"
+            (click)="back()"
+          >
+            {{ 'common.back' | cxTranslate }}
+          </button>
+          <button
+            *ngIf="paymentMethodsCount > 0"
+            class="btn btn-block btn-secondary"
+            (click)="close()"
+          >
+            {{ 'paymentForm.changePayment' | cxTranslate }}
+          </button>
+        </div>
+        <div class="col-md-12 col-lg-6">
+          <button class="btn btn-block btn-primary" type="submit">
+            {{ 'common.continue' | cxTranslate }}
+          </button>
+        </div>
       </div>
-    </div>
-
-    <!-- BUTTON SECTION -->
-    <div class="cx-checkout-btns row">
-      <div class="col-md-12 col-lg-6">
-        <button
-          *ngIf="paymentMethodsCount === 0"
-          class="btn btn-block btn-secondary"
-          (click)="back()"
-        >
-          {{ 'common.back' | cxTranslate }}
-        </button>
-        <button
-          *ngIf="paymentMethodsCount > 0"
-          class="btn btn-block btn-secondary"
-          (click)="close()"
-        >
-          {{ 'paymentForm.changePayment' | cxTranslate }}
-        </button>
-      </div>
-      <div class="col-md-12 col-lg-6">
-        <button class="btn btn-block btn-primary" type="submit">
-          {{ 'common.continue' | cxTranslate }}
-        </button>
-      </div>
-    </div>
+    </ng-template>
   </form>
 </ng-container>
 
 <ng-template #spinner>
-  <cx-spinner></cx-spinner>
+  <cx-spinner />
 </ng-template>

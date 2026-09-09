@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Promotion } from '@spartacus/core';
 import { PromotionsComponent } from './promotions.component';
@@ -13,12 +13,12 @@ describe('PromotionsComponent', () => {
 
   const mockPromotions: Promotion[] = [mockPromotion];
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [PromotionsComponent],
       providers: [],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PromotionsComponent);

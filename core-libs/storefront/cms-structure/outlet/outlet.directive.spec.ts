@@ -1,19 +1,19 @@
-import { AsyncPipe } from '@angular/common';
+import { ApplicationRef, AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ComponentFactoryResolver,
   Inject,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { getLastValueSync } from '@spartacus/core';
-import { OutletService } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { DeferLoaderService } from '../../layout/loading/defer-loader.service';
 import { OutletRefDirective } from './outlet-ref/outlet-ref.directive';
 import { OutletDirective } from './outlet.directive';
 import { OutletContextData, OutletPosition } from './outlet.model';
+import { OutletService } from './outlet.service';
 
 const keptOutlet = 'keptOutlet';
 const replacedOutlet = 'replacedOutlet';
@@ -82,7 +82,7 @@ describe('OutletDirective', () => {
     })
     class MockOutletAfterComponent {}
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(async () => {
       TestBed.configureTestingModule({
         imports: [
           MockTemplateComponent,
@@ -98,7 +98,7 @@ describe('OutletDirective', () => {
           },
         ],
       }).compileComponents();
-    }));
+    });
 
     it('should render the provided template ref', () => {
       const fixture = TestBed.createComponent(MockTemplateComponent);
@@ -181,7 +181,7 @@ describe('OutletDirective', () => {
 
     let compiled: HTMLElement;
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(async () => {
       TestBed.configureTestingModule({
         imports: [
           MockStackedReplaceOutletComponent,
@@ -196,7 +196,7 @@ describe('OutletDirective', () => {
           },
         ],
       }).compileComponents();
-    }));
+    });
 
     it('should add two templates in outlet', () => {
       const fixture = TestBed.createComponent(
@@ -248,7 +248,7 @@ describe('OutletDirective', () => {
 
     let deferLoaderService: DeferLoaderService;
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(async () => {
       TestBed.configureTestingModule({
         imports: [
           MockInstantOutletComponent,
@@ -264,17 +264,17 @@ describe('OutletDirective', () => {
       }).compileComponents();
 
       deferLoaderService = TestBed.inject(DeferLoaderService);
-    }));
+    });
 
     it('should use instant loading', () => {
-      spyOn(deferLoaderService, 'load').and.callThrough();
+      vi.spyOn(deferLoaderService, 'load');
       const fixture = TestBed.createComponent(MockInstantOutletComponent);
       fixture.detectChanges();
       expect(deferLoaderService.load).not.toHaveBeenCalled();
     });
 
     it('should use defer loading', () => {
-      spyOn(deferLoaderService, 'load').and.callThrough();
+      vi.spyOn(deferLoaderService, 'load');
       const fixture = TestBed.createComponent(MockDeferredOutletComponent);
       fixture.detectChanges();
       expect(deferLoaderService.load).toHaveBeenCalled();
@@ -286,7 +286,7 @@ describe('OutletDirective', () => {
       template: `
         <ng-template cxOutletRef="A">A</ng-template>
         <ng-template cxOutletRef="B">B</ng-template>
-        <ng-container *cxOutlet="outletName"> </ng-container>
+        <ng-container *cxOutlet="outletName" />
       `,
       imports: [OutletDirective, OutletRefDirective],
     })
@@ -296,7 +296,7 @@ describe('OutletDirective', () => {
 
     let hostFixture: ComponentFixture<HostComponent>;
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(async () => {
       TestBed.configureTestingModule({
         imports: [HostComponent, OutletDirective, OutletRefDirective],
         providers: [
@@ -308,10 +308,10 @@ describe('OutletDirective', () => {
       }).compileComponents();
 
       hostFixture = TestBed.createComponent(HostComponent);
-    }));
+    });
 
     function getContent(fixture: ComponentFixture<any>): string {
-      return fixture.debugElement.nativeElement.innerText;
+      return fixture.debugElement.nativeElement.textContent;
     }
 
     it('should render template for new outlet name', () => {
@@ -319,7 +319,8 @@ describe('OutletDirective', () => {
       expect(getContent(hostFixture)).toContain('A');
 
       hostFixture.componentInstance.outletName = 'B';
-      hostFixture.detectChanges();
+      hostFixture.componentRef.changeDetectorRef.markForCheck();
+      hostFixture.detectChanges(false);
 
       expect(getContent(hostFixture)).toContain('B');
     });
@@ -355,7 +356,7 @@ describe('OutletDirective', () => {
       constructor(public outlet: OutletContextData) {}
     }
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(async () => {
       mockContextSubject$ = new BehaviorSubject('fakeContext');
 
       TestBed.configureTestingModule({
@@ -376,7 +377,7 @@ describe('OutletDirective', () => {
           },
         ],
       }).compileComponents();
-    }));
+    });
 
     it('should render component', () => {
       const outletService = TestBed.inject(OutletService);
@@ -477,8 +478,7 @@ describe('OutletDirective', () => {
         <ng-template
           [cxOutlet]="'${keptOutlet}'"
           [(cxComponentRef)]="innerCompRef"
-        >
-        </ng-template>
+        />
       `,
       imports: [OutletDirective],
       changeDetection: ChangeDetectionStrategy.OnPush,
@@ -493,7 +493,7 @@ describe('OutletDirective', () => {
     })
     class MockOutletComponent {}
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(async () => {
       TestBed.configureTestingModule({
         imports: [
           MockTestOutletComponent,
@@ -507,7 +507,7 @@ describe('OutletDirective', () => {
           },
         ],
       }).compileComponents();
-    }));
+    });
 
     describe('with angular component', () => {
       it('should be able to get componentRef or viewRef', () => {

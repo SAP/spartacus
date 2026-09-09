@@ -1,5 +1,6 @@
 import { Directive, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { AbstractOrderContextModule } from '@spartacus/cart/base/components';
 import { AbstractOrderType } from '@spartacus/cart/base/root';
 import {
@@ -35,7 +36,7 @@ describe('QuoteItemsComponent', () => {
   let eventService: EventService;
   let quoteItemsComponentService: QuoteItemsComponentService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     initMocks();
     TestBed.configureTestingModule({
       imports: [AbstractOrderContextModule, QuoteItemsComponent],
@@ -59,31 +60,33 @@ describe('QuoteItemsComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteItemsComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     component.showCart$ = of(true);
-    fixture.detectChanges();
+    // detectChanges() is called per-test to avoid NG0100 when tests mutate observables
   });
 
   function initMocks() {
-    eventService = jasmine.createSpyObj('EventService', ['get', 'dispatch']);
-    quoteItemsComponentService = jasmine.createSpyObj(
-      'QuoteItemsComponentService',
-      [
-        'setQuoteEntriesExpanded',
-        'getQuoteEntriesExpanded',
-        'retrieveQuoteEntries',
-      ]
-    );
-    asSpy(eventService.get).and.returnValue(EMPTY);
-    asSpy(quoteItemsComponentService.getQuoteEntriesExpanded).and.returnValue(
-      true
-    );
-    asSpy(quoteItemsComponentService.retrieveQuoteEntries).and.returnValue(
+    eventService = {
+      get: vi.fn(),
+      dispatch: vi.fn(),
+    } as any;
+    quoteItemsComponentService = {
+      setQuoteEntriesExpanded: vi.fn(),
+      getQuoteEntriesExpanded: vi.fn(),
+      retrieveQuoteEntries: vi.fn(),
+    } as any;
+    (eventService.get as vi.Mock).mockReturnValue(EMPTY);
+    (
+      quoteItemsComponentService.getQuoteEntriesExpanded as vi.Mock
+    ).mockReturnValue(true);
+    (
+      quoteItemsComponentService.retrieveQuoteEntries as vi.Mock
+    ).mockReturnValue(
       of({
         entries: quote.entries,
         readOnly: true,
@@ -93,18 +96,16 @@ describe('QuoteItemsComponent', () => {
     );
   }
 
-  function asSpy(f: any) {
-    return <jasmine.Spy>f;
-  }
-
   describe('Initialization', () => {
     it('should create the component', () => {
+      fixture.detectChanges();
       expect(component).toBeTruthy();
     });
   });
 
   describe('Ghost animation', () => {
     it('should not be present in case quote items data is provided', () => {
+      fixture.detectChanges();
       CommonQuoteTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -200,6 +201,7 @@ describe('QuoteItemsComponent', () => {
 
   describe('onToggleShowOrHideCart', () => {
     it('should call quoteItemsComponentService correctly if argument is true', () => {
+      fixture.detectChanges();
       component.onToggleShowOrHideCart(true);
       expect(
         quoteItemsComponentService.setQuoteEntriesExpanded
@@ -207,6 +209,7 @@ describe('QuoteItemsComponent', () => {
     });
 
     it('should call quoteItemsComponentService correctly if argument is false', () => {
+      fixture.detectChanges();
       component.onToggleShowOrHideCart(false);
       expect(
         quoteItemsComponentService.setQuoteEntriesExpanded
@@ -215,6 +218,7 @@ describe('QuoteItemsComponent', () => {
   });
 
   it('should display CARET_UP per default', () => {
+    fixture.detectChanges();
     CommonQuoteTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
@@ -235,6 +239,7 @@ describe('QuoteItemsComponent', () => {
   });
 
   it('should toggle quote entries on enter', () => {
+    fixture.detectChanges();
     CommonQuoteTestUtilsService.clickToggle(htmlElem, true);
     fixture.detectChanges();
     expect(
@@ -254,6 +259,7 @@ describe('QuoteItemsComponent', () => {
 
   describe('Accessibility', () => {
     it("should contain 'div' HTML element with 'role' attribute that indicates the role for this element", () => {
+      fixture.detectChanges();
       const element =
         CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
           htmlElem,
@@ -271,6 +277,7 @@ describe('QuoteItemsComponent', () => {
     });
 
     it("should contain 'div' HTML element with 'aria-label' attribute that indicates the text for this element", () => {
+      fixture.detectChanges();
       const element =
         CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
           htmlElem,

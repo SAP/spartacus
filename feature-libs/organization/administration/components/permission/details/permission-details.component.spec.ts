@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
@@ -26,13 +27,11 @@ import { MessageTestingModule } from '../../shared/message/message.testing.modul
 import { MessageService } from '../../shared/message/services/message.service';
 import { PermissionDetailsComponent } from './permission-details.component';
 
-import createSpy = jasmine.createSpy;
-
 const mockCode = 'p1';
 
 class MockPermissionItemService implements Partial<ItemService<Permission>> {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(EMPTY);
+  load = vi.fn().mockReturnValue(EMPTY);
   error$ = of(false);
 }
 

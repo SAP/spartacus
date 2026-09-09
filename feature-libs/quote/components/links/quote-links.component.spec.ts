@@ -1,9 +1,5 @@
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { Router, RouterModule, Routes } from '@angular/router';
 import {
   EventService,
@@ -33,10 +29,9 @@ import { BehaviorSubject, NEVER, Observable, of, throwError } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteLinksComponent } from './quote-links.component';
-import createSpy = jasmine.createSpy;
 
 class MockCartUtilsService implements Partial<CartUtilsService> {
-  goToNewCart = createSpy();
+  goToNewCart = vi.fn();
 }
 
 const mockRoutes = [{ path: 'cxRoute:quotes', component: {} }] as Routes;
@@ -162,7 +157,7 @@ describe('QuoteLinksComponent', () => {
   });
 
   it('should dispatch QuoteDetailsReloadQueryEvent when component is initialized', () => {
-    spyOn(eventService, 'dispatch').and.callThrough();
+    vi.spyOn(eventService, 'dispatch');
     component.ngOnInit();
     expect(eventService.dispatch).toHaveBeenCalledWith(
       {},
@@ -212,7 +207,7 @@ describe('QuoteLinksComponent', () => {
   });
 
   it('should fire `goToNewCart()` when "New Cart" button was clicked', () => {
-    spyOn(eventService, 'dispatch').and.callThrough();
+    vi.spyOn(eventService, 'dispatch');
     const link = CommonQuoteTestUtilsService.getHTMLElement(
       htmlElem,
       'a.link',
@@ -226,7 +221,8 @@ describe('QuoteLinksComponent', () => {
     );
   });
 
-  it('should redirect to Quotes list when "Quotes" button was clicked', fakeAsync(() => {
+  it('should redirect to Quotes list when "Quotes" button was clicked', async () => {
+    vi.useFakeTimers();
     fixture.detectChanges();
     const link = CommonQuoteTestUtilsService.getHTMLElement(
       htmlElem,
@@ -234,10 +230,11 @@ describe('QuoteLinksComponent', () => {
       1
     );
     link.click();
-    tick();
+    await vi.advanceTimersByTimeAsync(0);
+    vi.useRealTimers();
 
     expect(router.url).toBe('/cxRoute:quotes');
-  }));
+  });
 
   describe('Download proposal document', () => {
     const vendorQuote: Quote = {
@@ -284,11 +281,10 @@ describe('QuoteLinksComponent', () => {
     });
 
     it('should download the proposal document attached when Download button is clicked', () => {
-      const spyDownloadAttachment = spyOn(
-        quoteFacade,
-        'downloadAttachment'
-      ).and.returnValue(of(mockQuoteAttachment()));
-      const spyDownload = spyOn(fileDownloadService, 'download');
+      const spyDownloadAttachment = vi
+        .spyOn(quoteFacade, 'downloadAttachment')
+        .mockReturnValue(of(mockQuoteAttachment()));
+      const spyDownload = vi.spyOn(fileDownloadService, 'download');
       mockQuoteDetails$.next(vendorQuote);
       fixture.detectChanges();
       const downloadBtn = CommonQuoteTestUtilsService.getHTMLElement(
@@ -308,11 +304,10 @@ describe('QuoteLinksComponent', () => {
     });
 
     it('should display error message when download fails', () => {
-      const spyDownloadAttachment = spyOn(
-        quoteFacade,
-        'downloadAttachment'
-      ).and.returnValue(throwError(() => new Error(errorResponse.message)));
-      const spyMessage = spyOn(globalMessageService, 'add');
+      const spyDownloadAttachment = vi
+        .spyOn(quoteFacade, 'downloadAttachment')
+        .mockReturnValue(throwError(() => new Error(errorResponse.message)));
+      const spyMessage = vi.spyOn(globalMessageService, 'add');
       mockQuoteDetails$.next(vendorQuote);
       fixture.detectChanges();
       const downloadBtn = CommonQuoteTestUtilsService.getHTMLElement(
@@ -337,7 +332,7 @@ describe('QuoteLinksComponent', () => {
       const anchorElements =
         fixture.nativeElement.querySelectorAll('a.cx-action-link');
       const orderLink = Array.from(anchorElements).find(
-        (el: any) => el.innerText.trim() === 'quote.links.order'
+        (el: any) => (el.textContent || '').trim() === 'quote.links.order'
       );
       expect(orderLink).toBeUndefined();
     });
@@ -347,7 +342,7 @@ describe('QuoteLinksComponent', () => {
       const anchorElements =
         fixture.nativeElement.querySelectorAll('a.cx-action-link');
       const orderLink = Array.from(anchorElements).find(
-        (el: any) => el.innerText.trim() === 'quote.links.order'
+        (el: any) => (el.textContent || '').trim() === 'quote.links.order'
       );
       expect(orderLink).not.toBeUndefined();
       expect((orderLink as HTMLAnchorElement).href).toContain(

@@ -12,6 +12,7 @@ import { of } from 'rxjs';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { CpqConfiguratorOccAdapter } from './cpq-configurator-occ.adapter';
 import { CpqConfiguratorOccService } from './cpq-configurator-occ.service';
+import { vi } from 'vitest';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
@@ -83,66 +84,70 @@ const readConfigOrderEntryParams: CommonConfigurator.ReadConfigurationFromOrderE
     owner: owner,
   };
 
-const asSpy = (f: any) => <jasmine.Spy>f;
+const asSpy = (f: any) => f;
 
 describe('CpqConfiguratorOccAdapter', () => {
   let adapterUnderTest: CpqConfiguratorOccAdapter;
   let mockedOccService: CpqConfiguratorOccService;
 
   beforeEach(() => {
-    mockedOccService = jasmine.createSpyObj('mockedOccService', [
-      'addToCart',
-      'getConfigIdForCartEntry',
-      'getConfigIdForOrderEntry',
-      'updateCartEntry',
-      'createConfiguration',
-      'readConfiguration',
-      'updateAttribute',
-      'updateValueQuantity',
-      'readConfigurationOverview',
-      'readConfigurationForCartEntry',
-      'readConfigurationForOrderEntry',
-      'readConfigurationForQuoteEntry',
-    ]);
+    mockedOccService = {
+      addToCart: vi.fn(),
+      getConfigIdForCartEntry: vi.fn(),
+      getConfigIdForOrderEntry: vi.fn(),
+      updateCartEntry: vi.fn(),
+      createConfiguration: vi.fn(),
+      readConfiguration: vi.fn(),
+      updateAttribute: vi.fn(),
+      updateValueQuantity: vi.fn(),
+      readConfigurationOverview: vi.fn(),
+      readConfigurationForCartEntry: vi.fn(),
+      readConfigurationForOrderEntry: vi.fn(),
+      readConfigurationForQuoteEntry: vi.fn(),
+    } as any;
 
-    asSpy(mockedOccService.createConfiguration).and.callFake(() => {
-      return of(productConfiguration);
-    });
-
-    asSpy(mockedOccService.readConfiguration).and.callFake(() => {
+    asSpy(mockedOccService.createConfiguration).mockImplementation(() => {
       return of(productConfiguration);
     });
 
-    asSpy(mockedOccService.updateAttribute).and.callFake(() => {
+    asSpy(mockedOccService.readConfiguration).mockImplementation(() => {
       return of(productConfiguration);
     });
-    asSpy(mockedOccService.updateValueQuantity).and.callFake(() => {
+
+    asSpy(mockedOccService.updateAttribute).mockImplementation(() => {
       return of(productConfiguration);
     });
-    asSpy(mockedOccService.readConfigurationOverview).and.callFake(() => {
+    asSpy(mockedOccService.updateValueQuantity).mockImplementation(() => {
       return of(productConfiguration);
     });
-    asSpy(mockedOccService.addToCart).and.callFake(() => {
+    asSpy(mockedOccService.readConfigurationOverview).mockImplementation(() => {
+      return of(productConfiguration);
+    });
+    asSpy(mockedOccService.addToCart).mockImplementation(() => {
       return of(cartResponse);
     });
-    asSpy(mockedOccService.getConfigIdForCartEntry).and.callFake(() => {
+    asSpy(mockedOccService.getConfigIdForCartEntry).mockImplementation(() => {
       return of(productConfiguration.configId);
     });
-    asSpy(mockedOccService.getConfigIdForOrderEntry).and.callFake(() => {
+    asSpy(mockedOccService.getConfigIdForOrderEntry).mockImplementation(() => {
       return of(productConfiguration.configId);
     });
-    asSpy(mockedOccService.updateCartEntry).and.callFake(() => {
+    asSpy(mockedOccService.updateCartEntry).mockImplementation(() => {
       return of(cartResponse);
     });
-    asSpy(mockedOccService.getConfigIdForCartEntry).and.callFake(() => {
+    asSpy(mockedOccService.getConfigIdForCartEntry).mockImplementation(() => {
       return of(productConfiguration.configId);
     });
-    asSpy(mockedOccService.readConfigurationForCartEntry).and.callFake(() => {
-      return of(productConfiguration);
-    });
-    asSpy(mockedOccService.readConfigurationForOrderEntry).and.callFake(() => {
-      return of(productConfiguration);
-    });
+    asSpy(mockedOccService.readConfigurationForCartEntry).mockImplementation(
+      () => {
+        return of(productConfiguration);
+      }
+    );
+    asSpy(mockedOccService.readConfigurationForOrderEntry).mockImplementation(
+      () => {
+        return of(productConfiguration);
+      }
+    );
 
     TestBed.configureTestingModule({
       providers: [

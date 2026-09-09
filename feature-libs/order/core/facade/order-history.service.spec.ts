@@ -7,7 +7,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
-import * as fromProcessReducers from 'core-libs/core/src/process/store/reducers/index';
+import * as fromProcessReducers from '@spartacus/core/process/store/reducers';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { OrderActions } from '../store/actions/index';
 import { ORDER_FEATURE, StateWithOrder } from '../store/order-state';
@@ -56,7 +56,7 @@ describe('OrderHistoryService', () => {
     routingService = TestBed.inject(RoutingService);
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   it('should OrderHistoryService is injected', inject(
@@ -149,7 +149,7 @@ describe('OrderHistoryService', () => {
   });
 
   it('should be able to load order list data when replenishment order code is defined', () => {
-    spyOn(routingService, 'getRouterState').and.returnValue(
+    vi.spyOn(routingService, 'getRouterState').mockReturnValue(
       of({
         state: {
           params: {
@@ -173,7 +173,7 @@ describe('OrderHistoryService', () => {
   });
 
   it('should NOT load order list data when user is anonymous', () => {
-    spyOn(userIdService, 'takeUserId').and.callFake(() => {
+    vi.spyOn(userIdService, 'takeUserId').mockImplementation(() => {
       return throwError(() => 'Error');
     });
 

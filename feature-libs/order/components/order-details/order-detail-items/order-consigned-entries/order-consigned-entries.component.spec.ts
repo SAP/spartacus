@@ -1,5 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { PromotionLocation } from '@spartacus/cart/base/root';
 import {
@@ -89,7 +89,7 @@ describe('OrderConsignedEntriesComponent', () => {
   let fixture: ComponentFixture<OrderConsignedEntriesComponent>;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [CardModule, OutletModule, OrderConsignedEntriesComponent],
       providers: [
@@ -114,7 +114,7 @@ describe('OrderConsignedEntriesComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderConsignedEntriesComponent);

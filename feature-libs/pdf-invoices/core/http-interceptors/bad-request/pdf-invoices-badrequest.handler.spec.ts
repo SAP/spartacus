@@ -5,6 +5,7 @@ import {
   GlobalMessageType,
   HttpResponseStatus,
 } from '@spartacus/core';
+import { vi } from 'vitest';
 import { PDFInvoicesBadRequestHandler } from './pdf-invoices-badrequest.handler';
 
 class MockGlobalMessageService {
@@ -65,7 +66,7 @@ describe('PDFInvoicesDateBadRequestHandler', () => {
   });
 
   it('should handle invalid order id bad request', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     pdfInvoicesBRHandler.handleError(
       MockRequest,
       MockNoOrderIdBadRequestResponse
@@ -80,7 +81,7 @@ describe('PDFInvoicesDateBadRequestHandler', () => {
   });
 
   it('should handle invoice download bad request', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     pdfInvoicesBRHandler.handleError(
       MockRequest,
       MockDownloadPDFBadRequestResponse

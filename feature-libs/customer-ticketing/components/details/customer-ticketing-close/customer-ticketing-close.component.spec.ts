@@ -98,7 +98,7 @@ describe('CustomerTicketingCloseComponent', () => {
   });
 
   it('should trigger open dialog and open close request dialog', () => {
-    spyOn(launchDialogService, 'openDialog');
+    vi.spyOn(launchDialogService, 'openDialog');
     component.openDialog();
 
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(

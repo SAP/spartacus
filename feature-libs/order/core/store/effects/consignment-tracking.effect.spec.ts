@@ -66,7 +66,7 @@ describe('Consignment Tracking effect', () => {
 
   describe('loadConsignmentTracking$', () => {
     it('should load consignment tracking', () => {
-      spyOn(orderHistoryConnector, 'getConsignmentTracking').and.returnValue(
+      vi.spyOn(orderHistoryConnector, 'getConsignmentTracking').mockReturnValue(
         of(mockTracking)
       );
       const action = new OrderActions.LoadConsignmentTracking(
@@ -85,7 +85,7 @@ describe('Consignment Tracking effect', () => {
 
     it('should handle failures for load consignment tracking', () => {
       const error = new Error('error');
-      spyOn(orderHistoryConnector, 'getConsignmentTracking').and.returnValue(
+      vi.spyOn(orderHistoryConnector, 'getConsignmentTracking').mockReturnValue(
         throwError(() => error)
       );
 

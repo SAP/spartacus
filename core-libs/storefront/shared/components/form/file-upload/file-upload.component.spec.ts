@@ -50,7 +50,7 @@ describe('FileUploadComponent', () => {
 
   describe('change file', () => {
     it('should emit event', () => {
-      spyOn(component.update, 'emit');
+      vi.spyOn(component.update, 'emit');
       inputEl.triggerEventHandler('change', mockEvent);
       expect(component.update.emit).toHaveBeenCalledWith([
         mockFile,
@@ -63,7 +63,7 @@ describe('FileUploadComponent', () => {
         stopPropagation: () => {},
         target: { files: [] as unknown as FileList },
       };
-      spyOn(component.update, 'emit');
+      vi.spyOn(component.update, 'emit');
       inputEl.triggerEventHandler('change', emptyFileListEvent);
       expect(component.update.emit).toHaveBeenCalledWith(null);
     });
@@ -74,7 +74,7 @@ describe('FileUploadComponent', () => {
         stopPropagation: () => {},
         target: { files: null },
       };
-      spyOn(component.update, 'emit');
+      vi.spyOn(component.update, 'emit');
       inputEl.triggerEventHandler('change', nullFilesEvent);
       expect(component.update.emit).toHaveBeenCalledWith(null);
     });
@@ -82,8 +82,8 @@ describe('FileUploadComponent', () => {
 
   describe('removeFile', () => {
     it('should clear input value and emit null', () => {
-      spyOn(component.update, 'emit');
-      const onChangeCallbackSpy = jasmine.createSpy('onChangeCallback');
+      vi.spyOn(component.update, 'emit');
+      const onChangeCallbackSpy = vi.fn();
       component.registerOnChange(onChangeCallbackSpy);
 
       component.removeFile();

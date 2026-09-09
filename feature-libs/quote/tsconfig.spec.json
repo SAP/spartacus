@@ -2,12 +2,19 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/spec",
+    "module": "preserve",
     "strict": false,
     "target": "es2020",
-    "module": "preserve",
-    "types": ["jasmine", "node"],
-    "moduleResolution": "bundler"
+    "types": [
+      "vitest/globals",
+      "vitest/importMeta",
+      "vite/client",
+      "node",
+      "vitest"
+    ],
+    "moduleResolution": "bundler",
+    "allowJs": true
   },
-  "files": ["test.ts"],
-  "include": ["**/*.spec.ts", "**/*.d.ts"]
+  "files": ["../../testing/setup-vitest.ts"],
+  "include": ["vitest.config.ts", "**/*.spec.ts", "**/*.d.ts"]
 }

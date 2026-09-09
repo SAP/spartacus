@@ -1,11 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -37,6 +31,7 @@ import { productConfiguration } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorGroupComponent } from '../group';
 import { ConfiguratorFormComponent } from './configurator-form.component';
+import { vi } from 'vitest';
 
 @Component({
   selector: 'cx-configurator-group',
@@ -269,7 +264,7 @@ let hasConfigurationConflictsObservable: Observable<boolean> = EMPTY;
 let keyboardFocusService: KeyboardFocusService;
 
 describe('ConfiguratorFormComponent', () => {
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -311,63 +306,48 @@ describe('ConfiguratorFormComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     configuratorGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
 
-    spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
-    spyOn(
-      configuratorGroupsService,
-      'navigateToConflictSolver'
-    ).and.callThrough();
+    vi.spyOn(configuratorGroupsService, 'setGroupStatusVisited');
+    vi.spyOn(configuratorGroupsService, 'navigateToConflictSolver');
 
-    spyOn(
-      configuratorGroupsService,
-      'navigateToFirstIncompleteGroup'
-    ).and.callThrough();
+    vi.spyOn(configuratorGroupsService, 'navigateToFirstIncompleteGroup');
 
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
-    spyOn(
-      configuratorCommonsService,
-      'isConfigurationLoading'
-    ).and.callThrough();
-    spyOn(
-      configuratorCommonsService,
-      'getOrCreateConfiguration'
-    ).and.callThrough();
-    spyOn(configuratorCommonsService, 'getConfiguration').and.callThrough();
-    spyOn(
-      configuratorCommonsService,
-      'checkConflictSolverDialog'
-    ).and.callThrough();
+    vi.spyOn(configuratorCommonsService, 'isConfigurationLoading');
+    vi.spyOn(configuratorCommonsService, 'getOrCreateConfiguration');
+    vi.spyOn(configuratorCommonsService, 'getConfiguration');
+    vi.spyOn(configuratorCommonsService, 'checkConflictSolverDialog');
 
     globalMessageService = TestBed.inject(
       GlobalMessageService as Type<GlobalMessageService>
     );
-    spyOn(globalMessageService, 'add').and.callThrough();
+    vi.spyOn(globalMessageService, 'add');
 
     isConfigurationLoadingObservable = of(false);
 
     configExpertModeService = TestBed.inject(
       ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
     );
-    spyOn(configExpertModeService, 'setExpModeRequested').and.callThrough();
+    vi.spyOn(configExpertModeService, 'setExpModeRequested');
 
     hasConfigurationConflictsObservable = of(false);
 
     launchDialogService = TestBed.inject(
       LaunchDialogService as Type<LaunchDialogService>
     );
-    spyOn(launchDialogService, 'openDialogAndSubscribe').and.callThrough();
+    vi.spyOn(launchDialogService, 'openDialogAndSubscribe');
     keyboardFocusService = TestBed.inject(
       KeyboardFocusService as Type<KeyboardFocusService>
     );
-    spyOn(keyboardFocusService, 'clear').and.callThrough();
+    vi.spyOn(keyboardFocusService, 'clear');
     configuration = structuredClone(productConfiguration);
   });
 
@@ -535,6 +515,12 @@ describe('ConfiguratorFormComponent', () => {
   });
 
   describe('ngOnInit()', () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
     it('should call getConfiguration in order to prepare conflict check', () => {
       routerStateObservable = mockRouterStateWithQueryParams({});
       createComponentWithData();
@@ -552,7 +538,7 @@ describe('ConfiguratorFormComponent', () => {
       ).toHaveBeenCalledTimes(1);
     });
 
-    it('should launch the restart config dialog with data if requested and when the config is not new', fakeAsync(() => {
+    it('should launch the restart config dialog with data if requested and when the config is not new', async () => {
       routerStateObservable = mockRouterStateWithQueryParams({
         displayRestartDialog: 'true',
       });
@@ -560,25 +546,25 @@ describe('ConfiguratorFormComponent', () => {
       config.interactionState.newConfiguration = false;
       configurationCreateObservable = of(config);
       createComponentWithData();
-      tick(0);
+      await vi.advanceTimersByTimeAsync(0);
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
         LAUNCH_CALLER.CONFIGURATOR_RESTART_DIALOG,
         undefined,
         { owner: config.owner }
       );
-    }));
+    });
 
-    it('should NOT launch the restart config dialog if not requested and not a new config', fakeAsync(() => {
+    it('should NOT launch the restart config dialog if not requested and not a new config', async () => {
       routerStateObservable = mockRouterStateWithQueryParams({});
       const config: Configurator.Configuration = structuredClone(configRead);
       config.interactionState.newConfiguration = false;
       configurationCreateObservable = of(config);
       createComponentWithData();
-      tick(0);
+      await vi.advanceTimersByTimeAsync(0);
       expect(launchDialogService.openDialogAndSubscribe).not.toHaveBeenCalled();
-    }));
+    });
 
-    it('should NOT launch the restart config dialog if requested but a new config', fakeAsync(() => {
+    it('should NOT launch the restart config dialog if requested but a new config', async () => {
       routerStateObservable = mockRouterStateWithQueryParams({
         displayRestartDialog: 'true',
       });
@@ -586,9 +572,9 @@ describe('ConfiguratorFormComponent', () => {
       config.interactionState.newConfiguration = true;
       configurationCreateObservable = of(config);
       createComponentWithData();
-      tick(0);
+      await vi.advanceTimersByTimeAsync(0);
       expect(launchDialogService.openDialogAndSubscribe).not.toHaveBeenCalled();
-    }));
+    });
   });
 
   describe('listenForConflictResolution()', () => {

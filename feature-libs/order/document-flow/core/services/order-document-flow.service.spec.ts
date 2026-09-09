@@ -5,7 +5,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { UserIdService } from '@spartacus/core';
 
 import { OrderDocumentFlowService } from './order-document-flow.service';
@@ -118,38 +118,32 @@ describe('OrderDocumentFlowService', () => {
   });
 
   beforeEach(() => {
-    spyOn(connector, 'getOrderSubsequentDocuments').and.callThrough();
-    spyOn(connector, 'getOrderSubsequentDocumentEntries').and.callThrough();
-    spyOn(userIdService, 'takeUserId').and.callThrough();
+    vi.spyOn(connector, 'getOrderSubsequentDocuments');
+    vi.spyOn(connector, 'getOrderSubsequentDocumentEntries');
+    vi.spyOn(userIdService, 'takeUserId');
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should getOrderSubsequentDocuments call connector', (done) => {
-    service
-      .getOrderSubsequentDocuments(orderCode)
-      .subscribe((result) => {
-        expect(result).toEqual(subsequentDocumentsData);
-        done();
-      })
-      .unsubscribe();
+  it('should getOrderSubsequentDocuments call connector', async () => {
+    const result = await firstValueFrom(
+      service.getOrderSubsequentDocuments(orderCode)
+    );
+    expect(result).toEqual(subsequentDocumentsData);
     expect(connector.getOrderSubsequentDocuments).toHaveBeenCalled();
   });
 
-  it('should getOrderSubsequentDocumentEntries call connector', (done) => {
-    service
-      .getOrderSubsequentDocumentEntries(
+  it('should getOrderSubsequentDocumentEntries call connector', async () => {
+    const result = await firstValueFrom(
+      service.getOrderSubsequentDocumentEntries(
         orderCode,
         documentCategory,
         documentId
       )
-      .subscribe((result) => {
-        expect(result).toEqual(subsequentDocumentEntryData);
-        done();
-      })
-      .unsubscribe();
+    );
+    expect(result).toEqual(subsequentDocumentEntryData);
     expect(connector.getOrderSubsequentDocumentEntries).toHaveBeenCalled();
   });
 });

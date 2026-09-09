@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import {
   I18nTestingModule,
   PaginationModel,
@@ -11,11 +12,10 @@ import {
   QuoteFacade,
   QuoteList,
 } from '@spartacus/quote/root';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, firstValueFrom, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { QuoteListComponentService } from './quote-list-component.service';
-import createSpy = jasmine.createSpy;
 
 const mockCartId = '1234';
 const mockPagination: PaginationModel = {
@@ -55,8 +55,8 @@ class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   getQuotesState(): Observable<QueryState<QuoteList>> {
     return mockQuoteListState$.asObservable();
   }
-  setSort = createSpy();
-  setCurrentPage = createSpy();
+  setSort = vi.fn();
+  setCurrentPage = vi.fn();
 }
 
 class MockTranslationService implements Partial<TranslationService> {
@@ -67,7 +67,7 @@ class MockTranslationService implements Partial<TranslationService> {
 
 describe('QuoteListComponentService', () => {
   let classUnderTest: QuoteListComponentService;
-  let translateSpy: jasmine.Spy;
+  let translateSpy: ReturnType<typeof vi.spyOn>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -87,10 +87,8 @@ describe('QuoteListComponentService', () => {
   });
 
   beforeEach(() => {
-    translateSpy = spyOn(
-      MockTranslationService.prototype,
-      'translate'
-    ).and.callThrough();
+    vi.restoreAllMocks();
+    translateSpy = vi.spyOn(MockTranslationService.prototype, 'translate');
 
     classUnderTest = TestBed.inject(QuoteListComponentService);
   });
@@ -99,7 +97,7 @@ describe('QuoteListComponentService', () => {
     expect(classUnderTest).toBeTruthy();
   });
 
-  it('should get translated sort labels', (done) => {
+  it('should get translated sort labels', async () => {
     //given
     const labels: { [key: string]: string } = {
       byDate: 'sorting.date',
@@ -109,28 +107,24 @@ describe('QuoteListComponentService', () => {
     };
 
     //then
-    classUnderTest.sortLabels$.subscribe((result) => {
-      expect(result).toEqual(labels);
-      expect(translateSpy).toHaveBeenCalledTimes(4);
-      Object.keys(labels).forEach((key, index) => {
-        expect(translateSpy.calls.argsFor(index)).toEqual([labels[key]]);
-      });
-      done();
+    const result = await firstValueFrom(classUnderTest.sortLabels$);
+    expect(result).toEqual(labels);
+    expect(translateSpy).toHaveBeenCalledTimes(4);
+    Object.keys(labels).forEach((key, index) => {
+      expect(translateSpy.mock.calls[index]).toEqual([labels[key]]);
     });
   });
 
   //TODO CHHI : remove after fix in OCC
-  it('should console warning if sorts are received from API', (done) => {
+  it('should console warning if sorts are received from API', async () => {
     //given
     mockQuoteListState$.next(mockListWithSorts);
-    //const warnSpy = spyOn(console, 'warn');
+    //const warnSpy = vi.spyOn(console, 'warn');
 
     //then
-    classUnderTest.quotesState$.pipe(take(1)).subscribe(() => {
-      // expect(warnSpy).toHaveBeenCalledTimes(1);
-      expect(classUnderTest.sortOptions).toEqual(mockSorts);
-    });
-    done();
+    await firstValueFrom(classUnderTest.quotesState$);
+    // expect(warnSpy).toHaveBeenCalledTimes(1);
+    expect(classUnderTest.sortOptions).toEqual(mockSorts);
   });
 
   it('should change sort value when setSort', () => {

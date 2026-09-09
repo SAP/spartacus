@@ -71,7 +71,7 @@
     "dueNowHeader": "Due Now"
   },
   "subscriptionBillsList": {
-    "title": "All Subscriptions Bills",
+    "title": "All Subscription Bills",
     "dateRangeLabel": "Select Date Range",
     "filterFromDateLabel": "From",
     "filterToDateLabel": "To",

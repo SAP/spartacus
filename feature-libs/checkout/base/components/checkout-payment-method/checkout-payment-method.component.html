@@ -85,18 +85,6 @@
 
     <ng-template #newPaymentForm>
       <cx-payment-form
-        *cxFeature="'a11yImproveCheckoutFocus'"
-        [cxFocus]="{ autofocus: true }"
-        (setPaymentDetails)="setPaymentDetails($event)"
-        (closeForm)="hideNewPaymentForm()"
-        (goBack)="back()"
-        [paymentMethodsCount]="cards?.length || 0"
-        [setAsDefaultField]="!isGuestCheckout && !!cards?.length"
-        [loading]="(isUpdating$ | async) ?? false"
-        [paymentDetails]="paymentDetails"
-      />
-      <cx-payment-form
-        *cxFeature="'!a11yImproveCheckoutFocus'"
         (setPaymentDetails)="setPaymentDetails($event)"
         (closeForm)="hideNewPaymentForm()"
         (goBack)="back()"

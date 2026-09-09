@@ -1,4 +1,5 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { vi } from 'vitest';
+import { TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import {
   AuthRedirectService,
@@ -12,23 +13,22 @@ import { FormErrorsModule } from '@spartacus/storefront';
 import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
 import { UpdateEmailComponentService } from './update-email-component.service';
-import createSpy = jasmine.createSpy;
 class MockUserEmailService implements Partial<UserEmailFacade> {
-  update = createSpy().and.returnValue(of({}));
+  update = vi.fn().mockReturnValue(of({}));
 }
 class MockAuthService {
-  coreLogout = createSpy().and.returnValue(Promise.resolve());
+  coreLogout = vi.fn().mockReturnValue(Promise.resolve());
 }
 class MockRoutingService {
-  go = createSpy().and.stub();
-  getUrl = createSpy().and.returnValue('');
+  go = vi.fn().mockImplementation(() => {});
+  getUrl = vi.fn().mockReturnValue('');
 }
 class MockGlobalMessageService {
-  add = createSpy().and.stub();
+  add = vi.fn().mockImplementation(() => {});
 }
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  setRedirectUrl = createSpy('setRedirectUrl');
+  setRedirectUrl = vi.fn();
 }
 
 describe('UpdateEmailComponentService', () => {
@@ -94,16 +94,16 @@ describe('UpdateEmailComponentService', () => {
       service['busy$'].next(true);
       let result;
       service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
-      expect(result).toBeTrue();
-      expect(service.form.disabled).toBeTrue();
+      expect(result).toBe(true);
+      expect(service.form.disabled).toBe(true);
     });
 
     it('should return false', () => {
       service['busy$'].next(false);
       let result;
       service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
-      expect(result).toBeFalse;
-      expect(service.form.disabled).toBeFalse();
+      expect(result).toBe(false);
+      expect(service.form.disabled).toBe(false);
     });
   });
 
@@ -139,7 +139,7 @@ describe('UpdateEmailComponentService', () => {
         expect(authService.coreLogout).toHaveBeenCalled();
       });
 
-      it('should reroute to the login page', waitForAsync(() => {
+      it('should reroute to the login page', async () => {
         service.save();
         authService.coreLogout().then(() => {
           expect(routingService.go).toHaveBeenCalledWith(
@@ -151,15 +151,15 @@ describe('UpdateEmailComponentService', () => {
             }
           );
         });
-      }));
+      });
 
       it('reset form', () => {
-        spyOn(service.form, 'reset').and.callThrough();
+        vi.spyOn(service.form, 'reset');
         service.save();
         expect(service.form.reset).toHaveBeenCalled();
       });
 
-      it('should set the redirect url to the home page before navigating to the login page', waitForAsync(() => {
+      it('should set the redirect url to the home page before navigating to the login page', async () => {
         service.save();
         expect(authRedirectService.setRedirectUrl).toHaveBeenCalledWith(
           routingService.getUrl({ cxRoute: 'home' })
@@ -169,7 +169,7 @@ describe('UpdateEmailComponentService', () => {
             routingService.go
           );
         });
-      }));
+      });
     });
 
     describe('error', () => {

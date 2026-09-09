@@ -10,14 +10,13 @@ import {
 } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { CheckoutLegacyStoreEventListener } from './checkout-legacy-store-event.listener';
-import createSpy = jasmine.createSpy;
 
 const mockEventStream$ = new Subject<CxEvent>();
 const mockUserId = 'testUserId';
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(mockEventStream$.asObservable());
-  dispatch = createSpy();
+  get = vi.fn().mockReturnValue(mockEventStream$.asObservable());
+  dispatch = vi.fn();
 }
 
 describe(`CheckoutLegacyStoreEventListener`, () => {
@@ -38,7 +37,7 @@ describe(`CheckoutLegacyStoreEventListener`, () => {
     TestBed.inject(CheckoutLegacyStoreEventListener);
     store = TestBed.inject(MockStore);
 
-    spyOn(store, 'dispatch').and.stub();
+    vi.spyOn(store, 'dispatch').mockImplementation(() => {});
   });
 
   describe(`onUserAddressAction`, () => {

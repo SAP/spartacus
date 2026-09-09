@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { firstValueFrom } from 'rxjs';
 import { FileReaderService } from './file-reader.service';
 
 const mockCsvString =
@@ -20,11 +21,8 @@ describe('FileReaderService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return extracted CSV string', (done: DoneFn) => {
-    service.loadTextFile(mockFile).subscribe((data) => {
-      expect(data).toEqual(mockCsvString);
-
-      done();
-    });
+  it('should return extracted CSV string', async () => {
+    const data = await firstValueFrom(service.loadTextFile(mockFile));
+    expect(data).toEqual(mockCsvString);
   });
 });

@@ -98,7 +98,7 @@ export class SortingComponent {
 
   protected focusCombobox(): void {
     // Renderer2 does not expose way for focusing elements
-    // eslint-disable-next-line no-restricted-syntax
+
     this.ngSelectComponent()
       .element.querySelector<HTMLElement>('[role="combobox"]')
       ?.focus({ preventScroll: true });

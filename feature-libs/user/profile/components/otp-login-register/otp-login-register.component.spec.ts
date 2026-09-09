@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 /*
  * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
@@ -5,7 +6,7 @@
  */
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -45,8 +46,6 @@ import { RegisterComponentService } from '../register';
 import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-account-constants';
 import { OneTimePasswordRegisterComponent } from './otp-login-register.component';
 
-import createSpy = jasmine.createSpy;
-
 const mockRegisterFormData: any = {
   titleCode: 'Mr',
   firstName: 'John',
@@ -80,15 +79,15 @@ class MockUrlPipe implements PipeTransform {
 class MockSpinnerComponent {}
 
 class MockGlobalMessageService {
-  add = createSpy();
-  remove = createSpy();
+  add = vi.fn();
+  remove = vi.fn();
   get() {
     return EMPTY;
   }
 }
 
 class MockRoutingService {
-  go = createSpy();
+  go = vi.fn();
 }
 
 class MockAnonymousConsentsService {
@@ -115,9 +114,9 @@ const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
 class MockRegisterComponentService
   implements Partial<RegisterComponentService>
 {
-  getTitles = createSpy().and.returnValue(of(mockTitlesList));
-  getAdditionalConsents = createSpy();
-  generateAdditionalConsentsFormControl = createSpy();
+  getTitles = vi.fn().mockReturnValue(of(mockTitlesList));
+  getAdditionalConsents = vi.fn();
+  generateAdditionalConsentsFormControl = vi.fn();
 }
 
 class MockSiteAdapter {
@@ -147,7 +146,7 @@ class MockLanguageService {
 class MockClientAuthenticationTokenService
   implements Partial<ClientAuthenticationTokenService>
 {
-  loadClientAuthenticationToken = createSpy().and.returnValue(of(undefined));
+  loadClientAuthenticationToken = vi.fn().mockReturnValue(of(undefined));
 }
 
 describe('OneTimePasswordRegisterComponent', () => {
@@ -160,7 +159,7 @@ describe('OneTimePasswordRegisterComponent', () => {
   let anonymousConsentService: AnonymousConsentsService;
   let registrationVerificationTokenFacade: VerificationTokenFacade;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -222,7 +221,7 @@ describe('OneTimePasswordRegisterComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OneTimePasswordRegisterComponent);
@@ -269,7 +268,7 @@ describe('OneTimePasswordRegisterComponent', () => {
     });
 
     it('should handle error when title code is required from the backend config', () => {
-      spyOn(globalMessageService, 'get').and.returnValue(
+      vi.spyOn(globalMessageService, 'get').mockReturnValue(
         of({
           [GlobalMessageType.MSG_TYPE_ERROR]: [
             { raw: 'This field is required.' },
@@ -292,10 +291,10 @@ describe('OneTimePasswordRegisterComponent', () => {
 
   describe('sendRegistrationVerificationToken', () => {
     it('should create registration verification token with valid form', () => {
-      spyOn(
+      vi.spyOn(
         registrationVerificationTokenFacade,
         'createVerificationToken'
-      ).and.returnValue(
+      ).mockReturnValue(
         of({
           expiresIn: '300',
           tokenId: 'mockTokenId',
@@ -313,10 +312,10 @@ describe('OneTimePasswordRegisterComponent', () => {
     });
 
     it('should not create registration verification token with invalid form', () => {
-      spyOn(
+      vi.spyOn(
         registrationVerificationTokenFacade,
         'createVerificationToken'
-      ).and.returnValue(
+      ).mockReturnValue(
         of({
           expiresIn: '300',
           tokenId: 'mockTokenId',
@@ -342,10 +341,10 @@ describe('OneTimePasswordRegisterComponent', () => {
         url: 'https://localhost:9002/occ/v2/electronics-spa/users/anonymous/verificationToken?lang=en&curr=USD',
       });
       component.ngOnInit();
-      spyOn(
+      vi.spyOn(
         registrationVerificationTokenFacade,
         'createVerificationToken'
-      ).and.returnValue(throwError(() => httpErrorResponse));
+      ).mockReturnValue(throwError(() => httpErrorResponse));
       component.sendRegistrationVerificationToken();
 
       expect(mockRoutingService.go).toHaveBeenCalled();
@@ -355,7 +354,9 @@ describe('OneTimePasswordRegisterComponent', () => {
   const toggleAnonymousConsentMethod = 'toggleAnonymousConsent';
   describe(`${toggleAnonymousConsentMethod}`, () => {
     it('should call anonymousConsentsService.giveConsent when the consent is given', () => {
-      spyOn(anonymousConsentService, 'giveConsent').and.stub();
+      vi.spyOn(anonymousConsentService, 'giveConsent').mockImplementation(
+        () => {}
+      );
       component.ngOnInit();
 
       controls['newsletter'].setValue(true);
@@ -363,7 +364,9 @@ describe('OneTimePasswordRegisterComponent', () => {
       expect(anonymousConsentService.giveConsent).toHaveBeenCalled();
     });
     it('should call anonymousConsentsService.withdrawConsent when the consent is NOT given', () => {
-      spyOn(anonymousConsentService, 'withdrawConsent').and.stub();
+      vi.spyOn(anonymousConsentService, 'withdrawConsent').mockImplementation(
+        () => {}
+      );
       component.ngOnInit();
 
       controls['newsletter'].setValue(false);
@@ -374,7 +377,9 @@ describe('OneTimePasswordRegisterComponent', () => {
 
   describe('isConsentGiven', () => {
     it('should call anonymousConsentsService.isConsentGiven', () => {
-      spyOn(anonymousConsentService, 'isConsentGiven').and.stub();
+      vi.spyOn(anonymousConsentService, 'isConsentGiven').mockImplementation(
+        () => {}
+      );
       const mockConsent: AnonymousConsent = {
         consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
       };
@@ -392,7 +397,7 @@ describe('OneTimePasswordRegisterComponent', () => {
     });
 
     it('should disable input when register consent is required', () => {
-      spyOn<any>(component, isConsentRequiredMethod).and.returnValue(true);
+      vi.spyOn<any>(component, isConsentRequiredMethod).mockReturnValue(true);
       fixture.detectChanges();
       expect(controls['newsletter'].status).toEqual('DISABLED');
     });
@@ -402,7 +407,7 @@ describe('OneTimePasswordRegisterComponent', () => {
     let captchaComponent;
     beforeEach(() => {
       captchaComponent = fixture.debugElement.query(By.css('cx-captcha'));
-      spyOn(component, 'sendRegistrationVerificationToken').and.callThrough();
+      vi.spyOn(component, 'sendRegistrationVerificationToken');
       mockRegisterFormData.captcha = false;
       component.registerForm.patchValue(mockRegisterFormData);
     });
@@ -428,7 +433,7 @@ describe('OneTimePasswordRegisterComponent', () => {
     });
 
     it('should confirm captcha', () => {
-      spyOn(component, 'captchaConfirmed').and.callThrough();
+      vi.spyOn(component, 'captchaConfirmed');
 
       captchaComponent.triggerEventHandler('enabled', true);
       captchaComponent.triggerEventHandler('confirmed', true);

@@ -17,15 +17,11 @@ const OUTLET_NAME_4 = 'OUTLET.4';
 
 @Component({
   template: `
-    <ng-template cxOutletRef="${OUTLET_NAME_1}"> </ng-template>
-    <ng-template cxOutletRef="${OUTLET_NAME_2}" cxOutletPos="before">
-    </ng-template>
-    <ng-template cxOutletRef="${OUTLET_NAME_3}" cxOutletPos="after">
-    </ng-template>
-    <ng-template cxOutletRef="${OUTLET_NAME_4}" cxOutletPos="before">
-    </ng-template>
-    <ng-template cxOutletRef="${OUTLET_NAME_4}" cxOutletPos="before">
-    </ng-template>
+    <ng-template cxOutletRef="${OUTLET_NAME_1}" />
+    <ng-template cxOutletRef="${OUTLET_NAME_2}" cxOutletPos="before" />
+    <ng-template cxOutletRef="${OUTLET_NAME_3}" cxOutletPos="after" />
+    <ng-template cxOutletRef="${OUTLET_NAME_4}" cxOutletPos="before" />
+    <ng-template cxOutletRef="${OUTLET_NAME_4}" cxOutletPos="before" />
   `,
   imports: [OutletRefDirective],
 })

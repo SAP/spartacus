@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import {
   BreadcrumbMeta,
@@ -29,7 +30,7 @@ const accountSummariesBreadcrumb = {
 };
 
 class MockSemanticPathService implements Partial<SemanticPathService> {
-  get = jasmine.createSpy('get').and.returnValue(testOrganizationUrl);
+  get = vi.fn().mockReturnValue(testOrganizationUrl);
 }
 
 const testHomeBreadcrumb: BreadcrumbMeta = { label: 'Test Home', link: '/' };
@@ -86,7 +87,7 @@ describe('AccountSummaryPageMetaResolver', () => {
   describe('resolveBreadcrumbs', () => {
     describe('when on the Account Summary units list page', () => {
       beforeEach(() => {
-        spyOn(routingService, 'getRouterState').and.returnValue(
+        vi.spyOn(routingService, 'getRouterState').mockReturnValue(
           of({ state: { semanticRoute: 'orgAccountSummary' } } as any)
         );
       });
@@ -103,11 +104,11 @@ describe('AccountSummaryPageMetaResolver', () => {
       };
 
       beforeEach(() => {
-        spyOn(routingService, 'getRouterState').and.returnValue(
+        vi.spyOn(routingService, 'getRouterState').mockReturnValue(
           of({ state: { semanticRoute: 'orgAccountSummaryDetails' } } as any)
         );
 
-        spyOn(contentPageMetaResolver, 'resolveBreadcrumbs').and.returnValue(
+        vi.spyOn(contentPageMetaResolver, 'resolveBreadcrumbs').mockReturnValue(
           of([testHomeBreadcrumb, accountSummaryDetailsBreadcrumb])
         );
       });

@@ -24,7 +24,7 @@ import {
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,
-} from 'core-libs/core/src/occ/adapters/user/unit-test.helper';
+} from '@spartacus/core/occ/testing';
 import { OccReplenishmentOrderHistoryAdapter } from './occ-replenishment-order-history.adapter';
 
 const mockUserId = 'test-user';
@@ -78,8 +78,8 @@ describe('OccReplenishmentOrderHistoryAdapter', () => {
     converter = TestBed.inject(ConverterService);
     occEndpointService = TestBed.inject(OccEndpointsService);
 
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(occEndpointService, 'buildUrl').and.callThrough();
+    vi.spyOn(converter, 'pipeable');
+    vi.spyOn(occEndpointService, 'buildUrl');
   });
 
   afterEach(() => {

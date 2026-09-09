@@ -65,7 +65,7 @@ describe('Order By Id effect', () => {
 
   describe('loadOrderById$', () => {
     it('should load order by id', () => {
-      spyOn(orderHistoryConnector, 'get').and.returnValue(of(mockOrder));
+      vi.spyOn(orderHistoryConnector, 'get').mockReturnValue(of(mockOrder));
       const action = new OrderActions.LoadOrderById(mockOrderParams);
 
       const completion = new OrderActions.LoadOrderByIdSuccess(mockOrder);
@@ -77,7 +77,7 @@ describe('Order By Id effect', () => {
 
     it('should handle failures for load order by id', () => {
       const error = new Error('error');
-      spyOn(orderHistoryConnector, 'get').and.returnValue(
+      vi.spyOn(orderHistoryConnector, 'get').mockReturnValue(
         throwError(() => error)
       );
 

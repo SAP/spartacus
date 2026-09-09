@@ -182,4 +182,39 @@
       }
     }
   }
+
+  @include forFeature('cartValidationDisplayBackendMessages') {
+    tr.cx-validation-highlight {
+      background-color: var(--cx-color-danger-accent);
+
+      // `border-collapse: collapse` on the table means a left border set on the
+      // `<tr>` is ignored, so we put the 3px marker on the row's first cell.
+      // Uses colour + a border (not colour alone) for a11y, and keeps the row
+      // marked in high-contrast themes where the accent background matches the
+      // page background and is therefore invisible.
+      > td:first-child {
+        border-inline-start: 3px solid var(--cx-color-danger);
+      }
+
+      // On mobile the table rows/cells become flex blocks (see the agnostic
+      // table breakpoint), so the border moves onto the full-width row.
+      @include media-breakpoint-down(md) {
+        border-inline-start: 3px solid var(--cx-color-danger);
+
+        > td:first-child {
+          border-inline-start: none;
+        }
+      }
+    }
+
+    .cx-qty-hint {
+      flex-basis: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
+      @include type('8');
+      color: var(--cx-color-danger);
+    }
+  }
 }

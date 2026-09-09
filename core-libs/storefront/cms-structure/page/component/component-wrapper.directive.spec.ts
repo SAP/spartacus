@@ -10,7 +10,6 @@ import {
   ComponentFixture,
   TestBed,
   TestModuleMetadata,
-  waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -144,13 +143,13 @@ describe('ComponentWrapperDirective', () => {
   describe('in SSR', () => {
     let cmsConfig: CmsConfig;
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(async () => {
       testBedConfig.providers.push({
         provide: PLATFORM_ID,
         useValue: 'server',
       });
       TestBed.configureTestingModule(testBedConfig).compileComponents();
-    }));
+    });
 
     describe('with angular component', () => {
       beforeEach(() => {
@@ -179,9 +178,9 @@ describe('ComponentWrapperDirective', () => {
   });
 
   describe('in non-SSR', () => {
-    beforeEach(waitForAsync(() => {
+    beforeEach(async () => {
       TestBed.configureTestingModule(testBedConfig).compileComponents();
-    }));
+    });
 
     describe('with angular component', () => {
       beforeEach(() => {
@@ -204,7 +203,7 @@ describe('ComponentWrapperDirective', () => {
 
       describe('events', () => {
         it('should dispatch ComponentCreateEvent on creation', () => {
-          spyOn(eventService, 'dispatch').and.callThrough();
+          vi.spyOn(eventService, 'dispatch');
           fixture.detectChanges();
 
           const el = fixture.debugElement;
@@ -221,7 +220,7 @@ describe('ComponentWrapperDirective', () => {
         });
 
         it('should dispatch ComponentDestroyEvent on creation', () => {
-          spyOn(eventService, 'dispatch').and.callThrough();
+          vi.spyOn(eventService, 'dispatch');
           fixture.detectChanges();
           fixture.destroy();
           expect(eventService.dispatch).toHaveBeenCalledWith(
@@ -235,10 +234,7 @@ describe('ComponentWrapperDirective', () => {
       });
 
       it('should add SmartEdit contract if app launch in SmartEdit', () => {
-        spyOn(
-          dynamicAttributeService,
-          'addAttributesToComponent'
-        ).and.callThrough();
+        vi.spyOn(dynamicAttributeService, 'addAttributesToComponent');
 
         fixture.detectChanges();
         const el = fixture.debugElement;
@@ -263,9 +259,7 @@ describe('ComponentWrapperDirective', () => {
           fixture.debugElement.children[0].componentInstance
         );
         expect(testComponentInstance.cmsData.uid).toContain('test_uid');
-        expect((testComponentInstance as any).testKey).not.toContain(
-          'testValue'
-        );
+        expect((testComponentInstance as any).testKey).not.toBe('testValue');
       });
 
       it('should provide configurable cms component providers', () => {
@@ -274,13 +268,11 @@ describe('ComponentWrapperDirective', () => {
           fixture.debugElement.children[0].componentInstance
         );
         expect(testComponentInstance.testService).toEqual('testValue');
-        expect((testComponentInstance as any).testKey).not.toContain(
-          'testValue'
-        );
+        expect((testComponentInstance as any).testKey).not.toBe('testValue');
       });
 
       it('should emit component ref', () => {
-        spyOn(component, 'testComponentRef').and.callThrough();
+        vi.spyOn(component, 'testComponentRef');
 
         fixture.detectChanges();
 
@@ -304,34 +296,30 @@ describe('ComponentWrapperDirective', () => {
         expect(scriptEl.src).toContain('path/to/file.js');
       });
 
-      it('should instantiate web component', (done) => {
+      it('should instantiate web component', async () => {
         scriptEl.onload(); // invoke load callbacks
 
         // run in next runloop (to process async tasks)
-        setTimeout(() => {
-          const cmsComponentElement =
-            fixture.debugElement.nativeElement.querySelector('cms-component');
-          expect(cmsComponentElement).toBeTruthy();
-          const componentData = cmsComponentElement.cxApi.cmsComponentData;
-          expect(componentData.uid).toEqual('test_uid');
-          done();
-        });
+        await new Promise((resolve) => setTimeout(resolve));
+        const cmsComponentElement =
+          fixture.debugElement.nativeElement.querySelector('cms-component');
+        expect(cmsComponentElement).toBeTruthy();
+        const componentData = cmsComponentElement.cxApi.cmsComponentData;
+        expect(componentData.uid).toEqual('test_uid');
       });
 
-      it('should pass cxApi to web component', (done) => {
+      it('should pass cxApi to web component', async () => {
         scriptEl.onload(); // invoke load callbacks
 
         // run in next runloop (to process async tasks)
-        setTimeout(() => {
-          const cmsComponentElement =
-            fixture.debugElement.nativeElement.querySelector('cms-component');
-          const cxApi = cmsComponentElement.cxApi as CxApiService;
-          expect(cxApi.cms).toBeTruthy();
-          expect(cxApi.auth).toBeTruthy();
-          expect(cxApi.routing).toBeTruthy();
-          expect(cxApi.cmsComponentData).toBeTruthy();
-          done();
-        });
+        await new Promise((resolve) => setTimeout(resolve));
+        const cmsComponentElement =
+          fixture.debugElement.nativeElement.querySelector('cms-component');
+        const cxApi = cmsComponentElement.cxApi as CxApiService;
+        expect(cxApi.cms).toBeTruthy();
+        expect(cxApi.auth).toBeTruthy();
+        expect(cxApi.routing).toBeTruthy();
+        expect(cxApi.cmsComponentData).toBeTruthy();
       });
     });
   });

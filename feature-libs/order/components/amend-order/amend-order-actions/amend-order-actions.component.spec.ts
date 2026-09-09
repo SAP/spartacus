@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
@@ -24,7 +24,7 @@ class MockRoutingConfigService {
 }
 
 class MockRoutingService {
-  go = jasmine.createSpy('go');
+  go = vi.fn();
 }
 
 describe('AmendOrderActionsComponent', () => {
@@ -32,7 +32,7 @@ describe('AmendOrderActionsComponent', () => {
   let fixture: ComponentFixture<AmendOrderActionsComponent>;
   let routingService: RoutingService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
@@ -58,7 +58,7 @@ describe('AmendOrderActionsComponent', () => {
       .compileComponents();
 
     routingService = TestBed.inject(RoutingService);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AmendOrderActionsComponent);

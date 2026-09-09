@@ -4,7 +4,7 @@ import {
   Directive,
   Input,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -17,9 +17,8 @@ import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
-import { getConfiguratorReducers } from '../../../../core/state/reducers';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import {
   ConfiguratorPriceComponent,
@@ -85,6 +84,13 @@ class MockConfiguratorPriceComponent {
 @Directive({ selector: '[cxFocus]' })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
+}
+
+class MockConfiguratorCommonsService {
+  isConfigurationLoading(): Observable<boolean> {
+    return of(false);
+  }
+  updateConfiguration(): void {}
 }
 
 let showRequiredErrorMessage: boolean;
@@ -212,11 +218,10 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       values,
     };
 
-    fixture.detectChanges();
     return component;
   }
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -224,12 +229,15 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
         I18nTestingModule,
         UrlTestingModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
         ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
         ConfiguratorShowMoreComponent,
       ],
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
         {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
@@ -275,7 +283,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
         }
       )
       .compileComponents();
-  }));
+  });
 
   afterEach(() => {
     fixture?.destroy();
@@ -284,6 +292,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
 
   it('should create', () => {
     createComponentWithData();
+    fixture.detectChanges();
     expect(component).toBeTruthy();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -294,6 +303,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
 
   it('should render an empty component in case showRequiredErrorMessage$ is `false`', () => {
     createComponentWithData(false).ngOnInit();
+    fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
@@ -308,7 +318,10 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
 
   it('should show product card when product selected', () => {
     createComponentWithData();
-    component.selectionValue = values[1];
+    // values[0] is retract and selected=true; values[1] is non-retract and selected=true
+    // Make values[0] unselected so ngOnInit picks values[1] as the selection
+    values[0].selected = false;
+    component.attribute = { ...component.attribute, values };
     fixture.detectChanges();
 
     const card = htmlElem.querySelector(
@@ -363,6 +376,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
 
     describe('Accessibility', () => {
       it("should contain label element with class name 'cx-visually-hidden' that hides label content on the UI", () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -377,6 +391,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       });
 
       it("should contain select element with class name 'form-control' and 'aria-describedby' attribute that indicates the ID of the element that describe the elements", () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -389,6 +404,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       });
 
       it("should contain option elements with 'aria-label' attribute for value without price that defines an accessible name to label the current element", () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -422,8 +438,8 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     });
 
     it('should return `true` in case value is not `###RETRACT_VALUE_CODE###`', () => {
-      component.selectionValue = values[1];
       fixture.detectChanges();
+      component.selectionValue = values[1];
       expect(component.isNotRetractValue()).toBe(true);
     });
   });

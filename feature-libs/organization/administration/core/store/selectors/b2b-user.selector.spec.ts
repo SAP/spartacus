@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { B2BUser, StateUtils } from '@spartacus/core';
@@ -51,7 +52,7 @@ describe('B2BUser Selectors', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   describe('getB2BUserManagementState ', () => {

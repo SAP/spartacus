@@ -39,7 +39,7 @@ describe('RoutingRenderStrategy', () => {
     service = TestBed.inject(RoutingRenderStrategy);
     routingService = TestBed.inject(RoutingService);
 
-    spyOn(routingService, 'go');
+    vi.spyOn(routingService, 'go');
   });
 
   it('should be created', () => {

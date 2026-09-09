@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
 import { TranslatePipe, UrlPipe } from '@spartacus/core';
@@ -126,7 +126,7 @@ class MockActivatedRoute {
 }
 
 describe('ConfigOverviewNotificationBannerComponent', () => {
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [RouterModule, ConfiguratorOverviewNotificationBannerComponent],
       providers: [
@@ -150,7 +150,7 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   it('should create', () => {
     configurationObs = of(productConfiguration);

@@ -5,7 +5,6 @@ import { Order, OrderHistoryFacade } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../../order-details/order-details.service';
 import { OrderCancellationService } from './order-cancellation.service';
-import createSpy = jasmine.createSpy;
 
 const mockOrder: Order = {
   code: '123',
@@ -29,17 +28,17 @@ class MockOrderDetailsService {
 }
 
 class MockUserOrderService {
-  cancelOrder = createSpy();
+  cancelOrder = vi.fn();
   getCancelOrderSuccess() {
     return of(true);
   }
   resetCancelOrderProcessState() {}
 }
 class MockRoutingService {
-  go = createSpy();
+  go = vi.fn();
 }
 class MockGlobalMessageService {
-  add = createSpy();
+  add = vi.fn();
 }
 
 describe('OrderCancellationService', () => {

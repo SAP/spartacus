@@ -8,7 +8,7 @@ import {
   PipeTransform,
   SimpleChange,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -101,7 +101,7 @@ describe('ProductGridItemComponent in product-list', () => {
     },
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
@@ -149,7 +149,7 @@ describe('ProductGridItemComponent in product-list', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductGridItemComponent);
@@ -159,14 +159,15 @@ describe('ProductGridItemComponent in product-list', () => {
     component.product = mockProduct;
 
     component.ngOnChanges();
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should display product name', () => {
+    fixture.detectChanges();
     expect(
       fixture.debugElement.nativeElement.querySelector('.cx-product-name')
         .textContent
@@ -174,6 +175,7 @@ describe('ProductGridItemComponent in product-list', () => {
   });
 
   it('should display product formatted price', () => {
+    fixture.detectChanges();
     expect(
       fixture.debugElement.nativeElement.querySelector('.cx-product-price')
         .textContent
@@ -181,6 +183,7 @@ describe('ProductGridItemComponent in product-list', () => {
   });
 
   it('should display product image', () => {
+    fixture.detectChanges();
     expect(
       fixture.debugElement.nativeElement.querySelector('cx-media')
     ).not.toBeNull();
@@ -232,6 +235,7 @@ describe('ProductGridItemComponent in product-list', () => {
   });
 
   it('should display raiting component', () => {
+    fixture.detectChanges();
     expect(
       fixture.debugElement.nativeElement.querySelector('cx-star-rating')
     ).not.toBeNull();
@@ -255,10 +259,12 @@ describe('ProductGridItemComponent in product-list', () => {
   });
 
   it('should provide ProductListItemContextSource', () => {
+    fixture.detectChanges();
     expect(componentInjector.get(ProductListItemContextSource)).toBeTruthy();
   });
 
   it('should provide ProductListItemContext', () => {
+    fixture.detectChanges();
     expect(componentInjector.get(ProductListItemContext)).toBe(
       componentInjector.get(ProductListItemContextSource)
     );
@@ -268,7 +274,7 @@ describe('ProductGridItemComponent in product-list', () => {
     const contextSource: ProductListItemContextSource = componentInjector.get(
       ProductListItemContextSource
     );
-    spyOn(contextSource.product$, 'next');
+    vi.spyOn(contextSource.product$, 'next');
     component.product = mockProduct;
     component.ngOnChanges({
       product: { currentValue: component.product } as SimpleChange,

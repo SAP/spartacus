@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { PointOfService, PointOfServiceStock, Stock } from '@spartacus/core';
@@ -91,7 +92,7 @@ describe('PickupLocationsSearchService', () => {
 
     service = TestBed.inject(PickupLocationsSearchService);
     store = TestBed.inject(MockStore);
-    spyOn(store, 'dispatch');
+    vi.spyOn(store, 'dispatch');
   });
 
   it('should be created', () => {
@@ -116,13 +117,13 @@ describe('PickupLocationsSearchService', () => {
   });
 
   it('getStockLoading', () => {
-    spyOn(store, 'pipe');
+    vi.spyOn(store, 'pipe');
     service.isSearchRunning();
     expect(store.pipe).toHaveBeenCalled();
   });
 
   it('getHideOutOfStockState', () => {
-    spyOn(store, 'pipe');
+    vi.spyOn(store, 'pipe');
     service.getHideOutOfStock();
     expect(store.pipe).toHaveBeenCalled();
   });
@@ -135,13 +136,13 @@ describe('PickupLocationsSearchService', () => {
   });
 
   it('hasSearchBeenStartedForProductCode', () => {
-    spyOn(store, 'pipe');
+    vi.spyOn(store, 'pipe');
     service.hasSearchStarted('productCode');
     expect(store.pipe).toHaveBeenCalled();
   });
 
   it('getStoresWithStockForProductCode', () => {
-    spyOn(store, 'pipe');
+    vi.spyOn(store, 'pipe');
     service.getSearchResults('productCode');
     expect(store.pipe).toHaveBeenCalled();
   });
@@ -159,7 +160,7 @@ describe('PickupLocationsSearchService', () => {
   });
 
   it('getStoreDetails', () => {
-    spyOn(store, 'pipe');
+    vi.spyOn(store, 'pipe');
     service.getStoreDetails('name');
     expect(store.pipe).toHaveBeenCalled();
   });
@@ -183,7 +184,7 @@ describe('PickupLocationsSearchService', () => {
   });
 
   it('getStockLevelAtStore', () => {
-    spyOn(store, 'pipe');
+    vi.spyOn(store, 'pipe');
     service.getStockLevelAtStore('productCode', 'name');
     expect(store.pipe).toHaveBeenCalled();
   });

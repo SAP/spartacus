@@ -64,7 +64,9 @@ describe('JsonLdProductReviewBuilder', () => {
 
   describe('@AggregateRating', () => {
     it('should contain a schema with aggregateRating.ratingCount = 1', () => {
-      spyOn(reviewService, 'getByProductCode').and.returnValue(of([review1]));
+      vi.spyOn(reviewService, 'getByProductCode').mockReturnValue(
+        of([review1])
+      );
       service
         .build(simpleProductMock)
         .subscribe((schema) => {
@@ -74,7 +76,7 @@ describe('JsonLdProductReviewBuilder', () => {
     });
 
     it('should contain a schema with aggregateRating.ratingCount = 3', () => {
-      spyOn(reviewService, 'getByProductCode').and.returnValue(
+      vi.spyOn(reviewService, 'getByProductCode').mockReturnValue(
         of([review1, review2, review3])
       );
       service
@@ -86,7 +88,7 @@ describe('JsonLdProductReviewBuilder', () => {
     });
 
     it('should contain a schema with aggregateRating.reviewCount = 2 out of 3', () => {
-      spyOn(reviewService, 'getByProductCode').and.returnValue(
+      vi.spyOn(reviewService, 'getByProductCode').mockReturnValue(
         of([review1, review2, review3])
       );
       service
@@ -100,7 +102,7 @@ describe('JsonLdProductReviewBuilder', () => {
 
   describe('ReviewDetails', () => {
     it('should have a schema with 2 reviews', () => {
-      spyOn(reviewService, 'getByProductCode').and.returnValue(
+      vi.spyOn(reviewService, 'getByProductCode').mockReturnValue(
         of([review1, review2])
       );
       service
@@ -111,7 +113,7 @@ describe('JsonLdProductReviewBuilder', () => {
         .unsubscribe();
     });
     it('should have a schema with 3 reviews', () => {
-      spyOn(reviewService, 'getByProductCode').and.returnValue(
+      vi.spyOn(reviewService, 'getByProductCode').mockReturnValue(
         of([review1, review2, review3])
       );
       service
@@ -123,7 +125,9 @@ describe('JsonLdProductReviewBuilder', () => {
     });
 
     it('should have reviewRating', () => {
-      spyOn(reviewService, 'getByProductCode').and.returnValue(of([review1]));
+      vi.spyOn(reviewService, 'getByProductCode').mockReturnValue(
+        of([review1])
+      );
       service
         .build(simpleProductMock)
         .subscribe((schema) => {
@@ -133,7 +137,9 @@ describe('JsonLdProductReviewBuilder', () => {
     });
 
     it('should not have an author', () => {
-      spyOn(reviewService, 'getByProductCode').and.returnValue(of([review1]));
+      vi.spyOn(reviewService, 'getByProductCode').mockReturnValue(
+        of([review1])
+      );
       service
         .build(simpleProductMock)
         .subscribe((schema) => {
@@ -143,7 +149,9 @@ describe('JsonLdProductReviewBuilder', () => {
     });
 
     it('should have an author', () => {
-      spyOn(reviewService, 'getByProductCode').and.returnValue(of([review2]));
+      vi.spyOn(reviewService, 'getByProductCode').mockReturnValue(
+        of([review2])
+      );
       service
         .build(simpleProductMock)
         .subscribe((schema) => {
@@ -153,7 +161,9 @@ describe('JsonLdProductReviewBuilder', () => {
     });
 
     it('should have an publication date', () => {
-      spyOn(reviewService, 'getByProductCode').and.returnValue(of([review1]));
+      vi.spyOn(reviewService, 'getByProductCode').mockReturnValue(
+        of([review1])
+      );
       service
         .build(simpleProductMock)
         .subscribe((schema) => {

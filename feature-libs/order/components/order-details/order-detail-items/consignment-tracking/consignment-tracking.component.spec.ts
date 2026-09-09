@@ -64,11 +64,11 @@ describe('ConsignmentTrackingComponent', () => {
     return equals;
   };
 
-  const userOrderService = jasmine.createSpyObj('UserOrderService', [
-    'loadConsignmentTracking',
-    'getConsignmentTracking',
-    'clearConsignmentTracking',
-  ]);
+  const userOrderService = {
+    loadConsignmentTracking: vi.fn(),
+    getConsignmentTracking: vi.fn(),
+    clearConsignmentTracking: vi.fn(),
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -88,10 +88,10 @@ describe('ConsignmentTrackingComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConsignmentTrackingComponent);
     launchDialogService = TestBed.inject(LaunchDialogService);
-    userOrderService.getConsignmentTracking.and.returnValue(
+    userOrderService.getConsignmentTracking.mockReturnValue(
       of({ trackingID: '1234567890' })
     );
-    userOrderService.loadConsignmentTracking.and.callFake(
+    userOrderService.loadConsignmentTracking.mockImplementation(
       (_orderCode: string, _consignmentCode: string) => {}
     );
     el = fixture.debugElement;
@@ -99,10 +99,10 @@ describe('ConsignmentTrackingComponent', () => {
     component.consignment = mockConsignment;
     component.orderCode = 'test_order_id';
 
-    userOrderService.getConsignmentTracking.and.returnValue(
+    userOrderService.getConsignmentTracking.mockReturnValue(
       of(mockConsignment)
     );
-    userOrderService.clearConsignmentTracking.and.callFake(() => {});
+    userOrderService.clearConsignmentTracking.mockImplementation(() => {});
   });
 
   it('should create', () => {
@@ -154,7 +154,7 @@ describe('ConsignmentTrackingComponent', () => {
   });
 
   it('should be able to open dialog', () => {
-    spyOn(launchDialogService, 'openDialog').and.stub();
+    vi.spyOn(launchDialogService, 'openDialog').mockImplementation(() => {});
     mockConsignment.status = consignmentStatus[0];
     fixture.detectChanges();
 

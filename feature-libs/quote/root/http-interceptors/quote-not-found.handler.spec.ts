@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import {
@@ -68,7 +69,7 @@ describe('QuoteBadRequestHandler', () => {
     });
     classUnderTest = TestBed.inject(QuoteNotFoundHandler);
     routingService = TestBed.inject(RoutingService);
-    spyOn(routingService, 'go');
+    vi.spyOn(routingService, 'go');
   });
 
   it('should be created', () => {

@@ -1,6 +1,6 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ORDER_TYPE, ScheduleReplenishmentForm } from '@spartacus/order/root';
-import { take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 import { CheckoutReplenishmentFormService } from './checkout-replenishment-form.service';
 
 const newReplenishmentFormData: ScheduleReplenishmentForm = {
@@ -11,11 +11,11 @@ const newReplenishmentFormData: ScheduleReplenishmentForm = {
 describe('Checkout Replenishment Form Service', () => {
   let service: CheckoutReplenishmentFormService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [CheckoutReplenishmentFormService],
     });
-  }));
+  });
 
   beforeEach(() => {
     service = TestBed.inject(CheckoutReplenishmentFormService);
@@ -69,15 +69,10 @@ describe('Checkout Replenishment Form Service', () => {
     expect(result).toEqual(service.defaultFormData);
   });
 
-  it(`should set an order type return an order type`, (done) => {
+  it(`should set an order type return an order type`, async () => {
     service.setOrderType(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
 
-    service
-      .getOrderType()
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
-        done();
-      });
+    const result = await firstValueFrom(service.getOrderType());
+    expect(result).toEqual(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
   });
 });

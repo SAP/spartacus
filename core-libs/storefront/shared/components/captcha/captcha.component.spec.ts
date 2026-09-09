@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CaptchaConfig } from '@spartacus/core';
 import { CaptchaComponent, CaptchaRenderer } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -32,7 +32,7 @@ describe('Captcha Component', () => {
   let fixture: ComponentFixture<CaptchaComponent>;
   let service: CaptchaRenderer;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [CaptchaComponent],
       providers: [
@@ -40,7 +40,7 @@ describe('Captcha Component', () => {
         MockCaptchaService,
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CaptchaComponent);
@@ -53,8 +53,8 @@ describe('Captcha Component', () => {
   });
 
   it('should init correctly', () => {
-    spyOn(service, 'getCaptchaConfig').and.callThrough();
-    spyOn(service, 'renderCaptcha').and.callThrough();
+    vi.spyOn(service, 'getCaptchaConfig');
+    vi.spyOn(service, 'renderCaptcha');
 
     fixture.detectChanges();
 

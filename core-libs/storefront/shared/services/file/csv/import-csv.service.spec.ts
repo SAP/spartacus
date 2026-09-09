@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { FileReaderService } from '../file-reader.service';
 import { ImportCsvFileService } from './import-csv-file.service';
 
@@ -46,13 +46,11 @@ describe('ImportCsvFileService', () => {
     expect(service['parse']).toBeDefined();
   });
 
-  it('should return extracted CSV string', (done: DoneFn) => {
-    spyOn(fileReaderService, 'loadTextFile').and.callThrough();
+  it('should return extracted CSV string', async () => {
+    vi.spyOn(fileReaderService, 'loadTextFile');
 
-    service.loadFile(mockFile, separator).subscribe(() => {
-      expect(fileReaderService.loadTextFile).toHaveBeenCalledWith(mockFile);
-      done();
-    });
+    await firstValueFrom(service.loadFile(mockFile, separator));
+    expect(fileReaderService.loadTextFile).toHaveBeenCalledWith(mockFile);
   });
 
   it('should parse csv data', () => {

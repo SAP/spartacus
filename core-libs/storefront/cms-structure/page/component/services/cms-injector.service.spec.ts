@@ -1,18 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import { CmsService } from '@spartacus/core';
 import { CmsComponentData, LCP_PRESENCE } from '@spartacus/storefront';
-import { DEFAULT_LCP_PRESENCE } from 'core-libs/storefront/shared/lcp-context/lcp-presence.token';
+import { DEFAULT_LCP_PRESENCE } from '../../../../shared/lcp-context/lcp-presence.token';
 import { of } from 'rxjs';
 import { CmsComponentsService } from '../../../services/cms-components.service';
 import { CmsInjectorService } from './cms-injector.service';
 
-const mockCmsComponentsService = jasmine.createSpyObj('CmsMappingService', [
-  'getMapping',
-  'getStaticData',
-]);
+const mockCmsComponentsService = {
+  getMapping: vi.fn(),
+  getStaticData: vi.fn(),
+};
 
 const mockCmsService = {
-  getComponentData: jasmine.createSpy().and.returnValue(of('data')),
+  getComponentData: vi.fn().mockReturnValue(of('data')),
 };
 
 describe('CmsInjectorService', () => {

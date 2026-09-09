@@ -10,12 +10,14 @@ import {
   ProductFutureStock,
   ProductFutureStockList,
 } from '@spartacus/product/future-stock/core';
+import { firstValueFrom } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OccFutureStockAdapter } from './occ-future-stock.adapter';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
+import { vi } from 'vitest';
 
 const userId = '111111';
 const productCode = 'code';
@@ -95,9 +97,9 @@ describe('OccFutureStockAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
 
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(converter, 'pipeableMany').and.callThrough();
-    spyOn(converter, 'convert').and.callThrough();
+    vi.spyOn(converter, 'pipeable');
+    vi.spyOn(converter, 'pipeableMany');
+    vi.spyOn(converter, 'convert');
   });
 
   afterEach(() => {
@@ -105,13 +107,13 @@ describe('OccFutureStockAdapter', () => {
   });
 
   describe('getFutureStock()', () => {
-    it(' should return future stock', (done) => {
+    it(' should return future stock', async () => {
+      let result: any;
       service
         .getFutureStock(userId, productCode)
         .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(futureStockMock);
-          done();
+        .subscribe((r) => {
+          result = r;
         });
 
       const mockReq = httpMock.expectOne((req) => {
@@ -122,20 +124,21 @@ describe('OccFutureStockAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
 
       mockReq.flush(futureStockMock);
+      expect(result).toEqual(futureStockMock);
       expect(converter.pipeable).toHaveBeenCalledWith(FUTURE_STOCK_NORMALIZER);
     });
 
-    it('should throw error', (done) => {
+    it('should throw error', async () => {
       const mockErrorResponse = { status: 400, statusText: 'Bad Request' };
       const data = 'Error message';
 
+      let caughtStatus: number;
       service
         .getFutureStock(userId, productCode)
         .pipe(take(1))
         .subscribe({
           error: (err) => {
-            expect(err.status).toEqual(mockErrorResponse.status);
-            done();
+            caughtStatus = err.status;
           },
         });
 
@@ -143,17 +146,18 @@ describe('OccFutureStockAdapter', () => {
         return req.method === 'GET';
       });
       mockReq.flush(data, mockErrorResponse);
+      expect(caughtStatus).toEqual(mockErrorResponse.status);
     });
   });
 
   describe('getFutureStocks()', () => {
-    it('should return future stocks', (done) => {
+    it('should return future stocks', async () => {
+      let result: any;
       service
         .getFutureStocks(userId, productCode)
         .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(futureStockListMock);
-          done();
+        .subscribe((r) => {
+          result = r;
         });
 
       const mockReq = httpMock.expectOne((req) => {
@@ -164,22 +168,23 @@ describe('OccFutureStockAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
 
       mockReq.flush(futureStockListMock);
+      expect(result).toEqual(futureStockListMock);
       expect(converter.pipeable).toHaveBeenCalledWith(
         FUTURE_STOCK_LIST_NORMALIZER
       );
     });
 
-    it('should throw error', (done) => {
+    it('should throw error', async () => {
       const mockErrorResponse = { status: 400, statusText: 'Bad Request' };
       const data = 'Error message';
 
+      let caughtStatus: number;
       service
         .getFutureStocks(userId, productCode)
         .pipe(take(1))
         .subscribe({
           error: (err) => {
-            expect(err.status).toEqual(mockErrorResponse.status);
-            done();
+            caughtStatus = err.status;
           },
         });
 
@@ -187,6 +192,7 @@ describe('OccFutureStockAdapter', () => {
         return req.method === 'GET';
       });
       mockReq.flush(data, mockErrorResponse);
+      expect(caughtStatus).toEqual(mockErrorResponse.status);
     });
   });
 });

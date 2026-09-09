@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import {
   AuthService,
@@ -14,26 +15,25 @@ import { Observable, of } from 'rxjs';
 import { UserProfileService } from './user-profile.service';
 import { UserRegisterService } from './user-register.service';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import createSpy = jasmine.createSpy;
 
 class MockUserProfileService implements Partial<UserProfileService> {
   get(): Observable<User> {
     return of({ uid: OCC_USER_ID_CURRENT });
   }
-  getTitles = createSpy().and.returnValue(of([]));
+  getTitles = vi.fn().mockReturnValue(of([]));
 }
 
 class MockUserProfileConnector implements Partial<UserProfileConnector> {
-  register = createSpy().and.callFake((user) => of(user));
-  registerGuest = createSpy().and.callFake((uid, _password) => of({ uid }));
+  register = vi.fn().mockImplementation((user) => of(user));
+  registerGuest = vi.fn().mockImplementation((uid, _password) => of({ uid }));
 }
 
 class MockAuthService implements Partial<AuthService> {
-  loginWithCredentials = createSpy().and.returnValue(Promise.resolve());
+  loginWithCredentials = vi.fn().mockReturnValue(Promise.resolve());
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go = createSpy().and.returnValue(Promise.resolve());
+  go = vi.fn().mockReturnValue(Promise.resolve());
 }
 
 const mockFeatureToggles: FeatureToggles = {

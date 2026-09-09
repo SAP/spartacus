@@ -4,12 +4,11 @@ import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutBillingAddressAdapter } from './checkout-billing-address.adapter';
 import { CheckoutBillingAddressConnector } from './checkout-billing-address.connector';
-import createSpy = jasmine.createSpy;
 
 class MockCheckoutBillingAddressAdapter
   implements CheckoutBillingAddressAdapter
 {
-  setBillingAddress = createSpy().and.returnValue(of({}));
+  setBillingAddress = vi.fn().mockReturnValue(of({}));
 }
 
 describe('CheckoutBillingAddressConnector', () => {

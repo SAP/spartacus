@@ -24,10 +24,10 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsComponent,
-  getPageTitle,
   NgSelectA11yDirective,
   SpinnerComponent,
   TruncationTooltipDirective,
+  getPageTitle,
 } from '@spartacus/storefront';
 import { User } from '@spartacus/user/account/root';
 import { Title } from '@spartacus/user/profile/root';

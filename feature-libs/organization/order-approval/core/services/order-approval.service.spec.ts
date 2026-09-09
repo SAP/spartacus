@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
@@ -19,7 +20,6 @@ import {
 import * as fromReducers from '../store/reducers/index';
 import { OrderApprovalService } from './order-approval.service';
 
-import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
 
 const userId = 'current';
@@ -39,7 +39,7 @@ const orderApprovalDecision: OrderApprovalDecision = {
 };
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = createSpy().and.callFake(() => {
+  takeUserId = vi.fn().mockImplementation(() => {
     return of(userId);
   });
 }
@@ -68,7 +68,7 @@ describe('OrderApprovalService', () => {
     store = TestBed.inject(Store);
     service = TestBed.inject(OrderApprovalService);
     userIdService = TestBed.inject(UserIdService);
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   it('should OrderApprovalService is injected', inject(

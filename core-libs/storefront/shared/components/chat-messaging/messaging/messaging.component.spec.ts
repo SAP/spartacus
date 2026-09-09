@@ -1,21 +1,27 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { CxDatePipe, I18nTestingModule, TranslatePipe } from '@spartacus/core';
+import {
+  CxDatePipe,
+  FeatureConfigService,
+  I18nTestingModule,
+  TranslatePipe,
+} from '@spartacus/core';
 import { AvatarComponent } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { IconModule } from '../../../../cms-components';
 import { FileUploadModule, FormErrorsModule } from '../../form';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MessagingComponent } from './messaging.component';
 import {
   MessageEvent,
   MessageEventBoundItem,
   MessagingConfigs,
 } from './messaging.model';
+
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled = vi.fn().mockReturnValue(false);
+  isLevel = vi.fn().mockReturnValue(false);
+}
 
 const mockMessageEvent: MessageEvent = {
   rightAlign: false,
@@ -47,6 +53,13 @@ describe('MessagingComponent', () => {
   let htmlElement: Element;
 
   beforeEach(async () => {
+    vi.stubGlobal(
+      'ResizeObserver',
+      vi.fn().mockImplementation(function () {
+        return { observe: vi.fn(), unobserve: vi.fn(), disconnect: vi.fn() };
+      })
+    );
+
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -55,7 +68,7 @@ describe('MessagingComponent', () => {
         FormErrorsModule,
       ],
       providers: [
-        provideMockFeatureToggles({ a11yMessagingListKeyboardFocus: false }),
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     })
       .overrideComponent(MessagingComponent, {
@@ -67,6 +80,14 @@ describe('MessagingComponent', () => {
         },
       })
       .compileComponents();
+
+    (
+      TestBed.inject(FeatureConfigService).isEnabled as ReturnType<typeof vi.fn>
+    ).mockImplementation((f: string) => f.startsWith('!'));
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
   });
 
   beforeEach(() => {
@@ -76,16 +97,17 @@ describe('MessagingComponent', () => {
     component.messagingConfigs = messagingConfig = {
       displayAddMessageSection: of(true),
     };
-    fixture.detectChanges();
     htmlElement = fixture.nativeElement;
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should call onSend on click of send', () => {
-    spyOn(component, 'onSend');
+    fixture.detectChanges();
+    vi.spyOn(component, 'onSend');
 
     fixture.debugElement.query(By.css('.cx-send')).nativeElement.click();
     fixture.detectChanges();
@@ -94,6 +116,7 @@ describe('MessagingComponent', () => {
   });
 
   it('should render send as btn-primary by default', () => {
+    fixture.detectChanges();
     expect(htmlElement.querySelectorAll('.btn-primary').length).toBe(1);
     expect(htmlElement.querySelectorAll('.btn-secondary').length).toBe(0);
   });
@@ -106,7 +129,8 @@ describe('MessagingComponent', () => {
   });
 
   it('should emit send event', () => {
-    spyOn(component.send, 'emit');
+    fixture.detectChanges();
+    vi.spyOn(component.send, 'emit');
     component.form.get('message')?.setValue('mockMessage');
     component.onSend();
 
@@ -117,7 +141,8 @@ describe('MessagingComponent', () => {
   });
 
   it('should emit trigger downloadAttachment event', () => {
-    spyOn(component.downloadAttachment, 'emit');
+    fixture.detectChanges();
+    vi.spyOn(component.downloadAttachment, 'emit');
     component.form.get('message')?.setValue('mockMessage');
     component.triggerDownload('mockCode', 'mockId', 'mockName');
 
@@ -130,32 +155,33 @@ describe('MessagingComponent', () => {
 
   describe('with item support', () => {
     it('should not render an item link when there is no item attached to the message', () => {
-      expect(
-        fixture.debugElement.query(
-          By.css('.cx-message-card:nth-child(1) .cx-message-item-link')
-        )
-      ).toBeNull();
+      fixture.detectChanges();
+      const cards = fixture.debugElement.queryAll(By.css('.cx-message-card'));
+      expect(cards[0]?.query(By.css('.cx-message-item-link'))).toBeNull();
     });
 
     it('should render an item link when there is an item attached to the message', () => {
+      fixture.detectChanges();
+      const cards = fixture.debugElement.queryAll(By.css('.cx-message-card'));
       expect(
-        fixture.debugElement.query(
-          By.css('.cx-message-card:nth-child(2) .cx-message-item-link')
-        ).nativeElement.text
+        cards[1]
+          ?.query(By.css('.cx-message-item-link'))
+          ?.nativeElement.textContent?.trim()
       ).toEqual('Product 123:');
     });
 
     it('should fire itemClicked event when clicking item link', () => {
-      spyOn(component.itemClicked, 'emit');
-      fixture.debugElement
-        .query(By.css('.cx-message-card:nth-child(2) .cx-message-item-link'))
-        .nativeElement.click();
+      fixture.detectChanges();
+      vi.spyOn(component.itemClicked, 'emit');
+      const cards = fixture.debugElement.queryAll(By.css('.cx-message-card'));
+      cards[1]?.query(By.css('.cx-message-item-link'))?.nativeElement.click();
       expect(component.itemClicked.emit).toHaveBeenCalledWith({
         item: mockMessageEventWithItem.item,
       });
     });
 
     it('should not render an item selection control (drop down list box) when there are no items provided', () => {
+      fixture.detectChanges();
       expect(
         fixture.debugElement.query(By.css('.cx-message-item-selection'))
       ).toBeNull();
@@ -179,9 +205,9 @@ describe('MessagingComponent', () => {
     });
 
     it('should emit selected itemId when adding a new message', () => {
-      spyOn(component.send, 'emit');
       messagingConfig.itemList$ = of(mockItemList);
       fixture.detectChanges();
+      vi.spyOn(component.send, 'emit');
 
       const itemDDLB = fixture.debugElement.query(
         By.css('.cx-message-item-selection')
@@ -215,12 +241,11 @@ describe('MessagingComponent', () => {
       );
     });
   });
+
   describe('resetForm', () => {
     beforeEach(() => {
-      component.fileUploadComponent = jasmine.createSpyObj(
-        'fileUploadComponent',
-        ['removeFile']
-      );
+      fixture.detectChanges();
+      component.fileUploadComponent = { removeFile: vi.fn() } as any;
     });
     it('should remove all files uploaded', () => {
       component.resetForm();
@@ -228,7 +253,7 @@ describe('MessagingComponent', () => {
     });
     it('should not fail if there is no file upload component', () => {
       component.fileUploadComponent = undefined;
-      spyOn(component.form, 'reset');
+      vi.spyOn(component.form, 'reset');
       component.resetForm();
       expect(component.form.reset).toHaveBeenCalled();
     });
@@ -236,7 +261,7 @@ describe('MessagingComponent', () => {
     it('should reset item DDLB to the default entry', () => {
       const defaultItemId = 'default';
       messagingConfig.defaultItemId = defaultItemId;
-      spyOn(component.form, 'reset');
+      vi.spyOn(component.form, 'reset');
       component.resetForm();
       expect(component.form.reset).toHaveBeenCalledWith({
         item: defaultItemId,
@@ -245,11 +270,19 @@ describe('MessagingComponent', () => {
   });
 
   describe('a11yMessagingListKeyboardFocus feature toggle', () => {
-    let toggleController: MockFeatureTogglesController;
+    let featureConfigService: FeatureConfigService;
 
     beforeEach(() => {
-      toggleController = TestBed.inject(MockFeatureTogglesController);
+      featureConfigService = TestBed.inject(FeatureConfigService);
     });
+
+    function setToggle(on: boolean): void {
+      (
+        featureConfigService.isEnabled as ReturnType<typeof vi.fn>
+      ).mockImplementation((f: string) =>
+        on ? !f.startsWith('!') : f.startsWith('!')
+      );
+    }
 
     function createFixture(): { el: Element } {
       const f = TestBed.createComponent(MessagingComponent);
@@ -262,24 +295,23 @@ describe('MessagingComponent', () => {
     }
 
     describe('when toggle is OFF (default)', () => {
+      beforeEach(() => setToggle(false));
+
       it('should render legacy listitem without tabindex on the wrapper', () => {
-        toggleController.set('a11yMessagingListKeyboardFocus', false);
         const { el } = createFixture();
         el.querySelectorAll('[role="listitem"]').forEach((item) => {
-          expect(item.hasAttribute('tabindex')).toBeFalse();
+          expect(item.hasAttribute('tabindex')).toBe(false);
         });
       });
 
       it('should not have aria-label on role="listitem" wrapper', () => {
-        toggleController.set('a11yMessagingListKeyboardFocus', false);
         const { el } = createFixture();
         el.querySelectorAll('[role="listitem"]').forEach((item) => {
-          expect(item.hasAttribute('aria-label')).toBeFalse();
+          expect(item.hasAttribute('aria-label')).toBe(false);
         });
       });
 
       it('should not focus any listitem on init', () => {
-        toggleController.set('a11yMessagingListKeyboardFocus', false);
         const { el } = createFixture();
         const listitems = el.querySelectorAll('[role="listitem"]');
         listitems.forEach((item) => {
@@ -289,8 +321,9 @@ describe('MessagingComponent', () => {
     });
 
     describe('when toggle is ON', () => {
+      beforeEach(() => setToggle(true));
+
       it('should set tabindex="0" on the first listitem and tabindex="-1" on the rest', () => {
-        toggleController.set('a11yMessagingListKeyboardFocus', true);
         const { el } = createFixture();
         const listitems = el.querySelectorAll('[role="listitem"]');
         expect(listitems[0].getAttribute('tabindex')).toBe('0');
@@ -298,15 +331,13 @@ describe('MessagingComponent', () => {
       });
 
       it('should set aria-label on role="listitem" elements', () => {
-        toggleController.set('a11yMessagingListKeyboardFocus', true);
         const { el } = createFixture();
         el.querySelectorAll('[role="listitem"]').forEach((item) => {
-          expect(item.hasAttribute('aria-label')).toBeTrue();
+          expect(item.hasAttribute('aria-label')).toBe(true);
         });
       });
 
       it('should mark the date label as aria-hidden to prevent double announcement', () => {
-        toggleController.set('a11yMessagingListKeyboardFocus', true);
         const { el } = createFixture();
         const dateLabels = el.querySelectorAll(
           '[role="listitem"] label[aria-hidden="true"]'
@@ -315,17 +346,15 @@ describe('MessagingComponent', () => {
       });
 
       it('should set aria-describedby on the first listitem only', () => {
-        toggleController.set('a11yMessagingListKeyboardFocus', true);
         const { el } = createFixture();
         const listitems = el.querySelectorAll('[role="listitem"]');
         expect(listitems[0].getAttribute('aria-describedby')).toBe(
           'cx-messages-navigation-hint'
         );
-        expect(listitems[1].hasAttribute('aria-describedby')).toBeFalse();
+        expect(listitems[1].hasAttribute('aria-describedby')).toBe(false);
       });
 
       it('should focus the first listitem on init', () => {
-        toggleController.set('a11yMessagingListKeyboardFocus', true);
         const { el } = createFixture();
         const firstItem = el.querySelector('[role="listitem"]');
         expect(document.activeElement).toBe(firstItem);

@@ -223,7 +223,7 @@ describe('VideoComponent', () => {
       const videoElement = fixture.nativeElement.querySelector('video');
       fixture.detectChanges();
 
-      expect(videoElement.offsetHeight).toEqual(500);
+      expect(videoElement.style.height).toEqual('500px');
     });
 
     it('should set style classes', () => {

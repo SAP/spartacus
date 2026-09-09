@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CostCenter, EntitiesModel } from '@spartacus/core';
@@ -88,13 +89,13 @@ describe('BudgetCostCenterListService', () => {
   });
 
   it('should filter selected cost-centers', () => {
-    spyOn(budgetService, 'getCostCenters').and.returnValue(
+    vi.spyOn(budgetService, 'getCostCenters').mockReturnValue(
       of(mockCostCenterEntities2)
     );
     let result: EntitiesModel<CostCenter>;
     service.getData().subscribe((table) => (result = table));
     expect(result.values.length).toEqual(2);
-    expect(result.values).not.toContain({
+    expect(result.values).not.toContainEqual({
       code: 'second',
     });
   });

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
@@ -22,7 +22,7 @@ describe('OrderDocumentFlowComponent', () => {
   let fixture: ComponentFixture<OrderDocumentFlowComponent>;
   let orderDetailsService: OrderDetailsService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, OrderDocumentFlowComponent],
       providers: [
@@ -36,11 +36,11 @@ describe('OrderDocumentFlowComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     orderDetailsService = TestBed.inject(OrderDetailsService);
-    spyOn(orderDetailsService, 'getOrderDetails').and.callThrough();
+    vi.spyOn(orderDetailsService, 'getOrderDetails');
     fixture = TestBed.createComponent(OrderDocumentFlowComponent);
     component = fixture.componentInstance;
   });
@@ -87,7 +87,9 @@ describe('OrderDocumentFlowComponent', () => {
   });
 
   it('should open dialog on button click', () => {
-    spyOn(component, 'onOrderDocumentFlowClick').and.stub();
+    vi.spyOn(component, 'onOrderDocumentFlowClick').mockImplementation(
+      () => {}
+    );
     fixture.detectChanges();
 
     const buttonEl = fixture.debugElement.query(By.css('button')).nativeElement;

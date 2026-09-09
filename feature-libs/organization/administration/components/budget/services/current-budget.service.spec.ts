@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { RoutingService } from '@spartacus/core';
 import { BudgetService } from '@spartacus/organization/administration/core';
@@ -46,14 +47,14 @@ describe('CurrentBudgetService', () => {
 
   describe('model$', () => {
     it('should load budget', () => {
-      spyOn(budgetService, 'get').and.callThrough();
+      vi.spyOn(budgetService, 'get');
       service.item$.subscribe();
       mockParams.next({ [ROUTE_PARAMS.budgetCode]: '123' });
       expect(budgetService.get).toHaveBeenCalledWith('123');
     });
 
     it('should not load budget', () => {
-      spyOn(budgetService, 'get').and.callThrough();
+      vi.spyOn(budgetService, 'get');
       service.item$.subscribe();
       mockParams.next({ foo: 'bar' });
       expect(budgetService.get).not.toHaveBeenCalled();

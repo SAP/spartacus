@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { By } from '@angular/platform-browser';
 import {
@@ -61,7 +61,7 @@ describe('OrderSubsequentDocumentNodeComponent', () => {
   let component: OrderSubsequentDocumentNodeComponent;
   let fixture: ComponentFixture<OrderSubsequentDocumentNodeComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -79,7 +79,7 @@ describe('OrderSubsequentDocumentNodeComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderSubsequentDocumentNodeComponent);
@@ -91,7 +91,7 @@ describe('OrderSubsequentDocumentNodeComponent', () => {
   });
 
   it('should emit selected document', () => {
-    spyOn(component.documentSelected, 'emit').and.callThrough();
+    vi.spyOn(component.documentSelected, 'emit');
     component.onDocumentSelection(subsequentDocumentsData[0]);
 
     expect(component.documentSelected.emit).toHaveBeenCalledTimes(1);

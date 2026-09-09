@@ -1,5 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   GlobalMessageService,
@@ -18,7 +18,7 @@ import {
   IconComponent,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { MockKeyboardFocusDirective } from 'core-libs/storefront/layout/a11y/keyboard-focus/focus-testing.module';
+import { MockKeyboardFocusDirective } from '@spartacus/storefront/keyboard-focus/testing';
 import { Observable, of } from 'rxjs';
 import { ReplenishmentOrderCancellationDialogComponent } from './replenishment-order-cancellation-dialog.component';
 
@@ -77,7 +77,7 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   let fixture: ComponentFixture<ReplenishmentOrderCancellationDialogComponent>;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ReplenishmentOrderCancellationDialogComponent],
       providers: [
@@ -100,7 +100,7 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
@@ -133,16 +133,16 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   });
 
   it('should redirect to same page and add global message on successful cancellation ', () => {
-    spyOn(
+    vi.spyOn(
       replenishmentOrderHistoryFacade,
       'cancelReplenishmentOrder'
-    ).and.stub();
-    spyOn(
+    ).mockImplementation(() => {});
+    vi.spyOn(
       replenishmentOrderHistoryFacade,
       'clearCancelReplenishmentOrderProcessState'
-    ).and.stub();
-    spyOn(globalMessageService, 'add').and.stub();
-    spyOn(launchDialogService, 'closeDialog').and.stub();
+    ).mockImplementation(() => {});
+    vi.spyOn(globalMessageService, 'add').mockImplementation(() => {});
+    vi.spyOn(launchDialogService, 'closeDialog').mockImplementation(() => {});
 
     component.onSuccess(true);
 
@@ -166,7 +166,7 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   });
 
   it('should be able to call the close dialog', () => {
-    spyOn(launchDialogService, 'closeDialog').and.stub();
+    vi.spyOn(launchDialogService, 'closeDialog').mockImplementation(() => {});
 
     const mockCloseReason = 'test-close';
 
@@ -178,10 +178,10 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   });
 
   it('should be able to call the cancel replenishment', () => {
-    spyOn(
+    vi.spyOn(
       replenishmentOrderHistoryFacade,
       'cancelReplenishmentOrder'
-    ).and.stub();
+    ).mockImplementation(() => {});
 
     component.cancelReplenishment();
 
@@ -191,7 +191,7 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   });
 
   it('should be able to close dialog', () => {
-    spyOn(launchDialogService, 'closeDialog').and.stub();
+    vi.spyOn(launchDialogService, 'closeDialog').mockImplementation(() => {});
     el.query(By.css('.close')).nativeElement.click();
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith('Cross click');
   });

@@ -4,17 +4,16 @@ import {
   Directive,
   Input,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule } from '@spartacus/core';
 import { FocusDirective, ItemCounterComponent } from '@spartacus/storefront';
-import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
-import { getConfiguratorReducers } from '../../../../core/state/reducers';
 
 import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
@@ -81,6 +80,13 @@ class MockConfiguratorShowMoreComponent {
   @Input() productName: string;
 }
 
+class MockConfiguratorCommonsService {
+  isConfigurationLoading(): Observable<boolean> {
+    return of(false);
+  }
+  updateConfiguration(): void {}
+}
+
 const isCartEntryOrGroupVisited = true;
 class MockConfigUtilsService {
   isCartEntryOrGroupVisited(): Observable<boolean> {
@@ -108,7 +114,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   let value3: Configurator.Value;
   let values: Configurator.Value[];
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     value1 = createValue('1', 'val1', true);
     value2 = createValue('2', VALUE_NAME_2, false);
     value3 = createValue('3', 'val3', false);
@@ -129,14 +135,16 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         I18nTestingModule,
         ReactiveFormsModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
         ConfiguratorAttributeRadioButtonComponent,
         ConfiguratorAttributeInputFieldComponent,
         ConfiguratorAttributeNumericInputFieldComponent,
         ItemCounterComponent,
       ],
       providers: [
-        ConfiguratorStorefrontUtilsService,
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
         {
           provide: ConfiguratorGroupsService,
           useClass: MockGroupService,
@@ -171,7 +179,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
@@ -193,7 +201,6 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     };
 
     component.ownerKey = ownerKey;
-    fixture.detectChanges();
   });
 
   afterEach(() => {
@@ -201,10 +208,12 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should set selectedSingleValue on init', () => {
+    fixture.detectChanges();
     expect(component.attributeRadioButtonForm.value).toEqual(
       initialSelectedValue
     );
@@ -305,6 +314,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     });
 
     it('should not render description in case description not present on model', () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -326,6 +336,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
 
   describe('Accessibility', () => {
     it("should contain input element with class name 'form-check-input' and 'aria-label' attribute that defines an accessible name to label the current unselected element", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -359,6 +370,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     });
 
     it("should contain input element with class name 'form-check-input' and 'aria-describedby' attribute that indicates the ID of the element that describe the elements", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -371,6 +383,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     });
 
     it("should contain label element with class name 'form-check-label' and 'aria-hidden' attribute that removes label from the accessibility tree", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

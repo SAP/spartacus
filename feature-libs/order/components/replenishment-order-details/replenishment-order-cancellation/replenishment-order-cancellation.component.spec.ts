@@ -5,7 +5,7 @@ import {
   PipeTransform,
   ViewContainerRef,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -65,7 +65,7 @@ describe('ReplenishmentOrderCancellationComponent', () => {
   let fixture: ComponentFixture<ReplenishmentOrderCancellationComponent>;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReplenishmentOrderCancellationComponent,
@@ -91,7 +91,7 @@ describe('ReplenishmentOrderCancellationComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReplenishmentOrderCancellationComponent);
@@ -121,7 +121,7 @@ describe('ReplenishmentOrderCancellationComponent', () => {
   });
 
   it('should be able to call the open dialog', () => {
-    spyOn(launchDialogService, 'openDialog').and.stub();
+    vi.spyOn(launchDialogService, 'openDialog').mockImplementation(() => {});
 
     el.query(By.css('button.btn-secondary:last-child')).nativeElement.click();
 

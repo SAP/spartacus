@@ -99,6 +99,6 @@ describe('CellComponent', () => {
     const el: HTMLElement = fixture.debugElement.query(
       By.css('span.text')
     ).nativeNode;
-    expect(el.innerText).toEqual('my name');
+    expect(el.textContent?.trim()).toEqual('my name');
   });
 });

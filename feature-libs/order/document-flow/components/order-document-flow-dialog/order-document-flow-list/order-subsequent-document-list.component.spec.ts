@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { I18nTestingModule } from '@spartacus/core';
 import { OrderSubsequentDocument } from '@spartacus/order/document-flow/root';
@@ -35,12 +35,12 @@ describe('OrderSubsequentDocumentListComponent', () => {
   let component: OrderSubsequentDocumentListComponent;
   let fixture: ComponentFixture<OrderSubsequentDocumentListComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, OrderSubsequentDocumentListComponent],
       providers: [],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderSubsequentDocumentListComponent);
@@ -52,7 +52,7 @@ describe('OrderSubsequentDocumentListComponent', () => {
   });
 
   it('should emit selected document', () => {
-    spyOn(component.documentSelected, 'emit').and.callThrough();
+    vi.spyOn(component.documentSelected, 'emit');
     component.onDocumentSelection(subsequentDocumentsData[0]);
 
     expect(component.documentSelected.emit).toHaveBeenCalledTimes(1);

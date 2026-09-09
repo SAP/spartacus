@@ -41,7 +41,7 @@ describe('CustomerTicketingCreateComponent', () => {
     expect(component).toBeTruthy();
   });
   it('should trigger create new ticket dialog', () => {
-    spyOn(launchDialogService, 'openDialog').and.callThrough();
+    vi.spyOn(launchDialogService, 'openDialog');
     component.openCreateNewTicketDialog();
 
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(

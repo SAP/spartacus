@@ -34,6 +34,6 @@ describe('HomePageEventBuilder', () => {
     const expected = createFrom(HomePageEvent, {
       navigation: navigationEvent,
     });
-    expect(result).toEqual(jasmine.objectContaining({ ...expected }));
+    expect(result).toEqual(expect.objectContaining({ ...expected }));
   });
 });

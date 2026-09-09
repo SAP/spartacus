@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NavigationExtras } from '@angular/router';
 import {
   BaseOption,
@@ -94,7 +94,7 @@ describe('ProductVariantsContainerComponent', () => {
   let component: ProductVariantsContainerComponent;
   let fixture: ComponentFixture<ProductVariantsContainerComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ProductVariantsContainerComponent],
       providers: [
@@ -131,7 +131,7 @@ describe('ProductVariantsContainerComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductVariantsContainerComponent);

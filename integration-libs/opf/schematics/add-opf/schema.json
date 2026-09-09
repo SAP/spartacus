@@ -112,6 +112,11 @@
     "commerceCloudPublicKey": {
       "type": "string",
       "description": "Commerce Clould public key required for authentication between OPF Cloud Commerce Adapter and Spartacus"
+    },
+    "enableGetActiveConfigurationsAccessCodeHeader": {
+      "type": "boolean",
+      "description": "When enabled, a cart access code is generated and sent as the sap-commerce-cloud-access-code header on the getActiveConfigurations request. This is required for Intelligent Routing.",
+      "default": true
     }
   },
   "required": []

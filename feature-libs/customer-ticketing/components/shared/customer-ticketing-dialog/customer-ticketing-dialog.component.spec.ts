@@ -46,7 +46,7 @@ describe('CustomerTicketingDialogComponent', () => {
 
   it('should close dialog on close method', () => {
     const mockCloseReason = 'Close Dialog';
-    spyOn(launchDialogService, 'closeDialog');
+    vi.spyOn(launchDialogService, 'closeDialog');
     component.close(mockCloseReason);
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(

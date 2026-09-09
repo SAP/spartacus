@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpTestingController,
   provideHttpClientTesting,
@@ -85,8 +86,8 @@ describe('OccUserRegistrationAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
     occEndpointsService = TestBed.inject(OccEndpointsService);
-    spyOn(converter, 'convert').and.callThrough();
-    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
+    vi.spyOn(converter, 'convert');
+    vi.spyOn(occEndpointsService, 'buildUrl');
   });
 
   afterEach(() => {

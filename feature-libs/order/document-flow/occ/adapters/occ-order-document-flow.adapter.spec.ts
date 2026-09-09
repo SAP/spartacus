@@ -7,12 +7,12 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { LoggerService, OccConfig, OccEndpointsService } from '@spartacus/core';
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,
-} from 'core-libs/core/src/occ/adapters/user/unit-test.helper';
+} from '@spartacus/core/occ/testing';
 
 import { OccOrderDocumentFlowAdapter } from '@spartacus/order/document-flow/occ';
 import {
@@ -105,14 +105,14 @@ describe('OccOrderDocumentFlowAdapter', () => {
     adapter = TestBed.inject(OccOrderDocumentFlowAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     occEndpointsService = TestBed.inject(OccEndpointsService);
-    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
+    vi.spyOn(occEndpointsService, 'buildUrl');
   });
 
   afterEach(() => {
     httpMock.verify();
   });
 
-  it('should fetch array of order subsequent documents for logged in user', waitForAsync(() => {
+  it('should fetch array of order subsequent documents for logged in user', () => {
     const subscription = adapter
       .getOrderSubsequentDocuments(userId, orderId)
       .subscribe();
@@ -126,9 +126,9 @@ describe('OccOrderDocumentFlowAdapter', () => {
     request.flush(subsequentDocumentsData);
     httpMock.verify();
     subscription.unsubscribe();
-  }));
+  });
 
-  it('should fetch order subsequent document entry for logged in user', waitForAsync(() => {
+  it('should fetch order subsequent document entry for logged in user', () => {
     const subscription = adapter
       .getOrderSubsequentDocumentEntries(
         userId,
@@ -147,5 +147,5 @@ describe('OccOrderDocumentFlowAdapter', () => {
     request.flush(subsequentDocumentEntryData);
     httpMock.verify();
     subscription.unsubscribe();
-  }));
+  });
 });

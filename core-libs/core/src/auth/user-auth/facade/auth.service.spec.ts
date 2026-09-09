@@ -90,7 +90,6 @@ class MockAuthMultisiteIsolationService {
 
 const mockFeatureToggles: FeatureToggles = {
   authorizationCodeFlowByDefault: false,
-  dispatchLoginActionOnlyWhenTokenReceived: false,
   propagateLogoutToAllTabs: false,
 };
 
@@ -164,18 +163,45 @@ describe('AuthService', () => {
   });
 
   describe('checkOAuthParamsInUrl()', () => {
-    describe('when dispatchLoginActionOnlyWhenTokenReceived feature flag is DISABLED', () => {
+    beforeEach(() => {
+      service.updateIsUsingASMClient(false);
+    });
+
+    it('when customer emulated in asm page', async () => {
+      vi.spyOn(authStorageService, 'getItem').mockReturnValue('token');
+      vi.spyOn(userIdService, 'setUserId');
+      vi.spyOn(userIdService, 'isEmulated').mockReturnValue(of(true));
+
+      await service.checkOAuthParamsInUrl();
+
+      expect(userIdService.setUserId).not.toHaveBeenCalledWith(
+        OCC_USER_ID_CURRENT
+      );
+    });
+
+    it('when token is present and customer is not emulated in ASM mode', async () => {
+      service.updateIsUsingASMClient(true);
+      vi.spyOn(authStorageService, 'getItem').mockReturnValue('token');
+      vi.spyOn(userIdService, 'setUserId');
+      vi.spyOn(userIdService, 'isEmulated').mockReturnValue(of(false));
+
+      await service.checkOAuthParamsInUrl();
+
+      expect(userIdService.setUserId).not.toHaveBeenCalledWith(
+        OCC_USER_ID_CURRENT
+      );
+    });
+
+    describe('when the token is received', () => {
       beforeEach(() => {
-        featureToggles.dispatchLoginActionOnlyWhenTokenReceived = false;
-        service.updateIsUsingASMClient(false);
+        vi.spyOn(userIdService, 'isEmulated').mockReturnValue(of(false));
       });
 
-      it('should login user when token is present and dispatch login action', async () => {
+      it('should login user and dispatch login action', async () => {
         vi.spyOn(oAuthLibWrapperService, 'tryLogin');
         vi.spyOn(userIdService, 'setUserId');
         vi.spyOn(store, 'dispatch');
         vi.spyOn(authStorageService, 'getItem').mockReturnValue('token');
-        vi.spyOn(userIdService, 'isEmulated').mockReturnValue(of(false));
 
         await service.checkOAuthParamsInUrl();
 
@@ -186,149 +212,37 @@ describe('AuthService', () => {
         expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
       });
 
-      it('when customer emulated in asm page', async () => {
-        vi.spyOn(authStorageService, 'getItem').mockReturnValue('token');
-        vi.spyOn(userIdService, 'setUserId');
-        vi.spyOn(userIdService, 'isEmulated').mockReturnValue(of(true));
+      it('should redirect', async () => {
+        vi.spyOn(authRedirectService, 'redirect');
 
         await service.checkOAuthParamsInUrl();
 
-        expect(userIdService.setUserId).not.toHaveBeenCalledWith(
-          OCC_USER_ID_CURRENT
-        );
-      });
-
-      it('when token is present and customer is not emulated in ASM mode', async () => {
-        service.updateIsUsingASMClient(true);
-        vi.spyOn(authStorageService, 'getItem').mockReturnValue('token');
-        vi.spyOn(userIdService, 'setUserId');
-        vi.spyOn(userIdService, 'isEmulated').mockReturnValue(of(false));
-
-        await service.checkOAuthParamsInUrl();
-
-        expect(userIdService.setUserId).not.toHaveBeenCalledWith(
-          OCC_USER_ID_CURRENT
-        );
-      });
-
-      describe('when the token is received', () => {
-        it('should redirect', async () => {
-          vi.spyOn(authRedirectService, 'redirect');
-          vi.spyOn(userIdService, 'isEmulated').mockReturnValue(of(false));
-
-          await service.checkOAuthParamsInUrl();
-
-          expect(authRedirectService.redirect).toHaveBeenCalled();
-        });
-
-        it('should dispatch login action', async () => {
-          vi.spyOn(store, 'dispatch');
-          vi.spyOn(userIdService, 'isEmulated').mockReturnValue(of(false));
-
-          await service.checkOAuthParamsInUrl();
-
-          expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
-        });
-      });
-
-      describe('when the token is NOT received', () => {
-        beforeEach(() => {
-          vi.spyOn(oAuthLibWrapperService, 'tryLogin').mockReturnValue(
-            Promise.resolve({ result: true, tokenReceived: false })
-          );
-          vi.spyOn(userIdService, 'isEmulated').mockReturnValue(of(false));
-        });
-
-        it('should NOT redirect', async () => {
-          vi.spyOn(authRedirectService, 'redirect').mockImplementation(
-            () => {}
-          );
-
-          await service.checkOAuthParamsInUrl();
-
-          expect(authRedirectService.redirect).not.toHaveBeenCalled();
-        });
-
-        it('should dispatch login action', async () => {
-          vi.spyOn(store, 'dispatch');
-
-          await service.checkOAuthParamsInUrl();
-
-          expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
-        });
+        expect(authRedirectService.redirect).toHaveBeenCalled();
       });
     });
 
-    describe('when dispatchLoginActionOnlyWhenTokenReceived feature flag is ENABLED', () => {
+    describe('when the token is NOT received', () => {
       beforeEach(() => {
-        featureToggles.dispatchLoginActionOnlyWhenTokenReceived = true;
+        vi.spyOn(oAuthLibWrapperService, 'tryLogin').mockReturnValue(
+          Promise.resolve({ result: true, tokenReceived: false })
+        );
+        vi.spyOn(userIdService, 'isEmulated').mockReturnValue(of(false));
       });
 
-      it('when customer emulated in asm page', async () => {
-        vi.spyOn(authStorageService, 'getItem').mockReturnValue('token');
-        vi.spyOn(userIdService, 'setUserId');
-        vi.spyOn(userIdService, 'isEmulated').mockReturnValue(of(true));
+      it('should NOT redirect', async () => {
+        vi.spyOn(authRedirectService, 'redirect').mockImplementation(() => {});
 
         await service.checkOAuthParamsInUrl();
 
-        expect(userIdService.setUserId).not.toHaveBeenCalledWith(
-          OCC_USER_ID_CURRENT
-        );
+        expect(authRedirectService.redirect).not.toHaveBeenCalled();
       });
 
-      describe('when the token is received', () => {
-        beforeEach(() => {
-          vi.spyOn(userIdService, 'isEmulated').mockReturnValue(of(false));
-        });
+      it('should NOT dispatch login action', async () => {
+        vi.spyOn(store, 'dispatch');
 
-        it('should login user and dispatch login action', async () => {
-          vi.spyOn(oAuthLibWrapperService, 'tryLogin');
-          vi.spyOn(userIdService, 'setUserId');
-          vi.spyOn(store, 'dispatch');
-          vi.spyOn(authStorageService, 'getItem').mockReturnValue('token');
+        await service.checkOAuthParamsInUrl();
 
-          await service.checkOAuthParamsInUrl();
-
-          expect(oAuthLibWrapperService.tryLogin).toHaveBeenCalled();
-          expect(userIdService.setUserId).toHaveBeenCalledWith(
-            OCC_USER_ID_CURRENT
-          );
-          expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
-        });
-
-        it('should redirect', async () => {
-          vi.spyOn(authRedirectService, 'redirect');
-
-          await service.checkOAuthParamsInUrl();
-
-          expect(authRedirectService.redirect).toHaveBeenCalled();
-        });
-      });
-
-      describe('when the token is NOT received', () => {
-        beforeEach(() => {
-          vi.spyOn(oAuthLibWrapperService, 'tryLogin').mockReturnValue(
-            Promise.resolve({ result: true, tokenReceived: false })
-          );
-        });
-
-        it('should NOT redirect', async () => {
-          vi.spyOn(authRedirectService, 'redirect').mockImplementation(
-            () => {}
-          );
-
-          await service.checkOAuthParamsInUrl();
-
-          expect(authRedirectService.redirect).not.toHaveBeenCalled();
-        });
-
-        it('should NOT dispatch login action', async () => {
-          vi.spyOn(store, 'dispatch');
-
-          await service.checkOAuthParamsInUrl();
-
-          expect(store.dispatch).not.toHaveBeenCalled();
-        });
+        expect(store.dispatch).not.toHaveBeenCalled();
       });
     });
   });
@@ -506,7 +420,9 @@ describe('AuthService', () => {
     });
 
     it('should not call coreLogout when isUserLoggedIn is false', () => {
-      vi.spyOn(authStorageService, 'getToken').mockReturnValue(of(undefined));
+      vi.spyOn(authStorageService, 'getToken').mockReturnValue(
+        of(undefined as unknown as AuthToken)
+      );
 
       authNotificationService.notifications$.next(AuthNotificationType.LOGOUT);
 
@@ -529,7 +445,9 @@ describe('AuthService', () => {
     });
 
     it('should return false when there is not access_token', async () => {
-      vi.spyOn(authStorageService, 'getToken').mockReturnValue(of(undefined));
+      vi.spyOn(authStorageService, 'getToken').mockReturnValue(
+        of(undefined as unknown as AuthToken)
+      );
       const result = await firstValueFrom(service.isUserLoggedIn());
       expect(result).toBe(false);
     });

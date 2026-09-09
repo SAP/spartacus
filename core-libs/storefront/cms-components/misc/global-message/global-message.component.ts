@@ -38,6 +38,7 @@ export class GlobalMessageComponent implements OnInit {
 
   constructor(protected globalMessageService: GlobalMessageService) {
     useFeatureStyles('a11yIncreaseContastGlobalMessageCloseButton');
+    useFeatureStyles('globalMessageCloseButtonPadding');
   }
 
   ngOnInit(): void {

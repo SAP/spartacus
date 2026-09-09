@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 /*
  * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
@@ -9,12 +10,11 @@ import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
 
-import createSpy = jasmine.createSpy;
 import { RegistrationVerificationTokenFormComponentService } from './verify-register-verification-token-form.service';
 
 class MockUserRegisterFacade implements Partial<UserRegisterFacade> {
-  getTitles = createSpy().and.returnValue(of([]));
-  register = createSpy().and.callFake((user: any) => of(user));
+  getTitles = vi.fn().mockReturnValue(of([]));
+  register = vi.fn().mockImplementation((user: any) => of(user));
 }
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add() {}
@@ -50,7 +50,7 @@ describe('RegistrationVerificationTokenFormComponentService', () => {
   ));
 
   it('should display a success message after registration', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     const userRegisterFormData: UserSignUp = {
       titleCode: 'Mr.',
       firstName: 'firstName',
@@ -66,7 +66,7 @@ describe('RegistrationVerificationTokenFormComponentService', () => {
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
         key: 'register.postRegisterSuccessMessage',
-        params: Object(10000),
+        params: 10000,
       },
       GlobalMessageType.MSG_TYPE_CONFIRMATION,
       10000
@@ -93,7 +93,7 @@ describe('RegistrationVerificationTokenFormComponentService', () => {
 
   describe('postRegisterMessage', () => {
     it('should delegate to displayMessage', () => {
-      const displayMessageSpy = spyOn(service, 'displayMessage');
+      const displayMessageSpy = vi.spyOn(service, 'displayMessage');
       service.postRegisterMessage();
       expect(displayMessageSpy).toHaveBeenCalled();
     });

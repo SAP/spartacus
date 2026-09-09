@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpErrorResponse,
   provideHttpClient,
@@ -64,7 +65,7 @@ describe('Orders effect', () => {
   describe('loadUnitOrders$', () => {
     describe('Unit Order History', () => {
       it('should load unit Orders', () => {
-        spyOn(orderHistoryConnector, 'getUnitOrderHistory').and.returnValue(
+        vi.spyOn(orderHistoryConnector, 'getUnitOrderHistory').mockReturnValue(
           of(mockUserOrders)
         );
 
@@ -84,7 +85,7 @@ describe('Orders effect', () => {
       });
 
       it('should handle failures for load user Orders', () => {
-        spyOn(orderHistoryConnector, 'getUnitOrderHistory').and.returnValue(
+        vi.spyOn(orderHistoryConnector, 'getUnitOrderHistory').mockReturnValue(
           throwError(() => mockError)
         );
 
@@ -122,7 +123,7 @@ describe('Orders effect', () => {
 
     describe('loadOrderDetails$', () => {
       it('should load order details', () => {
-        spyOn(orderHistoryConnector, 'getUnitOrderDetail').and.returnValue(
+        vi.spyOn(orderHistoryConnector, 'getUnitOrderDetail').mockReturnValue(
           of(mockOrderDetails)
         );
         const action = new UnitOrderActions.LoadOrderDetails(
@@ -144,7 +145,7 @@ describe('Orders effect', () => {
           mockError,
           new MockLoggerService()
         );
-        spyOn(orderHistoryConnector, 'getUnitOrderDetail').and.returnValue(
+        vi.spyOn(orderHistoryConnector, 'getUnitOrderDetail').mockReturnValue(
           throwError(() => mockError)
         );
 

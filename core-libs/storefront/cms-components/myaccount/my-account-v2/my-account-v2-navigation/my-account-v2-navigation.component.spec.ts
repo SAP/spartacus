@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CmsNavigationComponent } from '@spartacus/core';
 import {
   CmsComponentData,
@@ -9,7 +9,6 @@ import {
 import { of } from 'rxjs';
 import { MyAccountV2NavigationComponent } from './my-account-v2-navigation.component';
 import { NavigationUIComponent } from '../../../navigation/navigation/navigation-ui.component';
-import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-navigation-ui',
@@ -34,10 +33,10 @@ describe('MyAccountV2NavigationComponent', () => {
   let fixture: ComponentFixture<MyAccountV2NavigationComponent>;
 
   const mockNavigationService = {
-    createNavigation: createSpy().and.returnValue(of(null)),
+    createNavigation: vi.fn().mockReturnValue(of(null)),
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [MyAccountV2NavigationComponent],
       providers: [
@@ -56,7 +55,7 @@ describe('MyAccountV2NavigationComponent', () => {
         add: { imports: [MockNavigationUIComponent] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2NavigationComponent);

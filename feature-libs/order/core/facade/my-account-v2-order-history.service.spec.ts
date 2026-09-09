@@ -1,4 +1,4 @@
-import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store, StoreModule } from '@ngrx/store';
 import {
@@ -11,7 +11,7 @@ import {
   Order,
   OrderHistoryListView,
 } from '@spartacus/order/root';
-import * as fromProcessReducers from 'core-libs/core/src/process/store/reducers/index';
+import * as fromProcessReducers from '@spartacus/core/process/store/reducers';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OrderActions } from '../store';
@@ -20,7 +20,6 @@ import * as fromStoreReducers from '../store/reducers/index';
 import { MyAccountV2OrderHistoryService } from './my-account-v2-order-history.service';
 import { OrderHistoryService } from './order-history.service';
 import { OrderReturnRequestService } from './order-return-request.service';
-import createSpy = jasmine.createSpy;
 const orderCode = 'order1';
 const consignmentCode = 'cons1';
 const orderCode2 = 'order2';
@@ -58,13 +57,13 @@ const returnList = {
   sorts: [],
 };
 class MockOrderHistoryService implements Partial<OrderHistoryService> {
-  clearOrderList = createSpy();
-  getOrderHistoryList = createSpy();
+  clearOrderList = vi.fn();
+  getOrderHistoryList = vi.fn();
 }
 class MockOrderReturnRequestService
   implements Partial<OrderReturnRequestService>
 {
-  getOrderReturnRequestList = createSpy();
+  getOrderReturnRequestList = vi.fn();
 }
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -108,7 +107,7 @@ describe('MyAccountV2OrderHistoryService', () => {
     historyService = TestBed.inject(OrderHistoryService);
     store = TestBed.inject(Store);
     actions$ = TestBed.inject(ActionsSubject);
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   it('should be injected', inject(
@@ -118,13 +117,13 @@ describe('MyAccountV2OrderHistoryService', () => {
     }
   ));
   it('should clear order history list', () => {
-    historyService.clearOrderList = createSpy().and.stub();
+    historyService.clearOrderList = vi.fn().mockImplementation(() => {});
     service.clearOrderList();
     expect(historyService.clearOrderList).toHaveBeenCalled();
   });
   describe('getConsignmentTracking', () => {
-    it('should load consignment tracking when not present in the store', fakeAsync(() => {
-      spyOn(userService, 'takeUserId').and.callThrough();
+    it('should load consignment tracking when not present in the store', async () => {
+      vi.spyOn(userService, 'takeUserId');
       const sub = service
         .getConsignmentTracking(orderCode, consignmentCode)
         .subscribe();
@@ -141,7 +140,7 @@ describe('MyAccountV2OrderHistoryService', () => {
           );
         });
 
-      tick();
+      await new Promise((resolve) => setTimeout(resolve, 0));
       expect(userService.takeUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrderActions.LoadConsignmentTrackingById({
@@ -151,10 +150,10 @@ describe('MyAccountV2OrderHistoryService', () => {
         })
       );
       sub.unsubscribe();
-    }));
+    });
 
     it('should be able to return consignment tracking without loading when present in the store', () => {
-      spyOn(userService, 'takeUserId').and.callThrough();
+      vi.spyOn(userService, 'takeUserId');
       store.dispatch(
         new OrderActions.LoadConsignmentTrackingByIdSuccess({
           orderCode,
@@ -180,8 +179,8 @@ describe('MyAccountV2OrderHistoryService', () => {
   });
 
   describe('getOrderDetailsV2', () => {
-    it('should load order details when not present in the store', fakeAsync(() => {
-      spyOn(userService, 'takeUserId').and.callThrough();
+    it('should load order details when not present in the store', async () => {
+      vi.spyOn(userService, 'takeUserId');
       const sub = service.getOrderDetailsV2(orderCode).subscribe();
 
       actions$
@@ -195,7 +194,7 @@ describe('MyAccountV2OrderHistoryService', () => {
           );
         });
 
-      tick();
+      await new Promise((resolve) => setTimeout(resolve, 0));
       expect(userService.takeUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrderActions.LoadOrderById({
@@ -204,10 +203,10 @@ describe('MyAccountV2OrderHistoryService', () => {
         })
       );
       sub.unsubscribe();
-    }));
+    });
 
     it('should be able to return order without loading when present in the store', () => {
-      spyOn(userService, 'takeUserId').and.callThrough();
+      vi.spyOn(userService, 'takeUserId');
       store.dispatch(new OrderActions.LoadOrderByIdSuccess(order1));
       service
         .getOrderDetailsV2(orderCode)
@@ -224,7 +223,7 @@ describe('MyAccountV2OrderHistoryService', () => {
       );
     });
     it('should return `undefined` in case of error when loading order', () => {
-      spyOn(userService, 'takeUserId').and.callThrough();
+      vi.spyOn(userService, 'takeUserId');
       store.dispatch(
         new OrderActions.LoadOrderByIdFail({
           code: 'orderX',
@@ -239,7 +238,7 @@ describe('MyAccountV2OrderHistoryService', () => {
         .unsubscribe();
     });
     it('should not emit when success and error are null or undefined', () => {
-      spyOn(service as any, 'getOrderDetailsState').and.returnValue(
+      vi.spyOn(service as any, 'getOrderDetailsState').mockReturnValue(
         of({ success: null, error: undefined, loading: false, value: null })
       );
       service.getOrderDetailsV2(orderCode).subscribe(() => {
@@ -252,8 +251,10 @@ describe('MyAccountV2OrderHistoryService', () => {
   });
   describe('getOrderDetailsWithTracking', () => {
     it('should return order details with consignment tracking', () => {
-      spyOn(service, 'getOrderDetailsV2').and.returnValue(of(order1));
-      spyOn(service, 'getConsignmentTracking').and.returnValue(of(tracking1));
+      vi.spyOn(service, 'getOrderDetailsV2').mockReturnValue(of(order1));
+      vi.spyOn(service, 'getConsignmentTracking').mockReturnValue(
+        of(tracking1)
+      );
       service.getOrderDetailsWithTracking(orderCode).subscribe((result) => {
         expect(result).toEqual({
           code: orderCode,
@@ -277,8 +278,8 @@ describe('MyAccountV2OrderHistoryService', () => {
       });
     });
     it('should return order details without consignment tracking', () => {
-      spyOn(service, 'getOrderDetailsV2').and.returnValue(of(order2));
-      spyOn(service, 'getConsignmentTracking').and.stub();
+      vi.spyOn(service, 'getOrderDetailsV2').mockReturnValue(of(order2));
+      vi.spyOn(service, 'getConsignmentTracking').mockImplementation(() => {});
       service.getOrderDetailsWithTracking(orderCode).subscribe((result) => {
         expect(result).toEqual({
           code: orderCode2,
@@ -296,14 +297,10 @@ describe('MyAccountV2OrderHistoryService', () => {
   });
   describe('getOrderHistoryListWithDetails', () => {
     it('should return order details with extra details', () => {
-      historyService.getOrderHistoryList = createSpy().and.returnValue(
-        of(list)
+      historyService.getOrderHistoryList = vi.fn().mockReturnValue(of(list));
+      vi.spyOn(service, 'getOrderDetailsWithTracking').mockImplementation(
+        (code: string) => (code === orderCode2 ? of(order2) : of(order1))
       );
-      spyOn(service, 'getOrderDetailsWithTracking')
-        .withArgs(orderCode2)
-        .and.returnValue(of(order2))
-        .withArgs(orderCode)
-        .and.returnValue(of(order1));
       service.getOrderHistoryListWithDetails(2).subscribe((data) => {
         expect(data).toEqual({
           orders: [
@@ -355,10 +352,10 @@ describe('MyAccountV2OrderHistoryService', () => {
         pagination: {},
         sorts: [],
       };
-      returnService.getOrderReturnRequestList = createSpy().and.returnValue(
-        of(returnList)
-      );
-      spyOn(service, 'getOrderHistoryListWithDetails').and.returnValue(
+      returnService.getOrderReturnRequestList = vi
+        .fn()
+        .mockReturnValue(of(returnList));
+      vi.spyOn(service, 'getOrderHistoryListWithDetails').mockReturnValue(
         of({
           orders: [
             {

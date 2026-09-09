@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import {
   B2BUserRole,
@@ -10,7 +11,6 @@ import {
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { of } from 'rxjs';
 import { UnitLevelOrdersViewerGuard } from './unit-level-orders-viewer.guard';
-import createSpy = jasmine.createSpy;
 
 const mockUserDetails: User = {
   firstName: 'test',
@@ -19,15 +19,15 @@ const mockUserDetails: User = {
 };
 
 class MockUserAccountFacade implements Partial<UserAccountFacade> {
-  get = createSpy('get').and.returnValue(of(mockUserDetails));
+  get = vi.fn().mockReturnValue(of(mockUserDetails));
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go = createSpy('go');
+  go = vi.fn();
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy('add');
+  add = vi.fn();
 }
 
 describe('UnitLevelOrdersViewerGuard', () => {

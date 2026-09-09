@@ -27,14 +27,13 @@ import {
 } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { CustomerTicketingCloseDialogComponent } from './customer-ticketing-close-dialog.component';
-import createSpy = jasmine.createSpy;
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
 
 class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
-  createTicketEvent = createSpy().and.returnValue(EMPTY);
+  createTicketEvent = vi.fn().mockReturnValue(EMPTY);
 }
 
 class MockRoutingService implements Partial<RoutingService> {

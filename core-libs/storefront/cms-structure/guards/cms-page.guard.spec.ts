@@ -84,7 +84,7 @@ describe('CmsPageGuard', () => {
     describe('when BeforeCmsPageGuardService.canActivate emits redirect url,', () => {
       const urlTree = new UrlTree();
       beforeEach(() => {
-        spyOn(beforeCmsPageGuardService, 'canActivate').and.returnValue(
+        vi.spyOn(beforeCmsPageGuardService, 'canActivate').mockReturnValue(
           of(urlTree)
         );
       });
@@ -102,17 +102,17 @@ describe('CmsPageGuard', () => {
 
     describe('when BeforeCmsPageGuardService.canActivate emits true,', () => {
       beforeEach(() => {
-        spyOn(beforeCmsPageGuardService, 'canActivate').and.returnValue(
+        vi.spyOn(beforeCmsPageGuardService, 'canActivate').mockReturnValue(
           of(true)
         );
       });
 
       it('should force loading of CMS page for the anticipated page context', () => {
         const pageContext = {} as PageContext;
-        spyOn(routingService, 'getNextPageContext').and.returnValue(
+        vi.spyOn(routingService, 'getNextPageContext').mockReturnValue(
           of(pageContext)
         );
-        spyOn(cmsService, 'getPage').and.returnValue(NEVER);
+        vi.spyOn(cmsService, 'getPage').mockReturnValue(NEVER);
         guard
           .canActivate(mockActivatedRouteSnapshot, mockRouterStateSnapshot)
           .subscribe()
@@ -124,17 +124,17 @@ describe('CmsPageGuard', () => {
       describe('and when `loadStrategy` is set to ONCE', () => {
         beforeEach(() => {
           const routingConfig = TestBed.inject(RoutingConfigService);
-          spyOn(routingConfig, 'getLoadStrategy').and.returnValue(
+          vi.spyOn(routingConfig, 'getLoadStrategy').mockReturnValue(
             RouteLoadStrategy.ONCE
           );
         });
 
         it('should get (but not force reload) CMS page for the anticipated page context', () => {
           const pageContext = {} as PageContext;
-          spyOn(routingService, 'getNextPageContext').and.returnValue(
+          vi.spyOn(routingService, 'getNextPageContext').mockReturnValue(
             of(pageContext)
           );
-          spyOn(cmsService, 'getPage').and.returnValue(NEVER);
+          vi.spyOn(cmsService, 'getPage').mockReturnValue(NEVER);
 
           guard
             .canActivate(mockActivatedRouteSnapshot, mockRouterStateSnapshot)
@@ -151,11 +151,11 @@ describe('CmsPageGuard', () => {
           const pageContext = {} as PageContext;
           const pageData = {} as Page;
           const urlTree = {} as UrlTree;
-          spyOn(routingService, 'getNextPageContext').and.returnValue(
+          vi.spyOn(routingService, 'getNextPageContext').mockReturnValue(
             of(pageContext)
           );
-          spyOn(cmsService, 'getPage').and.returnValue(of(pageData));
-          spyOn(service, 'canActivatePage').and.returnValue(of(urlTree));
+          vi.spyOn(cmsService, 'getPage').mockReturnValue(of(pageData));
+          vi.spyOn(service, 'canActivatePage').mockReturnValue(of(urlTree));
 
           let result;
           guard
@@ -176,11 +176,11 @@ describe('CmsPageGuard', () => {
         it('should return result of CmsPageGuardService.canActivatePage', () => {
           const pageContext = {} as PageContext;
           const urlTree = {} as UrlTree;
-          spyOn(routingService, 'getNextPageContext').and.returnValue(
+          vi.spyOn(routingService, 'getNextPageContext').mockReturnValue(
             of(pageContext)
           );
-          spyOn(cmsService, 'getPage').and.returnValue(of(null));
-          spyOn(service, 'canActivateNotFoundPage').and.returnValue(
+          vi.spyOn(cmsService, 'getPage').mockReturnValue(of(null));
+          vi.spyOn(service, 'canActivateNotFoundPage').mockReturnValue(
             of(urlTree)
           );
 

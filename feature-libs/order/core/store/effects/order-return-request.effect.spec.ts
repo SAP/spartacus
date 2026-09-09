@@ -76,7 +76,7 @@ describe('Order Return Request effect', () => {
 
   describe('createReturnRequest$', () => {
     it('should create order return request', () => {
-      spyOn(orderHistoryConnector, 'return').and.returnValue(
+      vi.spyOn(orderHistoryConnector, 'return').mockReturnValue(
         of(mockReturnRequest)
       );
       const action = new OrderActions.CreateOrderReturnRequest({
@@ -97,7 +97,7 @@ describe('Order Return Request effect', () => {
     });
 
     it('should handle failures for create order return request', () => {
-      spyOn(orderHistoryConnector, 'return').and.returnValue(
+      vi.spyOn(orderHistoryConnector, 'return').mockReturnValue(
         throwError(() => error)
       );
 
@@ -119,7 +119,7 @@ describe('Order Return Request effect', () => {
 
   describe('loadReturnRequestList$', () => {
     it('should load return request list', () => {
-      spyOn(orderHistoryConnector, 'getReturnRequestList').and.returnValue(
+      vi.spyOn(orderHistoryConnector, 'getReturnRequestList').mockReturnValue(
         of(mockReturnRequestList)
       );
       const action = new OrderActions.LoadOrderReturnRequestList({
@@ -140,7 +140,7 @@ describe('Order Return Request effect', () => {
     });
 
     it('should handle failures for load return request list', () => {
-      spyOn(orderHistoryConnector, 'getReturnRequestList').and.returnValue(
+      vi.spyOn(orderHistoryConnector, 'getReturnRequestList').mockReturnValue(
         throwError(() => error)
       );
       const action = new OrderActions.LoadOrderReturnRequestList({
@@ -161,7 +161,7 @@ describe('Order Return Request effect', () => {
 
   describe('loadReturnRequest$', () => {
     it('should load an order return request', () => {
-      spyOn(orderHistoryConnector, 'getReturnRequestDetail').and.returnValue(
+      vi.spyOn(orderHistoryConnector, 'getReturnRequestDetail').mockReturnValue(
         of(mockReturnRequest)
       );
       const action = new OrderActions.LoadOrderReturnRequest({
@@ -182,7 +182,7 @@ describe('Order Return Request effect', () => {
     });
 
     it('should handle failures for load an order return request', () => {
-      spyOn(orderHistoryConnector, 'getReturnRequestDetail').and.returnValue(
+      vi.spyOn(orderHistoryConnector, 'getReturnRequestDetail').mockReturnValue(
         throwError(() => error)
       );
 
@@ -204,7 +204,7 @@ describe('Order Return Request effect', () => {
 
   describe('cancelReturnRequest$', () => {
     it('should cancel return request', () => {
-      spyOn(orderHistoryConnector, 'cancelReturnRequest').and.returnValue(
+      vi.spyOn(orderHistoryConnector, 'cancelReturnRequest').mockReturnValue(
         of({})
       );
 
@@ -223,7 +223,7 @@ describe('Order Return Request effect', () => {
     });
 
     it('should handle failures for cancel return request', () => {
-      spyOn(orderHistoryConnector, 'cancelReturnRequest').and.returnValue(
+      vi.spyOn(orderHistoryConnector, 'cancelReturnRequest').mockReturnValue(
         throwError(() => error)
       );
 

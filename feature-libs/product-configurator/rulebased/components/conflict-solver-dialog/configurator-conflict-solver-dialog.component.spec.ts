@@ -1,5 +1,5 @@
 import { Component, Directive, Input, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CxDatePipe,
   FeatureDirective,
@@ -31,6 +31,7 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorGroupComponent } from '../group';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorConflictSolverDialogComponent } from './configurator-conflict-solver-dialog.component';
+import { vi } from 'vitest';
 
 export class MockIconFontLoaderService {
   getStyleClasses(_iconType: ICON_TYPE): void {}
@@ -99,7 +100,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
   let focusService: KeyboardFocusService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [IconModule, ConfiguratorConflictSolverDialogComponent],
       providers: [
@@ -136,7 +137,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
@@ -144,7 +145,6 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
     );
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
-    fixture.detectChanges();
 
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
@@ -154,20 +154,17 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
       ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
     );
 
-    spyOn(
+    vi.spyOn(
       configuratorStorefrontUtilsService,
       'scrollToConfigurationElement'
-    ).and.callThrough();
+    );
 
-    spyOn(
-      configuratorStorefrontUtilsService,
-      'focusFirstAttribute'
-    ).and.callThrough();
+    vi.spyOn(configuratorStorefrontUtilsService, 'focusFirstAttribute');
 
-    spyOn(configuratorCommonsService, 'updateConfiguration').and.callThrough();
+    vi.spyOn(configuratorCommonsService, 'updateConfiguration');
 
     launchDialogService = TestBed.inject(LaunchDialogService);
-    spyOn(launchDialogService, 'closeDialog').and.callThrough();
+    vi.spyOn(launchDialogService, 'closeDialog');
 
     focusService = TestBed.inject(KeyboardFocusService);
   });
@@ -178,6 +175,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
 
   describe('Rendering', () => {
     it('should render a conflict solver dialog correctly', () => {
+      fixture.detectChanges();
       expect(component).toBeTruthy();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
@@ -245,6 +243,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
 
   describe('init', () => {
     it('should clear persisted focus key', () => {
+      fixture.detectChanges();
       focusService.set('key');
       component.init(NEVER, NEVER);
       expect(focusService.get()).toBeUndefined();
@@ -252,6 +251,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
   });
   describe('dismissModal', () => {
     it('should close dialog when dismissModal is called', () => {
+      fixture.detectChanges();
       const reason = 'Close conflict solver dialog';
       component.ngOnInit();
       component.dismissModal(reason);
@@ -266,6 +266,10 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
   });
 
   describe('Accessibility', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
     it("should contain action button element with class name 'close' and 'aria-label' attribute that indicates the text for close button", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,

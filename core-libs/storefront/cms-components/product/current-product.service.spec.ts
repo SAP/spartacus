@@ -62,8 +62,8 @@ describe('CurrentProductService', () => {
     routingService = TestBed.inject(RoutingService);
     productService = TestBed.inject(ProductService);
 
-    spyOn(routingService, 'getRouterState').and.callThrough();
-    spyOn(productService, 'get').and.callThrough();
+    vi.spyOn(routingService, 'getRouterState');
+    vi.spyOn(productService, 'get');
   });
 
   it('should emit product data', () => {

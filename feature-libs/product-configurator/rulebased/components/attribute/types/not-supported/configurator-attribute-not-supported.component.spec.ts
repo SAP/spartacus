@@ -18,14 +18,15 @@ describe('ConfiguratorAttributeNotSupportedComponent', () => {
     );
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it("should contain 'not supported' text", () => {
+    fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,

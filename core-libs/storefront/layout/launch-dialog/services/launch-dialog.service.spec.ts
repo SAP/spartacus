@@ -111,10 +111,10 @@ describe('LaunchDialogService', () => {
     routingRenderStrategy = TestBed.inject(MockRoutingRenderStrategy);
     inlineRenderStrategy = TestBed.inject(MockInlineRenderStrategy);
 
-    spyOn(routingRenderStrategy, 'render');
-    spyOn(routingRenderStrategy, 'remove');
-    spyOn(inlineRenderStrategy, 'render');
-    spyOn(inlineRenderStrategy, 'remove');
+    vi.spyOn(routingRenderStrategy, 'render');
+    vi.spyOn(routingRenderStrategy, 'remove');
+    vi.spyOn(inlineRenderStrategy, 'render');
+    vi.spyOn(inlineRenderStrategy, 'remove');
   });
 
   it('should be created', () => {
@@ -175,7 +175,7 @@ describe('LaunchDialogService', () => {
 
   describe('openDialog', () => {
     beforeEach(() => {
-      spyOn(service, 'launch').and.returnValue(of(componentRef));
+      vi.spyOn(service, 'launch').mockReturnValue(of(componentRef));
     });
 
     it('should call LaunchDialogService launch', () => {
@@ -196,8 +196,8 @@ describe('LaunchDialogService', () => {
     });
 
     it('should call LaunchDialogService clear on close and destroy', () => {
-      spyOn(service, 'clear');
-      spyOn(componentRef, 'destroy');
+      vi.spyOn(service, 'clear');
+      vi.spyOn(componentRef, 'destroy');
       service['_dialogClose'].next('close');
 
       const openDialog = service.openDialog(
@@ -215,7 +215,7 @@ describe('LaunchDialogService', () => {
     });
 
     it('should call focusElement with the opener nativeElement on close', () => {
-      spyOn<any>(service, 'focusElement');
+      vi.spyOn<any>(service, 'focusElement');
       const openElement = { nativeElement: document.createElement('button') };
       service['_dialogClose'].next('close');
 
@@ -229,7 +229,7 @@ describe('LaunchDialogService', () => {
     });
 
     it('should call focusElement with undefined when no opener is provided', () => {
-      spyOn<any>(service, 'focusElement');
+      vi.spyOn<any>(service, 'focusElement');
       service['_dialogClose'].next('close');
 
       service
@@ -242,7 +242,7 @@ describe('LaunchDialogService', () => {
 
   describe('openDialogAndSubscribe', () => {
     it('should call "openDialog" method', () => {
-      spyOn(service, 'openDialog');
+      vi.spyOn(service, 'openDialog');
 
       service.openDialogAndSubscribe(
         'TEST_DIALOG' as LAUNCH_CALLER,
@@ -269,10 +269,10 @@ describe('LaunchDialogService', () => {
     it('should focus the first focusable descendant when one exists', () => {
       const host = document.createElement('div');
       const focusableChild = document.createElement('button');
-      spyOn(autoFocusService, 'findFirstFocusable').and.returnValue(
+      vi.spyOn(autoFocusService, 'findFirstFocusable').mockReturnValue(
         focusableChild
       );
-      spyOn(focusableChild, 'focus');
+      vi.spyOn(focusableChild, 'focus');
 
       (service as any).focusElement(host);
 
@@ -282,8 +282,8 @@ describe('LaunchDialogService', () => {
 
     it('should focus the host itself when no focusable descendant exists', () => {
       const host = document.createElement('div');
-      spyOn(autoFocusService, 'findFirstFocusable').and.returnValue(null);
-      spyOn(host, 'focus');
+      vi.spyOn(autoFocusService, 'findFirstFocusable').mockReturnValue(null);
+      vi.spyOn(host, 'focus');
 
       (service as any).focusElement(host);
 
@@ -292,7 +292,7 @@ describe('LaunchDialogService', () => {
 
     it('should temporarily add tabindex="-1" and remove it after focus when target has no tabindex', () => {
       const host = document.createElement('div');
-      spyOn(autoFocusService, 'findFirstFocusable').and.returnValue(null);
+      vi.spyOn(autoFocusService, 'findFirstFocusable').mockReturnValue(null);
 
       (service as any).focusElement(host);
 
@@ -302,8 +302,8 @@ describe('LaunchDialogService', () => {
     it('should not remove tabindex if the target already had one', () => {
       const host = document.createElement('div');
       host.setAttribute('tabindex', '0');
-      spyOn(autoFocusService, 'findFirstFocusable').and.returnValue(null);
-      spyOn(host, 'focus');
+      vi.spyOn(autoFocusService, 'findFirstFocusable').mockReturnValue(null);
+      vi.spyOn(host, 'focus');
 
       (service as any).focusElement(host);
 
@@ -311,7 +311,7 @@ describe('LaunchDialogService', () => {
     });
 
     it('should do nothing when called with undefined', () => {
-      spyOn(autoFocusService, 'findFirstFocusable');
+      vi.spyOn(autoFocusService, 'findFirstFocusable');
 
       (service as any).focusElement(undefined);
 

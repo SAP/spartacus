@@ -1,10 +1,5 @@
 import { Component, DebugElement, ElementRef, Input } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -17,12 +12,11 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { GenericLinkComponent, IconComponent } from '@spartacus/storefront';
-import { BreakpointService } from 'core-libs/storefront/layout';
+import { BreakpointService } from '../../../layout';
 import { of } from 'rxjs';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationUIComponent } from './navigation-ui.component';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 @Component({
   selector: 'cx-icon',
@@ -130,7 +124,10 @@ describe('Navigation UI Component', () => {
           provide: WindowRef,
           useValue: mockWinRef,
         },
-        provideMockFeatureToggles({ ...mockFeatureToggles }),
+        {
+          provide: FeatureToggles,
+          useValue: mockFeatureToggles,
+        },
         {
           provide: BreakpointService,
           useClass: MockBreakpointService,
@@ -259,8 +256,8 @@ describe('Navigation UI Component', () => {
       const back: HTMLElement = navs[0].nativeElement;
       const root1: HTMLElement = navs[1].nativeElement;
       expect(navs.length).toBe(2);
-      expect(back.innerText).toEqual('common.back');
-      expect(root1.innerText).toEqual('');
+      expect(back.textContent?.trim()).toEqual('common.back');
+      expect(root1.textContent).toEqual('');
     });
 
     it('should render link for nav nodes with a URL', () => {
@@ -308,33 +305,45 @@ describe('Navigation UI Component', () => {
 
     it('should reinitialize menu, when menu is expanded', () => {
       navigationComponent['resetMenuOnClose'] = true;
-      spyOn(navigationComponent, 'reinitializeMenu').and.stub();
+      vi.spyOn(navigationComponent, 'reinitializeMenu').mockImplementation(
+        () => {}
+      );
       fixture.detectChanges();
       expect(navigationComponent.reinitializeMenu).toHaveBeenCalled();
     });
 
     it('should NOT reinitialize menu, when menu is expanded if config is false', () => {
-      spyOn(navigationComponent, 'reinitializeMenu').and.stub();
+      vi.spyOn(navigationComponent, 'reinitializeMenu').mockImplementation(
+        () => {}
+      );
       fixture.detectChanges();
       expect(navigationComponent.reinitializeMenu).not.toHaveBeenCalled();
     });
 
     it('should close hamburger and every LI element when click on link to current route', () => {
-      spyOn(navigationComponent, 'closeIfClickedTheSameLink').and.callThrough();
-      spyOn(navigationComponent, 'reinitializeMenu').and.callThrough();
-      spyOn(hamburgerMenuService, 'toggle').and.stub();
+      vi.spyOn(navigationComponent, 'closeIfClickedTheSameLink');
+      vi.spyOn(navigationComponent, 'reinitializeMenu');
+      vi.spyOn(hamburgerMenuService, 'toggle').mockImplementation(() => {});
+
       navigationComponent.isDesktop$ = of(false);
       fixture.detectChanges();
 
-      element
-        .query(By.css('nav > ul > li:nth-child(2) > button'))
-        .nativeElement.click();
-      element
-        .query(By.css('button[aria-controls="Child-1"]'))
-        .nativeElement.click();
-      element
-        .query(By.css('button[aria-controls="Sub-child-1"]'))
-        .nativeElement.click();
+      const makeClickEvent = (el: HTMLElement) => ({
+        currentTarget: el,
+        type: 'click',
+        stopImmediatePropagation: () => {},
+        stopPropagation: () => {},
+      });
+
+      const btn1 = element.query(By.css('nav > ul > li:nth-child(2) > button'));
+      btn1.triggerEventHandler('click', makeClickEvent(btn1.nativeElement));
+      fixture.detectChanges();
+      const btn2 = element.query(By.css('button[aria-controls="Child-1"]'));
+      btn2.triggerEventHandler('click', makeClickEvent(btn2.nativeElement));
+      fixture.detectChanges();
+      const btn3 = element.query(By.css('button[aria-controls="Sub-child-1"]'));
+      btn3.triggerEventHandler('click', makeClickEvent(btn3.nativeElement));
+      fixture.detectChanges();
 
       expect(element.queryAll(By.css('li.is-open:not(.back)')).length).toBe(1);
       expect(element.queryAll(By.css('li.is-opened')).length).toBe(2);
@@ -408,23 +417,24 @@ describe('Navigation UI Component', () => {
       expect(navigationComponent.getTabIndex(childNode, 1)).toEqual(0);
     });
 
-    it('return focus to node header after navigating back', fakeAsync(() => {
+    it('return focus to node header after navigating back', () => {
+      vi.useFakeTimers();
       const mockNode = document.createElement('li');
       const mockHeader = document.createElement('a');
       mockHeader.setAttribute('aria-haspopup', 'true');
       mockNode.appendChild(mockHeader);
       navigationComponent['openNodes'] = [mockNode];
-      spyOn(mockHeader, 'focus');
+      const focusSpy = vi.spyOn(mockHeader, 'focus');
 
       navigationComponent.back();
-      tick();
+      vi.runAllTimers();
 
       expect(mockHeader.focus).toHaveBeenCalled();
-    }));
+    });
 
     it('should move focus to the opened node', () => {
       const firstChild = element.query(By.css('[href="/sub-sub-child-1a"]'));
-      const spy = spyOn(firstChild.nativeElement, 'focus');
+      const spy = vi.spyOn(firstChild.nativeElement, 'focus');
       const spaceEvent = new KeyboardEvent('keyup', { code: 'Space' });
       const dropDownButton = element.query(
         By.css('[depth="2"] h4')
@@ -475,7 +485,7 @@ describe('Navigation UI Component', () => {
       });
 
       it('should call toggleOpen on keyup', () => {
-        const spy = spyOn(navigationComponent, 'toggleOpen');
+        const spy = vi.spyOn(navigationComponent, 'toggleOpen');
         const keyupEvent = new KeyboardEvent('keyup', { code: 'Space' });
         const dropDownButton = element.query(
           By.css('nav button[aria-expanded="false"]')
@@ -488,12 +498,12 @@ describe('Navigation UI Component', () => {
       });
 
       it('should suppress action and only call preventDefault on keydown', () => {
-        const toggleSpy = spyOn(navigationComponent, 'toggleOpen');
+        const toggleSpy = vi.spyOn(navigationComponent, 'toggleOpen');
         const keydownEvent = new KeyboardEvent('keydown', {
           code: 'Space',
           cancelable: true,
         });
-        spyOn(keydownEvent, 'preventDefault');
+        vi.spyOn(keydownEvent, 'preventDefault');
         const dropDownButton = element.query(
           By.css('nav button[aria-expanded="false"]')
         ).nativeElement;
@@ -508,8 +518,8 @@ describe('Navigation UI Component', () => {
       });
 
       it('should not move focus or set up arrow controls on keydown', () => {
-        const focusSpy = spyOn(navigationComponent, 'focusOnNode');
-        const arrowSpy = spyOn(navigationComponent, 'setupArrowControls');
+        const focusSpy = vi.spyOn(navigationComponent, 'focusOnNode');
+        const arrowSpy = vi.spyOn(navigationComponent, 'setupArrowControls');
         const keydownEvent = new KeyboardEvent('keydown', { code: 'Space' });
 
         navigationComponent.onSpace(keydownEvent);
@@ -519,9 +529,9 @@ describe('Navigation UI Component', () => {
       });
 
       it('should move focus and set up arrow controls on keyup', () => {
-        const focusSpy = spyOn(navigationComponent, 'focusOnNode');
-        const arrowSpy = spyOn(navigationComponent, 'setupArrowControls');
-        spyOn(navigationComponent, 'toggleOpen');
+        const focusSpy = vi.spyOn(navigationComponent, 'focusOnNode');
+        const arrowSpy = vi.spyOn(navigationComponent, 'setupArrowControls');
+        vi.spyOn(navigationComponent, 'toggleOpen');
         const keyupEvent = new KeyboardEvent('keyup', { code: 'Space' });
         const dropDownButton = element.query(
           By.css('nav button[aria-expanded="false"]')
@@ -544,7 +554,7 @@ describe('Navigation UI Component', () => {
       });
 
       it('should call toggleOpen on keydown', () => {
-        const spy = spyOn(navigationComponent, 'toggleOpen');
+        const spy = vi.spyOn(navigationComponent, 'toggleOpen');
         const keydownEvent = new KeyboardEvent('keydown', { code: 'Space' });
         const dropDownButton = element.query(
           By.css('nav button[aria-expanded="false"]')
@@ -559,7 +569,7 @@ describe('Navigation UI Component', () => {
       });
 
       it('should ignore keyup and not call toggleOpen', () => {
-        const spy = spyOn(navigationComponent, 'toggleOpen');
+        const spy = vi.spyOn(navigationComponent, 'toggleOpen');
         const keyupEvent = new KeyboardEvent('keyup', { code: 'Space' });
 
         navigationComponent.onSpace(keyupEvent);
@@ -568,8 +578,8 @@ describe('Navigation UI Component', () => {
       });
 
       it('should not move focus or set up arrow controls on keyup', () => {
-        const focusSpy = spyOn(navigationComponent, 'focusOnNode');
-        const arrowSpy = spyOn(navigationComponent, 'setupArrowControls');
+        const focusSpy = vi.spyOn(navigationComponent, 'focusOnNode');
+        const arrowSpy = vi.spyOn(navigationComponent, 'setupArrowControls');
         const keyupEvent = new KeyboardEvent('keyup', { code: 'Space' });
 
         navigationComponent.onSpace(keyupEvent);
@@ -579,9 +589,9 @@ describe('Navigation UI Component', () => {
       });
 
       it('should move focus and set up arrow controls on keydown', () => {
-        const focusSpy = spyOn(navigationComponent, 'focusOnNode');
-        const arrowSpy = spyOn(navigationComponent, 'setupArrowControls');
-        spyOn(navigationComponent, 'toggleOpen');
+        const focusSpy = vi.spyOn(navigationComponent, 'focusOnNode');
+        const arrowSpy = vi.spyOn(navigationComponent, 'setupArrowControls');
+        vi.spyOn(navigationComponent, 'toggleOpen');
         const keydownEvent = new KeyboardEvent('keydown', { code: 'Space' });
         const dropDownButton = element.query(
           By.css('nav button[aria-expanded="false"]')
@@ -631,7 +641,7 @@ describe('Navigation UI Component', () => {
           code: 'Space',
           cancelable: true,
         });
-        spyOn(keydownEvent, 'preventDefault');
+        vi.spyOn(keydownEvent, 'preventDefault');
         Object.defineProperty(keydownEvent, 'currentTarget', {
           value: triggerButton,
         });
@@ -643,7 +653,7 @@ describe('Navigation UI Component', () => {
       });
 
       it('should call back() when keyup fires on an already-open node', () => {
-        const backSpy = spyOn(navigationComponent, 'back');
+        const backSpy = vi.spyOn(navigationComponent, 'back');
         navigationComponent['openNodes'] = [parentNode];
         const keyupEvent = new KeyboardEvent('keyup', { code: 'Space' });
         Object.defineProperty(keyupEvent, 'currentTarget', {
@@ -708,7 +718,7 @@ describe('Navigation UI Component', () => {
       });
 
       it('should call back() when keydown fires on an already-open node', () => {
-        const backSpy = spyOn(navigationComponent, 'back');
+        const backSpy = vi.spyOn(navigationComponent, 'back');
         navigationComponent['openNodes'] = [parentNode];
         const keydownEvent = new KeyboardEvent('keydown', { code: 'Space' });
         Object.defineProperty(keydownEvent, 'currentTarget', {

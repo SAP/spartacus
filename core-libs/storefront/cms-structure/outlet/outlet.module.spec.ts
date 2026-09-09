@@ -18,13 +18,13 @@ function mockResolveComponentFactory<T>(
 }
 
 class MockComponentFactoryResolver extends ComponentFactoryResolver {
-  resolveComponentFactory = jasmine
-    .createSpy()
-    .and.callFake(mockResolveComponentFactory);
+  resolveComponentFactory = vi
+    .fn()
+    .mockImplementation(mockResolveComponentFactory);
 }
 
 class MockOutletService implements Partial<OutletService> {
-  add = jasmine.createSpy('add');
+  add = vi.fn();
 }
 
 @Component({})
@@ -76,7 +76,7 @@ describe('OutletModule.forRoot()', () => {
 
     expect(outletService.add).toHaveBeenCalledWith(
       'outlet1',
-      jasmine.objectContaining({
+      expect.objectContaining({
         componentType: AlphaComponent,
       } as ComponentFactory<AlphaComponent>),
       OutletPosition.AFTER
@@ -88,7 +88,7 @@ describe('OutletModule.forRoot()', () => {
 
     expect(outletService.add).toHaveBeenCalledWith(
       'outlet2',
-      jasmine.objectContaining({
+      expect.objectContaining({
         componentType: BetaComponent,
       } as ComponentFactory<BetaComponent>),
       OutletPosition.REPLACE

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import {
   AuthRedirectService,
@@ -15,24 +15,22 @@ import {
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '@spartacus/storefront/testing';
 import { OrderGuestRegisterFormComponent } from './order-guest-register-form.component';
-
-import createSpy = jasmine.createSpy;
 
 const mockSecurePassword = 'strongPas$!123';
 const mockInvalidPassword = 'strongPass$!123';
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  setRedirectUrl = createSpy();
+  setRedirectUrl = vi.fn();
 }
 
 class MockUserRegisterFacade implements Partial<UserRegisterFacade> {
-  registerGuest = createSpy();
+  registerGuest = vi.fn();
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  getUrl = createSpy().and.returnValue('/');
+  getUrl = vi.fn().mockReturnValue('/');
 }
 
 /** Mock control providing the FeatureToggles values for the tests below. */
@@ -52,7 +50,7 @@ describe('OrderGuestRegisterFormComponent', () => {
   let authRedirectService: AuthRedirectService;
   let routingService: RoutingService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -73,7 +71,7 @@ describe('OrderGuestRegisterFormComponent', () => {
         add: { imports: [MockTranslatePipe, MockFeatureDirective] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderGuestRegisterFormComponent);

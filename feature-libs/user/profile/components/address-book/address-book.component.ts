@@ -11,10 +11,10 @@ import {
   FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
-  HierarchicalAddressConfig,
   LanguageService,
   TranslatePipe,
   TranslationService,
+  HierarchicalAddressConfig,
 } from '@spartacus/core';
 import {
   Card,

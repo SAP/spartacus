@@ -1,4 +1,5 @@
-import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { vi } from 'vitest';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -17,7 +18,6 @@ import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-
 import { BehaviorSubject, of } from 'rxjs';
 import { UnitTreeService } from '../../services/unit-tree.service';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import createSpy = jasmine.createSpy;
 
 const mockContext = {
   expanded: true,
@@ -31,7 +31,7 @@ const mockContext = {
 };
 
 class MockUnitTreeService implements Partial<UnitTreeService> {
-  toggle = createSpy('toggle');
+  toggle = vi.fn();
   treeToggle$ = new BehaviorSubject(new Map());
 }
 
@@ -99,7 +99,7 @@ describe('ToggleLinkCellComponent', () => {
 
   it('should render tabindex = 0 by default', () => {
     const el: HTMLElement = fixture.debugElement.query(By.css('a')).nativeNode;
-    expect(el.innerText).toEqual('my name (1)');
+    expect(el.textContent?.trim()).toEqual('my name (1)');
     expect(el.tabIndex).toEqual(0);
   });
 
@@ -129,22 +129,18 @@ describe('ToggleLinkCellComponent', () => {
 
     it('should enable keyboard controls', () => {
       const mockTableElement = {
-        querySelectorAll: jasmine
-          .createSpy('querySelectorAll')
-          .and.returnValue(mockSiblingElements),
+        querySelectorAll: vi.fn().mockReturnValue(mockSiblingElements),
       };
       component['elementRef'] = {
         nativeElement: {
-          closest: jasmine
-            .createSpy('closest')
-            .and.returnValue(mockTableElement),
+          closest: vi.fn().mockReturnValue(mockTableElement),
         },
       };
-      spyOn(component, 'onSpace').and.stub();
-      spyOn(component, 'onArrowDown').and.stub();
-      spyOn(component, 'onArrowUp').and.stub();
-      spyOn(component, 'onArrowRight').and.stub();
-      spyOn(component, 'onArrowLeft').and.stub();
+      vi.spyOn(component, 'onSpace').mockImplementation(() => {});
+      vi.spyOn(component, 'onArrowDown').mockImplementation(() => {});
+      vi.spyOn(component, 'onArrowUp').mockImplementation(() => {});
+      vi.spyOn(component, 'onArrowRight').mockImplementation(() => {});
+      vi.spyOn(component, 'onArrowLeft').mockImplementation(() => {});
 
       component.onKeydown(mockSpaceEvent);
       expect(component.onSpace).toHaveBeenCalled();
@@ -158,23 +154,23 @@ describe('ToggleLinkCellComponent', () => {
       expect(component.onArrowLeft).toHaveBeenCalled();
     });
 
-    it('should make active item the only focusable item and navigate', fakeAsync(() => {
+    it('should make active item the only focusable item and navigate', () => {
       Object.defineProperty(mockSpaceEvent, 'target', {
         value: mockElement1,
       });
-      spyOn(mockSpaceEvent, 'preventDefault');
+      vi.spyOn(mockSpaceEvent, 'preventDefault');
 
       component.onSpace(mockSpaceEvent, mockSiblingElements);
 
       expect(mockSpaceEvent.preventDefault).toHaveBeenCalled();
       expect(mockElement1.tabIndex).toEqual(0);
       expect(mockElement2.tabIndex).toEqual(-1);
-    }));
+    });
 
     it('should focus next link on ArrowDown', () => {
       const currentSelectedIndex = 0;
-      spyOn(mockArrowDownEvent, 'preventDefault');
-      spyOn(mockElement2, 'focus');
+      vi.spyOn(mockArrowDownEvent, 'preventDefault');
+      vi.spyOn(mockElement2, 'focus');
 
       component.onArrowDown(
         mockArrowDownEvent,
@@ -188,8 +184,8 @@ describe('ToggleLinkCellComponent', () => {
 
     it('should focus previous element on ArrowUp', () => {
       const currentSelectedIndex = 1;
-      spyOn(mockArrowUpEvent, 'preventDefault');
-      spyOn(mockElement1, 'focus');
+      vi.spyOn(mockArrowUpEvent, 'preventDefault');
+      vi.spyOn(mockElement1, 'focus');
 
       component.onArrowUp(
         mockArrowUpEvent,
@@ -206,7 +202,7 @@ describe('ToggleLinkCellComponent', () => {
         writable: true,
         value: false,
       });
-      spyOn(component, 'toggleItem');
+      vi.spyOn(component, 'toggleItem');
 
       component.onArrowRight(mockArrowRightEvent);
 
@@ -218,7 +214,7 @@ describe('ToggleLinkCellComponent', () => {
         writable: true,
         value: true,
       });
-      spyOn(component, 'toggleItem');
+      vi.spyOn(component, 'toggleItem');
 
       component.onArrowLeft(mockArrowLeftEvent);
 

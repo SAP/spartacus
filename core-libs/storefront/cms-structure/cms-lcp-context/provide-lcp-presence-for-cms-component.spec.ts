@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { LcpPresence } from '@spartacus/storefront';
-import { BehaviorSubject, defer, of } from 'rxjs';
+import { BehaviorSubject, defer, firstValueFrom, of } from 'rxjs';
 import { LCP_PRESENCE } from '../../shared/lcp-context/lcp-presence.token';
 import { CmsComponentData } from '../page/model/cms-component-data';
 import { CmsLcpService } from './cms-lcp.service';
@@ -13,7 +13,7 @@ class MockCmsComponentData {
 }
 
 class MockCmsLcpService {
-  getLcpPresence = jasmine.createSpy('getLcpPresence');
+  getLcpPresence = vi.fn();
 }
 
 describe('provideLcpContextForCmsComponent', () => {
@@ -32,34 +32,28 @@ describe('provideLcpContextForCmsComponent', () => {
     });
   });
 
-  it('should provide LCP_PRESENCE with lcpPresence$ observable returning HAS_LCP', (done) => {
-    mockCmsLcpService.getLcpPresence.and.returnValue(of(LcpPresence.HAS_LCP));
+  it('should provide LCP_PRESENCE with lcpPresence$ observable returning HAS_LCP', async () => {
+    mockCmsLcpService.getLcpPresence.mockReturnValue(of(LcpPresence.HAS_LCP));
     const lcpPresence$ = TestBed.inject(LCP_PRESENCE);
-    const sub = lcpPresence$.subscribe((lcpPresence) => {
-      expect(lcpPresence).toEqual(LcpPresence.HAS_LCP);
-      expect(mockCmsLcpService.getLcpPresence).toHaveBeenCalledWith(
-        testComponentData
-      );
-      done();
-    });
-    sub.unsubscribe();
+    const lcpPresence = await firstValueFrom(lcpPresence$);
+    expect(lcpPresence).toEqual(LcpPresence.HAS_LCP);
+    expect(mockCmsLcpService.getLcpPresence).toHaveBeenCalledWith(
+      testComponentData
+    );
   });
 
-  it('should provide LCP_PRESENCE with lcpPresence$ observable returning NO_LCP', (done) => {
-    mockCmsLcpService.getLcpPresence.and.returnValue(of(LcpPresence.NO_LCP));
+  it('should provide LCP_PRESENCE with lcpPresence$ observable returning NO_LCP', async () => {
+    mockCmsLcpService.getLcpPresence.mockReturnValue(of(LcpPresence.NO_LCP));
     const lcpPresence$ = TestBed.inject(LCP_PRESENCE);
-    const sub = lcpPresence$.subscribe((lcpPresence) => {
-      expect(lcpPresence).toEqual(LcpPresence.NO_LCP);
-      expect(mockCmsLcpService.getLcpPresence).toHaveBeenCalledWith(
-        testComponentData
-      );
-      done();
-    });
-    sub.unsubscribe();
+    const lcpPresence = await firstValueFrom(lcpPresence$);
+    expect(lcpPresence).toEqual(LcpPresence.NO_LCP);
+    expect(mockCmsLcpService.getLcpPresence).toHaveBeenCalledWith(
+      testComponentData
+    );
   });
 
   it('should not emit duplicate values (distinctUntilChanged)', () => {
-    mockCmsLcpService.getLcpPresence.and.returnValue(
+    mockCmsLcpService.getLcpPresence.mockReturnValue(
       of(
         LcpPresence.NO_LCP,
         LcpPresence.NO_LCP,
@@ -80,7 +74,7 @@ describe('provideLcpContextForCmsComponent', () => {
   it('should replay the last value to new subscribers (shareReplay)', () => {
     const lcpPresence$ = TestBed.inject(LCP_PRESENCE);
     let heavyCalculationsCounter = 0;
-    mockCmsLcpService.getLcpPresence.and.returnValue(
+    mockCmsLcpService.getLcpPresence.mockReturnValue(
       defer(() => {
         heavyCalculationsCounter++;
         return of(LcpPresence.HAS_LCP);

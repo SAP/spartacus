@@ -3,12 +3,11 @@ import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutDeliveryModesAdapter } from './checkout-delivery-modes.adapter';
 import { CheckoutDeliveryModesConnector } from './checkout-delivery-modes.connector';
-import createSpy = jasmine.createSpy;
 
 class MockCheckoutDeliveryModesAdapter implements CheckoutDeliveryModesAdapter {
-  setMode = createSpy().and.returnValue(of({}));
-  getSupportedModes = createSpy().and.returnValue(of({}));
-  clearCheckoutDeliveryMode = createSpy().and.returnValue(of({}));
+  setMode = vi.fn().mockReturnValue(of({}));
+  getSupportedModes = vi.fn().mockReturnValue(of({}));
+  clearCheckoutDeliveryMode = vi.fn().mockReturnValue(of({}));
 }
 
 describe('CheckoutDeliveryModesConnector', () => {

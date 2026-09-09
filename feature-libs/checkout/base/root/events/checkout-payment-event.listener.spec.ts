@@ -19,7 +19,6 @@ import {
   CheckoutPaymentDetailsSetEvent,
   CheckoutQueryResetEvent,
 } from './checkout.events';
-import createSpy = jasmine.createSpy;
 
 const mockPaymentInfo: PaymentDetails = {
   id: 'mockPaymentId',
@@ -29,12 +28,12 @@ const mockUserId = 'test-user-id';
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(mockEventStream$.asObservable());
-  dispatch = createSpy();
+  get = vi.fn().mockReturnValue(mockEventStream$.asObservable());
+  dispatch = vi.fn();
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy();
+  add = vi.fn();
 }
 
 describe(`CheckoutPaymentEventListener`, () => {

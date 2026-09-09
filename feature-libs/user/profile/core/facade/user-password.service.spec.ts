@@ -1,9 +1,9 @@
+import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import { OCC_USER_ID_CURRENT, UserIdService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { UserPasswordService } from './user-password.service';
 import { UserProfileConnector } from '@spartacus/user/profile/core';
-import createSpy = jasmine.createSpy;
 
 class MockUserIdService implements Partial<UserIdService> {
   takeUserId(): Observable<string> {
@@ -12,9 +12,9 @@ class MockUserIdService implements Partial<UserIdService> {
 }
 
 class MockUserProfileConnector implements Partial<UserProfileConnector> {
-  updatePassword = createSpy().and.returnValue(of(undefined));
-  requestForgotPasswordEmail = createSpy().and.returnValue(of(undefined));
-  resetPassword = createSpy().and.returnValue(of(undefined));
+  updatePassword = vi.fn().mockReturnValue(of(undefined));
+  requestForgotPasswordEmail = vi.fn().mockReturnValue(of(undefined));
+  resetPassword = vi.fn().mockReturnValue(of(undefined));
 }
 
 describe('UserPasswordService', () => {

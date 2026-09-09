@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { GuardResult, RouterStateSnapshot } from '@angular/router';
 import { CmsActivatedRouteSnapshot } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { CanActivate, GuardsComposer } from '../services/guards-composer';
 import { BeforeCmsPageGuardService } from './before-cms-page-guard.service';
 
@@ -33,20 +33,18 @@ describe('BeforeCmsPageGuardService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call canActivate and return value', (done) => {
+  it('should call canActivate and return value', async () => {
     const route: CmsActivatedRouteSnapshot = {} as CmsActivatedRouteSnapshot;
     const state: RouterStateSnapshot = {} as RouterStateSnapshot;
 
-    spyOn(guardsComposer, 'canActivate').and.returnValue(of(true));
+    vi.spyOn(guardsComposer, 'canActivate').mockReturnValue(of(true));
 
-    service.canActivate(route, state).subscribe((value) => {
-      expect(guardsComposer.canActivate).toHaveBeenCalledWith(
-        service['guards'],
-        route,
-        state
-      );
-      expect(value).toEqual(true);
-      done();
-    });
+    const value = await firstValueFrom(service.canActivate(route, state));
+    expect(guardsComposer.canActivate).toHaveBeenCalledWith(
+      service['guards'],
+      route,
+      state
+    );
+    expect(value).toEqual(true);
   });
 });

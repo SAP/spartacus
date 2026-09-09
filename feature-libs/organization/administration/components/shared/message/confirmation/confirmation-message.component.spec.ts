@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -54,7 +55,11 @@ describe('ConfirmationMessageComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create component', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
@@ -62,7 +67,7 @@ describe('ConfirmationMessageComponent', () => {
     const messageEl: HTMLElement = fixture.debugElement.query(
       By.css('.message p')
     ).nativeElement;
-    expect(messageEl.innerText).toEqual('Raw mock message');
+    expect(messageEl.textContent?.trim()).toEqual('Raw mock message');
   });
 
   it('should have confirm button', () => {
@@ -80,7 +85,7 @@ describe('ConfirmationMessageComponent', () => {
   });
 
   it('should emit confirm event', () => {
-    const nextEvent = spyOn(messageData.events, 'next');
+    const nextEvent = vi.spyOn(messageData.events, 'next');
     const el: HTMLElement = fixture.debugElement.query(
       By.css('button.confirm')
     ).nativeElement;
@@ -93,7 +98,7 @@ describe('ConfirmationMessageComponent', () => {
   });
 
   it('should not emit confirm event', () => {
-    const nextEvent = spyOn(messageData.events, 'next');
+    const nextEvent = vi.spyOn(messageData.events, 'next');
     const el: HTMLElement = fixture.debugElement.query(
       By.css('button.cancel')
     ).nativeElement;

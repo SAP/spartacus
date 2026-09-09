@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
@@ -104,9 +105,9 @@ describe('UnitFormComponent', () => {
 
     b2bUnitService = TestBed.inject(OrgUnitService);
 
-    spyOn(b2bUnitService, 'getActiveUnitList').and.callThrough();
-    spyOn(b2bUnitService, 'loadList').and.callThrough();
-    spyOn(b2bUnitService, 'getApprovalProcesses').and.callThrough();
+    vi.spyOn(b2bUnitService, 'getActiveUnitList');
+    vi.spyOn(b2bUnitService, 'loadList');
+    vi.spyOn(b2bUnitService, 'getApprovalProcesses');
   });
 
   beforeEach(() => {

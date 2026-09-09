@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FeatureDirective } from '@spartacus/core';
 import { CarouselComponent } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { vi } from 'vitest';
 import { ProductImageZoomThumbnailsComponent } from './product-image-zoom-thumbnails.component';
 
 const firstImage = {
@@ -30,9 +31,7 @@ const secondImage = {
   selector: 'cx-carousel',
   template: `
     <ng-container *ngFor="let item of items">
-      <ng-container
-        *ngTemplateOutlet="template; context: { item: item }"
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="template; context: { item: item }" />
     </ng-container>
   `,
 })
@@ -47,7 +46,7 @@ describe('ProductImageZoomThumbnailsComponent', () => {
   let productImageZoomThumbnailsComponent: ProductImageZoomThumbnailsComponent;
   let fixture: ComponentFixture<ProductImageZoomThumbnailsComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ProductImageZoomThumbnailsComponent],
     })
@@ -56,7 +55,7 @@ describe('ProductImageZoomThumbnailsComponent', () => {
         add: { imports: [MockCarouselComponent, MockFeatureDirective] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductImageZoomThumbnailsComponent);
@@ -71,7 +70,7 @@ describe('ProductImageZoomThumbnailsComponent', () => {
 
   describe('openImage', () => {
     it('should emit event with image and index', () => {
-      spyOn(productImageZoomThumbnailsComponent.productImage, 'emit');
+      vi.spyOn(productImageZoomThumbnailsComponent.productImage, 'emit');
 
       productImageZoomThumbnailsComponent.openImage(firstImage);
 

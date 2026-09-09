@@ -27,7 +27,8 @@ import {
   filter,
   take,
 } from 'rxjs/operators';
-import { BREAKPOINT, BreakpointService } from '../../../layout';
+import { BREAKPOINT } from '../../../layout/config/layout-config';
+import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
 import { IconComponent } from '../../misc/icon/icon.component';
 import { ICON_TYPE } from '../../misc/icon/index';

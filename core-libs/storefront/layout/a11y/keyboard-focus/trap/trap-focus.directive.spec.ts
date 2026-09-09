@@ -1,5 +1,5 @@
 import { Component, Directive, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { TrapFocusConfig } from '../keyboard-focus.model';
 import { TrapFocusDirective } from './trap-focus.directive';
@@ -32,7 +32,7 @@ class MockTrapFocusService {
 describe('TrapFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   let service: TrapFocusService;
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [MockComponent, CustomFocusDirective],
       providers: [
@@ -45,7 +45,7 @@ describe('TrapFocusDirective', () => {
 
     fixture = TestBed.createComponent(MockComponent);
     service = TestBed.inject(TrapFocusService);
-  }));
+  });
 
   const event = {
     preventDefault: () => {},
@@ -55,7 +55,7 @@ describe('TrapFocusDirective', () => {
   describe('configuration', () => {
     it('should use trap=true by default', () => {
       const host = fixture.debugElement.query(By.css('#a'));
-      spyOn(service, 'moveFocus').and.callThrough();
+      vi.spyOn(service, 'moveFocus');
       fixture.detectChanges();
 
       host.triggerEventHandler('keydown.arrowup', event);
@@ -67,7 +67,7 @@ describe('TrapFocusDirective', () => {
 
     it('should move when trap = true', () => {
       const host = fixture.debugElement.query(By.css('#b'));
-      spyOn(service, 'moveFocus').and.callThrough();
+      vi.spyOn(service, 'moveFocus');
       fixture.detectChanges();
 
       host.triggerEventHandler('keydown.arrowup', event);
@@ -79,7 +79,7 @@ describe('TrapFocusDirective', () => {
 
     it('should not move when trap = false', () => {
       const host = fixture.debugElement.query(By.css('#c'));
-      spyOn(service, 'moveFocus').and.callThrough();
+      vi.spyOn(service, 'moveFocus');
       fixture.detectChanges();
 
       host.triggerEventHandler('keydown.arrowup', event);
@@ -90,9 +90,9 @@ describe('TrapFocusDirective', () => {
     });
 
     it('should not move when there are not focusable childs', () => {
-      spyOn(service, 'hasFocusableChildren').and.returnValue(false);
+      vi.spyOn(service, 'hasFocusableChildren').mockReturnValue(false);
       const host = fixture.debugElement.query(By.css('#b'));
-      spyOn(service, 'moveFocus').and.callThrough();
+      vi.spyOn(service, 'moveFocus');
       fixture.detectChanges();
 
       host.triggerEventHandler('keydown.arrowup', event);

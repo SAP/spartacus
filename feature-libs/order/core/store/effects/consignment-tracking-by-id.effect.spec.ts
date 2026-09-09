@@ -64,7 +64,7 @@ describe('Consignment Tracking By Id effect', () => {
 
   describe('loadConsignmentTrackingById$', () => {
     it('should load consignment tracking by id', () => {
-      spyOn(orderHistoryConnector, 'getConsignmentTracking').and.returnValue(
+      vi.spyOn(orderHistoryConnector, 'getConsignmentTracking').mockReturnValue(
         of(mockTracking)
       );
       const action = new OrderActions.LoadConsignmentTrackingById(
@@ -84,7 +84,7 @@ describe('Consignment Tracking By Id effect', () => {
 
     it('should handle failures for load consignment tracking by id', () => {
       const error = new Error('error');
-      spyOn(orderHistoryConnector, 'getConsignmentTracking').and.returnValue(
+      vi.spyOn(orderHistoryConnector, 'getConsignmentTracking').mockReturnValue(
         throwError(() => error)
       );
 

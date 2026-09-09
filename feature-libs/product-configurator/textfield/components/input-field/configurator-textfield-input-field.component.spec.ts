@@ -1,15 +1,16 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorTextfieldInputFieldComponent } from './configurator-textfield-input-field.component';
+import { vi } from 'vitest';
 
 describe('TextfieldInputFieldComponent', () => {
   let component: ConfiguratorTextfieldInputFieldComponent;
   let fixture: ComponentFixture<ConfiguratorTextfieldInputFieldComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -17,7 +18,7 @@ describe('TextfieldInputFieldComponent', () => {
         ConfiguratorTextfieldInputFieldComponent,
       ],
     });
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorTextfieldInputFieldComponent);
@@ -27,19 +28,21 @@ describe('TextfieldInputFieldComponent', () => {
       configurationLabel: 'attributeName',
       configurationValue: 'input123',
     };
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should set value on init', () => {
+    fixture.detectChanges();
     expect(component.attributeInputForm.value).toEqual('input123');
   });
 
   it('should emit a change event on change ', () => {
-    spyOn(component.inputChange, 'emit').and.callThrough();
+    fixture.detectChanges();
+    vi.spyOn(component.inputChange, 'emit');
     component.onInputChange();
     expect(component.inputChange.emit).toHaveBeenCalledWith(
       component.attribute
@@ -47,6 +50,7 @@ describe('TextfieldInputFieldComponent', () => {
   });
 
   it('should generate id with prefixt', () => {
+    fixture.detectChanges();
     expect(component.getId(component.attribute)).toEqual(
       'cx-configurator-textfieldattributeName'
     );
@@ -54,6 +58,7 @@ describe('TextfieldInputFieldComponent', () => {
 
   describe('Accessibility', () => {
     it("should contain label element with class name 'cx-configurator-textfield-label' and 'aria-label' attribute", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -66,6 +71,7 @@ describe('TextfieldInputFieldComponent', () => {
     });
 
     it("should contain input element with class name 'form-control' and 'aria-label' attribute", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

@@ -48,7 +48,11 @@ export function reopenTicketRequest(message: string) {
 }
 
 export function sendMessage(message: string) {
-  cy.get('.form-control').type(message);
+  cy.get('.form-control')
+    .should('be.visible')
+    .clear()
+    .type(message)
+    .should('have.value', message);
   cy.get('button').contains('Send').click();
   cy.wait(1000);
 }

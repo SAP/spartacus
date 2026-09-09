@@ -6,7 +6,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Params, RouterModule } from '@angular/router';
 import {
@@ -132,7 +132,7 @@ describe('MyAccountV2OrderHistoryComponent', () => {
   let fixture: ComponentFixture<MyAccountV2OrderHistoryComponent>;
   let routingService: RoutingService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [MyAccountV2OrderHistoryComponent, RouterModule.forRoot([])],
       providers: [
@@ -173,7 +173,7 @@ describe('MyAccountV2OrderHistoryComponent', () => {
       })
       .compileComponents();
     routingService = TestBed.inject(RoutingService);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2OrderHistoryComponent);
@@ -200,7 +200,7 @@ describe('MyAccountV2OrderHistoryComponent', () => {
   });
 
   it('should redirect when clicking on order code', () => {
-    spyOn(routingService, 'go').and.stub();
+    vi.spyOn(routingService, 'go').mockImplementation(() => {});
     fixture.detectChanges();
     const codes = fixture.debugElement.queryAll(
       By.css('.cx-my-account-v2-order-history-code')
@@ -234,7 +234,9 @@ describe('MyAccountV2OrderHistoryComponent', () => {
     );
     expect(elements.length).toEqual(0);
     const link = fixture.debugElement.query(By.css('a'));
-    expect(link.nativeNode.innerText).toEqual('orderHistory.startShopping');
+    expect(link.nativeNode.textContent?.trim()).toEqual(
+      'orderHistory.startShopping'
+    );
   });
 
   it('should show spinner if data is still laoding', () => {

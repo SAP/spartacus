@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { OrderEntry } from '@spartacus/cart/base/root';
@@ -49,7 +49,7 @@ describe('CancelOrderComponent', () => {
   let component: CancelOrderComponent;
   let fixture: ComponentFixture<CancelOrderComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [FormErrorsModule, CancelOrderComponent],
       providers: [
@@ -68,7 +68,7 @@ describe('CancelOrderComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CancelOrderComponent);

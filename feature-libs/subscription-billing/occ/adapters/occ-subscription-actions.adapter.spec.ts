@@ -9,11 +9,12 @@ import {
   SubscriptionCancellationDetails,
   SubscriptionWithdraw as Withdrawal,
 } from '@spartacus/subscription-billing/root';
+import { vi } from 'vitest';
 
 describe('OccSubscriptionActionsAdapter', () => {
   let adapter: OccSubscriptionActionsAdapter;
   let httpMock: HttpTestingController;
-  let occEndpointsService: jasmine.SpyObj<OccEndpointsService>;
+  let occEndpointsService: any;
 
   const mockUserId = 'testUser';
   const mockSubscriptionCode = 'testSubscription';
@@ -30,9 +31,7 @@ describe('OccSubscriptionActionsAdapter', () => {
   };
 
   beforeEach(() => {
-    const occEndpointsSpy = jasmine.createSpyObj('OccEndpointsService', [
-      'buildUrl',
-    ]);
+    const occEndpointsSpy = { buildUrl: vi.fn() };
 
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -44,9 +43,7 @@ describe('OccSubscriptionActionsAdapter', () => {
 
     adapter = TestBed.inject(OccSubscriptionActionsAdapter);
     httpMock = TestBed.inject(HttpTestingController);
-    occEndpointsService = TestBed.inject(
-      OccEndpointsService
-    ) as jasmine.SpyObj<OccEndpointsService>;
+    occEndpointsService = TestBed.inject(OccEndpointsService) as any;
   });
 
   afterEach(() => {
@@ -55,7 +52,7 @@ describe('OccSubscriptionActionsAdapter', () => {
 
   it('should cancel subscription', () => {
     const mockUrl = 'mockUrl';
-    occEndpointsService.buildUrl.and.returnValue(mockUrl);
+    occEndpointsService.buildUrl.mockReturnValue(mockUrl);
 
     adapter
       .cancelSubscription(
@@ -73,7 +70,7 @@ describe('OccSubscriptionActionsAdapter', () => {
 
   it('should fetch cancellation subscription effective date', () => {
     const mockUrl = 'mockEffectiveDateUrl';
-    occEndpointsService.buildUrl.and.returnValue(mockUrl);
+    occEndpointsService.buildUrl.mockReturnValue(mockUrl);
 
     adapter
       .getEffectiveCancellationDate(mockUserId, mockSubscriptionCode)
@@ -86,7 +83,7 @@ describe('OccSubscriptionActionsAdapter', () => {
 
   it('should fetch extension effective date', () => {
     const mockUrl = 'mockEffectiveDateUrl';
-    occEndpointsService.buildUrl.and.returnValue(mockUrl);
+    occEndpointsService.buildUrl.mockReturnValue(mockUrl);
 
     adapter
       .getExtensionEffectiveDate(mockUserId, mockSubscriptionCode, 1, false)
@@ -99,7 +96,7 @@ describe('OccSubscriptionActionsAdapter', () => {
 
   it('should handle withdrawal', () => {
     const mockUrl = 'mockWithdrawalUrl';
-    occEndpointsService.buildUrl.and.returnValue(mockUrl);
+    occEndpointsService.buildUrl.mockReturnValue(mockUrl);
 
     adapter
       .withdrawSubscription(mockUserId, mockSubscriptionCode, mockWithdrawal)
@@ -113,7 +110,7 @@ describe('OccSubscriptionActionsAdapter', () => {
 
   it('should reverse cancellation', () => {
     const mockUrl = 'mockReverseCancellationUrl';
-    occEndpointsService.buildUrl.and.returnValue(mockUrl);
+    occEndpointsService.buildUrl.mockReturnValue(mockUrl);
 
     adapter.reverseCancellation(mockUserId, mockSubscriptionCode).subscribe();
 
@@ -125,7 +122,7 @@ describe('OccSubscriptionActionsAdapter', () => {
 
   it('should extend subscription', () => {
     const mockUrl = 'mockExtendSubscriptionUrl';
-    occEndpointsService.buildUrl.and.returnValue(mockUrl);
+    occEndpointsService.buildUrl.mockReturnValue(mockUrl);
 
     adapter
       .extendSubscription(mockUserId, mockSubscriptionCode, 1, false)
@@ -142,7 +139,7 @@ describe('OccSubscriptionActionsAdapter', () => {
 
   it('should handle error when cancelSubscription fails', () => {
     const mockUrl = 'mockUrl';
-    occEndpointsService.buildUrl.and.returnValue(mockUrl);
+    occEndpointsService.buildUrl.mockReturnValue(mockUrl);
 
     const mockHttpError = {
       status: 500,
@@ -172,7 +169,7 @@ describe('OccSubscriptionActionsAdapter', () => {
   });
   it('should handle error when getEffectiveCancellationDate fails', () => {
     const mockUrl = 'mockEffectiveDateUrl';
-    occEndpointsService.buildUrl.and.returnValue(mockUrl);
+    occEndpointsService.buildUrl.mockReturnValue(mockUrl);
 
     const mockHttpError = {
       status: 404,
@@ -199,7 +196,7 @@ describe('OccSubscriptionActionsAdapter', () => {
 
   it('should handle error when getExtensionEffectiveDate fails', () => {
     const mockUrl = 'mockEffectiveDateUrl';
-    occEndpointsService.buildUrl.and.returnValue(mockUrl);
+    occEndpointsService.buildUrl.mockReturnValue(mockUrl);
 
     const mockHttpError = {
       status: 404,
@@ -226,7 +223,7 @@ describe('OccSubscriptionActionsAdapter', () => {
 
   it('should handle error when withdrawal fails', () => {
     const mockUrl = 'mockWithdrawalUrl';
-    occEndpointsService.buildUrl.and.returnValue(mockUrl);
+    occEndpointsService.buildUrl.mockReturnValue(mockUrl);
 
     const mockHttpError = {
       status: 400,
@@ -252,7 +249,7 @@ describe('OccSubscriptionActionsAdapter', () => {
   });
   it('should handle error when reverseCancellation fails', () => {
     const mockUrl = 'mockReverseCancellationUrl';
-    occEndpointsService.buildUrl.and.returnValue(mockUrl);
+    occEndpointsService.buildUrl.mockReturnValue(mockUrl);
 
     const mockHttpError = {
       status: 500,
@@ -277,7 +274,7 @@ describe('OccSubscriptionActionsAdapter', () => {
 
   it('should handle error when extend subsription fails', () => {
     const mockUrl = 'mockExtendSubscriptionUrl';
-    occEndpointsService.buildUrl.and.returnValue(mockUrl);
+    occEndpointsService.buildUrl.mockReturnValue(mockUrl);
 
     const mockHttpError = {
       status: 500,

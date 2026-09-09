@@ -71,9 +71,9 @@ describe('CaptchaService Service', () => {
   });
 
   it('should initialize correctly', () => {
-    spyOn(languageService, 'getActive').and.callThrough();
-    spyOn(baseSiteService, 'getActive').and.callThrough();
-    spyOn(siteAdapter, 'loadBaseSite').and.callThrough();
+    vi.spyOn(languageService, 'getActive');
+    vi.spyOn(baseSiteService, 'getActive');
+    vi.spyOn(siteAdapter, 'loadBaseSite');
     service.initialize();
     expect(languageService.getActive).toHaveBeenCalledTimes(1);
     expect(baseSiteService.getActive).toHaveBeenCalledTimes(1);

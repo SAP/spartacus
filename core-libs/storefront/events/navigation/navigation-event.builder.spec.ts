@@ -40,6 +40,6 @@ describe('NavigationEventBuilder', () => {
       .subscribe((value) => (result = value));
 
     actions$.next({ type: ROUTER_NAVIGATED, payload });
-    expect(result).toEqual(jasmine.objectContaining(payload.routerState));
+    expect(result).toEqual(expect.objectContaining(payload.routerState));
   });
 });

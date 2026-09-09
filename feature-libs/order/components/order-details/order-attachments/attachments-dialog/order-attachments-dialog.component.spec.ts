@@ -1,11 +1,5 @@
 import { ChangeDetectorRef, DebugElement } from '@angular/core';
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule, provideDefaultConfig } from '@spartacus/core';
@@ -21,9 +15,16 @@ import {
   MessageComponentModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { delay, Observable, of, switchMap, throwError, timer } from 'rxjs';
+import {
+  delay,
+  firstValueFrom,
+  Observable,
+  of,
+  switchMap,
+  throwError,
+  timer,
+} from 'rxjs';
 import { OrderAttachmentsDialogComponent } from './order-attachments-dialog.component';
-import createSpy = jasmine.createSpy;
 
 const orderCode = '00001004';
 
@@ -82,14 +83,18 @@ const countHiddenElementsFn = (debugElements: DebugElement[]) => {
 describe('OrderAttachmentsDialogComponent', () => {
   let component: OrderAttachmentsDialogComponent;
   let fixture: ComponentFixture<OrderAttachmentsDialogComponent>;
-  let orderAttachmentsFacade: jasmine.SpyObj<OrderAttachmentsFacade>;
+  let orderAttachmentsFacade: any;
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(waitForAsync(() => {
-    const orderAttachmentsFacadeSpy = jasmine.createSpyObj(
-      'OrderAttachmentsFacade',
-      ['getOrderAttachments', 'downloadOrderAttachment']
-    );
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  beforeEach(async () => {
+    const orderAttachmentsFacadeSpy = {
+      getOrderAttachments: vi.fn(),
+      downloadOrderAttachment: vi.fn(),
+    };
 
     TestBed.configureTestingModule({
       imports: [
@@ -113,22 +118,24 @@ describe('OrderAttachmentsDialogComponent', () => {
         },
         {
           provide: ChangeDetectorRef,
-          useValue: { markForCheck: createSpy('markForCheck') },
+          useValue: { markForCheck: vi.fn('markForCheck') },
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
-    orderAttachmentsFacade = TestBed.inject(
-      OrderAttachmentsFacade
-    ) as jasmine.SpyObj<OrderAttachmentsFacade>;
+    orderAttachmentsFacade = TestBed.inject(OrderAttachmentsFacade) as any;
     launchDialogService = TestBed.inject(LaunchDialogService);
-    orderAttachmentsFacade.getOrderAttachments.and.returnValue(
+    orderAttachmentsFacade.getOrderAttachments.mockReturnValue(
       of(attachmentsData)
     );
     fixture = TestBed.createComponent(OrderAttachmentsDialogComponent);
     component = fixture.componentInstance;
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('should create', () => {
@@ -136,7 +143,7 @@ describe('OrderAttachmentsDialogComponent', () => {
   });
 
   it('should close dialogue when modal is dismissed', () => {
-    spyOn(launchDialogService, 'closeDialog').and.callThrough();
+    vi.spyOn(launchDialogService, 'closeDialog');
     const closeReason = 'mock close';
     component.close(closeReason);
 
@@ -144,29 +151,21 @@ describe('OrderAttachmentsDialogComponent', () => {
   });
 
   describe('Observables initialization', () => {
-    it('should return correct order code', (done) => {
+    it('should return correct order code', async () => {
       expect(component.orderCode$).toBeDefined();
-      component.orderCode$
-        .subscribe((value) => {
-          expect(value).toEqual(orderCode);
-          done();
-        })
-        .unsubscribe();
+      const value = await firstValueFrom(component.orderCode$);
+      expect(value).toEqual(orderCode);
     });
 
-    it('should return attachments array', (done) => {
-      orderAttachmentsFacade.getOrderAttachments.and.returnValue(
+    it('should return attachments array', async () => {
+      orderAttachmentsFacade.getOrderAttachments.mockReturnValue(
         of(attachmentsData)
       );
       component.orderCode$ = of(attachmentId);
 
       expect(component.attachments$).toBeDefined();
-      component.attachments$
-        .subscribe((attachments) => {
-          expect(attachments).toEqual(attachmentsData.sapAttachments);
-          done();
-        })
-        .unsubscribe();
+      const attachments = await firstValueFrom(component.attachments$);
+      expect(attachments).toEqual(attachmentsData.sapAttachments);
       expect(orderAttachmentsFacade.getOrderAttachments).toHaveBeenCalled();
     });
 
@@ -174,29 +173,25 @@ describe('OrderAttachmentsDialogComponent', () => {
       expect(component.attachmentsCount()).toBe(3);
     });
 
-    it('should return empty attachment array on error', (done) => {
-      orderAttachmentsFacade.getOrderAttachments.and.returnValue(
+    it('should return empty attachment array on error', async () => {
+      orderAttachmentsFacade.getOrderAttachments.mockReturnValue(
         throwError(() => 'mockError')
       );
       component.orderCode$ = of(attachmentId);
 
-      component.attachments$
-        .subscribe((attachments) => {
-          expect(attachments).toEqual([]);
-          done();
-        })
-        .unsubscribe();
+      const attachments = await firstValueFrom(component.attachments$);
+      expect(attachments).toEqual([]);
       expect(orderAttachmentsFacade.getOrderAttachments).toHaveBeenCalled();
     });
 
-    it('should error return true if attachment fetch fails', (done) => {
-      orderAttachmentsFacade.getOrderAttachments.and.returnValue(
+    it('should error return true if attachment fetch fails', async () => {
+      orderAttachmentsFacade.getOrderAttachments.mockReturnValue(
         throwError(() => 'mockError')
       );
       expect(component.loadError()).toBe(false);
 
       component.orderCode$ = of(attachmentId);
-      component.attachments$.subscribe(() => done()).unsubscribe();
+      await firstValueFrom(component.attachments$);
 
       expect(component.loadError()).toBe(true);
       expect(orderAttachmentsFacade.getOrderAttachments).toHaveBeenCalled();
@@ -204,12 +199,18 @@ describe('OrderAttachmentsDialogComponent', () => {
   });
 
   describe('Attachments handling', () => {
-    it('should openOrderAttachment correctly update loadingAttachments array', fakeAsync(() => {
-      orderAttachmentsFacade.downloadOrderAttachment.and.returnValue(
+    beforeEach(() => {
+      vi.spyOn(component, 'previewFile').mockImplementation(() => {});
+      vi.spyOn(component, 'downloadFile').mockImplementation(() => {});
+    });
+
+    it('should openOrderAttachment correctly update loadingAttachments array', async () => {
+      vi.useFakeTimers();
+      orderAttachmentsFacade.downloadOrderAttachment.mockReturnValue(
         of(configuredMimeTypeBlob).pipe(delay(1000))
       );
-      spyOn(component, 'previewFile').and.stub();
-      spyOn(component, 'downloadFile').and.stub();
+      vi.spyOn(component, 'previewFile').mockImplementation(() => {});
+      vi.spyOn(component, 'downloadFile').mockImplementation(() => {});
 
       component.loadingAttachments = ['mock-id', 'mock-id2'];
       component.openOrderAttachment(attachmentId);
@@ -219,19 +220,21 @@ describe('OrderAttachmentsDialogComponent', () => {
         'mock-id2',
         attachmentId,
       ]);
-      tick(1000);
+      await vi.advanceTimersByTimeAsync(1000);
       expect(component.loadingAttachments).toEqual(['mock-id', 'mock-id2']);
-    }));
+      vi.useRealTimers();
+    });
 
-    it('should openOrderAttachment correctly update loadingAttachments array on error', fakeAsync(() => {
-      orderAttachmentsFacade.downloadOrderAttachment.and.returnValue(
+    it('should openOrderAttachment correctly update loadingAttachments array on error', async () => {
+      vi.useFakeTimers();
+      orderAttachmentsFacade.downloadOrderAttachment.mockReturnValue(
         timer(1000).pipe(
           switchMap(() => throwError(() => new Error('mock error')))
         )
       );
-      spyOn(component, 'previewFile').and.stub();
-      spyOn(component, 'downloadFile').and.stub();
-      spyOn(component, 'addErrorMessage').and.stub();
+      vi.spyOn(component, 'previewFile').mockImplementation(() => {});
+      vi.spyOn(component, 'downloadFile').mockImplementation(() => {});
+      vi.spyOn(component, 'addErrorMessage').mockImplementation(() => {});
 
       component.loadingAttachments = [attachmentId, attachmentId2];
       component.openOrderAttachment(attachmentId3);
@@ -241,19 +244,19 @@ describe('OrderAttachmentsDialogComponent', () => {
         attachmentId2,
         attachmentId3,
       ]);
-      tick(1000);
+      await vi.advanceTimersByTimeAsync(1000);
       expect(component.loadingAttachments).toEqual([
         attachmentId,
         attachmentId2,
       ]);
-    }));
+    });
 
     it('should preview attachments if mime type is configured', () => {
-      orderAttachmentsFacade.downloadOrderAttachment.and.returnValue(
+      orderAttachmentsFacade.downloadOrderAttachment.mockReturnValue(
         of(configuredMimeTypeBlob)
       );
-      spyOn(component, 'previewFile').and.stub();
-      spyOn(component, 'downloadFile').and.stub();
+      vi.spyOn(component, 'previewFile').mockImplementation(() => {});
+      vi.spyOn(component, 'downloadFile').mockImplementation(() => {});
 
       component.openOrderAttachment(attachmentId, 'mock file name');
       expect(component.previewFile).toHaveBeenCalled();
@@ -261,9 +264,9 @@ describe('OrderAttachmentsDialogComponent', () => {
     });
 
     it('should download attachments if mime type is NOT configured', () => {
-      spyOn(component, 'previewFile').and.stub();
-      spyOn(component, 'downloadFile').and.stub();
-      orderAttachmentsFacade.downloadOrderAttachment.and.returnValue(
+      vi.spyOn(component, 'previewFile').mockImplementation(() => {});
+      vi.spyOn(component, 'downloadFile').mockImplementation(() => {});
+      orderAttachmentsFacade.downloadOrderAttachment.mockReturnValue(
         of(notConfiguredMimeTypeBlob)
       );
 
@@ -273,8 +276,9 @@ describe('OrderAttachmentsDialogComponent', () => {
     });
 
     it('should previewFile create object URL and open it', () => {
-      spyOn(URL, 'createObjectURL').and.returnValue(mockUrl);
-      spyOn(window, 'open').and.stub();
+      vi.mocked(component.previewFile).mockRestore();
+      vi.spyOn(URL, 'createObjectURL').mockReturnValue(mockUrl);
+      vi.spyOn(window, 'open').mockImplementation(() => {});
 
       component.previewFile(configuredMimeTypeBlob);
 
@@ -283,12 +287,19 @@ describe('OrderAttachmentsDialogComponent', () => {
     });
 
     it("should downloadFile create and click on 'a' element", () => {
-      spyOn(URL, 'createObjectURL').and.returnValue(mockUrl);
-      spyOn(document['body'], 'appendChild').and.stub();
-      spyOn(document['body'], 'removeChild').and.stub();
+      vi.mocked(component.downloadFile).mockRestore();
+      vi.spyOn(URL, 'createObjectURL').mockReturnValue(mockUrl);
+      vi.spyOn(document['body'], 'appendChild').mockImplementation(() => {});
+      vi.spyOn(document['body'], 'removeChild').mockImplementation(() => {});
 
-      const aElementSpyObj = jasmine.createSpyObj('a', ['click']);
-      spyOn(document, 'createElement').and.returnValue(aElementSpyObj);
+      const aElementSpyObj: any = {
+        click: vi.fn(),
+        href: '',
+        target: '',
+        rel: '',
+        download: '',
+      };
+      vi.spyOn(document, 'createElement').mockReturnValue(aElementSpyObj);
 
       const mockFileName = 'mockFileName';
       component.downloadFile(notConfiguredMimeTypeBlob, mockFileName);
@@ -304,7 +315,7 @@ describe('OrderAttachmentsDialogComponent', () => {
     });
 
     it('should onMouseDown open attachment on left click', () => {
-      spyOn(component, 'openOrderAttachment').and.stub();
+      vi.spyOn(component, 'openOrderAttachment').mockImplementation(() => {});
       const leftClickEvent = new MouseEvent('click', { button: 0 });
       component.onMouseDown(leftClickEvent, attachmentId, 'mock name');
 
@@ -312,7 +323,7 @@ describe('OrderAttachmentsDialogComponent', () => {
     });
 
     it('should onMouseDown open attachment on scroll click', () => {
-      spyOn(component, 'openOrderAttachment').and.stub();
+      vi.spyOn(component, 'openOrderAttachment').mockImplementation(() => {});
       const scrollClickEvent = new MouseEvent('click', { button: 1 });
       component.onMouseDown(scrollClickEvent, attachmentId, 'mock name');
 
@@ -320,7 +331,7 @@ describe('OrderAttachmentsDialogComponent', () => {
     });
 
     it('should onMouseDown ignore not left/scroll click', () => {
-      spyOn(component, 'openOrderAttachment').and.stub();
+      vi.spyOn(component, 'openOrderAttachment').mockImplementation(() => {});
       const rightClickEvent = new MouseEvent('click', { button: 2 });
       component.onMouseDown(rightClickEvent, attachmentId, 'mock name');
 
@@ -367,8 +378,8 @@ describe('OrderAttachmentsDialogComponent', () => {
 
   describe('template', () => {
     beforeEach(() => {
-      spyOn(component, 'previewFile').and.stub();
-      spyOn(component, 'downloadFile').and.stub();
+      vi.spyOn(component, 'previewFile').mockImplementation(() => {});
+      vi.spyOn(component, 'downloadFile').mockImplementation(() => {});
     });
 
     it('should correctly display attachment counter', () => {
@@ -380,7 +391,7 @@ describe('OrderAttachmentsDialogComponent', () => {
     });
 
     it('should not display attachment counter if attachments empty', () => {
-      orderAttachmentsFacade.getOrderAttachments.and.returnValue(
+      orderAttachmentsFacade.getOrderAttachments.mockReturnValue(
         of({ sapAttachments: [] })
       );
       fixture = TestBed.createComponent(OrderAttachmentsDialogComponent);
@@ -392,8 +403,9 @@ describe('OrderAttachmentsDialogComponent', () => {
       expect(spinnerEls.length).toBe(0);
     });
 
-    it('should display only spinner on attachments load', fakeAsync(() => {
-      orderAttachmentsFacade.getOrderAttachments.and.returnValue(
+    it('should display only spinner on attachments load', async () => {
+      vi.useFakeTimers();
+      orderAttachmentsFacade.getOrderAttachments.mockReturnValue(
         of(attachmentsData).pipe(delay(100))
       );
       fixture.detectChanges();
@@ -403,17 +415,17 @@ describe('OrderAttachmentsDialogComponent', () => {
       expect(spinnerEls.length).toBe(1);
       expect(tableEls.length).toBe(0);
 
-      tick(100);
+      await vi.advanceTimersByTimeAsync(100);
       fixture.detectChanges();
 
       spinnerEls = fixture.debugElement.queryAll(By.css('.cx-spinner'));
       tableEls = fixture.debugElement.queryAll(By.css('.table'));
       expect(spinnerEls.length).toBe(0);
       expect(tableEls.length).toBe(1);
-    }));
+    });
 
     it('should display message strip on attachments fetch error', () => {
-      orderAttachmentsFacade.getOrderAttachments.and.returnValue(
+      orderAttachmentsFacade.getOrderAttachments.mockReturnValue(
         throwError(() => 'mockError')
       );
       fixture.detectChanges();
@@ -427,7 +439,7 @@ describe('OrderAttachmentsDialogComponent', () => {
     });
 
     it('should display message strip when attachments array is empty', () => {
-      orderAttachmentsFacade.getOrderAttachments.and.returnValue(
+      orderAttachmentsFacade.getOrderAttachments.mockReturnValue(
         of({ sapAttachments: [] })
       );
       fixture = TestBed.createComponent(OrderAttachmentsDialogComponent);
@@ -476,11 +488,12 @@ describe('OrderAttachmentsDialogComponent', () => {
       expect(attachmentErrorMessageEls.length).toBe(3);
     });
 
-    it('should correctly display inline spinners on order attachments fetch', fakeAsync(() => {
-      orderAttachmentsFacade.getOrderAttachments.and.returnValue(
+    it('should correctly display inline spinners on order attachments fetch', async () => {
+      vi.useFakeTimers();
+      orderAttachmentsFacade.getOrderAttachments.mockReturnValue(
         of(attachmentsData)
       );
-      orderAttachmentsFacade.downloadOrderAttachment.and.returnValue(
+      orderAttachmentsFacade.downloadOrderAttachment.mockReturnValue(
         of(configuredMimeTypeBlob).pipe(delay(1000))
       );
 
@@ -499,7 +512,7 @@ describe('OrderAttachmentsDialogComponent', () => {
 
       // duplicated attachment id should not display duplicated spinners
       component.openOrderAttachment(attachmentId2, 'mock name');
-      tick(50);
+      await vi.advanceTimersByTimeAsync(50);
       component.openOrderAttachment(attachmentId2, 'mock name');
       fixture.detectChanges();
       inlineSpinnerEls = fixture.debugElement.queryAll(
@@ -507,16 +520,16 @@ describe('OrderAttachmentsDialogComponent', () => {
       );
       expect(countHiddenElementsFn(inlineSpinnerEls)).toBe(1);
 
-      tick(1000);
+      await vi.advanceTimersByTimeAsync(1000);
       fixture.detectChanges();
       inlineSpinnerEls = fixture.debugElement.queryAll(
         By.css('.inline-spinner')
       );
       expect(countHiddenElementsFn(inlineSpinnerEls)).toBe(3);
-    }));
+    });
 
     it('should close modal when cancel is clicked', () => {
-      spyOn(component, 'close').and.stub();
+      vi.spyOn(component, 'close').mockImplementation(() => {});
 
       fixture.detectChanges();
       const cancelButtonEl = fixture.debugElement.query(
@@ -527,7 +540,7 @@ describe('OrderAttachmentsDialogComponent', () => {
     });
 
     it("should close modal when 'x' is clicked", () => {
-      spyOn(component, 'close').and.stub();
+      vi.spyOn(component, 'close').mockImplementation(() => {});
 
       fixture.detectChanges();
       const cancelButtonEl = fixture.debugElement.query(

@@ -12,6 +12,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpErrorModel, OccConfig, OccEndpoints } from '@spartacus/core';
 import { throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { vi } from 'vitest';
 import { OccRequestedDeliveryDateAdapter } from './occ-requested-delivery-date.adapter';
 
 const mockUserId = 'userId1';
@@ -74,13 +75,13 @@ describe('OccRequestedDeliveryDateAdapter', () => {
   });
 
   describe(`set requested delivery date`, () => {
-    it(`should set requested delivery date for cart for given user id, cart id`, (done) => {
+    it(`should set requested delivery date for cart for given user id, cart id`, () => {
+      let capturedResult: any;
       service
         .setRequestedDeliveryDate(mockUserId, mockCartId, mockRequestedDate)
         .pipe(take(1))
         .subscribe((result) => {
-          expect(result).toEqual('');
-          done();
+          capturedResult = result;
         });
 
       const mockReq = httpMock.expectOne((req) => {
@@ -94,10 +95,13 @@ describe('OccRequestedDeliveryDateAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
       expect(mockReq.request.responseType).toEqual('json');
+      expect(capturedResult).toEqual('');
     });
 
     it(`should result in error when Validation Error is thrown`, () => {
-      spyOn(httpClient, 'put').and.returnValue(throwError(mockValidationError));
+      vi.spyOn(httpClient, 'put').mockReturnValue(
+        throwError(mockValidationError)
+      );
 
       let result: HttpErrorModel | undefined;
       const subscription = service

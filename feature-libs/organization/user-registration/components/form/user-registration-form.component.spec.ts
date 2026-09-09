@@ -1,5 +1,6 @@
+import { vi } from 'vitest';
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -133,7 +134,7 @@ describe('UserRegistrationFormComponent', () => {
 
   let userRegistrationFormService: UserRegistrationFormService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -172,7 +173,7 @@ describe('UserRegistrationFormComponent', () => {
 
     userRegistrationFormService = TestBed.inject(UserRegistrationFormService);
     msgServcie = TestBed.inject(GlobalMessageService);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserRegistrationFormComponent);
@@ -186,7 +187,7 @@ describe('UserRegistrationFormComponent', () => {
   });
 
   it('should initialize registerForm', () => {
-    spyOnProperty(userRegistrationFormService, 'form', 'get').and.callThrough();
+    vi.spyOn(userRegistrationFormService, 'form', 'get');
 
     expect(component.registerForm).toBeInstanceOf(FormGroup);
   });
@@ -218,7 +219,7 @@ describe('UserRegistrationFormComponent', () => {
   });
 
   it('should submit form and call the service', () => {
-    spyOn(userRegistrationFormService, 'registerUser').and.callThrough();
+    vi.spyOn(userRegistrationFormService, 'registerUser');
     component.registerForm.patchValue({
       ...mockOrganizationUser,
       companyName: 'New Company Inc.',
@@ -235,14 +236,14 @@ describe('UserRegistrationFormComponent', () => {
   });
 
   it('should show error message if service response failed ', () => {
-    spyOn(userRegistrationFormService, 'registerUser').and.returnValue(
+    vi.spyOn(userRegistrationFormService, 'registerUser').mockReturnValue(
       throwError(() => new Error('Simulated error'))
     );
     component.registerForm.patchValue({
       ...mockOrganizationUser,
       companyName: 'New Company Inc.',
     });
-    spyOn(msgServcie, 'add').and.callThrough();
+    vi.spyOn(msgServcie, 'add');
     component.registerForm.markAllAsTouched();
 
     component.submit();
@@ -256,7 +257,7 @@ describe('UserRegistrationFormComponent', () => {
   });
 
   it('should not register organization user with invalid form', () => {
-    spyOn(userRegistrationFormService, 'registerUser').and.callThrough();
+    vi.spyOn(userRegistrationFormService, 'registerUser');
     component.registerForm.reset();
     component.registerForm.patchValue({
       firstName: mockOrganizationUser.firstName,

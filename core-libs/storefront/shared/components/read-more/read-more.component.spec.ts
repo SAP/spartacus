@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { ReadMoreComponent } from './read-more.component';
 import { By } from '@angular/platform-browser';
@@ -7,11 +7,11 @@ describe('ReadMoreComponent', () => {
   let component: ReadMoreComponent;
   let fixture: ComponentFixture<ReadMoreComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReadMoreComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReadMoreComponent);

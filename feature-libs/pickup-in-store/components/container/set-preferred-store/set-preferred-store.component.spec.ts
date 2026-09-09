@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -50,7 +51,7 @@ describe('SetPreferredStoreComponent without outlet.context$', () => {
   });
 
   it('should call setPreferredStore on preferredStoreFacade with pointOfServiceName', () => {
-    spyOn(preferredStoreFacade, 'setPreferredStore');
+    vi.spyOn(preferredStoreFacade, 'setPreferredStore');
 
     component.setAsPreferred();
     expect(preferredStoreFacade.setPreferredStore).toHaveBeenCalledWith(
@@ -104,7 +105,7 @@ describe('SetPreferredStoreComponent with outlet.context$', () => {
   });
 
   it('should call setPreferredStore on preferredStoreFacade with pointOfServiceName', () => {
-    spyOn(preferredStoreFacade, 'setPreferredStore');
+    vi.spyOn(preferredStoreFacade, 'setPreferredStore');
 
     component.setAsPreferred();
     expect(preferredStoreFacade.setPreferredStore).toHaveBeenCalledWith(

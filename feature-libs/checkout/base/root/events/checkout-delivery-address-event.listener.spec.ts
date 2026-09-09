@@ -20,7 +20,6 @@ import {
   CheckoutQueryResetEvent,
   CheckoutSupportedDeliveryModesQueryResetEvent,
 } from './checkout.events';
-import createSpy = jasmine.createSpy;
 
 const mockUserId = 'test-user-id';
 const mockCartId = 'test-cart-id';
@@ -28,22 +27,22 @@ const mockCartId = 'test-cart-id';
 class MockCheckoutDeliveryAddressFacade
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  clearCheckoutDeliveryAddress = createSpy().and.returnValue(EMPTY);
+  clearCheckoutDeliveryAddress = vi.fn().mockReturnValue(EMPTY);
 }
 
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(mockEventStream$.asObservable());
-  dispatch = createSpy();
+  get = vi.fn().mockReturnValue(mockEventStream$.asObservable());
+  dispatch = vi.fn();
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy();
+  add = vi.fn();
 }
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
+  takeActiveCartId = vi.fn().mockReturnValue(of(mockCartId));
 }
 
 describe(`CheckoutDeliveryAddressEventListener`, () => {
