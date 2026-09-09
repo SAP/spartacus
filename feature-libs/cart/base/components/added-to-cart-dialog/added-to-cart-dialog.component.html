@@ -31,7 +31,7 @@
         (click)="dismissModal('Cross click')"
       >
         <span aria-hidden="true">
-          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+          <cx-icon [type]="iconTypes.CLOSE" />
         </span>
       </button>
     </div>
@@ -46,7 +46,7 @@
               [compact]="true"
               [quantityControl]="getQuantityControl() | async"
               [promotionLocation]="promotionLocation"
-            ></cx-cart-item>
+            />
             <div class="cx-dialog-pickup-store" *ngIf="pickupStoreName">
               {{ 'pickupOptionDialog.modalHeader' | cxTranslate }}:
               <span class="cx-dialog-pickup-store-name">{{
@@ -82,7 +82,7 @@
                     cart.potentialOrderPromotions || []
                   )
                 "
-              ></cx-promotions>
+              />
             </div>
 
             <!-- Actions -->
@@ -114,7 +114,7 @@
     <div class="cx-dialog-body modal-body">
       <div class="cx-dialog-row">
         <div class="col-sm-12">
-          <cx-spinner aria-hidden="true"></cx-spinner>
+          <cx-spinner aria-hidden="true" />
         </div>
       </div>
     </div>
