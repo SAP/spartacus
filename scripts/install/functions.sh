@@ -51,10 +51,24 @@ function cmd_clean {
     npm cache clean --force
 }
 
+function ensure_npm_version {
+    local CURRENT_NPM_VERSION
+    CURRENT_NPM_VERSION=$(npm --version)
+    if [ "$(compareSemver "$CURRENT_NPM_VERSION" "11.0.0")" -lt 0 ]; then
+        echo "npm version $CURRENT_NPM_VERSION is lower than 11. Upgrading to npm@11..."
+        npm install -g npm@11
+        echo "npm upgraded to $(npm --version)"
+    else
+        echo "npm version $CURRENT_NPM_VERSION is >= 11, no upgrade needed."
+    fi
+}
+
 function prepare_install {
     cmd_clean
 
     printh "Installing installation script prerequisites"
+
+    ensure_npm_version
 
     VERDACCIO_PID=`lsof -nP -i4TCP:4873 | grep LISTEN | tr -s ' ' | cut -d ' ' -f 2`
     if [[ -n ${VERDACCIO_PID} ]]; then
