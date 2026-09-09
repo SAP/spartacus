@@ -36,8 +36,10 @@ export class CpqConfiguratorOverviewNormalizer
       priceSummary:
         this.cpqConfiguratorNormalizerUtilsService.convertPriceSummary(source),
       groups: source.tabs
-        ?.flatMap((tab) => this.convertTab(tab, source.currencyISOCode))
-        .filter((tab) => tab.attributes && tab.attributes.length > 0),
+        ?.flatMap((tab) =>
+          this.convertTab(tab, source.currencyISOCode, source.sapContainers)
+        )
+        .filter((group) => this.hasOverviewContent(group)),
       totalNumberOfIssues: this.calculateTotalNumberOfIssues(source),
     };
     return resultTarget;
@@ -45,18 +47,22 @@ export class CpqConfiguratorOverviewNormalizer
 
   protected convertTab(
     tab: Cpq.Tab,
-    currency: string
+    currency: string,
+    containers?: Cpq.Container[],
+    parentRowGroupId?: string
   ): Configurator.GroupOverview {
-    let ovAttributes: Configurator.AttributeOverview[] = [];
-    tab.attributes?.forEach((attr) => {
-      ovAttributes = ovAttributes.concat(this.convertAttribute(attr, currency));
-    });
     const groupOverview: Configurator.GroupOverview = {
-      id: tab.id.toString(),
+      id: this.createTabGroupId(tab.id, parentRowGroupId),
       groupDescription: tab.displayName,
-      attributes: ovAttributes,
+      attributes: [],
     };
-    if (groupOverview.id === '0') {
+    tab.attributes?.forEach((attribute) => {
+      groupOverview.attributes?.push(
+        ...this.convertAttribute(attribute, currency)
+      );
+      this.attachContainer(groupOverview, attribute, containers, currency);
+    });
+    if (tab.id === 0) {
       this.translation
         .translate('configurator.group.general')
         .pipe(take(1))
@@ -125,11 +131,114 @@ export class CpqConfiguratorOverviewNormalizer
           });
         break;
       default:
-        this.logger.warn(
-          `Attribute '${attr.name}' (pA_ID=${(<any>attr).PA_ID}) is not supported and hence hidden from overview.`
-        );
+        this.logUnsupportedAttributeIfNeeded(attr);
     }
     return ovValues;
+  }
+
+  protected createTabGroupId(tabId: number, parentRowGroupId?: string): string {
+    return parentRowGroupId ? `${parentRowGroupId}@${tabId}` : tabId.toString();
+  }
+
+  protected attachContainer(
+    group: Configurator.GroupOverview,
+    attribute: Cpq.Attribute,
+    containers: Cpq.Container[] | undefined,
+    currency: string
+  ): void {
+    if (
+      attribute.displayAs !== Cpq.DisplayAs.CONTAINER ||
+      !containers?.length
+    ) {
+      return;
+    }
+
+    const container = containers.find(
+      (entry) => entry.stdAttrCode === attribute.stdAttrCode
+    );
+    container?.rows
+      ?.filter((row) => this.isSelectedContainerRow(row))
+      .forEach((row) => {
+        group.attributes?.push(
+          this.convertContainerRowToAttribute(row, attribute)
+        );
+        if (row.configuration) {
+          group.subGroups ??= [];
+          group.subGroups.push(
+            this.convertNestedConfiguration(
+              row.configuration,
+              row,
+              attribute.stdAttrCode,
+              currency
+            )
+          );
+        }
+      });
+  }
+
+  protected isSelectedContainerRow(row: Cpq.ContainerRow): boolean {
+    return (
+      row.selected === true &&
+      !row.actions?.includes(Cpq.ContainerRowAction.ADD)
+    );
+  }
+
+  protected convertContainerRowToAttribute(
+    row: Cpq.ContainerRow,
+    attribute: Cpq.Attribute
+  ): Configurator.AttributeOverview {
+    return {
+      attribute:
+        this.cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(
+          attribute
+        ),
+      attributeId: attribute.stdAttrCode.toString(),
+      value: row.productName ?? row.productSystemId ?? row.id,
+      valueId: row.id,
+      productCode: row.productSystemId,
+      type: Configurator.AttributeOverviewType.BUNDLE,
+    };
+  }
+
+  protected convertNestedConfiguration(
+    source: Cpq.NestedProductConfiguration,
+    row: Cpq.ContainerRow,
+    attrCode: number,
+    currency: string
+  ): Configurator.GroupOverview {
+    const rowGroupId = `${Configurator.ContainerRowGroupIdPrefix}@${attrCode}@${row.id}`;
+    const nestedGroups = (source.tabs ?? [])
+      .map((tab) =>
+        this.convertTab(tab, currency, source.containers, rowGroupId)
+      )
+      .filter((group) => this.hasOverviewContent(group));
+    const singleNestedGroup =
+      nestedGroups.length === 1 ? nestedGroups[0] : undefined;
+
+    return {
+      id: rowGroupId,
+      groupDescription: row.productName ?? row.productSystemId,
+      attributes: singleNestedGroup?.attributes ?? [],
+      subGroups: singleNestedGroup
+        ? (singleNestedGroup.subGroups ?? [])
+        : nestedGroups,
+    };
+  }
+
+  protected hasOverviewContent(group: Configurator.GroupOverview): boolean {
+    return !!group.attributes?.length || !!group.subGroups?.length;
+  }
+
+  protected logUnsupportedAttribute(attr: Cpq.Attribute): void {
+    this.logger.warn(
+      `Attribute '${attr.name}' (pA_ID=${(<any>attr).PA_ID}) is not supported and hence hidden from overview.`
+    );
+  }
+
+  protected logUnsupportedAttributeIfNeeded(attr: Cpq.Attribute): void {
+    if (attr.displayAs !== Cpq.DisplayAs.CONTAINER) {
+      this.logUnsupportedAttribute(attr);
+    }
   }
 
   protected extractValue(
