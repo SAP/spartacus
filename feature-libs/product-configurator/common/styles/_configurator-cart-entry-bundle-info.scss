@@ -15,6 +15,18 @@
     }
   }
 
+  @include forFeature('productConfiguratorCPQContainer') {
+    // The 'show' control is rendered as a link to the configuration overview
+    // once the line item threshold is exceeded, so it is not nested in a button.
+    .cx-toggle-hide-items {
+      .cx-action-link {
+        font-size: inherit;
+        font-weight: bold;
+        inline-size: max-content;
+      }
+    }
+  }
+
   .cx-item-infos {
     inline-size: 100%;
     max-block-size: 0;

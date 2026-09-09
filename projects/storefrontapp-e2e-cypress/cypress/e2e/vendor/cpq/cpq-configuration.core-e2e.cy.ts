@@ -4,15 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
+import * as common from '../../../helpers/common';
 import * as configuration from '../../../helpers/product-configurator';
+import * as configurationCart from '../../../helpers/product-configurator-cart';
+import * as configurationCartCpq from '../../../helpers/product-configurator-cart-cpq';
 import * as configurationCpq from '../../../helpers/product-configurator-cpq';
 import * as configurationCpqContainer from '../../../helpers/product-configurator-cpq-container';
 import * as configurationOverview from '../../../helpers/product-configurator-overview';
 import * as configurationOverviewCpq from '../../../helpers/product-configurator-overview-cpq';
-import * as configurationCart from '../../../helpers/product-configurator-cart';
-import * as configurationCartCpq from '../../../helpers/product-configurator-cart-cpq';
-import * as common from '../../../helpers/common';
-import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 
 const POWERTOOLS = 'powertools-spa';
 const EMAIL = 'gi.sun@pronto-hw.com';
@@ -138,6 +138,22 @@ const VAL_WAGON_CABIN_TYPE_1 = '9495';
 const ATTR_WAGON_CABIN_SEATS = '3264';
 /** Seats with Desks */
 const VAL_WAGON_CABIN_SEATS_WITH_DESKS = '9803';
+/** Select Number of Current Collectors */
+const ATTR_NUM_OF_CURRENT_COLLECTORS = '3274';
+const VAL_NUM_OF_CURRENT_COLLECTORS_1 = '9820';
+const VAL_NUM_OF_CURRENT_COLLECTORS_4 = '9822';
+const WARNING_LOCO_LOW_PERFORMANCE =
+  'Low performance option not available, contact sales rep.';
+const REQUIRED_MSG_SELECT_VALUE = 'Select a value';
+const CONTAINER_REQUIRED_MSG = 'Add 5 more products';
+const ERROR = 'ERROR';
+const TRAIN_CONTAINER_PRODUCTS = [
+  VAL_TR_LOCOMOTIVE,
+  VAL_TR_LOCOMOTIVE,
+  VAL_TR_WAGON,
+  VAL_TR_WAGON,
+  VAL_TR_WAGON,
+];
 
 const testConfig = [
   {
@@ -595,9 +611,40 @@ testConfig.forEach((config) => {
           );
         });
       });
+
+      it('should navigate to the read-only overview when the bundle item threshold is exceeded', () => {
+        cy.cxConfig({
+          productConfigurator: {
+            cartEntryBundleLineItemsThreshold: 2,
+          },
+        });
+        common.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
+        common.clickOnAddToCartBtnOnPD();
+        common.clickOnViewCartBtnOnPD();
+
+        cy.get('cx-mini-cart .count').then((elem) => {
+          const cartEntryIndex = Number(elem.text()) - 1;
+
+          configurationCartCpq.checkBundleOverviewLink(cartEntryIndex, 3);
+          configurationCartCpq.clickOnBundleOverviewLink(cartEntryIndex);
+
+          cy.wait('@readConfig');
+          cy.location('pathname')
+            .should('contain', '/configure-overview/cpq/cartEntry/entityKey/')
+            .and('contain', '/displayOnly/true');
+          cy.location('search').should('contain', 'navigateToCart=true');
+          configurationOverview.checkConfigOverviewPageDisplayed();
+          cy.get('cx-configurator-add-to-cart-button .cx-display-only-btn')
+            .should('be.visible')
+            .and('contain', 'Back to Cart');
+          cy.get(
+            'cx-configurator-add-to-cart-button .cx-add-to-cart-btn'
+          ).should('not.exist');
+        });
+      });
     });
 
-    describe('Container Handling', () => {
+    describe.only('Container Handling', () => {
       const containerLayouts = [
         {
           name: 'when available products are shown as cards',
@@ -760,10 +807,149 @@ testConfig.forEach((config) => {
                 VAL_WAGON_CABIN_SEATS_WITH_DESKS
               );
             });
+
+            it('should validation messages and resolve issues', () => {
+              checkInitialConfigurationState();
+              checkOverviewTwoIssues();
+              checkRequiredMsgForTrainTypeAndContainer();
+              checkErrorMsgForLocomotiveLowPerformance();
+              checkResolveIssuesViaCollectors();
+              checkResolveIssuesByAddingWagonCabins();
+              checkAllIssuesResolved();
+            });
           });
         }
       );
     });
+
+    function goToOverviewWithIssues(issueCount: number): void {
+      configuration.navigateToOverviewPage();
+      configurationOverview.checkConfigOverviewPageDisplayed();
+      configurationOverviewCpq.verifyNotificationBannerOnOP(issueCount);
+    }
+
+    function resolveIssuesFromOverview(): void {
+      configurationOverviewCpq.clickOnResolveIssuesLinkOnOP();
+    }
+
+    function checkContainerRemainingMessage(remaining: number): void {
+      if (remaining > 1) {
+        configurationCpq.checkContainerRequiredMessage(
+          ATTR_TR_COM,
+          `Add ${remaining} more products`
+        );
+      } else if (remaining === 1) {
+        configurationCpq.checkContainerRequiredMessage(
+          ATTR_TR_COM,
+          `Add ${remaining} more product`
+        );
+      } else {
+        configurationCpq.checkRequiredFieldMessageNotDisplayed(ATTR_TR_COM);
+      }
+    }
+
+    // Section 1 — fresh configuration: no messages, no ERROR in group menu.
+    function checkInitialConfigurationState(): void {
+      configurationCpq.checkNoValidationMessagesDisplayed();
+      configurationCpq.checkStatusIconNotDisplayed(GRP_TR_GENERAL);
+    }
+
+    // Section 2 — overview: 2 issues; resolve navigates to required attributes.
+    function checkOverviewTwoIssues(): void {
+      goToOverviewWithIssues(2);
+      resolveIssuesFromOverview();
+      configurationCpq.checkRequiredFieldMessageDisplayed(
+        ATTR_TR_TYPE,
+        REQUIRED_MSG_SELECT_VALUE
+      );
+      configurationCpq.checkRequiredFieldMessageDisplayed(
+        ATTR_TR_COM,
+        CONTAINER_REQUIRED_MSG
+      );
+      configurationCpq.checkStatusIconDisplayed(GRP_TR_GENERAL, ERROR);
+    }
+
+    // Section 3 — train type + container min rows (2 locomotives, 3 wagons).
+    function checkRequiredMsgForTrainTypeAndContainer(): void {
+      configurationCpq.selectAttributeAndCheck(
+        ATTR_TR_TYPE,
+        RADGRP,
+        VAL_TR_Type_01
+      );
+      configurationCpq.checkRequiredFieldMessageNotDisplayed(ATTR_TR_TYPE);
+
+      TRAIN_CONTAINER_PRODUCTS.forEach((product, index) => {
+        configurationCpqContainer.addProductAndReturnToParent(
+          ATTR_TR_COM,
+          product,
+          GRP_TR_GENERAL
+        );
+        checkContainerRemainingMessage(
+          TRAIN_CONTAINER_PRODUCTS.length - index - 1
+        );
+      });
+    }
+
+    // Section 4 — locomotive collectors = 1: global + card warning.
+    function checkErrorMsgForLocomotiveLowPerformance(): void {
+      configurationCpqContainer.editSelectedProduct(
+        ATTR_TR_COM,
+        VAL_TR_LOCOMOTIVE,
+        0
+      );
+      configurationCpq.selectAttributeAndCheck(
+        ATTR_NUM_OF_CURRENT_COLLECTORS,
+        DDLB,
+        VAL_NUM_OF_CURRENT_COLLECTORS_1
+      );
+      configurationCpq.checkGlobalWarningMessageDisplayed(
+        WARNING_LOCO_LOW_PERFORMANCE
+      );
+      configurationCpqContainer.navigateToParent(ATTR_TR_COM, GRP_TR_GENERAL);
+      configurationCpqContainer.checkSelectedProductMessage(
+        ATTR_TR_COM,
+        VAL_TR_LOCOMOTIVE,
+        0,
+        WARNING_LOCO_LOW_PERFORMANCE
+      );
+    }
+
+    // Section 5 — overview: 2 issues; set collectors to 4.
+    function checkResolveIssuesViaCollectors(): void {
+      goToOverviewWithIssues(4);
+      resolveIssuesFromOverview();
+      configurationCpq.checkGlobalWarningMessageDisplayed(
+        WARNING_LOCO_LOW_PERFORMANCE
+      );
+      configurationCpq.selectAttributeAndCheck(
+        ATTR_NUM_OF_CURRENT_COLLECTORS,
+        DDLB,
+        VAL_NUM_OF_CURRENT_COLLECTORS_4
+      );
+    }
+
+    // Section 6 — overview: 3→0 issues; add wagon cabin per wagon.
+    function checkResolveIssuesByAddingWagonCabins(): void {
+      goToOverviewWithIssues(3);
+      resolveIssuesFromOverview();
+      for (let issuesLeft = 2; issuesLeft >= 0; issuesLeft--) {
+        configurationCpqContainer.addAvailableProductAndWait(
+          ATTR_WAGON_COMPONENTS,
+          VAL_WAGON_CABIN
+        );
+        if (issuesLeft > 0) {
+          goToOverviewWithIssues(issuesLeft);
+          resolveIssuesFromOverview();
+        }
+      }
+    }
+
+    // Section 7 — overview: all issues cleared.
+    function checkAllIssuesResolved(): void {
+      configuration.navigateToOverviewPage();
+      configurationOverview.checkConfigOverviewPageDisplayed();
+      configurationOverviewCpq.checkNoIssuesBannerOnOP();
+    }
 
     function editConfigurationFromCartEntry(numberOfCartItems: number) {
       //We assume the last product in the cart is the one we added

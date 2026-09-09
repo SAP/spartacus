@@ -40,6 +40,15 @@ export class ConfigureCartEntryComponent {
   @Input() readOnly: boolean;
   @Input() msgBanner: boolean;
   @Input() disabled: boolean;
+  /**
+   * Indicates whether the link navigates from bundle information to the
+   * configuration overview.
+   */
+  @Input() isBundleOverviewLink = false;
+  /**
+   * ID of an element that provides an additional description for the link.
+   */
+  @Input() a11yDescriptionId?: string;
   abstractOrderContext = inject(AbstractOrderContext, { optional: true });
 
   // we default to active cart as owner in case no context is provided
@@ -52,12 +61,14 @@ export class ConfigureCartEntryComponent {
     forceReload: boolean;
     resolveIssues: boolean;
     navigateToCheckout: boolean;
+    navigateToCart: boolean;
     productCode: string | undefined;
   }> = this.isInCheckout().pipe(
     map((isInCheckout) => ({
       forceReload: true,
       resolveIssues: this.msgBanner && this.hasIssues(),
       navigateToCheckout: isInCheckout,
+      navigateToCart: this.isBundleOverviewLink,
       productCode: this.cartEntry.product?.code,
     }))
   );
@@ -141,6 +152,23 @@ export class ConfigureCartEntryComponent {
   }
 
   /**
+   * Retrieves the resource key for the link text.
+   *
+   * @returns - The resource key that controls the link text
+   */
+  getLinkTextResourceKey(): string {
+    if (this.isBundleOverviewLink) {
+      return 'configurator.header.show';
+    } else if (this.getDisplayOnly()) {
+      return 'configurator.header.displayConfiguration';
+    } else if (this.msgBanner) {
+      return 'configurator.header.resolveIssues';
+    } else {
+      return 'configurator.header.editConfiguration';
+    }
+  }
+
+  /**
    * Verifies whether the link to the configuration is disabled.
    *
    *  @returns - 'true' if the the configuration is not read only, otherwise 'false'
@@ -155,6 +183,9 @@ export class ConfigureCartEntryComponent {
    * @returns - If there is a 'resolve issues' link, the ID to the element with additional description will be returned.
    */
   getResolveIssuesA11yDescription(): string | undefined {
+    if (this.a11yDescriptionId) {
+      return this.a11yDescriptionId;
+    }
     const errorMsgId = 'cx-error-msg-' + this.cartEntry.entryNumber;
     return !this.getDisplayOnly() && this.msgBanner ? errorMsgId : undefined;
   }

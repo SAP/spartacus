@@ -376,7 +376,7 @@ export function selectAttribute(
         });
       break;
     case 'dropdown':
-      cy.get(`#${attributeId} ng-select`).ngSelect(valueName);
+      cy.get(`select#${attributeId}`).select(valueName);
       break;
     case 'input':
       cy.get(`#${valueId}`).clear().type(valueName);
@@ -432,6 +432,8 @@ export function checkValueSelected(
       'have.class',
       'cx-product-card-selected'
     );
+  } else if (uiType === 'dropdown') {
+    cy.get(`select#${attributeId}`).should('have.value', valueName);
   } else {
     if (uiType === 'dropdownProduct') {
       if (valueName.includes('RETRACT_VALUE_CODE')) {
