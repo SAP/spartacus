@@ -2,7 +2,9 @@
   @include cx-configurator-template();
 
   cx-page-slot.CpqConfigContent,
-  cx-page-slot.CpqConfigMenu {
+  cx-page-slot.CpqConfigMenu,
+  cx-page-slot.CpqConfigOverviewContent,
+  cx-page-slot.CpqConfigOverviewMenu {
     height: fit-content;
   }
 
@@ -14,6 +16,14 @@
     cx-page-slot.CpqConfigContent {
       max-inline-size: 70%;
     }
+
+    cx-page-slot.CpqConfigOverviewMenu.has-components {
+      max-inline-size: 30%;
+    }
+
+    cx-page-slot.CpqConfigOverviewContent.has-components {
+      max-inline-size: 70%;
+    }
   }
 
   @include media-breakpoint-up(xl) {
@@ -22,6 +32,14 @@
     }
 
     cx-page-slot.CpqConfigContent {
+      max-inline-size: calc(1140px * 0.7);
+    }
+
+    cx-page-slot.CpqConfigOverviewMenu.has-components {
+      max-inline-size: calc(1140px * 0.3);
+    }
+
+    cx-page-slot.CpqConfigOverviewContent.has-components {
       max-inline-size: calc(1140px * 0.7);
     }
   }

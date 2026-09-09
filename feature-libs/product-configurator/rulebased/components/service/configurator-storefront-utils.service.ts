@@ -465,12 +465,15 @@ export class ConfiguratorStorefrontUtilsService {
    * if SPA header, variant configuration overview header and "Add to cart" button are in the viewport,
    * they will be subtracted from the actual viewport height.
    *
+   * @param ovHeaderSelector selector for configuration overview header
    * @returns {number} - Height of the spare viewport.
    */
-  getSpareViewportHeight(): number {
+  getSpareViewportHeight(
+    ovHeaderSelector = '.VariantConfigOverviewHeader'
+  ): number {
     if (this.windowRef.isBrowser()) {
       const spaHeaderHeight = this.getHeight('header');
-      const ovHeaderHeight = this.getHeight('.VariantConfigOverviewHeader');
+      const ovHeaderHeight = this.getHeight(ovHeaderSelector);
       const addToCartHeight =
         this.getHeight('cx-configurator-add-to-cart-button') !== 0
           ? this.getHeight('cx-configurator-add-to-cart-button')
