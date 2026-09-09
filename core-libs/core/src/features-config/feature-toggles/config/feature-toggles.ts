@@ -794,6 +794,13 @@ export interface FeatureTogglesInterface {
    * `AddressFormComponent`, `UnitAddressFormService`
    */
   enableFormFieldMaxLength?: boolean;
+  /**
+   * Makes the CVV (Card Verification Value) info icon in the checkout
+   * payment form keyboard accessible by rendering it as a focusable button.
+   *
+   * Affects: `CheckoutPaymentFormComponent`
+   */
+  a11yCvvInfoIconKeyboardAccessible?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -891,4 +898,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   globalMessageCloseButtonPadding: false,
   a11yNavigationChevronContrast: false,
   enableFormFieldMaxLength: false,
+  a11yCvvInfoIconKeyboardAccessible: false,
 };

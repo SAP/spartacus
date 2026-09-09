@@ -390,6 +390,7 @@ if (environment.cpq) {
         a11yItemCounterValueText: true,
         a11yNavigationChevronContrast: true,
         enableFormFieldMaxLength: true,
+        a11yCvvInfoIconKeyboardAccessible: true,
       };
       return appFeatureToggles;
     }),
