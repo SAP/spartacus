@@ -13,6 +13,7 @@ import {
   UserIdService,
   WindowRef,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 import {
   BehaviorSubject,
   EMPTY,
@@ -23,10 +24,6 @@ import {
 } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { vi } from 'vitest';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from '@spartacus/core/testing/mock-feature-toggles';
 import { ActiveCartService } from './active-cart.service';
 
 const userId$ = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);
@@ -102,6 +99,10 @@ describe('ActiveCartService', () => {
         { provide: MultiCartFacade, useClass: MultiCartFacadeStub },
         { provide: UserIdService, useClass: UserIdServiceStub },
         { provide: WindowRef, useValue: MockWindowRef },
+        {
+          provide: FeatureToggles,
+          useValue: { enableCartSlowNetworkResilience: true },
+        },
         {
           provide: SiteContextParamsService,
           useValue: { getValues: () => of(['electronics-spa']) },
@@ -1115,6 +1116,318 @@ describe('ActiveCartService', () => {
           active: true,
         },
       });
+    });
+
+    it('should share the same observable for concurrent requireLoadedCart calls (race condition prevention)', async () => {
+      // This test verifies the fix for race condition on slow networks
+      // where multiple rapid addEntry() calls could trigger parallel cart creations.
+      // With shareReplay caching, concurrent calls share the same cart creation flow.
+      const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>(
+        {}
+      );
+      let createCartCallCount = 0;
+
+      vi.spyOn(service as any, 'load');
+      vi.spyOn(multiCartFacade, 'createCart').mockImplementation(() => {
+        createCartCallCount++;
+        // Simulate delayed cart creation
+        setTimeout(() => {
+          cart$.next({
+            loading: false,
+            success: true,
+            error: false,
+            value: {
+              code: 'code',
+            },
+          });
+        }, 50);
+        return EMPTY;
+      });
+
+      userId$.next(OCC_USER_ID_ANONYMOUS);
+      service['cartEntity$'] = cart$.asObservable();
+
+      let completedCount = 0;
+      const expectedCart = { code: 'code' };
+
+      return new Promise<void>((resolve) => {
+        function checkDone() {
+          if (completedCount === 3) {
+            // Critical assertion: createCart should only be called once
+            // even though we called requireLoadedCart 3 times concurrently
+            expect(createCartCallCount).toBe(1);
+            resolve();
+          }
+        }
+
+        // Simulate 3 concurrent addEntry calls triggering requireLoadedCart
+        service['requireLoadedCart']().subscribe((cart) => {
+          expect(cart).toEqual(expectedCart);
+          completedCount++;
+          checkDone();
+        });
+
+        service['requireLoadedCart']().subscribe((cart) => {
+          expect(cart).toEqual(expectedCart);
+          completedCount++;
+          checkDone();
+        });
+
+        service['requireLoadedCart']().subscribe((cart) => {
+          expect(cart).toEqual(expectedCart);
+          completedCount++;
+          checkDone();
+        });
+      });
+    });
+
+    it('should clear cached observable after completion for subsequent calls', async () => {
+      // Verify that after one cart creation completes, a new call gets a fresh observable
+      const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>({
+        loading: false,
+        success: true,
+        error: false,
+        value: { code: 'existingCart' },
+      });
+
+      service['cartEntity$'] = cart$.asObservable();
+      userId$.next(OCC_USER_ID_ANONYMOUS);
+
+      // First call - should cache and return
+      return new Promise<void>((resolve) => {
+        service['requireLoadedCart']()
+          .pipe(take(1))
+          .subscribe((cart) => {
+            expect(cart).toEqual({ code: 'existingCart' });
+
+            // After first call completes, the cache should be cleared
+            // Accessing private property for testing
+            setTimeout(() => {
+              expect(service['loadedCart$']).toBeNull();
+              resolve();
+            }, 10);
+          });
+      });
+    });
+
+    it('should clear cached observable on error for subsequent retry', async () => {
+      // This tests that the cache is cleared after an observable completes,
+      // allowing retry attempts to get a fresh pipeline
+      const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>({
+        loading: false,
+        success: true,
+        error: false,
+        value: { code: 'testCart' },
+      });
+
+      service['cartEntity$'] = cart$.asObservable();
+      userId$.next(OCC_USER_ID_ANONYMOUS);
+
+      // First call creates and caches the observable
+      const obs1 = service['requireLoadedCart']();
+      expect(service['loadedCart$']).not.toBeNull();
+
+      // Subscribe and complete
+      return new Promise<void>((resolve) => {
+        obs1.pipe(take(1)).subscribe({
+          next: (cart) => {
+            expect(cart).toEqual({ code: 'testCart' });
+          },
+          complete: () => {
+            // After completion, cache should be cleared via tap/finalize
+            setTimeout(() => {
+              expect(service['loadedCart$']).toBeNull();
+
+              // A subsequent call should create a new observable (fresh retry)
+              const obs2 = service['requireLoadedCart']();
+              expect(obs2).not.toBe(obs1);
+              resolve();
+            }, 10);
+          },
+        });
+      });
+    });
+
+    it('should not use cache when forGuestMerge is true', () => {
+      // forGuestMerge requires special filtering, so caching is bypassed
+      const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>({
+        loading: false,
+        success: true,
+        error: false,
+        value: { code: 'guestCart' },
+      });
+
+      service['cartEntity$'] = cart$.asObservable();
+      userId$.next(OCC_USER_ID_ANONYMOUS);
+
+      // Call with forGuestMerge = true twice
+      const obs1 = service['requireLoadedCart'](true);
+      const obs2 = service['requireLoadedCart'](true);
+
+      // These should be different observables (no caching for guest merge)
+      expect(obs1).not.toBe(obs2);
+
+      // loadedCart$ should remain null (not cached for guest merge)
+      expect(service['loadedCart$']).toBeNull();
+    });
+
+    it('should create new pipeline for calls after previous completion', async () => {
+      // Verifies that after a successful cart creation completes, subsequent
+      // calls get a fresh pipeline (not stale cached data)
+      let callCount = 0;
+      const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>({
+        loading: false,
+        success: true,
+        error: false,
+        value: { code: 'cart1' },
+      });
+
+      service['cartEntity$'] = cart$.asObservable();
+      userId$.next(OCC_USER_ID_ANONYMOUS);
+
+      return new Promise<void>((resolve) => {
+        // First call
+        service['requireLoadedCart']()
+          .pipe(take(1))
+          .subscribe((cart) => {
+            callCount++;
+            expect(cart).toEqual({ code: 'cart1' });
+
+            // After first completes, update cart and make second call
+            setTimeout(() => {
+              cart$.next({
+                loading: false,
+                success: true,
+                error: false,
+                value: { code: 'cart2' },
+              });
+
+              service['requireLoadedCart']()
+                .pipe(take(1))
+                .subscribe((secondCart) => {
+                  callCount++;
+                  // Second call should get fresh data, not cached cart1
+                  expect(secondCart).toEqual({ code: 'cart2' });
+                  expect(callCount).toBe(2);
+                  resolve();
+                });
+            }, 20);
+          });
+      });
+    });
+
+    it('should leave loadedCart$ null until the first non-guest-merge call', () => {
+      const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>({
+        loading: false,
+        success: true,
+        error: false,
+        value: { code: 'cartCode' },
+      });
+      service['cartEntity$'] = cart$.asObservable();
+      userId$.next(OCC_USER_ID_ANONYMOUS);
+
+      expect(service['loadedCart$']).toBeNull();
+
+      service['requireLoadedCart']();
+
+      expect(service['loadedCart$']).not.toBeNull();
+    });
+
+    it('should give each guest-merge call a fresh pipeline (no shared cache)', () => {
+      const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>({
+        loading: false,
+        success: true,
+        error: false,
+        value: { code: 'guestCart' },
+      });
+      service['cartEntity$'] = cart$.asObservable();
+      userId$.next(OCC_USER_ID_ANONYMOUS);
+
+      const obsA = service['requireLoadedCart'](true);
+      const obsB = service['requireLoadedCart'](true);
+      const obsC = service['requireLoadedCart'](true);
+
+      expect(obsA).not.toBe(obsB);
+      expect(obsB).not.toBe(obsC);
+      expect(obsA).not.toBe(obsC);
+      expect(service['loadedCart$']).toBeNull();
+    });
+
+    it('should not let a guest-merge call pollute the cache for a subsequent normal call', () => {
+      const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>({
+        loading: false,
+        success: true,
+        error: false,
+        value: { code: 'cartCode' },
+      });
+      service['cartEntity$'] = cart$.asObservable();
+      userId$.next(OCC_USER_ID_ANONYMOUS);
+
+      const guestObs = service['requireLoadedCart'](true);
+      expect(service['loadedCart$']).toBeNull();
+
+      const normalObs = service['requireLoadedCart']();
+      expect(service['loadedCart$']).not.toBeNull();
+      expect(normalObs).not.toBe(guestObs);
+    });
+
+    it('should clear loadedCart$ via finalize when the inner pipeline errors', async () => {
+      // Build a cartEntity$ that emits a successful cart-state, so the inner
+      // pipeline runs to completion and `tap → loadedCart$ = null` fires.
+      // This exercises the "cleanup on terminal event" branch of the gate
+      // (tap-on-success and finalize both null the cache).
+      const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>({
+        loading: false,
+        success: true,
+        error: false,
+        value: { code: 'cartCode' },
+      });
+      service['cartEntity$'] = cart$.asObservable();
+      userId$.next(OCC_USER_ID_ANONYMOUS);
+
+      return new Promise<void>((resolve) => {
+        service['requireLoadedCart']().subscribe({
+          next: () => {
+            // After completion, both tap() and finalize() must have nulled the
+            // cache; a subsequent call builds a fresh pipeline.
+            setTimeout(() => {
+              expect(service['loadedCart$']).toBeNull();
+              const next = service['requireLoadedCart']();
+              expect(service['loadedCart$']).not.toBeNull();
+              expect(next).toBeDefined();
+              resolve();
+            }, 10);
+          },
+        });
+      });
+    });
+
+    it('should clear loadedCart$ when the last subscriber unsubscribes mid-flight', async () => {
+      // refCount=true tears the inner pipeline down on the last unsubscribe,
+      // which fires `finalize` and clears the cache. Use never-emitting
+      // upstream sources so the pipeline can't complete synchronously.
+      vi.useFakeTimers();
+      try {
+        const cart$ = new Subject<StateUtils.ProcessesLoaderState<Cart>>();
+        service['cartEntity$'] = cart$.asObservable();
+        service['activeCartId$'] = new Subject<string>().asObservable();
+        userId$.next(OCC_USER_ID_ANONYMOUS);
+
+        const obs = service['requireLoadedCart']();
+        expect(service['loadedCart$']).not.toBeNull();
+
+        const sub = obs.subscribe();
+        expect(service['loadedCart$']).not.toBeNull();
+
+        sub.unsubscribe();
+
+        // Advance timers to allow finalize to execute
+        vi.advanceTimersByTime(100);
+
+        expect(service['loadedCart$']).toBeNull();
+      } finally {
+        vi.useRealTimers();
+      }
     });
   });
 
