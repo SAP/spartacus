@@ -562,6 +562,38 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
       expect(classUnderTest.getElement('elementMock')).toEqual(theElement);
     });
+
+    it('should get HTML element by id when selector starts with hash', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      const theElement = document.createElement('div');
+      theElement.id = 'cx--1--CONTAINER_ROW@1067@c036a9e2-ovMenuItem';
+      document.body.appendChild(theElement);
+
+      expect(
+        classUnderTest.getElement(
+          '#cx--1--CONTAINER_ROW@1067@c036a9e2-ovMenuItem'
+        )
+      ).toEqual(theElement);
+
+      document.body.removeChild(theElement);
+    });
+
+    it('should get descendant of HTML element by id when selector starts with hash', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      const container = document.createElement('div');
+      container.id = 'cx--1--CONTAINER_ROW@1067@c036a9e2-ovGroup';
+      const heading = document.createElement('h2');
+      container.appendChild(heading);
+      document.body.appendChild(container);
+
+      expect(
+        classUnderTest.getElement(
+          '#cx--1--CONTAINER_ROW@1067@c036a9e2-ovGroup h2'
+        )
+      ).toEqual(heading);
+
+      document.body.removeChild(container);
+    });
   });
 
   describe('changeStyling', () => {

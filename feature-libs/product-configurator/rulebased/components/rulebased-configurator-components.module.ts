@@ -20,6 +20,7 @@ import { ConfiguratorOverviewFilterDialogModule } from './overview-filter-dialog
 import { ConfiguratorOverviewFilterModule } from './overview-filter/configurator-overview-filter.module';
 import { ConfiguratorOverviewFormModule } from './overview-form/configurator-overview-form.module';
 import { ConfiguratorOverviewMenuModule } from './overview-menu/configurator-overview-menu.module';
+import { ConfiguratorOverviewMenuStandaloneModule } from './overview-menu-standalone/configurator-overview-menu-standalone.module';
 import { ConfiguratorOverviewNotificationBannerModule } from './overview-notification-banner/configurator-overview-notification-banner.module';
 import { ConfiguratorOverviewSidebarModule } from './overview-sidebar/configurator-overview-sidebar.module';
 import { ConfiguratorPreviousNextButtonsModule } from './previous-next-buttons/configurator-previous-next-buttons.module';
@@ -45,6 +46,7 @@ import { ConfiguratorVariantCarouselModule } from './variant-carousel/configurat
     ConfiguratorOverviewAttributeModule,
     ConfiguratorOverviewFormModule,
     ConfiguratorOverviewMenuModule,
+    ConfiguratorOverviewMenuStandaloneModule,
     ConfiguratorOverviewNotificationBannerModule,
     ConfiguratorConflictAndErrorMessagesModule,
     ConfiguratorExitButtonModule,

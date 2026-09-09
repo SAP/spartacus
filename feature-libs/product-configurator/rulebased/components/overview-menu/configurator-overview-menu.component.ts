@@ -36,8 +36,11 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
 
   @Input() config: Configurator.ConfigurationWithOverview;
 
-  protected readonly VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT =
+  @Input() navigationSlotSelector =
     'cx-page-slot.VariantConfigOverviewNavigation';
+
+  @Input() overviewHeaderSelector = '.VariantConfigOverviewHeader';
+
   protected readonly CX_CONFIGURATOR_OVERVIEW_MENU =
     'cx-configurator-overview-menu';
   protected readonly CX_MENU_ITEM_BUTTONS = 'button.cx-menu-item';
@@ -158,7 +161,9 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
    */
   protected getHeight(): string {
     const spareViewportHeight =
-      this.configuratorStorefrontUtilsService.getSpareViewportHeight();
+      this.configuratorStorefrontUtilsService.getSpareViewportHeight(
+        this.overviewHeaderSelector
+      );
 
     if (this.menuItemsHeight > spareViewportHeight) {
       return spareViewportHeight + 'px';
@@ -174,7 +179,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   protected changeStyling(): void {
     this.styles.forEach((style) => {
       this.configuratorStorefrontUtilsService.changeStyling(
-        this.VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT,
+        this.navigationSlotSelector,
         style[0],
         style[1]
       );
@@ -189,7 +194,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   protected removeStyling(): void {
     this.styles.forEach((style) => {
       this.configuratorStorefrontUtilsService.removeStyling(
-        this.VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT,
+        this.navigationSlotSelector,
         style[0]
       );
     });
