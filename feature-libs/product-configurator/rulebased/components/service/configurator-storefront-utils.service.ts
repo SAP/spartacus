@@ -382,11 +382,30 @@ export class ConfiguratorStorefrontUtilsService {
    * @returns selected HTML element
    */
   getElement(querySelector: string): HTMLElement | undefined {
-    if (this.windowRef.isBrowser()) {
-      return this.windowRef.document.querySelector(
-        querySelector
-      ) as HTMLElement;
+    if (!this.windowRef.isBrowser()) {
+      return undefined;
     }
+
+    if (querySelector.startsWith('#')) {
+      const withoutHash = querySelector.slice(1);
+      const spaceIndex = withoutHash.indexOf(' ');
+
+      if (spaceIndex === -1) {
+        return this.windowRef.document.getElementById(withoutHash) ?? undefined;
+      }
+
+      const id = withoutHash.slice(0, spaceIndex);
+      const descendantSelector = withoutHash.slice(spaceIndex + 1);
+      const element = this.windowRef.document.getElementById(id);
+
+      return (
+        (element?.querySelector(descendantSelector) as HTMLElement) ?? undefined
+      );
+    }
+
+    return this.windowRef.document.querySelector(
+      querySelector
+    ) as HTMLElement;
   }
 
   /**
