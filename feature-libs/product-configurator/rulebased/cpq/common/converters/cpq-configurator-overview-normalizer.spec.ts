@@ -2,10 +2,6 @@ import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { LanguageService, TranslationService } from '@spartacus/core';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { Observable, of } from 'rxjs';
 import { Cpq } from '../cpq.models';
 import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normalizer-utils.service';
@@ -150,7 +146,6 @@ class MockTranslationService {
 
 describe('CpqConfiguratorOverviewNormalizer', () => {
   let serviceUnderTest: CpqConfiguratorOverviewNormalizer;
-  let featureToggles: MockFeatureTogglesController;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -165,16 +160,12 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
           provide: TranslationService,
           useClass: MockTranslationService,
         },
-        provideMockFeatureToggles({
-          productConfiguratorCPQContainer: false,
-        }),
       ],
     });
 
     serviceUnderTest = TestBed.inject(
       CpqConfiguratorOverviewNormalizer as Type<CpqConfiguratorOverviewNormalizer>
     );
-    featureToggles = TestBed.inject(MockFeatureTogglesController);
     attr = structuredClone(attrBase);
   }));
 
@@ -646,20 +637,18 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
       };
     }
 
-    it('should preserve legacy behavior when the feature toggle is disabled', () => {
+    it('should ignore container attributes when no container data is present', () => {
       const loggerWarn = spyOn(serviceUnderTest['logger'], 'warn');
+      const source = createConfigurationWithContainers();
+      source.sapContainers = undefined;
 
-      const result = serviceUnderTest.convert(
-        createConfigurationWithContainers()
-      );
+      const result = serviceUnderTest.convert(source);
 
       expect(result.groups).toEqual([]);
-      expect(loggerWarn).toHaveBeenCalled();
+      expect(loggerWarn).not.toHaveBeenCalled();
     });
 
     it('should convert selected container rows into bundle attributes', () => {
-      featureToggles.set('productConfiguratorCPQContainer', true);
-
       const result = serviceUnderTest.convert(
         createConfigurationWithContainers()
       );
@@ -687,9 +676,87 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
       ).toBe(true);
     });
 
-    it('should flatten a single nested group into its container row group', () => {
-      featureToggles.set('productConfiguratorCPQContainer', true);
+    it('should preserve the source order of regular and container attributes', () => {
+      const gardeningContainerAttributeCode = 800;
+      const createDropdownAttribute = (
+        code: number,
+        name: string,
+        value: string
+      ): Cpq.Attribute => ({
+        pA_ID: code,
+        stdAttrCode: code,
+        name,
+        displayAs: Cpq.DisplayAs.DROPDOWN,
+        values: [{ paV_ID: code, valueDisplay: value, selected: true }],
+      });
+      const source: Cpq.Configuration = {
+        productSystemId: PRODUCT_CODE,
+        currencyISOCode: CURRENCY,
+        tabs: [
+          {
+            id: rootTabId,
+            attributes: [
+              createDropdownAttribute(1, 'Building Type', 'Residential'),
+              {
+                ...structuredClone(containerAttribute),
+                name: 'Building Component',
+              },
+              createDropdownAttribute(2, 'Power Supply', '230V'),
+              {
+                ...structuredClone(containerAttribute),
+                stdAttrCode: gardeningContainerAttributeCode,
+                name: 'Gardening Component',
+              },
+              createDropdownAttribute(3, 'Insurance', 'Premium'),
+            ],
+          },
+        ],
+        sapContainers: [
+          {
+            stdAttrCode: containerAttributeCode,
+            rows: [
+              {
+                id: 'wall',
+                productName: 'Wall',
+                selected: true,
+              },
+              {
+                id: 'roof',
+                productName: 'Roof',
+                selected: true,
+              },
+            ],
+          },
+          {
+            stdAttrCode: gardeningContainerAttributeCode,
+            rows: [
+              {
+                id: 'greenhouse',
+                productName: 'Greenhouse',
+                selected: true,
+              },
+            ],
+          },
+        ],
+      };
 
+      const result = serviceUnderTest.convert(source);
+
+      expect(
+        result.groups?.[0].attributes?.map(
+          (attribute) => `${attribute.attribute}:${attribute.value}`
+        )
+      ).toEqual([
+        'Building Type:Residential',
+        'Building Component:Wall',
+        'Building Component:Roof',
+        'Power Supply:230V',
+        'Gardening Component:Greenhouse',
+        'Insurance:Premium',
+      ]);
+    });
+
+    it('should flatten a single nested group into its container row group', () => {
       const result = serviceUnderTest.convert(
         createConfigurationWithContainers()
       );
@@ -712,7 +779,6 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     });
 
     it('should preserve nested groups when a configuration contains multiple groups', () => {
-      featureToggles.set('productConfiguratorCPQContainer', true);
       const source = createConfigurationWithContainers();
       const nestedConfiguration = source.sapContainers?.[0].rows?.find(
         (row) => row.id === 'zoom'
@@ -744,7 +810,6 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     });
 
     it('should not attach a container with a non-matching attribute code', () => {
-      featureToggles.set('productConfiguratorCPQContainer', true);
       const source = createConfigurationWithContainers();
       source.sapContainers = [{ stdAttrCode: 999, rows: [] }];
 
@@ -753,8 +818,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
       expect(result.groups).toEqual([]);
     });
 
-    it('should not log an unsupported warning for containers when the feature toggle is enabled', () => {
-      featureToggles.set('productConfiguratorCPQContainer', true);
+    it('should not log an unsupported warning for containers', () => {
       const loggerWarn = spyOn(serviceUnderTest['logger'], 'warn');
 
       serviceUnderTest.convert(createConfigurationWithContainers());

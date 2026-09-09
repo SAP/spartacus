@@ -5,12 +5,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import {
-  Converter,
-  FeatureToggles,
-  LoggerService,
-  TranslationService,
-} from '@spartacus/core';
+import { Converter, LoggerService, TranslationService } from '@spartacus/core';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { take } from 'rxjs/operators';
 import { Cpq } from '../cpq.models';
@@ -24,7 +19,6 @@ export class CpqConfiguratorOverviewNormalizer
 {
   protected readonly NO_OPTION_SELECTED = 0;
   protected logger: LoggerService = inject(LoggerService);
-  private featureToggles = inject(FeatureToggles);
 
   constructor(
     protected cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService,
@@ -43,19 +37,9 @@ export class CpqConfiguratorOverviewNormalizer
         this.cpqConfiguratorNormalizerUtilsService.convertPriceSummary(source),
       groups: source.tabs
         ?.flatMap((tab) =>
-          this.convertTab(
-            tab,
-            source.currencyISOCode,
-            this.featureToggles.productConfiguratorCPQContainer
-              ? source.sapContainers
-              : undefined
-          )
+          this.convertTab(tab, source.currencyISOCode, source.sapContainers)
         )
-        .filter((group) =>
-          this.featureToggles.productConfiguratorCPQContainer
-            ? this.hasOverviewContent(group)
-            : !!group.attributes?.length
-        ),
+        .filter((group) => this.hasOverviewContent(group)),
       totalNumberOfIssues: this.calculateTotalNumberOfIssues(source),
     };
     return resultTarget;
@@ -67,23 +51,17 @@ export class CpqConfiguratorOverviewNormalizer
     containers?: Cpq.Container[],
     parentRowGroupId?: string
   ): Configurator.GroupOverview {
-    let ovAttributes: Configurator.AttributeOverview[] = [];
-    tab.attributes?.forEach((attr) => {
-      ovAttributes = ovAttributes.concat(this.convertAttribute(attr, currency));
-    });
     const groupOverview: Configurator.GroupOverview = {
       id: this.createTabGroupId(tab.id, parentRowGroupId),
       groupDescription: tab.displayName,
-      attributes: ovAttributes,
+      attributes: [],
     };
-    if (this.featureToggles.productConfiguratorCPQContainer) {
-      this.attachContainers(
-        groupOverview,
-        tab.attributes,
-        containers,
-        currency
+    tab.attributes?.forEach((attribute) => {
+      groupOverview.attributes?.push(
+        ...this.convertAttribute(attribute, currency)
       );
-    }
+      this.attachContainer(groupOverview, attribute, containers, currency);
+    });
     if (tab.id === 0) {
       this.translation
         .translate('configurator.group.general')
@@ -162,40 +140,39 @@ export class CpqConfiguratorOverviewNormalizer
     return parentRowGroupId ? `${parentRowGroupId}@${tabId}` : tabId.toString();
   }
 
-  protected attachContainers(
+  protected attachContainer(
     group: Configurator.GroupOverview,
-    attributes: Cpq.Attribute[] | undefined,
+    attribute: Cpq.Attribute,
     containers: Cpq.Container[] | undefined,
     currency: string
   ): void {
-    if (!attributes?.length || !containers?.length) {
+    if (
+      attribute.displayAs !== Cpq.DisplayAs.CONTAINER ||
+      !containers?.length
+    ) {
       return;
     }
 
-    attributes
-      .filter((attribute) => attribute.displayAs === Cpq.DisplayAs.CONTAINER)
-      .forEach((attribute) => {
-        const container = containers.find(
-          (entry) => entry.stdAttrCode === attribute.stdAttrCode
+    const container = containers.find(
+      (entry) => entry.stdAttrCode === attribute.stdAttrCode
+    );
+    container?.rows
+      ?.filter((row) => this.isSelectedContainerRow(row))
+      .forEach((row) => {
+        group.attributes?.push(
+          this.convertContainerRowToAttribute(row, attribute)
         );
-        container?.rows
-          ?.filter((row) => this.isSelectedContainerRow(row))
-          .forEach((row) => {
-            group.attributes?.push(
-              this.convertContainerRowToAttribute(row, attribute)
-            );
-            if (row.configuration) {
-              group.subGroups ??= [];
-              group.subGroups.push(
-                this.convertNestedConfiguration(
-                  row.configuration,
-                  row,
-                  attribute.stdAttrCode,
-                  currency
-                )
-              );
-            }
-          });
+        if (row.configuration) {
+          group.subGroups ??= [];
+          group.subGroups.push(
+            this.convertNestedConfiguration(
+              row.configuration,
+              row,
+              attribute.stdAttrCode,
+              currency
+            )
+          );
+        }
       });
   }
 
@@ -259,10 +236,7 @@ export class CpqConfiguratorOverviewNormalizer
   }
 
   protected logUnsupportedAttributeIfNeeded(attr: Cpq.Attribute): void {
-    if (
-      attr.displayAs !== Cpq.DisplayAs.CONTAINER ||
-      !this.featureToggles.productConfiguratorCPQContainer
-    ) {
+    if (attr.displayAs !== Cpq.DisplayAs.CONTAINER) {
       this.logUnsupportedAttribute(attr);
     }
   }
