@@ -19,6 +19,7 @@ import {
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { BehaviorSubject } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
 import { LoginFormComponent } from './login-form.component';
@@ -62,6 +63,7 @@ describe('LoginFormComponent', () => {
           provide: LoginFormComponentService,
           useClass: MockLoginFormComponentService,
         },
+        provideMockFeatureToggles({}),
       ],
     })
       .overrideComponent(LoginFormComponent, {
