@@ -1,5 +1,5 @@
 <div *ngIf="!attribute.visible" class="cx-hidden-msg">
-  <cx-icon [type]="iconTypes.WARNING" aria-hidden="true"></cx-icon>
+  <cx-icon [type]="iconTypes.WARNING" aria-hidden="true" />
   {{ 'configurator.attribute.notVisibleAttributeMsg' | cxTranslate }}
 </div>
 <div class="cx-header-label-container">
@@ -22,7 +22,7 @@
   <cx-configurator-show-options
     *ngIf="attribute.domainOnDemand"
     [attributeComponentContext]="attributeComponentContext"
-  ></cx-configurator-show-options>
+  />
 </div>
 
 <cx-configurator-show-more
@@ -31,7 +31,7 @@
   [textSize]="getAttributeDescriptionLength()"
   [productName]="getLabel(expMode, attribute.label, attribute.name)"
   [tabIndex]="0"
-></cx-configurator-show-more>
+/>
 <div
   *ngIf="attribute.hasConflicts"
   class="cx-conflict-msg"
@@ -49,7 +49,7 @@
     *ngIf="isAttributeGroup()"
     [type]="iconTypes.WARNING"
     aria-hidden="true"
-  ></cx-icon>
+  />
   <ng-container *ngIf="isAttributeGroup(); else conflictGroup">
     <ng-container
       *ngIf="
@@ -79,7 +79,7 @@
   id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
   [attr.aria-label]="getRequiredMessageKey() | cxTranslate"
 >
-  <cx-icon [type]="iconTypes.ERROR"></cx-icon>
+  <cx-icon [type]="iconTypes.ERROR" />
   {{ getRequiredMessageKey() | cxTranslate }}
 </div>
 <img

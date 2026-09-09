@@ -34,7 +34,7 @@
           aria-atomic="true"
           role="alert"
         >
-          <cx-icon [type]="iconType.ERROR"></cx-icon>
+          <cx-icon [type]="iconType.ERROR" />
           {{ 'quote.summary.sellerEdit.discountValidationText' | cxTranslate }}
         </div>
       </label>
@@ -51,7 +51,7 @@
           [control]="$any(form.get('validityDate'))"
           [required]="true"
           (update)="onSetDate(quoteDetails.code)"
-        ></cx-date-picker>
+        />
       </label>
     </form>
   </div>

@@ -247,12 +247,12 @@ export class AppModule {}
 const INHERITANCE_VALID_TEST_CLASS = `
 export class Test extends UserAddressService {}
 `;
-const HTML_EXAMPLE = `<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
+const HTML_EXAMPLE = `<cx-consent-management-form isLevel13="xxx" />
 <div>test</div>
-<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
-const HTML_EXAMPLE_EXPECTED = `<!-- ${TODO_SPARTACUS} 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
+<cx-consent-management-form isLevel13="xxx" />`;
+const HTML_EXAMPLE_EXPECTED = `<!-- ${TODO_SPARTACUS} 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx" />
 <div>test</div>
-<!-- ${TODO_SPARTACUS} 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
+<!-- ${TODO_SPARTACUS} 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx" />`;
 const HTML_EXAMPLE_NGIF = `<div *ngIf="isThumbsEmpty">test</div>`;
 const HTML_EXAMPLE_NGIF_EXPECTED = `<!-- ${TODO_SPARTACUS} 'isThumbsEmpty' property has been removed. -->
 <div *ngIf="isThumbsEmpty">test</div>`;
