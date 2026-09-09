@@ -52,7 +52,8 @@ const ACCORDION_TITLE_SELECTOR = '.cx-title';
 const ACCORDION_HEADER_BUTTON_SELECTOR = '.cx-header button';
 
 const PRODUCT_TITLE_SELECTOR = '#cxConfigProductName';
-const PRODUCT_CARD_SELECTOR = '.cx-product-card';
+const PRODUCT_CARD_SELECTOR = '.cx-product-card:not(.message)';
+const PRODUCT_CARD_HOST_SELECTOR = 'cx-configurator-attribute-product-card';
 const PRODUCT_CARD_NAME_SELECTOR = '.cx-product-card-name';
 const PRODUCT_CARD_ADD_BUTTON_SELECTOR = '.cx-product-card-action button';
 const PRODUCT_CARD_ACTIONS_MENU_TOGGLE_SELECTOR =
@@ -553,7 +554,26 @@ export function getSelectedProductCard(
   productName: string,
   index: number
 ): Cypress.Chainable<JQuery<HTMLElement>> {
-  return getContainerSectionCards(SELECTED_PRODUCTS, attributeName)
+  return getSelectedProductCardRow(attributeName, productName, index).find(
+    PRODUCT_CARD_SELECTOR
+  );
+}
+
+/**
+ * Returns the selected product card host element (includes row messages).
+ *
+ * @param {string} attributeName - Container attribute name
+ * @param {string} productName - Product name
+ * @param {number} index - Zero-based index among cards with this name
+ * @return {Cypress.Chainable<JQuery<HTMLElement>>} - Matching product card row
+ */
+export function getSelectedProductCardRow(
+  attributeName: string,
+  productName: string,
+  index: number
+): Cypress.Chainable<JQuery<HTMLElement>> {
+  return getContainerSection(SELECTED_PRODUCTS, attributeName)
+    .find(PRODUCT_CARD_HOST_SELECTOR)
     .filter((_, el) =>
       Cypress.$(el)
         .find(PRODUCT_CARD_NAME_SELECTOR)
@@ -561,6 +581,26 @@ export function getSelectedProductCard(
         .includes(productName)
     )
     .eq(index);
+}
+
+/**
+ * Verifies that a validation message is shown on a selected product card row.
+ *
+ * @param {string} attributeName - Container attribute name
+ * @param {string} productName - Product name
+ * @param {number} index - Zero-based index among cards with this name
+ * @param {string} message - Expected message text
+ */
+export function checkSelectedProductMessage(
+  attributeName: string,
+  productName: string,
+  index: number,
+  message: string
+): void {
+  getSelectedProductCardRow(attributeName, productName, index)
+    .find('.cx-error-msg, .cx-warning-message')
+    .contains(message.trim())
+    .should('be.visible');
 }
 
 /**
@@ -662,7 +702,6 @@ export function editSelectedProductAndReturnToParent(
  * @param {string} containerName - Container attribute name
  * @param {string} productName - Product name
  * @param {number} index - Zero-based index among cards with this name
- * @param {string} parentGroupName - Parent group name shown in the group menu
  */
 export function copySelectedProductAndReturnToParent(
   containerName: string,
