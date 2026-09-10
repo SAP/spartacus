@@ -1,7 +1,5 @@
 <ng-container *ngIf="showFilterBar">
-  <cx-configurator-overview-filter-bar
-    [config]="config"
-  ></cx-configurator-overview-filter-bar>
+  <cx-configurator-overview-filter-bar [config]="config" />
 </ng-container>
 <ng-container *ngIf="!(isDisplayOnlyVariant() | async)">
   <div class="cx-overview-filter-header">

@@ -19,9 +19,9 @@
           placeholder="{{ 'customerTicketingList.sortSubtitle' | cxTranslate }}"
           [ariaLabel]="'customerTicketingList.sortOrders' | cxTranslate"
           ariaControls="ticketing-list-table"
-        ></cx-sorting>
+        />
       </label>
-      <cx-customer-ticketing-create></cx-customer-ticketing-create>
+      <cx-customer-ticketing-create />
     </div>
     <table
       id="ticketing-list-table"
@@ -155,12 +155,12 @@
         <cx-pagination
           [pagination]="ticketList.pagination"
           (viewPageEvent)="pageChange($event)"
-        ></cx-pagination>
+        />
       </div>
     </div>
   </ng-container>
   <ng-template #noCustomerTickets>
-    <cx-customer-ticketing-create></cx-customer-ticketing-create>
+    <cx-customer-ticketing-create />
     <ng-container>
       <div class="text-center">
         <h3>{{ 'customerTicketingList.noTickets' | cxTranslate }}</h3>
@@ -170,5 +170,5 @@
 </ng-container>
 
 <ng-template #spinner>
-  <cx-spinner></cx-spinner>
+  <cx-spinner />
 </ng-template>

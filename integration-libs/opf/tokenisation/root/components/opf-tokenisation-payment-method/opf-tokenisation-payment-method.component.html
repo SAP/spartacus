@@ -2,8 +2,7 @@
   <ng-container *ngIf="showSavedCards$ | async">
     <ng-container *ngIf="cards$ | async as cards">
       <ng-container *ngIf="!(isUpdating$ | async); else loading">
-        <ng-container *ngIf="cards?.length; then hasExistingPaymentMethods">
-        </ng-container>
+        <ng-container *ngIf="cards?.length; then hasExistingPaymentMethods" />
       </ng-container>
 
       <ng-template #hasExistingPaymentMethods>
@@ -31,7 +30,7 @@
                     class="cx-expired-error-icon"
                     [type]="iconTypes.ERROR"
                     aria-hidden="true"
-                  ></cx-icon>
+                  />
                   <span class="cx-expired-error-message">
                     {{ 'paymentCard.expiredMessage' | cxTranslate }}
                   </span>
@@ -47,7 +46,7 @@
                   !isCardExpired(card.paymentMethod) &&
                     selectPaymentMethod(card.paymentMethod)
                 "
-              ></cx-card>
+              />
             </div>
           </div>
         </div>
@@ -94,6 +93,6 @@
 
 <ng-template #loading>
   <div class="cx-spinner">
-    <cx-spinner></cx-spinner>
+    <cx-spinner />
   </div>
 </ng-template>
