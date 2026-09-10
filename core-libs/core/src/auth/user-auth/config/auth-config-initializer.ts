@@ -87,7 +87,7 @@ export class AuthConfigInitializer implements ConfigInitializer {
       // use absolute redirect URI as URL base
       const urlSegments: string[] = [
         isAbsolute
-          ? (configuredRedirectUri as string)
+          ? this.trimTrailingSlash(configuredRedirectUri as string)
           : (this.getDefaultRedirectUri() ?? ''),
       ];
 
@@ -151,5 +151,9 @@ export class AuthConfigInitializer implements ConfigInitializer {
 
   protected trimLeadingSlash(path: string): string {
     return path.startsWith('/') ? path.substring(1) : path;
+  }
+
+  protected trimTrailingSlash(url: string) {
+    return url.endsWith('/') ? url.substring(0, url.length - 1) : url;
   }
 }

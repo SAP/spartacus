@@ -417,6 +417,17 @@ describe('AuthConfigInitializer', () => {
                 config.authentication?.OAuthLibConfig?.redirectUri
               ).toEqual(expected);
             });
+
+            it('should trim a trailing slash from the absolute URI', async () => {
+              authConfig.authentication.OAuthLibConfig.redirectUri = `${absoluteUri}/`;
+              const expected = `${absoluteUri}/${mockActiveBaseSite}`;
+
+              const config = await service.configFactory();
+
+              expect(
+                config.authentication?.OAuthLibConfig?.redirectUri
+              ).toEqual(expected);
+            });
           });
           describe('when baseSite is not in the URL context', () => {
             beforeEach(() => {
@@ -428,6 +439,28 @@ describe('AuthConfigInitializer', () => {
 
             it('should initialize the redirect URI to the redirect URI', async () => {
               const expected = `${absoluteUri}`;
+              const config = await service.configFactory();
+
+              expect(
+                config.authentication?.OAuthLibConfig?.redirectUri
+              ).toEqual(expected);
+            });
+
+            it('should trim a trailing slash from the absolute URI', async () => {
+              authConfig.authentication.OAuthLibConfig.redirectUri = `${absoluteUri}/`;
+              const expected = `${absoluteUri}`;
+
+              const config = await service.configFactory();
+
+              expect(
+                config.authentication?.OAuthLibConfig?.redirectUri
+              ).toEqual(expected);
+            });
+
+            it('should trim a single trailing slash from the absolute URI', async () => {
+              authConfig.authentication.OAuthLibConfig.redirectUri = `${absoluteUri}//`;
+              const expected = `${absoluteUri}/`;
+
               const config = await service.configFactory();
 
               expect(
