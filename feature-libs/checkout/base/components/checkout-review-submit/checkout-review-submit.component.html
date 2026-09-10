@@ -10,7 +10,7 @@
         <ng-container *ngFor="let step of paymentSteps(steps)">
           <ng-container [ngSwitch]="step.type[0]">
             <ng-container *ngSwitchCase="checkoutStepTypePaymentDetails">
-              <ng-container *ngTemplateOutlet="paymentMethod"></ng-container>
+              <ng-container *ngTemplateOutlet="paymentMethod" />
             </ng-container>
           </ng-container>
         </ng-container>
@@ -19,10 +19,10 @@
         <ng-container *ngFor="let step of deliverySteps(steps)">
           <ng-container [ngSwitch]="step.type[0]">
             <ng-container *ngSwitchCase="checkoutStepTypeDeliveryAddress">
-              <ng-container *ngTemplateOutlet="deliveryAddress"></ng-container>
+              <ng-container *ngTemplateOutlet="deliveryAddress" />
             </ng-container>
             <ng-container *ngSwitchCase="checkoutStepTypeDeliveryMode">
-              <ng-container *ngTemplateOutlet="deliveryMode"></ng-container>
+              <ng-container *ngTemplateOutlet="deliveryMode" />
             </ng-container>
           </ng-container>
         </ng-container>
@@ -36,9 +36,7 @@
       *ngIf="deliveryAddress$ | async as deliveryAddress"
       class="cx-review-summary-card cx-review-card-address"
     >
-      <cx-card
-        [content]="getDeliveryAddressCard(deliveryAddress) | async"
-      ></cx-card>
+      <cx-card [content]="getDeliveryAddressCard(deliveryAddress) | async" />
       <div class="cx-review-summary-edit-step">
         <a
           [attr.title]="
@@ -49,8 +47,8 @@
               cxRoute: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress),
             } | cxUrl
           "
-          ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
-        ></a>
+          ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"
+        /></a>
       </div>
     </div>
   </ng-template>
@@ -62,16 +60,14 @@
         <cx-card
           *ngIf="deliveryMode$ | async as deliveryMode"
           [content]="getDeliveryModeCard(deliveryMode) | async"
-        >
-        </cx-card>
+        />
         <ng-template
           [cxOutlet]="cartOutlets.DELIVERY_MODE"
           [cxOutletContext]="{
             item: cart$ | async,
             readonly: true,
           }"
-        >
-        </ng-template>
+        />
       </div>
 
       <div class="cx-review-summary-edit-step">
@@ -82,7 +78,7 @@
               | cxUrl
           "
         >
-          <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon>
+          <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL" />
         </a>
       </div>
     </div>
@@ -95,7 +91,7 @@
         <cx-card
           *ngIf="paymentDetails$ | async as paymentDetails"
           [content]="getPaymentMethodCard(paymentDetails) | async"
-        ></cx-card>
+        />
       </div>
       <div class="cx-review-summary-edit-step">
         <a
@@ -105,7 +101,7 @@
               | cxUrl
           "
         >
-          <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon>
+          <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL" />
         </a>
       </div>
     </div>
@@ -130,7 +126,7 @@
             cart.potentialOrderPromotions || []
           )
         "
-      ></cx-promotions>
+      />
 
       <ng-template
         [cxOutlet]="cartOutlets.CART_ITEM_LIST"
@@ -139,8 +135,7 @@
           readonly: true,
           promotionLocation: promotionLocation,
         }"
-      >
-      </ng-template>
+      />
     </div>
   </ng-container>
 </div>

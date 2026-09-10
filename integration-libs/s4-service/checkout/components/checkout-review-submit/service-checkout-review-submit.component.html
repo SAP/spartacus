@@ -20,7 +20,7 @@
                     styleClass: 'cx-review-summary-card',
                   }
                 "
-              ></ng-container>
+              />
             </ng-container>
             <ng-container *ngSwitchCase="checkoutStepTypePaymentType">
               <ng-container *ngIf="paymentType$ | async as paymentType">
@@ -36,7 +36,7 @@
                       styleClass: 'cx-review-summary-card',
                     }
                   "
-                ></ng-container>
+                />
               </ng-container>
             </ng-container>
             <ng-container *ngSwitchCase="checkoutStepTypePaymentDetails">
@@ -54,7 +54,7 @@
                         'cx-review-summary-card cx-review-card-payment',
                     }
                   "
-                ></ng-container>
+                />
               </ng-container>
             </ng-container>
             <ng-container *ngSwitchCase="checkoutStepTypeDeliveryAddress">
@@ -72,7 +72,7 @@
                         styleClass: 'cx-review-summary-card',
                       }
                     "
-                  ></ng-container>
+                  />
                 </ng-container>
               </ng-container>
             </ng-container>
@@ -97,11 +97,11 @@
                         'cx-review-summary-card cx-review-card-address',
                     }
                   "
-                ></ng-container>
+                />
               </ng-container>
             </ng-container>
             <ng-container *ngSwitchCase="checkoutStepTypeDeliveryMode">
-              <ng-container *ngTemplateOutlet="deliveryMode"></ng-container>
+              <ng-container *ngTemplateOutlet="deliveryMode" />
             </ng-container>
             <ng-container *ngSwitchCase="checkoutStepTypeServiceDetails">
               <ng-container *ngIf="scheduledAt$ | async as scheduledAt">
@@ -118,7 +118,7 @@
                         'cx-review-summary-card cx-review-service-details',
                     }
                   "
-                ></ng-container>
+                />
               </ng-container>
             </ng-container>
           </ng-container>
@@ -134,13 +134,13 @@
     let-styleClass="styleClass"
   >
     <div [ngClass]="styleClass">
-      <cx-card [content]="content | async"></cx-card>
+      <cx-card [content]="content | async" />
       <div class="cx-review-summary-edit-step">
         <a
           [attr.title]="label | cxTranslate"
           [routerLink]="{ cxRoute: editRoute } | cxUrl"
         >
-          <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon>
+          <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL" />
         </a>
       </div>
     </div>
@@ -153,16 +153,14 @@
         <cx-card
           *ngIf="shouldShowDeliveryModeCard(deliveryMode)"
           [content]="getDeliveryModeCard(deliveryMode) | async"
-        >
-        </cx-card>
+        />
         <ng-template
           [cxOutlet]="cartOutlets.DELIVERY_MODE"
           [cxOutletContext]="{
             item: cart$ | async,
             readonly: true,
           }"
-        >
-        </ng-template>
+        />
       </div>
 
       <div class="cx-review-summary-edit-step">
@@ -173,7 +171,7 @@
               | cxUrl
           "
         >
-          <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon>
+          <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL" />
         </a>
       </div>
     </div>
@@ -198,7 +196,7 @@
             cart.potentialOrderPromotions || []
           )
         "
-      ></cx-promotions>
+      />
 
       <ng-template
         [cxOutlet]="cartOutlets.CART_ITEM_LIST"
@@ -207,8 +205,7 @@
           readonly: true,
           promotionLocation: promotionLocation,
         }"
-      >
-      </ng-template>
+      />
     </div>
   </ng-container>
 </div>
