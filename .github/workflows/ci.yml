@@ -63,8 +63,14 @@ jobs:
           echo "SHOULD_RUN_E2E=$RUN_E2E" >> "$GITHUB_OUTPUT"
   unit_tests:
     needs: no_retries
-    name: Unit tests
+    name: Unit tests (${{ matrix.test-runner }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        test-runner: [karma, vitest]
+    env:
+      TEST_RUNNER: ${{ matrix.test-runner }}
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:

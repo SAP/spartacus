@@ -37,9 +37,15 @@ jobs:
 
   unit_tests:
     needs: [detect_changes]
-    name: CI - Unit tests
+    name: CI - Unit tests (${{ matrix.test-runner }})
     runs-on: ubuntu-latest
     if: ${{ needs.detect_changes.outputs.RUN_CI_CHECKS == 'true' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        test-runner: [karma, vitest]
+    env:
+      TEST_RUNNER: ${{ matrix.test-runner }}
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
