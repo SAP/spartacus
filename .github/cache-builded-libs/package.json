@@ -12,7 +12,8 @@
   "overrides": {
     "form-data": "^4.0.4",
     "undici": "^8.0.0",
-    "brace-expansion@^1": "1.1.16"
+    "brace-expansion@^1": "1.1.18",
+    "brace-expansion@^5": "5.0.9"
   },
   "dependencies": {
     "@actions/cache": "^6.0.0",
