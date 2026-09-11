@@ -28,6 +28,7 @@ export class SiteThemePersistenceService {
       key: SITE_THEME_ID,
       state$: this.siteThemeService.getActive(),
       onRead: (state) => this.onRead(state),
+      storageCategory: 'optional',
     });
     return this.initialized$;
   }

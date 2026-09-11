@@ -5,4 +5,5 @@
  */
 
 export * from './action-to-event-mapping';
+export * from './cookie-consent-changed.event';
 export * from './state-event.service';
