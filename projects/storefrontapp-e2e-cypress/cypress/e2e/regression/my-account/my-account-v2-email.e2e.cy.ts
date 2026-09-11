@@ -20,6 +20,8 @@ describe('My Account - Update Email (CXSPA-10780)', () => {
     });
 
     describe('Update email for anonymous user (CXSPA-10780)', () => {
+      // Verifies that anonymous users cannot access the update email page and are redirected to the login page.
+      // The final check ensures the URL pathname contains '/login'.
       it('should redirect to login page (CXSPA-10780)', () => {
         cy.visit(UPDATE_EMAIL_URL);
         cy.location('pathname').should('contain', '/login');
@@ -52,6 +54,8 @@ describe('My Account - Update Email (CXSPA-10780)', () => {
           });
         });
 
+        // Tests the edit email UI by clicking edit, verifying the form appears, and testing the cancel functionality.
+        // The final check verifies that clicking cancel returns to the display mode with email content visible and no info message.
         it('should click edit email and go to edit menu, and cancel works as expected (CXSPA-10780)', () => {
           cy.get('.cx-message-info').should('not.exist');
           cy.get('.value').should('exist');
@@ -77,6 +81,8 @@ describe('My Account - Update Email (CXSPA-10780)', () => {
 
         // Core e2e test. Check with different view port.
 
+        // Tests updating the email address with a new one and verifies successful login with the new credentials.
+        // The final check verifies that the login greeting is displayed after successfully logging in with the new email.
         it('should update the email address and login successfully (CXSPA-10780)', () => {
           cy.get('.editButton').click();
           const newUid = generateMail(randomString(), true);

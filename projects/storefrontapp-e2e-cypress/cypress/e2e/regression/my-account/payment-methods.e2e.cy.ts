@@ -25,6 +25,8 @@ describe('Payment Methods', () => {
     });
 
     describe('Anonymous user', () => {
+      // Verifies that anonymous users cannot access the payment details page and are redirected to the login page.
+      // The final check ensures the URL pathname contains '/login'.
       it('should redirect user to login page', () => {
         cy.visit('/my-account/payment-details');
         cy.location('pathname').should('contain', '/login');
@@ -50,6 +52,8 @@ describe('Payment Methods', () => {
         cy.restoreLocalStorage();
       });
 
+      // Tests rendering payment details pages with different numbers of payment methods (empty, one method, and two methods).
+      // The final check verifies that exactly 2 payment method cards are displayed after adding a second payment method.
       it('should render page with different number of payment methods', () => {
         // Core test. Repeat in different view port.
 
@@ -68,6 +72,8 @@ describe('Payment Methods', () => {
         verifyPaymentCard(2);
       });
 
+      // Tests setting an additional payment method as the default by clicking the "Set as default" button.
+      // The final check verifies that the first card displays the default badge, card number 1234, and expiration date 03/2126.
       it('should set additional payment method as default', () => {
         cy.intercept({
           method: 'GET',
@@ -94,6 +100,8 @@ describe('Payment Methods', () => {
         firstCard.should('contain', `Expires: 03/2126`);
       });
 
+      // Tests deleting a payment method by verifying both cancel and delete operations work correctly.
+      // The final check verifies that the remaining default card displays the name 'test user'.
       it('should be able to delete payment method', () => {
         cy.findAllByText('Delete').first().click({ force: true });
 

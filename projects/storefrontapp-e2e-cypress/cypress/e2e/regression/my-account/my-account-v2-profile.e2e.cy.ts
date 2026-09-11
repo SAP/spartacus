@@ -24,6 +24,8 @@ describe('My Account - Update Profile (CXSPA-10780)', () => {
     });
 
     describe('update profile test for anonymous user', () => {
+      // Verifies that anonymous users cannot access the update profile page and are redirected to the login page.
+      // The final check ensures the URL pathname contains '/login'.
       it('should redirect to login page for anonymous user (CXSPA-10780)', () => {
         cy.visit(UPDATE_PROFILE_URL);
         cy.location('pathname').should('contain', '/login');
@@ -52,6 +54,8 @@ describe('My Account - Update Profile (CXSPA-10780)', () => {
           });
         });
 
+        // Tests updating profile details including title, first name, and last name, then verifies the changes.
+        // The final check verifies that the greeting displays the new name in the upper right corner.
         it('should be able to update profile details (CXSPA-10780)', () => {
           cy.get('.editButton').click();
 
@@ -75,6 +79,8 @@ describe('My Account - Update Profile (CXSPA-10780)', () => {
           );
         });
 
+        // Tests viewing the updated profile information in edit mode and canceling back to the display view.
+        // The final check verifies that after clicking cancel, the value display is shown and the edit form is hidden.
         it('should be able to see the new profile info and cancle back to edit first page (CXSPA-10780)', () => {
           cy.get('.editButton').click();
           // check where the user's details updated in the previous test
