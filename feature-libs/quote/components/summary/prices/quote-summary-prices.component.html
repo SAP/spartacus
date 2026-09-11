@@ -7,7 +7,12 @@
       {{ 'quote.summary.prices.subtotal' | cxTranslate }}
     </div>
     <div class="cx-price-amount">
-      {{ quoteDetails.totalPrice?.formattedValue }}
+      {{
+        showSubtotalBeforeDiscounts &&
+        quoteDetails.sapSubtotalExcludingOrderLevelDiscount?.formattedValue
+          ? quoteDetails.sapSubtotalExcludingOrderLevelDiscount!.formattedValue
+          : quoteDetails.totalPrice.formattedValue
+      }}
     </div>
   </div>
   <div
@@ -48,7 +53,7 @@
       {{ 'quote.summary.prices.total' | cxTranslate }}
     </div>
     <div class="cx-price-amount">
-      {{ quoteDetails.totalPrice?.formattedValue }}
+      {{ quoteDetails.totalPrice.formattedValue }}
     </div>
   </div>
   <div class="cx-price-footer">

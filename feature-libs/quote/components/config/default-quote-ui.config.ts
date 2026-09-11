@@ -110,5 +110,6 @@ export const defaultQuoteUIConfig: QuoteUIConfig = {
     },
     confirmActionDialogMapping: defaultDialogMappings,
     maximumDecimalsForPercentageDiscount: 8,
+    showSubtotalBeforeDiscounts: true,
   },
 };
