@@ -7,6 +7,7 @@
 import { NgModule } from '@angular/core';
 import { SmartEditCoreModule } from '@spartacus/smartedit/core';
 
+// Test smartedit affected
 @NgModule({
   imports: [SmartEditCoreModule],
 })
