@@ -7,13 +7,13 @@
       <ng-container
         *ngIf="!order.paymentInfo?.cardNumber; else partialGiftCardPayment"
       >
-        <cx-card [content]="getPaymentMethodCardContent() | async"></cx-card>
+        <cx-card [content]="getPaymentMethodCardContent() | async" />
       </ng-container>
 
       <ng-template #partialGiftCardPayment>
         <cx-card
           [content]="{ text: ['opfGiftCard.giftCardPayment' | cxTranslate] }"
-        ></cx-card>
+        />
       </ng-template>
     </div>
   </ng-container>

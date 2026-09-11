@@ -11,11 +11,7 @@
         {{ item.label }}
       </option>
     </select>
-    <cx-icon
-      aria-hidden="true"
-      [type]="iconTypes.CARET_DOWN"
-      class="small"
-    ></cx-icon>
+    <cx-icon aria-hidden="true" [type]="iconTypes.CARET_DOWN" class="small" />
   </div>
   <ng-container *cxFeature="'!a11ySiteContextCaretClick'">
     <select cxNativeSelectSpace (change)="active = $any($event).target.value">
@@ -28,10 +24,6 @@
         {{ item.label }}
       </option>
     </select>
-    <cx-icon
-      aria-hidden="true"
-      [type]="iconTypes.CARET_DOWN"
-      class="small"
-    ></cx-icon>
+    <cx-icon aria-hidden="true" [type]="iconTypes.CARET_DOWN" class="small" />
   </ng-container>
 </label>

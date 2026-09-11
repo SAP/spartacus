@@ -10,8 +10,7 @@
   (selectProduct)="
     sectionContext.navigate$.next({ cxRoute: 'product', params: $event })
   "
->
-</cx-asm-customer-360-product-listing>
+/>
 
 <ng-template #headerTemplate>
   <ng-container *ngIf="activeCart$ | async as activeCart">

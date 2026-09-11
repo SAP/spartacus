@@ -33,16 +33,12 @@
     {{ attributeOverview.attribute }}
   </div>
   <div class="cx-attribute-price" aria-hidden="true">
-    <cx-configurator-price
-      [formula]="extractPriceFormulaParameters()"
-    ></cx-configurator-price>
+    <cx-configurator-price [formula]="extractPriceFormulaParameters()" />
   </div>
 </ng-container>
 <ng-template #mobile>
   <div class="cx-attribute-price" aria-hidden="true">
-    <cx-configurator-price
-      [formula]="extractPriceFormulaParameters()"
-    ></cx-configurator-price>
+    <cx-configurator-price [formula]="extractPriceFormulaParameters()" />
   </div>
   <div class="cx-attribute-label" aria-hidden="true">
     {{ attributeOverview.attribute }}

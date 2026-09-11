@@ -204,7 +204,7 @@ function updateMainComponent(
     }
 
     const htmlContent = buffer.toString();
-    const insertion = `<cx-storefront></cx-storefront>\n`;
+    const insertion = `<cx-storefront/>\n`;
 
     if (htmlContent.includes(insertion)) {
       return;
