@@ -15,7 +15,7 @@ import { LoginGuard } from './login.guard';
 /**
  * This module enables to quickly switch from Resource Owner Password Flow
  * to Implicit Flow or Authorization Code Flow. The `login` route in this case will be
- * responsible for initalizing the redirect to OAuth server to login.
+ * responsible for initializing the redirect to OAuth server to login.
  *
  * Instead of manually invoking OAuth redirect you only have to redirect to `login` page.
  */

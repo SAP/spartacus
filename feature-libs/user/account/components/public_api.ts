@@ -9,6 +9,7 @@ export * from './login-form/index';
 export * from './login-register/index';
 export * from './login/index';
 export * from './my-account-v2-user/index';
+export * from './oauth-callback/index';
 export * from './otp-login-form/index';
 export * from './user-account-component.module';
 export * from './verification-token-form/index';

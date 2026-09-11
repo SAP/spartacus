@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
 import {
   CmsConfig,
+  FeatureModuleConfig,
+  FeatureToggles,
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
@@ -19,11 +21,18 @@ import {
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultUserAccountComponentsConfig(): CmsConfig {
+  const {
+    oauthCallbackPage,
+    asyncAuthConfigInitializer,
+    authorizationCodeFlowByDefault,
+  } = inject(FeatureToggles);
+
   const config: CmsConfig = {
     featureModules: {
       [USER_ACCOUNT_FEATURE]: {
         cmsComponents: [
           'LoginComponent',
+          'OAuthCallbackComponent',
           'ReturningCustomerLoginComponent',
           'VerifyOTPTokenComponent',
           'ReturningCustomerRegisterComponent',
@@ -37,6 +46,22 @@ export function defaultUserAccountComponentsConfig(): CmsConfig {
       [USER_ACCOUNT_CORE_FEATURE]: USER_ACCOUNT_FEATURE,
     },
   };
+
+  if (
+    !(
+      oauthCallbackPage &&
+      asyncAuthConfigInitializer &&
+      authorizationCodeFlowByDefault
+    )
+  ) {
+    // remove OAuthCallbackComponent entry
+    const cmsComponents = (
+      config.featureModules as Record<string, FeatureModuleConfig>
+    )[USER_ACCOUNT_FEATURE].cmsComponents as string[];
+    const index = cmsComponents.indexOf('OAuthCallbackComponent');
+    cmsComponents.splice(index, 1);
+  }
+
   return config;
 }
 
