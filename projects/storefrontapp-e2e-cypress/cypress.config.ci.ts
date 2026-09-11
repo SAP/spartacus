@@ -10,7 +10,7 @@ const JDK_VERSION: string = 'JDK21';
 const CLIENT_ID =
   JDK_VERSION === 'JDK21' ? 'mobile_android_public' : 'mobile_android';
 
-const API_URL = 'https://20.83.184.244:9002';
+const API_URL = 'https://spartacus-colosseum1.eastus.cloudapp.azure.com:8443';
 
 export default defineConfig({
   defaultCommandTimeout: 30000,
