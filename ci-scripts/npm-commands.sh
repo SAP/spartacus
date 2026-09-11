@@ -58,6 +58,7 @@ build_libs_ci() {
 
     echo "▶ Building assets lib"
     npm run build:assets
+    return 0
 }
 
 build_csr() {

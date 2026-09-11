@@ -56,6 +56,7 @@ show_projects() {
         # projects (e.g. nothing affected). Return an empty array.
         printf '[]'
     fi
+    return 0
 }
 
 # karma leg = (test ∪ test-jest) − apps
@@ -94,6 +95,7 @@ weigh() {
         out=$(jq -nc --argjson acc "$out" --argjson e "$entry" '$acc + [$e]')
     done < <(printf '%s' "$names_json" | jq -r '.[]?')
     printf '%s' "$out"
+    return 0
 }
 
 KARMA_WEIGHTED=$(weigh "$KARMA_NAMES")
@@ -119,6 +121,7 @@ buckets() {
           })
         | map(select(.projects != ""))
     '
+    return 0
 }
 
 KARMA_BUCKETS=$(buckets "$KARMA_WEIGHTED" "$KARMA_SHARDS" karma)

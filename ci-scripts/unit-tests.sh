@@ -100,7 +100,7 @@ function run_all_unit_tests {
 # unchanged and still runs everything.
 if [[ -n "${UNIT_TEST_GROUP_PROJECTS:-}" ]]; then
     run_all_unit_tests
-elif [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
+elif [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
     if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
         run_all_unit_tests
     else
