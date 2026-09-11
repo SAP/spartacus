@@ -241,6 +241,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
 
   describe('Place order UI', () => {
     beforeEach(() => {
+      mockReplenishmentOrderFormData$.next(mockReplenishmentOrderFormData);
       component.ngOnInit();
       controls.termsAndConditions.setValue(true);
     });

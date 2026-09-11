@@ -26,7 +26,7 @@ import {
   ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
 import { PaginationComponent, SortingComponent } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, firstValueFrom, Observable, of } from 'rxjs';
 import { OrderHistoryComponent } from './order-history.component';
 
 const mockOrders: OrderHistoryList = {
@@ -198,6 +198,8 @@ describe('OrderHistoryComponent', () => {
   });
 
   beforeEach(() => {
+    mockOrderHistoryList$.next(mockOrders);
+    mockReplenishmentOrder$.next(mockReplenishmentOrder);
     fixture = TestBed.createComponent(OrderHistoryComponent);
     component = fixture.componentInstance;
   });
@@ -213,13 +215,8 @@ describe('OrderHistoryComponent', () => {
     ).toBeTruthy();
   });
 
-  it('should read order list', () => {
-    let orders: OrderHistoryList;
-    component.orders$
-      .subscribe((value) => {
-        orders = value;
-      })
-      .unsubscribe();
+  it('should read order list', async () => {
+    let orders: OrderHistoryList | undefined = await firstValueFrom(component.orders$);
     expect(orders).toEqual(mockOrders);
   });
 

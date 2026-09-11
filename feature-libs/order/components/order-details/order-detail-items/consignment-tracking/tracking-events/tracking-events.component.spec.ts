@@ -69,7 +69,7 @@ describe('TrackingEventsComponent', () => {
     el = fixture.debugElement;
     component = fixture.componentInstance;
     component.shipDate = shipDate;
-    userOrderService.clearConsignmentTracking.mockImplementation(() => {});
+    userOrderService.clearConsignmentTracking.mockReset();
   });
 
   it('should create', () => {
@@ -129,6 +129,8 @@ describe('TrackingEventsComponent', () => {
     fixture.detectChanges();
     el.query(By.css('.btn-dismiss')).nativeElement.click();
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith('Cross click');
+
+    component.ngOnDestroy();
     expect(userOrderService.clearConsignmentTracking).toHaveBeenCalled();
   });
 

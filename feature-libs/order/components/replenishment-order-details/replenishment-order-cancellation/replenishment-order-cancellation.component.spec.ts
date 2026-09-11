@@ -20,7 +20,7 @@ import {
   ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
+import { BehaviorSubject, EMPTY, firstValueFrom, Observable } from 'rxjs';
 import { ReplenishmentOrderCancellationComponent } from './replenishment-order-cancellation.component';
 
 const mockReplenishmentOrder: ReplenishmentOrder = {
@@ -94,6 +94,7 @@ describe('ReplenishmentOrderCancellationComponent', () => {
   });
 
   beforeEach(() => {
+    mockReplenishmentOrder$.next(mockReplenishmentOrder);//reset to prevent leakage between executions
     fixture = TestBed.createComponent(ReplenishmentOrderCancellationComponent);
     replenishmentOrderHistoryFacade = TestBed.inject(
       ReplenishmentOrderHistoryFacade
@@ -109,13 +110,10 @@ describe('ReplenishmentOrderCancellationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should be able to get replenishment order details', () => {
-    let result: ReplenishmentOrder;
-
-    replenishmentOrderHistoryFacade
-      .getReplenishmentOrderDetails()
-      .subscribe((data) => (result = data))
-      .unsubscribe();
+  it('should be able to get replenishment order details', async () => {
+    let result: ReplenishmentOrder = await firstValueFrom(
+      replenishmentOrderHistoryFacade.getReplenishmentOrderDetails()
+    );
 
     expect(result).toEqual(mockReplenishmentOrder);
   });

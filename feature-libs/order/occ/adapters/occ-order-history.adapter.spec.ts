@@ -85,6 +85,7 @@ describe('OccOrderHistoryAdapter', () => {
 
   afterEach(() => {
     httpMock.verify();
+    vi.restoreAllMocks();
   });
 
   describe('getUserOrders', () => {
