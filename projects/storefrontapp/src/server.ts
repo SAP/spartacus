@@ -8,6 +8,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import {
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
+  createMarkdownPageHandler,
   defaultExpressErrorHandlers,
   defaultSsrOptimizationOptions,
   ngExpressEngine as engine,
@@ -47,6 +48,11 @@ export function app(): express.Express {
       allowedOrigins: process.env['SSR_ALLOWED_ORIGINS'],
     })
   );
+
+  // Smoke-test wiring for CXSPA-13864: serve Markdown when the client
+  // negotiates `Accept: text/markdown`. Registered before express.static and
+  // the Angular catch-all so it can patch res.send on qualifying requests.
+  server.use(createMarkdownPageHandler());
 
   server.engine(
     'html',
