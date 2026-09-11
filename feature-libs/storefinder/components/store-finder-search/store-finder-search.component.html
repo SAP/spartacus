@@ -10,6 +10,7 @@
           class="form-control"
           [attr.aria-label]="'storeFinder.searchBoxLabel' | cxTranslate"
           placeholder="{{ 'storeFinder.searchBox' | cxTranslate }}"
+          [attr.autocomplete]="searchAutocomplete"
         />
         <cx-icon
           [attr.tabindex]="queryInput.value?.length ? 0 : -1"
@@ -46,6 +47,7 @@
               type="text"
               class="form-control"
               placeholder="{{ 'storeFinder.searchBox' | cxTranslate }}"
+              [attr.autocomplete]="searchAutocomplete"
             />
             <cx-icon
               [attr.tabindex]="queryInput.value?.length ? 0 : -1"

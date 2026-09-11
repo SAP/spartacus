@@ -9,6 +9,7 @@ import {
 } from '@spartacus/core';
 import { IconComponent, ICON_TYPE } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { vi } from 'vitest';
 import { StoreFinderSearchComponent } from './store-finder-search.component';
 
@@ -60,6 +61,7 @@ describe('StoreFinderSearchComponent', () => {
           useValue: { go: vi.fn() },
         },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        provideMockFeatureToggles({}),
       ],
     })
       .overrideComponent(StoreFinderSearchComponent, {

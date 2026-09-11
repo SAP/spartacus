@@ -794,6 +794,16 @@ export interface FeatureTogglesInterface {
    * `AddressFormComponent`, `UnitAddressFormService`
    */
   enableFormFieldMaxLength?: boolean;
+
+  /**
+   * When enabled, disables browser native autocomplete on the store finder
+   * search input and the login-form email input. This prevents the browser
+   * from showing its native autocomplete popup, whose "Delete Entry" button
+   * is not reachable by keyboard (ACC 270.1, Level A).
+   *
+   * Affects: `StoreFinderSearchComponent`, `LoginFormComponent`
+   */
+  a11yDeleteEntryButtonKeyboardAccessible?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -891,4 +901,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   globalMessageCloseButtonPadding: false,
   a11yNavigationChevronContrast: false,
   enableFormFieldMaxLength: false,
+  a11yDeleteEntryButtonKeyboardAccessible: false,
 };
