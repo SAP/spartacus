@@ -8,9 +8,13 @@ import { inject } from '@angular/core';
 import { FeatureToggles, RoutesConfig, RoutingConfig } from '@spartacus/core';
 
 export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
-  const featureToggles = inject(FeatureToggles);
+  const {
+    authorizationCodeFlowByDefault,
+    oauthCallbackPage,
+    asyncAuthConfigInitializer,
+  } = inject(FeatureToggles);
 
-  const routingConfig: RoutingConfig = {
+  const routingConfig = {
     routing: {
       routes: {
         home: { paths: [''] },
@@ -23,9 +27,7 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
            * where we are redirected from oauth server.
            * Legacy path will stay, new one is updated.           *
            */
-          paths: [
-            featureToggles.authorizationCodeFlowByDefault ? 'sign-in' : 'login',
-          ],
+          paths: [authorizationCodeFlowByDefault ? 'sign-in' : 'login'],
           protected: false,
           authFlow: true,
         },
@@ -89,7 +91,7 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
    * Configuration necessary to allow customization of login form path,
    * which have to be the same as configured in oauth client
    */
-  if (featureToggles.authorizationCodeFlowByDefault) {
+  if (authorizationCodeFlowByDefault) {
     (routingConfig.routing?.routes as RoutesConfig)['loginForm'] = {
       paths: ['login'],
       protected: false,
@@ -97,7 +99,11 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
     };
   }
 
-  if (featureToggles.oauthCallbackPage) {
+  if (
+    authorizationCodeFlowByDefault &&
+    oauthCallbackPage &&
+    asyncAuthConfigInitializer
+  ) {
     (routingConfig.routing?.routes as RoutesConfig)['oAuthCallback'] = {
       paths: ['oauth-callback'],
       protected: false,

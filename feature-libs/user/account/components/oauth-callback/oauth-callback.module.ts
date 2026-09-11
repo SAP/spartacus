@@ -16,19 +16,26 @@ import { SpinnerComponent } from '@spartacus/storefront';
 @NgModule({
   imports: [],
   providers: [
-    provideDefaultConfigFactory(
-      (): CmsConfig =>
-        inject(FeatureToggles).oauthCallbackPage
-          ? <CmsConfig>{
-              cmsComponents: {
-                OAuthCallbackComponent: {
-                  component: SpinnerComponent,
-                  guards: [OAuthCallbackGuard],
-                },
+    provideDefaultConfigFactory((): CmsConfig => {
+      const {
+        oauthCallbackPage,
+        asyncAuthConfigInitializer,
+        authorizationCodeFlowByDefault,
+      } = inject(FeatureToggles);
+
+      return oauthCallbackPage &&
+        asyncAuthConfigInitializer &&
+        authorizationCodeFlowByDefault
+        ? <CmsConfig>{
+            cmsComponents: {
+              OAuthCallbackComponent: {
+                component: SpinnerComponent,
+                guards: [OAuthCallbackGuard],
               },
-            }
-          : {}
-    ),
+            },
+          }
+        : {};
+    }),
   ],
 })
 export class OAuthCallbackModule {}

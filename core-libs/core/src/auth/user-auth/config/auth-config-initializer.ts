@@ -80,8 +80,17 @@ export class AuthConfigInitializer implements ConfigInitializer {
     const shouldAppendBaseSite = this.addBaseSiteToRedirectUriEnabled(config);
     const configuredRedirectUri =
       config.authentication?.OAuthLibConfig?.redirectUri;
+    const {
+      oauthCallbackPage,
+      authorizationCodeFlowByDefault,
+      asyncAuthConfigInitializer,
+    } = this.featureToggles;
 
-    if (this.featureToggles.oauthCallbackPage) {
+    if (
+      oauthCallbackPage &&
+      authorizationCodeFlowByDefault &&
+      asyncAuthConfigInitializer
+    ) {
       const isAbsolute = !!configuredRedirectUri?.match(/^https?:\/\//);
 
       // use absolute redirect URI as URL base

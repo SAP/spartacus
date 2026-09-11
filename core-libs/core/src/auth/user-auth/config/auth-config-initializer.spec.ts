@@ -87,7 +87,11 @@ describe('AuthConfigInitializer', () => {
         { provide: WindowRef, useClass: MockWindowRef },
         {
           provide: FeatureToggles,
-          useValue: <FeatureToggles>{ oauthCallbackPage: false },
+          useValue: <FeatureToggles>{
+            oauthCallbackPage: false,
+            asyncAuthConfigInitializer: true,
+            authorizationCodeFlowByDefault: true,
+          },
         },
       ],
     });

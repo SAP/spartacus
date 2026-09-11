@@ -21,7 +21,11 @@ import {
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultUserAccountComponentsConfig(): CmsConfig {
-  const featureToggles = inject(FeatureToggles);
+  const {
+    oauthCallbackPage,
+    asyncAuthConfigInitializer,
+    authorizationCodeFlowByDefault,
+  } = inject(FeatureToggles);
 
   const config: CmsConfig = {
     featureModules: {
@@ -43,7 +47,14 @@ export function defaultUserAccountComponentsConfig(): CmsConfig {
     },
   };
 
-  if (!featureToggles.oauthCallbackPage) {
+  if (
+    !(
+      oauthCallbackPage &&
+      asyncAuthConfigInitializer &&
+      authorizationCodeFlowByDefault
+    )
+  ) {
+    // remove OAuthCallbackComponent entry
     const cmsComponents = (
       config.featureModules as Record<string, FeatureModuleConfig>
     )[USER_ACCOUNT_FEATURE].cmsComponents as string[];
