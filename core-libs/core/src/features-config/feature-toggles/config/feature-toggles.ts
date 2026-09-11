@@ -786,6 +786,15 @@ export interface FeatureTogglesInterface {
   a11yNavigationChevronContrast?: boolean;
 
   /**
+   * When enabled, the requote button when clicked in the cancelled quote details page
+   * will show a warning message to the user that the quote-cart should have a minimum
+   * threshold value of items to be able to proceed with the requote process.
+   *
+   * Affects: `QuoteSummaryActionsComponent`
+   */
+  showWarningMessageOnRequoteButtonClick?: boolean;
+
+  /**
    * When enabled, `Validators.maxLength` is applied to all text form fields
    * in address and registration forms, providing visible error feedback instead
    * of silently blocking input at the HTML level.
@@ -890,5 +899,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   configuratorIssuesNotificationForConfigurableOnly: false,
   globalMessageCloseButtonPadding: false,
   a11yNavigationChevronContrast: false,
+  showWarningMessageOnRequoteButtonClick: false,
   enableFormFieldMaxLength: false,
 };
