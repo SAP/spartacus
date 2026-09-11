@@ -15,10 +15,8 @@ permissions:
     
 env:
   NODE_VERSION: '22'
-  NX_BASE: origin/${{ github.event.pull_request.base.ref }}
-  NX_HEAD: origin/${{ github.event.pull_request.head.ref }}
 
-concurrency: 
+concurrency:
   group: ci-continuous-integration-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
@@ -35,34 +33,52 @@ jobs:
         id: detect_code_changes
         uses: ./.github/actions/detect-changes
 
-  unit_tests:
+  prepare_unit_shards:
     needs: [detect_changes]
-    name: CI - Unit tests
+    name: CI - Prepare unit test shards
     runs-on: ubuntu-latest
     if: ${{ needs.detect_changes.outputs.RUN_CI_CHECKS == 'true' }}
+    outputs:
+      matrix: ${{ steps.shards.outputs.matrix }}
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           fetch-depth: 0
-      - name: Setup node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 #v4.4.0
+      - name: Derive nx SHAs
+        uses: nrwl/nx-set-shas@3e9ad7370203c1e93d109be57f3b72eb0eb511b1 # v4.4.0
+        with:
+          main-branch-name: ${{ github.event.pull_request.base.ref }}
+      - name: Compute shard matrix
+        id: shards
+        uses: ./.github/actions/prepare-unit-shards
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+          cache-key: ${{ github.event.pull_request.base.sha }}
+          affected: ${{ startsWith(github.head_ref, 'epic/') && 'false' || 'true' }}
+
+  unit_tests:
+    needs: [detect_changes, prepare_unit_shards]
+    name: CI - Unit tests (${{ matrix.shard-name }})
+    runs-on: ubuntu-latest
+    if: ${{ needs.detect_changes.outputs.RUN_CI_CHECKS == 'true' && needs.prepare_unit_shards.outputs.matrix != '{"include":[]}' }}
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.prepare_unit_shards.outputs.matrix) }}
+    env:
+      TEST_RUNNER: ${{ matrix.test-runner }}
+      UNIT_TEST_GROUP_PROJECTS: ${{ matrix.projects }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          path: | 
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Package installation
-        run: npm ci
+          fetch-depth: 0
+      - name: Setup Node and Cache
+        uses: ./.github/actions/setup-node-and-cache
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache-key: ${{ github.event.pull_request.base.sha }}
       - name: Run unit tests
         run: |
-          ci-scripts/unit-tests.sh          
+          ci-scripts/unit-tests.sh
   sonarqube_scan:
     needs: [detect_changes]
     name: CI - SonarQube Scan
@@ -89,23 +105,21 @@ jobs:
     if: ${{ needs.detect_changes.outputs.RUN_CI_CHECKS == 'true' }}
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-      - name: Setup node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 #v4.4.0
+        with:
+          fetch-depth: 0
+      - name: Derive nx SHAs
+        uses: nrwl/nx-set-shas@3e9ad7370203c1e93d109be57f3b72eb0eb511b1 # v4.4.0
+        with:
+          main-branch-name: ${{ github.event.pull_request.base.ref }}
+      - name: Setup Node and Cache
+        uses: ./.github/actions/setup-node-and-cache
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: | 
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Package installation
-        run: npm ci
+          cache-key: ${{ github.event.pull_request.base.sha }}
       - name: Run linting validation
+        env:
+          LINT_AFFECTED: ${{ startsWith(github.head_ref, 'epic/') && 'false' || 'true' }}
+          LINT_PARALLEL: '4'
         run: |
           ci-scripts/validate-lint.sh
   check_peer_dependencies:
