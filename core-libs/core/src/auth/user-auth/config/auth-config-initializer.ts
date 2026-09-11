@@ -80,17 +80,8 @@ export class AuthConfigInitializer implements ConfigInitializer {
     const shouldAppendBaseSite = this.addBaseSiteToRedirectUriEnabled(config);
     const configuredRedirectUri =
       config.authentication?.OAuthLibConfig?.redirectUri;
-    const {
-      oauthCallbackPage,
-      authorizationCodeFlowByDefault,
-      asyncAuthConfigInitializer,
-    } = this.featureToggles;
 
-    if (
-      oauthCallbackPage &&
-      authorizationCodeFlowByDefault &&
-      asyncAuthConfigInitializer
-    ) {
+    if (this.oauthCallbackPageEnabled()) {
       const isAbsolute = !!configuredRedirectUri?.match(/^https?:\/\//);
 
       // use absolute redirect URI as URL base
@@ -164,5 +155,13 @@ export class AuthConfigInitializer implements ConfigInitializer {
 
   protected trimTrailingSlash(url: string) {
     return url.endsWith('/') ? url.substring(0, url.length - 1) : url;
+  }
+
+  private oauthCallbackPageEnabled() {
+    return (
+      this.featureToggles.oauthCallbackPage &&
+      this.featureToggles.authorizationCodeFlowByDefault &&
+      this.featureToggles.asyncAuthConfigInitializer
+    );
   }
 }
