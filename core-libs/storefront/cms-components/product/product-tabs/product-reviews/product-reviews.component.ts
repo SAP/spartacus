@@ -87,7 +87,7 @@ export class ProductReviewsComponent {
   maxListItems: number;
   reviewForm: UntypedFormGroup;
 
-  protected featureToggles = inject(FeatureToggles);
+  private featureToggles = inject(FeatureToggles);
 
   product$: Observable<Product | null> =
     this.currentProductService.getProduct();
