@@ -4,6 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+// SPIKE — AI-SEO approach (c): /llms.txt served by an Angular route; clean
+// text/plain via the ⟦LLMS⟧ marker cut in OptimizedSsrEngine. See ADR §4(c).
+
 import { APP_BASE_HREF } from '@angular/common';
 import {
   NgExpressEngineDecorator,
@@ -58,7 +61,8 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
-  // Serve static files from /browser
+  // express.static fallthrough:true — dotted /llms.txt (no file on disk) falls
+  // through to the Angular catch-all below, not 404'd here.
   server.get(
     /.*\..*/,
     express.static(browserDistFolder, {
@@ -66,7 +70,7 @@ export function app(): express.Express {
     })
   );
 
-  // All regular routes use the Universal engine
+  // Angular Universal render — regular routes and AI-SEO routes (/llms.txt).
   server.get(/.*/, (req, res) => {
     res.render(indexHtml, {
       req,
