@@ -82,7 +82,20 @@ fi
 validateStylesLint
 
 echo "Validating code linting"
-node --max_old_space_size=3584 ./node_modules/nx/dist/bin/nx.js run-many --all --target=lint
+# Lint parallelism and scope are env-tunable so CI can go faster without
+# changing behaviour for other callers (e.g. the external Azure pipeline, which
+# sets none of these and therefore still lints ALL projects serially-by-default).
+#   LINT_PARALLEL           - nx --parallel value (default 3, nx's own default)
+#   LINT_AFFECTED=true      - lint only nx-affected projects (needs NX_BASE/NX_HEAD)
+LINT_PARALLEL="${LINT_PARALLEL:-3}"
+NX_BIN="node --max_old_space_size=3584 ./node_modules/nx/dist/bin/nx.js"
+if [[ "${LINT_AFFECTED:-}" == "true" ]]; then
+    echo "Linting AFFECTED projects (parallel=$LINT_PARALLEL)"
+    $NX_BIN affected --target=lint --parallel="$LINT_PARALLEL"
+else
+    echo "Linting ALL projects (parallel=$LINT_PARALLEL)"
+    $NX_BIN run-many --all --target=lint --parallel="$LINT_PARALLEL"
+fi
 
 echo "-----"
 

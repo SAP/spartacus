@@ -27,10 +27,35 @@ fi
 EXCLUDED_APPS='["storefrontapp","ssr-tests"]'
 
 # List projects (JSON array) that have $1 as a target, honouring --affected.
-# Returns "[]" when none.
+#
+# We pass --json explicitly: `nx show projects` output format is
+# environment-dependent — it emits a JSON array in some contexts but
+# newline-delimited plain text on a non-TTY CI runner. Relying on the default
+# silently returned "[]" on CI (no line matched a JSON array), green-skipping
+# every test. --json forces the array everywhere.
+#
+# Still hardened for banners/daemon noise on stdout (isolate the JSON line), and
+# we fail loudly when nx itself errors (non-zero exit) — e.g. an unresolvable
+# base/head ref for --affected. Swallowing that would return "[]" and skip all
+# tests, worse than a red build. nx-set-shas provides resolvable NX_BASE/NX_HEAD.
 show_projects() {
-    local target="$1"
-    npx nx show projects $AFF_FLAG --with-target="$target" 2>/dev/null | jq -c '. // []'
+    local target="$1" raw rc arr
+    raw=$(npx nx show projects $AFF_FLAG --with-target="$target" --json 2>&1)
+    rc=$?
+    if [[ $rc -ne 0 ]]; then
+        echo "ERROR: 'nx show projects $AFF_FLAG --with-target=$target --json' failed (exit $rc):" >&2
+        printf '%s\n' "$raw" >&2
+        exit "$rc"
+    fi
+    # Isolate the JSON array line (nx prints it on one line); tolerate leading noise.
+    arr=$(printf '%s\n' "$raw" | grep -m1 '^\[' || true)
+    if printf '%s' "$arr" | jq -e 'type == "array"' >/dev/null 2>&1; then
+        printf '%s' "$arr" | jq -c 'unique'
+    else
+        # --json succeeded but produced no array line: genuinely no matching
+        # projects (e.g. nothing affected). Return an empty array.
+        printf '[]'
+    fi
 }
 
 # karma leg = (test ∪ test-jest) − apps
@@ -41,28 +66,34 @@ KARMA_NAMES=$(jq -nc \
     '($a + $b) | unique | map(select(. as $p | $apps | index($p) | not))')
 
 # vitest leg = test-vitest
-VITEST_NAMES=$(show_projects test-vitest | jq -c 'unique')
+VITEST_NAMES=$(show_projects test-vitest)
 
-# Attach a weight (spec-file count) to each project name so the partition can
-# balance by workload rather than count. Falls back to 1 when the root can't be
+# Attach a weight to each project so the partition balances by workload rather
+# than project count. Weight = total lines across the project's *.spec.ts files
+# (a better runtime proxy than file count: a lib with a few large specs can
+# outweigh one with many tiny specs). Falls back to 1 when the root can't be
 # resolved or has no specs, so every project still carries positive weight.
+# NOTE: line count is still an approximation of real test runtime. If shard
+# balance matters more, replace this with measured per-project test durations.
 weigh() {
     local names_json="$1"
     local out="[]"
-    local p root w entry
+    local p root raw w entry
     while IFS= read -r p; do
         [[ -z "$p" ]] && continue
-        root=$(npx nx show project "$p" --json 2>/dev/null | jq -r '.root // empty')
+        raw=$(npx nx show project "$p" --json 2>/dev/null || true)
+        root=$(printf '%s' "$raw" | jq -r '.root // empty' 2>/dev/null || true)
         if [[ -n "$root" && -d "$root" ]]; then
-            w=$(find "$root" -name '*.spec.ts' 2>/dev/null | wc -l | tr -d ' ')
+            # Total lines across all spec files; 0 if none.
+            w=$(find "$root" -name '*.spec.ts' -exec cat {} + 2>/dev/null | wc -l | tr -d ' ')
         else
             w=1
         fi
-        [[ "$w" -eq 0 ]] && w=1
+        [[ -z "$w" || "$w" -eq 0 ]] && w=1
         entry=$(jq -nc --arg n "$p" --argjson w "$w" '{name:$n,weight:$w}')
         out=$(jq -nc --argjson acc "$out" --argjson e "$entry" '$acc + [$e]')
-    done < <(echo "$names_json" | jq -r '.[]')
-    echo "$out"
+    done < <(printf '%s' "$names_json" | jq -r '.[]?')
+    printf '%s' "$out"
 }
 
 KARMA_WEIGHTED=$(weigh "$KARMA_NAMES")
@@ -93,4 +124,15 @@ buckets() {
 KARMA_BUCKETS=$(buckets "$KARMA_WEIGHTED" "$KARMA_SHARDS" karma)
 VITEST_BUCKETS=$(buckets "$VITEST_WEIGHTED" "$VITEST_SHARDS" vitest)
 
-jq -nc --argjson k "$KARMA_BUCKETS" --argjson v "$VITEST_BUCKETS" '{include: ($k + $v)}'
+MATRIX=$(jq -nc --argjson k "$KARMA_BUCKETS" --argjson v "$VITEST_BUCKETS" '{include: ($k + $v)}')
+
+# Safety net: in run-all mode (AFFECTED != true) there are always projects, so an
+# empty matrix means nx enumeration failed (daemon crash, bad output) rather than
+# "nothing to test". Fail loudly instead of silently green-skipping every test.
+# In affected mode an empty matrix is legitimate (PR touched nothing testable).
+if [[ "$AFFECTED" != "true" ]] && [[ "$(printf '%s' "$MATRIX" | jq '.include | length')" -eq 0 ]]; then
+    echo "ERROR: run-all mode produced an empty shard matrix — nx project enumeration likely failed." >&2
+    exit 1
+fi
+
+printf '%s\n' "$MATRIX"

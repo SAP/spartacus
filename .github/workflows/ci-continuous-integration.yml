@@ -15,8 +15,10 @@ permissions:
     
 env:
   NODE_VERSION: '22'
-  NX_BASE: origin/${{ github.event.pull_request.base.ref }}
-  NX_HEAD: origin/${{ github.event.pull_request.head.ref }}
+  # NX_BASE/NX_HEAD are derived per-job by nrwl/nx-set-shas (see prepare_unit_shards).
+  # They are intentionally NOT set at workflow level: the old
+  # origin/<base>/<head> values did not resolve on the sparse PR checkout and
+  # made `nx affected` error out.
 
 concurrency: 
   group: ci-continuous-integration-${{ github.head_ref || github.run_id }}
@@ -46,6 +48,15 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           fetch-depth: 0
+      # Resolve correct NX_BASE/NX_HEAD SHAs for `nx affected`. The sparse PR
+      # checkout (detached merge commit) does not reliably expose
+      # origin/<base>/<head> as named refs, which made `nx show projects
+      # --affected` error out. nx-set-shas derives real SHAs and exports them
+      # as env vars for the compute step below.
+      - name: Derive nx SHAs
+        uses: nrwl/nx-set-shas@3e9ad7370203c1e93d109be57f3b72eb0eb511b1 # v4.4.0
+        with:
+          main-branch-name: ${{ github.event.pull_request.base.ref }}
       - name: Compute shard matrix
         id: shards
         uses: ./.github/actions/prepare-unit-shards
@@ -70,22 +81,11 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           fetch-depth: 0
-      - name: Setup node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 #v4.4.0
+      - name: Setup Node and Cache
+        uses: ./.github/actions/setup-node-and-cache
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: |
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Package installation
-        run: npm ci
+          cache-key: ${{ github.event.pull_request.base.sha }}
       - name: Run unit tests
         run: |
           ci-scripts/unit-tests.sh
@@ -115,23 +115,24 @@ jobs:
     if: ${{ needs.detect_changes.outputs.RUN_CI_CHECKS == 'true' }}
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-      - name: Setup node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 #v4.4.0
+        with:
+          fetch-depth: 0
+      # Derive NX_BASE/NX_HEAD so `nx affected` lints only changed projects.
+      - name: Derive nx SHAs
+        uses: nrwl/nx-set-shas@3e9ad7370203c1e93d109be57f3b72eb0eb511b1 # v4.4.0
+        with:
+          main-branch-name: ${{ github.event.pull_request.base.ref }}
+      - name: Setup Node and Cache
+        uses: ./.github/actions/setup-node-and-cache
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: | 
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Package installation
-        run: npm ci
+          cache-key: ${{ github.event.pull_request.base.sha }}
       - name: Run linting validation
+        env:
+          # Non-epic PRs lint only affected projects; epic branches lint all
+          # (mirrors the unit-test affected/all rule).
+          LINT_AFFECTED: ${{ startsWith(github.head_ref, 'epic/') && 'false' || 'true' }}
+          LINT_PARALLEL: '4'
         run: |
           ci-scripts/validate-lint.sh
   check_peer_dependencies:

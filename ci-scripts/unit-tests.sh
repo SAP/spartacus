@@ -92,7 +92,15 @@ function run_all_unit_tests {
     esac
 }
 
-if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
+# When UNIT_TEST_GROUP_PROJECTS is set, an upstream job has already decided the
+# exact projects this shard must run (affected-vs-all was resolved there). Run
+# that explicit group directly and skip the event-based affected/all branching
+# below. This is a no-op when the var is unset — e.g. the Azure pipeline, which
+# sets neither TEST_RUNNER nor UNIT_TEST_GROUP_PROJECTS — so that path is
+# unchanged and still runs everything.
+if [[ -n "${UNIT_TEST_GROUP_PROJECTS:-}" ]]; then
+    run_all_unit_tests
+elif [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
     if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
         run_all_unit_tests
     else
