@@ -9,6 +9,7 @@ echo "🔍 Checking for changes in peerDependencies compared to $BASE_BRANCH..."
 
 # Variable holds the list of changed package.json files
 # between the current branch and the base branch.
+# between the current branch and the base branch.
 changed_files=$(git diff --name-only "$BASE_BRANCH" HEAD -- '**/package.json')
 
 # If no package.json files have changed, exit the script.
