@@ -1,0 +1,46 @@
+name: 'Prepare Unit Test Shards'
+description: 'Computes a balanced GitHub Actions matrix that shards unit tests across parallel jobs per test runner (karma/vitest).'
+inputs:
+  node-version:
+    description: 'Node.js version to use'
+    required: false
+    default: '22'
+  cache-key:
+    description: 'Base cache key for node_modules (nx needs deps to read the project graph)'
+    required: true
+  karma-shards:
+    description: 'Number of karma/jest shards'
+    required: false
+    default: '2'
+  vitest-shards:
+    description: 'Number of vitest shards'
+    required: false
+    default: '4'
+  affected:
+    description: '"true" to shard only nx-affected projects (needs NX_BASE/NX_HEAD), otherwise shards all projects'
+    required: false
+    default: 'false'
+outputs:
+  matrix:
+    description: 'JSON matrix: {"include":[{test-runner,shard-name,projects}, ...]}. {"include":[]} when nothing matches.'
+    value: ${{ steps.compute.outputs.matrix }}
+runs:
+  using: composite
+  steps:
+    - name: Setup Node and Cache
+      uses: ./.github/actions/setup-node-and-cache
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache-key: ${{ inputs.cache-key }}
+    - name: Compute shard matrix
+      id: compute
+      shell: bash
+      env:
+        KARMA_SHARDS: ${{ inputs.karma-shards }}
+        VITEST_SHARDS: ${{ inputs.vitest-shards }}
+        AFFECTED: ${{ inputs.affected }}
+      run: |
+        MATRIX=$(ci-scripts/compute-unit-shards.sh)
+        echo "Computed unit-test shard matrix:"
+        echo "$MATRIX" | jq .
+        echo "matrix=$MATRIX" >> "$GITHUB_OUTPUT"

@@ -61,16 +61,34 @@ jobs:
         run: |
           source ci-scripts/validate-e2e-execution.sh
           echo "SHOULD_RUN_E2E=$RUN_E2E" >> "$GITHUB_OUTPUT"
-  unit_tests:
+  prepare_unit_shards:
     needs: no_retries
-    name: Unit tests (${{ matrix.test-runner }})
+    name: Prepare unit test shards
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.shards.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+      - name: Compute shard matrix
+        id: shards
+        uses: ./.github/actions/prepare-unit-shards
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache-key: ${{ github.event.pull_request.base.sha || github.sha }}
+          affected: 'false'
+
+  unit_tests:
+    needs: [no_retries, prepare_unit_shards]
+    name: Unit tests (${{ matrix.shard-name }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        test-runner: [karma, vitest]
+      matrix: ${{ fromJSON(needs.prepare_unit_shards.outputs.matrix) }}
     env:
       TEST_RUNNER: ${{ matrix.test-runner }}
+      UNIT_TEST_GROUP_PROJECTS: ${{ matrix.projects }}
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
