@@ -457,4 +457,5 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
       delete this.clearDeleteTimeouts[productCode];
     }
   }
+  //TEST
 }
