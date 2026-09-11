@@ -794,6 +794,14 @@ export interface FeatureTogglesInterface {
    * `AddressFormComponent`, `UnitAddressFormService`
    */
   enableFormFieldMaxLength?: boolean;
+
+  /**
+   * When enabled, the 'Close' button on toast/global message notifications
+   * is rendered as a proper `<button type="button">` with an `aria-label`,
+   * making it keyboard accessible and correctly announced by screen readers.
+   * Affects: `GlobalMessageComponent`
+   */
+  a11yCloseToastButtonKeyboardAccessible?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -891,4 +899,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   globalMessageCloseButtonPadding: false,
   a11yNavigationChevronContrast: false,
   enableFormFieldMaxLength: false,
+  a11yCloseToastButtonKeyboardAccessible: false,
 };
