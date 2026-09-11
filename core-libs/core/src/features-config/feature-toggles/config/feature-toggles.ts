@@ -607,6 +607,16 @@ export interface FeatureTogglesInterface {
   propagateLogoutToAllTabs?: boolean;
 
   /**
+   * When enabled, reads the `auth_req_id` parameter from the custom login page URL and
+   * passes it through CSRF token requests and the login form POST. This supports concurrent
+   * authorization requests from multiple storefronts sharing one Authorization Server session.
+   *
+   * NOTE: Only applies when `authorizationCodeFlowByDefault` is also enabled and the OAuth
+   * client has `concurrentAuthEnabled=true` on the backend.
+   */
+  concurrentLoginPagesSupport?: boolean;
+
+  /**
    * When enabled, adds support for asynchronous configuration of the oAuth service and adds a default
    * initializer to adjust the oauth client details based on URL context parameters.
    *
@@ -872,6 +882,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yAddToWishListBtnMargin: false,
   a11yProductListItemNameMargin: false,
   propagateLogoutToAllTabs: false,
+  concurrentLoginPagesSupport: false,
   asyncAuthConfigInitializer: false,
   siteIsolationForCustomLoginPage: false,
   applyBaseSiteThemeFromCms: false,

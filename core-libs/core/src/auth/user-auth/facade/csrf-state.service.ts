@@ -15,6 +15,7 @@ import { CSRFResponse } from '../models/csrf-response';
 })
 export class CsrfStateService {
   protected csrf: CSRFResponse;
+  protected authReqId: string | undefined;
 
   get() {
     return this.csrf;
@@ -22,5 +23,13 @@ export class CsrfStateService {
 
   set(value: CSRFResponse) {
     this.csrf = value;
+  }
+
+  getAuthReqId(): string | undefined {
+    return this.authReqId;
+  }
+
+  setAuthReqId(value: string | undefined) {
+    this.authReqId = value;
   }
 }
