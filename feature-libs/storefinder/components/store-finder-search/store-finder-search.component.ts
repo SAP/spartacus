@@ -43,7 +43,7 @@ export class StoreFinderSearchComponent {
   searchBox: UntypedFormControl = new UntypedFormControl();
   iconTypes = ICON_TYPE;
 
-  protected featureToggles = inject(FeatureToggles);
+  private featureToggles = inject(FeatureToggles);
 
   constructor(private routingService: RoutingService) {}
 

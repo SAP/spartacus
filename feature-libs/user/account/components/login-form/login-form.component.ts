@@ -66,7 +66,7 @@ export class LoginFormComponent {
   method = this.service.method;
   showResetPassword = this.service.showResetPassword;
 
-  protected featureToggles = inject(FeatureToggles);
+  private featureToggles = inject(FeatureToggles);
 
   get emailAutocomplete(): string | null {
     return this.featureToggles.a11yDeleteEntryButtonKeyboardAccessible
