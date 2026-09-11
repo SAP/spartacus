@@ -356,6 +356,13 @@ export interface FeatureTogglesInterface {
   a11yReviewsKeyboardControls?: boolean;
 
   /**
+   * When enabled, scrolls the 'Show More/Less Reviews' button into view after
+   * clicking it, ensuring the focused element remains visible in the viewport.
+   * Affects: ProductReviewsComponent
+   */
+  a11yShowMoreReviewsFocusVisible?: boolean;
+
+  /**
    * Use on existing form buttons that are programatically disabled/enabled.
    * To use, duplicate button and use false in original and true in duplicate. The duplicated button
    * should be initialized as enabled, clickable and use cx-form-errors in outcomes where original button
@@ -842,6 +849,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFilteredFacetAnnouncement: false,
   a11yCartItemListHideEmptyOutlets: true,
   a11yReviewsKeyboardControls: true,
+  a11yShowMoreReviewsFocusVisible: false,
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yConsentManagementFocusPreservation: false,
   a11yDeliveryModeFocusPreservation: false,

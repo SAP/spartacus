@@ -10,6 +10,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  inject,
   Input,
   QueryList,
   ViewChild,
@@ -25,6 +26,7 @@ import {
 import {
   CxDatePipe,
   FeatureDirective,
+  FeatureToggles,
   isNotNullable,
   Product,
   ProductReviewService,
@@ -71,6 +73,8 @@ export class ProductReviewsComponent {
   @ViewChild('titleInput', { static: false }) titleInput: ElementRef;
   @ViewChild('writeReviewButton', { static: false })
   writeReviewButton: ElementRef;
+  @ViewChild('showMoreLessButton', { static: false })
+  showMoreLessButton: ElementRef;
   @ViewChildren('reviewItem') reviewItems: QueryList<ElementRef<HTMLElement>>;
 
   @Input() maxLengthReviewTitle = 255;
@@ -82,6 +86,8 @@ export class ProductReviewsComponent {
   initialMaxListItems = 5;
   maxListItems: number;
   reviewForm: UntypedFormGroup;
+
+  private featureToggles = inject(FeatureToggles);
 
   product$: Observable<Product | null> =
     this.currentProductService.getProduct();
@@ -113,6 +119,21 @@ export class ProductReviewsComponent {
 
     if (this.titleInput && this.titleInput.nativeElement) {
       this.titleInput.nativeElement.focus();
+    }
+  }
+
+  toggleReviewsDisplay(reviews: Review[]): void {
+    if (this.maxListItems === this.initialMaxListItems) {
+      this.maxListItems = reviews.length;
+    } else {
+      this.maxListItems = this.initialMaxListItems;
+    }
+
+    if (this.featureToggles.a11yShowMoreReviewsFocusVisible) {
+      this.cd.detectChanges();
+      this.showMoreLessButton?.nativeElement?.scrollIntoView({
+        block: 'nearest',
+      });
     }
   }
 
