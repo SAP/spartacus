@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "sap-jira": {
+      "type": "http",
+      "url": "${SAP_JIRA_MCP_URL}"
+    }
+  }
+}
