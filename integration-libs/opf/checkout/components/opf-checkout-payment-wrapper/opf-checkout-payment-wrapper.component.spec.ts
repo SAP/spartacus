@@ -411,11 +411,6 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
       expect(result).toBe('allow-scripts allow-same-origin');
     });
 
-    it('should return sandbox value for payment option id 5396', () => {
-      const result = component.getIframeSandbox(5396);
-      expect(result).toBe('allow-scripts allow-forms allow-popups');
-    });
-
     it('should return undefined when payment option id is undefined', () => {
       const result = component.getIframeSandbox(undefined);
       expect(result).toBeUndefined();

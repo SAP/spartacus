@@ -12,8 +12,8 @@ import { Directive, ElementRef, Input, Renderer2 } from '@angular/core';
 })
 export class OpfIframeSandboxDirective {
   constructor(
-    private el: ElementRef<HTMLIFrameElement>,
-    private renderer: Renderer2
+    protected el: ElementRef<HTMLIFrameElement>,
+    protected renderer: Renderer2
   ) {}
 
   @Input('opfSandbox') set sandboxValue(value: string | undefined) {
