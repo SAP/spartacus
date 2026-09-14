@@ -43,6 +43,7 @@ matrix_legs() {
           })
         | map(select(.projects != ""))
     '
+    return 0
 }
 
 KARMA_BUCKETS=$(matrix_legs "$KARMA_NAMES" "$KARMA_SHARDS" karma)
