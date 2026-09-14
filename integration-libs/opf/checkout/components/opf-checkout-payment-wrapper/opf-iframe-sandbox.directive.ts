@@ -7,7 +7,7 @@
 import { Directive, ElementRef, Input, Renderer2 } from '@angular/core';
 
 @Directive({
-  selector: 'iframe[opfSandbox]',
+  selector: 'iframe[cxOpfSandbox]',
   standalone: true,
 })
 export class OpfIframeSandboxDirective {
@@ -16,7 +16,7 @@ export class OpfIframeSandboxDirective {
     protected renderer: Renderer2
   ) {}
 
-  @Input('opfSandbox') set sandboxValue(value: string | undefined) {
+  @Input('cxOpfSandbox') set sandboxValue(value: string | undefined) {
     if (value != null) {
       this.renderer.setAttribute(this.el.nativeElement, 'sandbox', value);
     } else {

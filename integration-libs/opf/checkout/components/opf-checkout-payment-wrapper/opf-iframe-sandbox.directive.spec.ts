@@ -12,7 +12,7 @@ const SANDBOX_SCRIPTS = 'allow-scripts';
 const SANDBOX_SCRIPTS_SAME_ORIGIN = 'allow-scripts allow-same-origin';
 
 @Component({
-  template: `<iframe [opfSandbox]="sandboxValue"></iframe>`,
+  template: `<iframe [cxOpfSandbox]="sandboxValue"></iframe>`,
   imports: [OpfIframeSandboxDirective],
   standalone: true,
 })
