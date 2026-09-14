@@ -34,8 +34,7 @@ export function createMarkdownPageHandler(
   options?: MarkdownPageHandlerOptions
 ): RequestHandler {
   const parser: HtmlToPageParser = options?.parser ?? createDefaultParser();
-  const converter: ParsedPageConverter =
-    options?.converter ?? defaultConverter;
+  const converter: ParsedPageConverter = options?.converter ?? defaultConverter;
   const timeout = options?.timeout ?? DEFAULT_TIMEOUT_MS;
   const logger = options?.logger !== undefined ? options.logger : console;
   const skipUrls =
@@ -66,7 +65,15 @@ export function createMarkdownPageHandler(
       res.send = originalSend; // restore first to prevent recursion
       const html = typeof body === 'string' ? body : String(body);
 
-      void sendMarkdown(html, parser, converter, timeout, logger, originalSend, res);
+      void sendMarkdown(
+        html,
+        parser,
+        converter,
+        timeout,
+        logger,
+        originalSend,
+        res
+      );
 
       return res;
     };

@@ -105,9 +105,7 @@ function extractSiteName(
 
 function extractOgSiteName(html: string): string | undefined {
   const ogTag = /<meta\b[^>]*\bproperty=["']og:site_name["'][^>]*>/i.exec(html);
-  const content = ogTag
-    ? /\bcontent=["']([^"']*)["']/i.exec(ogTag[0])
-    : null;
+  const content = ogTag ? /\bcontent=["']([^"']*)["']/i.exec(ogTag[0]) : null;
   return content ? decodeEntities(content[1]).trim() || undefined : undefined;
 }
 
@@ -115,8 +113,7 @@ function extractJsonLdSiteName(
   jsonLd?: Record<string, unknown>[]
 ): string | undefined {
   const site = jsonLd?.find(
-    (item) =>
-      item['@type'] === 'WebSite' && typeof item['name'] === 'string'
+    (item) => item['@type'] === 'WebSite' && typeof item['name'] === 'string'
   );
   return site ? (site['name'] as string).trim() || undefined : undefined;
 }
@@ -162,16 +159,16 @@ function stripTags(input: string): string {
   let previous = '';
   while (output !== previous) {
     previous = output;
-    output = output.replace(/<[^>]*>/g, '');
+    output = output.replaceAll(/<[^>]*>/g, '');
   }
   return output;
 }
 
 function decodeEntities(input: string): string {
   return input
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&amp;/g, '&');
+    .replaceAll('&lt;', '<')
+    .replaceAll('&gt;', '>')
+    .replaceAll('&quot;', '"')
+    .replaceAll('&#39;', "'")
+    .replaceAll('&amp;', '&');
 }

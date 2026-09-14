@@ -17,7 +17,7 @@ import {
  * (mirrors `PaginationItemType`). Used to detect pagination links so their
  * aria-label is emitted instead of the bare symbol/number inner text.
  */
-const PAGINATION_ITEM_TYPES = [
+const PAGINATION_ITEM_TYPES = new Set([
   'first',
   'last',
   'previous',
@@ -25,7 +25,9 @@ const PAGINATION_ITEM_TYPES = [
   'start',
   'end',
   'page',
-];
+]);
+
+const ARIA_LABEL = 'aria-label';
 
 /**
  * Dynamically imports and configures a TurndownService instance with
@@ -79,9 +81,8 @@ export async function createDefaultTurndownService(): Promise<TurndownService> {
     filter: (node) =>
       node.nodeName === 'DIV' &&
       node.getAttribute('role') === 'img' &&
-      !!node.getAttribute('aria-label'),
-    replacement: (_, node) =>
-      (node as Element).getAttribute('aria-label') || '',
+      !!node.getAttribute(ARIA_LABEL),
+    replacement: (_, node) => (node as Element).getAttribute(ARIA_LABEL) || '',
   });
 
   // Pagination anchors render a symbol/number as inner text (« » 1 2 …) but
@@ -97,7 +98,7 @@ export async function createDefaultTurndownService(): Promise<TurndownService> {
         return false;
       }
       const classes = (node.getAttribute('class') ?? '').split(/\s+/);
-      return classes.some((c) => PAGINATION_ITEM_TYPES.includes(c));
+      return classes.some((c) => PAGINATION_ITEM_TYPES.has(c));
     },
     replacement: (content, node) => {
       const el = node as Element;
@@ -105,7 +106,7 @@ export async function createDefaultTurndownService(): Promise<TurndownService> {
       if (classes.includes('disabled') || classes.includes('current')) {
         return '';
       }
-      const label = (el.getAttribute('aria-label') || content).trim();
+      const label = (el.getAttribute(ARIA_LABEL) || content).trim();
       const href = el.getAttribute('href') || '';
       return label && href ? `[${label}](${href}) ` : '';
     },
