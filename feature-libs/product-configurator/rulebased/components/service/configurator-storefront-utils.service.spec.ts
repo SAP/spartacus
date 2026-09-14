@@ -562,23 +562,47 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
       expect(classUnderTest.getElement('elementMock')).toEqual(theElement);
     });
+  });
 
-    it('should get HTML element by id when selector starts with hash', () => {
+  describe('getElementById', () => {
+    it('should not get HTML element when not running in browser', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      expect(classUnderTest.getElementById('elementMock')).toBeUndefined();
+    });
+
+    it('should return undefined if no element with the given ID exists', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      expect(classUnderTest.getElementById('unknownId')).toBeUndefined();
+    });
+
+    it('should get HTML element whose ID is not a valid CSS ID selector', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
       const theElement = document.createElement('div');
       theElement.id = 'cx--1--CONTAINER_ROW@1067@c036a9e2-ovMenuItem';
       document.body.appendChild(theElement);
 
       expect(
-        classUnderTest.getElement(
-          '#cx--1--CONTAINER_ROW@1067@c036a9e2-ovMenuItem'
+        classUnderTest.getElementById(
+          'cx--1--CONTAINER_ROW@1067@c036a9e2-ovMenuItem'
         )
       ).toEqual(theElement);
 
       document.body.removeChild(theElement);
     });
+  });
 
-    it('should get descendant of HTML element by id when selector starts with hash', () => {
+  describe('idSelector', () => {
+    it('should not escape the ID when not running in browser', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      expect(classUnderTest.idSelector('GROUP@1')).toBe('#GROUP@1');
+    });
+
+    it('should escape characters that are not allowed in a CSS ID selector', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      expect(classUnderTest.idSelector('GROUP@1')).toBe('#GROUP\\@1');
+    });
+
+    it('should compose a selector that finds a descendant of the element with the escaped ID', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
       const container = document.createElement('div');
       container.id = 'cx--1--CONTAINER_ROW@1067@c036a9e2-ovGroup';
@@ -588,7 +612,9 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
       expect(
         classUnderTest.getElement(
-          '#cx--1--CONTAINER_ROW@1067@c036a9e2-ovGroup h2'
+          classUnderTest.idSelector(
+            'cx--1--CONTAINER_ROW@1067@c036a9e2-ovGroup'
+          ) + ' h2'
         )
       ).toEqual(heading);
 

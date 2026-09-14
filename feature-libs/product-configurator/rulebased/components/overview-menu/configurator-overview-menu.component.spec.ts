@@ -31,6 +31,12 @@ class MockConfiguratorGroupsService {
 class MockConfiguratorStorefrontUtilsService {
   getElement(): void {}
 
+  getElementById(): void {}
+
+  idSelector(id: string): string {
+    return '#' + id;
+  }
+
   getElements(): void {}
 
   getPrefixId(): void {}
@@ -132,7 +138,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
   it('should call ngAfterViewInit after ovMenu is rendered', () => {
     initialize();
     spyOn(configuratorStorefrontUtilsService, 'getSpareViewportHeight');
-    spyOn(configuratorStorefrontUtilsService, 'getElement');
+    spyOn(configuratorStorefrontUtilsService, 'getElementById');
     spyOn(configuratorStorefrontUtilsService, 'getElements');
     spyOn(
       configuratorStorefrontUtilsService,
@@ -150,9 +156,9 @@ describe('ConfigurationOverviewMenuComponent', () => {
     expect(
       configuratorStorefrontUtilsService.getVerticallyScrolledPixels
     ).toHaveBeenCalledTimes(1);
-    expect(configuratorStorefrontUtilsService.getElement).toHaveBeenCalledTimes(
-      0
-    );
+    expect(
+      configuratorStorefrontUtilsService.getElementById
+    ).toHaveBeenCalledTimes(0);
     expect(
       configuratorStorefrontUtilsService.getSpareViewportHeight
     ).toHaveBeenCalledTimes(1);
@@ -281,6 +287,23 @@ describe('ConfigurationOverviewMenuComponent', () => {
       expect(
         configuratorStorefrontUtilsService.scrollToConfigurationElement
       ).toHaveBeenCalled();
+    });
+
+    it('should compose the query selector from the escaped group id', () => {
+      initialize();
+      (
+        configuratorStorefrontUtilsService.createOvGroupId as jasmine.Spy
+      ).and.returnValue('cx--GROUP@1-ovGroup');
+      spyOn(configuratorStorefrontUtilsService, 'idSelector').and.callThrough();
+
+      component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
+
+      expect(
+        configuratorStorefrontUtilsService.idSelector
+      ).toHaveBeenCalledWith('cx--GROUP@1-ovGroup');
+      expect(
+        configuratorStorefrontUtilsService.scrollToConfigurationElement
+      ).toHaveBeenCalledWith('#cx--GROUP@1-ovGroup h2');
     });
   });
 
@@ -455,9 +478,10 @@ describe('ConfigurationOverviewMenuComponent', () => {
 
       let menuItems = htmlElem.querySelectorAll('.cx-menu-item');
       let menuItem = menuItems[menuItems.length - 1] as HTMLElement;
-      spyOn(configuratorStorefrontUtilsService, 'getElement').and.returnValue(
-        menuItem
-      );
+      spyOn(
+        configuratorStorefrontUtilsService,
+        'getElementById'
+      ).and.returnValue(menuItem);
 
       fixture.detectChanges();
 

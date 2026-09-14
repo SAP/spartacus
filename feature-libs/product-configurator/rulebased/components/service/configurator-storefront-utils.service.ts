@@ -376,34 +376,47 @@ export class ConfiguratorStorefrontUtilsService {
   }
 
   /**
+   * Builds a CSS selector that matches the element with the given ID.
+   *
+   * IDs originating from the backend can contain characters that are not valid
+   * in a CSS ID selector - CPQ group IDs contain '@', for example - so they have
+   * to be escaped before they are handed over to a query selector based API.
+   * Outside the browser the ID is returned unescaped, because no DOM lookup happens there.
+   *
+   * @param {string} id - element ID
+   * @returns {string} - ID selector that is safe to use as query selector
+   */
+  idSelector(id: string): string {
+    return '#' + (this.windowRef.isBrowser() ? CSS.escape(id) : id);
+  }
+
+  /**
    * Get HTML element based on querySelector when running in browser
    *
    * @param querySelector - querySelector
    * @returns selected HTML element
    */
   getElement(querySelector: string): HTMLElement | undefined {
-    if (!this.windowRef.isBrowser()) {
-      return undefined;
+    if (this.windowRef.isBrowser()) {
+      return this.windowRef.document.querySelector(
+        querySelector
+      ) as HTMLElement;
     }
+  }
 
-    if (querySelector.startsWith('#')) {
-      const withoutHash = querySelector.slice(1);
-      const spaceIndex = withoutHash.indexOf(' ');
-
-      if (spaceIndex === -1) {
-        return this.windowRef.document.getElementById(withoutHash) ?? undefined;
-      }
-
-      const id = withoutHash.slice(0, spaceIndex);
-      const descendantSelector = withoutHash.slice(spaceIndex + 1);
-      const element = this.windowRef.document.getElementById(id);
-
-      return (
-        (element?.querySelector(descendantSelector) as HTMLElement) ?? undefined
-      );
+  /**
+   * Get HTML element by its ID when running in browser.
+   *
+   * In contrast to {@link getElement} no CSS selector is parsed, so IDs containing
+   * characters that would have to be escaped in a selector are handled as well.
+   *
+   * @param {string} id - element ID
+   * @returns {HTMLElement | undefined} - selected HTML element
+   */
+  getElementById(id: string): HTMLElement | undefined {
+    if (this.windowRef.isBrowser()) {
+      return this.windowRef.document.getElementById(id) ?? undefined;
     }
-
-    return this.windowRef.document.querySelector(querySelector) as HTMLElement;
   }
 
   /**

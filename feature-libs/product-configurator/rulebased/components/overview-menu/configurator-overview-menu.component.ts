@@ -215,9 +215,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
       ) {
         const id = group.id.replace(this.OV_GROUP, this.OV_MENU_ITEM);
         if (id) {
-          const querySelector = '#' + id;
-          menuItem =
-            this.configuratorStorefrontUtilsService.getElement(querySelector);
+          menuItem = this.configuratorStorefrontUtilsService.getElementById(id);
         }
       }
     });
@@ -275,7 +273,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
     );
 
     this.configuratorStorefrontUtilsService.scrollToConfigurationElement(
-      '#' + ovGroupId + ' h2'
+      this.configuratorStorefrontUtilsService.idSelector(ovGroupId) + ' h2'
     );
   }
 
