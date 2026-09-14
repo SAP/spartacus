@@ -20,7 +20,6 @@ import { ConfiguratorOverviewFilterDialogModule } from './overview-filter-dialog
 import { ConfiguratorOverviewFilterModule } from './overview-filter/configurator-overview-filter.module';
 import { ConfiguratorOverviewFormModule } from './overview-form/configurator-overview-form.module';
 import { ConfiguratorOverviewMenuModule } from './overview-menu/configurator-overview-menu.module';
-import { ConfiguratorOverviewMenuStandaloneModule } from './overview-menu-standalone/configurator-overview-menu-standalone.module';
 import { ConfiguratorOverviewNotificationBannerModule } from './overview-notification-banner/configurator-overview-notification-banner.module';
 import { ConfiguratorOverviewSidebarModule } from './overview-sidebar/configurator-overview-sidebar.module';
 import { ConfiguratorPreviousNextButtonsModule } from './previous-next-buttons/configurator-previous-next-buttons.module';
@@ -30,6 +29,7 @@ import { ConfiguratorRestartDialogModule } from './restart-dialog/configurator-r
 import { ConfiguratorTabBarModule } from './tab-bar/configurator-tab-bar.module';
 import { ConfiguratorUpdateMessageModule } from './update-message/configurator-update-message.module';
 import { ConfiguratorVariantCarouselModule } from './variant-carousel/configurator-variant-carousel.module';
+import { CpqConfiguratorOverviewMenuModule } from './cpq-overview-menu/cpq-configurator-overview-menu.module';
 
 @NgModule({
   imports: [
@@ -46,7 +46,7 @@ import { ConfiguratorVariantCarouselModule } from './variant-carousel/configurat
     ConfiguratorOverviewAttributeModule,
     ConfiguratorOverviewFormModule,
     ConfiguratorOverviewMenuModule,
-    ConfiguratorOverviewMenuStandaloneModule,
+    CpqConfiguratorOverviewMenuModule,
     ConfiguratorOverviewNotificationBannerModule,
     ConfiguratorConflictAndErrorMessagesModule,
     ConfiguratorExitButtonModule,

@@ -15,8 +15,8 @@ import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorOverviewMenuComponent } from '../overview-menu/configurator-overview-menu.component';
 
 @Component({
-  selector: 'cx-configurator-overview-menu-standalone',
-  templateUrl: './configurator-overview-menu-standalone.component.html',
+  selector: 'cx-cpq-configurator-overview-menu',
+  templateUrl: './cpq-configurator-overview-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
@@ -26,7 +26,7 @@ import { ConfiguratorOverviewMenuComponent } from '../overview-menu/configurator
     ConfiguratorOverviewMenuComponent,
   ],
 })
-export class ConfiguratorOverviewMenuStandaloneComponent {
+export class CpqConfiguratorOverviewMenuComponent {
   @HostBinding('class.ghost') ghostStyle = true;
 
   protected readonly navigationSlotSelector =

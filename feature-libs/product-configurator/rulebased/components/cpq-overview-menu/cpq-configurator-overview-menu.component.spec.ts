@@ -13,7 +13,7 @@ import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorOverviewMenuComponent } from '../overview-menu/configurator-overview-menu.component';
-import { ConfiguratorOverviewMenuStandaloneComponent } from './configurator-overview-menu-standalone.component';
+import { CpqConfiguratorOverviewMenuComponent } from './cpq-configurator-overview-menu.component';
 
 const OWNER: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -50,13 +50,13 @@ class MockConfiguratorRouterExtractorService {
   }
 }
 
-describe('ConfiguratorOverviewMenuStandaloneComponent', () => {
-  let component: ConfiguratorOverviewMenuStandaloneComponent;
-  let fixture: ComponentFixture<ConfiguratorOverviewMenuStandaloneComponent>;
+describe('CpqConfiguratorOverviewMenuComponent', () => {
+  let component: CpqConfiguratorOverviewMenuComponent;
+  let fixture: ComponentFixture<CpqConfiguratorOverviewMenuComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ConfiguratorOverviewMenuStandaloneComponent],
+      imports: [CpqConfiguratorOverviewMenuComponent],
       providers: [
         {
           provide: ConfiguratorCommonsService,
@@ -68,7 +68,7 @@ describe('ConfiguratorOverviewMenuStandaloneComponent', () => {
         },
       ],
     })
-      .overrideComponent(ConfiguratorOverviewMenuStandaloneComponent, {
+      .overrideComponent(CpqConfiguratorOverviewMenuComponent, {
         remove: {
           imports: [TranslatePipe, ConfiguratorOverviewMenuComponent],
         },
@@ -81,9 +81,7 @@ describe('ConfiguratorOverviewMenuStandaloneComponent', () => {
 
   beforeEach(() => {
     configuration$ = of(CONFIGURATION);
-    fixture = TestBed.createComponent(
-      ConfiguratorOverviewMenuStandaloneComponent
-    );
+    fixture = TestBed.createComponent(CpqConfiguratorOverviewMenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -121,9 +119,7 @@ describe('ConfiguratorOverviewMenuStandaloneComponent', () => {
 
   it('should render ghost menu and keep ghostStyle when overview is missing', () => {
     configuration$ = of(CONFIGURATION_WITHOUT_OVERVIEW);
-    fixture = TestBed.createComponent(
-      ConfiguratorOverviewMenuStandaloneComponent
-    );
+    fixture = TestBed.createComponent(CpqConfiguratorOverviewMenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
 

@@ -8,24 +8,24 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { ConfiguratorOverviewMenuModule } from '../overview-menu/configurator-overview-menu.module';
-import { ConfiguratorOverviewMenuStandaloneComponent } from './configurator-overview-menu-standalone.component';
+import { CpqConfiguratorOverviewMenuComponent } from './cpq-configurator-overview-menu.component';
 
 @NgModule({
   imports: [
     CommonModule,
     I18nModule,
     ConfiguratorOverviewMenuModule,
-    ConfiguratorOverviewMenuStandaloneComponent,
+    CpqConfiguratorOverviewMenuComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        ConfiguratorOverviewMenu: {
-          component: ConfiguratorOverviewMenuStandaloneComponent,
+        CpqConfiguratorOverviewMenu: {
+          component: CpqConfiguratorOverviewMenuComponent,
         },
       },
     }),
   ],
-  exports: [ConfiguratorOverviewMenuStandaloneComponent],
+  exports: [CpqConfiguratorOverviewMenuComponent],
 })
-export class ConfiguratorOverviewMenuStandaloneModule {}
+export class CpqConfiguratorOverviewMenuModule {}
