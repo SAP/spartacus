@@ -5,7 +5,11 @@
  */
 import { NextFunction, Request, Response } from 'express';
 import { createMarkdownPageHandler } from './create-markdown-page-handler';
-import { HtmlToPageParser, ParsedPage, ParsedPageConverter } from './markdown-page-handler.model';
+import {
+  HtmlToPageParser,
+  ParsedPage,
+  ParsedPageConverter,
+} from './markdown-page-handler.model';
 
 function mockReq(negotiated: string): Request {
   return {
@@ -50,9 +54,7 @@ describe('createMarkdownPageHandler', () => {
   it('calls parser with the raw HTML then converter with the ParsedPage', async () => {
     const res = mockRes();
     const sendMock = res.send as jest.Mock;
-    const parser: HtmlToPageParser = jest
-      .fn()
-      .mockResolvedValue(minimalParsed);
+    const parser: HtmlToPageParser = jest.fn().mockResolvedValue(minimalParsed);
     const converter: ParsedPageConverter = jest.fn().mockReturnValue('# MD');
 
     createMarkdownPageHandler({ parser, converter })(
@@ -74,9 +76,7 @@ describe('createMarkdownPageHandler', () => {
   it('sets markdown headers and sends converted output', async () => {
     const res = mockRes();
     const sendMock = res.send as jest.Mock;
-    const parser: HtmlToPageParser = jest
-      .fn()
-      .mockResolvedValue(minimalParsed);
+    const parser: HtmlToPageParser = jest.fn().mockResolvedValue(minimalParsed);
     const converter: ParsedPageConverter = jest.fn().mockReturnValue('# MD');
 
     createMarkdownPageHandler({ parser, converter })(
@@ -105,11 +105,7 @@ describe('createMarkdownPageHandler', () => {
     const parser: HtmlToPageParser = () => {
       throw new Error('boom');
     };
-    createMarkdownPageHandler({ parser })(
-      mockReq('text/markdown'),
-      res,
-      next
-    );
+    createMarkdownPageHandler({ parser })(mockReq('text/markdown'), res, next);
     sendMock.mockClear();
 
     res.send('<main>original</main>');
@@ -126,9 +122,7 @@ describe('createMarkdownPageHandler', () => {
   it('falls back to the original HTML when the converter throws', async () => {
     const res = mockRes();
     const sendMock = res.send as jest.Mock;
-    const parser: HtmlToPageParser = jest
-      .fn()
-      .mockResolvedValue(minimalParsed);
+    const parser: HtmlToPageParser = jest.fn().mockResolvedValue(minimalParsed);
     const converter: ParsedPageConverter = () => {
       throw new Error('boom');
     };

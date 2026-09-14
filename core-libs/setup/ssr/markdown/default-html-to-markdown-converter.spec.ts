@@ -113,9 +113,7 @@ describe('default pipeline (createDefaultParser + defaultConverter)', () => {
   });
 
   it('omits context lines whose value is missing (no placeholders)', async () => {
-    const md = await convert(
-      '<html><body><main><p>x</p></main></body></html>'
-    );
+    const md = await convert('<html><body><main><p>x</p></main></body></html>');
     expect(md).not.toContain('Title:');
     expect(md).not.toContain('URL:');
     expect(md).not.toContain('Breadcrumb:');
@@ -199,9 +197,7 @@ describe('default pipeline (createDefaultParser + defaultConverter)', () => {
       )
     );
     expect(md).toContain('[Previous page](/c/575?currentPage=0)');
-    expect(md).toContain(
-      '[Page 2](/c/575?currentPage=1&sortCode=relevance)'
-    );
+    expect(md).toContain('[Page 2](/c/575?currentPage=1&sortCode=relevance)');
     expect(md).toContain('[Next page](/c/575?currentPage=2)');
     // the bare glyph is not emitted as the link text
     expect(md).not.toContain('[«]');
@@ -274,7 +270,11 @@ describe('block renderers', () => {
     });
 
     it('includes site name before title', () => {
-      const block = renderPageBlock({ body: '', siteName: 'My Shop', title: 'T' });
+      const block = renderPageBlock({
+        body: '',
+        siteName: 'My Shop',
+        title: 'T',
+      });
       expect(block).toContain('- Site: My Shop');
       expect(block.indexOf('Site:')).toBeLessThan(block.indexOf('Title:'));
     });
