@@ -155,7 +155,8 @@ function extractJsonLd(html: string): Record<string, unknown>[] | undefined {
 }
 
 function stripTags(input: string): string {
-  return input.replace(/<[^>]*>/g, '');
+  const doc = new DOMParser().parseFromString(input, 'text/html');
+  return doc.body.textContent ?? '';
 }
 
 function decodeEntities(input: string): string {
