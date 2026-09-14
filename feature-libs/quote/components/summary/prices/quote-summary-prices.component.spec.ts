@@ -3,6 +3,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { Quote, QuoteFacade } from '@spartacus/quote/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
+import { QuoteUIConfig } from '../../config/quote-ui.config';
 import { CommonQuoteTestUtilsService as TestUtil } from '../../testing/common-quote-test-utils.service';
 import { QuoteSummaryPricesComponent } from './quote-summary-prices.component';
 
@@ -30,6 +31,10 @@ describe('QuoteSummaryPricesComponent', () => {
         {
           provide: QuoteFacade,
           useClass: MockCommerceQuotesFacade,
+        },
+        {
+          provide: QuoteUIConfig,
+          useValue: { quote: { showSubtotalBeforeDiscounts: true } },
         },
       ],
     }).compileComponents();
@@ -136,6 +141,53 @@ describe('QuoteSummaryPricesComponent', () => {
       '.total  $1,000.00',
       1
     );
+  });
+
+  describe('showSubtotalBeforeDiscounts', () => {
+    it('should display sapSubtotalExcludingOrderLevelDiscount when switch is on and field is present', () => {
+      quote.sapSubtotalExcludingOrderLevelDiscount = {
+        value: 1200,
+        formattedValue: '$1,200.00',
+      };
+      fixture.detectChanges();
+      TestUtil.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-price-row',
+        '.subtotal  $1,200.00',
+        0
+      );
+    });
+
+    it('should fall back to totalPrice when switch is on but field is absent', () => {
+      quote.sapSubtotalExcludingOrderLevelDiscount = undefined;
+      fixture.detectChanges();
+      TestUtil.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-price-row',
+        '.subtotal  $1,000.00',
+        0
+      );
+    });
+
+    it('should display totalPrice when switch is off', () => {
+      quote.sapSubtotalExcludingOrderLevelDiscount = {
+        value: 1200,
+        formattedValue: '$1,200.00',
+      };
+      (component as any).quoteUIConfig = {
+        quote: { showSubtotalBeforeDiscounts: false },
+      };
+      fixture.detectChanges();
+      TestUtil.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-price-row',
+        '.subtotal  $1,000.00',
+        0
+      );
+    });
   });
 
   describe('hasNonZeroPriceValue', () => {
