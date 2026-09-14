@@ -794,6 +794,15 @@ export interface FeatureTogglesInterface {
    * `AddressFormComponent`, `UnitAddressFormService`
    */
   enableFormFieldMaxLength?: boolean;
+
+  /**
+   * When enabled, adds arrow key navigation to organization administration
+   * navigation tiles/cards on the My Company landing page (CompanyPageTemplate),
+   * turning the banner tile group into a composite keyboard widget.
+   * Affects: BannerComponent
+   * ACC-270.3
+   */
+  a11yOrgAdminTileArrowKeyNavigation?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -891,4 +900,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   globalMessageCloseButtonPadding: false,
   a11yNavigationChevronContrast: false,
   enableFormFieldMaxLength: false,
+  a11yOrgAdminTileArrowKeyNavigation: false,
 };
