@@ -6,6 +6,7 @@
 
 import { Server } from 'http';
 import * as HttpUtils from './utils/http.utils';
+import * as LogUtils from './utils/log.utils';
 import * as ProxyUtils from './utils/proxy.utils';
 import * as SsrUtils from './utils/ssr.utils';
 
@@ -114,5 +115,46 @@ describe('Markdown SSR (Accept: text/markdown)', () => {
 
       expect(response.headers['content-type']).not.toContain('text/markdown');
     });
+  });
+
+  describe('With caching enabled', () => {
+    beforeEach(async () => {
+      await SsrUtils.startSsrServer({ cache: true });
+    });
+
+    // Validates the caching design note: the Optimize SSR engine caches raw
+    // HTML before res.send; the markdown res.send patch runs AFTER the cache
+    // lookup, so a Markdown request on a cache hit still gets converted output.
+    it(
+      'serves Markdown correctly on a cache hit',
+      async () => {
+        backendProxy = await ProxyUtils.startBackendProxyServer({
+          target: BACKEND_BASE_URL,
+        });
+
+        // 1st request (HTML) populates the SSR cache with raw HTML.
+        const htmlResponse = await HttpUtils.sendRequestToSsrServer({
+          path: REQUEST_PATH,
+          headers: { Accept: 'text/html' },
+        });
+        expect(htmlResponse.statusCode).toEqual(200);
+        expect(htmlResponse.headers['content-type']).toContain('text/html');
+
+        // 2nd request (Markdown), same path -> cache hit; the patch converts
+        // the cached HTML to Markdown.
+        const mdResponse = await HttpUtils.sendRequestToSsrServer({
+          path: REQUEST_PATH,
+          headers: { Accept: 'text/markdown' },
+        });
+        expect(mdResponse.statusCode).toEqual(200);
+        expect(mdResponse.headers['content-type']).toContain('text/markdown');
+        expect(mdResponse.body).toContain('## Page');
+
+        expect(LogUtils.getLogsMessages()).toContain(
+          `Render from cache (${REQUEST_PATH})`
+        );
+      },
+      2 * SsrUtils.DEFAULT_SSR_TIMEOUT // two sequential requests to the SSR server
+    );
   });
 });
