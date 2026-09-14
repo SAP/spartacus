@@ -84,6 +84,7 @@ describe('CheckoutAuthGuard', () => {
   let featureToggles: FeatureToggles;
   let windowRef: WindowRef;
   beforeEach(() => {
+    vi.clearAllMocks();
     TestBed.configureTestingModule({
       providers: [
         CheckoutB2BAuthGuard,
