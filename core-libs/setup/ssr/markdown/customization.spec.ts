@@ -39,6 +39,7 @@ function mockRes(): Response {
   const res = {
     send: jest.fn().mockImplementation(() => res),
     setHeader: jest.fn(),
+    vary: jest.fn(),
   };
   return res as unknown as Response;
 }
