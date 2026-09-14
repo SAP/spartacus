@@ -1,6 +1,5 @@
 /*
  * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
- * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +10,21 @@ import {
   ParsedPage,
   ParsedPageConverter,
 } from './markdown-page-handler.model';
+
+/**
+ * CSS classes Spartacus' pagination component sets on each anchor
+ * (mirrors `PaginationItemType`). Used to detect pagination links so their
+ * aria-label is emitted instead of the bare symbol/number inner text.
+ */
+const PAGINATION_ITEM_TYPES = [
+  'first',
+  'last',
+  'previous',
+  'next',
+  'start',
+  'end',
+  'page',
+];
 
 /**
  * Dynamically imports and configures a TurndownService instance with
@@ -67,6 +81,48 @@ export async function createDefaultTurndownService(): Promise<TurndownService> {
       !!node.getAttribute('aria-label'),
     replacement: (_, node) =>
       (node as Element).getAttribute('aria-label') || '',
+  });
+
+  // Pagination anchors render a symbol/number as inner text (« » 1 2 …) but
+  // carry a meaningful aria-label ("Go to page 2", "Go to last page").
+  // Emit `[aria-label](href)` so the navigable page links survive with their
+  // target URL (incl. currentPage/sortCode query params) intact. Anchors that
+  // are `disabled` (« on the first page) or mark the `current` page point
+  // nowhere useful, so they are dropped entirely. The component sets several
+  // classes (e.g. "page disabled current"), so match on the class token list.
+  service.addRule('pagination-link', {
+    filter: (node) => {
+      if (node.nodeName !== 'A' || !node.getAttribute('href')) {
+        return false;
+      }
+      const classes = (node.getAttribute('class') ?? '').split(/\s+/);
+      return classes.some((c) => PAGINATION_ITEM_TYPES.includes(c));
+    },
+    replacement: (content, node) => {
+      const el = node as Element;
+      const classes = (el.getAttribute('class') ?? '').split(/\s+/);
+      if (classes.includes('disabled') || classes.includes('current')) {
+        return '';
+      }
+      const label = (el.getAttribute('aria-label') || content).trim();
+      const href = el.getAttribute('href') || '';
+      return label && href ? `[${label}](${href}) ` : '';
+    },
+  });
+
+  // Drop the sort widget: it is an interactive combobox (ng-select) with no
+  // navigable links — noise for agents. Remove the <cx-sorting> element and
+  // its "Sort by" <label class="cx-sort-dropdown"> sibling. Do NOT remove the
+  // enclosing `.cx-sorting` row: it also hosts the pagination, which we keep.
+  service.remove((node) => {
+    if (node.nodeName === 'CX-SORTING') {
+      return true;
+    }
+    if (node.nodeName !== 'LABEL') {
+      return false;
+    }
+    const classes = (node.getAttribute('class') ?? '').split(/\s+/);
+    return classes.includes('cx-sort-dropdown');
   });
 
   return service;

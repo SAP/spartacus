@@ -189,6 +189,79 @@ describe('default pipeline (createDefaultParser + defaultConverter)', () => {
     const p2 = createDefaultParser();
     expect(p1).not.toBe(p2);
   });
+
+  it('renders pagination anchors using their aria-label, keeping the href', async () => {
+    const md = await convert(
+      page(
+        '<a class="previous" aria-label="Previous page" href="/c/575?currentPage=0">«</a>' +
+          '<a class="page" aria-label="Page 2" href="/c/575?currentPage=1&sortCode=relevance">2</a>' +
+          '<a class="next" aria-label="Next page" href="/c/575?currentPage=2">»</a>'
+      )
+    );
+    expect(md).toContain('[Previous page](/c/575?currentPage=0)');
+    expect(md).toContain(
+      '[Page 2](/c/575?currentPage=1&sortCode=relevance)'
+    );
+    expect(md).toContain('[Next page](/c/575?currentPage=2)');
+    // the bare glyph is not emitted as the link text
+    expect(md).not.toContain('[«]');
+    expect(md).not.toContain('[»]');
+  });
+
+  it('matches multi-class pagination anchors and drops disabled/current ones', async () => {
+    // Real rendered markup: the component adds "disabled"/"current" alongside
+    // the item-type class, e.g. class="page disabled current", "start disabled".
+    const md = await convert(
+      page(
+        '<a class="start disabled" aria-label="Previous page" href="/c/brands">«</a>' +
+          '<a class="page disabled current" aria-label="Page 1" href="/c/brands">1</a>' +
+          '<a class="page" aria-label="Go to page 2" href="/c/brands?currentPage=1">2</a>' +
+          '<a class="end" aria-label="Go to last page" href="/c/brands?currentPage=14">»</a>'
+      )
+    );
+    // navigable multi-class anchors are emitted with their aria-label
+    expect(md).toContain('[Go to page 2](/c/brands?currentPage=1)');
+    expect(md).toContain('[Go to last page](/c/brands?currentPage=14)');
+    // disabled and current anchors are dropped entirely (no bare glyph link)
+    expect(md).not.toContain('[Previous page]');
+    expect(md).not.toContain('[Page 1]');
+    expect(md).not.toContain('](/c/brands)'); // the two links to the current page
+  });
+
+  it('drops the cx-sorting widget entirely', async () => {
+    const md = await convert(
+      page(
+        '<cx-sorting><label>Sort by</label>' +
+          '<div role="combobox">Relevance</div>6 options available</cx-sorting>' +
+          '<p>real content</p>'
+      )
+    );
+    expect(md).toContain('real content');
+    expect(md).not.toContain('Sort by');
+    expect(md).not.toContain('options available');
+  });
+
+  it('drops the sort label + combobox but keeps sibling pagination in the same row', async () => {
+    // Real markup: <div class="cx-sorting top"><div class="row">
+    //   <label class="cx-sort-dropdown"><span>Sort by</span><cx-sorting/></label>
+    //   <div class="col-auto"><cx-pagination><a class="page" .../></cx-pagination></div>
+    // </div></div> — pagination shares the .cx-sorting row, so only the label
+    // and <cx-sorting> may be removed, never the wrapping row.
+    const md = await convert(
+      page(
+        '<div class="cx-sorting top"><div class="row">' +
+          '<label class="form-group cx-sort-dropdown"><span>Sort by</span>' +
+          '<cx-sorting>6 options available</cx-sorting></label>' +
+          '<div class="col-auto"><a class="page" aria-label="Go to page 2" href="/c/brands?currentPage=1">2</a></div>' +
+          '</div></div><p>real content</p>'
+      )
+    );
+    expect(md).toContain('real content');
+    expect(md).not.toContain('Sort by');
+    expect(md).not.toContain('options available');
+    // pagination in the same row survives
+    expect(md).toContain('[Go to page 2](/c/brands?currentPage=1)');
+  });
 });
 
 describe('block renderers', () => {
