@@ -7,6 +7,7 @@
 import { NgModule } from '@angular/core';
 import { SmartEditCoreModule } from '@spartacus/smartedit/core';
 
+// Test one lib change time
 @NgModule({
   imports: [SmartEditCoreModule],
 })
