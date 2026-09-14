@@ -8,13 +8,17 @@ import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
   HostBinding,
   inject,
   Input,
   isDevMode,
   Output,
+  QueryList,
+  ViewChildren,
 } from '@angular/core';
+import { FeatureDirective, FeatureToggles } from '@spartacus/core';
 import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive';
 import { TableRendererService } from './table-renderer.service';
 import {
@@ -24,7 +28,6 @@ import {
   TableOptions,
   TableStructure,
 } from './table.model';
-import { FeatureToggles } from '@spartacus/core';
 
 /**
  * The table component provides a generic table DOM structure, with 3 layout types:
@@ -54,7 +57,7 @@ import { FeatureToggles } from '@spartacus/core';
   selector: 'cx-table',
   templateUrl: './table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, OutletDirective],
+  imports: [NgIf, NgFor, OutletDirective, FeatureDirective],
 })
 export class TableComponent<T> {
   @HostBinding('attr.__cx-table-type') tableType: string;
@@ -63,6 +66,8 @@ export class TableComponent<T> {
   @HostBinding('class.vertical-stacked') verticalStackedLayout: boolean;
 
   private featureToggles = inject(FeatureToggles);
+
+  @ViewChildren('tableRow') tableRows: QueryList<ElementRef<HTMLElement>>;
 
   private _structure: TableStructure;
   @Input() set structure(structure: TableStructure) {
@@ -105,6 +110,18 @@ export class TableComponent<T> {
 
   launchItem(item: any): void {
     this.launch.emit(item);
+  }
+
+  onRowKeydown(event: KeyboardEvent, index: number): void {
+    if (!this.featureToggles.a11yTableKeyboardNavigation) return;
+    const rows = this.tableRows.toArray();
+    if (event.key === 'ArrowDown' && index < rows.length - 1) {
+      event.preventDefault();
+      rows[index + 1].nativeElement.focus();
+    } else if (event.key === 'ArrowUp' && index > 0) {
+      event.preventDefault();
+      rows[index - 1].nativeElement.focus();
+    }
   }
 
   /**
