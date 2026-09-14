@@ -24,6 +24,13 @@ export interface ProductConfiguratorUISettingsConfig {
    * shown as a searchable drop-down list.
    */
   cpqContainerDropDownListThreshold?: number;
+  /**
+   * CSS selectors of the configuration overview header page slots.
+   * The height of the matching header is subtracted from the viewport height when
+   * the overview menu calculates how much space it can occupy. Only the slot of the
+   * active configurator is rendered, so at most one selector matches.
+   */
+  overviewHeaderSelectors?: string[];
 }
 
 @Injectable({

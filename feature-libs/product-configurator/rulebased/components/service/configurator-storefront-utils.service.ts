@@ -19,6 +19,7 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorUISettingsConfig } from '../config/configurator-ui-settings.config';
 
 @Injectable({
   providedIn: 'root',
@@ -40,6 +41,7 @@ export class ConfiguratorStorefrontUtilsService {
   protected readonly ADD_TO_CART_BUTTON_HEIGHT = 82;
 
   protected logger = inject(LoggerService);
+  protected uiSettingsConfig = inject(ConfiguratorUISettingsConfig);
 
   /**
    * Last selected attribute and value.
@@ -356,7 +358,25 @@ export class ConfiguratorStorefrontUtilsService {
    * @param {string} value - CSS value
    */
   changeStyling(querySelector: string, property: string, value: string): void {
-    const element = this.getElement(querySelector);
+    this.changeStylingOfElement(
+      this.getElement(querySelector),
+      property,
+      value
+    );
+  }
+
+  /**
+   * Change styling of element
+   *
+   * @param element - HTML element
+   * @param property - CSS property
+   * @param value - CSS value
+   */
+  changeStylingOfElement(
+    element: HTMLElement | undefined,
+    property: string,
+    value: string
+  ): void {
     if (element) {
       element.style.setProperty(property, value);
     }
@@ -369,10 +389,39 @@ export class ConfiguratorStorefrontUtilsService {
    * @param {string} property - CSS property
    */
   removeStyling(querySelector: string, property: string): void {
-    const element = this.getElement(querySelector);
+    this.removeStylingOfElement(this.getElement(querySelector), property);
+  }
+
+  /**
+   * Removes styling for element
+   *
+   * @param element - HTML element
+   * @param property - CSS property
+   */
+  removeStylingOfElement(
+    element: HTMLElement | undefined,
+    property: string
+  ): void {
     if (element) {
       element.style.removeProperty(property);
     }
+  }
+
+  /**
+   * Returns the closest ancestor matching the selector when running in browser.
+   *
+   * @param element - starting element
+   * @param selector - CSS selector
+   * @returns matching ancestor element
+   */
+  getClosestElement(
+    element: HTMLElement | undefined,
+    selector: string
+  ): HTMLElement | undefined {
+    if (!this.windowRef.isBrowser() || !element) {
+      return undefined;
+    }
+    return element.closest(selector) ?? undefined;
   }
 
   /**
@@ -495,15 +544,12 @@ export class ConfiguratorStorefrontUtilsService {
    * if SPA header, variant configuration overview header and "Add to cart" button are in the viewport,
    * they will be subtracted from the actual viewport height.
    *
-   * @param ovHeaderSelector selector for configuration overview header
    * @returns {number} - Height of the spare viewport.
    */
-  getSpareViewportHeight(
-    ovHeaderSelector = '.VariantConfigOverviewHeader'
-  ): number {
+  getSpareViewportHeight(): number {
     if (this.windowRef.isBrowser()) {
       const spaHeaderHeight = this.getHeight('header');
-      const ovHeaderHeight = this.getHeight(ovHeaderSelector);
+      const ovHeaderHeight = this.getOverviewHeaderHeight();
       const addToCartHeight =
         this.getHeight('cx-configurator-add-to-cart-button') !== 0
           ? this.getHeight('cx-configurator-add-to-cart-button')
@@ -517,6 +563,12 @@ export class ConfiguratorStorefrontUtilsService {
         : 0;
     }
     return 0;
+  }
+
+  protected getOverviewHeaderHeight(): number {
+    const selectors =
+      this.uiSettingsConfig.productConfigurator?.overviewHeaderSelectors ?? [];
+    return selectors.length ? this.getHeight(selectors.join(', ')) : 0;
   }
 
   /**

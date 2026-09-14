@@ -9,9 +9,11 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   HostBinding,
   HostListener,
   Input,
+  inject,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
@@ -36,10 +38,8 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
 
   @Input() config: Configurator.ConfigurationWithOverview;
 
-  @Input() navigationSlotSelector =
-    'cx-page-slot.VariantConfigOverviewNavigation';
-
-  @Input() overviewHeaderSelector = '.VariantConfigOverviewHeader';
+  protected elementRef = inject(ElementRef);
+  protected readonly PAGE_SLOT = 'cx-page-slot';
 
   protected readonly CX_CONFIGURATOR_OVERVIEW_MENU =
     'cx-configurator-overview-menu';
@@ -134,7 +134,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   }
 
   /**
-   * Adjust the styling of VariantConfigOverviewNavigation slot.
+   * Adjust the styling of the page slot that contains the overview menu.
    *
    * If the amount is larger than 1 then the styling will be applied.
    * Otherwise the styling will be removed.
@@ -161,9 +161,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
    */
   protected getHeight(): string {
     const spareViewportHeight =
-      this.configuratorStorefrontUtilsService.getSpareViewportHeight(
-        this.overviewHeaderSelector
-      );
+      this.configuratorStorefrontUtilsService.getSpareViewportHeight();
 
     if (this.menuItemsHeight > spareViewportHeight) {
       return spareViewportHeight + 'px';
@@ -177,9 +175,10 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
    * @protected
    */
   protected changeStyling(): void {
+    const slot = this.getHostPageSlot();
     this.styles.forEach((style) => {
-      this.configuratorStorefrontUtilsService.changeStyling(
-        this.navigationSlotSelector,
+      this.configuratorStorefrontUtilsService.changeStylingOfElement(
+        slot,
         style[0],
         style[1]
       );
@@ -192,12 +191,20 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
    * @protected
    */
   protected removeStyling(): void {
+    const slot = this.getHostPageSlot();
     this.styles.forEach((style) => {
-      this.configuratorStorefrontUtilsService.removeStyling(
-        this.navigationSlotSelector,
+      this.configuratorStorefrontUtilsService.removeStylingOfElement(
+        slot,
         style[0]
       );
     });
+  }
+
+  protected getHostPageSlot(): HTMLElement | undefined {
+    return this.configuratorStorefrontUtilsService.getClosestElement(
+      this.elementRef.nativeElement,
+      this.PAGE_SLOT
+    );
   }
 
   protected getMenuItemToHighlight(): HTMLElement | undefined {

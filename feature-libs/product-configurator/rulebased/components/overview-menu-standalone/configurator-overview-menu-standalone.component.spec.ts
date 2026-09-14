@@ -13,7 +13,7 @@ import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorOverviewMenuComponent } from '../overview-menu/configurator-overview-menu.component';
-import { CpqConfiguratorOverviewMenuComponent } from './cpq-configurator-overview-menu.component';
+import { ConfiguratorOverviewMenuStandaloneComponent } from './configurator-overview-menu-standalone.component';
 
 const OWNER: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -32,8 +32,6 @@ const CONFIGURATION_WITHOUT_OVERVIEW: Configurator.Configuration = {
 })
 class MockConfiguratorOverviewMenuComponent {
   @Input() config: Configurator.ConfigurationWithOverview;
-  @Input() navigationSlotSelector: string;
-  @Input() overviewHeaderSelector: string;
 }
 
 let configuration$: Observable<Configurator.Configuration> = of(CONFIGURATION);
@@ -50,13 +48,13 @@ class MockConfiguratorRouterExtractorService {
   }
 }
 
-describe('CpqConfiguratorOverviewMenuComponent', () => {
-  let component: CpqConfiguratorOverviewMenuComponent;
-  let fixture: ComponentFixture<CpqConfiguratorOverviewMenuComponent>;
+describe('ConfiguratorOverviewMenuStandaloneComponent', () => {
+  let component: ConfiguratorOverviewMenuStandaloneComponent;
+  let fixture: ComponentFixture<ConfiguratorOverviewMenuStandaloneComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [CpqConfiguratorOverviewMenuComponent],
+      imports: [ConfiguratorOverviewMenuStandaloneComponent],
       providers: [
         {
           provide: ConfiguratorCommonsService,
@@ -68,7 +66,7 @@ describe('CpqConfiguratorOverviewMenuComponent', () => {
         },
       ],
     })
-      .overrideComponent(CpqConfiguratorOverviewMenuComponent, {
+      .overrideComponent(ConfiguratorOverviewMenuStandaloneComponent, {
         remove: {
           imports: [TranslatePipe, ConfiguratorOverviewMenuComponent],
         },
@@ -81,7 +79,9 @@ describe('CpqConfiguratorOverviewMenuComponent', () => {
 
   beforeEach(() => {
     configuration$ = of(CONFIGURATION);
-    fixture = TestBed.createComponent(CpqConfiguratorOverviewMenuComponent);
+    fixture = TestBed.createComponent(
+      ConfiguratorOverviewMenuStandaloneComponent
+    );
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -90,17 +90,11 @@ describe('CpqConfiguratorOverviewMenuComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render overview menu with CPQ slot selectors', () => {
+  it('should render overview menu with configuration', () => {
     const menu = fixture.debugElement.query(
       By.directive(MockConfiguratorOverviewMenuComponent)
     );
     expect(menu).toBeTruthy();
-    expect(menu.componentInstance.navigationSlotSelector).toBe(
-      'cx-page-slot.CpqConfigOverviewMenu'
-    );
-    expect(menu.componentInstance.overviewHeaderSelector).toBe(
-      '.CpqConfigHeader'
-    );
     expect(menu.componentInstance.config).toEqual(CONFIGURATION);
     expect(component.ghostStyle).toBeFalsy();
   });
@@ -119,7 +113,9 @@ describe('CpqConfiguratorOverviewMenuComponent', () => {
 
   it('should render ghost menu and keep ghostStyle when overview is missing', () => {
     configuration$ = of(CONFIGURATION_WITHOUT_OVERVIEW);
-    fixture = TestBed.createComponent(CpqConfiguratorOverviewMenuComponent);
+    fixture = TestBed.createComponent(
+      ConfiguratorOverviewMenuStandaloneComponent
+    );
     component = fixture.componentInstance;
     fixture.detectChanges();
 

@@ -43,9 +43,13 @@ class MockConfiguratorStorefrontUtilsService {
 
   hasScrollbar(): void {}
 
-  changeStyling(): void {}
+  getClosestElement(): HTMLElement | undefined {
+    return undefined;
+  }
 
-  removeStyling(): void {}
+  changeStylingOfElement(): void {}
+
+  removeStylingOfElement(): void {}
 
   createOvGroupId(): void {}
 
@@ -87,9 +91,11 @@ function initialize() {
 
   spyOn(configuratorStorefrontUtilsService, 'ensureElementVisible');
 
-  spyOn(configuratorStorefrontUtilsService, 'changeStyling');
+  spyOn(configuratorStorefrontUtilsService, 'getClosestElement');
 
-  spyOn(configuratorStorefrontUtilsService, 'removeStyling');
+  spyOn(configuratorStorefrontUtilsService, 'changeStylingOfElement');
+
+  spyOn(configuratorStorefrontUtilsService, 'removeStylingOfElement');
 
   spyOn(
     configuratorStorefrontUtilsService,
@@ -212,10 +218,13 @@ describe('ConfigurationOverviewMenuComponent', () => {
       initialize();
     });
 
-    it('should call changeStyling', () => {
+    it('should call changeStylingOfElement', () => {
       component['changeStyling']();
       expect(
-        configuratorStorefrontUtilsService.changeStyling
+        configuratorStorefrontUtilsService.getClosestElement
+      ).toHaveBeenCalled();
+      expect(
+        configuratorStorefrontUtilsService.changeStylingOfElement
       ).toHaveBeenCalledTimes(component.styles.length);
     });
   });
@@ -225,10 +234,13 @@ describe('ConfigurationOverviewMenuComponent', () => {
       initialize();
     });
 
-    it('should call removeStyling', () => {
+    it('should call removeStylingOfElement', () => {
       component['removeStyling']();
       expect(
-        configuratorStorefrontUtilsService.removeStyling
+        configuratorStorefrontUtilsService.getClosestElement
+      ).toHaveBeenCalled();
+      expect(
+        configuratorStorefrontUtilsService.removeStylingOfElement
       ).toHaveBeenCalledTimes(component.styles.length);
     });
   });
@@ -243,7 +255,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
       fixture.detectChanges();
       component['adjustStyling']();
       expect(
-        configuratorStorefrontUtilsService.changeStyling
+        configuratorStorefrontUtilsService.changeStylingOfElement
       ).toHaveBeenCalledTimes(component.styles.length);
     });
 
@@ -252,7 +264,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
       fixture.detectChanges();
       component['adjustStyling']();
       expect(
-        configuratorStorefrontUtilsService.removeStyling
+        configuratorStorefrontUtilsService.removeStylingOfElement
       ).toHaveBeenCalledTimes(component.styles.length);
     });
   });
