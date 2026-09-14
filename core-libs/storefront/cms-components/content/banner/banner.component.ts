@@ -5,10 +5,18 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostBinding,
+  HostListener,
+  inject,
+} from '@angular/core';
 import {
   CmsBannerComponent,
   CmsService,
+  FeatureToggles,
   Image,
   ImageGroup,
   PageType,
@@ -38,6 +46,9 @@ export class BannerComponent {
 
   @HostBinding('class') styleClasses: string | undefined;
 
+  private featureToggles = inject(FeatureToggles);
+  private el = inject(ElementRef);
+
   data$: Observable<CmsBannerComponent> = this.component.data$.pipe(
     tap((data) => {
       this.setRouterLink(data);
@@ -50,6 +61,36 @@ export class BannerComponent {
     protected urlService: SemanticPathService,
     protected cmsService: CmsService
   ) {}
+
+  @HostListener('keydown', ['$event'])
+  onKeydown(event: KeyboardEvent): void {
+    if (!this.featureToggles.a11yBannerTileArrowKeyNavigation) return;
+    if (
+      event.key !== 'ArrowRight' &&
+      event.key !== 'ArrowLeft' &&
+      event.key !== 'ArrowDown' &&
+      event.key !== 'ArrowUp'
+    ) {
+      return;
+    }
+    const parent = this.el.nativeElement.parentElement;
+    if (!parent) return;
+    const siblings: HTMLElement[] = Array.from(
+      parent.querySelectorAll('cx-banner')
+    );
+    const currentIndex = siblings.indexOf(this.el.nativeElement);
+    if (currentIndex === -1) return;
+    const isForward =
+      event.key === 'ArrowRight' || event.key === 'ArrowDown';
+    const nextIndex = isForward ? currentIndex + 1 : currentIndex - 1;
+    if (nextIndex < 0 || nextIndex >= siblings.length) return;
+    event.preventDefault();
+    const focusTarget = siblings[nextIndex].querySelector<HTMLElement>(
+      'a, button, [tabindex]'
+    );
+    focusTarget?.focus();
+  }
+
 
   /**
    * Returns `_blank` to force opening the link in a new window whenever the

@@ -794,6 +794,15 @@ export interface FeatureTogglesInterface {
    * `AddressFormComponent`, `UnitAddressFormService`
    */
   enableFormFieldMaxLength?: boolean;
+
+  /**
+   * When enabled, adds left/right arrow key navigation between banner tiles
+   * on the organization's My Company page (CompanyPageTemplate), turning the
+   * banner group into a composite keyboard widget.
+   * Affects: BannerComponent
+   * ACC-270.3
+   */
+  a11yBannerTileArrowKeyNavigation?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -891,4 +900,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   globalMessageCloseButtonPadding: false,
   a11yNavigationChevronContrast: false,
   enableFormFieldMaxLength: false,
+  a11yBannerTileArrowKeyNavigation: false,
 };
