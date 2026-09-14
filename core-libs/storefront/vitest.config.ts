@@ -6,7 +6,7 @@
 
 import angular from '@analogjs/vite-plugin-angular';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
-import path from 'path';
+import path from 'node:path';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({

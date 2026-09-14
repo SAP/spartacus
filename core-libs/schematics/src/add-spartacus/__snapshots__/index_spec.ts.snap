@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`add-spartacus on Angular app without routing app.component.html should match snapshot 1`] = `
-"<cx-storefront></cx-storefront>
+"<cx-storefront/>
 "
 `;
 

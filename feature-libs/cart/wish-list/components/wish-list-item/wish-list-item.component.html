@@ -8,7 +8,7 @@
       <cx-media
         [container]="cartEntry.product?.images?.PRIMARY"
         format="thumbnail"
-      ></cx-media>
+      />
     </a>
     <div class="cx-info">
       <div *ngIf="cartEntry.product?.name" class="cx-name">
@@ -51,10 +51,7 @@
 </td>
 <!-- Action -->
 <td role="cell" class="cx-actions">
-  <ng-container
-    *ngIf="cartEntry.updateable"
-    cxInnerComponentsHost
-  ></ng-container>
+  <ng-container *ngIf="cartEntry.updateable" cxInnerComponentsHost />
   <ng-template #outOfStock>
     <span class="cx-out-of-stock">
       {{ 'addToCart.outOfStock' | cxTranslate }}

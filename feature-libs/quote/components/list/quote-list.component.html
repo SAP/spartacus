@@ -24,7 +24,7 @@
               placeholder="{{ 'quote.list.sortBy' | cxTranslate }}"
               [ariaLabel]="'quote.list.sortQuotes' | cxTranslate"
               ariaControls="quote-list"
-            ></cx-sorting>
+            />
           </label>
           <ng-container
             *ngIf="isPaginationEnabled(quotesState.data.pagination)"
@@ -33,7 +33,7 @@
               [pagination]="quotesState.data.pagination"
               (viewPageEvent)="changePage($event)"
               paginationID="pagination-top"
-            ></cx-pagination>
+            />
           </ng-container>
         </div>
         <table id="quote-list" role="table" aria-describedby="quote-list-desc">
@@ -117,8 +117,7 @@
                   [type]="iconTypes.CARET_RIGHT"
                   aria-hidden="true"
                   [attr.aria-label]="'quote.list.clickableRow' | cxTranslate"
-                >
-                </cx-icon>
+                />
               </td>
             </tr>
           </tbody>
@@ -129,7 +128,7 @@
               [pagination]="quotesState.data.pagination"
               (viewPageEvent)="changePage($event)"
               paginationID="pagination-bottom"
-            ></cx-pagination>
+            />
           </div>
         </ng-container>
       </ng-container>

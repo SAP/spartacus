@@ -295,9 +295,25 @@ export interface FeatureTogglesInterface {
    *
    * Set to `false` if you rely on custom focus listeners (e.g. addEventListener('focus', ...)) on elements
    * that contain or interact with the carousel, since preventing mousedown default can affect focus behavior.
-   * Affects: `CarouselComponent` (when preventNavigationFocus input is true, e.g. in SearchBoxComponent)
+   * Affects: `CarouselComponent` previous/next buttons (e.g. in SearchBoxComponent)
    */
   a11yCarouselPreventNavigationFocus?: boolean;
+
+  /**
+   * In `CarouselComponent`, indicator buttons (the slide dots) call `preventDefault()`
+   * on `mousedown`.
+   *
+   * Before: tapping an indicator (for example in Safari or iOS inside `SearchBoxComponent`)
+   * moved focus away from the search input and closed the search results.
+   * After: mousedown does not change focus, so the search overlay stays open and
+   * the indicator navigates on the first tap.
+   *
+   * This is separate from `a11yCarouselPreventNavigationFocus`, which only covers
+   * previous/next buttons.
+   *
+   * Affects: `CarouselComponent` (including when used by `SearchBoxComponent`)
+   */
+  a11yCarouselPreventIndicatorFocus?: boolean;
 
   /**
    * Sets the ng-select (readonly) input value from the selected option text,
@@ -834,6 +850,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableB2BCostCenterSearch: true,
   enableB2BCustomerSearch: true,
   a11yCarouselPreventNavigationFocus: true,
+  a11yCarouselPreventIndicatorFocus: false,
   a11yNgSelectReadonlyInputValue: true,
   a11yPasswordVisibilityToggle: true,
   showOnlyActiveCurrencies: true,
