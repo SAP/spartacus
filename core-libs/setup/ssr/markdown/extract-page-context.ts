@@ -155,8 +155,16 @@ function extractJsonLd(html: string): Record<string, unknown>[] | undefined {
 }
 
 function stripTags(input: string): string {
-  const doc = new DOMParser().parseFromString(input, 'text/html');
-  return doc.body.textContent ?? '';
+  // Repeatedly strip tags until the string stops changing, so nested or
+  // overlapping fragments cannot survive a single pass (CodeQL multi-character
+  // sanitization safety). The Node SSR runtime has no DOMParser.
+  let output = input;
+  let previous = '';
+  while (output !== previous) {
+    previous = output;
+    output = output.replace(/<[^>]*>/g, '');
+  }
+  return output;
 }
 
 function decodeEntities(input: string): string {

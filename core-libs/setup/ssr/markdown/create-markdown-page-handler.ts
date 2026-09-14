@@ -42,12 +42,21 @@ export function createMarkdownPageHandler(
     options?.skipUrls ?? defaultRenderingStrategyResolverOptions.excludedUrls;
 
   return (req, res, next) => {
-    if (
-      req.accepts(['text/html', 'text/markdown']) !== 'text/markdown' ||
-      (skipUrls?.length &&
-        req.url &&
-        skipUrls.some((url) => req.url.includes(url)))
-    ) {
+    const isSkipped = !!(
+      skipUrls?.length &&
+      req.url &&
+      skipUrls.some((url) => req.url.includes(url))
+    );
+    if (isSkipped) {
+      next();
+      return;
+    }
+
+    // For non-skipped URLs the representation depends on the Accept header
+    // (HTML vs Markdown), so shared/downstream caches must key on it.
+    res.vary('Accept');
+
+    if (req.accepts(['text/html', 'text/markdown']) !== 'text/markdown') {
       next();
       return;
     }
@@ -90,7 +99,6 @@ async function sendMarkdown(
       timeout
     );
     res.setHeader('Content-Type', 'text/markdown; charset=utf-8');
-    res.setHeader('Vary', 'Accept');
     originalSend(markdown);
   } catch (error) {
     // Graceful degradation: serve the original HTML untouched.

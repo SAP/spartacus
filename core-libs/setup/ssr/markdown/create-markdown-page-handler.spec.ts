@@ -17,6 +17,7 @@ function mockRes(): Response {
   const res = {
     send: jest.fn().mockImplementation(() => res),
     setHeader: jest.fn(),
+    vary: jest.fn(),
   };
   return res as unknown as Response;
 }
@@ -34,6 +35,8 @@ describe('createMarkdownPageHandler', () => {
     createMarkdownPageHandler()(mockReq('text/html'), res, next);
     expect(next).toHaveBeenCalled();
     expect(res.send).toBe(originalSend);
+    // Response varies by Accept even on the HTML pass-through path.
+    expect(res.vary).toHaveBeenCalledWith('Accept');
   });
 
   it('patches res.send when markdown is negotiated', () => {
@@ -92,7 +95,7 @@ describe('createMarkdownPageHandler', () => {
       'Content-Type',
       'text/markdown; charset=utf-8'
     );
-    expect(res.setHeader).toHaveBeenCalledWith('Vary', 'Accept');
+    expect(res.vary).toHaveBeenCalledWith('Accept');
     expect(sendMock).toHaveBeenCalledWith('# MD');
   });
 
@@ -243,6 +246,8 @@ describe('createMarkdownPageHandler', () => {
     createMarkdownPageHandler({ skipUrls: ['checkout'] })(req, res, next);
     expect(next).toHaveBeenCalled();
     expect(res.send).toBe(originalSend);
+    // Skipped URLs never reach markdown handling, so no Vary is added.
+    expect(res.vary).not.toHaveBeenCalled();
   });
 
   it('converts normally when request URL does not match skipUrls', () => {
