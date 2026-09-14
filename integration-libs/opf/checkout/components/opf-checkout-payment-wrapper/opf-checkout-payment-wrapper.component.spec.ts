@@ -411,6 +411,11 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
       expect(result).toBe('allow-scripts allow-same-origin');
     });
 
+    it('should return sandbox value for payment option id 5396', () => {
+      const result = component.getIframeSandbox(5396);
+      expect(result).toBe('allow-scripts allow-forms allow-popups');
+    });
+
     it('should return undefined when payment option id is undefined', () => {
       const result = component.getIframeSandbox(undefined);
       expect(result).toBeUndefined();
@@ -482,6 +487,35 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
         fixture.nativeElement.querySelector('.cx-payment-iframe');
       expect(iframe).toBeTruthy();
       expect(iframe?.hasAttribute('sandbox')).toBeFalsy();
+    });
+
+    it('should render iframe with sandbox attribute when sandbox is configured', () => {
+      const renderPaymentMethodSubject = new Subject<any>();
+      const selectedPaymentId = 458;
+
+      mockService.getRenderPaymentMethodEvent.and.returnValue(
+        renderPaymentMethodSubject.asObservable()
+      );
+
+      fixture = TestBed.createComponent(OpfCheckoutPaymentWrapperComponent);
+      component = fixture.componentInstance;
+      component.selectedPaymentId = selectedPaymentId;
+      fixture.detectChanges();
+
+      renderPaymentMethodSubject.next({
+        isLoading: false,
+        isError: false,
+        renderType: OpfPaymentRenderPattern.IFRAME,
+        destination: { url: 'TEST_URL' },
+        paymentOptionId: selectedPaymentId,
+      });
+
+      fixture.detectChanges();
+
+      const iframe: HTMLIFrameElement =
+        fixture.nativeElement.querySelector('.cx-payment-iframe');
+      expect(iframe).toBeTruthy();
+      expect(iframe?.getAttribute('sandbox')).toBe('allow-scripts');
     });
   });
 });
