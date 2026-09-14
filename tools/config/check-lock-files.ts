@@ -137,6 +137,51 @@ function dependenciesChanged(
 }
 
 /**
+ * Authoritatively determine whether the committed `package-lock.json` is out of
+ * sync with its `package.json`, by regenerating the lock file and checking
+ * whether that produces a change.
+ *
+ * This distinguishes a *real* violation (regeneration changes the lock, so the
+ * developer genuinely forgot to commit it) from a no-op change such as removing
+ * an `overrides` entry that pins a dependency to the version the tree already
+ * resolves to — the dependency fields change, but `npm install` produces an
+ * identical lock, making the metadata heuristic alone an unsatisfiable false
+ * positive.
+ *
+ * The regenerated lock file is always restored afterwards so the working tree
+ * is left unchanged.
+ *
+ * @param directory directory containing the `package.json` / lock file pair
+ * @param lockPath repository-relative path to the `package-lock.json`
+ */
+function lockFileOutOfSync(directory: string, lockPath: string): boolean {
+  try {
+    execSync(
+      'npm install --package-lock-only --ignore-scripts --no-audit --no-fund',
+      {
+        cwd: directory === '.' ? process.cwd() : directory,
+        stdio: 'ignore',
+      }
+    );
+    const status = execSync(`git status --porcelain -- ${lockPath}`, {
+      encoding: 'utf-8',
+    });
+    return status.trim().length > 0;
+  } catch {
+    // If regeneration is not possible (e.g. no network), conservatively flag it
+    // so a potential violation is not silently missed.
+    return true;
+  } finally {
+    // Restore the committed lock file regardless of the outcome.
+    try {
+      execSync(`git checkout -- ${lockPath}`, { stdio: 'ignore' });
+    } catch {
+      /* the file may be new or unchanged; nothing to restore */
+    }
+  }
+}
+
+/**
  * Verify that every modified `package.json` has its sibling `package-lock.json`
  * updated as well.
  *
@@ -192,9 +237,17 @@ export function checkLockFiles(options: ProgramOptions): void {
       return;
     }
 
-    // `package.json` changed without a lock update: only a real problem when
-    // the dependency-relevant fields are what changed.
+    // `package.json` changed without a lock update: only worth investigating
+    // when the dependency-relevant fields are what changed (cheap pre-filter).
     if (baseRevision && !dependenciesChanged(packageJsonPath, baseRevision)) {
+      return;
+    }
+
+    // Authoritatively confirm the violation: a dependency-field change is only
+    // a real problem when regenerating the lock actually produces a diff. This
+    // avoids flagging no-op changes (e.g. removing an `overrides` entry that
+    // pinned the already-resolved version) that `npm install` cannot fix.
+    if (!lockFileOutOfSync(directory, lockPath)) {
       return;
     }
 
