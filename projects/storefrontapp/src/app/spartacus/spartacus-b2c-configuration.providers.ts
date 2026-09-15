@@ -9,8 +9,6 @@ import { provideConfig } from '@spartacus/core';
 import { environment } from '../../environments/environment';
 
 const defaultBaseSite = [
-  'automobile-spa',
-  'automobile',
   'electronics-spa',
   'electronics-spa-standalone',
   'electronics',
