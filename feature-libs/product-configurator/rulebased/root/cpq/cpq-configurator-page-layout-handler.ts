@@ -36,7 +36,7 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
   protected static sectionHeader = 'header';
   protected static sectionNavigation = 'navigation';
 
-  protected featureToggles = inject(FeatureToggles);
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     protected configuratorRouterExtractorService: ConfiguratorRouterExtractorService,
@@ -74,9 +74,7 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
         });
     }
     if (pageTemplate === CpqConfiguratorPageLayoutHandler.templateName) {
-      slots$ = slots$.pipe(
-        map((slots) => this.filterOverviewMenuSlot(slots))
-      );
+      slots$ = slots$.pipe(map((slots) => this.filterOverviewMenuSlot(slots)));
     }
     return slots$;
   }
