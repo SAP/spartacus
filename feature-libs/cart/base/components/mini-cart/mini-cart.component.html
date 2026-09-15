@@ -5,7 +5,7 @@
   [class.is-updating]="data.updating"
   [routerLink]="{ cxRoute: 'cart' } | cxUrl"
 >
-  <cx-icon [type]="iconTypes.CART"></cx-icon>
+  <cx-icon [type]="iconTypes.CART" />
 
   <ng-container *cxFeature="'enableCartSlowNetworkResilience'">
     <span

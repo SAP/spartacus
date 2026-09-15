@@ -17,7 +17,7 @@
           placeholder="{{ 'subscriptionList.sortSubtitle' | cxTranslate }}"
           [ariaLabel]="'subscriptionList.sortOrders' | cxTranslate"
           ariaControls="subscription-list-table"
-        ></cx-sorting>
+        />
       </label>
     </div>
 
@@ -99,7 +99,7 @@
         <cx-pagination
           [pagination]="list.pagination"
           (viewPageEvent)="pageChange($event)"
-        ></cx-pagination>
+        />
       </ng-container>
     </div>
   </ng-container>
@@ -112,5 +112,5 @@
 </ng-template>
 
 <ng-template #loading>
-  <cx-spinner></cx-spinner>
+  <cx-spinner />
 </ng-template>

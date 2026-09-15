@@ -9,7 +9,7 @@
     [isExplicit]="explicitTermsAndConditions.value"
     [isDismissible]="false"
     [ngClass]="['for-mobile']"
-  ></cx-opf-checkout-terms-and-conditions-alert>
+  />
 
   <div
     *ngIf="explicitTermsAndConditions.value"
@@ -46,7 +46,7 @@
     </form>
   </div>
 
-  <cx-opf-checkout-billing-address-form></cx-opf-checkout-billing-address-form>
+  <cx-opf-checkout-billing-address-form />
 
   <cx-opf-checkout-payments
     [elementsPerPage]="10"
@@ -59,16 +59,16 @@
       [isVisible]="termsAndConditionInvalid"
       [isExplicit]="explicitTermsAndConditions.value"
       [ngClass]="['for-desktop']"
-    ></cx-opf-checkout-terms-and-conditions-alert>
+    />
     <ng-template
       [cxOutlet]="opfCheckoutOutlets.OPF_CHECKOUT_BEFORE_SAVED_PAYMENT_OPTIONS"
       [cxOutletContext]="{ disabled: paymentOptionsDisabled$ }"
-    ></ng-template>
+    />
   </cx-opf-checkout-payments>
 
   <cx-opf-checkout-review-cart-details
     [cart]="cart$ | async"
     [entries]="entries$ | async"
     [isAddressCardVisible]="true"
-  ></cx-opf-checkout-review-cart-details>
+  />
 </ng-container>

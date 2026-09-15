@@ -49,6 +49,7 @@
               [cxNgSelectA11y]="{}"
             />
             <cx-form-errors
+              *cxFeature="'enableFormFieldMaxLength'"
               [translationParams]="{
                 label: 'addressForm.country' | cxTranslate,
               }"
@@ -171,7 +172,28 @@
         <span class="label-content">{{
           'addressForm.address2' | cxTranslate
         }}</span>
+        <ng-container *cxFeature="'enableFormFieldMaxLength'">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="{{ 'addressForm.aptSuite' | cxTranslate }}"
+            formControlName="line2"
+            [attr.aria-invalid]="
+              addressForm.get('line2')?.touched &&
+              addressForm.get('line2')?.invalid
+            "
+            [attr.aria-errormessage]="'line2Error'"
+          />
+          <cx-form-errors
+            id="line2Error"
+            [translationParams]="{
+              label: 'addressForm.address2' | cxTranslate,
+            }"
+            [control]="addressForm.get('line2')"
+          />
+        </ng-container>
         <input
+          *cxFeature="'!enableFormFieldMaxLength'"
           type="text"
           class="form-control"
           placeholder="{{ 'addressForm.aptSuite' | cxTranslate }}"
@@ -383,7 +405,30 @@
           <span class="label-content">{{
             'addressForm.phoneNumber.label' | cxTranslate
           }}</span>
+          <ng-container *cxFeature="'enableFormFieldMaxLength'">
+            <input
+              type="tel"
+              class="form-control"
+              placeholder="{{
+                'addressForm.phoneNumber.placeholder' | cxTranslate
+              }}"
+              formControlName="phone"
+              [attr.aria-invalid]="
+                addressForm.get('phone')?.touched &&
+                addressForm.get('phone')?.invalid
+              "
+              [attr.aria-errormessage]="'phoneError'"
+            />
+            <cx-form-errors
+              id="phoneError"
+              [translationParams]="{
+                label: 'addressForm.phoneNumber.label' | cxTranslate,
+              }"
+              [control]="addressForm.get('phone')"
+            />
+          </ng-container>
           <input
+            *cxFeature="'!enableFormFieldMaxLength'"
             type="tel"
             class="form-control"
             placeholder="{{
@@ -407,20 +452,40 @@
               }}
               <cx-form-required-asterisks *ngIf="isHierarchicalAddressFormat" />
             </span>
+            <ng-container *cxFeature="'enableFormFieldMaxLength'">
+              <input
+                type="tel"
+                class="form-control"
+                placeholder="{{
+                  'addressForm.cellphone.placeholder' | cxTranslate
+                }}"
+                formControlName="cellphone"
+                [attr.aria-invalid]="
+                  addressForm.get('cellphone')?.touched &&
+                  addressForm.get('cellphone')?.invalid
+                "
+                [attr.aria-errormessage]="'cellphoneError'"
+              />
+              <cx-form-errors
+                id="cellphoneError"
+                [translationParams]="{
+                  label:
+                    (isHierarchicalAddressFormat
+                      ? 'addressForm.cellphone.requiredLabel'
+                      : 'addressForm.cellphone.label'
+                    ) | cxTranslate,
+                }"
+                [control]="addressForm.get('cellphone')"
+              />
+            </ng-container>
             <input
+              *cxFeature="'!enableFormFieldMaxLength'"
               type="tel"
               class="form-control"
               placeholder="{{
                 'addressForm.cellphone.placeholder' | cxTranslate
               }}"
               formControlName="cellphone"
-            />
-            <cx-form-errors
-              *ngIf="isHierarchicalAddressFormat"
-              [translationParams]="{
-                label: 'addressForm.cellphone.requiredLabel' | cxTranslate,
-              }"
-              [control]="addressForm.get('cellphone')"
             />
           </label>
         </div>
@@ -431,7 +496,30 @@
             <span class="label-content">{{
               'addressForm.cellphone.label' | cxTranslate
             }}</span>
+            <ng-container *cxFeature="'enableFormFieldMaxLength'">
+              <input
+                type="tel"
+                class="form-control"
+                placeholder="{{
+                  'addressForm.cellphone.placeholder' | cxTranslate
+                }}"
+                formControlName="cellphone"
+                [attr.aria-invalid]="
+                  addressForm.get('cellphone')?.touched &&
+                  addressForm.get('cellphone')?.invalid
+                "
+                [attr.aria-errormessage]="'cellphoneError'"
+              />
+              <cx-form-errors
+                id="cellphoneError"
+                [translationParams]="{
+                  label: 'addressForm.cellphone.label' | cxTranslate,
+                }"
+                [control]="addressForm.get('cellphone')"
+              />
+            </ng-container>
             <input
+              *cxFeature="'!enableFormFieldMaxLength'"
               type="tel"
               class="form-control"
               placeholder="{{
