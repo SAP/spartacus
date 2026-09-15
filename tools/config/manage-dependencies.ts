@@ -1150,7 +1150,19 @@ function updateDependenciesVersions(
           }
         } else if (
           typeof rootDeps[dep] !== 'undefined' &&
-          packageJson[type]?.[dep] !== rootDeps[dep]
+          packageJson[type]?.[dep] !== rootDeps[dep] &&
+          // Allow a library to keep the wider `^` range while root pins the
+          // same base version with `~`, e.g. `^1.2.3` in the library vs
+          // `~1.2.3` in root. This preserves the library's caret range so
+          // consumers can still bump the peer dependency's minor. Only this
+          // direction is allowed: the reverse (`~` in the library, `^` in
+          // root) is left to the fix, which widens the library to `^`.
+          !(
+            (packageJson[type]?.[dep] ?? '').startsWith('^') &&
+            (rootDeps[dep] ?? '').startsWith('~') &&
+            (packageJson[type]?.[dep] ?? '').slice(1) ===
+              (rootDeps[dep] ?? '').slice(1)
+          )
         ) {
           // Careful with breaking changes!
           if (
