@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {
   CxDatePipe,
   FeatureDirective,
-  FeatureToggles,
   I18nTestingModule,
   Product,
   ProductReviewService,
