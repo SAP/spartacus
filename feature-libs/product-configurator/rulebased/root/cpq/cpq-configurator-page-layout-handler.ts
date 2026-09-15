@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { FeatureToggles } from '@spartacus/core';
 import {
   CommonConfiguratorUtilsService,
   ConfiguratorRouter,
@@ -29,10 +30,14 @@ interface RouterResolution {
 })
 export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
   protected static templateName = 'CpqConfigurationTemplate';
+  protected static overviewMenuSlot = 'CpqConfigOverviewMenu';
   protected static sectionHeaderDisplayOnly = 'headerDisplayOnly';
   protected static sectionNavigationDisplayOnly = 'navigationDisplayOnly';
   protected static sectionHeader = 'header';
   protected static sectionNavigation = 'navigation';
+
+  private featureToggles = inject(FeatureToggles);
+
   constructor(
     protected configuratorRouterExtractorService: ConfiguratorRouterExtractorService,
     protected breakpointService: BreakpointService,
@@ -67,6 +72,9 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
             map((slots) => this.getNavigationSlots(slots, cont))
           );
         });
+    }
+    if (pageTemplate === CpqConfiguratorPageLayoutHandler.templateName) {
+      slots$ = slots$.pipe(map((slots) => this.filterOverviewMenuSlot(slots)));
     }
     return slots$;
   }
@@ -138,5 +146,14 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
     } else {
       return slots;
     }
+  }
+
+  protected filterOverviewMenuSlot(slots: string[]): string[] {
+    if (this.featureToggles.productConfiguratorCPQContainer) {
+      return slots;
+    }
+    return slots.filter(
+      (slot) => slot !== CpqConfiguratorPageLayoutHandler.overviewMenuSlot
+    );
   }
 }
