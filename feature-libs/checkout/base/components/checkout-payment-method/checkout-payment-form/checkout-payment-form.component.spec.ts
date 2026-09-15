@@ -621,4 +621,61 @@ describe('CheckoutPaymentFormComponent', () => {
       expect(component.close).toHaveBeenCalled();
     });
   });
+
+  describe('a11yCvvInfoIconKeyboardAccessible', () => {
+    let featureTogglesController: MockFeatureTogglesController;
+
+    const getCvvIcon = (): HTMLElement | null =>
+      fixture.debugElement.query(
+        By.css('cx-icon[placement="right"].cx-payment-form-tooltip')
+      )?.nativeElement || null;
+
+    const getCvvButton = (): HTMLElement | null =>
+      fixture.debugElement.query(
+        By.css('button.cx-payment-form-tooltip.cx-cvv-info-btn')
+      )?.nativeElement || null;
+
+    beforeEach(() => {
+      featureTogglesController = TestBed.inject(MockFeatureTogglesController);
+      mockCheckoutPaymentService.getPaymentCardTypes = vi
+        .fn()
+        .mockReturnValue(of(mockCardTypes));
+    });
+
+    it('should render the CVV info icon when a11yCvvInfoIconKeyboardAccessible is disabled (default)', () => {
+      featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', false);
+      fixture.detectChanges();
+
+      expect(getCvvIcon()).toBeTruthy();
+      expect(getCvvButton()).toBeNull();
+    });
+
+    it('should render the CVV info button when a11yCvvInfoIconKeyboardAccessible is enabled', () => {
+      featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', true);
+      fixture.detectChanges();
+
+      expect(getCvvButton()).toBeTruthy();
+      expect(getCvvIcon()).toBeNull();
+    });
+
+    it('should have proper accessibility attributes on the CVV button when toggle is enabled', () => {
+      featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', true);
+      fixture.detectChanges();
+
+      const button = getCvvButton();
+      expect(button?.getAttribute('type')).toBe('button');
+      expect(button?.getAttribute('aria-label')).toBeTruthy();
+      expect(button?.getAttribute('title')).toBeTruthy();
+    });
+
+    it('should be keyboard accessible when a11yCvvInfoIconKeyboardAccessible is enabled', () => {
+      featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', true);
+      fixture.detectChanges();
+
+      const button = getCvvButton();
+      expect(button?.getAttribute('type')).toBe('button');
+      // Verify it's a button element, not just an icon
+      expect(button?.tagName).toBe('BUTTON');
+    });
+  });
 });
