@@ -9,7 +9,6 @@ import {
 import { By } from '@angular/platform-browser';
 import {
   CustomerCouponService,
-  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   MockTranslatePipe,
