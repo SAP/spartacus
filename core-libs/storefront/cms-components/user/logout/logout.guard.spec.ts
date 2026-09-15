@@ -4,11 +4,13 @@ import { Router, RouterModule } from '@angular/router';
 import {
   AuthService,
   CmsService,
+  FeatureToggles,
   ProtectedRoutesService,
   RoutingConfig,
   SemanticPathService,
 } from '@spartacus/core';
 import { Observable, firstValueFrom, of } from 'rxjs';
+import { LogoutConfig } from './logout-config';
 import { LogoutGuard } from './logout.guard';
 
 class MockAuthService implements Partial<AuthService> {
@@ -34,6 +36,10 @@ class MockProtectedRoutesService implements Partial<ProtectedRoutesService> {
     return false;
   }
 }
+
+const mockFeatureToggles: FeatureToggles = {
+  useConfigurableLogoutRedirect: false,
+};
 
 describe('LogoutGuard', () => {
   let logoutGuard: LogoutGuard;
@@ -62,25 +68,19 @@ describe('LogoutGuard', () => {
           useValue: {
             routing: {
               routes: {
-                login: {
-                  paths: ['login'],
-                },
-                home: {
-                  paths: [''],
-                },
-                logout: {
-                  paths: ['logout'],
-                },
+                login: { paths: ['login'] },
+                home: { paths: [''] },
+                logout: { paths: ['logout'] },
+                'my-account': { paths: ['my-account'] },
               },
             },
           },
         },
         { provide: AuthService, useClass: MockAuthService },
         { provide: CmsService, useClass: MockCmsService },
-        {
-          provide: ProtectedRoutesService,
-          useClass: MockProtectedRoutesService,
-        },
+        { provide: ProtectedRoutesService, useClass: MockProtectedRoutesService },
+        { provide: FeatureToggles, useValue: mockFeatureToggles },
+        { provide: LogoutConfig, useValue: {} },
         SemanticPathService,
       ],
     });
@@ -103,28 +103,67 @@ describe('LogoutGuard', () => {
     });
 
     it('should return redirect url to home page if app not protected', async () => {
-      vi.spyOn(protectedRoutesService, 'shouldProtect', 'get').mockReturnValue(
-        false
-      );
+      vi.spyOn(protectedRoutesService, 'shouldProtect', 'get').mockReturnValue(false);
 
       const result = await firstValueFrom(logoutGuard.canActivate());
       expect(result.toString()).toBe('/');
     });
 
     it('should return redirect url to login page if app protected', async () => {
-      vi.spyOn(protectedRoutesService, 'shouldProtect', 'get').mockReturnValue(
-        true
-      );
+      vi.spyOn(protectedRoutesService, 'shouldProtect', 'get').mockReturnValue(true);
 
       const result = await firstValueFrom(logoutGuard.canActivate());
       expect(result.toString()).toBe('/login');
     });
 
-    it('should return true if the logout page exists', async () => {
+    it('should return true if the logout CMS page exists', async () => {
       vi.spyOn(cmsService, 'hasPage').mockReturnValue(of(true));
 
       const result = await firstValueFrom(logoutGuard.canActivate());
       expect(result).toBe(true);
+    });
+
+    describe('useConfigurableLogoutRedirect toggle', () => {
+      it('should redirect to home when toggle is disabled, even if redirectRoute is configured', async () => {
+        logoutGuard['featureToggles'] = { useConfigurableLogoutRedirect: false };
+        logoutGuard['config'] = { logout: { redirectRoute: 'my-account' } };
+
+        const result = await firstValueFrom(logoutGuard.canActivate());
+        expect(result.toString()).toBe('/');
+      });
+
+      it('should redirect to configured redirectRoute when toggle is enabled', async () => {
+        logoutGuard['featureToggles'] = { useConfigurableLogoutRedirect: true };
+        logoutGuard['config'] = { logout: { redirectRoute: 'my-account' } };
+
+        const result = await firstValueFrom(logoutGuard.canActivate());
+        expect(result.toString()).toBe('/my-account');
+      });
+
+      it('should redirect to home when toggle is enabled but no redirectRoute is configured', async () => {
+        logoutGuard['featureToggles'] = { useConfigurableLogoutRedirect: true };
+        logoutGuard['config'] = {};
+
+        const result = await firstValueFrom(logoutGuard.canActivate());
+        expect(result.toString()).toBe('/');
+      });
+
+      it('should return true when toggle is enabled and redirectRoute resolves to the logout path', async () => {
+        logoutGuard['featureToggles'] = { useConfigurableLogoutRedirect: true };
+        logoutGuard['config'] = { logout: { redirectRoute: 'logout' } };
+
+        const result = await firstValueFrom(logoutGuard.canActivate());
+        expect(result).toBe(true);
+      });
+
+      it('should still redirect to login for protected store when toggle is enabled', async () => {
+        logoutGuard['featureToggles'] = { useConfigurableLogoutRedirect: true };
+        logoutGuard['config'] = { logout: { redirectRoute: 'my-account' } };
+        vi.spyOn(protectedRoutesService, 'shouldProtect', 'get').mockReturnValue(true);
+
+        const result = await firstValueFrom(logoutGuard.canActivate());
+        expect(result.toString()).toBe('/login');
+      });
     });
   });
 });

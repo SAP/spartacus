@@ -5,15 +5,23 @@
  */
 
 import { inject, Injectable, Optional } from '@angular/core';
-import { GuardResult, Router, UrlTree } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  GuardResult,
+  Router,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
 import {
   AuthService,
   CmsService,
   ProtectedRoutesService,
   SemanticPathService,
 } from '@spartacus/core';
-import { LogoutConfig } from './logout-config';
 import { from, Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
+import { LogoutConfig } from './logout-config';
 
 /**
  * Guards the _logout_ route.
@@ -27,6 +35,7 @@ import { from, Observable, of } from 'rxjs';
 })
 export class LogoutGuard {
   protected config = inject(LogoutConfig);
+  protected cmsPageGuard = inject(CmsPageGuard);
 
   constructor(
     protected auth: AuthService,
@@ -37,30 +46,22 @@ export class LogoutGuard {
     protected router: Router,
   ) {}
 
-  canActivate(): Observable<GuardResult> {
-    const redirectUrl = this.getRedirectUrl();
-    const logoutUrl = this.router.parseUrl(
-      this.semanticPathService.get('logout') ?? '/logout'
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<GuardResult> {
+    return from(this.logout()).pipe(
+      switchMap(() => {
+        const redirectUrl = this.getRedirectUrl();
+        const logoutUrl = this.router.parseUrl(
+          this.semanticPathService.get('logout') ?? '/logout'
+        );
+        if (redirectUrl.toString() === logoutUrl.toString()) {
+          return this.cmsPageGuard.canActivate(route as any, state);
+        }
+        return of(redirectUrl);
+      })
     );
-    const redirectsToLogout = redirectUrl.toString() === logoutUrl.toString();
-
-    /**
-     * Only needed when redirecting back to the logout path to avoid an
-     * infinite loop: second pass lets CmsPageGuard render the logout page.
-     */
-    if (
-      redirectsToLogout &&
-      this.router.getCurrentNavigation()?.extras?.state?.['postLogout']
-    ) {
-      return of(true);
-    }
-
-    from(this.logout()).subscribe(() => {
-      this.router.navigateByUrl(redirectUrl, {
-        state: redirectsToLogout ? { postLogout: true } : {},
-      });
-    });
-    return of(false);
   }
 
   protected logout(): Promise<any> {
@@ -80,7 +81,8 @@ export class LogoutGuard {
     }
     const redirectRoute = this.config.logout?.redirectRoute;
     if (redirectRoute) {
-      const resolved = this.semanticPathService.get(redirectRoute) ?? redirectRoute;
+      const resolved =
+        this.semanticPathService.get(redirectRoute) ?? redirectRoute;
       return this.router.parseUrl(resolved);
     }
     return this.router.parseUrl(this.semanticPathService.get('home') ?? '');
