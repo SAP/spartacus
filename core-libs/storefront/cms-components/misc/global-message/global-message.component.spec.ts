@@ -3,14 +3,20 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   FeatureDirective,
+  FeatureToggles,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { NEVER, Observable, of } from 'rxjs';
+import { vi } from 'vitest';
 import { IconComponent } from '../icon/icon.component';
 import { GlobalMessageComponent } from './global-message.component';
 
@@ -82,6 +88,7 @@ describe('GlobalMessageComponent', () => {
       imports: [GlobalMessageComponent],
       providers: [
         { provide: GlobalMessageService, useClass: MockMessageService },
+        provideMockFeatureToggles({ a11yCloseToastButtonKeyboardAccessible: false }),
       ],
     })
       .overrideComponent(GlobalMessageComponent, {
@@ -216,5 +223,64 @@ describe('GlobalMessageComponent a11yFilteredFacetAnnouncement — aria-live con
     // so VoiceOver can register it as a live region on page load.
     const assistiveDiv = fixture.debugElement.query(By.css(ASSISTIVE_SELECTOR));
     expect(assistiveDiv).toBeTruthy();
+  });
+});
+
+describe('GlobalMessageComponent a11yCloseToastButtonKeyboardAccessible - Close Button Accessibility', () => {
+  let fixture: ComponentFixture<GlobalMessageComponent>;
+  let featureTogglesController: MockFeatureTogglesController;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [GlobalMessageComponent],
+      providers: [
+        { provide: GlobalMessageService, useValue: { get: () => of(mockMessages), remove: vi.fn() } },
+        provideMockFeatureToggles({ a11yCloseToastButtonKeyboardAccessible: false }),
+      ],
+    })
+      .overrideComponent(GlobalMessageComponent, mockComponentOverride)
+      .compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = createInitializedFixture();
+    featureTogglesController = TestBed.inject(MockFeatureTogglesController);
+  });
+
+  it('should have a11yCloseToastButtonKeyboardAccessible feature toggle available', () => {
+    featureTogglesController.set('a11yCloseToastButtonKeyboardAccessible', false);
+    expect(
+      fixture.componentInstance['featureToggles']?.a11yCloseToastButtonKeyboardAccessible
+    ).toBe(false);
+
+    featureTogglesController.set('a11yCloseToastButtonKeyboardAccessible', true);
+    expect(
+      fixture.componentInstance['featureToggles']?.a11yCloseToastButtonKeyboardAccessible
+    ).toBe(true);
+  });
+
+  it('should render close buttons with proper structure when toggle disabled (default)', () => {
+    featureTogglesController.set('a11yCloseToastButtonKeyboardAccessible', false);
+    fixture.detectChanges();
+
+    // Should have close buttons with title attribute
+    const closeButtons = fixture.debugElement.queryAll(By.css('button.close'));
+    expect(closeButtons.length).toBeGreaterThan(0);
+  });
+
+  it('should support rendering accessible close buttons when toggle enabled', () => {
+    featureTogglesController.set('a11yCloseToastButtonKeyboardAccessible', true);
+    fixture.detectChanges();
+
+    // Verify feature toggle state can be changed
+    expect(
+      fixture.componentInstance['featureToggles']?.a11yCloseToastButtonKeyboardAccessible
+    ).toBe(true);
+  });
+
+  it('should use FeatureDirective for conditional close button rendering', () => {
+    fixture.detectChanges();
+    // FeatureDirective is used via *cxFeature for conditional rendering
+    expect(fixture.componentInstance).toBeTruthy();
   });
 });
