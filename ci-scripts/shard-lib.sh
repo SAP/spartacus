@@ -34,18 +34,20 @@ shard_show_projects() {
 shard_weigh() {
     local names_json="$1"
     local out="[]"
-    local p root raw w entry
-    while IFS= read -r p; do
-        [[ -z "$p" ]] && continue
-        raw=$(npx nx show project "$p" --json 2>/dev/null || true)
+    local project root raw weight entry
+    while IFS= read -r project; do
+        [[ -z "$project" ]] && continue
+        raw=$(npx nx show project "$project" --json 2>/dev/null || true)
         root=$(printf '%s' "$raw" | jq -r '.root // empty' 2>/dev/null || true)
         if [[ -n "$root" && -d "$root" ]]; then
-            w=$(find "$root" -name '*.spec.ts' -exec cat {} + 2>/dev/null | wc -l | tr -d ' ')
+            # Count only "meaningful" spec lines: skip imports, comment-only and blank lines,
+            # so the weight better reflects test volume than raw line count.
+            weight=$(find "$root" -name '*.spec.ts' -exec cat {} + 2>/dev/null | grep -cvE '^\s*(import|//|$)' | tr -d ' ')
         else
-            w=1
+            weight=1
         fi
-        [[ -z "$w" || "$w" -eq 0 ]] && w=1
-        entry=$(jq -nc --arg n "$p" --argjson w "$w" '{name:$n,weight:$w}')
+        [[ -z "$weight" || "$weight" -eq 0 ]] && weight=1
+        entry=$(jq -nc --arg n "$project" --argjson w "$weight" '{name:$n,weight:$w}')
         out=$(jq -nc --argjson acc "$out" --argjson e "$entry" '$acc + [$e]')
     done < <(printf '%s' "$names_json" | jq -r '.[]?')
     printf '%s' "$out"

@@ -54,7 +54,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache-key: ${{ github.event.pull_request.base.sha }}
-          affected: ${{ startsWith(github.head_ref, 'epic/') && 'false' || 'true' }}
+          affected: ${{ github.event_name == 'pull_request' && !startsWith(github.head_ref, 'epic/') }}
 
   unit_tests:
     needs: [detect_changes, prepare_unit_shards]
@@ -118,7 +118,7 @@ jobs:
           cache-key: ${{ github.event.pull_request.base.sha }}
       - name: Run linting validation
         env:
-          LINT_AFFECTED: ${{ startsWith(github.head_ref, 'epic/') && 'false' || 'true' }}
+          LINT_AFFECTED: ${{ github.event_name == 'pull_request' && !startsWith(github.head_ref, 'epic/') }}
           LINT_PARALLEL: '4'
         run: |
           ci-scripts/validate-lint.sh

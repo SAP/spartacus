@@ -21,7 +21,7 @@ inputs:
     required: false
     default: '4'
   affected:
-    description: '"true" to shard only nx-affected projects (needs NX_BASE/NX_HEAD), otherwise shards all projects'
+    description: '"true" to shard only nx-affected projects (requires NX_BASE/NX_HEAD, provided by the nrwl/nx-set-shas step in the caller job); otherwise shards all projects'
     required: false
     default: 'false'
 outputs:
