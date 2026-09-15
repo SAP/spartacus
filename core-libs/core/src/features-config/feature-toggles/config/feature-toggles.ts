@@ -809,6 +809,28 @@ export interface FeatureTogglesInterface {
    * Affects: `QuoteSummaryActionsComponent`
    */
   showWarningMessageOnRequoteButtonClick?: boolean;
+  
+  /**
+   * Enables support for a dedicated oAuth callback page to be used for the
+   * Return URI in Authorization Code Flow.
+   *
+   * Requires feature flags `authorizationCodeFlowByDefault` and `asyncAuthConfigInitializer`
+   * to be enabled.
+   *
+   * 1. Add new route 'oAuthCallback' to the default `RoutingConfig`.
+   *
+   * 2. Define CMS Component for 'OauthCallbackComponent' using the `SpinnerComponent`.
+   *
+   * 3. Modify the AuthConfigInitializer's generation of Redirect URI.
+   *    The configured redirect URI will be modified depending on whether it is
+   *    relative or absolute.
+   *    - Relative URIs are interpreted as a custom oAuth callback path.  The
+   *      page origin will be used for the host, and base site will be added if
+   *      enabled before the custom path.
+   *    - Absolute URIs will be treated as the intended value.  The base site
+   *      will be appended to the path if enabled.
+   */
+  oauthCallbackPage?: boolean;
 
   /**
    * When enabled, `Validators.maxLength` is applied to all text form fields
@@ -917,5 +939,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   globalMessageCloseButtonPadding: false,
   a11yNavigationChevronContrast: false,
   showWarningMessageOnRequoteButtonClick: false,
+  oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
 };

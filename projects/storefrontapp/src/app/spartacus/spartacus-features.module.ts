@@ -391,6 +391,7 @@ if (environment.cpq) {
         a11yItemCounterValueText: true,
         a11yNavigationChevronContrast: true,
         showWarningMessageOnRequoteButtonClick: true,
+        oauthCallbackPage: true,
         enableFormFieldMaxLength: true,
       };
       return appFeatureToggles;
