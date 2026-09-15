@@ -809,7 +809,7 @@ export interface FeatureTogglesInterface {
    * Affects: `QuoteSummaryActionsComponent`
    */
   showWarningMessageOnRequoteButtonClick?: boolean;
-  
+
   /**
    * Enables support for a dedicated oAuth callback page to be used for the
    * Return URI in Authorization Code Flow.
