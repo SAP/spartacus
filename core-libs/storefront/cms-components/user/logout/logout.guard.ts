@@ -15,6 +15,8 @@ import {
 import {
   AuthService,
   CmsService,
+  FeatureToggles,
+  PageType,
   ProtectedRoutesService,
   SemanticPathService,
 } from '@spartacus/core';
@@ -35,6 +37,7 @@ import { LogoutConfig } from './logout-config';
 })
 export class LogoutGuard {
   protected config = inject(LogoutConfig);
+  protected featureToggles = inject(FeatureToggles);
   protected cmsPageGuard = inject(CmsPageGuard);
 
   constructor(
@@ -50,6 +53,25 @@ export class LogoutGuard {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<GuardResult> {
+    if (!this.featureToggles.useConfigurableLogoutRedirect) {
+      return from(this.logout()).pipe(
+        switchMap(() =>
+          this.cms!
+            .hasPage({
+              id: this.semanticPathService.get('logout') ?? '',
+              type: PageType.CONTENT_PAGE,
+            })
+            .pipe(
+              switchMap((hasPage) =>
+                hasPage
+                  ? this.cmsPageGuard.canActivate(route as any, state)
+                  : of(this.getRedirectUrl())
+              )
+            )
+        )
+      );
+    }
+
     return from(this.logout()).pipe(
       switchMap(() => {
         const redirectUrl = this.getRedirectUrl();
@@ -57,6 +79,10 @@ export class LogoutGuard {
           this.semanticPathService.get('logout') ?? '/logout'
         );
         if (redirectUrl.toString() === logoutUrl.toString()) {
+          // Returning a UrlTree pointing to /logout would re-trigger this guard,
+          // calling logout() again and causing an infinite loop. Instead, we
+          // invoke CmsPageGuard directly to render the CMS logout page in place,
+          // without any navigation.
           return this.cmsPageGuard.canActivate(route as any, state);
         }
         return of(redirectUrl);
@@ -79,11 +105,13 @@ export class LogoutGuard {
     if (this.protectedRoutes.shouldProtect) {
       return this.router.parseUrl(this.semanticPathService.get('login') ?? '');
     }
-    const redirectRoute = this.config.logout?.redirectRoute;
-    if (redirectRoute) {
-      const resolved =
-        this.semanticPathService.get(redirectRoute) ?? redirectRoute;
-      return this.router.parseUrl(resolved);
+    if (this.featureToggles.useConfigurableLogoutRedirect) {
+      const redirectRoute = this.config.logout?.redirectRoute;
+      if (redirectRoute) {
+        const resolved =
+          this.semanticPathService.get(redirectRoute) ?? redirectRoute;
+        return this.router.parseUrl(resolved);
+      }
     }
     return this.router.parseUrl(this.semanticPathService.get('home') ?? '');
   }
