@@ -69,7 +69,7 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 class MockConfigUtilsService {
-  getElement(): void {}
+  getElementById(): void {}
 }
 
 describe('ConfiguratorOverviewFilterBarComponent', () => {
@@ -425,31 +425,33 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
     });
 
     describe('focusElementById', () => {
-      it('should call getElement method of ConfiguratorStorefrontUtilsService using # as prefix', () => {
+      it('should call getElementById method of ConfiguratorStorefrontUtilsService with the plain id', () => {
         spyOn(
           configuratorStorefrontUtilsService,
-          'getElement'
+          'getElementById'
         ).and.callThrough();
         component['focusElementById'](FIRST_FILTER_CHECKBOX_ID);
         expect(
-          configuratorStorefrontUtilsService.getElement
-        ).toHaveBeenCalledWith('#' + FIRST_FILTER_CHECKBOX_ID);
+          configuratorStorefrontUtilsService.getElementById
+        ).toHaveBeenCalledWith(FIRST_FILTER_CHECKBOX_ID);
       });
 
       it('should call focus method of html element', () => {
         let mockElement = jasmine.createSpyObj('HTMLElement', ['focus']);
-        spyOn(configuratorStorefrontUtilsService, 'getElement').and.returnValue(
-          mockElement
-        );
+        spyOn(
+          configuratorStorefrontUtilsService,
+          'getElementById'
+        ).and.returnValue(mockElement);
         component['focusElementById'](FIRST_FILTER_CHECKBOX_ID);
         expect(mockElement.focus).toHaveBeenCalled();
       });
 
-      it('should not call focus method if getElement returns null', () => {
+      it('should not call focus method if getElementById returns undefined', () => {
         let mockElement = jasmine.createSpyObj('HTMLElement', ['focus']);
-        spyOn(configuratorStorefrontUtilsService, 'getElement').and.returnValue(
-          null
-        );
+        spyOn(
+          configuratorStorefrontUtilsService,
+          'getElementById'
+        ).and.returnValue(undefined);
         component['focusElementById'](FIRST_FILTER_CHECKBOX_ID);
         expect(mockElement.focus).not.toHaveBeenCalled();
       });

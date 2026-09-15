@@ -6,7 +6,8 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { I18nModule } from '@spartacus/core';
+import { I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { defaultConfiguratorUISettingsConfig } from '../config/default-configurator-ui-settings.config';
 import { IconModule } from '@spartacus/storefront';
 import { ConfiguratorOverviewMenuComponent } from './configurator-overview-menu.component';
 
@@ -18,5 +19,6 @@ import { ConfiguratorOverviewMenuComponent } from './configurator-overview-menu.
     ConfiguratorOverviewMenuComponent,
   ],
   exports: [ConfiguratorOverviewMenuComponent],
+  providers: [provideDefaultConfig(defaultConfiguratorUISettingsConfig)],
 })
 export class ConfiguratorOverviewMenuModule {}

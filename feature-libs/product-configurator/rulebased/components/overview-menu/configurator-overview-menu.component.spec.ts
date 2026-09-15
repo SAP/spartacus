@@ -31,15 +31,25 @@ class MockConfiguratorGroupsService {
 class MockConfiguratorStorefrontUtilsService {
   getElement(): void {}
 
+  getElementById(): void {}
+
+  idSelector(id: string): string {
+    return '#' + id;
+  }
+
   getElements(): void {}
 
   getPrefixId(): void {}
 
   hasScrollbar(): void {}
 
-  changeStyling(): void {}
+  getClosestElement(): HTMLElement | undefined {
+    return undefined;
+  }
 
-  removeStyling(): void {}
+  changeStylingOfElement(): void {}
+
+  removeStylingOfElement(): void {}
 
   createOvGroupId(): void {}
 
@@ -81,9 +91,11 @@ function initialize() {
 
   spyOn(configuratorStorefrontUtilsService, 'ensureElementVisible');
 
-  spyOn(configuratorStorefrontUtilsService, 'changeStyling');
+  spyOn(configuratorStorefrontUtilsService, 'getClosestElement');
 
-  spyOn(configuratorStorefrontUtilsService, 'removeStyling');
+  spyOn(configuratorStorefrontUtilsService, 'changeStylingOfElement');
+
+  spyOn(configuratorStorefrontUtilsService, 'removeStylingOfElement');
 
   spyOn(
     configuratorStorefrontUtilsService,
@@ -132,7 +144,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
   it('should call ngAfterViewInit after ovMenu is rendered', () => {
     initialize();
     spyOn(configuratorStorefrontUtilsService, 'getSpareViewportHeight');
-    spyOn(configuratorStorefrontUtilsService, 'getElement');
+    spyOn(configuratorStorefrontUtilsService, 'getElementById');
     spyOn(configuratorStorefrontUtilsService, 'getElements');
     spyOn(
       configuratorStorefrontUtilsService,
@@ -150,9 +162,9 @@ describe('ConfigurationOverviewMenuComponent', () => {
     expect(
       configuratorStorefrontUtilsService.getVerticallyScrolledPixels
     ).toHaveBeenCalledTimes(1);
-    expect(configuratorStorefrontUtilsService.getElement).toHaveBeenCalledTimes(
-      0
-    );
+    expect(
+      configuratorStorefrontUtilsService.getElementById
+    ).toHaveBeenCalledTimes(0);
     expect(
       configuratorStorefrontUtilsService.getSpareViewportHeight
     ).toHaveBeenCalledTimes(1);
@@ -206,10 +218,13 @@ describe('ConfigurationOverviewMenuComponent', () => {
       initialize();
     });
 
-    it('should call changeStyling', () => {
+    it('should call changeStylingOfElement', () => {
       component['changeStyling']();
       expect(
-        configuratorStorefrontUtilsService.changeStyling
+        configuratorStorefrontUtilsService.getClosestElement
+      ).toHaveBeenCalled();
+      expect(
+        configuratorStorefrontUtilsService.changeStylingOfElement
       ).toHaveBeenCalledTimes(component.styles.length);
     });
   });
@@ -219,10 +234,13 @@ describe('ConfigurationOverviewMenuComponent', () => {
       initialize();
     });
 
-    it('should call removeStyling', () => {
+    it('should call removeStylingOfElement', () => {
       component['removeStyling']();
       expect(
-        configuratorStorefrontUtilsService.removeStyling
+        configuratorStorefrontUtilsService.getClosestElement
+      ).toHaveBeenCalled();
+      expect(
+        configuratorStorefrontUtilsService.removeStylingOfElement
       ).toHaveBeenCalledTimes(component.styles.length);
     });
   });
@@ -237,7 +255,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
       fixture.detectChanges();
       component['adjustStyling']();
       expect(
-        configuratorStorefrontUtilsService.changeStyling
+        configuratorStorefrontUtilsService.changeStylingOfElement
       ).toHaveBeenCalledTimes(component.styles.length);
     });
 
@@ -246,7 +264,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
       fixture.detectChanges();
       component['adjustStyling']();
       expect(
-        configuratorStorefrontUtilsService.removeStyling
+        configuratorStorefrontUtilsService.removeStylingOfElement
       ).toHaveBeenCalledTimes(component.styles.length);
     });
   });
@@ -281,6 +299,23 @@ describe('ConfigurationOverviewMenuComponent', () => {
       expect(
         configuratorStorefrontUtilsService.scrollToConfigurationElement
       ).toHaveBeenCalled();
+    });
+
+    it('should compose the query selector from the escaped group id', () => {
+      initialize();
+      (
+        configuratorStorefrontUtilsService.createOvGroupId as jasmine.Spy
+      ).and.returnValue('cx--GROUP@1-ovGroup');
+      spyOn(configuratorStorefrontUtilsService, 'idSelector').and.callThrough();
+
+      component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
+
+      expect(
+        configuratorStorefrontUtilsService.idSelector
+      ).toHaveBeenCalledWith('cx--GROUP@1-ovGroup');
+      expect(
+        configuratorStorefrontUtilsService.scrollToConfigurationElement
+      ).toHaveBeenCalledWith('#cx--GROUP@1-ovGroup h2');
     });
   });
 
@@ -455,9 +490,10 @@ describe('ConfigurationOverviewMenuComponent', () => {
 
       let menuItems = htmlElem.querySelectorAll('.cx-menu-item');
       let menuItem = menuItems[menuItems.length - 1] as HTMLElement;
-      spyOn(configuratorStorefrontUtilsService, 'getElement').and.returnValue(
-        menuItem
-      );
+      spyOn(
+        configuratorStorefrontUtilsService,
+        'getElementById'
+      ).and.returnValue(menuItem);
 
       fixture.detectChanges();
 

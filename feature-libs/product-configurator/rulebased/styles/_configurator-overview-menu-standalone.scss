@@ -1,4 +1,4 @@
-%cx-configurator-overview-sidebar {
+%cx-configurator-overview-menu-standalone {
   &:not(:empty) {
     display: flex;
     flex-direction: column;
@@ -8,7 +8,10 @@
     padding-block-end: 5px;
 
     @include cx-configurator-overview-menu-bar();
-
     @include cx-configurator-overview-ghost-menu();
+
+    .cx-menu-bar {
+      padding-block-start: 15px;
+    }
   }
 }

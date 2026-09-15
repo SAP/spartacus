@@ -19,6 +19,7 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorUISettingsConfig } from '../config/configurator-ui-settings.config';
 
 @Injectable({
   providedIn: 'root',
@@ -40,6 +41,7 @@ export class ConfiguratorStorefrontUtilsService {
   protected readonly ADD_TO_CART_BUTTON_HEIGHT = 82;
 
   protected logger = inject(LoggerService);
+  protected uiSettingsConfig = inject(ConfiguratorUISettingsConfig);
 
   /**
    * Last selected attribute and value.
@@ -356,7 +358,25 @@ export class ConfiguratorStorefrontUtilsService {
    * @param {string} value - CSS value
    */
   changeStyling(querySelector: string, property: string, value: string): void {
-    const element = this.getElement(querySelector);
+    this.changeStylingOfElement(
+      this.getElement(querySelector),
+      property,
+      value
+    );
+  }
+
+  /**
+   * Change styling of element
+   *
+   * @param element - HTML element
+   * @param property - CSS property
+   * @param value - CSS value
+   */
+  changeStylingOfElement(
+    element: HTMLElement | undefined,
+    property: string,
+    value: string
+  ): void {
     if (element) {
       element.style.setProperty(property, value);
     }
@@ -369,10 +389,54 @@ export class ConfiguratorStorefrontUtilsService {
    * @param {string} property - CSS property
    */
   removeStyling(querySelector: string, property: string): void {
-    const element = this.getElement(querySelector);
+    this.removeStylingOfElement(this.getElement(querySelector), property);
+  }
+
+  /**
+   * Removes styling for element
+   *
+   * @param element - HTML element
+   * @param property - CSS property
+   */
+  removeStylingOfElement(
+    element: HTMLElement | undefined,
+    property: string
+  ): void {
     if (element) {
       element.style.removeProperty(property);
     }
+  }
+
+  /**
+   * Returns the closest ancestor matching the selector when running in browser.
+   *
+   * @param element - starting element
+   * @param selector - CSS selector
+   * @returns matching ancestor element
+   */
+  getClosestElement(
+    element: HTMLElement | undefined,
+    selector: string
+  ): HTMLElement | undefined {
+    if (!this.windowRef.isBrowser() || !element) {
+      return undefined;
+    }
+    return element.closest(selector) ?? undefined;
+  }
+
+  /**
+   * Builds a CSS selector that matches the element with the given ID.
+   *
+   * IDs originating from the backend can contain characters that are not valid
+   * in a CSS ID selector - CPQ group IDs contain '@', for example - so they have
+   * to be escaped before they are handed over to a query selector based API.
+   * Outside the browser the ID is returned unescaped, because no DOM lookup happens there.
+   *
+   * @param {string} id - element ID
+   * @returns {string} - ID selector that is safe to use as query selector
+   */
+  idSelector(id: string): string {
+    return '#' + (this.windowRef.isBrowser() ? CSS.escape(id) : id);
   }
 
   /**
@@ -386,6 +450,21 @@ export class ConfiguratorStorefrontUtilsService {
       return this.windowRef.document.querySelector(
         querySelector
       ) as HTMLElement;
+    }
+  }
+
+  /**
+   * Get HTML element by its ID when running in browser.
+   *
+   * In contrast to {@link getElement} no CSS selector is parsed, so IDs containing
+   * characters that would have to be escaped in a selector are handled as well.
+   *
+   * @param {string} id - element ID
+   * @returns {HTMLElement | undefined} - selected HTML element
+   */
+  getElementById(id: string): HTMLElement | undefined {
+    if (this.windowRef.isBrowser()) {
+      return this.windowRef.document.getElementById(id) ?? undefined;
     }
   }
 
@@ -470,7 +549,7 @@ export class ConfiguratorStorefrontUtilsService {
   getSpareViewportHeight(): number {
     if (this.windowRef.isBrowser()) {
       const spaHeaderHeight = this.getHeight('header');
-      const ovHeaderHeight = this.getHeight('.VariantConfigOverviewHeader');
+      const ovHeaderHeight = this.getOverviewHeaderHeight();
       const addToCartHeight =
         this.getHeight('cx-configurator-add-to-cart-button') !== 0
           ? this.getHeight('cx-configurator-add-to-cart-button')
@@ -484,6 +563,12 @@ export class ConfiguratorStorefrontUtilsService {
         : 0;
     }
     return 0;
+  }
+
+  protected getOverviewHeaderHeight(): number {
+    const selectors =
+      this.uiSettingsConfig.productConfigurator?.overviewHeaderSelectors ?? [];
+    return selectors.length ? this.getHeight(selectors.join(', ')) : 0;
   }
 
   /**

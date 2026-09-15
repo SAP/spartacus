@@ -25,6 +25,7 @@ export * from './overview-filter-button/index';
 export * from './overview-filter-dialog/index';
 export * from './overview-form/index';
 export * from './overview-menu/index';
+export * from './overview-menu-standalone/index';
 export * from './overview-notification-banner/index';
 export * from './overview-sidebar/index';
 export * from './previous-next-buttons/index';

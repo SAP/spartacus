@@ -273,7 +273,7 @@ export class ConfiguratorAttributeHeaderComponent
   protected scrollToAttribute(name: string) {
     this.onNavigationCompleted(() =>
       this.configUtils.scrollToConfigurationElement(
-        '#' + this.createAttributeUiKey('label', name)
+        this.configUtils.idSelector(this.createAttributeUiKey('label', name))
       )
     );
   }

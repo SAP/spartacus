@@ -18,6 +18,8 @@ import { Observable, of } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { ConfiguratorUISettingsConfig } from '../config/configurator-ui-settings.config';
+import { defaultConfiguratorUISettingsConfig } from '../config/default-configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from './configurator-storefront-utils.service';
 
 let mockedWindow: {
@@ -160,6 +162,10 @@ describe('ConfiguratorStorefrontUtilsService', () => {
           useClass: MockProductService,
         },
         { provide: WindowRef, useClass: MockedWindowRef },
+        {
+          provide: ConfiguratorUISettingsConfig,
+          useValue: defaultConfiguratorUISettingsConfig,
+        },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
@@ -564,6 +570,64 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     });
   });
 
+  describe('getElementById', () => {
+    it('should not get HTML element when not running in browser', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      expect(classUnderTest.getElementById('elementMock')).toBeUndefined();
+    });
+
+    it('should return undefined if no element with the given ID exists', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      expect(classUnderTest.getElementById('unknownId')).toBeUndefined();
+    });
+
+    it('should get HTML element whose ID is not a valid CSS ID selector', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      const theElement = document.createElement('div');
+      theElement.id = 'cx--1--CONTAINER_ROW@1067@c036a9e2-ovMenuItem';
+      document.body.appendChild(theElement);
+
+      expect(
+        classUnderTest.getElementById(
+          'cx--1--CONTAINER_ROW@1067@c036a9e2-ovMenuItem'
+        )
+      ).toEqual(theElement);
+
+      document.body.removeChild(theElement);
+    });
+  });
+
+  describe('idSelector', () => {
+    it('should not escape the ID when not running in browser', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      expect(classUnderTest.idSelector('GROUP@1')).toBe('#GROUP@1');
+    });
+
+    it('should escape characters that are not allowed in a CSS ID selector', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      expect(classUnderTest.idSelector('GROUP@1')).toBe('#GROUP\\@1');
+    });
+
+    it('should compose a selector that finds a descendant of the element with the escaped ID', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      const container = document.createElement('div');
+      container.id = 'cx--1--CONTAINER_ROW@1067@c036a9e2-ovGroup';
+      const heading = document.createElement('h2');
+      container.appendChild(heading);
+      document.body.appendChild(container);
+
+      expect(
+        classUnderTest.getElement(
+          classUnderTest.idSelector(
+            'cx--1--CONTAINER_ROW@1067@c036a9e2-ovGroup'
+          ) + ' h2'
+        )
+      ).toEqual(heading);
+
+      document.body.removeChild(container);
+    });
+  });
+
   describe('changeStyling', () => {
     it('should change styling of HTML element', () => {
       const theElement = document.createElement('elementMock');
@@ -579,6 +643,51 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
       classUnderTest.changeStyling('elementMock', 'position', 'sticky');
       expect(theElement.style.position).toEqual('sticky');
+    });
+  });
+
+  describe('changeStylingOfElement', () => {
+    it('should change styling of HTML element', () => {
+      const theElement = document.createElement('elementMock');
+      classUnderTest.changeStylingOfElement(theElement, 'position', 'sticky');
+      expect(theElement.style.position).toEqual('sticky');
+    });
+
+    it('should not change styling when element is undefined', () => {
+      expect(() =>
+        classUnderTest.changeStylingOfElement(undefined, 'position', 'sticky')
+      ).not.toThrow();
+    });
+  });
+
+  describe('removeStylingOfElement', () => {
+    it('should remove styling of HTML element', () => {
+      const theElement = document.createElement('elementMock');
+      theElement.style.position = 'sticky';
+      classUnderTest.removeStylingOfElement(theElement, 'position');
+      expect(theElement.style.position).toBe('');
+    });
+  });
+
+  describe('getClosestElement', () => {
+    it('should return undefined when not in browser', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      const element = document.createElement('div');
+      expect(classUnderTest.getClosestElement(element, 'cx-page-slot')).toBe(
+        undefined
+      );
+    });
+
+    it('should return closest ancestor', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      const slot = document.createElement('cx-page-slot');
+      const child = document.createElement('div');
+      slot.appendChild(child);
+      document.body.appendChild(slot);
+      expect(classUnderTest.getClosestElement(child, 'cx-page-slot')).toBe(
+        slot
+      );
+      document.body.removeChild(slot);
     });
   });
 

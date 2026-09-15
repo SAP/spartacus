@@ -70,6 +70,10 @@ class MockConfigUtilsService {
   focusValue(): void {}
 
   scrollToConfigurationElement(): void {}
+
+  idSelector(id: string): string {
+    return '#' + id;
+  }
 }
 
 const configWithoutConflicts: Configurator.Configuration =

@@ -64,6 +64,7 @@ import { CpqConfiguratorPageLayoutHandler } from './cpq-configurator-page-layout
               'CpqConfigMenu',
               'CpqConfigContent',
               'CpqConfigOverviewBanner',
+              'CpqConfigOverviewMenu',
               'CpqConfigOverviewContent',
               'CpqConfigBottombar',
             ],
