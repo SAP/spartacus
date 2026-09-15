@@ -162,9 +162,9 @@ describe('LoginFormComponent', () => {
   });
 
   describe('a11yDeleteEntryButtonKeyboardAccessible - Email Input Autocomplete Accessibility', () => {
-    it('should have form with email control for login', () => {
+    it('should have form with userId control for login', () => {
       expect(component.form).toBeTruthy();
-      expect(component.form.get('email')).toBeTruthy();
+      expect(component.form.get('userId')).toBeTruthy();
     });
 
     it('should use feature toggle to manage email input autocomplete', () => {
@@ -179,7 +179,7 @@ describe('LoginFormComponent', () => {
     });
 
     it('should render email input with proper form control binding', () => {
-      component.form.get('email')?.setValue('test@example.com');
+      component.form.get('userId')?.setValue('test@example.com');
       fixture.detectChanges();
       const emailInput = el.query(By.css('input[type="email"]'));
       expect(emailInput.nativeElement.value).toBe('test@example.com');

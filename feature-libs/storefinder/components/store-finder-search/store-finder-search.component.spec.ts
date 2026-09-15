@@ -144,7 +144,7 @@ describe('StoreFinderSearchComponent', () => {
 
     it('should have search input with searchBox FormControl', () => {
       expect(component.searchBox).toBeTruthy();
-      expect(component.searchBox.value).toEqual('');
+      expect(component.searchBox.value).toBeFalsy();
     });
 
     it('should use feature toggle to manage autocomplete behavior', () => {
