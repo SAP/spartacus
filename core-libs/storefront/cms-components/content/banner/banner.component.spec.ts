@@ -361,7 +361,7 @@ describe('BannerComponent', () => {
         bannerComponent as any
       ).featureToggles.a11yOrgAdminTileArrowKeyNavigation = false;
       const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
-      const preventDefaultSpy = jest.spyOn(event, 'preventDefault');
+      const preventDefaultSpy = vi.spyOn(event, 'preventDefault');
       bannerComponent.onKeydown(event);
       expect(preventDefaultSpy).not.toHaveBeenCalled();
     });
@@ -371,7 +371,7 @@ describe('BannerComponent', () => {
         bannerComponent as any
       ).featureToggles.a11yOrgAdminTileArrowKeyNavigation = true;
       const event = new KeyboardEvent('keydown', { key: 'Enter' });
-      const preventDefaultSpy = jest.spyOn(event, 'preventDefault');
+      const preventDefaultSpy = vi.spyOn(event, 'preventDefault');
       bannerComponent.onKeydown(event);
       expect(preventDefaultSpy).not.toHaveBeenCalled();
     });
@@ -391,13 +391,13 @@ describe('BannerComponent', () => {
       parent.appendChild(sibling1);
       parent.appendChild(sibling2);
 
-      jest
+      vi
         .spyOn((bannerComponent as any).el, 'nativeElement', 'get')
         .mockReturnValue(sibling1);
 
-      const focusSpy = jest.spyOn(link2, 'focus');
+      const focusSpy = vi.spyOn(link2, 'focus');
       const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
-      jest.spyOn(event, 'preventDefault');
+      vi.spyOn(event, 'preventDefault');
       bannerComponent.onKeydown(event);
       expect(focusSpy).toHaveBeenCalled();
     });

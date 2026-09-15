@@ -64,7 +64,9 @@ export class BannerComponent {
 
   @HostListener('keydown', ['$event'])
   onKeydown(event: KeyboardEvent): void {
-    if (!this.featureToggles.a11yOrgAdminTileArrowKeyNavigation) return;
+    if (!this.featureToggles.a11yOrgAdminTileArrowKeyNavigation) {
+      return;
+    }
     if (
       event.key !== 'ArrowRight' &&
       event.key !== 'ArrowLeft' &&
@@ -74,16 +76,22 @@ export class BannerComponent {
       return;
     }
     const parent = this.el.nativeElement.parentElement;
-    if (!parent) return;
+    if (!parent) {
+      return;
+    }
     const siblings: HTMLElement[] = Array.from(
       parent.querySelectorAll('cx-banner')
     );
     const currentIndex = siblings.indexOf(this.el.nativeElement);
-    if (currentIndex === -1) return;
+    if (currentIndex === -1) {
+      return;
+    }
     const isForward =
       event.key === 'ArrowRight' || event.key === 'ArrowDown';
     const nextIndex = isForward ? currentIndex + 1 : currentIndex - 1;
-    if (nextIndex < 0 || nextIndex >= siblings.length) return;
+    if (nextIndex < 0 || nextIndex >= siblings.length) {
+      return;
+    }
     event.preventDefault();
     const focusTarget = siblings[nextIndex].querySelector<HTMLElement>(
       'a, button, [tabindex]'
