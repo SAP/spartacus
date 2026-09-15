@@ -13,6 +13,7 @@ Identify and fix accessibility issues sourced from Jira.
   `.claude/settings.json`). That file grants full permission to edit existing files
   and add new files (`Edit` and `Write`) so the fix flow runs without approval
   prompts.
+- `GH_PAT` environment variable is set  
 
 ## Steps
 
@@ -49,7 +50,9 @@ Identify and fix accessibility issues sourced from Jira.
   issue key, summary, status, priority, and component(s).
 
 ### 2. Execution
-- **2.1** Spawn one agent per Jira issue (at most one agent at a time).
+- **2.1** Spawn one agent per Jira issue (at most one agent at a time). Spawn each
+  agent with `isolation: "worktree"` so it works on an isolated copy of the repo in its
+  own git worktree.
 <!-- DISABLED — Jira write op. The connected `sap-jira` MCP server is read-only
      (no transition tool). Re-enable this step once a write-capable Jira MCP (or a
      REST token) is available.
