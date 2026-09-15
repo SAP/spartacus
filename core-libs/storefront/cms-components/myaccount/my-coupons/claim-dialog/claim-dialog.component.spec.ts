@@ -70,7 +70,9 @@ describe('ClaimDialogComponent', () => {
         { provide: RoutingService, useValue: routingService },
         { provide: GlobalMessageService, useValue: globalMessageService },
         { provide: TranslationService, useClass: MockTranslationService },
-        provideMockFeatureToggles({ a11yCouponDialogResetButtonKeyboardAccessible: false }),
+        provideMockFeatureToggles({
+          a11yCouponDialogResetButtonKeyboardAccessible: false,
+        }),
       ],
     })
       .overrideComponent(ClaimDialogComponent, {
@@ -173,13 +175,19 @@ describe('ClaimDialogComponent', () => {
 
     it('should provide a11yCouponDialogResetButtonKeyboardAccessible feature toggle', () => {
       // Verify feature toggle can be accessed and manipulated
-      featureTogglesController.set('a11yCouponDialogResetButtonKeyboardAccessible', false);
+      featureTogglesController.set(
+        'a11yCouponDialogResetButtonKeyboardAccessible',
+        false
+      );
       expect(component).toBeTruthy();
     });
 
     it('should support a11yCouponDialogResetButtonKeyboardAccessible toggle state', () => {
       // Verify toggle state can be changed
-      featureTogglesController.set('a11yCouponDialogResetButtonKeyboardAccessible', true);
+      featureTogglesController.set(
+        'a11yCouponDialogResetButtonKeyboardAccessible',
+        true
+      );
       expect(component).toBeTruthy();
     });
 
