@@ -65,19 +65,20 @@ Identify and fix accessibility issues sourced from Jira.
   - The feature toggle's default value is set to `false` in the file: `core-libs/core/src/features-config/feature-toggles/config/feature-toggles.ts`
   - The feature toggle's providers override the value to set it to `true` in our implementation of the storefront's file: `projects/storefrontapp/src/app/spartacus/spartacus-features.module.ts`
 
-  **Template changes** — gate markup with the `*cxFeature` directive. Example where a
-  label replaced a div:
+**Template changes** - gate markup with the `*cxFeature` directive. The old element gets the negated flag (visible by default while the flag is false); the new accessible element gets the positive flag (visible only when the flag is true). This way the fix is hidden in production until the toggle is turned on.
 
-```html
+Example where an inaccessible <div> is replaced by a <label>:
+
+<!-- Old element: rendered when flag is OFF (default) -->
 <div
   class="cx-my-coupons-form-group form-group cx-mycoupon-thead-mobile col-sm-12 col-md-4 col-lg-4"
-  *cxFeature="'showSortFieldsOnlyAtTop'"
+  *cxFeature="'!showSortFieldsOnlyAtTop'"
 ></div>
+<!-- New accessible element: rendered when flag is ON -->
 <label
   class="cx-my-coupons-form-group form-group cx-mycoupon-thead-mobile col-sm-12 col-md-4 col-lg-4"
-  *cxFeature="'!showSortFieldsOnlyAtTop'"
+  *cxFeature="'showSortFieldsOnlyAtTop'"
 >
-```
 
   **Style changes** — gate the new/changed SCSS rules with the `forFeature` mixin, and
   activate them from the owning component by calling `useFeatureStyles` (imported from
