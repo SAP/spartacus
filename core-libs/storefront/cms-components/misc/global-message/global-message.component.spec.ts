@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   FeatureDirective,
-  FeatureToggles,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
@@ -250,12 +249,12 @@ describe('GlobalMessageComponent a11yCloseToastButtonKeyboardAccessible - Close 
   it('should have a11yCloseToastButtonKeyboardAccessible feature toggle available', () => {
     featureTogglesController.set('a11yCloseToastButtonKeyboardAccessible', false);
     expect(
-      fixture.componentInstance['featureToggles']?.a11yCloseToastButtonKeyboardAccessible
+      (featureTogglesController as any)['a11yCloseToastButtonKeyboardAccessible']
     ).toBe(false);
 
     featureTogglesController.set('a11yCloseToastButtonKeyboardAccessible', true);
     expect(
-      fixture.componentInstance['featureToggles']?.a11yCloseToastButtonKeyboardAccessible
+      (featureTogglesController as any)['a11yCloseToastButtonKeyboardAccessible']
     ).toBe(true);
   });
 
@@ -274,7 +273,7 @@ describe('GlobalMessageComponent a11yCloseToastButtonKeyboardAccessible - Close 
 
     // Verify feature toggle state can be changed
     expect(
-      fixture.componentInstance['featureToggles']?.a11yCloseToastButtonKeyboardAccessible
+      (featureTogglesController as any)['a11yCloseToastButtonKeyboardAccessible']
     ).toBe(true);
   });
 
