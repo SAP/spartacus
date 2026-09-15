@@ -64,36 +64,7 @@ Identify and fix accessibility issues sourced from Jira.
   (e.g. `git rev-parse --abbrev-ref HEAD`) — so it can be restored in step 3.5. Then
   create a branch from current branch named `a11y/[issue-key]` (e.g. `a11y/CXSPA-1234`).
 
-- **2.3** Run a prior-art lookup for the issue. Identify the ACC standard number from
-  the Jira title or description (patterns: `ACC-NNN`, `ACC NNN`, `#ACC-NNN` — e.g.
-  `ACC-270`, `ACC 264.1`). If no ACC number is found, skip this step and proceed.
-  Otherwise run these two cheap, read-only checks:
-
-  - **Feature-toggle grep**
-
-    ```bash
-    grep -n "ACC[-\ ]NNN" core-libs/core/src/features-config/feature-toggles/config/feature-toggles.ts
-    ```
-
-    Hit → note the toggle name from the surrounding JSDoc and grep that toggle name
-    across `--include="*.ts" --include="*.html"` to find components already
-    implementing it. Use those as the pattern to follow (structure, naming, JSDoc format).
-
-  - **Git log grep**
-
-    ```bash
-    git log --oneline --grep="ACC[-\ ]NNN" origin/develop -10
-    ```
-
-    Hit → run `git show <hash> --stat` on the top result to find affected files and
-    use them as pattern references.
-
-  Log a one-line prior-art note before proceeding:
-
-  - Found: `CXSPA-NNNN (ACC-NNN): prior toggle a11yXxx at feature-toggles.ts:LLL; pattern in path/to/Component — reuse that structure.`
-  - Not found: `CXSPA-NNNN (ACC-NNN): no prior art — implement fresh.`
-
-- **2.4** Determine whether a feature toggle or feature directive is necessary with the
+- **2.3** Determine whether a feature toggle or feature directive is necessary with the
   following rule:
 
   - **Every change is protected behind a feature toggle** — this applies to both
@@ -157,10 +128,10 @@ Identify and fix accessibility issues sourced from Jira.
   `forFeature`, with `useFeatureStyles` called from the component that renders the
   affected element.
 
-- **2.5** Fix the issue using the Jira issue summary & description (fetch the full issue
+- **2.4** Fix the issue using the Jira issue summary & description (fetch the full issue
   details from the `sap-jira` MCP server when needed).
 
-- **2.6** Commit the code fix with the prefix: `fix:` and a short message that summarizes
+- **2.5** Commit the code fix with the prefix: `fix:` and a short message that summarizes
   what was fixed. Reference the issue key in the message (e.g. `fix: <summary> (CXSPA-1234)`).
 
 ### 3. Publish results
