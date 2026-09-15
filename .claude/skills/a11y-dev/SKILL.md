@@ -170,8 +170,9 @@ Identify and fix accessibility issues sourced from Jira.
 - **3.1** Push the branch to remote over HTTPS using the token, e.g.
   `git push "https://${GH_PAT}@github.com/SAP/spartacus.git" HEAD`.
 - **3.2** Create a PR with the GitHub CLI (`gh`) authenticated via the token —
-  `GH_TOKEN="$GH_PAT" GH_HOST=github.com gh pr create ...` — and output a short summary
-  of what was fixed in the PR description. Apply the skill /pr-body for the created PR.
+  `GH_TOKEN="$GH_PAT" GH_HOST=github.com gh pr create ...`. Do **not** hand-write the
+  description here. Then apply the skill /pr-body for the created PR — its output is the
+  **authoritative** PR body.
 
   <!-- DISABLED — Jira write op. The connected `sap-jira` MCP server is read-only
        (no add-comment tool). Re-enable this step once a write-capable Jira MCP (or a
