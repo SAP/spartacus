@@ -231,12 +231,14 @@ describe('ProductReviewsComponent in product', () => {
     it('should have a11yShowMoreReviewsFocusVisible feature toggle available', () => {
       featureTogglesController.set('a11yShowMoreReviewsFocusVisible', false);
       expect(
-        productReviewsComponent['featureToggles']?.a11yShowMoreReviewsFocusVisible
+        productReviewsComponent['featureToggles']
+          ?.a11yShowMoreReviewsFocusVisible
       ).toBe(false);
 
       featureTogglesController.set('a11yShowMoreReviewsFocusVisible', true);
       expect(
-        productReviewsComponent['featureToggles']?.a11yShowMoreReviewsFocusVisible
+        productReviewsComponent['featureToggles']
+          ?.a11yShowMoreReviewsFocusVisible
       ).toBe(true);
     });
 
