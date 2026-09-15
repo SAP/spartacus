@@ -87,7 +87,9 @@ describe('GlobalMessageComponent', () => {
       imports: [GlobalMessageComponent],
       providers: [
         { provide: GlobalMessageService, useClass: MockMessageService },
-        provideMockFeatureToggles({ a11yCloseToastButtonKeyboardAccessible: false }),
+        provideMockFeatureToggles({
+          a11yCloseToastButtonKeyboardAccessible: false,
+        }),
       ],
     })
       .overrideComponent(GlobalMessageComponent, {
@@ -233,8 +235,13 @@ describe('GlobalMessageComponent a11yCloseToastButtonKeyboardAccessible - Close 
     await TestBed.configureTestingModule({
       imports: [GlobalMessageComponent],
       providers: [
-        { provide: GlobalMessageService, useValue: { get: () => of(mockMessages), remove: vi.fn() } },
-        provideMockFeatureToggles({ a11yCloseToastButtonKeyboardAccessible: false }),
+        {
+          provide: GlobalMessageService,
+          useValue: { get: () => of(mockMessages), remove: vi.fn() },
+        },
+        provideMockFeatureToggles({
+          a11yCloseToastButtonKeyboardAccessible: false,
+        }),
       ],
     })
       .overrideComponent(GlobalMessageComponent, mockComponentOverride)
@@ -247,19 +254,32 @@ describe('GlobalMessageComponent a11yCloseToastButtonKeyboardAccessible - Close 
   });
 
   it('should have a11yCloseToastButtonKeyboardAccessible feature toggle available', () => {
-    featureTogglesController.set('a11yCloseToastButtonKeyboardAccessible', false);
+    featureTogglesController.set(
+      'a11yCloseToastButtonKeyboardAccessible',
+      false
+    );
     expect(
-      (featureTogglesController as any)['a11yCloseToastButtonKeyboardAccessible']
+      (featureTogglesController as any)[
+        'a11yCloseToastButtonKeyboardAccessible'
+      ]
     ).toBe(false);
 
-    featureTogglesController.set('a11yCloseToastButtonKeyboardAccessible', true);
+    featureTogglesController.set(
+      'a11yCloseToastButtonKeyboardAccessible',
+      true
+    );
     expect(
-      (featureTogglesController as any)['a11yCloseToastButtonKeyboardAccessible']
+      (featureTogglesController as any)[
+        'a11yCloseToastButtonKeyboardAccessible'
+      ]
     ).toBe(true);
   });
 
   it('should render close buttons with proper structure when toggle disabled (default)', () => {
-    featureTogglesController.set('a11yCloseToastButtonKeyboardAccessible', false);
+    featureTogglesController.set(
+      'a11yCloseToastButtonKeyboardAccessible',
+      false
+    );
     fixture.detectChanges();
 
     // Should have close buttons with title attribute
@@ -268,12 +288,17 @@ describe('GlobalMessageComponent a11yCloseToastButtonKeyboardAccessible - Close 
   });
 
   it('should support rendering accessible close buttons when toggle enabled', () => {
-    featureTogglesController.set('a11yCloseToastButtonKeyboardAccessible', true);
+    featureTogglesController.set(
+      'a11yCloseToastButtonKeyboardAccessible',
+      true
+    );
     fixture.detectChanges();
 
     // Verify feature toggle state can be changed
     expect(
-      (featureTogglesController as any)['a11yCloseToastButtonKeyboardAccessible']
+      (featureTogglesController as any)[
+        'a11yCloseToastButtonKeyboardAccessible'
+      ]
     ).toBe(true);
   });
 
