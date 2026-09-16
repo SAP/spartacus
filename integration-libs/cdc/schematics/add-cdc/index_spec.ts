@@ -3,13 +3,11 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import semver from 'semver';
 import {
   CDC_B2B_FEATURE_NAME,
   CDC_FEATURE_NAME,
   cdcFeatureModulePath,
   generateDefaultWorkspace,
-  LibraryOptions as SpartacusCdcOptions,
   ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
   ORGANIZATION_USER_REGISTRATION_FEATURE_NAME,
   organizationAdministrationWrapperModulePath,
@@ -18,12 +16,14 @@ import {
   SPARTACUS_CDC,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_USER,
+  LibraryOptions as SpartacusCdcOptions,
   USER_ACCOUNT_FEATURE_NAME,
   USER_PROFILE_FEATURE_NAME,
   userAccountWrapperModulePath,
   userProfileWrapperModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
+import semver from 'semver';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
@@ -141,7 +141,9 @@ describe('Spartacus CDC schematics: ng-add', () => {
           const minRequiredVersion =
             semver.minVersion(requiredVersion)?.version ?? '';
           expect(
-            semver.intersects(minRequiredVersion, installedVersion)
+            semver.intersects(minRequiredVersion, installedVersion, {
+              includePrerelease: true,
+            })
           ).toEqual(true);
         }
       });
