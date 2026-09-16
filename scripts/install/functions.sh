@@ -97,6 +97,11 @@ function create_shell_app {
     if [ "$(compareSemver "$ANGULAR_CLI_VERSION" "20.0.0")" -ge 0 ]; then
         EXTRA_ANGULAR_CLI_FLAGS="${EXTRA_ANGULAR_CLI_FLAGS} --zoneless=false --ai-config=none --file-name-style-guide=2016"
     fi
+    local CURRENT_NPM_VERSION
+    CURRENT_NPM_VERSION=$(npm --version)
+    if [ "$(compareSemver "$CURRENT_NPM_VERSION" "11.0.0")" -lt 0 ]; then
+        EXTRA_ANGULAR_CLI_FLAGS="${EXTRA_ANGULAR_CLI_FLAGS} --test-runner=karma"
+    fi
 
     if [ -n "${EXTRA_ANGULAR_CLI_FLAGS}" ]; then
         echo "Angular CLI version ${ANGULAR_CLI_VERSION} so applying extra flags to command 'ng new': ${EXTRA_ANGULAR_CLI_FLAGS}"
