@@ -20,7 +20,6 @@ import {
 } from '@spartacus/core';
 import { from, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { LogoutConfig } from './logout-config';
 
 /**
@@ -36,8 +35,7 @@ import { LogoutConfig } from './logout-config';
 export class LogoutGuard {
   protected config = inject(LogoutConfig);
   protected featureToggles = inject(FeatureToggles);
-  protected cmsPageGuard = inject(CmsPageGuard);
-
+  
   constructor(
     protected auth: AuthService,
     /** @deprecated */
