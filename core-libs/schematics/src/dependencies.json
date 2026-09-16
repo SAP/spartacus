@@ -522,7 +522,7 @@
     "@fortawesome/fontawesome-free": "7.1.0",
     "@ng-select/ng-select": "~21.1.4",
     "@ngrx/effects": "~21.0.1",
-    "@ngrx/operators": "^21.0.1",
+    "@ngrx/operators": "~21.0.1",
     "@ngrx/router-store": "~21.0.1",
     "@ngrx/store": "~21.0.1",
     "@types/applepayjs": "^14.0.9",
