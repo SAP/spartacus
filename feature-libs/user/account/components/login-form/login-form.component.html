@@ -21,6 +21,7 @@
       [attr.aria-label]="'loginForm.emailAddress.label' | cxTranslate"
       formControlName="userId"
       name="username"
+      [attr.autocomplete]="emailAutocomplete"
       [attr.aria-invalid]="
         form.get('userId')?.touched && form.get('userId')?.invalid
       "
