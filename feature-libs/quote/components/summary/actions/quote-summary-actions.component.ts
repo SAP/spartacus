@@ -80,7 +80,7 @@ export class QuoteSummaryActionsComponent
   protected readonly ACTION_BUTTONS_HEIGHT = 226;
   protected readonly AMOUNT_OF_ACTION_BUTTONS = 2;
   protected readonly BOTTOM = 'bottom';
-  private featureToggle = inject(FeatureToggles);
+  private featureToggles = inject(FeatureToggles);
 
   @HostListener('window:resize')
   handleResize(): void {
