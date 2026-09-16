@@ -73,9 +73,7 @@ export class LogoutGuard {
       map(() => {
         const redirectUrl = this.getRedirectUrl();
         const logoutUrl = this.router.parseUrl(
-          this.semanticPathService.get('logout') ?? '/logout' );
-        console.log('flo redirectUrl',redirectUrl.toString());
-        console.log('flo logoutUrl',logoutUrl.toString());
+          this.semanticPathService.get('logout') ?? '/logout');
         // If the configured redirect destination is the logout page itself, keep the user on the current route so the CMS logout page renders.
         if (redirectUrl.toString() === logoutUrl.toString()) {
           return true
