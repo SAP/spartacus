@@ -47,7 +47,7 @@ export class BannerComponent {
   @HostBinding('class') styleClasses: string | undefined;
 
   private featureToggles = inject(FeatureToggles);
-  private el = inject(ElementRef);
+  protected el = inject(ElementRef);
 
   data$: Observable<CmsBannerComponent> = this.component.data$.pipe(
     tap((data) => {
@@ -86,8 +86,7 @@ export class BannerComponent {
     if (currentIndex === -1) {
       return;
     }
-    const isForward =
-      event.key === 'ArrowRight' || event.key === 'ArrowDown';
+    const isForward = event.key === 'ArrowRight' || event.key === 'ArrowDown';
     const nextIndex = isForward ? currentIndex + 1 : currentIndex - 1;
     if (nextIndex < 0 || nextIndex >= siblings.length) {
       return;

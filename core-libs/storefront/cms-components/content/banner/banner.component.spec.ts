@@ -391,9 +391,11 @@ describe('BannerComponent', () => {
       parent.appendChild(sibling1);
       parent.appendChild(sibling2);
 
-      vi
-        .spyOn((bannerComponent as any).el, 'nativeElement', 'get')
-        .mockReturnValue(sibling1);
+      vi.spyOn(
+        (bannerComponent as any).el,
+        'nativeElement',
+        'get'
+      ).mockReturnValue(sibling1);
 
       const focusSpy = vi.spyOn(link2, 'focus');
       const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
