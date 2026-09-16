@@ -13,7 +13,6 @@ Identify and fix accessibility issues sourced from Jira.
   `.claude/settings.json`). That file grants full permission to edit existing files
   and add new files (`Edit` and `Write`) so the fix flow runs without approval
   prompts.
-- `GH_PAT` environment variable is set.
 
 ## Steps
 
@@ -50,9 +49,10 @@ Identify and fix accessibility issues sourced from Jira.
   issue key, summary, status, priority, and component(s).
 
 ### 2. Execution
-- **2.1** Spawn one agent per Jira issue (at most one agent at a time). Spawn each
-  agent with `isolation: "worktree"` so it works on an isolated copy of the repo in its
-  own git worktree.
+- **2.1** Spawn one agent per Jira issue, in parallel. Spawn each agent with
+  `isolation: "worktree"` so it works on an isolated copy of the repo in its own git
+  worktree — this filesystem/branch isolation is what makes running them concurrently
+  safe (pushes target distinct `a11y/[issue-key]` branches, so they never collide).
 
   <!-- DISABLED — Jira write op. The connected `sap-jira` MCP server is read-only
        (no transition tool). Re-enable this step once a write-capable Jira MCP (or a
@@ -60,9 +60,9 @@ Identify and fix accessibility issues sourced from Jira.
   - **2.1.1** Transition the Jira issue from **"TO DO"** to **"IN PROGRESS"** using the `sap-jira` MCP server.
   -->
 
-- **2.2** First capture the current branch — the branch the skill was executed on
-  (e.g. `git rev-parse --abbrev-ref HEAD`) — so it can be restored in step 3.5. Then
-  create a branch from current branch named `a11y/[issue-key]` (e.g. `a11y/CXSPA-1234`).
+- **2.2** Name the agent's working branch `a11y/[issue-key]` (e.g. `a11y/CXSPA-1234`).
+  The worktree is created from the current HEAD, so no base-branch capture is needed —
+  the orchestrator's branch is left untouched.
 
 - **2.3** Determine whether a feature toggle or feature directive is necessary with the
   following rule:
@@ -136,8 +136,8 @@ Identify and fix accessibility issues sourced from Jira.
 
 ### 3. Publish results
 - **Authentication** — all GitHub operations authenticate against `https://github.com`
-  using a personal access token read from the `GH_PAT` environment variable. Never hard-code
-  or print the token. If `GH_PAT` is unset, stop and surface this to the user.
+  using a personal access token read from the `GH_PAT` environment variable.If `GH_PAT`
+  is unset, stop and surface this to the user.
 - **3.1** Push the branch to remote over HTTPS using the token, e.g.
   `git push "https://${GH_PAT}@github.com/SAP/spartacus.git" HEAD`.
 - **3.2** Create a PR with the GitHub CLI (`gh`) authenticated via the token —
@@ -153,8 +153,16 @@ Identify and fix accessibility issues sourced from Jira.
     `sap-jira` MCP server.
   -->
 
-- **3.5** Checkout back to the branch the skill was executed on (the one captured in
-  step 2.2), **not** `develop`.
+- **3.5** Clean up the worktree — an **orchestrator** responsibility, performed only
+  **after** the agent has reported a successful push **and** PR creation (PR URL in
+  hand). The agent must **not** remove the worktree it is running inside. From the main
+  repo working directory, remove that issue's worktree with
+  `git worktree remove .claude/worktrees/<name>` (the `<name>` chosen when the agent was
+  spawned), then run `git worktree prune`. Because the branch's commits are on the remote
+  after the push, removing the local working directory loses nothing — this is routine
+  cleanup, **not** the kind of destructive deletion the autonomy rule guards against. If
+  the agent failed to push or create the PR, **do not** remove its worktree — leave it in
+  place so the work can be recovered and inspected.
 
 ### 4. Report token consumption & cost
 - **4.1** After all issues have been processed, share a summary of the token

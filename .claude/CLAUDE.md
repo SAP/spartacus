@@ -36,4 +36,5 @@ nx run <library-name>:test --include="**/<spec-filename>" # Specific test file
 
 ## Accessibility standards
 When implementing accessibility-related changes, follow the SAP accessibility
-standards documented https://pages.github.tools.sap/product-standards/portal/docs/requirements/Accessibility/
+standards documented https://pages.github.tools.sap/product-standards/portal/docs/requirements/Accessibility/.
+This page contains links for the different accessiblity standards. Navigate to those when working on one.
