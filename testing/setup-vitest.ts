@@ -7,7 +7,7 @@
 import 'zone.js';
 import 'zone.js/testing';
 import '@angular/compiler';
-import { TestBed, getTestBed } from '@angular/core/testing';
+import { getTestBed } from '@angular/core/testing';
 import {
   BrowserTestingModule,
   platformBrowserTesting,
