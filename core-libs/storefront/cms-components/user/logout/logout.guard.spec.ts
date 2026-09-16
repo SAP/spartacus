@@ -10,6 +10,7 @@ import {
   SemanticPathService,
 } from '@spartacus/core';
 import { Observable, firstValueFrom, of } from 'rxjs';
+import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { LogoutConfig } from './logout-config';
 import { LogoutGuard } from './logout.guard';
 
@@ -28,6 +29,12 @@ class MockPageLayoutComponent {}
 class MockCmsService implements Partial<CmsService> {
   hasPage(): Observable<boolean> {
     return of(false);
+  }
+}
+
+class MockCmsPageGuard implements Partial<CmsPageGuard> {
+  canActivate() {
+    return of(true as const);
   }
 }
 
@@ -78,6 +85,7 @@ describe('LogoutGuard', () => {
         },
         { provide: AuthService, useClass: MockAuthService },
         { provide: CmsService, useClass: MockCmsService },
+        { provide: CmsPageGuard, useClass: MockCmsPageGuard },
         { provide: ProtectedRoutesService, useClass: MockProtectedRoutesService },
         { provide: FeatureToggles, useValue: mockFeatureToggles },
         { provide: LogoutConfig, useValue: {} },
