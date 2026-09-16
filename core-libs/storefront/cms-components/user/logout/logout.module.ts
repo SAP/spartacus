@@ -22,7 +22,7 @@ import { LogoutGuard } from './logout.guard';
       {
         // @ts-ignore
         path: null,
-        canActivate: [LogoutGuard,CmsPageGuard],
+        canActivate: [LogoutGuard, CmsPageGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'logout' },
       },
