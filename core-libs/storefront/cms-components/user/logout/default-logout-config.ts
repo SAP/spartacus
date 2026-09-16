@@ -8,6 +8,6 @@ import { LogoutConfig } from './logout-config';
 
 export const defaultLogoutConfig: LogoutConfig = {
   logout: {
-    redirectRoute: 'logout',
+    redirectRoute: 'home',
   },
 };

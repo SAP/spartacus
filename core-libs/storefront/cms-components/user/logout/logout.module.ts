@@ -7,6 +7,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { provideDefaultConfig } from '@spartacus/core';
+import { CmsPageGuard } from '@spartacus/storefront';
 import {
   PageLayoutComponent,
   PageLayoutModule,
@@ -21,7 +22,7 @@ import { LogoutGuard } from './logout.guard';
       {
         // @ts-ignore
         path: null,
-        canActivate: [LogoutGuard],
+        canActivate: [LogoutGuard,CmsPageGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'logout' },
       },
