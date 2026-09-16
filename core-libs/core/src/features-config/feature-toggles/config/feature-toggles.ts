@@ -832,6 +832,14 @@ export interface FeatureTogglesInterface {
    * `AddressFormComponent`, `UnitAddressFormService`
    */
   enableFormFieldMaxLength?: boolean;
+
+  /**
+   * When enabled, adds left/right arrow key navigation between pagination items,
+   * turning the pagination into a composite keyboard widget.
+   * Affects: PaginationComponent
+   * ACC-270.3
+   */
+  a11yPaginationKeyboardNavigation?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -931,4 +939,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNavigationChevronContrast: false,
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
+  a11yPaginationKeyboardNavigation: false,
 };
