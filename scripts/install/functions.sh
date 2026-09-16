@@ -331,6 +331,7 @@ function create_apps {
         printh "Installing csr app"
         create_shell_app ${CSR_APP_NAME}
         add_spartacus_csr ${CSR_APP_NAME} ${IS_NPM_INSTALL}
+        add_footer_version ${CSR_APP_NAME}
     fi
     if [ -z "${SSR_PORT}" ]; then
         echo "Skipping ssr app install (no port defined)"
@@ -338,6 +339,7 @@ function create_apps {
         printh "Installing ssr app"
         create_shell_app ${SSR_APP_NAME}
         add_spartacus_ssr ${SSR_APP_NAME} ${IS_NPM_INSTALL}
+        add_footer_version ${SSR_APP_NAME}
     fi
     if [ -z "${SSR_PWA_PORT}" ]; then
         echo "Skipping ssr with pwa app install (no port defined)"
@@ -345,6 +347,7 @@ function create_apps {
         printh "Installing ssr app (with pwa support)"
         create_shell_app ${SSR_PWA_APP_NAME}
         add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME} ${IS_NPM_INSTALL}
+        add_footer_version ${SSR_PWA_APP_NAME}
     fi
 }
 
@@ -1114,6 +1117,95 @@ sed_inplace() {
         sed -i '' "$@"
     else
         sed -i "$@"
+    fi
+}
+
+# Adds a footer version badge to a generated app.
+# It writes a standalone component that shows SPARTACUS_VERSION as a badge injected
+# into the footer outlet (no CMS content is touched), plus a module that provides the
+# outlet, and wires that module into the generated SpartacusConfigurationModule.
+# The version is baked in as a literal (the generated app uses a plain `ng build`).
+function add_footer_version {
+    local app_dir="${1}"
+    local app_path="${INSTALLATION_DIR}/${app_dir}/src/app"
+    local footer_dir="${app_path}/spartacus/version"
+    local config_module="${app_path}/spartacus/spartacus-configuration.module.ts"
+
+    printh "Adding footer version customization (version: ${SPARTACUS_VERSION}) for app: ${app_dir}"
+
+    if [[ ! -f "$config_module" ]]; then
+        echo "Skipping footer version: config module not found at $config_module"
+        return
+    fi
+
+    mkdir -p "$footer_dir"
+
+    # Component: a plain badge that shows the version in the footer, injected via
+    # the footer outlet so no CMS content is touched.
+    cat > "${footer_dir}/footer-version.component.ts" <<EOF
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+
+const SPARTACUS_VERSION = '${SPARTACUS_VERSION}';
+
+@Component({
+  selector: 'app-footer-version',
+  template: \`@if (version) {
+    <span class="app-footer-version">v{{ version }}</span>
+  }\`,
+  styles: [
+    \`
+      :host {
+        position: relative;
+      }
+      .app-footer-version {
+        background-color: var(--cx-color-medium);
+        border-radius: 8px;
+        padding: 3px 8px;
+        color: var(--cx-color-text);
+        position: absolute;
+      }
+    \`,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class FooterVersionComponent {
+  readonly version = SPARTACUS_VERSION;
+}
+EOF
+
+    # Module: injects the version badge into the footer outlet.
+    cat > "${footer_dir}/footer-version.module.ts" <<EOF
+import { NgModule } from '@angular/core';
+import { OutletPosition, provideOutlet } from '@spartacus/storefront';
+import { FooterVersionComponent } from './footer-version.component';
+
+@NgModule({
+  imports: [FooterVersionComponent],
+  providers: [
+    provideOutlet({
+      id: 'Footer',
+      position: OutletPosition.AFTER,
+      component: FooterVersionComponent,
+    }),
+  ],
+})
+export class FooterVersionModule {}
+EOF
+
+    # Wire FooterVersionModule into the generated SpartacusConfigurationModule.
+    if grep -q "FooterVersionModule" "$config_module"; then
+        echo "FooterVersionModule already wired in $config_module, skipping."
+        return
+    fi
+    # Add the import statement after the NgModule import line.
+    sed_inplace "s#\(import { NgModule } from '@angular/core';\)#\1\nimport { FooterVersionModule } from './version/footer-version.module';#" "$config_module"
+    # Add FooterVersionModule to the (possibly empty) imports array.
+    sed_inplace -E "s/imports:[[:space:]]*\[/imports: [FooterVersionModule,/" "$config_module"
+
+    if grep -q "FooterVersionModule" "$config_module"; then
+        echo "FooterVersionModule successfully wired in $config_module."
+    else
+        echo "Failed to wire FooterVersionModule in $config_module."
     fi
 }
 
