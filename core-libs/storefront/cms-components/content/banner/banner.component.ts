@@ -75,6 +75,10 @@ export class BannerComponent {
     ) {
       return;
     }
+    this.navigateSiblings(event);
+  }
+
+  protected navigateSiblings(event: KeyboardEvent): void {
     const parent = this.el.nativeElement.parentElement;
     if (!parent) {
       return;
