@@ -76,7 +76,6 @@ export class AutoFocusDirective
       }
       this.handleFocus();
     }
-    super.ngOnChanges(changes);
   }
 
   /**
