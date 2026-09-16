@@ -240,7 +240,7 @@ describe('RegisterComponent', () => {
         },
         {
           provide: FeatureToggles,
-          useValue: {...featureToggles},
+          useValue: { ...featureToggles },
         },
       ],
     })

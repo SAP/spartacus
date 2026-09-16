@@ -216,7 +216,9 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should read order list', async () => {
-    let orders: OrderHistoryList | undefined = await firstValueFrom(component.orders$);
+    let orders: OrderHistoryList | undefined = await firstValueFrom(
+      component.orders$
+    );
     expect(orders).toEqual(mockOrders);
   });
 

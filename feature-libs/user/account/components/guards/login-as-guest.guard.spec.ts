@@ -10,7 +10,10 @@ import {
 } from '@spartacus/core';
 import { IS_GUEST_USER_CHECKOUT_KEY } from '@spartacus/storefront';
 import { LoginAsGuestGuard } from './login-as-guest.guard';
-import { MockFeatureTogglesController, provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { firstValueFrom } from 'rxjs';
 
 const mockWindowRef = {

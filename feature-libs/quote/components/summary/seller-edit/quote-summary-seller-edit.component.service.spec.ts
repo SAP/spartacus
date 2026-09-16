@@ -22,16 +22,15 @@ class MockLanguageService {
 }
 const maximumDecimalsForPercentageDiscount = 10;
 
-
 describe('QuoteSummarySellerEditComponentService', () => {
   let classUnderTest: QuoteSummarySellerEditComponentService;
   let quote: Quote;
   let quoteUIConfig: QuoteUIConfig = {
     quote: {
-      maximumDecimalsForPercentageDiscount: maximumDecimalsForPercentageDiscount,
+      maximumDecimalsForPercentageDiscount:
+        maximumDecimalsForPercentageDiscount,
     },
   };
-
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -55,7 +54,8 @@ describe('QuoteSummarySellerEditComponentService', () => {
     };
 
     quoteUIConfig.quote = {
-      maximumDecimalsForPercentageDiscount: maximumDecimalsForPercentageDiscount,
+      maximumDecimalsForPercentageDiscount:
+        maximumDecimalsForPercentageDiscount,
     };
   });
 

@@ -94,7 +94,7 @@ describe('ReplenishmentOrderCancellationComponent', () => {
   });
 
   beforeEach(() => {
-    mockReplenishmentOrder$.next(mockReplenishmentOrder);//reset to prevent leakage between executions
+    mockReplenishmentOrder$.next(mockReplenishmentOrder); //reset to prevent leakage between executions
     fixture = TestBed.createComponent(ReplenishmentOrderCancellationComponent);
     replenishmentOrderHistoryFacade = TestBed.inject(
       ReplenishmentOrderHistoryFacade

@@ -227,8 +227,9 @@ describe('CartCouponComponent', () => {
       of(couponsSearchResult)
     );
     fixture.detectChanges();
-    const customerCoupon = el.queryAll(By.css('.cx-available-coupon .card button'))[0]
-      .nativeElement;
+    const customerCoupon = el.queryAll(
+      By.css('.cx-available-coupon .card button')
+    )[0].nativeElement;
     customerCoupon.click();
     fixture.detectChanges();
     expect(mockCartVoucherService.addVoucher).toHaveBeenCalled();

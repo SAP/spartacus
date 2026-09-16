@@ -25,7 +25,9 @@ import { DeliveryModeDatePickerComponent } from './delivery-mode-date-picker.com
 describe('DeliveryModeDatePickerComponent', () => {
   let component: DeliveryModeDatePickerComponent;
   let fixture: ComponentFixture<DeliveryModeDatePickerComponent>;
-  let requestedDelDateFacadeMock: { setRequestedDeliveryDate: ReturnType<typeof vi.fn> };
+  let requestedDelDateFacadeMock: {
+    setRequestedDeliveryDate: ReturnType<typeof vi.fn>;
+  };
 
   const mockedGlobalMessageService = {
     add: () => {},
@@ -41,8 +43,8 @@ describe('DeliveryModeDatePickerComponent', () => {
   };
 
   const mockOutletContextData = {
-    context:undefined,
-    context$: of()
+    context: undefined,
+    context$: of(),
   };
 
   beforeEach(async () => {

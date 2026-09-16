@@ -3,8 +3,6 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule, PaginationModel } from '@spartacus/core';
 import { StoreFinderPaginationDetailsComponent } from './store-finder-pagination-details.component';
 
-
-
 describe('StoreFinderPaginationDetailsComponent', () => {
   let component: StoreFinderPaginationDetailsComponent;
   let fixture: ComponentFixture<StoreFinderPaginationDetailsComponent>;
@@ -24,7 +22,7 @@ describe('StoreFinderPaginationDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderPaginationDetailsComponent);
     component = fixture.componentInstance;
-    component.pagination = {...mockPagination};
+    component.pagination = { ...mockPagination };
   });
 
   it('should create', () => {

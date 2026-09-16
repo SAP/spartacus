@@ -162,8 +162,8 @@ describe('CheckoutDeliveryModeComponent', () => {
         {
           provide: FeatureToggles,
           useValue: {
-            a11yDeliveryModeFocusPreservation: true
-          }
+            a11yDeliveryModeFocusPreservation: true,
+          },
         },
       ],
     })
@@ -201,7 +201,11 @@ describe('CheckoutDeliveryModeComponent', () => {
 
   beforeEach(() => {
     supportedDeliveryModes$.next([]);
-    selectedDeliveryModeState$.next({ loading: false, error: false, data: undefined });
+    selectedDeliveryModeState$.next({
+      loading: false,
+      error: false,
+      data: undefined,
+    });
     preferredDeliveryMode$.next('');
     hasPickupItems$.next(false);
     deliveryEntries$.next([{ orderCode: 'testEntry' }]);
@@ -310,7 +314,11 @@ describe('CheckoutDeliveryModeComponent', () => {
   });
 
   it('should return false for deliveryModeInvalid when a mode is selected', () => {
-    selectedDeliveryModeState$.next({ loading: false, error: false, data: mockDeliveryMode1 });
+    selectedDeliveryModeState$.next({
+      loading: false,
+      error: false,
+      data: mockDeliveryMode1,
+    });
     supportedDeliveryModes$.next(mockSupportedDeliveryModes);
     fixture.detectChanges();
 

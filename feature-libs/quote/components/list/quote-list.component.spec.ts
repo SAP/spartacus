@@ -687,7 +687,9 @@ describe('QuoteListComponent', () => {
     });
 
     it('should  render pagination', () => {
-      expect(component['isPaginationEnabled']({...mockPagination, totalPages: 3})).toBe(true);
+      expect(
+        component['isPaginationEnabled']({ ...mockPagination, totalPages: 3 })
+      ).toBe(true);
     });
   });
 

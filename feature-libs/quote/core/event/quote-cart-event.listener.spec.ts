@@ -103,7 +103,10 @@ describe('QuoteCartEventListener', () => {
 
   it('should unsubscribe on ngOnDestroy', () => {
     classUnderTest = TestBed.inject(QuoteCartEventListener);
-    const spyUnsubscribe = vi.spyOn(classUnderTest['subscription'], 'unsubscribe');
+    const spyUnsubscribe = vi.spyOn(
+      classUnderTest['subscription'],
+      'unsubscribe'
+    );
     classUnderTest.ngOnDestroy();
     expect(spyUnsubscribe).toHaveBeenCalled();
   });

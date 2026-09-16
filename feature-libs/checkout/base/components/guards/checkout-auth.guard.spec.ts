@@ -108,7 +108,6 @@ describe('CheckoutAuthGuard', () => {
   describe(', when user is NOT authorized,', () => {
     beforeEach(() => {
       authService.isUserLoggedIn = vi.fn().mockReturnValue(of(false));
-
     });
 
     describe('and cart does NOT have a user, ', () => {
@@ -128,8 +127,12 @@ describe('CheckoutAuthGuard', () => {
         });
 
         it('should return url to login and not set IS_GUEST_USER_CHECKOUT_KEY when guestCheckout feature disabled', async () => {
-          vi.spyOn(TestBed.inject(CheckoutConfigService), 'isGuestCheckout').mockReturnValueOnce(false);
-          let result: boolean | UrlTree | RedirectCommand | undefined = await firstValueFrom(checkoutGuard.canActivate());
+          vi.spyOn(
+            TestBed.inject(CheckoutConfigService),
+            'isGuestCheckout'
+          ).mockReturnValueOnce(false);
+          let result: boolean | UrlTree | RedirectCommand | undefined =
+            await firstValueFrom(checkoutGuard.canActivate());
           expect(result?.toString()).toEqual(`/login`);
           expect(windowRef.localStorage?.setItem).not.toHaveBeenCalled();
         });

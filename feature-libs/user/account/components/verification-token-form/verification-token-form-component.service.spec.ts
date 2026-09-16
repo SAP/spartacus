@@ -108,7 +108,7 @@ describe('VerificationTokenFormComponentService', () => {
         },
         {
           provide: WindowRef,
-          useClass: MockWinRef
+          useClass: MockWinRef,
         },
         provideMockFeatureToggles({ ...mockFeatureToggles }),
       ],

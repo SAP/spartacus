@@ -8,7 +8,13 @@ import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from '@spartacus/core/testing/mock-feature-toggles';
-import { BehaviorSubject, firstValueFrom, Observable, ReplaySubject, switchMap } from 'rxjs';
+import {
+  BehaviorSubject,
+  firstValueFrom,
+  Observable,
+  ReplaySubject,
+  switchMap,
+} from 'rxjs';
 import { CartValidationStateService } from './cart-validation-state.service';
 
 const mockData = [
@@ -85,10 +91,12 @@ describe('CartValidationStateService', () => {
     (service.cartValidationResult$ as ReplaySubject<CartModification[]>).next(
       mockData
     );
-    const result = await firstValueFrom(service['checkForValidationResultClear$'].pipe(switchMap(
-      () => service.cartValidationResult$
-    )));
-    expect(service["navigationIdCount"]).toEqual(5);
+    const result = await firstValueFrom(
+      service['checkForValidationResultClear$'].pipe(
+        switchMap(() => service.cartValidationResult$)
+      )
+    );
+    expect(service['navigationIdCount']).toEqual(5);
     expect(result?.length).toEqual(0);
   });
 

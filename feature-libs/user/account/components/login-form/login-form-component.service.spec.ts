@@ -455,7 +455,9 @@ describe('LoginFormComponentService', () => {
         it('should reset busy state to false on CSRF refresh failure', async () => {
           const form = createForm(userId, password, csrf);
           vi.spyOn(form, 'submit');
-          let busyValue: boolean | undefined = await firstValueFrom(service.isUpdating$);
+          let busyValue: boolean | undefined = await firstValueFrom(
+            service.isUpdating$
+          );
           service.login(form);
           expect(busyValue).toBe(false);
         });

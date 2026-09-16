@@ -119,7 +119,7 @@ describe('CheckoutAuthGuard', () => {
         // provideMockFeatureToggles({ ...mockFeatureToggles }),
         {
           provide: FeatureToggles,
-          useValue: mockFeatureToggles
+          useValue: mockFeatureToggles,
         },
         {
           provide: WindowRef,
@@ -165,7 +165,8 @@ describe('CheckoutAuthGuard', () => {
           vi.spyOn(checkoutConfigService, 'isGuestCheckout').mockReturnValue(
             true
           );
-          let result: boolean | UrlTree | RedirectCommand | undefined = await firstValueFrom(checkoutGuard.canActivate());
+          let result: boolean | UrlTree | RedirectCommand | undefined =
+            await firstValueFrom(checkoutGuard.canActivate());
 
           expect(result?.toString()).toEqual(`/login`);
           expect(windowRef.localStorage?.setItem).toHaveBeenCalledWith(
