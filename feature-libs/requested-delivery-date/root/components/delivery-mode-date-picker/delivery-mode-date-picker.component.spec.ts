@@ -236,14 +236,13 @@ describe('DeliveryModeDatePickerComponent', () => {
       component['requestedDelDateFacade'].setRequestedDeliveryDate
     ).toHaveBeenCalled();
 
-    const t = await firstValueFrom(
+    await firstValueFrom(
       component['requestedDelDateFacade'].setRequestedDeliveryDate(
         'current',
         '123',
         newRequestedRetrievalAt
       )
     );
-    console.log(t);
     expect(component['globalMessageService'].add).toHaveBeenCalledWith(
       { key: 'requestedDeliveryDate.successMessage' },
       GlobalMessageType.MSG_TYPE_INFO

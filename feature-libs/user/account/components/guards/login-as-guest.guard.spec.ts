@@ -70,8 +70,6 @@ describe('LoginAsGuestGuard', () => {
 
   describe('when authorizationCodeFlowByDefault feature flag is enabled', () => {
     it('should return url to login with `forced` query param when IS_GUEST_USER_CHECKOUT_KEY is set to true', async () => {
-      console.log(TestBed.inject(FeatureToggles).authorizationCodeFlowByDefault);
-      console.log(TestBed.inject(WindowRef).localStorage?.getItem(IS_GUEST_USER_CHECKOUT_KEY));
       const activationResult = await firstValueFrom(guard.canActivate());
       expect(activationResult.toString()).toBe('/loginForm?forced=true');
       expect(windowRef.localStorage?.getItem).toHaveBeenCalledWith(

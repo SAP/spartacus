@@ -24,6 +24,8 @@ export default defineConfig({
     },
   },
   test: {
+    clearMocks: true,
+    restoreMocks: true,
     pool: 'forks',
     watch: false,
     globals: true,
