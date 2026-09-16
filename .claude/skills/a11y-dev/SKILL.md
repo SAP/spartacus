@@ -136,8 +136,9 @@ Identify and fix accessibility issues sourced from Jira.
 
 ### 3. Publish results
 - **Authentication** — all GitHub operations authenticate against `https://github.com`
-  using a personal access token read from the `GH_PAT` environment variable.If `GH_PAT`
-  is unset, stop and surface this to the user.
+  using a personal access token read from the `GH_PAT` environment variable. Assume
+  `GH_PAT` is always set in the environment; use it directly without checking whether it
+  is present.
 - **3.1** Push the branch to remote over HTTPS using the token, e.g.
   `git push "https://${GH_PAT}@github.com/SAP/spartacus.git" HEAD`.
 - **3.2** Create a PR with the GitHub CLI (`gh`) authenticated via the token —
