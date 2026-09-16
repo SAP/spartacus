@@ -85,6 +85,7 @@ describe('AsmCustomer360ProductListingComponent', () => {
   }
 
   beforeEach(async () => {
+    breakpointSubject.next(BREAKPOINT.xl);
     await TestBed.configureTestingModule({
       imports: [
         AsmCustomer360ProductListingComponent,

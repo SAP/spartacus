@@ -74,6 +74,16 @@ describe('OccProductSearchPageNormalizer', () => {
   let normalizer: OccProductSearchPageNormalizer;
 
   beforeEach(() => {
+    mockPlpWithUselessFacets.facets = [
+      {
+        name: 'useless-facet',
+        values: [{ count: 2 }, { count: 2 }],
+      },
+      {
+        name: 'useful-facet',
+        values: [{ count: 1 }, { count: 2 }, { count: 1 }],
+      },
+    ] as Occ.Facet[];
     TestBed.configureTestingModule({
       providers: [
         {
