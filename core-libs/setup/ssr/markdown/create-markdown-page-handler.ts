@@ -47,7 +47,21 @@ export function createMarkdownPageHandler(
       skipUrls.some((url) => req.url.includes(url))
     );
     if (isSkipped) {
-      next();
+      // A skipped URL has no Markdown representation, but the response still
+      // depends on Accept (HTML for browsers vs 406 for Markdown-only clients),
+      // so shared/downstream caches must key on it.
+      res.vary('Accept');
+
+      // Browsers (and any client that accepts HTML) get the normal page.
+      if (req.accepts('html')) {
+        next();
+        return;
+      }
+
+      // A Markdown-only client (e.g. an agent) explicitly asked for a
+      // representation we won't produce here: signal it honestly with 406
+      // instead of silently returning HTML it didn't ask for.
+      res.status(406).end();
       return;
     }
 
