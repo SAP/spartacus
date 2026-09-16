@@ -295,9 +295,25 @@ export interface FeatureTogglesInterface {
    *
    * Set to `false` if you rely on custom focus listeners (e.g. addEventListener('focus', ...)) on elements
    * that contain or interact with the carousel, since preventing mousedown default can affect focus behavior.
-   * Affects: `CarouselComponent` (when preventNavigationFocus input is true, e.g. in SearchBoxComponent)
+   * Affects: `CarouselComponent` previous/next buttons (e.g. in SearchBoxComponent)
    */
   a11yCarouselPreventNavigationFocus?: boolean;
+
+  /**
+   * In `CarouselComponent`, indicator buttons (the slide dots) call `preventDefault()`
+   * on `mousedown`.
+   *
+   * Before: tapping an indicator (for example in Safari or iOS inside `SearchBoxComponent`)
+   * moved focus away from the search input and closed the search results.
+   * After: mousedown does not change focus, so the search overlay stays open and
+   * the indicator navigates on the first tap.
+   *
+   * This is separate from `a11yCarouselPreventNavigationFocus`, which only covers
+   * previous/next buttons.
+   *
+   * Affects: `CarouselComponent` (including when used by `SearchBoxComponent`)
+   */
+  a11yCarouselPreventIndicatorFocus?: boolean;
 
   /**
    * Sets the ng-select (readonly) input value from the selected option text,
@@ -786,6 +802,37 @@ export interface FeatureTogglesInterface {
   a11yNavigationChevronContrast?: boolean;
 
   /**
+   * When enabled, the requote button when clicked in the cancelled quote details page
+   * will show a warning message to the user that the quote-cart should have a minimum
+   * threshold value of items to be able to proceed with the requote process.
+   *
+   * Affects: `QuoteSummaryActionsComponent`
+   */
+  showWarningMessageOnRequoteButtonClick?: boolean;
+
+  /**
+   * Enables support for a dedicated oAuth callback page to be used for the
+   * Return URI in Authorization Code Flow.
+   *
+   * Requires feature flags `authorizationCodeFlowByDefault` and `asyncAuthConfigInitializer`
+   * to be enabled.
+   *
+   * 1. Add new route 'oAuthCallback' to the default `RoutingConfig`.
+   *
+   * 2. Define CMS Component for 'OauthCallbackComponent' using the `SpinnerComponent`.
+   *
+   * 3. Modify the AuthConfigInitializer's generation of Redirect URI.
+   *    The configured redirect URI will be modified depending on whether it is
+   *    relative or absolute.
+   *    - Relative URIs are interpreted as a custom oAuth callback path.  The
+   *      page origin will be used for the host, and base site will be added if
+   *      enabled before the custom path.
+   *    - Absolute URIs will be treated as the intended value.  The base site
+   *      will be appended to the path if enabled.
+   */
+  oauthCallbackPage?: boolean;
+
+  /**
    * When enabled, `Validators.maxLength` is applied to all text form fields
    * in address and registration forms, providing visible error feedback instead
    * of silently blocking input at the HTML level.
@@ -842,6 +889,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableB2BCostCenterSearch: true,
   enableB2BCustomerSearch: true,
   a11yCarouselPreventNavigationFocus: true,
+  a11yCarouselPreventIndicatorFocus: false,
   a11yNgSelectReadonlyInputValue: true,
   a11yPasswordVisibilityToggle: true,
   showOnlyActiveCurrencies: true,
@@ -898,6 +946,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   configuratorIssuesNotificationForConfigurableOnly: false,
   globalMessageCloseButtonPadding: false,
   a11yNavigationChevronContrast: false,
+  showWarningMessageOnRequoteButtonClick: false,
+  oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
   a11yCarouselItemArrowKeyNavigation: false,
 };
