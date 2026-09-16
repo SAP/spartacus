@@ -9,3 +9,4 @@ export * from './cms-features.service';
 export * from './cms-guards.service';
 export * from './cms-i18n.service';
 export * from './cms-routes.service';
+export * from './guards-composer';
