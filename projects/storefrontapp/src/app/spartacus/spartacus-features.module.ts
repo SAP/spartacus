@@ -392,6 +392,7 @@ if (environment.cpq) {
         a11yNavigationChevronContrast: true,
         oauthCallbackPage: true,
         enableFormFieldMaxLength: true,
+        a11yOrgAdminTileArrowKeyNavigation: true,
       };
       return appFeatureToggles;
     }),
