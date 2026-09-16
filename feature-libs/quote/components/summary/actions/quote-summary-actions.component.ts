@@ -217,10 +217,13 @@ export class QuoteSummaryActionsComponent
    * @returns true, only of the action shall be disabled
    */
   mustDisableAction(type: string, quote: Quote): boolean {
-    return (
-      (type === QuoteActionType.SUBMIT || (!!this.featureToggle.showWarningMessageOnRequoteButtonClick && type === QuoteActionType.REQUOTE)) &&
-      !this.isThresholdReached(quote)
-    );
+    if (this.featureToggle.showWarningMessageOnRequoteButtonClick) {
+      return (
+        (type === QuoteActionType.SUBMIT || type === QuoteActionType.REQUOTE) &&
+        !this.isThresholdReached(quote)
+      );
+    }
+    return type === QuoteActionType.SUBMIT && !this.isThresholdReached(quote);
   }
 
   protected isThresholdReached(quote: Quote): boolean {
