@@ -74,6 +74,15 @@
     />
   </ng-container>
 
+  <ng-container *cxFeature="'concurrentLoginPagesSupport'">
+    <input
+      *ngIf="authReqId"
+      formControlName="auth_req_id"
+      type="hidden"
+      name="auth_req_id"
+    />
+  </ng-container>
+
   <a
     *ngIf="showResetPassword"
     [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl"
