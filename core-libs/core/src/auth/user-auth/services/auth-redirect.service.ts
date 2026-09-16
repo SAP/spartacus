@@ -13,11 +13,11 @@ import {
 } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, pairwise, startWith, take } from 'rxjs/operators';
+import { FeatureToggles } from '../../../features-config';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { SiteContextUrlSerializer } from '../../../site-context/services/site-context-url-serializer';
 import { AuthFlowRoutesService } from './auth-flow-routes.service';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
-import { FeatureToggles } from '../../../features-config';
 /**
  * Responsible for saving last accessed page (or attempted) before login and for redirecting to that page after login.
  */
@@ -97,7 +97,7 @@ export class AuthRedirectService implements OnDestroy {
    * the url is a part of the user login flow.
    */
   saveCurrentNavigationUrl(): void {
-    const navigation = this.router.getCurrentNavigation();
+    const navigation = this.router.currentNavigation();
     if (!navigation?.finalUrl) {
       return;
     }
