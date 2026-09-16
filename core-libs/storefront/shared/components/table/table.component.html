@@ -28,7 +28,9 @@
       </tbody>
     </ng-container>
     <!-- NEW: arrow key navigation added -->
-    <ng-container *ngFor="let item of data; let rowIndex = index; trackBy: trackData">
+    <ng-container
+      *ngFor="let item of data; let rowIndex = index; trackBy: trackData"
+    >
       <tbody
         *cxFeature="'a11yTableKeyboardNavigation'"
         #tableRow
@@ -92,7 +94,9 @@
       </tr>
     </ng-container>
     <!-- NEW: arrow key navigation added -->
-    <ng-container *ngFor="let item of data; let rowIndex = index; trackBy: trackData">
+    <ng-container
+      *ngFor="let item of data; let rowIndex = index; trackBy: trackData"
+    >
       <tr
         *cxFeature="'a11yTableKeyboardNavigation'"
         #tableRow
@@ -139,7 +143,9 @@
         </td>
       </ng-container>
       <!-- NEW: arrow key navigation added -->
-      <ng-container *ngFor="let item of data; let rowIndex = index; trackBy: trackData">
+      <ng-container
+        *ngFor="let item of data; let rowIndex = index; trackBy: trackData"
+      >
         <td
           *cxFeature="'a11yTableKeyboardNavigation'"
           #tableRow

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, isDevMode } from '@angular/core';
+import { ChangeDetectionStrategy, ElementRef, isDevMode } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { OutletModule } from '../../../cms-structure';
@@ -349,5 +349,156 @@ describe('TableComponent', () => {
         expect(table.classList).toContain('horizontal');
       });
     });
+  });
+});
+
+describe('TableComponent with a11yTableKeyboardNavigation disabled (default)', () => {
+  let fixture: ComponentFixture<TableComponent<any>>;
+  let tableComponent: TableComponent<any>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [OutletModule, TableComponent],
+      providers: [
+        { provide: TableRendererService, useClass: MockTableRendererService },
+        provideMockFeatureToggles({ a11yTableKeyboardNavigation: false }),
+      ],
+    })
+      .overrideComponent(TableComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+
+    fixture = TestBed.createComponent(TableComponent);
+    tableComponent = fixture.componentInstance;
+    tableComponent.structure = mockDataset.structure;
+    tableComponent.data = mockDataset.data;
+  });
+
+  it('should not prevent default on ArrowDown when toggle is disabled', () => {
+    const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    const preventDefaultSpy = vi.spyOn(event, 'preventDefault');
+    tableComponent.onRowKeydown(event, 0);
+    expect(preventDefaultSpy).not.toHaveBeenCalled();
+  });
+
+  it('should not prevent default on ArrowUp when toggle is disabled', () => {
+    const event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+    const preventDefaultSpy = vi.spyOn(event, 'preventDefault');
+    tableComponent.onRowKeydown(event, 1);
+    expect(preventDefaultSpy).not.toHaveBeenCalled();
+  });
+});
+
+describe('TableComponent with a11yTableKeyboardNavigation enabled', () => {
+  let fixture: ComponentFixture<TableComponent<any>>;
+  let tableComponent: TableComponent<any>;
+  let featureToggles: FeatureToggles;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [OutletModule, TableComponent],
+      providers: [
+        { provide: TableRendererService, useClass: MockTableRendererService },
+        provideMockFeatureToggles({ a11yTableKeyboardNavigation: false }),
+      ],
+    })
+      .overrideComponent(TableComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  });
+
+  beforeEach(() => {
+    featureToggles = TestBed.inject(FeatureToggles);
+    featureToggles.a11yTableKeyboardNavigation = true;
+
+    fixture = TestBed.createComponent(TableComponent);
+    tableComponent = fixture.componentInstance;
+    tableComponent.structure = mockDataset.structure;
+    tableComponent.data = mockDataset.data;
+    fixture.detectChanges();
+  });
+
+  it('should prevent default and focus next row on ArrowDown', () => {
+    const mockRows = [
+      {
+        nativeElement: { focus: vi.fn() },
+      } as unknown as ElementRef<HTMLElement>,
+      {
+        nativeElement: { focus: vi.fn() },
+      } as unknown as ElementRef<HTMLElement>,
+      {
+        nativeElement: { focus: vi.fn() },
+      } as unknown as ElementRef<HTMLElement>,
+    ];
+    vi.spyOn(tableComponent.tableRows, 'toArray').mockReturnValue(mockRows);
+
+    const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    const preventDefaultSpy = vi.spyOn(event, 'preventDefault');
+
+    tableComponent.onRowKeydown(event, 0);
+
+    expect(preventDefaultSpy).toHaveBeenCalled();
+    expect(mockRows[1].nativeElement.focus).toHaveBeenCalled();
+  });
+
+  it('should prevent default and focus previous row on ArrowUp', () => {
+    const mockRows = [
+      {
+        nativeElement: { focus: vi.fn() },
+      } as unknown as ElementRef<HTMLElement>,
+      {
+        nativeElement: { focus: vi.fn() },
+      } as unknown as ElementRef<HTMLElement>,
+      {
+        nativeElement: { focus: vi.fn() },
+      } as unknown as ElementRef<HTMLElement>,
+    ];
+    vi.spyOn(tableComponent.tableRows, 'toArray').mockReturnValue(mockRows);
+
+    const event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+    const preventDefaultSpy = vi.spyOn(event, 'preventDefault');
+
+    tableComponent.onRowKeydown(event, 2);
+
+    expect(preventDefaultSpy).toHaveBeenCalled();
+    expect(mockRows[1].nativeElement.focus).toHaveBeenCalled();
+  });
+
+  it('should not focus beyond the last row on ArrowDown', () => {
+    const mockRows = [
+      {
+        nativeElement: { focus: vi.fn() },
+      } as unknown as ElementRef<HTMLElement>,
+      {
+        nativeElement: { focus: vi.fn() },
+      } as unknown as ElementRef<HTMLElement>,
+    ];
+    vi.spyOn(tableComponent.tableRows, 'toArray').mockReturnValue(mockRows);
+
+    const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    tableComponent.onRowKeydown(event, 1);
+
+    expect(mockRows[0].nativeElement.focus).not.toHaveBeenCalled();
+    expect(mockRows[1].nativeElement.focus).not.toHaveBeenCalled();
+  });
+
+  it('should not focus before the first row on ArrowUp', () => {
+    const mockRows = [
+      {
+        nativeElement: { focus: vi.fn() },
+      } as unknown as ElementRef<HTMLElement>,
+      {
+        nativeElement: { focus: vi.fn() },
+      } as unknown as ElementRef<HTMLElement>,
+    ];
+    vi.spyOn(tableComponent.tableRows, 'toArray').mockReturnValue(mockRows);
+
+    const event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+    tableComponent.onRowKeydown(event, 0);
+
+    expect(mockRows[0].nativeElement.focus).not.toHaveBeenCalled();
+    expect(mockRows[1].nativeElement.focus).not.toHaveBeenCalled();
   });
 });

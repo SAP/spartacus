@@ -113,7 +113,9 @@ export class TableComponent<T> {
   }
 
   onRowKeydown(event: KeyboardEvent, index: number): void {
-    if (!this.featureToggles.a11yTableKeyboardNavigation) return;
+    if (!this.featureToggles.a11yTableKeyboardNavigation) {
+      return;
+    }
     const rows = this.tableRows.toArray();
     if (event.key === 'ArrowDown' && index < rows.length - 1) {
       event.preventDefault();
