@@ -14,7 +14,7 @@ const BACKEND_BASE_URL: string = process.env.CX_BASE_URL || '';
 
 jest.setTimeout(SsrUtils.DEFAULT_SSR_TIMEOUT);
 
-describe('Markdown SSR (Accept: text/markdown)', () => {
+describe('Markdown SSR (Accept: text/markdown) (CXSPA-13864)', () => {
   let backendProxy: Server;
   // A CMS content page that is less "busy" than the homepage, matching the
   // existing ssr-testing.spec.ts convention. It reliably renders a <main>,
@@ -100,6 +100,30 @@ describe('Markdown SSR (Accept: text/markdown)', () => {
       expect(response.headers['content-type']).toContain('text/html');
       expect(response.headers['content-type']).not.toContain('text/markdown');
     });
+
+    // Happy-path smoke tests for a variety of page types.
+    // Each asserts the minimum: 200 + text/markdown content-type.
+    it.each([
+      ['homepage', '/'],
+      ['FAQ page', '/faq'],
+      ['store finder', '/store-finder'],
+    ])(
+      'returns Markdown for %s (%s)',
+      async (_label: string, path: string) => {
+        backendProxy = await ProxyUtils.startBackendProxyServer({
+          target: BACKEND_BASE_URL,
+        });
+
+        const response = await HttpUtils.sendRequestToSsrServer({
+          path,
+          headers: { Accept: 'text/markdown' },
+        });
+
+        expect(response.statusCode).toEqual(200);
+        expect(response.headers['content-type']).toContain('text/markdown');
+        expect(response.body).toContain('## Page');
+      }
+    );
 
     // AC5 — excluded URLs (default skipUrls) are never converted.
     it('does not convert excluded URLs even with Accept: text/markdown', async () => {
