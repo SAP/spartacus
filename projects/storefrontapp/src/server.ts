@@ -13,6 +13,7 @@ import {
   ngExpressEngine as engine,
   getOriginValidationMiddleware,
 } from '@spartacus/setup/ssr';
+import { createMarkdownPageHandler } from '@spartacus/setup/ssr/markdown';
 import express from 'express';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -47,6 +48,11 @@ export function app(): express.Express {
       allowedOrigins: process.env['SSR_ALLOWED_ORIGINS'],
     })
   );
+
+  // Smoke-test wiring for CXSPA-13864: serve Markdown when the client
+  // negotiates `Accept: text/markdown`. Registered before express.static and
+  // the Angular catch-all so it can patch res.send on qualifying requests.
+  server.use(createMarkdownPageHandler());
 
   server.engine(
     'html',

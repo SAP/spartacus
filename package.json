@@ -194,6 +194,7 @@
     "ngx-infinite-scroll": "^21.0.0",
     "rxjs": "^7.8.0",
     "tslib": "^2.8.1",
+    "turndown": "^7.2.0",
     "zone.js": "^0.16.0"
   },
   "devDependencies": {
@@ -231,6 +232,7 @@
     "@types/node": "^22.19.1",
     "@types/semver": "7.7.1",
     "@types/shelljs": "^0.10.0",
+    "@types/turndown": "^5.0.5",
     "@typescript-eslint/utils": "^8.40.0",
     "@vitest/coverage-v8": "^4.1.10",
     "angular-eslint": "^21.1.0",
