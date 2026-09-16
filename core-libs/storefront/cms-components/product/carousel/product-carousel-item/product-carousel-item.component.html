@@ -1,4 +1,8 @@
-<a *cxFeature="'!a11yCarouselItemArrowKeyNavigation'" tabindex="0" [routerLink]="{ cxRoute: 'product', params: item } | cxUrl">
+<a
+  *cxFeature="'!a11yCarouselItemArrowKeyNavigation'"
+  tabindex="0"
+  [routerLink]="{ cxRoute: 'product', params: item } | cxUrl"
+>
   <ng-container *cxLcpContext="let lcpContext">
     <cx-media
       [container]="item.images?.PRIMARY"
@@ -16,7 +20,12 @@
     {{ item.price?.formattedValue }}
   </div>
 </a>
-<a *cxFeature="'a11yCarouselItemArrowKeyNavigation'" cxFocusableCarouselItem tabindex="0" [routerLink]="{ cxRoute: 'product', params: item } | cxUrl">
+<a
+  *cxFeature="'a11yCarouselItemArrowKeyNavigation'"
+  cxFocusableCarouselItem
+  tabindex="0"
+  [routerLink]="{ cxRoute: 'product', params: item } | cxUrl"
+>
   <ng-container *cxLcpContext="let lcpContext">
     <cx-media
       [container]="item.images?.PRIMARY"
