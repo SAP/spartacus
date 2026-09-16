@@ -12,9 +12,8 @@
 # (JSON array locally, newline plaintext on non-TTY CI runners).
 shard_show_projects() {
     local target="$1" aff="${2:-}" raw rc arr
-    raw=$(npx nx show projects $aff --with-target="$target" --json 2>&1)
-    rc=$?
-    if [[ $rc -ne 0 ]]; then
+    if ! raw=$(npx nx show projects $aff --with-target="$target" --json 2>&1); then
+        rc=$?
         echo "ERROR: 'nx show projects $aff --with-target=$target --json' failed (exit $rc):" >&2
         printf '%s\n' "$raw" >&2
         exit "$rc"
