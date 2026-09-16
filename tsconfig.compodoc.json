@@ -32,6 +32,9 @@
       "@spartacus/setup/ssr": [
         "core-libs/setup/ssr/public_api"
       ],
+      "@spartacus/setup/ssr/markdown": [
+        "core-libs/setup/ssr/markdown/index"
+      ],
       "@spartacus/core": [
         "core-libs/core/public_api"
       ],

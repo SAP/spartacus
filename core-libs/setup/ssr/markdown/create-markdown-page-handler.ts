@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { RequestHandler, Response } from 'express';
-import { defaultRenderingStrategyResolverOptions } from '../optimized-engine/rendering-strategy-resolver-options';
+import { defaultRenderingStrategyResolverOptions } from '@spartacus/setup/ssr';
 import {
   createDefaultParser,
   defaultConverter,

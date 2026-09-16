@@ -8,12 +8,12 @@ import { APP_BASE_HREF } from '@angular/common';
 import {
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
-  createMarkdownPageHandler,
   defaultExpressErrorHandlers,
   defaultSsrOptimizationOptions,
   ngExpressEngine as engine,
   getOriginValidationMiddleware,
 } from '@spartacus/setup/ssr';
+import { createMarkdownPageHandler } from '@spartacus/setup/ssr/markdown';
 import express from 'express';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
