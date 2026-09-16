@@ -107,36 +107,60 @@ describe('Markdown SSR (Accept: text/markdown) (CXSPA-13864)', () => {
       ['homepage', '/'],
       ['FAQ page', '/faq'],
       ['store finder', '/store-finder'],
-    ])(
-      'returns Markdown for %s (%s)',
-      async (_label: string, path: string) => {
-        backendProxy = await ProxyUtils.startBackendProxyServer({
-          target: BACKEND_BASE_URL,
-        });
+    ])('returns Markdown for %s (%s)', async (_label: string, path: string) => {
+      backendProxy = await ProxyUtils.startBackendProxyServer({
+        target: BACKEND_BASE_URL,
+      });
 
-        const response = await HttpUtils.sendRequestToSsrServer({
-          path,
-          headers: { Accept: 'text/markdown' },
-        });
+      const response = await HttpUtils.sendRequestToSsrServer({
+        path,
+        headers: { Accept: 'text/markdown' },
+      });
 
-        expect(response.statusCode).toEqual(200);
-        expect(response.headers['content-type']).toContain('text/markdown');
-        expect(response.body).toContain('## Page');
-      }
-    );
+      expect(response.statusCode).toEqual(200);
+      expect(response.headers['content-type']).toContain('text/markdown');
+      expect(response.body).toContain('## Page');
+    });
 
     // AC5 — excluded URLs (default skipUrls) are never converted.
-    it('does not convert excluded URLs even with Accept: text/markdown', async () => {
+    it('returns 406 for a Markdown-only client on an excluded URL', async () => {
       backendProxy = await ProxyUtils.startBackendProxyServer({
         target: BACKEND_BASE_URL,
       });
 
       // '/my-account/...' matches the default skipUrls entry 'my-account'.
+      // A Markdown-only client cannot be served here, so the server must say
+      // so (406 Not Acceptable) rather than silently returning HTML.
       const response = await HttpUtils.sendRequestToSsrServer({
         path: '/my-account/address-book',
         headers: { Accept: 'text/markdown' },
       });
 
+      expect(response.statusCode).toEqual(406);
+      // A 406 ends with no body, so no Content-Type is emitted. Tolerate the
+      // absent header while still catching an accidental Markdown response.
+      expect(response.headers['content-type']).not.toEqual(
+        expect.stringContaining('text/markdown')
+      );
+    });
+
+    it('serves HTML (not 406) for a browser on an excluded URL', async () => {
+      backendProxy = await ProxyUtils.startBackendProxyServer({
+        target: BACKEND_BASE_URL,
+      });
+
+      // A browser accepts HTML, so an excluded URL must still return the page
+      // (never 406), even though its Accept header also carries a wildcard.
+      const response = await HttpUtils.sendRequestToSsrServer({
+        path: '/my-account/address-book',
+        headers: {
+          Accept:
+            'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        },
+      });
+
+      expect(response.statusCode).toEqual(200);
+      expect(response.headers['content-type']).toContain('text/html');
       expect(response.headers['content-type']).not.toContain('text/markdown');
     });
   });

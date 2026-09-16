@@ -22,6 +22,8 @@ function mockRes(): Response {
     send: jest.fn().mockImplementation(() => res),
     setHeader: jest.fn(),
     vary: jest.fn(),
+    status: jest.fn().mockImplementation(() => res),
+    end: jest.fn().mockImplementation(() => res),
   };
   return res as unknown as Response;
 }
@@ -240,8 +242,44 @@ describe('createMarkdownPageHandler', () => {
     createMarkdownPageHandler({ skipUrls: ['checkout'] })(req, res, next);
     expect(next).toHaveBeenCalled();
     expect(res.send).toBe(originalSend);
-    // Skipped URLs never reach markdown handling, so no Vary is added.
-    expect(res.vary).not.toHaveBeenCalled();
+    // The skipped response depends on Accept (HTML pass-through vs 406), so it
+    // must still advertise Vary: Accept for shared caches.
+    expect(res.vary).toHaveBeenCalledWith('Accept');
+  });
+
+  it('returns 406 for a markdown-only client on a skipped URL', () => {
+    const res = mockRes();
+    const originalSend = res.send;
+    const req = {
+      url: '/my-account/address-book',
+      // markdown-only agent: does not accept HTML.
+      accepts: jest.fn((type: string | string[]) =>
+        type === 'html' ? false : 'text/markdown'
+      ),
+    } as unknown as Request;
+    createMarkdownPageHandler({ skipUrls: ['my-account'] })(req, res, next);
+    expect(res.status).toHaveBeenCalledWith(406);
+    expect(res.end).toHaveBeenCalled();
+    expect(next).not.toHaveBeenCalled();
+    // No conversion is attempted: res.send stays untouched.
+    expect(res.send).toBe(originalSend);
+    expect(res.vary).toHaveBeenCalledWith('Accept');
+  });
+
+  it('passes through (HTML) for an html-accepting client on a skipped URL', () => {
+    const res = mockRes();
+    const originalSend = res.send;
+    const req = {
+      url: '/my-account/address-book',
+      // browser: accepts HTML (alongside its wildcard), so it gets the page.
+      accepts: jest.fn((type: string | string[]) =>
+        type === 'html' ? 'html' : 'text/markdown'
+      ),
+    } as unknown as Request;
+    createMarkdownPageHandler({ skipUrls: ['my-account'] })(req, res, next);
+    expect(next).toHaveBeenCalled();
+    expect(res.send).toBe(originalSend);
+    expect(res.status).not.toHaveBeenCalledWith(406);
   });
 
   it('converts normally when request URL does not match skipUrls', () => {
