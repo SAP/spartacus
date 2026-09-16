@@ -15,6 +15,11 @@ import {
   ItemCounterModule,
   StarRatingComponent,
 } from '../../../../shared/index';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { vi } from 'vitest';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductReviewsComponent } from './product-reviews.component';
 import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
@@ -71,6 +76,7 @@ describe('ProductReviewsComponent in product', () => {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
         },
+        provideMockFeatureToggles({ a11yShowMoreReviewsFocusVisible: false }),
       ],
     })
       .overrideComponent(ProductReviewsComponent, {
@@ -212,6 +218,50 @@ describe('ProductReviewsComponent in product', () => {
       productReviewsComponent.focusPreviousReview(event, 0);
 
       expect(items[0].nativeElement.focus).toHaveBeenCalled();
+    });
+  });
+
+  describe('a11yShowMoreReviewsFocusVisible - Show More Reviews Button Focus', () => {
+    let featureTogglesController: MockFeatureTogglesController;
+
+    beforeEach(() => {
+      featureTogglesController = TestBed.inject(MockFeatureTogglesController);
+    });
+
+    it('should have a11yShowMoreReviewsFocusVisible feature toggle available', () => {
+      featureTogglesController.set('a11yShowMoreReviewsFocusVisible', false);
+      expect(
+        productReviewsComponent['featureToggles']
+          ?.a11yShowMoreReviewsFocusVisible
+      ).toBe(false);
+
+      featureTogglesController.set('a11yShowMoreReviewsFocusVisible', true);
+      expect(
+        productReviewsComponent['featureToggles']
+          ?.a11yShowMoreReviewsFocusVisible
+      ).toBe(true);
+    });
+
+    it('should have showMoreLessButton ViewChild available for focus management', () => {
+      expect('showMoreLessButton' in productReviewsComponent).toBe(true);
+    });
+
+    it('should have maxListItems property for managing review list display', () => {
+      expect(productReviewsComponent.maxListItems).toBeDefined();
+      expect(typeof productReviewsComponent.maxListItems).toBe('number');
+    });
+
+    it('should have initialMaxListItems property set to 5 for default state', () => {
+      expect(productReviewsComponent.initialMaxListItems).toBe(5);
+    });
+
+    it('should support toggle state changes in tests', () => {
+      const toggle = productReviewsComponent['featureToggles'];
+      featureTogglesController.set('a11yShowMoreReviewsFocusVisible', false);
+      expect(toggle?.a11yShowMoreReviewsFocusVisible).toBe(false);
+
+      featureTogglesController.set('a11yShowMoreReviewsFocusVisible', true);
+      expect(toggle?.a11yShowMoreReviewsFocusVisible).toBe(true);
     });
   });
 });
