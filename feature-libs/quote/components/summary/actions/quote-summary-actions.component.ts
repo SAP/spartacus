@@ -255,20 +255,6 @@ export class QuoteSummaryActionsComponent
 
   protected performAction(action: QuoteActionType, quote: Quote) {
     if (action === QuoteActionType.REQUOTE) {
-      if (
-        this.featureToggle.showWarningMessageOnRequoteButtonClick &&
-        !this.isThresholdReached(quote)
-      ) {
-        this.globalMessageService.add(
-          {
-            key: 'quote.commons.minRequestInitiationNote',
-            params: {
-              minValue: quote.threshold,
-            },
-          },
-          GlobalMessageType.MSG_TYPE_WARNING
-        );
-      }
       this.requote(quote.code);
     } else {
       this.quoteFacade.performQuoteAction(quote, action);
