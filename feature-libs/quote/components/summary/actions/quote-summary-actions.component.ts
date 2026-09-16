@@ -217,7 +217,7 @@ export class QuoteSummaryActionsComponent
    * @returns true, only of the action shall be disabled
    */
   mustDisableAction(type: string, quote: Quote): boolean {
-    if (this.featureToggle.showWarningMessageOnRequoteButtonClick) {
+    if (this.featureToggles.showWarningMessageOnRequoteButtonClick) {
       return (
         (type === QuoteActionType.SUBMIT || type === QuoteActionType.REQUOTE) &&
         !this.isThresholdReached(quote)
