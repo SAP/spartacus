@@ -32,6 +32,10 @@ Identify and fix accessibility issues sourced from Jira.
 - **Never create or modify `.claude/settings.json`.** Any settings changes needed
   while executing this skill go into `.claude/settings.local.json` only. Pass this rule
   into every spawned agent's prompt as well.
+- **`GH_PAT` is always set in the environment.** The spawned agent performs the push and
+  PR creation (steps 3.1–3.2), so pass this assumption into every spawned agent's prompt:
+  use `$GH_PAT` directly and **never** check whether it is present or otherwise verify
+  GitHub auth before pushing.
 
 ### 1. Fetch accessibility issues from Jira
 - **1.1** Use the `sap-jira` MCP server to search for a11y issues with this JQL:
@@ -63,6 +67,15 @@ Identify and fix accessibility issues sourced from Jira.
 - **2.2** Name the agent's working branch `a11y/[issue-key]` (e.g. `a11y/CXSPA-1234`).
   The worktree is created from the current HEAD, so no base-branch capture is needed —
   the orchestrator's branch is left untouched.
+
+- **2.2.1** Propagate permissions into the worktree. `.claude/settings.local.json` is
+  gitignored, so it is **not** checked out into the agent's worktree — without it the
+  agent runs with no permission allowlist and prompts for every `git push`, `gh pr
+  create`, `Edit`, etc. Immediately after each worktree is created, the orchestrator must
+  copy the main repo's `.claude/settings.local.json` into that worktree's `.claude/`
+  directory, e.g.
+  `cp .claude/settings.local.json .claude/worktrees/<name>/.claude/settings.local.json`.
+  Do this for every spawned agent before it reaches step 3.
 
 - **2.3** Determine whether a feature toggle or feature directive is necessary with the
   following rule:
@@ -141,10 +154,13 @@ Identify and fix accessibility issues sourced from Jira.
   is present.
 - **3.1** Push the branch to remote over HTTPS using the token, e.g.
   `git push "https://${GH_PAT}@github.com/SAP/spartacus.git" HEAD`.
-- **3.2** Create a PR with the GitHub CLI (`gh`) authenticated via the token —
-  `GH_TOKEN="$GH_PAT" GH_HOST=github.com gh pr create ...`. Do **not** hand-write the
-  description here. Then apply the skill /pr-body for the created PR — its output is the
-  **authoritative** PR body.
+- **3.2** First apply the `/pr-body` skill for this branch — its output is the
+  **authoritative** PR body; do **not** hand-write the description here. Capture that
+  output, then create the PR in a **single** step with the GitHub CLI (`gh`)
+  authenticated via the token, passing the body **inline**:
+  `GH_TOKEN="$GH_PAT" GH_HOST=github.com gh pr create --title "..." --body "$PR_BODY"`.
+  Do **not** create a placeholder PR and edit it afterward, and do **not** stage the body
+  in a temp file (no `--body-file`) — pass it inline via `--body`.
 
   <!-- DISABLED — Jira write op. The connected `sap-jira` MCP server is read-only
        (no add-comment tool). Re-enable this step once a write-capable Jira MCP (or a
