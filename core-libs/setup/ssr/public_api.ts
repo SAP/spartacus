@@ -14,4 +14,3 @@ export * from './optimized-engine/index';
 export * from './providers/index';
 export * from './testing/index';
 export * from './tokens/express.tokens';
-export * from './markdown/index';
