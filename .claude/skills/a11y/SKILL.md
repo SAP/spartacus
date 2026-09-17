@@ -14,6 +14,17 @@ prompt; do **not** pre-guess a fix for any ticket.
 - The `sap-jira` MCP server must be connected and authenticated (run `/mcp` if its
   tools are unavailable). All Jira reads go through this server's tools.
 - The `a11y-developer` agent must exist at `.claude/agents/a11y-developer.md`.
+- **Git push auth must be primed before spawning any agent.** The repo's global
+  `credential.helper` is `store --file /tmp/creds`, but `/tmp/creds` is ephemeral and is
+  often missing. Before Step 2, populate it once so every worktree can push over the
+  already-tokenless `origin` remote without embedding a token or improvising auth
+  (the source of repeated permission prompts):
+
+  ```bash
+  printf 'https://x-access-token:%s@github.com\n' "$GH_PAT" > /tmp/creds && chmod 600 /tmp/creds
+  ```
+
+  Verify with a read-only call before dispatching: `git ls-remote --heads origin >/dev/null`.
 
 ## Autonomy (orchestrator)
 - Run the entire flow autonomously. Default to **yes** for every decision and tool

@@ -21,9 +21,9 @@ created from HEAD — work only inside it.
   stop for. In those cases, and only those, stop and surface the concern.
 - Never interrupt the flow merely to report progress or to get sign-off on routine
   work. Proceed, then report results at the end.
-- **`GH_PAT` is always set in the environment.** You perform the push and PR creation.
-  Use `$GH_PAT` directly and **never** check whether it is present or otherwise verify
-  GitHub auth before pushing.
+- **Auth is already set up.** `git push` uses a pre-configured global credential helper
+  (populated by the skill), and `gh` uses `GH_TOKEN="$GH_PAT"`. Never check whether auth
+  is present, embed a token in a URL, or set up a credential helper yourself — just push.
 
 ## Steps
 
@@ -94,12 +94,14 @@ choosing the fix.
 ### 5. Push & open the PR
 Use the **exact command forms below, verbatim** — they are pre-approved in the
 project's `.claude/settings.json` allowlist (which your worktree inherits). Do **not**
-reorder the environment-variable assignments, drop the `GH_HOST` prefix, or fall back to
-writing a `gh`/git config file. Those alternative forms are **not** in the allowlist and
-will require manual approval, defeating the autonomous flow.
+embed a token in the remote URL, set up a credential helper, run `git config`, write a
+credentials file, or otherwise improvise auth. The remote is **already authenticated**
+(a global `credential.helper` populated by the skill handles it), so a plain push just
+works. Those alternative forms are **not** in the allowlist and will require manual
+approval, defeating the autonomous flow.
 
-- Push over HTTPS using the token (matches `Bash(git push *)`):
-  `git push "https://${GH_PAT}@github.com/SAP/spartacus.git" HEAD`.
+- Push the current branch to `origin` (matches `Bash(git push *)`):
+  `git push -u origin HEAD`.
 - Generate the PR body by invoking the `pr-body` skill (via the Skill tool) for this
   branch. Its output is the **authoritative** PR body — do **not** hand-write it.
 - Create the PR in a **single** step, body passed **inline** (no `--body-file`, no
