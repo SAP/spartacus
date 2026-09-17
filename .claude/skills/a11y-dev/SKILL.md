@@ -3,39 +3,32 @@
 # Accessibility (a11y) Fix Skill
 
 ## Goal
-Identify and fix accessibility issues sourced from Jira.
+Identify accessibility issues sourced from Jira and dispatch one `a11y-fix` agent per
+issue to fix each end-to-end. This skill is **orchestration only** — the per-issue work
+(reading the ticket, implementing the fix behind a feature toggle, committing, pushing,
+opening the PR) lives entirely in the `a11y-fix` agent definition
+(`.claude/agents/a11y-fix.md`). Do **not** restate that logic here or in the spawn
+prompt; do **not** pre-guess a fix for any ticket.
 
 ## Prerequisites
 - The `sap-jira` MCP server must be connected and authenticated (run `/mcp` if its
-  tools are unavailable). All Jira reads, transitions, and comments below go through
-  this server's tools.
+  tools are unavailable). All Jira reads go through this server's tools.
+- The `a11y-fix` agent must exist at `.claude/agents/a11y-fix.md`.
 
+## Autonomy (orchestrator)
+- Run the entire flow autonomously. Default to **yes** for every decision and tool
+  execution. Never interrupt merely to report progress or get sign-off on routine work
+  — proceed, then report at the end.
+- The **only** exception is a **critical** change requiring human judgment (e.g. a
+  public-API break, a security-sensitive change, or destroying work you did not
+  create). Stop only in those cases.
+- The spawned agents carry their own copy of this autonomy contract in their definition
+  — you do **not** need to paste it into the spawn prompt.
 
 ## Steps
 
-### Autonomy (applies to every step and every spawned agent)
-- Run the entire flow autonomously. Default to **yes** for every decision, tool
-  execution, edit, commit, push, and PR creation — do **not** pause to ask the user
-  for confirmation or approval.
-- The **only** exception is a **critical** change that genuinely requires a human
-  developer's judgment — for example: a change that would break the public API, a
-  security-sensitive change, deleting/overwriting work you did not create, or a fix
-  that cannot be done without editing something the skill explicitly says to stop for.
-  In those cases, and only those, stop and surface the concern to the user.
-- Never interrupt the flow merely to report progress or to get sign-off on routine
-  work. Proceed, then report results at the end.
-- When spawning agents (step 2.1), copy **every bullet of this Autonomy section
-  verbatim** into each agent's prompt — not just the "default to yes" rule, but also
-  the critical-change exception and the "never interrupt to report progress" rule. The
-  spawned agents must operate under the exact same autonomy contract as the
-  orchestrator, so they also never prompt back except for a critical change.
-- **`GH_PAT` is always set in the environment.** The spawned agent performs the push and
-  PR creation (steps 3.1–3.2), so pass this assumption into every spawned agent's prompt:
-  use `$GH_PAT` directly and **never** check whether it is present or otherwise verify
-  GitHub auth before pushing.
-
 ### 1. Fetch accessibility issues from Jira
-- **1.1** Use the `sap-jira` MCP server to search for a11y issues with this JQL:
+- **1.1** Search with the `sap-jira` MCP server using this JQL:
 
   ```jql
   project = CXSPA AND component = "cfe--accessibility" AND statusCategory = "To Do" AND sprint in openSprints() AND assignee is EMPTY AND issuetype != Epic ORDER BY priority DESC
@@ -46,140 +39,55 @@ Identify and fix accessibility issues sourced from Jira.
   `statusCategory = "To Do"` matches all not-yet-started statuses regardless of their
   exact name.
 
-- **1.2** Print the results in a comprehensive (non-exhaustive) table including at least:
-  issue key, summary, status, priority, and component(s).
+- **1.2** Print the results in a table including at least: issue key, summary, status,
+  priority, and component(s).
 
-### 2. Execution
-- **2.1** Spawn one agent per Jira issue, in parallel. Spawn each agent with
-  `isolation: "worktree"` so it works on an isolated copy of the repo in its own git
-  worktree — this filesystem/branch isolation is what makes running them concurrently
-  safe (pushes target distinct `a11y/[issue-key]` branches, so they never collide).
+### 2. Dispatch one agent per issue
+- **2.1** Spawn one `a11y-fix` agent per Jira issue, in parallel (all spawn calls in a
+  single message). The agent definition sets `isolation: worktree`, so each runs in its
+  own isolated worktree/branch — this is what makes concurrent runs safe (pushes target
+  distinct `a11y/<issue-key>` branches, so they never collide).
 
-  <!-- DISABLED — Jira write op. The connected `sap-jira` MCP server is read-only
-       (no transition tool). Re-enable this step once a write-capable Jira MCP (or a
-       REST token) is available.
-  - **2.1.1** Transition the Jira issue from **"TO DO"** to **"IN PROGRESS"** using the `sap-jira` MCP server.
-  -->
+- **2.2** Keep the spawn prompt **minimal**: pass only the Jira issue key (and its
+  summary for convenience). The agent already knows the full procedure. Do **not** copy
+  the autonomy contract, the feature-toggle rules, the push/PR commands, or any fix
+  guidance into the prompt — that duplication is what this skill exists to avoid.
 
-- **2.2** Name the agent's working branch `a11y/[issue-key]` (e.g. `a11y/CXSPA-1234`).
-  The worktree is created from the current HEAD, so no base-branch capture is needed —
-  the orchestrator's branch is left untouched.
+  Example spawn prompt (this is the whole thing):
 
-- **2.3** Determine whether a feature toggle or feature directive is necessary with the
-  following rule:
-
-  - **Every change is protected behind a feature toggle** — this applies to both
-    **template (`.html`) changes and style (`.scss`) changes**. A pure style/contrast
-    fix is *not* exempt; it must be gated too.
-  - The feature toggle's default value is set to `false` in the file:
-    `core-libs/core/src/features-config/feature-toggles/config/feature-toggles.ts`
-  - The feature toggle's providers override the value to set it to `true` in our
-    implementation of the storefront's file:
-    `projects/storefrontapp/src/app/spartacus/spartacus-features.module.ts`
-
-  **Template changes** — gate markup with the `*cxFeature` directive. The old element
-  gets the negated flag (visible by default while the flag is false); the new accessible
-  element gets the positive flag (visible only when the flag is true). This way the fix
-  is hidden in production until the toggle is turned on.
-
-  Example where an inaccessible `<div>` is replaced by a `<label>`:
-
-  ```html
-  <!-- Old element: rendered when flag is OFF (default) -->
-  <div
-    class="cx-my-coupons-form-group form-group cx-mycoupon-thead-mobile col-sm-12 col-md-4 col-lg-4"
-    *cxFeature="'!showSortFieldsOnlyAtTop'"
-  ></div>
-  <!-- New accessible element: rendered when flag is ON -->
-  <label
-    class="cx-my-coupons-form-group form-group cx-mycoupon-thead-mobile col-sm-12 col-md-4 col-lg-4"
-    *cxFeature="'showSortFieldsOnlyAtTop'"
-  ></label>
-  ```
-
-  **Style changes** — gate the new/changed SCSS rules with the `forFeature` mixin, and
-  activate them from the owning component by calling `useFeatureStyles` (imported from
-  `@spartacus/core`) in the component constructor. Example (feature flag
-  `alignNavigationMenuWithHeader`):
-
-  ```scss
-  // component .scss — wrap only the changed declarations
-  .cx-some-element {
-    color: var(--cx-color-text);
-
-    @include forFeature('alignNavigationMenuWithHeader') {
-      color: var(--cx-color-primary-accent);
-    }
-  }
-  ```
-
-  ```ts
-  // owning component .ts
-  import { useFeatureStyles } from '@spartacus/core';
-
-  constructor() {
-    useFeatureStyles('alignNavigationMenuWithHeader');
-  }
-  ```
-
-  Note: `forFeature` scopes the styles to an ancestor selector that `useFeatureStyles`
-  adds to the DOM when the toggle is on, so the SCSS gate and the `useFeatureStyles`
-  call must reference the **same** flag name. Styles in shared/global SCSS (e.g.
-  `core-libs/styles`) with no single owning component should still be wrapped in
-  `forFeature`, with `useFeatureStyles` called from the component that renders the
-  affected element.
-
-- **2.4** Fix the issue using the Jira issue summary & description (fetch the full issue
-  details from the `sap-jira` MCP server when needed).
-
-- **2.5** Commit the code fix with the prefix: `fix:` and a short message that summarizes
-  what was fixed. Reference the issue key in the message (e.g. `fix: <summary> (CXSPA-1234)`).
-
-### 3. Publish results
-- **Authentication** — all GitHub operations authenticate against `https://github.com`
-  using a personal access token read from the `GH_PAT` environment variable. Assume
-  `GH_PAT` is always set in the environment; use it directly without checking whether it
-  is present.
-- **3.1** Push the branch to remote over HTTPS using the token, e.g.
-  `git push "https://${GH_PAT}@github.com/SAP/spartacus.git" HEAD`.
-- **3.2** First apply the `/pr-body` skill for this branch — its output is the
-  **authoritative** PR body; do **not** hand-write the description here. Capture that
-  output, then create the PR in a **single** step with the GitHub CLI (`gh`)
-  authenticated via the token, passing the body **inline**:
-  `GH_TOKEN="$GH_PAT" GH_HOST=github.com gh pr create --title "..." --body "$PR_BODY"`.
-  Do **not** create a placeholder PR and edit it afterward, and do **not** stage the body
-  in a temp file (no `--body-file`) — pass it inline via `--body`.
+  > Fix the Spartacus accessibility issue **CXSPA-1234** — "<summary>". Follow your
+  > agent instructions exactly and report back as specified.
 
   <!-- DISABLED — Jira write op. The connected `sap-jira` MCP server is read-only
-       (no add-comment tool). Re-enable this step once a write-capable Jira MCP (or a
-       REST token) is available.
-  - **3.3** Add a comment to the Jira issue via the `sap-jira` MCP server linking the PR URL.
-  - **3.4** Transition the Jira issue from **"IN PROGRESS"** to **"CODE REVIEW"** using the
-    `sap-jira` MCP server.
+       (no transition tool). Re-enable once a write-capable Jira MCP is available.
+  - **2.2.1** Transition the issue from "TO DO" to "IN PROGRESS".
   -->
 
-- **3.5** Clean up the worktree — an **orchestrator** responsibility, performed only
-  **after** the agent has reported a successful push **and** PR creation (PR URL in
-  hand). The agent must **not** remove the worktree it is running inside. From the main
-  repo working directory, remove that issue's worktree with
-  `git worktree remove .claude/worktrees/<name>` (the `<name>` chosen when the agent was
-  spawned), then run `git worktree prune`. Because the branch's commits are on the remote
-  after the push, removing the local working directory loses nothing — this is routine
-  cleanup, **not** the kind of destructive deletion the autonomy rule guards against. If
-  the agent failed to push or create the PR, **do not** remove its worktree — leave it in
-  place so the work can be recovered and inspected.
+### 3. Clean up after each agent
+- **3.1** Cleanup is an **orchestrator** responsibility, done only **after** an agent
+  reports a successful push **and** PR creation (PR URL in hand). Remove that issue's
+  worktree from the main repo working directory
+  (`git worktree remove <path>` then `git worktree prune`). Because the branch's commits
+  are on the remote after the push, removing the local working directory loses nothing —
+  routine cleanup, not the destructive kind the autonomy rule guards against.
+- **3.2** If an agent **failed** to push or create the PR, **do not** remove its
+  worktree — leave it in place so the work can be recovered and inspected.
+
+  <!-- DISABLED — Jira write op. The connected `sap-jira` MCP server is read-only
+       (no add-comment / transition tools). Re-enable once a write-capable Jira MCP is
+       available.
+  - **3.3** Comment on the Jira issue linking the PR URL.
+  - **3.4** Transition the issue from "IN PROGRESS" to "CODE REVIEW".
+  -->
 
 ### 4. Report token consumption & cost
-- **4.1** After all issues have been processed, share a summary of the token
-  consumption and estimated cost for the **full skill execution**. Aggregate the usage
-  reported by every agent spawned in step 2.1 (input tokens, output tokens, cache
-  read/write tokens where available, and total tokens), plus the orchestrator's own
-  usage.
+- **4.1** After all issues are processed, aggregate the usage reported by every spawned
+  agent (input, output, cache read/write where available, total tokens) plus the
+  orchestrator's own usage.
 - **4.2** Present it as a table with one row per Jira issue and a final **Total** row.
-  Suggested columns: issue key, input tokens, output tokens, total tokens, estimated
-  cost (USD).
-- **4.3** Compute the estimated cost from the token counts using the per-token pricing
-  of the model used for the run, and state which model and pricing assumptions were
-  used. If exact usage numbers are unavailable for a step, say so rather than guessing.
+  Columns: issue key, input tokens, output tokens, total tokens, estimated cost (USD).
+- **4.3** Compute cost from the token counts using the per-token pricing of the model
+  used, and state which model and pricing assumptions were used. If exact usage numbers
+  are unavailable for a step, say so rather than guessing.
 
 </a11y-skill>
