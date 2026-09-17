@@ -104,14 +104,14 @@ proposed PR title; everything else you derive from the pushed branch.
 
 - **3.3** Create the PR in a **single** step, using the body file you wrote (no
   placeholder-then-edit). Keep the env prefix in exactly this order — it matches
-  `Bash(GH_TOKEN=* GH_HOST=* gh *)`:
+  `Bash(GH_TOKEN=* GH_HOST=* gh *)`. Write the command on **one line** (no `\`
+  line-continuations): the trailing `*` in the permission rule does not span embedded
+  newlines, so a multi-line command falls through to a permission prompt even though the
+  rule is present. A single line lets the rule match and the PR is created without
+  prompting:
 
   ```bash
-  GH_TOKEN="$GH_PAT" GH_HOST=github.com gh pr create \
-    --title "fix: <summary> (<key>)" \
-    --body-file /tmp/pr-body-<issue-key>.md \
-    --base develop \
-    --head a11y/<issue-key>
+  GH_TOKEN="$GH_PAT" GH_HOST=github.com gh pr create --title "fix: <summary> (<key>)" --body-file /tmp/pr-body-<issue-key>.md --base develop --head a11y/<issue-key>
   ```
 
   `--head a11y/<issue-key>` targets the agent's pushed branch, so you can create every
@@ -131,9 +131,21 @@ proposed PR title; everything else you derive from the pushed branch.
   Because the branch's commits are on the remote after the push, removing the local
   working directory loses nothing — routine cleanup, not the destructive kind the
   autonomy rule guards against.
+
+  The `isolation: worktree` setup also leaves behind a throwaway local branch named
+  `worktree-agent-<agentId>` (the branch the worktree was checked out on — distinct from
+  the pushed `a11y/<issue-key>` branch, which is safe on the remote). `git worktree
+  remove` / `prune` do **not** delete it, so delete it explicitly as part of cleanup:
+
+  ```bash
+  git worktree remove <path> && git worktree prune && git branch -D worktree-agent-<agentId>
+  ```
+
+  After the final issue, sweep any stragglers so none are left at the end of the run:
+  `git branch --list 'worktree-agent-*' | tr -d ' ' | xargs -r -n1 git branch -D`.
 - **4.2** If an agent **failed** to push, or your body generation / PR creation failed
-  (Step 3.5), **do not** remove its worktree — leave it in place so the work can be
-  recovered and inspected.
+  (Step 3.5), **do not** remove its worktree **or its `worktree-agent-<agentId>`
+  branch** — leave both in place so the work can be recovered and inspected.
 
   <!-- DISABLED — Jira write op. The connected `sap-jira` MCP server is read-only
        (no add-comment / transition tools). Re-enable once a write-capable Jira MCP is
