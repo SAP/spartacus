@@ -12,7 +12,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { I18nModule, Translatable } from '@spartacus/core';
+import { I18nModule, Translatable, useFeatureStyles } from '@spartacus/core';
 
 /**
  * Wraps the provided input text in a Read More / Read Less component, truncating input to maxLength
@@ -38,6 +38,10 @@ export class ReadMoreComponent implements OnChanges {
 
   showReadMore: boolean = false;
   isCollapsed: boolean = true;
+
+  constructor() {
+    useFeatureStyles('a11yReadMoreLinkContrast');
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['text']?.currentValue?.length > this.maxLength) {

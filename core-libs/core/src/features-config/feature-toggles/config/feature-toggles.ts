@@ -841,6 +841,16 @@ export interface FeatureTogglesInterface {
    * `AddressFormComponent`, `UnitAddressFormService`
    */
   enableFormFieldMaxLength?: boolean;
+
+  /**
+   * When enabled, the "Read More" / "Read Less" button in `ReadMoreComponent`
+   * uses `--cx-color-primary-accent` instead of `--cx-color-primary` for its
+   * text color, so the link meets the WCAG 1.4.3 minimum contrast ratio of
+   * 4.5:1 against the default white page background.
+   *
+   * Affects: `ReadMoreComponent`
+   */
+  a11yReadMoreLinkContrast?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -941,4 +951,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showWarningMessageOnRequoteButtonClick: false,
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
+  a11yReadMoreLinkContrast: false,
 };
