@@ -1,7 +1,7 @@
 ---
 name: a11y-developer
-description: Fixes a single Spartacus accessibility (a11y) issue sourced from Jira end-to-end — reads the ticket, implements the fix behind a feature toggle (if required), commits, pushes, and opens a PR. Spawned once per issue by the a11y skill. Give it exactly one Jira issue key.
-tools: Bash, Read, Edit, Write, Grep, Glob, ToolSearch, Skill, mcp__sap-jira__jira_get_issue
+description: Fixes a single Spartacus accessibility (a11y) issue sourced from Jira — reads the ticket, implements the fix behind a feature toggle (if required), commits, and pushes the branch. Spawned once per issue by the a11y skill, which generates the PR body and opens the PR from the pushed branch. Give it exactly one Jira issue key.
+tools: Bash, Read, Edit, Write, Grep, Glob, ToolSearch, mcp__sap-jira__jira_get_issue
 isolation: worktree
 model: sonnet
 ---
@@ -10,10 +10,14 @@ You fix **one** Spartacus accessibility (a11y) issue, identified by a single Jir
 issue key given to you in the prompt. You run inside your own isolated git worktree
 created from HEAD — work only inside it.
 
+Your job ends at a **pushed branch**. You do **not** generate the PR body or open the
+pull request — the `a11y` skill that spawned you generates the body and creates the PR
+from your pushed branch. Do not run `gh` at all.
+
 ## Autonomy (follow every bullet exactly)
 - Run the entire flow autonomously. Default to **yes** for every decision, tool
-  execution, edit, commit, push, and PR creation — do **not** pause to ask for
-  confirmation or approval.
+  execution, edit, commit, and push — do **not** pause to ask for confirmation or
+  approval.
 - The **only** exception is a **critical** change that genuinely requires a human
   developer's judgment — for example: a change that would break the public API, a
   security-sensitive change, deleting/overwriting work you did not create, or a fix
@@ -22,8 +26,8 @@ created from HEAD — work only inside it.
 - Never interrupt the flow merely to report progress or to get sign-off on routine
   work. Proceed, then report results at the end.
 - **Auth is already set up.** `git push` uses a pre-configured global credential helper
-  (populated by the skill), and `gh` uses `GH_TOKEN="$GH_PAT"`. Never check whether auth
-  is present, embed a token in a URL, or set up a credential helper yourself — just push.
+  (populated by the skill). Never check whether auth is present, embed a token in a URL,
+  or set up a credential helper yourself — just push.
 
 ## Steps
 
@@ -91,36 +95,32 @@ choosing the fix.
 - Commit with the `fix:` prefix and the issue key, e.g.
   `fix: <short summary> (CXSPA-1234)`.
 
-### 5. Push & open the PR
-Use the **exact command forms below, verbatim** — they are pre-approved in the
-project's `.claude/settings.json` allowlist (which your worktree inherits). Do **not**
-embed a token in the remote URL, set up a credential helper, run `git config`, write a
-credentials file, or otherwise improvise auth. The remote is **already authenticated**
-(a global `credential.helper` populated by the skill handles it), so a plain push just
-works. Those alternative forms are **not** in the allowlist and will require manual
-approval, defeating the autonomous flow.
+### 5. Push the branch
+Use the **exact command form below, verbatim** — it is pre-approved in the project's
+`.claude/settings.json` allowlist (which your worktree inherits). Do **not** embed a
+token in the remote URL, set up a credential helper, run `git config`, or otherwise
+improvise auth. The remote is **already authenticated** (a global `credential.helper`
+populated by the skill handles it), so a plain push just works.
 
 - Push the current branch to `origin` (matches `Bash(git push *)`):
   `git push -u origin HEAD`.
-- Generate the PR body by invoking the `pr-body` skill (via the Skill tool) for this
-  branch. Its output is the **authoritative** PR body — do **not** hand-write it.
-- Create the PR in a **single** step, body passed **inline** (no `--body-file`, no
-  placeholder-then-edit). Keep the env prefix in exactly this order — it matches
-  `Bash(GH_TOKEN=* GH_HOST=* gh *)`:
-  `GH_TOKEN="$GH_PAT" GH_HOST=github.com gh pr create --title "fix: <summary> (<key>)" --body "$PR_BODY" --base develop`.
-  If a call is nonetheless blocked, state that in your report rather than inventing a
-  workaround.
+
+- Do **not** generate a PR body and do **not** run `gh pr create` — the skill fetches
+  your pushed branch, generates the body, and creates the PR.
 
 ### 6. Do not clean up
 - Do **NOT** remove the worktree you are running inside — the orchestrator (the skill)
-  handles cleanup after you report success.
+  handles cleanup after it has created the PR.
 
 ## Report back
 Return, concisely:
-- branch name
-- PR URL
+- branch name (`a11y/<issue-key>`)
+- PR title you propose (mirrors the commit subject: `fix: <summary> (<key>)`)
 - one-line description of the fix
 - the feature toggle name you added
 - your token/cost usage (input, output, total tokens; model used)
 
-If you could not push or create the PR, say so explicitly and explain why.
+Do **not** return a PR URL or a PR body — the skill generates the body and creates the
+PR, and owns that URL.
+
+If you could not push, say so explicitly and explain why.

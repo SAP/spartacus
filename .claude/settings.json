@@ -8,6 +8,7 @@
       "Bash(sort *)",
       "Bash(wc *)",
       "Bash(cat *)",
+      "Bash(xargs *)",
       "Bash(git *)",
       "Bash(git push *)",
       "Bash(git worktree remove *)",
