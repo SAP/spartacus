@@ -9,10 +9,7 @@ Identify and fix accessibility issues sourced from Jira.
 - The `sap-jira` MCP server must be connected and authenticated (run `/mcp` if its
   tools are unavailable). All Jira reads, transitions, and comments below go through
   this server's tools.
-- Permissions for this skill are configured in `.claude/settings.local.json` (never
-  `.claude/settings.json`). That file grants full permission to edit existing files
-  and add new files (`Edit` and `Write`) so the fix flow runs without approval
-  prompts.
+
 
 ## Steps
 
@@ -27,11 +24,11 @@ Identify and fix accessibility issues sourced from Jira.
   In those cases, and only those, stop and surface the concern to the user.
 - Never interrupt the flow merely to report progress or to get sign-off on routine
   work. Proceed, then report results at the end.
-- When spawning agents (step 2.1), pass this same autonomy rule into their prompt so
-  they also never prompt back except for a critical change.
-- **Never create or modify `.claude/settings.json`.** Any settings changes needed
-  while executing this skill go into `.claude/settings.local.json` only. Pass this rule
-  into every spawned agent's prompt as well.
+- When spawning agents (step 2.1), copy **every bullet of this Autonomy section
+  verbatim** into each agent's prompt — not just the "default to yes" rule, but also
+  the critical-change exception and the "never interrupt to report progress" rule. The
+  spawned agents must operate under the exact same autonomy contract as the
+  orchestrator, so they also never prompt back except for a critical change.
 - **`GH_PAT` is always set in the environment.** The spawned agent performs the push and
   PR creation (steps 3.1–3.2), so pass this assumption into every spawned agent's prompt:
   use `$GH_PAT` directly and **never** check whether it is present or otherwise verify
@@ -67,15 +64,6 @@ Identify and fix accessibility issues sourced from Jira.
 - **2.2** Name the agent's working branch `a11y/[issue-key]` (e.g. `a11y/CXSPA-1234`).
   The worktree is created from the current HEAD, so no base-branch capture is needed —
   the orchestrator's branch is left untouched.
-
-- **2.2.1** Propagate permissions into the worktree. `.claude/settings.local.json` is
-  gitignored, so it is **not** checked out into the agent's worktree — without it the
-  agent runs with no permission allowlist and prompts for every `git push`, `gh pr
-  create`, `Edit`, etc. Immediately after each worktree is created, the orchestrator must
-  copy the main repo's `.claude/settings.local.json` into that worktree's `.claude/`
-  directory, e.g.
-  `cp .claude/settings.local.json .claude/worktrees/<name>/.claude/settings.local.json`.
-  Do this for every spawned agent before it reaches step 3.
 
 - **2.3** Determine whether a feature toggle or feature directive is necessary with the
   following rule:
