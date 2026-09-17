@@ -263,5 +263,51 @@ describe('ProductReviewsComponent in product', () => {
       featureTogglesController.set('a11yShowMoreReviewsFocusVisible', true);
       expect(toggle?.a11yShowMoreReviewsFocusVisible).toBe(true);
     });
+
+    // Behavioral tests: scroll and focus when toggle is on
+    const manyReviews = Array.from({ length: 7 }, (_, i) => ({
+      comment: `comment${i}`,
+      headline: `headline${i}`,
+      alias: `alias${i}`,
+    }));
+
+    function renderShowMoreButton(): HTMLButtonElement {
+      // Recreate component so async pipe binds to the many reviews.
+      fixture = TestBed.createComponent(ProductReviewsComponent);
+      productReviewsComponent = fixture.componentInstance;
+      (productReviewsComponent as any).reviews$ = of(manyReviews);
+      productReviewsComponent.maxListItems =
+        productReviewsComponent.initialMaxListItems;
+      fixture.detectChanges();
+      return productReviewsComponent.showMoreLessButton
+        .nativeElement as HTMLButtonElement;
+    }
+
+    it('should scroll and focus the button when toggle is on', () => {
+      featureTogglesController.set('a11yShowMoreReviewsFocusVisible', true);
+      const button = renderShowMoreButton();
+      // jsdom does not implement scrollIntoView, so stub it to spy on.
+      button.scrollIntoView = () => {};
+      const scrollSpy = vi.spyOn(button, 'scrollIntoView');
+      const focusSpy = vi.spyOn(button, 'focus');
+
+      productReviewsComponent.toggleReviewsDisplay(manyReviews);
+
+      expect(scrollSpy).toHaveBeenCalledWith({ block: 'nearest' });
+      expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true });
+    });
+
+    it('should not scroll or focus the button when toggle is off', () => {
+      featureTogglesController.set('a11yShowMoreReviewsFocusVisible', false);
+      const button = renderShowMoreButton();
+      button.scrollIntoView = () => {};
+      const scrollSpy = vi.spyOn(button, 'scrollIntoView');
+      const focusSpy = vi.spyOn(button, 'focus');
+
+      productReviewsComponent.toggleReviewsDisplay(manyReviews);
+
+      expect(scrollSpy).not.toHaveBeenCalled();
+      expect(focusSpy).not.toHaveBeenCalled();
+    });
   });
 });

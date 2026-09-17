@@ -134,6 +134,10 @@ export class ProductReviewsComponent {
       this.showMoreLessButton?.nativeElement?.scrollIntoView({
         block: 'nearest',
       });
+      // Re-assert focus after re-render so :focus and :focus-visible states
+      // are applied to the button, making the outline visible consistently
+      // across platforms. `preventScroll` avoids a second scroll.
+      this.showMoreLessButton?.nativeElement?.focus({ preventScroll: true });
     }
   }
 
