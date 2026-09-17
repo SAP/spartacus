@@ -1,29 +1,6 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm *)",
-      "Bash(npx *)",
-      "Bash(nx run *)",
-      "Bash(node *)",
-      "Bash(python3 *)",
-      "Bash(sass *)",
-
-      "Bash(grep *)",
-      "Bash(rg *)",
-      "Bash(find *)",
-      "Bash(ls *)",
-      "Bash(cat *)",
-      "Bash(head *)",
-      "Bash(tail *)",
-      "Bash(sed *)",
-      "Bash(awk *)",
-      "Bash(echo *)",
-      "Bash(curl *)",
-      "Bash(perl *)",
-      "Bash(mkdir *)",
-      "Bash(cp *)",
-      "Bash(mv *)",
-
       "Bash(git *)",
       "Bash(git push *)",
       "Bash(git worktree remove *)",
@@ -32,18 +9,9 @@
       "Bash(gh pr create *)",
       "Bash(GH_TOKEN=* gh *)",
       "Bash(GH_TOKEN=* GH_HOST=* gh *)",
-      "Bash(GH_PAT=* git *)",
 
       "Task",
       "Agent",
-
-      "WebSearch",
-      "WebFetch(domain:www.google.com)",
-      "WebFetch(domain:help.sap.com)",
-      "WebFetch(domain:html.duckduckgo.com)",
-      "WebFetch(domain:raw.githubusercontent.com)",
-      "WebFetch(domain:angular.dev)",
-      "WebFetch(domain:github.com)",
 
       "mcp__sap-jira__jira_search",
       "mcp__sap-jira__jira_get_issue"

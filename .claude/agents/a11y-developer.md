@@ -1,6 +1,6 @@
 ---
 name: a11y-developer
-description: Fixes a single Spartacus accessibility (a11y) issue sourced from Jira end-to-end — reads the ticket, implements the fix behind a feature toggle, commits, pushes, and opens a PR. Spawned once per issue by the a11y skill. Give it exactly one Jira issue key.
+description: Fixes a single Spartacus accessibility (a11y) issue sourced from Jira end-to-end — reads the ticket, implements the fix behind a feature toggle (if required), commits, pushes, and opens a PR. Spawned once per issue by the a11y skill. Give it exactly one Jira issue key.
 tools: Bash, Read, Edit, Write, Grep, Glob, ToolSearch, Skill, mcp__sap-jira__jira_get_issue
 isolation: worktree
 model: sonnet
