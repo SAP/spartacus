@@ -12,7 +12,7 @@ import {
   PageLayoutComponent,
   PageLayoutModule,
 } from '../../../cms-structure/page/index';
-import { defaultLogoutConfig } from './default-logout-config';
+import { defaultLogoutConfig } from './config/default-logout-config';
 import { LogoutGuard } from './logout.guard';
 
 @NgModule({

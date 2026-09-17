@@ -2,16 +2,16 @@ import { Component, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router, RouterModule } from '@angular/router';
 import {
-  AuthService,
-  CmsService,
-  FeatureToggles,
-  ProtectedRoutesService,
-  RoutingConfig,
-  SemanticPathService,
+    AuthService,
+    CmsService,
+    FeatureToggles,
+    ProtectedRoutesService,
+    RoutingConfig,
+    SemanticPathService,
 } from '@spartacus/core';
 import { Observable, firstValueFrom, of } from 'rxjs';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
-import { LogoutConfig } from './logout-config';
+import { LogoutConfig } from './config/logout-config';
 import { LogoutGuard } from './logout.guard';
 
 class MockAuthService implements Partial<AuthService> {

@@ -20,7 +20,7 @@ import {
 } from '@spartacus/core';
 import { from, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { LogoutConfig } from './logout-config';
+import { LogoutConfig } from './config/logout-config';
 
 /**
  * Guards the _logout_ route.
@@ -35,7 +35,7 @@ import { LogoutConfig } from './logout-config';
 export class LogoutGuard {
   protected config = inject(LogoutConfig);
   protected featureToggles = inject(FeatureToggles);
-  
+
   constructor(
     protected auth: AuthService,
     /** @deprecated */
@@ -71,7 +71,7 @@ export class LogoutGuard {
       map(() => {
         const redirectUrl = this.getRedirectUrl();
         const logoutUrl = this.router.parseUrl(
-          this.semanticPathService.get('logout') ?? '/logout');
+          this.semanticPathService.get('logout1') ?? '/logout');
         // If the configured redirect destination is the logout page itself, keep the user on the current route so the CMS logout page renders.
         if (redirectUrl.toString() === logoutUrl.toString()) {
           return true
