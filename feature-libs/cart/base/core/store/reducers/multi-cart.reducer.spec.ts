@@ -13,6 +13,8 @@ const testCart: Cart = {
 
 describe('Multi Cart reducer', () => {
   describe('cartEntitiesReducer', () => {
+    const reducer = fromMultiCart.createCartEntitiesReducer(false);
+
     describe('LOAD_CART_SUCCESS action', () => {
       it('should set cart in state', () => {
         const initialState = {};
@@ -26,7 +28,7 @@ describe('Multi Cart reducer', () => {
           cartId: cart.code,
         };
         const action = new CartActions.LoadCartSuccess(payload);
-        const state = fromMultiCart.cartEntitiesReducer(initialState, action);
+        const state = reducer(initialState, action);
         expect(state).toEqual(payload.cart);
       });
     });
@@ -36,7 +38,7 @@ describe('Multi Cart reducer', () => {
         const initialState = fromMultiCart.cartEntitiesInitialState;
         const payload = [testCart];
         const action = new CartActions.LoadCartsSuccess(payload);
-        const state = fromMultiCart.cartEntitiesReducer(initialState, action);
+        const state = reducer(initialState, action);
         expect(state).toEqual(payload as unknown as Cart);
       });
     });
@@ -54,7 +56,7 @@ describe('Multi Cart reducer', () => {
           tempCartId: 'tempCartId',
         };
         const action = new CartActions.CreateCartSuccess(payload);
-        const state = fromMultiCart.cartEntitiesReducer(initialState, action);
+        const state = reducer(initialState, action);
         expect(state).toEqual(payload.cart);
       });
     });
@@ -69,8 +71,176 @@ describe('Multi Cart reducer', () => {
           cart,
           cartId: 'cartCode',
         });
-        const state = fromMultiCart.cartEntitiesReducer(initialState, action);
+        const state = reducer(initialState, action);
         expect(state).toEqual(cart);
+      });
+    });
+
+    describe('CART_ADD_ENTRY_SUCCESS action', () => {
+      const reducerOn = fromMultiCart.createCartEntitiesReducer(true);
+
+      const baseCart: Cart = {
+        code: 'cart-1',
+        totalPrice: { value: 10, currencyIso: 'USD' },
+        subTotal: { value: 10, currencyIso: 'USD' },
+        totalItems: 1,
+        entries: [
+          {
+            entryNumber: 0,
+            quantity: 1,
+            product: { code: 'A' },
+          },
+        ],
+      };
+
+      it('should append a new entry returned by the POST response', () => {
+        const action = new CartActions.CartAddEntrySuccess({
+          userId: 'userId',
+          cartId: 'cart-1',
+          productCode: 'B',
+          quantity: 1,
+          entry: { entryNumber: 1, quantity: 1, product: { code: 'B' } },
+        });
+        const state = reducerOn(baseCart, action);
+        expect(state?.entries).toEqual([
+          { entryNumber: 0, quantity: 1, product: { code: 'A' } },
+          { entryNumber: 1, quantity: 1, product: { code: 'B' } },
+        ]);
+      });
+
+      it('should replace the existing entry with the same entryNumber', () => {
+        const action = new CartActions.CartAddEntrySuccess({
+          userId: 'userId',
+          cartId: 'cart-1',
+          productCode: 'A',
+          quantity: 1,
+          entry: { entryNumber: 0, quantity: 2, product: { code: 'A' } },
+        });
+        const state = reducerOn(baseCart, action);
+        expect(state?.entries).toEqual([
+          { entryNumber: 0, quantity: 2, product: { code: 'A' } },
+        ]);
+      });
+
+      it('should leave price and totals fields untouched (LoadCartSuccess reconciles them)', () => {
+        const action = new CartActions.CartAddEntrySuccess({
+          userId: 'userId',
+          cartId: 'cart-1',
+          productCode: 'B',
+          quantity: 1,
+          entry: { entryNumber: 1, quantity: 1, product: { code: 'B' } },
+        });
+        const state = reducerOn(baseCart, action);
+        expect(state?.totalPrice).toEqual(baseCart.totalPrice);
+        expect(state?.subTotal).toEqual(baseCart.subTotal);
+        expect(state?.totalItems).toEqual(baseCart.totalItems);
+      });
+
+      it('should be a no-op when the cart entity is undefined', () => {
+        const action = new CartActions.CartAddEntrySuccess({
+          userId: 'userId',
+          cartId: 'cart-1',
+          productCode: 'B',
+          quantity: 1,
+          entry: { entryNumber: 0, quantity: 1, product: { code: 'B' } },
+        });
+        const state = reducerOn(undefined, action);
+        expect(state).toBeUndefined();
+      });
+
+      it('should be a no-op when the action payload has no entry', () => {
+        const action = new CartActions.CartAddEntrySuccess({
+          userId: 'userId',
+          cartId: 'cart-1',
+          productCode: 'B',
+          quantity: 1,
+        });
+        const state = reducerOn(baseCart, action);
+        expect(state).toBe(baseCart);
+      });
+
+      it('should initialize entries when the cart had none', () => {
+        const cartWithoutEntries: Cart = { code: 'cart-1' };
+        const action = new CartActions.CartAddEntrySuccess({
+          userId: 'userId',
+          cartId: 'cart-1',
+          productCode: 'A',
+          quantity: 1,
+          entry: { entryNumber: 0, quantity: 1, product: { code: 'A' } },
+        });
+        const state = reducerOn(cartWithoutEntries, action);
+        expect(state?.entries).toEqual([
+          { entryNumber: 0, quantity: 1, product: { code: 'A' } },
+        ]);
+      });
+
+      it('should preserve entry order when replacing an entry in the middle', () => {
+        const threeEntryCart: Cart = {
+          code: 'cart-1',
+          entries: [
+            { entryNumber: 0, quantity: 1, product: { code: 'A' } },
+            { entryNumber: 1, quantity: 1, product: { code: 'B' } },
+            { entryNumber: 2, quantity: 1, product: { code: 'C' } },
+          ],
+        };
+        const action = new CartActions.CartAddEntrySuccess({
+          userId: 'userId',
+          cartId: 'cart-1',
+          productCode: 'B',
+          quantity: 2,
+          entry: { entryNumber: 1, quantity: 2, product: { code: 'B' } },
+        });
+        const state = reducerOn(threeEntryCart, action);
+        expect(state?.entries).toEqual([
+          { entryNumber: 0, quantity: 1, product: { code: 'A' } },
+          { entryNumber: 1, quantity: 2, product: { code: 'B' } },
+          { entryNumber: 2, quantity: 1, product: { code: 'C' } },
+        ]);
+      });
+
+      it('should append when the action entry has no entryNumber (findIndex returns -1)', () => {
+        const action = new CartActions.CartAddEntrySuccess({
+          userId: 'userId',
+          cartId: 'cart-1',
+          productCode: 'B',
+          quantity: 1,
+          // entryNumber omitted on purpose — the OCC response can be partial.
+          entry: { quantity: 1, product: { code: 'B' } } as any,
+        });
+        const state = reducerOn(baseCart, action);
+        expect(state?.entries).toEqual([
+          { entryNumber: 0, quantity: 1, product: { code: 'A' } },
+          { quantity: 1, product: { code: 'B' } } as any,
+        ]);
+      });
+    });
+
+    describe('CART_ADD_ENTRY_SUCCESS action — enableCartSlowNetworkResilience OFF', () => {
+      const reducerOff = fromMultiCart.createCartEntitiesReducer(false);
+
+      const baseCart: Cart = {
+        code: 'cart-1',
+        entries: [
+          {
+            entryNumber: 0,
+            quantity: 1,
+            product: { code: 'A' },
+          },
+        ],
+      };
+
+      it('should return the existing state untouched (legacy behaviour)', () => {
+        const action = new CartActions.CartAddEntrySuccess({
+          userId: 'userId',
+          cartId: 'cart-1',
+          productCode: 'B',
+          quantity: 1,
+          entry: { entryNumber: 1, quantity: 1, product: { code: 'B' } },
+        });
+        const state = reducerOff(baseCart, action);
+        // Reference equality — the toggle-OFF branch must short-circuit
+        // *before* any spread/copy.
+        expect(state).toBe(baseCart);
       });
     });
 
@@ -78,7 +248,7 @@ describe('Multi Cart reducer', () => {
       it('should return the default state', () => {
         const previousState = { code: 'otherCode' };
         const action = { type: 'other', payload: { code: 'code' } } as any;
-        const state = fromMultiCart.cartEntitiesReducer(previousState, action);
+        const state = reducer(previousState, action);
         expect(state).toEqual(previousState);
       });
     });

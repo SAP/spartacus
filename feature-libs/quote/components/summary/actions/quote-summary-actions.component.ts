@@ -18,6 +18,7 @@ import {
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   TranslatePipe,
@@ -79,6 +80,7 @@ export class QuoteSummaryActionsComponent
   protected readonly ACTION_BUTTONS_HEIGHT = 226;
   protected readonly AMOUNT_OF_ACTION_BUTTONS = 2;
   protected readonly BOTTOM = 'bottom';
+  private featureToggles = inject(FeatureToggles);
 
   @HostListener('window:resize')
   handleResize(): void {
@@ -215,6 +217,12 @@ export class QuoteSummaryActionsComponent
    * @returns true, only of the action shall be disabled
    */
   mustDisableAction(type: string, quote: Quote): boolean {
+    if (this.featureToggles.showWarningMessageOnRequoteButtonClick) {
+      return (
+        (type === QuoteActionType.SUBMIT || type === QuoteActionType.REQUOTE) &&
+        !this.isThresholdReached(quote)
+      );
+    }
     return type === QuoteActionType.SUBMIT && !this.isThresholdReached(quote);
   }
 

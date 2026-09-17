@@ -8,7 +8,7 @@
   >
     <ng-container *ngIf="!activeConfigurationsState?.loading; else loading">
       <div class="cx-payment-options-list">
-        <ng-content></ng-content>
+        <ng-content />
         <div
           *ngIf="
             !(
@@ -20,8 +20,7 @@
             *ngIf="showBeforePaymentOptionsOutlet"
             [cxOutlet]="opfCheckoutOutlets.OPF_CHECKOUT_BEFORE_PAYMENT_OPTIONS"
             [cxOutletContext]="outletContext$"
-          >
-          </ng-template>
+          />
 
           <div
             *ngFor="let configuration of activeConfigurationsState?.data?.value"
@@ -75,7 +74,7 @@
             >
               <div class="cx-payment-info-box">
                 <span class="alert-icon" aria-hidden="true">
-                  <cx-icon [type]="iconTypes.INFO"></cx-icon>
+                  <cx-icon [type]="iconTypes.INFO" />
                 </span>
                 <p
                   class="cx-payment-info-box-message"
@@ -102,7 +101,7 @@
                     class="cx-payment-info-box"
                   >
                     <span class="alert-icon" aria-hidden="true">
-                      <cx-icon [type]="iconTypes.INFO"></cx-icon>
+                      <cx-icon [type]="iconTypes.INFO" />
                     </span>
                     <p
                       class="cx-payment-info-box-message"
@@ -117,9 +116,7 @@
               </ng-container>
 
               <ng-container *ngIf="customPaymentTemplate">
-                <ng-container
-                  *ngTemplateOutlet="customPaymentTemplate"
-                ></ng-container>
+                <ng-container *ngTemplateOutlet="customPaymentTemplate" />
               </ng-container>
 
               <cx-opf-checkout-payment-wrapper
@@ -130,7 +127,7 @@
                   configuration.id === selectedPaymentId
                 "
                 [selectedPaymentId]="selectedPaymentId"
-              ></cx-opf-checkout-payment-wrapper>
+              />
             </ng-container>
           </div>
 
@@ -138,13 +135,13 @@
             class="cx-payment-options-list-pagination"
             [pagination]="paginationModel"
             (viewPageEvent)="pageChange($event)"
-          ></cx-pagination>
+          />
         </div>
       </div>
     </ng-container>
   </ng-container>
 
   <ng-template #loading>
-    <cx-spinner></cx-spinner>
+    <cx-spinner />
   </ng-template>
 </section>

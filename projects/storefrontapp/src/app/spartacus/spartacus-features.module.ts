@@ -334,6 +334,7 @@ if (environment.cpq) {
         enableB2BCostCenterSearch: true,
         enableB2BCustomerSearch: true,
         a11yCarouselPreventNavigationFocus: true,
+        a11yCarouselPreventIndicatorFocus: true,
         a11yNgSelectReadonlyInputValue: true,
         a11yPasswordVisibilityToggle: true,
         a11yPreventWindowsHighContrastOverride: true,
@@ -368,6 +369,7 @@ if (environment.cpq) {
         opfUseDestroyRef: true,
         enableHierarchicalAddressFormat: true,
         opfCheckoutUseUpdatePaymentTransaction: true,
+        enableCartSlowNetworkResilience: true,
         a11yRegistrationTermsAsteriskMargin: true,
         a11yAddToWishListBtnMargin: true,
         a11yProductListItemNameMargin: true,
@@ -388,6 +390,9 @@ if (environment.cpq) {
         globalMessageCloseButtonPadding: true,
         a11yItemCounterValueText: true,
         a11yNavigationChevronContrast: true,
+        showWarningMessageOnRequoteButtonClick: true,
+        oauthCallbackPage: true,
+        enableFormFieldMaxLength: true,
         useConfigurableLogoutRedirect: true
       };
       return appFeatureToggles;
