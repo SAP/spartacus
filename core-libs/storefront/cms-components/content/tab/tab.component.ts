@@ -17,7 +17,7 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { TranslatePipe, TranslationService } from '@spartacus/core';
+import { TranslatePipe, TranslationService, useFeatureStyles } from '@spartacus/core';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { BreakpointService } from '../../../layout/breakpoint';
@@ -62,6 +62,10 @@ export class TabComponent implements OnInit, AfterViewInit, OnDestroy {
   openTabs$: BehaviorSubject<number[]>;
   mode$: Observable<TAB_MODE>;
   protected subscriptions = new Subscription();
+
+  constructor() {
+    useFeatureStyles('a11yTabAndLinkContrast');
+  }
 
   ngOnInit(): void {
     this.openTabs$ = new BehaviorSubject<number[]>(this.config?.openTabs ?? []);

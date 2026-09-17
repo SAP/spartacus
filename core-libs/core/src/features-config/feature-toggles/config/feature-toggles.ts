@@ -841,6 +841,18 @@ export interface FeatureTogglesInterface {
    * `AddressFormComponent`, `UnitAddressFormService`
    */
   enableFormFieldMaxLength?: boolean;
+
+  /**
+   * When enabled, the active/hover color for tab buttons (`cx-tab`) and the
+   * order number link color in the order history table are changed from
+   * `--cx-color-primary` (#1f7bc0, contrast 4.1:1) to
+   * `--cx-color-primary-accent` (#055f9f, contrast ~5.6:1) against the
+   * default background (#f4f4f4), meeting the WCAG 1.4.3 Level AA minimum
+   * contrast ratio of 4.5:1.
+   *
+   * Affects: `TabComponent`, `OrderHistoryComponent`
+   */
+  a11yTabAndLinkContrast?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -941,4 +953,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showWarningMessageOnRequoteButtonClick: false,
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
+  a11yTabAndLinkContrast: false,
 };

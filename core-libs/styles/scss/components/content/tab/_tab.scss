@@ -38,6 +38,10 @@
     &.active,
     &:hover:not([disabled]) {
       color: var(--cx-color-primary);
+
+      @include forFeature('a11yTabAndLinkContrast') {
+        color: var(--cx-color-primary-accent);
+      }
     }
     &:focus {
       z-index: 1;
@@ -68,6 +72,10 @@
       margin-inline-start: auto;
       height: 5px;
       background: var(--cx-color-primary);
+
+      @include forFeature('a11yTabAndLinkContrast') {
+        background: var(--cx-color-primary-accent);
+      }
 
       // the tab hover effect uses a border in the :after pseudo
       // that is animated from 0% to 100% width

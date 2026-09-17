@@ -85,6 +85,10 @@
     .cx-order-history-value {
       color: var(--cx-color-primary);
       text-decoration: underline;
+
+      @include forFeature('a11yTabAndLinkContrast') {
+        color: var(--cx-color-primary-accent);
+      }
     }
   }
 

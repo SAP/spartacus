@@ -15,6 +15,7 @@ import {
   TranslationService,
   UrlPipe,
   isNotUndefined,
+  useFeatureStyles,
 } from '@spartacus/core';
 import {
   Order,
@@ -56,7 +57,9 @@ export class OrderHistoryComponent implements OnDestroy {
     protected orderHistoryFacade: OrderHistoryFacade,
     protected translation: TranslationService,
     protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade
-  ) {}
+  ) {
+    useFeatureStyles('a11yTabAndLinkContrast');
+  }
 
   private PAGE_SIZE = 5;
   sortType: string;
