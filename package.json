@@ -296,7 +296,7 @@
   },
   "overrides": {
     "@verdaccio/middleware": {
-      "express-rate-limit": "8.7.0"
+      "express-rate-limit": "5.5.1"
     },
     "axios": "1.18.1",
     "express-rate-limit": "8.7.0",
