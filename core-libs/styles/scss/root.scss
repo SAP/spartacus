@@ -62,3 +62,24 @@
   ):not(.cx-theme-high-contrast-light) {
   --cx-color-visual-focus: #1f3a93 !important;
 }
+
+// Darkens the default theme's primary color from `#1f7bc0` to `#055f9f` so that
+// link and tab text rendered with `--cx-color-primary` (e.g. the Order History
+// tabs and order-number links, and the product PDP tabs) meets the WCAG 1.4.3
+// (SC 261.1, Level AA) minimum text contrast ratio of 4.5:1 against the
+// `#f4f4f4` page background (the original `#1f7bc0` yields only 4.10:1). The
+// value matches the already-compliant `.santorini-updated` variant. The
+// `cxFeat_` class is applied to the application root element (`app-root`) by
+// `FeatureStylesService`, so overriding the inherited CSS custom property on
+// that class propagates to every descendant consumer of `--cx-color-primary`.
+//
+// `!important` is required because CMS theme classes (e.g. `.santorini`) also
+// set this property on the same element with equal specificity and are loaded
+// afterwards, so they would otherwise win. The `:not()` guards exclude the
+// high-contrast themes, which define their own compliant primary colors that
+// must not be overridden.
+.#{getFeatureCssClass('a11yLinkTabContrast')}:not(
+    .cx-theme-high-contrast-dark
+  ):not(.cx-theme-high-contrast-light) {
+  --cx-color-primary: #055f9f !important;
+}

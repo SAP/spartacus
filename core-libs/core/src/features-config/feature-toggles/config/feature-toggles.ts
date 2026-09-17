@@ -841,6 +841,15 @@ export interface FeatureTogglesInterface {
    * `AddressFormComponent`, `UnitAddressFormService`
    */
   enableFormFieldMaxLength?: boolean;
+
+  /**
+   * When enabled, the default theme's primary color (`--cx-color-primary`) is
+   * darkened from `#1f7bc0` to `#055f9f` so that link and tab text (e.g. the
+   * Order History tabs and order-number links, and the product tabs) meet the
+   * WCAG 1.4.3 (SC 261.1, Level AA) minimum text contrast ratio of 4.5:1
+   * against the `#f4f4f4` page background.
+   */
+  a11yLinkTabContrast?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -941,4 +950,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showWarningMessageOnRequoteButtonClick: false,
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
+  a11yLinkTabContrast: false,
 };
