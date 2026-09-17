@@ -393,6 +393,7 @@ if (environment.cpq) {
         showWarningMessageOnRequoteButtonClick: true,
         oauthCallbackPage: true,
         enableFormFieldMaxLength: true,
+        a11ySignInRegisterLinkContrast: true,
       };
       return appFeatureToggles;
     }),

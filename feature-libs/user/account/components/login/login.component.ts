@@ -12,6 +12,7 @@ import {
   TranslatePipe,
   TranslationService,
   UrlPipe,
+  useFeatureStyles,
 } from '@spartacus/core';
 import { DomChangeDirective, PageSlotComponent } from '@spartacus/storefront';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
@@ -40,7 +41,9 @@ export class LoginComponent implements OnInit {
     private auth: AuthService,
     private userAccount: UserAccountFacade,
     private translation: TranslationService
-  ) {}
+  ) {
+    useFeatureStyles('a11ySignInRegisterLinkContrast');
+  }
 
   ngOnInit(): void {
     this.user$ = this.auth.isUserLoggedIn().pipe(

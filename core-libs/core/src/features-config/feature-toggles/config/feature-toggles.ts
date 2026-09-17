@@ -841,6 +841,15 @@ export interface FeatureTogglesInterface {
    * `AddressFormComponent`, `UnitAddressFormService`
    */
   enableFormFieldMaxLength?: boolean;
+
+  /**
+   * When enabled, the "Sign in / Register" link in the header uses
+   * `--cx-color-primary-accent` instead of the default Bootstrap link color
+   * (`--cx-color-primary`), so it meets the WCAG 1.4.3 minimum contrast
+   * requirement of 4.5:1 against the header's light background.
+   * Affects: `LoginComponent`
+   */
+  a11ySignInRegisterLinkContrast?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -941,4 +950,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showWarningMessageOnRequoteButtonClick: false,
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
+  a11ySignInRegisterLinkContrast: false,
 };

@@ -8,6 +8,12 @@
     }
   }
 
+  @include forFeature('a11ySignInRegisterLinkContrast') {
+    > a {
+      color: var(--cx-color-primary-accent);
+    }
+  }
+
   .cx-login-greet {
     color: var(--cx-color-text);
     @include type('7');
