@@ -841,6 +841,17 @@ export interface FeatureTogglesInterface {
    * `AddressFormComponent`, `UnitAddressFormService`
    */
   enableFormFieldMaxLength?: boolean;
+
+  /**
+   * When enabled, the "Read More" / "Read Less" button in `ReadMoreComponent`
+   * uses `--cx-color-text` instead of `--cx-color-primary` so the link text
+   * meets the WCAG 1.4.3 Level AA minimum contrast ratio of 4.5:1.
+   * In the default Sparta theme, `--cx-color-primary` (#fe5757) only achieves
+   * ~3:1 against a white background; `--cx-color-text` (#212738) achieves ~14:1.
+   *
+   * Affects: `ReadMoreComponent`
+   */
+  a11yReadMoreLinkContrast?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -941,4 +952,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showWarningMessageOnRequoteButtonClick: false,
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
+  a11yReadMoreLinkContrast: false,
 };
