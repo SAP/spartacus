@@ -52,7 +52,7 @@ for (const file of files) {
     console.log(`${rel}:${f.line}:${f.column}  [${f.category}]  ${f.message}`);
     console.log(`    ${f.snippet}`);
     if (emitAnnotations) {
-      const message = `[skill-scan] ${f.category}: ${f.message}`.replace(
+      const message = `[skill-scan] ${f.category}: ${f.message}`.replaceAll(
         /\r?\n/g,
         ' '
       );
