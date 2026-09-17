@@ -3,17 +3,17 @@
 # Accessibility (a11y) Fix Skill
 
 ## Goal
-Identify accessibility issues sourced from Jira and dispatch one `a11y-fix` agent per
-issue to fix each end-to-end. This skill is **orchestration only** — the per-issue work
-(reading the ticket, implementing the fix behind a feature toggle, committing, pushing,
-opening the PR) lives entirely in the `a11y-fix` agent definition
-(`.claude/agents/a11y-fix.md`). Do **not** restate that logic here or in the spawn
+Identify accessibility issues sourced from Jira and dispatch one `a11y-developer` agent
+per issue to fix each end-to-end. This skill is **orchestration only** — the per-issue
+work (reading the ticket, implementing the fix behind a feature toggle, committing,
+pushing, opening the PR) lives entirely in the `a11y-developer` agent definition
+(`.claude/agents/a11y-developer.md`). Do **not** restate that logic here or in the spawn
 prompt; do **not** pre-guess a fix for any ticket.
 
 ## Prerequisites
 - The `sap-jira` MCP server must be connected and authenticated (run `/mcp` if its
   tools are unavailable). All Jira reads go through this server's tools.
-- The `a11y-fix` agent must exist at `.claude/agents/a11y-fix.md`.
+- The `a11y-developer` agent must exist at `.claude/agents/a11y-developer.md`.
 
 ## Autonomy (orchestrator)
 - Run the entire flow autonomously. Default to **yes** for every decision and tool
@@ -43,7 +43,7 @@ prompt; do **not** pre-guess a fix for any ticket.
   priority, and component(s).
 
 ### 2. Dispatch one agent per issue
-- **2.1** Spawn one `a11y-fix` agent per Jira issue, in parallel (all spawn calls in a
+- **2.1** Spawn one `a11y-developer` agent per Jira issue, in parallel (all spawn calls in a
   single message). The agent definition sets `isolation: worktree`, so each runs in its
   own isolated worktree/branch — this is what makes concurrent runs safe (pushes target
   distinct `a11y/<issue-key>` branches, so they never collide).
