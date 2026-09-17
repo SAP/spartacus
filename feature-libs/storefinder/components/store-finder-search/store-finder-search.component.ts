@@ -5,7 +5,7 @@
  */
 
 import { NgClass, NgTemplateOutlet } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -13,7 +13,6 @@ import {
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import {
-  FeatureToggles,
   RoutingService,
   TranslatePipe,
   FeatureDirective,
@@ -43,15 +42,7 @@ export class StoreFinderSearchComponent {
   searchBox: UntypedFormControl = new UntypedFormControl();
   iconTypes = ICON_TYPE;
 
-  private featureToggles = inject(FeatureToggles);
-
   constructor(private routingService: RoutingService) {}
-
-  get searchAutocomplete(): string | null {
-    return this.featureToggles.a11yDeleteEntryButtonKeyboardAccessible
-      ? 'off'
-      : null;
-  }
 
   findStores(address: string) {
     this.routingService.go(['store-finder/find'], {

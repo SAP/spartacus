@@ -162,27 +162,86 @@ describe('LoginFormComponent', () => {
   });
 
   describe('a11yDeleteEntryButtonKeyboardAccessible - Email Input Autocomplete Accessibility', () => {
-    it('should have form with userId control for login', () => {
-      expect(component.form).toBeTruthy();
-      expect(component.form.get('userId')).toBeTruthy();
+    describe('when flag is enabled', () => {
+      beforeEach(async () => {
+        TestBed.resetTestingModule();
+        TestBed.configureTestingModule({
+          imports: [
+            FormErrorsModule,
+            SpinnerModule,
+            LoginFormComponent,
+            RouterModule.forRoot([]),
+            I18nTestingModule,
+          ],
+          providers: [
+            {
+              provide: LoginFormComponentService,
+              useClass: MockLoginFormComponentService,
+            },
+            provideMockFeatureToggles({
+              a11yDeleteEntryButtonKeyboardAccessible: true,
+            }),
+          ],
+        })
+          .overrideComponent(LoginFormComponent, {
+            remove: { imports: [TranslatePipe, CxDatePipe, UrlPipe] },
+            add: { imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe] },
+          })
+          .compileComponents();
+
+        fixture = TestBed.createComponent(LoginFormComponent);
+        component = fixture.componentInstance;
+        el = fixture.debugElement;
+        fixture.detectChanges();
+      });
+
+      it('should set autocomplete="off" on email input', () => {
+        const emailInput = el.query(By.css('input[type="email"]'));
+        expect(emailInput.nativeElement.getAttribute('autocomplete')).toBe(
+          'off'
+        );
+      });
     });
 
-    it('should use feature toggle to manage email input autocomplete', () => {
-      fixture.detectChanges();
-      const emailInput = el.query(By.css('input[type="email"]'));
-      expect(emailInput).toBeTruthy();
-    });
+    describe('when flag is disabled', () => {
+      beforeEach(async () => {
+        TestBed.resetTestingModule();
+        TestBed.configureTestingModule({
+          imports: [
+            FormErrorsModule,
+            SpinnerModule,
+            LoginFormComponent,
+            RouterModule.forRoot([]),
+            I18nTestingModule,
+          ],
+          providers: [
+            {
+              provide: LoginFormComponentService,
+              useClass: MockLoginFormComponentService,
+            },
+            provideMockFeatureToggles({
+              a11yDeleteEntryButtonKeyboardAccessible: false,
+            }),
+          ],
+        })
+          .overrideComponent(LoginFormComponent, {
+            remove: { imports: [TranslatePipe, CxDatePipe, UrlPipe] },
+            add: { imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe] },
+          })
+          .compileComponents();
 
-    it('should have a11yDeleteEntryButtonKeyboardAccessible feature toggle for autocomplete control', () => {
-      // Component injects FeatureToggles to manage autocomplete behavior
-      expect(component).toBeTruthy();
-    });
+        fixture = TestBed.createComponent(LoginFormComponent);
+        component = fixture.componentInstance;
+        el = fixture.debugElement;
+        fixture.detectChanges();
+      });
 
-    it('should render email input with proper form control binding', () => {
-      component.form.get('userId')?.setValue('test@example.com');
-      fixture.detectChanges();
-      const emailInput = el.query(By.css('input[type="email"]'));
-      expect(emailInput.nativeElement.value).toBe('test@example.com');
+      it('should not set autocomplete attribute on email input', () => {
+        const emailInput = el.query(By.css('input[type="email"]'));
+        expect(
+          emailInput.nativeElement.getAttribute('autocomplete')
+        ).toBeNull();
+      });
     });
   });
 });

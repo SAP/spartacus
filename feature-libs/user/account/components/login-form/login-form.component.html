@@ -13,20 +13,37 @@
       {{ 'loginForm.emailAddress.label' | cxTranslate }}
       <cx-form-required-asterisks />
     </span>
-    <input
-      required="true"
-      type="email"
-      class="form-control"
-      placeholder="{{ 'loginForm.emailAddress.placeholder' | cxTranslate }}"
-      [attr.aria-label]="'loginForm.emailAddress.label' | cxTranslate"
-      formControlName="userId"
-      name="username"
-      [attr.autocomplete]="emailAutocomplete"
-      [attr.aria-invalid]="
-        form.get('userId')?.touched && form.get('userId')?.invalid
-      "
-      [attr.aria-errormessage]="'userIdError'"
-    />
+    <ng-container *cxFeature="'a11yDeleteEntryButtonKeyboardAccessible'">
+      <input
+        required="true"
+        type="email"
+        class="form-control"
+        placeholder="{{ 'loginForm.emailAddress.placeholder' | cxTranslate }}"
+        [attr.aria-label]="'loginForm.emailAddress.label' | cxTranslate"
+        formControlName="userId"
+        name="username"
+        autocomplete="off"
+        [attr.aria-invalid]="
+          form.get('userId')?.touched && form.get('userId')?.invalid
+        "
+        [attr.aria-errormessage]="'userIdError'"
+      />
+    </ng-container>
+    <ng-container *cxFeature="'!a11yDeleteEntryButtonKeyboardAccessible'">
+      <input
+        required="true"
+        type="email"
+        class="form-control"
+        placeholder="{{ 'loginForm.emailAddress.placeholder' | cxTranslate }}"
+        [attr.aria-label]="'loginForm.emailAddress.label' | cxTranslate"
+        formControlName="userId"
+        name="username"
+        [attr.aria-invalid]="
+          form.get('userId')?.touched && form.get('userId')?.invalid
+        "
+        [attr.aria-errormessage]="'userIdError'"
+      />
+    </ng-container>
 
     <cx-form-errors
       id="userIdError"

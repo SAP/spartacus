@@ -129,27 +129,78 @@ describe('StoreFinderSearchComponent', () => {
   });
 
   describe('a11yDeleteEntryButtonKeyboardAccessible - Browser Autocomplete Delete Button Accessibility', () => {
-    it('should have a11yDeleteEntryButtonKeyboardAccessible feature toggle available', () => {
-      expect(component).toBeTruthy();
-      // Feature toggle is injected in component
+    describe('when flag is enabled', () => {
+      beforeEach(async () => {
+        TestBed.resetTestingModule();
+        TestBed.configureTestingModule({
+          imports: [StoreFinderSearchComponent, MockUrlPipe],
+          providers: [
+            {
+              provide: RoutingService,
+              useValue: { go: vi.fn() },
+            },
+            { provide: ActivatedRoute, useValue: mockActivatedRoute },
+            provideMockFeatureToggles({
+              a11yDeleteEntryButtonKeyboardAccessible: true,
+            }),
+          ],
+        })
+          .overrideComponent(StoreFinderSearchComponent, {
+            remove: { imports: [TranslatePipe, IconComponent] },
+            add: { imports: [MockTranslatePipe, MockCxIconComponent] },
+          })
+          .compileComponents();
+
+        fixture = TestBed.createComponent(StoreFinderSearchComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+      });
+
+      it('should set autocomplete="off" on search input', () => {
+        const searchInput = fixture.debugElement.query(
+          (el) => el.name === 'input'
+        );
+        expect(searchInput.nativeElement.getAttribute('autocomplete')).toBe(
+          'off'
+        );
+      });
     });
 
-    it('should support autocomplete attribute control via feature toggle', () => {
-      fixture.detectChanges();
-      const searchInput = fixture.debugElement.query(
-        (el) => el.name === 'input'
-      );
-      expect(searchInput).toBeTruthy();
-    });
+    describe('when flag is disabled', () => {
+      beforeEach(async () => {
+        TestBed.resetTestingModule();
+        TestBed.configureTestingModule({
+          imports: [StoreFinderSearchComponent, MockUrlPipe],
+          providers: [
+            {
+              provide: RoutingService,
+              useValue: { go: vi.fn() },
+            },
+            { provide: ActivatedRoute, useValue: mockActivatedRoute },
+            provideMockFeatureToggles({
+              a11yDeleteEntryButtonKeyboardAccessible: false,
+            }),
+          ],
+        })
+          .overrideComponent(StoreFinderSearchComponent, {
+            remove: { imports: [TranslatePipe, IconComponent] },
+            add: { imports: [MockTranslatePipe, MockCxIconComponent] },
+          })
+          .compileComponents();
 
-    it('should have search input with searchBox FormControl', () => {
-      expect(component.searchBox).toBeTruthy();
-      expect(component.searchBox.value).toBeFalsy();
-    });
+        fixture = TestBed.createComponent(StoreFinderSearchComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+      });
 
-    it('should use feature toggle to manage autocomplete behavior', () => {
-      // Component injects FeatureToggles to control autocomplete
-      expect(component).toBeTruthy();
+      it('should not set autocomplete attribute on search input', () => {
+        const searchInput = fixture.debugElement.query(
+          (el) => el.name === 'input'
+        );
+        expect(
+          searchInput.nativeElement.getAttribute('autocomplete')
+        ).toBeNull();
+      });
     });
   });
 });

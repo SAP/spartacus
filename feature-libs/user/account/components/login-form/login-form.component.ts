@@ -11,7 +11,6 @@ import {
   ElementRef,
   HostBinding,
   ViewChild,
-  inject,
 } from '@angular/core';
 import {
   FormsModule,
@@ -19,12 +18,7 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import {
-  FeatureDirective,
-  FeatureToggles,
-  TranslatePipe,
-  UrlPipe,
-} from '@spartacus/core';
+import { FeatureDirective, TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
   FormErrorsComponent,
   FormRequiredAsterisksComponent,
@@ -65,14 +59,6 @@ export class LoginFormComponent {
   action = this.service.action;
   method = this.service.method;
   showResetPassword = this.service.showResetPassword;
-
-  private featureToggles = inject(FeatureToggles);
-
-  get emailAutocomplete(): string | null {
-    return this.featureToggles.a11yDeleteEntryButtonKeyboardAccessible
-      ? 'off'
-      : null;
-  }
 
   constructor(protected service: LoginFormComponentService) {
     this.service.handleCustomLoginError();
