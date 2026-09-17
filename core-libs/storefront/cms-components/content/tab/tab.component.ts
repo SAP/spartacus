@@ -17,7 +17,11 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { TranslatePipe, TranslationService, useFeatureStyles } from '@spartacus/core';
+import {
+  TranslatePipe,
+  TranslationService,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { BreakpointService } from '../../../layout/breakpoint';
