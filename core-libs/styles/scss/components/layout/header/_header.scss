@@ -219,6 +219,10 @@ $space: 0.5rem;
       justify-content: flex-end;
       color: var(--cx-color-primary);
       flex-wrap: nowrap;
+
+      @include forFeature('a11ySiteLinksColorContrast') {
+        color: var(--cx-color-primary-accent);
+      }
     }
 
     .SiteLogin {

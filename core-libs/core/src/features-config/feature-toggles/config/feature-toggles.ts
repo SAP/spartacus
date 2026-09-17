@@ -841,6 +841,17 @@ export interface FeatureTogglesInterface {
    * `AddressFormComponent`, `UnitAddressFormService`
    */
   enableFormFieldMaxLength?: boolean;
+
+  /**
+   * When enabled, the SiteLinks section in the header (e.g. "Quick Order",
+   * "Find a Store", "Contact Us", "Help") uses `--cx-color-primary-accent`
+   * instead of `--cx-color-primary` for link text on desktop, so the color
+   * meets the WCAG 1.4.3 Level AA minimum contrast ratio of 4.5:1 against
+   * the light header background (`--cx-color-light`).
+   *
+   * Affects: `StorefrontComponent` header (`%header` / `.SiteLinks`)
+   */
+  a11ySiteLinksColorContrast?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -941,4 +952,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showWarningMessageOnRequoteButtonClick: false,
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
+  a11ySiteLinksColorContrast: false,
 };
