@@ -841,6 +841,16 @@ export interface FeatureTogglesInterface {
    * `AddressFormComponent`, `UnitAddressFormService`
    */
   enableFormFieldMaxLength?: boolean;
+
+  /**
+   * When enabled, the breadcrumb separator colour changes from
+   * `--cx-color-secondary` to `--cx-color-text` so that the separator meets
+   * the WCAG 1.4.3 Level AA minimum contrast ratio of 4.5:1 against the
+   * breadcrumb background in the default theme.
+   *
+   * Affects: `BreadcrumbComponent`
+   */
+  a11yBreadcrumbSeparatorContrast?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -941,4 +951,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showWarningMessageOnRequoteButtonClick: false,
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
+  a11yBreadcrumbSeparatorContrast: false,
 };

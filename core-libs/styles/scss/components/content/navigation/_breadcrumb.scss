@@ -55,6 +55,10 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
         display: flex;
         color: var(--cx-color-secondary);
 
+        @include forFeature('a11yBreadcrumbSeparatorContrast') {
+          color: var(--cx-color-text);
+        }
+
         &:not(:last-child):after {
           content: '/';
         }
