@@ -158,6 +158,7 @@ describe('I18nextTranslationService', () => {
 
         describe(', when key does NOT exist even after chunk was loaded,', () => {
           beforeEach(() => {
+            vi.mocked(isDevMode).mockReturnValue(true);
             vi.spyOn(i18next, 'exists').mockReturnValue(false);
             vi.spyOn(i18next, 'loadNamespaces').mockImplementation(((
               _namespaces,
@@ -166,8 +167,6 @@ describe('I18nextTranslationService', () => {
           });
 
           it('should emit key in brackets for non-production', () => {
-            vi.mocked(isDevMode).mockReturnValue(true);
-
             let result;
             service
               .translate(key, testOptions)

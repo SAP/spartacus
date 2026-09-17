@@ -21,22 +21,6 @@ const mockSource: Occ.ProductSearchPage = {
   ],
 };
 
-const mockPlpWithUselessFacets: Occ.ProductSearchPage = {
-  pagination: {
-    totalResults: 2,
-  },
-  facets: [
-    {
-      name: 'useless-facet',
-      values: [{ count: 2 }, { count: 2 }],
-    },
-    {
-      name: 'useful-facet',
-      values: [{ count: 1 }, { count: 2 }, { count: 1 }],
-    },
-  ] as Occ.Facet[],
-};
-
 const mockPlpWithoutPagination: Occ.ProductSearchPage = {
   facets: [
     {
@@ -130,16 +114,36 @@ describe('OccProductSearchPageNormalizer', () => {
   });
 
   describe('normalize facet value count', () => {
+    let mockPlpWithUselessFacetsLocal: Occ.ProductSearchPage;
+
+    beforeEach(() => {
+      mockPlpWithUselessFacetsLocal = {
+        pagination: {
+          totalResults: 2,
+        },
+        facets: [
+          {
+            name: 'useless-facet',
+            values: [{ count: 2 }, { count: 2 }],
+          },
+          {
+            name: 'useful-facet',
+            values: [{ count: 1 }, { count: 2 }, { count: 1 }],
+          },
+        ] as Occ.Facet[],
+      };
+    });
+
     it('should remove useless facet from facet list', () => {
-      const result = normalizer.convert(mockPlpWithUselessFacets);
+      const result = normalizer.convert(mockPlpWithUselessFacetsLocal);
       expect(result.facets.length).toEqual(1);
       expect(result.facets[0].name).toEqual('useful-facet');
     });
 
     it('should handle empty facets', () => {
-      mockPlpWithUselessFacets.facets = null;
-      const result = normalizer.convert(mockPlpWithUselessFacets);
-      expect(result).toEqual(mockPlpWithUselessFacets as any);
+      mockPlpWithUselessFacetsLocal.facets = null;
+      const result = normalizer.convert(mockPlpWithUselessFacetsLocal);
+      expect(result).toEqual(mockPlpWithUselessFacetsLocal as any);
     });
 
     it('should not remove useless facet facet list if pagination is not used', () => {

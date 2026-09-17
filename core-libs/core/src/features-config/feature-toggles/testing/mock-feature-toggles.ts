@@ -150,25 +150,41 @@ class MockFeatureConfigService {
 export function provideMockFeatureToggles(
   initial: Partial<FeatureTogglesInterface> = {}
 ): Provider[] {
-  const controller = createController(initial);
-
   return [
-    // The controller itself, so tests can inject it to mutate toggles.
-    { provide: MockFeatureTogglesController, useValue: controller },
+    // The controller is created fresh by the injector on each TestBed setup,
+    // so mutations via .set() from one test cannot leak into the next.
+    {
+      provide: MockFeatureTogglesController,
+      useFactory: () => createController(initial),
+    },
 
     // New, preferred path: `inject(FeatureToggles)`.
-    { provide: FeatureToggles, useValue: controller },
-    { provide: RootFeatureToggles, useValue: controller },
-    { provide: DefaultFeatureToggles, useValue: controller },
+    {
+      provide: FeatureToggles,
+      useFactory: (c: MockFeatureTogglesController) => c,
+      deps: [MockFeatureTogglesController],
+    },
+    {
+      provide: RootFeatureToggles,
+      useFactory: (c: MockFeatureTogglesController) => c,
+      deps: [MockFeatureTogglesController],
+    },
+    {
+      provide: DefaultFeatureToggles,
+      useFactory: (c: MockFeatureTogglesController) => c,
+      deps: [MockFeatureTogglesController],
+    },
 
     // Compatibility with `provideFeatureToggles(...)` style providers:
     // anything iterating `FeatureTogglesChunk` will also see our controller.
-    { provide: FeatureTogglesChunk, useValue: controller, multi: true },
+    {
+      provide: FeatureTogglesChunk,
+      useFactory: (c: MockFeatureTogglesController) => c,
+      deps: [MockFeatureTogglesController],
+      multi: true,
+    },
 
     // Legacy path: `FeaturesConfig.features` / `Config.features`.
-    // We pass the SAME `controller` reference as `features`, so that any
-    // later mutation via `controller.set(...)` is visible to consumers
-    // that still read `config.features['xxx']`.
     //
     // Casts:
     // - `controller` doesn't carry an index signature, but `Config.features`
@@ -180,10 +196,11 @@ export function provideMockFeatureToggles(
     // No type safety related to feature toggles is lost: toggle names
     // remain strictly typed via `FeatureTogglesInterface`.
     provideConfigFactory(
-      () =>
+      (c: MockFeatureTogglesController) =>
         ({
-          features: controller as unknown as Record<string, unknown>,
-        }) as Partial<Config> as Config
+          features: c as unknown as Record<string, unknown>,
+        }) as Partial<Config> as Config,
+      [MockFeatureTogglesController]
     ),
 
     // Override `FeatureConfigService` (used by the `*cxFeature` directive
@@ -193,10 +210,9 @@ export function provideMockFeatureToggles(
     // and would NOT see runtime mutations done via `controller.set(...)`.
     {
       provide: FeatureConfigService,
-      useFactory: () =>
-        new MockFeatureConfigService(
-          controller as unknown as Record<string, unknown>
-        ),
+      useFactory: (c: MockFeatureTogglesController) =>
+        new MockFeatureConfigService(c as unknown as Record<string, unknown>),
+      deps: [MockFeatureTogglesController],
     },
   ];
 }
