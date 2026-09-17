@@ -841,6 +841,15 @@ export interface FeatureTogglesInterface {
    * `AddressFormComponent`, `UnitAddressFormService`
    */
   enableFormFieldMaxLength?: boolean;
+
+  /**
+   * When enabled, the breadcrumb navigation links use `--cx-color-primary-accent`
+   * instead of `--cx-color-primary`, so the link text meets the WCAG 1.4.3
+   * minimum contrast ratio of 4.5:1 against the page background in the default theme.
+   *
+   * Affects: `BreadcrumbComponent`
+   */
+  a11yBreadcrumbLinkContrast?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -941,4 +950,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showWarningMessageOnRequoteButtonClick: false,
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
+  a11yBreadcrumbLinkContrast: false,
 };
