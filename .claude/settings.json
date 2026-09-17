@@ -1,6 +1,7 @@
 {
   "permissions": {
     "allow": [
+      "Bash(grep *)",
       "Bash(git *)",
       "Bash(git push *)",
       "Bash(git worktree remove *)",
