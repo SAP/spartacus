@@ -24,6 +24,9 @@ class MockAuthConfigService implements Partial<AuthConfigService> {
   getOAuthFlow() {
     return OAuthFlow.ResourceOwnerPasswordFlow;
   }
+  customLoginEnabled() {
+    return false;
+  }
 }
 class MockGlobalMessageService {
   add = vi.fn().mockImplementation(() => {});
@@ -104,12 +107,23 @@ describe('ForgotPasswordComponentService', () => {
         expect(service.form.reset).toHaveBeenCalled();
       });
 
-      it('should not redirect when flow different than ResourceOwnerPasswordFlow is used', () => {
+      it('should not redirect when flow different than ResourceOwnerPasswordFlow is used and custom login is disabled', () => {
         vi.spyOn(authConfigService, 'getOAuthFlow').mockReturnValue(
           OAuthFlow.ImplicitFlow
         );
         service.requestEmail();
         expect(routingService.go).not.toHaveBeenCalled();
+      });
+
+      it('should redirect to loginForm when custom login is enabled and flow is AuthorizationCode', () => {
+        vi.spyOn(authConfigService, 'getOAuthFlow').mockReturnValue(
+          OAuthFlow.AuthorizationCode
+        );
+        vi.spyOn(authConfigService, 'customLoginEnabled').mockReturnValue(true);
+        service.requestEmail();
+        expect(routingService.go).toHaveBeenCalledWith({
+          cxRoute: 'loginForm',
+        });
       });
     });
 

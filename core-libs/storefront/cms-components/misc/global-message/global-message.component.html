@@ -30,7 +30,7 @@
     "
   >
     <span class="alert-icon">
-      <cx-icon [type]="iconTypes.SUCCESS"></cx-icon>
+      <cx-icon [type]="iconTypes.SUCCESS" />
     </span>
     <span>{{ confMsg | cxTranslate }}</span>
     <button
@@ -38,7 +38,7 @@
       title="{{ 'common.close' | cxTranslate }}"
       (click)="clear(messageType.MSG_TYPE_CONFIRMATION, i)"
     >
-      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+      <cx-icon [type]="iconTypes.CLOSE" />
     </button>
   </div>
   <div
@@ -46,7 +46,7 @@
     *ngFor="let infoMsg of messages[messageType.MSG_TYPE_INFO]; let i = index"
   >
     <span class="alert-icon">
-      <cx-icon [type]="iconTypes.INFO"></cx-icon>
+      <cx-icon [type]="iconTypes.INFO" />
     </span>
     <span>{{ infoMsg | cxTranslate }}</span>
     <button
@@ -54,7 +54,7 @@
       title="{{ 'common.close' | cxTranslate }}"
       (click)="clear(messageType.MSG_TYPE_INFO, i)"
     >
-      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+      <cx-icon [type]="iconTypes.CLOSE" />
     </button>
   </div>
   <div
@@ -65,7 +65,7 @@
     "
   >
     <span class="alert-icon">
-      <cx-icon [type]="iconTypes.WARNING"></cx-icon>
+      <cx-icon [type]="iconTypes.WARNING" />
     </span>
     <span>{{ infoMsg | cxTranslate }}</span>
     <button
@@ -73,7 +73,7 @@
       title="{{ 'common.close' | cxTranslate }}"
       (click)="clear(messageType.MSG_TYPE_WARNING, i)"
     >
-      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+      <cx-icon [type]="iconTypes.CLOSE" />
     </button>
   </div>
   <div
@@ -81,7 +81,7 @@
     *ngFor="let errorMsg of messages[messageType.MSG_TYPE_ERROR]; let i = index"
   >
     <span class="alert-icon">
-      <cx-icon [type]="iconTypes.ERROR"></cx-icon>
+      <cx-icon [type]="iconTypes.ERROR" />
     </span>
     <span>{{ errorMsg | cxTranslate }}</span>
     <button
@@ -89,7 +89,7 @@
       title="{{ 'common.close' | cxTranslate }}"
       (click)="clear(messageType.MSG_TYPE_ERROR, i)"
     >
-      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+      <cx-icon [type]="iconTypes.CLOSE" />
     </button>
   </div>
 </div>

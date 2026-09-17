@@ -104,19 +104,12 @@ export class AuthService {
       if (loginResult.result && token && !isEmulated && !isUsingASMClient) {
         this.userIdService.setUserId(OCC_USER_ID_CURRENT);
 
-        if (!this.featureToggles.dispatchLoginActionOnlyWhenTokenReceived) {
-          // When the feature flag is disabled, dispatch the login action even when the token
-          // is retrieved from storage (e.g., page refresh)
-          this.store.dispatch(new AuthActions.Login());
-        }
         // We check if the token was received during the `tryLogin()` attempt.
         // If so, we will redirect as we can deduce we are returning from the authentication server.
         // Redirection should not be done in cases we get the token from storage (eg. refreshing the page).
         // In this case we need to dispatch the login action to indicate that the user has just logged in.
         if (loginResult.tokenReceived) {
-          if (this.featureToggles.dispatchLoginActionOnlyWhenTokenReceived) {
-            this.store.dispatch(new AuthActions.Login());
-          }
+          this.store.dispatch(new AuthActions.Login());
           this.authRedirectService.redirect();
         }
       }

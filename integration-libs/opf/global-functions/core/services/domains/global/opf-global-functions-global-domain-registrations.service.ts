@@ -16,6 +16,10 @@ import {
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
 } from '@spartacus/opf/payment/root';
+import {
+  ApplePaySessionVerificationRequest,
+  ApplePaySessionVerificationResponse,
+} from '@spartacus/opf/quick-buy/root';
 import { OpfGlobalFunctionsSharedRegistrationsService } from '../../opf-global-functions-shared-registrations.service';
 import { OpfGlobalFunctionsGlobalDomainService } from './opf-global-functions-global-domain.service';
 
@@ -61,6 +65,7 @@ export class OpfGlobalFunctionsGlobalDomainRegistrationsService {
       paymentSessionId,
       vcr
     );
+    this.registerGetApplePayWebSession(container);
   }
 
   protected registerCtaScriptReady(container: OpfPaymentGlobalMethods): void {
@@ -171,5 +176,14 @@ export class OpfGlobalFunctionsGlobalDomainRegistrationsService {
   protected registerDeleteAddress(container: OpfPaymentGlobalMethods): void {
     container.deleteAddress = (addressId: string): Promise<void> =>
       this.domainService.deleteAddress(addressId);
+  }
+
+  protected registerGetApplePayWebSession(
+    container: OpfPaymentGlobalMethods
+  ): void {
+    (container as any).getApplePayWebSession = (
+      request: ApplePaySessionVerificationRequest
+    ): Promise<ApplePaySessionVerificationResponse> =>
+      this.domainService.getApplePayWebSession(request);
   }
 }
