@@ -85,6 +85,14 @@ export class LogoutGuard {
     return this.auth.coreLogout();
   }
 
+  /**
+   * Returns the URL to redirect to after a successful logout.
+   *
+   * Priority order:
+   * 1. Login page — when the storefront is protected (closed shop).
+   * 2. Configured `logout.redirectRoute`.
+   * 3. Home page — default fallback.
+   */
   protected getRedirectUrl(): UrlTree {
     if (this.protectedRoutes.shouldProtect) {
       return this.router.parseUrl(this.semanticPathService.get('login') ?? '');
