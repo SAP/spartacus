@@ -18,7 +18,7 @@ import {
   ProtectedRoutesService,
   SemanticPathService,
 } from '@spartacus/core';
-import { from, Observable } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { LogoutConfig } from './config/logout-config';
 
@@ -49,12 +49,10 @@ export class LogoutGuard {
     if (!this.featureToggles.useConfigurableLogoutRedirect) {
       return from(this.logout()).pipe(
         switchMap(() =>
-          this.cms!
-            .hasPage({
-              id: this.semanticPathService.get('logout') ?? '',
-              type: PageType.CONTENT_PAGE,
-            })
-            .pipe(
+          (this.cms?.hasPage({
+            id: this.semanticPathService.get('logout') ?? '',
+            type: PageType.CONTENT_PAGE,
+          }) ?? of(false)).pipe(
               map((hasPage) => {
               if (!hasPage) {
                 return this.getRedirectUrl();
