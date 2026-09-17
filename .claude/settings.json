@@ -2,6 +2,12 @@
   "permissions": {
     "allow": [
       "Bash(grep *)",
+      "Bash(find *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(sort *)",
+      "Bash(wc *)",
+      "Bash(cat *)",
       "Bash(git *)",
       "Bash(git push *)",
       "Bash(git worktree remove *)",
