@@ -38,7 +38,7 @@ export class LogoutGuard {
 
   constructor(
     protected auth: AuthService,
-    /** @deprecated since 2611 - only used in the legacy code path when {@link FeatureToggles.useConfigurableLogoutRedirect} is disabled.
+    /** @deprecated since 221121.20 - only used in the legacy code path when {@link FeatureToggles.useConfigurableLogoutRedirect} is disabled.
      *  Will be removed in the major release of 2028. */
     @Optional() protected cms: CmsService | null,
     protected semanticPathService: SemanticPathService,
