@@ -26,7 +26,8 @@ import { LogoutGuard } from '@spartacus/storefront';
 export class CdcLogoutGuard extends LogoutGuard {
   constructor(
     protected auth: AuthService,
-    /** @deprecated since 2611 - only used in the legacy code path when {@link FeatureToggles.useConfigurableLogoutRedirect} is disabled. */
+    /** @deprecated since 2611 - only used in the legacy code path when {@link FeatureToggles.useConfigurableLogoutRedirect} is disabled.
+     *  Will be removed in the major release of 2028. */
     @Optional() protected cms: CmsService | null,
     protected semanticPathService: SemanticPathService,
     protected protectedRoutes: ProtectedRoutesService,
