@@ -134,6 +134,32 @@ describe('default pipeline (createDefaultParser + defaultConverter)', () => {
     expect(md).toContain('Product Photo');
   });
 
+  it('hoists heading out of link when <h3> and price are wrapped in <a>', async () => {
+    const md = await convert(
+      page(
+        '<a href="/electronics-spa/en/USD/product/816802/cyber-shot-w55">' +
+          '<img src="https://cdn.example/img.jpg" alt="Cyber-shot W55">' +
+          '<h3 class="cx-product-name">Cyber-shot W55</h3>' +
+          '<div class="price">$260.87</div>' +
+          '</a>'
+      )
+    );
+    // heading must be outside the link brackets
+    expect(md).toContain('### Cyber-shot W55');
+    expect(md).not.toMatch(/\[.*###.*\]/s);
+    // link must use plain product name
+    expect(md).toContain(
+      '[Cyber-shot W55](/electronics-spa/en/USD/product/816802/cyber-shot-w55)'
+    );
+    // price must appear after the link
+    expect(md).toContain('$260.87');
+    const headingPos = md.indexOf('### Cyber-shot W55');
+    const linkPos = md.indexOf('[Cyber-shot W55]');
+    const pricePos = md.indexOf('$260.87');
+    expect(headingPos).toBeLessThan(linkPos);
+    expect(linkPos).toBeLessThan(pricePos);
+  });
+
   it('drops image-only links that have no alt text', async () => {
     const md = await convert(
       page(
@@ -257,6 +283,77 @@ describe('default pipeline (createDefaultParser + defaultConverter)', () => {
     expect(md).not.toContain('options available');
     // pagination in the same row survives
     expect(md).toContain('[Go to page 2](/c/brands?currentPage=1)');
+  });
+
+  it('renders active facets as a plain "Applied filters" line, dropping the remove-filter hrefs', async () => {
+    // Real markup: each active filter is an <a role="button"> "chip" whose
+    // href points to the *remove-this-filter* URL, with the label in a <span>
+    // and a trailing decorative <cx-icon>.
+    const md = await convert(
+      page(
+        '<cx-active-facets>' +
+          '<a role="button" href="/c/brands?query=:relevance:brand:BrandA">' +
+          '<span>Brand A</span><cx-icon></cx-icon></a>' +
+          '<a role="button" href="/c/brands?query=:relevance:color:ColorB">' +
+          '<span>Color B</span><cx-icon></cx-icon></a>' +
+          '</cx-active-facets>'
+      )
+    );
+    expect(md).toContain('Applied filters: Brand A, Color B');
+    // the misleading remove-filter hrefs must not survive as links
+    expect(md).not.toContain('[Brand A]');
+    expect(md).not.toContain('[Color B]');
+    expect(md).not.toContain('query=:relevance:');
+  });
+
+  it('emits nothing for an empty cx-active-facets, keeping sibling content', async () => {
+    const md = await convert(
+      page('<cx-active-facets></cx-active-facets><p>real content</p>')
+    );
+    expect(md).not.toContain('Applied filters');
+    expect(md).toContain('real content');
+  });
+
+  it('renders sibling banners as separate blocks, not one concatenated run', async () => {
+    const md = await convert(
+      page(
+        '<cx-banner><a href="/promo-1"><img src="https://cdn.example/1.jpg" alt="Promo One"></a></cx-banner>' +
+          '<cx-banner><a href="/promo-2"><img src="https://cdn.example/2.jpg" alt="Promo Two"></a></cx-banner>'
+      )
+    );
+    expect(md).toContain('[Promo One](/promo-1)');
+    expect(md).toContain('[Promo Two](/promo-2)');
+    // the two banners must not collapse onto a single line (a newline separates them)
+    expect(md).not.toMatch(/\]\(\/promo-1\)[^\n]*\[Promo Two\]/);
+  });
+
+  it('uses the link aria-label as banner label when the image has no alt', async () => {
+    const md = await convert(
+      page('<cx-banner><a href="/deal" aria-label="Weekend Deal"></a></cx-banner>')
+    );
+    expect(md).toContain('[Weekend Deal](/deal)');
+  });
+
+  it('drops a banner that has no usable label', async () => {
+    const md = await convert(
+      page(
+        '<cx-banner><a href="/promo"><img src="https://cdn.example/b.jpg" alt=""></a></cx-banner>' +
+          '<p>real content</p>'
+      )
+    );
+    expect(md).not.toContain('](/promo)');
+    expect(md).toContain('real content');
+  });
+
+  it('drops <button> elements while keeping their sibling content', async () => {
+    const md = await convert(
+      page(
+        '<button type="button">Add to cart</button>' +
+          '<p>Product description here</p>'
+      )
+    );
+    expect(md).not.toContain('Add to cart');
+    expect(md).toContain('Product description here');
   });
 });
 
