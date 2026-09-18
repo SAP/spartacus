@@ -129,7 +129,7 @@ describe('OutletRenderStrategy', () => {
     });
     describe('should not render', () => {
       beforeAll(() => {
-        vi.spyOn<any>(service, 'shouldRender').mockReturnValue(false);
+        vi.spyOn(service, 'shouldRender').mockReturnValue(false);
       });
 
       it('should not render', () => {

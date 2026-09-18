@@ -70,6 +70,7 @@ describe('ProductListComponentService', () => {
   }
 
   beforeEach(() => {
+    mockRoutingState$.next({ state: mockDefaultRouterState });
     TestBed.configureTestingModule({
       providers: [
         ProductListComponentService,

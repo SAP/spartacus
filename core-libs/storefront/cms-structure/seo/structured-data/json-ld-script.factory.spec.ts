@@ -2,14 +2,13 @@ import { isDevMode, PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
 import { JsonLdScriptFactory } from './json-ld-script.factory';
-import { StructuredDataFactory } from './structured-data.factory';
 import { vi } from 'vitest';
 vi.mock('@angular/core', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@angular/core')>();
   return { ...actual, isDevMode: vi.fn() };
 });
 describe('JsonLdScriptFactory', () => {
-  let service: JsonLdScriptFactory | StructuredDataFactory;
+  let service: JsonLdScriptFactory;
   let winRef: WindowRef;
 
   describe('server', () => {
@@ -24,6 +23,10 @@ describe('JsonLdScriptFactory', () => {
 
       service = TestBed.inject(JsonLdScriptFactory);
       winRef = TestBed.inject(WindowRef);
+    });
+
+    afterEach(() => {
+      winRef.document.getElementById('json-ld')?.remove();
     });
 
     it('should be created', () => {
@@ -87,19 +90,22 @@ describe('JsonLdScriptFactory', () => {
         providers: [
           WindowRef,
           { provide: PLATFORM_ID, useValue: 'browser' },
-          StructuredDataFactory,
+          JsonLdScriptFactory,
         ],
       });
 
-      service = TestBed.inject(StructuredDataFactory);
+      service = TestBed.inject(JsonLdScriptFactory);
       winRef = TestBed.inject(WindowRef);
+    });
+
+    afterEach(() => {
+      winRef.document.getElementById('json-ld')?.remove();
     });
 
     it('should not build in production mode', () => {
       vi.mocked(isDevMode).mockReturnValue(false);
       service.build([{ foo: 'bar-a' }]);
       const scriptElement = winRef.document.getElementById('json-ld');
-      // we might have left over script tag generated in former tests...
       !scriptElement
         ? expect(scriptElement).toBeNull()
         : expect(scriptElement.innerHTML).not.toEqual('[{"foo":"bar-a"}]');
@@ -109,9 +115,7 @@ describe('JsonLdScriptFactory', () => {
       vi.mocked(isDevMode).mockReturnValue(true);
       service.build([{ foo: 'bar-b' }]);
       const scriptElement = winRef.document.getElementById('json-ld');
-      // we might have left over script tag generated in former tests, so
-      // let's explicitly test the innerHTML
-      expect(scriptElement.innerHTML).not.toEqual('[{"foo":"bar-b"}]');
+      expect(scriptElement.innerHTML).toEqual('[{"foo":"bar-b"}]');
     });
   });
 });

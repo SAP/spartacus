@@ -63,7 +63,7 @@ const mockComponentData: CmsVideoComponent = {
   containerBackground: ContainerBackgroundOptions.UPLOAD_RESPONSIVE_IMAGE,
 };
 
-const data$: BehaviorSubject<CmsVideoComponent> = new BehaviorSubject(
+const data$: BehaviorSubject<CmsVideoComponent> = new BehaviorSubject<CmsVideoComponent>(
   mockComponentData
 );
 
@@ -97,6 +97,7 @@ describe('VideoComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(VideoComponent);
     videoComponent = fixture.componentInstance;
+    data$.next(mockComponentData);
     fixture.detectChanges();
   });
 
@@ -105,6 +106,9 @@ describe('VideoComponent', () => {
   });
 
   describe('Content', () => {
+    beforeEach(() => {
+      data$.next(mockComponentData);
+    });
     it('should set source', () => {
       expect(videoComponent.source).toEqual(mockCmsBannerComponentMedia.url);
     });

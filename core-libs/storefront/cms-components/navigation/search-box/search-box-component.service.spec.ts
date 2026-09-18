@@ -131,6 +131,7 @@ describe('SearchBoxComponentService', () => {
 
   afterEach(() => {
     document.body.classList.remove('has-searchbox-results');
+    featureToggles.set('searchBoxEmptyQueryResultsPanel', false);
   });
 
   it('should be created', () => {
@@ -240,6 +241,10 @@ describe('SearchBoxComponentService', () => {
 
   describe('search result message', () => {
     let result: SearchResults;
+
+    beforeEach(() => {
+      result = {} as SearchResults;
+    });
 
     it('should not get a message when there are no results ', () => {
       vi.spyOn(searchBoxService, 'getResults').mockReturnValue(of({}));
