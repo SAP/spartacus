@@ -54,6 +54,11 @@ export async function createDefaultTurndownService(): Promise<TurndownService> {
   // Drop anchor links whose inner content is empty after child processing.
   // Image-only links whose img had no alt text become empty and are removed;
   // image-only links with alt text are kept as plain text (not hyperlinks).
+  //
+  // Block-level markdown (headings) cannot live inside an inline `[…](url)`.
+  // When the converted content contains heading lines (e.g. a product card
+  // where <h3> and price sit inside <a>), hoist the headings before the link
+  // and use the heading's plain text as the link label.
   service.addRule('clean-empty-links', {
     filter: (node) => node.nodeName === 'A' && !!node.getAttribute('href'),
     replacement: (content, node) => {
@@ -71,7 +76,30 @@ export async function createDefaultTurndownService(): Promise<TurndownService> {
         return text;
       }
       const href = (node as Element).getAttribute('href') || '';
-      return `[${text}](${href})`;
+
+      // Detect heading lines produced by child conversion (e.g. <h3> inside <a>).
+      const lines = text.split('\n');
+      const headingLines = lines.filter((l) => /^#{1,6}\s/.test(l.trim()));
+      if (headingLines.length === 0) {
+        return `[${text}](${href})`;
+      }
+
+      // Use the first heading's plain text as the link label.
+      const linkLabel = headingLines[0].replace(/^#{1,6}\s+/, '').trim();
+
+      // Remaining non-heading content (price, description, …), deduped against
+      // the link label so image alt text echoing the heading title is dropped.
+      const remaining = lines
+        .filter((l) => !/^#{1,6}\s/.test(l.trim()))
+        .map((l) => l.trim())
+        .filter((l) => l && l !== linkLabel)
+        .join('\n');
+
+      return (
+        '\n\n' +
+        [...headingLines, `[${linkLabel}](${href})`, ...(remaining ? [remaining] : [])].join('\n') +
+        '\n\n'
+      );
     },
   });
 
@@ -112,6 +140,44 @@ export async function createDefaultTurndownService(): Promise<TurndownService> {
     },
   });
 
+  // Render applied filters (Spartacus `<cx-active-facets>`) as a single plain
+  // text line. Each active filter is an `<a role="button">` "chip" whose href
+  // points to the *remove-this-filter* URL — a misleading link for an agent —
+  // so we drop the hrefs and keep only the human-readable filter labels
+  // (the chip's `<span>` text; the trailing `<cx-icon>` is decorative).
+  service.addRule('active-facets', {
+    filter: (node) => node.nodeName === 'CX-ACTIVE-FACETS',
+    replacement: (_content, node) => {
+      const chips = Array.from((node as Element).querySelectorAll('a'))
+        .map((a) => (a.textContent ?? '').replace(/\s+/g, ' ').trim())
+        .filter(Boolean);
+      return chips.length ? `\n\nApplied filters: ${chips.join(', ')}\n\n` : '';
+    },
+  });
+
+  // Render each Spartacus `<cx-banner>` as its own delineated block instead of
+  // letting sibling banners concatenate into one unspaced run. The banner's
+  // visible text lives in the `<img alt>` (falling back to the link's
+  // aria-label); when the banner is a link, emit `[label](href)` so the
+  // navigation target survives, otherwise emit the label as plain text.
+  service.addRule('banner', {
+    filter: (node) => node.nodeName === 'CX-BANNER',
+    replacement: (_content, node) => {
+      const el = node as Element;
+      const anchor = el.querySelector('a[href]');
+      const label = (
+        el.querySelector('img')?.getAttribute('alt') ||
+        anchor?.getAttribute(ARIA_LABEL) ||
+        ''
+      ).trim();
+      if (!label) {
+        return '';
+      }
+      const href = anchor?.getAttribute('href');
+      return href ? `\n\n[${label}](${href})\n\n` : `\n\n${label}\n\n`;
+    },
+  });
+
   // Drop the sort widget: it is an interactive combobox (ng-select) with no
   // navigable links — noise for agents. Remove the <cx-sorting> element and
   // its "Sort by" <label class="cx-sort-dropdown"> sibling. Do NOT remove the
@@ -126,6 +192,13 @@ export async function createDefaultTurndownService(): Promise<TurndownService> {
     const classes = (node.getAttribute('class') ?? '').split(/\s+/);
     return classes.includes('cx-sort-dropdown');
   });
+
+  // Drop every <button>: buttons are interactive JS affordances (add to cart,
+  // read more, quantity steppers, accordion/tab toggles, carousel scroll,
+  // "show reviews", …) with no navigable href — pure noise for agents. Their
+  // sibling content (product description, spec bullets, reviews) lives outside
+  // the button and is preserved. Navigation stays available via <a href>.
+  service.remove('button');
 
   return service;
 }
