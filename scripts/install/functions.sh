@@ -247,7 +247,7 @@ function use_santorini_updated_theme {
     # @spartacus/styles/scss/theme/santorini-updated/_variables.scss is picked
     # up automatically on the next install (no duplicated values here).
     local styles_file="src/styles.scss"
-    if [ ! -f "${styles_file}" ]; then
+    if [[ ! -f "${styles_file}" ]]; then
         echo "WARN: ${styles_file} not found; skipping santorini-updated theme override."
         return
     fi
