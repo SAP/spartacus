@@ -1,17 +1,40 @@
-<a
-  *ngFor="let item of pages; let i = index"
-  [class]="item.type"
-  [class.disabled]="isInactive(item)"
-  [class.current]="isCurrent(item)"
-  [routerLink]="pageRoute"
-  [queryParams]="getQueryParams(item)"
-  [tabindex]="isInactive(item) ? -1 : 0"
-  [attr.aria-current]="isCurrent(item)"
-  [attr.aria-disabled]="isInactive(item)"
-  (click)="pageChange(item)"
-  [attr.aria-label]="getAriaLabel$(item) | async"
-  [attr.title]="getAriaLabel$(item) | async"
-  [cxFocus]="{ key: paginationID + i.toString() }"
->
-  {{ item.label }}
-</a>
+<ng-container *ngFor="let item of pages; let i = index">
+  <!-- OLD: no arrow key handling -->
+  <a
+    *cxFeature="'!a11yPaginationKeyboardNavigation'"
+    [class]="item.type"
+    [class.disabled]="isInactive(item)"
+    [class.current]="isCurrent(item)"
+    [routerLink]="pageRoute"
+    [queryParams]="getQueryParams(item)"
+    [tabindex]="isInactive(item) ? -1 : 0"
+    [attr.aria-current]="isCurrent(item)"
+    [attr.aria-disabled]="isInactive(item)"
+    (click)="pageChange(item)"
+    [attr.aria-label]="getAriaLabel$(item) | async"
+    [attr.title]="getAriaLabel$(item) | async"
+    [cxFocus]="{ key: paginationID + i.toString() }"
+  >
+    {{ item.label }}
+  </a>
+  <!-- NEW: arrow key navigation added -->
+  <a
+    *cxFeature="'a11yPaginationKeyboardNavigation'"
+    #pageLink
+    [class]="item.type"
+    [class.disabled]="isInactive(item)"
+    [class.current]="isCurrent(item)"
+    [routerLink]="pageRoute"
+    [queryParams]="getQueryParams(item)"
+    [tabindex]="isInactive(item) ? -1 : 0"
+    [attr.aria-current]="isCurrent(item)"
+    [attr.aria-disabled]="isInactive(item)"
+    (click)="pageChange(item)"
+    [attr.aria-label]="getAriaLabel$(item) | async"
+    [attr.title]="getAriaLabel$(item) | async"
+    [cxFocus]="{ key: paginationID + i.toString() }"
+    (keydown)="onKeydown($event, i)"
+  >
+    {{ item.label }}
+  </a>
+</ng-container>

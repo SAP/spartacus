@@ -1,8 +1,9 @@
-import { DebugElement, Directive, Input } from '@angular/core';
+import { DebugElement, Directive, ElementRef, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Params } from '@angular/router';
-import { I18nTestingModule } from '@spartacus/core';
+import { FeatureToggles, I18nTestingModule } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { FocusConfig, FocusDirective } from '@spartacus/storefront';
 import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { PaginationConfig } from './config/pagination.config';
@@ -293,5 +294,185 @@ describe('PaginationComponent', () => {
         expect(directiveInstance.config?.key).toBe(`pagination${index + 2}`);
       });
     });
+  });
+});
+
+describe('PaginationComponent with a11yPaginationKeyboardNavigation disabled (default)', () => {
+  let component: PaginationComponent;
+  let fixture: ComponentFixture<PaginationComponent>;
+
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [PaginationComponent],
+      providers: [
+        {
+          provide: PaginationConfig,
+          useValue: { pagination: { addNext: true, addPrevious: true } },
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: { snapshot: { queryParams: {} } },
+        },
+        provideMockFeatureToggles({ a11yPaginationKeyboardNavigation: false }),
+      ],
+    })
+      .overrideComponent(PaginationComponent, {
+        remove: { imports: [FocusDirective] },
+        add: {
+          imports: [
+            I18nTestingModule,
+            MockFocusDirective,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(PaginationComponent);
+    component = fixture.componentInstance;
+    component.pagination = { currentPage: 1, totalPages: 5 };
+    fixture.detectChanges();
+  });
+
+  it('should not prevent default on ArrowRight when toggle is disabled', () => {
+    const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
+    const preventDefaultSpy = vi.spyOn(event, 'preventDefault');
+    component.onKeydown(event, 0);
+    expect(preventDefaultSpy).not.toHaveBeenCalled();
+  });
+
+  it('should not prevent default on ArrowLeft when toggle is disabled', () => {
+    const event = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
+    const preventDefaultSpy = vi.spyOn(event, 'preventDefault');
+    component.onKeydown(event, 1);
+    expect(preventDefaultSpy).not.toHaveBeenCalled();
+  });
+});
+
+describe('PaginationComponent with a11yPaginationKeyboardNavigation enabled', () => {
+  let component: PaginationComponent;
+  let fixture: ComponentFixture<PaginationComponent>;
+  let featureToggles: FeatureToggles;
+
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [PaginationComponent],
+      providers: [
+        {
+          provide: PaginationConfig,
+          useValue: { pagination: { addNext: true, addPrevious: true } },
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: { snapshot: { queryParams: {} } },
+        },
+        provideMockFeatureToggles({ a11yPaginationKeyboardNavigation: false }),
+      ],
+    })
+      .overrideComponent(PaginationComponent, {
+        remove: { imports: [FocusDirective] },
+        add: {
+          imports: [
+            I18nTestingModule,
+            MockFocusDirective,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
+  });
+
+  beforeEach(() => {
+    featureToggles = TestBed.inject(FeatureToggles);
+    featureToggles.a11yPaginationKeyboardNavigation = true;
+
+    fixture = TestBed.createComponent(PaginationComponent);
+    component = fixture.componentInstance;
+    component.pagination = { currentPage: 1, totalPages: 5 };
+    fixture.detectChanges();
+  });
+
+  it('should prevent default and focus next link on ArrowRight', () => {
+    const mockLinks = [
+      {
+        nativeElement: { focus: vi.fn() },
+      } as unknown as ElementRef<HTMLAnchorElement>,
+      {
+        nativeElement: { focus: vi.fn() },
+      } as unknown as ElementRef<HTMLAnchorElement>,
+      {
+        nativeElement: { focus: vi.fn() },
+      } as unknown as ElementRef<HTMLAnchorElement>,
+    ];
+    vi.spyOn(component.pageLinks, 'toArray').mockReturnValue(mockLinks);
+
+    const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
+    const preventDefaultSpy = vi.spyOn(event, 'preventDefault');
+
+    component.onKeydown(event, 0);
+
+    expect(preventDefaultSpy).toHaveBeenCalled();
+    expect(mockLinks[1].nativeElement.focus).toHaveBeenCalled();
+  });
+
+  it('should prevent default and focus previous link on ArrowLeft', () => {
+    const mockLinks = [
+      {
+        nativeElement: { focus: vi.fn() },
+      } as unknown as ElementRef<HTMLAnchorElement>,
+      {
+        nativeElement: { focus: vi.fn() },
+      } as unknown as ElementRef<HTMLAnchorElement>,
+      {
+        nativeElement: { focus: vi.fn() },
+      } as unknown as ElementRef<HTMLAnchorElement>,
+    ];
+    vi.spyOn(component.pageLinks, 'toArray').mockReturnValue(mockLinks);
+
+    const event = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
+    const preventDefaultSpy = vi.spyOn(event, 'preventDefault');
+
+    component.onKeydown(event, 2);
+
+    expect(preventDefaultSpy).toHaveBeenCalled();
+    expect(mockLinks[1].nativeElement.focus).toHaveBeenCalled();
+  });
+
+  it('should not focus beyond the last link on ArrowRight', () => {
+    const mockLinks = [
+      {
+        nativeElement: { focus: vi.fn() },
+      } as unknown as ElementRef<HTMLAnchorElement>,
+      {
+        nativeElement: { focus: vi.fn() },
+      } as unknown as ElementRef<HTMLAnchorElement>,
+    ];
+    vi.spyOn(component.pageLinks, 'toArray').mockReturnValue(mockLinks);
+
+    const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
+    component.onKeydown(event, 1);
+
+    expect(mockLinks[0].nativeElement.focus).not.toHaveBeenCalled();
+    expect(mockLinks[1].nativeElement.focus).not.toHaveBeenCalled();
+  });
+
+  it('should not focus before the first link on ArrowLeft', () => {
+    const mockLinks = [
+      {
+        nativeElement: { focus: vi.fn() },
+      } as unknown as ElementRef<HTMLAnchorElement>,
+      {
+        nativeElement: { focus: vi.fn() },
+      } as unknown as ElementRef<HTMLAnchorElement>,
+    ];
+    vi.spyOn(component.pageLinks, 'toArray').mockReturnValue(mockLinks);
+
+    const event = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
+    component.onKeydown(event, 0);
+
+    expect(mockLinks[0].nativeElement.focus).not.toHaveBeenCalled();
+    expect(mockLinks[1].nativeElement.focus).not.toHaveBeenCalled();
   });
 });
