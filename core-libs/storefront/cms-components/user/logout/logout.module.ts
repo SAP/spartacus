@@ -28,8 +28,6 @@ import { LogoutGuard } from './logout.guard';
       },
     ]),
   ],
-  providers: [
-    provideDefaultConfig(defaultLogoutConfig),
-  ],
+  providers: [provideDefaultConfig(defaultLogoutConfig)],
 })
 export class LogoutModule {}

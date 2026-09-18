@@ -5,11 +5,7 @@
  */
 
 import { inject, Injectable, Optional } from '@angular/core';
-import {
-  GuardResult,
-  Router,
-  UrlTree
-} from '@angular/router';
+import { GuardResult, Router, UrlTree } from '@angular/router';
 import {
   AuthService,
   CmsService,
@@ -43,7 +39,7 @@ export class LogoutGuard {
     @Optional() protected cms: CmsService | null,
     protected semanticPathService: SemanticPathService,
     protected protectedRoutes: ProtectedRoutesService,
-    protected router: Router,
+    protected router: Router
   ) {}
 
   canActivate(): Observable<GuardResult> {
@@ -54,18 +50,20 @@ export class LogoutGuard {
       }
       return from(this.logout()).pipe(
         switchMap(() =>
-          cms.hasPage({
-            id: this.semanticPathService.get('logout') ?? '',
-            type: PageType.CONTENT_PAGE,
-          }).pipe(
-            map((hasPage) => {
-              if (!hasPage) {
-                return this.getRedirectUrl();
-              }
-              // TODO(#9385): Use CMS page guard here.
-              return hasPage;
+          cms
+            .hasPage({
+              id: this.semanticPathService.get('logout') ?? '',
+              type: PageType.CONTENT_PAGE,
             })
-          )
+            .pipe(
+              map((hasPage) => {
+                if (!hasPage) {
+                  return this.getRedirectUrl();
+                }
+                // TODO(#9385): Use CMS page guard here.
+                return hasPage;
+              })
+            )
         )
       );
     }
@@ -74,7 +72,8 @@ export class LogoutGuard {
       map(() => {
         const redirectUrl = this.getRedirectUrl();
         const logoutUrl = this.router.parseUrl(
-          this.semanticPathService.get('logout') ?? '/logout');
+          this.semanticPathService.get('logout') ?? '/logout'
+        );
         // If the configured redirect destination is the logout page itself, keep the user on the current route so the CMS logout page renders.
         if (redirectUrl.toString() === logoutUrl.toString()) {
           // TODO(#9385): Use CMS page guard here.
@@ -103,7 +102,9 @@ export class LogoutGuard {
     }
     if (this.featureToggles.useConfigurableLogoutRedirect) {
       const redirectRoute = this.config.logout?.redirectRoute ?? 'home';
-      return this.router.parseUrl( this.semanticPathService.get(redirectRoute) ?? redirectRoute);
+      return this.router.parseUrl(
+        this.semanticPathService.get(redirectRoute) ?? redirectRoute
+      );
     }
     return this.router.parseUrl(this.semanticPathService.get('home') ?? '');
   }
