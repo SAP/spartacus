@@ -1,29 +1,64 @@
 <table *ngIf="structure">
   <ng-container *ngIf="verticalStackedLayout">
-    <tbody
-      *ngFor="let item of data; trackBy: trackData"
-      (click)="launchItem(item)"
-      [class.is-current]="isCurrentItem(item)"
+    <!-- OLD: tab only navigation -->
+    <ng-container *ngFor="let item of data; trackBy: trackData">
+      <tbody
+        *cxFeature="'!a11yTableKeyboardNavigation'"
+        (click)="launchItem(item)"
+        [class.is-current]="isCurrentItem(item)"
+      >
+        <tr *ngFor="let cell of structure.cells" [class]="cell">
+          <th>
+            <ng-template
+              [cxOutlet]="getHeaderOutletRef(cell)"
+              [cxOutletContext]="getHeaderOutletContext(cell)"
+            >
+              {{ cell }}
+            </ng-template>
+          </th>
+          <td>
+            <ng-template
+              [cxOutlet]="getDataOutletRef(cell)"
+              [cxOutletContext]="getDataOutletContext(cell, item)"
+            >
+              {{ $any(item)[cell] }}
+            </ng-template>
+          </td>
+        </tr>
+      </tbody>
+    </ng-container>
+    <!-- NEW: arrow key navigation added -->
+    <ng-container
+      *ngFor="let item of data; let rowIndex = index; trackBy: trackData"
     >
-      <tr *ngFor="let cell of structure.cells" [class]="cell">
-        <th>
-          <ng-template
-            [cxOutlet]="getHeaderOutletRef(cell)"
-            [cxOutletContext]="getHeaderOutletContext(cell)"
-          >
-            {{ cell }}
-          </ng-template>
-        </th>
-        <td>
-          <ng-template
-            [cxOutlet]="getDataOutletRef(cell)"
-            [cxOutletContext]="getDataOutletContext(cell, item)"
-          >
-            {{ $any(item)[cell] }}
-          </ng-template>
-        </td>
-      </tr>
-    </tbody>
+      <tbody
+        *cxFeature="'a11yTableKeyboardNavigation'"
+        #tableRow
+        [class.is-current]="isCurrentItem(item)"
+        tabindex="0"
+        (click)="launchItem(item)"
+        (keydown)="onRowKeydown($event, rowIndex)"
+      >
+        <tr *ngFor="let cell of structure.cells" [class]="cell">
+          <th>
+            <ng-template
+              [cxOutlet]="getHeaderOutletRef(cell)"
+              [cxOutletContext]="getHeaderOutletContext(cell)"
+            >
+              {{ cell }}
+            </ng-template>
+          </th>
+          <td>
+            <ng-template
+              [cxOutlet]="getDataOutletRef(cell)"
+              [cxOutletContext]="getDataOutletContext(cell, item)"
+            >
+              {{ $any(item)[cell] }}
+            </ng-template>
+          </td>
+        </tr>
+      </tbody>
+    </ng-container>
   </ng-container>
 
   <!-- vertical tables render the item  -->
@@ -41,20 +76,45 @@
       </tr>
     </thead>
 
-    <tr
-      *ngFor="let item of data; trackBy: trackData"
-      [class.is-current]="isCurrentItem(item)"
-      (click)="launchItem(item)"
+    <!-- OLD: tab only navigation -->
+    <ng-container *ngFor="let item of data; trackBy: trackData">
+      <tr
+        *cxFeature="'!a11yTableKeyboardNavigation'"
+        [class.is-current]="isCurrentItem(item)"
+        (click)="launchItem(item)"
+      >
+        <td *ngFor="let cell of structure.cells; let i = index" [class]="cell">
+          <ng-template
+            [cxOutlet]="getDataOutletRef(cell)"
+            [cxOutletContext]="getDataOutletContext(cell, item)"
+          >
+            {{ $any(item)[cell] }}
+          </ng-template>
+        </td>
+      </tr>
+    </ng-container>
+    <!-- NEW: arrow key navigation added -->
+    <ng-container
+      *ngFor="let item of data; let rowIndex = index; trackBy: trackData"
     >
-      <td *ngFor="let cell of structure.cells; let i = index" [class]="cell">
-        <ng-template
-          [cxOutlet]="getDataOutletRef(cell)"
-          [cxOutletContext]="getDataOutletContext(cell, item)"
-        >
-          {{ $any(item)[cell] }}
-        </ng-template>
-      </td>
-    </tr>
+      <tr
+        *cxFeature="'a11yTableKeyboardNavigation'"
+        #tableRow
+        [class.is-current]="isCurrentItem(item)"
+        tabindex="0"
+        (click)="launchItem(item)"
+        (keydown)="onRowKeydown($event, rowIndex)"
+      >
+        <td *ngFor="let cell of structure.cells; let i = index" [class]="cell">
+          <ng-template
+            [cxOutlet]="getDataOutletRef(cell)"
+            [cxOutletContext]="getDataOutletContext(cell, item)"
+          >
+            {{ $any(item)[cell] }}
+          </ng-template>
+        </td>
+      </tr>
+    </ng-container>
   </ng-container>
 
   <ng-container *ngIf="horizontalLayout">
@@ -67,18 +127,41 @@
           {{ cell }}
         </ng-template>
       </th>
-      <td
-        *ngFor="let item of data; trackBy: trackData"
-        [class.is-current]="isCurrentItem(item)"
-        (click)="launchItem(item)"
-      >
-        <ng-template
-          [cxOutlet]="getDataOutletRef(cell)"
-          [cxOutletContext]="getDataOutletContext(cell, item)"
+      <!-- OLD: tab only navigation -->
+      <ng-container *ngFor="let item of data; trackBy: trackData">
+        <td
+          *cxFeature="'!a11yTableKeyboardNavigation'"
+          [class.is-current]="isCurrentItem(item)"
+          (click)="launchItem(item)"
         >
-          {{ $any(item)[cell] }}
-        </ng-template>
-      </td>
+          <ng-template
+            [cxOutlet]="getDataOutletRef(cell)"
+            [cxOutletContext]="getDataOutletContext(cell, item)"
+          >
+            {{ $any(item)[cell] }}
+          </ng-template>
+        </td>
+      </ng-container>
+      <!-- NEW: arrow key navigation added -->
+      <ng-container
+        *ngFor="let item of data; let rowIndex = index; trackBy: trackData"
+      >
+        <td
+          *cxFeature="'a11yTableKeyboardNavigation'"
+          #tableRow
+          [class.is-current]="isCurrentItem(item)"
+          tabindex="0"
+          (click)="launchItem(item)"
+          (keydown)="onRowKeydown($event, rowIndex)"
+        >
+          <ng-template
+            [cxOutlet]="getDataOutletRef(cell)"
+            [cxOutletContext]="getDataOutletContext(cell, item)"
+          >
+            {{ $any(item)[cell] }}
+          </ng-template>
+        </td>
+      </ng-container>
     </tr>
   </ng-container>
 </table>
