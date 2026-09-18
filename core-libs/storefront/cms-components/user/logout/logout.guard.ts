@@ -47,20 +47,24 @@ export class LogoutGuard {
 
   canActivate(): Observable<GuardResult> {
     if (!this.featureToggles.useConfigurableLogoutRedirect) {
+      const cms = this.cms;
+      if (!cms) {
+        return of(this.getRedirectUrl());
+      }
       return from(this.logout()).pipe(
         switchMap(() =>
-          (this.cms?.hasPage({
+          cms.hasPage({
             id: this.semanticPathService.get('logout') ?? '',
             type: PageType.CONTENT_PAGE,
-          }) ?? of(false)).pipe(
-              map((hasPage) => {
+          }).pipe(
+            map((hasPage) => {
               if (!hasPage) {
                 return this.getRedirectUrl();
               }
               // TODO(#9385): Use CMS page guard here.
               return hasPage;
             })
-            )
+          )
         )
       );
     }
@@ -72,7 +76,8 @@ export class LogoutGuard {
           this.semanticPathService.get('logout') ?? '/logout');
         // If the configured redirect destination is the logout page itself, keep the user on the current route so the CMS logout page renders.
         if (redirectUrl.toString() === logoutUrl.toString()) {
-          return true
+          // TODO(#9385): Use CMS page guard here.
+          return true;
         }
         return redirectUrl;
       })
