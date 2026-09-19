@@ -802,6 +802,17 @@ export interface FeatureTogglesInterface {
   a11yNavigationChevronContrast?: boolean;
 
   /**
+   * When enabled, breadcrumb links use `--cx-color-primary-accent` instead of
+   * `--cx-color-primary` so the link text meets the WCAG 1.4.3 minimum contrast
+   * ratio of 4.5:1 against the page background in the default theme.
+   * In the default (non-santorini-updated) Santorini theme the primary color
+   * (#1f7bc0) only yields ~4.1:1 contrast; the accent (#055f9f) yields ~6.1:1.
+   *
+   * Affects: `BreadcrumbComponent` (`cx-breadcrumb`)
+   */
+  a11yBreadcrumbLinkContrast?: boolean;
+
+  /**
    * When enabled, the requote button when clicked in the cancelled quote details page
    * will show a warning message to the user that the quote-cart should have a minimum
    * threshold value of items to be able to proceed with the requote process.
@@ -938,6 +949,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   configuratorIssuesNotificationForConfigurableOnly: false,
   globalMessageCloseButtonPadding: false,
   a11yNavigationChevronContrast: false,
+  a11yBreadcrumbLinkContrast: false,
   showWarningMessageOnRequoteButtonClick: false,
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
