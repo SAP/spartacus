@@ -146,6 +146,7 @@ describe('UserRegistrationOTPFormComponent', () => {
     fixture = TestBed.createComponent(UserRegistrationOTPFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    component.registerForm.reset();
   });
 
   it('should create the component', () => {
@@ -283,10 +284,26 @@ describe('UserRegistrationOTPFormComponent', () => {
       status: 400,
       url: 'https://localhost:9002/occ/v2/electronics-spa/users/anonymous/verificationToken?lang=en&curr=USD',
     });
+    component.registerForm.setValue({
+      titleCode: '0001',
+      firstName: 'John',
+      lastName: 'Doe',
+      companyName: 'Company',
+      email: 'test@example.com',
+      country: { isocode: 'CA' },
+      region: { isocode: 'CA-ON' },
+      town: 'Townsville',
+      line1: '123 Main St',
+      line2: '',
+      postalCode: '12345',
+      phoneNumber: '1234567890',
+      message: '',
+    });
     vi.spyOn(
       verificationTokenFacade,
       'createVerificationToken'
     ).mockReturnValue(throwError(() => httpErrorResponse));
+
     component.onSubmit();
 
     expect(routingService.go).toHaveBeenCalled();

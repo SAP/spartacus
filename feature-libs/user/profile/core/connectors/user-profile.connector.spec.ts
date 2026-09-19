@@ -1,7 +1,7 @@
 import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { UserSignUp } from '@spartacus/user/profile/root';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { UserProfileAdapter } from './user-profile.adapter';
 import { UserProfileConnector } from './user-profile.connector';
 
@@ -41,16 +41,13 @@ describe('UserConnector', () => {
     expect(service).toBeTruthy();
   });
 
-  it('update should call adapter', () => {
-    let result;
-    service.update('user-id', {}).subscribe((res) => (result = res));
+  it('update should call adapter', async () => {
+    const result = await firstValueFrom(service.update('user-id', {}));
     expect(result).toEqual({});
     expect(adapter.update).toHaveBeenCalledWith('user-id', {});
   });
 
-  it('register should call adapter', () => {
-    let result;
-
+  it('register should call adapter', async () => {
     const registerData: UserSignUp = {
       firstName: 'name',
       lastName: 'name',
@@ -59,51 +56,45 @@ describe('UserConnector', () => {
       uid: 'uid',
     };
 
-    service.register(registerData).subscribe((res) => (result = res));
+    const result = await firstValueFrom(service.register(registerData));
     expect(result).toBe(registerData);
     expect(adapter.register).toHaveBeenCalledWith(registerData);
   });
 
-  it('registerGuest should call adapter', () => {
-    let result;
-
-    service
-      .registerGuest('guid', 'password')
-      .subscribe((res) => (result = res));
+  it('registerGuest should call adapter', async () => {
+    const result = await firstValueFrom(
+      service.registerGuest('guid', 'password')
+    );
     expect(result).toBe('guid');
     expect(adapter.registerGuest).toHaveBeenCalledWith('guid', 'password');
   });
 
-  it('remove should call adapter', () => {
-    let result;
-    service.remove('user-id').subscribe((res) => (result = res));
+  it('remove should call adapter', async () => {
+    const result = await firstValueFrom(service.remove('user-id'));
     expect(result).toEqual({});
     expect(adapter.close).toHaveBeenCalledWith('user-id');
   });
 
-  it('requestForgotPasswordEmail should call adapter', () => {
-    let result;
-    service
-      .requestForgotPasswordEmail('user-id')
-      .subscribe((res) => (result = res));
+  it('requestForgotPasswordEmail should call adapter', async () => {
+    const result = await firstValueFrom(
+      service.requestForgotPasswordEmail('user-id')
+    );
     expect(result).toEqual({});
     expect(adapter.requestForgotPasswordEmail).toHaveBeenCalledWith('user-id');
   });
 
-  it('resetPassword should call adapter', () => {
-    let result;
-    service
-      .resetPassword('token', 'password')
-      .subscribe((res) => (result = res));
+  it('resetPassword should call adapter', async () => {
+    const result = await firstValueFrom(
+      service.resetPassword('token', 'password')
+    );
     expect(result).toEqual({});
     expect(adapter.resetPassword).toHaveBeenCalledWith('token', 'password');
   });
 
-  it('updateEmail should call adapter', () => {
-    let result;
-    service
-      .updateEmail('email', 'password', 'new-email')
-      .subscribe((res) => (result = res));
+  it('updateEmail should call adapter', async () => {
+    const result = await firstValueFrom(
+      service.updateEmail('email', 'password', 'new-email')
+    );
     expect(result).toEqual({});
     expect(adapter.updateEmail).toHaveBeenCalledWith(
       'email',
@@ -112,11 +103,10 @@ describe('UserConnector', () => {
     );
   });
 
-  it('updatePassword should call adapter', () => {
-    let result;
-    service
-      .updatePassword('email', 'password', 'new-password')
-      .subscribe((res) => (result = res));
+  it('updatePassword should call adapter', async () => {
+    const result = await firstValueFrom(
+      service.updatePassword('email', 'password', 'new-password')
+    );
     expect(result).toEqual({});
     expect(adapter.updatePassword).toHaveBeenCalledWith(
       'email',
@@ -125,9 +115,8 @@ describe('UserConnector', () => {
     );
   });
 
-  it('getTitles should call adapter', () => {
-    let result;
-    service.getTitles().subscribe((res) => (result = res));
+  it('getTitles should call adapter', async () => {
+    const result = await firstValueFrom(service.getTitles());
     expect(result).toEqual([]);
     expect(adapter.loadTitles).toHaveBeenCalledWith();
   });

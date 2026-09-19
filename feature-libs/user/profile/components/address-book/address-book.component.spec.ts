@@ -438,11 +438,10 @@ describe('AddressBookComponent', () => {
       expect(card.text?.some((t: string) => t.includes('Beijing'))).toBe(true);
     });
 
-    it('should use legacy region+country format when toggle is off', () => {
+    it('should use legacy region+country format when toggle is off', async () => {
       const featureToggles = TestBed.inject(FeatureToggles);
       featureToggles.enableHierarchicalAddressFormat = false;
-      let card: any;
-      component.getCardContent(mockAddress).subscribe((c) => (card = c));
+      const card = await firstValueFrom(component.getCardContent(mockAddress));
       expect(card.text.some((t: string) => t.includes('JP-27, JP'))).toBe(true);
     });
   });

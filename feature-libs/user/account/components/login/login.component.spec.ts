@@ -16,7 +16,7 @@ import {
 } from '@spartacus/core';
 import { PageSlotComponent } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { LoginComponent } from './login.component';
 
 const mockUserDetails: User = {
@@ -29,9 +29,7 @@ const mockUserDetails: User = {
 
 class MockAuthService {
   login = vi.fn();
-  isUserLoggedIn(): Observable<boolean> {
-    return of(true);
-  }
+  isUserLoggedIn = vi.fn().mockReturnValue(of(true));
   isUsingASMClient(): Observable<boolean> {
     return of(false);
   }
@@ -70,9 +68,9 @@ class MockUrlPipe implements PipeTransform {
   transform(): void {}
 }
 
-let expectedGreeting = `miniLogin.userGreeting name:${mockUserDetails.name}`;
-
 describe('LoginComponent', () => {
+  let expectedGreeting = '';
+
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
 
@@ -119,6 +117,7 @@ describe('LoginComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
+    expectedGreeting = `miniLogin.userGreeting name:${mockUserDetails.name}`;
     component = fixture.componentInstance;
     component.ngOnInit();
   });
@@ -127,24 +126,20 @@ describe('LoginComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have user details when token exists', () => {
-    let user;
-    component.user$.subscribe((result) => (user = result));
+  it('should have user details when token exists', async () => {
+    const user = await firstValueFrom(component.user$);
     expect(user).toEqual(mockUserDetails);
   });
 
-  it('should have greeting details when token exists', () => {
-    let greeting;
-    component.greeting$.subscribe((result) => (greeting = result));
+  it('should have greeting details when token exists', async () => {
+    const greeting = await firstValueFrom(component.greeting$);
     expect(greeting).toEqual(expectedGreeting);
   });
 
-  it('should not get user details when token is lacking', () => {
-    vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
-
-    let user;
+  it('should not get user details when token is lacking', async () => {
+    vi.spyOn(authService, 'isUserLoggedIn').mockReturnValueOnce(of(false));
     component.ngOnInit();
-    component.user$.subscribe((result) => (user = result));
+    const user = await firstValueFrom(component.user$);
     expect(user).toBeFalsy();
   });
 

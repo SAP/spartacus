@@ -82,14 +82,8 @@ describe('UserProfileService', () => {
     );
   });
 
-  it('should be able to get titles data', () => {
-    let titles: Title[] | undefined;
-    service
-      .getTitles()
-      .subscribe((data) => {
-        titles = data;
-      })
-      .unsubscribe();
+  it('should be able to get titles data', async () => {
+    const titles = await firstValueFrom(service.getTitles());
     expect(titles).toEqual([
       { code: 't1', name: 't1' },
       { code: 't2', name: 't2' },

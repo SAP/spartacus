@@ -11,8 +11,7 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 
-import { of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom, of } from 'rxjs';
 
 import {
   IconComponent,
@@ -88,12 +87,11 @@ describe('SuggestedAddressDialogComponent', () => {
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(reason);
   });
 
-  it('should call setSelectedData when component constructed', () => {
+  it('should call setSelectedData when component constructed', async () => {
     vi.spyOn(component, 'setSelectedAddress');
 
-    component.data$.pipe(take(1)).subscribe((result) => {
-      expect(result).toEqual(mockData);
-    });
+    const result = await firstValueFrom(component.data$);
+    expect(result).toEqual(mockData);
   });
 
   it('should set suggested address as selected if defined', () => {

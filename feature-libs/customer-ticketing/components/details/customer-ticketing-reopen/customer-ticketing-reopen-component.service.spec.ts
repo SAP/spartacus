@@ -5,7 +5,7 @@ import {
   STATUS_NAME,
   TicketDetails,
 } from '@spartacus/customer-ticketing/root';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { CustomerTicketingReopenComponentService } from './customer-ticketing-reopen-component.service';
 
 let mockTicket: TicketDetails = {
@@ -47,13 +47,11 @@ describe('CustomerTicketingReopenComponentService', () => {
     expect(service).toBeTruthy();
   });
   describe('enableReopenButton()', () => {
-    it('should be false if the status is not closed', () => {
+    it('should be false if the status is not closed', async () => {
       mockTicket.status = { id: STATUS.CLOSED, name: STATUS_NAME.CLOSED };
       vi.spyOn(facade, 'getTicket').mockReturnValue(of(mockTicket));
-
-      service.enableReopenButton().subscribe((data) => {
-        expect(data).toEqual(false);
-      });
+      const data = await firstValueFrom(service.enableReopenButton());
+      expect(data).toEqual(false);
     });
     it('should be false if available status is not open or inprocess', () => {
       mockTicket.status = { id: STATUS.CLOSED, name: STATUS_NAME.CLOSED };

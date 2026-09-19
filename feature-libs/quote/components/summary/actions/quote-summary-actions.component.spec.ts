@@ -233,6 +233,8 @@ describe('QuoteSummaryActionsComponent', () => {
     mockQuoteDetails$.next(mockQuote);
     dialogClose$ = new BehaviorSubject<any | undefined>(undefined);
     vi.spyOn(quoteStorefrontUtilsService, 'changeStyling');
+    currentCart.entries = undefined;
+    currentCart.quoteCode = undefined;
   });
 
   it('should create component', () => {

@@ -20,11 +20,6 @@ export default defineConfig({
   },
   test: {
     pool: 'forks',
-    poolOptions: {
-      forks: {
-        maxForks: 4,
-      },
-    },
     watch: false,
     globals: true,
     environment: 'jsdom',

@@ -11,10 +11,11 @@ import {
 } from '@spartacus/core';
 import { IS_GUEST_USER_CHECKOUT_KEY } from '@spartacus/storefront';
 import { User } from '@spartacus/user/account/root';
-import { EMPTY, of } from 'rxjs';
+import { EMPTY, firstValueFrom, of } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutAuthGuard } from './checkout-auth.guard';
 import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
+import { vi } from 'vitest';
 
 class AuthServiceStub implements Partial<AuthService> {
   isUserLoggedIn = vi.fn().mockReturnValue(EMPTY);
@@ -60,6 +61,7 @@ describe('CheckoutAuthGuard', () => {
   let windowRef: WindowRef;
 
   beforeEach(() => {
+    vi.clearAllMocks();
     TestBed.configureTestingModule({
       providers: [
         CheckoutAuthGuard,
@@ -124,14 +126,13 @@ describe('CheckoutAuthGuard', () => {
           featureToggles.authorizationCodeFlowByDefault = true;
         });
 
-        it('should return url to login and not set IS_GUEST_USER_CHECKOUT_KEY when guestCheckout feature disabled', () => {
-          (checkoutConfigService.isGuestCheckout as any).mockReturnValue(false);
-
-          let result: boolean | UrlTree | RedirectCommand | undefined;
-          checkoutGuard
-            .canActivate()
-            .subscribe((value) => (result = value))
-            .unsubscribe();
+        it('should return url to login and not set IS_GUEST_USER_CHECKOUT_KEY when guestCheckout feature disabled', async () => {
+          vi.spyOn(
+            TestBed.inject(CheckoutConfigService),
+            'isGuestCheckout'
+          ).mockReturnValueOnce(false);
+          let result: boolean | UrlTree | RedirectCommand | undefined =
+            await firstValueFrom(checkoutGuard.canActivate());
           expect(result?.toString()).toEqual(`/login`);
           expect(windowRef.localStorage?.setItem).not.toHaveBeenCalled();
         });
