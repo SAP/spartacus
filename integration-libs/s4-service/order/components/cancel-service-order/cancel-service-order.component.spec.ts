@@ -4,7 +4,7 @@ import {
 } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -24,7 +24,7 @@ import { CancelServiceOrderComponent } from './cancel-service-order.component';
 
 // Mock classes
 class MockOrderDetailsService {
-  getOrderDetails = jasmine.createSpy().and.returnValue(
+  getOrderDetails = vi.fn().mockReturnValue(
     of({
       entries: [
         { entryNumber: 1, quantity: 2 },
@@ -36,15 +36,15 @@ class MockOrderDetailsService {
 }
 
 class MockCancelServiceOrderFacade {
-  cancelService = jasmine.createSpy().and.returnValue(of({}));
+  cancelService = vi.fn().mockReturnValue(of({}));
 }
 
 class MockGlobalMessageService {
-  add = jasmine.createSpy();
+  add = vi.fn();
 }
 
 class MockRoutingService {
-  go = jasmine.createSpy();
+  go = vi.fn();
 }
 
 @Pipe({ name: 'cxUrl' })
@@ -61,7 +61,7 @@ describe('CancelServiceOrderComponent', () => {
   let mockGlobalMessageService: MockGlobalMessageService;
   let mockRoutingService: MockRoutingService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -90,7 +90,7 @@ describe('CancelServiceOrderComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CancelServiceOrderComponent);
@@ -129,7 +129,7 @@ describe('CancelServiceOrderComponent', () => {
     fixture.detectChanges();
     expect(mockCancelServiceOrderFacade.cancelService).toHaveBeenCalledWith(
       'orderCode',
-      jasmine.any(Object)
+      expect.any(Object)
     );
     expect(mockRoutingService.go).toHaveBeenCalledWith({
       cxRoute: 'orderDetails',
@@ -139,7 +139,7 @@ describe('CancelServiceOrderComponent', () => {
 
   it('should display success message on successful submission', () => {
     component.form.get('cancelReason')?.setValue('Valid reason');
-    mockCancelServiceOrderFacade.cancelService.and.returnValue(of({}));
+    mockCancelServiceOrderFacade.cancelService.mockReturnValue(of({}));
     component.cancelServiceOrder();
     fixture.detectChanges();
     expect(mockGlobalMessageService.add).toHaveBeenCalled();
@@ -149,8 +149,8 @@ describe('CancelServiceOrderComponent', () => {
     // Mock OrderDetailsService to throw an error
     const mockOrderDetailsService = TestBed.inject(
       OrderDetailsService
-    ) as jasmine.SpyObj<OrderDetailsService>;
-    mockOrderDetailsService.getOrderDetails.and.returnValue(
+    ) as any;
+    mockOrderDetailsService.getOrderDetails.mockReturnValue(
       throwError(() => new Error('Order details are not available'))
     );
 
@@ -165,7 +165,7 @@ describe('CancelServiceOrderComponent', () => {
   });
   it('should handle form submission error', () => {
     component.form.get('cancelReason')?.setValue('Valid reason');
-    mockCancelServiceOrderFacade.cancelService.and.returnValue(
+    mockCancelServiceOrderFacade.cancelService.mockReturnValue(
       throwError(() => new Error('Error'))
     );
     component.cancelServiceOrder();
@@ -183,12 +183,12 @@ describe('CancelServiceOrderComponent', () => {
     const backButton = fixture.debugElement.query(By.css('.back-button'));
     expect(backButton).not.toBeNull();
   });
-  it('should handle error when order details are not available', (done) => {
+  it('should handle error when order details are not available', async () => {
     const mockOrderDetailsService = TestBed.inject(
       OrderDetailsService
-    ) as jasmine.SpyObj<OrderDetailsService>;
+    ) as any;
 
-    mockOrderDetailsService.getOrderDetails.and.returnValue(
+    mockOrderDetailsService.getOrderDetails.mockReturnValue(
       throwError(() => new Error('Order details are not available'))
     );
 
@@ -197,15 +197,12 @@ describe('CancelServiceOrderComponent', () => {
     component.cancelServiceOrder();
 
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
 
-      expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
-        { key: 'cancelService.unknownError' },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-
-      done();
-    });
+    expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
+      { key: 'cancelService.unknownError' },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
   });
 });

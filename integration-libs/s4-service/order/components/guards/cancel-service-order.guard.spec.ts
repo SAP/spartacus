@@ -1,15 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { SemanticPathService } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { CancelServiceOrderGuard } from './cancel-service-order.guard';
 
-import createSpy = jasmine.createSpy;
 class MockOrderDetailsService {
-  getOrderDetails = createSpy().and.returnValue(of(undefined));
+  getOrderDetails = vi.fn().mockReturnValue(of(undefined));
 }
 class MockSemanticPathService implements Partial<SemanticPathService> {
-  get = createSpy().and.returnValue('');
+  get = vi.fn().mockReturnValue('');
 }
 
 describe('CancelServiceOrderGuard', () => {
@@ -32,26 +31,22 @@ describe('CancelServiceOrderGuard', () => {
   });
 
   describe('when there is NO order details present', () => {
-    it('should return UrlTree to order history page', (done) => {
-      orderDetailsService.getOrderDetails = createSpy().and.returnValue(of({}));
+    it('should return UrlTree to order history page', async () => {
+      orderDetailsService.getOrderDetails = vi.fn().mockReturnValue(of({}));
       semanticPathService.get =
-        createSpy().and.returnValue('/my-account/orders');
-      guard.canActivate().subscribe((result: any) => {
-        expect(result.toString()).toEqual('/my-account/orders');
-        done();
-      });
+        vi.fn().mockReturnValue('/my-account/orders');
+      const result: any = await firstValueFrom(guard.canActivate());
+      expect(result.toString()).toEqual('/my-account/orders');
     });
   });
   describe('when there are order details present', () => {
-    it('should return true', (done) => {
-      (orderDetailsService.getOrderDetails as jasmine.Spy).and.returnValue(
+    it('should return true', async () => {
+      (orderDetailsService.getOrderDetails as any).mockReturnValue(
         of({ serviceCancellable: true })
       );
 
-      guard.canActivate().subscribe((result) => {
-        expect(result).toEqual(true);
-        done();
-      });
+      const result = await firstValueFrom(guard.canActivate());
+      expect(result).toEqual(true);
     });
   });
 });

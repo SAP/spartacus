@@ -1,5 +1,5 @@
 import { Directive } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
@@ -22,9 +22,8 @@ import {
   InnerComponentsHostDirective,
   OutletModule,
 } from '@spartacus/storefront';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, of } from 'rxjs';
 import { ServiceCheckoutDeliveryModeComponent } from './service-checkout-delivery-mode.component';
-import createSpy = jasmine.createSpy;
 const mockCart: Cart = {
   code: '123456789',
   description: 'testCartDescription',
@@ -46,9 +45,9 @@ const mockServiceDeliveryModeConfig: S4ServiceDeliveryModeConfig = {
   },
 };
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
-  next = createSpy();
-  back = createSpy();
-  getBackBntText = createSpy().and.returnValue('common.back');
+  next = vi.fn();
+  back = vi.fn();
+  getBackBntText = vi.fn().mockReturnValue('common.back');
 }
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add() {}
@@ -61,38 +60,32 @@ class MockCheckoutServiceDetailsFacade {
 class MockCartService implements Partial<ActiveCartFacade> {
   getDeliveryEntries = () => deliveryEntries$.asObservable();
   hasPickupItems = () => hasPickupItems$.asObservable();
-  getPickupEntries = createSpy().and.returnValue(of([]));
+  getPickupEntries = vi.fn().mockReturnValue(of([]));
   getActive = () => cart$.asObservable();
 }
 
 class MockCheckoutFlowOrchestratorService
   implements Partial<CheckoutFlowOrchestratorService>
 {
-  getCheckoutFlow = createSpy();
+  getCheckoutFlow = vi.fn();
 }
 
 class MockCheckoutDeliveryModesFacade
   implements Partial<CheckoutDeliveryModesFacade>
 {
-  getSupportedDeliveryModesState = jasmine
-    .createSpy()
-    .and.returnValue(
-      of({ loading: false, error: false, success: true, value: [] })
-    );
+  getSupportedDeliveryModesState = vi.fn().mockReturnValue(
+    of({ loading: false, error: false, success: true, value: [] })
+  );
 
-  getSupportedDeliveryModes = jasmine.createSpy().and.returnValue(of([]));
+  getSupportedDeliveryModes = vi.fn().mockReturnValue(of([]));
 
-  getSelectedDeliveryModeState = jasmine
-    .createSpy()
-    .and.returnValue(
-      of({ loading: false, error: false, success: true, value: undefined })
-    );
+  getSelectedDeliveryModeState = vi.fn().mockReturnValue(
+    of({ loading: false, error: false, success: true, value: undefined })
+  );
 
-  setDeliveryMode = jasmine.createSpy().and.returnValue(of(undefined));
+  setDeliveryMode = vi.fn().mockReturnValue(of(undefined));
 
-  clearCheckoutDeliveryMode = jasmine
-    .createSpy()
-    .and.returnValue(of(undefined));
+  clearCheckoutDeliveryMode = vi.fn().mockReturnValue(of(undefined));
 }
 
 @Directive({
@@ -105,7 +98,7 @@ describe('ServiceCheckoutDeliveryModeComponent', () => {
   let fixture: ComponentFixture<ServiceCheckoutDeliveryModeComponent>;
   let facade: CheckoutServiceDetailsFacade;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -146,19 +139,17 @@ describe('ServiceCheckoutDeliveryModeComponent', () => {
       })
       .compileComponents();
     facade = TestBed.inject(CheckoutServiceDetailsFacade);
-    spyOn(facade, 'hasServiceItems').and.callThrough();
+    vi.spyOn(facade, 'hasServiceItems');
     fixture = TestBed.createComponent(ServiceCheckoutDeliveryModeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
-  it('should be created', (done) => {
+  it('should be created', async () => {
     expect(component).toBeTruthy();
     expect(component.serviceDeliveryConfig).toEqual({ code: 'd1' });
-    component.hasServiceProducts$.subscribe((result) => {
-      expect(result).toEqual(true);
-      expect(facade.hasServiceItems).toHaveBeenCalled();
-      done();
-    });
+    const result = await firstValueFrom(component.hasServiceProducts$);
+    expect(result).toEqual(true);
+    expect(facade.hasServiceItems).toHaveBeenCalled();
   });
 });

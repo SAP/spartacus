@@ -14,7 +14,7 @@ import {
 describe('OccCancelServiceOrderAdapter', () => {
   let adapter: OccCancelServiceOrderAdapter;
   let httpTestingController: HttpTestingController;
-  let occEndpointsService: jasmine.SpyObj<OccEndpointsService>;
+  let occEndpointsService: any;
   const userId = 'testUser';
   const code = 'testCode';
   const cancellationDetails: CancellationDetails = {
@@ -22,9 +22,7 @@ describe('OccCancelServiceOrderAdapter', () => {
   };
 
   beforeEach(() => {
-    const spyOccEndpointsService = jasmine.createSpyObj('OccEndpointsService', [
-      'buildUrl',
-    ]);
+    const spyOccEndpointsService = { buildUrl: vi.fn() };
 
     TestBed.configureTestingModule({
       providers: [
@@ -39,7 +37,7 @@ describe('OccCancelServiceOrderAdapter', () => {
     httpTestingController = TestBed.inject(HttpTestingController);
     occEndpointsService = TestBed.inject(
       OccEndpointsService
-    ) as jasmine.SpyObj<OccEndpointsService>;
+    ) as any;
   });
 
   afterEach(() => {
@@ -52,7 +50,7 @@ describe('OccCancelServiceOrderAdapter', () => {
 
   it('should call buildUrl and post with correct URL and payload', () => {
     const url = 'http://example.com/cancelServiceOrder';
-    occEndpointsService.buildUrl.and.returnValue(url);
+    occEndpointsService.buildUrl.mockReturnValue(url);
 
     adapter.cancelServiceOrder(userId, code, cancellationDetails).subscribe();
 

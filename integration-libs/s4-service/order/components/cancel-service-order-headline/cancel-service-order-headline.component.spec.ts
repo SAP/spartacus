@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, ProductTypes } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
@@ -20,13 +20,11 @@ class MockUrlPipe implements PipeTransform {
 describe('CancelServiceOrderHeadlineComponent', () => {
   let component: CancelServiceOrderHeadlineComponent;
   let fixture: ComponentFixture<CancelServiceOrderHeadlineComponent>;
-  let orderDetailsService: jasmine.SpyObj<OrderDetailsService>;
+  let orderDetailsService: any;
 
-  beforeEach(waitForAsync(() => {
-    const orderDetailsServiceSpy = jasmine.createSpyObj('OrderDetailsService', [
-      'getOrderDetails',
-    ]);
-    orderDetailsServiceSpy.getOrderDetails.and.returnValue(of(mockOrder));
+  beforeEach(async () => {
+    const orderDetailsServiceSpy = { getOrderDetails: vi.fn() };
+    orderDetailsServiceSpy.getOrderDetails.mockReturnValue(of(mockOrder));
 
     TestBed.configureTestingModule({
       imports: [
@@ -38,14 +36,14 @@ describe('CancelServiceOrderHeadlineComponent', () => {
         { provide: OrderDetailsService, useValue: orderDetailsServiceSpy },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CancelServiceOrderHeadlineComponent);
     component = fixture.componentInstance;
     orderDetailsService = TestBed.inject(
       OrderDetailsService
-    ) as jasmine.SpyObj<OrderDetailsService>;
+    ) as any;
     fixture.detectChanges();
   });
 

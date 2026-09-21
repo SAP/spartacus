@@ -10,17 +10,16 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import createSpy = jasmine.createSpy;
 const mockUrl =
   'testUrl/setServiceScheduleSlot?userId=testUserId&cartId=testCartId';
 export class MockOccEndpointsService implements Partial<OccEndpointsService> {
-  buildUrl = createSpy().and.returnValue(mockUrl);
+  buildUrl = vi.fn().mockReturnValue(mockUrl);
 }
 describe('OccCheckoutServiceDetailsAdapter', () => {
   let adapter: OccCheckoutServiceDetailsAdapter;
   let httpMock: HttpTestingController;
-  let loggerService: jasmine.SpyObj<LoggerService>;
-  let occEndpointsService: jasmine.SpyObj<OccEndpointsService>;
+  let loggerService: any;
+  let occEndpointsService: any;
 
   const mockServiceDetails: ServiceDetails = {
     scheduledAt: '2021-12-31T23:59:59Z',
@@ -41,11 +40,9 @@ describe('OccCheckoutServiceDetailsAdapter', () => {
     });
     adapter = TestBed.inject(OccCheckoutServiceDetailsAdapter);
     httpMock = TestBed.inject(HttpTestingController);
-    loggerService = jasmine.createSpyObj('LoggerService', ['error']);
-    occEndpointsService = jasmine.createSpyObj('OccEndpointsService', [
-      'buildUrl',
-    ]);
-    occEndpointsService.buildUrl.and.returnValue(mockUrl);
+    loggerService = { error: vi.fn() };
+    occEndpointsService = { buildUrl: vi.fn() };
+    occEndpointsService.buildUrl.mockReturnValue(mockUrl);
   });
 
   afterEach(() => {

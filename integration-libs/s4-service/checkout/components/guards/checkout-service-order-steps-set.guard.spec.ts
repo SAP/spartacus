@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { CheckoutServiceOrderStepsSetGuard } from './checkout-service-order-steps-set.guard';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, firstValueFrom, of } from 'rxjs';
 import {
   CheckoutServiceDetailsFacade,
   S4ServiceDeliveryModeConfig,
@@ -32,7 +32,6 @@ import {
   CheckoutPaymentTypeFacade,
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
-import createSpy = jasmine.createSpy;
 const mockServiceDeliveryModeConfig: S4ServiceDeliveryModeConfig = {
   s4ServiceDeliveryMode: {
     code: 'my-service-delivery-mode',
@@ -95,7 +94,7 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
     mockCheckoutSteps
   );
   disableEnableStep() {}
-  getCheckoutStep = createSpy().and.returnValue({});
+  getCheckoutStep = vi.fn().mockReturnValue({});
 }
 
 class MockCheckoutCostCenterService
@@ -149,7 +148,7 @@ class MockCheckoutPaymentFacade implements Partial<CheckoutPaymentFacade> {
 }
 
 class MockCartService implements Partial<ActiveCartFacade> {
-  hasDeliveryItems = createSpy().and.returnValue(of(false));
+  hasDeliveryItems = vi.fn().mockReturnValue(of(false));
 }
 const mockScheduledAt = '2024-06-27T09:30:00-04:00';
 class MockCheckoutServiceDetailsFacade
@@ -217,75 +216,67 @@ describe('CheckoutServiceOrderStepsSetGuard', () => {
   it('should be created', () => {
     expect(guard).toBeTruthy();
   });
-  it('should disable service details tab if cart has no service products and no physical products', (done) => {
-    spyOn(facade, 'hasServiceItems').and.returnValue(of(false));
-    spyOn(facade, 'hasNonServiceItems').and.returnValue(of(false));
-    spyOn(stepService, 'disableEnableStep').and.returnValue();
-    guard.canActivate(<any>{ url: ['checkout', 'route3'] }).subscribe(() => {
-      expect(stepService.disableEnableStep).toHaveBeenCalledWith(
-        CheckoutStepType.SERVICE_DETAILS,
-        true
-      );
-      expect(stepService.disableEnableStep).toHaveBeenCalledWith(
-        CheckoutStepType.DELIVERY_MODE,
-        true
-      );
-      done();
-    });
+  it('should disable service details tab if cart has no service products and no physical products', async () => {
+    vi.spyOn(facade, 'hasServiceItems').mockReturnValue(of(false));
+    vi.spyOn(facade, 'hasNonServiceItems').mockReturnValue(of(false));
+    vi.spyOn(stepService, 'disableEnableStep').mockReturnValue();
+    await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route3'] }));
+    expect(stepService.disableEnableStep).toHaveBeenCalledWith(
+      CheckoutStepType.SERVICE_DETAILS,
+      true
+    );
+    expect(stepService.disableEnableStep).toHaveBeenCalledWith(
+      CheckoutStepType.DELIVERY_MODE,
+      true
+    );
   });
-  it('should disable service details tab if cart has no service products but physical products', (done) => {
-    spyOn(facade, 'hasServiceItems').and.returnValue(of(false));
-    spyOn(facade, 'hasNonServiceItems').and.returnValue(of(true));
-    spyOn(stepService, 'disableEnableStep').and.returnValue();
-    guard.canActivate(<any>{ url: ['checkout', 'route3'] }).subscribe(() => {
-      expect(stepService.disableEnableStep).toHaveBeenCalledWith(
-        CheckoutStepType.SERVICE_DETAILS,
-        true
-      );
-      expect(stepService.disableEnableStep).toHaveBeenCalledWith(
-        CheckoutStepType.DELIVERY_MODE,
-        false
-      );
-      done();
-    });
+  it('should disable service details tab if cart has no service products but physical products', async () => {
+    vi.spyOn(facade, 'hasServiceItems').mockReturnValue(of(false));
+    vi.spyOn(facade, 'hasNonServiceItems').mockReturnValue(of(true));
+    vi.spyOn(stepService, 'disableEnableStep').mockReturnValue();
+    await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route3'] }));
+    expect(stepService.disableEnableStep).toHaveBeenCalledWith(
+      CheckoutStepType.SERVICE_DETAILS,
+      true
+    );
+    expect(stepService.disableEnableStep).toHaveBeenCalledWith(
+      CheckoutStepType.DELIVERY_MODE,
+      false
+    );
   });
-  it('should enable service details tab if service products exists but no physical product in cart', (done) => {
-    spyOn(facade, 'hasServiceItems').and.returnValue(of(true));
-    spyOn(facade, 'hasNonServiceItems').and.returnValue(of(false));
-    spyOn(stepService, 'disableEnableStep').and.returnValue();
-    guard.canActivate(<any>{ url: ['checkout', 'route3'] }).subscribe(() => {
-      expect(stepService.disableEnableStep).toHaveBeenCalledWith(
-        CheckoutStepType.SERVICE_DETAILS,
-        false
-      );
-      expect(stepService.disableEnableStep).toHaveBeenCalledWith(
-        CheckoutStepType.DELIVERY_MODE,
-        true
-      );
-      done();
-    });
+  it('should enable service details tab if service products exists but no physical product in cart', async () => {
+    vi.spyOn(facade, 'hasServiceItems').mockReturnValue(of(true));
+    vi.spyOn(facade, 'hasNonServiceItems').mockReturnValue(of(false));
+    vi.spyOn(stepService, 'disableEnableStep').mockReturnValue();
+    await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route3'] }));
+    expect(stepService.disableEnableStep).toHaveBeenCalledWith(
+      CheckoutStepType.SERVICE_DETAILS,
+      false
+    );
+    expect(stepService.disableEnableStep).toHaveBeenCalledWith(
+      CheckoutStepType.DELIVERY_MODE,
+      true
+    );
   });
-  it('should enable service details tab if both service products and physical products exists in cart', (done) => {
-    spyOn(facade, 'hasServiceItems').and.returnValue(of(true));
-    spyOn(facade, 'hasNonServiceItems').and.returnValue(of(true));
-    spyOn(stepService, 'disableEnableStep').and.returnValue();
-    guard.canActivate(<any>{ url: ['checkout', 'route3'] }).subscribe(() => {
-      expect(stepService.disableEnableStep).toHaveBeenCalledWith(
-        CheckoutStepType.SERVICE_DETAILS,
-        false
-      );
-      expect(stepService.disableEnableStep).toHaveBeenCalledWith(
-        CheckoutStepType.DELIVERY_MODE,
-        false
-      );
-      done();
-    });
+  it('should enable service details tab if both service products and physical products exists in cart', async () => {
+    vi.spyOn(facade, 'hasServiceItems').mockReturnValue(of(true));
+    vi.spyOn(facade, 'hasNonServiceItems').mockReturnValue(of(true));
+    vi.spyOn(stepService, 'disableEnableStep').mockReturnValue();
+    await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route3'] }));
+    expect(stepService.disableEnableStep).toHaveBeenCalledWith(
+      CheckoutStepType.SERVICE_DETAILS,
+      false
+    );
+    expect(stepService.disableEnableStep).toHaveBeenCalledWith(
+      CheckoutStepType.DELIVERY_MODE,
+      false
+    );
   });
   it('should move to next step once service details are set', () => {
-    spyOn(facade, 'getSelectedServiceDetailsState').and.callThrough();
-    spyOn(facade, 'hasServiceItems').and.callThrough();
-    spyOn(facade, 'hasNonServiceItems').and.callThrough();
-    spyOn(guard, 'setServiceDeliveryMode').and.returnValue(of(undefined));
+    vi.spyOn(facade, 'getSelectedServiceDetailsState');
+    vi.spyOn(facade, 'hasServiceItems');
+    vi.spyOn(facade, 'hasNonServiceItems');
+    vi.spyOn(guard, 'setServiceDeliveryMode').mockReturnValue(of(undefined));
     (guard as any)
       .isServiceDetailsSet({
         type: CheckoutStepType.SERVICE_DETAILS,
@@ -296,13 +287,13 @@ describe('CheckoutServiceOrderStepsSetGuard', () => {
       });
   });
   it('should move to next step once service details are set', () => {
-    spyOn(facade, 'getSelectedServiceDetailsState').and.returnValue(
+    vi.spyOn(facade, 'getSelectedServiceDetailsState').mockReturnValue(
       of({ loading: false, error: false, data: undefined })
     );
-    spyOn(facade, 'hasServiceItems').and.callThrough();
-    spyOn(facade, 'hasNonServiceItems').and.callThrough();
-    spyOn(guard, 'setServiceDeliveryMode').and.returnValue(of(undefined));
-    spyOn(guard as any, 'getUrl').and.returnValue('/');
+    vi.spyOn(facade, 'hasServiceItems');
+    vi.spyOn(facade, 'hasNonServiceItems');
+    vi.spyOn(guard, 'setServiceDeliveryMode').mockReturnValue(of(undefined));
+    vi.spyOn(guard as any, 'getUrl').mockReturnValue('/');
     (guard as any)
       .isServiceDetailsSet({
         type: CheckoutStepType.SERVICE_DETAILS,
@@ -314,145 +305,125 @@ describe('CheckoutServiceOrderStepsSetGuard', () => {
       });
   });
   describe('isB2BStepSet', () => {
-    it('should check if payment type is set', (done) => {
-      spyOn(guard as any, 'isPaymentTypeSet').and.returnValue(of(true));
-      (guard as any)
-        .isB2BStepSet(
+    it('should check if payment type is set', async () => {
+      vi.spyOn(guard as any, 'isPaymentTypeSet').mockReturnValue(of(true));
+      await firstValueFrom(
+        (guard as any).isB2BStepSet(
           { disabled: false, type: [CheckoutStepType.PAYMENT_TYPE] },
           true
         )
-        .subscribe(() => {
-          expect((guard as any).isPaymentTypeSet).toHaveBeenCalledWith({
-            disabled: false,
-            type: [CheckoutStepType.PAYMENT_TYPE],
-          });
-          done();
-        });
+      );
+      expect((guard as any).isPaymentTypeSet).toHaveBeenCalledWith({
+        disabled: false,
+        type: [CheckoutStepType.PAYMENT_TYPE],
+      });
     });
-    it('should check if delivery address is set', (done) => {
-      spyOn(guard as any, 'isDeliveryAddressAndCostCenterSet').and.returnValue(
+    it('should check if delivery address is set', async () => {
+      vi.spyOn(guard as any, 'isDeliveryAddressAndCostCenterSet').mockReturnValue(
         of(true)
       );
-      (guard as any)
-        .isB2BStepSet(
+      await firstValueFrom(
+        (guard as any).isB2BStepSet(
           { disabled: false, type: [CheckoutStepType.DELIVERY_ADDRESS] },
           true
         )
-        .subscribe(() => {
-          expect(
-            (guard as any).isDeliveryAddressAndCostCenterSet
-          ).toHaveBeenCalledWith(
-            { disabled: false, type: [CheckoutStepType.DELIVERY_ADDRESS] },
-            true
-          );
-          done();
-        });
+      );
+      expect(
+        (guard as any).isDeliveryAddressAndCostCenterSet
+      ).toHaveBeenCalledWith(
+        { disabled: false, type: [CheckoutStepType.DELIVERY_ADDRESS] },
+        true
+      );
     });
-    it('should check if delivery mode is set', (done) => {
-      spyOn(guard as any, 'isDeliveryModeSet').and.returnValue(of(true));
-      (guard as any)
-        .isB2BStepSet(
+    it('should check if delivery mode is set', async () => {
+      vi.spyOn(guard as any, 'isDeliveryModeSet').mockReturnValue(of(true));
+      await firstValueFrom(
+        (guard as any).isB2BStepSet(
           { disabled: false, type: [CheckoutStepType.DELIVERY_MODE] },
           true
         )
-        .subscribe(() => {
-          expect((guard as any).isDeliveryModeSet).toHaveBeenCalledWith({
-            disabled: false,
-            type: [CheckoutStepType.DELIVERY_MODE],
-          });
-          done();
-        });
+      );
+      expect((guard as any).isDeliveryModeSet).toHaveBeenCalledWith({
+        disabled: false,
+        type: [CheckoutStepType.DELIVERY_MODE],
+      });
     });
-    it('should check if service details is set', (done) => {
-      spyOn(guard as any, 'isServiceDetailsSet').and.returnValue(of(true));
-      (guard as any)
-        .isB2BStepSet(
+    it('should check if service details is set', async () => {
+      vi.spyOn(guard as any, 'isServiceDetailsSet').mockReturnValue(of(true));
+      await firstValueFrom(
+        (guard as any).isB2BStepSet(
           { disabled: false, type: [CheckoutStepType.SERVICE_DETAILS] },
           true
         )
-        .subscribe(() => {
-          expect((guard as any).isServiceDetailsSet).toHaveBeenCalledWith({
-            disabled: false,
-            type: [CheckoutStepType.SERVICE_DETAILS],
-          });
-          done();
-        });
+      );
+      expect((guard as any).isServiceDetailsSet).toHaveBeenCalledWith({
+        disabled: false,
+        type: [CheckoutStepType.SERVICE_DETAILS],
+      });
     });
-    it('should check if payment details is set', (done) => {
-      spyOn(guard as any, 'isPaymentDetailsSet').and.returnValue(of(true));
-      (guard as any)
-        .isB2BStepSet(
+    it('should check if payment details is set', async () => {
+      vi.spyOn(guard as any, 'isPaymentDetailsSet').mockReturnValue(of(true));
+      await firstValueFrom(
+        (guard as any).isB2BStepSet(
           { disabled: false, type: [CheckoutStepType.PAYMENT_DETAILS] },
           true
         )
-        .subscribe(() => {
-          expect((guard as any).isPaymentDetailsSet).toHaveBeenCalledWith({
-            disabled: false,
-            type: [CheckoutStepType.PAYMENT_DETAILS],
-          });
-          done();
-        });
+      );
+      expect((guard as any).isPaymentDetailsSet).toHaveBeenCalledWith({
+        disabled: false,
+        type: [CheckoutStepType.PAYMENT_DETAILS],
+      });
     });
-    it('should check if review order is reached', (done) => {
-      (guard as any)
-        .isB2BStepSet(
+    it('should check if review order is reached', async () => {
+      const response = await firstValueFrom(
+        (guard as any).isB2BStepSet(
           { disabled: false, type: [CheckoutStepType.REVIEW_ORDER] },
           true
         )
-        .subscribe((response: any) => {
-          expect(response).toEqual(true);
-          done();
-        });
+      );
+      expect(response).toEqual(true);
     });
-    it('should return true if step is disabled', (done) => {
-      (guard as any)
-        .isB2BStepSet(
+    it('should return true if step is disabled', async () => {
+      const response = await firstValueFrom(
+        (guard as any).isB2BStepSet(
           { disabled: true, type: [CheckoutStepType.PAYMENT_DETAILS] },
           true
         )
-        .subscribe((response: any) => {
-          expect(response).toEqual(true);
-          done();
-        });
+      );
+      expect(response).toEqual(true);
     });
-    it('should set delivery mode to service-delivery if the cart contains only service products', (done) => {
-      spyOn(facade, 'hasServiceItems').and.returnValue(of(true));
-      spyOn(facade, 'hasNonServiceItems').and.returnValue(of(false));
-      spyOn(deliveryModeFacade, 'setDeliveryMode').and.returnValue(
+    it('should set delivery mode to service-delivery if the cart contains only service products', async () => {
+      vi.spyOn(facade, 'hasServiceItems').mockReturnValue(of(true));
+      vi.spyOn(facade, 'hasNonServiceItems').mockReturnValue(of(false));
+      vi.spyOn(deliveryModeFacade, 'setDeliveryMode').mockReturnValue(
         of(undefined)
       );
-      guard.setServiceDeliveryMode().subscribe(() => {
-        expect(deliveryModeFacade.setDeliveryMode).toHaveBeenCalledWith(
-          'my-service-delivery-mode'
-        );
-        done();
-      });
+      await firstValueFrom(guard.setServiceDeliveryMode());
+      expect(deliveryModeFacade.setDeliveryMode).toHaveBeenCalledWith(
+        'my-service-delivery-mode'
+      );
     });
-    it('should not set delivery mode to service-delivery if the cart contains service products + physical products', (done) => {
-      spyOn(facade, 'hasServiceItems').and.returnValue(of(true));
-      spyOn(facade, 'hasNonServiceItems').and.returnValue(of(true));
-      spyOn(deliveryModeFacade, 'setDeliveryMode').and.returnValue(
+    it('should not set delivery mode to service-delivery if the cart contains service products + physical products', async () => {
+      vi.spyOn(facade, 'hasServiceItems').mockReturnValue(of(true));
+      vi.spyOn(facade, 'hasNonServiceItems').mockReturnValue(of(true));
+      vi.spyOn(deliveryModeFacade, 'setDeliveryMode').mockReturnValue(
         of(undefined)
       );
-      guard.setServiceDeliveryMode().subscribe(() => {
-        expect(deliveryModeFacade.setDeliveryMode).not.toHaveBeenCalledWith(
-          'my-service-delivery-mode'
-        );
-        done();
-      });
+      await firstValueFrom(guard.setServiceDeliveryMode());
+      expect(deliveryModeFacade.setDeliveryMode).not.toHaveBeenCalledWith(
+        'my-service-delivery-mode'
+      );
     });
-    it('should not set delivery mode to service-delivery if the cart contains only physical products', (done) => {
-      spyOn(facade, 'hasServiceItems').and.returnValue(of(false));
-      spyOn(facade, 'hasNonServiceItems').and.returnValue(of(true));
-      spyOn(deliveryModeFacade, 'setDeliveryMode').and.returnValue(
+    it('should not set delivery mode to service-delivery if the cart contains only physical products', async () => {
+      vi.spyOn(facade, 'hasServiceItems').mockReturnValue(of(false));
+      vi.spyOn(facade, 'hasNonServiceItems').mockReturnValue(of(true));
+      vi.spyOn(deliveryModeFacade, 'setDeliveryMode').mockReturnValue(
         of(undefined)
       );
-      guard.setServiceDeliveryMode().subscribe(() => {
-        expect(deliveryModeFacade.setDeliveryMode).not.toHaveBeenCalledWith(
-          'my-service-delivery-mode'
-        );
-        done();
-      });
+      await firstValueFrom(guard.setServiceDeliveryMode());
+      expect(deliveryModeFacade.setDeliveryMode).not.toHaveBeenCalledWith(
+        'my-service-delivery-mode'
+      );
     });
   });
 });

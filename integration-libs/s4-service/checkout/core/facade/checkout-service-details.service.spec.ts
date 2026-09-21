@@ -11,23 +11,21 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Observable, firstValueFrom, of } from 'rxjs';
 import { CheckoutServiceDetailsConnector } from '../connector';
 import { CheckoutServiceDetailsService } from './checkout-service-details.service';
 import {
   CheckoutServiceDetailsSetEvent,
   ServiceDateTime,
 } from '@spartacus/s4-service/root';
-import createSpy = jasmine.createSpy;
 
 const mockData = `2222-90-89T67:89:00-04:00`;
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = 'cartID';
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
-  takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
-  isGuestCart = createSpy().and.returnValue(of(false));
+  takeActiveCartId = vi.fn().mockReturnValue(of(mockCartId));
+  isGuestCart = vi.fn().mockReturnValue(of(false));
   getEntries() {
     return of([
       {
@@ -65,17 +63,17 @@ class MockUserIdService implements Partial<UserIdService> {
 }
 
 class MockEventService implements Partial<EventService> {
-  dispatch = createSpy();
+  dispatch = vi.fn();
 }
 
 class MockCheckoutServiceDetailsConnector
   implements Partial<CheckoutServiceDetailsConnector>
 {
-  setServiceScheduleSlot = createSpy().and.returnValue(of('service-details'));
+  setServiceScheduleSlot = vi.fn().mockReturnValue(of('service-details'));
 }
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
-  getCheckoutDetailsState = createSpy().and.returnValue(
+  getCheckoutDetailsState = vi.fn().mockReturnValue(
     of({ loading: false, error: false, data: undefined })
   );
 }
@@ -115,8 +113,8 @@ describe(`CheckoutServiceDetailsService`, () => {
     expect(service).toBeTruthy();
   });
   describe(`getSelectedServiceDetailsState`, () => {
-    it(`should return the service detail`, (done) => {
-      checkoutQuery.getCheckoutDetailsState = createSpy().and.returnValue(
+    it(`should return the service detail`, async () => {
+      checkoutQuery.getCheckoutDetailsState = vi.fn().mockReturnValue(
         of(<QueryState<CheckoutState>>{
           loading: false,
           error: false,
@@ -126,32 +124,21 @@ describe(`CheckoutServiceDetailsService`, () => {
         })
       );
 
-      service
-        .getSelectedServiceDetailsState()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(<QueryState<ServiceDateTime | undefined>>{
-            loading: false,
-            error: false,
-            data: mockData,
-          });
-          done();
-        });
+      const result = await firstValueFrom(service.getSelectedServiceDetailsState());
+      expect(result).toEqual(<QueryState<ServiceDateTime | undefined>>{
+        loading: false,
+        error: false,
+        data: mockData,
+      });
     });
   });
 
   describe(`setServiceScheduleSlot`, () => {
-    it(`should throw an error if the checkout condition is not met`, (done) => {
-      spyOn(userService, 'takeUserId').and.returnValue(of(undefined));
-      service
-        .setServiceScheduleSlot(mockData)
-        .pipe(take(1))
-        .subscribe({
-          error: (error) => {
-            expect(error).toEqual(new Error('Checkout conditions not met'));
-            done();
-          },
-        });
+    it(`should throw an error if the checkout condition is not met`, async () => {
+      vi.spyOn(userService, 'takeUserId').mockReturnValue(of(undefined));
+      await expect(
+        firstValueFrom(service.setServiceScheduleSlot(mockData))
+      ).rejects.toEqual(new Error('Checkout conditions not met'));
     });
 
     it(`should call checkoutServiceDetailsConnector.setServiceScheduleSlot`, () => {
@@ -175,53 +162,43 @@ describe(`CheckoutServiceDetailsService`, () => {
       );
     });
   });
-  it(`should return the service products if any`, (done) => {
-    spyOn(cartService, 'getEntries').and.callThrough();
-    service.getServiceProducts().subscribe((result) => {
-      expect(result).toEqual(['service 1']);
-      done();
-    });
+  it(`should return the service products if any`, async () => {
+    vi.spyOn(cartService, 'getEntries');
+    const result = await firstValueFrom(service.getServiceProducts());
+    expect(result).toEqual(['service 1']);
   });
-  it(`should return true if the current cart has non-service products`, (done) => {
+  it(`should return true if the current cart has non-service products`, async () => {
     const orderEntries: OrderEntry[] = [
       { orderCode: 'deliveryEntry1' },
       { orderCode: 'deliveryEntry2' },
     ];
-    spyOn(cartService, 'getDeliveryEntries').and.returnValue(of(orderEntries));
-    spyOn(service, 'getServiceProducts').and.returnValue(of(['service 1']));
-    service.hasNonServiceItems().subscribe((result) => {
-      expect(result).toEqual(true);
-      done();
-    });
+    vi.spyOn(cartService, 'getDeliveryEntries').mockReturnValue(of(orderEntries));
+    vi.spyOn(service, 'getServiceProducts').mockReturnValue(of(['service 1']));
+    const result = await firstValueFrom(service.hasNonServiceItems());
+    expect(result).toEqual(true);
   });
-  it(`should return false if the current cart has no non-service products`, (done) => {
+  it(`should return false if the current cart has no non-service products`, async () => {
     const orderEntries: OrderEntry[] = [
       { orderCode: 'deliveryEntry1' },
       { orderCode: 'deliveryEntry2' },
     ];
-    spyOn(cartService, 'getDeliveryEntries').and.returnValue(of(orderEntries));
-    spyOn(service, 'getServiceProducts').and.returnValue(
+    vi.spyOn(cartService, 'getDeliveryEntries').mockReturnValue(of(orderEntries));
+    vi.spyOn(service, 'getServiceProducts').mockReturnValue(
       of(['service 1', 'service 2'])
     );
-    service.hasNonServiceItems().subscribe((result) => {
-      expect(result).toEqual(false);
-      done();
-    });
+    const result = await firstValueFrom(service.hasNonServiceItems());
+    expect(result).toEqual(false);
   });
-  it(`should return true if the current cart has service products`, (done) => {
-    spyOn(service, 'getServiceProducts').and.returnValue(
+  it(`should return true if the current cart has service products`, async () => {
+    vi.spyOn(service, 'getServiceProducts').mockReturnValue(
       of(['service 1', 'service 2'])
     );
-    service.hasServiceItems().subscribe((result) => {
-      expect(result).toEqual(true);
-      done();
-    });
+    const result = await firstValueFrom(service.hasServiceItems());
+    expect(result).toEqual(true);
   });
-  it(`should return false if the current cart has no service products`, (done) => {
-    spyOn(service, 'getServiceProducts').and.returnValue(of([]));
-    service.hasServiceItems().subscribe((result) => {
-      expect(result).toEqual(false);
-      done();
-    });
+  it(`should return false if the current cart has no service products`, async () => {
+    vi.spyOn(service, 'getServiceProducts').mockReturnValue(of([]));
+    const result = await firstValueFrom(service.hasServiceItems());
+    expect(result).toEqual(false);
   });
 });

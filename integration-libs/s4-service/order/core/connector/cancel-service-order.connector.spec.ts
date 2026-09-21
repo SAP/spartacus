@@ -6,12 +6,10 @@ import { CancellationDetails } from '@spartacus/s4-service/root';
 
 describe('CancelServiceOrderConnector', () => {
   let connector: CancelServiceOrderConnector;
-  let adapter: jasmine.SpyObj<CancelServiceOrderAdapter>;
+  let adapter: any;
 
   beforeEach(() => {
-    const adapterSpy = jasmine.createSpyObj('CancelServiceOrderAdapter', [
-      'cancelServiceOrder',
-    ]);
+    const adapterSpy = { cancelServiceOrder: vi.fn() };
     TestBed.configureTestingModule({
       providers: [
         CancelServiceOrderConnector,
@@ -22,7 +20,7 @@ describe('CancelServiceOrderConnector', () => {
     connector = TestBed.inject(CancelServiceOrderConnector);
     adapter = TestBed.inject(
       CancelServiceOrderAdapter
-    ) as jasmine.SpyObj<CancelServiceOrderAdapter>;
+    ) as any;
   });
 
   it('should be created', () => {
@@ -38,7 +36,7 @@ describe('CancelServiceOrderConnector', () => {
         cancellationRequestEntryInputs: [],
       };
       const expectedResponse = of({ success: true });
-      adapter.cancelServiceOrder.and.returnValue(expectedResponse);
+      adapter.cancelServiceOrder.mockReturnValue(expectedResponse);
       const result = connector.cancelServiceOrder(
         userId,
         code,
@@ -59,7 +57,7 @@ describe('CancelServiceOrderConnector', () => {
         cancellationRequestEntryInputs: [],
       };
       const errorResponse = throwError(() => new Error('Some error'));
-      adapter.cancelServiceOrder.and.returnValue(errorResponse);
+      adapter.cancelServiceOrder.mockReturnValue(errorResponse);
       connector
         .cancelServiceOrder(userId, code, cancellationDetails)
         .subscribe({
