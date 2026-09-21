@@ -7,7 +7,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { provideDefaultConfig } from '@spartacus/core';
-import { CmsPageGuard } from '@spartacus/storefront';
+import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import {
   PageLayoutComponent,
   PageLayoutModule,
