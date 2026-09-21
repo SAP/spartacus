@@ -75,6 +75,7 @@ describe('ClaimDialogComponent', () => {
   });
 
   beforeEach(() => {
+    vi.clearAllMocks();
     fixture = TestBed.createComponent(ClaimDialogComponent);
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);
