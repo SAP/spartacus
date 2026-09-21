@@ -72,9 +72,9 @@ describe('CdcUserListService', () => {
   });
   describe('onCreateButtonClick()', () => {
     it('should open delegate admin login successfully', () => {
-      cdcJsService.getOrganizationContext = vi.fn().mockReturnValue(
-        of({ orgId: orgId })
-      );
+      cdcJsService.getOrganizationContext = vi
+        .fn()
+        .mockReturnValue(of({ orgId: orgId }));
       cdcJsService.openDelegatedAdminLogin = vi.fn();
 
       service.onCreateButtonClick();
@@ -83,9 +83,9 @@ describe('CdcUserListService', () => {
       expect(cdcJsService.openDelegatedAdminLogin).toHaveBeenCalledWith(orgId);
     });
     it('should handle when empty incorrect organization id is passed', () => {
-      cdcJsService.getOrganizationContext = vi.fn().mockReturnValue(
-        of({ orgId: '' })
-      );
+      cdcJsService.getOrganizationContext = vi
+        .fn()
+        .mockReturnValue(of({ orgId: '' }));
       cdcJsService.openDelegatedAdminLogin = vi.fn();
 
       service.onCreateButtonClick();

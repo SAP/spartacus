@@ -36,7 +36,9 @@ describe('ReschedleServiceOrderConnectorService', () => {
 
   it('rescheduleServiceOrder should call rescheduleServiceOrderAdapter', async () => {
     await firstValueFrom(
-      service.rescheduleServiceOrder('userId', 'code', { scheduledAt: 'dd/mm/yyyy' })
+      service.rescheduleServiceOrder('userId', 'code', {
+        scheduledAt: 'dd/mm/yyyy',
+      })
     );
     expect(
       rescheduleServiceOrderAdapter.rescheduleServiceOrder

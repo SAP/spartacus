@@ -35,9 +35,7 @@ describe('OccCancelServiceOrderAdapter', () => {
 
     adapter = TestBed.inject(OccCancelServiceOrderAdapter);
     httpTestingController = TestBed.inject(HttpTestingController);
-    occEndpointsService = TestBed.inject(
-      OccEndpointsService
-    ) as any;
+    occEndpointsService = TestBed.inject(OccEndpointsService) as any;
   });
 
   afterEach(() => {

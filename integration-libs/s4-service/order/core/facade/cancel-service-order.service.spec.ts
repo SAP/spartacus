@@ -28,15 +28,9 @@ describe('CancelServiceOrderService', () => {
     });
 
     service = TestBed.inject(CancelServiceOrderService);
-    connector = TestBed.inject(
-      CancelServiceOrderConnector
-    ) as any;
-    orderHistoryFacade = TestBed.inject(
-      OrderHistoryFacade
-    ) as any;
-    userIdService = TestBed.inject(
-      UserIdService
-    ) as any;
+    connector = TestBed.inject(CancelServiceOrderConnector) as any;
+    orderHistoryFacade = TestBed.inject(OrderHistoryFacade) as any;
+    userIdService = TestBed.inject(UserIdService) as any;
   });
 
   describe('cancelService', () => {
@@ -50,7 +44,9 @@ describe('CancelServiceOrderService', () => {
       userIdService.takeUserId.mockReturnValue(of(userId));
       connector.cancelServiceOrder.mockReturnValue(of({ success: true }));
 
-      const response = await firstValueFrom(service.cancelService(orderCode, cancellationDetails));
+      const response = await firstValueFrom(
+        service.cancelService(orderCode, cancellationDetails)
+      );
       expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(connector.cancelServiceOrder).toHaveBeenCalledWith(
         userId,
@@ -68,7 +64,9 @@ describe('CancelServiceOrderService', () => {
       const userId = 'user123';
 
       userIdService.takeUserId.mockReturnValue(of(userId));
-      connector.cancelServiceOrder.mockReturnValue(throwError(() => new Error('Some error')));
+      connector.cancelServiceOrder.mockReturnValue(
+        throwError(() => new Error('Some error'))
+      );
 
       await expect(
         firstValueFrom(service.cancelService(orderCode, cancellationDetails))

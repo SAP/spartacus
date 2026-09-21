@@ -73,15 +73,19 @@ class MockCheckoutFlowOrchestratorService
 class MockCheckoutDeliveryModesFacade
   implements Partial<CheckoutDeliveryModesFacade>
 {
-  getSupportedDeliveryModesState = vi.fn().mockReturnValue(
-    of({ loading: false, error: false, success: true, value: [] })
-  );
+  getSupportedDeliveryModesState = vi
+    .fn()
+    .mockReturnValue(
+      of({ loading: false, error: false, success: true, value: [] })
+    );
 
   getSupportedDeliveryModes = vi.fn().mockReturnValue(of([]));
 
-  getSelectedDeliveryModeState = vi.fn().mockReturnValue(
-    of({ loading: false, error: false, success: true, value: undefined })
-  );
+  getSelectedDeliveryModeState = vi
+    .fn()
+    .mockReturnValue(
+      of({ loading: false, error: false, success: true, value: undefined })
+    );
 
   setDeliveryMode = vi.fn().mockReturnValue(of(undefined));
 

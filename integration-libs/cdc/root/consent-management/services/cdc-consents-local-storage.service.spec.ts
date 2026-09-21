@@ -24,7 +24,9 @@ describe('CdcConsentsLocalStorageService', () => {
     });
     service = TestBed.inject(CdcConsentsLocalStorageService);
     persistenceService = TestBed.inject(StatePersistenceService);
-    vi.spyOn(persistenceService, 'syncWithStorage').mockImplementation(() => {});
+    vi.spyOn(persistenceService, 'syncWithStorage').mockImplementation(
+      () => {}
+    );
   });
 
   it('should inject service', () => {
@@ -35,8 +37,9 @@ describe('CdcConsentsLocalStorageService', () => {
     expect(persistenceService.syncWithStorage).toHaveBeenCalled();
   });
   it('should return true if ID passed in request param exists in store', () => {
-    persistenceService.readStateFromStorage =
-      vi.fn().mockReturnValue(mockCdcConsents);
+    persistenceService.readStateFromStorage = vi
+      .fn()
+      .mockReturnValue(mockCdcConsents);
     let output = service.checkIfConsentExists('consent.survey');
     expect(persistenceService.readStateFromStorage).toHaveBeenCalledWith({
       key: 'cdc-consents-list',
@@ -44,8 +47,9 @@ describe('CdcConsentsLocalStorageService', () => {
     expect(output).toEqual(true);
   });
   it('should return false if ID passed in request param doesnot exists in store', () => {
-    persistenceService.readStateFromStorage =
-      vi.fn().mockReturnValue(mockCdcConsents);
+    persistenceService.readStateFromStorage = vi
+      .fn()
+      .mockReturnValue(mockCdcConsents);
     let output = service.checkIfConsentExists('consent.training');
     expect(persistenceService.readStateFromStorage).toHaveBeenCalledWith({
       key: 'cdc-consents-list',

@@ -33,13 +33,13 @@ class MockGlobalMessageService {
 
 class MockCDCJsService implements Partial<CdcJsService> {
   didLoad = vi.fn().mockReturnValue(of(false));
-  registerUserWithoutScreenSet = vi.fn().mockImplementation(() =>
-    of({ status: 'OK' })
-  );
+  registerUserWithoutScreenSet = vi
+    .fn()
+    .mockImplementation(() => of({ status: 'OK' }));
   onLoginEventHandler = vi.fn();
-  resetPasswordWithoutScreenSet = vi.fn().mockImplementation(() =>
-    of({ status: 'OK' })
-  );
+  resetPasswordWithoutScreenSet = vi
+    .fn()
+    .mockImplementation(() => of({ status: 'OK' }));
 }
 
 describe('CDCForgotPasswordComponentService', () => {
@@ -98,9 +98,7 @@ describe('CDCForgotPasswordComponentService', () => {
 
       it('should handle a failed email request through CDC SDK', () => {
         cdcJsService.didLoad = vi.fn().mockReturnValue(of(true));
-        (
-          cdcJsService.resetPasswordWithoutScreenSet as any
-        ).mockReturnValue(
+        (cdcJsService.resetPasswordWithoutScreenSet as any).mockReturnValue(
           throwError(() => 'test error: such email does not exist!')
         );
         service.requestEmail();

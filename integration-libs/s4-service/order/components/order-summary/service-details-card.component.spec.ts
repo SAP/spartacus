@@ -6,10 +6,10 @@ import { of } from 'rxjs';
 import { ServiceDetailsCardComponent } from './service-details-card.component';
 
 class MockTranslationService {
-  translate() { }
+  translate() {}
 }
 class MockCheckoutServiceSchedulePickerService {
-  convertDateTimeToReadableString() { }
+  convertDateTimeToReadableString() {}
 }
 
 describe('ServiceDetailsCardComponent', () => {
@@ -40,16 +40,17 @@ describe('ServiceDetailsCardComponent', () => {
     //     .mockReturnValue(of('card title'))
     //     .withArgs('serviceOrderCheckout.cardLabel')
     //     .mockReturnValue(of('card bold text'));
-    vi.spyOn(translateService, 'translate').mockImplementation((key: string) => {
-      if (key === 'serviceOrderCheckout.serviceDetails') {
-        return of('card title');
+    vi.spyOn(translateService, 'translate').mockImplementation(
+      (key: string) => {
+        if (key === 'serviceOrderCheckout.serviceDetails') {
+          return of('card title');
+        }
+        if (key === 'serviceOrderCheckout.cardLabel') {
+          return of('card bold text');
+        }
       }
-      if (key === 'serviceOrderCheckout.cardLabel') {
-        return of('card bold text');
-      }
-    });
+    );
   });
-
 
   it('should create', () => {
     expect(component).toBeTruthy();

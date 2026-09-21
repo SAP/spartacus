@@ -48,11 +48,10 @@ class MockCheckoutServiceSchedulePickerService
   implements Partial<CheckoutServiceSchedulePickerService>
 {
   getMinDateForService = vi.fn().mockReturnValue(of('2024-06-25'));
-  getScheduledServiceTimes = vi.fn().mockReturnValue(
-    of(['8:30', '9:30', '10:30'])
-  );
-  convertDateTimeToReadableString =
-    vi.fn().mockReturnValue('27/06/2024, 9:30');
+  getScheduledServiceTimes = vi
+    .fn()
+    .mockReturnValue(of(['8:30', '9:30', '10:30']));
+  convertDateTimeToReadableString = vi.fn().mockReturnValue('27/06/2024, 9:30');
   getServiceDetailsFromDateTime = vi.fn().mockReturnValue({
     date: '27/06/2024',
     time: '09:30',
@@ -149,17 +148,12 @@ describe('CheckoutServiceDetailsComponent', () => {
     expect(component.form?.get('scheduleTime')?.value).toEqual('10:30');
   });
   it('should update service details when service products are available in cart', () => {
-    vi.spyOn(checkoutServiceDetailsFacade, 'getServiceProducts').mockReturnValue(
-      of(['123', '456'])
-    );
     vi.spyOn(
       checkoutServiceDetailsFacade,
-      'setServiceScheduleSlot'
-    );
-    vi.spyOn(
-      checkoutServiceDetailsFacade,
-      'getSelectedServiceDetailsState'
-    );
+      'getServiceProducts'
+    ).mockReturnValue(of(['123', '456']));
+    vi.spyOn(checkoutServiceDetailsFacade, 'setServiceScheduleSlot');
+    vi.spyOn(checkoutServiceDetailsFacade, 'getSelectedServiceDetailsState');
 
     component.next();
     expect(
@@ -168,16 +162,18 @@ describe('CheckoutServiceDetailsComponent', () => {
     expect(checkoutStepService.next).toHaveBeenCalled();
   });
   it('should move to next step when no service products are available in cart', () => {
-    vi.spyOn(checkoutServiceDetailsFacade, 'getServiceProducts').mockReturnValue(
-      of([])
-    );
+    vi.spyOn(
+      checkoutServiceDetailsFacade,
+      'getServiceProducts'
+    ).mockReturnValue(of([]));
     component.next();
     expect(checkoutStepService.next).toHaveBeenCalled();
   });
   it('should show error if any error throw', () => {
-    vi.spyOn(checkoutServiceDetailsFacade, 'getServiceProducts').mockReturnValue(
-      of(['3435'])
-    );
+    vi.spyOn(
+      checkoutServiceDetailsFacade,
+      'getServiceProducts'
+    ).mockReturnValue(of(['3435']));
     vi.spyOn(
       checkoutServiceDetailsFacade,
       'setServiceScheduleSlot'

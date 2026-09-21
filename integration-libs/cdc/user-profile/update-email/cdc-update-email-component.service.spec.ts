@@ -32,9 +32,9 @@ class MockAuthRedirectService implements Partial<AuthRedirectService> {
 }
 
 class MockCDCJsService implements Partial<CdcJsService> {
-  updateUserEmailWithoutScreenSet = vi.fn().mockReturnValue(
-    of({ status: 'OK' })
-  );
+  updateUserEmailWithoutScreenSet = vi
+    .fn()
+    .mockReturnValue(of({ status: 'OK' }));
 }
 
 describe('UpdateEmailComponentService', () => {

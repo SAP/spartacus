@@ -88,9 +88,9 @@ describe('CdcUserConsentService()', () => {
           },
         },
       });
-      cdcJsService.setUserConsentPreferences = vi.fn().mockReturnValue(
-        of(mockCdcSdkOutput)
-      );
+      cdcJsService.setUserConsentPreferences = vi
+        .fn()
+        .mockReturnValue(of(mockCdcSdkOutput));
       service.updateCdcUserPreferences([
         { id: 'others.survey', isConsentGranted: true },
       ]);
@@ -117,9 +117,9 @@ describe('CdcUserConsentService()', () => {
           },
         },
       });
-      cdcJsService.setUserConsentPreferences = vi.fn().mockReturnValue(
-        of(mockCdcSdkOutput)
-      );
+      cdcJsService.setUserConsentPreferences = vi
+        .fn()
+        .mockReturnValue(of(mockCdcSdkOutput));
       service.updateCdcUserPreferences([
         { id: 'others.survey', isConsentGranted: false },
       ]);

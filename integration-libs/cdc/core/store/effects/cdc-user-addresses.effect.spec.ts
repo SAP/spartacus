@@ -1,12 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { CdcJsService } from '@spartacus/cdc/root';
-import { Address, Country, UserActions, UserAddressAdapter, UserAddressConnector, UserAddressService, UserIdService } from '@spartacus/core';
-import { cold, hot } from 'jasmine-marbles';
 import {
-  GlobalMessageService,
-  GlobalMessageType,
-} from '@spartacus/core';;
+  Address,
+  Country,
+  UserActions,
+  UserAddressAdapter,
+  UserAddressConnector,
+  UserAddressService,
+  UserIdService,
+} from '@spartacus/core';
+import { cold, hot } from 'jasmine-marbles';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { EMPTY, firstValueFrom, Observable, of, throwError } from 'rxjs';
 import * as fromUserAddressesEffect from './cdc-user-addresses.effect';
 import { CdcUserAddressesEffects } from './cdc-user-addresses.effect';
@@ -101,7 +106,9 @@ describe('CDC User Addresses effect', () => {
     vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(
       of(mockCountries)
     );
-    vi.spyOn(userAddressService, 'loadDeliveryCountries').mockImplementation(() => {});
+    vi.spyOn(userAddressService, 'loadDeliveryCountries').mockImplementation(
+      () => {}
+    );
 
     vi.spyOn(userAddressService, 'getAddresses').mockReturnValue(
       of(mockUserAddresses)
@@ -305,7 +312,9 @@ describe('CDC User Addresses effect', () => {
 
   describe('getAddresses', () => {
     it('should get user id and invoke addresses', async () => {
-      const addresses = await firstValueFrom(cdcUserAddressesEffect.getAddresses());
+      const addresses = await firstValueFrom(
+        cdcUserAddressesEffect.getAddresses()
+      );
       expect(addresses).toBeTruthy();
       expect(addresses.length).toEqual(1);
     });
@@ -377,7 +386,9 @@ describe('CDC User Addresses effect', () => {
           status: 'OK',
         })
       );
-      await firstValueFrom(cdcUserAddressesEffect.sendAddressToCDC(mockUserAddress));
+      await firstValueFrom(
+        cdcUserAddressesEffect.sendAddressToCDC(mockUserAddress)
+      );
       expect(userAddressService.getDeliveryCountries).toHaveBeenCalled();
       expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalledWith(
         mockUserAddress.formattedAddress,

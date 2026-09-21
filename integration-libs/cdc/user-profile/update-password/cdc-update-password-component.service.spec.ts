@@ -86,8 +86,9 @@ describe('CDCUpdatePasswordComponentService', () => {
         oldPassword.setValue('Old1234!');
         newPassword.setValue('New1234!');
         newPasswordConfirm.setValue('New1234!');
-        cdcJsService.updateUserPasswordWithoutScreenSet =
-          vi.fn().mockReturnValue(of({ status: 'OK' }));
+        cdcJsService.updateUserPasswordWithoutScreenSet = vi
+          .fn()
+          .mockReturnValue(of({ status: 'OK' }));
         TestBed.compileComponents();
       });
 
@@ -126,8 +127,9 @@ describe('CDCUpdatePasswordComponentService', () => {
 
     describe('error', () => {
       beforeEach(() => {
-        cdcJsService.updateUserPasswordWithoutScreenSet =
-          vi.fn().mockReturnValue(
+        cdcJsService.updateUserPasswordWithoutScreenSet = vi
+          .fn()
+          .mockReturnValue(
             throwError(() => ({
               status: 'ERROR',
               errorDetails: 'Error occured',

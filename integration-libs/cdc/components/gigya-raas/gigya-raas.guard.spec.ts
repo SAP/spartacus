@@ -208,8 +208,9 @@ describe('GigyaRaasGuard', () => {
   describe('If more than 1 gigya components are found in the page', () => {
     it('should return non-true if one of the component returns false during checking', async () => {
       vi.spyOn(cmsService, 'getPage').mockReturnValue(of(mock1));
-      vi.spyOn(cmsService, 'getComponentData').mockImplementation((uid: string) =>
-        uid === 'GigyaRaasComponentForXYZ' ? of(data2) : of(data3)
+      vi.spyOn(cmsService, 'getComponentData').mockImplementation(
+        (uid: string) =>
+          uid === 'GigyaRaasComponentForXYZ' ? of(data2) : of(data3)
       );
       vi.spyOn(notAuthGuard, 'canActivate').mockReturnValue(of(true));
       vi.spyOn(authGuard, 'canActivate').mockReturnValue(
@@ -225,8 +226,9 @@ describe('GigyaRaasGuard', () => {
     });
     it('should return true if all components returns true  during checking', async () => {
       vi.spyOn(cmsService, 'getPage').mockReturnValue(of(mock1));
-      vi.spyOn(cmsService, 'getComponentData').mockImplementation((uid: string) =>
-        uid === 'GigyaRaasComponentForXYZ' ? of(data1) : of(data3)
+      vi.spyOn(cmsService, 'getComponentData').mockImplementation(
+        (uid: string) =>
+          uid === 'GigyaRaasComponentForXYZ' ? of(data1) : of(data3)
       );
       vi.spyOn(authGuard, 'canActivate').mockReturnValue(of(true));
       vi.spyOn(notAuthGuard, 'canActivate').mockReturnValue(of(true));
@@ -240,8 +242,9 @@ describe('GigyaRaasGuard', () => {
     });
     it('should return first non-true if more than 1 component returns non-true during checking', async () => {
       vi.spyOn(cmsService, 'getPage').mockReturnValue(of(mock1));
-      vi.spyOn(cmsService, 'getComponentData').mockImplementation((uid: string) =>
-        uid === 'GigyaRaasComponentForXYZ' ? of(data2) : of(data3)
+      vi.spyOn(cmsService, 'getComponentData').mockImplementation(
+        (uid: string) =>
+          uid === 'GigyaRaasComponentForXYZ' ? of(data2) : of(data3)
       );
       vi.spyOn(notAuthGuard, 'canActivate').mockReturnValue(of(false));
       vi.spyOn(authGuard, 'canActivate').mockReturnValue(

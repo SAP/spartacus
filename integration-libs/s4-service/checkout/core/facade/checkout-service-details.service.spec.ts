@@ -73,9 +73,9 @@ class MockCheckoutServiceDetailsConnector
 }
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
-  getCheckoutDetailsState = vi.fn().mockReturnValue(
-    of({ loading: false, error: false, data: undefined })
-  );
+  getCheckoutDetailsState = vi
+    .fn()
+    .mockReturnValue(of({ loading: false, error: false, data: undefined }));
 }
 
 describe(`CheckoutServiceDetailsService`, () => {
@@ -124,7 +124,9 @@ describe(`CheckoutServiceDetailsService`, () => {
         })
       );
 
-      const result = await firstValueFrom(service.getSelectedServiceDetailsState());
+      const result = await firstValueFrom(
+        service.getSelectedServiceDetailsState()
+      );
       expect(result).toEqual(<QueryState<ServiceDateTime | undefined>>{
         loading: false,
         error: false,
@@ -172,7 +174,9 @@ describe(`CheckoutServiceDetailsService`, () => {
       { orderCode: 'deliveryEntry1' },
       { orderCode: 'deliveryEntry2' },
     ];
-    vi.spyOn(cartService, 'getDeliveryEntries').mockReturnValue(of(orderEntries));
+    vi.spyOn(cartService, 'getDeliveryEntries').mockReturnValue(
+      of(orderEntries)
+    );
     vi.spyOn(service, 'getServiceProducts').mockReturnValue(of(['service 1']));
     const result = await firstValueFrom(service.hasNonServiceItems());
     expect(result).toEqual(true);
@@ -182,7 +186,9 @@ describe(`CheckoutServiceDetailsService`, () => {
       { orderCode: 'deliveryEntry1' },
       { orderCode: 'deliveryEntry2' },
     ];
-    vi.spyOn(cartService, 'getDeliveryEntries').mockReturnValue(of(orderEntries));
+    vi.spyOn(cartService, 'getDeliveryEntries').mockReturnValue(
+      of(orderEntries)
+    );
     vi.spyOn(service, 'getServiceProducts').mockReturnValue(
       of(['service 1', 'service 2'])
     );

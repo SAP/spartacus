@@ -47,7 +47,9 @@ describe('RescheduleServiceOrderService', () => {
   });
 
   it(`should call rescheduleServiceOrderConnector.rescheduleServiceOrder`, async () => {
-    await firstValueFrom(service.rescheduleService(mockOrderCode, mockDateTime));
+    await firstValueFrom(
+      service.rescheduleService(mockOrderCode, mockDateTime)
+    );
     expect(
       rescheduleServiceOrderConnector.rescheduleServiceOrder
     ).toHaveBeenCalledWith(mockUserId, mockOrderCode, {

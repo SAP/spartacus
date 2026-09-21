@@ -205,17 +205,17 @@ describe('DpPaymentCallbackComponent with success query param', () => {
     });
     describe('checking 2 buttons on billing address form', () => {
       beforeEach(() => {
-        vi
-          .spyOn(
-            billingAddressService,
-            'isBillingAddressSameAsDeliveryAddress'
-          )
-          .mockReturnValue(true);
+        vi.spyOn(
+          billingAddressService,
+          'isBillingAddressSameAsDeliveryAddress'
+        ).mockReturnValue(true);
         vi.spyOn(
           billingAddressService,
           'isBillingAddressFormValid'
         ).mockReturnValue(true);
-        vi.spyOn(billingAddressService, 'getBillingAddress').mockReturnValue({});
+        vi.spyOn(billingAddressService, 'getBillingAddress').mockReturnValue(
+          {}
+        );
       });
       it('should add payment details when `continue` is clicked', async () => {
         component.next();
@@ -238,12 +238,14 @@ describe('DpPaymentCallbackComponent with success query param', () => {
     });
 
     it('should send billing address if form is valid/billing address same as delivery address', () => {
-      vi
-        .spyOn(billingAddressService, 'isBillingAddressSameAsDeliveryAddress')
-        .mockReturnValue(true);
-      vi.spyOn(billingAddressService, 'isBillingAddressFormValid').mockReturnValue(
-        true
-      );
+      vi.spyOn(
+        billingAddressService,
+        'isBillingAddressSameAsDeliveryAddress'
+      ).mockReturnValue(true);
+      vi.spyOn(
+        billingAddressService,
+        'isBillingAddressFormValid'
+      ).mockReturnValue(true);
       vi.spyOn(billingAddressService, 'getBillingAddress').mockReturnValue({});
       component.next();
       expect(dpStorageService.readCardRegistrationState).toHaveBeenCalled();
@@ -254,12 +256,14 @@ describe('DpPaymentCallbackComponent with success query param', () => {
       );
     });
     it('should not send billing address if form is not valid & billing address is not same as delivery address', () => {
-      vi
-        .spyOn(billingAddressService, 'isBillingAddressSameAsDeliveryAddress')
-        .mockReturnValue(false);
-      vi.spyOn(billingAddressService, 'isBillingAddressFormValid').mockReturnValue(
-        false
-      );
+      vi.spyOn(
+        billingAddressService,
+        'isBillingAddressSameAsDeliveryAddress'
+      ).mockReturnValue(false);
+      vi.spyOn(
+        billingAddressService,
+        'isBillingAddressFormValid'
+      ).mockReturnValue(false);
       component.next();
       expect(dpStorageService.readCardRegistrationState).not.toHaveBeenCalled();
       expect(dpPaymentService.createPaymentDetails).not.toHaveBeenCalled();

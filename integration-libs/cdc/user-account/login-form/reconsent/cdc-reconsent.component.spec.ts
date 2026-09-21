@@ -232,11 +232,12 @@ describe('CdcReconsentComponent', () => {
     const reconsentIds = ['consent.survey', 'privacy.use'];
     const expectedOutput = [{ id: 'consent.survey' }, { id: 'privacy.use' }];
     it('should load all anonymous consents', async () => {
-      anonymousConsentsService.getTemplates = vi.fn().mockReturnValue(
-        of(anonymousConsents)
-      );
-      cdcConsentManagementComponentService.getCdcConsentIDs =
-        vi.fn().mockReturnValue(['terms.of.use', 'privacy.use']);
+      anonymousConsentsService.getTemplates = vi
+        .fn()
+        .mockReturnValue(of(anonymousConsents));
+      cdcConsentManagementComponentService.getCdcConsentIDs = vi
+        .fn()
+        .mockReturnValue(['terms.of.use', 'privacy.use']);
       component.loadConsents(reconsentIds);
       const value = await firstValueFrom(component.templateList$);
       expect(value).toEqual(expectedOutput);
@@ -244,7 +245,9 @@ describe('CdcReconsentComponent', () => {
   });
   describe('dismissDialog', () => {
     it('should not proceed to login', () => {
-      cdcReconsentService.handleReconsentUpdateError = vi.fn().mockImplementation(() => {});
+      cdcReconsentService.handleReconsentUpdateError = vi
+        .fn()
+        .mockImplementation(() => {});
       component.dismissDialog('Error Reason', 'Error message during login');
       expect(
         cdcReconsentService.handleReconsentUpdateError
@@ -252,7 +255,9 @@ describe('CdcReconsentComponent', () => {
     });
     describe('proceed to login', () => {
       it('should provide consent for a consent with new version', () => {
-        cdcReconsentService.savePreferencesAndLogin = vi.fn().mockImplementation(() => {});
+        cdcReconsentService.savePreferencesAndLogin = vi
+          .fn()
+          .mockImplementation(() => {});
         component.reconsentEvent = {
           preferences: {
             'terms.use': { isConsentGranted: true },
@@ -274,7 +279,9 @@ describe('CdcReconsentComponent', () => {
         );
       });
       it('should provide consent for a newly added consent', () => {
-        cdcReconsentService.savePreferencesAndLogin = vi.fn().mockImplementation(() => {});
+        cdcReconsentService.savePreferencesAndLogin = vi
+          .fn()
+          .mockImplementation(() => {});
         component.reconsentEvent = {
           preferences: {
             'terms.use': { isConsentGranted: true },
@@ -297,7 +304,9 @@ describe('CdcReconsentComponent', () => {
         );
       });
       it('should not provide consent for a consent with new version, if not checked in reconsent popup', () => {
-        cdcReconsentService.savePreferencesAndLogin = vi.fn().mockImplementation(() => {});
+        cdcReconsentService.savePreferencesAndLogin = vi
+          .fn()
+          .mockImplementation(() => {});
         component.reconsentEvent = {
           preferences: {
             'terms.use': { isConsentGranted: true },
@@ -319,7 +328,9 @@ describe('CdcReconsentComponent', () => {
         );
       });
       it('should provide consent for a consent if checked in popup', () => {
-        cdcReconsentService.savePreferencesAndLogin = vi.fn().mockImplementation(() => {});
+        cdcReconsentService.savePreferencesAndLogin = vi
+          .fn()
+          .mockImplementation(() => {});
         component.reconsentEvent.preference = {
           preferences: {
             'terms.use': { isConsentGranted: true },

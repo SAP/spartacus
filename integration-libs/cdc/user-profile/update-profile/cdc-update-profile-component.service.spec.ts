@@ -31,9 +31,7 @@ const mockedGlobalMessageService = {
 };
 
 class MockCDCJsService implements Partial<CdcJsService> {
-  updateProfileWithoutScreenSet = vi.fn().mockReturnValue(
-    of({ status: 'OK' })
-  );
+  updateProfileWithoutScreenSet = vi.fn().mockReturnValue(of({ status: 'OK' }));
 }
 
 describe('UpdateProfileComponentService', () => {

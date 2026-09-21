@@ -147,9 +147,7 @@ describe('CancelServiceOrderComponent', () => {
 
   it('should handle error when order details are not available', () => {
     // Mock OrderDetailsService to throw an error
-    const mockOrderDetailsService = TestBed.inject(
-      OrderDetailsService
-    ) as any;
+    const mockOrderDetailsService = TestBed.inject(OrderDetailsService) as any;
     mockOrderDetailsService.getOrderDetails.mockReturnValue(
       throwError(() => new Error('Order details are not available'))
     );
@@ -184,9 +182,7 @@ describe('CancelServiceOrderComponent', () => {
     expect(backButton).not.toBeNull();
   });
   it('should handle error when order details are not available', async () => {
-    const mockOrderDetailsService = TestBed.inject(
-      OrderDetailsService
-    ) as any;
+    const mockOrderDetailsService = TestBed.inject(OrderDetailsService) as any;
 
     mockOrderDetailsService.getOrderDetails.mockReturnValue(
       throwError(() => new Error('Order details are not available'))

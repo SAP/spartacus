@@ -76,9 +76,9 @@ class MockEventService implements Partial<EventService> {
 
 class MockCDCJsService implements Partial<CdcJsService> {
   didLoad = vi.fn().mockImplementation(() => of(true));
-  registerUserWithoutScreenSet = vi.fn().mockImplementation(() =>
-    of({ status: 'OK' })
-  );
+  registerUserWithoutScreenSet = vi
+    .fn()
+    .mockImplementation(() => of({ status: 'OK' }));
   onLoginEventHandler = vi.fn();
 }
 
@@ -211,9 +211,12 @@ describe('CdcRegisterComponentService', () => {
           },
         },
       });
-      cdcConsentManagementService.getCdcConsentIDs =
-        vi.fn().mockReturnValue(['others.survey']);
-      await firstValueFrom(cdcUserRegisterService.register(userRegisterFormData));
+      cdcConsentManagementService.getCdcConsentIDs = vi
+        .fn()
+        .mockReturnValue(['others.survey']);
+      await firstValueFrom(
+        cdcUserRegisterService.register(userRegisterFormData)
+      );
       expect(connector.register).not.toHaveBeenCalled();
       expect(cdcJsService.registerUserWithoutScreenSet).toHaveBeenCalledWith({
         titleCode: 'Mr.',
@@ -235,15 +238,14 @@ describe('CdcRegisterComponentService', () => {
     it('should NOT happen without CDC, should show error', async () => {
       vi.spyOn(globalMessageService, 'remove');
       vi.spyOn(globalMessageService, 'add');
-      cdcConsentManagementService.getCdcConsentIDs =
-        vi.fn().mockReturnValue(['others.survey']);
+      cdcConsentManagementService.getCdcConsentIDs = vi
+        .fn()
+        .mockReturnValue(['others.survey']);
       cdcJsService.didLoad = vi.fn().mockImplementation(() => of(false));
       await expect(
         firstValueFrom(cdcUserRegisterService.register(userRegisterFormData))
       ).rejects.toBeDefined();
-      expect(
-        cdcJsService.registerUserWithoutScreenSet
-      ).not.toHaveBeenCalled();
+      expect(cdcJsService.registerUserWithoutScreenSet).not.toHaveBeenCalled();
       expect(connector.register).not.toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
@@ -251,22 +253,18 @@ describe('CdcRegisterComponentService', () => {
         },
         GlobalMessageType.MSG_TYPE_ERROR
       );
-      expect(
-        cdcJsService.registerUserWithoutScreenSet
-      ).not.toHaveBeenCalled();
+      expect(cdcJsService.registerUserWithoutScreenSet).not.toHaveBeenCalled();
     });
 
     it('should not do anything when CDC registration fails', async () => {
-      cdcJsService.registerUserWithoutScreenSet = vi.fn().mockReturnValue(
-        throwError(() => 'ERROR')
-      );
+      cdcJsService.registerUserWithoutScreenSet = vi
+        .fn()
+        .mockReturnValue(throwError(() => 'ERROR'));
       await expect(
         firstValueFrom(cdcUserRegisterService.register(userRegisterFormData))
       ).rejects.toBeDefined();
       expect(connector.register).not.toHaveBeenCalled();
-      expect(
-        cdcJsService.registerUserWithoutScreenSet
-      ).toHaveBeenCalledWith({
+      expect(cdcJsService.registerUserWithoutScreenSet).toHaveBeenCalledWith({
         titleCode: 'Mr.',
         firstName: 'firstName',
         lastName: 'lastName',
@@ -287,15 +285,14 @@ describe('CdcRegisterComponentService', () => {
       (cdcUserRegisterService as any)['loadUserTokenFailed$'] = throwError(
         () => new Error('CDC user token failed')
       );
-      cdcConsentManagementService.getCdcConsentIDs =
-        vi.fn().mockReturnValue(['others.survey']);
+      cdcConsentManagementService.getCdcConsentIDs = vi
+        .fn()
+        .mockReturnValue(['others.survey']);
       await expect(
         firstValueFrom(cdcUserRegisterService.register(userRegisterFormData))
       ).rejects.toBeDefined();
       expect(connector.register).not.toHaveBeenCalled();
-      expect(
-        cdcJsService.registerUserWithoutScreenSet
-      ).toHaveBeenCalledWith({
+      expect(cdcJsService.registerUserWithoutScreenSet).toHaveBeenCalledWith({
         titleCode: 'Mr.',
         firstName: 'firstName',
         lastName: 'lastName',
@@ -321,9 +318,12 @@ describe('CdcRegisterComponentService', () => {
           },
         },
       });
-      cdcConsentManagementService.getCdcConsentIDs =
-        vi.fn().mockReturnValue(['others.survey']);
-      await firstValueFrom(cdcUserRegisterService.register(userRegisterFormData));
+      cdcConsentManagementService.getCdcConsentIDs = vi
+        .fn()
+        .mockReturnValue(['others.survey']);
+      await firstValueFrom(
+        cdcUserRegisterService.register(userRegisterFormData)
+      );
       expect(connector.register).not.toHaveBeenCalled();
       expect(cdcJsService.registerUserWithoutScreenSet).toHaveBeenCalledWith({
         titleCode: 'Mr.',
@@ -343,9 +343,9 @@ describe('CdcRegisterComponentService', () => {
     });
   });
   it('fetchCdcConsentsForRegistration', () => {
-    cdcConsentManagementService.getCdcConsentIDs = vi.fn().mockReturnValue([
-      'consent1.terms1',
-    ]);
+    cdcConsentManagementService.getCdcConsentIDs = vi
+      .fn()
+      .mockReturnValue(['consent1.terms1']);
     anonymousConsentsService.getTemplates = vi.fn().mockReturnValue(
       of([
         {
@@ -391,10 +391,12 @@ describe('CdcRegisterComponentService', () => {
     expect(fb.array).toHaveBeenCalled();
   });
   it('loadAdditionalConsents', () => {
-    vi.spyOn(cdcConsentManagementService, 'isConsentMandatory')
-      .mockImplementation((id: string) =>
-        id === 'consent2.terms2' ? false : true
-      );
+    vi.spyOn(
+      cdcConsentManagementService,
+      'isConsentMandatory'
+    ).mockImplementation((id: string) =>
+      id === 'consent2.terms2' ? false : true
+    );
     vi.spyOn(
       cdcUserRegisterService,
       'fetchCdcConsentsForRegistration'

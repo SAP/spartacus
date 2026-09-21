@@ -18,9 +18,7 @@ describe('CancelServiceOrderConnector', () => {
     });
 
     connector = TestBed.inject(CancelServiceOrderConnector);
-    adapter = TestBed.inject(
-      CancelServiceOrderAdapter
-    ) as any;
+    adapter = TestBed.inject(CancelServiceOrderAdapter) as any;
   });
 
   it('should be created', () => {

@@ -41,9 +41,7 @@ describe('CancelServiceOrderHeadlineComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CancelServiceOrderHeadlineComponent);
     component = fixture.componentInstance;
-    orderDetailsService = TestBed.inject(
-      OrderDetailsService
-    ) as any;
+    orderDetailsService = TestBed.inject(OrderDetailsService) as any;
     fixture.detectChanges();
   });
 

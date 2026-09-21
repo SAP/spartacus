@@ -75,9 +75,9 @@ class MockEventService implements Partial<EventService> {
 
 class MockCDCJsService implements Partial<CdcJsService> {
   didLoad = vi.fn().mockImplementation(() => of(true));
-  registerOrganisationWithoutScreenSet = vi.fn().mockImplementation(() =>
-    of({ status: 'OK' })
-  );
+  registerOrganisationWithoutScreenSet = vi
+    .fn()
+    .mockImplementation(() => of({ status: 'OK' }));
   onLoginEventHandler = vi.fn();
 }
 
@@ -228,8 +228,9 @@ describe('CdcRegisterComponentService', () => {
     });
 
     it('should not do anything when CDC registration fails', async () => {
-      cdcJsService.registerOrganisationWithoutScreenSet =
-        vi.fn().mockReturnValue(throwError('ERROR'));
+      cdcJsService.registerOrganisationWithoutScreenSet = vi
+        .fn()
+        .mockReturnValue(throwError('ERROR'));
 
       await expect(
         firstValueFrom(

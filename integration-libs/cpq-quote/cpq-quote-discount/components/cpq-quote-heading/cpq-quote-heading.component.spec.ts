@@ -67,7 +67,10 @@ describe('CpqQuoteHeadingComponent', () => {
 
   it('should set flag in cpqQuoteService based on cpqDiscounts availability', () => {
     // Mock cpqQuoteService
-    const cpqQuoteServiceSpy = vi.spyOn(component['cpqQuoteService'], 'setFlag');
+    const cpqQuoteServiceSpy = vi.spyOn(
+      component['cpqQuoteService'],
+      'setFlag'
+    );
     mockOutletContextData.next([{ cpqDiscounts: ['discount1', 'discount2'] }]);
     expect(cpqQuoteServiceSpy).toHaveBeenCalledWith(false);
     mockOutletContextData.next([]);

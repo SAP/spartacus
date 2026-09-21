@@ -100,10 +100,7 @@ describe('CdcAuthService', () => {
     });
 
     expect(setItemSpy.mock.calls[0]).toEqual(['access_token', 'acc_token']);
-    expect(setItemSpy.mock.calls[1]).toEqual([
-      'granted_scopes',
-      '["scope-a"]',
-    ]);
+    expect(setItemSpy.mock.calls[1]).toEqual(['granted_scopes', '["scope-a"]']);
     expect(setItemSpy.mock.calls[2]).toEqual([
       'access_token_stored_at',
       expect.any(String),

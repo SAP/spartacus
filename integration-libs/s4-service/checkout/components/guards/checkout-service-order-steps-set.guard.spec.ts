@@ -220,7 +220,9 @@ describe('CheckoutServiceOrderStepsSetGuard', () => {
     vi.spyOn(facade, 'hasServiceItems').mockReturnValue(of(false));
     vi.spyOn(facade, 'hasNonServiceItems').mockReturnValue(of(false));
     vi.spyOn(stepService, 'disableEnableStep').mockReturnValue();
-    await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route3'] }));
+    await firstValueFrom(
+      guard.canActivate(<any>{ url: ['checkout', 'route3'] })
+    );
     expect(stepService.disableEnableStep).toHaveBeenCalledWith(
       CheckoutStepType.SERVICE_DETAILS,
       true
@@ -234,7 +236,9 @@ describe('CheckoutServiceOrderStepsSetGuard', () => {
     vi.spyOn(facade, 'hasServiceItems').mockReturnValue(of(false));
     vi.spyOn(facade, 'hasNonServiceItems').mockReturnValue(of(true));
     vi.spyOn(stepService, 'disableEnableStep').mockReturnValue();
-    await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route3'] }));
+    await firstValueFrom(
+      guard.canActivate(<any>{ url: ['checkout', 'route3'] })
+    );
     expect(stepService.disableEnableStep).toHaveBeenCalledWith(
       CheckoutStepType.SERVICE_DETAILS,
       true
@@ -248,7 +252,9 @@ describe('CheckoutServiceOrderStepsSetGuard', () => {
     vi.spyOn(facade, 'hasServiceItems').mockReturnValue(of(true));
     vi.spyOn(facade, 'hasNonServiceItems').mockReturnValue(of(false));
     vi.spyOn(stepService, 'disableEnableStep').mockReturnValue();
-    await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route3'] }));
+    await firstValueFrom(
+      guard.canActivate(<any>{ url: ['checkout', 'route3'] })
+    );
     expect(stepService.disableEnableStep).toHaveBeenCalledWith(
       CheckoutStepType.SERVICE_DETAILS,
       false
@@ -262,7 +268,9 @@ describe('CheckoutServiceOrderStepsSetGuard', () => {
     vi.spyOn(facade, 'hasServiceItems').mockReturnValue(of(true));
     vi.spyOn(facade, 'hasNonServiceItems').mockReturnValue(of(true));
     vi.spyOn(stepService, 'disableEnableStep').mockReturnValue();
-    await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route3'] }));
+    await firstValueFrom(
+      guard.canActivate(<any>{ url: ['checkout', 'route3'] })
+    );
     expect(stepService.disableEnableStep).toHaveBeenCalledWith(
       CheckoutStepType.SERVICE_DETAILS,
       false
@@ -319,9 +327,10 @@ describe('CheckoutServiceOrderStepsSetGuard', () => {
       });
     });
     it('should check if delivery address is set', async () => {
-      vi.spyOn(guard as any, 'isDeliveryAddressAndCostCenterSet').mockReturnValue(
-        of(true)
-      );
+      vi.spyOn(
+        guard as any,
+        'isDeliveryAddressAndCostCenterSet'
+      ).mockReturnValue(of(true));
       await firstValueFrom(
         (guard as any).isB2BStepSet(
           { disabled: false, type: [CheckoutStepType.DELIVERY_ADDRESS] },

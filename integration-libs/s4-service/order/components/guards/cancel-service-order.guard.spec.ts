@@ -33,8 +33,7 @@ describe('CancelServiceOrderGuard', () => {
   describe('when there is NO order details present', () => {
     it('should return UrlTree to order history page', async () => {
       orderDetailsService.getOrderDetails = vi.fn().mockReturnValue(of({}));
-      semanticPathService.get =
-        vi.fn().mockReturnValue('/my-account/orders');
+      semanticPathService.get = vi.fn().mockReturnValue('/my-account/orders');
       const result: any = await firstValueFrom(guard.canActivate());
       expect(result.toString()).toEqual('/my-account/orders');
     });

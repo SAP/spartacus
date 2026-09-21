@@ -57,12 +57,15 @@ describe('CdcReconsentComponentService', () => {
   describe('savePreferencesAndLogin', () => {
     it('on successful save of re-consent and re-login', () => {
       cdcJsService.didLoad = vi.fn().mockReturnValue(of(true));
-      cdcUserConsentService.updateCdcUserPreferences =
-        vi.fn().mockReturnValue(of({ errorCode: 0, errorMessage: '' }));
-      cdcJsService.loginUserWithoutScreenSet = vi.fn().mockReturnValue(
-        of({ status: 'OK' })
+      cdcUserConsentService.updateCdcUserPreferences = vi
+        .fn()
+        .mockReturnValue(of({ errorCode: 0, errorMessage: '' }));
+      cdcJsService.loginUserWithoutScreenSet = vi
+        .fn()
+        .mockReturnValue(of({ status: 'OK' }));
+      vi.spyOn(service, 'handleReconsentUpdateError').mockImplementation(
+        () => {}
       );
-      vi.spyOn(service, 'handleReconsentUpdateError').mockImplementation(() => {});
       service.savePreferencesAndLogin(reconsentIdsWithStatus, userParams);
       expect(cdcJsService.didLoad).toHaveBeenCalled();
       expect(cdcJsService.loginUserWithoutScreenSet).toHaveBeenCalledWith(
@@ -74,15 +77,18 @@ describe('CdcReconsentComponentService', () => {
     });
     it('on error during save of re-consent', () => {
       cdcJsService.didLoad = vi.fn().mockReturnValue(of(true));
-      cdcUserConsentService.updateCdcUserPreferences =
-        vi.fn().mockReturnValue(
+      cdcUserConsentService.updateCdcUserPreferences = vi
+        .fn()
+        .mockReturnValue(
           throwError({ errorCode: 404, errorMessage: 'error during process' })
         );
-      cdcJsService.loginUserWithoutScreenSet = vi.fn().mockReturnValue(
-        of({ status: 'OK' })
-      );
+      cdcJsService.loginUserWithoutScreenSet = vi
+        .fn()
+        .mockReturnValue(of({ status: 'OK' }));
       launchDialogService.closeDialog = vi.fn().mockImplementation(() => {});
-      vi.spyOn(service, 'handleReconsentUpdateError').mockImplementation(() => {});
+      vi.spyOn(service, 'handleReconsentUpdateError').mockImplementation(
+        () => {}
+      );
       service.savePreferencesAndLogin(reconsentIdsWithStatus, userParams);
       expect(cdcJsService.didLoad).toHaveBeenCalled();
       expect(cdcUserConsentService.updateCdcUserPreferences).toHaveBeenCalled();
@@ -91,11 +97,12 @@ describe('CdcReconsentComponentService', () => {
     });
     it('should stop processing in case of cdc load failure', () => {
       cdcJsService.didLoad = vi.fn().mockReturnValue(of(false));
-      cdcJsService.loginUserWithoutScreenSet = vi.fn().mockReturnValue(
-        of({ status: 'ok' })
-      );
-      cdcUserConsentService.updateCdcUserPreferences =
-        vi.fn().mockReturnValue(
+      cdcJsService.loginUserWithoutScreenSet = vi
+        .fn()
+        .mockReturnValue(of({ status: 'ok' }));
+      cdcUserConsentService.updateCdcUserPreferences = vi
+        .fn()
+        .mockReturnValue(
           of({ errorCode: 404, errorMessage: 'error during process' })
         );
       globalMessageService.add = vi.fn().mockImplementation(() => {});

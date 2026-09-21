@@ -60,8 +60,9 @@ describe('CdcUserConsentAdapter', () => {
   describe('giveConsent()', () => {
     it('should update cdc consent', () => {
       storage.checkIfConsentExists = vi.fn().mockReturnValue(true);
-      cdcUserConsentService.updateCdcUserPreferences =
-        vi.fn().mockReturnValue(of({ errorCode: 0 }));
+      cdcUserConsentService.updateCdcUserPreferences = vi
+        .fn()
+        .mockReturnValue(of({ errorCode: 0 }));
       service
         .giveConsent('current', consentTemplateId, consentTemplateVersion)
         .subscribe();
@@ -79,8 +80,9 @@ describe('CdcUserConsentAdapter', () => {
     });
     it('should not call CDC SDK', () => {
       storage.checkIfConsentExists = vi.fn().mockReturnValue(false);
-      cdcUserConsentService.updateCdcUserPreferences =
-        vi.fn().mockReturnValue(of({ errorCode: 0 }));
+      cdcUserConsentService.updateCdcUserPreferences = vi
+        .fn()
+        .mockReturnValue(of({ errorCode: 0 }));
       service.giveConsent('current', 'xxxx', 0).subscribe();
       expect(
         cdcUserConsentService.updateCdcUserPreferences
@@ -88,8 +90,9 @@ describe('CdcUserConsentAdapter', () => {
     });
     it('should not call Commerce API', () => {
       storage.checkIfConsentExists = vi.fn().mockReturnValue(true);
-      cdcUserConsentService.updateCdcUserPreferences =
-        vi.fn().mockReturnValue(of({ errorCode: 2 }));
+      cdcUserConsentService.updateCdcUserPreferences = vi
+        .fn()
+        .mockReturnValue(of({ errorCode: 2 }));
       service.giveConsent('current', 'xxxx', 0).subscribe();
       expect(
         cdcUserConsentService.updateCdcUserPreferences
@@ -107,8 +110,9 @@ describe('CdcUserConsentAdapter', () => {
   describe('withdrawConsent()', () => {
     it('should update cdc consent', () => {
       storage.checkIfConsentExists = vi.fn().mockReturnValue(true);
-      cdcUserConsentService.updateCdcUserPreferences =
-        vi.fn().mockReturnValue(of({ errorCode: 0 }));
+      cdcUserConsentService.updateCdcUserPreferences = vi
+        .fn()
+        .mockReturnValue(of({ errorCode: 0 }));
       service.withdrawConsent('current', 'code', 'xxxx').subscribe();
       expect(
         cdcUserConsentService.updateCdcUserPreferences
@@ -120,8 +124,9 @@ describe('CdcUserConsentAdapter', () => {
     });
     it('should not call CDC SDK', () => {
       storage.checkIfConsentExists = vi.fn().mockReturnValue(false);
-      cdcUserConsentService.updateCdcUserPreferences =
-        vi.fn().mockReturnValue(of({ errorCode: 0 }));
+      cdcUserConsentService.updateCdcUserPreferences = vi
+        .fn()
+        .mockReturnValue(of({ errorCode: 0 }));
       service.withdrawConsent('current', 'code', 'xxxx').subscribe();
       expect(
         cdcUserConsentService.updateCdcUserPreferences
@@ -129,8 +134,9 @@ describe('CdcUserConsentAdapter', () => {
     });
     it('should not call Commerce API', () => {
       storage.checkIfConsentExists = vi.fn().mockReturnValue(true);
-      cdcUserConsentService.updateCdcUserPreferences =
-        vi.fn().mockReturnValue(of({ errorCode: 2 }));
+      cdcUserConsentService.updateCdcUserPreferences = vi
+        .fn()
+        .mockReturnValue(of({ errorCode: 2 }));
       service.withdrawConsent('current', 'code', 'xxxx').subscribe();
       expect(
         cdcUserConsentService.updateCdcUserPreferences

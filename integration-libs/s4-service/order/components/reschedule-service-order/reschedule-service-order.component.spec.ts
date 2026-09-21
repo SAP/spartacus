@@ -66,14 +66,15 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = vi.fn();
 }
 class MockCheckoutServiceSchedulePickerService {
-  getMinDateForService = vi.fn().mockReturnValue(
-    of('2024-07-06T11:00:00+0000')
-  );
-  getScheduledServiceTimes = vi.fn().mockReturnValue(
-    of(['08:00', '14:30', '16:00'])
-  );
-  convertDateTimeToReadableString =
-    vi.fn().mockReturnValue('11/07/2024, 14:30');
+  getMinDateForService = vi
+    .fn()
+    .mockReturnValue(of('2024-07-06T11:00:00+0000'));
+  getScheduledServiceTimes = vi
+    .fn()
+    .mockReturnValue(of(['08:00', '14:30', '16:00']));
+  convertDateTimeToReadableString = vi
+    .fn()
+    .mockReturnValue('11/07/2024, 14:30');
   getServiceDetailsFromDateTime = vi.fn().mockReturnValue({
     date: '11/07/2024',
     time: '14:30',

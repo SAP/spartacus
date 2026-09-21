@@ -510,13 +510,17 @@ describe('ServiceCheckoutReviewSubmitComponent', () => {
     });
   });
   it('should call getServiceDetailsCard() to get service details', async () => {
-    const card = await firstValueFrom(component.getServiceDetailsCard(mockScheduledAt));
+    const card = await firstValueFrom(
+      component.getServiceDetailsCard(mockScheduledAt)
+    );
     expect(card.title).toEqual('serviceOrderCheckout.serviceDetails');
     expect(card.textBold).toEqual('27/06/2024');
     expect(card.text).toEqual(['09:30']);
   });
   it('should call getServiceDetailsCard() to get service details and return empty card if scheduledAt is empty', async () => {
-    const card = await firstValueFrom(component.getServiceDetailsCard(undefined));
+    const card = await firstValueFrom(
+      component.getServiceDetailsCard(undefined)
+    );
     expect(card.title).toEqual('serviceOrderCheckout.serviceDetails');
     expect(card.textBold).toEqual('');
     expect(card.text).toEqual(['']);

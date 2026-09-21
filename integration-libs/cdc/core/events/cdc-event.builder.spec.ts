@@ -31,7 +31,9 @@ describe('CdcEventBuilder', () => {
   it('CdcLoadUserTokenFailEvent', async () => {
     const payload: any = { test: 'test' };
 
-    const resultPromise = firstValueFrom(eventService.get(CdcLoadUserTokenFailEvent));
+    const resultPromise = firstValueFrom(
+      eventService.get(CdcLoadUserTokenFailEvent)
+    );
     actions$.next({ type: CdcAuthActions.LOAD_CDC_USER_TOKEN_FAIL, payload });
     const result = await resultPromise;
     expect(result).toEqual(expect.objectContaining(payload));

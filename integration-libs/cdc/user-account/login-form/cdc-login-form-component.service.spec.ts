@@ -45,10 +45,13 @@ class MockGlobalMessageService {
 }
 
 class MockCDCJsService implements Partial<CdcJsService> {
-  didLoad = vi.fn().mockReturnValueOnce(of(true)).mockReturnValueOnce(of(false));
-  registerUserWithoutScreenSet = vi.fn().mockImplementation(() =>
-    of({ status: 'OK' })
-  );
+  didLoad = vi
+    .fn()
+    .mockReturnValueOnce(of(true))
+    .mockReturnValueOnce(of(false));
+  registerUserWithoutScreenSet = vi
+    .fn()
+    .mockImplementation(() => of({ status: 'OK' }));
   loginUserWithoutScreenSet = vi.fn().mockReturnValueOnce(of(true));
 }
 

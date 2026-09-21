@@ -105,10 +105,9 @@ describe('CdcLogoutGuard', () => {
   });
 
   it('logoutFromCdc should logout user from CDC', () => {
-    const cdcLogout = vi.spyOn(
-      winRef.nativeWindow['gigya']?.accounts,
-      'logout'
-    ).mockImplementation(() => {});
+    const cdcLogout = vi
+      .spyOn(winRef.nativeWindow['gigya']?.accounts, 'logout')
+      .mockImplementation(() => {});
     guard['logoutFromCdc']();
 
     expect(cdcLogout).toHaveBeenCalled();
