@@ -90,17 +90,25 @@ describe('PositioningService', () => {
 
     //these need to be mocked as vitest runs on jsdom, which doesn't implement layout, so any call to getBoundingClientRect() will return zeros for each prop
     vi.spyOn(element, 'getBoundingClientRect').mockReturnValue({
-      height: 200, width: 300,
-      top: 100, bottom: 300,
-      left: 150, right: 450,
-      x: 150, y: 100,
+      height: 200,
+      width: 300,
+      top: 100,
+      bottom: 300,
+      left: 150,
+      right: 450,
+      x: 150,
+      y: 100,
       toJSON: () => {},
     });
     vi.spyOn(targetElement, 'getBoundingClientRect').mockReturnValue({
-      height: 50, width: 100,
-      top: 0, bottom: 50,
-      left: 0, right: 100,
-      x: 0, y: 0,
+      height: 50,
+      width: 100,
+      top: 0,
+      bottom: 50,
+      left: 0,
+      right: 100,
+      x: 0,
+      y: 0,
       toJSON: () => {},
     });
   });
@@ -159,15 +167,22 @@ describe('PositioningService', () => {
   it('should calculate the element position on positioned ancestor', () => {
     const childElement = createElement(100, 150, 50, 75);
     vi.spyOn(childElement, 'getBoundingClientRect').mockReturnValue({
-      height: 100, width: 150,
-      top: 150, bottom: 250,
-      left: 225, right: 375,
-      x: 225, y: 150,
+      height: 100,
+      width: 150,
+      top: 150,
+      bottom: 250,
+      left: 225,
+      right: 375,
+      x: 225,
+      y: 150,
       toJSON: () => {},
     });
     element.style.position = 'relative';
     element.appendChild(childElement);
-    Object.defineProperty(childElement, 'offsetParent', { value: element, configurable: true });
+    Object.defineProperty(childElement, 'offsetParent', {
+      value: element,
+      configurable: true,
+    });
 
     let position = positioningService['position'](childElement);
 

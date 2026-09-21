@@ -63,9 +63,8 @@ const mockComponentData: CmsVideoComponent = {
   containerBackground: ContainerBackgroundOptions.UPLOAD_RESPONSIVE_IMAGE,
 };
 
-const data$: BehaviorSubject<CmsVideoComponent> = new BehaviorSubject<CmsVideoComponent>(
-  mockComponentData
-);
+const data$: BehaviorSubject<CmsVideoComponent> =
+  new BehaviorSubject<CmsVideoComponent>(mockComponentData);
 
 class MockCmsVideoComponentData {
   get data$(): Observable<CmsVideoComponent> {

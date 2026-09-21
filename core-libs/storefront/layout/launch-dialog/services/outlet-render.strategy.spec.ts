@@ -89,7 +89,6 @@ describe('OutletRenderStrategy', () => {
 
   describe('render', () => {
     describe('should render', () => {
-
       it('should add template to outlet', () => {
         const config = mockLaunchConfig.launch[
           'TEST_OUTLET'
@@ -125,7 +124,6 @@ describe('OutletRenderStrategy', () => {
       });
     });
     describe('should not render', () => {
-
       it('should not render', () => {
         expect(outletService.add).not.toHaveBeenCalled();
         expect(outletRendererService.render).not.toHaveBeenCalled();
