@@ -393,7 +393,7 @@ if (environment.cpq) {
         showWarningMessageOnRequoteButtonClick: true,
         oauthCallbackPage: true,
         enableFormFieldMaxLength: true,
-        useConfigurableLogoutRedirect: true
+        useConfigurableLogoutRedirect: true,
       };
       return appFeatureToggles;
     }),
