@@ -5,7 +5,7 @@ import {
   AuthGuard,
   NotAuthGuard,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { GigyaRaasGuard } from './gigya-raas.guard';
 
 const mock1 = {
@@ -157,121 +157,103 @@ describe('GigyaRaasGuard', () => {
     cmsService = TestBed.inject(CmsService);
     authGuard = TestBed.inject(AuthGuard);
     notAuthGuard = TestBed.inject(NotAuthGuard);
-    spyOn(routingService, 'getNextPageContext').and.callThrough();
+    vi.spyOn(routingService, 'getNextPageContext');
   });
   it('should be created', () => {
     expect(guard).toBeTruthy();
   });
-  it('should return false if no gigya components are found', (done) => {
-    spyOn(cmsService, 'getPage').and.returnValue(of(mock2));
-    spyOn(cmsService, 'getComponentData').and.returnValue(of(data2));
-    spyOn(authGuard, 'canActivate').and.returnValue(of(true));
-    spyOn(notAuthGuard, 'canActivate').and.returnValue(of(true));
-    guard.canActivate().subscribe((canActivate) => {
-      expect(canActivate).toEqual(false);
-      expect(routingService.getNextPageContext).toHaveBeenCalled();
-      expect(cmsService.getPage).toHaveBeenCalled();
-      expect(cmsService.getComponentData).not.toHaveBeenCalled();
-      expect(authGuard.canActivate).not.toHaveBeenCalled();
-      expect(notAuthGuard.canActivate).not.toHaveBeenCalled();
-      done();
-    });
+  it('should return false if no gigya components are found', async () => {
+    vi.spyOn(cmsService, 'getPage').mockReturnValue(of(mock2));
+    vi.spyOn(cmsService, 'getComponentData').mockReturnValue(of(data2));
+    vi.spyOn(authGuard, 'canActivate').mockReturnValue(of(true));
+    vi.spyOn(notAuthGuard, 'canActivate').mockReturnValue(of(true));
+    const canActivate = await firstValueFrom(guard.canActivate());
+    expect(canActivate).toEqual(false);
+    expect(routingService.getNextPageContext).toHaveBeenCalled();
+    expect(cmsService.getPage).toHaveBeenCalled();
+    expect(cmsService.getComponentData).not.toHaveBeenCalled();
+    expect(authGuard.canActivate).not.toHaveBeenCalled();
+    expect(notAuthGuard.canActivate).not.toHaveBeenCalled();
   });
-  it('should return home UrlTree if user is logged in and showLoggedIn is false', (done) => {
-    spyOn(cmsService, 'getPage').and.returnValue(of(mock3));
-    spyOn(cmsService, 'getComponentData').and.returnValue(of(data1));
-    spyOn(authGuard, 'canActivate').and.callThrough();
-    spyOn(notAuthGuard, 'canActivate').and.returnValue(
+  it('should return home UrlTree if user is logged in and showLoggedIn is false', async () => {
+    vi.spyOn(cmsService, 'getPage').mockReturnValue(of(mock3));
+    vi.spyOn(cmsService, 'getComponentData').mockReturnValue(of(data1));
+    vi.spyOn(authGuard, 'canActivate');
+    vi.spyOn(notAuthGuard, 'canActivate').mockReturnValue(
       of({ root: 'test-home' } as any)
     );
-    guard.canActivate().subscribe((canActivate) => {
-      expect(JSON.stringify(canActivate)).toEqual(`{"root":"test-home"}`);
-      expect(routingService.getNextPageContext).toHaveBeenCalled();
-      expect(cmsService.getPage).toHaveBeenCalled();
-      expect(cmsService.getComponentData).toHaveBeenCalled();
-      expect(authGuard.canActivate).not.toHaveBeenCalled();
-      expect(notAuthGuard.canActivate).toHaveBeenCalled();
-      done();
-    });
+    const canActivate = await firstValueFrom(guard.canActivate());
+    expect(JSON.stringify(canActivate)).toEqual(`{"root":"test-home"}`);
+    expect(routingService.getNextPageContext).toHaveBeenCalled();
+    expect(cmsService.getPage).toHaveBeenCalled();
+    expect(cmsService.getComponentData).toHaveBeenCalled();
+    expect(authGuard.canActivate).not.toHaveBeenCalled();
+    expect(notAuthGuard.canActivate).toHaveBeenCalled();
   });
-  it('should return login UrlTree if user is not logged in and showAnonymous is false', (done) => {
-    spyOn(cmsService, 'getPage').and.returnValue(of(mock3));
-    spyOn(cmsService, 'getComponentData').and.returnValue(of(data2));
-    spyOn(notAuthGuard, 'canActivate').and.callThrough();
-    spyOn(authGuard, 'canActivate').and.returnValue(
+  it('should return login UrlTree if user is not logged in and showAnonymous is false', async () => {
+    vi.spyOn(cmsService, 'getPage').mockReturnValue(of(mock3));
+    vi.spyOn(cmsService, 'getComponentData').mockReturnValue(of(data2));
+    vi.spyOn(notAuthGuard, 'canActivate');
+    vi.spyOn(authGuard, 'canActivate').mockReturnValue(
       of({ root: 'test-login' } as any)
     );
-    guard.canActivate().subscribe((canActivate) => {
+    const canActivate = await firstValueFrom(guard.canActivate());
+    expect(JSON.stringify(canActivate)).toEqual(`{"root":"test-login"}`);
+    expect(routingService.getNextPageContext).toHaveBeenCalled();
+    expect(cmsService.getPage).toHaveBeenCalled();
+    expect(cmsService.getComponentData).toHaveBeenCalled();
+    expect(authGuard.canActivate).toHaveBeenCalled();
+    expect(notAuthGuard.canActivate).not.toHaveBeenCalled();
+  });
+  describe('If more than 1 gigya components are found in the page', () => {
+    it('should return non-true if one of the component returns false during checking', async () => {
+      vi.spyOn(cmsService, 'getPage').mockReturnValue(of(mock1));
+      vi.spyOn(cmsService, 'getComponentData').mockImplementation((uid: string) =>
+        uid === 'GigyaRaasComponentForXYZ' ? of(data2) : of(data3)
+      );
+      vi.spyOn(notAuthGuard, 'canActivate').mockReturnValue(of(true));
+      vi.spyOn(authGuard, 'canActivate').mockReturnValue(
+        of({ root: 'test-login' } as any)
+      );
+      const canActivate = await firstValueFrom(guard.canActivate());
       expect(JSON.stringify(canActivate)).toEqual(`{"root":"test-login"}`);
       expect(routingService.getNextPageContext).toHaveBeenCalled();
       expect(cmsService.getPage).toHaveBeenCalled();
-      expect(cmsService.getComponentData).toHaveBeenCalled();
+      expect(cmsService.getComponentData).toHaveBeenCalledTimes(3);
       expect(authGuard.canActivate).toHaveBeenCalled();
-      expect(notAuthGuard.canActivate).not.toHaveBeenCalled();
-      done();
+      expect(notAuthGuard.canActivate).toHaveBeenCalled();
     });
-  });
-  describe('If more than 1 gigya components are found in the page', () => {
-    it('should return non-true if one of the component returns false during checking', (done) => {
-      spyOn(cmsService, 'getPage').and.returnValue(of(mock1));
-      spyOn(cmsService, 'getComponentData')
-        .withArgs('GigyaRaasComponentForXYZ')
-        .and.returnValue(of(data2))
-        .withArgs('GigyaRaasComponentForABC')
-        .and.returnValue(of(data3));
-      spyOn(notAuthGuard, 'canActivate').and.returnValue(of(true));
-      spyOn(authGuard, 'canActivate').and.returnValue(
+    it('should return true if all components returns true  during checking', async () => {
+      vi.spyOn(cmsService, 'getPage').mockReturnValue(of(mock1));
+      vi.spyOn(cmsService, 'getComponentData').mockImplementation((uid: string) =>
+        uid === 'GigyaRaasComponentForXYZ' ? of(data1) : of(data3)
+      );
+      vi.spyOn(authGuard, 'canActivate').mockReturnValue(of(true));
+      vi.spyOn(notAuthGuard, 'canActivate').mockReturnValue(of(true));
+      const canActivate = await firstValueFrom(guard.canActivate());
+      expect(canActivate).toEqual(true);
+      expect(routingService.getNextPageContext).toHaveBeenCalled();
+      expect(cmsService.getPage).toHaveBeenCalled();
+      expect(cmsService.getComponentData).toHaveBeenCalledTimes(3);
+      expect(authGuard.canActivate).not.toHaveBeenCalled();
+      expect(notAuthGuard.canActivate).toHaveBeenCalled();
+    });
+    it('should return first non-true if more than 1 component returns non-true during checking', async () => {
+      vi.spyOn(cmsService, 'getPage').mockReturnValue(of(mock1));
+      vi.spyOn(cmsService, 'getComponentData').mockImplementation((uid: string) =>
+        uid === 'GigyaRaasComponentForXYZ' ? of(data2) : of(data3)
+      );
+      vi.spyOn(notAuthGuard, 'canActivate').mockReturnValue(of(false));
+      vi.spyOn(authGuard, 'canActivate').mockReturnValue(
         of({ root: 'test-login' } as any)
       );
-      guard.canActivate().subscribe((canActivate) => {
-        expect(JSON.stringify(canActivate)).toEqual(`{"root":"test-login"}`);
-        expect(routingService.getNextPageContext).toHaveBeenCalled();
-        expect(cmsService.getPage).toHaveBeenCalled();
-        expect(cmsService.getComponentData).toHaveBeenCalledTimes(3);
-        expect(authGuard.canActivate).toHaveBeenCalled();
-        expect(notAuthGuard.canActivate).toHaveBeenCalled();
-        done();
-      });
-    });
-    it('should return true if all components returns true  during checking', (done) => {
-      spyOn(cmsService, 'getPage').and.returnValue(of(mock1));
-      spyOn(cmsService, 'getComponentData')
-        .withArgs('GigyaRaasComponentForXYZ')
-        .and.returnValue(of(data1))
-        .withArgs('GigyaRaasComponentForABC')
-        .and.returnValue(of(data3));
-      spyOn(authGuard, 'canActivate').and.returnValue(of(true));
-      spyOn(notAuthGuard, 'canActivate').and.returnValue(of(true));
-      guard.canActivate().subscribe((canActivate) => {
-        expect(canActivate).toEqual(true);
-        expect(routingService.getNextPageContext).toHaveBeenCalled();
-        expect(cmsService.getPage).toHaveBeenCalled();
-        expect(cmsService.getComponentData).toHaveBeenCalledTimes(3);
-        expect(authGuard.canActivate).not.toHaveBeenCalled();
-        expect(notAuthGuard.canActivate).toHaveBeenCalled();
-        done();
-      });
-    });
-    it('should return first non-true if more than 1 component returns non-true during checking', (done) => {
-      spyOn(cmsService, 'getPage').and.returnValue(of(mock1));
-      spyOn(cmsService, 'getComponentData')
-        .withArgs('GigyaRaasComponentForXYZ')
-        .and.returnValue(of(data2))
-        .withArgs('GigyaRaasComponentForABC')
-        .and.returnValue(of(data3));
-      spyOn(notAuthGuard, 'canActivate').and.returnValue(of(false));
-      spyOn(authGuard, 'canActivate').and.returnValue(
-        of({ root: 'test-login' } as any)
-      );
-      guard.canActivate().subscribe((canActivate) => {
-        expect(JSON.stringify(canActivate)).toEqual(`{"root":"test-login"}`);
-        expect(routingService.getNextPageContext).toHaveBeenCalled();
-        expect(cmsService.getPage).toHaveBeenCalled();
-        expect(cmsService.getComponentData).toHaveBeenCalledTimes(3);
-        expect(authGuard.canActivate).toHaveBeenCalled();
-        expect(notAuthGuard.canActivate).toHaveBeenCalled();
-        done();
-      });
+      const canActivate = await firstValueFrom(guard.canActivate());
+      expect(JSON.stringify(canActivate)).toEqual(`{"root":"test-login"}`);
+      expect(routingService.getNextPageContext).toHaveBeenCalled();
+      expect(cmsService.getPage).toHaveBeenCalled();
+      expect(cmsService.getComponentData).toHaveBeenCalledTimes(3);
+      expect(authGuard.canActivate).toHaveBeenCalled();
+      expect(notAuthGuard.canActivate).toHaveBeenCalled();
     });
   });
 });

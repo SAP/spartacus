@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { StatePersistenceService } from '@spartacus/core';
 import { CdcLocalStorageTemplate, CdcSiteConsentTemplate } from '../model';
 import { CdcConsentsLocalStorageService } from './cdc-consents-local-storage.service';
-import createSpy = jasmine.createSpy;
 
 const mockCdcSiteConsents: CdcSiteConsentTemplate = {
   siteConsentDetails: {
@@ -25,7 +24,7 @@ describe('CdcConsentsLocalStorageService', () => {
     });
     service = TestBed.inject(CdcConsentsLocalStorageService);
     persistenceService = TestBed.inject(StatePersistenceService);
-    spyOn(persistenceService, 'syncWithStorage').and.stub();
+    vi.spyOn(persistenceService, 'syncWithStorage').mockImplementation(() => {});
   });
 
   it('should inject service', () => {
@@ -37,7 +36,7 @@ describe('CdcConsentsLocalStorageService', () => {
   });
   it('should return true if ID passed in request param exists in store', () => {
     persistenceService.readStateFromStorage =
-      createSpy().and.returnValue(mockCdcConsents);
+      vi.fn().mockReturnValue(mockCdcConsents);
     let output = service.checkIfConsentExists('consent.survey');
     expect(persistenceService.readStateFromStorage).toHaveBeenCalledWith({
       key: 'cdc-consents-list',
@@ -46,7 +45,7 @@ describe('CdcConsentsLocalStorageService', () => {
   });
   it('should return false if ID passed in request param doesnot exists in store', () => {
     persistenceService.readStateFromStorage =
-      createSpy().and.returnValue(mockCdcConsents);
+      vi.fn().mockReturnValue(mockCdcConsents);
     let output = service.checkIfConsentExists('consent.training');
     expect(persistenceService.readStateFromStorage).toHaveBeenCalledWith({
       key: 'cdc-consents-list',

@@ -12,18 +12,17 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import createSpy = jasmine.createSpy;
 
 const consentTemplateId = 'xxxx';
 const consentTemplateVersion = 0;
 class MockCdcUserConsentService implements Partial<CdcUserConsentService> {
-  updateCdcUserPreferences = createSpy();
+  updateCdcUserPreferences = vi.fn();
 }
 class MockCdcConsentsLocalStorageService
   implements Partial<CdcConsentsLocalStorageService>
 {
-  syncCdcConsentsState = createSpy();
-  checkIfConsentExists = createSpy();
+  syncCdcConsentsState = vi.fn();
+  checkIfConsentExists = vi.fn();
 }
 
 describe('CdcUserConsentAdapter', () => {
@@ -60,9 +59,9 @@ describe('CdcUserConsentAdapter', () => {
   });
   describe('giveConsent()', () => {
     it('should update cdc consent', () => {
-      storage.checkIfConsentExists = createSpy().and.returnValue(true);
+      storage.checkIfConsentExists = vi.fn().mockReturnValue(true);
       cdcUserConsentService.updateCdcUserPreferences =
-        createSpy().and.returnValue(of({ errorCode: 0 }));
+        vi.fn().mockReturnValue(of({ errorCode: 0 }));
       service
         .giveConsent('current', consentTemplateId, consentTemplateVersion)
         .subscribe();
@@ -79,18 +78,18 @@ describe('CdcUserConsentAdapter', () => {
       httpMock.verify();
     });
     it('should not call CDC SDK', () => {
-      storage.checkIfConsentExists = createSpy().and.returnValue(false);
+      storage.checkIfConsentExists = vi.fn().mockReturnValue(false);
       cdcUserConsentService.updateCdcUserPreferences =
-        createSpy().and.returnValue(of({ errorCode: 0 }));
+        vi.fn().mockReturnValue(of({ errorCode: 0 }));
       service.giveConsent('current', 'xxxx', 0).subscribe();
       expect(
         cdcUserConsentService.updateCdcUserPreferences
       ).not.toHaveBeenCalledWith([{ id: 'xxxx', isConsentGranted: true }]);
     });
     it('should not call Commerce API', () => {
-      storage.checkIfConsentExists = createSpy().and.returnValue(true);
+      storage.checkIfConsentExists = vi.fn().mockReturnValue(true);
       cdcUserConsentService.updateCdcUserPreferences =
-        createSpy().and.returnValue(of({ errorCode: 2 }));
+        vi.fn().mockReturnValue(of({ errorCode: 2 }));
       service.giveConsent('current', 'xxxx', 0).subscribe();
       expect(
         cdcUserConsentService.updateCdcUserPreferences
@@ -107,9 +106,9 @@ describe('CdcUserConsentAdapter', () => {
   });
   describe('withdrawConsent()', () => {
     it('should update cdc consent', () => {
-      storage.checkIfConsentExists = createSpy().and.returnValue(true);
+      storage.checkIfConsentExists = vi.fn().mockReturnValue(true);
       cdcUserConsentService.updateCdcUserPreferences =
-        createSpy().and.returnValue(of({ errorCode: 0 }));
+        vi.fn().mockReturnValue(of({ errorCode: 0 }));
       service.withdrawConsent('current', 'code', 'xxxx').subscribe();
       expect(
         cdcUserConsentService.updateCdcUserPreferences
@@ -120,18 +119,18 @@ describe('CdcUserConsentAdapter', () => {
       httpMock.verify();
     });
     it('should not call CDC SDK', () => {
-      storage.checkIfConsentExists = createSpy().and.returnValue(false);
+      storage.checkIfConsentExists = vi.fn().mockReturnValue(false);
       cdcUserConsentService.updateCdcUserPreferences =
-        createSpy().and.returnValue(of({ errorCode: 0 }));
+        vi.fn().mockReturnValue(of({ errorCode: 0 }));
       service.withdrawConsent('current', 'code', 'xxxx').subscribe();
       expect(
         cdcUserConsentService.updateCdcUserPreferences
       ).not.toHaveBeenCalledWith([{ id: 'xxxx', isConsentGranted: false }]);
     });
     it('should not call Commerce API', () => {
-      storage.checkIfConsentExists = createSpy().and.returnValue(true);
+      storage.checkIfConsentExists = vi.fn().mockReturnValue(true);
       cdcUserConsentService.updateCdcUserPreferences =
-        createSpy().and.returnValue(of({ errorCode: 2 }));
+        vi.fn().mockReturnValue(of({ errorCode: 2 }));
       service.withdrawConsent('current', 'code', 'xxxx').subscribe();
       expect(
         cdcUserConsentService.updateCdcUserPreferences

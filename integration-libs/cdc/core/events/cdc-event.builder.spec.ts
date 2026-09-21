@@ -3,7 +3,7 @@ import { Action, ActionsSubject } from '@ngrx/store';
 import { CdcLoadUserTokenFailEvent } from '@spartacus/cdc/root';
 import { EventService } from '@spartacus/core';
 import { Subject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 import { CdcAuthActions } from '../store/actions';
 import { CdcEventBuilder } from './cdc-event.builder';
 
@@ -28,17 +28,12 @@ describe('CdcEventBuilder', () => {
     eventService = TestBed.inject(EventService);
   });
 
-  it('CdcLoadUserTokenFailEvent', (done) => {
+  it('CdcLoadUserTokenFailEvent', async () => {
     const payload: any = { test: 'test' };
 
-    eventService
-      .get(CdcLoadUserTokenFailEvent)
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual(jasmine.objectContaining(payload));
-        done();
-      });
-
+    const resultPromise = firstValueFrom(eventService.get(CdcLoadUserTokenFailEvent));
     actions$.next({ type: CdcAuthActions.LOAD_CDC_USER_TOKEN_FAIL, payload });
+    const result = await resultPromise;
+    expect(result).toEqual(expect.objectContaining(payload));
   });
 });

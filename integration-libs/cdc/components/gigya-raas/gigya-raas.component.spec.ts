@@ -113,7 +113,7 @@ describe('GigyaRaasComponent', () => {
         containerID: 'containerID',
       };
 
-      expect(component.displayInEmbedMode(sampleData)).toBeTrue();
+      expect(component.displayInEmbedMode(sampleData)).toBe(true);
     });
 
     it('should return false when containerId is not set', () => {
@@ -122,7 +122,7 @@ describe('GigyaRaasComponent', () => {
         containerID: '',
       };
 
-      expect(component.displayInEmbedMode(sampleData)).toBeFalse();
+      expect(component.displayInEmbedMode(sampleData)).toBe(false);
     });
 
     it('should return false when embed is false', () => {
@@ -131,7 +131,7 @@ describe('GigyaRaasComponent', () => {
         containerID: 'containerID',
       };
 
-      expect(component.displayInEmbedMode(sampleData)).toBeFalse();
+      expect(component.displayInEmbedMode(sampleData)).toBe(false);
     });
   });
 
@@ -142,7 +142,7 @@ describe('GigyaRaasComponent', () => {
           showScreenSet: () => {},
         },
       };
-      spyOn(window.gigya.accounts, 'showScreenSet');
+      vi.spyOn(window.gigya.accounts, 'showScreenSet');
     });
 
     it('should invoke displayScreenSet', () => {
@@ -187,13 +187,13 @@ describe('GigyaRaasComponent', () => {
         startScreen: 'startScreen',
         lang: 'en',
         containerID: 'containerID',
-        onSubmit: jasmine.any(Function),
-        onAfterSubmit: jasmine.any(Function),
+        onSubmit: expect.any(Function),
+        onAfterSubmit: expect.any(Function),
       });
     });
 
     it('should show login link according to component data', () => {
-      spyOn(baseSiteService, 'getActive').and.callFake(() => of('electronics'));
+      vi.spyOn(baseSiteService, 'getActive').mockImplementation(() => of('electronics'));
       component.showScreenSet(
         {
           ...sampleComponentData,
@@ -224,23 +224,23 @@ describe('GigyaRaasComponent', () => {
       expect(window.gigya.accounts.showScreenSet).toHaveBeenCalledWith({
         screenSet: 'screenSet',
         startScreen: 'startScreen',
-        onSubmit: jasmine.any(Function),
+        onSubmit: expect.any(Function),
         lang: 'en',
-        onAfterSubmit: jasmine.any(Function),
+        onAfterSubmit: expect.any(Function),
       });
     });
   });
 
   it('should not render anything if script is not loaded', () => {
-    spyOn(cdcJsService, 'didLoad').and.callFake(() => of(false));
+    vi.spyOn(cdcJsService, 'didLoad').mockImplementation(() => of(false));
     component.ngOnInit();
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css('.popup-link'))).toBeFalsy();
   });
 
   it('should render error message if script failed to load', () => {
-    spyOn(cdcJsService, 'didLoad').and.callFake(() => of(false));
-    spyOn(cdcJsService, 'didScriptFailToLoad').and.callFake(() => of(true));
+    vi.spyOn(cdcJsService, 'didLoad').mockImplementation(() => of(false));
+    vi.spyOn(cdcJsService, 'didScriptFailToLoad').mockImplementation(() => of(true));
     component.ngOnInit();
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css('.js-error'))).toBeTruthy();

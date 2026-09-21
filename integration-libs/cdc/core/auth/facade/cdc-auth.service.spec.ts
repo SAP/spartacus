@@ -65,7 +65,7 @@ describe('CdcAuthService', () => {
   });
 
   it('should dispatch proper action for loginWithCustomCdcFlow', () => {
-    spyOn(store, 'dispatch').and.stub();
+    vi.spyOn(store, 'dispatch').mockImplementation(() => {});
 
     service.loginWithCustomCdcFlow(
       'UID',
@@ -86,11 +86,11 @@ describe('CdcAuthService', () => {
   });
 
   it('should allow to login with token data', () => {
-    const setItemSpy = spyOn(authStorageService, 'setItem').and.callThrough();
-    spyOn(store, 'dispatch').and.stub();
-    spyOn(userIdService, 'setUserId').and.callThrough();
-    spyOn(globalMessageService, 'remove').and.stub();
-    spyOn(authRedirectService, 'redirect').and.stub();
+    const setItemSpy = vi.spyOn(authStorageService, 'setItem');
+    vi.spyOn(store, 'dispatch').mockImplementation(() => {});
+    vi.spyOn(userIdService, 'setUserId');
+    vi.spyOn(globalMessageService, 'remove').mockImplementation(() => {});
+    vi.spyOn(authRedirectService, 'redirect').mockImplementation(() => {});
 
     service.loginWithToken({
       access_token: 'acc_token',
@@ -99,20 +99,20 @@ describe('CdcAuthService', () => {
       refresh_token: 'ref_token',
     });
 
-    expect(setItemSpy.calls.argsFor(0)).toEqual(['access_token', 'acc_token']);
-    expect(setItemSpy.calls.argsFor(1)).toEqual([
+    expect(setItemSpy.mock.calls[0]).toEqual(['access_token', 'acc_token']);
+    expect(setItemSpy.mock.calls[1]).toEqual([
       'granted_scopes',
       '["scope-a"]',
     ]);
-    expect(setItemSpy.calls.argsFor(2)).toEqual([
+    expect(setItemSpy.mock.calls[2]).toEqual([
       'access_token_stored_at',
-      jasmine.any(String),
+      expect.any(String),
     ]);
-    expect(setItemSpy.calls.argsFor(3)).toEqual([
+    expect(setItemSpy.mock.calls[3]).toEqual([
       'expires_at',
-      jasmine.any(String),
+      expect.any(String),
     ]);
-    expect(setItemSpy.calls.argsFor(4)).toEqual(['refresh_token', 'ref_token']);
+    expect(setItemSpy.mock.calls[4]).toEqual(['refresh_token', 'ref_token']);
     expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
     expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
 
@@ -127,8 +127,8 @@ describe('CdcAuthService', () => {
       of(TokenTarget.CSAgent);
     authStorageService['getToken'] = () =>
       of({ access_token: 'token' } as AuthToken);
-    spyOn(userIdService, 'setUserId').and.callThrough();
-    spyOn(globalMessageService, 'add').and.callThrough();
+    vi.spyOn(userIdService, 'setUserId');
+    vi.spyOn(globalMessageService, 'add');
 
     service.loginWithToken({
       access_token: 'acc_token',

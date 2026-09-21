@@ -14,10 +14,9 @@ import {
   LaunchDialogService,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import { BehaviorSubject, of, Subscription, take } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, of, Subscription } from 'rxjs';
 import { CdcReconsentComponentService } from './cdc-reconsent-component.service';
 import { CdcReconsentComponent } from './cdc-reconsent.component';
-import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-icon',
@@ -64,8 +63,8 @@ class MockSubscription {
   add() {}
 }
 class MockCdcReconsentService implements Partial<CdcReconsentComponentService> {
-  saveReconsent = createSpy();
-  handleReconsentUpdateError = createSpy();
+  saveReconsent = vi.fn();
+  handleReconsentUpdateError = vi.fn();
 }
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   data$ = of(reconsentEvent);
@@ -73,9 +72,9 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 class MockCdcConsentManagementComponentService
   implements Partial<CdcConsentManagementComponentService>
 {
-  getConsents = createSpy().and.returnValue(of([]));
-  getCdcConsentIDs = createSpy().and.returnValue(of([]));
-  isConsentMandatory = createSpy().and.returnValue(true);
+  getConsents = vi.fn().mockReturnValue(of([]));
+  getCdcConsentIDs = vi.fn().mockReturnValue(of([]));
+  isConsentMandatory = vi.fn().mockReturnValue(true);
 }
 
 class MockAnonymousConsentsService
@@ -140,7 +139,7 @@ describe('CdcReconsentComponent', () => {
   });
   describe('ngOnInit', () => {
     it('should initialize the component', () => {
-      spyOn(component, 'loadConsents').and.stub();
+      vi.spyOn(component, 'loadConsents').mockImplementation(() => {});
       component.reconsentEvent = {};
       component.ngOnInit();
       expect(component.reconsentEvent.user).toEqual(reconsentEvent.user);
@@ -232,21 +231,20 @@ describe('CdcReconsentComponent', () => {
     ];
     const reconsentIds = ['consent.survey', 'privacy.use'];
     const expectedOutput = [{ id: 'consent.survey' }, { id: 'privacy.use' }];
-    it('should load all anonymous consents', () => {
-      anonymousConsentsService.getTemplates = createSpy().and.returnValue(
+    it('should load all anonymous consents', async () => {
+      anonymousConsentsService.getTemplates = vi.fn().mockReturnValue(
         of(anonymousConsents)
       );
       cdcConsentManagementComponentService.getCdcConsentIDs =
-        createSpy().and.returnValue(['terms.of.use', 'privacy.use']);
+        vi.fn().mockReturnValue(['terms.of.use', 'privacy.use']);
       component.loadConsents(reconsentIds);
-      component.templateList$.pipe(take(1)).subscribe((value) => {
-        expect(value).toEqual(expectedOutput);
-      });
+      const value = await firstValueFrom(component.templateList$);
+      expect(value).toEqual(expectedOutput);
     });
   });
   describe('dismissDialog', () => {
     it('should not proceed to login', () => {
-      cdcReconsentService.handleReconsentUpdateError = createSpy().and.stub();
+      cdcReconsentService.handleReconsentUpdateError = vi.fn().mockImplementation(() => {});
       component.dismissDialog('Error Reason', 'Error message during login');
       expect(
         cdcReconsentService.handleReconsentUpdateError
@@ -254,7 +252,7 @@ describe('CdcReconsentComponent', () => {
     });
     describe('proceed to login', () => {
       it('should provide consent for a consent with new version', () => {
-        cdcReconsentService.savePreferencesAndLogin = createSpy().and.stub();
+        cdcReconsentService.savePreferencesAndLogin = vi.fn().mockImplementation(() => {});
         component.reconsentEvent = {
           preferences: {
             'terms.use': { isConsentGranted: true },
@@ -276,7 +274,7 @@ describe('CdcReconsentComponent', () => {
         );
       });
       it('should provide consent for a newly added consent', () => {
-        cdcReconsentService.savePreferencesAndLogin = createSpy().and.stub();
+        cdcReconsentService.savePreferencesAndLogin = vi.fn().mockImplementation(() => {});
         component.reconsentEvent = {
           preferences: {
             'terms.use': { isConsentGranted: true },
@@ -299,7 +297,7 @@ describe('CdcReconsentComponent', () => {
         );
       });
       it('should not provide consent for a consent with new version, if not checked in reconsent popup', () => {
-        cdcReconsentService.savePreferencesAndLogin = createSpy().and.stub();
+        cdcReconsentService.savePreferencesAndLogin = vi.fn().mockImplementation(() => {});
         component.reconsentEvent = {
           preferences: {
             'terms.use': { isConsentGranted: true },
@@ -321,7 +319,7 @@ describe('CdcReconsentComponent', () => {
         );
       });
       it('should provide consent for a consent if checked in popup', () => {
-        cdcReconsentService.savePreferencesAndLogin = createSpy().and.stub();
+        cdcReconsentService.savePreferencesAndLogin = vi.fn().mockImplementation(() => {});
         component.reconsentEvent.preference = {
           preferences: {
             'terms.use': { isConsentGranted: true },
@@ -346,7 +344,7 @@ describe('CdcReconsentComponent', () => {
   });
   describe('ngOnDestroy', () => {
     it('should unsubscribe from any subscriptions when destroyed', () => {
-      spyOn(component['subscription'], 'unsubscribe');
+      vi.spyOn(component['subscription'], 'unsubscribe');
       component.ngOnDestroy();
       expect(component['subscription'].unsubscribe).toHaveBeenCalled();
     });

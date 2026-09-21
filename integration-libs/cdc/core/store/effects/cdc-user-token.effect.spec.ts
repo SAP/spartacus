@@ -68,15 +68,15 @@ describe('UserToken effect', () => {
     globalMessageService = TestBed.inject(GlobalMessageService);
     cdcAuthService = TestBed.inject(CdcAuthService);
 
-    spyOn(globalMessageService, 'add').and.stub();
+    vi.spyOn(globalMessageService, 'add').mockImplementation(() => {});
   });
 
   describe('loadCdcUserToken$', () => {
     it('should load a user token', () => {
-      spyOn(userTokenService, 'loadTokenUsingCustomFlow').and.returnValue(
+      vi.spyOn(userTokenService, 'loadTokenUsingCustomFlow').mockReturnValue(
         of(testToken)
       );
-      spyOn(cdcAuthService, 'loginWithToken').and.callThrough();
+      vi.spyOn(cdcAuthService, 'loginWithToken');
       const action = new CdcAuthActions.LoadCdcUserToken({
         UID: 'xxx',
         UIDSignature: 'xxx',

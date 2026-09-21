@@ -11,7 +11,6 @@ import { B2BUserService } from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CdcUserListService } from './cdc-user-list.service';
-import createSpy = jasmine.createSpy;
 const orgId: string = 'f5fe0023-a8c4-4379-a3e4-5fbda8895f2e';
 class MockWinRef {
   get nativeWindow(): Window {
@@ -19,8 +18,8 @@ class MockWinRef {
   }
 }
 class MockCdcJsService implements Partial<CdcJsService> {
-  openDelegatedAdminLogin = createSpy();
-  getOrganizationContext = createSpy();
+  openDelegatedAdminLogin = vi.fn();
+  getOrganizationContext = vi.fn();
 }
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   get(): Observable<GlobalMessageEntities> {
@@ -66,17 +65,17 @@ describe('CdcUserListService', () => {
     cdcJsService = TestBed.inject(CdcJsService);
     globalMessageService = TestBed.inject(GlobalMessageService);
     TestBed.compileComponents();
-    spyOn(globalMessageService, 'add').and.callThrough();
+    vi.spyOn(globalMessageService, 'add');
   });
   it('should create service', () => {
     expect(service).toBeTruthy();
   });
   describe('onCreateButtonClick()', () => {
     it('should open delegate admin login successfully', () => {
-      cdcJsService.getOrganizationContext = createSpy().and.returnValue(
+      cdcJsService.getOrganizationContext = vi.fn().mockReturnValue(
         of({ orgId: orgId })
       );
-      cdcJsService.openDelegatedAdminLogin = createSpy();
+      cdcJsService.openDelegatedAdminLogin = vi.fn();
 
       service.onCreateButtonClick();
 
@@ -84,10 +83,10 @@ describe('CdcUserListService', () => {
       expect(cdcJsService.openDelegatedAdminLogin).toHaveBeenCalledWith(orgId);
     });
     it('should handle when empty incorrect organization id is passed', () => {
-      cdcJsService.getOrganizationContext = createSpy().and.returnValue(
+      cdcJsService.getOrganizationContext = vi.fn().mockReturnValue(
         of({ orgId: '' })
       );
-      cdcJsService.openDelegatedAdminLogin = createSpy();
+      cdcJsService.openDelegatedAdminLogin = vi.fn();
 
       service.onCreateButtonClick();
 

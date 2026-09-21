@@ -12,8 +12,8 @@ import {
 } from '@spartacus/core';
 import { OrganizationUserRegistrationForm } from '@spartacus/organization/user-registration/root';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { EMPTY, Observable, of, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { EMPTY, firstValueFrom, lastValueFrom, Observable, of, Subscription } from 'rxjs';
+import { take, toArray } from 'rxjs/operators';
 import { CdcConfig } from '../config/cdc-config';
 import {
   CdcConsentsLocalStorageService,
@@ -21,7 +21,6 @@ import {
 } from '../consent-management';
 import { CdcAuthFacade } from '../facade/cdc-auth.facade';
 import { CdcJsService } from './cdc-js.service';
-import createSpy = jasmine.createSpy;
 
 const sampleCdcConfig: CdcConfig = {
   cdc: [
@@ -85,8 +84,8 @@ class MockAuthService implements Partial<AuthService> {
 }
 
 class MockUserProfileFacade implements Partial<UserProfileFacade> {
-  update = createSpy().and.returnValue(of(undefined));
-  get = createSpy().and.returnValue(of({ uid: newEmail }));
+  update = vi.fn().mockReturnValue(of(undefined));
+  get = vi.fn().mockReturnValue(of({ uid: newEmail }));
 }
 
 class MockSubscription {
@@ -181,7 +180,7 @@ describe('CdcJsService', () => {
 
   describe('initialize', () => {
     it('should load the CDC script', () => {
-      spyOn(service, 'loadCdcJavascript').and.stub();
+      vi.spyOn(service, 'loadCdcJavascript').mockImplementation(() => {});
 
       service.initialize();
 
@@ -190,63 +189,45 @@ describe('CdcJsService', () => {
   });
 
   describe('didLoad', () => {
-    it('should return CDC script loading state', (done) => {
-      spyOn(scriptLoader, 'embedScript').and.callFake(() => {
+    it('should return CDC script loading state', async () => {
+      vi.spyOn(scriptLoader, 'embedScript').mockImplementation(() => {
         (service as any)['loaded$'].next(true);
       });
-      spyOn(baseSiteService, 'getActive').and.returnValue(
+      vi.spyOn(baseSiteService, 'getActive').mockReturnValue(
         of('electronics-spa')
       );
-      spyOn(languageService, 'getActive').and.returnValue(of('en'));
-
-      const results: Array<boolean> = [];
+      vi.spyOn(languageService, 'getActive').mockReturnValue(of('en'));
 
       (service as any)['loaded$'].next(false);
 
-      service
-        .didLoad()
-        .pipe(take(2))
-        .subscribe((val) => {
-          results.push(val);
-          if (results.length > 1) {
-            expect(results[0]).toBe(false);
-            expect(results[1]).toBe(true);
-            done();
-          }
-        });
-
+      const resultPromise = lastValueFrom(service.didLoad().pipe(take(2), toArray()));
       service.loadCdcJavascript();
+      const results = await resultPromise;
+
+      expect(results[0]).toBe(false);
+      expect(results[1]).toBe(true);
     });
   });
 
   describe('didScriptFailToLoad', () => {
-    it('should return CDC script loading error state', (done) => {
-      spyOn(scriptLoader, 'embedScript').and.callFake(() => {
+    it('should return CDC script loading error state', async () => {
+      vi.spyOn(scriptLoader, 'embedScript').mockImplementation(() => {
         (service as any)['errorLoading$'].next(true);
       });
 
-      spyOn(baseSiteService, 'getActive').and.returnValue(
+      vi.spyOn(baseSiteService, 'getActive').mockReturnValue(
         of('electronics-spa')
       );
-      spyOn(languageService, 'getActive').and.returnValue(of('en'));
-
-      const results: Array<boolean> = [];
+      vi.spyOn(languageService, 'getActive').mockReturnValue(of('en'));
 
       (service as any)['errorLoading$'].next(false);
 
-      service
-        .didScriptFailToLoad()
-        .pipe(take(2))
-        .subscribe((val) => {
-          results.push(val);
-          if (results.length > 1) {
-            expect(results[0]).toBe(false);
-            expect(results[1]).toBe(true);
-            done();
-          }
-        });
-
+      const resultPromise = lastValueFrom(service.didScriptFailToLoad().pipe(take(2), toArray()));
       service.loadCdcJavascript();
+      const results = await resultPromise;
+
+      expect(results[0]).toBe(false);
+      expect(results[1]).toBe(true);
     });
   });
 
@@ -255,9 +236,9 @@ describe('CdcJsService', () => {
       const site = 'electronics-spa';
       const language = 'en';
 
-      spyOn(scriptLoader, 'embedScript');
-      spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
-      spyOn(languageService, 'getActive').and.returnValue(of(language));
+      vi.spyOn(scriptLoader, 'embedScript');
+      vi.spyOn(baseSiteService, 'getActive').mockReturnValue(of(site));
+      vi.spyOn(languageService, 'getActive').mockReturnValue(of(language));
 
       service.loadCdcJavascript();
 
@@ -265,8 +246,8 @@ describe('CdcJsService', () => {
         src: 'sample-url&lang=en',
         params: undefined,
         attributes: { type: 'text/javascript' },
-        callback: jasmine.any(Function) as any,
-        errorCallback: jasmine.any(Function) as any,
+        callback: expect.any(Function) as any,
+        errorCallback: expect.any(Function) as any,
       });
       expect(winRef?.nativeWindow['__gigyaConf']).toEqual({
         include: 'id_token, missing-required-fields, preferences',
@@ -277,9 +258,9 @@ describe('CdcJsService', () => {
       const site = 'electronics';
       const language = 'en';
 
-      spyOn(scriptLoader, 'embedScript');
-      spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
-      spyOn(languageService, 'getActive').and.returnValue(of(language));
+      vi.spyOn(scriptLoader, 'embedScript');
+      vi.spyOn(baseSiteService, 'getActive').mockReturnValue(of(site));
+      vi.spyOn(languageService, 'getActive').mockReturnValue(of(language));
 
       service.initialize();
 
@@ -292,14 +273,14 @@ describe('CdcJsService', () => {
       const site = 'electronics-spa';
       const language = 'en';
 
-      spyOn(scriptLoader, 'embedScript').and.callFake(() => {
+      vi.spyOn(scriptLoader, 'embedScript').mockImplementation(() => {
         service['registerEventListeners']('electronics-spa');
       });
-      spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
-      spyOn(languageService, 'getActive').and.returnValue(of(language));
+      vi.spyOn(baseSiteService, 'getActive').mockReturnValue(of(site));
+      vi.spyOn(languageService, 'getActive').mockReturnValue(of(language));
 
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-      spyOn(service as any, 'addCdcEventHandlers').and.stub();
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(true));
+      vi.spyOn(service as any, 'addCdcEventHandlers').mockImplementation(() => {});
 
       service.loadCdcJavascript();
 
@@ -311,19 +292,19 @@ describe('CdcJsService', () => {
 
   describe('addCdcEventHandlers', () => {
     it('should add event handlers for CDC login', () => {
-      spyOn(service['gigyaSDK'].accounts, 'addEventHandlers');
+      vi.spyOn(service['gigyaSDK'].accounts, 'addEventHandlers');
 
       service['addCdcEventHandlers']('electronics-spa');
 
       expect(
         service['gigyaSDK'].accounts.addEventHandlers
-      ).toHaveBeenCalledWith({ onLogin: jasmine.any(Function) });
+      ).toHaveBeenCalledWith({ onLogin: expect.any(Function) });
     });
   });
 
   describe('onLoginEventHandler', () => {
     it('should login user when on login event is triggered', () => {
-      spyOn(cdcAuth, 'loginWithCustomCdcFlow');
+      vi.spyOn(cdcAuth, 'loginWithCustomCdcFlow');
 
       const response = {
         UID: 'UID',
@@ -344,7 +325,7 @@ describe('CdcJsService', () => {
     });
 
     it('should NOT login user when on login event is triggered with context = {skipOccAuth: true} in response', () => {
-      spyOn(cdcAuth, 'loginWithCustomCdcFlow');
+      vi.spyOn(cdcAuth, 'loginWithCustomCdcFlow');
 
       const response = {
         UID: 'UID',
@@ -360,7 +341,7 @@ describe('CdcJsService', () => {
     });
 
     it('should not login user when on login event have empty payload', () => {
-      spyOn(cdcAuth, 'loginWithCustomCdcFlow');
+      vi.spyOn(cdcAuth, 'loginWithCustomCdcFlow');
 
       service['onLoginEventHandler']('electronics-spa');
 
@@ -370,137 +351,130 @@ describe('CdcJsService', () => {
 
   describe('registerUserWithoutScreenSet', () => {
     it('should not call register', () => {
-      spyOn(service['gigyaSDK'].accounts, 'initRegistration');
+      vi.spyOn(service['gigyaSDK'].accounts, 'initRegistration');
       service.registerUserWithoutScreenSet({});
       expect(
         service['gigyaSDK'].accounts.initRegistration
       ).not.toHaveBeenCalled();
     });
 
-    it('should call register', (done) => {
-      spyOn(service['gigyaSDK'].accounts, 'initRegistration').and.callFake(
+    it('should call register', async () => {
+      vi.spyOn(service['gigyaSDK'].accounts, 'initRegistration').mockImplementation(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
         }
       );
-      spyOn(service as any, 'onInitRegistrationHandler').and.returnValue(
+      vi.spyOn(service as any, 'onInitRegistrationHandler').mockReturnValue(
         of({ status: 'OK' })
       );
       expect(service.registerUserWithoutScreenSet).toBeTruthy();
-      service
-        .registerUserWithoutScreenSet({
+      await firstValueFrom(
+        service.registerUserWithoutScreenSet({
           uid: 'uid',
           password: 'password',
         })
-        .subscribe(() => {
-          expect(
-            service['gigyaSDK'].accounts.initRegistration
-          ).toHaveBeenCalled();
-          done();
-        });
+      );
+      expect(
+        service['gigyaSDK'].accounts.initRegistration
+      ).toHaveBeenCalled();
     });
   });
 
   describe('onInitRegistrationHandler', () => {
-    it('should register the user', (done) => {
-      spyOn(service['gigyaSDK'].accounts, 'register').and.callFake(
+    it('should register the user', async () => {
+      vi.spyOn(service['gigyaSDK'].accounts, 'register').mockImplementation(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
         }
       );
       expect(service['onInitRegistrationHandler']).toBeTruthy();
-      service['onInitRegistrationHandler'](
-        {
-          uid: 'uid',
-          password: 'password',
+      await firstValueFrom(
+        service['onInitRegistrationHandler'](
+          {
+            uid: 'uid',
+            password: 'password',
+            firstName: 'fname',
+            lastName: 'lname',
+            preferences: {},
+          },
+          { regToken: 'TOKEN' }
+        ),
+        { defaultValue: undefined }
+      );
+      expect(service['gigyaSDK'].accounts.register).toHaveBeenCalledWith({
+        email: 'uid',
+        password: 'password',
+        profile: {
           firstName: 'fname',
           lastName: 'lname',
-          preferences: {},
         },
-        { regToken: 'TOKEN' }
-      ).subscribe({
-        complete: () => {
-          expect(service['gigyaSDK'].accounts.register).toHaveBeenCalledWith({
-            email: 'uid',
-            password: 'password',
-            profile: {
-              firstName: 'fname',
-              lastName: 'lname',
-            },
-            preferences: {},
-            regToken: 'TOKEN',
-            regSource: 'https://spartacus.cx',
-            finalizeRegistration: true,
-            callback: jasmine.any(Function),
-          });
-          done();
-        },
+        preferences: {},
+        regToken: 'TOKEN',
+        regSource: 'https://spartacus.cx',
+        finalizeRegistration: true,
+        callback: expect.any(Function),
       });
     });
 
     it('should not do anything', () => {
-      spyOn(service['gigyaSDK'].accounts, 'register');
+      vi.spyOn(service['gigyaSDK'].accounts, 'register');
       service['onInitRegistrationHandler']({}, null);
       expect(service['gigyaSDK'].accounts.register).not.toHaveBeenCalled();
     });
   });
 
   describe('loginUserWithoutScreenSet', () => {
-    it('should login user without screenset', (done) => {
+    it('should login user without screenset', async () => {
       expect(service['getCurrentBaseSite']()).toBe('electronics-spa');
-      spyOn(service['gigyaSDK'].accounts, 'login').and.callFake(
+      vi.spyOn(service['gigyaSDK'].accounts, 'login').mockImplementation(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
         }
       );
       expect(service.loginUserWithoutScreenSet).toBeTruthy();
-      service.loginUserWithoutScreenSet('uid', 'password').subscribe(() => {
-        expect(service['gigyaSDK'].accounts.login).toHaveBeenCalledWith({
-          loginID: 'uid',
-          password: 'password',
-          ignoreInterruptions: true,
-          sessionExpiry: sampleCdcConfig.cdc[0].sessionExpiration,
-          callback: jasmine.any(Function),
-        });
-        done();
+      await firstValueFrom(service.loginUserWithoutScreenSet('uid', 'password'));
+      expect(service['gigyaSDK'].accounts.login).toHaveBeenCalledWith({
+        loginID: 'uid',
+        password: 'password',
+        ignoreInterruptions: true,
+        sessionExpiry: sampleCdcConfig.cdc[0].sessionExpiration,
+        callback: expect.any(Function),
       });
     });
 
     it('should not login user without screenset and having empty response', () => {
-      spyOn(service['gigyaSDK'].accounts, 'login');
+      vi.spyOn(service['gigyaSDK'].accounts, 'login');
       service.loginUserWithoutScreenSet('uid', 'password');
 
       expect(service['gigyaSDK'].accounts.login).not.toHaveBeenCalled();
     });
 
-    it('should pass the additional context given as input ', (done) => {
-      spyOn(service['gigyaSDK'].accounts, 'login').and.callFake(
+    it('should pass the additional context given as input ', async () => {
+      vi.spyOn(service['gigyaSDK'].accounts, 'login').mockImplementation(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
         }
       );
       expect(service.loginUserWithoutScreenSet).toBeTruthy();
-      service
-        .loginUserWithoutScreenSet('uid', 'password', 'RESET_EMAIL')
-        .subscribe(() => {
-          expect(service['gigyaSDK'].accounts.login).toHaveBeenCalledWith({
-            loginID: 'uid',
-            password: 'password',
-            ignoreInterruptions: true,
-            context: 'RESET_EMAIL',
-            sessionExpiry: sampleCdcConfig?.cdc[0]?.sessionExpiration,
-            callback: jasmine.any(Function),
-          });
-          done();
-        });
+      await firstValueFrom(
+        service.loginUserWithoutScreenSet('uid', 'password', 'RESET_EMAIL')
+      );
+      expect(service['gigyaSDK'].accounts.login).toHaveBeenCalledWith({
+        loginID: 'uid',
+        password: 'password',
+        ignoreInterruptions: true,
+        context: 'RESET_EMAIL',
+        sessionExpiry: sampleCdcConfig?.cdc[0]?.sessionExpiration,
+        callback: expect.any(Function),
+      });
     });
     it('should raise reconsent event in case of error code 206001', () => {
-      spyOn(service['gigyaSDK'].accounts, 'login').and.callFake(
+      vi.spyOn(service['gigyaSDK'].accounts, 'login').mockImplementation(
         (options: { callback: Function }) => {
           options.callback({ status: 'NOT OK', errorCode: 206001 });
         }
       );
-      spyOn(service, 'raiseCdcReconsentEvent').and.stub();
+      vi.spyOn(service, 'raiseCdcReconsentEvent').mockImplementation(() => {});
       service.loginUserWithoutScreenSet('uid', 'password').subscribe({
         error: () => {
           expect(service.raiseCdcReconsentEvent).toHaveBeenCalled();
@@ -510,50 +484,45 @@ describe('CdcJsService', () => {
   });
 
   describe('resetPasswordWithoutScreenSet', () => {
-    it('should not call accounts.resetPassword', (done) => {
-      spyOn(service['gigyaSDK'].accounts, 'resetPassword').and.callFake(
+    it('should not call accounts.resetPassword', async () => {
+      vi.spyOn(service['gigyaSDK'].accounts, 'resetPassword').mockImplementation(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
         }
       );
       expect(service.resetPasswordWithoutScreenSet).toBeTruthy();
-      service.resetPasswordWithoutScreenSet('').subscribe({
-        error: (error) => {
-          expect(error).toEqual('No email provided');
-          done();
-        },
-      });
+      await expect(
+        firstValueFrom(service.resetPasswordWithoutScreenSet(''))
+      ).rejects.toEqual('No email provided');
       expect(
         service['gigyaSDK']?.accounts.resetPassword
       ).not.toHaveBeenCalled();
     });
 
-    it('should call accounts.resetPassword', (done) => {
-      spyOn(service['gigyaSDK']?.accounts, 'resetPassword').and.callFake(
+    it('should call accounts.resetPassword', async () => {
+      vi.spyOn(service['gigyaSDK']?.accounts, 'resetPassword').mockImplementation(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
         }
       );
       expect(service.resetPasswordWithoutScreenSet).toBeTruthy();
-      service.resetPasswordWithoutScreenSet('test@mail.com').subscribe(() => {
-        expect(service['gigyaSDK']?.accounts.resetPassword).toHaveBeenCalled();
-        done();
-      });
+      await firstValueFrom(service.resetPasswordWithoutScreenSet('test@mail.com'));
+      expect(service['gigyaSDK']?.accounts.resetPassword).toHaveBeenCalled();
     });
   });
 
   describe('handleLoginError', () => {
     it('should not show anything with no response', () => {
-      spyOn(globalMessageService, 'remove');
-      spyOn(globalMessageService, 'add');
+      vi.spyOn(globalMessageService, 'remove');
+      vi.spyOn(globalMessageService, 'add');
       service['handleLoginError'](null);
       expect(globalMessageService.add).not.toHaveBeenCalled();
       expect(globalMessageService.remove).not.toHaveBeenCalled();
     });
 
     it('should not show error messages on success', () => {
-      spyOn(globalMessageService, 'remove');
-      spyOn(globalMessageService, 'add');
+      vi.spyOn(globalMessageService, 'remove');
+      vi.spyOn(globalMessageService, 'add');
       service['handleLoginError']({
         status: 'OK',
       });
@@ -562,8 +531,8 @@ describe('CdcJsService', () => {
     });
 
     it('should show error', () => {
-      spyOn(globalMessageService, 'remove');
-      spyOn(globalMessageService, 'add');
+      vi.spyOn(globalMessageService, 'remove');
+      vi.spyOn(globalMessageService, 'add');
       service['handleLoginError']({
         status: 'FAIL',
         errorMessage: 'Error',
@@ -583,16 +552,16 @@ describe('CdcJsService', () => {
 
   describe('handleRegisterError', () => {
     it('should not show anything with no response', () => {
-      spyOn(globalMessageService, 'remove');
-      spyOn(globalMessageService, 'add');
+      vi.spyOn(globalMessageService, 'remove');
+      vi.spyOn(globalMessageService, 'add');
       service['handleRegisterError'](null);
       expect(globalMessageService.add).not.toHaveBeenCalled();
       expect(globalMessageService.remove).not.toHaveBeenCalled();
     });
 
     it('should not show error messages on success', () => {
-      spyOn(globalMessageService, 'remove');
-      spyOn(globalMessageService, 'add');
+      vi.spyOn(globalMessageService, 'remove');
+      vi.spyOn(globalMessageService, 'add');
       service['handleRegisterError']({
         status: 'OK',
       });
@@ -601,8 +570,8 @@ describe('CdcJsService', () => {
     });
 
     it('should show error', () => {
-      spyOn(globalMessageService, 'remove');
-      spyOn(globalMessageService, 'add');
+      vi.spyOn(globalMessageService, 'remove');
+      vi.spyOn(globalMessageService, 'add');
       service['handleRegisterError']({
         status: 'FAIL',
         statusMessage: 'Error',
@@ -622,8 +591,8 @@ describe('CdcJsService', () => {
 
   describe('handleProfileUpdateResponse', () => {
     it('should not show error message on success', () => {
-      spyOn(globalMessageService, 'add');
-      spyOn(globalMessageService, 'remove');
+      vi.spyOn(globalMessageService, 'add');
+      vi.spyOn(globalMessageService, 'remove');
       service['handleProfileUpdateResponse']({
         response: { errorCode: 0 },
       });
@@ -637,8 +606,8 @@ describe('CdcJsService', () => {
     });
 
     it('should show error message on failure', () => {
-      spyOn(globalMessageService, 'add');
-      spyOn(globalMessageService, 'remove');
+      vi.spyOn(globalMessageService, 'add');
+      vi.spyOn(globalMessageService, 'remove');
       service['handleProfileUpdateResponse']({
         response: { errorCode: 1 },
       });
@@ -654,8 +623,8 @@ describe('CdcJsService', () => {
 
   describe('handleResetPassResponse', () => {
     it('should Error with no response', () => {
-      spyOn(globalMessageService, 'remove');
-      spyOn(globalMessageService, 'add');
+      vi.spyOn(globalMessageService, 'remove');
+      vi.spyOn(globalMessageService, 'add');
       service['handleResetPassResponse'](null);
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
@@ -667,8 +636,8 @@ describe('CdcJsService', () => {
     });
 
     it('should not show the Error with error response', () => {
-      spyOn(globalMessageService, 'remove');
-      spyOn(globalMessageService, 'add');
+      vi.spyOn(globalMessageService, 'remove');
+      vi.spyOn(globalMessageService, 'add');
       const errorResponse = { errorMessage: 'ERROR' };
       service['handleResetPassResponse'](errorResponse);
       expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -679,8 +648,8 @@ describe('CdcJsService', () => {
     });
 
     it('should not show error messages on success', () => {
-      spyOn(globalMessageService, 'remove');
-      spyOn(globalMessageService, 'add');
+      vi.spyOn(globalMessageService, 'remove');
+      vi.spyOn(globalMessageService, 'add');
       service['handleResetPassResponse']({
         status: 'OK',
       });
@@ -692,8 +661,8 @@ describe('CdcJsService', () => {
     });
 
     it('should show error', () => {
-      spyOn(globalMessageService, 'remove');
-      spyOn(globalMessageService, 'add');
+      vi.spyOn(globalMessageService, 'remove');
+      vi.spyOn(globalMessageService, 'add');
       service['handleResetPassResponse']({
         status: 'FAIL',
       });
@@ -728,21 +697,21 @@ describe('CdcJsService', () => {
     });
 
     it('should return the configured value of the base site', () => {
-      spyOn(baseSiteService, 'getActive').and.returnValue(of(''));
+      vi.spyOn(baseSiteService, 'getActive').mockReturnValue(of(''));
       expect(service['getCurrentBaseSite']()).toBe('');
     });
   });
 
   describe('getCurrentBaseSiteChannel', () => {
     it('should return the channel value of the base site - B2C', () => {
-      spyOn(baseSiteService, 'get').and.returnValue(
+      vi.spyOn(baseSiteService, 'get').mockReturnValue(
         of({ uid: 'electronics-spa', channel: 'B2C' })
       );
       expect(service['getCurrentBaseSiteChannel']()).toBe('B2C');
     });
 
     it('should return the channel of the base site - B2B', () => {
-      spyOn(baseSiteService, 'get').and.returnValue(
+      vi.spyOn(baseSiteService, 'get').mockReturnValue(
         of({ uid: 'powertools-spa', channel: 'B2B' })
       );
       expect(service['getCurrentBaseSiteChannel']()).toBe('B2B');
@@ -750,26 +719,23 @@ describe('CdcJsService', () => {
   });
 
   describe('updateProfileWithoutScreenSet', () => {
-    it('should not call accounts.setAccountInfo', (done) => {
-      spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').and.callFake(
+    it('should not call accounts.setAccountInfo', async () => {
+      vi.spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').mockImplementation(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
         }
       );
       expect(service.updateProfileWithoutScreenSet).toBeTruthy();
-      service.updateProfileWithoutScreenSet({}).subscribe({
-        error: (error) => {
-          expect(error).toEqual('User details not provided');
-          done();
-        },
-      });
+      await expect(
+        firstValueFrom(service.updateProfileWithoutScreenSet({}))
+      ).rejects.toEqual('User details not provided');
       expect(
         service['gigyaSDK'].accounts.setAccountInfo
       ).not.toHaveBeenCalled();
     });
 
-    it('should call accounts.setAccountInfo', (done) => {
-      spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').and.callFake(
+    it('should call accounts.setAccountInfo', async () => {
+      vi.spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').mockImplementation(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
         }
@@ -781,49 +747,42 @@ describe('CdcJsService', () => {
         titleCode: 'mr',
       };
 
-      service.updateProfileWithoutScreenSet(sampleUser).subscribe(() => {
-        service.updateProfileWithoutScreenSet({}).subscribe(() => {
-          expect(
-            service['gigyaSDK'].accounts.setAccountInfo
-          ).toHaveBeenCalledWith({
-            profile: {
-              firstName: sampleUser.firstName,
-              lastName: sampleUser.lastName,
-            },
-          });
-          expect(userProfileFacade.update).toHaveBeenCalledWith({
-            firstName: sampleUser.firstName,
-            lastName: sampleUser.lastName,
-            titleCode: sampleUser.titleCode,
-          });
-          done();
-        });
-        done();
+      await firstValueFrom(service.updateProfileWithoutScreenSet(sampleUser));
+      expect(
+        service['gigyaSDK'].accounts.setAccountInfo
+      ).toHaveBeenCalledWith({
+        profile: {
+          firstName: sampleUser.firstName,
+          lastName: sampleUser.lastName,
+        },
+        callback: expect.any(Function),
+      });
+      expect(userProfileFacade.update).toHaveBeenCalledWith({
+        firstName: sampleUser.firstName,
+        lastName: sampleUser.lastName,
+        titleCode: sampleUser.titleCode,
       });
     });
   });
 
   describe('updateUserPasswordWithoutScreenSet', () => {
-    it('should not call accounts.setAccountInfo', (done) => {
-      spyOn(service['gigyaSDK']?.accounts, 'setAccountInfo').and.callFake(
+    it('should not call accounts.setAccountInfo', async () => {
+      vi.spyOn(service['gigyaSDK']?.accounts, 'setAccountInfo').mockImplementation(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
         }
       );
       expect(service.updateProfileWithoutScreenSet).toBeTruthy();
-      service.updateUserPasswordWithoutScreenSet('', '').subscribe({
-        error: (error) => {
-          expect(error).toEqual('No passwords provided');
-          done();
-        },
-      });
+      await expect(
+        firstValueFrom(service.updateUserPasswordWithoutScreenSet('', ''))
+      ).rejects.toEqual('No passwords provided');
       expect(
         service['gigyaSDK']?.accounts.setAccountInfo
       ).not.toHaveBeenCalled();
     });
 
-    it('should call accounts.setAccountInfo', (done) => {
-      spyOn(service['gigyaSDK']?.accounts, 'setAccountInfo').and.callFake(
+    it('should call accounts.setAccountInfo', async () => {
+      vi.spyOn(service['gigyaSDK']?.accounts, 'setAccountInfo').mockImplementation(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
         }
@@ -832,22 +791,20 @@ describe('CdcJsService', () => {
       let oldPass = 'OldPass123!';
       let newPass = 'Password1!';
 
-      service
-        .updateUserPasswordWithoutScreenSet(oldPass, newPass)
-        .subscribe(() => {
-          expect(
-            service['gigyaSDK']?.accounts.setAccountInfo
-          ).toHaveBeenCalledWith({
-            password: oldPass,
-            newPassword: newPass,
-            callback: jasmine.any(Function),
-          });
-          done();
-        });
+      await firstValueFrom(
+        service.updateUserPasswordWithoutScreenSet(oldPass, newPass)
+      );
+      expect(
+        service['gigyaSDK']?.accounts.setAccountInfo
+      ).toHaveBeenCalledWith({
+        password: oldPass,
+        newPassword: newPass,
+        callback: expect.any(Function),
+      });
     });
 
-    it('should call accounts.setAccountInfo, but not throw error user in case CDC call to update password fails', (done) => {
-      spyOn(service['gigyaSDK']?.accounts, 'setAccountInfo').and.callFake(
+    it('should call accounts.setAccountInfo, but not throw error user in case CDC call to update password fails', async () => {
+      vi.spyOn(service['gigyaSDK']?.accounts, 'setAccountInfo').mockImplementation(
         (options: { callback: Function }) => {
           options.callback({ status: 'ERROR' });
         }
@@ -856,47 +813,42 @@ describe('CdcJsService', () => {
       let oldPass = 'OldPass123!';
       let newPass = 'Password1!';
 
-      service.updateUserPasswordWithoutScreenSet(oldPass, newPass).subscribe({
-        error: () => {
-          expect(
-            service['gigyaSDK']?.accounts.setAccountInfo
-          ).toHaveBeenCalledWith({
-            password: oldPass,
-            newPassword: newPass,
-            callback: jasmine.any(Function),
-          });
-          done();
-        },
+      await expect(
+        firstValueFrom(service.updateUserPasswordWithoutScreenSet(oldPass, newPass))
+      ).rejects.toBeDefined();
+      expect(
+        service['gigyaSDK']?.accounts.setAccountInfo
+      ).toHaveBeenCalledWith({
+        password: oldPass,
+        newPassword: newPass,
+        callback: expect.any(Function),
       });
     });
   });
 
   describe('updateUserEmailWithoutScreenSet', () => {
-    it('should not call accounts.setAccountInfo', (done) => {
-      spyOn(service['gigyaSDK']?.accounts, 'setAccountInfo').and.callFake(
+    it('should not call accounts.setAccountInfo', async () => {
+      vi.spyOn(service['gigyaSDK']?.accounts, 'setAccountInfo').mockImplementation(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
         }
       );
       expect(service.updateProfileWithoutScreenSet).toBeTruthy();
-      service.updateUserEmailWithoutScreenSet('', '').subscribe({
-        error: (error) => {
-          expect(error).toEqual('Email or password not provided');
-          done();
-        },
-      });
+      await expect(
+        firstValueFrom(service.updateUserEmailWithoutScreenSet('', ''))
+      ).rejects.toEqual('Email or password not provided');
       expect(
         service['gigyaSDK']?.accounts.setAccountInfo
       ).not.toHaveBeenCalled();
     });
 
-    it('should call accounts.setAccountInfo', (done) => {
-      spyOn(service['gigyaSDK']?.accounts, 'setAccountInfo').and.callFake(
+    it('should call accounts.setAccountInfo', async () => {
+      vi.spyOn(service['gigyaSDK']?.accounts, 'setAccountInfo').mockImplementation(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
         }
       );
-      spyOn(service['gigyaSDK']?.accounts, 'login').and.callFake(
+      vi.spyOn(service['gigyaSDK']?.accounts, 'login').mockImplementation(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
         }
@@ -905,38 +857,27 @@ describe('CdcJsService', () => {
       expect(service.updateUserEmailWithoutScreenSet).toBeTruthy();
       let pass = 'Password123!';
 
-      service.updateUserEmailWithoutScreenSet(pass, newEmail).subscribe(() => {
-        expect(
-          service['gigyaSDK']?.accounts.setAccountInfo
-        ).toHaveBeenCalledWith({
-          profile: {
-            email: newEmail,
-          },
-          callback: jasmine.any(Function),
-        });
-        expect(userProfileFacade.update).toHaveBeenCalledWith({
-          uid: newEmail,
-        });
-        userProfileFacade
-          .update({
-            uid: newEmail,
-          })
-          .subscribe(() => {
-            expect(authService.logout).toHaveBeenCalled();
-            expect(service['gigyaSDK'].accounts.logout).toHaveBeenCalled();
-            done();
-          });
-        done();
+      await firstValueFrom(service.updateUserEmailWithoutScreenSet(pass, newEmail));
+      expect(
+        service['gigyaSDK']?.accounts.setAccountInfo
+      ).toHaveBeenCalledWith({
+        profile: {
+          email: newEmail,
+        },
+        callback: expect.any(Function),
+      });
+      expect(userProfileFacade.update).toHaveBeenCalledWith({
+        uid: newEmail,
       });
     });
 
     it('should call accounts.setAccountInfo, but not logout the user in case CDC call to update email fails', () => {
-      spyOn(service['gigyaSDK']?.accounts, 'setAccountInfo').and.callFake(
+      vi.spyOn(service['gigyaSDK']?.accounts, 'setAccountInfo').mockImplementation(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
         }
       );
-      spyOn(service['gigyaSDK']?.accounts, 'login').and.callFake(
+      vi.spyOn(service['gigyaSDK']?.accounts, 'login').mockImplementation(
         (options: { callback: Function }) => {
           options.callback({ status: 'ERROR' });
         }
@@ -945,27 +886,30 @@ describe('CdcJsService', () => {
       expect(service.updateUserEmailWithoutScreenSet).toBeTruthy();
       let pass = 'Password123!';
 
-      service.updateUserEmailWithoutScreenSet(pass, newEmail).subscribe(() => {
-        expect(
-          service['gigyaSDK']?.accounts.setAccountInfo
-        ).toHaveBeenCalledWith({
-          profile: {
-            email: newEmail,
-          },
-          callback: jasmine.any(Function),
-        });
-        expect(userProfileFacade.update).not.toHaveBeenCalledWith({
-          uid: newEmail,
-        });
-        expect(authService.logout).not.toHaveBeenCalled();
-        expect(service['gigyaSDK'].accounts.logout).not.toHaveBeenCalled();
+      service.updateUserEmailWithoutScreenSet(pass, newEmail).subscribe({
+        next: () => {
+          expect(
+            service['gigyaSDK']?.accounts.setAccountInfo
+          ).toHaveBeenCalledWith({
+            profile: {
+              email: newEmail,
+            },
+            callback: expect.any(Function),
+          });
+          expect(userProfileFacade.update).not.toHaveBeenCalledWith({
+            uid: newEmail,
+          });
+          expect(authService.logout).not.toHaveBeenCalled();
+          expect(service['gigyaSDK'].accounts.logout).not.toHaveBeenCalled();
+        },
+        error: () => {},
       });
     });
   });
 
   describe('getLoggedInUserEmail', () => {
     it('should return the logged in user email', () => {
-      userProfileFacade.get = createSpy().and.returnValue(
+      userProfileFacade.get = vi.fn().mockReturnValue(
         of({ uid: newEmail })
       );
 
@@ -975,7 +919,7 @@ describe('CdcJsService', () => {
     });
 
     it('should return empty if no email is obtained', () => {
-      userProfileFacade.get = createSpy().and.returnValue(of(undefined));
+      userProfileFacade.get = vi.fn().mockReturnValue(of(undefined));
       service['getLoggedInUserEmail']().subscribe((user: User) => {
         expect(user).toEqual({});
       });
@@ -984,42 +928,37 @@ describe('CdcJsService', () => {
   });
 
   describe('updateAddressWithoutScreenSet', () => {
-    it('should not call accounts.setAccountInfo', (done) => {
-      spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').and.callFake(
+    it('should not call accounts.setAccountInfo', async () => {
+      vi.spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').mockImplementation(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
         }
       );
       expect(service.updateProfileWithoutScreenSet).toBeTruthy();
-      service.updateAddressWithoutScreenSet('').subscribe({
-        error: (error) => {
-          expect(error).toEqual('No address provided');
-          done();
-        },
-      });
+      await expect(
+        firstValueFrom(service.updateAddressWithoutScreenSet(''))
+      ).rejects.toEqual('No address provided');
       expect(
         service['gigyaSDK'].accounts.setAccountInfo
       ).not.toHaveBeenCalled();
     });
 
-    it('should call accounts.setAccountInfo', (done) => {
-      spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').and.callFake(
+    it('should call accounts.setAccountInfo', async () => {
+      vi.spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').mockImplementation(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
         }
       );
       expect(service.updateAddressWithoutScreenSet).toBeTruthy();
       let sampleAddress = 'Address1, address2 , US';
-      service.updateAddressWithoutScreenSet(sampleAddress).subscribe(() => {
-        expect(
-          service['gigyaSDK'].accounts.setAccountInfo
-        ).toHaveBeenCalledWith({
-          profile: {
-            address: sampleAddress,
-          },
-          callback: jasmine.any(Function),
-        });
-        done();
+      await firstValueFrom(service.updateAddressWithoutScreenSet(sampleAddress));
+      expect(
+        service['gigyaSDK'].accounts.setAccountInfo
+      ).toHaveBeenCalledWith({
+        profile: {
+          address: sampleAddress,
+        },
+        callback: expect.any(Function),
       });
     });
   });
@@ -1064,11 +1003,11 @@ describe('CdcJsService', () => {
         screen: 'gigya-change-password-screen',
       };
       const isPasswordReset = true;
-      userProfileFacade.get = createSpy().and.returnValue(
+      userProfileFacade.get = vi.fn().mockReturnValue(
         of({ uid: newEmail })
       );
-      spyOn(service as any, 'invokeAPI').and.returnValue(of({ status: 'OK' }));
-      spyOn(authService, 'logout');
+      vi.spyOn(service as any, 'invokeAPI').mockReturnValue(of({ status: 'OK' }));
+      vi.spyOn(authService, 'logout');
       service.onProfileUpdateEventHandler(response, isPasswordReset);
 
       expect(authService.logout).toHaveBeenCalled();
@@ -1086,11 +1025,11 @@ describe('CdcJsService', () => {
           errorCode: 0,
         },
       };
-      userProfileFacade.get = createSpy().and.returnValue(
+      userProfileFacade.get = vi.fn().mockReturnValue(
         of({ uid: newEmail })
       );
-      spyOn(service as any, 'invokeAPI').and.returnValue(of({ status: 'OK' }));
-      spyOn(authService, 'logout');
+      vi.spyOn(service as any, 'invokeAPI').mockReturnValue(of({ status: 'OK' }));
+      vi.spyOn(authService, 'logout');
       service.onProfileUpdateEventHandler(response);
 
       expect(userProfileFacade.update).toHaveBeenCalledWith({
@@ -1105,37 +1044,35 @@ describe('CdcJsService', () => {
 
   describe('ngOnDestroy', () => {
     it('should unsubscribe from any subscriptions when destroyed', () => {
-      spyOn(service['subscription'], 'unsubscribe');
+      vi.spyOn(service['subscription'], 'unsubscribe');
       service.ngOnDestroy();
       expect(service['subscription'].unsubscribe).toHaveBeenCalled();
     });
   });
 
   describe('getOrganizationContext', () => {
-    it('should retrieve organization context', (done) => {
-      spyOn(
+    it('should retrieve organization context', async () => {
+      vi.spyOn(
         service['gigyaSDK']?.accounts.b2b,
         'getOrganizationContext'
-      ).and.returnValue(of({ orgId: orgId }));
-      service.getOrganizationContext().subscribe({
-        next: (response) => {
-          expect(response.orgId).toEqual(orgId);
-          expect(
-            service['gigyaSDK']?.accounts.b2b.getOrganizationContext
-          ).toHaveBeenCalledWith({ callback: jasmine.any(Function) });
-        },
+      ).mockImplementation((options: { callback: Function }) => {
+        options.callback({ status: 'OK', orgId: orgId });
       });
+      const response = await firstValueFrom(service.getOrganizationContext());
+      expect(response.orgId).toEqual(orgId);
+      expect(
+        service['gigyaSDK']?.accounts.b2b.getOrganizationContext
+      ).toHaveBeenCalledWith({ callback: expect.any(Function) });
       expect(service.getOrganizationContext).toBeTruthy();
-      done();
     });
   });
 
   describe('openDelegatedAdminLogin', () => {
-    it('should open delegate admin login', (done) => {
-      spyOn(
+    it('should open delegate admin login', () => {
+      vi.spyOn(
         service['gigyaSDK'].accounts.b2b,
         'openDelegatedAdminLogin'
-      ).and.returnValue(of({}));
+      ).mockReturnValue(of({}));
 
       service.openDelegatedAdminLogin(orgId);
       expect(
@@ -1144,52 +1081,43 @@ describe('CdcJsService', () => {
         orgId: orgId,
       });
       expect(service.openDelegatedAdminLogin).toBeTruthy();
-      done();
     });
   });
 
   describe('invokeAPI', () => {
-    it('should invoke valid CDC API and return response', (done) => {
-      spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').and.callFake(
+    it('should invoke valid CDC API and return response', async () => {
+      vi.spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').mockImplementation(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
         }
       );
-      service['invokeAPI']('accounts.setAccountInfo', {}).subscribe(
-        (response) => {
-          expect(response).toEqual({ status: 'OK' });
-          done();
-        }
+      const response = await firstValueFrom(
+        service['invokeAPI']('accounts.setAccountInfo', {})
       );
+      expect(response).toEqual({ status: 'OK' });
     });
 
-    it('should invoke API and return error when response status is ERROR', (done) => {
-      spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').and.callFake(
+    it('should invoke API and return error when response status is ERROR', async () => {
+      vi.spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').mockImplementation(
         (options: { callback: Function }) => {
           options.callback({ status: 'ERROR' });
         }
       );
-      service['invokeAPI']('accounts.setAccountInfo', {}).subscribe({
-        error: (error) => {
-          expect(error).toEqual({ status: 'ERROR' });
-          done();
-        },
-      });
+      await expect(
+        firstValueFrom(service['invokeAPI']('accounts.setAccountInfo', {}))
+      ).rejects.toEqual({ status: 'ERROR' });
     });
 
-    it('should throw an error with invalid CDC API', (done) => {
-      service['invokeAPI']('some.random.apiName', {}).subscribe({
-        error: (error) => {
-          expect(error).toEqual('CDC API name is incorrect');
-          done();
-        },
-      });
+    it('should throw an error with invalid CDC API', async () => {
+      await expect(
+        firstValueFrom(service['invokeAPI']('some.random.apiName', {}))
+      ).rejects.toEqual('CDC API name is incorrect');
     });
   });
 
   describe('getSdkFunctionFromName', () => {
     it('should return a function for a valid input', () => {
-      spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').and.callFake(
+      vi.spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').mockImplementation(
         (options: { callback: Function }) => {
           options.callback({ status: 'ERROR' });
         }
@@ -1208,8 +1136,8 @@ describe('CdcJsService', () => {
 
   describe('logoutUser', () => {
     it('should logout the user from CDC and Commerce when invoked', () => {
-      spyOn(service as any, 'invokeAPI').and.returnValue(of({ status: 'OK' }));
-      spyOn(authService, 'logout');
+      vi.spyOn(service as any, 'invokeAPI').mockReturnValue(of({ status: 'OK' }));
+      vi.spyOn(authService, 'logout');
       service['logoutUser']();
       expect(authService.logout).toHaveBeenCalled();
       expect(service['invokeAPI']).toHaveBeenCalledWith('accounts.logout', {});
@@ -1226,32 +1154,30 @@ describe('CdcJsService', () => {
       },
     };
     var lang = 'en';
-    it('should set cdc consents for a user', (done) => {
-      spyOn(service as any, 'invokeAPI').and.returnValue(of({ status: 'OK' }));
+    it('should set cdc consents for a user', () => {
+      vi.spyOn(service as any, 'invokeAPI').mockReturnValue(of({ status: 'OK' }));
       service.setUserConsentPreferences(mockUser, lang, userPreference);
       expect(service['invokeAPI']).toHaveBeenCalled();
       expect(service.setUserConsentPreferences).toBeTruthy();
-      done();
     });
-    it('should throw error', (done) => {
-      spyOn(service as any, 'invokeAPI').and.returnValue(
+    it('should throw error', () => {
+      vi.spyOn(service as any, 'invokeAPI').mockReturnValue(
         of({ status: 'ERROR' })
       );
       service.setUserConsentPreferences(mockUser, lang, userPreference);
       expect(service['invokeAPI']).toHaveBeenCalled();
       expect(service.setUserConsentPreferences).toBeTruthy();
       expect(service.setUserConsentPreferences).toThrow();
-      done();
     });
   });
 
   describe('getSiteConsentDetails()', () => {
     it('fetch consents from the current site without persisting into Local Storage', () => {
-      spyOn(baseSiteService, 'getActive').and.returnValue(
+      vi.spyOn(baseSiteService, 'getActive').mockReturnValue(
         of('electronics-spa')
       );
-      spyOn(store, 'persistCdcConsentsToStorage').and.stub();
-      spyOn(service as any, 'invokeAPI').and.returnValue(of({ status: 'OK' }));
+      vi.spyOn(store, 'persistCdcConsentsToStorage').mockImplementation(() => {});
+      vi.spyOn(service as any, 'invokeAPI').mockReturnValue(of({ status: 'OK' }));
       service.getSiteConsentDetails(false).subscribe(() => {
         expect(store.persistCdcConsentsToStorage).not.toHaveBeenCalled();
       });
@@ -1259,11 +1185,11 @@ describe('CdcJsService', () => {
       expect(service.getSiteConsentDetails).toBeTruthy();
     });
     it('fetch consents from the current site, persisting into Local Storage', () => {
-      spyOn(baseSiteService, 'getActive').and.returnValue(
+      vi.spyOn(baseSiteService, 'getActive').mockReturnValue(
         of('electronics-spa')
       );
-      spyOn(store, 'persistCdcConsentsToStorage').and.stub();
-      spyOn(service as any, 'invokeAPI').and.returnValue(of({ status: 'OK' }));
+      vi.spyOn(store, 'persistCdcConsentsToStorage').mockImplementation(() => {});
+      vi.spyOn(service as any, 'invokeAPI').mockReturnValue(of({ status: 'OK' }));
       service.getSiteConsentDetails(true).subscribe(() => {
         expect(store.persistCdcConsentsToStorage).toHaveBeenCalled();
       });
@@ -1273,11 +1199,11 @@ describe('CdcJsService', () => {
   });
 
   describe('registerOrganisationWithoutScreenSet', () => {
-    it('should not call accounts.b2b.registerOrganization', (done) => {
-      spyOn(
+    it('should not call accounts.b2b.registerOrganization', async () => {
+      vi.spyOn(
         service['gigyaSDK'].accounts.b2b,
         'registerOrganization'
-      ).and.callFake((options: { callback: Function }) => {
+      ).mockImplementation((options: { callback: Function }) => {
         options.callback({ status: 'OK' });
       });
       expect(service.registerOrganisationWithoutScreenSet).toBeTruthy();
@@ -1287,22 +1213,19 @@ describe('CdcJsService', () => {
         firstName: '',
         lastName: '',
       };
-      service.registerOrganisationWithoutScreenSet(wrongOrgInfo).subscribe({
-        error: (error) => {
-          expect(error).toEqual('Organization details not provided');
-          done();
-        },
-      });
+      await expect(
+        firstValueFrom(service.registerOrganisationWithoutScreenSet(wrongOrgInfo))
+      ).rejects.toEqual('Organization details not provided');
       expect(
         service['gigyaSDK'].accounts.b2b.registerOrganization
       ).not.toHaveBeenCalled();
     });
 
-    it('should call accounts.b2b.registerOrganization', (done) => {
-      spyOn(
+    it('should call accounts.b2b.registerOrganization', async () => {
+      vi.spyOn(
         service['gigyaSDK'].accounts.b2b,
         'registerOrganization'
-      ).and.callFake((options: { callback: Function }) => {
+      ).mockImplementation((options: { callback: Function }) => {
         options.callback({ status: 'OK' });
       });
 
@@ -1322,41 +1245,39 @@ describe('CdcJsService', () => {
         message: 'department: Dept;\nposition: Pos',
       };
 
-      service
-        .registerOrganisationWithoutScreenSet(correctOrgInfo)
-        .subscribe(() => {
-          expect(
-            service['gigyaSDK'].accounts.b2b.registerOrganization
-          ).toHaveBeenCalledWith({
-            organization: {
-              name: correctOrgInfo.companyName,
-              street_address:
-                correctOrgInfo.addressLine1 + ' ' + correctOrgInfo.addressLine2,
-              city: correctOrgInfo.town,
-              state: correctOrgInfo.region,
-              zip_code: correctOrgInfo.postalCode,
-              country: correctOrgInfo.country,
-            },
-            requester: {
-              firstName: correctOrgInfo.firstName,
-              lastName: correctOrgInfo.lastName,
-              email: correctOrgInfo.email,
-              phone: correctOrgInfo.phoneNumber,
-              department: 'Dept',
-              jobFunction: 'Pos',
-            },
-            regSource: 'https://spartacus.cx',
-            callback: jasmine.any(Function),
-          });
-          done();
-        });
+      await firstValueFrom(
+        service.registerOrganisationWithoutScreenSet(correctOrgInfo)
+      );
+      expect(
+        service['gigyaSDK'].accounts.b2b.registerOrganization
+      ).toHaveBeenCalledWith({
+        organization: {
+          name: correctOrgInfo.companyName,
+          street_address:
+            correctOrgInfo.addressLine1 + ' ' + correctOrgInfo.addressLine2,
+          city: correctOrgInfo.town,
+          state: correctOrgInfo.region,
+          zip_code: correctOrgInfo.postalCode,
+          country: correctOrgInfo.country,
+        },
+        requester: {
+          firstName: correctOrgInfo.firstName,
+          lastName: correctOrgInfo.lastName,
+          email: correctOrgInfo.email,
+          phone: correctOrgInfo.phoneNumber,
+          department: 'Dept',
+          jobFunction: 'Pos',
+        },
+        regSource: 'https://spartacus.cx',
+        callback: expect.any(Function),
+      });
     });
 
-    it('should call accounts.b2b.registerOrganization and not pass phone number if empty', (done) => {
-      spyOn(
+    it('should call accounts.b2b.registerOrganization and not pass phone number if empty', async () => {
+      vi.spyOn(
         service['gigyaSDK'].accounts.b2b,
         'registerOrganization'
-      ).and.callFake((options: { callback: Function }) => {
+      ).mockImplementation((options: { callback: Function }) => {
         options.callback({ status: 'OK' });
       });
 
@@ -1376,33 +1297,31 @@ describe('CdcJsService', () => {
         message: 'department: Dept;\nposition: Pos',
       };
 
-      service
-        .registerOrganisationWithoutScreenSet(correctOrgInfo)
-        .subscribe(() => {
-          expect(
-            service['gigyaSDK'].accounts.b2b.registerOrganization
-          ).toHaveBeenCalledWith({
-            organization: {
-              name: correctOrgInfo.companyName,
-              street_address:
-                correctOrgInfo.addressLine1 + ' ' + correctOrgInfo.addressLine2,
-              city: correctOrgInfo.town,
-              state: correctOrgInfo.region,
-              zip_code: correctOrgInfo.postalCode,
-              country: correctOrgInfo.country,
-            },
-            requester: {
-              firstName: correctOrgInfo.firstName,
-              lastName: correctOrgInfo.lastName,
-              email: correctOrgInfo.email,
-              department: 'Dept',
-              jobFunction: 'Pos',
-            },
-            regSource: 'https://spartacus.cx',
-            callback: jasmine.any(Function),
-          });
-          done();
-        });
+      await firstValueFrom(
+        service.registerOrganisationWithoutScreenSet(correctOrgInfo)
+      );
+      expect(
+        service['gigyaSDK'].accounts.b2b.registerOrganization
+      ).toHaveBeenCalledWith({
+        organization: {
+          name: correctOrgInfo.companyName,
+          street_address:
+            correctOrgInfo.addressLine1 + ' ' + correctOrgInfo.addressLine2,
+          city: correctOrgInfo.town,
+          state: correctOrgInfo.region,
+          zip_code: correctOrgInfo.postalCode,
+          country: correctOrgInfo.country,
+        },
+        requester: {
+          firstName: correctOrgInfo.firstName,
+          lastName: correctOrgInfo.lastName,
+          email: correctOrgInfo.email,
+          department: 'Dept',
+          jobFunction: 'Pos',
+        },
+        regSource: 'https://spartacus.cx',
+        callback: expect.any(Function),
+      });
     });
   });
 });

@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CdcJsService } from '@spartacus/cdc/root';
 import {
@@ -13,13 +13,12 @@ import { FormErrorsModule } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { of, throwError } from 'rxjs';
 import { CDCForgotPasswordComponentService } from './cdc-forgot-password-component.service';
-import createSpy = jasmine.createSpy;
 
 class MockUserPasswordService implements Partial<UserPasswordFacade> {
-  requestForgotPasswordEmail = createSpy().and.returnValue(of({}));
+  requestForgotPasswordEmail = vi.fn().mockReturnValue(of({}));
 }
 class MockRoutingService implements Partial<RoutingService> {
-  go = createSpy().and.stub();
+  go = vi.fn().mockImplementation(() => {});
 }
 
 class MockAuthConfigService implements Partial<AuthConfigService> {
@@ -28,17 +27,17 @@ class MockAuthConfigService implements Partial<AuthConfigService> {
   }
 }
 class MockGlobalMessageService {
-  add = createSpy().and.stub();
-  remove = createSpy().and.stub();
+  add = vi.fn().mockImplementation(() => {});
+  remove = vi.fn().mockImplementation(() => {});
 }
 
 class MockCDCJsService implements Partial<CdcJsService> {
-  didLoad = createSpy().and.returnValue(of(false));
-  registerUserWithoutScreenSet = createSpy().and.callFake(() =>
+  didLoad = vi.fn().mockReturnValue(of(false));
+  registerUserWithoutScreenSet = vi.fn().mockImplementation(() =>
     of({ status: 'OK' })
   );
-  onLoginEventHandler = createSpy();
-  resetPasswordWithoutScreenSet = createSpy().and.callFake(() =>
+  onLoginEventHandler = vi.fn();
+  resetPasswordWithoutScreenSet = vi.fn().mockImplementation(() =>
     of({ status: 'OK' })
   );
 }
@@ -50,7 +49,7 @@ describe('CDCForgotPasswordComponentService', () => {
   let cdcJsService: CdcJsService;
   let globalMessageService: GlobalMessageService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       declarations: [],
@@ -63,7 +62,7 @@ describe('CDCForgotPasswordComponentService', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     });
-  }));
+  });
 
   beforeEach(() => {
     service = TestBed.inject(CDCForgotPasswordComponentService);
@@ -88,7 +87,7 @@ describe('CDCForgotPasswordComponentService', () => {
       });
 
       it('should request email through CDC SDK', () => {
-        cdcJsService.didLoad = createSpy().and.returnValue(of(true));
+        cdcJsService.didLoad = vi.fn().mockReturnValue(of(true));
         service.requestEmail();
         expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
         expect(cdcJsService.resetPasswordWithoutScreenSet).toHaveBeenCalledWith(
@@ -98,10 +97,10 @@ describe('CDCForgotPasswordComponentService', () => {
       });
 
       it('should handle a failed email request through CDC SDK', () => {
-        cdcJsService.didLoad = createSpy().and.returnValue(of(true));
+        cdcJsService.didLoad = vi.fn().mockReturnValue(of(true));
         (
-          cdcJsService.resetPasswordWithoutScreenSet as jasmine.Spy
-        ).and.returnValue(
+          cdcJsService.resetPasswordWithoutScreenSet as any
+        ).mockReturnValue(
           throwError(() => 'test error: such email does not exist!')
         );
         service.requestEmail();
@@ -110,7 +109,7 @@ describe('CDCForgotPasswordComponentService', () => {
       });
 
       it('should show error and should not redirect if CDC SDK did not load', () => {
-        cdcJsService.didLoad = createSpy().and.returnValue(of(false));
+        cdcJsService.didLoad = vi.fn().mockReturnValue(of(false));
         service.requestEmail();
         expect(routingService.go).not.toHaveBeenCalled();
         expect(
@@ -126,13 +125,13 @@ describe('CDCForgotPasswordComponentService', () => {
       });
 
       it('should route the user to login', () => {
-        cdcJsService.didLoad = createSpy().and.returnValue(of(true));
+        cdcJsService.didLoad = vi.fn().mockReturnValue(of(true));
         service.requestEmail();
         expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
       });
 
       it('should not redirect when flow different than ResourceOwnerPasswordFlow is used', () => {
-        spyOn(authConfigService, 'getOAuthFlow').and.returnValue(
+        vi.spyOn(authConfigService, 'getOAuthFlow').mockReturnValue(
           OAuthFlow.ImplicitFlow
         );
         service.requestEmail();
@@ -161,7 +160,7 @@ describe('CDCForgotPasswordComponentService', () => {
       });
 
       it('should not reset the form', () => {
-        spyOn(service.form, 'reset').and.stub();
+        vi.spyOn(service.form, 'reset').mockImplementation(() => {});
         service.requestEmail();
         expect(service.form.reset).not.toHaveBeenCalled();
       });

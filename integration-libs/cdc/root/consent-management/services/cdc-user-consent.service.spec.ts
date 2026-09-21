@@ -4,7 +4,6 @@ import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
 import { CdcJsService } from '../../service';
 import { CdcUserConsentService } from './cdc-user-consent.service';
-import createSpy = jasmine.createSpy;
 
 const mockUser = { uid: 'sampleuser@mail.com' };
 const mockCdcSdkOutput = {
@@ -13,17 +12,17 @@ const mockCdcSdkOutput = {
   time: new Date('3 march 2023'),
 };
 class MockUserProfileFacade implements Partial<UserProfileFacade> {
-  get = createSpy();
+  get = vi.fn();
 }
 class MockLanguageService implements Partial<LanguageService> {
-  getActive = createSpy();
+  getActive = vi.fn();
 }
 class MockCdcJsService implements Partial<CdcJsService> {
-  setUserConsentPreferences = createSpy();
-  getSiteConsentDetails = createSpy();
+  setUserConsentPreferences = vi.fn();
+  getSiteConsentDetails = vi.fn();
 }
 class MockConverterService implements Partial<ConverterService> {
-  convert = createSpy();
+  convert = vi.fn();
 }
 describe('CdcUserConsentService()', () => {
   let service: CdcUserConsentService;
@@ -64,7 +63,7 @@ describe('CdcUserConsentService()', () => {
   });
   describe('getUserID()', () => {
     it('get logged in user id', () => {
-      userProfileFacade.get = createSpy().and.returnValue(of(mockUser));
+      userProfileFacade.get = vi.fn().mockReturnValue(of(mockUser));
       let output = service.getUserID();
       expect(userProfileFacade.get).toHaveBeenCalled();
       expect(output).toEqual('sampleuser@mail.com');
@@ -72,7 +71,7 @@ describe('CdcUserConsentService()', () => {
   });
   describe('getActiveLanguage()', () => {
     it('get active language', () => {
-      languageService.getActive = createSpy().and.returnValue(of('en'));
+      languageService.getActive = vi.fn().mockReturnValue(of('en'));
       let output = service.getActiveLanguage();
       expect(languageService.getActive).toHaveBeenCalled();
       expect(output).toEqual('en');
@@ -80,16 +79,16 @@ describe('CdcUserConsentService()', () => {
   });
   describe('updateCdcUserPreferences()', () => {
     it('give consent via CDC SDK', () => {
-      languageService.getActive = createSpy().and.returnValue(of('en'));
-      userProfileFacade.get = createSpy().and.returnValue(of(mockUser));
-      converter.convert = createSpy().and.returnValue({
+      languageService.getActive = vi.fn().mockReturnValue(of('en'));
+      userProfileFacade.get = vi.fn().mockReturnValue(of(mockUser));
+      converter.convert = vi.fn().mockReturnValue({
         others: {
           survey: {
             isConsentGranted: true,
           },
         },
       });
-      cdcJsService.setUserConsentPreferences = createSpy().and.returnValue(
+      cdcJsService.setUserConsentPreferences = vi.fn().mockReturnValue(
         of(mockCdcSdkOutput)
       );
       service.updateCdcUserPreferences([
@@ -109,16 +108,16 @@ describe('CdcUserConsentService()', () => {
       );
     });
     it('withdraw consent via CDC SDK', () => {
-      languageService.getActive = createSpy().and.returnValue(of('en'));
-      userProfileFacade.get = createSpy().and.returnValue(of(mockUser));
-      converter.convert = createSpy().and.returnValue({
+      languageService.getActive = vi.fn().mockReturnValue(of('en'));
+      userProfileFacade.get = vi.fn().mockReturnValue(of(mockUser));
+      converter.convert = vi.fn().mockReturnValue({
         others: {
           survey: {
             isConsentGranted: false,
           },
         },
       });
-      cdcJsService.setUserConsentPreferences = createSpy().and.returnValue(
+      cdcJsService.setUserConsentPreferences = vi.fn().mockReturnValue(
         of(mockCdcSdkOutput)
       );
       service.updateCdcUserPreferences([
