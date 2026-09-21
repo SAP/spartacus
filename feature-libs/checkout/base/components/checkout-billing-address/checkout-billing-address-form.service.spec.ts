@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Address } from '@spartacus/core';
 import { vi } from 'vitest';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { CheckoutBillingAddressFormService } from './checkout-billing-address-form.service';
 const mockAddress: Address = {
   firstName: 'John',
@@ -95,6 +96,50 @@ describe('CheckoutBillingAddressFormComponentService', () => {
       const form = service.getBillingAddressForm();
       form.patchValue(mockAddress);
       expect(service.getBillingAddress()).toEqual(form.value);
+    });
+  });
+});
+
+describe('CheckoutBillingAddressFormService — enableFormFieldMaxLength', () => {
+  const overLength = 'a'.repeat(257);
+
+  describe('when enabled', () => {
+    let service: CheckoutBillingAddressFormService;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          CheckoutBillingAddressFormService,
+          ...provideMockFeatureToggles({ enableFormFieldMaxLength: true }),
+        ],
+      });
+      service = TestBed.inject(CheckoutBillingAddressFormService);
+    });
+
+    it('should add maxLength validator to form fields', () => {
+      const control = service.getBillingAddressForm().get('firstName');
+      control?.setValue(overLength);
+      expect(control?.hasError('maxlength')).toBe(true);
+    });
+  });
+
+  describe('when disabled', () => {
+    let service: CheckoutBillingAddressFormService;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          CheckoutBillingAddressFormService,
+          ...provideMockFeatureToggles({ enableFormFieldMaxLength: false }),
+        ],
+      });
+      service = TestBed.inject(CheckoutBillingAddressFormService);
+    });
+
+    it('should not add maxLength validator to form fields', () => {
+      const control = service.getBillingAddressForm().get('firstName');
+      control?.setValue(overLength);
+      expect(control?.hasError('maxlength')).toBe(false);
     });
   });
 });

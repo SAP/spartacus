@@ -7,7 +7,7 @@
   "
   (esc)="close()"
 >
-  <cx-icon *ngIf="messageIcon" [type]="messageIcon"></cx-icon>
+  <cx-icon *ngIf="messageIcon" [type]="messageIcon" />
   <p>{{ message | cxTranslate }}</p>
   <button
     class="close"
@@ -16,6 +16,6 @@
     attr.aria-label="{{ 'common.close' | cxTranslate }}"
     attr.title="{{ 'common.close' | cxTranslate }}"
   >
-    <cx-icon [type]="closeIcon"></cx-icon>
+    <cx-icon [type]="closeIcon" />
   </button>
 </div>

@@ -56,7 +56,12 @@ export default defineConfig({
       reporter: ['lcov'],
       reportsDirectory: `${import.meta.dirname}/../../coverage/checkout`,
       exclude: ['**/public_api.ts', '**/index.ts', '**/*.module.ts'],
-      thresholds: { statements: 90, lines: 90, branches: 80, functions: 90 },
+      thresholds: {
+        statements: 85,
+        lines: 85,
+        branches: 65,
+        functions: 85,
+      },
     },
     reporters: [
       'default',

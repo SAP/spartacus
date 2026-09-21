@@ -81,8 +81,7 @@ describe('AsmCustomer360PromotionListingComponent', () => {
         [removeButtonText]="removeButtonText"
         [showRemoveButton]="true"
         [showApplyButton]="true"
-      >
-      </cx-asm-customer-360-promotion-listing>
+      />
     `,
     imports: [AsmCustomer360PromotionListingComponent],
   })

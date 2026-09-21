@@ -17,6 +17,7 @@ export interface QuoteUIConfigFragment {
   truncateCardTileContentAfterNumChars?: number;
   confirmActionDialogMapping?: ConfirmActionDialogMappingConfig;
   maximumDecimalsForPercentageDiscount?: number;
+  showSubtotalBeforeDiscounts?: boolean;
   updateDebounceTime?: {
     expiryDate?: number;
   };
