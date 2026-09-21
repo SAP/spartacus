@@ -24,8 +24,7 @@
                   'common.ngSelectDropdownOptionsList' | cxTranslate
                 }}"
                 [cxNgSelectA11y]="{}"
-              >
-              </ng-select>
+              />
             </label>
           </div>
 
@@ -51,7 +50,7 @@
                   label: 'register.firstName.label' | cxTranslate,
                 }"
                 [control]="registerForm.get('firstName')"
-              ></cx-form-errors>
+              />
             </label>
           </div>
 
@@ -77,7 +76,7 @@
                   label: 'register.lastName.label' | cxTranslate,
                 }"
                 [control]="registerForm.get('lastName')"
-              ></cx-form-errors>
+              />
             </label>
           </div>
 
@@ -103,7 +102,7 @@
                   label: 'register.emailAddress.label' | cxTranslate,
                 }"
                 [control]="registerForm.get('email')"
-              ></cx-form-errors>
+              />
             </label>
           </div>
 
@@ -145,7 +144,7 @@
                   <span class="form-check-label">
                     {{ consents[i].template.description }}
                   </span>
-                  <cx-form-errors [control]="control"></cx-form-errors>
+                  <cx-form-errors [control]="control" />
                 </label>
               </div>
             </div>
@@ -177,14 +176,12 @@
                     label: 'register.termsAndConditions' | cxTranslate,
                   }"
                   [control]="registerForm.get('termsandconditions')"
-                ></cx-form-errors>
+                />
               </label>
             </div>
           </div>
-          <cx-captcha (confirmed)="captchaConfirmed()"></cx-captcha>
-          <cx-form-errors
-            [control]="registerForm.get('captcha')"
-          ></cx-form-errors>
+          <cx-captcha (confirmed)="captchaConfirmed()" />
+          <cx-form-errors [control]="registerForm.get('captcha')" />
           <button type="submit" class="btn btn-block btn-primary">
             {{ 'register.furtherRegistration' | cxTranslate }}
           </button>
@@ -200,5 +197,5 @@
 </section>
 
 <ng-template #loading>
-  <div class="cx-spinner"><cx-spinner></cx-spinner></div>
+  <div class="cx-spinner"><cx-spinner /></div>
 </ng-template>

@@ -28,7 +28,7 @@
               placeholder="{{ 'pdfInvoices.sortBy' | cxTranslate }}"
               [ariaLabel]="'pdfInvoices.sortInvoices' | cxTranslate"
               ariaControls="cx-invoices-list-table"
-            ></cx-sorting>
+            />
           </label>
           <div
             class="cx-invoices-list-pagination"
@@ -42,7 +42,7 @@
               [pagination]="pagination"
               (viewPageEvent)="pageChange($event)"
               paginationID="pagination-top"
-            ></cx-pagination>
+            />
           </div>
         </div>
 
@@ -75,7 +75,7 @@
                   title="{{
                     'pdfInvoices.invoicesTable.attachment' | cxTranslate
                   }}"
-                ></cx-icon>
+                />
               </th>
             </tr>
           </thead>
@@ -156,8 +156,7 @@
                       title="{{
                         'pdfInvoices.invoicesTable.download' | cxTranslate
                       }}"
-                    >
-                    </cx-icon>
+                    />
                     <span
                       class="cx-invoices-list-attachment-text"
                       [innerText]="
@@ -186,7 +185,7 @@
               [pagination]="pagination"
               (viewPageEvent)="pageChange($event)"
               paginationID="pagination-bottom"
-            ></cx-pagination>
+            />
           </div>
         </div>
       </div>

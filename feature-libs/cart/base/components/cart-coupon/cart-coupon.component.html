@@ -31,8 +31,7 @@
     [vouchers]="cart.appliedVouchers"
     [cartIsLoading]="cartIsLoading$ | async"
     [isReadOnly]="false"
-  >
-  </cx-applied-coupons>
+  />
 
   <ng-container *ngIf="applicableCoupons && applicableCoupons.length > 0">
     <div class="cx-available-coupon">

@@ -6,7 +6,7 @@
         <cx-date-picker
           [control]="formGroup.controls.from"
           label="orgAccountSummary.filter.startRange"
-        ></cx-date-picker>
+        />
       </ng-container>
       <ng-template #inputFrom>
         <input
@@ -25,7 +25,7 @@
             label: 'orgAccountSummary.filter.startRange' | cxTranslate,
           }"
           [control]="formGroup.controls.from"
-        ></cx-form-errors>
+        />
       </ng-template>
     </label>
 
@@ -35,7 +35,7 @@
         <cx-date-picker
           [control]="formGroup.controls.to"
           label="orgAccountSummary.filter.endRange"
-        ></cx-date-picker>
+        />
       </ng-container>
       <ng-template #inputTo>
         <input
@@ -54,12 +54,12 @@
             label: 'orgAccountSummary.filter.endRange' | cxTranslate,
           }"
           [control]="formGroup.controls.to"
-        ></cx-form-errors>
+        />
       </ng-template>
       <cx-form-errors
         [control]="formGroup"
         [prefix]="'orgAccountSummary.filter.errors'"
-      ></cx-form-errors>
+      />
     </label>
   </ng-container>
 </ng-template>
@@ -85,15 +85,14 @@
           ariaLabel: 'orgAccountSummary.filter.status' | cxTranslate,
           ariaControls: cxNgSelectA11yAriaControls,
         }"
-      >
-      </ng-select>
+      />
 
       <cx-form-errors
         [translationParams]="{
           label: 'orgAccountSummary.filter.status' | cxTranslate,
         }"
         [control]="filterForm.controls.status"
-      ></cx-form-errors>
+      />
     </label>
 
     <label class="cx-account-summary-document-filter-form-item">
@@ -112,15 +111,14 @@
           ariaLabel: 'orgAccountSummary.filter.filterBy' | cxTranslate,
           ariaControls: cxNgSelectA11yAriaControls,
         }"
-      >
-      </ng-select>
+      />
 
       <cx-form-errors
         [translationParams]="{
           label: 'orgAccountSummary.filter.filterBy' | cxTranslate,
         }"
         [control]="filterForm.controls.filterBy"
-      ></cx-form-errors>
+      />
     </label>
 
     <label
@@ -138,15 +136,14 @@
         ariaLabelDropdown="{{
           'common.ngSelectDropdownOptionsList' | cxTranslate
         }}"
-      >
-      </ng-select>
+      />
 
       <cx-form-errors
         [translationParams]="{
           label: 'orgAccountSummary.filter.documentType' | cxTranslate,
         }"
         [control]="filterForm.controls.documentType"
-      ></cx-form-errors>
+      />
     </label>
 
     <label
@@ -170,7 +167,7 @@
           label: 'orgAccountSummary.filter.documentNumber' | cxTranslate,
         }"
         [control]="filterForm.controls.documentNumber"
-      ></cx-form-errors>
+      />
     </label>
 
     <ng-template [ngIf]="filterBy === FilterByOptions.DOCUMENT_NUMBER_RANGE">
@@ -182,8 +179,7 @@
             type: 'text',
           }
         "
-      >
-      </ng-container>
+      />
     </ng-template>
 
     <ng-template [ngIf]="filterBy === FilterByOptions.DATE_RANGE">
@@ -195,8 +191,7 @@
             type: 'date',
           }
         "
-      >
-      </ng-container>
+      />
     </ng-template>
 
     <ng-template [ngIf]="filterBy === FilterByOptions.DUE_DATE_RANGE">
@@ -205,8 +200,7 @@
           rangeInput;
           context: { formGroup: filterForm.get('dueDateRange'), type: 'date' }
         "
-      >
-      </ng-container>
+      />
     </ng-template>
 
     <ng-template [ngIf]="filterBy === FilterByOptions.AMOUNT_RANGE">
@@ -218,8 +212,7 @@
             type: 'number',
           }
         "
-      >
-      </ng-container>
+      />
     </ng-template>
 
     <ng-template [ngIf]="filterBy === FilterByOptions.OPEN_AMOUNT_RANGE">
@@ -231,8 +224,7 @@
             type: 'number',
           }
         "
-      >
-      </ng-container>
+      />
     </ng-template>
 
     <div class="cx-account-summary-document-filter-form-button-block">

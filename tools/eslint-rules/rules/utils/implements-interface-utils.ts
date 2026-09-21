@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AST_NODE_TYPES, TSESTree } from '@typescript-eslint/utils';
-import {
-  RuleFix,
-  RuleFixer,
-  SourceCode,
-} from '@typescript-eslint/utils/ts-eslint';
+import { AST_NODE_TYPES, TSESLint, TSESTree } from '@typescript-eslint/utils';
 
 /**
  * Tells whether the class declaration `node` has an `implements` clause with the given `interfaceName`.
@@ -40,9 +35,9 @@ export function fixMissingImplementsInterface({
 }: {
   node: TSESTree.ClassDeclaration;
   interfaceName: string;
-  sourceCode: SourceCode;
-  fixer: RuleFixer;
-}): RuleFix[] {
+  sourceCode: TSESLint.SourceCode;
+  fixer: TSESLint.RuleFixer;
+}): TSESLint.RuleFix[] {
   const implementsText = createImplementsText({
     node,
     interfaceName,
@@ -75,7 +70,7 @@ function createImplementsText({
 }: {
   node: TSESTree.ClassDeclaration;
   interfaceName: string;
-  sourceCode: SourceCode;
+  sourceCode: TSESLint.SourceCode;
 }): string {
   let otherImplements = node.implements
     ? node.implements.map((impl) => sourceCode.getText(impl)).join(', ')

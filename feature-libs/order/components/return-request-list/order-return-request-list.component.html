@@ -14,14 +14,14 @@
               [selectedOption]="returnRequests.pagination.sort"
               [ariaLabel]="'returnRequestList.sortReturns' | cxTranslate"
               ariaControls="order-return-table"
-            ></cx-sorting>
+            />
           </label>
           <div class="cx-order-history-pagination">
             <cx-pagination
               [pagination]="returnRequests.pagination"
               (viewPageEvent)="pageChange($event)"
               paginationID="pagination-top"
-            ></cx-pagination>
+            />
           </div>
         </div>
         <!-- TABLE -->
@@ -106,14 +106,14 @@
               [selectedOption]="returnRequests.pagination.sort"
               [ariaLabel]="'returnRequestList.sortReturns' | cxTranslate"
               ariaControls="order-return-table"
-            ></cx-sorting>
+            />
           </label>
           <div class="cx-order-history-pagination">
             <cx-pagination
               [pagination]="returnRequests.pagination"
               (viewPageEvent)="pageChange($event)"
               paginationID="pagination-bottom"
-            ></cx-pagination>
+            />
           </div>
         </div>
       </ng-container>

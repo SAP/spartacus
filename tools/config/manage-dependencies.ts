@@ -401,8 +401,12 @@ function filterNativeNodeAPIs(
               // Don't allow to use node api outside of schematics files
               if (imp.usageIn.spec || imp.usageIn.lib) {
                 imp.files.forEach((file) => {
-                  // Allow to use Node APIs in SSR
-                  if (!file.includes('ssr')) {
+                  // Allow to use Node APIs in SSR and in build-time config files
+                  // (e.g. vitest.config.ts), which are never shipped to the browser
+                  if (
+                    !file.includes('ssr') &&
+                    !file.endsWith('vitest.config.ts')
+                  ) {
                     errorsFound = true;
                     error(
                       file,
@@ -1110,6 +1114,7 @@ function updateDependenciesVersions(
     const errors: string[] = [];
     const internalErrors: string[] = [];
     const breakingErrors: string[] = [];
+    const rootCaretErrors: string[] = [];
     types.forEach((type) => {
       Object.keys(packageJson[type] ?? {}).forEach((dep) => {
         if (!semver.validRange(packageJson[type]?.[dep])) {
@@ -1126,6 +1131,42 @@ function updateDependenciesVersions(
             );
           }
           return;
+        }
+        // Enforce that the root `package.json` pins external peerDependencies
+        // with a tilde (`~`) whenever a public library declares them with a
+        // caret (`^`). The library keeps the wider caret range so consumers
+        // can still bump the peer dependency's minor, while root pins the
+        // lowest compatible minor with a tilde. This only reports the mismatch
+        // when the base versions already match (e.g. `^1.2.3` in the library
+        // vs `^1.2.3` in root), so the correction is a pure prefix change;
+        // differing base versions are handled by the synchronization logic
+        // below. The tilde must be applied manually in the root
+        // `package.json` — this rule never mutates it (check mode only).
+        if (
+          !options.fix &&
+          type === 'peerDependencies' &&
+          !dep.startsWith(SPARTACUS_SCOPE) &&
+          typeof rootDeps[dep] !== 'undefined' &&
+          (packageJson[type]?.[dep] ?? '').startsWith('^') &&
+          (rootDeps[dep] ?? '').startsWith('^') &&
+          (packageJson[type]?.[dep] ?? '').slice(1) ===
+            (rootDeps[dep] ?? '').slice(1)
+        ) {
+          rootCaretErrors.push(
+            `Dependency \`${chalk.bold(
+              dep
+            )}\` uses a caret range \`${chalk.bold(
+              packageJson[type]?.[dep]
+            )}\` in \`${chalk.bold(
+              'peerDependencies'
+            )}\`, but root \`${chalk.bold(
+              PACKAGE_JSON
+            )}\` also pins it with a caret \`${chalk.bold(
+              rootDeps[dep]
+            )}\` instead of a tilde \`${chalk.bold(
+              '~' + (rootDeps[dep] ?? '').slice(1)
+            )}\`.`
+          );
         }
         if (dep.startsWith(SPARTACUS_SCOPE)) {
           if (packageJson[type]?.[dep] !== libraries[dep].version) {
@@ -1146,7 +1187,19 @@ function updateDependenciesVersions(
           }
         } else if (
           typeof rootDeps[dep] !== 'undefined' &&
-          packageJson[type]?.[dep] !== rootDeps[dep]
+          packageJson[type]?.[dep] !== rootDeps[dep] &&
+          // Allow a library to keep the wider `^` range while root pins the
+          // same base version with `~`, e.g. `^1.2.3` in the library vs
+          // `~1.2.3` in root. This preserves the library's caret range so
+          // consumers can still bump the peer dependency's minor. Only this
+          // direction is allowed: the reverse (`~` in the library, `^` in
+          // root) is left to the fix, which widens the library to `^`.
+          !(
+            (packageJson[type]?.[dep] ?? '').startsWith('^') &&
+            (rootDeps[dep] ?? '').startsWith('~') &&
+            (packageJson[type]?.[dep] ?? '').slice(1) ===
+              (rootDeps[dep] ?? '').slice(1)
+          )
         ) {
           // Careful with breaking changes!
           if (
@@ -1228,6 +1281,20 @@ function updateDependenciesVersions(
         `This can be automatically fixed by running \`${chalk.bold(
           'npm run config:update --bump-versions'
         )}\`.`,
+      ]);
+    }
+    if (rootCaretErrors.length > 0) {
+      errorsFound = true;
+      error(pathToPackageJson, rootCaretErrors, [
+        `External \`${chalk.bold(
+          'peerDependencies'
+        )}\` declared with a caret (\`^\`) in a public library should be pinned with a tilde (\`~\`) in the root \`${chalk.bold(
+          PACKAGE_JSON
+        )}\`.`,
+        `This keeps the library's wider consumer-facing range while the repository installs the lowest compatible minor.`,
+        `Update the dependency in the root \`${chalk.bold(
+          PACKAGE_JSON
+        )}\` manually to use a tilde (\`~\`) range.`,
       ]);
     }
   });

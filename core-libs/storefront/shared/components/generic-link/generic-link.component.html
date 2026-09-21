@@ -12,7 +12,7 @@
     [attr.aria-label]="ariaLabel ? ariaLabel : null"
     [tabindex]="tabindex"
   >
-    <ng-container *ngTemplateOutlet="content"></ng-container>
+    <ng-container *ngTemplateOutlet="content" />
   </a>
 </ng-container>
 
@@ -29,10 +29,10 @@
     [attr.aria-label]="ariaLabel ? ariaLabel : null"
     [tabindex]="tabindex"
   >
-    <ng-container *ngTemplateOutlet="content"></ng-container>
+    <ng-container *ngTemplateOutlet="content" />
   </a>
 </ng-template>
 
 <ng-template #content>
-  <ng-content></ng-content>
+  <ng-content />
 </ng-template>

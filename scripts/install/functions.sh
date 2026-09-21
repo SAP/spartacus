@@ -143,7 +143,9 @@ function add_epd_visualization {
 
 function add_opf {
     if [ "${ADD_OPF}" = true ] ; then
-        ng add @spartacus/opf@${SPARTACUS_VERSION} --opf-base-url ${OPF_BASE_URL} --commerce-cloud-public-key ${OPF_CLIENT_PUBLIC_KEY} --skip-confirmation --no-interactive 
+        local access_code_header_flag="--enable-get-active-configurations-access-code-header"
+        [[ "${OPF_ACCESS_CODE_HEADER_ENABLED}" = false ]] && access_code_header_flag="--no-enable-get-active-configurations-access-code-header"
+        ng add @spartacus/opf@${SPARTACUS_VERSION} --opf-base-url ${OPF_BASE_URL} --commerce-cloud-public-key ${OPF_CLIENT_PUBLIC_KEY} ${access_code_header_flag} --skip-confirmation --no-interactive
     fi
 
     if [ "${ADD_OPF}" = true ] && [ "${ADD_B2B_LIBS}" = true ] ; then
