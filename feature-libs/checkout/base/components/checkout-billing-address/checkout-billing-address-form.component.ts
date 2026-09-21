@@ -17,6 +17,7 @@ import {
   Address,
   AddressValidation,
   Country,
+  FeatureDirective,
   GlobalMessageService,
   GlobalMessageType,
   Region,
@@ -63,6 +64,7 @@ import { CheckoutBillingAddressFormService } from './checkout-billing-address-fo
     FormErrorsComponent,
     AsyncPipe,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class CheckoutBillingAddressFormComponent implements OnInit {
