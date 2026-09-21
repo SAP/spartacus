@@ -298,7 +298,7 @@
     "@verdaccio/middleware": {
       "express-rate-limit": "8.7.0"
     },
-    "axios": "1.18.1",
+    "axios": "1.20.0",
     "express-rate-limit": "8.7.0",
     "flatted": "3.4.4",
     "i18n-lint": {
