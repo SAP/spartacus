@@ -29,7 +29,7 @@ export class OpfGlobalFunctionsRedirectDomainService {
     },
     paymentSessionId: string,
     vcr?: ViewContainerRef,
-    savePaymentMethod?: boolean
+    savePaymentMethod: boolean | undefined = undefined
   ): Promise<boolean> {
     return this.sharedService.runSubmitComplete(
       additionalData,

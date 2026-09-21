@@ -222,7 +222,7 @@ export class OpfGlobalFunctionsSharedService {
     paymentSessionId: string,
     returnPath?: string | undefined,
     vcr?: ViewContainerRef,
-    savePaymentMethod?: boolean
+    savePaymentMethod: boolean | undefined = undefined
   ): Promise<boolean> {
     return this.ngZone.run(() => {
       let overlayedSpinner: void | Observable<ComponentRef<any> | undefined>;
