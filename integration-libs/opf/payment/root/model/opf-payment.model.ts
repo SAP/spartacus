@@ -50,6 +50,8 @@ export interface OpfPaymentGlobalMethods {
     submitSuccess: OpfPaymentMerchantCallback;
     submitPending: OpfPaymentMerchantCallback;
     submitFailure: OpfPaymentMerchantCallback;
+    submitCancel?: OpfPaymentMerchantCallback;
+    savePaymentMethod?: boolean;
   }): Promise<boolean>;
   throwPaymentError?(errorOptions?: OpfErrorDialogOptions): void;
   startLoadIndicator?(): void;
@@ -167,6 +169,7 @@ export interface OpfPaymentSubmitCompleteResponse {
 export interface OpfPaymentSubmitCompleteRequest {
   paymentSessionId?: string;
   additionalData?: Array<OpfKeyValueMap>;
+  savePaymentMethod?: boolean;
 }
 export interface OpfPaymentSubmitCompleteInput {
   additionalData: Array<OpfKeyValueMap>;
@@ -177,6 +180,7 @@ export interface OpfPaymentSubmitCompleteInput {
     onFailure: OpfPaymentMerchantCallback;
   };
   returnPath?: string;
+  savePaymentMethod?: boolean;
   /**
    * Optional cart ID used to resolve the cart access code.
    * When omitted, the active cart ID is used.

@@ -11,11 +11,15 @@ import {
   OpfPaymentGlobalMethods,
   OpfPaymentMerchantCallback,
 } from '@spartacus/opf/payment/root';
+import { OpfGlobalFunctionsSharedRegistrationsService } from '../../opf-global-functions-shared-registrations.service';
 import { OpfGlobalFunctionsRedirectDomainService } from './opf-global-functions-redirect-domain.service';
 
 @Injectable()
 export class OpfGlobalFunctionsRedirectDomainRegistrationsService {
   protected domainService = inject(OpfGlobalFunctionsRedirectDomainService);
+  protected sharedRegistrationsService = inject(
+    OpfGlobalFunctionsSharedRegistrationsService
+  );
 
   registerAll(
     container: OpfPaymentGlobalMethods,
@@ -24,6 +28,11 @@ export class OpfGlobalFunctionsRedirectDomainRegistrationsService {
     if (!paymentSessionId) {
       return;
     }
+    this.sharedRegistrationsService.registerSubmit(
+      container,
+      paymentSessionId,
+      vcr
+    );
     this.registerSubmitCompleteRedirect(container, paymentSessionId, vcr);
     this.registerGetRedirectParams(container, paramsMap ?? []);
   }
@@ -55,12 +64,14 @@ export class OpfGlobalFunctionsRedirectDomainRegistrationsService {
       submitCancel = (): void => {
         // this is intentional
       },
+      savePaymentMethod,
     }: {
       additionalData: Array<OpfKeyValueMap>;
       submitSuccess: OpfPaymentMerchantCallback;
       submitPending: OpfPaymentMerchantCallback;
       submitFailure: OpfPaymentMerchantCallback;
       submitCancel?: OpfPaymentMerchantCallback;
+      savePaymentMethod?: boolean;
     }): Promise<boolean> => {
       return this.domainService.submitCompleteRedirect(
         additionalData,
@@ -71,7 +82,8 @@ export class OpfGlobalFunctionsRedirectDomainRegistrationsService {
           onCancel: submitCancel,
         },
         paymentSessionId,
-        vcr
+        vcr,
+        savePaymentMethod
       );
     };
   }
