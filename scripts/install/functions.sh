@@ -231,7 +231,7 @@ function add_feature_libs {
   ng add @spartacus/customer-ticketing@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
   ng add @spartacus/pickup-in-store@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
 }
-
+# TODO: remove once @spartacus/styles/_theme.scss switches to santorini-updated as the default (planned for next major — see core-libs/styles/scss/_theme.scss line 11).
 function use_santorini_updated_theme {
     # Install-script storefronts otherwise render the library-default "classic"
     # santorini theme (e.g. --cx-color-primary: #1f7bc0), because
@@ -303,6 +303,7 @@ function add_spartacus_csr {
     add_cpq-quote
     add_pdf_invoices
     add_punchout
+    # TODO: remove once @spartacus/styles/_theme.scss switches to santorini-updated as the default (planned for next major — see core-libs/styles/scss/_theme.scss line 11).
     use_santorini_updated_theme
     remove_npmrc
     )
@@ -335,6 +336,7 @@ function add_spartacus_ssr {
     add_cpq-quote
     add_pdf_invoices
     add_punchout
+    # TODO: remove once @spartacus/styles/_theme.scss switches to santorini-updated as the default (planned for next major — see core-libs/styles/scss/_theme.scss line 11).
     use_santorini_updated_theme
     remove_npmrc
     )
@@ -365,6 +367,7 @@ function add_spartacus_ssr_pwa {
     add_cpq-quote
     add_pdf_invoices
     add_punchout
+    # TODO: remove once @spartacus/styles/_theme.scss switches to santorini-updated as the default (planned for next major — see core-libs/styles/scss/_theme.scss line 11).
     use_santorini_updated_theme
     remove_npmrc
     )
