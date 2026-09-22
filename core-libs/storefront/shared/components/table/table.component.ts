@@ -117,6 +117,12 @@ export class TableComponent<T> {
       return;
     }
     const rows = this.tableRows.toArray();
+    if (
+      (event.key === 'ArrowDown' && index === rows.length - 1) ||
+      (event.key === 'ArrowUp' && index === 0)
+    ) {
+      event.preventDefault();
+    }
     if (event.key === 'ArrowDown' && index < rows.length - 1) {
       event.preventDefault();
       rows[index + 1].nativeElement.focus();
