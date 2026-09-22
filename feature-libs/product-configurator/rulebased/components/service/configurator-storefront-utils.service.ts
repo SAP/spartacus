@@ -421,7 +421,8 @@ export class ConfiguratorStorefrontUtilsService {
     if (!this.windowRef.isBrowser() || !element) {
       return undefined;
     }
-    return element.closest(selector) ?? undefined;
+    const closest = element.closest(selector);
+    return closest instanceof HTMLElement ? closest : undefined;
   }
 
   /**
