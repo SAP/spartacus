@@ -413,7 +413,7 @@ function install_from_sources {
     update_projects_versions
 
     printh "Building libraries."
-    ( cd ${CLONE_DIR} && npm run build:libs)
+    ( cd ${CLONE_DIR} && source ci-scripts/npm-commands.sh && build_libs_ci)
 
     "${SPARTACUS_BIN}/verdaccio" --config ./config.yaml &
 
