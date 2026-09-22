@@ -1,22 +1,25 @@
-import { fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import { vi } from 'vitest';
+import { TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
 import { AuthActions, ConsentService } from '@spartacus/core';
-import { of, Subject } from 'rxjs';
+import { firstValueFrom, of, Subject } from 'rxjs';
 import { CdsConfig } from '../../config/cds-config';
-import { ConsentChangedPushEvent } from '../model/profile-tag.model';
 import { LOGIN_EVENTS, LoginEventEnvelope } from '../tokens/login-events.token';
 import { ProfileTagLifecycleService } from './profile-tag-lifecycle.service';
 
 describe('ProfileTagLifecycleService', () => {
   let service: ProfileTagLifecycleService;
-  let consentService: jasmine.SpyObj<ConsentService>;
+  let consentService: {
+    getConsent: ReturnType<typeof vi.fn>;
+    isConsentGiven: ReturnType<typeof vi.fn>;
+  };
   let loginEventsSubject: Subject<LoginEventEnvelope>;
 
   beforeEach(() => {
-    const consentServiceSpy = jasmine.createSpyObj('ConsentService', [
-      'getConsent',
-      'isConsentGiven',
-    ]);
+    const consentServiceSpy = {
+      getConsent: vi.fn(),
+      isConsentGiven: vi.fn(),
+    };
     loginEventsSubject = new Subject<LoginEventEnvelope>();
 
     TestBed.configureTestingModule({
@@ -34,48 +37,42 @@ describe('ProfileTagLifecycleService', () => {
     service = TestBed.inject(ProfileTagLifecycleService);
     consentService = TestBed.inject(
       ConsentService
-    ) as jasmine.SpyObj<ConsentService>;
+    ) as unknown as typeof consentService;
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('Should emit an event if the profile consent changes to true,', (done: DoneFn) => {
+  it('Should emit an event if the profile consent changes to true,', async () => {
     const mockConsent = { code: 'TestCode' };
-    consentService.getConsent.and.returnValue(of(mockConsent));
-    consentService.isConsentGiven.and.returnValue(true);
+    consentService.getConsent.mockReturnValue(of(mockConsent));
+    consentService.isConsentGiven.mockReturnValue(true);
 
-    service.consentChanged().subscribe((event: ConsentChangedPushEvent) => {
-      expect(event.data.granted).toBe(true);
-      done();
-    });
+    const event = await firstValueFrom(service.consentChanged());
+    expect(event.data.granted).toBe(true);
   });
 
-  it('Should emit an event if the profile consent changes to false,', (done: DoneFn) => {
+  it('Should emit an event if the profile consent changes to false,', async () => {
     const mockConsent = { code: 'TestCode' };
-    consentService.getConsent.and.returnValue(of(mockConsent));
-    consentService.isConsentGiven.and.returnValue(false);
+    consentService.getConsent.mockReturnValue(of(mockConsent));
+    consentService.isConsentGiven.mockReturnValue(false);
 
-    service.consentChanged().subscribe((event: ConsentChangedPushEvent) => {
-      expect(event.data.granted).toBe(false);
-      done();
-    });
+    const event = await firstValueFrom(service.consentChanged());
+    expect(event.data.granted).toBe(false);
   });
 
-  it('Should emit an event if the profile consent changes to false if consent is undefined,', (done: DoneFn) => {
+  it('Should emit an event if the profile consent changes to false if consent is undefined,', async () => {
     const mockConsent = undefined;
-    consentService.getConsent.and.returnValue(of(mockConsent));
-    consentService.isConsentGiven.and.returnValue(true);
+    consentService.getConsent.mockReturnValue(of(mockConsent));
+    consentService.isConsentGiven.mockReturnValue(true);
 
-    service.consentChanged().subscribe((event: ConsentChangedPushEvent) => {
-      expect(event.data.granted).toBe(false);
-      done();
-    });
+    const event = await firstValueFrom(service.consentChanged());
+    expect(event.data.granted).toBe(false);
   });
 
   describe('loginSuccessful()', () => {
-    it('should return login successful event from LOGIN_EVENTS token', fakeAsync(() => {
+    it('should return login successful event from LOGIN_EVENTS token', () => {
       let result: boolean | undefined;
       service.loginSuccessful().subscribe((value: boolean) => {
         result = value;
@@ -87,14 +84,11 @@ describe('ProfileTagLifecycleService', () => {
       };
 
       loginEventsSubject.next(mockLoginEvent);
-      tick();
 
       expect(result).toBe(true);
+    });
 
-      flush();
-    }));
-
-    it('should deduplicate login events by timestamp', fakeAsync(() => {
+    it('should deduplicate login events by timestamp', () => {
       const results: boolean[] = [];
       service.loginSuccessful().subscribe((value: boolean) => {
         results.push(value);
@@ -117,14 +111,11 @@ describe('ProfileTagLifecycleService', () => {
       loginEventsSubject.next(mockLoginEvent1);
       loginEventsSubject.next(mockLoginEvent2);
       loginEventsSubject.next(mockLoginEvent3);
-      tick();
 
       expect(results).toEqual([true, true]); // Only 2 events should pass through
+    });
 
-      flush();
-    }));
-
-    it('should allow events with different timestamps', fakeAsync(() => {
+    it('should allow events with different timestamps', () => {
       const results: boolean[] = [];
       service.loginSuccessful().subscribe((value: boolean) => {
         results.push(value);
@@ -146,11 +137,8 @@ describe('ProfileTagLifecycleService', () => {
       loginEventsSubject.next(mockLoginEvent1);
       loginEventsSubject.next(mockLoginEvent2);
       loginEventsSubject.next(mockLoginEvent3);
-      tick();
 
       expect(results).toEqual([true, true, true]); // All events should pass through
-
-      flush();
-    }));
+    });
   });
 });

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { ReplaySubject, Subject } from 'rxjs';
 import {
@@ -24,22 +25,14 @@ describe('TrackingService', () => {
     postBehavior = new ReplaySubject<boolean>();
     pushEvents = new ReplaySubject<ProfileTagPushEvent>();
     profileTagLifecycleServiceMock = <ProfileTagLifecycleService>(<unknown>{
-      consentChanged: jasmine
-        .createSpy('consentChanged')
-        .and.callFake(() => consentBehavior),
-      loginSuccessful: jasmine
-        .createSpy('loginSuccessful')
-        .and.callFake((_) => postBehavior),
+      consentChanged: vi.fn().mockImplementation(() => consentBehavior),
+      loginSuccessful: vi.fn().mockImplementation((_) => postBehavior),
     });
     profileTagPushEventsServiceMock = <ProfileTagPushEventsService>(<unknown>{
-      getPushEvents: jasmine
-        .createSpy('getPushEvents')
-        .and.callFake((_) => pushEvents),
+      getPushEvents: vi.fn().mockImplementation((_) => pushEvents),
     });
     profileTagEventTrackerMock = <ProfileTagEventService>(<unknown>{
-      notifyProfileTagOfEventOccurrence: jasmine.createSpy(
-        'notifyProfileTagOfEventOccurrence'
-      ),
+      notifyProfileTagOfEventOccurrence: vi.fn(),
     });
   }
   beforeEach(() => {
