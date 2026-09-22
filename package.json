@@ -277,7 +277,7 @@
     "postcss-scss": "^4.0.6",
     "prettier": "~3.5.0",
     "rimraf": "^6.0.0",
-    "sass-true": "^9.0.0",
+    "sass-true": "^10.0.0",
     "semver": "^7.7.3",
     "serve": "^14.2.6",
     "shelljs": "^0.10.0",
@@ -296,10 +296,10 @@
   },
   "overrides": {
     "@verdaccio/middleware": {
-      "express-rate-limit": "8.7.0"
+      "express-rate-limit": "5.5.1"
     },
     "axios": "1.18.1",
-    "express-rate-limit": "8.7.0",
+    "express-rate-limit": "8.5.1",
     "flatted": "3.4.4",
     "i18n-lint": {
       "minimatch": "3.1.5"
@@ -308,14 +308,14 @@
       "minimatch": "3.1.5"
     },
     "jsdom": {
-      "undici": "8.9.0"
+      "undici": "8.10.0"
     },
     "lodash": "4.18.1",
     "minimatch": "10.2.4",
     "rollup-plugin-dts": "6.2.3",
     "tmp": "0.2.7",
     "test-exclude": "8.0.0",
-    "undici": "8.9.0",
+    "undici": "8.10.0",
     "form-data@^2": "2.5.6",
     "form-data@^4": "4.0.6",
     "vite": "8.2.2",
