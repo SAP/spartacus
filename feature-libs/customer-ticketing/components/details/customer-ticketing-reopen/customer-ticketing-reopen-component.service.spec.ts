@@ -29,6 +29,18 @@ describe('CustomerTicketingReopenComponentService', () => {
   let service: CustomerTicketingReopenComponentService;
   let facade: CustomerTicketingFacade;
   beforeEach(() => {
+    mockTicket = {
+      status: {
+        id: STATUS.OPEN,
+        name: STATUS_NAME.OPEN,
+      },
+      availableStatusTransitions: [
+        {
+          id: STATUS.CLOSED,
+          name: STATUS_NAME.CLOSED,
+        },
+      ],
+    };
     TestBed.configureTestingModule({
       providers: [
         CustomerTicketingReopenComponentService,
