@@ -382,6 +382,7 @@ if (environment.cpq) {
         reloadOnLanguageChange: true,
         a11yFormErrorIconContrast: true,
         a11yFocusIndicatorContrast: true,
+        a11yPrimaryColorContrast: true,
         a11yDisabledButtonContrast: true,
         a11yImproveAddressFormFocus: true,
         a11yFocusBreadcrumbOnNavigation: true,
