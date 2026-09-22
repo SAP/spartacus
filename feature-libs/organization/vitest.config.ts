@@ -34,6 +34,7 @@ export default defineConfig({
   },
   test: {
     pool: 'forks',
+    maxWorkers: 4,
     watch: false,
     globals: true,
     environment: 'jsdom',
