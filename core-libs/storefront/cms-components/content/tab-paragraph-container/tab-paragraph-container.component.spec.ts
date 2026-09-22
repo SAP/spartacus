@@ -11,12 +11,13 @@ import {
   TranslationService,
   WindowRef,
 } from '@spartacus/core';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
+import { vi } from 'vitest';
 import { CmsComponentData } from '../../../cms-structure/index';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { LayoutConfig } from '../../../layout/config/layout-config';
-import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { TabComponent } from '../tab/tab.component';
 import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
 
@@ -216,6 +217,20 @@ describe('TabParagraphContainerComponent', () => {
     });
 
     expect(param).toEqual('title param');
+  });
+
+  it('should not throw when a resolved component is undefined', () => {
+    // `components$` emits `undefined` for a tab whose CMS data resolves falsy
+    // (see the `if (!tab) return undefined;` mapping). The template must render
+    // such entries without dereferencing the undefined component, i.e. guard
+    // both `[cxOutlet]="component?.flexType"` and `*ngIf="component"` on the
+    // component wrapper.
+    vi.spyOn(cmsService, 'getComponentData')
+      .mockReturnValueOnce(of(mockTabComponentData1))
+      .mockReturnValueOnce(of(null))
+      .mockReturnValueOnce(of(mockTabComponentData3));
+
+    expect(() => fixture.detectChanges()).not.toThrow();
   });
 
   it('should be able to get ariaLabel', () => {
