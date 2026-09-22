@@ -75,7 +75,9 @@ describe('OccBackendNotification', () => {
     });
 
     it('should use the userId from UserIdService, not a hardcoded value', () => {
-      vi.spyOn(userIdService, 'takeUserId').mockReturnValue(of('emulated-user'));
+      vi.spyOn(userIdService, 'takeUserId').mockReturnValue(
+        of('emulated-user')
+      );
 
       adapter.notifySuccessfulLogin().subscribe();
 

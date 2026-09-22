@@ -32,9 +32,7 @@ describe('ProfileTagInjector', () => {
     postBehavior = new ReplaySubject<boolean>();
     pushEvents = new ReplaySubject<ProfileTagPushEvent>();
     cdsBackendConnectorMock = <CdsBackendConnector>(<any>{
-      notifySuccessfulLogin: vi
-        .fn()
-        .mockReturnValue(new BehaviorSubject(true)),
+      notifySuccessfulLogin: vi.fn().mockReturnValue(new BehaviorSubject(true)),
     });
     profileTagLifecycleServiceMock = <ProfileTagLifecycleService>(<unknown>{
       consentGranted: vi.fn().mockImplementation(() => consentBehavior),
