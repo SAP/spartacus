@@ -557,6 +557,11 @@ export interface FeatureTogglesInterface {
    */
   enableHierarchicalAddressFormat?: boolean;
 
+  /**
+   * When enabled, the title on the address is added to the line containing the full name (Card.boldText).
+   */
+  addTitleToAddressCard?: boolean;
+
   /* When enabled, OPF checkout payment flow calls `updatePaymentTransaction`
    * instead of `initiatePayment` while selecting/re-initiating payment.
    *
@@ -922,6 +927,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   pageLinkSanitizeCanonicalUrl: false,
   opfUseDestroyRef: false,
   enableHierarchicalAddressFormat: false,
+  addTitleToAddressCard: false,
   opfCheckoutUseUpdatePaymentTransaction: false,
   enableCartSlowNetworkResilience: false,
   a11yRegistrationTermsAsteriskMargin: false,
