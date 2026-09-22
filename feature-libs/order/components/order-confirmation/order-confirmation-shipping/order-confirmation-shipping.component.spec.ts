@@ -20,7 +20,7 @@ import {
   OutletModule,
   PromotionsModule,
 } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { vi } from 'vitest';
 import { OrderConfirmationShippingComponent } from './order-confirmation-shipping.component';
 
@@ -263,31 +263,28 @@ describe('OrderConfirmationShippingComponent', () => {
       stubSeviceAndCreateComponent();
     });
 
-    it('should not prefix the title when the toggle is OFF', () => {
+    it('should not prefix the title when the toggle is OFF', async () => {
       mockFeatureToggles.addTitleToAddressCard = false;
-      component
-        .getDeliveryAddressCard(mockAddressWithTitle, 'Canada')
-        .subscribe((card) => {
-          expect(card.textBold).toEqual('John Doe');
-        });
+      const card = await firstValueFrom(
+        component.getDeliveryAddressCard(mockAddressWithTitle, 'Canada')
+      );
+      expect(card.textBold).toEqual('John Doe');
     });
 
-    it('should prefix the title when the toggle is ON and the address has a title', () => {
+    it('should prefix the title when the toggle is ON and the address has a title', async () => {
       mockFeatureToggles.addTitleToAddressCard = true;
-      component
-        .getDeliveryAddressCard(mockAddressWithTitle, 'Canada')
-        .subscribe((card) => {
-          expect(card.textBold).toEqual('Dr. John Doe');
-        });
+      const card = await firstValueFrom(
+        component.getDeliveryAddressCard(mockAddressWithTitle, 'Canada')
+      );
+      expect(card.textBold).toEqual('Dr. John Doe');
     });
 
-    it('should not prefix the title when the toggle is ON but the address has no title', () => {
+    it('should not prefix the title when the toggle is ON but the address has no title', async () => {
       mockFeatureToggles.addTitleToAddressCard = true;
-      component
-        .getDeliveryAddressCard(mockAddress, 'Canada')
-        .subscribe((card) => {
-          expect(card.textBold).toEqual('John Doe');
-        });
+      const card = await firstValueFrom(
+        component.getDeliveryAddressCard(mockAddress, 'Canada')
+      );
+      expect(card.textBold).toEqual('John Doe');
     });
   });
 });

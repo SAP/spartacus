@@ -16,7 +16,7 @@ import {
 } from '@spartacus/core';
 import { Order, OrderConfig, ReplenishmentOrder } from '@spartacus/order/root';
 import { Card, CardComponent, CmsComponentData } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
+import { EMPTY, firstValueFrom, Observable, of } from 'rxjs';
 import { vi } from 'vitest';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderOverviewComponentService } from './order-overview-component.service';
@@ -599,66 +599,54 @@ describe('OrderOverviewComponent', () => {
     });
 
     describe('getAddressCardContent (delivery address)', () => {
-      it('should not prefix the title when the toggle is OFF', () => {
+      it('should not prefix the title when the toggle is OFF', async () => {
         featureToggles.addTitleToAddressCard = false;
-        component
-          .getAddressCardContent(mockDeliveryAddressWithTitle)
-          .subscribe((card) => {
-            expect(card.textBold).toEqual('John Smith');
-          })
-          .unsubscribe();
+        const card = await firstValueFrom(
+          component.getAddressCardContent(mockDeliveryAddressWithTitle)
+        );
+        expect(card.textBold).toEqual('John Smith');
       });
 
-      it('should prefix the title when the toggle is ON and the address has a title', () => {
+      it('should prefix the title when the toggle is ON and the address has a title', async () => {
         featureToggles.addTitleToAddressCard = true;
-        component
-          .getAddressCardContent(mockDeliveryAddressWithTitle)
-          .subscribe((card) => {
-            expect(card.textBold).toEqual('Dr. John Smith');
-          })
-          .unsubscribe();
+        const card = await firstValueFrom(
+          component.getAddressCardContent(mockDeliveryAddressWithTitle)
+        );
+        expect(card.textBold).toEqual('Dr. John Smith');
       });
 
-      it('should not prefix the title when the toggle is ON but the address has no title', () => {
+      it('should not prefix the title when the toggle is ON but the address has no title', async () => {
         featureToggles.addTitleToAddressCard = true;
-        component
-          .getAddressCardContent(mockDeliveryAddress)
-          .subscribe((card) => {
-            expect(card.textBold).toEqual('John Smith');
-          })
-          .unsubscribe();
+        const card = await firstValueFrom(
+          component.getAddressCardContent(mockDeliveryAddress)
+        );
+        expect(card.textBold).toEqual('John Smith');
       });
     });
 
     describe('getBillingAddressCardContent (billing address)', () => {
-      it('should not prefix the title when the toggle is OFF', () => {
+      it('should not prefix the title when the toggle is OFF', async () => {
         featureToggles.addTitleToAddressCard = false;
-        component
-          .getBillingAddressCardContent(mockBillingAddressWithTitle)
-          .subscribe((card) => {
-            expect(card.textBold).toEqual('John Smith');
-          })
-          .unsubscribe();
+        const card = await firstValueFrom(
+          component.getBillingAddressCardContent(mockBillingAddressWithTitle)
+        );
+        expect(card.textBold).toEqual('John Smith');
       });
 
-      it('should prefix the title when the toggle is ON and the address has a title', () => {
+      it('should prefix the title when the toggle is ON and the address has a title', async () => {
         featureToggles.addTitleToAddressCard = true;
-        component
-          .getBillingAddressCardContent(mockBillingAddressWithTitle)
-          .subscribe((card) => {
-            expect(card.textBold).toEqual('Dr. John Smith');
-          })
-          .unsubscribe();
+        const card = await firstValueFrom(
+          component.getBillingAddressCardContent(mockBillingAddressWithTitle)
+        );
+        expect(card.textBold).toEqual('Dr. John Smith');
       });
 
-      it('should not prefix the title when the toggle is ON but the address has no title', () => {
+      it('should not prefix the title when the toggle is ON but the address has no title', async () => {
         featureToggles.addTitleToAddressCard = true;
-        component
-          .getBillingAddressCardContent(mockBillingAddress)
-          .subscribe((card) => {
-            expect(card.textBold).toEqual('John Smith');
-          })
-          .unsubscribe();
+        const card = await firstValueFrom(
+          component.getBillingAddressCardContent(mockBillingAddress)
+        );
+        expect(card.textBold).toEqual('John Smith');
       });
     });
   });

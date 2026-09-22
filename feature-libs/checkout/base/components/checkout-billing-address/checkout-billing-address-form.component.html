@@ -29,11 +29,12 @@
   <!-- BILLING INFO COMPONENT -->
   <ng-container
     *ngIf="
-      sameAsDeliveryAddress && (deliveryAddress$ | async) as deliveryAddress;
+      sameAsDeliveryAddress &&
+        (billingAddressCardContent$ | async) as cardContent;
       else billingAddress
     "
   >
-    <cx-card [content]="getAddressCardContent(deliveryAddress) | async" />
+    <cx-card [content]="cardContent" />
   </ng-container>
 
   <!-- TODO:#future-checkout do we really want this? We can always pass more inputs to the copied address form component to make it more modular -->

@@ -17,7 +17,7 @@ import {
   MockIconComponent,
 } from '@spartacus/storefront/testing/icon-testing-module';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 
 import {
   ChangeDetectorRef,
@@ -38,6 +38,7 @@ import {
   IconComponent,
   OutletModule,
 } from '@spartacus/storefront';
+import { vi } from 'vitest';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';
 
@@ -316,30 +317,27 @@ describe('CheckoutReviewShippingComponent - addTitleToAddressCard feature toggle
 
   it('should NOT prepend the title to the name when the toggle is OFF', async () => {
     await configure(false);
-    let card: Card | undefined;
-    component
-      .getDeliveryAddressCard(mockAddressWithTitle, 'Canada')
-      .subscribe((c) => (card = c));
+    const card = await firstValueFrom(
+      component.getDeliveryAddressCard(mockAddressWithTitle, 'Canada')
+    );
 
     expect(card?.textBold).toEqual('John Doe');
   });
 
   it('should prepend the title to the name when the toggle is ON and a title is present', async () => {
     await configure(true);
-    let card: Card | undefined;
-    component
-      .getDeliveryAddressCard(mockAddressWithTitle, 'Canada')
-      .subscribe((c) => (card = c));
+    const card = await firstValueFrom(
+      component.getDeliveryAddressCard(mockAddressWithTitle, 'Canada')
+    );
 
     expect(card?.textBold).toEqual('Mr. John Doe');
   });
 
   it('should NOT prepend the title to the name when the toggle is ON but no title is present', async () => {
     await configure(true);
-    let card: Card | undefined;
-    component
-      .getDeliveryAddressCard(mockAddressWithoutTitle, 'Canada')
-      .subscribe((c) => (card = c));
+    const card = await firstValueFrom(
+      component.getDeliveryAddressCard(mockAddressWithoutTitle, 'Canada')
+    );
 
     expect(card?.textBold).toEqual('John Doe');
   });

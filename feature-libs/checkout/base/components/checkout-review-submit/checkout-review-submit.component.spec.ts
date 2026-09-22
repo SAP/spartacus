@@ -34,7 +34,7 @@ import {
 } from '@spartacus/storefront';
 import { MockIconComponent } from '@spartacus/storefront/testing/icon-testing-module';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { vi } from 'vitest';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutReviewSubmitComponent } from './checkout-review-submit.component';
@@ -431,30 +431,30 @@ describe('CheckoutReviewSubmitComponent - addTitleToAddressCard feature toggle',
   describe('getDeliveryAddressCard', () => {
     it('should NOT prepend the title to the name when the toggle is OFF', async () => {
       await configure(false);
-      let card: Card | undefined;
-      component
-        .getDeliveryAddressCard(mockDeliveryAddressWithTitle, 'Canada')
-        .subscribe((c) => (card = c));
+      const card = await firstValueFrom(
+        component.getDeliveryAddressCard(mockDeliveryAddressWithTitle, 'Canada')
+      );
 
       expect(card?.textBold).toEqual('John Doe');
     });
 
     it('should prepend the title to the name when the toggle is ON and a title is present', async () => {
       await configure(true);
-      let card: Card | undefined;
-      component
-        .getDeliveryAddressCard(mockDeliveryAddressWithTitle, 'Canada')
-        .subscribe((c) => (card = c));
+      const card = await firstValueFrom(
+        component.getDeliveryAddressCard(mockDeliveryAddressWithTitle, 'Canada')
+      );
 
       expect(card?.textBold).toEqual('Mr. John Doe');
     });
 
     it('should NOT prepend the title to the name when the toggle is ON but no title is present', async () => {
       await configure(true);
-      let card: Card | undefined;
-      component
-        .getDeliveryAddressCard(mockDeliveryAddressWithoutTitle, 'Canada')
-        .subscribe((c) => (card = c));
+      const card = await firstValueFrom(
+        component.getDeliveryAddressCard(
+          mockDeliveryAddressWithoutTitle,
+          'Canada'
+        )
+      );
 
       expect(card?.textBold).toEqual('John Doe');
     });
