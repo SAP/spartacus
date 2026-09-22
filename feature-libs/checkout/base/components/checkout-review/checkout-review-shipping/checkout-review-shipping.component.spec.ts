@@ -31,6 +31,7 @@ import {
   IconComponent,
   OutletModule,
 } from '@spartacus/storefront';
+import { vi } from 'vitest';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';
 
