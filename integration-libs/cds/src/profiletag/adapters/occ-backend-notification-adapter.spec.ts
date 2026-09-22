@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { vi } from 'vitest';
 import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { OccEndpointsService, UserIdService } from '@spartacus/core';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of, throwError, firstValueFrom } from 'rxjs';
 import { OccBackendNotification } from '@spartacus/cds';
 import {
   provideHttpClient,
@@ -74,7 +75,7 @@ describe('OccBackendNotification', () => {
     });
 
     it('should use the userId from UserIdService, not a hardcoded value', () => {
-      spyOn(userIdService, 'takeUserId').and.returnValue(of('emulated-user'));
+      vi.spyOn(userIdService, 'takeUserId').mockReturnValue(of('emulated-user'));
 
       adapter.notifySuccessfulLogin().subscribe();
 
@@ -85,24 +86,25 @@ describe('OccBackendNotification', () => {
       expect(userIdService.takeUserId).toHaveBeenCalledWith(true);
     });
 
-    it('should complete without emitting a value on success', (done) => {
+    it('should complete without emitting a value on success', async () => {
       const emitted: unknown[] = [];
-
-      adapter.notifySuccessfulLogin().subscribe({
-        next: (val) => emitted.push(val),
-        complete: () => {
-          expect(emitted.length).toBe(0);
-          done();
-        },
+      const completed = new Promise<void>((resolve) => {
+        adapter.notifySuccessfulLogin().subscribe({
+          next: (val) => emitted.push(val),
+          complete: () => resolve(),
+        });
       });
 
       httpMock
         .expectOne(`${BASE_URL}/users/${MOCK_USER_ID}/loginnotification`)
         .flush({});
+
+      await completed;
+      expect(emitted.length).toBe(0);
     });
 
-    it('should propagate an error when UserIdService throws (anonymous user)', (done) => {
-      spyOn(userIdService, 'takeUserId').and.returnValue(
+    it('should propagate an error when UserIdService throws (anonymous user)', async () => {
+      vi.spyOn(userIdService, 'takeUserId').mockReturnValue(
         throwError(
           () =>
             new Error(
@@ -111,12 +113,9 @@ describe('OccBackendNotification', () => {
         )
       );
 
-      adapter.notifySuccessfulLogin().subscribe({
-        error: (err: Error) => {
-          expect(err.message).toContain('not logged in');
-          done();
-        },
-      });
+      await expect(
+        firstValueFrom(adapter.notifySuccessfulLogin())
+      ).rejects.toThrow(/not logged in/);
 
       httpMock.expectNone(`${BASE_URL}/users/anonymous/loginnotification`);
     });
