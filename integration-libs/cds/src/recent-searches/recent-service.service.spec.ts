@@ -17,8 +17,16 @@ describe('RecentSearchesService', () => {
   let windowRef: WindowRef;
 
   beforeEach(() => {
+    const windowRefMock = {
+      isBrowser: () => false,
+      nativeWindow: {},
+    };
+
     TestBed.configureTestingModule({
-      providers: [RecentSearchesService, WindowRef],
+      providers: [
+        RecentSearchesService,
+        { provide: WindowRef, useValue: windowRefMock },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
 
