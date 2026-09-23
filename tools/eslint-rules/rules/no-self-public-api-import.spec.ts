@@ -22,6 +22,26 @@ const insideMockLib = path.join(
 // File outside any @spartacus library (root package.json name is "storefrontapp")
 const outsideLib = path.join(__dirname, 'fixtures', 'file.ts');
 
+// File inside the mock library's own `base/root` entry point
+const insideMockLibRoot = path.join(
+  __dirname,
+  'fixtures',
+  'mock-lib',
+  'base',
+  'root',
+  'test.ts'
+);
+
+// File inside a SIBLING secondary entry point (`base/core`) of the mock library
+const insideMockLibCore = path.join(
+  __dirname,
+  'fixtures',
+  'mock-lib',
+  'base',
+  'core',
+  'test.ts'
+);
+
 ruleTester.run(RULE_NAME, rule, {
   valid: [
     // relative import inside the library — always valid
@@ -48,6 +68,12 @@ ruleTester.run(RULE_NAME, rule, {
       code: `import { SomeModule } from '@spartacus/mock-lib/base/root';`,
       filename: insideMockLib,
     },
+    // `root` entry point consumed from a SIBLING entry point (base/core) —
+    // valid, this is the intended cross-entry-point sharing
+    {
+      code: `import { SomeModule } from '@spartacus/mock-lib/base/root';`,
+      filename: insideMockLibCore,
+    },
   ],
   invalid: [
     // importing from own package's public API
@@ -60,6 +86,13 @@ ruleTester.run(RULE_NAME, rule, {
     {
       code: `import { SomeService } from '@spartacus/mock-lib/core';`,
       filename: insideMockLib,
+      errors: [{ messageId: 'noSelfPublicApiImport' }],
+    },
+    // importing the `root` barrel from a file that lives INSIDE that same
+    // `root` entry point — a self-barrel circular import, must be flagged
+    {
+      code: `import { SomeModule } from '@spartacus/mock-lib/base/root';`,
+      filename: insideMockLibRoot,
       errors: [{ messageId: 'noSelfPublicApiImport' }],
     },
   ],
