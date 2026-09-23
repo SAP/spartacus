@@ -34,8 +34,18 @@
     </span>
     <span>{{ confMsg | cxTranslate }}</span>
     <button
+      *cxFeature="'!a11yCloseToastButtonKeyboardAccessible'"
       class="close"
       title="{{ 'common.close' | cxTranslate }}"
+      (click)="clear(messageType.MSG_TYPE_CONFIRMATION, i)"
+    >
+      <cx-icon [type]="iconTypes.CLOSE" />
+    </button>
+    <button
+      *cxFeature="'a11yCloseToastButtonKeyboardAccessible'"
+      type="button"
+      class="close btn-link"
+      [attr.aria-label]="'common.close' | cxTranslate"
       (click)="clear(messageType.MSG_TYPE_CONFIRMATION, i)"
     >
       <cx-icon [type]="iconTypes.CLOSE" />
@@ -50,8 +60,18 @@
     </span>
     <span>{{ infoMsg | cxTranslate }}</span>
     <button
+      *cxFeature="'!a11yCloseToastButtonKeyboardAccessible'"
       class="close"
       title="{{ 'common.close' | cxTranslate }}"
+      (click)="clear(messageType.MSG_TYPE_INFO, i)"
+    >
+      <cx-icon [type]="iconTypes.CLOSE" />
+    </button>
+    <button
+      *cxFeature="'a11yCloseToastButtonKeyboardAccessible'"
+      type="button"
+      class="close btn-link"
+      [attr.aria-label]="'common.close' | cxTranslate"
       (click)="clear(messageType.MSG_TYPE_INFO, i)"
     >
       <cx-icon [type]="iconTypes.CLOSE" />
@@ -69,8 +89,18 @@
     </span>
     <span>{{ infoMsg | cxTranslate }}</span>
     <button
+      *cxFeature="'!a11yCloseToastButtonKeyboardAccessible'"
       class="close"
       title="{{ 'common.close' | cxTranslate }}"
+      (click)="clear(messageType.MSG_TYPE_WARNING, i)"
+    >
+      <cx-icon [type]="iconTypes.CLOSE" />
+    </button>
+    <button
+      *cxFeature="'a11yCloseToastButtonKeyboardAccessible'"
+      type="button"
+      class="close btn-link"
+      [attr.aria-label]="'common.close' | cxTranslate"
       (click)="clear(messageType.MSG_TYPE_WARNING, i)"
     >
       <cx-icon [type]="iconTypes.CLOSE" />
@@ -85,8 +115,18 @@
     </span>
     <span>{{ errorMsg | cxTranslate }}</span>
     <button
+      *cxFeature="'!a11yCloseToastButtonKeyboardAccessible'"
       class="close"
       title="{{ 'common.close' | cxTranslate }}"
+      (click)="clear(messageType.MSG_TYPE_ERROR, i)"
+    >
+      <cx-icon [type]="iconTypes.CLOSE" />
+    </button>
+    <button
+      *cxFeature="'a11yCloseToastButtonKeyboardAccessible'"
+      type="button"
+      class="close btn-link"
+      [attr.aria-label]="'common.close' | cxTranslate"
       (click)="clear(messageType.MSG_TYPE_ERROR, i)"
     >
       <cx-icon [type]="iconTypes.CLOSE" />
