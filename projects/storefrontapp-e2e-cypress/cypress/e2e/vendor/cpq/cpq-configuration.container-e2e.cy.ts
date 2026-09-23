@@ -267,7 +267,7 @@ testConfig.forEach((config) => {
               );
             });
 
-            it('should validation messages and resolve issues', () => {
+            it('should show validation messages and resolve issues', () => {
               checkInitialConfigurationState();
               checkOverviewTwoIssues();
               checkRequiredMsgForTrainTypeAndContainer();
