@@ -6,26 +6,24 @@
 
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 import {
   PRE_LOGIN_CURRENCY_STORAGE_KEY,
   UserLoginCurrencyPersistenceService,
 } from './user-login-currency-persistence.service';
 
 const mockStorage: { [key: string]: string } = {};
-const mockLocalStorage: Partial<Storage> = {
-  getItem: (key: string) => mockStorage[key] ?? null,
-  setItem: (key: string, value: string) => {
-    mockStorage[key] = value;
-  },
-  removeItem: (key: string) => {
-    delete mockStorage[key];
-  },
-};
 
-class MockWindowRef implements Partial<WindowRef> {
-  get localStorage(): Storage {
-    return mockLocalStorage as Storage;
-  }
+class MockWindowRef extends MockWinRef {
+  localStorage: any = {
+      getItem: (key: string) => mockStorage[key] ?? null,
+      setItem: (key: string, value: string) => {
+        mockStorage[key] = value;
+      },
+      removeItem: (key: string) => {
+        delete mockStorage[key];
+      }
+  };
 }
 
 describe('UserLoginCurrencyPersistenceService', () => {

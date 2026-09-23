@@ -13,6 +13,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { IS_GUEST_USER_CHECKOUT_KEY } from '@spartacus/storefront';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { EMPTY, firstValueFrom, Observable, of } from 'rxjs';
 import { CheckoutB2BAuthGuard } from './checkout-b2b-auth.guard';
@@ -67,12 +68,6 @@ const mockFeatureToggles: FeatureToggles = {
   authorizationCodeFlowByDefault: false,
 };
 
-const mockWindowRef = {
-  localStorage: {
-    setItem: vi.fn(),
-  },
-};
-
 describe('CheckoutAuthGuard', () => {
   let checkoutGuard: CheckoutB2BAuthGuard;
   let authService: AuthService;
@@ -122,7 +117,7 @@ describe('CheckoutAuthGuard', () => {
         },
         {
           provide: WindowRef,
-          useValue: mockWindowRef,
+          useClass: MockWinRef,
         },
       ],
     });

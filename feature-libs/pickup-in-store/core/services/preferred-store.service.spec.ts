@@ -14,6 +14,7 @@ import * as fromReducers from '../../core/store/reducers/index';
 import { StateWithPickupLocations } from '../store';
 import { SetDefaultPointOfService } from '../store/actions/default-point-of-service-name.action';
 import { PreferredStoreService } from './preferred-store.service';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 
 export class MockConsentService {
   checkConsentGivenByTemplateId(_templateId: string): Observable<boolean> {
@@ -31,24 +32,23 @@ const MockPickupInStoreConfig = (withConfig = true): PickupInStoreConfig => {
     : {};
 };
 
-export const MockWindowRef = () => {
-  const store: { [key: string]: string | null } = {};
-  return {
-    localStorage: {
-      getItem: (key: string): string | null => {
-        return key in store ? store[key] : null;
-      },
-      setItem: (key: string, value: string) => {
-        store[key] = `${value}`;
-      },
-      removeItem: (key: string): void => {
-        if (key in store) {
-          delete store[key];
-        }
-      },
+const mockLocalStore: { [key: string]: string | null } = {};
+
+export class MockWindowRef extends MockWinRef {
+  override localStorage: any = {
+    getItem: (key: string): string | null => {
+      return key in mockLocalStore ? mockLocalStore[key] : null;
+    },
+    setItem: (key: string, value: string) => {
+      mockLocalStore[key] = `${value}`;
+    },
+    removeItem: (key: string): void => {
+      if (key in mockLocalStore) {
+        delete mockLocalStore[key];
+      }
     },
   };
-};
+}
 
 describe('PreferredStoreService', () => {
   const preferredStore: PointOfServiceNames = {
@@ -62,7 +62,7 @@ describe('PreferredStoreService', () => {
 
   const configureTestingModule = async (
     withConfig = true,
-    localStorage = true
+    withLocalStorage = true
   ) => {
     await TestBed.configureTestingModule({
       imports: [
@@ -75,12 +75,9 @@ describe('PreferredStoreService', () => {
           provide: PickupInStoreConfig,
           useValue: MockPickupInStoreConfig(withConfig),
         },
-        {
-          provide: WindowRef,
-          useFactory: () => {
-            return localStorage ? MockWindowRef() : {};
-          },
-        },
+        withLocalStorage
+          ? { provide: WindowRef, useClass: MockWindowRef }
+          : { provide: WindowRef, useValue: {} },
         {
           provide: PickupLocationsSearchFacade,
           useClass: MockPickupLocationsSearchService,

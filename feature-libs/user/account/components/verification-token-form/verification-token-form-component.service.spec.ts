@@ -10,6 +10,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { of } from 'rxjs';
 import { VerificationTokenFacade } from '../../root/facade';
@@ -25,22 +26,6 @@ class MockAuthService implements Partial<AuthService> {
       token: 'token',
     })
   );
-}
-
-class MockWinRef {
-  localStorage = { setItem: vi.fn(), removeItem: vi.fn() };
-
-  sessionStorage = { setItem: vi.fn(), getItem: vi.fn(), removeItem: vi.fn() };
-
-  location = { href: '' } as Location;
-
-  get nativeWindow(): Window {
-    return { location: this.location } as Window;
-  }
-
-  isBrowser(): boolean {
-    return true;
-  }
 }
 
 const mockFeatureToggles: FeatureToggles = {

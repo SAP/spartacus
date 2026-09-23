@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { LoginEvent, WindowRef } from '@spartacus/core';
 import { WindowObject } from '@spartacus/tracking/tms/core';
 import { vi } from 'vitest';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 import '../config/default-gtm.config';
 import { GtmCollectorConfig } from '../config/default-gtm.config';
 import { GtmCollectorService } from './gtm-collector.service';
@@ -10,7 +11,7 @@ const config: GtmCollectorConfig = {
   gtmId: 'xxx',
 };
 
-class MockWinRef {
+class LocalMockWinRef extends MockWinRef {
   document = {
     getElementsByTagName(): object[] {
       return [{}];
@@ -27,7 +28,7 @@ describe('GtmCollectorService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: WindowRef, useClass: MockWinRef }],
+      providers: [{ provide: WindowRef, useClass: LocalMockWinRef }],
     });
     service = TestBed.inject(GtmCollectorService);
     winRef = TestBed.inject(WindowRef);

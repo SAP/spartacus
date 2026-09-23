@@ -24,6 +24,7 @@ import {
 } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { vi } from 'vitest';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 import { ActiveCartService } from './active-cart.service';
 
 const userId$ = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);
@@ -64,8 +65,8 @@ export class MultiCartFacadeStub {
 }
 
 const store: any = {};
-const MockWindowRef = {
-  localStorage: {
+class MockWindowRef extends MockWinRef {
+  override localStorage: any = {
     getItem: (key: string): string | null => {
       return key in store ? store[key] : null;
     },
@@ -75,11 +76,8 @@ const MockWindowRef = {
     removeItem: (key: string): void => {
       delete store[key];
     },
-  },
-  isBrowser(): boolean {
-    return true;
-  },
-};
+  };
+}
 
 const mockCartEntry: OrderEntry = {
   entryNumber: 0,
@@ -98,7 +96,7 @@ describe('ActiveCartService', () => {
         ActiveCartService,
         { provide: MultiCartFacade, useClass: MultiCartFacadeStub },
         { provide: UserIdService, useClass: UserIdServiceStub },
-        { provide: WindowRef, useValue: MockWindowRef },
+        { provide: WindowRef, useClass: MockWindowRef },
         {
           provide: FeatureToggles,
           useValue: { enableCartSlowNetworkResilience: true },
@@ -755,7 +753,7 @@ describe('ActiveCartService', () => {
           StatePersistenceService,
           { provide: MultiCartFacade, useClass: MultiCartFacadeStub },
           { provide: UserIdService, useClass: UserIdServiceStub },
-          { provide: WindowRef, useValue: MockWindowRef },
+          { provide: WindowRef, useClass: MockWindowRef },
           {
             provide: SiteContextParamsService,
             useValue: { getValues: () => of([BASE_SITE]) },
@@ -890,7 +888,7 @@ describe('ActiveCartService', () => {
           StatePersistenceService,
           { provide: MultiCartFacade, useClass: MultiCartFacadeStub },
           { provide: UserIdService, useClass: UserIdServiceStub },
-          { provide: WindowRef, useValue: MockWindowRef },
+          { provide: WindowRef, useClass: MockWindowRef },
           {
             provide: SiteContextParamsService,
             useValue: { getValues: () => of([BASE_SITE]) },

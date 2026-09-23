@@ -29,6 +29,7 @@ import {
   LaunchDialogService,
   SpinnerModule,
 } from '@spartacus/storefront';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 import { BehaviorSubject, of } from 'rxjs';
 import {
   ONE_TIME_PASSWORD_LOGIN_PURPOSE,
@@ -39,13 +40,11 @@ import { VerificationTokenFormComponent } from './verification-token-form.compon
 
 const isBusySubject = new BehaviorSubject(false);
 
-class MockWinRef {
-  get nativeWindow(): Window {
+class LocalMockWinRef extends MockWinRef {
+  override get nativeWindow(): Window {
     return {} as Window;
   }
-  get sessionStorage(): Storage | undefined {
-    return undefined;
-  }
+  override sessionStorage: any = undefined;
 }
 
 class MockFormComponentService
@@ -108,7 +107,7 @@ describe('VerificationTokenFormComponent', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
-        { provide: WindowRef, useClass: MockWinRef },
+        { provide: WindowRef, useClass: LocalMockWinRef },
         ChangeDetectorRef,
       ],
     })

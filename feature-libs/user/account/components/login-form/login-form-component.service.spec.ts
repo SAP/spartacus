@@ -21,6 +21,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
@@ -31,22 +32,6 @@ import {
   SESSION_EXPIRED_ERROR,
 } from '../user-account-constants';
 import { LoginFormComponentService } from './login-form-component.service';
-
-class MockWinRef {
-  localStorage = { setItem: vi.fn(), removeItem: vi.fn() };
-
-  sessionStorage = { setItem: vi.fn(), getItem: vi.fn(), removeItem: vi.fn() };
-
-  location = { href: '' } as Location;
-
-  get nativeWindow(): Window {
-    return { location: this.location } as Window;
-  }
-
-  isBrowser(): boolean {
-    return true;
-  }
-}
 
 class MockAuthService implements Partial<AuthService> {
   loginWithCredentials = vi.fn().mockReturnValue(of({}));

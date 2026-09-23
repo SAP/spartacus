@@ -16,6 +16,7 @@ import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutAuthGuard } from './checkout-auth.guard';
 import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 import { vi } from 'vitest';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 
 class AuthServiceStub implements Partial<AuthService> {
   isUserLoggedIn = vi.fn().mockReturnValue(EMPTY);
@@ -45,10 +46,6 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 
 const mockFeatureToggles: FeatureToggles = {
   authorizationCodeFlowByDefault: false,
-};
-
-const MockWindowRef = {
-  localStorage: { setItem: vi.fn(), removeItem: vi.fn() },
 };
 
 describe('CheckoutAuthGuard', () => {
@@ -92,7 +89,7 @@ describe('CheckoutAuthGuard', () => {
         provideMockFeatureToggles({ ...mockFeatureToggles }),
         {
           provide: WindowRef,
-          useValue: MockWindowRef,
+          useClass: MockWinRef,
         },
       ],
     });

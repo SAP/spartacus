@@ -2,34 +2,37 @@ import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
 import { CurrentLocationService } from './current-location.service';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 
-export const MockWindowRef = {
-  nativeWindow: {
-    navigator: {
-      geolocation: {
-        getCurrentPosition: (
-          successCallback: PositionCallback,
-          _errorCallback?: PositionErrorCallback | null,
-          _options?: PositionOptions
-        ) =>
-          successCallback({
-            coords: {
-              latitude: 0,
-              longitude: 0,
-              accuracy: 0,
-              altitude: 0,
-              altitudeAccuracy: 0,
-              heading: 0,
-              speed: 0,
+export class MockWindowRef extends MockWinRef {
+  override get nativeWindow(): Window {
+    return {
+      navigator: {
+        geolocation: {
+          getCurrentPosition: (
+            successCallback: PositionCallback,
+            _errorCallback?: PositionErrorCallback | null,
+            _options?: PositionOptions
+          ) =>
+            successCallback({
+              coords: {
+                latitude: 0,
+                longitude: 0,
+                accuracy: 0,
+                altitude: 0,
+                altitudeAccuracy: 0,
+                heading: 0,
+                speed: 0,
+                toJSON: () => {},
+              } as GeolocationCoordinates,
+              timestamp: 0,
               toJSON: () => {},
-            } as GeolocationCoordinates,
-            timestamp: 0,
-            toJSON: () => {},
-          } as GeolocationPosition),
+            } as GeolocationPosition),
+        },
       },
-    },
-  },
-};
+    } as unknown as Window;
+  }
+}
 
 describe('CurrentLocationService', () => {
   let service: CurrentLocationService;
@@ -41,7 +44,7 @@ describe('CurrentLocationService', () => {
         CurrentLocationService,
         {
           provide: WindowRef,
-          useValue: MockWindowRef,
+          useClass: MockWindowRef,
         },
       ],
     });
@@ -100,7 +103,7 @@ export class MockCurrentLocationService {
     errorCallback?: PositionErrorCallback | null,
     options?: PositionOptions
   ): void {
-    MockWindowRef.nativeWindow.navigator.geolocation.getCurrentPosition(
+    (new MockWindowRef().nativeWindow as Window).navigator.geolocation.getCurrentPosition(
       successCallback,
       errorCallback,
       options

@@ -9,19 +9,13 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { IS_GUEST_USER_CHECKOUT_KEY } from '@spartacus/storefront';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 import { LoginAsGuestGuard } from './login-as-guest.guard';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { firstValueFrom } from 'rxjs';
-
-const mockWindowRef = {
-  localStorage: {
-    getItem: vi.fn(),
-    removeItem: vi.fn(),
-  },
-};
 
 const mockSemanticPathService = {
   get: vi.fn().mockReturnValue('loginForm'),
@@ -45,7 +39,7 @@ describe('LoginAsGuestGuard', () => {
         },
         {
           provide: WindowRef,
-          useValue: mockWindowRef,
+          useClass: MockWinRef,
         },
       ],
     });
@@ -55,8 +49,8 @@ describe('LoginAsGuestGuard', () => {
   });
 
   beforeEach(() => {
-    mockWindowRef.localStorage.removeItem.mockClear();
-    mockWindowRef.localStorage?.getItem.mockReturnValue('true');
+    (windowRef.localStorage?.removeItem as ReturnType<typeof vi.fn>).mockClear();
+    (windowRef.localStorage?.getItem as any).mockReturnValue('true');
   });
 
   it('should be created', () => {
@@ -85,7 +79,7 @@ describe('LoginAsGuestGuard', () => {
 
     it('should return true if IS_GUEST_USER_CHECKOUT_KEY is not set to true', async () => {
       featureToggles.authorizationCodeFlowByDefault = true;
-      (mockWindowRef.localStorage?.getItem as any).mockReturnValue('false');
+      (windowRef.localStorage?.getItem as any).mockReturnValue('false');
       const result = await firstValueFrom(guard.canActivate());
       expect(result).toBe(true);
       expect(windowRef.localStorage?.getItem).toHaveBeenCalledWith(
@@ -96,7 +90,7 @@ describe('LoginAsGuestGuard', () => {
 
     it('should return true if IS_GUEST_USER_CHECKOUT_KEY is not set', async () => {
       featureToggles.authorizationCodeFlowByDefault = true;
-      (mockWindowRef.localStorage?.getItem as any).mockReturnValue(null);
+      (windowRef.localStorage?.getItem as any).mockReturnValue(null);
       const result = await firstValueFrom(guard.canActivate());
 
       expect(result).toBe(true);

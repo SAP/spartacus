@@ -7,6 +7,7 @@ import {
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { vi } from 'vitest';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 import { defaultSmartEditConfig } from '../config/default-smart-edit-config';
 import { SmartEditConfig } from '../config/smart-edit-config';
 import { SmartEditLauncherService } from './smart-edit-launcher.service';
@@ -14,12 +15,6 @@ import { SmartEditLauncherService } from './smart-edit-launcher.service';
 class MockLocation {
   path() {
     return '';
-  }
-}
-
-class MockWindowRef {
-  isBrowser(): boolean {
-    return true;
   }
 }
 
@@ -47,7 +42,7 @@ describe('SmartEditLauncherService', () => {
         { provide: SmartEditConfig, useValue: defaultSmartEditConfig },
         { provide: ScriptLoader, useClass: MockScriptLoader },
         { provide: FeatureModulesService, useClass: MockFeatureModulesService },
-        { provide: WindowRef, useClass: MockWindowRef },
+        { provide: WindowRef, useClass: MockWinRef },
       ],
     });
 

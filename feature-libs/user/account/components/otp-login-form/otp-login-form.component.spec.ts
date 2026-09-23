@@ -14,6 +14,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 import {
   VerificationTokenCreation,
   VerificationTokenFacade,
@@ -28,12 +29,10 @@ const verificationTokenCreation: VerificationTokenCreation = {
   password: '1234',
 };
 
-class MockWinRef {
-  get nativeWindow(): Window {
+class LocalMockWinRef extends MockWinRef {
+  override sessionStorage: any = undefined;
+  override get nativeWindow(): Window {
     return {} as Window;
-  }
-  get sessionStorage(): Storage | undefined {
-    return undefined;
   }
 }
 
@@ -65,7 +64,7 @@ describe('OneTimePasswordLoginFormComponent', () => {
         RouterModule.forRoot([]),
       ],
       providers: [
-        { provide: WindowRef, useClass: MockWinRef },
+        { provide: WindowRef, useClass: LocalMockWinRef },
         { provide: RoutingService, useClass: MockRoutingService },
       ],
     })

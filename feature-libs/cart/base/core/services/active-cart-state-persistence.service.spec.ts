@@ -15,12 +15,13 @@ import {
 import { of, Subject } from 'rxjs';
 import { ActiveCartStatePersistenceService } from './active-cart-state-persistence.service';
 import { vi } from 'vitest';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 
 const BASE_SITE = 'electronics-spa';
 
 const store: Record<string, string | undefined> = {};
-const MockWindowRef = {
-  localStorage: {
+class MockWindowRef extends MockWinRef {
+  override localStorage = {
     getItem: (key: string): string | null =>
       key in store ? (store[key] as string) : null,
     setItem: (key: string, value: string) => {
@@ -29,9 +30,8 @@ const MockWindowRef = {
     removeItem: (key: string): void => {
       delete store[key];
     },
-  },
-  isBrowser: (): boolean => true,
-};
+  };
+}
 
 const mockCartEntry: OrderEntry = {
   entryNumber: 0,
@@ -55,7 +55,7 @@ describe('ActiveCartStatePersistenceService', () => {
       providers: [
         ActiveCartStatePersistenceService,
         StatePersistenceService,
-        { provide: WindowRef, useValue: MockWindowRef },
+        { provide: WindowRef, useClass: MockWindowRef },
         {
           provide: SiteContextParamsService,
           useValue: { getValues: () => of([BASE_SITE]) },
