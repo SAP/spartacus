@@ -116,7 +116,6 @@ describe('CheckoutAuthGuard', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
-        // provideMockFeatureToggles({ ...mockFeatureToggles }),
         {
           provide: FeatureToggles,
           useValue: mockFeatureToggles,
