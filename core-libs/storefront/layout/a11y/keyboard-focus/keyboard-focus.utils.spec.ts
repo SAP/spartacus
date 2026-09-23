@@ -1,4 +1,7 @@
-import { disableTabbingForTick, handleLinearKeydown } from './keyboard-focus.utils';
+import {
+  disableTabbingForTick,
+  handleLinearKeydown,
+} from './keyboard-focus.utils';
 
 describe('disableTabbingForTick', () => {
   let elements: HTMLElement[];
@@ -116,7 +119,10 @@ describe('handleLinearKeydown', () => {
 
     it('does not prevent default when onActivate is not provided', () => {
       const { onActivate: _omit, ...noActivate } = options;
-      const event = new KeyboardEvent('keydown', { key: 'Enter', cancelable: true });
+      const event = new KeyboardEvent('keydown', {
+        key: 'Enter',
+        cancelable: true,
+      });
       handleLinearKeydown(event, 1, items, noActivate);
       expect(event.defaultPrevented).toBe(false);
     });
