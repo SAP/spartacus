@@ -33,6 +33,7 @@
         *cxFeature="'a11yTableKeyboardNavigation'"
         #tableRow
         [class.is-current]="isCurrentItem(item)"
+        [attr.aria-current]="isCurrentItem(item) ? true : null"
         tabindex="0"
         (click)="launchItem(item)"
         (keydown)="onRowKeydown($event, rowIndex, item)"
@@ -97,6 +98,7 @@
         *cxFeature="'a11yTableKeyboardNavigation'"
         #tableRow
         [class.is-current]="isCurrentItem(item)"
+        [attr.aria-current]="isCurrentItem(item) ? true : null"
         tabindex="0"
         (click)="launchItem(item)"
         (keydown)="onRowKeydown($event, rowIndex, item)"
@@ -144,6 +146,7 @@
           *cxFeature="'a11yTableKeyboardNavigation'"
           #tableRow
           [class.is-current]="isCurrentItem(item)"
+          [attr.aria-current]="isCurrentItem(item) ? true : null"
           tabindex="0"
           (click)="launchItem(item)"
           (keydown)="onRowKeydown($event, rowIndex, item)"

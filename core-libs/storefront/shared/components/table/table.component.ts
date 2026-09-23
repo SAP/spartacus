@@ -18,7 +18,11 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { FeatureDirective, FeatureToggles } from '@spartacus/core';
+import {
+  FeatureDirective,
+  FeatureToggles,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { handleLinearKeydown } from '../../../layout/a11y/keyboard-focus/keyboard-focus.utils';
 import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive';
 import { TableRendererService } from './table-renderer.service';
@@ -97,7 +101,9 @@ export class TableComponent<T> {
 
   @Output() launch = new EventEmitter();
 
-  constructor(protected rendererService: TableRendererService) {}
+  constructor(protected rendererService: TableRendererService) {
+    useFeatureStyles('a11yTableKeyboardNavigation');
+  }
 
   init() {
     this.verticalLayout = !this.layout || this.layout === TableLayout.VERTICAL;
