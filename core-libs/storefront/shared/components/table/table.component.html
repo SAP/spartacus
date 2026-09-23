@@ -1,6 +1,5 @@
 <table *ngIf="structure">
   <ng-container *ngIf="verticalStackedLayout">
-    <!-- OLD: tab only navigation -->
     <ng-container *ngFor="let item of data; trackBy: trackData">
       <tbody
         *cxFeature="'!a11yTableKeyboardNavigation'"
@@ -27,7 +26,6 @@
         </tr>
       </tbody>
     </ng-container>
-    <!-- NEW: arrow key navigation added -->
     <ng-container
       *ngFor="let item of data; let rowIndex = index; trackBy: trackData"
     >
@@ -37,7 +35,7 @@
         [class.is-current]="isCurrentItem(item)"
         tabindex="0"
         (click)="launchItem(item)"
-        (keydown)="onRowKeydown($event, rowIndex)"
+        (keydown)="onRowKeydown($event, rowIndex, item)"
       >
         <tr *ngFor="let cell of structure.cells" [class]="cell">
           <th>
@@ -76,7 +74,6 @@
       </tr>
     </thead>
 
-    <!-- OLD: tab only navigation -->
     <ng-container *ngFor="let item of data; trackBy: trackData">
       <tr
         *cxFeature="'!a11yTableKeyboardNavigation'"
@@ -93,7 +90,6 @@
         </td>
       </tr>
     </ng-container>
-    <!-- NEW: arrow key navigation added -->
     <ng-container
       *ngFor="let item of data; let rowIndex = index; trackBy: trackData"
     >
@@ -103,7 +99,7 @@
         [class.is-current]="isCurrentItem(item)"
         tabindex="0"
         (click)="launchItem(item)"
-        (keydown)="onRowKeydown($event, rowIndex)"
+        (keydown)="onRowKeydown($event, rowIndex, item)"
       >
         <td *ngFor="let cell of structure.cells; let i = index" [class]="cell">
           <ng-template
@@ -127,7 +123,6 @@
           {{ cell }}
         </ng-template>
       </th>
-      <!-- OLD: tab only navigation -->
       <ng-container *ngFor="let item of data; trackBy: trackData">
         <td
           *cxFeature="'!a11yTableKeyboardNavigation'"
@@ -142,7 +137,6 @@
           </ng-template>
         </td>
       </ng-container>
-      <!-- NEW: arrow key navigation added -->
       <ng-container
         *ngFor="let item of data; let rowIndex = index; trackBy: trackData"
       >
@@ -152,7 +146,7 @@
           [class.is-current]="isCurrentItem(item)"
           tabindex="0"
           (click)="launchItem(item)"
-          (keydown)="onRowKeydown($event, rowIndex)"
+          (keydown)="onRowKeydown($event, rowIndex, item)"
         >
           <ng-template
             [cxOutlet]="getDataOutletRef(cell)"

@@ -112,23 +112,34 @@ export class TableComponent<T> {
     this.launch.emit(item);
   }
 
-  onRowKeydown(event: KeyboardEvent, index: number): void {
-    if (!this.featureToggles.a11yTableKeyboardNavigation) {
-      return;
-    }
+  onRowKeydown(event: KeyboardEvent, index: number, item: T): void {
     const rows = this.tableRows.toArray();
-    if (
-      (event.key === 'ArrowDown' && index === rows.length - 1) ||
-      (event.key === 'ArrowUp' && index === 0)
-    ) {
-      event.preventDefault();
-    }
-    if (event.key === 'ArrowDown' && index < rows.length - 1) {
-      event.preventDefault();
-      rows[index + 1].nativeElement.focus();
-    } else if (event.key === 'ArrowUp' && index > 0) {
-      event.preventDefault();
-      rows[index - 1].nativeElement.focus();
+    switch (event.key) {
+      case 'ArrowDown':
+        event.preventDefault();
+        if (index < rows.length - 1) {
+          rows[index + 1].nativeElement.focus();
+        }
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        if (index > 0) {
+          rows[index - 1].nativeElement.focus();
+        }
+        break;
+      case 'Home':
+        event.preventDefault();
+        rows[0].nativeElement.focus();
+        break;
+      case 'End':
+        event.preventDefault();
+        rows[rows.length - 1].nativeElement.focus();
+        break;
+      case 'Enter':
+      case ' ':
+        event.preventDefault();
+        this.launchItem(item);
+        break;
     }
   }
 
