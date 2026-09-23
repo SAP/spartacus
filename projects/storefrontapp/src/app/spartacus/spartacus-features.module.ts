@@ -368,6 +368,7 @@ if (environment.cpq) {
         pageLinkSanitizeCanonicalUrl: true,
         opfUseDestroyRef: true,
         enableHierarchicalAddressFormat: true,
+        addTitleToAddressCard: true,
         opfCheckoutUseUpdatePaymentTransaction: true,
         enableCartSlowNetworkResilience: true,
         a11yRegistrationTermsAsteriskMargin: true,

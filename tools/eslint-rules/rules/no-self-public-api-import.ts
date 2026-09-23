@@ -61,6 +61,9 @@ function getPackageNameForFile(filePath: string): string | null {
  * // ✅ Valid — import from a DIFFERENT @spartacus library
  * import { OccConfig } from '@spartacus/core';
  *
+ * // ✅ Valid — `root` entry point of own library (shared across entry points)
+ * import { CartRootModule } from '@spartacus/cart/base/root';
+ *
  * // ❌ Invalid — importing from own public API
  * import { CartService } from '@spartacus/cart';
  */
@@ -91,6 +94,14 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
 
         const packageName = getPackageNameForFile(filePath);
         if (!packageName) {
+          return;
+        }
+
+        // `root` entry points expose the eagerly-loaded public API (config,
+        // events, models, tokens) that sibling secondary entry points in the
+        // same library must consume through the barrel path — they cannot be
+        // reached via relative imports across separate entry-point bundles.
+        if (importSource.endsWith('/root')) {
           return;
         }
 
