@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   CdsConfig,
   CdsMerchandisingProductService,
@@ -16,7 +16,7 @@ import {
   MerchandisingCarouselModel,
   MerchandisingCarouselViewedEvent,
 } from './model/index';
-import createSpy = jasmine.createSpy;
+import { vi } from 'vitest';
 
 const mockStrategyProducts: StrategyResponse = {
   products: {
@@ -117,9 +117,7 @@ class MockProductService {
 }
 
 class MockProfileTagEventService {
-  notifyProfileTagOfEventOccurrence = createSpy(
-    'ProfileTagEventService.notifyProfileTagOfEventOccurrence'
-  ).and.callFake((_) => {});
+  notifyProfileTagOfEventOccurrence = vi.fn().mockImplementation((_) => {});
 }
 
 describe('MerchandisingCarouselComponentService', () => {
@@ -156,9 +154,9 @@ describe('MerchandisingCarouselComponentService', () => {
     profileTagEventService = TestBed.inject(ProfileTagEventService);
   });
 
-  it('should be created', waitForAsync(() => {
+  it('should be created', () => {
     expect(componentService).toBeTruthy();
-  }));
+  });
 
   describe('getMerchandisingCaourselViewportThreshold', () => {
     it('should fallback to a hardcoded carousel viewport threshold if one is not provided in the carousel CMS component config or the CDS config', () => {

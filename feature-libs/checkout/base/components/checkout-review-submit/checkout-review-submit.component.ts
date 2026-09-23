@@ -12,7 +12,7 @@ import {
   NgSwitchCase,
   NgTemplateOutlet,
 } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   ActiveCartFacade,
@@ -31,6 +31,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  FeatureToggles,
   PaymentDetails,
   TranslatePipe,
   TranslationService,
@@ -70,6 +71,7 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   ],
 })
 export class CheckoutReviewSubmitComponent {
+  private featureToggles = inject(FeatureToggles);
   readonly cartOutlets = CartOutlets;
   iconTypes = ICON_TYPE;
 
@@ -142,7 +144,8 @@ export class CheckoutReviewSubmitComponent {
           textPhone,
           textMobile,
           deliveryAddress,
-          countryName
+          countryName,
+          this.featureToggles.addTitleToAddressCard
         )
       )
     );
@@ -167,6 +170,7 @@ export class CheckoutReviewSubmitComponent {
         const region = paymentDetails.billingAddress?.region?.isocode
           ? paymentDetails.billingAddress?.region?.isocode + ', '
           : '';
+
         return {
           title: textTitle,
           textBold: paymentDetails.accountHolderName,
