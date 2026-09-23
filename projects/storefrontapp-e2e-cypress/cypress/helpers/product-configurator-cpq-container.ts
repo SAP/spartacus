@@ -615,9 +615,15 @@ export function openSelectedProductActionsMenu(
   productName: string,
   index: number
 ): void {
+  configuration.checkUpdatingMessageNotDisplayed();
+  getSelectedProductCard(attributeName, productName, index).scrollIntoView();
+  // Split get → assert → click so Cypress re-queries after Angular re-renders.
   getSelectedProductCard(attributeName, productName, index)
     .find(PRODUCT_CARD_ACTIONS_MENU_TOGGLE_SELECTOR)
     .should('be.visible')
+    .and('not.be.disabled');
+  getSelectedProductCard(attributeName, productName, index)
+    .find(PRODUCT_CARD_ACTIONS_MENU_TOGGLE_SELECTOR)
     .click();
   cy.get(PRODUCT_CARD_ACTIONS_MENU_LIST_SELECTOR).should('be.visible');
 }

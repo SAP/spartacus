@@ -328,7 +328,7 @@ testConfig.forEach((config) => {
       configurationCpq.checkStatusIconDisplayed(GRP_TR_GENERAL, ERROR);
     }
 
-    // Section 3 — train type + container min rows (2 locomotives, 3 wagons).
+    // Section 3 — train type + container min rows (2 locomotives, 3 wagons and multiple-unit control).
     function checkRequiredMsgForTrainTypeAndContainer(): void {
       configurationCpq.selectAttributeAndCheck(
         ATTR_TR_TYPE,
@@ -347,6 +347,12 @@ testConfig.forEach((config) => {
           TRAIN_CONTAINER_PRODUCTS.length - index - 1
         );
       });
+
+      // Choose Configurable Train Components → add Multiple-unit control
+      configurationCpqContainer.addAvailableProductAndWait(
+        ATTR_TR_COM,
+        VAL_TR_MULTIPLE_UNIT
+      );
     }
 
     // Section 4 — locomotive collectors = 1: global + card warning.
