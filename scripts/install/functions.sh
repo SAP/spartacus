@@ -100,7 +100,7 @@ function create_shell_app {
     local current_npm_version
     current_npm_version=$(npm --version)
     if [[ "$(compareSemver "$current_npm_version" "11.0.0")" -lt 0 ]]; then
-        echo "ERROR: npm version $current_npm_version is too old. Minimum required version is 11. To upgrade, run: npm i -g npm@11" >&2
+        echo "ERROR: npm version $current_npm_version is below the minimum required version 11.0.0. Please upgrade npm before running this script." >&2
         exit 1
     fi
 
