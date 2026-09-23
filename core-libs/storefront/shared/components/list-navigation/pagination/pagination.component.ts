@@ -10,13 +10,20 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnInit,
   Output,
   inject,
 } from '@angular/core';
 import { ActivatedRoute, Params, RouterLink } from '@angular/router';
-import { PaginationModel, TranslationService } from '@spartacus/core';
+import {
+  FeatureDirective,
+  FeatureToggles,
+  PaginationModel,
+  TranslationService,
+} from '@spartacus/core';
 import { Observable, combineLatest, map, of } from 'rxjs';
 import { FocusDirective } from '../../../../layout/a11y/keyboard-focus/focus.directive';
+import { CxRovingTabindexDirective } from '../../../directives/roving-tabindex/roving-tabindex.directive';
 import { PaginationBuilder } from './pagination.builder';
 import { PaginationItem, PaginationItemType } from './pagination.model';
 
@@ -29,9 +36,9 @@ import { PaginationItem, PaginationItemType } from './pagination.model';
   selector: 'cx-pagination',
   templateUrl: './pagination.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgFor, RouterLink, FocusDirective, AsyncPipe],
+  imports: [NgFor, RouterLink, FocusDirective, AsyncPipe, FeatureDirective, CxRovingTabindexDirective],
 })
-export class PaginationComponent {
+export class PaginationComponent implements OnInit {
   /** The (optional) pageRoute used for the anchor links created in the pagination   */
   @Input() pageRoute: string = '.';
 
@@ -50,10 +57,46 @@ export class PaginationComponent {
   }
   @Input() set pagination(value: PaginationModel | undefined) {
     if (value) {
+      const prevPage = this._pagination?.currentPage ?? -1;
       this._pagination = value;
       this.render(value);
+      if (this.featureToggles.a11yPaginationKeyboardNavigation) {
+        this.initialFocusIndex = this.getInitialFocusIndex(
+          value.currentPage ?? 0,
+          prevPage
+        );
+      }
     }
   }
+
+  /** Bound to [cxRovingTabindexInitialIndex] on the wrapper span; tells the directive
+   *  which item to focus after each page change. Updated before Angular re-renders. */
+  protected initialFocusIndex = 0;
+
+  private getInitialFocusIndex(newPage: number, prevPage: number): number {
+    const activeItems = this.pages.filter((p) => !this.isInactive(p));
+    if (!activeItems.length) return 0;
+
+    if (newPage > prevPage) {
+      // Navigated forward — land on first active item past the old page
+      const idx = activeItems.findIndex(
+        (p) => p.number !== undefined && p.number > prevPage
+      );
+      return idx >= 0 ? idx : activeItems.length - 1;
+    }
+
+    if (newPage < prevPage) {
+      // Navigated backward — land on last active item before the old page
+      let last = -1;
+      activeItems.forEach((p, i) => {
+        if (p.number !== undefined && p.number < prevPage) last = i;
+      });
+      return last >= 0 ? last : 0;
+    }
+
+    return 0;
+  }
+
   /**
    * If more than one pagination is present on a page, a unique id should be set for each instance.
    * This ensures the focus can be preserved after navigating to a different page.
@@ -65,11 +108,14 @@ export class PaginationComponent {
   pages: PaginationItem[] = [];
 
   translationService = inject(TranslationService);
+  private readonly featureToggles = inject(FeatureToggles);
 
   constructor(
     private paginationBuilder: PaginationBuilder,
     private activatedRoute: ActivatedRoute
   ) {}
+
+  ngOnInit(): void {}
 
   protected render(pagination: PaginationModel): void {
     if (!pagination) {

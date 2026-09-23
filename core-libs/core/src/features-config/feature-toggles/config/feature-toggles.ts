@@ -849,6 +849,13 @@ export interface FeatureTogglesInterface {
    * ACC-270.3
    */
   a11yTableKeyboardNavigation?: boolean;
+
+  /**
+   * When enabled, replaces per-link tabindex binding in PaginationComponent
+   * with roving tabindex (left/right arrow key navigation across page links).
+   * Affects: PaginationComponent
+   */
+  a11yPaginationKeyboardNavigation?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -950,4 +957,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
   a11yTableKeyboardNavigation: false,
+  a11yPaginationKeyboardNavigation: false,
 };

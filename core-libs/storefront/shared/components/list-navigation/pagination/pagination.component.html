@@ -1,17 +1,59 @@
-<a
-  *ngFor="let item of pages; let i = index"
-  [class]="item.type"
-  [class.disabled]="isInactive(item)"
-  [class.current]="isCurrent(item)"
-  [routerLink]="pageRoute"
-  [queryParams]="getQueryParams(item)"
-  [tabindex]="isInactive(item) ? -1 : 0"
-  [attr.aria-current]="isCurrent(item)"
-  [attr.aria-disabled]="isInactive(item)"
-  (click)="pageChange(item)"
-  [attr.aria-label]="getAriaLabel$(item) | async"
-  [attr.title]="getAriaLabel$(item) | async"
-  [cxFocus]="{ key: paginationID + i.toString() }"
->
-  {{ item.label }}
-</a>
+<!-- Roving-tabindex keyboard navigation (feature toggle on) -->
+<ng-container *cxFeature="'a11yPaginationKeyboardNavigation'">
+  <!--
+    A real DOM element is required here — not <ng-container> — because
+    cxRovingTabindex uses @HostListener, ElementRef.querySelectorAll, and
+    MutationObserver, all of which need a real node as host. Comment nodes
+    produced by <ng-container> silently fail all three.
+
+    display:contents removes the span from the box tree so its <a> children
+    participate directly in the parent flex container, preserving the
+    cx-pagination layout. NOTE: if pagination SCSS is ever changed to use
+    direct-child selectors (> a:first-child), this wrapper will break them.
+  -->
+  <span
+    style="display:contents"
+    cxRovingTabindex="a:not(.disabled)"
+    cxRovingTabindexAxis="horizontal"
+    [cxRovingTabindexActivate]="false"
+    [cxRovingTabindexInitialIndex]="initialFocusIndex"
+  >
+    <a
+      *ngFor="let item of pages; let i = index"
+      [class]="item.type"
+      [class.disabled]="isInactive(item)"
+      [class.current]="isCurrent(item)"
+      [routerLink]="pageRoute"
+      [queryParams]="getQueryParams(item)"
+      [attr.tabindex]="isInactive(item) ? -1 : null"
+      [attr.aria-current]="isCurrent(item)"
+      [attr.aria-disabled]="isInactive(item)"
+      (click)="pageChange(item)"
+      [attr.aria-label]="getAriaLabel$(item) | async"
+      [attr.title]="getAriaLabel$(item) | async"
+    >
+      {{ item.label }}
+    </a>
+  </span>
+</ng-container>
+
+<!-- Tab-only navigation when feature toggle is off -->
+<ng-container *cxFeature="'!a11yPaginationKeyboardNavigation'">
+  <a
+    *ngFor="let item of pages; let i = index"
+    [class]="item.type"
+    [class.disabled]="isInactive(item)"
+    [class.current]="isCurrent(item)"
+    [routerLink]="pageRoute"
+    [queryParams]="getQueryParams(item)"
+    [tabindex]="isInactive(item) ? -1 : 0"
+    [attr.aria-current]="isCurrent(item)"
+    [attr.aria-disabled]="isInactive(item)"
+    (click)="pageChange(item)"
+    [attr.aria-label]="getAriaLabel$(item) | async"
+    [attr.title]="getAriaLabel$(item) | async"
+    [cxFocus]="{ key: paginationID + i.toString() }"
+  >
+    {{ item.label }}
+  </a>
+</ng-container>
