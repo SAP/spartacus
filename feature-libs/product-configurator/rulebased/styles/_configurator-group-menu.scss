@@ -61,6 +61,15 @@
           font-weight: bold;
         }
 
+        &.cx-menu-return-origin {
+          background-color: color-mix(
+            in srgb,
+            var(--cx-color-primary) 8%,
+            var(--cx-color-background)
+          );
+          box-shadow: inset 3px 0 0 0 var(--cx-color-primary);
+        }
+
         &.disable {
           cursor: not-allowed;
           pointer-events: none;
@@ -217,6 +226,11 @@
   @include cx-highContrastTheme {
     .cx-group-menu {
       background-color: var(--cx-color-background);
+
+      .cx-menu-item.cx-menu-return-origin {
+        background-color: var(--cx-color-background);
+        box-shadow: inset 3px 0 0 0 var(--cx-color-text);
+      }
     }
   }
 }
