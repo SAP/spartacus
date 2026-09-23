@@ -100,7 +100,8 @@ function create_shell_app {
     local current_npm_version
     current_npm_version=$(npm --version)
     if [[ "$(compareSemver "$current_npm_version" "11.0.0")" -lt 0 ]]; then
-        EXTRA_ANGULAR_CLI_FLAGS="${EXTRA_ANGULAR_CLI_FLAGS} --test-runner=karma"
+        echo "ERROR: npm version $current_npm_version is too old. Please install npm@11 or higher: npm install -g npm@11"
+        exit 1
     fi
 
     if [ -n "${EXTRA_ANGULAR_CLI_FLAGS}" ]; then
