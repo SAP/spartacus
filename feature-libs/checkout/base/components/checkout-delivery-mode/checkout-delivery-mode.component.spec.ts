@@ -29,12 +29,8 @@ import {
   OutletModule,
   SpinnerComponent,
 } from '@spartacus/storefront';
-<<<<<<< HEAD
-import { BehaviorSubject, EMPTY, firstValueFrom, of, throwError } from 'rxjs';
-=======
->>>>>>> develop
-import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.component';
