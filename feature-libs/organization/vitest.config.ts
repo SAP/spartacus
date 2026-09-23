@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import angular from '@analogjs/vite-plugin-angular';
+import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { defineConfig } from 'vitest/config';
 
 const root = `${import.meta.dirname}/../..`;
@@ -15,6 +15,8 @@ export default defineConfig({
   plugins: [angular(), nxViteTsPaths()],
   resolve: {
     alias: {
+      '@spartacus/storefront': `${root}/core-libs/storefront/public_api.ts`,
+      '@spartacus/core': `${root}/core-libs/core/public_api.ts`,
       'core-libs/core/src/process/store/reducers/index': `${root}/core-libs/core/src/process/store/reducers/index.ts`,
       'core-libs/core/src/global-message/models/global-message.model': `${root}/core-libs/core/src/global-message/models/global-message.model.ts`,
       'core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module': `${root}/core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module.ts`,

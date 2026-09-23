@@ -7,7 +7,7 @@ import {
   PipeTransform,
   TemplateRef,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -32,7 +32,7 @@ import { AttributesDirective } from '../directives';
 import { MerchandisingCarouselComponent } from './merchandising-carousel.component';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
 import { MerchandisingCarouselModel } from './model/index';
-import createSpy = jasmine.createSpy;
+import { vi } from 'vitest';
 
 @Component({
   selector: 'cx-carousel',
@@ -144,9 +144,7 @@ const MockCmsMerchandisingCarouselComponent = <CmsComponentData<any>>{
 };
 
 class MockMerchandisingCarouselComponentService {
-  sendCarouselViewEvent = createSpy(
-    'MerchandisingCarouselComponentService.sendCarouselViewEvent'
-  ).and.callFake(() => EMPTY);
+  sendCarouselViewEvent = vi.fn().mockImplementation(() => EMPTY);
 
   getMerchandisingCarouselModel(): Observable<MerchandisingCarouselModel> {
     return of(merchandisingCarouselModel);
@@ -174,8 +172,8 @@ describe('MerchandisingCarouselComponent', () => {
   let componentService: MerchandisingCarouselComponentService;
   let fixture: ComponentFixture<MerchandisingCarouselComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [MerchandisingCarouselComponent, RouterModule.forRoot([])],
       providers: [
         {
@@ -222,38 +220,38 @@ describe('MerchandisingCarouselComponent', () => {
     component = fixture.componentInstance;
     componentService = TestBed.inject(MerchandisingCarouselComponentService);
     fixture.detectChanges();
-  }));
+  });
 
-  it('should be created', waitForAsync(() => {
+  it('should be created', () => {
     expect(component).toBeTruthy();
-  }));
+  });
 
-  it('should have a title', waitForAsync(() => {
+  it('should have a title', () => {
     let actualTitle: string;
     component.merchandisingCarouselModel$.subscribe(
       (carouselModel) => (actualTitle = carouselModel.title)
     );
     expect(actualTitle).toBe(mockComponentData.title);
-  }));
+  });
 
-  it('should have a background color', waitForAsync(() => {
+  it('should have a background color', () => {
     let actualBackgroundColor: string;
     component.merchandisingCarouselModel$.subscribe(
       (carouselModel) =>
         (actualBackgroundColor = <string>carouselModel.backgroundColor)
     );
     expect(actualBackgroundColor).toBe(mockComponentData.backgroundColour);
-  }));
+  });
 
-  it('should have a text color', waitForAsync(() => {
+  it('should have a text color', () => {
     let actualTextColor: string;
     component.merchandisingCarouselModel$.subscribe(
       (carouselModel) => (actualTextColor = <string>carouselModel.textColor)
     );
     expect(actualTextColor).toBe(mockComponentData.textColour);
-  }));
+  });
 
-  it('should have MerchandisingProducts populated', waitForAsync(() => {
+  it('should have MerchandisingProducts populated', () => {
     let actualCarouselMetadata: MerchandisingMetadata;
     const actualCarouselProducts: MerchandisingProduct[] = [];
     component.merchandisingCarouselModel$.subscribe((merchandisingProducts) => {
@@ -266,18 +264,18 @@ describe('MerchandisingCarouselComponent', () => {
     });
     expect(actualCarouselMetadata).toEqual(merchandisingCarouselModel.metadata);
     expect(actualCarouselProducts).toEqual(merchandisingCarouselModelProducts);
-  }));
+  });
 
-  it('should have 2 items', waitForAsync(() => {
+  it('should have 2 items', () => {
     let items: Observable<Product>[];
     component.merchandisingCarouselModel$.subscribe(
       (actualMerchandisingCarouselModel) =>
         (items = actualMerchandisingCarouselModel.items$)
     );
     expect(items.length).toBe(2);
-  }));
+  });
 
-  it('should have product code 111 in first product', waitForAsync(() => {
+  it('should have product code 111 in first product', () => {
     let items: Observable<Product>[];
     component.merchandisingCarouselModel$.subscribe(
       (actualMerchandisingCarouselModel) =>
@@ -286,7 +284,7 @@ describe('MerchandisingCarouselComponent', () => {
     let product: Product;
     items[0].subscribe((p) => (product = p));
     expect(product).toEqual(merchandisingCarouselModelProducts[0]);
-  }));
+  });
 
   describe('merchandisingCarouselModel$', () => {
     let intersectionService: IntersectionService;
@@ -295,7 +293,7 @@ describe('MerchandisingCarouselComponent', () => {
     });
 
     it('should not trigger if the carousel is not in the viewport', () => {
-      spyOn(intersectionService, 'isIntersected').and.returnValue(of(false));
+      vi.spyOn(intersectionService, 'isIntersected').mockReturnValue(of(false));
 
       component.merchandisingCarouselModel$.subscribe((_) => {});
 
@@ -303,7 +301,7 @@ describe('MerchandisingCarouselComponent', () => {
     });
 
     it('should trigger if the carousel is in the viewport', () => {
-      spyOn(intersectionService, 'isIntersected').and.returnValue(of(true));
+      vi.spyOn(intersectionService, 'isIntersected').mockReturnValue(of(true));
 
       component.merchandisingCarouselModel$.subscribe((_) => {});
 
@@ -312,51 +310,51 @@ describe('MerchandisingCarouselComponent', () => {
   });
 
   describe('UI test', () => {
-    it('should have 2 rendered templates', waitForAsync(() => {
+    it('should have 2 rendered templates', () => {
       const el = fixture.debugElement.queryAll(
         By.css('.data-cx-merchandising-product')
       );
       expect(el.length).toBe(2);
-    }));
+    });
 
-    it('should render product name in template', waitForAsync(() => {
+    it('should render product name in template', () => {
       const el = fixture.debugElement.queryAll(
         By.css('.data-cx-merchandising-product + a h4')
       );
       expect(el[0].nativeElement).toBeTruthy();
-      expect(el[0].nativeElement.innerText).toBe('product 1');
+      expect(el[0].nativeElement.textContent.trim()).toBe('product 1');
       expect(el[1].nativeElement).toBeTruthy();
-      expect(el[1].nativeElement.innerText).toBe('product 2');
-    }));
+      expect(el[1].nativeElement.textContent.trim()).toBe('product 2');
+    });
 
-    it('should render product price in template', waitForAsync(() => {
+    it('should render product price in template', () => {
       const el = fixture.debugElement.queryAll(
         By.css('.data-cx-merchandising-product + a .price')
       );
 
       expect(el[0].nativeElement).toBeTruthy();
-      expect(el[0].nativeElement.innerText).toBe('100.00');
+      expect(el[0].nativeElement.textContent.trim()).toBe('100.00');
       expect(el[2].nativeElement).toBeTruthy();
-      expect(el[2].nativeElement.innerText).toBe('200.00');
-    }));
+      expect(el[2].nativeElement.textContent.trim()).toBe('200.00');
+    });
 
-    it('should only render product primary image for the first item', waitForAsync(() => {
+    it('should only render product primary image for the first item', () => {
       const el = fixture.debugElement.queryAll(
         By.css('.data-cx-merchandising-product + a')
       );
       expect(el[0].query(By.css('cx-media'))).toBeTruthy();
       expect(el[1].query(By.css('cx-media'))).toBeFalsy();
-    }));
+    });
 
-    it('should render product stock information in template', waitForAsync(() => {
+    it('should render product stock information in template', () => {
       const el = fixture.debugElement.queryAll(
         By.css('.data-cx-merchandising-product + a .price')
       );
 
       expect(el[1].nativeElement).toBeTruthy();
-      expect(el[1].nativeElement.innerText).toBe('inStock : 10');
+      expect(el[1].nativeElement.textContent.trim()).toBe('inStock : 10');
       expect(el[3].nativeElement).toBeTruthy();
-      expect(el[3].nativeElement.innerText).toBe('outOfStock');
-    }));
+      expect(el[3].nativeElement.textContent.trim()).toBe('outOfStock');
+    });
   });
 });
