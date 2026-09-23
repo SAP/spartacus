@@ -3,6 +3,7 @@ import { BaseSiteService, LanguageService } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import { MerchandisingSiteContext } from './../model/merchandising-site-context.model';
 import { CdsMerchandisingSiteContextService } from './cds-merchandising-site-context.service';
+import { vi } from 'vitest';
 
 class BaseSiteServiceStub {
   getActive(): Observable<string> {
@@ -52,8 +53,8 @@ describe('CdsMerchandisingSiteContextService', () => {
       language,
     };
 
-    spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
-    spyOn(languageService, 'getActive').and.returnValue(of(language));
+    vi.spyOn(baseSiteService, 'getActive').mockReturnValue(of(site));
+    vi.spyOn(languageService, 'getActive').mockReturnValue(of(language));
 
     let merchandisingSiteContext: MerchandisingSiteContext;
     cdsMerchandisingSiteContextService
