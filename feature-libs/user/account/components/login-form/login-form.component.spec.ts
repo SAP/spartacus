@@ -19,6 +19,7 @@ import {
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { BehaviorSubject } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
 import { LoginFormComponent } from './login-form.component';
@@ -62,6 +63,7 @@ describe('LoginFormComponent', () => {
           provide: LoginFormComponentService,
           useClass: MockLoginFormComponentService,
         },
+        provideMockFeatureToggles({}),
       ],
     })
       .overrideComponent(LoginFormComponent, {
@@ -156,6 +158,90 @@ describe('LoginFormComponent', () => {
     it('should call the service method on submit', () => {
       component.onSubmit();
       expect(service.login).toHaveBeenCalled();
+    });
+  });
+
+  describe('a11yDeleteEntryButtonKeyboardAccessible - Email Input Autocomplete Accessibility', () => {
+    describe('when flag is enabled', () => {
+      beforeEach(async () => {
+        TestBed.resetTestingModule();
+        TestBed.configureTestingModule({
+          imports: [
+            FormErrorsModule,
+            SpinnerModule,
+            LoginFormComponent,
+            RouterModule.forRoot([]),
+            I18nTestingModule,
+          ],
+          providers: [
+            {
+              provide: LoginFormComponentService,
+              useClass: MockLoginFormComponentService,
+            },
+            provideMockFeatureToggles({
+              a11yDeleteEntryButtonKeyboardAccessible: true,
+            }),
+          ],
+        })
+          .overrideComponent(LoginFormComponent, {
+            remove: { imports: [TranslatePipe, CxDatePipe, UrlPipe] },
+            add: { imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe] },
+          })
+          .compileComponents();
+
+        fixture = TestBed.createComponent(LoginFormComponent);
+        component = fixture.componentInstance;
+        el = fixture.debugElement;
+        fixture.detectChanges();
+      });
+
+      it('should set autocomplete="off" on email input', () => {
+        const emailInput = el.query(By.css('input[type="email"]'));
+        expect(emailInput.nativeElement.getAttribute('autocomplete')).toBe(
+          'off'
+        );
+      });
+    });
+
+    describe('when flag is disabled', () => {
+      beforeEach(async () => {
+        TestBed.resetTestingModule();
+        TestBed.configureTestingModule({
+          imports: [
+            FormErrorsModule,
+            SpinnerModule,
+            LoginFormComponent,
+            RouterModule.forRoot([]),
+            I18nTestingModule,
+          ],
+          providers: [
+            {
+              provide: LoginFormComponentService,
+              useClass: MockLoginFormComponentService,
+            },
+            provideMockFeatureToggles({
+              a11yDeleteEntryButtonKeyboardAccessible: false,
+            }),
+          ],
+        })
+          .overrideComponent(LoginFormComponent, {
+            remove: { imports: [TranslatePipe, CxDatePipe, UrlPipe] },
+            add: { imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe] },
+          })
+          .compileComponents();
+
+        fixture = TestBed.createComponent(LoginFormComponent);
+        component = fixture.componentInstance;
+        el = fixture.debugElement;
+        fixture.detectChanges();
+      });
+
+      it('should not set autocomplete attribute on email input', () => {
+        const emailInput = el.query(By.css('input[type="email"]'));
+        expect(
+          emailInput.nativeElement.getAttribute('autocomplete')
+        ).toBeNull();
+      });
     });
   });
 });

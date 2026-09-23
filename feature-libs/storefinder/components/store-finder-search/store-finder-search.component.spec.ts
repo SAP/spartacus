@@ -9,6 +9,7 @@ import {
 } from '@spartacus/core';
 import { IconComponent, ICON_TYPE } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { vi } from 'vitest';
 import { StoreFinderSearchComponent } from './store-finder-search.component';
 
@@ -60,6 +61,7 @@ describe('StoreFinderSearchComponent', () => {
           useValue: { go: vi.fn() },
         },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        provideMockFeatureToggles({}),
       ],
     })
       .overrideComponent(StoreFinderSearchComponent, {
@@ -124,5 +126,81 @@ describe('StoreFinderSearchComponent', () => {
     component.searchBox.setValue(query.queryParams.query);
     component.onKey(keyEvent);
     expect(component.findStores).toHaveBeenCalledWith(query.queryParams.query);
+  });
+
+  describe('a11yDeleteEntryButtonKeyboardAccessible - Browser Autocomplete Delete Button Accessibility', () => {
+    describe('when flag is enabled', () => {
+      beforeEach(async () => {
+        TestBed.resetTestingModule();
+        TestBed.configureTestingModule({
+          imports: [StoreFinderSearchComponent, MockUrlPipe],
+          providers: [
+            {
+              provide: RoutingService,
+              useValue: { go: vi.fn() },
+            },
+            { provide: ActivatedRoute, useValue: mockActivatedRoute },
+            provideMockFeatureToggles({
+              a11yDeleteEntryButtonKeyboardAccessible: true,
+            }),
+          ],
+        })
+          .overrideComponent(StoreFinderSearchComponent, {
+            remove: { imports: [TranslatePipe, IconComponent] },
+            add: { imports: [MockTranslatePipe, MockCxIconComponent] },
+          })
+          .compileComponents();
+
+        fixture = TestBed.createComponent(StoreFinderSearchComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+      });
+
+      it('should set autocomplete="off" on search input', () => {
+        const searchInput = fixture.debugElement.query(
+          (el) => el.name === 'input'
+        );
+        expect(searchInput.nativeElement.getAttribute('autocomplete')).toBe(
+          'off'
+        );
+      });
+    });
+
+    describe('when flag is disabled', () => {
+      beforeEach(async () => {
+        TestBed.resetTestingModule();
+        TestBed.configureTestingModule({
+          imports: [StoreFinderSearchComponent, MockUrlPipe],
+          providers: [
+            {
+              provide: RoutingService,
+              useValue: { go: vi.fn() },
+            },
+            { provide: ActivatedRoute, useValue: mockActivatedRoute },
+            provideMockFeatureToggles({
+              a11yDeleteEntryButtonKeyboardAccessible: false,
+            }),
+          ],
+        })
+          .overrideComponent(StoreFinderSearchComponent, {
+            remove: { imports: [TranslatePipe, IconComponent] },
+            add: { imports: [MockTranslatePipe, MockCxIconComponent] },
+          })
+          .compileComponents();
+
+        fixture = TestBed.createComponent(StoreFinderSearchComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+      });
+
+      it('should not set autocomplete attribute on search input', () => {
+        const searchInput = fixture.debugElement.query(
+          (el) => el.name === 'input'
+        );
+        expect(
+          searchInput.nativeElement.getAttribute('autocomplete')
+        ).toBeNull();
+      });
+    });
   });
 });
