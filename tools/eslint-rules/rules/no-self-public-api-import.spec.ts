@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as path from 'path';
 import { RuleTester } from '@angular-eslint/test-utils';
+import * as path from 'path';
 import { rule, RULE_NAME } from './no-self-public-api-import';
 
 const ruleTester = new RuleTester();
@@ -39,6 +39,15 @@ ruleTester.run(RULE_NAME, rule, {
       code: `import { CartService } from '@spartacus/cart';`,
       filename: outsideLib,
     },
+    // `root` entry point of own library — valid (shared across entry points)
+    {
+      code: `import { SomeModule } from '@spartacus/mock-lib/root';`,
+      filename: insideMockLib,
+    },
+    {
+      code: `import { SomeModule } from '@spartacus/mock-lib/base/root';`,
+      filename: insideMockLib,
+    },
   ],
   invalid: [
     // importing from own package's public API
@@ -49,7 +58,7 @@ ruleTester.run(RULE_NAME, rule, {
     },
     // importing from a sub-entry of own package
     {
-      code: `import { SomeService } from '@spartacus/mock-lib/root';`,
+      code: `import { SomeService } from '@spartacus/mock-lib/core';`,
       filename: insideMockLib,
       errors: [{ messageId: 'noSelfPublicApiImport' }],
     },

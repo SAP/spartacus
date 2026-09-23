@@ -10,9 +10,9 @@ import { TestBed } from '@angular/core/testing';
 import { CdsEndpointsService } from '../../../services/cds-endpoints.service';
 import { StrategyProducts } from '../../model/strategy-products.model';
 import { CdsMerchandisingStrategyAdapter } from './cds-merchandising-strategy.adapter';
-import createSpy = jasmine.createSpy;
 import { BaseSiteService, WindowRef } from '@spartacus/core';
 import { of } from 'rxjs';
+import { vi } from 'vitest';
 
 const STRATEGY_ID = 'test-strategy-id';
 const STRATEGY_PRODUCTS_ENDPOINT_KEY = 'strategyProducts';
@@ -56,19 +56,15 @@ const strategyRequestUndefinedConsentReference = {
 };
 
 class MockCdsEndpointsService {
-  getUrl = createSpy('MockCdsEndpointsService.getUrl').and.callFake(
-    (endpoint: string) => endpoint
-  );
+  getUrl = vi.fn().mockImplementation((endpoint: string) => endpoint);
 }
 
 class MockBaseSiteService {
-  getActive = createSpy('MockBaseSiteService.getActive').and.callFake(() =>
-    of(TEST_BASE_SITE)
-  );
+  getActive = vi.fn().mockImplementation(() => of(TEST_BASE_SITE));
 }
 
 class MockWindowRef {
-  isBrowser = createSpy('MockWindowRef.isBrowser').and.returnValue(true);
+  isBrowser = vi.fn().mockReturnValue(true);
 }
 
 describe('MerchandisingStrategyAdapter', () => {
@@ -115,7 +111,7 @@ describe('MerchandisingStrategyAdapter', () => {
 
   describe('SSR (non-browser) environment', () => {
     it('should return empty products and not make an HTTP call when not in browser', () => {
-      mockWindowRef.isBrowser.and.returnValue(false);
+      mockWindowRef.isBrowser.mockReturnValue(false);
 
       strategyAdapter
         .loadProductsForStrategy(STRATEGY_ID)
