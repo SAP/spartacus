@@ -372,6 +372,40 @@ describe('ConfigureCartEntryComponent', () => {
         );
       });
 
+      it("should be 'Edit Configuration' in edit mode for configurator type CPQCONFIGURATOR", () => {
+        component.readOnly = false;
+        component.disabled = false;
+        component.msgBanner = false;
+        component.cartEntry = {
+          entryNumber: 0,
+          product: { configuratorType: ConfiguratorType.VARIANT },
+        };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          'a',
+          'configurator.header.editConfiguration'
+        );
+      });
+
+      it("should be 'Edit Bundle Configuration' in edit mode for configurator type CLOUDCPQCONFIGURATOR", () => {
+        component.readOnly = false;
+        component.disabled = false;
+        component.msgBanner = false;
+        component.cartEntry = {
+          entryNumber: 0,
+          product: { configuratorType: ConfiguratorType.CPQ },
+        };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          'a',
+          'configurator.header.editBundleConfiguration'
+        );
+      });
+
       it("should be 'Resolve Issues' in case component is used in banner", () => {
         component.readOnly = false;
         component.msgBanner = true;

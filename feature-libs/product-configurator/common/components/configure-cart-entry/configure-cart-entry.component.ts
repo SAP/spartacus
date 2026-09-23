@@ -23,6 +23,7 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
   CommonConfigurator,
+  ConfiguratorType,
   ReadOnlyPostfix,
 } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
@@ -163,15 +164,25 @@ export class ConfigureCartEntryComponent {
       return 'configurator.header.displayConfiguration';
     } else if (this.msgBanner) {
       return 'configurator.header.resolveIssues';
-    } else {
-      return 'configurator.header.editConfiguration';
     }
+    return this.getEditConfigurationLinkTextResourceKey();
+  }
+
+  /**
+   * Retrieves the resource key for the edit-configuration link text.
+   *
+   * @returns - The resource key for editing a configuration or bundle configuration
+   */
+  protected getEditConfigurationLinkTextResourceKey(): string {
+    return this.cartEntry.product?.configuratorType === ConfiguratorType.CPQ
+      ? 'configurator.header.editBundleConfiguration'
+      : 'configurator.header.editConfiguration';
   }
 
   /**
    * Verifies whether the link to the configuration is disabled.
    *
-   *  @returns - 'true' if the the configuration is not read only, otherwise 'false'
+   *  @returns - 'true' if the configuration is not read only, otherwise 'false'
    */
   isDisabled(): boolean {
     return this.readOnly ? false : this.disabled;
