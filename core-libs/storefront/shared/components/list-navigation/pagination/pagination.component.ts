@@ -8,13 +8,21 @@ import { AsyncPipe, NgFor } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   Output,
+  QueryList,
+  ViewChildren,
   inject,
 } from '@angular/core';
 import { ActivatedRoute, Params, RouterLink } from '@angular/router';
-import { PaginationModel, TranslationService } from '@spartacus/core';
+import {
+  FeatureDirective,
+  FeatureToggles,
+  PaginationModel,
+  TranslationService,
+} from '@spartacus/core';
 import { Observable, combineLatest, map, of } from 'rxjs';
 import { FocusDirective } from '../../../../layout/a11y/keyboard-focus/focus.directive';
 import { PaginationBuilder } from './pagination.builder';
@@ -29,7 +37,7 @@ import { PaginationItem, PaginationItemType } from './pagination.model';
   selector: 'cx-pagination',
   templateUrl: './pagination.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgFor, RouterLink, FocusDirective, AsyncPipe],
+  imports: [NgFor, RouterLink, FocusDirective, AsyncPipe, FeatureDirective],
 })
 export class PaginationComponent {
   /** The (optional) pageRoute used for the anchor links created in the pagination   */
@@ -65,6 +73,10 @@ export class PaginationComponent {
   pages: PaginationItem[] = [];
 
   translationService = inject(TranslationService);
+
+  private featureToggles = inject(FeatureToggles);
+
+  @ViewChildren('pageLink') pageLinks: QueryList<ElementRef<HTMLAnchorElement>>;
 
   constructor(
     private paginationBuilder: PaginationBuilder,
@@ -167,5 +179,23 @@ export class PaginationComponent {
 
   pageChange(page: PaginationItem): void {
     this.viewPageEvent.emit(page.number);
+  }
+
+  /**
+   * Handles left/right arrow key navigation between pagination items.
+   * Only active when `a11yPaginationKeyboardNavigation` feature toggle is enabled.
+   */
+  onKeydown(event: KeyboardEvent, index: number): void {
+    if (!this.featureToggles.a11yPaginationKeyboardNavigation) {
+      return;
+    }
+    const links = this.pageLinks.toArray();
+    if (event.key === 'ArrowRight' && index < links.length - 1) {
+      event.preventDefault();
+      links[index + 1].nativeElement.focus();
+    } else if (event.key === 'ArrowLeft' && index > 0) {
+      event.preventDefault();
+      links[index - 1].nativeElement.focus();
+    }
   }
 }

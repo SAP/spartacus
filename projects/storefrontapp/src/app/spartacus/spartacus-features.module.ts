@@ -395,6 +395,7 @@ if (environment.cpq) {
         showWarningMessageOnRequoteButtonClick: true,
         oauthCallbackPage: true,
         enableFormFieldMaxLength: true,
+        a11yPaginationKeyboardNavigation: true,
       };
       return appFeatureToggles;
     }),
