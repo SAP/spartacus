@@ -19,6 +19,7 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { FeatureDirective, FeatureToggles } from '@spartacus/core';
+import { handleLinearKeydown } from '../../../layout/a11y/keyboard-focus/keyboard-focus.utils';
 import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive';
 import { TableRendererService } from './table-renderer.service';
 import {
@@ -113,34 +114,14 @@ export class TableComponent<T> {
   }
 
   onRowKeydown(event: KeyboardEvent, index: number, item: T): void {
-    const rows = this.tableRows.toArray();
-    switch (event.key) {
-      case 'ArrowDown':
-        event.preventDefault();
-        if (index < rows.length - 1) {
-          rows[index + 1].nativeElement.focus();
-        }
-        break;
-      case 'ArrowUp':
-        event.preventDefault();
-        if (index > 0) {
-          rows[index - 1].nativeElement.focus();
-        }
-        break;
-      case 'Home':
-        event.preventDefault();
-        rows[0].nativeElement.focus();
-        break;
-      case 'End':
-        event.preventDefault();
-        rows[rows.length - 1].nativeElement.focus();
-        break;
-      case 'Enter':
-      case ' ':
-        event.preventDefault();
-        this.launchItem(item);
-        break;
-    }
+    const items = this.tableRows.map((r) => r.nativeElement);
+    handleLinearKeydown(event, index, items, {
+      onNext: (i) => items[i].focus(),
+      onPrevious: (i) => items[i].focus(),
+      onFirst: () => items[0].focus(),
+      onLast: () => items[items.length - 1].focus(),
+      onActivate: () => this.launchItem(item),
+    });
   }
 
   /**
