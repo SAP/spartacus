@@ -26,7 +26,6 @@ import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
-import { vi } from 'vitest';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_OVERVIEW_ROUTE = 'configureOverviewCPQCONFIGURATOR';

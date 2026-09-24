@@ -17,6 +17,7 @@ import {
   Address,
   AddressValidation,
   Country,
+  FeatureDirective,
   GlobalMessageService,
   GlobalMessageType,
   Region,
@@ -43,6 +44,7 @@ import {
   combineLatest,
   filter,
   map,
+  of,
   switchMap,
   tap,
 } from 'rxjs';
@@ -63,12 +65,14 @@ import { CheckoutBillingAddressFormService } from './checkout-billing-address-fo
     FormErrorsComponent,
     AsyncPipe,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class CheckoutBillingAddressFormComponent implements OnInit {
   showSameAsDeliveryAddressCheckbox$: Observable<boolean>;
   sameAsDeliveryAddress = true;
   deliveryAddress$: Observable<Address | undefined>;
+  billingAddressCardContent$: Observable<Card | undefined>;
   countries$: Observable<Country[]>;
   regions$: Observable<Region[]>;
   selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
@@ -104,6 +108,11 @@ export class CheckoutBillingAddressFormComponent implements OnInit {
           return state.data;
         })
       );
+    this.billingAddressCardContent$ = this.deliveryAddress$.pipe(
+      switchMap((address) =>
+        address ? this.getAddressCardContent(address) : of(undefined)
+      )
+    );
     this.showSameAsDeliveryAddressCheckbox$ = combineLatest([
       this.countries$,
       this.deliveryAddress$,

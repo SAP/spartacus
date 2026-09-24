@@ -6,7 +6,6 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { of } from 'rxjs';
-import { vi } from 'vitest';
 import { defaultSmartEditConfig } from '../config/default-smart-edit-config';
 import { SmartEditConfig } from '../config/smart-edit-config';
 import { SmartEditLauncherService } from './smart-edit-launcher.service';

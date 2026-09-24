@@ -5,7 +5,8 @@ export SPA_ENV='lighthouse'
 export NODE_OPTIONS=--dns-result-order=ipv4first
 
 echo " --> Building Spartacus libraries"
-npm run build:libs
+source ci-scripts/npm-commands.sh
+build_libs_ci
 npm run build
 npm run build:ssr
 

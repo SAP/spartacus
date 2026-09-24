@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { ConfigInitializer } from '../config/config-initializer/config-initializer';
 import { SiteContextConfigInitializer } from './config/config-loader/site-context-config-initializer';
