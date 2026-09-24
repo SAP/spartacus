@@ -1947,6 +1947,141 @@ describe('ConfiguratorGroupMenuComponent', () => {
         expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
         expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
       });
+
+      it('should set menu return origin id when navigating up with current group', () => {
+        const parentGroup = configuration.groups[3];
+        const childGroup = parentGroup.subGroups[1].subGroups[0];
+
+        stubGetParentGroupWithRealImplementation();
+        spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+          of(parentGroup)
+        );
+
+        component.navigateUp(childGroup, true);
+
+        expect(component.menuReturnOriginGroupId).toBe(parentGroup.id);
+        expect(component.isMenuReturnOrigin(parentGroup.id)).toBe(true);
+      });
+
+      it('should not set menu return origin when navigating up via keyboard', () => {
+        const parentGroup = configuration.groups[3];
+        const childGroup = parentGroup.subGroups[1].subGroups[0];
+
+        stubGetParentGroupWithRealImplementation();
+        spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+          of(parentGroup)
+        );
+
+        component.navigateUp(childGroup, false);
+
+        expect(component.menuReturnOriginGroupId).toBeUndefined();
+      });
+
+      it('should not set menu return origin when navigating up without current group', () => {
+        spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+          of(mockProductConfiguration.groups[0])
+        );
+        spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
+          undefined
+        );
+
+        component.navigateUp();
+
+        expect(component.menuReturnOriginGroupId).toBeUndefined();
+      });
+    });
+
+    describe('menuReturnOrigin', () => {
+      beforeEach(() => {
+        productConfigurationObservable = of(mockProductConfiguration);
+        routerStateObservable = of(mockRouterState);
+        initialize();
+      });
+
+      it('should clear menu return origin on click', () => {
+        component.menuReturnOriginGroupId = GROUP_ID_5;
+
+        component.click(mockProductConfiguration.groups[2]);
+
+        expect(component.menuReturnOriginGroupId).toBeUndefined();
+      });
+
+      it('should mark only the return origin group', () => {
+        component.menuReturnOriginGroupId = GROUP_ID_5;
+
+        expect(component.isMenuReturnOrigin(GROUP_ID_5)).toBe(true);
+        expect(component.isMenuReturnOrigin(GROUP_ID_1)).toBe(false);
+        expect(component.isMenuReturnOrigin(undefined)).toBe(false);
+      });
+    });
+
+    describe('isPointerClick', () => {
+      beforeEach(() => {
+        productConfigurationObservable = of(mockProductConfiguration);
+        routerStateObservable = of(mockRouterState);
+        initialize();
+      });
+
+      it('should return true for a mouse click', () => {
+        expect(
+          component.isPointerClick(new MouseEvent('click', { detail: 1 }))
+        ).toBe(true);
+      });
+
+      it('should return false for a click triggered by Enter or Space', () => {
+        expect(
+          component.isPointerClick(new MouseEvent('click', { detail: 0 }))
+        ).toBe(false);
+      });
+    });
+
+    describe('getVisibleMenuItemId', () => {
+      beforeEach(() => {
+        productConfigurationObservable = of(mockProductConfiguration);
+        routerStateObservable = of(mockRouterState);
+        initialize();
+      });
+
+      it('should map a condensed structural parent to its visible menu item id', () => {
+        const nestedTabGroup: Configurator.Group = {
+          id: 'NESTED_TAB',
+          description: 'Nested tab',
+          name: 'NESTED',
+          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+          attributes: [],
+          subGroups: [],
+        };
+        const rowGroup: Configurator.Group = {
+          id: 'CONTAINER_ROW',
+          description: 'Container row',
+          name: 'ROW',
+          groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+          attributes: [],
+          subGroups: [nestedTabGroup],
+        };
+        const configuration = {
+          ...mockProductConfiguration,
+          groups: [rowGroup],
+        };
+
+        expect(
+          component['getVisibleMenuItemId'](rowGroup.id, configuration)
+        ).toBe(nestedTabGroup.id);
+      });
+
+      it('should keep the id of a group that is not condensed', () => {
+        const group = mockProductConfiguration.groups[0];
+
+        expect(
+          component['getVisibleMenuItemId'](group.id, mockProductConfiguration)
+        ).toBe(group.id);
+      });
+
+      it('should fall back to the given id for an unknown group', () => {
+        expect(
+          component['getVisibleMenuItemId']('unknown', mockProductConfiguration)
+        ).toBe('unknown');
+      });
     });
 
     describe('getGroupMenuTitle', () => {

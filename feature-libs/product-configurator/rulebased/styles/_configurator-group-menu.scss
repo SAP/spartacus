@@ -61,6 +61,10 @@
           font-weight: bold;
         }
 
+        &.cx-menu-return-origin {
+          box-shadow: inset 5px 0 0 0 var(--cx-color-primary);
+        }
+
         &.disable {
           cursor: not-allowed;
           pointer-events: none;
@@ -217,6 +221,10 @@
   @include cx-highContrastTheme {
     .cx-group-menu {
       background-color: var(--cx-color-background);
+
+      .cx-menu-item.cx-menu-return-origin {
+        box-shadow: inset 5px 0 0 0 var(--cx-color-text);
+      }
     }
   }
 }
