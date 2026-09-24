@@ -44,9 +44,11 @@ class MockInjector implements Partial<Injector> {
   }
 }
 
-const mockEvents$ = new Subject<Scroll>();
+let mockEvents$: Subject<Scroll>;
 class MockRouter implements Partial<Router> {
-  events = mockEvents$.asObservable();
+  get events() {
+    return mockEvents$.asObservable();
+  }
   options = { anchorScrolling: 'enabled' } as any;
 }
 
@@ -80,6 +82,8 @@ describe('OnNavigateService', () => {
   let viewportScroller: ViewportScroller;
 
   beforeEach(() => {
+    mockEvents$ = new Subject<Scroll>();
+
     TestBed.configureTestingModule({
       providers: [
         OnNavigateService,
@@ -121,6 +125,11 @@ describe('OnNavigateService', () => {
     vi.spyOn(viewportScroller, 'scrollToAnchor');
   });
 
+  afterEach(() => {
+    service.setResetViewOnNavigate(false);
+    vi.useRealTimers();
+  });
+
   describe('initializeWithConfig()', () => {
     it('should call setResetViewOnNavigate() when config has flag set', () => {
       expect(service.setResetViewOnNavigate).not.toHaveBeenCalled();
@@ -145,7 +154,6 @@ describe('OnNavigateService', () => {
       emitPairScrollEvent(null);
 
       await vi.advanceTimersByTimeAsync(100);
-      vi.useRealTimers();
 
       expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([0, 0]);
     });
@@ -181,7 +189,6 @@ describe('OnNavigateService', () => {
       emitPairScrollEvent(null, '/test3', '/test1', anchor);
 
       await vi.advanceTimersByTimeAsync(100);
-      vi.useRealTimers();
 
       expect(viewportScroller.scrollToAnchor).toHaveBeenCalledWith(anchor);
     });
@@ -195,7 +202,6 @@ describe('OnNavigateService', () => {
       emitPairScrollEvent(null, '/test3');
 
       await vi.advanceTimersByTimeAsync(100);
-      vi.useRealTimers();
 
       expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([0, 0]);
     });
@@ -207,7 +213,6 @@ describe('OnNavigateService', () => {
       emitPairScrollEvent([1000, 500]);
 
       await vi.advanceTimersByTimeAsync(100);
-      vi.useRealTimers();
 
       expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([
         1000, 500,
