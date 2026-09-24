@@ -5,32 +5,33 @@ import { CurrentLocationService } from './current-location.service';
 import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 
 export class MockWindowRef extends MockWinRef {
-  override get nativeWindow(): Window {
-    return {
-      navigator: {
-        geolocation: {
-          getCurrentPosition: (
-            successCallback: PositionCallback,
-            _errorCallback?: PositionErrorCallback | null,
-            _options?: PositionOptions
-          ) =>
-            successCallback({
-              coords: {
-                latitude: 0,
-                longitude: 0,
-                accuracy: 0,
-                altitude: 0,
-                altitudeAccuracy: 0,
-                heading: 0,
-                speed: 0,
-                toJSON: () => {},
-              } as GeolocationCoordinates,
-              timestamp: 0,
+  private _nativeWindow = {
+    navigator: {
+      geolocation: {
+        getCurrentPosition: (
+          successCallback: PositionCallback,
+          _errorCallback?: PositionErrorCallback | null,
+          _options?: PositionOptions
+        ) =>
+          successCallback({
+            coords: {
+              latitude: 0,
+              longitude: 0,
+              accuracy: 0,
+              altitude: 0,
+              altitudeAccuracy: 0,
+              heading: 0,
+              speed: 0,
               toJSON: () => {},
-            } as GeolocationPosition),
-        },
+            } as GeolocationCoordinates,
+            timestamp: 0,
+            toJSON: () => {},
+          } as GeolocationPosition),
       },
-    } as unknown as Window;
+    },
+  } as Window;
+  override get nativeWindow(): Window {
+    return this._nativeWindow;
   }
 }
 
@@ -61,8 +62,8 @@ describe('CurrentLocationService', () => {
     });
 
     it('should get the current location from the browser API', () => {
-      vi.spyOn(
-        (windowRef.nativeWindow as Window).navigator.geolocation,
+      const getCurrentPosSpy = vi.spyOn(
+        (windowRef.nativeWindow).navigator.geolocation,
         'getCurrentPosition'
       );
 
@@ -72,10 +73,11 @@ describe('CurrentLocationService', () => {
 
       service.getCurrentLocation(successCallback, errorCallback, options);
 
-      expect(
-        (windowRef.nativeWindow as Window).navigator.geolocation
-          .getCurrentPosition
-      ).toHaveBeenCalledWith(successCallback, errorCallback, options);
+      expect(getCurrentPosSpy).toHaveBeenCalledWith(
+        successCallback,
+        errorCallback,
+        options
+      );
       expect(successCallback).toHaveBeenCalled();
     });
   });
@@ -103,7 +105,9 @@ export class MockCurrentLocationService {
     errorCallback?: PositionErrorCallback | null,
     options?: PositionOptions
   ): void {
-    (new MockWindowRef().nativeWindow as Window).navigator.geolocation.getCurrentPosition(
+    (
+      new MockWindowRef().nativeWindow as Window
+    ).navigator.geolocation.getCurrentPosition(
       successCallback,
       errorCallback,
       options
