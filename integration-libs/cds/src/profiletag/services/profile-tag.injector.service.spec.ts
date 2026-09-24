@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { Cart } from '@spartacus/cart/base/root';
 import { BehaviorSubject, EMPTY, ReplaySubject, Subject } from 'rxjs';
@@ -31,39 +32,21 @@ describe('ProfileTagInjector', () => {
     postBehavior = new ReplaySubject<boolean>();
     pushEvents = new ReplaySubject<ProfileTagPushEvent>();
     cdsBackendConnectorMock = <CdsBackendConnector>(<any>{
-      notifySuccessfulLogin: jasmine
-        .createSpy('cdsBackendConnectorMock')
-        .and.returnValue(new BehaviorSubject(true)),
+      notifySuccessfulLogin: vi.fn().mockReturnValue(new BehaviorSubject(true)),
     });
     profileTagLifecycleServiceMock = <ProfileTagLifecycleService>(<unknown>{
-      consentGranted: jasmine
-        .createSpy('consentGranted')
-        .and.callFake(() => consentBehavior),
-      navigated: jasmine
-        .createSpy('navigated')
-        .and.callFake(() => navigatedBehavior),
-      loginSuccessful: jasmine
-        .createSpy('loginSuccessful')
-        .and.callFake((_) => postBehavior),
+      consentGranted: vi.fn().mockImplementation(() => consentBehavior),
+      navigated: vi.fn().mockImplementation(() => navigatedBehavior),
+      loginSuccessful: vi.fn().mockImplementation((_) => postBehavior),
     });
     profileTagPushEventsServiceMock = <ProfileTagPushEventsService>(<unknown>{
-      cartChanged: jasmine
-        .createSpy('cartChanged')
-        .and.callFake((_) => cartBehavior),
-      getPushEvents: jasmine
-        .createSpy('getPushEvents')
-        .and.callFake((_) => pushEvents),
+      cartChanged: vi.fn().mockImplementation((_) => cartBehavior),
+      getPushEvents: vi.fn().mockImplementation((_) => pushEvents),
     });
     profileTagEventTrackerMock = <ProfileTagEventService>(<unknown>{
-      addTracker: jasmine
-        .createSpy('addTracker')
-        .and.callFake(() => addTrackerBehavior),
-      notifyProfileTagOfEventOccurrence: jasmine.createSpy(
-        'notifyProfileTagOfEventOccurrence'
-      ),
-      getProfileTagEvents: jasmine
-        .createSpy('getProfileTagEvents')
-        .and.callFake(() => EMPTY),
+      addTracker: vi.fn().mockImplementation(() => addTrackerBehavior),
+      notifyProfileTagOfEventOccurrence: vi.fn(),
+      getProfileTagEvents: vi.fn().mockImplementation(() => EMPTY),
     });
   }
   beforeEach(() => {

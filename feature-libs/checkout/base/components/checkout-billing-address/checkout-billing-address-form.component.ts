@@ -44,6 +44,7 @@ import {
   combineLatest,
   filter,
   map,
+  of,
   switchMap,
   tap,
 } from 'rxjs';
@@ -71,6 +72,7 @@ export class CheckoutBillingAddressFormComponent implements OnInit {
   showSameAsDeliveryAddressCheckbox$: Observable<boolean>;
   sameAsDeliveryAddress = true;
   deliveryAddress$: Observable<Address | undefined>;
+  billingAddressCardContent$: Observable<Card | undefined>;
   countries$: Observable<Country[]>;
   regions$: Observable<Region[]>;
   selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
@@ -106,6 +108,11 @@ export class CheckoutBillingAddressFormComponent implements OnInit {
           return state.data;
         })
       );
+    this.billingAddressCardContent$ = this.deliveryAddress$.pipe(
+      switchMap((address) =>
+        address ? this.getAddressCardContent(address) : of(undefined)
+      )
+    );
     this.showSameAsDeliveryAddressCheckbox$ = combineLatest([
       this.countries$,
       this.deliveryAddress$,

@@ -157,7 +157,7 @@
     "test:ssr:ci": "env-cmd -e ci -- nx test ssr-tests",
     "prerender": "env-cmd --no-override -e dev,$SPA_ENV -- cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 nx run storefrontapp:prerender",
     "publish:docs": "npx --yes gh-pages@^2.2.0 -d documentation -m \"Compodocs updates\"",
-    "test:cds:lib": "nx test cds --code-coverage",
+    "test:cds:lib": "nx test-vitest cds --coverage",
     "build:cds:ssr": "env-cmd --no-override -e dev,b2c,cds -- nx run storefrontapp:build:production"
   },
   "private": false,
@@ -296,10 +296,10 @@
   },
   "overrides": {
     "@verdaccio/middleware": {
-      "express-rate-limit": "8.7.0"
+      "express-rate-limit": "5.5.1"
     },
-    "axios": "1.18.1",
-    "express-rate-limit": "8.7.0",
+    "axios": "1.20.0",
+    "express-rate-limit": "8.5.1",
     "flatted": "3.4.4",
     "i18n-lint": {
       "minimatch": "3.1.5"
