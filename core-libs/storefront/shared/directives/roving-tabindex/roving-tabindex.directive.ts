@@ -94,6 +94,9 @@ export class CxRovingTabindexDirective implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initTabindexes();
+    if (typeof MutationObserver === 'undefined') {
+      return;
+    }
     this.mutationObserver = new MutationObserver((mutations) => {
       if (mutations.some((m) => m.type === 'childList')) {
         this.initTabindexes();

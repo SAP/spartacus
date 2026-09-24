@@ -63,17 +63,14 @@ export class PaginationComponent {
   }
   @Input() set pagination(value: PaginationModel | undefined) {
     if (value) {
+      const prevPage = this._pagination?.currentPage ?? -1;
+      this._pagination = value;
+      this.render(value);
       if (this.featureToggles.a11yPaginationKeyboardNavigation) {
-        const prevPage = this._pagination?.currentPage ?? -1;
-        this._pagination = value;
-        this.render(value);
         this.initialFocusIndex = this.getInitialFocusIndex(
           value.currentPage ?? 0,
           prevPage
         );
-      } else {
-        this._pagination = value;
-        this.render(value);
       }
     }
   }
