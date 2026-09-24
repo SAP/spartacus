@@ -19,7 +19,12 @@
     <section main class="details">
       <div class="property">
         <label>{{ 'orgUnit.name' | cxTranslate }}</label>
-        <span class="value"> {{ model.firstName }} {{ model.lastName }} </span>
+        <span class="value">
+          <span *cxFeature="'addTitleToAddressCard'">{{
+            model.title ? model.title + ' ' : ''
+          }}</span
+          >{{ model.firstName }} {{ model.lastName }}
+        </span>
       </div>
 
       <div class="property">

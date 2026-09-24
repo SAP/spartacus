@@ -5,16 +5,16 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   Address,
   FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
+  HierarchicalAddressConfig,
   LanguageService,
   TranslatePipe,
   TranslationService,
-  HierarchicalAddressConfig,
 } from '@spartacus/core';
 import {
   Card,
@@ -24,12 +24,12 @@ import {
 } from '@spartacus/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import {
-  map,
   filter,
+  map,
   pairwise,
   skip,
-  withLatestFrom,
   take,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { AddressBookComponentService } from './address-book.component.service';
 import { AddressFormComponent } from './address-form/address-form.component';
@@ -223,10 +223,10 @@ export class AddressBookComponent implements OnInit, OnDestroy {
               numbers,
             ];
           }
-
+          const fullName = this.getCardName(address);
           return {
             role: 'application',
-            textBold: address.firstName + ' ' + address.lastName,
+            textBold: fullName,
             text,
             actions: actions,
             header: address.defaultAddress ? `✓ ${defaultText}` : '',
@@ -238,6 +238,13 @@ export class AddressBookComponent implements OnInit, OnDestroy {
         }
       )
     );
+  }
+
+  protected getCardName(address: Address): string {
+    const fullName = address.firstName + ' ' + address.lastName;
+    return this.featureToggles.addTitleToAddressCard && !!address.title
+      ? address.title + ' ' + fullName
+      : fullName;
   }
 
   protected buildLocationLine(address: Address): string {
