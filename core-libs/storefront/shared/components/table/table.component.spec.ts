@@ -7,7 +7,6 @@ import { TableComponent } from './table.component';
 import { Table, TableLayout } from './table.model';
 import { FeatureToggles } from '@spartacus/core';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { vi } from 'vitest';
 
 vi.mock('@angular/core', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@angular/core')>();

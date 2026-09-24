@@ -18,7 +18,6 @@ import {
   OutletContextData,
 } from '@spartacus/storefront';
 import { of, throwError } from 'rxjs';
-import { vi } from 'vitest';
 import { RequestedDeliveryDateFacade } from '../../facade/requested-delivery-date.facade';
 import { DeliveryModeDatePickerComponent } from './delivery-mode-date-picker.component';
 

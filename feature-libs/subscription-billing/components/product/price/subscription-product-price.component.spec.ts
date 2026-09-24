@@ -8,7 +8,6 @@ import {
   SubscriptionProductService,
 } from '@spartacus/subscription-billing/root';
 import { Observable, of } from 'rxjs';
-import { vi } from 'vitest';
 import { SubscriptionProductPriceComponent } from './subscription-product-price.component';
 const mockOneTime: OneTimeCharge[] = [{ name: 'one' }, { name: 'two' }];
 const mockRecurring: RecurringCharge[] = [{ price: { value: 1 } }];

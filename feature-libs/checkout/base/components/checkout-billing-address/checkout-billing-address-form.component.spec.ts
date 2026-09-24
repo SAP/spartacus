@@ -19,7 +19,6 @@ import {
   NgSelectA11yModule,
 } from '@spartacus/storefront';
 import { EMPTY, firstValueFrom, of } from 'rxjs';
-import { vi } from 'vitest';
 import { CheckoutBillingAddressFormComponent } from './checkout-billing-address-form.component';
 import { CheckoutBillingAddressFormService } from './checkout-billing-address-form.service';
 

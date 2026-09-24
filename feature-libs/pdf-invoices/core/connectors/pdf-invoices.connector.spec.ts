@@ -4,7 +4,6 @@ import {
   InvoicesFields,
 } from '@spartacus/pdf-invoices/root';
 import { firstValueFrom, of } from 'rxjs';
-import { vi } from 'vitest';
 import { PDFInvoicesAdapter } from './pdf-invoices.adapter';
 import { PDFInvoicesConnector } from './pdf-invoices.connector';
 

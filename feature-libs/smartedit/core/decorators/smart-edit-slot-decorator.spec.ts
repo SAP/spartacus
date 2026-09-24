@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { vi } from 'vitest';
 import { SmartEditService } from '../services/smart-edit.service';
 import { SmartEditSlotDecorator } from './smart-edit-slot-decorator';
 

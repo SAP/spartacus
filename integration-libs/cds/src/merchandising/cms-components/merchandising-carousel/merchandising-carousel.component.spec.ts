@@ -32,7 +32,6 @@ import { AttributesDirective } from '../directives';
 import { MerchandisingCarouselComponent } from './merchandising-carousel.component';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
 import { MerchandisingCarouselModel } from './model/index';
-import { vi } from 'vitest';
 
 @Component({
   selector: 'cx-carousel',
