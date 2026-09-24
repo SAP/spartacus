@@ -23,7 +23,6 @@ import {
   ReplaySubject,
   Subject,
 } from 'rxjs';
-import { vi } from 'vitest';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
 import { MediaComponent } from '../../../shared/components/media/media.component';

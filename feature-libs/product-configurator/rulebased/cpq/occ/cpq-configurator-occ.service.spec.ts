@@ -33,7 +33,6 @@ import {
   CPQ_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
 } from './converters/cpq-configurator-occ.converters';
 import { CpqConfiguratorOccService } from './cpq-configurator-occ.service';
-import { vi } from 'vitest';
 import {
   provideHttpClient,
   withInterceptorsFromDi,

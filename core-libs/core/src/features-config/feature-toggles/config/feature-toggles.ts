@@ -869,6 +869,16 @@ export interface FeatureTogglesInterface {
    * Affects: PaginationComponent
    */
   a11yPaginationKeyboardNavigation?: boolean;
+
+  /**
+   * When enabled, the "In Stock" / "Out of Stock" info text in the
+   * `AddToCartComponent` uses `--cx-color-text` instead of
+   * `--cx-color-secondary`, ensuring the text meets the WCAG 1.4.3 Level AA
+   * minimum contrast ratio of 4.5:1 against all background surfaces.
+   *
+   * Affects: `AddToCartComponent`
+   */
+  a11yInStockInfoTextContrast?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -973,4 +983,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableFormFieldMaxLength: false,
   a11yTableKeyboardNavigation: false,
   a11yPaginationKeyboardNavigation: false,
+  a11yInStockInfoTextContrast: false,
 };

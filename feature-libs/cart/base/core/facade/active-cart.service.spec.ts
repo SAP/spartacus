@@ -23,7 +23,6 @@ import {
   Subject,
 } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { vi } from 'vitest';
 import { ActiveCartService } from './active-cart.service';
 
 const userId$ = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);
