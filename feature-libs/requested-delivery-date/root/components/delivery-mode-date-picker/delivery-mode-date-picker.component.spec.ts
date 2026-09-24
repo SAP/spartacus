@@ -17,16 +17,15 @@ import {
   DatePickerModule,
   OutletContextData,
 } from '@spartacus/storefront';
-import { of, throwError } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, of, throwError } from 'rxjs';
 import { RequestedDeliveryDateFacade } from '../../facade/requested-delivery-date.facade';
 import { DeliveryModeDatePickerComponent } from './delivery-mode-date-picker.component';
 
 describe('DeliveryModeDatePickerComponent', () => {
   let component: DeliveryModeDatePickerComponent;
   let fixture: ComponentFixture<DeliveryModeDatePickerComponent>;
-
-  const requestedDelDateFacadeMock = {
-    setRequestedDeliveryDate: vi.fn().mockReturnValue(of({})),
+  let requestedDelDateFacadeMock: {
+    setRequestedDeliveryDate: ReturnType<typeof vi.fn>;
   };
 
   const mockedGlobalMessageService = {
@@ -42,7 +41,16 @@ describe('DeliveryModeDatePickerComponent', () => {
     translate: vi.fn().mockReturnValue(of('Delivery Date')),
   };
 
+  const mockOutletContextData = {
+    context: undefined,
+    context$: of(),
+  };
+
   beforeEach(async () => {
+    requestedDelDateFacadeMock = {
+      setRequestedDeliveryDate: vi.fn().mockReturnValue(of({})),
+    };
+
     await TestBed.configureTestingModule({
       imports: [
         DatePickerModule,
@@ -62,9 +70,7 @@ describe('DeliveryModeDatePickerComponent', () => {
         { provide: LanguageService, useValue: mockLanguageService },
         {
           provide: OutletContextData,
-          useValue: {
-            context: undefined,
-          },
+          useValue: mockOutletContextData,
         },
       ],
     })
@@ -80,6 +86,8 @@ describe('DeliveryModeDatePickerComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DeliveryModeDatePickerComponent);
     component = fixture.componentInstance;
+    component['form'].reset();
+    TestBed.inject(OutletContextData).context$ = of();
     // NOTE: no fixture.detectChanges() here — each test sets its own state first
     // to avoid NG0100 ExpressionChangedAfterItHasBeenCheckedError
   });
@@ -199,7 +207,7 @@ describe('DeliveryModeDatePickerComponent', () => {
     const requestedRetrievalAt = '2023-05-03';
     const earliestRetrievalAt = '2023-09-15';
     const data = TestBed.inject(OutletContextData);
-    data.context$ = of({
+    const contextData = new BehaviorSubject<any>({
       item: {
         requestedRetrievalAt,
         earliestRetrievalAt,
@@ -210,6 +218,7 @@ describe('DeliveryModeDatePickerComponent', () => {
       },
       readonly: false,
     });
+    data.context$ = contextData.asObservable();
 
     fixture.detectChanges();
     const newRequestedRetrievalAt = '2023-09-15';
@@ -223,22 +232,22 @@ describe('DeliveryModeDatePickerComponent', () => {
       By.css('cx-date-picker')
     )?.nativeElement;
     datePickerEl.dispatchEvent(event);
-
+    fixture.detectChanges();
     expect(
       component['requestedDelDateFacade'].setRequestedDeliveryDate
     ).toHaveBeenCalled();
 
-    await new Promise<void>((resolve) => {
-      component['requestedDelDateFacade']
-        .setRequestedDeliveryDate('current', '123', newRequestedRetrievalAt)
-        .subscribe(() => {
-          expect(component['globalMessageService'].add).toHaveBeenCalledWith(
-            { key: 'requestedDeliveryDate.successMessage' },
-            GlobalMessageType.MSG_TYPE_INFO
-          );
-          resolve();
-        });
-    });
+    await firstValueFrom(
+      component['requestedDelDateFacade'].setRequestedDeliveryDate(
+        'current',
+        '123',
+        newRequestedRetrievalAt
+      )
+    );
+    expect(component['globalMessageService'].add).toHaveBeenCalledWith(
+      { key: 'requestedDeliveryDate.successMessage' },
+      GlobalMessageType.MSG_TYPE_INFO
+    );
   });
 
   it('should NOT call setRequestedDeliveryDate when a date less than earliestRetrievalAt is provided', () => {

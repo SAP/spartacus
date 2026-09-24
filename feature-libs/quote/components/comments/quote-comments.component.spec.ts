@@ -90,13 +90,6 @@ describe('QuoteCommentsComponent', () => {
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
 
-    mockQuoteItemsComponentService = {
-      setQuoteEntriesExpanded: vi.fn(),
-      getQuoteEntriesExpanded: vi.fn(),
-    } as any;
-    (
-      mockQuoteItemsComponentService.getQuoteEntriesExpanded as vi.Mock
-    ).mockReturnValue(of(true));
     quoteItemsComponentService = TestBed.inject(QuoteItemsComponentService);
   });
 
@@ -123,6 +116,14 @@ describe('QuoteCommentsComponent', () => {
     (quoteFacade.addQuoteComment as vi.Mock).mockReturnValue(of({}));
 
     eventService = { dispatch: vi.fn() } as any;
+
+    mockQuoteItemsComponentService = {
+      setQuoteEntriesExpanded: vi.fn(),
+      getQuoteEntriesExpanded: vi.fn(),
+    } as any;
+    (
+      mockQuoteItemsComponentService.getQuoteEntriesExpanded as vi.Mock
+    ).mockReturnValue(of(true));
   }
 
   it('should create', () => {
