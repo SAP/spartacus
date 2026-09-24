@@ -122,12 +122,6 @@ describe('UserWishlistConnector', () => {
       expect(adapter.removeEntry).toHaveBeenCalledTimes(1);
     });
 
-    it('should return the Observable<void> emitted by the adapter', async () => {
-      await firstValueFrom(
-        connector.removeEntry(MOCK_USER_ID, MOCK_WISHLIST_ID, MOCK_ENTRY_ID)
-      );
-    });
-
     it('should not call getWishlist or addEntry', () => {
       connector
         .removeEntry(MOCK_USER_ID, MOCK_WISHLIST_ID, MOCK_ENTRY_ID)

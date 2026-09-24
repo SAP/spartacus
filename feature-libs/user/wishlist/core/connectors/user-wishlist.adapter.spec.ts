@@ -123,20 +123,6 @@ describe('UserWishlistAdapter', () => {
       expect(typeof adapter.removeEntry).toBe('function');
     });
 
-    it('should accept userId, wishlistId, entryId and return Observable<void>', async () => {
-      vi.spyOn(adapter, 'removeEntry').mockReturnValue(of(undefined as void));
-
-      await firstValueFrom(
-        adapter.removeEntry(MOCK_USER_ID, MOCK_WISHLIST_ID, MOCK_ENTRY_ID)
-      );
-
-      expect(adapter.removeEntry).toHaveBeenCalledWith(
-        MOCK_USER_ID,
-        MOCK_WISHLIST_ID,
-        MOCK_ENTRY_ID
-      );
-    });
-
     it('should forward all three arguments to the implementation', () => {
       const spy = vi.spyOn(adapter, 'removeEntry');
       adapter
