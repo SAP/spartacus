@@ -145,21 +145,23 @@ export class CxRovingTabindexDirective implements AfterViewInit {
         return itemCount - 1;
       case 'Enter':
       case ' ':
-        if (this.cxRovingTabindexActivate) {
-          event.preventDefault();
-          this.itemActivated.emit(currentIndex);
-        }
+        this.handleActivation(event, currentIndex);
         return null;
       default:
         return null;
     }
   }
 
+  private handleActivation(event: KeyboardEvent, currentIndex: number): void {
+    if (this.cxRovingTabindexActivate) {
+      event.preventDefault();
+      this.itemActivated.emit(currentIndex);
+    }
+  }
+
   getItems(): HTMLElement[] {
     return Array.from(
-      this.host.querySelectorAll(
-        this.itemSelector
-      ) as NodeListOf<HTMLElement>
+      this.host.querySelectorAll(this.itemSelector) as NodeListOf<HTMLElement>
     );
   }
 
