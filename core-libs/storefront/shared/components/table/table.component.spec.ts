@@ -380,19 +380,21 @@ describe('TableComponent with a11yTableKeyboardNavigation enabled', () => {
   });
 
   it('should render rows with cxRovingTabindexItem attribute', () => {
-    const rows = fixture.debugElement.queryAll(
-      By.css('[data-cx-roving-item]')
-    );
+    const rows = fixture.debugElement.queryAll(By.css('[data-cx-roving-item]'));
     expect(rows.length).toBe(data.length);
   });
 
   it('should set tabindex=0 on the first row and -1 on others after init', () => {
-    const rows = fixture.debugElement.queryAll(
-      By.css('[data-cx-roving-item]')
-    );
-    expect((rows[0].nativeElement as HTMLElement).getAttribute('tabindex')).toBe('0');
-    expect((rows[1].nativeElement as HTMLElement).getAttribute('tabindex')).toBe('-1');
-    expect((rows[2].nativeElement as HTMLElement).getAttribute('tabindex')).toBe('-1');
+    const rows = fixture.debugElement.queryAll(By.css('[data-cx-roving-item]'));
+    expect(
+      (rows[0].nativeElement as HTMLElement).getAttribute('tabindex')
+    ).toBe('0');
+    expect(
+      (rows[1].nativeElement as HTMLElement).getAttribute('tabindex')
+    ).toBe('-1');
+    expect(
+      (rows[2].nativeElement as HTMLElement).getAttribute('tabindex')
+    ).toBe('-1');
   });
 
   it('should move focus to next row on ArrowDown', () => {

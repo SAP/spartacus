@@ -88,8 +88,8 @@ export class CxRovingTabindexDirective implements AfterViewInit {
   /** Index of the item that currently holds tabindex=0. Public for host inspection. */
   focusedIndex = 0;
 
-  private readonly el = inject(ElementRef<HTMLElement>);
-  private readonly destroyRef = inject(DestroyRef);
+  protected readonly host = inject(ElementRef<HTMLElement>).nativeElement;
+  protected readonly destroyRef = inject(DestroyRef);
   private mutationObserver: MutationObserver | undefined;
 
   ngAfterViewInit(): void {
@@ -101,7 +101,7 @@ export class CxRovingTabindexDirective implements AfterViewInit {
     });
     // Only observe childList — excluding 'attributes' prevents a feedback loop
     // when this directive sets tabindex on children.
-    this.mutationObserver.observe(this.el.nativeElement, {
+    this.mutationObserver.observe(this.host, {
       childList: true,
       subtree: true,
     });
@@ -114,47 +114,50 @@ export class CxRovingTabindexDirective implements AfterViewInit {
     if (!items.length) {
       return;
     }
+    const currentIndex = this.getCurrentFocusedIndex(items);
+    const targetIndex = this.getTargetIndex(event, currentIndex, items.length);
+    if (targetIndex !== null) {
+      this.moveFocus(items, targetIndex);
+    }
+  }
 
+  private getTargetIndex(
+    event: KeyboardEvent,
+    currentIndex: number,
+    itemCount: number
+  ): number | null {
     const isVertical = this.cxRovingTabindexAxis === 'vertical';
     const forwardKey = isVertical ? 'ArrowDown' : 'ArrowRight';
     const backwardKey = isVertical ? 'ArrowUp' : 'ArrowLeft';
-    const currentIndex = this.getCurrentFocusedIndex(items);
-    let targetIndex: number | null = null;
 
     switch (event.key) {
       case forwardKey:
         event.preventDefault();
-        targetIndex = currentIndex < items.length - 1 ? currentIndex + 1 : null;
-        break;
+        return currentIndex < itemCount - 1 ? currentIndex + 1 : null;
       case backwardKey:
         event.preventDefault();
-        targetIndex = currentIndex > 0 ? currentIndex - 1 : null;
-        break;
+        return currentIndex > 0 ? currentIndex - 1 : null;
       case 'Home':
         event.preventDefault();
-        targetIndex = 0;
-        break;
+        return 0;
       case 'End':
         event.preventDefault();
-        targetIndex = items.length - 1;
-        break;
+        return itemCount - 1;
       case 'Enter':
       case ' ':
         if (this.cxRovingTabindexActivate) {
           event.preventDefault();
           this.itemActivated.emit(currentIndex);
         }
-        return;
-    }
-
-    if (targetIndex !== null) {
-      this.moveFocus(items, targetIndex);
+        return null;
+      default:
+        return null;
     }
   }
 
   getItems(): HTMLElement[] {
     return Array.from(
-      this.el.nativeElement.querySelectorAll(
+      this.host.querySelectorAll(
         this.itemSelector
       ) as NodeListOf<HTMLElement>
     );

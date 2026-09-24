@@ -69,7 +69,9 @@ describe('CxRovingTabindexDirective', () => {
   let directive: CxRovingTabindexDirective;
 
   function getItems(): HTMLElement[] {
-    return Array.from(container.querySelectorAll<HTMLElement>('[cxRovingTabindexItem]'));
+    return Array.from(
+      container.querySelectorAll<HTMLElement>('[cxRovingTabindexItem]')
+    );
   }
 
   function dispatchKeydown(key: string, target?: HTMLElement): KeyboardEvent {
@@ -87,8 +89,9 @@ describe('CxRovingTabindexDirective', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    container = fixture.debugElement.query(By.directive(CxRovingTabindexDirective))
-      .nativeElement as HTMLElement;
+    container = fixture.debugElement.query(
+      By.directive(CxRovingTabindexDirective)
+    ).nativeElement as HTMLElement;
     directive = fixture.debugElement
       .query(By.directive(CxRovingTabindexDirective))
       .injector.get(CxRovingTabindexDirective);
@@ -155,7 +158,10 @@ describe('CxRovingTabindexDirective', () => {
       directive.focusedIndex = 2;
       const items = getItems();
       items[2].focus();
-      const event = new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true });
+      const event = new KeyboardEvent('keydown', {
+        key: 'ArrowDown',
+        bubbles: true,
+      });
       const preventSpy = vi.spyOn(event, 'preventDefault');
       container.dispatchEvent(event);
       expect(preventSpy).toHaveBeenCalled();
@@ -243,7 +249,10 @@ describe('CxRovingTabindexDirective', () => {
       const items = getItems();
       items[1].focus();
 
-      const event = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true });
+      const event = new KeyboardEvent('keydown', {
+        key: 'Enter',
+        bubbles: true,
+      });
       const preventSpy = vi.spyOn(event, 'preventDefault');
       container.dispatchEvent(event);
 
@@ -268,7 +277,10 @@ describe('CxRovingTabindexDirective', () => {
       const items = getItems();
       items[0].focus();
 
-      const event = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true });
+      const event = new KeyboardEvent('keydown', {
+        key: 'Enter',
+        bubbles: true,
+      });
       const preventSpy = vi.spyOn(event, 'preventDefault');
       container.dispatchEvent(event);
 
@@ -305,7 +317,9 @@ describe('CxRovingTabindexDirective', () => {
       const customContainer = customFixture.debugElement.query(
         By.directive(CxRovingTabindexDirective)
       ).nativeElement as HTMLElement;
-      const links = Array.from(customContainer.querySelectorAll<HTMLElement>('a'));
+      const links = Array.from(
+        customContainer.querySelectorAll<HTMLElement>('a')
+      );
 
       expect(links[0].getAttribute('tabindex')).toBe('0');
       expect(links[1].getAttribute('tabindex')).toBe('-1');
@@ -330,7 +344,9 @@ describe('CxRovingTabindexDirective', () => {
     });
 
     it('should update focusedIndex when Tab moves focus to a child inside a roving item', () => {
-      const items = Array.from(childContainer.querySelectorAll<HTMLElement>('[data-item]'));
+      const items = Array.from(
+        childContainer.querySelectorAll<HTMLElement>('[data-item]')
+      );
       // Simulate Tab landing on the <a> inside item 0 (row 1)
       const childLink = items[0].querySelector('a') as HTMLElement;
       childLink.dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
@@ -339,7 +355,9 @@ describe('CxRovingTabindexDirective', () => {
     });
 
     it('should resume arrow navigation from the correct row after Tab into a child', () => {
-      const items = Array.from(childContainer.querySelectorAll<HTMLElement>('[data-item]'));
+      const items = Array.from(
+        childContainer.querySelectorAll<HTMLElement>('[data-item]')
+      );
       // Start on item 0, arrow down to item 1
       items[0].focus();
       childContainer.dispatchEvent(
@@ -362,7 +380,6 @@ describe('CxRovingTabindexDirective', () => {
     });
   });
 
-
   describe('MutationObserver / focusedIndex clamping', () => {
     it('should clamp focusedIndex when items are removed', async () => {
       directive.focusedIndex = 2;
@@ -378,4 +395,3 @@ describe('CxRovingTabindexDirective', () => {
     });
   });
 });
-

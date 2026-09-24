@@ -64,12 +64,12 @@ export class PaginationComponent {
   @Input() set pagination(value: PaginationModel | undefined) {
     if (value) {
       if (this.featureToggles.a11yPaginationKeyboardNavigation) {
+        const prevPage = this._pagination?.currentPage ?? -1;
         this._pagination = value;
         this.render(value);
         this.initialFocusIndex = this.getInitialFocusIndex(
           value.currentPage ?? 0,
-          // If the pagination is not set, we assume the previous page was -1, which will focus the first item in the list
-          this._pagination?.currentPage ?? -1
+          prevPage
         );
       } else {
         this._pagination = value;
@@ -104,7 +104,7 @@ export class PaginationComponent {
           last = i;
         }
       });
-      return last >= 0 ? last : 0;
+      return Math.max(last, 0);
     }
 
     return 0;

@@ -197,7 +197,9 @@ describe('PaginationComponent', () => {
         it('should set tabindex=0 on first active (non-disabled) link', () => {
           // With a11yPaginationKeyboardNavigation the directive owns tabindex.
           // The first non-disabled link in DOM order gets tabindex=0.
-          const firstActive = debugEl.query(By.css('a:not(.disabled)')).nativeElement;
+          const firstActive = debugEl.query(
+            By.css('a:not(.disabled)')
+          ).nativeElement;
           expect(firstActive.tabIndex).toEqual(0);
         });
 
@@ -348,7 +350,9 @@ describe('PaginationComponent', () => {
         );
         const dir = dirDE?.injector.get(CxRovingTabindexDirective);
         if (dir) {
-          dir.cxRovingTabindexInitialIndex = (component as any).initialFocusIndex;
+          dir.cxRovingTabindexInitialIndex = (
+            component as any
+          ).initialFocusIndex;
         }
         fixture.detectChanges();
         await new Promise((resolve) => setTimeout(resolve, 0));
@@ -364,7 +368,9 @@ describe('PaginationComponent', () => {
         );
         expect(focusedIdx).toBeGreaterThan(0);
         newActiveLinks.forEach((el, i) => {
-          expect(el.getAttribute('tabindex')).toBe(i === focusedIdx ? '0' : '-1');
+          expect(el.getAttribute('tabindex')).toBe(
+            i === focusedIdx ? '0' : '-1'
+          );
         });
       });
 
