@@ -12,7 +12,6 @@ import { StrategyProducts } from '../../model/strategy-products.model';
 import { CdsMerchandisingStrategyAdapter } from './cds-merchandising-strategy.adapter';
 import { BaseSiteService, WindowRef } from '@spartacus/core';
 import { of } from 'rxjs';
-import { vi } from 'vitest';
 
 const STRATEGY_ID = 'test-strategy-id';
 const STRATEGY_PRODUCTS_ENDPOINT_KEY = 'strategyProducts';

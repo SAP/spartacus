@@ -26,7 +26,6 @@ import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetList } from '../facet.model';
 import { FacetService } from '../services/facet.service';
 import { ActiveFacetsComponent } from './active-facets.component';
-import { vi } from 'vitest';
 
 @Component({
   selector: 'cx-icon',

@@ -9,7 +9,6 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
-import { vi } from 'vitest';
 import { StoreFinderConfig } from '../config/store-finder-config';
 import { StoreFinderSelectors } from '../store';
 import { StoreFinderActions } from '../store/actions/index';

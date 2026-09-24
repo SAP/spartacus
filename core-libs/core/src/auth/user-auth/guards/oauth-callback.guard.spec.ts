@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { Router, UrlTree } from '@angular/router';
 import { AuthRedirectService, WindowRef } from '@spartacus/core';
 import { EMPTY, firstValueFrom, Observable, of } from 'rxjs';
-import { vi } from 'vitest';
 import { SemanticPathService } from '../../../routing/configurable-routes/url-translation/semantic-path.service';
 import { AuthService } from '../facade/auth.service';
 import { OAuthCallbackGuard } from './oauth-callback.guard';
