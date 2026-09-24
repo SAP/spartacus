@@ -15,6 +15,7 @@ import {
 } from '@spartacus/core';
 import { FacetList, FacetService } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
+import { vi } from 'vitest';
 
 const consentReference = '75b75543-950f-4e53-a36c-ab8737a0974a';
 const emptyPageSearchResults: ProductSearchPage = {};
@@ -99,10 +100,10 @@ describe('CdsMerchandisingUserContextService', () => {
       facets: undefined,
       searchPhrase: undefined,
     };
-    spyOn(routingService, 'getPageContext').and.returnValue(
+    vi.spyOn(routingService, 'getPageContext').mockReturnValue(
       of(new PageContext('homepage', PageType.CONTENT_PAGE))
     );
-    spyOn(productSearchService, 'getResults').and.returnValue(
+    vi.spyOn(productSearchService, 'getResults').mockReturnValue(
       of(emptyPageSearchResults)
     );
 
@@ -120,16 +121,16 @@ describe('CdsMerchandisingUserContextService', () => {
       facets: undefined,
       searchPhrase: undefined,
     };
-    spyOn(routingService, 'getPageContext').and.returnValue(
+    vi.spyOn(routingService, 'getPageContext').mockReturnValue(
       of(new PageContext('homepage', PageType.CONTENT_PAGE))
     );
-    spyOn(productSearchService, 'getResults').and.returnValue(
+    vi.spyOn(productSearchService, 'getResults').mockReturnValue(
       of(emptyPageSearchResults)
     );
-    spyOn(profileTagEventService, 'getConsentReference').and.returnValue(
+    vi.spyOn(profileTagEventService, 'getConsentReference').mockReturnValue(
       of(consentReference)
     );
-    spyOn(profileTagLifecycleService, 'consentChanged').and.returnValue(
+    vi.spyOn(profileTagLifecycleService, 'consentChanged').mockReturnValue(
       of(consentGrantedEvent)
     );
     let merchandisingUserContext: MerchandisingUserContext;
@@ -148,10 +149,10 @@ describe('CdsMerchandisingUserContextService', () => {
       searchPhrase: undefined,
     };
 
-    spyOn(productSearchService, 'getResults').and.returnValue(
+    vi.spyOn(productSearchService, 'getResults').mockReturnValue(
       of(emptyPageSearchResults)
     );
-    spyOn(routingService, 'getPageContext').and.returnValue(
+    vi.spyOn(routingService, 'getPageContext').mockReturnValue(
       of(new PageContext('brand123', PageType.CATEGORY_PAGE))
     );
 
@@ -171,10 +172,10 @@ describe('CdsMerchandisingUserContextService', () => {
       searchPhrase: undefined,
     };
 
-    spyOn(routingService, 'getPageContext').and.returnValue(
+    vi.spyOn(routingService, 'getPageContext').mockReturnValue(
       of(new PageContext('574', PageType.CATEGORY_PAGE))
     );
-    spyOn(productSearchService, 'getResults').and.returnValue(
+    vi.spyOn(productSearchService, 'getResults').mockReturnValue(
       of(emptyPageSearchResults)
     );
 
@@ -192,10 +193,10 @@ describe('CdsMerchandisingUserContextService', () => {
       consentReference: '',
     };
 
-    spyOn(routingService, 'getPageContext').and.returnValue(
+    vi.spyOn(routingService, 'getPageContext').mockReturnValue(
       of(new PageContext('12345', PageType.PRODUCT_PAGE))
     );
-    spyOn(productSearchService, 'getResults').and.returnValue(
+    vi.spyOn(productSearchService, 'getResults').mockReturnValue(
       of(emptyPageSearchResults)
     );
 
@@ -236,10 +237,10 @@ describe('CdsMerchandisingUserContextService', () => {
     } as FacetList;
     facetService.facetList$ = of(merchandisingFacets);
 
-    spyOn(routingService, 'getPageContext').and.returnValue(
+    vi.spyOn(routingService, 'getPageContext').mockReturnValue(
       of(new PageContext('homepage', PageType.CONTENT_PAGE))
     );
-    spyOn(productSearchService, 'getResults').and.returnValue(
+    vi.spyOn(productSearchService, 'getResults').mockReturnValue(
       of(pageSearchResults)
     );
 
