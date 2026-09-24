@@ -48,7 +48,9 @@ describe('LoginAsGuestGuard', () => {
   });
 
   beforeEach(() => {
-    (windowRef.localStorage?.removeItem as ReturnType<typeof vi.fn>).mockClear();
+    (
+      windowRef.localStorage?.removeItem as ReturnType<typeof vi.fn>
+    ).mockClear();
     (windowRef.localStorage?.getItem as any).mockReturnValue('true');
   });
 

@@ -62,7 +62,7 @@ describe('CurrentLocationService', () => {
 
     it('should get the current location from the browser API', () => {
       const getCurrentPosSpy = vi.spyOn(
-        (windowRef.nativeWindow).navigator.geolocation,
+        windowRef.nativeWindow.navigator.geolocation,
         'getCurrentPosition'
       );
 

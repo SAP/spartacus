@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { vi } from "vitest";
+import { vi } from 'vitest';
 
 export class MockWinRef {
   localStorage = { setItem: vi.fn(), getItem: vi.fn(), removeItem: vi.fn() };

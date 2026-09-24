@@ -16,13 +16,13 @@ const mockStorage: { [key: string]: string } = {};
 
 class MockWindowRef extends MockWinRef {
   localStorage: any = {
-      getItem: (key: string) => mockStorage[key] ?? null,
-      setItem: (key: string, value: string) => {
-        mockStorage[key] = value;
-      },
-      removeItem: (key: string) => {
-        delete mockStorage[key];
-      }
+    getItem: (key: string) => mockStorage[key] ?? null,
+    setItem: (key: string, value: string) => {
+      mockStorage[key] = value;
+    },
+    removeItem: (key: string) => {
+      delete mockStorage[key];
+    },
   };
 }
 
