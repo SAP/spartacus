@@ -5,7 +5,12 @@
  */
 
 import { ActiveCartFacade, Cart, CartOutlets } from '@spartacus/cart/base/root';
-import { Component, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { I18nModule } from '@spartacus/core';
@@ -15,6 +20,7 @@ import { OpfGiftCardOrderSummaryComponent } from '../../opf-gift-card-order-summ
 @Component({
   selector: 'cx-opf-gift-card-checkout-order-summary',
   templateUrl: './opf-gift-card-checkout-order-summary.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, I18nModule, OpfGiftCardOrderSummaryComponent],
 })
 export class OpfGiftCardCheckoutOrderSummaryComponent implements OnInit {
