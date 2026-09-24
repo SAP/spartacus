@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { APP_INITIALIZER } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';

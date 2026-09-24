@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { FacadeFactoryService } from './facade-factory.service';
 import { Injectable } from '@angular/core';

@@ -42,7 +42,6 @@ import {
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { EMPTY, Observable, of } from 'rxjs';
-import { vi } from 'vitest';
 import {
   CheckoutBillingAddressFormComponent,
   CheckoutBillingAddressFormService,

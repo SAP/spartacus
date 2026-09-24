@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { LockFocusConfig } from '../keyboard-focus.model';
 import { LockFocusDirective } from './lock-focus.directive';
 import { LockFocusService } from './lock-focus.service';
-import { vi } from 'vitest';
 
 @Directive({ selector: '[cxLockFocus]' })
 class CustomFocusDirective extends LockFocusDirective {

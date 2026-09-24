@@ -12,7 +12,6 @@ import {
   StoreFinderService,
 } from '@spartacus/storefinder/core';
 import { Observable, of } from 'rxjs';
-import { vi } from 'vitest';
 import { StoreFinderSearchResultComponent } from './store-finder-search-result.component';
 
 class ActivatedRouteMock {
