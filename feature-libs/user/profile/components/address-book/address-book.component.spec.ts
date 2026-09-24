@@ -25,7 +25,6 @@ import { CardModule, SpinnerModule } from '@spartacus/storefront';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, firstValueFrom, Observable, of } from 'rxjs';
-import { vi } from 'vitest';
 import { AddressFormComponent } from '../public_api';
 import { AddressBookComponent } from './address-book.component';
 import { AddressBookComponentService } from './address-book.component.service';

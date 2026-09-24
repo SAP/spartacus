@@ -34,7 +34,6 @@ import {
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, firstValueFrom, Observable, of } from 'rxjs';
-import { vi } from 'vitest';
 import { UserProfileFacade } from '../../../root/facade/user-profile.facade';
 import { AddressFormComponent } from './address-form.component';
 

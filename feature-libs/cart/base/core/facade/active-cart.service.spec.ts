@@ -23,9 +23,8 @@ import {
   Subject,
 } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { vi } from 'vitest';
-import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 import { ActiveCartService } from './active-cart.service';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 
 const userId$ = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);
 

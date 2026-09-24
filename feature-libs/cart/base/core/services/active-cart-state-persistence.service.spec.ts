@@ -13,14 +13,13 @@ import {
 } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { ActiveCartStatePersistenceService } from './active-cart-state-persistence.service';
-import { vi } from 'vitest';
 import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 
 const BASE_SITE = 'electronics-spa';
 
 const store: Record<string, string | undefined> = {};
 class MockWindowRef extends MockWinRef {
-  override localStorage = {
+  override localStorage: any = {
     getItem: (key: string): string | null =>
       key in store ? (store[key] as string) : null,
     setItem: (key: string, value: string) => {

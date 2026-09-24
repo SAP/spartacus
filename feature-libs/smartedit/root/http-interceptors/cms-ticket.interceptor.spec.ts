@@ -16,7 +16,6 @@ import {
   defaultOccConfig,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { vi } from 'vitest';
 import { SmartEditLauncherService } from '../services/smart-edit-launcher.service';
 import { CmsTicketInterceptor } from './cms-ticket.interceptor';
 

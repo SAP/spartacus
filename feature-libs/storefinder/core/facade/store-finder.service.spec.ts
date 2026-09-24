@@ -9,7 +9,6 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
-import { vi } from 'vitest';
 import { StoreFinderConfig } from '../config/store-finder-config';
 import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 import { StoreFinderSelectors } from '../store';

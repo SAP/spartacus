@@ -27,7 +27,6 @@ import {
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { EMPTY, Observable, firstValueFrom, of, throwError } from 'rxjs';
-import { vi } from 'vitest';
 import { InvoicesListComponent } from './invoices-list.component';
 
 const blob = new Blob();

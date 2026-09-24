@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { LoginEvent, WindowRef } from '@spartacus/core';
 import { WindowObject } from '@spartacus/tracking/tms/core';
-import { vi } from 'vitest';
 import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 import '../config/default-gtm.config';
 import { GtmCollectorConfig } from '../config/default-gtm.config';

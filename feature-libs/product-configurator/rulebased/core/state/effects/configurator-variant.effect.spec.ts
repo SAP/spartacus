@@ -25,7 +25,6 @@ import { ConfiguratorActions } from '../actions/index';
 import { CONFIGURATOR_FEATURE } from '../configurator-state';
 import { getConfiguratorReducers } from '../reducers/index';
 import * as fromEffects from './configurator-variant.effect';
-import { vi } from 'vitest';
 
 const productCode = 'CONF_LAPTOP';
 

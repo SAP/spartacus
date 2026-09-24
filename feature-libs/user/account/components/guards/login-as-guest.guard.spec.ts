@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 //generate test for LoginAsGuestGuard
 
 import { TestBed } from '@angular/core/testing';
