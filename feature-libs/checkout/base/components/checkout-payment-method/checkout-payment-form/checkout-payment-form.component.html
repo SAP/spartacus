@@ -193,6 +193,7 @@
                   {{ 'paymentForm.securityCode' | cxTranslate }}
                   <cx-form-required-asterisks />
                   <cx-icon
+                    *cxFeature="'!a11yCvvInfoIconKeyboardAccessible'"
                     [type]="iconTypes.INFO"
                     class="cx-payment-form-tooltip"
                     placement="right"
@@ -202,6 +203,17 @@
                       'paymentForm.securityCodeTitle' | cxTranslate
                     "
                   />
+                  <button
+                    *cxFeature="'a11yCvvInfoIconKeyboardAccessible'"
+                    type="button"
+                    class="cx-payment-form-tooltip cx-cvv-info-btn"
+                    [attr.aria-label]="
+                      'paymentForm.securityCodeTitle' | cxTranslate
+                    "
+                    title="{{ 'paymentForm.securityCodeTitle' | cxTranslate }}"
+                  >
+                    <cx-icon [type]="iconTypes.INFO" />
+                  </button>
                 </span>
                 <input
                   required="true"
