@@ -1,4 +1,3 @@
-
 vi.mock('@spartacus/storefront', async (importActual) => {
   const actual = await importActual<typeof import('@spartacus/storefront')>();
   const { filter, map } = await import('rxjs/operators');
