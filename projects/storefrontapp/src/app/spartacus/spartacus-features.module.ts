@@ -15,7 +15,7 @@ import {
   ProductOccModule,
   UserModule,
   UserOccModule,
-  provideFeatureTogglesFactory,
+  provideDefaultFeatureTogglesFactory,
 } from '@spartacus/core';
 import {
   AnonymousConsentManagementBannerModule,
@@ -294,7 +294,7 @@ if (environment.cpq) {
       provide: USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
       useValue: environment.myAccountV2,
     },
-    provideFeatureTogglesFactory(() => {
+    provideDefaultFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         useAdvancedGoogleMarkers: true,
         useGoogleMapsAsyncLoading: true,
@@ -395,6 +395,7 @@ if (environment.cpq) {
         showWarningMessageOnRequoteButtonClick: true,
         oauthCallbackPage: true,
         enableFormFieldMaxLength: true,
+        a11yOrgAdminTileArrowKeyNavigation: true,
       };
       return appFeatureToggles;
     }),

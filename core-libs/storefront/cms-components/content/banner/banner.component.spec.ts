@@ -354,4 +354,54 @@ describe('BannerComponent', () => {
       expect(linkElement.getAttribute('ng-reflect-aria-label')).toBeNull();
     });
   });
+
+  describe('onKeydown()', () => {
+    it('should not navigate when feature toggle is disabled', () => {
+      (
+        bannerComponent as any
+      ).featureToggles.a11yOrgAdminTileArrowKeyNavigation = false;
+      const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
+      const preventDefaultSpy = vi.spyOn(event, 'preventDefault');
+      bannerComponent.onKeydown(event);
+      expect(preventDefaultSpy).not.toHaveBeenCalled();
+    });
+
+    it('should not navigate for non-arrow keys', () => {
+      (
+        bannerComponent as any
+      ).featureToggles.a11yOrgAdminTileArrowKeyNavigation = true;
+      const event = new KeyboardEvent('keydown', { key: 'Enter' });
+      const preventDefaultSpy = vi.spyOn(event, 'preventDefault');
+      bannerComponent.onKeydown(event);
+      expect(preventDefaultSpy).not.toHaveBeenCalled();
+    });
+
+    it('should navigate to next sibling on ArrowRight', () => {
+      (
+        bannerComponent as any
+      ).featureToggles.a11yOrgAdminTileArrowKeyNavigation = true;
+
+      const parent = document.createElement('div');
+      const sibling1 = document.createElement('cx-banner');
+      const sibling2 = document.createElement('cx-banner');
+      const link1 = document.createElement('a');
+      const link2 = document.createElement('a');
+      sibling1.appendChild(link1);
+      sibling2.appendChild(link2);
+      parent.appendChild(sibling1);
+      parent.appendChild(sibling2);
+
+      vi.spyOn(
+        (bannerComponent as any).el,
+        'nativeElement',
+        'get'
+      ).mockReturnValue(sibling1);
+
+      const focusSpy = vi.spyOn(link2, 'focus');
+      const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
+      vi.spyOn(event, 'preventDefault');
+      bannerComponent.onKeydown(event);
+      expect(focusSpy).toHaveBeenCalled();
+    });
+  });
 });
