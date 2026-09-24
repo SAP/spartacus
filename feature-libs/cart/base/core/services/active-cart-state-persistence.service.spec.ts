@@ -5,7 +5,6 @@
  */
 
 import { TestBed } from '@angular/core/testing';
-// eslint-disable-next-line @nx/workspace-no-self-public-api-import -- ESLint is misfiring here: core and root are not the same library — they're separate entry points
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   SiteContextParamsService,
