@@ -44,7 +44,9 @@ let totalFindings = 0;
 
 for (const file of files) {
   const findings = scanContent(readFileSync(file, 'utf8'), { allowedDomains });
-  if (findings.length === 0) continue;
+  if (findings.length === 0) {
+    continue;
+  }
 
   const rel = relative(cwd, file) || file;
   for (const f of findings) {

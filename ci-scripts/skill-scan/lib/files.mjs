@@ -27,7 +27,9 @@ export function findMarkdown(root) {
     }
     for (const entry of entries) {
       if (entry.isDirectory()) {
-        if (EXCLUDED_DIRS.has(entry.name)) continue;
+        if (EXCLUDED_DIRS.has(entry.name)) {
+          continue;
+        }
         walk(join(dir, entry.name));
       } else if (entry.isFile() && entry.name.toLowerCase().endsWith('.md')) {
         out.push(join(dir, entry.name));
@@ -36,9 +38,13 @@ export function findMarkdown(root) {
   };
 
   const stat = statSync(root, { throwIfNoEntry: false });
-  if (!stat) return out;
+  if (!stat) {
+    return out;
+  }
   if (stat.isFile()) {
-    if (root.toLowerCase().endsWith('.md')) out.push(root);
+    if (root.toLowerCase().endsWith('.md')) {
+      out.push(root);
+    }
   } else {
     walk(root);
   }
