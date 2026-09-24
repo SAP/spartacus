@@ -10,7 +10,7 @@ import {
   StrategyResponse,
 } from '@spartacus/cds';
 import { EMPTY, Observable, of } from 'rxjs';
-import createSpy = jasmine.createSpy;
+import { vi } from 'vitest';
 
 const CONSENT_REFERENCE = '75b75543-950f-4e53-a36c-ab8737a0974a';
 const STRATEGY_ID = 'test-strategy-id';
@@ -32,9 +32,9 @@ const siteContext: MerchandisingSiteContext = {
 };
 
 class MockStrategyConnector {
-  loadProductsForStrategy = createSpy(
-    'StrategyAdapter.loadProductsForStrategy'
-  ).and.callFake(() => of(strategyProducts));
+  loadProductsForStrategy = vi
+    .fn()
+    .mockImplementation(() => of(strategyProducts));
 }
 
 class SiteContextServiceStub {
@@ -101,10 +101,10 @@ describe('CdsMerchandisingProductService', () => {
     const userContext: MerchandisingUserContext = {
       category: '574',
     };
-    spyOn(siteContextService, 'getSiteContext').and.returnValue(
+    vi.spyOn(siteContextService, 'getSiteContext').mockReturnValue(
       of(siteContext)
     );
-    spyOn(userContextService, 'getUserContext').and.returnValue(
+    vi.spyOn(userContextService, 'getUserContext').mockReturnValue(
       of(userContext)
     );
 
@@ -142,10 +142,10 @@ describe('CdsMerchandisingProductService', () => {
       category: '574',
       consentReference: `${CONSENT_REFERENCE}`,
     };
-    spyOn(siteContextService, 'getSiteContext').and.returnValue(
+    vi.spyOn(siteContextService, 'getSiteContext').mockReturnValue(
       of(siteContext)
     );
-    spyOn(userContextService, 'getUserContext').and.returnValue(
+    vi.spyOn(userContextService, 'getUserContext').mockReturnValue(
       of(userContext)
     );
 
@@ -184,10 +184,10 @@ describe('CdsMerchandisingProductService', () => {
       category: '574',
       searchPhrase: searchPhrase,
     };
-    spyOn(siteContextService, 'getSiteContext').and.returnValue(
+    vi.spyOn(siteContextService, 'getSiteContext').mockReturnValue(
       of(siteContext)
     );
-    spyOn(userContextService, 'getUserContext').and.returnValue(
+    vi.spyOn(userContextService, 'getUserContext').mockReturnValue(
       of(userContext)
     );
 
@@ -222,10 +222,10 @@ describe('CdsMerchandisingProductService', () => {
       },
     };
 
-    spyOn(siteContextService, 'getSiteContext').and.returnValue(
+    vi.spyOn(siteContextService, 'getSiteContext').mockReturnValue(
       of(siteContext)
     );
-    spyOn(userContextService, 'getUserContext').and.returnValue(
+    vi.spyOn(userContextService, 'getUserContext').mockReturnValue(
       of({ products: ['123456'] })
     );
 

@@ -26,9 +26,10 @@ import {
 } from '@spartacus/core';
 import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
-import { AddressFormComponent } from '@spartacus/user/profile/components';
 import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
+import { AddressFormComponent } from '@spartacus/user/profile/components';
 import { BehaviorSubject, EMPTY, firstValueFrom, of } from 'rxjs';
+import { vi } from 'vitest';
 import { B2BCheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
 
 class MockUserAddressService implements Partial<UserAddressService> {
@@ -406,6 +407,53 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
       'zip',
       undefined,
     ]);
+  });
+
+  describe('addTitleToAddressCard feature toggle', () => {
+    const addressWithTitle: Address = { ...mockAddress1, title: 'Mr.' };
+    const addressWithoutTitle: Address = { ...mockAddress1, title: undefined };
+
+    it('should NOT prepend the title when the toggle is off', () => {
+      featureToggles.addTitleToAddressCard = false;
+      const card = component.getCardContent(
+        addressWithTitle,
+        undefined,
+        'default',
+        'shipTo',
+        'selected',
+        'P',
+        'M'
+      );
+      expect(card.textBold).toEqual('John Doe');
+    });
+
+    it('should prepend the title when the toggle is on and title exists', () => {
+      featureToggles.addTitleToAddressCard = true;
+      const card = component.getCardContent(
+        addressWithTitle,
+        undefined,
+        'default',
+        'shipTo',
+        'selected',
+        'P',
+        'M'
+      );
+      expect(card.textBold).toEqual('Mr. John Doe');
+    });
+
+    it('should NOT prepend the title when the toggle is on but title is missing', () => {
+      featureToggles.addTitleToAddressCard = true;
+      const card = component.getCardContent(
+        addressWithoutTitle,
+        undefined,
+        'default',
+        'shipTo',
+        'selected',
+        'P',
+        'M'
+      );
+      expect(card.textBold).toEqual('John Doe');
+    });
   });
 
   describe('selectDefaultAddress', () => {
