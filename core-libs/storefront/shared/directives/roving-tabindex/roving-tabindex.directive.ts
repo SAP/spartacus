@@ -114,49 +114,56 @@ export class CxRovingTabindexDirective implements AfterViewInit {
     if (!items.length) {
       return;
     }
-    const currentIndex = this.getCurrentFocusedIndex(items);
-    const targetIndex = this.getTargetIndex(event, currentIndex, items.length);
-    if (targetIndex !== null) {
-      this.moveFocus(items, targetIndex);
+    const current = this.getCurrentFocusedIndex(items);
+    const target = this.resolveTarget(event, current, items.length);
+    if (target !== null) {
+      this.moveFocus(items, target);
     }
   }
 
-  private getTargetIndex(
+  private resolveTarget(
     event: KeyboardEvent,
-    currentIndex: number,
-    itemCount: number
+    current: number,
+    count: number
   ): number | null {
-    const isVertical = this.cxRovingTabindexAxis === 'vertical';
-    const forwardKey = isVertical ? 'ArrowDown' : 'ArrowRight';
-    const backwardKey = isVertical ? 'ArrowUp' : 'ArrowLeft';
-
     switch (event.key) {
-      case forwardKey:
-        event.preventDefault();
-        return currentIndex < itemCount - 1 ? currentIndex + 1 : null;
-      case backwardKey:
-        event.preventDefault();
-        return currentIndex > 0 ? currentIndex - 1 : null;
+      case this.forwardKey:
+        return this.navigate(event, current < count - 1 ? current + 1 : null);
+      case this.backwardKey:
+        return this.navigate(event, current > 0 ? current - 1 : null);
       case 'Home':
-        event.preventDefault();
-        return 0;
+        return this.navigate(event, 0);
       case 'End':
-        event.preventDefault();
-        return itemCount - 1;
+        return this.navigate(event, count - 1);
       case 'Enter':
       case ' ':
-        this.handleActivation(event, currentIndex);
-        return null;
+        return this.activate(event, current);
       default:
         return null;
     }
   }
 
-  private handleActivation(event: KeyboardEvent, currentIndex: number): void {
+  private navigate(event: KeyboardEvent, target: number | null): number | null {
+    event.preventDefault();
+    return target;
+  }
+
+  private activate(event: KeyboardEvent, current: number): null {
     if (this.cxRovingTabindexActivate) {
       event.preventDefault();
-      this.itemActivated.emit(currentIndex);
+      this.itemActivated.emit(current);
     }
+    return null;
+  }
+
+  private get forwardKey(): string {
+    return this.cxRovingTabindexAxis === 'vertical'
+      ? 'ArrowDown'
+      : 'ArrowRight';
+  }
+
+  private get backwardKey(): string {
+    return this.cxRovingTabindexAxis === 'vertical' ? 'ArrowUp' : 'ArrowLeft';
   }
 
   getItems(): HTMLElement[] {
