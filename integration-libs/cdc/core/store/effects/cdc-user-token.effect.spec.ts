@@ -1,8 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { AuthToken, GlobalMessageService } from '@spartacus/core';
-import { cold, hot } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { lastValueFrom, Observable, of } from 'rxjs';
 import { CdcAuthService } from '../../auth/facade/cdc-auth.service';
 import { CdcUserAuthenticationTokenService } from '../../auth/services/user-authentication/cdc-user-authentication-token.service';
 import { CdcAuthActions } from '../actions';
@@ -72,7 +71,7 @@ describe('UserToken effect', () => {
   });
 
   describe('loadCdcUserToken$', () => {
-    it('should load a user token', () => {
+    it('should load a user token', async () => {
       vi.spyOn(userTokenService, 'loadTokenUsingCustomFlow').mockReturnValue(
         of(testToken)
       );
@@ -85,10 +84,11 @@ describe('UserToken effect', () => {
         baseSite: 'xxx',
       });
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('');
+      actions$ = of(action);
 
-      expect(userTokenEffect.loadCdcUserToken$).toBeObservable(expected);
+      await lastValueFrom(userTokenEffect.loadCdcUserToken$, {
+        defaultValue: undefined,
+      });
       expect(cdcAuthService.loginWithToken).toHaveBeenCalledWith(testToken);
     });
   });

@@ -193,9 +193,7 @@ describe('GigyaRaasComponent', () => {
     });
 
     it('should show login link according to component data', () => {
-      vi.spyOn(baseSiteService, 'getActive').mockImplementation(() =>
-        of('electronics')
-      );
+      vi.spyOn(baseSiteService, 'getActive').mockReturnValue(of('electronics'));
       component.showScreenSet(
         {
           ...sampleComponentData,
@@ -234,17 +232,15 @@ describe('GigyaRaasComponent', () => {
   });
 
   it('should not render anything if script is not loaded', () => {
-    vi.spyOn(cdcJsService, 'didLoad').mockImplementation(() => of(false));
+    vi.spyOn(cdcJsService, 'didLoad').mockReturnValue(of(false));
     component.ngOnInit();
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css('.popup-link'))).toBeFalsy();
   });
 
   it('should render error message if script failed to load', () => {
-    vi.spyOn(cdcJsService, 'didLoad').mockImplementation(() => of(false));
-    vi.spyOn(cdcJsService, 'didScriptFailToLoad').mockImplementation(() =>
-      of(true)
-    );
+    vi.spyOn(cdcJsService, 'didLoad').mockReturnValue(of(false));
+    vi.spyOn(cdcJsService, 'didScriptFailToLoad').mockReturnValue(of(true));
     component.ngOnInit();
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css('.js-error'))).toBeTruthy();
