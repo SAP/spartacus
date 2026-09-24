@@ -6,7 +6,7 @@
 
 import { HttpUrlEncodingCodec } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Facet } from '@spartacus/core';
+import { Breadcrumb, Facet } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import {
@@ -152,6 +152,70 @@ export class FacetService {
         .decodeValue(this.decodeUriComponentSafe(query))
         .replace(/\+/g, ' '),
     };
+  }
+
+  /**
+   * Returns the query that removes all the given active facets at once, while
+   * preserving the free text search and category context.
+   *
+   * Each active facet exposes a `removeQuery` that removes only that single
+   * facet, so any one of them already contains every _other_ active facet as
+   * well as the context we want to keep (free text search, sort, category). We
+   * therefore take one such query and strip every active facet's
+   * `facetCode`/`facetValueCode` pair from it. Working on the code/value pairs
+   * (rather than on individual `:`-separated tokens) keeps the pairing intact,
+   * which matters once several facets are applied.
+   */
+  getResetQuery(activeFacets: Breadcrumb[]): string {
+    const baseQuery = activeFacets
+      .map((facet) => facet.removeQuery?.query?.value)
+      .find((value): value is string => value != null);
+
+    if (baseQuery == null) {
+      return '';
+    }
+
+    let segments = baseQuery.split(':');
+    activeFacets.forEach((facet) => {
+      segments = this.removeFacetSegment(segments, facet);
+    });
+
+    return segments.join(':');
+  }
+
+  /**
+   * Removes the `facetCode`/`facetValueCode` pair of the given facet from the
+   * list of query segments, if present. The value comparison is
+   * encoding-tolerant so that facet values containing spaces or special
+   * characters are matched regardless of how they are encoded in the query.
+   */
+  protected removeFacetSegment(
+    segments: string[],
+    facet: Breadcrumb
+  ): string[] {
+    if (!facet.facetCode) {
+      return segments;
+    }
+
+    const index = segments.findIndex(
+      (segment, i) =>
+        segment === facet.facetCode &&
+        (facet.facetValueCode == null ||
+          this.decodeSegment(segments[i + 1]) ===
+            this.decodeSegment(facet.facetValueCode))
+    );
+
+    return index === -1
+      ? segments
+      : [...segments.slice(0, index), ...segments.slice(index + 2)];
+  }
+
+  protected decodeSegment(segment: string | undefined): string {
+    return segment == null
+      ? ''
+      : this.codec
+          .decodeValue(this.decodeUriComponentSafe(segment))
+          .replace(/\+/g, ' ');
   }
 
   protected decodeUriComponentSafe(query: string): string {

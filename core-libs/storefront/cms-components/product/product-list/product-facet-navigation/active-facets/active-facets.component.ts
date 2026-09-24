@@ -12,7 +12,12 @@ import {
   Input,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Breadcrumb, FeatureDirective, TranslatePipe } from '@spartacus/core';
+import {
+  Breadcrumb,
+  FeatureDirective,
+  TranslatePipe,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
 import { FocusDirective } from '../../../../../layout/a11y/keyboard-focus/focus.directive';
@@ -52,11 +57,23 @@ export class ActiveFacetsComponent {
   /** Configurable icon which is used for the active facet close button */
   @Input() closeIcon = ICON_TYPE.CLOSE;
 
-  constructor(protected facetService: FacetService) {}
+  constructor(protected facetService: FacetService) {
+    useFeatureStyles('a11yClearAllActiveFacets');
+  }
 
   getLinkParams(facet: Breadcrumb) {
     return this.facetService.getLinkParams(
       facet.removeQuery?.query?.value ?? ''
+    );
+  }
+
+  /**
+   * Builds the router link params that remove all the currently active facets
+   * at once, while preserving the free text search and category context.
+   */
+  getResetLinkParams(facetList: FacetList) {
+    return this.facetService.getLinkParams(
+      this.facetService.getResetQuery(facetList.activeFacets ?? [])
     );
   }
 

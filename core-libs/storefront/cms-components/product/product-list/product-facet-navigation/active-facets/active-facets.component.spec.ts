@@ -21,12 +21,12 @@ import {
   I18nTestingModule,
 } from '@spartacus/core';
 import { EMPTY, of } from 'rxjs';
+import { vi } from 'vitest';
 import { KeyboardFocusModule } from '../../../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetList } from '../facet.model';
 import { FacetService } from '../services/facet.service';
 import { ActiveFacetsComponent } from './active-facets.component';
-import { vi } from 'vitest';
 
 @Component({
   selector: 'cx-icon',
@@ -40,6 +40,9 @@ class MockCxIconComponent {
 class MockFacetService {
   facetList$ = of({ facets: [], activeFacets: [] });
   getLinkParams() {}
+  getResetQuery() {
+    return '';
+  }
 }
 
 class MockGlobalMessageService {
@@ -218,5 +221,72 @@ describe('ActiveFacetsComponent with a11yFilteredFacetAnnouncement', () => {
       'productList.filterRemoved filter:undefined',
       GlobalMessageType.MSG_TYPE_ASSISTIVE
     );
+  });
+});
+
+describe('ActiveFacetsComponent with a11yClearAllActiveFacets', () => {
+  let component: ActiveFacetsComponent;
+  let fixture: ComponentFixture<ActiveFacetsComponent>;
+  let element: DebugElement;
+  let facetService: FacetService;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        KeyboardFocusModule,
+        ActiveFacetsComponent,
+        MockCxIconComponent,
+        RouterModule.forRoot([]),
+      ],
+      providers: [
+        { provide: FacetService, useClass: MockFacetService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+      ],
+    })
+      .overrideComponent(ActiveFacetsComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+
+    (
+      TestBed.inject(FeatureConfigService).isEnabled as ReturnType<typeof vi.fn>
+    ).mockImplementation((f: string) =>
+      f.startsWith('!')
+        ? f !== '!a11yClearAllActiveFacets'
+        : f === 'a11yClearAllActiveFacets'
+    );
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ActiveFacetsComponent);
+    element = fixture.debugElement;
+    component = fixture.componentInstance;
+    facetService = TestBed.inject(FacetService);
+    component.facetList$ = of(mockFacetList);
+  });
+
+  it('should render a clear all filters button when there are active facets', () => {
+    fixture.detectChanges();
+    const clearAll = element.query(By.css('.cx-clear-all-facets'));
+    expect(clearAll).toBeTruthy();
+  });
+
+  it('should not render the clear all filters button when there are no active facets', () => {
+    component.facetList$ = of({ facets: [], activeFacets: [] } as FacetList);
+    fixture.detectChanges();
+    const clearAll = element.query(By.css('.cx-clear-all-facets'));
+    expect(clearAll).toBeFalsy();
+  });
+
+  it('should build the reset link params from the active facets', () => {
+    const spy = vi.spyOn(facetService, 'getResetQuery').mockReturnValue('base');
+    const linkSpy = vi.spyOn(facetService, 'getLinkParams');
+
+    component.getResetLinkParams(mockFacetList);
+
+    expect(spy).toHaveBeenCalledWith(mockFacetList.activeFacets);
+    expect(linkSpy).toHaveBeenCalledWith('base');
   });
 });

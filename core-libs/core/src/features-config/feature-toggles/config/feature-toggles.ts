@@ -854,6 +854,15 @@ export interface FeatureTogglesInterface {
    * `AddressFormComponent`, `UnitAddressFormService`
    */
   enableFormFieldMaxLength?: boolean;
+
+  /**
+   * In `ActiveFacetsComponent`, renders a "Clear all filters" button when there
+   * are active facets applied. Activating it removes all user-applied facets at
+   * once while preserving the free text search and category context.
+   *
+   * Affects: `ActiveFacetsComponent`
+   */
+  a11yClearAllActiveFacets?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -956,4 +965,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showWarningMessageOnRequoteButtonClick: false,
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
+  a11yClearAllActiveFacets: false,
 };

@@ -53,4 +53,34 @@
       }
     }
   }
+
+  @include forFeature('a11yClearAllActiveFacets') {
+    // The container always sits on its own row below the active facet chips,
+    // regardless of how many chips are applied or the viewport width.
+    .cx-clear-all-facets-container {
+      flex: 0 0 100%;
+    }
+
+    // Render the "clear all filters" action like the facet "show more..." link
+    // (see the global `.cx-action-link`) rather than as an active-facet chip,
+    // with a click target that hugs the text.
+    .cx-clear-all-facets {
+      display: inline-block;
+      padding: 0;
+      margin: 0 0 10px 0;
+      background: none;
+      border-radius: 0;
+
+      &:hover {
+        background: none;
+      }
+
+      > span {
+        margin-inline-start: 0;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+      }
+    }
+  }
 }

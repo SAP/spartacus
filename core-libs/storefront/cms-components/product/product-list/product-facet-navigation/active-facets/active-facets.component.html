@@ -50,4 +50,24 @@
       <cx-icon aria-hidden="true" [type]="closeIcon" />
     </a>
   </ng-container>
+
+  <ng-container *cxFeature="'a11yClearAllActiveFacets'">
+    <div
+      *ngIf="facetList.activeFacets && facetList.activeFacets.length > 0"
+      class="cx-clear-all-facets-container"
+    >
+      <a
+        class="cx-clear-all-facets cx-action-link"
+        routerLink="./"
+        [queryParams]="getResetLinkParams(facetList)"
+        role="button"
+        (keydown.space)="removeFilterWithSpacebar($event)"
+        [attr.aria-label]="'productList.clearAllFiltersLabel' | cxTranslate"
+        [attr.title]="'productList.clearAllFiltersLabel' | cxTranslate"
+        [cxAtMessage]="'productList.allFiltersRemoved' | cxTranslate"
+      >
+        <span>{{ 'productList.clearAllFilters' | cxTranslate }}</span>
+      </a>
+    </div>
+  </ng-container>
 </ng-container>
