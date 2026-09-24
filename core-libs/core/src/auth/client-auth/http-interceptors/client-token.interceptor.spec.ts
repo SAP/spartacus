@@ -22,7 +22,6 @@ import { ClientToken } from '../models/client-token.model';
 import { ClientErrorHandlingService } from '../services/client-error-handling.service';
 import { ClientTokenService } from '../services/client-token.service';
 import { ClientTokenInterceptor } from './client-token.interceptor';
-import { vi } from 'vitest';
 
 const OccUrl = `https://localhost:9002${defaultOccConfig.backend.occ.prefix}electronics`;
 

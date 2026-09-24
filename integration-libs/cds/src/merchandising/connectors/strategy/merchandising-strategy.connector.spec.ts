@@ -3,7 +3,6 @@ import { of } from 'rxjs';
 import { StrategyProducts } from '../../model/strategy-products.model';
 import { MerchandisingStrategyAdapter } from './merchandising-strategy.adapter';
 import { MerchandisingStrategyConnector } from './merchandising-strategy.connector';
-import createSpy = jasmine.createSpy;
 
 const STRATEGY_ID = 'test-strategy-id';
 
@@ -27,9 +26,9 @@ const STRATEGY_PRODUCTS: StrategyProducts = {
 };
 
 class MockStrategyAdapter implements MerchandisingStrategyAdapter {
-  loadProductsForStrategy = createSpy(
-    'StrategyAdapter.loadProductsForStrategy'
-  ).and.callFake(() => of(STRATEGY_PRODUCTS));
+  loadProductsForStrategy = vi
+    .fn()
+    .mockImplementation(() => of(STRATEGY_PRODUCTS));
 }
 
 describe('Strategy Connector', () => {

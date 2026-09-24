@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { isDevMode } from '@angular/core';
 
 vi.mock('@angular/core', async (importOriginal) => {

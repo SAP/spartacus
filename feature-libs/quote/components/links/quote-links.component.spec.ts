@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { vi } from 'vitest';
 import { Router, RouterModule, Routes } from '@angular/router';
 import {
   EventService,

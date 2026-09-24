@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { ComponentDecorator } from '../decorators/component-decorator';
