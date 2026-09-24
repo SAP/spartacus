@@ -35,7 +35,6 @@ import {
 import { MockIconComponent } from '@spartacus/storefront/testing/icon-testing-module';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { firstValueFrom, of } from 'rxjs';
-import { vi } from 'vitest';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutReviewSubmitComponent } from './checkout-review-submit.component';
 

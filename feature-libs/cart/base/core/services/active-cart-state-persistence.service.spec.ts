@@ -13,7 +13,6 @@ import {
 } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { ActiveCartStatePersistenceService } from './active-cart-state-persistence.service';
-import { vi } from 'vitest';
 
 const BASE_SITE = 'electronics-spa';
 

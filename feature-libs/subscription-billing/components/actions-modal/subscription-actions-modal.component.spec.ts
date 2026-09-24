@@ -17,7 +17,6 @@ import { LaunchDialogService } from '@spartacus/storefront';
 import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { signal } from '@angular/core';
-import { vi } from 'vitest';
 
 describe('SubscriptionActionsModalComponent', () => {
   let component: SubscriptionActionsModalComponent;

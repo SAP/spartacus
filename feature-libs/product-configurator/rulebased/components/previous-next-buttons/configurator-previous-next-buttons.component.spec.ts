@@ -22,7 +22,6 @@ import { GROUP_ID_1, PRODUCT_CODE } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorPreviousNextButtonsComponent } from './configurator-previous-next-buttons.component';
-import { vi } from 'vitest';
 
 let routerStateObservable: any = null;
 

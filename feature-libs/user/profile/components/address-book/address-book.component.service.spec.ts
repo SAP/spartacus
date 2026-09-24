@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { Address, User, UserAddressService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';

@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 
 vi.mock('@spartacus/storefront', async (importActual) => {
   const actual = await importActual<typeof import('@spartacus/storefront')>();

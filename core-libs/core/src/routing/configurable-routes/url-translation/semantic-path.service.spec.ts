@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { RouteConfig } from '../routes-config';
 import { RoutingConfigService } from '../routing-config.service';

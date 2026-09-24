@@ -1,6 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Params } from '@angular/router';
-import { vi } from 'vitest';
 import {
   ActiveCartFacade,
   Cart,
