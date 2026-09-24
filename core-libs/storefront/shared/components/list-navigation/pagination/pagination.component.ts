@@ -10,7 +10,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
   inject,
 } from '@angular/core';
@@ -36,9 +35,16 @@ import { PaginationItem, PaginationItemType } from './pagination.model';
   selector: 'cx-pagination',
   templateUrl: './pagination.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgFor, RouterLink, FocusDirective, AsyncPipe, FeatureDirective, CxRovingTabindexDirective],
+  imports: [
+    NgFor,
+    RouterLink,
+    FocusDirective,
+    AsyncPipe,
+    FeatureDirective,
+    CxRovingTabindexDirective,
+  ],
 })
-export class PaginationComponent implements OnInit {
+export class PaginationComponent {
   /** The (optional) pageRoute used for the anchor links created in the pagination   */
   @Input() pageRoute: string = '.';
 
@@ -57,14 +63,17 @@ export class PaginationComponent implements OnInit {
   }
   @Input() set pagination(value: PaginationModel | undefined) {
     if (value) {
-      const prevPage = this._pagination?.currentPage ?? -1;
-      this._pagination = value;
-      this.render(value);
       if (this.featureToggles.a11yPaginationKeyboardNavigation) {
+        this._pagination = value;
+        this.render(value);
         this.initialFocusIndex = this.getInitialFocusIndex(
           value.currentPage ?? 0,
-          prevPage
+          // If the pagination is not set, we assume the previous page was -1, which will focus the first item in the list
+          this._pagination?.currentPage ?? -1
         );
+      } else {
+        this._pagination = value;
+        this.render(value);
       }
     }
   }
@@ -75,7 +84,9 @@ export class PaginationComponent implements OnInit {
 
   private getInitialFocusIndex(newPage: number, prevPage: number): number {
     const activeItems = this.pages.filter((p) => !this.isInactive(p));
-    if (!activeItems.length) return 0;
+    if (!activeItems.length) {
+      return 0;
+    }
 
     if (newPage > prevPage) {
       // Navigated forward — land on first active item past the old page
@@ -89,7 +100,9 @@ export class PaginationComponent implements OnInit {
       // Navigated backward — land on last active item before the old page
       let last = -1;
       activeItems.forEach((p, i) => {
-        if (p.number !== undefined && p.number < prevPage) last = i;
+        if (p.number !== undefined && p.number < prevPage) {
+          last = i;
+        }
       });
       return last >= 0 ? last : 0;
     }
@@ -114,8 +127,6 @@ export class PaginationComponent implements OnInit {
     private paginationBuilder: PaginationBuilder,
     private activatedRoute: ActivatedRoute
   ) {}
-
-  ngOnInit(): void {}
 
   protected render(pagination: PaginationModel): void {
     if (!pagination) {

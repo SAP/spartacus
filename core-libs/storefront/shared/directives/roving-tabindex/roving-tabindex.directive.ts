@@ -154,7 +154,9 @@ export class CxRovingTabindexDirective implements AfterViewInit {
 
   getItems(): HTMLElement[] {
     return Array.from(
-      this.el.nativeElement.querySelectorAll(this.itemSelector) as NodeListOf<HTMLElement>
+      this.el.nativeElement.querySelectorAll(
+        this.itemSelector
+      ) as NodeListOf<HTMLElement>
     );
   }
 
@@ -172,7 +174,9 @@ export class CxRovingTabindexDirective implements AfterViewInit {
   @HostListener('focusin', ['$event'])
   onFocusin(_event: FocusEvent): void {
     const items = this.getItems();
-    if (!items.length) return;
+    if (!items.length) {
+      return;
+    }
     const idx = this.getCurrentFocusedIndex(items);
     if (idx >= 0 && idx < items.length) {
       this.focusedIndex = idx;
@@ -187,9 +191,13 @@ export class CxRovingTabindexDirective implements AfterViewInit {
   }
 
   private getCurrentFocusedIndex(items: HTMLElement[]): number {
-    if (typeof document === 'undefined') return this.focusedIndex;
+    if (typeof document === 'undefined') {
+      return this.focusedIndex;
+    }
     const active = document.activeElement as HTMLElement | null;
-    if (!active) return this.focusedIndex;
+    if (!active) {
+      return this.focusedIndex;
+    }
     // Match the item that IS the active element or contains it as a descendant,
     // so focus on a child inside a roving row (e.g. a link in a <td>) resolves
     // to that row's index rather than falling back to the stale focusedIndex.
