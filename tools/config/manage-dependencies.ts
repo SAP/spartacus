@@ -531,7 +531,8 @@ function categorizeUsageOfDependencies(
           file === `${lib.directory}/test.ts` ||
           file === `${lib.directory}/src/test.ts` ||
           file === `${lib.directory}/setup-jest.ts` ||
-          file === `${lib.directory}/vitest.config.ts`
+          file === `${lib.directory}/vitest.config.ts` ||
+          file.includes('/shared/test/')
         ) {
           imp.usageIn.spec = true;
         } else if (file.includes('schematics')) {

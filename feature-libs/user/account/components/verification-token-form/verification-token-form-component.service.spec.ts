@@ -6,8 +6,10 @@ import {
   FeatureToggles,
   GlobalMessageService,
   I18nTestingModule,
+  WindowRef,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { of } from 'rxjs';
 import { VerificationTokenFacade } from '../../root/facade';
@@ -87,6 +89,10 @@ describe('VerificationTokenFormComponentService', () => {
         {
           provide: VerificationTokenFacade,
           useClass: MockVerificationTokenFacade,
+        },
+        {
+          provide: WindowRef,
+          useClass: MockWinRef,
         },
         provideMockFeatureToggles({ ...mockFeatureToggles }),
       ],

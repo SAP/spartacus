@@ -15,8 +15,6 @@ export default defineConfig({
   plugins: [angular(), nxViteTsPaths()],
   resolve: {
     alias: {
-      '@spartacus/storefront': `${root}/core-libs/storefront/public_api.ts`,
-      '@spartacus/core': `${root}/core-libs/core/public_api.ts`,
       'core-libs/core/src/process/store/reducers/index': `${root}/core-libs/core/src/process/store/reducers/index.ts`,
       'core-libs/core/src/global-message/models/global-message.model': `${root}/core-libs/core/src/global-message/models/global-message.model.ts`,
       'core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module': `${root}/core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module.ts`,
@@ -36,6 +34,7 @@ export default defineConfig({
   },
   test: {
     pool: 'forks',
+    maxWorkers: 4,
     watch: false,
     globals: true,
     environment: 'jsdom',
