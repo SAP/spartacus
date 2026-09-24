@@ -100,12 +100,12 @@ export class LogoutGuard {
     if (this.protectedRoutes.shouldProtect) {
       return this.router.parseUrl(this.semanticPathService.get('login') ?? '');
     }
-    if (this.featureToggles.useConfigurableLogoutRedirect) {
-      const redirectRoute = this.config.logout?.redirectRoute ?? 'home';
-      return this.router.parseUrl(
-        this.semanticPathService.get(redirectRoute) ?? redirectRoute
-      );
+    if (!this.featureToggles.useConfigurableLogoutRedirect) {
+      return this.router.parseUrl(this.semanticPathService.get('home') ?? '');
     }
-    return this.router.parseUrl(this.semanticPathService.get('home') ?? '');
+    const redirectRoute = this.config.logout?.redirectRoute ?? 'home';
+    return this.router.parseUrl(
+      this.semanticPathService.get(redirectRoute) ?? redirectRoute
+    );
   }
 }
