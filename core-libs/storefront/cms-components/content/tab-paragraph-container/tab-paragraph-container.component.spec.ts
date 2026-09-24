@@ -145,6 +145,32 @@ describe('TabParagraphContainerComponent', () => {
     }
   });
 
+  it('should filter out null or undefined components from components$', () => {
+    vi.spyOn(cmsService, 'getComponentData')
+      .mockReturnValueOnce(of(mockTabComponentData1))
+      .mockReturnValueOnce(of(null))
+      .mockReturnValueOnce(of(mockTabComponentData3));
+
+    let childComponents: any[] = [];
+    component.components$
+      .subscribe((components) => (childComponents = components))
+      .unsubscribe();
+
+    expect(childComponents.length).toEqual(2);
+    expect(childComponents).toEqual([
+      {
+        flexType: mockTabComponentData1.uid,
+        uid: mockTabComponentData1.uid,
+        title: `TabPanelContainer.tabs.${mockTabComponentData1.uid}`,
+      },
+      {
+        flexType: mockTabComponentData3.uid,
+        uid: mockTabComponentData3.uid,
+        title: `TabPanelContainer.tabs.${mockTabComponentData3.uid}`,
+      },
+    ]);
+  });
+
   it('should be able to get the active tab number', () => {
     windowRef.nativeWindow.history.pushState(
       {
