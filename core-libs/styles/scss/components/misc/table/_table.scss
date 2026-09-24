@@ -41,4 +41,18 @@
       }
     }
   }
+
+  // When arrow-key navigation moves focus to a row, the browser scrolls it
+  // into view. Without scroll-margin the row can land flush against the
+  // viewport edge and be obscured by fixed UI (e.g. the anonymous-consent
+  // banner). 50vh keeps the newly focused row roughly centred, matching the
+  // same technique used for form fields. It is an approximation: CSS cannot
+  // re-centre a row that is already partially visible.
+  @include forFeature('a11yTableKeyboardNavigation') {
+    tbody[tabindex],
+    tr[tabindex],
+    td[tabindex] {
+      scroll-margin-block: 50vh;
+    }
+  }
 }

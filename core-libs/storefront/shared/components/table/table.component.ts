@@ -8,13 +8,22 @@ import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
   HostBinding,
   inject,
   Input,
   isDevMode,
   Output,
+  QueryList,
+  ViewChildren,
 } from '@angular/core';
+import {
+  FeatureDirective,
+  FeatureToggles,
+  useFeatureStyles,
+} from '@spartacus/core';
+import { handleLinearKeydown } from '../../../layout/a11y/keyboard-focus/keyboard-focus.utils';
 import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive';
 import { TableRendererService } from './table-renderer.service';
 import {
@@ -24,7 +33,6 @@ import {
   TableOptions,
   TableStructure,
 } from './table.model';
-import { FeatureToggles } from '@spartacus/core';
 
 /**
  * The table component provides a generic table DOM structure, with 3 layout types:
@@ -54,7 +62,7 @@ import { FeatureToggles } from '@spartacus/core';
   selector: 'cx-table',
   templateUrl: './table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, OutletDirective],
+  imports: [NgIf, NgFor, OutletDirective, FeatureDirective],
 })
 export class TableComponent<T> {
   @HostBinding('attr.__cx-table-type') tableType: string;
@@ -63,6 +71,8 @@ export class TableComponent<T> {
   @HostBinding('class.vertical-stacked') verticalStackedLayout: boolean;
 
   private featureToggles = inject(FeatureToggles);
+
+  @ViewChildren('tableRow') tableRows: QueryList<ElementRef<HTMLElement>>;
 
   private _structure: TableStructure;
   @Input() set structure(structure: TableStructure) {
@@ -91,7 +101,9 @@ export class TableComponent<T> {
 
   @Output() launch = new EventEmitter();
 
-  constructor(protected rendererService: TableRendererService) {}
+  constructor(protected rendererService: TableRendererService) {
+    useFeatureStyles('a11yTableKeyboardNavigation');
+  }
 
   init() {
     this.verticalLayout = !this.layout || this.layout === TableLayout.VERTICAL;
@@ -105,6 +117,17 @@ export class TableComponent<T> {
 
   launchItem(item: any): void {
     this.launch.emit(item);
+  }
+
+  onRowKeydown(event: KeyboardEvent, index: number, item: T): void {
+    const items = this.tableRows.map((r) => r.nativeElement);
+    handleLinearKeydown(event, index, items, {
+      onNext: (i) => items[i].focus(),
+      onPrevious: (i) => items[i].focus(),
+      onFirst: () => items[0].focus(),
+      onLast: () => items[items.length - 1].focus(),
+      onActivate: () => this.launchItem(item),
+    });
   }
 
   /**
