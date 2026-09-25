@@ -5,7 +5,6 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { ConfiguratorExpertModeService } from '../services/configurator-expert-mode.service';
 import { ConfiguratorLogoutEventListener } from './configurator-logout-event.listener';
 import { Type } from '@angular/core';
-import { vi } from 'vitest';
 
 const mockEventStream$ = new Subject<CxEvent>();
 

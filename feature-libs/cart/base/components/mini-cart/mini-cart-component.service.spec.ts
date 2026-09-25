@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {

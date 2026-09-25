@@ -8,7 +8,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-// eslint-disable-next-line @nx/workspace-no-self-public-api-import -- ESLint is misfiring here: core and root are not the same library — they're separate entry points
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
@@ -42,8 +41,7 @@ import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { EMPTY, Observable, of } from 'rxjs';
-import { vi } from 'vitest';
+import { EMPTY, Observable, firstValueFrom, of } from 'rxjs';
 import {
   CheckoutBillingAddressFormComponent,
   CheckoutBillingAddressFormService,
@@ -325,15 +323,14 @@ describe('CheckoutPaymentFormComponent', () => {
     expect(component.paymentForm.patchValue).not.toHaveBeenCalled();
   });
 
-  it('should call ngOnInit to get supported card types if they exist', () => {
+  it('should call ngOnInit to get supported card types if they exist', async () => {
     mockCheckoutPaymentService.getPaymentCardTypes = vi
       .fn()
       .mockReturnValue(of(mockCardTypes));
 
     component.ngOnInit();
-    component.cardTypes$.subscribe((cardTypes: CardType[]) => {
-      expect(cardTypes).toBe(mockCardTypes);
-    });
+    const cardTypes = await firstValueFrom(component.cardTypes$);
+    expect(cardTypes).toBe(mockCardTypes);
   });
 
   it('should call toggleDefaultPaymentMethod() with defaultPayment flag set to false', () => {

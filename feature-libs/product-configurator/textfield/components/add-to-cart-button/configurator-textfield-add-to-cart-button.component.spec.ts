@@ -24,7 +24,6 @@ import { Observable, of } from 'rxjs';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 import { ConfiguratorTextfieldAddToCartButtonComponent } from './configurator-textfield-add-to-cart-button.component';
-import { vi } from 'vitest';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const URL_CONFIGURATION = 'host:port/electronics-spa/en/USD/configureTEXTFIELD';

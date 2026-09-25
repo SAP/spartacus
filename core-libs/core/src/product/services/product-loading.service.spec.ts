@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { AbstractType } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';

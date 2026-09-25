@@ -8,7 +8,6 @@ import {
   Priority,
 } from '@spartacus/core';
 import { ConfiguratorBadRequestHandler } from '@spartacus/product-configurator/rulebased/root';
-import { vi } from 'vitest';
 
 const mockRequest = {} as HttpRequest<any>;
 

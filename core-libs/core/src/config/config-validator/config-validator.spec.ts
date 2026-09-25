@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { LoggerService } from '../../logger';
 import { validateConfig } from './config-validator';
 

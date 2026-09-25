@@ -18,7 +18,6 @@ import {
 import { OccConfiguratorTextfieldAdapter } from '.';
 import { CONFIGURATION_TEXTFIELD_NORMALIZER } from '../core/connectors/converters';
 import { ConfiguratorTextfield } from '../core/model/configurator-textfield.model';
-import { vi } from 'vitest';
 import {
   provideHttpClient,
   withInterceptorsFromDi,

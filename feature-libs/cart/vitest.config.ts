@@ -23,6 +23,7 @@ export default defineConfig({
       '@spartacus/core/testing/mock-url-pipe': `${root}/core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe.ts`,
       '@spartacus/storefront/testing/mock-feature-directive': `${root}/core-libs/storefront/shared/test/mock-feature-directive.ts`,
       '@spartacus/storefront/testing/mock-feature-level-directive': `${root}/core-libs/storefront/shared/test/mock-feature-level-directive.ts`,
+      'core-libs/storefront/shared/test/mock-window-ref': `${root}/core-libs/storefront/shared/test/mock-window-ref.ts`,
     },
   },
   test: {

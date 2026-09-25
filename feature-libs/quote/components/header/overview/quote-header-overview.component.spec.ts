@@ -1,6 +1,5 @@
 import { Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { vi } from 'vitest';
 import {
   EventService,
   I18nTestingModule,
