@@ -15,7 +15,13 @@ import {
   isDevMode,
   Output,
 } from '@angular/core';
+import {
+  FeatureDirective,
+  FeatureToggles,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive';
+import { CxRovingTabindexDirective } from '../../directives/roving-tabindex/roving-tabindex.directive';
 import { TableRendererService } from './table-renderer.service';
 import {
   TableDataOutletContext,
@@ -24,7 +30,6 @@ import {
   TableOptions,
   TableStructure,
 } from './table.model';
-import { FeatureToggles } from '@spartacus/core';
 
 /**
  * The table component provides a generic table DOM structure, with 3 layout types:
@@ -54,7 +59,13 @@ import { FeatureToggles } from '@spartacus/core';
   selector: 'cx-table',
   templateUrl: './table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, OutletDirective],
+  imports: [
+    NgIf,
+    NgFor,
+    OutletDirective,
+    FeatureDirective,
+    CxRovingTabindexDirective,
+  ],
 })
 export class TableComponent<T> {
   @HostBinding('attr.__cx-table-type') tableType: string;
@@ -91,7 +102,9 @@ export class TableComponent<T> {
 
   @Output() launch = new EventEmitter();
 
-  constructor(protected rendererService: TableRendererService) {}
+  constructor(protected rendererService: TableRendererService) {
+    useFeatureStyles('a11yTableKeyboardNavigation');
+  }
 
   init() {
     this.verticalLayout = !this.layout || this.layout === TableLayout.VERTICAL;

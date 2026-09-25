@@ -350,3 +350,97 @@ describe('TableComponent', () => {
     });
   });
 });
+
+describe('TableComponent with a11yTableKeyboardNavigation enabled', () => {
+  let fixture: ComponentFixture<TableComponent<any>>;
+  let tableComponent: TableComponent<any>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [OutletModule, TableComponent],
+      providers: [
+        { provide: TableRendererService, useClass: MockTableRendererService },
+        provideMockFeatureToggles({ a11yTableKeyboardNavigation: true }),
+      ],
+    })
+      .overrideComponent(TableComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+
+    fixture = TestBed.createComponent(TableComponent);
+    tableComponent = fixture.componentInstance;
+    tableComponent.structure = {
+      ...mockDataset.structure,
+      options: { layout: TableLayout.VERTICAL },
+    };
+    tableComponent.data = mockDataset.data;
+    fixture.detectChanges();
+  });
+
+  it('should render rows with cxRovingTabindexItem attribute', () => {
+    const rows = fixture.debugElement.queryAll(By.css('[data-cx-roving-item]'));
+    expect(rows.length).toBe(data.length);
+  });
+
+  it('should set tabindex=0 on the first row and -1 on others after init', () => {
+    const rows = fixture.debugElement.queryAll(By.css('[data-cx-roving-item]'));
+    expect(
+      (rows[0].nativeElement as HTMLElement).getAttribute('tabindex')
+    ).toBe('0');
+    expect(
+      (rows[1].nativeElement as HTMLElement).getAttribute('tabindex')
+    ).toBe('-1');
+    expect(
+      (rows[2].nativeElement as HTMLElement).getAttribute('tabindex')
+    ).toBe('-1');
+  });
+
+  it('should move focus to next row on ArrowDown', () => {
+    const container = fixture.debugElement.query(By.css('[cxRovingTabindex]'))
+      .nativeElement as HTMLElement;
+    const rows = Array.from(
+      container.querySelectorAll<HTMLElement>('[data-cx-roving-item]')
+    );
+    rows[0].focus();
+    const focusSpy = vi.spyOn(rows[1], 'focus');
+
+    container.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true })
+    );
+
+    expect(focusSpy).toHaveBeenCalled();
+  });
+
+  it('should emit launch with correct data item on Enter', () => {
+    vi.spyOn(tableComponent.launch, 'emit');
+    const container = fixture.debugElement.query(By.css('[cxRovingTabindex]'))
+      .nativeElement as HTMLElement;
+    const rows = Array.from(
+      container.querySelectorAll<HTMLElement>('[data-cx-roving-item]')
+    );
+    rows[0].focus();
+
+    container.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })
+    );
+
+    expect(tableComponent.launch.emit).toHaveBeenCalledWith(data[0]);
+  });
+
+  it('should emit launch with correct data item on Space', () => {
+    vi.spyOn(tableComponent.launch, 'emit');
+    const container = fixture.debugElement.query(By.css('[cxRovingTabindex]'))
+      .nativeElement as HTMLElement;
+    const rows = Array.from(
+      container.querySelectorAll<HTMLElement>('[data-cx-roving-item]')
+    );
+    rows[1].focus();
+
+    container.dispatchEvent(
+      new KeyboardEvent('keydown', { key: ' ', bubbles: true })
+    );
+
+    expect(tableComponent.launch.emit).toHaveBeenCalledWith(data[1]);
+  });
+});
