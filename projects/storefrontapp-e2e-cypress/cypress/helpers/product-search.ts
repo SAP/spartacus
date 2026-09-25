@@ -116,7 +116,7 @@ export function searchResult() {
 }
 
 export function nextPage(): void {
-  cy.get('cx-pagination a.next').first().click();
+  cy.get('cx-pagination a.page.current').next('a').first().click();
 }
 
 export function choosePage(pageNumber: number): void {
@@ -124,7 +124,7 @@ export function choosePage(pageNumber: number): void {
 }
 
 export function previousPage(): void {
-  cy.get('cx-pagination a.previous').first().click();
+  cy.get('cx-pagination a.page.current').prev('a').first().click();
 }
 
 export function verifyNextPage(pageNumber: number): void {
