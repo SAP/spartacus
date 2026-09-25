@@ -147,13 +147,15 @@ describe('CartDetailsComponent', () => {
         },
       })
       .compileComponents();
-
-    mockCartConfig.isSelectiveCartEnabled.mockReturnValue(true);
-    mockSelectiveCartFacade.isStable.mockReturnValue(of(true));
-    mockAuthService.isUserLoggedIn.mockReturnValue(of(false));
   });
 
   beforeEach(() => {
+    vi.clearAllMocks();
+    mockAuthService.isUserLoggedIn.mockReturnValue(of(false));
+    mockSelectiveCartFacade.getCart.mockReturnValue(of({}));
+    mockSelectiveCartFacade.getEntries.mockReturnValue(of([]));
+    mockSelectiveCartFacade.isStable.mockReturnValue(of(true));
+    mockCartConfig.isSelectiveCartEnabled.mockReturnValue(true);
     fixture = TestBed.createComponent(CartDetailsComponent);
     component = fixture.componentInstance;
     activeCartService = TestBed.inject(ActiveCartFacade);

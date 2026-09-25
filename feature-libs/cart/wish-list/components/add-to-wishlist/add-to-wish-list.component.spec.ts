@@ -158,6 +158,8 @@ describe('AddToWishListComponent', () => {
   });
 
   beforeEach(() => {
+    vi.clearAllMocks();
+    productSubject.next(mockProduct);
     fixture = TestBed.createComponent(AddToWishListComponent);
     component = fixture.componentInstance;
 
