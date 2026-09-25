@@ -164,7 +164,7 @@ describe('DpPaymentCallbackComponent with success query param', () => {
     dpStorageService = TestBed.inject(DpLocalStorageService);
     msgService = TestBed.inject(GlobalMessageService);
     billingAddressService = TestBed.inject(CheckoutBillingAddressFormService);
-    spyOn(msgService, 'add').and.stub();
+    vi.spyOn(msgService, 'add').mockImplementation(() => {});
   });
 
   beforeEach(() => {
@@ -172,8 +172,8 @@ describe('DpPaymentCallbackComponent with success query param', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    spyOn(component.closeCallback, 'emit').and.callThrough();
-    spyOn(component.paymentDetailsAdded, 'emit').and.callThrough();
+    vi.spyOn(component.closeCallback, 'emit');
+    vi.spyOn(component.paymentDetailsAdded, 'emit');
   });
 
   it('should create', () => {
@@ -186,10 +186,10 @@ describe('DpPaymentCallbackComponent with success query param', () => {
         sessionId: mockSessionId,
         signature: mockSignature,
       };
-      spyOn(dpStorageService, 'readCardRegistrationState').and.returnValue(
+      vi.spyOn(dpStorageService, 'readCardRegistrationState').mockReturnValue(
         mockDpPaymentRequest
       );
-      spyOn(dpPaymentService, 'createPaymentDetails').and.returnValue(
+      vi.spyOn(dpPaymentService, 'createPaymentDetails').mockReturnValue(
         of(mockPaymentDetails)
       );
     });
@@ -205,22 +205,24 @@ describe('DpPaymentCallbackComponent with success query param', () => {
     });
     describe('checking 2 buttons on billing address form', () => {
       beforeEach(() => {
-        spyOn(
+        vi.spyOn(
           billingAddressService,
           'isBillingAddressSameAsDeliveryAddress'
-        ).and.returnValue(true);
-        spyOn(
+        ).mockReturnValue(true);
+        vi.spyOn(
           billingAddressService,
           'isBillingAddressFormValid'
-        ).and.returnValue(true);
-        spyOn(billingAddressService, 'getBillingAddress').and.returnValue({});
+        ).mockReturnValue(true);
+        vi.spyOn(billingAddressService, 'getBillingAddress').mockReturnValue(
+          {}
+        );
       });
       it('should add payment details when `continue` is clicked', async () => {
         component.next();
         expect(component.paymentDetailsAdded.emit).toHaveBeenCalled();
       });
       it('should not add payment details and open a dialog when `back` is clicked', async () => {
-        spyOn(launchDialogService, 'openDialog').and.callThrough();
+        vi.spyOn(launchDialogService, 'openDialog');
         component.back();
         expect(launchDialogService.openDialog).toHaveBeenCalledWith(
           LAUNCH_CALLER.DP_SHOW_CONFIRMATION_DIALOG,
@@ -236,14 +238,15 @@ describe('DpPaymentCallbackComponent with success query param', () => {
     });
 
     it('should send billing address if form is valid/billing address same as delivery address', () => {
-      spyOn(
+      vi.spyOn(
         billingAddressService,
         'isBillingAddressSameAsDeliveryAddress'
-      ).and.returnValue(true);
-      spyOn(billingAddressService, 'isBillingAddressFormValid').and.returnValue(
-        true
-      );
-      spyOn(billingAddressService, 'getBillingAddress').and.returnValue({});
+      ).mockReturnValue(true);
+      vi.spyOn(
+        billingAddressService,
+        'isBillingAddressFormValid'
+      ).mockReturnValue(true);
+      vi.spyOn(billingAddressService, 'getBillingAddress').mockReturnValue({});
       component.next();
       expect(dpStorageService.readCardRegistrationState).toHaveBeenCalled();
       expect(dpPaymentService.createPaymentDetails).toHaveBeenCalledWith(
@@ -253,13 +256,14 @@ describe('DpPaymentCallbackComponent with success query param', () => {
       );
     });
     it('should not send billing address if form is not valid & billing address is not same as delivery address', () => {
-      spyOn(
+      vi.spyOn(
         billingAddressService,
         'isBillingAddressSameAsDeliveryAddress'
-      ).and.returnValue(false);
-      spyOn(billingAddressService, 'isBillingAddressFormValid').and.returnValue(
-        false
-      );
+      ).mockReturnValue(false);
+      vi.spyOn(
+        billingAddressService,
+        'isBillingAddressFormValid'
+      ).mockReturnValue(false);
       component.next();
       expect(dpStorageService.readCardRegistrationState).not.toHaveBeenCalled();
       expect(dpPaymentService.createPaymentDetails).not.toHaveBeenCalled();
@@ -328,7 +332,7 @@ describe('DpPaymentCallbackComponent without query param', () => {
 
     msgService = TestBed.inject(GlobalMessageService);
 
-    spyOn(msgService, 'add').and.stub();
+    vi.spyOn(msgService, 'add').mockImplementation(() => {});
   });
 
   beforeEach(() => {
@@ -343,7 +347,7 @@ describe('DpPaymentCallbackComponent without query param', () => {
 
   describe('ngOnInit()', () => {
     it('should show cancelled or failed error when cancelled', async () => {
-      spyOn(component.closeCallback, 'emit').and.callThrough();
+      vi.spyOn(component.closeCallback, 'emit');
 
       component.ngOnInit();
 
