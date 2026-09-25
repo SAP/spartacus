@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { WindowRef } from '../../window/window-ref';
 import { StorageSyncType } from '../config/state-config';
 import {

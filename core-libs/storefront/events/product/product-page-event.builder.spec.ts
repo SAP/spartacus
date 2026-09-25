@@ -31,6 +31,8 @@ describe('ProductPageEventModule', () => {
   let eventService: EventService;
 
   beforeEach(() => {
+    productGetBehavior.next(undefined);
+    getResultsBehavior.next(undefined);
     TestBed.configureTestingModule({
       providers: [
         { provide: ProductService, useClass: MockProductService },

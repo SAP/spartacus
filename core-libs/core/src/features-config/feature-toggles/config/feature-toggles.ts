@@ -295,9 +295,25 @@ export interface FeatureTogglesInterface {
    *
    * Set to `false` if you rely on custom focus listeners (e.g. addEventListener('focus', ...)) on elements
    * that contain or interact with the carousel, since preventing mousedown default can affect focus behavior.
-   * Affects: `CarouselComponent` (when preventNavigationFocus input is true, e.g. in SearchBoxComponent)
+   * Affects: `CarouselComponent` previous/next buttons (e.g. in SearchBoxComponent)
    */
   a11yCarouselPreventNavigationFocus?: boolean;
+
+  /**
+   * In `CarouselComponent`, indicator buttons (the slide dots) call `preventDefault()`
+   * on `mousedown`.
+   *
+   * Before: tapping an indicator (for example in Safari or iOS inside `SearchBoxComponent`)
+   * moved focus away from the search input and closed the search results.
+   * After: mousedown does not change focus, so the search overlay stays open and
+   * the indicator navigates on the first tap.
+   *
+   * This is separate from `a11yCarouselPreventNavigationFocus`, which only covers
+   * previous/next buttons.
+   *
+   * Affects: `CarouselComponent` (including when used by `SearchBoxComponent`)
+   */
+  a11yCarouselPreventIndicatorFocus?: boolean;
 
   /**
    * Sets the ng-select (readonly) input value from the selected option text,
@@ -354,6 +370,13 @@ export interface FeatureTogglesInterface {
    * Affects: ProductReviewsComponent
    */
   a11yReviewsKeyboardControls?: boolean;
+
+  /**
+   * When enabled, scrolls the 'Show More/Less Reviews' button into view after
+   * clicking it, ensuring the focused element remains visible in the viewport.
+   * Affects: ProductReviewsComponent
+   */
+  a11yShowMoreReviewsFocusVisible?: boolean;
 
   /**
    * Use on existing form buttons that are programatically disabled/enabled.
@@ -541,12 +564,49 @@ export interface FeatureTogglesInterface {
    */
   enableHierarchicalAddressFormat?: boolean;
 
+  /**
+   * When enabled, the title on the address is added to the line containing the full name (Card.boldText).
+   */
+  addTitleToAddressCard?: boolean;
+
   /* When enabled, OPF checkout payment flow calls `updatePaymentTransaction`
    * instead of `initiatePayment` while selecting/re-initiating payment.
    *
    * Legacy behavior uses `initiatePayment`.
    */
   opfCheckoutUseUpdatePaymentTransaction?: boolean;
+
+  /**
+   * Enables the CXSPA-10582 fixes that make the active cart resilient to
+   * slow networks: rapid multi-product add-to-cart bursts no longer lose
+   * line items, the Place Order / Proceed-to-Checkout buttons stay disabled
+   * until cart writes settle, and the mini-cart / cart page surface an
+   * "updating" indicator so users see the in-flight state.
+   *
+   * When OFF, all of the following revert to pre-fix behaviour:
+   * - `MultiCartReducer` no longer merges `CART_ADD_ENTRY_SUCCESS` payload
+   *   into the cart entity ahead of the trailing GET reconcile.
+   * - `CartEffects.refreshWithoutProcesses$` returns to the synchronous
+   *   per-success LoadCart dispatch (the downstream "drop LoadCart while
+   *   pending" filter then swallows refreshes mid-burst).
+   * - `ActiveCartService.requireLoadedCart` skips the in-flight cart
+   *   creation cache.
+   * - `CheckoutPlaceOrderComponent` (base + scheduled-replenishment) no
+   *   longer gates `submitForm()` on `isStable()` and exposes no
+   *   `isCartUpdating$`.
+   * - `MiniCartComponent` hides the updating indicator and keeps the
+   *   count/total visible at all times.
+   * - `CartDetailsComponent` hides the "Updating cart" banner.
+   * - `CartProceedToCheckoutComponent` does not gate `[disabled]` /
+   *   `[loading]` on `isStable()`.
+   *
+   * Affects: ActiveCartService, CartEffects, MultiCartReducer,
+   * MiniCartComponent, CartDetailsComponent, CartProceedToCheckoutComponent,
+   * CheckoutPlaceOrderComponent,
+   * CheckoutScheduledReplenishmentPlaceOrderComponent
+   */
+  enableCartSlowNetworkResilience?: boolean;
+
   /**
    * When enabled, adds an 8px top margin to the "Add to Wish List" button
    * for consistent spacing.
@@ -686,6 +746,14 @@ export interface FeatureTogglesInterface {
   a11yFocusIndicatorContrast?: boolean;
 
   /**
+   * When enabled, the default theme's primary color (`--cx-color-primary`) is
+   * darkened so the contrast meets the contrast requirement of >= 4.5:1.
+   * This toggle can be removed if santorini-updated in theme.scss is uncommented
+   * as part of next major release.
+   */
+  a11yPrimaryColorContrast?: boolean;
+
+  /**
    * When enabled, disabled action buttons (`.btn-primary`, `.btn-secondary`,
    * `.btn-tertiary`) use the new `--cx-color-disabled` token instead of
    * `--cx-color-border-focus`, so their border/background/text meet the
@@ -752,6 +820,66 @@ export interface FeatureTogglesInterface {
    * Affects: `ListComponent` (`cx-org-list`)
    */
   a11yNavigationChevronContrast?: boolean;
+
+  /**
+   * When enabled, the requote button when clicked in the cancelled quote details page
+   * will show a warning message to the user that the quote-cart should have a minimum
+   * threshold value of items to be able to proceed with the requote process.
+   *
+   * Affects: `QuoteSummaryActionsComponent`
+   */
+  showWarningMessageOnRequoteButtonClick?: boolean;
+
+  /**
+   * Enables support for a dedicated oAuth callback page to be used for the
+   * Return URI in Authorization Code Flow.
+   *
+   * Requires feature flags `authorizationCodeFlowByDefault` and `asyncAuthConfigInitializer`
+   * to be enabled.
+   *
+   * 1. Add new route 'oAuthCallback' to the default `RoutingConfig`.
+   *
+   * 2. Define CMS Component for 'OauthCallbackComponent' using the `SpinnerComponent`.
+   *
+   * 3. Modify the AuthConfigInitializer's generation of Redirect URI.
+   *    The configured redirect URI will be modified depending on whether it is
+   *    relative or absolute.
+   *    - Relative URIs are interpreted as a custom oAuth callback path.  The
+   *      page origin will be used for the host, and base site will be added if
+   *      enabled before the custom path.
+   *    - Absolute URIs will be treated as the intended value.  The base site
+   *      will be appended to the path if enabled.
+   */
+  oauthCallbackPage?: boolean;
+
+  /**
+   * When enabled, `Validators.maxLength` is applied to all text form fields
+   * in address and registration forms, providing visible error feedback instead
+   * of silently blocking input at the HTML level.
+   *
+   * Affects: `UserRegistrationFormService`, `CheckoutBillingAddressFormService`,
+   * `AddressFormComponent`, `UnitAddressFormService`
+   */
+  enableFormFieldMaxLength?: boolean;
+
+  /**
+   * When enabled, the RESET button in the "Add To Your Coupon List" claim dialog
+   * is rendered as a proper `<button>` element instead of an `<a role="button">`
+   * without an `href`, making it reachable and operable with the keyboard.
+   * Fixes WCAG 2.1.1 (Keyboard) ACC-270.1 (Level A).
+   * Affects: `ClaimDialogComponent`
+   */
+  a11yCouponDialogResetButtonKeyboardAccessible?: boolean;
+
+  /**
+   * When enabled, the "In Stock" / "Out of Stock" info text in the
+   * `AddToCartComponent` uses `--cx-color-text` instead of
+   * `--cx-color-secondary`, ensuring the text meets the WCAG 1.4.3 Level AA
+   * minimum contrast ratio of 4.5:1 against all background surfaces.
+   *
+   * Affects: `AddToCartComponent`
+   */
+  a11yInStockInfoTextContrast?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -776,30 +904,32 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enablePasswordExpiredErrorTranslation: true,
   enableQuotePurchaseOrderNumber: true,
   enableReturnOrderReturnableQuantityConsigmentFallback: true,
-  enableMediaPrefix: false,
+  enableMediaPrefix: true,
   a11yCustomerTicketingVisualFocusFix: true,
   a11yMessagingListKeyboardFocus: false,
   orderOverviewCardsInlinePadding: false,
   a11yStoreFinderListItemFocus: false,
   a11yFixSearchBoxDoubleFocus: false,
-  a11yFacetFilterByLabel: false,
+  a11yFacetFilterByLabel: true,
   removeDuplicatedOrderHistoryHeader: true,
   a11yCardNotificationMessage: true,
   searchBoxRecentSearchesRemoval: false,
   searchBoxEmptyQueryResultsPanel: false,
   cdsBottomHeaderSlotAdjustPosition: false,
-  enableB2BUnitSearch: false,
-  enableB2BCostCenterSearch: false,
-  enableB2BCustomerSearch: false,
-  a11yCarouselPreventNavigationFocus: false,
-  a11yNgSelectReadonlyInputValue: false,
-  a11yPasswordVisibilityToggle: false,
-  showOnlyActiveCurrencies: false,
-  a11yAddedToCartDialogHeading: false,
-  a11yListSemanticsForFacets: false,
+  enableB2BUnitSearch: true,
+  enableB2BCostCenterSearch: true,
+  enableB2BCustomerSearch: true,
+  a11yCarouselPreventNavigationFocus: true,
+  a11yCarouselPreventIndicatorFocus: false,
+  a11yNgSelectReadonlyInputValue: true,
+  a11yPasswordVisibilityToggle: true,
+  showOnlyActiveCurrencies: true,
+  a11yAddedToCartDialogHeading: true,
+  a11yListSemanticsForFacets: true,
   a11yFilteredFacetAnnouncement: false,
-  a11yCartItemListHideEmptyOutlets: false,
-  a11yReviewsKeyboardControls: false,
+  a11yCartItemListHideEmptyOutlets: true,
+  a11yReviewsKeyboardControls: true,
+  a11yShowMoreReviewsFocusVisible: false,
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yConsentManagementFocusPreservation: false,
   a11yDeliveryModeFocusPreservation: false,
@@ -824,7 +954,9 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   pageLinkSanitizeCanonicalUrl: false,
   opfUseDestroyRef: false,
   enableHierarchicalAddressFormat: false,
+  addTitleToAddressCard: false,
   opfCheckoutUseUpdatePaymentTransaction: false,
+  enableCartSlowNetworkResilience: false,
   a11yRegistrationTermsAsteriskMargin: false,
   a11yAddToWishListBtnMargin: false,
   a11yProductListItemNameMargin: false,
@@ -840,6 +972,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   mergeGuestCartOnCodeFlowLogin: false,
   a11yFormErrorIconContrast: false,
   a11yFocusIndicatorContrast: false,
+  a11yPrimaryColorContrast: false,
   a11yDisabledButtonContrast: false,
   a11yImproveAddressFormFocus: false,
   a11yFocusBreadcrumbOnNavigation: false,
@@ -847,4 +980,9 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   configuratorIssuesNotificationForConfigurableOnly: false,
   globalMessageCloseButtonPadding: false,
   a11yNavigationChevronContrast: false,
+  showWarningMessageOnRequoteButtonClick: false,
+  oauthCallbackPage: false,
+  enableFormFieldMaxLength: false,
+  a11yCouponDialogResetButtonKeyboardAccessible: false,
+  a11yInStockInfoTextContrast: false,
 };

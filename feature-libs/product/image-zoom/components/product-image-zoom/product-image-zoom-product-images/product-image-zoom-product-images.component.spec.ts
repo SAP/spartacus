@@ -24,7 +24,6 @@ import { BehaviorSubject, EMPTY, Observable, firstValueFrom, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ProductImageZoomTriggerComponent } from '../product-image-zoom-trigger/product-image-zoom-trigger.component';
 import { ProductImageZoomProductImagesComponent } from './product-image-zoom-product-images.component';
-import { vi } from 'vitest';
 
 const firstImage = {
   zoom: {
@@ -98,7 +97,7 @@ class MockMediaComponent {
     <ng-container *ngFor="let item$ of items">
       <ng-container
         *ngTemplateOutlet="template; context: { item: item$ | async }"
-      ></ng-container>
+      />
     </ng-container>
   `,
   imports: [NgFor, NgTemplateOutlet, AsyncPipe],

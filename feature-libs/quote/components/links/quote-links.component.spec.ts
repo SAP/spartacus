@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { vi } from 'vitest';
 import { Router, RouterModule, Routes } from '@angular/router';
 import {
   EventService,
@@ -93,6 +92,8 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 }
 
 const mockOrderConfig: OrderConfig = { showOrderQuoteLink: true };
+
+vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:mock');
 
 describe('QuoteLinksComponent', () => {
   let fixture: ComponentFixture<QuoteLinksComponent>;

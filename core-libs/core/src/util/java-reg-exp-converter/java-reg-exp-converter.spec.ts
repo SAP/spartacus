@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { LoggerService } from '../../logger';
 import { JavaRegExpConverter } from './java-reg-exp-converter';

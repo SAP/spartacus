@@ -4,23 +4,18 @@
       class="cx-review-summary-card cx-review-summary-payment-card"
       *ngIf="isPaymentInfoCardFull(paymentDetails)"
     >
-      <cx-card
-        [content]="getPaymentMethodCard(paymentDetails) | async"
-      ></cx-card>
+      <cx-card [content]="getPaymentMethodCard(paymentDetails) | async" />
     </div>
     <ng-template
       [cxOutlet]="cartOutlets.ORDER_DETAILS_AFTER_PAYMENT_METHOD"
       [cxOutletContext]="order"
-    >
-    </ng-template>
+    />
 
     <div
       class="cx-review-summary-card cx-review-summary-payment-card"
       *ngIf="paymentDetails?.billingAddress"
     >
-      <cx-card
-        [content]="getBillingAddressCard(paymentDetails) | async"
-      ></cx-card>
+      <cx-card [content]="getBillingAddressCard(paymentDetails) | async" />
     </div>
   </div>
 </div>

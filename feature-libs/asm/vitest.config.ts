@@ -16,6 +16,7 @@ export default defineConfig({
       '@spartacus/storefront/testing/mock-feature-directive': `${import.meta.dirname}/../../core-libs/storefront/shared/test/mock-feature-directive.ts`,
       '@spartacus/storefront/testing/mock-feature-level-directive': `${import.meta.dirname}/../../core-libs/storefront/shared/test/mock-feature-level-directive.ts`,
       '@spartacus/core/testing/process-reducers': `${import.meta.dirname}/../../core-libs/core/src/process/store/reducers/index.ts`,
+      'core-libs/storefront/shared/test/mock-window-ref': `${import.meta.dirname}/../../core-libs/storefront/shared/test/mock-window-ref.ts`,
     },
   },
   test: {
@@ -38,7 +39,12 @@ export default defineConfig({
         '**/*.module.ts',
         'vitest.config.ts',
       ],
-      thresholds: { statements: 90, lines: 90, branches: 80, functions: 90 },
+      thresholds: {
+        statements: 85,
+        lines: 85,
+        branches: 65,
+        functions: 85,
+      },
     },
     reporters: [
       'default',

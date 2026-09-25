@@ -23,7 +23,6 @@ import {
   LaunchDialogService,
   OutletContextData,
 } from '@spartacus/storefront';
-import { vi } from 'vitest';
 import { cold } from 'jasmine-marbles';
 import { Observable, firstValueFrom, of } from 'rxjs';
 import { MockPickupLocationsSearchService } from '../../../core/facade/pickup-locations-search.service.spec';

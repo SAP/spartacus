@@ -1,0 +1,6 @@
+{
+  "permissions": {
+    "allow": ["Bash(git checkout *)", "Bash(npx vitest *)"]
+  },
+  "enabledMcpjsonServers": ["sap-jira"]
+}

@@ -12,7 +12,6 @@ import {
 } from '@spartacus/subscription-billing/root';
 import { firstValueFrom, of } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { vi } from 'vitest';
 
 const mockRoutingService = {
   go: vi.fn(),

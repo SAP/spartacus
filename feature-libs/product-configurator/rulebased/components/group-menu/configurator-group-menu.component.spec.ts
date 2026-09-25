@@ -50,7 +50,6 @@ import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
-import { vi } from 'vitest';
 
 let mockGroupVisited = false;
 let mockDirection = DirectionMode.LTR;

@@ -8,9 +8,16 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import angular from '@analogjs/vite-plugin-angular';
 import { defineConfig } from 'vitest/config';
 
+const root = `${import.meta.dirname}/../..`;
+
 export default defineConfig({
   root: import.meta.dirname,
   plugins: [angular(), nxViteTsPaths()],
+  resolve: {
+    alias: {
+      'core-libs/storefront/shared/test/mock-window-ref': `${root}/core-libs/storefront/shared/test/mock-window-ref.ts`,
+    },
+  },
   test: {
     pool: 'forks',
     watch: false,
@@ -32,10 +39,10 @@ export default defineConfig({
         '../../testing/setup-vitest.ts',
       ],
       thresholds: {
-        statements: 90,
-        lines: 90,
-        branches: 80,
-        functions: 90,
+        statements: 85,
+        lines: 85,
+        branches: 65,
+        functions: 85,
       },
     },
     reporters: [

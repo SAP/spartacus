@@ -5,11 +5,11 @@
       <cx-configurator-attribute-quantity
         (changeQuantity)="onChangeQuantity($event)"
         [quantityOptions]="extractQuantityParameters()"
-      ></cx-configurator-attribute-quantity>
+      />
       <cx-configurator-price
         *ngIf="getSelectedValuePrice()"
         [formula]="extractPriceFormulaParameters()"
-      ></cx-configurator-price>
+      />
     </div>
     <ng-container *ngIf="changedPrices$ | async as changedPrices">
       <div class="form-check" *ngFor="let value of attribute.values">
@@ -68,7 +68,7 @@
               getLabel(expMode, value.valueDisplay, value.valueCode)
             "
             [tabIndex]="0"
-          ></cx-configurator-show-more>
+          />
         </div>
 
         <div class="cx-value-price">
@@ -78,7 +78,7 @@
                 enrichValueWithPrice(value, changedPrices)
               )
             "
-          ></cx-configurator-price>
+          />
         </div>
       </div>
     </ng-container>
@@ -86,12 +86,11 @@
     <cx-configurator-attribute-numeric-input-field
       *ngIf="isAdditionalValueNumeric"
       class="cx-configurator-attribute-additional-value"
-    ></cx-configurator-attribute-numeric-input-field>
+    />
 
     <cx-configurator-attribute-input-field
       *ngIf="isAdditionalValueAlphaNumeric"
       class="cx-configurator-attribute-additional-value"
-    >
-    </cx-configurator-attribute-input-field>
+    />
   </div>
 </fieldset>

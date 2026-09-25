@@ -34,8 +34,6 @@ import {
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, firstValueFrom, Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { vi } from 'vitest';
 import { UserProfileFacade } from '../../../root/facade/user-profile.facade';
 import { AddressFormComponent } from './address-form.component';
 
@@ -165,11 +163,6 @@ describe('AddressFormComponent', () => {
 
   // The component/directive defer focus work to a `setTimeout(0)` macrotask.
   // `of(...)` emits synchronously, so the timer is scheduled during `ngOnInit`;
-  // awaiting a real macrotask (a later `setTimeout(0)`) lets it run before we
-  // assert, without needing `fakeAsync`/`tick` (unsupported by the vitest zone
-  // setup) or the deprecated `done` callback.
-  const flushMacrotask = (): Promise<void> =>
-    new Promise((resolve) => setTimeout(resolve));
 
   beforeEach(async () => {
     mockGlobalMessageService = {
@@ -357,19 +350,24 @@ describe('AddressFormComponent', () => {
     expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
   });
 
-  it('should emit submitAddress if dialog was closed with selected address as parameter', () => {
+  it('should emit submitAddress with selected address merged with form titleCode and phone', async () => {
     vi.spyOn(launchDialogService, 'openDialogAndSubscribe');
     const mockAddressVerificationResult: AddressValidation = {
       decision: 'REVIEW',
     };
-    dialogClose$.next(mockAddress);
 
+    const addressPromise = firstValueFrom(component.submitAddress);
     component.openSuggestedAddress(mockAddressVerificationResult);
+    dialogClose$.next(mockAddress);
 
     expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
 
-    component.submitAddress.pipe(take(1)).subscribe((address) => {
-      expect(address).toEqual(mockAddress);
+    const address = await addressPromise;
+    expect(address).toEqual({
+      ...mockAddress,
+      titleCode: component.addressForm.value.titleCode,
+      phone: component.addressForm.value.phone,
+      selected: true,
     });
   });
 
@@ -418,7 +416,7 @@ describe('AddressFormComponent', () => {
     const mockCountryIsocode = 'test country isocode';
     component.countrySelected({ isocode: mockCountryIsocode });
     component.ngOnInit();
-    component.regions$.subscribe();
+    component.regions$.subscribe().unsubscribe();
     expect(
       (component.addressForm['controls'].country as UntypedFormGroup)[
         'controls'
@@ -526,7 +524,7 @@ describe('AddressFormComponent', () => {
     const mockCountryIsocode = 'test country isocode';
     component.regionSelected({ isocode: mockCountryIsocode });
     component.ngOnInit();
-    component.regions$.subscribe();
+    component.regions$.subscribe().unsubscribe();
     component.verifyAddress();
     expect(
       (component.addressForm['controls'].region as UntypedFormGroup)['controls']
@@ -698,6 +696,7 @@ describe('AddressFormComponent', () => {
       fixture.debugElement.query(By.directive(FocusDirective));
 
     beforeEach(async () => {
+      vi.useFakeTimers();
       // This block needs a different module setup than the outer `beforeEach`
       // (which replaces `FeatureDirective` with a mock that always renders):
       // here we keep the real `*cxFeature` so toggling `a11yImproveAddressFormFocus`
@@ -742,6 +741,11 @@ describe('AddressFormComponent', () => {
       userProfileFacade = TestBed.inject(UserProfileFacade);
       fixture = TestBed.createComponent(AddressFormComponent);
       component = fixture.componentInstance;
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+      TestBed.resetTestingModule();
     });
 
     it('should apply cxFocus to the form when a11yImproveAddressFormFocus is true', () => {
@@ -810,21 +814,21 @@ describe('AddressFormComponent', () => {
       expect(component.focusConfig).toEqual({ autofocus: false });
     });
 
-    it('should enable autofocus once the country data has loaded', async () => {
+    it('should enable autofocus once the country data has loaded', () => {
       featureTogglesController.set('a11yImproveAddressFormFocus', true);
       vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(
         of(mockCountries)
       );
 
       component.ngOnInit();
-      await flushMacrotask(); // flush the deferred macrotask
+      vi.runAllTimers();
 
       expect(component.focusConfig.autofocus).toBe(true);
       // a `refreshFocus` token is set to re-trigger the directive's focus logic
       expect(component.focusConfig.refreshFocus).toBeTruthy();
     });
 
-    it('should not steal focus when the user has already focused a form field', async () => {
+    it('should not steal focus when the user has already focused a form field', () => {
       featureTogglesController.set('a11yImproveAddressFormFocus', true);
       vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(
         of(mockCountries)
@@ -840,33 +844,33 @@ describe('AddressFormComponent', () => {
       expect(document.activeElement).toBe(input);
 
       component.ngOnInit();
-      await flushMacrotask();
+      vi.runAllTimers();
 
       expect(component.focusConfig).toEqual({ autofocus: false });
 
       document.body.removeChild(host);
     });
 
-    it('should not enable autofocus while the country list is empty', async () => {
+    it('should not enable autofocus while the country list is empty', () => {
       featureTogglesController.set('a11yImproveAddressFormFocus', true);
       vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(
         of([])
       );
 
       component.ngOnInit();
-      await flushMacrotask();
+      vi.runAllTimers();
 
       expect(component.focusConfig).toEqual({ autofocus: false });
     });
 
-    it('should not enable autofocus when the toggle is off', async () => {
+    it('should not enable autofocus when the toggle is off', () => {
       featureTogglesController.set('a11yImproveAddressFormFocus', false);
       vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(
         of(mockCountries)
       );
 
       component.ngOnInit();
-      await flushMacrotask();
+      vi.runAllTimers();
 
       expect(component.focusConfig).toEqual({ autofocus: false });
     });
@@ -876,6 +880,7 @@ describe('AddressFormComponent', () => {
     let focusFirstInvalidFieldDirective: FocusFirstInvalidFieldDirective;
 
     beforeEach(() => {
+      vi.useFakeTimers();
       vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(
         of(mockCountries)
       );
@@ -888,7 +893,11 @@ describe('AddressFormComponent', () => {
         .injector.get(FocusFirstInvalidFieldDirective);
     });
 
-    it('should focus the inner input of the invalid country ng-select', async () => {
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it('should focus the inner input of the invalid country ng-select', () => {
       const countryInput: HTMLElement = fixture.debugElement.query(
         By.css('ng-select.country-select input')
       ).nativeElement;
@@ -896,12 +905,11 @@ describe('AddressFormComponent', () => {
 
       focusFirstInvalidFieldDirective.focusFirstInvalidField();
 
-      // the directive defers focus to a macrotask, so assert after it runs
-      await flushMacrotask();
+      vi.runAllTimers();
       expect(countryInput.focus).toHaveBeenCalled();
     });
 
-    it('should focus the first invalid text input when preceding selects are valid', async () => {
+    it('should focus the first invalid text input when preceding selects are valid', () => {
       (controls.country as UntypedFormGroup).controls['isocode'].setValue('AD');
       fixture.detectChanges();
 
@@ -912,8 +920,88 @@ describe('AddressFormComponent', () => {
 
       focusFirstInvalidFieldDirective.focusFirstInvalidField();
 
-      await flushMacrotask();
+      vi.runAllTimers();
       expect(firstNameInput.focus).toHaveBeenCalled();
+    });
+  });
+});
+
+describe('AddressFormComponent — enableFormFieldMaxLength', () => {
+  const overLength = 'a'.repeat(257);
+
+  const setupModule = (enabled: boolean) =>
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        AddressFormComponent,
+        MockNgSelectA11yDirective,
+      ],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        { provide: UserAddressService, useClass: MockUserAddressService },
+        { provide: GlobalMessageService, useValue: { add: () => {} } },
+        { provide: UserProfileFacade, useClass: MockUserProfileFacade },
+        { provide: LanguageService, useClass: MockLanguageService },
+        {
+          provide: HierarchicalAddressConfig,
+          useValue: {
+            hierarchicalAddress: {
+              countriesUsingHierarchicalAddressFormat: ['CN'],
+            },
+          },
+        },
+        ...provideMockFeatureToggles({ enableFormFieldMaxLength: enabled }),
+      ],
+    })
+      .overrideComponent(AddressFormComponent, {
+        add: { changeDetection: ChangeDetectionStrategy.Eager },
+      })
+      .compileComponents();
+
+  describe('when enabled', () => {
+    let component: AddressFormComponent;
+
+    beforeEach(async () => {
+      await setupModule(true);
+      const fixture = TestBed.createComponent(AddressFormComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('isMaxLengthEnabled should return true', () => {
+      expect(component['isMaxLengthEnabled']).toBe(true);
+    });
+
+    it('should add maxLength validator to line1', () => {
+      component.addressForm.get('line1')?.setValue(overLength);
+      expect(component.addressForm.get('line1')?.hasError('maxlength')).toBe(
+        true
+      );
+    });
+  });
+
+  describe('when disabled', () => {
+    let component: AddressFormComponent;
+
+    beforeEach(async () => {
+      await setupModule(false);
+      const fixture = TestBed.createComponent(AddressFormComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('isMaxLengthEnabled should return false', () => {
+      expect(component['isMaxLengthEnabled']).toBe(false);
+    });
+
+    it('should not add maxLength validator to line1', () => {
+      component.addressForm.get('line1')?.setValue(overLength);
+      expect(component.addressForm.get('line1')?.hasError('maxlength')).toBe(
+        false
+      );
     });
   });
 });

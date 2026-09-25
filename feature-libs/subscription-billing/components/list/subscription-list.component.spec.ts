@@ -16,7 +16,6 @@ import {
   SubscriptionList,
 } from '@spartacus/subscription-billing/root';
 import { Observable, of } from 'rxjs';
-import { vi } from 'vitest';
 import { SubscriptionListComponent } from './subscription-list.component';
 
 const listWithData: SubscriptionList = {

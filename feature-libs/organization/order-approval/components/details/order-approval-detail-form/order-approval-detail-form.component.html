@@ -1,7 +1,7 @@
 <ng-container *ngIf="orderApproval$ | async as orderApproval">
   <div *ngIf="loading$ | async; else approvalFormTemplate">
     <div class="cx-spinner">
-      <cx-spinner></cx-spinner>
+      <cx-spinner />
     </div>
   </div>
 
@@ -52,7 +52,7 @@
                   '.label' | cxTranslate,
             }"
             [control]="approvalForm.get('comment')"
-          ></cx-form-errors>
+          />
         </label>
         <div class="form-group row">
           <div class="col-lg-6 col-md-12">
