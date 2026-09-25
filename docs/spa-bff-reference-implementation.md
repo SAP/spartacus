@@ -69,8 +69,9 @@ before applying the BFF integration changes described in the rest of this docume
 
 | Tool | Required version | Notes |
 |---|---|---|
-| Node.js | 20 LTS or 22 LTS | Earlier versions are not tested |
-| Angular CLI | 21.2.x | Do **not** use 21.1.x — it has peer-dep conflicts with Spartacus 221121.13.1 |
+| Node.js | 20 LTS or 22 LTS | Earlier versions are not tested. (Also verified working on Node 24.21.0 — see the npm note below.) |
+| npm | **11.x** | The `@vivaldi/nx` scaffolder in Step 1 crashes on **npm 10.9.x** with `Cannot read properties of null (reading 'edgesOut')` — an npm arborist bug. Use npm 11 (`npm install -g npm@11`). npm 11 requires Node `^20.17.0 \|\| >=22.9.0`, so pair it with a recent Node 20/22 LTS (or Node 24). |
+| Angular CLI | 21.2.24 | Must be a **21.2.x** — do **not** use 21.1.x (peer-dep conflicts with Spartacus 221121.13.1). `@angular/cli@21` currently resolves to 21.1.1, so pin the patch explicitly: `npm install -g @angular/cli@21.2.24`. A globally-installed older CLI (e.g. Angular 19) silently scaffolds an incompatible app — verify with `ng version` before Step 2. |
 | Spartacus schematics | 221121.13.1 | — |
 | `@vivaldi/nx` generator | 0.25.0 | — |
 
@@ -164,10 +165,12 @@ as deprecated, causing `nx run bff:typecheck` to fail with `TS5101`. Add
 > with "You have uncommitted changes". The storefront must be a sibling directory,
 > not a child of `my-vivaldi-workspace`.
 
-**Prerequisite:** install the Angular CLI globally.
+**Prerequisite:** install the Angular CLI globally. Pin the patch — `@angular/cli@21`
+resolves to 21.1.x which is incompatible (see the Prerequisites table):
 
 ```bash
-npm install -g @angular/cli@21
+npm install -g @angular/cli@21.2.24
+ng version   # confirm "Angular CLI: 21.2.24" before continuing
 ```
 
 Navigate out of the Vivaldi workspace before creating the storefront:
@@ -178,6 +181,13 @@ ng new my-storefront-app --style=scss --zoneless=false \
   --file-name-style-guide=2016
 cd my-storefront-app
 ```
+
+> **Do not pass `--standalone=false`.** The Spartacus schematic requires the
+> standalone-app layout (it looks for `src/app/app.config.ts`) and aborts with
+> *"Could not find app.config.ts file"* on an NgModule-only app. The flags above
+> keep the default `--standalone` (true) while `--file-name-style-guide=2016` still
+> produces the `app.component.ts` / `app.module.ts` naming the later steps expect —
+> the schematic generates `app.module.ts` itself.
 
 Commit immediately after `ng new` — before adding Spartacus. If the schematics fail
 or produce only a partial result, this gives you a clean rollback point without having
@@ -195,6 +205,9 @@ ng add @spartacus/schematics@221121.13.1 --skip-confirmation
 
 When the feature selection prompt appears, use **Space** to toggle features and **Enter**
 to confirm. Accept the defaults or customise the selection to match your project's needs.
+
+> **Non-interactive / CI:** to skip the feature prompt and take the defaults, run
+> `ng add @spartacus/schematics@221121.13.1 --skip-confirmation --interactive=false --defaults`.
 
 Commit the Spartacus changes:
 
@@ -535,6 +548,13 @@ under `compilerOptions`:
 > `target: es2015`) that conflict with Angular 21's required `module: preserve` and `target: ES2022`
 > settings. Adding the paths manually avoids this conflict.
 
+> **Do not add `"ignoreDeprecations": "6.0"` to `apps/storefrontapp/tsconfig.json`.**
+> Unlike the workspace `tsconfig.base.json` (Step 1), the Angular build of the storefront
+> runs its `tsconfig.app.json` through the `@angular-compiler` plugin, which rejects
+> `"6.0"` with `TS5103: Invalid value for '--ignoreDeprecations'` and fails the build.
+> The Angular builder already tolerates the deprecated `baseUrl` on its own, so leave
+> `ignoreDeprecations` out of the storefront tsconfig — `baseUrl` + `paths` is all you need here.
+
 **Merge `apps/storefrontapp/package.json` into the workspace root:**
 
 1. Move all `dependencies` and `devDependencies` from `apps/storefrontapp/package.json`
@@ -635,10 +655,14 @@ npm install @vivaldi/angular@0.25.0
 Add the `bff-base-url` meta tag inside `<head>`. CCv2 replaces the placeholders
 at deploy time.
 
-> **Note:** The Spartacus schematics already generate
-> `<meta name="occ-backend-base-url" content="https://localhost:9002" />`.
-> Replace the hardcoded value with the placeholder and add the `media-backend-base-url`
-> and `bff-base-url` tags alongside it:
+> **Note:** With Spartacus schematics **221121.13.1** the generated `index.html` does
+> **not** contain an `occ-backend-base-url` meta tag (the OCC base URL is instead set via
+> `provideConfig(OccConfig{...})` in `spartacus-configuration.module.ts`). Add all three
+> tags below to `<head>` yourself. (If a future schematic version does emit
+> `<meta name="occ-backend-base-url" content="https://localhost:9002" />`, replace that
+> hardcoded value with the `OCC_BACKEND_BASE_URL_VALUE` placeholder rather than adding a
+> duplicate.) The hardcoded `baseUrl` in `spartacus-configuration.module.ts` must still be
+> removed — see the CRITICAL section above.
 
 ```html
 <meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE" />
