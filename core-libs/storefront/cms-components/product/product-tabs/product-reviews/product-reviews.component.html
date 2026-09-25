@@ -62,13 +62,10 @@
         </ng-container>
         <div *ngIf="reviews.length > initialMaxListItems">
           <button
+            #showMoreLessButton
             aria-live="polite"
             class="btn btn-primary"
-            (click)="
-              maxListItems === initialMaxListItems
-                ? (maxListItems = reviews.length)
-                : (maxListItems = initialMaxListItems)
-            "
+            (click)="toggleReviewsDisplay(reviews)"
           >
             {{
               (maxListItems === initialMaxListItems
