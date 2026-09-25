@@ -345,6 +345,7 @@ if (environment.cpq) {
         a11yFilteredFacetAnnouncement: true,
         a11yCartItemListHideEmptyOutlets: true,
         a11yReviewsKeyboardControls: true,
+        a11yShowMoreReviewsFocusVisible: true,
         a11yCartQuickOrderFormEnableSubmitAndAddValidation: true,
         a11yConsentManagementFocusPreservation: true,
         a11yDeliveryModeFocusPreservation: true,
@@ -368,6 +369,7 @@ if (environment.cpq) {
         pageLinkSanitizeCanonicalUrl: true,
         opfUseDestroyRef: true,
         enableHierarchicalAddressFormat: true,
+        addTitleToAddressCard: true,
         opfCheckoutUseUpdatePaymentTransaction: true,
         enableCartSlowNetworkResilience: true,
         a11yRegistrationTermsAsteriskMargin: true,
@@ -382,6 +384,7 @@ if (environment.cpq) {
         reloadOnLanguageChange: true,
         a11yFormErrorIconContrast: true,
         a11yFocusIndicatorContrast: true,
+        a11yPrimaryColorContrast: true,
         a11yDisabledButtonContrast: true,
         a11yImproveAddressFormFocus: true,
         a11yFocusBreadcrumbOnNavigation: true,
@@ -393,6 +396,8 @@ if (environment.cpq) {
         showWarningMessageOnRequoteButtonClick: true,
         oauthCallbackPage: true,
         enableFormFieldMaxLength: true,
+        a11yCouponDialogResetButtonKeyboardAccessible: true,
+        a11yInStockInfoTextContrast: true,
       };
       return appFeatureToggles;
     }),

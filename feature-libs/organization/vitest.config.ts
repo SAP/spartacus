@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import angular from '@analogjs/vite-plugin-angular';
+import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { defineConfig } from 'vitest/config';
 
 const root = `${import.meta.dirname}/../..`;
@@ -34,6 +34,7 @@ export default defineConfig({
   },
   test: {
     pool: 'forks',
+    maxWorkers: 4,
     watch: false,
     globals: true,
     environment: 'jsdom',

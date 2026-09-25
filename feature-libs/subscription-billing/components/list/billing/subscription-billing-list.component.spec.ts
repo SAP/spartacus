@@ -15,7 +15,6 @@ import { By } from '@angular/platform-browser';
 import { SubscriptionBillingListComponent } from '@spartacus/subscription-billing/components';
 import { ActivatedRoute } from '@angular/router';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { vi } from 'vitest';
 
 const listWithData: SubscriptionBillsList = {
   pagination: {

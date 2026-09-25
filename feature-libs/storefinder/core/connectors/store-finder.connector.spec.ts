@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { vi } from 'vitest';
 import { StoreFinderAdapter } from './store-finder.adapter';
 import { StoreFinderConnector } from './store-finder.connector';
 import { GeoPoint, SearchConfig } from '@spartacus/core';

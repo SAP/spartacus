@@ -4,7 +4,6 @@ import { Subject, Subscription } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Type } from '@angular/core';
 import { ConfiguratorLanguageSetEventListener } from '@spartacus/product-configurator/rulebased';
-import { vi } from 'vitest';
 
 const mockEventStream$ = new Subject<CxEvent>();
 

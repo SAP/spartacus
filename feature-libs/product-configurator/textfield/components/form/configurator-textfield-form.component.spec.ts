@@ -19,7 +19,6 @@ import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.m
 import { ConfiguratorTextfieldAddToCartButtonComponent } from '../add-to-cart-button/configurator-textfield-add-to-cart-button.component';
 import { ConfiguratorTextfieldInputFieldComponent } from '../input-field/configurator-textfield-input-field.component';
 import { ConfiguratorTextfieldFormComponent } from './configurator-textfield-form.component';
-import { vi } from 'vitest';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_KEY = '3';

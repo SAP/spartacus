@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { vi } from 'vitest';
 import { AuthService } from '../../auth/index';
 import {
   AnonymousConsent,
