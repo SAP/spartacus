@@ -293,7 +293,7 @@ describe('ProductReviewsComponent in product', () => {
 
       productReviewsComponent.toggleReviewsDisplay(manyReviews);
 
-      expect(scrollSpy).toHaveBeenCalledWith({ block: 'nearest' });
+      expect(scrollSpy).toHaveBeenCalledWith({ block: 'center' });
       expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true });
     });
 
