@@ -132,7 +132,7 @@ export class ProductReviewsComponent {
     if (this.featureToggles.a11yShowMoreReviewsFocusVisible) {
       this.cd.detectChanges();
       this.showMoreLessButton?.nativeElement?.scrollIntoView({
-        block: 'nearest',
+        block: 'center',
       });
       // Re-assert focus after re-render so :focus and :focus-visible states
       // are applied to the button, making the outline visible consistently
