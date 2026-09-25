@@ -13,7 +13,6 @@ import {
 import { Order } from '@spartacus/order/root';
 import { Card, CardComponent } from '@spartacus/storefront';
 import { EMPTY, firstValueFrom, Observable, of } from 'rxjs';
-import { vi } from 'vitest';
 import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service';
 import { UnitLevelOrderOverviewComponent } from './unit-level-order-overview.component';
 

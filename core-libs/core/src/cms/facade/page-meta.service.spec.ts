@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { Injectable, isDevMode, PLATFORM_ID } from '@angular/core';
 
 vi.mock('@angular/core', async (importOriginal) => {

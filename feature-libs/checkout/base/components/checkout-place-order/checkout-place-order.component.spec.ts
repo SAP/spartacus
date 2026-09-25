@@ -20,7 +20,6 @@ import { OrderFacade } from '@spartacus/order/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, firstValueFrom, of } from 'rxjs';
 import { CheckoutPlaceOrderComponent } from './checkout-place-order.component';
-import { vi } from 'vitest';
 
 class MockOrderFacade implements Partial<OrderFacade> {
   placeOrder = vi.fn().mockReturnValue(of({}));

@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { PointOfService, PointOfServiceStock, Stock } from '@spartacus/core';
