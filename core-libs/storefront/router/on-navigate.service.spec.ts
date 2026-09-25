@@ -82,6 +82,7 @@ describe('OnNavigateService', () => {
   let viewportScroller: ViewportScroller;
 
   beforeEach(() => {
+    vi.useFakeTimers();
     mockEvents$ = new Subject<Scroll>();
 
     TestBed.configureTestingModule({
@@ -125,8 +126,9 @@ describe('OnNavigateService', () => {
     vi.spyOn(viewportScroller, 'scrollToAnchor');
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     service.setResetViewOnNavigate(false);
+    await vi.runAllTimersAsync();
     vi.useRealTimers();
   });
 
@@ -148,7 +150,6 @@ describe('OnNavigateService', () => {
 
   describe('setResetViewOnNavigate()', () => {
     it('should scroll to the top on navigation when no position (forward navigation)', async () => {
-      vi.useFakeTimers();
       service.setResetViewOnNavigate(true);
 
       emitPairScrollEvent(null);
@@ -183,7 +184,6 @@ describe('OnNavigateService', () => {
     });
 
     it('should call scrollToAnchor when anchor exist', async () => {
-      vi.useFakeTimers();
       service.setResetViewOnNavigate(true);
       const anchor = 'a001';
       emitPairScrollEvent(null, '/test3', '/test1', anchor);
@@ -194,7 +194,6 @@ describe('OnNavigateService', () => {
     });
 
     it('should scroll to the top on navigation when route is not part of the ignored config routes', async () => {
-      vi.useFakeTimers();
       config.enableResetViewOnNavigate.ignoreRoutes = ['test1', 'test2'];
 
       service.setResetViewOnNavigate(true);
@@ -207,7 +206,6 @@ describe('OnNavigateService', () => {
     });
 
     it('should scroll to a position on navigation when scroll contains position (backward navigation)', async () => {
-      vi.useFakeTimers();
       service.setResetViewOnNavigate(true);
 
       emitPairScrollEvent([1000, 500]);
