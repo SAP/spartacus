@@ -12,7 +12,7 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { AuthConfig, OccConfig, OccEndpointsService } from '@spartacus/core';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { defaultOccConfig } from '../../../occ/config/default-occ-config';
 import {
   InterceptorUtil,
@@ -105,6 +105,10 @@ describe('ClientTokenInterceptor', () => {
       clientErrorHandlingService = TestBed.inject(ClientErrorHandlingService);
       clientTokenService = TestBed.inject(ClientTokenService);
     });
+
+    afterEach(() => {
+      httpMock.verify();
+    });
     describe('Client Token', () => {
       it('Should only add token to specified requests', () => {
         vi.spyOn(clientTokenService, 'getClientToken').mockReturnValue(
@@ -142,15 +146,16 @@ describe('ClientTokenInterceptor', () => {
       });
     });
 
-    it(`should catch 401 error for a client token`, () => {
+    it(`should catch 401 error for a client token`, async () => {
       const headers = new HttpHeaders().set(USE_CLIENT_TOKEN, 'true');
       const options = {
         headers,
       };
-      http.get('/test', options).subscribe((result) => {
-        expect(result).toBeTruthy();
-      });
-      vi.spyOn(clientErrorHandlingService, 'handleExpiredClientToken');
+      vi.spyOn(
+        clientErrorHandlingService,
+        'handleExpiredClientToken'
+      ).mockReturnValue(of(null));
+      const result = firstValueFrom(http.get('/test', options)).catch(() => {});
 
       const mockReq: TestRequest = httpMock.expectOne((req) => {
         return req.method === 'GET';
@@ -166,22 +171,24 @@ describe('ClientTokenInterceptor', () => {
         },
         { status: 401, statusText: 'Error' }
       );
+      await result;
       expect(
         clientErrorHandlingService.handleExpiredClientToken
       ).toHaveBeenCalled();
     });
 
-    it(`should catch 401 error for a client token for legacy auth server`, () => {
+    it(`should catch 401 error for a client token for legacy auth server`, async () => {
       const headers = new HttpHeaders().set(USE_CLIENT_TOKEN, 'true');
       const options = {
         headers,
       };
 
-      vi.spyOn(clientErrorHandlingService, 'handleExpiredClientToken');
+      vi.spyOn(
+        clientErrorHandlingService,
+        'handleExpiredClientToken'
+      ).mockReturnValue(of(null));
 
-      http.get('/test', options).subscribe((result) => {
-        expect(result).toBeTruthy();
-      });
+      const result = firstValueFrom(http.get('/test', options)).catch(() => {});
 
       const mockReq: TestRequest = httpMock.expectOne((req) => {
         return req.method === 'GET';
@@ -197,6 +204,7 @@ describe('ClientTokenInterceptor', () => {
         },
         { status: 401, statusText: 'Error' }
       );
+      await result;
       expect(
         clientErrorHandlingService.handleExpiredClientToken
       ).toHaveBeenCalled();
@@ -213,6 +221,11 @@ describe('ClientTokenInterceptor', () => {
       clientErrorHandlingService = TestBed.inject(ClientErrorHandlingService);
       clientTokenService = TestBed.inject(ClientTokenService);
       http = TestBed.inject(HttpClient);
+    });
+
+    afterEach(() => {
+      (TestBed.inject(OccConfig) as AuthConfig).authentication.useClientTokens =
+        true;
     });
 
     it('Should not add tokens when disabled', () => {
