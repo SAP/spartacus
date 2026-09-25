@@ -20,32 +20,17 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { Observable, of, throwError } from 'rxjs';
+import { firstValueFrom, Observable, of, throwError } from 'rxjs';
 import {
   LOGIN_ERROR_KEY,
   SESSION_EXPIRED_ERROR,
 } from '../user-account-constants';
 import { LoginFormComponentService } from './login-form-component.service';
-
-class MockWinRef {
-  localStorage = { setItem: vi.fn(), removeItem: vi.fn() };
-
-  sessionStorage = { setItem: vi.fn(), getItem: vi.fn(), removeItem: vi.fn() };
-
-  location = { href: '' } as Location;
-
-  get nativeWindow(): Window {
-    return { location: this.location } as Window;
-  }
-
-  isBrowser(): boolean {
-    return true;
-  }
-}
 
 class MockAuthService implements Partial<AuthService> {
   loginWithCredentials = vi.fn().mockReturnValue(of({}));
@@ -215,16 +200,16 @@ describe('LoginFormComponentService', () => {
     const userId = 'test@email.com';
     const password = 'secret';
 
-    it('should not patch user id', () => {
-      service.isUpdating$.subscribe().unsubscribe();
+    it('should not patch user id', async () => {
+      await firstValueFrom(service.isUpdating$);
       expect(service.form.value.userId).toEqual('');
     });
 
-    it('should patch user id', () => {
+    it('should patch user id', async () => {
       vi.spyOn(winRef, 'nativeWindow', 'get').mockReturnValue({
         history: { state: { newUid: 'test.user@shop.com' } },
       } as Window);
-      service.isUpdating$.subscribe().unsubscribe();
+      await firstValueFrom(service.isUpdating$);
       expect(service.form.value.userId).toEqual('test.user@shop.com');
     });
 
@@ -454,8 +439,9 @@ describe('LoginFormComponentService', () => {
         it('should reset busy state to false on CSRF refresh failure', async () => {
           const form = createForm(userId, password, csrf);
           vi.spyOn(form, 'submit');
-          let busyValue: boolean | undefined;
-          service.isUpdating$.subscribe((v) => (busyValue = v));
+          let busyValue: boolean | undefined = await firstValueFrom(
+            service.isUpdating$
+          );
           service.login(form);
           expect(busyValue).toBe(false);
         });
