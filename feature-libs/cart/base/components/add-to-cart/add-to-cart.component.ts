@@ -44,6 +44,7 @@ import {
   ProductTypes,
   TranslatePipe,
   isNotNullable,
+  useFeatureStyles,
 } from '@spartacus/core';
 import {
   CmsComponentData,
@@ -144,7 +145,9 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected component: CmsComponentData<CmsAddToCartComponent>,
     protected eventService: EventService,
     @Optional() protected productListItemContext?: ProductListItemContext
-  ) {}
+  ) {
+    useFeatureStyles('a11yInStockInfoTextContrast');
+  }
 
   ngOnInit() {
     this.subscribeToQuantityChanges();

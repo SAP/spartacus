@@ -79,9 +79,7 @@ const quoteWithoutCartId: Quote = {
   ...quote,
   cartId: undefined,
 };
-const cart: Cart = {
-  code: cartId,
-};
+let cart: Cart = {};
 
 const quoteList: QuoteList = {
   pagination: pagination,
@@ -157,12 +155,6 @@ class MockQuoteConnector implements Partial<QuoteConnector> {
   downloadAttachment = vi.fn().mockReturnValue(of(mockQuoteAttachment()));
 }
 
-class MockActiveCartService implements Partial<ActiveCartFacade> {
-  reloadActiveCart = vi.fn().mockImplementation(() => {});
-  takeActiveCartId = vi.fn().mockReturnValue(of(cartId));
-  getActive = vi.fn().mockReturnValue(of(cart));
-}
-
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
   loadCart = vi.fn();
   createCart = vi.fn().mockReturnValue(of({}));
@@ -179,6 +171,12 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 
 class MockSavedCartFacade implements Partial<SavedCartFacade> {
   editSavedCart = vi.fn();
+}
+
+class MockActiveCartService implements Partial<ActiveCartFacade> {
+  reloadActiveCart = vi.fn().mockImplementation(() => {});
+  takeActiveCartId = vi.fn().mockReturnValue(of(cartId));
+  getActive = vi.fn().mockImplementation(() => of(cart));
 }
 
 describe('QuoteService', () => {
@@ -262,6 +260,10 @@ describe('QuoteService', () => {
     );
     expect(isPerforming).toBe(false);
   }
+
+  beforeEach(() => {
+    cart = { code: cartId };
+  });
 
   it('should inject CommerceQuotesService', inject(
     [QuoteService],
@@ -790,9 +792,11 @@ describe('QuoteService', () => {
   });
 
   describe('saveActiveCart', () => {
-    it('should create saved cart if entries exist and it is not a quote cart', () => {
+    it('should create saved cart if entries exist and it is not a quote cart', async () => {
       cart.entries = [{ product: { code: 'PRODUCT_CODE' } }];
       classUnderTest['saveActiveCart']();
+      await firstValueFrom(TestBed.inject(ActiveCartFacade).getActive());
+      expect(savedCartFacade.editSavedCart).toHaveBeenCalled();
       expect(savedCartFacade.editSavedCart).toHaveBeenCalledWith({
         cartId: cart.code,
         saveCartName: '',

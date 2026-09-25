@@ -372,6 +372,13 @@ export interface FeatureTogglesInterface {
   a11yReviewsKeyboardControls?: boolean;
 
   /**
+   * When enabled, scrolls the 'Show More/Less Reviews' button into view after
+   * clicking it, ensuring the focused element remains visible in the viewport.
+   * Affects: ProductReviewsComponent
+   */
+  a11yShowMoreReviewsFocusVisible?: boolean;
+
+  /**
    * Use on existing form buttons that are programatically disabled/enabled.
    * To use, duplicate button and use false in original and true in duplicate. The duplicated button
    * should be initialized as enabled, clickable and use cx-form-errors in outcomes where original button
@@ -854,6 +861,25 @@ export interface FeatureTogglesInterface {
    * `AddressFormComponent`, `UnitAddressFormService`
    */
   enableFormFieldMaxLength?: boolean;
+
+  /**
+   * When enabled, the RESET button in the "Add To Your Coupon List" claim dialog
+   * is rendered as a proper `<button>` element instead of an `<a role="button">`
+   * without an `href`, making it reachable and operable with the keyboard.
+   * Fixes WCAG 2.1.1 (Keyboard) ACC-270.1 (Level A).
+   * Affects: `ClaimDialogComponent`
+   */
+  a11yCouponDialogResetButtonKeyboardAccessible?: boolean;
+
+  /**
+   * When enabled, the "In Stock" / "Out of Stock" info text in the
+   * `AddToCartComponent` uses `--cx-color-text` instead of
+   * `--cx-color-secondary`, ensuring the text meets the WCAG 1.4.3 Level AA
+   * minimum contrast ratio of 4.5:1 against all background surfaces.
+   *
+   * Affects: `AddToCartComponent`
+   */
+  a11yInStockInfoTextContrast?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -903,6 +929,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFilteredFacetAnnouncement: false,
   a11yCartItemListHideEmptyOutlets: true,
   a11yReviewsKeyboardControls: true,
+  a11yShowMoreReviewsFocusVisible: false,
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yConsentManagementFocusPreservation: false,
   a11yDeliveryModeFocusPreservation: false,
@@ -956,4 +983,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showWarningMessageOnRequoteButtonClick: false,
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
+  a11yCouponDialogResetButtonKeyboardAccessible: false,
+  a11yInStockInfoTextContrast: false,
 };

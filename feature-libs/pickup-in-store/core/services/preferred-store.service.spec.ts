@@ -13,6 +13,7 @@ import * as fromReducers from '../../core/store/reducers/index';
 import { StateWithPickupLocations } from '../store';
 import { SetDefaultPointOfService } from '../store/actions/default-point-of-service-name.action';
 import { PreferredStoreService } from './preferred-store.service';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 
 export class MockConsentService {
   checkConsentGivenByTemplateId(_templateId: string): Observable<boolean> {
@@ -30,24 +31,23 @@ const MockPickupInStoreConfig = (withConfig = true): PickupInStoreConfig => {
     : {};
 };
 
-export const MockWindowRef = () => {
-  const store: { [key: string]: string | null } = {};
-  return {
-    localStorage: {
-      getItem: (key: string): string | null => {
-        return key in store ? store[key] : null;
-      },
-      setItem: (key: string, value: string) => {
-        store[key] = `${value}`;
-      },
-      removeItem: (key: string): void => {
-        if (key in store) {
-          delete store[key];
-        }
-      },
+const mockLocalStore: { [key: string]: string | null } = {};
+
+export class MockWindowRef extends MockWinRef {
+  override localStorage: any = {
+    getItem: (key: string): string | null => {
+      return key in mockLocalStore ? mockLocalStore[key] : null;
+    },
+    setItem: (key: string, value: string) => {
+      mockLocalStore[key] = `${value}`;
+    },
+    removeItem: (key: string): void => {
+      if (key in mockLocalStore) {
+        delete mockLocalStore[key];
+      }
     },
   };
-};
+}
 
 describe('PreferredStoreService', () => {
   const preferredStore: PointOfServiceNames = {
@@ -59,8 +59,11 @@ describe('PreferredStoreService', () => {
   let pickupLocationSearchService: PickupLocationsSearchFacade;
   let store: Store<StateWithPickupLocations>;
 
-  const configureTestingModule = (withConfig = true, localStorage = true) => {
-    TestBed.configureTestingModule({
+  const configureTestingModule = async (
+    withConfig = true,
+    withLocalStorage = true
+  ) => {
+    await TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature('pickup-option', fromReducers.getReducers()),
@@ -71,7 +74,9 @@ describe('PreferredStoreService', () => {
           provide: PickupInStoreConfig,
           useValue: MockPickupInStoreConfig(withConfig),
         },
-        { provide: WindowRef, useValue: localStorage ? MockWindowRef() : {} },
+        withLocalStorage
+          ? { provide: WindowRef, useClass: MockWindowRef }
+          : { provide: WindowRef, useValue: {} },
         {
           provide: PickupLocationsSearchFacade,
           useClass: MockPickupLocationsSearchService,
@@ -89,8 +94,8 @@ describe('PreferredStoreService', () => {
   };
 
   describe('with pickup in store config', () => {
-    beforeEach(() => {
-      configureTestingModule();
+    beforeEach(async () => {
+      await configureTestingModule();
     });
 
     it('should be created', () => {
@@ -150,10 +155,9 @@ describe('PreferredStoreService', () => {
         pickupLocationSearchService.getStockLevelAtStore
       ).toHaveBeenCalledWith(productCode, preferredStore.name);
     });
-  });
-
-  it('clearPreferredStore should be void', () => {
-    expect(preferredStoreFacade.clearPreferredStore()).toBeUndefined();
+    it('clearPreferredStore should be void', () => {
+      expect(preferredStoreFacade.clearPreferredStore()).toBeUndefined();
+    });
   });
 
   describe('without localStorage', () => {

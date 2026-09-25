@@ -53,6 +53,7 @@ describe('QuoteSummaryPricesComponent', () => {
     quote.orderDiscounts = { value: 5.99, formattedValue: '$5.99' };
     quote.productDiscounts = { value: 50, formattedValue: '$50.00' };
     quote.quoteDiscounts = { value: 100, formattedValue: '$100.00' };
+    quote.sapSubtotalExcludingOrderLevelDiscount = undefined;
   }
 
   it('should create component', () => {
