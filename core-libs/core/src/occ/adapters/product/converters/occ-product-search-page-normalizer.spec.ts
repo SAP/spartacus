@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService } from '@spartacus/core';
 import { Occ } from '../../../occ-models/occ.models';

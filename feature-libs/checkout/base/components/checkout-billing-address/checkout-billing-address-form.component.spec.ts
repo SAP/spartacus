@@ -12,6 +12,7 @@ import {
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 import {
   FormErrorsModule,
   LaunchDialogService,
@@ -121,6 +122,7 @@ describe('CheckoutBillingAddressFormComponent', () => {
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
         { provide: UserAddressService, useClass: MockUserAddressService },
         CheckoutBillingAddressFormService,
+        provideMockFeatureToggles({ addTitleToAddressCard: false }),
       ],
     })
       .overrideComponent(CheckoutBillingAddressFormComponent, {

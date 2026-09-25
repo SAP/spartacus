@@ -1,24 +1,24 @@
-import { fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
-import { ActionsSubject, StoreModule } from '@ngrx/store';
-import { AuthActions, ConsentService, FeatureToggles } from '@spartacus/core';
-import { of, Subject } from 'rxjs';
+import { TestBed } from '@angular/core/testing';
+import { StoreModule } from '@ngrx/store';
+import { AuthActions, ConsentService } from '@spartacus/core';
+import { firstValueFrom, of, Subject } from 'rxjs';
 import { CdsConfig } from '../../config/cds-config';
-import { ConsentChangedPushEvent } from '../model/profile-tag.model';
 import { LOGIN_EVENTS, LoginEventEnvelope } from '../tokens/login-events.token';
 import { ProfileTagLifecycleService } from './profile-tag-lifecycle.service';
 
 describe('ProfileTagLifecycleService', () => {
   let service: ProfileTagLifecycleService;
-  let consentService: jasmine.SpyObj<ConsentService>;
-  let featureToggles: FeatureToggles;
-  let actionsSubject: ActionsSubject;
+  let consentService: {
+    getConsent: ReturnType<typeof vi.fn>;
+    isConsentGiven: ReturnType<typeof vi.fn>;
+  };
   let loginEventsSubject: Subject<LoginEventEnvelope>;
 
   beforeEach(() => {
-    const consentServiceSpy = jasmine.createSpyObj('ConsentService', [
-      'getConsent',
-      'isConsentGiven',
-    ]);
+    const consentServiceSpy = {
+      getConsent: vi.fn(),
+      isConsentGiven: vi.fn(),
+    };
     loginEventsSubject = new Subject<LoginEventEnvelope>();
 
     TestBed.configureTestingModule({
@@ -26,185 +26,118 @@ describe('ProfileTagLifecycleService', () => {
       providers: [
         { provide: ConsentService, useValue: consentServiceSpy },
         {
-          provide: FeatureToggles,
-          useValue: { cdsLoginEventsToken: false } satisfies FeatureToggles,
-        },
-        {
           provide: CdsConfig,
           useValue: { cds: { consentTemplateId: 'templateId' } },
         },
         { provide: LOGIN_EVENTS, useValue: loginEventsSubject.asObservable() },
-        ActionsSubject,
         ProfileTagLifecycleService,
       ],
     });
     service = TestBed.inject(ProfileTagLifecycleService);
     consentService = TestBed.inject(
       ConsentService
-    ) as jasmine.SpyObj<ConsentService>;
-    featureToggles = TestBed.inject(FeatureToggles);
-
-    actionsSubject = TestBed.inject(ActionsSubject);
+    ) as unknown as typeof consentService;
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('Should emit an event if the profile consent changes to true,', (done: DoneFn) => {
+  it('Should emit an event if the profile consent changes to true,', async () => {
     const mockConsent = { code: 'TestCode' };
-    consentService.getConsent.and.returnValue(of(mockConsent));
-    consentService.isConsentGiven.and.returnValue(true);
+    consentService.getConsent.mockReturnValue(of(mockConsent));
+    consentService.isConsentGiven.mockReturnValue(true);
 
-    service.consentChanged().subscribe((event: ConsentChangedPushEvent) => {
-      expect(event.data.granted).toBe(true);
-      done();
-    });
+    const event = await firstValueFrom(service.consentChanged());
+    expect(event.data.granted).toBe(true);
   });
 
-  it('Should emit an event if the profile consent changes to false,', (done: DoneFn) => {
+  it('Should emit an event if the profile consent changes to false,', async () => {
     const mockConsent = { code: 'TestCode' };
-    consentService.getConsent.and.returnValue(of(mockConsent));
-    consentService.isConsentGiven.and.returnValue(false);
+    consentService.getConsent.mockReturnValue(of(mockConsent));
+    consentService.isConsentGiven.mockReturnValue(false);
 
-    service.consentChanged().subscribe((event: ConsentChangedPushEvent) => {
-      expect(event.data.granted).toBe(false);
-      done();
-    });
+    const event = await firstValueFrom(service.consentChanged());
+    expect(event.data.granted).toBe(false);
   });
 
-  it('Should emit an event if the profile consent changes to false if consent is undefined,', (done: DoneFn) => {
+  it('Should emit an event if the profile consent changes to false if consent is undefined,', async () => {
     const mockConsent = undefined;
-    consentService.getConsent.and.returnValue(of(mockConsent));
-    consentService.isConsentGiven.and.returnValue(true);
+    consentService.getConsent.mockReturnValue(of(mockConsent));
+    consentService.isConsentGiven.mockReturnValue(true);
 
-    service.consentChanged().subscribe((event: ConsentChangedPushEvent) => {
-      expect(event.data.granted).toBe(false);
-      done();
-    });
+    const event = await firstValueFrom(service.consentChanged());
+    expect(event.data.granted).toBe(false);
   });
 
   describe('loginSuccessful()', () => {
-    describe('when cdsLoginEventsToken feature flag is disabled', () => {
-      beforeEach(() => {
-        featureToggles.cdsLoginEventsToken = false;
+    it('should return login successful event from LOGIN_EVENTS token', () => {
+      let result: boolean | undefined;
+      service.loginSuccessful().subscribe((value: boolean) => {
+        result = value;
       });
 
-      it('should return login successful event from ActionsSubject', fakeAsync(() => {
-        const mockAction = { type: AuthActions.LOGIN };
+      const mockLoginEvent: LoginEventEnvelope = {
+        action: { type: AuthActions.LOGIN },
+        timestamp: Date.now(),
+      };
 
-        let result: boolean | undefined;
-        service.loginSuccessful().subscribe((value: boolean) => {
-          result = value;
-        });
+      loginEventsSubject.next(mockLoginEvent);
 
-        actionsSubject.next(mockAction);
-        tick();
-
-        expect(result).toBe(true);
-
-        flush();
-      }));
-
-      it('should not emit for non-LOGIN actions', fakeAsync(() => {
-        const mockAction = { type: AuthActions.LOGOUT };
-
-        let result: boolean | undefined;
-        service.loginSuccessful().subscribe((value: boolean) => {
-          result = value;
-        });
-
-        actionsSubject.next(mockAction);
-        tick();
-
-        expect(result).toBeUndefined();
-
-        flush();
-      }));
+      expect(result).toBe(true);
     });
 
-    describe('when cdsLoginEventsToken feature flag is enabled', () => {
-      beforeEach(() => {
-        featureToggles.cdsLoginEventsToken = true;
+    it('should deduplicate login events by timestamp', () => {
+      const results: boolean[] = [];
+      service.loginSuccessful().subscribe((value: boolean) => {
+        results.push(value);
       });
 
-      it('should return login successful event from LOGIN_EVENTS token', fakeAsync(() => {
-        let result: boolean | undefined;
-        service.loginSuccessful().subscribe((value: boolean) => {
-          result = value;
-        });
+      const timestamp = Date.now();
+      const mockLoginEvent1: LoginEventEnvelope = {
+        action: { type: AuthActions.LOGIN },
+        timestamp: timestamp,
+      };
+      const mockLoginEvent2: LoginEventEnvelope = {
+        action: { type: AuthActions.LOGIN },
+        timestamp: timestamp, // Same timestamp - should be filtered out
+      };
+      const mockLoginEvent3: LoginEventEnvelope = {
+        action: { type: AuthActions.LOGIN },
+        timestamp: timestamp + 1000, // Different timestamp - should pass through
+      };
 
-        const mockLoginEvent: LoginEventEnvelope = {
-          action: { type: AuthActions.LOGIN },
-          timestamp: Date.now(),
-        };
+      loginEventsSubject.next(mockLoginEvent1);
+      loginEventsSubject.next(mockLoginEvent2);
+      loginEventsSubject.next(mockLoginEvent3);
 
-        loginEventsSubject.next(mockLoginEvent);
-        tick();
+      expect(results).toEqual([true, true]); // Only 2 events should pass through
+    });
 
-        expect(result).toBe(true);
+    it('should allow events with different timestamps', () => {
+      const results: boolean[] = [];
+      service.loginSuccessful().subscribe((value: boolean) => {
+        results.push(value);
+      });
 
-        flush();
-      }));
+      const mockLoginEvent1: LoginEventEnvelope = {
+        action: { type: AuthActions.LOGIN },
+        timestamp: 1000,
+      };
+      const mockLoginEvent2: LoginEventEnvelope = {
+        action: { type: AuthActions.LOGIN },
+        timestamp: 2000,
+      };
+      const mockLoginEvent3: LoginEventEnvelope = {
+        action: { type: AuthActions.LOGIN },
+        timestamp: 3000,
+      };
 
-      it('should deduplicate login events by timestamp', fakeAsync(() => {
-        const results: boolean[] = [];
-        service.loginSuccessful().subscribe((value: boolean) => {
-          results.push(value);
-        });
+      loginEventsSubject.next(mockLoginEvent1);
+      loginEventsSubject.next(mockLoginEvent2);
+      loginEventsSubject.next(mockLoginEvent3);
 
-        const timestamp = Date.now();
-        const mockLoginEvent1: LoginEventEnvelope = {
-          action: { type: AuthActions.LOGIN },
-          timestamp: timestamp,
-        };
-        const mockLoginEvent2: LoginEventEnvelope = {
-          action: { type: AuthActions.LOGIN },
-          timestamp: timestamp, // Same timestamp - should be filtered out
-        };
-        const mockLoginEvent3: LoginEventEnvelope = {
-          action: { type: AuthActions.LOGIN },
-          timestamp: timestamp + 1000, // Different timestamp - should pass through
-        };
-
-        loginEventsSubject.next(mockLoginEvent1);
-        loginEventsSubject.next(mockLoginEvent2);
-        loginEventsSubject.next(mockLoginEvent3);
-        tick();
-
-        expect(results).toEqual([true, true]); // Only 2 events should pass through
-
-        flush();
-      }));
-
-      it('should allow events with different timestamps', fakeAsync(() => {
-        const results: boolean[] = [];
-        service.loginSuccessful().subscribe((value: boolean) => {
-          results.push(value);
-        });
-
-        const mockLoginEvent1: LoginEventEnvelope = {
-          action: { type: AuthActions.LOGIN },
-          timestamp: 1000,
-        };
-        const mockLoginEvent2: LoginEventEnvelope = {
-          action: { type: AuthActions.LOGIN },
-          timestamp: 2000,
-        };
-        const mockLoginEvent3: LoginEventEnvelope = {
-          action: { type: AuthActions.LOGIN },
-          timestamp: 3000,
-        };
-
-        loginEventsSubject.next(mockLoginEvent1);
-        loginEventsSubject.next(mockLoginEvent2);
-        loginEventsSubject.next(mockLoginEvent3);
-        tick();
-
-        expect(results).toEqual([true, true, true]); // All events should pass through
-
-        flush();
-      }));
+      expect(results).toEqual([true, true, true]); // All events should pass through
     });
   });
 });

@@ -25,7 +25,6 @@ import {
   SearchBoxSuggestionSelectedEvent,
 } from './search-box.events';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
-import { vi } from 'vitest';
 
 const mockQueryString = '?query=mockQuery';
 
@@ -158,7 +157,7 @@ describe('SearchBoxComponentService', () => {
   });
 
   it('should return 2 products', () => {
-    let result: SearchResults;
+    let result!: SearchResults;
     vi.spyOn(searchBoxService, 'getResults').mockReturnValue(
       of(mockSearchResults)
     );
@@ -166,7 +165,7 @@ describe('SearchBoxComponentService', () => {
     service
       .getResults(searchBoxConfig)
       .subscribe((results) => (result = results));
-    expect(result.products.length).toEqual(2);
+    expect(result.products?.length).toEqual(2);
   });
 
   it('should not return products when config.displayProducts = false', () => {
@@ -174,7 +173,7 @@ describe('SearchBoxComponentService', () => {
       of([{ value: 'sug1' }, { value: 'sug2' }] as any)
     );
 
-    let result: SearchResults;
+    let result!: SearchResults;
     service
       .getResults({ displaySuggestions: true, displayProducts: false })
       .subscribe((results) => (result = results));
@@ -197,7 +196,7 @@ describe('SearchBoxComponentService', () => {
       service
         .getResults(searchBoxConfig)
         .subscribe((results) => (result = results));
-      expect(result.suggestions.length).toEqual(2);
+      expect(result.suggestions?.length).toEqual(2);
     });
 
     it('should not return suggestions when config.displaySuggestions = false', () => {
@@ -208,7 +207,7 @@ describe('SearchBoxComponentService', () => {
       service
         .getResults({ displaySuggestions: false, displayProducts: true })
         .subscribe((results) => (result = results));
-      expect(result.suggestions.length).toEqual(0);
+      expect(result.suggestions?.length).toEqual(0);
     });
 
     it('should have exact match suggestion when there are no suggestions but at least one product', () => {
@@ -326,6 +325,25 @@ describe('SearchBoxComponentService', () => {
         of([])
       );
 
+      service.search('ab', {
+        ...searchBoxConfig,
+        minCharactersBeforeRequest: 3,
+      });
+      service.getResults(searchBoxConfig).subscribe();
+
+      expect(document.body.classList.contains('has-searchbox-results')).toBe(
+        true
+      );
+    });
+
+    it('should not get a message when there are products ', () => {
+      vi.spyOn(searchBoxService, 'getResults').mockReturnValue(
+        of(mockSearchResults)
+      );
+      vi.spyOn(searchBoxService, 'getSuggestionResults').mockReturnValue(
+        of([])
+      );
+
       service.getResults(searchBoxConfig).subscribe((r) => (result = r));
       expect(result.message).toBeFalsy();
     });
@@ -344,7 +362,7 @@ describe('SearchBoxComponentService', () => {
   describe('UI Events', () => {
     describe('Suggestion Event', () => {
       it('should fire the correct event', () => {
-        let result: SearchBoxSuggestionSelectedEvent;
+        let result!: SearchBoxSuggestionSelectedEvent;
         eventService
           .get(SearchBoxSuggestionSelectedEvent)
           .pipe(take(1))
@@ -352,7 +370,7 @@ describe('SearchBoxComponentService', () => {
 
         const mockEventData: SearchBoxSuggestionSelectedEvent = {
           freeText: 'camera',
-          selectedSuggestion: mockSuggestions[0].value,
+          selectedSuggestion: mockSuggestions[0].value ?? '',
           searchSuggestions: mockSuggestions,
         };
 
@@ -376,19 +394,19 @@ describe('SearchBoxComponentService', () => {
 
         const mockEventData1 = {
           freeText: 'camera',
-          selectedSuggestion: mockSuggestions[0].value,
+          selectedSuggestion: mockSuggestions[0].value ?? '',
           searchSuggestions: mockSuggestions,
         };
 
         const mockEventData2 = {
           freeText: 'camileo',
-          selectedSuggestion: mockSuggestions[1].value,
+          selectedSuggestion: mockSuggestions[1].value ?? '',
           searchSuggestions: mockSuggestions,
         };
 
         const mockEventData3 = {
           freeText: 'cameras',
-          selectedSuggestion: mockSuggestions[2].value,
+          selectedSuggestion: mockSuggestions[2].value ?? '',
           searchSuggestions: mockSuggestions,
         };
 
@@ -402,7 +420,7 @@ describe('SearchBoxComponentService', () => {
 
     describe('Product Event', () => {
       it('should fire the correct event', () => {
-        let result: SearchBoxProductSelectedEvent;
+        let result!: SearchBoxProductSelectedEvent;
         eventService
           .get(SearchBoxProductSelectedEvent)
           .pipe(take(1))
@@ -410,7 +428,7 @@ describe('SearchBoxComponentService', () => {
 
         const mockEventData: SearchBoxProductSelectedEvent = {
           freeText: 'camera',
-          productCode: mockProduct.code,
+          productCode: mockProduct.code ?? '',
         };
 
         const searchBoxProductSelectedEvent = createFrom(

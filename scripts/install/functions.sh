@@ -143,7 +143,9 @@ function add_epd_visualization {
 
 function add_opf {
     if [ "${ADD_OPF}" = true ] ; then
-        ng add @spartacus/opf@${SPARTACUS_VERSION} --opf-base-url ${OPF_BASE_URL} --commerce-cloud-public-key ${OPF_CLIENT_PUBLIC_KEY} --skip-confirmation --no-interactive 
+        local access_code_header_flag="--enable-get-active-configurations-access-code-header"
+        [[ "${OPF_ACCESS_CODE_HEADER_ENABLED}" = false ]] && access_code_header_flag="--no-enable-get-active-configurations-access-code-header"
+        ng add @spartacus/opf@${SPARTACUS_VERSION} --opf-base-url ${OPF_BASE_URL} --commerce-cloud-public-key ${OPF_CLIENT_PUBLIC_KEY} ${access_code_header_flag} --skip-confirmation --no-interactive
     fi
 
     if [ "${ADD_OPF}" = true ] && [ "${ADD_B2B_LIBS}" = true ] ; then
@@ -231,6 +233,51 @@ function add_feature_libs {
   ng add @spartacus/customer-ticketing@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
   ng add @spartacus/pickup-in-store@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
 }
+# TODO: remove once @spartacus/styles/_theme.scss switches to santorini-updated as the default (planned for next major — see core-libs/styles/scss/_theme.scss line 11).
+function use_santorini_updated_theme {
+    # Install-script storefronts otherwise render the library-default "classic"
+    # santorini theme (e.g. --cx-color-primary: #1f7bc0), because
+    # @spartacus/styles pulls in theme/santorini/_variables.scss via
+    # core-libs/styles/scss/_theme.scss.
+    #
+    # Instead of hardcoding values, we make the generated app COMPILE the
+    # santorini-updated theme variables. The import is inserted BEFORE
+    # '@spartacus/styles/scss/core' so santorini-updated seeds the theme's
+    # `!default` SCSS variables first; core's later santorini import then
+    # no-ops on them and rebuilds $theme-colors from the santorini-updated
+    # values. This means any future edit to
+    # @spartacus/styles/scss/theme/santorini-updated/_variables.scss is picked
+    # up automatically on the next install (no duplicated values here).
+    local styles_file="src/styles.scss"
+    if [[ ! -f "${styles_file}" ]]; then
+        echo "WARN: ${styles_file} not found; skipping santorini-updated theme override."
+        return
+    fi
+    if grep -q "theme/santorini-updated/variables" "${styles_file}"; then
+        echo "santorini-updated theme already applied in ${styles_file}, skipping."
+        return
+    fi
+    local anchor="@import '@spartacus/styles/scss/core';"
+    if ! grep -qF "${anchor}" "${styles_file}"; then
+        echo "WARN: expected import \"${anchor}\" not found in ${styles_file}; skipping santorini-updated theme override."
+        return
+    fi
+    local import_line="@import '@spartacus/styles/scss/theme/santorini-updated/variables';"
+    local tmp
+    tmp="$(mktemp)"
+    awk -v anchor="${anchor}" -v line="${import_line}" '
+      index($0, anchor) && !done {
+        print "// Install-script default: compile the santorini-updated theme so its";
+        print "// palette/typography override the classic santorini defaults. Imported";
+        print "// before @spartacus/styles so its !default variables win. Kept in sync";
+        print "// with @spartacus/styles/scss/theme/santorini-updated/_variables.scss.";
+        print line;
+        done = 1;
+      }
+      { print }
+    ' "${styles_file}" > "${tmp}" && mv "${tmp}" "${styles_file}"
+    echo "Applied santorini-updated theme (compiled) to ${styles_file}."
+}
 
 function add_spartacus_csr {
     local IS_NPM_INSTALL="$2"
@@ -258,6 +305,8 @@ function add_spartacus_csr {
     add_cpq-quote
     add_pdf_invoices
     add_punchout
+    # TODO: remove once @spartacus/styles/_theme.scss switches to santorini-updated as the default (planned for next major — see core-libs/styles/scss/_theme.scss line 11).
+    use_santorini_updated_theme
     remove_npmrc
     )
 }
@@ -289,6 +338,8 @@ function add_spartacus_ssr {
     add_cpq-quote
     add_pdf_invoices
     add_punchout
+    # TODO: remove once @spartacus/styles/_theme.scss switches to santorini-updated as the default (planned for next major — see core-libs/styles/scss/_theme.scss line 11).
+    use_santorini_updated_theme
     remove_npmrc
     )
 }
@@ -318,6 +369,8 @@ function add_spartacus_ssr_pwa {
     add_cpq-quote
     add_pdf_invoices
     add_punchout
+    # TODO: remove once @spartacus/styles/_theme.scss switches to santorini-updated as the default (planned for next major — see core-libs/styles/scss/_theme.scss line 11).
+    use_santorini_updated_theme
     remove_npmrc
     )
 }
@@ -411,7 +464,7 @@ function install_from_sources {
     update_projects_versions
 
     printh "Building libraries."
-    ( cd ${CLONE_DIR} && npm run build:libs)
+    ( cd ${CLONE_DIR} && source ci-scripts/npm-commands.sh && build_libs_ci)
 
     "${SPARTACUS_BIN}/verdaccio" --config ./config.yaml &
 

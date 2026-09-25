@@ -12,9 +12,7 @@ import { ProfileTagInjectorService } from '../services/profile-tag.injector.serv
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-profiletag',
-  template: `
-    <ng-container *ngIf="profileTagEnabled$ | async"></ng-container>
-  `,
+  template: ` <ng-container *ngIf="profileTagEnabled$ | async" /> `,
   imports: [NgIf, AsyncPipe],
 })
 export class ProfileTagComponent {

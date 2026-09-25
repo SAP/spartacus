@@ -13,6 +13,7 @@ import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import {
   CxDatePipe,
   FeatureDirective,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -35,6 +36,7 @@ import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.component';
 
 import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
+import { MockInstance, vi } from 'vitest';
 
 @Component({
   selector: 'cx-spinner',
@@ -139,6 +141,20 @@ describe('CheckoutDeliveryModeComponent', () => {
   let globalMessageService: GlobalMessageService;
 
   beforeEach(async () => {
+    // Reset the module-level BehaviorSubjects so each test starts from a known
+    // state. They are shared mutable state; without this, a test that mutates
+    // them leaks into later tests under shuffled ordering.
+    supportedDeliveryModes$.next([]);
+    selectedDeliveryModeState$.next({
+      loading: false,
+      error: false,
+      data: undefined,
+    });
+    preferredDeliveryMode$.next('');
+    cart$.next(mockCart);
+    deliveryEntries$.next([{ orderCode: 'testEntry' }]);
+    hasPickupItems$.next(false);
+
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -158,7 +174,12 @@ describe('CheckoutDeliveryModeComponent', () => {
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: ActiveCartFacade, useClass: MockCartService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        provideMockFeatureToggles({ a11yDeliveryModeFocusPreservation: true }),
+        {
+          provide: FeatureToggles,
+          useValue: {
+            a11yDeliveryModeFocusPreservation: true,
+          },
+        },
       ],
     })
       .overrideComponent(CheckoutDeliveryModeComponent, {
@@ -194,8 +215,18 @@ describe('CheckoutDeliveryModeComponent', () => {
   });
 
   beforeEach(() => {
+    supportedDeliveryModes$.next([]);
+    selectedDeliveryModeState$.next({
+      loading: false,
+      error: false,
+      data: undefined,
+    });
+    preferredDeliveryMode$.next('');
+    hasPickupItems$.next(false);
+    deliveryEntries$.next([{ orderCode: 'testEntry' }]);
     fixture = TestBed.createComponent(CheckoutDeliveryModeComponent);
     component = fixture.componentInstance;
+    component.mode.reset();
   });
 
   it('should be created', () => {
@@ -290,7 +321,20 @@ describe('CheckoutDeliveryModeComponent', () => {
     );
   });
 
-  it('should get deliveryModeInvalid()', () => {
+  it('should return true for deliveryModeInvalid when no mode is selected', () => {
+    fixture.detectChanges();
+
+    const invalid = component.deliveryModeInvalid;
+    expect(invalid).toBe(true);
+  });
+
+  it('should return false for deliveryModeInvalid when a mode is selected', () => {
+    selectedDeliveryModeState$.next({
+      loading: false,
+      error: false,
+      data: mockDeliveryMode1,
+    });
+    supportedDeliveryModes$.next(mockSupportedDeliveryModes);
     fixture.detectChanges();
 
     const invalid = component.deliveryModeInvalid;
@@ -414,11 +458,19 @@ describe('CheckoutDeliveryModeComponent', () => {
   });
 
   describe('refocus on keyboard selected option', () => {
+    let querySelectorSpy: MockInstance;
+    let getElementByIdSpy: MockInstance;
     beforeEach(() => {
       vi.useFakeTimers();
     });
     afterEach(() => {
+      vi.restoreAllMocks();
       vi.useRealTimers();
+      // Restore the document.querySelector/getElementById spies so the fake
+      // element they return doesn't leak into other tests and break Angular's
+      // renderer (el.setAttribute is not a function) under shuffled ordering.
+      querySelectorSpy?.mockRestore();
+      getElementByIdSpy?.mockRestore();
     });
 
     it('should refocus on the keyboard selected option after they are updated', async () => {
@@ -429,8 +481,12 @@ describe('CheckoutDeliveryModeComponent', () => {
         classList: { remove: vi.fn() },
       } as any;
       component.isUpdating$ = of(false);
-      vi.spyOn(document, 'querySelector').mockReturnValue(mockElement);
-      vi.spyOn(document, 'getElementById').mockReturnValue(mockElement);
+      querySelectorSpy = vi
+        .spyOn(document, 'querySelector')
+        .mockReturnValue(mockElement);
+      getElementByIdSpy = vi
+        .spyOn(document, 'getElementById')
+        .mockReturnValue(mockElement);
       vi.spyOn(component.mode, 'setValue');
 
       component.changeMode(lastFocusedId, mockEvent);

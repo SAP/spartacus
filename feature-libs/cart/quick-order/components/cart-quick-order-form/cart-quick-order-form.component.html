@@ -46,7 +46,7 @@
             label: 'quickOrderCartForm.productCodeLabel' | cxTranslate,
           }"
           [control]="quickOrderForm.get('productCode')"
-        ></cx-form-errors>
+        />
         <button
           *cxFeature="'a11yCartQuickOrderFormEnableSubmitAndAddValidation'"
           [attr.aria-label]="'quickOrderCartForm.addToCart' | cxTranslate"

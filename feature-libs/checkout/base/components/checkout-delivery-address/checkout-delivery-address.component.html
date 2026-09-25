@@ -11,8 +11,7 @@
           then showExistingAddresses;
           else newAddressForm
         "
-      >
-      </ng-container>
+      />
 
       <ng-template #showExistingAddresses>
         <p class="cx-checkout-text">
@@ -44,7 +43,7 @@
                 [content]="card.card"
                 (sendCard)="selectAddress(card.address)"
                 [role]="card.card.role"
-              ></cx-card>
+              />
             </div>
           </div>
         </div>
@@ -82,16 +81,16 @@
           [showTitleCode]="true"
           (backToAddress)="hideNewAddressForm(false)"
           (submitAddress)="addAddress($event)"
-        ></cx-address-form>
+        />
         <ng-template #initialAddressForm>
           <cx-address-form
             [showTitleCode]="true"
             [setAsDefaultField]="!isGuestCheckout"
-            [addressData]="selectedAddress"
+            [addressData]="selectedAddress ?? {}"
             cancelBtnLabel="{{ backBtnText | cxTranslate }}"
             (backToAddress)="hideNewAddressForm(true)"
             (submitAddress)="addAddress($event)"
-          ></cx-address-form>
+          />
         </ng-template>
       </ng-template>
     </ng-container>
@@ -100,6 +99,6 @@
 
 <ng-template #loading>
   <div class="cx-spinner">
-    <cx-spinner></cx-spinner>
+    <cx-spinner />
   </div>
 </ng-template>

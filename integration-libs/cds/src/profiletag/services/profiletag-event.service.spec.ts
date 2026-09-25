@@ -44,19 +44,22 @@ describe('ProfileTagEventTracker', () => {
 
   function setVariables() {
     getActiveBehavior = new BehaviorSubject<string>('electronics-test');
-    appendChildSpy = jasmine.createSpy('appendChildSpy');
+    appendChildSpy = vi.fn();
     getConsentBehavior = new BehaviorSubject<Object>([{}]);
     mockedWindowRef = {
       isBrowser: () => true,
-      localStorage: window.localStorage,
+      localStorage: {
+        getItem: vi.fn(),
+        setItem: vi.fn(),
+      },
       nativeWindow: {
         addEventListener: (event, listener) => {
           eventListener[event] = listener;
         },
-        removeEventListener: jasmine.createSpy('removeEventListener'),
+        removeEventListener: vi.fn(),
         Y_TRACKING: {
           eventLayer: {
-            push: jasmine.createSpy('push'),
+            push: vi.fn(),
           },
         },
       },
@@ -130,7 +133,7 @@ describe('ProfileTagEventTracker', () => {
       expect(nativeWindow.Y_TRACKING.eventLayer.push).not.toHaveBeenCalled();
 
       // reset the mock correctly so that the existing script is detected
-      spyOn(mockedWindowRef.document, 'querySelector').and.returnValue(
+      vi.spyOn(mockedWindowRef.document, 'querySelector').mockReturnValue(
         {} as Element
       );
       // retrigger profile-tag
@@ -258,34 +261,34 @@ describe('ProfileTagEventTracker', () => {
     });
 
     it('Should load consent-reference from local storage on page refresh', () => {
-      spyOn(window.localStorage, 'getItem').and.returnValue(
+      mockedWindowRef.localStorage.getItem.mockReturnValue(
         '{"cr":{"electronics-test-consentReference":{"consentReference": "abc"}}}'
       );
       profileTagEventTracker = TestBed.inject(ProfileTagEventService);
 
-      expect(window.localStorage.getItem).toHaveBeenCalledTimes(1);
+      expect(mockedWindowRef.localStorage.getItem).toHaveBeenCalledTimes(1);
       expect(profileTagEventTracker.latestConsentReference.value).toEqual(
         'abc'
       );
     });
 
     it('Should not load consent-reference from local storage on page refresh if consent is not granted', () => {
-      spyOn(window.localStorage, 'getItem').and.returnValue(undefined);
+      mockedWindowRef.localStorage.getItem.mockReturnValue(undefined);
       profileTagEventTracker = TestBed.inject(ProfileTagEventService);
 
-      expect(window.localStorage.getItem).toHaveBeenCalledTimes(1);
+      expect(mockedWindowRef.localStorage.getItem).toHaveBeenCalledTimes(1);
       expect(
         profileTagEventTracker.latestConsentReference.value
       ).not.toBeDefined();
     });
 
     it('Should not load consent-reference from local storage on page refresh if consent is not granted for this base-site', () => {
-      spyOn(window.localStorage, 'getItem').and.returnValue(
+      mockedWindowRef.localStorage.getItem.mockReturnValue(
         '{"cr":{"electronics-x-consentReference":{"consentReference": "abc"}}}'
       );
       profileTagEventTracker = TestBed.inject(ProfileTagEventService);
 
-      expect(window.localStorage.getItem).toHaveBeenCalledTimes(1);
+      expect(mockedWindowRef.localStorage.getItem).toHaveBeenCalledTimes(1);
       expect(
         profileTagEventTracker.latestConsentReference.value
       ).not.toBeDefined();

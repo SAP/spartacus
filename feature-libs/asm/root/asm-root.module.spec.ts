@@ -1,9 +1,3 @@
-/*
- * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { Location } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { ROUTES, Route, RouterModule } from '@angular/router';
@@ -17,10 +11,11 @@ import {
 import { LaunchDialogService } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { AsmRootModule } from './asm-root.module';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 
 const store: Record<string, string> = {};
-const MockWindowRef = {
-  localStorage: {
+class MockWindowRef extends MockWinRef {
+  override localStorage: any = {
     getItem: (key: string): string | null => {
       return key in store ? store[key] : null;
     },
@@ -30,8 +25,8 @@ const MockWindowRef = {
     removeItem: (key: string): void => {
       delete store[key];
     },
-  },
-};
+  };
+}
 
 class MockLocation {
   path() {
@@ -54,7 +49,7 @@ describe('AsmRootModule', () => {
     TestBed.configureTestingModule({
       imports: [RouterModule.forRoot([]), AsmRootModule],
       providers: [
-        { provide: WindowRef, useValue: MockWindowRef },
+        { provide: WindowRef, useClass: MockWindowRef },
         { provide: Location, useClass: MockLocation },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: FeatureModulesService, useClass: MockFeatureModulesService },
