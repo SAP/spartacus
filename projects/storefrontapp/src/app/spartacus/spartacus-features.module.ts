@@ -398,6 +398,7 @@ if (environment.cpq) {
         enableFormFieldMaxLength: true,
         a11yTableKeyboardNavigation: true,
         a11yPaginationKeyboardNavigation: true,
+        a11yCouponDialogResetButtonKeyboardAccessible: true,
         a11yInStockInfoTextContrast: true,
       };
       return appFeatureToggles;
