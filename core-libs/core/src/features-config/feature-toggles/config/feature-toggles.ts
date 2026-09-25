@@ -863,6 +863,15 @@ export interface FeatureTogglesInterface {
   enableFormFieldMaxLength?: boolean;
 
   /**
+   * When enabled, the RESET button in the "Add To Your Coupon List" claim dialog
+   * is rendered as a proper `<button>` element instead of an `<a role="button">`
+   * without an `href`, making it reachable and operable with the keyboard.
+   * Fixes WCAG 2.1.1 (Keyboard) ACC-270.1 (Level A).
+   * Affects: `ClaimDialogComponent`
+   */
+  a11yCouponDialogResetButtonKeyboardAccessible?: boolean;
+
+  /**
    * When enabled, the "In Stock" / "Out of Stock" info text in the
    * `AddToCartComponent` uses `--cx-color-text` instead of
    * `--cx-color-secondary`, ensuring the text meets the WCAG 1.4.3 Level AA
@@ -974,5 +983,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showWarningMessageOnRequoteButtonClick: false,
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
+  a11yCouponDialogResetButtonKeyboardAccessible: false,
   a11yInStockInfoTextContrast: false,
 };
