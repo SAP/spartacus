@@ -21,6 +21,7 @@ describe('SortingComponent', () => {
   let featureToggles: FeatureToggles;
 
   beforeEach(() => {
+    vi.useFakeTimers();
     TestBed.configureTestingModule({
       imports: [
         NgSelectModule,
@@ -31,6 +32,11 @@ describe('SortingComponent', () => {
       ],
       providers: [provideMockFeatureToggles({ ...mockFeatureToggles })],
     }).compileComponents();
+  });
+
+  afterEach(async () => {
+    await vi.runAllTimersAsync();
+    vi.useRealTimers();
   });
 
   beforeEach(() => {
@@ -51,11 +57,7 @@ describe('SortingComponent', () => {
   });
 
   describe('sortList() focus management (a11yRestoreFocusOnNgSelect)', () => {
-    it('should focus the inner combobox after sort when toggle is enabled', () => {
-      vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
-        cb(0);
-        return 0;
-      });
+    it('should focus the inner combobox after sort when toggle is enabled', async () => {
       featureToggles.a11yRestoreFocusOnNgSelect = true;
       const combobox = fixture.nativeElement.querySelector(
         '[role="combobox"]'
@@ -63,16 +65,12 @@ describe('SortingComponent', () => {
       const focusSpy = vi.spyOn(combobox, 'focus');
 
       component.sortList('relevance');
+      await vi.runAllTimersAsync();
 
       expect(focusSpy).toHaveBeenCalled();
-      vi.unstubAllGlobals();
     });
 
-    it('should NOT focus the inner combobox after sort when toggle is disabled', () => {
-      vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
-        cb(0);
-        return 0;
-      });
+    it('should NOT focus the inner combobox after sort when toggle is disabled', async () => {
       featureToggles.a11yRestoreFocusOnNgSelect = false;
       const combobox = fixture.nativeElement.querySelector(
         '[role="combobox"]'
@@ -80,9 +78,9 @@ describe('SortingComponent', () => {
       const focusSpy = vi.spyOn(combobox, 'focus');
 
       component.sortList('relevance');
+      await vi.runAllTimersAsync();
 
       expect(focusSpy).not.toHaveBeenCalled();
-      vi.unstubAllGlobals();
     });
   });
 

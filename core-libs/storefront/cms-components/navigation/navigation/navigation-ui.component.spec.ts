@@ -447,6 +447,8 @@ describe('Navigation UI Component', () => {
     });
 
     it('should move focus inside node on up/down arrow press', () => {
+      const originalToggleOpen =
+        navigationComponent.toggleOpen.bind(navigationComponent);
       navigationComponent.toggleOpen = () => {};
       const firstChild = element.query(By.css('[href="/sub-sub-child-1a"]'));
       const secondChild = element.query(By.css('[href="/sub-sub-child-1b"]'));
@@ -474,6 +476,8 @@ describe('Navigation UI Component', () => {
       expect(document.activeElement).toEqual(secondChild.nativeElement);
       navigationComponent['arrowControls'].next(arrowUpEvent);
       expect(document.activeElement).toEqual(firstChild.nativeElement);
+
+      navigationComponent.toggleOpen = originalToggleOpen;
     });
 
     describe('onSpace — toggle a11yNavigationSpaceKeyOnKeyUp ON', () => {
@@ -485,7 +489,9 @@ describe('Navigation UI Component', () => {
       });
 
       it('should call toggleOpen on keyup', () => {
-        const spy = vi.spyOn(navigationComponent, 'toggleOpen');
+        const spy = vi
+          .spyOn(navigationComponent, 'toggleOpen')
+          .mockImplementation(() => {});
         const keyupEvent = new KeyboardEvent('keyup', { code: 'Space' });
         const dropDownButton = element.query(
           By.css('nav button[aria-expanded="false"]')
@@ -531,7 +537,9 @@ describe('Navigation UI Component', () => {
       it('should move focus and set up arrow controls on keyup', () => {
         const focusSpy = vi.spyOn(navigationComponent, 'focusOnNode');
         const arrowSpy = vi.spyOn(navigationComponent, 'setupArrowControls');
-        vi.spyOn(navigationComponent, 'toggleOpen');
+        vi.spyOn(navigationComponent, 'toggleOpen').mockImplementation(
+          () => {}
+        );
         const keyupEvent = new KeyboardEvent('keyup', { code: 'Space' });
         const dropDownButton = element.query(
           By.css('nav button[aria-expanded="false"]')
@@ -554,7 +562,9 @@ describe('Navigation UI Component', () => {
       });
 
       it('should call toggleOpen on keydown', () => {
-        const spy = vi.spyOn(navigationComponent, 'toggleOpen');
+        const spy = vi
+          .spyOn(navigationComponent, 'toggleOpen')
+          .mockImplementation(() => {});
         const keydownEvent = new KeyboardEvent('keydown', { code: 'Space' });
         const dropDownButton = element.query(
           By.css('nav button[aria-expanded="false"]')
@@ -591,7 +601,9 @@ describe('Navigation UI Component', () => {
       it('should move focus and set up arrow controls on keydown', () => {
         const focusSpy = vi.spyOn(navigationComponent, 'focusOnNode');
         const arrowSpy = vi.spyOn(navigationComponent, 'setupArrowControls');
-        vi.spyOn(navigationComponent, 'toggleOpen');
+        vi.spyOn(navigationComponent, 'toggleOpen').mockImplementation(
+          () => {}
+        );
         const keydownEvent = new KeyboardEvent('keydown', { code: 'Space' });
         const dropDownButton = element.query(
           By.css('nav button[aria-expanded="false"]')
