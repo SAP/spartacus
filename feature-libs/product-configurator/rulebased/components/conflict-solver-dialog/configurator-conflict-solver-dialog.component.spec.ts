@@ -31,7 +31,6 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorGroupComponent } from '../group';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorConflictSolverDialogComponent } from './configurator-conflict-solver-dialog.component';
-import { vi } from 'vitest';
 
 export class MockIconFontLoaderService {
   getStyleClasses(_iconType: ICON_TYPE): void {}

@@ -222,6 +222,7 @@ describe(`CheckoutB2BStepsSetGuard`, () => {
 
     describe('step1 (delivery address) data set', () => {
       beforeEach(() => {
+        isAccount.next(false);
         vi.spyOn(
           checkoutDeliveryAddressFacade,
           'getDeliveryAddressState'
@@ -301,11 +302,23 @@ describe(`CheckoutB2BStepsSetGuard`, () => {
   });
 
   describe('When ACCOUNT payment', () => {
+    let checkoutStepService: CheckoutStepService;
+    const accountPaymentSteps = mockCheckoutSteps.filter(
+      (s) => s.type[0] !== CheckoutStepType.PAYMENT_DETAILS
+    );
+
     beforeEach(() => {
       isAccount.next(true);
-      if (mockCheckoutSteps[3].type[0] === CheckoutStepType.PAYMENT_DETAILS) {
-        mockCheckoutSteps.splice(3, 1);
-      }
+      checkoutStepService = TestBed.inject(CheckoutStepService);
+      (checkoutStepService.steps$ as BehaviorSubject<CheckoutStep[]>).next(
+        accountPaymentSteps
+      );
+    });
+
+    afterEach(() => {
+      (checkoutStepService.steps$ as BehaviorSubject<CheckoutStep[]>).next(
+        mockCheckoutSteps
+      );
     });
 
     describe('PAYMENT_DETAILS is not valid any more', () => {

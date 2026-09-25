@@ -77,6 +77,7 @@ describe('AsmSessionTimerComponent', () => {
   });
 
   beforeEach(() => {
+    vi.useFakeTimers();
     fixture = TestBed.createComponent(AsmSessionTimerComponent);
     config = TestBed.inject(AsmConfig);
     asmComponentService = TestBed.inject(AsmComponentService);
@@ -86,12 +87,16 @@ describe('AsmSessionTimerComponent', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    component.ngOnDestroy();
+    vi.useRealTimers();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   it('should logout when time left is zero.', async () => {
-    vi.useFakeTimers();
     (config as any).asm.agentSessionTimer.startingDelayInSeconds = 1;
     vi.spyOn(
       asmComponentService,
@@ -102,12 +107,9 @@ describe('AsmSessionTimerComponent', () => {
     expect(
       asmComponentService.logoutCustomerSupportAgentAndCustomer
     ).toHaveBeenCalled();
-    component.ngOnDestroy();
-    vi.useRealTimers();
   });
 
   it('should not call logout when there is some time left.', async () => {
-    vi.useFakeTimers();
     (config as any).asm.agentSessionTimer.startingDelayInSeconds = 10;
     vi.spyOn(
       asmComponentService,
@@ -118,8 +120,6 @@ describe('AsmSessionTimerComponent', () => {
     expect(
       asmComponentService.logoutCustomerSupportAgentAndCustomer
     ).not.toHaveBeenCalled();
-    component.ngOnDestroy();
-    vi.useRealTimers();
   });
 
   it('should reset the time left when user navigates on a new page.', () => {

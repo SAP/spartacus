@@ -557,6 +557,11 @@ export interface FeatureTogglesInterface {
    */
   enableHierarchicalAddressFormat?: boolean;
 
+  /**
+   * When enabled, the title on the address is added to the line containing the full name (Card.boldText).
+   */
+  addTitleToAddressCard?: boolean;
+
   /* When enabled, OPF checkout payment flow calls `updatePaymentTransaction`
    * instead of `initiatePayment` while selecting/re-initiating payment.
    *
@@ -734,6 +739,14 @@ export interface FeatureTogglesInterface {
   a11yFocusIndicatorContrast?: boolean;
 
   /**
+   * When enabled, the default theme's primary color (`--cx-color-primary`) is
+   * darkened so the contrast meets the contrast requirement of >= 4.5:1.
+   * This toggle can be removed if santorini-updated in theme.scss is uncommented
+   * as part of next major release.
+   */
+  a11yPrimaryColorContrast?: boolean;
+
+  /**
    * When enabled, disabled action buttons (`.btn-primary`, `.btn-secondary`,
    * `.btn-tertiary`) use the new `--cx-color-disabled` token instead of
    * `--cx-color-border-focus`, so their border/background/text meet the
@@ -802,6 +815,37 @@ export interface FeatureTogglesInterface {
   a11yNavigationChevronContrast?: boolean;
 
   /**
+   * When enabled, the requote button when clicked in the cancelled quote details page
+   * will show a warning message to the user that the quote-cart should have a minimum
+   * threshold value of items to be able to proceed with the requote process.
+   *
+   * Affects: `QuoteSummaryActionsComponent`
+   */
+  showWarningMessageOnRequoteButtonClick?: boolean;
+
+  /**
+   * Enables support for a dedicated oAuth callback page to be used for the
+   * Return URI in Authorization Code Flow.
+   *
+   * Requires feature flags `authorizationCodeFlowByDefault` and `asyncAuthConfigInitializer`
+   * to be enabled.
+   *
+   * 1. Add new route 'oAuthCallback' to the default `RoutingConfig`.
+   *
+   * 2. Define CMS Component for 'OauthCallbackComponent' using the `SpinnerComponent`.
+   *
+   * 3. Modify the AuthConfigInitializer's generation of Redirect URI.
+   *    The configured redirect URI will be modified depending on whether it is
+   *    relative or absolute.
+   *    - Relative URIs are interpreted as a custom oAuth callback path.  The
+   *      page origin will be used for the host, and base site will be added if
+   *      enabled before the custom path.
+   *    - Absolute URIs will be treated as the intended value.  The base site
+   *      will be appended to the path if enabled.
+   */
+  oauthCallbackPage?: boolean;
+
+  /**
    * When enabled, `Validators.maxLength` is applied to all text form fields
    * in address and registration forms, providing visible error feedback instead
    * of silently blocking input at the HTML level.
@@ -819,6 +863,16 @@ export interface FeatureTogglesInterface {
    * Affects: `ClaimDialogComponent`
    */
   a11yCouponDialogResetButtonKeyboardAccessible?: boolean;
+
+  /**
+   * When enabled, the "In Stock" / "Out of Stock" info text in the
+   * `AddToCartComponent` uses `--cx-color-text` instead of
+   * `--cx-color-secondary`, ensuring the text meets the WCAG 1.4.3 Level AA
+   * minimum contrast ratio of 4.5:1 against all background surfaces.
+   *
+   * Affects: `AddToCartComponent`
+   */
+  a11yInStockInfoTextContrast?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -892,6 +946,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   pageLinkSanitizeCanonicalUrl: false,
   opfUseDestroyRef: false,
   enableHierarchicalAddressFormat: false,
+  addTitleToAddressCard: false,
   opfCheckoutUseUpdatePaymentTransaction: false,
   enableCartSlowNetworkResilience: false,
   a11yRegistrationTermsAsteriskMargin: false,
@@ -909,6 +964,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   mergeGuestCartOnCodeFlowLogin: false,
   a11yFormErrorIconContrast: false,
   a11yFocusIndicatorContrast: false,
+  a11yPrimaryColorContrast: false,
   a11yDisabledButtonContrast: false,
   a11yImproveAddressFormFocus: false,
   a11yFocusBreadcrumbOnNavigation: false,
@@ -916,6 +972,9 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   configuratorIssuesNotificationForConfigurableOnly: false,
   globalMessageCloseButtonPadding: false,
   a11yNavigationChevronContrast: false,
+  showWarningMessageOnRequoteButtonClick: false,
+  oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
   a11yCouponDialogResetButtonKeyboardAccessible: false,
+  a11yInStockInfoTextContrast: false,
 };

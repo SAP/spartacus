@@ -9,7 +9,6 @@ import { DirectionMode, DirectionService } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorPriceComponent } from './configurator-price.component';
-import { vi } from 'vitest';
 
 @Pipe({ name: 'cxNumeric' })
 class MockNumericPipe implements PipeTransform {

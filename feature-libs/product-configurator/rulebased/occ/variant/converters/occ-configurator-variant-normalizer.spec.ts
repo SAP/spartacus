@@ -1185,10 +1185,18 @@ describe('OccConfiguratorVariantNormalizer', () => {
     let attributeDDWoValues: Configurator.Attribute;
     let attributeRBWithValues: Configurator.Attribute;
 
+    function resetModuleLevelAttributes() {
+      attributeSSIWithValues.selectedSingleValue = 'SomeValue';
+      attributeSSIWithValues.incomplete = undefined;
+      attributeSSIWoValues.selectedSingleValue = '';
+      attributeSSIWoValues.incomplete = undefined;
+    }
+
     beforeEach(() => {
       attributeDDWithValues = structuredClone(attributeDDWithValuesTemplate);
       attributeDDWoValues = structuredClone(attributeDDWoValuesTemplate);
       attributeRBWithValues = structuredClone(attributeRBWithValuesTemplate);
+      resetModuleLevelAttributes();
     });
 
     it('should set incomplete by string type correctly', () => {

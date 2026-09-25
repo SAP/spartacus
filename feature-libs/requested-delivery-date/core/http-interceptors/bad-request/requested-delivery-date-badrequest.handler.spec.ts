@@ -5,7 +5,6 @@ import {
   GlobalMessageType,
   HttpResponseStatus,
 } from '@spartacus/core';
-import { vi } from 'vitest';
 import { RequestedDeliveryDateBadRequestHandler } from './requested-delivery-date-badrequest.handler';
 
 class MockGlobalMessageService {

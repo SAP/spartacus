@@ -3,7 +3,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorTextfieldInputFieldComponent } from './configurator-textfield-input-field.component';
-import { vi } from 'vitest';
 
 describe('TextfieldInputFieldComponent', () => {
   let component: ConfiguratorTextfieldInputFieldComponent;

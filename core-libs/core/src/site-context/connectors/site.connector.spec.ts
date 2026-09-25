@@ -1,6 +1,5 @@
 import { CountryType } from '@spartacus/core';
 import { of } from 'rxjs';
-import { vi } from 'vitest';
 import { SiteConnector } from './site.connector';
 
 const mockLanguages = ['l', 'a', 'n', 'g'];
