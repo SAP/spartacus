@@ -7,6 +7,7 @@
       "toconfig": "Configure",
       "toConfigReadOnly": "Show details",
       "editConfiguration": "Edit Configuration",
+      "editBundleConfiguration": "Edit Bundle Configuration",
       "displayConfiguration": "Display Configuration",
       "resolveIssues": "Resolve Issues",
       "resolveIssue": "Resolve Issue",
