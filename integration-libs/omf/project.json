@@ -20,13 +20,11 @@
       },
       "defaultConfiguration": "production"
     },
-    "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+    "test-vitest": {
+      "executor": "nx:run-commands",
       "options": {
-        "main": "integration-libs/omf/test.ts",
-        "tsConfig": "integration-libs/omf/tsconfig.spec.json",
-        "polyfills": ["zone.js", "zone.js/testing"],
-        "karmaConfig": "integration-libs/omf/karma.conf.js"
+        "command": "npx vitest run --config vitest.config.ts",
+        "cwd": "{projectRoot}"
       }
     },
     "test-jest": {

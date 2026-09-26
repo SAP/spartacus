@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { LanguageService } from '@spartacus/core';
@@ -10,9 +10,8 @@ import {
   MockTranslatePipe,
   TranslatePipe,
   TranslationService,
-} from 'core-libs/core/src/i18n';
-import { Observable, ReplaySubject, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+} from '../../../../../core-libs/core/src/i18n';
+import { Observable, ReplaySubject, firstValueFrom, of } from 'rxjs';
 import { ScheduleLinesComponent } from './schedule-lines.component';
 
 class MockCartItemContext implements Partial<CartItemContext> {
@@ -37,8 +36,8 @@ describe('ScheduleLinesComponent', () => {
   let htmlElem: HTMLElement;
   let mockCartItemContext: MockCartItemContext;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, ScheduleLinesComponent],
       providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
@@ -58,7 +57,7 @@ describe('ScheduleLinesComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ScheduleLinesComponent);
@@ -73,17 +72,15 @@ describe('ScheduleLinesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should expose orderEntry$', (done) => {
+  it('should expose orderEntry$', async () => {
     const orderEntry: Partial<OrderEntry & Array<ScheduleLine>> = {
       orderCode: '123',
       scheduleLines: [],
     };
-    component.orderEntry$.pipe(take(1)).subscribe((value) => {
-      expect(value).toBe(orderEntry);
-      done();
-    });
-
+    const resultPromise = firstValueFrom(component.orderEntry$);
     mockCartItemContext.item$.next(orderEntry);
+    const value = await resultPromise;
+    expect(value).toBe(orderEntry);
   });
 
   it('should return empty string when no date is provided', () => {
@@ -99,9 +96,7 @@ describe('ScheduleLinesComponent', () => {
       });
 
       const htmlElem = fixture.nativeElement;
-      expect(htmlElem.querySelectorAll('.cx-schedule-line-info').length).toBe(
-        0
-      );
+      expect(htmlElem.querySelectorAll('.cx-schedule-line-info').length).toBe(0);
     });
 
     it('should be displayed if model provides data', () => {
@@ -120,9 +115,7 @@ describe('ScheduleLinesComponent', () => {
 
       fixture.detectChanges();
       const htmlElem = fixture.nativeElement;
-      expect(htmlElem.querySelectorAll('.cx-schedule-line-info').length).toBe(
-        2
-      );
+      expect(htmlElem.querySelectorAll('.cx-schedule-line-info').length).toBe(2);
     });
 
     describe('Accessibility', () => {
