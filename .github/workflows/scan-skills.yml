@@ -1,0 +1,38 @@
+on:
+  pull_request:
+    paths:
+      - 'core-libs/skills/skills/**'
+      - 'ci-scripts/skill-scan/**'
+      - '.github/workflows/scan-skills.yml'
+  workflow_dispatch:
+    # allow manual runs
+
+name: Scan Skill Markdown
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: '22'
+
+jobs:
+  scan-skills:
+    name: Scan skill markdown for malicious content
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      # Zero-dependency scanner: no `npm ci` needed.
+      - name: Run scanner unit tests
+        run: node --test ci-scripts/skill-scan/lib/checks.test.mjs
+
+      # Scans the whole shipped skill corpus (not just the diff) and emits
+      # GitHub Actions error annotations on any blocking finding.
+      - name: Scan skill markdown
+        run: node ci-scripts/skill-scan/scan.mjs
