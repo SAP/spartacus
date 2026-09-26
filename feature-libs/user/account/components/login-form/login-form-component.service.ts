@@ -108,7 +108,7 @@ export class LoginFormComponentService {
         // existing handleCustomLoginError() pipeline shows the friendly
         // message.
         combineLatest([
-          this.auth.refreshCsrfToken(),
+          this.auth.refreshCsrfToken(this.authReqId),
           this.featureToggles.siteIsolationForCustomLoginPage
             ? this.getUserId()
             : of(undefined),
@@ -118,6 +118,11 @@ export class LoginFormComponentService {
             tap(([csrfToken, userId]) => {
               this.csrfStateService.set(csrfToken);
               this.form.get('csrf')?.setValue(csrfToken.token);
+              if (this.featureToggles.concurrentLoginPagesSupport) {
+                this.form
+                  .get('auth_req_id')
+                  ?.setValue(this.csrfStateService.getAuthReqId());
+              }
               this.setOauthRedirectFlowFlag();
               // Submit BEFORE flipping busy$ to true. busy$=true triggers
               // form.disable(), which sets disabled=true on every bound input,
@@ -192,6 +197,11 @@ export class LoginFormComponentService {
           });
       } else {
         this.setOauthRedirectFlowFlag();
+        if (this.featureToggles.concurrentLoginPagesSupport) {
+          this.form
+            .get('auth_req_id')
+            ?.setValue(this.csrfStateService.getAuthReqId());
+        }
         nativeForm.submit();
         this.busy$.next(true);
       }
@@ -277,6 +287,21 @@ export class LoginFormComponentService {
     this.action = this.authConfigService?.getCustomLoginFormEndpoint();
     this.form.addControl('csrf', new FormControl('', Validators.required));
     this.form.get('csrf')?.setValue(this.csrf?.token);
+    if (this.featureToggles.concurrentLoginPagesSupport) {
+      const authReqId = this.csrfStateService.getAuthReqId();
+      if (authReqId) {
+        this.form.addControl(
+          'auth_req_id',
+          new FormControl(authReqId, Validators.required)
+        );
+      }
+    }
+  }
+
+  get authReqId(): string | undefined {
+    return this.featureToggles.concurrentLoginPagesSupport
+      ? this.csrfStateService.getAuthReqId()
+      : undefined;
   }
 
   protected setOauthRedirectFlowFlag(): void {
