@@ -7,6 +7,9 @@ module.exports = {
     prefix: '<rootDir>/',
   }),
   testMatch: ['**/+(*.)+(spec).+(ts)'],
+  // SSR e2e specs bind fixed ports (SSR 4000, proxy 9002). Running spec files
+  // in parallel workers causes EADDRINUSE. Force serial execution.
+  maxWorkers: 1,
   transform: {
     '^.+\\.(ts|js|mjs)$': ['ts-jest'],
   },
