@@ -57,6 +57,7 @@ import {
   take,
 } from 'rxjs/operators';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
+import { OpfIframeSandboxDirective } from './opf-iframe-sandbox.directive';
 
 @Component({
   selector: 'cx-opf-checkout-payment-wrapper',
@@ -70,6 +71,7 @@ import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
+    OpfIframeSandboxDirective,
   ],
 })
 export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
