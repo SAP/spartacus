@@ -5,7 +5,7 @@
  */
 
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -33,6 +33,7 @@ import { combineLatest, switchMap, take, tap } from 'rxjs';
 @Component({
   selector: 'cx-opf-checkout-email-update',
   templateUrl: './opf-checkout-email-update.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
     ReactiveFormsModule,
