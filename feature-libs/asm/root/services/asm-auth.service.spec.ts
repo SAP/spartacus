@@ -17,7 +17,14 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { getReducers } from '@spartacus/core/testing/process-reducers';
-import { BehaviorSubject, firstValueFrom, Observable, of, Subject, timer } from 'rxjs';
+import {
+  BehaviorSubject,
+  firstValueFrom,
+  Observable,
+  of,
+  Subject,
+  timer,
+} from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import {
   ASM_FEATURE,
