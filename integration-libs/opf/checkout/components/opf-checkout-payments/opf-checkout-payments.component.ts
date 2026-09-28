@@ -378,6 +378,10 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     this.updateActiveConfiguration();
     this.preselectPaymentOption();
     this.emitOutletContext();
+      this.opfPaymentEventsService.refreshActiveConfigurationsEvent$.subscribe(
+        () => this.updateActiveConfiguration()
+      )
+    );
   }
 
   ngOnDestroy(): void {
