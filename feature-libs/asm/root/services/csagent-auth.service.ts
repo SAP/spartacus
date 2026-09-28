@@ -100,12 +100,6 @@ export class CsAgentAuthService {
       .subscribe((token) => (userToken = token))
       .unsubscribe();
 
-    if (customerId !== undefined && userToken !== undefined) {
-      // Suppress the spurious "signed out" notification during the redirect window.
-      this.authStorageService.setAgentCodeFlowLoginInProgress(true);
-    }
-
-    this.authStorageService.switchTokenTargetToCSAgent();
     try {
       // Persist emulation state BEFORE the full-page redirect. initLoginFlow() navigates
       // away, so anything after it does not run reliably; the agent token arrives later in
@@ -114,6 +108,8 @@ export class CsAgentAuthService {
 
       if (customerId !== undefined && userToken !== undefined) {
         // OCC specific user id handling. Customize when implementing different backend
+        // isEmulated is set to true before switchTokenTargetToCSAgent() so that
+        // isUserLoggedIn() stays true throughout and no spurious LogoutEvent fires.
         this.userIdService.setUserId(customerId);
         this.authStorageService.setEmulatedUserToken(userToken);
         this.store.dispatch(new AuthActions.Login());
@@ -123,9 +119,9 @@ export class CsAgentAuthService {
         this.authStorageService.clearEmulatedUserToken();
       }
 
+      this.authStorageService.switchTokenTargetToCSAgent();
       await this.oAuthLibWrapperService.initLoginFlow();
     } catch {
-      this.authStorageService.setAgentCodeFlowLoginInProgress(false);
       this.authStorageService.switchTokenTargetToUser();
     }
   }

@@ -17,7 +17,15 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { getReducers } from '@spartacus/core/testing/process-reducers';
-import { BehaviorSubject, firstValueFrom, Observable, of, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  firstValueFrom,
+  Observable,
+  of,
+  Subject,
+  timer,
+} from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import {
   ASM_FEATURE,
   getReducers as getAsmReducers,
@@ -70,7 +78,6 @@ class MockAsmAuthStorageService {
   clearEmulatedUserToken = vi.fn();
   switchTokenTargetToCSAgent = vi.fn();
   getItem = vi.fn().mockReturnValue(null);
-  isAgentCodeFlowLoginInProgress = vi.fn().mockReturnValue(false);
 
   getToken = () => authToken$.asObservable();
   getTokenTarget = () => tokenTarget$.asObservable();
@@ -277,15 +284,21 @@ describe('AsmAuthService', () => {
         expect(isLoggedIn).toBe(false);
       });
 
-      it('should return true during agent code-flow login while customer is active', async () => {
-        tokenTarget$.next(TokenTarget.CSAgent);
-        vi.mocked(
-          asmAuthStorageService.isAgentCodeFlowLoginInProgress
-        ).mockReturnValue(true);
+      it('should not emit false when isEmulated becomes true before tokenTarget switches to CSAgent', async () => {
+        // Regression: during the code-flow agent login, emulation state (isEmulated=true)
+        // is set up before switchTokenTargetToCSAgent() so that isUserLoggedIn() never
+        // transiently returns false and fires a spurious LogoutEvent.
+        const emissions: boolean[] = [];
+        service
+          .isUserLoggedIn()
+          .pipe(takeUntil(timer(50)))
+          .subscribe((v) => emissions.push(v));
 
-        const isLoggedIn = await firstValueFrom(service.isUserLoggedIn());
+        isEmulated$.next(true); // setUserId(customerId) — isEmulated=true
+        tokenTarget$.next(TokenTarget.CSAgent); // switchTokenTargetToCSAgent()
 
-        expect(isLoggedIn).toBe(true);
+        await new Promise((r) => setTimeout(r, 60));
+        expect(emissions).not.toContain(false);
       });
     });
   });

@@ -136,19 +136,4 @@ export class AsmAuthStorageService extends AuthStorageService {
   clearEmulatedUserToken(): void {
     this.emulatedUserToken$.next(undefined);
   }
-
-  /**
-   * True while an agent Authorization Code Flow login is in progress with an
-   * active customer session, so that `isUserLoggedIn()` can suppress the
-   * transient false emission caused by `switchTokenTargetToCSAgent()`.
-   */
-  protected agentCodeFlowLoginInProgress = false;
-
-  setAgentCodeFlowLoginInProgress(inProgress: boolean): void {
-    this.agentCodeFlowLoginInProgress = inProgress;
-  }
-
-  isAgentCodeFlowLoginInProgress(): boolean {
-    return this.agentCodeFlowLoginInProgress;
-  }
 }

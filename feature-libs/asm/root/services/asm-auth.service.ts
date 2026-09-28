@@ -197,10 +197,6 @@ export class AsmAuthService extends AuthService {
 
   /**
    * Returns `true` if user is logged in or being emulated.
-   *
-   * While an agent code-flow login is in progress the token target switches to
-   * CSAgent before the agent token arrives, which would transiently return
-   * `false` and fire a spurious LogoutEvent. The flag suppresses that window.
    */
   isUserLoggedIn(): Observable<boolean> {
     return combineLatest([
@@ -208,19 +204,12 @@ export class AsmAuthService extends AuthService {
       this.userIdService.isEmulated(),
       this.authStorageService.getTokenTarget(),
     ]).pipe(
-      map(([token, isEmulated, tokenTarget]) => {
-        if (
-          this.authStorageService.isAgentCodeFlowLoginInProgress() &&
-          tokenTarget === TokenTarget.CSAgent
-        ) {
-          return Boolean(token?.access_token);
-        }
-        return (
+      map(
+        ([token, isEmulated, tokenTarget]) =>
           Boolean(token?.access_token) &&
           (tokenTarget === TokenTarget.User ||
             (tokenTarget === TokenTarget.CSAgent && isEmulated))
-        );
-      })
+      )
     );
   }
 }
