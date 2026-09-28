@@ -1,7 +1,5 @@
-import { EMPTY, Observable, of } from 'rxjs';
-import { firstValueFrom } from 'rxjs';
-import { vi } from 'vitest';
-import { AnonymousConsent, ConsentTemplate } from '../../model/index';
+import { EMPTY, firstValueFrom, of } from 'rxjs';
+import { AnonymousConsent } from '../../model/index';
 import { AnonymousConsentTemplatesConnector } from './anonymous-consent-templates.connector';
 
 describe('AnonymousConsentTemplatesConnector', () => {

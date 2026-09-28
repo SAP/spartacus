@@ -15,6 +15,7 @@ export default defineConfig({
     pool: 'forks',
     watch: false,
     globals: true,
+    restoreMocks: true,
     environment: 'jsdom',
     setupFiles: ['../../testing/setup-vitest.ts'],
     include: ['**/*.spec.ts'],

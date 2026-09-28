@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { Cart } from '@spartacus/cart/base/root';
 import { BehaviorSubject, EMPTY, ReplaySubject, Subject } from 'rxjs';

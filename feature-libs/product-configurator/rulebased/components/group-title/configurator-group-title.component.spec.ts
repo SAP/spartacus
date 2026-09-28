@@ -21,7 +21,6 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupTitleComponent } from './configurator-group-title.component';
-import { vi } from 'vitest';
 
 const config: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
