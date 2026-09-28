@@ -24,6 +24,17 @@ export class OpfPaymentEventsService {
     this.reinitiatePaymentEvent.next(paymentOptionId);
   }
 
+  protected refreshActiveConfigurationsEvent: Subject<void> = new Subject();
+  refreshActiveConfigurationsEvent$: Observable<void> =
+    this.refreshActiveConfigurationsEvent.asObservable();
+
+  /**
+   * Emits an event to refresh the active payment configurations list
+   */
+  emitRefreshActiveConfigurationsEvent(): void {
+    this.refreshActiveConfigurationsEvent.next();
+  }
+
   protected isGiftCardCoveredTotalAmountEvent: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
   isGiftCardCoveredTotalAmountEvent$: Observable<boolean> =
