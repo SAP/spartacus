@@ -229,8 +229,16 @@ describe('TableComponent', () => {
   describe('table layout', () => {
     describe('vertical', () => {
       beforeEach(() => {
-        const table = Object.assign({}, mockDataset);
-        table.structure.options.layout = TableLayout.VERTICAL;
+        const table = {
+          ...mockDataset,
+          structure: {
+            ...mockDataset.structure,
+            options: {
+              ...mockDataset.structure.options,
+              layout: TableLayout.VERTICAL,
+            },
+          },
+        };
         tableComponent.structure = table.structure;
         tableComponent.data = table.data;
       });
@@ -282,8 +290,16 @@ describe('TableComponent', () => {
 
     describe('vertical stacked', () => {
       beforeEach(() => {
-        const table = Object.assign({}, mockDataset);
-        table.structure.options.layout = TableLayout.VERTICAL_STACKED;
+        const table = {
+          ...mockDataset,
+          structure: {
+            ...mockDataset.structure,
+            options: {
+              ...mockDataset.structure.options,
+              layout: TableLayout.VERTICAL_STACKED,
+            },
+          },
+        };
         tableComponent.structure = table.structure;
         tableComponent.data = table.data;
       });
@@ -335,8 +351,16 @@ describe('TableComponent', () => {
 
     describe('horizontal', () => {
       beforeEach(() => {
-        const table = Object.assign({}, mockDataset);
-        table.structure.options.layout = TableLayout.HORIZONTAL;
+        const table = {
+          ...mockDataset,
+          structure: {
+            ...mockDataset.structure,
+            options: {
+              ...mockDataset.structure.options,
+              layout: TableLayout.HORIZONTAL,
+            },
+          },
+        };
         tableComponent.structure = table.structure;
         tableComponent.data = table.data;
       });
