@@ -6,18 +6,22 @@
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, Optional, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import {
   CxNumericPipe,
   FeatureToggles,
+  ProductScope,
+  ProductService,
   TranslatePipe,
   TranslationService,
+  UrlPipe,
   useFeatureStyles,
 } from '@spartacus/core';
 import { BreakpointService } from '@spartacus/storefront';
-import { EMPTY, Observable, combineLatest } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { EMPTY, Observable, combineLatest, of } from 'rxjs';
+import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 import { CommonConfiguratorUISettingsConfig } from '../config/common-configurator-ui-settings.config';
 import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-cart-entry.component';
@@ -34,15 +38,18 @@ import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entr
   imports: [
     NgIf,
     NgFor,
+    RouterLink,
     ConfigureCartEntryComponent,
     AsyncPipe,
     TranslatePipe,
     CxNumericPipe,
+    UrlPipe,
   ],
 })
 export class ConfiguratorCartEntryBundleInfoComponent {
   protected config = inject(CommonConfiguratorUISettingsConfig);
   private featureToggles = inject(FeatureToggles);
+  protected productService = inject(ProductService);
 
   constructor(
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
@@ -66,9 +73,16 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   hideItems = true;
 
   lineItems$: Observable<LineItem[]> = this.orderEntry$.pipe(
-    map((entry) =>
-      this.configCartEntryBundleInfoService.retrieveLineItems(entry)
-    )
+    switchMap((entry) => {
+      const lineItems =
+        this.configCartEntryBundleInfoService.retrieveLineItems(entry);
+      if (lineItems.length === 0) {
+        return of([]);
+      }
+      return combineLatest(
+        lineItems.map((lineItem) => this.enrichWithProduct(lineItem))
+      );
+    })
   );
 
   numberOfLineItems$: Observable<number> = this.lineItems$.pipe(
@@ -83,10 +97,29 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   }
 
   /**
+   * Adds the product data (used for the PDP link) to a line item. Lookup
+   * errors leave the product undefined so that a miss does not fail the stream.
+   *
+   * @param lineItem - Line item
+   * @returns Line item enriched with its product, if it can be loaded
+   */
+  protected enrichWithProduct(lineItem: LineItem): Observable<LineItem> {
+    if (!lineItem.productCode) {
+      return of(lineItem);
+    }
+    return this.productService
+      .get(lineItem.productCode, ProductScope.LIST)
+      .pipe(
+        catchError(() => of(undefined)),
+        map((product) => ({ ...lineItem, product }))
+      );
+  }
+
+  /**
    * Verifies whether the configurator type is a bundle based one.
    *
-   * @param {OrderEntry} entry - Order entry
-   * @returns {boolean} - 'true' if the expected configurator type, otherwise 'false'
+   * @param entry - Order entry
+   * @returns 'true' if the expected configurator type, otherwise 'false'
    */
   isBundleBasedConfigurator(entry: OrderEntry): boolean {
     const configInfos = entry.configurationInfos;
@@ -121,7 +154,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   /**
    * Retrieves the maximum number of line items that are expanded within the cart entry.
    *
-   * @returns {number} - the configured threshold
+   * @returns The configured threshold
    */
   protected getCartEntryBundleLineItemsThreshold(): number {
     return (
@@ -133,8 +166,8 @@ export class ConfiguratorCartEntryBundleInfoComponent {
    * Compiles the accessibility description of the link that navigates to the
    * configuration overview.
    *
-   * @param {number} items - number of line items
-   * @returns {string} - accessibility description
+   * @param items - Number of line items
+   * @returns Accessibility description
    */
   getItemsLinkMsg(items: number): string {
     let translatedText = '';
@@ -149,10 +182,22 @@ export class ConfiguratorCartEntryBundleInfoComponent {
     return translatedText;
   }
 
+  /**
+   * Builds the DOM id for the accessibility description of the overview link.
+   *
+   * @param entry - Order entry
+   * @returns Element id for `aria-describedby`
+   */
   getItemsLinkMsgId(entry: OrderEntry): string {
     return 'cx-item-list-info-' + entry.entryNumber;
   }
 
+  /**
+   * Returns the show/hide label for the bundle line items toggle.
+   *
+   * @param translatedText - Optional prefix (for example an a11y summary)
+   * @returns Translated toggle button text
+   */
   getButtonText(translatedText?: string): string {
     if (!translatedText) {
       translatedText = '';
@@ -172,6 +217,12 @@ export class ConfiguratorCartEntryBundleInfoComponent {
     return translatedText;
   }
 
+  /**
+   * Builds the accessibility label for the show/hide bundle items button.
+   *
+   * @param items - Number of line items
+   * @returns Combined a11y summary and toggle label
+   */
   getItemsMsg(items: number): string {
     let translatedText = '';
     this.translation
@@ -185,6 +236,12 @@ export class ConfiguratorCartEntryBundleInfoComponent {
     return this.getButtonText(translatedText);
   }
 
+  /**
+   * Builds the accessibility description for a single bundle line item.
+   *
+   * @param item - Line item shown in the expanded list
+   * @returns Translated description of name, price, and quantity when present
+   */
   getHiddenItemInfo(item: LineItem): string {
     let translatedText = '';
 
@@ -225,6 +282,12 @@ export class ConfiguratorCartEntryBundleInfoComponent {
     return translatedText;
   }
 
+  /**
+   * Builds the DOM id for a line item accessibility description.
+   *
+   * @param index - Index of the line item in the list
+   * @returns Element id for `aria-describedby`
+   */
   getHiddenItemInfoId(index: number): string {
     return 'cx-item-hidden-info-' + index.toString();
   }

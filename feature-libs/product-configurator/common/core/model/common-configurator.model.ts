@@ -111,6 +111,8 @@ export enum ConfigurationInfoFields {
   FORMATTED_PRICE = 'FORMATTED_PRICE',
   PRICE_VALUE = 'PRICE_VALUE',
   PARENT = 'PARENT',
+  ROW_ID = 'ROW_ID',
+  CONFIGURABLE = 'CONFIGURABLE',
 }
 
 /**

@@ -406,6 +406,25 @@ describe('ConfigureCartEntryComponent', () => {
         );
       });
 
+      it("should be 'Edit Product Configuration' for a bundle line item link", () => {
+        component.readOnly = false;
+        component.disabled = false;
+        component.msgBanner = false;
+        component.isBundleLineItemLink = true;
+        component.rowId = 'row-1';
+        component.cartEntry = {
+          entryNumber: 0,
+          product: { configuratorType: ConfiguratorType.CPQ },
+        };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          'a',
+          'configurator.header.editProductConfiguration'
+        );
+      });
+
       it("should be 'Resolve Issues' in case component is used in banner", () => {
         component.readOnly = false;
         component.msgBanner = true;
@@ -554,6 +573,7 @@ describe('ConfigureCartEntryComponent', () => {
       });
 
       it('should contain "productCode" parameter in case product code is relevant', (done) => {
+        component.rowId = 'row-abc';
         component.cartEntry = {
           entryNumber: 0,
           product: { configuratorType: configuratorType, code: productCode },
@@ -563,6 +583,24 @@ describe('ConfigureCartEntryComponent', () => {
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
             expect(queryParams.productCode).toBe(productCode);
+            expect(queryParams.rowId).toBeUndefined();
+            done();
+          });
+      });
+
+      it('should contain "rowId" and omit "productCode" for a bundle line item link', (done) => {
+        component.isBundleLineItemLink = true;
+        component.rowId = 'row-abc';
+        component.cartEntry = {
+          entryNumber: 0,
+          product: { configuratorType: configuratorType, code: productCode },
+        };
+        fixture.detectChanges();
+        component.queryParams$
+          .pipe(take(1), delay(0))
+          .subscribe((queryParams) => {
+            expect(queryParams.rowId).toBe('row-abc');
+            expect(queryParams.productCode).toBeUndefined();
             done();
           });
       });

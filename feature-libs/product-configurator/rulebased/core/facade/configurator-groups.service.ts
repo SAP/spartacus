@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { delay, map, switchMap, take } from 'rxjs/operators';
+import { delay, filter, map, switchMap, take } from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
@@ -109,6 +109,38 @@ export class ConfiguratorGroupsService {
         const groupId = this.getFirstConflictGroup(configuration)?.id;
         if (groupId) {
           this.navigateToGroup(configuration, groupId, true, true);
+        }
+      });
+  }
+
+  /**
+   * Navigates to the nested configuration of a bundle line item as soon as
+   * the configuration provides groups.
+   *
+   * @param owner - Configuration owner
+   * @param rowId - Container row identifier of the bundle line item
+   */
+  navigateToContainerRow(owner: CommonConfigurator.Owner, rowId: string): void {
+    this.configuratorCommonsService
+      .getConfiguration(owner)
+      .pipe(
+        filter((configuration) => !!configuration.groups?.length),
+        take(1)
+      )
+      .subscribe((configuration) => {
+        const containerRowGroup =
+          this.configuratorUtilsService.findContainerRowGroupByRowId(
+            configuration.groups,
+            rowId
+          );
+        const targetGroup =
+          containerRowGroup &&
+          this.configuratorGroupStatusService.getNavigableTargetForContainerRowGroup(
+            configuration,
+            containerRowGroup
+          );
+        if (targetGroup) {
+          this.navigateToGroup(configuration, targetGroup.id, false);
         }
       });
   }

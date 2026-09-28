@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ControlContainer, UntypedFormControl } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import {
   CartItemContext,
@@ -20,7 +21,11 @@ import {
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
+  Product,
+  ProductScope,
+  ProductService,
   TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   MockFeatureTogglesController,
@@ -35,7 +40,14 @@ import {
   LineItem,
 } from '@spartacus/product-configurator/common';
 import { BreakpointService } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, of, ReplaySubject } from 'rxjs';
+import {
+  BehaviorSubject,
+  EMPTY,
+  Observable,
+  of,
+  ReplaySubject,
+  throwError,
+} from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { CommonConfiguratorUISettingsConfig } from '../config/common-configurator-ui-settings.config';
@@ -45,6 +57,19 @@ import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-en
 class MockNumericPipe implements PipeTransform {
   transform(value: string): string {
     return value;
+  }
+}
+
+@Pipe({ name: 'cxUrl' })
+class MockUrlPipe implements PipeTransform {
+  transform(): string {
+    return '';
+  }
+}
+
+class MockProductService implements Partial<ProductService> {
+  get(): Observable<Product | undefined> {
+    return of(undefined);
   }
 }
 
@@ -58,6 +83,8 @@ class MockConfigureCartEntryComponent {
   @Input() msgBanner: boolean;
   @Input() disabled: boolean;
   @Input() isBundleOverviewLink = false;
+  @Input() isBundleLineItemLink = false;
+  @Input() rowId?: string;
   @Input() a11yDescriptionId?: string;
 }
 
@@ -117,12 +144,18 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConfiguratorCartEntryBundleInfoComponent, I18nTestingModule],
+      imports: [
+        ConfiguratorCartEntryBundleInfoComponent,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
+        MockUrlPipe,
+      ],
       providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
         {
           provide: ControlContainer,
         },
+        { provide: ProductService, useClass: MockProductService },
         provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
       ],
     })
@@ -133,6 +166,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
             CxDatePipe,
             CxNumericPipe,
             ConfigureCartEntryComponent,
+            UrlPipe,
           ],
         },
         add: {
@@ -141,6 +175,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
             MockDatePipe,
             MockNumericPipe,
             MockConfigureCartEntryComponent,
+            MockUrlPipe,
           ],
         },
       })
@@ -870,15 +905,16 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         );
       });
 
-      it("should contain div element with class name 'cx-item-name' and aria-hidden attribute that displays an item name", () => {
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+      it("should contain a span element that displays an item name when no product is available", () => {
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
           expect,
           htmlElem,
-          'div',
-          'cx-item-name',
-          undefined,
-          'aria-hidden',
-          'true',
+          '.cx-item-name'
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-item-info > span:not(.cx-visually-hidden)',
           'Canon ABC'
         );
       });
@@ -1105,6 +1141,185 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       });
     });
   });
+
+  describe('bundle line items', () => {
+    const product: Product = { code: 'PRODUCT_1', name: 'Product 1' };
+    const configurableLineItem: LineItem = {
+      name: 'Configurable item',
+      productCode: 'PRODUCT_1',
+      rowId: 'row-1',
+      configurable: true,
+    };
+    const plainLineItem: LineItem = { name: 'Plain item' };
+    let productService: ProductService;
+
+    function emitCartEntry(
+      lineItems: LineItem[],
+      location = PromotionLocation.ActiveCart
+    ) {
+      (
+        configCartEntryBundleInfoService.retrieveLineItems as jasmine.Spy
+      ).and.returnValue(lineItems);
+      mockCartItemContext.item$.next({
+        entryNumber: 1,
+        configurationInfos: configurationInfos,
+      });
+      mockCartItemContext.location$.next(location);
+      mockCartItemContext.readonly$.next(false);
+      mockCartItemContext.quantityControl$.next(new UntypedFormControl());
+      fixture.detectChanges();
+    }
+
+    function getNestedConfigureLinks() {
+      return fixture.debugElement.queryAll(
+        By.css('.cx-item-configure cx-configure-cart-entry')
+      );
+    }
+
+    beforeEach(() => {
+      productService = TestBed.inject(ProductService);
+      spyOn(productService, 'get').and.returnValue(of(product));
+    });
+
+    describe('lineItems$', () => {
+      it('should emit an empty array without loading products if there are no line items', (done) => {
+        emitCartEntry([]);
+        component.lineItems$.pipe(take(1)).subscribe((lineItems) => {
+          expect(lineItems).toEqual([]);
+          expect(productService.get).not.toHaveBeenCalled();
+          done();
+        });
+      });
+
+      it('should enrich line items with their products', (done) => {
+        emitCartEntry([configurableLineItem, plainLineItem]);
+        component.lineItems$.pipe(take(1)).subscribe((lineItems) => {
+          expect(lineItems).toEqual([
+            { ...configurableLineItem, product },
+            plainLineItem,
+          ]);
+          done();
+        });
+      });
+    });
+
+    describe('enrichWithProduct', () => {
+      it('should return the line item unchanged if it has no product code', (done) => {
+        component['enrichWithProduct'](plainLineItem).subscribe((lineItem) => {
+          expect(lineItem).toBe(plainLineItem);
+          expect(productService.get).not.toHaveBeenCalled();
+          done();
+        });
+      });
+
+      it('should load the product in list scope', (done) => {
+        component['enrichWithProduct'](configurableLineItem).subscribe(
+          (lineItem) => {
+            expect(productService.get).toHaveBeenCalledWith(
+              'PRODUCT_1',
+              ProductScope.LIST
+            );
+            expect(lineItem).toEqual({ ...configurableLineItem, product });
+            done();
+          }
+        );
+      });
+
+      it('should leave the product undefined if loading fails', (done) => {
+        (productService.get as jasmine.Spy).and.returnValue(
+          throwError(() => new Error('not found'))
+        );
+        component['enrichWithProduct'](configurableLineItem).subscribe(
+          (lineItem) => {
+            expect(lineItem).toEqual({
+              ...configurableLineItem,
+              product: undefined,
+            });
+            done();
+          }
+        );
+      });
+    });
+
+    describe('rendering', () => {
+      it('should render the name as link to the product details page if product data is available', () => {
+        emitCartEntry([configurableLineItem]);
+
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'a',
+          'cx-link',
+          undefined,
+          undefined,
+          undefined,
+          'Configurable item'
+        );
+      });
+
+      it('should render the name as plain text if no product data is available', () => {
+        emitCartEntry([plainLineItem]);
+
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-item-name'
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-item-info > span:not(.cx-visually-hidden)',
+          'Plain item'
+        );
+      });
+
+      it('should not render the name container if the line item has no name', () => {
+        emitCartEntry([{ formattedPrice: '$1.00' }]);
+
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-item-name'
+        );
+      });
+
+      it('should render the edit link for a configurable line item with a row id', () => {
+        const quantityControl = new UntypedFormControl();
+        quantityControl.disable();
+        emitCartEntry([configurableLineItem]);
+        mockCartItemContext.quantityControl$.next(quantityControl);
+        fixture.detectChanges();
+
+        const links = getNestedConfigureLinks();
+        expect(links.length).toBe(1);
+        const linkComponent = links[0].componentInstance;
+        expect(linkComponent.cartEntry.entryNumber).toBe(1);
+        expect(linkComponent.readOnly).toBe(false);
+        expect(linkComponent.msgBanner).toBe(false);
+        expect(linkComponent.disabled).toBe(true);
+        expect(linkComponent.isBundleLineItemLink).toBe(true);
+        expect(linkComponent.rowId).toBe('row-1');
+      });
+
+      it('should not render the edit link for a non-configurable line item', () => {
+        emitCartEntry([{ ...configurableLineItem, configurable: false }]);
+
+        expect(getNestedConfigureLinks().length).toBe(0);
+      });
+
+      it('should not render the edit link for a line item without row id', () => {
+        emitCartEntry([{ ...configurableLineItem, rowId: undefined }]);
+
+        expect(getNestedConfigureLinks().length).toBe(0);
+      });
+
+      it('should not render the edit link outside of the active cart', () => {
+        emitCartEntry([configurableLineItem], PromotionLocation.SavedCart);
+
+        expect(getNestedConfigureLinks().length).toBe(0);
+      });
+    });
+  });
 });
 
 describe('ConfiguratorCartEntryBundleInfoComponent without cart item context', () => {
@@ -1114,6 +1329,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent without cart item context', (
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ConfiguratorCartEntryBundleInfoComponent],
+      providers: [{ provide: ProductService, useClass: MockProductService }],
     }).compileComponents();
   }));
 

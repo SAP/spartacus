@@ -45,9 +45,26 @@
             <span id="{{ getHiddenItemInfoId(i) }}" class="cx-visually-hidden">
               {{ getHiddenItemInfo(lineItem) }}
             </span>
-            <div class="cx-item-name" aria-hidden="true">
-              {{ lineItem?.name }}
-            </div>
+            <ng-container *ngIf="lineItem.product">
+              <div *ngIf="lineItem?.name" class="cx-item-name">
+                <a
+                  *ngIf="lineItem.product"
+                  class="cx-link"
+                  [routerLink]="
+                    {
+                      cxRoute: 'product',
+                      params: lineItem.product,
+                    } | cxUrl
+                  "
+                  >{{ lineItem.name }}</a
+                >
+                <div *ngIf="lineItem.product?.code" class="cx-code">
+                  {{ 'cartItems.id' | cxTranslate }}
+                  {{ lineItem.product?.code }}
+                </div>
+              </div>
+            </ng-container>
+            <span *ngIf="!lineItem.product">{{ lineItem.name }}</span>
             <div class="cx-item-quantity" aria-hidden="true">
               <ng-container *ngIf="lineItem?.formattedQuantity">
                 <span class="cx-identifier">{{
@@ -65,6 +82,23 @@
                 }}</span>
                 <span class="cx-item">{{ lineItem?.formattedPrice }}</span>
               </ng-container>
+            </div>
+            <div
+              *ngIf="
+                lineItem?.configurable &&
+                lineItem?.rowId &&
+                (shouldShowButton$ | async)
+              "
+              class="cx-item-configure"
+            >
+              <cx-configure-cart-entry
+                [cartEntry]="orderEntry"
+                [readOnly]="(readonly$ | async) ?? false"
+                [msgBanner]="false"
+                [disabled]="(quantityControl$ | async)?.disabled ?? false"
+                [isBundleLineItemLink]="true"
+                [rowId]="lineItem.rowId"
+              />
             </div>
           </div>
         </div>

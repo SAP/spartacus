@@ -50,20 +50,33 @@
       padding-block-end: 15px;
       border-bottom: solid 1px var(--cx-color-light);
 
-      .cx-item-name {
+      .cx-item-name,
+      .cx-item-price,
+      .cx-item-quantity,
+      .cx-item-configure {
+        inline-size: 100%;
+      }
+
+      .cx-item-name,
+      .cx-item-price,
+      .cx-item-quantity {
         overflow-wrap: break-word;
-        width: 100%;
       }
 
       .cx-item-price,
       .cx-item-quantity {
-        overflow-wrap: break-word;
         display: flex;
         flex-direction: row;
-        width: 100%;
 
         .cx-identifier {
           min-width: 5rem;
+        }
+      }
+
+      .cx-item-configure {
+        .cx-action-link,
+        .disabled-link {
+          font-size: inherit;
         }
       }
     }

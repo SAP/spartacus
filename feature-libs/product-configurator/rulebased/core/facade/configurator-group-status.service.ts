@@ -216,6 +216,30 @@ export class ConfiguratorGroupStatusService {
   }
 
   /**
+   * Resolves a container row group to the navigable group that should be
+   * displayed when opening a nested configuration from the cart.
+   *
+   * @param configuration - Configuration
+   * @param containerRowGroup - Container row group to open
+   * @returns Navigable group, or undefined if none exists
+   */
+  getNavigableTargetForContainerRowGroup(
+    configuration: Configurator.Configuration,
+    containerRowGroup: Configurator.Group
+  ): Configurator.Group | undefined {
+    const navigableGroupIds = new Set(
+      configuration.flatGroups?.map((group) => group.id) ?? []
+    );
+    if (navigableGroupIds.has(containerRowGroup.id)) {
+      return containerRowGroup;
+    }
+    return this.getFirstNavigableDescendant(
+      containerRowGroup,
+      navigableGroupIds
+    );
+  }
+
+  /**
    * Determines whether the group has been visited or not.
    *
    * @param configuration - Configuration

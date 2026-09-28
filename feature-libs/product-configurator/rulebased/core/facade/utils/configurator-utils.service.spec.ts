@@ -192,6 +192,102 @@ describe('ConfiguratorUtilsService', () => {
     });
   });
 
+  describe('findContainerRowGroupByRowId', () => {
+    it('should find a container row group by row id', () => {
+      const rowGroup: Configurator.Group = {
+        ...ConfiguratorTestUtils.createGroup('CONTAINER_ROW@1067@row-1'),
+        groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+      };
+      const rootGroup: Configurator.Group = {
+        ...ConfiguratorTestUtils.createGroup('root-tab'),
+        subGroups: [rowGroup],
+      };
+
+      expect(
+        classUnderTest.findContainerRowGroupByRowId([rootGroup], 'row-1')?.id
+      ).toBe('CONTAINER_ROW@1067@row-1');
+    });
+
+    it('should return undefined if no matching container row group exists', () => {
+      expect(
+        classUnderTest.findContainerRowGroupByRowId(
+          productConfiguration.groups,
+          'missing-row'
+        )
+      ).toBeUndefined();
+    });
+
+    it('should handle groups without subgroups', () => {
+      const group: Configurator.Group = {
+        ...ConfiguratorTestUtils.createGroup('root-tab'),
+        subGroups: undefined as unknown as Configurator.Group[],
+      };
+
+      expect(
+        classUnderTest.findContainerRowGroupByRowId([group], 'row-1')
+      ).toBeUndefined();
+    });
+
+    it('should ignore groups with a matching ID that are no container row groups', () => {
+      const group: Configurator.Group = {
+        ...ConfiguratorTestUtils.createGroup('CONTAINER_ROW@1067@row-1'),
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      };
+
+      expect(
+        classUnderTest.findContainerRowGroupByRowId([group], 'row-1')
+      ).toBeUndefined();
+    });
+
+    it('should skip container row groups of other rows', () => {
+      const otherRowGroup: Configurator.Group = {
+        ...ConfiguratorTestUtils.createGroup('CONTAINER_ROW@1067@row-2'),
+        groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+      };
+      const rowGroup: Configurator.Group = {
+        ...ConfiguratorTestUtils.createGroup('CONTAINER_ROW@1067@row-1'),
+        groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+      };
+
+      expect(
+        classUnderTest.findContainerRowGroupByRowId(
+          [otherRowGroup, rowGroup],
+          'row-1'
+        )
+      ).toBe(rowGroup);
+    });
+  });
+
+  describe('getContainerRowIdFromGroupId', () => {
+    it('should return the row id of a container row group ID', () => {
+      expect(
+        classUnderTest['getContainerRowIdFromGroupId'](
+          'CONTAINER_ROW@1067@row-1'
+        )
+      ).toBe('row-1');
+    });
+
+    it('should return the row id for IDs of groups nested in a container row', () => {
+      expect(
+        classUnderTest['getContainerRowIdFromGroupId'](
+          'CONTAINER_ROW@1067@row-1@1'
+        )
+      ).toBe('row-1');
+    });
+
+    it('should return undefined for IDs without the container row prefix', () => {
+      expect(
+        classUnderTest['getContainerRowIdFromGroupId']('GROUP@1067@row-1')
+      ).toBeUndefined();
+    });
+
+    it('should return undefined for container row IDs without row id', () => {
+      expect(
+        classUnderTest['getContainerRowIdFromGroupId']('CONTAINER_ROW@1067')
+      ).toBeUndefined();
+    });
+  });
+
   describe('buildGroupPath', () => {
     it('should create a group path for a single level model', () => {
       const groupPath: Configurator.Group[] = [];

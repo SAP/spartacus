@@ -169,6 +169,12 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
       } else {
         // Clear persisted focus before entering the configurator UI
         this.keyboardFocusService.clear();
+        if (routingData.rowId) {
+          this.configuratorGroupsService.navigateToContainerRow(
+            routingData.owner,
+            routingData.rowId
+          );
+        }
       }
 
       if (routingData.expMode) {

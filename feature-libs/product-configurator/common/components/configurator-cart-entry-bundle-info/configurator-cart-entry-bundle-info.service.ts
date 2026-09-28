@@ -24,8 +24,8 @@ export class ConfiguratorCartEntryBundleInfoService {
   /**
    * Retrieves the CPQ line items for an order entry
    *
-   * @param {OrderEntry} entry - Order entry
-   * @returns {LineItem[]} - Line item array
+   * @param entry - Order entry
+   * @returns Line item array
    */
   retrieveLineItems(entry: OrderEntry): LineItem[] {
     let lineItems: LineItem[] = [];
@@ -148,7 +148,18 @@ export class ConfiguratorCartEntryBundleInfoService {
           lineItem = this.getOrCreateLineItem(lineItemMap, lineItemNumber);
           lineItem.formattedPrice = configurationInfoValue;
           break;
+        case ConfigurationInfoFields.ROW_ID:
+          lineItem = this.getOrCreateLineItem(lineItemMap, lineItemNumber);
+          lineItem.rowId = configurationInfoValue;
+          break;
+        case ConfigurationInfoFields.CONFIGURABLE:
+          lineItem = this.getOrCreateLineItem(lineItemMap, lineItemNumber);
+          lineItem.configurable = configurationInfoValue === 'true';
+          break;
         case ConfigurationInfoFields.KEY:
+          lineItem = this.getOrCreateLineItem(lineItemMap, lineItemNumber);
+          lineItem.productCode = configurationInfoValue;
+          break;
         case ConfigurationInfoFields.PRICE_VALUE:
         case ConfigurationInfoFields.PARENT:
           break;

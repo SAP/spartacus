@@ -101,6 +101,87 @@ describe('ConfiguratorGroupStatusService', () => {
     });
   });
 
+  describe('getNavigableTargetForContainerRowGroup', () => {
+    const nestedTab: Configurator.Group = ConfiguratorTestUtils.createGroup(
+      'CONTAINER_ROW@1067@row-1@1'
+    );
+    const deeplyNestedTab: Configurator.Group =
+      ConfiguratorTestUtils.createGroup('CONTAINER_ROW@1067@row-1@1@1');
+    const rowGroup: Configurator.Group = {
+      ...ConfiguratorTestUtils.createGroup('CONTAINER_ROW@1067@row-1'),
+      groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+      subGroups: [{ ...nestedTab, subGroups: [deeplyNestedTab] }],
+    };
+
+    function createConfiguration(
+      flatGroups?: Configurator.Group[]
+    ): Configurator.Configuration {
+      return {
+        ...ConfiguratorTestUtils.createConfiguration('1'),
+        groups: [rowGroup],
+        flatGroups: flatGroups as Configurator.Group[],
+      };
+    }
+
+    it('should return the container row group itself if it is navigable', () => {
+      expect(
+        classUnderTest.getNavigableTargetForContainerRowGroup(
+          createConfiguration([rowGroup, nestedTab]),
+          rowGroup
+        )
+      ).toBe(rowGroup);
+    });
+
+    it('should return the first navigable descendant', () => {
+      expect(
+        classUnderTest.getNavigableTargetForContainerRowGroup(
+          createConfiguration([nestedTab]),
+          rowGroup
+        )?.id
+      ).toBe(nestedTab.id);
+    });
+
+    it('should search deeper levels for a navigable descendant', () => {
+      expect(
+        classUnderTest.getNavigableTargetForContainerRowGroup(
+          createConfiguration([deeplyNestedTab]),
+          rowGroup
+        )
+      ).toBe(deeplyNestedTab);
+    });
+
+    it('should return undefined if no navigable group exists', () => {
+      expect(
+        classUnderTest.getNavigableTargetForContainerRowGroup(
+          createConfiguration([]),
+          rowGroup
+        )
+      ).toBeUndefined();
+    });
+
+    it('should return undefined if the container row group has no subgroups', () => {
+      const rowGroupWithoutSubGroups: Configurator.Group = {
+        ...rowGroup,
+        subGroups: undefined as unknown as Configurator.Group[],
+      };
+      expect(
+        classUnderTest.getNavigableTargetForContainerRowGroup(
+          createConfiguration([nestedTab]),
+          rowGroupWithoutSubGroups
+        )
+      ).toBeUndefined();
+    });
+
+    it('should return undefined if the configuration has no flat groups', () => {
+      expect(
+        classUnderTest.getNavigableTargetForContainerRowGroup(
+          createConfiguration(undefined),
+          rowGroup
+        )
+      ).toBeUndefined();
+    });
+  });
+
   describe('getFirstIncompleteGroup', () => {
     const PARENT_TAB_ID = 'parent-tab';
     const ROW_GROUP_ID = 'CONTAINER_ROW@1067@row-1';
