@@ -28,6 +28,9 @@ export class OpfPaymentEventsService {
   refreshActiveConfigurationsEvent$: Observable<void> =
     this.refreshActiveConfigurationsEvent.asObservable();
 
+  /**
+   * Emits an event to refresh the active payment configurations list
+   */
   emitRefreshActiveConfigurationsEvent(): void {
     this.refreshActiveConfigurationsEvent.next();
   }
