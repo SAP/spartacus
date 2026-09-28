@@ -176,6 +176,9 @@
   },
   "reorder": {
     "button": "Reorder",
+    "httpHandlers": {
+      "reorderError": "An error occurred while reordering. Please try again later."
+    },
     "dialog": {
       "reorderProducts": "Reorder products",
       "messages": {

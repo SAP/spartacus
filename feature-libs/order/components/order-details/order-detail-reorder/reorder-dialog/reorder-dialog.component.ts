@@ -17,7 +17,12 @@ import {
   CartValidationStatusCode,
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
-import { OCC_CART_ID_CURRENT, TranslatePipe } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  OCC_CART_ID_CURRENT,
+  TranslatePipe,
+} from '@spartacus/core';
 import { ReorderOrderFacade } from '@spartacus/order/root';
 import {
   FocusConfig,
@@ -61,6 +66,7 @@ export class ReorderDialogComponent {
 
   selectFocusUtility = inject(SelectFocusUtility);
   elementRef = inject(ElementRef, { optional: true });
+  protected globalMessageService = inject(GlobalMessageService);
 
   constructor(
     protected launchDialogService: LaunchDialogService,
@@ -71,14 +77,22 @@ export class ReorderDialogComponent {
   createCartFromOrder(orderCode: string): void {
     this.showDecisionPrompt$.next(false);
     this.loading$.next(true);
-    this.reorderOrderFacade
-      .reorder(orderCode)
-      .subscribe((cartModificationList: CartModificationList) => {
+    this.reorderOrderFacade.reorder(orderCode).subscribe({
+      next: (cartModificationList: CartModificationList) => {
         this.multiCartFacade.reloadCart(OCC_CART_ID_CURRENT, { active: true });
         this.cartModifications = cartModificationList.cartModifications;
         this.loading$.next(false);
         this.recaptureFocus();
-      });
+      },
+      error: () => {
+          this.globalMessageService.add(
+            { key: 'reorder.httpHandlers.reorderError' },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+          this.loading$.next(false);
+          this.close('Error creating cart from order');
+        },
+    });
   }
 
   recaptureFocus(): void {
