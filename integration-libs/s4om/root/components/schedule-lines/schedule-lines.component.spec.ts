@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import { LanguageService } from '@spartacus/core';
-import { ScheduleLine } from '@spartacus/s4om/root';
 import {
   CxDatePipe,
   I18nTestingModule,
+  LanguageService,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
   TranslationService,
-} from '../../../../../core-libs/core/src/i18n';
+} from '@spartacus/core';
+import { ScheduleLine } from '@spartacus/s4om/root';
 import { Observable, ReplaySubject, firstValueFrom, of } from 'rxjs';
 import { ScheduleLinesComponent } from './schedule-lines.component';
 

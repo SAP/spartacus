@@ -22,13 +22,37 @@ import {
 } from '@spartacus/core';
 import { OrderSelectors } from '@spartacus/order/core';
 import { Order, ORDER_NORMALIZER, OrderConfig } from '@spartacus/order/root';
-import {
-  MockOccEndpointsService,
-  mockOccModuleConfig,
-} from '../../../core-libs/core/src/occ/adapters/user/unit-test.helper';
 import { firstValueFrom, of } from 'rxjs';
 import { OmfConfig } from './config/omf-config';
 import { OccOmfOrderHistoryAdapter } from './occ-omf-order-history.adapter';
+
+const mockOccModuleConfig: OccConfig = {
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
+  },
+  context: {
+    baseSite: [''],
+  },
+};
+
+class MockOccEndpointsService implements Partial<OccEndpointsService> {
+  buildUrl(endpointKey: string) {
+    if (!endpointKey.startsWith('/')) {
+      endpointKey = '/' + endpointKey;
+    }
+    return endpointKey;
+  }
+  getBaseUrl() {
+    return '';
+  }
+  isConfigured() {
+    return true;
+  }
+}
+
 const userId = '123';
 
 const orderData: Order = {
