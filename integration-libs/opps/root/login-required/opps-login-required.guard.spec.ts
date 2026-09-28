@@ -91,7 +91,9 @@ describe('OppsLoginRequiredGuard', () => {
   });
   it('should return true if user is logged in', async () => {
     vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(true));
-    const result = await firstValueFrom(guard.canActivate({} as any, {} as any));
+    const result = await firstValueFrom(
+      guard.canActivate({} as any, {} as any)
+    );
     expect(result).toEqual(true);
   });
   it('should return login url tree if user is not logged in & login required parameter is set to true in url', async () => {

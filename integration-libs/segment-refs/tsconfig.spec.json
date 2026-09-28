@@ -4,7 +4,13 @@
     "outDir": "../../out-tsc/spec",
     "module": "preserve",
     "strict": false,
-    "types": ["vitest/globals", "vitest/importMeta", "vite/client", "node", "vitest"],
+    "types": [
+      "vitest/globals",
+      "vitest/importMeta",
+      "vite/client",
+      "node",
+      "vitest"
+    ],
     "moduleResolution": "bundler",
     "allowJs": true
   },

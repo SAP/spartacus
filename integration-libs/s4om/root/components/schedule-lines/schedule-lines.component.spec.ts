@@ -96,7 +96,9 @@ describe('ScheduleLinesComponent', () => {
       });
 
       const htmlElem = fixture.nativeElement;
-      expect(htmlElem.querySelectorAll('.cx-schedule-line-info').length).toBe(0);
+      expect(htmlElem.querySelectorAll('.cx-schedule-line-info').length).toBe(
+        0
+      );
     });
 
     it('should be displayed if model provides data', () => {
@@ -115,7 +117,9 @@ describe('ScheduleLinesComponent', () => {
 
       fixture.detectChanges();
       const htmlElem = fixture.nativeElement;
-      expect(htmlElem.querySelectorAll('.cx-schedule-line-info').length).toBe(2);
+      expect(htmlElem.querySelectorAll('.cx-schedule-line-info').length).toBe(
+        2
+      );
     });
 
     describe('Accessibility', () => {

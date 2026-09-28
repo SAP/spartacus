@@ -182,7 +182,9 @@ describe('OccOmfOrderHistoryAdapter', () => {
     });
 
     it('should fetch a single order with quote code when showOrderQuoteLink is true', async () => {
-      vi.spyOn(mockOrderConfig, 'showOrderQuoteLink', 'get').mockReturnValue(true);
+      vi.spyOn(mockOrderConfig, 'showOrderQuoteLink', 'get').mockReturnValue(
+        true
+      );
       adapter.load(userId, orderData.code ?? '').subscribe();
       httpMock.expectOne((req: HttpRequest<any>) => {
         return req.method === 'GET';
@@ -203,7 +205,9 @@ describe('OccOmfOrderHistoryAdapter', () => {
     });
     describe('getOrderGuid', () => {
       it('should return guid from route query params', async () => {
-        const guid = await firstValueFrom(adapter.getOrderGuid(orderData.code ?? ''));
+        const guid = await firstValueFrom(
+          adapter.getOrderGuid(orderData.code ?? '')
+        );
         expect(guid).toEqual(orderData.guid);
       });
       it('should return guid from store', async () => {
@@ -216,7 +220,9 @@ describe('OccOmfOrderHistoryAdapter', () => {
           }
           return of(null);
         });
-        const guid = await firstValueFrom(adapter.getOrderGuid(orderData.code ?? ''));
+        const guid = await firstValueFrom(
+          adapter.getOrderGuid(orderData.code ?? '')
+        );
         expect(guid).toEqual(orderData.guid);
       });
       it('should return undefined from store if order is not present in store', async () => {
