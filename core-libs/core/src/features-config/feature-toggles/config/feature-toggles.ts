@@ -372,6 +372,13 @@ export interface FeatureTogglesInterface {
   a11yReviewsKeyboardControls?: boolean;
 
   /**
+   * When enabled, scrolls the 'Show More/Less Reviews' button into view after
+   * clicking it, ensuring the focused element remains visible in the viewport.
+   * Affects: ProductReviewsComponent
+   */
+  a11yShowMoreReviewsFocusVisible?: boolean;
+
+  /**
    * Use on existing form buttons that are programatically disabled/enabled.
    * To use, duplicate button and use false in original and true in duplicate. The duplicated button
    * should be initialized as enabled, clickable and use cx-form-errors in outcomes where original button
@@ -557,6 +564,11 @@ export interface FeatureTogglesInterface {
    */
   enableHierarchicalAddressFormat?: boolean;
 
+  /**
+   * When enabled, the title on the address is added to the line containing the full name (Card.boldText).
+   */
+  addTitleToAddressCard?: boolean;
+
   /* When enabled, OPF checkout payment flow calls `updatePaymentTransaction`
    * instead of `initiatePayment` while selecting/re-initiating payment.
    *
@@ -734,6 +746,14 @@ export interface FeatureTogglesInterface {
   a11yFocusIndicatorContrast?: boolean;
 
   /**
+   * When enabled, the default theme's primary color (`--cx-color-primary`) is
+   * darkened so the contrast meets the contrast requirement of >= 4.5:1.
+   * This toggle can be removed if santorini-updated in theme.scss is uncommented
+   * as part of next major release.
+   */
+  a11yPrimaryColorContrast?: boolean;
+
+  /**
    * When enabled, disabled action buttons (`.btn-primary`, `.btn-secondary`,
    * `.btn-tertiary`) use the new `--cx-color-disabled` token instead of
    * `--cx-color-border-focus`, so their border/background/text meet the
@@ -841,6 +861,25 @@ export interface FeatureTogglesInterface {
    * `AddressFormComponent`, `UnitAddressFormService`
    */
   enableFormFieldMaxLength?: boolean;
+
+  /**
+   * When enabled, the RESET button in the "Add To Your Coupon List" claim dialog
+   * is rendered as a proper `<button>` element instead of an `<a role="button">`
+   * without an `href`, making it reachable and operable with the keyboard.
+   * Fixes WCAG 2.1.1 (Keyboard) ACC-270.1 (Level A).
+   * Affects: `ClaimDialogComponent`
+   */
+  a11yCouponDialogResetButtonKeyboardAccessible?: boolean;
+
+  /**
+   * When enabled, the "In Stock" / "Out of Stock" info text in the
+   * `AddToCartComponent` uses `--cx-color-text` instead of
+   * `--cx-color-secondary`, ensuring the text meets the WCAG 1.4.3 Level AA
+   * minimum contrast ratio of 4.5:1 against all background surfaces.
+   *
+   * Affects: `AddToCartComponent`
+   */
+  a11yInStockInfoTextContrast?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -890,6 +929,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFilteredFacetAnnouncement: false,
   a11yCartItemListHideEmptyOutlets: true,
   a11yReviewsKeyboardControls: true,
+  a11yShowMoreReviewsFocusVisible: false,
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yConsentManagementFocusPreservation: false,
   a11yDeliveryModeFocusPreservation: false,
@@ -914,6 +954,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   pageLinkSanitizeCanonicalUrl: false,
   opfUseDestroyRef: false,
   enableHierarchicalAddressFormat: false,
+  addTitleToAddressCard: false,
   opfCheckoutUseUpdatePaymentTransaction: false,
   enableCartSlowNetworkResilience: false,
   a11yRegistrationTermsAsteriskMargin: false,
@@ -931,6 +972,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   mergeGuestCartOnCodeFlowLogin: false,
   a11yFormErrorIconContrast: false,
   a11yFocusIndicatorContrast: false,
+  a11yPrimaryColorContrast: false,
   a11yDisabledButtonContrast: false,
   a11yImproveAddressFormFocus: false,
   a11yFocusBreadcrumbOnNavigation: false,
@@ -941,4 +983,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showWarningMessageOnRequoteButtonClick: false,
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
+  a11yCouponDialogResetButtonKeyboardAccessible: false,
+  a11yInStockInfoTextContrast: false,
 };

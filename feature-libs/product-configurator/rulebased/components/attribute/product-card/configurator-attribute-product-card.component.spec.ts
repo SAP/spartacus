@@ -48,7 +48,6 @@ import {
   ConfiguratorAttributeQuantityComponentOptions,
 } from '../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
-import { vi } from 'vitest';
 
 const product: Product = {
   name: 'Product Name',

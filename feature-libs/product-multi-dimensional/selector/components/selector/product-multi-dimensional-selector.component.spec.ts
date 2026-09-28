@@ -18,7 +18,6 @@ import {
 } from '@spartacus/product-multi-dimensional/selector/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { vi } from 'vitest';
 import { ProductMultiDimensionalSelectorComponent } from './product-multi-dimensional-selector.component';
 
 describe('ProductMultiDimensionalSelectorComponent', () => {

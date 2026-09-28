@@ -28,6 +28,8 @@
       "Bash(git worktree list *)",
       "Bash(git worktree remove *)",
       "Bash(git worktree prune *)",
+      
+      "Bash(npx vitest *)",
 
       "Bash(gh pr *)",
       "Bash(gh issue *)",

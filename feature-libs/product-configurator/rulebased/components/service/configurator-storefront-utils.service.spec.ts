@@ -19,7 +19,6 @@ import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from './configurator-storefront-utils.service';
-import { vi } from 'vitest';
 
 let mockedWindow: {
   innerWidth?: number;

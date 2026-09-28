@@ -6,7 +6,6 @@ import {
 } from '@spartacus/core';
 import { GetSubscriptionByCodeReloadEvent } from '@spartacus/subscription-billing/root';
 import { firstValueFrom, throwError } from 'rxjs';
-import { vi } from 'vitest';
 import { SubscriptionActionsModalComponentService } from './subscription-actions-modal-component.service';
 
 describe('SubscriptionActionsModalComponentService', () => {
