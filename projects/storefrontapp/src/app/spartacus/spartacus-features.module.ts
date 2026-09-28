@@ -345,6 +345,7 @@ if (environment.cpq) {
         a11yFilteredFacetAnnouncement: true,
         a11yCartItemListHideEmptyOutlets: true,
         a11yReviewsKeyboardControls: true,
+        a11yShowMoreReviewsFocusVisible: true,
         a11yCartQuickOrderFormEnableSubmitAndAddValidation: true,
         a11yConsentManagementFocusPreservation: true,
         a11yDeliveryModeFocusPreservation: true,
@@ -395,6 +396,8 @@ if (environment.cpq) {
         showWarningMessageOnRequoteButtonClick: true,
         oauthCallbackPage: true,
         enableFormFieldMaxLength: true,
+        a11yCouponDialogResetButtonKeyboardAccessible: true,
+        a11yInStockInfoTextContrast: true,
       };
       return appFeatureToggles;
     }),

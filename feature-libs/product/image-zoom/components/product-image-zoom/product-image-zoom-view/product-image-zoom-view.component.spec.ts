@@ -29,7 +29,6 @@ import {
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
-import { vi } from 'vitest';
 
 import { ProductImageZoomThumbnailsComponent } from '../product-image-zoom-thumbnails/product-image-zoom-thumbnails.component';
 import { ProductImageZoomViewComponent } from './product-image-zoom-view.component';
