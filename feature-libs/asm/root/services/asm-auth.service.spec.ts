@@ -279,9 +279,9 @@ describe('AsmAuthService', () => {
 
       it('should return true during agent code-flow login while customer is active', async () => {
         tokenTarget$.next(TokenTarget.CSAgent);
-        vi
-          .mocked(asmAuthStorageService.isAgentCodeFlowLoginInProgress)
-          .mockReturnValue(true);
+        vi.mocked(
+          asmAuthStorageService.isAgentCodeFlowLoginInProgress
+        ).mockReturnValue(true);
 
         const isLoggedIn = await firstValueFrom(service.isUserLoggedIn());
 
