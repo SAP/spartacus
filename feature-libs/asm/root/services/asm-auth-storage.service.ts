@@ -138,12 +138,9 @@ export class AsmAuthStorageService extends AuthStorageService {
   }
 
   /**
-   * Marks that an agent login via OAuth Authorization Code Flow is currently
-   * in progress while a customer session is active.  Set to `true` just before
-   * `switchTokenTargetToCSAgent()` is called (only when a customer is logged
-   * in), so that `isUserLoggedIn()` can suppress the spurious `LogoutEvent`
-   * that would otherwise fire during the brief transition window.
-   * Must be reset to `false` if the redirect fails (catch block).
+   * True while an agent Authorization Code Flow login is in progress with an
+   * active customer session, so that `isUserLoggedIn()` can suppress the
+   * transient false emission caused by `switchTokenTargetToCSAgent()`.
    */
   protected agentCodeFlowLoginInProgress = false;
 

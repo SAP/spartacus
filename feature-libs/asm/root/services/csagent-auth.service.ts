@@ -101,10 +101,7 @@ export class CsAgentAuthService {
       .unsubscribe();
 
     if (customerId !== undefined && userToken !== undefined) {
-      // Flag that a customer-active agent code-flow login is in progress so that
-      // isUserLoggedIn() can suppress the spurious LogoutEvent (and "signed out"
-      // notification) that would otherwise appear while tokenTarget=CSAgent but
-      // the user session has not yet been handed over.
+      // Suppress the spurious "signed out" notification during the redirect window.
       this.authStorageService.setAgentCodeFlowLoginInProgress(true);
     }
 
