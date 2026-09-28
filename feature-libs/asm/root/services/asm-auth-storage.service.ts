@@ -136,4 +136,22 @@ export class AsmAuthStorageService extends AuthStorageService {
   clearEmulatedUserToken(): void {
     this.emulatedUserToken$.next(undefined);
   }
+
+  /**
+   * Marks that an agent login via OAuth Authorization Code Flow is currently
+   * in progress while a customer session is active.  Set to `true` just before
+   * `switchTokenTargetToCSAgent()` is called (only when a customer is logged
+   * in), so that `isUserLoggedIn()` can suppress the spurious `LogoutEvent`
+   * that would otherwise fire during the brief transition window.
+   * Must be reset to `false` if the redirect fails (catch block).
+   */
+  protected agentCodeFlowLoginInProgress = false;
+
+  setAgentCodeFlowLoginInProgress(inProgress: boolean): void {
+    this.agentCodeFlowLoginInProgress = inProgress;
+  }
+
+  isAgentCodeFlowLoginInProgress(): boolean {
+    return this.agentCodeFlowLoginInProgress;
+  }
 }

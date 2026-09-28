@@ -70,6 +70,7 @@ class MockAsmAuthStorageService {
   clearEmulatedUserToken = vi.fn();
   switchTokenTargetToCSAgent = vi.fn();
   getItem = vi.fn().mockReturnValue(null);
+  isAgentCodeFlowLoginInProgress = vi.fn().mockReturnValue(false);
 
   getToken = () => authToken$.asObservable();
   getTokenTarget = () => tokenTarget$.asObservable();
@@ -274,6 +275,17 @@ describe('AsmAuthService', () => {
         const isLoggedIn = await firstValueFrom(service.isUserLoggedIn());
 
         expect(isLoggedIn).toBe(false);
+      });
+
+      it('should return true during agent code-flow login while customer is active', async () => {
+        tokenTarget$.next(TokenTarget.CSAgent);
+        vi
+          .mocked(asmAuthStorageService.isAgentCodeFlowLoginInProgress)
+          .mockReturnValue(true);
+
+        const isLoggedIn = await firstValueFrom(service.isUserLoggedIn());
+
+        expect(isLoggedIn).toBe(true);
       });
     });
   });

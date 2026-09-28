@@ -100,6 +100,14 @@ export class CsAgentAuthService {
       .subscribe((token) => (userToken = token))
       .unsubscribe();
 
+    if (customerId !== undefined && userToken !== undefined) {
+      // Flag that a customer-active agent code-flow login is in progress so that
+      // isUserLoggedIn() can suppress the spurious LogoutEvent (and "signed out"
+      // notification) that would otherwise appear while tokenTarget=CSAgent but
+      // the user session has not yet been handed over.
+      this.authStorageService.setAgentCodeFlowLoginInProgress(true);
+    }
+
     this.authStorageService.switchTokenTargetToCSAgent();
     try {
       // Persist emulation state BEFORE the full-page redirect. initLoginFlow() navigates
@@ -120,6 +128,7 @@ export class CsAgentAuthService {
 
       await this.oAuthLibWrapperService.initLoginFlow();
     } catch {
+      this.authStorageService.setAgentCodeFlowLoginInProgress(false);
       this.authStorageService.switchTokenTargetToUser();
     }
   }
