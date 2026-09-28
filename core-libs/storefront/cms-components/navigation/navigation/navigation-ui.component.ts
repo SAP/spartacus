@@ -27,8 +27,8 @@ import {
   filter,
   take,
 } from 'rxjs/operators';
-import { BREAKPOINT } from '../../../layout/config/layout-config';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
+import { BREAKPOINT } from '../../../layout/config/layout-config';
 import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
 import { IconComponent } from '../../misc/icon/icon.component';
 import { ICON_TYPE } from '../../misc/icon/index';
@@ -107,6 +107,14 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   isDesktop$ = this.breakpointService.isUp(BREAKPOINT.lg);
 
   private featureToggles = inject(FeatureToggles);
+  /**
+   * When the `useCssResponsiveVisibility` feature toggle is enabled, both the
+   * desktop heading and the dropdown-header button are rendered and CSS media
+   * queries control which one is visible instead of `BreakpointService`
+   * (`isDesktop$`), to avoid hydration issues.
+   */
+  protected useCssResponsiveVisibility =
+    this.featureToggles?.useCssResponsiveVisibility ?? false;
 
   constructor(
     private router: Router,

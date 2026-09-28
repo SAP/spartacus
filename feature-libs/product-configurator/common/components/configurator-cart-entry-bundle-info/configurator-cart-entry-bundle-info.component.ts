@@ -13,7 +13,6 @@ import {
   TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
-import { BreakpointService } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
@@ -41,7 +40,6 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   constructor(
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected configCartEntryBundleInfoService: ConfiguratorCartEntryBundleInfoService,
-    protected breakpointService: BreakpointService,
     protected translation: TranslationService,
     @Optional() protected cartItemContext?: CartItemContext
   ) {}

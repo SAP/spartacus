@@ -5,8 +5,14 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  inject,
+  Input,
+} from '@angular/core';
+import { FeatureToggles, TranslatePipe } from '@spartacus/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { Configurator } from '../../core/model/configurator.model';
@@ -23,6 +29,17 @@ import {
 })
 export class ConfiguratorOverviewAttributeComponent {
   @Input() attributeOverview: Configurator.AttributeOverview;
+
+  private featureToggles = inject(FeatureToggles);
+  /**
+   * When the `useCssResponsiveVisibility` feature toggle is enabled, both label
+   * and price are always rendered in their desktop order and CSS media queries
+   * reorder them on mobile instead of `BreakpointService`, to avoid hydration
+   * issues.
+   */
+  @HostBinding('class.cx-use-css-responsive-visibility')
+  protected useCssResponsiveVisibility =
+    this.featureToggles?.useCssResponsiveVisibility ?? false;
 
   constructor(protected breakpointService: BreakpointService) {}
 

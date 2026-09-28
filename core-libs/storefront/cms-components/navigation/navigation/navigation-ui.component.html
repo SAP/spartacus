@@ -69,17 +69,45 @@
         >
           {{ node.title }}
         </cx-generic-link>
-        <h4
-          *ngIf="(isDesktop$ | async) && depth; else dropdownHeader"
-          (keydown.arrowDown)="focusOnNode($any($event))"
-          (keydown.space)="onSpace($any($event))"
-          (keyup.space)="onSpace($any($event))"
-          tabindex="0"
+        <ng-container
+          *ngIf="useCssResponsiveVisibility; else breakpointHeading"
         >
-          {{ node.title }}
-        </h4>
-        <ng-template #dropdownHeader>
+          <h4
+            *ngIf="depth"
+            class="cx-nav-flyout-heading-desktop"
+            (keydown.arrowDown)="focusOnNode($any($event))"
+            (keydown.space)="onSpace($any($event))"
+            (keyup.space)="onSpace($any($event))"
+            tabindex="0"
+          >
+            {{ node.title }}
+          </h4>
+          <ng-container
+            *ngIf="depth; else nonFlyoutHeader"
+            [ngTemplateOutlet]="dropdownHeader"
+            [ngTemplateOutletContext]="{ headingClass: true }"
+          />
+          <ng-template #nonFlyoutHeader>
+            <ng-container
+              [ngTemplateOutlet]="dropdownHeader"
+              [ngTemplateOutletContext]="{ headingClass: false }"
+            />
+          </ng-template>
+        </ng-container>
+        <ng-template #breakpointHeading>
+          <h4
+            *ngIf="(isDesktop$ | async) && depth; else dropdownHeader"
+            (keydown.arrowDown)="focusOnNode($any($event))"
+            (keydown.space)="onSpace($any($event))"
+            (keyup.space)="onSpace($any($event))"
+            tabindex="0"
+          >
+            {{ node.title }}
+          </h4>
+        </ng-template>
+        <ng-template #dropdownHeader let-headingClass="headingClass">
           <button
+            [class.cx-nav-flyout-heading]="headingClass"
             [attr.aria-haspopup]="true"
             [attr.aria-expanded]="false"
             [attr.aria-label]="node.url ? node.title : null"

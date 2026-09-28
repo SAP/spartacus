@@ -880,6 +880,20 @@ export interface FeatureTogglesInterface {
    * Affects: `AddToCartComponent`
    */
   a11yInStockInfoTextContrast?: boolean;
+
+  /**
+   * When enabled, components that previously used `BreakpointService` to
+   * show/hide DOM elements responsively instead render all variants and rely
+   * on CSS media queries to control visibility. This avoids UI flickering and
+   * Angular hydration mismatches when transitioning from SSR to CSR, since the
+   * server has no viewport information and `BreakpointService` resolves to a
+   * fallback breakpoint during SSR.
+   *
+   * Affects: `NavigationUIComponent`, `CustomerListComponent`,
+   * `ConfiguratorGroupTitleComponent`, `ConfiguratorOverviewAttributeComponent`,
+   * `ConfiguratorExitButtonComponent`
+   */
+  useCssResponsiveVisibility?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -985,4 +999,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableFormFieldMaxLength: false,
   a11yCouponDialogResetButtonKeyboardAccessible: false,
   a11yInStockInfoTextContrast: false,
+  useCssResponsiveVisibility: false,
 };

@@ -24,6 +24,16 @@
       border-radius: 2px;
 
       cx-hamburger-menu {
+        // When responsive visibility is driven by CSS (see the
+        // `useCssResponsiveVisibility` feature toggle), the hamburger menu is
+        // always rendered and hidden here from `lg` and up (mirrors the former
+        // `BreakpointService.isDown(md)` gate).
+        &.cx-mobile-only {
+          @include media-breakpoint-up(lg) {
+            display: none;
+          }
+        }
+
         button {
           padding-inline-start: 5px;
           padding-inline-end: 5px;

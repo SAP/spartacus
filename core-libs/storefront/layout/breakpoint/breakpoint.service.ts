@@ -30,6 +30,17 @@ import {
  * - `md`: 768px - 991px
  * - `lg`: 992px - 1199px
  * - `xl`: >= 1200px
+ *
+ * @remarks
+ * **WARNING:** It is not recommended to use this service to show/hide DOM
+ * elements (e.g. via `*ngIf`). Doing so may cause UI flickering and Angular
+ * hydration issues when transitioning from SSR to CSR in the browser: during
+ * SSR there is no viewport, so the service resolves to a fallback breakpoint,
+ * and the DOM it produces on the server can differ from the DOM the browser
+ * expects once the real viewport is known — leading to a hydration mismatch
+ * and a visible re-render. Prefer CSS media queries to control which elements
+ * are rendered/visible per breakpoint, and reserve this service for behavior
+ * that genuinely cannot be expressed in CSS (e.g. interaction or a11y logic).
  */
 @Injectable({
   providedIn: 'root',

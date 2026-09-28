@@ -5,8 +5,9 @@
  */
 
 import { AsyncPipe, Location, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
+  FeatureToggles,
   Product,
   ProductService,
   RoutingService,
@@ -62,6 +63,16 @@ export class ConfiguratorExitButtonComponent {
     protected windowRef: WindowRef,
     protected location: Location
   ) {}
+
+  private featureToggles = inject(FeatureToggles);
+  /**
+   * When the `useCssResponsiveVisibility` feature toggle is enabled, both the
+   * desktop and mobile button labels are always rendered and CSS media queries
+   * control which one is visible instead of `BreakpointService`, to avoid
+   * hydration issues.
+   */
+  protected useCssResponsiveVisibility =
+    this.featureToggles?.useCssResponsiveVisibility ?? false;
 
   protected navigateToCart(): void {
     this.routingService.go('cart');

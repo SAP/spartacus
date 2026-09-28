@@ -19,12 +19,17 @@
       </div>
       <div
         class="cx-dialog-sub-header modal-header"
-        [class.tablet-mobile]="(breakpoint$ | async) !== BREAKPOINT.md"
+        [class.tablet-mobile]="
+          !useCssResponsiveVisibility && (breakpoint$ | async) !== BREAKPOINT.md
+        "
         *ngIf="customerListsPage$ | async as customerListsPage"
       >
         <div
           class="cx-header-select"
-          [class.mobile]="(breakpoint$ | async) === BREAKPOINT.xs"
+          [class.mobile]="
+            !useCssResponsiveVisibility &&
+            (breakpoint$ | async) === BREAKPOINT.xs
+          "
         >
           <ng-template
             *ngTemplateOutlet="
@@ -44,7 +49,10 @@
 
         <div
           class="cx-header-actions"
-          [class.mobile]="(breakpoint$ | async) === BREAKPOINT.xs"
+          [class.mobile]="
+            !useCssResponsiveVisibility &&
+            (breakpoint$ | async) === BREAKPOINT.xs
+          "
         >
           <ng-template *ngTemplateOutlet="sort" />
           <ng-template *ngTemplateOutlet="search" />
@@ -76,7 +84,13 @@
                     'asm.customerList.title' | cxTranslate
                   }}
                 </caption>
-                <thead *ngIf="(breakpoint$ | async) === BREAKPOINT.md">
+                <thead
+                  *ngIf="
+                    useCssResponsiveVisibility ||
+                    (breakpoint$ | async) === BREAKPOINT.md
+                  "
+                  [class.cx-desktop-only]="useCssResponsiveVisibility"
+                >
                   <tr role="row">
                     <th
                       role="columnheader"
@@ -130,10 +144,14 @@
                   >
                     <!-- multi columns if desktop -->
                     <ng-container
-                      *ngIf="(breakpoint$ | async) === BREAKPOINT.md"
+                      *ngIf="
+                        useCssResponsiveVisibility ||
+                        (breakpoint$ | async) === BREAKPOINT.md
+                      "
                     >
                       <td
                         role="cell"
+                        [class.cx-desktop-cell]="useCssResponsiveVisibility"
                         *ngFor="let column of customerListConfig?.columns"
                       >
                         <ng-template
@@ -150,9 +168,16 @@
                     </ng-container>
                     <!-- two column if tablet -->
                     <ng-container
-                      *ngIf="(breakpoint$ | async) === BREAKPOINT.sm"
+                      *ngIf="
+                        useCssResponsiveVisibility ||
+                        (breakpoint$ | async) === BREAKPOINT.sm
+                      "
                     >
-                      <td role="cell" class="cx-multi-cell">
+                      <td
+                        role="cell"
+                        class="cx-multi-cell"
+                        [class.cx-tablet-cell]="useCssResponsiveVisibility"
+                      >
                         <ng-container
                           *ngFor="
                             let column of customerListConfig?.columns;
@@ -173,7 +198,11 @@
                           </ng-container>
                         </ng-container>
                       </td>
-                      <td role="cell" class="cx-multi-cell">
+                      <td
+                        role="cell"
+                        class="cx-multi-cell"
+                        [class.cx-tablet-cell]="useCssResponsiveVisibility"
+                      >
                         <ng-container
                           *ngFor="
                             let column of customerListConfig?.columns;
@@ -199,7 +228,11 @@
                     <td
                       role="cell"
                       class="cx-multi-cell"
-                      *ngIf="(breakpoint$ | async) === BREAKPOINT.xs"
+                      [class.cx-mobile-cell]="useCssResponsiveVisibility"
+                      *ngIf="
+                        useCssResponsiveVisibility ||
+                        (breakpoint$ | async) === BREAKPOINT.xs
+                      "
                     >
                       <ng-container
                         *ngFor="let column of customerListConfig?.columns"
@@ -232,12 +265,17 @@
       <!-- Modal Foot -->
       <div
         class="cx-dialog-sub-header modal-header cx-dialog-foot"
-        [class.asm-mobile-pagination]="(breakpoint$ | async) !== BREAKPOINT.md"
+        [class.asm-mobile-pagination]="
+          !useCssResponsiveVisibility && (breakpoint$ | async) !== BREAKPOINT.md
+        "
         *ngIf="customerListsPage$ | async as customerListsPage"
       >
         <div
           class="cx-header-actions"
-          [class.mobile]="(breakpoint$ | async) === BREAKPOINT.xs"
+          [class.mobile]="
+            !useCssResponsiveVisibility &&
+            (breakpoint$ | async) === BREAKPOINT.xs
+          "
         >
           <div *ngIf="customerSearchPage$ | async as customerSearchPage">
             <cx-pagination

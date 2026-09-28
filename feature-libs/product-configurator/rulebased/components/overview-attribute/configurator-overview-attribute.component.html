@@ -28,7 +28,7 @@
 <div class="cx-attribute-value" aria-hidden="true">
   {{ attributeOverview.value }}
 </div>
-<ng-container *ngIf="isDesktop() | async; else mobile">
+<ng-container *ngIf="useCssResponsiveVisibility; else breakpointBased">
   <div class="cx-attribute-label" aria-hidden="true">
     {{ attributeOverview.attribute }}
   </div>
@@ -36,11 +36,21 @@
     <cx-configurator-price [formula]="extractPriceFormulaParameters()" />
   </div>
 </ng-container>
-<ng-template #mobile>
-  <div class="cx-attribute-price" aria-hidden="true">
-    <cx-configurator-price [formula]="extractPriceFormulaParameters()" />
-  </div>
-  <div class="cx-attribute-label" aria-hidden="true">
-    {{ attributeOverview.attribute }}
-  </div>
+<ng-template #breakpointBased>
+  <ng-container *ngIf="isDesktop() | async; else mobile">
+    <div class="cx-attribute-label" aria-hidden="true">
+      {{ attributeOverview.attribute }}
+    </div>
+    <div class="cx-attribute-price" aria-hidden="true">
+      <cx-configurator-price [formula]="extractPriceFormulaParameters()" />
+    </div>
+  </ng-container>
+  <ng-template #mobile>
+    <div class="cx-attribute-price" aria-hidden="true">
+      <cx-configurator-price [formula]="extractPriceFormulaParameters()" />
+    </div>
+    <div class="cx-attribute-label" aria-hidden="true">
+      {{ attributeOverview.attribute }}
+    </div>
+  </ng-template>
 </ng-template>

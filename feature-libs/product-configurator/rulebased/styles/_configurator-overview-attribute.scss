@@ -51,4 +51,20 @@
       padding-block-start: 5px;
     }
   }
+
+  // When responsive visibility is driven by CSS (see the
+  // `useCssResponsiveVisibility` feature toggle), label and price are always
+  // rendered in their desktop order; on mobile (`< md`) the price is reordered
+  // before the label, mirroring the former `BreakpointService`-based template.
+  &.cx-use-css-responsive-visibility {
+    @include media-breakpoint-down(sm) {
+      .cx-attribute-price {
+        order: 1;
+      }
+
+      .cx-attribute-label {
+        order: 2;
+      }
+    }
+  }
 }

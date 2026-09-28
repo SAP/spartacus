@@ -1,4 +1,20 @@
 %cx-configurator-exit-button {
+  // When responsive visibility is driven by CSS (see the
+  // `useCssResponsiveVisibility` feature toggle), both labels are rendered and
+  // toggled here, mirroring the former `BreakpointService` gates:
+  // desktop label = `isUp(md)`, mobile label = `isDown(sm)`.
+  .cx-exit-label-desktop {
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+  }
+
+  .cx-exit-label-mobile {
+    @include media-breakpoint-up(md) {
+      display: none;
+    }
+  }
+
   .btn-tertiary {
     &:hover {
       text-decoration: underline;

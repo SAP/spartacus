@@ -8,6 +8,7 @@ import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ElementRef,
+  HostBinding,
   inject,
   OnDestroy,
   OnInit,
@@ -30,6 +31,7 @@ import {
 } from '@spartacus/asm/root';
 import {
   FeatureModulesService,
+  FeatureToggles,
   HttpResponseStatus,
   OccConfig,
   SortModel,
@@ -135,6 +137,18 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   isAsmCustomer360Configured: boolean | undefined = false;
   protected featureModules = inject(FeatureModulesService);
+
+  private featureToggles = inject(FeatureToggles);
+  /**
+   * When the `useCssResponsiveVisibility` feature toggle is enabled, all
+   * breakpoint-specific layout variants (table header, desktop/tablet/mobile
+   * rows and the responsive layout classes) are rendered and CSS media queries
+   * control which one is visible, instead of `BreakpointService` (`breakpoint$`).
+   * This avoids hydration issues, since during SSR there is no viewport.
+   */
+  @HostBinding('class.cx-use-css-responsive-visibility')
+  protected useCssResponsiveVisibility =
+    this.featureToggles?.useCssResponsiveVisibility ?? false;
 
   constructor(
     protected launchDialogService: LaunchDialogService,

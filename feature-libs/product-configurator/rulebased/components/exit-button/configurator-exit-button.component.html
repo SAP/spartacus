@@ -9,21 +9,41 @@
         : ('configurator.button.exit' | cxTranslate)
     "
   >
-    <ng-container *ngIf="!container.routerData.isOwnerCartEntry">
-      <ng-container *ngIf="isDesktop() | async">
-        {{ 'configurator.button.exit' | cxTranslate }}
+    <ng-container *ngIf="useCssResponsiveVisibility; else breakpointLabels">
+      <ng-container *ngIf="!container.routerData.isOwnerCartEntry">
+        <span class="cx-exit-label cx-exit-label-desktop">
+          {{ 'configurator.button.exit' | cxTranslate }}
+        </span>
+        <span class="cx-exit-label cx-exit-label-mobile">
+          {{ 'configurator.button.exitMobile' | cxTranslate }}
+        </span>
       </ng-container>
-      <ng-container *ngIf="isMobile() | async">
-        {{ 'configurator.button.exitMobile' | cxTranslate }}
+      <ng-container *ngIf="container.routerData.isOwnerCartEntry">
+        <span class="cx-exit-label cx-exit-label-mobile">
+          {{ 'configurator.button.cancelConfigurationMobile' | cxTranslate }}
+        </span>
+        <span class="cx-exit-label cx-exit-label-desktop">
+          {{ 'configurator.button.cancelConfiguration' | cxTranslate }}
+        </span>
       </ng-container>
     </ng-container>
-    <ng-container *ngIf="container.routerData.isOwnerCartEntry">
-      <ng-container *ngIf="isMobile() | async">
-        {{ 'configurator.button.cancelConfigurationMobile' | cxTranslate }}
+    <ng-template #breakpointLabels>
+      <ng-container *ngIf="!container.routerData.isOwnerCartEntry">
+        <ng-container *ngIf="isDesktop() | async">
+          {{ 'configurator.button.exit' | cxTranslate }}
+        </ng-container>
+        <ng-container *ngIf="isMobile() | async">
+          {{ 'configurator.button.exitMobile' | cxTranslate }}
+        </ng-container>
       </ng-container>
-      <ng-container *ngIf="isDesktop() | async">
-        {{ 'configurator.button.cancelConfiguration' | cxTranslate }}
+      <ng-container *ngIf="container.routerData.isOwnerCartEntry">
+        <ng-container *ngIf="isMobile() | async">
+          {{ 'configurator.button.cancelConfigurationMobile' | cxTranslate }}
+        </ng-container>
+        <ng-container *ngIf="isDesktop() | async">
+          {{ 'configurator.button.cancelConfiguration' | cxTranslate }}
+        </ng-container>
       </ng-container>
-    </ng-container>
+    </ng-template>
   </button>
 </ng-container>

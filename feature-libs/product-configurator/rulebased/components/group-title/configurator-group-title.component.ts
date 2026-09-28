@@ -10,9 +10,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
+  inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { FeatureToggles } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import {
   BREAKPOINT,
@@ -55,6 +57,15 @@ export class ConfiguratorGroupTitleComponent
       )
     );
   iconTypes = ICON_TYPE;
+
+  private featureToggles = inject(FeatureToggles);
+  /**
+   * When the `useCssResponsiveVisibility` feature toggle is enabled, the
+   * hamburger menu is always rendered and its visibility is controlled by CSS
+   * media queries instead of `BreakpointService`, to avoid hydration issues.
+   */
+  protected useCssResponsiveVisibility =
+    this.featureToggles?.useCssResponsiveVisibility ?? false;
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,

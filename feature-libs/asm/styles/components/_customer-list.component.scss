@@ -381,4 +381,60 @@ $sapFioriContent_LabelColor: #6a6d70;
   .ng-dropdown-panel {
     width: auto;
   }
+
+  // When responsive visibility is driven by CSS (see the
+  // `useCssResponsiveVisibility` feature toggle), every breakpoint-specific
+  // layout variant is rendered and toggled here via media queries, mirroring
+  // the former `BreakpointService` (`breakpoint$`) gates. Recall that
+  // `breakpoint$` collapses `lg`/`xl` into `md`, so:
+  //   `=== md` -> `md` and up, `=== sm` -> only `sm`, `=== xs` -> only `xs`,
+  //   `!== md` -> below `md` (`sm` or `xs`).
+  &.cx-use-css-responsive-visibility {
+    // Former `[class.tablet-mobile]` (breakpoint$ !== md) on the header row.
+    // The footer keeps its own `row-reverse` layout, so it is excluded.
+    .cx-dialog-sub-header:not(.cx-dialog-foot) {
+      @include media-breakpoint-down(sm) {
+        flex-direction: column;
+      }
+    }
+
+    // Former `[class.mobile]` (breakpoint$ === xs) on the select/action groups.
+    .cx-header-select,
+    .cx-header-actions {
+      @include media-breakpoint-down(xs) {
+        flex-direction: column;
+      }
+    }
+
+    // Table header is only shown on desktop (breakpoint$ === md).
+    .cx-desktop-only {
+      @include media-breakpoint-down(sm) {
+        display: none;
+      }
+    }
+
+    // Desktop rows: one cell per column, shown at `md` and up.
+    .cx-desktop-cell {
+      @include media-breakpoint-down(sm) {
+        display: none;
+      }
+    }
+
+    // Tablet rows: two cells, shown only at `sm`.
+    .cx-tablet-cell {
+      @include media-breakpoint-down(xs) {
+        display: none;
+      }
+      @include media-breakpoint-up(md) {
+        display: none;
+      }
+    }
+
+    // Mobile rows: single cell, shown only at `xs`.
+    .cx-mobile-cell {
+      @include media-breakpoint-up(sm) {
+        display: none;
+      }
+    }
+  }
 }

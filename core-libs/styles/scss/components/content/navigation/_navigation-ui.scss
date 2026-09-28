@@ -286,6 +286,25 @@
   }
 }
 
+// When responsive visibility is driven by CSS (see the
+// `useCssResponsiveVisibility` feature toggle), both the desktop heading (`h4`)
+// and the dropdown-header button are rendered and toggled here, mirroring the
+// former `BreakpointService` gate (`isDesktop$` = `isUp(lg)`): the desktop
+// heading is shown at `lg` and up, while the flyout button is shown below `lg`.
+%nav-responsive-visibility {
+  .cx-nav-flyout-heading-desktop {
+    @include media-breakpoint-down(md) {
+      display: none;
+    }
+  }
+
+  .cx-nav-flyout-heading {
+    @include media-breakpoint-up(lg) {
+      display: none;
+    }
+  }
+}
+
 %cx-navigation-ui {
   display: flex;
 
@@ -297,6 +316,7 @@
     }
   }
 
+  @extend %nav-responsive-visibility;
   @extend %nav-heading;
   @extend %nav-icon;
   @extend %nav-wrapper;

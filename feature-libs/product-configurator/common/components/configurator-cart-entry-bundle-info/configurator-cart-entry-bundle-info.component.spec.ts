@@ -30,8 +30,7 @@ import {
   ConfigureCartEntryComponent,
   LineItem,
 } from '@spartacus/product-configurator/common';
-import { BreakpointService } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, of, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, EMPTY, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-entry-bundle-info.component';
@@ -106,7 +105,6 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
   let mockCartItemContext: MockCartItemContext;
   let commonConfigUtilsService: CommonConfiguratorUtilsService;
   let configCartEntryBundleInfoService: ConfiguratorCartEntryBundleInfoService;
-  let breakpointService: BreakpointService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -149,10 +147,6 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
     vi.spyOn(commonConfigUtilsService, 'isBundleBasedConfigurator');
     vi.spyOn(configCartEntryBundleInfoService, 'retrieveLineItems');
-
-    breakpointService = TestBed.inject(
-      BreakpointService as Type<BreakpointService>
-    );
 
     fixture = TestBed.createComponent(ConfiguratorCartEntryBundleInfoComponent);
     changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
@@ -442,7 +436,6 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       });
 
       it('should display', () => {
-        vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(false));
         fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
@@ -538,7 +531,6 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       });
 
       it('should display', () => {
-        vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(false));
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
@@ -796,7 +788,6 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         mockCartItemContext.readonly$.next(false);
         mockCartItemContext.quantityControl$.next(new UntypedFormControl());
         component.hideItems = false;
-        vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(true));
         fixture.detectChanges();
       });
 
