@@ -117,11 +117,56 @@ export class CxRovingTabindexDirective implements AfterViewInit {
     if (!items.length) {
       return;
     }
+    if (this.isNativeInteractiveTarget(event.target as HTMLElement)) {
+      return;
+    }
     const current = this.getCurrentFocusedIndex(items);
     const target = this.resolveTarget(event, current, items.length);
     if (target !== null) {
       this.moveFocus(items, target);
     }
+  }
+
+  /**
+   * Guards against intercepting keystrokes that originate from natively
+   * interactive elements (input, textarea, select, contenteditable) nested
+   * inside a navigation item.
+   *
+   * Without this guard, pressing ArrowDown inside a focused `<textarea>` that
+   * lives inside a roving item would cause the directive to call
+   * `event.preventDefault()` — killing native cursor movement — and steal
+   * focus away from the textarea.
+   *
+   * The walk is bounded by the directive's own host element so it never
+   * inspects ancestors outside the widget.
+   *
+   * `<button>` and `<a>` are intentionally excluded: browsers assign no native
+   * arrow-key semantics to them, so redirecting focus on ArrowDown from a
+   * focused button or link inside a cell is correct and expected behaviour.
+   */
+  private isNativeInteractiveTarget(target: HTMLElement): boolean {
+    let el: HTMLElement | null = target;
+    while (el && el !== this.host) {
+      if (this.isInteractive(el)) {
+        return true;
+      }
+      el = el.parentElement;
+    }
+    return false;
+  }
+
+  private isInteractive(el: HTMLElement): boolean {
+    const tag = el.tagName;
+    return (
+      tag === 'INPUT' ||
+      tag === 'TEXTAREA' ||
+      tag === 'SELECT' ||
+      // isContentEditable is the standard computed getter (real browsers);
+      // el.contentEditable === 'true' is the fallback for environments like
+      // jsdom where isContentEditable is not implemented but the IDL property is.
+      el.isContentEditable ||
+      el.contentEditable === 'true'
+    );
   }
 
   private resolveTarget(

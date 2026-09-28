@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, DebugElement } from '@angular/core';
+import { NgFor } from '@angular/common';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NgFor } from '@angular/common';
 import { vi } from 'vitest';
 import { CxRovingTabindexDirective } from './roving-tabindex.directive';
 
@@ -61,6 +61,17 @@ class TestCustomSelectorHostComponent {
   imports: [CxRovingTabindexDirective],
 })
 class TestChildFocusHostComponent {}
+
+@Component({
+  template: `
+    <div [cxRovingTabindex]="'[data-guard-item]'">
+      <div data-guard-item tabindex="-1">Row 1</div>
+      <div data-guard-item tabindex="-1">Row 2</div>
+    </div>
+  `,
+  imports: [CxRovingTabindexDirective],
+})
+class TestNativeInputHostComponent {}
 
 describe('CxRovingTabindexDirective', () => {
   let fixture: ComponentFixture<TestHostComponent>;
@@ -392,6 +403,73 @@ describe('CxRovingTabindexDirective', () => {
       expect(directive.focusedIndex).toBe(1);
       const items = getItems();
       expect(items[1].getAttribute('tabindex')).toBe('0');
+    });
+  });
+
+  describe('native interactive target guard', () => {
+    let guardFixture: ComponentFixture<TestNativeInputHostComponent>;
+    let guardContainer: HTMLElement;
+    let guardDirective: CxRovingTabindexDirective;
+
+    beforeEach(() => {
+      guardFixture = TestBed.createComponent(TestNativeInputHostComponent);
+      guardFixture.detectChanges();
+      guardContainer = guardFixture.debugElement.query(
+        By.directive(CxRovingTabindexDirective)
+      ).nativeElement as HTMLElement;
+      guardDirective = guardFixture.debugElement
+        .query(By.directive(CxRovingTabindexDirective))
+        .injector.get(CxRovingTabindexDirective);
+    });
+
+    it.each([
+      ['INPUT', (): HTMLElement => document.createElement('input')],
+      ['TEXTAREA', (): HTMLElement => document.createElement('textarea')],
+      ['SELECT', (): HTMLElement => document.createElement('select')],
+      [
+        'contenteditable',
+        (): HTMLElement => {
+          const el = document.createElement('div');
+          el.contentEditable = 'true';
+          return el;
+        },
+      ],
+    ])(
+      'should NOT call preventDefault or move focus when ArrowDown originates from %s',
+      (_label, createElement) => {
+        const items = Array.from(
+          guardContainer.querySelectorAll<HTMLElement>('[data-guard-item]')
+        );
+        const interactiveEl = createElement();
+        items[0].appendChild(interactiveEl);
+        items[0].focus();
+        guardDirective.focusedIndex = 0;
+
+        const event = new KeyboardEvent('keydown', {
+          key: 'ArrowDown',
+          bubbles: true,
+        });
+        const preventSpy = vi.spyOn(event, 'preventDefault');
+        interactiveEl.dispatchEvent(event);
+
+        expect(preventSpy).not.toHaveBeenCalled();
+        expect(guardDirective.focusedIndex).toBe(0);
+      }
+    );
+
+    it('should move focus when ArrowDown originates from the roving item itself', () => {
+      const items = Array.from(
+        guardContainer.querySelectorAll<HTMLElement>('[data-guard-item]')
+      );
+      items[0].focus();
+      const focusSpy = vi.spyOn(items[1], 'focus');
+
+      guardContainer.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true })
+      );
+
+      expect(focusSpy).toHaveBeenCalled();
+      expect(guardDirective.focusedIndex).toBe(1);
     });
   });
 });
