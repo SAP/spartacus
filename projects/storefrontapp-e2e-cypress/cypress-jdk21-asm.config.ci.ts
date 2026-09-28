@@ -12,7 +12,7 @@ export default defineConfig({
   env: {
     ...baseConfig.env,
     CLIENT_ID: 'asm_client',
-    API_URL: 'https://20.83.184.244:9002',
+    API_URL: 'https://spartacus-colosseum2.eastus.cloudapp.azure.com:8443',
     JDK_VERSION: 'JDK21',
   },
 });
