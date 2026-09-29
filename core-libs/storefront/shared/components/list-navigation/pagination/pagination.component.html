@@ -29,6 +29,8 @@
       [attr.aria-current]="isCurrent(item)"
       [attr.aria-disabled]="isInactive(item)"
       (click)="pageChange(item)"
+      (keydown.space)="activateWithSpaceKeydown($event)"
+      (keyup.space)="activateWithSpaceKeyup($event)"
       [attr.aria-label]="getAriaLabel$(item) | async"
       [attr.title]="getAriaLabel$(item) | async"
     >

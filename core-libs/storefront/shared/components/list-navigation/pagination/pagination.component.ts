@@ -222,4 +222,40 @@ export class PaginationComponent {
   pageChange(page: PaginationItem): void {
     this.viewPageEvent.emit(page.number);
   }
+
+  /**
+   * Handles Space keydown on a pagination anchor link.
+   *
+   * Browsers do not natively activate anchor elements on Space (only on Enter),
+   * so we must handle Space ourselves. event.preventDefault() is always called
+   * to suppress the default page-scroll that Space triggers.
+   *
+   * When a11yNavigationSpaceKeyOnKeyUp is off (legacy path), the link is
+   * activated immediately on keydown by dispatching a programmatic click. When
+   * the toggle is on, activation is deferred to activateWithSpaceKeyup so that
+   * behaviour matches native button semantics (fires on keyup) and avoids
+   * repeated activation while the key is held down.
+   */
+  activateWithSpaceKeydown(event: KeyboardEvent): void {
+    event.preventDefault();
+    if (!this.featureToggles.a11yNavigationSpaceKeyOnKeyUp) {
+      (event.currentTarget as HTMLElement).click();
+    }
+  }
+
+  /**
+   * Handles Space keyup on a pagination anchor link.
+   *
+   * When a11yNavigationSpaceKeyOnKeyUp is on, this fires the activation that
+   * was suppressed on keydown, giving the same keyup-fires-activation timing
+   * as native button elements.
+   *
+   * When the toggle is off, keydown already activated the link and this
+   * handler is a no-op.
+   */
+  activateWithSpaceKeyup(event: KeyboardEvent): void {
+    if (this.featureToggles.a11yNavigationSpaceKeyOnKeyUp) {
+      (event.currentTarget as HTMLElement).click();
+    }
+  }
 }
