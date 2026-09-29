@@ -5,24 +5,14 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, inject } from '@angular/core';
 import {
   CartModification,
   CartModificationList,
   CartValidationStatusCode,
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  OCC_CART_ID_CURRENT,
-  TranslatePipe,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType, OCC_CART_ID_CURRENT, TranslatePipe } from '@spartacus/core';
 import { ReorderOrderFacade } from '@spartacus/order/root';
 import {
   FocusConfig,
@@ -39,15 +29,7 @@ import { BehaviorSubject } from 'rxjs';
   selector: 'cx-reorder-dialog',
   templateUrl: './reorder-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    FocusDirective,
-    IconComponent,
-    NgIf,
-    NgFor,
-    SpinnerComponent,
-    AsyncPipe,
-    TranslatePipe,
-  ],
+  imports: [FocusDirective, IconComponent, NgIf, NgFor, SpinnerComponent, AsyncPipe, TranslatePipe],
 })
 export class ReorderDialogComponent {
   iconTypes = ICON_TYPE;
@@ -85,20 +67,15 @@ export class ReorderDialogComponent {
         this.recaptureFocus();
       },
       error: () => {
-          this.globalMessageService.add(
-            { key: 'reorder.httpHandlers.reorderError' },
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-          this.loading$.next(false);
-          this.close('Error creating cart from order');
-        },
+        this.globalMessageService.add({ key: 'reorder.httpHandlers.reorderError' }, GlobalMessageType.MSG_TYPE_ERROR);
+        this.loading$.next(false);
+        this.close('Error creating cart from order');
+      },
     });
   }
 
   recaptureFocus(): void {
-    this.selectFocusUtility
-      ?.findFirstFocusable(this.elementRef?.nativeElement)
-      ?.focus();
+    this.selectFocusUtility?.findFirstFocusable(this.elementRef?.nativeElement)?.focus();
   }
 
   close(reason: string): void {
