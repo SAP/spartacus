@@ -7,6 +7,7 @@
 import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   DestroyRef,
   EventEmitter,
@@ -84,6 +85,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected userPaymentService = inject(UserPaymentService);
   protected destroyRef = inject(DestroyRef);
   private featureToggles = inject(FeatureToggles);
+  protected cdr = inject(ChangeDetectorRef);
 
   protected subscription = new Subscription();
 
@@ -334,6 +336,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
       disabled: this.disabled && this.explicitTermsAndConditions,
       savedCardsSelected: this.onSavedCardsSelected.bind(this),
     });
+    this.cdr.markForCheck();
   }
 
   onSavedCardsSelected(): void {
