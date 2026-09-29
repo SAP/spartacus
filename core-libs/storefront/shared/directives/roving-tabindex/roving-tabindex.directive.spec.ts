@@ -8,10 +8,6 @@ import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { vi } from 'vitest';
 import { CxRovingTabindexDirective } from './roving-tabindex.directive';
 
@@ -98,7 +94,6 @@ describe('CxRovingTabindexDirective', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TestHostComponent],
-      providers: [provideMockFeatureToggles()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestHostComponent);
@@ -276,64 +271,30 @@ describe('CxRovingTabindexDirective', () => {
       expect(component.activated).toBe(1);
     });
 
-    it('should emit itemActivated with the current index on Space (toggle off — keydown path)', () => {
+    it('should NOT emit on Space keydown but should suppress scroll', () => {
       directive.focusedIndex = 2;
       const items = getItems();
       items[2].focus();
 
       const event = new KeyboardEvent('keydown', { key: ' ', bubbles: true });
+      const preventSpy = vi.spyOn(event, 'preventDefault');
       container.dispatchEvent(event);
 
-      expect(component.activated).toBe(2);
+      // Scroll suppressed — but activation is deferred to keyup.
+      expect(preventSpy).toHaveBeenCalled();
+      expect(component.activated).toBeNull();
     });
 
-    describe('a11yNavigationSpaceKeyOnKeyUp = true', () => {
-      let featureTogglesController: MockFeatureTogglesController;
+    it('should emit itemActivated on Space keyup', () => {
+      directive.focusedIndex = 2;
+      const items = getItems();
+      items[2].focus();
 
-      beforeEach(() => {
-        featureTogglesController = TestBed.inject(MockFeatureTogglesController);
-        featureTogglesController.set('a11yNavigationSpaceKeyOnKeyUp', true);
-      });
+      container.dispatchEvent(
+        new KeyboardEvent('keyup', { key: ' ', bubbles: true })
+      );
 
-      it('should NOT emit on Space keydown when a11yNavigationSpaceKeyOnKeyUp is on', () => {
-        directive.focusedIndex = 1;
-        const items = getItems();
-        items[1].focus();
-
-        const event = new KeyboardEvent('keydown', { key: ' ', bubbles: true });
-        const preventSpy = vi.spyOn(event, 'preventDefault');
-        container.dispatchEvent(event);
-
-        // Scroll must still be suppressed on keydown
-        expect(preventSpy).toHaveBeenCalled();
-        // But no activation yet — deferred to keyup
-        expect(component.activated).toBeNull();
-      });
-
-      it('should emit itemActivated on Space keyup when a11yNavigationSpaceKeyOnKeyUp is on', () => {
-        directive.focusedIndex = 1;
-        const items = getItems();
-        items[1].focus();
-
-        container.dispatchEvent(
-          new KeyboardEvent('keyup', { key: ' ', bubbles: true })
-        );
-
-        expect(component.activated).toBe(1);
-      });
-
-      it('should NOT emit on Space keyup when cxRovingTabindexActivate=false', () => {
-        component.activate = false;
-        fixture.changeDetectorRef.detectChanges();
-        const items = getItems();
-        items[0].focus();
-
-        container.dispatchEvent(
-          new KeyboardEvent('keyup', { key: ' ', bubbles: true })
-        );
-
-        expect(component.activated).toBeNull();
-      });
+      expect(component.activated).toBe(2);
     });
 
     it('should NOT emit or preventDefault on Enter when cxRovingTabindexActivate=false', () => {
@@ -353,7 +314,7 @@ describe('CxRovingTabindexDirective', () => {
       expect(component.activated).toBeNull();
     });
 
-    it('should NOT emit but should still call preventDefault on Space when cxRovingTabindexActivate=false', () => {
+    it('should NOT emit but should still call preventDefault on Space keydown when cxRovingTabindexActivate=false', () => {
       component.activate = false;
       fixture.changeDetectorRef.detectChanges();
       const items = getItems();
@@ -367,6 +328,19 @@ describe('CxRovingTabindexDirective', () => {
       expect(preventSpy).toHaveBeenCalled();
       expect(component.activated).toBeNull();
     });
+
+    it('should NOT emit on Space keyup when cxRovingTabindexActivate=false', () => {
+      component.activate = false;
+      fixture.changeDetectorRef.detectChanges();
+      const items = getItems();
+      items[0].focus();
+
+      container.dispatchEvent(
+        new KeyboardEvent('keyup', { key: ' ', bubbles: true })
+      );
+
+      expect(component.activated).toBeNull();
+    });
   });
 
   describe('custom itemSelector', () => {
@@ -375,7 +349,6 @@ describe('CxRovingTabindexDirective', () => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
         imports: [TestCustomSelectorHostComponent],
-        providers: [provideMockFeatureToggles()],
       }).compileComponents();
 
       customFixture = TestBed.createComponent(TestCustomSelectorHostComponent);

@@ -5,10 +5,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { FeatureDirective, I18nTestingModule } from '@spartacus/core';
 import { FocusConfig, FocusDirective } from '@spartacus/storefront';
 import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { vi } from 'vitest';
 import { CxRovingTabindexDirective } from '../../../directives/roving-tabindex/roving-tabindex.directive';
 import { PaginationConfig } from './config/pagination.config';
@@ -333,88 +330,6 @@ describe('PaginationComponent', () => {
         );
 
         expect(focusSpy).not.toHaveBeenCalled();
-      });
-    });
-
-    describe('Space key activation', () => {
-      let featureTogglesController: MockFeatureTogglesController;
-
-      beforeEach(() => {
-        featureTogglesController = TestBed.inject(MockFeatureTogglesController);
-        component.pagination = { currentPage: 0, totalPages: 5 };
-        fixture.detectChanges();
-      });
-
-      it('should call preventDefault and click the link on Space keydown (toggle off)', () => {
-        const host = fixture.nativeElement as HTMLElement;
-        const activeLinks = Array.from(
-          host.querySelectorAll<HTMLElement>('a:not(.disabled)')
-        );
-        const link = activeLinks[0];
-        const clickSpy = vi.spyOn(link, 'click');
-
-        const event = new KeyboardEvent('keydown', {
-          key: ' ',
-          bubbles: true,
-        });
-        Object.defineProperty(event, 'currentTarget', { value: link });
-        const preventSpy = vi.spyOn(event, 'preventDefault');
-        component.activateWithSpaceKeydown(event);
-
-        expect(preventSpy).toHaveBeenCalled();
-        expect(clickSpy).toHaveBeenCalled();
-      });
-
-      it('should call preventDefault but NOT click on Space keydown when a11yNavigationSpaceKeyOnKeyUp is on', () => {
-        featureTogglesController.set('a11yNavigationSpaceKeyOnKeyUp', true);
-        const host = fixture.nativeElement as HTMLElement;
-        const activeLinks = Array.from(
-          host.querySelectorAll<HTMLElement>('a:not(.disabled)')
-        );
-        const link = activeLinks[0];
-        const clickSpy = vi.spyOn(link, 'click');
-
-        const event = new KeyboardEvent('keydown', {
-          key: ' ',
-          bubbles: true,
-        });
-        Object.defineProperty(event, 'currentTarget', { value: link });
-        const preventSpy = vi.spyOn(event, 'preventDefault');
-        component.activateWithSpaceKeydown(event);
-
-        expect(preventSpy).toHaveBeenCalled();
-        expect(clickSpy).not.toHaveBeenCalled();
-      });
-
-      it('should click the link on Space keyup when a11yNavigationSpaceKeyOnKeyUp is on', () => {
-        featureTogglesController.set('a11yNavigationSpaceKeyOnKeyUp', true);
-        const host = fixture.nativeElement as HTMLElement;
-        const activeLinks = Array.from(
-          host.querySelectorAll<HTMLElement>('a:not(.disabled)')
-        );
-        const link = activeLinks[0];
-        const clickSpy = vi.spyOn(link, 'click');
-
-        const event = new KeyboardEvent('keyup', { key: ' ', bubbles: true });
-        Object.defineProperty(event, 'currentTarget', { value: link });
-        component.activateWithSpaceKeyup(event);
-
-        expect(clickSpy).toHaveBeenCalled();
-      });
-
-      it('should NOT click on Space keyup when a11yNavigationSpaceKeyOnKeyUp is off', () => {
-        const host = fixture.nativeElement as HTMLElement;
-        const activeLinks = Array.from(
-          host.querySelectorAll<HTMLElement>('a:not(.disabled)')
-        );
-        const link = activeLinks[0];
-        const clickSpy = vi.spyOn(link, 'click');
-
-        const event = new KeyboardEvent('keyup', { key: ' ', bubbles: true });
-        Object.defineProperty(event, 'currentTarget', { value: link });
-        component.activateWithSpaceKeyup(event);
-
-        expect(clickSpy).not.toHaveBeenCalled();
       });
     });
 

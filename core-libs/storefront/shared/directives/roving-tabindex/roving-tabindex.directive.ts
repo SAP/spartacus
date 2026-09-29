@@ -15,7 +15,6 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { FeatureToggles } from '@spartacus/core';
 
 /**
  * Implements the roving tabindex pattern (ARIA APG composite widget pattern).
@@ -104,7 +103,6 @@ export class CxRovingTabindexDirective implements AfterViewInit {
 
   protected readonly host = inject(ElementRef<HTMLElement>).nativeElement;
   protected readonly destroyRef = inject(DestroyRef);
-  private readonly featureToggles = inject(FeatureToggles);
   private mutationObserver: MutationObserver | undefined;
 
   ngAfterViewInit(): void {
@@ -143,24 +141,16 @@ export class CxRovingTabindexDirective implements AfterViewInit {
   }
 
   /**
-   * Activates the focused item on Space keyup when a11yNavigationSpaceKeyOnKeyUp
-   * is enabled.
+   * Activates the focused item on Space keyup.
    *
    * Firing on keyup rather than keydown matches the browser's native button
    * behaviour (buttons activate on Space keyup) and prevents repeated activation
-   * when the key is held down. The corresponding keydown handler suppresses the
-   * default scroll action so the page does not jump while the key is held.
-   *
-   * When the toggle is off, activation fires on keydown via resolveTarget()
-   * (legacy path) and this handler is a no-op.
+   * when the key is held down. The keydown handler suppresses the default scroll
+   * action so the page does not jump while the key is held.
    */
   @HostListener('keyup', ['$event'])
   onKeyup(event: KeyboardEvent): void {
-    if (
-      event.key !== ' ' ||
-      !this.featureToggles.a11yNavigationSpaceKeyOnKeyUp ||
-      !this.cxRovingTabindexActivate
-    ) {
+    if (event.key !== ' ' || !this.cxRovingTabindexActivate) {
       return;
     }
     if (this.isNativeInteractiveTarget(event.target as HTMLElement)) {
@@ -261,15 +251,10 @@ export class CxRovingTabindexDirective implements AfterViewInit {
       case 'Enter':
         return this.emitActivate(event, current);
       case ' ':
-        // Always suppress the default scroll on keydown.
-        // When a11yNavigationSpaceKeyOnKeyUp is off (legacy path), activate
-        // immediately on keydown. When on, activation is deferred to onKeyup
-        // so that behaviour matches native button (which fires on Space keyup
-        // to avoid repeated activation while the key is held down).
+        // Suppress the default page-scroll on keydown; activation fires on keyup
+        // (see onKeyup) to match native button behaviour and avoid repeated
+        // firing while the key is held down.
         event.preventDefault();
-        if (!this.featureToggles.a11yNavigationSpaceKeyOnKeyUp) {
-          return this.emitActivate(event, current);
-        }
         return null;
       default:
         return null;
@@ -284,8 +269,7 @@ export class CxRovingTabindexDirective implements AfterViewInit {
   /**
    * Emits the itemActivated event for the currently focused item index.
    *
-   * Called from both resolveTarget (keydown path, legacy/Enter) and
-   * onKeyup (Space keyup path when a11yNavigationSpaceKeyOnKeyUp is on).
+   * Called from resolveTarget for Enter (keydown) and from onKeyup for Space.
    * Always returns null so it can be used as a tail call in resolveTarget
    * without moving focus.
    */
