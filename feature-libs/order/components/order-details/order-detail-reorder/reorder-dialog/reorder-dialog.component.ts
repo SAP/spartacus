@@ -4,26 +4,26 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   inject,
-} from "@angular/core";
+} from '@angular/core';
 import {
   CartModification,
   CartModificationList,
   CartValidationStatusCode,
   MultiCartFacade,
-} from "@spartacus/cart/base/root";
+} from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
   OCC_CART_ID_CURRENT,
   TranslatePipe,
-} from "@spartacus/core";
-import { ReorderOrderFacade } from "@spartacus/order/root";
+} from '@spartacus/core';
+import { ReorderOrderFacade } from '@spartacus/order/root';
 import {
   FocusConfig,
   FocusDirective,
@@ -32,12 +32,12 @@ import {
   LaunchDialogService,
   SelectFocusUtility,
   SpinnerComponent,
-} from "@spartacus/storefront";
-import { BehaviorSubject } from "rxjs";
+} from '@spartacus/storefront';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: "cx-reorder-dialog",
-  templateUrl: "./reorder-dialog.component.html",
+  selector: 'cx-reorder-dialog',
+  templateUrl: './reorder-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FocusDirective,
@@ -71,7 +71,7 @@ export class ReorderDialogComponent {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected reorderOrderFacade: ReorderOrderFacade,
-    protected multiCartFacade: MultiCartFacade,
+    protected multiCartFacade: MultiCartFacade
   ) {}
 
   createCartFromOrder(orderCode: string): void {
@@ -86,11 +86,11 @@ export class ReorderDialogComponent {
       },
       error: () => {
         this.globalMessageService.add(
-          { key: "reorder.httpHandlers.reorderError" },
-          GlobalMessageType.MSG_TYPE_ERROR,
+          { key: 'reorder.httpHandlers.reorderError' },
+          GlobalMessageType.MSG_TYPE_ERROR
         );
         this.loading$.next(false);
-        this.close("Error creating cart from order");
+        this.close('Error creating cart from order');
       },
     });
   }
