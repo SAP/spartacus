@@ -87,6 +87,10 @@ class MockActivatedRoute implements Partial<ActivatedRoute> {
     queryParams: { error: 'bad_credentials' },
   } as unknown as ActivatedRouteSnapshot;
   queryParams = of<{ error: string | null }>({ error: 'bad_credentials' });
+
+  setQueryParams(params: Record<string, string | undefined>) {
+    this.snapshot = { queryParams: params } as unknown as ActivatedRouteSnapshot;
+  }
 }
 
 class MockRouter implements Partial<Router> {
@@ -105,6 +109,11 @@ class MockCsrfStateService implements Partial<CsrfStateService> {
   set = vi.fn().mockImplementation(() => {});
   getAuthReqId = vi.fn().mockReturnValue(undefined);
   setAuthReqId = vi.fn();
+  // consumeAuthReqId was removed in favour of URL-first resolution in the
+  // authReqId getter; this stub keeps the mock complete for any legacy callers.
+  consumeAuthReqId = vi.fn().mockImplementation(function (this: MockCsrfStateService) {
+    return this.getAuthReqId();
+  });
 }
 
 class MockAuthMultisiteIsolationService
@@ -688,6 +697,7 @@ describe('LoginFormComponentService', () => {
       describe('concurrentLoginPagesSupport', () => {
         let mockFeatureTogglesController: MockFeatureTogglesController;
         let csrfStateService: CsrfStateService;
+        let mockActivatedRoute: MockActivatedRoute;
 
         function setupWithToggles(
           toggles: Record<string, boolean>,
@@ -715,9 +725,15 @@ describe('LoginFormComponentService', () => {
             mockFeatureTogglesController.set(key as any, value);
           }
           csrfStateService = TestBed.inject(CsrfStateService);
-          (csrfStateService.getAuthReqId as any).mockReturnValue(
-            authReqIdValue
-          );
+          // auth_req_id is now read from ActivatedRoute.snapshot.queryParams
+          // (URL-first), not from CsrfStateService. Inject the value via the
+          // route so tests mirror the real runtime flow.
+          mockActivatedRoute = TestBed.inject(
+            ActivatedRoute
+          ) as unknown as MockActivatedRoute;
+          if (authReqIdValue !== undefined) {
+            mockActivatedRoute.setQueryParams({ auth_req_id: authReqIdValue });
+          }
           service = TestBed.inject(LoginFormComponentService);
           authService = TestBed.inject(AuthService);
           winRef = TestBed.inject(WindowRef);
@@ -758,7 +774,7 @@ describe('LoginFormComponentService', () => {
             expect(service.form.get('auth_req_id')?.value).toBe('req-xyz');
           });
 
-          it('authReqId getter should return the value from CsrfStateService', () => {
+          it('authReqId getter should return the value from the URL query param', () => {
             expect(service.authReqId).toBe('req-xyz');
           });
 
@@ -797,8 +813,12 @@ describe('LoginFormComponentService', () => {
             setupWithToggles({ concurrentLoginPagesSupport: true }, undefined);
           });
 
-          it('should NOT add auth_req_id form control when auth_req_id is absent', () => {
-            expect(service.form.get('auth_req_id')).toBeNull();
+          it('should add auth_req_id form control with empty value when auth_req_id is absent', () => {
+            // The control is always added when the flag is on so the CSRF-refresh
+            // tap can update it before submit — even when no ID was present at
+            // construction time.
+            expect(service.form.get('auth_req_id')).not.toBeNull();
+            expect(service.form.get('auth_req_id')?.value).toBe('');
           });
 
           it('authReqId getter should return undefined when no auth_req_id stored', () => {

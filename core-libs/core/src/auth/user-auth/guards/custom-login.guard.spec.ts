@@ -310,10 +310,15 @@ describe('CustomLoginGuard', () => {
         expect(authService.getCsrfToken).not.toHaveBeenCalled();
       });
 
-      it('should store auth_req_id in CsrfStateService on success', async () => {
+      it('should NOT write authReqId to CsrfStateService (race-free contract)', async () => {
+        // The guard intentionally does not write auth_req_id to CsrfStateService.
+        // Doing so would create a shared-mutable-state race between concurrent
+        // canActivate() activations (two tabs, or a retry firing a new activation
+        // before the first HTTP call completes). auth_req_id travels exclusively
+        // via the URL query param, which is per-activation and not shared.
         await lastValueFrom(guard.canActivate());
 
-        expect(csrfStateService.setAuthReqId).toHaveBeenCalledWith('req-abc');
+        expect(csrfStateService.setAuthReqId).not.toHaveBeenCalled();
       });
 
       describe('when CSRF fetch fails (retry path)', () => {
@@ -360,22 +365,26 @@ describe('CustomLoginGuard', () => {
         mockWindowRef.location = { href: '', search: '' };
       });
 
-      it('should call refreshCsrfToken with undefined', async () => {
+      it('should call getCsrfToken (not refreshCsrfToken) when auth_req_id is absent', async () => {
+        // Without an auth_req_id there is no concurrent-login session to
+        // correlate, so the guard falls back to the cached getCsrfToken()
+        // observable instead of firing a fresh refreshCsrfToken() request.
         await lastValueFrom(guard.canActivate());
 
-        expect(authService.refreshCsrfToken).toHaveBeenCalledWith(undefined);
+        expect(authService.getCsrfToken).toHaveBeenCalled();
+        expect(authService.refreshCsrfToken).not.toHaveBeenCalled();
       });
 
-      it('should store undefined in CsrfStateService', async () => {
+      it('should NOT write authReqId to CsrfStateService (race-free contract)', async () => {
         await lastValueFrom(guard.canActivate());
 
-        expect(csrfStateService.setAuthReqId).toHaveBeenCalledWith(undefined);
+        expect(csrfStateService.setAuthReqId).not.toHaveBeenCalled();
       });
 
-      it('should NOT call getCsrfToken', async () => {
+      it('should NOT call refreshCsrfToken', async () => {
         await lastValueFrom(guard.canActivate());
 
-        expect(authService.getCsrfToken).not.toHaveBeenCalled();
+        expect(authService.refreshCsrfToken).not.toHaveBeenCalled();
       });
     });
   });
