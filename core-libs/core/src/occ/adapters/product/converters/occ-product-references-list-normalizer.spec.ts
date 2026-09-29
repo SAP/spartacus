@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { ProductReference } from '../../../../model/product.model';
 import { ConverterService } from '../../../../util/converter.service';

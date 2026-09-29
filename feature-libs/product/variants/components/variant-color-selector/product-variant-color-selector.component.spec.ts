@@ -10,7 +10,6 @@ import {
   VariantType,
 } from '@spartacus/core';
 import { ProductVariantColorSelectorComponent } from './product-variant-color-selector.component';
-import { vi } from 'vitest';
 
 const mockVariant: BaseOption = {
   selected: {

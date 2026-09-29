@@ -13,6 +13,7 @@ import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import {
   CxDatePipe,
   FeatureDirective,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -28,8 +29,8 @@ import {
   OutletModule,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.component';
@@ -173,7 +174,12 @@ describe('CheckoutDeliveryModeComponent', () => {
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: ActiveCartFacade, useClass: MockCartService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        provideMockFeatureToggles({ a11yDeliveryModeFocusPreservation: true }),
+        {
+          provide: FeatureToggles,
+          useValue: {
+            a11yDeliveryModeFocusPreservation: true,
+          },
+        },
       ],
     })
       .overrideComponent(CheckoutDeliveryModeComponent, {
@@ -209,8 +215,18 @@ describe('CheckoutDeliveryModeComponent', () => {
   });
 
   beforeEach(() => {
+    supportedDeliveryModes$.next([]);
+    selectedDeliveryModeState$.next({
+      loading: false,
+      error: false,
+      data: undefined,
+    });
+    preferredDeliveryMode$.next('');
+    hasPickupItems$.next(false);
+    deliveryEntries$.next([{ orderCode: 'testEntry' }]);
     fixture = TestBed.createComponent(CheckoutDeliveryModeComponent);
     component = fixture.componentInstance;
+    component.mode.reset();
   });
 
   it('should be created', () => {
@@ -305,9 +321,20 @@ describe('CheckoutDeliveryModeComponent', () => {
     );
   });
 
-  it('should get deliveryModeInvalid()', () => {
+  it('should return true for deliveryModeInvalid when no mode is selected', () => {
+    fixture.detectChanges();
+
+    const invalid = component.deliveryModeInvalid;
+    expect(invalid).toBe(true);
+  });
+
+  it('should return false for deliveryModeInvalid when a mode is selected', () => {
+    selectedDeliveryModeState$.next({
+      loading: false,
+      error: false,
+      data: mockDeliveryMode1,
+    });
     supportedDeliveryModes$.next(mockSupportedDeliveryModes);
-    preferredDeliveryMode$.next(mockDeliveryMode1.code);
     fixture.detectChanges();
 
     const invalid = component.deliveryModeInvalid;
@@ -437,6 +464,7 @@ describe('CheckoutDeliveryModeComponent', () => {
       vi.useFakeTimers();
     });
     afterEach(() => {
+      vi.restoreAllMocks();
       vi.useRealTimers();
       // Restore the document.querySelector/getElementById spies so the fake
       // element they return doesn't leak into other tests and break Angular's

@@ -132,6 +132,7 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
           this.toggleGiftCardForm();
           this.loadingSubject.next(false);
           this.opfPaymentEventsService.emitReinitiatePaymentEvent();
+          this.opfPaymentEventsService.emitRefreshActiveConfigurationsEvent();
         },
         error: (error: HttpErrorModel) => this.handleGiftCardError(error),
       });

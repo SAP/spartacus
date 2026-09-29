@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { AnonymousConsentsService } from '../../../../anonymous-consents/index';
 import { AnonymousConsent } from '../../../../model/index';

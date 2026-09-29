@@ -17,7 +17,6 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import { vi } from 'vitest';
 
 const userId = '111111';
 const productCode = 'code';

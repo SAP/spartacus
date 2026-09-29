@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { Component, DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
@@ -43,24 +42,28 @@ import {
   SpinnerComponent,
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
-import { EMPTY, Observable, Subject, of } from 'rxjs';
+import { EMPTY, firstValueFrom, Observable, Subject, of } from 'rxjs';
 import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';
 
 const mockSecurePassword = 'strongPas$!123';
 const mockInvalidPassword = 'strongPas$!123|';
 
-const mockRegisterFormData: any = {
-  titleCode: 'Mr',
-  firstName: 'John',
-  lastName: 'Doe',
-  email: 'JohnDoe@thebest.john.intheworld.com',
-  email_lowercase: 'johndoe@thebest.john.intheworld.com',
-  termsandconditions: true,
-  password: mockSecurePassword,
-  passwordconf: mockSecurePassword,
-  newsletter: true,
-  captcha: true,
+let mockRegisterFormData: any = {};
+
+const initMockRegisterForm = () => {
+  mockRegisterFormData = {
+    titleCode: 'Mr',
+    firstName: 'John',
+    lastName: 'Doe',
+    email: 'JohnDoe@thebest.john.intheworld.com',
+    email_lowercase: 'johndoe@thebest.john.intheworld.com',
+    termsandconditions: true,
+    password: mockSecurePassword,
+    passwordconf: mockSecurePassword,
+    newsletter: true,
+    captcha: true,
+  };
 };
 
 const mockTitlesList: Title[] = [
@@ -179,10 +182,14 @@ describe('RegisterComponent', () => {
   let anonymousConsentService: AnonymousConsentsService;
   let authConfigService: AuthConfigService;
   let registerComponentService: RegisterComponentService;
-  let featureToggles: FeatureToggles;
 
-  beforeEach(async () => {
-    TestBed.configureTestingModule({
+  const configureTestingModule = async (
+    featureToggles: { [key: string]: any } = {
+      useEnhancedSecurePasswordValidators: false,
+      authorizationCodeFlowByDefault: false,
+    }
+  ) => {
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         FormErrorsModule,
@@ -230,6 +237,10 @@ describe('RegisterComponent', () => {
           provide: LanguageService,
           useClass: MockLanguageService,
         },
+        {
+          provide: FeatureToggles,
+          useValue: { ...featureToggles },
+        },
       ],
     })
       .overrideComponent(RegisterComponent, {
@@ -253,6 +264,10 @@ describe('RegisterComponent', () => {
         },
       })
       .compileComponents();
+  };
+
+  beforeEach(async () => {
+    await configureTestingModule();
   });
 
   beforeEach(() => {
@@ -263,13 +278,12 @@ describe('RegisterComponent', () => {
     anonymousConsentService = TestBed.inject(AnonymousConsentsService);
     authConfigService = TestBed.inject(AuthConfigService);
     registerComponentService = TestBed.inject(RegisterComponentService);
-    featureToggles = TestBed.inject(FeatureToggles);
-    featureToggles.useEnhancedSecurePasswordValidators = false;
-    featureToggles.authorizationCodeFlowByDefault = false;
 
     component = fixture.componentInstance;
 
     fixture.detectChanges();
+
+    initMockRegisterForm();
     controls = component.registerForm.controls;
   });
 
@@ -290,14 +304,11 @@ describe('RegisterComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should load titles', () => {
+    it('should load titles', async () => {
       component.ngOnInit();
 
-      component.titles$
-        .subscribe((data) => {
-          expect(data).toEqual(mockTitlesList);
-        })
-        .unsubscribe();
+      const data = await firstValueFrom(component.titles$);
+      expect(data).toEqual(mockTitlesList);
     });
 
     it('should handle error when title code is required from the backend config', () => {
@@ -353,17 +364,28 @@ describe('RegisterComponent', () => {
 
   describe('register', () => {
     it('should register with valid form', () => {
-      regComponentService.collectDataFromRegisterForm = vi
-        .fn()
-        .mockReturnValue({
-          firstName: mockRegisterFormData.firstName,
-          lastName: mockRegisterFormData.lastName,
-          uid: mockRegisterFormData.email_lowercase,
-          password: mockRegisterFormData.password,
-          titleCode: mockRegisterFormData.titleCode,
-        });
+      const getInvalidControls = () => {
+        const invalid: string[] = [];
+        const controls = component.registerForm.controls;
+        for (const name in controls) {
+          if (controls[name].invalid) {
+            invalid.push(name);
+          }
+        }
+        return invalid;
+      };
+      vi.spyOn(
+        registerComponentService,
+        'collectDataFromRegisterForm'
+      ).mockReturnValue({
+        firstName: mockRegisterFormData.firstName,
+        lastName: mockRegisterFormData.lastName,
+        uid: mockRegisterFormData.email_lowercase,
+        password: mockRegisterFormData.password,
+        titleCode: mockRegisterFormData.titleCode,
+      });
       component.registerForm.patchValue(mockRegisterFormData);
-      component.ngOnInit();
+      component.registerForm.updateValueAndValidity();
       component.submitForm();
       expect(regComponentService.register).toHaveBeenCalledWith({
         firstName: mockRegisterFormData.firstName,
@@ -493,9 +515,12 @@ describe('RegisterComponent', () => {
   });
 
   describe('password validators', () => {
-    it('should validate password ends with legal character when useEnhancedSecurePasswordValidators is enabled', () => {
-      featureToggles.useEnhancedSecurePasswordValidators = true;
-
+    it('should validate password ends with legal character when useEnhancedSecurePasswordValidators is enabled', async () => {
+      TestBed.resetTestingModule();
+      await configureTestingModule({
+        useEnhancedSecurePasswordValidators: true,
+        authorizationCodeFlowByDefault: false,
+      });
       fixture = TestBed.createComponent(RegisterComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
