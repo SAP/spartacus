@@ -73,7 +73,9 @@ class MockActivatedRoute implements Partial<ActivatedRoute> {
   queryParams = of<{ error: string | null }>({ error: 'bad_credentials' });
 
   setQueryParams(params: Record<string, string | undefined>) {
-    this.snapshot = { queryParams: params } as unknown as ActivatedRouteSnapshot;
+    this.snapshot = {
+      queryParams: params,
+    } as unknown as ActivatedRouteSnapshot;
   }
 }
 
@@ -95,7 +97,9 @@ class MockCsrfStateService implements Partial<CsrfStateService> {
   setAuthReqId = vi.fn();
   // consumeAuthReqId was removed in favour of URL-first resolution in the
   // authReqId getter; this stub keeps the mock complete for any legacy callers.
-  consumeAuthReqId = vi.fn().mockImplementation(function (this: MockCsrfStateService) {
+  consumeAuthReqId = vi.fn().mockImplementation(function (
+    this: MockCsrfStateService
+  ) {
     return this.getAuthReqId();
   });
 }

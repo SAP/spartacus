@@ -10,9 +10,9 @@ import { appendAuthReqId } from './url-with-auth-req-id';
 describe('appendAuthReqId', () => {
   describe('single-argument form (urlOrPath + id)', () => {
     it('appends to an absolute URL with no existing query string', () => {
-      expect(
-        appendAuthReqId('https://example.com/csrf', 'req-abc')
-      ).toBe('https://example.com/csrf?auth_req_id=req-abc');
+      expect(appendAuthReqId('https://example.com/csrf', 'req-abc')).toBe(
+        'https://example.com/csrf?auth_req_id=req-abc'
+      );
     });
 
     it('appends to an absolute URL that already has a query string', () => {

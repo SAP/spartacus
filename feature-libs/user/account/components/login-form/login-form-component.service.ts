@@ -126,9 +126,7 @@ export class LoginFormComponentService {
                 // URL-first (ActivatedRoute.snapshot) then falls back to the
                 // service, so this always picks up the most authoritative value
                 // available at submit time.
-                this.form
-                  .get('auth_req_id')
-                  ?.setValue(this.authReqId);
+                this.form.get('auth_req_id')?.setValue(this.authReqId);
               }
               this.setOauthRedirectFlowFlag();
               // Submit BEFORE flipping busy$ to true. busy$=true triggers
@@ -203,9 +201,7 @@ export class LoginFormComponentService {
               // branch, so the CSRF-refresh tap above did not run. Refresh the
               // control using the URL-first authReqId getter so that the most
               // authoritative value (URL param > service fallback) is POSTed.
-              this.form
-                .get('auth_req_id')
-                ?.setValue(this.authReqId);
+              this.form.get('auth_req_id')?.setValue(this.authReqId);
             }
             this.setOauthRedirectFlowFlag();
             this.submitWithUsernameOverride(nativeForm, userId);

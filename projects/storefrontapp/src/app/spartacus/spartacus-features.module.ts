@@ -398,6 +398,7 @@ if (environment.cpq) {
         enableFormFieldMaxLength: true,
         a11yCouponDialogResetButtonKeyboardAccessible: true,
         a11yInStockInfoTextContrast: true,
+        concurrentLoginPagesSupport: true,
       };
       return appFeatureToggles;
     }),
