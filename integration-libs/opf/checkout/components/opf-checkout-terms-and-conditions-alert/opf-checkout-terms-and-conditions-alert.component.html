@@ -2,7 +2,7 @@
   <ng-container *ngIf="paymentDisabled$ | async; else termsConditions">
     <div class="alert alert-danger">
       <span class="alert-icon" aria-hidden="true">
-        <cx-icon [type]="iconTypes.ERROR"></cx-icon>
+        <cx-icon [type]="iconTypes.ERROR" />
       </span>
       <p class="message" tabindex="0" role="alert" aria-live="polite">
         {{ 'opfCheckout.errors.noBillingAddress' | cxTranslate }}
@@ -12,7 +12,7 @@
   <ng-template #termsConditions>
     <div class="alert alert-info">
       <span class="alert-icon" aria-hidden="true">
-        <cx-icon [type]="iconTypes.INFO"></cx-icon>
+        <cx-icon [type]="iconTypes.INFO" />
       </span>
       <p class="message" tabindex="0" role="alert" aria-live="polite">
         {{
@@ -32,7 +32,7 @@
         "
         [attr.title]="'opfCheckout.closeTermsAndConditionsAlert' | cxTranslate"
       >
-        <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        <cx-icon [type]="iconTypes.CLOSE" />
       </button>
     </div>
   </ng-template>

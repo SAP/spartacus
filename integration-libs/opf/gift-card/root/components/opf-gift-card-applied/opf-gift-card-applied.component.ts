@@ -46,6 +46,7 @@ export class OpfGiftCardAppliedComponent {
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
         this.opfPaymentEventsService.emitReinitiatePaymentEvent();
+        this.opfPaymentEventsService.emitRefreshActiveConfigurationsEvent();
       },
       error: (error) => {
         const message = error.details?.[0]?.message;

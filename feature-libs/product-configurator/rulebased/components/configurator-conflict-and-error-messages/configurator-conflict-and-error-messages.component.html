@@ -6,7 +6,7 @@
       class="alert-message alert-message-invalid-warning"
     >
       <span class="alert-icon">
-        <cx-icon type="WARNING"></cx-icon>
+        <cx-icon type="WARNING" />
       </span>
       <span
         class="cx-warning-text"
@@ -23,11 +23,11 @@
         {{ 'configurator.header.reviewWarnings' | cxTranslate }}
 
         <ng-container *ngIf="!showWarnings">
-          <cx-icon type="CARET_DOWN"></cx-icon>
+          <cx-icon type="CARET_DOWN" />
         </ng-container>
 
         <ng-container *ngIf="showWarnings">
-          <cx-icon type="CARET_UP"></cx-icon>
+          <cx-icon type="CARET_UP" />
         </ng-container>
       </button>
       <div
@@ -54,7 +54,7 @@
       class="alert-message alert-message-error"
     >
       <span class="alert-icon">
-        <cx-icon type="ERROR"></cx-icon>
+        <cx-icon type="ERROR" />
       </span>
       <span
         class="cx-error-text"
@@ -70,11 +70,11 @@
       >
         {{ 'configurator.header.reviewErrors' | cxTranslate }}
         <ng-container *ngIf="!showErrors">
-          <cx-icon type="CARET_DOWN"></cx-icon>
+          <cx-icon type="CARET_DOWN" />
         </ng-container>
 
         <ng-container *ngIf="showErrors">
-          <cx-icon type="CARET_UP"></cx-icon>
+          <cx-icon type="CARET_UP" />
         </ng-container>
       </button>
       <div

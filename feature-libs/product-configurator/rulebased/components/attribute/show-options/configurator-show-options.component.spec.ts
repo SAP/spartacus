@@ -8,7 +8,6 @@ import { ConfiguratorCommonsService } from '../../../core/facade/configurator-co
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorShowOptionsComponent } from './configurator-show-options.component';
-import { vi } from 'vitest';
 
 class MockConfiguratorCommonsService {
   readAttributeDomain() {}

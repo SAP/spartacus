@@ -19,7 +19,7 @@
         attr.aria-label="{{ 'subscriptionActions.closeModal' | cxTranslate }}"
         (click)="onDialogClose('Modal dismissed')"
       >
-        <span><cx-icon [type]="iconTypes.CLOSE"></cx-icon></span>
+        <span><cx-icon [type]="iconTypes.CLOSE" /></span>
       </button>
     </div>
     <div class="cx-dialog-body modal-body">
@@ -35,7 +35,7 @@
               (update)="onFilterDateChange()"
               [min]="minDate"
               [max]="maxDate"
-            ></cx-date-picker>
+            />
           </div>
           <div class="to-date-filter date-filters">
             <span class="sort-label label-text">
@@ -47,7 +47,7 @@
               (update)="onFilterDateChange()"
               [min]="minDate"
               [max]="maxDate"
-            ></cx-date-picker>
+            />
           </div>
           <div class="reset-filter-wrapper">
             <button

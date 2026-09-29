@@ -92,6 +92,7 @@ describe('BannerComponent', () => {
 
   beforeEach(() => {
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
+    data$.next(mockBannerData);
 
     TestBed.configureTestingModule({
       imports: [RouterModule.forRoot([])],

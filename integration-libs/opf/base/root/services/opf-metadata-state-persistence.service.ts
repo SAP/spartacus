@@ -62,8 +62,21 @@ export class OpfMetadataStatePersistanceService implements OnDestroy {
   protected getOpfState(): Observable<SyncedOpfState> {
     return this.opfMetadataStoreService.getOpfMetadataState().pipe(
       map((metadata: OpfMetadataModel) => {
+        const {
+          opfPaymentSessionId,
+          opfPaymentSessionConfigurationId,
+          ...persistedMetadata
+        } = metadata;
         return {
-          metadata,
+          metadata: {
+            ...persistedMetadata,
+            // Persist session ID only for 3DS redirect — it must survive the PSP page reload.
+            // For other patterns, keeping it in-memory only prevents stale sessions from being reused after a page refresh.
+            ...(metadata.is3DSRedirect && {
+              opfPaymentSessionId,
+              opfPaymentSessionConfigurationId,
+            }),
+          } as OpfMetadataModel,
         };
       })
     );

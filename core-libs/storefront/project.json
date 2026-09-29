@@ -7,6 +7,7 @@
   "targets": {
     "build": {
       "executor": "./tools/build-lib:declaration-merging",
+      "outputs": ["{workspaceRoot}/dist/storefront"],
       "options": {
         "tsConfig": "core-libs/storefront/tsconfig.lib.json",
         "project": "core-libs/storefront/ng-package.json"

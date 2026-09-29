@@ -5,7 +5,7 @@ import {
   NodeItem,
   SemanticPathService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationService } from './navigation.service';
 
@@ -57,95 +57,7 @@ const navigationEntryItems: any = {
   },
 };
 
-const componentData: CmsNavigationComponent = {
-  uid: 'MockNavigationComponent',
-  typeCode: 'NavigationComponent',
-  name: 'NavigationComponent name',
-  navigationNode: {
-    uid: 'MockNavigationNode001',
-    entries: [
-      {
-        itemId: 'MainLink001',
-        itemSuperType: 'AbstractCMSComponent',
-        itemType: 'CMSLinkComponent',
-      },
-    ],
-    children: [
-      {
-        uid: 'MockChildNode001',
-        entries: [
-          {
-            itemId: 'MockLink001',
-            itemSuperType: 'AbstractCMSComponent',
-            itemType: 'CMSLinkComponent',
-          },
-        ],
-      },
-      {
-        uid: 'MockChildNode002',
-        entries: [
-          {
-            itemId: 'MockLink002',
-            itemSuperType: 'AbstractCMSComponent',
-            itemType: 'CMSLinkComponent',
-          },
-        ],
-        children: [
-          {
-            uid: 'MockSubChildNode001',
-            entries: [
-              {
-                itemId: 'MockSubLink001',
-                itemSuperType: 'AbstractCMSComponent',
-                itemType: 'CMSLinkComponent',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        uid: 'MockChildNode003',
-        entries: [
-          {
-            itemId: 'MockLink003',
-            itemSuperType: 'AbstractCMSComponent',
-            itemType: 'CMSLinkComponent',
-          },
-        ],
-      },
-      {
-        uid: 'MockChildNode004',
-        entries: [
-          {
-            itemId: 'MockLink004',
-            itemSuperType: 'AbstractCMSComponent',
-            itemType: 'CMSLinkComponent',
-          },
-        ],
-      },
-      {
-        uid: 'MockChildNode005',
-        entries: [
-          {
-            itemId: 'MockLink005',
-            itemSuperType: 'AbstractCMSComponent',
-            itemType: 'CMSLinkComponent',
-          },
-        ],
-      },
-      {
-        uid: 'MockChildNode006',
-        entries: [
-          {
-            itemId: 'MockLink006',
-            itemSuperType: 'AbstractCMSComponent',
-            itemType: 'CMSLinkComponent',
-          },
-        ],
-      },
-    ],
-  },
-};
+let componentData: CmsNavigationComponent;
 
 class MockSemanticPathService {
   transform(commands: any) {
@@ -161,6 +73,95 @@ describe('NavigationComponentService', () => {
     mockCmsService = {
       loadNavigationItems: vi.fn(),
       getNavigationEntryItems: vi.fn().mockReturnValue(of(undefined)),
+    };
+    componentData = {
+      uid: 'MockNavigationComponent',
+      typeCode: 'NavigationComponent',
+      name: 'NavigationComponent name',
+      navigationNode: {
+        uid: 'MockNavigationNode001',
+        entries: [
+          {
+            itemId: 'MainLink001',
+            itemSuperType: 'AbstractCMSComponent',
+            itemType: 'CMSLinkComponent',
+          },
+        ],
+        children: [
+          {
+            uid: 'MockChildNode001',
+            entries: [
+              {
+                itemId: 'MockLink001',
+                itemSuperType: 'AbstractCMSComponent',
+                itemType: 'CMSLinkComponent',
+              },
+            ],
+          },
+          {
+            uid: 'MockChildNode002',
+            entries: [
+              {
+                itemId: 'MockLink002',
+                itemSuperType: 'AbstractCMSComponent',
+                itemType: 'CMSLinkComponent',
+              },
+            ],
+            children: [
+              {
+                uid: 'MockSubChildNode001',
+                entries: [
+                  {
+                    itemId: 'MockSubLink001',
+                    itemSuperType: 'AbstractCMSComponent',
+                    itemType: 'CMSLinkComponent',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            uid: 'MockChildNode003',
+            entries: [
+              {
+                itemId: 'MockLink003',
+                itemSuperType: 'AbstractCMSComponent',
+                itemType: 'CMSLinkComponent',
+              },
+            ],
+          },
+          {
+            uid: 'MockChildNode004',
+            entries: [
+              {
+                itemId: 'MockLink004',
+                itemSuperType: 'AbstractCMSComponent',
+                itemType: 'CMSLinkComponent',
+              },
+            ],
+          },
+          {
+            uid: 'MockChildNode005',
+            entries: [
+              {
+                itemId: 'MockLink005',
+                itemSuperType: 'AbstractCMSComponent',
+                itemType: 'CMSLinkComponent',
+              },
+            ],
+          },
+          {
+            uid: 'MockChildNode006',
+            entries: [
+              {
+                itemId: 'MockLink006',
+                itemSuperType: 'AbstractCMSComponent',
+                itemType: 'CMSLinkComponent',
+              },
+            ],
+          },
+        ],
+      },
     };
     TestBed.configureTestingModule({
       providers: [
@@ -216,34 +217,28 @@ describe('NavigationComponentService', () => {
     expect(result.children[3].url).toEqual(['category', '444', 'name 4']);
   });
 
-  it('should get a link to a content page when contentPageLabelOrId is provided', () => {
+  it('should get a link to a content page when contentPageLabelOrId is provided', async () => {
     mockCmsService.getNavigationEntryItems.mockReturnValue(
       of(navigationEntryItems)
     );
 
-    let result: NavigationNode;
-    navigationService
-      .getNavigationNode(of(componentData))
-      .subscribe((node) => (result = node));
-
-    expect(result.children[4].url).toEqual('/faq');
+    const result: NavigationNode = await firstValueFrom(
+      navigationService.getNavigationNode(of(componentData))
+    );
+    const children = result.children ?? [];
+    expect(children[4].url).toEqual('/faq');
   });
 
-  it('should get a link to a product when productCode is provided', () => {
+  it('should get a link to a product when productCode is provided', async () => {
     mockCmsService.getNavigationEntryItems.mockReturnValue(
       of(navigationEntryItems)
     );
 
-    let result: NavigationNode;
-    navigationService
-      .getNavigationNode(of(componentData))
-      .subscribe((node) => (result = node));
-
-    expect(result.children[5].url).toEqual([
-      'product',
-      '478828',
-      'product page link',
-    ]);
+    const result: NavigationNode = await firstValueFrom(
+      navigationService.getNavigationNode(of(componentData))
+    );
+    const children = result.children ?? [];
+    expect(children[5].url).toEqual(['product', '478828', 'product page link']);
   });
 
   it('should get navigation node based on CMS data', () => {
@@ -285,19 +280,21 @@ describe('NavigationComponentService', () => {
     );
   });
 
-  it('should create a virtual navigation root', () => {
+  it('should create a virtual navigation root', async () => {
     mockCmsService.getNavigationEntryItems.mockReturnValue(
       of(navigationEntryItems)
     );
 
-    let result: NavigationNode;
-    navigationService
-      .createNavigation(of(componentData))
-      .subscribe((node) => (result = node));
+    const result: NavigationNode = await firstValueFrom(
+      navigationService.createNavigation(of(componentData))
+    );
+    const children = result.children ?? [];
 
     expect(result.title).toEqual('NavigationComponent name');
-    expect(result.children.length).toEqual(1);
-    expect(result.children[0].children.length).toEqual(5);
+    expect(children.length).toEqual(1);
+    //6 elements are present at the defined "componentData", variable, previous assertion to 5 was corrupted
+    //due to dependency from previous test executions
+    expect(children[0].children?.length).toEqual(6);
   });
 
   describe('populate nodes', () => {
