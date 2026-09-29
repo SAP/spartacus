@@ -30,17 +30,25 @@ function log_selected_projects {
 function run_karma_group_tests {
     if [[ -n "$UNIT_TEST_GROUP_PROJECTS" ]]; then
         echo "🔀 Running only selected projects: $UNIT_TEST_GROUP_PROJECTS"
-        log_selected_projects "KARMA/JEST" "$UNIT_TEST_GROUP_PROJECTS"
+        log_selected_projects "KARMA" "$UNIT_TEST_GROUP_PROJECTS"
 
         echo "Running JASMINE unit tests for selected projects"
         npx nx run-many --target=test --projects="$UNIT_TEST_GROUP_PROJECTS" --exclude="$EXCLUDE_APPLICATIONS,$JEST_PROJECTS" -- --no-watch --source-map --code-coverage --browsers ChromeHeadless
+    else
+        echo "Running ALL JASMINE unit tests"
+        npx nx run-many --all --target=test --exclude="$EXCLUDE_APPLICATIONS,$JEST_PROJECTS" -- --no-watch --source-map --code-coverage --browsers ChromeHeadless
+    fi
+    return 0
+}
+
+function run_jest_group_tests {
+    if [[ -n "$UNIT_TEST_GROUP_PROJECTS" ]]; then
+        echo "🔀 Running only selected projects: $UNIT_TEST_GROUP_PROJECTS"
+        log_selected_projects "JEST" "$UNIT_TEST_GROUP_PROJECTS"
 
         echo "Running JEST unit tests for selected projects"
         npx nx run-many --target=test-jest --projects="$UNIT_TEST_GROUP_PROJECTS" --exclude="$EXCLUDE_APPLICATIONS" -- --coverage --runInBand
     else
-        echo "Running ALL JASMINE unit tests"
-        npx nx run-many --all --target=test --exclude="$EXCLUDE_APPLICATIONS,$JEST_PROJECTS" -- --no-watch --source-map --code-coverage --browsers ChromeHeadless
-
         echo "Running ALL JEST unit tests"
         npx nx run-many --all --target=test-jest --exclude="$EXCLUDE_APPLICATIONS" -- --coverage --runInBand
     fi
@@ -82,17 +90,24 @@ function run_all_unit_tests {
         karma)
             run_karma_group_tests
             ;;
+        jest)
+            run_jest_group_tests
+            ;;
         vitest)
             run_vitest_group_tests
             ;;
         *)
             run_karma_group_tests
+            run_jest_group_tests
             run_vitest_group_tests
             ;;
     esac
+    return 0
 }
 
-if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
+if [[ -n "${UNIT_TEST_GROUP_PROJECTS:-}" ]]; then
+    run_all_unit_tests
+elif [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
     if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
         run_all_unit_tests
     else

@@ -70,7 +70,7 @@ import { CartBaseFeatureModule } from './features/cart/cart-base-feature.module'
 import { CartImportExportFeatureModule } from './features/cart/cart-import-export-feature.module';
 import { CartQuickOrderFeatureModule } from './features/cart/cart-quick-order-feature.module';
 import { CartSavedCartFeatureModule } from './features/cart/cart-saved-cart-feature.module';
-import { WishListFeatureModule } from './features/cart/wish-list-feature.module';
+import { WishListV2FeatureModule } from './features/cart/wish-list-v2-feature.module';
 import { CdcFeatureModule } from './features/cdc/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout/checkout-feature.module';
@@ -250,7 +250,7 @@ if (environment.cpq) {
     UserFeatureModule,
 
     CartBaseFeatureModule,
-    WishListFeatureModule,
+    WishListV2FeatureModule,
     CartSavedCartFeatureModule,
     CartQuickOrderFeatureModule,
     CartImportExportFeatureModule,
@@ -345,6 +345,7 @@ if (environment.cpq) {
         a11yFilteredFacetAnnouncement: true,
         a11yCartItemListHideEmptyOutlets: true,
         a11yReviewsKeyboardControls: true,
+        a11yShowMoreReviewsFocusVisible: true,
         a11yCartQuickOrderFormEnableSubmitAndAddValidation: true,
         a11yConsentManagementFocusPreservation: true,
         a11yDeliveryModeFocusPreservation: true,
@@ -368,13 +369,14 @@ if (environment.cpq) {
         pageLinkSanitizeCanonicalUrl: true,
         opfUseDestroyRef: true,
         enableHierarchicalAddressFormat: true,
+        addTitleToAddressCard: true,
         opfCheckoutUseUpdatePaymentTransaction: true,
         enableCartSlowNetworkResilience: true,
         a11yRegistrationTermsAsteriskMargin: true,
         a11yAddToWishListBtnMargin: true,
         a11yProductListItemNameMargin: true,
         propagateLogoutToAllTabs: true,
-        asyncAuthConfigInitializer: false as boolean, // exception until sample data is updated
+        asyncAuthConfigInitializer: true,
         siteIsolationForCustomLoginPage: true,
         applyBaseSiteThemeFromCms: true,
         a11yNavigationSpaceKeyOnKeyUp: true,
@@ -382,6 +384,7 @@ if (environment.cpq) {
         reloadOnLanguageChange: true,
         a11yFormErrorIconContrast: true,
         a11yFocusIndicatorContrast: true,
+        a11yPrimaryColorContrast: true,
         a11yDisabledButtonContrast: true,
         a11yImproveAddressFormFocus: true,
         a11yFocusBreadcrumbOnNavigation: true,
@@ -390,7 +393,11 @@ if (environment.cpq) {
         globalMessageCloseButtonPadding: true,
         a11yItemCounterValueText: true,
         a11yNavigationChevronContrast: true,
+        showWarningMessageOnRequoteButtonClick: true,
+        oauthCallbackPage: true,
         enableFormFieldMaxLength: true,
+        a11yCouponDialogResetButtonKeyboardAccessible: true,
+        a11yInStockInfoTextContrast: true,
       };
       return appFeatureToggles;
     }),

@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { vi } from 'vitest';
 import { BulkPrice } from '../../core/model/bulk-price.model';
 
 import { BulkPricingTableComponent } from './bulk-pricing-table.component';

@@ -30,7 +30,6 @@ import {
 } from '../configurator-state';
 import { getConfiguratorReducers } from './../reducers/index';
 import * as fromEffects from './configurator-cart.effect';
-import { vi } from 'vitest';
 
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';

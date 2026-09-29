@@ -26,6 +26,7 @@ export default defineConfig({
       '@spartacus/core/testing/mock-feature-toggles': `${root}/core-libs/core/src/features-config/feature-toggles/testing/index.ts`,
       '@spartacus/core/testing/mock-url-pipe': `${root}/core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe.ts`,
       'core-libs/core/src/features-config/feature-toggles/testing': `${root}/core-libs/core/src/features-config/feature-toggles/testing/index.ts`,
+      'core-libs/storefront/shared/test/mock-window-ref': `${root}/core-libs/storefront/shared/test/mock-window-ref.ts`,
       // Resolve the storefront barrel to source so a newly added `export *`
       // symbol (e.g. FocusFirstInvalidFieldDirective) isn't dropped by esbuild's
       // dependency pre-bundling under the barrel's circular re-exports, which
