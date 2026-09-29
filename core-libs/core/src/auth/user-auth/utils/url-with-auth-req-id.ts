@@ -34,10 +34,10 @@ export function appendAuthReqId(
   authReqId?: string
 ): string | null {
   if (authReqId === undefined) {
-    // Single-argument form: baseOrId IS the auth_req_id.
+    // Two-argument call (url + id): baseOrId IS the auth_req_id.
     return appendToSingleUrl(urlOrPath, baseOrId);
   }
-  // Two-argument form: resolve path against base, then append.
+  // Three-argument call (path + base + id): resolve path against base, then append.
   try {
     const resolved = new URL(urlOrPath, baseOrId);
     resolved.searchParams.set('auth_req_id', authReqId);
@@ -56,6 +56,15 @@ function appendToSingleUrl(rawUrl: string, id: string): string {
   } catch {
     // rawUrl is relative — new URL() requires an absolute URL.
     // Append the parameter manually so relative CSRF endpoints still work.
+    // If auth_req_id is already present (e.g. a retry redirect that already
+    // appended it), replace it rather than duplicating it — the absolute-URL
+    // path uses searchParams.set which replaces, so this mirrors that behavior.
+    if (rawUrl.includes('auth_req_id=')) {
+      return rawUrl.replace(
+        /([?&]auth_req_id=)[^&]*/,
+        `$1${encodeURIComponent(id)}`
+      );
+    }
     const sep = rawUrl.includes('?') ? '&' : '?';
     return `${rawUrl}${sep}auth_req_id=${encodeURIComponent(id)}`;
   }

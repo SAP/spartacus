@@ -332,6 +332,67 @@ describe('LoginFormComponentService', () => {
           );
         });
 
+        describe('when concurrentLoginPagesSupport is enabled and siteIsolation is OFF', () => {
+          beforeEach(() => {
+            // Re-create the module so the constructor (which reads the route
+            // snapshot to seed the auth_req_id control) picks up the injected
+            // query param.
+            TestBed.resetTestingModule();
+            TestBed.configureTestingModule({
+              providers: [...providers],
+            });
+            TestBed.overrideProvider(FeatureToggles, {
+              useFactory: () => TestBed.inject(MockFeatureTogglesController),
+            });
+            mockFeatureTogglesController = TestBed.inject(
+              MockFeatureTogglesController
+            );
+            mockFeatureTogglesController.set(
+              'authorizationCodeFlowByDefault',
+              true
+            );
+            mockFeatureTogglesController.set(
+              'authorizationCodeFlowByDefaultCsrfTokenRefresh',
+              false
+            );
+            mockFeatureTogglesController.set(
+              'concurrentLoginPagesSupport',
+              true
+            );
+            mockFeatureTogglesController.set(
+              'siteIsolationForCustomLoginPage',
+              false
+            );
+            const mockRoute = TestBed.inject(
+              ActivatedRoute
+            ) as unknown as MockActivatedRoute;
+            mockRoute.setQueryParams({ auth_req_id: 'req-else' });
+            service = TestBed.inject(LoginFormComponentService);
+            authService = TestBed.inject(AuthService);
+            winRef = TestBed.inject(WindowRef);
+          });
+
+          it('should set auth_req_id form control from URL query param (authReqId getter) before submit', () => {
+            // This covers the else branch:
+            //   authorizationCodeFlowByDefault ON
+            //   + csrfTokenRefresh OFF
+            //   + siteIsolation OFF
+            // The control must be populated from this.authReqId (URL-first),
+            // NOT from csrfStateService.getAuthReqId() which always returns
+            // undefined (the guard never writes to CsrfStateService).
+            service.form.setValue({
+              userId: 'test@email.com',
+              password: 'secret',
+              csrf: 'token',
+              auth_req_id: '',
+            });
+            const form = createForm('test@email.com', 'secret', 'token');
+            vi.spyOn(form, 'submit');
+            service.login(form);
+            expect(service.form.get('auth_req_id')?.value).toBe('req-else');
+          });
+        });
+
         describe('when siteIsolationForCustomLoginPage is enabled', () => {
           beforeEach(() => {
             mockFeatureTogglesController.set(
@@ -534,6 +595,67 @@ describe('LoginFormComponentService', () => {
           service.login(form);
           expect(submitSpy).toHaveBeenCalled();
           expect(authService.refreshCsrfToken).not.toHaveBeenCalled();
+        });
+
+        describe('when concurrentLoginPagesSupport is enabled and siteIsolation is OFF', () => {
+          beforeEach(() => {
+            // Re-create the module so the constructor (which reads the route
+            // snapshot to seed the auth_req_id control) picks up the injected
+            // query param.
+            TestBed.resetTestingModule();
+            TestBed.configureTestingModule({
+              providers: [...providers],
+            });
+            TestBed.overrideProvider(FeatureToggles, {
+              useFactory: () => TestBed.inject(MockFeatureTogglesController),
+            });
+            mockFeatureTogglesController = TestBed.inject(
+              MockFeatureTogglesController
+            );
+            mockFeatureTogglesController.set(
+              'authorizationCodeFlowByDefault',
+              true
+            );
+            mockFeatureTogglesController.set(
+              'authorizationCodeFlowByDefaultCsrfTokenRefresh',
+              false
+            );
+            mockFeatureTogglesController.set(
+              'concurrentLoginPagesSupport',
+              true
+            );
+            mockFeatureTogglesController.set(
+              'siteIsolationForCustomLoginPage',
+              false
+            );
+            const mockRoute = TestBed.inject(
+              ActivatedRoute
+            ) as unknown as MockActivatedRoute;
+            mockRoute.setQueryParams({ auth_req_id: 'req-else' });
+            service = TestBed.inject(LoginFormComponentService);
+            authService = TestBed.inject(AuthService);
+            winRef = TestBed.inject(WindowRef);
+          });
+
+          it('should set auth_req_id form control from URL query param (authReqId getter) before submit', () => {
+            // This covers the else branch:
+            //   authorizationCodeFlowByDefault ON
+            //   + csrfTokenRefresh OFF
+            //   + siteIsolation OFF
+            // The control must be populated from this.authReqId (URL-first),
+            // NOT from csrfStateService.getAuthReqId() which always returns
+            // undefined (the guard never writes to CsrfStateService).
+            service.form.setValue({
+              userId: 'test@email.com',
+              password: 'secret',
+              csrf: 'token',
+              auth_req_id: '',
+            });
+            const form = createForm('test@email.com', 'secret', 'token');
+            vi.spyOn(form, 'submit');
+            service.login(form);
+            expect(service.form.get('auth_req_id')?.value).toBe('req-else');
+          });
         });
 
         describe('when siteIsolationForCustomLoginPage is enabled', () => {
@@ -782,18 +904,38 @@ describe('LoginFormComponentService', () => {
             );
           });
 
-          it('should update auth_req_id control value before submit (CSRF refresh path)', () => {
+          it('should update auth_req_id control value from URL (not CsrfStateService) before submit (CSRF refresh path)', () => {
+            // The value must come from this.authReqId (URL-first getter) — the
+            // guard never writes to CsrfStateService so getAuthReqId() always
+            // returns undefined. setupWithToggles injected auth_req_id=req-xyz
+            // into the route snapshot, so authReqId returns 'req-xyz'.
             service.form.setValue({
               userId: 'test@email.com',
               password: 'secret',
               csrf: 'token',
-              auth_req_id: 'old-value',
+              auth_req_id: 'stale-value',
             });
-            (csrfStateService.getAuthReqId as any).mockReturnValue('req-xyz');
             const form = createForm('test@email.com', 'secret', 'token');
             vi.spyOn(form, 'submit');
             service.login(form);
             expect(service.form.get('auth_req_id')?.value).toBe('req-xyz');
+            // CsrfStateService must never be consulted for auth_req_id — it is
+            // a shared singleton that could carry a stale id from a concurrent
+            // activation.
+            expect(csrfStateService.getAuthReqId).not.toHaveBeenCalled();
+          });
+
+          it('should NOT call csrfStateService.getAuthReqId at any point during login (race-free contract)', () => {
+            service.form.setValue({
+              userId: 'test@email.com',
+              password: 'secret',
+              csrf: 'token',
+              auth_req_id: 'req-xyz',
+            });
+            const form = createForm('test@email.com', 'secret', 'token');
+            vi.spyOn(form, 'submit');
+            service.login(form);
+            expect(csrfStateService.getAuthReqId).not.toHaveBeenCalled();
           });
         });
 
@@ -812,6 +954,128 @@ describe('LoginFormComponentService', () => {
 
           it('authReqId getter should return undefined when no auth_req_id stored', () => {
             expect(service.authReqId).toBeUndefined();
+          });
+        });
+
+        describe('when concurrentLoginPagesSupport is OFF — csrfStateService is never consulted for auth_req_id', () => {
+          beforeEach(() => {
+            setupWithToggles({ concurrentLoginPagesSupport: false });
+          });
+
+          it('should not call getAuthReqId during csrfTokenRefresh submit branch', () => {
+            service.form.setValue({
+              userId: 'test@email.com',
+              password: 'secret',
+              csrf: 'token',
+            });
+            const form = createForm('test@email.com', 'secret', 'token');
+            vi.spyOn(form, 'submit');
+            service.login(form);
+            expect(csrfStateService.getAuthReqId).not.toHaveBeenCalled();
+          });
+        });
+
+        describe('csrfTokenRefresh ON + siteIsolation ON + concurrentLoginPagesSupport ON', () => {
+          beforeEach(() => {
+            setupWithToggles(
+              {
+                concurrentLoginPagesSupport: true,
+                siteIsolationForCustomLoginPage: true,
+              },
+              'req-siteiso'
+            );
+          });
+
+          it('should set auth_req_id from URL before submit (not from CsrfStateService)', () => {
+            service.form.setValue({
+              userId: 'test@email.com',
+              password: 'secret',
+              csrf: 'token',
+              auth_req_id: 'stale',
+            });
+            const form = createForm('test@email.com', 'secret', 'token');
+            vi.spyOn(form, 'submit').mockImplementation(() => {});
+            vi.spyOn(
+              TestBed.inject(AuthMultisiteIsolationService),
+              'decorateUserId'
+            ).mockReturnValue(of('test@email.com'));
+            service.login(form);
+            expect(service.form.get('auth_req_id')?.value).toBe('req-siteiso');
+            expect(csrfStateService.getAuthReqId).not.toHaveBeenCalled();
+          });
+        });
+
+        describe('csrfTokenRefresh OFF + siteIsolation ON + concurrentLoginPagesSupport ON', () => {
+          beforeEach(() => {
+            setupWithToggles(
+              {
+                concurrentLoginPagesSupport: true,
+                authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
+                siteIsolationForCustomLoginPage: true,
+              },
+              'req-siteiso-nocsrf'
+            );
+          });
+
+          it('should set auth_req_id from URL before submit in siteIsolation branch', () => {
+            service.form.setValue({
+              userId: 'test@email.com',
+              password: 'secret',
+              csrf: 'token',
+              auth_req_id: 'stale',
+            });
+            const form = createForm('test@email.com', 'secret', 'token');
+            vi.spyOn(form, 'submit').mockImplementation(() => {});
+            vi.spyOn(
+              TestBed.inject(AuthMultisiteIsolationService),
+              'decorateUserId'
+            ).mockReturnValue(of('test@email.com'));
+            service.login(form);
+            expect(service.form.get('auth_req_id')?.value).toBe(
+              'req-siteiso-nocsrf'
+            );
+            expect(csrfStateService.getAuthReqId).not.toHaveBeenCalled();
+          });
+        });
+
+        describe('csrfTokenRefresh OFF + siteIsolation OFF + concurrentLoginPagesSupport ON (else branch)', () => {
+          beforeEach(() => {
+            setupWithToggles(
+              {
+                concurrentLoginPagesSupport: true,
+                authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
+                siteIsolationForCustomLoginPage: false,
+              },
+              'req-else-branch'
+            );
+          });
+
+          it('should set auth_req_id from URL query param before submit', () => {
+            service.form.setValue({
+              userId: 'test@email.com',
+              password: 'secret',
+              csrf: 'token',
+              auth_req_id: 'stale',
+            });
+            const form = createForm('test@email.com', 'secret', 'token');
+            vi.spyOn(form, 'submit');
+            service.login(form);
+            expect(service.form.get('auth_req_id')?.value).toBe(
+              'req-else-branch'
+            );
+          });
+
+          it('should NOT call csrfStateService.getAuthReqId in else branch', () => {
+            service.form.setValue({
+              userId: 'test@email.com',
+              password: 'secret',
+              csrf: 'token',
+              auth_req_id: '',
+            });
+            const form = createForm('test@email.com', 'secret', 'token');
+            vi.spyOn(form, 'submit');
+            service.login(form);
+            expect(csrfStateService.getAuthReqId).not.toHaveBeenCalled();
           });
         });
       });

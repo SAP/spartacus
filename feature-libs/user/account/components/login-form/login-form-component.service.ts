@@ -210,9 +210,14 @@ export class LoginFormComponentService {
       } else {
         this.setOauthRedirectFlowFlag();
         if (this.featureToggles.concurrentLoginPagesSupport) {
-          this.form
-            .get('auth_req_id')
-            ?.setValue(this.csrfStateService.getAuthReqId());
+          // authorizationCodeFlowByDefaultCsrfTokenRefresh is OFF and
+          // siteIsolation is OFF in this branch. Use the URL-first authReqId
+          // getter — the guard never writes auth_req_id to CsrfStateService
+          // (that was the race-condition fix), so getAuthReqId() always
+          // returns undefined. authReqId resolves from
+          // ActivatedRoute.snapshot.queryParams and is immune to concurrent
+          // activation writes.
+          this.form.get('auth_req_id')?.setValue(this.authReqId);
         }
         nativeForm.submit();
         this.busy$.next(true);
