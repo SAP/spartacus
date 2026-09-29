@@ -235,8 +235,12 @@ export class PaginationComponent {
    * the toggle is on, activation is deferred to activateWithSpaceKeyup so that
    * behaviour matches native button semantics (fires on keyup) and avoids
    * repeated activation while the key is held down.
+   *
+   * The parameter is typed as Event rather than KeyboardEvent because Angular's
+   * template compiler resolves $event for (keyup.space) and (keydown.space)
+   * bindings as Event.
    */
-  activateWithSpaceKeydown(event: KeyboardEvent): void {
+  activateWithSpaceKeydown(event: Event): void {
     event.preventDefault();
     if (!this.featureToggles.a11yNavigationSpaceKeyOnKeyUp) {
       (event.currentTarget as HTMLElement).click();
@@ -253,7 +257,7 @@ export class PaginationComponent {
    * When the toggle is off, keydown already activated the link and this
    * handler is a no-op.
    */
-  activateWithSpaceKeyup(event: KeyboardEvent): void {
+  activateWithSpaceKeyup(event: Event): void {
     if (this.featureToggles.a11yNavigationSpaceKeyOnKeyUp) {
       (event.currentTarget as HTMLElement).click();
     }
