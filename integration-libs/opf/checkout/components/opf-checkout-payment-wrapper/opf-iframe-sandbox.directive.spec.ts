@@ -14,7 +14,6 @@ const SANDBOX_SCRIPTS_SAME_ORIGIN = 'allow-scripts allow-same-origin';
 @Component({
   template: `<iframe [cxOpfSandbox]="sandboxValue"></iframe>`,
   imports: [OpfIframeSandboxDirective],
-  standalone: true,
 })
 class TestHostComponent {
   sandboxValue: string | undefined;
