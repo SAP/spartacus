@@ -761,6 +761,24 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       });
     });
 
+    it('should use valueDisplay as name when catalog product has no name', (done) => {
+      const productService = TestBed.inject(ProductService);
+      spyOn(productService, 'get').and.returnValue(
+        of({
+          code: '1111-2222',
+          description: 'Catalog description',
+          images: product.images,
+        })
+      );
+
+      component.ngOnInit();
+      component.product$.subscribe((catalogProduct) => {
+        expect(catalogProduct.name).toBe(productTransformed.name);
+        expect(catalogProduct.description).toBe('Catalog description');
+        done();
+      });
+    });
+
     it('should fall back to configuration value when catalog lookup errors', (done) => {
       const productService = TestBed.inject(ProductService);
       spyOn(productService, 'get').and.returnValue(

@@ -161,17 +161,16 @@ export class ConfiguratorAttributeProductCardComponent
         ConfiguratorProductScope.CONFIGURATOR_PRODUCT_CARD
       )
       .pipe(
-        map((respProduct) => {
-          return (
-            respProduct ??
-            this.transformToProductType(
-              this.productCardOptions.productBoundValue
-            )
-          );
-        }),
+        map((respProduct) =>
+          this.mergeProductWithConfiguratorValue(
+            respProduct,
+            this.productCardOptions.productBoundValue
+          )
+        ),
         catchError(() =>
           of(
-            this.transformToProductType(
+            this.mergeProductWithConfiguratorValue(
+              undefined,
               this.productCardOptions.productBoundValue
             )
           )
@@ -360,6 +359,32 @@ export class ConfiguratorAttributeProductCardComponent
       description: value?.description,
       images: {},
       name: value?.valueDisplay,
+    };
+  }
+
+  /**
+   * Combines catalog product data with CPQ value metadata. The
+   * configurator product-card OCC scope may omit fields such as `name`;
+   * in that case the configured value display name is used.
+   *
+   * @param respProduct - Product from {@link ProductService}, if any
+   * @param value - Configurator value bound to the card
+   * @returns Merged product for the card template
+   */
+  protected mergeProductWithConfiguratorValue(
+    respProduct: Product | undefined,
+    value: Configurator.Value
+  ): Product {
+    const fallback = this.transformToProductType(value);
+    if (!respProduct) {
+      return fallback;
+    }
+    return {
+      ...fallback,
+      ...respProduct,
+      code: respProduct.code ?? fallback.code,
+      name: respProduct.name?.trim() ? respProduct.name : fallback.name,
+      description: respProduct.description ?? fallback.description,
     };
   }
 

@@ -15,7 +15,7 @@ export const defaultOccConfiguratorProductConfig: OccConfig = {
           configurator:
             'products/${productCode}?fields=code,configurable,configuratorType',
           configuratorProductCard:
-            'products/${productCode}?fields=code,description,images(DEFAULT)',
+            'products/${productCode}?fields=code,name,description,images(DEFAULT)',
         },
       },
     },
