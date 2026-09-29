@@ -176,9 +176,6 @@
   },
   "reorder": {
     "button": "Reorder",
-    "httpHandlers": {
-      "reorderError": "An error occurred while reordering. Please try again later."
-    },
     "dialog": {
       "reorderProducts": "Reorder products",
       "messages": {
@@ -191,7 +188,8 @@
       },
       "areYouSureToReplaceCart": "Current cart will be replaced with new items. Do you wish to continue?",
       "cancel": "Cancel",
-      "continue": "Continue"
+      "continue": "Continue",
+      "error": "An error occurred while reordering. Please try again later."
     }
   },
   "attachments": {

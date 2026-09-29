@@ -240,7 +240,7 @@ describe('ReorderDialogComponent', () => {
         vi.spyOn(globalMessageService, 'add');
         component.createCartFromOrder('test');
         expect(globalMessageService.add).toHaveBeenCalledWith(
-          { key: 'reorder.httpHandlers.reorderError' },
+          { key: 'reorder.dialog.error' },
           GlobalMessageType.MSG_TYPE_ERROR
         );
       });

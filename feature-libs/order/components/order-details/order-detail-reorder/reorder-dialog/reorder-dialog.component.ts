@@ -86,7 +86,7 @@ export class ReorderDialogComponent {
       },
       error: () => {
         this.globalMessageService.add(
-          { key: 'reorder.httpHandlers.reorderError' },
+          { key: 'reorder.dialog.error' },
           GlobalMessageType.MSG_TYPE_ERROR
         );
         this.loading$.next(false);
