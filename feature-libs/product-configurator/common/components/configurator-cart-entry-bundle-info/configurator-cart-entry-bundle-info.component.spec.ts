@@ -905,7 +905,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         );
       });
 
-      it("should contain a span element that displays an item name when no product is available", () => {
+      it('should contain a span element that displays an item name when no product is available', () => {
         CommonConfiguratorTestUtilsService.expectElementNotPresent(
           expect,
           htmlElem,

@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import * as cart from './cart';
+import * as common from './common';
 import { navigation, waitForPage } from './navigation';
 import * as configurationCart from './product-configurator-cart';
 import Chainable = Cypress.Chainable;
@@ -408,21 +410,24 @@ export function checkBundleItemQuantity(
 }
 
 /**
- * Toggle bundle items via 'show' or 'hide' link
+ * Toggle bundle items via 'show' or 'hide' link within a cart entry.
  *
+ * @param {number} cartItemIndex - Index of cart item
  * @param {string} linkName - Name of the toggled link
  */
-function toggleBundleItems(linkName: string) {
-  cy.get('.cx-toggle-hide-items')
-    .should('contain', linkName)
-    .click()
-    .then(() => {
-      let expectedLinkName = 'hide';
-      if (linkName !== 'show') {
-        expectedLinkName = linkName;
-      }
-      cy.get('.cx-toggle-hide-items').should('contain', expectedLinkName);
-    });
+function toggleBundleItems(cartItemIndex: number, linkName: string) {
+  findBundleItem(cartItemIndex).within(() => {
+    cy.get('.cx-toggle-hide-items')
+      .should('contain', linkName)
+      .click()
+      .then(() => {
+        let expectedLinkName = 'hide';
+        if (linkName !== 'show') {
+          expectedLinkName = linkName;
+        }
+        cy.get('.cx-toggle-hide-items').should('contain', expectedLinkName);
+      });
+  });
 }
 
 /**
@@ -437,8 +442,8 @@ export function checkAmountOfBundleItems(
 ) {
   findBundleItem(cartItemIndex).within(() => {
     cy.get('.cx-number-items').should('contain', itemsAmount);
-    toggleBundleItems('show');
   });
+  toggleBundleItems(cartItemIndex, 'show');
 }
 
 /**
@@ -472,6 +477,195 @@ export function clickOnBundleOverviewLink(cartItemIndex: number): void {
   findBundleItem(cartItemIndex).within(() => {
     cy.get('.cx-toggle-hide-items a').contains('show').click();
   });
+}
+
+/**
+ * Verifies that bundle line items are toggled inline (show/hide button) rather
+ * than via the overview navigation link.
+ *
+ * @param {number} cartItemIndex - Index of cart item
+ */
+export function checkBundleInlineShowToggleDisplayed(
+  cartItemIndex: number
+): void {
+  findBundleItem(cartItemIndex).within(() => {
+    cy.get('button .cx-toggle-hide-items').should('contain', 'show');
+    cy.get('.cx-toggle-hide-items a.link').should('not.exist');
+  });
+}
+
+/**
+ * Expands inline bundle line items via the show toggle button.
+ *
+ * @param {number} cartItemIndex - Index of cart item
+ */
+export function clickBundleInlineShowToggle(cartItemIndex: number): void {
+  toggleBundleItems(cartItemIndex, 'show');
+  findBundleItem(cartItemIndex).within(() => {
+    cy.get('.cx-item-infos').should('have.class', 'open');
+  });
+}
+
+/**
+ * Verifies that a bundle line item shows the product name as a link and the
+ * product code beneath it.
+ *
+ * @param {number} cartItemIndex - Index of cart item
+ * @param {string} productName - Expected product name
+ */
+export function checkBundleLineItemProductLinkAndCode(
+  cartItemIndex: number,
+  productName: string
+): void {
+  findBundleItem(cartItemIndex).within(() => {
+    cy.contains('.cx-item-info', productName).within(() => {
+      cy.get('.cx-item-name a.cx-link')
+        .should('be.visible')
+        .and('contain', productName);
+      cy.get('.cx-item-name .cx-code')
+        .should('be.visible')
+        .invoke('text')
+        .then((text) => {
+          const productCode = text.replace(/ID\s*/i, '').trim();
+          expect(productCode).to.match(/\S+/);
+          cy.wrap(productCode).as('bundleLineItemProductCode');
+        });
+    });
+  });
+}
+
+/**
+ * Opens the product detail page from a bundle line item link in the cart.
+ *
+ * @param {number} cartItemIndex - Index of cart item
+ * @param {string} productName - Product name shown on the line item
+ */
+export function clickBundleLineItemProductLink(
+  cartItemIndex: number,
+  productName: string
+): void {
+  findBundleItem(cartItemIndex).within(() => {
+    cy.contains('.cx-item-info', productName)
+      .find('.cx-item-name a.cx-link')
+      .click();
+  });
+}
+
+/**
+ * Clicks the nested "Edit Product Configuration" link on a bundle line item.
+ *
+ * @param {number} cartItemIndex - Index of cart item
+ * @param {string} productName - Product name shown on the line item
+ */
+export function clickBundleLineItemEditProductConfiguration(
+  cartItemIndex: number,
+  productName: string
+): void {
+  findBundleItem(cartItemIndex).within(() => {
+    cy.contains('.cx-item-info', productName)
+      .find('.cx-item-configure a')
+      .contains('Edit Product Configuration')
+      .click();
+  });
+}
+
+/**
+ * Clicks the "Edit Bundle Configuration" link on a CPQ cart entry.
+ *
+ * @param {number} cartItemIndex - Index of cart item
+ */
+export function clickOnEditBundleConfigurationLink(
+  cartItemIndex: number
+): void {
+  cy.get('cx-cart-item-list .cx-item-list-row')
+    .eq(cartItemIndex)
+    .find('cx-configure-cart-entry')
+    .find('a.link')
+    .contains('Edit Bundle Configuration')
+    .click({ force: true })
+    .then(() => {
+      cy.location('pathname').should('contain', '/cartEntry/entityKey/');
+    });
+}
+
+/**
+ * Registers a cart GET intercept for the given base site.
+ *
+ * @param {string} baseSite - Base site id, e.g. `powertools-spa`
+ */
+export function registerCartRouteForBaseSite(baseSite: string): void {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${baseSite}/users/*/carts/*?fields=DEFAULT*`
+  ).as('getCart');
+}
+
+/**
+ * Opens the cart of the given base site and removes all entries, if any.
+ * Requires a logged-in user.
+ *
+ * @param {string} baseSite - Base site id, e.g. `powertools-spa`
+ */
+export function clearCartIfNotEmpty(baseSite: string): void {
+  cy.visit(`/${baseSite}/en/USD/cart`);
+  common.checkLoadingMsgNotDisplayed();
+  // While the cart is loading, neither the cart details nor the empty-cart content is rendered.
+  cy.get('cx-cart-details, .EmptyCartMiddleContent')
+    .should('be.visible')
+    .then(($content) => {
+      if ($content.is('cx-cart-details')) {
+        cy.log('Cart is not empty, remove all cart entries');
+        cart.clearActiveCart();
+      }
+    });
+  cart.validateEmptyCart();
+}
+
+/**
+ * Runs assertions for the cart row that contains the given product code.
+ *
+ * @param {string} productCode - Product code shown in the cart row
+ * @param {(cartEntryIndex: number) => void} fn - Callback with the row index
+ */
+export function withCartEntryIndexForProductCode(
+  productCode: string,
+  fn: (cartEntryIndex: number) => void
+): void {
+  cy.get('cx-cart-item-list .cx-item-list-row').then(($rows) => {
+    let cartEntryIndex = -1;
+    $rows.each((index, row) => {
+      const codeText = Cypress.$(row).find('.cx-code').text();
+      if (codeText.includes(productCode)) {
+        cartEntryIndex = index;
+        return false;
+      }
+    });
+    expect(
+      cartEntryIndex,
+      `cart entry index for product ${productCode}`
+    ).to.be.gte(0);
+    fn(cartEntryIndex);
+  });
+}
+
+/**
+ * Waits until the cart page shows bundle info for the given product.
+ *
+ * @param {string} productCode - Product code of the cart entry
+ */
+export function waitForCartEntryBundleInfo(productCode: string): void {
+  withCartEntryIndexForProductCode(productCode, (cartEntryIndex) => {
+    findBundleItem(cartEntryIndex).should('be.visible');
+  });
+}
+
+/**
+ * Verifies that the cart page is loaded after leaving the configurator overview.
+ */
+export function checkCartPageReady(): void {
+  common.checkLoadingMsgNotDisplayed();
+  cy.get('.CartPageTemplate').should('be.visible');
+  cy.get('cx-cart-details').should('be.visible');
 }
 
 /**
