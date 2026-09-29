@@ -48,9 +48,9 @@ describe('appendAuthReqId', () => {
     });
 
     it('replaces an existing auth_req_id that is not the first query param in a relative URL', () => {
-      expect(
-        appendAuthReqId('/csrf?foo=bar&auth_req_id=old', 'req-new')
-      ).toBe('/csrf?foo=bar&auth_req_id=req-new');
+      expect(appendAuthReqId('/csrf?foo=bar&auth_req_id=old', 'req-new')).toBe(
+        '/csrf?foo=bar&auth_req_id=req-new'
+      );
     });
   });
 
