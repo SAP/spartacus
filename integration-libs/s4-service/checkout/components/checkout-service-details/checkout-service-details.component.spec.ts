@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
@@ -19,16 +19,15 @@ import {
 import { DatePickerComponent } from '@spartacus/storefront';
 import { Observable, of, throwError } from 'rxjs';
 import { CheckoutServiceDetailsComponent } from './checkout-service-details.component';
-import createSpy = jasmine.createSpy;
 const mockScheduledAt = '2024-06-27T09:30:00-04:00';
 class MockActivatedRoute implements Partial<ActivatedRoute> {}
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
-  getBackBntText = createSpy().and.returnValue('common.back');
-  next = createSpy().and.callThrough();
-  back = createSpy().and.callThrough();
+  getBackBntText = vi.fn().mockReturnValue('common.back');
+  next = vi.fn();
+  back = vi.fn();
 }
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy().and.callThrough();
+  add = vi.fn();
 }
 class MockCheckoutServiceDetailsFacade {
   getSelectedServiceDetailsState(): Observable<
@@ -48,17 +47,16 @@ class MockCheckoutServiceDetailsFacade {
 class MockCheckoutServiceSchedulePickerService
   implements Partial<CheckoutServiceSchedulePickerService>
 {
-  getMinDateForService = createSpy().and.returnValue(of('2024-06-25'));
-  getScheduledServiceTimes = createSpy().and.returnValue(
-    of(['8:30', '9:30', '10:30'])
-  );
-  convertDateTimeToReadableString =
-    createSpy().and.returnValue('27/06/2024, 9:30');
-  getServiceDetailsFromDateTime = createSpy().and.returnValue({
+  getMinDateForService = vi.fn().mockReturnValue(of('2024-06-25'));
+  getScheduledServiceTimes = vi
+    .fn()
+    .mockReturnValue(of(['8:30', '9:30', '10:30']));
+  convertDateTimeToReadableString = vi.fn().mockReturnValue('27/06/2024, 9:30');
+  getServiceDetailsFromDateTime = vi.fn().mockReturnValue({
     date: '27/06/2024',
     time: '09:30',
   });
-  convertToDateTime = createSpy().and.returnValue('2024-06-27T09:30:00-04:00');
+  convertToDateTime = vi.fn().mockReturnValue('2024-06-27T09:30:00-04:00');
 }
 describe('CheckoutServiceDetailsComponent', () => {
   let component: CheckoutServiceDetailsComponent;
@@ -67,7 +65,7 @@ describe('CheckoutServiceDetailsComponent', () => {
   let pickerService: CheckoutServiceSchedulePickerService;
   let checkoutStepService: CheckoutStepService;
   let messageService: GlobalMessageService;
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, CheckoutServiceDetailsComponent],
       providers: [
@@ -111,7 +109,7 @@ describe('CheckoutServiceDetailsComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutServiceDetailsComponent);
     checkoutServiceDetailsFacade = TestBed.inject(CheckoutServiceDetailsFacade);
@@ -150,17 +148,12 @@ describe('CheckoutServiceDetailsComponent', () => {
     expect(component.form?.get('scheduleTime')?.value).toEqual('10:30');
   });
   it('should update service details when service products are available in cart', () => {
-    spyOn(checkoutServiceDetailsFacade, 'getServiceProducts').and.returnValue(
-      of(['123', '456'])
-    );
-    spyOn(
+    vi.spyOn(
       checkoutServiceDetailsFacade,
-      'setServiceScheduleSlot'
-    ).and.callThrough();
-    spyOn(
-      checkoutServiceDetailsFacade,
-      'getSelectedServiceDetailsState'
-    ).and.callThrough();
+      'getServiceProducts'
+    ).mockReturnValue(of(['123', '456']));
+    vi.spyOn(checkoutServiceDetailsFacade, 'setServiceScheduleSlot');
+    vi.spyOn(checkoutServiceDetailsFacade, 'getSelectedServiceDetailsState');
 
     component.next();
     expect(
@@ -169,30 +162,32 @@ describe('CheckoutServiceDetailsComponent', () => {
     expect(checkoutStepService.next).toHaveBeenCalled();
   });
   it('should move to next step when no service products are available in cart', () => {
-    spyOn(checkoutServiceDetailsFacade, 'getServiceProducts').and.returnValue(
-      of([])
-    );
+    vi.spyOn(
+      checkoutServiceDetailsFacade,
+      'getServiceProducts'
+    ).mockReturnValue(of([]));
     component.next();
     expect(checkoutStepService.next).toHaveBeenCalled();
   });
   it('should show error if any error throw', () => {
-    spyOn(checkoutServiceDetailsFacade, 'getServiceProducts').and.returnValue(
-      of(['3435'])
-    );
-    spyOn(
+    vi.spyOn(
+      checkoutServiceDetailsFacade,
+      'getServiceProducts'
+    ).mockReturnValue(of(['3435']));
+    vi.spyOn(
       checkoutServiceDetailsFacade,
       'setServiceScheduleSlot'
-    ).and.returnValue(throwError('Throwing Error message'));
+    ).mockReturnValue(throwError('Throwing Error message'));
     component.next();
     expect(checkoutStepService.next).not.toHaveBeenCalled();
     expect(messageService.add).toHaveBeenCalled();
   });
   it('should throw error if we pass inappropriate scheduledAt', () => {
-    spyOn(
+    vi.spyOn(
       checkoutServiceDetailsFacade,
       'setServiceScheduleSlot'
-    ).and.returnValue(throwError('Throwing Error message'));
-    (pickerService.convertToDateTime as jasmine.Spy).and.returnValue('');
+    ).mockReturnValue(throwError('Throwing Error message'));
+    (pickerService.convertToDateTime as any).mockReturnValue('');
     component.form = new UntypedFormBuilder().group({});
     component.next();
     expect(pickerService.convertToDateTime).toHaveBeenCalledWith('', '');
