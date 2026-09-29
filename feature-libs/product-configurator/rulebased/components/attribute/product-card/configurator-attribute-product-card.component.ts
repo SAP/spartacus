@@ -351,6 +351,20 @@ export class ConfiguratorAttributeProductCardComponent
     return !!(valueCode && valueCode !== Configurator.RetractValueCode);
   }
 
+  /**
+   * Converts a configurator value into a minimal product for the card.
+   *
+   * Used as the fallback when the catalog product is missing, incomplete,
+   * or cannot be loaded. The mapping is:
+   * - `code`: value `productSystemId`
+   * - `name`: value `valueDisplay`
+   * - `description`: value `description`
+   * - `images`: always an empty object; value images are not mapped
+   *
+   * @param value - Configurator value bound to the card, if any
+   * @returns Product built from the configurator value; fields are
+   *   `undefined` if `value` or the source field is missing
+   */
   protected transformToProductType(
     value: Configurator.Value | undefined
   ): Product {
@@ -363,13 +377,28 @@ export class ConfiguratorAttributeProductCardComponent
   }
 
   /**
-   * Combines catalog product data with CPQ value metadata. The
-   * configurator product-card OCC scope may omit fields such as `name`;
-   * in that case the configured value display name is used.
+   * Builds the product shown on the card by merging catalog product data
+   * with the bound configurator value.
    *
-   * @param respProduct - Product from {@link ProductService}, if any
+   * The configurator value provides the fallback (see
+   * {@link transformToProductType}); catalog fields take precedence over it.
+   * The configurator product-card OCC scope can return a partial product,
+   * so the following fields fall back to the configurator value:
+   * - `code`: falls back to `productSystemId` if the catalog code is missing.
+   * - `name`: falls back to `valueDisplay` if the catalog name is missing,
+   *   empty, or whitespace only.
+   * - `description`: falls back to the value description if the catalog
+   *   description is missing.
+   *
+   * All other catalog fields, such as `images` and `price`, override the
+   * fallback when present. If `respProduct` is undefined (not found or
+   * lookup failed), the result is based on the configurator value only.
+   *
+   * @param respProduct - Product from {@link ProductService}, or `undefined`
+   *   if the lookup returned nothing or failed
    * @param value - Configurator value bound to the card
    * @returns Merged product for the card template
+   * @protected
    */
   protected mergeProductWithConfiguratorValue(
     respProduct: Product | undefined,
