@@ -25,7 +25,7 @@ import {
   IconComponent,
   ICON_TYPE,
 } from '@spartacus/storefront';
-import { NEVER, Observable, of } from 'rxjs';
+import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -1977,7 +1977,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
         expect(component.menuReturnOriginGroupId).toBeUndefined();
       });
 
-      it('should not set menu return origin when navigating up without current group', () => {
+      it('should not set menu return origin when navigating up without highlight request', () => {
         spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
           of(mockProductConfiguration.groups[0])
         );
@@ -1988,6 +1988,103 @@ describe('ConfiguratorGroupMenuComponent', () => {
         component.navigateUp();
 
         expect(component.menuReturnOriginGroupId).toBeUndefined();
+      });
+
+      it('should set menu return origin to the displayed parent group when navigating up without current group', () => {
+        const parentGroup = configuration.groups[3];
+
+        stubGetParentGroupWithRealImplementation();
+        spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+          of(parentGroup)
+        );
+
+        component.navigateUp(undefined, true);
+
+        expect(component.menuReturnOriginGroupId).toBe(parentGroup.id);
+      });
+
+      it('should set menu return origin to the left submenu group when the current group is its sibling', () => {
+        const currentGroup = configuration.groups[0];
+        const parentGroup = configuration.groups[3];
+
+        stubGetParentGroupWithRealImplementation();
+        spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+          of(parentGroup)
+        );
+
+        component.navigateUp(currentGroup, true);
+
+        expect(component.menuReturnOriginGroupId).toBe(parentGroup.id);
+        expect(component.isMenuReturnOrigin(currentGroup.id)).toBe(false);
+      });
+
+      it('should set menu return origin to the left submenu group when the current group is its nested sibling', () => {
+        const siblingGroup = createMenuGroup('SIBLING');
+        const browsedGroup = createMenuGroup('BROWSED', [
+          createMenuGroup('BROWSED_CHILD_1'),
+          createMenuGroup('BROWSED_CHILD_2'),
+        ]);
+        const rootGroup = createMenuGroup('ROOT', [siblingGroup, browsedGroup]);
+        productConfigurationObservable = of({
+          ...configuration,
+          groups: [rootGroup, configuration.groups[0]],
+        });
+        initialize();
+        stubGetParentGroupWithRealImplementation();
+        spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+          of(browsedGroup)
+        );
+
+        component.navigateUp(siblingGroup, true);
+
+        expect(component.menuReturnOriginGroupId).toBe(browsedGroup.id);
+      });
+    });
+
+    describe('menu return origin rendering', () => {
+      it('should mark the rendered button of a merged ancestor after Back', () => {
+        const activeGroup = createMenuGroup('ACTIVE');
+        const browsedGroup = createMenuGroup('BROWSED', [
+          createMenuGroup('BROWSED_CHILD_1'),
+          createMenuGroup('BROWSED_CHILD_2'),
+        ]);
+        const structuralGroup: Configurator.Group = {
+          ...createMenuGroup('STRUCTURAL', [browsedGroup]),
+          attributes: [],
+        };
+        const menuParentGroup$ = new BehaviorSubject<
+          Configurator.Group | undefined
+        >(browsedGroup);
+        productConfigurationObservable = of({
+          ...structuredClone(mockProductConfiguration),
+          groups: [activeGroup, structuralGroup],
+        });
+        routerStateObservable = of(mockRouterState);
+        stubGetParentGroupWithRealImplementation();
+        spyOn(configuratorGroupsService, 'getCurrentGroup').and.returnValue(
+          of(activeGroup)
+        );
+        spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+          menuParentGroup$
+        );
+        initialize();
+
+        htmlElem
+          .querySelector<HTMLButtonElement>('.cx-menu-back')
+          ?.dispatchEvent(new MouseEvent('click', { detail: 1 }));
+        menuParentGroup$.next(undefined);
+        fixture.detectChanges();
+
+        const mergedButton = htmlElem.querySelector(
+          `[id="${browsedGroup.id}"]`
+        );
+        const activeButton = htmlElem.querySelector(`[id="${activeGroup.id}"]`);
+        expect(mergedButton?.textContent).toContain(
+          structuralGroup.description
+        );
+        expect(mergedButton?.classList).toContain('cx-menu-return-origin');
+        expect(activeButton?.classList).toContain('active');
+        expect(activeButton?.classList).not.toContain('cx-menu-return-origin');
       });
     });
 
@@ -2032,55 +2129,6 @@ describe('ConfiguratorGroupMenuComponent', () => {
         expect(
           component.isPointerClick(new MouseEvent('click', { detail: 0 }))
         ).toBe(false);
-      });
-    });
-
-    describe('getVisibleMenuItemId', () => {
-      beforeEach(() => {
-        productConfigurationObservable = of(mockProductConfiguration);
-        routerStateObservable = of(mockRouterState);
-        initialize();
-      });
-
-      it('should map a condensed structural parent to its visible menu item id', () => {
-        const nestedTabGroup: Configurator.Group = {
-          id: 'NESTED_TAB',
-          description: 'Nested tab',
-          name: 'NESTED',
-          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-          attributes: [],
-          subGroups: [],
-        };
-        const rowGroup: Configurator.Group = {
-          id: 'CONTAINER_ROW',
-          description: 'Container row',
-          name: 'ROW',
-          groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
-          attributes: [],
-          subGroups: [nestedTabGroup],
-        };
-        const configuration = {
-          ...mockProductConfiguration,
-          groups: [rowGroup],
-        };
-
-        expect(
-          component['getVisibleMenuItemId'](rowGroup.id, configuration)
-        ).toBe(nestedTabGroup.id);
-      });
-
-      it('should keep the id of a group that is not condensed', () => {
-        const group = mockProductConfiguration.groups[0];
-
-        expect(
-          component['getVisibleMenuItemId'](group.id, mockProductConfiguration)
-        ).toBe(group.id);
-      });
-
-      it('should fall back to the given id for an unknown group', () => {
-        expect(
-          component['getVisibleMenuItemId']('unknown', mockProductConfiguration)
-        ).toBe('unknown');
       });
     });
 
@@ -2255,6 +2303,20 @@ describe('ConfiguratorGroupMenuComponent', () => {
       });
     });
   });
+
+  function createMenuGroup(
+    id: string,
+    subGroups: Configurator.Group[] = []
+  ): Configurator.Group {
+    return {
+      id,
+      configurable: true,
+      description: 'Description for ' + id,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      attributes: [{ name: 'ATTRIBUTE_' + id }],
+      subGroups,
+    };
+  }
 
   function stubGetParentGroupWithRealImplementation(): void {
     spyOn(configuratorGroupsService, 'getParentGroup').and.callFake(

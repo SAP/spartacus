@@ -33,7 +33,6 @@ import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
-import { ConfiguratorUtilsService } from '../../core/facade/utils/configurator-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
@@ -144,7 +143,6 @@ export class ConfiguratorGroupMenuComponent {
   ) {}
 
   protected changeDetectorRef = inject(ChangeDetectorRef);
-  protected configuratorUtilsService = inject(ConfiguratorUtilsService);
 
   /**
    * Selects group or navigates to subgroup depending on clicked group
@@ -188,7 +186,7 @@ export class ConfiguratorGroupMenuComponent {
    * target item is already rendered. See {@link setFocusOnNavigateUp}.
    *
    * @param currentGroup - Currently selected group; required for focus restoration
-   * @param highlightReturnOrigin - When true (mouse Back click), marks the origin row with `cx-menu-return-origin`
+   * @param highlightReturnOrigin - When true (mouse Back click), marks the menu item of the submenu being left with `cx-menu-return-origin`
    */
   navigateUp(
     currentGroup?: Configurator.Group,
@@ -201,15 +199,8 @@ export class ConfiguratorGroupMenuComponent {
           const grandParentGroup$ = this.getParentGroup(displayedParentGroup);
           this.configuration$.pipe(take(1)).subscribe((configuration) => {
             grandParentGroup$.pipe(take(1)).subscribe((grandParentGroup) => {
-              if (highlightReturnOrigin && currentGroup) {
-                this.menuReturnOriginGroupId = this.getVisibleMenuItemId(
-                  this.resolveNavigateUpStructuralGroupKey(
-                    currentGroup,
-                    displayedParentGroup,
-                    configuration
-                  ),
-                  configuration
-                );
+              if (highlightReturnOrigin) {
+                this.menuReturnOriginGroupId = displayedParentGroup.id;
                 this.changeDetectorRef.markForCheck();
               } else {
                 this.clearMenuReturnOrigin();
@@ -685,26 +676,6 @@ export class ConfiguratorGroupMenuComponent {
     return this.isSameLevelGroup(currentGroup, parentGroup, configuration)
       ? currentGroup.id
       : parentGroup.id;
-  }
-
-  /**
-   * Resolves the id of the menu button that represents a group. A group
-   * with a single subgroup is condensed, so its button carries the id of
-   * the descendant it is merged with.
-   *
-   * @param groupId - Structural group id
-   * @param configuration - Current configuration
-   * @returns Id of the rendered menu button
-   */
-  protected getVisibleMenuItemId(
-    groupId: string,
-    configuration: Configurator.Configuration
-  ): string {
-    const group = this.configuratorUtilsService.getOptionalGroupById(
-      configuration.groups,
-      groupId
-    );
-    return group ? this.condenseGroups([group])[0].id : groupId;
   }
 
   /**

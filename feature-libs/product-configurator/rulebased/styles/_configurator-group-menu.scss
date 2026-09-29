@@ -63,6 +63,10 @@
 
         &.cx-menu-return-origin {
           box-shadow: inset 5px 0 0 0 var(--cx-color-primary);
+
+          html[dir='rtl'] & {
+            box-shadow: inset -5px 0 0 0 var(--cx-color-primary);
+          }
         }
 
         &.disable {
@@ -224,6 +228,10 @@
 
       .cx-menu-item.cx-menu-return-origin {
         box-shadow: inset 5px 0 0 0 var(--cx-color-text);
+
+        html[dir='rtl'] & {
+          box-shadow: inset -5px 0 0 0 var(--cx-color-text);
+        }
       }
     }
   }
