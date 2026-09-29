@@ -1,0 +1,24 @@
+@mixin cx-configurator-overview-skip-link {
+  .cx-configurator-overview-skip-link {
+    align-self: flex-start;
+    padding: 0.5rem 1rem;
+    margin: 5px;
+    border: none;
+    color: var(--cx-color-primary);
+    background-color: var(--cx-color-inverse);
+    font-weight: 700;
+    text-decoration: underline;
+
+    &:not(:focus) {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  }
+}

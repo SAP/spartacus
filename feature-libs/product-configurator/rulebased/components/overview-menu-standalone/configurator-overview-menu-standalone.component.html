@@ -1,6 +1,13 @@
 <ng-container
   *ngIf="configurationWithOv$ | async as configurationWithOv; else ghostMenu"
 >
+  <button
+    *ngIf="isSkipLinkEnabled"
+    class="cx-configurator-overview-skip-link"
+    (click)="skipToOverviewContent()"
+  >
+    {{ 'configurator.a11y.skipToOverviewContent' | cxTranslate }}
+  </button>
   <div class="cx-menu-bar">
     <div class="cx-menu-bar-item active">
       {{ 'configurator.overviewSidebar.menu' | cxTranslate }}

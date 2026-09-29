@@ -295,6 +295,32 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     expect(values.length).toBe(0);
   });
 
+  describe('focusConfigurationElement', () => {
+    it('should focus the element without scrolling', () => {
+      const theElement = document.createElement('h2');
+      spyOn(windowRef.document, 'querySelector').and.returnValue(theElement);
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      spyOn(theElement, 'focus');
+      classUnderTest.focusConfigurationElement('#group h2');
+      expect(theElement.focus).toHaveBeenCalledWith({ preventScroll: true });
+    });
+
+    it('should not fail if the element cannot be found', () => {
+      spyOn(windowRef.document, 'querySelector').and.returnValue(null);
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      expect(() =>
+        classUnderTest.focusConfigurationElement('#unknown')
+      ).not.toThrow();
+    });
+
+    it('should not focus if we are not in browser environment', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      spyOn(windowRef.document, 'querySelector');
+      classUnderTest.focusConfigurationElement('#group h2');
+      expect(windowRef.document.querySelector).not.toHaveBeenCalled();
+    });
+  });
+
   describe('scroll', () => {
     it('should handle situation that we are not in browser environment', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(false);

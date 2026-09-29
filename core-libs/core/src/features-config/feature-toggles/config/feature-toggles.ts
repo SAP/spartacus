@@ -709,10 +709,19 @@ export interface FeatureTogglesInterface {
    * path) and in the product-title details.
    * When a CPQ configuration has `hasFullConfigurationState`, root-level
    * conflict and error messages are taken from the typed `messages` list.
+   * On the configuration overview (CPQ and variant configurator), the
+   * overview menu becomes an accessible in-page navigation: it is rendered as
+   * a labelled `nav` landmark, marks the active group with `aria-current` and
+   * moves the focus to the selected group heading. A skip link leads from the
+   * menu to the overview content, which is exposed as a focusable region.
    *
    * Affects: `ConfiguratorAttributeProductCardComponent`,
    * `ConfiguratorProductTitleComponent`,
-   * `ConfiguratorConflictAndErrorMessagesComponent`
+   * `ConfiguratorConflictAndErrorMessagesComponent`,
+   * `ConfiguratorOverviewMenuComponent`,
+   * `ConfiguratorOverviewMenuStandaloneComponent`,
+   * `ConfiguratorOverviewSidebarComponent`,
+   * `ConfiguratorOverviewFormComponent`
    */
   productConfiguratorCPQContainer?: boolean;
 
