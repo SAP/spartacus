@@ -30,7 +30,7 @@ export class OppsLoginRequiredGuard {
     route: CmsActivatedRouteSnapshot,
     _state: RouterStateSnapshot
   ): Observable<GuardResult> {
-    const navigation = this.router.getCurrentNavigation();
+    const navigation = this.router.currentNavigation();
     return this.authService.isUserLoggedIn().pipe(
       take(1),
       switchMap((isUserLoggedIn) => {

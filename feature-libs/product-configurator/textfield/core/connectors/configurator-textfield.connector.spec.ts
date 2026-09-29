@@ -9,7 +9,6 @@ import { of } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldAdapter } from './configurator-textfield.adapter';
 import { ConfiguratorTextfieldConnector } from './configurator-textfield.connector';
-import { vi } from 'vitest';
 
 const USER_ID = 'theUser';
 const CART_ID = '98876';

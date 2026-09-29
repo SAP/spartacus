@@ -17,7 +17,6 @@ import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
 import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
-import { vi } from 'vitest';
 
 describe('ConfiguratorGroupStatusService', () => {
   let classUnderTest: ConfiguratorGroupStatusService;

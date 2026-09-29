@@ -10,7 +10,7 @@ import { FormService } from './form.service';
 
 @Component({
   selector: 'cx-org-form',
-  template: '<ng-content></ng-content>',
+  template: '<ng-content />',
 })
 class MockFormComponent {
   @Input() i18nRoot;

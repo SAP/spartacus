@@ -7,7 +7,7 @@
       [fetchPriority]="
         itemIndex === 0 ? (lcpContext.fetchPriority$ | async) : undefined
       "
-    ></cx-media>
+    />
   </ng-container>
   <h3 class="cx-product-name">
     {{ item.name }}
@@ -17,5 +17,5 @@
   </div>
 </a>
 <div class="actions">
-  <ng-container cxInnerComponentsHost></ng-container>
+  <ng-container cxInnerComponentsHost />
 </div>

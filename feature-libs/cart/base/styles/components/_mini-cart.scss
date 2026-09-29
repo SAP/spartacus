@@ -21,6 +21,52 @@
       text-decoration: none;
     }
 
+    // Inline loader glyph that replaces the count/total while the cart has
+    // pending writes. Mirrors the .loader-container > .loader pattern from
+    // cx-progress-button so the visual matches the Place Order /
+    // Proceed-to-Checkout buttons. Sized to ~24px via
+    // --cx-progress-button-radius so it fits inside the 47px-tall anchor.
+    .cx-mini-cart-updating {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      align-self: center;
+      padding-inline-start: 7px;
+
+      .loader-container {
+        position: relative;
+        width: var(--cx-progress-button-radius);
+        height: var(--cx-progress-button-radius);
+      }
+
+      .loader {
+        width: var(--cx-progress-button-radius);
+        height: var(--cx-progress-button-radius);
+        font-size: 0;
+        text-indent: -9999px;
+        overflow: hidden;
+        animation: circleRotation var(--cx-progress-button-animation-time)
+          infinite linear;
+
+        &::before,
+        &:before {
+          content: '';
+          box-sizing: border-box;
+          display: block;
+          width: var(--cx-progress-button-radius);
+          height: var(--cx-progress-button-radius);
+          border: var(--cx-progress-button-border-width) solid;
+          margin: auto;
+          border-top-color: var(--cx-progress-button-secondary-color);
+          border-bottom-color: var(--cx-progress-button-secondary-color);
+          border-right-color: var(--cx-progress-button-secondary-color);
+          border-left-color: var(--cx-progress-button-primary-color);
+          border-radius: 50%;
+          pointer-events: none;
+        }
+      }
+    }
+
     .count {
       color: currentColor;
       align-self: center;

@@ -5,6 +5,7 @@
  */
 
 import {
+  ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
@@ -23,6 +24,7 @@ import { OpfPaymentVerificationService } from './opf-payment-verification.servic
 @Component({
   selector: 'cx-opf-verify-payment',
   templateUrl: './opf-payment-verification.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SpinnerComponent],
 })
 export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {

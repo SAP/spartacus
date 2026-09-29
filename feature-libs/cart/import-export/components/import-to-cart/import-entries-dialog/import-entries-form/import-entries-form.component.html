@@ -10,7 +10,7 @@
       [type]="globalMessageType.MSG_TYPE_CONFIRMATION"
       [isVisibleCloseButton]="false"
       [cxFocus]="{ autofocus: '.cx-message' }"
-    ></cx-message>
+    />
   </div>
   <p class="cx-import-entries-subtitle">
     {{ 'importEntriesDialog.importProductsSubtitle' | cxTranslate }}
@@ -22,10 +22,7 @@
     <cx-file-upload [formControl]="form.get('file')" [accept]="allowedTypes">
       {{ 'importEntriesDialog.selectFile' | cxTranslate }}
     </cx-file-upload>
-    <cx-form-errors
-      [control]="form.get('file')"
-      prefix="formErrors.file"
-    ></cx-form-errors>
+    <cx-form-errors [control]="form.get('file')" prefix="formErrors.file" />
   </label>
   <div class="cx-import-entries-footer">
     <button

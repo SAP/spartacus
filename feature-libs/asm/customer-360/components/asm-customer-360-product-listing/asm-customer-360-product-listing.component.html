@@ -15,7 +15,7 @@
       {{ headerText }}
     </button>
     <ng-container *ngIf="headerTemplate">
-      <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
+      <ng-container *ngTemplateOutlet="headerTemplate" />
     </ng-container>
   </div>
   <ng-container *ngIf="numberofColumns$ | async as numberofColumns">
@@ -30,7 +30,7 @@
           [product]="product"
           [quantity]="product?.quantity"
           (selectProduct)="selectProduct.emit($event)"
-        ></cx-asm-customer-360-product-item>
+        />
       </ng-container>
     </div>
     <ng-container *ngIf="products.length > numberofColumns">
