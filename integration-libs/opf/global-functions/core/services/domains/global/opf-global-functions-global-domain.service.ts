@@ -37,6 +37,11 @@ import {
   OpfPaymentVerificationResponse,
 } from '@spartacus/opf/payment/root';
 import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
+import {
+  ApplePaySessionVerificationRequest,
+  ApplePaySessionVerificationResponse,
+  OpfQuickBuyFacade,
+} from '@spartacus/opf/quick-buy/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, combineLatest, lastValueFrom, throwError } from 'rxjs';
 import { filter, map, skip, switchMap, take } from 'rxjs/operators';
@@ -58,6 +63,7 @@ export class OpfGlobalFunctionsGlobalDomainService {
   protected opfQuickBuyTransactionService = inject(
     OpfQuickBuyTransactionService
   );
+  protected opfQuickBuyFacade = inject(OpfQuickBuyFacade);
   protected sharedService = inject(OpfGlobalFunctionsSharedService);
 
   protected globalLoaderSpinnerCpntRef: void | Observable<
@@ -256,6 +262,16 @@ export class OpfGlobalFunctionsGlobalDomainService {
         this.opfQuickBuyTransactionService.deleteUserAddresses([addressId]);
         resolve();
       });
+    });
+  }
+
+  getApplePayWebSession(
+    request: ApplePaySessionVerificationRequest
+  ): Promise<ApplePaySessionVerificationResponse> {
+    return this.ngZone.run(() => {
+      return lastValueFrom(
+        this.opfQuickBuyFacade.getApplePayWebSession(request).pipe(take(1))
+      );
     });
   }
 

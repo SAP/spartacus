@@ -6,7 +6,6 @@ import { EMPTY, of, Subject } from 'rxjs';
 import { ItemExistsDirective } from './item-exists.directive';
 import { ItemService } from './item.service';
 import { MessageService } from './message/services/message.service';
-import createSpy = jasmine.createSpy;
 
 const mockCode = 'mc1';
 
@@ -21,20 +20,20 @@ class TestComponent {
 }
 
 class MockMessageService {
-  add = createSpy('add').and.returnValue(new Subject());
+  add = vi.fn().mockReturnValue(new Subject());
   clear() {}
   close() {}
 }
 
 class MockItemServiceWithError implements Partial<ItemService<any>> {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(EMPTY);
+  load = vi.fn().mockReturnValue(EMPTY);
   error$ = of(true);
 }
 
 class MockItemServiceWithoutError implements Partial<ItemService<any>> {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(EMPTY);
+  load = vi.fn().mockReturnValue(EMPTY);
   error$ = of(false);
 }
 

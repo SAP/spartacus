@@ -12,7 +12,7 @@
         [product]="product"
         [itemIndex]="i"
         class="col-12 col-sm-6 col-md-4"
-      ></cx-product-grid-item>
+      />
     </div>
     <div
       [className]="
@@ -40,7 +40,7 @@
       </div>
     </div>
     <div *ngIf="appendProducts" class="cx-spinner">
-      <cx-spinner></cx-spinner>
+      <cx-spinner />
     </div>
   </div>
 </ng-container>
@@ -58,7 +58,7 @@
       [product]="product"
       [itemIndex]="i"
       class="cx-product-search-list"
-    ></cx-product-list-item>
+    />
     <div
       [className]="
         !isLastPage && (model?.pagination?.currentPage ?? 0) > 0
@@ -85,7 +85,7 @@
       </div>
     </div>
     <div *ngIf="appendProducts" class="cx-spinner">
-      <cx-spinner></cx-spinner>
+      <cx-spinner />
     </div>
   </div>
 </ng-container>

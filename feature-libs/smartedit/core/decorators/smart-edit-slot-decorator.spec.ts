@@ -29,7 +29,7 @@ describe('SmartEditSlotDecorator', () => {
 
   it('should call addSmartEditContract', () => {
     const slot = { properties: { smartedit: { uuid: 'test-id' } } };
-    spyOn(smartEditService, 'addSmartEditContract');
+    vi.spyOn(smartEditService, 'addSmartEditContract');
     decorator.decorate(null, null, slot);
     expect(smartEditService.addSmartEditContract).toHaveBeenCalledWith(
       null,

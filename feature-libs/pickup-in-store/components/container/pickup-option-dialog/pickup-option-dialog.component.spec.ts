@@ -172,8 +172,8 @@ describe('PickupOptionDialogComponent', () => {
   });
 
   it('ngOnInit should call appropriate methods', () => {
-    spyOn(pickupLocationsSearchService, 'getHideOutOfStock');
-    spyOn(pickupOptionFacade, 'getPageContext').and.returnValue(of('PDP'));
+    vi.spyOn(pickupLocationsSearchService, 'getHideOutOfStock');
+    vi.spyOn(pickupOptionFacade, 'getPageContext').mockReturnValue(of('PDP'));
     component.ngOnInit();
 
     expect(component.isPDP).toEqual(true);
@@ -181,7 +181,7 @@ describe('PickupOptionDialogComponent', () => {
   });
 
   it('ngOnInit should set the cartId and userId for an anonymous user', () => {
-    spyOn(activeCartFacade, 'getActive').and.returnValue(
+    vi.spyOn(activeCartFacade, 'getActive').mockReturnValue(
       of({
         guid: 'test',
         user: { uid: 'anonymous' },
@@ -194,7 +194,7 @@ describe('PickupOptionDialogComponent', () => {
   });
 
   it('ngOnInit should set the cartId and userId for a logged in user', () => {
-    spyOn(activeCartFacade, 'getActive').and.returnValue(
+    vi.spyOn(activeCartFacade, 'getActive').mockReturnValue(
       of({
         guid: 'test',
         user: { uid: 'test@sap.com' },
@@ -207,7 +207,7 @@ describe('PickupOptionDialogComponent', () => {
   });
 
   it('onFindStores calls appropriate service method', () => {
-    spyOn(pickupLocationsSearchService, 'startSearch');
+    vi.spyOn(pickupLocationsSearchService, 'startSearch');
     component.onFindStores({ location: '' });
     expect(pickupLocationsSearchService.startSearch).toHaveBeenCalledWith({
       productCode: 'testProductCode',
@@ -216,7 +216,7 @@ describe('PickupOptionDialogComponent', () => {
   });
 
   it('onHideOutOfStock calls appropriate service method', () => {
-    spyOn(pickupLocationsSearchService, 'toggleHideOutOfStock');
+    vi.spyOn(pickupLocationsSearchService, 'toggleHideOutOfStock');
     component.onHideOutOfStock();
     expect(
       pickupLocationsSearchService.toggleHideOutOfStock
@@ -225,7 +225,7 @@ describe('PickupOptionDialogComponent', () => {
 
   it('should close dialog on close method', () => {
     const mockCloseReason = 'Close Dialog';
-    spyOn(launchDialogService, 'closeDialog');
+    vi.spyOn(launchDialogService, 'closeDialog');
     component.close(mockCloseReason);
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
@@ -236,12 +236,9 @@ describe('PickupOptionDialogComponent', () => {
   it('should close dialog on close method no selection', () => {
     const mockCloseReason = 'CLOSE_WITHOUT_SELECTION';
     component.productCode = 'productCode';
-    spyOn(launchDialogService, 'closeDialog');
-    spyOn(
-      intendedPickupLocationFacade,
-      'getIntendedLocation'
-    ).and.callThrough();
-    spyOn(intendedPickupLocationFacade, 'setPickupOption').and.callThrough();
+    vi.spyOn(launchDialogService, 'closeDialog');
+    vi.spyOn(intendedPickupLocationFacade, 'getIntendedLocation');
+    vi.spyOn(intendedPickupLocationFacade, 'setPickupOption');
 
     component.close(mockCloseReason);
 
@@ -262,10 +259,11 @@ describe('PickupOptionDialogComponent', () => {
 
   it('should filter if store name is defined', () => {
     const mockCloseReason = 'CLOSE_WITHOUT_SELECTION';
-    spyOn(intendedPickupLocationFacade, 'getIntendedLocation').and.returnValue(
-      of({ name: 'testStoreName', pickupOption: 'pickup' })
-    );
-    spyOn(launchDialogService, 'closeDialog');
+    vi.spyOn(
+      intendedPickupLocationFacade,
+      'getIntendedLocation'
+    ).mockReturnValue(of({ name: 'testStoreName', pickupOption: 'pickup' }));
+    vi.spyOn(launchDialogService, 'closeDialog');
 
     component.close(mockCloseReason);
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
@@ -275,7 +273,7 @@ describe('PickupOptionDialogComponent', () => {
 
   it('should close the dialog when user clicks outside', () => {
     const element = fixture.debugElement.nativeElement;
-    spyOn(component, 'close');
+    vi.spyOn(component, 'close');
 
     element.click();
     expect(component.close).toHaveBeenCalledWith(
@@ -287,7 +285,7 @@ describe('PickupOptionDialogComponent', () => {
     const element = (
       fixture.debugElement.nativeElement as HTMLElement
     ).querySelector('.cx-pickup-option-dialog');
-    spyOn(component, 'close');
+    vi.spyOn(component, 'close');
 
     element?.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     expect(component.close).toHaveBeenCalledWith(

@@ -34,7 +34,7 @@ describe('OccQuoteEntryNormalizer', () => {
 
     classUnderTest = TestBed.inject(OccQuoteEntryNormalizer);
     converterService = TestBed.inject(ConverterService);
-    spyOn(converterService, 'convert').and.callThrough();
+    vi.spyOn(converterService, 'convert');
   });
 
   it('should be created', () => {

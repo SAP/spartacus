@@ -33,7 +33,7 @@ describe('QualtricsComponent', () => {
 
   function stubSeviceAndCreateComponent() {
     service = TestBed.inject(QualtricsLoaderService);
-    spyOn(service, 'addScript').and.stub();
+    vi.spyOn(service, 'addScript').mockImplementation(() => {});
 
     fixture = TestBed.createComponent(QualtricsComponent);
     component = fixture.componentInstance;

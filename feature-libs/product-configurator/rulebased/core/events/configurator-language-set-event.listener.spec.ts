@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { CxEvent, EventService, LanguageSetEvent } from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
-import createSpy = jasmine.createSpy;
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Type } from '@angular/core';
 import { ConfiguratorLanguageSetEventListener } from '@spartacus/product-configurator/rulebased';
@@ -9,8 +8,8 @@ import { ConfiguratorLanguageSetEventListener } from '@spartacus/product-configu
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(mockEventStream$.asObservable());
-  dispatch = createSpy();
+  get = vi.fn().mockReturnValue(mockEventStream$.asObservable());
+  dispatch = vi.fn();
 }
 
 class MockConfiguratorCommonsService {
@@ -42,10 +41,7 @@ describe(`ConfiguratorLanguageSetEventListener`, () => {
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
 
-    spyOn(
-      configuratorCommonsService,
-      'removeProductBoundConfigurations'
-    ).and.callThrough();
+    vi.spyOn(configuratorCommonsService, 'removeProductBoundConfigurations');
   });
 
   describe(`onLanguageSet`, () => {
@@ -64,7 +60,7 @@ describe(`ConfiguratorLanguageSetEventListener`, () => {
 
   describe('ngOnDestroy', () => {
     it('should unsubscribe on ngOnDestroy', () => {
-      const spyUnsubscribe = spyOn(Subscription.prototype, 'unsubscribe');
+      const spyUnsubscribe = vi.spyOn(Subscription.prototype, 'unsubscribe');
       classUnderTest.ngOnDestroy();
       expect(spyUnsubscribe).toHaveBeenCalled();
     });

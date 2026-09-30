@@ -24,22 +24,10 @@ export class OutletService<T = TemplateRef<any> | ComponentFactory<any>> {
    * is either before or after, or replaces the entire UI.
    *
    * @param outlet the UI location represented by a string
-   * @param template the `TemplateRef` that will be used to insert UI
+   * @param templateOrFactory the `TemplateRef` or `ComponentFactory` that will be used to insert UI
    * @param position the `OutletPosition` in the UI
    */
-  add(outlet: string, template: T, position?: OutletPosition): void;
-  /**
-   * @param factory The `ComponentFactory` that will be dynamically added to the outlet UI
-   */
-  add(
-    outlet: string,
-
-    factory: T,
-    position?: OutletPosition
-  ): void;
-  /**
-   * @param templateOrFactory A `ComponentFactory` that inserts a component dynamically.
-   */
+  add(outlet: string, templateOrFactory: T, position?: OutletPosition): void;
   add(
     outlet: string,
     templateOrFactory: T,

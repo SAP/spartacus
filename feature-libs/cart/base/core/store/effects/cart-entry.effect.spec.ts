@@ -41,6 +41,7 @@ describe('Cart effect', () => {
   };
 
   beforeEach(() => {
+    vi.clearAllMocks();
     mockCartModification = {
       deliveryModeChanged: true,
       entry: {},
@@ -142,7 +143,7 @@ describe('Cart effect', () => {
         entryNumber: 'testEntryNumber',
       });
 
-      actions$ = hot('-a', { a: action });
+      actions$ = of(action);
       entryEffects.removeEntry$.subscribe();
 
       expect(globalMessageService.add).toHaveBeenCalledWith(

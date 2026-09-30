@@ -213,9 +213,9 @@ export function checkValueNotSelected(
   const attributeId = configuration.getAttributeId(attributeName, uiType);
   let valueId = `${attributeId}--${valueName}`;
   if (uiType === 'radioGroupProduct' || uiType === 'checkBoxListProduct') {
-    cy.get(`#${valueId} .cx-product-card`).should(
+    cy.get(`#${valueId} .cx-product-card-container`).should(
       'not.have.class',
-      'cx-product-card-selected'
+      'cx-product-card-container-selected'
     );
   } else {
     if (uiType.startsWith('dropdown')) {

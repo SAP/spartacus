@@ -428,9 +428,9 @@ export function checkValueSelected(
   const attributeId = getAttributeId(attributeName, uiType);
   let valueId = `${attributeId}--${valueName}`;
   if (uiType === 'radioGroupProduct' || uiType === 'checkBoxListProduct') {
-    cy.get(`#${valueId} .cx-product-card`).should(
+    cy.get(`#${valueId} .cx-product-card-container`).should(
       'have.class',
-      'cx-product-card-selected'
+      'cx-product-card-container-selected'
     );
   } else if (uiType === 'dropdown') {
     cy.get(`select#${attributeId}`).should('have.value', valueName);
@@ -440,9 +440,9 @@ export function checkValueSelected(
         // No product card for 'No option selected'
         // The RETRACT_VALUE_CODE constant contains special sing, namely `#`, that should be masked accordingly `\\#`
         const newValueId = valueId.replaceAll('#', '\\#');
-        cy.get(`#${newValueId} .cx-product-card`).should('not.exist');
+        cy.get(`#${newValueId} .cx-product-card-container`).should('not.exist');
       } else {
-        cy.get(`#${valueId} .cx-product-card`).should('be.visible');
+        cy.get(`#${valueId} .cx-product-card-container`).should('be.visible');
       }
     }
     if (uiType.startsWith('dropdown')) {

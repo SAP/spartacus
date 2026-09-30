@@ -1,11 +1,5 @@
 import { Component, Input, Type } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import {
   ActiveCartFacade,
@@ -40,8 +34,8 @@ import {
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
-import { Observable, of } from 'rxjs';
-import { delay, take } from 'rxjs/operators';
+import { firstValueFrom, Observable, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -51,7 +45,6 @@ import { ConfiguratorQuantityService } from '../../core/services/configurator-qu
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart-button.component';
-import createSpy = jasmine.createSpy;
 
 const CART_ENTRY_KEY = '001+1';
 const ORDER_ENTRY_KEY = '002+1';
@@ -146,7 +139,6 @@ function initialize() {
   component = fixture.componentInstance;
   htmlElem = fixture.nativeElement;
   component.quantityControl = new UntypedFormControl(1);
-  fixture.detectChanges();
 }
 
 function initTestData() {
@@ -376,6 +368,7 @@ function performAddToCartOnOverview() {
   mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
   mockRouterData.productCode = mockProductConfiguration.productCode;
   initialize();
+  fixture.detectChanges();
   component.onAddToCart(mockProductConfiguration, mockRouterData);
 }
 
@@ -388,6 +381,7 @@ function ensureCartBound() {
   setRouterTestDataCartBoundAndConfigPage();
   mockOwner.id = CART_ENTRY_KEY;
   initialize();
+  fixture.detectChanges();
 }
 
 function ensureCartBoundAndOnOverview() {
@@ -395,6 +389,7 @@ function ensureCartBoundAndOnOverview() {
   mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
   mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
   initialize();
+  fixture.detectChanges();
 }
 
 function ensureProductBound() {
@@ -403,6 +398,7 @@ function ensureProductBound() {
     mockProductConfiguration.nextOwner.id = CART_ENTRY_KEY;
   }
   initialize();
+  fixture.detectChanges();
 }
 
 function performUpdateOnOV() {
@@ -423,7 +419,7 @@ class MockConfiguratorAddToCartButtonComponent {
 }
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  getActive = createSpy().and.returnValue(of(cart));
+  getActive = vi.fn().mockReturnValue(of(cart));
 }
 
 class MockConfiguratorStorefrontUtilsService {
@@ -443,18 +439,18 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   let configuratorQuantityService: ConfiguratorQuantityService;
   let keyboardFocusService: KeyboardFocusService;
 
-  function checkNavigationFlow() {
-    tick();
+  async function checkNavigationFlow() {
+    await vi.advanceTimersByTimeAsync(0);
     expect(routingService.go).toHaveBeenCalledTimes(2);
 
-    const allArgs = (routingService.go as jasmine.Spy).calls.allArgs();
+    const allArgs = vi.mocked(routingService.go).mock.calls;
     expect(allArgs[0][0]).toEqual(navParamsConfig);
     expect(allArgs[0][1]).toEqual(replaceUrlParam);
     expect(allArgs[1][0]).toEqual(navParamsOverview);
     expect(allArgs[1][1]).toEqual(queryParams);
   }
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ConfiguratorAddToCartButtonComponent, I18nTestingModule],
       providers: [
@@ -508,7 +504,9 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
           useClass: MockMultiCartFacade,
         },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
-        provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
+        ...provideMockFeatureToggles({
+          productConfiguratorCPQContainer: false,
+        }),
       ],
     })
       .overrideComponent(ConfiguratorAddToCartButtonComponent, {
@@ -524,7 +522,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     initTestData();
@@ -541,25 +539,27 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
     intersectionService = TestBed.inject(IntersectionService);
     keyboardFocusService = TestBed.inject(KeyboardFocusService);
 
-    spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
-    spyOn(routingService, 'go').and.callThrough();
-    spyOn(globalMessageService, 'add').and.callThrough();
-    spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
-    spyOn(configuratorQuantityService, 'setQuantity').and.callThrough();
+    vi.spyOn(configuratorGroupsService, 'setGroupStatusVisited');
+    vi.spyOn(routingService, 'go');
+    vi.spyOn(globalMessageService, 'add');
+    vi.spyOn(configuratorCommonsService, 'removeConfiguration');
+    vi.spyOn(configuratorQuantityService, 'setQuantity');
     configuratorCartService = TestBed.inject(
       ConfiguratorCartService as Type<ConfiguratorCartService>
     );
-    spyOn(configuratorCartService, 'getEntry').and.callThrough();
-    spyOn(configuratorStorefrontUtilsService, 'changeStyling').and.stub();
-    spyOn(
+    vi.spyOn(configuratorCartService, 'getEntry');
+    vi.spyOn(
       configuratorStorefrontUtilsService,
-      'focusFirstActiveElement'
-    ).and.callThrough();
-    spyOn(keyboardFocusService, 'clear').and.callThrough();
+      'changeStyling'
+    ).mockImplementation(() => {});
+    vi.spyOn(configuratorStorefrontUtilsService, 'focusFirstActiveElement');
+    vi.spyOn(keyboardFocusService, 'clear');
+    fixture.detectChanges();
   });
 
   it('should create cart-btn-container', () => {
     initialize();
+    fixture.detectChanges();
     expect(component).toBeTruthy();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -589,6 +589,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   it('should create display-only-btn-container', () => {
     setRouterTestDataReadOnlyOrder();
     initialize();
+    fixture.detectChanges();
     expect(component).toBeTruthy();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -612,6 +613,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
 
   it('should render button that is not disabled in case there are no pending changes', () => {
     initialize();
+    fixture.detectChanges();
     const selector = htmlElem.querySelector('button');
     if (selector) {
       expect(selector.disabled).toBe(false);
@@ -623,6 +625,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   it('should not disable button in case there are pending changes', () => {
     pendingChangesObservable = of(true);
     initialize();
+    fixture.detectChanges();
     const selector = htmlElem.querySelector('button');
     if (selector) {
       expect(selector.disabled).toBe(false);
@@ -634,6 +637,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   describe('ngOnInit', () => {
     it('should set quantity that was retrieved from quantity service', () => {
       initialize();
+      fixture.detectChanges();
       expect(component.quantityControl.value).toBe(QUANTITY);
     });
   });
@@ -641,6 +645,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   describe('quantityChange', () => {
     it('should push current quantity to qty service', () => {
       initialize();
+      fixture.detectChanges();
       component.quantityControl.setValue(QUANTITY_CHANGED);
       expect(configuratorQuantityService.setQuantity).toHaveBeenCalledWith(
         QUANTITY_CHANGED
@@ -649,16 +654,22 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   });
 
   describe('onAddToCart', () => {
-    it('should navigate to OV in case configuration is cart bound and we are on product config page', fakeAsync(() => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+    it('should navigate to OV in case configuration is cart bound and we are on product config page', async () => {
       mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
       performUpdateCart();
 
-      checkNavigationFlow();
+      await checkNavigationFlow();
 
       expect(
         configuratorGroupsService.setGroupStatusVisited
       ).toHaveBeenCalled();
-    }));
+    });
 
     it('should navigate to cart in case configuration is cart bound and we are on OV config page', () => {
       performUpdateOnOV();
@@ -697,15 +708,15 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
       expect(globalMessageService.add).toHaveBeenCalledTimes(1);
     });
 
-    it('should navigate to overview in case configuration has not been added yet and we are on configuration page', fakeAsync(() => {
+    it('should navigate to overview in case configuration has not been added yet and we are on configuration page', async () => {
       ensureProductBound();
       component.onAddToCart(mockProductConfiguration, mockRouterData);
 
-      checkNavigationFlow();
+      await checkNavigationFlow();
       expect(
         configuratorGroupsService.setGroupStatusVisited
       ).toHaveBeenCalled();
-    }));
+    });
 
     it('should remove one configuration (cart bound) in case configuration has not yet been added and we are on configuration page', () => {
       ensureProductBound();
@@ -744,7 +755,13 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   });
 
   describe('navigateForProductBound', () => {
-    it('should navigate to OV in case configuration is product bound and we are on product config page', fakeAsync(() => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+    it('should navigate to OV in case configuration is product bound and we are on product config page', async () => {
       mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
       ensureProductBound();
 
@@ -754,10 +771,10 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
         false,
         mockProductConfiguration.productCode
       );
-      checkNavigationFlow();
-    }));
+      await checkNavigationFlow();
+    });
 
-    it('should handle case that next owner is not defined', fakeAsync(() => {
+    it('should handle case that next owner is not defined', async () => {
       mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
       ensureProductBound();
 
@@ -768,10 +785,10 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
         mockProductConfiguration.productCode
       );
 
-      tick();
+      await vi.advanceTimersByTimeAsync(0);
       expect(routingService.go).toHaveBeenCalledTimes(2);
 
-      const allArgs = (routingService.go as jasmine.Spy).calls.allArgs();
+      const allArgs = vi.mocked(routingService.go).mock.calls;
       expect(allArgs[0][0]).toEqual({
         ...navParamsConfig,
         params: { ...navParamsConfig.params, entityKey: 'INITIAL' },
@@ -782,7 +799,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
         params: { ...navParamsOverview.params, entityKey: 'INITIAL' },
       });
       expect(allArgs[1][1]).toEqual(queryParams);
-    }));
+    });
   });
 
   describe('performNavigation', () => {
@@ -812,6 +829,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
     it('should navigate to order details', () => {
       setRouterTestDataReadOnlyOrder();
       initialize();
+      fixture.detectChanges();
       component.leaveConfigurationOverview();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'orderDetails',
@@ -822,6 +840,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
     it('should navigate to quote details in case owner is quote entry', () => {
       setRouterTestDataReadOnlySavedCart();
       initialize();
+      fixture.detectChanges();
       component.leaveConfigurationOverview();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'quoteDetails',
@@ -832,6 +851,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
     it('should navigate to quote details in case owner is saved cart entry and saved cart is bound to a quote', () => {
       setRouterTestDataReadOnlyQuote();
       initialize();
+      fixture.detectChanges();
       component.leaveConfigurationOverview();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'quoteDetails',
@@ -842,6 +862,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
     it('should navigate to product details', () => {
       setRouterTestDataReadOnlyProduct();
       initialize();
+      fixture.detectChanges();
       component.leaveConfigurationOverview();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'product',
@@ -854,6 +875,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
     it('should navigate to cart', () => {
       setRouterTestDataReadOnlyCart();
       initialize();
+      fixture.detectChanges();
       component.leaveConfigurationOverview();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'cart',
@@ -863,6 +885,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
     it('should navigate to checkout review order', () => {
       setRouterTestDataReadOnlyCheckout();
       initialize();
+      fixture.detectChanges();
       component.leaveConfigurationOverview();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'checkoutReviewOrder',
@@ -871,40 +894,38 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   });
 
   describe('Floating button', () => {
-    it('should make button sticky', (done) => {
-      spyOn(configuratorStorefrontUtilsService, 'getElement').and.returnValue(
-        elementMock as unknown as HTMLElement
-      );
-      spyOn(intersectionService, 'isIntersecting').and.returnValue(of(true));
+    it('should make button sticky', async () => {
+      vi.spyOn(
+        configuratorStorefrontUtilsService,
+        'getElement'
+      ).mockReturnValue(elementMock as unknown as HTMLElement);
+      vi.spyOn(intersectionService, 'isIntersecting').mockReturnValue(of(true));
       component.ngOnInit();
-      component.container$.pipe(take(1), delay(0)).subscribe(() => {
-        expect(
-          configuratorStorefrontUtilsService.changeStyling
-        ).toHaveBeenCalledWith(
-          'cx-configurator-add-to-cart-button',
-          'position',
-          'sticky'
-        );
-        done();
-      });
+      await firstValueFrom(component.container$.pipe(delay(0)));
+      expect(
+        configuratorStorefrontUtilsService.changeStyling
+      ).toHaveBeenCalledWith(
+        'cx-configurator-add-to-cart-button',
+        'position',
+        'sticky'
+      );
     });
 
-    it('should make button fixed when not intersecting', (done) => {
-      spyOn(configuratorStorefrontUtilsService, 'getElement').and.returnValue(
-        elementMock as unknown as HTMLElement
-      );
+    it('should make button fixed when not intersecting', async () => {
+      vi.spyOn(
+        configuratorStorefrontUtilsService,
+        'getElement'
+      ).mockReturnValue(elementMock as unknown as HTMLElement);
       component.ngOnInit();
-      component.container$.pipe(take(1), delay(0)).subscribe(() => {
-        spyOn(intersectionService, 'isIntersecting').and.callThrough();
-        expect(
-          configuratorStorefrontUtilsService.changeStyling
-        ).toHaveBeenCalledWith(
-          'cx-configurator-add-to-cart-button',
-          'position',
-          'fixed'
-        );
-        done();
-      });
+      await firstValueFrom(component.container$.pipe(delay(0)));
+      vi.spyOn(intersectionService, 'isIntersecting');
+      expect(
+        configuratorStorefrontUtilsService.changeStyling
+      ).toHaveBeenCalledWith(
+        'cx-configurator-add-to-cart-button',
+        'position',
+        'fixed'
+      );
     });
   });
 
@@ -1134,6 +1155,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
       setRouterTestDataReadOnlyCart();
       mockRouterData.navigateToCart = true;
       initialize();
+      fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
@@ -1176,34 +1198,40 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   });
 
   describe('Focus handling on navigation', () => {
-    it('focusOverviewInTabBar should call clear and focusFirstActiveElement', fakeAsync(() => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+    it('focusOverviewInTabBar should call clear and focusFirstActiveElement', async () => {
       component['focusOverviewInTabBar']();
-      tick(1); // needed because of delay(0) in focusOverviewInTabBar
+      await vi.advanceTimersByTimeAsync(1); // needed because of delay(0) in focusOverviewInTabBar
       expect(keyboardFocusService.clear).toHaveBeenCalledTimes(1);
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(1);
-    }));
+    });
 
-    it('focusOverviewInTabBar should not call clear and focusFirstActiveElement if overview data is not present in configuration', fakeAsync(() => {
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+    it('focusOverviewInTabBar should not call clear and focusFirstActiveElement if overview data is not present in configuration', async () => {
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(mockProductConfigurationWithoutBasePrice)
       );
       component['focusOverviewInTabBar']();
-      tick(1); // needed because of delay(0) in focusOverviewInTabBar
+      await vi.advanceTimersByTimeAsync(1); // needed because of delay(0) in focusOverviewInTabBar
       expect(keyboardFocusService.clear).toHaveBeenCalledTimes(0);
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(0);
-    }));
+    });
 
-    it('navigateToOverview should navigate to overview page and should call focusFirstActiveElement inside focusOverviewInTabBar', fakeAsync(() => {
+    it('navigateToOverview should navigate to overview page and should call focusFirstActiveElement inside focusOverviewInTabBar', async () => {
       component['navigateToOverview'](
         mockRouterData.owner.configuratorType,
         mockRouterData.owner,
         mockProductConfiguration.productCode
       );
-      tick(1); // needed because of delay(0) in focusOverviewInTabBar
+      await vi.advanceTimersByTimeAsync(1); // needed because of delay(0) in focusOverviewInTabBar
       expect(routingService.go).toHaveBeenCalledWith(
         {
           cxRoute: 'configureOverview' + mockRouterData.owner.configuratorType,
@@ -1217,7 +1245,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(1);
-    }));
+    });
   });
 
   describe('isQuoteCartActive', () => {

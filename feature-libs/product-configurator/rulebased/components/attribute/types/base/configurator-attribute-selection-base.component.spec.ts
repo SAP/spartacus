@@ -5,7 +5,7 @@
  */
 
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
@@ -32,7 +32,7 @@ describe('ConfiguratorAttributeSelectionBaseComponent', () => {
   let component: ConfiguratorAttributeSelectionBaseComponent;
   let fixture: ComponentFixture<ExampleConfiguratorAttributeSelectionComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -53,7 +53,7 @@ describe('ConfiguratorAttributeSelectionBaseComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     isConfigurationLoading$.next(false);
@@ -61,14 +61,18 @@ describe('ConfiguratorAttributeSelectionBaseComponent', () => {
       ExampleConfiguratorAttributeSelectionComponent
     );
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   describe('resetLoadingOnConfigurationUpdate', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
     it('should reset loading$ once the configuration update round trip finished, even if the attribute did not change', () => {
       component.loading$.next(true);
       expect(component.loading$.value).toBe(true);

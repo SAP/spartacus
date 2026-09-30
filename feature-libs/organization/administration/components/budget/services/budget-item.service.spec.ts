@@ -11,7 +11,6 @@ import { EMPTY, Observable, of } from 'rxjs';
 import { BudgetFormService } from '../form/budget-form.service';
 import { BudgetItemService } from './budget-item.service';
 import { CurrentBudgetService } from './current-budget.service';
-import createSpy = jasmine.createSpy;
 
 const mockCode = 'b1';
 
@@ -40,7 +39,7 @@ class MockBudgetService {
 class MockBudgetFormService {}
 class MockCurrentBudgetService {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(EMPTY);
+  load = vi.fn().mockReturnValue(EMPTY);
   error$ = of(false);
 }
 
@@ -68,20 +67,20 @@ describe('BudgetItemService', () => {
   });
 
   it('should load budget', () => {
-    spyOn(budgetService, 'get').and.callThrough();
+    vi.spyOn(budgetService, 'get');
     service.load('123').subscribe();
     expect(budgetService.get).toHaveBeenCalledWith('123');
   });
 
   it('should load budget on each request', () => {
-    spyOn(budgetService, 'loadBudget').and.callThrough();
+    vi.spyOn(budgetService, 'loadBudget');
     service.load('123').subscribe();
     expect(budgetService.loadBudget).toHaveBeenCalledWith('123');
   });
 
   it('should update existing budget', () => {
-    spyOn(budgetService, 'update').and.callThrough();
-    spyOn(budgetService, 'getLoadingStatus').and.callThrough();
+    vi.spyOn(budgetService, 'update');
+    vi.spyOn(budgetService, 'getLoadingStatus');
 
     expect(service.save(form, 'existingCode')).toEqual(mockItemStatus);
     expect(budgetService.update).toHaveBeenCalledWith('existingCode', {
@@ -92,8 +91,8 @@ describe('BudgetItemService', () => {
   });
 
   it('should create new budget', () => {
-    spyOn(budgetService, 'create').and.callThrough();
-    spyOn(budgetService, 'getLoadingStatus').and.callThrough();
+    vi.spyOn(budgetService, 'create');
+    vi.spyOn(budgetService, 'getLoadingStatus');
 
     expect(service.save(form)).toEqual(mockItemStatus);
     expect(budgetService.create).toHaveBeenCalledWith({
@@ -105,7 +104,7 @@ describe('BudgetItemService', () => {
 
   it('should launch budget detail route', () => {
     const routingService = TestBed.inject(RoutingService);
-    spyOn(routingService, 'go').and.callThrough();
+    vi.spyOn(routingService, 'go');
     service.launchDetails({ name: 'foo bar' });
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'orgBudgetDetails',

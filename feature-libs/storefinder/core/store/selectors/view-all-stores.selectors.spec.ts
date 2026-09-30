@@ -25,7 +25,7 @@ describe('ViewAllStores Selectors', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   describe('viewAllStores', () => {

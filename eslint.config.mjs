@@ -27,16 +27,14 @@ export default defineConfig(
   },
   {
     files: ['**/*.ts'],
-    extends: [
-      ...angular.configs.tsRecommended,
-    ],
+    extends: [...angular.configs.tsRecommended],
     processor: angular.processInlineTemplates,
     plugins: {
       '@typescript-eslint': tseslint.plugin,
       '@nx': nxPlugin,
       '@stylistic/ts': stylisticTs,
-      'import': importPlugin,
-      'jsdoc': jsdocPlugin,
+      import: importPlugin,
+      jsdoc: jsdocPlugin,
       'prefer-arrow': preferArrowPlugin,
     },
     languageOptions: {
@@ -154,9 +152,9 @@ export default defineConfig(
           ],
         },
       ],
-      'complexity': 'off',
+      complexity: 'off',
       'constructor-super': 'error',
-      'eqeqeq': ['error', 'smart'],
+      eqeqeq: ['error', 'smart'],
       'guard-for-in': 'error',
       'id-blacklist': 'off',
       'id-match': 'off',
@@ -188,8 +186,7 @@ export default defineConfig(
         {
           selector:
             'PropertyDefinition[accessibility="private"][value.type="CallExpression"][value.callee.name="inject"]:not([value.arguments.0.name="FeatureConfigService"]):not([value.arguments.0.name="FeatureToggles"])',
-          message:
-            `[Spartacus] Injected dependencies should use "protected" instead of "private" to allow customers to extend the class.
+          message: `[Spartacus] Injected dependencies should use "protected" instead of "private" to allow customers to extend the class.
             (Exceptions: FeatureConfigService, FeatureToggles — those MUST be private; see @nx/workspace-feature-config-service-must-be-private and @nx/workspace-feature-toggles-must-be-private.)`,
         },
       ],
@@ -203,13 +200,13 @@ export default defineConfig(
       'object-shorthand': 'off',
       'one-var': ['error', 'never'],
       'prefer-const': 'off',
-      'radix': 'error',
+      radix: 'error',
       'use-isnan': 'error',
       'valid-typeof': 'off',
       'arrow-body-style': 'off',
       'arrow-parens': 'off',
       'comma-dangle': 'off',
-      'curly': 'error',
+      curly: 'error',
       'eol-last': 'error',
       'linebreak-style': ['error', 'unix'],
       'max-len': 'off',
@@ -217,20 +214,18 @@ export default defineConfig(
       'no-multiple-empty-lines': 'off',
       'no-trailing-spaces': 'error',
       'quote-props': ['error', 'as-needed'],
-      'quotes': 'off',
+      quotes: 'off',
       'space-before-function-paren': 'off',
     },
   },
   {
     files: ['**/*.html'],
-    extends: [
-      ...angular.configs.templateRecommended,
-    ],
+    extends: [...angular.configs.templateRecommended],
     rules: {
       '@angular-eslint/template/no-negated-async': 'off',
       '@angular-eslint/template/eqeqeq': 'error',
       '@angular-eslint/template/prefer-control-flow': 'off',
-      '@angular-eslint/template/prefer-self-closing-tags': 'warn',
+      '@angular-eslint/template/prefer-self-closing-tags': 'error',
     },
   },
   {
@@ -261,5 +256,5 @@ export default defineConfig(
       '@nx/workspace-feature-toggles-must-be-private': 'error',
       '@nx/workspace-no-self-public-api-import': 'warn',
     },
-  },
+  }
 );

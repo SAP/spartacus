@@ -15,8 +15,7 @@
         <cx-icon
           aria-hidden="false"
           [type]="state.showCart ? iconTypes.CARET_UP : iconTypes.CARET_DOWN"
-        >
-        </cx-icon>
+        />
         <span class="cx-text">{{ 'quote.commons.cart' | cxTranslate }}</span>
       </div>
       <ng-container *ngIf="state.showCart">
@@ -30,8 +29,7 @@
             items: quoteItemsData.entries ?? [],
             readonly: quoteItemsData.readOnly,
           }"
-        >
-        </ng-template>
+        />
       </ng-container>
     </div>
   </ng-container>

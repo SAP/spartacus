@@ -55,6 +55,6 @@ describe('DateRangeCellComponent', () => {
     const el: HTMLElement = fixture.debugElement.query(
       By.css('span.text')
     ).nativeNode;
-    expect(el.innerText).toEqual('Jul 15, 2020 - Jul 15, 2020');
+    expect(el.textContent?.trim()).toEqual('Jul 15, 2020 - Jul 15, 2020');
   });
 });

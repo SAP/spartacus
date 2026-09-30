@@ -14,3 +14,6 @@ BASE_SITE="electronics-spa"
 
 OPF_BASE_URL="https://cp96avkh5f-integrati2-s1.opf.commerce.stage.context.cloud.sap/commerce-cloud-adapter/storefront"
 OPF_CLIENT_PUBLIC_KEY="A1XtvJflow62RieQAElw1/hNRnIWqtfCsBR8kVKUAXk="
+
+# Set to true to send sap-commerce-cloud-access-code header on getActiveConfigurations request (required for Intelligent Routing)
+OPF_ACCESS_CODE_HEADER_ENABLED=true

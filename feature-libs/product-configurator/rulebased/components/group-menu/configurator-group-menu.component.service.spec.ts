@@ -221,7 +221,7 @@ describe('ConfiguratorGroupMenuService', () => {
 
     it('calls preventDefault on every key press', () => {
       const event = new KeyboardEvent('keydown', { code: 'ArrowDown' });
-      spyOn(event, 'preventDefault');
+      vi.spyOn(event, 'preventDefault');
 
       classUnderTest.switchGroupOnArrowPress(event, 0, groups);
 
@@ -274,8 +274,7 @@ describe('ConfiguratorGroupMenuService', () => {
         'main cx-configurator-group-menu'
       );
       if (!groupMenu) {
-        fail('Group menu not available');
-        return;
+        throw new Error('Group menu not available');
       }
       groupMenu.prepend(backButton);
       const array = groups.toArray();
