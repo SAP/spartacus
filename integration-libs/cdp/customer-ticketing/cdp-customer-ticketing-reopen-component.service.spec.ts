@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { firstValueFrom } from 'rxjs';
 import { CdpCustomerTicketingReopenComponentService } from './cdp-customer-ticketing-reopen-component.service';
 
 describe('CdpCustomerTicketingReopenComponentService', () => {
@@ -15,11 +16,9 @@ describe('CdpCustomerTicketingReopenComponentService', () => {
     expect(service).toBeTruthy();
   });
   describe('enableReopenButton()', () => {
-    it('should not enable re-open button in CDP scenario', (done) => {
-      service.enableReopenButton().subscribe((data) => {
-        expect(data).toEqual(false);
-        done();
-      });
+    it('should not enable re-open button in CDP scenario', async () => {
+      const data = await firstValueFrom(service.enableReopenButton());
+      expect(data).toEqual(false);
     });
   });
 });

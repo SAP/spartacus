@@ -58,7 +58,6 @@ import {
   NgSelectA11yDirective,
   sortTitles,
 } from '@spartacus/storefront';
-// eslint-disable-next-line @nx/workspace-no-self-public-api-import -- ESLint is misfiring here: core and root are not the same library — they're separate entry points
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import {
   BehaviorSubject,

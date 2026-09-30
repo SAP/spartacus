@@ -11,7 +11,6 @@ import { FormErrorsModule } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { EMPTY, of, throwError } from 'rxjs';
 import { CDCUpdateProfileComponentService } from './cdc-update-profile-component.service';
-import createSpy = jasmine.createSpy;
 
 const mockUser = {
   customerId: '123',
@@ -21,10 +20,10 @@ const mockUser = {
 };
 
 class MockUserProfileFacade implements Partial<UserProfileFacade> {
-  get = createSpy('UserProfileFacade.get').and.returnValue(of({}));
-  getTitles = createSpy('UserProfileFacade.getTitles').and.returnValue(EMPTY);
-  update = createSpy('UserProfileFacade.update').and.returnValue(of({}));
-  close = createSpy('UserProfileFacade.close').and.returnValue(EMPTY);
+  get = vi.fn().mockReturnValue(of({}));
+  getTitles = vi.fn().mockReturnValue(EMPTY);
+  update = vi.fn().mockReturnValue(of({}));
+  close = vi.fn().mockReturnValue(EMPTY);
 }
 const mockedGlobalMessageService = {
   add: () => {},
@@ -32,9 +31,7 @@ const mockedGlobalMessageService = {
 };
 
 class MockCDCJsService implements Partial<CdcJsService> {
-  updateProfileWithoutScreenSet = createSpy().and.returnValue(
-    of({ status: 'OK' })
-  );
+  updateProfileWithoutScreenSet = vi.fn().mockReturnValue(of({ status: 'OK' }));
 }
 
 describe('UpdateProfileComponentService', () => {
@@ -70,7 +67,7 @@ describe('UpdateProfileComponentService', () => {
     describe('success', () => {
       beforeEach(() => {
         service.form.patchValue(mockUser);
-        spyOn(globalMessageService, 'add');
+        vi.spyOn(globalMessageService, 'add');
       });
 
       it('should update password', () => {
@@ -94,7 +91,7 @@ describe('UpdateProfileComponentService', () => {
       });
 
       it('reset()', () => {
-        spyOn(service.form, 'reset').and.callThrough();
+        vi.spyOn(service.form, 'reset');
         service.updateProfile();
         expect(service.form.reset).toHaveBeenCalled();
       });
@@ -102,7 +99,7 @@ describe('UpdateProfileComponentService', () => {
   });
   describe('error', () => {
     it('should not save invalid form', () => {
-      spyOn(globalMessageService, 'add');
+      vi.spyOn(globalMessageService, 'add');
       service.form.patchValue({ customerId: '123' } as User);
       service.updateProfile();
       expect(cdcJsService.updateProfileWithoutScreenSet).not.toHaveBeenCalled();
@@ -111,9 +108,9 @@ describe('UpdateProfileComponentService', () => {
     });
 
     it('should show error', () => {
-      spyOn(globalMessageService, 'add');
+      vi.spyOn(globalMessageService, 'add');
       service.form.patchValue(mockUser);
-      cdcJsService.updateProfileWithoutScreenSet = createSpy().and.returnValue(
+      cdcJsService.updateProfileWithoutScreenSet = vi.fn().mockReturnValue(
         throwError(() => ({
           status: 'ERROR',
           errorMessage: 'Error has occurred',
