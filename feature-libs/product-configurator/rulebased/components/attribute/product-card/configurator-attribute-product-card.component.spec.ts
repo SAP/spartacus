@@ -35,6 +35,7 @@ import {
 } from '@spartacus/storefront';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
 import {
   BehaviorSubject,
   EMPTY,
@@ -337,6 +338,90 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     expect(loadingState.length).toBeGreaterThanOrEqual(2);
     expect(loadingState[loadingState.length - 2]).toBe(true); // loading
     expect(loadingState[loadingState.length - 1]).toBe(false); // loading done
+  });
+
+  describe('ngOnInit', () => {
+    it('should request product with productSystemId and configurator product card scope', () => {
+      const productService = TestBed.inject(ProductService);
+      vi.spyOn(productService, 'get');
+
+      component.ngOnInit();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        '1111-2222',
+        ConfiguratorProductScope.CONFIGURATOR_PRODUCT_CARD
+      );
+    });
+
+    it('should request product with empty code when productSystemId is undefined', () => {
+      const productService = TestBed.inject(ProductService);
+      vi.spyOn(productService, 'get').mockReturnValue(of(undefined));
+      component.productCardOptions.productBoundValue = {
+        ...value,
+        productSystemId: undefined,
+      };
+
+      component.ngOnInit();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        '',
+        ConfiguratorProductScope.CONFIGURATOR_PRODUCT_CARD
+      );
+    });
+
+    it('should emit catalog product merged with configurator value', async () => {
+      component.ngOnInit();
+
+      const catalogProduct = await firstValueFrom(component.product$);
+      expect(catalogProduct).toEqual({
+        ...productTransformed,
+        ...product,
+      });
+    });
+
+    it('should reset loading state when catalog lookup errors', () => {
+      const productService = TestBed.inject(ProductService);
+      vi.spyOn(productService, 'get').mockReturnValue(
+        throwError(() => new Error('lookup failed'))
+      );
+
+      component.ngOnInit();
+      expect(component.loading$.value).toBe(true);
+
+      component.product$.subscribe().unsubscribe();
+      expect(component.loading$.value).toBe(false);
+    });
+
+    it('should use local loading state as disableActions$ when parent provides no loading$', () => {
+      component.productCardOptions.loading$ = undefined;
+
+      component.ngOnInit();
+
+      expect(component.disableActions$).toBe(component.loading$);
+    });
+
+    it('should disable actions when only local loading is active', async () => {
+      component.productCardOptions.loading$ = new BehaviorSubject<boolean>(
+        false
+      );
+
+      component.ngOnInit();
+
+      const disabled = await firstValueFrom(component.disableActions$);
+      expect(disabled).toBe(true);
+    });
+
+    it('should enable actions when neither local nor parent loading is active', async () => {
+      component.productCardOptions.loading$ = new BehaviorSubject<boolean>(
+        false
+      );
+
+      component.ngOnInit();
+      component.loading$.next(false);
+
+      const disabled = await firstValueFrom(component.disableActions$);
+      expect(disabled).toBe(false);
+    });
   });
 
   describe('Buttons constellation', () => {
@@ -801,6 +886,22 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       expect(catalogProduct).toEqual(productTransformed);
     });
 
+    it('should use valueDisplay as name when catalog product has no name', async () => {
+      const productService = TestBed.inject(ProductService);
+      vi.spyOn(productService, 'get').mockReturnValue(
+        of({
+          code: '1111-2222',
+          description: 'Catalog description',
+          images: product.images,
+        })
+      );
+
+      component.ngOnInit();
+      const catalogProduct = await firstValueFrom(component.product$);
+      expect(catalogProduct.name).toBe(productTransformed.name);
+      expect(catalogProduct.description).toBe('Catalog description');
+    });
+
     it('should fall back to configuration value when catalog lookup errors', async () => {
       const productService = TestBed.inject(ProductService);
       vi.spyOn(productService, 'get').mockReturnValue(
@@ -866,6 +967,67 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         htmlElem,
         'cx-configurator-attribute-quantity'
       );
+    });
+  });
+
+  describe('mergeProductWithConfiguratorValue', () => {
+    it('should return transformed configurator value when product is undefined', () => {
+      expect(
+        component['mergeProductWithConfiguratorValue'](
+          undefined,
+          component.productCardOptions.productBoundValue
+        )
+      ).toEqual(productTransformed);
+    });
+
+    it('should prefer catalog product data over configurator value', () => {
+      const catalogProduct: Product = {
+        code: 'CATALOG_CODE',
+        name: 'Catalog Name',
+        description: 'Catalog description',
+        images: product.images,
+        price: product.price,
+      };
+
+      expect(
+        component['mergeProductWithConfiguratorValue'](
+          catalogProduct,
+          component.productCardOptions.productBoundValue
+        )
+      ).toEqual(catalogProduct);
+    });
+
+    it('should use valueDisplay as name when catalog name is blank', () => {
+      const result = component['mergeProductWithConfiguratorValue'](
+        { code: 'CATALOG_CODE', name: '   ' },
+        component.productCardOptions.productBoundValue
+      );
+
+      expect(result.name).toBe(productTransformed.name);
+      expect(result.code).toBe('CATALOG_CODE');
+    });
+
+    it('should fall back to configurator code and description when missing in catalog product', () => {
+      const result = component['mergeProductWithConfiguratorValue'](
+        { name: 'Catalog Name', images: product.images },
+        component.productCardOptions.productBoundValue
+      );
+
+      expect(result).toEqual({
+        code: productTransformed.code,
+        description: productTransformed.description,
+        name: 'Catalog Name',
+        images: product.images,
+      });
+    });
+
+    it('should keep fallback images when catalog product has no images', () => {
+      const result = component['mergeProductWithConfiguratorValue'](
+        { code: 'CATALOG_CODE', name: 'Catalog Name' },
+        component.productCardOptions.productBoundValue
+      );
+
+      expect(result.images).toEqual({});
     });
   });
 
