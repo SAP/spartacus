@@ -8,10 +8,15 @@ import * as cart from './cart';
 import * as common from './common';
 import { navigation, waitForPage } from './navigation';
 import * as configurationCart from './product-configurator-cart';
+import * as configurationCpq from './product-configurator-cpq';
+import * as configurationOverview from './product-configurator-overview';
+import * as configurationOverviewCpq from './product-configurator-overview-cpq';
 import Chainable = Cypress.Chainable;
 
 const resolveIssuesLinkSelector =
   'cx-configure-cart-entry button.cx-action-link';
+
+const REMOVE_CART_ENTRY_ALIAS = 'removeCartEntry';
 
 /**
  * Clicks on 'Resolve Issues' link in the cart.
@@ -552,6 +557,35 @@ export function clickBundleLineItemProductLink(
 }
 
 /**
+ * Opens the product details page of a bundle line item via its product link and
+ * returns to the cart. Requires `checkBundleLineItemProductLinkAndCode` to have
+ * set the `@bundleLineItemProductCode` alias.
+ *
+ * @param {number} cartItemIndex - Index of cart item
+ * @param {string} productName - Product name shown on the line item
+ * @param {string} productCode - Product code of the cart entry holding the bundle
+ */
+export function navigateToBundleLineItemPDPAndBackToCart(
+  cartItemIndex: number,
+  productName: string,
+  productCode: string
+): void {
+  clickBundleLineItemProductLink(cartItemIndex, productName);
+  const productNameSlug = productName.toLowerCase().replace(/\s+/g, '-');
+  cy.get('@bundleLineItemProductCode').then((lineItemProductCode) => {
+    cy.location('pathname').should(
+      'contain',
+      `/product/${lineItemProductCode}/${productNameSlug}`
+    );
+  });
+  cy.get('.ProductDetailsPageTemplate').should('be.visible');
+
+  cy.go('back');
+  checkCartPageReady();
+  waitForCartEntryBundleInfo(productCode);
+}
+
+/**
  * Clicks the nested "Edit Product Configuration" link on a bundle line item.
  *
  * @param {number} cartItemIndex - Index of cart item
@@ -567,6 +601,23 @@ export function clickBundleLineItemEditProductConfiguration(
       .contains('Edit Product Configuration')
       .click();
   });
+}
+
+/**
+ * Adds the currently open configuration to the cart and navigates from the
+ * overview page to the cart, which then shows the bundle info.
+ * Requires `registerCartRouteForBaseSite` to have been called.
+ *
+ * @param {string} productCode - Product code of the configured product
+ */
+export function addConfigurableProductToCart(productCode: string): void {
+  configurationCpq.clickAddToCartBtn();
+  configurationOverviewCpq.checkOverviewPageReady();
+  configurationOverview.clickContinueToCartBtnOnOP();
+  cy.wait('@getCart');
+  checkCartPageReady();
+  cart.verifyCartNotEmpty();
+  waitForCartEntryBundleInfo(productCode);
 }
 
 /**
@@ -589,6 +640,20 @@ export function clickOnEditBundleConfigurationLink(
 }
 
 /**
+ * Leaves a configuration that was opened from a cart entry and returns to the
+ * cart via the overview page.
+ *
+ * @param {string} productCode - Product code of the cart entry holding the bundle
+ */
+export function returnToCartFromConfiguration(productCode: string): void {
+  configurationCpq.clickAddToCartBtn();
+  configurationOverviewCpq.checkOverviewPageReady();
+  configurationOverview.clickContinueToCartBtnOnOP();
+  checkCartPageReady();
+  waitForCartEntryBundleInfo(productCode);
+}
+
+/**
  * Registers a cart GET intercept for the given base site.
  *
  * @param {string} baseSite - Base site id, e.g. `powertools-spa`
@@ -601,14 +666,57 @@ export function registerCartRouteForBaseSite(baseSite: string): void {
 }
 
 /**
+ * Registers a cart entry DELETE intercept for the given base site.
+ *
+ * `cart.removeCartItem` cannot be reused here because its intercept is bound to
+ * the `BASE_SITE` environment variable, which CPQ tests do not run against.
+ *
+ * @param {string} baseSite - Base site id, e.g. `powertools-spa`
+ */
+export function registerRemoveCartEntryRouteForBaseSite(
+  baseSite: string
+): void {
+  cy.intercept(
+    'DELETE',
+    `${Cypress.env('OCC_PREFIX')}/${baseSite}/users/*/carts/*/entries/*`
+  ).as(REMOVE_CART_ENTRY_ALIAS);
+}
+
+/**
+ * Removes the cart entry of the given product and waits for the OCC delete call.
+ * Requires `registerRemoveCartEntryRouteForBaseSite` to have been called.
+ *
+ * @param {string} productCode - Product code shown in the cart row
+ */
+export function removeCartEntryForProductCode(productCode: string): void {
+  withCartEntryIndexForProductCode(productCode, (cartEntryIndex) => {
+    configurationCart.clickOnRemoveLink(cartEntryIndex);
+  });
+  cy.wait(`@${REMOVE_CART_ENTRY_ALIAS}`)
+    .its('response.statusCode')
+    .should('eq', 200);
+}
+
+/**
+ * Navigates to the cart page of the given base site.
+ *
+ * @param {string} baseSite - Base site id, e.g. `powertools-spa`
+ */
+export function goToCart(baseSite: string): void {
+  const location = `/${baseSite}/en/USD/cart`;
+  cy.visit(location);
+  cy.location('pathname').should('contain', location);
+  common.checkLoadingMsgNotDisplayed();
+}
+
+/**
  * Opens the cart of the given base site and removes all entries, if any.
  * Requires a logged-in user.
  *
  * @param {string} baseSite - Base site id, e.g. `powertools-spa`
  */
 export function clearCartIfNotEmpty(baseSite: string): void {
-  cy.visit(`/${baseSite}/en/USD/cart`);
-  common.checkLoadingMsgNotDisplayed();
+  goToCart(baseSite);
   // While the cart is loading, neither the cart details nor the empty-cart content is rendered.
   cy.get('cx-cart-details, .EmptyCartMiddleContent')
     .should('be.visible')
