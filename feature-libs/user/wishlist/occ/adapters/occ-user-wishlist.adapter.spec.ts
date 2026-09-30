@@ -87,7 +87,7 @@ describe('OccUserWishlistAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     occEndpointsService = TestBed.inject(OccEndpointsService);
 
-    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
+    vi.spyOn(occEndpointsService, 'buildUrl');
   });
 
   afterEach(() => {

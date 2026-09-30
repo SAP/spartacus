@@ -100,7 +100,7 @@ describe('UnitApproverListService', () => {
   });
 
   it('should load users with "b2bapprovergroup" role', () => {
-    spyOn(unitService, 'getUsers').and.returnValue(EMPTY);
+    vi.spyOn(unitService, 'getUsers').mockReturnValue(EMPTY);
 
     service.getData('u1').subscribe().unsubscribe();
 
@@ -114,8 +114,8 @@ describe('UnitApproverListService', () => {
   });
 
   it('should assign approver', () => {
-    spyOn(unitService, 'assignApprover').and.callThrough();
-    spyOn(userService, 'getLoadingStatus').and.callThrough();
+    vi.spyOn(unitService, 'assignApprover');
+    vi.spyOn(userService, 'getLoadingStatus');
 
     expect(service.assign(unitId, approverId)).toEqual(mockItemStatus);
     expect(unitService.assignApprover).toHaveBeenCalledWith(
@@ -127,8 +127,8 @@ describe('UnitApproverListService', () => {
   });
 
   it('should unassign approver', () => {
-    spyOn(unitService, 'unassignApprover').and.callThrough();
-    spyOn(userService, 'getLoadingStatus').and.callThrough();
+    vi.spyOn(unitService, 'unassignApprover');
+    vi.spyOn(userService, 'getLoadingStatus');
 
     expect(service.unassign(unitId, approverId)).toEqual(mockItemStatus);
     expect(unitService.unassignApprover).toHaveBeenCalledWith(

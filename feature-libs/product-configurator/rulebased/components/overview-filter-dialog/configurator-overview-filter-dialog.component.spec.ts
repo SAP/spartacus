@@ -1,5 +1,5 @@
 import { Component, Directive, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
@@ -40,7 +40,7 @@ function initialize() {
 
 function initializeMocks() {
   mockLaunchDialogService = {
-    closeDialog: jasmine.createSpy(),
+    closeDialog: vi.fn(),
     data$: of(ovConfig),
   };
 }
@@ -67,7 +67,7 @@ export class MockKeyboadFocusDirective {
 }
 
 describe('ConfiguratorOverviewFilterDialogComponent', () => {
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     initializeMocks();
     TestBed.configureTestingModule({
       imports: [ConfiguratorOverviewFilterDialogComponent],
@@ -98,7 +98,7 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   it('should create component', () => {
     initialize();

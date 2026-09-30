@@ -5,7 +5,7 @@
         getRequestedDeliveryDateCardContent(requestedRetrievalAt | cxDate)
           | async
       "
-    ></cx-card>
+    />
   </ng-container>
   <ng-template #datePickerEnabled>
     <div class="form-check">
@@ -20,8 +20,7 @@
               [min]="earliestRetrievalAt"
               [required]="true"
               (update)="setRequestedDeliveryDate()"
-            >
-            </cx-date-picker>
+            />
           </div>
         </label>
       </form>

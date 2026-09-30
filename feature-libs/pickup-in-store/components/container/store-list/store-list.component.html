@@ -20,11 +20,11 @@
       *ngFor="let store of stores"
       [storeDetails]="store"
       (storeSelected)="onSelectStore($event)"
-    ></cx-store>
+    />
   </div>
 </div>
 <ng-template #loading>
   <div class="cx-spinner">
-    <cx-spinner></cx-spinner>
+    <cx-spinner />
   </div>
 </ng-template>

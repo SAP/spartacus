@@ -26,8 +26,6 @@ import {
 import { OrderApprovalActions } from '../actions/index';
 import * as fromEffects from './order-approval.effect';
 
-import createSpy = jasmine.createSpy;
-
 const httpErrorResponse = new HttpErrorResponse({
   error: 'error',
   headers: new HttpHeaders().set('xxx', 'xxx'),
@@ -51,11 +49,11 @@ const pagination = { currentPage: 1 };
 const sorts = [{ selected: true, name: 'code' }];
 
 class MockOrderApprovalConnector {
-  get = createSpy().and.returnValue(of(orderApproval));
-  getList = createSpy().and.returnValue(
-    of({ values: [orderApproval], pagination, sorts })
-  );
-  makeDecision = createSpy().and.returnValue(of(orderApprovalDecision));
+  get = vi.fn().mockReturnValue(of(orderApproval));
+  getList = vi
+    .fn()
+    .mockReturnValue(of({ values: [orderApproval], pagination, sorts }));
+  makeDecision = vi.fn().mockReturnValue(of(orderApprovalDecision));
 }
 
 class MockLoggerService {
@@ -136,9 +134,9 @@ describe('OrderApproval Effects', () => {
     });
 
     it('should return LoadOrderApprovalFail action if orderApproval not updated', () => {
-      orderApprovalConnector.get = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
-      );
+      orderApprovalConnector.get = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new OrderApprovalActions.LoadOrderApproval({
         userId,
         orderApprovalCode,
@@ -184,9 +182,9 @@ describe('OrderApproval Effects', () => {
     });
 
     it('should return LoadOrderApprovalsFail action if orderApprovals not loaded', () => {
-      orderApprovalConnector.getList = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
-      );
+      orderApprovalConnector.getList = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new OrderApprovalActions.LoadOrderApprovals({
         userId,
         params,
@@ -233,9 +231,9 @@ describe('OrderApproval Effects', () => {
     });
 
     it('should return MakeDecisionFail action if decision not created', () => {
-      orderApprovalConnector.makeDecision = createSpy(
-        'makeDecision'
-      ).and.returnValue(throwError(() => httpErrorResponse));
+      orderApprovalConnector.makeDecision = vi
+        .fn()
+        .mockReturnValue(throwError(() => httpErrorResponse));
       const action = new OrderApprovalActions.MakeDecision({
         userId,
         orderApprovalCode,

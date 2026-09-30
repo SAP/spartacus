@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SubscriptionBillingDetailsComponent } from './subscription-billing-details.component';
 import {
   EventService,
@@ -109,8 +108,8 @@ describe('SubscriptionBillingDetailsComponent', () => {
 
     eventService = TestBed.inject(EventService);
     facade = TestBed.inject(SubscriptionBillingFacade);
-    spyOn(eventService, 'dispatch').and.callThrough();
-    spyOn(facade, 'getSubscriptionBillByCode').and.callThrough();
+    vi.spyOn(eventService, 'dispatch');
+    vi.spyOn(facade, 'getSubscriptionBillByCode');
     routerParam$.next({ ticketCode: 's1' });
     fixture = TestBed.createComponent(SubscriptionBillingDetailsComponent);
     component = fixture.componentInstance;

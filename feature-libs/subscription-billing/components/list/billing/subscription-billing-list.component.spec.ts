@@ -262,7 +262,7 @@ describe('SubscriptionBillingListComponent', () => {
   });
 
   it('should set the sort order correctly', () => {
-    spyOn(facadeSpy, 'getSubscriptionBillsList').and.returnValue(
+    vi.spyOn(facadeSpy, 'getSubscriptionBillsList').mockReturnValue(
       of(listWithData)
     );
     component.onSortCodeChange('byDocumentNumberAsc');
@@ -275,15 +275,14 @@ describe('SubscriptionBillingListComponent', () => {
   });
 
   it('should set the date filter correctly', () => {
+    fixture.detectChanges(); // initialize component so async pipe stabilizes
     component.billsDateFilterForm.controls.from.setValue('2026-01-31');
     component.billsDateFilterForm.controls.to.setValue('2026-12-31');
     component.onFilterDateChange();
-    fixture.detectChanges();
     expect(component.minDate).toEqual('2026-01-31');
     expect(component.maxDate).toEqual('2026-12-31');
 
     component.onDateFilterSubmit();
-    fixture.detectChanges();
     expect(component.listParams).toEqual({
       pageNumber: 0,
       sortCode: undefined,
@@ -291,7 +290,6 @@ describe('SubscriptionBillingListComponent', () => {
     });
 
     component.onResetFilterDate();
-    fixture.detectChanges();
     expect(component.minDate).toBeNull();
     expect(component.maxDate).toBeNull();
     expect(component.listParams).toEqual({
@@ -303,7 +301,6 @@ describe('SubscriptionBillingListComponent', () => {
     component.minDate = '2026-12-31';
     component.maxDate = '2026-12-31';
     component.onResetFilterDate();
-    fixture.detectChanges();
     expect(component.minDate).toBeNull();
     expect(component.maxDate).toBeNull();
     expect(component.listParams).toEqual({
@@ -313,7 +310,6 @@ describe('SubscriptionBillingListComponent', () => {
     });
 
     component.onResetDateRange();
-    fixture.detectChanges();
     expect(component.minDate).toBeNull();
     expect(component.maxDate).toBeNull();
     expect(component.listParams).toEqual({
@@ -324,7 +320,6 @@ describe('SubscriptionBillingListComponent', () => {
 
     component.maxDate = '2026-12-31';
     component.onResetDateRange();
-    fixture.detectChanges();
     expect(component.minDate).toBeNull();
     expect(component.maxDate).toBeNull();
     expect(component.listParams).toEqual({

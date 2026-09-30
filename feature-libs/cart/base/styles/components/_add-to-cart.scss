@@ -18,6 +18,10 @@
       @include type('7');
       margin: 0 15px;
       color: var(--cx-color-secondary);
+
+      @include forFeature('a11yInStockInfoTextContrast') {
+        color: var(--cx-color-text);
+      }
     }
   }
 

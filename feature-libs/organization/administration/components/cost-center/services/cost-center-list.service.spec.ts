@@ -92,7 +92,7 @@ describe('CostCenterListService', () => {
     });
 
     it('should get empty table with 10 rows', () => {
-      spyOn(costCenterService, 'getList').and.returnValue(of(undefined));
+      vi.spyOn(costCenterService, 'getList').mockReturnValue(of(undefined));
       let result: EntitiesModel<CostCenterModel>;
       service.getData().subscribe((table) => (result = table));
       expect(result.values.length).toBe(10);

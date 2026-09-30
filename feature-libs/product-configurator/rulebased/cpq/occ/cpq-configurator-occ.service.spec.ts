@@ -196,8 +196,8 @@ describe('CpqConfigurationOccService', () => {
       CpqConfiguratorOccService as Type<CpqConfiguratorOccService>
     );
 
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
-    spyOn(converterService, 'pipeable').and.callThrough();
+    vi.spyOn(occEnpointsService, 'buildUrl');
+    vi.spyOn(converterService, 'pipeable');
   });
 
   afterEach(() => {
@@ -205,7 +205,7 @@ describe('CpqConfigurationOccService', () => {
   });
 
   it('should call addToCart endpoint', () => {
-    spyOn(converterService, 'convert').and.callThrough();
+    vi.spyOn(converterService, 'convert');
     serviceUnderTest.addToCart(addToCartParams).subscribe((response) => {
       expect(response).toBe(cartResponse);
     });
@@ -287,7 +287,7 @@ describe('CpqConfigurationOccService', () => {
   });
 
   it('should call upateCart endpoint', () => {
-    spyOn(converterService, 'convert').and.callThrough();
+    vi.spyOn(converterService, 'convert');
     serviceUnderTest.updateCartEntry(updateCartParams).subscribe((response) => {
       expect(response).toBe(cartResponse);
     });
@@ -420,7 +420,7 @@ describe('CpqConfigurationOccService', () => {
   });
 
   it('should call serializer, update an attribute, retrieve configuration and call normalizer', () => {
-    spyOn(converterService, 'convert').and.returnValue(updateAttribute);
+    vi.spyOn(converterService, 'convert').mockReturnValue(updateAttribute);
     serviceUnderTest.updateAttribute(configuration).subscribe((config) => {
       expect(config.errorMessages).toBe(errorMessages);
     });
@@ -455,7 +455,7 @@ describe('CpqConfigurationOccService', () => {
 
   it('should pass rowId as query parameter when updating a nested container-row attribute', () => {
     const rowId = '018';
-    spyOn(converterService, 'convert').and.returnValue({
+    vi.spyOn(converterService, 'convert').mockReturnValue({
       ...updateAttribute,
       rowId,
     });
@@ -592,7 +592,7 @@ describe('CpqConfigurationOccService', () => {
   });
 
   it('should call serializer, update an attribute value quantity, retrieve configuration and call normalizer', () => {
-    spyOn(converterService, 'convert').and.returnValue(updateValue);
+    vi.spyOn(converterService, 'convert').mockReturnValue(updateValue);
     serviceUnderTest.updateValueQuantity(configuration).subscribe((config) => {
       expect(config.errorMessages).toBe(errorMessages);
     });
@@ -630,7 +630,7 @@ describe('CpqConfigurationOccService', () => {
 
   it('should pass rowId as query parameter when updating a nested container-row value quantity', () => {
     const rowId = '018';
-    spyOn(converterService, 'convert').and.returnValue({
+    vi.spyOn(converterService, 'convert').mockReturnValue({
       ...updateValue,
       rowId,
     });

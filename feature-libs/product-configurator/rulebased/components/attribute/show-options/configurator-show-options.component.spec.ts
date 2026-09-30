@@ -50,7 +50,7 @@ describe('ConfiguratorShowOptionsComponent', () => {
     configuratorStorefrontUtilsService = TestBed.inject(
       ConfiguratorStorefrontUtilsService
     );
-    spyOn(configuratorCommonsService, 'readAttributeDomain');
+    vi.spyOn(configuratorCommonsService, 'readAttributeDomain');
     fixture = TestBed.createComponent(ConfiguratorShowOptionsComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
@@ -90,14 +90,11 @@ describe('ConfiguratorShowOptionsComponent', () => {
           a: false,
           b: true,
         });
-        spyOn(
+        vi.spyOn(
           configuratorCommonsService,
           'isConfigurationLoading'
-        ).and.returnValue(configurationLoading);
-        spyOn(
-          configuratorStorefrontUtilsService,
-          'focusFirstActiveElement'
-        ).and.callThrough();
+        ).mockReturnValue(configurationLoading);
+        vi.spyOn(configuratorStorefrontUtilsService, 'focusFirstActiveElement');
         component['focusFirstValue']();
         flush();
         expect(

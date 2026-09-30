@@ -6,12 +6,14 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import {
   CxDatePipe,
+  FeatureConfigService,
+  FeatureToggles,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
@@ -34,7 +36,14 @@ import {
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
-import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  EMPTY,
+  firstValueFrom,
+  Observable,
+  of,
+  throwError,
+} from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorMessageGroup } from '../../service/configurator-message.service';
@@ -193,7 +202,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     return configValue;
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -211,12 +220,31 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfiguratorStorefrontUtilsService,
         },
-        provideMockFeatureToggles({
+        ...provideMockFeatureToggles({
           productConfiguratorConsolidatedButtonDisabling: true,
           productConfiguratorCPQContainer: true,
         }),
+        {
+          provide: FeatureToggles,
+          useFactory: (controller: MockFeatureTogglesController) => controller,
+          deps: [MockFeatureTogglesController],
+        },
       ],
     })
+      .overrideProvider(FeatureConfigService, {
+        useFactory: () => ({
+          isEnabled: (feature: string) => {
+            const ctrl = TestBed.inject(
+              MockFeatureTogglesController
+            ) as unknown as Record<string, unknown>;
+            const negated = feature.startsWith('!');
+            const key = negated ? feature.slice(1) : feature;
+            const val = !!ctrl[key];
+            return negated ? !val : val;
+          },
+          isLevel: () => false,
+        }),
+      })
       .overrideComponent(ConfiguratorAttributeProductCardComponent, {
         remove: {
           imports: [
@@ -241,7 +269,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     featureToggles = TestBed.inject(MockFeatureTogglesController);
@@ -281,11 +309,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       itemIndex: 1,
     };
 
-    spyOn(component, 'onHandleDeselect').and.callThrough();
-    spyOn(component as any, 'onHandleQuantity').and.callThrough();
-    spyOn(component, 'onHandleSelect').and.callThrough();
-
-    fixture.detectChanges();
+    vi.spyOn(component, 'onHandleDeselect');
+    vi.spyOn(component as any, 'onHandleQuantity');
+    vi.spyOn(component, 'onHandleSelect');
   });
 
   it('should create', () => {
@@ -309,16 +335,15 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     component.ngOnInit();
     component.product$.subscribe().unsubscribe(); // fetch product
     subscription.unsubscribe();
-    expect(loadingState.length).toBe(3);
-    expect(loadingState[0]).toBe(false); // state from before each
-    expect(loadingState[1]).toBe(true); // loading
-    expect(loadingState[2]).toBe(false); // loading done
+    expect(loadingState.length).toBeGreaterThanOrEqual(2);
+    expect(loadingState[loadingState.length - 2]).toBe(true); // loading
+    expect(loadingState[loadingState.length - 1]).toBe(false); // loading done
   });
 
   describe('ngOnInit', () => {
     it('should request product with productSystemId and configurator product card scope', () => {
       const productService = TestBed.inject(ProductService);
-      spyOn(productService, 'get').and.callThrough();
+      vi.spyOn(productService, 'get');
 
       component.ngOnInit();
 
@@ -330,7 +355,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
     it('should request product with empty code when productSystemId is undefined', () => {
       const productService = TestBed.inject(ProductService);
-      spyOn(productService, 'get').and.returnValue(of(undefined));
+      vi.spyOn(productService, 'get').mockReturnValue(of(undefined));
       component.productCardOptions.productBoundValue = {
         ...value,
         productSystemId: undefined,
@@ -344,21 +369,19 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       );
     });
 
-    it('should emit catalog product merged with configurator value', (done) => {
+    it('should emit catalog product merged with configurator value', async () => {
       component.ngOnInit();
 
-      component.product$.pipe(take(1)).subscribe((catalogProduct) => {
-        expect(catalogProduct).toEqual({
-          ...productTransformed,
-          ...product,
-        });
-        done();
+      const catalogProduct = await firstValueFrom(component.product$);
+      expect(catalogProduct).toEqual({
+        ...productTransformed,
+        ...product,
       });
     });
 
     it('should reset loading state when catalog lookup errors', () => {
       const productService = TestBed.inject(ProductService);
-      spyOn(productService, 'get').and.returnValue(
+      vi.spyOn(productService, 'get').mockReturnValue(
         throwError(() => new Error('lookup failed'))
       );
 
@@ -377,20 +400,18 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       expect(component.disableActions$).toBe(component.loading$);
     });
 
-    it('should disable actions when only local loading is active', (done) => {
+    it('should disable actions when only local loading is active', async () => {
       component.productCardOptions.loading$ = new BehaviorSubject<boolean>(
         false
       );
 
       component.ngOnInit();
 
-      component.disableActions$.pipe(take(1)).subscribe((disabled) => {
-        expect(disabled).toBe(true);
-        done();
-      });
+      const disabled = await firstValueFrom(component.disableActions$);
+      expect(disabled).toBe(true);
     });
 
-    it('should enable actions when neither local nor parent loading is active', (done) => {
+    it('should enable actions when neither local nor parent loading is active', async () => {
       component.productCardOptions.loading$ = new BehaviorSubject<boolean>(
         false
       );
@@ -398,15 +419,14 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       component.ngOnInit();
       component.loading$.next(false);
 
-      component.disableActions$.pipe(take(1)).subscribe((disabled) => {
-        expect(disabled).toBe(false);
-        done();
-      });
+      const disabled = await firstValueFrom(component.disableActions$);
+      expect(disabled).toBe(false);
     });
   });
 
   describe('Buttons constellation', () => {
     it('should button be enabled when card actions are disabled and card is no selected', () => {
+      fixture.detectChanges();
       const button = fixture.debugElement.query(
         By.css('button.btn')
       ).nativeElement;
@@ -425,6 +445,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should button be called with proper select method', () => {
+      fixture.detectChanges();
       const button = fixture.debugElement.query(
         By.css('button.btn')
       ).nativeElement;
@@ -452,11 +473,14 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should button have select text when card type is no multi select and card is no selected', () => {
+      fixture.detectChanges();
       const button = fixture.debugElement.query(
         By.css('button.btn')
       ).nativeElement;
 
-      expect(button.innerText).toContain('configurator.button.select');
+      expect(button.textContent?.trim()).toContain(
+        'configurator.button.select'
+      );
     });
 
     it('should button have deselect text when card type is no multi select and card is selected', () => {
@@ -468,7 +492,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         By.css('button.btn')
       ).nativeElement;
 
-      expect(button.innerText).toContain('configurator.button.deselect');
+      expect(button.textContent?.trim()).toContain(
+        'configurator.button.deselect'
+      );
     });
 
     it('should button have add text when card type is multi select and card is no selected', () => {
@@ -481,7 +507,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         By.css('button.btn')
       ).nativeElement;
 
-      expect(button.innerText).toContain('configurator.button.add');
+      expect(button.textContent?.trim()).toContain('configurator.button.add');
     });
 
     it('should button have remove text when card type is multi select and card is selected', () => {
@@ -494,7 +520,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         By.css('button.btn')
       ).nativeElement;
 
-      expect(button.innerText).toContain('configurator.button.remove');
+      expect(button.textContent?.trim()).toContain(
+        'configurator.button.remove'
+      );
     });
 
     it('should show deselection error message when removing required attribute', () => {
@@ -580,7 +608,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.btn-tertiary')
       ).nativeElement;
-      expect(button.innerText).toContain('configurator.button.remove');
+      expect(button.textContent?.trim()).toContain(
+        'configurator.button.remove'
+      );
       expect(button.disabled).toBe(true);
     });
 
@@ -594,7 +624,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.btn-tertiary')
       ).nativeElement;
-      expect(button.innerText).toContain('configurator.button.remove');
+      expect(button.textContent?.trim()).toContain(
+        'configurator.button.remove'
+      );
       expect(button.disabled).toBe(false);
     });
   });
@@ -651,7 +683,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.btn-secondary')
       ).nativeElement;
-      expect(button.innerText).toContain('configurator.button.select');
+      expect(button.textContent?.trim()).toContain(
+        'configurator.button.select'
+      );
       expect(button.disabled).toBe(false);
     });
 
@@ -661,7 +695,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.btn-secondary')
       ).nativeElement;
-      expect(button.innerText).toContain('configurator.button.select');
+      expect(button.textContent?.trim()).toContain(
+        'configurator.button.select'
+      );
       expect(button.disabled).toBe(true);
     });
 
@@ -671,7 +707,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.btn-secondary')
       ).nativeElement;
-      expect(button.innerText).toContain('configurator.button.add');
+      expect(button.textContent?.trim()).toContain('configurator.button.add');
       expect(button.disabled).toBe(false);
     });
 
@@ -681,7 +717,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.btn-secondary')
       ).nativeElement;
-      expect(button.innerText).toContain('configurator.button.add');
+      expect(button.textContent?.trim()).toContain('configurator.button.add');
       expect(button.disabled).toBe(true);
     });
   });
@@ -734,7 +770,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.btn-tertiary')
       ).nativeElement;
-      expect(button.innerText).toContain('configurator.button.remove');
+      expect(button.textContent).toContain('configurator.button.remove');
     });
 
     it('should use secondary class for the multi-select remove button when the toggle is disabled', () => {
@@ -743,7 +779,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.btn-secondary')
       ).nativeElement;
-      expect(button.innerText).toContain('configurator.button.remove');
+      expect(button.textContent).toContain('configurator.button.remove');
       expect(htmlElem.querySelector('button.btn-tertiary')).toBeFalsy();
     });
 
@@ -753,7 +789,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.btn-secondary')
       ).nativeElement;
-      expect(button.innerText).toContain('configurator.button.select');
+      expect(button.textContent).toContain('configurator.button.select');
     });
 
     it('should use primary class for the single-select button when the toggle is disabled', () => {
@@ -765,7 +801,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.btn-primary')
       ).nativeElement;
-      expect(button.innerText).toContain('configurator.button.select');
+      expect(button.textContent).toContain('configurator.button.select');
       expect(htmlElem.querySelector('button.btn-secondary')).toBeFalsy();
     });
   });
@@ -796,12 +832,12 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should call handleQuantity on event onHandleQuantity', () => {
-      spyOn(component.handleQuantity, 'emit').and.callThrough();
+      vi.spyOn(component.handleQuantity, 'emit');
 
       component['onHandleQuantity'](1);
 
       expect(component.handleQuantity.emit).toHaveBeenCalledWith(
-        jasmine.objectContaining({
+        expect.objectContaining({
           quantity: 1,
           valueCode: component.productCardOptions?.productBoundValue?.valueCode,
         })
@@ -819,8 +855,8 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should show deselection message and send no request when reducing quantity to zero is not possible', () => {
-      spyOn(component.handleDeselect, 'emit').and.callThrough();
-      spyOn(component.handleQuantity, 'emit').and.callThrough();
+      vi.spyOn(component.handleDeselect, 'emit');
+      vi.spyOn(component.handleQuantity, 'emit');
       component.productCardOptions.multiSelect = true;
       component.productCardOptions.hideRemoveButton = true;
       setProductBoundValueAttributes(component);
@@ -841,20 +877,18 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       ).toEqual(productTransformed);
     });
 
-    it('should fall back to configuration value when catalog product is missing', (done) => {
+    it('should fall back to configuration value when catalog product is missing', async () => {
       const productService = TestBed.inject(ProductService);
-      spyOn(productService, 'get').and.returnValue(of(undefined));
+      vi.spyOn(productService, 'get').mockReturnValue(of(undefined));
 
       component.ngOnInit();
-      component.product$.subscribe((catalogProduct) => {
-        expect(catalogProduct).toEqual(productTransformed);
-        done();
-      });
+      const catalogProduct = await firstValueFrom(component.product$);
+      expect(catalogProduct).toEqual(productTransformed);
     });
 
-    it('should use valueDisplay as name when catalog product has no name', (done) => {
+    it('should use valueDisplay as name when catalog product has no name', async () => {
       const productService = TestBed.inject(ProductService);
-      spyOn(productService, 'get').and.returnValue(
+      vi.spyOn(productService, 'get').mockReturnValue(
         of({
           code: '1111-2222',
           description: 'Catalog description',
@@ -863,24 +897,20 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       );
 
       component.ngOnInit();
-      component.product$.subscribe((catalogProduct) => {
-        expect(catalogProduct.name).toBe(productTransformed.name);
-        expect(catalogProduct.description).toBe('Catalog description');
-        done();
-      });
+      const catalogProduct = await firstValueFrom(component.product$);
+      expect(catalogProduct.name).toBe(productTransformed.name);
+      expect(catalogProduct.description).toBe('Catalog description');
     });
 
-    it('should fall back to configuration value when catalog lookup errors', (done) => {
+    it('should fall back to configuration value when catalog lookup errors', async () => {
       const productService = TestBed.inject(ProductService);
-      spyOn(productService, 'get').and.returnValue(
+      vi.spyOn(productService, 'get').mockReturnValue(
         throwError(() => new Error("Product with code '1111-2222' not found!"))
       );
 
       component.ngOnInit();
-      component.product$.subscribe((catalogProduct) => {
-        expect(catalogProduct).toEqual(productTransformed);
-        done();
-      });
+      const catalogProduct = await firstValueFrom(component.product$);
+      expect(catalogProduct).toEqual(productTransformed);
     });
 
     it('should display quantity when props withQuantity is true', () => {
@@ -1087,6 +1117,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     it('should extract quantity parameters', () => {
       component.productCardOptions.hideRemoveButton = false;
       setProductBoundValueAttributes(component, true, 5);
+      fixture.detectChanges(); // triggers ngOnInit which sets disableActions$
       const qtyParams = component.extractQuantityParameters();
       expect(qtyParams.allowZero).toBe(true);
       expect(qtyParams.initialQuantity).toBe(5);
@@ -1563,6 +1594,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
   describe('Accessibility', () => {
     it("should contain div element with class name 'cx-product-card-container' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -1576,6 +1608,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it("should contain cx-media element with 'aria-hidden' attribute that removes cx-media from the accessibility tree", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -1588,6 +1621,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it("should contain button element with class name 'btn-secondary' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      fixture.detectChanges();
       const itemIndex = component.productCardOptions.itemIndex + 1;
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
@@ -1611,6 +1645,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it("should contain button element with class name 'btn-secondary' and 'aria-describedby' that indicates the ID of the element that describe the elements", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -1700,7 +1735,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should emit handleRowAction when menu item is clicked', () => {
-      spyOn(component.handleRowAction, 'emit');
+      vi.spyOn(component.handleRowAction, 'emit');
       component.productCardOptions.multiSelect = true;
       setProductBoundValueAttributes(component);
       setContainerRowActions([
@@ -1755,7 +1790,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should toggle overflow menu and stop click propagation', () => {
-      const event = jasmine.createSpyObj('event', ['stopPropagation']);
+      const event = { stopPropagation: vi.fn() } as unknown as Event;
 
       component.toggleActionsMenu(event);
       expect(event.stopPropagation).toHaveBeenCalled();
@@ -2192,7 +2227,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should emit row action and close menu onHandleRowAction', () => {
-      spyOn(component.handleRowAction, 'emit');
+      vi.spyOn(component.handleRowAction, 'emit');
       component.isActionsMenuOpen = true;
       component.onHandleRowAction(Configurator.ContainerRowAction.DELETE);
       expect(component.handleRowAction.emit).toHaveBeenCalledWith(

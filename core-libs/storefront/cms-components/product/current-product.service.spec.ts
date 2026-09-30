@@ -44,6 +44,7 @@ describe('CurrentProductService', () => {
   let productService: ProductService;
 
   beforeEach(() => {
+    mockRouter$.next(mockRouterState);
     TestBed.configureTestingModule({
       providers: [
         CurrentProductService,

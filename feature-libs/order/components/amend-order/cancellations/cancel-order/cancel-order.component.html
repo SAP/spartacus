@@ -5,13 +5,14 @@
     [text]="'formErrors.cxNoSelectedItemToCancel' | cxTranslate"
     [isVisibleCloseButton]="false"
     [type]="globalMessageType.MSG_TYPE_ERROR"
-  >
-  </cx-message>
-  <ng-container *ngTemplateOutlet="actions"></ng-container>
-  <cx-amend-order-items *ngIf="entries$ | async as entries" [entries]="entries">
-  </cx-amend-order-items>
+  />
+  <ng-container *ngTemplateOutlet="actions" />
+  <cx-amend-order-items
+    *ngIf="entries$ | async as entries"
+    [entries]="entries"
+  />
 
-  <ng-container *ngTemplateOutlet="actions"></ng-container>
+  <ng-container *ngTemplateOutlet="actions" />
 
   <ng-template #actions>
     <cx-amend-order-actions
@@ -20,6 +21,6 @@
       [amendOrderForm]="form"
       backRoute="orderDetails"
       forwardRoute="orderCancelConfirmation"
-    ></cx-amend-order-actions>
+    />
   </ng-template>
 </ng-container>

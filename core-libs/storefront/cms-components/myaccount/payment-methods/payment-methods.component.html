@@ -13,7 +13,7 @@
           'paymentMethods.newPaymentMethodsAreAddedDuringCheckout' | cxTranslate
         }}
       </div>
-      <div *ngIf="loading$ | async; else cards"><cx-spinner></cx-spinner></div>
+      <div *ngIf="loading$ | async; else cards"><cx-spinner /></div>
       <ng-template #cards>
         <div class="cx-existing row">
           <div
@@ -31,7 +31,7 @@
                 (editCard)="setEdit(paymentMethod)"
                 [editMode]="editCard === paymentMethod.id"
                 (cancelCard)="cancelCard()"
-              ></cx-card>
+              />
             </div>
           </div>
         </div>

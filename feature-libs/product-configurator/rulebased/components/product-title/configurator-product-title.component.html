@@ -24,7 +24,7 @@
               | cxTranslate: { product: data.product?.name }
           "
           [type]="iconTypes.CARET_DOWN"
-        ></cx-icon>
+        />
       </ng-container>
 
       <ng-container *ngIf="showMore">
@@ -37,7 +37,7 @@
               | cxTranslate: { product: data.product?.name }
           "
           [type]="iconTypes.CARET_UP"
-        ></cx-icon>
+        />
       </ng-container>
     </button>
     <div class="cx-details" [class.open]="showMore">
@@ -45,7 +45,7 @@
         <cx-media
           [container]="data.product?.images?.PRIMARY"
           format="product"
-        ></cx-media>
+        />
       </div>
       <div
         class="cx-details-content"

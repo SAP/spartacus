@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OccConfig, VariantOption, VariantQualifier } from '@spartacus/core';
 import { ProductVariantStyleIconsComponent } from './product-variant-style-icons.component';
 
@@ -40,7 +40,7 @@ describe('ProductVariantStyleIconsComponent', () => {
   let component: ProductVariantStyleIconsComponent;
   let fixture: ComponentFixture<ProductVariantStyleIconsComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ProductVariantStyleIconsComponent],
       providers: [
@@ -50,7 +50,7 @@ describe('ProductVariantStyleIconsComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductVariantStyleIconsComponent);

@@ -14,8 +14,6 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 
-import createSpy = jasmine.createSpy;
-
 const budgetCode = 'testCode';
 const userId = 'userId';
 const budget = {
@@ -25,7 +23,7 @@ const budget = {
 };
 
 class MockOccEndpointsService {
-  buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
+  buildUrl = vi.fn().mockImplementation(
     // eslint-disable-next-line @typescript-eslint/no-shadow
     (url, { urlParams: { budgetCode } }) =>
       url === 'budget' ? url + budgetCode : url
@@ -52,7 +50,7 @@ describe('OccBudgetAdapter', () => {
     converterService = TestBed.inject(ConverterService);
     service = TestBed.inject(OccBudgetAdapter);
     httpMock = TestBed.inject(HttpTestingController);
-    spyOn(converterService, 'pipeable').and.callThrough();
+    vi.spyOn(converterService, 'pipeable');
   });
 
   afterEach(() => {

@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { LanguageService, TranslationService } from '@spartacus/core';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
@@ -147,7 +147,7 @@ class MockTranslationService {
 describe('CpqConfiguratorOverviewNormalizer', () => {
   let serviceUnderTest: CpqConfiguratorOverviewNormalizer;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [
         CpqConfiguratorOverviewNormalizer,
@@ -167,7 +167,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
       CpqConfiguratorOverviewNormalizer as Type<CpqConfiguratorOverviewNormalizer>
     );
     attr = structuredClone(attrBase);
-  }));
+  });
 
   it('should be created', () => {
     expect(serviceUnderTest).toBeDefined();
@@ -638,7 +638,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     }
 
     it('should ignore container attributes when no container data is present', () => {
-      const loggerWarn = spyOn(serviceUnderTest['logger'], 'warn');
+      const loggerWarn = vi.spyOn(serviceUnderTest['logger'], 'warn');
       const source = createConfigurationWithContainers();
       source.sapContainers = undefined;
 
@@ -656,7 +656,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
 
       expect(attributes?.length).toBe(2);
       expect(attributes?.[0]).toEqual(
-        jasmine.objectContaining({
+        expect.objectContaining({
           attribute: 'Lenses',
           attributeId: containerAttributeCode.toString(),
           value: '50mm Lens',
@@ -784,8 +784,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
         (row) => row.id === 'zoom'
       )?.configuration;
       if (!nestedConfiguration?.tabs) {
-        fail();
-        return;
+        throw new Error('Nested configuration tabs not available');
       }
       nestedConfiguration.tabs.push({
         id: 3,
@@ -819,7 +818,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     });
 
     it('should not log an unsupported warning for containers', () => {
-      const loggerWarn = spyOn(serviceUnderTest['logger'], 'warn');
+      const loggerWarn = vi.spyOn(serviceUnderTest['logger'], 'warn');
 
       serviceUnderTest.convert(createConfigurationWithContainers());
 

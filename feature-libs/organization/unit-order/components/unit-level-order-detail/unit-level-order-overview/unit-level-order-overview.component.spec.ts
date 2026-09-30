@@ -4,6 +4,7 @@ import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
   Address,
   CxDatePipe,
+  FeatureToggles,
   MockDatePipe,
   PaymentDetails,
   RequiredPick,
@@ -11,7 +12,7 @@ import {
 } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { Card, CardComponent } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
+import { EMPTY, firstValueFrom, Observable, of } from 'rxjs';
 import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service';
 import { UnitLevelOrderOverviewComponent } from './unit-level-order-overview.component';
 
@@ -161,18 +162,18 @@ describe('UnitLevelOrderOverviewComponent', () => {
   });
 
   it('should call getOrderDetails', () => {
-    spyOn(orderDetailService, 'getOrderDetails').and.callThrough();
+    vi.spyOn(orderDetailService, 'getOrderDetails');
     component.ngOnInit();
     expect(orderDetailService.getOrderDetails).toHaveBeenCalled();
   });
 
   describe('when replenishment is NOT defined', () => {
     beforeEach(() => {
-      spyOn(translationService, 'translate').and.returnValue(of('test'));
+      vi.spyOn(translationService, 'translate').mockReturnValue(of('test'));
     });
 
     it('should call getOrderCodeCardContent(orderCode: string)', () => {
-      spyOn(component, 'getOrderCodeCardContent').and.callThrough();
+      vi.spyOn(component, 'getOrderCodeCardContent');
 
       component
         .getOrderCodeCardContent(mockOrder.code)
@@ -189,7 +190,7 @@ describe('UnitLevelOrderOverviewComponent', () => {
     });
 
     it('should call getOrderCurrentDateCardContent(isoDate: string)', () => {
-      spyOn(component, 'getOrderCurrentDateCardContent').and.callThrough();
+      vi.spyOn(component, 'getOrderCurrentDateCardContent');
 
       const date = mockOrder.created.toDateString();
 
@@ -206,7 +207,7 @@ describe('UnitLevelOrderOverviewComponent', () => {
     });
 
     it('should call getOrderStatusCardContent(status: string)', () => {
-      spyOn(component, 'getOrderStatusCardContent').and.callThrough();
+      vi.spyOn(component, 'getOrderStatusCardContent');
 
       component
         .getOrderStatusCardContent(mockOrder.statusDisplay)
@@ -225,11 +226,11 @@ describe('UnitLevelOrderOverviewComponent', () => {
 
   describe('when purchase order number is defined', () => {
     beforeEach(() => {
-      spyOn(translationService, 'translate').and.returnValue(of('test'));
+      vi.spyOn(translationService, 'translate').mockReturnValue(of('test'));
     });
 
     it('should call getPurchaseOrderNumber(poNumber: string)', () => {
-      spyOn(component, 'getPurchaseOrderNumber').and.callThrough();
+      vi.spyOn(component, 'getPurchaseOrderNumber');
 
       component
         .getPurchaseOrderNumber(mockOrder.purchaseOrderNumber)
@@ -246,7 +247,7 @@ describe('UnitLevelOrderOverviewComponent', () => {
     });
 
     it('should call getMethodOfPaymentCardContent(hasPaymentInfo: PaymentDetails)', () => {
-      spyOn(component, 'getMethodOfPaymentCardContent').and.callThrough();
+      vi.spyOn(component, 'getMethodOfPaymentCardContent');
 
       component
         .getMethodOfPaymentCardContent(mockOrder.paymentInfo)
@@ -263,7 +264,7 @@ describe('UnitLevelOrderOverviewComponent', () => {
     });
 
     it('should call getCostCenterCardContent(costCenter: CostCenter)', () => {
-      spyOn(component, 'getCostCenterCardContent').and.callThrough();
+      vi.spyOn(component, 'getCostCenterCardContent');
 
       component
         .getCostCenterCardContent(mockOrder.costCenter)
@@ -283,11 +284,11 @@ describe('UnitLevelOrderOverviewComponent', () => {
 
   describe('when paymentInfo is defined', () => {
     beforeEach(() => {
-      spyOn(translationService, 'translate').and.returnValue(of('test'));
+      vi.spyOn(translationService, 'translate').mockReturnValue(of('test'));
     });
 
     it('should call getPaymentInfoCardContent(payment: PaymentDetails)', () => {
-      spyOn(component, 'getPaymentInfoCardContent').and.callThrough();
+      vi.spyOn(component, 'getPaymentInfoCardContent');
 
       component
         .getPaymentInfoCardContent(mockOrder.paymentInfo)
@@ -307,7 +308,7 @@ describe('UnitLevelOrderOverviewComponent', () => {
     });
 
     it('should call getBillingAddressCardContent(billingAddress: Address)', () => {
-      spyOn(component, 'getBillingAddressCardContent').and.callThrough();
+      vi.spyOn(component, 'getBillingAddressCardContent');
 
       const billingAddress = mockOrder.paymentInfo.billingAddress as Address;
 
@@ -334,11 +335,11 @@ describe('UnitLevelOrderOverviewComponent', () => {
 
   describe('common column in all types of order', () => {
     beforeEach(() => {
-      spyOn(translationService, 'translate').and.returnValue(of('test'));
+      vi.spyOn(translationService, 'translate').mockReturnValue(of('test'));
     });
 
     it('should call getAddressCardContent(deliveryAddress: Address)', () => {
-      spyOn(component, 'getAddressCardContent').and.callThrough();
+      vi.spyOn(component, 'getAddressCardContent');
 
       const deliveryAddress = mockOrder.deliveryAddress;
 
@@ -363,7 +364,7 @@ describe('UnitLevelOrderOverviewComponent', () => {
     });
 
     it('should call getDeliveryModeCardContent(deliveryMode: DeliveryMode)', () => {
-      spyOn(component, 'getDeliveryModeCardContent').and.callThrough();
+      vi.spyOn(component, 'getDeliveryModeCardContent');
 
       component
         .getDeliveryModeCardContent(mockOrder.deliveryMode)
@@ -403,11 +404,11 @@ describe('UnitLevelOrderOverviewComponent', () => {
 
   describe('when unit order is defined', () => {
     beforeEach(() => {
-      spyOn(translationService, 'translate').and.returnValue(of('test'));
+      vi.spyOn(translationService, 'translate').mockReturnValue(of('test'));
     });
 
     it('should call getBuyerNameCardContent(customer: B2BUser)', () => {
-      spyOn(component, 'getBuyerNameCardContent').and.callThrough();
+      vi.spyOn(component, 'getBuyerNameCardContent');
 
       component
         .getBuyerNameCardContent(mockOrder.orgCustomer)
@@ -427,7 +428,7 @@ describe('UnitLevelOrderOverviewComponent', () => {
     });
 
     it('should call getUnitNameCardContent(orgUnit: string)', () => {
-      spyOn(component, 'getUnitNameCardContent').and.callThrough();
+      vi.spyOn(component, 'getUnitNameCardContent');
 
       component
         .getUnitNameCardContent(mockOrder.orgUnit.name as string)
@@ -441,6 +442,92 @@ describe('UnitLevelOrderOverviewComponent', () => {
       expect(component.getUnitNameCardContent).toHaveBeenCalledWith(
         mockOrder.orgUnit.name
       );
+    });
+  });
+
+  describe('addTitleToAddressCard feature toggle', () => {
+    const mockTitle = 'Mr.';
+    let featureToggles: FeatureToggles;
+
+    beforeEach(() => {
+      vi.spyOn(translationService, 'translate').mockReturnValue(of('test'));
+      featureToggles = TestBed.inject(FeatureToggles);
+    });
+
+    describe('getAddressCardContent (delivery address)', () => {
+      it('should NOT prepend the title when the toggle is OFF', async () => {
+        featureToggles.addTitleToAddressCard = false;
+        const address: Address = { ...mockDeliveryAddress, title: mockTitle };
+
+        const data = await firstValueFrom(
+          component.getAddressCardContent(address)
+        );
+        expect(data.textBold).toEqual(
+          `${address.firstName} ${address.lastName}`
+        );
+      });
+
+      it('should prepend the title when the toggle is ON and a title is present', async () => {
+        featureToggles.addTitleToAddressCard = true;
+        const address: Address = { ...mockDeliveryAddress, title: mockTitle };
+
+        const data = await firstValueFrom(
+          component.getAddressCardContent(address)
+        );
+        expect(data.textBold).toEqual(
+          `${mockTitle} ${address.firstName} ${address.lastName}`
+        );
+      });
+
+      it('should NOT prepend the title when the toggle is ON but no title is present', async () => {
+        featureToggles.addTitleToAddressCard = true;
+        const address: Address = { ...mockDeliveryAddress, title: undefined };
+
+        const data = await firstValueFrom(
+          component.getAddressCardContent(address)
+        );
+        expect(data.textBold).toEqual(
+          `${address.firstName} ${address.lastName}`
+        );
+      });
+    });
+
+    describe('getBillingAddressCardContent (billing address)', () => {
+      it('should NOT prepend the title when the toggle is OFF', async () => {
+        featureToggles.addTitleToAddressCard = false;
+        const address: Address = { ...mockBillingAddress, title: mockTitle };
+
+        const data = await firstValueFrom(
+          component.getBillingAddressCardContent(address)
+        );
+        expect(data.textBold).toEqual(
+          `${address.firstName} ${address.lastName}`
+        );
+      });
+
+      it('should prepend the title when the toggle is ON and a title is present', async () => {
+        featureToggles.addTitleToAddressCard = true;
+        const address: Address = { ...mockBillingAddress, title: mockTitle };
+
+        const data = await firstValueFrom(
+          component.getBillingAddressCardContent(address)
+        );
+        expect(data.textBold).toEqual(
+          `${mockTitle} ${address.firstName} ${address.lastName}`
+        );
+      });
+
+      it('should NOT prepend the title when the toggle is ON but no title is present', async () => {
+        featureToggles.addTitleToAddressCard = true;
+        const address: Address = { ...mockBillingAddress, title: undefined };
+
+        const data = await firstValueFrom(
+          component.getBillingAddressCardContent(address)
+        );
+        expect(data.textBold).toEqual(
+          `${address.firstName} ${address.lastName}`
+        );
+      });
     });
   });
 });

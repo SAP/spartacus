@@ -6,7 +6,7 @@
     <ng-container *ngIf="child">
       <ng-template [cxOutlet]="child.flexType" [cxOutletContext]="{}">
         <div class="container">
-          <ng-container [cxComponentWrapper]="child"></ng-container>
+          <ng-container [cxComponentWrapper]="child" />
         </div>
       </ng-template>
     </ng-container>

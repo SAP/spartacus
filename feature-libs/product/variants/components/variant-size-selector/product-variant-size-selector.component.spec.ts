@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NavigationExtras } from '@angular/router';
 import {
@@ -94,7 +94,7 @@ describe('ProductVariantSizeSelectorComponent', () => {
   let fixture: ComponentFixture<ProductVariantSizeSelectorComponent>;
   let routingService: RoutingService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ProductVariantSizeSelectorComponent],
       providers: [
@@ -107,7 +107,7 @@ describe('ProductVariantSizeSelectorComponent', () => {
       ],
     }).compileComponents();
     routingService = TestBed.inject(RoutingService);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductVariantSizeSelectorComponent);
@@ -120,7 +120,7 @@ describe('ProductVariantSizeSelectorComponent', () => {
   });
 
   it('should send emit', () => {
-    spyOn(component, 'changeSize').and.stub();
+    vi.spyOn(component, 'changeSize').mockImplementation(() => {});
 
     component.changeSize('code');
 
@@ -128,7 +128,7 @@ describe('ProductVariantSizeSelectorComponent', () => {
   });
 
   it('should go to product given code', () => {
-    spyOn(routingService, 'go').and.callThrough();
+    vi.spyOn(routingService, 'go');
     component.changeSize('p1');
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'product',

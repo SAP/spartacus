@@ -47,8 +47,8 @@ describe('RolesCellComponent', () => {
 
     b2bUserService = TestBed.inject(B2BUserService);
 
-    spyOn(b2bUserService, 'getAllRights').and.callThrough();
-    spyOn(b2bUserService, 'getAllRoles').and.callThrough();
+    vi.spyOn(b2bUserService, 'getAllRights');
+    vi.spyOn(b2bUserService, 'getAllRoles');
   });
 
   beforeEach(() => {

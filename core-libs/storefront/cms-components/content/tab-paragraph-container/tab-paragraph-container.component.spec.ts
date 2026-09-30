@@ -11,12 +11,12 @@ import {
   TranslationService,
   WindowRef,
 } from '@spartacus/core';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/index';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { LayoutConfig } from '../../../layout/config/layout-config';
-import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { TabComponent } from '../tab/tab.component';
 import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
 
@@ -144,6 +144,32 @@ describe('TabParagraphContainerComponent', () => {
     }
   });
 
+  it('should filter out null or undefined components from components$', () => {
+    vi.spyOn(cmsService, 'getComponentData')
+      .mockReturnValueOnce(of(mockTabComponentData1))
+      .mockReturnValueOnce(of(null))
+      .mockReturnValueOnce(of(mockTabComponentData3));
+
+    let childComponents: any[] = [];
+    component.components$
+      .subscribe((components) => (childComponents = components))
+      .unsubscribe();
+
+    expect(childComponents.length).toEqual(2);
+    expect(childComponents).toEqual([
+      {
+        flexType: mockTabComponentData1.uid,
+        uid: mockTabComponentData1.uid,
+        title: `TabPanelContainer.tabs.${mockTabComponentData1.uid}`,
+      },
+      {
+        flexType: mockTabComponentData3.uid,
+        uid: mockTabComponentData3.uid,
+        title: `TabPanelContainer.tabs.${mockTabComponentData3.uid}`,
+      },
+    ]);
+  });
+
   it('should be able to get the active tab number', () => {
     windowRef.nativeWindow.history.pushState(
       {
@@ -216,6 +242,20 @@ describe('TabParagraphContainerComponent', () => {
     });
 
     expect(param).toEqual('title param');
+  });
+
+  it('should not throw when a resolved component is undefined', () => {
+    // `components$` emits `undefined` for a tab whose CMS data resolves falsy
+    // (see the `if (!tab) return undefined;` mapping). The template must render
+    // such entries without dereferencing the undefined component, i.e. guard
+    // both `[cxOutlet]="component?.flexType"` and `*ngIf="component"` on the
+    // component wrapper.
+    vi.spyOn(cmsService, 'getComponentData')
+      .mockReturnValueOnce(of(mockTabComponentData1))
+      .mockReturnValueOnce(of(null))
+      .mockReturnValueOnce(of(mockTabComponentData3));
+
+    expect(() => fixture.detectChanges()).not.toThrow();
   });
 
   it('should be able to get ariaLabel', () => {
