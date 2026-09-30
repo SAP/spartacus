@@ -201,16 +201,15 @@ export class ConfiguratorStateUtils {
     projection: (value: T, index: number) => T
   ): T[] | undefined {
     if (array) {
-      const index = array.findIndex(predicate);
+      const index = array.findIndex((v, i, obj) => predicate(v, i, obj));
       if (index === -1) {
         return array;
       }
-      const value = array[index];
-      const newValue = projection(value, index);
       const newArray = [...array];
-      newArray[index] = newValue;
+      newArray[index] = projection(array[index], index);
       return newArray;
     }
+    return undefined;
   }
 
   protected static getAttributeName(attributeUiKey: string): string {

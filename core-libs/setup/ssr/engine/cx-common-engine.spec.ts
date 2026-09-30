@@ -85,7 +85,7 @@ describe('CxCommonEngine', () => {
 
     const html = await engine.render({
       url: 'http://localhost:4200',
-      document: '<cx-mock></cx-mock>',
+      document: '<cx-mock/>',
     });
 
     // Cannot use `.toMatchInlineSnapshot()` due to bug in jest:
@@ -101,7 +101,7 @@ describe('CxCommonEngine', () => {
 
     const html = await engine.render({
       url: 'http://localhost:4200',
-      document: '<cx-token></cx-token>',
+      document: '<cx-token/>',
       providers: [{ provide: SOME_TOKEN, useValue: 'test' }],
     });
 
@@ -121,7 +121,7 @@ describe('CxCommonEngine', () => {
     await expect(
       engine.render({
         url: 'http://localhost:4200',
-        document: '<cx-token></cx-token>',
+        document: '<cx-token/>',
       })
     ).rejects.toThrowErrorMatchingSnapshot();
   });
@@ -137,7 +137,7 @@ describe('CxCommonEngine', () => {
     await expect(
       engine.render({
         url: 'http://localhost:4200',
-        document: '<cx-response></cx-response>',
+        document: '<cx-response/>',
       })
     ).rejects.toThrowErrorMatchingSnapshot();
   });

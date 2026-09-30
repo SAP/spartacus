@@ -95,7 +95,7 @@ describe('DpConfirmationDialogComponent', () => {
   });
 
   it('should dismiss the dialog', () => {
-    spyOn(launchDialogService, 'closeDialog').and.callThrough();
+    vi.spyOn(launchDialogService, 'closeDialog');
     component.dismissDialog();
     expect(launchDialogService.closeDialog).toHaveBeenCalled();
     expect(component.cardSaveCancelled).toEqual(false);
@@ -107,8 +107,8 @@ describe('DpConfirmationDialogComponent', () => {
   });
 
   it('should close the dialog and continue with discarding the new card', () => {
-    spyOn(launchDialogService, 'closeDialog').and.callThrough();
-    spyOn(router, 'navigate').and.callThrough();
+    vi.spyOn(launchDialogService, 'closeDialog');
+    vi.spyOn(router, 'navigate');
     const x = {};
     component.continue();
     expect(router.navigate).toHaveBeenCalledWith([], {

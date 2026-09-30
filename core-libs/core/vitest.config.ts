@@ -15,6 +15,7 @@ export default defineConfig({
     pool: 'forks',
     watch: false,
     globals: true,
+    restoreMocks: true,
     environment: 'jsdom',
     setupFiles: ['../../testing/setup-vitest.ts'],
     include: ['**/*.spec.ts'],
@@ -41,9 +42,10 @@ export default defineConfig({
         '../../testing/setup-test.ts',
       ],
       thresholds: {
-        statements: 80,
-        lines: 80,
-        functions: 80,
+        statements: 85,
+        lines: 85,
+        branches: 65,
+        functions: 85,
       },
     },
     reporters: [

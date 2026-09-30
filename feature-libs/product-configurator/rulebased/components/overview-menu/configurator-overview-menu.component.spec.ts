@@ -11,7 +11,6 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorOverviewMenuComponent } from './configurator-overview-menu.component';
-import { vi } from 'vitest';
 
 const OWNER: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;

@@ -45,7 +45,12 @@ export default defineConfig({
         '**/schematics/**',
         'setup-jest.ts',
       ],
-      thresholds: { statements: 80, lines: 80, functions: 80 },
+      thresholds: {
+        statements: 85,
+        lines: 85,
+        branches: 65,
+        functions: 85,
+      },
     },
     reporters: [
       'default',

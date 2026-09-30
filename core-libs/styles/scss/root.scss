@@ -62,3 +62,9 @@
   ):not(.cx-theme-high-contrast-light) {
   --cx-color-visual-focus: #1f3a93 !important;
 }
+
+.#{getFeatureCssClass('a11yPrimaryColorContrast')}:not(
+    .cx-theme-high-contrast-dark
+  ):not(.cx-theme-high-contrast-light) {
+  --cx-color-primary: #055f9f !important;
+}

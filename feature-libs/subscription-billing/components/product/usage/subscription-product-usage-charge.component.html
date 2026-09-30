@@ -4,19 +4,19 @@
   </div>
 
   <ng-container *ngIf="tierUsageCharges().length > 0">
-    <ng-container *ngTemplateOutlet="showTierUsageCharges"></ng-container>
+    <ng-container *ngTemplateOutlet="showTierUsageCharges" />
   </ng-container>
 
   <ng-container *ngIf="volumeUsageCharges().length > 0">
-    <ng-container *ngTemplateOutlet="showVolumeUsageCharges"></ng-container>
+    <ng-container *ngTemplateOutlet="showVolumeUsageCharges" />
   </ng-container>
 
   <ng-container *ngIf="percentageUsageCharges().length > 0">
-    <ng-container *ngTemplateOutlet="showPercentageUsageCharges"></ng-container>
+    <ng-container *ngTemplateOutlet="showPercentageUsageCharges" />
   </ng-container>
 
   <ng-container *ngIf="blockUsageCharges().length > 0">
-    <ng-container *ngTemplateOutlet="showBlockUsageCharges"></ng-container>
+    <ng-container *ngTemplateOutlet="showBlockUsageCharges" />
   </ng-container>
 </div>
 

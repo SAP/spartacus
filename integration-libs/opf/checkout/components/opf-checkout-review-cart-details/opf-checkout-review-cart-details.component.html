@@ -15,10 +15,9 @@
         cart?.potentialOrderPromotions || []
       )
     "
-  ></cx-promotions>
+  />
 
-  <ng-template [cxOutlet]="cartOutlets.OPF_CHECKOUT_PICKUP_ITEMS">
-  </ng-template>
+  <ng-template [cxOutlet]="cartOutlets.OPF_CHECKOUT_PICKUP_ITEMS" />
 
   <ng-container *ngIf="cart?.deliveryItemsQuantity">
     <div class="cx-items-to-ship-label">
@@ -32,7 +31,7 @@
           route: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress),
           ariaLabelKey: 'checkoutReview.editDeliveryAddressDetails',
         }"
-      ></cx-opf-checkout-review-card>
+      />
 
       <cx-opf-checkout-review-card
         *ngIf="deliveryMode$ | async as deliveryMode"
@@ -41,7 +40,7 @@
           route: getCheckoutStepUrl(checkoutStepTypeDeliveryMode),
           ariaLabelKey: 'checkoutReview.editDeliveryMode',
         }"
-      ></cx-opf-checkout-review-card>
+      />
     </div>
 
     <ng-template
@@ -51,7 +50,6 @@
         readonly: true,
         promotionLocation: promotionLocation,
       }"
-    >
-    </ng-template>
+    />
   </ng-container>
 </div>
