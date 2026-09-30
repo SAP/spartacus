@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';

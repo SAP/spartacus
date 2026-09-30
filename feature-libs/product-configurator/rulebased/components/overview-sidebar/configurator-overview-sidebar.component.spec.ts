@@ -24,7 +24,6 @@ import { ConfiguratorOverviewFilterComponent } from '../overview-filter/configur
 import { ConfiguratorOverviewMenuComponent } from '../overview-menu/configurator-overview-menu.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorOverviewSidebarComponent } from './configurator-overview-sidebar.component';
-import { vi } from 'vitest';
 
 const OWNER: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;

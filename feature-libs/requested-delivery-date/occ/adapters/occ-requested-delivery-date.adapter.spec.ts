@@ -12,7 +12,6 @@ import { TestBed } from '@angular/core/testing';
 import { HttpErrorModel, OccConfig, OccEndpoints } from '@spartacus/core';
 import { throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { vi } from 'vitest';
 import { OccRequestedDeliveryDateAdapter } from './occ-requested-delivery-date.adapter';
 
 const mockUserId = 'userId1';

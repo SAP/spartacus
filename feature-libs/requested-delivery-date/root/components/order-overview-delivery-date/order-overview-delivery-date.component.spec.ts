@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
 import { Card, OutletContextData } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { vi } from 'vitest';
 import { OrderOverviewDeliveryDateComponent } from './order-overview-delivery-date.component';
 
 describe('OrderOverviewDeliveryDateComponent', () => {

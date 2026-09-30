@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { ConverterService, Occ, OccConfig } from '@spartacus/core';

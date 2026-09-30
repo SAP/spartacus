@@ -1,6 +1,5 @@
 import { CmsStructureConfigService, PageContext } from '@spartacus/core';
 import { of } from 'rxjs';
-import { vi } from 'vitest';
 import { PageType } from '../../../model/cms.model';
 import { CmsPageConnector } from './cms-page.connector';
 

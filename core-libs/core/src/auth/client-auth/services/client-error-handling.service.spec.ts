@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
