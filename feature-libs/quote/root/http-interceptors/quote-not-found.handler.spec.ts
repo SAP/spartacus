@@ -68,7 +68,7 @@ describe('QuoteBadRequestHandler', () => {
     });
     classUnderTest = TestBed.inject(QuoteNotFoundHandler);
     routingService = TestBed.inject(RoutingService);
-    spyOn(routingService, 'go');
+    vi.spyOn(routingService, 'go');
   });
 
   it('should be created', () => {

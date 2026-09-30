@@ -32,8 +32,8 @@ describe('PickupOptionFacade', () => {
 
     service = TestBed.inject(PickupOptionService);
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch');
-    spyOn(store, 'pipe');
+    vi.spyOn(store, 'dispatch');
+    vi.spyOn(store, 'pipe');
   });
 
   it('should be created', () => {

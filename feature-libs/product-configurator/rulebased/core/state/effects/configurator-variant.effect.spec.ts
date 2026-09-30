@@ -60,14 +60,14 @@ class MockLoggerService {
 }
 
 describe('ConfiguratorVariantEffect', () => {
-  let searchVariantsMock: jasmine.Spy;
+  let searchVariantsMock: vi.Mock;
 
   let configEffects: fromEffects.ConfiguratorVariantEffects;
 
   let actions$: Observable<any>;
 
   beforeEach(() => {
-    searchVariantsMock = jasmine.createSpy().and.returnValue(of(variants));
+    searchVariantsMock = vi.fn().mockReturnValue(of(variants));
     configuratorCoreConfig = {
       productConfigurator: { enableVariantSearch: true },
     };
@@ -169,7 +169,7 @@ describe('ConfiguratorVariantEffect', () => {
   });
 
   it('should emit a fail action in case something goes wrong', () => {
-    searchVariantsMock.and.returnValue(throwError(() => errorResponse));
+    searchVariantsMock.mockReturnValue(throwError(() => errorResponse));
 
     const action = new ConfiguratorActions.SearchVariants(productConfiguration);
 

@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import {
   FeatureDirective,
@@ -50,13 +50,13 @@ describe('StoreFinderSearchComponent', () => {
 
   let routingService: RoutingService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [StoreFinderSearchComponent, MockUrlPipe],
       providers: [
         {
           provide: RoutingService,
-          useValue: { go: jasmine.createSpy() },
+          useValue: { go: vi.fn() },
         },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],
@@ -72,7 +72,7 @@ describe('StoreFinderSearchComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderSearchComponent);
@@ -119,7 +119,7 @@ describe('StoreFinderSearchComponent', () => {
   });
 
   it('should call findStores if search value provided and Enter is an event', () => {
-    spyOn(component, 'findStores');
+    vi.spyOn(component, 'findStores');
     component.searchBox.setValue(query.queryParams.query);
     component.onKey(keyEvent);
     expect(component.findStores).toHaveBeenCalledWith(query.queryParams.query);

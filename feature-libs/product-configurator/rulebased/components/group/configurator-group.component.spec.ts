@@ -7,7 +7,7 @@ import {
   Output,
   Type,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -306,10 +306,10 @@ describe('ConfiguratorGroupComponent', () => {
   let fixture: ComponentFixture<ConfiguratorGroupComponent>;
   let component: ConfiguratorGroupComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     mockLanguageService = {
       getAll: () => of([]),
-      getActive: jasmine.createSpy().and.returnValue(of('en')),
+      getActive: vi.fn().mockReturnValue(of('en')),
     };
 
     TestBed.configureTestingModule({
@@ -381,7 +381,7 @@ describe('ConfiguratorGroupComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     configuratorUtils = TestBed.inject(
@@ -393,17 +393,14 @@ describe('ConfiguratorGroupComponent', () => {
     configuratorGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
-    spyOn(
-      configuratorCommonsService,
-      'isConfigurationLoading'
-    ).and.callThrough();
-    spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
+    vi.spyOn(configuratorCommonsService, 'isConfigurationLoading');
+    vi.spyOn(configuratorGroupsService, 'setGroupStatusVisited');
 
     configExpertModeService = TestBed.inject(
       ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
     );
-    spyOn(configExpertModeService, 'setExpModeRequested').and.callThrough();
-    spyOn(configExpertModeService, 'setExpModeActive').and.callThrough();
+    vi.spyOn(configExpertModeService, 'setExpModeRequested');
+    vi.spyOn(configExpertModeService, 'setExpModeActive');
 
     configuratorUtils.setOwnerKey(OWNER);
     storefrontUtils = TestBed.inject(
@@ -429,9 +426,10 @@ describe('ConfiguratorGroupComponent', () => {
     });
 
     it('should display conflict description and suggestions for a conflict group', () => {
-      spyOn(configuratorGroupsService, 'isConflictGroupType').and.returnValue(
-        true
-      );
+      vi.spyOn(
+        configuratorGroupsService,
+        'isConflictGroupType'
+      ).mockReturnValue(true);
       const component = createComponent();
       component.group =
         ConfigurationTestData.productConfigurationWithConflicts.groups[0].subGroups[0];
@@ -649,7 +647,7 @@ describe('ConfiguratorGroupComponent', () => {
 
   describe('isConflictGroupType', () => {
     it('should not call configurator group service to check group type', () => {
-      spyOn(configuratorGroupsService, 'isConflictGroupType').and.callThrough();
+      vi.spyOn(configuratorGroupsService, 'isConflictGroupType');
       createComponent().isConflictGroupType(undefined);
       expect(
         configuratorGroupsService.isConflictGroupType
@@ -657,7 +655,7 @@ describe('ConfiguratorGroupComponent', () => {
     });
 
     it('should call configurator group service to check group type', () => {
-      spyOn(configuratorGroupsService, 'isConflictGroupType').and.callThrough();
+      vi.spyOn(configuratorGroupsService, 'isConflictGroupType');
       createComponent().isConflictGroupType(
         Configurator.GroupType.CONFLICT_GROUP
       );
@@ -668,7 +666,7 @@ describe('ConfiguratorGroupComponent', () => {
   });
 
   it('should update a configuration through the facade layer ', () => {
-    spyOn(configuratorCommonsService, 'updateConfiguration').and.callThrough();
+    vi.spyOn(configuratorCommonsService, 'updateConfiguration');
     isConfigurationLoadingObservable = cold('xy', {
       x: true,
       y: false,
@@ -684,18 +682,20 @@ describe('ConfiguratorGroupComponent', () => {
 
   describe('displayConflictDescription', () => {
     it('should return true if group is conflict group and has a name', () => {
-      spyOn(configuratorGroupsService, 'isConflictGroupType').and.returnValue(
-        true
-      );
+      vi.spyOn(
+        configuratorGroupsService,
+        'isConflictGroupType'
+      ).mockReturnValue(true);
       expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
         true
       );
     });
 
     it('should return false if group is standard group', () => {
-      spyOn(configuratorGroupsService, 'isConflictGroupType').and.returnValue(
-        false
-      );
+      vi.spyOn(
+        configuratorGroupsService,
+        'isConflictGroupType'
+      ).mockReturnValue(false);
       expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
         false
       );
@@ -708,9 +708,10 @@ describe('ConfiguratorGroupComponent', () => {
     });
 
     it('should return false if group is conflict group and does not have a name', () => {
-      spyOn(configuratorGroupsService, 'isConflictGroupType').and.returnValue(
-        true
-      );
+      vi.spyOn(
+        configuratorGroupsService,
+        'isConflictGroupType'
+      ).mockReturnValue(true);
       conflictGroup.name = '';
       expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
         false
@@ -747,7 +748,7 @@ describe('ConfiguratorGroupComponent', () => {
 
   describe('createAttributeUiKey', () => {
     it('should call method of configuratoreStorefrontUtils', () => {
-      spyOn(storefrontUtils, 'createAttributeUiKey').and.callThrough();
+      vi.spyOn(storefrontUtils, 'createAttributeUiKey');
       createComponent().createAttributeUiKey('prefix', 'attributeId');
       expect(storefrontUtils.createAttributeUiKey).toHaveBeenCalledWith(
         'prefix',
@@ -759,7 +760,7 @@ describe('ConfiguratorGroupComponent', () => {
   describe('with regards to expMode', () => {
     it("should check whether expert mode status is set to 'true'", () => {
       createComponent();
-      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
+      vi.spyOn(configExpertModeService, 'getExpModeActive').mockReturnValue(
         of(true)
       );
 
@@ -774,7 +775,7 @@ describe('ConfiguratorGroupComponent', () => {
 
     it("should check whether expert mode status is set to 'false'", () => {
       createComponent();
-      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
+      vi.spyOn(configExpertModeService, 'getExpModeActive').mockReturnValue(
         of(false)
       );
 

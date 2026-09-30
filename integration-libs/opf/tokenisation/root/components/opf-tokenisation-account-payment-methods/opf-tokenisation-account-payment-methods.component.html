@@ -12,7 +12,7 @@
           'paymentMethods.newPaymentMethodsAreAddedDuringCheckout' | cxTranslate
         }}
       </div>
-      <div *ngIf="loading$ | async; else cards"><cx-spinner></cx-spinner></div>
+      <div *ngIf="loading$ | async; else cards"><cx-spinner /></div>
       <ng-template #cards>
         <div class="cx-existing row">
           <div
@@ -29,7 +29,7 @@
                   class="cx-expired-error-icon"
                   [type]="iconTypes.ERROR"
                   aria-hidden="true"
-                ></cx-icon>
+                />
                 <span class="cx-expired-error-message">
                   {{ 'paymentCard.expiredMessage' | cxTranslate }}
                 </span>
@@ -55,7 +55,7 @@
                   (editCard)="setEdit(paymentMethod)"
                   [editMode]="editCard === paymentMethod.id"
                   (cancelCard)="cancelCard()"
-                ></cx-card>
+                />
               </div>
             </div>
           </div>
@@ -69,4 +69,4 @@
   [showDialog]="showDeleteDialog"
   (confirmDelete)="confirmDeletePaymentMethod()"
   (cancelDelete)="closeDeleteDialog()"
-></cx-opf-tokenisation-delete-payment-dialog>
+/>

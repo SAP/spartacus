@@ -5,7 +5,7 @@
         [container]="getProductPrimaryImage(product)"
         format="product"
         aria-hidden="true"
-      ></cx-media>
+      />
     </div>
     <span class="cx-visually-hidden">
       {{ getAriaLabel() }}
@@ -39,8 +39,6 @@
 
   <div class="cx-attribute-price-container" aria-hidden="true">
     <span class="cx-attribute-label">{{ attributeOverview.attribute }}</span>
-    <cx-configurator-price
-      [formula]="extractPriceFormulaParameters()"
-    ></cx-configurator-price>
+    <cx-configurator-price [formula]="extractPriceFormulaParameters()" />
   </div>
 </ng-container>

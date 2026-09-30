@@ -9,7 +9,7 @@
 
       <cx-unit-level-order-history-filter
         (filterListEvent)="filterChange($event)"
-      ></cx-unit-level-order-history-filter>
+      />
 
       <!-- BODY -->
       <div class="cx-unit-level-order-history-body">
@@ -30,10 +30,10 @@
                 placeholder="{{ 'unitLevelOrderHistory.sortBy' | cxTranslate }}"
                 [ariaLabel]="'unitLevelOrderHistory.sortOrders' | cxTranslate"
                 ariaControls="order-history-table"
-              ></cx-sorting>
+              />
             </label>
             <div class="cx-unit-level-order-history-total-result">
-              <cx-total [pagination]="orderHistory?.pagination"></cx-total>
+              <cx-total [pagination]="orderHistory?.pagination" />
             </div>
             <div
               *ngIf="orderHistory?.pagination?.totalPages ?? 0 > 1"
@@ -43,7 +43,7 @@
                 [pagination]="orderHistory?.pagination"
                 (viewPageEvent)="pageChange($event)"
                 paginationID="pagination-top"
-              ></cx-pagination>
+              />
             </div>
           </div>
           <!-- TABLE -->
@@ -197,10 +197,10 @@
                 placeholder="{{ 'unitLevelOrderHistory.sortBy' | cxTranslate }}"
                 [ariaLabel]="'unitLevelOrderHistory.sortOrders' | cxTranslate"
                 ariaControls="order-history-table"
-              ></cx-sorting>
+              />
             </label>
             <div class="cx-unit-level-order-history-total-result">
-              <cx-total [pagination]="orderHistory?.pagination"></cx-total>
+              <cx-total [pagination]="orderHistory?.pagination" />
             </div>
             <div
               *ngIf="orderHistory?.pagination?.totalPages ?? 0 > 1"
@@ -210,7 +210,7 @@
                 [pagination]="orderHistory?.pagination"
                 (viewPageEvent)="pageChange($event)"
                 paginationID="pagination-bottom"
-              ></cx-pagination>
+              />
             </div>
           </div>
         </ng-container>

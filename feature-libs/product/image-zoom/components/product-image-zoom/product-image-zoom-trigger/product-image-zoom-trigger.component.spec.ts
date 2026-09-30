@@ -75,7 +75,7 @@ describe('ProductImageZoomTriggerComponent', () => {
 
   describe('expandImage', () => {
     beforeEach(() => {
-      spyOn(launchDialogService, 'launch').and.returnValue(
+      vi.spyOn(launchDialogService, 'launch').mockReturnValue(
         of(testDialogComponent)
       );
     });
@@ -90,7 +90,7 @@ describe('ProductImageZoomTriggerComponent', () => {
     });
 
     it('should call LaunchDialogService clear on close', () => {
-      spyOn(launchDialogService, 'clear');
+      vi.spyOn(launchDialogService, 'clear');
 
       component.triggerZoom();
 
@@ -100,7 +100,7 @@ describe('ProductImageZoomTriggerComponent', () => {
     });
 
     it('should destroy component on close', () => {
-      spyOn(testDialogComponent, 'destroy');
+      vi.spyOn(testDialogComponent, 'destroy');
 
       component.triggerZoom();
 
@@ -110,7 +110,7 @@ describe('ProductImageZoomTriggerComponent', () => {
 
   describe('on expandImage set ', () => {
     it('with true value should call triggerZoom method', () => {
-      spyOn(component, 'triggerZoom');
+      vi.spyOn(component, 'triggerZoom');
 
       fixture.componentInstance.expandImage = true;
 
@@ -118,7 +118,7 @@ describe('ProductImageZoomTriggerComponent', () => {
     });
 
     it('with false value should not call triggerZoom method', () => {
-      spyOn(component, 'triggerZoom');
+      vi.spyOn(component, 'triggerZoom');
 
       fixture.componentInstance.expandImage = false;
 

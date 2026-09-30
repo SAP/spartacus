@@ -1,11 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
@@ -169,8 +163,8 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     button.click();
   }
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [I18nTestingModule, ConfiguratorAttributeContainerComponent],
       providers: [
         {
@@ -205,7 +199,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
         add: { imports: [MockCxIconComponent, MockProductCardComponent] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorAttributeContainerComponent);
@@ -822,7 +816,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
           groupId: rowGroupId,
         },
       ]);
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(
           configurationWithRowMessages(rowGroupId, [
             {
@@ -866,7 +860,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
           groupId: rowGroupId,
         },
       ]);
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of({
           ...ConfiguratorTestUtils.createConfiguration('config-id'),
           groups: [
@@ -910,7 +904,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
           groupId: availableRowGroupId,
         },
       ]);
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of({
           ...ConfiguratorTestUtils.createConfiguration('config-id'),
           groups: [
@@ -979,7 +973,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
           groupId: rowGroupId,
         },
       ]);
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         configuration$
       );
       component.ngOnInit();
@@ -1036,7 +1030,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
 
     function mockVisited(visited: boolean): void {
       const utils = TestBed.inject(ConfiguratorStorefrontUtilsService);
-      spyOn(utils, 'isCartEntryOrGroupVisited').and.returnValue(of(visited));
+      vi.spyOn(utils, 'isCartEntryOrGroupVisited').mockReturnValue(of(visited));
     }
 
     describe('selected rows', () => {
@@ -1050,7 +1044,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
             groupId: selectedRowGroupId,
           },
         ]);
-        spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        vi.spyOn(
+          configuratorCommonsService,
+          'getConfiguration'
+        ).mockReturnValue(
           of(
             configurationWithMessages(selectedRowGroupId, [
               {
@@ -1097,7 +1094,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
             ],
           },
         };
-        spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        vi.spyOn(
+          configuratorCommonsService,
+          'getConfiguration'
+        ).mockReturnValue(
           of(configurationWithMessages(selectedRowGroupId, []))
         );
 
@@ -1125,7 +1125,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
             groupId: selectedRowGroupId,
           },
         ]);
-        spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        vi.spyOn(
+          configuratorCommonsService,
+          'getConfiguration'
+        ).mockReturnValue(
           of(
             configurationWithMessages(selectedRowGroupId, [
               {
@@ -1170,7 +1173,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
             ],
           },
         };
-        spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        vi.spyOn(
+          configuratorCommonsService,
+          'getConfiguration'
+        ).mockReturnValue(
           of(configurationWithMessages(availableRowGroupId, []))
         );
 
@@ -1204,7 +1210,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
             ],
           },
         };
-        spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        vi.spyOn(
+          configuratorCommonsService,
+          'getConfiguration'
+        ).mockReturnValue(
           of(
             configurationWithMessages(availableRowGroupId, [
               {
@@ -1249,7 +1258,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
             ],
           },
         };
-        spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        vi.spyOn(
+          configuratorCommonsService,
+          'getConfiguration'
+        ).mockReturnValue(
           of(
             configurationWithMessages(availableRowGroupId, [
               {
@@ -1296,7 +1308,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
             ],
           },
         };
-        spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        vi.spyOn(
+          configuratorCommonsService,
+          'getConfiguration'
+        ).mockReturnValue(
           of(
             configurationWithMessages(availableRowGroupId, [
               {
@@ -1342,7 +1357,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
             selected: true,
           },
         ]);
-        spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        vi.spyOn(
+          configuratorCommonsService,
+          'getConfiguration'
+        ).mockReturnValue(
           of(ConfiguratorTestUtils.createConfiguration('config-id'))
         );
 
@@ -1396,7 +1414,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
             ],
           },
         };
-        spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        vi.spyOn(
+          configuratorCommonsService,
+          'getConfiguration'
+        ).mockReturnValue(
           of(configurationWithMessages(availableRowGroupId, []))
         );
 
@@ -1438,7 +1459,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
             ],
           },
         };
-        spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        vi.spyOn(
+          configuratorCommonsService,
+          'getConfiguration'
+        ).mockReturnValue(
           of(configurationWithMessages(availableRowGroupId, []))
         );
 
@@ -1477,7 +1501,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
             ],
           },
         };
-        spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        vi.spyOn(
+          configuratorCommonsService,
+          'getConfiguration'
+        ).mockReturnValue(
           of(configurationWithMessages(availableRowGroupId, []))
         );
 
@@ -1516,7 +1543,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
             ],
           },
         };
-        spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        vi.spyOn(
+          configuratorCommonsService,
+          'getConfiguration'
+        ).mockReturnValue(
           of(configurationWithMessages(availableRowGroupId, []))
         );
 
@@ -1536,7 +1566,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
 
   describe('onAdd', () => {
     it('should call addContainerRow when the `ADD` button is clicked', () => {
-      spyOn(configuratorCommonsService, 'addContainerRow');
+      vi.spyOn(configuratorCommonsService, 'addContainerRow');
 
       clickProductCardAction(1, '.btn-primary');
 
@@ -1549,7 +1579,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     });
 
     it('should pass containerRowId as parent row id for nested containers', () => {
-      spyOn(configuratorCommonsService, 'addContainerRow');
+      vi.spyOn(configuratorCommonsService, 'addContainerRow');
       component.attribute.containerRowId = 'parent-1';
 
       clickProductCardAction(1, '.btn-primary');
@@ -1563,7 +1593,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     });
 
     it('should set loading$ before calling addContainerRow', () => {
-      spyOn(configuratorCommonsService, 'addContainerRow');
+      vi.spyOn(configuratorCommonsService, 'addContainerRow');
 
       clickProductCardAction(1, '.btn-primary');
 
@@ -1571,7 +1601,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     });
 
     it('should not call addContainerRow when productSystemId is missing', () => {
-      spyOn(configuratorCommonsService, 'addContainerRow');
+      vi.spyOn(configuratorCommonsService, 'addContainerRow');
       component.attribute = createAttribute([
         {
           id: 'row-without-product',
@@ -1589,7 +1619,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
 
   describe('onRemove', () => {
     it('should call removeContainerRow when the `REMOVE` button is clicked', () => {
-      spyOn(configuratorCommonsService, 'removeContainerRow');
+      vi.spyOn(configuratorCommonsService, 'removeContainerRow');
 
       clickProductCardAction(0, '.btn-tertiary');
 
@@ -1599,7 +1629,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     });
 
     it('should set loading$ before calling removeContainerRow', () => {
-      spyOn(configuratorCommonsService, 'removeContainerRow');
+      vi.spyOn(configuratorCommonsService, 'removeContainerRow');
 
       clickProductCardAction(0, '.btn-tertiary');
 
@@ -1609,7 +1639,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
 
   describe('onCopy', () => {
     it('should call copyContainerRow when the `COPY` action is clicked', () => {
-      spyOn(configuratorCommonsService, 'copyContainerRow');
+      vi.spyOn(configuratorCommonsService, 'copyContainerRow');
 
       clickProductCardAction(0, '[data-row-action="COPY"]');
 
@@ -1620,7 +1650,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     });
 
     it('should set loading$ before calling copyContainerRow', () => {
-      spyOn(configuratorCommonsService, 'copyContainerRow');
+      vi.spyOn(configuratorCommonsService, 'copyContainerRow');
 
       clickProductCardAction(0, '[data-row-action="COPY"]');
 
@@ -1682,10 +1712,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
           },
         ])
       );
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(configuration)
       );
-      spyOn(configuratorGroupsService, 'navigateToGroup');
+      vi.spyOn(configuratorGroupsService, 'navigateToGroup');
 
       component.onEdit(createConfigurableRow());
 
@@ -1696,8 +1726,8 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     });
 
     it('should not navigate when groupId is missing', () => {
-      spyOn(configuratorCommonsService, 'getConfiguration');
-      spyOn(configuratorGroupsService, 'navigateToGroup');
+      vi.spyOn(configuratorCommonsService, 'getConfiguration');
+      vi.spyOn(configuratorGroupsService, 'navigateToGroup');
 
       component.onEdit(component.selectedProducts[0]);
 
@@ -1708,10 +1738,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     });
 
     it('should not navigate when the nested row group cannot be resolved', () => {
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(createConfigurationWithNestedRow())
       );
-      spyOn(configuratorGroupsService, 'navigateToGroup');
+      vi.spyOn(configuratorGroupsService, 'navigateToGroup');
 
       component.onEdit(createConfigurableRow());
 
@@ -1719,10 +1749,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     });
 
     it('should not navigate when the nested row group has no tabs', () => {
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(createConfigurationWithNestedRow(createNestedRowGroup([])))
       );
-      spyOn(configuratorGroupsService, 'navigateToGroup');
+      vi.spyOn(configuratorGroupsService, 'navigateToGroup');
 
       component.onEdit(createConfigurableRow());
 
@@ -1732,7 +1762,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
 
   describe('onRowAction', () => {
     it('should remove row when `DELETE` is clicked', () => {
-      spyOn(configuratorCommonsService, 'removeContainerRow');
+      vi.spyOn(configuratorCommonsService, 'removeContainerRow');
 
       clickProductCardAction(0, '[data-row-action="DELETE"]');
 
@@ -1742,7 +1772,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     });
 
     it('should add row when `ADD` is clicked', () => {
-      spyOn(configuratorCommonsService, 'addContainerRow');
+      vi.spyOn(configuratorCommonsService, 'addContainerRow');
 
       clickProductCardAction(1, '[data-row-action="ADD"]');
 
@@ -1755,7 +1785,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     });
 
     it('should edit row when `EDIT` is clicked', () => {
-      spyOn(component, 'onEdit');
+      vi.spyOn(component, 'onEdit');
 
       clickProductCardAction(0, '[data-row-action="EDIT"]');
 
@@ -1765,7 +1795,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     });
 
     it('should copy row when `COPY` is clicked', () => {
-      spyOn(configuratorCommonsService, 'copyContainerRow');
+      vi.spyOn(configuratorCommonsService, 'copyContainerRow');
 
       clickProductCardAction(0, '[data-row-action="COPY"]');
 
@@ -1776,10 +1806,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     });
 
     it('should ignore an unknown row action', () => {
-      spyOn(configuratorCommonsService, 'addContainerRow');
-      spyOn(configuratorCommonsService, 'removeContainerRow');
-      spyOn(configuratorCommonsService, 'copyContainerRow');
-      spyOn(component, 'onEdit');
+      vi.spyOn(configuratorCommonsService, 'addContainerRow');
+      vi.spyOn(configuratorCommonsService, 'removeContainerRow');
+      vi.spyOn(configuratorCommonsService, 'copyContainerRow');
+      vi.spyOn(component, 'onEdit');
 
       component.onRowAction(
         component.selectedProducts[0],
@@ -2199,7 +2229,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
 
     it('should stop click events from bubbling when the drop-down is opened', () => {
       const event = new Event('click');
-      spyOn(event, 'stopPropagation');
+      vi.spyOn(event, 'stopPropagation');
 
       component.openAvailableProductsDropdown(event);
 
@@ -2209,7 +2239,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
 
     it('should stop click events from bubbling when the drop-down is toggled', () => {
       const event = new Event('click');
-      spyOn(event, 'stopPropagation');
+      vi.spyOn(event, 'stopPropagation');
 
       component.toggleAvailableProductsDropdown(event);
 
@@ -2231,27 +2261,27 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       expect(component.availableProductsSearchTerm).toBe('');
     });
 
-    it('should focus the search input when the drop-down is opened', fakeAsync(() => {
+    it('should focus the search input when the drop-down is opened', async () => {
       renderWithAvailableProducts(DEFAULT_THRESHOLD + 1);
       const searchInput = getSearchInput();
-      spyOn(searchInput, 'focus');
+      vi.spyOn(searchInput, 'focus');
 
       component.openAvailableProductsDropdown(new Event('click'));
-      tick();
+      await new Promise((resolve) => setTimeout(resolve, 0));
 
       expect(searchInput.focus).toHaveBeenCalled();
-    }));
+    });
 
-    it('should focus the search input when the drop-down is opened with the caret button', fakeAsync(() => {
+    it('should focus the search input when the drop-down is opened with the caret button', async () => {
       renderWithAvailableProducts(DEFAULT_THRESHOLD + 1);
       const searchInput = getSearchInput();
-      spyOn(searchInput, 'focus');
+      vi.spyOn(searchInput, 'focus');
 
       component.toggleAvailableProductsDropdown(new Event('click'));
-      tick();
+      await new Promise((resolve) => setTimeout(resolve, 0));
 
       expect(searchInput.focus).toHaveBeenCalled();
-    }));
+    });
 
     it('should make the search input writable and update its placeholder when the drop-down is open', () => {
       renderWithAvailableProducts(DEFAULT_THRESHOLD + 1);
@@ -2333,7 +2363,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     });
 
     it('should add a product from a drop-down product card', () => {
-      spyOn(configuratorCommonsService, 'addContainerRow');
+      vi.spyOn(configuratorCommonsService, 'addContainerRow');
       renderWithAvailableProducts(DEFAULT_THRESHOLD + 1);
       openDropdown();
 

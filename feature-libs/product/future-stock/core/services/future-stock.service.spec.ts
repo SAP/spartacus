@@ -9,9 +9,8 @@ import { Observable, of } from 'rxjs';
 import { FutureStockConnector } from '../connectors/future-stock.connector';
 import { FutureStockService } from './future-stock.service';
 
-import createSpy = jasmine.createSpy;
 class MockFutureStockConnector implements Partial<FutureStockConnector> {
-  getFutureStock = createSpy().and.callFake(() => of(mockFutureStocks));
+  getFutureStock = vi.fn().mockImplementation(() => of(mockFutureStocks));
 }
 
 const mockUserId = OCC_USER_ID_CURRENT;

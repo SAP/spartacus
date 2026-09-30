@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
@@ -77,7 +77,7 @@ describe('TextfieldFormComponent', () => {
   let fixture: ComponentFixture<ConfiguratorTextfieldFormComponent>;
   let textfieldService: ConfiguratorTextfieldService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -99,7 +99,7 @@ describe('TextfieldFormComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorTextfieldFormComponent);
     component = fixture.componentInstance;
@@ -160,7 +160,7 @@ describe('TextfieldFormComponent', () => {
   });
 
   it('should call update configuration on facade in case it was triggered on component', () => {
-    spyOn(textfieldService, 'updateConfiguration').and.callThrough();
+    vi.spyOn(textfieldService, 'updateConfiguration');
     component.updateConfiguration(productConfig.configurationInfos[0]);
     expect(textfieldService.updateConfiguration).toHaveBeenCalledTimes(1);
   });

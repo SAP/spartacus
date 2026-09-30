@@ -145,7 +145,11 @@ export class OpfCheckoutPaymentWrapperService {
               paymentSessionId,
               otpKey: params.otpKey,
               config: {
+                configurationId: params.config?.configurationId,
                 browserInfo: params.config?.browserInfo,
+                channel: params.config?.channel,
+                resultURL: params.config?.resultURL,
+                cancelURL: params.config?.cancelURL,
               },
             });
           }
@@ -324,7 +328,8 @@ export class OpfCheckoutPaymentWrapperService {
       return this.handleGeneralPaymentError();
     }
 
-    return Number(err.status) === HttpResponseStatus.CONFLICT
+    return Number(err.status) === HttpResponseStatus.CONFLICT ||
+      Number(err.status) === HttpResponseStatus.BAD_REQUEST
       ? this.handlePaymentAlreadyDoneError()
       : this.handleGeneralPaymentError();
   }

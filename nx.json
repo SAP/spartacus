@@ -5,7 +5,9 @@
   },
   "targetDefaults": {
     "build": {
-      "cache": true
+      "cache": true,
+      "dependsOn": ["^build"],
+      "outputs": ["{workspaceRoot}/dist/{projectName}"]
     },
     "lint": {
       "cache": true

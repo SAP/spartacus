@@ -51,7 +51,7 @@ describe('B2BUser Selectors', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   describe('getB2BUserManagementState ', () => {

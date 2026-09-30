@@ -1,5 +1,4 @@
 import { Subject } from 'rxjs';
-import createSpy = jasmine.createSpy;
 import {
   CurrencySetEvent,
   CxEvent,
@@ -16,8 +15,8 @@ import {
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(mockEventStream$.asObservable());
-  dispatch = createSpy();
+  get = vi.fn().mockReturnValue(mockEventStream$.asObservable());
+  dispatch = vi.fn();
 }
 
 describe('SubscriptionBillingEventListener', () => {

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { provideLocationMocks } from '@angular/common/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -9,7 +9,6 @@ import { StoreFinderService } from '@spartacus/storefinder/core';
 import { OutletModule } from '@spartacus/storefront';
 import { EMPTY } from 'rxjs';
 import { StoreFinderListItemComponent } from './store-finder-list-item.component';
-import createSpy = jasmine.createSpy;
 
 const weekday = {
   closingTime: {
@@ -88,21 +87,19 @@ const sampleStore: any = {
 };
 
 class MockStoreFinderService implements Partial<StoreFinderService> {
-  getFindStoresEntities = createSpy('getFindStoresEntities').and.returnValue(
-    EMPTY
-  );
-  getStoresLoading = createSpy('getStoresLoading');
-  callFindStoresAction = createSpy('callFindStoresAction');
-  getStoreLatitude = createSpy('getStoreLatitude');
-  getStoreLongitude = createSpy('getStoreLongitude');
-  getDirections = createSpy('getDirections');
+  getFindStoresEntities = vi.fn().mockReturnValue(EMPTY);
+  getStoresLoading = vi.fn();
+  callFindStoresAction = vi.fn();
+  getStoreLatitude = vi.fn();
+  getStoreLongitude = vi.fn();
+  getDirections = vi.fn();
 }
 
 describe('StoreFinderListItemComponent', () => {
   let component: StoreFinderListItemComponent;
   let fixture: ComponentFixture<StoreFinderListItemComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
@@ -117,7 +114,7 @@ describe('StoreFinderListItemComponent', () => {
         { provide: StoreFinderService, useClass: MockStoreFinderService },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderListItemComponent);
@@ -132,7 +129,7 @@ describe('StoreFinderListItemComponent', () => {
   });
 
   it('should emit item index', () => {
-    spyOn(component.storeItemClick, 'emit');
+    vi.spyOn(component.storeItemClick, 'emit');
     component.handleStoreItemClick();
     fixture.detectChanges();
     expect(component.storeItemClick.emit).toHaveBeenCalledWith(1);
@@ -143,7 +140,9 @@ describe('StoreFinderListItemComponent', () => {
     const encodedName = name.replace(' ', '%20');
     const link = fixture.debugElement
       .queryAll(By.css('.cx-store-name'))
-      .find((el) => el.nativeElement.innerText === displayName)?.nativeElement;
+      .find(
+        (el) => el.nativeElement.textContent?.trim() === displayName
+      )?.nativeElement;
     expect(link.getAttribute('href')).toEqual(`/${encodedName}`);
   });
 });

@@ -95,8 +95,8 @@ describe('UserApproverListService', () => {
   });
 
   it('should assign approver', () => {
-    spyOn(userService, 'assignApprover').and.callThrough();
-    spyOn(userService, 'getLoadingStatus').and.callThrough();
+    vi.spyOn(userService, 'assignApprover');
+    vi.spyOn(userService, 'getLoadingStatus');
 
     expect(service.assign('customerId', 'approverId')).toEqual(mockItemStatus);
     expect(userService.assignApprover).toHaveBeenCalledWith(
@@ -107,8 +107,8 @@ describe('UserApproverListService', () => {
   });
 
   it('should unassign approver', () => {
-    spyOn(userService, 'unassignApprover').and.callThrough();
-    spyOn(userService, 'getLoadingStatus').and.callThrough();
+    vi.spyOn(userService, 'unassignApprover');
+    vi.spyOn(userService, 'getLoadingStatus');
 
     expect(service.unassign('customerId', 'approverId')).toEqual(
       mockItemStatus

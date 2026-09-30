@@ -56,30 +56,23 @@ class MockLoggerService {
 }
 
 describe('ConfiguratorTextfieldEffect', () => {
-  let createMock: jasmine.Spy;
-  let readFromCartEntryMock: jasmine.Spy;
-  let readFromOrderEntryMock: jasmine.Spy;
+  let createMock: vi.Mock;
+  let readFromCartEntryMock: vi.Mock;
+  let readFromOrderEntryMock: vi.Mock;
 
-  let addToCartMock: jasmine.Spy;
-  let updateCartEntryMock: jasmine.Spy;
+  let addToCartMock: vi.Mock;
+  let updateCartEntryMock: vi.Mock;
 
   let configEffects: fromEffects.ConfiguratorTextfieldEffects;
 
   let actions$: Observable<any>;
 
   beforeEach(() => {
-    createMock = jasmine.createSpy().and.returnValue(of(productConfiguration));
-    readFromCartEntryMock = jasmine
-      .createSpy()
-      .and.returnValue(of(productConfiguration));
-    readFromOrderEntryMock = jasmine
-      .createSpy()
-      .and.returnValue(of(productConfiguration));
-
-    addToCartMock = jasmine.createSpy().and.returnValue(of(cartModification));
-    updateCartEntryMock = jasmine
-      .createSpy()
-      .and.returnValue(of(cartModification));
+    createMock = vi.fn().mockReturnValue(of(productConfiguration));
+    readFromCartEntryMock = vi.fn().mockReturnValue(of(productConfiguration));
+    readFromOrderEntryMock = vi.fn().mockReturnValue(of(productConfiguration));
+    addToCartMock = vi.fn().mockReturnValue(of(cartModification));
+    updateCartEntryMock = vi.fn().mockReturnValue(of(cartModification));
     class MockConnector {
       createConfiguration = createMock;
       addToCart = addToCartMock;
@@ -139,7 +132,7 @@ describe('ConfiguratorTextfieldEffect', () => {
   });
 
   it('should emit a fail action in case something goes wrong', () => {
-    createMock.and.returnValue(throwError(() => errorResponse));
+    createMock.mockReturnValue(throwError(() => errorResponse));
     const payloadInput = {
       productCode: productCode,
       owner: ConfiguratorModelUtils.createInitialOwner(),
@@ -180,7 +173,7 @@ describe('ConfiguratorTextfieldEffect', () => {
   });
 
   it('should emit a fail action in case read from cart leads to an error', () => {
-    readFromCartEntryMock.and.returnValue(throwError(() => errorResponse));
+    readFromCartEntryMock.mockReturnValue(throwError(() => errorResponse));
     const payloadInput: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
       {
         owner: ConfiguratorModelUtils.createInitialOwner(),
@@ -223,7 +216,7 @@ describe('ConfiguratorTextfieldEffect', () => {
   });
 
   it('should emit a fail action in case read from order entry leads to an error', () => {
-    readFromOrderEntryMock.and.returnValue(throwError(() => errorResponse));
+    readFromOrderEntryMock.mockReturnValue(throwError(() => errorResponse));
     const payloadInput: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
       {
         owner: ConfiguratorModelUtils.createInitialOwner(),
@@ -282,7 +275,7 @@ describe('ConfiguratorTextfieldEffect', () => {
     });
 
     it('should emit AddToCartFail in case add to cart call is not successful', () => {
-      addToCartMock.and.returnValue(throwError(() => errorResponse));
+      addToCartMock.mockReturnValue(throwError(() => errorResponse));
       const payloadInput = {
         userId: userId,
         cartId: cartId,
@@ -333,7 +326,7 @@ describe('ConfiguratorTextfieldEffect', () => {
     });
 
     it('should emit CartUpdateEntryFail in case update cart entry is not successful', () => {
-      updateCartEntryMock.and.returnValue(throwError(() => errorResponse));
+      updateCartEntryMock.mockReturnValue(throwError(() => errorResponse));
       const payloadInput: ConfiguratorTextfield.UpdateCartEntryParameters = {
         userId: userId,
         cartId: cartId,

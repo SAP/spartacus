@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { ScheduleComponent } from '../schedule-component/schedule.component';
@@ -31,7 +31,7 @@ describe('StoreFinderStoreDescriptionComponent', () => {
   let component: StoreFinderStoreDescriptionComponent;
   let fixture: ComponentFixture<StoreFinderStoreDescriptionComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [StoreFinderStoreDescriptionComponent],
       providers: [
@@ -51,7 +51,7 @@ describe('StoreFinderStoreDescriptionComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderStoreDescriptionComponent);

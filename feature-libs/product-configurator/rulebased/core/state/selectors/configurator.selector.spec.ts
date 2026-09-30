@@ -61,7 +61,7 @@ describe('Configurator selectors', () => {
     };
 
     configuratorUtils.setOwnerKey(owner);
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   it('should return empty content when selecting with content selector initially', () => {

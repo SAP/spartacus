@@ -9,7 +9,7 @@
           idPrefix: '',
         }
       "
-    ></ng-container>
+    />
   </ng-container>
 </ng-container>
 
@@ -56,22 +56,19 @@
           <ng-container *ngSwitchCase="attributeOverviewType.GENERAL">
             <cx-configurator-overview-attribute
               [attributeOverview]="attributeOverview"
-            >
-            </cx-configurator-overview-attribute>
+            />
           </ng-container>
 
           <ng-container *ngSwitchCase="attributeOverviewType.BUNDLE">
             <cx-configurator-cpq-overview-attribute
               [attributeOverview]="attributeOverview"
-            >
-            </cx-configurator-cpq-overview-attribute>
+            />
           </ng-container>
 
           <ng-container *ngSwitchDefault>
             <cx-configurator-overview-attribute
               [attributeOverview]="attributeOverview"
-            >
-            </cx-configurator-overview-attribute>
+            />
           </ng-container>
         </ng-container>
       </div>
@@ -85,7 +82,7 @@
               idPrefix: getPrefixId(idPrefix, group.id),
             }
           "
-        ></ng-container>
+        />
       </ng-container>
     </div>
   </ng-container>

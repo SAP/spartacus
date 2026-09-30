@@ -50,7 +50,7 @@ describe('SetPreferredStoreComponent without outlet.context$', () => {
   });
 
   it('should call setPreferredStore on preferredStoreFacade with pointOfServiceName', () => {
-    spyOn(preferredStoreFacade, 'setPreferredStore');
+    vi.spyOn(preferredStoreFacade, 'setPreferredStore');
 
     component.setAsPreferred();
     expect(preferredStoreFacade.setPreferredStore).toHaveBeenCalledWith(
@@ -104,7 +104,7 @@ describe('SetPreferredStoreComponent with outlet.context$', () => {
   });
 
   it('should call setPreferredStore on preferredStoreFacade with pointOfServiceName', () => {
-    spyOn(preferredStoreFacade, 'setPreferredStore');
+    vi.spyOn(preferredStoreFacade, 'setPreferredStore');
 
     component.setAsPreferred();
     expect(preferredStoreFacade.setPreferredStore).toHaveBeenCalledWith(

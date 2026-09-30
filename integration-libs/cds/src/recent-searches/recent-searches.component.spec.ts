@@ -40,9 +40,7 @@ class MockUrlPipe implements PipeTransform {
 describe('RecentSearchesComponent', () => {
   let component: RecentSearchesComponent;
   let fixture: ComponentFixture<RecentSearchesComponent>;
-  const recentSearchesService = jasmine.createSpyObj('RecentSearchesService', [
-    'recentSearches$',
-  ]);
+  const recentSearchesService = { recentSearches$: vi.fn() };
   let context$ = new BehaviorSubject<SearchBoxOutlet>({
     search: 'test',
     searchBoxActive: true,
@@ -53,8 +51,8 @@ describe('RecentSearchesComponent', () => {
   };
 
   const searchBoxComponentServiceMock = {
-    changeSelectedWord: jasmine.createSpy('changeSelectedWord'),
-    shareEvent: jasmine.createSpy('shareEvent'),
+    changeSelectedWord: vi.fn(),
+    shareEvent: vi.fn(),
     setRecentSearches: (enabled: boolean = false) => of(enabled),
   };
 
@@ -119,7 +117,7 @@ describe('RecentSearchesComponent', () => {
 
   it('should emit expected values when outletContext emits a value with searchBoxActive set to true', function () {
     const expectedValues = ['test1', 'test2', 'test3'];
-    recentSearchesService.recentSearches$.and.returnValue(of(expectedValues));
+    recentSearchesService.recentSearches$.mockReturnValue(of(expectedValues));
 
     component.ngOnInit();
 
@@ -132,7 +130,7 @@ describe('RecentSearchesComponent', () => {
   });
 
   it('should prevent the default event behavior when called', function () {
-    const ev = jasmine.createSpyObj('UIEvent', ['preventDefault']);
+    const ev = { preventDefault: vi.fn() };
 
     component.preventDefault(ev);
 

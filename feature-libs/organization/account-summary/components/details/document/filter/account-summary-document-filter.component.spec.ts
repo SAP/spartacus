@@ -149,21 +149,21 @@ describe('AccountSummaryDocumentFilterComponent', () => {
   });
 
   it('should test Filter By selector', () => {
-    const eventSpy = spyOn(component.filterListEvent, 'emit');
-    const resetSpy = spyOn<any>(component, 'resetForm').and.callThrough();
+    const eventSpy = vi.spyOn(component.filterListEvent, 'emit');
+    const resetSpy = vi.spyOn<any, any>(component, 'resetForm');
 
     let filterByValue: string | undefined;
     let startRange: string | undefined;
     let endRange: string | undefined;
 
     const pressSearch = () => {
-      eventSpy.calls.reset();
+      eventSpy.mockClear();
       const searchButton = fixture.debugElement.query(By.css('.btn-primary'));
       searchButton?.nativeElement.click();
       fixture.detectChanges();
     };
     const pressClear = () => {
-      eventSpy.calls.reset();
+      eventSpy.mockClear();
       const clearButton = fixture.debugElement.query(By.css('.clear-btn'));
       clearButton?.nativeElement.click();
       fixture.detectChanges();
@@ -428,7 +428,7 @@ describe('AccountSummaryDocumentFilterComponent', () => {
 
     // Press clear button and expect default values and search to be triggered
     expect(resetSpy).toHaveBeenCalledTimes(6);
-    resetSpy.calls.reset();
+    resetSpy.mockClear();
     pressClear();
     expect(resetSpy).toHaveBeenCalledWith(true);
     formItems = filterFormItems();
