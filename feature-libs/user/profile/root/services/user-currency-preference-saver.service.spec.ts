@@ -16,16 +16,15 @@ import { UserAccountConfig } from '@spartacus/user/account/root';
 import { Subject, of } from 'rxjs';
 import { UserProfileFacade } from '../facade/user-profile.facade';
 import { UserCurrencyPreferenceSaverService } from './user-currency-preference-saver.service';
-import createSpy = jasmine.createSpy;
 
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(mockEventStream$.asObservable());
+  get = vi.fn().mockReturnValue(mockEventStream$.asObservable());
 }
 
 class MockUserProfileFacade implements Partial<UserProfileFacade> {
-  update = createSpy().and.returnValue(of({}));
+  update = vi.fn().mockReturnValue(of({}));
 }
 
 describe('UserCurrencyPreferenceSaverService', () => {
@@ -39,7 +38,7 @@ describe('UserCurrencyPreferenceSaverService', () => {
         { provide: UserProfileFacade, useClass: MockUserProfileFacade },
         {
           provide: UserIdService,
-          useValue: { getUserId: createSpy().and.returnValue(of(userId)) },
+          useValue: { getUserId: vi.fn().mockReturnValue(of(userId)) },
         },
         {
           provide: UserAccountConfig,

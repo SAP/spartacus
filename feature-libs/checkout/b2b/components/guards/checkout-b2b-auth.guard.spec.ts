@@ -13,10 +13,12 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { IS_GUEST_USER_CHECKOUT_KEY } from '@spartacus/storefront';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
-import { EMPTY, Observable, of } from 'rxjs';
+import { EMPTY, firstValueFrom, Observable, of } from 'rxjs';
 import { CheckoutB2BAuthGuard } from './checkout-b2b-auth.guard';
 import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
+import { vi } from 'vitest';
 
 class AuthServiceStub implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
@@ -66,12 +68,6 @@ const mockFeatureToggles: FeatureToggles = {
   authorizationCodeFlowByDefault: false,
 };
 
-const mockWindowRef = {
-  localStorage: {
-    setItem: vi.fn(),
-  },
-};
-
 describe('CheckoutAuthGuard', () => {
   let checkoutGuard: CheckoutB2BAuthGuard;
   let authService: AuthService;
@@ -83,6 +79,7 @@ describe('CheckoutAuthGuard', () => {
   let featureToggles: FeatureToggles;
   let windowRef: WindowRef;
   beforeEach(() => {
+    vi.clearAllMocks();
     TestBed.configureTestingModule({
       providers: [
         CheckoutB2BAuthGuard,
@@ -114,10 +111,13 @@ describe('CheckoutAuthGuard', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
-        provideMockFeatureToggles({ ...mockFeatureToggles }),
+        {
+          provide: FeatureToggles,
+          useValue: mockFeatureToggles,
+        },
         {
           provide: WindowRef,
-          useValue: mockWindowRef,
+          useClass: MockWinRef,
         },
       ],
     });
@@ -148,25 +148,20 @@ describe('CheckoutAuthGuard', () => {
           featureToggles.authorizationCodeFlowByDefault = true;
         });
 
-        it('should return url to login without forced flag when guestCheckout feature disabled', () => {
-          let result: boolean | UrlTree | RedirectCommand | undefined;
-          checkoutGuard
-            .canActivate()
-            .subscribe((value) => (result = value))
-            .unsubscribe();
+        it('should return url to login without forced flag when guestCheckout feature disabled', async () => {
+          let result: boolean | UrlTree | RedirectCommand | undefined =
+            await firstValueFrom(checkoutGuard.canActivate());
           expect(result?.toString()).toEqual(`/login`);
           expect(windowRef.localStorage?.setItem).not.toHaveBeenCalled();
         });
 
-        it('should return url to login with forced flag when guestCheckout feature enabled', () => {
+        it('should return url to login with forced flag when guestCheckout feature enabled', async () => {
           vi.spyOn(checkoutConfigService, 'isGuestCheckout').mockReturnValue(
             true
           );
-          let result: boolean | UrlTree | RedirectCommand | undefined;
-          checkoutGuard
-            .canActivate()
-            .subscribe((value) => (result = value))
-            .unsubscribe();
+          let result: boolean | UrlTree | RedirectCommand | undefined =
+            await firstValueFrom(checkoutGuard.canActivate());
+
           expect(result?.toString()).toEqual(`/login`);
           expect(windowRef.localStorage?.setItem).toHaveBeenCalledWith(
             IS_GUEST_USER_CHECKOUT_KEY,

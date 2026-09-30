@@ -386,6 +386,31 @@
     "theme": {
       "type": "string",
       "description": "Select a style theme to add. E.g: santorini"
+    },
+    "aiTools": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["agents", "claude"]
+      },
+      "default": ["agents"],
+      "description": "Select the local folder(s) to install Spartacus AI development skills",
+      "x-prompt": {
+        "type": "list",
+        "multiselect": true,
+        "message": "Select the local folder(s) to install Spartacus AI development skills",
+        "items": [
+          {
+            "value": "agents",
+            "label": ".agents (.agents/skills/spartacus-developer/)"
+          },
+          {
+            "value": "claude",
+            "label": ".claude (.claude/skills/spartacus-developer/)"
+          }
+        ]
+      }
     }
   },
   "required": []

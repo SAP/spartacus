@@ -278,7 +278,7 @@ describe('ngExpressEngine', () => {
         req: getTestRequest({
           res: { statusCode: someStatusCode },
         }),
-        document: '<cx-response></cx-response>',
+        document: '<cx-response/>',
       },
       (err, html) => {
         if (err) {
@@ -300,7 +300,7 @@ describe('ngExpressEngine', () => {
       null as any as string,
       {
         req: getTestRequest(),
-        document: '<cx-token></cx-token>',
+        document: '<cx-token/>',
       },
       (err, html) => {
         if (err) {

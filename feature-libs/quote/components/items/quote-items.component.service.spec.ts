@@ -165,7 +165,7 @@ describe('QuoteItemsComponentService', () => {
       });
 
       it('should load saved cart', () => {
-        spyOn(multiCartFacade, 'loadCart');
+        vi.spyOn(multiCartFacade, 'loadCart');
         mockQuoteDetails$.next(quote);
         classUnderTest.retrieveQuoteEntries().subscribe().unsubscribe();
         expect(multiCartFacade.loadCart).toHaveBeenCalled();
@@ -188,7 +188,7 @@ describe('QuoteItemsComponentService', () => {
       });
 
       it('should not load an additional cart', () => {
-        spyOn(multiCartFacade, 'loadCart');
+        vi.spyOn(multiCartFacade, 'loadCart');
         mockQuoteDetails$.next(quoteWoCartId);
         classUnderTest.retrieveQuoteEntries().subscribe().unsubscribe();
         expect(multiCartFacade.loadCart).toHaveBeenCalledTimes(0);
@@ -211,7 +211,7 @@ describe('QuoteItemsComponentService', () => {
       });
 
       it('should not load an additional cart', () => {
-        spyOn(multiCartFacade, 'loadCart');
+        vi.spyOn(multiCartFacade, 'loadCart');
         mockQuoteDetails$.next(quoteEditable);
         classUnderTest.retrieveQuoteEntries().subscribe().unsubscribe();
         expect(multiCartFacade.loadCart).toHaveBeenCalledTimes(0);
@@ -219,7 +219,7 @@ describe('QuoteItemsComponentService', () => {
     });
 
     it('should load saved cart if quote is attached to cart and not editable', () => {
-      spyOn(multiCartFacade, 'loadCart');
+      vi.spyOn(multiCartFacade, 'loadCart');
       mockQuoteDetails$.next(quote);
       classUnderTest.retrieveQuoteEntries().subscribe().unsubscribe();
       expect(multiCartFacade.loadCart).toHaveBeenCalled();

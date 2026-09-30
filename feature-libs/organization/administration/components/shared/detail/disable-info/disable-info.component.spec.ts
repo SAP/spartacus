@@ -214,7 +214,7 @@ describe('ExplainDisableInfoComponent', () => {
     fixture.detectChanges();
     const values = fixture.debugElement
       .queryAll(By.css('section > ul > li'))
-      .map((el) => el.nativeNode.innerText);
+      .map((el) => el.nativeNode.textContent?.trim());
     expect(values).toEqual(expectedValue);
   }
 

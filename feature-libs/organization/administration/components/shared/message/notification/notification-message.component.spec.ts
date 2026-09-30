@@ -61,7 +61,7 @@ describe('NotificationMessageComponent', () => {
     const el: HTMLElement = fixture.debugElement.query(
       By.css('p')
     ).nativeElement;
-    expect(el.innerText).toEqual('Raw mock message');
+    expect(el.textContent?.trim()).toEqual('Raw mock message');
   });
 
   it('should have close button', () => {
@@ -72,7 +72,7 @@ describe('NotificationMessageComponent', () => {
   });
 
   it('should emit close event', () => {
-    const nextEvent = spyOn(messageData.events, 'next');
+    const nextEvent = vi.spyOn(messageData.events, 'next');
     const el: HTMLElement = fixture.debugElement.query(
       By.css('button.close')
     ).nativeElement;

@@ -83,8 +83,10 @@ describe('OpfMetadataStatePersistanceService', () => {
       stateObservable
     );
 
+    const { opfPaymentSessionId, ...expectedMetadata } = mockOpfMetadata;
+
     service['getOpfState']().subscribe((state: any) => {
-      expect(state).toEqual({ metadata: mockOpfMetadata });
+      expect(state).toEqual({ metadata: expectedMetadata });
       done();
     });
   });

@@ -6,8 +6,6 @@ import { ItemActiveDirective } from './item-active.directive';
 import { ItemService } from './item.service';
 import { MessageService } from './message/services/message.service';
 
-import createSpy = jasmine.createSpy;
-
 const mockCode = 'mc1';
 
 @Component({
@@ -19,7 +17,7 @@ const mockCode = 'mc1';
 class TestComponent {}
 
 class MockMessageService {
-  add = createSpy('add').and.returnValue(new Subject());
+  add = vi.fn().mockReturnValue(new Subject());
   clear() {}
   close() {}
 }
@@ -34,14 +32,14 @@ const itemStubInactive = {
 
 class MockItemServiceActive implements Partial<ItemService<any>> {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(EMPTY);
+  load = vi.fn().mockReturnValue(EMPTY);
   error$ = of(false);
   current$ = of(itemStubActive);
 }
 
 class MockItemServiceInactive implements Partial<ItemService<any>> {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(EMPTY);
+  load = vi.fn().mockReturnValue(EMPTY);
   error$ = of(false);
   current$ = of(itemStubInactive);
 }

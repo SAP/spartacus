@@ -3,16 +3,18 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, Product } from '@spartacus/core';
 import { ProductListItemContext } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { Subject, of } from 'rxjs';
 import { ProductMultiDimensionalListItemDetailsComponent } from './product-multi-dimensional-list-item-details.component';
 
 describe('ProductMultiDimensionalListItemDetailsComponent', () => {
   let component: ProductMultiDimensionalListItemDetailsComponent;
   let fixture: ComponentFixture<ProductMultiDimensionalListItemDetailsComponent>;
+  let productSubject: Subject<Product>;
 
   beforeEach(async () => {
+    productSubject = new Subject<Product>();
     const mockContext = {
-      product$: of(),
+      product$: productSubject.asObservable(),
     };
 
     await TestBed.configureTestingModule({
@@ -31,10 +33,11 @@ describe('ProductMultiDimensionalListItemDetailsComponent', () => {
       ProductMultiDimensionalListItemDetailsComponent
     );
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    // No detectChanges() here — each test controls its own initial state
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -81,7 +84,8 @@ describe('ProductMultiDimensionalListItemDetailsComponent', () => {
           maxPrice: { formattedValue: '$200' },
         },
       };
-      (component as any).product$ = of(product);
+      fixture.detectChanges();
+      productSubject.next(product);
       fixture.detectChanges();
 
       const priceElement = fixture.debugElement.query(
@@ -95,7 +99,8 @@ describe('ProductMultiDimensionalListItemDetailsComponent', () => {
         multidimensional: false,
         price: { formattedValue: '$150' },
       };
-      (component as any).product$ = of(product);
+      fixture.detectChanges();
+      productSubject.next(product);
       fixture.detectChanges();
 
       const priceElement = fixture.debugElement.query(
@@ -108,7 +113,8 @@ describe('ProductMultiDimensionalListItemDetailsComponent', () => {
       const product: Product = {
         multidimensional: false,
       };
-      (component as any).product$ = of(product);
+      fixture.detectChanges();
+      productSubject.next(product);
       fixture.detectChanges();
 
       const priceElement = fixture.debugElement.query(
@@ -126,7 +132,8 @@ describe('ProductMultiDimensionalListItemDetailsComponent', () => {
           maxPrice: { formattedValue: '' },
         },
       };
-      (component as any).product$ = of(product);
+      fixture.detectChanges();
+      productSubject.next(product);
       fixture.detectChanges();
 
       const priceElement = fixture.debugElement.query(

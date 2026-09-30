@@ -1,9 +1,4 @@
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { I18nTestingModule, Price, TranslatePipe } from '@spartacus/core';
 import {
@@ -39,7 +34,6 @@ import {
 import { QuoteUIConfig } from '../../config';
 import { QuoteSummarySellerEditComponent } from './quote-summary-seller-edit.component';
 import { QuoteSummarySellerEditComponentService } from './quote-summary-seller-edit.component.service';
-import createSpy = jasmine.createSpy;
 
 const mockCartId = '1234';
 const threshold = 20;
@@ -74,8 +68,8 @@ class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   getQuoteDetails(): Observable<Quote> {
     return mockQuoteDetails$.asObservable();
   }
-  addDiscount = createSpy();
-  editQuote = createSpy();
+  addDiscount = vi.fn();
+  editQuote = vi.fn();
 }
 let quoteIsEditable = true;
 class MockQuoteHeaderSellerEditComponentService {
@@ -179,6 +173,8 @@ describe('QuoteSummarySellerEditComponent', () => {
     component = fixture.componentInstance;
     quoteFacade = TestBed.inject(QuoteFacade);
     mockQuote.quoteDiscounts = {};
+    mockQuote.sapQuoteDiscountsRate = undefined;
+    mockQuote.sapQuoteDiscountsType = undefined;
     mockQuoteDetails$.next(mockQuote);
     quoteIsEditable = true;
   });
@@ -189,7 +185,7 @@ describe('QuoteSummarySellerEditComponent', () => {
   });
 
   it('should unsubscribe subscription on ngOnDestroy', () => {
-    const spyUnsubscribe = spyOn(Subscription.prototype, 'unsubscribe');
+    const spyUnsubscribe = vi.spyOn(Subscription.prototype, 'unsubscribe');
     component.ngOnDestroy();
     expect(spyUnsubscribe).toHaveBeenCalled();
   });
@@ -292,7 +288,8 @@ describe('QuoteSummarySellerEditComponent', () => {
   });
 
   describe('onSetDate', () => {
-    it('should call corresponding facade method after default debounce time', fakeAsync(() => {
+    it('should call corresponding facade method after default debounce time', async () => {
+      vi.useFakeTimers();
       const expectedQuoteMetaData: QuoteMetadata = {
         expirationTime: EXPIRATION_TIME_AS_STRING,
       };
@@ -300,28 +297,31 @@ describe('QuoteSummarySellerEditComponent', () => {
       component.ngOnInit();
       component.onSetDate(QUOTE_CODE);
       expect(quoteFacade.editQuote).not.toHaveBeenCalled();
-      tick(DEFAULT_DEBOUNCE_TIME);
+      await vi.advanceTimersByTimeAsync(DEFAULT_DEBOUNCE_TIME);
+      vi.useRealTimers();
       expect(quoteFacade.editQuote).toHaveBeenCalledWith(
         QUOTE_CODE,
         expectedQuoteMetaData
       );
-    }));
+    });
 
-    it('should call corresponding facade method after configured debounce time', fakeAsync(() => {
+    it('should call corresponding facade method after configured debounce time', async () => {
+      vi.useFakeTimers();
       const expectedQuoteMetaData: QuoteMetadata = {
         expirationTime: EXPIRATION_TIME_AS_STRING,
       };
       component.ngOnInit();
       component.onSetDate('INVALID');
-      tick(DEFAULT_DEBOUNCE_TIME);
+      await vi.advanceTimersByTimeAsync(DEFAULT_DEBOUNCE_TIME);
       component.onSetDate(QUOTE_CODE);
       expect(quoteFacade.editQuote).not.toHaveBeenCalled();
-      tick(DEBOUNCE_TIME);
+      await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
+      vi.useRealTimers();
       expect(quoteFacade.editQuote).toHaveBeenCalledWith(
         QUOTE_CODE,
         expectedQuoteMetaData
       );
-    }));
+    });
   });
 
   describe('mustDisplayValidationMessage', () => {

@@ -19,7 +19,7 @@
                 address;
                 context: { address: customerProfileData?.billingAddress }
               "
-            ></ng-container>
+            />
           </div>
         </div>
         <div class="col">
@@ -32,7 +32,7 @@
                 address;
                 context: { address: customerProfileData?.deliveryAddress }
               "
-            ></ng-container>
+            />
           </div>
         </div>
         <div class="w-100 d-lg-none"></div>
@@ -70,7 +70,7 @@
           [border]="true"
           [fitToContainer]="true"
           [content]="getCardContent(paymentInfoList) | async"
-        ></cx-card>
+        />
       </div>
     </div>
   </ng-container>

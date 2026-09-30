@@ -1,5 +1,5 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -21,7 +21,6 @@ import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feat
 import { BehaviorSubject } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
 import { LoginFormComponent } from './login-form.component';
-import createSpy = jasmine.createSpy;
 
 const isBusySubject = new BehaviorSubject(false);
 class MockLoginFormComponentService
@@ -32,8 +31,8 @@ class MockLoginFormComponentService
     password: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
-  login = createSpy().and.stub();
-  handleCustomLoginError = createSpy().and.stub();
+  login = vi.fn().mockImplementation(() => {});
+  handleCustomLoginError = vi.fn().mockImplementation(() => {});
   showResetPassword = true;
 }
 @Pipe({ name: 'cxUrl' })
@@ -47,7 +46,7 @@ describe('LoginFormComponent', () => {
   let el: DebugElement;
   let service: LoginFormComponentService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -78,7 +77,7 @@ describe('LoginFormComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginFormComponent);
@@ -147,7 +146,7 @@ describe('LoginFormComponent', () => {
 
   describe('Form Interactions', () => {
     it('should call onSubmit() method on submit', () => {
-      const request = spyOn(component, 'onSubmit');
+      const request = vi.spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
       form.triggerEventHandler('submit', null);
       expect(request).toHaveBeenCalled();

@@ -52,7 +52,7 @@ describe('OrderApprovalNormalizer', () => {
       OccOrderApprovalNormalizer as Type<OccOrderApprovalNormalizer>
     );
     converter = TestBed.inject(ConverterService);
-    spyOn(converter, 'convert').and.callFake(
+    vi.spyOn(converter, 'convert').mockImplementation(
       (order) =>
         ({
           ...order,

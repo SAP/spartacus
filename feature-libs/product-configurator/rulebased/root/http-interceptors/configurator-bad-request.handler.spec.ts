@@ -175,14 +175,14 @@ describe('ConfiguratorBadRequestHandler', () => {
 
   describe('handleError', () => {
     it('should be able to deal with an empty error response', () => {
-      spyOn(globalMessageService, 'add');
+      vi.spyOn(globalMessageService, 'add');
       classUnderTest.handleError(mockRequest, mockEmptyResponse);
 
       expect(globalMessageService.add).toHaveBeenCalledTimes(0);
     });
 
     it('should raise no message for IllegalStateError that are not related to make-to-stock', () => {
-      spyOn(globalMessageService, 'add');
+      vi.spyOn(globalMessageService, 'add');
 
       classUnderTest.handleError(
         mockRequest,
@@ -193,7 +193,7 @@ describe('ConfiguratorBadRequestHandler', () => {
     });
 
     it('should raise a message for IllegalStateError that are related to make-to-stock', () => {
-      spyOn(globalMessageService, 'add');
+      vi.spyOn(globalMessageService, 'add');
 
       classUnderTest.handleError(
         mockRequest,
@@ -207,7 +207,7 @@ describe('ConfiguratorBadRequestHandler', () => {
     });
 
     it('should raise no message when a product-card catalog product is missing', () => {
-      spyOn(globalMessageService, 'add');
+      vi.spyOn(globalMessageService, 'add');
 
       classUnderTest.handleError(
         mockRequest,

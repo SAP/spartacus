@@ -65,7 +65,7 @@ describe('PDFInvoicesDateBadRequestHandler', () => {
   });
 
   it('should handle invalid order id bad request', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     pdfInvoicesBRHandler.handleError(
       MockRequest,
       MockNoOrderIdBadRequestResponse
@@ -80,7 +80,7 @@ describe('PDFInvoicesDateBadRequestHandler', () => {
   });
 
   it('should handle invoice download bad request', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     pdfInvoicesBRHandler.handleError(
       MockRequest,
       MockDownloadPDFBadRequestResponse

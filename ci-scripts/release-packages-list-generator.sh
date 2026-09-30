@@ -1,12 +1,7 @@
 #!/bin/bash
 
 # List of files for packages to be released
-# TODO CXSPA-13991: Re-include skills once the audit passes and we're ready to release it
-FILES=$(find core-libs feature-libs integration-libs projects \
-    -name package.json \
-    -not -path "*node_modules*" \
-    -not -path "*projects/eslint*" \
-    -not -path "*core-libs/skills*")
+FILES=$(find core-libs feature-libs integration-libs projects -name package.json -not -path "*node_modules*" -not -path "*projects/eslint*")
 
 # Return only the names of the packages from the list of files
 PACKAGE_NAMES=()

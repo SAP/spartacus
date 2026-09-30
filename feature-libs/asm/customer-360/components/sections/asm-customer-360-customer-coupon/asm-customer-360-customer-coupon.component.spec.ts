@@ -13,7 +13,7 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { AsmCustomer360PromotionListingComponent } from '../../asm-customer-360-promotion-listing/asm-customer-360-promotion-listing.component';
 import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
@@ -194,6 +194,7 @@ describe('AsmCustomer360CouponComponent', () => {
   });
 
   beforeEach(() => {
+    mockCustomerCouponEntryList.forEach((entry) => (entry.applied = false));
     fixture = TestBed.createComponent(AsmCustomer360CustomerCouponComponent);
     component = fixture.componentInstance;
     context = TestBed.inject(AsmCustomer360SectionContextSource);
@@ -238,13 +239,12 @@ describe('AsmCustomer360CouponComponent', () => {
     expect(component.searchCustomerCoupon).toHaveBeenCalled();
   });
 
-  it('should be able to fetch coupon list from context data', () => {
+  it('should be able to fetch coupon list from context data', async () => {
     context.data$.next(mockCustomerCouponList);
     component.fetchCustomerCoupons();
-    component.entries$.subscribe((entries) => {
-      expect(entries).toEqual(mockCustomerCouponEntryList);
-      expect(component.showErrorAlert$.getValue()).toBe(false);
-    });
+    const entries = await firstValueFrom(component.entries$);
+    expect(entries).toEqual(mockCustomerCouponEntryList);
+    expect(component.showErrorAlert$.getValue()).toBe(false);
   });
 
   it('should be able to assign customer coupon to customer', () => {

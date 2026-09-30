@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -11,7 +11,7 @@ describe('ConfigurationConflictSuggestionComponent', () => {
   let fixture: ComponentFixture<ConfiguratorConflictSuggestionComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ConfiguratorConflictSuggestionComponent],
       providers: [],
@@ -22,7 +22,7 @@ describe('ConfigurationConflictSuggestionComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorConflictSuggestionComponent);

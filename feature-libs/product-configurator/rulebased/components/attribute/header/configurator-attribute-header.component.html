@@ -1,5 +1,5 @@
 <div *ngIf="!attribute.visible" class="cx-hidden-msg">
-  <cx-icon [type]="iconTypes.WARNING" aria-hidden="true"></cx-icon>
+  <cx-icon [type]="iconTypes.WARNING" aria-hidden="true" />
   {{ 'configurator.attribute.notVisibleAttributeMsg' | cxTranslate }}
 </div>
 <div class="cx-header-label-container">
@@ -22,7 +22,7 @@
   <cx-configurator-show-options
     *ngIf="attribute.domainOnDemand"
     [attributeComponentContext]="attributeComponentContext"
-  ></cx-configurator-show-options>
+  />
 </div>
 
 <cx-configurator-show-more
@@ -67,7 +67,7 @@
     *ngIf="isAttributeGroup()"
     [type]="iconTypes.WARNING"
     aria-hidden="true"
-  ></cx-icon>
+  />
   <ng-container *ngIf="isAttributeGroup(); else conflictGroup">
     <ng-container
       *ngIf="

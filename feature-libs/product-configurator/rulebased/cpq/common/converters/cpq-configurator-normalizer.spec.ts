@@ -3044,7 +3044,7 @@ describe('CpqConfiguratorNormalizer', () => {
       //expect(container?.failedValidations).toEqual(['validation']);
       expect(container?.rows.length).toBe(1);
       expect(container?.rows[0]).toEqual(
-        jasmine.objectContaining({
+        expect.objectContaining({
           id: '1',
           productSystemId: 'P1',
           productName: 'Product 1',

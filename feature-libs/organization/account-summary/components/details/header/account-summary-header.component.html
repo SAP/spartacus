@@ -7,13 +7,11 @@
       <div class="cx-summary-card">
         <cx-card
           [content]="getIdCardContent(headerDetails?.orgUnit?.uid) | async"
-        >
-        </cx-card>
+        />
 
         <cx-card
           [content]="getNameCardContent(headerDetails?.orgUnit?.name) | async"
-        >
-        </cx-card>
+        />
       </div>
 
       <!-- Card: Address -->
@@ -22,8 +20,7 @@
           [content]="
             getAddressCardContent(headerDetails?.billingAddress) | async
           "
-        >
-        </cx-card>
+        />
       </div>
     </div>
 
@@ -36,15 +33,13 @@
           [content]="
             getCreditRepCardContent(headerDetails?.accountManagerName) | async
           "
-        >
-        </cx-card>
+        />
 
         <cx-card
           [content]="
             getCreditLineCardContent(headerDetails?.creditLimit) | async
           "
-        >
-        </cx-card>
+        />
       </div>
 
       <!-- Card: Current Balance & Open Balance -->
@@ -55,16 +50,14 @@
               headerDetails?.amountBalance?.currentBalance
             ) | async
           "
-        >
-        </cx-card>
+        />
 
         <cx-card
           [content]="
             getOpenBalanceCardContent(headerDetails?.amountBalance?.openBalance)
               | async
           "
-        >
-        </cx-card>
+        />
       </div>
     </div>
 
@@ -136,8 +129,7 @@
               headerDetails?.amountBalance?.pastDueBalance
             ) | async
           "
-        >
-        </cx-card>
+        />
       </ng-template>
     </div>
   </div>

@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContextSource } from '@spartacus/cart/base/components';
 import {
@@ -76,7 +76,7 @@ describe('CommonConfiguratorUtilsService', () => {
   let classUnderTest: CommonConfiguratorUtilsService;
   let mockCartItemContext: CartItemContextSource;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [
         {
@@ -86,7 +86,7 @@ describe('CommonConfiguratorUtilsService', () => {
         { provide: CartItemContext, useClass: MockCartItemContext },
       ],
     }).compileComponents();
-  }));
+  });
   beforeEach(() => {
     classUnderTest = TestBed.inject(
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>

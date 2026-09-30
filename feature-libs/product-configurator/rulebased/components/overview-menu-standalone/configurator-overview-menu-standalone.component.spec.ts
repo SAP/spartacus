@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import {
@@ -52,8 +52,8 @@ describe('ConfiguratorOverviewMenuStandaloneComponent', () => {
   let component: ConfiguratorOverviewMenuStandaloneComponent;
   let fixture: ComponentFixture<ConfiguratorOverviewMenuStandaloneComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [ConfiguratorOverviewMenuStandaloneComponent],
       providers: [
         {
@@ -75,7 +75,7 @@ describe('ConfiguratorOverviewMenuStandaloneComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     configuration$ = of(CONFIGURATION);

@@ -3,7 +3,7 @@
     [container]="main"
     *cxLcpContext="let lcpContext"
     [fetchPriority]="lcpContext.fetchPriority$ | async"
-  ></cx-media>
+  />
 </ng-container>
 
 <ng-container *ngIf="thumbs$ | async as thumbs">
@@ -13,7 +13,7 @@
     [items]="thumbs"
     [template]="thumb"
     [trackByFn]="trackByFn"
-  ></cx-carousel-scrolling>
+  />
 </ng-container>
 
 <ng-template #thumb let-item="item">
@@ -23,6 +23,5 @@
     (focus)="openImage(item.container)"
     [class.is-active]="isActive(item.container) | async"
     format="product"
-  >
-  </cx-media>
+  />
 </ng-template>

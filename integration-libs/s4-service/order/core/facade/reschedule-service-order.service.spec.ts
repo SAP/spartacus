@@ -2,10 +2,10 @@ import { TestBed } from '@angular/core/testing';
 
 import { RescheduleServiceOrderService } from './reschedule-service-order.service';
 import { RescheduleServiceOrderConnector } from '../connector';
-import { of, take } from 'rxjs';
+import { of } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { OCC_USER_ID_CURRENT, UserIdService } from '@spartacus/core';
 import { ServiceDateTime } from '@spartacus/s4-service/root';
-import createSpy = jasmine.createSpy;
 
 const mockDateTime: ServiceDateTime = `2222-90-89T67:89:00-04:00`;
 const mockUserId = OCC_USER_ID_CURRENT;
@@ -14,11 +14,11 @@ const mockOrderCode = '12345';
 class MockRescheduleServiceOrderConnector
   implements Partial<RescheduleServiceOrderConnector>
 {
-  rescheduleServiceOrder = createSpy().and.returnValue(of('service-details'));
+  rescheduleServiceOrder = vi.fn().mockReturnValue(of('service-details'));
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = createSpy().and.returnValue(of(mockUserId));
+  takeUserId = vi.fn().mockReturnValue(of(mockUserId));
 }
 
 describe('RescheduleServiceOrderService', () => {
@@ -46,17 +46,14 @@ describe('RescheduleServiceOrderService', () => {
     expect(service).toBeTruthy();
   });
 
-  it(`should call rescheduleServiceOrderConnector.rescheduleServiceOrder`, (done) => {
-    service
-      .rescheduleService(mockOrderCode, mockDateTime)
-      .pipe(take(1))
-      .subscribe(() => {
-        expect(
-          rescheduleServiceOrderConnector.rescheduleServiceOrder
-        ).toHaveBeenCalledWith(mockUserId, mockOrderCode, {
-          scheduledAt: mockDateTime,
-        });
-        done();
-      });
+  it(`should call rescheduleServiceOrderConnector.rescheduleServiceOrder`, async () => {
+    await firstValueFrom(
+      service.rescheduleService(mockOrderCode, mockDateTime)
+    );
+    expect(
+      rescheduleServiceOrderConnector.rescheduleServiceOrder
+    ).toHaveBeenCalledWith(mockUserId, mockOrderCode, {
+      scheduledAt: mockDateTime,
+    });
   });
 });

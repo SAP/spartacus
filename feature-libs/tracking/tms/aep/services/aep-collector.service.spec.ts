@@ -39,7 +39,7 @@ describe('AepCollectorService', () => {
     });
 
     it('should embed the script tag', () => {
-      spyOn(scriptLoader, 'embedScript').and.stub();
+      vi.spyOn(scriptLoader, 'embedScript').mockImplementation(() => {});
       const windowObject = {} as WindowObject;
       service.init(config, windowObject);
       expect(scriptLoader.embedScript).toHaveBeenCalledTimes(1);

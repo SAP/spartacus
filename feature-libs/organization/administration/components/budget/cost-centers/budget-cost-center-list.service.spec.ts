@@ -88,13 +88,13 @@ describe('BudgetCostCenterListService', () => {
   });
 
   it('should filter selected cost-centers', () => {
-    spyOn(budgetService, 'getCostCenters').and.returnValue(
+    vi.spyOn(budgetService, 'getCostCenters').mockReturnValue(
       of(mockCostCenterEntities2)
     );
     let result: EntitiesModel<CostCenter>;
     service.getData().subscribe((table) => (result = table));
     expect(result.values.length).toEqual(2);
-    expect(result.values).not.toContain({
+    expect(result.values).not.toContainEqual({
       code: 'second',
     });
   });

@@ -34,7 +34,7 @@
   aria-atomic="true"
   role="alert"
 >
-  <cx-icon [type]="iconType.ERROR"></cx-icon>
+  <cx-icon [type]="iconType.ERROR" />
   {{
     'configurator.attribute.wrongNumericFormatMessage'
       | cxTranslate: { pattern: numericFormatPattern }
@@ -48,6 +48,6 @@
   aria-atomic="true"
   role="alert"
 >
-  <cx-icon [type]="iconType.ERROR"></cx-icon>
+  <cx-icon [type]="iconType.ERROR" />
   {{ 'configurator.attribute.wrongIntervalFormat' | cxTranslate }}
 </div>

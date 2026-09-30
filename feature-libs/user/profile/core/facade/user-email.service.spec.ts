@@ -3,7 +3,6 @@ import { OCC_USER_ID_CURRENT, UserIdService } from '@spartacus/core';
 import { UserProfileConnector } from '@spartacus/user/profile/core';
 import { Observable, of } from 'rxjs';
 import { UserEmailService } from './user-email.service';
-import createSpy = jasmine.createSpy;
 
 class MockUserIdService implements Partial<UserIdService> {
   takeUserId(): Observable<string> {
@@ -12,10 +11,12 @@ class MockUserIdService implements Partial<UserIdService> {
 }
 
 class MockUserProfileConnector implements Partial<UserProfileConnector> {
-  updateEmail = createSpy().and.callFake(
-    (_userId: string, _currentPassword: string, _newUserId: string) =>
-      of(undefined)
-  );
+  updateEmail = vi
+    .fn()
+    .mockImplementation(
+      (_userId: string, _currentPassword: string, _newUserId: string) =>
+        of(undefined)
+    );
 }
 
 describe('UserEmailService', () => {

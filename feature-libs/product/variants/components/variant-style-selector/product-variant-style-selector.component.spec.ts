@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   BaseOption,
   I18nTestingModule,
@@ -86,7 +86,7 @@ describe('ProductVariantStyleSelectorComponent', () => {
   let fixture: ComponentFixture<ProductVariantStyleSelectorComponent>;
   let routingService: RoutingService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -105,7 +105,7 @@ describe('ProductVariantStyleSelectorComponent', () => {
         { provide: RoutingService, useClass: MockRoutingService },
       ],
     }).compileComponents();
-  }));
+  });
 
   describe('Empty config scenario', () => {
     beforeEach(() => {
@@ -163,7 +163,7 @@ describe('ProductVariantStyleSelectorComponent', () => {
     });
 
     it('should naviagate to product on changeStyle', () => {
-      spyOn(routingService, 'go').and.callThrough();
+      vi.spyOn(routingService, 'go');
 
       component.changeStyle('test123');
       expect(routingService.go).toHaveBeenCalled();

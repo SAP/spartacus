@@ -105,11 +105,8 @@ describe('AssignCellComponent', () => {
     });
 
     it('should unassign', () => {
-      spyOn(
-        organizationListService as SubListService<any>,
-        'unassign'
-      ).and.callThrough();
-      spyOn(messageService, 'add').and.callThrough();
+      vi.spyOn(organizationListService as SubListService<any>, 'unassign');
+      vi.spyOn(messageService, 'add');
 
       component.toggleAssign();
 
@@ -152,11 +149,8 @@ describe('AssignCellComponent', () => {
     });
 
     it('should assign', () => {
-      spyOn(
-        organizationListService as SubListService<any>,
-        'assign'
-      ).and.callThrough();
-      spyOn(messageService, 'add').and.callThrough();
+      vi.spyOn(organizationListService as SubListService<any>, 'assign');
+      vi.spyOn(messageService, 'add');
 
       component.toggleAssign();
 

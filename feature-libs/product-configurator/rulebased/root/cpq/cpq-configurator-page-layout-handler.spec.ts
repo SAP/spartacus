@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   ConfiguratorModelUtils,
   ConfiguratorRouter,
@@ -102,7 +102,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
   let classUnderTest: CpqConfiguratorPageLayoutHandler;
   let featureToggles: MockFeatureTogglesController;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [
         {
@@ -117,10 +117,10 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
           provide: LayoutConfig,
           useValue: mockLayoutConfig,
         },
-        provideMockFeatureToggles({ productConfiguratorCPQContainer: true }),
+        ...provideMockFeatureToggles({ productConfiguratorCPQContainer: true }),
       ],
     }).compileComponents();
-  }));
+  });
   beforeEach(() => {
     featureToggles = TestBed.inject(MockFeatureTogglesController);
     featureToggles.set('productConfiguratorCPQContainer', true);

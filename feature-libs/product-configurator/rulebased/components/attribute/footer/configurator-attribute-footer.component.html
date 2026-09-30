@@ -4,7 +4,7 @@
   id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
   role="alert"
 >
-  <cx-icon [type]="iconType.ERROR"></cx-icon>
+  <cx-icon [type]="iconType.ERROR" />
   <ng-container *ngIf="isUserInput(attribute)">
     {{ 'configurator.attribute.defaultRequiredMessage' | cxTranslate }}
   </ng-container>

@@ -81,11 +81,11 @@ describe('MessageComponent', () => {
     const lastMessage: HTMLElement = fixture.debugElement.query(
       By.css('cx-org-notification:first-child')
     ).nativeElement;
-    expect(lastMessage.innerText).toEqual('mock message 2');
+    expect(lastMessage.textContent?.trim()).toEqual('mock message 2');
 
     const firstMessage: HTMLElement = fixture.debugElement.query(
       By.css('cx-org-notification:last-child')
     ).nativeElement;
-    expect(firstMessage.innerText).toEqual('mock message 1');
+    expect(firstMessage.textContent?.trim()).toEqual('mock message 1');
   });
 });

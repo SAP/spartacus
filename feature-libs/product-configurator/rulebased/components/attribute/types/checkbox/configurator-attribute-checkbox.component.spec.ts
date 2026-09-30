@@ -5,7 +5,7 @@ import {
   Injectable,
   Input,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -94,7 +94,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.overrideComponent(ConfiguratorAttributeCheckBoxComponent, {
       set: {
         providers: [
@@ -149,7 +149,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   function createValue(code: string, name: string, isSelected: boolean) {
     const value: Configurator.Value = {
@@ -176,7 +176,6 @@ describe('ConfigAttributeCheckBoxComponent', () => {
       uiType: Configurator.UiType.CHECKBOX,
       values: values,
     };
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -199,6 +198,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
   });
 
   it('should select and deselect a checkbox value', () => {
+    fixture.detectChanges();
     const checkboxId =
       '#cx-configurator--checkBox--' +
       component.attribute.name +
@@ -252,6 +252,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
 
   describe('Accessibility', () => {
     it("should contain input element with class name 'form-check-input' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -267,6 +268,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
     });
 
     it("should contain input element with class name 'form-check-input' and 'aria-describedby' that indicates the IDs of the elements that describe the elements", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -279,6 +281,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
     });
 
     it("should contain label element with class name 'form-check-label' and 'aria-hidden' attribute that removes label from the accessibility tree", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
