@@ -15,7 +15,7 @@ import {
   ProductOccModule,
   UserModule,
   UserOccModule,
-  provideDefaultFeatureTogglesFactory,
+  provideFeatureTogglesFactory,
 } from '@spartacus/core';
 import {
   AnonymousConsentManagementBannerModule,
@@ -294,7 +294,7 @@ if (environment.cpq) {
       provide: USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
       useValue: environment.myAccountV2,
     },
-    provideDefaultFeatureTogglesFactory(() => {
+    provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         useAdvancedGoogleMarkers: true,
         useGoogleMapsAsyncLoading: true,
