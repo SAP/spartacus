@@ -11,7 +11,6 @@ import {
   GetSubscriptionByCodeReloadEvent,
   GetSubscriptionListReloadEvent,
 } from './subscription-billing.events';
-import { vi } from 'vitest';
 
 const mockEventStream$ = new Subject<CxEvent>();
 

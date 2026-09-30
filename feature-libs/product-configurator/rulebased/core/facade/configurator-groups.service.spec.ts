@@ -25,7 +25,6 @@ import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
 import { ConfiguratorGroupsService } from './configurator-groups.service';
 import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
-import { vi } from 'vitest';
 
 const PRODUCT_CONFIG_CURRENT_GROUP_IS_CONFLICT: Configurator.Configuration = {
   ...productConfigurationWithConflicts,

@@ -31,7 +31,6 @@ import {
 } from '@spartacus/storefront';
 import { IconTestingModule } from '@spartacus/storefront/testing/icon-testing-module';
 import { of } from 'rxjs';
-import { vi } from 'vitest';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { CheckoutReviewPaymentComponent } from './checkout-review-payment.component';
 
