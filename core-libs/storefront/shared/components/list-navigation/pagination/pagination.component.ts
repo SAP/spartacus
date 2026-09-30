@@ -63,15 +63,14 @@ export class PaginationComponent {
   }
   @Input() set pagination(value: PaginationModel | undefined) {
     if (value) {
-      const prevPage = this._pagination?.currentPage ?? -1;
-      this._pagination = value;
       this.render(value);
       if (this.featureToggles.a11yPaginationKeyboardNavigation) {
         this.initialFocusIndex = this.getInitialFocusIndex(
           value.currentPage ?? 0,
-          prevPage
+          this._pagination?.currentPage ?? -1
         );
       }
+      this._pagination = value;
     }
   }
 
@@ -80,7 +79,7 @@ export class PaginationComponent {
   protected initialFocusIndex = 0;
 
   private getInitialFocusIndex(newPage: number, prevPage: number): number {
-    const activeItems = this.pages.filter((p) => !this.isInactive(p));
+    const activeItems = this.pages.filter((p) => !this.isInactive(p, newPage));
     if (!activeItems.length) {
       return 0;
     }
@@ -190,11 +189,11 @@ export class PaginationComponent {
    * @param item PaginationItem
    * @returns returns -1 in case of a disabled
    */
-  isInactive(item: PaginationItem): boolean {
-    return (
-      !item.hasOwnProperty('number') ||
-      item.number === this.pagination.currentPage
-    );
+  isInactive(
+    item: PaginationItem,
+    currentPage = this.pagination.currentPage
+  ): boolean {
+    return !item.hasOwnProperty('number') || item.number === currentPage;
   }
 
   getQueryParams(item: PaginationItem): Params {
