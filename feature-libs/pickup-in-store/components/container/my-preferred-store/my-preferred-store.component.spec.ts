@@ -233,17 +233,17 @@ describe('MyPreferredStoreComponent', () => {
   });
 
   it('should changeStore', () => {
-    spyOn(routingService, 'go');
+    vi.spyOn(routingService, 'go');
     component.changeStore();
     expect(routingService.go).toHaveBeenCalledWith(['/store-finder']);
   });
 
   it('should show the link', () => {
-    spyOn(component, 'getDirectionsToStore');
-    spyOn(
+    vi.spyOn(component, 'getDirectionsToStore');
+    vi.spyOn(
       pickupLocationsSearchService,
       'loadAndGetStoreDetails'
-    ).and.returnValue(of(mockStore));
+    ).mockReturnValue(of(mockStore));
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -256,13 +256,13 @@ describe('MyPreferredStoreComponent', () => {
   });
 
   it('should show action link and a button', () => {
-    spyOn(cmsService, 'getCurrentPage').and.returnValue(
+    vi.spyOn(cmsService, 'getCurrentPage').mockReturnValue(
       of({ pageId: 'someOtherPage' })
     );
-    spyOn(
+    vi.spyOn(
       pickupLocationsSearchService,
       'loadAndGetStoreDetails'
-    ).and.returnValue(of(mockStore));
+    ).mockReturnValue(of(mockStore));
 
     component.ngOnInit();
     fixture.detectChanges();

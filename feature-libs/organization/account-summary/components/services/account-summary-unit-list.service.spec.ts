@@ -14,13 +14,11 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AccountSummaryUnitListService } from './account-summary-unit-list.service';
 import * as _augmented from '../model/augmented.model';
 
-import createSpy = jasmine.createSpy;
-
 const treeToggle$ = new BehaviorSubject({});
 class MockUnitTreeService {
   treeToggle$ = treeToggle$.asObservable();
-  initialize = createSpy('initialize');
-  isExpanded = createSpy('isExpanded').and.returnValue(false);
+  initialize = vi.fn();
+  isExpanded = vi.fn().mockReturnValue(false);
 }
 
 class MockUnitService {

@@ -4,7 +4,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -28,6 +28,7 @@ import {
   LaunchDialogService,
   SpinnerModule,
 } from '@spartacus/storefront';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 import { BehaviorSubject, of } from 'rxjs';
 import {
   ONE_TIME_PASSWORD_LOGIN_PURPOSE,
@@ -35,17 +36,14 @@ import {
 } from '../user-account-constants';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
 import { VerificationTokenFormComponent } from './verification-token-form.component';
-import createSpy = jasmine.createSpy;
 
 const isBusySubject = new BehaviorSubject(false);
 
-class MockWinRef {
-  get nativeWindow(): Window {
+class LocalMockWinRef extends MockWinRef {
+  override get nativeWindow(): Window {
     return {} as Window;
   }
-  get sessionStorage(): Storage | undefined {
-    return undefined;
-  }
+  override sessionStorage: any = undefined;
 }
 
 class MockFormComponentService
@@ -56,15 +54,15 @@ class MockFormComponentService
     tokenCode: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
-  login = createSpy().and.stub();
-  createVerificationToken = createSpy().and.returnValue(
-    of({ tokenId: 'testTokenId', expiresIn: '300' })
-  );
-  displayMessage = createSpy('displayMessage').and.stub();
+  login = vi.fn().mockImplementation(() => {});
+  createVerificationToken = vi
+    .fn()
+    .mockReturnValue(of({ tokenId: 'testTokenId', expiresIn: '300' }));
+  displayMessage = vi.fn('displayMessage').mockImplementation(() => {});
 }
 
 class MockRoutingService {
-  go = createSpy();
+  go = vi.fn();
 }
 
 @Pipe({ name: 'cxUrl' })
@@ -73,7 +71,7 @@ class MockUrlPipe implements PipeTransform {
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  openDialogAndSubscribe = createSpy().and.stub();
+  openDialogAndSubscribe = vi.fn().mockImplementation(() => {});
 }
 
 describe('VerificationTokenFormComponent', () => {
@@ -85,7 +83,7 @@ describe('VerificationTokenFormComponent', () => {
   let routineservice: RoutingService;
   let winRef: WindowRef;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -108,7 +106,7 @@ describe('VerificationTokenFormComponent', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
-        { provide: WindowRef, useClass: MockWinRef },
+        { provide: WindowRef, useClass: LocalMockWinRef },
         ChangeDetectorRef,
       ],
     })
@@ -121,9 +119,10 @@ describe('VerificationTokenFormComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
+    vi.useFakeTimers();
     fixture = TestBed.createComponent(VerificationTokenFormComponent);
     service = TestBed.inject(VerificationTokenFormComponentService);
     launchDialogService = TestBed.inject(LaunchDialogService);
@@ -199,7 +198,7 @@ describe('VerificationTokenFormComponent', () => {
 
   describe('Form Interactions', () => {
     it('should call onSubmit() method on submit', () => {
-      const request = spyOn(component, 'onSubmit');
+      const request = vi.spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
       form.triggerEventHandler('submit', null);
       expect(request).toHaveBeenCalled();
@@ -227,7 +226,7 @@ describe('VerificationTokenFormComponent', () => {
     it('should resend OTP', () => {
       component.target = 'example@example.com';
       component.password = 'password';
-      spyOn(component, 'startWaitTimeInterval');
+      vi.spyOn(component, 'startWaitTimeInterval');
 
       component.resendOTP();
 
@@ -276,13 +275,13 @@ describe('VerificationTokenFormComponent', () => {
     it('should navigate to login and save loginId to sessionStorage', () => {
       component.target = 'user@example.com';
       component.password = 'myPass';
-      const storageSpy = jasmine.createSpyObj<Storage>('Storage', [
-        'getItem',
-        'setItem',
-        'removeItem',
-      ]);
-      spyOnProperty(winRef, 'sessionStorage', 'get').and.returnValue(
-        storageSpy
+      const storageSpy = {
+        getItem: vi.fn(),
+        setItem: vi.fn(),
+        removeItem: vi.fn(),
+      };
+      vi.spyOn(winRef, 'sessionStorage', 'get').mockReturnValue(
+        storageSpy as any
       );
 
       component.goBack();

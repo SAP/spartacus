@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
@@ -13,6 +13,7 @@ import {
 import {
   Address,
   Country,
+  FeatureToggles,
   Region,
   Title,
   UserAddressService,
@@ -26,6 +27,9 @@ import { FormService } from '../../../../shared/form/form.service';
   providedIn: 'root',
 })
 export class UnitAddressFormService extends FormService<Address> {
+  protected readonly maxFieldLength = 256;
+  private featureToggles = inject(FeatureToggles);
+
   constructor(
     protected userAddressService: UserAddressService,
     protected userProfileFacade: UserProfileFacade
@@ -34,20 +38,30 @@ export class UnitAddressFormService extends FormService<Address> {
   }
 
   protected build() {
+    const maxLength = this.featureToggles.enableFormFieldMaxLength
+      ? [Validators.maxLength(this.maxFieldLength)]
+      : [];
+
     const form = new UntypedFormGroup({});
     form.setControl('id', new UntypedFormControl(''));
     form.setControl('titleCode', new UntypedFormControl(''));
     form.setControl(
       'firstName',
-      new UntypedFormControl('', Validators.required)
+      new UntypedFormControl('', [Validators.required, ...maxLength])
     );
     form.setControl(
       'lastName',
-      new UntypedFormControl('', Validators.required)
+      new UntypedFormControl('', [Validators.required, ...maxLength])
     );
-    form.setControl('line1', new UntypedFormControl('', Validators.required));
-    form.setControl('line2', new UntypedFormControl(''));
-    form.setControl('town', new UntypedFormControl('', Validators.required));
+    form.setControl(
+      'line1',
+      new UntypedFormControl('', [Validators.required, ...maxLength])
+    );
+    form.setControl('line2', new UntypedFormControl('', maxLength));
+    form.setControl(
+      'town',
+      new UntypedFormControl('', [Validators.required, ...maxLength])
+    );
     form.setControl(
       'country',
       new UntypedFormGroup({
@@ -62,10 +76,10 @@ export class UnitAddressFormService extends FormService<Address> {
     );
     form.setControl(
       'postalCode',
-      new UntypedFormControl('', Validators.required)
+      new UntypedFormControl('', [Validators.required, ...maxLength])
     );
-    form.setControl('phone', new UntypedFormControl(''));
-    form.setControl('cellphone', new UntypedFormControl(''));
+    form.setControl('phone', new UntypedFormControl('', maxLength));
+    form.setControl('cellphone', new UntypedFormControl('', maxLength));
 
     this.form = form;
   }

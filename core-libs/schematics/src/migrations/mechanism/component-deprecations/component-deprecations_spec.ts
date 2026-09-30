@@ -12,21 +12,21 @@ import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 const MIGRATION_SCRIPT_NAME = 'migration-v2-component-deprecations-05';
 
 const SINGLE_USAGE_EXAMPLE = `<div>test</div>
-<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
+<cx-consent-management-form isLevel13="xxx" />
 <div *ngIf="isAnonymousConsentsEnabled">Using a removed property</div>`;
 const SINGLE_USAGE_EXAMPLE_EXPECTED = `<div>test</div>
 <!-- ${TODO_SPARTACUS} 'isLevel13' property has been removed. -->
-<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
+<cx-consent-management-form isLevel13="xxx" />
 <!-- ${TODO_SPARTACUS} 'isAnonymousConsentsEnabled' property has been removed. -->
 <div *ngIf="isAnonymousConsentsEnabled">Using a removed property</div>`;
-const MULTI_USAGE_EXAMPLE = `<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
+const MULTI_USAGE_EXAMPLE = `<cx-consent-management-form isLevel13="xxx" />
 <div>test</div>
-<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
+<cx-consent-management-form isLevel13="xxx" />`;
 const MULTI_USAGE_EXAMPLE_EXPECTED = `<!-- ${TODO_SPARTACUS} 'isLevel13' property has been removed. -->
-<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
+<cx-consent-management-form isLevel13="xxx" />
 <div>test</div>
 <!-- ${TODO_SPARTACUS} 'isLevel13' property has been removed. -->
-<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
+<cx-consent-management-form isLevel13="xxx" />`;
 
 const PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE = `<div *ngIf="isThumbsEmpty">test</div>`;
 const PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE_EXPECTED = `<!-- ${TODO_SPARTACUS} 'isThumbsEmpty' property has been removed. -->
@@ -147,7 +147,7 @@ const HTML_EXTEND_COMPONENT_BECAUSE_OF_TEMPLATE = `
         [type]="
           isFacetCollapsed(facet.name) ? iconTypes.EXPAND : iconTypes.COLLAPSE
         "
-      ></cx-icon>
+      />
     </a>
     <form class="collapse" [ngClass]="{ in: !isFacetCollapsed(facet.name) }">
       <li *ngFor="let value of getVisibleFacetValues(facet)">
@@ -180,7 +180,7 @@ const HTML_EXTEND_COMPONENT_BECAUSE_OF_TEMPLATE = `
         [type]="
           isFacetCollapsed(facet.name) ? iconTypes.EXPAND : iconTypes.COLLAPSE
         "
-      ></cx-icon>
+      />
     </a>
 
     <div [ngClass]="{ in: !isFacetCollapsed(facet.name) }">
@@ -231,7 +231,7 @@ const HTML_EXTEND_COMPONENT_BECAUSE_OF_TEMPLATE_EXPECTED = `
         [type]="
           isFacetCollapsed(facet.name) ? iconTypes.EXPAND : iconTypes.COLLAPSE
         "
-      ></cx-icon>
+      />
     </a>
 <!-- ${TODO_SPARTACUS} 'isFacetCollapsed' method has been removed. Please refer to the migration guide on how to handle this change. -->
     <form class="collapse" [ngClass]="{ in: !isFacetCollapsed(facet.name) }">
@@ -277,7 +277,7 @@ const HTML_EXTEND_COMPONENT_BECAUSE_OF_TEMPLATE_EXPECTED = `
         [type]="
           isFacetCollapsed(facet.name) ? iconTypes.EXPAND : iconTypes.COLLAPSE
         "
-      ></cx-icon>
+      />
     </a>
 
 <!-- ${TODO_SPARTACUS} 'isFacetCollapsed' method has been removed. Please refer to the migration guide on how to handle this change. -->

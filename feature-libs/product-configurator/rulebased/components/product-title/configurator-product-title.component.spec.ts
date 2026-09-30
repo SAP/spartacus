@@ -1,10 +1,11 @@
 import { ChangeDetectorRef, Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
+  FeatureToggles,
   I18nTestingModule,
   Product,
   ProductScope,
@@ -431,7 +432,7 @@ function setDataForQuoteEntry() {
 }
 
 describe('ConfigProductTitleComponent', () => {
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -467,6 +468,11 @@ describe('ConfigProductTitleComponent', () => {
         provideMockFeatureToggles({
           productConfiguratorCPQContainer: false,
         }),
+        {
+          provide: FeatureToggles,
+          useFactory: (controller: MockFeatureTogglesController) => controller,
+          deps: [MockFeatureTogglesController],
+        },
       ],
     })
       .overrideComponent(ConfiguratorProductTitleComponent, {
@@ -478,15 +484,15 @@ describe('ConfigProductTitleComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     mockRouterData = structuredClone(baseMockRouterData);
     initialize();
 
     configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);
-    spyOn(configExpertModeService, 'setExpModeRequested').and.callThrough();
-    spyOn(configExpertModeService, 'setExpModeActive').and.callThrough();
+    vi.spyOn(configExpertModeService, 'setExpModeRequested');
+    vi.spyOn(configExpertModeService, 'setExpModeActive');
 
     featureToggles = TestBed.inject(MockFeatureTogglesController);
 
@@ -496,17 +502,19 @@ describe('ConfigProductTitleComponent', () => {
   it('should create component', () => {
     setDataForProductConfiguration();
     initialize();
+    fixture.detectChanges();
     expect(component).toBeDefined();
   });
 
   describe('product$', () => {
     beforeEach(() => {
-      spyOn(productService, 'get').and.returnValue(productObservable);
+      vi.spyOn(productService, 'get').mockReturnValue(productObservable);
     });
 
     it('should get product name as part of product configuration via config product code', () => {
       setDataForProductConfiguration();
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         PRODUCT_CODE,
@@ -518,6 +526,7 @@ describe('ConfigProductTitleComponent', () => {
       setDataForProductConfiguration();
       mockRouterData.productCode = PRODUCT_SUFFIX + PRODUCT_CODE;
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         mockRouterData.productCode,
@@ -530,6 +539,7 @@ describe('ConfigProductTitleComponent', () => {
       mockConfiguration.productCode = PRODUCT_CODE;
       mockRouterData.productCode = undefined;
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         PRODUCT_CODE,
@@ -543,6 +553,7 @@ describe('ConfigProductTitleComponent', () => {
       // provided via routing data.
       setDataForCartEntry();
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         PRODUCT_CODE,
@@ -557,6 +568,7 @@ describe('ConfigProductTitleComponent', () => {
       // entry which has been re-read after a preceding entry was deleted.
       mockRouterData.productCode = CART_ENTRY_SUFFIX + 'STALE_PRODUCT';
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         PRODUCT_CODE,
@@ -584,6 +596,7 @@ describe('ConfigProductTitleComponent', () => {
       mockConfiguration.productCode = undefined as unknown as string;
       mockConfiguration.overview = undefined;
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         CART_ENTRY_SUFFIX + PRODUCT_CODE,
@@ -606,7 +619,7 @@ describe('ConfigProductTitleComponent', () => {
 
     it('should not emit a product when the catalog product is missing', () => {
       setDataForProductConfiguration();
-      (productService.get as jasmine.Spy).and.returnValue(of(undefined));
+      (productService.get as jasmine.Spy).mockReturnValue(of(undefined));
       initialize();
 
       let emitted = false;
@@ -632,6 +645,7 @@ describe('ConfigProductTitleComponent', () => {
       mockConfiguration.productCode = PRODUCT_CODE;
       mockRouterData.productCode = undefined;
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         PRODUCT_CODE,
@@ -642,6 +656,7 @@ describe('ConfigProductTitleComponent', () => {
     it('should get product name as part of product configuration in case configuration is saved cart bound and product code is provided with routing data', () => {
       setDataForSavedCartEntry();
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         SAVED_CART_ENTRY_SUFFIX + PRODUCT_CODE,
@@ -654,6 +669,7 @@ describe('ConfigProductTitleComponent', () => {
       mockConfiguration.productCode = PRODUCT_CODE;
       mockRouterData.productCode = undefined;
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         PRODUCT_CODE,
@@ -664,6 +680,7 @@ describe('ConfigProductTitleComponent', () => {
     it('should get product name as part of product configuration in case configuration is quote bound and product code is provided with routing data', () => {
       setDataForQuoteEntry();
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         QUOTE_ENTRY_SUFFIX + PRODUCT_CODE,
@@ -674,6 +691,7 @@ describe('ConfigProductTitleComponent', () => {
     it('should get product name as part of product from overview in case configuration is order bound and product code is not provided with routing data', () => {
       setDataForOrderEntry();
       initialize();
+      fixture.detectChanges();
 
       expect(productService.get).toHaveBeenCalledWith(
         ORDER_ENTRY_SUFFIX + PRODUCT_CODE,
@@ -685,7 +703,7 @@ describe('ConfigProductTitleComponent', () => {
   describe('ghost style', () => {
     it('should remove the ghost style when product title data is available', () => {
       setDataForProductConfiguration();
-      spyOn(productService, 'get').and.returnValue(of(mockProduct));
+      vi.spyOn(productService, 'get').mockReturnValue(of(mockProduct));
       initialize({ keepGhostStyle: true, detectChanges: false });
 
       expect(component.ghostStyle).toBe(true);
@@ -737,7 +755,7 @@ describe('ConfigProductTitleComponent', () => {
 
   describe('expMode', () => {
     it('should return true when expert mode is active', () => {
-      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
+      vi.spyOn(configExpertModeService, 'getExpModeActive').mockReturnValue(
         of(true)
       );
 
@@ -750,7 +768,7 @@ describe('ConfigProductTitleComponent', () => {
     });
 
     it('should return false when expert mode is not active', () => {
-      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
+      vi.spyOn(configExpertModeService, 'getExpModeActive').mockReturnValue(
         of(false)
       );
 
@@ -781,7 +799,7 @@ describe('ConfigProductTitleComponent', () => {
     });
 
     function stubCatalogProducts(): void {
-      spyOn(productService, 'get').and.callFake((code: string) => {
+      vi.spyOn(productService, 'get').mockImplementation((code: string) => {
         if (code === NESTED_PRODUCT_CODE) {
           return of(mockNestedProduct);
         }
@@ -818,7 +836,7 @@ describe('ConfigProductTitleComponent', () => {
     it('should use an empty heading when the catalog product has no name', () => {
       setDataForNestedContainerProduct();
       mockConfiguration.interactionState = { currentGroup: ROOT_TAB_ID };
-      spyOn(productService, 'get').and.returnValue(
+      vi.spyOn(productService, 'get').mockReturnValue(
         of({ ...mockProduct, name: undefined })
       );
       initialize();
@@ -962,7 +980,7 @@ describe('ConfigProductTitleComponent', () => {
 
     it('should keep the nested heading when the base product catalog lookup fails', () => {
       setDataForNestedContainerProduct();
-      spyOn(productService, 'get').and.returnValue(
+      vi.spyOn(productService, 'get').mockReturnValue(
         throwError(() => new Error('not found'))
       );
       initialize();
@@ -1025,7 +1043,7 @@ describe('ConfigProductTitleComponent', () => {
 
     it('should use the base product code in the heading when the base product is not in the catalog', () => {
       setDataForNestedContainerProduct();
-      spyOn(productService, 'get').and.callFake((code: string) => {
+      vi.spyOn(productService, 'get').mockImplementation((code: string) => {
         if (code === PRODUCT_CODE) {
           return of(undefined);
         }
@@ -1046,7 +1064,7 @@ describe('ConfigProductTitleComponent', () => {
 
     it('should omit an empty base product name from the heading', () => {
       setDataForNestedContainerProduct();
-      spyOn(productService, 'get').and.callFake((code: string) => {
+      vi.spyOn(productService, 'get').mockImplementation((code: string) => {
         if (code === PRODUCT_CODE) {
           return of({ ...mockProduct, name: '' });
         }
@@ -1093,7 +1111,7 @@ describe('ConfigProductTitleComponent', () => {
     it('should render the ghost title when the catalog product cannot be loaded for a non-nested group', () => {
       setDataForNestedContainerProduct();
       mockConfiguration.interactionState = { currentGroup: ROOT_TAB_ID };
-      spyOn(productService, 'get').and.returnValue(
+      vi.spyOn(productService, 'get').mockReturnValue(
         throwError(() => new Error('not found'))
       );
       initialize();
@@ -1109,6 +1127,7 @@ describe('ConfigProductTitleComponent', () => {
   it('should render initial content properly', () => {
     setDataForProductConfiguration();
     initialize();
+    fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -1141,7 +1160,7 @@ describe('ConfigProductTitleComponent', () => {
 
   it('should render the ghost product title when no product is available', () => {
     setDataForProductConfiguration();
-    spyOn(productService, 'get').and.returnValue(of(undefined));
+    vi.spyOn(productService, 'get').mockReturnValue(of(undefined));
     initialize({ keepGhostStyle: true });
 
     CommonConfiguratorTestUtilsService.expectElementPresent(
@@ -1215,7 +1234,7 @@ describe('ConfigProductTitleComponent', () => {
 
   it('should not render name, code or description spans when those product fields are missing', () => {
     setDataForProductConfiguration();
-    spyOn(productService, 'get').and.returnValue(
+    vi.spyOn(productService, 'get').mockReturnValue(
       of({
         ...mockProduct,
         name: undefined,
@@ -1245,7 +1264,7 @@ describe('ConfigProductTitleComponent', () => {
   });
 
   it('should not render kb key details when expert mode is disabled', () => {
-    spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
+    vi.spyOn(configExpertModeService, 'getExpModeActive').mockReturnValue(
       of(false)
     );
     setDataForProductConfiguration();
@@ -1299,6 +1318,7 @@ describe('ConfigProductTitleComponent', () => {
   it('should render show more case - default', () => {
     setDataForProductConfiguration();
     initialize();
+    fixture.detectChanges();
     component.triggerDetails();
     changeDetectorRef.detectChanges();
 
@@ -1320,6 +1340,7 @@ describe('ConfigProductTitleComponent', () => {
   it('should render properly for navigation from order entry', () => {
     setDataForOrderEntry();
     initialize();
+    fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -1336,6 +1357,7 @@ describe('ConfigProductTitleComponent', () => {
   it('should render kb key details properly', () => {
     setDataForProductConfiguration();
     initialize();
+    fixture.detectChanges();
 
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -1401,6 +1423,7 @@ describe('ConfigProductTitleComponent', () => {
     beforeEach(() => {
       setDataForProductConfiguration();
       initialize();
+      fixture.detectChanges();
     });
 
     it("should contain cx-icon element with an 'aria-label' attribute that defines an accessible name to label the current element", () => {

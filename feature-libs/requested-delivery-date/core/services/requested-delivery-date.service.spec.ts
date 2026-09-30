@@ -3,8 +3,6 @@ import { of } from 'rxjs';
 import { RequestedDeliveryDateConnector } from '../connectors/requested-delivery-date.connector';
 import { RequestedDeliveryDateService } from './requested-delivery-date.service';
 
-import createSpy = jasmine.createSpy;
-
 const mockUserId = 'userId1';
 const mockCartId = '00012345';
 const mockRequestedDate = '15-09-2023';
@@ -12,7 +10,7 @@ const mockRequestedDate = '15-09-2023';
 class MockRequestedDeliveryDateConnector
   implements Partial<RequestedDeliveryDateConnector>
 {
-  setRequestedDeliveryDate = createSpy().and.callFake(() => of());
+  setRequestedDeliveryDate = vi.fn().mockImplementation(() => of());
 }
 
 describe('RequestedDeliveryDateService', () => {

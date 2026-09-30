@@ -130,7 +130,7 @@ describe('ConfiguratorTruncatePathTitleDirective', () => {
     it('should disconnect the resize observer on destroy', () => {
       const observer = directive['resizeObserver'];
       expect(observer).toBeDefined();
-      const disconnectSpy = spyOn(observer as ResizeObserver, 'disconnect');
+      const disconnectSpy = vi.spyOn(observer as ResizeObserver, 'disconnect');
 
       fixture.destroy();
 
@@ -141,7 +141,7 @@ describe('ConfiguratorTruncatePathTitleDirective', () => {
 
   describe('when not in the browser', () => {
     beforeEach(() => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
       instantiate();
       fixture.detectChanges();
     });

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreFinderHeaderComponent } from '../public_api';
 import { StoreFinderComponent } from './store-finder.component';
 
@@ -13,7 +13,7 @@ describe('StoreFinderComponent', () => {
   let component: StoreFinderComponent;
   let fixture: ComponentFixture<StoreFinderComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [StoreFinderComponent],
     })
@@ -26,7 +26,7 @@ describe('StoreFinderComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderComponent);

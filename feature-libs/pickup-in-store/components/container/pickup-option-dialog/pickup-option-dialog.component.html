@@ -21,7 +21,7 @@
         type="button"
       >
         <span aria-hidden="true">
-          <cx-icon [type]="ICON_TYPE.CLOSE"></cx-icon>
+          <cx-icon [type]="ICON_TYPE.CLOSE" />
         </span>
       </button>
     </div>
@@ -33,14 +33,14 @@
         (findStores)="onFindStores($event)"
         (showSpinner)="showSpinner($event)"
         (eventHideOutOfStock)="onHideOutOfStock()"
-      ></cx-store-search>
+      />
       <cx-store-list
         [productCode]="productCode"
         (storeSelected)="close(LOCATION_SELECTED)"
-      ></cx-store-list>
+      />
       <div *ngIf="loading">
         <div class="cx-spinner">
-          <cx-spinner></cx-spinner>
+          <cx-spinner />
         </div>
       </div>
     </section>

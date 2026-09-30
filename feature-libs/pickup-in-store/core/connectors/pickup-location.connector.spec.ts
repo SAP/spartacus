@@ -5,7 +5,6 @@ import { Observable, of } from 'rxjs';
 
 import { PickupLocationAdapter } from './pickup-location.adapter';
 import { PickupLocationConnector } from './pickup-location.connector';
-import createSpy = jasmine.createSpy;
 
 export class MockPickupLocationConnector {
   getStoreDetails(_storeName: string): Observable<PointOfService> {
@@ -21,7 +20,7 @@ export class MockPickupLocationConnectorWithError {
 }
 
 class MockPickupLocationAdapter implements PickupLocationAdapter {
-  getStoreDetails = createSpy();
+  getStoreDetails = vi.fn();
 }
 
 describe('PickupLocationConnector', () => {

@@ -1,5 +1,5 @@
 import { Component, Input, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
@@ -185,7 +185,7 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
   let htmlElem: HTMLElement;
   let featureToggles: MockFeatureTogglesController;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -212,7 +212,7 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
       },
       add: { imports: [MockCxIconComponent] },
     });
-  }));
+  });
   beforeEach(() => {
     featureToggles = TestBed.inject(MockFeatureTogglesController);
     featureToggles.set('productConfiguratorCPQContainer', false);

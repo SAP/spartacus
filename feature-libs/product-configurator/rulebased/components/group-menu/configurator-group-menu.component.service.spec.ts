@@ -221,7 +221,7 @@ describe('ConfiguratorGroupMenuService', () => {
 
     it('calls preventDefault on every key press', () => {
       const event = new KeyboardEvent('keydown', { code: 'ArrowDown' });
-      spyOn(event, 'preventDefault');
+      vi.spyOn(event, 'preventDefault');
 
       classUnderTest.switchGroupOnArrowPress(event, 0, groups);
 

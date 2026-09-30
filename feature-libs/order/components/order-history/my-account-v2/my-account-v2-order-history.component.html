@@ -63,8 +63,7 @@
           </div>
 
           <!--eg: Display consolidated order information-->
-          <cx-my-account-v2-order-consolidated-information [order]="order">
-          </cx-my-account-v2-order-consolidated-information>
+          <cx-my-account-v2-order-consolidated-information [order]="order" />
         </div>
       </ng-container>
 
@@ -79,7 +78,7 @@
         <cx-pagination
           [pagination]="orderHistory.pagination"
           (viewPageEvent)="pageChange($event)"
-        ></cx-pagination>
+        />
       </div>
     </ng-container>
   </div>
@@ -103,6 +102,6 @@
 <!-- ORDER HISTORY DATA STILL LOADING -->
 <ng-template #loading>
   <div class="cx-spinner">
-    <cx-spinner></cx-spinner>
+    <cx-spinner />
   </div>
 </ng-template>

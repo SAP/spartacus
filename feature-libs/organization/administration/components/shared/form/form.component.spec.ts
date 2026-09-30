@@ -72,9 +72,9 @@ describe('FormComponent', () => {
 
   it('should save an updated item and notify', () => {
     const form = new UntypedFormGroup({});
-    spyOn(organizationItemService, 'save').and.callThrough();
-    spyOn(messageService, 'add').and.callThrough();
-    spyOn(organizationItemService, 'launchDetails').and.callThrough();
+    vi.spyOn(organizationItemService, 'save');
+    vi.spyOn(messageService, 'add');
+    vi.spyOn(organizationItemService, 'launchDetails');
 
     key$.next('key');
     component.save(form);
@@ -93,9 +93,9 @@ describe('FormComponent', () => {
 
   it('should save an created item and notify', () => {
     const form = new UntypedFormGroup({});
-    spyOn(organizationItemService, 'save').and.callThrough();
-    spyOn(messageService, 'add').and.callThrough();
-    spyOn(organizationItemService, 'launchDetails').and.callThrough();
+    vi.spyOn(organizationItemService, 'save');
+    vi.spyOn(messageService, 'add');
+    vi.spyOn(organizationItemService, 'launchDetails');
 
     key$.next(undefined);
     component.save(form);
@@ -114,11 +114,11 @@ describe('FormComponent', () => {
 
   describe('when loading of the created item has failed', () => {
     beforeEach(() => {
-      spyOn(organizationItemService, 'save').and.returnValue(
+      vi.spyOn(organizationItemService, 'save').mockReturnValue(
         of({ status: LoadStatus.ERROR, item: mockItem })
       );
-      spyOn(messageService, 'add').and.callThrough();
-      spyOn(organizationItemService, 'launchDetails').and.callThrough();
+      vi.spyOn(messageService, 'add');
+      vi.spyOn(organizationItemService, 'launchDetails');
     });
 
     it('should not launch details for not created item', () => {
@@ -140,11 +140,11 @@ describe('FormComponent', () => {
 
   describe('when loading of the updated item has failed', () => {
     beforeEach(() => {
-      spyOn(organizationItemService, 'save').and.returnValue(
+      vi.spyOn(organizationItemService, 'save').mockReturnValue(
         of({ status: LoadStatus.ERROR, item: mockItem })
       );
-      spyOn(messageService, 'add').and.callThrough();
-      spyOn(organizationItemService, 'launchDetails').and.callThrough();
+      vi.spyOn(messageService, 'add');
+      vi.spyOn(organizationItemService, 'launchDetails');
     });
 
     it('should not launch details for not updated item', () => {

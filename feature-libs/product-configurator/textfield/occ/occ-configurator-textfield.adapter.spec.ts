@@ -117,9 +117,9 @@ describe('OccConfigurationTextfieldAdapter', () => {
       OccConfiguratorTextfieldAdapter as Type<OccConfiguratorTextfieldAdapter>
     );
 
-    spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(converterService, 'convert').and.callThrough();
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
+    vi.spyOn(converterService, 'pipeable');
+    vi.spyOn(converterService, 'convert');
+    vi.spyOn(occEnpointsService, 'buildUrl');
   });
 
   afterEach(() => {

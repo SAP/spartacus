@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -139,7 +139,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     },
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -178,7 +178,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     config = configWithoutConflicts;
@@ -199,7 +199,6 @@ describe('ConfigAttributeHeaderComponent', () => {
     component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
     component.isNavigationToGroupEnabled = true;
     component['logError'] = () => {};
-    fixture.detectChanges();
 
     configurationGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
@@ -216,6 +215,7 @@ describe('ConfigAttributeHeaderComponent', () => {
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -281,6 +281,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   describe('Render corresponding part of the component', () => {
     it('should not render message for not visible attribute', () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -306,6 +307,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
 
     it('should render a label', () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -332,6 +334,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
 
     it('should not render "Show Options" button if domainOnDemand is false', () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -359,6 +362,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
 
     it('should render an image', () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -1016,6 +1020,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   describe('Accessibility', () => {
     it("should contain label element with 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -1059,10 +1064,10 @@ describe('ConfigAttributeHeaderComponent', () => {
     describe('Conflict message', () => {
       beforeEach(() => {
         component.attribute.hasConflicts = true;
-        fixture.detectChanges();
       });
 
       it("should contain label element for not required attribute with 'aria-label' attribute that defines an accessible name to label the current element", () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -1206,6 +1211,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       });
 
       it("should contain cx-icon element with 'aria-hidden' attribute that removes an element from the accessibility tree", () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -1219,7 +1225,8 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
 
     it("should contain div element with 'aria-label' attribute for required error message that defines an accessible name to label the current element", () => {
-      component.showRequiredMessageForDomainAttribute$ = of(true);
+      component.attribute.required = true;
+      component.attribute.incomplete = true;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
@@ -1261,7 +1268,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
       component.attribute.groupId = ConfigurationTestData.GROUP_ID_1;
 
-      spyOn(configurationGroupsService, 'navigateToGroup');
+      vi.spyOn(configurationGroupsService, 'navigateToGroup');
       fixture.detectChanges();
 
       component.navigateToGroup();
@@ -1275,7 +1282,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
       component.attribute.groupId = ConfigurationTestData.GROUP_ID_1;
 
-      spyOn(configurationGroupsService, 'navigateToGroup');
+      vi.spyOn(configurationGroupsService, 'navigateToGroup');
       fixture.detectChanges();
 
       component.navigateToGroup();
@@ -1288,7 +1295,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.groupType = Configurator.GroupType.CONFLICT_GROUP;
       component.attribute.groupId = ConfigurationTestData.GROUP_ID_2;
 
-      spyOn(configurationGroupsService, 'navigateToGroup');
+      vi.spyOn(configurationGroupsService, 'navigateToGroup');
       fixture.detectChanges();
 
       component.navigateToGroup();
@@ -1301,8 +1308,8 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.groupType = Configurator.GroupType.CONFLICT_GROUP;
       component.attribute.groupId = undefined;
 
-      spyOn(configurationGroupsService, 'navigateToGroup');
-      spyOn<any>(component, 'logError');
+      vi.spyOn(configurationGroupsService, 'navigateToGroup');
+      vi.spyOn<any>(component, 'logError');
       fixture.detectChanges();
 
       component.navigateToGroup();
@@ -1324,12 +1331,12 @@ describe('ConfigAttributeHeaderComponent', () => {
           a: true,
           b: false,
         });
-        spyOn(
+        vi.spyOn(
           configuratorCommonsService,
           'isConfigurationLoading'
-        ).and.returnValue(configurationLoading);
+        ).mockReturnValue(configurationLoading);
 
-        spyOn(configuratorStorefrontUtilsService, 'focusValue');
+        vi.spyOn(configuratorStorefrontUtilsService, 'focusValue');
 
         fixture.detectChanges();
         component['focusValue'](component.attribute);
@@ -1355,12 +1362,12 @@ describe('ConfigAttributeHeaderComponent', () => {
           a: true,
           b: false,
         });
-        spyOn(
+        vi.spyOn(
           configuratorCommonsService,
           'isConfigurationLoading'
-        ).and.returnValue(configurationLoading);
+        ).mockReturnValue(configurationLoading);
 
-        spyOn(
+        vi.spyOn(
           configuratorStorefrontUtilsService,
           'scrollToConfigurationElement'
         );
@@ -1654,7 +1661,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         key: 'configurator.attribute.containerRequiredMessage',
         params: { count: 2 },
       };
-      spyOn(component, 'getRequiredMessageKey').and.returnValue(translatable);
+      vi.spyOn(component, 'getRequiredMessageKey').mockReturnValue(translatable);
 
       const groups = component.getMessageGroups(true);
 
@@ -1664,7 +1671,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     it('does not prepend a required group when no message key is resolved', () => {
       component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
       component.attribute.required = true;
-      spyOn(component, 'getRequiredMessageKey').and.returnValue(undefined);
+      vi.spyOn(component, 'getRequiredMessageKey').mockReturnValue(undefined);
 
       const groups = component.getMessageGroups(true);
 
@@ -1680,10 +1687,10 @@ describe('ConfigAttributeHeaderComponent', () => {
 
     beforeEach(() => {
       configuratorMessageService = TestBed.inject(ConfiguratorMessageService);
-      enrichSpy = spyOn(
+      enrichSpy = vi.spyOn(
         configuratorMessageService,
         'enrichMessagesWithContainerContext'
-      ).and.callThrough();
+      );
     });
 
     it('wires the required-message callback passed by getContainerMessages', () => {
@@ -1725,7 +1732,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
     it('logs the given text via the logger service', () => {
       const logger = component['logger'];
-      spyOn(logger, 'error');
+      vi.spyOn(logger, 'error');
 
       component['logError']('Attribute was not found in any conflict group.');
 

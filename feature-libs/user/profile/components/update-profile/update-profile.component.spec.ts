@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,7 +5,7 @@ import {
   Directive,
   Input,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -15,7 +14,6 @@ import {
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  FeaturesConfig,
   MockTranslatePipe,
   MockTranslationService,
   PageMeta,
@@ -23,12 +21,15 @@ import {
   RoutingService,
   TranslatePipe,
   TranslationService,
+  FeatureDirective,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
   NgSelectA11yDirective,
   SpinnerComponent,
+  TruncationTooltipDirective,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
@@ -36,11 +37,11 @@ import {
 import { BehaviorSubject, of } from 'rxjs';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 import { UpdateProfileComponent } from './update-profile.component';
-import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
+  imports: [],
 })
 class MockCxSpinnerComponent {}
 
@@ -62,7 +63,7 @@ class MockUpdateProfileService
     lastName: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
-  updateProfile = createSpy().and.stub();
+  updateProfile = vi.fn().mockImplementation(() => {});
 }
 
 class MockRoutingService implements Partial<RoutingService> {
@@ -85,27 +86,13 @@ describe('UpdateProfileComponent', () => {
 
   let service: UpdateProfileComponentService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        FormErrorsModule,
-        NgSelectModule,
-        UpdateProfileComponent,
-        MockCxSpinnerComponent,
-        MockNgSelectA11yDirective,
-      ],
+      imports: [ReactiveFormsModule, FormErrorsModule, UpdateProfileComponent],
       providers: [
         {
           provide: UpdateProfileComponentService,
           useClass: MockUpdateProfileService,
-        },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '5.2' },
-          },
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: TranslationService, useClass: MockTranslationService },
@@ -115,19 +102,26 @@ describe('UpdateProfileComponent', () => {
     })
       .overrideComponent(UpdateProfileComponent, {
         remove: {
-          imports: [TranslatePipe, SpinnerComponent, NgSelectA11yDirective],
+          imports: [
+            TranslatePipe,
+            SpinnerComponent,
+            NgSelectA11yDirective,
+            TruncationTooltipDirective,
+            FeatureDirective,
+          ],
         },
         add: {
           imports: [
             MockTranslatePipe,
             MockCxSpinnerComponent,
             MockNgSelectA11yDirective,
+            MockFeatureDirective,
           ],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UpdateProfileComponent);
@@ -178,7 +172,7 @@ describe('UpdateProfileComponent', () => {
 
   describe('Form Interactions', () => {
     it('should call onSubmit() method on submit', () => {
-      const request = spyOn(component, 'onSubmit');
+      const request = vi.spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
       form.triggerEventHandler('submit', null);
       expect(request).toHaveBeenCalled();
@@ -190,7 +184,7 @@ describe('UpdateProfileComponent', () => {
     });
 
     it('should navigate to home on cancel', () => {
-      spyOn(routingService, 'go');
+      vi.spyOn(routingService, 'go');
       const cancelBtn = el.query(By.css('button.btn-secondary'));
       cancelBtn.triggerEventHandler('click');
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });

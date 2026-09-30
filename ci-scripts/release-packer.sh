@@ -7,7 +7,9 @@ shopt -s extglob dotglob
 
 # Build all the libraries and generate the dist folders to use when releasing
 function build_libs {
-    npm ci && npm run build:libs
+    npm ci
+    source "$(dirname "$0")/npm-commands.sh"
+    build_libs_ci
 }
 
 # Configure the project to move everything into a sub-folder to keep root clean for publishing

@@ -4,9 +4,21 @@
     "outDir": "../../out-tsc/spec",
     "module": "preserve",
     "strict": false,
-    "types": ["jasmine", "node"],
-    "moduleResolution": "bundler"
+    "types": [
+      "vitest/globals",
+      "vitest/importMeta",
+      "vite/client",
+      "node",
+      "vitest"
+    ],
+    "moduleResolution": "bundler",
+    "allowJs": true
   },
-  "files": ["src/test.ts"],
-  "include": ["**/*.spec.ts", "**/*.d.ts"]
+  "files": ["../../testing/setup-vitest.ts"],
+  "include": [
+    "**/*.ts",
+    "../../core-libs/core/src/**/*.ts",
+    "../../core-libs/storefront/**/*.ts",
+    "../../feature-libs/**/*.ts"
+  ]
 }

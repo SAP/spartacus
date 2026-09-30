@@ -6,7 +6,7 @@ import {
   PipeTransform,
   Type,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
@@ -155,14 +155,8 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       ConfiguratorCartEntryBundleInfoService as Type<ConfiguratorCartEntryBundleInfoService>
     );
 
-    spyOn(
-      commonConfigUtilsService,
-      'isBundleBasedConfigurator'
-    ).and.callThrough();
-    spyOn(
-      configCartEntryBundleInfoService,
-      'retrieveLineItems'
-    ).and.callThrough();
+    vi.spyOn(commonConfigUtilsService, 'isBundleBasedConfigurator');
+    vi.spyOn(configCartEntryBundleInfoService, 'retrieveLineItems');
 
     breakpointService = TestBed.inject(
       BreakpointService as Type<BreakpointService>
@@ -173,38 +167,37 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     mockCartItemContext = TestBed.inject(CartItemContext) as any;
-
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
-  it('should expose orderEntry$', (done) => {
+  it('should expose orderEntry$', async () => {
+    fixture.detectChanges();
     const orderEntry: OrderEntry = { orderCode: '123' };
     component.orderEntry$.pipe(take(1)).subscribe((value) => {
       expect(value).toBe(orderEntry);
-      done();
     });
 
     mockCartItemContext.item$.next(orderEntry);
   });
 
-  it('should expose quantityControl$', (done) => {
+  it('should expose quantityControl$', async () => {
+    fixture.detectChanges();
     const quantityControl = new UntypedFormControl();
     component.quantityControl$.pipe(take(1)).subscribe((value) => {
       expect(value).toBe(quantityControl);
-      done();
     });
 
     mockCartItemContext.quantityControl$.next(quantityControl);
   });
 
-  it('should expose readonly$', (done) => {
+  it('should expose readonly$', async () => {
+    fixture.detectChanges();
     component.readonly$.pipe(take(2), toArray()).subscribe((values) => {
       expect(values).toEqual([true, false]);
-      done();
     });
 
     mockCartItemContext.readonly$.next(true);
@@ -278,6 +271,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
   describe('toggleItems', () => {
     it('should return corresponding state after toggling the link show / hide items', () => {
+      fixture.detectChanges();
       expect(component.hideItems).toBe(true);
       component.toggleItems();
       expect(component.hideItems).toBe(false);
@@ -377,10 +371,9 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         fixture.detectChanges();
       });
 
-      it('should display number of bundle items', (done) => {
+      it('should display number of bundle items', async () => {
         component.numberOfLineItems$.subscribe((numberOfItems) => {
           expect(numberOfItems).toBe(3);
-          done();
         });
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
@@ -457,7 +450,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       });
 
       it('should display', () => {
-        spyOn(breakpointService, 'isUp').and.returnValue(of(false));
+        vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(false));
         fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
@@ -553,7 +546,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       });
 
       it('should display', () => {
-        spyOn(breakpointService, 'isUp').and.returnValue(of(false));
+        vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(false));
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
@@ -718,6 +711,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
     describe('getItemsMsg', () => {
       it("should return 'configurator.a11y.cartEntryBundleInfo' if there is only one line item", () => {
+        fixture.detectChanges();
         let numberOfItems: number = 1;
         expect(
           component
@@ -727,6 +721,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       });
 
       it("should return 'configurator.a11y.cartEntryBundleInfo_other' if there are more than one line item", () => {
+        fixture.detectChanges();
         let numberOfItems: number = 4;
         expect(
           component
@@ -738,6 +733,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
     describe('getHiddenItemInfo', () => {
       it("should return 'configurator.a11y.cartEntryBundleInfo' if the item name, price and quantity are defined", () => {
+        fixture.detectChanges();
         let lineItem: LineItem = {
           name: 'Canon ABC',
           formattedPrice: '$1,000.00',
@@ -751,6 +747,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       });
 
       it("should return 'configurator.a11y.cartEntryBundleNameWithPrice' if the item name and price are defined", () => {
+        fixture.detectChanges();
         let lineItem: LineItem = {
           name: 'Canon ABC',
           formattedPrice: '$1,000.00',
@@ -763,6 +760,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       });
 
       it("should return 'configurator.a11y.cartEntryBundleNameWithQuantity' if the item name and quantity are defined", () => {
+        fixture.detectChanges();
         let lineItem: LineItem = {
           name: 'Canon ABC',
           formattedQuantity: '5',
@@ -775,6 +773,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       });
 
       it("should return 'configurator.a11y.cartEntryBundleName' if only item name is defined", () => {
+        fixture.detectChanges();
         let lineItem: LineItem = {
           name: 'Canon ABC',
         };
@@ -805,7 +804,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         mockCartItemContext.readonly$.next(false);
         mockCartItemContext.quantityControl$.next(new UntypedFormControl());
         component.hideItems = false;
-        spyOn(breakpointService, 'isUp').and.returnValue(of(true));
+        vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(true));
         fixture.detectChanges();
       });
 
@@ -957,10 +956,10 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       beforeEach(() => {
         featureToggles = TestBed.inject(MockFeatureTogglesController);
         featureToggles.set('productConfiguratorCPQContainer', true);
-        spyOn(
+        vi.spyOn(
           component as any,
           'getCartEntryBundleLineItemsThreshold'
-        ).and.returnValue(2);
+        ).mockReturnValue(2);
       });
 
       it('should render a link to the overview instead of the toggle button if the threshold is exceeded', () => {
@@ -1000,7 +999,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       it('should render the toggle button if the threshold is not exceeded', () => {
         (
           component['getCartEntryBundleLineItemsThreshold'] as jasmine.Spy
-        ).and.returnValue(3);
+        ).mockReturnValue(3);
         emitCartEntry(PromotionLocation.ActiveCart);
 
         CommonConfiguratorTestUtilsService.expectElementNotPresent(
@@ -1099,6 +1098,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
     describe('getHiddenItemInfoId', () => {
       it("should return 'cx-item-hidden-info-4' ID for a corresponding line item", () => {
+        fixture.detectChanges();
         expect(
           component.getHiddenItemInfoId(4).indexOf('cx-item-hidden-info-4')
         ).toBe(0);
@@ -1111,11 +1111,11 @@ describe('ConfiguratorCartEntryBundleInfoComponent without cart item context', (
   let component: ConfiguratorCartEntryBundleInfoComponent;
   let fixture: ComponentFixture<ConfiguratorCartEntryBundleInfoComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ConfiguratorCartEntryBundleInfoComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorCartEntryBundleInfoComponent);

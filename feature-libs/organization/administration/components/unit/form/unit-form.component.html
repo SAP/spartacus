@@ -25,7 +25,7 @@
           label: 'orgUnit.name' | cxTranslate,
         }"
         [control]="form.get('name')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label>
@@ -51,7 +51,7 @@
           label: 'orgUnit.uid' | cxTranslate,
         }"
         [control]="form.get('uid')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label formGroupName="approvalProcess" class="full-width">
@@ -75,8 +75,7 @@
           'common.ngSelectDropdownOptionsList' | cxTranslate
         }}"
         [cxNgSelectA11y]="{}"
-      >
-      </ng-select>
+      />
 
       <cx-form-errors
         id="codeError"
@@ -84,7 +83,7 @@
           label: 'orgUnit.approvalProcess' | cxTranslate,
         }"
         [control]="form.get('approvalProcess.code')"
-      ></cx-form-errors>
+      />
     </label>
     <ng-container *ngIf="form.get('parentOrgUnit'); else parentOrgUnitNotes">
       <label formGroupName="parentOrgUnit">
@@ -110,8 +109,7 @@
             form.get('uid')?.touched && form.get('uid')?.invalid
           "
           [attr.aria-errormessage]="'codeError'"
-        >
-        </ng-select>
+        />
 
         <cx-form-errors
           id="parentUnitUidError"
@@ -119,7 +117,7 @@
             label: 'orgUnit.form.parentOrgUnit' | cxTranslate,
           }"
           [control]="form.get('parentOrgUnit.uid')"
-        ></cx-form-errors>
+        />
       </label>
     </ng-container>
     <ng-template #parentOrgUnitNotes>

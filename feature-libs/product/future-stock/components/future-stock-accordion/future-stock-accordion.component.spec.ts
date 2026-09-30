@@ -140,9 +140,9 @@ describe('FutureStockAccordionComponent', () => {
         By.css('.cx-future-stock-accordion-content')
       );
 
-      expect(stocks.nativeElement.innerText).toEqual(
-        'futureStockDropdown.noFutureStocks'
-      );
+      expect(
+        stocks.nativeElement.textContent?.replace(/\s+/g, ' ').trim()
+      ).toEqual('futureStockDropdown.noFutureStocks');
     });
 
     it('should show mocked future stocks', () => {
@@ -159,15 +159,15 @@ describe('FutureStockAccordionComponent', () => {
         By.css('.cx-future-stock-accordion-content')
       );
 
-      expect(stocks[0].nativeElement.innerText).toEqual(
-        '10/11/2020 - futureStockDropdown.quantity 15'
-      );
-      expect(stocks[1].nativeElement.innerText).toEqual(
-        '11/11/2020 - futureStockDropdown.quantity 20'
-      );
-      expect(stocks[2].nativeElement.innerText).toEqual(
-        '12/11/2020 - futureStockDropdown.quantity 25'
-      );
+      expect(
+        stocks[0].nativeElement.textContent?.replace(/\s+/g, ' ').trim()
+      ).toEqual('10/11/2020 - futureStockDropdown.quantity 15');
+      expect(
+        stocks[1].nativeElement.textContent?.replace(/\s+/g, ' ').trim()
+      ).toEqual('11/11/2020 - futureStockDropdown.quantity 20');
+      expect(
+        stocks[2].nativeElement.textContent?.replace(/\s+/g, ' ').trim()
+      ).toEqual('12/11/2020 - futureStockDropdown.quantity 25');
     });
   });
 });

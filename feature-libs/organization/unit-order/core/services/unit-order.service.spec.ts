@@ -58,7 +58,7 @@ describe('UnitOrderService', () => {
     userIdService = TestBed.inject(UserIdService);
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   it('should inject UnitOrderService', inject(
@@ -119,7 +119,7 @@ describe('UnitOrderService', () => {
   });
 
   it('should NOT load order list data when user is anonymous', () => {
-    spyOn(userIdService, 'takeUserId').and.callFake(() => {
+    vi.spyOn(userIdService, 'takeUserId').mockImplementation(() => {
       return throwError(() => 'Error');
     });
 

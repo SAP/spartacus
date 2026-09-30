@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import {
@@ -25,12 +25,12 @@ describe('ConfiguratorGroupStatusService', () => {
   let classUnderTest: ConfiguratorGroupStatusService;
   let store: Store<StateWithConfigurator>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [ConfiguratorUtilsService, ConfiguratorGroupStatusService],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     classUnderTest = TestBed.inject(
@@ -38,8 +38,8 @@ describe('ConfiguratorGroupStatusService', () => {
     );
     store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
 
-    spyOn(store, 'dispatch').and.stub();
-    spyOn(store, 'pipe').and.returnValue(of(productConfiguration));
+    vi.spyOn(store, 'dispatch').mockImplementation(() => {});
+    vi.spyOn(store, 'pipe').mockReturnValue(of(productConfiguration));
   });
 
   it('should be created', () => {
@@ -62,7 +62,7 @@ describe('ConfiguratorGroupStatusService', () => {
     });
 
     it('should get parent group, when all subgroups are visited', () => {
-      spyOn(store, 'select').and.returnValue(of(true));
+      vi.spyOn(store, 'select').mockReturnValue(of(true));
       classUnderTest.setGroupStatusVisited(productConfiguration, GROUP_ID_4);
 
       const expectedAction = new ConfiguratorActions.SetGroupsVisited({
@@ -75,7 +75,7 @@ describe('ConfiguratorGroupStatusService', () => {
 
     it('should not get parent group, when not all subgroups are visited', () => {
       //Not all subgroups are visited
-      spyOn(store, 'select').and.returnValue(of(false));
+      vi.spyOn(store, 'select').mockReturnValue(of(false));
 
       classUnderTest.setGroupStatusVisited(productConfiguration, GROUP_ID_6);
 
@@ -88,7 +88,7 @@ describe('ConfiguratorGroupStatusService', () => {
     });
 
     it('should get all parent groups, when lowest subgroup are visited', () => {
-      spyOn(store, 'select').and.returnValue(of(true));
+      vi.spyOn(store, 'select').mockReturnValue(of(true));
 
       classUnderTest.setGroupStatusVisited(productConfiguration, GROUP_ID_8);
 

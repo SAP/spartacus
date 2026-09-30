@@ -59,7 +59,7 @@ describe('StockEffect', () => {
   });
 
   it('should call the connector on the StockLevel action and create success action', () => {
-    spyOn(stockConnector, 'loadStockLevels').and.callThrough();
+    vi.spyOn(stockConnector, 'loadStockLevels');
     const action = new StockLevel({ productCode: 'P0001', location: '' });
     const actionSuccess = new StockLevelSuccess({
       productCode: 'P0001',
@@ -81,7 +81,7 @@ describe('StockEffect', () => {
       statusText: 'Not Found',
       error: 'Error',
     });
-    spyOn(stockConnector, 'loadStockLevels').and.returnValue(
+    vi.spyOn(stockConnector, 'loadStockLevels').mockReturnValue(
       throwError(() => error)
     );
     const action = new StockLevel({ productCode: 'P0001', location: '' });
@@ -96,7 +96,7 @@ describe('StockEffect', () => {
   });
 
   it('should call the connector on the StockLevelAtStore action and create StockLevelAtStoreSuccess action', () => {
-    spyOn(stockConnector, 'loadStockLevelAtStore').and.callThrough();
+    vi.spyOn(stockConnector, 'loadStockLevelAtStore');
     const action = StockLevelAtStore({
       payload: { productCode: 'P0001', storeName: 'London School' },
     });

@@ -458,7 +458,7 @@ describe('add-spartacus', () => {
       .readContent('/projects/schematics-test/src/app/app.component.html')
       .replace(newLineRegEx, '');
 
-    expect(appComponentTemplate).toEqual(`<cx-storefront></cx-storefront>`);
+    expect(appComponentTemplate).toEqual(`<cx-storefront/>`);
   });
 
   it('Add cx-storefront component to your app.component', async () => {
@@ -471,7 +471,7 @@ describe('add-spartacus', () => {
     const appComponentTemplate = tree.readContent(
       '/projects/schematics-test/src/app/app.component.html'
     );
-    const cxTemplate = `<cx-storefront></cx-storefront>`;
+    const cxTemplate = `<cx-storefront/>`;
     expect(appComponentTemplate.includes(cxTemplate)).toBe(true);
     expect(appComponentTemplate.length).toBeGreaterThan(cxTemplate.length);
   });

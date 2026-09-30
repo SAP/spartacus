@@ -21,7 +21,7 @@
         title="{{ 'common.close' | cxTranslate }}"
       >
         <span aria-hidden="true">
-          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+          <cx-icon [type]="iconTypes.CLOSE" />
         </span>
       </button>
     </div>
@@ -46,10 +46,7 @@
             [attr.aria-errormessage]="'subjectError'"
           ></textarea>
 
-          <cx-form-errors
-            id="subjectError"
-            [control]="form.get('subject')"
-          ></cx-form-errors>
+          <cx-form-errors id="subjectError" [control]="form.get('subject')" />
           <p class="cx-customer-ticket-input-hint">
             {{
               'customerTicketing.charactersLeft'
@@ -82,13 +79,12 @@
               form.get('ticketCategory')?.invalid
             "
             [attr.aria-errormessage]="'ticketCategoryError'"
-          >
-          </ng-select>
+          />
 
           <cx-form-errors
             id="ticketCategoryError"
             [control]="form.get('ticketCategory')"
-          ></cx-form-errors>
+          />
         </label>
 
         <ng-container
@@ -142,10 +138,7 @@
             [attr.aria-errormessage]="'messageError'"
           ></textarea>
 
-          <cx-form-errors
-            id="messageError"
-            [control]="form.get('message')"
-          ></cx-form-errors>
+          <cx-form-errors id="messageError" [control]="form.get('message')" />
 
           <p class="cx-customer-ticket-input-hint">
             {{
@@ -161,7 +154,7 @@
             [accept]="allowedTypes"
           >
             <ng-template>
-              <cx-icon [type]="iconTypes.UPLOAD"></cx-icon>
+              <cx-icon [type]="iconTypes.UPLOAD" />
               <span class="cx-message-footer-text">{{
                 'customerTicketing.uploadFile' | cxTranslate
               }}</span>
@@ -181,7 +174,7 @@
           <cx-form-errors
             [control]="form.get('file')"
             prefix="formErrors.file"
-          ></cx-form-errors>
+          />
         </div>
       </div>
 

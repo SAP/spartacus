@@ -68,7 +68,7 @@ describe('ListService', () => {
 
   describe('getData', () => {
     it('should call load method to get data', () => {
-      spyOn(service, 'load').and.callThrough();
+      vi.spyOn(service, 'load');
       service.getData().subscribe();
       expect(service.load).toHaveBeenCalled();
     });
@@ -90,7 +90,7 @@ describe('ListService', () => {
 
     it('should use pageSize=3 from configurable structure', () => {
       let result: EntitiesModel<any>;
-      spyOn(service, 'getStructure').and.returnValue(
+      vi.spyOn(service, 'getStructure').mockReturnValue(
         of({ options: { pagination: { pageSize: 3 } } } as TableStructure)
       );
       service
@@ -130,7 +130,7 @@ describe('ListService', () => {
 
   describe('getStructure()', () => {
     it('should build structure with tableService', () => {
-      spyOn(tableService, 'buildStructure').and.returnValue(
+      vi.spyOn(tableService, 'buildStructure').mockReturnValue(
         of({ options: { pagination: { pageSize: 3 } } } as TableStructure)
       );
       service.getStructure().subscribe().unsubscribe();

@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -41,7 +41,7 @@ describe('LoginRegisterComponent', () => {
     fixture.detectChanges();
   }
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
@@ -57,7 +57,7 @@ describe('LoginRegisterComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     createComponent();
@@ -125,7 +125,7 @@ describe('LoginRegisterComponent', () => {
     });
 
     it('should navigate to register', () => {
-      spyOn(routingService, 'go');
+      vi.spyOn(routingService, 'go');
       const registerLink = getRegisterLink();
 
       registerLink.triggerEventHandler('click');
@@ -162,7 +162,7 @@ describe('LoginRegisterComponent', () => {
       TestBed.compileComponents();
       createComponent();
       callNgInit();
-      spyOn(routingService, 'go');
+      vi.spyOn(routingService, 'go');
       const guestLinkElement = getGuestCheckoutLink();
 
       guestLinkElement.triggerEventHandler('click');

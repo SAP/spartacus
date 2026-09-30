@@ -61,10 +61,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     configuratorAttributePriceChangeService = TestBed.inject(
       ConfiguratorAttributePriceChangeService as Type<ConfiguratorAttributePriceChangeService>
     );
-    spyOn(
-      configuratorAttributePriceChangeService,
-      'getChangedPrices'
-    ).and.callThrough();
+    vi.spyOn(configuratorAttributePriceChangeService, 'getChangedPrices');
 
     currentAttribute = {
       name: 'attributeId',
@@ -563,7 +560,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       };
       utils.isLastSelected = jasmine
         .createSpy('isLastSelected')
-        .and.returnValue(true);
+        .mockReturnValue(true);
 
       expect(classUnderTest.isLastSelected('attributeName', 'valueCode')).toBe(
         true
