@@ -4,10 +4,10 @@
     tabindex="-1"
     [attr.aria-label]="'configurator.a11y.overviewMenu' | cxTranslate"
   >
-    <ng-container *ngTemplateOutlet="rootGroups"></ng-container>
+    <ng-container *ngTemplateOutlet="rootGroups" />
   </nav>
   <ng-template #legacyMenu>
-    <ng-container *ngTemplateOutlet="rootGroups"></ng-container>
+    <ng-container *ngTemplateOutlet="rootGroups" />
   </ng-template>
 </ng-container>
 
@@ -21,7 +21,7 @@
         idPrefix: '',
       }
     "
-  ></ng-container>
+  />
 </ng-template>
 
 <ng-template
