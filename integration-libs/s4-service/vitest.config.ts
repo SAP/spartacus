@@ -5,8 +5,8 @@
  */
 
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
-import angular from '@analogjs/vite-plugin-angular';
 import { defineConfig } from 'vitest/config';
+import angular from '@analogjs/vite-plugin-angular';
 
 const root = `${import.meta.dirname}/../..`;
 
@@ -15,7 +15,9 @@ export default defineConfig({
   plugins: [angular(), nxViteTsPaths()],
   resolve: {
     alias: {
-      'core-libs/storefront/shared/test/mock-window-ref': `${root}/core-libs/storefront/shared/test/mock-window-ref.ts`,
+      'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe': `${root}/core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe.ts`,
+      'core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module': `${root}/core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module.ts`,
+      'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module': `${root}/core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module.ts`,
     },
   },
   test: {
@@ -29,22 +31,14 @@ export default defineConfig({
       tsconfig: `${import.meta.dirname}/tsconfig.spec.json`,
     },
     coverage: {
-      enabled: true,
       provider: 'v8',
-      reporter: ['text-summary', 'html', 'lcov'],
-      reportsDirectory: `${import.meta.dirname}/../../coverage/tracking`,
-      include: ['**/*.ts'],
+      reporter: ['lcov'],
+      reportsDirectory: `${import.meta.dirname}/../../coverage/s4-service`,
       exclude: [
-        '**/*.spec.ts',
         '**/public_api.ts',
         '**/index.ts',
         '**/*.module.ts',
-        '**/vitest.config.ts',
-        '**/assets/**',
-        '**/testing/**',
-        '**/schematics/**',
-        'setup-jest.ts',
-        '../../testing/setup-vitest.ts',
+        '../../testing/setup-test.ts',
       ],
       thresholds: {
         statements: 85,
@@ -58,7 +52,7 @@ export default defineConfig({
       [
         'junit',
         {
-          outputFile: `${import.meta.dirname}/../../unit-tests-reports/unit-test-tracking.xml`,
+          outputFile: `${import.meta.dirname}/../../unit-tests-reports/unit-test-s4-service.xml`,
         },
       ],
     ],

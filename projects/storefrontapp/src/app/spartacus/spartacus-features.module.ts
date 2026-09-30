@@ -376,7 +376,7 @@ if (environment.cpq) {
         a11yAddToWishListBtnMargin: true,
         a11yProductListItemNameMargin: true,
         propagateLogoutToAllTabs: true,
-        asyncAuthConfigInitializer: false as boolean, // exception until sample data is updated
+        asyncAuthConfigInitializer: true,
         siteIsolationForCustomLoginPage: true,
         applyBaseSiteThemeFromCms: true,
         a11yNavigationSpaceKeyOnKeyUp: true,
@@ -396,6 +396,7 @@ if (environment.cpq) {
         showWarningMessageOnRequoteButtonClick: true,
         oauthCallbackPage: true,
         enableFormFieldMaxLength: true,
+        a11yCarouselItemArrowKeyNavigation: true,
         a11yCouponDialogResetButtonKeyboardAccessible: true,
         a11yInStockInfoTextContrast: true,
       };
