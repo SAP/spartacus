@@ -5,8 +5,8 @@
  */
 
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
-import { defineConfig } from 'vitest/config';
 import angular from '@analogjs/vite-plugin-angular';
+import { defineConfig } from 'vitest/config';
 
 const root = `${import.meta.dirname}/../..`;
 
@@ -49,12 +49,13 @@ export default defineConfig({
         '**/schematics/**',
         'setup-jest.ts',
         'textfield/root/**',
-        '../../testing/setup-test.ts',
+        '../../testing/setup-vitest.ts',
       ],
       thresholds: {
-        statements: 80,
-        lines: 80,
-        functions: 80,
+        statements: 85,
+        lines: 85,
+        branches: 65,
+        functions: 85,
       },
     },
     reporters: [
