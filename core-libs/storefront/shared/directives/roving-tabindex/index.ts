@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './horizontal-scrolling-position/index';
-export * from './roving-tabindex/index';
+export * from './roving-tabindex.directive';
+export * from './roving-tabindex.directive.module';
