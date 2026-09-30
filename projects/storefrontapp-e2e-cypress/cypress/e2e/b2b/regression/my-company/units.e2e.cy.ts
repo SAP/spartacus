@@ -19,43 +19,67 @@ describe('A11y - Units List Keyboard Controls', () => {
   });
 
   it('navigate to next link on arrow down', () => {
-    cy.get('#Rustic').focus();
+    cy.get('#Rustic').parent().parent().parent().focus();
     cy.focused().type('{downArrow}');
-    cy.focused().should('have.id', 'Rustic Retail');
+    cy.get('[id="Rustic Retail"]')
+      .parent()
+      .parent()
+      .parent()
+      .should('have.focus');
     cy.focused().type('{downArrow}');
-    cy.focused().should('have.id', 'Rustic Services');
+    cy.get('[id="Rustic Services"]')
+      .parent()
+      .parent()
+      .parent()
+      .should('have.focus');
     cy.focused().type('{downArrow}');
-    cy.focused().should('have.id', 'Rustic Services');
+    cy.get('[id="Rustic Services"]')
+      .parent()
+      .parent()
+      .parent()
+      .should('have.focus');
   });
 
   it('navigate to previous link on arrow up', () => {
-    cy.get('[id="Rustic Services"]').focus();
+    cy.get('[id="Rustic Services"]').parent().parent().parent().focus();
     cy.focused().type('{upArrow}');
-    cy.focused().should('have.id', 'Rustic Retail');
+    cy.get('[id="Rustic Retail"]')
+      .parent()
+      .parent()
+      .parent()
+      .should('have.focus');
     cy.focused().type('{upArrow}');
-    cy.focused().should('have.id', 'Rustic');
+    cy.get('#Rustic').parent().parent().parent().should('have.focus');
     cy.focused().type('{upArrow}');
-    cy.focused().should('have.id', 'Rustic');
+    cy.get('#Rustic').parent().parent().parent().should('have.focus');
   });
 
   it('collapses option on arrow left', () => {
-    cy.get('#Rustic').focus();
+    cy.get('#Rustic').parent().parent().parent().focus();
     cy.focused().type('{leftArrow}');
     cy.get('[id="Rustic Retail"]').should('not.exist');
   });
 
   it('expands option on arrow right', () => {
-    cy.get('[id="Rustic Services"]').focus();
+    cy.get('[id="Rustic Services"]').parent().parent().parent().focus();
     cy.focused().type('{rightArrow}');
     cy.focused().type('{downArrow}');
-    cy.focused().should('have.id', 'Services East');
+    cy.get('[id="Services East"]')
+      .parent()
+      .parent()
+      .parent()
+      .should('have.focus');
   });
 
   it('focuses on active option while navigating back to list', () => {
-    cy.get('[id="Rustic Services"]').focus();
+    cy.get('[id="Rustic Services"]').parent().parent().parent().focus();
     cy.focused().type(' ');
     cy.focused().parents('cx-org-card').should('exist');
     cy.focused().pressTab(true);
-    cy.focused().should('have.id', 'Rustic Services');
+    cy.get('[id="Rustic Services"]')
+      .parent()
+      .parent()
+      .parent()
+      .should('have.focus');
   });
 });
