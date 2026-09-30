@@ -22,13 +22,16 @@ export default defineConfig({
       tsconfig: `${import.meta.dirname}/tsconfig.spec.json`,
     },
     coverage: {
+      enabled: true,
       provider: 'v8',
-      reporter: ['lcov'],
+      reporter: ['text-summary', 'html', 'lcov'],
+      include: ['**/*.ts'],
       reportsDirectory: `${import.meta.dirname}/../../coverage/s4om`,
       exclude: [
         '**/public_api.ts',
         '**/index.ts',
         '**/*.module.ts',
+        '**/*.spec.ts',
         '../../testing/setup-test.ts',
         '**/schematics/**',
         '**/assets/**',
