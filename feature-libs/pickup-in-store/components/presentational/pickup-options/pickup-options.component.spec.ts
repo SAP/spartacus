@@ -52,7 +52,7 @@ describe('PickupOptionsComponent', () => {
     )[PickupOptionsTabs.DELIVERY].nativeElement;
     expect(activeTab.classList.contains('active')).toBeTruthy();
 
-    spyOn(<any>component.tabComponent, 'select').and.callThrough();
+    vi.spyOn(<any>component.tabComponent, 'select');
     component.selectedOption = 'pickup';
     component.ngOnChanges();
     fixture.detectChanges();
@@ -63,7 +63,7 @@ describe('PickupOptionsComponent', () => {
   });
 
   it('should emit the new pickup option on onPickupOptionChange', () => {
-    spyOn(component.pickupOptionChange, 'emit');
+    vi.spyOn(component.pickupOptionChange, 'emit');
     component.onPickupOptionChange('delivery');
 
     expect(component.pickupOptionChange.emit).toHaveBeenCalledWith({
@@ -73,7 +73,7 @@ describe('PickupOptionsComponent', () => {
   });
 
   it('should emit on onPickupLocationChange', () => {
-    spyOn(component.pickupLocationChange, 'emit');
+    vi.spyOn(component.pickupLocationChange, 'emit');
     component.onPickupLocationChange();
 
     expect(component.pickupLocationChange.emit).toHaveBeenCalled();
@@ -123,7 +123,7 @@ describe('PickupOptionsComponent', () => {
     });
 
     it('should call onPickupOptionChange when the tab is changed', () => {
-      spyOn(component, 'onPickupOptionChange');
+      vi.spyOn(component, 'onPickupOptionChange');
       fixture.detectChanges();
 
       // for delivery
@@ -144,7 +144,7 @@ describe('PickupOptionsComponent', () => {
     });
 
     it('should call onPickupLocationChange when the select store button is clicked', () => {
-      spyOn(component, 'onPickupLocationChange');
+      vi.spyOn(component, 'onPickupLocationChange');
       fixture.detectChanges();
 
       const selectStoreButton = fixture.debugElement.query(
@@ -157,7 +157,7 @@ describe('PickupOptionsComponent', () => {
 
     it('should call onPickupLocationChange when the change store button is clicked', () => {
       fixture.detectChanges();
-      spyOn(component, 'onPickupLocationChange');
+      vi.spyOn(component, 'onPickupLocationChange');
       component.selectedOption = 'pickup';
       component.displayPickupLocation = 'Test location';
       component.ngOnChanges();

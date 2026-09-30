@@ -1,7 +1,7 @@
 <ng-container *ngIf="items?.length > 0 && itemsPerSlide">
   <h3 *ngIf="title">{{ title }}</h3>
 
-  <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
+  <ng-container *ngTemplateOutlet="headerTemplate" />
 
   <div class="list-panel">
     <div class="slides">
@@ -30,7 +30,7 @@
                     active: i === activeSlideStartIndex,
                   }
                 "
-              ></ng-container>
+              />
             </div>
           </ng-container>
         </div>
@@ -48,7 +48,7 @@
       (click)="setActiveSlideStartIndex(activeSlideStartIndex - itemsPerSlide)"
       [disabled]="activeSlideStartIndex === 0"
     >
-      <cx-icon [type]="previousIcon"></cx-icon>
+      <cx-icon [type]="previousIcon" />
     </button>
 
     <ng-container *ngFor="let _ of items; let i = index">
@@ -58,7 +58,7 @@
         [disabled]="i === activeSlideStartIndex"
         class="slide-indicator"
       >
-        <cx-icon [type]="indicatorIcon"></cx-icon>
+        <cx-icon [type]="indicatorIcon" />
       </button>
     </ng-container>
 
@@ -68,7 +68,7 @@
       (click)="setActiveSlideStartIndex(activeSlideStartIndex + itemsPerSlide)"
       [disabled]="activeSlideStartIndex > items.length - itemsPerSlide - 1"
     >
-      <cx-icon [type]="nextIcon"></cx-icon>
+      <cx-icon [type]="nextIcon" />
     </button>
   </div>
 </ng-container>

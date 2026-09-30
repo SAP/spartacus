@@ -96,8 +96,8 @@ describe('CostCenterBudgetListService', () => {
   });
 
   it('should assign budget', () => {
-    spyOn(costCenterService, 'assignBudget').and.callThrough();
-    spyOn(budgetService, 'getLoadingStatus').and.callThrough();
+    vi.spyOn(costCenterService, 'assignBudget');
+    vi.spyOn(budgetService, 'getLoadingStatus');
 
     expect(service.assign(costCenterCode, budgetCode)).toEqual(mockItemStatus);
     expect(costCenterService.assignBudget).toHaveBeenCalledWith(
@@ -108,8 +108,8 @@ describe('CostCenterBudgetListService', () => {
   });
 
   it('should unassign budget', () => {
-    spyOn(costCenterService, 'unassignBudget').and.callThrough();
-    spyOn(budgetService, 'getLoadingStatus').and.callThrough();
+    vi.spyOn(costCenterService, 'unassignBudget');
+    vi.spyOn(budgetService, 'getLoadingStatus');
 
     expect(service.unassign(costCenterCode, budgetCode)).toEqual(
       mockItemStatus

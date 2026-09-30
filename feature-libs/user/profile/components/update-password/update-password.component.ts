@@ -8,8 +8,8 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Optional,
   inject,
+  Optional,
 } from '@angular/core';
 import {
   FormsModule,

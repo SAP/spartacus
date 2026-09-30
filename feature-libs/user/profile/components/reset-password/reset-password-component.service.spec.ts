@@ -15,9 +15,8 @@ import {
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
-import { BehaviorSubject, of, throwError } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, of, throwError } from 'rxjs';
 import { ResetPasswordComponentService } from './reset-password-component.service';
-import createSpy = jasmine.createSpy;
 
 const resetToken = '123#Token';
 const routerState$: BehaviorSubject<any> = new BehaviorSubject({
@@ -35,7 +34,7 @@ class MockUserPasswordFacade implements Partial<UserPasswordFacade> {
 }
 
 class MockRoutingService {
-  go = createSpy().and.stub();
+  go = vi.fn().mockImplementation(() => {});
 
   getRouterState() {
     return routerState$;
@@ -43,7 +42,7 @@ class MockRoutingService {
 }
 
 class MockGlobalMessageService {
-  add = createSpy().and.stub();
+  add = vi.fn().mockImplementation(() => {});
 }
 
 describe('ResetPasswordComponentService', () => {
@@ -100,46 +99,39 @@ describe('ResetPasswordComponentService', () => {
     });
 
     describe('isUpdating$', () => {
-      it('should return true', () => {
+      it('should return true', async () => {
         service['busy$'].next(true);
-        let result;
-        service.isUpdating$
-          .subscribe((value) => (result = value))
-          .unsubscribe();
+        const result = await firstValueFrom(service.isUpdating$);
         expect(result).toBeTruthy();
         expect(service.form.disabled).toBeTruthy();
       });
 
-      it('should return false', () => {
+      it('should return false', async () => {
         service['busy$'].next(false);
-        let result;
-        service.isUpdating$
-          .subscribe((value) => (result = value))
-          .unsubscribe();
+        const result = await firstValueFrom(service.isUpdating$);
         expect(result).toBeFalsy();
         expect(service.form.disabled).toBeFalsy();
       });
     });
 
     describe('resetToken$', () => {
-      it('should return token', () => {
-        let result;
-        service.resetToken$
-          .subscribe((value) => (result = value))
-          .unsubscribe();
+      it('should return token', async () => {
+        routerState$.next({
+          state: {
+            queryParams: { token: resetToken },
+          },
+        });
+        const result = await firstValueFrom(service.resetToken$);
         expect(result).toEqual(resetToken);
       });
 
-      it('should not return token', () => {
+      it('should not return token', async () => {
         routerState$.next({
           state: {
             queryParams: {},
           },
         });
-        let result;
-        service.resetToken$
-          .subscribe((value) => (result = value))
-          .unsubscribe();
+        const result = await firstValueFrom(service.resetToken$);
         expect(result).toBeFalsy();
       });
     });
@@ -152,7 +144,7 @@ describe('ResetPasswordComponentService', () => {
         });
 
         it('should reset password', () => {
-          spyOn(userPasswordService, 'reset').and.callThrough();
+          vi.spyOn(userPasswordService, 'reset');
           service.resetPassword(resetToken);
           expect(userPasswordService.reset).toHaveBeenCalledWith(
             resetToken,
@@ -174,7 +166,7 @@ describe('ResetPasswordComponentService', () => {
         });
 
         it('should reset form', () => {
-          spyOn(service.form, 'reset').and.callThrough();
+          vi.spyOn(service.form, 'reset');
           service.resetPassword(resetToken);
           expect(service.form.reset).toHaveBeenCalled();
         });
@@ -190,7 +182,7 @@ describe('ResetPasswordComponentService', () => {
           it('should show error message', () => {
             const error = new HttpErrorModel();
             error.details = [{ message: 'error message' }];
-            spyOn(userPasswordService, 'reset').and.returnValue(
+            vi.spyOn(userPasswordService, 'reset').mockReturnValue(
               throwError(() => error)
             );
             service.resetPassword(resetToken);
@@ -201,7 +193,7 @@ describe('ResetPasswordComponentService', () => {
           });
 
           it('should not show error message when error is null', () => {
-            spyOn(userPasswordService, 'reset').and.returnValue(
+            vi.spyOn(userPasswordService, 'reset').mockReturnValue(
               throwError(() => null)
             );
             service.resetPassword(resetToken);
@@ -209,7 +201,7 @@ describe('ResetPasswordComponentService', () => {
           });
 
           it('should not display an error message when HttpErrorModel has no details', () => {
-            spyOn(userPasswordService, 'reset').and.returnValue(
+            vi.spyOn(userPasswordService, 'reset').mockReturnValue(
               throwError(() => new HttpErrorModel())
             );
             service.resetPassword(resetToken);
@@ -219,7 +211,7 @@ describe('ResetPasswordComponentService', () => {
       });
 
       it('should not reset invalid form', () => {
-        spyOn(userPasswordService, 'reset').and.returnValue(
+        vi.spyOn(userPasswordService, 'reset').mockReturnValue(
           throwError(() => ({}))
         );
         passwordConfirm.setValue('Diff123!');

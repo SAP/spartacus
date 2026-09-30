@@ -8,20 +8,18 @@
     [hidden]="hideViewport"
     [outlineColor]="'--cx-color-primary'"
     [outlineWidth]="8"
-  >
-  </cx-epd-visualization-viewer>
+  />
 
   <div
     class="visual-picking-product-list-container"
     [hidden]="hideProductList"
     [class.viewportHidden]="hideViewport"
   >
-    <cx-epd-visualization-product-filter></cx-epd-visualization-product-filter>
+    <cx-epd-visualization-product-filter />
 
     <cx-epd-visualization-product-list
       [(selectedProductCodes)]="selectedProductCodes"
-    >
-    </cx-epd-visualization-product-list>
+    />
   </div>
 </div>
 

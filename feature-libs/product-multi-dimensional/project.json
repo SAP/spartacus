@@ -17,13 +17,11 @@
         }
       }
     },
-    "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+    "test-vitest": {
+      "executor": "nx:run-commands",
       "options": {
-        "main": "feature-libs/product-multi-dimensional/test.ts",
-        "tsConfig": "feature-libs/product-multi-dimensional/tsconfig.spec.json",
-        "polyfills": ["zone.js", "zone.js/testing"],
-        "karmaConfig": "feature-libs/product-multi-dimensional/karma.conf.js"
+        "command": "npx vitest run --config vitest.config.ts",
+        "cwd": "{projectRoot}"
       }
     },
     "lint": {

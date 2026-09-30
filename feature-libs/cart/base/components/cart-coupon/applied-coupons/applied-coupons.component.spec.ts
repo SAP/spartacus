@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -31,8 +30,7 @@ class MockCxIconComponent {
       [vouchers]="coupons"
       [cartIsLoading]="cartIsLoading"
       [isReadOnly]="isReadOnly"
-    >
-    </cx-applied-coupons>
+    />
   `,
   imports: [I18nTestingModule, AppliedCouponsComponent],
 })

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { ICON_TYPE, IconLoaderService } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -24,8 +24,8 @@ describe('ConfiguratorMessageComponent', () => {
   let fixture: ComponentFixture<ConfiguratorMessageComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [ConfiguratorMessageComponent, I18nTestingModule],
       providers: [
         { provide: IconLoaderService, useClass: MockIconFontLoaderService },
@@ -37,7 +37,7 @@ describe('ConfiguratorMessageComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorMessageComponent);

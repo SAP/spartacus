@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   MockTranslatePipe,
@@ -25,7 +25,7 @@ describe('CloseAccountComponent', () => {
   let launchDialogService: LaunchDialogService;
   let routingService: RoutingService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [CloseAccountComponent],
       providers: [
@@ -38,7 +38,7 @@ describe('CloseAccountComponent', () => {
         add: { imports: [MockTranslatePipe] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CloseAccountComponent);
@@ -53,7 +53,7 @@ describe('CloseAccountComponent', () => {
   });
 
   it('should open modal', () => {
-    spyOn(launchDialogService, 'openDialog');
+    vi.spyOn(launchDialogService, 'openDialog');
 
     component.openModal();
 
@@ -65,7 +65,7 @@ describe('CloseAccountComponent', () => {
   });
 
   it('should navigate to home on cancel', () => {
-    spyOn(routingService, 'go');
+    vi.spyOn(routingService, 'go');
     fixture.detectChanges();
     const cancelBtn = fixture.debugElement.query(
       By.css('button.btn-secondary')

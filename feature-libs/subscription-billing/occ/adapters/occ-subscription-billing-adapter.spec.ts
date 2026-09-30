@@ -12,7 +12,7 @@ import {
   SubscriptionBill,
   SubscriptionBillsList,
 } from '@spartacus/subscription-billing/root';
-import { take } from 'rxjs';
+import { firstValueFrom, take } from 'rxjs';
 import { defaultOccSubscriptionBillingConfig } from '../config/default-occ-subscription-billing-config';
 import { OccSubscriptionBillingAdapter } from './occ-subscription-billing.adapter';
 
@@ -124,17 +124,13 @@ describe('OccSubscriptionBillingAdapter', () => {
   });
 
   describe('getSubscriptionBillByCode', () => {
-    it('should get subscription bill for the given bill id', (done) => {
-      service
-        .getSubscriptionBillByCode(
+    it('should get subscription bill for the given bill id', async () => {
+      const resultPromise = firstValueFrom(
+        service.getSubscriptionBillByCode(
           mockCustomerId,
           mockBillData.documentNumber ?? ''
         )
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(mockBillData);
-          done();
-        });
+      );
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -146,22 +142,26 @@ describe('OccSubscriptionBillingAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockBillData);
+
+      const result = await resultPromise;
+      expect(result).toEqual(mockBillData);
     });
   });
 
   describe('getSubscriptionBillsList', () => {
-    it('should get list of subscription bills for the given customer id', (done) => {
+    it('should get list of subscription bills for the given customer id', async () => {
       const PAGE_SIZE = 5;
       const currentPage = 1;
       const sort = 'byBillingDateDesc';
 
-      service
-        .getSubscriptionBillsList(mockCustomerId, PAGE_SIZE, currentPage, sort)
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(mockListData);
-          done();
-        });
+      const resultPromise = firstValueFrom(
+        service.getSubscriptionBillsList(
+          mockCustomerId,
+          PAGE_SIZE,
+          currentPage,
+          sort
+        )
+      );
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -174,6 +174,9 @@ describe('OccSubscriptionBillingAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockListData);
+
+      const result = await resultPromise;
+      expect(result).toEqual(mockListData);
     });
   });
 });

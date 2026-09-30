@@ -27,7 +27,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { OrderApproval } from '../../core/model/order-approval.model';
 import { OrderApprovalService } from '../../core/services/order-approval.service';
 import { OrderApprovalListComponent } from './order-approval-list.component';
-import createSpy = jasmine.createSpy;
 
 const mockOrderApprovals: EntitiesModel<OrderApproval> = {
   pagination: {
@@ -106,7 +105,7 @@ class MockOrderApprovalService {
 }
 
 class MockRoutingService {
-  go = createSpy('go').and.stub();
+  go = vi.fn().mockImplementation(() => {});
 }
 
 describe('OrderApprovalListComponent?', () => {
@@ -182,7 +181,7 @@ describe('OrderApprovalListComponent?', () => {
   });
 
   it('should set correctly sort code', () => {
-    spyOn(orderApprovalService, 'getList').and.stub();
+    vi.spyOn(orderApprovalService, 'getList').mockImplementation(() => {});
 
     component.changeSortCode('byOrderNumber');
 
@@ -200,7 +199,9 @@ describe('OrderApprovalListComponent?', () => {
   });
 
   it('should set correctly page', () => {
-    spyOn(orderApprovalService, 'loadOrderApprovals').and.stub();
+    vi.spyOn(orderApprovalService, 'loadOrderApprovals').mockImplementation(
+      () => {}
+    );
 
     component.sortType = 'byDate';
     component.pageChange(1);

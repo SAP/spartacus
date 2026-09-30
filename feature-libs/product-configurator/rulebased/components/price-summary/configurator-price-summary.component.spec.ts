@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   I18nTestingModule,
   RouterState,
@@ -77,7 +77,7 @@ describe('ConfigPriceSummaryComponent', () => {
   let fixture: ComponentFixture<ConfiguratorPriceSummaryComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     routerStateObservable = of(mockRouterState);
     TestBed.configureTestingModule({
       imports: [
@@ -102,20 +102,21 @@ describe('ConfigPriceSummaryComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
   beforeEach(() => {
     config = { ...defaultConfig };
     fixture = TestBed.createComponent(ConfiguratorPriceSummaryComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
-    fixture.detectChanges();
   });
 
   it('should create component', () => {
+    fixture.detectChanges();
     expect(component).toBeDefined();
   });
 
   it('should get product code and prices as part of product configuration', () => {
+    fixture.detectChanges();
     component.configuration$
       .subscribe((data: Configurator.Configuration) => {
         expect(data.productCode).toEqual(PRODUCT_CODE);
@@ -127,6 +128,7 @@ describe('ConfigPriceSummaryComponent', () => {
   });
 
   it('should render price summary container', () => {
+    fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -145,6 +147,7 @@ describe('ConfigPriceSummaryComponent', () => {
   });
 
   it('should render selected and options price when no setting specified', () => {
+    fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,

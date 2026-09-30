@@ -17,14 +17,14 @@
           (click)="dismissModal('Cross click')"
         >
           <span aria-hidden="true">
-            <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+            <cx-icon [type]="iconTypes.CLOSE" />
           </span>
         </button>
       </div>
 
       <div *ngIf="isLoading$ | async; else loaded">
         <div class="cx-spinner">
-          <cx-spinner> </cx-spinner>
+          <cx-spinner />
         </div>
       </div>
 

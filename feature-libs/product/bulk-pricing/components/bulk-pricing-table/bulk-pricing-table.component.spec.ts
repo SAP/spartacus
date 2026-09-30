@@ -143,7 +143,7 @@ describe('BulkPricingTableComponent', () => {
 
   describe('getPrices', () => {
     it('should call getBulkPrices with a right parameter', () => {
-      spyOn(bulkPricingService, 'getBulkPrices').and.callThrough();
+      vi.spyOn(bulkPricingService, 'getBulkPrices');
 
       component
         .getPrices()

@@ -79,9 +79,9 @@ describe('PickupInfoContainerComponent', () => {
     const result: Partial<PointOfService>[] = [
       { address: undefined, displayName: undefined, openingHours: undefined },
     ];
-    spyOn(activeCartService, 'getActive').and.callThrough();
-    spyOn(pickupLocationsSearchService, 'loadStoreDetails').and.callThrough();
-    spyOn(pickupLocationsSearchService, 'getStoreDetails').and.callThrough();
+    vi.spyOn(activeCartService, 'getActive');
+    vi.spyOn(pickupLocationsSearchService, 'loadStoreDetails');
+    vi.spyOn(pickupLocationsSearchService, 'getStoreDetails');
     component.ngOnInit();
     expect(activeCartService.getActive).toHaveBeenCalled();
     expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledWith(

@@ -9,7 +9,6 @@ import { EventService } from '@spartacus/core';
 import { NEVER, Observable, Subscription, of } from 'rxjs';
 import { QuoteCartEventListener } from './quote-cart-event.listener';
 import { QuoteDetailsReloadQueryEvent } from './quote.events';
-import createSpy = jasmine.createSpy;
 
 const cartRemoveEntrySuccessEvent = new CartRemoveEntrySuccessEvent();
 cartRemoveEntrySuccessEvent.entry = {};
@@ -42,7 +41,7 @@ class MockEventService implements Partial<EventService> {
       return addEntryFail ? of(cartAddEntryFailEvent) : NEVER;
     }
   }
-  dispatch = createSpy();
+  dispatch = vi.fn();
 }
 
 describe('QuoteCartEventListener', () => {
@@ -102,7 +101,11 @@ describe('QuoteCartEventListener', () => {
   });
 
   it('should unsubscribe on ngOnDestroy', () => {
-    const spyUnsubscribe = spyOn(Subscription.prototype, 'unsubscribe');
+    classUnderTest = TestBed.inject(QuoteCartEventListener);
+    const spyUnsubscribe = vi.spyOn(
+      classUnderTest['subscription'],
+      'unsubscribe'
+    );
     classUnderTest.ngOnDestroy();
     expect(spyUnsubscribe).toHaveBeenCalled();
   });

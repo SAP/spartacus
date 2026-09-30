@@ -9,7 +9,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
 import {
   CommonConfigurator,
@@ -185,22 +185,20 @@ describe('ConfigureCartEntryComponent', () => {
       configureTestingModule().compileComponents();
       assignTestArtifacts();
     });
-    it('should return false in case the url does not contain checkoutReviewOrder', (done) => {
+    it('should return false in case the url does not contain checkoutReviewOrder', async () => {
       component['isInCheckout']()
         .pipe(take(1), delay(0))
         .subscribe((isInCheckout) => {
           expect(isInCheckout).toBe(false);
-          done();
         });
     });
 
-    it('should return true in case the url contains checkoutReviewOrder in case one comes from the checkout', (done) => {
+    it('should return true in case the url contains checkoutReviewOrder in case one comes from the checkout', async () => {
       mockRouterState.state.semanticRoute = 'checkoutReviewOrder';
       component['isInCheckout']()
         .pipe(take(1), delay(0))
         .subscribe((isInCheckout) => {
           expect(isInCheckout).toBe(true);
-          done();
         });
     });
   });
@@ -542,53 +540,45 @@ describe('ConfigureCartEntryComponent', () => {
     });
 
     describe('queryParam$', () => {
-      it('should contain "navigateToCheckout" parameter in case the navigation to the cart is relevant', (done) => {
+      it('should contain "navigateToCheckout" parameter in case the navigation to the cart is relevant', async () => {
         mockRouterState.state.semanticRoute = 'checkoutReviewOrder';
         component.queryParams$
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
             expect(queryParams.navigateToCheckout).toBe(true);
-            done();
           });
       });
 
-      it('should set "navigateToCart" for a bundle overview link', (done) => {
+      it('should set "navigateToCart" for a bundle overview link', async () => {
         component.isBundleOverviewLink = true;
         component.queryParams$
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
             expect(queryParams.navigateToCart).toBe(true);
-            done();
           });
       });
 
-      it('should not set "navigateToCart" for a regular configuration link', (done) => {
+      it('should not set "navigateToCart" for a regular configuration link', async () => {
         component.isBundleOverviewLink = false;
         component.queryParams$
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
             expect(queryParams.navigateToCart).toBe(false);
-            done();
           });
       });
 
-      it('should contain "productCode" parameter in case product code is relevant', (done) => {
-        component.rowId = 'row-abc';
+      it('should contain "productCode" parameter in case product code is relevant', async () => {
         component.cartEntry = {
           entryNumber: 0,
           product: { configuratorType: configuratorType, code: productCode },
         };
         fixture.detectChanges();
-        component.queryParams$
-          .pipe(take(1), delay(0))
-          .subscribe((queryParams) => {
-            expect(queryParams.productCode).toBe(productCode);
-            expect(queryParams.rowId).toBeUndefined();
-            done();
-          });
+        const queryParams = await firstValueFrom(component.queryParams$);
+        expect(queryParams.productCode).toBe(productCode);
+        expect(queryParams.rowId).toBeUndefined();
       });
 
-      it('should contain "rowId" and omit "productCode" for a bundle line item link', (done) => {
+      it('should contain "rowId" and omit "productCode" for a bundle line item link', async () => {
         component.isBundleLineItemLink = true;
         component.rowId = 'row-abc';
         component.cartEntry = {
@@ -596,16 +586,12 @@ describe('ConfigureCartEntryComponent', () => {
           product: { configuratorType: configuratorType, code: productCode },
         };
         fixture.detectChanges();
-        component.queryParams$
-          .pipe(take(1), delay(0))
-          .subscribe((queryParams) => {
-            expect(queryParams.rowId).toBe('row-abc');
-            expect(queryParams.productCode).toBeUndefined();
-            done();
-          });
+        const queryParams = await firstValueFrom(component.queryParams$);
+        expect(queryParams.rowId).toBe('row-abc');
+        expect(queryParams.productCode).toBeUndefined();
       });
 
-      it('should not contain "resolveIssues" parameter in case no issues exist', (done) => {
+      it('should not contain "resolveIssues" parameter in case no issues exist', async () => {
         component.readOnly = false;
         component.msgBanner = false;
         component.cartEntry = {
@@ -617,11 +603,10 @@ describe('ConfigureCartEntryComponent', () => {
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
             expect(queryParams.resolveIssues).toBe(false);
-            done();
           });
       });
 
-      it('should contain "resolveIssues" parameter in case issues exist', (done) => {
+      it('should contain "resolveIssues" parameter in case issues exist', async () => {
         component.readOnly = false;
         component.msgBanner = true;
         component.cartEntry = {
@@ -636,7 +621,6 @@ describe('ConfigureCartEntryComponent', () => {
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
             expect(queryParams.resolveIssues).toBe(true);
-            done();
           });
       });
     });

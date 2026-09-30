@@ -61,10 +61,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     configuratorAttributePriceChangeService = TestBed.inject(
       ConfiguratorAttributePriceChangeService as Type<ConfiguratorAttributePriceChangeService>
     );
-    spyOn(
-      configuratorAttributePriceChangeService,
-      'getChangedPrices'
-    ).and.callThrough();
+    vi.spyOn(configuratorAttributePriceChangeService, 'getChangedPrices');
 
     currentAttribute = {
       name: 'attributeId',
@@ -559,11 +556,9 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       const utils = TestBed.inject(
         ConfiguratorStorefrontUtilsService
       ) as unknown as {
-        isLastSelected: jasmine.Spy;
+        isLastSelected: ReturnType<typeof vi.fn>;
       };
-      utils.isLastSelected = jasmine
-        .createSpy('isLastSelected')
-        .and.returnValue(true);
+      utils.isLastSelected = vi.fn().mockReturnValue(true);
 
       expect(classUnderTest.isLastSelected('attributeName', 'valueCode')).toBe(
         true
