@@ -358,9 +358,8 @@ describe('BannerComponent', () => {
 
   describe('onKeydown()', () => {
     it('should not navigate when feature toggle is disabled', () => {
-      (
-        bannerComponent as any
-      ).featureToggles.a11yBannerArrowKeyNavigation = false;
+      (bannerComponent as any).featureToggles.a11yBannerArrowKeyNavigation =
+        false;
       const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
       const preventDefaultSpy = vi.spyOn(event, 'preventDefault');
       bannerComponent.onKeydown(event);
@@ -368,9 +367,8 @@ describe('BannerComponent', () => {
     });
 
     it('should not navigate for non-arrow keys', () => {
-      (
-        bannerComponent as any
-      ).featureToggles.a11yBannerArrowKeyNavigation = true;
+      (bannerComponent as any).featureToggles.a11yBannerArrowKeyNavigation =
+        true;
       const event = new KeyboardEvent('keydown', { key: 'Enter' });
       const preventDefaultSpy = vi.spyOn(event, 'preventDefault');
       bannerComponent.onKeydown(event);
@@ -378,9 +376,8 @@ describe('BannerComponent', () => {
     });
 
     it('should navigate to next sibling on ArrowRight', () => {
-      (
-        bannerComponent as any
-      ).featureToggles.a11yBannerArrowKeyNavigation = true;
+      (bannerComponent as any).featureToggles.a11yBannerArrowKeyNavigation =
+        true;
 
       const parent = document.createElement('div');
       const sibling1 = document.createElement('cx-banner');
@@ -406,9 +403,8 @@ describe('BannerComponent', () => {
     });
 
     it('should navigate to previous sibling on ArrowLeft', () => {
-      (
-        bannerComponent as any
-      ).featureToggles.a11yBannerArrowKeyNavigation = true;
+      (bannerComponent as any).featureToggles.a11yBannerArrowKeyNavigation =
+        true;
 
       const parent = document.createElement('div');
       const sibling1 = document.createElement('cx-banner');
@@ -434,9 +430,8 @@ describe('BannerComponent', () => {
     });
 
     it('should navigate down one row on ArrowDown', () => {
-      (
-        bannerComponent as any
-      ).featureToggles.a11yBannerArrowKeyNavigation = true;
+      (bannerComponent as any).featureToggles.a11yBannerArrowKeyNavigation =
+        true;
 
       // 3 siblings in a single row (getBoundingClientRect().top === 0 for all
       // off-document elements), so getColumnsPerRow returns 3 and ArrowDown
@@ -469,9 +464,8 @@ describe('BannerComponent', () => {
     });
 
     it('should navigate up one row on ArrowUp when columns are known', () => {
-      (
-        bannerComponent as any
-      ).featureToggles.a11yBannerArrowKeyNavigation = true;
+      (bannerComponent as any).featureToggles.a11yBannerArrowKeyNavigation =
+        true;
 
       const parent = document.createElement('div');
       const siblings = [0, 1, 2, 3].map(() => {
