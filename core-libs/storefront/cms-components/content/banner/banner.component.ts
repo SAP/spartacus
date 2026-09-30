@@ -64,7 +64,7 @@ export class BannerComponent {
 
   @HostListener('keydown', ['$event'])
   onKeydown(event: KeyboardEvent): void {
-    if (!this.featureToggles.a11yOrgAdminTileArrowKeyNavigation) {
+    if (!this.featureToggles.a11yBannerArrowKeyNavigation) {
       return;
     }
     if (

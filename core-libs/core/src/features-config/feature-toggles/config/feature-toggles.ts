@@ -869,7 +869,7 @@ export interface FeatureTogglesInterface {
    * Affects: BannerComponent
    * ACC-270.3
    */
-  a11yOrgAdminTileArrowKeyNavigation?: boolean;
+  a11yBannerArrowKeyNavigation?: boolean;
 
   /**
    * When enabled, adds `cxFocusableCarouselItem` to product carousel items so
@@ -1000,7 +1000,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showWarningMessageOnRequoteButtonClick: false,
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
-  a11yOrgAdminTileArrowKeyNavigation: false,
+  a11yBannerArrowKeyNavigation: false,
   a11yCarouselItemArrowKeyNavigation: false,
   a11yCouponDialogResetButtonKeyboardAccessible: false,
   a11yInStockInfoTextContrast: false,
