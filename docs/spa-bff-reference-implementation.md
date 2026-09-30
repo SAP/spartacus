@@ -182,13 +182,6 @@ ng new my-storefront-app --style=scss --zoneless=false \
 cd my-storefront-app
 ```
 
-> **Do not pass `--standalone=false`.** The Spartacus schematic requires the
-> standalone-app layout (it looks for `src/app/app.config.ts`) and aborts with
-> *"Could not find app.config.ts file"* on an NgModule-only app. The flags above
-> keep the default `--standalone` (true) while `--file-name-style-guide=2016` still
-> produces the `app.component.ts` / `app.module.ts` naming the later steps expect —
-> the schematic generates `app.module.ts` itself.
-
 Commit immediately after `ng new` — before adding Spartacus. If the schematics fail
 or produce only a partial result, this gives you a clean rollback point without having
 to recreate the Angular app from scratch:
@@ -197,17 +190,26 @@ to recreate the Angular app from scratch:
 git init && git add -A && git commit -m "chore: initial Angular app"
 ```
 
-Add the Spartacus schematics:
+Add the Spartacus schematics. Pass `--useMetaTags` so the schematic configures the
+OCC base URL via meta tags in `index.html` instead of a hardcoded `baseUrl` — this is
+exactly what CCv2 URL injection needs (see the note in step 1 of the Spartacus changes):
 
 ```bash
-ng add @spartacus/schematics@221121.13.1 --skip-confirmation
+ng add @spartacus/schematics@221121.13.1 --useMetaTags --skip-confirmation
 ```
 
 When the feature selection prompt appears, use **Space** to toggle features and **Enter**
 to confirm. Accept the defaults or customise the selection to match your project's needs.
 
 > **Non-interactive / CI:** to skip the feature prompt and take the defaults, run
-> `ng add @spartacus/schematics@221121.13.1 --skip-confirmation --interactive=false --defaults`.
+> `ng add @spartacus/schematics@221121.13.1 --useMetaTags --skip-confirmation --interactive=false`.
+
+> **What `--useMetaTags` does:** it adds `<meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE" />`
+> and `<meta name="media-backend-base-url" content="MEDIA_BACKEND_BASE_URL_VALUE" />`
+> to `<head>` (as CCv2-ready placeholders, since no `--baseUrl` is passed), and omits the
+> hardcoded `baseUrl` from the generated `provideConfig(<OccConfig>{...})` in
+> `spartacus-configuration.module.ts`. This covers two of the manual steps in the
+> Spartacus changes section below — you only add the `bff-base-url` meta tag yourself.
 
 Commit the Spartacus changes:
 
@@ -548,13 +550,6 @@ under `compilerOptions`:
 > `target: es2015`) that conflict with Angular 21's required `module: preserve` and `target: ES2022`
 > settings. Adding the paths manually avoids this conflict.
 
-> **Do not add `"ignoreDeprecations": "6.0"` to `apps/storefrontapp/tsconfig.json`.**
-> Unlike the workspace `tsconfig.base.json` (Step 1), the Angular build of the storefront
-> runs its `tsconfig.app.json` through the `@angular-compiler` plugin, which rejects
-> `"6.0"` with `TS5103: Invalid value for '--ignoreDeprecations'` and fails the build.
-> The Angular builder already tolerates the deprecated `baseUrl` on its own, so leave
-> `ignoreDeprecations` out of the storefront tsconfig — `baseUrl` + `paths` is all you need here.
-
 **Merge `apps/storefrontapp/package.json` into the workspace root:**
 
 1. Move all `dependencies` and `devDependencies` from `apps/storefrontapp/package.json`
@@ -652,17 +647,19 @@ npm install @vivaldi/angular@0.25.0
 
 ### 1. `src/index.html`
 
-Add the `bff-base-url` meta tag inside `<head>`. CCv2 replaces the placeholders
+Ensure `<head>` contains all three meta tags below. CCv2 replaces the placeholders
 at deploy time.
 
-> **Note:** With Spartacus schematics **221121.13.1** the generated `index.html` does
-> **not** contain an `occ-backend-base-url` meta tag (the OCC base URL is instead set via
-> `provideConfig(OccConfig{...})` in `spartacus-configuration.module.ts`). Add all three
-> tags below to `<head>` yourself. (If a future schematic version does emit
-> `<meta name="occ-backend-base-url" content="https://localhost:9002" />`, replace that
-> hardcoded value with the `OCC_BACKEND_BASE_URL_VALUE` placeholder rather than adding a
-> duplicate.) The hardcoded `baseUrl` in `spartacus-configuration.module.ts` must still be
-> removed — see the CRITICAL section above.
+> **Note:** If you ran `ng add @spartacus/schematics` with `--useMetaTags` (Step 2),
+> the `occ-backend-base-url` and `media-backend-base-url` tags are **already present**
+> as `OCC_BACKEND_BASE_URL_VALUE` / `MEDIA_BACKEND_BASE_URL_VALUE` placeholders, and no
+> hardcoded `baseUrl` was written to `spartacus-configuration.module.ts` — so you only
+> need to add the `bff-base-url` tag yourself.
+>
+> If you did **not** pass `--useMetaTags` (or you are integrating an existing app), the
+> schematic instead sets the OCC base URL via `provideConfig(<OccConfig>{...})` and does
+> not emit these meta tags. In that case add all three tags below yourself **and** remove
+> the hardcoded `baseUrl` — see the CRITICAL section below.
 
 ```html
 <meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE" />
@@ -683,6 +680,11 @@ at deploy time.
 ---
 
 ### CRITICAL: Remove hardcoded `baseUrl` from Spartacus configuration
+
+> **Not needed if you used `--useMetaTags` (Step 2).** That flag omits the hardcoded
+> `baseUrl` from the generated config, so there is nothing to remove. This section
+> applies when the schematic was run **without** `--useMetaTags`, or when integrating an
+> existing app whose `spartacus-configuration.module.ts` already hardcodes a `baseUrl`.
 
 `provideConfig()` takes precedence over meta tag factories. If your
 `spartacus-configuration.module.ts` contains a hardcoded `baseUrl`, the meta tag
