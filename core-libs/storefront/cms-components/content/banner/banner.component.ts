@@ -90,8 +90,10 @@ export class BannerComponent {
     if (currentIndex === -1) {
       return;
     }
+    const isVertical = event.key === 'ArrowUp' || event.key === 'ArrowDown';
+    const step = isVertical ? this.getColumnsPerRow(siblings) : 1;
     const isForward = event.key === 'ArrowRight' || event.key === 'ArrowDown';
-    const nextIndex = isForward ? currentIndex + 1 : currentIndex - 1;
+    const nextIndex = isForward ? currentIndex + step : currentIndex - step;
     if (nextIndex < 0 || nextIndex >= siblings.length) {
       return;
     }
@@ -100,6 +102,28 @@ export class BannerComponent {
       'a, button, [tabindex]'
     );
     focusTarget?.focus();
+  }
+
+  /**
+   * Returns the number of banners rendered in the first row, which is used as
+   * the step size for vertical (`ArrowUp`/`ArrowDown`) navigation. Banners are
+   * grouped by their top offset, so this assumes a uniform, top-aligned grid.
+   */
+  protected getColumnsPerRow(siblings: HTMLElement[]): number {
+    if (siblings.length <= 1) {
+      return siblings.length;
+    }
+    const firstTop = siblings[0].getBoundingClientRect().top;
+    let columns = 0;
+    for (const sibling of siblings) {
+      // allow a small tolerance for sub-pixel rounding
+      if (Math.abs(sibling.getBoundingClientRect().top - firstTop) < 1) {
+        columns++;
+      } else {
+        break;
+      }
+    }
+    return columns;
   }
 
   /**

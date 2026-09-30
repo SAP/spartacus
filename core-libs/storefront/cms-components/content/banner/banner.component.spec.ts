@@ -404,5 +404,158 @@ describe('BannerComponent', () => {
       bannerComponent.onKeydown(event);
       expect(focusSpy).toHaveBeenCalled();
     });
+
+    it('should navigate to previous sibling on ArrowLeft', () => {
+      (
+        bannerComponent as any
+      ).featureToggles.a11yOrgAdminTileArrowKeyNavigation = true;
+
+      const parent = document.createElement('div');
+      const sibling1 = document.createElement('cx-banner');
+      const sibling2 = document.createElement('cx-banner');
+      const link1 = document.createElement('a');
+      const link2 = document.createElement('a');
+      sibling1.appendChild(link1);
+      sibling2.appendChild(link2);
+      parent.appendChild(sibling1);
+      parent.appendChild(sibling2);
+
+      vi.spyOn(
+        (bannerComponent as any).el,
+        'nativeElement',
+        'get'
+      ).mockReturnValue(sibling2);
+
+      const focusSpy = vi.spyOn(link1, 'focus');
+      const event = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
+      vi.spyOn(event, 'preventDefault');
+      bannerComponent.onKeydown(event);
+      expect(focusSpy).toHaveBeenCalled();
+    });
+
+    it('should navigate down one row on ArrowDown', () => {
+      (
+        bannerComponent as any
+      ).featureToggles.a11yOrgAdminTileArrowKeyNavigation = true;
+
+      // 3 siblings in a single row (getBoundingClientRect().top === 0 for all
+      // off-document elements), so getColumnsPerRow returns 3 and ArrowDown
+      // from index 0 lands on index 3 — out of bounds, no focus
+      const parent = document.createElement('div');
+      const siblings = [0, 1, 2, 3].map(() => {
+        const el = document.createElement('cx-banner');
+        const link = document.createElement('a');
+        el.appendChild(link);
+        parent.appendChild(el);
+        return el;
+      });
+
+      vi.spyOn(
+        (bannerComponent as any).el,
+        'nativeElement',
+        'get'
+      ).mockReturnValue(siblings[0]);
+
+      const focusSpy = vi.spyOn(
+        siblings[3].querySelector('a') as HTMLElement,
+        'focus'
+      );
+      const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+      vi.spyOn(event, 'preventDefault');
+      bannerComponent.onKeydown(event);
+      // off-document elements share top=0, so all 4 are on one "row"
+      // step=4, nextIndex=4 which is out of bounds → no focus
+      expect(focusSpy).not.toHaveBeenCalled();
+    });
+
+    it('should navigate up one row on ArrowUp when columns are known', () => {
+      (
+        bannerComponent as any
+      ).featureToggles.a11yOrgAdminTileArrowKeyNavigation = true;
+
+      const parent = document.createElement('div');
+      const siblings = [0, 1, 2, 3].map(() => {
+        const el = document.createElement('cx-banner');
+        const link = document.createElement('a');
+        el.appendChild(link);
+        parent.appendChild(el);
+        return el;
+      });
+
+      // Mock two rows of 2: siblings[0,1] at top=0, siblings[2,3] at top=100
+      [siblings[0], siblings[1]].forEach((s) =>
+        vi
+          .spyOn(s, 'getBoundingClientRect')
+          .mockReturnValue({ top: 0 } as DOMRect)
+      );
+      [siblings[2], siblings[3]].forEach((s) =>
+        vi
+          .spyOn(s, 'getBoundingClientRect')
+          .mockReturnValue({ top: 100 } as DOMRect)
+      );
+
+      vi.spyOn(
+        (bannerComponent as any).el,
+        'nativeElement',
+        'get'
+      ).mockReturnValue(siblings[2]);
+
+      const focusSpy = vi.spyOn(
+        siblings[0].querySelector('a') as HTMLElement,
+        'focus'
+      );
+      const event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+      vi.spyOn(event, 'preventDefault');
+      bannerComponent.onKeydown(event);
+      // step=2 (2 columns), ArrowUp from index 2 → index 0
+      expect(focusSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('getColumnsPerRow()', () => {
+    it('should return 0 for empty array', () => {
+      expect((bannerComponent as any).getColumnsPerRow([])).toBe(0);
+    });
+
+    it('should return 1 for a single element', () => {
+      const el = document.createElement('cx-banner');
+      expect((bannerComponent as any).getColumnsPerRow([el])).toBe(1);
+    });
+
+    it('should return full count when all siblings share the same top', () => {
+      // Off-document elements all return top=0, so they are all on one row
+      const siblings = [0, 1, 2].map(() => document.createElement('cx-banner'));
+      expect((bannerComponent as any).getColumnsPerRow(siblings)).toBe(3);
+    });
+
+    it('should stop counting at the first element on a new row', () => {
+      const siblings = [0, 1, 2, 3].map(() =>
+        document.createElement('cx-banner')
+      );
+      vi.spyOn(siblings[0], 'getBoundingClientRect').mockReturnValue({
+        top: 0,
+      } as DOMRect);
+      vi.spyOn(siblings[1], 'getBoundingClientRect').mockReturnValue({
+        top: 0,
+      } as DOMRect);
+      vi.spyOn(siblings[2], 'getBoundingClientRect').mockReturnValue({
+        top: 100,
+      } as DOMRect);
+      vi.spyOn(siblings[3], 'getBoundingClientRect').mockReturnValue({
+        top: 100,
+      } as DOMRect);
+      expect((bannerComponent as any).getColumnsPerRow(siblings)).toBe(2);
+    });
+
+    it('should treat sub-pixel differences (< 1px) as the same row', () => {
+      const siblings = [0, 1].map(() => document.createElement('cx-banner'));
+      vi.spyOn(siblings[0], 'getBoundingClientRect').mockReturnValue({
+        top: 0,
+      } as DOMRect);
+      vi.spyOn(siblings[1], 'getBoundingClientRect').mockReturnValue({
+        top: 0.5,
+      } as DOMRect);
+      expect((bannerComponent as any).getColumnsPerRow(siblings)).toBe(2);
+    });
   });
 });
