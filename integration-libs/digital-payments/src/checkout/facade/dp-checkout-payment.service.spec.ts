@@ -4,12 +4,11 @@ import {
   PaymentDetails,
   UserIdService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Observable, firstValueFrom, of } from 'rxjs';
 import { DigitalPaymentsAdapter } from '../adapters/digital-payments.adapter';
 import { DpPaymentRequest } from './../models/dp-checkout.model';
 import { DpCheckoutPaymentService } from './dp-checkout-payment.service';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import createSpy = jasmine.createSpy;
 
 const initialPaymentRequestState: DpPaymentRequest | undefined = {};
 const initialPaymentDetailsState: PaymentDetails | undefined = {};
@@ -17,12 +16,8 @@ const cartId = 'cartId';
 const userId = 'userId';
 
 class MockDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
-  createPaymentRequest = createSpy('createPaymentRequest').and.returnValue(
-    of({})
-  );
-  createPaymentDetails = createSpy('createPaymentDetails').and.returnValue(
-    of({})
-  );
+  createPaymentRequest = vi.fn().mockReturnValue(of({}));
+  createPaymentDetails = vi.fn().mockReturnValue(of({}));
 }
 class MockUserIdService2 {
   takeUserId() {
@@ -146,30 +141,32 @@ describe('DpCheckoutPaymentService With Pre-Conditions failing', () => {
     cardFacade = TestBed.inject(ActiveCartFacade);
     userIdService = TestBed.inject(UserIdService);
   });
-  it('should not create payment details if preconditions are not met', (done) => {
-    spyOn(userIdService, 'takeUserId').and.returnValue(
+  it('should not create payment details if preconditions are not met', async () => {
+    vi.spyOn(userIdService, 'takeUserId').mockReturnValue(
       of(OCC_USER_ID_ANONYMOUS)
     );
-    spyOn(cardFacade, 'isGuestCart').and.returnValue(of(false));
-    service.createPaymentDetails(sessionId, signature).subscribe({
-      error: (error) => {
-        expect(error.message).toEqual('Checkout conditions not met');
-        expect(dpAdapter.createPaymentDetails).not.toHaveBeenCalled();
-        done();
-      },
-    });
+    vi.spyOn(cardFacade, 'isGuestCart').mockReturnValue(of(false));
+    let caughtError: any;
+    try {
+      await firstValueFrom(service.createPaymentDetails(sessionId, signature));
+    } catch (e) {
+      caughtError = e;
+    }
+    expect(caughtError?.message).toEqual('Checkout conditions not met');
+    expect(dpAdapter.createPaymentDetails).not.toHaveBeenCalled();
   });
-  it('should not get card registration details if preconditions are not met', (done) => {
-    spyOn(userIdService, 'takeUserId').and.returnValue(
+  it('should not get card registration details if preconditions are not met', async () => {
+    vi.spyOn(userIdService, 'takeUserId').mockReturnValue(
       of(OCC_USER_ID_ANONYMOUS)
     );
-    spyOn(cardFacade, 'isGuestCart').and.returnValue(of(false));
-    service.getCardRegistrationDetails().subscribe({
-      error: (error) => {
-        expect(error.message).toEqual('Checkout conditions not met');
-        expect(dpAdapter.createPaymentRequest).not.toHaveBeenCalled();
-        done();
-      },
-    });
+    vi.spyOn(cardFacade, 'isGuestCart').mockReturnValue(of(false));
+    let caughtError: any;
+    try {
+      await firstValueFrom(service.getCardRegistrationDetails());
+    } catch (e) {
+      caughtError = e;
+    }
+    expect(caughtError?.message).toEqual('Checkout conditions not met');
+    expect(dpAdapter.createPaymentRequest).not.toHaveBeenCalled();
   });
 });

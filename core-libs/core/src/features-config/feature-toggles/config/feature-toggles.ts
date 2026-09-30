@@ -372,6 +372,13 @@ export interface FeatureTogglesInterface {
   a11yReviewsKeyboardControls?: boolean;
 
   /**
+   * When enabled, scrolls the 'Show More/Less Reviews' button into view after
+   * clicking it, ensuring the focused element remains visible in the viewport.
+   * Affects: ProductReviewsComponent
+   */
+  a11yShowMoreReviewsFocusVisible?: boolean;
+
+  /**
    * Use on existing form buttons that are programatically disabled/enabled.
    * To use, duplicate button and use false in original and true in duplicate. The duplicated button
    * should be initialized as enabled, clickable and use cx-form-errors in outcomes where original button
@@ -863,6 +870,48 @@ export interface FeatureTogglesInterface {
    * Affects: `ActiveFacetsComponent`
    */
   a11yClearAllActiveFacets?: boolean;
+
+  /**
+   * When enabled, adds up/down arrow key navigation between table rows,
+   * turning the table into a composite keyboard widget.
+   * Affects: TableComponent
+   * ACC-270.3
+   */
+  a11yTableKeyboardNavigation?: boolean;
+
+  /**
+   * When enabled, replaces per-link tabindex binding in PaginationComponent
+   * with roving tabindex (left/right arrow key navigation across page links).
+   * Affects: PaginationComponent
+   */
+  a11yPaginationKeyboardNavigation?: boolean;
+
+  /**
+   * When enabled, adds `cxFocusableCarouselItem` to product carousel items so
+   * arrow key navigation works inside the carousel.
+   * Affects: ProductCarouselItemComponent
+   * ACC-270.3
+   */
+  a11yCarouselItemArrowKeyNavigation?: boolean;
+
+  /**
+   * When enabled, the RESET button in the "Add To Your Coupon List" claim dialog
+   * is rendered as a proper `<button>` element instead of an `<a role="button">`
+   * without an `href`, making it reachable and operable with the keyboard.
+   * Fixes WCAG 2.1.1 (Keyboard) ACC-270.1 (Level A).
+   * Affects: `ClaimDialogComponent`
+   */
+  a11yCouponDialogResetButtonKeyboardAccessible?: boolean;
+
+  /**
+   * When enabled, the "In Stock" / "Out of Stock" info text in the
+   * `AddToCartComponent` uses `--cx-color-text` instead of
+   * `--cx-color-secondary`, ensuring the text meets the WCAG 1.4.3 Level AA
+   * minimum contrast ratio of 4.5:1 against all background surfaces.
+   *
+   * Affects: `AddToCartComponent`
+   */
+  a11yInStockInfoTextContrast?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -912,6 +961,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFilteredFacetAnnouncement: false,
   a11yCartItemListHideEmptyOutlets: true,
   a11yReviewsKeyboardControls: true,
+  a11yShowMoreReviewsFocusVisible: false,
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yConsentManagementFocusPreservation: false,
   a11yDeliveryModeFocusPreservation: false,
@@ -966,4 +1016,9 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
   a11yClearAllActiveFacets: false,
+  a11yTableKeyboardNavigation: false,
+  a11yPaginationKeyboardNavigation: false,
+  a11yCarouselItemArrowKeyNavigation: false,
+  a11yCouponDialogResetButtonKeyboardAccessible: false,
+  a11yInStockInfoTextContrast: false,
 };

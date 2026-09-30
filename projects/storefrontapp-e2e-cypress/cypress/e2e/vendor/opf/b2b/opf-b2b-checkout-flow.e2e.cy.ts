@@ -91,7 +91,7 @@ context('OPF B2B - Account Checkout flow', () => {
     });
 
     // Select shipping address
-    cy.wait(3000);
+    cy.wait(1000);
     cy.findByText('Continue').click();
 
     // Select delivery mode

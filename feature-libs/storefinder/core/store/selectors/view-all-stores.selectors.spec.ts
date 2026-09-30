@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { vi } from 'vitest';
 import { StoreFinderActions } from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import { StoreFinderSelectors } from '../selectors/index';

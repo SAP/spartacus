@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { delay, Observable, of } from 'rxjs';
-import { vi } from 'vitest';
 import { Config } from '../../../config';
 import { ConfigInitializerService } from '../../../config/config-initializer';
 import { FeatureToggles } from '../../../features-config/feature-toggles';

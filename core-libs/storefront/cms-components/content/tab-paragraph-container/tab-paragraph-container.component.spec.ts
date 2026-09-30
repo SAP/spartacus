@@ -13,7 +13,6 @@ import {
 } from '@spartacus/core';
 import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
-import { vi } from 'vitest';
 import { CmsComponentData } from '../../../cms-structure/index';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';

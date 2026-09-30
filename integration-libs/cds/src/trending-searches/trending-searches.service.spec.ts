@@ -5,7 +5,6 @@
  *
  */
 
-import { vi } from 'vitest';
 import {
   provideHttpClient,
   withInterceptorsFromDi,

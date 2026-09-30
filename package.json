@@ -144,7 +144,7 @@
     "test": "nx test",
     "test:schematics": "npm --prefix ./core-libs/schematics test --",
     "test:all-schematics": "set -e; npm --prefix ./core-libs/schematics test -- -u; for dir in feature-libs/* integration-libs/*; do (cd $dir && npm run test:schematics -- -u); done",
-    "test:libs": "concurrently \"nx test core --code-coverage\" \"nx test storefrontlib --code-coverage\" \"nx test cart --code-coverage\" \"nx test organization --code-coverage\" \"nx test storefinder --code-coverage\" \"nx test smartedit --code-coverage\" \"nx test asm --code-coverage\" \"nx test qualtrics --code-coverage\" \"nx test product --code-coverage\" \"nx test product-configurator --code-coverage\" \"nx test product-multi-dimensional --code-coverage\" \"nx test customer-ticketing --code-coverage\" \"nx test subscription-billing --code-coverage\" \"nx test cdc --code-coverage\" \"nx test s4-service --code-coverage\" \"nx test cdp --code-coverage\" \"nx test opps --code-coverage\" \"nx test setup --code-coverage\" \"nx test checkout --code-coverage\" \"nx test order --code-coverage\" \"nx test digital-payments --code-coverage\" \"nx test epd-visualization --code-coverage\" \"nx test pickup-in-store --code-coverage\" \"nx test s4om --code-coverage\" \"nx test cpq-quote --code-coverage\" \"nx test omf --code-coverage\" \"nx test requested-delivery-date --code-coverage\" \"nx test estimated-delivery-date --code-coverage\" \"nx test pdf-invoices --code-coverage\" \"nx test quote --code-coverage\" \"nx test opf --code-coverage\" \"nx test punchout --code-coverage\"",
+    "test:libs": "concurrently \"nx test-vitest core\" \"nx test-vitest storefrontlib\" \"nx test-vitest cart\" \"nx test-vitest organization\" \"nx test-vitest storefinder\" \"nx test-vitest smartedit\" \"nx test-vitest asm\" \"nx test-vitest qualtrics\" \"nx test-vitest product\" \"nx test-vitest product-configurator\" \"nx test-vitest product-multi-dimensional\" \"nx test-vitest customer-ticketing\" \"nx test-vitest subscription-billing\" \"nx test cdc --code-coverage\" \"nx test s4-service --code-coverage\" \"nx test cdp --code-coverage\" \"nx test opps --code-coverage\" \"nx test setup --code-coverage\" \"nx test-vitest checkout\" \"nx test-vitest order\" \"nx test digital-payments --code-coverage\" \"nx test epd-visualization --code-coverage\" \"nx test-vitest pickup-in-store\" \"nx test s4om --code-coverage\" \"nx test cpq-quote --code-coverage\" \"nx test omf --code-coverage\" \"nx test-vitest requested-delivery-date\" \"nx test-vitest estimated-delivery-date\" \"nx test-vitest pdf-invoices\" \"nx test-vitest quote\" \"nx test opf --code-coverage\" \"nx test punchout --code-coverage\" \"nx test-vitest tracking\" \"nx test-vitest user\"",
     "test:storefront:lib": "nx test storefrontlib --source-map --code-coverage",
     "test:opf:lib": "nx test opf --source-map --code-coverage",
     "delete:ssr-dist": "rimraf dist/storefrontapp/server",
@@ -229,7 +229,7 @@
     "@types/jasmine": "~6.0.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.19.1",
-    "@types/semver": "7.7.1",
+    "@types/semver": "7.8.0",
     "@types/shelljs": "^0.10.0",
     "@typescript-eslint/utils": "^8.40.0",
     "@vitest/coverage-v8": "^4.1.10",
@@ -289,7 +289,7 @@
     "ts-node": "^10.6.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.58.0",
-    "verdaccio": "6.8.0",
+    "verdaccio": "6.10.4",
     "vitest": "^4.1.10",
     "webpack": "~5.111.0",
     "webpack-cli": "^7.0.0"
@@ -298,37 +298,44 @@
     "@verdaccio/middleware": {
       "express-rate-limit": "5.5.1"
     },
+    "adm-zip": "0.6.1",
     "axios": "1.20.0",
+    "brace-expansion@^1": "1.1.18",
+    "brace-expansion@^5": "5.0.9",
+    "browser-sync": {
+      "immutable": "5.1.9"
+    },
+    "browserslist": "4.28.7",
     "express-rate-limit": "8.5.1",
+    "fast-uri@^3": "3.1.8",
     "flatted": "3.4.4",
+    "form-data@^2": "2.5.6",
+    "form-data@^4": "4.0.6",
+    "http-proxy-middleware@^2": "2.0.10",
+    "http-proxy-middleware@^3": "3.0.7",
     "i18n-lint": {
       "minimatch": "3.1.5"
+    },
+    "immutable@^5": "5.1.8",
+    "js-yaml@^4": "4.3.2",
+    "jsdom": {
+      "undici": "8.10.2"
     },
     "karma": {
       "minimatch": "3.1.5"
     },
-    "jsdom": {
-      "undici": "8.10.2"
-    },
     "lodash": "4.18.1",
     "minimatch": "10.2.4",
-    "rollup-plugin-dts": "6.2.3",
-    "tmp": "0.2.7",
-    "test-exclude": "8.0.0",
-    "undici": "8.10.2",
-    "form-data@^2": "2.5.6",
-    "form-data@^4": "4.0.6",
-    "vite": "8.2.2",
-    "ws@^8": "8.21.0",
-    "browser-sync": {
-      "immutable": "5.1.9"
+    "npm-cli-login": {
+      "tough-cookie": "4.1.3"
     },
-    "immutable@^5": "5.1.8",
-    "fast-uri@^3": "3.1.8",
-    "brace-expansion@^1": "1.1.18",
-    "brace-expansion@^5": "5.0.9",
-    "http-proxy-middleware@^2": "2.0.10",
-    "http-proxy-middleware@^3": "3.0.7",
-    "browserslist": "4.28.7"
+    "rollup-plugin-dts": "6.2.3",
+    "sigstore": "4.1.1",
+    "smol-toml": "1.7.1",
+    "test-exclude": "8.0.0",
+    "tmp": "0.2.7",
+    "undici": "8.10.2",
+    "vite": "8.2.2",
+    "ws@^8": "8.21.1"
   }
 }

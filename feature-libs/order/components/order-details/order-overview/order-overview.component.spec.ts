@@ -17,7 +17,6 @@ import {
 import { Order, OrderConfig, ReplenishmentOrder } from '@spartacus/order/root';
 import { Card, CardComponent, CmsComponentData } from '@spartacus/storefront';
 import { EMPTY, firstValueFrom, Observable, of } from 'rxjs';
-import { vi } from 'vitest';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderOverviewComponentService } from './order-overview-component.service';
 import { OrderOverviewComponent } from './order-overview.component';
