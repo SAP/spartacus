@@ -462,7 +462,7 @@ describe('TableComponent with a11yTableKeyboardNavigation enabled', () => {
     rows[1].focus();
 
     container.dispatchEvent(
-      new KeyboardEvent('keydown', { key: ' ', bubbles: true })
+      new KeyboardEvent('keyup', { key: ' ', bubbles: true })
     );
 
     expect(tableComponent.launch.emit).toHaveBeenCalledWith(data[1]);
