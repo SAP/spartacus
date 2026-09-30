@@ -202,7 +202,7 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
           useClass: MockConfiguratorCommonsService,
         },
         { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-        provideMockFeatureToggles({
+        ...provideMockFeatureToggles({
           productConfiguratorCPQContainer: false,
         }),
       ],

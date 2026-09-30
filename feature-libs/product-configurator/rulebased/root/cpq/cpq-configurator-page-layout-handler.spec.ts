@@ -117,7 +117,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
           provide: LayoutConfig,
           useValue: mockLayoutConfig,
         },
-        provideMockFeatureToggles({ productConfiguratorCPQContainer: true }),
+        ...provideMockFeatureToggles({ productConfiguratorCPQContainer: true }),
       ],
     }).compileComponents();
   });

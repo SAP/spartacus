@@ -35,7 +35,14 @@ import {
 } from '@spartacus/storefront';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  EMPTY,
+  firstValueFrom,
+  Observable,
+  of,
+  throwError,
+} from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorMessageGroup } from '../../service/configurator-message.service';
@@ -212,7 +219,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfiguratorStorefrontUtilsService,
         },
-        provideMockFeatureToggles({
+        ...provideMockFeatureToggles({
           productConfiguratorConsolidatedButtonDisabling: true,
           productConfiguratorCPQContainer: true,
         }),
@@ -678,7 +685,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.btn-tertiary')
       ).nativeElement;
-      expect(button.innerText).toContain('configurator.button.remove');
+      expect(button.textContent).toContain('configurator.button.remove');
     });
 
     it('should use secondary class for the multi-select remove button when the toggle is disabled', () => {
@@ -687,7 +694,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.btn-secondary')
       ).nativeElement;
-      expect(button.innerText).toContain('configurator.button.remove');
+      expect(button.textContent).toContain('configurator.button.remove');
       expect(htmlElem.querySelector('button.btn-tertiary')).toBeFalsy();
     });
 
@@ -697,7 +704,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.btn-secondary')
       ).nativeElement;
-      expect(button.innerText).toContain('configurator.button.select');
+      expect(button.textContent).toContain('configurator.button.select');
     });
 
     it('should use primary class for the single-select button when the toggle is disabled', () => {
@@ -709,7 +716,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.btn-primary')
       ).nativeElement;
-      expect(button.innerText).toContain('configurator.button.select');
+      expect(button.textContent).toContain('configurator.button.select');
       expect(htmlElem.querySelector('button.btn-secondary')).toBeFalsy();
     });
   });
@@ -785,28 +792,24 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       ).toEqual(productTransformed);
     });
 
-    it('should fall back to configuration value when catalog product is missing', (done) => {
+    it('should fall back to configuration value when catalog product is missing', async () => {
       const productService = TestBed.inject(ProductService);
       vi.spyOn(productService, 'get').mockReturnValue(of(undefined));
 
       component.ngOnInit();
-      component.product$.subscribe((catalogProduct) => {
-        expect(catalogProduct).toEqual(productTransformed);
-        done();
-      });
+      const catalogProduct = await firstValueFrom(component.product$);
+      expect(catalogProduct).toEqual(productTransformed);
     });
 
-    it('should fall back to configuration value when catalog lookup errors', (done) => {
+    it('should fall back to configuration value when catalog lookup errors', async () => {
       const productService = TestBed.inject(ProductService);
       vi.spyOn(productService, 'get').mockReturnValue(
         throwError(() => new Error("Product with code '1111-2222' not found!"))
       );
 
       component.ngOnInit();
-      component.product$.subscribe((catalogProduct) => {
-        expect(catalogProduct).toEqual(productTransformed);
-        done();
-      });
+      const catalogProduct = await firstValueFrom(component.product$);
+      expect(catalogProduct).toEqual(productTransformed);
     });
 
     it('should display quantity when props withQuantity is true', () => {

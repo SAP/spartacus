@@ -656,7 +656,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
 
       expect(attributes?.length).toBe(2);
       expect(attributes?.[0]).toEqual(
-        jasmine.objectContaining({
+        expect.objectContaining({
           attribute: 'Lenses',
           attributeId: containerAttributeCode.toString(),
           value: '50mm Lens',
@@ -784,8 +784,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
         (row) => row.id === 'zoom'
       )?.configuration;
       if (!nestedConfiguration?.tabs) {
-        fail();
-        return;
+        throw new Error('Nested configuration tabs not available');
       }
       nestedConfiguration.tabs.push({
         id: 3,

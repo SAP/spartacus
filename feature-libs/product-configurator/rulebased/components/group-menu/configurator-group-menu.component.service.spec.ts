@@ -274,8 +274,7 @@ describe('ConfiguratorGroupMenuService', () => {
         'main cx-configurator-group-menu'
       );
       if (!groupMenu) {
-        fail('Group menu not available');
-        return;
+        throw new Error('Group menu not available');
       }
       groupMenu.prepend(backButton);
       const array = groups.toArray();

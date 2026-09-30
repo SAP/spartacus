@@ -71,6 +71,20 @@ describe('ConfiguratorTruncatePathTitleDirective', () => {
   let span: HTMLElement;
   let windowRef: WindowRef;
 
+  /** jsdom has no layout; approximate Karma scrollWidth from text length. */
+  function stubHostLayout(host: HTMLElement, clientWidth: number): void {
+    Object.defineProperty(host, 'clientWidth', {
+      configurable: true,
+      value: clientWidth,
+    });
+    Object.defineProperty(host, 'scrollWidth', {
+      configurable: true,
+      get() {
+        return (host.textContent?.length ?? 0) * 10;
+      },
+    });
+  }
+
   function instantiate(): void {
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
@@ -85,37 +99,51 @@ describe('ConfiguratorTruncatePathTitleDirective', () => {
   }
 
   beforeEach(() => {
+    vi.stubGlobal(
+      'ResizeObserver',
+      vi.fn().mockImplementation(function () {
+        return {
+          observe: vi.fn(),
+          unobserve: vi.fn(),
+          disconnect: vi.fn(),
+        };
+      })
+    );
     TestBed.configureTestingModule({
       imports: [ConfiguratorTruncatePathTitleDirective, TestComponent],
     });
     windowRef = TestBed.inject(WindowRef);
   });
 
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
   describe('in the browser', () => {
     beforeEach(() => {
       instantiate();
-      fixture.detectChanges();
     });
 
     it('should truncate leading path segments when the host is too narrow', () => {
-      span.style.width = '80px';
+      stubHostLayout(span, 80);
+      fixture.detectChanges();
       directive['updateTitle']();
 
       expect(span.textContent).toBe(TRUNCATED_LAST);
     });
 
     it('should show the full title when it fits', () => {
-      span.style.width = '2000px';
+      stubHostLayout(span, 2000);
+      fixture.detectChanges();
       directive['updateTitle']();
 
       expect(span.textContent).toBe(FULL_TITLE);
     });
 
     it('should update the displayed title when the input changes', () => {
-      span.style.width = '2000px';
+      stubHostLayout(span, 2000);
       component.title = LAST_SEGMENT;
       fixture.detectChanges();
-      directive['updateTitle']();
 
       expect(span.textContent).toBe(LAST_SEGMENT);
     });
@@ -128,6 +156,7 @@ describe('ConfiguratorTruncatePathTitleDirective', () => {
     });
 
     it('should disconnect the resize observer on destroy', () => {
+      fixture.detectChanges();
       const observer = directive['resizeObserver'];
       expect(observer).toBeDefined();
       const disconnectSpy = vi.spyOn(observer as ResizeObserver, 'disconnect');

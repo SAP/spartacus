@@ -465,7 +465,7 @@ describe('ConfigProductTitleComponent', () => {
           provide: ConfiguratorExpertModeService,
           useClass: MockConfiguratorExpertModeService,
         },
-        provideMockFeatureToggles({
+        ...provideMockFeatureToggles({
           productConfiguratorCPQContainer: false,
         }),
         {
@@ -619,7 +619,7 @@ describe('ConfigProductTitleComponent', () => {
 
     it('should not emit a product when the catalog product is missing', () => {
       setDataForProductConfiguration();
-      (productService.get as jasmine.Spy).mockReturnValue(of(undefined));
+      vi.mocked(productService.get).mockReturnValue(of(undefined));
       initialize();
 
       let emitted = false;

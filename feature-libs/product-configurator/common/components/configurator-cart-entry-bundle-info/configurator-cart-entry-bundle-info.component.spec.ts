@@ -123,7 +123,9 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         {
           provide: ControlContainer,
         },
-        provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
+        ...provideMockFeatureToggles({
+          productConfiguratorCPQContainer: false,
+        }),
       ],
     })
       .overrideComponent(ConfiguratorCartEntryBundleInfoComponent, {
@@ -997,8 +999,8 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       });
 
       it('should render the toggle button if the threshold is not exceeded', () => {
-        (
-          component['getCartEntryBundleLineItemsThreshold'] as jasmine.Spy
+        vi.mocked(
+          component['getCartEntryBundleLineItemsThreshold']
         ).mockReturnValue(3);
         emitCartEntry(PromotionLocation.ActiveCart);
 

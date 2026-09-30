@@ -313,8 +313,8 @@ describe('ConfigurationOverviewMenuComponent', () => {
 
     it('should compose the query selector from the escaped group id', () => {
       initialize();
-      (
-        configuratorStorefrontUtilsService.createOvGroupId as jasmine.Spy
+      vi.mocked(
+        configuratorStorefrontUtilsService.createOvGroupId
       ).mockReturnValue('cx--GROUP@1-ovGroup');
       vi.spyOn(configuratorStorefrontUtilsService, 'idSelector');
 

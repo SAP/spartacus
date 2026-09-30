@@ -1,11 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
@@ -169,8 +163,8 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     button.click();
   }
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [I18nTestingModule, ConfiguratorAttributeContainerComponent],
       providers: [
         {
@@ -205,7 +199,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
         add: { imports: [MockCxIconComponent, MockProductCardComponent] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorAttributeContainerComponent);
@@ -1050,7 +1044,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
             groupId: selectedRowGroupId,
           },
         ]);
-        vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+        vi.spyOn(
+          configuratorCommonsService,
+          'getConfiguration'
+        ).mockReturnValue(
           of(
             configurationWithMessages(selectedRowGroupId, [
               {
@@ -1097,7 +1094,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
             ],
           },
         };
-        vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+        vi.spyOn(
+          configuratorCommonsService,
+          'getConfiguration'
+        ).mockReturnValue(
           of(configurationWithMessages(selectedRowGroupId, []))
         );
 
@@ -1125,7 +1125,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
             groupId: selectedRowGroupId,
           },
         ]);
-        vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+        vi.spyOn(
+          configuratorCommonsService,
+          'getConfiguration'
+        ).mockReturnValue(
           of(
             configurationWithMessages(selectedRowGroupId, [
               {
@@ -1170,7 +1173,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
             ],
           },
         };
-        vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+        vi.spyOn(
+          configuratorCommonsService,
+          'getConfiguration'
+        ).mockReturnValue(
           of(configurationWithMessages(availableRowGroupId, []))
         );
 
@@ -1204,7 +1210,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
             ],
           },
         };
-        vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+        vi.spyOn(
+          configuratorCommonsService,
+          'getConfiguration'
+        ).mockReturnValue(
           of(
             configurationWithMessages(availableRowGroupId, [
               {
@@ -1249,7 +1258,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
             ],
           },
         };
-        vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+        vi.spyOn(
+          configuratorCommonsService,
+          'getConfiguration'
+        ).mockReturnValue(
           of(
             configurationWithMessages(availableRowGroupId, [
               {
@@ -1296,7 +1308,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
             ],
           },
         };
-        vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+        vi.spyOn(
+          configuratorCommonsService,
+          'getConfiguration'
+        ).mockReturnValue(
           of(
             configurationWithMessages(availableRowGroupId, [
               {
@@ -1342,7 +1357,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
             selected: true,
           },
         ]);
-        vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+        vi.spyOn(
+          configuratorCommonsService,
+          'getConfiguration'
+        ).mockReturnValue(
           of(ConfiguratorTestUtils.createConfiguration('config-id'))
         );
 
@@ -1396,7 +1414,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
             ],
           },
         };
-        vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+        vi.spyOn(
+          configuratorCommonsService,
+          'getConfiguration'
+        ).mockReturnValue(
           of(configurationWithMessages(availableRowGroupId, []))
         );
 
@@ -1438,7 +1459,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
             ],
           },
         };
-        vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+        vi.spyOn(
+          configuratorCommonsService,
+          'getConfiguration'
+        ).mockReturnValue(
           of(configurationWithMessages(availableRowGroupId, []))
         );
 
@@ -1477,7 +1501,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
             ],
           },
         };
-        vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+        vi.spyOn(
+          configuratorCommonsService,
+          'getConfiguration'
+        ).mockReturnValue(
           of(configurationWithMessages(availableRowGroupId, []))
         );
 
@@ -1516,7 +1543,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
             ],
           },
         };
-        vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+        vi.spyOn(
+          configuratorCommonsService,
+          'getConfiguration'
+        ).mockReturnValue(
           of(configurationWithMessages(availableRowGroupId, []))
         );
 
@@ -2231,27 +2261,27 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       expect(component.availableProductsSearchTerm).toBe('');
     });
 
-    it('should focus the search input when the drop-down is opened', fakeAsync(() => {
+    it('should focus the search input when the drop-down is opened', async () => {
       renderWithAvailableProducts(DEFAULT_THRESHOLD + 1);
       const searchInput = getSearchInput();
       vi.spyOn(searchInput, 'focus');
 
       component.openAvailableProductsDropdown(new Event('click'));
-      tick();
+      await new Promise((resolve) => setTimeout(resolve, 0));
 
       expect(searchInput.focus).toHaveBeenCalled();
-    }));
+    });
 
-    it('should focus the search input when the drop-down is opened with the caret button', fakeAsync(() => {
+    it('should focus the search input when the drop-down is opened with the caret button', async () => {
       renderWithAvailableProducts(DEFAULT_THRESHOLD + 1);
       const searchInput = getSearchInput();
       vi.spyOn(searchInput, 'focus');
 
       component.toggleAvailableProductsDropdown(new Event('click'));
-      tick();
+      await new Promise((resolve) => setTimeout(resolve, 0));
 
       expect(searchInput.focus).toHaveBeenCalled();
-    }));
+    });
 
     it('should make the search input writable and update its placeholder when the drop-down is open', () => {
       renderWithAvailableProducts(DEFAULT_THRESHOLD + 1);

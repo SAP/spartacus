@@ -556,11 +556,9 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       const utils = TestBed.inject(
         ConfiguratorStorefrontUtilsService
       ) as unknown as {
-        isLastSelected: jasmine.Spy;
+        isLastSelected: ReturnType<typeof vi.fn>;
       };
-      utils.isLastSelected = jasmine
-        .createSpy('isLastSelected')
-        .mockReturnValue(true);
+      utils.isLastSelected = vi.fn().mockReturnValue(true);
 
       expect(classUnderTest.isLastSelected('attributeName', 'valueCode')).toBe(
         true

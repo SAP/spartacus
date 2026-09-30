@@ -101,16 +101,14 @@ class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
 
   addContainerRow = vi
     .fn()
-    .mockImplementation(
-      (parameters: Configurator.AddContainerRowParameters) =>
-        of('addContainerRow' + parameters.configId)
+    .mockImplementation((parameters: Configurator.AddContainerRowParameters) =>
+      of('addContainerRow' + parameters.configId)
     );
 
   copyContainerRow = vi
     .fn()
-    .mockImplementation(
-      (parameters: Configurator.CopyContainerRowParameters) =>
-        of('copyContainerRow' + parameters.configId)
+    .mockImplementation((parameters: Configurator.CopyContainerRowParameters) =>
+      of('copyContainerRow' + parameters.configId)
     );
 
   removeContainerRow = vi

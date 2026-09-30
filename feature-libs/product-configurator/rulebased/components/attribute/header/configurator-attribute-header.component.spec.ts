@@ -11,7 +11,7 @@ import {
   IconModule,
 } from '@spartacus/storefront';
 import { getTestScheduler } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../core/facade/configurator-groups.service';
@@ -765,6 +765,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
     it('should render container required message with remaining products as count', () => {
       component.attribute.uiType = Configurator.UiType.CONTAINER;
+      component.attribute.required = true;
       component.attribute.container = {
         minRows: 4,
         rows: [
@@ -773,6 +774,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         ],
       };
       component.showRequiredMessageForDomainAttribute$ = of(true);
+      fixture.detectChanges();
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
@@ -1661,7 +1663,9 @@ describe('ConfigAttributeHeaderComponent', () => {
         key: 'configurator.attribute.containerRequiredMessage',
         params: { count: 2 },
       };
-      vi.spyOn(component, 'getRequiredMessageKey').mockReturnValue(translatable);
+      vi.spyOn(component, 'getRequiredMessageKey').mockReturnValue(
+        translatable
+      );
 
       const groups = component.getMessageGroups(true);
 
@@ -1683,7 +1687,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   describe('container message context callbacks', () => {
     let configuratorMessageService: ConfiguratorMessageService;
-    let enrichSpy: jasmine.Spy;
+    let enrichSpy: ReturnType<typeof vi.spyOn>;
 
     beforeEach(() => {
       configuratorMessageService = TestBed.inject(ConfiguratorMessageService);
@@ -1701,7 +1705,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
       component.getContainerMessages();
 
-      const context = enrichSpy.calls.mostRecent().args[1];
+      const context = vi.mocked(enrichSpy).mock.lastCall![1];
       expect(
         context.getContainerRequiredMessageKey(4, [{ id: '1', selected: true }])
       ).toEqual({
@@ -1716,7 +1720,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
       component.getMessageGroups(true);
 
-      const context = enrichSpy.calls.mostRecent().args[1];
+      const context = vi.mocked(enrichSpy).mock.lastCall![1];
       expect(context.getContainerRowInfoKey(2, 5)).toEqual({
         key: 'configurator.attribute.containerMinMaxRows',
         params: { minRows: 2, maxRows: 5 },
@@ -1743,29 +1747,29 @@ describe('ConfigAttributeHeaderComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('emits true when group is visited and attribute needs required message', (done) => {
+    it('emits true when group is visited and attribute needs required message', async () => {
       isCartEntryOrGroupVisited = true;
       component.attribute.required = true;
       component.attribute.incomplete = true;
       component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
       component.ngOnInit();
 
-      component.showRequiredMessageForDomainAttribute$.subscribe((show) => {
-        expect(show).toBe(true);
-        done();
-      });
+      const show = await firstValueFrom(
+        component.showRequiredMessageForDomainAttribute$
+      );
+      expect(show).toBe(true);
     });
 
-    it('emits false when group has not been visited', (done) => {
+    it('emits false when group has not been visited', async () => {
       isCartEntryOrGroupVisited = false;
       component.attribute.required = true;
       component.attribute.incomplete = true;
       component.ngOnInit();
 
-      component.showRequiredMessageForDomainAttribute$.subscribe((show) => {
-        expect(show).toBe(false);
-        done();
-      });
+      const show = await firstValueFrom(
+        component.showRequiredMessageForDomainAttribute$
+      );
+      expect(show).toBe(false);
     });
   });
 });

@@ -35,7 +35,7 @@ import {
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { firstValueFrom, Observable, of } from 'rxjs';
-import { delay, take } from 'rxjs/operators';
+import { delay } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -504,7 +504,9 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
           useClass: MockMultiCartFacade,
         },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
-        provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
+        ...provideMockFeatureToggles({
+          productConfiguratorCPQContainer: false,
+        }),
       ],
     })
       .overrideComponent(ConfiguratorAddToCartButtonComponent, {
@@ -1153,6 +1155,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
       setRouterTestDataReadOnlyCart();
       mockRouterData.navigateToCart = true;
       initialize();
+      fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,

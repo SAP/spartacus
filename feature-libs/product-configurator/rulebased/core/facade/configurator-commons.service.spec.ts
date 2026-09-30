@@ -396,9 +396,7 @@ describe('ConfiguratorCommonsService', () => {
   it('should add a container row, accessing the store', () => {
     cart.code = 'X';
     cartObs = of(cart);
-    spyOnProperty(ngrxStore, 'select').mockReturnValue(
-      () => () => of(productConfiguration)
-    );
+    vi.spyOn(store, 'pipe').mockReturnValueOnce(of(productConfiguration));
 
     serviceUnderTest.addContainerRow(OWNER_PRODUCT.key, 598, PRODUCT_CODE, '3');
 
@@ -428,9 +426,7 @@ describe('ConfiguratorCommonsService', () => {
   it('should remove a container row, accessing the store', () => {
     cart.code = 'X';
     cartObs = of(cart);
-    spyOnProperty(ngrxStore, 'select').mockReturnValue(
-      () => () => of(productConfiguration)
-    );
+    vi.spyOn(store, 'pipe').mockReturnValueOnce(of(productConfiguration));
 
     serviceUnderTest.removeContainerRow(OWNER_PRODUCT.key, '3');
 
@@ -458,9 +454,7 @@ describe('ConfiguratorCommonsService', () => {
   it('should copy a container row, accessing the store', () => {
     cart.code = 'X';
     cartObs = of(cart);
-    spyOnProperty(ngrxStore, 'select').mockReturnValue(
-      () => () => of(productConfiguration)
-    );
+    vi.spyOn(store, 'pipe').mockReturnValueOnce(of(productConfiguration));
 
     serviceUnderTest.copyContainerRow(OWNER_PRODUCT.key, '3');
 
