@@ -232,7 +232,7 @@ context('Assisted Service Module', () => {
       cy.get('tr.cx-asm-customer-360-promotion-listing-row')
         .first()
         .within(() => {
-          cy.wait(3000);
+          cy.wait(1000);
           cy.intercept('POST', /\.*\/vouchers\?voucherId=.*/).as('applyCoupon');
           cy.get('button').contains('Apply to Cart').click();
           cy.wait('@applyCoupon').its('response.statusCode').should('eq', 200);
