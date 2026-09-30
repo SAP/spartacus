@@ -84,7 +84,6 @@ class MockConfigureCartEntryComponent {
   @Input() msgBanner: boolean;
   @Input() disabled: boolean;
   @Input() isBundleOverviewLink = false;
-  @Input() isBundleLineItemLink = false;
   @Input() rowId?: string;
   @Input() a11yDescriptionId?: string;
 }
@@ -770,7 +769,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     });
 
     describe('getHiddenItemInfo', () => {
-      it("should return 'configurator.a11y.cartEntryBundleInfo' if the item name, price and quantity are defined", () => {
+      it("should return 'configurator.a11y.cartEntryBundlePriceAndQuantity' if the item price and quantity are defined", () => {
         fixture.detectChanges();
         let lineItem: LineItem = {
           name: 'Canon ABC',
@@ -780,11 +779,11 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         expect(
           component
             .getHiddenItemInfo(lineItem)
-            .indexOf('configurator.a11y.cartEntryBundle')
+            .indexOf('configurator.a11y.cartEntryBundlePriceAndQuantity')
         ).toBe(0);
       });
 
-      it("should return 'configurator.a11y.cartEntryBundleNameWithPrice' if the item name and price are defined", () => {
+      it("should return 'configurator.a11y.cartEntryBundlePrice' if only the item price is defined", () => {
         fixture.detectChanges();
         let lineItem: LineItem = {
           name: 'Canon ABC',
@@ -793,11 +792,11 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         expect(
           component
             .getHiddenItemInfo(lineItem)
-            .indexOf('configurator.a11y.cartEntryBundleNameWithPrice')
+            .indexOf('configurator.a11y.cartEntryBundlePrice')
         ).toBe(0);
       });
 
-      it("should return 'configurator.a11y.cartEntryBundleNameWithQuantity' if the item name and quantity are defined", () => {
+      it("should return 'configurator.a11y.cartEntryBundleQuantity' if only the item quantity is defined", () => {
         fixture.detectChanges();
         let lineItem: LineItem = {
           name: 'Canon ABC',
@@ -806,20 +805,28 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         expect(
           component
             .getHiddenItemInfo(lineItem)
-            .indexOf('configurator.a11y.cartEntryBundleNameWithQuantity')
+            .indexOf('configurator.a11y.cartEntryBundleQuantity')
         ).toBe(0);
       });
 
-      it("should return 'configurator.a11y.cartEntryBundleName' if only item name is defined", () => {
+      it('should not repeat the item name, which is rendered as visible text', () => {
+        fixture.detectChanges();
+        let lineItem: LineItem = {
+          name: 'Canon ABC',
+          formattedPrice: '$1,000.00',
+          formattedQuantity: '5',
+        };
+        expect(component.getHiddenItemInfo(lineItem)).not.toContain(
+          'Canon ABC'
+        );
+      });
+
+      it('should return an empty text if neither price nor quantity is defined', () => {
         fixture.detectChanges();
         let lineItem: LineItem = {
           name: 'Canon ABC',
         };
-        expect(
-          component
-            .getHiddenItemInfo(lineItem)
-            .indexOf('configurator.a11y.cartEntryBundleName')
-        ).toBe(0);
+        expect(component.getHiddenItemInfo(lineItem)).toBe('');
       });
     });
 
@@ -903,20 +910,25 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           undefined,
           undefined,
           undefined,
-          'configurator.a11y.cartEntryBundle'
+          'configurator.a11y.cartEntryBundlePriceAndQuantity'
         );
       });
 
-      it('should contain a span element that displays an item name when no product is available', () => {
-        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      it("should contain div element with class name 'cx-item-name' that displays an item name when no product is available", () => {
+        CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
           '.cx-item-name'
         );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-item-name a'
+        );
         CommonConfiguratorTestUtilsService.expectElementToContainText(
           expect,
           htmlElem,
-          '.cx-item-info > span:not(.cx-visually-hidden)',
+          '.cx-item-name',
           'Canon ABC'
         );
       });
@@ -1185,20 +1197,67 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     });
 
     describe('lineItems$', () => {
-      it('should emit an empty array without loading products if there are no line items', async () => {
-        emitCartEntry([]);
+      it('should emit the line items without loading products', async () => {
+        emitCartEntry([configurableLineItem, plainLineItem]);
         const lineItems = await firstValueFrom(component.lineItems$);
-        expect(lineItems).toEqual([]);
+        expect(lineItems).toEqual([configurableLineItem, plainLineItem]);
+        expect(productService.get).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('lineItemsWithProducts$', () => {
+      it('should not load products while the list is collapsed', async () => {
+        emitCartEntry([configurableLineItem, plainLineItem]);
+        const lineItems = await firstValueFrom(
+          component.lineItemsWithProducts$
+        );
+        expect(lineItems).toEqual([configurableLineItem, plainLineItem]);
         expect(productService.get).not.toHaveBeenCalled();
       });
 
-      it('should enrich line items with their products', async () => {
+      it('should enrich line items with their products once the list is expanded', async () => {
         emitCartEntry([configurableLineItem, plainLineItem]);
-        const lineItems = await firstValueFrom(component.lineItems$);
+        component.toggleItems();
+        const lineItems = await firstValueFrom(
+          component.lineItemsWithProducts$
+        );
         expect(lineItems).toEqual([
           { ...configurableLineItem, product },
           plainLineItem,
         ]);
+      });
+
+      it('should keep the loaded products when the list is collapsed again', async () => {
+        emitCartEntry([configurableLineItem, plainLineItem]);
+        component.toggleItems();
+        component.toggleItems();
+        const lineItems = await firstValueFrom(
+          component.lineItemsWithProducts$
+        );
+        expect(lineItems).toEqual([
+          { ...configurableLineItem, product },
+          plainLineItem,
+        ]);
+      });
+
+      it('should emit an empty array without loading products if there are no line items', async () => {
+        emitCartEntry([]);
+        component.toggleItems();
+        const lineItems = await firstValueFrom(
+          component.lineItemsWithProducts$
+        );
+        expect(lineItems).toEqual([]);
+        expect(productService.get).not.toHaveBeenCalled();
+      });
+
+      it('should not load products if no line item has a product code', async () => {
+        emitCartEntry([plainLineItem]);
+        component.toggleItems();
+        const lineItems = await firstValueFrom(
+          component.lineItemsWithProducts$
+        );
+        expect(lineItems).toEqual([plainLineItem]);
+        expect(productService.get).not.toHaveBeenCalled();
       });
     });
 
@@ -1237,6 +1296,11 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     });
 
     describe('rendering', () => {
+      beforeEach(() => {
+        // the list must be expanded, otherwise the products are not loaded
+        component.hideItems = false;
+      });
+
       it('should render the name as link to the product details page if product data is available', () => {
         emitCartEntry([configurableLineItem]);
 
@@ -1258,12 +1322,12 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         CommonConfiguratorTestUtilsService.expectElementNotPresent(
           expect,
           htmlElem,
-          '.cx-item-name'
+          '.cx-item-name a'
         );
         CommonConfiguratorTestUtilsService.expectElementToContainText(
           expect,
           htmlElem,
-          '.cx-item-info > span:not(.cx-visually-hidden)',
+          '.cx-item-name',
           'Plain item'
         );
       });
@@ -1292,7 +1356,6 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         expect(linkComponent.readOnly).toBe(false);
         expect(linkComponent.msgBanner).toBe(false);
         expect(linkComponent.disabled).toBe(true);
-        expect(linkComponent.isBundleLineItemLink).toBe(true);
         expect(linkComponent.rowId).toBe('row-1');
       });
 

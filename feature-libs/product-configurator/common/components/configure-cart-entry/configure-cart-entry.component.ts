@@ -47,12 +47,8 @@ export class ConfigureCartEntryComponent {
    */
   @Input() isBundleOverviewLink = false;
   /**
-   * Indicates whether the link navigates from a bundle line item to the
-   * nested product configuration within the bundle.
-   */
-  @Input() isBundleLineItemLink = false;
-  /**
-   * Container row identifier of the bundle line item to navigate to.
+   * Container row identifier of a bundle line item. When set, the link
+   * navigates to the nested product configuration within the bundle.
    */
   @Input() rowId?: string;
   /**
@@ -80,10 +76,10 @@ export class ConfigureCartEntryComponent {
       resolveIssues: this.msgBanner && this.hasIssues(),
       navigateToCheckout: isInCheckout,
       navigateToCart: this.isBundleOverviewLink,
-      productCode: this.isBundleLineItemLink
-        ? undefined
-        : this.cartEntry.product?.code,
-      rowId: this.isBundleLineItemLink ? this.rowId : undefined,
+      // the nested product of a bundle line item is identified by its row, not
+      // by a product code, which would be resolved against the catalog
+      productCode: this.rowId ? undefined : this.cartEntry.product?.code,
+      rowId: this.rowId,
     }))
   );
 
@@ -187,7 +183,7 @@ export class ConfigureCartEntryComponent {
    * @returns - The resource key for editing a configuration or bundle configuration
    */
   protected getEditConfigurationLinkTextResourceKey(): string {
-    if (this.isBundleLineItemLink) {
+    if (this.rowId) {
       return 'configurator.header.editProductConfiguration';
     }
     return this.cartEntry.product?.configuratorType === ConfiguratorType.CPQ

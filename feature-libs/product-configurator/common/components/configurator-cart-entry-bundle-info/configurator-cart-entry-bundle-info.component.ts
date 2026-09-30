@@ -20,8 +20,14 @@ import {
   useFeatureStyles,
 } from '@spartacus/core';
 import { BreakpointService } from '@spartacus/storefront';
-import { EMPTY, Observable, combineLatest, of } from 'rxjs';
-import { catchError, map, switchMap, take } from 'rxjs/operators';
+import { BehaviorSubject, EMPTY, Observable, combineLatest, of } from 'rxjs';
+import {
+  catchError,
+  distinctUntilChanged,
+  map,
+  switchMap,
+  take,
+} from 'rxjs/operators';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 import { CommonConfiguratorUISettingsConfig } from '../config/common-configurator-ui-settings.config';
 import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-cart-entry.component';
@@ -70,19 +76,32 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   readonly readonly$: Observable<boolean> =
     this.cartItemContext?.readonly$ ?? EMPTY;
 
-  hideItems = true;
+  protected itemsHidden = true;
+
+  /**
+   * Emits 'true' from the first time the list is expanded onwards, so that
+   * collapsing it again does not discard the products that were loaded.
+   */
+  protected hasBeenExpanded$ = new BehaviorSubject<boolean>(false);
+
+  /**
+   * State of the line items list. The list is collapsed initially.
+   */
+  get hideItems(): boolean {
+    return this.itemsHidden;
+  }
+
+  set hideItems(hideItems: boolean) {
+    this.itemsHidden = hideItems;
+    if (!hideItems) {
+      this.hasBeenExpanded$.next(true);
+    }
+  }
 
   lineItems$: Observable<LineItem[]> = this.orderEntry$.pipe(
-    switchMap((entry) => {
-      const lineItems =
-        this.configCartEntryBundleInfoService.retrieveLineItems(entry);
-      if (lineItems.length === 0) {
-        return of([]);
-      }
-      return combineLatest(
-        lineItems.map((lineItem) => this.enrichWithProduct(lineItem))
-      );
-    })
+    map((entry) =>
+      this.configCartEntryBundleInfoService.retrieveLineItems(entry)
+    )
   );
 
   numberOfLineItems$: Observable<number> = this.lineItems$.pipe(
@@ -90,10 +109,40 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   );
 
   /**
+   * Line items rendered in the expandable list. The products behind the
+   * product detail page links are loaded only once the list is expanded, so
+   * that a collapsed bundle costs no catalog requests.
+   */
+  lineItemsWithProducts$: Observable<LineItem[]> = combineLatest([
+    this.lineItems$,
+    this.hasBeenExpanded$.pipe(distinctUntilChanged()),
+  ]).pipe(
+    switchMap(([lineItems, hasBeenExpanded]) =>
+      hasBeenExpanded ? this.enrichWithProducts(lineItems) : of(lineItems)
+    )
+  );
+
+  /**
    * Toggles the state of the items list.
    */
   toggleItems(): void {
     this.hideItems = !this.hideItems;
+  }
+
+  /**
+   * Adds the product data (used for the PDP links) to the line items that
+   * carry a product code.
+   *
+   * @param lineItems - Line items
+   * @returns Line items enriched with their products
+   */
+  protected enrichWithProducts(lineItems: LineItem[]): Observable<LineItem[]> {
+    if (!lineItems.some((lineItem) => lineItem.productCode)) {
+      return of(lineItems);
+    }
+    return combineLatest(
+      lineItems.map((lineItem) => this.enrichWithProduct(lineItem))
+    );
   }
 
   /**
@@ -237,49 +286,47 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   }
 
   /**
-   * Builds the accessibility description for a single bundle line item.
+   * Builds the accessibility description for a single bundle line item. The
+   * name is left out, because it is rendered as visible text or link and would
+   * otherwise be announced twice.
    *
    * @param item - Line item shown in the expanded list
-   * @returns Translated description of name, price, and quantity when present
+   * @returns Translated description of price and quantity, empty if neither is present
    */
   getHiddenItemInfo(item: LineItem): string {
-    let translatedText = '';
-
-    if (item.name && item.formattedPrice && item.formattedQuantity) {
-      this.translation
-        .translate('configurator.a11y.cartEntryBundle', {
-          name: item.name,
-          price: item.formattedPrice,
-          quantity: item.formattedQuantity,
-        })
-        .pipe(take(1))
-        .subscribe((text) => (translatedText = text));
-    } else if (item.name && item.formattedPrice) {
-      this.translation
-        .translate('configurator.a11y.cartEntryBundleNameWithPrice', {
-          name: item.name,
-          price: item.formattedPrice,
-        })
-        .pipe(take(1))
-        .subscribe((text) => (translatedText = text));
-    } else if (item.name && item.formattedQuantity) {
-      this.translation
-        .translate('configurator.a11y.cartEntryBundleNameWithQuantity', {
-          name: item.name,
-          quantity: item.formattedQuantity,
-        })
-        .pipe(take(1))
-        .subscribe((text) => (translatedText = text));
-    } else {
-      this.translation
-        .translate('configurator.a11y.cartEntryBundleName', {
-          name: item.name,
-        })
-        .pipe(take(1))
-        .subscribe((text) => (translatedText = text));
+    const resourceKey = this.getHiddenItemInfoResourceKey(item);
+    if (!resourceKey) {
+      return '';
     }
+    let translatedText = '';
+    this.translation
+      .translate(resourceKey, {
+        price: item.formattedPrice,
+        quantity: item.formattedQuantity,
+      })
+      .pipe(take(1))
+      .subscribe((text) => (translatedText = text));
 
     return translatedText;
+  }
+
+  /**
+   * Retrieves the resource key matching the data available for a line item.
+   *
+   * @param item - Line item shown in the expanded list
+   * @returns Resource key, or undefined if there is nothing to describe
+   */
+  protected getHiddenItemInfoResourceKey(item: LineItem): string | undefined {
+    if (item.formattedPrice && item.formattedQuantity) {
+      return 'configurator.a11y.cartEntryBundlePriceAndQuantity';
+    }
+    if (item.formattedPrice) {
+      return 'configurator.a11y.cartEntryBundlePrice';
+    }
+    if (item.formattedQuantity) {
+      return 'configurator.a11y.cartEntryBundleQuantity';
+    }
+    return undefined;
   }
 
   /**

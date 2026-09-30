@@ -64,9 +64,7 @@ export class ConfiguratorGroupStatusService {
   getFirstIncompleteGroup(
     configuration: Configurator.Configuration
   ): Configurator.Group | undefined {
-    const navigableGroupIds = new Set(
-      configuration.flatGroups?.map((group) => group.id) ?? []
-    );
+    const navigableGroupIds = this.getNavigableGroupIds(configuration);
     return (
       this.findFirstIncompleteGroup(
         configuration.groups ?? [],
@@ -227,16 +225,22 @@ export class ConfiguratorGroupStatusService {
     configuration: Configurator.Configuration,
     containerRowGroup: Configurator.Group
   ): Configurator.Group | undefined {
-    const navigableGroupIds = new Set(
-      configuration.flatGroups?.map((group) => group.id) ?? []
-    );
-    if (navigableGroupIds.has(containerRowGroup.id)) {
-      return containerRowGroup;
-    }
-    return this.getFirstNavigableDescendant(
-      containerRowGroup,
-      navigableGroupIds
-    );
+    const navigableGroupIds = this.getNavigableGroupIds(configuration);
+    return navigableGroupIds.has(containerRowGroup.id)
+      ? containerRowGroup
+      : this.getFirstNavigableDescendant(containerRowGroup, navigableGroupIds);
+  }
+
+  /**
+   * Collects the IDs of all groups that are valid navigation targets.
+   *
+   * @param configuration - Configuration
+   * @returns IDs of the navigable groups
+   */
+  protected getNavigableGroupIds(
+    configuration: Configurator.Configuration
+  ): Set<string> {
+    return new Set(configuration.flatGroups?.map((group) => group.id) ?? []);
   }
 
   /**

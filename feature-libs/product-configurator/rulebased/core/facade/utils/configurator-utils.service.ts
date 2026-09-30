@@ -294,7 +294,8 @@ export class ConfiguratorUtilsService {
 
   /**
    * Extracts the CPQ row identifier from a container row group ID, which has
-   * the format `CONTAINER_ROW@<attributeCode>@<rowId>`.
+   * the format `CONTAINER_ROW@<attributeCode>@<rowId>`. Groups nested below a
+   * container row carry further segments and resolve to the same row.
    *
    * @param groupId - Group ID
    * @returns Row identifier, or undefined if the ID is not a container row ID

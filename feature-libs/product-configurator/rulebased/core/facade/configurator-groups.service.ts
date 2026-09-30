@@ -133,8 +133,10 @@ export class ConfiguratorGroupsService {
             configuration.groups,
             rowId
           );
+        if (!containerRowGroup) {
+          return;
+        }
         const targetGroup =
-          containerRowGroup &&
           this.configuratorGroupStatusService.getNavigableTargetForContainerRowGroup(
             configuration,
             containerRowGroup

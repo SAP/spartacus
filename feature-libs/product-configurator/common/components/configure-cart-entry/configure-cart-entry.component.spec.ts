@@ -408,7 +408,6 @@ describe('ConfigureCartEntryComponent', () => {
         component.readOnly = false;
         component.disabled = false;
         component.msgBanner = false;
-        component.isBundleLineItemLink = true;
         component.rowId = 'row-1';
         component.cartEntry = {
           entryNumber: 0,
@@ -579,7 +578,6 @@ describe('ConfigureCartEntryComponent', () => {
       });
 
       it('should contain "rowId" and omit "productCode" for a bundle line item link', async () => {
-        component.isBundleLineItemLink = true;
         component.rowId = 'row-abc';
         component.cartEntry = {
           entryNumber: 0,

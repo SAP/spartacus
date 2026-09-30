@@ -38,17 +38,16 @@
 
         <div class="cx-item-infos" [class.open]="!hideItems">
           <div
-            *ngFor="let lineItem of lineItems$ | async; let i = index"
+            *ngFor="
+              let lineItem of lineItemsWithProducts$ | async;
+              let i = index
+            "
             class="cx-item-info"
             attr.aria-describedby="{{ getHiddenItemInfoId(i) }}"
           >
-            <span id="{{ getHiddenItemInfoId(i) }}" class="cx-visually-hidden">
-              {{ getHiddenItemInfo(lineItem) }}
-            </span>
-            <ng-container *ngIf="lineItem.product">
-              <div *ngIf="lineItem?.name" class="cx-item-name">
+            <div *ngIf="lineItem.name" class="cx-item-name">
+              <ng-container *ngIf="lineItem.product; else plainItemName">
                 <a
-                  *ngIf="lineItem.product"
                   class="cx-link"
                   [routerLink]="
                     {
@@ -58,13 +57,16 @@
                   "
                   >{{ lineItem.name }}</a
                 >
-                <div *ngIf="lineItem.product?.code" class="cx-code">
+                <div *ngIf="lineItem.product.code" class="cx-code">
                   {{ 'cartItems.id' | cxTranslate }}
-                  {{ lineItem.product?.code }}
+                  {{ lineItem.product.code }}
                 </div>
-              </div>
-            </ng-container>
-            <span *ngIf="!lineItem.product">{{ lineItem.name }}</span>
+              </ng-container>
+              <ng-template #plainItemName>{{ lineItem.name }}</ng-template>
+            </div>
+            <span id="{{ getHiddenItemInfoId(i) }}" class="cx-visually-hidden">
+              {{ getHiddenItemInfo(lineItem) }}
+            </span>
             <div class="cx-item-quantity" aria-hidden="true">
               <ng-container *ngIf="lineItem?.formattedQuantity">
                 <span class="cx-identifier">{{
@@ -96,7 +98,6 @@
                 [readOnly]="(readonly$ | async) ?? false"
                 [msgBanner]="false"
                 [disabled]="(quantityControl$ | async)?.disabled ?? false"
-                [isBundleLineItemLink]="true"
                 [rowId]="lineItem.rowId"
               />
             </div>
