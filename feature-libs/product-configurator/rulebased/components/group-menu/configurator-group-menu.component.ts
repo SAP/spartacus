@@ -7,6 +7,7 @@
 import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   QueryList,
@@ -123,6 +124,12 @@ export class ConfiguratorGroupMenuComponent {
   WARNING = ' WARNING';
   ICON = 'ICON';
 
+  /**
+   * Visible menu item id highlighted after navigating up via Back.
+   * Cleared when the user opens a submenu or selects another group.
+   */
+  menuReturnOriginGroupId?: string;
+
   constructor(
     protected configCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
@@ -135,6 +142,8 @@ export class ConfiguratorGroupMenuComponent {
     protected configExpertModeService: ConfiguratorExpertModeService
   ) {}
 
+  protected changeDetectorRef = inject(ChangeDetectorRef);
+
   /**
    * Selects group or navigates to subgroup depending on clicked group
    *
@@ -142,6 +151,7 @@ export class ConfiguratorGroupMenuComponent {
    * @param currentGroup - Current group
    */
   click(group: Configurator.Group, currentGroup?: Configurator.Group): void {
+    this.clearMenuReturnOrigin();
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
       const isDifferentGroup =
         configuration.interactionState.currentGroup !== group.id;
@@ -176,8 +186,12 @@ export class ConfiguratorGroupMenuComponent {
    * target item is already rendered. See {@link setFocusOnNavigateUp}.
    *
    * @param currentGroup - Currently selected group; required for focus restoration
+   * @param highlightReturnOrigin - When true (mouse Back click), marks the menu item of the submenu being left with `cx-menu-return-origin`
    */
-  navigateUp(currentGroup?: Configurator.Group): void {
+  navigateUp(
+    currentGroup?: Configurator.Group,
+    highlightReturnOrigin = false
+  ): void {
     this.displayedParentGroup$
       .pipe(take(1))
       .subscribe((displayedParentGroup) => {
@@ -185,6 +199,13 @@ export class ConfiguratorGroupMenuComponent {
           const grandParentGroup$ = this.getParentGroup(displayedParentGroup);
           this.configuration$.pipe(take(1)).subscribe((configuration) => {
             grandParentGroup$.pipe(take(1)).subscribe((grandParentGroup) => {
+              if (highlightReturnOrigin) {
+                this.menuReturnOriginGroupId = displayedParentGroup.id;
+                this.changeDetectorRef.markForCheck();
+              } else {
+                this.clearMenuReturnOrigin();
+              }
+
               this.configuratorGroupsService.setMenuParentGroup(
                 configuration.owner,
                 grandParentGroup ? grandParentGroup.id : undefined
@@ -630,10 +651,62 @@ export class ConfiguratorGroupMenuComponent {
     parentGroup: Configurator.Group,
     configuration: Configurator.Configuration
   ): void {
-    const key = this.isSameLevelGroup(currentGroup, parentGroup, configuration)
+    this.configUtils.setFocus(
+      this.resolveNavigateUpStructuralGroupKey(
+        currentGroup,
+        parentGroup,
+        configuration
+      )
+    );
+  }
+
+  /**
+   * Resolves the structural group id used for focus after navigating up.
+   *
+   * @param currentGroup - Currently selected group
+   * @param parentGroup - Parent group displayed in the submenu header
+   * @param configuration - Current configuration
+   * @returns Structural group id for keyboard focus persistence
+   */
+  protected resolveNavigateUpStructuralGroupKey(
+    currentGroup: Configurator.Group,
+    parentGroup: Configurator.Group,
+    configuration: Configurator.Configuration
+  ): string {
+    return this.isSameLevelGroup(currentGroup, parentGroup, configuration)
       ? currentGroup.id
       : parentGroup.id;
-    this.configUtils.setFocus(key);
+  }
+
+  /**
+   * Verifies whether a click was triggered by a pointing device. Pressing
+   * Enter or Space on a button also dispatches a click, with `detail` 0.
+   *
+   * @param event - Click event
+   * @returns `true` for mouse or touch clicks, `false` for keyboard activation
+   */
+  isPointerClick(event: MouseEvent): boolean {
+    return event.detail > 0;
+  }
+
+  /**
+   * Clears the return-origin highlight in the group menu.
+   */
+  protected clearMenuReturnOrigin(): void {
+    if (this.menuReturnOriginGroupId) {
+      this.menuReturnOriginGroupId = undefined;
+      this.changeDetectorRef.markForCheck();
+    }
+  }
+
+  /**
+   * Verifies whether the group menu item should show the return-origin highlight.
+   *
+   * @param groupId - Group id of the menu item
+   * @returns `true` when the item is the return origin after Back navigation
+   */
+  isMenuReturnOrigin(groupId?: string): boolean {
+    return !!groupId && groupId === this.menuReturnOriginGroupId;
   }
 
   /**

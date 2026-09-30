@@ -25,7 +25,7 @@ import {
   IconComponent,
   ICON_TYPE,
 } from '@spartacus/storefront';
-import { firstValueFrom, NEVER, Observable, of } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, NEVER, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -1949,6 +1949,196 @@ describe('ConfiguratorGroupMenuComponent', () => {
         expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
         expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
       });
+
+      it('should set menu return origin id when navigating up with current group', () => {
+        const parentGroup = configuration.groups[3];
+        const childGroup = parentGroup.subGroups[1].subGroups[0];
+
+        stubGetParentGroupWithRealImplementation();
+        vi.spyOn(
+          configuratorGroupsService,
+          'getMenuParentGroup'
+        ).mockReturnValue(of(parentGroup));
+
+        component.navigateUp(childGroup, true);
+
+        expect(component.menuReturnOriginGroupId).toBe(parentGroup.id);
+        expect(component.isMenuReturnOrigin(parentGroup.id)).toBe(true);
+      });
+
+      it('should not set menu return origin when navigating up via keyboard', () => {
+        const parentGroup = configuration.groups[3];
+        const childGroup = parentGroup.subGroups[1].subGroups[0];
+
+        stubGetParentGroupWithRealImplementation();
+        vi.spyOn(
+          configuratorGroupsService,
+          'getMenuParentGroup'
+        ).mockReturnValue(of(parentGroup));
+
+        component.navigateUp(childGroup, false);
+
+        expect(component.menuReturnOriginGroupId).toBeUndefined();
+      });
+
+      it('should not set menu return origin when navigating up without highlight request', () => {
+        vi.spyOn(
+          configuratorGroupsService,
+          'getMenuParentGroup'
+        ).mockReturnValue(of(mockProductConfiguration.groups[0]));
+        vi.spyOn(configuratorGroupsService, 'getParentGroup').mockReturnValue(
+          undefined
+        );
+
+        component.navigateUp();
+
+        expect(component.menuReturnOriginGroupId).toBeUndefined();
+      });
+
+      it('should set menu return origin to the displayed parent group when navigating up without current group', () => {
+        const parentGroup = configuration.groups[3];
+
+        stubGetParentGroupWithRealImplementation();
+        vi.spyOn(
+          configuratorGroupsService,
+          'getMenuParentGroup'
+        ).mockReturnValue(of(parentGroup));
+
+        component.navigateUp(undefined, true);
+
+        expect(component.menuReturnOriginGroupId).toBe(parentGroup.id);
+      });
+
+      it('should set menu return origin to the left submenu group when the current group is its sibling', () => {
+        const currentGroup = configuration.groups[0];
+        const parentGroup = configuration.groups[3];
+
+        stubGetParentGroupWithRealImplementation();
+        vi.spyOn(
+          configuratorGroupsService,
+          'getMenuParentGroup'
+        ).mockReturnValue(of(parentGroup));
+
+        component.navigateUp(currentGroup, true);
+
+        expect(component.menuReturnOriginGroupId).toBe(parentGroup.id);
+        expect(component.isMenuReturnOrigin(currentGroup.id)).toBe(false);
+      });
+
+      it('should set menu return origin to the left submenu group when the current group is its nested sibling', () => {
+        const siblingGroup = createMenuGroup('SIBLING');
+        const browsedGroup = createMenuGroup('BROWSED', [
+          createMenuGroup('BROWSED_CHILD_1'),
+          createMenuGroup('BROWSED_CHILD_2'),
+        ]);
+        const rootGroup = createMenuGroup('ROOT', [siblingGroup, browsedGroup]);
+        productConfigurationObservable = of({
+          ...configuration,
+          groups: [rootGroup, configuration.groups[0]],
+        });
+        initialize();
+        stubGetParentGroupWithRealImplementation();
+        vi.spyOn(
+          configuratorGroupsService,
+          'getMenuParentGroup'
+        ).mockReturnValue(of(browsedGroup));
+
+        component.navigateUp(siblingGroup, true);
+
+        expect(component.menuReturnOriginGroupId).toBe(browsedGroup.id);
+      });
+    });
+
+    describe('menu return origin rendering', () => {
+      it('should mark the rendered button of a merged ancestor after Back', () => {
+        const activeGroup = createMenuGroup('ACTIVE');
+        const browsedGroup = createMenuGroup('BROWSED', [
+          createMenuGroup('BROWSED_CHILD_1'),
+          createMenuGroup('BROWSED_CHILD_2'),
+        ]);
+        const structuralGroup: Configurator.Group = {
+          ...createMenuGroup('STRUCTURAL', [browsedGroup]),
+          attributes: [],
+        };
+        const menuParentGroup$ = new BehaviorSubject<
+          Configurator.Group | undefined
+        >(browsedGroup);
+        productConfigurationObservable = of({
+          ...structuredClone(mockProductConfiguration),
+          groups: [activeGroup, structuralGroup],
+        });
+        routerStateObservable = of(mockRouterState);
+        stubGetParentGroupWithRealImplementation();
+        vi.spyOn(configuratorGroupsService, 'getCurrentGroup').mockReturnValue(
+          of(activeGroup)
+        );
+        vi.spyOn(
+          configuratorGroupsService,
+          'getMenuParentGroup'
+        ).mockReturnValue(menuParentGroup$);
+        initialize();
+
+        htmlElem
+          .querySelector<HTMLButtonElement>('.cx-menu-back')
+          ?.dispatchEvent(new MouseEvent('click', { detail: 1 }));
+        menuParentGroup$.next(undefined);
+        fixture.detectChanges();
+
+        const mergedButton = htmlElem.querySelector(
+          `[id="${browsedGroup.id}"]`
+        );
+        const activeButton = htmlElem.querySelector(`[id="${activeGroup.id}"]`);
+        expect(mergedButton?.textContent).toContain(
+          structuralGroup.description
+        );
+        expect(mergedButton?.classList).toContain('cx-menu-return-origin');
+        expect(activeButton?.classList).toContain('active');
+        expect(activeButton?.classList).not.toContain('cx-menu-return-origin');
+      });
+    });
+
+    describe('menuReturnOrigin', () => {
+      beforeEach(() => {
+        productConfigurationObservable = of(mockProductConfiguration);
+        routerStateObservable = of(mockRouterState);
+        initialize();
+      });
+
+      it('should clear menu return origin on click', () => {
+        component.menuReturnOriginGroupId = GROUP_ID_5;
+
+        component.click(mockProductConfiguration.groups[2]);
+
+        expect(component.menuReturnOriginGroupId).toBeUndefined();
+      });
+
+      it('should mark only the return origin group', () => {
+        component.menuReturnOriginGroupId = GROUP_ID_5;
+
+        expect(component.isMenuReturnOrigin(GROUP_ID_5)).toBe(true);
+        expect(component.isMenuReturnOrigin(GROUP_ID_1)).toBe(false);
+        expect(component.isMenuReturnOrigin(undefined)).toBe(false);
+      });
+    });
+
+    describe('isPointerClick', () => {
+      beforeEach(() => {
+        productConfigurationObservable = of(mockProductConfiguration);
+        routerStateObservable = of(mockRouterState);
+        initialize();
+      });
+
+      it('should return true for a mouse click', () => {
+        expect(
+          component.isPointerClick(new MouseEvent('click', { detail: 1 }))
+        ).toBe(true);
+      });
+
+      it('should return false for a click triggered by Enter or Space', () => {
+        expect(
+          component.isPointerClick(new MouseEvent('click', { detail: 0 }))
+        ).toBe(false);
+      });
     });
 
     describe('getGroupMenuTitle', () => {
@@ -2122,6 +2312,20 @@ describe('ConfiguratorGroupMenuComponent', () => {
       });
     });
   });
+
+  function createMenuGroup(
+    id: string,
+    subGroups: Configurator.Group[] = []
+  ): Configurator.Group {
+    return {
+      id,
+      configurable: true,
+      description: 'Description for ' + id,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      attributes: [{ name: 'ATTRIBUTE_' + id }],
+      subGroups,
+    };
+  }
 
   function stubGetParentGroupWithRealImplementation(): void {
     vi.spyOn(configuratorGroupsService, 'getParentGroup').mockImplementation(
