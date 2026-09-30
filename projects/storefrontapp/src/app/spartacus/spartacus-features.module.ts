@@ -396,7 +396,7 @@ if (environment.cpq) {
         showWarningMessageOnRequoteButtonClick: true,
         oauthCallbackPage: true,
         enableFormFieldMaxLength: true,
-        a11yClearAllActiveFacets: true,
+        clearAllActiveFacets: true,
         a11yTableKeyboardNavigation: true,
         a11yPaginationKeyboardNavigation: true,
         a11yCarouselItemArrowKeyNavigation: true,

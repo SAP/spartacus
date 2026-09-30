@@ -869,7 +869,7 @@ export interface FeatureTogglesInterface {
    *
    * Affects: `ActiveFacetsComponent`
    */
-  a11yClearAllActiveFacets?: boolean;
+  clearAllActiveFacets?: boolean;
 
   /**
    * When enabled, adds up/down arrow key navigation between table rows,
@@ -1015,7 +1015,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showWarningMessageOnRequoteButtonClick: false,
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
-  a11yClearAllActiveFacets: false,
+  clearAllActiveFacets: false,
   a11yTableKeyboardNavigation: false,
   a11yPaginationKeyboardNavigation: false,
   a11yCarouselItemArrowKeyNavigation: false,

@@ -54,7 +54,7 @@
     }
   }
 
-  @include forFeature('a11yClearAllActiveFacets') {
+  @include forFeature('clearAllActiveFacets') {
     // The container always sits on its own row below the active facet chips,
     // regardless of how many chips are applied or the viewport width.
     .cx-clear-all-facets-container {

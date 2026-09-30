@@ -224,7 +224,7 @@ describe('ActiveFacetsComponent with a11yFilteredFacetAnnouncement', () => {
   });
 });
 
-describe('ActiveFacetsComponent with a11yClearAllActiveFacets', () => {
+describe('ActiveFacetsComponent with clearAllActiveFacets', () => {
   let component: ActiveFacetsComponent;
   let fixture: ComponentFixture<ActiveFacetsComponent>;
   let element: DebugElement;
@@ -254,8 +254,8 @@ describe('ActiveFacetsComponent with a11yClearAllActiveFacets', () => {
       TestBed.inject(FeatureConfigService).isEnabled as ReturnType<typeof vi.fn>
     ).mockImplementation((f: string) =>
       f.startsWith('!')
-        ? f !== '!a11yClearAllActiveFacets'
-        : f === 'a11yClearAllActiveFacets'
+        ? f !== '!clearAllActiveFacets'
+        : f === 'clearAllActiveFacets'
     );
   });
 

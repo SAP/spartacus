@@ -58,7 +58,7 @@ export class ActiveFacetsComponent {
   @Input() closeIcon = ICON_TYPE.CLOSE;
 
   constructor(protected facetService: FacetService) {
-    useFeatureStyles('a11yClearAllActiveFacets');
+    useFeatureStyles('clearAllActiveFacets');
   }
 
   getLinkParams(facet: Breadcrumb) {
