@@ -13,8 +13,9 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Product, UrlPipe } from '@spartacus/core';
+import { FeatureDirective, Product, UrlPipe } from '@spartacus/core';
 import { InnerComponentsHostDirective } from '../../../../cms-structure/page/component/inner-components-host.directive';
+import { FocusableCarouselItemDirective } from '../../../../shared/components/carousel/focusable-carousel-item/focusable-carousel-item.directive';
 import { MediaComponent } from '../../../../shared/components/media/media.component';
 import { LcpContextDirective } from '../../../../shared/lcp-context/lcp-context.directive';
 import {
@@ -40,6 +41,8 @@ import {
     InnerComponentsHostDirective,
     AsyncPipe,
     UrlPipe,
+    FeatureDirective,
+    FocusableCarouselItemDirective,
   ],
 })
 export class ProductCarouselItemComponent implements OnChanges {
