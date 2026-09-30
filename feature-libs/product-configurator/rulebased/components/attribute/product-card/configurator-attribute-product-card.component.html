@@ -39,6 +39,8 @@
             [textSize]="45"
             [productName]="product.code"
             [tabIndex]="0"
+            [attributeLabel]="productCardOptions.attribute.label"
+            [itemLabel]="product.name || product.code"
           ></cx-configurator-show-more>
         </div>
       </div>
@@ -288,6 +290,8 @@
               [textSize]="45"
               [productName]="product.code"
               [tabIndex]="0"
+              [attributeLabel]="productCardOptions.attribute.label"
+              [itemLabel]="product.name || product.code"
             />
           </div>
         </div>
@@ -337,7 +341,7 @@
                       'configurator.a11y.openContainerRowActionsMenu'
                         | cxTranslate
                           : {
-                              product: product.code,
+                              product: product.name || product.code,
                             }
                     "
                   >
@@ -363,6 +367,13 @@
                         type="button"
                         role="menuitem"
                         (click)="onHandleRowAction(action)"
+                        [attr.aria-label]="
+                          getContainerRowActionAriaLabel(action)
+                            ? (getContainerRowActionAriaLabel(action)!
+                              | cxTranslate
+                                : { product: product.name || product.code })
+                            : null
+                        "
                       >
                         {{ getContainerRowActionLabel(action) | cxTranslate }}
                       </button>

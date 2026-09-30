@@ -1584,6 +1584,160 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       ).toBe('UNKNOWN');
     });
 
+    it('should resolve accessible name translation keys for row actions', () => {
+      expect(
+        component.getContainerRowActionAriaLabel(
+          Configurator.ContainerRowAction.DELETE
+        )
+      ).toBe('configurator.a11y.containerRowActionRemove');
+      expect(
+        component.getContainerRowActionAriaLabel(
+          Configurator.ContainerRowAction.EDIT
+        )
+      ).toBe('configurator.a11y.containerRowActionEdit');
+      expect(
+        component.getContainerRowActionAriaLabel(
+          Configurator.ContainerRowAction.COPY
+        )
+      ).toBe('configurator.a11y.containerRowActionDuplicate');
+      expect(
+        component.getContainerRowActionAriaLabel(
+          Configurator.ContainerRowAction.ADD
+        )
+      ).toBe('configurator.a11y.containerRowActionAdd');
+      expect(
+        component.getContainerRowActionAriaLabel(
+          'UNKNOWN' as Configurator.ContainerRowAction
+        )
+      ).toBeUndefined();
+    });
+
+    it('should set the overflow menu toggle aria-label to the selected product name', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions([Configurator.ContainerRowAction.DELETE]);
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-product-card-actions-menu-toggle',
+        'aria-label',
+        'configurator.a11y.openContainerRowActionsMenu product:' + product.name
+      );
+    });
+
+    it('should fall back to the product code in the overflow menu toggle aria-label when the product name is empty', () => {
+      const productService = TestBed.inject(ProductService);
+      spyOn(productService, 'get').and.returnValue(
+        of({ ...product, name: '' })
+      );
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions([Configurator.ContainerRowAction.DELETE]);
+      component.ngOnInit();
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-product-card-actions-menu-toggle',
+        'aria-label',
+        'configurator.a11y.openContainerRowActionsMenu product:' + product.code
+      );
+    });
+
+    it('should set the menu item aria-labels to include the product name', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions([
+        Configurator.ContainerRowAction.EDIT,
+        Configurator.ContainerRowAction.DELETE,
+      ]);
+      fixture.detectChanges();
+
+      (
+        htmlElem.querySelector(
+          '.cx-product-card-actions-menu-toggle'
+        ) as HTMLButtonElement
+      ).click();
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-product-card-actions-menu-item button',
+        'aria-label',
+        'configurator.a11y.containerRowActionEdit product:' + product.name,
+        0
+      );
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-product-card-actions-menu-item button',
+        'aria-label',
+        'configurator.a11y.containerRowActionRemove product:' + product.name,
+        1
+      );
+    });
+
+    it('should not set a menu item aria-label for unknown row actions', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions(['UNKNOWN' as Configurator.ContainerRowAction]);
+      fixture.detectChanges();
+
+      (
+        htmlElem.querySelector(
+          '.cx-product-card-actions-menu-toggle'
+        ) as HTMLButtonElement
+      ).click();
+      fixture.detectChanges();
+
+      const menuItem = htmlElem.querySelector(
+        '.cx-product-card-actions-menu-item button'
+      ) as HTMLButtonElement;
+      expect(menuItem.hasAttribute('aria-label')).toBe(false);
+    });
+
+    it('should use the product name for the show more button aria-label', () => {
+      const productService = TestBed.inject(ProductService);
+      spyOn(productService, 'get').and.returnValue(
+        of({ ...product, description: 'x'.repeat(100) })
+      );
+      component.ngOnInit();
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        'cx-configurator-show-more button',
+        'aria-label',
+        'configurator.a11y.showMoreItemDescription attribute:Attribute Label item:' +
+          product.name +
+          ' value:undefined'
+      );
+    });
+
+    it('should fall back to the product code for the show more button aria-label when the product name is empty', () => {
+      const productService = TestBed.inject(ProductService);
+      spyOn(productService, 'get').and.returnValue(
+        of({ ...product, name: '', description: 'x'.repeat(100) })
+      );
+      component.ngOnInit();
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        'cx-configurator-show-more button',
+        'aria-label',
+        'configurator.a11y.showMoreItemDescription attribute:Attribute Label item:' +
+          product.code +
+          ' value:undefined'
+      );
+    });
+
     it('should toggle overflow menu and stop click propagation', () => {
       const event = jasmine.createSpyObj('event', ['stopPropagation']);
 

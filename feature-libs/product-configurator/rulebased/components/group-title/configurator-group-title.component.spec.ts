@@ -220,6 +220,18 @@ describe('ConfiguratorGroupTitleComponent', () => {
     ).toHaveBeenCalledWith('.cx-group-title');
   });
 
+  it("should render the group heading with 'tabindex=-1' so that it can be focused programmatically", () => {
+    spyOn(breakpointService, 'isDown').and.returnValue(of(false));
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+      expect,
+      htmlElem,
+      '.cx-group-title',
+      'tabindex',
+      '-1'
+    );
+  });
+
   it('should get group id as part of group', () => {
     component.displayedGroup$.subscribe((data: Configurator.Group) => {
       expect(data.id).toEqual(group.id);

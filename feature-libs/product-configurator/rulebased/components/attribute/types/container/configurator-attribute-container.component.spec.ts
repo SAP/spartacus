@@ -104,6 +104,9 @@ class MockConfiguratorCommonsService {
 
 class MockConfiguratorGroupsService {
   navigateToGroup(): void {}
+  getCurrentGroupId(): Observable<string> {
+    return of('testGroup');
+  }
 }
 
 describe('ConfiguratorAttributeContainerComponent', () => {
@@ -141,6 +144,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
   ): Configurator.Attribute {
     return {
       name: 'attributeName',
+      label: 'Attribute Label',
       attrCode: 1111,
       uiType: Configurator.UiType.CONTAINER,
       required: true,
@@ -194,6 +198,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useValue: {
             isCartEntryOrGroupVisited: () => of(true),
+            focusElement: () => {},
           },
         },
       ],
@@ -1585,6 +1590,71 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       expect(configuratorCommonsService.addContainerRow).not.toHaveBeenCalled();
       expect(component.loading$.value).toBe(false);
     });
+
+    describe('focus after navigation', () => {
+      let isLoading$: BehaviorSubject<boolean>;
+      let currentGroupId$: BehaviorSubject<string>;
+      let storefrontUtilsService: ConfiguratorStorefrontUtilsService;
+
+      beforeEach(() => {
+        isLoading$ = new BehaviorSubject<boolean>(false);
+        currentGroupId$ = new BehaviorSubject<string>('testGroup');
+        storefrontUtilsService = TestBed.inject(
+          ConfiguratorStorefrontUtilsService
+        );
+        spyOn(
+          configuratorCommonsService,
+          'isConfigurationLoading'
+        ).and.returnValue(isLoading$);
+        spyOn(configuratorGroupsService, 'getCurrentGroupId').and.returnValue(
+          currentGroupId$
+        );
+        spyOn(storefrontUtilsService, 'focusElement');
+        spyOn(configuratorCommonsService, 'addContainerRow').and.callFake(() =>
+          isLoading$.next(true)
+        );
+      });
+
+      it('should focus the group title when adding a row navigates to another group', fakeAsync(() => {
+        clickProductCardAction(1, '.btn-primary');
+
+        isLoading$.next(false);
+        currentGroupId$.next(firstTabId);
+        tick();
+
+        expect(storefrontUtilsService.focusElement).toHaveBeenCalledWith(
+          '.cx-group-title'
+        );
+      }));
+
+      it('should wait for the group change that follows a short idle state within the same update', fakeAsync(() => {
+        clickProductCardAction(1, '.btn-primary');
+
+        isLoading$.next(false);
+        isLoading$.next(true);
+        tick();
+        expect(storefrontUtilsService.focusElement).not.toHaveBeenCalled();
+
+        currentGroupId$.next(firstTabId);
+        isLoading$.next(false);
+        tick();
+
+        expect(storefrontUtilsService.focusElement).toHaveBeenCalledWith(
+          '.cx-group-title'
+        );
+      }));
+
+      it('should not focus the group title when adding a row does not navigate', fakeAsync(() => {
+        clickProductCardAction(1, '.btn-primary');
+
+        isLoading$.next(false);
+        tick();
+        currentGroupId$.next(firstTabId);
+        tick();
+
+        expect(storefrontUtilsService.focusElement).not.toHaveBeenCalled();
+      }));
+    });
   });
 
   describe('onRemove', () => {
@@ -1808,7 +1878,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
         htmlElem,
         '.cx-header button',
         'aria-label',
-        'configurator.a11y.collapseSelectedProducts'
+        'configurator.a11y.collapseSelectedProducts attribute:Attribute Label'
       );
       CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
         expect,
@@ -1841,7 +1911,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
         htmlElem,
         '.cx-header button',
         'aria-label',
-        'configurator.a11y.expandSelectedProducts'
+        'configurator.a11y.expandSelectedProducts attribute:Attribute Label'
       );
       CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
         expect,
@@ -1858,7 +1928,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
         htmlElem,
         '.cx-header button',
         'aria-label',
-        'configurator.a11y.collapseAvailableProducts',
+        'configurator.a11y.collapseAvailableProducts attribute:Attribute Label',
         1
       );
       CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
@@ -1892,7 +1962,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
         htmlElem,
         '.cx-header button',
         'aria-label',
-        'configurator.a11y.expandAvailableProducts',
+        'configurator.a11y.expandAvailableProducts attribute:Attribute Label',
         1
       );
       CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(

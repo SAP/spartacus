@@ -18,7 +18,14 @@ import {
 import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { combineLatest, Observable, of } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import {
+  debounceTime,
+  delay,
+  filter,
+  map,
+  switchMap,
+  take,
+} from 'rxjs/operators';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { ConfiguratorUtilsService } from '../../../../core/facade/utils/configurator-utils.service';
 import {
@@ -63,6 +70,8 @@ export class ConfiguratorAttributeContainerComponent
     ConfiguratorStorefrontUtilsService
   );
   protected changeDetectorRef = inject(ChangeDetectorRef);
+
+  protected readonly GROUP_TITLE_SELECTOR = '.cx-group-title';
 
   /** Cached mapping from container row id to pre-built message groups. */
   protected messagesMap: Record<string, ConfiguratorMessageGroup[]> = {};
@@ -406,6 +415,7 @@ export class ConfiguratorAttributeContainerComponent
       return;
     }
     this.loading$.next(true);
+    this.focusGroupTitleAfterNavigation();
     this.configuratorCommonsService.addContainerRow(
       this.ownerKey,
       this.getAttributeCode(this.attribute),
@@ -523,6 +533,53 @@ export class ConfiguratorAttributeContainerComponent
       this.configuratorUISettingsConfig.productConfigurator
         ?.cpqContainerDropDownListThreshold ?? 10
     );
+  }
+
+  /**
+   * Focuses the group title once the configuration update triggered by adding
+   * a container row is finished, but only if it navigated to another group.
+   * Otherwise the focus would be lost, as this component is destroyed on
+   * navigation.
+   *
+   * The product title (path to the nested container product) is not focused
+   * because it labels the `main` landmark, so screen readers would announce
+   * it twice when the focus enters the landmark.
+   *
+   * The subscription is intentionally not bound to this component's lifecycle
+   * and completes with the first idle state after the update.
+   */
+  protected focusGroupTitleAfterNavigation(): void {
+    const owner = this.attributeComponentContext.owner;
+    this.configuratorGroupsService
+      .getCurrentGroupId(owner)
+      .pipe(
+        take(1),
+        switchMap((initialGroupId) =>
+          this.configuratorCommonsService.isConfigurationLoading(owner).pipe(
+            filter((isLoading) => isLoading),
+            take(1),
+            switchMap(() =>
+              combineLatest([
+                this.configuratorCommonsService.isConfigurationLoading(owner),
+                this.configuratorGroupsService.getCurrentGroupId(owner),
+              ]).pipe(
+                // Collapses the synchronous action burst of the update, in which
+                // loading is briefly false before the group change starts.
+                debounceTime(0)
+              )
+            ),
+            filter(([isLoading]) => !isLoading),
+            take(1),
+            filter(([, groupId]) => groupId !== initialGroupId)
+          )
+        ),
+        delay(0)
+      )
+      .subscribe(() =>
+        this.configuratorStorefrontUtilsService.focusElement(
+          this.GROUP_TITLE_SELECTOR
+        )
+      );
   }
 
   protected clearAvailableProductsSearch(): void {

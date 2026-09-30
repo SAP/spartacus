@@ -163,25 +163,7 @@ describe('ConfiguratorMessageComponent', () => {
       fixture.detectChanges();
     });
 
-    it('sets aria-live, aria-atomic, role, aria-label and id on each row', () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'div',
-        'cx-error-message',
-        0,
-        'aria-live',
-        'assertive'
-      );
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'div',
-        'cx-error-message',
-        0,
-        'aria-atomic',
-        'true'
-      );
+    it('sets role and id on each row, without duplicating the announcement via aria-label, aria-live or aria-atomic', () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -191,15 +173,10 @@ describe('ConfiguratorMessageComponent', () => {
         'role',
         'alert'
       );
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'div',
-        'cx-error-message',
-        0,
-        'aria-label',
-        'First message'
-      );
+      const row = htmlElem.querySelector('.cx-error-message') as HTMLElement;
+      expect(row.hasAttribute('aria-label')).toBe(false);
+      expect(row.hasAttribute('aria-live')).toBe(false);
+      expect(row.hasAttribute('aria-atomic')).toBe(false);
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -218,6 +195,17 @@ describe('ConfiguratorMessageComponent', () => {
         'id',
         'cx-configurator--row-error-msg--888-1'
       );
+    });
+
+    it('uses an assertive, atomic live region for rows without role', () => {
+      component.role = undefined;
+      fixture.detectChanges();
+
+      const row = htmlElem.querySelector('.cx-error-message') as HTMLElement;
+      expect(row.getAttribute('aria-live')).toBe('assertive');
+      expect(row.getAttribute('aria-atomic')).toBe('true');
+      expect(row.hasAttribute('role')).toBe(false);
+      expect(row.hasAttribute('aria-label')).toBe(false);
     });
   });
 });

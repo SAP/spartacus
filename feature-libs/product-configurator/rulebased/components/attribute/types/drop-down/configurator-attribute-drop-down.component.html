@@ -64,6 +64,8 @@
           )
         "
         [tabIndex]="0"
+        [attributeLabel]="attribute.label"
+        [valueLabel]="getSelectedValue()?.valueDisplay"
       ></cx-configurator-show-more>
     </div>
     <div *ngIf="!withQuantity && getSelectedValue()" class="cx-value-price">
