@@ -10,7 +10,7 @@ export const resultsTitleSelector = 'cx-breadcrumb h1';
 export const productItemSelector = 'cx-product-list cx-product-list-item';
 export const productNameSelector = 'cx-product-list-item .cx-product-name';
 export const firstProductItemSelector = `${productItemSelector}:first`;
-export const pageLinkSelector = 'cx-pagination a.current';
+export const pageLinkSelector = 'cx-pagination a.page.current';
 export const sortingOptionSelector = 'cx-sorting .ng-select:first';
 export const firstProductPriceSelector = `${firstProductItemSelector} .cx-product-price`;
 export const firstProductNameSelector = `${firstProductItemSelector} .cx-product-name`;
@@ -40,7 +40,7 @@ export const QUERY_ALIAS = {
 };
 
 export function enterProduct() {
-  cy.get('cx-searchbox input').type('camera{enter}');
+  cy.get('cx-searchbox input').clear().type('camera{enter}');
 }
 
 export function clickSearchIcon() {
@@ -116,7 +116,7 @@ export function searchResult() {
 }
 
 export function nextPage(): void {
-  cy.get(pageLinkSelector).next().first().click();
+  cy.get('cx-pagination a.page.current').next('a').first().click();
 }
 
 export function choosePage(pageNumber: number): void {
@@ -124,7 +124,7 @@ export function choosePage(pageNumber: number): void {
 }
 
 export function previousPage(): void {
-  cy.get(pageLinkSelector).prev().first().click();
+  cy.get('cx-pagination a.page.current').prev('a').first().click();
 }
 
 export function verifyNextPage(pageNumber: number): void {
@@ -316,7 +316,7 @@ export function assertNumberOfProducts(alias: string, category: string) {
 export function assertPaginationFocusBehaviorAfterClick(
   pageNumber: number
 ): void {
-  cy.focused()
+  cy.get('cx-pagination a[tabindex="0"]')
     .invoke('text')
     .then((text) => {
       const actual = parseInt(text.replace(/\u00a0/g, '').trim(), 10);
