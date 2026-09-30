@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { OrganizationUserRegistration } from '@spartacus/organization/user-registration/root';
 import { of } from 'rxjs';
