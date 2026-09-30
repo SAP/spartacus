@@ -872,6 +872,21 @@ export interface FeatureTogglesInterface {
   a11yBannerArrowKeyNavigation?: boolean;
 
   /**
+   * When enabled, adds up/down arrow key navigation between table rows,
+   * turning the table into a composite keyboard widget.
+   * Affects: TableComponent
+   * ACC-270.3
+   */
+  a11yTableKeyboardNavigation?: boolean;
+
+  /**
+   * When enabled, replaces per-link tabindex binding in PaginationComponent
+   * with roving tabindex (left/right arrow key navigation across page links).
+   * Affects: PaginationComponent
+   */
+  a11yPaginationKeyboardNavigation?: boolean;
+
+  /**
    * When enabled, adds `cxFocusableCarouselItem` to product carousel items so
    * arrow key navigation works inside the carousel.
    * Affects: ProductCarouselItemComponent
@@ -1001,6 +1016,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
   a11yBannerArrowKeyNavigation: false,
+  a11yTableKeyboardNavigation: false,
+  a11yPaginationKeyboardNavigation: false,
   a11yCarouselItemArrowKeyNavigation: false,
   a11yCouponDialogResetButtonKeyboardAccessible: false,
   a11yInStockInfoTextContrast: false,
