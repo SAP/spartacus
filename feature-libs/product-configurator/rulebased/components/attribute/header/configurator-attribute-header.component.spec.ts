@@ -1697,6 +1697,14 @@ describe('ConfigAttributeHeaderComponent', () => {
       );
     });
 
+    function getLastEnrichContext() {
+      const lastCall = vi.mocked(enrichSpy).mock.lastCall;
+      if (!lastCall) {
+        throw new Error('enrichMessagesWithContainerContext was not called');
+      }
+      return lastCall[1];
+    }
+
     it('wires the required-message callback passed by getContainerMessages', () => {
       component.attribute.container = {
         minRows: 4,
@@ -1705,7 +1713,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
       component.getContainerMessages();
 
-      const context = vi.mocked(enrichSpy).mock.lastCall![1];
+      const context = getLastEnrichContext();
       expect(
         context.getContainerRequiredMessageKey(4, [{ id: '1', selected: true }])
       ).toEqual({
@@ -1720,7 +1728,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
       component.getMessageGroups(true);
 
-      const context = vi.mocked(enrichSpy).mock.lastCall![1];
+      const context = getLastEnrichContext();
       expect(context.getContainerRowInfoKey(2, 5)).toEqual({
         key: 'configurator.attribute.containerMinMaxRows',
         params: { minRows: 2, maxRows: 5 },

@@ -21,7 +21,6 @@ import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-bas
  * read-only component) neither maintain a `loading$` flag nor rely on this reset.
  */
 @Directive()
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class ConfiguratorAttributeSelectionBaseComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnDestroy
