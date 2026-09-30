@@ -397,6 +397,7 @@ if (environment.cpq) {
         oauthCallbackPage: true,
         enableFormFieldMaxLength: true,
         a11yOrgAdminTileArrowKeyNavigation: true,
+        a11yCarouselItemArrowKeyNavigation: true,
         a11yCouponDialogResetButtonKeyboardAccessible: true,
         a11yInStockInfoTextContrast: true,
       };

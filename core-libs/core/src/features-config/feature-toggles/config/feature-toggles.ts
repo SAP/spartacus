@@ -872,6 +872,14 @@ export interface FeatureTogglesInterface {
   a11yOrgAdminTileArrowKeyNavigation?: boolean;
 
   /**
+   * When enabled, adds `cxFocusableCarouselItem` to product carousel items so
+   * arrow key navigation works inside the carousel.
+   * Affects: ProductCarouselItemComponent
+   * ACC-270.3
+   */
+  a11yCarouselItemArrowKeyNavigation?: boolean;
+
+  /**
    * When enabled, the RESET button in the "Add To Your Coupon List" claim dialog
    * is rendered as a proper `<button>` element instead of an `<a role="button">`
    * without an `href`, making it reachable and operable with the keyboard.
@@ -993,6 +1001,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
   a11yOrgAdminTileArrowKeyNavigation: false,
+  a11yCarouselItemArrowKeyNavigation: false,
   a11yCouponDialogResetButtonKeyboardAccessible: false,
   a11yInStockInfoTextContrast: false,
 };
