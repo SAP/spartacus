@@ -73,6 +73,29 @@ class TestChildFocusHostComponent {}
 })
 class TestNativeInputHostComponent {}
 
+@Component({
+  template: `
+    <div
+      [cxRovingTabindex]="'[data-fwd-item]'"
+      [cxRovingTabindexForwardSecondaryAxis]="true"
+    >
+      <div data-fwd-item tabindex="-1">
+        <a href="#" (keydown)="forwardedKeys.push($event.key)">
+          <button type="button" tabindex="-1">toggle</button>
+          Link 1
+        </a>
+      </div>
+      <div data-fwd-item tabindex="-1">
+        <a href="#">Link 2</a>
+      </div>
+    </div>
+  `,
+  imports: [CxRovingTabindexDirective],
+})
+class TestForwardHostComponent {
+  forwardedKeys: string[] = [];
+}
+
 describe('CxRovingTabindexDirective', () => {
   let fixture: ComponentFixture<TestHostComponent>;
   let component: TestHostComponent;
@@ -499,6 +522,63 @@ describe('CxRovingTabindexDirective', () => {
 
       expect(focusSpy).toHaveBeenCalled();
       expect(guardDirective.focusedIndex).toBe(1);
+    });
+  });
+
+  describe('secondary-axis forwarding', () => {
+    let fwdFixture: ComponentFixture<TestForwardHostComponent>;
+    let fwdComponent: TestForwardHostComponent;
+    let fwdContainer: HTMLElement;
+
+    beforeEach(() => {
+      fwdFixture = TestBed.createComponent(TestForwardHostComponent);
+      fwdComponent = fwdFixture.componentInstance;
+      fwdFixture.detectChanges();
+      fwdContainer = fwdFixture.debugElement.query(
+        By.directive(CxRovingTabindexDirective)
+      ).nativeElement as HTMLElement;
+    });
+
+    function fwdItems(): HTMLElement[] {
+      return Array.from(
+        fwdContainer.querySelectorAll<HTMLElement>('[data-fwd-item]')
+      );
+    }
+
+    it("should forward a secondary-axis key to the focused item's first focusable descendant and suppress the default", () => {
+      const items = fwdItems();
+      const event = new KeyboardEvent('keydown', {
+        key: 'ArrowRight',
+        bubbles: true,
+        cancelable: true,
+      });
+      const preventSpy = vi.spyOn(event, 'preventDefault');
+      items[0].dispatchEvent(event);
+
+      expect(preventSpy).toHaveBeenCalled();
+      // Forwarded to the wrapping <a>, not its inner tabindex=-1 button.
+      expect(fwdComponent.forwardedKeys).toEqual(['ArrowRight']);
+    });
+
+    it('should not re-forward the synthesized event that originates from a descendant', () => {
+      const items = fwdItems();
+      // A single ArrowRight on the row must reach the link exactly once — the
+      // re-dispatched event bubbles back to the host but its target is the link
+      // (not a roving item), so it is not forwarded again.
+      items[0].dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true })
+      );
+
+      expect(fwdComponent.forwardedKeys).toEqual(['ArrowRight']);
+    });
+
+    it('should not forward a primary-axis key', () => {
+      const items = fwdItems();
+      items[0].dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true })
+      );
+
+      expect(fwdComponent.forwardedKeys).toEqual([]);
     });
   });
 });

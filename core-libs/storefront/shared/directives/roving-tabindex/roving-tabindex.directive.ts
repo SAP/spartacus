@@ -76,6 +76,19 @@ export class CxRovingTabindexDirective implements AfterViewInit {
   @Input() cxRovingTabindexActivate = true;
 
   /**
+   * When true, arrow keys on the secondary axis (the one perpendicular to
+   * cxRovingTabindexAxis) are forwarded to the first focusable descendant of the
+   * currently focused item instead of being ignored.
+   *
+   * This lets an item's own content react to the cross-axis arrows while the
+   * directive keeps ownership of the primary navigation axis — e.g. a tree row
+   * whose link expands/collapses on ArrowRight/ArrowLeft. The key is
+   * re-dispatched as a bubbling keydown on the descendant so its existing
+   * (keydown) handler runs unchanged.
+   */
+  @Input() cxRovingTabindexForwardSecondaryAxis = false;
+
+  /**
    * Optional hint for the initial focused index. Set this before a data refresh
    * to control which item receives tabindex=0 after re-render.
    *
@@ -131,6 +144,9 @@ export class CxRovingTabindexDirective implements AfterViewInit {
       return;
     }
     if (this.isNativeInteractiveTarget(event.target as HTMLElement)) {
+      return;
+    }
+    if (this.forwardSecondaryAxisKey(event, items)) {
       return;
     }
     const current = this.getCurrentFocusedIndex(items);
@@ -289,6 +305,62 @@ export class CxRovingTabindexDirective implements AfterViewInit {
 
   private get backwardKey(): string {
     return this.cxRovingTabindexAxis === 'vertical' ? 'ArrowUp' : 'ArrowLeft';
+  }
+
+  /** Arrow keys perpendicular to the primary navigation axis. */
+  private get secondaryAxisKeys(): [string, string] {
+    return this.cxRovingTabindexAxis === 'vertical'
+      ? ['ArrowLeft', 'ArrowRight']
+      : ['ArrowUp', 'ArrowDown'];
+  }
+
+  /**
+   * Focusable descendants a secondary-axis key can be forwarded to. The first
+   * match in document order wins — that is the item's primary control (e.g. the
+   * tree row's link, which wraps its toggle button). Native controls are always
+   * included; a tabindex="-1" clause only filters generic [tabindex] elements.
+   */
+  private static readonly FOCUSABLE_SELECTOR =
+    'a[href], button:not([disabled]), input:not([disabled]), ' +
+    'select:not([disabled]), textarea:not([disabled]), ' +
+    '[tabindex]:not([tabindex="-1"])';
+
+  /**
+   * Forwards a secondary-axis arrow key to the focused item's first focusable
+   * descendant so the item's own content can handle it, and returns whether it
+   * did (in which case the caller must stop processing the event).
+   *
+   * Guarded to the case where the event originates from a roving item itself: a
+   * forwarded event re-targets a descendant, so it cannot match this guard and
+   * loop back. The original event's default is suppressed to avoid cross-axis
+   * scrolling while the item's handler runs off the re-dispatched keydown.
+   */
+  private forwardSecondaryAxisKey(
+    event: KeyboardEvent,
+    items: HTMLElement[]
+  ): boolean {
+    if (
+      !this.cxRovingTabindexForwardSecondaryAxis ||
+      !this.secondaryAxisKeys.includes(event.key)
+    ) {
+      return false;
+    }
+    const item = items.find((el) => el === event.target);
+    const target = item?.querySelector<HTMLElement>(
+      CxRovingTabindexDirective.FOCUSABLE_SELECTOR
+    );
+    if (!target) {
+      return false;
+    }
+    event.preventDefault();
+    target.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: event.key,
+        bubbles: true,
+        cancelable: true,
+      })
+    );
+    return true;
   }
 
   getItems(): HTMLElement[] {

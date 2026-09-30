@@ -3,6 +3,7 @@
   <table
     *ngIf="structure"
     cxRovingTabindex="[data-cx-roving-item]"
+    [cxRovingTabindexForwardSecondaryAxis]="true"
     (itemActivated)="launchItem(data[$event])"
   >
     <ng-container *ngIf="verticalStackedLayout">
