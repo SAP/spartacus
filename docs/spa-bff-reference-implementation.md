@@ -73,7 +73,7 @@ before applying the BFF integration changes described in the rest of this docume
 | npm | **11.x** | The `@vivaldi/nx` scaffolder in Step 1 crashes on **npm 10.9.x** with `Cannot read properties of null (reading 'edgesOut')` — an npm arborist bug. Use npm 11 (`npm install -g npm@11`). npm 11 requires Node `^20.17.0 \|\| >=22.9.0`, so pair it with a recent Node 20/22 LTS (or Node 24). |
 | Angular CLI | 21.2.24 | Must be a **21.2.x** — do **not** use 21.1.x (peer-dep conflicts with Spartacus 221121.13.1). `@angular/cli@21` currently resolves to 21.1.1, so pin the patch explicitly: `npm install -g @angular/cli@21.2.24`. A globally-installed older CLI (e.g. Angular 19) silently scaffolds an incompatible app — verify with `ng version` before Step 2. |
 | Spartacus schematics | 221121.13.1 | — |
-| `@vivaldi/nx` generator | 0.25.0 | — |
+| `@vivaldi/nx` generator | 0.25.2 | Keep all `@vivaldi/*` packages on the matching `0.25.2`. |
 
 #### SAP npm registry access
 
@@ -105,7 +105,7 @@ The `@vivaldi/nx` scaffolder also creates a `.npmrc` in the workspace root with 
 Use the Vivaldi Nx generator to scaffold a workspace.
 
 ```bash
-npx @vivaldi/nx@0.25.0 --no-interactive --workspace=my-vivaldi-workspace --nxCloud=skip
+npx @vivaldi/nx@0.25.2 --no-interactive --workspace=my-vivaldi-workspace --nxCloud=skip
 cd my-vivaldi-workspace
 ```
 
@@ -130,13 +130,19 @@ npm install --save-dev nx@22.7.7 @nx/angular@22.7.7
 ```
 
 The scaffolded `tsconfig.base.json` uses `"baseUrl": "."` which TypeScript 5.9+ treats
-as deprecated, causing `nx run bff:typecheck` to fail with `TS5101`. Add
-`"ignoreDeprecations": "6.0"` to `tsconfig.base.json` to silence it:
+as deprecated. Add `"ignoreDeprecations": "5.0"` to `tsconfig.base.json` to silence the
+`TS5101` warning:
 
 ```json
 "baseUrl": ".",
-"ignoreDeprecations": "6.0"
+"ignoreDeprecations": "5.0"
 ```
+
+> **Note:** The value must be `"5.0"` — the version pinned by this toolchain
+> (TypeScript 5.9) only accepts `"5.0"`. Any other value is rejected with
+> `tsconfig.app.json: error TS5103: Invalid value for '--ignoreDeprecations'`, which
+> **fails `nx run bff:typecheck`** (because `apps/bff/tsconfig.app.json` extends
+> `tsconfig.base.json`).
 
 > **Required before Step 3:** the workspace must be in a clean git state before
 > running `nx import`. Two things can make it dirty after this point:
@@ -204,12 +210,20 @@ to confirm. Accept the defaults or customise the selection to match your project
 > **Non-interactive / CI:** to skip the feature prompt and take the defaults, run
 > `ng add @spartacus/schematics@221121.13.1 --useMetaTags --skip-confirmation --interactive=false`.
 
-> **What `--useMetaTags` does:** it adds `<meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE" />`
+> **What `--useMetaTags` does:** it adds `<meta name="occ-backend-base-url" ... />`
 > and `<meta name="media-backend-base-url" content="MEDIA_BACKEND_BASE_URL_VALUE" />`
-> to `<head>` (as CCv2-ready placeholders, since no `--baseUrl` is passed), and omits the
-> hardcoded `baseUrl` from the generated `provideConfig(<OccConfig>{...})` in
-> `spartacus-configuration.module.ts`. This covers two of the manual steps in the
-> Spartacus changes section below — you only add the `bff-base-url` meta tag yourself.
+> to `<head>`, and omits the hardcoded `baseUrl` from the generated
+> `provideConfig(<OccConfig>{...})` in `spartacus-configuration.module.ts` (leaving
+> `backend: { occ: {} }`). This covers the `baseUrl` removal step and the media tag.
+>
+> **Verify the `occ-backend-base-url` tag, though:** the schematic does **not** reliably
+> emit the `OCC_BACKEND_BASE_URL_VALUE` placeholder for it — in practice it may write a
+> hardcoded default such as `content="https://localhost:9002"` (only `media-backend-base-url`
+> gets its placeholder). For CCv2 URL injection to work, this tag **must** carry the
+> placeholder so CCv2 can substitute it at deploy time. Open `src/index.html` and, if the
+> `occ-backend-base-url` tag has a hardcoded URL, replace it with the placeholder yourself.
+> You also add the `bff-base-url` tag yourself. See section 1 for the final expected state
+> of all three tags.
 
 Commit the Spartacus changes:
 
@@ -642,7 +656,7 @@ so the browser never makes a cross-origin call.
 **Prerequisites:** install `@vivaldi/angular` before applying the changes below:
 
 ```bash
-npm install @vivaldi/angular@0.25.0
+npm install @vivaldi/angular@0.25.2
 ```
 
 ### 1. `src/index.html`
@@ -651,10 +665,13 @@ Ensure `<head>` contains all three meta tags below. CCv2 replaces the placeholde
 at deploy time.
 
 > **Note:** If you ran `ng add @spartacus/schematics` with `--useMetaTags` (Step 2),
-> the `occ-backend-base-url` and `media-backend-base-url` tags are **already present**
-> as `OCC_BACKEND_BASE_URL_VALUE` / `MEDIA_BACKEND_BASE_URL_VALUE` placeholders, and no
-> hardcoded `baseUrl` was written to `spartacus-configuration.module.ts` — so you only
-> need to add the `bff-base-url` tag yourself.
+> the `media-backend-base-url` tag is already present as its
+> `MEDIA_BACKEND_BASE_URL_VALUE` placeholder, and no hardcoded `baseUrl` was written to
+> `spartacus-configuration.module.ts`. However, the `occ-backend-base-url` tag may have
+> been written with a **hardcoded** value (e.g. `https://localhost:9002`) rather than the
+> `OCC_BACKEND_BASE_URL_VALUE` placeholder — verify it and replace it with the placeholder
+> if so. You add the `bff-base-url` tag yourself. The end state must match all three tags
+> below.
 >
 > If you did **not** pass `--useMetaTags` (or you are integrating an existing app), the
 > schematic instead sets the OCC base URL via `provideConfig(<OccConfig>{...})` and does
@@ -998,7 +1015,7 @@ const bad = await this.bff.client.sample.sayHello.query({ name: 123 }); // ← c
 Reads `CX_BFF_BASE_URL` at dev-server startup and sets the proxy target dynamically.
 The browser always calls `/bff/api` (same origin — no CORS).
 
-In `@vivaldi` 0.25.0 `vivaldi dev bff` runs as an HTTPS server (self-signed cert)
+In `@vivaldi` 0.25.2 `vivaldi dev bff` runs as an HTTPS server (self-signed cert)
 on port 8482 and mounts tRPC at `/bff/api`. The proxy forwards `/bff` directly to the
 BFF — no path rewriting needed since the paths already match.
 
@@ -1089,8 +1106,17 @@ npm install --save-dev env-cmd
 ```
 
 ```json
-"start:storefrontapp": "env-cmd -e dev nx serve storefrontapp"
+"start:storefrontapp": "env-cmd -e dev -- nx serve storefrontapp"
 ```
+
+> **Note — the `--` separator is required.** `env-cmd@11` (the current default when you
+> `npm install --save-dev env-cmd`) made `-e, --environments` a **variadic** option: it
+> greedily consumes every following argument as an environment name. Without the `--`
+> separator, `env-cmd -e dev nx serve storefrontapp` treats `nx serve storefrontapp` as
+> environment names and fails with
+> `Error: Failed to find environments: [storefrontapp] for .rc file at path: ./.env-cmdrc`.
+> The `--` marks the end of env-cmd's options so `nx serve storefrontapp` is run as the
+> command. (This form is also backward-compatible with `env-cmd@10`.)
 
 ```jsonc
 {
@@ -1101,7 +1127,7 @@ npm install --save-dev env-cmd
 }
 ```
 
-> **Note:** In `@vivaldi` 0.25.0 the BFF runs with a self-signed HTTPS cert on port 8482
+> **Note:** In `@vivaldi` 0.25.2 the BFF runs with a self-signed HTTPS cert on port 8482
 > with tRPC at `/bff/api`. The proxy forwards `/bff` to the BFF without path rewriting.
 
 ---
