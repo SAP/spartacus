@@ -150,7 +150,7 @@ describe('ConfiguratorShowMoreComponent', () => {
     });
 
     it('should set an aria-label with attribute context on the button', () => {
-      component.attributeLabel = 'Color';
+      fixture.componentRef.setInput('attributeLabel', 'Color');
       fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
@@ -163,8 +163,8 @@ describe('ConfiguratorShowMoreComponent', () => {
     });
 
     it('should set an aria-label with value and attribute context on the button', () => {
-      component.attributeLabel = 'Color';
-      component.valueLabel = 'Red';
+      fixture.componentRef.setInput('attributeLabel', 'Color');
+      fixture.componentRef.setInput('valueLabel', 'Red');
       fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
@@ -177,8 +177,8 @@ describe('ConfiguratorShowMoreComponent', () => {
     });
 
     it('should set an aria-label with item and attribute context on the button', () => {
-      component.attributeLabel = 'Camera Body';
-      component.itemLabel = 'NIKON_D7500';
+      fixture.componentRef.setInput('attributeLabel', 'Camera Body');
+      fixture.componentRef.setInput('itemLabel', 'NIKON_D7500');
       fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(

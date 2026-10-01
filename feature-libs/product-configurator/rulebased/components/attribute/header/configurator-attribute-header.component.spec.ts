@@ -1230,7 +1230,9 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
 
     it("should contain div element with 'role=alert' for required error message so that it is announced once", () => {
-      component.showRequiredMessageForDomainAttribute$ = of(true);
+      component.attribute.required = true;
+      component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      component.ngOnInit();
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,

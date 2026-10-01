@@ -226,7 +226,7 @@ describe('ConfiguratorGroupTitleComponent', () => {
   });
 
   it("should render the group heading with 'tabindex=-1' so that it can be focused programmatically", () => {
-    spyOn(breakpointService, 'isDown').and.returnValue(of(false));
+    vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(false));
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
       expect,

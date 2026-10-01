@@ -1297,7 +1297,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         'configurator.a11y.itemOfAttributeSelectedWithPrice attribute:' +
           component.productCardOptions.attributeLabel +
           ' item:' +
-          product.code +
+          product.name +
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
@@ -1325,7 +1325,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         'configurator.a11y.itemOfAttributeSelected attribute:' +
           component.productCardOptions.attributeLabel +
           ' item:' +
-          product.code +
+          product.name +
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
@@ -1358,7 +1358,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice attribute:' +
           component.productCardOptions.attributeLabel +
           ' item:' +
-          product.code +
+          product.name +
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
@@ -1386,7 +1386,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         'configurator.a11y.itemOfAttributeSelectedPressToUnselect attribute:' +
           component.productCardOptions.attributeLabel +
           ' item:' +
-          product.code +
+          product.name +
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
@@ -1419,7 +1419,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice attribute:' +
           component.productCardOptions.attributeLabel +
           ' item:' +
-          product.code +
+          product.name +
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
@@ -1447,7 +1447,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         'configurator.a11y.itemOfAttributeSelectedPressToUnselect attribute:' +
           component.productCardOptions.attributeLabel +
           ' item:' +
-          product.code +
+          product.name +
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
@@ -1480,7 +1480,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         'configurator.a11y.itemOfAttributeUnselectedWithPrice attribute:' +
           component.productCardOptions.attributeLabel +
           ' item:' +
-          product.code +
+          product.name +
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
@@ -1508,7 +1508,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         'configurator.a11y.itemOfAttributeUnselected attribute:' +
           component.productCardOptions.attributeLabel +
           ' item:' +
-          product.code +
+          product.name +
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
@@ -1541,7 +1541,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         'configurator.a11y.itemOfAttributeUnselectedWithPrice attribute:' +
           component.productCardOptions.attributeLabel +
           ' item:' +
-          product.code +
+          product.name +
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
@@ -1566,6 +1566,33 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const itemIndex = component.productCardOptions.itemIndex + 1;
 
       expect(component.getAriaLabelSingleUnselected(product)).toBe(
+        'configurator.a11y.itemOfAttributeUnselected attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' item:' +
+          product.name +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex
+      );
+    });
+
+    it('should fall back to the product code in the item aria-label if the product name is empty', () => {
+      const productBoundValue = setProductBoundValueAttributes(
+        component,
+        true,
+        undefined
+      );
+      productBoundValue.valuePrice = {
+        currencyIso: '$',
+        formattedValue: undefined,
+        value: 0,
+      };
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+
+      expect(
+        component.getAriaLabelSingleUnselected({ ...product, name: '' })
+      ).toBe(
         'configurator.a11y.itemOfAttributeUnselected attribute:' +
           component.productCardOptions.attributeLabel +
           ' item:' +
@@ -1633,7 +1660,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         'configurator.a11y.itemOfAttributeUnselectedWithPrice attribute:' +
           component.productCardOptions.attributeLabel +
           ' item:' +
-          product.code +
+          product.name +
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
@@ -1834,12 +1861,13 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
     it('should fall back to the product code in the overflow menu toggle aria-label when the product name is empty', () => {
       const productService = TestBed.inject(ProductService);
-      spyOn(productService, 'get').and.returnValue(
+      vi.spyOn(productService, 'get').mockReturnValue(
         of({ ...product, name: '' })
       );
       component.productCardOptions.multiSelect = true;
       setProductBoundValueAttributes(component);
       setContainerRowActions([Configurator.ContainerRowAction.DELETE]);
+      component.productCardOptions.productBoundValue.valueDisplay = '';
       component.ngOnInit();
       fixture.detectChanges();
 
@@ -1907,7 +1935,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
     it('should use the product name for the show more button aria-label', () => {
       const productService = TestBed.inject(ProductService);
-      spyOn(productService, 'get').and.returnValue(
+      vi.spyOn(productService, 'get').mockReturnValue(
         of({ ...product, description: 'x'.repeat(100) })
       );
       component.ngOnInit();
@@ -1926,9 +1954,10 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
     it('should fall back to the product code for the show more button aria-label when the product name is empty', () => {
       const productService = TestBed.inject(ProductService);
-      spyOn(productService, 'get').and.returnValue(
+      vi.spyOn(productService, 'get').mockReturnValue(
         of({ ...product, name: '', description: 'x'.repeat(100) })
       );
+      component.productCardOptions.productBoundValue.valueDisplay = '';
       component.ngOnInit();
       fixture.detectChanges();
 

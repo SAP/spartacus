@@ -378,10 +378,10 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
     describe('focusElement', () => {
       it('should focus the element identified by the selector', () => {
-        spyOn(windowRef, 'isBrowser').and.returnValue(true);
+        vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
         const element = document.createElement('span');
-        spyOn(element, 'focus');
-        spyOn(windowRef.document, 'querySelector').and.returnValue(element);
+        vi.spyOn(element, 'focus');
+        vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(element);
 
         classUnderTest.focusElement('#elementId');
 
@@ -392,15 +392,15 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       });
 
       it('should not fail if the element is not found', () => {
-        spyOn(windowRef, 'isBrowser').and.returnValue(true);
-        spyOn(windowRef.document, 'querySelector').and.returnValue(null);
+        vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+        vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(null);
 
         expect(() => classUnderTest.focusElement('#elementId')).not.toThrow();
       });
 
       it('should not query the document when not running in a browser', () => {
-        spyOn(windowRef, 'isBrowser').and.returnValue(false);
-        spyOn(windowRef.document, 'querySelector');
+        vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
+        vi.spyOn(windowRef.document, 'querySelector');
 
         classUnderTest.focusElement('#elementId');
 

@@ -519,7 +519,7 @@ export class ConfiguratorAttributeProductCardComponent
       ) {
         this.translation
           .translate('configurator.a11y.itemOfAttributeUnselectedWithPrice', {
-            item: product.code,
+            item: product.name || product.code,
             attribute: this.productCardOptions.attribute.label,
             itemIndex: index,
             itemCount: this.productCardOptions.itemCount,
@@ -532,7 +532,7 @@ export class ConfiguratorAttributeProductCardComponent
       } else {
         this.translation
           .translate('configurator.a11y.itemOfAttributeUnselected', {
-            item: product.code,
+            item: product.name || product.code,
             attribute: this.productCardOptions?.attribute.label,
             itemIndex: index,
             itemCount: this.productCardOptions.itemCount,
@@ -564,7 +564,7 @@ export class ConfiguratorAttributeProductCardComponent
         .translate(
           'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice',
           {
-            item: product.code,
+            item: product.name || product.code,
             attribute: this.productCardOptions?.attribute.label,
             itemIndex: index,
             itemCount: this.productCardOptions.itemCount,
@@ -578,7 +578,7 @@ export class ConfiguratorAttributeProductCardComponent
     } else {
       this.translation
         .translate('configurator.a11y.itemOfAttributeSelectedPressToUnselect', {
-          item: product.code,
+          item: product.name || product.code,
           attribute: this.productCardOptions?.attribute.label,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
@@ -599,7 +599,7 @@ export class ConfiguratorAttributeProductCardComponent
     ) {
       this.translation
         .translate('configurator.a11y.itemOfAttributeSelectedWithPrice', {
-          item: product.code,
+          item: product.name || product.code,
           attribute: this.productCardOptions?.attribute.label,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
@@ -612,7 +612,7 @@ export class ConfiguratorAttributeProductCardComponent
     } else {
       this.translation
         .translate('configurator.a11y.itemOfAttributeSelected', {
-          item: product.code,
+          item: product.name || product.code,
           attribute: this.productCardOptions?.attribute.label,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
@@ -635,7 +635,7 @@ export class ConfiguratorAttributeProductCardComponent
         .translate(
           'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice',
           {
-            item: product.code,
+            item: product.name || product.code,
             attribute: this.productCardOptions?.attribute.label,
             itemIndex: index,
             itemCount: this.productCardOptions.itemCount,
@@ -649,7 +649,7 @@ export class ConfiguratorAttributeProductCardComponent
     } else {
       this.translation
         .translate('configurator.a11y.itemOfAttributeSelectedPressToUnselect', {
-          item: product.code,
+          item: product.name || product.code,
           attribute: this.productCardOptions?.attribute.label,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
@@ -670,7 +670,7 @@ export class ConfiguratorAttributeProductCardComponent
     ) {
       this.translation
         .translate('configurator.a11y.itemOfAttributeUnselectedWithPrice', {
-          item: product.code,
+          item: product.name || product.code,
           attribute: this.productCardOptions?.attribute.label,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
@@ -683,7 +683,7 @@ export class ConfiguratorAttributeProductCardComponent
     } else {
       this.translation
         .translate('configurator.a11y.itemOfAttributeUnselected', {
-          item: product.code,
+          item: product.name || product.code,
           attribute: this.productCardOptions?.attribute.label,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,

@@ -1632,58 +1632,65 @@ describe('ConfiguratorAttributeContainerComponent', () => {
         storefrontUtilsService = TestBed.inject(
           ConfiguratorStorefrontUtilsService
         );
-        spyOn(
+        vi.spyOn(
           configuratorCommonsService,
           'isConfigurationLoading'
-        ).and.returnValue(isLoading$);
-        spyOn(configuratorGroupsService, 'getCurrentGroupId').and.returnValue(
-          currentGroupId$
-        );
-        spyOn(storefrontUtilsService, 'focusElement');
-        spyOn(configuratorCommonsService, 'addContainerRow').and.callFake(() =>
-          isLoading$.next(true)
-        );
+        ).mockReturnValue(isLoading$);
+        vi.spyOn(
+          configuratorGroupsService,
+          'getCurrentGroupId'
+        ).mockReturnValue(currentGroupId$);
+        vi.spyOn(storefrontUtilsService, 'focusElement');
+        vi.spyOn(
+          configuratorCommonsService,
+          'addContainerRow'
+        ).mockImplementation(() => isLoading$.next(true));
+        vi.useFakeTimers();
       });
 
-      it('should focus the group title when adding a row navigates to another group', fakeAsync(() => {
+      afterEach(() => {
+        vi.useRealTimers();
+      });
+
+      it('should focus the group title when adding a row navigates to another group', async () => {
         clickProductCardAction(1, '.btn-primary');
 
         isLoading$.next(false);
         currentGroupId$.next(firstTabId);
-        tick();
+        await vi.advanceTimersByTimeAsync(10);
 
         expect(storefrontUtilsService.focusElement).toHaveBeenCalledWith(
           '.cx-group-title'
         );
-      }));
+      });
 
-      it('should wait for the group change that follows a short idle state within the same update', fakeAsync(() => {
+      it('should wait for the group change that follows a short idle state within the same update', async () => {
         clickProductCardAction(1, '.btn-primary');
 
         isLoading$.next(false);
         isLoading$.next(true);
-        tick();
+        await vi.advanceTimersByTimeAsync(10);
         expect(storefrontUtilsService.focusElement).not.toHaveBeenCalled();
 
         currentGroupId$.next(firstTabId);
         isLoading$.next(false);
-        tick();
+        await vi.advanceTimersByTimeAsync(10);
 
         expect(storefrontUtilsService.focusElement).toHaveBeenCalledWith(
           '.cx-group-title'
         );
-      }));
+      });
 
-      it('should not focus the group title when adding a row does not navigate', fakeAsync(() => {
+      it('should not focus the group title when adding a row does not navigate', async () => {
         clickProductCardAction(1, '.btn-primary');
 
         isLoading$.next(false);
-        tick();
+        await vi.advanceTimersByTimeAsync(10);
         currentGroupId$.next(firstTabId);
-        tick();
+        await vi.advanceTimersByTimeAsync(10);
 
         expect(storefrontUtilsService.focusElement).not.toHaveBeenCalled();
-      }));
+      });
     });
   });
 

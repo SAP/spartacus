@@ -198,7 +198,7 @@ describe('ConfiguratorMessageComponent', () => {
     });
 
     it('uses an assertive, atomic live region for rows without role', () => {
-      component.role = undefined;
+      fixture.componentRef.setInput('role', undefined);
       fixture.detectChanges();
 
       const row = htmlElem.querySelector('.cx-error-message') as HTMLElement;
