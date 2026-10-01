@@ -78,7 +78,7 @@ export function fillPaymentAddress(
   address: Partial<AddressData>,
   submitForm: boolean = true
 ) {
-  cy.wait(3000);
+  cy.wait(1000);
   cy.get('button.btn-primary').should('be.visible');
   cy.get('cx-address-form').within(() => {
     if (address) {
