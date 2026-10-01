@@ -35,6 +35,7 @@ import {
   IconComponent,
   LaunchDialogService,
   NgSelectA11yModule,
+  PopoverDirective,
   SpinnerComponent,
 } from '@spartacus/storefront';
 import {
@@ -662,7 +663,17 @@ describe('CheckoutPaymentFormComponent', () => {
       const button = getCvvButton();
       expect(button?.getAttribute('type')).toBe('button');
       expect(button?.getAttribute('aria-label')).toBeTruthy();
-      expect(button?.getAttribute('title')).toBeTruthy();
+    });
+
+    it('should have cxPopover directive on the CVV button when toggle is enabled', () => {
+      featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', true);
+      fixture.detectChanges();
+
+      const buttonEl = fixture.debugElement.query(
+        By.css('button.cx-payment-form-tooltip.cx-cvv-info-btn')
+      );
+      expect(buttonEl).toBeTruthy();
+      expect(buttonEl?.injector.get(PopoverDirective, null)).toBeTruthy();
     });
 
     it('should be keyboard accessible when a11yCvvInfoIconKeyboardAccessible is enabled', () => {
@@ -673,6 +684,46 @@ describe('CheckoutPaymentFormComponent', () => {
       expect(button?.getAttribute('type')).toBe('button');
       // Verify it's a button element, not just an icon
       expect(button?.tagName).toBe('BUTTON');
+    });
+
+    it('should use explicit label association and aria-required on input when toggle is enabled', () => {
+      featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', true);
+      fixture.detectChanges();
+
+      const input = fixture.debugElement.query(
+        By.css('input#cVVNumber')
+      )?.nativeElement;
+      const label = fixture.debugElement.query(
+        By.css('label[for="cVVNumber"]')
+      )?.nativeElement;
+
+      expect(label).toBeTruthy();
+      expect(input?.getAttribute('aria-required')).toBe('true');
+    });
+
+    it('should set aria-invalid to true (not false) when input is touched and invalid', () => {
+      featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', true);
+      fixture.detectChanges();
+
+      const cvnControl = component.paymentForm.get('cvn');
+      cvnControl?.markAsTouched();
+      cvnControl?.setErrors({ required: true });
+      fixture.detectChanges();
+
+      const input = fixture.debugElement.query(
+        By.css('input#cVVNumber')
+      )?.nativeElement;
+      expect(input?.getAttribute('aria-invalid')).toBe('true');
+    });
+
+    it('should not render aria-invalid when input is untouched when toggle is enabled', () => {
+      featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', true);
+      fixture.detectChanges();
+
+      const input = fixture.debugElement.query(
+        By.css('input#cVVNumber')
+      )?.nativeElement;
+      expect(input?.getAttribute('aria-invalid')).toBeNull();
     });
   });
 });
