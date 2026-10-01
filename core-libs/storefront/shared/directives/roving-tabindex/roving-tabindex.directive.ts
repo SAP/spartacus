@@ -265,13 +265,6 @@ export class CxRovingTabindexDirective implements AfterViewInit {
         return this.navigate(event, 0);
       case 'End':
         return this.navigate(event, count - 1);
-      case 'Enter':
-        return this.emitActivate(event, current);
-      case 'ArrowRight':
-        if (this.cxRovingTabindexAxis === 'vertical') {
-          return this.emitActivate(event, current);
-        }
-        return null;
       case ' ':
         // Suppress the default page-scroll on keydown; activation fires on keyup
         // (see onKeyup) to match native button behaviour and avoid repeated
@@ -279,8 +272,21 @@ export class CxRovingTabindexDirective implements AfterViewInit {
         event.preventDefault();
         return null;
       default:
-        return null;
+        return this.resolveActivation(event, current);
     }
+  }
+
+  private resolveActivation(
+    event: KeyboardEvent,
+    current: number
+  ): number | null {
+    if (
+      event.key === 'Enter' ||
+      (event.key === 'ArrowRight' && this.cxRovingTabindexAxis === 'vertical')
+    ) {
+      return this.emitActivate(event, current);
+    }
+    return null;
   }
 
   private navigate(event: KeyboardEvent, target: number | null): number | null {
