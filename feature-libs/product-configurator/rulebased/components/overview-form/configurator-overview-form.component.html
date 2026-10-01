@@ -62,6 +62,11 @@
           <ng-container *ngSwitchCase="attributeOverviewType.BUNDLE">
             <cx-configurator-cpq-overview-attribute
               [attributeOverview]="attributeOverview"
+              [overviewIdPrefix]="idPrefix"
+              [parentGroupId]="group.id"
+              [hasConfigurationDetails]="
+                hasConfigurationDetails(group, attributeOverview)
+              "
             />
           </ng-container>
 
@@ -73,16 +78,43 @@
         </ng-container>
       </div>
       <ng-container *ngIf="group.subGroups?.length > 0">
-        <ng-container
-          *ngTemplateOutlet="
-            groups;
-            context: {
-              overviewGroups: group.subGroups,
-              level: level + 1,
-              idPrefix: getPrefixId(idPrefix, group.id),
-            }
-          "
-        />
+        <ng-container *ngFor="let subGroup of group.subGroups">
+          <div
+            *ngIf="isContainerRowDetailsGroup(subGroup)"
+            class="cx-group topLevel configurationDetails"
+          >
+            <h2>
+              <span class="cx-visually-hidden">
+                {{
+                  'configurator.a11y.configurationDetailsForContainer'
+                    | cxTranslate
+                      : {
+                          attribute: getContainerAttributeName(group, subGroup),
+                        }
+                }}
+              </span>
+              <span aria-hidden="true">
+                {{
+                  'configurator.overviewForm.configurationDetailsForContainer'
+                    | cxTranslate
+                      : {
+                          attribute: getContainerAttributeName(group, subGroup),
+                        }
+                }}
+              </span>
+            </h2>
+          </div>
+          <ng-container
+            *ngTemplateOutlet="
+              groups;
+              context: {
+                overviewGroups: [subGroup],
+                level: level + 1,
+                idPrefix: getPrefixId(idPrefix, group.id),
+              }
+            "
+          />
+        </ng-container>
       </ng-container>
     </div>
   </ng-container>

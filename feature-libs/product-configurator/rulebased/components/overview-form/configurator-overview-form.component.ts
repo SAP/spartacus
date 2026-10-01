@@ -82,8 +82,8 @@ export class ConfiguratorOverviewFormComponent {
 
   /**
    * Does the configuration contain any selected attribute values?
-   * @param {Configurator.Configuration} configuration - Current configuration
-   * @returns {boolean} - Any attributes available
+   * @param configuration - Current configuration
+   * @returns - Any attributes available
    */
   hasAttributes(configuration: Configurator.Configuration): boolean {
     return this.hasGroupWithAttributes(configuration.overview?.groups);
@@ -112,9 +112,9 @@ export class ConfiguratorOverviewFormComponent {
   /**
    * Verifies whether the next or the previous attributes are same.
    *
-   * @param {Configurator.AttributeOverview[]} attributes - Attribute array
-   * @param {number} index - Index of the attribute in the array
-   * @return {boolean} - 'True' if it is the same attribute, otherwise 'false'
+   * @param attributes - Attribute array
+   * @param index - Index of the attribute in the array
+   * @return - 'True' if it is the same attribute, otherwise 'false'
    */
   isSameAttribute(
     attributes: Configurator.AttributeOverview[],
@@ -137,9 +137,9 @@ export class ConfiguratorOverviewFormComponent {
   /**
    * Retrieves the styling for the corresponding element.
    *
-   * @param {Configurator.AttributeOverview[]} attributes - Attribute array
-   * @param {number} index - Index of the attribute in the array
-   * @return {string} - corresponding style class
+   * @param attributes - Attribute array
+   * @param index - Index of the attribute in the array
+   * @return - corresponding style class
    */
   getStyleClasses(
     attributes: Configurator.AttributeOverview[],
@@ -173,9 +173,9 @@ export class ConfiguratorOverviewFormComponent {
   /**
    * Retrieves the styling for the group levels.
    *
-   * @param {number} level - Group level. 1 is top level.
-   * @param {Configurator.GroupOverview[]} subGroups - subgroups array
-   * @return {string} - corresponding style classes
+   * @param level - Group level. 1 is top level.
+   * @param subGroups - subgroups array
+   * @return - corresponding style classes
    */
   getGroupLevelStyleClasses(
     level: number,
@@ -197,9 +197,9 @@ export class ConfiguratorOverviewFormComponent {
   /**
    * Retrieves a unique prefix ID.
    *
-   * @param {string | undefined} prefix - prefix that we need to make the ID unique
-   * @param {string} groupId - group ID
-   * @returns {string} - prefix ID
+   * @param prefix - prefix that we need to make the ID unique
+   * @param groupId - group ID
+   * @returns - prefix ID
    */
   getPrefixId(idPrefix: string | undefined, groupId: string): string {
     return this.configuratorStorefrontUtilsService.getPrefixId(
@@ -211,14 +211,87 @@ export class ConfiguratorOverviewFormComponent {
   /**
    * Retrieves the ids for the overview group headers
    *
-   * @param {string} idPrefix - Prefix (reflects the parent groups in the hierarchy)
-   * @param {string} groupId - local group id
-   * @return {string} - unique group id
+   * @param idPrefix - Prefix (reflects the parent groups in the hierarchy)
+   * @param groupId - local group id
+   * @return - unique group id
    */
   getGroupId(idPrefix: string, groupId: string): string {
     return this.configuratorStorefrontUtilsService.createOvGroupId(
       idPrefix,
       groupId
     );
+  }
+
+  /**
+   * Verifies whether the bundle attribute has a configuration details section
+   * on the overview page.
+   *
+   * @param group - Group that contains the attribute
+   * @param attributeOverview - Attribute overview
+   * @return - 'true' if configuration details exist, otherwise 'false'
+   */
+  hasConfigurationDetails(
+    group: Configurator.GroupOverview,
+    attributeOverview: Configurator.AttributeOverview
+  ): boolean {
+    const detailsGroupId =
+      this.getContainerRowDetailsGroupId(attributeOverview);
+    return (
+      !!detailsGroupId &&
+      !!group.subGroups?.some((subGroup) => subGroup.id === detailsGroupId)
+    );
+  }
+
+  protected getContainerRowDetailsGroupId(
+    attributeOverview: Configurator.AttributeOverview
+  ): string | undefined {
+    if (!attributeOverview.attributeId || !attributeOverview.valueId) {
+      return undefined;
+    }
+    return `${Configurator.ContainerRowGroupIdPrefix}@${attributeOverview.attributeId}@${attributeOverview.valueId}`;
+  }
+
+  /**
+   * Verifies whether the overview group represents a CPQ container row
+   * configuration details section (not a nested tab within that section).
+   *
+   * @param group - Overview group
+   * @return - 'true' if the group is a container row details section
+   */
+  isContainerRowDetailsGroup(group: Configurator.GroupOverview): boolean {
+    const prefix = `${Configurator.ContainerRowGroupIdPrefix}@`;
+    if (!group.id.startsWith(prefix)) {
+      return false;
+    }
+    const idWithoutPrefix = group.id.substring(prefix.length);
+    return idWithoutPrefix.split('@').length === 2;
+  }
+
+  /**
+   * Resolves the container attribute label for a configuration details section.
+   *
+   * @param parentGroup - Group that lists the container item
+   * @param containerRowGroup - Container row configuration details group
+   * @return - Container attribute name
+   */
+  getContainerAttributeName(
+    parentGroup: Configurator.GroupOverview,
+    containerRowGroup: Configurator.GroupOverview
+  ): string {
+    const match = containerRowGroup.id.match(
+      new RegExp(`^${Configurator.ContainerRowGroupIdPrefix}@([^@]+)@([^@]+)$`)
+    );
+    if (!match || !parentGroup.attributes) {
+      return '';
+    }
+    const attributeId = match[1];
+    const valueId = match[2];
+    const bundleAttribute = parentGroup.attributes.find(
+      (attributeOverview) =>
+        attributeOverview.type === Configurator.AttributeOverviewType.BUNDLE &&
+        attributeOverview.attributeId === attributeId &&
+        attributeOverview.valueId === valueId
+    );
+    return bundleAttribute?.attribute ?? '';
   }
 }

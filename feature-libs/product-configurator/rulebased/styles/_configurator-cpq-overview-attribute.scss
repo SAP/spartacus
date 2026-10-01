@@ -55,6 +55,22 @@
             line-break: anywhere;
           }
         }
+
+        .cx-view-details-link {
+          background-color: transparent;
+          border: none;
+          color: var(--cx-color-primary);
+          cursor: pointer;
+          font-size: 0.875rem;
+          margin-block-start: 5px;
+          padding: 0;
+          text-align: start;
+          text-decoration: underline;
+
+          &:hover {
+            color: var(--cx-color-secondary);
+          }
+        }
       }
     }
 

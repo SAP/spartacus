@@ -17,6 +17,7 @@ import {
   ConfiguratorPriceComponent,
   ConfiguratorPriceComponentOptions,
 } from '../price/configurator-price.component';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorOverviewBundleAttributeComponent } from './configurator-overview-bundle-attribute.component';
 
 @Pipe({ name: 'cxNumeric' })
@@ -28,8 +29,12 @@ const mockAttributeOverviewInput: Configurator.AttributeOverview = {
   attribute: 'testAttribute',
   value: 'testValue',
   productCode: 'testProductCode',
+  attributeId: '1067',
+  valueId: 'row-1',
   type: Configurator.AttributeOverviewType.BUNDLE,
 };
+
+const OV_GROUP_ID = '#cx--57--CONTAINER_ROW@1067@row-1-ovGroup';
 
 const mockProductImageUrl = 'testUrl';
 const mockImage = {
@@ -53,6 +58,22 @@ class MockProductService {
   get = () => product$.asObservable();
 }
 
+class MockConfiguratorStorefrontUtilsService {
+  getPrefixId(idPrefix: string | undefined, groupId: string): string {
+    return idPrefix ? `${idPrefix}--${groupId}` : `cx--${groupId}`;
+  }
+
+  createOvGroupId(prefix: string, groupId: string): string {
+    return `${prefix}--${groupId}-ovGroup`;
+  }
+
+  idSelector(id: string): string {
+    return `#${id}`;
+  }
+
+  scrollToConfigurationElement = vi.fn();
+}
+
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'cx-configurator-price',
@@ -71,7 +92,13 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [MediaModule, ConfiguratorOverviewBundleAttributeComponent],
-      providers: [{ provide: ProductService, useClass: MockProductService }],
+      providers: [
+        { provide: ProductService, useClass: MockProductService },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
+        },
+      ],
     })
       .overrideComponent(ConfiguratorOverviewBundleAttributeComponent, {
         remove: {
@@ -119,6 +146,26 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
       const product = await firstValueFrom(component.product$);
       expect(product).toEqual(mockProduct);
     });
+
+    it('should use dummy product when product service returns falsy', async () => {
+      product$.next(null as unknown as Product);
+      component.attributeOverview = mockAttributeOverviewInput;
+      component.ngOnInit();
+
+      const product = await firstValueFrom(component.product$);
+      expect(product).toEqual(noCommerceProduct);
+    });
+
+    it('should use dummy product when attribute has no product code', async () => {
+      component.attributeOverview = {
+        ...mockAttributeOverviewInput,
+        productCode: undefined,
+      };
+      component.ngOnInit();
+
+      const product = await firstValueFrom(component.product$);
+      expect(product).toEqual(noCommerceProduct);
+    });
   });
 
   describe('getProductPrimaryImage()', () => {
@@ -159,6 +206,173 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
 
         expect(getProductImage()).toBeUndefined();
       });
+    });
+  });
+
+  describe('displayQuantity', () => {
+    it('should return true when quantity is greater than zero', () => {
+      component.attributeOverview = {
+        ...mockAttributeOverviewInput,
+        quantity: 2,
+      };
+      expect(component.displayQuantity()).toBe(true);
+    });
+
+    it('should return false when quantity is zero or undefined', () => {
+      component.attributeOverview = {
+        ...mockAttributeOverviewInput,
+        quantity: 0,
+      };
+      expect(component.displayQuantity()).toBe(false);
+
+      component.attributeOverview = {
+        ...mockAttributeOverviewInput,
+        quantity: undefined,
+      };
+      expect(component.displayQuantity()).toBe(false);
+    });
+  });
+
+  describe('displayPrice', () => {
+    it('should return true when item price value is greater than zero', () => {
+      component.attributeOverview = {
+        ...mockAttributeOverviewInput,
+        valuePrice: { currencyIso: 'USD', value: 10, formattedValue: '$10' },
+      };
+      expect(component.displayPrice()).toBe(true);
+    });
+
+    it('should return false when item price is missing or zero', () => {
+      component.attributeOverview = {
+        ...mockAttributeOverviewInput,
+        valuePrice: { currencyIso: 'USD', value: 0 },
+      };
+      expect(component.displayPrice()).toBe(false);
+
+      component.attributeOverview = {
+        ...mockAttributeOverviewInput,
+        valuePrice: undefined,
+      };
+      expect(component.displayPrice()).toBe(false);
+    });
+  });
+
+  describe('extractPriceFormulaParameters', () => {
+    it('should map overview price fields to price component options', () => {
+      component.attributeOverview = {
+        ...mockAttributeOverviewInput,
+        quantity: 3,
+        valuePrice: { currencyIso: 'USD', value: 5, formattedValue: '$5' },
+        valuePriceTotal: {
+          currencyIso: 'USD',
+          value: 15,
+          formattedValue: '$15',
+        },
+      };
+
+      expect(component.extractPriceFormulaParameters()).toEqual({
+        quantity: 3,
+        price: component.attributeOverview.valuePrice,
+        priceTotal: component.attributeOverview.valuePriceTotal,
+        isLightedUp: true,
+      });
+    });
+  });
+
+  describe('viewDetails', () => {
+    let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
+
+    beforeEach(() => {
+      configuratorStorefrontUtilsService = TestBed.inject(
+        ConfiguratorStorefrontUtilsService
+      );
+      component.overviewIdPrefix = '';
+      component.parentGroupId = '57';
+      component.hasConfigurationDetails = true;
+    });
+
+    it('should scroll to the configuration details section', () => {
+      component.viewDetails();
+
+      expect(
+        configuratorStorefrontUtilsService.scrollToConfigurationElement
+      ).toHaveBeenCalledWith(`${OV_GROUP_ID} h2`);
+    });
+
+    it('should scroll when View Details is clicked in the template', () => {
+      product$.next(mockProduct);
+      fixture.detectChanges();
+
+      const button = htmlElem.querySelector(
+        '.cx-view-details-link'
+      ) as HTMLButtonElement;
+      expect(button).toBeTruthy();
+      button.click();
+
+      expect(
+        configuratorStorefrontUtilsService.scrollToConfigurationElement
+      ).toHaveBeenCalledWith(`${OV_GROUP_ID} h2`);
+    });
+  });
+
+  describe('HTML structure', () => {
+    beforeEach(() => {
+      product$.next(mockProduct);
+      component.attributeOverview = {
+        ...mockAttributeOverviewInput,
+        quantity: 2,
+        valuePrice: { currencyIso: 'USD', value: 10, formattedValue: '$10' },
+      };
+      component.hasConfigurationDetails = true;
+      fixture.detectChanges();
+    });
+
+    it('should render the bundle value layout with expected CSS classes', () => {
+      expect(htmlElem.querySelector('.cx-value-container')).toBeTruthy();
+      expect(htmlElem.querySelector('.cx-thumbnail cx-media')).toBeTruthy();
+      expect(htmlElem.querySelector('.cx-value-info')).toBeTruthy();
+      expect(
+        htmlElem.querySelector('.cx-attribute-price-container')
+      ).toBeTruthy();
+      expect(htmlElem.querySelector('.cx-attribute-label')?.textContent).toBe(
+        mockAttributeOverviewInput.attribute
+      );
+    });
+
+    it('should render product code, quantity, and item price sections when applicable', () => {
+      expect(htmlElem.querySelector('.cx-code')?.textContent).toContain(
+        mockAttributeOverviewInput.productCode
+      );
+      expect(htmlElem.querySelector('.cx-quantity')).toBeTruthy();
+      expect(htmlElem.querySelector('.cx-price')).toBeTruthy();
+    });
+
+    it('should render View Details as a button with the expected class', () => {
+      const button = htmlElem.querySelector('.cx-view-details-link');
+      expect(button?.tagName).toBe('BUTTON');
+      expect(button?.getAttribute('type')).toBe('button');
+    });
+  });
+
+  describe('View Details link', () => {
+    it('should render link when configuration details exist', () => {
+      product$.next(mockProduct);
+      component.hasConfigurationDetails = true;
+      fixture.detectChanges();
+
+      const link = htmlElem.querySelector('.cx-view-details-link');
+      expect(link).toBeTruthy();
+      expect(link?.textContent?.trim()).toContain(
+        'configurator.overviewForm.viewDetails'
+      );
+    });
+
+    it('should not render link when configuration details do not exist', () => {
+      product$.next(mockProduct);
+      component.hasConfigurationDetails = false;
+      fixture.detectChanges();
+
+      expect(htmlElem.querySelector('.cx-view-details-link')).toBeFalsy();
     });
   });
 
@@ -275,17 +489,11 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
       );
     });
 
-    it("should contain action div element with class name 'cx-value-info' and 'aria-hidden' attribute that removes an element from the accessibility tree", () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'div',
-        'cx-value-info',
-        0,
-        'aria-hidden',
-        'true',
-        component.attributeOverview.value
-      );
+    it("should contain nested div with 'aria-hidden' inside 'cx-value-info' that removes duplicated content from the accessibility tree", () => {
+      const valueInfo = htmlElem.querySelector('.cx-value-info');
+      expect(
+        valueInfo?.querySelector('[aria-hidden="true"]')?.textContent
+      ).toContain(component.attributeOverview.value);
     });
 
     it("should contain action div element with class name 'cx-attribute-price-container' and 'aria-hidden' attribute that removes an element from the accessibility tree", () => {
