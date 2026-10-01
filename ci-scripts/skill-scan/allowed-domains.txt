@@ -1,0 +1,20 @@
+# Allowlist of trusted domains that skill markdown files may link to.
+#
+# Policy: DEFAULT-DENY. Any https URL whose host is not on this list (matched by
+# registrable-domain suffix, so `docs.sap.com` matches `sap.com`) is a BLOCKING
+# finding. Non-https URLs and bare `www.` links are always blocked.
+#
+# One registrable domain per line. Lines starting with `#` and blank lines are
+# ignored. Keep this list minimal — every entry widens the attack surface.
+#
+# NOTE: changes to this file should be reviewed by a maintainer/security owner
+# (see README.md — CODEOWNERS enforcement is a tracked follow-up).
+
+angular.dev
+angular.io
+rxjs.dev
+i18next.com
+github.com
+sap.com
+npmjs.com
+developer.mozilla.org
