@@ -201,15 +201,30 @@ describe('CxRovingTabindexDirective', () => {
       expect(preventSpy).toHaveBeenCalled();
     });
 
-    it('should not respond to ArrowRight/ArrowLeft on vertical axis', () => {
+    it('should not move focus on ArrowLeft on vertical axis', () => {
       const items = getItems();
       items[0].focus();
       const focusSpy = vi.spyOn(items[1], 'focus');
 
-      dispatchKeydown('ArrowRight');
       dispatchKeydown('ArrowLeft');
 
       expect(focusSpy).not.toHaveBeenCalled();
+    });
+
+    it('should emit itemActivated on ArrowRight in vertical axis', () => {
+      directive.focusedIndex = 1;
+      const items = getItems();
+      items[1].focus();
+
+      const event = new KeyboardEvent('keydown', {
+        key: 'ArrowRight',
+        bubbles: true,
+      });
+      const preventSpy = vi.spyOn(event, 'preventDefault');
+      container.dispatchEvent(event);
+
+      expect(preventSpy).toHaveBeenCalled();
+      expect(component.activated).toBe(1);
     });
   });
 
@@ -483,6 +498,14 @@ describe('CxRovingTabindexDirective', () => {
         (): HTMLElement => {
           const el = document.createElement('div');
           el.contentEditable = 'true';
+          return el;
+        },
+      ],
+      [
+        'role="treeitem"',
+        (): HTMLElement => {
+          const el = document.createElement('a');
+          el.setAttribute('role', 'treeitem');
           return el;
         },
       ],

@@ -225,6 +225,7 @@ export class CxRovingTabindexDirective implements AfterViewInit {
     'treegrid',
     'radiogroup',
     'slider',
+    'treeitem',
   ]);
 
   private isInteractive(el: HTMLElement): boolean {
@@ -266,6 +267,11 @@ export class CxRovingTabindexDirective implements AfterViewInit {
         return this.navigate(event, count - 1);
       case 'Enter':
         return this.emitActivate(event, current);
+      case 'ArrowRight':
+        if (this.cxRovingTabindexAxis === 'vertical') {
+          return this.emitActivate(event, current);
+        }
+        return null;
       case ' ':
         // Suppress the default page-scroll on keydown; activation fires on keyup
         // (see onKeyup) to match native button behaviour and avoid repeated

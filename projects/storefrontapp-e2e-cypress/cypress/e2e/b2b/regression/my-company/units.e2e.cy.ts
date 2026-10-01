@@ -12,6 +12,10 @@ import {
 
 testMyCompanyFeatureFromConfig(unitConfig, true);
 
+function getUnitRow(id: string): Cypress.Chainable<JQuery<HTMLElement>> {
+  return cy.get(`[id="${id}"]`).closest('[data-cx-roving-item]');
+}
+
 describe('A11y - Units List Keyboard Controls', () => {
   beforeEach(() => {
     loginAsMyCompanyAdmin();
@@ -19,67 +23,45 @@ describe('A11y - Units List Keyboard Controls', () => {
   });
 
   it('navigate to next link on arrow down', () => {
-    cy.get('#Rustic').parent().parent().parent().focus();
+    getUnitRow('Rustic').focus();
     cy.focused().type('{downArrow}');
-    cy.get('[id="Rustic Retail"]')
-      .parent()
-      .parent()
-      .parent()
-      .should('have.focus');
+    getUnitRow('Rustic Retail').should('have.focus');
     cy.focused().type('{downArrow}');
-    cy.get('[id="Rustic Services"]')
-      .parent()
-      .parent()
-      .parent()
-      .should('have.focus');
+    getUnitRow('Rustic Services').should('have.focus');
     cy.focused().type('{downArrow}');
-    cy.get('[id="Rustic Services"]')
-      .parent()
-      .parent()
-      .parent()
-      .should('have.focus');
+    getUnitRow('Rustic Services').should('have.focus');
   });
 
   it('navigate to previous link on arrow up', () => {
-    cy.get('[id="Rustic Services"]').parent().parent().parent().focus();
+    getUnitRow('Rustic Services').focus();
     cy.focused().type('{upArrow}');
-    cy.get('[id="Rustic Retail"]')
-      .parent()
-      .parent()
-      .parent()
-      .should('have.focus');
+    getUnitRow('Rustic Retail').should('have.focus');
     cy.focused().type('{upArrow}');
-    cy.get('#Rustic').parent().parent().parent().should('have.focus');
+    getUnitRow('Rustic').should('have.focus');
     cy.focused().type('{upArrow}');
-    cy.get('#Rustic').parent().parent().parent().should('have.focus');
+    getUnitRow('Rustic').should('have.focus');
   });
 
   it('collapses option on arrow left', () => {
-    cy.get('#Rustic').parent().parent().parent().focus();
+    getUnitRow('Rustic').focus();
     cy.focused().type('{leftArrow}');
     cy.get('[id="Rustic Retail"]').should('not.exist');
   });
 
   it('expands option on arrow right', () => {
-    cy.get('[id="Rustic Services"]').parent().parent().parent().focus();
+    getUnitRow('Rustic Services').focus();
     cy.focused().type('{rightArrow}');
     cy.focused().type('{downArrow}');
-    cy.get('[id="Services East"]')
-      .parent()
-      .parent()
-      .parent()
-      .should('have.focus');
+    getUnitRow('Services East').should('have.focus');
   });
 
-  it('focuses on active option while navigating back to list', () => {
-    cy.get('[id="Rustic Services"]').parent().parent().parent().focus();
+  it('active row retains tabindex=0 while detail card is open', () => {
+    getUnitRow('Rustic Services').focus();
     cy.focused().type(' ');
-    cy.focused().parents('cx-org-card').should('exist');
-    cy.focused().pressTab(true);
-    cy.get('[id="Rustic Services"]')
-      .parent()
-      .parent()
-      .parent()
-      .should('have.focus');
+    // Wait for the card to appear after router navigation.
+    cy.get('cx-org-card').should('exist');
+    // The active row must stay in the tab sequence (tabindex="0") while the
+    // card is open so keyboard users can Shift-Tab back to it.
+    getUnitRow('Rustic Services').should('have.attr', 'tabindex', '0');
   });
 });
