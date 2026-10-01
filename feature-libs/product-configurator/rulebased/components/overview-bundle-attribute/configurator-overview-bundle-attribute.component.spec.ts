@@ -8,9 +8,11 @@ import {
   Product,
   ProductService,
 } from '@spartacus/core';
+import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
 import { MediaModule } from '@spartacus/storefront';
-import { BehaviorSubject, firstValueFrom } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { vi } from 'vitest';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
 import {
@@ -118,6 +120,30 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
 
       const product = await firstValueFrom(component.product$);
       expect(product).toEqual(mockProduct);
+    });
+
+    it('should request catalog product with configurator product card scope', () => {
+      const productService = TestBed.inject(ProductService);
+      vi.spyOn(productService, 'get').mockReturnValue(of(mockProduct));
+
+      component.ngOnInit();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        mockAttributeOverviewInput.productCode,
+        ConfiguratorProductScope.CONFIGURATOR_PRODUCT_CARD
+      );
+    });
+
+    it('should use dummy product when catalog lookup fails', async () => {
+      const productService = TestBed.inject(ProductService);
+      vi.spyOn(productService, 'get').mockReturnValue(
+        throwError(() => new Error("Product with code 'MISSING' not found!"))
+      );
+
+      component.ngOnInit();
+
+      const product = await firstValueFrom(component.product$);
+      expect(product).toEqual(noCommerceProduct);
     });
   });
 

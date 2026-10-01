@@ -18,7 +18,6 @@ import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import {
   CxNumericPipe,
   FeatureToggles,
-  ProductScope,
   ProductService,
   TranslatePipe,
   TranslationService,
@@ -34,6 +33,7 @@ import {
   switchMap,
   take,
 } from 'rxjs/operators';
+import { ConfiguratorProductScope } from '../../core/model/configurator-product-scope';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 import { CommonConfiguratorUISettingsConfig } from '../config/common-configurator-ui-settings.config';
 import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-cart-entry.component';
@@ -175,7 +175,10 @@ export class ConfiguratorCartEntryBundleInfoComponent {
       return of(lineItem);
     }
     return this.productService
-      .get(lineItem.productCode, ProductScope.LIST)
+      .get(
+        lineItem.productCode,
+        ConfiguratorProductScope.CONFIGURATOR_PRODUCT_CARD
+      )
       .pipe(
         catchError(() => of(undefined)),
         map((product) => ({ ...lineItem, product }))

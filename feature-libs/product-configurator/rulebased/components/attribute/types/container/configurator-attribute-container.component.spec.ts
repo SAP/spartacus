@@ -708,6 +708,21 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       expect(options.productBoundValue.productSystemId).toBe('SYS_B');
     });
 
+    it('should pass catalog product code as productSystemId for product card lookup', () => {
+      const catalogProductCode = 'CPQ_ESPRESSO_GRINDER';
+      const row: Configurator.ContainerRow = {
+        id: 'row-espresso',
+        productName: 'Espresso Grinder',
+        productSystemId: catalogProductCode,
+        selected: true,
+      };
+      const options = component.extractProductCardParameters(row, 0, 1);
+
+      expect(options.productBoundValue.productSystemId).toBe(
+        catalogProductCode
+      );
+    });
+
     it('should include loading$', () => {
       const options = component.extractProductCardParameters(
         component.availableProducts[0],

@@ -22,7 +22,6 @@ import {
   MockDatePipe,
   MockTranslatePipe,
   Product,
-  ProductScope,
   ProductService,
   TranslatePipe,
   UrlPipe,
@@ -35,6 +34,7 @@ import {
   CommonConfiguratorUtilsService,
   ConfigurationInfo,
   ConfiguratorCartEntryBundleInfoService,
+  ConfiguratorProductScope,
   ConfiguratorType,
   ConfigureCartEntryComponent,
   LineItem,
@@ -1317,13 +1317,13 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         expect(productService.get).not.toHaveBeenCalled();
       });
 
-      it('should load the product in list scope', async () => {
+      it('should load the product with configurator product card scope', async () => {
         const lineItem = await firstValueFrom(
           component['enrichWithProduct'](configurableLineItem)
         );
         expect(productService.get).toHaveBeenCalledWith(
           'PRODUCT_1',
-          ProductScope.LIST
+          ConfiguratorProductScope.CONFIGURATOR_PRODUCT_CARD
         );
         expect(lineItem).toEqual({ ...configurableLineItem, product });
       });
