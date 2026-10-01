@@ -31,7 +31,6 @@ import { productConfiguration } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorGroupComponent } from '../group';
 import { ConfiguratorFormComponent } from './configurator-form.component';
-import { vi } from 'vitest';
 
 @Component({
   selector: 'cx-configurator-group',

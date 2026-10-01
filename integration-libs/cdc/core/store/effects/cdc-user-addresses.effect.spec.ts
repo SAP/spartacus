@@ -1,22 +1,19 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { CdcJsService } from '@spartacus/cdc/root';
-import { Address, Country, UserIdService } from '@spartacus/core';
-import { cold, hot } from 'jasmine-marbles';
 import {
-  GlobalMessageService,
-  GlobalMessageType,
-} from 'core-libs/core/src/global-message';
-import {
+  Address,
+  Country,
   UserActions,
   UserAddressAdapter,
   UserAddressConnector,
   UserAddressService,
-} from 'core-libs/core/src/user';
-import { EMPTY, Observable, of, throwError } from 'rxjs';
+  UserIdService,
+} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import { EMPTY, firstValueFrom, Observable, of, throwError } from 'rxjs';
 import * as fromUserAddressesEffect from './cdc-user-addresses.effect';
 import { CdcUserAddressesEffects } from './cdc-user-addresses.effect';
-import createSpy = jasmine.createSpy;
 
 const mockUserId = 'user@sapcx.com';
 
@@ -25,7 +22,7 @@ class MockCdcJsService implements Partial<CdcJsService> {
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = jasmine.createSpy().and.returnValue(of({ uid: mockUserId }));
+  takeUserId = vi.fn().mockReturnValue(of({ uid: mockUserId }));
 }
 
 class MockUserAddressService {
@@ -97,47 +94,45 @@ describe('CDC User Addresses effect', () => {
     userAddressService = TestBed.inject(UserAddressService);
     cdcJSService = TestBed.inject(CdcJsService);
 
-    spyOn(userAddressConnector, 'getAll').and.returnValue(
+    vi.spyOn(userAddressConnector, 'getAll').mockReturnValue(
       of(mockUserAddresses)
     );
-    spyOn(userAddressConnector, 'add').and.returnValue(of({}));
+    vi.spyOn(userAddressConnector, 'add').mockReturnValue(of({}));
 
-    spyOn(userAddressConnector, 'update').and.returnValue(of({}));
-    spyOn(userAddressConnector, 'delete').and.returnValue(of({}));
+    vi.spyOn(userAddressConnector, 'update').mockReturnValue(of({}));
+    vi.spyOn(userAddressConnector, 'delete').mockReturnValue(of({}));
 
-    spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(
+    vi.spyOn(userAddressService, 'getDeliveryCountries').mockReturnValue(
       of(mockCountries)
     );
-    spyOn(userAddressService, 'loadDeliveryCountries').and.stub();
+    vi.spyOn(userAddressService, 'loadDeliveryCountries').mockImplementation(
+      () => {}
+    );
 
-    spyOn(userAddressService, 'getAddresses').and.returnValue(
+    vi.spyOn(userAddressService, 'getAddresses').mockReturnValue(
       of(mockUserAddresses)
     );
-    spyOn(globalMessageService, 'remove');
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'remove');
+    vi.spyOn(globalMessageService, 'add');
     TestBed.compileComponents();
   });
 
   describe('cdcAddUserAddress$', () => {
-    it('should not update default address in CDC and show error message if add address fails', () => {
-      actions$ = hot('-a', {
-        a: new UserActions.AddUserAddressSuccess(mockUserAddress),
-      });
+    it('should not update default address in CDC and show error message if add address fails', async () => {
+      actions$ = of(new UserActions.AddUserAddressSuccess(mockUserAddress));
 
       const error = {
         status: 'ERROR',
         errorMessage: 'Error adding default address in CDC',
       };
 
-      spyOn(cdcJSService, 'updateAddressWithoutScreenSet').and.returnValue(
+      vi.spyOn(cdcJSService, 'updateAddressWithoutScreenSet').mockReturnValue(
         throwError(() => error)
       );
 
-      const expected = cold('-#', null, error);
-
-      expect(cdcUserAddressesEffect.cdcAddUserAddress$).toBeObservable(
-        expected
-      );
+      await expect(
+        firstValueFrom(cdcUserAddressesEffect.cdcAddUserAddress$)
+      ).rejects.toEqual(error);
       expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
         error.errorMessage,
@@ -145,45 +140,40 @@ describe('CDC User Addresses effect', () => {
       );
     });
 
-    it('should send default address to CDC on add user addresses success', () => {
-      actions$ = hot('-a', {
-        a: new UserActions.AddUserAddressSuccess(mockUserAddress),
-      });
+    it('should send default address to CDC on add user addresses success', async () => {
+      actions$ = of(new UserActions.AddUserAddressSuccess(mockUserAddress));
 
       const ok = { status: 'OK' };
 
-      spyOn(cdcJSService, 'updateAddressWithoutScreenSet').and.returnValue(
+      vi.spyOn(cdcJSService, 'updateAddressWithoutScreenSet').mockReturnValue(
         of(ok)
       );
 
-      const expected = cold('-b', { b: ok });
-
-      expect(cdcUserAddressesEffect.cdcAddUserAddress$).toBeObservable(
-        expected
+      const result = await firstValueFrom(
+        cdcUserAddressesEffect.cdcAddUserAddress$
       );
+      expect(result).toEqual(ok);
       expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
       expect(globalMessageService.add).not.toHaveBeenCalled();
     });
   });
 
   describe('cdcUpdateUserAddress$', () => {
-    it('should update default address in CDC and show error message if update fails', () => {
-      actions$ = hot('-a', {
-        a: new UserActions.UpdateUserAddressSuccess(mockUserAddress),
-      });
+    it('should update default address in CDC and show error message if update fails', async () => {
+      actions$ = of(new UserActions.UpdateUserAddressSuccess(mockUserAddress));
+
       const error = {
         status: 'ERROR',
         errorMessage: 'Error updating default address in CDC',
       };
-      const expected = cold('-#', null, error);
 
-      spyOn(cdcJSService, 'updateAddressWithoutScreenSet').and.returnValue(
+      vi.spyOn(cdcJSService, 'updateAddressWithoutScreenSet').mockReturnValue(
         throwError(() => error)
       );
 
-      expect(cdcUserAddressesEffect.cdcUpdateUserAddress$).toBeObservable(
-        expected
-      );
+      await expect(
+        firstValueFrom(cdcUserAddressesEffect.cdcUpdateUserAddress$)
+      ).rejects.toEqual(error);
       expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
         error.errorMessage,
@@ -191,45 +181,38 @@ describe('CDC User Addresses effect', () => {
       );
     });
 
-    it('should send default address to CDC on update user addresses success', () => {
-      actions$ = hot('-a', {
-        a: new UserActions.UpdateUserAddressSuccess(mockUserAddress),
-      });
-      const ok = {
-        status: 'OK',
-      };
-      const expected = cold('-b', {
-        b: ok,
-      });
+    it('should send default address to CDC on update user addresses success', async () => {
+      actions$ = of(new UserActions.UpdateUserAddressSuccess(mockUserAddress));
 
-      spyOn(cdcJSService, 'updateAddressWithoutScreenSet').and.returnValue(
+      const ok = { status: 'OK' };
+
+      vi.spyOn(cdcJSService, 'updateAddressWithoutScreenSet').mockReturnValue(
         of(ok)
       );
 
-      expect(cdcUserAddressesEffect.cdcUpdateUserAddress$).toBeObservable(
-        expected
+      const result = await firstValueFrom(
+        cdcUserAddressesEffect.cdcUpdateUserAddress$
       );
+      expect(result).toEqual(ok);
       expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
       expect(globalMessageService.add).not.toHaveBeenCalled();
     });
 
-    it('should not update default address in CDC and show error message if setting default address fails', () => {
-      actions$ = hot('-a', {
-        a: new UserActions.UpdateUserAddressSuccess(mockUserId),
-      });
+    it('should not update default address in CDC and show error message if setting default address fails', async () => {
+      actions$ = of(new UserActions.UpdateUserAddressSuccess(mockUserId));
+
       const error = {
         status: 'ERROR',
         errorMessage: 'Error updating default address in CDC',
       };
-      const expected = cold('-#', null, error);
 
-      spyOn(cdcJSService, 'updateAddressWithoutScreenSet').and.returnValue(
+      vi.spyOn(cdcJSService, 'updateAddressWithoutScreenSet').mockReturnValue(
         throwError(() => error)
       );
 
-      expect(cdcUserAddressesEffect.cdcUpdateUserAddress$).toBeObservable(
-        expected
-      );
+      await expect(
+        firstValueFrom(cdcUserAddressesEffect.cdcUpdateUserAddress$)
+      ).rejects.toEqual(error);
       expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
         error.errorMessage,
@@ -237,49 +220,40 @@ describe('CDC User Addresses effect', () => {
       );
     });
 
-    it('should send default address to CDC on update setting default addresses success', () => {
-      actions$ = hot('-a', {
-        a: new UserActions.UpdateUserAddressSuccess(mockUserId),
-      });
-      const ok = {
-        status: 'OK',
-      };
-      const expected = cold('-b', {
-        b: {
-          status: 'OK',
-        },
-      });
+    it('should send default address to CDC on update setting default addresses success', async () => {
+      actions$ = of(new UserActions.UpdateUserAddressSuccess(mockUserId));
 
-      spyOn(cdcJSService, 'updateAddressWithoutScreenSet').and.returnValue(
+      const ok = { status: 'OK' };
+
+      vi.spyOn(cdcJSService, 'updateAddressWithoutScreenSet').mockReturnValue(
         of(ok)
       );
 
-      expect(cdcUserAddressesEffect.cdcUpdateUserAddress$).toBeObservable(
-        expected
+      const result = await firstValueFrom(
+        cdcUserAddressesEffect.cdcUpdateUserAddress$
       );
+      expect(result).toEqual({ status: 'OK' });
       expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
       expect(globalMessageService.add).not.toHaveBeenCalled();
     });
   });
 
   describe('cdcDeleteUserAddress$', () => {
-    it('should delete default address in CDC and show error message if delete fails', () => {
-      actions$ = hot('-a', {
-        a: new UserActions.DeleteUserAddressSuccess({}),
-      });
+    it('should delete default address in CDC and show error message if delete fails', async () => {
+      actions$ = of(new UserActions.DeleteUserAddressSuccess({}));
+
       const error = {
         status: 'ERROR',
         errorMessage: 'Error deleting default address in CDC',
       };
-      const expected = cold('-#', null, error);
 
-      spyOn(cdcJSService, 'updateAddressWithoutScreenSet').and.returnValue(
+      vi.spyOn(cdcJSService, 'updateAddressWithoutScreenSet').mockReturnValue(
         throwError(() => error)
       );
 
-      expect(cdcUserAddressesEffect.cdcDeleteUserAddress$).toBeObservable(
-        expected
-      );
+      await expect(
+        firstValueFrom(cdcUserAddressesEffect.cdcDeleteUserAddress$)
+      ).rejects.toEqual(error);
       expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
         error.errorMessage,
@@ -287,36 +261,31 @@ describe('CDC User Addresses effect', () => {
       );
     });
 
-    it('should send default address to CDC on delete user addresses success', () => {
-      actions$ = hot('-a', {
-        a: new UserActions.DeleteUserAddressSuccess({}),
-      });
-      const ok = {
-        status: 'OK',
-      };
-      const expected = cold('-b', {
-        b: ok,
-      });
+    it('should send default address to CDC on delete user addresses success', async () => {
+      actions$ = of(new UserActions.DeleteUserAddressSuccess({}));
 
-      spyOn(cdcJSService, 'updateAddressWithoutScreenSet').and.returnValue(
+      const ok = { status: 'OK' };
+
+      vi.spyOn(cdcJSService, 'updateAddressWithoutScreenSet').mockReturnValue(
         of(ok)
       );
 
-      expect(cdcUserAddressesEffect.cdcDeleteUserAddress$).toBeObservable(
-        expected
+      const result = await firstValueFrom(
+        cdcUserAddressesEffect.cdcDeleteUserAddress$
       );
+      expect(result).toEqual(ok);
       expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
       expect(globalMessageService.add).not.toHaveBeenCalled();
     });
   });
 
   describe('getAddresses', () => {
-    it('should get user id and invoke addresses', (done) => {
-      cdcUserAddressesEffect.getAddresses().subscribe((addresses) => {
-        expect(addresses).toBeTruthy();
-        expect(addresses.length).toEqual(1);
-        done();
-      });
+    it('should get user id and invoke addresses', async () => {
+      const addresses = await firstValueFrom(
+        cdcUserAddressesEffect.getAddresses()
+      );
+      expect(addresses).toBeTruthy();
+      expect(addresses.length).toEqual(1);
     });
   });
 
@@ -363,41 +332,39 @@ describe('CDC User Addresses effect', () => {
   });
 
   describe('updateDefaultAddressInCDC', () => {
-    it('should invoke CDC JS service', (done) => {
-      cdcJSService.updateAddressWithoutScreenSet = createSpy().and.returnValue(
+    it('should invoke CDC JS service', async () => {
+      cdcJSService.updateAddressWithoutScreenSet = vi.fn().mockReturnValue(
         of({
           status: 'OK',
         })
       );
-      cdcUserAddressesEffect.updateDefaultAddressInCDC().subscribe(() => {
-        expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalledWith(
-          mockUserAddress.formattedAddress,
-          mockUserAddress.postalCode,
-          mockUserAddress.town,
-          mockCountry.name
-        );
-        done();
-      });
+      await firstValueFrom(cdcUserAddressesEffect.updateDefaultAddressInCDC());
+      expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalledWith(
+        mockUserAddress.formattedAddress,
+        mockUserAddress.postalCode,
+        mockUserAddress.town,
+        mockCountry.name
+      );
     });
   });
 
   describe('sendAddressToCDC', () => {
-    it('should invoke CDC JS service', (done) => {
-      cdcJSService.updateAddressWithoutScreenSet = createSpy().and.returnValue(
+    it('should invoke CDC JS service', async () => {
+      cdcJSService.updateAddressWithoutScreenSet = vi.fn().mockReturnValue(
         of({
           status: 'OK',
         })
       );
-      cdcUserAddressesEffect.sendAddressToCDC(mockUserAddress).subscribe(() => {
-        expect(userAddressService.getDeliveryCountries).toHaveBeenCalled();
-        expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalledWith(
-          mockUserAddress.formattedAddress,
-          mockUserAddress.postalCode,
-          mockUserAddress.town,
-          mockCountry.name
-        );
-        done();
-      });
+      await firstValueFrom(
+        cdcUserAddressesEffect.sendAddressToCDC(mockUserAddress)
+      );
+      expect(userAddressService.getDeliveryCountries).toHaveBeenCalled();
+      expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalledWith(
+        mockUserAddress.formattedAddress,
+        mockUserAddress.postalCode,
+        mockUserAddress.town,
+        mockCountry.name
+      );
     });
   });
 });

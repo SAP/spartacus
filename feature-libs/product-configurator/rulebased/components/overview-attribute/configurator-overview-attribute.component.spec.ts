@@ -11,7 +11,6 @@ import {
   ConfiguratorPriceComponentOptions,
 } from '../price/configurator-price.component';
 import { ConfiguratorOverviewAttributeComponent } from './configurator-overview-attribute.component';
-import { vi } from 'vitest';
 
 @Component({
   selector: 'cx-configurator-price',

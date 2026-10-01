@@ -29,13 +29,13 @@
     "@types/deep-equal": "^1.0.1",
     "@types/glob": "^9.0.0",
     "deep-equal": "^2.0.5",
-    "glob": "^7.2.0",
+    "glob": "^13.0.0",
     "stringify-object": "7.0.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.0"
   },
   "overrides": {
-    "fast-uri@^3": "3.1.6",
+    "fast-uri@^3": "3.1.8",
     "brace-expansion@^1": "1.1.18",
     "brace-expansion@^5": "5.0.9"
   }
