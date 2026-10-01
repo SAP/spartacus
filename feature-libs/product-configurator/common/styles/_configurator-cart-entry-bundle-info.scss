@@ -40,6 +40,8 @@
       // If the value is to large the closing will "delay" as the max-height will be reduced from the specified value down to 0.
       max-block-size: fit-content;
       padding-block-end: 15px;
+      // Focus outlines extend outside link bounds; overflow:hidden would clip them on the inline start edge.
+      overflow: visible;
     }
 
     .cx-item-info {
@@ -53,7 +55,7 @@
       .cx-item-name,
       .cx-item-price,
       .cx-item-quantity,
-      .cx-item-configure {
+      .cx-item-link {
         inline-size: 100%;
       }
 
@@ -73,7 +75,7 @@
         }
       }
 
-      .cx-item-configure {
+      .cx-item-link {
         .cx-action-link,
         .disabled-link {
           font-size: inherit;

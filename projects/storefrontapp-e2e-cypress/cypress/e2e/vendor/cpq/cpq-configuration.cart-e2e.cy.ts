@@ -10,7 +10,7 @@ import * as configuration from '../../../helpers/product-configurator';
 import * as configurationCart from '../../../helpers/product-configurator-cart';
 import * as configurationCartCpq from '../../../helpers/product-configurator-cart-cpq';
 import * as configurationCpq from '../../../helpers/product-configurator-cpq';
-import * as configurationCpqContainer from '../../../helpers/product-configurator-cpq-container';
+import * as configurationCpqContainer from '../../../helpers/product-configurator-container-cpq';
 import * as configurationOverviewCpq from '../../../helpers/product-configurator-overview-cpq';
 
 const POWERTOOLS = 'powertools-spa';

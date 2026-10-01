@@ -256,6 +256,17 @@ describe('ConfiguratorUtilsService', () => {
         )
       ).toBe(rowGroup);
     });
+
+    it('should prefer flatGroups when provided', () => {
+      const rowGroup: Configurator.Group = {
+        ...ConfiguratorTestUtils.createGroup('CONTAINER_ROW@1067@row-1'),
+        groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+      };
+
+      expect(
+        classUnderTest.findContainerRowGroupByRowId([], 'row-1', [rowGroup])
+      ).toBe(rowGroup);
+    });
   });
 
   describe('getContainerRowIdFromGroupId', () => {

@@ -215,7 +215,8 @@ export class ConfiguratorGroupStatusService {
 
   /**
    * Resolves a container row group to the navigable group that should be
-   * displayed when opening a nested configuration from the cart.
+   * displayed when opening a nested configuration from the cart (`rowId` deep
+   * link) and when resolving incomplete groups below a non-navigable parent.
    *
    * @param configuration - Configuration
    * @param containerRowGroup - Container row group to open

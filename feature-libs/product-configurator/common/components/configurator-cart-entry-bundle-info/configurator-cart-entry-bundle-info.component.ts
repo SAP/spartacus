@@ -350,10 +350,17 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   /**
    * Builds the DOM id for a line item accessibility description.
    *
+   * @param entryNumber - Entry number of the line item
+   * @param lineItem - Line item object
    * @param index - Index of the line item in the list
    * @returns Element id for `aria-describedby`
    */
-  getHiddenItemInfoId(index: number): string {
-    return 'cx-item-hidden-info-' + index.toString();
+  getHiddenItemInfoId(
+    entryNumber: number | undefined,
+    lineItem: LineItem,
+    index: number
+  ): string {
+    const suffix = lineItem.rowId ?? index.toString();
+    return `cx-item-hidden-info-${entryNumber ?? 'x'}-${suffix}`;
   }
 }

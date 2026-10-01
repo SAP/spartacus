@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject, isDevMode } from '@angular/core';
+import { LoggerService } from '@spartacus/core';
 import { Store } from '@ngrx/store';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
@@ -21,6 +22,8 @@ import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
  */
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorGroupsService {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected store: Store<StateWithConfigurator>,
     protected configuratorCommonsService: ConfiguratorCommonsService,
@@ -131,9 +134,15 @@ export class ConfiguratorGroupsService {
         const containerRowGroup =
           this.configuratorUtilsService.findContainerRowGroupByRowId(
             configuration.groups,
-            rowId
+            rowId,
+            configuration.flatGroups
           );
         if (!containerRowGroup) {
+          if (isDevMode()) {
+            this.logger.warn(
+              `No container row group found for rowId '${rowId}'`
+            );
+          }
           return;
         }
         const targetGroup =
@@ -143,6 +152,10 @@ export class ConfiguratorGroupsService {
           );
         if (targetGroup) {
           this.navigateToGroup(configuration, targetGroup.id, false);
+        } else if (isDevMode()) {
+          this.logger.warn(
+            `No navigable target for container row group '${containerRowGroup.id}' (rowId '${rowId}')`
+          );
         }
       });
   }

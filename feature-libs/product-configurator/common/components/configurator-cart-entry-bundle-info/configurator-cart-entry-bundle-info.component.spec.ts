@@ -472,6 +472,23 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         );
       });
 
+      it('should mark line items as inert and aria-hidden while collapsed', () => {
+        const itemInfos = htmlElem.querySelector('.cx-item-infos');
+
+        expect(itemInfos?.getAttribute('inert')).not.toBeNull();
+        expect(itemInfos?.getAttribute('aria-hidden')).toBe('true');
+      });
+
+      it('should expose line items to keyboard focus when expanded', () => {
+        component.toggleItems();
+        changeDetectorRef.detectChanges();
+
+        const itemInfos = htmlElem.querySelector('.cx-item-infos');
+
+        expect(itemInfos?.hasAttribute('inert')).toBe(false);
+        expect(itemInfos?.hasAttribute('aria-hidden')).toBe(false);
+      });
+
       it('should display Edit Configuration link', () => {
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
@@ -681,7 +698,11 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         });
 
         it('should expose readonly$ as false in case readonly$ is undefined', () => {
-          mockCartItemContext.readonly$?.next(undefined);
+          (
+            mockCartItemContext.readonly$ as ReplaySubject<
+              boolean | null | undefined
+            >
+          ).next(undefined);
           fixture.detectChanges();
           const component = fixture.debugElement.query(
             By.css('cx-configure-cart-entry')
@@ -691,7 +712,11 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         });
 
         it('should expose readonly$ as false in case readonly$ is null', () => {
-          mockCartItemContext.readonly$?.next(null);
+          (
+            mockCartItemContext.readonly$ as ReplaySubject<
+              boolean | null | undefined
+            >
+          ).next(null);
           fixture.detectChanges();
           const component = fixture.debugElement.query(
             By.css('cx-configure-cart-entry')
@@ -850,6 +875,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     describe('Accessibility', () => {
       beforeEach(() => {
         mockCartItemContext.item$.next({
+          entryNumber: 1,
           statusSummaryList: undefined,
           configurationInfos: [
             {
@@ -914,7 +940,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           'cx-item-info',
           undefined,
           'aria-describedby',
-          'cx-item-hidden-info-0'
+          'cx-item-hidden-info-1-0'
         );
       });
 
@@ -1165,11 +1191,11 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     });
 
     describe('getHiddenItemInfoId', () => {
-      it("should return 'cx-item-hidden-info-4' ID for a corresponding line item", () => {
+      it('should return a stable ID per cart entry and line item', () => {
         fixture.detectChanges();
-        expect(
-          component.getHiddenItemInfoId(4).indexOf('cx-item-hidden-info-4')
-        ).toBe(0);
+        expect(component.getHiddenItemInfoId(4, { rowId: 'row-abc' }, 0)).toBe(
+          'cx-item-hidden-info-4-row-abc'
+        );
       });
     });
   });
@@ -1204,13 +1230,17 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
     function getNestedConfigureLinks() {
       return fixture.debugElement.queryAll(
-        By.css('.cx-item-configure cx-configure-cart-entry')
+        By.css('.cx-item-link cx-configure-cart-entry')
       );
     }
 
     beforeEach(() => {
       productService = TestBed.inject(ProductService);
       vi.spyOn(productService, 'get').mockReturnValue(of(product));
+      TestBed.inject(MockFeatureTogglesController).set(
+        'productConfiguratorCPQContainer',
+        true
+      );
     });
 
     describe('lineItems$', () => {

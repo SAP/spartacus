@@ -205,12 +205,24 @@ export class ConfiguratorUtilsService {
    *
    * @param groups - Root groups of the configuration
    * @param rowId - Container row identifier
+   * @param flatGroups - Flat groups
    * @returns Matching container row group, if present
    */
   findContainerRowGroupByRowId(
     groups: Configurator.Group[],
-    rowId: string
+    rowId: string,
+    flatGroups?: Configurator.Group[]
   ): Configurator.Group | undefined {
+    if (flatGroups?.length) {
+      const flatMatch = flatGroups.find(
+        (group) =>
+          group.groupType === Configurator.GroupType.CONTAINER_ROW_GROUP &&
+          this.getContainerRowIdFromGroupId(group.id) === rowId
+      );
+      if (flatMatch) {
+        return flatMatch;
+      }
+    }
     for (const group of groups) {
       if (
         group.groupType === Configurator.GroupType.CONTAINER_ROW_GROUP &&
@@ -220,7 +232,8 @@ export class ConfiguratorUtilsService {
       }
       const nestedGroup = this.findContainerRowGroupByRowId(
         group.subGroups ?? [],
-        rowId
+        rowId,
+        flatGroups
       );
       if (nestedGroup) {
         return nestedGroup;
