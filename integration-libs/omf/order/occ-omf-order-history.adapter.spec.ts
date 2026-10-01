@@ -202,7 +202,13 @@ describe('OccOmfOrderHistoryAdapter', () => {
         expect(header.has('my-guid-header')).toBe(true);
         expect(header.get('my-guid-header')).toEqual(orderData.guid);
       });
+
+      it('should return empty headers when guid is undefined', () => {
+        const header = adapter.getRequestHeader(undefined);
+        expect(header.has('my-guid-header')).toBe(false);
+      });
     });
+
     describe('getOrderGuid', () => {
       it('should return guid from route query params', async () => {
         const guid = await firstValueFrom(
@@ -252,5 +258,39 @@ describe('OccOmfOrderHistoryAdapter', () => {
         expect(guid).toEqual(undefined);
       });
     });
+  });
+});
+
+describe('OccOmfOrderHistoryAdapter - unconfigured guidHttpHeaderName', () => {
+  let adapter: OccOmfOrderHistoryAdapter;
+  let httpMock: HttpTestingController;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [StoreModule.forRoot({})],
+      providers: [
+        LoggerService,
+        OccOmfOrderHistoryAdapter,
+        { provide: OmfConfig, useValue: { omf: {} } },
+        { provide: OccConfig, useValue: mockOccModuleConfig },
+        { provide: OrderConfig, useValue: mockOrderConfig },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ],
+    });
+    adapter = TestBed.inject(OccOmfOrderHistoryAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => {
+    httpMock.verify();
+    vi.restoreAllMocks();
+  });
+
+  it('should return empty headers when guidHttpHeaderName is not configured', () => {
+    const header = adapter.getRequestHeader('some-guid');
+    expect(header.keys()).toEqual([]);
   });
 });
