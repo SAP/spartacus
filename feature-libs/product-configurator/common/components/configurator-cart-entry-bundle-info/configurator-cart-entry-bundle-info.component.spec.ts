@@ -315,6 +315,23 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       component.toggleItems();
       expect(component.hideItems).toBe(true);
     });
+
+    it('should retain focus on the toggle button after expanding and collapsing', async () => {
+      const button = document.createElement('button');
+      document.body.appendChild(button);
+      button.focus();
+      component.toggleItemsButton = { nativeElement: button };
+
+      component.toggleItems();
+      await Promise.resolve();
+      expect(document.activeElement).toBe(button);
+
+      component.toggleItems();
+      await Promise.resolve();
+      expect(document.activeElement).toBe(button);
+
+      document.body.removeChild(button);
+    });
   });
 
   describe('isBundleBasedConfigurator', () => {

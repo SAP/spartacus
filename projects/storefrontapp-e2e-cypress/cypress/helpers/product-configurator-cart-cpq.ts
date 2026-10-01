@@ -586,7 +586,8 @@ export function navigateToBundleLineItemPDPAndBackToCart(
 }
 
 /**
- * Clicks the nested "Edit Product Configuration" link on a bundle line item.
+ * Clicks the nested product configuration link on a bundle line item.
+ * Uses structural selectors only (no translated link text).
  *
  * @param {number} cartItemIndex - Index of cart item
  * @param {string} productName - Product name shown on the line item
@@ -597,8 +598,7 @@ export function clickBundleLineItemEditProductConfiguration(
 ): void {
   findBundleItem(cartItemIndex).within(() => {
     cy.contains('.cx-item-info', productName)
-      .find('.cx-item-configure a')
-      .contains('Edit Product Configuration')
+      .find('.cx-item-configure cx-configure-cart-entry a.link')
       .click();
   });
 }

@@ -27,6 +27,8 @@
 
       <ng-template #toggleItemsButton>
         <button
+          #toggleItemsButton
+          type="button"
           (click)="toggleItems()"
           [attr.aria-expanded]="!this.hideItems"
           [attr.aria-label]="getItemsMsg(numberOfItems)"

@@ -5,7 +5,13 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, Optional, inject } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Optional,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
@@ -53,6 +59,9 @@ import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entr
   ],
 })
 export class ConfiguratorCartEntryBundleInfoComponent {
+  @ViewChild('toggleItemsButton')
+  protected toggleItemsButton?: ElementRef<HTMLButtonElement>;
+
   protected config = inject(CommonConfiguratorUISettingsConfig);
   private featureToggles = inject(FeatureToggles);
   protected productService = inject(ProductService);
@@ -127,6 +136,15 @@ export class ConfiguratorCartEntryBundleInfoComponent {
    */
   toggleItems(): void {
     this.hideItems = !this.hideItems;
+    this.retainFocusOnToggleItemsButton();
+  }
+
+  /**
+   * Keeps keyboard focus on the show/hide toggle after the line list expands
+   * or collapses, including when nested configure links are rendered.
+   */
+  protected retainFocusOnToggleItemsButton(): void {
+    queueMicrotask(() => this.toggleItemsButton?.nativeElement?.focus());
   }
 
   /**

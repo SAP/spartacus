@@ -147,8 +147,8 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
       });
 
     this.routerData$.pipe(take(1)).subscribe((routingData) => {
-      //In case of resolving issues (if no conflict solver dialog is present!), check if the configuration contains conflicts,
-      //if not, check if the configuration contains missing mandatory fields and show the group
+      // Resolving issues (overview or cart banner): navigate to conflicts or the
+      // first incomplete group. Bundle line deep links use rowId only.
       if (routingData.resolveIssues) {
         this.configuratorCommonsService
           .hasConflicts(routingData.owner)
@@ -166,15 +166,15 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
               );
             }
           });
-      } else {
+      } else if (routingData.rowId) {
         // Clear persisted focus before entering the configurator UI
         this.keyboardFocusService.clear();
-        if (routingData.rowId) {
-          this.configuratorGroupsService.navigateToContainerRow(
-            routingData.owner,
-            routingData.rowId
-          );
-        }
+        this.configuratorGroupsService.navigateToContainerRow(
+          routingData.owner,
+          routingData.rowId
+        );
+      } else {
+        this.keyboardFocusService.clear();
       }
 
       if (routingData.expMode) {

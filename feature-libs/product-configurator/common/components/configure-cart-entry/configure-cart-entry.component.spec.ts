@@ -353,6 +353,35 @@ describe('ConfigureCartEntryComponent', () => {
         );
       });
 
+      it('should focus the link only when it resolves configuration issues', async () => {
+        const focusSpy = vi.spyOn(HTMLAnchorElement.prototype, 'focus');
+        component.readOnly = false;
+        component.disabled = false;
+        component.cartEntry = {
+          entryNumber: 0,
+          product: { configuratorType: configuratorType },
+        };
+
+        component.msgBanner = false;
+        fixture.detectChanges();
+        await Promise.resolve();
+        expect(focusSpy).not.toHaveBeenCalled();
+
+        focusSpy.mockClear();
+        component.msgBanner = true;
+        component.ngOnChanges({
+          msgBanner: {
+            previousValue: false,
+            currentValue: true,
+            firstChange: false,
+            isFirstChange: () => false,
+          },
+        });
+        await Promise.resolve();
+        expect(focusSpy).toHaveBeenCalled();
+        focusSpy.mockRestore();
+      });
+
       it("should be 'Edit Configuration' in case component is included in edit mode", () => {
         component.readOnly = false;
         component.disabled = false;
@@ -620,6 +649,23 @@ describe('ConfigureCartEntryComponent', () => {
           .subscribe((queryParams) => {
             expect(queryParams.resolveIssues).toBe(true);
           });
+      });
+
+      it('should omit "rowId" when resolving issues from the cart banner', async () => {
+        component.readOnly = false;
+        component.msgBanner = true;
+        component.rowId = 'row-abc';
+        component.cartEntry = {
+          entryNumber: 0,
+          product: { configuratorType: configuratorType, code: productCode },
+          statusSummaryList: [
+            { status: OrderEntryStatus.Error, numberOfIssues: 3 },
+          ],
+        };
+        fixture.detectChanges();
+        const queryParams = await firstValueFrom(component.queryParams$);
+        expect(queryParams.resolveIssues).toBe(true);
+        expect(queryParams.rowId).toBeUndefined();
       });
     });
 
