@@ -55,7 +55,7 @@ describe('Subscription - PDP, Order Placement, List, Details', () => {
       );
 
       helper.validateSubscriptionBillingList();
-      cy.wait(5000);
+      cy.wait(2000);
 
       // click on view details of first bill
       cy.get('.cx-billing-list-table tbody tr')
@@ -63,7 +63,7 @@ describe('Subscription - PDP, Order Placement, List, Details', () => {
         .should('exist')
         .within(() => {
           cy.contains('a', 'View Bill').click();
-          cy.wait(10000);
+          cy.wait(2000);
         });
 
       helper.validateSubscriptionBillDetailsPage();
