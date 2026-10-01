@@ -863,6 +863,15 @@ export interface FeatureTogglesInterface {
   enableFormFieldMaxLength?: boolean;
 
   /**
+   * When enabled, adds arrow key navigation to organization administration
+   * navigation tiles/cards on the My Company landing page (CompanyPageTemplate),
+   * turning the banner tile group into a composite keyboard widget.
+   * Affects: BannerComponent
+   * ACC-270.3
+   */
+  a11yBannerArrowKeyNavigation?: boolean;
+
+  /**
    * When enabled, adds up/down arrow key navigation between table rows,
    * turning the table into a composite keyboard widget.
    * Affects: TableComponent
@@ -1006,6 +1015,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showWarningMessageOnRequoteButtonClick: false,
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
+  a11yBannerArrowKeyNavigation: false,
   a11yTableKeyboardNavigation: false,
   a11yPaginationKeyboardNavigation: false,
   a11yCarouselItemArrowKeyNavigation: false,
