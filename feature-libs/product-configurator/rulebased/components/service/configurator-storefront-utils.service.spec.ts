@@ -299,24 +299,24 @@ describe('ConfiguratorStorefrontUtilsService', () => {
   describe('focusConfigurationElement', () => {
     it('should focus the element without scrolling', () => {
       const theElement = document.createElement('h2');
-      spyOn(windowRef.document, 'querySelector').and.returnValue(theElement);
-      spyOn(windowRef, 'isBrowser').and.returnValue(true);
-      spyOn(theElement, 'focus');
+      vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(theElement);
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+      vi.spyOn(theElement, 'focus');
       classUnderTest.focusConfigurationElement('#group h2');
       expect(theElement.focus).toHaveBeenCalledWith({ preventScroll: true });
     });
 
     it('should not fail if the element cannot be found', () => {
-      spyOn(windowRef.document, 'querySelector').and.returnValue(null);
-      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(null);
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
       expect(() =>
         classUnderTest.focusConfigurationElement('#unknown')
       ).not.toThrow();
     });
 
     it('should not focus if we are not in browser environment', () => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(false);
-      spyOn(windowRef.document, 'querySelector');
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
+      vi.spyOn(windowRef.document, 'querySelector');
       classUnderTest.focusConfigurationElement('#group h2');
       expect(windowRef.document.querySelector).not.toHaveBeenCalled();
     });

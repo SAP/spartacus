@@ -445,11 +445,14 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
       });
 
       it('should scroll to and focus the overview content on click', () => {
-        spyOn(
+        vi.spyOn(
           configuratorStorefrontUtilsService,
           'scrollToConfigurationElement'
         );
-        spyOn(configuratorStorefrontUtilsService, 'focusConfigurationElement');
+        vi.spyOn(
+          configuratorStorefrontUtilsService,
+          'focusConfigurationElement'
+        );
         fixture.debugElement
           .query(By.css('.cx-configurator-overview-skip-link'))
           .triggerEventHandler('click');

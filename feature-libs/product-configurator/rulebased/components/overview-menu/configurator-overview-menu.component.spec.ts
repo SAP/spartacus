@@ -353,6 +353,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
         true
       );
       initialize();
+      fixture.detectChanges();
     });
 
     it('should render the menu inside a labelled navigation landmark', () => {
@@ -374,9 +375,9 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
 
     it('should scroll to and focus the group heading', () => {
-      (
-        configuratorStorefrontUtilsService.createOvGroupId as jasmine.Spy
-      ).and.returnValue('cx--GROUP-ovGroup');
+      vi.mocked(
+        configuratorStorefrontUtilsService.createOvGroupId
+      ).mockReturnValue('cx--GROUP-ovGroup');
       component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
       expect(
         configuratorStorefrontUtilsService.scrollToConfigurationElement
@@ -390,9 +391,10 @@ describe('ConfigurationOverviewMenuComponent', () => {
       const menuItems: HTMLElement[] = Array.from(
         htmlElem.querySelectorAll('button.cx-menu-item')
       );
-      spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
-        menuItems
-      );
+      vi.spyOn(
+        configuratorStorefrontUtilsService,
+        'getElements'
+      ).mockReturnValue(menuItems);
       component['highlight'](menuItems[0]);
       component['highlight'](menuItems[1]);
       expect(menuItems[0].hasAttribute('aria-current')).toBe(false);
@@ -403,6 +405,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
   describe('without in-page navigation', () => {
     beforeEach(() => {
       initialize();
+      fixture.detectChanges();
     });
 
     it('should not render a navigation landmark', () => {
@@ -423,9 +426,10 @@ describe('ConfigurationOverviewMenuComponent', () => {
       const menuItems: HTMLElement[] = Array.from(
         htmlElem.querySelectorAll('button.cx-menu-item')
       );
-      spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
-        menuItems
-      );
+      vi.spyOn(
+        configuratorStorefrontUtilsService,
+        'getElements'
+      ).mockReturnValue(menuItems);
       component['highlight'](menuItems[0]);
       expect(menuItems[0].hasAttribute('aria-current')).toBe(false);
     });

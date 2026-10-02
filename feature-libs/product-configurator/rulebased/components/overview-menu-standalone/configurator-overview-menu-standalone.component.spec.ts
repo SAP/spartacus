@@ -185,8 +185,8 @@ describe('ConfiguratorOverviewMenuStandaloneComponent', () => {
 
       it('should scroll to and focus the overview content on click', () => {
         const utilsService = TestBed.inject(ConfiguratorStorefrontUtilsService);
-        spyOn(utilsService, 'scrollToConfigurationElement');
-        spyOn(utilsService, 'focusConfigurationElement');
+        vi.spyOn(utilsService, 'scrollToConfigurationElement');
+        vi.spyOn(utilsService, 'focusConfigurationElement');
         fixture.debugElement
           .query(By.css('.cx-configurator-overview-skip-link'))
           .triggerEventHandler('click');
