@@ -278,14 +278,13 @@ export class ConfiguratorOverviewFormComponent {
     parentGroup: Configurator.GroupOverview,
     containerRowGroup: Configurator.GroupOverview
   ): string {
-    const match = containerRowGroup.id.match(
-      new RegExp(`^${Configurator.ContainerRowGroupIdPrefix}@([^@]+)@([^@]+)$`)
-    );
+    const match = new RegExp(
+      `^${Configurator.ContainerRowGroupIdPrefix}@([^@]+)@([^@]+)$`
+    ).exec(containerRowGroup.id);
     if (!match || !parentGroup.attributes) {
       return '';
     }
-    const attributeId = match[1];
-    const valueId = match[2];
+    const [, attributeId, valueId] = match;
     const bundleAttribute = parentGroup.attributes.find(
       (attributeOverview) =>
         attributeOverview.type === Configurator.AttributeOverviewType.BUNDLE &&
