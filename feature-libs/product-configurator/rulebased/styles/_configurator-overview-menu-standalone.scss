@@ -13,5 +13,9 @@
     .cx-menu-bar {
       padding-block-start: 15px;
     }
+
+    @include forFeature('productConfiguratorCPQContainer') {
+      @include cx-configurator-overview-skip-link();
+    }
   }
 }
