@@ -28,6 +28,7 @@ import {
   ConfiguratorPriceComponent,
   ConfiguratorPriceComponentOptions,
 } from '../price/configurator-price.component';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-cpq-overview-attribute',
@@ -47,9 +48,25 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
 
   @Input() attributeOverview: Configurator.AttributeOverview;
 
+  /**
+   * Prefix that reflects parent groups in the overview hierarchy.
+   */
+  @Input() overviewIdPrefix = '';
+
+  /**
+   * Id of the group that contains the bundle attribute.
+   */
+  @Input() parentGroupId: string;
+
+  /**
+   * Indicates whether a configuration details section exists for this item.
+   */
+  @Input() hasConfigurationDetails = false;
+
   constructor(
     protected productService: ProductService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {}
 
   ngOnInit() {
@@ -70,8 +87,8 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
   /**
    * Returns primary image from product object
    *
-   * @param {Product} product
-   * @returns {(ImageGroup | ImageGroup[] | undefined)} - primary image. View can handle an undefined image
+   * @param product - Product
+   * @returns - primary image. View can handle an undefined image
    */
   getProductPrimaryImage(
     product: Product
@@ -82,7 +99,7 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
   /**
    * Extract corresponding price formula parameters
    *
-   * @return {ConfiguratorPriceComponentOptions} - New price formula
+   * @return - New price formula
    */
   extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
     return {
@@ -96,7 +113,7 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
   /**
    * Verifies whether the quantity should be displayed.
    *
-   * @return {boolean} - 'true' if the quantity should be displayed, otherwise 'false'
+   * @return - 'true' if the quantity should be displayed, otherwise 'false'
    */
   displayQuantity(): boolean {
     const quantity = this.attributeOverview.quantity;
@@ -106,12 +123,28 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
   /**
    * Verifies whether the item price should be displayed.
    *
-   * @return {boolean} - 'true' if the item price price should be displayed, otherwise 'false'
+   * @return - 'true' if the item price should be displayed, otherwise 'false'
    */
   displayPrice(): boolean {
     return (
       this.attributeOverview.valuePrice?.value !== undefined &&
       this.attributeOverview.valuePrice?.value > 0
+    );
+  }
+
+  /**
+   * Scrolls to the configuration details section of the container item.
+   */
+  viewDetails(): void {
+    const detailsGroupId = `${Configurator.ContainerRowGroupIdPrefix}@${this.attributeOverview.attributeId}@${this.attributeOverview.valueId}`;
+    const idPrefix = this.configuratorStorefrontUtilsService.getPrefixId(
+      this.overviewIdPrefix,
+      this.parentGroupId
+    );
+
+    this.configuratorStorefrontUtilsService.navigateToOverviewGroup(
+      idPrefix,
+      detailsGroupId
     );
   }
 

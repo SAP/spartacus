@@ -55,6 +55,13 @@
             line-break: anywhere;
           }
         }
+
+        .cx-view-details-link {
+          @include cx-configurator-button();
+          font-size: 0.875rem;
+          margin-block-start: 5px;
+          text-align: start;
+        }
       }
     }
 

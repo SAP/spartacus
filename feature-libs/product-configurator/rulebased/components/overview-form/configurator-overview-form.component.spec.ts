@@ -7,6 +7,8 @@ import {
   FeaturesConfigModule,
   I18nTestingModule,
   MockTranslatePipe,
+  Product,
+  ProductService,
   RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
@@ -20,7 +22,7 @@ import {
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { cold } from 'jasmine-marbles';
-import { NEVER, Observable, of } from 'rxjs';
+import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -100,13 +102,32 @@ class MockConfiguratorCommonsService {
 }
 
 class MockConfiguratorStorefrontUtilsService {
-  createOvGroupId(): string {
-    return OV_GROUP_ID;
+  scrollToConfigurationElement = vi.fn();
+
+  createOvGroupId(prefix: string, groupId: string): string {
+    return `${prefix}--${groupId}-ovGroup`;
   }
 
   getPrefixId(idPrefix: string | undefined, groupId: string): string {
-    return idPrefix ? idPrefix + '--' + groupId : groupId;
+    return idPrefix ? idPrefix + '--' + groupId : `cx--${groupId}`;
   }
+
+  idSelector(id: string): string {
+    return `#${id}`;
+  }
+
+  navigateToOverviewGroup = vi.fn((idPrefix: string, groupId: string) => {
+    this.scrollToConfigurationElement(
+      this.idSelector(this.createOvGroupId(idPrefix, groupId)) + ' h2'
+    );
+  });
+}
+
+const productForBundleOverview$: BehaviorSubject<Product> =
+  new BehaviorSubject<Product>({ images: {} });
+
+class MockProductService {
+  get = () => productForBundleOverview$.asObservable();
 }
 
 function initialize() {
@@ -186,6 +207,7 @@ describe('ConfigurationOverviewFormComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfiguratorStorefrontUtilsService,
         },
+        { provide: ProductService, useClass: MockProductService },
         { provide: DirectionService, useClass: MockDirectionService },
       ],
     })
@@ -366,9 +388,9 @@ describe('ConfigurationOverviewFormComponent', () => {
   });
 
   describe('getPrefixId', () => {
-    it('should return group ID string', () => {
+    it('should return prefixed group ID string when no id prefix is provided', () => {
       initialize();
-      expect(component.getPrefixId(undefined, 'BBB')).toBe('BBB');
+      expect(component.getPrefixId(undefined, 'BBB')).toBe('cx--BBB');
     });
 
     it('should return prefix ID separated by 2 dashes and group ID string', () => {
@@ -381,6 +403,144 @@ describe('ConfigurationOverviewFormComponent', () => {
     it('should dispatch request to utils service', () => {
       initialize();
       expect(component.getGroupId('A', 'B')).toBe(OV_GROUP_ID);
+    });
+  });
+
+  describe('isContainerRowDetailsGroup', () => {
+    it('should return true for a container row configuration details group', () => {
+      initialize();
+      expect(
+        component.isContainerRowDetailsGroup({
+          id: `${Configurator.ContainerRowGroupIdPrefix}@1067@zoom`,
+        })
+      ).toBe(true);
+    });
+
+    it('should return false for a nested tab within a container row group', () => {
+      initialize();
+      expect(
+        component.isContainerRowDetailsGroup({
+          id: `${Configurator.ContainerRowGroupIdPrefix}@1067@zoom@57`,
+        })
+      ).toBe(false);
+    });
+
+    it('should return false for a regular overview group', () => {
+      initialize();
+      expect(component.isContainerRowDetailsGroup({ id: '57' })).toBe(false);
+    });
+  });
+
+  describe('getContainerAttributeName', () => {
+    const bundleAttribute: Configurator.AttributeOverview = {
+      attribute: 'Choose Lens',
+      value: 'Zoom Lens',
+      attributeId: '1067',
+      valueId: 'zoom',
+      type: Configurator.AttributeOverviewType.BUNDLE,
+    };
+    const containerRowGroup: Configurator.GroupOverview = {
+      id: `${Configurator.ContainerRowGroupIdPrefix}@1067@zoom`,
+      groupDescription: 'Zoom Lens',
+    };
+
+    it('should return the container attribute label from the parent group', () => {
+      initialize();
+      const parentGroup: Configurator.GroupOverview = {
+        id: '57',
+        attributes: [bundleAttribute],
+      };
+
+      expect(
+        component.getContainerAttributeName(parentGroup, containerRowGroup)
+      ).toBe('Choose Lens');
+    });
+
+    it('should return an empty string when the bundle attribute is not found', () => {
+      initialize();
+      const parentGroup: Configurator.GroupOverview = {
+        id: '57',
+        attributes: [],
+      };
+
+      expect(
+        component.getContainerAttributeName(parentGroup, containerRowGroup)
+      ).toBe('');
+    });
+
+    it('should return an empty string when parent attributes are missing', () => {
+      initialize();
+      const parentGroup: Configurator.GroupOverview = {
+        id: '57',
+      };
+
+      expect(
+        component.getContainerAttributeName(parentGroup, containerRowGroup)
+      ).toBe('');
+    });
+
+    it('should return an empty string when the container row group id is invalid', () => {
+      initialize();
+      const parentGroup: Configurator.GroupOverview = {
+        id: '57',
+        attributes: [bundleAttribute],
+      };
+
+      expect(
+        component.getContainerAttributeName(parentGroup, {
+          id: 'not-a-container-row',
+        })
+      ).toBe('');
+    });
+  });
+
+  describe('hasConfigurationDetails', () => {
+    const bundleAttribute: Configurator.AttributeOverview = {
+      attribute: 'Choose Lens',
+      value: 'Zoom Lens',
+      attributeId: '1067',
+      valueId: 'zoom',
+      type: Configurator.AttributeOverviewType.BUNDLE,
+    };
+    const detailsGroupId = `${Configurator.ContainerRowGroupIdPrefix}@1067@zoom`;
+
+    it('should return true if a matching configuration details group exists', () => {
+      initialize();
+      const group: Configurator.GroupOverview = {
+        id: '57',
+        subGroups: [{ id: detailsGroupId }],
+      };
+
+      expect(component.hasConfigurationDetails(group, bundleAttribute)).toBe(
+        true
+      );
+    });
+
+    it('should return false if no matching configuration details group exists', () => {
+      initialize();
+      const group: Configurator.GroupOverview = {
+        id: '57',
+        subGroups: [{ id: 'other-group' }],
+      };
+
+      expect(component.hasConfigurationDetails(group, bundleAttribute)).toBe(
+        false
+      );
+    });
+
+    it('should return false if attribute identifiers are missing', () => {
+      initialize();
+      const group: Configurator.GroupOverview = {
+        id: '57',
+        subGroups: [{ id: detailsGroupId }],
+      };
+
+      expect(
+        component.hasConfigurationDetails(group, {
+          ...bundleAttribute,
+          valueId: undefined,
+        })
+      ).toBe(false);
     });
   });
 
@@ -550,6 +710,96 @@ describe('ConfigurationOverviewFormComponent', () => {
           .querySelectorAll('h2')
           .forEach((h2) => expect(h2.hasAttribute('tabindex')).toBe(false));
       });
+    });
+  });
+
+  describe('configuration details overview UI', () => {
+    const bundleAttributeOverview: Configurator.AttributeOverview = {
+      attribute: 'Choose Lens',
+      value: 'Zoom Lens',
+      attributeId: '1067',
+      valueId: 'zoom',
+      type: Configurator.AttributeOverviewType.BUNDLE,
+      productCode: 'LENS-ZOOM',
+    };
+    const containerDetailsGroupId = `${Configurator.ContainerRowGroupIdPrefix}@1067@zoom`;
+    const scrollTargetId = `#cx--57--${containerDetailsGroupId}-ovGroup h2`;
+
+    const configWithBundleAndDetails: Configurator.Configuration = {
+      ...ConfiguratorTestUtils.createConfiguration(configId, owner),
+      overview: {
+        configId,
+        productCode: ConfigurationTestData.PRODUCT_CODE,
+        groups: [
+          {
+            id: '57',
+            groupDescription: 'Lens options',
+            attributes: [bundleAttributeOverview],
+            subGroups: [
+              {
+                id: containerDetailsGroupId,
+                groupDescription: 'Zoom Lens',
+                attributes: [
+                  {
+                    attribute: 'Focal length',
+                    value: '24-70mm',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    beforeEach(() => {
+      defaultConfigObservable = of(configWithBundleAndDetails);
+      productForBundleOverview$.next({ images: {} });
+    });
+
+    it('should render bundle attribute row, configuration details header, and nested attributes', () => {
+      initialize();
+
+      const bundleRow = htmlElem.querySelector(
+        '.cx-attribute-value-pair.bundle'
+      );
+      expect(bundleRow).toBeTruthy();
+      expect(
+        htmlElem.querySelector('cx-configurator-cpq-overview-attribute')
+      ).toBeTruthy();
+
+      const detailsHeader = htmlElem.querySelector(
+        '.cx-group.topLevel.configurationDetails'
+      );
+      expect(detailsHeader).toBeTruthy();
+      expect(detailsHeader?.id).toBe(
+        `cx--57--${containerDetailsGroupId}-ovGroup`
+      );
+      expect(detailsHeader?.querySelector('h2')).toBeTruthy();
+      expect(
+        detailsHeader?.querySelector('span[aria-hidden="true"]')?.textContent
+      ).toContain('configurator.overviewForm.configurationDetailsForContainer');
+
+      expect(htmlElem.querySelectorAll('.cx-attribute-value-pair').length).toBe(
+        2
+      );
+    });
+
+    it('should scroll to configuration details when View Details is clicked', () => {
+      initialize();
+      const storefrontUtils = TestBed.inject(
+        ConfiguratorStorefrontUtilsService
+      );
+
+      const viewDetailsButton = htmlElem.querySelector(
+        '.cx-view-details-link'
+      ) as HTMLButtonElement;
+      expect(viewDetailsButton).toBeTruthy();
+      viewDetailsButton.click();
+
+      expect(
+        vi.mocked(storefrontUtils.scrollToConfigurationElement)
+      ).toHaveBeenCalledWith(scrollTargetId);
     });
   });
 
