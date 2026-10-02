@@ -14,6 +14,11 @@ export interface CommonProductConfiguratorUISettingsConfig {
    * configuration overview instead.
    */
   cartEntryBundleLineItemsThreshold?: number;
+  /**
+   * Maps commerce configurator type (route postfix) to whether the overview
+   * menu shows a Filter tab. Unlisted types default to visible.
+   */
+  overviewMenuFilterTabVisible?: Record<string, boolean>;
 }
 
 @Injectable({

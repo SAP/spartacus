@@ -10,5 +10,9 @@
     @include cx-configurator-overview-menu-bar();
 
     @include cx-configurator-overview-ghost-menu();
+
+    .cx-menu-bar-menu-only {
+      padding-block-start: 15px;
+    }
   }
 }
