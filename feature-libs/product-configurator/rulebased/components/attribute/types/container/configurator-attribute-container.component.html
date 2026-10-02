@@ -22,7 +22,7 @@
           (selectedProductsExpanded
             ? 'configurator.a11y.collapseSelectedProducts'
             : 'configurator.a11y.expandSelectedProducts'
-          ) | cxTranslate
+          ) | cxTranslate: { attribute: attribute.label }
         "
       >
         <cx-icon [type]="selectedProductsToggleIcon" aria-hidden="true" />
@@ -63,7 +63,7 @@
           (availableProductsExpanded
             ? 'configurator.a11y.collapseAvailableProducts'
             : 'configurator.a11y.expandAvailableProducts'
-          ) | cxTranslate
+          ) | cxTranslate: { attribute: attribute.label }
         "
       >
         <cx-icon [type]="availableProductsToggleIcon" aria-hidden="true" />

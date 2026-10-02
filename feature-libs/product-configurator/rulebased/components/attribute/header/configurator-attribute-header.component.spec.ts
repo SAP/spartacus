@@ -33,6 +33,9 @@ class MockConfiguratorShowMoreComponent {
   @Input() text: string;
   @Input() textSize = 60;
   @Input() productName: string;
+  @Input() attributeLabel?: string;
+  @Input() valueLabel?: string;
+  @Input() itemLabel?: string;
 }
 
 @Component({
@@ -1226,9 +1229,10 @@ describe('ConfigAttributeHeaderComponent', () => {
       });
     });
 
-    it("should contain div element with 'aria-label' attribute for required error message that defines an accessible name to label the current element", () => {
+    it("should contain div element with 'role=alert' for required error message so that it is announced once", () => {
       component.attribute.required = true;
-      component.attribute.incomplete = true;
+      component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      component.ngOnInit();
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
@@ -1236,12 +1240,18 @@ describe('ConfigAttributeHeaderComponent', () => {
         'div',
         'cx-required-error-msg',
         undefined,
-        'aria-label',
+        'role',
+        'alert',
         'configurator.attribute.singleSelectRequiredMessage'
       );
+      const message = htmlElem.querySelector(
+        '.cx-required-error-msg'
+      ) as HTMLElement;
+      expect(message.hasAttribute('aria-label')).toBe(false);
+      expect(message.hasAttribute('aria-live')).toBe(false);
     });
 
-    it("should contain div element with 'aria-label' attribute for a container warning message", () => {
+    it("should contain div element with 'aria-live' attribute for a container warning message", () => {
       component.attribute.container = {
         rows: [],
         messages: [
@@ -1258,7 +1268,8 @@ describe('ConfigAttributeHeaderComponent', () => {
         'div',
         'cx-warning-msg',
         undefined,
-        'aria-label',
+        'aria-live',
+        'assertive',
         'Too many units'
       );
     });

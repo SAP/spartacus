@@ -472,6 +472,30 @@ export class ConfiguratorAttributeProductCardComponent
   }
 
   /**
+   * Resolves the i18n key for the accessible name of a container-row action,
+   * which includes the product the action applies to.
+   *
+   * @param action - Row action
+   * @returns - Translation key, or `undefined` if none is defined
+   */
+  getContainerRowActionAriaLabel(
+    action: Configurator.ContainerRowAction
+  ): string | undefined {
+    switch (action) {
+      case Configurator.ContainerRowAction.DELETE:
+        return 'configurator.a11y.containerRowActionRemove';
+      case Configurator.ContainerRowAction.EDIT:
+        return 'configurator.a11y.containerRowActionEdit';
+      case Configurator.ContainerRowAction.COPY:
+        return 'configurator.a11y.containerRowActionDuplicate';
+      case Configurator.ContainerRowAction.ADD:
+        return 'configurator.a11y.containerRowActionAdd';
+      default:
+        return undefined;
+    }
+  }
+
+  /**
    * Closes the container-row overflow menu. Bound to document click
    * and the Escape key.
    */
@@ -495,7 +519,7 @@ export class ConfiguratorAttributeProductCardComponent
       ) {
         this.translation
           .translate('configurator.a11y.itemOfAttributeUnselectedWithPrice', {
-            item: product.code,
+            item: product.name || product.code,
             attribute: this.productCardOptions.attribute.label,
             itemIndex: index,
             itemCount: this.productCardOptions.itemCount,
@@ -508,7 +532,7 @@ export class ConfiguratorAttributeProductCardComponent
       } else {
         this.translation
           .translate('configurator.a11y.itemOfAttributeUnselected', {
-            item: product.code,
+            item: product.name || product.code,
             attribute: this.productCardOptions?.attribute.label,
             itemIndex: index,
             itemCount: this.productCardOptions.itemCount,
@@ -540,7 +564,7 @@ export class ConfiguratorAttributeProductCardComponent
         .translate(
           'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice',
           {
-            item: product.code,
+            item: product.name || product.code,
             attribute: this.productCardOptions?.attribute.label,
             itemIndex: index,
             itemCount: this.productCardOptions.itemCount,
@@ -554,7 +578,7 @@ export class ConfiguratorAttributeProductCardComponent
     } else {
       this.translation
         .translate('configurator.a11y.itemOfAttributeSelectedPressToUnselect', {
-          item: product.code,
+          item: product.name || product.code,
           attribute: this.productCardOptions?.attribute.label,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
@@ -575,7 +599,7 @@ export class ConfiguratorAttributeProductCardComponent
     ) {
       this.translation
         .translate('configurator.a11y.itemOfAttributeSelectedWithPrice', {
-          item: product.code,
+          item: product.name || product.code,
           attribute: this.productCardOptions?.attribute.label,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
@@ -588,7 +612,7 @@ export class ConfiguratorAttributeProductCardComponent
     } else {
       this.translation
         .translate('configurator.a11y.itemOfAttributeSelected', {
-          item: product.code,
+          item: product.name || product.code,
           attribute: this.productCardOptions?.attribute.label,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
@@ -611,7 +635,7 @@ export class ConfiguratorAttributeProductCardComponent
         .translate(
           'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice',
           {
-            item: product.code,
+            item: product.name || product.code,
             attribute: this.productCardOptions?.attribute.label,
             itemIndex: index,
             itemCount: this.productCardOptions.itemCount,
@@ -625,7 +649,7 @@ export class ConfiguratorAttributeProductCardComponent
     } else {
       this.translation
         .translate('configurator.a11y.itemOfAttributeSelectedPressToUnselect', {
-          item: product.code,
+          item: product.name || product.code,
           attribute: this.productCardOptions?.attribute.label,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
@@ -646,7 +670,7 @@ export class ConfiguratorAttributeProductCardComponent
     ) {
       this.translation
         .translate('configurator.a11y.itemOfAttributeUnselectedWithPrice', {
-          item: product.code,
+          item: product.name || product.code,
           attribute: this.productCardOptions?.attribute.label,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
@@ -659,7 +683,7 @@ export class ConfiguratorAttributeProductCardComponent
     } else {
       this.translation
         .translate('configurator.a11y.itemOfAttributeUnselected', {
-          item: product.code,
+          item: product.name || product.code,
           attribute: this.productCardOptions?.attribute.label,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,

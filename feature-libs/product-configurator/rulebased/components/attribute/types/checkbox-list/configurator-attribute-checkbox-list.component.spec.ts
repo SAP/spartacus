@@ -74,6 +74,9 @@ class MockConfiguratorShowMoreComponent {
   @Input() text: string;
   @Input() textSize = 60;
   @Input() productName: string;
+  @Input() attributeLabel?: string;
+  @Input() valueLabel?: string;
+  @Input() itemLabel?: string;
 }
 
 const VALUE_1 = 'val1';
