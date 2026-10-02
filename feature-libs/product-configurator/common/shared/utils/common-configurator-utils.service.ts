@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   Cart,
   CartItemContext,
@@ -21,10 +21,12 @@ import {
 } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CommonConfiguratorUISettingsConfig } from '../../components/config/common-configurator-ui-settings.config';
 import {
   CommonConfigurator,
   ConfiguratorType,
   OrderEntryStatus,
+  ReadOnlyPostfix,
 } from '../../core/model/common-configurator.model';
 import { ConfiguratorModelUtils } from './configurator-model-utils';
 
@@ -33,6 +35,10 @@ import { ConfiguratorModelUtils } from './configurator-model-utils';
  */
 @Injectable({ providedIn: 'root' })
 export class CommonConfiguratorUtilsService {
+  protected commonConfiguratorUISettingsConfig = inject(
+    CommonConfiguratorUISettingsConfig
+  );
+
   constructor(protected userIdService: UserIdService) {}
   /**
    * Compiles a unique key for a configuration owner and sets it into the 'key'
@@ -138,6 +144,51 @@ export class CommonConfiguratorUtilsService {
       return configuratorType === ConfiguratorType.CPQ;
     }
     return false;
+  }
+
+  /**
+   * Verifies whether the overview menu Filter tab is visible for the given
+   * configurator type.
+   *
+   * @param configuratorType - Commerce configurator type (route postfix)
+   * @returns `true` if the Filter tab is shown, otherwise `false`
+   */
+  isOverviewMenuFilterTabVisible(
+    configuratorType: string | undefined
+  ): boolean {
+    const normalizedType = this.normalizeConfiguratorType(configuratorType);
+    if (!normalizedType) {
+      return true;
+    }
+    const visibilityByType =
+      this.commonConfiguratorUISettingsConfig.productConfigurator
+        ?.overviewMenuFilterTabVisible;
+    if (
+      visibilityByType &&
+      Object.prototype.hasOwnProperty.call(visibilityByType, normalizedType)
+    ) {
+      return !!visibilityByType[normalizedType];
+    }
+    return true;
+  }
+
+  /**
+   * Strips the read-only postfix from a configurator type when present.
+   *
+   * @param configuratorType - Configurator type
+   * @returns Normalized configurator type
+   * @protected
+   */
+  protected normalizeConfiguratorType(
+    configuratorType: string | undefined
+  ): string | undefined {
+    if (!configuratorType) {
+      return undefined;
+    }
+    if (configuratorType.endsWith(ReadOnlyPostfix)) {
+      return configuratorType.slice(0, -ReadOnlyPostfix.length);
+    }
+    return configuratorType;
   }
 
   /**

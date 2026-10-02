@@ -8,14 +8,21 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { OCC_USER_ID_ANONYMOUS, UserIdService } from '@spartacus/core';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  provideDefaultConfig,
+  UserIdService,
+} from '@spartacus/core';
+import { defaultCommonConfiguratorUISettingsConfig } from '../../components/config/default-common-configurator-ui-settings.config';
 import { BREAKPOINT, LayoutConfig } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
 import {
   CommonConfigurator,
   ConfiguratorType,
   OrderEntryStatus,
+  ReadOnlyPostfix,
 } from '../../core/model/common-configurator.model';
+import { CommonConfiguratorUISettingsConfig } from '../../components/config/common-configurator-ui-settings.config';
 import { CommonConfiguratorUtilsService } from './common-configurator-utils.service';
 import { ConfiguratorModelUtils } from './configurator-model-utils';
 
@@ -84,6 +91,7 @@ describe('CommonConfiguratorUtilsService', () => {
           useClass: MockUserIdService,
         },
         { provide: CartItemContext, useClass: MockCartItemContext },
+        provideDefaultConfig(defaultCommonConfiguratorUISettingsConfig),
       ],
     }).compileComponents();
   });
@@ -229,6 +237,53 @@ describe('CommonConfiguratorUtilsService', () => {
       expect(
         classUnderTest.isAttributeBasedConfigurator(ConfiguratorType.TEXTFIELD)
       ).toBe(true);
+    });
+  });
+
+  describe('isOverviewMenuFilterTabVisible', () => {
+    it('should return true if configurator type is undefined', () => {
+      expect(classUnderTest.isOverviewMenuFilterTabVisible(undefined)).toBe(
+        true
+      );
+    });
+
+    it('should return false for CLOUD CPQ configurator type by default', () => {
+      expect(
+        classUnderTest.isOverviewMenuFilterTabVisible(ConfiguratorType.CPQ)
+      ).toBe(false);
+    });
+
+    it('should return true for variant configurator type by default', () => {
+      expect(
+        classUnderTest.isOverviewMenuFilterTabVisible(ConfiguratorType.VARIANT)
+      ).toBe(true);
+    });
+
+    it('should return true for textfield configurator type by default', () => {
+      expect(
+        classUnderTest.isOverviewMenuFilterTabVisible(
+          ConfiguratorType.TEXTFIELD
+        )
+      ).toBe(true);
+    });
+
+    it('should honor customer config for custom configurator types', () => {
+      TestBed.inject(CommonConfiguratorUISettingsConfig).productConfigurator = {
+        overviewMenuFilterTabVisible: {
+          MYCUSTOMTYPE: false,
+        },
+      };
+      expect(
+        classUnderTest.isOverviewMenuFilterTabVisible('MYCUSTOMTYPE')
+      ).toBe(false);
+    });
+
+    it('should strip read-only postfix before lookup', () => {
+      expect(
+        classUnderTest.isOverviewMenuFilterTabVisible(
+          ConfiguratorType.CPQ + ReadOnlyPostfix
+        )
+      ).toBe(false);
     });
   });
 

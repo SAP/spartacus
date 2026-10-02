@@ -29,8 +29,6 @@ import { ConfiguratorRestartDialogModule } from './restart-dialog/configurator-r
 import { ConfiguratorTabBarModule } from './tab-bar/configurator-tab-bar.module';
 import { ConfiguratorUpdateMessageModule } from './update-message/configurator-update-message.module';
 import { ConfiguratorVariantCarouselModule } from './variant-carousel/configurator-variant-carousel.module';
-import { ConfiguratorOverviewMenuStandaloneModule } from './overview-menu-standalone/configurator-overview-menu-standalone.module';
-
 @NgModule({
   imports: [
     ConfiguratorPriceSummaryModule,
@@ -46,7 +44,6 @@ import { ConfiguratorOverviewMenuStandaloneModule } from './overview-menu-standa
     ConfiguratorOverviewAttributeModule,
     ConfiguratorOverviewFormModule,
     ConfiguratorOverviewMenuModule,
-    ConfiguratorOverviewMenuStandaloneModule,
     ConfiguratorOverviewNotificationBannerModule,
     ConfiguratorConflictAndErrorMessagesModule,
     ConfiguratorExitButtonModule,

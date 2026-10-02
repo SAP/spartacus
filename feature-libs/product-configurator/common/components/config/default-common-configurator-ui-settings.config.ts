@@ -4,11 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ConfiguratorType } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUISettingsConfig } from './common-configurator-ui-settings.config';
 
 export const defaultCommonConfiguratorUISettingsConfig: CommonConfiguratorUISettingsConfig =
   {
     productConfigurator: {
       cartEntryBundleLineItemsThreshold: 10,
+      overviewMenuFilterTabVisible: {
+        [ConfiguratorType.CPQ]: false,
+        [ConfiguratorType.VARIANT]: true,
+        [ConfiguratorType.TEXTFIELD]: true,
+      },
     },
   };

@@ -5,6 +5,7 @@ import {
   MockTranslatePipe,
   Product,
   ProductService,
+  provideDefaultConfig,
   RouterState,
   RoutingService,
   TranslatePipe,
@@ -13,11 +14,13 @@ import {
   CommonConfigurator,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { defaultCommonConfiguratorUISettingsConfig } from '../../../common/components/config/default-common-configurator-ui-settings.config';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -70,7 +73,23 @@ class MockConfiguratorCommonsService {
 
 class MockConfiguratorRouterExtractorService {
   extractRouterData(): Observable<ConfiguratorRouter.Data> {
-    return of(ConfigurationTestData.mockRouterState);
+    return of({
+      owner: {
+        ...ConfigurationTestData.productConfiguration.owner,
+        configuratorType: ConfiguratorType.VARIANT,
+      },
+    } as ConfiguratorRouter.Data);
+  }
+}
+
+class MockConfiguratorRouterExtractorServiceCpqOverview {
+  extractRouterData(): Observable<ConfiguratorRouter.Data> {
+    return of({
+      owner: {
+        ...ConfigurationTestData.productConfiguration.owner,
+        configuratorType: ConfiguratorType.CPQ,
+      },
+    } as ConfiguratorRouter.Data);
   }
 }
 
@@ -147,6 +166,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
           provide: ProductService,
           useClass: MockProductService,
         },
+        provideDefaultConfig(defaultCommonConfiguratorUISettingsConfig),
         provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
       ],
     })
@@ -322,12 +342,20 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
   });
 
   describe('switchTabOnArrowPress', () => {
+    it('should not focus tabs when filter tab is disabled', () => {
+      const event = new KeyboardEvent('keydown', {
+        code: 'ArrowRight',
+      });
+      component.switchTabOnArrowPress(event, '#menuTab', false);
+      expect(event.defaultPrevented).toBe(false);
+    });
+
     it('should focus filter tab if right arrow pressed and if current tab is menu tab', () => {
       fixture.detectChanges();
       const event = new KeyboardEvent('keydown', {
         code: 'ArrowRight',
       });
-      component.switchTabOnArrowPress(event, '#menuTab');
+      component.switchTabOnArrowPress(event, '#menuTab', true);
       let focusedElement = document.activeElement;
       expect(focusedElement?.innerHTML).toBe(
         ' configurator.overviewSidebar.filter '
@@ -339,7 +367,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
       const event = new KeyboardEvent('keydown', {
         code: 'ArrowLeft',
       });
-      component.switchTabOnArrowPress(event, '#menuTab');
+      component.switchTabOnArrowPress(event, '#menuTab', true);
       let focusedElement = document.activeElement;
       expect(focusedElement?.innerHTML).toBe(
         ' configurator.overviewSidebar.filter '
@@ -351,7 +379,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
       const leftEvent = new KeyboardEvent('keydown', {
         code: 'ArrowLeft',
       });
-      component.switchTabOnArrowPress(leftEvent, '#menuTab');
+      component.switchTabOnArrowPress(leftEvent, '#menuTab', true);
       let focusedElement = document.activeElement;
       expect(focusedElement?.innerHTML).toBe(
         ' configurator.overviewSidebar.filter '
@@ -359,7 +387,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
       const upEvent = new KeyboardEvent('keydown', {
         code: 'ArrowUp',
       });
-      component.switchTabOnArrowPress(upEvent, '#menuTab');
+      component.switchTabOnArrowPress(upEvent, '#menuTab', true);
       document.activeElement;
       expect(focusedElement?.innerHTML).toBe(
         ' configurator.overviewSidebar.filter '
@@ -371,7 +399,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
       const leftEvent = new KeyboardEvent('keydown', {
         code: 'ArrowLeft',
       });
-      component.switchTabOnArrowPress(leftEvent, '#menuTab');
+      component.switchTabOnArrowPress(leftEvent, '#menuTab', true);
       let focusedElement = document.activeElement;
       expect(focusedElement?.innerHTML).toBe(
         ' configurator.overviewSidebar.filter '
@@ -379,7 +407,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
       const downEvent = new KeyboardEvent('keydown', {
         code: 'ArrowDown',
       });
-      component.switchTabOnArrowPress(downEvent, '#menuTab');
+      component.switchTabOnArrowPress(downEvent, '#menuTab', true);
       document.activeElement;
       expect(focusedElement?.innerHTML).toBe(
         ' configurator.overviewSidebar.filter '
@@ -391,7 +419,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
       const event = new KeyboardEvent('keydown', {
         code: 'ArrowRight',
       });
-      component.switchTabOnArrowPress(event, '#filterTab');
+      component.switchTabOnArrowPress(event, '#filterTab', true);
       let focusedElement = document.activeElement;
       expect(focusedElement?.innerHTML).toBe(
         ' configurator.overviewSidebar.menu '
@@ -403,7 +431,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
       const event = new KeyboardEvent('keydown', {
         code: 'ArrowLeft',
       });
-      component.switchTabOnArrowPress(event, '#filterTab');
+      component.switchTabOnArrowPress(event, '#filterTab', true);
       let focusedElement = document.activeElement;
       expect(focusedElement?.innerHTML).toBe(
         ' configurator.overviewSidebar.menu '
@@ -411,8 +439,69 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     });
   });
 
+  describe('overview menu filter tab visibility', () => {
+    it('should not render filter tab for CLOUD CPQ configurator type', () => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        imports: [ConfiguratorOverviewSidebarComponent],
+        providers: [
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
+          {
+            provide: ConfiguratorRouterExtractorService,
+            useClass: MockConfiguratorRouterExtractorServiceCpqOverview,
+          },
+          {
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfiguratorStorefrontUtilsService,
+          },
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: ProductService,
+            useClass: MockProductService,
+          },
+          provideDefaultConfig(defaultCommonConfiguratorUISettingsConfig),
+          provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
+        ],
+      })
+        .overrideComponent(ConfiguratorOverviewSidebarComponent, {
+          remove: {
+            imports: [
+              TranslatePipe,
+              ConfiguratorOverviewFilterComponent,
+              ConfiguratorOverviewMenuComponent,
+            ],
+          },
+          add: {
+            imports: [
+              MockTranslatePipe,
+              MockConfiguratorOverviewFilterComponent,
+              MockConfiguratorOverviewMenuComponent,
+            ],
+          },
+        })
+        .compileComponents();
+      initTestComponent();
+      fixture.detectChanges();
+      expect(
+        fixture.debugElement.queryAll(By.css('.cx-menu-bar button'))
+      ).toHaveLength(0);
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-menu-bar-item'
+      );
+    });
+  });
+
   describe('skip link to overview content', () => {
     it('should not render the skip link if productConfiguratorCPQContainer is disabled', () => {
+      fixture.detectChanges();
       expect(
         htmlElem.querySelector('.cx-configurator-overview-skip-link')
       ).toBeNull();
