@@ -32,7 +32,11 @@
 
   <ng-container *ngFor="let group of overviewGroups">
     <div
-      id="{{ getGroupId(idPrefix, group.id) }}"
+      [attr.id]="
+        isContainerRowDetailsGroup(group)
+          ? null
+          : getGroupId(idPrefix, group.id)
+      "
       [ngClass]="getGroupLevelStyleClasses(level, group.subGroups)"
     >
       <h2>
@@ -81,6 +85,7 @@
         <ng-container *ngFor="let subGroup of group.subGroups">
           <div
             *ngIf="isContainerRowDetailsGroup(subGroup)"
+            [attr.id]="getGroupId(getPrefixId(idPrefix, group.id), subGroup.id)"
             class="cx-group topLevel configurationDetails"
           >
             <h2>

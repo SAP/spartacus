@@ -63,9 +63,8 @@ class MockConfiguratorGroupsService {
 }
 
 class MockKeyboardFocusService {
-  findFocusable() {}
-
-  set() {}
+  findFocusable = vi.fn();
+  set = vi.fn();
 }
 
 function createElement(id: string): HTMLElement {
@@ -349,9 +348,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
       it('should not delegate to keyboard focus service because form is undefined', () => {
         vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
-        vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(
-          undefined
-        );
+        vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(null);
         vi.spyOn(keyboardFocusService, 'findFocusable').mockReturnValue([]);
         classUnderTest.focusFirstActiveElement('elementSelector');
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
@@ -491,7 +488,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         vi.spyOn(keyboardFocusService, 'findFocusable').mockReturnValue(
           focusedElements
         );
-        asSpy(windowRef.document.querySelector).mockReturnValue(undefined);
+        asSpy(windowRef.document.querySelector).mockReturnValue(null);
 
         classUnderTest.focusValue(attribute);
         verify(focusedElements);
@@ -634,7 +631,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
   describe('changeStyling', () => {
     it('should change styling of HTML element', () => {
       const theElement = document.createElement('elementMock');
-      vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(undefined);
+      vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(null);
 
       classUnderTest.changeStyling('elementMock', 'position', 'sticky');
       expect(theElement.style.position).not.toEqual('sticky');
@@ -699,7 +696,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
       const theElement = document.createElement('elementMock');
       theElement.style.position = 'sticky';
-      vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(undefined);
+      vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(null);
 
       classUnderTest.removeStyling('elementMock', 'position');
       expect(theElement.style.position).toEqual('sticky');
@@ -769,7 +766,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
   describe('hasScrollbar', () => {
     it('should return false because element is undefined', () => {
-      vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(undefined);
+      vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(null);
 
       expect(classUnderTest.hasScrollbar('elementMock')).toBe(false);
     });
@@ -887,7 +884,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
   });
 
   describe('getHeight', () => {
-    let form;
+    let form: HTMLElement;
 
     beforeEach(() => {
       form = htmlElem.querySelector('cx-configurator-form') as HTMLElement;
@@ -976,7 +973,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       vi.spyOn(addToCart, 'getBoundingClientRect').mockReturnValue(
         new DOMRect(100, 100, 1000, 80)
       );
-      vi.spyOn<any>(classUnderTest, 'getHeight').mockReturnValue(100);
+      vi.spyOn(classUnderTest, 'getHeight').mockReturnValue(100);
 
       expect(classUnderTest.getSpareViewportHeight()).toBeGreaterThan(0);
     });

@@ -51,9 +51,17 @@ class MockConfiguratorStorefrontUtilsService {
 
   removeStylingOfElement(): void {}
 
-  createOvGroupId(): void {}
+  createOvGroupId(_idPrefix?: string, _groupId?: string): string {
+    return '';
+  }
 
   createOvMenuItemId(): void {}
+
+  navigateToOverviewGroup(idPrefix: string, groupId: string): void {
+    this.scrollToConfigurationElement(
+      this.idSelector(this.createOvGroupId(idPrefix, groupId)) + ' h2'
+    );
+  }
 
   ensureElementVisible(): void {}
 
@@ -61,7 +69,7 @@ class MockConfiguratorStorefrontUtilsService {
 
   getVerticallyScrolledPixels(): void {}
 
-  scrollToConfigurationElement(): void {}
+  scrollToConfigurationElement(_selector: string): void {}
 }
 
 let component: ConfiguratorOverviewMenuComponent;
@@ -87,19 +95,12 @@ function initialize() {
   );
 
   vi.spyOn(configuratorStorefrontUtilsService, 'scrollToConfigurationElement');
-
   vi.spyOn(configuratorStorefrontUtilsService, 'ensureElementVisible');
-
   vi.spyOn(configuratorStorefrontUtilsService, 'getClosestElement');
-
   vi.spyOn(configuratorStorefrontUtilsService, 'changeStylingOfElement');
-
   vi.spyOn(configuratorStorefrontUtilsService, 'removeStylingOfElement');
-
   vi.spyOn(configuratorStorefrontUtilsService, 'createOvGroupId');
-
   vi.spyOn(configuratorStorefrontUtilsService, 'createOvMenuItemId');
-
   vi.spyOn(configuratorStorefrontUtilsService, 'getPrefixId');
 }
 
@@ -295,20 +296,22 @@ describe('ConfigurationOverviewMenuComponent', () => {
   describe('navigateToGroup', () => {
     it('should invoke utils service for determining group id', () => {
       initialize();
+      vi.spyOn(configuratorStorefrontUtilsService, 'navigateToOverviewGroup');
       fixture.detectChanges();
       component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
       expect(
-        configuratorStorefrontUtilsService.createOvGroupId
-      ).toHaveBeenCalled();
+        configuratorStorefrontUtilsService.navigateToOverviewGroup
+      ).toHaveBeenCalledWith(GROUP_PREFIX, GROUP_ID_LOCAL);
     });
 
     it('should invoke utils service for scrolling', () => {
       initialize();
+      vi.spyOn(configuratorStorefrontUtilsService, 'navigateToOverviewGroup');
       fixture.detectChanges();
       component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
       expect(
-        configuratorStorefrontUtilsService.scrollToConfigurationElement
-      ).toHaveBeenCalled();
+        configuratorStorefrontUtilsService.navigateToOverviewGroup
+      ).toHaveBeenCalledWith(GROUP_PREFIX, GROUP_ID_LOCAL);
     });
 
     it('should compose the query selector from the escaped group id', () => {

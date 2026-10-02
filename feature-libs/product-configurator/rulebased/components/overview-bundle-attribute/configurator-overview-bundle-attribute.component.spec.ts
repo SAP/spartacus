@@ -72,6 +72,12 @@ class MockConfiguratorStorefrontUtilsService {
   }
 
   scrollToConfigurationElement = vi.fn();
+
+  navigateToOverviewGroup(idPrefix: string, groupId: string): void {
+    this.scrollToConfigurationElement(
+      this.idSelector(this.createOvGroupId(idPrefix, groupId)) + ' h2'
+    );
+  }
 }
 
 @Component({

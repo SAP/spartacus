@@ -123,7 +123,7 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
   /**
    * Verifies whether the item price should be displayed.
    *
-   * @return - 'true' if the item price price should be displayed, otherwise 'false'
+   * @return - 'true' if the item price should be displayed, otherwise 'false'
    */
   displayPrice(): boolean {
     return (
@@ -137,17 +137,14 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
    */
   viewDetails(): void {
     const detailsGroupId = `${Configurator.ContainerRowGroupIdPrefix}@${this.attributeOverview.attributeId}@${this.attributeOverview.valueId}`;
-    const prefix = this.configuratorStorefrontUtilsService.getPrefixId(
+    const idPrefix = this.configuratorStorefrontUtilsService.getPrefixId(
       this.overviewIdPrefix,
       this.parentGroupId
     );
-    const ovGroupId = this.configuratorStorefrontUtilsService.createOvGroupId(
-      prefix,
-      detailsGroupId
-    );
 
-    this.configuratorStorefrontUtilsService.scrollToConfigurationElement(
-      this.configuratorStorefrontUtilsService.idSelector(ovGroupId) + ' h2'
+    this.configuratorStorefrontUtilsService.navigateToOverviewGroup(
+      idPrefix,
+      detailsGroupId
     );
   }
 

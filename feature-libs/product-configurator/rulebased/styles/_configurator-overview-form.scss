@@ -79,6 +79,28 @@
         }
       }
 
+      @include media-breakpoint-down(sm) {
+        &:has(+ * + .cx-group.subgroup.subgroupLevel2) > h2 {
+          top: $subgroupLevel2Top;
+          z-index: 4;
+        }
+
+        &:has(+ * + .cx-group.subgroup.subgroupLevel3) > h2 {
+          top: $subgroupLevel3Top;
+          z-index: 3;
+        }
+
+        &:has(+ * + .cx-group.subgroup.subgroupLevel4) > h2 {
+          top: $subgroupLevel4Top;
+          z-index: 2;
+        }
+
+        &:has(+ * + .cx-group.subgroup.subgroupLevel5) > h2 {
+          top: $subgroupLevel5Top;
+          z-index: 1;
+        }
+      }
+
       + * + .cx-group.subgroup {
         padding-block-start: 0;
       }

@@ -59,9 +59,9 @@ export class ConfiguratorStorefrontUtilsService {
    * In both cases we need to render indications for mandatory attributes.
    * This method emits only once and then stops further emissions.
    *
-   * @param {CommonConfigurator.Owner} owner -
-   * @param {string} groupId - Group ID
-   * @return {Observable<boolean>} - Returns 'Observable<true>' if the cart entry or group are visited, otherwise 'Observable<false>'
+   * @param owner - Configuration owner
+   * @param groupId - Group ID
+   * @return - Returns 'Observable<true>' if the cart entry or group are visited, otherwise 'Observable<false>'
    */
   isCartEntryOrGroupVisited(
     owner: CommonConfigurator.Owner,
@@ -78,9 +78,9 @@ export class ConfiguratorStorefrontUtilsService {
   /**
    * Assemble an attribute value with the currently selected values from a checkbox list.
    *
-   * @param {UntypedFormControl[]} controlArray - Control array
-   * @param {Configurator.Attribute} attribute -  Configuration attribute
-   * @return {Configurator.Value[]} - list of configurator values
+   * @param controlArray - Control array
+   * @param attribute -  Configuration attribute
+   * @return - list of configurator values
    */
   assembleValuesForMultiSelectAttributes(
     controlArray: UntypedFormControl[],
@@ -113,7 +113,7 @@ export class ConfiguratorStorefrontUtilsService {
   /**
    * Scrolls to the corresponding HTML element.
    *
-   * @param {Element | HTMLElement} element - HTML element
+   * @param element - HTML element
    */
   protected scroll(element: Element | HTMLElement): void {
     let topOffset = 0;
@@ -126,7 +126,7 @@ export class ConfiguratorStorefrontUtilsService {
   /**
    * Scrolls to the corresponding configuration element in the HTML tree.
    *
-   * @param {string} selector - Selector of the HTML element
+   * @param selector - Selector of the HTML element
    */
   scrollToConfigurationElement(selector: string): void {
     if (this.windowRef.isBrowser()) {
@@ -136,6 +136,18 @@ export class ConfiguratorStorefrontUtilsService {
         this.scroll(element);
       }
     }
+  }
+
+  /**
+   * Navigates to an overview group by scrolling to its header.
+   *
+   * @param idPrefix - Prefix reflecting parent groups in the overview hierarchy
+   * @param groupId - Local overview group id
+   */
+  navigateToOverviewGroup(idPrefix: string, groupId: string): void {
+    const ovGroupId = this.createOvGroupId(idPrefix, groupId);
+
+    this.scrollToConfigurationElement(this.idSelector(ovGroupId) + ' h2');
   }
 
   /**
@@ -213,8 +225,8 @@ export class ConfiguratorStorefrontUtilsService {
   /**
    * Creates unique key for config attribute on the UI
    *
-   * @param prefix for key depending on usage (e.g. uiType, label)
-   * @param attributeId
+   * @param prefix - key depending on usage (e.g. uiType, label)
+   * @param attributeId - attribute id
    */
   createAttributeUiKey(prefix: string, attributeId: string): string {
     return (
@@ -229,7 +241,7 @@ export class ConfiguratorStorefrontUtilsService {
   /**
    * Focus a value in the form.
    *
-   * @param {Configurator.Attribute} attribute - Attribute
+   * @param attribute - Attribute
    */
   focusValue(attribute: Configurator.Attribute): void {
     if (!this.windowRef.isBrowser()) {
@@ -291,9 +303,9 @@ export class ConfiguratorStorefrontUtilsService {
   /**
    * Retrieves a unique prefix ID.
    *
-   * @param {string | undefined} prefix - prefix that we need to make the ID unique
-   * @param {string} groupId - group ID
-   * @returns {string} - prefix ID
+   * @param idPrefix - prefix that we need to make the ID unique
+   * @param groupId - group ID
+   * @returns - prefix ID
    */
   getPrefixId(idPrefix: string | undefined, groupId: string): string {
     return idPrefix
@@ -304,8 +316,8 @@ export class ConfiguratorStorefrontUtilsService {
   /**
    * Generates a group ID.
    *
-   * @param {string} groupId - group ID
-   * @returns {string | undefined} - generated group ID
+   * @param groupId - group ID
+   * @returns - generated group ID
    */
   createGroupId(groupId?: string): string | undefined {
     if (groupId) {
@@ -317,9 +329,9 @@ export class ConfiguratorStorefrontUtilsService {
    * Generates a unique overview group ID from the local group ID
    * and a prefix that reflects the parent groups in the group hierarchy
    *
-   * @param {string} prefix - prefix that we need to make the ID unique
-   * @param {string} groupId - group ID
-   * @returns {string} - generated group ID
+   * @param prefix - prefix that we need to make the ID unique
+   * @param groupId - group ID
+   * @returns - generated group ID
    */
   createOvGroupId(prefix: string, groupId: string): string {
     return this.getPrefixId(prefix, groupId) + '-ovGroup';
@@ -329,9 +341,9 @@ export class ConfiguratorStorefrontUtilsService {
    * Generates a unique overview menu item ID from the local group ID
    * and a prefix that reflects the parent groups in the group hierarchy
    *
-   * @param {string} prefix - prefix that we need to make the ID unique
-   * @param {string} groupId - group ID
-   * @returns {string} - generated group ID
+   * @param prefix - prefix that we need to make the ID unique
+   * @param groupId - group ID
+   * @returns - generated group ID
    */
   createOvMenuItemId(prefix: string, groupId: string): string {
     return this.getPrefixId(prefix, groupId) + '-ovMenuItem';
@@ -341,8 +353,8 @@ export class ConfiguratorStorefrontUtilsService {
    * Persist the keyboard focus state for the given key.
    * The focus is stored globally or for the given group.
    *
-   * @param {string} key - key
-   * @param {string} group? - Group
+   * @param key - key
+   * @param group - group
    */
   setFocus(key?: string, group?: string): void {
     if (key) {
@@ -353,9 +365,9 @@ export class ConfiguratorStorefrontUtilsService {
   /**
    * Change styling of element
    *
-   * @param {string} querySelector - querySelector
-   * @param {string} property - CSS property
-   * @param {string} value - CSS value
+   * @param querySelector - querySelector
+   * @param property - CSS property
+   * @param value - CSS value
    */
   changeStyling(querySelector: string, property: string, value: string): void {
     this.changeStylingOfElement(
@@ -385,8 +397,8 @@ export class ConfiguratorStorefrontUtilsService {
   /**
    * Removes styling for element
    *
-   * @param {string} querySelector - querySelector
-   * @param {string} property - CSS property
+   * @param querySelector - querySelector
+   * @param property - CSS property
    */
   removeStyling(querySelector: string, property: string): void {
     this.removeStylingOfElement(this.getElement(querySelector), property);
@@ -433,8 +445,8 @@ export class ConfiguratorStorefrontUtilsService {
    * to be escaped before they are handed over to a query selector based API.
    * Outside the browser the ID is returned unescaped, because no DOM lookup happens there.
    *
-   * @param {string} id - element ID
-   * @returns {string} - ID selector that is safe to use as query selector
+   * @param id - element ID
+   * @returns - ID selector that is safe to use as query selector
    */
   idSelector(id: string): string {
     return '#' + (this.windowRef.isBrowser() ? CSS.escape(id) : id);
@@ -460,8 +472,8 @@ export class ConfiguratorStorefrontUtilsService {
    * In contrast to {@link getElement} no CSS selector is parsed, so IDs containing
    * characters that would have to be escaped in a selector are handled as well.
    *
-   * @param {string} id - element ID
-   * @returns {HTMLElement | undefined} - selected HTML element
+   * @param id - element ID
+   * @returns - selected HTML element
    */
   getElementById(id: string): HTMLElement | undefined {
     if (this.windowRef.isBrowser()) {
@@ -472,8 +484,8 @@ export class ConfiguratorStorefrontUtilsService {
   /**
    * Retrieves a list of HTML elements based on querySelector when running in browser
    *
-   * @param {string} querySelector - querySelector
-   * @returns {HTMLElement[] | undefined} - List of HTML elements
+   * @param querySelector - querySelector
+   * @returns - List of HTML elements
    */
   getElements(querySelector: string): HTMLElement[] | undefined {
     if (this.windowRef.isBrowser()) {
@@ -486,7 +498,7 @@ export class ConfiguratorStorefrontUtilsService {
   /**
    * Retrieves a number of pixels that the document is currently scrolled vertically.
    *
-   * @returns {number | undefined} - Number of pixels that the document is currently scrolled vertically.
+   * @returns - Number of pixels that the document is currently scrolled vertically.
    */
   getVerticallyScrolledPixels(): number | undefined {
     if (this.windowRef.isBrowser()) {
@@ -498,8 +510,8 @@ export class ConfiguratorStorefrontUtilsService {
   /**
    * Verifies whether the element has a scrollbar.
    *
-   * @param {string} querySelector - Element query selector
-   * @returns {boolean} - 'True', if the element has a scrollbar, otherwise 'false'
+   * @param querySelector - Element query selector
+   * @returns - 'True', if the element has a scrollbar, otherwise 'false'
    */
   hasScrollbar(querySelector: string): boolean {
     const element = this.getElement(querySelector);
@@ -529,6 +541,12 @@ export class ConfiguratorStorefrontUtilsService {
     return false;
   }
 
+  /**
+   * Retrieves the height of the HTML element.
+   *
+   * @param querySelector - Element query selector
+   * @returns - Height of the element
+   */
   public getHeight(querySelector: string): number {
     const element = this.getElement(querySelector);
     const isElementInViewport = this.isInViewport(element);
@@ -545,7 +563,7 @@ export class ConfiguratorStorefrontUtilsService {
    * if SPA header, variant configuration overview header and "Add to cart" button are in the viewport,
    * they will be subtracted from the actual viewport height.
    *
-   * @returns {number} - Height of the spare viewport.
+   * @returns - Height of the spare viewport.
    */
   getSpareViewportHeight(): number {
     if (this.windowRef.isBrowser()) {
@@ -575,8 +593,8 @@ export class ConfiguratorStorefrontUtilsService {
   /**
    * Ensure that the element is always visible.
    *
-   * @param {string} querySelector - Element query selector
-   * @param {HTMLElement | undefined} element - Element that should be visible within the scrollable element.
+   * @param querySelector - Element query selector
+   * @param element - Element that should be visible within the scrollable element.
    */
   ensureElementVisible(
     querySelector: string,
@@ -636,7 +654,7 @@ export class ConfiguratorStorefrontUtilsService {
    *
    * @param attributeName - Attribute name
    * @param valueCode - Value code
-   * @returns 'True', if the attribute and value are the last selected, otherwise 'false'
+   * @returns - 'True', if the attribute and value are the last selected, otherwise 'false'
    */
   isLastSelected(attributeName: string, valueCode: string): boolean {
     return (

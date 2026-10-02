@@ -111,6 +111,12 @@ class MockConfiguratorStorefrontUtilsService {
   idSelector(id: string): string {
     return `#${id}`;
   }
+
+  navigateToOverviewGroup(idPrefix: string, groupId: string): void {
+    this.scrollToConfigurationElement(
+      this.idSelector(this.createOvGroupId(idPrefix, groupId)) + ' h2'
+    );
+  }
 }
 
 const productForBundleOverview$: BehaviorSubject<Product> =
@@ -718,6 +724,9 @@ describe('ConfigurationOverviewFormComponent', () => {
         '.cx-group.topLevel.configurationDetails'
       );
       expect(detailsHeader).toBeTruthy();
+      expect(detailsHeader?.id).toBe(
+        `cx--57--${containerDetailsGroupId}-ovGroup`
+      );
       expect(detailsHeader?.querySelector('h2')).toBeTruthy();
       expect(
         detailsHeader?.querySelector('span[aria-hidden="true"]')?.textContent
@@ -732,7 +741,7 @@ describe('ConfigurationOverviewFormComponent', () => {
       initialize();
       const storefrontUtils = TestBed.inject(
         ConfiguratorStorefrontUtilsService
-      ) as MockConfiguratorStorefrontUtilsService;
+      );
 
       const viewDetailsButton = htmlElem.querySelector(
         '.cx-view-details-link'
@@ -740,9 +749,9 @@ describe('ConfigurationOverviewFormComponent', () => {
       expect(viewDetailsButton).toBeTruthy();
       viewDetailsButton.click();
 
-      expect(storefrontUtils.scrollToConfigurationElement).toHaveBeenCalledWith(
-        scrollTargetId
-      );
+      expect(
+        vi.mocked(storefrontUtils.scrollToConfigurationElement)
+      ).toHaveBeenCalledWith(scrollTargetId);
     });
   });
 
