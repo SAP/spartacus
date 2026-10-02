@@ -14,17 +14,10 @@ describe('Reorder dialog error handling', () => {
   before(() => {
     clearAllStorage();
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
-
-    cy.whenJDK21(() => {
-      goToB2BOrderHistoryPage();
-    });
+    goToB2BOrderHistoryPage();
   });
 
   it('should display a global error message and close the dialog when reorder API fails', () => {
-    cy.whenJDK17(() => {
-      cy.visit('my-account/orders');
-    });
-
     cy.get('cx-order-history .cx-order-history-value').first().click();
     cy.get('button').contains(' Reorder ').click();
     cy.get('.cx-reorder-dialog-areyousure-section').should('exist');
