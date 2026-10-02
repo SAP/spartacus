@@ -1,24 +1,23 @@
+// The skip link carries the global `cx-visually-hidden` class; only its focused state is styled here.
 @mixin cx-configurator-overview-skip-link {
-  .cx-configurator-overview-skip-link {
-    align-self: flex-start;
+  position: relative;
+
+  .cx-configurator-overview-skip-link:focus {
+    position: absolute;
+    inset-block-start: 5px;
+    inset-inline-start: 5px;
+    z-index: 1;
+    width: auto;
+    height: auto;
+    margin: 0;
     padding: 0.5rem 1rem;
-    margin: 5px;
+    overflow: visible;
+    clip: auto;
+    white-space: nowrap;
     border: none;
     color: var(--cx-color-primary);
     background-color: var(--cx-color-inverse);
     font-weight: 700;
     text-decoration: underline;
-
-    &:not(:focus) {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
-    }
   }
 }
