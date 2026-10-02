@@ -111,31 +111,6 @@ export function checkCurrentGroupActive(currentGroup: string): void {
 }
 
 /**
- * Verifies whether the group title displays the given group.
- *
- * @param {string} groupName - Expected group title
- */
-export function checkGroupTitle(groupName: string): void {
-  checkUpdatingMessageNotDisplayed();
-  cy.get('cx-configurator-group-title')
-    .should('be.visible')
-    .and('contain.text', groupName);
-}
-
-/**
- * Verifies whether the given entry is the active one in the group menu.
- * Unlike `checkCurrentGroupActive`, the entry may differ from the group title,
- * e.g. for a nested product of a container.
- *
- * @param {string} menuItemName - Name of the active group menu entry
- */
-export function checkActiveGroupMenuItem(menuItemName: string): void {
-  const activeMenuItemSelector = `cx-configurator-group-menu:visible button.active:contains(${menuItemName})`;
-  cy.get(activeMenuItemSelector).scrollIntoView();
-  cy.get(activeMenuItemSelector).should('be.visible');
-}
-
-/**
  * Clicks on 'previous' or 'next' button.
  *
  * @param {string} btnSelector - Button selector

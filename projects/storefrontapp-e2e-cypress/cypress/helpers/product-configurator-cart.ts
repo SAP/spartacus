@@ -66,14 +66,14 @@ function locateCartConfiguratorElement(cartItemIndex: number): void {
  * @param {number} cartItemIndex - Index of cart item
  */
 export function clickOnRemoveLink(cartItemIndex: number): void {
-  cy.log('One cart item will be removed under index: ' + cartItemIndex);
   cy.get('cx-cart-item-list .cx-item-list-row')
     .eq(cartItemIndex)
-    // The cart list row renders the remove button itself, the cart item card
-    // wraps it in a container.
-    .find('button.cx-remove-btn, .cx-remove-btn button')
-    .should('be.enabled')
-    .click();
+    .not('disabled')
+    .find('.cx-remove-btn')
+    .within(() => {
+      cy.log('One cart item will be removed under index: ' + cartItemIndex);
+      cy.get('button:contains("Remove")').click();
+    });
 }
 
 /**

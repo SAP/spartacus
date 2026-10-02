@@ -4,24 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as cart from './cart';
-import * as common from './common';
 import { navigation, waitForPage } from './navigation';
 import * as configurationCart from './product-configurator-cart';
-import * as configurationCpqCartBundle from './product-configurator-cart-bundle-cpq';
 import Chainable = Cypress.Chainable;
-
-export * from './product-configurator-cart-bundle-cpq';
 
 const resolveIssuesLinkSelector =
   'cx-configure-cart-entry button.cx-action-link';
 
-const REMOVE_CART_ENTRY_ALIAS = 'removeCartEntry';
-
 /**
  * Clicks on 'Resolve Issues' link in the cart.
  *
- * @param cartItemIndex - Index of cart item
+ * @param {number} cartItemIndex - Index of cart item
  */
 export function clickOnResolveIssuesLinkInCart(cartItemIndex: number): void {
   cy.get('cx-cart-item-list .cx-item-list-row')
@@ -52,9 +45,9 @@ export function clickOnProceedToCheckoutBtnInCart(): void {
 }
 
 /**
- * Selects the order by the order number alias.
+ * Selects the order by the oder number alias.
  *
- * @param shopName - shop name
+ * @param {string} shopName - shop name
  *
  */
 export function selectOrderByOrderNumberAlias(shopName: string): void {
@@ -109,7 +102,7 @@ export function selectOrderByOrderNumberAlias(shopName: string): void {
  * Verifies whether the searched order exists in the order history and
  * sets the '@isFound' alias accordingly.
  *
- * @param orderNumber - Order number
+ * @param {string} orderNumber - Order number
  */
 function searchForOrder(orderNumber: string): void {
   cy.get('cx-order-history')
@@ -128,10 +121,11 @@ function searchForOrder(orderNumber: string): void {
 }
 
 /**
- * Navigates to the order history page.
+ * Navigates to the oder history page.
  *
- * @param shopName - shop name
- * @return - New order history window
+ * @param {string} shopName - shop name
+ *
+ * @return {Chainable<Window>} - New order history window
  */
 export function goToOrderHistory(shopName: string): Chainable<Window> {
   cy.log('Navigate to order history');
@@ -334,88 +328,156 @@ export function checkoutB2B(): void {
 }
 
 /**
- * Registers a cart GET intercept for the given base site.
+ * Search for a corresponding bundle item.
  *
- * @param baseSite - Base site id, e.g. `powertools-spa`
+ * @param {number} cartItemIndex - Index of cart item
+ * @returns {Chainable<JQuery<HTMLElement>>} - Corresponding bundle item
  */
-export function registerCartRouteForBaseSite(baseSite: string): void {
-  cy.intercept(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${baseSite}/users/*/carts/*?fields=DEFAULT*`
-  ).as('getCart');
+function findBundleItem(cartItemIndex: number): Chainable<JQuery<HTMLElement>> {
+  return cy
+    .get('cx-cart-item-list .cx-item-list-row')
+    .eq(cartItemIndex)
+    .find('cx-configurator-cart-entry-bundle-info');
 }
 
 /**
- * Registers a cart entry DELETE intercept for the given base site.
+ * Verifies the name of bundle item.
  *
- * `cart.removeCartItem` cannot be reused here because its intercept is bound to
- * the `BASE_SITE` environment variable, which CPQ tests do not run against.
- *
- * @param baseSite - Base site id, e.g. `powertools-spa`
+ * @param {number} cartItemIndex - Index of cart item
+ * @param {number} bundleItemIndex - Index of bundle item
+ * @param {string} name - Expected name of bundle item
  */
-export function registerRemoveCartEntryRouteForBaseSite(
-  baseSite: string
-): void {
-  cy.intercept(
-    'DELETE',
-    `${Cypress.env('OCC_PREFIX')}/${baseSite}/users/*/carts/*/entries/*`
-  ).as(REMOVE_CART_ENTRY_ALIAS);
+export function checkBundleItemName(
+  cartItemIndex: number,
+  bundleItemIndex: number,
+  name: string
+) {
+  findBundleItem(cartItemIndex).within(() => {
+    cy.get('.cx-item-info')
+      .eq(bundleItemIndex)
+      .within(() => {
+        cy.get('.cx-item-name').should('contain', name);
+      });
+  });
 }
 
 /**
- * Removes the cart entry of the given product and waits for the OCC delete call.
- * Requires `registerRemoveCartEntryRouteForBaseSite` to have been called.
+ * Verifies the price of bundle item.
  *
- * @param productCode - Product code shown in the cart row
+ * @param {number} cartItemIndex - Index of cart item
+ * @param {number} bundleItemIndex - Index of bundle item
+ * @param {string} price - Expected price of bundle item
  */
-export function removeCartEntryForProductCode(productCode: string): void {
-  configurationCpqCartBundle.withCartEntryIndexForProductCode(
-    productCode,
-    (cartEntryIndex) => {
-      configurationCart.clickOnRemoveLink(cartEntryIndex);
+export function checkBundleItemPrice(
+  cartItemIndex: number,
+  bundleItemIndex: number,
+  price: string
+) {
+  findBundleItem(cartItemIndex).within(() => {
+    if (price) {
+      cy.get('.cx-item-info')
+        .eq(bundleItemIndex)
+        .within(() => {
+          cy.get('.cx-item-price .cx-item').should('contain', price);
+        });
     }
-  );
-  cy.wait(`@${REMOVE_CART_ENTRY_ALIAS}`)
-    .its('response.statusCode')
-    .should('eq', 200);
+  });
 }
 
 /**
- * Navigates to the cart page of the given base site.
+ * Verifies the quantity of bundle item.
  *
- * @param baseSite - Base site id, e.g. `powertools-spa`
+ * @param {number} cartItemIndex - Index of cart item
+ * @param {number} bundleInfoIndex - Index of bundle item
+ * @param {string} quantity - Expected quantity of bundle item
  */
-export function goToCart(baseSite: string): void {
-  const location = `/${baseSite}/en/USD/cart`;
-  cy.visit(location);
-  cy.location('pathname').should('contain', location);
-  common.checkLoadingMsgNotDisplayed();
+export function checkBundleItemQuantity(
+  cartItemIndex: number,
+  bundleInfoIndex: number,
+  quantity: string
+) {
+  findBundleItem(cartItemIndex).within(() => {
+    if (quantity) {
+      cy.get('.cx-item-info')
+        .eq(bundleInfoIndex)
+        .within(() => {
+          cy.get('.cx-item-quantity .cx-item').should('contain', quantity);
+        });
+    }
+  });
 }
 
 /**
- * Opens the cart of the given base site and removes all entries, if any.
- * Requires a logged-in user.
+ * Toggle bundle items via 'show' or 'hide' link
  *
- * @param baseSite - Base site id, e.g. `powertools-spa`
+ * @param {string} linkName - Name of the toggled link
  */
-export function clearCartIfNotEmpty(baseSite: string): void {
-  goToCart(baseSite);
-  // While the cart is loading, neither the cart details nor the empty-cart content is rendered.
-  cy.get('cx-cart-details, .EmptyCartMiddleContent')
-    .should('be.visible')
-    .then(($content) => {
-      if ($content.is('cx-cart-details')) {
-        cy.log('Cart is not empty, remove all cart entries');
-        cart.clearActiveCart();
+function toggleBundleItems(linkName: string) {
+  cy.get('.cx-toggle-hide-items')
+    .should('contain', linkName)
+    .click()
+    .then(() => {
+      let expectedLinkName = 'hide';
+      if (linkName !== 'show') {
+        expectedLinkName = linkName;
       }
+      cy.get('.cx-toggle-hide-items').should('contain', expectedLinkName);
     });
-  cart.validateEmptyCart();
+}
+
+/**
+ * Verifies the amount of bundle items for a certain cart item.
+ *
+ * @param {number} cartItemIndex - Index of cart item
+ * @param {number} itemsAmount - Expected amount of bundle items
+ */
+export function checkAmountOfBundleItems(
+  cartItemIndex: number,
+  itemsAmount: number
+) {
+  findBundleItem(cartItemIndex).within(() => {
+    cy.get('.cx-number-items').should('contain', itemsAmount);
+    toggleBundleItems('show');
+  });
+}
+
+/**
+ * Verifies that bundle items are represented by an overview link instead of
+ * being rendered inline.
+ *
+ * @param {number} cartItemIndex - Index of cart item
+ * @param {number} itemsAmount - Expected amount of bundle items
+ */
+export function checkBundleOverviewLink(
+  cartItemIndex: number,
+  itemsAmount: number
+): void {
+  findBundleItem(cartItemIndex).within(() => {
+    cy.get('.cx-number-items').should('contain', itemsAmount);
+    cy.get('button').should('not.exist');
+    cy.get('.cx-item-infos').should('not.exist');
+    cy.get('.cx-item-info').should('not.exist');
+    cy.get('.cx-toggle-hide-items a')
+      .should('contain', 'show')
+      .and('be.visible');
+  });
+}
+
+/**
+ * Navigates from a cart bundle to its read-only configuration overview.
+ *
+ * @param {number} cartItemIndex - Index of cart item
+ */
+export function clickOnBundleOverviewLink(cartItemIndex: number): void {
+  findBundleItem(cartItemIndex).within(() => {
+    cy.get('.cx-toggle-hide-items a').contains('show').click();
+  });
 }
 
 /**
  * Verifies the amount of cart entries.
  *
- * @param expectedCount - Expected amount of cart entries
+ * @param {number} expectedCount - Expected amount of cart entries
  */
 export function verifyCartCount(expectedCount: number) {
   cy.log('expectedCount =' + expectedCount);
