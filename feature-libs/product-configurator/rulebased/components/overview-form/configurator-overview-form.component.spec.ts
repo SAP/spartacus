@@ -17,6 +17,10 @@ import {
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { DirectionMode, DirectionService } from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { cold } from 'jasmine-marbles';
 import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -185,10 +189,12 @@ describe('ConfigurationOverviewFormComponent', () => {
         ReactiveFormsModule,
         NgSelectModule,
         FeaturesConfigModule,
+        I18nTestingModule,
         ConfiguratorOverviewFormComponent,
         ConfiguratorOverviewAttributeComponent,
       ],
       providers: [
+        provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
         {
           provide: RoutingService,
           useClass: MockRoutingService,
@@ -662,6 +668,48 @@ describe('ConfigurationOverviewFormComponent', () => {
         'configurator.a11y.group group:Group 1'
       );
       expectSpan(h2s[0] as HTMLElement, 'span[aria-hidden="true"]', 'Group 1');
+    });
+
+    describe('in-page navigation target (productConfiguratorCPQContainer)', () => {
+      it('should expose the host as focusable, labelled region', () => {
+        TestBed.inject(MockFeatureTogglesController).set(
+          'productConfiguratorCPQContainer',
+          true
+        );
+        initialize();
+        expect(htmlElem.getAttribute('id')).toBe(
+          ConfiguratorOverviewFormComponent.OVERVIEW_CONTENT_ID
+        );
+        expect(htmlElem.getAttribute('role')).toBe('region');
+        expect(htmlElem.getAttribute('tabindex')).toBe('-1');
+        expect(htmlElem.getAttribute('aria-label')).toBe(
+          'configurator.a11y.overviewContent'
+        );
+      });
+
+      it('should make the group headings programmatically focusable', () => {
+        TestBed.inject(MockFeatureTogglesController).set(
+          'productConfiguratorCPQContainer',
+          true
+        );
+        initialize();
+        const h2s = htmlElem.querySelectorAll('h2');
+        expect(h2s.length).toBeGreaterThan(0);
+        h2s.forEach((h2) => expect(h2.getAttribute('tabindex')).toBe('-1'));
+      });
+
+      it('should not change the host attributes and headings if disabled', () => {
+        initialize();
+        expect(htmlElem.getAttribute('id')).not.toBe(
+          ConfiguratorOverviewFormComponent.OVERVIEW_CONTENT_ID
+        );
+        expect(htmlElem.hasAttribute('role')).toBe(false);
+        expect(htmlElem.hasAttribute('tabindex')).toBe(false);
+        expect(htmlElem.hasAttribute('aria-label')).toBe(false);
+        htmlElem
+          .querySelectorAll('h2')
+          .forEach((h2) => expect(h2.hasAttribute('tabindex')).toBe(false));
+      });
     });
   });
 

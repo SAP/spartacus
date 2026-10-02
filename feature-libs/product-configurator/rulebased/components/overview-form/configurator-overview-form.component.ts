@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  inject,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import {
@@ -24,7 +30,12 @@ import {
   NgSwitchDefault,
   NgTemplateOutlet,
 } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
+import {
+  FeatureToggles,
+  TranslatePipe,
+  TranslationService,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorOverviewAttributeComponent } from '../overview-attribute/configurator-overview-attribute.component';
@@ -51,7 +62,46 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   ],
 })
 export class ConfiguratorOverviewFormComponent {
+  /**
+   * ID of the overview content region, the target of the overview skip link.
+   */
+  static readonly OVERVIEW_CONTENT_ID = 'cx-configurator-overview-content';
+
   @HostBinding('class.ghost') ghostStyle = true;
+
+  private featureToggles = inject(FeatureToggles);
+  protected translationService = inject(TranslationService);
+
+  /**
+   * Accessible name of the overview content region.
+   * Only set if in-page navigation is enabled.
+   */
+  @HostBinding('attr.aria-label') contentLabel: string | null = null;
+
+  /**
+   * Whether the overview form acts as target of the accessible in-page
+   * navigation: the host is exposed as focusable region and the group
+   * headings are programmatically focusable.
+   *
+   * @returns {boolean} - `true` if `productConfiguratorCPQContainer` is enabled
+   */
+  get isInPageNavigationEnabled(): boolean {
+    return !!this.featureToggles.productConfiguratorCPQContainer;
+  }
+
+  @HostBinding('attr.id') get contentId(): string | null {
+    return this.isInPageNavigationEnabled
+      ? ConfiguratorOverviewFormComponent.OVERVIEW_CONTENT_ID
+      : null;
+  }
+
+  @HostBinding('attr.role') get contentRole(): string | null {
+    return this.isInPageNavigationEnabled ? 'region' : null;
+  }
+
+  @HostBinding('attr.tabindex') get contentTabindex(): number | null {
+    return this.isInPageNavigationEnabled ? -1 : null;
+  }
 
   attributeOverviewType = Configurator.AttributeOverviewType;
 
@@ -78,7 +128,15 @@ export class ConfiguratorOverviewFormComponent {
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
-  ) {}
+  ) {
+    useFeatureStyles('productConfiguratorCPQContainer');
+    if (this.isInPageNavigationEnabled) {
+      this.translationService
+        .translate('configurator.a11y.overviewContent')
+        .pipe(takeUntilDestroyed())
+        .subscribe((label) => (this.contentLabel = label));
+    }
+  }
 
   /**
    * Does the configuration contain any selected attribute values?

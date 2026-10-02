@@ -5,14 +5,25 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  inject,
+} from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
-import { TranslatePipe } from '@spartacus/core';
+import {
+  FeatureToggles,
+  TranslatePipe,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { Observable, OperatorFunction } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorOverviewFormComponent } from '../overview-form/configurator-overview-form.component';
 import { ConfiguratorOverviewMenuComponent } from '../overview-menu/configurator-overview-menu.component';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-overview-menu-standalone',
@@ -29,10 +40,17 @@ import { ConfiguratorOverviewMenuComponent } from '../overview-menu/configurator
 export class ConfiguratorOverviewMenuStandaloneComponent {
   @HostBinding('class.ghost') ghostStyle = true;
 
+  private featureToggles = inject(FeatureToggles);
+  protected configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
+
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService
-  ) {}
+  ) {
+    useFeatureStyles('productConfiguratorCPQContainer');
+  }
 
   configurationWithOv$: Observable<Configurator.ConfigurationWithOverview> =
     this.configRouterExtractorService.extractRouterData().pipe(
@@ -51,4 +69,26 @@ export class ConfiguratorOverviewMenuStandaloneComponent {
         }
       })
     );
+
+  /**
+   * Whether the skip link to the overview content is rendered.
+   *
+   * @returns {boolean} - `true` if `productConfiguratorCPQContainer` is enabled
+   */
+  get isSkipLinkEnabled(): boolean {
+    return !!this.featureToggles.productConfiguratorCPQContainer;
+  }
+
+  /**
+   * Scrolls to and focuses the overview content, skipping the overview menu.
+   */
+  skipToOverviewContent(): void {
+    const selector = this.configuratorStorefrontUtilsService.idSelector(
+      ConfiguratorOverviewFormComponent.OVERVIEW_CONTENT_ID
+    );
+    this.configuratorStorefrontUtilsService.scrollToConfigurationElement(
+      selector
+    );
+    this.configuratorStorefrontUtilsService.focusConfigurationElement(selector);
+  }
 }

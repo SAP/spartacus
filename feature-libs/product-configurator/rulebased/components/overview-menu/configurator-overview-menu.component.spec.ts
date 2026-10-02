@@ -5,6 +5,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { IconComponent, MockIconComponent } from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
@@ -42,6 +46,7 @@ class MockConfiguratorStorefrontUtilsService {
   getSpareViewportHeight = vi.fn();
   getVerticallyScrolledPixels = vi.fn();
   scrollToConfigurationElement = vi.fn();
+  focusConfigurationElement = vi.fn();
 
   idSelector(id: string): string {
     return '#' + id;
@@ -87,6 +92,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfiguratorStorefrontUtilsService,
         },
+        provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
       ],
     })
       .overrideComponent(ConfiguratorOverviewMenuComponent, {
@@ -283,6 +289,103 @@ describe('ConfigurationOverviewMenuComponent', () => {
       expect(
         configuratorStorefrontUtilsService.scrollToConfigurationElement
       ).toHaveBeenCalledWith('#cx--GROUP@1-ovGroup h2');
+    });
+
+    it('should not move the focus if in-page navigation is disabled', () => {
+      initialize();
+      component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
+      expect(
+        configuratorStorefrontUtilsService.focusConfigurationElement
+      ).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('in-page navigation (productConfiguratorCPQContainer)', () => {
+    beforeEach(() => {
+      TestBed.inject(MockFeatureTogglesController).set(
+        'productConfiguratorCPQContainer',
+        true
+      );
+      initialize();
+      fixture.detectChanges();
+    });
+
+    it('should render the menu inside a labelled navigation landmark', () => {
+      const nav = htmlElem.querySelector('nav');
+      expect(nav).not.toBeNull();
+      expect(nav?.getAttribute('aria-label')).toBe(
+        'configurator.a11y.overviewMenu'
+      );
+      expect(nav?.querySelectorAll('button.cx-menu-item').length).toBe(
+        htmlElem.querySelectorAll('button.cx-menu-item').length
+      );
+    });
+
+    it('should label the menu items as navigation to the group', () => {
+      const menuItem = htmlElem.querySelector('button.cx-menu-item');
+      expect(menuItem?.getAttribute('aria-label')).toContain(
+        'configurator.a11y.navigateToOverviewGroup'
+      );
+    });
+
+    it('should scroll to and focus the group heading', () => {
+      vi.mocked(
+        configuratorStorefrontUtilsService.createOvGroupId
+      ).mockReturnValue('cx--GROUP-ovGroup');
+      component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
+      expect(
+        configuratorStorefrontUtilsService.scrollToConfigurationElement
+      ).toHaveBeenCalledWith('#cx--GROUP-ovGroup h2');
+      expect(
+        configuratorStorefrontUtilsService.focusConfigurationElement
+      ).toHaveBeenCalledWith('#cx--GROUP-ovGroup h2');
+    });
+
+    it('should mark only the highlighted menu item as current location', () => {
+      const menuItems: HTMLElement[] = Array.from(
+        htmlElem.querySelectorAll('button.cx-menu-item')
+      );
+      vi.spyOn(
+        configuratorStorefrontUtilsService,
+        'getElements'
+      ).mockReturnValue(menuItems);
+      component['highlight'](menuItems[0]);
+      component['highlight'](menuItems[1]);
+      expect(menuItems[0].hasAttribute('aria-current')).toBe(false);
+      expect(menuItems[1].getAttribute('aria-current')).toBe('location');
+    });
+  });
+
+  describe('without in-page navigation', () => {
+    beforeEach(() => {
+      initialize();
+      fixture.detectChanges();
+    });
+
+    it('should not render a navigation landmark', () => {
+      expect(htmlElem.querySelector('nav')).toBeNull();
+      expect(
+        htmlElem.querySelectorAll('button.cx-menu-item').length
+      ).toBeGreaterThan(0);
+    });
+
+    it('should keep the legacy aria-label of the menu items', () => {
+      const menuItem = htmlElem.querySelector('button.cx-menu-item');
+      expect(menuItem?.getAttribute('aria-label')).toContain(
+        'configurator.a11y.groupName'
+      );
+    });
+
+    it('should not set aria-current on the highlighted menu item', () => {
+      const menuItems: HTMLElement[] = Array.from(
+        htmlElem.querySelectorAll('button.cx-menu-item')
+      );
+      vi.spyOn(
+        configuratorStorefrontUtilsService,
+        'getElements'
+      ).mockReturnValue(menuItems);
+      component['highlight'](menuItems[0]);
+      expect(menuItems[0].hasAttribute('aria-current')).toBe(false);
     });
   });
 

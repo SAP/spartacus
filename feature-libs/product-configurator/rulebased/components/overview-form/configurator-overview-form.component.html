@@ -39,7 +39,7 @@
       "
       [ngClass]="getGroupLevelStyleClasses(level, group.subGroups)"
     >
-      <h2>
+      <h2 [attr.tabindex]="isInPageNavigationEnabled ? -1 : null">
         <span class="cx-visually-hidden">
           {{
             'configurator.a11y.group'
