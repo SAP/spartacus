@@ -112,11 +112,11 @@ class MockConfiguratorStorefrontUtilsService {
     return `#${id}`;
   }
 
-  navigateToOverviewGroup(idPrefix: string, groupId: string): void {
+  navigateToOverviewGroup = vi.fn((idPrefix: string, groupId: string) => {
     this.scrollToConfigurationElement(
       this.idSelector(this.createOvGroupId(idPrefix, groupId)) + ' h2'
     );
-  }
+  });
 }
 
 const productForBundleOverview$: BehaviorSubject<Product> =

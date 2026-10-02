@@ -10,7 +10,6 @@ import {
 } from '@spartacus/core';
 import { MediaModule } from '@spartacus/storefront';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
 import {
@@ -73,11 +72,11 @@ class MockConfiguratorStorefrontUtilsService {
 
   scrollToConfigurationElement = vi.fn();
 
-  navigateToOverviewGroup(idPrefix: string, groupId: string): void {
+  navigateToOverviewGroup = vi.fn((idPrefix: string, groupId: string) => {
     this.scrollToConfigurationElement(
       this.idSelector(this.createOvGroupId(idPrefix, groupId)) + ' h2'
     );
-  }
+  });
 }
 
 @Component({
@@ -301,7 +300,9 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
       component.viewDetails();
 
       expect(
-        configuratorStorefrontUtilsService.scrollToConfigurationElement
+        vi.mocked(
+          configuratorStorefrontUtilsService.scrollToConfigurationElement
+        )
       ).toHaveBeenCalledWith(`${OV_GROUP_ID} h2`);
     });
 
@@ -316,7 +317,9 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
       button.click();
 
       expect(
-        configuratorStorefrontUtilsService.scrollToConfigurationElement
+        vi.mocked(
+          configuratorStorefrontUtilsService.scrollToConfigurationElement
+        )
       ).toHaveBeenCalledWith(`${OV_GROUP_ID} h2`);
     });
   });
