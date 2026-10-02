@@ -373,6 +373,38 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       });
     });
 
+    describe('focusElement', () => {
+      it('should focus the element identified by the selector', () => {
+        vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+        const element = document.createElement('span');
+        vi.spyOn(element, 'focus');
+        vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(element);
+
+        classUnderTest.focusElement('#elementId');
+
+        expect(windowRef.document.querySelector).toHaveBeenCalledWith(
+          '#elementId'
+        );
+        expect(element.focus).toHaveBeenCalled();
+      });
+
+      it('should not fail if the element is not found', () => {
+        vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+        vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(null);
+
+        expect(() => classUnderTest.focusElement('#elementId')).not.toThrow();
+      });
+
+      it('should not query the document when not running in a browser', () => {
+        vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
+        vi.spyOn(windowRef.document, 'querySelector');
+
+        classUnderTest.focusElement('#elementId');
+
+        expect(windowRef.document.querySelector).not.toHaveBeenCalled();
+      });
+    });
+
     describe('focusValue', () => {
       let attribute: Configurator.Attribute;
 

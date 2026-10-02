@@ -176,6 +176,19 @@ export class ConfiguratorStorefrontUtilsService {
     }
   }
 
+  /**
+   * Focus the element itself identified by the given selector.
+   * The element must be focusable, e.g. by `tabindex="-1"`.
+   *
+   * @param selector - query selector of the element
+   */
+  focusElement(selector: string): void {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
+    this.getElement(selector)?.focus();
+  }
+
   protected getFocusableElementById(
     focusableElements: HTMLElement[],
     id?: string

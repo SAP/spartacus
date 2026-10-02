@@ -1543,7 +1543,6 @@ describe('ConfigProductTitleComponent', () => {
         mockProduct.name
       );
     });
-
     it("should contain span element with 'title' attribute for product name that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
