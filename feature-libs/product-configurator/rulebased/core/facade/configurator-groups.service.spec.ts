@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
-import { firstValueFrom, Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of, Subject } from 'rxjs';
 import {
   CONFIG_ID,
   GROUP_ID_1,
@@ -453,6 +453,101 @@ describe('ConfiguratorGroupsService', () => {
     });
   });
 
+  describe('navigateToContainerRow', () => {
+    const nestedTabId = 'CONTAINER_ROW@1067@row-1@1';
+    const rowGroupId = 'CONTAINER_ROW@1067@row-1';
+    let nestedTab: Configurator.Group;
+    let rowGroup: Configurator.Group;
+    let parentTab: Configurator.Group;
+
+    function createConfiguration(
+      flatGroups: Configurator.Group[]
+    ): Configurator.Configuration {
+      return {
+        ...ConfiguratorTestUtils.createConfiguration('1'),
+        groups: [parentTab],
+        flatGroups,
+      };
+    }
+
+    beforeEach(() => {
+      nestedTab = {
+        ...ConfiguratorTestUtils.createGroup(nestedTabId),
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      };
+      rowGroup = {
+        ...ConfiguratorTestUtils.createGroup(rowGroupId),
+        groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+        subGroups: [nestedTab],
+      };
+      parentTab = {
+        ...ConfiguratorTestUtils.createGroup('parent-tab'),
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        subGroups: [rowGroup],
+      };
+    });
+
+    it('should navigate to the nested tab of a bundle line item container row', () => {
+      const configuration = createConfiguration([parentTab, nestedTab]);
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+        of(configuration)
+      );
+
+      classUnderTest.navigateToContainerRow(configuration.owner, 'row-1');
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.ChangeGroup({
+          configuration: configuration,
+          groupId: nestedTabId,
+          parentGroupId: rowGroupId,
+          conflictResolutionMode: false,
+        })
+      );
+    });
+
+    it('should wait until the configuration provides groups', () => {
+      const configuration = createConfiguration([parentTab, nestedTab]);
+      const configurationWithoutGroups: Configurator.Configuration = {
+        ...configuration,
+        groups: [],
+      };
+      const configuration$ = new Subject<Configurator.Configuration>();
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+        configuration$
+      );
+
+      classUnderTest.navigateToContainerRow(configuration.owner, 'row-1');
+      configuration$.next(configurationWithoutGroups);
+      expect(store.dispatch).not.toHaveBeenCalled();
+
+      configuration$.next(configuration);
+      configuration$.next(configuration);
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not navigate if no container row group matches the row id', () => {
+      const configuration = createConfiguration([parentTab, nestedTab]);
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+        of(configuration)
+      );
+
+      classUnderTest.navigateToContainerRow(configuration.owner, 'unknown-row');
+
+      expect(store.dispatch).not.toHaveBeenCalled();
+    });
+
+    it('should not navigate if the container row group has no navigable target', () => {
+      const configuration = createConfiguration([parentTab]);
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+        of(configuration)
+      );
+
+      classUnderTest.navigateToContainerRow(configuration.owner, 'row-1');
+
+      expect(store.dispatch).not.toHaveBeenCalled();
+    });
+  });
+
   describe('navigateToFirstIncompleteGroup', () => {
     it('should go to first incomplete group', () => {
       vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
@@ -505,6 +600,7 @@ describe('ConfiguratorGroupsService', () => {
 
       expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
+
     it('should navigate to the nested tab of an incomplete container row group', () => {
       const nestedTabId = 'CONTAINER_ROW@1067@row-1@1';
       const rowGroupId = 'CONTAINER_ROW@1067@row-1';

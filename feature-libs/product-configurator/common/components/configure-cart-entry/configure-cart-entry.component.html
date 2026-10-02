@@ -18,7 +18,6 @@
         } | cxUrl
       "
       [queryParams]="queryParams$ | async"
-      cxAutoFocus
       attr.aria-describedby="{{ getResolveIssuesA11yDescription() }}"
     >
       <ng-container *ngIf="!isDisabled(); then configureText" />

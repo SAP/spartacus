@@ -362,6 +362,20 @@ describe('ConfigRouterExtractorService', () => {
         })
         .unsubscribe();
     });
+
+    it('should tell from the URL that a row id has been passed', () => {
+      mockRouterState.state.queryParams = {
+        rowId: 'row-abc',
+      };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.rowId).toBe('row-abc');
+        })
+        .unsubscribe();
+    });
   });
 
   describe('createOwnerFromRouterState', () => {

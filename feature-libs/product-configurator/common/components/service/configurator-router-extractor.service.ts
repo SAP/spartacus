@@ -60,6 +60,7 @@ export class ConfiguratorRouterExtractorService {
           navigateToCart:
             routingData.state.queryParams?.navigateToCart === 'true',
           productCode: routingData.state.queryParams?.productCode,
+          rowId: routingData.state.queryParams?.rowId,
         };
 
         return routerData;

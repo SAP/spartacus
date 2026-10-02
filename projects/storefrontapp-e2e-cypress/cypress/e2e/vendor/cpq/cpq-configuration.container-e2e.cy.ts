@@ -7,7 +7,7 @@
 import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 import * as configuration from '../../../helpers/product-configurator';
 import * as configurationCpq from '../../../helpers/product-configurator-cpq';
-import * as configurationCpqContainer from '../../../helpers/product-configurator-cpq-container';
+import * as configurationCpqContainer from '../../../helpers/product-configurator-container-cpq';
 import * as configurationOverview from '../../../helpers/product-configurator-overview';
 import * as configurationOverviewCpq from '../../../helpers/product-configurator-overview-cpq';
 

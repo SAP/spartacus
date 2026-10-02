@@ -151,6 +151,8 @@ class MockConfiguratorGroupsService {
 
   navigateToFirstIncompleteGroup(): void {}
 
+  navigateToContainerRow(): void {}
+
   isConflictGroupType() {}
 }
 
@@ -314,8 +316,8 @@ describe('ConfiguratorFormComponent', () => {
 
     vi.spyOn(configuratorGroupsService, 'setGroupStatusVisited');
     vi.spyOn(configuratorGroupsService, 'navigateToConflictSolver');
-
     vi.spyOn(configuratorGroupsService, 'navigateToFirstIncompleteGroup');
+    vi.spyOn(configuratorGroupsService, 'navigateToContainerRow');
 
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
@@ -428,6 +430,41 @@ describe('ConfiguratorFormComponent', () => {
     });
     createComponentWithData();
     expect(keyboardFocusService.clear).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not navigate to a bundle line item if no row id is provided', () => {
+    routerStateObservable = mockRouterStateWithQueryParams({});
+    createComponentWithData();
+    expect(
+      configuratorGroupsService.navigateToContainerRow
+    ).not.toHaveBeenCalled();
+  });
+
+  it('should not navigate to a bundle line item in resolve issues mode', () => {
+    routerStateObservable = mockRouterStateWithQueryParams({
+      resolveIssues: 'true',
+      rowId: 'row-1',
+    });
+    createComponentWithData();
+    expect(
+      configuratorGroupsService.navigateToContainerRow
+    ).not.toHaveBeenCalled();
+  });
+
+  it('should navigate to the bundle line item when a row id is provided', () => {
+    routerStateObservable = mockRouterStateWithQueryParams({
+      rowId: 'row-1',
+    });
+    createComponentWithData();
+    expect(
+      configuratorGroupsService.navigateToContainerRow
+    ).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: PRODUCT_CODE,
+        type: CommonConfigurator.OwnerType.PRODUCT,
+      }),
+      'row-1'
+    );
   });
 
   describe('Rendering', () => {

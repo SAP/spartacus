@@ -25,5 +25,6 @@ export namespace ConfiguratorRouter {
     navigateToCheckout?: boolean;
     navigateToCart?: boolean;
     productCode?: string;
+    rowId?: string;
   }
 }

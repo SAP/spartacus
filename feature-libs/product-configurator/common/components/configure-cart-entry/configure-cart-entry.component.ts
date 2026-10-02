@@ -6,9 +6,13 @@
 
 import { AsyncPipe, NgIf } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   Input,
+  OnChanges,
+  SimpleChanges,
   inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -23,6 +27,7 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
   CommonConfigurator,
+  ConfiguratorType,
   ReadOnlyPostfix,
 } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
@@ -33,8 +38,9 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, RouterLink, AsyncPipe, UrlPipe, TranslatePipe],
 })
-export class ConfigureCartEntryComponent {
+export class ConfigureCartEntryComponent implements AfterViewInit, OnChanges {
   protected routingService = inject(RoutingService);
+  private elementRef = inject(ElementRef<HTMLElement>);
 
   @Input() cartEntry: OrderEntry;
   @Input() readOnly: boolean;
@@ -46,10 +52,37 @@ export class ConfigureCartEntryComponent {
    */
   @Input() isBundleOverviewLink = false;
   /**
+   * Container row identifier of a bundle line item. When set, the link
+   * navigates to the nested product configuration within the bundle.
+   */
+  @Input() rowId?: string;
+  /**
    * ID of an element that provides an additional description for the link.
    */
   @Input() a11yDescriptionId?: string;
   abstractOrderContext = inject(AbstractOrderContext, { optional: true });
+
+  ngAfterViewInit(): void {
+    this.focusLinkIfNeeded();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.msgBanner && !changes.msgBanner.firstChange) {
+      this.focusLinkIfNeeded();
+    }
+  }
+
+  /**
+   * Autofocus is limited to resolve-issues links so expanding bundle line
+   * items does not steal focus from the show/hide toggle.
+   */
+  protected focusLinkIfNeeded(): void {
+    if (this.msgBanner && !this.isDisabled()) {
+      queueMicrotask(() =>
+        this.elementRef.nativeElement.querySelector('a.link')?.focus()
+      );
+    }
+  }
 
   // we default to active cart as owner in case no context is provided
   // in this case no id of abstract order is needed
@@ -63,14 +96,23 @@ export class ConfigureCartEntryComponent {
     navigateToCheckout: boolean;
     navigateToCart: boolean;
     productCode: string | undefined;
+    rowId: string | undefined;
   }> = this.isInCheckout().pipe(
-    map((isInCheckout) => ({
-      forceReload: true,
-      resolveIssues: this.msgBanner && this.hasIssues(),
-      navigateToCheckout: isInCheckout,
-      navigateToCart: this.isBundleOverviewLink,
-      productCode: this.cartEntry.product?.code,
-    }))
+    map((isInCheckout) => {
+      const resolveIssues = this.msgBanner && this.hasIssues();
+      return {
+        forceReload: true,
+        resolveIssues,
+        navigateToCheckout: isInCheckout,
+        navigateToCart: this.isBundleOverviewLink,
+        // the nested product of a bundle line item is identified by its row, not
+        // by a product code, which would be resolved against the catalog
+        productCode: this.rowId ? undefined : this.cartEntry.product?.code,
+        // Issue resolution (overview / cart banner) and bundle line deep links
+        // are mutually exclusive; rowId is only for "Edit Product Configuration".
+        rowId: resolveIssues ? undefined : this.rowId,
+      };
+    })
   );
 
   /**
@@ -163,15 +205,28 @@ export class ConfigureCartEntryComponent {
       return 'configurator.header.displayConfiguration';
     } else if (this.msgBanner) {
       return 'configurator.header.resolveIssues';
-    } else {
-      return 'configurator.header.editConfiguration';
     }
+    return this.getEditConfigurationLinkTextResourceKey();
+  }
+
+  /**
+   * Retrieves the resource key for the edit-configuration link text.
+   *
+   * @returns - The resource key for editing a configuration or bundle configuration
+   */
+  protected getEditConfigurationLinkTextResourceKey(): string {
+    if (this.rowId) {
+      return 'configurator.header.editProductConfiguration';
+    }
+    return this.cartEntry.product?.configuratorType === ConfiguratorType.CPQ
+      ? 'configurator.header.editBundleConfiguration'
+      : 'configurator.header.editConfiguration';
   }
 
   /**
    * Verifies whether the link to the configuration is disabled.
    *
-   *  @returns - 'true' if the the configuration is not read only, otherwise 'false'
+   *  @returns - 'true' if the configuration is not read only, otherwise 'false'
    */
   isDisabled(): boolean {
     return this.readOnly ? false : this.disabled;

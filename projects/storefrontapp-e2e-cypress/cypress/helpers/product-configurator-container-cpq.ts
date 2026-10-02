@@ -5,6 +5,7 @@
  */
 
 import * as configuration from './product-configurator';
+import * as configurationCpq from './product-configurator-cpq';
 
 // ---------------------------------------------------------------------------
 // Sections — match createAttributeUiKey() in the container component
@@ -751,4 +752,25 @@ export function checkProductTitleContains(text: string): void {
  */
 export function checkProductTitleDoesNotContain(text: string): void {
   cy.get(PRODUCT_TITLE_SELECTOR).should('not.contain.text', text);
+}
+
+/**
+ * Verifies that the nested configuration of a container product is open.
+ * The `rowId` query parameter tells which container row is being configured,
+ * and the title shows the product path, e.g. `Configurable Train / Locomotive`.
+ *
+ * @param {string} parentProductName - Name of the product owning the container
+ * @param {string} productName - Name of the container product
+ * @param {string} groupName - Group expected to be active
+ */
+export function checkNestedProductConfigurationDisplayed(
+  parentProductName: string,
+  productName: string,
+  groupName: string
+): void {
+  configurationCpq.checkConfigPageDisplayed();
+  cy.location('search').should('contain', 'rowId=');
+  configuration.checkGroupTitle(groupName);
+  configuration.checkActiveGroupMenuItem(productName);
+  checkProductTitleContains(`${parentProductName} / ${productName}`);
 }

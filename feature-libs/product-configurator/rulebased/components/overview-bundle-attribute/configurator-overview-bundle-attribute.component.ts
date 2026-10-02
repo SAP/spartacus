@@ -15,14 +15,14 @@ import {
   CxNumericPipe,
   ImageGroup,
   Product,
-  ProductScope,
   ProductService,
   TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
+import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
 import { MediaComponent } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { catchError, map, take } from 'rxjs/operators';
 import { Configurator } from '../../core/model/configurator.model';
 import {
   ConfiguratorPriceComponent,
@@ -56,11 +56,15 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
     const noCommerceProduct: Product = { images: {} };
     if (this.attributeOverview.productCode) {
       this.product$ = this.productService
-        .get(this.attributeOverview.productCode, ProductScope.LIST)
+        .get(
+          this.attributeOverview.productCode,
+          ConfiguratorProductScope.CONFIGURATOR_PRODUCT_CARD
+        )
         .pipe(
           map((respProduct) => {
             return respProduct ? respProduct : noCommerceProduct;
-          })
+          }),
+          catchError(() => of(noCommerceProduct))
         );
     } else {
       this.product$ = of(noCommerceProduct);

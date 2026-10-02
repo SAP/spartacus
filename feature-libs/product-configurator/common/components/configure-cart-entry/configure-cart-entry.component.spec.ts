@@ -9,7 +9,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
 import {
   CommonConfigurator,
@@ -353,6 +353,35 @@ describe('ConfigureCartEntryComponent', () => {
         );
       });
 
+      it('should focus the link only when it resolves configuration issues', async () => {
+        const focusSpy = vi.spyOn(HTMLAnchorElement.prototype, 'focus');
+        component.readOnly = false;
+        component.disabled = false;
+        component.cartEntry = {
+          entryNumber: 0,
+          product: { configuratorType: configuratorType },
+        };
+
+        component.msgBanner = false;
+        fixture.detectChanges();
+        await Promise.resolve();
+        expect(focusSpy).not.toHaveBeenCalled();
+
+        focusSpy.mockClear();
+        component.msgBanner = true;
+        component.ngOnChanges({
+          msgBanner: {
+            previousValue: false,
+            currentValue: true,
+            firstChange: false,
+            isFirstChange: () => false,
+          },
+        });
+        await Promise.resolve();
+        expect(focusSpy).toHaveBeenCalled();
+        focusSpy.mockRestore();
+      });
+
       it("should be 'Edit Configuration' in case component is included in edit mode", () => {
         component.readOnly = false;
         component.disabled = false;
@@ -367,6 +396,58 @@ describe('ConfigureCartEntryComponent', () => {
           htmlElem,
           'a',
           'configurator.header.editConfiguration'
+        );
+      });
+
+      it("should be 'Edit Configuration' in edit mode for configurator type CPQCONFIGURATOR", () => {
+        component.readOnly = false;
+        component.disabled = false;
+        component.msgBanner = false;
+        component.cartEntry = {
+          entryNumber: 0,
+          product: { configuratorType: ConfiguratorType.VARIANT },
+        };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          'a',
+          'configurator.header.editConfiguration'
+        );
+      });
+
+      it("should be 'Edit Bundle Configuration' in edit mode for configurator type CLOUDCPQCONFIGURATOR", () => {
+        component.readOnly = false;
+        component.disabled = false;
+        component.msgBanner = false;
+        component.cartEntry = {
+          entryNumber: 0,
+          product: { configuratorType: ConfiguratorType.CPQ },
+        };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          'a',
+          'configurator.header.editBundleConfiguration'
+        );
+      });
+
+      it("should be 'Edit Product Configuration' for a bundle line item link", () => {
+        component.readOnly = false;
+        component.disabled = false;
+        component.msgBanner = false;
+        component.rowId = 'row-1';
+        component.cartEntry = {
+          entryNumber: 0,
+          product: { configuratorType: ConfiguratorType.CPQ },
+        };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          'a',
+          'configurator.header.editProductConfiguration'
         );
       });
 
@@ -520,11 +601,21 @@ describe('ConfigureCartEntryComponent', () => {
           product: { configuratorType: configuratorType, code: productCode },
         };
         fixture.detectChanges();
-        component.queryParams$
-          .pipe(take(1), delay(0))
-          .subscribe((queryParams) => {
-            expect(queryParams.productCode).toBe(productCode);
-          });
+        const queryParams = await firstValueFrom(component.queryParams$);
+        expect(queryParams.productCode).toBe(productCode);
+        expect(queryParams.rowId).toBeUndefined();
+      });
+
+      it('should contain "rowId" and omit "productCode" for a bundle line item link', async () => {
+        component.rowId = 'row-abc';
+        component.cartEntry = {
+          entryNumber: 0,
+          product: { configuratorType: configuratorType, code: productCode },
+        };
+        fixture.detectChanges();
+        const queryParams = await firstValueFrom(component.queryParams$);
+        expect(queryParams.rowId).toBe('row-abc');
+        expect(queryParams.productCode).toBeUndefined();
       });
 
       it('should not contain "resolveIssues" parameter in case no issues exist', async () => {
@@ -558,6 +649,23 @@ describe('ConfigureCartEntryComponent', () => {
           .subscribe((queryParams) => {
             expect(queryParams.resolveIssues).toBe(true);
           });
+      });
+
+      it('should omit "rowId" when resolving issues from the cart banner', async () => {
+        component.readOnly = false;
+        component.msgBanner = true;
+        component.rowId = 'row-abc';
+        component.cartEntry = {
+          entryNumber: 0,
+          product: { configuratorType: configuratorType, code: productCode },
+          statusSummaryList: [
+            { status: OrderEntryStatus.Error, numberOfIssues: 3 },
+          ],
+        };
+        fixture.detectChanges();
+        const queryParams = await firstValueFrom(component.queryParams$);
+        expect(queryParams.resolveIssues).toBe(true);
+        expect(queryParams.rowId).toBeUndefined();
       });
     });
 
