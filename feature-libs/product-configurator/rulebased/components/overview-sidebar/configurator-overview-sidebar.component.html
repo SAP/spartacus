@@ -1,4 +1,11 @@
 <ng-container *ngIf="overviewContext$ | async as ctx; else ghostSidebar">
+  <button
+    *ngIf="isSkipLinkEnabled"
+    class="cx-visually-hidden cx-configurator-overview-skip-link"
+    (click)="skipToOverviewContent()"
+  >
+    {{ 'configurator.a11y.skipToOverviewContent' | cxTranslate }}
+  </button>
   <div
     class="cx-menu-bar"
     [class.cx-menu-bar-menu-only]="!ctx.showFilterTab"
