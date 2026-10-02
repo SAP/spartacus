@@ -99,10 +99,7 @@
 
       .cx-error-toggle,
       .cx-warning-toggle {
-        border: none;
-        background-color: transparent;
-        outline-offset: 0px;
-        text-decoration: underline;
+        @include cx-configurator-button-reset();
       }
     }
   }

@@ -1,0 +1,20 @@
+@mixin cx-configurator-button-reset {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline-offset: 0;
+  padding: 0;
+  text-decoration: underline;
+}
+
+@mixin cx-configurator-button(
+  $color: var(--cx-color-primary),
+  $hover-color: var(--cx-color-secondary)
+) {
+  @include cx-configurator-button-reset();
+  color: $color;
+
+  &:hover {
+    color: $hover-color;
+  }
+}

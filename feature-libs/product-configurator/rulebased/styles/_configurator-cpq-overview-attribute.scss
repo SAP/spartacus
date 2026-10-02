@@ -57,19 +57,10 @@
         }
 
         .cx-view-details-link {
-          background-color: transparent;
-          border: none;
-          color: var(--cx-color-primary);
-          cursor: pointer;
+          @include cx-configurator-button();
           font-size: 0.875rem;
           margin-block-start: 5px;
-          padding: 0;
           text-align: start;
-          text-decoration: underline;
-
-          &:hover {
-            color: var(--cx-color-secondary);
-          }
         }
       }
     }
