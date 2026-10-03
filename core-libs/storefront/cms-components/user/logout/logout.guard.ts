@@ -4,17 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable, Optional } from '@angular/core';
 import { GuardResult, Router, UrlTree } from '@angular/router';
 import {
   AuthService,
   CmsService,
-  PageType,
   ProtectedRoutesService,
   SemanticPathService,
 } from '@spartacus/core';
-import { from, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { LogoutConfig } from './logout-config';
+import { from, Observable, of } from 'rxjs';
 
 /**
  * Guards the _logout_ route.
@@ -27,37 +26,41 @@ import { map, switchMap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class LogoutGuard {
+  protected config = inject(LogoutConfig);
+
   constructor(
     protected auth: AuthService,
-    protected cms: CmsService,
+    /** @deprecated */
+    @Optional() protected cms: CmsService | null,
     protected semanticPathService: SemanticPathService,
     protected protectedRoutes: ProtectedRoutesService,
-    protected router: Router
+    protected router: Router,
   ) {}
 
   canActivate(): Observable<GuardResult> {
-    /**
-     * First we want to complete logout process before redirecting to logout page
-     * We want to avoid errors like `token is no longer valid`
-     */
-    return from(this.logout()).pipe(
-      switchMap(() => {
-        return this.cms
-          .hasPage({
-            id: this.semanticPathService.get('logout') ?? '',
-            type: PageType.CONTENT_PAGE,
-          })
-          .pipe(
-            map((hasPage) => {
-              if (!hasPage) {
-                return this.getRedirectUrl();
-              }
-              // TODO(#9385): Use CMS page guard here.
-              return hasPage;
-            })
-          );
-      })
+    const redirectUrl = this.getRedirectUrl();
+    const logoutUrl = this.router.parseUrl(
+      this.semanticPathService.get('logout') ?? '/logout'
     );
+    const redirectsToLogout = redirectUrl.toString() === logoutUrl.toString();
+
+    /**
+     * Only needed when redirecting back to the logout path to avoid an
+     * infinite loop: second pass lets CmsPageGuard render the logout page.
+     */
+    if (
+      redirectsToLogout &&
+      this.router.getCurrentNavigation()?.extras?.state?.['postLogout']
+    ) {
+      return of(true);
+    }
+
+    from(this.logout()).subscribe(() => {
+      this.router.navigateByUrl(redirectUrl, {
+        state: redirectsToLogout ? { postLogout: true } : {},
+      });
+    });
+    return of(false);
   }
 
   protected logout(): Promise<any> {
@@ -72,7 +75,14 @@ export class LogoutGuard {
    * (in case of a closed shop). We'll redirect to the login page instead.
    */
   protected getRedirectUrl(): UrlTree {
-    const cxRoute = this.protectedRoutes.shouldProtect ? 'login' : 'home';
-    return this.router.parseUrl(this.semanticPathService.get(cxRoute) ?? '');
+    if (this.protectedRoutes.shouldProtect) {
+      return this.router.parseUrl(this.semanticPathService.get('login') ?? '');
+    }
+    const redirectRoute = this.config.logout?.redirectRoute;
+    if (redirectRoute) {
+      const resolved = this.semanticPathService.get(redirectRoute) ?? redirectRoute;
+      return this.router.parseUrl(resolved);
+    }
+    return this.router.parseUrl(this.semanticPathService.get('home') ?? '');
   }
 }
