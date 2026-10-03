@@ -13,6 +13,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { lastValueFrom, of, throwError } from 'rxjs';
+import { provideMockFeatureToggles } from '../../../features-config/feature-toggles/testing/mock-feature-toggles';
 import { CustomLoginGuard, totalRetries } from './custom-login.guard';
 
 const mockCsrfTokenResponse: CSRFResponse = {
@@ -22,6 +23,7 @@ const mockCsrfTokenResponse: CSRFResponse = {
 };
 class MockAuthService {
   getCsrfToken = vi.fn().mockReturnValue(of(mockCsrfTokenResponse));
+  refreshCsrfToken = vi.fn().mockReturnValue(of(mockCsrfTokenResponse));
 }
 class MockRouter {
   parseUrl = vi
@@ -33,7 +35,7 @@ class MockSemanticPathService {
 }
 class MockWindowRef {
   localStorage = mockStorage();
-  location = { href: '', assign: vi.fn() };
+  location: Partial<Location> = { href: '', search: '' };
   isBrowser(): boolean {
     return true;
   }
@@ -73,30 +75,21 @@ describe('CustomLoginGuard', () => {
   let mockWindowRef: MockWindowRef;
   let federatedLoginService: MockFederatedLoginService;
 
-  beforeEach(() => {
+  function createTestBed(toggles: Record<string, boolean> = {}) {
     TestBed.configureTestingModule({
       providers: [
-        {
-          provide: Router,
-          useClass: MockRouter,
-        },
-        {
-          provide: AuthService,
-          useClass: MockAuthService,
-        },
-        {
-          provide: SemanticPathService,
-          useClass: MockSemanticPathService,
-        },
-        {
-          provide: MockGlobalMessageService,
-          useClass: MockGlobalMessageService,
-        },
+        { provide: Router, useClass: MockRouter },
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: SemanticPathService, useClass: MockSemanticPathService },
         CsrfStateService,
         { provide: WindowRef, useClass: MockWindowRef },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: AuthConfigService, useClass: MockAuthConfigService },
         { provide: FederatedLoginService, useClass: MockFederatedLoginService },
+        provideMockFeatureToggles({
+          concurrentLoginPagesSupport: false,
+          ...toggles,
+        }),
       ],
     });
     guard = TestBed.inject(CustomLoginGuard);
@@ -104,6 +97,7 @@ describe('CustomLoginGuard', () => {
     globalMessageService = TestBed.inject(GlobalMessageService);
     csrfStateService = TestBed.inject(CsrfStateService);
     vi.spyOn(csrfStateService, 'set');
+    vi.spyOn(csrfStateService, 'setAuthReqId');
     storage = TestBed.inject(WindowRef).localStorage as Storage;
     vi.spyOn(storage, 'setItem');
     mockWindowRef = TestBed.inject(WindowRef) as unknown as MockWindowRef;
@@ -111,7 +105,10 @@ describe('CustomLoginGuard', () => {
     federatedLoginService = TestBed.inject(
       FederatedLoginService
     ) as unknown as MockFederatedLoginService;
+  }
 
+  beforeEach(() => {
+    createTestBed();
     vi.useFakeTimers();
     vi.setSystemTime(new Date(0));
   });
@@ -290,6 +287,115 @@ describe('CustomLoginGuard', () => {
       const actual = await lastValueFrom(guard.canActivate());
 
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('when concurrentLoginPagesSupport is enabled', () => {
+    beforeEach(() => {
+      TestBed.resetTestingModule();
+      createTestBed({ concurrentLoginPagesSupport: true });
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date(0));
+    });
+
+    describe('when auth_req_id is present in the URL', () => {
+      beforeEach(() => {
+        mockWindowRef.location = { href: '', search: '?auth_req_id=req-abc' };
+      });
+
+      it('should call refreshCsrfToken (not getCsrfToken) with the auth_req_id', async () => {
+        await lastValueFrom(guard.canActivate());
+
+        expect(authService.refreshCsrfToken).toHaveBeenCalledWith('req-abc');
+        expect(authService.getCsrfToken).not.toHaveBeenCalled();
+      });
+
+      it('should NOT write authReqId to CsrfStateService (race-free contract)', async () => {
+        // The guard intentionally does not write auth_req_id to CsrfStateService.
+        // Doing so would create a shared-mutable-state race between concurrent
+        // canActivate() activations (two tabs, or a retry firing a new activation
+        // before the first HTTP call completes). auth_req_id travels exclusively
+        // via the URL query param, which is per-activation and not shared.
+        await lastValueFrom(guard.canActivate());
+
+        expect(csrfStateService.setAuthReqId).not.toHaveBeenCalled();
+      });
+
+      describe('when CSRF fetch fails (retry path)', () => {
+        beforeEach(() => {
+          (authService.refreshCsrfToken as Mock).mockReturnValue(
+            throwError(() => ({ status: 403 }))
+          );
+        });
+
+        it('should include auth_req_id in the retry redirect URL', async () => {
+          const actual = await lastValueFrom(guard.canActivate());
+
+          expect(actual).toEqual({ root: '/login?auth_req_id=req-abc' });
+        });
+
+        describe('when on a federated login domain', () => {
+          beforeEach(() => {
+            federatedLoginService.isLoginDomain = true;
+            federatedLoginService.origin = 'https://storefront.de';
+          });
+
+          it('should include auth_req_id in the federated redirect URL', async () => {
+            await lastValueFrom(guard.canActivate());
+
+            expect(mockWindowRef.location.href).toContain(
+              'auth_req_id=req-abc'
+            );
+          });
+        });
+
+        it('should redirect to home (no auth_req_id) when retry limit is exhausted', async () => {
+          let actual;
+          for (let i = 0; i <= totalRetries; i++) {
+            actual = await lastValueFrom(guard.canActivate());
+          }
+
+          expect(actual).toEqual({ root: '/home' });
+        });
+      });
+    });
+
+    describe('when auth_req_id is absent from the URL', () => {
+      beforeEach(() => {
+        mockWindowRef.location = { href: '', search: '' };
+      });
+
+      it('should call getCsrfToken (not refreshCsrfToken) when auth_req_id is absent', async () => {
+        // Without an auth_req_id there is no concurrent-login session to
+        // correlate, so the guard falls back to the cached getCsrfToken()
+        // observable instead of firing a fresh refreshCsrfToken() request.
+        await lastValueFrom(guard.canActivate());
+
+        expect(authService.getCsrfToken).toHaveBeenCalled();
+        expect(authService.refreshCsrfToken).not.toHaveBeenCalled();
+      });
+
+      it('should NOT write authReqId to CsrfStateService (race-free contract)', async () => {
+        await lastValueFrom(guard.canActivate());
+
+        expect(csrfStateService.setAuthReqId).not.toHaveBeenCalled();
+      });
+
+      it('should NOT call refreshCsrfToken', async () => {
+        await lastValueFrom(guard.canActivate());
+
+        expect(authService.refreshCsrfToken).not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('when concurrentLoginPagesSupport is disabled', () => {
+    it('should call getCsrfToken (not refreshCsrfToken) and not call setAuthReqId', async () => {
+      await lastValueFrom(guard.canActivate());
+
+      expect(authService.getCsrfToken).toHaveBeenCalled();
+      expect(authService.refreshCsrfToken).not.toHaveBeenCalled();
+      expect(csrfStateService.setAuthReqId).not.toHaveBeenCalled();
     });
   });
 });
