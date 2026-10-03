@@ -14,6 +14,10 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -21,6 +25,7 @@ import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorOverviewFilterComponent } from '../overview-filter/configurator-overview-filter.component';
+import { ConfiguratorOverviewFormComponent } from '../overview-form/configurator-overview-form.component';
 import { ConfiguratorOverviewMenuComponent } from '../overview-menu/configurator-overview-menu.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorOverviewSidebarComponent } from './configurator-overview-sidebar.component';
@@ -79,6 +84,11 @@ class MockConfiguratorStorefrontUtilsService {
   getSpareViewportHeight(): void {}
   getVerticallyScrolledPixels(): void {}
   isDisplayOnlyVariant(): void {}
+  idSelector(id: string): string {
+    return '#' + id;
+  }
+  scrollToConfigurationElement(): void {}
+  focusConfigurationElement(): void {}
 }
 
 class MockRoutingService {
@@ -137,6 +147,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
           provide: ProductService,
           useClass: MockProductService,
         },
+        provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
       ],
     })
       .overrideComponent(ConfiguratorOverviewSidebarComponent, {
@@ -397,6 +408,63 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
       expect(focusedElement?.innerHTML).toBe(
         ' configurator.overviewSidebar.menu '
       );
+    });
+  });
+
+  describe('skip link to overview content', () => {
+    it('should not render the skip link if productConfiguratorCPQContainer is disabled', () => {
+      expect(
+        htmlElem.querySelector('.cx-configurator-overview-skip-link')
+      ).toBeNull();
+    });
+
+    describe('with productConfiguratorCPQContainer enabled', () => {
+      beforeEach(() => {
+        TestBed.inject(MockFeatureTogglesController).set(
+          'productConfiguratorCPQContainer',
+          true
+        );
+        fixture = TestBed.createComponent(ConfiguratorOverviewSidebarComponent);
+        htmlElem = fixture.nativeElement;
+        component = fixture.componentInstance;
+        component.ghostStyle = false;
+        fixture.detectChanges();
+      });
+
+      it('should render the skip link before the tab list', () => {
+        const skipLink = htmlElem.querySelector(
+          '.cx-configurator-overview-skip-link'
+        );
+        expect(skipLink?.tagName).toBe('BUTTON');
+        expect(skipLink?.textContent?.trim()).toBe(
+          'configurator.a11y.skipToOverviewContent'
+        );
+        expect(skipLink?.nextElementSibling?.classList).toContain(
+          'cx-menu-bar'
+        );
+      });
+
+      it('should scroll to and focus the overview content on click', () => {
+        vi.spyOn(
+          configuratorStorefrontUtilsService,
+          'scrollToConfigurationElement'
+        );
+        vi.spyOn(
+          configuratorStorefrontUtilsService,
+          'focusConfigurationElement'
+        );
+        fixture.debugElement
+          .query(By.css('.cx-configurator-overview-skip-link'))
+          .triggerEventHandler('click');
+        const selector =
+          '#' + ConfiguratorOverviewFormComponent.OVERVIEW_CONTENT_ID;
+        expect(
+          configuratorStorefrontUtilsService.scrollToConfigurationElement
+        ).toHaveBeenCalledWith(selector);
+        expect(
+          configuratorStorefrontUtilsService.focusConfigurationElement
+        ).toHaveBeenCalledWith(selector);
+      });
     });
   });
 });

@@ -9,11 +9,13 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   HostBinding,
   HostListener,
   Input,
+  inject,
 } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
+import { FeatureToggles, TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
@@ -36,8 +38,10 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
 
   @Input() config: Configurator.ConfigurationWithOverview;
 
-  protected readonly VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT =
-    'cx-page-slot.VariantConfigOverviewNavigation';
+  protected elementRef = inject(ElementRef);
+  private featureToggles = inject(FeatureToggles);
+  protected readonly PAGE_SLOT = 'cx-page-slot';
+
   protected readonly CX_CONFIGURATOR_OVERVIEW_MENU =
     'cx-configurator-overview-menu';
   protected readonly CX_MENU_ITEM_BUTTONS = 'button.cx-menu-item';
@@ -46,6 +50,8 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   protected readonly OV_MENU_ITEM = '-ovMenuItem';
   protected readonly OV_GROUP = '-ovGroup';
   protected readonly ACTIVE_CLASS = 'active';
+  protected readonly ARIA_CURRENT = 'aria-current';
+  protected readonly ARIA_CURRENT_LOCATION = 'location';
   /**
    * Height of a CSS box model of a menu item
    * See _configurator-overview-menu.scss
@@ -66,6 +72,17 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   constructor(
     protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {}
+
+  /**
+   * Whether the menu acts as accessible in-page navigation: it is rendered as
+   * a navigation landmark, marks the active item with `aria-current` and moves
+   * the focus to the target group when an item is activated.
+   *
+   * @returns {boolean} - `true` if `productConfiguratorCPQContainer` is enabled
+   */
+  get isInPageNavigationEnabled(): boolean {
+    return !!this.featureToggles.productConfiguratorCPQContainer;
+  }
 
   ngAfterViewInit(): void {
     this.amount = this.getAmount(this.config);
@@ -131,7 +148,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   }
 
   /**
-   * Adjust the styling of VariantConfigOverviewNavigation slot.
+   * Adjust the styling of the page slot that contains the overview menu.
    *
    * If the amount is larger than 1 then the styling will be applied.
    * Otherwise the styling will be removed.
@@ -172,9 +189,10 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
    * @protected
    */
   protected changeStyling(): void {
+    const slot = this.getHostPageSlot();
     this.styles.forEach((style) => {
-      this.configuratorStorefrontUtilsService.changeStyling(
-        this.VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT,
+      this.configuratorStorefrontUtilsService.changeStylingOfElement(
+        slot,
         style[0],
         style[1]
       );
@@ -187,12 +205,20 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
    * @protected
    */
   protected removeStyling(): void {
+    const slot = this.getHostPageSlot();
     this.styles.forEach((style) => {
-      this.configuratorStorefrontUtilsService.removeStyling(
-        this.VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT,
+      this.configuratorStorefrontUtilsService.removeStylingOfElement(
+        slot,
         style[0]
       );
     });
+  }
+
+  protected getHostPageSlot(): HTMLElement | undefined {
+    return this.configuratorStorefrontUtilsService.getClosestElement(
+      this.elementRef.nativeElement,
+      this.PAGE_SLOT
+    );
   }
 
   protected getMenuItemToHighlight(): HTMLElement | undefined {
@@ -210,9 +236,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
       ) {
         const id = group.id.replace(this.OV_GROUP, this.OV_MENU_ITEM);
         if (id) {
-          const querySelector = '#' + id;
-          menuItem =
-            this.configuratorStorefrontUtilsService.getElement(querySelector);
+          menuItem = this.configuratorStorefrontUtilsService.getElementById(id);
         }
       }
     });
@@ -226,8 +250,17 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
       );
       menuItems?.forEach((menuItem) => {
         menuItem.classList.remove(this.ACTIVE_CLASS);
+        if (this.isInPageNavigationEnabled) {
+          menuItem.removeAttribute(this.ARIA_CURRENT);
+        }
         if (menuItem.id === elementToHighlight.id) {
           elementToHighlight.classList.add(this.ACTIVE_CLASS);
+          if (this.isInPageNavigationEnabled) {
+            elementToHighlight.setAttribute(
+              this.ARIA_CURRENT,
+              this.ARIA_CURRENT_LOCATION
+            );
+          }
         }
       });
     }
@@ -258,7 +291,8 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   }
 
   /**
-   * Navigates to group in OV form
+   * Navigates to group in OV form.
+   * If in-page navigation is enabled, the group heading is focused as well.
    *
    * @param {string} prefix - Prefix (reflects the parent groups in the hierarchy)
    * @param {string} id - Group id
@@ -268,10 +302,17 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
       prefix,
       id
     );
+    const groupHeadingSelector =
+      this.configuratorStorefrontUtilsService.idSelector(ovGroupId) + ' h2';
 
     this.configuratorStorefrontUtilsService.scrollToConfigurationElement(
-      '#' + ovGroupId + ' h2'
+      groupHeadingSelector
     );
+    if (this.isInPageNavigationEnabled) {
+      this.configuratorStorefrontUtilsService.focusConfigurationElement(
+        groupHeadingSelector
+      );
+    }
   }
 
   /**

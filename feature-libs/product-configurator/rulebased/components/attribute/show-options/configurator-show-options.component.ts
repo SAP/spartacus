@@ -49,11 +49,12 @@ export class ConfiguratorShowOptionsComponent {
       )
       .subscribe(() =>
         this.configuratorStorefrontUtilsService.focusFirstActiveElement(
-          '#' +
+          this.configuratorStorefrontUtilsService.idSelector(
             this.configuratorStorefrontUtilsService.createAttributeUiKey(
               'group-attribute',
               this.attributeComponentContext.attribute.name
             )
+          )
         )
       );
   }

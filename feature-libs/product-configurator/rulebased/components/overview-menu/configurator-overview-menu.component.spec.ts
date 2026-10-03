@@ -5,6 +5,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { IconComponent, MockIconComponent } from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
@@ -31,15 +35,25 @@ class MockConfiguratorGroupsService {
 class MockConfiguratorStorefrontUtilsService {
   getElement(): void {}
 
+  getElementById(): void {}
+
+  idSelector(id: string): string {
+    return '#' + id;
+  }
+
   getElements(): void {}
 
   getPrefixId(): void {}
 
   hasScrollbar(): void {}
 
-  changeStyling(): void {}
+  getClosestElement(): HTMLElement | undefined {
+    return undefined;
+  }
 
-  removeStyling(): void {}
+  changeStylingOfElement(): void {}
+
+  removeStylingOfElement(): void {}
 
   createOvGroupId(): void {}
 
@@ -52,6 +66,8 @@ class MockConfiguratorStorefrontUtilsService {
   getVerticallyScrolledPixels(): void {}
 
   scrollToConfigurationElement(): void {}
+
+  focusConfigurationElement(): void {}
 }
 
 let component: ConfiguratorOverviewMenuComponent;
@@ -78,11 +94,15 @@ function initialize() {
 
   vi.spyOn(configuratorStorefrontUtilsService, 'scrollToConfigurationElement');
 
+  vi.spyOn(configuratorStorefrontUtilsService, 'focusConfigurationElement');
+
   vi.spyOn(configuratorStorefrontUtilsService, 'ensureElementVisible');
 
-  vi.spyOn(configuratorStorefrontUtilsService, 'changeStyling');
+  vi.spyOn(configuratorStorefrontUtilsService, 'getClosestElement');
 
-  vi.spyOn(configuratorStorefrontUtilsService, 'removeStyling');
+  vi.spyOn(configuratorStorefrontUtilsService, 'changeStylingOfElement');
+
+  vi.spyOn(configuratorStorefrontUtilsService, 'removeStylingOfElement');
 
   vi.spyOn(configuratorStorefrontUtilsService, 'createOvGroupId');
 
@@ -108,6 +128,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfiguratorStorefrontUtilsService,
         },
+        provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
       ],
     })
       .overrideComponent(ConfiguratorOverviewMenuComponent, {
@@ -131,7 +152,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     initialize();
     fixture.detectChanges();
     vi.spyOn(configuratorStorefrontUtilsService, 'getSpareViewportHeight');
-    vi.spyOn(configuratorStorefrontUtilsService, 'getElement');
+    vi.spyOn(configuratorStorefrontUtilsService, 'getElementById');
     vi.spyOn(configuratorStorefrontUtilsService, 'getElements');
     vi.spyOn(
       configuratorStorefrontUtilsService,
@@ -149,9 +170,9 @@ describe('ConfigurationOverviewMenuComponent', () => {
     expect(
       configuratorStorefrontUtilsService.getVerticallyScrolledPixels
     ).toHaveBeenCalledTimes(1);
-    expect(configuratorStorefrontUtilsService.getElement).toHaveBeenCalledTimes(
-      0
-    );
+    expect(
+      configuratorStorefrontUtilsService.getElementById
+    ).toHaveBeenCalledTimes(0);
     expect(
       configuratorStorefrontUtilsService.getSpareViewportHeight
     ).toHaveBeenCalledTimes(1);
@@ -206,12 +227,15 @@ describe('ConfigurationOverviewMenuComponent', () => {
       initialize();
     });
 
-    it('should call changeStyling', () => {
+    it('should call changeStylingOfElement', () => {
       fixture.detectChanges();
       vi.clearAllMocks();
       component['changeStyling']();
       expect(
-        configuratorStorefrontUtilsService.changeStyling
+        configuratorStorefrontUtilsService.getClosestElement
+      ).toHaveBeenCalled();
+      expect(
+        configuratorStorefrontUtilsService.changeStylingOfElement
       ).toHaveBeenCalledTimes(component.styles.length);
     });
   });
@@ -221,12 +245,15 @@ describe('ConfigurationOverviewMenuComponent', () => {
       initialize();
     });
 
-    it('should call removeStyling', () => {
+    it('should call removeStylingOfElement', () => {
       fixture.detectChanges();
       vi.clearAllMocks();
       component['removeStyling']();
       expect(
-        configuratorStorefrontUtilsService.removeStyling
+        configuratorStorefrontUtilsService.getClosestElement
+      ).toHaveBeenCalled();
+      expect(
+        configuratorStorefrontUtilsService.removeStylingOfElement
       ).toHaveBeenCalledTimes(component.styles.length);
     });
   });
@@ -242,7 +269,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
       component.amount = 1;
       component['adjustStyling']();
       expect(
-        configuratorStorefrontUtilsService.changeStyling
+        configuratorStorefrontUtilsService.changeStylingOfElement
       ).toHaveBeenCalledTimes(component.styles.length);
     });
 
@@ -252,7 +279,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
       component.amount = 0;
       component['adjustStyling']();
       expect(
-        configuratorStorefrontUtilsService.removeStyling
+        configuratorStorefrontUtilsService.removeStylingOfElement
       ).toHaveBeenCalledTimes(component.styles.length);
     });
   });
@@ -291,6 +318,120 @@ describe('ConfigurationOverviewMenuComponent', () => {
       expect(
         configuratorStorefrontUtilsService.scrollToConfigurationElement
       ).toHaveBeenCalled();
+    });
+
+    it('should compose the query selector from the escaped group id', () => {
+      initialize();
+      vi.mocked(
+        configuratorStorefrontUtilsService.createOvGroupId
+      ).mockReturnValue('cx--GROUP@1-ovGroup');
+      vi.spyOn(configuratorStorefrontUtilsService, 'idSelector');
+
+      component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
+
+      expect(
+        configuratorStorefrontUtilsService.idSelector
+      ).toHaveBeenCalledWith('cx--GROUP@1-ovGroup');
+      expect(
+        configuratorStorefrontUtilsService.scrollToConfigurationElement
+      ).toHaveBeenCalledWith('#cx--GROUP@1-ovGroup h2');
+    });
+
+    it('should not move the focus if in-page navigation is disabled', () => {
+      initialize();
+      component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
+      expect(
+        configuratorStorefrontUtilsService.focusConfigurationElement
+      ).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('in-page navigation (productConfiguratorCPQContainer)', () => {
+    beforeEach(() => {
+      TestBed.inject(MockFeatureTogglesController).set(
+        'productConfiguratorCPQContainer',
+        true
+      );
+      initialize();
+      fixture.detectChanges();
+    });
+
+    it('should render the menu inside a labelled navigation landmark', () => {
+      const nav = htmlElem.querySelector('nav');
+      expect(nav).not.toBeNull();
+      expect(nav?.getAttribute('aria-label')).toBe(
+        'configurator.a11y.overviewMenu'
+      );
+      expect(nav?.querySelectorAll('button.cx-menu-item').length).toBe(
+        htmlElem.querySelectorAll('button.cx-menu-item').length
+      );
+    });
+
+    it('should label the menu items as navigation to the group', () => {
+      const menuItem = htmlElem.querySelector('button.cx-menu-item');
+      expect(menuItem?.getAttribute('aria-label')).toContain(
+        'configurator.a11y.navigateToOverviewGroup'
+      );
+    });
+
+    it('should scroll to and focus the group heading', () => {
+      vi.mocked(
+        configuratorStorefrontUtilsService.createOvGroupId
+      ).mockReturnValue('cx--GROUP-ovGroup');
+      component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
+      expect(
+        configuratorStorefrontUtilsService.scrollToConfigurationElement
+      ).toHaveBeenCalledWith('#cx--GROUP-ovGroup h2');
+      expect(
+        configuratorStorefrontUtilsService.focusConfigurationElement
+      ).toHaveBeenCalledWith('#cx--GROUP-ovGroup h2');
+    });
+
+    it('should mark only the highlighted menu item as current location', () => {
+      const menuItems: HTMLElement[] = Array.from(
+        htmlElem.querySelectorAll('button.cx-menu-item')
+      );
+      vi.spyOn(
+        configuratorStorefrontUtilsService,
+        'getElements'
+      ).mockReturnValue(menuItems);
+      component['highlight'](menuItems[0]);
+      component['highlight'](menuItems[1]);
+      expect(menuItems[0].hasAttribute('aria-current')).toBe(false);
+      expect(menuItems[1].getAttribute('aria-current')).toBe('location');
+    });
+  });
+
+  describe('without in-page navigation', () => {
+    beforeEach(() => {
+      initialize();
+      fixture.detectChanges();
+    });
+
+    it('should not render a navigation landmark', () => {
+      expect(htmlElem.querySelector('nav')).toBeNull();
+      expect(
+        htmlElem.querySelectorAll('button.cx-menu-item').length
+      ).toBeGreaterThan(0);
+    });
+
+    it('should keep the legacy aria-label of the menu items', () => {
+      const menuItem = htmlElem.querySelector('button.cx-menu-item');
+      expect(menuItem?.getAttribute('aria-label')).toContain(
+        'configurator.a11y.groupName'
+      );
+    });
+
+    it('should not set aria-current on the highlighted menu item', () => {
+      const menuItems: HTMLElement[] = Array.from(
+        htmlElem.querySelectorAll('button.cx-menu-item')
+      );
+      vi.spyOn(
+        configuratorStorefrontUtilsService,
+        'getElements'
+      ).mockReturnValue(menuItems);
+      component['highlight'](menuItems[0]);
+      expect(menuItems[0].hasAttribute('aria-current')).toBe(false);
     });
   });
 
@@ -479,8 +620,10 @@ describe('ConfigurationOverviewMenuComponent', () => {
       let menuItem = menuItems[menuItems.length - 1] as HTMLElement;
       vi.spyOn(
         configuratorStorefrontUtilsService,
-        'getElement'
+        'getElementById'
       ).mockReturnValue(menuItem);
+
+      fixture.detectChanges();
 
       expect(component['getMenuItemToHighlight']()?.id).toEqual(menuItem.id);
     });

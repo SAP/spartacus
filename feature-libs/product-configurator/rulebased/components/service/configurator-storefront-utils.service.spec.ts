@@ -18,6 +18,8 @@ import { Observable, of } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { ConfiguratorUISettingsConfig } from '../config/configurator-ui-settings.config';
+import { defaultConfiguratorUISettingsConfig } from '../config/default-configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from './configurator-storefront-utils.service';
 
 let mockedWindow: {
@@ -160,6 +162,10 @@ describe('ConfiguratorStorefrontUtilsService', () => {
           useClass: MockProductService,
         },
         { provide: WindowRef, useClass: MockedWindowRef },
+        {
+          provide: ConfiguratorUISettingsConfig,
+          useValue: defaultConfiguratorUISettingsConfig,
+        },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
@@ -290,6 +296,32 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     expect(values.length).toBe(0);
   });
 
+  describe('focusConfigurationElement', () => {
+    it('should focus the element without scrolling', () => {
+      const theElement = document.createElement('h2');
+      vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(theElement);
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+      vi.spyOn(theElement, 'focus');
+      classUnderTest.focusConfigurationElement('#group h2');
+      expect(theElement.focus).toHaveBeenCalledWith({ preventScroll: true });
+    });
+
+    it('should not fail if the element cannot be found', () => {
+      vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(null);
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+      expect(() =>
+        classUnderTest.focusConfigurationElement('#unknown')
+      ).not.toThrow();
+    });
+
+    it('should not focus if we are not in browser environment', () => {
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
+      vi.spyOn(windowRef.document, 'querySelector');
+      classUnderTest.focusConfigurationElement('#group h2');
+      expect(windowRef.document.querySelector).not.toHaveBeenCalled();
+    });
+  });
+
   describe('scroll', () => {
     it('should handle situation that we are not in browser environment', () => {
       vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
@@ -367,6 +399,38 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         vi.spyOn(keyboardFocusService, 'findFocusable').mockReturnValue([]);
         classUnderTest.focusFirstActiveElement('elementSelector');
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    describe('focusElement', () => {
+      it('should focus the element identified by the selector', () => {
+        vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+        const element = document.createElement('span');
+        vi.spyOn(element, 'focus');
+        vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(element);
+
+        classUnderTest.focusElement('#elementId');
+
+        expect(windowRef.document.querySelector).toHaveBeenCalledWith(
+          '#elementId'
+        );
+        expect(element.focus).toHaveBeenCalled();
+      });
+
+      it('should not fail if the element is not found', () => {
+        vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+        vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(null);
+
+        expect(() => classUnderTest.focusElement('#elementId')).not.toThrow();
+      });
+
+      it('should not query the document when not running in a browser', () => {
+        vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
+        vi.spyOn(windowRef.document, 'querySelector');
+
+        classUnderTest.focusElement('#elementId');
+
+        expect(windowRef.document.querySelector).not.toHaveBeenCalled();
       });
     });
 
@@ -567,6 +631,64 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     });
   });
 
+  describe('getElementById', () => {
+    it('should not get HTML element when not running in browser', () => {
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
+      expect(classUnderTest.getElementById('elementMock')).toBeUndefined();
+    });
+
+    it('should return undefined if no element with the given ID exists', () => {
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+      expect(classUnderTest.getElementById('unknownId')).toBeUndefined();
+    });
+
+    it('should get HTML element whose ID is not a valid CSS ID selector', () => {
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+      const theElement = document.createElement('div');
+      theElement.id = 'cx--1--CONTAINER_ROW@1067@c036a9e2-ovMenuItem';
+      document.body.appendChild(theElement);
+
+      expect(
+        classUnderTest.getElementById(
+          'cx--1--CONTAINER_ROW@1067@c036a9e2-ovMenuItem'
+        )
+      ).toEqual(theElement);
+
+      document.body.removeChild(theElement);
+    });
+  });
+
+  describe('idSelector', () => {
+    it('should not escape the ID when not running in browser', () => {
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
+      expect(classUnderTest.idSelector('GROUP@1')).toBe('#GROUP@1');
+    });
+
+    it('should escape characters that are not allowed in a CSS ID selector', () => {
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+      expect(classUnderTest.idSelector('GROUP@1')).toBe('#GROUP\\@1');
+    });
+
+    it('should compose a selector that finds a descendant of the element with the escaped ID', () => {
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+      const container = document.createElement('div');
+      container.id = 'cx--1--CONTAINER_ROW@1067@c036a9e2-ovGroup';
+      const heading = document.createElement('h2');
+      container.appendChild(heading);
+      document.body.appendChild(container);
+
+      expect(
+        classUnderTest.getElement(
+          classUnderTest.idSelector(
+            'cx--1--CONTAINER_ROW@1067@c036a9e2-ovGroup'
+          ) + ' h2'
+        )
+      ).toEqual(heading);
+
+      document.body.removeChild(container);
+    });
+  });
+
   describe('changeStyling', () => {
     it('should change styling of HTML element', () => {
       const theElement = document.createElement('elementMock');
@@ -582,6 +704,51 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
       classUnderTest.changeStyling('elementMock', 'position', 'sticky');
       expect(theElement.style.position).toEqual('sticky');
+    });
+  });
+
+  describe('changeStylingOfElement', () => {
+    it('should change styling of HTML element', () => {
+      const theElement = document.createElement('elementMock');
+      classUnderTest.changeStylingOfElement(theElement, 'position', 'sticky');
+      expect(theElement.style.position).toEqual('sticky');
+    });
+
+    it('should not change styling when element is undefined', () => {
+      expect(() =>
+        classUnderTest.changeStylingOfElement(undefined, 'position', 'sticky')
+      ).not.toThrow();
+    });
+  });
+
+  describe('removeStylingOfElement', () => {
+    it('should remove styling of HTML element', () => {
+      const theElement = document.createElement('elementMock');
+      theElement.style.position = 'sticky';
+      classUnderTest.removeStylingOfElement(theElement, 'position');
+      expect(theElement.style.position).toBe('');
+    });
+  });
+
+  describe('getClosestElement', () => {
+    it('should return undefined when not in browser', () => {
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
+      const element = document.createElement('div');
+      expect(classUnderTest.getClosestElement(element, 'cx-page-slot')).toBe(
+        undefined
+      );
+    });
+
+    it('should return closest ancestor', () => {
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+      const slot = document.createElement('cx-page-slot');
+      const child = document.createElement('div');
+      slot.appendChild(child);
+      document.body.appendChild(slot);
+      expect(classUnderTest.getClosestElement(child, 'cx-page-slot')).toBe(
+        slot
+      );
+      document.body.removeChild(slot);
     });
   });
 

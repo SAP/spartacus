@@ -28,9 +28,9 @@ export class ConfiguratorGroupStatusService {
   /**
    * Verifies whether the group has been visited.
    *
-   * @param {CommonConfigurator.Owner} owner - Configuration owner
-   * @param {string} groupId - Group ID
-   * @returns {Observable<boolean>} Has group been visited?
+   * @param owner - Configuration owner
+   * @param groupId - Group ID
+   * @returns - has group been visited?
    */
   isGroupVisited(
     owner: CommonConfigurator.Owner,
@@ -42,30 +42,184 @@ export class ConfiguratorGroupStatusService {
   }
 
   /**
-   * Returns the first non-conflict group of the configuration which is not completed
-   * and undefined if all are completed.
+   * Returns the first non-conflict group of the configuration which is not
+   * completed. A group is considered incomplete when its `complete` flag is
+   * falsy. Typed messages are not evaluated here; the backend and normalizers
+   * already reflect them in the completeness state.
    *
-   * @param {Configurator.Configuration} configuration - Configuration
+   * Groups that are not navigation targets (not present in `flatGroups`, e.g.
+   * a container row group) are resolved to a navigable descendant, for example
+   * the first tab of a nested container row configuration. Returns `undefined`
+   * if no such group exists.
    *
-   * @return {Configurator.Group} - First incomplete group or undefined
+   * Groups that are flagged with `incompleteBecauseOfChild` are skipped, because
+   * they are only incomplete because of one of their children. The search
+   * continues in their subgroups, so that the group actually carrying the issue
+   * is returned. Only if this search does not find any group, flagged groups are
+   * considered as well.
+   *
+   * @param configuration - Configuration
+   * @return - first incomplete group or undefined
    */
   getFirstIncompleteGroup(
     configuration: Configurator.Configuration
   ): Configurator.Group | undefined {
-    return configuration.flatGroups
-      ? configuration.flatGroups
-          .filter(
-            (group) => group.groupType !== Configurator.GroupType.CONFLICT_GROUP
-          )
-          .find((group) => !group.complete)
-      : undefined;
+    const navigableGroupIds = new Set(
+      configuration.flatGroups?.map((group) => group.id) ?? []
+    );
+    return (
+      this.findFirstIncompleteGroup(
+        configuration.groups ?? [],
+        navigableGroupIds
+      ) ??
+      this.findFirstIncompleteGroup(
+        configuration.groups ?? [],
+        navigableGroupIds,
+        false
+      )
+    );
+  }
+
+  /**
+   * Depth-first search for the first incomplete non-conflict group.
+   *
+   * @param groups - Groups to search
+   * @param navigableGroupIds - IDs of groups that are valid navigation targets
+   * @param skipIncompleteBecauseOfChild - Whether groups that are only incomplete
+   *  because of one of their children are skipped
+   * @returns - first incomplete navigable group, or undefined
+   */
+  protected findFirstIncompleteGroup(
+    groups: Configurator.Group[],
+    navigableGroupIds: Set<string>,
+    skipIncompleteBecauseOfChild = true
+  ): Configurator.Group | undefined {
+    for (const group of groups) {
+      if (this.isConflictRelatedGroup(group)) {
+        continue;
+      }
+      if (
+        this.isIncompleteGroup(group) &&
+        !(
+          skipIncompleteBecauseOfChild && this.isIncompleteBecauseOfChild(group)
+        )
+      ) {
+        const target = navigableGroupIds.has(group.id)
+          ? group
+          : this.getNavigationTargetForGroup(
+              group,
+              navigableGroupIds,
+              skipIncompleteBecauseOfChild
+            );
+        if (target) {
+          return target;
+        }
+      }
+      const nestedGroup = this.findFirstIncompleteGroup(
+        group.subGroups ?? [],
+        navigableGroupIds,
+        skipIncompleteBecauseOfChild
+      );
+      if (nestedGroup) {
+        return nestedGroup;
+      }
+    }
+    return undefined;
+  }
+
+  /**
+   * Verifies whether the group is incomplete only because one of its children is
+   * incomplete, and is therefore no target for the issue navigation.
+   *
+   * @param group - Group to check
+   * @returns - `true` if the group is only incomplete because of a child
+   */
+  protected isIncompleteBecauseOfChild(group: Configurator.Group): boolean {
+    return group.incompleteBecauseOfChild === true;
+  }
+
+  /**
+   * Verifies whether the group is incomplete based on its `complete` flag.
+   *
+   * @param group - Group to check
+   * @returns - `true` if the group should be treated as incomplete
+   */
+  protected isIncompleteGroup(group: Configurator.Group): boolean {
+    return !group.complete;
+  }
+
+  /**
+   * Verifies whether the group belongs to the conflict solver area and must therefore
+   * be skipped by the incomplete-group search.
+   *
+   * @param group - Group to check
+   * @returns - `true` for conflict groups and conflict header groups
+   */
+  protected isConflictRelatedGroup(group: Configurator.Group): boolean {
+    return (
+      group.groupType === Configurator.GroupType.CONFLICT_GROUP ||
+      group.groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP
+    );
+  }
+
+  /**
+   * Resolves a non-navigable incomplete group to a navigable descendant.
+   * Prefers a descendant that is itself incomplete; otherwise takes the first
+   * navigable descendant.
+   *
+   * @param group - Non-navigable incomplete group
+   * @param navigableGroupIds - IDs of groups that are valid navigation targets
+   * @param skipIncompleteBecauseOfChild - Whether groups that are only incomplete
+   *  because of one of their children are skipped
+   * @returns - navigable descendant, or undefined if none exists
+   */
+  protected getNavigationTargetForGroup(
+    group: Configurator.Group,
+    navigableGroupIds: Set<string>,
+    skipIncompleteBecauseOfChild = true
+  ): Configurator.Group | undefined {
+    const incompleteDescendant = this.findFirstIncompleteGroup(
+      group.subGroups ?? [],
+      navigableGroupIds,
+      skipIncompleteBecauseOfChild
+    );
+    if (incompleteDescendant) {
+      return incompleteDescendant;
+    }
+    return this.getFirstNavigableDescendant(group, navigableGroupIds);
+  }
+
+  /**
+   * Retrieves the first navigable descendant of the given group in pre-order.
+   *
+   * @param group - Group whose descendants are searched
+   * @param navigableGroupIds - IDs of groups that are valid navigation targets
+   * @returns - first navigable descendant, or undefined
+   */
+  protected getFirstNavigableDescendant(
+    group: Configurator.Group,
+    navigableGroupIds: Set<string>
+  ): Configurator.Group | undefined {
+    for (const subGroup of group.subGroups ?? []) {
+      if (navigableGroupIds.has(subGroup.id)) {
+        return subGroup;
+      }
+      const nested = this.getFirstNavigableDescendant(
+        subGroup,
+        navigableGroupIds
+      );
+      if (nested) {
+        return nested;
+      }
+    }
+    return undefined;
   }
 
   /**
    * Determines whether the group has been visited or not.
    *
-   * @param {Configurator.Configuration} configuration - Configuration
-   * @param {string} groupId - Group ID
+   * @param configuration - Configuration
+   * @param groupId - Group ID
    */
   setGroupStatusVisited(
     configuration: Configurator.Configuration,

@@ -1,7 +1,22 @@
 <ng-container *ngIf="text">
   <span [innerHTML]="textToShow"></span>
 
-  <button (click)="toggleShowMore()" *ngIf="showMore" tabindex="{{ tabIndex }}">
+  <button
+    (click)="toggleShowMore()"
+    *ngIf="showMore"
+    tabindex="{{ tabIndex }}"
+    [attr.aria-label]="
+      ariaLabelKey
+        ? (ariaLabelKey!
+          | cxTranslate
+            : {
+                attribute: attributeLabel,
+                value: valueLabel,
+                item: itemLabel,
+              })
+        : null
+    "
+  >
     <ng-container *ngIf="showHiddenText; else less"
       >&nbsp;... {{ 'configurator.button.less' | cxTranslate }}</ng-container
     >

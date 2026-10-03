@@ -224,6 +224,16 @@ describe('OccConfiguratorVariantSerializer', () => {
     ).toBe(OccConfigurator.GroupType.CONFLICT_HEADER);
   });
 
+  it('should throw for CONTAINER_ROW_GROUP because it is not supported for the variant configurator', () => {
+    expect(() =>
+      occConfiguratorVariantSerializer.convertGroupType(
+        Configurator.GroupType.CONTAINER_ROW_GROUP
+      )
+    ).toThrowError(
+      'Group type CONTAINER_ROW_GROUP is not supported for the variant configurator'
+    );
+  });
+
   it('should fill formatted value for numeric attributes', () => {
     const numericAttribute: Configurator.Attribute = {
       name: 'attr',

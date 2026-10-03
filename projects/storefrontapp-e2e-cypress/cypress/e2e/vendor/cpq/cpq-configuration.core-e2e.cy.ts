@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
+import * as common from '../../../helpers/common';
 import * as configuration from '../../../helpers/product-configurator';
+import * as configurationCart from '../../../helpers/product-configurator-cart';
+import * as configurationCartCpq from '../../../helpers/product-configurator-cart-cpq';
 import * as configurationCpq from '../../../helpers/product-configurator-cpq';
 import * as configurationOverview from '../../../helpers/product-configurator-overview';
 import * as configurationOverviewCpq from '../../../helpers/product-configurator-overview-cpq';
-import * as configurationCart from '../../../helpers/product-configurator-cart';
-import * as configurationCartCpq from '../../../helpers/product-configurator-cart-cpq';
-import * as common from '../../../helpers/common';
-import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 
 const POWERTOOLS = 'powertools-spa';
 const EMAIL = 'gi.sun@pronto-hw.com';
@@ -71,7 +71,7 @@ const ATTR_CAM_PROF = '2968';
 const VAL_CAM_PROF_Y = '8953';
 /** Insurance */
 const ATTR_CAM_INS = '2899';
-/** No Option Selcted */
+/** No Option Selected */
 const VAL_NO_OPT_SEL = '###RETRACT_VALUE_CODE###';
 /** Insurance Select 2 years */
 const VAL_CB_INS_Y2 = '8735';
@@ -107,6 +107,7 @@ testConfig.forEach((config) => {
     };
     beforeEach(() => {
       cy.cxConfig(cpqSettings);
+      cy.log('config.backendURL: ', config.backendURL);
       configuration.defineAliases(config.backendURL);
       cy.visit('/');
       clickAllowAllFromBanner();
@@ -546,6 +547,37 @@ testConfig.forEach((config) => {
             'Canon EOS 80D',
             0
           );
+        });
+      });
+
+      it('should navigate to the read-only overview when the bundle item threshold is exceeded', () => {
+        cy.cxConfig({
+          productConfigurator: {
+            cartEntryBundleLineItemsThreshold: 2,
+          },
+        });
+        common.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
+        common.clickOnAddToCartBtnOnPD();
+        common.clickOnViewCartBtnOnPD();
+
+        cy.get('cx-mini-cart .count').then((elem) => {
+          const cartEntryIndex = Number(elem.text()) - 1;
+
+          configurationCartCpq.checkBundleOverviewLink(cartEntryIndex, 3);
+          configurationCartCpq.clickOnBundleOverviewLink(cartEntryIndex);
+
+          cy.wait('@readConfig');
+          cy.location('pathname')
+            .should('contain', '/configure-overview/cpq/cartEntry/entityKey/')
+            .and('contain', '/displayOnly/true');
+          cy.location('search').should('contain', 'navigateToCart=true');
+          configurationOverview.checkConfigOverviewPageDisplayed();
+          cy.get('cx-configurator-add-to-cart-button .cx-display-only-btn')
+            .should('be.visible')
+            .and('contain', 'Back to Cart');
+          cy.get(
+            'cx-configurator-add-to-cart-button .cx-add-to-cart-btn'
+          ).should('not.exist');
         });
       });
     });

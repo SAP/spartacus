@@ -1,8 +1,12 @@
 %cx-configurator-attribute-product-card {
   &:first-of-type {
-    .cx-product-card {
+    .cx-product-card-container {
       border-top: solid 1px var(--cx-color-light);
     }
+  }
+
+  .cx-product-card-container {
+    border-bottom: solid 1px var(--cx-color-light);
   }
 
   .cx-product-card {
@@ -10,7 +14,6 @@
     padding-block-end: 16px;
     width: 100%;
     min-height: 140px;
-    border-bottom: solid 1px var(--cx-color-light);
 
     @include media-breakpoint-down(sm) {
       padding-inline-start: 16px;
@@ -39,6 +42,11 @@
 
       &.column {
         flex-direction: column;
+        // TODO: (CXSPA-14099) - Remove feature flag next major release.
+        @include forFeature('productConfiguratorCPQContainer') {
+          flex-wrap: nowrap;
+          align-items: stretch;
+        }
       }
 
       .cx-product-card-quantity-price {
@@ -96,11 +104,91 @@
         @include media-breakpoint-up(md) {
           align-self: flex-end;
         }
+
+        // TODO: (CXSPA-14099) - Remove feature flag next major release.
+        @include forFeature('productConfiguratorCPQContainer') {
+          width: 100%;
+          justify-content: flex-end;
+        }
+      }
+
+      .cx-product-card-actions-menu {
+        position: relative;
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .cx-product-card-actions-menu-toggle {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        background-color: transparent;
+        padding-block-start: 8px;
+        padding-block-end: 8px;
+        padding-inline-end: 0;
+        cursor: pointer;
+        color: var(--cx-color-primary);
+
+        cx-icon {
+          color: var(--cx-color-primary);
+        }
+      }
+
+      .cx-product-card-actions-menu-list {
+        position: absolute;
+        inset-block-start: 100%;
+        inset-inline-end: 0;
+        z-index: 10;
+        min-width: 8rem;
+        margin: 0;
+        padding-block-start: 0;
+        padding-block-end: 0;
+        padding-inline-start: 0;
+        padding-inline-end: 0;
+        list-style: none;
+        background-color: #fff;
+        border: 1px solid var(--cx-color-light);
+        border-radius: var(--cx-border-radius);
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+        .cx-product-card-actions-menu-item {
+          &:not(:last-child) {
+            border-bottom: 1px solid var(--cx-color-light);
+          }
+
+          button {
+            width: 100%;
+            border: none;
+            background-color: transparent;
+            text-align: start;
+            padding-block-start: 0.75rem;
+            padding-block-end: 0.75rem;
+            padding-inline-start: 1rem;
+            padding-inline-end: 1rem;
+            cursor: pointer;
+
+            &:hover,
+            &:focus {
+              background-color: var(--cx-color-background);
+            }
+          }
+        }
       }
 
       &.deselection-error-message {
         display: inline-block;
-        width: 80%;
+        width: 95%;
+      }
+
+      &.cx-deselection-error-msg,
+      &.cx-container-error-msg,
+      &.cx-container-warning-msg,
+      &.cx-container-info-msg {
+        display: inline-block;
+        width: 100%;
       }
     }
 
@@ -155,6 +243,11 @@
 
       @include media-breakpoint-down(sm) {
         width: 100%;
+        // TODO: (CXSPA-14099) - Remove feature flag next major release.
+        @include forFeature('productConfiguratorCPQContainer') {
+          display: flex;
+          justify-content: flex-end;
+        }
       }
 
       .btn {
@@ -166,8 +259,18 @@
         }
       }
     }
+
+    &.message {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      padding-inline-start: 16px;
+      padding-inline-end: 16px;
+      padding-block-end: 16px;
+    }
   }
 
+  .cx-product-card-container-selected,
   .cx-product-card-selected {
     flex-wrap: wrap;
     background-color: var(--cx-color-background);
@@ -178,6 +281,13 @@
   }
 
   .deselection-error-message {
+    padding-top: 5px;
+    color: var(--cx-color-danger);
+  }
+
+  .cx-deselection-error-msg {
+    font-size: 14px;
+    line-height: 1.2;
     padding-top: 5px;
     color: var(--cx-color-danger);
   }

@@ -19,6 +19,9 @@ class MockConfiguratorCommonsService {
 class MockConfiguratorStorefrontUtilsService {
   focusFirstActiveElement() {}
   createAttributeUiKey() {}
+  idSelector(id: string): string {
+    return '#' + id;
+  }
 }
 
 describe('ConfiguratorShowOptionsComponent', () => {

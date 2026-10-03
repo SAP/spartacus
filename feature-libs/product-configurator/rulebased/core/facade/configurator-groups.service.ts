@@ -64,10 +64,17 @@ export class ConfiguratorGroupsService {
   }
 
   /**
-   * Navigates to the first non-conflict group of the configuration which is not completed.
-   * This method assumes that the configuration has incomplete groups,
-   * the caller has to verify this prior to calling this method. In case no incomplete group is
-   * present, nothing will happen
+   * Navigates to the first non-conflict group of the configuration which is not
+   * completed. A group is considered incomplete when its `complete` flag is
+   * falsy. Typed messages are not evaluated here; the backend and normalizers
+   * already reflect them in the completeness state. Groups that are not
+   * navigation targets (not present in `flatGroups`) are resolved to a
+   * navigable descendant, for example the first tab of a nested container row
+   * configuration.
+   *
+   * This method assumes that the configuration has incomplete groups; the
+   * caller has to verify this prior to calling this method. In case no
+   * incomplete group is present, nothing will happen.
    *
    * @param {CommonConfigurator.Owner} owner - Configuration owner
    */

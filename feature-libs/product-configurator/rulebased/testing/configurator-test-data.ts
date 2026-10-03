@@ -389,6 +389,30 @@ export const attributeDropdownSelectionBundle: Configurator.Attribute = {
   ],
 };
 
+export const attributeContainer: Configurator.Attribute = {
+  name: 'ATTRIBUTE_2_CONTAINER',
+  uiType: Configurator.UiType.CONTAINER,
+  visible: true,
+  required: false,
+  incomplete: false,
+  groupId: groupId,
+  attrCode: attrCode,
+  container: {
+    rows: [
+      {
+        id: 'row-1',
+        productName: 'Product A',
+        selected: true,
+      },
+      {
+        id: 'row-2',
+        productName: 'Product B',
+        selected: false,
+      },
+    ],
+  },
+};
+
 export const attributeMultiSelectionBundle: Configurator.Attribute = {
   name: 'ATTRIBUTE_2_CHECKBOXLIST_PRODUCT',
   uiType: Configurator.UiType.CHECKBOXLIST_PRODUCT,
@@ -833,6 +857,7 @@ export const productConfiguration: Configurator.Configuration = {
         attributeSingleSelectionBundle,
         attributeDropdownSelectionBundle,
         attributeMultiSelectionBundle,
+        attributeContainer,
       ],
       subGroups: [],
     },

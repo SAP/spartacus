@@ -385,6 +385,22 @@ describe('ConfigureCartEntryComponent', () => {
           'configurator.header.resolveIssues'
         );
       });
+
+      it("should be 'Show' for a bundle overview link", () => {
+        component.readOnly = true;
+        component.isBundleOverviewLink = true;
+        component.cartEntry = {
+          entryNumber: 0,
+          product: { configuratorType: configuratorType },
+        };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          'a',
+          'configurator.header.show'
+        );
+      });
     });
 
     describe('a', () => {
@@ -454,6 +470,20 @@ describe('ConfigureCartEntryComponent', () => {
           'cx-error-msg-0'
         );
       });
+
+      it('should return the provided a11yDescriptionId with precedence', () => {
+        component.readOnly = true;
+        component.msgBanner = false;
+        component.a11yDescriptionId = 'cx-item-list-info-3';
+        component.cartEntry = {
+          entryNumber: 0,
+          product: { configuratorType: configuratorType },
+        };
+        fixture.detectChanges();
+        expect(component.getResolveIssuesA11yDescription()).toEqual(
+          'cx-item-list-info-3'
+        );
+      });
     });
 
     describe('queryParam$', () => {
@@ -463,6 +493,24 @@ describe('ConfigureCartEntryComponent', () => {
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
             expect(queryParams.navigateToCheckout).toBe(true);
+          });
+      });
+
+      it('should set "navigateToCart" for a bundle overview link', async () => {
+        component.isBundleOverviewLink = true;
+        component.queryParams$
+          .pipe(take(1), delay(0))
+          .subscribe((queryParams) => {
+            expect(queryParams.navigateToCart).toBe(true);
+          });
+      });
+
+      it('should not set "navigateToCart" for a regular configuration link', async () => {
+        component.isBundleOverviewLink = false;
+        component.queryParams$
+          .pipe(take(1), delay(0))
+          .subscribe((queryParams) => {
+            expect(queryParams.navigateToCart).toBe(false);
           });
       });
 
