@@ -331,7 +331,7 @@
     },
     "rollup-plugin-dts": "6.5.1",
     "sigstore": "4.1.1",
-    "smol-toml": "1.7.1",
+    "smol-toml": "1.9.0",
     "test-exclude": "8.0.0",
     "tmp": "0.2.7",
     "undici": "8.10.2",
