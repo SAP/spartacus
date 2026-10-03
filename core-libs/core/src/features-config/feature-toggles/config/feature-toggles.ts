@@ -863,6 +863,14 @@ export interface FeatureTogglesInterface {
   enableFormFieldMaxLength?: boolean;
 
   /**
+   * Makes the CVV (Card Verification Value) info icon in the checkout
+   * payment form keyboard accessible by rendering it as a focusable button.
+   *
+   * Affects: `CheckoutPaymentFormComponent`
+   */
+  a11yCvvInfoIconKeyboardAccessible?: boolean;
+
+  /**
    * When enabled, adds arrow key navigation to organization administration
    * navigation tiles/cards on the My Company landing page (CompanyPageTemplate),
    * turning the banner tile group into a composite keyboard widget.
@@ -1015,6 +1023,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showWarningMessageOnRequoteButtonClick: false,
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
+  a11yCvvInfoIconKeyboardAccessible: false,
   a11yBannerArrowKeyNavigation: false,
   a11yTableKeyboardNavigation: false,
   a11yPaginationKeyboardNavigation: false,

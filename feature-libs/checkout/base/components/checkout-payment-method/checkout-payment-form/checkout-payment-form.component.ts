@@ -42,6 +42,7 @@ import {
   TranslationService,
   UserAddressService,
   UserPaymentService,
+  useFeatureStyles,
 } from '@spartacus/core';
 import {
   FocusConfig,
@@ -54,6 +55,7 @@ import {
   IconComponent,
   LaunchDialogService,
   NgSelectA11yDirective,
+  PopoverDirective,
   SpinnerComponent,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -83,6 +85,7 @@ import { CheckoutBillingAddressFormComponent } from '../../checkout-billing-addr
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
+    PopoverDirective,
   ],
 })
 export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
@@ -156,7 +159,9 @@ export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
     protected userAddressService: UserAddressService,
     protected launchDialogService: LaunchDialogService,
     protected translationService: TranslationService
-  ) {}
+  ) {
+    useFeatureStyles('a11yCvvInfoIconKeyboardAccessible');
+  }
   /**
    * @deprecated  This property is obsolete since 2211.42
    */

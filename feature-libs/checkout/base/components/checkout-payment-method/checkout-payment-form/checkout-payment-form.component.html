@@ -188,7 +188,8 @@
             </div>
 
             <div class="form-group col-md-4">
-              <label>
+              <!-- toggle OFF: original markup preserved exactly -->
+              <label *cxFeature="'!a11yCvvInfoIconKeyboardAccessible'">
                 <span class="label-content">
                   {{ 'paymentForm.securityCode' | cxTranslate }}
                   <cx-form-required-asterisks />
@@ -224,6 +225,58 @@
                   [control]="paymentForm.get('cvn')"
                 />
               </label>
+
+              <!-- toggle ON: button outside label, explicit for/id, fixed aria attrs -->
+              <div *cxFeature="'a11yCvvInfoIconKeyboardAccessible'">
+                <span class="label-content cx-cvv-label-wrapper">
+                  <label for="cVVNumber">
+                    {{ 'paymentForm.securityCode' | cxTranslate }}
+                    <cx-form-required-asterisks />
+                  </label>
+                  <button
+                    type="button"
+                    class="cx-payment-form-tooltip cx-cvv-info-btn"
+                    [cxPopover]="cvvInfoContent"
+                    [cxPopoverOptions]="{
+                      placement: 'auto',
+                      class: 'hint-popover',
+                      appendToBody: true,
+                      displayCloseButton: true,
+                    }"
+                    [attr.aria-label]="
+                      'paymentForm.cvvInfoButton' | cxTranslate
+                    "
+                  >
+                    <cx-icon [type]="iconTypes.INFO" />
+                  </button>
+                </span>
+                <ng-template #cvvInfoContent>
+                  {{ 'paymentForm.cvvInfoHint' | cxTranslate }}
+                </ng-template>
+                <input
+                  required
+                  type="text"
+                  class="form-control"
+                  id="cVVNumber"
+                  formControlName="cvn"
+                  [attr.aria-required]="true"
+                  [attr.aria-invalid]="
+                    paymentForm.get('cvn')?.touched &&
+                    paymentForm.get('cvn')?.invalid
+                      ? true
+                      : null
+                  "
+                  [attr.aria-errormessage]="'cvnError'"
+                />
+
+                <cx-form-errors
+                  id="cvnError"
+                  [translationParams]="{
+                    label: 'paymentForm.securityCode' | cxTranslate,
+                  }"
+                  [control]="paymentForm.get('cvn')"
+                />
+              </div>
             </div>
           </div>
 
