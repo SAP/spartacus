@@ -4,6 +4,7 @@
     "paths": {
       "@spartacus/setup": ["dist/setup"],
       "@spartacus/setup/ssr": ["dist/setup/ssr"],
+      "@spartacus/setup/ssr/markdown": ["dist/setup/ssr/markdown"],
       "@spartacus/user": ["dist/user"],
       "@spartacus/user/wishlist": ["dist/user/wishlist"],
       "@spartacus/user/wishlist/root": ["dist/user/wishlist/root"],
