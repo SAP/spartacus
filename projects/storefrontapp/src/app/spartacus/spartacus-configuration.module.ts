@@ -23,6 +23,7 @@ import {
   mediaConfig,
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
+import { csrConfigurationFactory } from '../base-url-state';
 import { spartacusB2bConfigurationProviders } from './spartacus-b2b-configuration.providers';
 import { spartacusB2cConfigurationProviders } from './spartacus-b2c-configuration.providers';
 
@@ -67,6 +68,8 @@ const spartacusChannelSpecificConfigurationProviders = environment.b2b
     }),
 
     spartacusChannelSpecificConfigurationProviders,
+
+    provideConfigFactory(csrConfigurationFactory),
   ],
 })
 export class SpartacusConfigurationModule {}
