@@ -116,14 +116,10 @@ if (!environment.production) {
                     },
                 },
             },
-        }),
-    provideConfig(<CmsConfig>{
-            cmsComponents: {
-                ProductAddToCartComponent: {
-                    data: {
-                        inventoryDisplay: true,
-                    },
-                },
+            cart: {
+              validation: {
+                enabled: true,
+              },
             },
         }),
   ],
