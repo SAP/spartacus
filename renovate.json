@@ -39,13 +39,17 @@
       "addLabels": ["update-patch"]
     }
   ],
+  "minimumReleaseAge": "29 days",
+  "internalChecksFilter": "strict",
   "prCreation": "immediate",
   "rebaseWhen": "never",
   "branchConcurrentLimit": 7,
-  "prConcurrentLimit": 5,
+  "prConcurrentLimit": 7,
   "prHourlyLimit": 3,
   "vulnerabilityAlerts": {
     "enabled": true,
+    "minimumReleaseAge": null,
+    "osvVulnerabilityAlerts": true,
     "labels": ["priority:blocker", "renovate", "autoupgrade"]
   }
 }
