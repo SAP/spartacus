@@ -257,7 +257,7 @@
     "jest-circus": "~30.2.0",
     "jest-environment-jsdom": "^30.2.0",
     "jest-environment-node": "~30.2.0",
-    "jest-preset-angular": "^16.0.0",
+    "jest-preset-angular": "^17.0.0",
     "jest-util": "^30.2.0",
     "jsdom": "^30.0.1",
     "jsonc-parser": "~3.3.1",
@@ -329,7 +329,7 @@
     "npm-cli-login": {
       "tough-cookie": "4.1.3"
     },
-    "rollup-plugin-dts": "6.2.3",
+    "rollup-plugin-dts": "6.5.1",
     "sigstore": "4.1.1",
     "smol-toml": "1.9.0",
     "test-exclude": "8.0.0",
