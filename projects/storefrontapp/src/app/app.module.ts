@@ -33,11 +33,16 @@ import { SpartacusModule } from './spartacus/spartacus.module';
       },
     }),
     provideConfig(<CmsConfig>{
-            cmsComponents: {
+      cmsComponents: {
         ProductAddToCartComponent: {
           data: {
             inventoryDisplay: true,
           },
+        },
+      },
+      cart: {
+        validation: {
+          enabled: true,
         },
       },
     }),
