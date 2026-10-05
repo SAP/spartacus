@@ -163,10 +163,7 @@ export class CommonConfiguratorUtilsService {
     const visibilityByType =
       this.commonConfiguratorUISettingsConfig.productConfigurator
         ?.overviewMenuFilterTabVisible;
-    if (
-      visibilityByType &&
-      Object.prototype.hasOwnProperty.call(visibilityByType, normalizedType)
-    ) {
+    if (visibilityByType && Object.hasOwn(visibilityByType, normalizedType)) {
       return !!visibilityByType[normalizedType];
     }
     return true;
