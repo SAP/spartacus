@@ -206,6 +206,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
 
   it('should render visible Menu and Filter tabs when overviewMenuFilterTabVisible is true', () => {
     fixture.detectChanges();
+    expect(component.overviewMenuFilterTabVisible).toBe(true);
     const tabs = fixture.debugElement.queryAll(
       By.css('.cx-menu-bar button[role="tab"]')
     );
@@ -531,6 +532,48 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
         htmlElem,
         'cx-configurator-overview-filter'
       );
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-overview-menu'
+      );
+    });
+  });
+
+  describe('ghost sidebar', () => {
+    it('should render ghost placeholder while configuration has no overview', () => {
+      defaultConfigObservable = of(
+        ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER)
+      );
+      fixture = TestBed.createComponent(ConfiguratorOverviewSidebarComponent);
+      htmlElem = fixture.nativeElement;
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+
+      expect(component.ghostStyle).toBe(true);
+      expect(htmlElem.querySelector('.cx-ghost-menu')).not.toBeNull();
+      expect(htmlElem.querySelector('.cx-menu-bar')).toBeNull();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-overview-menu'
+      );
+    });
+  });
+
+  describe('isSkipLinkEnabled', () => {
+    it('should return false when productConfiguratorCPQContainer is disabled', () => {
+      expect(component.isSkipLinkEnabled).toBe(false);
+    });
+
+    it('should return true when productConfiguratorCPQContainer is enabled', () => {
+      TestBed.inject(MockFeatureTogglesController).set(
+        'productConfiguratorCPQContainer',
+        true
+      );
+      fixture = TestBed.createComponent(ConfiguratorOverviewSidebarComponent);
+      component = fixture.componentInstance;
+      expect(component.isSkipLinkEnabled).toBe(true);
     });
   });
 
