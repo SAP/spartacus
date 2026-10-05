@@ -8,7 +8,6 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  HostBinding,
   inject,
 } from '@angular/core';
 import {
@@ -74,7 +73,17 @@ export class ConfiguratorProductTitleComponent {
 
   protected readonly SLASH_SEPARATOR = '/';
 
-  @HostBinding('class.ghost') ghostStyle = true;
+  /**
+   * Whether the product title data is still being resolved.
+   *
+   * @deprecated since 221121.17 - The ghost appearance is applied by the
+   * template to the placeholder that replaces the title. Host bindings of a
+   * CMS component are evaluated by the page slot that creates it, which leaves
+   * them stale when the title data resolves synchronously. This property
+   * remains for backward compatibility and will be removed in a future major
+   * version.
+   */
+  ghostStyle = true;
 
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
@@ -91,8 +100,8 @@ export class ConfiguratorProductTitleComponent {
   /**
    * Product title view for the current configuration context. When
    * `productConfiguratorCPQContainer` is enabled, the heading (`title`)
-   * includes nested container products. Details (`product`) always belong
-   * to the base product.
+   * includes nested container products on the configuration page. Details
+   * (`product`) always belong to the base product.
    */
   productTitleData$: Observable<ConfiguratorProductTitleView> =
     this.routerData$.pipe(
@@ -149,8 +158,8 @@ export class ConfiguratorProductTitleComponent {
   /**
    * Builds the product-title view for the given router and configuration
    * state. Nested container products are included in the heading only when
-   * `productConfiguratorCPQContainer` is enabled. Details always use the
-   * base product.
+   * `productConfiguratorCPQContainer` is enabled and the component is
+   * rendered on the configuration page. Details always use the base product.
    *
    * @param routerData - Router data of the current configurator page
    * @param configuration - Current configuration
@@ -164,9 +173,11 @@ export class ConfiguratorProductTitleComponent {
       return this.buildBaseProductTitleData(routerData, configuration);
     }
 
-    const nestedNames = this.getContainerRowGroupsOnPath(configuration)
-      .map((group) => group.description)
-      .filter((name): name is string => !!name);
+    const nestedNames = this.isOverviewPage(routerData)
+      ? []
+      : this.getContainerRowGroupsOnPath(configuration)
+          .map((group) => group.description)
+          .filter((name): name is string => !!name);
     const baseProductCode = this.getProductCode({ routerData, configuration });
 
     if (!baseProductCode) {
@@ -217,6 +228,19 @@ export class ConfiguratorProductTitleComponent {
           product ? of({ title: product.name ?? '', product }) : EMPTY
         )
       );
+  }
+
+  /**
+   * Tells whether the component is rendered as part of the configuration
+   * overview. The overview presents the entire configuration, and the
+   * current group of the interaction state still points to the group that
+   * was last visited on the configuration page.
+   *
+   * @param routerData - Router data of the current configurator page
+   * @returns `true` if the current page is the configuration overview
+   */
+  protected isOverviewPage(routerData: ConfiguratorRouter.Data): boolean {
+    return routerData.pageType === ConfiguratorRouter.PageType.OVERVIEW;
   }
 
   /**

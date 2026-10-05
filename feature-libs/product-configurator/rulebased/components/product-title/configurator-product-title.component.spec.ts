@@ -301,6 +301,7 @@ function setDataForOrderEntry() {
     ownerType: CommonConfigurator.OwnerType.ORDER_ENTRY,
   };
   mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
+  mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
   mockRouterData.owner.type = CommonConfigurator.OwnerType.ORDER_ENTRY;
   mockRouterData.owner.id = ORDER_ENTRY_KEY;
   mockRouterData.productCode = undefined;
@@ -349,6 +350,7 @@ function setDataForSavedCartEntry() {
     ownerType: CommonConfigurator.OwnerType.SAVED_CART_ENTRY,
   };
   mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
+  mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
   mockRouterData.owner.type = CommonConfigurator.OwnerType.SAVED_CART_ENTRY;
   mockRouterData.owner.id = SAVED_CART_ENTRY_KEY;
   mockRouterData.productCode = SAVED_CART_ENTRY_SUFFIX + PRODUCT_CODE;
@@ -426,6 +428,7 @@ function setDataForQuoteEntry() {
     ownerType: CommonConfigurator.OwnerType.QUOTE_ENTRY,
   };
   mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
+  mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
   mockRouterData.owner.type = CommonConfigurator.OwnerType.QUOTE_ENTRY;
   mockRouterData.owner.id = QUOTE_ENTRY_KEY;
   mockRouterData.productCode = QUOTE_ENTRY_SUFFIX + PRODUCT_CODE;
@@ -712,7 +715,6 @@ describe('ConfigProductTitleComponent', () => {
       expect(component.ghostStyle).toBe(false);
 
       fixture.detectChanges();
-      expect(htmlElem.classList.contains('ghost')).toBe(false);
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -720,7 +722,34 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
-    it('should keep the ghost style when no product is available', () => {
+    it('should render the title instead of the ghost placeholder when the product title data is available', () => {
+      // The ghost appearance must not be driven by a host binding: when router
+      // state, configuration and catalog product are already loaded, the title
+      // data resolves within the change detection cycle in which the page slot
+      // has already evaluated the host bindings of this component.
+      setDataForProductConfiguration();
+      vi.spyOn(productService, 'get').mockReturnValue(of(mockProduct));
+      initialize({ keepGhostStyle: true });
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-general-product-info'
+      );
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-general-product-info'
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-title',
+        PRODUCT_NAME
+      );
+    });
+
+    it('should render the ghost placeholder when no product is available', () => {
       setDataForProductConfiguration();
       mockConfiguration.productCode = undefined as unknown as string;
       mockConfiguration.overview = undefined;
@@ -728,7 +757,16 @@ describe('ConfigProductTitleComponent', () => {
       initialize({ keepGhostStyle: true });
 
       expect(component.ghostStyle).toBe(true);
-      expect(htmlElem.classList.contains('ghost')).toBe(true);
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-general-product-info.ghost'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-general-product-info'
+      );
     });
   });
 
@@ -1121,6 +1159,81 @@ describe('ConfigProductTitleComponent', () => {
         htmlElem,
         '.cx-ghost-general-product-info'
       );
+    });
+
+    describe('on the overview page', () => {
+      beforeEach(() => {
+        mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
+      });
+
+      it('should omit the nested product name from the heading', () => {
+        setDataForNestedContainerProduct();
+        stubCatalogProducts();
+        initialize();
+
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-title',
+          PRODUCT_NAME
+        );
+        expect(
+          htmlElem.querySelector('#cxConfigProductName')?.getAttribute('title')
+        ).toBe(PRODUCT_NAME);
+      });
+
+      it('should omit the full nested path from the heading for a container in a container', () => {
+        setDataForNestedContainerProduct(true);
+        stubCatalogProducts();
+        initialize();
+
+        const titleSpan = htmlElem.querySelector('#cxConfigProductName');
+
+        expect(titleSpan?.getAttribute('title')).toBe(PRODUCT_NAME);
+        expect(titleSpan?.getAttribute('aria-label')).toBe(PRODUCT_NAME);
+      });
+
+      it('should still show the base product details', () => {
+        setDataForNestedContainerProduct();
+        stubCatalogProducts();
+        initialize();
+
+        component.triggerDetails();
+        changeDetectorRef.detectChanges();
+
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-detail-title',
+          PRODUCT_NAME
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-code',
+          PRODUCT_CODE
+        );
+      });
+    });
+  });
+
+  describe('isOverviewPage', () => {
+    it('should return true for the overview page', () => {
+      mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
+
+      expect(component['isOverviewPage'](mockRouterData)).toBe(true);
+    });
+
+    it('should return false for the configuration page', () => {
+      mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
+
+      expect(component['isOverviewPage'](mockRouterData)).toBe(false);
+    });
+
+    it('should return false when the page type is unknown', () => {
+      mockRouterData.pageType = undefined;
+
+      expect(component['isOverviewPage'](mockRouterData)).toBe(false);
     });
   });
 
