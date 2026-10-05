@@ -54,9 +54,11 @@
       }
     }
 
-    @include cx-highContrastTheme {
-      .cx-find-a-store-link {
-        color: var(--cx-color-primary);
+    @include forFeature('a11yHighContrastFix') {
+      @include cx-highContrastTheme {
+        .cx-find-a-store-link {
+          color: var(--cx-color-primary);
+        }
       }
     }
 

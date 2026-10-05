@@ -70,14 +70,16 @@
       }
     }
 
-    @include cx-highContrastTheme {
-      border-top-color: var(--cx-color-dark);
-      tr {
-        border-bottom-color: var(--cx-color-dark);
-      }
-      th {
-        color: var(--cx-color-text);
-        background-color: var(--cx-color-background);
+    @include forFeature('a11yHighContrastFix') {
+      @include cx-highContrastTheme {
+        border-top-color: var(--cx-color-dark);
+        tr {
+          border-bottom-color: var(--cx-color-dark);
+        }
+        th {
+          color: var(--cx-color-text);
+          background-color: var(--cx-color-background);
+        }
       }
     }
   }
@@ -91,8 +93,10 @@
   .cx-ticketing-list-label {
     color: var(--cx-color-secondary);
 
-    @include cx-highContrastTheme {
-      color: var(--cx-color-text);
+    @include forFeature('a11yHighContrastFix') {
+      @include cx-highContrastTheme {
+        color: var(--cx-color-text);
+      }
     }
 
     @include media-breakpoint-up(md) {

@@ -110,15 +110,17 @@
     margin-inline-start: 1rem;
   }
 
-  @include cx-highContrastTheme {
-    .cx-card {
-      padding: 2px;
-    }
-    .card-body {
-      background-color: var(--cx-color-background);
-    }
-    .cx-card-delete-msg {
-      color: var(--cx-color-text);
+  @include forFeature('a11yHighContrastFix') {
+    @include cx-highContrastTheme {
+      .cx-card {
+        padding: 2px;
+      }
+      .card-body {
+        background-color: var(--cx-color-background);
+      }
+      .cx-card-delete-msg {
+        color: var(--cx-color-text);
+      }
     }
   }
 }

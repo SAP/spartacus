@@ -121,7 +121,6 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     useFeatureStyles('a11yFocusIndicatorContrast');
     useFeatureStyles('a11yDisabledButtonContrast');
     useFeatureStyles('a11yPrimaryColorContrast');
-    useFeatureStyles('a11yGlobalMessageCloseIconContrast');
   }
 
   ngOnInit(): void {

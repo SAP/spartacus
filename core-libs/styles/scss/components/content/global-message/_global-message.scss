@@ -12,10 +12,6 @@
       border: 1px solid var(--cx-color-text);
       background-color: var(--cx-color-background);
     }
-    .close {
-      color: var(--cx-color-text);
-      background-color: var(--cx-color-background);
-    }
   }
 
   @include forFeature('a11yIncreaseContastGlobalMessageCloseButton') {
@@ -24,10 +20,16 @@
     }
   }
 
-  @include forFeature('a11yGlobalMessageCloseIconContrast') {
+  @include forFeature('a11yGlobalMessageContrastFix') {
     .close {
       color: var(--cx-color-text);
       opacity: 1;
+    }
+    @include cx-highContrastTheme {
+      .close {
+        color: var(--cx-color-text);
+        background-color: var(--cx-color-background);
+      }
     }
   }
 
@@ -53,3 +55,4 @@
     }
   }
 }
+

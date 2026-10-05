@@ -83,23 +83,25 @@ $caretSize: 7px;
     }
   }
 
-  @include cx-highContrastTheme {
-    select {
-      color: var(--cx-color-text);
-      background-color: var(--cx-color-background);
-      option {
-        color: var(--cx-color-medium);
+  @include forFeature('a11yHighContrastFix') {
+    @include cx-highContrastTheme {
+      select {
+        color: var(--cx-color-text);
+        background-color: var(--cx-color-background);
+        option {
+          color: var(--cx-color-medium);
+        }
+      }
+      cx-icon {
+        color: var(--cx-color-text);
       }
     }
-    cx-icon {
-      color: var(--cx-color-text);
-    }
-  }
 
-  @include cx-highContrastTheme-light {
-    select {
-      option {
-        color: var(--cx-color-dark);
+    @include cx-highContrastTheme-light {
+      select {
+        option {
+          color: var(--cx-color-dark);
+        }
       }
     }
   }

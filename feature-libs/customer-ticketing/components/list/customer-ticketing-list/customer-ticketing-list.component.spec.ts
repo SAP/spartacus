@@ -11,6 +11,7 @@ import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
+  FeatureStylesService,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
@@ -325,5 +326,38 @@ describe('CustomerTicketingListComponent', () => {
       .map((debugElement) => debugElement.nativeElement as HTMLElement);
     expect(idElements.length).toBe(1);
     expect(idElements[0].textContent?.includes('0000003')).toBe(true);
+  });
+});
+
+class MockFeatureStylesService {
+  registerUsage = vi.fn();
+  unregisterUsage = vi.fn();
+}
+
+describe('CustomerTicketingListComponent feature toggle registration', () => {
+  let featureStylesService: FeatureStylesService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [CustomerTicketingListComponent, RouterModule.forRoot([])],
+      providers: [
+        {
+          provide: CustomerTicketingFacade,
+          useClass: MockCustomerTicketingFacade,
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: TranslationService, useClass: MockTranslationService },
+        { provide: FeatureStylesService, useClass: MockFeatureStylesService },
+      ],
+    }).compileComponents();
+    featureStylesService = TestBed.inject(FeatureStylesService);
+    vi.spyOn(featureStylesService, 'registerUsage');
+  });
+
+  it('should register useFeatureStyles for a11yHighContrastFix', () => {
+    TestBed.createComponent(CustomerTicketingListComponent);
+    expect(featureStylesService.registerUsage).toHaveBeenCalledWith(
+      'a11yHighContrastFix'
+    );
   });
 });

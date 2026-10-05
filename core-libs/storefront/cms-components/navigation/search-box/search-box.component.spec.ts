@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import {
   CmsSearchBoxComponent,
   FeatureConfigService,
+  FeatureStylesService,
   MockTranslatePipe,
   PageType,
   ProductSearchService,
@@ -801,5 +802,59 @@ describe('SearchBoxComponent', () => {
         expect(searchBoxComponent.config.displaySuggestions).toBeFalsy();
       });
     });
+  });
+});
+
+class MockFeatureStylesService {
+  registerUsage = vi.fn();
+  unregisterUsage = vi.fn();
+}
+
+class SearchBoxComponentServiceMock
+  implements Partial<SearchBoxComponentService>
+{
+  chosenWord = new ReplaySubject<string>();
+  sharedEvent = new ReplaySubject<KeyboardEvent>();
+  emptyOuterResults$ = new Subject<void>();
+  launchSearchPage = vi.fn();
+  getResults = vi.fn().mockReturnValue(of({}));
+  dispatchSuggestionSelectedEvent = vi.fn();
+  dispatchProductSelectedEvent = vi.fn();
+  search() {}
+  toggleBodyClass() {}
+  clearResults() {}
+  setSearchResultsShown(_shown: boolean) {}
+}
+
+describe('SearchBoxComponent feature toggle registration', () => {
+  let featureStylesService: FeatureStylesService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterModule.forRoot([]), SearchBoxComponent],
+      providers: [
+        { provide: ProductSearchService, useValue: {} },
+        { provide: CmsComponentData, useClass: MockCmsComponentData },
+        {
+          provide: SearchBoxComponentService,
+          useClass: SearchBoxComponentServiceMock,
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
+        {
+          provide: FeatureConfigService,
+          useValue: { isEnabled: (f: string) => f.startsWith('!') },
+        },
+        { provide: FeatureStylesService, useClass: MockFeatureStylesService },
+      ],
+    }).compileComponents();
+    featureStylesService = TestBed.inject(FeatureStylesService);
+    vi.spyOn(featureStylesService, 'registerUsage');
+  });
+
+  it('should register useFeatureStyles for a11yHighContrastFix', () => {
+    TestBed.createComponent(SearchBoxComponent);
+    expect(featureStylesService.registerUsage).toHaveBeenCalledWith(
+      'a11yHighContrastFix'
+    );
   });
 });

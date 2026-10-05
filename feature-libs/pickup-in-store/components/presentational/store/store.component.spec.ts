@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
+import { FeatureStylesService, MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import {
   ICON_TYPE,
   IconComponent,
@@ -132,6 +132,33 @@ describe('StoreComponent', () => {
     );
     expect(iconDebugElement.componentInstance.type).toEqual(
       ICON_TYPE.CARET_DOWN
+    );
+  });
+});
+
+class MockFeatureStylesService {
+  registerUsage = vi.fn();
+  unregisterUsage = vi.fn();
+}
+
+describe('StoreComponent feature toggle registration', () => {
+  let featureStylesService: FeatureStylesService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [StoreComponent],
+      providers: [
+        { provide: FeatureStylesService, useClass: MockFeatureStylesService },
+      ],
+    }).compileComponents();
+    featureStylesService = TestBed.inject(FeatureStylesService);
+    vi.spyOn(featureStylesService, 'registerUsage');
+  });
+
+  it('should register useFeatureStyles for a11yHighContrastFix', () => {
+    TestBed.createComponent(StoreComponent);
+    expect(featureStylesService.registerUsage).toHaveBeenCalledWith(
+      'a11yHighContrastFix'
     );
   });
 });

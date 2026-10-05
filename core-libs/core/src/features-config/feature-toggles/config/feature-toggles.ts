@@ -914,13 +914,46 @@ export interface FeatureTogglesInterface {
   a11yInStockInfoTextContrast?: boolean;
 
   /**
-   * When enabled, the close button icon on global messages (alert banners)
-   * uses `--cx-color-text` and `opacity: 1`, ensuring the icon meets the
-   * WCAG 1.4.3 Level AA minimum contrast ratio of 4.5:1 in the default theme.
+   * When enabled, improves contrast in `GlobalMessageComponent` (global alert banners):
    *
-   * Affects: `GlobalMessageComponent`
+   * - **Default theme:** The close (×) icon uses `color: var(--cx-color-text)` and
+   *   `opacity: 1`, ensuring it meets the WCAG 1.4.3 Level AA minimum contrast ratio
+   *   of 4.5:1 (fixes CXSPA-12670).
+   * - **High-contrast themes:** The close (×) button also receives
+   *   `background-color: var(--cx-color-background)` so it remains visible against the
+   *   alert's HC background (fixes CXSPA-12855).
+   *
+   * Affected component: `GlobalMessageComponent`
+   * Affected file: `core-libs/styles/scss/components/content/global-message/_global-message.scss`
    */
-  a11yGlobalMessageCloseIconContrast?: boolean;
+  a11yGlobalMessageContrastFix?: boolean;
+
+  /**
+   * When enabled, improves contrast in high-contrast themes across multiple components
+   * that were missing HC overrides or had insufficient contrast ratios (below 7:1 AAA):
+   *
+   * - `StoreComponent` / `StoreSearchComponent` (pickup-in-store): "View Hours" button,
+   *   "Use My Location" link, and stock/opening-hours icons (CXSPA-12810)
+   * - `CardComponent`: delete-address confirmation message text (CXSPA-12821)
+   * - `CustomerTicketingListComponent`: table column header `<th>` cells (CXSPA-12801)
+   * - `QuickOrderComponent`: ng-select dropdown panel items (CXSPA-12775)
+   * - `ProductReviewsComponent`: "Read More" / "Read Less" links (CXSPA-12804)
+   * - `StoreFinderListItemComponent`: store links including hover state (CXSPA-12786)
+   * - `SearchBoxComponent`: search-box-v2 variant results panel (CXSPA-12789)
+   * - `SiteContextSelectorComponent`: language/currency/theme `<select>` background (CXSPA-12783)
+   *
+   * Affected SCSS files:
+   * - `feature-libs/pickup-in-store/styles/_store.scss`
+   * - `feature-libs/pickup-in-store/styles/_store-search.scss`
+   * - `core-libs/styles/scss/components/misc/card/_card.scss`
+   * - `feature-libs/customer-ticketing/styles/components/_customer-ticketing-list.scss`
+   * - `feature-libs/cart/quick-order/styles/_quick-order.scss`
+   * - `core-libs/styles/scss/components/product/details/_product-reviews.scss`
+   * - `feature-libs/storefinder/styles/components/_store-finder-list-item.scss`
+   * - `core-libs/styles/scss/components/product/search/_searchbox.scss`
+   * - `core-libs/styles/scss/components/layout/header/_site-context-selector.scss`
+   */
+  a11yHighContrastFix?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -1030,5 +1063,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCarouselItemArrowKeyNavigation: false,
   a11yCouponDialogResetButtonKeyboardAccessible: false,
   a11yInStockInfoTextContrast: false,
-  a11yGlobalMessageCloseIconContrast: false,
+  a11yGlobalMessageContrastFix: false,
+  a11yHighContrastFix: false,
 };

@@ -85,10 +85,12 @@ $gutterSize: 15px;
     }
   }
 
-  @include cx-highContrastTheme {
-    .btn-link,
-    a {
-      color: var(--cx-color-primary);
+  @include forFeature('a11yHighContrastFix') {
+    @include cx-highContrastTheme {
+      .btn-link,
+      a {
+        color: var(--cx-color-primary);
+      }
     }
   }
 }
