@@ -6,7 +6,6 @@
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostBinding,
@@ -23,7 +22,7 @@ import {
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { Observable, OperatorFunction } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, switchMap, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorOverviewFilterComponent } from '../overview-filter/configurator-overview-filter.component';
@@ -31,15 +30,9 @@ import { ConfiguratorOverviewFormComponent } from '../overview-form/configurator
 import { ConfiguratorOverviewMenuComponent } from '../overview-menu/configurator-overview-menu.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
-export interface ConfiguratorOverviewSidebarContext {
-  configuration: Configurator.ConfigurationWithOverview;
-  showFilterTab: boolean;
-}
-
 @Component({
   selector: 'cx-configurator-overview-sidebar',
   templateUrl: './configurator-overview-sidebar.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
     ConfiguratorOverviewFilterComponent,
@@ -50,29 +43,26 @@ export interface ConfiguratorOverviewSidebarContext {
   ],
 })
 export class ConfiguratorOverviewSidebarComponent {
-  /**
-   * Stable selector hook for tests and customizations (CPQ and VC overview menu).
-   */
-  @HostBinding('attr.data-cx-configurator-overview-menu-container')
-  readonly overviewMenuContainerDataAttr = '';
-
   @HostBinding('class.ghost') ghostStyle = true;
   @ViewChild('menuTab') menuTab: ElementRef<HTMLElement>;
   @ViewChild('filterTab') filterTab: ElementRef<HTMLElement>;
   showFilter: boolean = false;
+  overviewMenuFilterTabVisible = true;
 
   private featureToggles = inject(FeatureToggles);
+  protected commonConfiguratorUtilsService = inject(
+    CommonConfiguratorUtilsService
+  );
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService,
     protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {
     useFeatureStyles('productConfiguratorCPQContainer');
   }
 
-  overviewContext$: Observable<ConfiguratorOverviewSidebarContext> =
+  configurationWithOv$: Observable<Configurator.ConfigurationWithOverview> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
         this.configuratorCommonsService.getConfiguration(routerData.owner).pipe(
@@ -82,20 +72,17 @@ export class ConfiguratorOverviewSidebarComponent {
             Configurator.Configuration,
             Configurator.ConfigurationWithOverview
           >,
-          map((configuration) => ({
-            configuration,
-            showFilterTab:
-              this.commonConfiguratorUtilsService.isOverviewMenuFilterTabVisible(
-                routerData.owner.configuratorType
-              ),
-          }))
+          tap((configuration) => {
+            if (configuration) {
+              this.ghostStyle = false;
+              this.overviewMenuFilterTabVisible =
+                this.commonConfiguratorUtilsService.isOverviewMenuFilterTabVisible(
+                  routerData.owner.configuratorType
+                );
+            }
+          })
         )
-      ),
-      tap((data) => {
-        if (data) {
-          this.ghostStyle = false;
-        }
-      })
+      )
     );
 
   /**
@@ -115,10 +102,24 @@ export class ConfiguratorOverviewSidebarComponent {
   /**
    * Whether the skip link to the overview content is rendered.
    *
-   * @returns {boolean} - `true` if `productConfiguratorCPQContainer` is enabled
+   * @returns - `true` if `productConfiguratorCPQContainer` is enabled
    */
   get isSkipLinkEnabled(): boolean {
     return !!this.featureToggles.productConfiguratorCPQContainer;
+  }
+
+  /**
+   * Returns the tabindex for the filter tab.
+   * The filter tab is excluded from the tab chain if currently the menu tab content is displayed,
+   * or if the Filter tab is hidden via `overviewMenuFilterTabVisible`.
+   *
+   * @returns tabindex of the filter tab
+   */
+  getTabIndexForFilterTab(): number {
+    if (!this.overviewMenuFilterTabVisible) {
+      return -1;
+    }
+    return this.showFilter ? 0 : -1;
   }
 
   /**
@@ -145,26 +146,12 @@ export class ConfiguratorOverviewSidebarComponent {
   }
 
   /**
-   * Returns the tabindex for the filter tab.
-   * The filter tab is excluded from the tab chain if currently the menu tab content is displayed.
-   * @returns tabindex of the fitler tab
-   */
-  getTabIndexForFilterTab(): number {
-    return this.showFilter ? 0 : -1;
-  }
-
-  /**
    * Switches the focus of the tabs on pressing left or right arrow key.
    * @param {KeyboardEvent} event - Keyboard event
    * @param {string} currentTab - Current tab
-   * @param {boolean} showFilterTab - Whether the filter tab is displayed
    */
-  switchTabOnArrowPress(
-    event: KeyboardEvent,
-    currentTab: string,
-    showFilterTab: boolean
-  ): void {
-    if (!showFilterTab) {
+  switchTabOnArrowPress(event: KeyboardEvent, currentTab: string): void {
+    if (!this.overviewMenuFilterTabVisible) {
       return;
     }
     if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {

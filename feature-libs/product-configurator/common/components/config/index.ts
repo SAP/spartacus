@@ -5,4 +5,3 @@
  */
 
 export { CommonConfiguratorUISettingsConfig } from './common-configurator-ui-settings.config';
-export { defaultCommonConfiguratorUISettingsConfig } from './default-common-configurator-ui-settings.config';

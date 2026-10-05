@@ -7,13 +7,8 @@
 const continueToCartButtonSelector =
   'cx-configurator-add-to-cart-button button';
 
-/** Overview menu host element (`ConfiguratorOverviewSidebarComponent`). */
 export const OVERVIEW_MENU_CONTAINER_SELECTOR =
   'cx-configurator-overview-sidebar';
-
-/** Stable data attribute on the unified overview menu container component. */
-export const OVERVIEW_MENU_CONTAINER_DATA_ATTR_SELECTOR =
-  '[data-cx-configurator-overview-menu-container]';
 
 const resolveIssuesText = ' must be resolved before checkout.  Resolve Issues';
 

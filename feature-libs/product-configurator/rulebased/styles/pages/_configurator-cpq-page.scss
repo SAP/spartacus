@@ -4,7 +4,7 @@
   cx-page-slot.CpqConfigContent,
   cx-page-slot.CpqConfigMenu,
   cx-page-slot.CpqConfigOverviewContent,
-  cx-page-slot.CpqConfigOverviewMenu {
+  cx-page-slot.CpqConfigOverviewNavigation {
     height: fit-content;
   }
 
@@ -17,7 +17,7 @@
       max-inline-size: 70%;
     }
 
-    cx-page-slot.CpqConfigOverviewMenu.has-components {
+    cx-page-slot.CpqConfigOverviewNavigation.has-components {
       max-inline-size: 30%;
     }
 
@@ -35,7 +35,7 @@
       max-inline-size: calc(1140px * 0.7);
     }
 
-    cx-page-slot.CpqConfigOverviewMenu.has-components {
+    cx-page-slot.CpqConfigOverviewNavigation.has-components {
       max-inline-size: calc(1140px * 0.3);
     }
 

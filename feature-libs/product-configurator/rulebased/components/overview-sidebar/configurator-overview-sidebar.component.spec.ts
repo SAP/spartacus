@@ -204,6 +204,18 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     );
   });
 
+  it('should render visible Menu and Filter tabs when overviewMenuFilterTabVisible is true', () => {
+    fixture.detectChanges();
+    const tabs = fixture.debugElement.queryAll(
+      By.css('.cx-menu-bar button[role="tab"]')
+    );
+    expect(tabs).toHaveLength(2);
+    const filterTab = tabs[1].nativeElement as HTMLButtonElement;
+    expect(filterTab.disabled).toBe(false);
+    expect(filterTab.classList.contains('cx-visually-hidden')).toBe(false);
+    expect(filterTab.getAttribute('aria-hidden')).toBeNull();
+  });
+
   it('should render overview filter component when filter tab is selected', () => {
     fixture.detectChanges();
     // click filter button
@@ -339,14 +351,21 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
       component.showFilter = false;
       expect(component.getTabIndexForFilterTab()).toBe(-1);
     });
+
+    it('should return tabindex -1 if filter tab is not interactive', () => {
+      component.showFilter = true;
+      component.overviewMenuFilterTabVisible = false;
+      expect(component.getTabIndexForFilterTab()).toBe(-1);
+    });
   });
 
   describe('switchTabOnArrowPress', () => {
     it('should not focus tabs when filter tab is disabled', () => {
+      component.overviewMenuFilterTabVisible = false;
       const event = new KeyboardEvent('keydown', {
         code: 'ArrowRight',
       });
-      component.switchTabOnArrowPress(event, '#menuTab', false);
+      component.switchTabOnArrowPress(event, '#menuTab');
       expect(event.defaultPrevented).toBe(false);
     });
 
@@ -355,7 +374,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
       const event = new KeyboardEvent('keydown', {
         code: 'ArrowRight',
       });
-      component.switchTabOnArrowPress(event, '#menuTab', true);
+      component.switchTabOnArrowPress(event, '#menuTab');
       let focusedElement = document.activeElement;
       expect(focusedElement?.innerHTML).toBe(
         ' configurator.overviewSidebar.filter '
@@ -367,7 +386,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
       const event = new KeyboardEvent('keydown', {
         code: 'ArrowLeft',
       });
-      component.switchTabOnArrowPress(event, '#menuTab', true);
+      component.switchTabOnArrowPress(event, '#menuTab');
       let focusedElement = document.activeElement;
       expect(focusedElement?.innerHTML).toBe(
         ' configurator.overviewSidebar.filter '
@@ -379,7 +398,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
       const leftEvent = new KeyboardEvent('keydown', {
         code: 'ArrowLeft',
       });
-      component.switchTabOnArrowPress(leftEvent, '#menuTab', true);
+      component.switchTabOnArrowPress(leftEvent, '#menuTab');
       let focusedElement = document.activeElement;
       expect(focusedElement?.innerHTML).toBe(
         ' configurator.overviewSidebar.filter '
@@ -387,7 +406,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
       const upEvent = new KeyboardEvent('keydown', {
         code: 'ArrowUp',
       });
-      component.switchTabOnArrowPress(upEvent, '#menuTab', true);
+      component.switchTabOnArrowPress(upEvent, '#menuTab');
       document.activeElement;
       expect(focusedElement?.innerHTML).toBe(
         ' configurator.overviewSidebar.filter '
@@ -399,7 +418,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
       const leftEvent = new KeyboardEvent('keydown', {
         code: 'ArrowLeft',
       });
-      component.switchTabOnArrowPress(leftEvent, '#menuTab', true);
+      component.switchTabOnArrowPress(leftEvent, '#menuTab');
       let focusedElement = document.activeElement;
       expect(focusedElement?.innerHTML).toBe(
         ' configurator.overviewSidebar.filter '
@@ -407,7 +426,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
       const downEvent = new KeyboardEvent('keydown', {
         code: 'ArrowDown',
       });
-      component.switchTabOnArrowPress(downEvent, '#menuTab', true);
+      component.switchTabOnArrowPress(downEvent, '#menuTab');
       document.activeElement;
       expect(focusedElement?.innerHTML).toBe(
         ' configurator.overviewSidebar.filter '
@@ -419,7 +438,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
       const event = new KeyboardEvent('keydown', {
         code: 'ArrowRight',
       });
-      component.switchTabOnArrowPress(event, '#filterTab', true);
+      component.switchTabOnArrowPress(event, '#filterTab');
       let focusedElement = document.activeElement;
       expect(focusedElement?.innerHTML).toBe(
         ' configurator.overviewSidebar.menu '
@@ -431,7 +450,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
       const event = new KeyboardEvent('keydown', {
         code: 'ArrowLeft',
       });
-      component.switchTabOnArrowPress(event, '#filterTab', true);
+      component.switchTabOnArrowPress(event, '#filterTab');
       let focusedElement = document.activeElement;
       expect(focusedElement?.innerHTML).toBe(
         ' configurator.overviewSidebar.menu '
@@ -440,7 +459,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
   });
 
   describe('overview menu filter tab visibility', () => {
-    it('should not render filter tab for CLOUD CPQ configurator type', () => {
+    it('should not render filter tab when overviewMenuFilterTabVisible is false for CLOUD CPQ configurator type', () => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
         imports: [ConfiguratorOverviewSidebarComponent],
@@ -488,13 +507,29 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
         .compileComponents();
       initTestComponent();
       fixture.detectChanges();
+
+      const menuBar = htmlElem.querySelector('.cx-menu-bar');
+      expect(menuBar?.getAttribute('role')).toBe('tablist');
+
+      expect(component.overviewMenuFilterTabVisible).toBe(false);
+
+      const tabs = fixture.debugElement.queryAll(
+        By.css('.cx-menu-bar button[role="tab"]')
+      );
+      expect(tabs).toHaveLength(1);
+
+      const menuTab = tabs[0].nativeElement as HTMLButtonElement;
+      expect(menuTab.classList.contains('active')).toBe(true);
+      expect(menuTab.getAttribute('tabindex')).toBe('0');
+      expect(menuTab.getAttribute('aria-selected')).toBe('true');
+
       expect(
-        fixture.debugElement.queryAll(By.css('.cx-menu-bar button'))
-      ).toHaveLength(0);
-      CommonConfiguratorTestUtilsService.expectElementPresent(
+        htmlElem.querySelector('.cx-menu-bar button[role="tab"]:not(.active)')
+      ).toBeNull();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-menu-bar-item'
+        'cx-configurator-overview-filter'
       );
     });
   });
@@ -503,7 +538,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     it('should not render the skip link if productConfiguratorCPQContainer is disabled', () => {
       fixture.detectChanges();
       expect(
-        htmlElem.querySelector('.cx-configurator-overview-skip-link')
+        htmlElem.querySelector('button.cx-visually-hidden:not([role="tab"])')
       ).toBeNull();
     });
 
@@ -522,7 +557,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
 
       it('should render the skip link before the tab list', () => {
         const skipLink = htmlElem.querySelector(
-          '.cx-configurator-overview-skip-link'
+          'button.cx-visually-hidden:not([role="tab"])'
         );
         expect(skipLink?.tagName).toBe('BUTTON');
         expect(skipLink?.textContent?.trim()).toBe(
@@ -543,7 +578,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
           'focusConfigurationElement'
         );
         fixture.debugElement
-          .query(By.css('.cx-configurator-overview-skip-link'))
+          .query(By.css('button.cx-visually-hidden:not([role="tab"])'))
           .triggerEventHandler('click');
         const selector =
           '#' + ConfiguratorOverviewFormComponent.OVERVIEW_CONTENT_ID;

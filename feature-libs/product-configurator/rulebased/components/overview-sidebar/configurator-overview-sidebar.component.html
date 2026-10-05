@@ -1,4 +1,6 @@
-<ng-container *ngIf="overviewContext$ | async as ctx; else ghostSidebar">
+<ng-container
+  *ngIf="configurationWithOv$ | async as configurationWithOv; else ghostSidebar"
+>
   <button
     *ngIf="isSkipLinkEnabled"
     class="cx-visually-hidden cx-configurator-overview-skip-link"
@@ -6,56 +8,44 @@
   >
     {{ 'configurator.a11y.skipToOverviewContent' | cxTranslate }}
   </button>
-  <div
-    class="cx-menu-bar"
-    [class.cx-menu-bar-menu-only]="!ctx.showFilterTab"
-    [attr.role]="ctx.showFilterTab ? 'tablist' : null"
-  >
-    <ng-container *ngIf="ctx.showFilterTab; else menuLabelOnly">
-      <button
-        #menuTab
-        [tabindex]="getTabIndexForMenuTab()"
-        role="tab"
-        [attr.aria-selected]="!showFilter"
-        [class.active]="!showFilter"
-        (keydown)="switchTabOnArrowPress($event, '#menuTab', ctx.showFilterTab)"
-        (keydown.enter)="onMenu()"
-        (keydown.space)="onMenu()"
-        (click)="onMenu()"
-      >
-        {{ 'configurator.overviewSidebar.menu' | cxTranslate }}
-      </button>
-      <button
-        #filterTab
-        [tabindex]="getTabIndexForFilterTab()"
-        role="tab"
-        [attr.aria-selected]="showFilter"
-        [class.active]="showFilter"
-        (keydown)="
-          switchTabOnArrowPress($event, '#filterTab', ctx.showFilterTab)
-        "
-        (keydown.enter)="onFilter()"
-        (keydown.space)="onFilter()"
-        (click)="onFilter()"
-      >
-        {{ 'configurator.overviewSidebar.filter' | cxTranslate }}
-      </button>
-    </ng-container>
-    <ng-template #menuLabelOnly>
-      <div class="cx-menu-bar-item active">
-        {{ 'configurator.overviewSidebar.menu' | cxTranslate }}
-      </div>
-    </ng-template>
+  <div class="cx-menu-bar" role="tablist">
+    <button
+      #menuTab
+      [tabindex]="getTabIndexForMenuTab()"
+      role="tab"
+      [attr.aria-selected]="!showFilter"
+      [class.active]="!showFilter"
+      (keydown)="switchTabOnArrowPress($event, '#menuTab')"
+      (keydown.enter)="onMenu()"
+      (keydown.space)="onMenu()"
+      (click)="onMenu()"
+    >
+      {{ 'configurator.overviewSidebar.menu' | cxTranslate }}
+    </button>
+    <button
+      *ngIf="overviewMenuFilterTabVisible"
+      #filterTab
+      [tabindex]="getTabIndexForFilterTab()"
+      role="tab"
+      [attr.aria-selected]="showFilter"
+      [class.active]="showFilter"
+      (keydown)="switchTabOnArrowPress($event, '#filterTab')"
+      (keydown.enter)="onFilter()"
+      (keydown.space)="onFilter()"
+      (click)="onFilter()"
+    >
+      {{ 'configurator.overviewSidebar.filter' | cxTranslate }}
+    </button>
   </div>
 
   <cx-configurator-overview-filter
-    *ngIf="ctx.showFilterTab && showFilter"
-    [config]="ctx.configuration"
+    *ngIf="overviewMenuFilterTabVisible && showFilter"
+    [config]="configurationWithOv"
   />
 
   <cx-configurator-overview-menu
     *ngIf="!showFilter"
-    [config]="ctx.configuration"
+    [config]="configurationWithOv"
   />
 </ng-container>
 
