@@ -14,6 +14,7 @@ import { WindowRef } from '@spartacus/core';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { OpfGlobalFunctionsRedirectDomainRegistrationsService } from './opf-global-functions-redirect-domain-registrations.service';
 import { OpfGlobalFunctionsSharedService } from '../../opf-global-functions-shared.service';
+import { OpfGlobalFunctionsSharedRegistrationsService } from '../../opf-global-functions-shared-registrations.service';
 import { OpfGlobalFunctionsRedirectDomainService } from './opf-global-functions-redirect-domain.service';
 
 function createOpfPaymentFacadeMock(): jasmine.SpyObj<OpfPaymentFacade> {
@@ -43,6 +44,7 @@ describe('OpfGlobalFunctionsRedirectDomainRegistrationsService', () => {
     TestBed.configureTestingModule({
       providers: [
         OpfGlobalFunctionsSharedService,
+        OpfGlobalFunctionsSharedRegistrationsService,
         OpfGlobalFunctionsRedirectDomainService,
         OpfGlobalFunctionsRedirectDomainRegistrationsService,
         WindowRef,
@@ -90,6 +92,40 @@ describe('OpfGlobalFunctionsRedirectDomainRegistrationsService', () => {
 
       expect(container.submitCompleteRedirect).not.toBeDefined();
       expect(container.getRedirectParams).not.toBeDefined();
+    });
+
+    it('should register submit function when paymentSessionId is provided', () => {
+      opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
+
+      service.registerAll(container, {
+        domain: OpfGlobalFunctionsDomain.REDIRECT,
+        paymentSessionId: mockPaymentSessionId,
+        vcr: {} as ViewContainerRef,
+        paramsMap,
+      });
+
+      expect(container.submit).toBeDefined();
+    });
+
+    it('should handle submit through registered function', () => {
+      opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
+
+      service.registerAll(container, {
+        domain: OpfGlobalFunctionsDomain.REDIRECT,
+        paymentSessionId: mockPaymentSessionId,
+        vcr: {} as ViewContainerRef,
+        paramsMap,
+      });
+
+      container.submit?.({
+        additionalData: [],
+        submitSuccess: () => {},
+        submitPending: () => {},
+        submitFailure: () => {},
+        paymentMethod: jasmine.any(String) as any,
+      });
+
+      expect(opfPaymentFacadeMock.submitPayment).toHaveBeenCalled();
     });
 
     it('should handle submitCompleteRedirect through registered function', () => {
