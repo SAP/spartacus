@@ -7,6 +7,7 @@ import {
   CmsSearchBoxComponent,
   FeatureConfigService,
   FeatureStylesService,
+  I18nTestingModule,
   MockTranslatePipe,
   PageType,
   ProductSearchService,
@@ -831,7 +832,11 @@ describe('SearchBoxComponent feature toggle registration', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([]), SearchBoxComponent],
+      imports: [
+        RouterModule.forRoot([]),
+        I18nTestingModule,
+        SearchBoxComponent,
+      ],
       providers: [
         { provide: ProductSearchService, useValue: {} },
         { provide: CmsComponentData, useClass: MockCmsComponentData },

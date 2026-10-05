@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { FeatureStylesService, MockTranslatePipe, TranslatePipe } from '@spartacus/core';
+import {
+  FeatureStylesService,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   ICON_TYPE,
   IconComponent,
@@ -150,7 +154,28 @@ describe('StoreComponent feature toggle registration', () => {
       providers: [
         { provide: FeatureStylesService, useClass: MockFeatureStylesService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(StoreComponent, {
+        remove: {
+          imports: [
+            StoreAddressComponent,
+            StoreScheduleComponent,
+            SetPreferredStoreComponent,
+            TranslatePipe,
+            IconComponent,
+          ],
+        },
+        add: {
+          imports: [
+            StoreAddressStubComponent,
+            StoreScheduleStubComponent,
+            SetPreferredStoreStubComponent,
+            MockTranslatePipe,
+            MockIconComponent,
+          ],
+        },
+      })
+      .compileComponents();
     featureStylesService = TestBed.inject(FeatureStylesService);
     vi.spyOn(featureStylesService, 'registerUsage');
   });

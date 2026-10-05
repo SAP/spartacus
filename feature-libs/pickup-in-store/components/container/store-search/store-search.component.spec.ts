@@ -1,6 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FeatureStylesService, MockTranslatePipe, TranslatePipe } from '@spartacus/core';
+import {
+  FeatureStylesService,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { FeatureDirective } from '@spartacus/core';
 import { CurrentLocationService } from '../../services/current-location.service';
 import { MockCurrentLocationService } from '../../services/current-location.service.spec';
@@ -99,7 +103,12 @@ describe('StoreSearchComponent feature toggle registration', () => {
         },
         { provide: FeatureStylesService, useClass: MockFeatureStylesService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(StoreSearchComponent, {
+        remove: { imports: [TranslatePipe, FeatureDirective] },
+        add: { imports: [MockTranslatePipe, MockFeatureDirective] },
+      })
+      .compileComponents();
     featureStylesService = TestBed.inject(FeatureStylesService);
     vi.spyOn(featureStylesService, 'registerUsage');
   });

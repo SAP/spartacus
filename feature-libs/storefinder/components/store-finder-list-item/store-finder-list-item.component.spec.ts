@@ -160,6 +160,7 @@ describe('StoreFinderListItemComponent feature toggle registration', () => {
       imports: [
         CommonModule,
         RouterModule.forRoot([]),
+        I18nTestingModule,
         StoreFinderListItemComponent,
       ],
       providers: [

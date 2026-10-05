@@ -210,12 +210,29 @@ describe('SiteContextSelectorComponent feature toggle registration', () => {
     TestBed.configureTestingModule({
       imports: [SiteContextSelectorComponent, I18nTestingModule],
       providers: [
-        { provide: CmsService, useValue: { getComponentData: () => of(mockComponentData) } },
-        { provide: LanguageService, useValue: { getAll: () => of([]), getActive: () => of('en'), setActive: () => {} } },
+        {
+          provide: CmsService,
+          useValue: { getComponentData: () => of(mockComponentData) },
+        },
+        {
+          provide: LanguageService,
+          useValue: {
+            getAll: () => of([]),
+            getActive: () => of('en'),
+            setActive: () => {},
+          },
+        },
         { provide: CurrencyService, useValue: {} },
-        { provide: CmsComponentData, useValue: { data$: of(mockComponentData) } },
+        {
+          provide: CmsComponentData,
+          useValue: { data$: of(mockComponentData) },
+        },
         { provide: TranslationService, useClass: MockTranslationService },
         contextServiceMapProvider,
+        {
+          provide: SiteContextComponentService,
+          useClass: SiteContextComponentService,
+        },
         { provide: FeatureStylesService, useClass: MockFeatureStylesService },
       ],
     }).compileComponents();

@@ -6,7 +6,11 @@
 
 import { NgClass, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { PointOfServiceStock, TranslatePipe, useFeatureStyles } from '@spartacus/core';
+import {
+  PointOfServiceStock,
+  TranslatePipe,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { storeHasStock } from '@spartacus/pickup-in-store/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { SetPreferredStoreComponent } from '../../container/set-preferred-store/set-preferred-store.component';
