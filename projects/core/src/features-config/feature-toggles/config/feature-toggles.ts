@@ -562,6 +562,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   defaultLayoutConfigWithoutPageFold: false,
   navigationMenuCloseOnSameLinkClick: false,
   enablePasswordExpiredErrorTranslation: false,
-  enableQuotePurchaseOrderNumber: false,
+  enableQuotePurchaseOrderNumber: true,
   enableReturnOrderReturnableQuantityConsigmentFallback: false,
 };
