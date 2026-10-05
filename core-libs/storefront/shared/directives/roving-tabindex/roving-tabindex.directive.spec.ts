@@ -73,6 +73,29 @@ class TestChildFocusHostComponent {}
 })
 class TestNativeInputHostComponent {}
 
+@Component({
+  template: `
+    <div
+      [cxRovingTabindex]="'[data-fwd-item]'"
+      [cxRovingTabindexForwardSecondaryAxis]="true"
+    >
+      <div data-fwd-item tabindex="-1">
+        <a href="#" (keydown)="forwardedKeys.push($event.key)">
+          <button type="button" tabindex="-1">toggle</button>
+          Link 1
+        </a>
+      </div>
+      <div data-fwd-item tabindex="-1">
+        <a href="#">Link 2</a>
+      </div>
+    </div>
+  `,
+  imports: [CxRovingTabindexDirective],
+})
+class TestForwardHostComponent {
+  forwardedKeys: string[] = [];
+}
+
 describe('CxRovingTabindexDirective', () => {
   let fixture: ComponentFixture<TestHostComponent>;
   let component: TestHostComponent;
@@ -178,15 +201,30 @@ describe('CxRovingTabindexDirective', () => {
       expect(preventSpy).toHaveBeenCalled();
     });
 
-    it('should not respond to ArrowRight/ArrowLeft on vertical axis', () => {
+    it('should not move focus on ArrowLeft on vertical axis', () => {
       const items = getItems();
       items[0].focus();
       const focusSpy = vi.spyOn(items[1], 'focus');
 
-      dispatchKeydown('ArrowRight');
       dispatchKeydown('ArrowLeft');
 
       expect(focusSpy).not.toHaveBeenCalled();
+    });
+
+    it('should emit itemActivated on ArrowRight in vertical axis', () => {
+      directive.focusedIndex = 1;
+      const items = getItems();
+      items[1].focus();
+
+      const event = new KeyboardEvent('keydown', {
+        key: 'ArrowRight',
+        bubbles: true,
+      });
+      const preventSpy = vi.spyOn(event, 'preventDefault');
+      container.dispatchEvent(event);
+
+      expect(preventSpy).toHaveBeenCalled();
+      expect(component.activated).toBe(1);
     });
   });
 
@@ -463,6 +501,14 @@ describe('CxRovingTabindexDirective', () => {
           return el;
         },
       ],
+      [
+        'role="treeitem"',
+        (): HTMLElement => {
+          const el = document.createElement('a');
+          el.setAttribute('role', 'treeitem');
+          return el;
+        },
+      ],
     ])(
       'should NOT call preventDefault or move focus when ArrowDown originates from %s',
       (_label, createElement) => {
@@ -499,6 +545,63 @@ describe('CxRovingTabindexDirective', () => {
 
       expect(focusSpy).toHaveBeenCalled();
       expect(guardDirective.focusedIndex).toBe(1);
+    });
+  });
+
+  describe('secondary-axis forwarding', () => {
+    let fwdFixture: ComponentFixture<TestForwardHostComponent>;
+    let fwdComponent: TestForwardHostComponent;
+    let fwdContainer: HTMLElement;
+
+    beforeEach(() => {
+      fwdFixture = TestBed.createComponent(TestForwardHostComponent);
+      fwdComponent = fwdFixture.componentInstance;
+      fwdFixture.detectChanges();
+      fwdContainer = fwdFixture.debugElement.query(
+        By.directive(CxRovingTabindexDirective)
+      ).nativeElement as HTMLElement;
+    });
+
+    function fwdItems(): HTMLElement[] {
+      return Array.from(
+        fwdContainer.querySelectorAll<HTMLElement>('[data-fwd-item]')
+      );
+    }
+
+    it("should forward a secondary-axis key to the focused item's first focusable descendant and suppress the default", () => {
+      const items = fwdItems();
+      const event = new KeyboardEvent('keydown', {
+        key: 'ArrowRight',
+        bubbles: true,
+        cancelable: true,
+      });
+      const preventSpy = vi.spyOn(event, 'preventDefault');
+      items[0].dispatchEvent(event);
+
+      expect(preventSpy).toHaveBeenCalled();
+      // Forwarded to the wrapping <a>, not its inner tabindex=-1 button.
+      expect(fwdComponent.forwardedKeys).toEqual(['ArrowRight']);
+    });
+
+    it('should not re-forward the synthesized event that originates from a descendant', () => {
+      const items = fwdItems();
+      // A single ArrowRight on the row must reach the link exactly once — the
+      // re-dispatched event bubbles back to the host but its target is the link
+      // (not a roving item), so it is not forwarded again.
+      items[0].dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true })
+      );
+
+      expect(fwdComponent.forwardedKeys).toEqual(['ArrowRight']);
+    });
+
+    it('should not forward a primary-axis key', () => {
+      const items = fwdItems();
+      items[0].dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true })
+      );
+
+      expect(fwdComponent.forwardedKeys).toEqual([]);
     });
   });
 });
