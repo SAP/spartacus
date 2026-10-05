@@ -24,5 +24,5 @@ export const defaultOrderConfig: OrderConfig = {
       'application/pdf',
     ],
   },
-  showOrderQuoteLink: false,
+  showOrderQuoteLink: true,
 };
