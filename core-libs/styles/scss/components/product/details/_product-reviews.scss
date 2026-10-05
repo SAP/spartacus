@@ -84,4 +84,11 @@ $gutterSize: 15px;
       margin: 0 0 1rem;
     }
   }
+
+  @include cx-highContrastTheme {
+    .btn-link,
+    a {
+      color: var(--cx-color-primary);
+    }
+  }
 }

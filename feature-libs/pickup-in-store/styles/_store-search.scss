@@ -54,6 +54,12 @@
       }
     }
 
+    @include cx-highContrastTheme {
+      .cx-find-a-store-link {
+        color: var(--cx-color-primary);
+      }
+    }
+
     .cx-find-a-store-hide-out-of-stock {
       width: 100%;
       display: flex;

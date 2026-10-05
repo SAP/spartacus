@@ -885,5 +885,9 @@
       background-color: var(--cx-color-background);
       color: var(--cx-color-text);
     }
+    &.search-box-v2 .results {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
   }
 }

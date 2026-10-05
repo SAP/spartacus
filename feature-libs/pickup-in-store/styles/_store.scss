@@ -62,4 +62,14 @@
     padding: 0 0 25px 0;
     vertical-align: middle;
   }
+
+  @include cx-highContrastTheme {
+    .cx-store-opening-hours-toggle {
+      color: var(--cx-color-primary);
+    }
+    .cx-store-stock-icon,
+    .cx-store-opening-hours-icon {
+      color: var(--cx-color-text);
+    }
+  }
 }

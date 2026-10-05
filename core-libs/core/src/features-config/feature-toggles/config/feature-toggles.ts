@@ -912,6 +912,15 @@ export interface FeatureTogglesInterface {
    * Affects: `AddToCartComponent`
    */
   a11yInStockInfoTextContrast?: boolean;
+
+  /**
+   * When enabled, the close button icon on global messages (alert banners)
+   * uses `--cx-color-text` and `opacity: 1`, ensuring the icon meets the
+   * WCAG 1.4.3 Level AA minimum contrast ratio of 4.5:1 in the default theme.
+   *
+   * Affects: `GlobalMessageComponent`
+   */
+  a11yGlobalMessageCloseIconContrast?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -1021,4 +1030,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCarouselItemArrowKeyNavigation: false,
   a11yCouponDialogResetButtonKeyboardAccessible: false,
   a11yInStockInfoTextContrast: false,
+  a11yGlobalMessageCloseIconContrast: false,
 };
