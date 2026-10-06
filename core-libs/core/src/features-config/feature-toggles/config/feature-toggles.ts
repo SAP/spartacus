@@ -733,7 +733,7 @@ export interface FeatureTogglesInterface {
    * (full-width action row, stretched column).
    * Nested container products
    * are also reflected in the configurator product title (slash-separated
-   * path) and in the product-title details.
+   * path) on the configuration page and in the product-title details.
    * When a CPQ configuration has `hasFullConfigurationState`, root-level
    * conflict and error messages are taken from the typed `messages` list.
    * On the configuration overview (CPQ and variant configurator), the
