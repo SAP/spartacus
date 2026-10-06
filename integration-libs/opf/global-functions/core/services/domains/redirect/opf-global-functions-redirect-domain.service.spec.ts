@@ -92,6 +92,7 @@ describe('OpfGlobalFunctionsRedirectDomainService', () => {
         jasmine.any(Object),
         mockPaymentSessionId,
         OpfPage.CHECKOUT_REVIEW_PAGE,
+        undefined,
         undefined
       );
     });

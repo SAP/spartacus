@@ -10,5 +10,9 @@
     @include cx-configurator-overview-menu-bar();
 
     @include cx-configurator-overview-ghost-menu();
+
+    @include forFeature('productConfiguratorCPQContainer') {
+      @include cx-configurator-overview-skip-link();
+    }
   }
 }

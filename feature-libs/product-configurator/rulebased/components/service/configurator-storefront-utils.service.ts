@@ -139,6 +139,21 @@ export class ConfiguratorStorefrontUtilsService {
   }
 
   /**
+   * Focuses the corresponding configuration element in the HTML tree without scrolling to it.
+   * The element must be focusable, e.g. by carrying a `tabindex` attribute.
+   *
+   * @param {string} selector - Selector of the HTML element
+   */
+  focusConfigurationElement(selector: string): void {
+    if (this.windowRef.isBrowser()) {
+      const element = this.getElement(selector);
+      if (element) {
+        element.focus({ preventScroll: true });
+      }
+    }
+  }
+
+  /**
    * Focus the first attribute in the form.
    */
   focusFirstAttribute(): void {
