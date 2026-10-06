@@ -670,6 +670,30 @@ describe('ConfigurationOverviewFormComponent', () => {
       expectSpan(h2s[0] as HTMLElement, 'span[aria-hidden="true"]', 'Group 1');
     });
 
+    it('should render the hint for the list of attributes and values once per group list', () => {
+      const countGroupLists = (
+        groups?: Configurator.GroupOverview[]
+      ): number =>
+        groups?.length
+          ? 1 +
+            groups.reduce(
+              (sum, group) => sum + countGroupLists(group.subGroups),
+              0
+            )
+          : 0;
+      initialize();
+      const hints = Array.from(
+        htmlElem.querySelectorAll('span.cx-visually-hidden')
+      ).filter((span) =>
+        span.textContent?.includes(
+          'configurator.a11y.listOfAttributesAndValues'
+        )
+      );
+      expect(hints.length).toBe(
+        countGroupLists(configCreate2.overview?.groups)
+      );
+    });
+
     describe('in-page navigation target (productConfiguratorCPQContainer)', () => {
       it('should expose the host as focusable, labelled region', () => {
         TestBed.inject(MockFeatureTogglesController).set(
@@ -783,6 +807,17 @@ describe('ConfigurationOverviewFormComponent', () => {
       expect(htmlElem.querySelectorAll('.cx-attribute-value-pair').length).toBe(
         2
       );
+    });
+
+    it('should render the configuration details header directly before the container row group', () => {
+      initialize();
+      const detailsHeader = htmlElem.querySelector(
+        '.cx-group.topLevel.configurationDetails'
+      );
+      const rowGroup = detailsHeader?.nextElementSibling;
+      expect(rowGroup?.classList).toContain('subgroup');
+      expect(rowGroup?.hasAttribute('id')).toBe(false);
+      expect(rowGroup?.querySelector('h2')?.textContent).toContain('Zoom Lens');
     });
 
     it('should scroll to configuration details when View Details is clicked', () => {
