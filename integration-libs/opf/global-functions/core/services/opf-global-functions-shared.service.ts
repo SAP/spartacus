@@ -64,6 +64,7 @@ export type OpfSharedPaymentSubmitCompleteOptions = {
   submitFailure: OpfPaymentMerchantCallback;
   submitCancel?: OpfPaymentMerchantCallback;
   paymentSessionId?: string;
+  savePaymentMethod?: boolean;
 };
 
 @Injectable()
@@ -191,6 +192,7 @@ export class OpfGlobalFunctionsSharedService {
         submitCancel = (): void => {
           // this is intentional
         },
+        savePaymentMethod,
       } = options;
 
       return this.runSubmitComplete(
@@ -203,7 +205,8 @@ export class OpfGlobalFunctionsSharedService {
         },
         finalPaymentSessionId,
         undefined,
-        vcr
+        vcr,
+        savePaymentMethod
       );
     });
   }
@@ -218,7 +221,8 @@ export class OpfGlobalFunctionsSharedService {
     },
     paymentSessionId: string,
     returnPath?: string | undefined,
-    vcr?: ViewContainerRef
+    vcr?: ViewContainerRef,
+    savePaymentMethod: boolean | undefined = undefined
   ): Promise<boolean> {
     return this.ngZone.run(() => {
       let overlayedSpinner: void | Observable<ComponentRef<any> | undefined>;
@@ -233,6 +237,7 @@ export class OpfGlobalFunctionsSharedService {
             paymentSessionId,
             callbacks,
             returnPath,
+            savePaymentMethod,
           })
           .pipe(
             finalize(() => {
