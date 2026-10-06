@@ -47,7 +47,7 @@ export class ConfiguratorOverviewSidebarComponent {
   @ViewChild('menuTab') menuTab: ElementRef<HTMLElement>;
   @ViewChild('filterTab') filterTab: ElementRef<HTMLElement>;
   showFilter: boolean = false;
-  overviewMenuFilterTabVisible = true;
+  overviewMenuFilterTabVisible = false;
 
   private featureToggles = inject(FeatureToggles);
   protected commonConfiguratorUtilsService = inject(

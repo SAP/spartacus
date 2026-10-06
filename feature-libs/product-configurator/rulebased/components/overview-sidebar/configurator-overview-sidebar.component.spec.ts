@@ -344,6 +344,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
 
   describe('getTabIndexForFilterTab', () => {
     it('should return tabindex 0 if filter tab content is displayed', () => {
+      component.overviewMenuFilterTabVisible = true;
       component.showFilter = true;
       expect(component.getTabIndexForFilterTab()).toBe(0);
     });

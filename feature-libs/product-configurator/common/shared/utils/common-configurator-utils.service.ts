@@ -137,7 +137,7 @@ export class CommonConfiguratorUtilsService {
    * Verifies whether the configurator type is a bundle based one.
    *
    * @param {string} configuratorType - Configurator type
-   * @returns {boolean} - 'True' if the expected configurator type, otherwise 'fasle'
+   * @returns {boolean} - 'True' if the expected configurator type, otherwise 'false'
    */
   isBundleBasedConfigurator(configuratorType: string | undefined): boolean {
     if (configuratorType) {
@@ -158,15 +158,12 @@ export class CommonConfiguratorUtilsService {
   ): boolean {
     const normalizedType = this.normalizeConfiguratorType(configuratorType);
     if (!normalizedType) {
-      return true;
+      return false;
     }
     const visibilityByType =
       this.commonConfiguratorUISettingsConfig.productConfigurator
         ?.overviewMenuFilterTabVisible;
-    if (visibilityByType && Object.hasOwn(visibilityByType, normalizedType)) {
-      return !!visibilityByType[normalizedType];
-    }
-    return true;
+    return !!visibilityByType?.[normalizedType];
   }
 
   /**

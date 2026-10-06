@@ -241,9 +241,9 @@ describe('CommonConfiguratorUtilsService', () => {
   });
 
   describe('isOverviewMenuFilterTabVisible', () => {
-    it('should return true if configurator type is undefined', () => {
+    it('should return false if configurator type is undefined', () => {
       expect(classUnderTest.isOverviewMenuFilterTabVisible(undefined)).toBe(
-        true
+        false
       );
     });
 
@@ -259,23 +259,29 @@ describe('CommonConfiguratorUtilsService', () => {
       ).toBe(true);
     });
 
-    it('should return true for textfield configurator type by default', () => {
+    it('should return false for textfield configurator type by default', () => {
       expect(
         classUnderTest.isOverviewMenuFilterTabVisible(
           ConfiguratorType.TEXTFIELD
         )
-      ).toBe(true);
+      ).toBe(false);
+    });
+
+    it('should return false for unlisted configurator types', () => {
+      expect(
+        classUnderTest.isOverviewMenuFilterTabVisible('UNLISTEDTYPE')
+      ).toBe(false);
     });
 
     it('should honor customer config for custom configurator types', () => {
       TestBed.inject(CommonConfiguratorUISettingsConfig).productConfigurator = {
         overviewMenuFilterTabVisible: {
-          MYCUSTOMTYPE: false,
+          MYCUSTOMTYPE: true,
         },
       };
       expect(
         classUnderTest.isOverviewMenuFilterTabVisible('MYCUSTOMTYPE')
-      ).toBe(false);
+      ).toBe(true);
     });
 
     it('should strip read-only postfix before lookup', () => {

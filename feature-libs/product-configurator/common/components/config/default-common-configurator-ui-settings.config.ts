@@ -12,9 +12,7 @@ export const defaultCommonConfiguratorUISettingsConfig: CommonConfiguratorUISett
     productConfigurator: {
       cartEntryBundleLineItemsThreshold: 10,
       overviewMenuFilterTabVisible: {
-        [ConfiguratorType.CPQ]: false,
         [ConfiguratorType.VARIANT]: true,
-        [ConfiguratorType.TEXTFIELD]: true,
       },
     },
   };
