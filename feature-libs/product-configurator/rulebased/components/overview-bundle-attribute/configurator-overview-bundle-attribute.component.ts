@@ -10,6 +10,7 @@ import {
   Component,
   Input,
   OnInit,
+  inject,
 } from '@angular/core';
 import {
   CxNumericPipe,
@@ -63,10 +64,13 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
    */
   @Input() hasConfigurationDetails = false;
 
+  protected configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
+
   constructor(
     protected productService: ProductService,
-    protected translation: TranslationService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
+    protected translation: TranslationService
   ) {}
 
   ngOnInit() {
