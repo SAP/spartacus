@@ -35,7 +35,6 @@ import {
   IconComponent,
   LaunchDialogService,
   NgSelectA11yModule,
-  PopoverDirective,
   SpinnerComponent,
 } from '@spartacus/storefront';
 import {
@@ -47,6 +46,7 @@ import {
   CheckoutBillingAddressFormComponent,
   CheckoutBillingAddressFormService,
 } from '../../checkout-billing-address';
+import { CvvTooltipDirective } from './cvv-tooltip.directive';
 import { CheckoutPaymentFormComponent } from './checkout-payment-form.component';
 
 @Component({
@@ -665,7 +665,7 @@ describe('CheckoutPaymentFormComponent', () => {
       expect(button?.getAttribute('aria-label')).toBeTruthy();
     });
 
-    it('should have cxPopover directive on the CVV button when toggle is enabled', () => {
+    it('should have CvvTooltipDirective on the CVV button when toggle is enabled', () => {
       featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', true);
       fixture.detectChanges();
 
@@ -673,7 +673,7 @@ describe('CheckoutPaymentFormComponent', () => {
         By.css('button.cx-payment-form-tooltip.cx-cvv-info-btn')
       );
       expect(buttonEl).toBeTruthy();
-      expect(buttonEl?.injector.get(PopoverDirective, null)).toBeTruthy();
+      expect(buttonEl?.injector.get(CvvTooltipDirective, null)).toBeTruthy();
     });
 
     it('should be keyboard accessible when a11yCvvInfoIconKeyboardAccessible is enabled', () => {

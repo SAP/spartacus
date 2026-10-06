@@ -28,6 +28,7 @@
       }
     }
   }
+
   .cx-payment-form-billing {
     margin: 0 0 1.25rem 0;
   }
@@ -59,5 +60,22 @@
 
   .label-content {
     white-space: nowrap;
+  }
+}
+
+.cx-cvv-tooltip {
+  display: none;
+  position: fixed;
+  z-index: 1070;
+  max-width: 200px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  color: var(--cx-color-inverse);
+  background-color: var(--cx-color-text);
+  border-radius: 4px;
+  pointer-events: none;
+
+  &--visible {
+    display: block;
   }
 }

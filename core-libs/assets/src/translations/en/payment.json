@@ -11,7 +11,7 @@
     "expirationDate": "Expiration Date",
     "securityCode": "Security code (CVV)",
     "securityCodeTitle": "Card Verification Value",
-    "cvvInfoButton": "What is a security code (CVV)?",
+    "cvvInfoButtonLabel": "Security code (CVV) information",
     "cvvInfoHint": "The 3 or 4 digit security code printed on your card, used to verify you have the physical card.",
     "saveAsDefault": "Save as default",
     "setAsDefault": "Set as default payment method",

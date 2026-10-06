@@ -236,23 +236,14 @@
                   <button
                     type="button"
                     class="cx-payment-form-tooltip cx-cvv-info-btn"
-                    [cxPopover]="cvvInfoContent"
-                    [cxPopoverOptions]="{
-                      placement: 'auto',
-                      class: 'hint-popover',
-                      appendToBody: true,
-                      displayCloseButton: true,
-                    }"
+                    [cxCvvTooltip]="'paymentForm.cvvInfoHint' | cxTranslate"
                     [attr.aria-label]="
-                      'paymentForm.cvvInfoButton' | cxTranslate
+                      'paymentForm.cvvInfoButtonLabel' | cxTranslate
                     "
                   >
                     <cx-icon [type]="iconTypes.INFO" />
                   </button>
                 </span>
-                <ng-template #cvvInfoContent>
-                  {{ 'paymentForm.cvvInfoHint' | cxTranslate }}
-                </ng-template>
                 <input
                   required
                   type="text"
