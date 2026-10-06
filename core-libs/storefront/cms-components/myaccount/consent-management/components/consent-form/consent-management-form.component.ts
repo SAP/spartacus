@@ -17,6 +17,7 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   ANONYMOUS_CONSENT_STATUS,
@@ -29,6 +30,7 @@ import {
 @Component({
   selector: 'cx-consent-management-form',
   templateUrl: './consent-management-form.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, NgTemplateOutlet, TranslatePipe],
 })
 export class ConsentManagementFormComponent

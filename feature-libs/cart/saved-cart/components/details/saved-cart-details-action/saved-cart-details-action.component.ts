@@ -11,6 +11,7 @@ import {
   OnDestroy,
   ViewChild,
   ViewContainerRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFormType } from '@spartacus/cart/saved-cart/root';
@@ -23,6 +24,7 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
 @Component({
   selector: 'cx-saved-cart-details-action',
   templateUrl: './saved-cart-details-action.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class SavedCartDetailsActionComponent implements OnDestroy {

@@ -6,7 +6,13 @@
 
 import { AsyncPipe, NgIf } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  Optional,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -39,6 +45,7 @@ import { DateValidationService } from '../shared/date-validation.service';
   selector: 'cx-request-delivery-date',
   templateUrl: './delivery-mode-date-picker.component.html',
   providers: [CxDatePipe],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     CardComponent,

@@ -1026,7 +1026,7 @@ describe('File utils', () => {
           commentToInsert
         );
         expect(changes).toEqual([
-          new InsertChange(filePath, 261, commentToInsert),
+          new InsertChange(filePath, 262, commentToInsert),
         ]);
       });
     });

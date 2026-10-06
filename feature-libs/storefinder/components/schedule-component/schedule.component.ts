@@ -5,7 +5,12 @@
  */
 
 import { NgFor, NgIf } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   PointOfService,
   TranslatePipe,
@@ -15,6 +20,7 @@ import {
 @Component({
   selector: 'cx-schedule',
   templateUrl: './schedule.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, NgFor, TranslatePipe],
 })
 export class ScheduleComponent implements OnInit {

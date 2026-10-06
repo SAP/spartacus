@@ -28,7 +28,7 @@ import { FacetService } from '../services/facet.service';
 @Component({
   selector: 'cx-active-facets',
   templateUrl: './active-facets.component.html',
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     NgFor,

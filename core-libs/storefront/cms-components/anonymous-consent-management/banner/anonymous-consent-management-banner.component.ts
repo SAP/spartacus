@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe, NgClass, NgIf } from '@angular/common';
-import { Component, OnDestroy, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  ViewContainerRef,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { AnonymousConsentsService, TranslatePipe } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -15,6 +20,7 @@ import { LaunchDialogService } from '../../../layout/launch-dialog/services/laun
 @Component({
   selector: 'cx-anonymous-consent-management-banner',
   templateUrl: './anonymous-consent-management-banner.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, NgClass, AsyncPipe, TranslatePipe],
 })
 export class AnonymousConsentManagementBannerComponent implements OnDestroy {

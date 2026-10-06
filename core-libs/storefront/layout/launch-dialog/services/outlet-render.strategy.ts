@@ -6,12 +6,11 @@
 
 import { DOCUMENT } from '@angular/common';
 import {
-  ComponentFactory,
-  ComponentFactoryResolver,
   ComponentRef,
   Inject,
   Injectable,
   RendererFactory2,
+  Type,
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -28,8 +27,7 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
   constructor(
     @Inject(DOCUMENT) protected document: any,
     protected rendererFactory: RendererFactory2,
-    protected outletService: OutletService<ComponentFactory<any>>,
-    protected componentFactoryResolver: ComponentFactoryResolver,
+    protected outletService: OutletService<Type<any>>,
     protected outletRendererService: OutletRendererService
   ) {
     super(document, rendererFactory);
@@ -47,12 +45,9 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
     caller: LAUNCH_CALLER | string
   ): Observable<ComponentRef<any> | undefined> | void {
     if (this.shouldRender(caller, config)) {
-      const template = this.componentFactoryResolver.resolveComponentFactory(
-        config.component
-      );
       this.outletService.add(
         config.outlet,
-        template,
+        config.component,
         config.position ? config.position : OutletPosition.BEFORE
       );
       this.outletRendererService.render(config.outlet);
@@ -66,9 +61,7 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
 
           return components
             .reverse()
-            .find(
-              (component) => component.componentType === template.componentType
-            );
+            .find((component) => component.componentType === config.component);
         }),
         tap((component) => {
           if (config?.dialogType && component) {
@@ -84,14 +77,10 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
   }
 
   remove(caller: LAUNCH_CALLER | string, config: LaunchOutletDialog): void {
-    const template = this.componentFactoryResolver.resolveComponentFactory(
-      config.component
-    );
-
     this.outletService.remove(
       config.outlet,
       config.position ? config.position : OutletPosition.BEFORE,
-      template
+      config.component
     );
 
     super.remove(caller, config);

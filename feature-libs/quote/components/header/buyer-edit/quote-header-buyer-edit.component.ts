@@ -5,7 +5,14 @@
  */
 
 import { NgIf, NgTemplateOutlet } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -31,6 +38,7 @@ export interface EditCard {
 @Component({
   selector: 'cx-quote-header-buyer-edit',
   templateUrl: './quote-header-buyer-edit.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     FormsModule,

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import {
   ListComponent,
@@ -13,6 +13,7 @@ import {
 @Component({
   selector: 'cx-account-summary-list',
   templateUrl: './account-summary-list.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [ListComponent, TranslatePipe],
 })
 export class AccountSummaryListComponent extends UnitListComponent {}

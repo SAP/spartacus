@@ -5,7 +5,7 @@
  */
 
 import { JsonPipe, NgFor, NgIf } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { PointOfService, TranslatePipe } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
@@ -15,6 +15,7 @@ import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.co
 @Component({
   selector: 'cx-store-finder-store-description',
   templateUrl: './store-finder-store-description.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     ScheduleComponent,

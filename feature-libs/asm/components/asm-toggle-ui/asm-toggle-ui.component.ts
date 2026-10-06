@@ -5,7 +5,12 @@
  */
 
 import { NgClass, NgIf } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { AsmService } from '@spartacus/asm/core';
 import { AsmUi } from '@spartacus/asm/root';
 import { TranslatePipe } from '@spartacus/core';
@@ -14,6 +19,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'cx-asm-toggle-ui',
   templateUrl: './asm-toggle-ui.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgClass, NgIf, TranslatePipe],
 })
 export class AsmToggleUiComponent implements OnInit, OnDestroy {

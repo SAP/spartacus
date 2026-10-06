@@ -3,6 +3,7 @@ import {
   HTTP_INTERCEPTORS,
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr,
 } from '@angular/common/http';
 import {
   HttpTestingController,
@@ -70,7 +71,7 @@ describe('OccSegmentRefsInterceptor', () => {
             useClass: OccSegmentRefsInterceptor,
             multi: true,
           },
-          provideHttpClient(withInterceptorsFromDi()),
+          provideHttpClient(withXhr(), withInterceptorsFromDi()),
           provideHttpClientTesting(),
         ],
       });
@@ -108,7 +109,7 @@ describe('OccSegmentRefsInterceptor', () => {
             useClass: OccSegmentRefsInterceptor,
             multi: true,
           },
-          provideHttpClient(withInterceptorsFromDi()),
+          provideHttpClient(withXhr(), withInterceptorsFromDi()),
           provideHttpClientTesting(),
         ],
       });
@@ -146,7 +147,7 @@ describe('OccSegmentRefsInterceptor', () => {
             useClass: OccSegmentRefsInterceptor,
             multi: true,
           },
-          provideHttpClient(withInterceptorsFromDi()),
+          provideHttpClient(withXhr(), withInterceptorsFromDi()),
           provideHttpClientTesting(),
         ],
       });

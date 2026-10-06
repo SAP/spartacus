@@ -5,7 +5,13 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, ElementRef, HostBinding, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostBinding,
+  ViewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable, OperatorFunction } from 'rxjs';
@@ -19,6 +25,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 @Component({
   selector: 'cx-configurator-overview-sidebar',
   templateUrl: './configurator-overview-sidebar.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     ConfiguratorOverviewFilterComponent,

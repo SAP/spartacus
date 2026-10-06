@@ -9,6 +9,7 @@ import {
   ComponentRef,
   ElementRef,
   ViewContainerRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RoutingService, UserIdService, WindowRef } from '@spartacus/core';
@@ -36,7 +37,7 @@ import { OpfPaymentGlobalMethods } from '@spartacus/opf/payment/root';
 import { OpfGlobalFunctionsCheckoutDomainRegistrationsService } from './opf-global-functions-checkout-domain-registrations.service';
 import { facadeProviders } from '../../../facade/facade-providers';
 
-@Component({ template: '' })
+@Component({ changeDetection: ChangeDetectionStrategy.Eager, template: '' })
 class TestContainerComponent {
   constructor(public vcr: ViewContainerRef) {}
 }

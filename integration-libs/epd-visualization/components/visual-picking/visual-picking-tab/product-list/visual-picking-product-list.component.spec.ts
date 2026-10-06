@@ -2,12 +2,17 @@ import { CommonModule } from '@angular/common';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr,
 } from '@angular/common/http';
 import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { Component, EventEmitter } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { Actions } from '@ngrx/effects';
@@ -132,6 +137,7 @@ class MockVisualPickingProductListService {
 
 @Component({
   selector: 'cx-page-layout',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: 'mock',
 })
 class MockPageLayoutComponent {}
@@ -175,7 +181,7 @@ describe('VisualPickingProductListComponent', () => {
           provide: ProductAvailabilityAdapter,
           useClass: MockProductAvailabilityAdapter,
         },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     })

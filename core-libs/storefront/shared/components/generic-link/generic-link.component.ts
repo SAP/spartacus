@@ -5,7 +5,13 @@
  */
 
 import { NgIf, NgTemplateOutlet } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { Params, Router, RouterLink } from '@angular/router';
 import { GenericLinkComponentService } from './generic-link-component.service';
 
@@ -27,6 +33,7 @@ interface RouteParts {
 @Component({
   selector: 'cx-generic-link',
   templateUrl: './generic-link.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, NgTemplateOutlet, RouterLink],
 })
 export class GenericLinkComponent implements OnChanges {

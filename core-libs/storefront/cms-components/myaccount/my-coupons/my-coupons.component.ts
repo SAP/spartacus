@@ -11,6 +11,7 @@ import {
   inject,
   OnDestroy,
   OnInit,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { NavigationStart, Router, RouterLink } from '@angular/router';
 import {
@@ -35,6 +36,7 @@ import { MyCouponsComponentService } from './my-coupons.component.service';
 @Component({
   selector: 'cx-my-coupons',
   templateUrl: './my-coupons.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     SortingComponent,

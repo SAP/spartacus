@@ -5,7 +5,14 @@
  */
 
 import { NgIf } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   CheckoutBillingAddressFormComponent,
@@ -30,6 +37,7 @@ import { DpLocalStorageService } from './../../../facade/dp-local-storage.servic
 @Component({
   selector: 'cx-dp-payment-callback',
   templateUrl: './dp-payment-callback.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     CheckoutBillingAddressFormComponent,

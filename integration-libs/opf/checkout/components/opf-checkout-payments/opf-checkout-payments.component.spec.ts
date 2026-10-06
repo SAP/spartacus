@@ -28,6 +28,7 @@ import {
   EventEmitter,
   Input,
   Output,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -43,6 +44,7 @@ import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
 @Component({
   template: '',
   selector: 'cx-pagination',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [I18nTestingModule, OpfCheckoutTermsAndConditionsAlertModule],
 })
 class MockPaginationComponent {
@@ -53,6 +55,7 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-opf-checkout-payment-wrapper',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [I18nTestingModule, OpfCheckoutTermsAndConditionsAlertModule],
 })
 class MockOpfCheckoutPaymentWrapperComponent {}

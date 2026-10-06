@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { OpfDynamicScript } from '@spartacus/opf/base/root';
@@ -21,6 +21,7 @@ const ctaElementSelector = 'cx-opf-cta-element';
 
 @Component({
   selector: 'cx-opf-cta-element',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 export class MockOpfCtaElementComponent {
@@ -29,6 +30,7 @@ export class MockOpfCtaElementComponent {
 
 @Component({
   selector: 'cx-spinner',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class MockSpinnerComponent {}

@@ -5,7 +5,13 @@
  */
 
 import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import {
@@ -34,6 +40,7 @@ import { CartItemContextSource } from './model/cart-item-context-source.model';
     CartItemContextSource,
     { provide: CartItemContext, useExisting: CartItemContextSource },
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     OutletDirective,
     CartItemValidationWarningComponent,

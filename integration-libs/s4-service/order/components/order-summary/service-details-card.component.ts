@@ -5,7 +5,14 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, OnDestroy, OnInit, Optional, inject } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  Optional,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { ProductTypes, TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
@@ -19,6 +26,7 @@ import { Observable, Subscription, map } from 'rxjs';
 @Component({
   selector: 'cx-card-service-details',
   templateUrl: './service-details-card.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, CardComponent, AsyncPipe],
 })
 export class ServiceDetailsCardComponent implements OnInit, OnDestroy {

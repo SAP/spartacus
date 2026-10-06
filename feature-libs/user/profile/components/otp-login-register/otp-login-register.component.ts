@@ -6,7 +6,13 @@
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -61,6 +67,7 @@ import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-account-constant
 @Component({
   selector: 'cx-otp-register-form',
   templateUrl: './otp-login-register.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     FormsModule,

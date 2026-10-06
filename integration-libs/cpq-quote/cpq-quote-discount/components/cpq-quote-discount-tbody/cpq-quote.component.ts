@@ -4,7 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  Optional,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 
 import { DecimalPipe, NgClass, NgFor, NgIf } from '@angular/common';
@@ -18,6 +25,7 @@ interface ExtendedOrderEntry extends OrderEntry {
 @Component({
   selector: 'cx-cpq-quote',
   templateUrl: './cpq-quote.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, NgFor, NgClass, DecimalPipe],
 })
 export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {

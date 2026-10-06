@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   AuthService,
@@ -21,6 +21,7 @@ import { switchMap } from 'rxjs/operators';
 @Component({
   selector: 'cx-login',
   templateUrl: './login.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     PageSlotComponent,

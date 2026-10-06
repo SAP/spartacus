@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -78,6 +78,7 @@ class MockOpfPaymentFacade implements Partial<OpfPaymentFacade> {
 
 @Component({
   selector: 'cx-opf-checkout-payments',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class MockOpfCheckoutPaymentsComponent

@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FeatureDirective } from '@spartacus/core';
 import { LoginRegisterComponent } from '../login-register.component';
 
 @Component({
   selector: 'cx-login-register-b2b',
   templateUrl: './login-register-b2b.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [LoginRegisterComponent, FeatureDirective],
 })
 export class LoginRegisterB2BComponent {}

@@ -3,6 +3,7 @@ import {
   HttpRequest,
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr,
 } from '@angular/common/http';
 import {
   HttpTestingController,
@@ -83,7 +84,7 @@ describe('OccOmfOrderHistoryAdapter', () => {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
         },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     });

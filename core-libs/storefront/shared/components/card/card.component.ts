@@ -12,7 +12,14 @@ import {
   NgSwitchCase,
   NgTemplateOutlet,
 } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
@@ -51,6 +58,7 @@ export interface Card {
 @Component({
   selector: 'cx-card',
   templateUrl: './card.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     NgFor,

@@ -5,7 +5,7 @@
  */
 
 import { NgClass, NgIf } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { IconComponent } from '../../../../cms-components/misc/icon/icon.component';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { MessageEvent } from '../messaging/messaging.model';
@@ -13,6 +13,7 @@ import { MessageEvent } from '../messaging/messaging.model';
 @Component({
   selector: 'cx-avatar',
   templateUrl: './avatar.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, NgClass, IconComponent],
 })
 export class AvatarComponent {

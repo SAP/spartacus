@@ -1,15 +1,8 @@
-import {
-  Component,
-  ComponentFactory,
-  ComponentFactoryResolver,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { LayoutConfig } from '../../config/layout-config';
 import { LAUNCH_CALLER, LaunchInlineDialog } from '../config';
 import { InlineRenderStrategy } from './inline-render.strategy';
-
-const testTemplate = {} as ComponentFactory<any>;
 
 @Component({ template: '' })
 class TestContainerComponent {
@@ -29,12 +22,6 @@ const mockLaunchConfig: LayoutConfig = {
   },
 };
 
-class MockComponentFactoryResolver {
-  resolveComponentFactory() {
-    return testTemplate;
-  }
-}
-
 describe('InlineRenderStrategy', () => {
   let service: InlineRenderStrategy;
   let component: TestContainerComponent;
@@ -42,13 +29,7 @@ describe('InlineRenderStrategy', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TestContainerComponent],
-      providers: [
-        InlineRenderStrategy,
-        {
-          provide: ComponentFactoryResolver,
-          useClass: MockComponentFactoryResolver,
-        },
-      ],
+      providers: [InlineRenderStrategy],
     }).compileComponents();
 
     service = TestBed.inject(InlineRenderStrategy);
@@ -72,7 +53,9 @@ describe('InlineRenderStrategy', () => {
       ] as LaunchInlineDialog;
       service.render(config, 'TEST_INLINE' as LAUNCH_CALLER, component.vcr);
 
-      expect(component.vcr.createComponent).toHaveBeenCalledWith(testTemplate);
+      expect(component.vcr.createComponent).toHaveBeenCalledWith(
+        TestContainerComponent
+      );
     });
   });
 

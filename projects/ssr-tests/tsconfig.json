@@ -4,7 +4,18 @@
     "module": "CommonJs",
     "types": ["jest"],
     "lib": ["ES2023"],
-    "moduleResolution": "node",
+    // ts-jest (legacy compiler) trips on the inherited root `outDir`/`rootDir:"."`
+    // when emitting the `validate-ssr-build.ts` globalSetup. `isolatedModules`
+    // (transpile-only) sidesteps the program-emit path, and explicit out/root
+    // dirs keep it off `'.'`.
+    "isolatedModules": true,
+    "outDir": "./dist-out-tsc",
+    "rootDir": ".",
+    // TS 6: `node` (=node10) is deprecated; use `bundler`. ts-jest 29 doesn't
+    // understand `bundler` and falls back to node10 internally, so silence the
+    // resulting TS5107 locally (scoped to ssr-tests, not the app build).
+    "moduleResolution": "bundler",
+    "ignoreDeprecations": "6.0",
     "declaration": true,
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,

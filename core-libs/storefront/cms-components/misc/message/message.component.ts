@@ -13,6 +13,7 @@ import {
   Input,
   Output,
   ViewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { GlobalMessageType, TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
@@ -21,6 +22,7 @@ import { IconComponent } from '../icon/icon.component';
 @Component({
   selector: 'cx-message',
   templateUrl: './message.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgClass, IconComponent, NgIf, AtMessageDirective, TranslatePipe],
 })
 export class MessageComponent implements AfterViewInit {

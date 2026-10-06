@@ -1,10 +1,5 @@
 import { ApplicationRef, AsyncPipe } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ComponentFactoryResolver,
-  Inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { getLastValueSync } from '@spartacus/core';
@@ -289,6 +284,10 @@ describe('OutletDirective', () => {
         <ng-container *cxOutlet="outletName" />
       `,
       imports: [OutletDirective, OutletRefDirective],
+      // Preserve v21 Default change detection: the test mutates `outletName`
+      // and asserts the new template renders. OnPush (v22 default) would not
+      // re-render on the plain field change.
+      changeDetection: ChangeDetectionStrategy.Eager,
     })
     class HostComponent {
       outletName = 'A';
@@ -326,7 +325,7 @@ describe('OutletDirective', () => {
     });
   });
 
-  describe('ComponentFactory in outlet', () => {
+  describe('Component in outlet', () => {
     let mockContextSubject$: BehaviorSubject<string>;
 
     @Component({
@@ -381,11 +380,7 @@ describe('OutletDirective', () => {
 
     it('should render component', () => {
       const outletService = TestBed.inject(OutletService);
-      const cfr = TestBed.inject(ComponentFactoryResolver);
-      outletService.add(
-        keptOutlet,
-        cfr.resolveComponentFactory(MockOutletComponent)
-      );
+      outletService.add(keptOutlet, MockOutletComponent);
       const fixture = TestBed.createComponent(MockTemplateComponent);
       fixture.detectChanges();
       const compiled = fixture.debugElement.nativeElement;
@@ -395,12 +390,7 @@ describe('OutletDirective', () => {
 
     it('should render component BEFORE', () => {
       const outletService = TestBed.inject(OutletService);
-      const cfr = TestBed.inject(ComponentFactoryResolver);
-      outletService.add(
-        keptOutlet,
-        cfr.resolveComponentFactory(MockOutletComponent),
-        OutletPosition.BEFORE
-      );
+      outletService.add(keptOutlet, MockOutletComponent, OutletPosition.BEFORE);
       const fixture = TestBed.createComponent(MockTemplateComponent);
       fixture.detectChanges();
       const compiled = fixture.debugElement.nativeElement;
@@ -413,12 +403,7 @@ describe('OutletDirective', () => {
 
     it('should render component AFTER', () => {
       const outletService = TestBed.inject(OutletService);
-      const cfr = TestBed.inject(ComponentFactoryResolver);
-      outletService.add(
-        keptOutlet,
-        cfr.resolveComponentFactory(MockOutletComponent),
-        OutletPosition.AFTER
-      );
+      outletService.add(keptOutlet, MockOutletComponent, OutletPosition.AFTER);
       const fixture = TestBed.createComponent(MockTemplateComponent);
       fixture.detectChanges();
       const compiled = fixture.debugElement.nativeElement;
@@ -431,11 +416,7 @@ describe('OutletDirective', () => {
 
     it('should inject OutletContextData into component', () => {
       const outletService = TestBed.inject(OutletService);
-      const cfr = TestBed.inject(ComponentFactoryResolver);
-      outletService.add(
-        keptOutlet,
-        cfr.resolveComponentFactory(MockOutletComponent)
-      );
+      outletService.add(keptOutlet, MockOutletComponent);
       const fixture = TestBed.createComponent(MockTemplateComponent);
       fixture.detectChanges();
       const testComponent = fixture.debugElement.query(
@@ -452,11 +433,7 @@ describe('OutletDirective', () => {
 
     it('should emit new context to OutletContextData.context$ observable', () => {
       const outletService = TestBed.inject(OutletService);
-      const cfr = TestBed.inject(ComponentFactoryResolver);
-      outletService.add(
-        keptOutlet,
-        cfr.resolveComponentFactory(MockOutletComponent)
-      );
+      outletService.add(keptOutlet, MockOutletComponent);
       const fixture = TestBed.createComponent(MockTemplateComponent);
       fixture.detectChanges();
       const testComponent = fixture.debugElement.query(
@@ -512,11 +489,7 @@ describe('OutletDirective', () => {
     describe('with angular component', () => {
       it('should be able to get componentRef or viewRef', () => {
         const outletService = TestBed.inject(OutletService);
-        const cfr = TestBed.inject(ComponentFactoryResolver);
-        outletService.add(
-          keptOutlet,
-          cfr.resolveComponentFactory(MockOutletComponent)
-        );
+        outletService.add(keptOutlet, MockOutletComponent);
 
         const fixture = TestBed.createComponent(MockTestOutletComponent);
         fixture.detectChanges();
