@@ -88,7 +88,7 @@
             [attr.id]="getGroupId(getPrefixId(idPrefix, group.id), subGroup.id)"
             class="cx-group topLevel configurationDetails"
           >
-            <h2>
+            <h2 [attr.tabindex]="isInPageNavigationEnabled ? -1 : null">
               <span class="cx-visually-hidden">
                 {{
                   'configurator.a11y.configurationDetailsForContainer'

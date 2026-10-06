@@ -45,18 +45,7 @@ class MockConfiguratorStorefrontUtilsService {
   ensureElementVisible = vi.fn();
   getSpareViewportHeight = vi.fn();
   getVerticallyScrolledPixels = vi.fn();
-  scrollToConfigurationElement = vi.fn();
-  focusConfigurationElement = vi.fn();
-
-  idSelector(id: string): string {
-    return '#' + id;
-  }
-
-  navigateToOverviewGroup = vi.fn((idPrefix: string, groupId: string) => {
-    this.scrollToConfigurationElement(
-      this.idSelector(this.createOvGroupId(idPrefix, groupId)) + ' h2'
-    );
-  });
+  navigateToOverviewGroup = vi.fn();
 }
 
 let component: ConfiguratorOverviewMenuComponent;
@@ -260,43 +249,13 @@ describe('ConfigurationOverviewMenuComponent', () => {
   });
 
   describe('navigateToGroup', () => {
-    it('should invoke utils service for determining group id', () => {
+    it('should delegate to utils service', () => {
       initialize();
       fixture.detectChanges();
       component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
       expect(
         configuratorStorefrontUtilsService.navigateToOverviewGroup
       ).toHaveBeenCalledWith(GROUP_PREFIX, GROUP_ID_LOCAL);
-    });
-
-    it('should invoke utils service for scrolling', () => {
-      initialize();
-      fixture.detectChanges();
-      component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
-      expect(
-        configuratorStorefrontUtilsService.navigateToOverviewGroup
-      ).toHaveBeenCalledWith(GROUP_PREFIX, GROUP_ID_LOCAL);
-    });
-
-    it('should compose the query selector from the escaped group id', () => {
-      initialize();
-      vi.mocked(
-        configuratorStorefrontUtilsService.createOvGroupId
-      ).mockReturnValue('cx--GROUP@1-ovGroup');
-
-      component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
-
-      expect(
-        configuratorStorefrontUtilsService.scrollToConfigurationElement
-      ).toHaveBeenCalledWith('#cx--GROUP@1-ovGroup h2');
-    });
-
-    it('should not move the focus if in-page navigation is disabled', () => {
-      initialize();
-      component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
-      expect(
-        configuratorStorefrontUtilsService.focusConfigurationElement
-      ).not.toHaveBeenCalled();
     });
   });
 
@@ -326,19 +285,6 @@ describe('ConfigurationOverviewMenuComponent', () => {
       expect(menuItem?.getAttribute('aria-label')).toContain(
         'configurator.a11y.navigateToOverviewGroup'
       );
-    });
-
-    it('should scroll to and focus the group heading', () => {
-      vi.mocked(
-        configuratorStorefrontUtilsService.createOvGroupId
-      ).mockReturnValue('cx--GROUP-ovGroup');
-      component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
-      expect(
-        configuratorStorefrontUtilsService.scrollToConfigurationElement
-      ).toHaveBeenCalledWith('#cx--GROUP-ovGroup h2');
-      expect(
-        configuratorStorefrontUtilsService.focusConfigurationElement
-      ).toHaveBeenCalledWith('#cx--GROUP-ovGroup h2');
     });
 
     it('should mark only the highlighted menu item as current location', () => {

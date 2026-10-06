@@ -14,6 +14,10 @@ import {
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { KeyboardFocusService } from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -165,6 +169,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
           provide: ConfiguratorUISettingsConfig,
           useValue: defaultConfiguratorUISettingsConfig,
         },
+        provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
@@ -318,6 +323,49 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       vi.spyOn(windowRef.document, 'querySelector');
       classUnderTest.focusConfigurationElement('#group h2');
       expect(windowRef.document.querySelector).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('navigateToOverviewGroup', () => {
+    const HEADING_SELECTOR = '#A--B-ovGroup h2';
+
+    beforeEach(() => {
+      vi.spyOn(classUnderTest, 'scrollToConfigurationElement');
+      vi.spyOn(classUnderTest, 'focusConfigurationElement');
+    });
+
+    it('should scroll to the group heading', () => {
+      classUnderTest.navigateToOverviewGroup('A', 'B');
+      expect(classUnderTest.scrollToConfigurationElement).toHaveBeenCalledWith(
+        HEADING_SELECTOR
+      );
+    });
+
+    it('should not focus the group heading if in-page navigation is disabled', () => {
+      classUnderTest.navigateToOverviewGroup('A', 'B');
+      expect(classUnderTest.focusConfigurationElement).not.toHaveBeenCalled();
+    });
+
+    it('should focus the group heading if in-page navigation is enabled', () => {
+      TestBed.inject(MockFeatureTogglesController).set(
+        'productConfiguratorCPQContainer',
+        true
+      );
+      classUnderTest.navigateToOverviewGroup('A', 'B');
+      expect(classUnderTest.scrollToConfigurationElement).toHaveBeenCalledWith(
+        HEADING_SELECTOR
+      );
+      expect(classUnderTest.focusConfigurationElement).toHaveBeenCalledWith(
+        HEADING_SELECTOR
+      );
+    });
+
+    it('should escape the group id in the heading selector', () => {
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+      classUnderTest.navigateToOverviewGroup('A', 'GROUP@1');
+      expect(classUnderTest.scrollToConfigurationElement).toHaveBeenCalledWith(
+        '#A--GROUP\\@1-ovGroup h2'
+      );
     });
   });
 

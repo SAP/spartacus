@@ -299,17 +299,6 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
    */
   navigateToGroup(prefix: string, id: string): void {
     this.configuratorStorefrontUtilsService.navigateToOverviewGroup(prefix, id);
-    if (this.isInPageNavigationEnabled) {
-      const ovGroupId = this.configuratorStorefrontUtilsService.createOvGroupId(
-        prefix,
-        id
-      );
-      const groupHeadingSelector =
-        this.configuratorStorefrontUtilsService.idSelector(ovGroupId) + ' h2';
-      this.configuratorStorefrontUtilsService.focusConfigurationElement(
-        groupHeadingSelector
-      );
-    }
   }
 
   /**

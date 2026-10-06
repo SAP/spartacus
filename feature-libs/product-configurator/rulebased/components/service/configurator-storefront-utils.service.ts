@@ -7,6 +7,7 @@
 import { Injectable, inject, isDevMode } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import {
+  FeatureToggles,
   LoggerService,
   ProductScope,
   ProductService,
@@ -42,6 +43,7 @@ export class ConfiguratorStorefrontUtilsService {
 
   protected logger = inject(LoggerService);
   protected uiSettingsConfig = inject(ConfiguratorUISettingsConfig);
+  private featureToggles = inject(FeatureToggles);
 
   /**
    * Last selected attribute and value.
@@ -140,14 +142,20 @@ export class ConfiguratorStorefrontUtilsService {
 
   /**
    * Navigates to an overview group by scrolling to its header.
+   * If in-page navigation is enabled (`productConfiguratorCPQContainer`),
+   * the header is focused as well.
    *
    * @param idPrefix - Prefix reflecting parent groups in the overview hierarchy
    * @param groupId - Local overview group id
    */
   navigateToOverviewGroup(idPrefix: string, groupId: string): void {
-    const ovGroupId = this.createOvGroupId(idPrefix, groupId);
+    const headingSelector =
+      this.idSelector(this.createOvGroupId(idPrefix, groupId)) + ' h2';
 
-    this.scrollToConfigurationElement(this.idSelector(ovGroupId) + ' h2');
+    this.scrollToConfigurationElement(headingSelector);
+    if (this.featureToggles.productConfiguratorCPQContainer) {
+      this.focusConfigurationElement(headingSelector);
+    }
   }
 
   /**

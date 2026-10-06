@@ -801,6 +801,27 @@ describe('ConfigurationOverviewFormComponent', () => {
         vi.mocked(storefrontUtils.scrollToConfigurationElement)
       ).toHaveBeenCalledWith(scrollTargetId);
     });
+
+    it('should make the configuration details heading programmatically focusable if in-page navigation is enabled', () => {
+      TestBed.inject(MockFeatureTogglesController).set(
+        'productConfiguratorCPQContainer',
+        true
+      );
+      initialize();
+      const detailsHeading = htmlElem.querySelector(
+        '.cx-group.topLevel.configurationDetails h2'
+      );
+      expect(detailsHeading?.getAttribute('tabindex')).toBe('-1');
+    });
+
+    it('should not make the configuration details heading focusable if in-page navigation is disabled', () => {
+      initialize();
+      const detailsHeading = htmlElem.querySelector(
+        '.cx-group.topLevel.configurationDetails h2'
+      );
+      expect(detailsHeading).toBeTruthy();
+      expect(detailsHeading?.hasAttribute('tabindex')).toBe(false);
+    });
   });
 
   describe('getGroupLevelStyleClasses', () => {
