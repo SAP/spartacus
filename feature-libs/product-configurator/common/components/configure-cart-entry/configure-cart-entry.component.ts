@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -22,7 +22,12 @@ import {
   AbstractOrderType,
   OrderEntry,
 } from '@spartacus/cart/base/root';
-import { RoutingService, TranslatePipe, UrlPipe } from '@spartacus/core';
+import {
+  FeatureDirective,
+  RoutingService,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
@@ -36,7 +41,15 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
   selector: 'cx-configure-cart-entry',
   templateUrl: './configure-cart-entry.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, RouterLink, AsyncPipe, UrlPipe, TranslatePipe],
+  imports: [
+    NgIf,
+    NgTemplateOutlet,
+    RouterLink,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    FeatureDirective,
+  ],
 })
 export class ConfigureCartEntryComponent implements AfterViewInit, OnChanges {
   protected routingService = inject(RoutingService);
@@ -90,7 +103,23 @@ export class ConfigureCartEntryComponent implements AfterViewInit, OnChanges {
     ? this.abstractOrderContext.key$
     : of({ type: AbstractOrderType.CART });
 
-  queryParams$: Observable<{
+  /** Query params when `productConfiguratorCPQContainer` is disabled. */
+  legacyQueryParams$: Observable<{
+    forceReload: boolean;
+    resolveIssues: boolean;
+    navigateToCheckout: boolean;
+    productCode: string | undefined;
+  }> = this.isInCheckout().pipe(
+    map((isInCheckout) => ({
+      forceReload: true,
+      resolveIssues: this.msgBanner && this.hasIssues(),
+      navigateToCheckout: isInCheckout,
+      productCode: this.cartEntry.product?.code,
+    }))
+  );
+
+  /** Query params when `productConfiguratorCPQContainer` is enabled. */
+  cpqContainerQueryParams$: Observable<{
     forceReload: boolean;
     resolveIssues: boolean;
     navigateToCheckout: boolean;
@@ -198,23 +227,36 @@ export class ConfigureCartEntryComponent implements AfterViewInit, OnChanges {
    *
    * @returns - The resource key that controls the link text
    */
-  getLinkTextResourceKey(): string {
-    if (this.isBundleOverviewLink) {
-      return 'configurator.header.show';
-    } else if (this.getDisplayOnly()) {
+  /**
+   * Link text when `productConfiguratorCPQContainer` is disabled.
+   *
+   * @returns - The resource key that controls the link text
+   */
+  getLegacyLinkTextResourceKey(): string {
+    if (this.getDisplayOnly()) {
       return 'configurator.header.displayConfiguration';
-    } else if (this.msgBanner) {
+    }
+    if (this.msgBanner) {
       return 'configurator.header.resolveIssues';
     }
-    return this.getEditConfigurationLinkTextResourceKey();
+    return 'configurator.header.editConfiguration';
   }
 
   /**
-   * Retrieves the resource key for the edit-configuration link text.
+   * Link text when `productConfiguratorCPQContainer` is enabled.
    *
-   * @returns - The resource key for editing a configuration or bundle configuration
+   * @returns - The resource key that controls the link text
    */
-  protected getEditConfigurationLinkTextResourceKey(): string {
+  getCpqContainerLinkTextResourceKey(): string {
+    if (this.isBundleOverviewLink) {
+      return 'configurator.header.show';
+    }
+    if (this.getDisplayOnly()) {
+      return 'configurator.header.displayConfiguration';
+    }
+    if (this.msgBanner) {
+      return 'configurator.header.resolveIssues';
+    }
     if (this.rowId) {
       return 'configurator.header.editProductConfiguration';
     }

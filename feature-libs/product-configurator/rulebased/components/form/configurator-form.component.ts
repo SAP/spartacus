@@ -12,7 +12,11 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import {
+  FeatureToggles,
+  GlobalMessageService,
+  GlobalMessageType,
+} from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
@@ -47,6 +51,7 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
   protected keyboardFocusService = inject(KeyboardFocusService);
+  private featureToggles = inject(FeatureToggles);
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
 
@@ -166,7 +171,10 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
               );
             }
           });
-      } else if (routingData.rowId) {
+      } else if (
+        routingData.rowId &&
+        this.featureToggles.productConfiguratorCPQContainer
+      ) {
         // Clear persisted focus before entering the configurator UI
         this.keyboardFocusService.clear();
         this.configuratorGroupsService.navigateToContainerRow(

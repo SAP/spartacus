@@ -320,7 +320,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       const button = document.createElement('button');
       document.body.appendChild(button);
       button.focus();
-      component.toggleItemsButton = { nativeElement: button };
+      component['toggleItemsButton'] = { nativeElement: button };
 
       component.toggleItems();
       await Promise.resolve();
@@ -940,7 +940,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           'cx-item-info',
           undefined,
           'aria-describedby',
-          'cx-item-hidden-info-1-0'
+          'cx-item-hidden-info-0'
         );
       });
 

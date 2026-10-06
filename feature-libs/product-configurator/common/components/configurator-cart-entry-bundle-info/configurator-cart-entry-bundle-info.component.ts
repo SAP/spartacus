@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -17,6 +17,7 @@ import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import {
   CxNumericPipe,
+  FeatureDirective,
   FeatureToggles,
   ProductService,
   TranslatePipe,
@@ -50,12 +51,14 @@ import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entr
   imports: [
     NgIf,
     NgFor,
+    NgTemplateOutlet,
     RouterLink,
     ConfigureCartEntryComponent,
     AsyncPipe,
     TranslatePipe,
     CxNumericPipe,
     UrlPipe,
+    FeatureDirective,
   ],
 })
 export class ConfiguratorCartEntryBundleInfoComponent {
@@ -365,5 +368,16 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   ): string {
     const suffix = lineItem.rowId ?? index.toString();
     return `cx-item-hidden-info-${entryNumber ?? 'x'}-${suffix}`;
+  }
+
+  /**
+   * Legacy DOM id for line item accessibility descriptions when
+   * `productConfiguratorCPQContainer` is disabled.
+   *
+   * @param index - Index of the line item in the list
+   * @returns Element id for `aria-describedby`
+   */
+  getLegacyHiddenItemInfoId(index: number): string {
+    return 'cx-item-hidden-info-' + index.toString();
   }
 }

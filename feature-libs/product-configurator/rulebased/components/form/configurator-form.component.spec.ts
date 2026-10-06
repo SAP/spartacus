@@ -11,6 +11,10 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
+import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
@@ -263,6 +267,7 @@ let htmlElem: HTMLElement;
 let configExpertModeService: ConfiguratorExpertModeService;
 let hasConfigurationConflictsObservable: Observable<boolean> = EMPTY;
 let keyboardFocusService: KeyboardFocusService;
+let featureToggles: MockFeatureTogglesController;
 
 describe('ConfiguratorFormComponent', () => {
   beforeEach(async () => {
@@ -295,6 +300,9 @@ describe('ConfiguratorFormComponent', () => {
           provide: LaunchDialogService,
           useClass: MockLaunchDialogService,
         },
+        ...provideMockFeatureToggles({
+          productConfiguratorCPQContainer: false,
+        }),
       ],
     })
       .overrideComponent(ConfiguratorFormComponent, {
@@ -310,6 +318,9 @@ describe('ConfiguratorFormComponent', () => {
   });
 
   beforeEach(() => {
+    featureToggles = TestBed.inject(MockFeatureTogglesController);
+    featureToggles.set('productConfiguratorCPQContainer', false);
+
     configuratorGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
@@ -451,7 +462,8 @@ describe('ConfiguratorFormComponent', () => {
     ).not.toHaveBeenCalled();
   });
 
-  it('should navigate to the bundle line item when a row id is provided', () => {
+  it('should navigate to the bundle line item when a row id is provided and productConfiguratorCPQContainer is enabled', () => {
+    featureToggles.set('productConfiguratorCPQContainer', true);
     routerStateObservable = mockRouterStateWithQueryParams({
       rowId: 'row-1',
     });
@@ -465,6 +477,16 @@ describe('ConfiguratorFormComponent', () => {
       }),
       'row-1'
     );
+  });
+
+  it('should not navigate to a bundle line item when productConfiguratorCPQContainer is disabled', () => {
+    routerStateObservable = mockRouterStateWithQueryParams({
+      rowId: 'row-1',
+    });
+    createComponentWithData();
+    expect(
+      configuratorGroupsService.navigateToContainerRow
+    ).not.toHaveBeenCalled();
   });
 
   describe('Rendering', () => {

@@ -7,6 +7,10 @@ import {
   HttpResponseStatus,
   Priority,
 } from '@spartacus/core';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { ConfiguratorBadRequestHandler } from '@spartacus/product-configurator/rulebased/root';
 
 const mockRequest = {} as HttpRequest<any>;
@@ -102,6 +106,7 @@ class MockGlobalMessageService {
 describe('ConfiguratorBadRequestHandler', () => {
   let classUnderTest: ConfiguratorBadRequestHandler;
   let globalMessageService: GlobalMessageService;
+  let featureToggles: MockFeatureTogglesController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -111,10 +116,13 @@ describe('ConfiguratorBadRequestHandler', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
+        ...provideMockFeatureToggles({ productConfiguratorCPQContainer: true }),
       ],
     });
     classUnderTest = TestBed.inject(ConfiguratorBadRequestHandler);
     globalMessageService = TestBed.inject(GlobalMessageService);
+    featureToggles = TestBed.inject(MockFeatureTogglesController);
+    featureToggles.set('productConfiguratorCPQContainer', true);
   });
 
   it('should be created', () => {
@@ -152,6 +160,13 @@ describe('ConfiguratorBadRequestHandler', () => {
       expect(
         classUnderTest.hasMatch(mockProductCardProductNotFoundResponse)
       ).toBe(true);
+    });
+
+    it('should not detect a missing configurator product-card product when productConfiguratorCPQContainer is disabled', () => {
+      featureToggles.set('productConfiguratorCPQContainer', false);
+      expect(
+        classUnderTest.hasMatch(mockProductCardProductNotFoundResponse)
+      ).toBe(false);
     });
 
     it('should detect missing catalog product when product-card fields are URL-encoded', () => {

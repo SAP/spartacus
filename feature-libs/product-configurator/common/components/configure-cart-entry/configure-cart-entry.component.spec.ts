@@ -17,6 +17,10 @@ import {
   OrderEntryStatus,
   ReadOnlyPostfix,
 } from '../../core/model/common-configurator.model';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
 
@@ -55,6 +59,7 @@ describe('ConfigureCartEntryComponent', () => {
   let component: ConfigureCartEntryComponent;
   let fixture: ComponentFixture<ConfigureCartEntryComponent>;
   let htmlElem: HTMLElement;
+  let featureToggles: MockFeatureTogglesController;
   const configuratorType = 'type';
   const orderOrCartEntry: OrderEntry = {};
 
@@ -72,11 +77,16 @@ describe('ConfigureCartEntryComponent', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
+        ...provideMockFeatureToggles({
+          productConfiguratorCPQContainer: false,
+        }),
       ],
     });
   }
 
   function assignTestArtifacts(): void {
+    featureToggles = TestBed.inject(MockFeatureTogglesController);
+    featureToggles.set('productConfiguratorCPQContainer', false);
     mockRouterState = structuredClone(mockBaseRouterState);
     fixture = TestBed.createComponent(ConfigureCartEntryComponent);
     component = fixture.componentInstance;
@@ -416,7 +426,7 @@ describe('ConfigureCartEntryComponent', () => {
         );
       });
 
-      it("should be 'Edit Bundle Configuration' in edit mode for configurator type CLOUDCPQCONFIGURATOR", () => {
+      it("should be 'Edit Configuration' for CPQ when productConfiguratorCPQContainer is disabled", () => {
         component.readOnly = false;
         component.disabled = false;
         component.msgBanner = false;
@@ -429,26 +439,65 @@ describe('ConfigureCartEntryComponent', () => {
           expect,
           htmlElem,
           'a',
-          'configurator.header.editBundleConfiguration'
+          'configurator.header.editConfiguration'
         );
       });
 
-      it("should be 'Edit Product Configuration' for a bundle line item link", () => {
-        component.readOnly = false;
-        component.disabled = false;
-        component.msgBanner = false;
-        component.rowId = 'row-1';
-        component.cartEntry = {
-          entryNumber: 0,
-          product: { configuratorType: ConfiguratorType.CPQ },
-        };
-        fixture.detectChanges();
-        CommonConfiguratorTestUtilsService.expectElementToContainText(
-          expect,
-          htmlElem,
-          'a',
-          'configurator.header.editProductConfiguration'
-        );
+      describe('with productConfiguratorCPQContainer enabled', () => {
+        beforeEach(() => {
+          featureToggles.set('productConfiguratorCPQContainer', true);
+        });
+
+        it("should be 'Edit Bundle Configuration' in edit mode for configurator type CLOUDCPQCONFIGURATOR", () => {
+          component.readOnly = false;
+          component.disabled = false;
+          component.msgBanner = false;
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: ConfiguratorType.CPQ },
+          };
+          fixture.detectChanges();
+          CommonConfiguratorTestUtilsService.expectElementToContainText(
+            expect,
+            htmlElem,
+            'a',
+            'configurator.header.editBundleConfiguration'
+          );
+        });
+
+        it("should be 'Edit Product Configuration' for a bundle line item link", () => {
+          component.readOnly = false;
+          component.disabled = false;
+          component.msgBanner = false;
+          component.rowId = 'row-1';
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: ConfiguratorType.CPQ },
+          };
+          fixture.detectChanges();
+          CommonConfiguratorTestUtilsService.expectElementToContainText(
+            expect,
+            htmlElem,
+            'a',
+            'configurator.header.editProductConfiguration'
+          );
+        });
+
+        it("should be 'Show' for a bundle overview link", () => {
+          component.readOnly = true;
+          component.isBundleOverviewLink = true;
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: configuratorType },
+          };
+          fixture.detectChanges();
+          CommonConfiguratorTestUtilsService.expectElementToContainText(
+            expect,
+            htmlElem,
+            'a',
+            'configurator.header.show'
+          );
+        });
       });
 
       it("should be 'Resolve Issues' in case component is used in banner", () => {
@@ -464,22 +513,6 @@ describe('ConfigureCartEntryComponent', () => {
           htmlElem,
           'a',
           'configurator.header.resolveIssues'
-        );
-      });
-
-      it("should be 'Show' for a bundle overview link", () => {
-        component.readOnly = true;
-        component.isBundleOverviewLink = true;
-        component.cartEntry = {
-          entryNumber: 0,
-          product: { configuratorType: configuratorType },
-        };
-        fixture.detectChanges();
-        CommonConfiguratorTestUtilsService.expectElementToContainText(
-          expect,
-          htmlElem,
-          'a',
-          'configurator.header.show'
         );
       });
     });
@@ -570,7 +603,7 @@ describe('ConfigureCartEntryComponent', () => {
     describe('queryParam$', () => {
       it('should contain "navigateToCheckout" parameter in case the navigation to the cart is relevant', async () => {
         mockRouterState.state.semanticRoute = 'checkoutReviewOrder';
-        component.queryParams$
+        component.legacyQueryParams$
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
             expect(queryParams.navigateToCheckout).toBe(true);
@@ -579,7 +612,7 @@ describe('ConfigureCartEntryComponent', () => {
 
       it('should set "navigateToCart" for a bundle overview link', async () => {
         component.isBundleOverviewLink = true;
-        component.queryParams$
+        component.cpqContainerQueryParams$
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
             expect(queryParams.navigateToCart).toBe(true);
@@ -588,7 +621,7 @@ describe('ConfigureCartEntryComponent', () => {
 
       it('should not set "navigateToCart" for a regular configuration link', async () => {
         component.isBundleOverviewLink = false;
-        component.queryParams$
+        component.cpqContainerQueryParams$
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
             expect(queryParams.navigateToCart).toBe(false);
@@ -601,9 +634,8 @@ describe('ConfigureCartEntryComponent', () => {
           product: { configuratorType: configuratorType, code: productCode },
         };
         fixture.detectChanges();
-        const queryParams = await firstValueFrom(component.queryParams$);
+        const queryParams = await firstValueFrom(component.legacyQueryParams$);
         expect(queryParams.productCode).toBe(productCode);
-        expect(queryParams.rowId).toBeUndefined();
       });
 
       it('should contain "rowId" and omit "productCode" for a bundle line item link', async () => {
@@ -613,7 +645,9 @@ describe('ConfigureCartEntryComponent', () => {
           product: { configuratorType: configuratorType, code: productCode },
         };
         fixture.detectChanges();
-        const queryParams = await firstValueFrom(component.queryParams$);
+        const queryParams = await firstValueFrom(
+          component.cpqContainerQueryParams$
+        );
         expect(queryParams.rowId).toBe('row-abc');
         expect(queryParams.productCode).toBeUndefined();
       });
@@ -626,7 +660,7 @@ describe('ConfigureCartEntryComponent', () => {
           product: { configuratorType: configuratorType, code: productCode },
         };
         fixture.detectChanges();
-        component.queryParams$
+        component.legacyQueryParams$
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
             expect(queryParams.resolveIssues).toBe(false);
@@ -644,7 +678,7 @@ describe('ConfigureCartEntryComponent', () => {
           ],
         };
         fixture.detectChanges();
-        component.queryParams$
+        component.legacyQueryParams$
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
             expect(queryParams.resolveIssues).toBe(true);
@@ -663,7 +697,9 @@ describe('ConfigureCartEntryComponent', () => {
           ],
         };
         fixture.detectChanges();
-        const queryParams = await firstValueFrom(component.queryParams$);
+        const queryParams = await firstValueFrom(
+          component.cpqContainerQueryParams$
+        );
         expect(queryParams.resolveIssues).toBe(true);
         expect(queryParams.rowId).toBeUndefined();
       });
