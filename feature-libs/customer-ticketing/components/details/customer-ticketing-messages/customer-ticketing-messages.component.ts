@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, ViewChild, inject } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  ViewChild,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { EventService, FeatureToggles } from '@spartacus/core';
 import {
   CustomerTicketingConfig,
@@ -24,6 +30,7 @@ import { CustomerTicketingMessagesComponentService } from './customer-ticketing-
 @Component({
   selector: 'cx-customer-ticketing-messages',
   templateUrl: './customer-ticketing-messages.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MessagingComponent],
 })
 export class CustomerTicketingMessagesComponent implements OnDestroy {

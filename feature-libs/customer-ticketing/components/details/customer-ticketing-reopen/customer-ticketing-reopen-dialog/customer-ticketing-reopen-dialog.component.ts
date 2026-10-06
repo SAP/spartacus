@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslatePipe } from '@spartacus/core';
 import {
@@ -27,6 +32,7 @@ import { CustomerTicketingDialogComponent } from '../../../shared/customer-ticke
 @Component({
   selector: 'cx-customer-ticketing-reopen-dialog',
   templateUrl: './customer-ticketing-reopen-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FocusDirective,
     FormsModule,

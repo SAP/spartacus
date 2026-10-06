@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -27,6 +33,7 @@ import { DatePickerService } from './date-picker.service';
 @Component({
   selector: 'cx-date-picker',
   templateUrl: './date-picker.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     ReactiveFormsModule,

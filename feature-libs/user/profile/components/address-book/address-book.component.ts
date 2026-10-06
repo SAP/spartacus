@@ -5,7 +5,13 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   Address,
   FeatureToggles,
@@ -37,6 +43,7 @@ import { AddressFormComponent } from './address-form/address-form.component';
 @Component({
   selector: 'cx-address-book',
   templateUrl: './address-book.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     NgFor,

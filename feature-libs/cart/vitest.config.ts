@@ -24,6 +24,14 @@ export default defineConfig({
       '@spartacus/storefront/testing/mock-feature-directive': `${root}/core-libs/storefront/shared/test/mock-feature-directive.ts`,
       '@spartacus/storefront/testing/mock-feature-level-directive': `${root}/core-libs/storefront/shared/test/mock-feature-level-directive.ts`,
       'core-libs/storefront/shared/test/mock-window-ref': `${root}/core-libs/storefront/shared/test/mock-window-ref.ts`,
+      // Resolve the core barrel to source so DI tokens like
+      // FeatureConfigService/FeatureToggles are a single class identity. Without
+      // this, the service's `@spartacus/core` `inject(FeatureToggles)` reads a
+      // prebundled token while `provideMockFeatureToggles` overrides the source
+      // one — the tokens don't match, the mocked toggle is never seen, and
+      // feature-gated code (e.g. mini-cart `getUpdating`) takes the disabled path.
+      // Must come AFTER the more-specific `@spartacus/core/testing/*` aliases.
+      '@spartacus/core': `${root}/core-libs/core/public_api.ts`,
     },
   },
   test: {

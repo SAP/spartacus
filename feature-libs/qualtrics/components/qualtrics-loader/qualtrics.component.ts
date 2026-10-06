@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, inject, isDevMode } from '@angular/core';
+import {
+  Component,
+  inject,
+  isDevMode,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { LoggerService } from '@spartacus/core';
 import { QualtricsConfig } from './config/qualtrics-config';
 import { QualtricsLoaderService } from './qualtrics-loader.service';
@@ -14,6 +19,7 @@ import { QualtricsLoaderService } from './qualtrics-loader.service';
  */
 @Component({
   selector: 'cx-qualtrics',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 export class QualtricsComponent {

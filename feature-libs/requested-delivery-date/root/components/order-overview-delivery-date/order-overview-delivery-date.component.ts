@@ -5,7 +5,13 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  Optional,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CxDatePipe, TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { Card, CardComponent, OutletContextData } from '@spartacus/storefront';
@@ -16,6 +22,7 @@ import { DateValidationService } from '../shared/date-validation.service';
 @Component({
   selector: 'cx-order-overview-delivery-date',
   templateUrl: './order-overview-delivery-date.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, CardComponent, AsyncPipe, CxDatePipe],
 })
 export class OrderOverviewDeliveryDateComponent implements OnInit, OnDestroy {

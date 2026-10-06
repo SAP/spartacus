@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import {
   FocusConfig,
@@ -19,6 +19,7 @@ import { ConfiguratorOverviewFilterComponent } from '../overview-filter/configur
 @Component({
   selector: 'cx-configurator-overview-filter-dialog',
   templateUrl: './configurator-overview-filter-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FocusDirective,
     IconComponent,

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import {
@@ -19,6 +19,7 @@ import { OpfCheckoutEmailUpdateComponent } from './opf-checkout-email-update.com
 
 @Component({
   selector: 'cx-form-errors',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class MockFormErrorsComponent {

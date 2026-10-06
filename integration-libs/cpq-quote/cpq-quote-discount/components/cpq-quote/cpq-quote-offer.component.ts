@@ -5,7 +5,14 @@
  */
 
 import { NgFor, NgIf } from '@angular/common';
-import { Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  Optional,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { TranslatePipe } from '@spartacus/core';
 import { CpqDiscounts } from '@spartacus/cpq-quote/root';
@@ -19,6 +26,7 @@ interface ExtendedOrderEntry extends OrderEntry {
 @Component({
   selector: 'cx-cpq-quote-offer',
   templateUrl: './cpq-quote-offer.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, NgFor, TranslatePipe],
 })
 export class CpqQuoteOfferComponent implements OnInit, OnDestroy {

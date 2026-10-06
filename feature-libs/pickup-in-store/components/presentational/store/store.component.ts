@@ -5,7 +5,14 @@
  */
 
 import { NgClass, NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { PointOfServiceStock, TranslatePipe } from '@spartacus/core';
 import { storeHasStock } from '@spartacus/pickup-in-store/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
@@ -20,6 +27,7 @@ import { StoreScheduleComponent } from './store-schedule/store-schedule.componen
 @Component({
   selector: 'cx-store',
   templateUrl: './store.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     StoreAddressComponent,
     IconComponent,

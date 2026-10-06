@@ -9,6 +9,7 @@ import {
   ElementRef,
   InjectionToken,
   ViewContainerRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RoutingService, WindowRef } from '@spartacus/core';
@@ -38,7 +39,7 @@ import { OpfGlobalFunctionsService } from './opf-global-functions.service';
 
 export const WINDOW = new InjectionToken<Window>('window');
 
-@Component({ template: '' })
+@Component({ changeDetection: ChangeDetectionStrategy.Eager, template: '' })
 class TestContainerComponent {
   constructor(public vcr: ViewContainerRef) {}
 }

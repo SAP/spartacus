@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe, UrlPipe } from '@spartacus/core';
 import { LoginComponent } from '../login';
@@ -13,6 +13,7 @@ import { LoginComponent } from '../login';
 @Component({
   selector: 'cx-my-account-v2-user',
   templateUrl: './my-account-v2-user.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, RouterLink, AsyncPipe, UrlPipe, TranslatePipe],
 })
 export class MyAccountV2UserComponent extends LoginComponent {}

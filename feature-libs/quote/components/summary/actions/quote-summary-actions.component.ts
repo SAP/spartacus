@@ -15,6 +15,7 @@ import {
   OnInit,
   ViewChild,
   ViewContainerRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
@@ -49,6 +50,7 @@ import { ConfirmationContext } from '../../confirm-dialog/quote-confirm-dialog.m
 @Component({
   selector: 'cx-quote-summary-actions',
   templateUrl: './quote-summary-actions.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, NgClass, NgFor, AsyncPipe, TranslatePipe],
 })
 export class QuoteSummaryActionsComponent

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -40,6 +40,7 @@ import { OpfB2bCheckoutReviewComponent } from './opf-b2b-checkout-review.compone
 
 @Component({
   selector: 'cx-opf-checkout-payments',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class MockOpfCheckoutPaymentsComponent {

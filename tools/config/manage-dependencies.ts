@@ -27,6 +27,7 @@ import semver from 'semver';
 import ts from 'typescript';
 import { chalk } from '../chalk';
 import {
+  IMPLIED_PEER_DEPENDENCIES,
   PACKAGE_JSON,
   PUBLISHING_VERSION,
   SAPUI5_TYPES,
@@ -256,6 +257,10 @@ export function manageDependencies(
 
   // Filer out spec dependencies as we already checked everything related to them
   filterOutSpecOnlyDependencies(libraries);
+
+  // Add implied peers (e.g. @angular/cdk via @ng-select) so they are declared
+  // and kept in lib package.json even though our source never imports them directly.
+  addImpliedPeerDependencies(libraries);
 
   // Add to lib package.json missing dependencies
   addMissingDependenciesToPackageJson(
@@ -731,6 +736,52 @@ function filterOutSpecOnlyDependencies(
         },
         {} as LibraryWithDependencies['externalDependenciesForPackageJson']
       );
+  });
+}
+
+/**
+ * Adds implied peerDependencies (see IMPLIED_PEER_DEPENDENCIES) to the list of
+ * external dependencies for each library — e.g. `@angular/cdk` for libs using
+ * `@ng-select/ng-select`. Our import scanner cannot see them (nothing in our
+ * source imports them directly), so we inject them here so that
+ * `addMissingDependenciesToPackageJson` declares them and
+ * `removeNotUsedDependenciesFromPackageJson` keeps them.
+ *
+ * Applies only to libraries that already declare the triggering package as an
+ * external dependency, so exactly the libs using ng-select receive @angular/cdk.
+ */
+function addImpliedPeerDependencies(
+  libraries: Record<string, LibraryWithDependencies>
+): void {
+  Object.values(libraries).forEach((lib) => {
+    Object.entries(IMPLIED_PEER_DEPENDENCIES).forEach(
+      ([trigger, impliedDeps]) => {
+        if (
+          typeof lib.externalDependenciesForPackageJson[trigger] === 'undefined'
+        ) {
+          return;
+        }
+        impliedDeps.forEach((dependency) => {
+          if (
+            typeof lib.externalDependenciesForPackageJson[dependency] !==
+            'undefined'
+          ) {
+            return;
+          }
+          lib.externalDependenciesForPackageJson[dependency] = {
+            dependency,
+            files: new Set<string>(),
+            usageIn: {
+              lib: true,
+              spec: false,
+              schematics: false,
+              schematicsSpec: false,
+              styles: false,
+            },
+          };
+        });
+      }
+    );
   });
 }
 

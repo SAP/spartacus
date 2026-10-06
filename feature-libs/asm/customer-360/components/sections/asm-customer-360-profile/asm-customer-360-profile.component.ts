@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   AsmCustomer360CustomerProfile,
   AsmCustomer360PaymentDetail,
@@ -26,6 +26,7 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
 @Component({
   selector: 'cx-asm-customer-360-profile',
   templateUrl: './asm-customer-360-profile.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     NgTemplateOutlet,

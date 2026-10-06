@@ -4,7 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  Optional,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
@@ -22,6 +29,7 @@ import { Observable, Subscription } from 'rxjs';
 @Component({
   selector: 'cx-set-preferred-store',
   templateUrl: './set-preferred-store.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, NgClass, IconComponent, AsyncPipe, TranslatePipe],
 })
 export class SetPreferredStoreComponent implements OnInit, OnDestroy {

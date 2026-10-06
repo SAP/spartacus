@@ -14,6 +14,7 @@ import { StorageV1Adapter } from './storage-v1.adapter';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr,
 } from '@angular/common/http';
 
 let sceneAdapter: SceneAdapter;
@@ -32,7 +33,7 @@ describe('StorageV1Adapter', () => {
             provide: SceneAdapter,
             useClass: StorageV1Adapter,
           },
-          provideHttpClient(withInterceptorsFromDi()),
+          provideHttpClient(withXhr(), withInterceptorsFromDi()),
           provideHttpClientTesting(),
         ],
       });

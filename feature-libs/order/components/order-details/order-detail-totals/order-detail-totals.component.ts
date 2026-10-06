@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
 import { OutletDirective } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -14,6 +14,7 @@ import { OrderDetailsService } from '../order-details.service';
 @Component({
   selector: 'cx-order-details-totals',
   templateUrl: './order-detail-totals.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, OutletDirective, AsyncPipe],
 })
 export class OrderDetailTotalsComponent implements OnInit {

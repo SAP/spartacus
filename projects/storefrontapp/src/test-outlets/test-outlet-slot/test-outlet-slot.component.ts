@@ -5,12 +5,13 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { OutletRefDirective, PageLayoutComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-test-outlet-slot',
   templateUrl: './test-outlet-slot.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [PageLayoutComponent, OutletRefDirective, AsyncPipe],
 })
 export class TestOutletSlotComponent {

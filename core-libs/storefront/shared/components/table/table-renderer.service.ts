@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ComponentFactoryResolver, Injectable, Type } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 import { OutletService } from '../../../cms-structure/outlet/outlet.service';
 import { TableConfig } from './config/table.config';
 import {
@@ -32,7 +32,6 @@ export class TableRendererService {
 
   constructor(
     protected outletService: OutletService,
-    protected componentFactoryResolver: ComponentFactoryResolver,
     protected config: TableConfig
   ) {}
 
@@ -59,9 +58,7 @@ export class TableRendererService {
       return;
     }
     this.outletRefs.set(outletRef, true);
-    const template =
-      this.componentFactoryResolver.resolveComponentFactory(renderer);
-    this.outletService.add(outletRef, <any>template);
+    this.outletService.add(outletRef, renderer);
   }
 
   /**

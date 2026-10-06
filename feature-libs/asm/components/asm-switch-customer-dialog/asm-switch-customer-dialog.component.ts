@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { TranslatePipe, User } from '@spartacus/core';
 import {
   FocusConfig,
@@ -28,6 +28,7 @@ export interface SwitchCustomerData {
 @Component({
   selector: 'cx-asm-switch-customer-dialog',
   templateUrl: './asm-switch-customer-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FocusDirective, IconComponent, TranslatePipe],
 })
 export class AsmSwitchCustomerDialogComponent implements OnInit {

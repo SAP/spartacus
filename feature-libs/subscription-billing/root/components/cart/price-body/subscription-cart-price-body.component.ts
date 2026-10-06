@@ -5,7 +5,12 @@
  */
 
 import { CommonModule, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { OutletContextData } from '@spartacus/storefront';
@@ -16,6 +21,7 @@ import { EMPTY } from 'rxjs';
   selector: 'cx-subscription-cart-price-body',
   imports: [CommonModule, NgIf, NgFor, NgTemplateOutlet],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './subscription-cart-price-body.component.html',
 })
 export class SubscriptionCartPriceBodyComponent {

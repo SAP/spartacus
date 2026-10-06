@@ -6,7 +6,7 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import {
@@ -50,6 +50,7 @@ import { Observable } from 'rxjs';
     SortingComponent,
     IconComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [CxDatePipe],
 })
 export class SubscriptionBillingListComponent {

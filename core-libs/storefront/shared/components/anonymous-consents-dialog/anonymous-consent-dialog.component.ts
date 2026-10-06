@@ -13,6 +13,7 @@ import {
   OnDestroy,
   OnInit,
   Optional,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   AnonymousConsent,
@@ -38,6 +39,7 @@ import { SpinnerComponent } from '../spinner/spinner.component';
 @Component({
   selector: 'cx-anonymous-consent-dialog',
   templateUrl: './anonymous-consent-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FocusDirective,
     NgIf,

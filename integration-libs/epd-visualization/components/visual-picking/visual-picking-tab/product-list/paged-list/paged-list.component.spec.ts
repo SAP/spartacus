@@ -1,4 +1,10 @@
-import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  TemplateRef,
+  ViewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { LoggerService } from '@spartacus/core';
@@ -8,6 +14,7 @@ import { PagedListComponent } from './paged-list.component';
 
 @Component({
   selector: 'cx-icon',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class MockCxIconComponent {
@@ -15,6 +22,7 @@ class MockCxIconComponent {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <ng-template #itemTemplate>
       <div id="templateEl"></div>
@@ -26,6 +34,7 @@ class MockTemplateComponent {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <ng-template #headerTemplate>
       <div id="headerTemplateEl"></div>

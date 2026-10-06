@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -31,6 +31,7 @@ import {
     KeyboardFocusModule,
     IconModule,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './date-range-modal.component.html',
 })
 export class DateRangeModalComponent {
