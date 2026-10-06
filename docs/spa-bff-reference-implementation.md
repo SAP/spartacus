@@ -265,6 +265,10 @@ manually in Step 4 — no plugins are needed here.
 
 After importing, manual wiring is needed to make Nx aware of the Angular targets.
 
+> **Which sub-steps apply to you?**
+> - **Fresh Spartacus app (followed Steps 1–2):** do 4a, 4b, 4d, 4e — skip 4c.
+> - **Existing Angular CLI project:** do 4a, 4c, 4d, 4e — skip 4b.
+
 > **Note:** the `project.json` paths below (`apps/storefrontapp/src/...`) assume the
 > storefront was imported as a plain Angular CLI project. Do not run `nx init --integrated`
 > on the storefront before importing — it nests the source at the wrong depth and breaks
@@ -287,7 +291,7 @@ Add to `nx.json` → `plugins` array:
 }
 ```
 
-#### 4b. Create `apps/storefrontapp/project.json`
+#### 4b. Create `apps/storefrontapp/project.json` *(fresh Spartacus app only — skip if doing 4c)*
 
 ```json
 {
@@ -386,7 +390,7 @@ Add to `nx.json` → `plugins` array:
 > the Spartacus changes section is already covered by this template — you do not need
 > to add `proxyConfig` again separately.
 
-#### 4c. Migrate `angular.json` to `project.json` (existing Angular CLI projects only)
+#### 4c. Migrate `angular.json` to `project.json` *(existing Angular CLI projects only — skip if doing 4b)*
 
 > **Skip this step** if you followed Step 2 and created a fresh storefront — you already
 > have `angular.json` from `ng new` and the `project.json` above replaces it entirely.
@@ -588,6 +592,14 @@ Add `.angular/cache` to the **workspace root** `.gitignore`:
 ```
 .angular/cache
 ```
+
+### Step 4 checkpoint
+
+```bash
+nx run storefrontapp:build
+```
+
+A clean build confirms 4a–4e are all wired up correctly. If it fails, run `nx reset` to clear any stale cached configuration and retry.
 
 ---
 
