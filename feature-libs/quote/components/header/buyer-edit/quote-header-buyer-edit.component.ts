@@ -12,6 +12,7 @@ import {
   Input,
   OnInit,
   Output,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   FormControl,
@@ -38,6 +39,7 @@ export interface EditCard {
 @Component({
   selector: 'cx-quote-header-buyer-edit',
   templateUrl: './quote-header-buyer-edit.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     FormsModule,

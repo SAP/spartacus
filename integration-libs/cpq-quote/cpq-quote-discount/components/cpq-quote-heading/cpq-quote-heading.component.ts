@@ -12,6 +12,7 @@ import {
   OnDestroy,
   OnInit,
   Optional,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
@@ -22,6 +23,7 @@ import { CpqQuoteService } from '../../cpq-qute.service';
 @Component({
   selector: 'cx-cpq-quote-heading',
   templateUrl: './cpq-quote-heading.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf],
 })
 export class CpqQuoteHeadingComponent implements OnInit, OnDestroy {

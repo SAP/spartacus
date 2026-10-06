@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, Input, OnDestroy } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnDestroy,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable, Subject, Subscription } from 'rxjs';
@@ -23,6 +28,7 @@ import { BaseItem } from '../../organization.model';
   selector: 'cx-org-delete-item',
   templateUrl: './delete-item.component.html',
   host: { class: 'content-wrapper' },
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {

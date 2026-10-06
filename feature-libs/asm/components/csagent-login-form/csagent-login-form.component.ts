@@ -5,7 +5,14 @@
  */
 
 import { NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -24,6 +31,7 @@ import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
   selector: 'cx-csagent-login-form',
   templateUrl: './csagent-login-form.component.html',
   host: { ngSkipHydration: 'true' },
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     FormsModule,

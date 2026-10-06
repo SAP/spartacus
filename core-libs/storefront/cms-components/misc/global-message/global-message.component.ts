@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   FeatureDirective,
   GlobalMessageEntities,
@@ -21,6 +21,7 @@ import { IconComponent } from '../icon/icon.component';
 @Component({
   selector: 'cx-global-message',
   templateUrl: './global-message.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     NgFor,

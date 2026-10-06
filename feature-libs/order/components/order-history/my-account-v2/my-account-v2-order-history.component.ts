@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CxDatePipe, TranslatePipe, UrlPipe } from '@spartacus/core';
 import { MyAccountV2OrderHistoryService } from '@spartacus/order/core';
@@ -19,6 +19,7 @@ import { MyAccountV2OrderConsolidatedInformationComponent } from './consolidated
 @Component({
   selector: 'cx-my-account-v2-order-history',
   templateUrl: './my-account-v2-order-history.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     NgFor,

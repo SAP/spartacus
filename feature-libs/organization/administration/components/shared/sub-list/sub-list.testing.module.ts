@@ -4,11 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, NgModule } from '@angular/core';
+import {
+  Component,
+  Input,
+  NgModule,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ListService } from '../list/list.service';
 
 @Component({
   selector: 'cx-org-sub-list',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class MockSubListComponent {

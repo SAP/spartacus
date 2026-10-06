@@ -20,6 +20,7 @@ import { VisualizationV1Adapter } from './visualization-v1.adapter';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr,
 } from '@angular/common/http';
 
 let visualizationAdapter: VisualizationAdapter;
@@ -37,7 +38,7 @@ describe('VisualizationApiService', () => {
           provide: VisualizationAdapter,
           useClass: VisualizationV1Adapter,
         },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     });

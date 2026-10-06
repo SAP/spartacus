@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import {
   CxDatePipe,
   EventService,
@@ -39,6 +39,7 @@ import {
 @Component({
   selector: 'cx-quote-header-overview',
   templateUrl: './quote-header-overview.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     CardComponent,

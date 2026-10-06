@@ -3,7 +3,13 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   GlobalMessageService,
@@ -21,18 +27,21 @@ import { OpfTokenisationDeletePaymentDialogComponent } from './opf-tokenisation-
 
 @Component({
   selector: 'cx-card',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class MockCardComponent {}
 
 @Component({
   selector: 'cx-spinner',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class MockSpinnerComponent {}
 
 @Component({
   selector: 'cx-opf-tokenisation-delete-payment-dialog',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class MockDeletePaymentDialogComponent {

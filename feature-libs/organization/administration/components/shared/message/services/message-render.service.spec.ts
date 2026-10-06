@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BaseMessageComponent } from '../base-message.component';
 import { MessageData } from '../message.model';
 import { NotificationMessageComponent } from '../notification/notification-message.component';
 import { MessageRenderService } from './message-render.service';
 
-@Component({ template: '' })
+@Component({ changeDetection: ChangeDetectionStrategy.Eager, template: '' })
 class MockComponent extends BaseMessageComponent {}
 
 describe('MessageRenderService', () => {
@@ -24,13 +24,13 @@ describe('MessageRenderService', () => {
   });
 
   it('should resolve NotificationMessageComponent by default', () => {
-    const factory = service.getComponent({});
-    expect(factory.componentType).toEqual(NotificationMessageComponent);
+    const component = service.getComponent({});
+    expect(component).toEqual(NotificationMessageComponent);
   });
 
   it('should resolve given component', () => {
-    const factory = service.getComponent({ component: MockComponent });
-    expect(factory.componentType).toEqual(MockComponent);
+    const component = service.getComponent({ component: MockComponent });
+    expect(component).toEqual(MockComponent);
   });
 
   it('should inject message data', () => {

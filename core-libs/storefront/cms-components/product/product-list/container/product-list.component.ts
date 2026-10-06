@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -30,6 +35,7 @@ import { ProductScrollComponent } from './product-scroll/product-scroll.componen
 @Component({
   selector: 'cx-product-list',
   templateUrl: './product-list.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     SortingComponent,

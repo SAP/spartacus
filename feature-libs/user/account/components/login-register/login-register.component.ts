@@ -5,13 +5,20 @@
  */
 
 import { NgClass } from '@angular/common';
-import { Component, OnInit, Optional, inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Optional,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RoutingService, TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-login-register',
   templateUrl: './login-register.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgClass, TranslatePipe],
 })
 export class LoginRegisterComponent implements OnInit {

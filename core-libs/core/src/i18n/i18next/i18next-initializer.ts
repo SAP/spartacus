@@ -5,7 +5,7 @@
  */
 
 import { Inject, Injectable, OnDestroy, inject } from '@angular/core';
-import type { InitOptions, i18n } from 'i18next';
+import type { InitOptions, i18n, LoggerModule } from 'i18next';
 import { Subscription } from 'rxjs';
 import { LanguageService } from '../../site-context/facade/language.service';
 import { I18nConfig } from '../config/i18n-config';
@@ -19,7 +19,7 @@ import { I18NEXT_LOGGER_PLUGIN } from './i18next-plugins/i18next-logger-plugin';
  */
 @Injectable({ providedIn: 'root' })
 export class I18nextInitializer implements OnDestroy {
-  loggerPlugin = inject(I18NEXT_LOGGER_PLUGIN);
+  loggerPlugin: LoggerModule = inject(I18NEXT_LOGGER_PLUGIN);
 
   constructor(
     @Inject(I18NEXT_INSTANCE) protected i18next: i18n,

@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { AsmConfig } from '@spartacus/asm/root';
 import { RoutingService, TranslatePipe, UserIdService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
@@ -15,6 +21,7 @@ import { FormatTimerPipe } from './format-timer.pipe';
 @Component({
   selector: 'cx-asm-session-timer',
   templateUrl: './asm-session-timer.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [TranslatePipe, FormatTimerPipe],
 })
 export class AsmSessionTimerComponent implements OnInit, OnDestroy {

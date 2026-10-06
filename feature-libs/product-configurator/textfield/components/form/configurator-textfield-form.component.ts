@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -23,6 +23,7 @@ import { ConfiguratorTextfieldInputFieldComponent } from '../input-field/configu
 @Component({
   selector: 'cx-configurator-textfield-form',
   templateUrl: './configurator-textfield-form.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     NgFor,

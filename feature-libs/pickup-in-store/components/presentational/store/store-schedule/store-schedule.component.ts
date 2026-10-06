@@ -5,7 +5,12 @@
  */
 
 import { NgFor, NgIf } from '@angular/common';
-import { Component, Input, OnChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { PointOfService, TranslatePipe } from '@spartacus/core';
 
 type OpeningTime = {
@@ -20,6 +25,7 @@ type OpeningTime = {
 @Component({
   selector: 'cx-store-schedule',
   templateUrl: 'store-schedule.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgFor, NgIf, TranslatePipe],
 })
 export class StoreScheduleComponent implements OnChanges {

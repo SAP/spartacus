@@ -4,10 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, NgModule } from '@angular/core';
+import {
+  Component,
+  Input,
+  NgModule,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 @Component({
   selector: 'cx-org-card',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: '<ng-content />',
 })
 export class MockCardComponent {

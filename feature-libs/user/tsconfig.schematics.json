@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
     "module": "CommonJS",
     "types": ["node", "jest"],
     "paths": {

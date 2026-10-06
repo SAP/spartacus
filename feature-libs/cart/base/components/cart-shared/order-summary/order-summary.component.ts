@@ -5,7 +5,14 @@
  */
 
 import { NgIf } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  Optional,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { TranslatePipe } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
@@ -15,6 +22,7 @@ import { AppliedCouponsComponent } from '../../cart-coupon/applied-coupons/appli
 @Component({
   selector: 'cx-order-summary',
   templateUrl: './order-summary.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, AppliedCouponsComponent, TranslatePipe],
 })
 export class OrderSummaryComponent implements OnInit, OnDestroy {

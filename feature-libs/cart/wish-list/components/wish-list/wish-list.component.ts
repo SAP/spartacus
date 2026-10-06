@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import { TranslatePipe } from '@spartacus/core';
@@ -15,6 +15,7 @@ import { WishListItemComponent } from '../wish-list-item/wish-list-item.componen
 @Component({
   selector: 'cx-wish-list',
   templateUrl: './wish-list.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, NgFor, WishListItemComponent, AsyncPipe, TranslatePipe],
 })
 export class WishListComponent {

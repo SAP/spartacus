@@ -12,6 +12,7 @@ import {
   OnInit,
   Output,
   ViewContainerRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { Product } from '@spartacus/core';
 
@@ -56,6 +57,7 @@ function isProductWithCode(
 @Component({
   selector: 'cx-cart-pickup-options-container',
   templateUrl: 'pdp-pickup-options-container.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [PickupOptionsComponent, AsyncPipe, NgIf],
 })
 export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {

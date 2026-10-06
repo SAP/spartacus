@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, NgModule } from '@angular/core';
+import { Component, NgModule, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'cx-org-message',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 export class MockMessageComponent {}

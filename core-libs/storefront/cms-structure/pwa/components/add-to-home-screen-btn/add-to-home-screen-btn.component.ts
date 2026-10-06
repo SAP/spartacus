@@ -5,13 +5,14 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AddToHomeScreenService } from '../../services/add-to-home-screen.service';
 import { AddToHomeScreenComponent } from '../add-to-home-screen.component';
 
 @Component({
   selector: 'cx-add-to-home-screen-btn',
   templateUrl: './add-to-home-screen-btn.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, AsyncPipe],
 })
 export class AddToHomeScreenBtnComponent extends AddToHomeScreenComponent {

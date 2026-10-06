@@ -4,11 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, NgModule, Output } from '@angular/core';
+import {
+  Component,
+  Input,
+  NgModule,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 // PRIVATE TESTING UTIL
 @Component({
   template: '<ng-content />',
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'cx-split-view',
 })
 export class MockSplitViewComponent {
@@ -17,6 +24,7 @@ export class MockSplitViewComponent {
 
 @Component({
   template: '<ng-content />',
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'cx-view',
 })
 export class MockViewComponent {

@@ -5,7 +5,13 @@
  */
 
 import { NgFor, NgIf } from '@angular/common';
-import { ChangeDetectorRef, Component, Input, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ProductSearchPage, TranslatePipe } from '@spartacus/core';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { Subscription } from 'rxjs';
@@ -19,6 +25,7 @@ import { ProductListComponentService } from '../product-list-component.service';
 @Component({
   selector: 'cx-product-scroll',
   templateUrl: './product-scroll.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     InfiniteScrollDirective,

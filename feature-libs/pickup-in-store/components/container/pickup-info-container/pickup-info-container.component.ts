@@ -5,7 +5,7 @@
  */
 
 import { NgFor } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
 import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
@@ -16,6 +16,7 @@ import { PickupInfoComponent } from '../../presentational';
 @Component({
   selector: 'cx-pickup-info-container',
   templateUrl: './pickup-info-container.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [PickupInfoComponent, NgFor],
 })
 export class PickupInfoContainerComponent implements OnInit {

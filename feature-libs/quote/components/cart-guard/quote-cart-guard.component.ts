@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { QuoteCartGuard } from './quote-cart.guard';
 
 /**
@@ -13,5 +13,8 @@ import { QuoteCartGuard } from './quote-cart.guard';
  * to this component, allows it. If not, the navigation will be re-directed to the quote
  * details page of the quote that is attached to the current cart.
  */
-@Component({ templateUrl: './quote-cart-guard.component.html' })
+@Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
+  templateUrl: './quote-cart-guard.component.html',
+})
 export class QuoteCartGuardComponent {}

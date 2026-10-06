@@ -13,11 +13,13 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { GoogleMapRendererService } from '@spartacus/storefinder/core';
 
 @Component({
   selector: 'cx-store-finder-map',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './store-finder-map.component.html',
 })
 export class StoreFinderMapComponent implements OnChanges {

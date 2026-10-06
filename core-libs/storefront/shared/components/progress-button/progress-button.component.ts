@@ -5,11 +5,18 @@
  */
 
 import { NgClass, NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-progress-button',
   templateUrl: './progress-button.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgClass, NgIf, TranslatePipe],
 })
 export class ProgressButtonComponent {

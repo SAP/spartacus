@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   CustomerCouponService,
   GlobalMessageService,
@@ -15,6 +20,7 @@ import { Subscription } from 'rxjs';
 
 @Component({
   template: '',
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'cx-coupon-claim',
 })
 export class CouponClaimComponent implements OnInit, OnDestroy {

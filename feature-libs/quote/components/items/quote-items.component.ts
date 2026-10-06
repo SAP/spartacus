@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import { AbstractOrderType, CartOutlets } from '@spartacus/cart/base/root';
 import { TranslatePipe } from '@spartacus/core';
@@ -36,6 +36,7 @@ import {
 @Component({
   selector: 'cx-quote-items',
   templateUrl: './quote-items.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     IconComponent,

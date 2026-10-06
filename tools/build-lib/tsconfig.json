@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": "tsconfig",
     "target": "es6",
     "declaration": true,
     "module": "commonjs",

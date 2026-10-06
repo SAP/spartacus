@@ -1,5 +1,5 @@
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { tap } from 'rxjs/operators';
 import { AbstractOrderType } from '../../root/models/cart.model';
@@ -37,6 +37,9 @@ class TestInnerComponent {
     ><cx-test-cmp-inner />
   </span>`,
   imports: [AbstractOrderContextDirective, TestInnerComponent],
+  // Mutates `abstractOrderKey` then calls detectChanges(); needs Eager so the
+  // input re-binding fires under Angular 22's OnPush-by-default.
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 class TestComponent {
   abstractOrderKey: AbstractOrderKeyInput = {

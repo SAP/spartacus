@@ -1,6 +1,7 @@
 import {
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr,
 } from '@angular/common/http';
 import {
   HttpTestingController,
@@ -36,7 +37,7 @@ describe('OpfApiCheckoutAdapter', () => {
         ConverterService,
         OccEndpointsService,
         LoggerService,
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
         provideConfig({
           backend: {

@@ -5,7 +5,13 @@
  */
 
 import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
-import { Component, computed, Input, Signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  Input,
+  Signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { Product, TranslatePipe } from '@spartacus/core';
 import {
   PerUnitUsageCharge,
@@ -17,6 +23,7 @@ import {
 @Component({
   selector: 'cx-subscription-product-usage-charge',
   templateUrl: './subscription-product-usage-charge.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, NgTemplateOutlet, NgFor, TranslatePipe],
 })
 export class SubscriptionProductUsageChargeComponent {

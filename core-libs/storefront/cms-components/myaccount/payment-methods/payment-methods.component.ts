@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -27,6 +27,7 @@ import { SpinnerComponent } from '../../../shared/components/spinner/spinner.com
 @Component({
   selector: 'cx-payment-methods',
   templateUrl: './payment-methods.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     FormRequiredLegendComponent,

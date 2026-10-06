@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
@@ -24,6 +24,7 @@ import { CartItemListComponent } from '../cart-shared/cart-item-list/cart-item-l
 @Component({
   selector: 'cx-save-for-later',
   templateUrl: './save-for-later.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, CartItemListComponent, AsyncPipe, TranslatePipe],
 })
 export class SaveForLaterComponent implements OnInit {

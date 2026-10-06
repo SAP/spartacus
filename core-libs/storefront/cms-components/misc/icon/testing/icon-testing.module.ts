@@ -4,12 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, NgModule } from '@angular/core';
+import {
+  Component,
+  Input,
+  NgModule,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { IconLoaderService } from '../icon-loader.service';
 
 // PRIVATE TESTING UTIL
 @Component({
   selector: 'cx-icon,[cxIcon]',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `{{ type || cxIcon }}`,
 })
 export class MockIconComponent {

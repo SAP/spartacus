@@ -18,9 +18,10 @@
   },
   "devDependencies": {},
   "peerDependencies": {
+    "@angular/cdk": "^22.2.1",
     "@fontsource/open-sans": "^5.2.7",
     "@fortawesome/fontawesome-free": "7.1.0",
-    "@ng-select/ng-select": "^21.1.4"
+    "@ng-select/ng-select": "^24.2.0"
   },
   "engines": {
     "node": "^22.22.0"

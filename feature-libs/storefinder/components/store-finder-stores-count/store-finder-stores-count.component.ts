@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { RoutingService, TranslatePipe } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
@@ -15,6 +20,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'cx-store-finder-stores-count',
   templateUrl: './store-finder-stores-count.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     NgFor,

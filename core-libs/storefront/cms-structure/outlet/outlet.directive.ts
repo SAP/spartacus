@@ -5,7 +5,6 @@
  */
 
 import {
-  ComponentFactory,
   ComponentRef,
   Directive,
   EmbeddedViewRef,
@@ -156,25 +155,17 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
   }
 
   /**
-   * Renders view based on the given template or component factory
+   * Renders view based on the given template or component class
    */
   private create(
-    tmplOrFactory: any,
+    tmplOrComponent: any,
     position: OutletPosition
   ): ComponentRef<any> | EmbeddedViewRef<any> | undefined {
-    this.renderedTemplate.push(tmplOrFactory);
+    this.renderedTemplate.push(tmplOrComponent);
 
-    if (tmplOrFactory instanceof ComponentFactory) {
-      const component = this.vcr.createComponent(
-        tmplOrFactory,
-        undefined,
-        this.getComponentInjector(position)
-      );
-      this.cxComponentRefChange.emit(component);
-      return component;
-    } else if (tmplOrFactory instanceof TemplateRef) {
+    if (tmplOrComponent instanceof TemplateRef) {
       const view = this.vcr.createEmbeddedView(
-        <TemplateRef<any>>tmplOrFactory,
+        <TemplateRef<any>>tmplOrComponent,
         {
           $implicit: this.cxOutletContext,
         }
@@ -186,6 +177,12 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
 
       this.cxComponentRefChange.emit(view);
       return view;
+    } else if (typeof tmplOrComponent === 'function') {
+      const component = this.vcr.createComponent(tmplOrComponent, {
+        injector: this.getComponentInjector(position),
+      });
+      this.cxComponentRefChange.emit(component);
+      return component;
     }
   }
 

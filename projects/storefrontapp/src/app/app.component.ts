@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { StorefrontComponent } from '@spartacus/storefront';
 
 /**
@@ -14,6 +14,7 @@ import { StorefrontComponent } from '@spartacus/storefront';
 @Component({
   selector: 'app-root',
   template: `<cx-storefront />`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [StorefrontComponent],
 })
 export class AppComponent {}

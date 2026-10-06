@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, Input, OnDestroy } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnDestroy,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable, Subject, Subscription } from 'rxjs';
@@ -25,6 +30,7 @@ import { DisableInfoService } from '../disable-info/disable-info.service';
   selector: 'cx-org-toggle-status',
   templateUrl: './toggle-status.component.html',
   host: { class: 'content-wrapper' },
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {

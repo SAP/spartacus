@@ -1,5 +1,4 @@
-import { NgIf } from '@angular/common';
-import { Component, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
@@ -13,17 +12,21 @@ const CUSTOM_TEXT = 'customized';
 
 @Component({
   template: `
-    <ng-container *ngIf="outletRefVisible">
+    @if (outletRefVisible) {
       <ng-template [cxOutletRef]="outletName"> {{ customText }} </ng-template>
-    </ng-container>
+    }
 
-    <ng-container *ngIf="outletVisible">
+    @if (outletVisible) {
       <ng-template [cxOutlet]="outletName">
         {{ standardText }}
       </ng-template>
-    </ng-container>
+    }
   `,
-  imports: [OutletDirective, OutletRefDirective, NgIf],
+  imports: [OutletDirective, OutletRefDirective],
+  // Preserve v21 Default change detection: this test toggles plain fields
+  // (outletVisible/outletRefVisible) and asserts re-render. Under v22's OnPush
+  // default the container would not re-render on field mutation.
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 class TestContainerComponent {
   outletRefVisible = true;

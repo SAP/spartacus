@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { QuoteFacade } from '@spartacus/quote/root';
 import { QuoteSummaryActionsComponent } from './actions/quote-summary-actions.component';
@@ -15,6 +15,7 @@ import { QuoteSummarySellerEditComponent } from './seller-edit/quote-summary-sel
 @Component({
   selector: 'cx-quote-summary',
   templateUrl: 'quote-summary.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     QuoteSummaryPricesComponent,

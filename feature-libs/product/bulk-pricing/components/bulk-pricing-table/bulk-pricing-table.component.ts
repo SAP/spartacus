@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { RoutingService, TranslatePipe } from '@spartacus/core';
 import {
   BulkPrice,
@@ -17,6 +17,7 @@ import { switchMap } from 'rxjs/operators';
 @Component({
   selector: 'cx-bulk-pricing-table',
   templateUrl: './bulk-pricing-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, NgFor, AsyncPipe, TranslatePipe],
 })
 export class BulkPricingTableComponent implements OnInit {

@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { GlobalMessageType, TranslatePipe } from '@spartacus/core';
@@ -26,6 +26,7 @@ export enum SAVE_CART_DIALOG_ACTION {
 @Component({
   selector: 'cx-asm-save-cart-dialog',
   templateUrl: './asm-save-cart-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FocusDirective, NgIf, MessageComponent, AsyncPipe, TranslatePipe],
 })
 export class AsmSaveCartDialogComponent implements OnInit {

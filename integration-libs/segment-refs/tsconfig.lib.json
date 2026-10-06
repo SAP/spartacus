@@ -13,7 +13,7 @@
     "skipLibCheck": true,
     "lib": ["dom", "esnext"],
     "paths": {
-      "@spartacus/core": ["dist/core"]
+      "@spartacus/core": ["../../dist/core"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true
@@ -21,6 +21,12 @@
   "angularCompilerOptions": {
     "skipTemplateCodegen": true,
     "strictMetadataEmit": true,
+    "extendedDiagnostics": {
+      "checks": {
+        "nullishCoalescingNotNullable": "suppress",
+        "optionalChainNotNullable": "suppress"
+      }
+    },
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
     "enableResourceInlining": true

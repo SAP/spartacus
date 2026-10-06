@@ -12,6 +12,7 @@ import {
   ViewChild,
   ViewContainerRef,
   inject,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { CustomerTicketingFacade } from '@spartacus/customer-ticketing/root';
@@ -23,6 +24,7 @@ import { CustomerTicketingCloseComponentService } from './customer-ticketing-clo
 @Component({
   selector: 'cx-customer-ticketing-close',
   templateUrl: './customer-ticketing-close.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class CustomerTicketingCloseComponent implements OnDestroy {
