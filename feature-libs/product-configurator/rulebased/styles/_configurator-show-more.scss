@@ -3,11 +3,17 @@
     @include cx-configurator-msg();
 
     button {
-      @include cx-configurator-button(
-        var(--cx-color-text),
-        var(--cx-color-primary)
-      );
+      background-color: transparent;
+      border: none;
       display: inline-block;
+      outline-offset: 0px;
+      text-decoration: underline;
+      color: var(--cx-color-text);
+      padding-inline-start: 0;
+
+      &:hover {
+        color: var(--cx-color-primary);
+      }
     }
   }
 }
