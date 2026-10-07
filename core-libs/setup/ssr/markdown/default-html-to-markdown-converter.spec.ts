@@ -329,7 +329,9 @@ describe('default pipeline (createDefaultParser + defaultConverter)', () => {
 
   it('uses the link aria-label as banner label when the image has no alt', async () => {
     const md = await convert(
-      page('<cx-banner><a href="/deal" aria-label="Weekend Deal"></a></cx-banner>')
+      page(
+        '<cx-banner><a href="/deal" aria-label="Weekend Deal"></a></cx-banner>'
+      )
     );
     expect(md).toContain('[Weekend Deal](/deal)');
   });

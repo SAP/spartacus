@@ -33,9 +33,7 @@ module.exports = {
       },
     ],
   },
-  transformIgnorePatterns: [
-    'node_modules/(?!' + esmMatchers.join('|') + ')',
-  ],
+  transformIgnorePatterns: ['node_modules/(?!' + esmMatchers.join('|') + ')'],
 
   collectCoverage: false,
   coverageReporters: ['json', 'lcov', 'text', 'clover'],

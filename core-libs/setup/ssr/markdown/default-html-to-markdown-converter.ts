@@ -105,7 +105,11 @@ export async function createDefaultTurndownService(): Promise<TurndownService> {
 
       return (
         '\n\n' +
-        [...headingLines, `[${linkLabel}](${href})`, ...(remaining ? [remaining] : [])].join('\n') +
+        [
+          ...headingLines,
+          `[${linkLabel}](${href})`,
+          ...(remaining ? [remaining] : []),
+        ].join('\n') +
         '\n\n'
       );
     },
