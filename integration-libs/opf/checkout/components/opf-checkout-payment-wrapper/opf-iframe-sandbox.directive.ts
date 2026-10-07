@@ -16,10 +16,10 @@ export class OpfIframeSandboxDirective {
   ) {}
 
   @Input('cxOpfSandbox') set sandboxValue(value: string | undefined) {
-    if (value != null) {
-      this.renderer.setAttribute(this.el.nativeElement, 'sandbox', value);
-    } else {
+    if (value == null) {
       this.renderer.removeAttribute(this.el.nativeElement, 'sandbox');
+    } else {
+      this.renderer.setAttribute(this.el.nativeElement, 'sandbox', value);
     }
   }
 }
