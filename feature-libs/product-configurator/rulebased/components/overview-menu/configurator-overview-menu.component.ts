@@ -109,10 +109,10 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
    *  Retrieves amount of groups and all its subgroups in the overview.
    *
    *  If there are no groups in the overview then zero will be returned.
-   *  Otherwise the amount of groups and all its subgroups will be returned.
+   *  Otherwise, the amount of groups and all its subgroups will be returned.
    *
-   * @param {Configurator.Configuration} configuration - Configuration
-   * @returns {number} - Amount of groups and all its subgroups
+   * @param configuration - Configuration
+   * @returns - Amount of groups and all its subgroups
    * @protected
    */
   protected getAmount(configuration: Configurator.Configuration): number {
@@ -140,7 +140,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   /**
    * Calculates the total height of existing menu items.
    *
-   * @returns {number} - total height of existing menu items
+   * @returns - total height of existing menu items
    * @protected
    */
   protected getMenuItemsHeight(): number {
@@ -151,7 +151,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
    * Adjust the styling of the page slot that contains the overview menu.
    *
    * If the amount is larger than 1 then the styling will be applied.
-   * Otherwise the styling will be removed.
+   * Otherwise, the styling will be removed.
    *
    * @protected
    */
@@ -170,7 +170,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
    * the height of all menu items equals zero or is larger than the actual height of the spare viewport.
    * If it is a case then the actual height of the spare viewport will be returned, otherwise no height will be returned.
    *
-   * @returns {string} - Menu height in pixels
+   * @returns - Menu height in pixels
    * @protected
    */
   protected getHeight(): string {
@@ -283,8 +283,8 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   /**
    * Retrieves the styling for the group levels.
    *
-   * @param {number} level - Group level. 1 is top level.
-   * @return {string} - corresponding style classes
+   * @param level - Group level. 1 is top level.
+   * @return - corresponding style classes
    */
   getGroupLevelStyleClasses(level: number): string {
     return this.CX_MENU_GROUP + ' groupLevel' + level;
@@ -294,33 +294,19 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
    * Navigates to group in OV form.
    * If in-page navigation is enabled, the group heading is focused as well.
    *
-   * @param {string} prefix - Prefix (reflects the parent groups in the hierarchy)
-   * @param {string} id - Group id
+   * @param prefix - Prefix (reflects the parent groups in the hierarchy)
+   * @param id - Group id
    */
   navigateToGroup(prefix: string, id: string): void {
-    const ovGroupId = this.configuratorStorefrontUtilsService.createOvGroupId(
-      prefix,
-      id
-    );
-    const groupHeadingSelector =
-      this.configuratorStorefrontUtilsService.idSelector(ovGroupId) + ' h2';
-
-    this.configuratorStorefrontUtilsService.scrollToConfigurationElement(
-      groupHeadingSelector
-    );
-    if (this.isInPageNavigationEnabled) {
-      this.configuratorStorefrontUtilsService.focusConfigurationElement(
-        groupHeadingSelector
-      );
-    }
+    this.configuratorStorefrontUtilsService.navigateToOverviewGroup(prefix, id);
   }
 
   /**
    * Retrieves a unique prefix ID.
    *
-   * @param {string | undefined} prefix - prefix that we need to make the ID unique
-   * @param {string} groupId - group ID
-   * @returns {string} - prefix ID
+   * @param idPrefix - prefix that we need to make the ID unique
+   * @param groupId - group ID
+   * @returns - prefix ID
    */
   getPrefixId(idPrefix: string | undefined, groupId: string): string {
     return this.configuratorStorefrontUtilsService.getPrefixId(
@@ -332,9 +318,9 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   /**
    * Retrieves the ids for the overview group headers
    *
-   * @param {string} idPrefix - Prefix (reflects the parent groups in the hierarchy)
-   * @param {string} groupId - local group id
-   * @return {string} - unique group id
+   * @param idPrefix - Prefix (reflects the parent groups in the hierarchy)
+   * @param groupId - local group id
+   * @return - unique group id
    */
   getGroupId(idPrefix: string, groupId: string): string {
     return this.configuratorStorefrontUtilsService.createOvGroupId(
@@ -346,9 +332,9 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   /**
    * Retrieves the ids for the overview menu group items
    *
-   * @param {string} idPrefix - Prefix (reflects the parent groups in the hierarchy)
-   * @param {string} groupId - local group id
-   * @return {string} - unique group id
+   * @param idPrefix - Prefix (reflects the parent groups in the hierarchy)
+   * @param groupId - local group id
+   * @return - unique group id
    */
   getMenuItemId(idPrefix: string, groupId: string): string {
     return this.configuratorStorefrontUtilsService.createOvMenuItemId(

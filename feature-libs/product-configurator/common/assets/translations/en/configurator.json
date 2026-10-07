@@ -121,7 +121,9 @@
     "overviewForm": {
       "noAttributeHeader": "No Results",
       "noAttributeText": "Remove filter(s) to see Overview content",
-      "itemPrice": "Item Price"
+      "itemPrice": "Item Price",
+      "viewDetails": "View Details",
+      "configurationDetailsForContainer": "Configuration Details | {{ attribute }}"
     },
     "overviewSidebar": {
       "menu": "Menu",
@@ -165,6 +167,8 @@
     "a11y": {
       "configureProduct": "Configure product",
       "showDetailsProduct": "Show details of the product",
+      "viewConfigurationDetailsForItem": "View configuration details for {{ item }}",
+      "configurationDetailsForContainer": "Configuration details section for container attribute {{ attribute }}",
       "cartEntryBundleInfo": "There is an item ",
       "cartEntryBundleInfo_other": "There are {{items}} items ",
       "cartEntryBundleName": "Item {{ name }}",
