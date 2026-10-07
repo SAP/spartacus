@@ -5,12 +5,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import type TurndownService from 'turndown';
+import {
+  parse as parseHtml,
+  serialize,
+  type DefaultTreeAdapterMap,
+} from 'parse5';
 import { extractPageContext } from './extract-page-context';
 import {
   HtmlToPageParser,
   ParsedPage,
   ParsedPageConverter,
 } from './markdown-page-handler.model';
+
+type HtmlNode = DefaultTreeAdapterMap['node'];
+type HtmlElement = DefaultTreeAdapterMap['element'];
 
 /**
  * CSS classes Spartacus' pagination component sets on each anchor
@@ -264,12 +272,32 @@ export function htmlToMarkdown(
  * Falls back to `<body>` then the whole input when `<main>` is absent.
  */
 export function extractMainContent(html: string): string {
-  const main = /<main\b[^>]*>([\s\S]*?)<\/main>/i.exec(html);
+  const document = parseHtml(html, { sourceCodeLocationInfo: true });
+  const main = findFirstElement(document, 'main');
   if (main) {
-    return main[1];
+    return serialize(main);
   }
-  const bodyMatch = /<body\b[^>]*>([\s\S]*?)<\/body>/i.exec(html);
-  return bodyMatch ? bodyMatch[1] : html;
+  const body = findFirstElement(document, 'body');
+  return body?.sourceCodeLocation ? serialize(body) : html;
+}
+
+function findFirstElement(
+  root: HtmlNode,
+  tagName: string
+): HtmlElement | undefined {
+  const nodes = [root];
+  while (nodes.length > 0) {
+    const node = nodes.pop() as HtmlNode;
+    if ('tagName' in node && node.tagName === tagName) {
+      return node;
+    }
+    if ('childNodes' in node) {
+      for (let i = node.childNodes.length - 1; i >= 0; i--) {
+        nodes.push(node.childNodes[i]);
+      }
+    }
+  }
+  return undefined;
 }
 
 /** Block renderer: formats a `## Page` metadata block from the parsed page context. */

@@ -461,4 +461,25 @@ describe('lower-level primitives', () => {
       '<p>x</p>'
     );
   });
+
+  it('keeps the complete outer main when a CMS component renders a nested main', () => {
+    const html =
+      '<body><main><p>before</p>' +
+      '<cx-custom><main><p>nested</p></main></cx-custom>' +
+      '<p>after</p></main></body>';
+
+    expect(extractMainContent(html)).toBe(
+      '<p>before</p><cx-custom><main><p>nested</p></main></cx-custom><p>after</p>'
+    );
+  });
+
+  it('falls back to the body content when main is absent', () => {
+    expect(extractMainContent('<body><header>H</header><p>x</p></body>')).toBe(
+      '<header>H</header><p>x</p>'
+    );
+  });
+
+  it('returns the original HTML when main and body are absent', () => {
+    expect(extractMainContent('<p>unterminated')).toBe('<p>unterminated');
+  });
 });

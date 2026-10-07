@@ -536,6 +536,7 @@
     "i18next-http-backend": "~3.0.6",
     "i18next-resources-to-backend": "~1.2.2",
     "ngx-infinite-scroll": "~21.0.0",
+    "parse5": "~8.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.8.1",
     "turndown": "^7.2.0",
