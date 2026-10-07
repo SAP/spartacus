@@ -25,6 +25,7 @@
   let-overviewGroups="overviewGroups"
   let-level="level"
   let-idPrefix="idPrefix"
+  let-parentGroup="parentGroup"
 >
   <span class="cx-visually-hidden">
     {{ 'configurator.a11y.listOfAttributesAndValues' | cxTranslate }}
@@ -32,7 +33,37 @@
 
   <ng-container *ngFor="let group of overviewGroups">
     <div
-      id="{{ getGroupId(idPrefix, group.id) }}"
+      *ngIf="parentGroup && isContainerRowDetailsGroup(group)"
+      [attr.id]="getGroupId(idPrefix, group.id)"
+      class="cx-group topLevel configurationDetails"
+    >
+      <h2 [attr.tabindex]="isInPageNavigationEnabled ? -1 : null">
+        <span class="cx-visually-hidden">
+          {{
+            'configurator.a11y.configurationDetailsForContainer'
+              | cxTranslate
+                : {
+                    attribute: getContainerAttributeName(parentGroup, group),
+                  }
+          }}
+        </span>
+        <span aria-hidden="true">
+          {{
+            'configurator.overviewForm.configurationDetailsForContainer'
+              | cxTranslate
+                : {
+                    attribute: getContainerAttributeName(parentGroup, group),
+                  }
+          }}
+        </span>
+      </h2>
+    </div>
+    <div
+      [attr.id]="
+        isContainerRowDetailsGroup(group)
+          ? null
+          : getGroupId(idPrefix, group.id)
+      "
       [ngClass]="getGroupLevelStyleClasses(level, group.subGroups)"
     >
       <h2 [attr.tabindex]="isInPageNavigationEnabled ? -1 : null">
@@ -62,6 +93,11 @@
           <ng-container *ngSwitchCase="attributeOverviewType.BUNDLE">
             <cx-configurator-cpq-overview-attribute
               [attributeOverview]="attributeOverview"
+              [overviewIdPrefix]="idPrefix"
+              [parentGroupId]="group.id"
+              [hasConfigurationDetails]="
+                hasConfigurationDetails(group, attributeOverview)
+              "
             />
           </ng-container>
 
@@ -80,6 +116,7 @@
               overviewGroups: group.subGroups,
               level: level + 1,
               idPrefix: getPrefixId(idPrefix, group.id),
+              parentGroup: group,
             }
           "
         />
