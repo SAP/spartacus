@@ -41,6 +41,12 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 #v4.4.0
         with:
           node-version: '22'
+      - name: Upgrade npm
+        # Node 22 ships npm 10, whose arborist crashes with
+        # "Cannot read properties of null (reading 'edgesOut')" while
+        # resolving the dependency tree of the app created by 'ng new'.
+        # npm >= 11 fixes it; pin to 12 to match the installation requirements.
+        run: npm install -g npm@12
       - name: NPM
         run: npm ci
         env:
