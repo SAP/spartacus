@@ -36,7 +36,7 @@ export function createMarkdownPageHandler(
   const parser: HtmlToPageParser = options?.parser ?? createDefaultParser();
   const converter: ParsedPageConverter = options?.converter ?? defaultConverter;
   const timeout = options?.timeout ?? DEFAULT_TIMEOUT_MS;
-  const logger = options?.logger !== undefined ? options.logger : console;
+  const logger = options?.logger === undefined ? console : options.logger;
   const skipUrls =
     options?.skipUrls ?? defaultRenderingStrategyResolverOptions.excludedUrls;
 

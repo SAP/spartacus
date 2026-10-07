@@ -157,7 +157,7 @@ export async function createDefaultTurndownService(): Promise<TurndownService> {
     filter: (node) => node.nodeName === 'CX-ACTIVE-FACETS',
     replacement: (_content, node) => {
       const chips = Array.from((node as Element).querySelectorAll('a'))
-        .map((a) => (a.textContent ?? '').replace(/\s+/g, ' ').trim())
+        .map((a) => (a.textContent ?? '').replaceAll(/\s+/g, ' ').trim())
         .filter(Boolean);
       return chips.length ? `\n\nApplied filters: ${chips.join(', ')}\n\n` : '';
     },
