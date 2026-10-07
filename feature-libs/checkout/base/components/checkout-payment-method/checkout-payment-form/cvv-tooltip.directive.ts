@@ -15,6 +15,9 @@ import {
   inject,
 } from '@angular/core';
 
+const TOOLTIP_CLASS = 'cx-cvv-tooltip';
+const ARIA_HIDDEN = 'aria-hidden';
+
 let nextId = 0;
 
 @Directive({
@@ -35,14 +38,19 @@ export class CvvTooltipDirective implements OnInit, OnDestroy {
   private renderer = inject(Renderer2);
   private document = inject(DOCUMENT);
   private tooltipEl: HTMLElement;
-  private tooltipId = `cx-cvv-tooltip-${nextId++}`;
+  private tooltipId: string;
+
+  constructor() {
+    this.tooltipId = `cx-cvv-tooltip-${nextId}`;
+    nextId++;
+  }
 
   ngOnInit(): void {
     this.tooltipEl = this.renderer.createElement('span');
-    this.renderer.addClass(this.tooltipEl, 'cx-cvv-tooltip');
+    this.renderer.addClass(this.tooltipEl, TOOLTIP_CLASS);
     this.renderer.setAttribute(this.tooltipEl, 'role', 'tooltip');
     this.renderer.setAttribute(this.tooltipEl, 'id', this.tooltipId);
-    this.renderer.setAttribute(this.tooltipEl, 'aria-hidden', 'true');
+    this.renderer.setAttribute(this.tooltipEl, ARIA_HIDDEN, 'true');
     this.renderer.appendChild(this.document.body, this.tooltipEl);
     this.renderer.setAttribute(
       this.el.nativeElement,
@@ -56,13 +64,13 @@ export class CvvTooltipDirective implements OnInit, OnDestroy {
     this.renderer.setProperty(this.tooltipEl, 'textContent', this.cxCvvTooltip);
     this.renderer.setStyle(this.tooltipEl, 'top', `${rect.bottom + 4}px`);
     this.renderer.setStyle(this.tooltipEl, 'left', `${rect.left}px`);
-    this.renderer.setAttribute(this.tooltipEl, 'aria-hidden', 'false');
-    this.renderer.addClass(this.tooltipEl, 'cx-cvv-tooltip--visible');
+    this.renderer.setAttribute(this.tooltipEl, ARIA_HIDDEN, 'false');
+    this.renderer.addClass(this.tooltipEl, `${TOOLTIP_CLASS}--visible`);
   }
 
   hide(): void {
-    this.renderer.setAttribute(this.tooltipEl, 'aria-hidden', 'true');
-    this.renderer.removeClass(this.tooltipEl, 'cx-cvv-tooltip--visible');
+    this.renderer.setAttribute(this.tooltipEl, ARIA_HIDDEN, 'true');
+    this.renderer.removeClass(this.tooltipEl, `${TOOLTIP_CLASS}--visible`);
   }
 
   ngOnDestroy(): void {
