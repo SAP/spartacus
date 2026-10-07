@@ -279,11 +279,13 @@ export class AnonymousConsentsService {
    * Otherwise, it returns `false`. Returns `false` immediately for logged-in users.
    */
   isBannerVisible(): Observable<boolean> {
-    return this.authService.isUserLoggedIn().pipe(
-      switchMap((isLoggedIn) =>
-        isLoggedIn ? of(false) : this.getAnonymousBannerVisible()
-      )
-    );
+    return this.authService
+      .isUserLoggedIn()
+      .pipe(
+        switchMap((isLoggedIn) =>
+          isLoggedIn ? of(false) : this.getAnonymousBannerVisible()
+        )
+      );
   }
 
   private getAnonymousBannerVisible(): Observable<boolean> {
