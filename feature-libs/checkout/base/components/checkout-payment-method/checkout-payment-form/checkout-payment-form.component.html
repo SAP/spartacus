@@ -188,11 +188,11 @@
             </div>
 
             <div class="form-group col-md-4">
-              <label for="cVVNumber">
-                <span
-                  *cxFeature="'!a11yCvvInfoIconKeyboardAccessible'"
-                  class="label-content"
-                >
+              <label
+                *cxFeature="'!a11yCvvInfoIconKeyboardAccessible'"
+                for="cVVNumber"
+              >
+                <span class="label-content">
                   {{ 'paymentForm.securityCode' | cxTranslate }}
                   <cx-form-required-asterisks />
                   <cx-icon
