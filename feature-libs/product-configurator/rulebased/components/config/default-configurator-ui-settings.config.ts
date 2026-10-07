@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ConfiguratorType } from '@spartacus/product-configurator/common';
 import { ConfiguratorUISettingsConfig } from './configurator-ui-settings.config';
 
 export const defaultConfiguratorUISettingsConfig: ConfiguratorUISettingsConfig =
@@ -24,5 +25,8 @@ export const defaultConfiguratorUISettingsConfig: ConfiguratorUISettingsConfig =
         '.VariantConfigOverviewHeader',
         '.CpqConfigHeader',
       ],
+      overviewMenuFilterTabVisible: {
+        [ConfiguratorType.VARIANT]: true,
+      },
     },
   };

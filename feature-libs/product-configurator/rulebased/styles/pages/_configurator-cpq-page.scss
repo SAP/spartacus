@@ -17,12 +17,18 @@
       max-inline-size: 70%;
     }
 
-    cx-page-slot.CpqConfigOverviewNavigation.has-components {
-      max-inline-size: 30%;
+    cx-page-slot.CpqConfigOverviewContent.has-components {
+      max-inline-size: 100%;
     }
 
-    cx-page-slot.CpqConfigOverviewContent.has-components {
-      max-inline-size: 70%;
+    @include forFeature('productConfiguratorCPQContainer') {
+      cx-page-slot.CpqConfigOverviewNavigation.has-components {
+        max-inline-size: 30%;
+      }
+
+      cx-page-slot.CpqConfigOverviewContent.has-components {
+        max-inline-size: 70%;
+      }
     }
   }
 
@@ -35,12 +41,18 @@
       max-inline-size: calc(1140px * 0.7);
     }
 
-    cx-page-slot.CpqConfigOverviewNavigation.has-components {
-      max-inline-size: calc(1140px * 0.3);
+    cx-page-slot.CpqConfigOverviewContent.has-components {
+      max-inline-size: 100%;
     }
 
-    cx-page-slot.CpqConfigOverviewContent.has-components {
-      max-inline-size: calc(1140px * 0.7);
+    @include forFeature('productConfiguratorCPQContainer') {
+      cx-page-slot.CpqConfigOverviewNavigation.has-components {
+        max-inline-size: calc(1140px * 0.3);
+      }
+
+      cx-page-slot.CpqConfigOverviewContent.has-components {
+        max-inline-size: calc(1140px * 0.7);
+      }
     }
   }
 }

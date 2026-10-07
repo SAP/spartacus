@@ -20,7 +20,7 @@ import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { defaultCommonConfiguratorUISettingsConfig } from '../../../common/components/config/default-common-configurator-ui-settings.config';
+import { defaultConfiguratorUISettingsConfig } from '../config/default-configurator-ui-settings.config';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -103,6 +103,11 @@ class MockConfiguratorStorefrontUtilsService {
   getSpareViewportHeight(): void {}
   getVerticallyScrolledPixels(): void {}
   isDisplayOnlyVariant(): void {}
+  isOverviewMenuFilterTabVisible(
+    configuratorType: string | undefined
+  ): boolean {
+    return configuratorType === ConfiguratorType.VARIANT;
+  }
   idSelector(id: string): string {
     return '#' + id;
   }
@@ -166,7 +171,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
           provide: ProductService,
           useClass: MockProductService,
         },
-        provideDefaultConfig(defaultCommonConfiguratorUISettingsConfig),
+        provideDefaultConfig(defaultConfiguratorUISettingsConfig),
         provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
       ],
     })
@@ -486,7 +491,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
             provide: ProductService,
             useClass: MockProductService,
           },
-          provideDefaultConfig(defaultCommonConfiguratorUISettingsConfig),
+          provideDefaultConfig(defaultConfiguratorUISettingsConfig),
           provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
         ],
       })

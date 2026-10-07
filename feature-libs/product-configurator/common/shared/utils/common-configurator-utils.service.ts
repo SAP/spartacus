@@ -26,7 +26,6 @@ import {
   CommonConfigurator,
   ConfiguratorType,
   OrderEntryStatus,
-  ReadOnlyPostfix,
 } from '../../core/model/common-configurator.model';
 import { ConfiguratorModelUtils } from './configurator-model-utils';
 
@@ -144,45 +143,6 @@ export class CommonConfiguratorUtilsService {
       return configuratorType === ConfiguratorType.CPQ;
     }
     return false;
-  }
-
-  /**
-   * Verifies whether the overview menu Filter tab is visible for the given
-   * configurator type.
-   *
-   * @param configuratorType - Commerce configurator type (route postfix)
-   * @returns `true` if the Filter tab is shown, otherwise `false`
-   */
-  isOverviewMenuFilterTabVisible(
-    configuratorType: string | undefined
-  ): boolean {
-    const normalizedType = this.normalizeConfiguratorType(configuratorType);
-    if (!normalizedType) {
-      return false;
-    }
-    const visibilityByType =
-      this.commonConfiguratorUISettingsConfig.productConfigurator
-        ?.overviewMenuFilterTabVisible;
-    return !!visibilityByType?.[normalizedType];
-  }
-
-  /**
-   * Strips the read-only postfix from a configurator type when present.
-   *
-   * @param configuratorType - Configurator type
-   * @returns Normalized configurator type
-   * @protected
-   */
-  protected normalizeConfiguratorType(
-    configuratorType: string | undefined
-  ): string | undefined {
-    if (!configuratorType) {
-      return undefined;
-    }
-    if (configuratorType.endsWith(ReadOnlyPostfix)) {
-      return configuratorType.slice(0, -ReadOnlyPostfix.length);
-    }
-    return configuratorType;
   }
 
   /**

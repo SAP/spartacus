@@ -17,10 +17,7 @@ import {
   TranslatePipe,
   useFeatureStyles,
 } from '@spartacus/core';
-import {
-  CommonConfiguratorUtilsService,
-  ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
+import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable, OperatorFunction } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -50,9 +47,6 @@ export class ConfiguratorOverviewSidebarComponent {
   overviewMenuFilterTabVisible = false;
 
   private featureToggles = inject(FeatureToggles);
-  protected commonConfiguratorUtilsService = inject(
-    CommonConfiguratorUtilsService
-  );
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
@@ -76,7 +70,7 @@ export class ConfiguratorOverviewSidebarComponent {
             if (configuration) {
               this.ghostStyle = false;
               this.overviewMenuFilterTabVisible =
-                this.commonConfiguratorUtilsService.isOverviewMenuFilterTabVisible(
+                this.configuratorStorefrontUtilsService.isOverviewMenuFilterTabVisible(
                   routerData.owner.configuratorType
                 );
             }

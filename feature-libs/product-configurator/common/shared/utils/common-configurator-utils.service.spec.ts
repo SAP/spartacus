@@ -20,7 +20,6 @@ import {
   CommonConfigurator,
   ConfiguratorType,
   OrderEntryStatus,
-  ReadOnlyPostfix,
 } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUISettingsConfig } from '../../components/config/common-configurator-ui-settings.config';
 import { CommonConfiguratorUtilsService } from './common-configurator-utils.service';
@@ -237,59 +236,6 @@ describe('CommonConfiguratorUtilsService', () => {
       expect(
         classUnderTest.isAttributeBasedConfigurator(ConfiguratorType.TEXTFIELD)
       ).toBe(true);
-    });
-  });
-
-  describe('isOverviewMenuFilterTabVisible', () => {
-    it('should return false if configurator type is undefined', () => {
-      expect(classUnderTest.isOverviewMenuFilterTabVisible(undefined)).toBe(
-        false
-      );
-    });
-
-    it('should return false for CLOUD CPQ configurator type by default', () => {
-      expect(
-        classUnderTest.isOverviewMenuFilterTabVisible(ConfiguratorType.CPQ)
-      ).toBe(false);
-    });
-
-    it('should return true for variant configurator type by default', () => {
-      expect(
-        classUnderTest.isOverviewMenuFilterTabVisible(ConfiguratorType.VARIANT)
-      ).toBe(true);
-    });
-
-    it('should return false for textfield configurator type by default', () => {
-      expect(
-        classUnderTest.isOverviewMenuFilterTabVisible(
-          ConfiguratorType.TEXTFIELD
-        )
-      ).toBe(false);
-    });
-
-    it('should return false for unlisted configurator types', () => {
-      expect(
-        classUnderTest.isOverviewMenuFilterTabVisible('UNLISTEDTYPE')
-      ).toBe(false);
-    });
-
-    it('should honor customer config for custom configurator types', () => {
-      TestBed.inject(CommonConfiguratorUISettingsConfig).productConfigurator = {
-        overviewMenuFilterTabVisible: {
-          MYCUSTOMTYPE: true,
-        },
-      };
-      expect(
-        classUnderTest.isOverviewMenuFilterTabVisible('MYCUSTOMTYPE')
-      ).toBe(true);
-    });
-
-    it('should strip read-only postfix before lookup', () => {
-      expect(
-        classUnderTest.isOverviewMenuFilterTabVisible(
-          ConfiguratorType.CPQ + ReadOnlyPostfix
-        )
-      ).toBe(false);
     });
   });
 

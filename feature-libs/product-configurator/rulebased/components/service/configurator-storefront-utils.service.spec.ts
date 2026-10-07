@@ -12,6 +12,8 @@ import {
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
+  ConfiguratorType,
+  ReadOnlyPostfix,
 } from '@spartacus/product-configurator/common';
 import { KeyboardFocusService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -1163,6 +1165,59 @@ describe('ConfiguratorStorefrontUtilsService', () => {
           expect(isDisplayOnlyVariant).toBe(true);
         })
         .unsubscribe();
+    });
+  });
+
+  describe('isOverviewMenuFilterTabVisible', () => {
+    it('should return false if configurator type is undefined', () => {
+      expect(classUnderTest.isOverviewMenuFilterTabVisible(undefined)).toBe(
+        false
+      );
+    });
+
+    it('should return false for CLOUD CPQ configurator type by default', () => {
+      expect(
+        classUnderTest.isOverviewMenuFilterTabVisible(ConfiguratorType.CPQ)
+      ).toBe(false);
+    });
+
+    it('should return true for variant configurator type by default', () => {
+      expect(
+        classUnderTest.isOverviewMenuFilterTabVisible(ConfiguratorType.VARIANT)
+      ).toBe(true);
+    });
+
+    it('should return false for textfield configurator type by default', () => {
+      expect(
+        classUnderTest.isOverviewMenuFilterTabVisible(
+          ConfiguratorType.TEXTFIELD
+        )
+      ).toBe(false);
+    });
+
+    it('should return false for unlisted configurator types', () => {
+      expect(
+        classUnderTest.isOverviewMenuFilterTabVisible('UNLISTEDTYPE')
+      ).toBe(false);
+    });
+
+    it('should honor customer config for custom configurator types', () => {
+      TestBed.inject(ConfiguratorUISettingsConfig).productConfigurator = {
+        overviewMenuFilterTabVisible: {
+          MYCUSTOMTYPE: true,
+        },
+      };
+      expect(
+        classUnderTest.isOverviewMenuFilterTabVisible('MYCUSTOMTYPE')
+      ).toBe(true);
+    });
+
+    it('should return false for variant configurator type with read-only postfix', () => {
+      expect(
+        classUnderTest.isOverviewMenuFilterTabVisible(
+          ConfiguratorType.VARIANT + ReadOnlyPostfix
+        )
+      ).toBe(false);
     });
   });
 
