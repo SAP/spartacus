@@ -99,8 +99,10 @@ export class OpfCheckoutBillingAddressFormService {
   setDefaultBillingAddress(): void {
     this._$isLoadingAddress.next(true);
     this.activeCartService
-      .hasDeliveryItems()
+      .isStable()
       .pipe(
+        filter((isStable: boolean) => isStable),
+        switchMap(() => this.activeCartService.hasDeliveryItems()),
         take(1),
         filter((hasDeliveryItems: boolean) => !hasDeliveryItems),
         switchMap(() => this.userAddressService.getDefaultAddress()),
