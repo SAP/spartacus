@@ -4,6 +4,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+import { decodeHTML } from 'entities';
 
 /**
  * Compact "where are we" context extracted from a rendered SSR page.
@@ -38,7 +39,7 @@ export function extractPageContext(html: string): PageContext {
 
 function extractTitle(html: string): string | undefined {
   const match = /<title[^>]*>([\s\S]*?)<\/title>/i.exec(html);
-  return match ? decodeEntities(match[1]).trim() || undefined : undefined;
+  return match ? decodeHTML(match[1]).trim() || undefined : undefined;
 }
 
 function extractCanonical(html: string): string | undefined {
@@ -47,7 +48,7 @@ function extractCanonical(html: string): string | undefined {
     return undefined;
   }
   const href = /\bhref=["']([^"']*)["']/i.exec(link[0]);
-  return href ? href[1] : undefined;
+  return href ? decodeHTML(href[1]) : undefined;
 }
 
 function extractBreadcrumb(
@@ -85,7 +86,7 @@ function breadcrumbFromDom(html: string): string | undefined {
   const anchors = [...container[1].matchAll(/<a\b[^>]*>([\s\S]*?)<\/a>/gi)];
   const names = anchors
     .map((m) => {
-      const raw = decodeEntities(stripTags(m[1])).trim();
+      const raw = decodeHTML(stripTags(m[1])).trim();
       try {
         return decodeURIComponent(raw);
       } catch {
@@ -106,7 +107,7 @@ function extractSiteName(
 function extractOgSiteName(html: string): string | undefined {
   const ogTag = /<meta\b[^>]*\bproperty=["']og:site_name["'][^>]*>/i.exec(html);
   const content = ogTag ? /\bcontent=["']([^"']*)["']/i.exec(ogTag[0]) : null;
-  return content ? decodeEntities(content[1]).trim() || undefined : undefined;
+  return content ? decodeHTML(content[1]).trim() || undefined : undefined;
 }
 
 function extractJsonLdSiteName(
@@ -124,7 +125,7 @@ function extractDescription(html: string): string | undefined {
     return undefined;
   }
   const content = /\bcontent=["']([^"']*)["']/i.exec(tag[0]);
-  return content ? decodeEntities(content[1]).trim() || undefined : undefined;
+  return content ? decodeHTML(content[1]).trim() || undefined : undefined;
 }
 
 function extractJsonLd(html: string): Record<string, unknown>[] | undefined {
@@ -135,7 +136,7 @@ function extractJsonLd(html: string): Record<string, unknown>[] | undefined {
   ];
   const results = matches.flatMap((match) => {
     try {
-      const raw = decodeEntities(match[1]).trim();
+      const raw = decodeHTML(match[1]).trim();
       const parsed: unknown = JSON.parse(raw);
       if (Array.isArray(parsed)) {
         return parsed as Record<string, unknown>[];
@@ -162,13 +163,4 @@ function stripTags(input: string): string {
     output = output.replaceAll(/<[^>]*>/g, '');
   }
   return output;
-}
-
-function decodeEntities(input: string): string {
-  return input
-    .replaceAll('&lt;', '<')
-    .replaceAll('&gt;', '>')
-    .replaceAll('&quot;', '"')
-    .replaceAll('&#39;', "'")
-    .replaceAll('&amp;', '&');
 }

@@ -140,4 +140,37 @@ describe('extractPageContext', () => {
       `<body><script id="json-ld" type="application/ld+json">${escaped}</script></body>`;
     expect(extractPageContext(html).siteName).toBe('Meta Name');
   });
+
+  it('decodes named, decimal, and hexadecimal entities in page metadata', () => {
+    const html =
+      '<head>' +
+      '<title>Caf&eacute;&nbsp;&#169;&nbsp;&#x20AC;</title>' +
+      '<link rel="canonical" href="/search?q=cameras&amp;sort=name">' +
+      '<meta property="og:site_name" content="Audio &amp; Video">' +
+      '<meta name="description" content="Save&nbsp;20&#37;">' +
+      '</head>';
+
+    expect(extractPageContext(html)).toEqual(
+      expect.objectContaining({
+        title: 'Café\u00a0©\u00a0€',
+        canonicalUrl: '/search?q=cameras&sort=name',
+        siteName: 'Audio & Video',
+        description: 'Save\u00a020%',
+      })
+    );
+  });
+
+  it('decodes entities in DOM breadcrumbs and JSON-LD text', () => {
+    const html =
+      '<cx-breadcrumb><a>Audio &amp; Video</a></cx-breadcrumb>' +
+      '<script id="json-ld" type="application/ld+json">' +
+      '{"@type":"WebSite","name":"Caf&eacute; &amp; Shop"}' +
+      '</script>';
+
+    const context = extractPageContext(html);
+    expect(context.breadcrumb).toBe('Audio & Video');
+    expect(context.jsonLd).toEqual([
+      { '@type': 'WebSite', name: 'Café & Shop' },
+    ]);
+  });
 });
