@@ -14,6 +14,14 @@ export default defineConfig({
   resolve: {
     alias: {
       'core-libs/core/src/features-config/feature-toggles/testing': `${import.meta.dirname}/../../core-libs/core/src/features-config/feature-toggles/testing`,
+      // Resolve the core/user barrels to source so DI tokens (e.g. FeatureToggles)
+      // are a single class identity. Without this, the base `LoginAsGuestGuard`
+      // (from @spartacus/user) injects a prebundled FeatureToggles while
+      // `provideMockFeatureToggles` overrides the source one — the tokens don't
+      // match, the mocked toggle is never seen, and the guard takes the wrong
+      // branch. Keep AFTER the more-specific `core-libs/*` alias.
+      '@spartacus/core': `${import.meta.dirname}/../../core-libs/core/public_api.ts`,
+      '@spartacus/storefront': `${import.meta.dirname}/../../core-libs/storefront/public_api.ts`,
     },
   },
   test: {
