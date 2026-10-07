@@ -2,8 +2,6 @@ on:
   push:
     branches:
       - 'develop'
-  pull_request:
-    types: [opened, edited, synchronize, reopened]    
 
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow.
@@ -120,7 +118,7 @@ jobs:
                         "emoji": true
                       },
                       "value": "recent_merged_commit",
-                      "url": "${{ github.event.head_commit.url || github.event.pull_request.html_url }}"
+                      "url": "${{ github.event.head_commit.url }}"
                     },
                     {
                       "type": "button",
@@ -136,10 +134,7 @@ jobs:
                 }
               ]
             }
-        # TEMPORARY: relaxed to also notify on pull_request runs for testing.
-        # Before merge, restore to:
-        #   needs.install_conclusion.result == 'failure' &&
-        #   github.event_name == 'push' &&
-        #   github.ref_name == github.event.repository.default_branch
         if: |
-          needs.install_conclusion.result == 'failure'
+          needs.install_conclusion.result == 'failure' &&
+          github.event_name == 'push' &&
+          github.ref_name == github.event.repository.default_branch
