@@ -5,12 +5,12 @@
  */
 
 import { RequestHandler } from 'express';
-import { getRequestUrl } from '../express-utils/express-request-url';
 import {
   BaseSiteResolver,
   ConcurrencyLimitError,
   OccUnavailableError,
 } from './base-site-resolver';
+import { getRequestUrl } from './request-url';
 
 /** Options for an Express handler backed by a base-site resolver. */
 export interface BaseSiteRequestHandlerOptions {
