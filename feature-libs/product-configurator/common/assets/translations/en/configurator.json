@@ -167,6 +167,9 @@
     "a11y": {
       "configureProduct": "Configure product",
       "showDetailsProduct": "Show details of the product",
+      "editConfigurationForProduct": "Edit Configuration for {{ product }}",
+      "editBundleConfigurationForProduct": "Edit Bundle Configuration for {{ product }}",
+      "editProductConfigurationForProduct": "Edit Product Configuration for {{ product }}",
       "viewConfigurationDetailsForItem": "View configuration details for {{ item }}",
       "configurationDetailsForContainer": "Configuration details section for container attribute {{ attribute }}",
       "cartEntryBundleInfo": "There is an item ",

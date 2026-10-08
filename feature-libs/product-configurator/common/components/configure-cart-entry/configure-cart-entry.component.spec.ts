@@ -707,6 +707,148 @@ describe('ConfigureCartEntryComponent', () => {
           'cx-error-msg-0'
         );
       });
+
+      it('should not render aria-label when productConfiguratorCPQContainer is disabled', () => {
+        component.readOnly = false;
+        component.msgBanner = false;
+        component.cartEntry = {
+          entryNumber: 0,
+          product: { configuratorType: ConfiguratorType.CPQ, name: 'Train' },
+        };
+        fixture.detectChanges();
+        expect(htmlElem.querySelector('a')?.hasAttribute('aria-label')).toBe(
+          false
+        );
+      });
+
+      describe('with productConfiguratorCPQContainer enabled', () => {
+        beforeEach(() => {
+          featureToggles.set('productConfiguratorCPQContainer', true);
+          component.readOnly = false;
+          component.disabled = false;
+          component.msgBanner = false;
+        });
+
+        it("should render aria-label 'Edit Bundle Configuration for' the product of the cart entry", () => {
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: ConfiguratorType.CPQ, name: 'Train' },
+          };
+          fixture.detectChanges();
+          CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+            expect,
+            htmlElem,
+            'a',
+            'cx-action-link',
+            undefined,
+            'aria-label',
+            'configurator.a11y.editBundleConfigurationForProduct product:Train'
+          );
+        });
+
+        it("should render aria-label 'Edit Product Configuration for' the given product name of a bundle line item", () => {
+          component.rowId = 'row-1';
+          component.productName = 'Locomotive';
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: ConfiguratorType.CPQ, name: 'Train' },
+          };
+          fixture.detectChanges();
+          CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+            expect,
+            htmlElem,
+            'a',
+            'cx-action-link',
+            undefined,
+            'aria-label',
+            'configurator.a11y.editProductConfigurationForProduct product:Locomotive'
+          );
+        });
+
+        it("should render aria-label 'Edit Configuration for' the product of a non-CPQ cart entry", () => {
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: configuratorType, name: 'Camera' },
+          };
+          fixture.detectChanges();
+          CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+            expect,
+            htmlElem,
+            'a',
+            'cx-action-link',
+            undefined,
+            'aria-label',
+            'configurator.a11y.editConfigurationForProduct product:Camera'
+          );
+        });
+
+        it('should not render aria-label for links that do not edit the configuration', () => {
+          component.msgBanner = true;
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: ConfiguratorType.CPQ, name: 'Train' },
+          };
+          fixture.detectChanges();
+          expect(htmlElem.querySelector('a')?.hasAttribute('aria-label')).toBe(
+            false
+          );
+        });
+      });
+
+      describe('getCpqContainerLinkA11yResourceKey', () => {
+        beforeEach(() => {
+          component.readOnly = false;
+          component.msgBanner = false;
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: ConfiguratorType.CPQ, name: 'Train' },
+          };
+        });
+
+        it('should return undefined for a bundle overview link', () => {
+          component.isBundleOverviewLink = true;
+          expect(
+            component.getCpqContainerLinkA11yResourceKey()
+          ).toBeUndefined();
+        });
+
+        it('should return undefined in display only mode', () => {
+          component.readOnly = true;
+          expect(
+            component.getCpqContainerLinkA11yResourceKey()
+          ).toBeUndefined();
+        });
+
+        it('should return undefined for a resolve issues link', () => {
+          component.msgBanner = true;
+          expect(
+            component.getCpqContainerLinkA11yResourceKey()
+          ).toBeUndefined();
+        });
+
+        it('should return undefined if no product name is known', () => {
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: ConfiguratorType.CPQ },
+          };
+          expect(
+            component.getCpqContainerLinkA11yResourceKey()
+          ).toBeUndefined();
+        });
+      });
+
+      describe('getLinkProductName', () => {
+        it('should prefer the given product name', () => {
+          component.productName = 'Locomotive';
+          component.cartEntry = { product: { name: 'Train' } };
+          expect(component.getLinkProductName()).toBe('Locomotive');
+        });
+
+        it('should fall back to the product name of the cart entry', () => {
+          component.cartEntry = { product: { name: 'Train' } };
+          expect(component.getLinkProductName()).toBe('Train');
+        });
+      });
     });
   });
 });

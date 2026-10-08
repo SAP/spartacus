@@ -86,6 +86,7 @@ class MockConfigureCartEntryComponent {
   @Input() isBundleOverviewLink = false;
   @Input() rowId?: string;
   @Input() a11yDescriptionId?: string;
+  @Input() productName?: string;
 }
 
 class MockCartItemContext implements Partial<CartItemContext> {
@@ -1404,6 +1405,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         expect(linkComponent.msgBanner).toBe(false);
         expect(linkComponent.disabled).toBe(true);
         expect(linkComponent.rowId).toBe('row-1');
+        expect(linkComponent.productName).toBe('Configurable item');
       });
 
       it('should not render the edit link for a non-configurable line item', () => {

@@ -68,6 +68,11 @@ export class ConfigureCartEntryComponent {
    * ID of an element that provides an additional description for the link.
    */
   @Input() a11yDescriptionId?: string;
+  /**
+   * Name of the product the link refers to, used in the accessibility label
+   * of edit links. Defaults to the product name of the cart entry.
+   */
+  @Input() productName?: string;
   abstractOrderContext = inject(AbstractOrderContext, { optional: true });
 
   // we default to active cart as owner in case no context is provided
@@ -236,6 +241,39 @@ export class ConfigureCartEntryComponent {
     return this.cartEntry.product?.configuratorType === ConfiguratorType.CPQ
       ? 'configurator.header.editBundleConfiguration'
       : 'configurator.header.editConfiguration';
+  }
+
+  /**
+   * Accessibility label resource key of edit links when
+   * `productConfiguratorCPQContainer` is enabled. The label starts with the
+   * visible link text, followed by the product name.
+   *
+   * @returns - The resource key, or `undefined` if the link is no edit link or no product name is known
+   */
+  getCpqContainerLinkA11yResourceKey(): string | undefined {
+    if (
+      this.isBundleOverviewLink ||
+      this.getDisplayOnly() ||
+      this.msgBanner ||
+      !this.getLinkProductName()
+    ) {
+      return undefined;
+    }
+    if (this.rowId) {
+      return 'configurator.a11y.editProductConfigurationForProduct';
+    }
+    return this.cartEntry.product?.configuratorType === ConfiguratorType.CPQ
+      ? 'configurator.a11y.editBundleConfigurationForProduct'
+      : 'configurator.a11y.editConfigurationForProduct';
+  }
+
+  /**
+   * Retrieves the name of the product the link refers to.
+   *
+   * @returns - The given product name, otherwise the product name of the cart entry
+   */
+  getLinkProductName(): string | undefined {
+    return this.productName ?? this.cartEntry.product?.name;
   }
 
   /**
