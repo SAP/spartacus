@@ -31,19 +31,19 @@ class MockBreakpointService {
 }
 const headerSlots = ['SiteLogo', 'MiniCart'];
 const headerSlotsIncludingPreHeader = ['PreHeader', 'SiteLogo', 'MiniCart'];
-const overviewMenuSlot = 'CpqConfigOverviewMenu';
+const overviewNavigationSlot = 'CpqConfigOverviewNavigation';
 const contentSlots = [
   'CpqConfigHeader',
   'CpqConfigBanner',
   'CpqConfigMenu',
   'CpqConfigContent',
   'CpqConfigOverviewBanner',
-  overviewMenuSlot,
+  overviewNavigationSlot,
   'CpqConfigOverviewContent',
   'CpqConfigBottombar',
 ];
-const contentSlotsWithoutOverviewMenu = contentSlots.filter(
-  (slot) => slot !== overviewMenuSlot
+const contentSlotsWithoutOverviewNavigation = contentSlots.filter(
+  (slot) => slot !== overviewNavigationSlot
 );
 
 const displayOnlyHeaderSlotsLargeResolution = [
@@ -133,7 +133,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     expect(classUnderTest).toBeDefined();
   });
 
-  it('should not touch slots for section different than header when overview menu feature is enabled', () => {
+  it('should not touch slots for section different than header when overview navigation feature is enabled', () => {
     let slots$ = cold('-a', {
       a: contentSlots,
     });
@@ -145,7 +145,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     expect(handledSlots$).toBeObservable(slots$);
   });
 
-  it('should remove overview menu slot when productConfiguratorCPQContainer is disabled', () => {
+  it('should remove overview navigation slot when productConfiguratorCPQContainer is disabled', () => {
     featureToggles.set('productConfiguratorCPQContainer', false);
     const slots$ = cold('-a', {
       a: contentSlots,
@@ -157,7 +157,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     );
     expect(handledSlots$).toBeObservable(
       cold('-a', {
-        a: contentSlotsWithoutOverviewMenu,
+        a: contentSlotsWithoutOverviewNavigation,
       })
     );
   });
