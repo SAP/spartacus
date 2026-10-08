@@ -402,7 +402,6 @@ if (environment.cpq) {
         a11yCarouselItemArrowKeyNavigation: true,
         a11yCouponDialogResetButtonKeyboardAccessible: true,
         a11yInStockInfoTextContrast: true,
-        a11yGlobalMessageContrastFix: true,
         a11yHighContrastFix: true,
       };
       return appFeatureToggles;

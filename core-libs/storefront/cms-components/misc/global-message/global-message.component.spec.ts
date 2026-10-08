@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   FeatureDirective,
-  FeatureStylesService,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
@@ -217,36 +216,5 @@ describe('GlobalMessageComponent a11yFilteredFacetAnnouncement — aria-live con
     // so VoiceOver can register it as a live region on page load.
     const assistiveDiv = fixture.debugElement.query(By.css(ASSISTIVE_SELECTOR));
     expect(assistiveDiv).toBeTruthy();
-  });
-});
-
-class MockFeatureStylesService {
-  registerUsage = vi.fn();
-  unregisterUsage = vi.fn();
-}
-
-describe('GlobalMessageComponent feature toggle registration', () => {
-  let featureStylesService: FeatureStylesService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [GlobalMessageComponent],
-      providers: [
-        { provide: GlobalMessageService, useClass: MockMessageService },
-        {
-          provide: FeatureStylesService,
-          useClass: MockFeatureStylesService,
-        },
-      ],
-    }).compileComponents();
-    featureStylesService = TestBed.inject(FeatureStylesService);
-    vi.spyOn(featureStylesService, 'registerUsage');
-  });
-
-  it('should register useFeatureStyles for a11yGlobalMessageContrastFix', () => {
-    TestBed.createComponent(GlobalMessageComponent);
-    expect(featureStylesService.registerUsage).toHaveBeenCalledWith(
-      'a11yGlobalMessageContrastFix'
-    );
   });
 });

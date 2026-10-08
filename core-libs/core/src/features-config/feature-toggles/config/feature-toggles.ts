@@ -914,21 +914,6 @@ export interface FeatureTogglesInterface {
   a11yInStockInfoTextContrast?: boolean;
 
   /**
-   * When enabled, improves contrast in `GlobalMessageComponent` (global alert banners):
-   *
-   * - **Default theme:** The close (×) icon uses `color: var(--cx-color-text)` and
-   *   `opacity: 1`, ensuring it meets the WCAG 1.4.3 Level AA minimum contrast ratio
-   *   of 4.5:1 (fixes CXSPA-12670).
-   * - **High-contrast themes:** The close (×) button also receives
-   *   `background-color: var(--cx-color-background)` so it remains visible against the
-   *   alert's HC background (fixes CXSPA-12855).
-   *
-   * Affected component: `GlobalMessageComponent`
-   * Affected file: `core-libs/styles/scss/components/content/global-message/_global-message.scss`
-   */
-  a11yGlobalMessageContrastFix?: boolean;
-
-  /**
    * When enabled, improves contrast in high-contrast themes across multiple components
    * that were missing HC overrides or had insufficient contrast ratios (below 7:1 AAA):
    *
@@ -1063,6 +1048,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCarouselItemArrowKeyNavigation: false,
   a11yCouponDialogResetButtonKeyboardAccessible: false,
   a11yInStockInfoTextContrast: false,
-  a11yGlobalMessageContrastFix: false,
   a11yHighContrastFix: false,
 };
