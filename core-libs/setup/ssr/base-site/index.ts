@@ -5,4 +5,5 @@
  */
 
 export * from './base-site-resolver';
+export * from './default-base-site-resolver';
 export * from './to-js-reg-exp';
