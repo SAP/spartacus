@@ -31,6 +31,11 @@ export interface ProductConfiguratorUISettingsConfig {
    * active configurator is rendered, so at most one selector matches.
    */
   overviewHeaderSelectors?: string[];
+  /**
+   * Maps commerce configurator type (route postfix) to whether the overview
+   * menu shows a Filter tab. The tab is visible only when the entry is `true`.
+   */
+  overviewMenuFilterTabVisible?: Record<string, boolean>;
 }
 
 @Injectable({

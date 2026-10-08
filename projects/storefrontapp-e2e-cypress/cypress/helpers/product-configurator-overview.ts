@@ -7,6 +7,9 @@
 const continueToCartButtonSelector =
   'cx-configurator-add-to-cart-button button';
 
+export const OVERVIEW_MENU_CONTAINER_SELECTOR =
+  'cx-configurator-overview-sidebar';
+
 const resolveIssuesText = ' must be resolved before checkout.  Resolve Issues';
 
 /**

@@ -8,6 +8,15 @@ import * as configurationOverview from './product-configurator-overview';
 import * as configurationCpq from './product-configurator-cpq';
 import * as configurationVc from './product-configurator-vc';
 
+/**
+ * Verifies that the overview menu container is visible (unified sidebar).
+ */
+export function checkOverviewMenuContainerDisplayed(): void {
+  cy.get(configurationOverview.OVERVIEW_MENU_CONTAINER_SELECTOR).should(
+    'be.visible'
+  );
+}
+
 const resolveIssuesLinkSelector =
   'cx-configurator-overview-notification-banner #cx-configurator-overview-error-msg button.cx-action-link';
 

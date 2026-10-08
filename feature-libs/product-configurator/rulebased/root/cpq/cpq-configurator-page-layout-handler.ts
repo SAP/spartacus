@@ -30,7 +30,7 @@ interface RouterResolution {
 })
 export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
   protected static templateName = 'CpqConfigurationTemplate';
-  protected static overviewMenuSlot = 'CpqConfigOverviewMenu';
+  protected static overviewNavigationSlot = 'CpqConfigOverviewNavigation';
   protected static sectionHeaderDisplayOnly = 'headerDisplayOnly';
   protected static sectionNavigationDisplayOnly = 'navigationDisplayOnly';
   protected static sectionHeader = 'header';
@@ -74,7 +74,9 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
         });
     }
     if (pageTemplate === CpqConfiguratorPageLayoutHandler.templateName) {
-      slots$ = slots$.pipe(map((slots) => this.filterOverviewMenuSlot(slots)));
+      slots$ = slots$.pipe(
+        map((slots) => this.filterOverviewNavigationSlot(slots))
+      );
     }
     return slots$;
   }
@@ -148,12 +150,12 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
     }
   }
 
-  protected filterOverviewMenuSlot(slots: string[]): string[] {
+  protected filterOverviewNavigationSlot(slots: string[]): string[] {
     if (this.featureToggles.productConfiguratorCPQContainer) {
       return slots;
     }
     return slots.filter(
-      (slot) => slot !== CpqConfiguratorPageLayoutHandler.overviewMenuSlot
+      (slot) => slot !== CpqConfiguratorPageLayoutHandler.overviewNavigationSlot
     );
   }
 }

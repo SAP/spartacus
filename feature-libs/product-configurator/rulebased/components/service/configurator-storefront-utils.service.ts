@@ -699,4 +699,22 @@ export class ConfiguratorStorefrontUtilsService {
       this.lastSelected.valueCode === valueCode
     );
   }
+
+  /**
+   * Verifies whether the overview menu Filter tab is visible for the given
+   * configurator type.
+   *
+   * @param configuratorType - Commerce configurator type (route postfix)
+   * @returns `true` if the Filter tab is shown, otherwise `false`
+   */
+  isOverviewMenuFilterTabVisible(
+    configuratorType: string | undefined
+  ): boolean {
+    if (!configuratorType) {
+      return false;
+    }
+    const visibilityByType =
+      this.uiSettingsConfig.productConfigurator?.overviewMenuFilterTabVisible;
+    return !!visibilityByType?.[configuratorType];
+  }
 }
