@@ -61,7 +61,6 @@ import { Observable, Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { CheckoutBillingAddressFormService } from '../../checkout-billing-address';
 import { CheckoutBillingAddressFormComponent } from '../../checkout-billing-address/checkout-billing-address-form.component';
-import { CvvTooltipDirective } from './cvv-tooltip.directive';
 
 @Component({
   selector: 'cx-payment-form',
@@ -85,7 +84,6 @@ import { CvvTooltipDirective } from './cvv-tooltip.directive';
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    CvvTooltipDirective,
   ],
 })
 export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {

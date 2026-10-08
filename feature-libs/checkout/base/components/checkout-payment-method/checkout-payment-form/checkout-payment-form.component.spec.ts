@@ -46,7 +46,6 @@ import {
   CheckoutBillingAddressFormComponent,
   CheckoutBillingAddressFormService,
 } from '../../checkout-billing-address';
-import { CvvTooltipDirective } from './cvv-tooltip.directive';
 import { CheckoutPaymentFormComponent } from './checkout-payment-form.component';
 
 @Component({
@@ -665,7 +664,7 @@ describe('CheckoutPaymentFormComponent', () => {
       expect(button?.getAttribute('aria-label')).toBeTruthy();
     });
 
-    it('should have CvvTooltipDirective on the CVV button when toggle is enabled', () => {
+    it('should associate the CVV button with its tooltip hint when toggle is enabled', () => {
       featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', true);
       fixture.detectChanges();
 
@@ -673,7 +672,15 @@ describe('CheckoutPaymentFormComponent', () => {
         By.css('button.cx-payment-form-tooltip.cx-cvv-info-btn')
       );
       expect(buttonEl).toBeTruthy();
-      expect(buttonEl?.injector.get(CvvTooltipDirective, null)).toBeTruthy();
+      expect(buttonEl?.nativeElement.getAttribute('aria-describedby')).toBe(
+        'cvvInfoHint'
+      );
+
+      const tooltipEl = fixture.debugElement.query(
+        By.css('#cvvInfoHint.cx-cvv-tooltip')
+      );
+      expect(tooltipEl).toBeTruthy();
+      expect(tooltipEl?.nativeElement.getAttribute('role')).toBe('tooltip');
     });
 
     it('should be keyboard accessible when a11yCvvInfoIconKeyboardAccessible is enabled', () => {

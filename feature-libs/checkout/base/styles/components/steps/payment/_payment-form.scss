@@ -52,19 +52,28 @@
   }
 }
 
-.cx-cvv-tooltip {
-  display: none;
-  position: fixed;
-  z-index: 1070;
-  max-width: 200px;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.875rem;
-  color: var(--cx-color-inverse);
-  background-color: var(--cx-color-text);
-  border-radius: 4px;
-  pointer-events: none;
+.cx-cvv-info {
+  position: relative;
+  display: inline-block;
 
-  &--visible {
+  .cx-cvv-tooltip {
+    display: none;
+    position: absolute;
+    inset-inline-start: 0;
+    top: calc(100% + 4px);
+    z-index: 1;
+    max-width: 200px;
+    width: max-content;
+    white-space: normal;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    color: var(--cx-color-inverse);
+    background-color: var(--cx-color-text);
+    border-radius: 4px;
+  }
+
+  &:hover .cx-cvv-tooltip,
+  &:focus-within .cx-cvv-tooltip {
     display: block;
   }
 }
