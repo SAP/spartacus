@@ -17,8 +17,9 @@ interface OccBaseSite {
   urlPatterns?: string[];
 }
 
-interface OccBaseSitesResponse {
-  baseSites?: OccBaseSite[];
+interface FetchedBaseSites {
+  sites: OccBaseSite[];
+  cacheable: boolean;
 }
 
 export class DefaultBaseSiteResolver implements BaseSiteResolver {
@@ -30,7 +31,7 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
 
   private cachedSites: OccBaseSite[] | null = null;
   private cachedAt = 0;
-  private initPromise: Promise<OccBaseSite[]> | null = null;
+  private initPromise: Promise<FetchedBaseSites> | null = null;
   private inFlight = 0;
 
   constructor(options: DefaultBaseSiteResolverOptions) {
@@ -73,22 +74,24 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
     try {
       if (!this.initPromise) {
         this.initPromise = this.fetchSites()
-          .then((sites) => {
-            this.cachedSites = sites;
-            this.cachedAt = Date.now();
-            return sites;
+          .then((result) => {
+            if (result.cacheable) {
+              this.cachedSites = result.sites;
+              this.cachedAt = Date.now();
+            }
+            return result;
           })
           .finally(() => {
             this.initPromise = null;
           });
       }
-      return await this.initPromise;
+      return (await this.initPromise).sites;
     } finally {
       this.inFlight--;
     }
   }
 
-  private async fetchSites(): Promise<OccBaseSite[]> {
+  private async fetchSites(): Promise<FetchedBaseSites> {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), this.timeoutMs);
 
@@ -98,15 +101,30 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
         signal: controller.signal,
       });
       if (!response.ok) {
+        try {
+          await response.body?.cancel();
+        } catch {
+          // Preserve the HTTP status failure when body cleanup also fails.
+        }
         throw new OccUnavailableError(
           `OCC base-sites request failed with status ${response.status}`
         );
       }
-      const body = (await response.json()) as OccBaseSitesResponse;
-      return (body.baseSites ?? []).map(({ uid, urlPatterns }) => ({
-        uid,
-        urlPatterns,
-      }));
+      const body = (await response.json()) as unknown;
+      if (!isRecord(body)) {
+        throw malformedOccResponse();
+      }
+      const baseSites = body['baseSites'];
+      if (baseSites === undefined) {
+        return { sites: [], cacheable: false };
+      }
+      if (!Array.isArray(baseSites) || !baseSites.every(isOccBaseSite)) {
+        throw malformedOccResponse();
+      }
+      return {
+        sites: baseSites.map(({ uid, urlPatterns }) => ({ uid, urlPatterns })),
+        cacheable: true,
+      };
     } catch (error) {
       if (error instanceof OccUnavailableError) {
         throw error;
@@ -124,4 +142,27 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
       clearTimeout(timeout);
     }
   }
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
+function isOccBaseSite(value: unknown): value is OccBaseSite {
+  if (!isRecord(value)) {
+    return false;
+  }
+
+  const uid = value['uid'];
+  const urlPatterns = value['urlPatterns'];
+  return (
+    (uid === undefined || typeof uid === 'string') &&
+    (urlPatterns === undefined ||
+      (Array.isArray(urlPatterns) &&
+        urlPatterns.every((pattern) => typeof pattern === 'string')))
+  );
+}
+
+function malformedOccResponse(): OccUnavailableError {
+  return new OccUnavailableError('OCC base-sites response is malformed');
 }
