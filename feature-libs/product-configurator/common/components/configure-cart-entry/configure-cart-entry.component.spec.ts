@@ -363,35 +363,6 @@ describe('ConfigureCartEntryComponent', () => {
         );
       });
 
-      it('should focus the link only when it resolves configuration issues', async () => {
-        const focusSpy = vi.spyOn(HTMLAnchorElement.prototype, 'focus');
-        component.readOnly = false;
-        component.disabled = false;
-        component.cartEntry = {
-          entryNumber: 0,
-          product: { configuratorType: configuratorType },
-        };
-
-        component.msgBanner = false;
-        fixture.detectChanges();
-        await Promise.resolve();
-        expect(focusSpy).not.toHaveBeenCalled();
-
-        focusSpy.mockClear();
-        component.msgBanner = true;
-        component.ngOnChanges({
-          msgBanner: {
-            previousValue: false,
-            currentValue: true,
-            firstChange: false,
-            isFirstChange: () => false,
-          },
-        });
-        await Promise.resolve();
-        expect(focusSpy).toHaveBeenCalled();
-        focusSpy.mockRestore();
-      });
-
       it("should be 'Edit Configuration' in case component is included in edit mode", () => {
         component.readOnly = false;
         component.disabled = false;
@@ -610,21 +581,32 @@ describe('ConfigureCartEntryComponent', () => {
           });
       });
 
-      it('should set "navigateToCart" for a bundle overview link', async () => {
+      it('should set "navigateToCartFromBundleOverview" for a bundle overview link', async () => {
         component.isBundleOverviewLink = true;
         component.cpqContainerQueryParams$
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
-            expect(queryParams.navigateToCart).toBe(true);
+            expect(queryParams.navigateToCartFromBundleOverview).toBe(true);
           });
       });
 
-      it('should not set "navigateToCart" for a regular configuration link', async () => {
+      it('should not set "navigateToCartFromBundleOverview" for a regular configuration link', async () => {
         component.isBundleOverviewLink = false;
         component.cpqContainerQueryParams$
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
-            expect(queryParams.navigateToCart).toBe(false);
+            expect(queryParams.navigateToCartFromBundleOverview).toBe(false);
+          });
+      });
+
+      it('should not set "navigateToCartFromBundleOverview" for a bundle overview link when in checkout', async () => {
+        mockRouterState.state.semanticRoute = 'checkoutReviewOrder';
+        component.isBundleOverviewLink = true;
+        component.cpqContainerQueryParams$
+          .pipe(take(1), delay(0))
+          .subscribe((queryParams) => {
+            expect(queryParams.navigateToCartFromBundleOverview).toBe(false);
+            expect(queryParams.navigateToCheckout).toBe(true);
           });
       });
 

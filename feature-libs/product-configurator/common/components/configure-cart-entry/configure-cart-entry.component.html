@@ -26,6 +26,7 @@
           } | cxUrl
         "
         [queryParams]="legacyQueryParams$ | async"
+        cxAutoFocus
         attr.aria-describedby="{{ getResolveIssuesA11yDescription() }}"
       >
         <ng-container *ngTemplateOutlet="configureTextLegacy" />

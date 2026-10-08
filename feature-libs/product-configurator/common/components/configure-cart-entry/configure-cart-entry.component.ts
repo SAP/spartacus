@@ -6,13 +6,9 @@
 
 import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   Input,
-  OnChanges,
-  SimpleChanges,
   inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -51,9 +47,8 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
     FeatureDirective,
   ],
 })
-export class ConfigureCartEntryComponent implements AfterViewInit, OnChanges {
+export class ConfigureCartEntryComponent {
   protected routingService = inject(RoutingService);
-  private elementRef = inject(ElementRef<HTMLElement>);
 
   @Input() cartEntry: OrderEntry;
   @Input() readOnly: boolean;
@@ -74,28 +69,6 @@ export class ConfigureCartEntryComponent implements AfterViewInit, OnChanges {
    */
   @Input() a11yDescriptionId?: string;
   abstractOrderContext = inject(AbstractOrderContext, { optional: true });
-
-  ngAfterViewInit(): void {
-    this.focusLinkIfNeeded();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.msgBanner && !changes.msgBanner.firstChange) {
-      this.focusLinkIfNeeded();
-    }
-  }
-
-  /**
-   * Autofocus is limited to resolve-issues links so expanding bundle line
-   * items does not steal focus from the show/hide toggle.
-   */
-  protected focusLinkIfNeeded(): void {
-    if (this.msgBanner && !this.isDisabled()) {
-      queueMicrotask(() =>
-        this.elementRef.nativeElement.querySelector('a.link')?.focus()
-      );
-    }
-  }
 
   // we default to active cart as owner in case no context is provided
   // in this case no id of abstract order is needed
@@ -123,7 +96,7 @@ export class ConfigureCartEntryComponent implements AfterViewInit, OnChanges {
     forceReload: boolean;
     resolveIssues: boolean;
     navigateToCheckout: boolean;
-    navigateToCart: boolean;
+    navigateToCartFromBundleOverview: boolean;
     productCode: string | undefined;
     rowId: string | undefined;
   }> = this.isInCheckout().pipe(
@@ -133,7 +106,8 @@ export class ConfigureCartEntryComponent implements AfterViewInit, OnChanges {
         forceReload: true,
         resolveIssues,
         navigateToCheckout: isInCheckout,
-        navigateToCart: this.isBundleOverviewLink,
+        navigateToCartFromBundleOverview:
+          !isInCheckout && this.isBundleOverviewLink,
         // the nested product of a bundle line item is identified by its row, not
         // by a product code, which would be resolved against the catalog
         productCode: this.rowId ? undefined : this.cartEntry.product?.code,

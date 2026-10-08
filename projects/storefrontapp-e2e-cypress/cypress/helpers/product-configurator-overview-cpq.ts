@@ -37,7 +37,10 @@ export function checkDisplayOnlyOverviewFromCartDisplayed(): void {
   cy.location('pathname')
     .should('contain', '/configure-overview/cpq/cartEntry/entityKey/')
     .and('contain', '/displayOnly/true');
-  cy.location('search').should('contain', 'navigateToCart=true');
+  cy.location('search').should(
+    'contain',
+    'navigateToCartFromBundleOverview=true'
+  );
   configurationOverview.checkConfigOverviewPageDisplayed();
   cy.get('cx-configurator-add-to-cart-button .cx-display-only-btn')
     .should('be.visible')
