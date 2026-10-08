@@ -13,10 +13,14 @@ import {
   ngExpressEngine as engine,
   getOriginValidationMiddleware,
 } from '@spartacus/setup/ssr';
+import { createBaseSiteRequestHandler } from '@spartacus/setup/ssr/base-site';
 import express from 'express';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'path';
+import { defaultBaseSiteId } from './app/spartacus/base-site.config';
+import { createStorefrontBaseSiteResolver } from './base-site-resolver';
+import { environment } from './environments/environment';
 import bootstrap from './main.server';
 
 const ssrOptions: SsrOptimizationOptions = {
@@ -27,12 +31,26 @@ const ssrOptions: SsrOptimizationOptions = {
 };
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
+const serverDistFolder = dirname(fileURLToPath(import.meta.url));
+const browserDistFolder = resolve(serverDistFolder, '../browser');
+const baseSiteResolver = createStorefrontBaseSiteResolver({
+  configuredOccBaseUrl: environment.occBaseUrl,
+  indexHtmlPaths: [
+    join(browserDistFolder, 'index.csr.html'),
+    join(browserDistFolder, 'index.html'),
+  ],
+  readFile: (path) => readFileSync(path, 'utf-8'),
+  defaultBaseSite: defaultBaseSiteId,
+  occApiPrefix: environment.occApiPrefix,
+  warn: (message) => {
+    // eslint-disable-next-line no-console
+    console.warn(message);
+  },
+});
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
-  const serverDistFolder = dirname(fileURLToPath(import.meta.url));
-  const browserDistFolder = resolve(serverDistFolder, '../browser');
   const indexHtml = join(serverDistFolder, 'index.server.html');
   const indexHtmlContent = readFileSync(indexHtml, 'utf-8');
 
@@ -57,6 +75,16 @@ export function app(): express.Express {
 
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
+
+  if (baseSiteResolver) {
+    server.get(
+      '/base-site',
+      createBaseSiteRequestHandler({
+        resolver: baseSiteResolver,
+        render: (baseSite) => baseSite ?? '',
+      })
+    );
+  }
 
   // Serve static files from /browser
   server.get(
