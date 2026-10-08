@@ -5,5 +5,7 @@
  */
 
 export * from './base-site-resolver';
+export * from './base-site-request-handler';
 export * from './default-base-site-resolver';
+export * from './occ-base-url-extractor';
 export * from './to-js-reg-exp';
