@@ -19,9 +19,9 @@ function occResponse(baseSites?: OccBaseSiteFixture[]): Response {
   return {
     ok: true,
     status: 200,
-    json: jest.fn().mockResolvedValue(
-      baseSites === undefined ? {} : { baseSites }
-    ),
+    json: jest
+      .fn()
+      .mockResolvedValue(baseSites === undefined ? {} : { baseSites }),
   } as unknown as Response;
 }
 
@@ -113,8 +113,12 @@ describe('DefaultBaseSiteResolver', () => {
     await expect(resolver.resolve('https://shop.example/')).resolves.toBeNull();
   });
 
-  it('uses the configured default when OCC omits baseSites', async () => {
-    fetchSpy.mockResolvedValue(occResponse());
+  it('uses the configured default without caching an omitted baseSites payload', async () => {
+    fetchSpy
+      .mockResolvedValueOnce(occResponse())
+      .mockResolvedValueOnce(
+        occResponse([{ uid: 'site', urlPatterns: ['shop\\.example'] }])
+      );
     const resolver = new DefaultBaseSiteResolver({
       occBaseUrl: 'https://api.example',
       defaultBaseSite: 'fallback',
@@ -123,6 +127,35 @@ describe('DefaultBaseSiteResolver', () => {
     await expect(resolver.resolve('https://shop.example/')).resolves.toBe(
       'fallback'
     );
+    await expect(resolver.resolve('https://shop.example/')).resolves.toBe(
+      'site'
+    );
+    expect(fetchSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it('rejects a malformed payload without poisoning the cache', async () => {
+    fetchSpy
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: jest.fn().mockResolvedValue({
+          baseSites: [{ uid: 'site', urlPatterns: 'shop.example' }],
+        }),
+      } as unknown as Response)
+      .mockResolvedValueOnce(
+        occResponse([{ uid: 'site', urlPatterns: ['shop\\.example'] }])
+      );
+    const resolver = new DefaultBaseSiteResolver({
+      occBaseUrl: 'https://api.example',
+    });
+
+    await expect(
+      resolver.resolve('https://shop.example/')
+    ).rejects.toBeInstanceOf(OccUnavailableError);
+    await expect(resolver.resolve('https://shop.example/')).resolves.toBe(
+      'site'
+    );
+    expect(fetchSpy).toHaveBeenCalledTimes(2);
   });
 
   it.each([
@@ -130,6 +163,7 @@ describe('DefaultBaseSiteResolver', () => {
     ['https://api.example/', undefined],
     ['https://api.example', '/custom/v3/'],
     ['https://api.example/', 'custom/v3'],
+    ['https://api.example/', '/custom/v3/'],
   ])(
     'normalizes OCC URL parts for base %s and prefix %s',
     async (occBaseUrl, occApiPrefix) => {
@@ -245,7 +279,12 @@ describe('DefaultBaseSiteResolver', () => {
   });
 
   it('maps a non-success OCC response to OccUnavailableError', async () => {
-    fetchSpy.mockResolvedValue({ ok: false, status: 503 } as Response);
+    const cancel = jest.fn().mockResolvedValue(undefined);
+    fetchSpy.mockResolvedValue({
+      ok: false,
+      status: 503,
+      body: { cancel },
+    } as unknown as Response);
     const resolver = new DefaultBaseSiteResolver({
       occBaseUrl: 'https://api.example',
     });
@@ -256,6 +295,7 @@ describe('DefaultBaseSiteResolver', () => {
         message: 'OCC base-sites request failed with status 503',
       })
     );
+    expect(cancel).toHaveBeenCalledTimes(1);
   });
 
   it('preserves a network failure as the cause of OccUnavailableError', async () => {
@@ -292,23 +332,29 @@ describe('DefaultBaseSiteResolver', () => {
     );
   });
 
-  it('aborts a slow OCC request after the default timeout', async () => {
+  it('releases the timer, shared initialization and capacity after timeout', async () => {
     jest.useFakeTimers();
     const abortError = Object.assign(new Error('aborted'), {
       name: 'AbortError',
     });
     let receivedSignal: AbortSignal | undefined;
-    fetchSpy.mockImplementation((_input, init) => {
-      receivedSignal = init?.signal ?? undefined;
-      return new Promise<Response>((_resolve, reject) => {
-        receivedSignal?.addEventListener('abort', () => reject(abortError));
-      });
-    });
+    fetchSpy
+      .mockImplementationOnce((_input, init) => {
+        receivedSignal = init?.signal ?? undefined;
+        return new Promise<Response>((_resolve, reject) => {
+          receivedSignal?.addEventListener('abort', () => reject(abortError));
+        });
+      })
+      .mockResolvedValueOnce(
+        occResponse([{ uid: 'site', urlPatterns: ['shop\\.example'] }])
+      );
     const resolver = new DefaultBaseSiteResolver({
       occBaseUrl: 'https://api.example',
+      concurrencyLimit: 1,
     });
 
     const result = resolver.resolve('https://shop.example/');
+    const shed = resolver.resolve('https://shop.example/');
     const expectedTimeout = expect(result).rejects.toEqual(
       expect.objectContaining({
         name: 'OccUnavailableError',
@@ -316,12 +362,20 @@ describe('DefaultBaseSiteResolver', () => {
         cause: abortError,
       })
     );
+    const expectedShed = expect(shed).rejects.toBeInstanceOf(
+      ConcurrencyLimitError
+    );
     await jest.advanceTimersByTimeAsync(2_999);
     expect(receivedSignal?.aborted).toBe(false);
     await jest.advanceTimersByTimeAsync(1);
 
     await expectedTimeout;
+    await expectedShed;
     expect(jest.getTimerCount()).toBe(0);
+    await expect(resolver.resolve('https://shop.example/')).resolves.toBe(
+      'site'
+    );
+    expect(fetchSpy).toHaveBeenCalledTimes(2);
   });
 
   it('clears the timeout after a successful OCC response', async () => {
@@ -340,19 +394,33 @@ describe('DefaultBaseSiteResolver', () => {
     expect(jest.getTimerCount()).toBe(0);
   });
 
-  it('retries OCC after a failed shared initialization', async () => {
+  it('releases every waiter after a failed shared initialization', async () => {
+    const failedResponse = deferred<Response>();
     fetchSpy
-      .mockRejectedValueOnce(new Error('temporary failure'))
+      .mockReturnValueOnce(failedResponse.promise)
       .mockResolvedValueOnce(
         occResponse([{ uid: 'site', urlPatterns: ['shop\\.example'] }])
       );
     const resolver = new DefaultBaseSiteResolver({
       occBaseUrl: 'https://api.example',
+      concurrencyLimit: 2,
     });
 
-    await expect(
-      resolver.resolve('https://shop.example/')
-    ).rejects.toBeInstanceOf(OccUnavailableError);
+    const accepted = [
+      resolver.resolve('https://shop.example/'),
+      resolver.resolve('https://shop.example/'),
+    ];
+    const shed = resolver.resolve('https://shop.example/');
+    const expectedFailures = accepted.map((result) =>
+      expect(result).rejects.toBeInstanceOf(OccUnavailableError)
+    );
+    const expectedShed = expect(shed).rejects.toBeInstanceOf(
+      ConcurrencyLimitError
+    );
+    failedResponse.reject(new Error('temporary failure'));
+
+    await Promise.all(expectedFailures);
+    await expectedShed;
     await expect(resolver.resolve('https://shop.example/')).resolves.toBe(
       'site'
     );

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NextFunction, Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import {
   ConcurrencyLimitError,
   OccUnavailableError,
@@ -14,27 +14,41 @@ import { createBaseSiteRequestHandler } from './base-site-request-handler';
 function createRequest({
   host = 'internal.example',
   forwardedHost,
+  forwardedProto,
   trustProxy = false,
 }: {
   host?: string;
   forwardedHost?: string;
+  forwardedProto?: string;
   trustProxy?: boolean;
 } = {}): Request {
   const headers: Record<string, string | undefined> = {
     host,
     'x-forwarded-host': forwardedHost,
+    'x-forwarded-proto': forwardedProto,
   };
 
-  return {
-    protocol: 'https',
+  const request = {
     originalUrl: '/base-site?language=en',
     connection: { remoteAddress: '127.0.0.1' },
+    socket: { encrypted: true, remoteAddress: '127.0.0.1' },
     app: {
       get: (name: string) =>
         name === 'trust proxy fn' ? () => trustProxy : undefined,
     },
     get: (name: string) => headers[name.toLowerCase()],
   } as unknown as Request;
+  const protocolGetter = Object.getOwnPropertyDescriptor(
+    express.request,
+    'protocol'
+  )?.get;
+  if (!protocolGetter) {
+    throw new Error('Express request protocol getter is unavailable');
+  }
+  Object.defineProperty(request, 'protocol', {
+    get: () => protocolGetter.call(request),
+  });
+  return request;
 }
 
 function createResponse(): Response {
@@ -56,7 +70,7 @@ function createNext(): NextFunction {
 }
 
 describe('createBaseSiteRequestHandler', () => {
-  it('resolves the trusted forwarded absolute URL', async () => {
+  it('resolves trusted forwarded host and protocol values', async () => {
     const handler = createBaseSiteRequestHandler({
       resolver: { resolve: async (requestUrl) => requestUrl },
       render: (baseSite) => baseSite ?? '',
@@ -66,6 +80,7 @@ describe('createBaseSiteRequestHandler', () => {
     await handler(
       createRequest({
         forwardedHost: 'public.example',
+        forwardedProto: 'http',
         trustProxy: true,
       }),
       response,
@@ -73,11 +88,11 @@ describe('createBaseSiteRequestHandler', () => {
     );
 
     expect(response.send).toHaveBeenCalledWith(
-      'https://public.example/base-site?language=en'
+      'http://public.example/base-site?language=en'
     );
   });
 
-  it('ignores an untrusted forwarded host when resolving the absolute URL', async () => {
+  it('ignores untrusted forwarded host and protocol values', async () => {
     const handler = createBaseSiteRequestHandler({
       resolver: { resolve: async (requestUrl) => requestUrl },
       render: (baseSite) => baseSite ?? '',
@@ -88,6 +103,7 @@ describe('createBaseSiteRequestHandler', () => {
       createRequest({
         host: 'storefront.example',
         forwardedHost: 'spoofed.example',
+        forwardedProto: 'http',
         trustProxy: false,
       }),
       response,
