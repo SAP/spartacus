@@ -29,6 +29,13 @@
     text-align: center;
   }
 
+  .cx-wish-list-add-all {
+    display: block;
+    width: fit-content;
+    margin-block-start: 1rem;
+    margin-inline-start: auto;
+  }
+
   @include media-breakpoint-down(md) {
     --cx-max-width: 75%;
 

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Cart, OrderEntry } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import {
   CxDatePipe,
@@ -21,6 +21,11 @@ const mockWishList: Cart = {
 class MockWishListService {
   getWishList = vi.fn().mockReturnValue(of(mockWishList));
   getWishListLoading = vi.fn().mockReturnValue(of(false));
+  removeEntry = vi.fn();
+}
+
+class MockActiveCartService {
+  addEntries = vi.fn();
 }
 
 @Component({
@@ -41,6 +46,7 @@ describe('WishListComponent', () => {
   let fixture: ComponentFixture<WishListComponent>;
 
   let wishListService: WishListFacade;
+  let activeCartService: ActiveCartFacade;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
@@ -49,6 +55,10 @@ describe('WishListComponent', () => {
         {
           provide: WishListFacade,
           useClass: MockWishListService,
+        },
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartService,
         },
       ],
     })
@@ -68,7 +78,12 @@ describe('WishListComponent', () => {
     component = fixture.componentInstance;
 
     wishListService = TestBed.inject(WishListFacade);
+    activeCartService = TestBed.inject(ActiveCartFacade);
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
   });
 
   it('should create instance', () => {
@@ -77,5 +92,24 @@ describe('WishListComponent', () => {
 
   it('should get wish list', () => {
     expect(wishListService.getWishList).toHaveBeenCalled();
+  });
+
+  it('should remove an entry', () => {
+    const entry: OrderEntry = { product: { code: 'yyy' } };
+
+    component.removeEntry(entry);
+
+    expect(wishListService.removeEntry).toHaveBeenCalledWith(entry);
+  });
+
+  it('should add all entries to the active cart', () => {
+    const entries: OrderEntry[] = [
+      { product: { code: 'yyy' } },
+      { product: { code: 'zzz' } },
+    ];
+
+    component.addAllToCart(entries);
+
+    expect(activeCartService.addEntries).toHaveBeenCalledWith(entries);
   });
 });

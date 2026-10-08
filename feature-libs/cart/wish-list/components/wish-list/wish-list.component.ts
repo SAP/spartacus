@@ -5,8 +5,8 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
-import { Cart, OrderEntry } from '@spartacus/cart/base/root';
+import { Component, inject } from '@angular/core';
+import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import { TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -18,6 +18,8 @@ import { WishListItemComponent } from '../wish-list-item/wish-list-item.componen
   imports: [NgIf, NgFor, WishListItemComponent, AsyncPipe, TranslatePipe],
 })
 export class WishListComponent {
+  protected activeCartFacade = inject(ActiveCartFacade);
+
   wishList$: Observable<Cart> = this.wishListFacade.getWishList();
   loading$: Observable<boolean> = this.wishListFacade.getWishListLoading();
 
@@ -25,5 +27,9 @@ export class WishListComponent {
 
   removeEntry(item: OrderEntry) {
     this.wishListFacade.removeEntry(item);
+  }
+
+  addAllToCart(entries: OrderEntry[]) {
+    this.activeCartFacade.addEntries(entries);
   }
 }
