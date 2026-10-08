@@ -850,9 +850,10 @@
 
   @include forFeature('a11yHighContrastFix') {
     @include cx-highContrastTheme {
-      border: 1px solid var(--cx-color-background);
+      border: 1px solid var(--cx-color-text);
       label {
         background-color: var(--cx-color-background);
+        color: var(--cx-color-text);
         input {
           background-color: var(--cx-color-background);
           color: var(--cx-color-text);
@@ -863,6 +864,7 @@
         }
         .cx-label-inner-container {
           background-color: var(--cx-color-background);
+          color: var(--cx-color-text);
           border: 1px solid var(--cx-color-text);
         }
       }
