@@ -581,31 +581,31 @@ describe('ConfigureCartEntryComponent', () => {
           });
       });
 
-      it('should set "navigateToCartFromBundleOverview" for a bundle overview link', async () => {
+      it('should set "isBundleOverview" for a bundle overview link', async () => {
         component.isBundleOverviewLink = true;
         component.cpqContainerQueryParams$
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
-            expect(queryParams.navigateToCartFromBundleOverview).toBe(true);
+            expect(queryParams.isBundleOverview).toBe(true);
           });
       });
 
-      it('should not set "navigateToCartFromBundleOverview" for a regular configuration link', async () => {
+      it('should not set "isBundleOverview" for a regular configuration link', async () => {
         component.isBundleOverviewLink = false;
         component.cpqContainerQueryParams$
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
-            expect(queryParams.navigateToCartFromBundleOverview).toBe(false);
+            expect(queryParams.isBundleOverview).toBe(false);
           });
       });
 
-      it('should not set "navigateToCartFromBundleOverview" for a bundle overview link when in checkout', async () => {
+      it('should not set "isBundleOverview" for a bundle overview link when in checkout', async () => {
         mockRouterState.state.semanticRoute = 'checkoutReviewOrder';
         component.isBundleOverviewLink = true;
         component.cpqContainerQueryParams$
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
-            expect(queryParams.navigateToCartFromBundleOverview).toBe(false);
+            expect(queryParams.isBundleOverview).toBe(false);
             expect(queryParams.navigateToCheckout).toBe(true);
           });
       });

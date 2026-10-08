@@ -23,7 +23,7 @@ export namespace ConfiguratorRouter {
     displayRestartDialog?: boolean;
     navigationId?: number;
     navigateToCheckout?: boolean;
-    navigateToCartFromBundleOverview?: boolean;
+    isBundleOverview?: boolean;
     productCode?: string;
     rowId?: string;
   }

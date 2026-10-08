@@ -296,7 +296,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   getDisplayOnlyButtonResourceKey(routerData: ConfiguratorRouter.Data): string {
     return this.featureToggles.productConfiguratorCPQContainer &&
       routerData.owner.type === CommonConfigurator.OwnerType.CART_ENTRY &&
-      routerData.navigateToCartFromBundleOverview
+      routerData.isBundleOverview
       ? 'configurator.addToCart.buttonBackToCart'
       : 'configurator.addToCart.buttonClose';
   }

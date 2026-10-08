@@ -1100,13 +1100,13 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
 
     function createRouterData(
       ownerType: CommonConfigurator.OwnerType,
-      navigateToCartFromBundleOverview = false
+      isBundleOverview = false
     ): ConfiguratorRouter.Data {
       return {
         pageType: ConfiguratorRouter.PageType.OVERVIEW,
         displayOnly: true,
         owner: { ...mockOwner, type: ownerType },
-        navigateToCartFromBundleOverview,
+        isBundleOverview,
       };
     }
 
@@ -1153,7 +1153,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
     it('should render `Back to Cart` on the display only button of a cart entry', () => {
       featureToggles.set('productConfiguratorCPQContainer', true);
       setRouterTestDataReadOnlyCart();
-      mockRouterData.navigateToCartFromBundleOverview = true;
+      mockRouterData.isBundleOverview = true;
       initialize();
       fixture.detectChanges();
 

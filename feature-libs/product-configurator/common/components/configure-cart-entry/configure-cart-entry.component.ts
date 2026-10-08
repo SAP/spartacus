@@ -96,7 +96,7 @@ export class ConfigureCartEntryComponent {
     forceReload: boolean;
     resolveIssues: boolean;
     navigateToCheckout: boolean;
-    navigateToCartFromBundleOverview: boolean;
+    isBundleOverview: boolean;
     productCode: string | undefined;
     rowId: string | undefined;
   }> = this.isInCheckout().pipe(
@@ -106,8 +106,7 @@ export class ConfigureCartEntryComponent {
         forceReload: true,
         resolveIssues,
         navigateToCheckout: isInCheckout,
-        navigateToCartFromBundleOverview:
-          !isInCheckout && this.isBundleOverviewLink,
+        isBundleOverview: !isInCheckout && this.isBundleOverviewLink,
         // the nested product of a bundle line item is identified by its row, not
         // by a product code, which would be resolved against the catalog
         productCode: this.rowId ? undefined : this.cartEntry.product?.code,

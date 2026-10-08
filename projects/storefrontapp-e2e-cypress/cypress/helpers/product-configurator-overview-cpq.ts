@@ -39,7 +39,7 @@ export function checkDisplayOnlyOverviewFromCartDisplayed(): void {
     .and('contain', '/displayOnly/true');
   cy.location('search').should(
     'contain',
-    'navigateToCartFromBundleOverview=true'
+    'isBundleOverview=true'
   );
   configurationOverview.checkConfigOverviewPageDisplayed();
   cy.get('cx-configurator-add-to-cart-button .cx-display-only-btn')

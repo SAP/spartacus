@@ -315,28 +315,28 @@ describe('ConfigRouterExtractorService', () => {
 
     it('should tell from the URL if navigation to the cart from bundle overview is relevant', () => {
       mockRouterState.state.queryParams = {
-        navigateToCartFromBundleOverview: 'true',
+        isBundleOverview: 'true',
       };
       let routerData: ConfiguratorRouter.Data;
       serviceUnderTest
         .extractRouterData()
         .subscribe((data) => {
           routerData = data;
-          expect(routerData.navigateToCartFromBundleOverview).toBe(true);
+          expect(routerData.isBundleOverview).toBe(true);
         })
         .unsubscribe();
     });
 
     it('should tell from the URL if navigation to the cart from bundle overview is not relevant', () => {
       mockRouterState.state.queryParams = {
-        navigateToCartFromBundleOverview: 'false',
+        isBundleOverview: 'false',
       };
       let routerData: ConfiguratorRouter.Data;
       serviceUnderTest
         .extractRouterData()
         .subscribe((data) => {
           routerData = data;
-          expect(routerData.navigateToCartFromBundleOverview).toBe(false);
+          expect(routerData.isBundleOverview).toBe(false);
         })
         .unsubscribe();
     });
