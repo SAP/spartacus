@@ -244,20 +244,21 @@ export class ConfigureCartEntryComponent {
   }
 
   /**
-   * Accessibility label resource key of edit links when
+   * Accessibility label resource key of the link when
    * `productConfiguratorCPQContainer` is enabled. The label starts with the
    * visible link text, followed by the product name.
    *
-   * @returns - The resource key, or `undefined` if the link is no edit link or no product name is known
+   * @returns - The resource key, or `undefined` for a bundle overview link or if no product name is known
    */
   getCpqContainerLinkA11yResourceKey(): string | undefined {
-    if (
-      this.isBundleOverviewLink ||
-      this.getDisplayOnly() ||
-      this.msgBanner ||
-      !this.getLinkProductName()
-    ) {
+    if (this.isBundleOverviewLink || !this.getLinkProductName()) {
       return undefined;
+    }
+    if (this.getDisplayOnly()) {
+      return 'configurator.a11y.displayConfigurationForProduct';
+    }
+    if (this.msgBanner) {
+      return 'configurator.a11y.resolveIssuesForProduct';
     }
     if (this.rowId) {
       return 'configurator.a11y.editProductConfigurationForProduct';

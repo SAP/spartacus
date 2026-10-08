@@ -782,8 +782,54 @@ describe('ConfigureCartEntryComponent', () => {
           );
         });
 
-        it('should not render aria-label for links that do not edit the configuration', () => {
+        it("should render aria-label 'Resolve Issues for' the product of the cart entry and keep aria-describedby", () => {
           component.msgBanner = true;
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: ConfiguratorType.CPQ, name: 'Train' },
+          };
+          fixture.detectChanges();
+          CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+            expect,
+            htmlElem,
+            'a',
+            'cx-action-link',
+            undefined,
+            'aria-label',
+            'configurator.a11y.resolveIssuesForProduct product:Train'
+          );
+          CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+            expect,
+            htmlElem,
+            'a',
+            'cx-action-link',
+            undefined,
+            'aria-describedby',
+            'cx-error-msg-0'
+          );
+        });
+
+        it("should render aria-label 'Display Configuration for' the product in display only mode", () => {
+          component.readOnly = true;
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: ConfiguratorType.CPQ, name: 'Train' },
+          };
+          fixture.detectChanges();
+          CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+            expect,
+            htmlElem,
+            'a',
+            'cx-action-link',
+            undefined,
+            'aria-label',
+            'configurator.a11y.displayConfigurationForProduct product:Train'
+          );
+        });
+
+        it('should not render aria-label for a bundle overview link', () => {
+          component.readOnly = true;
+          component.isBundleOverviewLink = true;
           component.cartEntry = {
             entryNumber: 0,
             product: { configuratorType: ConfiguratorType.CPQ, name: 'Train' },
@@ -812,18 +858,27 @@ describe('ConfigureCartEntryComponent', () => {
           ).toBeUndefined();
         });
 
-        it('should return undefined in display only mode', () => {
+        it('should return the display configuration key in display only mode, also for a resolve issues link', () => {
           component.readOnly = true;
-          expect(
-            component.getCpqContainerLinkA11yResourceKey()
-          ).toBeUndefined();
+          component.msgBanner = true;
+          expect(component.getCpqContainerLinkA11yResourceKey()).toBe(
+            'configurator.a11y.displayConfigurationForProduct'
+          );
         });
 
-        it('should return undefined for a resolve issues link', () => {
+        it('should return the resolve issues key for a resolve issues link', () => {
           component.msgBanner = true;
-          expect(
-            component.getCpqContainerLinkA11yResourceKey()
-          ).toBeUndefined();
+          expect(component.getCpqContainerLinkA11yResourceKey()).toBe(
+            'configurator.a11y.resolveIssuesForProduct'
+          );
+        });
+
+        it('should prefer the resolve issues key over the bundle line item key', () => {
+          component.msgBanner = true;
+          component.rowId = 'row-1';
+          expect(component.getCpqContainerLinkA11yResourceKey()).toBe(
+            'configurator.a11y.resolveIssuesForProduct'
+          );
         });
 
         it('should return undefined if no product name is known', () => {
