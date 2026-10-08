@@ -18,17 +18,6 @@
     }
   }
 
-  .cx-cvv-label-wrapper {
-    @include forFeature('a11yCvvInfoIconKeyboardAccessible') {
-      display: block;
-      margin-bottom: $label-margin-bottom;
-
-      label {
-        display: inline;
-      }
-    }
-  }
-
   .cx-payment-form-billing {
     margin: 0 0 1.25rem 0;
   }

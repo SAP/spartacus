@@ -150,6 +150,13 @@ export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
   protected cdr = inject(ChangeDetectorRef);
   protected elementRef = inject(ElementRef);
   protected subscription = new Subscription();
+
+  get cvvLabelId(): string | null {
+    return this.featureToggles.a11yCvvInfoIconKeyboardAccessible
+      ? 'cvvLabelText'
+      : null;
+  }
+
   constructor(
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,

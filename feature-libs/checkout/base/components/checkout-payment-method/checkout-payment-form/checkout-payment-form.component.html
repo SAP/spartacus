@@ -188,11 +188,11 @@
             </div>
 
             <div class="form-group col-md-4">
-              <label
-                *cxFeature="'!a11yCvvInfoIconKeyboardAccessible'"
-                for="cVVNumber"
-              >
-                <span class="label-content">
+              <label>
+                <span
+                  *cxFeature="'!a11yCvvInfoIconKeyboardAccessible'"
+                  class="label-content"
+                >
                   {{ 'paymentForm.securityCode' | cxTranslate }}
                   <cx-form-required-asterisks />
                   <cx-icon
@@ -206,51 +206,52 @@
                     "
                   />
                 </span>
-              </label>
 
-              <span
-                *cxFeature="'a11yCvvInfoIconKeyboardAccessible'"
-                class="label-content cx-cvv-label-wrapper"
-              >
-                <label for="cVVNumber">
-                  {{ 'paymentForm.securityCode' | cxTranslate }}
-                  <cx-form-required-asterisks />
-                </label>
-                <button
-                  type="button"
-                  class="cx-payment-form-tooltip cx-cvv-info-btn"
-                  [cxCvvTooltip]="'paymentForm.cvvInfoHint' | cxTranslate"
-                  [attr.aria-label]="
-                    'paymentForm.cvvInfoButtonLabel' | cxTranslate
-                  "
+                <span
+                  *cxFeature="'a11yCvvInfoIconKeyboardAccessible'"
+                  class="label-content"
                 >
-                  <cx-icon [type]="iconTypes.INFO" />
-                </button>
-              </span>
+                  <span id="cvvLabelText">
+                    {{ 'paymentForm.securityCode' | cxTranslate }}
+                    <cx-form-required-asterisks />
+                  </span>
+                  <button
+                    type="button"
+                    class="cx-payment-form-tooltip cx-cvv-info-btn"
+                    [cxCvvTooltip]="'paymentForm.cvvInfoHint' | cxTranslate"
+                    [attr.aria-label]="
+                      'paymentForm.cvvInfoButtonLabel' | cxTranslate
+                    "
+                  >
+                    <cx-icon [type]="iconTypes.INFO" />
+                  </button>
+                </span>
 
-              <input
-                required
-                type="text"
-                class="form-control"
-                id="cVVNumber"
-                formControlName="cvn"
-                [attr.aria-required]="true"
-                [attr.aria-invalid]="
-                  paymentForm.get('cvn')?.touched &&
-                  paymentForm.get('cvn')?.invalid
-                    ? true
-                    : null
-                "
-                [attr.aria-errormessage]="'cvnError'"
-              />
+                <input
+                  required
+                  type="text"
+                  class="form-control"
+                  id="cVVNumber"
+                  formControlName="cvn"
+                  [attr.aria-required]="true"
+                  [attr.aria-labelledby]="cvvLabelId"
+                  [attr.aria-invalid]="
+                    paymentForm.get('cvn')?.touched &&
+                    paymentForm.get('cvn')?.invalid
+                      ? true
+                      : null
+                  "
+                  [attr.aria-errormessage]="'cvnError'"
+                />
 
-              <cx-form-errors
-                id="cvnError"
-                [translationParams]="{
-                  label: 'paymentForm.securityCode' | cxTranslate,
-                }"
-                [control]="paymentForm.get('cvn')"
-              />
+                <cx-form-errors
+                  id="cvnError"
+                  [translationParams]="{
+                    label: 'paymentForm.securityCode' | cxTranslate,
+                  }"
+                  [control]="paymentForm.get('cvn')"
+                />
+              </label>
             </div>
           </div>
 

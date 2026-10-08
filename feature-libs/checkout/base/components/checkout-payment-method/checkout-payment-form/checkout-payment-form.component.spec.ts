@@ -686,19 +686,27 @@ describe('CheckoutPaymentFormComponent', () => {
       expect(button?.tagName).toBe('BUTTON');
     });
 
-    it('should use explicit label association and aria-required on input when toggle is enabled', () => {
+    it('should have aria-required and aria-labelledby on input when toggle is enabled', () => {
       featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', true);
       fixture.detectChanges();
 
       const input = fixture.debugElement.query(
         By.css('input#cVVNumber')
       )?.nativeElement;
-      const label = fixture.debugElement.query(
-        By.css('label[for="cVVNumber"]')
+
+      expect(input?.getAttribute('aria-required')).toBe('true');
+      expect(input?.getAttribute('aria-labelledby')).toBe('cvvLabelText');
+    });
+
+    it('should not set aria-labelledby on input when toggle is disabled', () => {
+      featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', false);
+      fixture.detectChanges();
+
+      const input = fixture.debugElement.query(
+        By.css('input#cVVNumber')
       )?.nativeElement;
 
-      expect(label).toBeTruthy();
-      expect(input?.getAttribute('aria-required')).toBe('true');
+      expect(input?.getAttribute('aria-labelledby')).toBeNull();
     });
 
     it('should set aria-invalid to true (not false) when input is touched and invalid', () => {
