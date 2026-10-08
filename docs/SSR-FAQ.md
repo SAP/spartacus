@@ -61,6 +61,121 @@ When there are too many requests and renderings in parallel for the SSR server, 
 
 It's the `concurrency` property of the `SsrOptimizationOptions` defined in `server.ts` (by default implicitly set to `10`) controls the max number of concurrent renderings in the SSR server
 
+## How to resolve the base site in an SSR server
+
+The Node-only base-site API is exposed from the secondary entry point `@spartacus/setup/ssr/base-site`. Do not import these symbols from `@spartacus/setup/ssr`.
+
+Create one resolver when the server process starts. Prefer an explicitly configured OCC URL. For a production build, you can otherwise read the `occ-backend-base-url` meta tag from the generated browser index. `extractOccBaseUrlFromHtml()` returns `null` for a missing or empty tag and for the unsubstituted deployment placeholder.
+
+```ts
+import {
+  createBaseSiteRequestHandler,
+  DefaultBaseSiteResolver,
+  extractOccBaseUrlFromHtml,
+} from '@spartacus/setup/ssr/base-site';
+import express from 'express';
+import { readFileSync } from 'node:fs';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+function resolveOccBaseUrl(browserDistFolder: string): string | null {
+  const configuredUrl = process.env['OCC_BASE_URL']?.trim();
+  if (configuredUrl) {
+    return configuredUrl;
+  }
+
+  for (const fileName of ['index.csr.html', 'index.html']) {
+    try {
+      const url = extractOccBaseUrlFromHtml(
+        readFileSync(join(browserDistFolder, fileName), 'utf-8')
+      );
+      if (url) {
+        return url;
+      }
+    } catch {
+      // Try the next generated index file.
+    }
+  }
+
+  return null;
+}
+
+const serverDistFolder = dirname(fileURLToPath(import.meta.url));
+const browserDistFolder = resolve(serverDistFolder, '../browser');
+const occBaseUrl = resolveOccBaseUrl(browserDistFolder);
+const baseSiteResolver = occBaseUrl
+  ? new DefaultBaseSiteResolver({
+      occBaseUrl,
+      defaultBaseSite: 'electronics-spa',
+    })
+  : undefined;
+
+const server = express();
+server.set('trust proxy', 'loopback');
+
+if (baseSiteResolver) {
+  server.get(
+    '/base-site',
+    createBaseSiteRequestHandler({
+      resolver: baseSiteResolver,
+      render: (baseSite) => baseSite ?? '',
+    })
+  );
+}
+```
+
+Register the handler after origin validation and before static-file and catch-all handlers. The `trust proxy` setting is required so the resolver sees forwarded protocol and host values only when they come from a loopback proxy. If no OCC URL can be resolved at startup, log one warning, omit the `/base-site` handler, and continue serving the existing Angular SSR application unchanged.
+
+The default resolver uses `/occ/v2`, a 60-second cache, a cold-cache concurrency limit of 10, a 3-second OCC timeout, and no fallback base site. The request handler returns `text/plain` and maps concurrency and OCC failures to HTTP 503 with `Retry-After` values of 3 and 25 seconds respectively. Override these defaults when needed:
+
+```ts
+const resolver = new DefaultBaseSiteResolver({
+  occBaseUrl: 'https://api.example.com',
+  occApiPrefix: '/custom-occ/v3',
+  defaultBaseSite: 'electronics-spa',
+  cacheTtlMs: 120_000,
+  concurrencyLimit: 20,
+  timeoutMs: 5_000,
+});
+
+server.get(
+  '/base-site',
+  createBaseSiteRequestHandler({
+    resolver,
+    render: (baseSite) => JSON.stringify({ baseSite }),
+    contentType: 'application/json',
+    retryAfterSeconds: {
+      concurrencyLimit: 5,
+      occUnavailable: 30,
+    },
+  })
+);
+```
+
+You can replace the OCC-backed implementation with any object that implements `BaseSiteResolver`:
+
+```ts
+import {
+  BaseSiteResolver,
+  createBaseSiteRequestHandler,
+} from '@spartacus/setup/ssr/base-site';
+
+const customResolver: BaseSiteResolver = {
+  async resolve(requestUrl) {
+    const hostname = new URL(requestUrl).hostname;
+    return hostname === 'shop.example.com' ? 'electronics-spa' : null;
+  },
+};
+
+server.get(
+  '/base-site',
+  createBaseSiteRequestHandler({
+    resolver: customResolver,
+    render: (baseSite) => baseSite ?? '',
+  })
+);
+```
+
 ## Troubleshooting
 
 ### Resolving "JavaScript Heap Out of Memory" Error When Running SSR Server
