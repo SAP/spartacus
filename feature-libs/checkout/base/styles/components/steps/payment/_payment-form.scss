@@ -70,6 +70,12 @@
     color: var(--cx-color-inverse);
     background-color: var(--cx-color-text);
     border-radius: 4px;
+
+    @include cx-highContrastTheme-dark() {
+      color: var(--cx-color-dark);
+      background-color: var(--cx-color-background);
+      border: 1px solid var(--cx-color-dark);
+    }
   }
 
   &:hover .cx-cvv-tooltip,
