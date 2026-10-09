@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { FeatureToggles } from '@spartacus/core';
 import {
   AmendOrderActionsComponent,
   CancelOrReturnItemsComponent,
@@ -98,7 +97,6 @@ class MockAmendOrderActionComponent {
 describe('ReturnOrderComponent', () => {
   let component: ReturnOrderComponent;
   let fixture: ComponentFixture<ReturnOrderComponent>;
-  let featureToggles: FeatureToggles;
   let orderAmendService: vi.MockObj<OrderAmendService>;
 
   beforeEach(async () => {
@@ -123,12 +121,6 @@ describe('ReturnOrderComponent', () => {
   });
 
   beforeEach(() => {
-    featureToggles = {
-      enableReturnOrderReturnableQuantityConsigmentFallback: true,
-    };
-    TestBed.overrideProvider(FeatureToggles, {
-      useValue: featureToggles,
-    });
     orderAmendService = {
       getForm: vi.fn(),
       getOrder: vi.fn(),
@@ -264,12 +256,6 @@ describe('ReturnOrderComponent', () => {
         imports: [FormErrorsModule, ReturnOrderComponent],
         providers: [
           { provide: OrderAmendService, useClass: NewMockOrderAmendService },
-          {
-            provide: FeatureToggles,
-            useValue: {
-              enableReturnOrderReturnableQuantityConsigmentFallback: true,
-            } satisfies FeatureToggles,
-          },
         ],
       })
         .overrideComponent(ReturnOrderComponent, {
@@ -302,122 +288,6 @@ describe('ReturnOrderComponent', () => {
       expect(entries.length).toBe(1);
       expect(entries[0].product?.code).toBe('prod1');
       expect(entries[0].returnableQuantity).toBe(expectedReturnableQuantity);
-    });
-  });
-
-  describe('when feature is disabled', () => {
-    beforeEach(async () => {
-      TestBed.resetTestingModule();
-      TestBed.configureTestingModule({
-        imports: [FormErrorsModule, ReturnOrderComponent],
-        providers: [
-          {
-            provide: OrderAmendService,
-            useValue: {
-              getForm() {
-                return of(mockForm);
-              },
-              getEntries() {
-                return of(mockEntries);
-              },
-              getOrder() {
-                return of({ consignments: [] });
-              },
-            },
-          },
-          {
-            provide: FeatureToggles,
-            useValue: {
-              enableReturnOrderReturnableQuantityConsigmentFallback: false,
-            } satisfies FeatureToggles,
-          },
-        ],
-      })
-        .overrideComponent(ReturnOrderComponent, {
-          remove: {
-            imports: [
-              /* original child components will be removed in runtime */
-            ],
-          },
-          add: {
-            imports: [
-              MockAmendOrderActionComponent,
-              MockCancelOrReturnItemsComponent,
-            ],
-          },
-        })
-        .compileComponents();
-    });
-
-    beforeEach(() => {
-      fixture = TestBed.createComponent(ReturnOrderComponent);
-      component = fixture.componentInstance;
-    });
-
-    it('should not return entired when no matching entry consignment was found', async () => {
-      const [entries, consignments] = (await firstValueFrom(
-        combineLatest([component.entries$, component.consignments$])
-      )) as [OrderEntry[], Consignment[]];
-      expect(consignments.length).toBe(0);
-      expect(entries.length).toBe(0);
-    });
-  });
-
-  describe('when feature toggle is disabled and no consignment shippedQuantity is provided', () => {
-    beforeEach(async () => {
-      TestBed.resetTestingModule();
-      TestBed.configureTestingModule({
-        imports: [FormErrorsModule, ReturnOrderComponent],
-      })
-        .overrideComponent(ReturnOrderComponent, {
-          remove: {
-            imports: [
-              /* original child components will be removed in runtime */
-            ],
-          },
-          add: {
-            imports: [
-              MockAmendOrderActionComponent,
-              MockCancelOrReturnItemsComponent,
-            ],
-          },
-        })
-        .compileComponents();
-    });
-
-    beforeEach(() => {
-      featureToggles.enableReturnOrderReturnableQuantityConsigmentFallback =
-        false;
-      TestBed.overrideProvider(FeatureToggles, {
-        useValue: featureToggles,
-      });
-      orderAmendService.getForm.mockReturnValue(of(mockForm));
-      const expectedEntries = mockEntries.map((entry) => ({
-        ...entry,
-        returnableQuantity: 2,
-      }));
-      orderAmendService.getEntries.mockReturnValue(of(expectedEntries));
-      const expectedConfigments = mockConsignments.map((consignment) => ({
-        entries: consignment.entries.map((entry) => ({
-          orderEntry: entry.orderEntry,
-          shippedQuantity: 0,
-        })),
-      }));
-      orderAmendService.getOrder.mockReturnValue(
-        of({ consignments: expectedConfigments })
-      );
-      TestBed.overrideProvider(OrderAmendService, {
-        useValue: orderAmendService,
-      });
-
-      fixture = TestBed.createComponent(ReturnOrderComponent);
-      component = fixture.componentInstance;
-    });
-
-    it('should set returnableQuantity to 0 when feature toggle is disabled', async () => {
-      const result = await firstValueFrom(component.entries$);
-      // No entries should be returned since shippedQuantity is 0 & feature toggle is off
-      expect(result.length).toBe(0);
     });
   });
 });

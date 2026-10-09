@@ -188,13 +188,6 @@ export interface FeatureTogglesInterface {
   enableQuotePurchaseOrderNumber?: boolean;
 
   /**
-   * When enabled, fixes the issue with return order returnable quantity not being displayed correctly
-   * on the `ReturnOrderComponent` when navigating to the return request details page.
-   * Affects: `ReturnOrderComponent`
-   */
-  enableReturnOrderReturnableQuantityConsigmentFallback?: boolean;
-
-  /**
    * When enabled, the media prefix from the backend config will be used
    * when constructing media URLs in the MediaService.
    * Affects: `MediaService`
@@ -925,7 +918,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
   enablePasswordExpiredErrorTranslation: true,
   enableQuotePurchaseOrderNumber: true,
-  enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: true,
   a11yCustomerTicketingVisualFocusFix: true,
   a11yMessagingListKeyboardFocus: false,

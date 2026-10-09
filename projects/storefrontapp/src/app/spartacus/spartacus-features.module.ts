@@ -316,7 +316,6 @@ if (environment.cpq) {
         mergeGuestCartOnCodeFlowLogin: true,
         enablePasswordExpiredErrorTranslation: true,
         enableQuotePurchaseOrderNumber: true,
-        enableReturnOrderReturnableQuantityConsigmentFallback: true,
         enableMediaPrefix: true,
         a11yCustomerTicketingVisualFocusFix: true,
         a11yMessagingListKeyboardFocus: true,
