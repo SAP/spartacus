@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/index';
 import {
   AnonymousConsent,
@@ -318,48 +318,87 @@ describe('AnonymousConsentsService', () => {
   });
 
   describe('isBannerVisible', () => {
-    it('should return true if isBannerDismissed() returns false', () => {
-      vi.spyOn(service, 'isBannerDismissed').mockReturnValue(of(false));
-      vi.spyOn(service, 'getTemplatesUpdated').mockReturnValue(of(false));
+    describe('when user is anonymous', () => {
+      it('should return true if isBannerDismissed() returns false', () => {
+        vi.spyOn(service, 'isBannerDismissed').mockReturnValue(of(false));
+        vi.spyOn(service, 'getTemplatesUpdated').mockReturnValue(of(false));
 
-      let result = false;
-      service
-        .isBannerVisible()
-        .subscribe((value) => (result = value))
-        .unsubscribe();
+        let result = false;
+        service
+          .isBannerVisible()
+          .subscribe((value) => (result = value))
+          .unsubscribe();
 
-      expect(service.isBannerDismissed).toHaveBeenCalled();
-      expect(service.getTemplatesUpdated).toHaveBeenCalled();
-      expect(result).toEqual(true);
+        expect(service.isBannerDismissed).toHaveBeenCalled();
+        expect(service.getTemplatesUpdated).toHaveBeenCalled();
+        expect(result).toEqual(true);
+      });
+      it('should return true if getTemplatesUpdated() returns true', () => {
+        vi.spyOn(service, 'isBannerDismissed').mockReturnValue(of(true));
+        vi.spyOn(service, 'getTemplatesUpdated').mockReturnValue(of(true));
+
+        let result = false;
+        service
+          .isBannerVisible()
+          .subscribe((value) => (result = value))
+          .unsubscribe();
+
+        expect(service.isBannerDismissed).toHaveBeenCalled();
+        expect(service.getTemplatesUpdated).toHaveBeenCalled();
+        expect(result).toEqual(true);
+      });
+
+      it('should return false if isBannerDismissed() returns true and getTemplatesUpdated() returns false', () => {
+        vi.spyOn(service, 'isBannerDismissed').mockReturnValue(of(true));
+        vi.spyOn(service, 'getTemplatesUpdated').mockReturnValue(of(false));
+
+        let result = true;
+        service
+          .isBannerVisible()
+          .subscribe((value) => (result = value))
+          .unsubscribe();
+
+        expect(service.isBannerDismissed).toHaveBeenCalled();
+        expect(service.getTemplatesUpdated).toHaveBeenCalled();
+        expect(result).toEqual(false);
+      });
     });
-    it('should return true if getTemplatesUpdated() returns true', () => {
-      vi.spyOn(service, 'isBannerDismissed').mockReturnValue(of(true));
-      vi.spyOn(service, 'getTemplatesUpdated').mockReturnValue(of(true));
 
-      let result = false;
-      service
-        .isBannerVisible()
-        .subscribe((value) => (result = value))
-        .unsubscribe();
+    describe('when user is logged in', () => {
+      it('should return false without checking banner state or consent templates', () => {
+        vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(true));
+        vi.spyOn(service, 'isBannerDismissed');
+        vi.spyOn(service, 'getTemplatesUpdated');
 
-      expect(service.isBannerDismissed).toHaveBeenCalled();
-      expect(service.getTemplatesUpdated).toHaveBeenCalled();
-      expect(result).toEqual(true);
-    });
+        let result: boolean | undefined;
+        service
+          .isBannerVisible()
+          .subscribe((value) => (result = value))
+          .unsubscribe();
 
-    it('should return false if isBannerDismissed() returns true and getTemplatesUpdated() returns false', () => {
-      vi.spyOn(service, 'isBannerDismissed').mockReturnValue(of(true));
-      vi.spyOn(service, 'getTemplatesUpdated').mockReturnValue(of(false));
+        expect(result).toEqual(false);
+        expect(service.isBannerDismissed).not.toHaveBeenCalled();
+        expect(service.getTemplatesUpdated).not.toHaveBeenCalled();
+      });
 
-      let result = true;
-      service
-        .isBannerVisible()
-        .subscribe((value) => (result = value))
-        .unsubscribe();
+      it('should switch to false when user logs in mid-session', () => {
+        const isLoggedIn$ = new BehaviorSubject<boolean>(false);
+        vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(isLoggedIn$);
+        vi.spyOn(service, 'isBannerDismissed').mockReturnValue(of(false));
+        vi.spyOn(service, 'getTemplatesUpdated').mockReturnValue(of(false));
 
-      expect(service.isBannerDismissed).toHaveBeenCalled();
-      expect(service.getTemplatesUpdated).toHaveBeenCalled();
-      expect(result).toEqual(false);
+        const results: boolean[] = [];
+        const sub = service
+          .isBannerVisible()
+          .subscribe((value) => results.push(value));
+
+        expect(results).toEqual([true]);
+
+        isLoggedIn$.next(true);
+        expect(results).toEqual([true, false]);
+
+        sub.unsubscribe();
+      });
     });
   });
 
