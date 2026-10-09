@@ -1,18 +1,59 @@
-@mixin cx-highContrastTheme() {
-  .cx-theme-high-contrast-dark &,
-  .cx-theme-high-contrast-light & {
-    @content;
+// Applies high-contrast styles to both dark and light HC themes.
+//
+// Usage without $feature (default): generates a descendant selector
+//   .cx-theme-high-contrast-dark element { }
+// This is correct for always-on HC styles.
+//
+// Usage with $feature: generates a compound selector
+//   .cx-theme-high-contrast-dark.cxFeat_<feature> element { }
+// Use this when the HC fix is gated behind a feature toggle. Both the HC
+// theme class and the cxFeat_ class are added to the same app-root element,
+// so a descendant combinator (.hc-dark .cxFeat_x) would never match — a
+// compound selector (.hc-dark.cxFeat_x) is required.
+//
+// Example:
+//   @include cx-highContrastTheme('a11yHighContrastFix') { color: white; }
+@mixin cx-highContrastTheme($feature: null) {
+  @if $feature {
+    $prefix: 'cxFeat_';
+    @at-root .cx-theme-high-contrast-dark.#{$prefix}#{$feature} &,
+      .cx-theme-high-contrast-light.#{$prefix}#{$feature} & {
+      @content;
+    }
+  } @else {
+    .cx-theme-high-contrast-dark &,
+    .cx-theme-high-contrast-light & {
+      @content;
+    }
   }
 }
 
-@mixin cx-highContrastTheme-dark() {
-  .cx-theme-high-contrast-dark & {
-    @content;
+// Dark-only variant of cx-highContrastTheme. Accepts the same optional
+// $feature argument — see cx-highContrastTheme for full documentation.
+@mixin cx-highContrastTheme-dark($feature: null) {
+  @if $feature {
+    $prefix: 'cxFeat_';
+    @at-root .cx-theme-high-contrast-dark.#{$prefix}#{$feature} & {
+      @content;
+    }
+  } @else {
+    .cx-theme-high-contrast-dark & {
+      @content;
+    }
   }
 }
 
-@mixin cx-highContrastTheme-light() {
-  .cx-theme-high-contrast-light & {
-    @content;
+// Light-only variant of cx-highContrastTheme. Accepts the same optional
+// $feature argument — see cx-highContrastTheme for full documentation.
+@mixin cx-highContrastTheme-light($feature: null) {
+  @if $feature {
+    $prefix: 'cxFeat_';
+    @at-root .cx-theme-high-contrast-light.#{$prefix}#{$feature} & {
+      @content;
+    }
+  } @else {
+    .cx-theme-high-contrast-light & {
+      @content;
+    }
   }
 }
