@@ -22,7 +22,8 @@ const GLOBAL_CONFLICT_AND_ERROR_MESSAGE_SELECTOR = `${GLOBAL_CONFLICT_AND_ERROR_
  */
 export type cardType = 'radioGroup' | 'dropdown' | 'checkBoxList';
 
-const addToCartButtonSelector = 'cx-configurator-add-to-cart-button button';
+const addToCartButtonSelector =
+  'cx-configurator-add-to-cart-button button.cx-add-to-cart-btn';
 
 /**
  * Navigates to the product configuration page.
@@ -309,11 +310,9 @@ export function clickOnGroup(groupIndex: number): void {
  * Clicks on the 'Add to cart' button.
  */
 export function clickAddToCartBtn(): void {
-  cy.get(addToCartButtonSelector)
-    .click()
-    .then(() => {
-      cy.location('pathname').should('contain', 'cartEntry/entityKey/');
-    });
+  cy.get(addToCartButtonSelector).should('be.visible').click();
+  configuration.checkUpdatingMessageNotDisplayed();
+  cy.location('pathname').should('contain', 'cartEntry/entityKey/');
 }
 
 /**

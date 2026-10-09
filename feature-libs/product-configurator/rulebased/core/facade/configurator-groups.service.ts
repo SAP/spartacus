@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject, isDevMode } from '@angular/core';
+import { LoggerService } from '@spartacus/core';
 import { Store } from '@ngrx/store';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { delay, map, switchMap, take } from 'rxjs/operators';
+import { delay, filter, map, switchMap, take } from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
@@ -21,6 +22,8 @@ import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
  */
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorGroupsService {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected store: Store<StateWithConfigurator>,
     protected configuratorCommonsService: ConfiguratorCommonsService,
@@ -109,6 +112,50 @@ export class ConfiguratorGroupsService {
         const groupId = this.getFirstConflictGroup(configuration)?.id;
         if (groupId) {
           this.navigateToGroup(configuration, groupId, true, true);
+        }
+      });
+  }
+
+  /**
+   * Navigates to the nested configuration of a bundle line item as soon as
+   * the configuration provides groups.
+   *
+   * @param owner - Configuration owner
+   * @param rowId - Container row identifier of the bundle line item
+   */
+  navigateToContainerRow(owner: CommonConfigurator.Owner, rowId: string): void {
+    this.configuratorCommonsService
+      .getConfiguration(owner)
+      .pipe(
+        filter((configuration) => !!configuration.groups?.length),
+        take(1)
+      )
+      .subscribe((configuration) => {
+        const containerRowGroup =
+          this.configuratorUtilsService.findContainerRowGroupByRowId(
+            configuration.groups,
+            rowId,
+            configuration.flatGroups
+          );
+        if (!containerRowGroup) {
+          if (isDevMode()) {
+            this.logger.warn(
+              `No container row group found for rowId '${rowId}'`
+            );
+          }
+          return;
+        }
+        const targetGroup =
+          this.configuratorGroupStatusService.getNavigableTargetForContainerRowGroup(
+            configuration,
+            containerRowGroup
+          );
+        if (targetGroup) {
+          this.navigateToGroup(configuration, targetGroup.id, false);
+        } else if (isDevMode()) {
+          this.logger.warn(
+            `No navigable target for container row group '${containerRowGroup.id}' (rowId '${rowId}')`
+          );
         }
       });
   }

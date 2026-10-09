@@ -15,6 +15,25 @@ import {
 import { LineItem } from './configurator-cart-entry-bundle-info.model';
 
 /**
+ * Maps a `ConfigurationInfo` field onto the line item property it fills.
+ */
+const LINE_ITEM_FIELD_SETTERS: {
+  [field: string]: (lineItem: LineItem, value: string) => void;
+} = {
+  [ConfigurationInfoFields.NAME]: (lineItem, value) => (lineItem.name = value),
+  [ConfigurationInfoFields.QTY]: (lineItem, value) =>
+    (lineItem.formattedQuantity = value),
+  [ConfigurationInfoFields.FORMATTED_PRICE]: (lineItem, value) =>
+    (lineItem.formattedPrice = value),
+  [ConfigurationInfoFields.ROW_ID]: (lineItem, value) =>
+    (lineItem.rowId = value),
+  [ConfigurationInfoFields.CONFIGURABLE]: (lineItem, value) =>
+    (lineItem.configurable = value === 'true'),
+  [ConfigurationInfoFields.KEY]: (lineItem, value) =>
+    (lineItem.productCode = value),
+};
+
+/**
  * Service for mapping of the CPQ line items from order entry
  */
 @Injectable({ providedIn: 'root' })
@@ -24,8 +43,8 @@ export class ConfiguratorCartEntryBundleInfoService {
   /**
    * Retrieves the CPQ line items for an order entry
    *
-   * @param {OrderEntry} entry - Order entry
-   * @returns {LineItem[]} - Line item array
+   * @param entry - Order entry
+   * @returns Line item array
    */
   retrieveLineItems(entry: OrderEntry): LineItem[] {
     let lineItems: LineItem[] = [];
@@ -132,33 +151,31 @@ export class ConfiguratorCartEntryBundleInfoService {
     configurationInfoSplit: string[],
     configurationInfoValue: string
   ): void {
-    if (configurationInfoSplit.length === 3) {
-      const lineItemNumber: number = Number(configurationInfoSplit[1]);
-      let lineItem: LineItem;
-      switch (configurationInfoSplit[2]) {
-        case ConfigurationInfoFields.NAME:
-          lineItem = this.getOrCreateLineItem(lineItemMap, lineItemNumber);
-          lineItem.name = configurationInfoValue;
-          break;
-        case ConfigurationInfoFields.QTY:
-          lineItem = this.getOrCreateLineItem(lineItemMap, lineItemNumber);
-          lineItem.formattedQuantity = configurationInfoValue;
-          break;
-        case ConfigurationInfoFields.FORMATTED_PRICE:
-          lineItem = this.getOrCreateLineItem(lineItemMap, lineItemNumber);
-          lineItem.formattedPrice = configurationInfoValue;
-          break;
-        case ConfigurationInfoFields.KEY:
-        case ConfigurationInfoFields.PRICE_VALUE:
-        case ConfigurationInfoFields.PARENT:
-          break;
-        default: {
-          this.logWarning('Wrong LineItem format');
-        }
-      }
-    } else {
+    if (configurationInfoSplit.length !== 3) {
       this.logWarning('Wrong LineItem format');
+      return;
     }
+    const field = configurationInfoSplit[2];
+    if (this.isIgnoredLineItemField(field)) {
+      return;
+    }
+    const applyValue = LINE_ITEM_FIELD_SETTERS[field];
+    if (!applyValue) {
+      this.logWarning('Wrong LineItem format');
+      return;
+    }
+    const lineItemNumber: number = Number(configurationInfoSplit[1]);
+    applyValue(
+      this.getOrCreateLineItem(lineItemMap, lineItemNumber),
+      configurationInfoValue
+    );
+  }
+
+  protected isIgnoredLineItemField(field: string): boolean {
+    return (
+      field === ConfigurationInfoFields.PRICE_VALUE ||
+      field === ConfigurationInfoFields.PARENT
+    );
   }
 
   protected getOrCreateLineItem(

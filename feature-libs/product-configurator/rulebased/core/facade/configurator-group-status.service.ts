@@ -64,9 +64,7 @@ export class ConfiguratorGroupStatusService {
   getFirstIncompleteGroup(
     configuration: Configurator.Configuration
   ): Configurator.Group | undefined {
-    const navigableGroupIds = new Set(
-      configuration.flatGroups?.map((group) => group.id) ?? []
-    );
+    const navigableGroupIds = this.getNavigableGroupIds(configuration);
     return (
       this.findFirstIncompleteGroup(
         configuration.groups ?? [],
@@ -213,6 +211,37 @@ export class ConfiguratorGroupStatusService {
       }
     }
     return undefined;
+  }
+
+  /**
+   * Resolves a container row group to the navigable group that should be
+   * displayed when opening a nested configuration from the cart (`rowId` deep
+   * link) and when resolving incomplete groups below a non-navigable parent.
+   *
+   * @param configuration - Configuration
+   * @param containerRowGroup - Container row group to open
+   * @returns Navigable group, or undefined if none exists
+   */
+  getNavigableTargetForContainerRowGroup(
+    configuration: Configurator.Configuration,
+    containerRowGroup: Configurator.Group
+  ): Configurator.Group | undefined {
+    const navigableGroupIds = this.getNavigableGroupIds(configuration);
+    return navigableGroupIds.has(containerRowGroup.id)
+      ? containerRowGroup
+      : this.getFirstNavigableDescendant(containerRowGroup, navigableGroupIds);
+  }
+
+  /**
+   * Collects the IDs of all groups that are valid navigation targets.
+   *
+   * @param configuration - Configuration
+   * @returns IDs of the navigable groups
+   */
+  protected getNavigableGroupIds(
+    configuration: Configurator.Configuration
+  ): Set<string> {
+    return new Set(configuration.flatGroups?.map((group) => group.id) ?? []);
   }
 
   /**

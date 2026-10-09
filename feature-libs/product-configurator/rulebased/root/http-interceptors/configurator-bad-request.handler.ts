@@ -5,9 +5,10 @@
  */
 
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   ErrorModel,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorHandler,
@@ -20,6 +21,8 @@ import {
 })
 export class ConfiguratorBadRequestHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.BAD_REQUEST;
+
+  private featureToggles = inject(FeatureToggles);
 
   constructor(protected globalMessageService: GlobalMessageService) {
     super(globalMessageService);
@@ -84,7 +87,9 @@ export class ConfiguratorBadRequestHandler extends HttpErrorHandler {
     return (
       this.isNotEmpty(
         this.getIllegalStateErrorsRelatedToProductConfigurator(response)
-      ) || this.isProductCardProductNotFound(response)
+      ) ||
+      (!!this.featureToggles.productConfiguratorCPQContainer &&
+        this.isProductCardProductNotFound(response))
     );
   }
 

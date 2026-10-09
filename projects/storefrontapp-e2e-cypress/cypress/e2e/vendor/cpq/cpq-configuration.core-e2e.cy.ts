@@ -562,22 +562,9 @@ testConfig.forEach((config) => {
 
         cy.get('cx-mini-cart .count').then((elem) => {
           const cartEntryIndex = Number(elem.text()) - 1;
-
           configurationCartCpq.checkBundleOverviewLink(cartEntryIndex, 3);
           configurationCartCpq.clickOnBundleOverviewLink(cartEntryIndex);
-
-          cy.wait('@readConfig');
-          cy.location('pathname')
-            .should('contain', '/configure-overview/cpq/cartEntry/entityKey/')
-            .and('contain', '/displayOnly/true');
-          cy.location('search').should('contain', 'navigateToCart=true');
-          configurationOverview.checkConfigOverviewPageDisplayed();
-          cy.get('cx-configurator-add-to-cart-button .cx-display-only-btn')
-            .should('be.visible')
-            .and('contain', 'Back to Cart');
-          cy.get(
-            'cx-configurator-add-to-cart-button .cx-add-to-cart-btn'
-          ).should('not.exist');
+          configurationOverviewCpq.checkDisplayOnlyOverviewFromCartDisplayed();
         });
       });
     });

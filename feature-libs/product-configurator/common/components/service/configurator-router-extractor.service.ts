@@ -57,9 +57,10 @@ export class ConfiguratorRouterExtractorService {
               : ConfiguratorRouter.PageType.CONFIGURATION,
           navigateToCheckout:
             routingData.state.queryParams?.navigateToCheckout === 'true',
-          navigateToCart:
-            routingData.state.queryParams?.navigateToCart === 'true',
+          isBundleOverview:
+            routingData.state.queryParams?.isBundleOverview === 'true',
           productCode: routingData.state.queryParams?.productCode,
+          rowId: routingData.state.queryParams?.rowId,
         };
 
         return routerData;

@@ -4,20 +4,37 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, Optional, inject } from '@angular/core';
+import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import {
+  Component,
+  ElementRef,
+  Optional,
+  ViewChild,
+  inject,
+} from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import {
   CxNumericPipe,
+  FeatureDirective,
   FeatureToggles,
+  ProductService,
   TranslatePipe,
   TranslationService,
+  UrlPipe,
   useFeatureStyles,
 } from '@spartacus/core';
 import { BreakpointService } from '@spartacus/storefront';
-import { EMPTY, Observable, combineLatest } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { BehaviorSubject, EMPTY, Observable, combineLatest, of } from 'rxjs';
+import {
+  catchError,
+  distinctUntilChanged,
+  map,
+  switchMap,
+  take,
+} from 'rxjs/operators';
+import { ConfiguratorProductScope } from '../../core/model/configurator-product-scope';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 import { CommonConfiguratorUISettingsConfig } from '../config/common-configurator-ui-settings.config';
 import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-cart-entry.component';
@@ -34,15 +51,23 @@ import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entr
   imports: [
     NgIf,
     NgFor,
+    NgTemplateOutlet,
+    RouterLink,
     ConfigureCartEntryComponent,
     AsyncPipe,
     TranslatePipe,
     CxNumericPipe,
+    UrlPipe,
+    FeatureDirective,
   ],
 })
 export class ConfiguratorCartEntryBundleInfoComponent {
+  @ViewChild('toggleItemsButton')
+  protected toggleItemsButton?: ElementRef<HTMLButtonElement>;
+
   protected config = inject(CommonConfiguratorUISettingsConfig);
   private featureToggles = inject(FeatureToggles);
+  protected productService = inject(ProductService);
 
   constructor(
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
@@ -63,7 +88,27 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   readonly readonly$: Observable<boolean> =
     this.cartItemContext?.readonly$ ?? EMPTY;
 
-  hideItems = true;
+  protected itemsHidden = true;
+
+  /**
+   * Emits 'true' from the first time the list is expanded onwards, so that
+   * collapsing it again does not discard the products that were loaded.
+   */
+  protected hasBeenExpanded$ = new BehaviorSubject<boolean>(false);
+
+  /**
+   * State of the line items list. The list is collapsed initially.
+   */
+  get hideItems(): boolean {
+    return this.itemsHidden;
+  }
+
+  set hideItems(hideItems: boolean) {
+    this.itemsHidden = hideItems;
+    if (!hideItems) {
+      this.hasBeenExpanded$.next(true);
+    }
+  }
 
   lineItems$: Observable<LineItem[]> = this.orderEntry$.pipe(
     map((entry) =>
@@ -76,17 +121,78 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   );
 
   /**
+   * Line items rendered in the expandable list. The products behind the
+   * product detail page links are loaded only once the list is expanded, so
+   * that a collapsed bundle costs no catalog requests.
+   */
+  lineItemsWithProducts$: Observable<LineItem[]> = combineLatest([
+    this.lineItems$,
+    this.hasBeenExpanded$.pipe(distinctUntilChanged()),
+  ]).pipe(
+    switchMap(([lineItems, hasBeenExpanded]) =>
+      hasBeenExpanded ? this.enrichWithProducts(lineItems) : of(lineItems)
+    )
+  );
+
+  /**
    * Toggles the state of the items list.
    */
   toggleItems(): void {
     this.hideItems = !this.hideItems;
+    this.retainFocusOnToggleItemsButton();
+  }
+
+  /**
+   * Keeps keyboard focus on the show/hide toggle after the line list expands
+   * or collapses, including when nested configure links are rendered.
+   */
+  protected retainFocusOnToggleItemsButton(): void {
+    queueMicrotask(() => this.toggleItemsButton?.nativeElement?.focus());
+  }
+
+  /**
+   * Adds the product data (used for the PDP links) to the line items that
+   * carry a product code.
+   *
+   * @param lineItems - Line items
+   * @returns Line items enriched with their products
+   */
+  protected enrichWithProducts(lineItems: LineItem[]): Observable<LineItem[]> {
+    if (!lineItems.some((lineItem) => lineItem.productCode)) {
+      return of(lineItems);
+    }
+    return combineLatest(
+      lineItems.map((lineItem) => this.enrichWithProduct(lineItem))
+    );
+  }
+
+  /**
+   * Adds the product data (used for the PDP link) to a line item. Lookup
+   * errors leave the product undefined so that a miss does not fail the stream.
+   *
+   * @param lineItem - Line item
+   * @returns Line item enriched with its product, if it can be loaded
+   */
+  protected enrichWithProduct(lineItem: LineItem): Observable<LineItem> {
+    if (!lineItem.productCode) {
+      return of(lineItem);
+    }
+    return this.productService
+      .get(
+        lineItem.productCode,
+        ConfiguratorProductScope.CONFIGURATOR_PRODUCT_CARD
+      )
+      .pipe(
+        catchError(() => of(undefined)),
+        map((product) => ({ ...lineItem, product }))
+      );
   }
 
   /**
    * Verifies whether the configurator type is a bundle based one.
    *
-   * @param {OrderEntry} entry - Order entry
-   * @returns {boolean} - 'true' if the expected configurator type, otherwise 'false'
+   * @param entry - Order entry
+   * @returns 'true' if the expected configurator type, otherwise 'false'
    */
   isBundleBasedConfigurator(entry: OrderEntry): boolean {
     const configInfos = entry.configurationInfos;
@@ -121,7 +227,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   /**
    * Retrieves the maximum number of line items that are expanded within the cart entry.
    *
-   * @returns {number} - the configured threshold
+   * @returns The configured threshold
    */
   protected getCartEntryBundleLineItemsThreshold(): number {
     return (
@@ -133,8 +239,8 @@ export class ConfiguratorCartEntryBundleInfoComponent {
    * Compiles the accessibility description of the link that navigates to the
    * configuration overview.
    *
-   * @param {number} items - number of line items
-   * @returns {string} - accessibility description
+   * @param items - Number of line items
+   * @returns Accessibility description
    */
   getItemsLinkMsg(items: number): string {
     let translatedText = '';
@@ -149,10 +255,22 @@ export class ConfiguratorCartEntryBundleInfoComponent {
     return translatedText;
   }
 
+  /**
+   * Builds the DOM id for the accessibility description of the overview link.
+   *
+   * @param entry - Order entry
+   * @returns Element id for `aria-describedby`
+   */
   getItemsLinkMsgId(entry: OrderEntry): string {
     return 'cx-item-list-info-' + entry.entryNumber;
   }
 
+  /**
+   * Returns the show/hide label for the bundle line items toggle.
+   *
+   * @param translatedText - Optional prefix (for example an a11y summary)
+   * @returns Translated toggle button text
+   */
   getButtonText(translatedText?: string): string {
     if (!translatedText) {
       translatedText = '';
@@ -172,6 +290,12 @@ export class ConfiguratorCartEntryBundleInfoComponent {
     return translatedText;
   }
 
+  /**
+   * Builds the accessibility label for the show/hide bundle items button.
+   *
+   * @param items - Number of line items
+   * @returns Combined a11y summary and toggle label
+   */
   getItemsMsg(items: number): string {
     let translatedText = '';
     this.translation
@@ -185,47 +309,75 @@ export class ConfiguratorCartEntryBundleInfoComponent {
     return this.getButtonText(translatedText);
   }
 
+  /**
+   * Builds the accessibility description for a single bundle line item. The
+   * name is left out, because it is rendered as visible text or link and would
+   * otherwise be announced twice.
+   *
+   * @param item - Line item shown in the expanded list
+   * @returns Translated description of price and quantity, empty if neither is present
+   */
   getHiddenItemInfo(item: LineItem): string {
-    let translatedText = '';
-
-    if (item.name && item.formattedPrice && item.formattedQuantity) {
-      this.translation
-        .translate('configurator.a11y.cartEntryBundle', {
-          name: item.name,
-          price: item.formattedPrice,
-          quantity: item.formattedQuantity,
-        })
-        .pipe(take(1))
-        .subscribe((text) => (translatedText = text));
-    } else if (item.name && item.formattedPrice) {
-      this.translation
-        .translate('configurator.a11y.cartEntryBundleNameWithPrice', {
-          name: item.name,
-          price: item.formattedPrice,
-        })
-        .pipe(take(1))
-        .subscribe((text) => (translatedText = text));
-    } else if (item.name && item.formattedQuantity) {
-      this.translation
-        .translate('configurator.a11y.cartEntryBundleNameWithQuantity', {
-          name: item.name,
-          quantity: item.formattedQuantity,
-        })
-        .pipe(take(1))
-        .subscribe((text) => (translatedText = text));
-    } else {
-      this.translation
-        .translate('configurator.a11y.cartEntryBundleName', {
-          name: item.name,
-        })
-        .pipe(take(1))
-        .subscribe((text) => (translatedText = text));
+    const resourceKey = this.getHiddenItemInfoResourceKey(item);
+    if (!resourceKey) {
+      return '';
     }
+    let translatedText = '';
+    this.translation
+      .translate(resourceKey, {
+        price: item.formattedPrice,
+        quantity: item.formattedQuantity,
+      })
+      .pipe(take(1))
+      .subscribe((text) => (translatedText = text));
 
     return translatedText;
   }
 
-  getHiddenItemInfoId(index: number): string {
+  /**
+   * Retrieves the resource key matching the data available for a line item.
+   *
+   * @param item - Line item shown in the expanded list
+   * @returns Resource key, or undefined if there is nothing to describe
+   */
+  protected getHiddenItemInfoResourceKey(item: LineItem): string | undefined {
+    if (item.formattedPrice && item.formattedQuantity) {
+      return 'configurator.a11y.cartEntryBundlePriceAndQuantity';
+    }
+    if (item.formattedPrice) {
+      return 'configurator.a11y.cartEntryBundlePrice';
+    }
+    if (item.formattedQuantity) {
+      return 'configurator.a11y.cartEntryBundleQuantity';
+    }
+    return undefined;
+  }
+
+  /**
+   * Builds the DOM id for a line item accessibility description.
+   *
+   * @param entryNumber - Entry number of the line item
+   * @param lineItem - Line item object
+   * @param index - Index of the line item in the list
+   * @returns Element id for `aria-describedby`
+   */
+  getHiddenItemInfoId(
+    entryNumber: number | undefined,
+    lineItem: LineItem,
+    index: number
+  ): string {
+    const suffix = lineItem.rowId ?? index.toString();
+    return `cx-item-hidden-info-${entryNumber ?? 'x'}-${suffix}`;
+  }
+
+  /**
+   * Legacy DOM id for line item accessibility descriptions when
+   * `productConfiguratorCPQContainer` is disabled.
+   *
+   * @param index - Index of the line item in the list
+   * @returns Element id for `aria-describedby`
+   */
+  getLegacyHiddenItemInfoId(index: number): string {
     return 'cx-item-hidden-info-' + index.toString();
   }
 }

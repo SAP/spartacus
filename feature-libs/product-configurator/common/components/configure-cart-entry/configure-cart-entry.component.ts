@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -18,11 +18,17 @@ import {
   AbstractOrderType,
   OrderEntry,
 } from '@spartacus/cart/base/root';
-import { RoutingService, TranslatePipe, UrlPipe } from '@spartacus/core';
+import {
+  FeatureDirective,
+  RoutingService,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
   CommonConfigurator,
+  ConfiguratorType,
   ReadOnlyPostfix,
 } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
@@ -31,7 +37,15 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
   selector: 'cx-configure-cart-entry',
   templateUrl: './configure-cart-entry.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, RouterLink, AsyncPipe, UrlPipe, TranslatePipe],
+  imports: [
+    NgIf,
+    NgTemplateOutlet,
+    RouterLink,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    FeatureDirective,
+  ],
 })
 export class ConfigureCartEntryComponent {
   protected routingService = inject(RoutingService);
@@ -46,9 +60,19 @@ export class ConfigureCartEntryComponent {
    */
   @Input() isBundleOverviewLink = false;
   /**
+   * Container row identifier of a bundle line item. When set, the link
+   * navigates to the nested product configuration within the bundle.
+   */
+  @Input() rowId?: string;
+  /**
    * ID of an element that provides an additional description for the link.
    */
   @Input() a11yDescriptionId?: string;
+  /**
+   * Name of the product the link refers to, used in the accessibility label
+   * of edit links. Defaults to the product name of the cart entry.
+   */
+  @Input() productName?: string;
   abstractOrderContext = inject(AbstractOrderContext, { optional: true });
 
   // we default to active cart as owner in case no context is provided
@@ -57,20 +81,45 @@ export class ConfigureCartEntryComponent {
     ? this.abstractOrderContext.key$
     : of({ type: AbstractOrderType.CART });
 
-  queryParams$: Observable<{
+  /** Query params when `productConfiguratorCPQContainer` is disabled. */
+  legacyQueryParams$: Observable<{
     forceReload: boolean;
     resolveIssues: boolean;
     navigateToCheckout: boolean;
-    navigateToCart: boolean;
     productCode: string | undefined;
   }> = this.isInCheckout().pipe(
     map((isInCheckout) => ({
       forceReload: true,
       resolveIssues: this.msgBanner && this.hasIssues(),
       navigateToCheckout: isInCheckout,
-      navigateToCart: this.isBundleOverviewLink,
       productCode: this.cartEntry.product?.code,
     }))
+  );
+
+  /** Query params when `productConfiguratorCPQContainer` is enabled. */
+  cpqContainerQueryParams$: Observable<{
+    forceReload: boolean;
+    resolveIssues: boolean;
+    navigateToCheckout: boolean;
+    isBundleOverview: boolean;
+    productCode: string | undefined;
+    rowId: string | undefined;
+  }> = this.isInCheckout().pipe(
+    map((isInCheckout) => {
+      const resolveIssues = this.msgBanner && this.hasIssues();
+      return {
+        forceReload: true,
+        resolveIssues,
+        navigateToCheckout: isInCheckout,
+        isBundleOverview: !isInCheckout && this.isBundleOverviewLink,
+        // the nested product of a bundle line item is identified by its row, not
+        // by a product code, which would be resolved against the catalog
+        productCode: this.rowId ? undefined : this.cartEntry.product?.code,
+        // Issue resolution (overview / cart banner) and bundle line deep links
+        // are mutually exclusive; rowId is only for "Edit Product Configuration".
+        rowId: resolveIssues ? undefined : this.rowId,
+      };
+    })
   );
 
   /**
@@ -156,22 +205,82 @@ export class ConfigureCartEntryComponent {
    *
    * @returns - The resource key that controls the link text
    */
-  getLinkTextResourceKey(): string {
+  /**
+   * Link text when `productConfiguratorCPQContainer` is disabled.
+   *
+   * @returns - The resource key that controls the link text
+   */
+  getLegacyLinkTextResourceKey(): string {
+    if (this.getDisplayOnly()) {
+      return 'configurator.header.displayConfiguration';
+    }
+    if (this.msgBanner) {
+      return 'configurator.header.resolveIssues';
+    }
+    return 'configurator.header.editConfiguration';
+  }
+
+  /**
+   * Link text when `productConfiguratorCPQContainer` is enabled.
+   *
+   * @returns - The resource key that controls the link text
+   */
+  getCpqContainerLinkTextResourceKey(): string {
     if (this.isBundleOverviewLink) {
       return 'configurator.header.show';
-    } else if (this.getDisplayOnly()) {
-      return 'configurator.header.displayConfiguration';
-    } else if (this.msgBanner) {
-      return 'configurator.header.resolveIssues';
-    } else {
-      return 'configurator.header.editConfiguration';
     }
+    if (this.getDisplayOnly()) {
+      return 'configurator.header.displayConfiguration';
+    }
+    if (this.msgBanner) {
+      return 'configurator.header.resolveIssues';
+    }
+    if (this.rowId) {
+      return 'configurator.header.editProductConfiguration';
+    }
+    return this.cartEntry.product?.configuratorType === ConfiguratorType.CPQ
+      ? 'configurator.header.editBundleConfiguration'
+      : 'configurator.header.editConfiguration';
+  }
+
+  /**
+   * Accessibility label resource key of the link when
+   * `productConfiguratorCPQContainer` is enabled. The label starts with the
+   * visible link text, followed by the product name.
+   *
+   * @returns - The resource key, or `undefined` for a bundle overview link or if no product name is known
+   */
+  getCpqContainerLinkA11yResourceKey(): string | undefined {
+    if (this.isBundleOverviewLink || !this.getLinkProductName()) {
+      return undefined;
+    }
+    if (this.getDisplayOnly()) {
+      return 'configurator.a11y.displayConfigurationForProduct';
+    }
+    if (this.msgBanner) {
+      return 'configurator.a11y.resolveIssuesForProduct';
+    }
+    if (this.rowId) {
+      return 'configurator.a11y.editProductConfigurationForProduct';
+    }
+    return this.cartEntry.product?.configuratorType === ConfiguratorType.CPQ
+      ? 'configurator.a11y.editBundleConfigurationForProduct'
+      : 'configurator.a11y.editConfigurationForProduct';
+  }
+
+  /**
+   * Retrieves the name of the product the link refers to.
+   *
+   * @returns - The given product name, otherwise the product name of the cart entry
+   */
+  getLinkProductName(): string | undefined {
+    return this.productName ?? this.cartEntry.product?.name;
   }
 
   /**
    * Verifies whether the link to the configuration is disabled.
    *
-   *  @returns - 'true' if the the configuration is not read only, otherwise 'false'
+   *  @returns - 'true' if the configuration is not read only, otherwise 'false'
    */
   isDisabled(): boolean {
     return this.readOnly ? false : this.disabled;

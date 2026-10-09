@@ -313,26 +313,30 @@ describe('ConfigRouterExtractorService', () => {
         .unsubscribe();
     });
 
-    it('should tell from the URL if the navigation to the cart is relevant', () => {
-      mockRouterState.state.queryParams = { navigateToCart: 'true' };
+    it('should tell from the URL if navigation to the cart from bundle overview is relevant', () => {
+      mockRouterState.state.queryParams = {
+        isBundleOverview: 'true',
+      };
       let routerData: ConfiguratorRouter.Data;
       serviceUnderTest
         .extractRouterData()
         .subscribe((data) => {
           routerData = data;
-          expect(routerData.navigateToCart).toBe(true);
+          expect(routerData.isBundleOverview).toBe(true);
         })
         .unsubscribe();
     });
 
-    it('should tell from the URL if the navigation to the cart is not relevant', () => {
-      mockRouterState.state.queryParams = { navigateToCart: 'false' };
+    it('should tell from the URL if navigation to the cart from bundle overview is not relevant', () => {
+      mockRouterState.state.queryParams = {
+        isBundleOverview: 'false',
+      };
       let routerData: ConfiguratorRouter.Data;
       serviceUnderTest
         .extractRouterData()
         .subscribe((data) => {
           routerData = data;
-          expect(routerData.navigateToCart).toBe(false);
+          expect(routerData.isBundleOverview).toBe(false);
         })
         .unsubscribe();
     });
@@ -359,6 +363,20 @@ describe('ConfigRouterExtractorService', () => {
         .subscribe((data) => {
           routerData = data;
           expect(routerData.productCode).toBe(undefined);
+        })
+        .unsubscribe();
+    });
+
+    it('should tell from the URL that a row id has been passed', () => {
+      mockRouterState.state.queryParams = {
+        rowId: 'row-abc',
+      };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.rowId).toBe('row-abc');
         })
         .unsubscribe();
     });
