@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
+import { PendingTasks } from '@angular/core';
 import { Priority } from '@spartacus/core';
 import { DefaultComponentHandler } from '@spartacus/storefront';
 import { lastValueFrom, of } from 'rxjs';
@@ -11,14 +12,20 @@ class MockDefaultComponentHandler {
 
 describe('LazyComponentHandler', () => {
   let service: LazyComponentHandler;
+  let mockRemoveTask: ReturnType<typeof vi.fn>;
+  let mockPendingTasks: { add: ReturnType<typeof vi.fn> };
 
   beforeEach(() => {
+    mockRemoveTask = vi.fn();
+    mockPendingTasks = { add: vi.fn().mockReturnValue(mockRemoveTask) };
+
     TestBed.configureTestingModule({
       providers: [
         {
           provide: DefaultComponentHandler,
           useClass: MockDefaultComponentHandler,
         },
+        { provide: PendingTasks, useValue: mockPendingTasks },
       ],
     });
     service = TestBed.inject(LazyComponentHandler);
@@ -61,6 +68,47 @@ describe('LazyComponentHandler', () => {
         undefined,
         undefined
       );
+    });
+
+    it('should not add a pending task before subscribe', () => {
+      const mapping = () => Promise.resolve('component');
+      service.launcher({ component: mapping }, undefined, undefined);
+      expect(mockPendingTasks.add).not.toHaveBeenCalled();
+    });
+
+    it('should add a pending task on subscribe', async () => {
+      const mapping = () => Promise.resolve('component');
+      await lastValueFrom(
+        service.launcher({ component: mapping }, undefined, undefined)
+      );
+      expect(mockPendingTasks.add).toHaveBeenCalled();
+    });
+
+    it('should remove the pending task after import resolves', async () => {
+      const mapping = () => Promise.resolve('component');
+      await lastValueFrom(
+        service.launcher({ component: mapping }, undefined, undefined)
+      );
+      expect(mockRemoveTask).toHaveBeenCalled();
+    });
+
+    it('should remove the pending task on import error', async () => {
+      const mapping = () => Promise.reject(new Error('load failed'));
+      await lastValueFrom(
+        service.launcher({ component: mapping }, undefined, undefined)
+      ).catch(() => {});
+      expect(mockRemoveTask).toHaveBeenCalled();
+    });
+
+    it('should remove the pending task on unsubscribe', () => {
+      let resolveImport!: (v: any) => void;
+      const mapping = () => new Promise((res) => { resolveImport = res; });
+      const sub = service
+        .launcher({ component: mapping }, undefined, undefined)
+        .subscribe();
+      expect(mockRemoveTask).not.toHaveBeenCalled();
+      sub.unsubscribe();
+      expect(mockRemoveTask).toHaveBeenCalled();
     });
   });
 });
