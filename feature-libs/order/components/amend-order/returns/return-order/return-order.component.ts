@@ -5,10 +5,9 @@
  */
 
 import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { FeatureToggles } from '@spartacus/core';
 import { Consignment } from '@spartacus/order/root';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { Observable, combineLatest, map, tap } from 'rxjs';
@@ -31,7 +30,6 @@ import { OrderAmendService } from '../../amend-order.service';
 })
 export class ReturnOrderComponent {
   orderCode: string;
-  private featureToggles = inject(FeatureToggles);
 
   form$: Observable<UntypedFormGroup> = this.orderAmendService
     .getForm()
@@ -62,10 +60,7 @@ export class ReturnOrderComponent {
                 ...entry,
                 returnableQuantity:
                   consignmentEntry.shippedQuantity ??
-                  (this.featureToggles
-                    ?.enableReturnOrderReturnableQuantityConsigmentFallback
-                    ? entry.returnableQuantity
-                    : null) ??
+                  entry.returnableQuantity ??
                   0,
               }
             : null;

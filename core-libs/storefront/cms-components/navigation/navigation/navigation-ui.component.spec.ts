@@ -12,8 +12,8 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { GenericLinkComponent, IconComponent } from '@spartacus/storefront';
-import { BreakpointService } from '../../../layout';
 import { of } from 'rxjs';
+import { BreakpointService } from '../../../layout';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationUIComponent } from './navigation-ui.component';
@@ -42,7 +42,6 @@ class MockHamburgerMenuService {
 }
 
 const mockFeatureToggles: FeatureToggles = {
-  navigationMenuCloseOnSameLinkClick: true,
   a11yNavigationSpaceKeyOnKeyUp: true,
 };
 
