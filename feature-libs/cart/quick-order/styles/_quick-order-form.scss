@@ -122,7 +122,9 @@
       background-color: var(--cx-color-background);
       color: var(--cx-color-text);
     }
-    .quick-order-results-products .quick-order-results-product-container .quick-order-results-product {
+    .quick-order-results-products
+      .quick-order-results-product-container
+      .quick-order-results-product {
       background-color: var(--cx-color-background);
       color: var(--cx-color-text);
       &:hover,
