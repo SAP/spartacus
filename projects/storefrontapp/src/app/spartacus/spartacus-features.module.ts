@@ -314,7 +314,6 @@ if (environment.cpq) {
         a11yFutureStockAccordionAriaControls: true,
         authorizationCodeFlowByDefault: true,
         mergeGuestCartOnCodeFlowLogin: true,
-        navigationMenuCloseOnSameLinkClick: true,
         enablePasswordExpiredErrorTranslation: true,
         enableQuotePurchaseOrderNumber: true,
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
