@@ -172,15 +172,6 @@ export interface FeatureTogglesInterface {
   authorizationCodeFlowByDefaultCsrfTokenRefresh?: boolean;
 
   /**
-   * When this feature toggle is enabled, the navigation menu will close when clicking on the same link.
-   *
-   * This is to improve the user experience on mobile devices, where the menu remains open
-   * after clicking on a link that navigates to the same page.
-   * Affects: `NavigationUIComponent`
-   */
-  navigationMenuCloseOnSameLinkClick?: boolean;
-
-  /**
    * When enabled, translates the "Password expired" error message
    * to the user's selected language using Spartacus i18n.
    * Affects: `LoginComponent`
@@ -195,13 +186,6 @@ export interface FeatureTogglesInterface {
    * when requesting a quote and see it in the quote details
    */
   enableQuotePurchaseOrderNumber?: boolean;
-
-  /**
-   * When enabled, fixes the issue with return order returnable quantity not being displayed correctly
-   * on the `ReturnOrderComponent` when navigating to the return request details page.
-   * Affects: `ReturnOrderComponent`
-   */
-  enableReturnOrderReturnableQuantityConsigmentFallback?: boolean;
 
   /**
    * When enabled, the media prefix from the backend config will be used
@@ -932,10 +916,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFutureStockAccordionAriaControls: true,
   authorizationCodeFlowByDefault: true,
   authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
-  navigationMenuCloseOnSameLinkClick: true,
   enablePasswordExpiredErrorTranslation: true,
   enableQuotePurchaseOrderNumber: true,
-  enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: true,
   a11yCustomerTicketingVisualFocusFix: true,
   a11yMessagingListKeyboardFocus: false,
