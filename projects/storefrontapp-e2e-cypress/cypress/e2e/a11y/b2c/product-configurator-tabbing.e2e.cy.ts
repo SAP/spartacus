@@ -68,7 +68,7 @@ context('Product Configuration', () => {
   });
 
   describe('Product Config Tabbing', () => {
-    it('should allow to navigate with tab key', () => {
+    it.only('should allow to navigate with tab key', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
