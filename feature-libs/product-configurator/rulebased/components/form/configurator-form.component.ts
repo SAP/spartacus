@@ -12,7 +12,11 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import {
+  FeatureToggles,
+  GlobalMessageService,
+  GlobalMessageType,
+} from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
@@ -47,6 +51,7 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
   protected keyboardFocusService = inject(KeyboardFocusService);
+  private featureToggles = inject(FeatureToggles);
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
 
@@ -147,8 +152,8 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
       });
 
     this.routerData$.pipe(take(1)).subscribe((routingData) => {
-      //In case of resolving issues (if no conflict solver dialog is present!), check if the configuration contains conflicts,
-      //if not, check if the configuration contains missing mandatory fields and show the group
+      // Resolving issues (overview or cart banner): navigate to conflicts or the
+      // first incomplete group. Bundle line deep links use rowId only.
       if (routingData.resolveIssues) {
         this.configuratorCommonsService
           .hasConflicts(routingData.owner)
@@ -166,8 +171,17 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
               );
             }
           });
-      } else {
+      } else if (
+        routingData.rowId &&
+        this.featureToggles.productConfiguratorCPQContainer
+      ) {
         // Clear persisted focus before entering the configurator UI
+        this.keyboardFocusService.clear();
+        this.configuratorGroupsService.navigateToContainerRow(
+          routingData.owner,
+          routingData.rowId
+        );
+      } else {
         this.keyboardFocusService.clear();
       }
 

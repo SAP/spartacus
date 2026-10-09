@@ -15,10 +15,10 @@ import { Configurator } from '../../model/configurator.model';
 export class ConfiguratorUtilsService {
   /**
    * Determines the direct parent group for an attribute group
-   * @param {Configurator.Group[]} groups - List of groups where we search for parent
-   * @param {Configurator.Group} group - If already part of groups, no further search is needed, and we return the provided parent group
-   * @param {Configurator.Group} parentGroup - Optional parent group.
-   * @returns {Configurator.Group | undefined} - Parent group. Might be undefined
+   * @param groups - List of groups where we search for parent
+   * @param group - If already part of groups, no further search is needed, and we return the provided parent group
+   * @param parentGroup - Optional parent group
+   * @returns Parent group. Might be undefined
    */
   getParentGroup(
     groups: Configurator.Group[],
@@ -44,9 +44,9 @@ export class ConfiguratorUtilsService {
    *
    * The exceptional case can happen if e.g. an edit in a conflict was done that
    * resolved the conflict, or if a group vanished due to object dependencies.
-   * @param {Configurator.Group[]} groups - List of groups
-   * @param {string} groupId - Group id
-   * @returns {Configurator.Group} - Group identified by its id, if available. Otherwise first group
+   * @param groups - List of groups
+   * @param groupId - Group id
+   * @returns Group identified by its id, if available. Otherwise first group
    */
   getGroupById(
     groups: Configurator.Group[],
@@ -57,24 +57,22 @@ export class ConfiguratorUtilsService {
       return currentGroup;
     }
     const groupFound = this.getGroupFromSubGroups(groups, groupId);
-    return groupFound ? groupFound : groups[0];
+    return groupFound ?? groups[0];
   }
 
   /**
    * Finds group identified by its ID. If nothing is found, this
    * methods returns undefined
-   * @param {Configurator.Group[]} groups - List of groups
-   * @param {string} groupId - Group id
-   * @returns {Configurator.Group | undefined} - Group identified by its id, if available. Otherwise undefined
+   * @param groups - List of groups
+   * @param groupId - Group id
+   * @returns Group identified by its id, if available. Otherwise undefined
    */
   getOptionalGroupById(
     groups: Configurator.Group[],
     groupId: string
   ): Configurator.Group | undefined {
     const currentGroup = groups.find((group) => group.id === groupId);
-    return currentGroup
-      ? currentGroup
-      : this.getGroupFromSubGroups(groups, groupId);
+    return currentGroup ?? this.getGroupFromSubGroups(groups, groupId);
   }
 
   protected getGroupByIdIfPresent(
@@ -93,7 +91,7 @@ export class ConfiguratorUtilsService {
     groups: Configurator.Group[],
     groupId: string
   ): Configurator.Group | undefined {
-    const groupFound = groups
+    return groups
       .map((group) => {
         return group.subGroups
           ? this.getGroupByIdIfPresent(group.subGroups, groupId)
@@ -101,14 +99,13 @@ export class ConfiguratorUtilsService {
       })
       .filter((foundGroup) => foundGroup)
       .pop();
-    return groupFound;
   }
 
   /**
    * Verifies whether the current group has a subgroups.
    *
-   * @param {Configurator.Group} group - Current group
-   * @return {boolean} - 'True' if the current group has any subgroups, otherwise 'false'
+   * @param group - Current group
+   * @return 'True' if the current group has any subgroups, otherwise 'false'
    */
   hasSubGroups(group: Configurator.Group): boolean {
     return group.subGroups ? group.subGroups.length > 0 : false;
@@ -117,8 +114,8 @@ export class ConfiguratorUtilsService {
   /**
    * Verifies whether the configuration has been created.
    *
-   * @param {Configurator.Configuration} configuration - Configuration
-   * @return {boolean} - 'True' if the configuration hass been created, otherwise 'false'
+   * @param configuration - Configuration
+   * @return 'True' if the configuration hass been created, otherwise 'false'
    */
   isConfigurationCreated(configuration?: Configurator.Configuration): boolean {
     const configId = configuration?.configId;
@@ -134,10 +131,10 @@ export class ConfiguratorUtilsService {
   /**
    * Creates configuration extract.
    *
-   * @param {Configurator.Attribute} changedAttribute - changed configuration
-   * @param {Configurator.Configuration} configuration - configuration
-   * @param {Configurator.UpdateType} updateType - updated type
-   * @return {Configurator.Configuration} - Configuration
+   * @param changedAttribute - Changed configuration attribute
+   * @param configuration - Configuration
+   * @param updateType - Update type
+   * @return Configuration extract
    */
   createConfigurationExtract(
     changedAttribute: Configurator.Attribute,
@@ -204,12 +201,54 @@ export class ConfiguratorUtilsService {
   }
 
   /**
+   * Finds a container row group by its CPQ row identifier.
+   *
+   * @param groups - Root groups of the configuration
+   * @param rowId - Container row identifier
+   * @param flatGroups - Flat groups
+   * @returns Matching container row group, if present
+   */
+  findContainerRowGroupByRowId(
+    groups: Configurator.Group[],
+    rowId: string,
+    flatGroups?: Configurator.Group[]
+  ): Configurator.Group | undefined {
+    if (flatGroups?.length) {
+      const flatMatch = flatGroups.find(
+        (group) =>
+          group.groupType === Configurator.GroupType.CONTAINER_ROW_GROUP &&
+          this.getContainerRowIdFromGroupId(group.id) === rowId
+      );
+      if (flatMatch) {
+        return flatMatch;
+      }
+    }
+    for (const group of groups) {
+      if (
+        group.groupType === Configurator.GroupType.CONTAINER_ROW_GROUP &&
+        this.getContainerRowIdFromGroupId(group.id) === rowId
+      ) {
+        return group;
+      }
+      const nestedGroup = this.findContainerRowGroupByRowId(
+        group.subGroups ?? [],
+        rowId,
+        flatGroups
+      );
+      if (nestedGroup) {
+        return nestedGroup;
+      }
+    }
+    return undefined;
+  }
+
+  /**
    * Builds group path.
    *
-   * @param {string} groupId - Group ID
-   * @param { Configurator.Group[]} groupList - List of groups
-   * @param { Configurator.Group[]} groupPath - Path of groups
-   * @return {boolean} - 'True' if the group has been found, otherwise 'false'
+   * @param groupId - Group ID
+   * @param groupList - List of groups
+   * @param groupPath - Path of groups
+   * @return 'True' if the group has been found, otherwise 'false'
    */
   buildGroupPath(
     groupId: string,
@@ -242,8 +281,8 @@ export class ConfiguratorUtilsService {
   /**
    * Retrieves the configuration from state, and throws an error in case the configuration is
    * not available
-   * @param {StateUtils.ProcessesLoaderState<Configurator.Configuration>} configurationState - Process loader state containing product configuration
-   * @returns {Configurator.Configuration} - The actual product configuration
+   * @param configurationState - Process loader state containing product configuration
+   * @returns The actual product configuration
    */
   getConfigurationFromState(
     configurationState: StateUtils.ProcessesLoaderState<Configurator.Configuration>
@@ -259,11 +298,25 @@ export class ConfiguratorUtilsService {
   protected buildGroupForExtract(
     group: Configurator.Group
   ): Configurator.Group {
-    const changedGroup: Configurator.Group = {
+    return {
       groupType: group.groupType,
       id: group.id,
       subGroups: [],
     };
-    return changedGroup;
+  }
+
+  /**
+   * Extracts the CPQ row identifier from a container row group ID, which has
+   * the format `CONTAINER_ROW@<attributeCode>@<rowId>`. Groups nested below a
+   * container row carry further segments and resolve to the same row.
+   *
+   * @param groupId - Group ID
+   * @returns Row identifier, or undefined if the ID is not a container row ID
+   */
+  protected getContainerRowIdFromGroupId(groupId: string): string | undefined {
+    const [prefix, , rowId] = groupId.split('@');
+    return prefix === Configurator.ContainerRowGroupIdPrefix
+      ? rowId
+      : undefined;
   }
 }

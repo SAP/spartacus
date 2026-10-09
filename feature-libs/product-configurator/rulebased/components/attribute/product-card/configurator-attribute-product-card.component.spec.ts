@@ -13,6 +13,7 @@ import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
   FeatureConfigService,
+  FeatureToggles,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
@@ -27,15 +28,25 @@ import {
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import {
   FocusDirective,
+  ICON_TYPE,
   ItemCounterComponent,
   KeyboardFocusService,
   MediaModule,
 } from '@spartacus/storefront';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
+import {
+  BehaviorSubject,
+  EMPTY,
+  firstValueFrom,
+  Observable,
+  of,
+  throwError,
+} from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorMessageGroup } from '../../service/configurator-message.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import {
   ConfiguratorPriceComponent,
@@ -84,6 +95,12 @@ const productTransformed: Product = {
 class MockProductService {
   get(): Observable<Product> {
     return of(product);
+  }
+}
+
+class MockConfiguratorStorefrontUtilsService {
+  isCartEntryOrGroupVisited(): Observable<boolean> {
+    return of(true);
   }
 }
 
@@ -201,28 +218,32 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useValue: {},
+          useClass: MockConfiguratorStorefrontUtilsService,
         },
-        provideMockFeatureToggles({
+        ...provideMockFeatureToggles({
           productConfiguratorConsolidatedButtonDisabling: true,
+          productConfiguratorCPQContainer: true,
         }),
+        {
+          provide: FeatureToggles,
+          useFactory: (controller: MockFeatureTogglesController) => controller,
+          deps: [MockFeatureTogglesController],
+        },
       ],
     })
       .overrideProvider(FeatureConfigService, {
-        useFactory: () => {
-          const ctrl = TestBed.inject(
-            MockFeatureTogglesController
-          ) as unknown as Record<string, unknown>;
-          return {
-            isEnabled: (feature: string) => {
-              const negated = feature.startsWith('!');
-              const key = negated ? feature.slice(1) : feature;
-              const val = !!ctrl[key];
-              return negated ? !val : val;
-            },
-            isLevel: () => false,
-          };
-        },
+        useFactory: () => ({
+          isEnabled: (feature: string) => {
+            const ctrl = TestBed.inject(
+              MockFeatureTogglesController
+            ) as unknown as Record<string, unknown>;
+            const negated = feature.startsWith('!');
+            const key = negated ? feature.slice(1) : feature;
+            const val = !!ctrl[key];
+            return negated ? !val : val;
+          },
+          isLevel: () => false,
+        }),
       })
       .overrideComponent(ConfiguratorAttributeProductCardComponent, {
         remove: {
@@ -273,6 +294,12 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       hideRemoveButton: false,
       multiSelect: false,
       productBoundValue: value,
+      attribute: {
+        attrCode: 123,
+        label: 'Attribute Label',
+        name: 'Attribute Name',
+        container: { rows: [] },
+      },
       singleDropdown: false,
       withQuantity: true,
       attributeId: 123,
@@ -311,6 +338,90 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     expect(loadingState.length).toBeGreaterThanOrEqual(2);
     expect(loadingState[loadingState.length - 2]).toBe(true); // loading
     expect(loadingState[loadingState.length - 1]).toBe(false); // loading done
+  });
+
+  describe('ngOnInit', () => {
+    it('should request product with productSystemId and configurator product card scope', () => {
+      const productService = TestBed.inject(ProductService);
+      vi.spyOn(productService, 'get');
+
+      component.ngOnInit();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        '1111-2222',
+        ConfiguratorProductScope.CONFIGURATOR_PRODUCT_CARD
+      );
+    });
+
+    it('should request product with empty code when productSystemId is undefined', () => {
+      const productService = TestBed.inject(ProductService);
+      vi.spyOn(productService, 'get').mockReturnValue(of(undefined));
+      component.productCardOptions.productBoundValue = {
+        ...value,
+        productSystemId: undefined,
+      };
+
+      component.ngOnInit();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        '',
+        ConfiguratorProductScope.CONFIGURATOR_PRODUCT_CARD
+      );
+    });
+
+    it('should emit catalog product merged with configurator value', async () => {
+      component.ngOnInit();
+
+      const catalogProduct = await firstValueFrom(component.product$);
+      expect(catalogProduct).toEqual({
+        ...productTransformed,
+        ...product,
+      });
+    });
+
+    it('should reset loading state when catalog lookup errors', () => {
+      const productService = TestBed.inject(ProductService);
+      vi.spyOn(productService, 'get').mockReturnValue(
+        throwError(() => new Error('lookup failed'))
+      );
+
+      component.ngOnInit();
+      expect(component.loading$.value).toBe(true);
+
+      component.product$.subscribe().unsubscribe();
+      expect(component.loading$.value).toBe(false);
+    });
+
+    it('should use local loading state as disableActions$ when parent provides no loading$', () => {
+      component.productCardOptions.loading$ = undefined;
+
+      component.ngOnInit();
+
+      expect(component.disableActions$).toBe(component.loading$);
+    });
+
+    it('should disable actions when only local loading is active', async () => {
+      component.productCardOptions.loading$ = new BehaviorSubject<boolean>(
+        false
+      );
+
+      component.ngOnInit();
+
+      const disabled = await firstValueFrom(component.disableActions$);
+      expect(disabled).toBe(true);
+    });
+
+    it('should enable actions when neither local nor parent loading is active', async () => {
+      component.productCardOptions.loading$ = new BehaviorSubject<boolean>(
+        false
+      );
+
+      component.ngOnInit();
+      component.loading$.next(false);
+
+      const disabled = await firstValueFrom(component.disableActions$);
+      expect(disabled).toBe(false);
+    });
   });
 
   describe('Buttons constellation', () => {
@@ -495,7 +606,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       initSelectedMultiSelectRemoveButton(true);
 
       const button = fixture.debugElement.query(
-        By.css('button.btn-secondary')
+        By.css('button.btn-tertiary')
       ).nativeElement;
       expect(button.textContent?.trim()).toContain(
         'configurator.button.remove'
@@ -511,7 +622,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       initSelectedMultiSelectRemoveButton(true);
 
       const button = fixture.debugElement.query(
-        By.css('button.btn-secondary')
+        By.css('button.btn-tertiary')
       ).nativeElement;
       expect(button.textContent?.trim()).toContain(
         'configurator.button.remove'
@@ -549,6 +660,11 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           '1111-2222',
           'Lorem Ipsum Dolor'
         ),
+        attribute: {
+          attrCode: 123,
+          label: 'Attribute Label',
+          name: 'Attribute Name',
+        },
         singleDropdown: false,
         withQuantity: true,
         disableAllButtons: true,
@@ -565,7 +681,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       initUnselectedPrimaryButton(false, true);
 
       const button = fixture.debugElement.query(
-        By.css('button.btn-primary')
+        By.css('button.btn-secondary')
       ).nativeElement;
       expect(button.textContent?.trim()).toContain(
         'configurator.button.select'
@@ -577,7 +693,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       initUnselectedPrimaryButton(false, false);
 
       const button = fixture.debugElement.query(
-        By.css('button.btn-primary')
+        By.css('button.btn-secondary')
       ).nativeElement;
       expect(button.textContent?.trim()).toContain(
         'configurator.button.select'
@@ -589,7 +705,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       initUnselectedPrimaryButton(true, true);
 
       const button = fixture.debugElement.query(
-        By.css('button.btn-primary')
+        By.css('button.btn-secondary')
       ).nativeElement;
       expect(button.textContent?.trim()).toContain('configurator.button.add');
       expect(button.disabled).toBe(false);
@@ -599,10 +715,94 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       initUnselectedPrimaryButton(true, false);
 
       const button = fixture.debugElement.query(
-        By.css('button.btn-primary')
+        By.css('button.btn-secondary')
       ).nativeElement;
       expect(button.textContent?.trim()).toContain('configurator.button.add');
       expect(button.disabled).toBe(true);
+    });
+  });
+
+  describe('productConfiguratorCPQContainer feature toggle', () => {
+    function initWithCpqContainerToggle(
+      toggleEnabled: boolean,
+      options: { multiSelect: boolean; selected: boolean }
+    ): void {
+      // `*cxFeature` resolves its (static) expression only once, when the
+      // embedded view is created. The toggle state has to be set before the
+      // first change detection.
+      featureToggles.set('productConfiguratorCPQContainer', toggleEnabled);
+      fixture = TestBed.createComponent(
+        ConfiguratorAttributeProductCardComponent
+      );
+      htmlElem = fixture.nativeElement;
+      component = fixture.componentInstance;
+      component.productCardOptions = {
+        hideRemoveButton: false,
+        multiSelect: options.multiSelect,
+        productBoundValue: createValue(
+          '888',
+          'description',
+          [createImage('url', 'alt')],
+          1,
+          options.selected,
+          '1111-2222',
+          'Lorem Ipsum Dolor'
+        ),
+        attribute: {
+          attrCode: 123,
+          label: 'Attribute Label',
+          name: 'Attribute Name',
+        },
+        singleDropdown: false,
+        withQuantity: true,
+        attributeId: 123,
+        attributeLabel: 'Attribute Label',
+        attributeName: 'Attribute Name',
+        itemCount: 3,
+        itemIndex: 1,
+      };
+      fixture.detectChanges();
+    }
+
+    it('should use tertiary class for the multi-select remove button when the toggle is enabled', () => {
+      initWithCpqContainerToggle(true, { multiSelect: true, selected: true });
+
+      const button = fixture.debugElement.query(
+        By.css('button.btn-tertiary')
+      ).nativeElement;
+      expect(button.textContent).toContain('configurator.button.remove');
+    });
+
+    it('should use secondary class for the multi-select remove button when the toggle is disabled', () => {
+      initWithCpqContainerToggle(false, { multiSelect: true, selected: true });
+
+      const button = fixture.debugElement.query(
+        By.css('button.btn-secondary')
+      ).nativeElement;
+      expect(button.textContent).toContain('configurator.button.remove');
+      expect(htmlElem.querySelector('button.btn-tertiary')).toBeFalsy();
+    });
+
+    it('should use secondary class for the single-select button when the toggle is enabled', () => {
+      initWithCpqContainerToggle(true, { multiSelect: false, selected: false });
+
+      const button = fixture.debugElement.query(
+        By.css('button.btn-secondary')
+      ).nativeElement;
+      expect(button.textContent).toContain('configurator.button.select');
+    });
+
+    it('should use primary class for the single-select button when the toggle is disabled', () => {
+      initWithCpqContainerToggle(false, {
+        multiSelect: false,
+        selected: false,
+      });
+
+      const button = fixture.debugElement.query(
+        By.css('button.btn-primary')
+      ).nativeElement;
+      expect(button.textContent).toContain('configurator.button.select');
+      expect(htmlElem.querySelector('button.btn-secondary')).toBeFalsy();
     });
   });
 
@@ -677,6 +877,42 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       ).toEqual(productTransformed);
     });
 
+    it('should fall back to configuration value when catalog product is missing', async () => {
+      const productService = TestBed.inject(ProductService);
+      vi.spyOn(productService, 'get').mockReturnValue(of(undefined));
+
+      component.ngOnInit();
+      const catalogProduct = await firstValueFrom(component.product$);
+      expect(catalogProduct).toEqual(productTransformed);
+    });
+
+    it('should use valueDisplay as name when catalog product has no name', async () => {
+      const productService = TestBed.inject(ProductService);
+      vi.spyOn(productService, 'get').mockReturnValue(
+        of({
+          code: '1111-2222',
+          description: 'Catalog description',
+          images: product.images,
+        })
+      );
+
+      component.ngOnInit();
+      const catalogProduct = await firstValueFrom(component.product$);
+      expect(catalogProduct.name).toBe(productTransformed.name);
+      expect(catalogProduct.description).toBe('Catalog description');
+    });
+
+    it('should fall back to configuration value when catalog lookup errors', async () => {
+      const productService = TestBed.inject(ProductService);
+      vi.spyOn(productService, 'get').mockReturnValue(
+        throwError(() => new Error("Product with code '1111-2222' not found!"))
+      );
+
+      component.ngOnInit();
+      const catalogProduct = await firstValueFrom(component.product$);
+      expect(catalogProduct).toEqual(productTransformed);
+    });
+
     it('should display quantity when props withQuantity is true', () => {
       component.productCardOptions.withQuantity = true;
       setProductBoundValueAttributes(component);
@@ -731,6 +967,67 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         htmlElem,
         'cx-configurator-attribute-quantity'
       );
+    });
+  });
+
+  describe('mergeProductWithConfiguratorValue', () => {
+    it('should return transformed configurator value when product is undefined', () => {
+      expect(
+        component['mergeProductWithConfiguratorValue'](
+          undefined,
+          component.productCardOptions.productBoundValue
+        )
+      ).toEqual(productTransformed);
+    });
+
+    it('should prefer catalog product data over configurator value', () => {
+      const catalogProduct: Product = {
+        code: 'CATALOG_CODE',
+        name: 'Catalog Name',
+        description: 'Catalog description',
+        images: product.images,
+        price: product.price,
+      };
+
+      expect(
+        component['mergeProductWithConfiguratorValue'](
+          catalogProduct,
+          component.productCardOptions.productBoundValue
+        )
+      ).toEqual(catalogProduct);
+    });
+
+    it('should use valueDisplay as name when catalog name is blank', () => {
+      const result = component['mergeProductWithConfiguratorValue'](
+        { code: 'CATALOG_CODE', name: '   ' },
+        component.productCardOptions.productBoundValue
+      );
+
+      expect(result.name).toBe(productTransformed.name);
+      expect(result.code).toBe('CATALOG_CODE');
+    });
+
+    it('should fall back to configurator code and description when missing in catalog product', () => {
+      const result = component['mergeProductWithConfiguratorValue'](
+        { name: 'Catalog Name', images: product.images },
+        component.productCardOptions.productBoundValue
+      );
+
+      expect(result).toEqual({
+        code: productTransformed.code,
+        description: productTransformed.description,
+        name: 'Catalog Name',
+        images: product.images,
+      });
+    });
+
+    it('should keep fallback images when catalog product has no images', () => {
+      const result = component['mergeProductWithConfiguratorValue'](
+        { code: 'CATALOG_CODE', name: 'Catalog Name' },
+        component.productCardOptions.productBoundValue
+      );
+
+      expect(result.images).toEqual({});
     });
   });
 
@@ -1000,7 +1297,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         'configurator.a11y.itemOfAttributeSelectedWithPrice attribute:' +
           component.productCardOptions.attributeLabel +
           ' item:' +
-          product.code +
+          product.name +
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
@@ -1028,7 +1325,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         'configurator.a11y.itemOfAttributeSelected attribute:' +
           component.productCardOptions.attributeLabel +
           ' item:' +
-          product.code +
+          product.name +
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
@@ -1061,7 +1358,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice attribute:' +
           component.productCardOptions.attributeLabel +
           ' item:' +
-          product.code +
+          product.name +
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
@@ -1089,7 +1386,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         'configurator.a11y.itemOfAttributeSelectedPressToUnselect attribute:' +
           component.productCardOptions.attributeLabel +
           ' item:' +
-          product.code +
+          product.name +
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
@@ -1122,7 +1419,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice attribute:' +
           component.productCardOptions.attributeLabel +
           ' item:' +
-          product.code +
+          product.name +
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
@@ -1150,7 +1447,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         'configurator.a11y.itemOfAttributeSelectedPressToUnselect attribute:' +
           component.productCardOptions.attributeLabel +
           ' item:' +
-          product.code +
+          product.name +
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
@@ -1183,7 +1480,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         'configurator.a11y.itemOfAttributeUnselectedWithPrice attribute:' +
           component.productCardOptions.attributeLabel +
           ' item:' +
-          product.code +
+          product.name +
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
@@ -1211,7 +1508,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         'configurator.a11y.itemOfAttributeUnselected attribute:' +
           component.productCardOptions.attributeLabel +
           ' item:' +
-          product.code +
+          product.name +
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
@@ -1244,7 +1541,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         'configurator.a11y.itemOfAttributeUnselectedWithPrice attribute:' +
           component.productCardOptions.attributeLabel +
           ' item:' +
-          product.code +
+          product.name +
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
@@ -1272,6 +1569,33 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         'configurator.a11y.itemOfAttributeUnselected attribute:' +
           component.productCardOptions.attributeLabel +
           ' item:' +
+          product.name +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex
+      );
+    });
+
+    it('should fall back to the product code in the item aria-label if the product name is empty', () => {
+      const productBoundValue = setProductBoundValueAttributes(
+        component,
+        true,
+        undefined
+      );
+      productBoundValue.valuePrice = {
+        currencyIso: '$',
+        formattedValue: undefined,
+        value: 0,
+      };
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+
+      expect(
+        component.getAriaLabelSingleUnselected({ ...product, name: '' })
+      ).toBe(
+        'configurator.a11y.itemOfAttributeUnselected attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' item:' +
           product.code +
           ' itemCount:' +
           component.productCardOptions.itemCount +
@@ -1296,13 +1620,13 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
   });
 
   describe('Accessibility', () => {
-    it("should contain div element with class name 'cx-product-card' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+    it("should contain div element with class name 'cx-product-card-container' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
         'div',
-        'cx-product-card',
+        'cx-product-card-container',
         0,
         'aria-label',
         'configurator.a11y.itemOfAttribute attribute:' +
@@ -1323,20 +1647,20 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       );
     });
 
-    it("should contain button element with class name 'btn-primary' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+    it("should contain button element with class name 'btn-secondary' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
       fixture.detectChanges();
       const itemIndex = component.productCardOptions.itemIndex + 1;
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
         'button',
-        'btn-primary',
+        'btn-secondary',
         0,
         'aria-label',
         'configurator.a11y.itemOfAttributeUnselectedWithPrice attribute:' +
           component.productCardOptions.attributeLabel +
           ' item:' +
-          product.code +
+          product.name +
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
@@ -1347,18 +1671,752 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       );
     });
 
-    it("should contain button element with class name 'btn-primary' and 'aria-describedby' that indicates the ID of the element that describe the elements", () => {
+    it("should contain button element with class name 'btn-secondary' and 'aria-describedby' that indicates the ID of the element that describe the elements", () => {
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
         'button',
-        'btn-primary',
+        'btn-secondary',
         0,
         'aria-describedby',
-        'cx-configurator--label--' + component.productCardOptions.attributeName,
+        'cx-configurator--label--' +
+          component.productCardOptions.attribute.name,
         'configurator.button.select'
       );
+    });
+  });
+
+  describe('container row actions menu', () => {
+    function setContainerRowActions(
+      actions: Configurator.ContainerRowAction[]
+    ): void {
+      component.productCardOptions.containerRow = {
+        id: 'row-1',
+        productSystemId: 'PRODUCT_CODE',
+        selected: true,
+        actions,
+      };
+    }
+
+    it('should show overflow menu toggle instead of add/remove when selected row actions are defined', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions([
+        Configurator.ContainerRowAction.DELETE,
+        Configurator.ContainerRowAction.EDIT,
+      ]);
+      fixture.detectChanges();
+
+      expect(
+        htmlElem.querySelector('.cx-product-card-actions-menu-toggle')
+      ).toBeTruthy();
+      expect(htmlElem.querySelector('button.btn')).toBeFalsy();
+    });
+
+    it('should show `ADD` button for available products even when row actions are defined', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component, false);
+      setContainerRowActions([
+        Configurator.ContainerRowAction.ADD,
+        Configurator.ContainerRowAction.EDIT,
+      ]);
+      fixture.detectChanges();
+
+      expect(
+        htmlElem.querySelector('.cx-product-card-actions-menu-toggle')
+      ).toBeFalsy();
+      expect(htmlElem.querySelector('button.btn-secondary')).toBeTruthy();
+    });
+
+    it('should render `ELLIPSIS` icon on overflow menu toggle', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions([Configurator.ContainerRowAction.DELETE]);
+      fixture.detectChanges();
+
+      expect(
+        htmlElem.querySelector('.cx-product-card-actions-menu-toggle cx-icon')
+      ).toBeTruthy();
+    });
+
+    it('should open menu with one item per action', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions([
+        Configurator.ContainerRowAction.DELETE,
+        Configurator.ContainerRowAction.EDIT,
+        Configurator.ContainerRowAction.COPY,
+      ]);
+      fixture.detectChanges();
+
+      const toggle = htmlElem.querySelector(
+        '.cx-product-card-actions-menu-toggle'
+      ) as HTMLButtonElement;
+      toggle.click();
+      fixture.detectChanges();
+
+      expect(
+        htmlElem.querySelectorAll('.cx-product-card-actions-menu-item').length
+      ).toBe(3);
+    });
+
+    it('should emit handleRowAction when menu item is clicked', () => {
+      vi.spyOn(component.handleRowAction, 'emit');
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions([
+        Configurator.ContainerRowAction.DELETE,
+        Configurator.ContainerRowAction.EDIT,
+      ]);
+      fixture.detectChanges();
+
+      const toggle = htmlElem.querySelector(
+        '.cx-product-card-actions-menu-toggle'
+      ) as HTMLButtonElement;
+      toggle.click();
+      fixture.detectChanges();
+
+      const menuItem = htmlElem.querySelector(
+        '.cx-product-card-actions-menu-item button'
+      ) as HTMLButtonElement;
+      menuItem.click();
+
+      expect(component.handleRowAction.emit).toHaveBeenCalledWith(
+        Configurator.ContainerRowAction.DELETE
+      );
+      expect(component.isActionsMenuOpen).toBe(false);
+    });
+
+    it('should resolve translation keys for row actions', () => {
+      expect(
+        component.getContainerRowActionLabel(
+          Configurator.ContainerRowAction.DELETE
+        )
+      ).toBe('configurator.button.remove');
+      expect(
+        component.getContainerRowActionLabel(
+          Configurator.ContainerRowAction.EDIT
+        )
+      ).toBe('configurator.button.edit');
+      expect(
+        component.getContainerRowActionLabel(
+          Configurator.ContainerRowAction.COPY
+        )
+      ).toBe('configurator.button.duplicate');
+      expect(
+        component.getContainerRowActionLabel(
+          Configurator.ContainerRowAction.ADD
+        )
+      ).toBe('configurator.button.add');
+      expect(
+        component.getContainerRowActionLabel(
+          'UNKNOWN' as Configurator.ContainerRowAction
+        )
+      ).toBe('UNKNOWN');
+    });
+
+    it('should resolve accessible name translation keys for row actions', () => {
+      expect(
+        component.getContainerRowActionAriaLabel(
+          Configurator.ContainerRowAction.DELETE
+        )
+      ).toBe('configurator.a11y.containerRowActionRemove');
+      expect(
+        component.getContainerRowActionAriaLabel(
+          Configurator.ContainerRowAction.EDIT
+        )
+      ).toBe('configurator.a11y.containerRowActionEdit');
+      expect(
+        component.getContainerRowActionAriaLabel(
+          Configurator.ContainerRowAction.COPY
+        )
+      ).toBe('configurator.a11y.containerRowActionDuplicate');
+      expect(
+        component.getContainerRowActionAriaLabel(
+          Configurator.ContainerRowAction.ADD
+        )
+      ).toBe('configurator.a11y.containerRowActionAdd');
+      expect(
+        component.getContainerRowActionAriaLabel(
+          'UNKNOWN' as Configurator.ContainerRowAction
+        )
+      ).toBeUndefined();
+    });
+
+    it('should set the overflow menu toggle aria-label to the selected product name', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions([Configurator.ContainerRowAction.DELETE]);
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-product-card-actions-menu-toggle',
+        'aria-label',
+        'configurator.a11y.openContainerRowActionsMenu product:' + product.name
+      );
+    });
+
+    it('should fall back to the product code in the overflow menu toggle aria-label when the product name is empty', () => {
+      const productService = TestBed.inject(ProductService);
+      vi.spyOn(productService, 'get').mockReturnValue(
+        of({ ...product, name: '' })
+      );
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions([Configurator.ContainerRowAction.DELETE]);
+      component.productCardOptions.productBoundValue.valueDisplay = '';
+      component.ngOnInit();
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-product-card-actions-menu-toggle',
+        'aria-label',
+        'configurator.a11y.openContainerRowActionsMenu product:' + product.code
+      );
+    });
+
+    it('should set the menu item aria-labels to include the product name', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions([
+        Configurator.ContainerRowAction.EDIT,
+        Configurator.ContainerRowAction.DELETE,
+      ]);
+      fixture.detectChanges();
+
+      (
+        htmlElem.querySelector(
+          '.cx-product-card-actions-menu-toggle'
+        ) as HTMLButtonElement
+      ).click();
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-product-card-actions-menu-item button',
+        'aria-label',
+        'configurator.a11y.containerRowActionEdit product:' + product.name,
+        0
+      );
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-product-card-actions-menu-item button',
+        'aria-label',
+        'configurator.a11y.containerRowActionRemove product:' + product.name,
+        1
+      );
+    });
+
+    it('should not set a menu item aria-label for unknown row actions', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions(['UNKNOWN' as Configurator.ContainerRowAction]);
+      fixture.detectChanges();
+
+      (
+        htmlElem.querySelector(
+          '.cx-product-card-actions-menu-toggle'
+        ) as HTMLButtonElement
+      ).click();
+      fixture.detectChanges();
+
+      const menuItem = htmlElem.querySelector(
+        '.cx-product-card-actions-menu-item button'
+      ) as HTMLButtonElement;
+      expect(menuItem.hasAttribute('aria-label')).toBe(false);
+    });
+
+    it('should use the product name for the show more button aria-label', () => {
+      const productService = TestBed.inject(ProductService);
+      vi.spyOn(productService, 'get').mockReturnValue(
+        of({ ...product, description: 'x'.repeat(100) })
+      );
+      component.ngOnInit();
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        'cx-configurator-show-more button',
+        'aria-label',
+        'configurator.a11y.showMoreItemDescription attribute:Attribute Label item:' +
+          product.name +
+          ' value:undefined'
+      );
+    });
+
+    it('should fall back to the product code for the show more button aria-label when the product name is empty', () => {
+      const productService = TestBed.inject(ProductService);
+      vi.spyOn(productService, 'get').mockReturnValue(
+        of({ ...product, name: '', description: 'x'.repeat(100) })
+      );
+      component.productCardOptions.productBoundValue.valueDisplay = '';
+      component.ngOnInit();
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        'cx-configurator-show-more button',
+        'aria-label',
+        'configurator.a11y.showMoreItemDescription attribute:Attribute Label item:' +
+          product.code +
+          ' value:undefined'
+      );
+    });
+
+    it('should toggle overflow menu and stop click propagation', () => {
+      const event = { stopPropagation: vi.fn() } as unknown as Event;
+
+      component.toggleActionsMenu(event);
+      expect(event.stopPropagation).toHaveBeenCalled();
+      expect(component.isActionsMenuOpen).toBe(true);
+
+      component.toggleActionsMenu(event);
+      expect(component.isActionsMenuOpen).toBe(false);
+    });
+
+    it('should close the overflow menu on document click', () => {
+      component.isActionsMenuOpen = true;
+      fixture.detectChanges();
+
+      htmlElem.ownerDocument.dispatchEvent(
+        new MouseEvent('click', { bubbles: true })
+      );
+
+      expect(component.isActionsMenuOpen).toBe(false);
+    });
+
+    it('should close the overflow menu on escape key', () => {
+      component.isActionsMenuOpen = true;
+      fixture.detectChanges();
+
+      htmlElem.ownerDocument.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })
+      );
+
+      expect(component.isActionsMenuOpen).toBe(false);
+    });
+
+    it('should keep `ADD / REMOVE` buttons when the card is not in container context', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      fixture.detectChanges();
+
+      expect(
+        htmlElem.querySelector('.cx-product-card-actions-menu-toggle')
+      ).toBeFalsy();
+      expect(htmlElem.querySelector('button.btn')).toBeTruthy();
+    });
+
+    it('should not render overflow menu or add/remove buttons when selected container row has no actions', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions([]);
+      fixture.detectChanges();
+
+      expect(
+        htmlElem.querySelector('.cx-product-card-actions-menu-toggle')
+      ).toBeFalsy();
+      expect(htmlElem.querySelector('button.btn')).toBeFalsy();
+    });
+
+    it('should not render overflow menu or add/remove buttons when selected container row has undefined actions', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      component.productCardOptions.containerRow = {
+        id: 'row-1',
+        productSystemId: 'PRODUCT_CODE',
+        selected: true,
+      };
+      fixture.detectChanges();
+
+      expect(component.hasContainerRowActions).toBe(false);
+      expect(component.showDefaultActions).toBe(false);
+      expect(
+        htmlElem.querySelector('.cx-product-card-actions-menu-toggle')
+      ).toBeFalsy();
+      expect(htmlElem.querySelector('button.btn')).toBeFalsy();
+    });
+  });
+
+  describe('container row messages', () => {
+    // Message groups are pre-built by the parent container and passed via
+    // `productCardOptions.messages`. The card only renders what it receives.
+    function errorGroup(messages: string[]): ConfiguratorMessageGroup {
+      return {
+        messages,
+        messageClass: 'cx-error-msg',
+        iconType: ICON_TYPE.ERROR,
+        showIcon: true,
+        uiKeyPrefix: 'error-msg',
+        role: 'alert',
+      };
+    }
+
+    function infoGroup(messages: string[]): ConfiguratorMessageGroup {
+      return {
+        messages,
+        messageClass: 'cx-info-msg',
+        showIcon: false,
+        uiKeyPrefix: 'info-msg',
+      };
+    }
+
+    function containerInfoGroup(messages: string[]): ConfiguratorMessageGroup {
+      return {
+        messages,
+        messageClass: 'cx-container-info-msg',
+        showIcon: false,
+        uiKeyPrefix: 'row-container-info-msg',
+      };
+    }
+
+    function requiredErrorGroup(messages: string[]): ConfiguratorMessageGroup {
+      return {
+        messages,
+        messageClass: 'cx-container-error-msg',
+        iconType: ICON_TYPE.ERROR,
+        showIcon: true,
+        uiKeyPrefix: 'row-required-msg',
+        role: 'alert',
+      };
+    }
+
+    function setMessages(groups: ConfiguratorMessageGroup[]): void {
+      component.productCardOptions.containerRow = {
+        id: 'row-1',
+        productSystemId: 'PRODUCT_CODE',
+        selected: true,
+      };
+      component.productCardOptions.messages = groups;
+    }
+
+    describe('message container visibility', () => {
+      it('hides container when there are no messages and no deselection error', () => {
+        component.productCardOptions.multiSelect = true;
+        setProductBoundValueAttributes(component);
+        setMessages([]);
+        fixture.detectChanges();
+
+        expect(htmlElem.querySelector('.cx-product-card.message')).toBeFalsy();
+      });
+
+      it('shows container when message groups are provided', () => {
+        component.productCardOptions.multiSelect = true;
+        setProductBoundValueAttributes(component);
+        setMessages([errorGroup(['Too many units'])]);
+        fixture.detectChanges();
+
+        expect(htmlElem.querySelector('.cx-product-card.message')).toBeTruthy();
+      });
+
+      it('shows container when deselection error is active', () => {
+        component.productCardOptions.multiSelect = true;
+        setProductBoundValueAttributes(component);
+        setMessages([]);
+        component.showDeselectionNotPossible = true;
+        fixture.detectChanges();
+
+        expect(htmlElem.querySelector('.cx-product-card.message')).toBeTruthy();
+      });
+
+      it('hides container when messages are undefined and no deselection error', () => {
+        component.productCardOptions.multiSelect = true;
+        setProductBoundValueAttributes(component);
+        component.productCardOptions.messages = undefined;
+        fixture.detectChanges();
+
+        expect(htmlElem.querySelector('.cx-product-card.message')).toBeFalsy();
+      });
+    });
+
+    describe('message group rendering', () => {
+      it('renders no message rows when groups are empty', () => {
+        component.productCardOptions.multiSelect = true;
+        setProductBoundValueAttributes(component);
+        setMessages([]);
+        fixture.detectChanges();
+
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-error-msg'
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-info-msg'
+        );
+      });
+
+      it('renders error group rows with icon', () => {
+        component.productCardOptions.multiSelect = true;
+        setProductBoundValueAttributes(component);
+        setMessages([errorGroup(['Too many units', 'Invalid selection'])]);
+        fixture.detectChanges();
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+          expect,
+          htmlElem,
+          '.cx-error-msg',
+          2
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-error-msg',
+          'Too many units'
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-error-msg',
+          'Invalid selection',
+          1
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-error-msg cx-icon'
+        );
+      });
+
+      it('renders info group rows without icon', () => {
+        component.productCardOptions.multiSelect = true;
+        setProductBoundValueAttributes(component, false);
+        setMessages([infoGroup(['Check quantity', 'Review selection'])]);
+        fixture.detectChanges();
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+          expect,
+          htmlElem,
+          '.cx-info-msg',
+          2
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-info-msg',
+          'Check quantity'
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-info-msg',
+          'Review selection',
+          1
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-info-msg cx-icon'
+        );
+      });
+
+      it('renders one cx-configurator-message per group', () => {
+        component.productCardOptions.multiSelect = true;
+        setProductBoundValueAttributes(component);
+        setMessages([
+          errorGroup(['Too many units']),
+          infoGroup(['Check quantity']),
+        ]);
+        fixture.detectChanges();
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+          expect,
+          htmlElem,
+          'cx-configurator-message',
+          2
+        );
+      });
+
+      it('renders container info, required and engine groups together', () => {
+        component.productCardOptions.multiSelect = true;
+        setProductBoundValueAttributes(component, false);
+        setMessages([
+          containerInfoGroup(['Select at least 2 products']),
+          requiredErrorGroup(['Required selection missing']),
+          infoGroup(['Review selection']),
+        ]);
+        fixture.detectChanges();
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+          expect,
+          htmlElem,
+          'cx-configurator-message',
+          3
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-container-info-msg'
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-container-error-msg cx-icon'
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-container-info-msg',
+          'Select at least 2 products'
+        );
+      });
+
+      it('renders row messages alongside deselection error', () => {
+        component.productCardOptions.multiSelect = true;
+        setProductBoundValueAttributes(component);
+        setMessages([errorGroup(['Too many units'])]);
+        component.showDeselectionNotPossible = true;
+        fixture.detectChanges();
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+          expect,
+          htmlElem,
+          'cx-configurator-message',
+          1
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-deselection-error-msg'
+        );
+      });
+    });
+
+    describe('when messages input is undefined', () => {
+      it('shows deselection error without row messages', () => {
+        component.productCardOptions.multiSelect = true;
+        setProductBoundValueAttributes(component);
+        component.productCardOptions.messages = undefined;
+        component.showDeselectionNotPossible = true;
+        fixture.detectChanges();
+
+        expect(htmlElem.querySelector('.cx-product-card.message')).toBeTruthy();
+        expect(
+          htmlElem.querySelector('.cx-deselection-error-msg')
+        ).toBeTruthy();
+      });
+    });
+  });
+
+  describe('additional utility methods', () => {
+    it('should extract price formula parameters for single-select', () => {
+      // single select
+      component.productCardOptions.multiSelect = false;
+      const productBoundValue = setProductBoundValueAttributes(
+        component,
+        true,
+        undefined
+      );
+      productBoundValue.valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$5',
+        value: 5,
+      } as any;
+
+      const params = component.extractPriceFormulaParameters();
+      expect(params.price).toBe(productBoundValue.valuePrice);
+      expect(params.isLightedUp).toBe(true);
+      expect((params as any).quantity).toBeUndefined();
+    });
+
+    it('should extract price formula parameters for multi-select', () => {
+      component.productCardOptions.multiSelect = true;
+      const productBoundValue = setProductBoundValueAttributes(
+        component,
+        true,
+        3
+      );
+      productBoundValue.valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$5',
+        value: 5,
+      } as any;
+      productBoundValue.valuePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '$15',
+        value: 15,
+      } as any;
+
+      const params = component.extractPriceFormulaParameters();
+      expect((params as any).quantity).toBe(3);
+      expect(params.price).toBe(productBoundValue.valuePrice);
+      expect((params as any).priceTotal).toBe(
+        productBoundValue.valuePriceTotal
+      );
+      expect(params.isLightedUp).toBe(true);
+    });
+
+    it('should determine product card selection correctly', () => {
+      // selected and not single dropdown => true
+      setProductBoundValueAttributes(component, true);
+      component.productCardOptions.singleDropdown = false;
+      expect(component.isProductCardSelected()).toBe(true);
+
+      // singleDropdown true => false
+      component.productCardOptions.singleDropdown = true;
+      expect(component.isProductCardSelected()).toBe(false);
+
+      // not selected => false
+      setProductBoundValueAttributes(component, false);
+      component.productCardOptions.singleDropdown = false;
+      expect(component.isProductCardSelected()).toBe(false);
+    });
+
+    it('should not show quantity when withQuantity is undefined', () => {
+      component.productCardOptions.withQuantity = undefined;
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+
+      expect(component.showQuantity).toBe(false);
+    });
+
+    it('should return no row actions when the card is not in container context', () => {
+      component.productCardOptions.containerRow = undefined;
+
+      expect(component.containerRowActions).toEqual([]);
+    });
+
+    it('should not mark the card as selected when the selection state is undefined', () => {
+      component.productCardOptions.productBoundValue.selected = undefined;
+      component.productCardOptions.singleDropdown = false;
+
+      expect(component.isProductCardSelected()).toBe(false);
+    });
+
+    it('should fall back to a zero initial quantity when no quantity is set', () => {
+      component.productCardOptions.productBoundValue.quantity = undefined;
+
+      expect(component.extractQuantityParameters().initialQuantity).toBe(0);
+    });
+
+    it('should not reset to the initial quantity when hideRemoveButton is undefined', () => {
+      component.productCardOptions.hideRemoveButton = undefined;
+      setProductBoundValueAttributes(component, true, 2);
+
+      expect(
+        component.extractQuantityParameters().resetToInitialQuantityOnZero
+      ).toBe(false);
+    });
+
+    it('should emit row action and close menu onHandleRowAction', () => {
+      vi.spyOn(component.handleRowAction, 'emit');
+      component.isActionsMenuOpen = true;
+      component.onHandleRowAction(Configurator.ContainerRowAction.DELETE);
+      expect(component.handleRowAction.emit).toHaveBeenCalledWith(
+        Configurator.ContainerRowAction.DELETE
+      );
+      expect(component.isActionsMenuOpen).toBe(false);
     });
   });
 });

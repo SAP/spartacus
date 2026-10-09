@@ -1,42 +1,77 @@
 <ng-container *ngIf="abstractOrderKey$ | async as abstractOrderKey">
   <ng-container *ngIf="cartEntry">
     <label *ngIf="isDisabled()" class="disabled-link">
-      <ng-container *ngIf="isDisabled(); then configureText" />
+      <ng-container *cxFeature="'!productConfiguratorCPQContainer'">
+        <ng-container *ngTemplateOutlet="configureTextLegacy" />
+      </ng-container>
+      <ng-container *cxFeature="'productConfiguratorCPQContainer'">
+        <ng-container *ngTemplateOutlet="configureTextCpqContainer" />
+      </ng-container>
     </label>
 
-    <a
-      *ngIf="!isDisabled()"
-      class="link cx-action-link"
-      [routerLink]="
-        {
-          cxRoute: getRoute(),
-          params: {
-            ownerType: retrieveOwnerTypeFromAbstractOrderType(abstractOrderKey),
-            entityKey: retrieveEntityKey(abstractOrderKey),
-            displayOnly: getDisplayOnly(),
-          },
-        } | cxUrl
-      "
-      [queryParams]="queryParams$ | async"
-      cxAutoFocus
-      attr.aria-describedby="{{ getResolveIssuesA11yDescription() }}"
-    >
-      <ng-container *ngIf="!isDisabled(); then configureText" />
-    </a>
+    <!-- TODO: Remove feature flag next major release. -->
+    <ng-container *cxFeature="'!productConfiguratorCPQContainer'">
+      <a
+        *ngIf="!isDisabled()"
+        class="link cx-action-link"
+        [routerLink]="
+          {
+            cxRoute: getRoute(),
+            params: {
+              ownerType:
+                retrieveOwnerTypeFromAbstractOrderType(abstractOrderKey),
+              entityKey: retrieveEntityKey(abstractOrderKey),
+              displayOnly: getDisplayOnly(),
+            },
+          } | cxUrl
+        "
+        [queryParams]="legacyQueryParams$ | async"
+        cxAutoFocus
+        attr.aria-describedby="{{ getResolveIssuesA11yDescription() }}"
+      >
+        <ng-container *ngTemplateOutlet="configureTextLegacy" />
+      </a>
+    </ng-container>
+    <ng-container
+      *cxFeature="'productConfiguratorCPQContainer'"
+      [ngTemplateOutlet]="cpqContainerLink"
+      [ngTemplateOutletContext]="{
+        a11yKey: getCpqContainerLinkA11yResourceKey(),
+      }"
+    />
+    <ng-template #cpqContainerLink let-a11yKey="a11yKey">
+      <a
+        *ngIf="!isDisabled()"
+        class="link cx-action-link"
+        [routerLink]="
+          {
+            cxRoute: getRoute(),
+            params: {
+              ownerType:
+                retrieveOwnerTypeFromAbstractOrderType(abstractOrderKey),
+              entityKey: retrieveEntityKey(abstractOrderKey),
+              displayOnly: getDisplayOnly(),
+            },
+          } | cxUrl
+        "
+        [queryParams]="cpqContainerQueryParams$ | async"
+        [attr.aria-label]="
+          a11yKey
+            ? (a11yKey | cxTranslate: { product: getLinkProductName() })
+            : null
+        "
+        attr.aria-describedby="{{ getResolveIssuesA11yDescription() }}"
+      >
+        <ng-container *ngTemplateOutlet="configureTextCpqContainer" />
+      </a>
+    </ng-template>
   </ng-container>
 
-  <ng-template #configureText>
-    <ng-container *ngIf="getDisplayOnly()">
-      {{
-        'configurator.header.displayConfiguration' | cxTranslate
-      }}</ng-container
-    >
-    <ng-container *ngIf="!getDisplayOnly() && !msgBanner">
-      {{ 'configurator.header.editConfiguration' | cxTranslate }}
-    </ng-container>
+  <ng-template #configureTextLegacy>
+    {{ getLegacyLinkTextResourceKey() | cxTranslate }}
+  </ng-template>
 
-    <ng-container *ngIf="!getDisplayOnly() && msgBanner">
-      {{ 'configurator.header.resolveIssues' | cxTranslate }}
-    </ng-container>
+  <ng-template #configureTextCpqContainer>
+    {{ getCpqContainerLinkTextResourceKey() | cxTranslate }}
   </ng-template>
 </ng-container>

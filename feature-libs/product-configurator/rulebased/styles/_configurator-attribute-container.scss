@@ -1,0 +1,110 @@
+%cx-configurator-attribute-container {
+  @include cx-configurator-attribute-type();
+
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+
+  @include media-breakpoint-down(sm) {
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+  }
+
+  .cx-accordion {
+    width: 100%;
+
+    &:first-child {
+      background-color: var(--cx-color-background);
+    }
+
+    .cx-header,
+    .cx-trigger {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding-inline-start: 16px;
+      padding-inline-end: 16px;
+
+      button {
+        border: none;
+        background-color: transparent;
+        padding-inline-start: 0;
+        padding-inline-end: 0;
+        padding-block-start: 0;
+        padding-block-end: 0;
+        cursor: pointer;
+
+        cx-icon {
+          color: var(--cx-color-text);
+        }
+      }
+    }
+
+    .cx-header {
+      padding-block-start: 16px;
+      padding-block-end: 16px;
+
+      .cx-title {
+        @include type('7');
+        font-weight: bold;
+      }
+    }
+
+    .cx-drop-down {
+      position: relative;
+      width: 100%;
+
+      .cx-trigger {
+        min-height: 38px;
+        padding-block-start: 6px;
+        padding-block-end: 6px;
+        border: 1px solid var(--cx-color-dark);
+        border-radius: 4px;
+        background: var(--cx-color-inverse);
+        text-align: start;
+        cursor: text;
+
+        .cx-search-input {
+          flex: 1 1 auto;
+          min-width: 0;
+          border: none;
+          outline: none;
+          background: transparent;
+          padding-block-start: 2px;
+          padding-block-end: 2px;
+          padding-inline-start: 0;
+          padding-inline-end: 0;
+
+          &[readonly] {
+            cursor: pointer;
+          }
+        }
+      }
+
+      .cx-list {
+        position: absolute;
+        inset-inline-start: 0;
+        inset-inline-end: 0;
+        z-index: 1000;
+        padding-block-start: 10px;
+        padding-block-end: 10px;
+        max-height: 320px;
+        overflow-y: auto;
+        background: var(--cx-color-inverse);
+        border: 1px solid var(--cx-color-light);
+        border-radius: 4px;
+        box-shadow: 0 1px 5px var(--cx-color-secondary);
+
+        .cx-no-results {
+          padding-block-start: 8px;
+          padding-block-end: 8px;
+          padding-inline-start: 4px;
+          padding-inline-end: 4px;
+          color: var(--cx-color-secondary);
+        }
+      }
+    }
+  }
+}

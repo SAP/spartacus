@@ -17,11 +17,7 @@ export class CpqConfiguratorValueSerializer
   convert(source: Configurator.Configuration): Cpq.UpdateValue {
     const attribute: Configurator.Attribute =
       CpqConfiguratorUtils.findFirstChangedAttribute(source);
-    const updateValue: Cpq.UpdateValue = this.convertAttribute(
-      attribute,
-      source.configId
-    );
-    return updateValue;
+    return this.convertAttribute(attribute, source.configId);
   }
 
   protected convertAttribute(
@@ -30,15 +26,15 @@ export class CpqConfiguratorValueSerializer
   ): Cpq.UpdateValue {
     const updateInfo = CpqConfiguratorUtils.getUpdateInformation(attribute);
     const value = this.findFirstChangedValue(attribute);
-    const updateAttribute: Cpq.UpdateValue = {
+
+    return {
       configurationId: configurationId,
       standardAttributeCode: updateInfo.standardAttributeCode,
       attributeValueId: value.valueCode,
       quantity: value.quantity ?? 1,
       tabId: updateInfo.tabId,
+      rowId: updateInfo.rowId,
     };
-
-    return updateAttribute;
   }
 
   protected findFirstChangedValue(

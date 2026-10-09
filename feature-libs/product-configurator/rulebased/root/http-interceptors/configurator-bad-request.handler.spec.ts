@@ -7,9 +7,14 @@ import {
   HttpResponseStatus,
   Priority,
 } from '@spartacus/core';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { ConfiguratorBadRequestHandler } from '@spartacus/product-configurator/rulebased/root';
 
 const mockRequest = {} as HttpRequest<any>;
+const occBaseUrl = 'https://localhost:9002/occ/v2/powertools-spa';
 
 const mockAnotherIllegalStateErrorResponse = {
   status: HttpResponseStatus.BAD_REQUEST,
@@ -40,6 +45,58 @@ const mockEmptyResponse = {
   error: null,
 } as HttpErrorResponse;
 
+const mockProductCardProductNotFoundResponse = {
+  status: HttpResponseStatus.BAD_REQUEST,
+  url: `${occBaseUrl}/products/CONF_CAMERA_SLR?fields=code,description,images(DEFAULT)`,
+  error: {
+    errors: [
+      {
+        type: 'UnknownIdentifierError',
+        message: "Product with code 'CONF_CAMERA_SLR' not found!",
+      },
+    ],
+  },
+} as HttpErrorResponse;
+
+const mockEncodedProductCardProductNotFoundResponse = {
+  status: HttpResponseStatus.BAD_REQUEST,
+  url: `${occBaseUrl}/products/CONF_CAMERA_SLR?fields=code,description,images%28DEFAULT%29`,
+  error: {
+    errors: [
+      {
+        type: 'UnknownIdentifierError',
+        message: "Product with code 'CONF_CAMERA_SLR' not found!",
+      },
+    ],
+  },
+} as HttpErrorResponse;
+
+const mockProductDetailsNotFoundResponse = {
+  status: HttpResponseStatus.BAD_REQUEST,
+  url: `${occBaseUrl}/products/MISSING?fields=averageRating,stock(DEFAULT),description,code,images(FULL)`,
+  error: {
+    errors: [
+      {
+        type: 'UnknownIdentifierError',
+        message: "Product with code 'MISSING' not found!",
+      },
+    ],
+  },
+} as HttpErrorResponse;
+
+const mockProductListNotFoundResponse = {
+  status: HttpResponseStatus.BAD_REQUEST,
+  url: `${occBaseUrl}/products/MISSING?fields=code,purchasable,name,summary,price(formattedValue),images(DEFAULT,galleryIndex),baseProduct`,
+  error: {
+    errors: [
+      {
+        type: 'UnknownIdentifierError',
+        message: "Product with code 'MISSING' not found!",
+      },
+    ],
+  },
+} as HttpErrorResponse;
+
 class MockGlobalMessageService {
   add() {}
 
@@ -49,6 +106,7 @@ class MockGlobalMessageService {
 describe('ConfiguratorBadRequestHandler', () => {
   let classUnderTest: ConfiguratorBadRequestHandler;
   let globalMessageService: GlobalMessageService;
+  let featureToggles: MockFeatureTogglesController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -58,10 +116,13 @@ describe('ConfiguratorBadRequestHandler', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
+        ...provideMockFeatureToggles({ productConfiguratorCPQContainer: true }),
       ],
     });
     classUnderTest = TestBed.inject(ConfiguratorBadRequestHandler);
     globalMessageService = TestBed.inject(GlobalMessageService);
+    featureToggles = TestBed.inject(MockFeatureTogglesController);
+    featureToggles.set('productConfiguratorCPQContainer', true);
   });
 
   it('should be created', () => {
@@ -93,6 +154,37 @@ describe('ConfiguratorBadRequestHandler', () => {
       expect(
         classUnderTest.hasMatch(mockMakeToStockIllegalStateErrorResponse)
       ).toBe(true);
+    });
+
+    it('should detect missing catalog product for a configurator product card', () => {
+      expect(
+        classUnderTest.hasMatch(mockProductCardProductNotFoundResponse)
+      ).toBe(true);
+    });
+
+    it('should not detect a missing configurator product-card product when productConfiguratorCPQContainer is disabled', () => {
+      featureToggles.set('productConfiguratorCPQContainer', false);
+      expect(
+        classUnderTest.hasMatch(mockProductCardProductNotFoundResponse)
+      ).toBe(false);
+    });
+
+    it('should detect missing catalog product when product-card fields are URL-encoded', () => {
+      expect(
+        classUnderTest.hasMatch(mockEncodedProductCardProductNotFoundResponse)
+      ).toBe(true);
+    });
+
+    it('should not detect a missing product on the product details OCC request', () => {
+      expect(classUnderTest.hasMatch(mockProductDetailsNotFoundResponse)).toBe(
+        false
+      );
+    });
+
+    it('should not detect a missing product on the product list OCC request', () => {
+      expect(classUnderTest.hasMatch(mockProductListNotFoundResponse)).toBe(
+        false
+      );
     });
   });
 
@@ -127,6 +219,17 @@ describe('ConfiguratorBadRequestHandler', () => {
         { key: 'configurator.httpHandlers.makeToStockBaseProductIssue' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
+    });
+
+    it('should raise no message when a product-card catalog product is missing', () => {
+      vi.spyOn(globalMessageService, 'add');
+
+      classUnderTest.handleError(
+        mockRequest,
+        mockProductCardProductNotFoundResponse
+      );
+
+      expect(globalMessageService.add).toHaveBeenCalledTimes(0);
     });
   });
 
@@ -178,6 +281,51 @@ describe('ConfiguratorBadRequestHandler', () => {
           mockMakeToStockIllegalStateErrorResponse
         )
       ).toBe(true);
+    });
+
+    it('should return true in case a product-card catalog product is missing', () => {
+      expect(
+        classUnderTest['isRelatedToProductConfigurator'](
+          mockProductCardProductNotFoundResponse
+        )
+      ).toBe(true);
+    });
+  });
+
+  describe('isProductCardProductNotFound', () => {
+    it('should return false in case response is undefined', () => {
+      expect(classUnderTest['isProductCardProductNotFound'](undefined)).toBe(
+        false
+      );
+    });
+
+    it('should return false when the OCC URL is missing', () => {
+      expect(
+        classUnderTest['isProductCardProductNotFound']({
+          status: HttpResponseStatus.BAD_REQUEST,
+          url: null,
+          error: {
+            errors: [
+              {
+                type: 'UnknownIdentifierError',
+                message: "Product with code 'X' not found!",
+              },
+            ],
+          },
+        } as HttpErrorResponse)
+      ).toBe(false);
+    });
+
+    it('should return false for an UnknownIdentifierError that is not a product GET', () => {
+      expect(
+        classUnderTest['isProductCardProductNotFound']({
+          status: HttpResponseStatus.BAD_REQUEST,
+          url: `${occBaseUrl}/users/current`,
+          error: {
+            errors: [{ type: 'UnknownIdentifierError', message: 'not found' }],
+          },
+        } as HttpErrorResponse)
+      ).toBe(false);
     });
   });
 });

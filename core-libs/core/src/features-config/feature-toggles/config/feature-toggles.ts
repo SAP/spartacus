@@ -711,6 +711,39 @@ export interface FeatureTogglesInterface {
   productConfiguratorConsolidatedButtonDisabling?: boolean;
 
   /**
+   * When enabled, CPQ container product-card action buttons use secondary
+   * (select/add) and tertiary (remove/deselect) styles instead of primary
+   * and secondary. Product-card layout alignment styles are also applied
+   * (full-width action row, stretched column).
+   * Nested container products
+   * are also reflected in the configurator product title (slash-separated
+   * path) on the configuration page and in the product-title details.
+   * When a CPQ configuration has `hasFullConfigurationState`, root-level
+   * conflict and error messages are taken from the typed `messages` list.
+   * On the configuration overview (CPQ and variant configurator), the
+   * overview menu becomes an accessible in-page navigation: it is rendered as
+   * a labeled `nav` landmark, marks the active group with `aria-current` and
+   * moves the focus to the selected group heading. A skip link leads from the
+   * menu to the overview content, which is exposed as a focusable region.
+   * CPQ cart bundle line items (PDP links, nested edit links, large-bundle
+   * overview navigation) and configure-cart-entry link labels/query params use
+   * `*cxFeature` template branches like `ConfiguratorAttributeProductCardComponent`.
+   *
+   * Affects: `ConfiguratorAttributeProductCardComponent`,
+   * `ConfiguratorProductTitleComponent`,
+   * `ConfiguratorConflictAndErrorMessagesComponent`,
+   * `ConfiguratorOverviewMenuComponent`,
+   * `ConfiguratorOverviewMenuStandaloneComponent`,
+   * `ConfiguratorOverviewSidebarComponent`,
+   * `ConfiguratorOverviewFormComponent`,
+   * `ConfiguratorCartEntryBundleInfoComponent`,
+   * `ConfigureCartEntryComponent`,
+   * `ConfiguratorFormComponent` (bundle `rowId` deep link),
+   * `ConfiguratorBadRequestHandler` (configurator product-card 404)
+   */
+  productConfiguratorCPQContainer?: boolean;
+
+  /**
    * When enabled, the form-error icon glyph (`cx-form-errors`) uses the
    * `--cx-color-danger-accent` color instead of `--cx-color-inverse`, so it
    * stays legible on the danger background in the high-contrast dark theme
@@ -983,6 +1016,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   improvedTabStyling: false,
   reloadOnLanguageChange: false,
   productConfiguratorConsolidatedButtonDisabling: false,
+  productConfiguratorCPQContainer: false,
   mergeGuestCartOnCodeFlowLogin: false,
   a11yFormErrorIconContrast: false,
   a11yFocusIndicatorContrast: false,

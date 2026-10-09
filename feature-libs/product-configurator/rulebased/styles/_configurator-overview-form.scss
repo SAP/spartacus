@@ -11,6 +11,14 @@
     padding-inline-end: 20px;
   }
 
+  // The region is only focused programmatically, as target of the overview skip link.
+  @include forFeature('productConfiguratorCPQContainer') {
+    &[role='region']:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
   $subgroupLevel2Top: 60px;
   $subgroupLevel3Top: 112px;
   $subgroupLevel4Top: 164px;
@@ -63,6 +71,66 @@
 
     &.subgroupTopLevel {
       margin-bottom: -20px;
+    }
+
+    &.topLevel.configurationDetails {
+      margin-inline-start: 0;
+      margin-inline-end: 0;
+      padding-block-start: 0;
+      padding-block-end: 0;
+
+      // The header is nested in its parent group, hence the top level heading
+      // styles have to win over the subgroup heading styles of the ancestors.
+      > h2 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        border-top: solid 1px var(--cx-color-light);
+        border-bottom: none;
+        border-left-style: none;
+        border-right-style: none;
+        text-transform: none;
+        background: var(--cx-color-inverse) none;
+
+        @include cx-highContrastTheme {
+          border-top: solid 1px var(--cx-color-dark);
+          border-bottom: none;
+          border-left-style: none;
+          border-right-style: none;
+          background: var(--cx-color-background) none;
+        }
+
+        @include media-breakpoint-down(sm) {
+          position: sticky;
+          top: 2px;
+          z-index: 5;
+        }
+      }
+
+      @include media-breakpoint-down(sm) {
+        &:has(+ .cx-group.subgroup.subgroupLevel2) > h2 {
+          top: $subgroupLevel2Top;
+          z-index: 4;
+        }
+
+        &:has(+ .cx-group.subgroup.subgroupLevel3) > h2 {
+          top: $subgroupLevel3Top;
+          z-index: 3;
+        }
+
+        &:has(+ .cx-group.subgroup.subgroupLevel4) > h2 {
+          top: $subgroupLevel4Top;
+          z-index: 2;
+        }
+
+        &:has(+ .cx-group.subgroup.subgroupLevel5) > h2 {
+          top: $subgroupLevel5Top;
+          z-index: 1;
+        }
+      }
+
+      + .cx-group.subgroup {
+        padding-block-start: 0;
+      }
     }
 
     &.subgroup {

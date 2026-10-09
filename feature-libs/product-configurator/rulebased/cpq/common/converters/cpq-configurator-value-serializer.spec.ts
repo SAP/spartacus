@@ -58,6 +58,46 @@ describe('CpqConfiguratorValueSerializer', () => {
     expect(updateValue.attributeValueId).toBe(valueCode);
     expect(updateValue.quantity).toBe(5);
     expect(updateValue.tabId).toBe(groupIdOfChangedAttribute);
+    expect(updateValue.rowId).toBeUndefined();
+  });
+
+  it('should convert nested container-row value quantity updates', () => {
+    const nestedGroupId = `${Configurator.ContainerRowGroupIdPrefix}@111@018@57`;
+    const nestedAttribute: Configurator.Attribute = {
+      ...attribute,
+      groupId: nestedGroupId,
+      containerRowId: '018',
+    };
+    const nestedConfiguration: Configurator.Configuration = {
+      ...configuration,
+      groups: [
+        {
+          ...ConfiguratorTestUtils.createGroup(groupIdOfChangedAttribute),
+          subGroups: [
+            {
+              ...ConfiguratorTestUtils.createGroup(
+                `${Configurator.ContainerRowGroupIdPrefix}@111@018`
+              ),
+              groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+              subGroups: [
+                {
+                  ...ConfiguratorTestUtils.createGroup(nestedGroupId),
+                  attributes: [nestedAttribute],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+
+    const updateValue: Cpq.UpdateValue =
+      cpqConfiguratorSerializer.convert(nestedConfiguration);
+
+    expect(updateValue.tabId).toBe('57');
+    expect(updateValue.rowId).toBe('018');
+    expect(updateValue.attributeValueId).toBe(valueCode);
+    expect(updateValue.quantity).toBe(5);
   });
 
   describe('findFirstChangedValue', () => {

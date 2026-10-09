@@ -29,7 +29,6 @@ import { ConfiguratorRestartDialogModule } from './restart-dialog/configurator-r
 import { ConfiguratorTabBarModule } from './tab-bar/configurator-tab-bar.module';
 import { ConfiguratorUpdateMessageModule } from './update-message/configurator-update-message.module';
 import { ConfiguratorVariantCarouselModule } from './variant-carousel/configurator-variant-carousel.module';
-
 @NgModule({
   imports: [
     ConfiguratorPriceSummaryModule,
