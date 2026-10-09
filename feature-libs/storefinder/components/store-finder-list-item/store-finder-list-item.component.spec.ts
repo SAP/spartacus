@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { I18nTestingModule } from '@spartacus/core';
+import { FeatureStylesService, I18nTestingModule } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { OutletModule } from '@spartacus/storefront';
 import { EMPTY } from 'rxjs';
@@ -144,5 +144,39 @@ describe('StoreFinderListItemComponent', () => {
         (el) => el.nativeElement.textContent?.trim() === displayName
       )?.nativeElement;
     expect(link.getAttribute('href')).toEqual(`/${encodedName}`);
+  });
+});
+
+class MockFeatureStylesService {
+  registerUsage = vi.fn();
+  unregisterUsage = vi.fn();
+}
+
+describe('StoreFinderListItemComponent feature toggle registration', () => {
+  let featureStylesService: FeatureStylesService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        CommonModule,
+        RouterModule.forRoot([]),
+        I18nTestingModule,
+        StoreFinderListItemComponent,
+      ],
+      providers: [
+        provideLocationMocks(),
+        { provide: StoreFinderService, useClass: MockStoreFinderService },
+        { provide: FeatureStylesService, useClass: MockFeatureStylesService },
+      ],
+    }).compileComponents();
+    featureStylesService = TestBed.inject(FeatureStylesService);
+    vi.spyOn(featureStylesService, 'registerUsage');
+  });
+
+  it('should register useFeatureStyles for a11yHighContrastFix', () => {
+    TestBed.createComponent(StoreFinderListItemComponent);
+    expect(featureStylesService.registerUsage).toHaveBeenCalledWith(
+      'a11yHighContrastFix'
+    );
   });
 });

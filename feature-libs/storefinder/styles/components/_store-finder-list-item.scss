@@ -62,4 +62,20 @@
     line-height: 2;
     margin: 1rem 0 0;
   }
+
+  @include forFeature('a11yHighContrastFix') {
+    @include cx-highContrastTheme {
+      color: var(--cx-color-text);
+      &:hover {
+        background-color: var(--cx-color-text);
+        color: var(--cx-color-background);
+      }
+      .cx-store-open {
+        color: var(--cx-color-success);
+      }
+      .cx-store-closed {
+        color: var(--cx-color-danger);
+      }
+    }
+  }
 }

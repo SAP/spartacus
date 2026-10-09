@@ -15,6 +15,7 @@ import {
   contextServiceMapProvider,
   CurrencyService,
   FeatureDirective,
+  FeatureStylesService,
   I18nTestingModule,
   Language,
   LANGUAGE_CONTEXT_ID,
@@ -188,5 +189,61 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
     );
     expect(withSelectedAttr.length).toBe(1);
     expect(withSelectedAttr[0].nativeElement.value).toBe(mockActiveLang);
+  });
+});
+
+class MockFeatureStylesService {
+  registerUsage = vi.fn();
+  unregisterUsage = vi.fn();
+}
+
+describe('SiteContextSelectorComponent feature toggle registration', () => {
+  let featureStylesService: FeatureStylesService;
+
+  const mockComponentData: CmsSiteContextSelectorComponent = {
+    uid: 'LanguageComponent',
+    typeCode: 'SiteContextSelectorComponent',
+    context: LANGUAGE_CONTEXT_ID,
+  };
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [SiteContextSelectorComponent, I18nTestingModule],
+      providers: [
+        {
+          provide: CmsService,
+          useValue: { getComponentData: () => of(mockComponentData) },
+        },
+        {
+          provide: LanguageService,
+          useValue: {
+            getAll: () => of([]),
+            getActive: () => of('en'),
+            setActive: () => {},
+          },
+        },
+        { provide: CurrencyService, useValue: {} },
+        {
+          provide: CmsComponentData,
+          useValue: { data$: of(mockComponentData) },
+        },
+        { provide: TranslationService, useClass: MockTranslationService },
+        contextServiceMapProvider,
+        {
+          provide: SiteContextComponentService,
+          useClass: SiteContextComponentService,
+        },
+        { provide: FeatureStylesService, useClass: MockFeatureStylesService },
+      ],
+    }).compileComponents();
+    featureStylesService = TestBed.inject(FeatureStylesService);
+    vi.spyOn(featureStylesService, 'registerUsage');
+  });
+
+  it('should register useFeatureStyles for a11yHighContrastFix', () => {
+    TestBed.createComponent(SiteContextSelectorComponent);
+    expect(featureStylesService.registerUsage).toHaveBeenCalledWith(
+      'a11yHighContrastFix'
+    );
   });
 });

@@ -126,5 +126,9 @@
 
   @include cx-highContrastTheme {
     background-color: var(--cx-color-background);
+    .close {
+      color: var(--cx-color-text);
+      opacity: 1;
+    }
   }
 }

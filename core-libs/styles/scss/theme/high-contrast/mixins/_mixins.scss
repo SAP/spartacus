@@ -1,18 +1,40 @@
-@mixin cx-highContrastTheme() {
-  .cx-theme-high-contrast-dark &,
-  .cx-theme-high-contrast-light & {
-    @content;
+@mixin cx-highContrastTheme($feature: null) {
+  @if $feature {
+    $prefix: 'cxFeat_';
+    @at-root .cx-theme-high-contrast-dark.#{$prefix}#{$feature} &,
+      .cx-theme-high-contrast-light.#{$prefix}#{$feature} & {
+      @content;
+    }
+  } @else {
+    .cx-theme-high-contrast-dark &,
+    .cx-theme-high-contrast-light & {
+      @content;
+    }
   }
 }
 
-@mixin cx-highContrastTheme-dark() {
-  .cx-theme-high-contrast-dark & {
-    @content;
+@mixin cx-highContrastTheme-dark($feature: null) {
+  @if $feature {
+    $prefix: 'cxFeat_';
+    @at-root .cx-theme-high-contrast-dark.#{$prefix}#{$feature} & {
+      @content;
+    }
+  } @else {
+    .cx-theme-high-contrast-dark & {
+      @content;
+    }
   }
 }
 
-@mixin cx-highContrastTheme-light() {
-  .cx-theme-high-contrast-light & {
-    @content;
+@mixin cx-highContrastTheme-light($feature: null) {
+  @if $feature {
+    $prefix: 'cxFeat_';
+    @at-root .cx-theme-high-contrast-light.#{$prefix}#{$feature} & {
+      @content;
+    }
+  } @else {
+    .cx-theme-high-contrast-light & {
+      @content;
+    }
   }
 }

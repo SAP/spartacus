@@ -116,6 +116,25 @@
   .quick-order-form-description {
     visibility: hidden;
   }
+
+  @include cx-highContrastTheme('a11yHighContrastFix') {
+    .quick-order-results {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+    .quick-order-results-products
+      .quick-order-results-product-container
+      .quick-order-results-product {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+      &:hover,
+      &:focus,
+      &.active {
+        background-color: var(--cx-color-text);
+        color: var(--cx-color-background);
+      }
+    }
+  }
 }
 
 .quick-order-searchbox-is-active {

@@ -84,4 +84,13 @@ $gutterSize: 15px;
       margin: 0 0 1rem;
     }
   }
+
+  @include forFeature('a11yHighContrastFix') {
+    @include cx-highContrastTheme {
+      .btn-link,
+      a {
+        color: var(--cx-color-primary);
+      }
+    }
+  }
 }

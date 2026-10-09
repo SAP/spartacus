@@ -896,6 +896,33 @@ export interface FeatureTogglesInterface {
    * Affects: `AddToCartComponent`
    */
   a11yInStockInfoTextContrast?: boolean;
+
+  /**
+   * When enabled, improves contrast in high-contrast themes across multiple components
+   * that were missing HC overrides or had insufficient contrast ratios (below 7:1 AAA):
+   *
+   * - `StoreComponent` / `StoreSearchComponent` (pickup-in-store): "View Hours" button,
+   *   "Use My Location" link, and stock/opening-hours icons (CXSPA-12810)
+   * - `CardComponent`: delete-address confirmation message text (CXSPA-12821)
+   * - `CustomerTicketingListComponent`: table column header `<th>` cells (CXSPA-12801)
+   * - `QuickOrderComponent`: ng-select dropdown panel items (CXSPA-12775)
+   * - `ProductReviewsComponent`: "Read More" / "Read Less" links (CXSPA-12804)
+   * - `StoreFinderListItemComponent`: store links including hover state (CXSPA-12786)
+   * - `SearchBoxComponent`: search-box-v2 variant results panel (CXSPA-12789)
+   * - `SiteContextSelectorComponent`: language/currency/theme `<select>` background (CXSPA-12783)
+   *
+   * Affected SCSS files:
+   * - `feature-libs/pickup-in-store/styles/_store.scss`
+   * - `feature-libs/pickup-in-store/styles/_store-search.scss`
+   * - `core-libs/styles/scss/components/misc/card/_card.scss`
+   * - `feature-libs/customer-ticketing/styles/components/_customer-ticketing-list.scss`
+   * - `feature-libs/cart/quick-order/styles/_quick-order.scss`
+   * - `core-libs/styles/scss/components/product/details/_product-reviews.scss`
+   * - `feature-libs/storefinder/styles/components/_store-finder-list-item.scss`
+   * - `core-libs/styles/scss/components/product/search/_searchbox.scss`
+   * - `core-libs/styles/scss/components/layout/header/_site-context-selector.scss`
+   */
+  a11yHighContrastFix?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -1003,4 +1030,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCarouselItemArrowKeyNavigation: false,
   a11yCouponDialogResetButtonKeyboardAccessible: false,
   a11yInStockInfoTextContrast: false,
+  a11yHighContrastFix: false,
 };

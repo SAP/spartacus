@@ -94,4 +94,13 @@
       background-color: var(--cx-color-light);
     }
   }
+
+  @include cx-highContrastTheme('a11yHighContrastFix') {
+    .cx-store-opening-hours-toggle {
+      color: var(--cx-color-primary);
+    }
+    .cx-store-opening-hours-icon {
+      color: var(--cx-color-text);
+    }
+  }
 }
