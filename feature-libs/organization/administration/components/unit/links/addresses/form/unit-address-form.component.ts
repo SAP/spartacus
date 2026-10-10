@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -56,7 +56,7 @@ import { UnitAddressFormService } from './unit-address-form.service';
     TranslatePipe,
   ],
 })
-export class UnitAddressFormComponent implements OnInit {
+export class UnitAddressFormComponent {
   form: UntypedFormGroup | null = this.itemService.getForm();
 
   key$ = this.itemService.key$;
@@ -71,9 +71,4 @@ export class UnitAddressFormComponent implements OnInit {
     protected formService: UnitAddressFormService,
     protected currentUnitService: CurrentUnitService
   ) {}
-
-  /* eslint @angular-eslint/no-empty-lifecycle-method: 1 */
-  ngOnInit(): void {
-    // Intentional empty method
-  }
 }
