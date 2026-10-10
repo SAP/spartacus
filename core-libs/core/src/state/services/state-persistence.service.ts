@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { Observable, of, Subscription } from 'rxjs';
-import { map, tap, withLatestFrom } from 'rxjs/operators';
+import { inject, Injectable } from '@angular/core';
+import { EMPTY, Observable, of, Subscription } from 'rxjs';
+import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { StorageSyncType } from '../../state/config/state-config';
 import { WindowRef } from '../../window/window-ref';
 import {
@@ -14,12 +14,15 @@ import {
   persistToStorage,
   readFromStorage,
 } from '../utils/browser-storage';
+import { CookieConsentService } from './cookie-consent.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StatePersistenceService {
   constructor(protected winRef: WindowRef) {}
+
+  private storageConsentService = inject(CookieConsentService);
 
   /**
    * Helper to synchronize state to more persistent storage (localStorage, sessionStorage).
@@ -49,12 +52,15 @@ export class StatePersistenceService {
     onRead = () => {
       // Intentional empty arrow function
     },
+    storageCategory,
   }: {
     key: string;
     state$: Observable<T>;
     context$?: Observable<string | Array<string>>;
     storageType?: StorageSyncType;
     onRead?: (stateFromStorage: T | undefined) => void;
+    /** Mark as 'optional' to gate writes behind CookieConsentService. */
+    storageCategory?: 'required' | 'optional';
   }): Subscription {
     const storage = getStorage(storageType, this.winRef);
 
@@ -78,8 +84,26 @@ export class StatePersistenceService {
     );
 
     if (storage) {
+      const write$ =
+        storageCategory === 'optional'
+          ? this.storageConsentService.isOptionalCookiesAccepted().pipe(
+              switchMap((accepted) => {
+                if (!accepted) {
+                  return context$.pipe(
+                    take(1),
+                    tap((ctx) =>
+                      storage.removeItem(this.generateKeyWithContext(ctx, key))
+                    ),
+                    switchMap(() => EMPTY)
+                  );
+                }
+                return state$.pipe(withLatestFrom(context$));
+              })
+            )
+          : state$.pipe(withLatestFrom(context$));
+
       subscriptions.add(
-        state$.pipe(withLatestFrom(context$)).subscribe(([state, context]) => {
+        write$.subscribe(([state, context]) => {
           persistToStorage(
             this.generateKeyWithContext(context, key),
             state,
