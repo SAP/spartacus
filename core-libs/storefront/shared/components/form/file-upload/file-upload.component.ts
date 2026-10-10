@@ -4,20 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ContentChild,
   ElementRef,
-  EventEmitter,
   forwardRef,
   Input,
-  Output,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslatePipe } from '@spartacus/core';
+import { IconComponent } from '../../../../cms-components/misc/icon/icon.component';
+import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 
 /**
  * Component that adds a file upload control.
@@ -32,9 +32,12 @@ import { TranslatePipe } from '@spartacus/core';
       multi: true,
     },
   ],
-  imports: [NgIf, NgTemplateOutlet, NgFor, TranslatePipe],
+  imports: [NgTemplateOutlet, TranslatePipe, IconComponent],
 })
 export class FileUploadComponent implements ControlValueAccessor {
+
+  protected readonly iconTypes = ICON_TYPE;
+
   /**
    * Allowed file types. It's setting attribute used for OS window for choosing files.
    */
@@ -48,57 +51,123 @@ export class FileUploadComponent implements ControlValueAccessor {
    */
   @ContentChild(TemplateRef) customButton: any;
 
-  // TODO: remove this event. Now it's used only to trigger some logic in the parent component.
-  // Prerequisites (changes in the parent component):
-  // - use an async validator that "opens file" using the value of the form control
-  // - "open file" on form submit, but not on the form control change
-  @Output()
-  update = new EventEmitter<FileList | null>();
+  @ViewChild('fileInput', {static: true})
+  protected fileInput!: ElementRef<HTMLInputElement>;
 
-  @ViewChild('fileInput', { static: true })
-  protected fileInput: ElementRef<HTMLInputElement>;
+  files: File[] = [];
+  disabled = false;
 
-  selectFile($event: Event) {
-    const files = ($event.target as HTMLInputElement)?.files;
-    // If no files were selected (e.g., user clicked cancel), pass null instead of empty FileList
-    const value = files && files.length > 0 ? files : null;
-    this.onChangeCallback(value);
-    this.update.emit(value);
-  }
+  onFilesSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
 
-  removeFile(): void {
-    this.fileInput.nativeElement.value = '';
-    this.onChangeCallback(null);
-    this.update.emit(null);
-  }
-
-  get selectedFiles(): File[] | undefined {
-    if (this.fileInput.nativeElement.files) {
-      return Array.from(this.fileInput.nativeElement.files);
+    if (!input.files?.length) {
+      return;
     }
-    return undefined;
+
+    if (this.multiple) {
+      const existingFiles = [...this.files];
+      const newFiles = Array.from(input.files);
+
+      this.files = [
+        ...existingFiles,
+        ...newFiles.filter(newFile =>
+          // Logic to filter out duplicates
+          !existingFiles.some(existingFile =>
+            existingFile.name === newFile.name &&
+            existingFile.size === newFile.size &&
+            existingFile.lastModified === newFile.lastModified
+          )
+        ),
+      ];
+
+      input.value = '';
+    } else {
+      this.files = [
+        ...Array.from(input.files),
+      ];
+    }
+
+    this.propagateChange();
+  }
+
+  openFileDialog(): void {
+    if (this.disabled) {
+      return;
+    }
+
+    this.fileInput.nativeElement.click();
+  }
+
+  removeFileByIndex(index: number): void {
+    if (this.disabled) {
+      return;
+    }
+
+    this.files = this.files.filter((_, i) => i !== index);
+
+    this.propagateChange();
+  }
+
+  removeAllFiles(): void {
+    if (this.disabled) {
+      return;
+    }
+
+    this.files = [];
+    this.fileInput.nativeElement.value = '';
+
+    this.propagateChange();
+  }
+
+  private propagateChange(): void {
+    const fileList = this.toFileList();
+
+    this.onChange(fileList);
+    this.onTouched();
+  }
+
+  private toFileList(): FileList | null {
+    if (!this.files.length) {
+      return null;
+    }
+
+    const dataTransfer = new DataTransfer();
+
+    for (const file of this.files) {
+      dataTransfer.items.add(file);
+    }
+
+    return dataTransfer.files;
   }
 
   // ControlValueAccessor START
-  protected onChangeCallback: Function = () => {
-    // Intentional empty arrow function
+
+  private onChange: (value: FileList | null) => void = () => {
   };
-  protected onTouchedCallback: Function = () => {
-    // Intentional empty arrow function
+
+  private onTouched: () => void = () => {
   };
-  registerOnChange(callback: Function): void {
-    this.onChangeCallback = callback;
+
+  registerOnChange(fn: (value: FileList | null) => void): void {
+    this.onChange = fn;
   }
-  registerOnTouched(callback: Function): void {
-    this.onTouchedCallback = callback;
+
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
   }
+
   setDisabledState(disabled: boolean): void {
-    this.fileInput.nativeElement.disabled = disabled;
+    this.disabled = disabled;
   }
-  writeValue(value: any): void {
+
+  writeValue(value: FileList | File[] | null): void {
     if (value instanceof FileList) {
-      this.fileInput.nativeElement.files = value;
+      this.files = Array.from(value);
+    } else {
+      this.files = value ? [...value] : [];
     }
   }
+
   // ControlValueAccessor END
+
 }
