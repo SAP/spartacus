@@ -390,6 +390,10 @@ describe('QuoteHeaderOverviewComponent', () => {
             title: 'quote.header.overview.description',
             text: ['-'],
           },
+          {
+            title: 'quote.header.overview.purchaseOrderNumber',
+            text: ['-'],
+          },
         ],
       };
 
