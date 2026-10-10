@@ -189,7 +189,10 @@
 
             <div class="form-group col-md-4">
               <label>
-                <span class="label-content">
+                <span
+                  *cxFeature="'!a11yCvvInfoIconKeyboardAccessible'"
+                  class="label-content"
+                >
                   {{ 'paymentForm.securityCode' | cxTranslate }}
                   <cx-form-required-asterisks />
                   <cx-icon
@@ -203,15 +206,49 @@
                     "
                   />
                 </span>
+
+                <span
+                  *cxFeature="'a11yCvvInfoIconKeyboardAccessible'"
+                  class="label-content"
+                >
+                  <span id="cvvLabelText">
+                    {{ 'paymentForm.securityCode' | cxTranslate }}
+                    <cx-form-required-asterisks />
+                  </span>
+                  <span class="cx-cvv-info">
+                    <button
+                      type="button"
+                      class="cx-payment-form-tooltip cx-cvv-info-btn"
+                      aria-describedby="cvvInfoHint"
+                      [attr.aria-label]="
+                        'paymentForm.cvvInfoButtonLabel' | cxTranslate
+                      "
+                    >
+                      <cx-icon [type]="iconTypes.INFO" />
+                    </button>
+                    <span
+                      id="cvvInfoHint"
+                      role="tooltip"
+                      class="cx-cvv-tooltip"
+                    >
+                      {{ 'paymentForm.cvvInfoHint' | cxTranslate }}
+                    </span>
+                  </span>
+                </span>
+
                 <input
-                  required="true"
+                  required
                   type="text"
                   class="form-control"
                   id="cVVNumber"
                   formControlName="cvn"
+                  [attr.aria-required]="true"
+                  [attr.aria-labelledby]="cvvLabelId"
                   [attr.aria-invalid]="
                     paymentForm.get('cvn')?.touched &&
                     paymentForm.get('cvn')?.invalid
+                      ? true
+                      : null
                   "
                   [attr.aria-errormessage]="'cvnError'"
                 />

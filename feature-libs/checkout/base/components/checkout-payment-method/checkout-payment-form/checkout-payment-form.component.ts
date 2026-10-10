@@ -42,6 +42,7 @@ import {
   TranslationService,
   UserAddressService,
   UserPaymentService,
+  useFeatureStyles,
 } from '@spartacus/core';
 import {
   FocusConfig,
@@ -147,6 +148,13 @@ export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
   protected cdr = inject(ChangeDetectorRef);
   protected elementRef = inject(ElementRef);
   protected subscription = new Subscription();
+
+  get cvvLabelId(): string | null {
+    return this.featureToggles.a11yCvvInfoIconKeyboardAccessible
+      ? 'cvvLabelText'
+      : null;
+  }
+
   constructor(
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -156,7 +164,9 @@ export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
     protected userAddressService: UserAddressService,
     protected launchDialogService: LaunchDialogService,
     protected translationService: TranslationService
-  ) {}
+  ) {
+    useFeatureStyles('a11yCvvInfoIconKeyboardAccessible');
+  }
   /**
    * @deprecated  This property is obsolete since 2211.42
    */

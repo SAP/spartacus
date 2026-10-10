@@ -8,6 +8,16 @@
     top: 2px;
     color: var(--cx-color-secondary);
   }
+
+  .cx-cvv-info-btn {
+    @include forFeature('a11yCvvInfoIconKeyboardAccessible') {
+      padding: 0;
+      background: none;
+      border: none;
+      line-height: 1;
+    }
+  }
+
   .cx-payment-form-billing {
     margin: 0 0 1.25rem 0;
   }
@@ -39,5 +49,37 @@
 
   .label-content {
     white-space: nowrap;
+  }
+}
+
+.cx-cvv-info {
+  position: relative;
+  display: inline-block;
+
+  .cx-cvv-tooltip {
+    display: none;
+    position: absolute;
+    inset-inline-start: 0;
+    top: calc(100% + 4px);
+    z-index: 1;
+    max-width: 200px;
+    width: max-content;
+    white-space: normal;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    color: var(--cx-color-inverse);
+    background-color: var(--cx-color-text);
+    border-radius: 4px;
+
+    @include cx-highContrastTheme-dark() {
+      color: var(--cx-color-dark);
+      background-color: var(--cx-color-background);
+      border: 1px solid var(--cx-color-dark);
+    }
+  }
+
+  &:hover .cx-cvv-tooltip,
+  &:focus-within .cx-cvv-tooltip {
+    display: block;
   }
 }
