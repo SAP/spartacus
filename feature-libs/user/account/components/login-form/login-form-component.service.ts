@@ -108,7 +108,7 @@ export class LoginFormComponentService {
         // existing handleCustomLoginError() pipeline shows the friendly
         // message.
         combineLatest([
-          this.auth.refreshCsrfToken(),
+          this.auth.refreshCsrfToken(this.authReqId),
           this.featureToggles.siteIsolationForCustomLoginPage
             ? this.getUserId()
             : of(undefined),
@@ -118,6 +118,16 @@ export class LoginFormComponentService {
             tap(([csrfToken, userId]) => {
               this.csrfStateService.set(csrfToken);
               this.form.get('csrf')?.setValue(csrfToken.token);
+              if (this.featureToggles.concurrentLoginPagesSupport) {
+                // Refresh the auth_req_id control immediately before submit.
+                // The guard may have run a retry cycle and called setAuthReqId()
+                // with a new ID after this component was constructed, so the
+                // value in the form control may be stale. authReqId resolves
+                // URL-first (ActivatedRoute.snapshot) then falls back to the
+                // service, so this always picks up the most authoritative value
+                // available at submit time.
+                this.form.get('auth_req_id')?.setValue(this.authReqId);
+              }
               this.setOauthRedirectFlowFlag();
               // Submit BEFORE flipping busy$ to true. busy$=true triggers
               // form.disable(), which sets disabled=true on every bound input,
@@ -186,12 +196,29 @@ export class LoginFormComponentService {
         this.getUserId()
           .pipe(take(1))
           .subscribe((userId) => {
+            if (this.featureToggles.concurrentLoginPagesSupport) {
+              // authorizationCodeFlowByDefaultCsrfTokenRefresh is OFF in this
+              // branch, so the CSRF-refresh tap above did not run. Refresh the
+              // control using the URL-first authReqId getter so that the most
+              // authoritative value (URL param > service fallback) is POSTed.
+              this.form.get('auth_req_id')?.setValue(this.authReqId);
+            }
             this.setOauthRedirectFlowFlag();
             this.submitWithUsernameOverride(nativeForm, userId);
             this.busy$.next(true);
           });
       } else {
         this.setOauthRedirectFlowFlag();
+        if (this.featureToggles.concurrentLoginPagesSupport) {
+          // authorizationCodeFlowByDefaultCsrfTokenRefresh is OFF and
+          // siteIsolation is OFF in this branch. Use the URL-first authReqId
+          // getter — the guard never writes auth_req_id to CsrfStateService
+          // (that was the race-condition fix), so getAuthReqId() always
+          // returns undefined. authReqId resolves from
+          // ActivatedRoute.snapshot.queryParams and is immune to concurrent
+          // activation writes.
+          this.form.get('auth_req_id')?.setValue(this.authReqId);
+        }
         nativeForm.submit();
         this.busy$.next(true);
       }
@@ -277,6 +304,46 @@ export class LoginFormComponentService {
     this.action = this.authConfigService?.getCustomLoginFormEndpoint();
     this.form.addControl('csrf', new FormControl('', Validators.required));
     this.form.get('csrf')?.setValue(this.csrf?.token);
+    if (this.featureToggles.concurrentLoginPagesSupport) {
+      // Always add the auth_req_id control when the flag is on, even when no
+      // ID is present yet. The CSRF-refresh tap in login() updates the value
+      // via form.get('auth_req_id')?.setValue(...) before the native form is
+      // submitted. If the control does not exist at that point, the optional-
+      // chain silently no-ops and the field is absent from the POST body —
+      // causing the auth server to reject the request on a guard-retry cycle
+      // where the ID was not available at component construction time.
+      this.form.addControl(
+        'auth_req_id',
+        new FormControl(this.authReqId ?? '')
+      );
+    }
+  }
+
+  /**
+   * Returns the `auth_req_id` for the current concurrent-login activation.
+   *
+   * The URL query param (`ActivatedRoute.snapshot.queryParams['auth_req_id']`)
+   * is the sole authoritative source. It is set by `CustomLoginGuard` before
+   * routing to `/login` and is per-activation — it cannot be clobbered by a
+   * concurrent `canActivate()` call in another tab or a retry redirect.
+   *
+   * The guard deliberately does NOT write `auth_req_id` to `CsrfStateService`
+   * because doing so would introduce a shared-mutable-state race between
+   * concurrent activations (see `CsrfStateService` JSDoc). The retry redirect
+   * path (`createRetryLoginRoute`) always appends `auth_req_id` back onto the
+   * URL, so the param is present on every activation that needs it.
+   *
+   * Note: the current protocol assumes `auth_req_id` is immutable for the
+   * duration of a single PKCE session. If the auth server ever rotates it
+   * mid-flow, it should be read from the CSRF response body/headers here.
+   */
+  get authReqId(): string | undefined {
+    if (!this.featureToggles.concurrentLoginPagesSupport) {
+      return undefined;
+    }
+    return this.activatedRoute.snapshot.queryParams?.['auth_req_id'] as
+      | string
+      | undefined;
   }
 
   protected setOauthRedirectFlowFlag(): void {

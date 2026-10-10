@@ -26,4 +26,21 @@ describe('CsrfStateService', () => {
   it('should return undefined if csrf not set', () => {
     expect(service.get()).toBeUndefined();
   });
+
+  describe('authReqId', () => {
+    it('should return undefined by default', () => {
+      expect(service.getAuthReqId()).toBeUndefined();
+    });
+
+    it('should store and return a set authReqId', () => {
+      service.setAuthReqId('test-req-id');
+      expect(service.getAuthReqId()).toBe('test-req-id');
+    });
+
+    it('should clear authReqId when set to undefined', () => {
+      service.setAuthReqId('test-req-id');
+      service.setAuthReqId(undefined);
+      expect(service.getAuthReqId()).toBeUndefined();
+    });
+  });
 });
