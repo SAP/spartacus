@@ -115,6 +115,10 @@ jobs:
           fi
           npm run generate:deps
 
+      - name: Add feature-toggles migration entry
+        run: |
+          npm run manage-migrations
+
       - name: Run Schematics Tests
         run: |
           npm run test:all-schematics
