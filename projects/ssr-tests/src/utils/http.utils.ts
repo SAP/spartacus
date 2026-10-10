@@ -34,6 +34,14 @@ export interface TestRequest {
    * (dynamically injected) configuration variants (e.g. various feature toggles enabled/disabled).
    */
   testConfig?: TestConfig;
+
+  /**
+   * Extra HTTP request headers to send with the request (e.g. `Accept`).
+   *
+   * Merged with the mandatory `Cookie` header. A `Cookie` key provided here
+   * is ignored — the injected Spartacus config cookie always takes precedence.
+   */
+  headers?: Record<string, string>;
 }
 
 /**
@@ -49,6 +57,7 @@ export async function sendRequestToSsrServer(
           ...REQUEST_OPTIONS,
           path: testRequest.path,
           headers: {
+            ...testRequest.headers,
             Cookie: buildCxConfigE2ECookie(testRequest?.testConfig),
           },
         },
