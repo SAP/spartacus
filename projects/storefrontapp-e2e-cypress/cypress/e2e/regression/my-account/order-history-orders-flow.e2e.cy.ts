@@ -92,6 +92,8 @@ describe('Order details page', { testIsolation: false }, () => {
         cy.get('@orderHistoryCode').click();
       });
     });
+    // Tests that the order details page displays consigned entries including product name and code.
+    // The final check verifies the consignment tracking information is displayed correctly in the order details.
     it('should display order details page with consigned entries', () => {
       cy.get('.cx-item-list-row .cx-link').should('contain', product.name);
       cy.get('.cx-item-list-row .cx-code').should('contain', product.code);
@@ -104,6 +106,8 @@ describe('Order details page', { testIsolation: false }, () => {
       });
     });
 
+    // Tests adding a product from the order details page to the cart using the "Buy It Again" feature.
+    // The final check verifies the product is displayed in the cart with the correct name and code, and removes it after verification.
     it('should add product to cart from order details page', () => {
       const addToCartAlias = interceptAddToCartEndpoint();
 
