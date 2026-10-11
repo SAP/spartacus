@@ -1343,6 +1343,36 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       });
     });
 
+    describe('legacy rendering with productConfiguratorCPQContainer disabled', () => {
+      beforeEach(() => {
+        TestBed.inject(MockFeatureTogglesController).set(
+          'productConfiguratorCPQContainer',
+          false
+        );
+        component.hideItems = false;
+      });
+
+      it('should render legacy line item markup and omit CPQ-only configure links', () => {
+        emitCartEntry([configurableLineItem]);
+
+        expect(
+          htmlElem
+            .querySelector('.cx-item-info')
+            ?.getAttribute('aria-describedby')
+        ).toBe('cx-item-hidden-info-0');
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-item-link'
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-item-name a.cx-link'
+        );
+      });
+    });
+
     describe('rendering', () => {
       beforeEach(() => {
         // the list must be expanded, otherwise the products are not loaded

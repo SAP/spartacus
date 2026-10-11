@@ -672,6 +672,10 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
       const overviewNormalizerWithToggleOff = TestBed.inject(
         CpqConfiguratorOverviewNormalizer as Type<CpqConfiguratorOverviewNormalizer>
       );
+      expect(
+        overviewNormalizerWithToggleOff['isCpqContainerFeatureEnabled']()
+      ).toBe(false);
+
       const result = overviewNormalizerWithToggleOff.convert(
         createConfigurationWithContainers()
       );

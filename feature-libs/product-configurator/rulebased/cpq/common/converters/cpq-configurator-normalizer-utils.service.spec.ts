@@ -40,6 +40,21 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     expect(CpqConfiguratorNormalizerUtilsService).toBeTruthy();
   });
 
+  it('should fall back to en when locale data is missing for the active language', () => {
+    const warnSpy = vi.spyOn(
+      cpqConfiguratorNormalizerUtilsService['logger'],
+      'warn'
+    );
+    vi.spyOn(TestBed.inject(LanguageService), 'getActive').mockReturnValue(
+      of('xx-INVALID')
+    );
+
+    expect(cpqConfiguratorNormalizerUtilsService['getLanguage']()).toBe('en');
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('No locale data registered')
+    );
+  });
+
   it('should convert price', () => {
     const valueSelected: Cpq.Value = { paV_ID: 1, price: '123.45' };
     const valuePrice = cpqConfiguratorNormalizerUtilsService.convertValuePrice(
@@ -728,6 +743,38 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
           ],
         })
       ).toBe(0);
+    });
+
+    it('should count root typed messages and incomplete attributes but ignore nested containers when productConfiguratorCPQContainer is disabled', () => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        providers: [
+          CpqConfiguratorNormalizerUtilsService,
+          { provide: LanguageService, useClass: MockLanguageService },
+          ...provideMockFeatureToggles({
+            productConfiguratorCPQContainer: false,
+          }),
+        ],
+      });
+      const utilsWithToggleOff = TestBed.inject(
+        CpqConfiguratorNormalizerUtilsService as Type<CpqConfiguratorNormalizerUtilsService>
+      );
+      expect(
+        utilsWithToggleOff.calculateTotalNumberOfIssues({
+          ...rootConfiguration,
+          sapContainers: [
+            {
+              stdAttrCode: 1,
+              rows: [
+                {
+                  id: '1',
+                  configuration: nestedConfiguration,
+                },
+              ],
+            },
+          ],
+        })
+      ).toBe(4);
     });
 
     it('should count issues recursively in nested containers', () => {

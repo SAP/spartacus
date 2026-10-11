@@ -3054,6 +3054,52 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.groups[0].subGroups.length).toBe(0);
     });
 
+    it('should not attach containers when productConfiguratorCPQContainer is disabled', () => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        providers: [
+          CpqConfiguratorNormalizer,
+          CpqConfiguratorNormalizerUtilsService,
+          {
+            provide: LanguageService,
+            useClass: MockLanguageService,
+          },
+          {
+            provide: TranslationService,
+            useClass: MockTranslationService,
+          },
+          ...provideMockFeatureToggles({
+            productConfiguratorCPQContainer: false,
+          }),
+        ],
+      });
+      const normalizerWithToggleOff = TestBed.inject(
+        CpqConfiguratorNormalizer as Type<CpqConfiguratorNormalizer>
+      );
+      expect(normalizerWithToggleOff['isCpqContainerFeatureEnabled']()).toBe(
+        false
+      );
+
+      const result = normalizerWithToggleOff.convert(
+        configurationWithContainers([
+          {
+            stdAttrCode: cpqAttributeStdAttrCode,
+            rows: [
+              {
+                id: '1',
+                productSystemId: 'P1',
+                productName: 'Product 1',
+                selected: true,
+              },
+            ],
+          },
+        ])
+      );
+
+      expect(result.groups[0].attributes?.[0].container).toBeUndefined();
+      expect(result.groups[0].subGroups.length).toBe(0);
+    });
+
     it('should map minRows, maxRows, rows and add-actions onto the matching attribute', () => {
       const result = cpqConfiguratorNormalizer.convert(
         configurationWithContainers([
@@ -3492,6 +3538,75 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.groups[0].id).toBe('1');
       expect(result.groups[0].attributes?.[0].container?.minRows).toBe(1);
       expect(result.groups[0].attributes?.[0].container?.rows[0].id).toBe('7');
+    });
+
+    it('should treat minRows requirements by row id when productSystemId is absent', () => {
+      expect(
+        cpqConfiguratorNormalizer['hasContainerRowMinRowsNotMet']([
+          { id: 'only-id', selected: false, minRows: 1 },
+        ])
+      ).toBe(true);
+      expect(
+        cpqConfiguratorNormalizer['hasContainerRowMinRowsNotMet']([
+          { id: 'only-id', selected: true, minRows: 1 },
+        ])
+      ).toBe(false);
+    });
+
+    it('should ignore unknown container row actions', () => {
+      expect(
+        cpqConfiguratorNormalizer['convertContainerRowAction'](
+          'UNSUPPORTED_ACTION' as Cpq.ContainerRowAction
+        )
+      ).toBeUndefined();
+    });
+
+    it('should use container stdAttrCode when attribute attrCode is missing', () => {
+      const group: Configurator.Group = {
+        id: '1',
+        name: 'Group',
+        attributes: [{ name: 'Container attribute' }],
+        subGroups: [],
+      };
+
+      cpqConfiguratorNormalizer['attachContainers'](
+        group,
+        [{ stdAttrCode: undefined as unknown as number, rows: [] }],
+        CURRENCY,
+        []
+      );
+
+      expect(group.attributes?.[0].container).toEqual(
+        expect.objectContaining({ rows: [] })
+      );
+    });
+
+    it('should treat missing container rows as an empty list', () => {
+      const parentGroup: Configurator.Group = {
+        id: '1',
+        name: 'Group',
+        attributes: [],
+        subGroups: [],
+      };
+
+      expect(
+        cpqConfiguratorNormalizer['convertContainer'](
+          { stdAttrCode: cpqAttributeStdAttrCode, rows: undefined },
+          cpqAttributeStdAttrCode,
+          parentGroup,
+          CURRENCY,
+          []
+        ).rows
+      ).toEqual([]);
+    });
+
+    it('should return no tab attributes when the tab is not selected and full state is absent', () => {
+      expect(
+        cpqConfiguratorNormalizer['getTabAttributes'](
+          { productSystemId: cpqProductSystemId, currencyISOCode: CURRENCY },
+          { id: 1, isSelected: false, attributes: [cpqAttribute] }
+        )
+      ).toEqual([]);
     });
   });
 });

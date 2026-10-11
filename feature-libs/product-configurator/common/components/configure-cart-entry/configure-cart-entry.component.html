@@ -32,14 +32,7 @@
         <ng-container *ngTemplateOutlet="configureTextLegacy" />
       </a>
     </ng-container>
-    <ng-container
-      *cxFeature="'productConfiguratorCPQContainer'"
-      [ngTemplateOutlet]="cpqContainerLink"
-      [ngTemplateOutletContext]="{
-        a11yKey: getCpqContainerLinkA11yResourceKey(),
-      }"
-    />
-    <ng-template #cpqContainerLink let-a11yKey="a11yKey">
+    <ng-container *cxFeature="'productConfiguratorCPQContainer'">
       <a
         *ngIf="!isDisabled()"
         class="link cx-action-link"
@@ -56,15 +49,16 @@
         "
         [queryParams]="cpqContainerQueryParams$ | async"
         [attr.aria-label]="
-          a11yKey
-            ? (a11yKey | cxTranslate: { product: getLinkProductName() })
+          getCpqContainerLinkA11yResourceKey()
+            ? (getCpqContainerLinkA11yResourceKey()
+              | cxTranslate: { product: getLinkProductName() })
             : null
         "
         attr.aria-describedby="{{ getResolveIssuesA11yDescription() }}"
       >
         <ng-container *ngTemplateOutlet="configureTextCpqContainer" />
       </a>
-    </ng-template>
+    </ng-container>
   </ng-container>
 
   <ng-template #configureTextLegacy>

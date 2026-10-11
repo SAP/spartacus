@@ -16,7 +16,7 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { IconComponent, IconLoaderService } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -328,6 +328,13 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
     );
   });
 
+  it('should expose configuration$ for backward compatibility', async () => {
+    configuration = configWithMessages;
+    await expect(firstValueFrom(component.configuration$)).resolves.toBe(
+      configuration
+    );
+  });
+
   it('should show message directly if only one message', () => {
     configuration = configWithOnlyOneMessage;
     fixture.detectChanges();
@@ -361,6 +368,33 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
   describe('nested configuration', () => {
     beforeEach(() => {
       featureToggles.set('productConfiguratorCPQContainer', true);
+    });
+
+    it('should render root messages when productConfiguratorCPQContainer is disabled even if a nested configuration is viewed', () => {
+      featureToggles.set('productConfiguratorCPQContainer', false);
+      configuration = createConfigWithContainerRows(NESTED_TAB_ID, [
+        {
+          message: nestedInfoMessage1,
+          severity: Configurator.MessageSeverity.INFO,
+        },
+      ]);
+      component.toggleWarnings();
+      component.toggleErrors();
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-warning-message:nth-child(1)',
+        warningMessage1
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-error-message:nth-child(1)',
+        errorMessage1
+      );
+      expect(htmlElem.textContent).not.toContain(nestedInfoMessage1);
     });
 
     it('should render info and warning messages in the warning section', () => {
