@@ -34,7 +34,7 @@ const CPQ_PRODUCT_SELECTION_UI_TYPES: Record<
 export class CpqConfiguratorNormalizer
   implements Converter<Cpq.Configuration, Configurator.Configuration>
 {
-  protected featureToggles = inject(FeatureToggles);
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     protected cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService,

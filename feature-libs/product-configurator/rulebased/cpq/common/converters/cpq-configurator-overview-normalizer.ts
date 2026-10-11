@@ -24,7 +24,7 @@ export class CpqConfiguratorOverviewNormalizer
 {
   protected readonly NO_OPTION_SELECTED = 0;
   protected logger: LoggerService = inject(LoggerService);
-  protected featureToggles = inject(FeatureToggles);
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     protected cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService,

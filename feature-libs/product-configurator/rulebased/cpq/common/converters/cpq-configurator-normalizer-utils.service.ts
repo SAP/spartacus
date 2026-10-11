@@ -24,7 +24,7 @@ import { Cpq } from '../cpq.models';
 @Injectable({ providedIn: 'root' })
 export class CpqConfiguratorNormalizerUtilsService {
   protected logger = inject(LoggerService);
-  protected featureToggles = inject(FeatureToggles);
+  private featureToggles = inject(FeatureToggles);
 
   constructor(protected languageService: LanguageService) {}
 
