@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { LanguageService } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
 import { Cpq } from '../cpq.models';
@@ -26,6 +27,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       providers: [
         CpqConfiguratorNormalizerUtilsService,
         { provide: LanguageService, useClass: MockLanguageService },
+        ...provideMockFeatureToggles({ productConfiguratorCPQContainer: true }),
       ],
     });
 
@@ -693,6 +695,39 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
           ],
         })
       ).toBe(6);
+    });
+
+    it('should not count nested container issues when productConfiguratorCPQContainer is disabled', () => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        providers: [
+          CpqConfiguratorNormalizerUtilsService,
+          { provide: LanguageService, useClass: MockLanguageService },
+          ...provideMockFeatureToggles({
+            productConfiguratorCPQContainer: false,
+          }),
+        ],
+      });
+      const utilsWithToggleOff = TestBed.inject(
+        CpqConfiguratorNormalizerUtilsService as Type<CpqConfiguratorNormalizerUtilsService>
+      );
+      expect(
+        utilsWithToggleOff.calculateTotalNumberOfIssues({
+          productSystemId: 'productSystemId',
+          currencyISOCode: CURRENCY,
+          sapContainers: [
+            {
+              stdAttrCode: 1,
+              rows: [
+                {
+                  id: '1',
+                  configuration: nestedConfiguration,
+                },
+              ],
+            },
+          ],
+        })
+      ).toBe(0);
     });
 
     it('should count issues recursively in nested containers', () => {

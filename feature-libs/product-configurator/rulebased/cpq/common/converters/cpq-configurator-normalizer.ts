@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { Converter, TranslationService } from '@spartacus/core';
+import { inject, Injectable } from '@angular/core';
+import { Converter, FeatureToggles, TranslationService } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { take } from 'rxjs/operators';
@@ -16,10 +16,20 @@ import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normal
 export class CpqConfiguratorNormalizer
   implements Converter<Cpq.Configuration, Configurator.Configuration>
 {
+  protected featureToggles = inject(FeatureToggles);
+
   constructor(
     protected cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService,
     protected translation: TranslationService
   ) {}
+
+  /**
+   * Whether CPQ container attributes and nested container-row groups are
+   * converted for the storefront (`productConfiguratorCPQContainer`).
+   */
+  protected isCpqContainerFeatureEnabled(): boolean {
+    return !!this.featureToggles.productConfiguratorCPQContainer;
+  }
 
   /**
    * Converts a CPQ configuration to the configurator-independent model.
@@ -576,7 +586,9 @@ export class CpqConfiguratorNormalizer
       }
 
       case Cpq.DisplayAs.CONTAINER: {
-        uiType = Configurator.UiType.CONTAINER;
+        uiType = this.isCpqContainerFeatureEnabled()
+          ? Configurator.UiType.CONTAINER
+          : Configurator.UiType.NOT_IMPLEMENTED;
         break;
       }
 
@@ -882,7 +894,11 @@ export class CpqConfiguratorNormalizer
     currency: string,
     flatGroupList: Configurator.Group[]
   ): void {
-    if (!containers?.length || !group.attributes?.length) {
+    if (
+      !this.isCpqContainerFeatureEnabled() ||
+      !containers?.length ||
+      !group.attributes?.length
+    ) {
       return;
     }
     group.attributes.forEach((attribute) => {

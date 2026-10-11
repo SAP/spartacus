@@ -359,6 +359,10 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
   });
 
   describe('nested configuration', () => {
+    beforeEach(() => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+    });
+
     it('should render info and warning messages in the warning section', () => {
       configuration = createConfigWithContainerRows(NESTED_TAB_ID, [
         {

@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { LanguageService, TranslationService } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
 import { Cpq } from '../cpq.models';
@@ -203,6 +204,7 @@ describe('CpqConfiguratorNormalizer', () => {
           provide: TranslationService,
           useClass: MockTranslationService,
         },
+        ...provideMockFeatureToggles({ productConfiguratorCPQContainer: true }),
       ],
     });
 
@@ -942,7 +944,7 @@ describe('CpqConfiguratorNormalizer', () => {
         );
       });
 
-      it('should map CONTAINER displayAs to CONTAINER ui type', () => {
+      it('should map CONTAINER displayAs to CONTAINER ui type when productConfiguratorCPQContainer is enabled', () => {
         const cpqAttr: Cpq.Attribute = {
           pA_ID: 1,
           stdAttrCode: 2,
@@ -952,6 +954,40 @@ describe('CpqConfiguratorNormalizer', () => {
         };
         expect(cpqConfiguratorNormalizer['convertAttributeType'](cpqAttr)).toBe(
           Configurator.UiType.CONTAINER
+        );
+      });
+
+      it('should map CONTAINER displayAs to NOT_IMPLEMENTED when productConfiguratorCPQContainer is disabled', () => {
+        TestBed.resetTestingModule();
+        TestBed.configureTestingModule({
+          providers: [
+            CpqConfiguratorNormalizer,
+            CpqConfiguratorNormalizerUtilsService,
+            {
+              provide: LanguageService,
+              useClass: MockLanguageService,
+            },
+            {
+              provide: TranslationService,
+              useClass: MockTranslationService,
+            },
+            ...provideMockFeatureToggles({
+              productConfiguratorCPQContainer: false,
+            }),
+          ],
+        });
+        const normalizerWithToggleOff = TestBed.inject(
+          CpqConfiguratorNormalizer as Type<CpqConfiguratorNormalizer>
+        );
+        const cpqAttr: Cpq.Attribute = {
+          pA_ID: 1,
+          stdAttrCode: 2,
+          displayAs: Cpq.DisplayAs.CONTAINER,
+          isEnabled: true,
+          values: [],
+        };
+        expect(normalizerWithToggleOff['convertAttributeType'](cpqAttr)).toBe(
+          Configurator.UiType.NOT_IMPLEMENTED
         );
       });
 
