@@ -10,7 +10,6 @@ import {
 } from '@spartacus/setup/ssr/base-site';
 
 export interface StorefrontBaseSiteResolverOptions {
-  configuredOccBaseUrl: string | null | undefined;
   indexHtmlPaths: readonly string[];
   readFile: (path: string) => string;
   defaultBaseSite: string;
@@ -20,15 +19,9 @@ export interface StorefrontBaseSiteResolverOptions {
 
 /** Resolves the OCC URL used to create the process-wide base-site resolver. */
 export function resolveOccBaseUrl(
-  configuredOccBaseUrl: string | null | undefined,
   indexHtmlPaths: readonly string[],
   readFile: (path: string) => string
 ): string | null {
-  const configuredUrl = configuredOccBaseUrl?.trim();
-  if (configuredUrl) {
-    return configuredUrl;
-  }
-
   for (const indexHtmlPath of indexHtmlPaths) {
     try {
       const extractedUrl = extractOccBaseUrlFromHtml(readFile(indexHtmlPath));
@@ -48,7 +41,6 @@ export function createStorefrontBaseSiteResolver(
   options: StorefrontBaseSiteResolverOptions
 ): DefaultBaseSiteResolver | undefined {
   const occBaseUrl = resolveOccBaseUrl(
-    options.configuredOccBaseUrl,
     options.indexHtmlPaths,
     options.readFile
   );
