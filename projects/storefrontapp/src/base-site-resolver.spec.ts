@@ -13,22 +13,6 @@ import {
 const INDEX_PATHS = ['/browser/index.csr.html', '/browser/index.html'];
 
 describe('resolveOccBaseUrl', () => {
-  it('prefers and trims the configured environment URL', () => {
-    const readPaths: string[] = [];
-
-    const result = resolveOccBaseUrl(
-      '  https://environment.example  ',
-      INDEX_PATHS,
-      (path) => {
-        readPaths.push(path);
-        return '';
-      }
-    );
-
-    expect(result).toBe('https://environment.example');
-    expect(readPaths).toEqual([]);
-  });
-
   it('uses the OCC URL from index.csr.html before index.html', () => {
     const readPaths: string[] = [];
     const htmlByPath: Record<string, string> = {
@@ -38,7 +22,7 @@ describe('resolveOccBaseUrl', () => {
         '<meta name="occ-backend-base-url" content="https://index.example">',
     };
 
-    const result = resolveOccBaseUrl('', INDEX_PATHS, (path) => {
+    const result = resolveOccBaseUrl(INDEX_PATHS, (path) => {
       readPaths.push(path);
       return htmlByPath[path];
     });
@@ -48,7 +32,7 @@ describe('resolveOccBaseUrl', () => {
   });
 
   it('falls back to index.html after an unreadable CSR index', () => {
-    const result = resolveOccBaseUrl(undefined, INDEX_PATHS, (path) => {
+    const result = resolveOccBaseUrl(INDEX_PATHS, (path) => {
       if (path.endsWith('index.csr.html')) {
         throw new Error('missing');
       }
@@ -59,7 +43,7 @@ describe('resolveOccBaseUrl', () => {
   });
 
   it('falls back to index.html after an unsubstituted CSR placeholder', () => {
-    const result = resolveOccBaseUrl(undefined, INDEX_PATHS, (path) =>
+    const result = resolveOccBaseUrl(INDEX_PATHS, (path) =>
       path.endsWith('index.csr.html')
         ? '<meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE">'
         : '<meta name="occ-backend-base-url" content="https://index.example">'
@@ -68,8 +52,8 @@ describe('resolveOccBaseUrl', () => {
     expect(result).toBe('https://index.example');
   });
 
-  it('returns null when no configured or extracted URL is usable', () => {
-    const result = resolveOccBaseUrl('   ', INDEX_PATHS, (path) => {
+  it('returns null when no extracted URL is usable', () => {
+    const result = resolveOccBaseUrl(INDEX_PATHS, (path) => {
       if (path.endsWith('index.csr.html')) {
         return '<meta name="occ-backend-base-url" content="   ">';
       }
@@ -83,11 +67,14 @@ describe('resolveOccBaseUrl', () => {
 describe('createStorefrontBaseSiteResolver', () => {
   it('creates the default resolver when an OCC URL is available', () => {
     const warnings: string[] = [];
+    const htmlByPath: Record<string, string> = {
+      '/browser/index.csr.html':
+        '<meta name="occ-backend-base-url" content="https://csr.example">',
+    };
 
     const resolver = createStorefrontBaseSiteResolver({
-      configuredOccBaseUrl: 'https://environment.example',
       indexHtmlPaths: INDEX_PATHS,
-      readFile: () => '',
+      readFile: (path) => htmlByPath[path],
       defaultBaseSite: 'electronics-spa',
       occApiPrefix: '/occ/v2/',
       warn: (message) => warnings.push(message),
@@ -101,7 +88,6 @@ describe('createStorefrontBaseSiteResolver', () => {
     const warnings: string[] = [];
 
     const resolver = createStorefrontBaseSiteResolver({
-      configuredOccBaseUrl: undefined,
       indexHtmlPaths: INDEX_PATHS,
       readFile: () => {
         throw new Error('missing');
