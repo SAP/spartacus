@@ -740,5 +740,43 @@ describe('CheckoutPaymentFormComponent', () => {
       )?.nativeElement;
       expect(input?.getAttribute('aria-invalid')).toBeNull();
     });
+
+    it('should add dismissed class to wrapper on Escape to keep tooltip hidden while focus stays on button', () => {
+      featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', true);
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.query(
+        By.css('button.cx-cvv-info-btn')
+      );
+      const wrapper: HTMLElement = fixture.debugElement.query(
+        By.css('.cx-cvv-info')
+      ).nativeElement;
+
+      const event = new KeyboardEvent('keydown', { key: 'Escape' });
+      button.triggerEventHandler('keydown.escape', event);
+
+      expect(wrapper.classList.contains('cx-cvv-tooltip--dismissed')).toBe(
+        true
+      );
+    });
+
+    it('should remove dismissed class on blur so tooltip re-enables on next focus', () => {
+      featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', true);
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.query(
+        By.css('button.cx-cvv-info-btn')
+      );
+      const wrapper: HTMLElement = fixture.debugElement.query(
+        By.css('.cx-cvv-info')
+      ).nativeElement;
+
+      wrapper.classList.add('cx-cvv-tooltip--dismissed');
+      button.triggerEventHandler('blur', {});
+
+      expect(wrapper.classList.contains('cx-cvv-tooltip--dismissed')).toBe(
+        false
+      );
+    });
   });
 });

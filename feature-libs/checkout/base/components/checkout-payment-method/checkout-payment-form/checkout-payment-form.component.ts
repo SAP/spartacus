@@ -55,7 +55,6 @@ import {
   IconComponent,
   LaunchDialogService,
   NgSelectA11yDirective,
-  RetainFocusOnEscapeDirective,
   SpinnerComponent,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -72,7 +71,6 @@ import { CheckoutBillingAddressFormComponent } from '../../checkout-billing-addr
     NgTemplateOutlet,
     FeatureDirective,
     FocusDirective,
-    RetainFocusOnEscapeDirective,
     FormRequiredLegendComponent,
     FormsModule,
     ReactiveFormsModule,
@@ -133,6 +131,9 @@ export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
   @ViewChild(forwardRef(() => FocusFirstInvalidFieldDirective))
   protected firstInvalidFieldFocus?: FocusFirstInvalidFieldDirective;
 
+  @ViewChild('cvvInfoWrapper')
+  protected cvvInfoWrapper?: ElementRef<HTMLElement>;
+
   paymentForm: UntypedFormGroup = this.fb.group({
     cardType: this.fb.group({
       code: [null, Validators.required],
@@ -173,6 +174,28 @@ export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
    * @deprecated  This property is obsolete since 2211.42
    */
   useExtractedBillingAddressComponent: boolean = true;
+
+  /**
+   * Handles Escape on the CVV info button. Adds a dismissed class to the
+   * `.cx-cvv-info` wrapper to suppress the `:focus-within` CSS rule that keeps
+   * the tooltip visible, while retaining focus on the button (WCAG 1.4.13).
+   * Propagation is stopped so the parent `[cxFocus]` trap does not redirect
+   * focus to the first page element.
+   */
+  onCvvEscape(event: KeyboardEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.cvvInfoWrapper?.nativeElement.classList.add(
+      'cx-cvv-tooltip--dismissed'
+    );
+  }
+
+  /** Clears the dismissed state so the tooltip re-enables on next focus. */
+  onCvvBlur(): void {
+    this.cvvInfoWrapper?.nativeElement.classList.remove(
+      'cx-cvv-tooltip--dismissed'
+    );
+  }
 
   ngOnInit(): void {
     if (this.paymentDetails) {
