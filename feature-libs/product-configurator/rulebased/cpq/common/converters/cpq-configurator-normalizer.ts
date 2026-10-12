@@ -45,7 +45,7 @@ export class CpqConfiguratorNormalizer
    * Whether CPQ container attributes and nested container-row groups are
    * converted for the storefront (`productConfiguratorCPQContainer`).
    */
-  protected isCpqContainerFeatureEnabled(): boolean {
+  private isCpqContainerFeatureEnabled(): boolean {
     return !!this.featureToggles.productConfiguratorCPQContainer;
   }
 

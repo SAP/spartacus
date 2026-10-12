@@ -35,7 +35,7 @@ export class CpqConfiguratorOverviewNormalizer
    * Whether CPQ container rows are included in the configuration overview
    * (`productConfiguratorCPQContainer`).
    */
-  protected isCpqContainerFeatureEnabled(): boolean {
+  private isCpqContainerFeatureEnabled(): boolean {
     return !!this.featureToggles.productConfiguratorCPQContainer;
   }
 
