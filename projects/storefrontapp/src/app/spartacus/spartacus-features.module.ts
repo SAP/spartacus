@@ -315,7 +315,6 @@ if (environment.cpq) {
         authorizationCodeFlowByDefault: true,
         mergeGuestCartOnCodeFlowLogin: true,
         enablePasswordExpiredErrorTranslation: true,
-        enableQuotePurchaseOrderNumber: true,
         enableMediaPrefix: true,
         a11yCustomerTicketingVisualFocusFix: true,
         a11yMessagingListKeyboardFocus: true,
