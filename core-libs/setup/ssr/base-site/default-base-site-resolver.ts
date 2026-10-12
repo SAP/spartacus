@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { toJsRegExp } from '@spartacus/core';
 import {
   BaseSiteResolver,
   ConcurrencyLimitError,
   DefaultBaseSiteResolverOptions,
   OccUnavailableError,
 } from './base-site-resolver';
-import { toJsRegExp } from './to-js-reg-exp';
 
 interface OccBaseSite {
   uid?: string;
