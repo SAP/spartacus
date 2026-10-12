@@ -7,7 +7,7 @@
 import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { RoutingService, TranslatePipe } from '@spartacus/core';
+import { RoutingService, TranslatePipe, useFeatureStyles } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -30,7 +30,9 @@ export class StoreFinderStoresCountComponent implements OnInit {
   locations$: Observable<any>;
   isLoading$: Observable<boolean>;
 
-  constructor(private storeFinderService: StoreFinderService) {}
+  constructor(private storeFinderService: StoreFinderService) {
+    useFeatureStyles('a11yHighContrastFix');
+  }
 
   ngOnInit() {
     this.storeFinderService.viewAllStores();
