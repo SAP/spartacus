@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { LanguageService } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
 import { Cpq } from '../cpq.models';
@@ -26,6 +27,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       providers: [
         CpqConfiguratorNormalizerUtilsService,
         { provide: LanguageService, useClass: MockLanguageService },
+        ...provideMockFeatureToggles({ productConfiguratorCPQContainer: true }),
       ],
     });
 
@@ -36,6 +38,21 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
 
   it('should be created', () => {
     expect(CpqConfiguratorNormalizerUtilsService).toBeTruthy();
+  });
+
+  it('should fall back to en when locale data is missing for the active language', () => {
+    const warnSpy = vi.spyOn(
+      cpqConfiguratorNormalizerUtilsService['logger'],
+      'warn'
+    );
+    vi.spyOn(TestBed.inject(LanguageService), 'getActive').mockReturnValue(
+      of('xx-INVALID')
+    );
+
+    expect(cpqConfiguratorNormalizerUtilsService['getLanguage']()).toBe('en');
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('No locale data registered')
+    );
   });
 
   it('should convert price', () => {
@@ -693,6 +710,73 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
           ],
         })
       ).toBe(6);
+    });
+
+    describe('productConfiguratorCPQContainer feature toggle', () => {
+      it('should not count nested container issues when the toggle is disabled', () => {
+        TestBed.resetTestingModule();
+        TestBed.configureTestingModule({
+          providers: [
+            CpqConfiguratorNormalizerUtilsService,
+            { provide: LanguageService, useClass: MockLanguageService },
+            ...provideMockFeatureToggles({
+              productConfiguratorCPQContainer: false,
+            }),
+          ],
+        });
+        const utilsWithToggleOff = TestBed.inject(
+          CpqConfiguratorNormalizerUtilsService as Type<CpqConfiguratorNormalizerUtilsService>
+        );
+        expect(
+          utilsWithToggleOff.calculateTotalNumberOfIssues({
+            productSystemId: 'productSystemId',
+            currencyISOCode: CURRENCY,
+            sapContainers: [
+              {
+                stdAttrCode: 1,
+                rows: [
+                  {
+                    id: '1',
+                    configuration: nestedConfiguration,
+                  },
+                ],
+              },
+            ],
+          })
+        ).toBe(0);
+      });
+
+      it('should count root typed messages and incomplete attributes but ignore nested containers when the toggle is disabled', () => {
+        TestBed.resetTestingModule();
+        TestBed.configureTestingModule({
+          providers: [
+            CpqConfiguratorNormalizerUtilsService,
+            { provide: LanguageService, useClass: MockLanguageService },
+            ...provideMockFeatureToggles({
+              productConfiguratorCPQContainer: false,
+            }),
+          ],
+        });
+        const utilsWithToggleOff = TestBed.inject(
+          CpqConfiguratorNormalizerUtilsService as Type<CpqConfiguratorNormalizerUtilsService>
+        );
+        expect(
+          utilsWithToggleOff.calculateTotalNumberOfIssues({
+            ...rootConfiguration,
+            sapContainers: [
+              {
+                stdAttrCode: 1,
+                rows: [
+                  {
+                    id: '1',
+                    configuration: nestedConfiguration,
+                  },
+                ],
+              },
+            ],
+          })
+        ).toBe(4);
+      });
     });
 
     it('should count issues recursively in nested containers', () => {

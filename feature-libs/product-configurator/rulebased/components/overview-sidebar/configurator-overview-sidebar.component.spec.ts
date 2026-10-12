@@ -634,6 +634,73 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
         'cx-configurator-overview-menu'
       );
     });
+
+    it('should not render filter content when the filter tab is hidden even if showFilter is true', async () => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        imports: [ConfiguratorOverviewSidebarComponent],
+        providers: [
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
+          {
+            provide: ConfiguratorRouterExtractorService,
+            useClass: MockConfiguratorRouterExtractorServiceCpqOverview,
+          },
+          {
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfiguratorStorefrontUtilsService,
+          },
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: ProductService,
+            useClass: MockProductService,
+          },
+          provideDefaultConfig(defaultConfiguratorUISettingsConfig),
+          provideMockFeatureToggles({ productConfiguratorCPQContainer: true }),
+        ],
+      })
+        .overrideComponent(ConfiguratorOverviewSidebarComponent, {
+          remove: {
+            imports: [
+              TranslatePipe,
+              FeatureDirective,
+              ConfiguratorOverviewFilterComponent,
+              ConfiguratorOverviewMenuComponent,
+            ],
+          },
+          add: {
+            imports: [
+              MockTranslatePipe,
+              OverviewSidebarMockFeatureDirective,
+              MockConfiguratorOverviewFilterComponent,
+              MockConfiguratorOverviewMenuComponent,
+            ],
+          },
+        })
+        .compileComponents();
+      initTestComponent();
+      component.showFilter = true;
+      fixture.detectChanges();
+
+      expect(
+        await firstValueFrom(component.overviewMenuFilterTabVisible$)
+      ).toBe(false);
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-overview-filter'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-overview-menu'
+      );
+    });
   });
 
   describe('ghost sidebar', () => {

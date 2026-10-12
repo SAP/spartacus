@@ -779,6 +779,10 @@ describe('ConfigurationOverviewFormComponent', () => {
     beforeEach(() => {
       defaultConfigObservable = of(configWithBundleAndDetails);
       productForBundleOverview$.next({ images: {} });
+      TestBed.inject(MockFeatureTogglesController).set(
+        'productConfiguratorCPQContainer',
+        true
+      );
     });
 
     it('should render bundle attribute row, configuration details header, and nested attributes', () => {
@@ -849,13 +853,16 @@ describe('ConfigurationOverviewFormComponent', () => {
       expect(detailsHeading?.getAttribute('tabindex')).toBe('-1');
     });
 
-    it('should not make the configuration details heading focusable if in-page navigation is disabled', () => {
-      initialize();
-      const detailsHeading = htmlElem.querySelector(
-        '.cx-group.topLevel.configurationDetails h2'
+    it('should not render configuration details in-page navigation when the feature toggle is disabled', () => {
+      TestBed.inject(MockFeatureTogglesController).set(
+        'productConfiguratorCPQContainer',
+        false
       );
-      expect(detailsHeading).toBeTruthy();
-      expect(detailsHeading?.hasAttribute('tabindex')).toBe(false);
+      initialize();
+      expect(
+        htmlElem.querySelector('.cx-group.topLevel.configurationDetails')
+      ).toBeNull();
+      expect(htmlElem.querySelector('.cx-view-details-link')).toBeNull();
     });
   });
 

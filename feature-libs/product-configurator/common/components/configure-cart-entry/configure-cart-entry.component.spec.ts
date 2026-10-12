@@ -529,6 +529,65 @@ describe('ConfigureCartEntryComponent', () => {
           'label.disabled-link'
         );
       });
+
+      describe('productConfiguratorCPQContainer feature toggle', () => {
+        it('should render link text when productConfiguratorCPQContainer is disabled', () => {
+          component.disabled = true;
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: ConfiguratorType.CPQ },
+          };
+          fixture.detectChanges();
+
+          CommonConfiguratorTestUtilsService.expectElementToContainText(
+            expect,
+            htmlElem,
+            'label.disabled-link',
+            'configurator.header.editConfiguration'
+          );
+          CommonConfiguratorTestUtilsService.expectElementNotPresent(
+            expect,
+            htmlElem,
+            'a.link'
+          );
+        });
+
+        it('should render CPQ container link text when productConfiguratorCPQContainer is enabled', () => {
+          TestBed.resetTestingModule();
+          configureTestingModule()
+            .overrideProvider(AbstractOrderContext, {
+              useValue: new MockAbstractOrderContext(),
+            })
+            .compileComponents();
+          TestBed.inject(MockFeatureTogglesController).set(
+            'productConfiguratorCPQContainer',
+            true
+          );
+          fixture = TestBed.createComponent(ConfigureCartEntryComponent);
+          component = fixture.componentInstance;
+          htmlElem = fixture.nativeElement;
+          component.disabled = true;
+          component.readOnly = false;
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: ConfiguratorType.CPQ },
+          };
+          expect(component.isDisabled()).toBe(true);
+          fixture.detectChanges();
+
+          CommonConfiguratorTestUtilsService.expectElementToContainText(
+            expect,
+            htmlElem,
+            'label.disabled-link',
+            'configurator.header.editBundleConfiguration'
+          );
+          CommonConfiguratorTestUtilsService.expectElementNotPresent(
+            expect,
+            htmlElem,
+            'a.link'
+          );
+        });
+      });
     });
 
     describe('getResolveIssuesA11yDescription', () => {

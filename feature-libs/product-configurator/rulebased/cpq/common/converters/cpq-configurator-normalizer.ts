@@ -4,22 +4,50 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { Converter, TranslationService } from '@spartacus/core';
+import { inject, Injectable } from '@angular/core';
+import { Converter, FeatureToggles, TranslationService } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { take } from 'rxjs/operators';
 import { Cpq } from '../cpq.models';
 import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normalizer-utils.service';
 
+const CPQ_PRODUCT_SELECTION_UI_TYPES: Record<
+  number,
+  [Configurator.UiType, Configurator.UiType]
+> = {
+  [Cpq.DisplayAs.RADIO_BUTTON]: [
+    Configurator.UiType.RADIOBUTTON,
+    Configurator.UiType.RADIOBUTTON_PRODUCT,
+  ],
+  [Cpq.DisplayAs.DROPDOWN]: [
+    Configurator.UiType.DROPDOWN,
+    Configurator.UiType.DROPDOWN_PRODUCT,
+  ],
+  [Cpq.DisplayAs.CHECK_BOX]: [
+    Configurator.UiType.CHECKBOXLIST,
+    Configurator.UiType.CHECKBOXLIST_PRODUCT,
+  ],
+};
+
 @Injectable()
 export class CpqConfiguratorNormalizer
   implements Converter<Cpq.Configuration, Configurator.Configuration>
 {
+  private featureToggles = inject(FeatureToggles);
+
   constructor(
     protected cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService,
     protected translation: TranslationService
   ) {}
+
+  /**
+   * Whether CPQ container attributes and nested container-row groups are
+   * converted for the storefront (`productConfiguratorCPQContainer`).
+   */
+  private isCpqContainerFeatureEnabled(): boolean {
+    return !!this.featureToggles.productConfiguratorCPQContainer;
+  }
 
   /**
    * Converts a CPQ configuration to the configurator-independent model.
@@ -544,47 +572,44 @@ export class CpqConfiguratorNormalizer
     displayAsProduct: boolean,
     sourceAttribute: Cpq.Attribute
   ): Configurator.UiType {
-    let uiType: Configurator.UiType;
     switch (displayAs) {
-      case Cpq.DisplayAs.RADIO_BUTTON: {
-        uiType = displayAsProduct
-          ? Configurator.UiType.RADIOBUTTON_PRODUCT
-          : Configurator.UiType.RADIOBUTTON;
-        break;
-      }
-
-      case Cpq.DisplayAs.DROPDOWN: {
-        uiType = displayAsProduct
-          ? Configurator.UiType.DROPDOWN_PRODUCT
-          : Configurator.UiType.DROPDOWN;
-        break;
-      }
-
-      case Cpq.DisplayAs.CHECK_BOX: {
-        uiType = displayAsProduct
-          ? Configurator.UiType.CHECKBOXLIST_PRODUCT
-          : Configurator.UiType.CHECKBOXLIST;
-        break;
-      }
-
-      case Cpq.DisplayAs.INPUT: {
-        uiType =
-          sourceAttribute.dataType === Cpq.DataType.INPUT_STRING
-            ? Configurator.UiType.STRING
-            : Configurator.UiType.NOT_IMPLEMENTED;
-        break;
-      }
-
-      case Cpq.DisplayAs.CONTAINER: {
-        uiType = Configurator.UiType.CONTAINER;
-        break;
-      }
-
-      default: {
-        uiType = Configurator.UiType.NOT_IMPLEMENTED;
-      }
+      case Cpq.DisplayAs.RADIO_BUTTON:
+      case Cpq.DisplayAs.DROPDOWN:
+      case Cpq.DisplayAs.CHECK_BOX:
+        return this.resolveProductSelectionUiType(displayAs, displayAsProduct);
+      case Cpq.DisplayAs.INPUT:
+        return this.resolveInputDisplayUiType(sourceAttribute);
+      case Cpq.DisplayAs.CONTAINER:
+        return this.resolveContainerDisplayUiType();
+      default:
+        return Configurator.UiType.NOT_IMPLEMENTED;
     }
-    return uiType;
+  }
+
+  protected resolveProductSelectionUiType(
+    displayAs: number,
+    displayAsProduct: boolean
+  ): Configurator.UiType {
+    const uiTypes = CPQ_PRODUCT_SELECTION_UI_TYPES[displayAs];
+    if (!uiTypes) {
+      return Configurator.UiType.NOT_IMPLEMENTED;
+    }
+
+    return displayAsProduct ? uiTypes[1] : uiTypes[0];
+  }
+
+  protected resolveInputDisplayUiType(
+    sourceAttribute: Cpq.Attribute
+  ): Configurator.UiType {
+    return sourceAttribute.dataType === Cpq.DataType.INPUT_STRING
+      ? Configurator.UiType.STRING
+      : Configurator.UiType.NOT_IMPLEMENTED;
+  }
+
+  protected resolveContainerDisplayUiType(): Configurator.UiType {
+    return this.isCpqContainerFeatureEnabled()
+      ? Configurator.UiType.CONTAINER
+      : Configurator.UiType.NOT_IMPLEMENTED;
   }
 
   /**
@@ -882,7 +907,11 @@ export class CpqConfiguratorNormalizer
     currency: string,
     flatGroupList: Configurator.Group[]
   ): void {
-    if (!containers?.length || !group.attributes?.length) {
+    if (
+      !this.isCpqContainerFeatureEnabled() ||
+      !containers?.length ||
+      !group.attributes?.length
+    ) {
       return;
     }
     group.attributes.forEach((attribute) => {

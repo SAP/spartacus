@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { LanguageService, TranslationService } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
 import { Cpq } from '../cpq.models';
@@ -160,6 +161,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
           provide: TranslationService,
           useClass: MockTranslationService,
         },
+        ...provideMockFeatureToggles({ productConfiguratorCPQContainer: true }),
       ],
     });
 
@@ -646,6 +648,39 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
 
       expect(result.groups).toEqual([]);
       expect(loggerWarn).not.toHaveBeenCalled();
+    });
+
+    it('should not attach container rows when productConfiguratorCPQContainer is disabled', () => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        providers: [
+          CpqConfiguratorOverviewNormalizer,
+          CpqConfiguratorNormalizerUtilsService,
+          {
+            provide: LanguageService,
+            useClass: MockLanguageService,
+          },
+          {
+            provide: TranslationService,
+            useClass: MockTranslationService,
+          },
+          ...provideMockFeatureToggles({
+            productConfiguratorCPQContainer: false,
+          }),
+        ],
+      });
+      const overviewNormalizerWithToggleOff = TestBed.inject(
+        CpqConfiguratorOverviewNormalizer as Type<CpqConfiguratorOverviewNormalizer>
+      );
+      expect(
+        overviewNormalizerWithToggleOff['isCpqContainerFeatureEnabled']()
+      ).toBe(false);
+
+      const result = overviewNormalizerWithToggleOff.convert(
+        createConfigurationWithContainers()
+      );
+
+      expect(result.groups).toEqual([]);
     });
 
     it('should convert selected container rows into bundle attributes', () => {

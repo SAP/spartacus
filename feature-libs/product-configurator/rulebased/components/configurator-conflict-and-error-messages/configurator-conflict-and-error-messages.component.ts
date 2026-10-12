@@ -92,7 +92,10 @@ export class ConfiguratorConflictAndErrorMessagesComponent {
   protected getMessages(
     configuration: Configurator.Configuration
   ): ConfiguratorMessagesView {
-    const containerRowGroup = this.getCurrentContainerRowGroup(configuration);
+    const containerRowGroup = this.featureToggles
+      .productConfiguratorCPQContainer
+      ? this.getCurrentContainerRowGroup(configuration)
+      : undefined;
     if (containerRowGroup) {
       return this.configuratorMessageService.splitMessagesBySeverity(
         containerRowGroup.messages

@@ -727,25 +727,51 @@ export interface FeatureTogglesInterface {
   productConfiguratorConsolidatedButtonDisabling?: boolean;
 
   /**
-   * When enabled, CPQ container product-card action buttons use secondary
-   * (select/add) and tertiary (remove/deselect) styles instead of primary
-   * and secondary. Product-card layout alignment styles are also applied
-   * (full-width action row, stretched column).
-   * Nested container products
-   * are also reflected in the configurator product title (slash-separated
-   * path) on the configuration page and in the product-title details.
-   * When a CPQ configuration has `hasFullConfigurationState`, root-level
-   * conflict and error messages are taken from the typed `messages` list.
-   * On the configuration overview (CPQ and variant configurator), the
-   * overview menu becomes an accessible in-page navigation: it is rendered as
-   * a labeled `nav` landmark, marks the active group with `aria-current` and
+   * When enabled, CPQ `sapContainers` are converted for the storefront:
+   * `CpqConfiguratorNormalizer` maps `CONTAINER` attributes to
+   * `Configurator.UiType.CONTAINER`, attaches container rows and nested
+   * container-row groups, and `CpqConfiguratorOverviewNormalizer` adds bundle
+   * overview groups for selected container rows.
+   * `CpqConfiguratorNormalizerUtilsService` includes nested container issues in
+   * the total issue count. CPQ container product-card action buttons use
+   * secondary (select/add) and tertiary (remove/deselect) styles instead of
+   * primary and secondary. Product-card layout alignment styles are also
+   * applied (full-width action row, stretched column). Container attribute
+   * accordion and column layout styles are loaded for
+   * `ConfiguratorAttributeContainerComponent`.
+   * Nested container products are reflected in the configurator product title
+   * (slash-separated path) on the configuration page and in the product-title
+   * details. When a CPQ configuration has `hasFullConfigurationState`,
+   * root-level conflict and error messages are taken from the typed `messages`
+   * list; when the user views a nested container-row configuration,
+   * `ConfiguratorConflictAndErrorMessagesComponent` shows that row's typed
+   * messages. On the configuration overview (CPQ and variant configurator),
+   * the overview menu becomes an accessible in-page navigation: it is rendered
+   * as a labeled `nav` landmark, marks the active group with `aria-current` and
    * moves the focus to the selected group heading. A skip link leads from the
    * menu to the overview content, which is exposed as a focusable region.
-   * CPQ cart bundle line items (PDP links, nested edit links, large-bundle
-   * overview navigation) and configure-cart-entry link labels/query params use
-   * `*cxFeature` template branches like `ConfiguratorAttributeProductCardComponent`.
+   * `ConfiguratorOverviewFormComponent` renders bundle configuration-detail
+   * sections (top-level landmarks, view-details links, and nested attribute
+   * blocks) as in-page navigation targets. CPQ cart bundle line items (PDP
+   * links, nested edit links, large-bundle overview navigation) and
+   * configure-cart-entry link labels/query params use `*cxFeature` template
+   * branches like `ConfiguratorAttributeProductCardComponent`.
    *
-   * Affects: `ConfiguratorAttributeProductCardComponent`,
+   * When disabled, legacy behavior is preserved (breaking changes above are
+   * not active): container attributes map to `NOT_IMPLEMENTED`, containers and
+   * nested container-row groups are not attached, overview omits container
+   * bundle groups, nested container issues are excluded from the issue total,
+   * conflict and error messaging uses `warningMessages`/`errorMessages` only
+   * (not container-row or typed root `messages`), bundle configuration-detail
+   * overview sections and their in-page targets are not rendered, and
+   * container-specific layout styles are not applied.
+   *
+   * Affects:
+   * `ConfiguratorAttributeContainerComponent`,
+   * `CpqConfiguratorNormalizer`,
+   * `CpqConfiguratorOverviewNormalizer`,
+   * `CpqConfiguratorNormalizerUtilsService` (nested container issue count),
+   * `ConfiguratorAttributeProductCardComponent`,
    * `ConfiguratorProductTitleComponent`,
    * `ConfiguratorConflictAndErrorMessagesComponent`,
    * `ConfiguratorOverviewMenuComponent`,

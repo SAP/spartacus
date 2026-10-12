@@ -10,7 +10,11 @@ import {
   getLocaleId,
 } from '@angular/common';
 import { Injectable, inject, isDevMode } from '@angular/core';
-import { LanguageService, LoggerService } from '@spartacus/core';
+import {
+  FeatureToggles,
+  LanguageService,
+  LoggerService,
+} from '@spartacus/core';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { Cpq } from '../cpq.models';
 
@@ -20,6 +24,8 @@ import { Cpq } from '../cpq.models';
 @Injectable({ providedIn: 'root' })
 export class CpqConfiguratorNormalizerUtilsService {
   protected logger = inject(LoggerService);
+  private featureToggles = inject(FeatureToggles);
+
   constructor(protected languageService: LanguageService) {}
 
   /**
@@ -297,10 +303,10 @@ export class CpqConfiguratorNormalizerUtilsService {
       rootTypedMessages > 0
         ? rootTypedMessages + incompleteAttributes
         : this.countIssues(source);
-    const nestedContribution = this.countIssuesInContainers(
-      source.sapContainers,
-      'root.sapContainers'
-    );
+    const nestedContribution = this.featureToggles
+      .productConfiguratorCPQContainer
+      ? this.countIssuesInContainers(source.sapContainers, 'root.sapContainers')
+      : 0;
     return rootContribution + nestedContribution;
   }
 

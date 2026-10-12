@@ -5,7 +5,12 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { Converter, LoggerService, TranslationService } from '@spartacus/core';
+import {
+  Converter,
+  FeatureToggles,
+  LoggerService,
+  TranslationService,
+} from '@spartacus/core';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { take } from 'rxjs/operators';
 import { Cpq } from '../cpq.models';
@@ -19,11 +24,20 @@ export class CpqConfiguratorOverviewNormalizer
 {
   protected readonly NO_OPTION_SELECTED = 0;
   protected logger: LoggerService = inject(LoggerService);
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     protected cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService,
     protected translation: TranslationService
   ) {}
+
+  /**
+   * Whether CPQ container rows are included in the configuration overview
+   * (`productConfiguratorCPQContainer`).
+   */
+  private isCpqContainerFeatureEnabled(): boolean {
+    return !!this.featureToggles.productConfiguratorCPQContainer;
+  }
 
   convert(
     source: Cpq.Configuration,
@@ -147,6 +161,7 @@ export class CpqConfiguratorOverviewNormalizer
     currency: string
   ): void {
     if (
+      !this.isCpqContainerFeatureEnabled() ||
       attribute.displayAs !== Cpq.DisplayAs.CONTAINER ||
       !containers?.length
     ) {

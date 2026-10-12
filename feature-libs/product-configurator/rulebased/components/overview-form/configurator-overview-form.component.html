@@ -33,7 +33,11 @@
 
   <ng-container *ngFor="let group of overviewGroups">
     <div
-      *ngIf="parentGroup && isContainerRowDetailsGroup(group)"
+      *ngIf="
+        isInPageNavigationEnabled &&
+        parentGroup &&
+        isContainerRowDetailsGroup(group)
+      "
       [attr.id]="getGroupId(idPrefix, group.id)"
       class="cx-group topLevel configurationDetails"
     >
@@ -96,6 +100,7 @@
               [overviewIdPrefix]="idPrefix"
               [parentGroupId]="group.id"
               [hasConfigurationDetails]="
+                isInPageNavigationEnabled &&
                 hasConfigurationDetails(group, attributeOverview)
               "
             />

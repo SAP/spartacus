@@ -804,6 +804,76 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       expect(button.textContent).toContain('configurator.button.select');
       expect(htmlElem.querySelector('button.btn-secondary')).toBeFalsy();
     });
+
+    it('should render the CPQ container wrapper when the toggle is enabled', () => {
+      initWithCpqContainerToggle(true, { multiSelect: false, selected: false });
+
+      expect(htmlElem.querySelector('.cx-product-card-container')).toBeTruthy();
+    });
+
+    it('should render product card root without a container wrapper when the toggle is disabled', () => {
+      initWithCpqContainerToggle(false, {
+        multiSelect: false,
+        selected: false,
+      });
+
+      expect(htmlElem.querySelector('.cx-product-card-container')).toBeFalsy();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-product-card',
+        0,
+        'aria-label',
+        'configurator.a11y.itemOfAttribute attribute:Attribute Label'
+      );
+    });
+
+    it('should not render container row action controls when the toggle is disabled', () => {
+      featureToggles.set('productConfiguratorCPQContainer', false);
+      fixture = TestBed.createComponent(
+        ConfiguratorAttributeProductCardComponent
+      );
+      htmlElem = fixture.nativeElement;
+      component = fixture.componentInstance;
+      component.productCardOptions = {
+        hideRemoveButton: false,
+        multiSelect: true,
+        productBoundValue: createValue(
+          '888',
+          'description',
+          [createImage('url', 'alt')],
+          1,
+          true,
+          '1111-2222',
+          'Lorem Ipsum Dolor'
+        ),
+        attribute: {
+          attrCode: 123,
+          label: 'Attribute Label',
+          name: 'Attribute Name',
+        },
+        containerRow: {
+          id: 'row-1',
+          productSystemId: 'PRODUCT_CODE',
+          selected: true,
+          actions: [Configurator.ContainerRowAction.DELETE],
+        },
+        singleDropdown: false,
+        withQuantity: true,
+        attributeId: 123,
+        attributeLabel: 'Attribute Label',
+        attributeName: 'Attribute Name',
+        itemCount: 3,
+        itemIndex: 1,
+      };
+      fixture.detectChanges();
+
+      expect(
+        htmlElem.querySelector('.cx-product-card-actions-menu-toggle')
+      ).toBeFalsy();
+      expect(htmlElem.querySelector('button.btn-secondary')).toBeTruthy();
+    });
   });
 
   describe('quantity', () => {
