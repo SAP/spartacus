@@ -530,8 +530,8 @@ describe('ConfigureCartEntryComponent', () => {
         );
       });
 
-      describe('disabled link label (productConfiguratorCPQContainer)', () => {
-        it('should render legacy link text when productConfiguratorCPQContainer is disabled', () => {
+      describe('productConfiguratorCPQContainer feature toggle', () => {
+        it('should render link text when productConfiguratorCPQContainer is disabled', () => {
           component.disabled = true;
           component.cartEntry = {
             entryNumber: 0,

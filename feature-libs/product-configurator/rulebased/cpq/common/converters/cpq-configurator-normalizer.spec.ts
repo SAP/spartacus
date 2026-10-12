@@ -944,51 +944,53 @@ describe('CpqConfiguratorNormalizer', () => {
         );
       });
 
-      it('should map CONTAINER displayAs to CONTAINER ui type when productConfiguratorCPQContainer is enabled', () => {
-        const cpqAttr: Cpq.Attribute = {
-          pA_ID: 1,
-          stdAttrCode: 2,
-          displayAs: Cpq.DisplayAs.CONTAINER,
-          isEnabled: true,
-          values: [],
-        };
-        expect(cpqConfiguratorNormalizer['convertAttributeType'](cpqAttr)).toBe(
-          Configurator.UiType.CONTAINER
-        );
-      });
-
-      it('should map CONTAINER displayAs to NOT_IMPLEMENTED when productConfiguratorCPQContainer is disabled', () => {
-        TestBed.resetTestingModule();
-        TestBed.configureTestingModule({
-          providers: [
-            CpqConfiguratorNormalizer,
-            CpqConfiguratorNormalizerUtilsService,
-            {
-              provide: LanguageService,
-              useClass: MockLanguageService,
-            },
-            {
-              provide: TranslationService,
-              useClass: MockTranslationService,
-            },
-            ...provideMockFeatureToggles({
-              productConfiguratorCPQContainer: false,
-            }),
-          ],
+      describe('productConfiguratorCPQContainer feature toggle', () => {
+        it('should map CONTAINER displayAs to CONTAINER ui type when the toggle is enabled', () => {
+          const cpqAttr: Cpq.Attribute = {
+            pA_ID: 1,
+            stdAttrCode: 2,
+            displayAs: Cpq.DisplayAs.CONTAINER,
+            isEnabled: true,
+            values: [],
+          };
+          expect(
+            cpqConfiguratorNormalizer['convertAttributeType'](cpqAttr)
+          ).toBe(Configurator.UiType.CONTAINER);
         });
-        const normalizerWithToggleOff = TestBed.inject(
-          CpqConfiguratorNormalizer as Type<CpqConfiguratorNormalizer>
-        );
-        const cpqAttr: Cpq.Attribute = {
-          pA_ID: 1,
-          stdAttrCode: 2,
-          displayAs: Cpq.DisplayAs.CONTAINER,
-          isEnabled: true,
-          values: [],
-        };
-        expect(normalizerWithToggleOff['convertAttributeType'](cpqAttr)).toBe(
-          Configurator.UiType.NOT_IMPLEMENTED
-        );
+
+        it('should map CONTAINER displayAs to NOT_IMPLEMENTED when the toggle is disabled', () => {
+          TestBed.resetTestingModule();
+          TestBed.configureTestingModule({
+            providers: [
+              CpqConfiguratorNormalizer,
+              CpqConfiguratorNormalizerUtilsService,
+              {
+                provide: LanguageService,
+                useClass: MockLanguageService,
+              },
+              {
+                provide: TranslationService,
+                useClass: MockTranslationService,
+              },
+              ...provideMockFeatureToggles({
+                productConfiguratorCPQContainer: false,
+              }),
+            ],
+          });
+          const normalizerWithToggleOff = TestBed.inject(
+            CpqConfiguratorNormalizer as Type<CpqConfiguratorNormalizer>
+          );
+          const cpqAttr: Cpq.Attribute = {
+            pA_ID: 1,
+            stdAttrCode: 2,
+            displayAs: Cpq.DisplayAs.CONTAINER,
+            isEnabled: true,
+            values: [],
+          };
+          expect(normalizerWithToggleOff['convertAttributeType'](cpqAttr)).toBe(
+            Configurator.UiType.NOT_IMPLEMENTED
+          );
+        });
       });
 
       it('should map INPUT with a non-string data type to NOT_IMPLEMENTED', () => {

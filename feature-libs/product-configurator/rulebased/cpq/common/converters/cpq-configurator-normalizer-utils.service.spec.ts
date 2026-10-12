@@ -712,69 +712,71 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       ).toBe(6);
     });
 
-    it('should not count nested container issues when productConfiguratorCPQContainer is disabled', () => {
-      TestBed.resetTestingModule();
-      TestBed.configureTestingModule({
-        providers: [
-          CpqConfiguratorNormalizerUtilsService,
-          { provide: LanguageService, useClass: MockLanguageService },
-          ...provideMockFeatureToggles({
-            productConfiguratorCPQContainer: false,
-          }),
-        ],
-      });
-      const utilsWithToggleOff = TestBed.inject(
-        CpqConfiguratorNormalizerUtilsService as Type<CpqConfiguratorNormalizerUtilsService>
-      );
-      expect(
-        utilsWithToggleOff.calculateTotalNumberOfIssues({
-          productSystemId: 'productSystemId',
-          currencyISOCode: CURRENCY,
-          sapContainers: [
-            {
-              stdAttrCode: 1,
-              rows: [
-                {
-                  id: '1',
-                  configuration: nestedConfiguration,
-                },
-              ],
-            },
+    describe('productConfiguratorCPQContainer feature toggle', () => {
+      it('should not count nested container issues when the toggle is disabled', () => {
+        TestBed.resetTestingModule();
+        TestBed.configureTestingModule({
+          providers: [
+            CpqConfiguratorNormalizerUtilsService,
+            { provide: LanguageService, useClass: MockLanguageService },
+            ...provideMockFeatureToggles({
+              productConfiguratorCPQContainer: false,
+            }),
           ],
-        })
-      ).toBe(0);
-    });
+        });
+        const utilsWithToggleOff = TestBed.inject(
+          CpqConfiguratorNormalizerUtilsService as Type<CpqConfiguratorNormalizerUtilsService>
+        );
+        expect(
+          utilsWithToggleOff.calculateTotalNumberOfIssues({
+            productSystemId: 'productSystemId',
+            currencyISOCode: CURRENCY,
+            sapContainers: [
+              {
+                stdAttrCode: 1,
+                rows: [
+                  {
+                    id: '1',
+                    configuration: nestedConfiguration,
+                  },
+                ],
+              },
+            ],
+          })
+        ).toBe(0);
+      });
 
-    it('should count root typed messages and incomplete attributes but ignore nested containers when productConfiguratorCPQContainer is disabled', () => {
-      TestBed.resetTestingModule();
-      TestBed.configureTestingModule({
-        providers: [
-          CpqConfiguratorNormalizerUtilsService,
-          { provide: LanguageService, useClass: MockLanguageService },
-          ...provideMockFeatureToggles({
-            productConfiguratorCPQContainer: false,
-          }),
-        ],
-      });
-      const utilsWithToggleOff = TestBed.inject(
-        CpqConfiguratorNormalizerUtilsService as Type<CpqConfiguratorNormalizerUtilsService>
-      );
-      expect(
-        utilsWithToggleOff.calculateTotalNumberOfIssues({
-          ...rootConfiguration,
-          sapContainers: [
-            {
-              stdAttrCode: 1,
-              rows: [
-                {
-                  id: '1',
-                  configuration: nestedConfiguration,
-                },
-              ],
-            },
+      it('should count root typed messages and incomplete attributes but ignore nested containers when the toggle is disabled', () => {
+        TestBed.resetTestingModule();
+        TestBed.configureTestingModule({
+          providers: [
+            CpqConfiguratorNormalizerUtilsService,
+            { provide: LanguageService, useClass: MockLanguageService },
+            ...provideMockFeatureToggles({
+              productConfiguratorCPQContainer: false,
+            }),
           ],
-        })
-      ).toBe(4);
+        });
+        const utilsWithToggleOff = TestBed.inject(
+          CpqConfiguratorNormalizerUtilsService as Type<CpqConfiguratorNormalizerUtilsService>
+        );
+        expect(
+          utilsWithToggleOff.calculateTotalNumberOfIssues({
+            ...rootConfiguration,
+            sapContainers: [
+              {
+                stdAttrCode: 1,
+                rows: [
+                  {
+                    id: '1',
+                    configuration: nestedConfiguration,
+                  },
+                ],
+              },
+            ],
+          })
+        ).toBe(4);
+      });
     });
 
     it('should count issues recursively in nested containers', () => {

@@ -1343,7 +1343,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       });
     });
 
-    describe('legacy rendering with productConfiguratorCPQContainer disabled', () => {
+    describe('productConfiguratorCPQContainer feature toggle', () => {
       beforeEach(() => {
         TestBed.inject(MockFeatureTogglesController).set(
           'productConfiguratorCPQContainer',
@@ -1352,7 +1352,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         component.hideItems = false;
       });
 
-      it('should render legacy line item markup and omit CPQ-only configure links', () => {
+      it('should render line item markup and omit CPQ-only configure links', () => {
         emitCartEntry([configurableLineItem]);
 
         expect(

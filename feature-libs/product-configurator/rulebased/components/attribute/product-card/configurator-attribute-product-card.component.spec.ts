@@ -811,7 +811,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       expect(htmlElem.querySelector('.cx-product-card-container')).toBeTruthy();
     });
 
-    it('should render the legacy product card root without a container wrapper when the toggle is disabled', () => {
+    it('should render product card root without a container wrapper when the toggle is disabled', () => {
       initWithCpqContainerToggle(false, {
         multiSelect: false,
         selected: false,
