@@ -13,6 +13,7 @@ export * from './keyboard-focus.module';
 export * from './focus-testing.module';
 export * from './services/index';
 export * from './keyboard-focus.utils';
+export * from './escape/retain-focus-on-escape.directive';
 
 // export * from './autofocus/index';
 // export * from './base/index';

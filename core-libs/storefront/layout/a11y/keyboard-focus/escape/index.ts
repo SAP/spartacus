@@ -6,3 +6,4 @@
 
 export * from './escape-focus.directive';
 export * from './escape-focus.service';
+export * from './retain-focus-on-escape.directive';

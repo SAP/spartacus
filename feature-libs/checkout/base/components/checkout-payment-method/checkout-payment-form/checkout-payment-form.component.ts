@@ -55,6 +55,7 @@ import {
   IconComponent,
   LaunchDialogService,
   NgSelectA11yDirective,
+  RetainFocusOnEscapeDirective,
   SpinnerComponent,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -71,6 +72,7 @@ import { CheckoutBillingAddressFormComponent } from '../../checkout-billing-addr
     NgTemplateOutlet,
     FeatureDirective,
     FocusDirective,
+    RetainFocusOnEscapeDirective,
     FormRequiredLegendComponent,
     FormsModule,
     ReactiveFormsModule,

@@ -7,6 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FocusDirective } from './focus.directive';
+import { RetainFocusOnEscapeDirective } from './escape/retain-focus-on-escape.directive';
 import { SkipFocusDirective } from './skip-focus.directive';
 
 const directives = [
@@ -19,6 +20,7 @@ const directives = [
   // TrapFocusDirective,
   // TabFocusDirective,
   FocusDirective,
+  RetainFocusOnEscapeDirective,
   SkipFocusDirective,
 ];
 
