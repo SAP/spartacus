@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { getRequestUrl } from '@spartacus/setup/ssr';
 import { RequestHandler } from 'express';
 import {
   BaseSiteResolver,
   ConcurrencyLimitError,
   OccUnavailableError,
 } from './base-site-resolver';
-import { getRequestUrl } from './request-url';
 
 /** Options for an Express handler backed by a base-site resolver. */
 export interface BaseSiteRequestHandlerOptions {
