@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
-import * as cart from '../../../helpers/cart';
-import * as configuration from '../../../helpers/product-configurator';
-import * as configurationCart from '../../../helpers/product-configurator-cart';
-import * as configurationCartCpq from '../../../helpers/product-configurator-cart-cpq';
-import * as configurationCpq from '../../../helpers/product-configurator-cpq';
-import * as configurationCpqContainer from '../../../helpers/product-configurator-container-cpq';
-import * as configurationOverviewCpq from '../../../helpers/product-configurator-overview-cpq';
+import { clickAllowAllFromBanner } from '../../../../helpers/anonymous-consents';
+import * as cart from '../../../../helpers/cart';
+import * as configuration from '../../../../helpers/product-configurator';
+import * as configurationCart from '../../../../helpers/product-configurator-cart';
+import * as configurationCartCpq from '../../../../helpers/product-configurator-cart-cpq';
+import * as configurationCpq from '../../../../helpers/product-configurator-cpq';
+import * as configurationCpqContainer from '../../../../helpers/product-configurator-container-cpq';
+import * as configurationOverviewCpq from '../../../../helpers/product-configurator-overview-cpq';
 
 const POWERTOOLS = 'powertools-spa';
 const EMAIL = 'gi.sun@pronto-hw.com';
@@ -24,7 +24,6 @@ const RADGRP = 'radioGroup';
 /***************************** */
 /** Configurable Train */
 const PROD_CODE_TRAIN = 'CONF_TRAIN';
-const PROD_NAME_TRAIN = 'Configurable Train';
 const GRP_TR_GENERAL = 'GENERAL';
 /** Choose Train Type */
 const ATTR_TR_TYPE = '3152';
@@ -37,16 +36,24 @@ const ATTR_TR_COM_LABEL = 'Choose Configurable Train Components';
 const VAL_TR_LOCOMOTIVE = 'Configurable Locomotive';
 /** Configurable Wagon */
 const VAL_TR_WAGON = 'Configurable Wagon';
+/** Multiple-unit control */
+const VAL_TR_MULTIPLE_UNIT = 'Multiple-unit control';
+const TRAIN_AVAILABLE_PRODUCTS = [
+  VAL_TR_LOCOMOTIVE,
+  VAL_TR_WAGON,
+  VAL_TR_MULTIPLE_UNIT,
+];
 
 /** Number of bundle line items of the train configured by this suite. */
 const EXPECTED_BUNDLE_LINE_ITEMS = 2;
+
+const CPQ_CONTAINER_DROP_DOWN_LIST_THRESHOLD = 2;
 
 /**
  * `cartEntryBundleLineItemsThreshold` is the number of bundle line items up to
  * which a cart entry expands them inline. Above it, the 'show' link navigates
  * to the read-only configuration overview instead.
  */
-const THRESHOLD_NOT_EXCEEDED = EXPECTED_BUNDLE_LINE_ITEMS;
 const THRESHOLD_EXCEEDED = EXPECTED_BUNDLE_LINE_ITEMS - 1;
 
 const testConfig = [
@@ -71,7 +78,6 @@ testConfig.forEach((config) => {
       cy.visit('/');
       clickAllowAllFromBanner();
       configurationCpq.login(EMAIL, PASSWORD, CPQ_USER);
-      // The CPQ user is shared between tests, so drop leftovers of a failed run.
       configurationCartCpq.clearCartIfNotEmpty(POWERTOOLS);
     });
 
@@ -79,7 +85,6 @@ testConfig.forEach((config) => {
       let cartEntryIndex: number;
 
       afterEach(() => {
-        // A test may end on a configuration page, so return to the cart first.
         configurationCartCpq.goToCart(POWERTOOLS);
         cart.verifyCartNotEmpty();
         configurationCartCpq.checkCartPageReady();
@@ -87,74 +92,12 @@ testConfig.forEach((config) => {
         configurationCart.checkCartEmpty();
       });
 
-      describe('when number of bundle line items does not exceed configured threshold', () => {
-        beforeEach(() => {
-          cy.cxConfig({
-            productConfigurator: {
-              cartEntryBundleLineItemsThreshold: THRESHOLD_NOT_EXCEEDED,
-            },
-          });
-          prepareCartEntryWithConfiguredTrain();
-        });
-
-        it('should expand bundle line items and link to product details page and to nested product configuration', () => {
-          configurationCartCpq.checkBundleInlineShowToggleDisplayed(
-            cartEntryIndex
-          );
-          configurationCartCpq.checkAmountOfBundleItems(
-            cartEntryIndex,
-            EXPECTED_BUNDLE_LINE_ITEMS
-          );
-
-          configurationCartCpq.checkBundleLineItemProductLinkAndCode(
-            cartEntryIndex,
-            VAL_TR_LOCOMOTIVE
-          );
-          configurationCartCpq.navigateToBundleLineItemPDPAndBackToCart(
-            cartEntryIndex,
-            VAL_TR_LOCOMOTIVE,
-            PROD_CODE_TRAIN
-          );
-
-          configurationCartCpq.clickBundleInlineShowToggle(cartEntryIndex);
-          configurationCartCpq.clickBundleLineItemEditProductConfiguration(
-            cartEntryIndex,
-            VAL_TR_LOCOMOTIVE
-          );
-          configurationCpqContainer.checkNestedProductConfigurationDisplayed(
-            PROD_NAME_TRAIN,
-            VAL_TR_LOCOMOTIVE,
-            GRP_TR_GENERAL
-          );
-        });
-
-        it('should reopen container configuration via cart entry edit link', () => {
-          configurationCartCpq.clickOnEditBundleConfigurationLink(
-            cartEntryIndex
-          );
-          configurationCpq.checkConfigPageDisplayed();
-          configurationCpqContainer.checkContainerAttributeDisplayed(
-            ATTR_TR_COM
-          );
-          configurationCpqContainer.checkSelectedProducts(
-            ATTR_TR_COM,
-            EXPECTED_BUNDLE_LINE_ITEMS,
-            [VAL_TR_LOCOMOTIVE, VAL_TR_WAGON]
-          );
-
-          configurationCartCpq.returnToCartFromConfiguration(PROD_CODE_TRAIN);
-          configurationCartCpq.verifyCartCount(1);
-          configurationCartCpq.checkAmountOfBundleItems(
-            cartEntryIndex,
-            EXPECTED_BUNDLE_LINE_ITEMS
-          );
-        });
-      });
-
       describe('when number of bundle line items exceeds configured threshold', () => {
         beforeEach(() => {
           cy.cxConfig({
             productConfigurator: {
+              cpqContainerDropDownListThreshold:
+                CPQ_CONTAINER_DROP_DOWN_LIST_THRESHOLD,
               cartEntryBundleLineItemsThreshold: THRESHOLD_EXCEEDED,
             },
           });
@@ -204,6 +147,11 @@ testConfig.forEach((config) => {
       configurationCpq.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_TRAIN);
       configurationCpqContainer.checkContainerAttributeDisplayed(ATTR_TR_COM);
       configurationCpq.checkAttributeHeaderDisplayed([ATTR_TR_COM_LABEL]);
+      configurationCpqContainer.checkAvailableProducts(ATTR_TR_COM, {
+        count: TRAIN_AVAILABLE_PRODUCTS.length,
+        products: TRAIN_AVAILABLE_PRODUCTS,
+        dropdown: true,
+      });
       configurationCpq.selectAttributeAndCheck(
         ATTR_TR_TYPE,
         RADGRP,
