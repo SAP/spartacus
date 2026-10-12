@@ -65,7 +65,7 @@ It's the `concurrency` property of the `SsrOptimizationOptions` defined in `serv
 
 The Node-only base-site API is exposed from the secondary entry point `@spartacus/setup/ssr/base-site`. Do not import these symbols from `@spartacus/setup/ssr`.
 
-Create one resolver when the server process starts. Prefer an explicitly configured OCC URL. For a production build, you can otherwise read the `occ-backend-base-url` meta tag from the generated browser index. `extractOccBaseUrlFromHtml()` returns `null` for a missing or empty tag and for the unsubstituted deployment placeholder.
+Create one resolver when the server process starts. For a production build, read the `occ-backend-base-url` meta tag from the generated browser index. `extractOccBaseUrlFromHtml()` returns `null` for a missing or empty tag and for the unsubstituted deployment placeholder.
 
 ```ts
 import {
@@ -79,11 +79,6 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 function resolveOccBaseUrl(browserDistFolder: string): string | null {
-  const configuredUrl = process.env['OCC_BASE_URL']?.trim();
-  if (configuredUrl) {
-    return configuredUrl;
-  }
-
   for (const fileName of ['index.csr.html', 'index.html']) {
     try {
       const url = extractOccBaseUrlFromHtml(
@@ -124,7 +119,7 @@ if (baseSiteResolver) {
 }
 ```
 
-Register the handler after origin validation and before static-file and catch-all handlers. The `trust proxy` setting is required so the resolver sees forwarded protocol and host values only when they come from a loopback proxy. If no OCC URL can be resolved at startup, log one warning, omit the `/base-site` handler, and continue serving the existing Angular SSR application unchanged.
+Register the handler after origin validation and before static-file and catch-all handlers. The handler uses the application's existing Express `trust proxy` configuration when resolving forwarded protocol and host values. Configure those trust rules for the deployment before registering the handler. If no OCC URL can be resolved at startup, log one warning, omit the `/base-site` handler, and continue serving the existing Angular SSR application unchanged.
 
 The default resolver uses `/occ/v2`, a 60-second cache, a cold-cache concurrency limit of 10, a 3-second OCC timeout, and no fallback base site. The request handler returns `text/plain` and maps concurrency and OCC failures to HTTP 503 with `Retry-After` values of 3 and 25 seconds respectively. Override these defaults when needed:
 

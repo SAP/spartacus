@@ -34,7 +34,6 @@ const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
 const baseSiteResolver = createStorefrontBaseSiteResolver({
-  configuredOccBaseUrl: environment.occBaseUrl,
   indexHtmlPaths: [
     join(browserDistFolder, 'index.csr.html'),
     join(browserDistFolder, 'index.html'),
