@@ -179,15 +179,6 @@ export interface FeatureTogglesInterface {
   enablePasswordExpiredErrorTranslation?: boolean;
 
   /**
-   * shows the Quote Purchase Order Number input field in the Quote Request form
-   * and in the Quote Details page
-   *
-   * when set to `true`, the user will be able to enter a Purchase Order Number
-   * when requesting a quote and see it in the quote details
-   */
-  enableQuotePurchaseOrderNumber?: boolean;
-
-  /**
    * When enabled, the media prefix from the backend config will be used
    * when constructing media URLs in the MediaService.
    * Affects: `MediaService`
@@ -917,7 +908,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   authorizationCodeFlowByDefault: true,
   authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
   enablePasswordExpiredErrorTranslation: true,
-  enableQuotePurchaseOrderNumber: true,
   enableMediaPrefix: true,
   a11yCustomerTicketingVisualFocusFix: true,
   a11yMessagingListKeyboardFocus: false,
