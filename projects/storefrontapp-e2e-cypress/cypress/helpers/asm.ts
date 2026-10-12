@@ -413,10 +413,12 @@ export function asmCustomerLists(): void {
   cy.get('cx-customer-list ng-select.customer-list-selector').then(
     (selects) => {
       let select = selects[0];
+      // ng-select@24 opens on `mousedown` of the arrow (not `click`); panel is
+      // in a CDK overlay, queried from the document root.
       cy.wrap(select)
-        .click()
-        .get('ng-dropdown-panel')
-        .get('.ng-option')
+        .find('.ng-arrow-wrapper')
+        .trigger('mousedown', { which: 1, button: 0 });
+      cy.get('ng-dropdown-panel .ng-option', { withinSubject: null })
         .eq(1)
         .then((item) => {
           cy.wrap(item).click();
@@ -497,10 +499,12 @@ export function asmB2bCustomerLists(): void {
   cy.get('cx-customer-list ng-select.customer-list-selector').then(
     (selects) => {
       let select = selects[0];
+      // ng-select@24 opens on `mousedown` of the arrow (not `click`); panel is
+      // in a CDK overlay, queried from the document root.
       cy.wrap(select)
-        .click()
-        .get('ng-dropdown-panel')
-        .get('.ng-option')
+        .find('.ng-arrow-wrapper')
+        .trigger('mousedown', { which: 1, button: 0 });
+      cy.get('ng-dropdown-panel .ng-option', { withinSubject: null })
         .eq(1)
         .then((item) => {
           cy.wrap(item).click();
@@ -519,10 +523,12 @@ export function asmB2bCustomerLists(): void {
   cy.get('cx-customer-list ng-select.customer-list-selector').then(
     (selects) => {
       let select = selects[0];
+      // ng-select@24 opens on `mousedown` of the arrow (not `click`); panel is
+      // in a CDK overlay, queried from the document root.
       cy.wrap(select)
-        .click()
-        .get('ng-dropdown-panel')
-        .get('.ng-option')
+        .find('.ng-arrow-wrapper')
+        .trigger('mousedown', { which: 1, button: 0 });
+      cy.get('ng-dropdown-panel .ng-option', { withinSubject: null })
         .eq(1)
         .then((item) => {
           cy.wrap(item).click();
@@ -573,10 +579,12 @@ export function asmB2bCustomerListPagination(): void {
   cy.get('cx-customer-list ng-select.customer-list-selector').then(
     (selects) => {
       let select = selects[0];
+      // ng-select@24 opens on `mousedown` of the arrow (not `click`); panel is
+      // in a CDK overlay, queried from the document root.
       cy.wrap(select)
-        .click()
-        .get('ng-dropdown-panel')
-        .get('.ng-option')
+        .find('.ng-arrow-wrapper')
+        .trigger('mousedown', { which: 1, button: 0 });
+      cy.get('ng-dropdown-panel .ng-option', { withinSubject: null })
         .eq(1)
         .then((item) => {
           cy.wrap(item).click();
@@ -609,10 +617,12 @@ export function asmCustomerListPagination(): void {
   cy.get('cx-customer-list ng-select.customer-list-selector').then(
     (selects) => {
       let select = selects[0];
+      // ng-select@24 opens on `mousedown` of the arrow (not `click`); panel is
+      // in a CDK overlay, queried from the document root.
       cy.wrap(select)
-        .click()
-        .get('ng-dropdown-panel')
-        .get('.ng-option')
+        .find('.ng-arrow-wrapper')
+        .trigger('mousedown', { which: 1, button: 0 });
+      cy.get('ng-dropdown-panel .ng-option', { withinSubject: null })
         .eq(1)
         .then((item) => {
           cy.wrap(item).click();
