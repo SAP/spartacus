@@ -4,14 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
-import * as cart from '../../../helpers/cart';
-import * as configuration from '../../../helpers/product-configurator';
-import * as configurationCart from '../../../helpers/product-configurator-cart';
-import * as configurationCartCpq from '../../../helpers/product-configurator-cart-cpq';
-import * as configurationCpq from '../../../helpers/product-configurator-cpq';
-import * as configurationCpqContainer from '../../../helpers/product-configurator-container-cpq';
-import * as configurationOverviewCpq from '../../../helpers/product-configurator-overview-cpq';
+import { clickAllowAllFromBanner } from '../../../../helpers/anonymous-consents';
+import * as cart from '../../../../helpers/cart';
+import * as configuration from '../../../../helpers/product-configurator';
+import * as configurationCart from '../../../../helpers/product-configurator-cart';
+import * as configurationCartCpq from '../../../../helpers/product-configurator-cart-cpq';
+import * as configurationCpq from '../../../../helpers/product-configurator-cpq';
+import * as configurationCpqContainer from '../../../../helpers/product-configurator-container-cpq';
 
 const POWERTOOLS = 'powertools-spa';
 const EMAIL = 'gi.sun@pronto-hw.com';
@@ -40,14 +39,6 @@ const VAL_TR_WAGON = 'Configurable Wagon';
 
 /** Number of bundle line items of the train configured by this suite. */
 const EXPECTED_BUNDLE_LINE_ITEMS = 2;
-
-/**
- * `cartEntryBundleLineItemsThreshold` is the number of bundle line items up to
- * which a cart entry expands them inline. Above it, the 'show' link navigates
- * to the read-only configuration overview instead.
- */
-const THRESHOLD_NOT_EXCEEDED = EXPECTED_BUNDLE_LINE_ITEMS;
-const THRESHOLD_EXCEEDED = EXPECTED_BUNDLE_LINE_ITEMS - 1;
 
 const testConfig = [
   {
@@ -87,13 +78,8 @@ testConfig.forEach((config) => {
         configurationCart.checkCartEmpty();
       });
 
-      describe('when number of bundle line items does not exceed configured threshold', () => {
+      describe('with default cart entry bundle line items threshold', () => {
         beforeEach(() => {
-          cy.cxConfig({
-            productConfigurator: {
-              cartEntryBundleLineItemsThreshold: THRESHOLD_NOT_EXCEEDED,
-            },
-          });
           prepareCartEntryWithConfiguredTrain();
         });
 
@@ -145,35 +131,6 @@ testConfig.forEach((config) => {
           configurationCartCpq.returnToCartFromConfiguration(PROD_CODE_TRAIN);
           configurationCartCpq.verifyCartCount(1);
           configurationCartCpq.checkAmountOfBundleItems(
-            cartEntryIndex,
-            EXPECTED_BUNDLE_LINE_ITEMS
-          );
-        });
-      });
-
-      describe('when number of bundle line items exceeds configured threshold', () => {
-        beforeEach(() => {
-          cy.cxConfig({
-            productConfigurator: {
-              cartEntryBundleLineItemsThreshold: THRESHOLD_EXCEEDED,
-            },
-          });
-          prepareCartEntryWithConfiguredTrain();
-        });
-
-        it('should navigate to overview', () => {
-          configurationCartCpq.checkBundleOverviewLink(
-            cartEntryIndex,
-            EXPECTED_BUNDLE_LINE_ITEMS
-          );
-          configurationCartCpq.clickOnBundleOverviewLink(cartEntryIndex);
-          cy.wait('@readConfig');
-          configurationOverviewCpq.checkDisplayOnlyOverviewFromCartDisplayed();
-
-          configurationOverviewCpq.clickBackToCartBtnOnOP();
-          configurationCartCpq.checkCartPageReady();
-          configurationCartCpq.waitForCartEntryBundleInfo(PROD_CODE_TRAIN);
-          configurationCartCpq.checkBundleOverviewLink(
             cartEntryIndex,
             EXPECTED_BUNDLE_LINE_ITEMS
           );
