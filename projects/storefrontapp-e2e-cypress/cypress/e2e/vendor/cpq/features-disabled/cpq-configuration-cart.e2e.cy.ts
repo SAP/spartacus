@@ -62,7 +62,6 @@ testConfig.forEach((config) => {
       cy.visit('/');
       clickAllowAllFromBanner();
       configurationCpq.login(EMAIL, PASSWORD, CPQ_USER);
-      // The CPQ user is shared between tests, so drop leftovers of a failed run.
       configurationCartCpq.clearCartIfNotEmpty(POWERTOOLS);
     });
 
@@ -70,7 +69,6 @@ testConfig.forEach((config) => {
       let cartEntryIndex: number;
 
       afterEach(() => {
-        // A test may end on a configuration page, so return to the cart first.
         configurationCartCpq.goToCart(POWERTOOLS);
         cart.verifyCartNotEmpty();
         configurationCartCpq.checkCartPageReady();

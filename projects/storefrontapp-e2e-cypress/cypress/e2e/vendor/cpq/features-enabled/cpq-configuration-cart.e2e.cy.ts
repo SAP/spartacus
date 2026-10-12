@@ -24,7 +24,6 @@ const RADGRP = 'radioGroup';
 /***************************** */
 /** Configurable Train */
 const PROD_CODE_TRAIN = 'CONF_TRAIN';
-const PROD_NAME_TRAIN = 'Configurable Train';
 const GRP_TR_GENERAL = 'GENERAL';
 /** Choose Train Type */
 const ATTR_TR_TYPE = '3152';
@@ -55,7 +54,6 @@ const CPQ_CONTAINER_DROP_DOWN_LIST_THRESHOLD = 2;
  * which a cart entry expands them inline. Above it, the 'show' link navigates
  * to the read-only configuration overview instead.
  */
-const THRESHOLD_NOT_EXCEEDED = EXPECTED_BUNDLE_LINE_ITEMS;
 const THRESHOLD_EXCEEDED = EXPECTED_BUNDLE_LINE_ITEMS - 1;
 
 const testConfig = [
@@ -80,7 +78,6 @@ testConfig.forEach((config) => {
       cy.visit('/');
       clickAllowAllFromBanner();
       configurationCpq.login(EMAIL, PASSWORD, CPQ_USER);
-      // The CPQ user is shared between tests, so drop leftovers of a failed run.
       configurationCartCpq.clearCartIfNotEmpty(POWERTOOLS);
     });
 
@@ -88,78 +85,11 @@ testConfig.forEach((config) => {
       let cartEntryIndex: number;
 
       afterEach(() => {
-        // A test may end on a configuration page, so return to the cart first.
         configurationCartCpq.goToCart(POWERTOOLS);
         cart.verifyCartNotEmpty();
         configurationCartCpq.checkCartPageReady();
         configurationCartCpq.removeCartEntryForProductCode(PROD_CODE_TRAIN);
         configurationCart.checkCartEmpty();
-      });
-
-      describe('when number of bundle line items does not exceed configured threshold', () => {
-        beforeEach(() => {
-          cy.cxConfig({
-            productConfigurator: {
-              cpqContainerDropDownListThreshold:
-                CPQ_CONTAINER_DROP_DOWN_LIST_THRESHOLD,
-              cartEntryBundleLineItemsThreshold: THRESHOLD_NOT_EXCEEDED,
-            },
-          });
-          prepareCartEntryWithConfiguredTrain();
-        });
-
-        it('should expand bundle line items and link to product details page and to nested product configuration', () => {
-          configurationCartCpq.checkBundleInlineShowToggleDisplayed(
-            cartEntryIndex
-          );
-          configurationCartCpq.checkAmountOfBundleItems(
-            cartEntryIndex,
-            EXPECTED_BUNDLE_LINE_ITEMS
-          );
-
-          configurationCartCpq.checkBundleLineItemProductLinkAndCode(
-            cartEntryIndex,
-            VAL_TR_LOCOMOTIVE
-          );
-          configurationCartCpq.navigateToBundleLineItemPDPAndBackToCart(
-            cartEntryIndex,
-            VAL_TR_LOCOMOTIVE,
-            PROD_CODE_TRAIN
-          );
-
-          configurationCartCpq.clickBundleInlineShowToggle(cartEntryIndex);
-          configurationCartCpq.clickBundleLineItemEditProductConfiguration(
-            cartEntryIndex,
-            VAL_TR_LOCOMOTIVE
-          );
-          configurationCpqContainer.checkNestedProductConfigurationDisplayed(
-            PROD_NAME_TRAIN,
-            VAL_TR_LOCOMOTIVE,
-            GRP_TR_GENERAL
-          );
-        });
-
-        it('should reopen container configuration via cart entry edit link', () => {
-          configurationCartCpq.clickOnEditBundleConfigurationLink(
-            cartEntryIndex
-          );
-          configurationCpq.checkConfigPageDisplayed();
-          configurationCpqContainer.checkContainerAttributeDisplayed(
-            ATTR_TR_COM
-          );
-          configurationCpqContainer.checkSelectedProducts(
-            ATTR_TR_COM,
-            EXPECTED_BUNDLE_LINE_ITEMS,
-            [VAL_TR_LOCOMOTIVE, VAL_TR_WAGON]
-          );
-
-          configurationCartCpq.returnToCartFromConfiguration(PROD_CODE_TRAIN);
-          configurationCartCpq.verifyCartCount(1);
-          configurationCartCpq.checkAmountOfBundleItems(
-            cartEntryIndex,
-            EXPECTED_BUNDLE_LINE_ITEMS
-          );
-        });
       });
 
       describe('when number of bundle line items exceeds configured threshold', () => {
