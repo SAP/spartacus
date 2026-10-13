@@ -165,6 +165,7 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
 
   const mockActiveCartFacade = {
     hasDeliveryItems: jasmine.createSpy('hasDeliveryItems'),
+    isStable: jasmine.createSpy('isStable'),
   };
 
   beforeEach(async () => {
@@ -231,6 +232,8 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
     opfMetadataStoreService = TestBed.inject(OpfMetadataStoreService);
 
     mockActiveCartFacade.hasDeliveryItems.calls.reset();
+    mockActiveCartFacade.isStable.calls.reset();
+    mockActiveCartFacade.isStable.and.returnValue(of(true));
     mockCheckoutDeliveryAddressFacade.clearCheckoutDeliveryAddress.calls.reset();
     mockCheckoutDeliveryModesFacade.setDeliveryMode.calls.reset();
   });
@@ -293,6 +296,7 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
     expect(updateSpy).toHaveBeenCalledWith({
       termsAndConditionsChecked: false,
     });
+    expect(mockActiveCartFacade.isStable).toHaveBeenCalled();
     expect(mockActiveCartFacade.hasDeliveryItems).toHaveBeenCalled();
   });
 
@@ -336,6 +340,7 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
 
     component.setPickupDeliveryMode();
 
+    expect(mockActiveCartFacade.isStable).toHaveBeenCalled();
     expect(mockActiveCartFacade.hasDeliveryItems).toHaveBeenCalled();
     expect(
       mockCheckoutDeliveryAddressFacade.clearCheckoutDeliveryAddress
@@ -349,6 +354,7 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
 
     component.setPickupDeliveryMode();
 
+    expect(mockActiveCartFacade.isStable).toHaveBeenCalled();
     expect(mockActiveCartFacade.hasDeliveryItems).toHaveBeenCalled();
     expect(
       mockCheckoutDeliveryAddressFacade.clearCheckoutDeliveryAddress
@@ -371,6 +377,7 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
 
     component.setPickupDeliveryMode();
 
+    expect(mockActiveCartFacade.isStable).toHaveBeenCalled();
     expect(completionSpy).toHaveBeenCalled();
     expect(
       mockCheckoutDeliveryAddressFacade.clearCheckoutDeliveryAddress
