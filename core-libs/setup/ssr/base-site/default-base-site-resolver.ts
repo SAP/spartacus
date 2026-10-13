@@ -23,8 +23,8 @@ interface FetchedBaseSites {
 }
 
 export class DefaultBaseSiteResolver implements BaseSiteResolver {
-  private readonly occUrl: string;
-  private readonly defaultBaseSite: string | null;
+  private readonly staticSites: OccBaseSite[] | null;
+  private readonly occUrl: string | null;
   private readonly cacheTtlMs: number;
   private readonly concurrencyLimit: number;
   private readonly timeoutMs: number;
@@ -35,13 +35,22 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
   private inFlight = 0;
 
   constructor(options: DefaultBaseSiteResolverOptions) {
-    const baseUrl = options.occBaseUrl.replace(/\/+$/, '');
-    const prefix = (options.occApiPrefix ?? '/occ/v2').replace(
-      /^\/+|\/+$/g,
-      ''
-    );
-    this.occUrl = `${baseUrl}/${prefix}/basesites?fields=FULL`;
-    this.defaultBaseSite = options.defaultBaseSite ?? null;
+    if (options.baseSites) {
+      this.staticSites = options.baseSites;
+      this.occUrl = null;
+    } else if (options.occBaseUrl) {
+      const baseUrl = options.occBaseUrl.replace(/\/+$/, '');
+      const prefix = (options.occApiPrefix ?? '/occ/v2').replace(
+        /^\/+|\/+$/g,
+        ''
+      );
+      this.staticSites = null;
+      this.occUrl = `${baseUrl}/${prefix}/basesites?fields=FULL`;
+    } else {
+      throw new Error(
+        'DefaultBaseSiteResolver requires either a static `baseSites` list or an `occBaseUrl`.'
+      );
+    }
     this.cacheTtlMs = options.cacheTtlMs ?? 60_000;
     this.concurrencyLimit = options.concurrencyLimit ?? 10;
     this.timeoutMs = options.timeoutMs ?? 3_000;
@@ -55,10 +64,14 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
       )
     );
 
-    return matchedSite?.uid ?? this.defaultBaseSite;
+    return matchedSite?.uid ?? null;
   }
 
   private async getSites(): Promise<OccBaseSite[]> {
+    if (this.staticSites) {
+      return this.staticSites;
+    }
+
     if (
       this.cachedSites !== null &&
       Date.now() - this.cachedAt < this.cacheTtlMs
@@ -92,11 +105,15 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
   }
 
   private async fetchSites(): Promise<FetchedBaseSites> {
+    const occUrl = this.occUrl;
+    if (!occUrl) {
+      throw new OccUnavailableError('OCC base URL is not configured');
+    }
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), this.timeoutMs);
 
     try {
-      const response = await fetch(this.occUrl, {
+      const response = await fetch(occUrl, {
         headers: { Accept: 'application/json' },
         signal: controller.signal,
       });

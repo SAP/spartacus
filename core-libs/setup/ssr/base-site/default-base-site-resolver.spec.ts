@@ -90,21 +90,18 @@ describe('DefaultBaseSiteResolver', () => {
     );
   });
 
-  it('returns the configured default when no pattern matches', async () => {
+  it('returns null when no pattern matches', async () => {
     fetchSpy.mockResolvedValue(
       occResponse([{ uid: 'other', urlPatterns: ['^https://other'] }])
     );
     const resolver = new DefaultBaseSiteResolver({
       occBaseUrl: 'https://api.example',
-      defaultBaseSite: 'fallback',
     });
 
-    await expect(resolver.resolve('https://shop.example/')).resolves.toBe(
-      'fallback'
-    );
+    await expect(resolver.resolve('https://shop.example/')).resolves.toBeNull();
   });
 
-  it('returns null when no pattern matches and no default is configured', async () => {
+  it('returns null for an empty base-sites payload', async () => {
     fetchSpy.mockResolvedValue(occResponse([]));
     const resolver = new DefaultBaseSiteResolver({
       occBaseUrl: 'https://api.example',
@@ -113,7 +110,7 @@ describe('DefaultBaseSiteResolver', () => {
     await expect(resolver.resolve('https://shop.example/')).resolves.toBeNull();
   });
 
-  it('uses the configured default without caching an omitted baseSites payload', async () => {
+  it('does not cache an omitted baseSites payload', async () => {
     fetchSpy
       .mockResolvedValueOnce(occResponse())
       .mockResolvedValueOnce(
@@ -121,16 +118,35 @@ describe('DefaultBaseSiteResolver', () => {
       );
     const resolver = new DefaultBaseSiteResolver({
       occBaseUrl: 'https://api.example',
-      defaultBaseSite: 'fallback',
     });
 
-    await expect(resolver.resolve('https://shop.example/')).resolves.toBe(
-      'fallback'
-    );
+    await expect(
+      resolver.resolve('https://shop.example/')
+    ).resolves.toBeNull();
     await expect(resolver.resolve('https://shop.example/')).resolves.toBe(
       'site'
     );
     expect(fetchSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it('matches a static base-site list and never calls OCC', async () => {
+    const resolver = new DefaultBaseSiteResolver({
+      baseSites: [
+        { uid: 'wrong', urlPatterns: ['^https://wrong\\.example'] },
+        {
+          uid: 'electronics-spa',
+          urlPatterns: ['(?i)^https://shop\\.example/electronics'],
+        },
+      ],
+    });
+
+    await expect(
+      resolver.resolve('https://shop.example/electronics/en/USD')
+    ).resolves.toBe('electronics-spa');
+    await expect(
+      resolver.resolve('https://shop.example/other')
+    ).resolves.toBeNull();
+    expect(fetchSpy).not.toHaveBeenCalled();
   });
 
   it('rejects a malformed payload without poisoning the cache', async () => {
