@@ -122,10 +122,7 @@ describe('StoreFinderStoresCountComponent feature toggle registration', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterModule.forRoot([]),
-        StoreFinderStoresCountComponent,
-      ],
+      imports: [RouterModule.forRoot([]), StoreFinderStoresCountComponent],
       providers: [
         { provide: StoreFinderService, useClass: MockStoreFinderService },
         { provide: FeatureStylesService, useClass: MockFeatureStylesService },
