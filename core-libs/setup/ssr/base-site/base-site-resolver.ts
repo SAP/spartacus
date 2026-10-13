@@ -4,14 +4,26 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/** Options for the default OCC-backed base-site resolver. */
+/** A statically configured base site, matched exactly like an OCC base site. */
+export interface StaticBaseSite {
+  uid: string;
+  urlPatterns: string[];
+}
+
+/** Options for the default base-site resolver. */
 export interface DefaultBaseSiteResolverOptions {
-  /** OCC backend base URL, for example `https://api.example.com`. */
-  occBaseUrl: string;
+  /**
+   * Authoritative, statically configured base-site list. When provided, the
+   * resolver matches against it in memory and never calls OCC.
+   */
+  baseSites?: StaticBaseSite[];
+  /**
+   * OCC backend base URL, for example `https://api.example.com`. Required
+   * unless a static `baseSites` list is provided.
+   */
+  occBaseUrl?: string;
   /** OCC API prefix. Default: `/occ/v2`. */
   occApiPrefix?: string;
-  /** Value returned when no base-site URL pattern matches. Default: `null`. */
-  defaultBaseSite?: string | null;
   /** In-memory base-sites cache lifetime in milliseconds. Default: `60_000`. */
   cacheTtlMs?: number;
   /**

@@ -13,12 +13,14 @@ import {
   ngExpressEngine as engine,
   getOriginValidationMiddleware,
 } from '@spartacus/setup/ssr';
-import { createBaseSiteRequestHandler } from '@spartacus/setup/ssr/base-site';
+import {
+  createBaseSiteRequestHandler,
+  setDefaultBaseSiteResolver,
+} from '@spartacus/setup/ssr/base-site';
 import express from 'express';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'path';
-import { defaultBaseSiteId } from './app/spartacus/base-site.config';
 import { createStorefrontBaseSiteResolver } from './base-site-resolver';
 import { environment } from './environments/environment';
 import bootstrap from './main.server';
@@ -39,13 +41,21 @@ const baseSiteResolver = createStorefrontBaseSiteResolver({
     join(browserDistFolder, 'index.html'),
   ],
   readFile: (path) => readFileSync(path, 'utf-8'),
-  defaultBaseSite: defaultBaseSiteId,
   occApiPrefix: environment.occApiPrefix,
   warn: (message) => {
     // eslint-disable-next-line no-console
     console.warn(message);
   },
 });
+setDefaultBaseSiteResolver(baseSiteResolver);
+
+/** Renders a per-site llm.txt body; a `null` base site yields a general document. */
+function renderLlmTxt(baseSite: string | null): string {
+  if (!baseSite) {
+    return '# llm.txt\n> General LLM guidance for all sites on this origin.\n';
+  }
+  return `# llm.txt\n> Site: ${baseSite}\n`;
+}
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -75,12 +85,14 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
+  // Serves a per-site llm.txt. Registered before the static handler because
+  // `/llm.txt` carries a dot and would otherwise be caught by the static route.
   if (baseSiteResolver) {
     server.get(
-      '/base-site',
+      /\/llm\.txt$/,
       createBaseSiteRequestHandler({
-        resolver: baseSiteResolver,
-        render: (baseSite) => baseSite ?? '',
+        canonicalPath: '/llm.txt',
+        render: renderLlmTxt,
       })
     );
   }
