@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { EMPTY, of } from 'rxjs';
 import { ConfigInitializerService } from '../../config';

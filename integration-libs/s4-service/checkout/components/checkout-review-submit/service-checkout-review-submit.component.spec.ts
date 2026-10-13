@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -47,10 +47,9 @@ import {
   PromotionsModule,
 } from '@spartacus/storefront';
 import { IconTestingModule } from 'core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, firstValueFrom, of } from 'rxjs';
 import { ServiceCheckoutReviewSubmitComponent } from './service-checkout-review-submit.component';
 
-import createSpy = jasmine.createSpy;
 const mockServiceDeliveryModeConfig: S4ServiceDeliveryModeConfig = {
   s4ServiceDeliveryMode: {
     code: 'fast-service',
@@ -140,7 +139,7 @@ class MockCheckoutDeliveryAddressService
 class MockCheckoutDeliveryModesService
   implements Partial<CheckoutDeliveryModesFacade>
 {
-  loadSupportedDeliveryModes = createSpy();
+  loadSupportedDeliveryModes = vi.fn();
   getSelectedDeliveryModeState(): Observable<
     QueryState<DeliveryMode | undefined>
   > {
@@ -263,7 +262,7 @@ describe('ServiceCheckoutReviewSubmitComponent', () => {
   let component: ServiceCheckoutReviewSubmitComponent;
   let fixture: ComponentFixture<ServiceCheckoutReviewSubmitComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -330,7 +329,7 @@ describe('ServiceCheckoutReviewSubmitComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ServiceCheckoutReviewSubmitComponent);
@@ -510,21 +509,21 @@ describe('ServiceCheckoutReviewSubmitComponent', () => {
       expect(card.textBold).toEqual('paymentTypes.paymentType_test-account');
     });
   });
-  it('should call getServiceDetailsCard() to get service details', (done) => {
-    component.getServiceDetailsCard(mockScheduledAt).subscribe((card) => {
-      expect(card.title).toEqual('serviceOrderCheckout.serviceDetails');
-      expect(card.textBold).toEqual('27/06/2024');
-      expect(card.text).toEqual(['09:30']);
-      done();
-    });
+  it('should call getServiceDetailsCard() to get service details', async () => {
+    const card = await firstValueFrom(
+      component.getServiceDetailsCard(mockScheduledAt)
+    );
+    expect(card.title).toEqual('serviceOrderCheckout.serviceDetails');
+    expect(card.textBold).toEqual('27/06/2024');
+    expect(card.text).toEqual(['09:30']);
   });
-  it('should call getServiceDetailsCard() to get service details and return empty card if scheduledAt is empty', (done) => {
-    component.getServiceDetailsCard(undefined).subscribe((card) => {
-      expect(card.title).toEqual('serviceOrderCheckout.serviceDetails');
-      expect(card.textBold).toEqual('');
-      expect(card.text).toEqual(['']);
-      done();
-    });
+  it('should call getServiceDetailsCard() to get service details and return empty card if scheduledAt is empty', async () => {
+    const card = await firstValueFrom(
+      component.getServiceDetailsCard(undefined)
+    );
+    expect(card.title).toEqual('serviceOrderCheckout.serviceDetails');
+    expect(card.textBold).toEqual('');
+    expect(card.text).toEqual(['']);
   });
 
   it('should get checkout step url', () => {

@@ -3,7 +3,6 @@ import { Store, StoreModule } from '@ngrx/store';
 import { Cart, CartType } from '@spartacus/cart/base/root';
 import { UserIdService } from '@spartacus/core';
 import { firstValueFrom, of } from 'rxjs';
-import { vi } from 'vitest';
 import { CartActions } from '../store/actions';
 import {
   MULTI_CART_FEATURE,

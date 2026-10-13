@@ -10,7 +10,6 @@ import {
   StrategyResponse,
 } from '@spartacus/cds';
 import { EMPTY, Observable, of } from 'rxjs';
-import { vi } from 'vitest';
 
 const CONSENT_REFERENCE = '75b75543-950f-4e53-a36c-ab8737a0974a';
 const STRATEGY_ID = 'test-strategy-id';

@@ -15,7 +15,6 @@ import {
 } from '@spartacus/core';
 import { FacetList, FacetService } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
-import { vi } from 'vitest';
 
 const consentReference = '75b75543-950f-4e53-a36c-ab8737a0974a';
 const emptyPageSearchResults: ProductSearchPage = {};

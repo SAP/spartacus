@@ -4,7 +4,6 @@ import {
   ComponentFactoryResolver,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { vi } from 'vitest';
 import { LayoutConfig } from '../../config/layout-config';
 import { LAUNCH_CALLER, LaunchInlineRootDialog } from '../config';
 import { InlineRootRenderStrategy } from './inline-root-render.strategy';

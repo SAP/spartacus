@@ -1,7 +1,6 @@
 import { backOff } from './back-off';
 import { BehaviorSubject, defer, firstValueFrom, of, throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { vi } from 'vitest';
 import { HttpErrorModel } from '../../model/misc.model';
 import { isJaloError } from '../occ-http-error-handlers';
 

@@ -5,7 +5,6 @@ import { Observable, Subscription, of } from 'rxjs';
 import { ConfiguratorCartService } from '../configurator-cart.service';
 import { ConfiguratorRouterListener } from './configurator-router.listener';
 import { ConfiguratorQuantityService } from '../../services/configurator-quantity.service';
-import { vi } from 'vitest';
 
 const QUANTITY = 99;
 class MockConfiguratorCartService {

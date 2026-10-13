@@ -47,7 +47,6 @@ import {
   ConfiguratorAttributeQuantityComponentOptions,
 } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurator-attribute-multi-selection-bundle.component';
-import { vi } from 'vitest';
 
 @Component({
   selector: 'cx-configurator-attribute-product-card',

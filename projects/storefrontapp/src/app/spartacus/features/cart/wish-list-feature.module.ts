@@ -19,6 +19,16 @@ import {
 } from '@spartacus/cart/wish-list/root';
 import { I18nConfig, provideConfig } from '@spartacus/core';
 
+/**
+ * Wish List feature module using the legacy SavedCart-based API (V1).
+ *
+ * For new installations, use WishListV2FeatureModule instead, which uses the
+ * dedicated Wishlist OCC API (/wishlists) available since SAP Commerce Cloud
+ * 2211-jdk21.9. This module is retained for existing customers who have not
+ * yet migrated.
+ *
+ * @see https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/eaef8c61b6d9477daf75bff9ac1b7eb4/f33ee8045a28487f87bddcef9b56557a.html
+ */
 @NgModule({
   imports: [WishListRootModule],
   providers: [

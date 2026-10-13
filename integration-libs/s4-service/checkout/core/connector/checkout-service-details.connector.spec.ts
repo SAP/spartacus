@@ -1,16 +1,14 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom, of } from 'rxjs';
 import { CheckoutServiceDetailsAdapter } from './checkout-service-details.adapter';
 import { CheckoutServiceDetailsConnector } from './checkout-service-details.connector';
 import { ServiceDetails } from '@spartacus/s4-service/root';
-import createSpy = jasmine.createSpy;
 
 class MockServiceDetailsAdapter
   implements Partial<CheckoutServiceDetailsAdapter>
 {
-  setServiceScheduleSlot = createSpy().and.returnValue(of([]));
+  setServiceScheduleSlot = vi.fn().mockReturnValue(of([]));
 }
 
 describe('CheckoutServiceDetailsConnector', () => {
@@ -42,15 +40,14 @@ describe('CheckoutServiceDetailsConnector', () => {
     expect(service).toBeTruthy();
   });
 
-  it('setServiceScheduleSlot should call adapter', () => {
-    service
-      .setServiceScheduleSlot(
+  it('setServiceScheduleSlot should call adapter', async () => {
+    await firstValueFrom(
+      service.setServiceScheduleSlot(
         'userId',
         'cartId',
         'dd/mm/yyyy' as ServiceDetails
       )
-      .pipe(take(1))
-      .subscribe();
+    );
     expect(adapter.setServiceScheduleSlot).toHaveBeenCalledWith(
       'userId',
       'cartId',

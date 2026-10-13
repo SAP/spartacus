@@ -3,7 +3,6 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { vi } from 'vitest';
 import { OccStoreFinderAdapter } from './occ-store-finder.adapter';
 import {
   BaseOccUrlProperties,

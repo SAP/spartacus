@@ -9,7 +9,6 @@ import {
   SubscriptionCancellationDetails,
   SubscriptionWithdraw as Withdrawal,
 } from '@spartacus/subscription-billing/root';
-import { vi } from 'vitest';
 
 describe('OccSubscriptionActionsAdapter', () => {
   let adapter: OccSubscriptionActionsAdapter;

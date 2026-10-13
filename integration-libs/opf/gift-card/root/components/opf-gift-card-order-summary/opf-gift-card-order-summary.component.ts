@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { CommonModule, NgIf } from '@angular/common';
-import { Component, Input, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 import { I18nModule, RoutingService, TranslatePipe } from '@spartacus/core';
 import { map } from 'rxjs';
 
@@ -17,6 +22,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'cx-opf-gift-card-order-summary',
   templateUrl: './opf-gift-card-order-summary.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     NgIf,

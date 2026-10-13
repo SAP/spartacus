@@ -49,6 +49,7 @@ describe('OpfGiftCardAppliedComponent', () => {
 
     mockPaymentEventsService = jasmine.createSpyObj('OpfPaymentEventsService', [
       'emitReinitiatePaymentEvent',
+      'emitRefreshActiveConfigurationsEvent',
     ]);
 
     await TestBed.configureTestingModule({
@@ -96,6 +97,16 @@ describe('OpfGiftCardAppliedComponent', () => {
 
     expect(
       mockPaymentEventsService.emitReinitiatePaymentEvent
+    ).toHaveBeenCalled();
+  });
+
+  it('should emit refreshActiveConfigurationsEvent after removing gift card', () => {
+    mockGiftCardFacade.removeGiftCard.and.returnValue(of(void 0));
+
+    component.removeGiftCard('GC1');
+
+    expect(
+      mockPaymentEventsService.emitRefreshActiveConfigurationsEvent
     ).toHaveBeenCalled();
   });
 

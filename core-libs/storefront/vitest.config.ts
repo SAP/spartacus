@@ -36,6 +36,7 @@ export default defineConfig({
   test: {
     pool: 'forks',
     watch: false,
+    restoreMocks: true,
     globals: true,
     environment: 'jsdom',
     setupFiles: ['../../testing/setup-vitest.ts'],
@@ -44,10 +45,22 @@ export default defineConfig({
       tsconfig: `${import.meta.dirname}/tsconfig.spec.json`,
     },
     coverage: {
+      enabled: true,
       provider: 'v8',
-      reporter: ['lcov'],
+      reporter: ['text-summary', 'html', 'lcov'],
       reportsDirectory: `${import.meta.dirname}/../../coverage/storefront`,
-      exclude: ['**/public_api.ts', '**/index.ts', '**/*.module.ts'],
+      include: ['**/*.ts'],
+      exclude: [
+        '**/*.spec.ts',
+        '**/public_api.ts',
+        '**/index.ts',
+        '**/*.module.ts',
+        '**/vitest.config.ts',
+        '**/assets/**',
+        '**/testing/**',
+        '**/schematics/**',
+        'setup-jest.ts',
+      ],
       thresholds: {
         statements: 85,
         lines: 85,

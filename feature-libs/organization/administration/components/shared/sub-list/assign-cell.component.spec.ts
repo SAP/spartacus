@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {

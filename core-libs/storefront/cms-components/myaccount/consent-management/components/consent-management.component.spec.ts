@@ -29,7 +29,6 @@ import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.
 import { ConsentManagementFormComponent } from './consent-form/consent-management-form.component';
 import { ConsentManagementComponentService } from '../consent-management-component.service';
 import { ConsentManagementComponent } from './consent-management.component';
-import { vi } from 'vitest';
 
 class MockFeatureConfigService implements Partial<FeatureConfigService> {
   isEnabled = vi.fn().mockReturnValue(false);

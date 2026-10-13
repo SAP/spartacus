@@ -13,7 +13,6 @@ import {
   VariantType,
 } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
-import { vi } from 'vitest';
 import { ProductVariantStyleSelectorComponent } from './product-variant-style-selector.component';
 
 const mockOccBackendUrl = 'https://base.com';

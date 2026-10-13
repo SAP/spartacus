@@ -24,7 +24,6 @@ import { ProductListItemComponent } from '../../product-list-item/product-list-i
 import { ViewModes } from '../../product-view/product-view.component';
 import { ProductListComponentService } from '../product-list-component.service';
 import { ProductScrollComponent } from './product-scroll.component';
-import { vi } from 'vitest';
 
 const mockModel1: ProductSearchPage = {
   breadcrumbs: [

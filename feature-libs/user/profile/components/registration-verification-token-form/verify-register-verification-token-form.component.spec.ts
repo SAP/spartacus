@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 /*
  * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
@@ -139,6 +138,7 @@ describe('RegistrationVerificationTokenFormComponent', () => {
   });
 
   beforeEach(() => {
+    vi.useFakeTimers();
     fixture = TestBed.createComponent(
       RegistrationVerificationTokenFormComponent
     );

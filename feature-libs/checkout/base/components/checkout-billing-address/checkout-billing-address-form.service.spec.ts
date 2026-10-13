@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { Address } from '@spartacus/core';
-import { vi } from 'vitest';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { CheckoutBillingAddressFormService } from './checkout-billing-address-form.service';
 const mockAddress: Address = {

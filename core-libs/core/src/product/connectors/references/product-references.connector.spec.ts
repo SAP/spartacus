@@ -1,5 +1,4 @@
 import { of } from 'rxjs';
-import { vi } from 'vitest';
 import { ProductReferencesConnector } from './product-references.connector';
 
 describe('ProductReferencesConnector', () => {

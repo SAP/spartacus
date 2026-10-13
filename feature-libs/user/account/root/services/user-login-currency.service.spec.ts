@@ -14,7 +14,6 @@ import {
 } from '@spartacus/core';
 import { Subject, of } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { vi } from 'vitest';
 import { UserAccountConfig } from '../config/user-account-config';
 import { UserAccountFacade } from '../facade/user-account.facade';
 import {

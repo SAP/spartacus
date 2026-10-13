@@ -23,7 +23,6 @@ import { ConfiguratorTextfieldActions } from '../actions/index';
 import { CONFIGURATION_TEXTFIELD_FEATURE } from '../configuration-textfield-state';
 import * as reducers from '../reducers/index';
 import * as fromEffects from './configurator-textfield.effect';
-import { vi } from 'vitest';
 
 const productCode = 'CONF_LAPTOP';
 const cartId = 'CART-1234';

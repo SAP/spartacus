@@ -13,7 +13,6 @@ import { ConfiguratorCoreConfig } from '../config/configurator-core.config';
 import { Configurator } from '../model/configurator.model';
 import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';
 import { RulebasedConfiguratorConnector } from './rulebased-configurator.connector';
-import { vi } from 'vitest';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '1234-56-7890';

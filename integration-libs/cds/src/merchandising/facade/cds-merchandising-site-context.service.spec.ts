@@ -3,7 +3,6 @@ import { BaseSiteService, LanguageService } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import { MerchandisingSiteContext } from './../model/merchandising-site-context.model';
 import { CdsMerchandisingSiteContextService } from './cds-merchandising-site-context.service';
-import { vi } from 'vitest';
 
 class BaseSiteServiceStub {
   getActive(): Observable<string> {

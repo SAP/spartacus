@@ -84,6 +84,9 @@ describe('AddedToCartDialogEventListener', () => {
 
     launchDialogService = TestBed.inject(LaunchDialogService);
     entry.deliveryPointOfService = deliveryPointOfService;
+    successObs = mockEventSuccessStream$.asObservable();
+    mockEventStream$.next({});
+    mockEventSuccessStream$.next({});
   });
 
   describe('onAddToCart', () => {

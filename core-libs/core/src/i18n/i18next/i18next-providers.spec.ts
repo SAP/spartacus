@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { APP_INITIALIZER } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of, Subject } from 'rxjs';

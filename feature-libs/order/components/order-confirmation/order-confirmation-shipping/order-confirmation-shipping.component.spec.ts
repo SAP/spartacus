@@ -21,7 +21,6 @@ import {
   PromotionsModule,
 } from '@spartacus/storefront';
 import { firstValueFrom, of } from 'rxjs';
-import { vi } from 'vitest';
 import { OrderConfirmationShippingComponent } from './order-confirmation-shipping.component';
 
 // Mock pipes

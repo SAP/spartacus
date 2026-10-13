@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { FeatureToggles, ScriptLoader } from '@spartacus/core';
 import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
-import { vi } from 'vitest';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,

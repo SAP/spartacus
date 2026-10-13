@@ -57,12 +57,21 @@
         <div class="cx-dialog-row">
           <div class="col-md-6 cx-dialog-row--reset-button">
             <a
+              *cxFeature="'!a11yCouponDialogResetButtonKeyboardAccessible'"
               role="button"
               class="btn btn-block btn-secondary"
               (click)="cancelEdit()"
             >
               {{ 'myCoupons.reset' | cxTranslate }}
             </a>
+            <button
+              *cxFeature="'a11yCouponDialogResetButtonKeyboardAccessible'"
+              type="button"
+              class="btn btn-block btn-secondary"
+              (click)="cancelEdit()"
+            >
+              {{ 'myCoupons.reset' | cxTranslate }}
+            </button>
           </div>
           <div class="col-md-6 cx-dialog-row-submit-button">
             <button

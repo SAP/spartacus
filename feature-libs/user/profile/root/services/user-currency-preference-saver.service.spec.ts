@@ -14,7 +14,6 @@ import {
 } from '@spartacus/core';
 import { UserAccountConfig } from '@spartacus/user/account/root';
 import { Subject, of } from 'rxjs';
-import { vi } from 'vitest';
 import { UserProfileFacade } from '../facade/user-profile.facade';
 import { UserCurrencyPreferenceSaverService } from './user-currency-preference-saver.service';
 

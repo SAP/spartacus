@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import { UntypedFormBuilder } from '@angular/forms';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';

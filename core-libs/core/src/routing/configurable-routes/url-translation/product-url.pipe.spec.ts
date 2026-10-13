@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { SemanticPathService } from './semantic-path.service';
 import { ProductURLPipe } from './product-url.pipe';

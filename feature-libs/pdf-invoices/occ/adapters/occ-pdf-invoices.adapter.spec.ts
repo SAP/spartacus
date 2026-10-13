@@ -22,7 +22,6 @@ import {
   OrderInvoiceList,
 } from '@spartacus/pdf-invoices/root';
 import { firstValueFrom, throwError } from 'rxjs';
-import { vi } from 'vitest';
 import { OccPDFInvoicesAdapter } from './occ-pdf-invoices.adapter';
 
 const mockUserId = 'userId1';

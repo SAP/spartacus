@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { OrganizationUserRegistrationConflictHandler } from './conflict.handler';
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';

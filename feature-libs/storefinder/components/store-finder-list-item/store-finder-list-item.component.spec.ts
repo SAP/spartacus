@@ -8,7 +8,6 @@ import { I18nTestingModule } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { OutletModule } from '@spartacus/storefront';
 import { EMPTY } from 'rxjs';
-import { vi } from 'vitest';
 import { StoreFinderListItemComponent } from './store-finder-list-item.component';
 
 const weekday = {

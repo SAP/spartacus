@@ -3,7 +3,6 @@ import { of } from 'rxjs';
 import { StrategyProducts } from '../../model/strategy-products.model';
 import { MerchandisingStrategyAdapter } from './merchandising-strategy.adapter';
 import { MerchandisingStrategyConnector } from './merchandising-strategy.connector';
-import { vi } from 'vitest';
 
 const STRATEGY_ID = 'test-strategy-id';
 

@@ -41,7 +41,6 @@ import { ConfiguratorQuantityService } from '../../core/services/configurator-qu
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart-button.component';
-import { vi } from 'vitest';
 
 const CART_ENTRY_KEY = '001+1';
 const ORDER_ENTRY_KEY = '002+1';

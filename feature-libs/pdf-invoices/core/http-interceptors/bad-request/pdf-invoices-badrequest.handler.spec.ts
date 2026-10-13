@@ -5,7 +5,6 @@ import {
   GlobalMessageType,
   HttpResponseStatus,
 } from '@spartacus/core';
-import { vi } from 'vitest';
 import { PDFInvoicesBadRequestHandler } from './pdf-invoices-badrequest.handler';
 
 class MockGlobalMessageService {

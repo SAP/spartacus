@@ -17,7 +17,6 @@ import {
   SubscriptionFacade,
 } from '@spartacus/subscription-billing/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { vi } from 'vitest';
 import { SubscriptionDetailsComponent } from './subscription-details.component';
 const routerParam$: BehaviorSubject<{
   [key: string]: string;

@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { LockFocusConfig } from '../keyboard-focus.model';
 import { LockFocusDirective } from './lock-focus.directive';
 import { LockFocusService } from './lock-focus.service';
-import { vi } from 'vitest';
 
 @Directive({ selector: '[cxLockFocus]' })
 class CustomFocusDirective extends LockFocusDirective {
@@ -132,9 +131,15 @@ describe('LockFocusDirective', () => {
 
   describe('configuration', () => {
     beforeEach(() => {
+      vi.useFakeTimers();
       vi.spyOn(event, 'stopPropagation');
       vi.spyOn(service, 'hasFocusableChildren').mockReturnValue(false);
       fixture.detectChanges();
+    });
+
+    afterEach(async () => {
+      await vi.runAllTimersAsync();
+      vi.useRealTimers();
     });
 
     it('should unlock with default configuration', () => {
@@ -161,14 +166,21 @@ describe('LockFocusDirective', () => {
   });
 
   describe('lock focusable children', () => {
-    it('should lock child elements', async () => {
+    beforeEach(() => {
       vi.useFakeTimers();
+    });
+
+    afterEach(async () => {
+      await vi.runAllTimersAsync();
+      vi.useRealTimers();
+    });
+
+    it('should lock child elements', async () => {
       const b1 = fixture.debugElement.query(By.css('#b1')).nativeElement;
       const b2 = fixture.debugElement.query(By.css('#b2')).nativeElement;
       const b3 = fixture.debugElement.query(By.css('#b3')).nativeElement;
       fixture.detectChanges();
       await vi.advanceTimersByTimeAsync(500);
-      vi.useRealTimers();
       expect(b1.getAttribute('tabindex')).toEqual('-1');
       expect(b2.getAttribute('tabindex')).toEqual('-1');
       expect(b3.getAttribute('tabindex')).toEqual('-1');
@@ -209,8 +221,14 @@ describe('LockFocusDirective', () => {
 
   describe('unlock group', () => {
     beforeEach(() => {
+      vi.useFakeTimers();
       vi.spyOn(service, 'hasFocusableChildren').mockReturnValue(false);
       fixture.detectChanges();
+    });
+
+    afterEach(async () => {
+      await vi.runAllTimersAsync();
+      vi.useRealTimers();
     });
 
     it('should unlock focusable children with enter', () => {
@@ -328,12 +346,17 @@ describe('LockFocusDirective', () => {
 
   describe('use autofocus', () => {
     beforeEach(() => {
+      vi.useFakeTimers();
       vi.spyOn(service, 'hasFocusableChildren').mockReturnValue(false);
       fixture.detectChanges();
     });
 
+    afterEach(async () => {
+      await vi.runAllTimersAsync();
+      vi.useRealTimers();
+    });
+
     it('should autofocus first focusable by default', async () => {
-      vi.useFakeTimers();
       const host = fixture.debugElement.query(By.css('#a'));
       const f1 = fixture.debugElement.query(By.css('#a1')).nativeElement;
       const f2 = fixture.debugElement.query(By.css('#a2')).nativeElement;
@@ -346,14 +369,12 @@ describe('LockFocusDirective', () => {
       host.triggerEventHandler('keydown.enter', event);
 
       await vi.advanceTimersByTimeAsync(100);
-      vi.useRealTimers();
 
       expect(f1.focus).toHaveBeenCalled();
       expect(f2.focus).not.toHaveBeenCalled();
     });
 
     it('should autofocus if lock=true', async () => {
-      vi.useFakeTimers();
       const host = fixture.debugElement.query(By.css('#b'));
       const f1 = fixture.debugElement.query(By.css('#b1')).nativeElement;
       const f2 = fixture.debugElement.query(By.css('#b2')).nativeElement;
@@ -366,7 +387,6 @@ describe('LockFocusDirective', () => {
       host.triggerEventHandler('keydown.enter', event);
 
       await vi.advanceTimersByTimeAsync(100);
-      vi.useRealTimers();
 
       expect(f1.focus).toHaveBeenCalled();
       expect(f2.focus).not.toHaveBeenCalled();
@@ -405,7 +425,6 @@ describe('LockFocusDirective', () => {
     });
 
     it('should find focusable with configured autofocus selector', async () => {
-      vi.useFakeTimers();
       const host = fixture.debugElement.query(By.css('#e'));
       vi.spyOn(service, 'findFirstFocusable');
 
@@ -413,7 +432,6 @@ describe('LockFocusDirective', () => {
       host.triggerEventHandler('keydown.enter', event);
 
       await vi.advanceTimersByTimeAsync(100);
-      vi.useRealTimers();
 
       const hostConfig = {
         lock: true,

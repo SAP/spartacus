@@ -15,7 +15,6 @@ import {
 import { getConfiguratorReducers } from '../reducers/index';
 import { ConfiguratorTestUtils } from './../../../testing/configurator-test-utils';
 import { ConfiguratorSelectors } from './index';
-import { vi } from 'vitest';
 
 describe('Configurator selectors', () => {
   let store: Store<StateWithConfigurator>;

@@ -7,6 +7,7 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   inject,
   Input,
@@ -29,6 +30,7 @@ export class OpfCheckoutTermsAndConditionsAlertComponent implements OnInit {
   protected opfCheckoutBillingAddressFormService = inject(
     OpfCheckoutBillingAddressFormService
   );
+  protected cdr = inject(ChangeDetectorRef);
 
   iconTypes = ICON_TYPE;
   protected paymentDisabled$ =
@@ -65,6 +67,7 @@ export class OpfCheckoutTermsAndConditionsAlertComponent implements OnInit {
       )
       .subscribe(() => {
         this.isVisible = false;
+        this.cdr.markForCheck();
       });
   }
 }

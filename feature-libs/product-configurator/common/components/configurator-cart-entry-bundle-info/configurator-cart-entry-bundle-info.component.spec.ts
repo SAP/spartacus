@@ -35,7 +35,6 @@ import { BehaviorSubject, EMPTY, of, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-entry-bundle-info.component';
-import { vi } from 'vitest';
 
 @Pipe({ name: 'cxNumeric' })
 class MockNumericPipe implements PipeTransform {

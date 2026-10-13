@@ -91,13 +91,13 @@ const attributeDDWoValuesTemplate: Configurator.Attribute = {
   uiType: Configurator.UiType.DROPDOWN,
   selectedSingleValue: '',
 };
-const attributeSSIWithValues: Configurator.Attribute = {
+const attributeSSIWithValuesTemplate: Configurator.Attribute = {
   name: attributeName,
   required: requiredFlag,
   uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
   selectedSingleValue: 'SomeValue',
 };
-const attributeSSIWoValues: Configurator.Attribute = {
+const attributeSSIWoValuesTemplate: Configurator.Attribute = {
   name: attributeName,
   required: requiredFlag,
   uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
@@ -1184,11 +1184,15 @@ describe('OccConfiguratorVariantNormalizer', () => {
     let attributeDDWithValues: Configurator.Attribute;
     let attributeDDWoValues: Configurator.Attribute;
     let attributeRBWithValues: Configurator.Attribute;
+    let attributeSSIWithValues: Configurator.Attribute;
+    let attributeSSIWoValues: Configurator.Attribute;
 
     beforeEach(() => {
       attributeDDWithValues = structuredClone(attributeDDWithValuesTemplate);
       attributeDDWoValues = structuredClone(attributeDDWoValuesTemplate);
       attributeRBWithValues = structuredClone(attributeRBWithValuesTemplate);
+      attributeSSIWithValues = structuredClone(attributeSSIWithValuesTemplate);
+      attributeSSIWoValues = structuredClone(attributeSSIWoValuesTemplate);
     });
 
     it('should set incomplete by string type correctly', () => {

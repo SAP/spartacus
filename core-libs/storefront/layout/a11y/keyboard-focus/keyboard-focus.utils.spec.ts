@@ -4,11 +4,14 @@ describe('disableTabbingForTick', () => {
   let elements: HTMLElement[];
 
   beforeEach(() => {
+    vi.useFakeTimers();
     elements = [document.createElement('div'), document.createElement('div')];
     elements.forEach((el) => document.body.appendChild(el));
   });
 
-  afterEach(() => {
+  afterEach(async () => {
+    await vi.runAllTimersAsync();
+    vi.useRealTimers();
     elements.forEach((el) => document.body.removeChild(el));
   });
 
@@ -19,13 +22,11 @@ describe('disableTabbingForTick', () => {
     });
   });
 
-  it('should reset tabIndex to 0 after a tick', () => {
-    vi.useFakeTimers();
+  it('should reset tabIndex to 0 after a tick', async () => {
     disableTabbingForTick(elements);
-    vi.advanceTimersByTime(100);
+    await vi.runAllTimersAsync();
     elements.forEach((el) => {
       expect(el.tabIndex).toBe(0);
     });
-    vi.useRealTimers();
   });
 });

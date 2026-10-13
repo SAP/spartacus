@@ -20,7 +20,6 @@ import {
 } from '@spartacus/storefinder/core';
 import { SpinnerModule } from '@spartacus/storefront';
 import { EMPTY } from 'rxjs';
-import { vi } from 'vitest';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
 import { StoreFinderListComponent } from './store-finder-list.component';
 import { LocationDisplayMode } from './store-finder-list.model';

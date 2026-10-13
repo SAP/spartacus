@@ -16,7 +16,6 @@ import { StoreFinderService } from '@spartacus/storefinder/core';
 import { SpinnerModule } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
-import { vi } from 'vitest';
 import { StoreFinderStoresCountComponent } from './store-finder-stores-count.component';
 
 const mockLocation = {

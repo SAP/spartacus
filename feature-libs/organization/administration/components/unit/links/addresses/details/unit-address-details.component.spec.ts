@@ -23,7 +23,6 @@ import {
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { Observable, of } from 'rxjs';
-import { vi } from 'vitest';
 import { CardComponent } from '../../../../shared/card/card.component';
 import { DeleteItemComponent } from '../../../../shared/detail/delete-item-action/delete-item.component';
 import { ItemService } from '../../../../shared/item.service';

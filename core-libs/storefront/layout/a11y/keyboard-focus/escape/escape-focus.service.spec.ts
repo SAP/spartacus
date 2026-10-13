@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { EscapeFocusConfig } from '../keyboard-focus.model';
 import { SelectFocusUtility } from '../services';
 import { EscapeFocusService } from './escape-focus.service';
-import { vi } from 'vitest';
 
 @Component({ template: '<div id="a"></div><div id="b" tabindex="5"></div>' })
 class MockComponent {}

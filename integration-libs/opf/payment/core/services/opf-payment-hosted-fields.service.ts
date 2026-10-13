@@ -126,12 +126,13 @@ export class OpfPaymentHostedFieldsService {
   submitCompletePayment(
     submitCompleteInput: OpfPaymentSubmitCompleteInput
   ): Observable<boolean> {
-    const { additionalData, paymentSessionId, returnPath } =
+    const { additionalData, paymentSessionId, returnPath, savePaymentMethod } =
       submitCompleteInput;
 
     const submitCompleteRequest: OpfPaymentSubmitCompleteRequest = {
       additionalData,
       paymentSessionId,
+      savePaymentMethod,
     };
     return this.getCartAccessCode(
       submitCompleteRequest,

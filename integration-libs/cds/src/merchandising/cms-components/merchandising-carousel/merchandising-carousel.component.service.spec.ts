@@ -16,7 +16,6 @@ import {
   MerchandisingCarouselModel,
   MerchandisingCarouselViewedEvent,
 } from './model/index';
-import { vi } from 'vitest';
 
 const mockStrategyProducts: StrategyResponse = {
   products: {

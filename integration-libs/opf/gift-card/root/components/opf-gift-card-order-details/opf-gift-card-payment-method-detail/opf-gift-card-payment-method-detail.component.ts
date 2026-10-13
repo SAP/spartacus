@@ -7,6 +7,7 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   DestroyRef,
   Input,
@@ -39,6 +40,7 @@ export class OpfGiftCardPaymentMethodDetailComponent
   protected translationService = inject(TranslationService);
   protected destroyRef = inject(DestroyRef);
   private featureToggles = inject(FeatureToggles);
+  protected cdr = inject(ChangeDetectorRef);
 
   protected subscription = new Subscription();
   @Input()
@@ -52,12 +54,16 @@ export class OpfGiftCardPaymentMethodDetailComponent
       if (this.featureToggles.opfUseDestroyRef) {
         this.orderOutlet.context$
           .pipe(takeUntilDestroyed(this.destroyRef))
-          .subscribe((context) => (this.order = context));
+          .subscribe((context) => {
+            this.order = context;
+            this.cdr.markForCheck();
+          });
       } else {
         this.subscription.add(
-          this.orderOutlet.context$.subscribe(
-            (context) => (this.order = context)
-          )
+          this.orderOutlet.context$.subscribe((context) => {
+            this.order = context;
+            this.cdr.markForCheck();
+          })
         );
       }
     }

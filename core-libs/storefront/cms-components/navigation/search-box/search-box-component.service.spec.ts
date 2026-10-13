@@ -18,7 +18,6 @@ import {
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { vi } from 'vitest';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
 import {
@@ -131,6 +130,7 @@ describe('SearchBoxComponentService', () => {
 
   afterEach(() => {
     document.body.classList.remove('has-searchbox-results');
+    featureToggles.set('searchBoxEmptyQueryResultsPanel', false);
   });
 
   it('should be created', () => {
@@ -240,6 +240,10 @@ describe('SearchBoxComponentService', () => {
 
   describe('search result message', () => {
     let result: SearchResults;
+
+    beforeEach(() => {
+      result = {} as SearchResults;
+    });
 
     it('should not get a message when there are no results ', () => {
       vi.spyOn(searchBoxService, 'getResults').mockReturnValue(of({}));

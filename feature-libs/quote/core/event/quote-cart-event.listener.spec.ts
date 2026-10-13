@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import {
   CartAddEntryFailEvent,
@@ -102,7 +101,11 @@ describe('QuoteCartEventListener', () => {
   });
 
   it('should unsubscribe on ngOnDestroy', () => {
-    const spyUnsubscribe = vi.spyOn(Subscription.prototype, 'unsubscribe');
+    classUnderTest = TestBed.inject(QuoteCartEventListener);
+    const spyUnsubscribe = vi.spyOn(
+      classUnderTest['subscription'],
+      'unsubscribe'
+    );
     classUnderTest.ngOnDestroy();
     expect(spyUnsubscribe).toHaveBeenCalled();
   });

@@ -8,7 +8,6 @@ import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-se
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
-import { vi } from 'vitest';
 
 const attributeCode = 1;
 

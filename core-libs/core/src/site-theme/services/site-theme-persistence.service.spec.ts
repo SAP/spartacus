@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
 import { SiteThemePersistenceService } from './site-theme-persistence.service';

@@ -4,7 +4,6 @@ import { Subject } from 'rxjs';
 import { EventService } from '../../event/event.service';
 import { createFrom } from '../../util/create-from';
 import { StateEventService } from './state-event.service';
-import { vi } from 'vitest';
 
 class TestEvent {
   value: number;

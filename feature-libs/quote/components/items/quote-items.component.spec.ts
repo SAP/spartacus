@@ -1,6 +1,5 @@
 import { Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { vi } from 'vitest';
 import { AbstractOrderContextModule } from '@spartacus/cart/base/components';
 import { AbstractOrderType } from '@spartacus/cart/base/root';
 import {

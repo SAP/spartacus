@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { B2BUser, B2BUserRight, B2BUserRole } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';

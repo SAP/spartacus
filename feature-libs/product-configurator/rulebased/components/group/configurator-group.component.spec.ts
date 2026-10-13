@@ -56,7 +56,6 @@ import { ConfigFormUpdateEvent } from '../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupComponent } from './configurator-group.component';
-import { vi } from 'vitest';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 

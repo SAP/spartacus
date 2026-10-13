@@ -29,7 +29,6 @@ import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
 import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { AddressFormComponent } from '@spartacus/user/profile/components';
 import { BehaviorSubject, EMPTY, firstValueFrom, of } from 'rxjs';
-import { vi } from 'vitest';
 import { B2BCheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
 
 class MockUserAddressService implements Partial<UserAddressService> {

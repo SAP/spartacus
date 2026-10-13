@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { CartEventBuilder } from './cart-event.builder';
 import { CartEventModule } from './cart-event.module';

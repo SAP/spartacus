@@ -1,5 +1,4 @@
 import { of } from 'rxjs';
-import { vi } from 'vitest';
 import { UserConsentConnector } from './user-consent.connector';
 
 describe('UserConsentConnector', () => {

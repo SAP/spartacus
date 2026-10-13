@@ -16,15 +16,11 @@ export default defineConfig({
   resolve: {
     alias: {
       'core-libs/storefront/shared/test/mock-feature-directive': `${root}/core-libs/storefront/shared/test/mock-feature-directive.ts`,
+      'core-libs/storefront/shared/test/mock-window-ref': `${root}/core-libs/storefront/shared/test/mock-window-ref.ts`,
     },
   },
   test: {
     pool: 'forks',
-    poolOptions: {
-      forks: {
-        maxForks: 4,
-      },
-    },
     watch: false,
     globals: true,
     environment: 'jsdom',
@@ -34,13 +30,21 @@ export default defineConfig({
       tsconfig: `${import.meta.dirname}/tsconfig.spec.json`,
     },
     coverage: {
+      enabled: true,
       provider: 'v8',
-      reporter: ['lcov'],
+      reporter: ['text-summary', 'html', 'lcov'],
       reportsDirectory: `${import.meta.dirname}/../../coverage/pickup-in-store`,
+      include: ['**/*.ts'],
       exclude: [
+        '**/*.spec.ts',
         '**/public_api.ts',
         '**/index.ts',
         '**/*.module.ts',
+        '**/vitest.config.ts',
+        '**/assets/**',
+        '**/testing/**',
+        '**/schematics/**',
+        'setup-jest.ts',
         '../../testing/setup-vitest.ts',
       ],
       thresholds: {

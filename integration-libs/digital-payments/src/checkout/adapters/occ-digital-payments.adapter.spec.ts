@@ -75,8 +75,8 @@ describe('OccDigitalPaymentsAdapter', () => {
     occEnpointsService = TestBed.inject(OccEndpointsService);
     converterService = TestBed.inject(ConverterService);
 
-    spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
+    vi.spyOn(converterService, 'pipeable');
+    vi.spyOn(occEnpointsService, 'buildUrl');
   });
 
   afterEach(() => {

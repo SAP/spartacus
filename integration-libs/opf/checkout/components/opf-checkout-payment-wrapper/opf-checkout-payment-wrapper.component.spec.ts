@@ -483,5 +483,34 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
       expect(iframe).toBeTruthy();
       expect(iframe?.hasAttribute('sandbox')).toBeFalsy();
     });
+
+    it('should render iframe with sandbox attribute when sandbox is configured', () => {
+      const renderPaymentMethodSubject = new Subject<any>();
+      const selectedPaymentId = 458;
+
+      mockService.getRenderPaymentMethodEvent.and.returnValue(
+        renderPaymentMethodSubject.asObservable()
+      );
+
+      fixture = TestBed.createComponent(OpfCheckoutPaymentWrapperComponent);
+      component = fixture.componentInstance;
+      component.selectedPaymentId = selectedPaymentId;
+      fixture.detectChanges();
+
+      renderPaymentMethodSubject.next({
+        isLoading: false,
+        isError: false,
+        renderType: OpfPaymentRenderPattern.IFRAME,
+        destination: { url: 'TEST_URL' },
+        paymentOptionId: selectedPaymentId,
+      });
+
+      fixture.detectChanges();
+
+      const iframe: HTMLIFrameElement =
+        fixture.nativeElement.querySelector('.cx-payment-iframe');
+      expect(iframe).toBeTruthy();
+      expect(iframe?.getAttribute('sandbox')).toBe('allow-scripts');
+    });
   });
 });

@@ -12,7 +12,6 @@ import {
   SiteContextUrlParams,
   SiteContextUrlSerializer,
 } from '@spartacus/core';
-import { vi } from 'vitest';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthFlowRoutesService } from './auth-flow-routes.service';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';

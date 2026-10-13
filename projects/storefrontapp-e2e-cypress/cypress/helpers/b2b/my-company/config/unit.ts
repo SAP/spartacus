@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { FULL_BASE_URL_EN_USD } from '../../../site-context-selector';
+import {
+  BASE_URL,
+  CURRENCY_USD,
+  LANGUAGE_EN,
+} from '../../../site-context-selector';
+import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
 import { randomString } from '../../../user';
 import { INPUT_TYPE, MyCompanyConfig, MY_COMPANY_FEATURE } from '../models';
 import { costCenterConfig } from './cost-center.config';
@@ -87,7 +92,7 @@ export const userRolesAndRightsConfig: MyCompanyConfig = {
 
 export const unitConfig: MyCompanyConfig = {
   name: 'Unit',
-  baseUrl: `${FULL_BASE_URL_EN_USD}/organization/units`,
+  baseUrl: `${BASE_URL}/${POWERTOOLS_BASESITE}/${LANGUAGE_EN}/${CURRENCY_USD}/organization/units`,
   apiEndpoint: '/orgUnits',
   objectType: 'children',
   verifyStatusInDetails: true,

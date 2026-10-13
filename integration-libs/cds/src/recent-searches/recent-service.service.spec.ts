@@ -5,7 +5,6 @@
  *
  */
 
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { RecentSearchesService } from './recent-searches.service';
 import { of } from 'rxjs';

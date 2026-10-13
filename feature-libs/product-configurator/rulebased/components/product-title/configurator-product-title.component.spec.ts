@@ -30,7 +30,6 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
-import { vi } from 'vitest';
 
 const mockProductConfiguration = ConfigurationTestData.productConfiguration;
 const PRODUCT_CODE = ConfigurationTestData.PRODUCT_CODE;

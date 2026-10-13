@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { filter } from 'rxjs/operators';

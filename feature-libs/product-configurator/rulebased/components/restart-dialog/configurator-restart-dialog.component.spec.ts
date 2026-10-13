@@ -21,7 +21,6 @@ import { CommonConfiguratorTestUtilsService } from '../../../common/testing/comm
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorRestartDialogComponent } from './configurator-restart-dialog.component';
-import { vi } from 'vitest';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;

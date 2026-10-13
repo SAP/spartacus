@@ -2,12 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { WindowRef, RoutingService } from '@spartacus/core';
 import { AsmDeepLinkService } from './asm-deep-link.service';
 import { AsmEnablerService } from '@spartacus/asm/root';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 
-const MockWindowRef = {
-  location: {
+class MockWindowRef extends MockWinRef {
+  override location = {
     search: 'customerId=testId&ticketId=123&invalidparam=666',
-  },
-};
+  } as Location;
+}
 
 class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
@@ -26,7 +27,7 @@ describe('AsmDeepLinkService', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: WindowRef, useValue: MockWindowRef },
+        { provide: WindowRef, useClass: MockWindowRef },
         { provide: AsmEnablerService, useClass: MockAsmEnablerService },
       ],
     });

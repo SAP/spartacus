@@ -8,7 +8,6 @@ import {
 } from '@spartacus/core';
 import { EMPTY, Observable, firstValueFrom, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { vi } from 'vitest';
 import { ProductVariantsGuard } from './product-variants.guard';
 
 const mockPurchasableProduct = {

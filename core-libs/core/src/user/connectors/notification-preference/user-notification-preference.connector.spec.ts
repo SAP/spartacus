@@ -1,5 +1,4 @@
 import { of } from 'rxjs';
-import { vi } from 'vitest';
 import { NotificationPreference } from '../../../model/notification-preference.model';
 import { UserNotificationPreferenceConnector } from './user-notification-preference.connector';
 

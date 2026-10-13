@@ -7,7 +7,6 @@ import { TableComponent } from './table.component';
 import { Table, TableLayout } from './table.model';
 import { FeatureToggles } from '@spartacus/core';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { vi } from 'vitest';
 
 vi.mock('@angular/core', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@angular/core')>();
@@ -230,8 +229,16 @@ describe('TableComponent', () => {
   describe('table layout', () => {
     describe('vertical', () => {
       beforeEach(() => {
-        const table = Object.assign({}, mockDataset);
-        table.structure.options.layout = TableLayout.VERTICAL;
+        const table = {
+          ...mockDataset,
+          structure: {
+            ...mockDataset.structure,
+            options: {
+              ...mockDataset.structure.options,
+              layout: TableLayout.VERTICAL,
+            },
+          },
+        };
         tableComponent.structure = table.structure;
         tableComponent.data = table.data;
       });
@@ -283,8 +290,16 @@ describe('TableComponent', () => {
 
     describe('vertical stacked', () => {
       beforeEach(() => {
-        const table = Object.assign({}, mockDataset);
-        table.structure.options.layout = TableLayout.VERTICAL_STACKED;
+        const table = {
+          ...mockDataset,
+          structure: {
+            ...mockDataset.structure,
+            options: {
+              ...mockDataset.structure.options,
+              layout: TableLayout.VERTICAL_STACKED,
+            },
+          },
+        };
         tableComponent.structure = table.structure;
         tableComponent.data = table.data;
       });
@@ -336,8 +351,16 @@ describe('TableComponent', () => {
 
     describe('horizontal', () => {
       beforeEach(() => {
-        const table = Object.assign({}, mockDataset);
-        table.structure.options.layout = TableLayout.HORIZONTAL;
+        const table = {
+          ...mockDataset,
+          structure: {
+            ...mockDataset.structure,
+            options: {
+              ...mockDataset.structure.options,
+              layout: TableLayout.HORIZONTAL,
+            },
+          },
+        };
         tableComponent.structure = table.structure;
         tableComponent.data = table.data;
       });
@@ -349,5 +372,99 @@ describe('TableComponent', () => {
         expect(table.classList).toContain('horizontal');
       });
     });
+  });
+});
+
+describe('TableComponent with a11yTableKeyboardNavigation enabled', () => {
+  let fixture: ComponentFixture<TableComponent<any>>;
+  let tableComponent: TableComponent<any>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [OutletModule, TableComponent],
+      providers: [
+        { provide: TableRendererService, useClass: MockTableRendererService },
+        provideMockFeatureToggles({ a11yTableKeyboardNavigation: true }),
+      ],
+    })
+      .overrideComponent(TableComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+
+    fixture = TestBed.createComponent(TableComponent);
+    tableComponent = fixture.componentInstance;
+    tableComponent.structure = {
+      ...mockDataset.structure,
+      options: { layout: TableLayout.VERTICAL },
+    };
+    tableComponent.data = mockDataset.data;
+    fixture.detectChanges();
+  });
+
+  it('should render rows with cxRovingTabindexItem attribute', () => {
+    const rows = fixture.debugElement.queryAll(By.css('[data-cx-roving-item]'));
+    expect(rows.length).toBe(data.length);
+  });
+
+  it('should set tabindex=0 on the first row and -1 on others after init', () => {
+    const rows = fixture.debugElement.queryAll(By.css('[data-cx-roving-item]'));
+    expect(
+      (rows[0].nativeElement as HTMLElement).getAttribute('tabindex')
+    ).toBe('0');
+    expect(
+      (rows[1].nativeElement as HTMLElement).getAttribute('tabindex')
+    ).toBe('-1');
+    expect(
+      (rows[2].nativeElement as HTMLElement).getAttribute('tabindex')
+    ).toBe('-1');
+  });
+
+  it('should move focus to next row on ArrowDown', () => {
+    const container = fixture.debugElement.query(By.css('[cxRovingTabindex]'))
+      .nativeElement as HTMLElement;
+    const rows = Array.from(
+      container.querySelectorAll<HTMLElement>('[data-cx-roving-item]')
+    );
+    rows[0].focus();
+    const focusSpy = vi.spyOn(rows[1], 'focus');
+
+    container.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true })
+    );
+
+    expect(focusSpy).toHaveBeenCalled();
+  });
+
+  it('should emit launch with correct data item on Enter', () => {
+    vi.spyOn(tableComponent.launch, 'emit');
+    const container = fixture.debugElement.query(By.css('[cxRovingTabindex]'))
+      .nativeElement as HTMLElement;
+    const rows = Array.from(
+      container.querySelectorAll<HTMLElement>('[data-cx-roving-item]')
+    );
+    rows[0].focus();
+
+    container.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })
+    );
+
+    expect(tableComponent.launch.emit).toHaveBeenCalledWith(data[0]);
+  });
+
+  it('should emit launch with correct data item on Space', () => {
+    vi.spyOn(tableComponent.launch, 'emit');
+    const container = fixture.debugElement.query(By.css('[cxRovingTabindex]'))
+      .nativeElement as HTMLElement;
+    const rows = Array.from(
+      container.querySelectorAll<HTMLElement>('[data-cx-roving-item]')
+    );
+    rows[1].focus();
+
+    container.dispatchEvent(
+      new KeyboardEvent('keyup', { key: ' ', bubbles: true })
+    );
+
+    expect(tableComponent.launch.emit).toHaveBeenCalledWith(data[1]);
   });
 });

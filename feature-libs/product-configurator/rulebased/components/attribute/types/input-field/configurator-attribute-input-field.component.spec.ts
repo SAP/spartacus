@@ -15,7 +15,6 @@ import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-se
 import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribute-input-field.component';
-import { vi } from 'vitest';
 
 @Directive({ selector: '[cxFocus]' })
 export class MockFocusDirective {

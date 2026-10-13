@@ -172,36 +172,11 @@ export interface FeatureTogglesInterface {
   authorizationCodeFlowByDefaultCsrfTokenRefresh?: boolean;
 
   /**
-   * When this feature toggle is enabled, the navigation menu will close when clicking on the same link.
-   *
-   * This is to improve the user experience on mobile devices, where the menu remains open
-   * after clicking on a link that navigates to the same page.
-   * Affects: `NavigationUIComponent`
-   */
-  navigationMenuCloseOnSameLinkClick?: boolean;
-
-  /**
    * When enabled, translates the "Password expired" error message
    * to the user's selected language using Spartacus i18n.
    * Affects: `LoginComponent`
    */
   enablePasswordExpiredErrorTranslation?: boolean;
-
-  /**
-   * shows the Quote Purchase Order Number input field in the Quote Request form
-   * and in the Quote Details page
-   *
-   * when set to `true`, the user will be able to enter a Purchase Order Number
-   * when requesting a quote and see it in the quote details
-   */
-  enableQuotePurchaseOrderNumber?: boolean;
-
-  /**
-   * When enabled, fixes the issue with return order returnable quantity not being displayed correctly
-   * on the `ReturnOrderComponent` when navigating to the return request details page.
-   * Affects: `ReturnOrderComponent`
-   */
-  enableReturnOrderReturnableQuantityConsigmentFallback?: boolean;
 
   /**
    * When enabled, the media prefix from the backend config will be used
@@ -370,6 +345,13 @@ export interface FeatureTogglesInterface {
    * Affects: ProductReviewsComponent
    */
   a11yReviewsKeyboardControls?: boolean;
+
+  /**
+   * When enabled, scrolls the 'Show More/Less Reviews' button into view after
+   * clicking it, ensuring the focused element remains visible in the viewport.
+   * Affects: ProductReviewsComponent
+   */
+  a11yShowMoreReviewsFocusVisible?: boolean;
 
   /**
    * Use on existing form buttons that are programatically disabled/enabled.
@@ -864,6 +846,57 @@ export interface FeatureTogglesInterface {
    * `AddressFormComponent`, `UnitAddressFormService`
    */
   enableFormFieldMaxLength?: boolean;
+
+  /**
+   * When enabled, adds arrow key navigation to organization administration
+   * navigation tiles/cards on the My Company landing page (CompanyPageTemplate),
+   * turning the banner tile group into a composite keyboard widget.
+   * Affects: BannerComponent
+   * ACC-270.3
+   */
+  a11yBannerArrowKeyNavigation?: boolean;
+
+  /**
+   * When enabled, adds up/down arrow key navigation between table rows,
+   * turning the table into a composite keyboard widget.
+   * Affects: TableComponent
+   * ACC-270.3
+   */
+  a11yTableKeyboardNavigation?: boolean;
+
+  /**
+   * When enabled, replaces per-link tabindex binding in PaginationComponent
+   * with roving tabindex (left/right arrow key navigation across page links).
+   * Affects: PaginationComponent
+   */
+  a11yPaginationKeyboardNavigation?: boolean;
+
+  /**
+   * When enabled, adds `cxFocusableCarouselItem` to product carousel items so
+   * arrow key navigation works inside the carousel.
+   * Affects: ProductCarouselItemComponent
+   * ACC-270.3
+   */
+  a11yCarouselItemArrowKeyNavigation?: boolean;
+
+  /**
+   * When enabled, the RESET button in the "Add To Your Coupon List" claim dialog
+   * is rendered as a proper `<button>` element instead of an `<a role="button">`
+   * without an `href`, making it reachable and operable with the keyboard.
+   * Fixes WCAG 2.1.1 (Keyboard) ACC-270.1 (Level A).
+   * Affects: `ClaimDialogComponent`
+   */
+  a11yCouponDialogResetButtonKeyboardAccessible?: boolean;
+
+  /**
+   * When enabled, the "In Stock" / "Out of Stock" info text in the
+   * `AddToCartComponent` uses `--cx-color-text` instead of
+   * `--cx-color-secondary`, ensuring the text meets the WCAG 1.4.3 Level AA
+   * minimum contrast ratio of 4.5:1 against all background surfaces.
+   *
+   * Affects: `AddToCartComponent`
+   */
+  a11yInStockInfoTextContrast?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -884,10 +917,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFutureStockAccordionAriaControls: true,
   authorizationCodeFlowByDefault: true,
   authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
-  navigationMenuCloseOnSameLinkClick: true,
   enablePasswordExpiredErrorTranslation: true,
-  enableQuotePurchaseOrderNumber: true,
-  enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: true,
   a11yCustomerTicketingVisualFocusFix: true,
   a11yMessagingListKeyboardFocus: false,
@@ -913,21 +943,22 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFilteredFacetAnnouncement: false,
   a11yCartItemListHideEmptyOutlets: true,
   a11yReviewsKeyboardControls: true,
-  a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
-  a11yConsentManagementFocusPreservation: false,
+  a11yShowMoreReviewsFocusVisible: false,
+  a11yCartQuickOrderFormEnableSubmitAndAddValidation: true,
+  a11yConsentManagementFocusPreservation: true,
   a11yDeliveryModeFocusPreservation: false,
   a11yFormFieldSectionLegend: false,
   a11yImproveCheckoutFocus: false,
-  a11yVocalizeDropdownItemCount: false,
+  a11yVocalizeDropdownItemCount: true,
   a11yItemCounterValueText: false,
   a11yRestoreFocusOnNgSelect: false,
   a11yKeepFocusOnConsentManagementButtons: false,
-  useEnhancedSecurePasswordValidators: false,
+  useEnhancedSecurePasswordValidators: true,
   enableApplyVoucherEndpoint: false,
-  enableRemoveVoucherEndpoint: false,
+  enableRemoveVoucherEndpoint: true,
   showSortFieldsOnlyAtTop: false,
-  showRequiredAsterisks: false,
-  enableExpiredRefreshTokenHandlers: false,
+  showRequiredAsterisks: true,
+  enableExpiredRefreshTokenHandlers: true,
   enableCartReloadOnContextChange: false,
   opfPaymentVerificationCheckProcessingCartOnErrorOnly: false,
   a11yQuickOrderResetFocus: false,
@@ -967,4 +998,10 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showWarningMessageOnRequoteButtonClick: false,
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
+  a11yBannerArrowKeyNavigation: false,
+  a11yTableKeyboardNavigation: false,
+  a11yPaginationKeyboardNavigation: false,
+  a11yCarouselItemArrowKeyNavigation: false,
+  a11yCouponDialogResetButtonKeyboardAccessible: false,
+  a11yInStockInfoTextContrast: false,
 };

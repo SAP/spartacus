@@ -5,6 +5,17 @@ $gutterSize: 15px;
     display: none;
   }
 
+  // Show the focus outline on the Show More/Less button when focused, using
+  // both :focus and :focus-visible to ensure visibility after click or keyboard.
+  // Override the global `.mouse-focus` suppression by targeting button:focus
+  // directly without the `.mouse-focus` ancestor selector.
+  button.btn-primary:focus,
+  button.btn-primary:focus-visible {
+    @include visible-focus();
+    --cx-visual-focus-width: 2px;
+    box-shadow: 0 0 8px var(--cx-color-inverse);
+  }
+
   .header {
     display: flex;
     flex-wrap: wrap;

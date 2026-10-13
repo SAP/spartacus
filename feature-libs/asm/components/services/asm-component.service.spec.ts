@@ -10,6 +10,7 @@ import { AuthService, WindowRef, RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { firstValueFrom } from 'rxjs';
 import { AsmComponentService } from './asm-component.service';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 
 class MockAuthService implements Partial<AuthService> {
   logout(): void {}
@@ -24,10 +25,10 @@ class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
   }
 }
 
-const store = {};
-const MockWindowRef = {
-  localStorage: {
-    getItem: (key: string): string => {
+const store: Record<string, string> = {};
+class MockWindowRef extends MockWinRef {
+  override localStorage: any = {
+    getItem: (key: string): string | null => {
       return key in store ? store[key] : null;
     },
     setItem: (key: string, value: string) => {
@@ -38,11 +39,11 @@ const MockWindowRef = {
         delete store[key];
       }
     },
-  },
-  location: {
+  };
+  override location = {
     search: 'customerId=testId',
-  },
-};
+  } as Location;
+}
 
 class MockAsmDeepLinkService implements Partial<AsmDeepLinkService> {
   isEmulateInURL(): boolean {
@@ -83,7 +84,7 @@ describe('AsmComponentService', () => {
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
-        { provide: WindowRef, useValue: MockWindowRef },
+        { provide: WindowRef, useClass: MockWindowRef },
         { provice: AsmDeepLinkService, useClass: MockAsmDeepLinkService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: AsmEnablerService, useClass: MockAsmEnablerService },

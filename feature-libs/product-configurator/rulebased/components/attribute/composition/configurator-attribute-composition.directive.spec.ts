@@ -4,7 +4,6 @@ import { LoggerService } from '@spartacus/core';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { ConfiguratorAttributeCompositionConfig } from './configurator-attribute-composition.config';
 import { ConfiguratorAttributeCompositionDirective } from './configurator-attribute-composition.directive';
-import { vi } from 'vitest';
 
 class TestComponent {}
 

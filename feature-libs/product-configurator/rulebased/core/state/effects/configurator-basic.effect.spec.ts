@@ -34,7 +34,6 @@ import {
 import { getConfiguratorReducers } from './../reducers/index';
 import { ConfiguratorBasicEffectService } from './configurator-basic-effect.service';
 import * as fromEffects from './configurator-basic.effect';
-import { vi } from 'vitest';
 
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';

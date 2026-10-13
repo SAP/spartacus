@@ -134,6 +134,17 @@ describe('WishListItemComponent', () => {
   });
 
   beforeEach(() => {
+    mockCartEntry.updateable = true;
+    mockCartEntry.product.baseOptions = [
+      {
+        selected: {
+          variantOptionQualifiers: [
+            { name: 'Color', value: 'Red' },
+            { name: 'Size', value: 'L' },
+          ],
+        },
+      },
+    ];
     fixture = TestBed.createComponent(WishListItemComponent);
     component = fixture.componentInstance;
     component.cartEntry = mockCartEntry;
@@ -185,7 +196,6 @@ describe('WishListItemComponent', () => {
     fixture.detectChanges();
 
     expect(el.query(By.css('button.cx-remove-btn'))).toBeNull();
-    component.cartEntry.updateable = true;
   });
 
   it('should call remove', () => {

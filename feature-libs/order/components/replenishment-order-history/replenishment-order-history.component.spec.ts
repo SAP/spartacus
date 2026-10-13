@@ -182,6 +182,7 @@ describe('ReplenishmentOrderHistoryComponent', () => {
   });
 
   beforeEach(() => {
+    replenishmentOrderHistory.next(mockReplenishmentOrders);
     fixture = TestBed.createComponent(ReplenishmentOrderHistoryComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
@@ -241,7 +242,6 @@ describe('ReplenishmentOrderHistoryComponent', () => {
     ).mockImplementation(() => {});
 
     component.changeSortCode('byReplenishmentNumber');
-
     expect(component.sortType).toBe('byReplenishmentNumber');
     expect(
       replenishmentOrderHistoryFacade.loadReplenishmentOrderList
