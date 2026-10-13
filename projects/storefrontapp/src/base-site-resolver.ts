@@ -6,6 +6,7 @@
 
 import {
   DefaultBaseSiteResolver,
+  StaticBaseSite,
   extractOccBaseUrlFromHtml,
 } from '@spartacus/setup/ssr/base-site';
 
@@ -13,6 +14,11 @@ export interface StorefrontBaseSiteResolverOptions {
   indexHtmlPaths: readonly string[];
   readFile: (path: string) => string;
   occApiPrefix?: string;
+  /**
+   * Authoritative, statically configured base-site list. When provided, the
+   * resolver matches against it in memory and never calls OCC.
+   */
+  baseSites?: StaticBaseSite[];
   warn: (message: string) => void;
 }
 
@@ -39,6 +45,10 @@ export function resolveOccBaseUrl(
 export function createStorefrontBaseSiteResolver(
   options: StorefrontBaseSiteResolverOptions
 ): DefaultBaseSiteResolver | undefined {
+  if (options.baseSites?.length) {
+    return new DefaultBaseSiteResolver({ baseSites: options.baseSites });
+  }
+
   const occBaseUrl = resolveOccBaseUrl(
     options.indexHtmlPaths,
     options.readFile

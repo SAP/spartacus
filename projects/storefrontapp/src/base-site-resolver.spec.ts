@@ -98,4 +98,22 @@ describe('createStorefrontBaseSiteResolver', () => {
     expect(resolver).toBeUndefined();
     expect(warnings.length).toBe(1);
   });
+
+  it('builds an authoritative static resolver that never calls OCC', () => {
+    const fetchSpy = jest.spyOn(globalThis, 'fetch');
+    const resolver = createStorefrontBaseSiteResolver({
+      indexHtmlPaths: ['/browser/index.html'],
+      readFile: () =>
+        '<meta name="occ-backend-base-url" content="https://api.example">',
+      baseSites: [{ uid: 'electronics-spa', urlPatterns: ['electronics-spa'] }],
+      warn: () => undefined,
+    });
+    expect(resolver).toBeInstanceOf(DefaultBaseSiteResolver);
+    return resolver!
+      .resolve('https://shop.example/electronics-spa/en/USD/llm.txt')
+      .then((uid) => {
+        expect(uid).toBe('electronics-spa');
+        expect(fetchSpy).not.toHaveBeenCalled();
+      });
+  });
 });
