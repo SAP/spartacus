@@ -9,18 +9,25 @@ import {
   ConcurrencyLimitError,
   OccUnavailableError,
 } from './base-site-resolver';
-import { createBaseSiteRequestHandler } from './base-site-request-handler';
+import {
+  createBaseSiteRequestHandler,
+  setDefaultBaseSiteResolver,
+} from './base-site-request-handler';
 
 function createRequest({
   host = 'internal.example',
   forwardedHost,
   forwardedProto,
   trustProxy = false,
+  originalUrl = '/base-site?language=en',
+  path = '/base-site',
 }: {
   host?: string;
   forwardedHost?: string;
   forwardedProto?: string;
   trustProxy?: boolean;
+  originalUrl?: string;
+  path?: string;
 } = {}): Request {
   const headers: Record<string, string | undefined> = {
     host,
@@ -29,7 +36,8 @@ function createRequest({
   };
 
   const request = {
-    originalUrl: '/base-site?language=en',
+    originalUrl,
+    path,
     connection: { remoteAddress: '127.0.0.1' },
     socket: { encrypted: true, remoteAddress: '127.0.0.1' },
     app: {
@@ -55,6 +63,7 @@ function createResponse(): Response {
   const response = {
     send: jest.fn(),
     setHeader: jest.fn(),
+    redirect: jest.fn(),
   } as Partial<Response>;
   response.status = jest
     .fn()
@@ -254,5 +263,111 @@ describe('createBaseSiteRequestHandler', () => {
 
     expect(next).toHaveBeenCalledWith(error);
     expect(response.send).not.toHaveBeenCalled();
+  });
+});
+
+describe('createBaseSiteRequestHandler canonical-path routing', () => {
+  it('serves a matched base site under the original URL', async () => {
+    const handler = createBaseSiteRequestHandler({
+      resolver: { resolve: async () => 'electronics-spa' },
+      render: (baseSite) => `site:${baseSite}`,
+      canonicalPath: '/llm.txt',
+    });
+    const response = createResponse();
+
+    await handler(
+      createRequest({
+        path: '/electronics-spa/llm.txt',
+        originalUrl: '/electronics-spa/llm.txt',
+      }),
+      response,
+      createNext()
+    );
+
+    expect(response.send).toHaveBeenCalledWith('site:electronics-spa');
+    expect(response.redirect).not.toHaveBeenCalled();
+  });
+
+  it('redirects an unmatched prefixed URL to the canonical path, preserving the query', async () => {
+    const handler = createBaseSiteRequestHandler({
+      resolver: { resolve: async () => null },
+      render: (baseSite) => baseSite ?? '',
+      canonicalPath: '/llm.txt',
+    });
+    const response = createResponse();
+
+    await handler(
+      createRequest({
+        path: '/unknown/llm.txt',
+        originalUrl: '/unknown/llm.txt?x=1',
+      }),
+      response,
+      createNext()
+    );
+
+    expect(response.redirect).toHaveBeenCalledWith(308, '/llm.txt?x=1');
+    expect(response.send).not.toHaveBeenCalled();
+  });
+
+  it('serves a null base site at the canonical root without redirecting', async () => {
+    const handler = createBaseSiteRequestHandler({
+      resolver: { resolve: async () => null },
+      render: (baseSite) => (baseSite === null ? 'general' : baseSite),
+      canonicalPath: '/llm.txt',
+    });
+    const response = createResponse();
+
+    await handler(
+      createRequest({ path: '/llm.txt', originalUrl: '/llm.txt' }),
+      response,
+      createNext()
+    );
+
+    expect(response.send).toHaveBeenCalledWith('general');
+    expect(response.redirect).not.toHaveBeenCalled();
+  });
+
+  it('lets a custom fallback override the default routing', async () => {
+    const handler = createBaseSiteRequestHandler({
+      resolver: { resolve: async () => null },
+      render: (baseSite) => `served:${baseSite}`,
+      canonicalPath: '/llm.txt',
+      fallback: () => ({ type: 'serve', baseSite: 'forced' }),
+    });
+    const response = createResponse();
+
+    await handler(
+      createRequest({
+        path: '/unknown/llm.txt',
+        originalUrl: '/unknown/llm.txt',
+      }),
+      response,
+      createNext()
+    );
+
+    expect(response.send).toHaveBeenCalledWith('served:forced');
+    expect(response.redirect).not.toHaveBeenCalled();
+  });
+});
+
+describe('createBaseSiteRequestHandler resolver resolution', () => {
+  afterEach(() => setDefaultBaseSiteResolver(undefined));
+
+  it('uses the process-wide default resolver when none is passed', async () => {
+    setDefaultBaseSiteResolver({ resolve: async () => 'from-default' });
+    const handler = createBaseSiteRequestHandler({
+      render: (baseSite) => baseSite ?? '',
+    });
+    const response = createResponse();
+
+    await handler(createRequest(), response, createNext());
+
+    expect(response.send).toHaveBeenCalledWith('from-default');
+  });
+
+  it('throws when no resolver is available', () => {
+    expect(() =>
+      createBaseSiteRequestHandler({ render: (baseSite) => baseSite ?? '' })
+    ).toThrow();
   });
 });

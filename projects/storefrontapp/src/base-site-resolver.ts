@@ -12,7 +12,6 @@ import {
 export interface StorefrontBaseSiteResolverOptions {
   indexHtmlPaths: readonly string[];
   readFile: (path: string) => string;
-  defaultBaseSite: string;
   occApiPrefix?: string;
   warn: (message: string) => void;
 }
@@ -55,6 +54,5 @@ export function createStorefrontBaseSiteResolver(
   return new DefaultBaseSiteResolver({
     occBaseUrl,
     occApiPrefix: options.occApiPrefix,
-    defaultBaseSite: options.defaultBaseSite,
   });
 }

@@ -37,5 +37,3 @@ export const baseSite = getBaseSites(
   environment.b2b,
   environment.epdVisualization
 );
-
-export const defaultBaseSiteId = baseSite[0];

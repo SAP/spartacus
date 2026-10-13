@@ -75,7 +75,6 @@ describe('createStorefrontBaseSiteResolver', () => {
     const resolver = createStorefrontBaseSiteResolver({
       indexHtmlPaths: INDEX_PATHS,
       readFile: (path) => htmlByPath[path],
-      defaultBaseSite: 'electronics-spa',
       occApiPrefix: '/occ/v2/',
       warn: (message) => warnings.push(message),
     });
@@ -92,7 +91,6 @@ describe('createStorefrontBaseSiteResolver', () => {
       readFile: () => {
         throw new Error('missing');
       },
-      defaultBaseSite: 'electronics-spa',
       occApiPrefix: '/occ/v2/',
       warn: (message) => warnings.push(message),
     });
