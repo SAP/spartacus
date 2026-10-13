@@ -7,7 +7,11 @@
 import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { RoutingService, TranslatePipe, useFeatureStyles } from '@spartacus/core';
+import {
+  RoutingService,
+  TranslatePipe,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';

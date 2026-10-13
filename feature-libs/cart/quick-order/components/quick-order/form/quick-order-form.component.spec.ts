@@ -8,6 +8,7 @@ import {
 } from '@spartacus/cart/quick-order/root';
 import {
   FeaturesConfig,
+  FeatureStylesService,
   GlobalMessageService,
   GlobalMessageType,
   MockTranslatePipe,
@@ -256,5 +257,34 @@ describe('QuickOrderFormComponent', () => {
       component.canAddProduct().subscribe((canAdd) => (result = canAdd));
       expect(result).toBeFalsy();
     });
+  });
+});
+
+class MockFeatureStylesService {
+  registerUsage = vi.fn();
+  unregisterUsage = vi.fn();
+}
+
+describe('QuickOrderFormComponent feature toggle registration', () => {
+  let featureStylesService: FeatureStylesService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, QuickOrderFormComponent],
+      providers: [
+        { provide: QuickOrderFacade, useClass: MockQuickOrderFacade },
+        { provide: WindowRef, useValue: { document: document } },
+        { provide: FeatureStylesService, useClass: MockFeatureStylesService },
+      ],
+    }).compileComponents();
+    featureStylesService = TestBed.inject(FeatureStylesService);
+    vi.spyOn(featureStylesService, 'registerUsage');
+  });
+
+  it('should register useFeatureStyles for a11yHighContrastFix', () => {
+    TestBed.createComponent(QuickOrderFormComponent);
+    expect(featureStylesService.registerUsage).toHaveBeenCalledWith(
+      'a11yHighContrastFix'
+    );
   });
 });

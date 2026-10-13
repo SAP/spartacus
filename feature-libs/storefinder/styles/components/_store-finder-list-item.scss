@@ -71,6 +71,16 @@
       a {
         color: var(--cx-color-background);
       }
+      .cx-store-open,
+      .cx-store-closed {
+        color: var(--cx-color-background);
+      }
+      cx-set-preferred-store {
+        .icon-not-selected,
+        .icon-selected {
+          color: var(--cx-color-background);
+        }
+      }
     }
     a {
       color: var(--cx-color-primary);
