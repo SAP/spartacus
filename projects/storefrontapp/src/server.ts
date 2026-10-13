@@ -23,6 +23,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'path';
 import { createStorefrontBaseSiteResolver } from './base-site-resolver';
 import { environment } from './environments/environment';
+import { staticBaseSites } from './app/spartacus/base-site.config';
 import bootstrap from './main.server';
 
 const ssrOptions: SsrOptimizationOptions = {
@@ -42,6 +43,7 @@ const baseSiteResolver = createStorefrontBaseSiteResolver({
   ],
   readFile: (path) => readFileSync(path, 'utf-8'),
   occApiPrefix: environment.occApiPrefix,
+  baseSites: staticBaseSites,
   warn: (message) => {
     // eslint-disable-next-line no-console
     console.warn(message);

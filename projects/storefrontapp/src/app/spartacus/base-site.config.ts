@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { StaticBaseSite } from '@spartacus/setup/ssr/base-site';
 import { environment } from '../../environments/environment';
 
 const B2C_BASE_SITES = [
@@ -37,3 +38,19 @@ export const baseSite = getBaseSites(
   environment.b2b,
   environment.epdVisualization
 );
+
+/**
+ * Node-side authoritative base-site map: each entry carries a `uid` and its
+ * `urlPatterns` (Java-regex strings, same shape as the OCC basesites response).
+ *
+ * When this list is non-empty it is passed to `createStorefrontBaseSiteResolver`
+ * in `server.ts` and becomes authoritative — OCC is never called. When empty,
+ * `createStorefrontBaseSiteResolver` falls back to the OCC-backed path.
+ *
+ * TODO: populate this list with the real OCC `urlPatterns` for each demo base
+ * site. The values must come from the SAP Commerce Cloud demo environment
+ * (e.g. via the `/occ/v2/basesites?fields=FULL` endpoint) — do not invent
+ * patterns, as an incorrect list silently breaks base-site detection for every
+ * request.
+ */
+export const staticBaseSites: StaticBaseSite[] = [];
