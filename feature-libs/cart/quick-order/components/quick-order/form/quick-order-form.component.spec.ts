@@ -12,9 +12,11 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   MockTranslatePipe,
+  MockTranslationService,
   Product,
   Translatable,
   TranslatePipe,
+  TranslationService,
   WindowRef,
 } from '@spartacus/core';
 import { FormErrorsModule, IconComponent } from '@spartacus/storefront';
@@ -274,6 +276,7 @@ describe('QuickOrderFormComponent feature toggle registration', () => {
       providers: [
         { provide: QuickOrderFacade, useClass: MockQuickOrderFacade },
         { provide: WindowRef, useValue: { document: document } },
+        { provide: TranslationService, useClass: MockTranslationService },
         { provide: FeatureStylesService, useClass: MockFeatureStylesService },
       ],
     }).compileComponents();

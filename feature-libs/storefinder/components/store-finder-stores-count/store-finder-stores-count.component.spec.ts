@@ -125,6 +125,8 @@ describe('StoreFinderStoresCountComponent feature toggle registration', () => {
       imports: [RouterModule.forRoot([]), StoreFinderStoresCountComponent],
       providers: [
         { provide: StoreFinderService, useClass: MockStoreFinderService },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: TranslationService, useClass: MockTranslationService },
         { provide: FeatureStylesService, useClass: MockFeatureStylesService },
       ],
     }).compileComponents();
