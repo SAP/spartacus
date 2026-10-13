@@ -5,50 +5,35 @@
  */
 
 import { getRequestUrl } from '@spartacus/setup/ssr';
-import { Request, RequestHandler } from 'express';
+import { NextFunction, Request, RequestHandler, Response } from 'express';
 import {
   BaseSiteResolver,
   ConcurrencyLimitError,
   OccUnavailableError,
 } from './base-site-resolver';
 
-/** Decision taken when the resolver did not match a base site. */
-export type BaseSiteFallbackResult =
-  | { type: 'serve'; baseSite: string | null }
-  | { type: 'redirect'; location: string; status?: 307 | 308 };
-
-/** Context passed to a no-match fallback callback. */
-export interface BaseSiteFallbackContext {
-  /** Full, trust-proxy-aware request URL. */
-  requestUrl: string;
-  /** Request path, for example `/electronics-spa/llm.txt`. */
-  path: string;
-  /** Configured canonical root path, for example `/llm.txt`. */
-  canonicalPath: string;
-  /** Whether the path carries a prefix before the canonical path. */
-  hasPrefix: boolean;
-  /** Request query string without the leading `?` (empty when absent). */
-  queryString: string;
+/**
+ * Request after base-site resolution. Locally extends Express `Request` so the
+ * resolved value is typed inside the handler without a global augmentation.
+ */
+export interface BaseSiteRequest extends Request {
+  baseSite: string | null;
 }
 
-/** Options for an Express handler backed by a base-site resolver. */
+/** Application handler invoked with the resolved base site on the request. */
+export type BaseSiteHandler = (
+  request: BaseSiteRequest,
+  response: Response,
+  next: NextFunction
+) => void | Promise<void>;
+
+/** Options for `createBaseSiteRequestHandler`. */
 export interface BaseSiteRequestHandlerOptions {
   /**
    * Resolver used to match the request URL to a base site. When omitted, the
    * process-wide resolver set via `setDefaultBaseSiteResolver` is used.
    */
   resolver?: BaseSiteResolver;
-  render: (baseSite: string | null) => string | Promise<string>;
-  /**
-   * Canonical root path of the handler, for example `/llm.txt`. When set, the
-   * handler applies no-match routing: a prefixed URL redirects to the canonical
-   * path, the canonical path itself is served with a `null` base site.
-   */
-  canonicalPath?: string;
-  /** Overrides the default no-match routing. */
-  fallback?: (context: BaseSiteFallbackContext) => BaseSiteFallbackResult;
-  /** Response content type. Default: `text/plain`. */
-  contentType?: string;
   /** Retry delays returned for recoverable resolver failures. */
   retryAfterSeconds?: {
     /** Delay for cold-cache load shedding. Default: `3`. */
@@ -70,47 +55,15 @@ export function setDefaultBaseSiteResolver(
   defaultResolver = resolver;
 }
 
-/** Default no-match routing: redirect prefixed URLs, serve the canonical root. */
-function defaultFallback(
-  context: BaseSiteFallbackContext
-): BaseSiteFallbackResult {
-  if (context.hasPrefix) {
-    const location =
-      context.canonicalPath +
-      (context.queryString ? `?${context.queryString}` : '');
-    return { type: 'redirect', location, status: 308 };
-  }
-  return { type: 'serve', baseSite: null };
-}
-
-/** Decides how to handle the request once the resolver has run. */
-function resolveOutcome(
-  options: BaseSiteRequestHandlerOptions,
-  request: Request,
-  requestUrl: string,
-  baseSite: string | null
-): BaseSiteFallbackResult {
-  // Match, or legacy mode without canonical-path routing: serve as resolved.
-  if (baseSite !== null || options.canonicalPath === undefined) {
-    return { type: 'serve', baseSite };
-  }
-
-  const canonicalPath = options.canonicalPath;
-  const path = request.path;
-  const context: BaseSiteFallbackContext = {
-    requestUrl,
-    path,
-    canonicalPath,
-    hasPrefix: path !== canonicalPath,
-    queryString: request.originalUrl.split('?')[1] ?? '',
-  };
-
-  return (options.fallback ?? defaultFallback)(context);
-}
-
-/** Creates an Express handler that renders the resolved base-site. */
+/**
+ * Wraps an application handler so it runs with the base site resolved for the
+ * request exposed as `request.baseSite`. The framework resolves the base site
+ * and maps resolver failures to `503`; everything else (status, headers, body,
+ * any routing or redirect) is the handler's responsibility.
+ */
 export function createBaseSiteRequestHandler(
-  options: BaseSiteRequestHandlerOptions
+  handler: BaseSiteHandler,
+  options: BaseSiteRequestHandlerOptions = {}
 ): RequestHandler {
   const resolver = options.resolver ?? defaultResolver;
   if (!resolver) {
@@ -120,32 +73,36 @@ export function createBaseSiteRequestHandler(
   }
 
   return async (request, response, next) => {
+    let baseSite: string | null;
     try {
-      const requestUrl = getRequestUrl(request);
-      const baseSite = await resolver.resolve(requestUrl);
-      const outcome = resolveOutcome(options, request, requestUrl, baseSite);
-
-      if (outcome.type === 'redirect') {
-        response.redirect(outcome.status ?? 308, outcome.location);
-        return;
-      }
-
-      const output = await options.render(outcome.baseSite);
-      response.type(options.contentType ?? 'text/plain').send(output);
+      baseSite = await resolver.resolve(getRequestUrl(request));
     } catch (error) {
-      let retryAfterSeconds: number;
-
       if (error instanceof ConcurrencyLimitError) {
-        retryAfterSeconds = options.retryAfterSeconds?.concurrencyLimit ?? 3;
-      } else if (error instanceof OccUnavailableError) {
-        retryAfterSeconds = options.retryAfterSeconds?.occUnavailable ?? 25;
-      } else {
-        next(error);
+        response.setHeader(
+          'Retry-After',
+          String(options.retryAfterSeconds?.concurrencyLimit ?? 3)
+        );
+        response.status(503).send('Service Unavailable');
         return;
       }
+      if (error instanceof OccUnavailableError) {
+        response.setHeader(
+          'Retry-After',
+          String(options.retryAfterSeconds?.occUnavailable ?? 25)
+        );
+        response.status(503).send('Service Unavailable');
+        return;
+      }
+      next(error);
+      return;
+    }
 
-      response.setHeader('Retry-After', String(retryAfterSeconds));
-      response.status(503).send('Service Unavailable');
+    const baseSiteRequest = request as BaseSiteRequest;
+    baseSiteRequest.baseSite = baseSite;
+    try {
+      await handler(baseSiteRequest, response, next);
+    } catch (error) {
+      next(error);
     }
   };
 }
