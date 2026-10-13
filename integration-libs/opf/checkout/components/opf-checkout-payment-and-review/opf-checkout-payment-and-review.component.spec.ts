@@ -194,7 +194,6 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
           provide: OpfCheckoutBillingAddressFormService,
           useClass: MockOpfCheckoutBillingAddressFormService,
         },
-        { provide: OpfBaseFacade, useClass: MockOpfBaseFacade },
         {
           provide: CheckoutPaymentTypeFacade,
           useClass: MockCheckoutPaymentTypeFacade,

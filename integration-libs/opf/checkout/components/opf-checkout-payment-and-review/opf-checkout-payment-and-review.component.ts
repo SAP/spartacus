@@ -35,11 +35,11 @@ import {
 } from '@spartacus/opf/checkout/root';
 import {
   BehaviorSubject,
+  filter,
   map,
   Observable,
-  take,
-  filter,
   switchMap,
+  take,
 } from 'rxjs';
 import { OpfCheckoutBillingAddressFormComponent } from '../opf-checkout-billing-address-form/opf-checkout-billing-address-form.component';
 import { OpfCheckoutPaymentsComponent } from '../opf-checkout-payments/opf-checkout-payments.component';
@@ -79,6 +79,10 @@ export class OpfCheckoutPaymentAndReviewComponent
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected cmsService = inject(CmsService);
   protected checkoutPaymentTypeFacade = inject(CheckoutPaymentTypeFacade);
+  /**
+   * @deprecated since 221121.21. No longer used internally.
+   * This property will be removed in a future major version.
+   */
   protected opfBaseFacade = inject(OpfBaseFacade);
   protected checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
   protected activeCartFacade = inject(ActiveCartFacade);
@@ -121,15 +125,6 @@ export class OpfCheckoutPaymentAndReviewComponent
   get termsAndConditionsFieldValue(): boolean {
     return Boolean(this.checkoutSubmitForm.get('termsAndConditions')?.value);
   }
-
-  getSelectedPayment$ = this.opfBaseFacade.getActiveConfigurationsState();
-
-  getSelectedPaymentId$ = this.opfMetadataStoreService
-    .getOpfMetadataState()
-    .pipe(
-      take(1),
-      map((data) => data?.selectedPaymentOptionId)
-    );
 
   protected isCmsComponentInPage(cmsComponentUid: string, page: Page): boolean {
     return !!page && JSON.stringify(page).includes(cmsComponentUid);
