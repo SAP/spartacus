@@ -33,7 +33,14 @@ import {
   OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT,
   OpfCheckoutOutlets,
 } from '@spartacus/opf/checkout/root';
-import { BehaviorSubject, map, Observable, take } from 'rxjs';
+import {
+  BehaviorSubject,
+  map,
+  Observable,
+  take,
+  filter,
+  switchMap,
+} from 'rxjs';
 import { OpfCheckoutBillingAddressFormComponent } from '../opf-checkout-billing-address-form/opf-checkout-billing-address-form.component';
 import { OpfCheckoutPaymentsComponent } from '../opf-checkout-payments/opf-checkout-payments.component';
 import {
@@ -144,8 +151,12 @@ export class OpfCheckoutPaymentAndReviewComponent
 
   setPickupDeliveryMode(): void {
     this.activeCartFacade
-      .hasDeliveryItems()
-      .pipe(take(1))
+      .isStable()
+      .pipe(
+        filter((isStable) => isStable),
+        switchMap(() => this.activeCartFacade.hasDeliveryItems()),
+        take(1)
+      )
       .subscribe((hasDeliveryItems) => {
         if (!hasDeliveryItems) {
           this.checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress();
