@@ -43,7 +43,7 @@ context('Quote<->Configurator integration', () => {
   });
 
   describe('Request quote process with VC configurable product', () => {
-    it.only('should not allow to request quote if the configuration has issues', () => {
+    it('should not allow to request quote if the configuration has issues', () => {
       quote.addProductToCart(TEST_PRODUCT_CONFIGURABLE_WITH_ISSUES, '1');
       quote.clickOnRequestQuote(true);
       quote.clearActiveCart();
