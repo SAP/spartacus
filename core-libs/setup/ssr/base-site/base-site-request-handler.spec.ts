@@ -19,8 +19,8 @@ function createRequest({
   forwardedHost,
   forwardedProto,
   trustProxy = false,
-  originalUrl = '/base-site?language=en',
-  path = '/base-site',
+  originalUrl = '/llm.txt',
+  path = '/llm.txt',
 }: {
   host?: string;
   forwardedHost?: string;
@@ -63,7 +63,6 @@ function createResponse(): Response {
   const response = {
     send: jest.fn(),
     setHeader: jest.fn(),
-    redirect: jest.fn(),
   } as Partial<Response>;
   response.status = jest
     .fn()
@@ -79,11 +78,43 @@ function createNext(): NextFunction {
 }
 
 describe('createBaseSiteRequestHandler', () => {
-  it('resolves trusted forwarded host and protocol values', async () => {
-    const handler = createBaseSiteRequestHandler({
-      resolver: { resolve: async (requestUrl) => requestUrl },
-      render: (baseSite) => baseSite ?? '',
-    });
+  afterEach(() => setDefaultBaseSiteResolver(undefined));
+
+  it('exposes the resolved base site on request.baseSite', async () => {
+    let seen: string | null | undefined;
+    const handler = createBaseSiteRequestHandler(
+      (request) => {
+        seen = request.baseSite;
+      },
+      { resolver: { resolve: async () => 'electronics-spa' } }
+    );
+
+    await handler(createRequest(), createResponse(), createNext());
+
+    expect(seen).toBe('electronics-spa');
+  });
+
+  it('exposes a null base site when nothing matched', async () => {
+    let seen: string | null | undefined = 'unset';
+    const handler = createBaseSiteRequestHandler(
+      (request) => {
+        seen = request.baseSite;
+      },
+      { resolver: { resolve: async () => null } }
+    );
+
+    await handler(createRequest(), createResponse(), createNext());
+
+    expect(seen).toBeNull();
+  });
+
+  it('resolves from the trust-proxy-aware request URL', async () => {
+    const handler = createBaseSiteRequestHandler(
+      (request, response) => {
+        response.send(request.baseSite ?? '');
+      },
+      { resolver: { resolve: async (requestUrl) => requestUrl } }
+    );
     const response = createResponse();
 
     await handler(
@@ -96,76 +127,45 @@ describe('createBaseSiteRequestHandler', () => {
       createNext()
     );
 
-    expect(response.send).toHaveBeenCalledWith(
-      'http://public.example/base-site?language=en'
-    );
+    expect(response.send).toHaveBeenCalledWith('http://public.example/llm.txt');
   });
 
-  it('ignores untrusted forwarded host and protocol values', async () => {
-    const handler = createBaseSiteRequestHandler({
-      resolver: { resolve: async (requestUrl) => requestUrl },
-      render: (baseSite) => baseSite ?? '',
+  it('awaits an asynchronous handler', async () => {
+    let finish: (() => void) | undefined;
+    const done = new Promise<void>((resolve) => {
+      finish = resolve;
     });
     const response = createResponse();
-
-    await handler(
-      createRequest({
-        host: 'storefront.example',
-        forwardedHost: 'spoofed.example',
-        forwardedProto: 'http',
-        trustProxy: false,
-      }),
-      response,
-      createNext()
+    const handler = createBaseSiteRequestHandler(
+      async () => {
+        await done;
+        response.send('late');
+      },
+      { resolver: { resolve: async () => 'electronics' } }
     );
 
-    expect(response.send).toHaveBeenCalledWith(
-      'https://storefront.example/base-site?language=en'
-    );
-  });
-
-  it('awaits asynchronous rendering before sending the response', async () => {
-    let finishRendering: ((output: string) => void) | undefined;
-    const output = new Promise<string>((resolve) => {
-      finishRendering = resolve;
-    });
-    const handler = createBaseSiteRequestHandler({
-      resolver: { resolve: async () => 'electronics' },
-      render: () => output,
-    });
-    const response = createResponse();
     const handling = handler(createRequest(), response, createNext());
-
     expect(response.send).not.toHaveBeenCalled();
-    finishRendering?.('rendered electronics');
+    finish?.();
     await handling;
 
-    expect(response.send).toHaveBeenCalledWith('rendered electronics');
+    expect(response.send).toHaveBeenCalledWith('late');
   });
 
-  it('uses text/plain by default', async () => {
-    const handler = createBaseSiteRequestHandler({
-      resolver: { resolve: async () => 'electronics' },
-      render: (baseSite) => baseSite ?? '',
+  it('uses the process-wide default resolver when none is passed', async () => {
+    setDefaultBaseSiteResolver({ resolve: async () => 'from-default' });
+    let seen: string | null | undefined;
+    const handler = createBaseSiteRequestHandler((request) => {
+      seen = request.baseSite;
     });
-    const response = createResponse();
 
-    await handler(createRequest(), response, createNext());
+    await handler(createRequest(), createResponse(), createNext());
 
-    expect(response.type).toHaveBeenCalledWith('text/plain');
+    expect(seen).toBe('from-default');
   });
 
-  it('uses the configured content type', async () => {
-    const handler = createBaseSiteRequestHandler({
-      resolver: { resolve: async () => 'electronics' },
-      render: (baseSite) => JSON.stringify({ baseSite }),
-      contentType: 'application/json',
-    });
-    const response = createResponse();
-
-    await handler(createRequest(), response, createNext());
-
-    expect(response.type).toHaveBeenCalledWith('application/json');
+  it('throws when no resolver is available', () => {
+    expect(() => createBaseSiteRequestHandler(() => undefined)).toThrow();
   });
 
   it.each([
@@ -182,19 +182,15 @@ describe('createBaseSiteRequestHandler', () => {
   ])(
     'returns 503 with the default Retry-After for $name',
     async ({ error, retryAfter }) => {
-      const handler = createBaseSiteRequestHandler({
-        resolver: { resolve: async () => Promise.reject(error) },
-        render: (baseSite) => baseSite ?? '',
-      });
-      const response = createResponse();
       const next = createNext();
+      const response = createResponse();
+      const handler = createBaseSiteRequestHandler(() => undefined, {
+        resolver: { resolve: async () => Promise.reject(error) },
+      });
 
       await handler(createRequest(), response, next);
 
-      expect(response.setHeader).toHaveBeenCalledWith(
-        'Retry-After',
-        retryAfter
-      );
+      expect(response.setHeader).toHaveBeenCalledWith('Retry-After', retryAfter);
       expect(response.status).toHaveBeenCalledWith(503);
       expect(response.send).toHaveBeenCalledWith('Service Unavailable');
       expect(next).not.toHaveBeenCalled();
@@ -217,157 +213,43 @@ describe('createBaseSiteRequestHandler', () => {
   ])(
     'returns 503 with the configured Retry-After for $name',
     async ({ error, retryAfterSeconds, retryAfter }) => {
-      const handler = createBaseSiteRequestHandler({
+      const response = createResponse();
+      const handler = createBaseSiteRequestHandler(() => undefined, {
         resolver: { resolve: async () => Promise.reject(error) },
-        render: (baseSite) => baseSite ?? '',
         retryAfterSeconds,
       });
-      const response = createResponse();
 
       await handler(createRequest(), response, createNext());
 
-      expect(response.setHeader).toHaveBeenCalledWith(
-        'Retry-After',
-        retryAfter
-      );
+      expect(response.setHeader).toHaveBeenCalledWith('Retry-After', retryAfter);
       expect(response.status).toHaveBeenCalledWith(503);
-      expect(response.send).toHaveBeenCalledWith('Service Unavailable');
     }
   );
 
   it('forwards unknown resolver errors to Express error handling', async () => {
     const error = new Error('unexpected resolver failure');
-    const handler = createBaseSiteRequestHandler({
+    const next = createNext();
+    const handler = createBaseSiteRequestHandler(() => undefined, {
       resolver: { resolve: async () => Promise.reject(error) },
-      render: (baseSite) => baseSite ?? '',
     });
-    const response = createResponse();
-    const next = createNext();
 
-    await handler(createRequest(), response, next);
+    await handler(createRequest(), createResponse(), next);
 
     expect(next).toHaveBeenCalledWith(error);
-    expect(response.send).not.toHaveBeenCalled();
   });
 
-  it('forwards render errors to Express error handling', async () => {
-    const error = new Error('render failure');
-    const handler = createBaseSiteRequestHandler({
-      resolver: { resolve: async () => 'electronics' },
-      render: async () => Promise.reject(error),
-    });
-    const response = createResponse();
+  it('forwards handler errors to Express error handling', async () => {
+    const error = new Error('handler failure');
     const next = createNext();
+    const handler = createBaseSiteRequestHandler(
+      () => {
+        throw error;
+      },
+      { resolver: { resolve: async () => 'electronics' } }
+    );
 
-    await handler(createRequest(), response, next);
+    await handler(createRequest(), createResponse(), next);
 
     expect(next).toHaveBeenCalledWith(error);
-    expect(response.send).not.toHaveBeenCalled();
-  });
-});
-
-describe('createBaseSiteRequestHandler canonical-path routing', () => {
-  it('serves a matched base site under the original URL', async () => {
-    const handler = createBaseSiteRequestHandler({
-      resolver: { resolve: async () => 'electronics-spa' },
-      render: (baseSite) => `site:${baseSite}`,
-      canonicalPath: '/llm.txt',
-    });
-    const response = createResponse();
-
-    await handler(
-      createRequest({
-        path: '/electronics-spa/llm.txt',
-        originalUrl: '/electronics-spa/llm.txt',
-      }),
-      response,
-      createNext()
-    );
-
-    expect(response.send).toHaveBeenCalledWith('site:electronics-spa');
-    expect(response.redirect).not.toHaveBeenCalled();
-  });
-
-  it('redirects an unmatched prefixed URL to the canonical path, preserving the query', async () => {
-    const handler = createBaseSiteRequestHandler({
-      resolver: { resolve: async () => null },
-      render: (baseSite) => baseSite ?? '',
-      canonicalPath: '/llm.txt',
-    });
-    const response = createResponse();
-
-    await handler(
-      createRequest({
-        path: '/unknown/llm.txt',
-        originalUrl: '/unknown/llm.txt?x=1',
-      }),
-      response,
-      createNext()
-    );
-
-    expect(response.redirect).toHaveBeenCalledWith(308, '/llm.txt?x=1');
-    expect(response.send).not.toHaveBeenCalled();
-  });
-
-  it('serves a null base site at the canonical root without redirecting', async () => {
-    const handler = createBaseSiteRequestHandler({
-      resolver: { resolve: async () => null },
-      render: (baseSite) => (baseSite === null ? 'general' : baseSite),
-      canonicalPath: '/llm.txt',
-    });
-    const response = createResponse();
-
-    await handler(
-      createRequest({ path: '/llm.txt', originalUrl: '/llm.txt' }),
-      response,
-      createNext()
-    );
-
-    expect(response.send).toHaveBeenCalledWith('general');
-    expect(response.redirect).not.toHaveBeenCalled();
-  });
-
-  it('lets a custom fallback override the default routing', async () => {
-    const handler = createBaseSiteRequestHandler({
-      resolver: { resolve: async () => null },
-      render: (baseSite) => `served:${baseSite}`,
-      canonicalPath: '/llm.txt',
-      fallback: () => ({ type: 'serve', baseSite: 'forced' }),
-    });
-    const response = createResponse();
-
-    await handler(
-      createRequest({
-        path: '/unknown/llm.txt',
-        originalUrl: '/unknown/llm.txt',
-      }),
-      response,
-      createNext()
-    );
-
-    expect(response.send).toHaveBeenCalledWith('served:forced');
-    expect(response.redirect).not.toHaveBeenCalled();
-  });
-});
-
-describe('createBaseSiteRequestHandler resolver resolution', () => {
-  afterEach(() => setDefaultBaseSiteResolver(undefined));
-
-  it('uses the process-wide default resolver when none is passed', async () => {
-    setDefaultBaseSiteResolver({ resolve: async () => 'from-default' });
-    const handler = createBaseSiteRequestHandler({
-      render: (baseSite) => baseSite ?? '',
-    });
-    const response = createResponse();
-
-    await handler(createRequest(), response, createNext());
-
-    expect(response.send).toHaveBeenCalledWith('from-default');
-  });
-
-  it('throws when no resolver is available', () => {
-    expect(() =>
-      createBaseSiteRequestHandler({ render: (baseSite) => baseSite ?? '' })
-    ).toThrow();
   });
 });
