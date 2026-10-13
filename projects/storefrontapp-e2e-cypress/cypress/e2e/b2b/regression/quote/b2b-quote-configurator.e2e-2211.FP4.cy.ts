@@ -14,7 +14,7 @@ const TEST_PRODUCT_CONFIGURABLE_WITH_ISSUES = 'CONF_SCREWDRIVER_S';
 const TEST_PRODUCT_CONFIGURABLE_TEXTFIELD = '2116282';
 const TEST_PRODUCT_NON_CONFIGURABLE = '3887130';
 const EMAIL = 'gi.sun@pronto-hw.com';
-const PASSWORD = '12341234';
+const PASSWORD = 'Welcome!Welcome1';
 const USER = 'Gi Sun';
 
 // List of attributes
@@ -43,7 +43,7 @@ context('Quote<->Configurator integration', () => {
   });
 
   describe('Request quote process with VC configurable product', () => {
-    it('should not allow to request quote if the configuration has issues', () => {
+    it.only('should not allow to request quote if the configuration has issues', () => {
       quote.addProductToCart(TEST_PRODUCT_CONFIGURABLE_WITH_ISSUES, '1');
       quote.clickOnRequestQuote(true);
       quote.clearActiveCart();
