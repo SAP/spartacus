@@ -240,10 +240,10 @@ describe('SiteContextSelectorComponent feature toggle registration', () => {
     vi.spyOn(featureStylesService, 'registerUsage');
   });
 
-  it('should register useFeatureStyles for a11yHighContrastFix', () => {
+  it('should register useFeatureStyles for a11ySiteContextCaretClick', () => {
     TestBed.createComponent(SiteContextSelectorComponent);
     expect(featureStylesService.registerUsage).toHaveBeenCalledWith(
-      'a11yHighContrastFix'
+      'a11ySiteContextCaretClick'
     );
   });
 });

@@ -55,7 +55,6 @@ export class SiteContextSelectorComponent {
 
   constructor(private componentService: SiteContextComponentService) {
     useFeatureStyles('a11ySiteContextCaretClick');
-    useFeatureStyles('a11yHighContrastFix');
   }
 
   get items$(): Observable<any> {
