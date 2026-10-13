@@ -90,9 +90,8 @@ export function app(): express.Express {
   if (baseSiteResolver) {
     server.get(
       /\/llm\.txt$/,
-      createBaseSiteRequestHandler({
-        canonicalPath: '/llm.txt',
-        render: renderLlmTxt,
+      createBaseSiteRequestHandler((request, response) => {
+        response.type('text/plain').send(renderLlmTxt(request.baseSite));
       })
     );
   }
