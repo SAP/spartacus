@@ -15,7 +15,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { CmsComponentMapping, Priority } from '@spartacus/core';
-import { defer, Observable } from 'rxjs';
+import { defer, from, Observable } from 'rxjs';
 import { DefaultComponentHandler } from './default-component.handler';
 import { finalize, switchMap } from 'rxjs/operators';
 import { ComponentHandler } from './component-handler';
@@ -63,8 +63,9 @@ export class LazyComponentHandler implements ComponentHandler {
       // serializing and destroying the app while the import() is still in flight
       // (which would cause NG0205 — destroyed injector). The task is removed by
       // finalize(), which fires on complete, error, and unsubscribe.
+
       const removeTaskTracking = this.pendingTasks.add();
-      return defer(() => componentMapping.component()).pipe(
+      return from(componentMapping.component()).pipe(
         finalize(removeTaskTracking)
       );
     }).pipe(

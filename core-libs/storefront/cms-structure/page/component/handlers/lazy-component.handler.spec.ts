@@ -102,7 +102,10 @@ describe('LazyComponentHandler', () => {
 
     it('should remove the pending task on unsubscribe', () => {
       let resolveImport!: (v: any) => void;
-      const mapping = () => new Promise((res) => { resolveImport = res; });
+      const mapping = () =>
+        new Promise((res) => {
+          resolveImport = res;
+        });
       const sub = service
         .launcher({ component: mapping }, undefined, undefined)
         .subscribe();
