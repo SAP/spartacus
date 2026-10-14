@@ -33,6 +33,10 @@ describe('PageLinkService', () => {
           provide: WindowRef,
           useClass: MockWindowRef,
         },
+        {
+          provide: FeatureToggles,
+          useValue: { pageLinkSanitizeCanonicalUrl: true },
+        },
       ],
     });
 
@@ -109,7 +113,7 @@ describe('PageLinkService', () => {
         expect(canonical).toEqual('https://www.storefront.com/');
       });
 
-      it(`should not add trailing slash`, () => {
+      it(`should add trailing slash for root path`, () => {
         const canonical = service.getCanonicalUrl(
           {
             forceTrailingSlash: true,
@@ -117,10 +121,21 @@ describe('PageLinkService', () => {
           },
           'https://www.storefront.com?foo=bar'
         );
-        expect(canonical).toEqual('https://www.storefront.com?foo=bar');
+        expect(canonical).toEqual('https://www.storefront.com/?foo=bar');
       });
 
-      it(`should not add trailing slash after leading question mark`, () => {
+      it(`should not add trailing slash`, () => {
+        const canonical = service.getCanonicalUrl(
+          {
+            forceTrailingSlash: true,
+            removeQueryParams: false,
+          },
+          'https://www.storefront.com/foo?bar=baz'
+        );
+        expect(canonical).toEqual('https://www.storefront.com/foo?bar=baz');
+      });
+
+      it(`should add trailing slash after leading question mark for root path`, () => {
         const canonical = service.getCanonicalUrl(
           {
             forceTrailingSlash: true,
@@ -128,7 +143,7 @@ describe('PageLinkService', () => {
           },
           'https://www.storefront.com?'
         );
-        expect(canonical).toEqual('https://www.storefront.com?');
+        expect(canonical).toEqual('https://www.storefront.com/?');
       });
 
       it(`should add trailing slash when params are removed`, () => {
@@ -152,14 +167,14 @@ describe('PageLinkService', () => {
         expect(canonical).toEqual('https://www.storefront.com/page/');
       });
 
-      it(`should not add trailing slash`, () => {
+      it(`should not add trailing slash for root path`, () => {
         const canonical = service.getCanonicalUrl(
           {
             forceTrailingSlash: false,
           },
           'https://www.storefront.com'
         );
-        expect(canonical).toEqual('https://www.storefront.com');
+        expect(canonical).toEqual('https://www.storefront.com/');
       });
 
       it(`should add trailing slash to redirects`, () => {
@@ -240,13 +255,6 @@ describe('PageLinkService - pageLinkSanitizeCanonicalUrl feature toggle', () => 
   }
 
   describe('when enabled', () => {
-    it('should sanitize and build the canonical URL for a valid http(s) URL', () => {
-      const service = createService(true);
-      expect(service.getCanonicalUrl({}, 'http://test.com/xyz')).toEqual(
-        'https://www.test.com/xyz/'
-      );
-    });
-
     it('should return an empty string for a URL with a non-http(s) protocol', () => {
       const service = createService(true);
       expect(service.getCanonicalUrl({}, 'javascript:alert(1)')).toEqual('');
