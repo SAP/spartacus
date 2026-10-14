@@ -254,6 +254,9 @@ describe('PageLinkService - pageLinkSanitizeCanonicalUrl feature toggle', () => 
     return TestBed.inject(PageLinkService);
   }
 
+  // When pageLinkSanitizeCanonicalUrl is deprecated, add the 'enabled' tests to the
+  // 'canonical Url' describe then delete the 'PageLinkService - pageLinkSanitizeCanonicalUrl feature toggle'
+  // describe block
   describe('when enabled', () => {
     it('should return an empty string for a URL with a non-http(s) protocol', () => {
       const service = createService(true);
