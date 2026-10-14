@@ -327,6 +327,17 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     expect(component.focusConfig.key).toContain(valueCode);
   });
 
+  it('should resolve label, name and focus key from deprecated fields when attribute is omitted', () => {
+    delete component.productCardOptions.attribute;
+    component.productCardOptions.attributeId = 456;
+    component.productCardOptions.attributeLabel = 'Legacy Label';
+    component.productCardOptions.attributeName = 'Legacy Name';
+
+    expect(component.productCardAttributeLabel).toBe('Legacy Label');
+    expect(component.productCardAttributeName).toBe('Legacy Name');
+    expect(component.focusConfig.key).toContain('456');
+  });
+
   it('should indicate loading state when fetching product data', () => {
     const loadingState: boolean[] = [];
     let subscription = component.loading$.subscribe((loading) => {
