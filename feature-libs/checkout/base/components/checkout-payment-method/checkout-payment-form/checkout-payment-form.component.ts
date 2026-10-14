@@ -182,9 +182,12 @@ export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
    * focus to the first page element.
    */
   onCvvEscape(event: KeyboardEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-    this.cvvTooltipDismissed = true;
+    // Only intercept while tooltip is visible; otherwise let Escape propagate so the page handles it normally (e.g. skip links).
+    if (!this.cvvTooltipDismissed) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.cvvTooltipDismissed = true;
+    }
   }
 
   /** Clears the dismissed state so the tooltip re-enables on next focus. */

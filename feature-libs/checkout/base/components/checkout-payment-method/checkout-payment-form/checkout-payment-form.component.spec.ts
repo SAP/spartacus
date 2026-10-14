@@ -767,5 +767,24 @@ describe('CheckoutPaymentFormComponent', () => {
 
       expect(component.cvvTooltipDismissed).toBe(false);
     });
+
+    it('should not stop propagation on second Escape when tooltip is already dismissed', () => {
+      featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', true);
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.query(
+        By.css('button.cx-cvv-info-btn')
+      );
+
+      const firstEvent = new KeyboardEvent('keydown', { key: 'Escape' });
+      vi.spyOn(firstEvent, 'stopPropagation');
+      button.triggerEventHandler('keydown.escape', firstEvent);
+      expect(component.cvvTooltipDismissed).toBe(true);
+
+      const secondEvent = new KeyboardEvent('keydown', { key: 'Escape' });
+      vi.spyOn(secondEvent, 'stopPropagation');
+      button.triggerEventHandler('keydown.escape', secondEvent);
+      expect(secondEvent.stopPropagation).not.toHaveBeenCalled();
+    });
   });
 });
