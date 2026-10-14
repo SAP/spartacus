@@ -215,7 +215,10 @@
                     {{ 'paymentForm.securityCode' | cxTranslate }}
                     <cx-form-required-asterisks />
                   </span>
-                  <span class="cx-cvv-info" #cvvInfoWrapper>
+                  <span
+                    class="cx-cvv-info"
+                    [class.cx-cvv-tooltip-dismissed]="cvvTooltipDismissed"
+                  >
                     <button
                       type="button"
                       class="cx-payment-form-tooltip cx-cvv-info-btn"

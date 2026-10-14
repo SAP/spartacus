@@ -131,8 +131,7 @@ export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
   @ViewChild(forwardRef(() => FocusFirstInvalidFieldDirective))
   protected firstInvalidFieldFocus?: FocusFirstInvalidFieldDirective;
 
-  @ViewChild('cvvInfoWrapper')
-  protected cvvInfoWrapper?: ElementRef<HTMLElement>;
+  cvvTooltipDismissed = false;
 
   paymentForm: UntypedFormGroup = this.fb.group({
     cardType: this.fb.group({
@@ -185,16 +184,12 @@ export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
   onCvvEscape(event: KeyboardEvent): void {
     event.preventDefault();
     event.stopPropagation();
-    this.cvvInfoWrapper?.nativeElement.classList.add(
-      'cx-cvv-tooltip--dismissed'
-    );
+    this.cvvTooltipDismissed = true;
   }
 
   /** Clears the dismissed state so the tooltip re-enables on next focus. */
   onCvvBlur(): void {
-    this.cvvInfoWrapper?.nativeElement.classList.remove(
-      'cx-cvv-tooltip--dismissed'
-    );
+    this.cvvTooltipDismissed = false;
   }
 
   ngOnInit(): void {

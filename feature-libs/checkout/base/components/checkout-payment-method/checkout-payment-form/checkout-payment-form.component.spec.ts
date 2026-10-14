@@ -748,35 +748,24 @@ describe('CheckoutPaymentFormComponent', () => {
       const button = fixture.debugElement.query(
         By.css('button.cx-cvv-info-btn')
       );
-      const wrapper: HTMLElement = fixture.debugElement.query(
-        By.css('.cx-cvv-info')
-      ).nativeElement;
-
       const event = new KeyboardEvent('keydown', { key: 'Escape' });
       button.triggerEventHandler('keydown.escape', event);
 
-      expect(wrapper.classList.contains('cx-cvv-tooltip--dismissed')).toBe(
-        true
-      );
+      expect(component.cvvTooltipDismissed).toBe(true);
     });
 
     it('should remove dismissed class on blur so tooltip re-enables on next focus', () => {
       featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', true);
       fixture.detectChanges();
 
+      component.cvvTooltipDismissed = true;
+
       const button = fixture.debugElement.query(
         By.css('button.cx-cvv-info-btn')
       );
-      const wrapper: HTMLElement = fixture.debugElement.query(
-        By.css('.cx-cvv-info')
-      ).nativeElement;
-
-      wrapper.classList.add('cx-cvv-tooltip--dismissed');
       button.triggerEventHandler('blur', {});
 
-      expect(wrapper.classList.contains('cx-cvv-tooltip--dismissed')).toBe(
-        false
-      );
+      expect(component.cvvTooltipDismissed).toBe(false);
     });
   });
 });

@@ -79,7 +79,7 @@
   }
 
   &:hover .cx-cvv-tooltip,
-  &:not(.cx-cvv-tooltip--dismissed):focus-within .cx-cvv-tooltip {
+  &:not(.cx-cvv-tooltip-dismissed):focus-within .cx-cvv-tooltip {
     display: block;
   }
 }
