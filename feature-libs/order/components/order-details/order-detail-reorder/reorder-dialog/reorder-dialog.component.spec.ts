@@ -15,8 +15,8 @@ import {
 import { ReorderOrderFacade } from '@spartacus/order/root';
 import {
   FocusDirective,
-  IconComponent,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
   PromotionsModule,
   SpinnerComponent,
@@ -210,6 +210,41 @@ describe('ReorderDialogComponent', () => {
       )[1].nativeElement.dispatchEvent(new MouseEvent('click'));
       fixture.detectChanges();
       expect(el.query(By.css('.success')).nativeElement).toBeDefined();
+    });
+    it('should display the unavailable message for unavailable cart modifications', () => {
+      component.showDecisionPrompt$.next(true);
+      vi.spyOn(reorderOrderFacade, 'reorder').mockReturnValue(
+        of({
+          cartModifications: [
+            {
+              entry: {
+                product: {
+                  code: '325414',
+                  name: 'EASYSHARE Z730 Zoom Digital Camera',
+                },
+                quantity: 0,
+              },
+              quantity: 1,
+              quantityAdded: 0,
+              statusCode: 'unavailable',
+            },
+          ],
+        })
+      );
+      fixture.detectChanges();
+      el.queryAll(
+        By.css('.cx-reorder-dialog-footer div button')
+      )[1].nativeElement.dispatchEvent(new MouseEvent('click'));
+      fixture.detectChanges();
+      const message = el.query(
+        By.css('.cx-cart-mod-entry-container')
+      ).nativeElement;
+      expect(message.textContent).toContain(
+        'reorder.dialog.messages.unavailable'
+      );
+      expect(message.textContent).toContain(
+        'productName:EASYSHARE Z730 Zoom Digital Camera'
+      );
     });
     it('should restore focus after content updates', () => {
       fixture.detectChanges();
