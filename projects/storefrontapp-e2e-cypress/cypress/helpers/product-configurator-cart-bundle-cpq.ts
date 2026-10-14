@@ -250,12 +250,12 @@ export function navigateToBundleLineItemPDPAndBackToCart(
   productCode: string
 ): void {
   clickBundleLineItemProductLink(cartItemIndex, productName);
-  const productNameSlug = productName.toLowerCase().replace(/\s+/g, '-');
   cy.get('@bundleLineItemProductCode').then((lineItemProductCode) => {
-    cy.location('pathname').should(
-      'contain',
-      `/product/${lineItemProductCode}/${productNameSlug}`
-    );
+    cy.location('pathname').should((pathname) => {
+      expect(decodeURIComponent(pathname)).to.contain(
+        `/product/${lineItemProductCode}/${productName}`
+      );
+    });
   });
   cy.get('.ProductDetailsPageTemplate').should('be.visible');
 
