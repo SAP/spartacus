@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { FeatureToggles } from '../../../features-config/feature-toggles';
 import { WindowRef } from '../../../window/window-ref';
 import { PageMetaConfig } from '../config/page-meta.config';
 import { PageLinkService } from './page-link.service';
@@ -199,6 +200,78 @@ describe('PageLinkService', () => {
           'https://www.test.com/search?query=foo&page=1'
         );
       });
+    });
+  });
+});
+
+describe('PageLinkService - pageLinkSanitizeCanonicalUrl feature toggle', () => {
+  // Build a fresh service per test so no mutable state (TestBed, toggle value)
+  // leaks between the `true` and `false` branches.
+  function createService(
+    pageLinkSanitizeCanonicalUrl: boolean
+  ): PageLinkService {
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: PageMetaConfig,
+          useValue: {
+            pageMeta: {
+              canonicalUrl: {
+                forceHttps: true,
+                forceTrailingSlash: true,
+                forceWww: true,
+                removeQueryParams: true,
+              },
+            },
+          } as PageMetaConfig,
+        },
+        {
+          provide: WindowRef,
+          useClass: MockWindowRef,
+        },
+        {
+          provide: FeatureToggles,
+          useValue: { pageLinkSanitizeCanonicalUrl },
+        },
+      ],
+    });
+
+    return TestBed.inject(PageLinkService);
+  }
+
+  describe('when enabled', () => {
+    it('should sanitize and build the canonical URL for a valid http(s) URL', () => {
+      const service = createService(true);
+      expect(service.getCanonicalUrl({}, 'http://test.com/xyz')).toEqual(
+        'https://www.test.com/xyz/'
+      );
+    });
+
+    it('should return an empty string for a URL with a non-http(s) protocol', () => {
+      const service = createService(true);
+      expect(service.getCanonicalUrl({}, 'javascript:alert(1)')).toEqual('');
+    });
+
+    it('should return an empty string for a malformed URL', () => {
+      const service = createService(true);
+      expect(service.getCanonicalUrl({}, 'not-a-valid-url')).toEqual('');
+    });
+  });
+
+  describe('when disabled', () => {
+    it('should build the canonical URL for a valid http(s) URL without sanitizing', () => {
+      const service = createService(false);
+      expect(service.getCanonicalUrl({}, 'http://test.com/xyz')).toEqual(
+        'https://www.test.com/xyz/'
+      );
+    });
+
+    it('should pass through a URL with a non-http(s) protocol unchanged', () => {
+      const service = createService(false);
+      // Without the toggle, the raw (unsafe) URL is not sanitized away.
+      expect(service.getCanonicalUrl({}, 'javascript:alert(1)')).toContain(
+        'alert(1)'
+      );
     });
   });
 });
