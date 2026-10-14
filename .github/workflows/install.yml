@@ -1,10 +1,10 @@
 on:
   push:
     branches:
-      - 'release/4.**'
-      - 'epic/**'
       - 'develop'
-      - 'develop-*'
+
+  workflow_dispatch:
+    # empty as it is used only to manually trigger the workflow.
 
 name: Installation
 
@@ -39,9 +39,102 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 #v4.4.0
         with:
           node-version: '22'
+      - name: Upgrade npm
+        # Node 22 ships npm 10, whose arborist crashes with
+        # "Cannot read properties of null (reading 'edgesOut')" while
+        # resolving the dependency tree of the app created by 'ng new'.
+        # npm >= 11 fixes it; pin to 12 to match the installation requirements.
+        run: npm install -g npm@12
       - name: NPM
         run: npm ci
         env:
           FORCE_COLOR: 2 # Support colors from chalk
       - name: run installation script
         run: cd ./scripts/install && ./run.sh install && ./run.sh start
+
+  install_conclusion:
+    needs: [detect_changes, install]
+    name: Installation Conclusion
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - name: Required installation failed
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            core.setFailed('Installation failed')
+        if: |
+          needs.install.result == 'failure' || needs.install.result == 'cancelled'
+
+  send_slack_message:
+    needs: install_conclusion
+    name: Slack message for failed installation in Spartacus
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - run: |
+          echo "Context Info:"
+          echo "  Event = ${{ github.event_name }}"
+          echo "  Installation Result = ${{ needs.install_conclusion.result }}"
+          echo "  Branch = ${{ github.ref_name }}"
+          echo "  Default branch = ${{ github.event.repository.default_branch }}"
+      - name: Notify the slack channel when installation failed
+        uses: slackapi/slack-github-action@dcb1066f776dd043e64d0e8ba94ca15cc7e1875d # v4.0.0
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_TOKEN }}
+          payload: |
+            {
+              "channel": "${{ vars.SLACK_NOTIFICATION_CHANNEL }}",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": ":nuclear-bomb: :fireduck: *Broken installation (run.sh install) on ${{ github.ref_name }}*"
+                  }
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "Failed installation",
+                        "emoji": true
+                      },
+                      "value": "failed_installation",
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                    },
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "What was committed?",
+                        "emoji": true
+                      },
+                      "value": "recent_merged_commit",
+                      "url": "${{ github.event.head_commit.url }}"
+                    },
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "Installation history",
+                        "emoji": true
+                      },
+                      "value": "installation_history",
+                      "url": "https://github.com/SAP/spartacus/actions/workflows/install.yml?query=branch%3Adevelop"
+                    }
+                  ]
+                }
+              ]
+            }
+        if: |
+          needs.install_conclusion.result == 'failure' &&
+          github.event_name == 'push' &&
+          github.ref_name == github.event.repository.default_branch
