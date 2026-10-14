@@ -60,7 +60,7 @@
               "
               class="cx-item-info"
               attr.aria-describedby="{{
-                getHiddenItemInfoId(orderEntry.entryNumber, lineItem, i)
+                getHiddenItemInfoIdForEntry(orderEntry.entryNumber, lineItem, i)
               }}"
             >
               <div *ngIf="lineItem.name" class="cx-item-name">
@@ -84,7 +84,11 @@
               </div>
               <span
                 id="{{
-                  getHiddenItemInfoId(orderEntry.entryNumber, lineItem, i)
+                  getHiddenItemInfoIdForEntry(
+                    orderEntry.entryNumber,
+                    lineItem,
+                    i
+                  )
                 }}"
                 class="cx-visually-hidden"
               >
@@ -131,10 +135,10 @@
             <div
               *ngFor="let lineItem of lineItems$ | async; let i = index"
               class="cx-item-info"
-              attr.aria-describedby="{{ getLegacyHiddenItemInfoId(i) }}"
+              attr.aria-describedby="{{ getHiddenItemInfoId(i) }}"
             >
               <span
-                id="{{ getLegacyHiddenItemInfoId(i) }}"
+                id="{{ getHiddenItemInfoId(i) }}"
                 class="cx-visually-hidden"
               >
                 {{ getHiddenItemInfo(lineItem) }}

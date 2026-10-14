@@ -97,7 +97,13 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   protected hasBeenExpanded$ = new BehaviorSubject<boolean>(false);
 
   /**
-   * State of the line items list. The list is collapsed initially.
+   * Whether the line item list is collapsed (`true`) or expanded (`false`).
+   * The list is collapsed initially. Assigning `false` marks the list as
+   * expanded so {@link lineItemsWithProducts$} can load catalog products.
+   *
+   * Prefer {@link toggleItems} to expand or collapse the list from user
+   * interaction. Subclasses must override this accessor pair instead of
+   * declaring a `hideItems` field.
    */
   get hideItems(): boolean {
     return this.itemsHidden;
@@ -135,7 +141,9 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   );
 
   /**
-   * Toggles the state of the items list.
+   * Expands or collapses the line items list. This is the supported entry point
+   * for show/hide behavior from templates and custom code (including keyboard
+   * focus handling after the toggle).
    */
   toggleItems(): void {
     this.hideItems = !this.hideItems;
@@ -354,30 +362,31 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   }
 
   /**
-   * Builds the DOM id for a line item accessibility description.
+   * Builds the DOM id for a line item accessibility description when
+   * `productConfiguratorCPQContainer` is disabled.
+   *
+   * @param index - Index of the line item in the list
+   * @returns Element id for `aria-describedby`
+   */
+  getHiddenItemInfoId(index: number): string {
+    return 'cx-item-hidden-info-' + index.toString();
+  }
+
+  /**
+   * Builds the DOM id for a line item accessibility description when
+   * `productConfiguratorCPQContainer` is enabled.
    *
    * @param entryNumber - Entry number of the line item
    * @param lineItem - Line item object
    * @param index - Index of the line item in the list
    * @returns Element id for `aria-describedby`
    */
-  getHiddenItemInfoId(
+  getHiddenItemInfoIdForEntry(
     entryNumber: number | undefined,
     lineItem: LineItem,
     index: number
   ): string {
     const suffix = lineItem.rowId ?? index.toString();
     return `cx-item-hidden-info-${entryNumber ?? 'x'}-${suffix}`;
-  }
-
-  /**
-   * Legacy DOM id for line item accessibility descriptions when
-   * `productConfiguratorCPQContainer` is disabled.
-   *
-   * @param index - Index of the line item in the list
-   * @returns Element id for `aria-describedby`
-   */
-  getLegacyHiddenItemInfoId(index: number): string {
-    return 'cx-item-hidden-info-' + index.toString();
   }
 }

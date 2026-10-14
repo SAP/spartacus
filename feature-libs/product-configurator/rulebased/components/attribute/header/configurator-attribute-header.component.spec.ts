@@ -686,7 +686,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       );
     });
 
-    it('should return a container message with remaining products as count', () => {
+    it('should return a default message key for container attribute type', () => {
       component.attribute.uiType = Configurator.UiType.CONTAINER;
       component.attribute.container = {
         minRows: 4,
@@ -695,7 +695,27 @@ describe('ConfigAttributeHeaderComponent', () => {
           { id: '2', selected: true },
         ],
       };
-      expect(component.getRequiredMessageKey()).toEqual({
+      expect(component.getRequiredMessageKey()).toContain(
+        'singleSelectRequiredMessage'
+      );
+    });
+  });
+
+  describe('getContainerRequiredMessageKey', () => {
+    it('should return a container message with remaining products as count', () => {
+      component.attribute.container = {
+        minRows: 4,
+        rows: [
+          { id: '1', selected: true },
+          { id: '2', selected: true },
+        ],
+      };
+      expect(
+        component.getContainerRequiredMessageKey(
+          component.attribute.container.minRows,
+          component.attribute.container.rows
+        )
+      ).toEqual({
         key: 'configurator.attribute.containerRequiredMessage',
         params: { count: 2 },
       });
@@ -1675,7 +1695,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         params: { count: 2 },
       };
       vi.spyOn(component, 'getRequiredMessageKey').mockReturnValue(
-        translatable
+        translatable as unknown as string
       );
 
       const groups = component.getMessageGroups(true);
@@ -1686,7 +1706,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     it('does not prepend a required group when no message key is resolved', () => {
       component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
       component.attribute.required = true;
-      vi.spyOn(component, 'getRequiredMessageKey').mockReturnValue(undefined);
+      vi.spyOn(component, 'getRequiredMessageKey').mockReturnValue('');
 
       const groups = component.getMessageGroups(true);
 

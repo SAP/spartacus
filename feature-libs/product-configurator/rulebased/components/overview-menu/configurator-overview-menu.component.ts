@@ -42,6 +42,14 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   private featureToggles = inject(FeatureToggles);
   protected readonly PAGE_SLOT = 'cx-page-slot';
 
+  /**
+   * @deprecated since 221121.17 - The overview menu resolves its host page slot
+   * via {@link getHostPageSlot}. This constant remains for backward compatibility
+   * and will be removed in a future major version.
+   */
+  protected readonly VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT =
+    'cx-page-slot.VariantConfigOverviewNavigation';
+
   protected readonly CX_CONFIGURATOR_OVERVIEW_MENU =
     'cx-configurator-overview-menu';
   protected readonly CX_MENU_ITEM_BUTTONS = 'button.cx-menu-item';
@@ -214,6 +222,10 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
     });
   }
 
+  /**
+   * Host page slot element that wraps the overview menu. Override to customize
+   * slot resolution; prefer this over {@link VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT}.
+   */
   protected getHostPageSlot(): HTMLElement | undefined {
     return this.configuratorStorefrontUtilsService.getClosestElement(
       this.elementRef.nativeElement,

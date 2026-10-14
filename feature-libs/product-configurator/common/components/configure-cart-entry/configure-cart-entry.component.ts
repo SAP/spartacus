@@ -82,7 +82,7 @@ export class ConfigureCartEntryComponent {
     : of({ type: AbstractOrderType.CART });
 
   /** Query params when `productConfiguratorCPQContainer` is disabled. */
-  legacyQueryParams$: Observable<{
+  queryParams$: Observable<{
     forceReload: boolean;
     resolveIssues: boolean;
     navigateToCheckout: boolean;

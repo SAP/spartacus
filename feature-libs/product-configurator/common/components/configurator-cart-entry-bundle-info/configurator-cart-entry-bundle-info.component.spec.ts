@@ -1192,11 +1192,17 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     });
 
     describe('getHiddenItemInfoId', () => {
+      it('should return an ID based on the line item index', () => {
+        expect(component.getHiddenItemInfoId(2)).toBe('cx-item-hidden-info-2');
+      });
+    });
+
+    describe('getHiddenItemInfoIdForEntry', () => {
       it('should return a stable ID per cart entry and line item', () => {
         fixture.detectChanges();
-        expect(component.getHiddenItemInfoId(4, { rowId: 'row-abc' }, 0)).toBe(
-          'cx-item-hidden-info-4-row-abc'
-        );
+        expect(
+          component.getHiddenItemInfoIdForEntry(4, { rowId: 'row-abc' }, 0)
+        ).toBe('cx-item-hidden-info-4-row-abc');
       });
     });
   });

@@ -375,7 +375,8 @@ describe('RulebasedConfiguratorConnector', () => {
 
   describe('container row methods for an adapter without container support', () => {
     beforeEach(() => {
-      const mockAdapter = adapter[0] as Partial<MockRulebasedConfiguratorAdapter>;
+      const mockAdapter =
+        adapter[0] as Partial<MockRulebasedConfiguratorAdapter>;
       delete mockAdapter.addContainerRow;
       delete mockAdapter.copyContainerRow;
       delete mockAdapter.removeContainerRow;
