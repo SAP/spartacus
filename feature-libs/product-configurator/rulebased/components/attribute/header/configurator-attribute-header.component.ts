@@ -12,7 +12,12 @@ import {
   isDevMode,
   OnInit,
 } from '@angular/core';
-import { Config, LoggerService, TranslatePipe } from '@spartacus/core';
+import {
+  Config,
+  FeatureDirective,
+  LoggerService,
+  TranslatePipe,
+} from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -46,6 +51,7 @@ import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-a
     ConfiguratorMessageComponent,
     AsyncPipe,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class ConfiguratorAttributeHeaderComponent

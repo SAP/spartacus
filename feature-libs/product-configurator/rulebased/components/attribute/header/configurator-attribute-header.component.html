@@ -33,23 +33,37 @@
   [tabIndex]="0"
   [attributeLabel]="attribute.label"
 />
-<cx-configurator-message
-  *ngFor="
-    let group of getMessageGroups(
-      (showRequiredMessageForDomainAttribute$ | async) ?? false
-    )
-  "
-  [messages]="group.messages"
-  [messageClass]="group.messageClass"
-  [iconType]="group.iconType"
-  [showIcon]="group.showIcon"
-  [role]="group.role"
-  [idPrefix]="
-    createAttributeUiKey('attribute-msg', attribute.name) +
-    '-' +
-    group.uiKeyPrefix
-  "
-/>
+<!-- TODO: (CXSPA-14099) - Remove feature flag next major release. -->
+<ng-container *cxFeature="'!productConfiguratorCPQContainer'">
+  <div
+    *ngIf="showRequiredMessageForDomainAttribute$ | async"
+    class="cx-required-error-msg"
+    id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
+    [attr.aria-label]="getRequiredMessageKey() | cxTranslate"
+  >
+    <cx-icon [type]="iconTypes.ERROR" />
+    {{ getRequiredMessageKey() | cxTranslate }}
+  </div>
+</ng-container>
+<ng-container *cxFeature="'productConfiguratorCPQContainer'">
+  <cx-configurator-message
+    *ngFor="
+      let group of getMessageGroups(
+        (showRequiredMessageForDomainAttribute$ | async) ?? false
+      )
+    "
+    [messages]="group.messages"
+    [messageClass]="group.messageClass"
+    [iconType]="group.iconType"
+    [showIcon]="group.showIcon"
+    [role]="group.role"
+    [idPrefix]="
+      createAttributeUiKey('attribute-msg', attribute.name) +
+      '-' +
+      group.uiKeyPrefix
+    "
+  />
+</ng-container>
 <div
   *ngIf="attribute.hasConflicts"
   class="cx-conflict-msg"

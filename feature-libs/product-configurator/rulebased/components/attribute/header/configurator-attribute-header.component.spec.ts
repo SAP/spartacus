@@ -2,6 +2,10 @@ import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
+import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
@@ -108,6 +112,7 @@ describe('ConfigAttributeHeaderComponent', () => {
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorUISettingsConfig: ConfiguratorUISettingsConfig;
+  let featureToggles: MockFeatureTogglesController;
 
   const owner = ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.CART_ENTRY,
@@ -173,6 +178,9 @@ describe('ConfigAttributeHeaderComponent', () => {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
+        ...provideMockFeatureToggles({
+          productConfiguratorCPQContainer: false,
+        }),
       ],
     })
       .overrideComponent(ConfiguratorAttributeHeaderComponent, {
@@ -215,6 +223,8 @@ describe('ConfigAttributeHeaderComponent', () => {
     configuratorUISettingsConfig = TestBed.inject(
       ConfiguratorUISettingsConfig as Type<ConfiguratorUISettingsConfig>
     );
+    featureToggles = TestBed.inject(MockFeatureTogglesController);
+    featureToggles.set('productConfiguratorCPQContainer', false);
   });
 
   it('should create', () => {
@@ -394,7 +404,13 @@ describe('ConfigAttributeHeaderComponent', () => {
       );
     });
 
+    describe('container and typed messages with productConfiguratorCPQContainer', () => {
+      beforeEach(() => {
+        featureToggles.set('productConfiguratorCPQContainer', true);
+      });
+
     it('should not render container row info if container is not present', () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -606,6 +622,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         'Check quantity'
       );
     });
+    });
   });
 
   describe('getRequiredMessageKey', () => {
@@ -787,6 +804,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
 
     it('should render container required message with remaining products as count', () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
       component.attribute.uiType = Configurator.UiType.CONTAINER;
       component.attribute.required = true;
       component.attribute.container = {
@@ -1250,6 +1268,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
 
     it("should contain div element with 'role=alert' for required error message so that it is announced once", () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
       component.attribute.required = true;
       component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
       component.ngOnInit();
@@ -1272,6 +1291,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
 
     it("should contain div element with 'aria-live' attribute for a container warning message", () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
       component.attribute.container = {
         rows: [],
         messages: [

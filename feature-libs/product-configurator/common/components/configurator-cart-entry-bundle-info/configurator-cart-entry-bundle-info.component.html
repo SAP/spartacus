@@ -9,7 +9,7 @@
       <!-- TODO: Remove feature flag next major release. -->
       <ng-container *cxFeature="'productConfiguratorCPQContainer'">
         <ng-container
-          *ngIf="navigateToOverview$ | async; else toggleItemsButton"
+          *ngIf="navigateToOverview$ | async; else toggleItemsButtonTemplate"
         >
           <span
             id="{{ getItemsLinkMsgId(orderEntry) }}"
@@ -30,10 +30,10 @@
         </ng-container>
       </ng-container>
       <ng-container *cxFeature="'!productConfiguratorCPQContainer'">
-        <ng-container *ngTemplateOutlet="toggleItemsButton" />
+        <ng-container *ngTemplateOutlet="toggleItemsButtonTemplate" />
       </ng-container>
 
-      <ng-template #toggleItemsButton>
+      <ng-template #toggleItemsButtonTemplate>
         <button
           #toggleItemsButton
           type="button"
