@@ -1,6 +1,6 @@
 {
   "name": "storefrontapp",
-  "version": "2611.0.0",
+  "version": "2612.0.0",
   "license": "Apache-2.0",
   "author": "SAP, Spartacus team",
   "workspaces": [
@@ -295,7 +295,7 @@
     "webpack-cli": "^7.0.0"
   },
   "overrides": {
-    "@modelcontextprotocol/sdk" : "1.31.0",
+    "@modelcontextprotocol/sdk": "1.31.0",
     "@verdaccio/middleware": {
       "express-rate-limit": "5.5.1"
     },
