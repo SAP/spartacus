@@ -13,10 +13,17 @@ import {
   ngExpressEngine as engine,
   getOriginValidationMiddleware,
 } from '@spartacus/setup/ssr';
+import {
+  createBaseSiteRequestHandler,
+  setDefaultBaseSiteResolver,
+} from '@spartacus/setup/ssr/base-site';
 import express from 'express';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'path';
+import { createStorefrontBaseSiteResolver } from './base-site-resolver';
+import { environment } from './environments/environment';
+import { staticBaseSites } from './app/spartacus/base-site.config';
 import bootstrap from './main.server';
 
 const ssrOptions: SsrOptimizationOptions = {
@@ -27,12 +34,34 @@ const ssrOptions: SsrOptimizationOptions = {
 };
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
+const serverDistFolder = dirname(fileURLToPath(import.meta.url));
+const browserDistFolder = resolve(serverDistFolder, '../browser');
+const baseSiteResolver = createStorefrontBaseSiteResolver({
+  indexHtmlPaths: [
+    join(browserDistFolder, 'index.csr.html'),
+    join(browserDistFolder, 'index.html'),
+  ],
+  readFile: (path) => readFileSync(path, 'utf-8'),
+  occApiPrefix: environment.occApiPrefix,
+  baseSites: staticBaseSites,
+  warn: (message) => {
+    // eslint-disable-next-line no-console
+    console.warn(message);
+  },
+});
+setDefaultBaseSiteResolver(baseSiteResolver);
+
+/** Renders a per-site llm.txt body; a `null` base site yields a general document. */
+function renderLlmTxt(baseSite: string | null): string {
+  if (!baseSite) {
+    return '# llm.txt\n> General LLM guidance for all sites on this origin.\n';
+  }
+  return `# llm.txt\n> Site: ${baseSite}\n`;
+}
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
-  const serverDistFolder = dirname(fileURLToPath(import.meta.url));
-  const browserDistFolder = resolve(serverDistFolder, '../browser');
   const indexHtml = join(serverDistFolder, 'index.server.html');
   const indexHtmlContent = readFileSync(indexHtml, 'utf-8');
 
@@ -57,6 +86,17 @@ export function app(): express.Express {
 
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
+
+  // Serves a per-site llm.txt. Registered before the static handler because
+  // `/llm.txt` carries a dot and would otherwise be caught by the static route.
+  if (baseSiteResolver) {
+    server.get(
+      /\/llm\.txt$/,
+      createBaseSiteRequestHandler((request, response) => {
+        response.type('text/plain').send(renderLlmTxt(request.baseSite));
+      })
+    );
+  }
 
   // Serve static files from /browser
   server.get(
