@@ -409,219 +409,219 @@ describe('ConfigAttributeHeaderComponent', () => {
         featureToggles.set('productConfiguratorCPQContainer', true);
       });
 
-    it('should not render container row info if container is not present', () => {
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-container-info-msg'
-      );
-    });
+      it('should not render container row info if container is not present', () => {
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-container-info-msg'
+        );
+      });
 
-    it('should not render container row info if neither minRows nor maxRows is set', () => {
-      component.attribute.container = { rows: [] };
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-container-info-msg'
-      );
-    });
+      it('should not render container row info if neither minRows nor maxRows is set', () => {
+        component.attribute.container = { rows: [] };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-container-info-msg'
+        );
+      });
 
-    it('should render container row info when both minRows and maxRows are set', () => {
-      component.attribute.container = { minRows: 2, maxRows: 5, rows: [] };
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementToContainText(
-        expect,
-        htmlElem,
-        '.cx-container-info-msg',
-        'configurator.attribute.containerMinMaxRows maxRows:5 minRows:2'
-      );
-    });
+      it('should render container row info when both minRows and maxRows are set', () => {
+        component.attribute.container = { minRows: 2, maxRows: 5, rows: [] };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-container-info-msg',
+          'configurator.attribute.containerMinMaxRows maxRows:5 minRows:2'
+        );
+      });
 
-    it('should render container row info when only minRows is set', () => {
-      component.attribute.container = { minRows: 2, rows: [] };
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementToContainText(
-        expect,
-        htmlElem,
-        '.cx-container-info-msg',
-        'configurator.attribute.containerMinRows count:2'
-      );
-    });
+      it('should render container row info when only minRows is set', () => {
+        component.attribute.container = { minRows: 2, rows: [] };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-container-info-msg',
+          'configurator.attribute.containerMinRows count:2'
+        );
+      });
 
-    it('should render container row info when only maxRows is set', () => {
-      component.attribute.container = { maxRows: 5, rows: [] };
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementToContainText(
-        expect,
-        htmlElem,
-        '.cx-container-info-msg',
-        'configurator.attribute.containerMaxRows count:5'
-      );
-    });
+      it('should render container row info when only maxRows is set', () => {
+        component.attribute.container = { maxRows: 5, rows: [] };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-container-info-msg',
+          'configurator.attribute.containerMaxRows count:5'
+        );
+      });
 
-    it('should render max-only info when minRows is 0', () => {
-      component.attribute.container = { minRows: 0, maxRows: 10, rows: [] };
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementToContainText(
-        expect,
-        htmlElem,
-        '.cx-container-info-msg',
-        'configurator.attribute.containerMaxRows count:10'
-      );
-    });
+      it('should render max-only info when minRows is 0', () => {
+        component.attribute.container = { minRows: 0, maxRows: 10, rows: [] };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-container-info-msg',
+          'configurator.attribute.containerMaxRows count:10'
+        );
+      });
 
-    it('should render exact-count info when minRows equals maxRows', () => {
-      component.attribute.container = { minRows: 1, maxRows: 1, rows: [] };
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementToContainText(
-        expect,
-        htmlElem,
-        '.cx-container-info-msg',
-        'configurator.attribute.containerExactRows count:1'
-      );
-    });
+      it('should render exact-count info when minRows equals maxRows', () => {
+        component.attribute.container = { minRows: 1, maxRows: 1, rows: [] };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-container-info-msg',
+          'configurator.attribute.containerExactRows count:1'
+        );
+      });
 
-    it('should not render container row info if minRows is 0 and maxRows is not set', () => {
-      component.attribute.container = { minRows: 0, rows: [] };
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-container-info-msg'
-      );
-    });
+      it('should not render container row info if minRows is 0 and maxRows is not set', () => {
+        component.attribute.container = { minRows: 0, rows: [] };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-container-info-msg'
+        );
+      });
 
-    it('should not render error messages if container is not present', () => {
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-error-msg'
-      );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-warning-msg'
-      );
-    });
+      it('should not render error messages if container is not present', () => {
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-error-msg'
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-warning-msg'
+        );
+      });
 
-    it('should not render messages if the container message list is empty', () => {
-      component.attribute.container = { rows: [], messages: [] };
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-error-msg'
-      );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-warning-msg'
-      );
-    });
+      it('should not render messages if the container message list is empty', () => {
+        component.attribute.container = { rows: [], messages: [] };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-error-msg'
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-warning-msg'
+        );
+      });
 
-    it('should render a warning message', () => {
-      component.attribute.container = {
-        rows: [],
-        messages: [
-          {
-            message: 'Too many units',
-            severity: Configurator.MessageSeverity.WARNING,
-          },
-        ],
-      };
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementToContainText(
-        expect,
-        htmlElem,
-        '.cx-warning-msg',
-        'Too many units'
-      );
-    });
+      it('should render a warning message', () => {
+        component.attribute.container = {
+          rows: [],
+          messages: [
+            {
+              message: 'Too many units',
+              severity: Configurator.MessageSeverity.WARNING,
+            },
+          ],
+        };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-warning-msg',
+          'Too many units'
+        );
+      });
 
-    it('should render warning messages after the required message', () => {
-      component.attribute.required = true;
-      component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
-      component.attribute.container = {
-        rows: [],
-        messages: [
-          {
-            message: 'Too many units',
-            severity: Configurator.MessageSeverity.WARNING,
-          },
-        ],
-      };
-      component.ngOnInit();
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementToContainText(
-        expect,
-        htmlElem,
-        '.cx-required-error-msg',
-        'configurator.attribute.singleSelectRequiredMessage'
-      );
-      CommonConfiguratorTestUtilsService.expectElementToContainText(
-        expect,
-        htmlElem,
-        '.cx-warning-msg',
-        'Too many units'
-      );
-    });
+      it('should render warning messages after the required message', () => {
+        component.attribute.required = true;
+        component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+        component.attribute.container = {
+          rows: [],
+          messages: [
+            {
+              message: 'Too many units',
+              severity: Configurator.MessageSeverity.WARNING,
+            },
+          ],
+        };
+        component.ngOnInit();
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-required-error-msg',
+          'configurator.attribute.singleSelectRequiredMessage'
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-warning-msg',
+          'Too many units'
+        );
+      });
 
-    it('should render multiple warning messages', () => {
-      component.attribute.container = {
-        rows: [],
-        messages: [
-          {
-            message: 'Too many units',
-            severity: Configurator.MessageSeverity.WARNING,
-          },
-          {
-            message: 'Invalid selection',
-            severity: Configurator.MessageSeverity.WARNING,
-          },
-        ],
-      };
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectNumberOfElements(
-        expect,
-        htmlElem,
-        '.cx-warning-msg',
-        2
-      );
-      CommonConfiguratorTestUtilsService.expectElementToContainText(
-        expect,
-        htmlElem,
-        '.cx-warning-msg',
-        'Too many units'
-      );
-      CommonConfiguratorTestUtilsService.expectElementToContainText(
-        expect,
-        htmlElem,
-        '.cx-warning-msg',
-        'Invalid selection',
-        1
-      );
-    });
+      it('should render multiple warning messages', () => {
+        component.attribute.container = {
+          rows: [],
+          messages: [
+            {
+              message: 'Too many units',
+              severity: Configurator.MessageSeverity.WARNING,
+            },
+            {
+              message: 'Invalid selection',
+              severity: Configurator.MessageSeverity.WARNING,
+            },
+          ],
+        };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectNumberOfElements(
+          expect,
+          htmlElem,
+          '.cx-warning-msg',
+          2
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-warning-msg',
+          'Too many units'
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-warning-msg',
+          'Invalid selection',
+          1
+        );
+      });
 
-    it('should render info messages for info severity', () => {
-      component.attribute.container = {
-        rows: [],
-        messages: [
-          {
-            message: 'Check quantity',
-            severity: Configurator.MessageSeverity.INFO,
-          },
-        ],
-      };
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementToContainText(
-        expect,
-        htmlElem,
-        '.cx-info-msg',
-        'Check quantity'
-      );
-    });
+      it('should render info messages for info severity', () => {
+        component.attribute.container = {
+          rows: [],
+          messages: [
+            {
+              message: 'Check quantity',
+              severity: Configurator.MessageSeverity.INFO,
+            },
+          ],
+        };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-info-msg',
+          'Check quantity'
+        );
+      });
     });
   });
 
