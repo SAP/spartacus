@@ -29,6 +29,7 @@ class MockLoginFormComponentService
   form: UntypedFormGroup = new UntypedFormGroup({
     userId: new UntypedFormControl(),
     password: new UntypedFormControl(),
+    auth_req_id: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
   login = vi.fn().mockImplementation(() => {});
