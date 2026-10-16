@@ -4,8 +4,9 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-import { RequestHandler, Response } from 'express';
+import { Request, RequestHandler, Response } from 'express';
 import { defaultRenderingStrategyResolverOptions } from '@spartacus/setup/ssr';
+import { DefaultExpressServerLogger, ExpressServerLogger } from '../logger';
 import {
   createDefaultParser,
   defaultConverter,
@@ -36,7 +37,10 @@ export function createMarkdownPageHandler(
   const parser: HtmlToPageParser = options?.parser ?? createDefaultParser();
   const converter: ParsedPageConverter = options?.converter ?? defaultConverter;
   const timeout = options?.timeout ?? DEFAULT_TIMEOUT_MS;
-  const logger = options?.logger === undefined ? console : options.logger;
+  const logger: ExpressServerLogger | null =
+    options?.logger === undefined
+      ? new DefaultExpressServerLogger()
+      : options.logger;
   const skipUrls =
     options?.skipUrls ?? defaultRenderingStrategyResolverOptions.excludedUrls;
 
@@ -86,7 +90,8 @@ export function createMarkdownPageHandler(
         timeout,
         logger,
         originalSend,
-        res
+        res,
+        req
       );
 
       return res;
@@ -110,9 +115,10 @@ async function sendMarkdown(
   parser: HtmlToPageParser,
   converter: ParsedPageConverter,
   timeout: number,
-  logger: Pick<Console, 'error'> | null | undefined,
+  logger: ExpressServerLogger | null,
   originalSend: Response['send'],
-  res: Response
+  res: Response,
+  req: Request
 ): Promise<void> {
   try {
     const markdown = await withTimeout(
@@ -123,7 +129,10 @@ async function sendMarkdown(
     originalSend(markdown);
   } catch (error) {
     // Graceful degradation: serve the original HTML untouched.
-    logger?.error('[markdown-page-handler] conversion failed', error);
+    logger?.error('[markdown-page-handler] conversion failed', {
+      request: req,
+      error,
+    });
     originalSend(html);
   }
 }

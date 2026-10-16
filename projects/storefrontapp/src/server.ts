@@ -12,6 +12,7 @@ import {
   defaultSsrOptimizationOptions,
   ngExpressEngine as engine,
   getOriginValidationMiddleware,
+  DefaultExpressServerLogger,
 } from '@spartacus/setup/ssr';
 import { createMarkdownPageHandler } from '@spartacus/setup/ssr/markdown';
 import express from 'express';
@@ -20,11 +21,14 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'path';
 import bootstrap from './main.server';
 
+const logger = new DefaultExpressServerLogger();
+
 const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(
     process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
   ),
   cache: process.env['SSR_CACHE'] === 'true',
+  logger,
 };
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
@@ -52,7 +56,7 @@ export function app(): express.Express {
   // Smoke-test wiring for CXSPA-13864: serve Markdown when the client
   // negotiates `Accept: text/markdown`. Registered before express.static and
   // the Angular catch-all so it can patch res.send on qualifying requests.
-  server.use(createMarkdownPageHandler());
+  server.use(createMarkdownPageHandler({ logger }));
 
   server.engine(
     'html',

@@ -4,6 +4,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+import { ExpressServerLogger } from '../logger';
 import { PageContext } from './extract-page-context';
 
 /**
@@ -67,9 +68,10 @@ export interface MarkdownPageHandlerOptions {
    */
   timeout?: number;
   /**
-   * Logger used when conversion fails or times out. Defaults to `console`.
-   * Pass `null` to silence all conversion errors, or supply a custom object
-   * to route logs to your application logger.
+   * Logger used when conversion fails or times out. Defaults to a
+   * `DefaultExpressServerLogger` so failures are logged with request context
+   * (Standardized Logging). Pass `null` to silence all conversion errors, or
+   * supply your own `ExpressServerLogger`.
    *
    * @example
    * // Silence errors
@@ -77,7 +79,7 @@ export interface MarkdownPageHandlerOptions {
    * // Custom logger
    * createMarkdownPageHandler({ logger: myAppLogger })
    */
-  logger?: Pick<Console, 'error'> | null;
+  logger?: ExpressServerLogger | null;
   /**
    * URL substrings for which Markdown conversion is skipped entirely.
    * Matched as a case-sensitive substring of `req.url`. Defaults to

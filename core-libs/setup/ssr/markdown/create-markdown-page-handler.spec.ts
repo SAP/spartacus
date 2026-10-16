@@ -175,15 +175,18 @@ describe('createMarkdownPageHandler', () => {
   it('routes errors to a custom logger when provided', async () => {
     const res = mockRes();
     const sendMock = res.send as jest.Mock;
-    const customLogger = { error: jest.fn() };
+    const customLogger = {
+      log: jest.fn(),
+      warn: jest.fn(),
+      error: jest.fn(),
+      info: jest.fn(),
+      debug: jest.fn(),
+    };
     const parser: HtmlToPageParser = () => {
       throw new Error('boom');
     };
-    createMarkdownPageHandler({ parser, logger: customLogger })(
-      mockReq('text/markdown'),
-      res,
-      next
-    );
+    const req = mockReq('text/markdown');
+    createMarkdownPageHandler({ parser, logger: customLogger })(req, res, next);
     sendMock.mockClear();
 
     res.send('<main>original</main>');
@@ -192,7 +195,7 @@ describe('createMarkdownPageHandler', () => {
 
     expect(customLogger.error).toHaveBeenCalledWith(
       '[markdown-page-handler] conversion failed',
-      expect.any(Error)
+      expect.objectContaining({ request: req, error: expect.any(Error) })
     );
   });
 
