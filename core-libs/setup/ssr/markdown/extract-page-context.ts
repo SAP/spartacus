@@ -5,6 +5,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { decodeHTML } from 'entities';
+import {
+  findAllElements,
+  findFirstElement,
+  getAttribute,
+  getTextContent,
+  type HtmlNode,
+  parseDocument,
+} from './html-dom';
 
 /**
  * Compact "where are we" context extracted from a rendered SSR page.
@@ -23,39 +31,61 @@ export interface PageContext {
 
 /**
  * Extracts page-context landmarks from a rendered SSR HTML string.
- * Relies on stable Spartacus/SEO landmarks, not heuristics.
+ * Relies on stable Spartacus/SEO landmarks, not heuristics. The HTML is
+ * parsed once with parse5; parse5 decodes HTML entities in element text and
+ * attribute values, so only `<script>` JSON-LD (raw text) is decoded manually.
  */
 export function extractPageContext(html: string): PageContext {
-  const jsonLd = extractJsonLd(html);
+  const doc = parseDocument(html);
+  const jsonLd = extractJsonLd(doc);
   return {
-    siteName: extractSiteName(html, jsonLd),
-    title: extractTitle(html),
-    canonicalUrl: extractCanonical(html),
-    breadcrumb: extractBreadcrumb(html, jsonLd),
-    description: extractDescription(html),
+    siteName: extractSiteName(doc, jsonLd),
+    title: extractTitle(doc),
+    canonicalUrl: extractCanonical(doc),
+    breadcrumb: extractBreadcrumb(doc, jsonLd),
+    description: extractDescription(doc),
     jsonLd,
   };
 }
 
-function extractTitle(html: string): string | undefined {
-  const match = /<title[^>]*>([\s\S]*?)<\/title>/i.exec(html);
-  return match ? decodeHTML(match[1]).trim() || undefined : undefined;
+function extractTitle(doc: HtmlNode): string | undefined {
+  const el = findFirstElement(doc, 'title');
+  return el ? getTextContent(el).trim() || undefined : undefined;
 }
 
-function extractCanonical(html: string): string | undefined {
-  const link = /<link\b[^>]*\brel=["']canonical["'][^>]*>/i.exec(html);
-  if (!link) {
-    return undefined;
-  }
-  const href = /\bhref=["']([^"']*)["']/i.exec(link[0]);
-  return href ? decodeHTML(href[1]) : undefined;
+function extractCanonical(doc: HtmlNode): string | undefined {
+  const link = findAllElements(doc, 'link').find(
+    (l) => getAttribute(l, 'rel') === 'canonical'
+  );
+  // parse5 already decodes character references in attribute values.
+  return link ? getAttribute(link, 'href') : undefined;
+}
+
+function metaContent(
+  doc: HtmlNode,
+  attr: 'name' | 'property',
+  value: string
+): string | undefined {
+  const meta = findAllElements(doc, 'meta').find(
+    (m) => getAttribute(m, attr) === value
+  );
+  const content = meta && getAttribute(meta, 'content');
+  return content ? content.trim() || undefined : undefined;
+}
+
+function extractDescription(doc: HtmlNode): string | undefined {
+  return metaContent(doc, 'name', 'description');
+}
+
+function extractOgSiteName(doc: HtmlNode): string | undefined {
+  return metaContent(doc, 'property', 'og:site_name');
 }
 
 function extractBreadcrumb(
-  html: string,
+  doc: HtmlNode,
   jsonLd?: Record<string, unknown>[]
 ): string | undefined {
-  return breadcrumbFromParsedJsonLd(jsonLd) ?? breadcrumbFromDom(html);
+  return breadcrumbFromParsedJsonLd(jsonLd) ?? breadcrumbFromDom(doc);
 }
 
 interface BreadcrumbList extends Record<string, unknown> {
@@ -76,31 +106,24 @@ function breadcrumbFromParsedJsonLd(
   return names.length ? names.join(' / ') : undefined;
 }
 
-function breadcrumbFromDom(html: string): string | undefined {
-  const container = /<cx-breadcrumb\b[^>]*>([\s\S]*?)<\/cx-breadcrumb>/i.exec(
-    html
-  );
+function breadcrumbFromDom(doc: HtmlNode): string | undefined {
+  const container = findFirstElement(doc, 'cx-breadcrumb');
   if (!container) {
     return undefined;
   }
-  const anchors = [...container[1].matchAll(/<a\b[^>]*>([\s\S]*?)<\/a>/gi)];
-  const names = anchors
-    .map((m) => decodeHTML(stripTags(m[1])).trim())
+  // Label text is taken verbatim (parse5 decodes HTML entities, nested tags
+  // drop out as non-text nodes). Percent sequences are left literal.
+  const names = findAllElements(container, 'a')
+    .map((a) => getTextContent(a).trim())
     .filter((n) => n.length > 0);
   return names.length ? names.join(' / ') : undefined;
 }
 
 function extractSiteName(
-  html: string,
+  doc: HtmlNode,
   jsonLd?: Record<string, unknown>[]
 ): string | undefined {
-  return extractOgSiteName(html) ?? extractJsonLdSiteName(jsonLd);
-}
-
-function extractOgSiteName(html: string): string | undefined {
-  const ogTag = /<meta\b[^>]*\bproperty=["']og:site_name["'][^>]*>/i.exec(html);
-  const content = ogTag ? /\bcontent=["']([^"']*)["']/i.exec(ogTag[0]) : null;
-  return content ? decodeHTML(content[1]).trim() || undefined : undefined;
+  return extractOgSiteName(doc) ?? extractJsonLdSiteName(jsonLd);
 }
 
 function extractJsonLdSiteName(
@@ -112,24 +135,15 @@ function extractJsonLdSiteName(
   return site ? (site['name'] as string).trim() || undefined : undefined;
 }
 
-function extractDescription(html: string): string | undefined {
-  const tag = /<meta\b[^>]*\bname=["']description["'][^>]*>/i.exec(html);
-  if (!tag) {
-    return undefined;
-  }
-  const content = /\bcontent=["']([^"']*)["']/i.exec(tag[0]);
-  return content ? decodeHTML(content[1]).trim() || undefined : undefined;
-}
-
-function extractJsonLd(html: string): Record<string, unknown>[] | undefined {
-  const matches = [
-    ...html.matchAll(
-      /<script\b[^>]*id=["']json-ld["'][^>]*>([\s\S]*?)<\/script>/gi
-    ),
-  ];
-  const results = matches.flatMap((match) => {
+function extractJsonLd(doc: HtmlNode): Record<string, unknown>[] | undefined {
+  const scripts = findAllElements(doc, 'script').filter(
+    (s) => getAttribute(s, 'id') === 'json-ld'
+  );
+  const results = scripts.flatMap((script) => {
     try {
-      const raw = decodeHTML(match[1]).trim();
+      // `<script>` content is raw text in HTML, so parse5 does not decode its
+      // entities — the SSR output HTML-escapes the JSON, decode it back first.
+      const raw = decodeHTML(getTextContent(script)).trim();
       const parsed: unknown = JSON.parse(raw);
       if (Array.isArray(parsed)) {
         return parsed as Record<string, unknown>[];
@@ -143,17 +157,4 @@ function extractJsonLd(html: string): Record<string, unknown>[] | undefined {
     return [];
   });
   return results.length ? results : undefined;
-}
-
-function stripTags(input: string): string {
-  // Repeatedly strip tags until the string stops changing, so nested or
-  // overlapping fragments cannot survive a single pass (CodeQL multi-character
-  // sanitization safety). The Node SSR runtime has no DOMParser.
-  let output = input;
-  let previous = '';
-  while (output !== previous) {
-    previous = output;
-    output = output.replaceAll(/<[^>]*>/g, '');
-  }
-  return output;
 }
