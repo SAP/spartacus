@@ -31,7 +31,6 @@ describe('Markdown SSR (Accept: text/markdown) (CXSPA-13864)', () => {
       await SsrUtils.startSsrServer();
     });
 
-    // AC1 (strip layout) + AC "Page block" (+ soft Structured Data)
     it('returns clean Markdown with a Page block for Accept: text/markdown', async () => {
       backendProxy = await ProxyUtils.startBackendProxyServer({
         target: BACKEND_BASE_URL,
@@ -64,7 +63,7 @@ describe('Markdown SSR (Accept: text/markdown) (CXSPA-13864)', () => {
       }
     });
 
-    // AC4 — Accept: text/html is untouched (and gives the HTML baseline).
+    // Accept: text/html is untouched (and gives the HTML baseline).
     it('leaves the HTML response untouched for Accept: text/html', async () => {
       backendProxy = await ProxyUtils.startBackendProxyServer({
         target: BACKEND_BASE_URL,
@@ -81,7 +80,7 @@ describe('Markdown SSR (Accept: text/markdown) (CXSPA-13864)', () => {
       expect(response.body).toContain('<header id="cx-header"');
     });
 
-    // AC4 — regression guard: text/html (q=1.0) must beat */*;q=0.8.
+    // Regression guard: text/html (q=1.0) must beat */*;q=0.8.
     it('serves HTML for the browser default Accept header (text/html beats */*;q=0.8)', async () => {
       backendProxy = await ProxyUtils.startBackendProxyServer({
         target: BACKEND_BASE_URL,
@@ -100,7 +99,7 @@ describe('Markdown SSR (Accept: text/markdown) (CXSPA-13864)', () => {
       expect(response.headers['content-type']).not.toContain('text/markdown');
     });
 
-    // AC4 — pure wildcard: req.accepts resolves by array order → text/html wins.
+    // Pure wildcard: req.accepts resolves by array order, so text/html wins.
     it('serves HTML (not Markdown) for a pure wildcard Accept: */*', async () => {
       backendProxy = await ProxyUtils.startBackendProxyServer({
         target: BACKEND_BASE_URL,
@@ -137,7 +136,7 @@ describe('Markdown SSR (Accept: text/markdown) (CXSPA-13864)', () => {
       expect(response.body).toContain('## Page');
     });
 
-    // AC5 — excluded URLs (default skipUrls) are never converted.
+    // Excluded URLs (default skipUrls) are never converted.
     it('returns 406 for a Markdown-only client on an excluded URL', async () => {
       backendProxy = await ProxyUtils.startBackendProxyServer({
         target: BACKEND_BASE_URL,

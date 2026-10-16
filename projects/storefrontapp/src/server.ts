@@ -53,9 +53,8 @@ export function app(): express.Express {
     })
   );
 
-  // Smoke-test wiring for CXSPA-13864: serve Markdown when the client
-  // negotiates `Accept: text/markdown`. Registered before express.static and
-  // the Angular catch-all so it can patch res.send on qualifying requests.
+  // Serve Markdown when the client negotiates `Accept: text/markdown`.
+  // Registered before express.static and the Angular catch-all.
   server.use(createMarkdownPageHandler({ logger }));
 
   server.engine(
