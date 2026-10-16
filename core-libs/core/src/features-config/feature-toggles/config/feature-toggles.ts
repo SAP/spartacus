@@ -616,6 +616,15 @@ export interface FeatureTogglesInterface {
    * pre-existing behavior.
    *
    * Affects: `LogoutGuard`
+   *
+   * To override the default redirect route, provide `LogoutConfig` in your module:
+   * ```ts
+   * provideConfig({
+   *   logout: {
+   *     redirectRoute: 'login',
+   *   },
+   * } as LogoutConfig)
+   * ```
    */
   useConfigurableLogoutRedirect?: boolean;
 
