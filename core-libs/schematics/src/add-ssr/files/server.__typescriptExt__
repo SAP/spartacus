@@ -1,17 +1,26 @@
 import { APP_BASE_HREF } from '@angular/common';
 import {
+  DefaultExpressServerLogger,
   NgExpressEngineDecorator,
+  SsrOptimizationOptions,
   defaultExpressErrorHandlers,
   getOriginValidationMiddleware,
   ngExpressEngine as engine,
 } from '@spartacus/setup/ssr';
+import { createMarkdownPageHandler } from '@spartacus/setup/ssr/markdown';
 import express from 'express';
 import { readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import bootstrap from './main.server';
 
-const ngExpressEngine = NgExpressEngineDecorator.get(engine);
+const logger = new DefaultExpressServerLogger();
+
+const ssrOptions: SsrOptimizationOptions = {
+  logger,
+};
+
+const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -30,6 +39,9 @@ export function app(): express.Express {
   server.use(getOriginValidationMiddleware({
     allowedOrigins: process.env['SSR_ALLOWED_ORIGINS'],
   }));
+
+  // Serve Markdown when the client negotiates `Accept: text/markdown`.
+  server.use(createMarkdownPageHandler({ logger }));
 
   server.engine(
     'html',
