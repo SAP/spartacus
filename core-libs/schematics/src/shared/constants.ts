@@ -1168,6 +1168,13 @@ export const NGUNIVERSAL_IMPORT = '@nguniversal/express-engine';
 export const SSR_SETUP_IMPORT = '@spartacus/setup/ssr';
 export const EXPRESS_TOKENS = 'express.tokens';
 
+/**
+ * Prefix added to the `serve:ssr:<app>` npm script. Angular 22's SSR engine
+ * rejects requests whose hostname is not in `NG_ALLOWED_HOSTS`, so without this
+ * `serve:ssr` responds with HTTP 500. Mirrors the Spartacus storefrontapp scripts.
+ */
+export const NG_ALLOWED_HOSTS_PREFIX = 'NG_ALLOWED_HOSTS=localhost';
+
 export const APP_ROUTING_MODULE = 'AppRoutingModule';
 export const APP_ROUTING_MODULE_LOCAL_PATH = './app-routing.module';
 export const APP_ROUTING_MODULE_LOCAL_FILENAME = 'app-routing.module.ts';
