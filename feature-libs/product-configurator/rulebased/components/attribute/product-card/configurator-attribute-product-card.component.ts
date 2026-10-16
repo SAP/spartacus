@@ -74,19 +74,19 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   loading$?: Observable<boolean>;
   messages?: ConfiguratorMessageGroup[];
   /**
-   * @deprecated since 221121.17 - Use `this.getAttributeCode(this.attribute)` instead which will be
+   * @deprecated since 221121.23 - Use `this.getAttributeCode(this.attribute)` instead which will be
    * used in the components. This property remains for backward
    * compatibility and will be removed in a future major version.
    */
   attributeId: number;
   /**
-   * @deprecated since 221121.17 - Use `attribute.label` instead which will be
+   * @deprecated since 221121.23 - Use `attribute.label` instead which will be
    * used in the components. This property remains for backward
    * compatibility and will be removed in a future major version.
    */
   attributeLabel?: string;
   /**
-   * @deprecated since 221121.17 - Use `attribute.name` instead which will be
+   * @deprecated since 221121.23 - Use `attribute.name` instead which will be
    * used in the components. This property remains for backward
    * compatibility and will be removed in a future major version.
    */

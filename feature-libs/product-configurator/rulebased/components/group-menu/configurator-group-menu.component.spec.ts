@@ -321,8 +321,6 @@ describe('ConfiguratorGroupMenuComponent', () => {
     vi.spyOn(configUtils, 'focusFirstActiveElement').mockImplementation(
       () => {}
     );
-    vi.spyOn(configUtils, 'isCartEntryOrGroupVisited');
-
     configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     configuratorUtils.setOwnerKey(mockProductConfiguration.owner);
 
@@ -686,7 +684,10 @@ describe('ConfiguratorGroupMenuComponent', () => {
         .pipe(take(1))
         .subscribe();
 
-      expect(configUtils.isCartEntryOrGroupVisited).toHaveBeenCalled();
+      expect(configuratorGroupsService.isGroupVisited).toHaveBeenCalledWith(
+        mockProductConfiguration.owner,
+        mockProductConfiguration.groups[0].id
+      );
       expect(configuratorGroupsService.isConflictGroupType).toHaveBeenCalled();
     });
 
@@ -730,6 +731,25 @@ describe('ConfiguratorGroupMenuComponent', () => {
           mockProductConfiguration.groups[0],
           mockProductConfiguration
         )
+        .pipe(take(1))
+        .subscribe((visited) => expect(visited).toBe(false));
+    });
+
+    it('should return false for cart entry owner if group was not visited', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = false;
+      isConflictGroupType = false;
+      const configuration: Configurator.Configuration = {
+        ...mockProductConfiguration,
+        owner: {
+          ...mockProductConfiguration.owner,
+          type: CommonConfigurator.OwnerType.CART_ENTRY,
+        },
+      };
+      initialize();
+      component
+        .isGroupVisited(configuration.groups[0], configuration)
         .pipe(take(1))
         .subscribe((visited) => expect(visited).toBe(false));
     });
@@ -940,6 +960,30 @@ describe('ConfiguratorGroupMenuComponent', () => {
         .subscribe((style) =>
           expect(style).toEqual(baseStyleClass + errorStyleClass)
         );
+    });
+
+    it('should not return ERROR style class for cart entry if group was not visited', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = false;
+      const group: Configurator.Group = {
+        ...mockProductConfiguration.groups[0],
+        complete: false,
+        consistent: true,
+      };
+      const configuration: Configurator.Configuration = {
+        ...mockProductConfiguration,
+        owner: {
+          ...mockProductConfiguration.owner,
+          configuratorType: typeVariant,
+          type: CommonConfigurator.OwnerType.CART_ENTRY,
+        },
+      };
+      initialize();
+      component
+        .getGroupStatusStyles(group, configuration)
+        .pipe(take(1))
+        .subscribe((style) => expect(style).toEqual(baseStyleClass));
     });
 
     it('should return ERROR style class if group is incomplete, consistent and type is variant', () => {

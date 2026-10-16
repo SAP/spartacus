@@ -43,7 +43,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   protected readonly PAGE_SLOT = 'cx-page-slot';
 
   /**
-   * @deprecated since 221121.17 - The overview menu resolves its host page slot
+   * @deprecated since 221121.23 - The overview menu resolves its host page slot
    * via {@link getHostPageSlot}. This constant remains for backward compatibility
    * and will be removed in a future major version.
    */

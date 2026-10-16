@@ -72,7 +72,7 @@ export class ConfiguratorProductTitleComponent {
   /**
    * Whether the product title data is still being resolved.
    *
-   * @deprecated since 221121.17 - The ghost appearance is applied by the
+   * @deprecated since 221121.23 - The ghost appearance is applied by the
    * template to the placeholder that replaces the title. Host bindings of a
    * CMS component are evaluated by the page slot that creates it, which leaves
    * them stale when the title data resolves synchronously. This property
@@ -118,7 +118,7 @@ export class ConfiguratorProductTitleComponent {
   /**
    * Catalog product used for the expandable details.
    *
-   * @deprecated since 221121.17 - Use `productTitleData$` and read
+   * @deprecated since 221121.23 - Use `productTitleData$` and read
    * `product` from the view instead. This observable remains for
    * backward compatibility and will be removed in a future major version.
    */

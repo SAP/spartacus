@@ -412,11 +412,7 @@ export class ConfiguratorAttributeHeaderComponent
       const requiredMessage = this.getRequiredMessageKey();
       if (requiredMessage) {
         groups.unshift({
-          messages: [
-            typeof requiredMessage === 'string'
-              ? { key: requiredMessage }
-              : requiredMessage,
-          ],
+          messages: [{ key: requiredMessage }],
           messageClass: 'cx-required-error-msg',
           iconType: this.iconTypes.ERROR,
           showIcon: true,

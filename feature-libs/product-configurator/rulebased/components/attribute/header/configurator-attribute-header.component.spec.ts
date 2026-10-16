@@ -1707,22 +1707,6 @@ describe('ConfigAttributeHeaderComponent', () => {
       );
     });
 
-    it('keeps a translatable required message unchanged', () => {
-      component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
-      component.attribute.required = true;
-      const translatable = {
-        key: 'configurator.attribute.containerRequiredMessage',
-        params: { count: 2 },
-      };
-      vi.spyOn(component, 'getRequiredMessageKey').mockReturnValue(
-        translatable as unknown as string
-      );
-
-      const groups = component.getMessageGroups(true);
-
-      expect(groups[0].messages[0]).toEqual(translatable);
-    });
-
     it('does not prepend a required group when no message key is resolved', () => {
       component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
       component.attribute.required = true;
