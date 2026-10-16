@@ -108,6 +108,11 @@ async function runPipeline(
   signal: AbortSignal
 ): Promise<string> {
   const parsed = await parser(html);
+  // Skip the converter if the timeout already fired while the parser was
+  // awaiting. This only cancels work for parsers that actually yield (custom
+  // async parsers/converters); the default parser runs parse5 + turndown
+  // synchronously, so for it the effective guard is the `withTimeout` race,
+  // which serves the original HTML once the synchronous work returns.
   if (signal.aborted) {
     throw new Error('markdown conversion aborted');
   }

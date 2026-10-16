@@ -199,11 +199,13 @@ describe('createMarkdownPageHandler', () => {
     );
   });
 
-  it('does not run the converter after the timeout aborts', async () => {
+  it('skips the converter when an async parser resolves after the timeout aborts', async () => {
     const res = mockRes();
     const sendMock = res.send as jest.Mock;
     const converter = jest.fn().mockReturnValue('md');
-    // Parser resolves AFTER the timeout window.
+    // An async parser that yields (unlike the synchronous default parser): it
+    // resolves AFTER the timeout window, so the abort checkpoint skips the
+    // converter. This covers the custom-async-pipeline case only.
     const parser: HtmlToPageParser = () =>
       new Promise((r) =>
         setTimeout(() => r({ title: 't', body: 'b' } as ParsedPage), 50)
