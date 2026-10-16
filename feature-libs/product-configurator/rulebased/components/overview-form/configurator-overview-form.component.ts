@@ -35,7 +35,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   selector: 'cx-configurator-overview-form',
   templateUrl: './configurator-overview-form.component.html',
   //here we cannot go with OnPush, as we otherwise do not take the change to host binding into account
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     NgTemplateOutlet,

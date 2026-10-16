@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { PaginationModel, TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-store-finder-pagination-details',
   templateUrl: './store-finder-pagination-details.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [TranslatePipe],
 })
 export class StoreFinderPaginationDetailsComponent {

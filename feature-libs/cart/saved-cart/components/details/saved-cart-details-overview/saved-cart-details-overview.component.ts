@@ -11,6 +11,7 @@ import {
   OnDestroy,
   ViewChild,
   ViewContainerRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { CxDatePipe, TranslatePipe, TranslationService } from '@spartacus/core';
@@ -29,6 +30,7 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
 @Component({
   selector: 'cx-saved-cart-details-overview',
   templateUrl: './saved-cart-details-overview.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     CardComponent,

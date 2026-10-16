@@ -21,9 +21,9 @@
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
-    "@angular-devkit/schematics": "^21.2.23",
-    "@angular/common": "^21.2.23",
-    "@angular/core": "^21.2.23",
+    "@angular-devkit/schematics": "^22.2.1",
+    "@angular/common": "^22.2.1",
+    "@angular/core": "^22.2.1",
     "@spartacus/cart": "221121.20.0",
     "@spartacus/core": "221121.20.0",
     "@spartacus/schematics": "221121.20.0",

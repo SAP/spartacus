@@ -12,6 +12,7 @@ import {
   Output,
   Renderer2,
   ViewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   FormControl,
@@ -26,6 +27,7 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 @Component({
   selector: 'cx-unit-level-order-history-filter',
   templateUrl: './unit-level-order-history-filter.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     IconComponent,
     FormsModule,

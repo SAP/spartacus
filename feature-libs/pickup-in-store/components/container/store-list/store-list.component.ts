@@ -5,7 +5,14 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { PointOfServiceStock, TranslatePipe } from '@spartacus/core';
 import {
   IntendedPickupLocationFacade,
@@ -22,6 +29,7 @@ import { StoreComponent } from '../../presentational/store/store.component';
 @Component({
   selector: 'cx-store-list',
   templateUrl: 'store-list.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     NgFor,

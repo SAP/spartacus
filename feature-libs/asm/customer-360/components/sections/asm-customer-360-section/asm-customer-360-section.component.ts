@@ -11,6 +11,7 @@ import {
   OnDestroy,
   Output,
   Type,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { AsmCustomer360SectionConfig } from '@spartacus/asm/customer-360/root';
 import { UrlCommand, User } from '@spartacus/core';
@@ -30,6 +31,7 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
       useExisting: AsmCustomer360SectionContextSource,
     },
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgComponentOutlet],
 })
 export class AsmCustomer360SectionComponent implements OnDestroy {

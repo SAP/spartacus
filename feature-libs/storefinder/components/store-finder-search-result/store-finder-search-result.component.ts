@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { GeoPoint, SearchConfig, TranslatePipe } from '@spartacus/core';
 import {
@@ -20,6 +25,7 @@ import { StoreFinderListComponent } from './store-finder-list/store-finder-list.
 @Component({
   selector: 'cx-store-finder-search-result',
   templateUrl: './store-finder-search-result.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     PaginationComponent,

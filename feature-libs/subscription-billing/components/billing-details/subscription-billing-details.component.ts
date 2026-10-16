@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   CxDatePipe,
@@ -24,6 +29,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'cx-subscription-billing-details',
   templateUrl: './subscription-billing-details.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     NgFor,

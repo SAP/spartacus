@@ -153,11 +153,10 @@ export const config = mergeApplicationConfig(appConfig, serverConfig);
 `;
 
 exports[`add-ssr app.config.ts should be updated 1`] = `
-"import { ApplicationConfig, importProvidersFrom, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
-
-import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";
+"import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";
+import { ApplicationConfig, importProvidersFrom, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 import { provideClientHydration, withEventReplay, withNoHttpTransferCache } from '@angular/platform-browser';
+import { provideRouter } from '@angular/router';
 import { AppModule } from "./app.module";
 import { routes } from './app.routes';
 
@@ -257,10 +256,22 @@ export function app(): express.Express {
     allowedOrigins: process.env['SSR_ALLOWED_ORIGINS'],
   }));
 
+  // Hosts allowed by the Angular SSR engine when validating the request's
+  // \`Host\` header (Angular v22+ rejects unknown hosts with a 400). Defaults to
+  // \`localhost\` for local development. Add your deployment hostnames here, or
+  // provide them via the \`SSR_ALLOWED_HOSTS\` environment variable
+  // (comma-separated); both sources are merged. Use \`'*'\` to allow any host
+  // (not recommended) or \`'*.example.com'\` to allow subdomains.
+  const allowedHosts = [
+    'localhost',
+    ...(process.env['SSR_ALLOWED_HOSTS']?.split(',').map((host) => host.trim()).filter(Boolean) ?? []),
+  ];
+
   server.engine(
     'html',
     ngExpressEngine({
-      bootstrap
+      bootstrap,
+      allowedHosts,
     })
   );
 

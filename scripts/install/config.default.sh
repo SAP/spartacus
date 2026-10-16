@@ -64,7 +64,7 @@ CLONE_DIR="clone"
 INSTALLATION_DIR="apps"
 E2E_TEST_DIR=${CLONE_DIR}/projects/storefrontapp-e2e-cypress
 
-ANGULAR_CLI_VERSION='^21.1.0'
+ANGULAR_CLI_VERSION='^22.0.0'
 SPARTACUS_VERSION='latest'
 
 CSR_PORT="4200"
@@ -107,7 +107,6 @@ EPD_VISUALIZATION_BASE_URL=
 # The base URL and public key values are required for connection to Cloud Commerce Adapter (OPF)
 OPF_BASE_URL=
 OPF_CLIENT_PUBLIC_KEY=
-OPF_ACCESS_CODE_HEADER_ENABLED=true
 
 #NPM connection info
 #NPM_URL must start by 'https://' and end with '/' char

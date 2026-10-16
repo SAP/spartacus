@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, inject, OnDestroy } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnDestroy,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CxDatePipe, Product, TranslatePipe, UrlPipe } from '@spartacus/core';
 import { MyAccountV2OrderHistoryService } from '@spartacus/order/core';
@@ -17,6 +22,7 @@ import { tap } from 'rxjs/operators';
 @Component({
   selector: 'cx-my-account-v2-orders',
   templateUrl: './my-account-v2-orders.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     RouterLink,
     NgIf,

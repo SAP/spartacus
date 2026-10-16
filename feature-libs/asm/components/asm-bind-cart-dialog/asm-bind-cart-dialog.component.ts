@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import {
   FocusConfig,
@@ -20,6 +20,7 @@ export enum BIND_CART_DIALOG_ACTION {
 @Component({
   selector: 'cx-asm-bind-cart-dialog',
   templateUrl: './asm-bind-cart-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FocusDirective, TranslatePipe],
 })
 export class AsmBindCartDialogComponent {

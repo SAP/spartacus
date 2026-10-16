@@ -5,7 +5,14 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -48,6 +55,7 @@ import { CustomerTicketingDialogComponent } from '../../../shared/customer-ticke
 @Component({
   selector: 'cx-customer-ticketing-create-dialog',
   templateUrl: './customer-ticketing-create-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FocusDirective,
     FormsModule,

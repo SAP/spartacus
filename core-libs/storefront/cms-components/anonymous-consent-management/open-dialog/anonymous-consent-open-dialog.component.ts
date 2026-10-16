@@ -10,6 +10,7 @@ import {
   ElementRef,
   ViewChild,
   ViewContainerRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { AnonymousConsentsService, TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -20,6 +21,7 @@ import { LaunchDialogService } from '../../../layout/launch-dialog/services/laun
 @Component({
   selector: 'cx-anonymous-consent-open-dialog',
   templateUrl: './anonymous-consent-open-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class AnonymousConsentOpenDialogComponent {

@@ -5,7 +5,13 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, Input, OnInit, Optional } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  Optional,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { PointOfService, TranslatePipe } from '@spartacus/core';
 import { Consignment } from '@spartacus/order/root';
 import { OutletContextData } from '@spartacus/storefront';
@@ -20,6 +26,7 @@ export type IOutletContextData = { item: Consignment };
 @Component({
   selector: 'cx-pickup-in-store-order-consignment',
   templateUrl: './pickup-in-store-order-consignment-container.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class PickupInStoreOrderConsignmentContainerComponent implements OnInit {

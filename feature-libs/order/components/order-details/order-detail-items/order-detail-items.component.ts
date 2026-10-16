@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, CommonModule, NgIf } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 import {
@@ -30,6 +30,7 @@ import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-
 @Component({
   selector: 'cx-order-details-items',
   templateUrl: './order-detail-items.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     PromotionsComponent,

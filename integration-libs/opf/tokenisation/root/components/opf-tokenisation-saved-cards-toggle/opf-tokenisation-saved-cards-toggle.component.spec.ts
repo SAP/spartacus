@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { UserPaymentService } from '@spartacus/core';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   I18nTestingModule,
@@ -23,6 +23,7 @@ import { OpfSavedCardsToggleContext } from '../../model';
 
 @Component({
   selector: 'cx-icon',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class MockIconComponent {}

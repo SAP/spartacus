@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OpfIframeSandboxDirective } from './opf-iframe-sandbox.directive';
 
@@ -13,6 +13,7 @@ const SANDBOX_SCRIPTS_SAME_ORIGIN = 'allow-scripts allow-same-origin';
 
 @Component({
   template: `<iframe [cxOpfSandbox]="sandboxValue"></iframe>`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [OpfIframeSandboxDirective],
 })
 class TestHostComponent {

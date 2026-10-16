@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import {
   FocusConfig,
@@ -17,6 +17,7 @@ import { VERIFICATION_TOKEN_DIALOG_ACTION } from '@spartacus/user/account/root';
 @Component({
   selector: 'cx-verification-token-dialog',
   templateUrl: './verification-token-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FocusDirective, IconComponent, TranslatePipe],
 })
 export class VerificationTokenDialogComponent {

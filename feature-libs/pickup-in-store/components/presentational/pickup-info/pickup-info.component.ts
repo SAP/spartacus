@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { PointOfService, TranslatePipe } from '@spartacus/core';
 import { StoreAddressComponent } from '../store/store-address/store-address.component';
 import { StoreScheduleComponent } from '../store/store-schedule/store-schedule.component';
@@ -12,6 +12,7 @@ import { StoreScheduleComponent } from '../store/store-schedule/store-schedule.c
 @Component({
   selector: 'cx-pickup-info',
   templateUrl: './pickup-info.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [StoreAddressComponent, StoreScheduleComponent, TranslatePipe],
 })
 export class PickupInfoComponent {

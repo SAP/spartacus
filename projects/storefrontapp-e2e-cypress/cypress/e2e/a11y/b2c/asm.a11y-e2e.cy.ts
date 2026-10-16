@@ -37,8 +37,13 @@ describe('ASM Continuum tests', { testIsolation: false }, () => {
 
   it('Customers - modal', () => {
     cy.get('.cx-asm-customer-list-link').click();
-    cy.get('.customer-list-selector').click();
-    cy.get('.ng-option').eq(1).click();
+    // ng-select@24 opens on `mousedown` of the arrow (not `click`); the panel
+    // renders in a CDK overlay outside any scope.
+    cy.get('.customer-list-selector .ng-arrow-wrapper').trigger('mousedown', {
+      which: 1,
+      button: 0,
+    });
+    cy.get('.ng-option', { withinSubject: null }).eq(1).click();
     cy.get('.cx-avatar-text');
     cy.get('.cx-asm-dialog').a11yRunContinuumTest();
   });

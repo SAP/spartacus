@@ -12,6 +12,7 @@ import {
   effect,
   inject,
   signal,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
@@ -44,6 +45,7 @@ import { SubscriptionActionsModalComponentService } from './subscription-actions
   selector: 'cx-subscription-actions-modal',
   standalone: true,
   templateUrl: './subscription-actions-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     CommonModule,
     CardModule,

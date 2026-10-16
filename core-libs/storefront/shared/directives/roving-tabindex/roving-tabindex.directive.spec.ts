@@ -5,7 +5,7 @@
  */
 
 import { NgFor } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { vi } from 'vitest';
@@ -25,6 +25,11 @@ import { CxRovingTabindexDirective } from './roving-tabindex.directive';
     </div>
   `,
   imports: [CxRovingTabindexDirective, NgFor],
+  // Test host mutates plain fields (axis/activate/items) then calls
+  // detectChanges(); under Angular 22's OnPush-by-default those input
+  // re-bindings would be skipped. Eager keeps the pre-v22 behavior this
+  // spec relies on (it tests the directive, not change detection).
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 class TestHostComponent {
   items = [1, 2, 3];

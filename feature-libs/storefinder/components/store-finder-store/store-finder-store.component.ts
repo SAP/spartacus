@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PointOfService, RoutingService, TranslatePipe } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
@@ -20,6 +25,7 @@ import { StoreFinderStoreDescriptionComponent } from '../store-finder-store-desc
 @Component({
   selector: 'cx-store-finder-store',
   templateUrl: './store-finder-store.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     IconComponent,

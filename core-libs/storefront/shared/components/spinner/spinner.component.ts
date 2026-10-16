@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 
 // TODO: Improve a11y with better text appropriate to usage (example: loading cart spinner)
@@ -12,6 +12,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-spinner',
   templateUrl: './spinner.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [TranslatePipe],
 })
 export class SpinnerComponent {

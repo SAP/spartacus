@@ -11,6 +11,7 @@ import {
   HostListener,
   OnDestroy,
   OnInit,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { TranslatePipe } from '@spartacus/core';
@@ -41,6 +42,7 @@ import { StoreSearchComponent } from '../store-search/store-search.component';
 @Component({
   selector: 'cx-pickup-option-dialog',
   templateUrl: './pickup-option-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FocusDirective,
     IconComponent,

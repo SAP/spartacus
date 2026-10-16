@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, Optional } from '@angular/core';
+import { Component, Optional, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import {
@@ -28,6 +28,7 @@ import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entr
 @Component({
   selector: 'cx-configurator-cart-entry-bundle-info',
   templateUrl: './configurator-cart-entry-bundle-info.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     NgFor,
