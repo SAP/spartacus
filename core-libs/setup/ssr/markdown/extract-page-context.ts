@@ -85,14 +85,7 @@ function breadcrumbFromDom(html: string): string | undefined {
   }
   const anchors = [...container[1].matchAll(/<a\b[^>]*>([\s\S]*?)<\/a>/gi)];
   const names = anchors
-    .map((m) => {
-      const raw = decodeHTML(stripTags(m[1])).trim();
-      try {
-        return decodeURIComponent(raw);
-      } catch {
-        return raw;
-      }
-    })
+    .map((m) => decodeHTML(stripTags(m[1])).trim())
     .filter((n) => n.length > 0);
   return names.length ? names.join(' / ') : undefined;
 }

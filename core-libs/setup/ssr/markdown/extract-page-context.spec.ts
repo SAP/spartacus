@@ -104,13 +104,22 @@ describe('extractPageContext', () => {
     expect(ctx.jsonLd?.length).toBe(2);
   });
 
-  it('decodes URL-percent-encoded text in DOM breadcrumb anchors', () => {
+  it('leaves percent sequences in DOM breadcrumb labels literal', () => {
     const html =
       '<cx-breadcrumb><nav><ol>' +
       '<li><a href="/">Home</a></li>' +
       '<li><a href="/cameras-%26-lenses">Cameras %26 Lenses</a></li>' +
       '</ol></nav></cx-breadcrumb>';
-    expect(extractPageContext(html).breadcrumb).toBe('Home / Cameras & Lenses');
+    expect(extractPageContext(html).breadcrumb).toBe('Home / Cameras %26 Lenses');
+  });
+
+  it('does not throw on incomplete percent sequences in breadcrumb labels', () => {
+    const html =
+      '<cx-breadcrumb><nav><ol>' +
+      '<li><a href="/">Home</a></li>' +
+      '<li><a href="/sale">50% Off Sale</a></li>' +
+      '</ol></nav></cx-breadcrumb>';
+    expect(extractPageContext(html).breadcrumb).toBe('Home / 50% Off Sale');
   });
 
   it('reads site name from og:site_name meta tag', () => {
