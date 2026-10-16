@@ -104,9 +104,13 @@ export function createMarkdownPageHandler(
 async function runPipeline(
   html: string,
   parser: HtmlToPageParser,
-  converter: ParsedPageConverter
+  converter: ParsedPageConverter,
+  signal: AbortSignal
 ): Promise<string> {
   const parsed = await parser(html);
+  if (signal.aborted) {
+    throw new Error('markdown conversion aborted');
+  }
   return converter(parsed);
 }
 
@@ -122,7 +126,7 @@ async function sendMarkdown(
 ): Promise<void> {
   try {
     const markdown = await withTimeout(
-      runPipeline(html, parser, converter),
+      (signal) => runPipeline(html, parser, converter, signal),
       timeout
     );
     res.setHeader('Content-Type', 'text/markdown; charset=utf-8');
@@ -138,21 +142,21 @@ async function sendMarkdown(
 }
 
 async function withTimeout(
-  promise: Promise<string>,
+  run: (signal: AbortSignal) => Promise<string>,
   ms: number
 ): Promise<string> {
+  const controller = new AbortController();
   let timerId: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<never>((_, reject) => {
+    timerId = setTimeout(() => {
+      controller.abort();
+      reject(new Error(`markdown conversion timed out after ${ms}ms`));
+    }, ms);
+  });
   try {
-    return await Promise.race([
-      promise,
-      new Promise<never>((_, reject) => {
-        timerId = setTimeout(
-          () =>
-            reject(new Error(`markdown conversion timed out after ${ms}ms`)),
-          ms
-        );
-      }),
-    ]);
+    // Note: synchronous turndown work inside `run` cannot be preempted; the
+    // signal is checked at the pipeline's async boundaries only.
+    return await Promise.race([run(controller.signal), timeout]);
   } finally {
     clearTimeout(timerId);
   }

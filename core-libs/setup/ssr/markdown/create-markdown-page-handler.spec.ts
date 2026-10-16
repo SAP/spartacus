@@ -199,6 +199,30 @@ describe('createMarkdownPageHandler', () => {
     );
   });
 
+  it('does not run the converter after the timeout aborts', async () => {
+    const res = mockRes();
+    const sendMock = res.send as jest.Mock;
+    const converter = jest.fn().mockReturnValue('md');
+    // Parser resolves AFTER the timeout window.
+    const parser: HtmlToPageParser = () =>
+      new Promise((r) =>
+        setTimeout(() => r({ title: 't', body: 'b' } as ParsedPage), 50)
+      );
+
+    createMarkdownPageHandler({ parser, converter, timeout: 10, logger: null })(
+      mockReq('text/markdown'),
+      res,
+      next
+    );
+    sendMock.mockClear();
+
+    res.send('<main>original</main>');
+    await new Promise((r) => setTimeout(r, 80));
+
+    expect(converter).not.toHaveBeenCalled();
+    expect(sendMock).toHaveBeenCalledWith('<main>original</main>');
+  });
+
   it('uses the two-argument accepts negotiation form', () => {
     const req = mockReq('text/html');
     createMarkdownPageHandler()(req, mockRes(), next);
