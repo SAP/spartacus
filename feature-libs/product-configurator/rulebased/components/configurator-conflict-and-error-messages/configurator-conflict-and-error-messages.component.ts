@@ -33,7 +33,7 @@ export class ConfiguratorConflictAndErrorMessagesComponent {
   iconTypes = ICON_TYPE;
 
   /**
-   * @deprecated since 221121.17 - Use `messages$` instead, which only exposes
+   * @deprecated since 221121.23 - Use `messages$` instead, which only exposes
    * the messages of the configuration that is currently viewed. This
    * observable remains for backward compatibility and will be removed in a
    * future major version.

@@ -633,7 +633,7 @@ describe('ConfigureCartEntryComponent', () => {
     describe('queryParam$', () => {
       it('should contain "navigateToCheckout" parameter in case the navigation to the cart is relevant', async () => {
         mockRouterState.state.semanticRoute = 'checkoutReviewOrder';
-        component.legacyQueryParams$
+        component.queryParams$
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
             expect(queryParams.navigateToCheckout).toBe(true);
@@ -675,7 +675,7 @@ describe('ConfigureCartEntryComponent', () => {
           product: { configuratorType: configuratorType, code: productCode },
         };
         fixture.detectChanges();
-        const queryParams = await firstValueFrom(component.legacyQueryParams$);
+        const queryParams = await firstValueFrom(component.queryParams$);
         expect(queryParams.productCode).toBe(productCode);
       });
 
@@ -701,7 +701,7 @@ describe('ConfigureCartEntryComponent', () => {
           product: { configuratorType: configuratorType, code: productCode },
         };
         fixture.detectChanges();
-        component.legacyQueryParams$
+        component.queryParams$
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
             expect(queryParams.resolveIssues).toBe(false);
@@ -719,7 +719,7 @@ describe('ConfigureCartEntryComponent', () => {
           ],
         };
         fixture.detectChanges();
-        component.legacyQueryParams$
+        component.queryParams$
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
             expect(queryParams.resolveIssues).toBe(true);

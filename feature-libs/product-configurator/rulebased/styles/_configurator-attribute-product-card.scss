@@ -1,11 +1,13 @@
 %cx-configurator-attribute-product-card {
   &:first-of-type {
-    .cx-product-card-container {
+    > .cx-product-card,
+    > .cx-product-card-container {
       border-top: solid 1px var(--cx-color-light);
     }
   }
 
-  .cx-product-card-container {
+  > .cx-product-card,
+  > .cx-product-card-container {
     border-bottom: solid 1px var(--cx-color-light);
   }
 

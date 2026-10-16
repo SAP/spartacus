@@ -10,7 +10,7 @@
         'configurator.a11y.itemOfAttribute'
           | cxTranslate
             : {
-                attribute: productCardOptions.attribute.label,
+                attribute: productCardAttributeLabel,
               }
       "
     >
@@ -39,7 +39,7 @@
             [textSize]="45"
             [productName]="product.code"
             [tabIndex]="0"
-            [attributeLabel]="productCardOptions.attribute.label"
+            [attributeLabel]="productCardAttributeLabel"
             [itemLabel]="product.name || product.code"
           />
         </div>
@@ -83,10 +83,7 @@
                   [cxFocus]="focusConfig"
                   [attr.aria-label]="getAriaLabelMultiSelected(product)"
                   [attr.aria-describedby]="
-                    createAttributeUiKey(
-                      'label',
-                      productCardOptions.attribute.name
-                    )
+                    createAttributeUiKey('label', productCardAttributeName)
                   "
                 >
                   {{ 'configurator.button.remove' | cxTranslate }}
@@ -98,10 +95,7 @@
                   [cxFocus]="focusConfig"
                   [attr.aria-label]="getAriaLabelMultiSelected(product)"
                   [attr.aria-describedby]="
-                    createAttributeUiKey(
-                      'label',
-                      productCardOptions.attribute.name
-                    )
+                    createAttributeUiKey('label', productCardAttributeName)
                   "
                 >
                   {{ 'configurator.button.remove' | cxTranslate }}
@@ -117,10 +111,7 @@
                   [cxFocus]="focusConfig"
                   [attr.aria-label]="getAriaLabelMultiUnselected(product)"
                   [attr.aria-describedby]="
-                    createAttributeUiKey(
-                      'label',
-                      productCardOptions.attribute.name
-                    )
+                    createAttributeUiKey('label', productCardAttributeName)
                   "
                 >
                   {{ 'configurator.button.add' | cxTranslate }}
@@ -136,10 +127,7 @@
                   [cxFocus]="focusConfig"
                   [attr.aria-label]="getAriaLabelMultiUnselected(product)"
                   [attr.aria-describedby]="
-                    createAttributeUiKey(
-                      'label',
-                      productCardOptions.attribute.name
-                    )
+                    createAttributeUiKey('label', productCardAttributeName)
                   "
                 >
                   {{ 'configurator.button.add' | cxTranslate }}
@@ -162,10 +150,7 @@
                   [cxFocus]="focusConfig"
                   [attr.aria-label]="getAriaLabelSingleUnselected(product)"
                   [attr.aria-describedby]="
-                    createAttributeUiKey(
-                      'label',
-                      productCardOptions.attribute.name
-                    )
+                    createAttributeUiKey('label', productCardAttributeName)
                   "
                 >
                   {{ 'configurator.button.select' | cxTranslate }}
@@ -181,10 +166,7 @@
                   [cxFocus]="focusConfig"
                   [attr.aria-label]="getAriaLabelSingleUnselected(product)"
                   [attr.aria-describedby]="
-                    createAttributeUiKey(
-                      'label',
-                      productCardOptions.attribute.name
-                    )
+                    createAttributeUiKey('label', productCardAttributeName)
                   "
                 >
                   {{ 'configurator.button.select' | cxTranslate }}
@@ -209,10 +191,7 @@
                     [cxFocus]="focusConfig"
                     [attr.aria-label]="getAriaLabelSingleSelected(product)"
                     [attr.aria-describedby]="
-                      createAttributeUiKey(
-                        'label',
-                        productCardOptions.attribute.name
-                      )
+                      createAttributeUiKey('label', productCardAttributeName)
                     "
                   >
                     {{ 'configurator.button.deselect' | cxTranslate }}
@@ -237,10 +216,7 @@
           aria-atomic="true"
           role="alert"
           id="{{
-            createAttributeUiKey(
-              'attribute-msg',
-              productCardOptions.attribute.name
-            )
+            createAttributeUiKey('attribute-msg', productCardAttributeName)
           }}"
         >
           <cx-icon class="deselection-error-symbol" type="ERROR" />
@@ -260,7 +236,7 @@
         'configurator.a11y.itemOfAttribute'
           | cxTranslate
             : {
-                attribute: productCardOptions.attribute.label,
+                attribute: productCardAttributeLabel,
               }
       "
     >
@@ -290,7 +266,7 @@
               [textSize]="45"
               [productName]="product.code"
               [tabIndex]="0"
-              [attributeLabel]="productCardOptions.attribute.label"
+              [attributeLabel]="productCardAttributeLabel"
               [itemLabel]="product.name || product.code"
             />
           </div>
@@ -402,10 +378,7 @@
                       [cxFocus]="focusConfig"
                       [attr.aria-label]="getAriaLabelMultiSelected(product)"
                       [attr.aria-describedby]="
-                        createAttributeUiKey(
-                          'label',
-                          productCardOptions.attribute.name
-                        )
+                        createAttributeUiKey('label', productCardAttributeName)
                       "
                     >
                       {{ 'configurator.button.remove' | cxTranslate }}
@@ -419,10 +392,7 @@
                       [cxFocus]="focusConfig"
                       [attr.aria-label]="getAriaLabelMultiSelected(product)"
                       [attr.aria-describedby]="
-                        createAttributeUiKey(
-                          'label',
-                          productCardOptions.attribute.name
-                        )
+                        createAttributeUiKey('label', productCardAttributeName)
                       "
                     >
                       {{ 'configurator.button.remove' | cxTranslate }}
@@ -440,10 +410,7 @@
                       [cxFocus]="focusConfig"
                       [attr.aria-label]="getAriaLabelMultiUnselected(product)"
                       [attr.aria-describedby]="
-                        createAttributeUiKey(
-                          'label',
-                          productCardOptions.attribute.name
-                        )
+                        createAttributeUiKey('label', productCardAttributeName)
                       "
                     >
                       {{ 'configurator.button.add' | cxTranslate }}
@@ -461,10 +428,7 @@
                       [cxFocus]="focusConfig"
                       [attr.aria-label]="getAriaLabelMultiUnselected(product)"
                       [attr.aria-describedby]="
-                        createAttributeUiKey(
-                          'label',
-                          productCardOptions.attribute.name
-                        )
+                        createAttributeUiKey('label', productCardAttributeName)
                       "
                     >
                       {{ 'configurator.button.add' | cxTranslate }}
@@ -489,10 +453,7 @@
                       [cxFocus]="focusConfig"
                       [attr.aria-label]="getAriaLabelSingleUnselected(product)"
                       [attr.aria-describedby]="
-                        createAttributeUiKey(
-                          'label',
-                          productCardOptions.attribute.name
-                        )
+                        createAttributeUiKey('label', productCardAttributeName)
                       "
                     >
                       {{ 'configurator.button.select' | cxTranslate }}
@@ -510,10 +471,7 @@
                       [cxFocus]="focusConfig"
                       [attr.aria-label]="getAriaLabelSingleUnselected(product)"
                       [attr.aria-describedby]="
-                        createAttributeUiKey(
-                          'label',
-                          productCardOptions.attribute.name
-                        )
+                        createAttributeUiKey('label', productCardAttributeName)
                       "
                     >
                       {{ 'configurator.button.select' | cxTranslate }}
@@ -540,7 +498,7 @@
                         [attr.aria-describedby]="
                           createAttributeUiKey(
                             'label',
-                            productCardOptions.attribute.name
+                            productCardAttributeName
                           )
                         "
                       >
@@ -570,7 +528,7 @@
             id="{{
               createContainerUiKey(
                 group.uiKeyPrefix,
-                productCardOptions.attribute.name,
+                productCardAttributeName,
                 productCardOptions.productBoundValue.valueCode
               )
             }}"
@@ -583,7 +541,7 @@
             [idPrefix]="
               createContainerUiKey(
                 group.uiKeyPrefix,
-                productCardOptions.attribute.name,
+                productCardAttributeName,
                 productCardOptions.productBoundValue.valueCode
               )
             "
@@ -595,10 +553,7 @@
               aria-atomic="true"
               role="alert"
               id="{{
-                createAttributeUiKey(
-                  'attribute-msg',
-                  productCardOptions.attribute.name
-                )
+                createAttributeUiKey('attribute-msg', productCardAttributeName)
               }}"
             >
               <cx-icon class="deselection-error-symbol" type="ERROR" />

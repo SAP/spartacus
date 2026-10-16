@@ -386,8 +386,8 @@ export class ConfiguratorGroupMenuComponent {
     group: Configurator.Group,
     configuration: Configurator.Configuration
   ): Observable<boolean> {
-    return this.configUtils
-      .isCartEntryOrGroupVisited(configuration.owner, group.id)
+    return this.configuratorGroupsService
+      .isGroupVisited(configuration.owner, group.id)
       .pipe(
         map(
           (isVisited) =>

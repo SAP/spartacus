@@ -14,8 +14,8 @@ import {
 } from '@angular/core';
 import {
   Config,
+  FeatureDirective,
   LoggerService,
-  Translatable,
   TranslatePipe,
 } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
@@ -51,6 +51,7 @@ import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-a
     ConfiguratorMessageComponent,
     AsyncPipe,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class ConfiguratorAttributeHeaderComponent
@@ -100,19 +101,13 @@ export class ConfiguratorAttributeHeaderComponent
   }
 
   /**
-   * Get message key for the required message. Is different for multi- and single selection values
-   * and for container attributes. Container messages include `count` for the remaining
-   * products needed to meet `minRows`, so i18n can pick singular vs plural.
+   * Get message key for the required message. Is different for multi- and single selection values.
+   * For container attributes, use {@link getContainerRequiredMessageKey} instead.
    *
-   * @return required message key, or a translatable with params for containers
+   * @return required message key
    */
-  getRequiredMessageKey(): string | Translatable | undefined {
-    if (this.isContainerSelection()) {
-      return this.getContainerRequiredMessageKey(
-        this.attribute.container?.minRows,
-        this.attribute.container?.rows
-      );
-    } else if (this.isSingleSelection()) {
+  getRequiredMessageKey(): string {
+    if (this.isSingleSelection()) {
       return this.isWithAdditionalValues(this.attribute)
         ? 'configurator.attribute.singleSelectAdditionalRequiredMessage'
         : 'configurator.attribute.singleSelectRequiredMessage';
@@ -417,11 +412,7 @@ export class ConfiguratorAttributeHeaderComponent
       const requiredMessage = this.getRequiredMessageKey();
       if (requiredMessage) {
         groups.unshift({
-          messages: [
-            typeof requiredMessage === 'string'
-              ? { key: requiredMessage }
-              : requiredMessage,
-          ],
+          messages: [{ key: requiredMessage }],
           messageClass: 'cx-required-error-msg',
           iconType: this.iconTypes.ERROR,
           showIcon: true,

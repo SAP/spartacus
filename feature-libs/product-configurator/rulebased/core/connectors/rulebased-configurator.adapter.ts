@@ -50,32 +50,32 @@ export abstract class RulebasedConfiguratorAdapter {
   ): Observable<Configurator.Configuration>;
 
   /**
-   * Abstract method to add a new container row to a CPQ configuration.
-   * Not supported for the variant configurator.
+   * Optional method to add a new container row to a CPQ configuration.
+   * Only implemented by configurators that support containers (CPQ).
    *
    * @param parameters add container row parameters
    */
-  abstract addContainerRow(
+  abstract addContainerRow?(
     parameters: Configurator.AddContainerRowParameters
   ): Observable<Configurator.Configuration>;
 
   /**
-   * Abstract method to copy a container row of a CPQ configuration.
-   * Not supported for the variant configurator.
+   * Optional method to copy a container row of a CPQ configuration.
+   * Only implemented by configurators that support containers (CPQ).
    *
    * @param parameters copy container row parameters
    */
-  abstract copyContainerRow(
+  abstract copyContainerRow?(
     parameters: Configurator.CopyContainerRowParameters
   ): Observable<Configurator.Configuration>;
 
   /**
-   * Abstract method to delete a container row from a CPQ configuration.
-   * Not supported for the variant configurator.
+   * Optional method to delete a container row from a CPQ configuration.
+   * Only implemented by configurators that support containers (CPQ).
    *
    * @param parameters remove container row parameters
    */
-  abstract removeContainerRow(
+  abstract removeContainerRow?(
     parameters: Configurator.RemoveContainerRowParameters
   ): Observable<Configurator.Configuration>;
 
