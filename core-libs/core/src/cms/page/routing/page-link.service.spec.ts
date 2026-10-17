@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { FeatureToggles } from '../../../features-config/feature-toggles';
 import { WindowRef } from '../../../window/window-ref';
 import { PageMetaConfig } from '../config/page-meta.config';
 import { PageLinkService } from './page-link.service';
@@ -31,6 +32,10 @@ describe('PageLinkService', () => {
         {
           provide: WindowRef,
           useClass: MockWindowRef,
+        },
+        {
+          provide: FeatureToggles,
+          useValue: { pageLinkSanitizeCanonicalUrl: true },
         },
       ],
     });
@@ -108,7 +113,7 @@ describe('PageLinkService', () => {
         expect(canonical).toEqual('https://www.storefront.com/');
       });
 
-      it(`should not add trailing slash`, () => {
+      it(`should add trailing slash for root path`, () => {
         const canonical = service.getCanonicalUrl(
           {
             forceTrailingSlash: true,
@@ -116,10 +121,21 @@ describe('PageLinkService', () => {
           },
           'https://www.storefront.com?foo=bar'
         );
-        expect(canonical).toEqual('https://www.storefront.com?foo=bar');
+        expect(canonical).toEqual('https://www.storefront.com/?foo=bar');
       });
 
-      it(`should not add trailing slash after leading question mark`, () => {
+      it(`should not add trailing slash`, () => {
+        const canonical = service.getCanonicalUrl(
+          {
+            forceTrailingSlash: true,
+            removeQueryParams: false,
+          },
+          'https://www.storefront.com/foo?bar=baz'
+        );
+        expect(canonical).toEqual('https://www.storefront.com/foo?bar=baz');
+      });
+
+      it(`should add trailing slash after leading question mark for root path`, () => {
         const canonical = service.getCanonicalUrl(
           {
             forceTrailingSlash: true,
@@ -127,7 +143,7 @@ describe('PageLinkService', () => {
           },
           'https://www.storefront.com?'
         );
-        expect(canonical).toEqual('https://www.storefront.com?');
+        expect(canonical).toEqual('https://www.storefront.com/?');
       });
 
       it(`should add trailing slash when params are removed`, () => {
@@ -151,14 +167,14 @@ describe('PageLinkService', () => {
         expect(canonical).toEqual('https://www.storefront.com/page/');
       });
 
-      it(`should not add trailing slash`, () => {
+      it(`should not add trailing slash for root path`, () => {
         const canonical = service.getCanonicalUrl(
           {
             forceTrailingSlash: false,
           },
           'https://www.storefront.com'
         );
-        expect(canonical).toEqual('https://www.storefront.com');
+        expect(canonical).toEqual('https://www.storefront.com/');
       });
 
       it(`should add trailing slash to redirects`, () => {
@@ -199,6 +215,74 @@ describe('PageLinkService', () => {
           'https://www.test.com/search?query=foo&page=1'
         );
       });
+    });
+  });
+});
+
+describe('PageLinkService - pageLinkSanitizeCanonicalUrl feature toggle', () => {
+  // Build a fresh service per test so no mutable state (TestBed, toggle value)
+  // leaks between the `true` and `false` branches.
+  function createService(
+    pageLinkSanitizeCanonicalUrl: boolean
+  ): PageLinkService {
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: PageMetaConfig,
+          useValue: {
+            pageMeta: {
+              canonicalUrl: {
+                forceHttps: true,
+                forceTrailingSlash: true,
+                forceWww: true,
+                removeQueryParams: true,
+              },
+            },
+          } as PageMetaConfig,
+        },
+        {
+          provide: WindowRef,
+          useClass: MockWindowRef,
+        },
+        {
+          provide: FeatureToggles,
+          useValue: { pageLinkSanitizeCanonicalUrl },
+        },
+      ],
+    });
+
+    return TestBed.inject(PageLinkService);
+  }
+
+  // When pageLinkSanitizeCanonicalUrl is deprecated, add the 'enabled' tests to the
+  // 'canonical Url' describe then delete the 'PageLinkService - pageLinkSanitizeCanonicalUrl feature toggle'
+  // describe block
+  describe('when enabled', () => {
+    it('should return an empty string for a URL with a non-http(s) protocol', () => {
+      const service = createService(true);
+      expect(service.getCanonicalUrl({}, 'javascript:alert(1)')).toEqual('');
+    });
+
+    it('should return an empty string for a malformed URL', () => {
+      const service = createService(true);
+      expect(service.getCanonicalUrl({}, 'not-a-valid-url')).toEqual('');
+    });
+  });
+
+  describe('when disabled', () => {
+    it('should build the canonical URL for a valid http(s) URL without sanitizing', () => {
+      const service = createService(false);
+      expect(service.getCanonicalUrl({}, 'http://test.com/xyz')).toEqual(
+        'https://www.test.com/xyz/'
+      );
+    });
+
+    it('should pass through a URL with a non-http(s) protocol unchanged', () => {
+      const service = createService(false);
+      // Without the toggle, the raw (unsafe) URL is not sanitized away.
+      expect(service.getCanonicalUrl({}, 'javascript:alert(1)')).toContain(
+        'alert(1)'
+      );
     });
   });
 });
