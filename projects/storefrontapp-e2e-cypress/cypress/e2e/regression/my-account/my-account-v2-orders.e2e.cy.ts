@@ -23,11 +23,15 @@ describe(
         cy.restoreLocalStorage();
       });
 
+      // Tests the login flow by navigating to the login page and signing in with user credentials.
+      // The final check verifies that the login form is filled and submitted successfully.
       it('should navigate to login page and SignIn with user details', () => {
         cy.getLoginRegisterLink().click();
         fillLoginForm({ username: 'cdp.user@sap.com', password: 'Test@1' });
       });
 
+      // Tests navigating to the Order History page and verifies that at least one order is displayed.
+      // The final check verifies that the total count of orders displayed is at least 1.
       it('should navigate to Order History page', () => {
         let totalCount;
         cy.get('[aria-label="My Account"]').click();
@@ -41,6 +45,8 @@ describe(
         );
       });
 
+      // Tests viewing the details of the first order and opening the Download Invoices modal.
+      // The final check verifies that clicking close on the modal dismisses it successfully.
       it('should navigate to view details of first order', () => {
         cy.get('.cx-my-account-v2-order-history-code > a').first().click();
         cy.get('cx-media > img').should('exist');
