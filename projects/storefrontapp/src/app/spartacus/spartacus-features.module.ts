@@ -299,6 +299,7 @@ if (environment.cpq) {
         useAdvancedGoogleMarkers: true,
         useGoogleMapsAsyncLoading: true,
         productConfiguratorConsolidatedButtonDisabling: true,
+        productConfiguratorCPQContainer: true,
         improvedTabStyling: true,
         alignNavigationMenuWithHeader: true,
         a11yKeyboardAccessibleZoom: true,
