@@ -6,11 +6,13 @@
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostBinding,
   ViewChild,
   inject,
+  signal,
 } from '@angular/core';
 import {
   FeatureDirective,
@@ -31,6 +33,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 @Component({
   selector: 'cx-configurator-overview-sidebar',
   templateUrl: './configurator-overview-sidebar.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
     ConfiguratorOverviewFilterComponent,
@@ -42,7 +45,16 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   ],
 })
 export class ConfiguratorOverviewSidebarComponent {
-  @HostBinding('class.ghost') ghostStyle = true;
+  protected readonly isGhost = signal(true);
+
+  @HostBinding('class.ghost')
+  get ghostStyle(): boolean {
+    return this.isGhost();
+  }
+
+  set ghostStyle(value: boolean) {
+    this.isGhost.set(value);
+  }
   @ViewChild('menuTab') menuTab: ElementRef<HTMLElement>;
   @ViewChild('filterTab') filterTab: ElementRef<HTMLElement>;
   showFilter: boolean = false;

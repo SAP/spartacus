@@ -9,6 +9,7 @@ import {
   Component,
   HostBinding,
   inject,
+  signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
@@ -45,8 +46,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 @Component({
   selector: 'cx-configurator-overview-form',
   templateUrl: './configurator-overview-form.component.html',
-  //here we cannot go with OnPush, as we otherwise do not take the change to host binding into account
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
     NgTemplateOutlet,
@@ -67,16 +67,34 @@ export class ConfiguratorOverviewFormComponent {
    */
   static readonly OVERVIEW_CONTENT_ID = 'cx-configurator-overview-content';
 
-  @HostBinding('class.ghost') ghostStyle = true;
+  protected readonly isGhost = signal(true);
+
+  @HostBinding('class.ghost')
+  get ghostStyle(): boolean {
+    return this.isGhost();
+  }
+
+  set ghostStyle(value: boolean) {
+    this.isGhost.set(value);
+  }
 
   private featureToggles = inject(FeatureToggles);
   protected translationService = inject(TranslationService);
+
+  protected readonly contentLabelState = signal<string | null>(null);
 
   /**
    * Accessible name of the overview content region.
    * Only set if in-page navigation is enabled.
    */
-  @HostBinding('attr.aria-label') contentLabel: string | null = null;
+  @HostBinding('attr.aria-label')
+  get contentLabel(): string | null {
+    return this.contentLabelState();
+  }
+
+  set contentLabel(value: string | null) {
+    this.contentLabelState.set(value);
+  }
 
   /**
    * Whether the overview form acts as target of the accessible in-page
