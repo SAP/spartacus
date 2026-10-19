@@ -33,7 +33,14 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorTabBarComponent {
+  @ViewChild('configTab') configTab: ElementRef<HTMLElement>;
+  @ViewChild('overviewTab') overviewTab: ElementRef<HTMLElement>;
+
+  private static readonly TAB_BAR_QUERY_SELECTOR = 'cx-configurator-tab-bar';
   protected readonly isGhost = signal(true);
+  protected routingService = inject(RoutingService);
+  protected configUtils = inject(ConfiguratorStorefrontUtilsService);
+  protected focusService = inject(KeyboardFocusService);
 
   @HostBinding('class.ghost')
   get ghostStyle(): boolean {
@@ -43,13 +50,6 @@ export class ConfiguratorTabBarComponent {
   set ghostStyle(value: boolean) {
     this.isGhost.set(value);
   }
-  @ViewChild('configTab') configTab: ElementRef<HTMLElement>;
-  @ViewChild('overviewTab') overviewTab: ElementRef<HTMLElement>;
-
-  private static readonly TAB_BAR_QUERY_SELECTOR = 'cx-configurator-tab-bar';
-  protected routingService = inject(RoutingService);
-  protected configUtils = inject(ConfiguratorStorefrontUtilsService);
-  protected focusService = inject(KeyboardFocusService);
 
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
