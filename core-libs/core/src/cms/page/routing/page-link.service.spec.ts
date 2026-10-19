@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { FeatureToggles } from '../../../features-config/feature-toggles';
+import { FeatureToggles } from '@spartacus/core';
+import { provideMockFeatureToggles } from '../../../features-config/feature-toggles/testing/mock-feature-toggles';
 import { WindowRef } from '../../../window/window-ref';
 import { PageMetaConfig } from '../config/page-meta.config';
 import { PageLinkService } from './page-link.service';
@@ -12,7 +13,6 @@ class MockWindowRef implements Partial<WindowRef> {
 
 describe('PageLinkService', () => {
   let service: PageLinkService;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -33,10 +33,7 @@ describe('PageLinkService', () => {
           provide: WindowRef,
           useClass: MockWindowRef,
         },
-        {
-          provide: FeatureToggles,
-          useValue: { pageLinkSanitizeCanonicalUrl: true },
-        },
+        ...provideMockFeatureToggles({ pageLinkSanitizeCanonicalUrl: true }),
       ],
     });
 
@@ -222,6 +219,7 @@ describe('PageLinkService', () => {
 describe('PageLinkService - pageLinkSanitizeCanonicalUrl feature toggle', () => {
   // Build a fresh service per test so no mutable state (TestBed, toggle value)
   // leaks between the `true` and `false` branches.
+  let featureToggles: FeatureToggles;
   function createService(
     pageLinkSanitizeCanonicalUrl: boolean
   ): PageLinkService {
@@ -244,12 +242,10 @@ describe('PageLinkService - pageLinkSanitizeCanonicalUrl feature toggle', () => 
           provide: WindowRef,
           useClass: MockWindowRef,
         },
-        {
-          provide: FeatureToggles,
-          useValue: { pageLinkSanitizeCanonicalUrl },
-        },
+        ...provideMockFeatureToggles({ pageLinkSanitizeCanonicalUrl }),
       ],
     });
+    featureToggles = TestBed.inject(FeatureToggles);
 
     return TestBed.inject(PageLinkService);
   }
