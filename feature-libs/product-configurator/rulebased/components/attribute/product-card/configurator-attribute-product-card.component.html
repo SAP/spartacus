@@ -295,14 +295,11 @@
               *ngIf="!productCardOptions?.singleDropdown"
             >
               <ng-container *ngIf="hasContainerRowActions">
-                <div
-                  class="cx-product-card-actions-menu"
-                  (click)="$event.stopPropagation()"
-                >
+                <div #actionsMenu class="cx-product-card-actions-menu">
                   <button
                     type="button"
                     class="cx-product-card-actions-menu-toggle"
-                    (click)="toggleActionsMenu($event)"
+                    (click)="toggleActionsMenu()"
                     [disabled]="disableActions$ | async"
                     [cxFocus]="focusConfig"
                     [attr.aria-expanded]="isActionsMenuOpen"
