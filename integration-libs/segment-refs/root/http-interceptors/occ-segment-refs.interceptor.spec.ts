@@ -57,6 +57,27 @@ const MockWindowRef3 = {
     href: 'http://localhost:4200/electronics-spa/en/USD/',
   },
 };
+const MockWindowRef4 = {
+  isBrowser(): boolean {
+    return false;
+  },
+  location: {
+    href: 'http://localhost:4200/electronics-spa/en/USD/?segmentrefs=footwear',
+  },
+};
+const MockWindowRef5 = {
+  localStorage: {
+    getItem: (_key: string): null => null,
+  },
+  isBrowser(): boolean {
+    return true;
+  },
+  location: {
+    href: null,
+  },
+};
+const mockSegmentRefsConfigNoHeader: SegmentRefsConfig = { segmentRefs: {} };
+
 describe('OccSegmentRefsInterceptor', () => {
   describe('launch storefront with url containing segmentrefs', () => {
     let httpMock: HttpTestingController;
@@ -167,6 +188,114 @@ describe('OccSegmentRefsInterceptor', () => {
         const perHeader = mockReq.request.headers.get('mock-Segmentrefs');
         expect(perHeader).toBeFalsy();
         expect(perHeader).toEqual(null);
+        mockReq.flush('someData');
+      }
+    ));
+  });
+
+  describe('when isBrowser returns false', () => {
+    let httpMock: HttpTestingController;
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          { provide: SegmentRefsConfig, useValue: mockSegmentRefsConfig },
+          { provide: WindowRef, useValue: MockWindowRef4 },
+          {
+            provide: HTTP_INTERCEPTORS,
+            useClass: OccSegmentRefsInterceptor,
+            multi: true,
+          },
+          provideHttpClient(withInterceptorsFromDi()),
+          provideHttpClientTesting(),
+        ],
+      });
+      httpMock = TestBed.inject(HttpTestingController);
+    });
+    afterEach(() => {
+      httpMock.verify();
+    });
+    it('should not add request header when not running in browser', inject(
+      [HttpClient],
+      (http: HttpClient) => {
+        http.get(url).subscribe((result) => {
+          expect(result).toBeTruthy();
+        });
+        const mockReq = httpMock.expectOne((req) => req.method === 'GET');
+        const perHeader = mockReq.request.headers.get('mock-Segmentrefs');
+        expect(perHeader).toBeNull();
+        mockReq.flush('someData');
+      }
+    ));
+  });
+
+  describe('when httpHeaderName is not configured', () => {
+    let httpMock: HttpTestingController;
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          {
+            provide: SegmentRefsConfig,
+            useValue: mockSegmentRefsConfigNoHeader,
+          },
+          { provide: WindowRef, useValue: MockWindowRef1 },
+          {
+            provide: HTTP_INTERCEPTORS,
+            useClass: OccSegmentRefsInterceptor,
+            multi: true,
+          },
+          provideHttpClient(withInterceptorsFromDi()),
+          provideHttpClientTesting(),
+        ],
+      });
+      httpMock = TestBed.inject(HttpTestingController);
+    });
+    afterEach(() => {
+      httpMock.verify();
+    });
+    it('should not add request header when httpHeaderName is not configured', inject(
+      [HttpClient],
+      (http: HttpClient) => {
+        http.get(url).subscribe((result) => {
+          expect(result).toBeTruthy();
+        });
+        const mockReq = httpMock.expectOne((req) => req.method === 'GET');
+        const perHeader = mockReq.request.headers.get('mock-Segmentrefs');
+        expect(perHeader).toBeNull();
+        mockReq.flush('someData');
+      }
+    ));
+  });
+
+  describe('when location href is null', () => {
+    let httpMock: HttpTestingController;
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          { provide: SegmentRefsConfig, useValue: mockSegmentRefsConfig },
+          { provide: WindowRef, useValue: MockWindowRef5 },
+          {
+            provide: HTTP_INTERCEPTORS,
+            useClass: OccSegmentRefsInterceptor,
+            multi: true,
+          },
+          provideHttpClient(withInterceptorsFromDi()),
+          provideHttpClientTesting(),
+        ],
+      });
+      httpMock = TestBed.inject(HttpTestingController);
+    });
+    afterEach(() => {
+      httpMock.verify();
+    });
+    it('should not add request header when href is null', inject(
+      [HttpClient],
+      (http: HttpClient) => {
+        http.get(url).subscribe((result) => {
+          expect(result).toBeTruthy();
+        });
+        const mockReq = httpMock.expectOne((req) => req.method === 'GET');
+        const perHeader = mockReq.request.headers.get('mock-Segmentrefs');
+        expect(perHeader).toBeNull();
         mockReq.flush('someData');
       }
     ));
