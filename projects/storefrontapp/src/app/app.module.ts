@@ -31,11 +31,6 @@ import { SpartacusModule } from './spartacus/spartacus.module';
           },
         },
       },
-      cart: {
-        validation: {
-          enabled: true,
-        },
-      },
     }),
   ],
 })
