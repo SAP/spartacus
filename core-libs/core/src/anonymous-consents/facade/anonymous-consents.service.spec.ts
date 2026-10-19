@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/index';
 import {
   AnonymousConsent,
@@ -319,44 +319,32 @@ describe('AnonymousConsentsService', () => {
 
   describe('isBannerVisible', () => {
     describe('when user is anonymous', () => {
-      it('should return true if isBannerDismissed() returns false', () => {
+      it('should return true if isBannerDismissed() returns false', async () => {
         vi.spyOn(service, 'isBannerDismissed').mockReturnValue(of(false));
         vi.spyOn(service, 'getTemplatesUpdated').mockReturnValue(of(false));
 
-        let result = false;
-        service
-          .isBannerVisible()
-          .subscribe((value) => (result = value))
-          .unsubscribe();
+        const result = await firstValueFrom(service.isBannerVisible());
 
         expect(service.isBannerDismissed).toHaveBeenCalled();
         expect(service.getTemplatesUpdated).toHaveBeenCalled();
         expect(result).toEqual(true);
       });
-      it('should return true if getTemplatesUpdated() returns true', () => {
+      it('should return true if getTemplatesUpdated() returns true', async () => {
         vi.spyOn(service, 'isBannerDismissed').mockReturnValue(of(true));
         vi.spyOn(service, 'getTemplatesUpdated').mockReturnValue(of(true));
 
-        let result = false;
-        service
-          .isBannerVisible()
-          .subscribe((value) => (result = value))
-          .unsubscribe();
+        const result = await firstValueFrom(service.isBannerVisible());
 
         expect(service.isBannerDismissed).toHaveBeenCalled();
         expect(service.getTemplatesUpdated).toHaveBeenCalled();
         expect(result).toEqual(true);
       });
 
-      it('should return false if isBannerDismissed() returns true and getTemplatesUpdated() returns false', () => {
+      it('should return false if isBannerDismissed() returns true and getTemplatesUpdated() returns false', async () => {
         vi.spyOn(service, 'isBannerDismissed').mockReturnValue(of(true));
         vi.spyOn(service, 'getTemplatesUpdated').mockReturnValue(of(false));
 
-        let result = true;
-        service
-          .isBannerVisible()
-          .subscribe((value) => (result = value))
-          .unsubscribe();
+        const result = await firstValueFrom(service.isBannerVisible());
 
         expect(service.isBannerDismissed).toHaveBeenCalled();
         expect(service.getTemplatesUpdated).toHaveBeenCalled();
@@ -365,16 +353,12 @@ describe('AnonymousConsentsService', () => {
     });
 
     describe('when user is logged in', () => {
-      it('should return false without checking banner state or consent templates', () => {
+      it('should return false without checking banner state or consent templates', async () => {
         vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(true));
         vi.spyOn(service, 'isBannerDismissed');
         vi.spyOn(service, 'getTemplatesUpdated');
 
-        let result: boolean | undefined;
-        service
-          .isBannerVisible()
-          .subscribe((value) => (result = value))
-          .unsubscribe();
+        const result = await firstValueFrom(service.isBannerVisible());
 
         expect(result).toEqual(false);
         expect(service.isBannerDismissed).not.toHaveBeenCalled();
