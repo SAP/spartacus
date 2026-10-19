@@ -27,8 +27,8 @@ import {
   filter,
   take,
 } from 'rxjs/operators';
-import { BREAKPOINT } from '../../../layout/config/layout-config';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
+import { BREAKPOINT } from '../../../layout/config/layout-config';
 import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
 import { IconComponent } from '../../misc/icon/icon.component';
 import { ICON_TYPE } from '../../misc/icon/index';
@@ -156,11 +156,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       this.winRef.nativeWindow?.location.href.includes(navNode.url)
     ) {
       this.reinitializeMenu();
-      if (this.featureToggles?.navigationMenuCloseOnSameLinkClick) {
-        this.hamburgerMenuService.toggle(true);
-      } else {
-        this.hamburgerMenuService.toggle();
-      }
+      this.hamburgerMenuService.toggle(true);
     }
   }
 

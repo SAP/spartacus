@@ -172,36 +172,11 @@ export interface FeatureTogglesInterface {
   authorizationCodeFlowByDefaultCsrfTokenRefresh?: boolean;
 
   /**
-   * When this feature toggle is enabled, the navigation menu will close when clicking on the same link.
-   *
-   * This is to improve the user experience on mobile devices, where the menu remains open
-   * after clicking on a link that navigates to the same page.
-   * Affects: `NavigationUIComponent`
-   */
-  navigationMenuCloseOnSameLinkClick?: boolean;
-
-  /**
    * When enabled, translates the "Password expired" error message
    * to the user's selected language using Spartacus i18n.
    * Affects: `LoginComponent`
    */
   enablePasswordExpiredErrorTranslation?: boolean;
-
-  /**
-   * shows the Quote Purchase Order Number input field in the Quote Request form
-   * and in the Quote Details page
-   *
-   * when set to `true`, the user will be able to enter a Purchase Order Number
-   * when requesting a quote and see it in the quote details
-   */
-  enableQuotePurchaseOrderNumber?: boolean;
-
-  /**
-   * When enabled, fixes the issue with return order returnable quantity not being displayed correctly
-   * on the `ReturnOrderComponent` when navigating to the return request details page.
-   * Affects: `ReturnOrderComponent`
-   */
-  enableReturnOrderReturnableQuantityConsigmentFallback?: boolean;
 
   /**
    * When enabled, the media prefix from the backend config will be used
@@ -635,6 +610,25 @@ export interface FeatureTogglesInterface {
   propagateLogoutToAllTabs?: boolean;
 
   /**
+   * When enabled, the post-logout redirect respects the `logout.redirectRoute`
+   * option in `LogoutConfig`. When disabled (default), the guard always redirects
+   * to the home page (or login page for protected storefronts), preserving the
+   * pre-existing behavior.
+   *
+   * Affects: `LogoutGuard`
+   *
+   * To override the default redirect route, provide `LogoutConfig` in your module:
+   * ```ts
+   * provideConfig({
+   *   logout: {
+   *     redirectRoute: 'login',
+   *   },
+   * } as LogoutConfig)
+   * ```
+   */
+  useConfigurableLogoutRedirect?: boolean;
+
+  /**
    * When enabled, adds support for asynchronous configuration of the oAuth service and adds a default
    * initializer to adjust the oauth client details based on URL context parameters.
    *
@@ -863,6 +857,14 @@ export interface FeatureTogglesInterface {
   enableFormFieldMaxLength?: boolean;
 
   /**
+   * Makes the CVV (Card Verification Value) info icon in the checkout
+   * payment form keyboard accessible by rendering it as a focusable button.
+   *
+   * Affects: `CheckoutPaymentFormComponent`
+   */
+  a11yCvvInfoIconKeyboardAccessible?: boolean;
+
+  /**
    * When enabled, adds arrow key navigation to organization administration
    * navigation tiles/cards on the My Company landing page (CompanyPageTemplate),
    * turning the banner tile group into a composite keyboard widget.
@@ -932,10 +934,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFutureStockAccordionAriaControls: true,
   authorizationCodeFlowByDefault: true,
   authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
-  navigationMenuCloseOnSameLinkClick: true,
   enablePasswordExpiredErrorTranslation: true,
-  enableQuotePurchaseOrderNumber: true,
-  enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: true,
   a11yCustomerTicketingVisualFocusFix: true,
   a11yMessagingListKeyboardFocus: false,
@@ -962,21 +961,21 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCartItemListHideEmptyOutlets: true,
   a11yReviewsKeyboardControls: true,
   a11yShowMoreReviewsFocusVisible: false,
-  a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
-  a11yConsentManagementFocusPreservation: false,
+  a11yCartQuickOrderFormEnableSubmitAndAddValidation: true,
+  a11yConsentManagementFocusPreservation: true,
   a11yDeliveryModeFocusPreservation: false,
   a11yFormFieldSectionLegend: false,
   a11yImproveCheckoutFocus: false,
-  a11yVocalizeDropdownItemCount: false,
+  a11yVocalizeDropdownItemCount: true,
   a11yItemCounterValueText: false,
   a11yRestoreFocusOnNgSelect: false,
   a11yKeepFocusOnConsentManagementButtons: false,
-  useEnhancedSecurePasswordValidators: false,
+  useEnhancedSecurePasswordValidators: true,
   enableApplyVoucherEndpoint: false,
-  enableRemoveVoucherEndpoint: false,
+  enableRemoveVoucherEndpoint: true,
   showSortFieldsOnlyAtTop: false,
-  showRequiredAsterisks: false,
-  enableExpiredRefreshTokenHandlers: false,
+  showRequiredAsterisks: true,
+  enableExpiredRefreshTokenHandlers: true,
   enableCartReloadOnContextChange: false,
   opfPaymentVerificationCheckProcessingCartOnErrorOnly: false,
   a11yQuickOrderResetFocus: false,
@@ -993,6 +992,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yAddToWishListBtnMargin: false,
   a11yProductListItemNameMargin: false,
   propagateLogoutToAllTabs: false,
+  useConfigurableLogoutRedirect: false,
   asyncAuthConfigInitializer: false,
   siteIsolationForCustomLoginPage: false,
   applyBaseSiteThemeFromCms: false,
@@ -1015,6 +1015,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showWarningMessageOnRequoteButtonClick: false,
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
+  a11yCvvInfoIconKeyboardAccessible: false,
   a11yBannerArrowKeyNavigation: false,
   a11yTableKeyboardNavigation: false,
   a11yPaginationKeyboardNavigation: false,
