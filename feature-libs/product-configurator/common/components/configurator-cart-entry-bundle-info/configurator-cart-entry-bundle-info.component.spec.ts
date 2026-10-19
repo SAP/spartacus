@@ -1091,6 +1091,33 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         expect(linkComponent.a11yDescriptionId).toBe('cx-item-list-info-3');
       });
 
+      it('should hide the show/hide link if the threshold is exceeded in read-only mode', () => {
+        emitCartEntry(PromotionLocation.ActiveCart);
+        mockCartItemContext.readonly$.next(true);
+        fixture.detectChanges();
+
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          TOGGLE_LINK
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          'button'
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-item-infos'
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          'cx-configure-cart-entry'
+        );
+      });
+
       it('should render the toggle button if the threshold is not exceeded', () => {
         vi.mocked(
           component['getCartEntryBundleLineItemsThreshold']
