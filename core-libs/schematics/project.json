@@ -16,6 +16,13 @@
         "command": "npm run test",
         "cwd": "core-libs/schematics"
       }
+    },
+    "test-jest-update": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run test -- --updateSnapshot",
+        "cwd": "core-libs/schematics"
+      }
     }
   },
   "tags": ["type:util"]
