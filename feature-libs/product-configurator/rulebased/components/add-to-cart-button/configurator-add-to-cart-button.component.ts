@@ -451,11 +451,6 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
       configuration.isCartEntryUpdateRequired ?? false,
       productCode
     );
-    //Only remove if we are on configuration page, because on final cart navigation,
-    //the configuration will anyhow be removed
-    if (configuration.isCartEntryUpdateRequired && !isOverview) {
-      this.configuratorCommonsService.removeConfiguration(owner);
-    }
   }
 
   leaveConfigurationOverview(): void {

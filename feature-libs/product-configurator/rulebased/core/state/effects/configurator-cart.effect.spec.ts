@@ -613,7 +613,7 @@ describe('ConfiguratorCartEffect', () => {
   });
 
   describe('Effect updateCartEntry', () => {
-    it('should emit updateCartEntrySuccess on updateCartEntry in case no changes are pending', () => {
+    it('should emit updateCartEntrySuccess and remove the configuration on updateCartEntry', () => {
       const action = new ConfiguratorActions.UpdateCartEntry(
         payloadInputUpdateConfiguration
       );
@@ -623,10 +623,14 @@ describe('ConfiguratorCartEffect', () => {
         entryNumber: entryNumber.toString(),
         quantity: 1,
       });
+      const removeConfiguration = new ConfiguratorActions.RemoveConfiguration({
+        ownerKey: payloadInputUpdateConfiguration.configuration.owner.key,
+      });
 
       actions$ = cold('-a', { a: action });
-      const expected = cold('-d)', {
+      const expected = cold('-(de)', {
         d: cartUpdateEntrySuccess,
+        e: removeConfiguration,
       });
       expect(configCartEffects.updateCartEntry$).toBeObservable(expected);
     });
