@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
-  Input,
-  Pipe,
-  PipeTransform,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
 import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
@@ -52,7 +46,6 @@ class MockUrlPipe implements PipeTransform {
 
 @Component({
   selector: 'cx-opf-checkout-payments',
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class MockPaymentsComponent {
@@ -68,7 +61,6 @@ class MockPaymentsComponent {
 
 @Component({
   selector: 'cx-opf-checkout-terms-and-conditions-alert',
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class MockTermsAndConditionsAlertComponent {
@@ -79,14 +71,12 @@ class MockTermsAndConditionsAlertComponent {
 
 @Component({
   selector: 'cx-opf-checkout-billing-address-form',
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class MockBillingAddressFormComponent {}
 
 @Component({
   selector: 'cx-opf-checkout-review-cart-details',
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class MockReviewCartDetailsComponent {

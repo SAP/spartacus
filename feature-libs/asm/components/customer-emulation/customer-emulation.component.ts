@@ -11,7 +11,6 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { AsmDialogActionEvent } from '@spartacus/asm/customer-360/root';
 import { FeatureModulesService, TranslatePipe, User } from '@spartacus/core';
@@ -25,7 +24,6 @@ import { AsmComponentService } from '../services/asm-component.service';
 @Component({
   selector: 'cx-customer-emulation',
   templateUrl: './customer-emulation.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, AsmBindCartComponent, AsyncPipe, TranslatePipe],
 })
 export class CustomerEmulationComponent implements OnInit, OnDestroy {

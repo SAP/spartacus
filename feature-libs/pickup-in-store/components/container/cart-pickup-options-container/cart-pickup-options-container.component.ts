@@ -12,7 +12,6 @@ import {
   OnInit,
   Optional,
   ViewContainerRef,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   ActiveCartFacade,
@@ -79,7 +78,6 @@ export function orderEntryWithRequiredFields(
 @Component({
   selector: 'cx-cart-pickup-options-container',
   templateUrl: 'cart-pickup-options-container.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [PickupOptionsComponent, AsyncPipe, NgIf],
 })
 export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {

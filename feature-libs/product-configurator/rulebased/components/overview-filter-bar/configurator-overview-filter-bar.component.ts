@@ -5,12 +5,7 @@
  */
 
 import { NgFor, NgIf } from '@angular/common';
-import {
-  Component,
-  Input,
-  inject,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -20,7 +15,6 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 @Component({
   selector: 'cx-configurator-overview-filter-bar',
   templateUrl: './configurator-overview-filter-bar.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgFor, IconComponent, NgIf, TranslatePipe],
 })
 export class ConfiguratorOverviewFilterBarComponent {

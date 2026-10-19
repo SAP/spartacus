@@ -7,12 +7,7 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, ElementRef, EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   I18nTestingModule,
@@ -221,7 +216,6 @@ class MockVisualViewerService {
  */
 @Component({
   selector: 'cx-epd-visualization-animation-slider',
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 export class MockVisualViewerAnimationSliderComponent {

@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe, UrlPipe } from '@spartacus/core';
 import { BtnLikeLinkDirective } from '@spartacus/storefront';
@@ -15,7 +15,6 @@ import { OrderDetailsService } from '../order-details.service';
 @Component({
   selector: 'cx-order-details-actions',
   templateUrl: './order-detail-actions.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     RouterLink,

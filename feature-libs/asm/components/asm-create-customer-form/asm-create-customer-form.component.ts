@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormsModule,
@@ -42,7 +42,6 @@ import { CreatedCustomer } from './asm-create-customer-form.model';
 @Component({
   selector: 'cx-asm-create-customer-form',
   templateUrl: './asm-create-customer-form.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FocusDirective,
     FormsModule,

@@ -12,7 +12,6 @@ import {
   OnDestroy,
   OnInit,
   signal,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   AnonymousConsentsConfig,
@@ -52,7 +51,6 @@ import { getPageTitle } from '../../../navigation/page-header/page-title.utils';
 @Component({
   selector: 'cx-consent-management',
   templateUrl: './consent-management.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     SpinnerComponent,

@@ -5,13 +5,7 @@
  */
 
 import { NgClass, NgFor, NgIf } from '@angular/common';
-import {
-  Component,
-  inject,
-  signal,
-  WritableSignal,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { CxDatePipe, TranslatePipe, UrlPipe } from '@spartacus/core';
@@ -29,7 +23,6 @@ import { switchMap } from 'rxjs';
 @Component({
   selector: 'cx-subscription-list',
   templateUrl: './subscription-list.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     NgClass,

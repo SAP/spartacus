@@ -5,7 +5,7 @@
  */
 
 import { NgFor } from '@angular/common';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
 import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
@@ -16,11 +16,12 @@ import { PickupInfoComponent } from '../../presentational';
 @Component({
   selector: 'cx-pickup-info-container',
   templateUrl: './pickup-info-container.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [PickupInfoComponent, NgFor],
 })
 export class PickupInfoContainerComponent implements OnInit {
   storesDetailsData: Partial<PointOfService>[];
+
+  protected cd = inject(ChangeDetectorRef);
 
   constructor(
     protected activeCartService: ActiveCartFacade,
@@ -59,9 +60,12 @@ export class PickupInfoContainerComponent implements OnInit {
             openingHours,
           }))
         ),
-        tap(
-          (storesDetailsData) => (this.storesDetailsData = storesDetailsData)
-        ),
+        tap((storesDetailsData) => {
+          this.storesDetailsData = storesDetailsData;
+          // OnPush (v22 default): assigned from an async subscribe and read by
+          // the template (*ngFor), so mark for check.
+          this.cd.markForCheck();
+        }),
         take(1)
       )
       .subscribe();

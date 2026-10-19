@@ -12,7 +12,6 @@ import {
   ViewChild,
   ViewContainerRef,
   inject,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { CustomerTicketingFacade } from '@spartacus/customer-ticketing/root';
@@ -24,7 +23,6 @@ import { CustomerTicketingReopenComponentService } from './customer-ticketing-re
 @Component({
   selector: 'cx-customer-ticketing-reopen',
   templateUrl: './customer-ticketing-reopen.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class CustomerTicketingReopenComponent implements OnDestroy {

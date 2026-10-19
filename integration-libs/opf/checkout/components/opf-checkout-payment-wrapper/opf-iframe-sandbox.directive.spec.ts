@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OpfIframeSandboxDirective } from './opf-iframe-sandbox.directive';
 
@@ -12,12 +12,11 @@ const SANDBOX_SCRIPTS = 'allow-scripts';
 const SANDBOX_SCRIPTS_SAME_ORIGIN = 'allow-scripts allow-same-origin';
 
 @Component({
-  template: `<iframe [cxOpfSandbox]="sandboxValue"></iframe>`,
-  changeDetection: ChangeDetectionStrategy.Eager,
+  template: `<iframe [cxOpfSandbox]="sandboxValue()"></iframe>`,
   imports: [OpfIframeSandboxDirective],
 })
 class TestHostComponent {
-  sandboxValue: string | undefined;
+  sandboxValue = signal<string | undefined>(undefined);
 }
 
 describe('OpfIframeSandboxDirective', () => {
@@ -38,7 +37,7 @@ describe('OpfIframeSandboxDirective', () => {
     fixture.nativeElement.querySelector('iframe') as HTMLIFrameElement;
 
   it('should set sandbox attribute when value is provided', () => {
-    component.sandboxValue = SANDBOX_SCRIPTS;
+    component.sandboxValue.set(SANDBOX_SCRIPTS);
     fixture.detectChanges();
 
     iframe = getIframe();
@@ -46,7 +45,7 @@ describe('OpfIframeSandboxDirective', () => {
   });
 
   it('should not set sandbox attribute when value is undefined', () => {
-    component.sandboxValue = undefined;
+    component.sandboxValue.set(undefined);
     fixture.detectChanges();
 
     iframe = getIframe();
@@ -54,10 +53,10 @@ describe('OpfIframeSandboxDirective', () => {
   });
 
   it('should update sandbox attribute when value changes', () => {
-    component.sandboxValue = SANDBOX_SCRIPTS;
+    component.sandboxValue.set(SANDBOX_SCRIPTS);
     fixture.detectChanges();
 
-    component.sandboxValue = SANDBOX_SCRIPTS_SAME_ORIGIN;
+    component.sandboxValue.set(SANDBOX_SCRIPTS_SAME_ORIGIN);
     fixture.detectChanges();
 
     iframe = getIframe();
@@ -65,10 +64,10 @@ describe('OpfIframeSandboxDirective', () => {
   });
 
   it('should remove sandbox attribute when value changes to undefined', () => {
-    component.sandboxValue = SANDBOX_SCRIPTS;
+    component.sandboxValue.set(SANDBOX_SCRIPTS);
     fixture.detectChanges();
 
-    component.sandboxValue = undefined;
+    component.sandboxValue.set(undefined);
     fixture.detectChanges();
 
     iframe = getIframe();

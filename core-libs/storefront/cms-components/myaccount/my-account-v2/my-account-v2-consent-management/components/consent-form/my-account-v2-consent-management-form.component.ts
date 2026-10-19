@@ -5,14 +5,13 @@
  */
 
 import { NgIf } from '@angular/common';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ANONYMOUS_CONSENT_STATUS, TranslatePipe } from '@spartacus/core';
 import { ConsentManagementFormComponent } from '../../../../consent-management/components/consent-form/consent-management-form.component';
 
 @Component({
   selector: 'cx-my-account-v2-consent-management-form',
   templateUrl: './my-account-v2-consent-management-form.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, TranslatePipe],
 })
 export class MyAccountV2ConsentManagementFormComponent

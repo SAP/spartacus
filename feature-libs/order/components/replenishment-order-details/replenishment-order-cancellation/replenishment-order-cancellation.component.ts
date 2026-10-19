@@ -11,7 +11,6 @@ import {
   OnDestroy,
   ViewChild,
   ViewContainerRef,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe, UrlPipe } from '@spartacus/core';
@@ -30,7 +29,6 @@ import { take } from 'rxjs/operators';
 @Component({
   selector: 'cx-replenishment-order-cancellation',
   templateUrl: './replenishment-order-cancellation.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     BtnLikeLinkDirective,
     RouterLink,

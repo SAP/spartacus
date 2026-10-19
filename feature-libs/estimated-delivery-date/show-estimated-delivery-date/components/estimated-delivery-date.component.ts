@@ -5,12 +5,7 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import {
-  Component,
-  Optional,
-  inject,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, Optional, inject } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { CxDatePipe, TranslatePipe, TranslationService } from '@spartacus/core';
 import {
@@ -25,7 +20,6 @@ import { map, switchMap } from 'rxjs/operators';
   selector: 'cx-estimated-delivery-date',
   templateUrl: './estimated-delivery-date.component.html',
   providers: [CxDatePipe],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, NgFor, AsyncPipe, TranslatePipe, CxDatePipe],
 })
 export class EstimatedDeliveryDateComponent {

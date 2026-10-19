@@ -5,7 +5,7 @@
  */
 
 import { NgClass, NgTemplateOutlet } from '@angular/common';
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -26,7 +26,6 @@ import {
 @Component({
   selector: 'cx-store-finder-search',
   templateUrl: './store-finder-search.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     ReactiveFormsModule,

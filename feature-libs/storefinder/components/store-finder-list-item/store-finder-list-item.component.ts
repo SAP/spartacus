@@ -5,13 +5,7 @@
  */
 
 import { NgIf } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe, useFeatureStyles } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
@@ -22,7 +16,6 @@ import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-stor
 @Component({
   selector: 'cx-store-finder-list-item',
   templateUrl: './store-finder-list-item.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, RouterLink, OutletDirective, TranslatePipe],
 })
 export class StoreFinderListItemComponent extends AbstractStoreItemComponent {

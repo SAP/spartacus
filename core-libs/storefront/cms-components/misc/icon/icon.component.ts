@@ -11,7 +11,6 @@ import {
   HostBinding,
   Input,
   Renderer2,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { SafeHtml } from '@angular/platform-browser';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
@@ -43,7 +42,6 @@ type ICON_TYPE = DEFAULT_ICON_TYPE | string;
 @Component({
   selector: 'cx-icon,[cxIcon]',
   templateUrl: './icon.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf],
 })
 export class IconComponent {

@@ -15,7 +15,6 @@ import {
   Output,
   TemplateRef,
   ViewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslatePipe } from '@spartacus/core';
@@ -33,7 +32,6 @@ import { TranslatePipe } from '@spartacus/core';
       multi: true,
     },
   ],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, NgTemplateOutlet, NgFor, TranslatePipe],
 })
 export class FileUploadComponent implements ControlValueAccessor {

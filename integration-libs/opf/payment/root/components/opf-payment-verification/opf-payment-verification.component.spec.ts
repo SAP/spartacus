@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -21,7 +21,6 @@ import { OpfPaymentVerificationService } from './opf-payment-verification.servic
 
 @Component({
   selector: 'cx-spinner',
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class MockSpinnerComponent {}

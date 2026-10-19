@@ -12,7 +12,6 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   FormControl,
@@ -50,7 +49,6 @@ import {
 @Component({
   selector: 'cx-quote-summary-seller-edit',
   templateUrl: './quote-summary-seller-edit.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     FormsModule,

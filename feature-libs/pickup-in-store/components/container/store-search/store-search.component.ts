@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { LocationSearchParams } from '@spartacus/pickup-in-store/root';
 import { CurrentLocationService } from '../../services/current-location.service';
@@ -23,7 +17,6 @@ import { CurrentLocationService } from '../../services/current-location.service'
 @Component({
   selector: 'cx-store-search',
   templateUrl: './store-search.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [TranslatePipe],
 })
 export class StoreSearchComponent {

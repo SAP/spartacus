@@ -22,7 +22,6 @@ import {
   Input,
   viewChild,
   ViewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { FeatureToggles, PointOfService, TranslatePipe } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
@@ -36,7 +35,6 @@ import { LocationDisplayMode } from './store-finder-list.model';
 @Component({
   selector: 'cx-store-finder-list',
   templateUrl: './store-finder-list.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     StoreFinderPaginationDetailsComponent,

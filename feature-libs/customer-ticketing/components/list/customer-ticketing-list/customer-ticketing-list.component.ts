@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   CxDatePipe,
@@ -34,7 +34,6 @@ import { CustomerTicketingCreateComponent } from '../customer-ticketing-create/c
 @Component({
   selector: 'cx-customer-ticketing-list',
   templateUrl: './customer-ticketing-list.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     SortingComponent,

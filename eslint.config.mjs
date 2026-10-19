@@ -76,11 +76,7 @@ export default defineConfig(
       '@angular-eslint/use-pipe-transform-interface': 'error',
       '@angular-eslint/prefer-standalone': 'error',
       '@angular-eslint/prefer-inject': 'off',
-      // TODO(CXSPA-13764 follow-up): v22 recommended config enables this rule.
-      // Downgraded to 'warn' so components left on the default (now OnPush in v22)
-      // or still on Eager don't fail the lint gate; restore to 'error' when the
-      // incremental OnPush migration lands.
-      '@angular-eslint/prefer-on-push-component-change-detection': 'warn',
+      '@angular-eslint/prefer-on-push-component-change-detection': 'error',
       '@typescript-eslint/adjacent-overload-signatures': 'error',
       '@typescript-eslint/array-type': 'off',
       '@typescript-eslint/consistent-type-definitions': 'off',

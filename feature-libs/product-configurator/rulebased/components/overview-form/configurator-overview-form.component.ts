@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import {
@@ -35,7 +35,6 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   selector: 'cx-configurator-overview-form',
   templateUrl: './configurator-overview-form.component.html',
   //here we cannot go with OnPush, as we otherwise do not take the change to host binding into account
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     NgTemplateOutlet,

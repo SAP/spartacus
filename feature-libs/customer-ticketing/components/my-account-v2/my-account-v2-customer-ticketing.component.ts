@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CxDatePipe, TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
@@ -18,7 +18,6 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'cx-my-account-v2-customer-ticketing',
   templateUrl: './my-account-v2-customer-ticketing.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     RouterLink,
     NgIf,

@@ -1,5 +1,10 @@
 import { ApplicationRef, AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  signal,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { getLastValueSync } from '@spartacus/core';
@@ -281,16 +286,12 @@ describe('OutletDirective', () => {
       template: `
         <ng-template cxOutletRef="A">A</ng-template>
         <ng-template cxOutletRef="B">B</ng-template>
-        <ng-container *cxOutlet="outletName" />
+        <ng-container *cxOutlet="outletName()" />
       `,
       imports: [OutletDirective, OutletRefDirective],
-      // Preserve v21 Default change detection: the test mutates `outletName`
-      // and asserts the new template renders. OnPush (v22 default) would not
-      // re-render on the plain field change.
-      changeDetection: ChangeDetectionStrategy.Eager,
     })
     class HostComponent {
-      outletName = 'A';
+      outletName = signal('A');
     }
 
     let hostFixture: ComponentFixture<HostComponent>;
@@ -317,8 +318,7 @@ describe('OutletDirective', () => {
       hostFixture.detectChanges();
       expect(getContent(hostFixture)).toContain('A');
 
-      hostFixture.componentInstance.outletName = 'B';
-      hostFixture.componentRef.changeDetectorRef.markForCheck();
+      hostFixture.componentInstance.outletName.set('B');
       hostFixture.detectChanges(false);
 
       expect(getContent(hostFixture)).toContain('B');

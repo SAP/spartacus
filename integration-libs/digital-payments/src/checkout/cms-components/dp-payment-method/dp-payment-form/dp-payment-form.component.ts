@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -24,7 +18,6 @@ import { DpLocalStorageService } from '../../../facade/dp-local-storage.service'
 @Component({
   selector: 'cx-dp-payment-form',
   templateUrl: './dp-payment-form.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SpinnerComponent, TranslatePipe],
 })
 export class DpPaymentFormComponent implements OnInit {

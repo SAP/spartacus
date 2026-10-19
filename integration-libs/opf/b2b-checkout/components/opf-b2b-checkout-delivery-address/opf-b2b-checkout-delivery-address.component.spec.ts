@@ -111,7 +111,6 @@ const mockActivatedRoute = {
 @Component({
   selector: 'cx-address-form',
   template: '',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [I18nTestingModule, CheckoutModule],
 })
 class MockAddressFormComponent {
@@ -124,7 +123,6 @@ class MockAddressFormComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [I18nTestingModule, CheckoutModule],
 })
 class MockSpinnerComponent {}
@@ -132,7 +130,6 @@ class MockSpinnerComponent {}
 @Component({
   selector: 'cx-card',
   template: '',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [I18nTestingModule, CheckoutModule],
 })
 class MockCardComponent {
@@ -148,7 +145,6 @@ class MockCardComponent {
 
 @Component({
   selector: 'cx-opf-b2b-checkout-cost-center',
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class MockOpfB2bCheckoutCostCenterComponent

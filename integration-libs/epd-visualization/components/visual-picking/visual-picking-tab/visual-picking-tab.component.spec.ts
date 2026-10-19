@@ -8,11 +8,7 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import {
-  Component,
-  EventEmitter,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -101,7 +97,6 @@ class MockTranslationService {
 
 @Component({
   selector: 'cx-page-layout',
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: 'mock',
 })
 class MockPageLayoutComponent {}

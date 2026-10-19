@@ -6,10 +6,11 @@
 
 import { AsyncPipe, NgIf } from '@angular/common';
 import {
+  ChangeDetectorRef,
   Component,
+  inject,
   OnDestroy,
   OnInit,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { GeoPoint, SearchConfig, TranslatePipe } from '@spartacus/core';
@@ -25,7 +26,6 @@ import { StoreFinderListComponent } from './store-finder-list/store-finder-list.
 @Component({
   selector: 'cx-store-finder-search-result',
   templateUrl: './store-finder-search-result.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     PaginationComponent,
@@ -49,6 +49,8 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
   locations$: Observable<any>;
   isLoading$: Observable<any>;
 
+  protected cd = inject(ChangeDetectorRef);
+
   constructor(
     private storeFinderService: StoreFinderService,
     private route: ActivatedRoute,
@@ -56,9 +58,13 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.subscription = this.route.queryParams.subscribe((params) =>
-      this.initialize(params)
-    );
+    this.subscription = this.route.queryParams.subscribe((params) => {
+      this.initialize(params);
+      // OnPush (v22 default): queryParams emits asynchronously and initialize()
+      // (re)assigns isLoading$/locations$ + useMyLocation read by the template,
+      // so the view must be marked for check explicitly.
+      this.cd.markForCheck();
+    });
   }
 
   ngOnDestroy() {

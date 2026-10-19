@@ -10,7 +10,6 @@ import {
   OnDestroy,
   ViewChild,
   ViewContainerRef,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
@@ -20,7 +19,6 @@ import { take } from 'rxjs/operators';
 @Component({
   selector: 'cx-customer-ticketing-create',
   templateUrl: './customer-ticketing-create.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [TranslatePipe],
 })
 export class CustomerTicketingCreateComponent implements OnDestroy {

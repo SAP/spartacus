@@ -5,12 +5,7 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import {
-  Component,
-  OnInit,
-  inject,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -58,7 +53,6 @@ import { CheckoutBillingAddressFormService } from './checkout-billing-address-fo
 @Component({
   selector: 'cx-checkout-billing-address-form',
   templateUrl: './checkout-billing-address-form.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     CardComponent,

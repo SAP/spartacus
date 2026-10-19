@@ -12,7 +12,6 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   FormsModule,
@@ -59,7 +58,6 @@ import { CustomerListAction } from './customer-list.model';
 @Component({
   selector: 'cx-customer-list',
   templateUrl: './customer-list.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FocusDirective,
     NgTemplateOutlet,

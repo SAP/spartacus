@@ -13,7 +13,6 @@ import {
   OnInit,
   Output,
   ViewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   FormsModule,
@@ -46,7 +45,6 @@ import {
 @Component({
   selector: 'cx-messaging',
   templateUrl: './messaging.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     NgFor,

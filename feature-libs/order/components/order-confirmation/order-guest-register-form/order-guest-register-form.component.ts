@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
-  inject,
-  Input,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -36,7 +31,6 @@ import { UserRegisterFacade } from '@spartacus/user/profile/root';
   selector: 'cx-guest-register-form',
   templateUrl: './order-guest-register-form.component.html',
   host: { ngSkipHydration: 'true' },
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     ReactiveFormsModule,

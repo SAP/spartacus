@@ -5,12 +5,7 @@
  */
 
 import { CommonModule, NgIf } from '@angular/common';
-import {
-  Component,
-  computed,
-  inject,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { I18nModule } from '@spartacus/core';
@@ -22,7 +17,6 @@ import { EMPTY } from 'rxjs';
   selector: 'cx-subscription-cart-price-heading',
   standalone: true,
   imports: [CommonModule, I18nModule, NgIf],
-  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './subscription-cart-price-heading.component.html',
 })
 export class SubscriptionCartPriceHeadingComponent {

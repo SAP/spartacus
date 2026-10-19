@@ -5,12 +5,13 @@
  */
 
 import {
+  ChangeDetectorRef,
   Component,
+  inject,
   Input,
   OnDestroy,
   OnInit,
   Optional,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import { AsyncPipe, NgClass, NgIf } from '@angular/common';
@@ -29,7 +30,6 @@ import { Observable, Subscription } from 'rxjs';
 @Component({
   selector: 'cx-set-preferred-store',
   templateUrl: './set-preferred-store.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, NgClass, IconComponent, AsyncPipe, TranslatePipe],
 })
 export class SetPreferredStoreComponent implements OnInit, OnDestroy {
@@ -39,6 +39,7 @@ export class SetPreferredStoreComponent implements OnInit, OnDestroy {
   public storeSelected$: Observable<PointOfServiceNames | null> =
     this.preferredStoreFacade.getPreferredStore$();
   subscription: Subscription = new Subscription();
+  protected cd = inject(ChangeDetectorRef);
 
   constructor(
     protected preferredStoreFacade: PreferredStoreFacade,
@@ -47,9 +48,12 @@ export class SetPreferredStoreComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription.add(
-      this.outlet?.context$.subscribe(
-        (pointOfServiceNames) => (this.pointOfServiceName = pointOfServiceNames)
-      )
+      this.outlet?.context$.subscribe((pointOfServiceNames) => {
+        this.pointOfServiceName = pointOfServiceNames;
+        // OnPush (v22 default): assigned from an async subscribe and read by
+        // the template, so mark for check.
+        this.cd.markForCheck();
+      })
     );
   }
 

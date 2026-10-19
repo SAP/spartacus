@@ -6,12 +6,13 @@
 
 import { AsyncPipe, NgIf } from '@angular/common';
 import {
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
+  inject,
   OnDestroy,
   OnInit,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { TranslatePipe } from '@spartacus/core';
@@ -42,7 +43,6 @@ import { StoreSearchComponent } from '../store-search/store-search.component';
 @Component({
   selector: 'cx-pickup-option-dialog',
   templateUrl: './pickup-option-dialog.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FocusDirective,
     IconComponent,
@@ -70,6 +70,8 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
   readonly CLOSE_WITHOUT_SELECTION = 'CLOSE_WITHOUT_SELECTION';
   /** The reason given closing the dialog window after selecting a location */
   readonly LOCATION_SELECTED = 'LOCATION_SELECTED';
+
+  protected cd = inject(ChangeDetectorRef);
 
   get focusConfig(): FocusConfig {
     return {
@@ -108,6 +110,9 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
           this.productCode = productCode;
           this.entryNumber = entryNumber;
           this.quantity = quantity;
+          // OnPush (v22 default): productCode is read by the template and set
+          // from this async subscribe, so mark for check.
+          this.cd.markForCheck();
         }
       )
     );

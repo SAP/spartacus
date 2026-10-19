@@ -6,7 +6,6 @@
 
 import { AsyncPipe, NgIf } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostBinding,
@@ -29,7 +28,6 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   selector: 'cx-configurator-tab-bar',
   templateUrl: './configurator-tab-bar.component.html',
   //here we cannot go with OnPush, as we otherwise do not take the change to host binding into account
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorTabBarComponent {

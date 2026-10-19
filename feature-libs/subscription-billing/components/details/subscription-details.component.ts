@@ -5,12 +5,7 @@
  */
 
 import { AsyncPipe, NgClass, NgIf } from '@angular/common';
-import {
-  Component,
-  inject,
-  OnInit,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   CxDatePipe,
@@ -34,7 +29,6 @@ import { Observable, of, take } from 'rxjs';
 @Component({
   selector: 'cx-subscription-details',
   templateUrl: './subscription-details.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     NgClass,

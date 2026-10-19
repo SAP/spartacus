@@ -9,7 +9,6 @@ import {
   ComponentRef,
   ElementRef,
   ViewContainerRef,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RoutingService, UserIdService, WindowRef } from '@spartacus/core';
@@ -31,7 +30,7 @@ import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { OpfGlobalFunctionsCheckoutDomainService } from './opf-global-functions-checkout-domain.service';
 
-@Component({ changeDetection: ChangeDetectionStrategy.Eager, template: '' })
+@Component({ template: '' })
 class TestContainerComponent {
   constructor(public vcr: ViewContainerRef) {}
 }

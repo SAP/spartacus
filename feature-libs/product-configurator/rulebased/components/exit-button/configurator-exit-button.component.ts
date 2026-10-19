@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, Location, NgIf } from '@angular/common';
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   Product,
   ProductService,
@@ -27,7 +27,6 @@ import { Configurator } from '../../core/model/configurator.model';
 @Component({
   selector: 'cx-configurator-exit-button',
   templateUrl: './configurator-exit-button.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorExitButtonComponent {

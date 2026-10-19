@@ -5,12 +5,13 @@
  */
 
 import {
+  ChangeDetectorRef,
   Component,
   Inject,
+  inject,
   OnDestroy,
   OnInit,
   Optional,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 
@@ -25,7 +26,6 @@ interface ExtendedOrderEntry extends OrderEntry {
 @Component({
   selector: 'cx-cpq-quote',
   templateUrl: './cpq-quote.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, NgFor, NgClass, DecimalPipe],
 })
 export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
@@ -34,6 +34,7 @@ export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
   readonly orderEntry$: Observable<ExtendedOrderEntry> =
     this.cartItemContext?.item$;
   isFlagQuote = true;
+  protected cd = inject(ChangeDetectorRef);
   constructor(
     @Optional()
     @Inject(CartItemContext)
@@ -42,6 +43,7 @@ export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
   ) {
     this.subscription = this.cpqQuoteService.isFlag$.subscribe((isFlag) => {
       this.isFlagQuote = isFlag;
+      this.cd.markForCheck();
     });
   }
 
@@ -49,6 +51,9 @@ export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
     if (this.cartItemContext) {
       this.subscription = this.orderEntry$.subscribe((data) => {
         this.quoteDiscountData = data;
+        // OnPush (v22 default): quoteDiscountData is read by the template and
+        // set from an async subscribe, so mark for check.
+        this.cd.markForCheck();
       });
     } else {
       this.quoteDiscountData = null;

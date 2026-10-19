@@ -5,14 +5,15 @@
  */
 
 import {
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
+  inject,
   OnDestroy,
   OnInit,
   Output,
   ViewContainerRef,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { Product } from '@spartacus/core';
 
@@ -57,7 +58,6 @@ function isProductWithCode(
 @Component({
   selector: 'cx-cart-pickup-options-container',
   templateUrl: 'pdp-pickup-options-container.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [PickupOptionsComponent, AsyncPipe, NgIf],
 })
 export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
@@ -71,6 +71,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
   pickupOption$: Observable<PickupOption>;
   intendedPickupLocation$: Observable<AugmentedPointOfService | undefined>;
   private productCode: string;
+  protected cd = inject(ChangeDetectorRef);
 
   constructor(
     protected currentProductService: CurrentProductService,
@@ -91,6 +92,9 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
       map((product) => {
         this.productCode = product.code;
         this.availableForPickup = !!product.availableForPickup;
+        // OnPush (v22 default): availableForPickup/pickupOption$ are assigned
+        // from this async stream and read by the template, so mark for check.
+        this.cd.markForCheck();
         return this.productCode;
       }),
       tap(

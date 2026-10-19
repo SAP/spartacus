@@ -5,12 +5,7 @@
  */
 
 import { AsyncPipe, NgFor, NgIf, TitleCasePipe } from '@angular/common';
-import {
-  Component,
-  inject,
-  Input,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 import {
@@ -31,7 +26,6 @@ import { ConsignmentTrackingComponent } from '../consignment-tracking/consignmen
 @Component({
   selector: 'cx-order-consigned-entries',
   templateUrl: './order-consigned-entries.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgFor,
     OutletDirective,

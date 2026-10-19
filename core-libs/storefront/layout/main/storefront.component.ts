@@ -17,7 +17,6 @@ import {
   OnInit,
   Optional,
   ViewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
@@ -52,7 +51,6 @@ import { StorefrontOutlets } from './storefront-outlets.model';
 @Component({
   selector: 'cx-storefront',
   templateUrl: './storefront.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     RouterModule,
     PageLayoutComponent,

@@ -1,5 +1,5 @@
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { tap } from 'rxjs/operators';
 import { AbstractOrderType } from '../../root/models/cart.model';
@@ -33,19 +33,16 @@ class TestInnerComponent {
 
 @Component({
   selector: 'cx-test-cmp',
-  template: ` <span [cxAbstractOrderContext]="abstractOrderKey"
+  template: ` <span [cxAbstractOrderContext]="abstractOrderKey()"
     ><cx-test-cmp-inner />
   </span>`,
   imports: [AbstractOrderContextDirective, TestInnerComponent],
-  // Mutates `abstractOrderKey` then calls detectChanges(); needs Eager so the
-  // input re-binding fires under Angular 22's OnPush-by-default.
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 class TestComponent {
-  abstractOrderKey: AbstractOrderKeyInput = {
+  abstractOrderKey = signal<AbstractOrderKeyInput>({
     id: abstractOrderId,
     type: AbstractOrderType.ORDER,
-  };
+  });
 }
 
 describe('AbstractOrderContextDirective', () => {
@@ -73,17 +70,17 @@ describe('AbstractOrderContextDirective', () => {
   });
 
   it('should propagate abstract order type to inner component for active cart type, when no id is needed', () => {
-    testOuterComponent.abstractOrderKey = {
+    testOuterComponent.abstractOrderKey.set({
       type: AbstractOrderType.CART,
-    };
+    });
     fixture.detectChanges();
     expect(fixture.nativeElement.innerHTML).toContain(AbstractOrderType.CART);
   });
 
   it('should throw error if no id is specified but the abstract order type requires it', () => {
-    testOuterComponent.abstractOrderKey = {
+    testOuterComponent.abstractOrderKey.set({
       type: AbstractOrderType.SAVED_CART,
-    };
+    });
     expect(() => fixture.detectChanges()).toThrow();
   });
 
@@ -92,11 +89,10 @@ describe('AbstractOrderContextDirective', () => {
     await fixture.whenStable();
     expect(emissionCounterKey).toBe(1);
 
-    testOuterComponent.abstractOrderKey = {
+    testOuterComponent.abstractOrderKey.set({
       id: 'newId',
       type: AbstractOrderType.ORDER,
-    };
-    fixture.changeDetectorRef.markForCheck();
+    });
     fixture.detectChanges();
     await fixture.whenStable();
     expect(emissionCounterKey).toBe(2);

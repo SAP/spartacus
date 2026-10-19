@@ -11,7 +11,6 @@ import {
   HostBinding,
   inject,
   ViewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
@@ -26,7 +25,6 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 @Component({
   selector: 'cx-configurator-overview-filter-button',
   templateUrl: './configurator-overview-filter-button.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     ConfiguratorOverviewFilterBarComponent,

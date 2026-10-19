@@ -5,12 +5,7 @@
  */
 
 import { AsyncPipe, DOCUMENT, NgIf } from '@angular/common';
-import {
-  Component,
-  inject,
-  ViewChild,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   EventService,
@@ -38,7 +33,6 @@ const ALL_PRODUCTS_ID = '';
 @Component({
   selector: 'cx-quote-comments',
   templateUrl: './quote-comments.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgIf, IconComponent, MessagingComponent, AsyncPipe, TranslatePipe],
 })
 export class QuoteCommentsComponent {

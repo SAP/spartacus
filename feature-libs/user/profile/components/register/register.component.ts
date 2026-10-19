@@ -5,13 +5,7 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-  inject,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -59,7 +53,6 @@ import { RegisterComponentService } from './register-component.service';
   selector: 'cx-register',
   templateUrl: './register.component.html',
   host: { ngSkipHydration: 'true' },
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     FormRequiredLegendComponent,

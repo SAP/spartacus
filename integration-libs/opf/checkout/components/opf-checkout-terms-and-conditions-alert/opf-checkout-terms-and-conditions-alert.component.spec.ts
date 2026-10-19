@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
@@ -9,7 +9,6 @@ import { OpfCheckoutTermsAndConditionsAlertComponent } from './opf-checkout-term
 
 @Component({
   selector: 'cx-icon',
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: '<ng-content />',
 })
 class MockIconComponent {

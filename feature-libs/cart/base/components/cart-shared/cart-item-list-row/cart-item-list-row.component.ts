@@ -5,13 +5,7 @@
  */
 
 import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
-import {
-  Component,
-  inject,
-  Input,
-  Optional,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, inject, Input, Optional } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { TranslatePipe, UrlPipe } from '@spartacus/core';
@@ -34,7 +28,6 @@ import { CartItemListComponentService } from './cart-item-list-row.component.ser
     CartItemContextSource,
     { provide: CartItemContext, useExisting: CartItemContextSource },
   ],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     OutletDirective,
     CartItemValidationWarningComponent,

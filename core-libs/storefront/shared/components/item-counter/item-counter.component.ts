@@ -12,7 +12,6 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   FormsModule,
@@ -32,7 +31,6 @@ import { FocusDirective } from '../../../layout/a11y/keyboard-focus/focus.direct
 @Component({
   selector: 'cx-item-counter',
   templateUrl: './item-counter.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FeatureDirective,
     FocusDirective,

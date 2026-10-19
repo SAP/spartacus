@@ -13,7 +13,6 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { AsmService } from '@spartacus/asm/core';
 import { AsmDialogActionEvent } from '@spartacus/asm/customer-360/root';
@@ -81,7 +80,6 @@ export const CART_TYPE_KEY: CartTypeKey = {
 @Component({
   selector: 'cx-asm-main-ui',
   templateUrl: './asm-main-ui.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     IconComponent,
     NgIf,

@@ -5,12 +5,7 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -36,7 +31,6 @@ import { AppliedCouponsComponent } from './applied-coupons/applied-coupons.compo
 @Component({
   selector: 'cx-cart-coupon',
   templateUrl: './cart-coupon.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgIf,
     FormsModule,

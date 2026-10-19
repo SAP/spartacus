@@ -14,7 +14,6 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   FormsModule,
@@ -48,7 +47,6 @@ import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
   host: {
     '(document:click)': 'onDocumentClick($event)',
   },
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     ReactiveFormsModule,

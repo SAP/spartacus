@@ -1,11 +1,11 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BaseMessageComponent } from '../base-message.component';
 import { MessageData } from '../message.model';
 import { NotificationMessageComponent } from '../notification/notification-message.component';
 import { MessageRenderService } from './message-render.service';
 
-@Component({ changeDetection: ChangeDetectionStrategy.Eager, template: '' })
+@Component({ template: '' })
 class MockComponent extends BaseMessageComponent {}
 
 describe('MessageRenderService', () => {

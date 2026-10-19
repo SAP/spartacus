@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
-  Directive,
-  Input,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   Cart,
@@ -43,7 +38,6 @@ class MockOutletDirective {
 
 @Component({
   selector: 'cx-cart-item-list',
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class MockCartItemListComponent {
@@ -54,7 +48,6 @@ class MockCartItemListComponent {
 
 @Component({
   selector: 'cx-order-summary',
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class MockOrderSummaryComponent {
@@ -63,7 +56,6 @@ class MockOrderSummaryComponent {
 
 @Component({
   selector: 'cx-applied-coupons',
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class MockAppliedCouponsComponent {
@@ -73,7 +65,6 @@ class MockAppliedCouponsComponent {
 
 @Component({
   selector: 'cx-promotions',
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class MockPromotionsComponent {
@@ -82,7 +73,6 @@ class MockPromotionsComponent {
 
 @Component({
   selector: 'cx-pick-up-in-store-items-details',
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class MockPickUpItemsDetailsComponent
