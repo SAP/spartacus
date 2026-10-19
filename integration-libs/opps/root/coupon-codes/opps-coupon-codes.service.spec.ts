@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { OppsConfig } from 'integration-libs/opps/root/config/opps-config';
-import { WindowRef } from 'core-libs/core/src/window';
+import { OppsConfig } from '../config/opps-config';
+import { WindowRef } from '@spartacus/core';
 import { OppsCouponCodesService } from './opps-coupon-codes.service';
 const mockLocation = {
   href: 'http://localhost:4200/electronics-spa/en/USD/?test-param=summer',
@@ -36,20 +36,21 @@ describe('OppsCouponCodesService', () => {
       expect(service).toBeTruthy();
     });
     it('should save coupons to local storage', () => {
-      spyOnProperty(winRef, 'location').and.returnValue(mockLocation);
+      vi.spyOn(winRef, 'location', 'get').mockReturnValue(mockLocation as any);
       service.saveUrlCouponCodes();
       expect(service.getCouponCodes()).toEqual('summer');
     });
     it('should set/get coupon codes to/from local storage', () => {
-      spyOn(winRef.localStorage, 'setItem').and.callThrough();
-      spyOn(winRef.localStorage, 'getItem').and.callThrough();
+      const mockSetItem = vi.fn();
+      const mockGetItem = vi.fn().mockReturnValue('black,pink');
+      vi.spyOn(winRef, 'localStorage', 'get').mockReturnValue({
+        setItem: mockSetItem,
+        getItem: mockGetItem,
+      } as any);
       service.setCouponCodes('black,pink');
       expect(service.getCouponCodes()).toEqual('black,pink');
-      expect(winRef.localStorage?.setItem).toHaveBeenCalledWith(
-        'test-key',
-        'black,pink'
-      );
-      expect(winRef.localStorage?.getItem).toHaveBeenCalledWith('test-key');
+      expect(mockSetItem).toHaveBeenCalledWith('test-key', 'black,pink');
+      expect(mockGetItem).toHaveBeenCalledWith('test-key');
     });
   });
 
@@ -68,20 +69,26 @@ describe('OppsCouponCodesService', () => {
       expect(service).toBeTruthy();
     });
     it('should not save coupon in url', () => {
-      spyOn(service, 'setCouponCodes').and.callThrough();
-      spyOnProperty(winRef, 'location').and.returnValue(mockLocation);
+      vi.spyOn(service, 'setCouponCodes');
+      vi.spyOn(winRef, 'location', 'get').mockReturnValue(mockLocation as any);
       service.saveUrlCouponCodes();
       expect(service.setCouponCodes).not.toHaveBeenCalled();
     });
     it('should not set coupon in local storage', () => {
-      spyOn(winRef.localStorage, 'setItem').and.callThrough();
+      const mockSetItem = vi.fn();
+      vi.spyOn(winRef, 'localStorage', 'get').mockReturnValue({
+        setItem: mockSetItem,
+      } as any);
       service.setCouponCodes('black,pink');
-      expect(winRef.localStorage?.setItem).not.toHaveBeenCalled();
+      expect(mockSetItem).not.toHaveBeenCalled();
     });
     it('should not fetch any coupon from local storage', () => {
-      spyOn(winRef.localStorage, 'getItem').and.callThrough();
+      const mockGetItem = vi.fn();
+      vi.spyOn(winRef, 'localStorage', 'get').mockReturnValue({
+        getItem: mockGetItem,
+      } as any);
       service.getCouponCodes();
-      expect(winRef.localStorage?.getItem).not.toHaveBeenCalled();
+      expect(mockGetItem).not.toHaveBeenCalled();
     });
   });
 });

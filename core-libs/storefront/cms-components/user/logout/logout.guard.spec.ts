@@ -4,11 +4,14 @@ import { Router, RouterModule } from '@angular/router';
 import {
   AuthService,
   CmsService,
+  FeatureToggles,
   ProtectedRoutesService,
   RoutingConfig,
   SemanticPathService,
 } from '@spartacus/core';
 import { Observable, firstValueFrom, of } from 'rxjs';
+import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
+import { LogoutConfig } from './config/logout-config';
 import { LogoutGuard } from './logout.guard';
 
 class MockAuthService implements Partial<AuthService> {
@@ -29,6 +32,12 @@ class MockCmsService implements Partial<CmsService> {
   }
 }
 
+class MockCmsPageGuard implements Partial<CmsPageGuard> {
+  canActivate() {
+    return of(true as const);
+  }
+}
+
 class MockProtectedRoutesService implements Partial<ProtectedRoutesService> {
   get shouldProtect() {
     return false;
@@ -40,11 +49,15 @@ describe('LogoutGuard', () => {
   let authService: AuthService;
   let protectedRoutesService: ProtectedRoutesService;
   let cmsService: CmsService;
+  let featureToggles: FeatureToggles;
+  let logoutConfig: LogoutConfig;
 
   let zone: NgZone;
   let router: Router;
 
   beforeEach(() => {
+    featureToggles = { useConfigurableLogoutRedirect: false };
+    logoutConfig = {};
     TestBed.configureTestingModule({
       imports: [
         RouterModule.forRoot([
@@ -62,25 +75,23 @@ describe('LogoutGuard', () => {
           useValue: {
             routing: {
               routes: {
-                login: {
-                  paths: ['login'],
-                },
-                home: {
-                  paths: [''],
-                },
-                logout: {
-                  paths: ['logout'],
-                },
+                login: { paths: ['login'] },
+                home: { paths: [''] },
+                logout: { paths: ['logout'] },
+                'my-account': { paths: ['my-account'] },
               },
             },
           },
         },
         { provide: AuthService, useClass: MockAuthService },
         { provide: CmsService, useClass: MockCmsService },
+        { provide: CmsPageGuard, useClass: MockCmsPageGuard },
         {
           provide: ProtectedRoutesService,
           useClass: MockProtectedRoutesService,
         },
+        { provide: FeatureToggles, useValue: featureToggles },
+        { provide: LogoutConfig, useValue: logoutConfig },
         SemanticPathService,
       ],
     });
@@ -120,11 +131,58 @@ describe('LogoutGuard', () => {
       expect(result.toString()).toBe('/login');
     });
 
-    it('should return true if the logout page exists', async () => {
+    it('should return true if the logout CMS page exists', async () => {
       vi.spyOn(cmsService, 'hasPage').mockReturnValue(of(true));
 
       const result = await firstValueFrom(logoutGuard.canActivate());
       expect(result).toBe(true);
+    });
+
+    describe('useConfigurableLogoutRedirect toggle', () => {
+      it('should redirect to home when toggle is disabled, even if redirectRoute is configured', async () => {
+        featureToggles.useConfigurableLogoutRedirect = false;
+        logoutConfig.logout = { redirectRoute: 'my-account' };
+
+        const result = await firstValueFrom(logoutGuard.canActivate());
+        expect(result.toString()).toBe('/');
+      });
+
+      it('should redirect to configured redirectRoute when toggle is enabled', async () => {
+        featureToggles.useConfigurableLogoutRedirect = true;
+        logoutConfig.logout = { redirectRoute: 'my-account' };
+
+        const result = await firstValueFrom(logoutGuard.canActivate());
+        expect(result.toString()).toBe('/my-account');
+      });
+
+      it('should redirect to home when toggle is enabled but no redirectRoute is configured', async () => {
+        featureToggles.useConfigurableLogoutRedirect = true;
+        logoutConfig.logout = undefined;
+
+        const result = await firstValueFrom(logoutGuard.canActivate());
+        expect(result.toString()).toBe('/');
+      });
+
+      it('should return true when toggle is enabled and redirectRoute resolves to the logout path', async () => {
+        featureToggles.useConfigurableLogoutRedirect = true;
+        logoutConfig.logout = { redirectRoute: 'logout' };
+
+        const result = await firstValueFrom(logoutGuard.canActivate());
+        expect(result).toBe(true);
+      });
+
+      it('should still redirect to login for protected store when toggle is enabled', async () => {
+        featureToggles.useConfigurableLogoutRedirect = true;
+        logoutConfig.logout = { redirectRoute: 'my-account' };
+        vi.spyOn(
+          protectedRoutesService,
+          'shouldProtect',
+          'get'
+        ).mockReturnValue(true);
+
+        const result = await firstValueFrom(logoutGuard.canActivate());
+        expect(result.toString()).toBe('/login');
+      });
     });
   });
 });
