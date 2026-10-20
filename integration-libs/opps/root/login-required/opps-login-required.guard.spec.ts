@@ -6,7 +6,7 @@ import {
   LoggerService,
   SemanticPathService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Observable, firstValueFrom, of } from 'rxjs';
 
 import { signal } from '@angular/core';
 import { Navigation, Router, UrlTree } from '@angular/router';
@@ -89,43 +89,37 @@ describe('OppsLoginRequiredGuard', () => {
   it('should be created', () => {
     expect(guard).toBeTruthy();
   });
-  it('should return true if user is logged in', (done) => {
-    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-    guard.canActivate({} as any, {} as any).subscribe((result) => {
-      expect(result).toEqual(true);
-      done();
-    });
+  it('should return true if user is logged in', async () => {
+    vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(true));
+    const result = await firstValueFrom(
+      guard.canActivate({} as any, {} as any)
+    );
+    expect(result).toEqual(true);
   });
-  it('should return login url tree if user is not logged in & login required parameter is set to true in url', (done) => {
-    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-    spyOn(authRedirectService, 'setRedirectUrl').and.returnValue();
+  it('should return login url tree if user is not logged in & login required parameter is set to true in url', async () => {
+    vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
+    vi.spyOn(authRedirectService, 'setRedirectUrl');
     const route: any = {
       queryParams: { testParam: 'true' },
     };
-    guard.canActivate(route, {} as any).subscribe((result) => {
-      expect(authRedirectService.setRedirectUrl).toHaveBeenCalled();
-      expect(JSON.stringify(result)).toEqual('{"root":"test-login"}');
-      done();
-    });
+    const result = await firstValueFrom(guard.canActivate(route, {} as any));
+    expect(authRedirectService.setRedirectUrl).toHaveBeenCalled();
+    expect(JSON.stringify(result)).toEqual('{"root":"test-login"}');
   });
-  it('should return true if user is not logged in & login required parameter is set to false in url', (done) => {
-    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+  it('should return true if user is not logged in & login required parameter is set to false in url', async () => {
+    vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
     const route: any = {
       queryParams: { testParam: 'false' },
     };
-    guard.canActivate(route, {} as any).subscribe((result) => {
-      expect(result).toEqual(true);
-      done();
-    });
+    const result = await firstValueFrom(guard.canActivate(route, {} as any));
+    expect(result).toEqual(true);
   });
-  it('should return true if user is not logged in & login required parameter is not present in url', (done) => {
-    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+  it('should return true if user is not logged in & login required parameter is not present in url', async () => {
+    vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
     const route: any = {
       queryParams: {},
     };
-    guard.canActivate(route, {} as any).subscribe((result) => {
-      expect(result).toEqual(true);
-      done();
-    });
+    const result = await firstValueFrom(guard.canActivate(route, {} as any));
+    expect(result).toEqual(true);
   });
 });
