@@ -13,6 +13,7 @@ import {
   ngExpressEngine as engine,
   getOriginValidationMiddleware,
 } from '@spartacus/setup/ssr';
+import { getServerRuntimeEnvironment, RUNTIME_ENVIRONMENT } from '@spartacus/setup';
 import express from 'express';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -29,12 +30,17 @@ const ssrOptions: SsrOptimizationOptions = {
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
 
 // The Express app is exported so that it can be used by serverless Functions.
-export function app(): express.Express {
+export async function app(): Promise<express.Express> {
   const server = express();
   const serverDistFolder = dirname(fileURLToPath(import.meta.url));
   const browserDistFolder = resolve(serverDistFolder, '../browser');
   const indexHtml = join(serverDistFolder, 'index.server.html');
   const indexHtmlContent = readFileSync(indexHtml, 'utf-8');
+
+  // Fetch runtime config once at server boot (not per-request).
+  const runtimeEnvironment = await getServerRuntimeEnvironment({
+    url: process.env['CONFIG_URL'],
+  });
 
   server.set('trust proxy', 'loopback');
 
@@ -70,7 +76,10 @@ export function app(): express.Express {
   server.get(/.*/, (req, res) => {
     res.render(indexHtml, {
       req,
-      providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
+      providers: [
+        { provide: APP_BASE_HREF, useValue: req.baseUrl },
+        { provide: RUNTIME_ENVIRONMENT, useValue: runtimeEnvironment },
+      ],
     });
   });
 
@@ -79,11 +88,11 @@ export function app(): express.Express {
   return server;
 }
 
-function run() {
+async function run() {
   const port = process.env['PORT'] || 4000;
 
   // Start up the Node server
-  const server = app();
+  const server = await app();
   server.listen(port, () => {
     /* eslint-disable-next-line no-console
     --
@@ -95,3 +104,4 @@ function run() {
 }
 
 run();
+

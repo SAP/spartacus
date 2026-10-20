@@ -25,6 +25,11 @@
         "assets": [
           "projects/storefrontapp/src/manifest.json",
           {
+            "glob": "config.json",
+            "input": "projects/storefrontapp/src",
+            "output": "/"
+          },
+          {
             "glob": "**/*",
             "input": "projects/storefrontapp/public",
             "output": "assets/"
