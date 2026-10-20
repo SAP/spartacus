@@ -564,3 +564,63 @@ describe('ConfigTabBarComponent', () => {
     });
   });
 });
+
+describe('ConfiguratorTabBarComponent ghost host class', () => {
+  let fixture: ComponentFixture<ConfiguratorTabBarComponent>;
+  let htmlElem: HTMLElement;
+
+  beforeEach(async () => {
+    TestBed.resetTestingModule();
+    mockRouterState = structuredClone(mockRouterStateBase);
+    mockRouterState.state.params.displayOnly = false;
+    routerStateObservable = of(mockRouterState);
+    configurationObs = of(
+      ConfiguratorTestUtils.createConfiguration(
+        'a',
+        ConfiguratorModelUtils.createInitialOwner()
+      )
+    );
+
+    await TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        RouterModule,
+        ConfiguratorTabBarComponent,
+        MockUrlPipe,
+      ],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
+        },
+      ],
+    }).compileComponents();
+  });
+
+  it('should remove ghost host class once configuration is available', () => {
+    fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
+    htmlElem = fixture.nativeElement;
+    fixture.detectChanges();
+    expect(htmlElem.classList.contains('ghost')).toBe(false);
+  });
+
+  it('should keep ghost host class while configuration is loading', () => {
+    configurationObs = NEVER;
+    fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
+    htmlElem = fixture.nativeElement;
+    fixture.detectChanges();
+    expect(htmlElem.classList.contains('ghost')).toBe(true);
+  });
+});
