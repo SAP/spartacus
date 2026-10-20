@@ -116,7 +116,9 @@ describe('get-runtime-environment', () => {
         statusText: 'Not Found',
       } as unknown as Response);
 
-      const consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+      const consoleSpy = jest
+        .spyOn(console, 'warn')
+        .mockImplementation(() => {});
 
       const result = await getRuntimeEnvironment({ url: TEST_URL });
 
@@ -129,7 +131,9 @@ describe('get-runtime-environment', () => {
     it('should return empty runtimeEnvironment on network error', async () => {
       fetchMock.mockRejectedValue(new Error('Network error'));
 
-      const consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+      const consoleSpy = jest
+        .spyOn(console, 'warn')
+        .mockImplementation(() => {});
 
       const result = await getRuntimeEnvironment({ url: TEST_URL });
 

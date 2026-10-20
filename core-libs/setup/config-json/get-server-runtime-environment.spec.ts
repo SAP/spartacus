@@ -91,7 +91,9 @@ describe('getServerRuntimeEnvironment', () => {
   });
 
   it('should return empty object on network error', async () => {
-    (globalThis as any).fetch = jest.fn().mockRejectedValue(new TypeError('fetch failed'));
+    (globalThis as any).fetch = jest
+      .fn()
+      .mockRejectedValue(new TypeError('fetch failed'));
 
     const result = await getServerRuntimeEnvironment({
       url: 'https://config-server/config.json',

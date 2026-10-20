@@ -57,7 +57,12 @@ describe('parseConfigJson', () => {
 
   it('should include entries with secret: "false" when excludeSecrets is true', () => {
     const result = parseConfigJson(
-      { OCC_BASE_URL: { value: 'https://api.commerce.sap.com', secret: 'false' } },
+      {
+        OCC_BASE_URL: {
+          value: 'https://api.commerce.sap.com',
+          secret: 'false',
+        },
+      },
       { excludeSecrets: true }
     );
 
@@ -70,7 +75,10 @@ describe('parseConfigJson', () => {
 
   it('should not mutate the input object', () => {
     const input = {
-      OCC_BASE_URL: { value: 'https://api.commerce.sap.com', secret: 'true' as const },
+      OCC_BASE_URL: {
+        value: 'https://api.commerce.sap.com',
+        secret: 'true' as const,
+      },
     };
     parseConfigJson(input, { excludeSecrets: true });
     expect(input.OCC_BASE_URL).toBeDefined();

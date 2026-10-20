@@ -13,7 +13,10 @@ import {
   ngExpressEngine as engine,
   getOriginValidationMiddleware,
 } from '@spartacus/setup/ssr';
-import { getServerRuntimeEnvironment, RUNTIME_ENVIRONMENT } from '@spartacus/setup';
+import {
+  getServerRuntimeEnvironment,
+  RUNTIME_ENVIRONMENT,
+} from '@spartacus/setup';
 import express from 'express';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -104,4 +107,3 @@ async function run() {
 }
 
 run();
-

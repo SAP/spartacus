@@ -30,4 +30,3 @@ getRuntimeEnvironment()
   to be logged using any special logger. Moreover, we don't have
   any special logger available in this context. */
   .catch((err) => console.error(err));
-
