@@ -524,6 +524,18 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
       );
     });
 
+    it("should contain span element with class name 'cx-visually-hidden' and role 'paragraph' so that screen readers treat it as a separate line", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        'cx-visually-hidden',
+        0,
+        'role',
+        'paragraph'
+      );
+    });
+
     it("should contain nested div with 'aria-hidden' inside 'cx-value-info' that removes duplicated content from the accessibility tree", () => {
       const valueInfo = htmlElem.querySelector('.cx-value-info');
       expect(
