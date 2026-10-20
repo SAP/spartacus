@@ -6,6 +6,7 @@
 
 import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   Optional,
@@ -48,6 +49,7 @@ import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entr
 @Component({
   selector: 'cx-configurator-cart-entry-bundle-info',
   templateUrl: './configurator-cart-entry-bundle-info.component.html',
+  changeDetection: ChangeDetectionStrategy.Default,
   imports: [
     NgIf,
     NgFor,
