@@ -219,9 +219,7 @@ describe('AnonymousConsentsService', () => {
           )
         );
 
-        const result = await firstValueFrom(
-          service.getConsent(mockTemplateId)
-        );
+        const result = await firstValueFrom(service.getConsent(mockTemplateId));
         expect(result).toEqual(mockAnonymousConsents[0]);
       });
     });
