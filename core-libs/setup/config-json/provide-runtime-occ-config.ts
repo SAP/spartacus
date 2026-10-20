@@ -3,18 +3,16 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+import { inject, makeStateKey, Provider, TransferState } from '@angular/core';
 import {
-  inject,
-  makeStateKey,
-  Provider,
-  TransferState,
-} from '@angular/core';
-import { LoggerService, OccConfig, provideConfigInitializerFactory } from '@spartacus/core';
+  LoggerService,
+  OccConfig,
+  provideConfigInitializerFactory,
+} from '@spartacus/core';
 import { RUNTIME_ENVIRONMENT } from './runtime-environment.token';
 
-const CX_RUNTIME_CONFIG_KEY = makeStateKey<Record<string, string>>(
-  'cx-runtime-config'
-);
+const CX_RUNTIME_CONFIG_KEY =
+  makeStateKey<Record<string, string>>('cx-runtime-config');
 
 /**
  * Registers a `CONFIG_INITIALIZER` that maps runtime environment variables
@@ -48,17 +46,15 @@ export function provideRuntimeOccConfig(): Provider[] {
           }
           const env = transferState.get(CX_RUNTIME_CONFIG_KEY, runtimeEnv);
 
-          const config: OccConfig = { backend: { occ: {}, media: {} } };
-
           const occBaseUrl = env['OCC_BASE_URL'];
-          if (occBaseUrl) {
-            config.backend!.occ!.baseUrl = occBaseUrl;
-          }
-
           const mediaBaseUrl = env['MEDIA_BASE_URL'];
-          if (mediaBaseUrl) {
-            config.backend!.media!.baseUrl = mediaBaseUrl;
-          }
+
+          const config: OccConfig = {
+            backend: {
+              occ: occBaseUrl ? { baseUrl: occBaseUrl } : {},
+              media: mediaBaseUrl ? { baseUrl: mediaBaseUrl } : {},
+            },
+          };
 
           logger.debug(
             '[provideRuntimeOccConfig] resolved backend config:',

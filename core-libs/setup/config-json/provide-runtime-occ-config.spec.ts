@@ -5,13 +5,16 @@
  */
 import { makeStateKey, TransferState } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CONFIG_INITIALIZER, ConfigInitializer, LoggerService } from '@spartacus/core';
+import {
+  CONFIG_INITIALIZER,
+  ConfigInitializer,
+  LoggerService,
+} from '@spartacus/core';
 import { provideRuntimeOccConfig } from './provide-runtime-occ-config';
 import { RUNTIME_ENVIRONMENT } from './runtime-environment.token';
 
-const CX_RUNTIME_CONFIG_KEY = makeStateKey<Record<string, string>>(
-  'cx-runtime-config'
-);
+const CX_RUNTIME_CONFIG_KEY =
+  makeStateKey<Record<string, string>>('cx-runtime-config');
 
 class MockTransferState {
   protected store = new Map<any, any>();
@@ -39,8 +42,12 @@ function getInitializer(): ConfigInitializer {
   const initializers = TestBed.inject<(ConfigInitializer | null)[]>(
     CONFIG_INITIALIZER as any
   );
-  const found = (initializers ?? []).find((i) => i?.scopes?.includes('backend'));
-  if (!found) throw new Error('No CONFIG_INITIALIZER with scope "backend" found');
+  const found = (initializers ?? []).find((i) =>
+    i?.scopes?.includes('backend')
+  );
+  if (!found) {
+    throw new Error('No CONFIG_INITIALIZER with scope "backend" found');
+  }
   return found;
 }
 
@@ -193,7 +200,9 @@ describe('provideRuntimeOccConfig', () => {
     const initializer = getInitializer();
     const config = await initializer.configFactory();
 
-    expect(config.backend?.occ?.baseUrl).toBe('https://from-ssr.commerce.sap.com');
+    expect(config.backend?.occ?.baseUrl).toBe(
+      'https://from-ssr.commerce.sap.com'
+    );
   });
 
   it('should register scope "backend"', () => {
