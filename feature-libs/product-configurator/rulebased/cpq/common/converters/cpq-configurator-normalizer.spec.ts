@@ -40,6 +40,7 @@ const cpqGroupIdNumber = 1;
 const cpqGroupId = '1';
 const cpqGroupName = 'GROUP_NAME';
 const cpqGroupDisplayName = 'GROUP_DISPLAY_NAME';
+const cpqGeneralGroupPlaceholder = '$general';
 const cpqGroupIsIncomplete = false;
 
 const cpqGroupId2Number = 2;
@@ -815,6 +816,27 @@ describe('CpqConfiguratorNormalizer', () => {
       } else {
         fail();
       }
+    });
+
+    it('should map $general tab to _GEN with translated description', () => {
+      const groups: Configurator.Group[] = [];
+      const flatGroups: Configurator.Group[] = [];
+      const generalTab: Cpq.Tab = {
+        ...cpqTab,
+        name: cpqGeneralGroupPlaceholder,
+        displayName: cpqGeneralGroupPlaceholder,
+      };
+      cpqConfiguratorNormalizer['convertGroup'](
+        generalTab,
+        cpqAttributes,
+        CURRENCY,
+        groups,
+        flatGroups
+      );
+      expect(groups.length).toBe(1);
+      const group: Configurator.Group = groups[0];
+      expect(group.name).toBe('_GEN');
+      expect(group.description).toBe('configurator.group.general');
     });
 
     it('should build the _GEN group with translated description and source attributes', () => {

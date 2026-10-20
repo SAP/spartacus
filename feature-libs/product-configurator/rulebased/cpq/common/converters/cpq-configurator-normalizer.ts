@@ -174,6 +174,8 @@ export class CpqConfiguratorNormalizer
       subGroups: [],
     };
 
+    this.applyGeneralGroup(source, group);
+
     // Register the group before attaching its containers, so that the tabs of a
     // nested configuration follow their parent tab in the flat group list.
     flatGroupList.push(group);
@@ -197,6 +199,38 @@ export class CpqConfiguratorNormalizer
    */
   protected createTabGroupId(tabId: number, parentRowGroupId?: string): string {
     return parentRowGroupId ? `${parentRowGroupId}@${tabId}` : tabId.toString();
+  }
+
+  /**
+   * Maps general tab placeholder to the configurator general group and
+   * sets a translated description for `_GEN` groups.
+   *
+   * @param source - CPQ tab
+   * @param group - Target configurator group
+   */
+  protected applyGeneralGroup(
+    source: Cpq.Tab,
+    group: Configurator.Group
+  ): void {
+    if (source.name === '$general') {
+      group.name = '_GEN';
+    }
+    this.setGeneralGroupDescription(group);
+  }
+
+  /**
+   * Sets the description of the general group from translations.
+   *
+   * @param group - Target configurator group
+   */
+  protected setGeneralGroupDescription(group: Configurator.Group): void {
+    if (group.name !== '_GEN') {
+      return;
+    }
+    this.translation
+      .translate('configurator.group.general')
+      .pipe(take(1))
+      .subscribe((generalText) => (group.description = generalText));
   }
 
   protected convertGenericGroup(
@@ -229,10 +263,7 @@ export class CpqConfiguratorNormalizer
       subGroups: [],
     };
 
-    this.translation
-      .translate('configurator.group.general')
-      .pipe(take(1))
-      .subscribe((generalText) => (group.description = generalText));
+    this.setGeneralGroupDescription(group);
 
     groupList.push(group);
     flatGroupList.push(group);
