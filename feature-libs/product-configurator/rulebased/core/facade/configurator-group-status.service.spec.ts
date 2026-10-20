@@ -739,5 +739,25 @@ describe('ConfiguratorGroupStatusService', () => {
         PARENT_TAB_ID
       );
     });
+
+    it('should return the root tab when it carries its own issue and has an incomplete nested tab', () => {
+      const nestedTab = createAttributeGroup(NESTED_TAB_ID, {
+        complete: false,
+      });
+      const rowGroup = createRowGroup(ROW_GROUP_ID, [nestedTab], {
+        complete: false,
+        incompleteBecauseOfChild: true,
+      });
+      const parentTab = createAttributeGroup(PARENT_TAB_ID, {
+        complete: false,
+        incompleteBecauseOfChild: false,
+        subGroups: [rowGroup],
+      });
+      const configuration = createConfig([parentTab], [parentTab, nestedTab]);
+
+      expect(classUnderTest.getFirstIncompleteGroup(configuration)?.id).toBe(
+        PARENT_TAB_ID
+      );
+    });
   });
 });

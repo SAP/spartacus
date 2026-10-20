@@ -410,12 +410,23 @@ describe('CpqConfiguratorNormalizer', () => {
 
     it('should mark the generic group complete when tabs and incompleteAttributes are undefined', () => {
       const result = cpqConfiguratorNormalizer.convert({
-        ...cpqConfigurationCompleteInconsistent,
+        ...cpqConfiguration,
         incompleteAttributes: undefined,
         tabs: undefined,
       });
       expect(result.groups.length).toBe(1);
       expect(result.groups[0].complete).toBe(true);
+    });
+
+    it('should mark the generic group incomplete when root-level messages are present', () => {
+      const result = cpqConfiguratorNormalizer.convert({
+        ...cpqConfigurationCompleteInconsistent,
+        incompleteAttributes: undefined,
+        tabs: undefined,
+      });
+      expect(result.groups.length).toBe(1);
+      expect(result.groups[0].complete).toBe(false);
+      expect(result.groups[0].incompleteBecauseOfChild).toBe(false);
     });
 
     it('should collect errorMessages from error and invalid messages', () => {
@@ -1899,6 +1910,83 @@ describe('CpqConfiguratorNormalizer', () => {
     });
   });
 
+  describe('hasRootLevelIssues', () => {
+    it('should return true when failedValidations are present', () => {
+      expect(
+        cpqConfiguratorNormalizer['hasRootLevelIssues']({
+          ...cpqConfiguration,
+          failedValidations: [VALIDATION_MSG],
+        })
+      ).toBe(true);
+    });
+
+    it('should return true when typed messages with text are present', () => {
+      expect(
+        cpqConfiguratorNormalizer['hasRootLevelIssues']({
+          ...cpqConfiguration,
+          messages: [{ message: 'Root typed message' }],
+        })
+      ).toBe(true);
+    });
+
+    it('should return false when only typed messages without text are present', () => {
+      expect(
+        cpqConfiguratorNormalizer['hasRootLevelIssues']({
+          ...cpqConfiguration,
+          messages: [{ message: '' }],
+        })
+      ).toBe(false);
+    });
+
+    it('should return false when no root-level messages are present', () => {
+      expect(
+        cpqConfiguratorNormalizer['hasRootLevelIssues'](cpqConfiguration)
+      ).toBe(false);
+    });
+  });
+
+  describe('compileRootGroupComplete', () => {
+    it('should mark the first root group incomplete and not incompleteBecauseOfChild', () => {
+      const groups: Configurator.Group[] = [
+        {
+          id: '1',
+          complete: true,
+          consistent: true,
+          incompleteBecauseOfChild: true,
+          subGroups: [],
+        },
+      ];
+
+      cpqConfiguratorNormalizer['compileRootGroupComplete'](
+        { ...cpqConfiguration, failedValidations: [VALIDATION_MSG] },
+        groups
+      );
+
+      expect(groups[0].complete).toBe(false);
+      expect(groups[0].incompleteBecauseOfChild).toBe(false);
+    });
+
+    it('should not change groups when no root-level messages are present', () => {
+      const groups: Configurator.Group[] = [
+        {
+          id: '1',
+          complete: false,
+          consistent: true,
+          incompleteBecauseOfChild: true,
+          subGroups: [],
+        },
+      ];
+
+      cpqConfiguratorNormalizer['compileRootGroupComplete'](
+        cpqConfiguration,
+        groups
+      );
+
+      expect(groups[0].complete).toBe(false);
+      expect(groups[0].incompleteBecauseOfChild).toBe(true);
+    });
+  });
+
   describe('hasOwnIncompletenessReason', () => {
     it('should return false when neither an attribute is incomplete nor an error message is present', () => {
       const group: Configurator.Group = {
@@ -3324,6 +3412,32 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(rowGroup.incompleteBecauseOfChild).toBe(true);
       expect(parentGroup.complete).toBe(false);
       expect(parentGroup.incompleteBecauseOfChild).toBe(true);
+    });
+
+    it('should not flag the first root tab as incompleteBecauseOfChild when root-level messages are present', () => {
+      const result = cpqConfiguratorNormalizer.convert({
+        ...configurationWithContainers([
+          {
+            stdAttrCode: cpqAttributeStdAttrCode,
+            rows: [
+              {
+                id: rowWithConfigId,
+                productSystemId: 'LENS_ZOOM',
+                selected: true,
+                configuration: {
+                  completed: true,
+                  tabs: [{ ...nestedTab, isIncomplete: true, attributes: [] }],
+                },
+              },
+            ],
+          },
+        ]),
+        failedValidations: [VALIDATION_MSG],
+      });
+
+      const parentGroup = result.groups[0];
+      expect(parentGroup.complete).toBe(false);
+      expect(parentGroup.incompleteBecauseOfChild).toBe(false);
     });
 
     it('should include nested container-row issues in totalNumberOfIssues', () => {

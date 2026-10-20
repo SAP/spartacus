@@ -105,7 +105,49 @@ export class CpqConfiguratorNormalizer
       );
     }
 
+    this.compileRootGroupComplete(source, resultTarget.groups);
+
     return resultTarget;
+  }
+
+  /**
+   * Marks the first root tab as incomplete when the CPQ configuration carries
+   * issues at root level (messages not tied to a tab). Those issues are stored
+   * on the configuration model only; without this step issue navigation would
+   * skip the root tab in favour of an incomplete nested configuration.
+   *
+   * @param source - CPQ configuration
+   * @param groups - Converted root groups
+   * @protected
+   */
+  protected compileRootGroupComplete(
+    source: Cpq.Configuration,
+    groups: Configurator.Group[]
+  ): void {
+    const firstGroup = groups[0];
+    if (firstGroup && this.hasRootLevelIssues(source)) {
+      firstGroup.complete = false;
+      firstGroup.incompleteBecauseOfChild = false;
+    }
+  }
+
+  /**
+   * Verifies whether the CPQ configuration carries issues at root level.
+   *
+   * @param source - CPQ configuration
+   * @returns `true` when root-level messages are present
+   * @protected
+   */
+  protected hasRootLevelIssues(source: Cpq.Configuration): boolean {
+    if (
+      (source.failedValidations?.length ?? 0) > 0 ||
+      (source.incompleteMessages?.length ?? 0) > 0 ||
+      (source.invalidMessages?.length ?? 0) > 0 ||
+      (source.errorMessages?.length ?? 0) > 0
+    ) {
+      return true;
+    }
+    return source.messages?.some((message) => !!message.message) ?? false;
   }
 
   protected generateTotalNumberOfIssues(source: Cpq.Configuration): number {
