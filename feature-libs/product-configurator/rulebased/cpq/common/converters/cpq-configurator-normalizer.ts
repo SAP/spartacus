@@ -139,15 +139,26 @@ export class CpqConfiguratorNormalizer
    * @protected
    */
   protected hasRootLevelIssues(source: Cpq.Configuration): boolean {
-    if (
-      (source.failedValidations?.length ?? 0) > 0 ||
-      (source.incompleteMessages?.length ?? 0) > 0 ||
-      (source.invalidMessages?.length ?? 0) > 0 ||
-      (source.errorMessages?.length ?? 0) > 0
-    ) {
-      return true;
-    }
-    return source.messages?.some((message) => !!message.message) ?? false;
+    return (
+      this.hasAnyRootLevelMessageList(source) ||
+      (source.messages?.some((message) => !!message.message) ?? false)
+    );
+  }
+
+  /**
+   * Verifies whether any of the CPQ root-level string message lists is non-empty.
+   *
+   * @param source - CPQ configuration
+   * @returns `true` when at least one list carries messages
+   * @protected
+   */
+  protected hasAnyRootLevelMessageList(source: Cpq.Configuration): boolean {
+    return [
+      source.failedValidations,
+      source.incompleteMessages,
+      source.invalidMessages,
+      source.errorMessages,
+    ].some((messages) => !!messages?.length);
   }
 
   protected generateTotalNumberOfIssues(source: Cpq.Configuration): number {
