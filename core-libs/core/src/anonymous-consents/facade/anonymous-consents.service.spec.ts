@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { BehaviorSubject, firstValueFrom, Observable, of } from 'rxjs';
@@ -84,7 +90,7 @@ describe('AnonymousConsentsService', () => {
 
   describe('getTemplates', () => {
     describe('when load parameter is false', () => {
-      it('should just call getAnonymousConsentTemplatesValue selector', () => {
+      it('should just call getAnonymousConsentTemplatesValue selector', async () => {
         vi.spyOn(service, 'loadTemplates').mockImplementation(() => {});
         store.dispatch(
           new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
@@ -92,11 +98,7 @@ describe('AnonymousConsentsService', () => {
           )
         );
 
-        let result: ConsentTemplate[];
-        service
-          .getTemplates()
-          .subscribe((value) => (result = value))
-          .unsubscribe();
+        const result = await firstValueFrom(service.getTemplates());
         expect(result).toEqual(mockConsentTemplates);
         expect(service.loadTemplates).not.toHaveBeenCalled();
       });
@@ -106,6 +108,10 @@ describe('AnonymousConsentsService', () => {
         vi.spyOn(service, 'loadTemplates').mockImplementation(() => {});
         vi.spyOn(service, 'getLoadTemplatesLoading').mockReturnValue(of(true));
 
+        // firstValueFrom cannot be used here: the observable never emits (blocked by
+        // filter(!loading)) and never completes (store selector is infinite), so
+        // firstValueFrom would time out. subscribe/unsubscribe triggers the tap
+        // synchronously and is the correct pattern for side-effect-only assertions.
         service.getTemplates(true).subscribe().unsubscribe();
         expect(service.loadTemplates).not.toHaveBeenCalled();
       });
@@ -113,10 +119,14 @@ describe('AnonymousConsentsService', () => {
         vi.spyOn(service, 'loadTemplates').mockImplementation(() => {});
         vi.spyOn(service, 'getLoadTemplatesLoading').mockReturnValue(of(false));
 
+        // firstValueFrom cannot be used here: the tap fires but filter(Boolean(templates))
+        // blocks emission since templates are undefined, and the store selector never
+        // completes, so firstValueFrom would time out. subscribe/unsubscribe triggers
+        // the tap synchronously and is the correct pattern for side-effect-only assertions.
         service.getTemplates(true).subscribe().unsubscribe();
         expect(service.loadTemplates).toHaveBeenCalled();
       });
-      it('should NOT attempt the load if templates already exist', () => {
+      it('should NOT attempt the load if templates already exist', async () => {
         vi.spyOn(service, 'loadTemplates').mockImplementation(() => {});
         vi.spyOn(service, 'getLoadTemplatesLoading').mockReturnValue(of(false));
         store.dispatch(
@@ -125,67 +135,51 @@ describe('AnonymousConsentsService', () => {
           )
         );
 
-        service.getTemplates(true).subscribe().unsubscribe();
+        await firstValueFrom(service.getTemplates(true));
         expect(service.loadTemplates).not.toHaveBeenCalled();
       });
     });
   });
 
-  it('getTemplate should call getAnonymousConsentTemplate selector', () => {
+  it('getTemplate should call getAnonymousConsentTemplate selector', async () => {
     store.dispatch(
       new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
         mockConsentTemplates
       )
     );
 
-    let result: ConsentTemplate;
-    service
-      .getTemplate(mockTemplateId)
-      .subscribe((value) => (result = value))
-      .unsubscribe();
+    const result = await firstValueFrom(service.getTemplate(mockTemplateId));
     expect(result).toEqual(mockConsentTemplates[0]);
   });
 
-  it('getLoadTemplatesLoading should call getAnonymousConsentTemplatesLoading selector', () => {
+  it('getLoadTemplatesLoading should call getAnonymousConsentTemplatesLoading selector', async () => {
     store.dispatch(
       new AnonymousConsentsActions.LoadAnonymousConsentTemplates()
     );
 
-    let result = false;
-    service
-      .getLoadTemplatesLoading()
-      .subscribe((value) => (result = value))
-      .unsubscribe();
+    const result = await firstValueFrom(service.getLoadTemplatesLoading());
     expect(result).toEqual(true);
   });
 
-  it('getLoadTemplatesSuccess should call getAnonymousConsentTemplatesSuccess selector', () => {
+  it('getLoadTemplatesSuccess should call getAnonymousConsentTemplatesSuccess selector', async () => {
     store.dispatch(
       new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
         mockConsentTemplates
       )
     );
 
-    let result = false;
-    service
-      .getLoadTemplatesSuccess()
-      .subscribe((value) => (result = value))
-      .unsubscribe();
+    const result = await firstValueFrom(service.getLoadTemplatesSuccess());
     expect(result).toEqual(true);
   });
 
-  it('getLoadTemplatesError should call getAnonymousConsentTemplatesError selector', () => {
+  it('getLoadTemplatesError should call getAnonymousConsentTemplatesError selector', async () => {
     store.dispatch(
       new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
         new Error('an error')
       )
     );
 
-    let result = false;
-    service
-      .getLoadTemplatesError()
-      .subscribe((value) => (result = value))
-      .unsubscribe();
+    const result = await firstValueFrom(service.getLoadTemplatesError());
     expect(result).toEqual(true);
   });
 
@@ -196,16 +190,12 @@ describe('AnonymousConsentsService', () => {
     );
   });
 
-  it('getConsents should call getAnonymousConsents selector', () => {
+  it('getConsents should call getAnonymousConsents selector', async () => {
     store.dispatch(
       new AnonymousConsentsActions.SetAnonymousConsents(mockAnonymousConsents)
     );
 
-    let result: AnonymousConsent[];
-    service
-      .getConsents()
-      .subscribe((value) => (result = value))
-      .unsubscribe();
+    const result = await firstValueFrom(service.getConsents());
     expect(result).toEqual(mockAnonymousConsents);
   });
 
@@ -218,7 +208,7 @@ describe('AnonymousConsentsService', () => {
 
   describe('getConsent', () => {
     describe('when the user is anonymous', () => {
-      it('should call getAnonymousConsentByTemplateCode selector', () => {
+      it('should call getAnonymousConsentByTemplateCode selector', async () => {
         vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
         vi.spyOn(service, 'getTemplates').mockReturnValue(
           of(mockConsentTemplates)
@@ -229,11 +219,9 @@ describe('AnonymousConsentsService', () => {
           )
         );
 
-        let result: AnonymousConsent;
-        service
-          .getConsent(mockTemplateId)
-          .subscribe((value) => (result = value))
-          .unsubscribe();
+        const result = await firstValueFrom(
+          service.getConsent(mockTemplateId)
+        );
         expect(result).toEqual(mockAnonymousConsents[0]);
       });
     });
@@ -242,6 +230,10 @@ describe('AnonymousConsentsService', () => {
         vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(true));
         vi.spyOn(service, 'getTemplates').mockImplementation(() => {});
 
+        // firstValueFrom cannot be used here: getConsent returns EMPTY for logged-in
+        // users, which completes without emitting. firstValueFrom would throw EmptyError.
+        // subscribe/unsubscribe triggers the subscription synchronously and is the
+        // correct pattern for side-effect-only assertions.
         service.getConsent(mockTemplateId).subscribe().unsubscribe();
 
         expect(service.getTemplates).not.toHaveBeenCalled();
@@ -256,11 +248,11 @@ describe('AnonymousConsentsService', () => {
     );
   });
 
-  it('giveAllConsents should give anonymous consent for each consent template', () => {
+  it('giveAllConsents should give anonymous consent for each consent template', async () => {
     vi.spyOn(service, 'getTemplates').mockReturnValue(of(mockConsentTemplates));
     vi.spyOn(service, 'giveConsent').mockImplementation(() => {});
 
-    service.giveAllConsents().subscribe().unsubscribe();
+    await firstValueFrom(service.giveAllConsents());
 
     expect(service.getTemplates).toHaveBeenCalled();
     expect(service.giveConsent).toHaveBeenCalledTimes(
@@ -290,11 +282,11 @@ describe('AnonymousConsentsService', () => {
     );
   });
 
-  it('withdrawAllConsents should withdraw anonymous consent for each consent template', () => {
+  it('withdrawAllConsents should withdraw anonymous consent for each consent template', async () => {
     vi.spyOn(service, 'getTemplates').mockReturnValue(of(mockConsentTemplates));
     vi.spyOn(service, 'withdrawConsent').mockImplementation(() => {});
 
-    service.withdrawAllConsents().subscribe().unsubscribe();
+    await firstValueFrom(service.withdrawAllConsents());
 
     expect(service.getTemplates).toHaveBeenCalled();
     expect(service.withdrawConsent).toHaveBeenCalledTimes(
@@ -407,23 +399,19 @@ describe('AnonymousConsentsService', () => {
     });
   });
 
-  it('isBannerDismissed should call getAnonymousConsentsBannerDismissed selector', () => {
+  it('isBannerDismissed should call getAnonymousConsentsBannerDismissed selector', async () => {
     store.dispatch(
       new AnonymousConsentsActions.ToggleAnonymousConsentsBannerDissmissed(
         false
       )
     );
 
-    let result = true;
-    service
-      .isBannerDismissed()
-      .subscribe((value) => (result = value))
-      .unsubscribe();
+    const result = await firstValueFrom(service.isBannerDismissed());
     expect(result).toEqual(false);
   });
 
   describe('getTemplatesUpdated', () => {
-    it('should call getAnonymousConsentTemplatesUpdate selector and getTemplates(true)', () => {
+    it('should call getAnonymousConsentTemplatesUpdate selector and getTemplates(true)', async () => {
       vi.spyOn(service, 'getTemplates').mockReturnValue(of([]));
       store.dispatch(
         new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
@@ -431,11 +419,7 @@ describe('AnonymousConsentsService', () => {
         )
       );
 
-      let result = true;
-      service
-        .getTemplatesUpdated()
-        .subscribe((value) => (result = value))
-        .unsubscribe();
+      const result = await firstValueFrom(service.getTemplatesUpdated());
       expect(result).toEqual(false);
       expect(service.getTemplates).toHaveBeenCalledWith(true);
     });
