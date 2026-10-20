@@ -244,13 +244,19 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   ]).pipe(map(([exceedsThreshold, readOnly]) => exceedsThreshold && !readOnly));
 
   /**
-   * Emits 'true' if the show/hide control for bundle line items should be rendered.
-   * It is hidden when the threshold is exceeded (overview link or read-only case).
+   * Emits 'true' if bundle line items are listed in the cart entry (item count and
+   * show/hide control). Both are hidden when the threshold is exceeded.
    */
-  readonly showItemsToggle$: Observable<boolean> =
+  readonly showBundleLineItemsInCart$: Observable<boolean> =
     this.exceedsCartEntryBundleLineItemsThreshold$.pipe(
       map((exceedsThreshold) => !exceedsThreshold)
     );
+
+  /** @see showBundleLineItemsInCart$ */
+  readonly showItemsToggle$ = this.showBundleLineItemsInCart$;
+
+  /** @see showBundleLineItemsInCart$ */
+  readonly showBundleLineItemCount$ = this.showBundleLineItemsInCart$;
 
   /**
    * Retrieves the maximum number of line items that are expanded within the cart entry.

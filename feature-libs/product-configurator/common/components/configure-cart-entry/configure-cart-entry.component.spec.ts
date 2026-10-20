@@ -454,7 +454,7 @@ describe('ConfigureCartEntryComponent', () => {
           );
         });
 
-        it("should be 'Show' for a bundle overview link", () => {
+        it("should be 'Display Configuration' for a bundle overview link", () => {
           component.readOnly = true;
           component.isBundleOverviewLink = true;
           component.cartEntry = {
@@ -466,7 +466,7 @@ describe('ConfigureCartEntryComponent', () => {
             expect,
             htmlElem,
             'a',
-            'configurator.header.show'
+            'configurator.header.displayConfiguration'
           );
         });
       });

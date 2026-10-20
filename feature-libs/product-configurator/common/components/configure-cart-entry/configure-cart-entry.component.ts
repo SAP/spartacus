@@ -227,7 +227,7 @@ export class ConfigureCartEntryComponent {
    */
   getCpqContainerLinkTextResourceKey(): string {
     if (this.isBundleOverviewLink) {
-      return 'configurator.header.show';
+      return 'configurator.header.displayConfiguration';
     }
     if (this.getDisplayOnly()) {
       return 'configurator.header.displayConfiguration';
