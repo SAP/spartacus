@@ -19,10 +19,14 @@ import { EMPTY, Observable } from 'rxjs';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-cart-entry.component';
 
+/**
+ * Requires default change detection strategy, as the disabled state of the quantity from control may change,
+ * which would not be proper detected with onPush strategy.
+ */
 @Component({
   selector: 'cx-configurator-issues-notification',
   templateUrl: './configurator-issues-notification.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
   imports: [
     NgIf,
     IconComponent,
