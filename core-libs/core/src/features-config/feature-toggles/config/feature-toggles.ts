@@ -610,6 +610,25 @@ export interface FeatureTogglesInterface {
   propagateLogoutToAllTabs?: boolean;
 
   /**
+   * When enabled, the post-logout redirect respects the `logout.redirectRoute`
+   * option in `LogoutConfig`. When disabled (default), the guard always redirects
+   * to the home page (or login page for protected storefronts), preserving the
+   * pre-existing behavior.
+   *
+   * Affects: `LogoutGuard`
+   *
+   * To override the default redirect route, provide `LogoutConfig` in your module:
+   * ```ts
+   * provideConfig({
+   *   logout: {
+   *     redirectRoute: 'login',
+   *   },
+   * } as LogoutConfig)
+   * ```
+   */
+  useConfigurableLogoutRedirect?: boolean;
+
+  /**
    * When enabled, adds support for asynchronous configuration of the oAuth service and adds a default
    * initializer to adjust the oauth client details based on URL context parameters.
    *
@@ -838,6 +857,14 @@ export interface FeatureTogglesInterface {
   enableFormFieldMaxLength?: boolean;
 
   /**
+   * Makes the CVV (Card Verification Value) info icon in the checkout
+   * payment form keyboard accessible by rendering it as a focusable button.
+   *
+   * Affects: `CheckoutPaymentFormComponent`
+   */
+  a11yCvvInfoIconKeyboardAccessible?: boolean;
+
+  /**
    * When enabled, adds arrow key navigation to organization administration
    * navigation tiles/cards on the My Company landing page (CompanyPageTemplate),
    * turning the banner tile group into a composite keyboard widget.
@@ -992,6 +1019,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yAddToWishListBtnMargin: false,
   a11yProductListItemNameMargin: false,
   propagateLogoutToAllTabs: false,
+  useConfigurableLogoutRedirect: false,
   asyncAuthConfigInitializer: false,
   siteIsolationForCustomLoginPage: false,
   applyBaseSiteThemeFromCms: false,
@@ -1014,6 +1042,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showWarningMessageOnRequoteButtonClick: false,
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
+  a11yCvvInfoIconKeyboardAccessible: false,
   a11yBannerArrowKeyNavigation: false,
   a11yTableKeyboardNavigation: false,
   a11yPaginationKeyboardNavigation: false,
