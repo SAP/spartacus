@@ -12,6 +12,7 @@ import {
   HostBinding,
   ViewChild,
   inject,
+  signal,
 } from '@angular/core';
 import { RoutingService, TranslatePipe } from '@spartacus/core';
 import {
@@ -28,19 +29,27 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 @Component({
   selector: 'cx-configurator-tab-bar',
   templateUrl: './configurator-tab-bar.component.html',
-  //here we cannot go with OnPush, as we otherwise do not take the change to host binding into account
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorTabBarComponent {
-  @HostBinding('class.ghost') ghostStyle = true;
   @ViewChild('configTab') configTab: ElementRef<HTMLElement>;
   @ViewChild('overviewTab') overviewTab: ElementRef<HTMLElement>;
 
   private static readonly TAB_BAR_QUERY_SELECTOR = 'cx-configurator-tab-bar';
+  protected readonly isGhost = signal(true);
   protected routingService = inject(RoutingService);
   protected configUtils = inject(ConfiguratorStorefrontUtilsService);
   protected focusService = inject(KeyboardFocusService);
+
+  @HostBinding('class.ghost')
+  get ghostStyle(): boolean {
+    return this.isGhost();
+  }
+
+  set ghostStyle(value: boolean) {
+    this.isGhost.set(value);
+  }
 
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
