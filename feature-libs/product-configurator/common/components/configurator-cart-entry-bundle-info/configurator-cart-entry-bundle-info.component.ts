@@ -42,10 +42,14 @@ import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-c
 import { LineItem } from './configurator-cart-entry-bundle-info.model';
 import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entry-bundle-info.service';
 
+/**
+ * Requires default change detection strategy, as the disabled state of the quantity from control may change,
+ * which would not be proper detected with onPush strategy.
+ */
 @Component({
   selector: 'cx-configurator-cart-entry-bundle-info',
   templateUrl: './configurator-cart-entry-bundle-info.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
   imports: [
     NgIf,
     NgFor,
