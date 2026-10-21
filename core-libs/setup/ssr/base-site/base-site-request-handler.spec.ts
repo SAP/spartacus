@@ -86,7 +86,13 @@ describe('createBaseSiteRequestHandler', () => {
       (request) => {
         seen = request.baseSite;
       },
-      { resolver: { resolve: async () => 'electronics-spa' } }
+      {
+        resolver: {
+          supportsOccResolution: true,
+          resolveFromPath: () => null,
+          resolveFromOcc: async () => 'electronics-spa',
+        },
+      }
     );
 
     await handler(createRequest(), createResponse(), createNext());
@@ -100,7 +106,13 @@ describe('createBaseSiteRequestHandler', () => {
       (request) => {
         seen = request.baseSite;
       },
-      { resolver: { resolve: async () => null } }
+      {
+        resolver: {
+          supportsOccResolution: true,
+          resolveFromPath: () => null,
+          resolveFromOcc: async () => null,
+        },
+      }
     );
 
     await handler(createRequest(), createResponse(), createNext());
@@ -113,7 +125,13 @@ describe('createBaseSiteRequestHandler', () => {
       (request, response) => {
         response.send(request.baseSite ?? '');
       },
-      { resolver: { resolve: async (requestUrl) => requestUrl } }
+      {
+        resolver: {
+          supportsOccResolution: true,
+          resolveFromPath: () => null,
+          resolveFromOcc: async (requestUrl) => requestUrl,
+        },
+      }
     );
     const response = createResponse();
 
@@ -141,7 +159,13 @@ describe('createBaseSiteRequestHandler', () => {
         await done;
         response.send('late');
       },
-      { resolver: { resolve: async () => 'electronics' } }
+      {
+        resolver: {
+          supportsOccResolution: true,
+          resolveFromPath: () => null,
+          resolveFromOcc: async () => 'electronics',
+        },
+      }
     );
 
     const handling = handler(createRequest(), response, createNext());
@@ -153,7 +177,11 @@ describe('createBaseSiteRequestHandler', () => {
   });
 
   it('uses the process-wide default resolver when none is passed', async () => {
-    setDefaultBaseSiteResolver({ resolve: async () => 'from-default' });
+    setDefaultBaseSiteResolver({
+      supportsOccResolution: false,
+      resolveFromPath: () => null,
+      resolveFromOcc: async () => 'from-default',
+    });
     let seen: string | null | undefined;
     const handler = createBaseSiteRequestHandler((request) => {
       seen = request.baseSite;
@@ -185,7 +213,11 @@ describe('createBaseSiteRequestHandler', () => {
       const next = createNext();
       const response = createResponse();
       const handler = createBaseSiteRequestHandler(() => undefined, {
-        resolver: { resolve: async () => Promise.reject(error) },
+        resolver: {
+          supportsOccResolution: true,
+          resolveFromPath: () => null,
+          resolveFromOcc: async () => Promise.reject(error),
+        },
       });
 
       await handler(createRequest(), response, next);
@@ -215,7 +247,11 @@ describe('createBaseSiteRequestHandler', () => {
     async ({ error, retryAfterSeconds, retryAfter }) => {
       const response = createResponse();
       const handler = createBaseSiteRequestHandler(() => undefined, {
-        resolver: { resolve: async () => Promise.reject(error) },
+        resolver: {
+          supportsOccResolution: true,
+          resolveFromPath: () => null,
+          resolveFromOcc: async () => Promise.reject(error),
+        },
         retryAfterSeconds,
       });
 
@@ -230,7 +266,11 @@ describe('createBaseSiteRequestHandler', () => {
     const error = new Error('unexpected resolver failure');
     const next = createNext();
     const handler = createBaseSiteRequestHandler(() => undefined, {
-      resolver: { resolve: async () => Promise.reject(error) },
+      resolver: {
+        supportsOccResolution: true,
+        resolveFromPath: () => null,
+        resolveFromOcc: async () => Promise.reject(error),
+      },
     });
 
     await handler(createRequest(), createResponse(), next);
@@ -245,7 +285,13 @@ describe('createBaseSiteRequestHandler', () => {
       () => {
         throw error;
       },
-      { resolver: { resolve: async () => 'electronics' } }
+      {
+        resolver: {
+          supportsOccResolution: true,
+          resolveFromPath: () => null,
+          resolveFromOcc: async () => 'electronics',
+        },
+      }
     );
 
     await handler(createRequest(), createResponse(), next);

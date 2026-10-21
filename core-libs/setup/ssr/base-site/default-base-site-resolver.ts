@@ -7,8 +7,8 @@
 import { toJsRegExp } from '@spartacus/core';
 import {
   BaseSiteResolver,
+  BaseSiteResolverOptions,
   ConcurrencyLimitError,
-  DefaultBaseSiteResolverOptions,
   OccUnavailableError,
 } from './base-site-resolver';
 
@@ -23,8 +23,9 @@ interface FetchedBaseSites {
 }
 
 export class DefaultBaseSiteResolver implements BaseSiteResolver {
-  private readonly staticSites: OccBaseSite[] | null;
+  private readonly uidSet: Set<string>;
   private readonly occUrl: string | null;
+  readonly supportsOccResolution: boolean;
   private readonly cacheTtlMs: number;
   private readonly concurrencyLimit: number;
   private readonly timeoutMs: number;
@@ -34,44 +35,37 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
   private initPromise: Promise<FetchedBaseSites> | null = null;
   private inFlight = 0;
 
-  constructor(options: DefaultBaseSiteResolverOptions) {
-    if (options.baseSites) {
-      this.staticSites = options.baseSites;
-      this.occUrl = null;
-    } else if (options.occBaseUrl) {
+  constructor(options: BaseSiteResolverOptions) {
+    this.uidSet = new Set(options.baseSites);
+    if (options.occBaseUrl) {
       const baseUrl = options.occBaseUrl.replace(/\/+$/, '');
-      const prefix = (options.occApiPrefix ?? '/occ/v2').replace(
-        /^\/+|\/+$/g,
-        ''
-      );
-      this.staticSites = null;
-      this.occUrl = `${baseUrl}/${prefix}/basesites?fields=FULL`;
+      this.occUrl = `${baseUrl}/occ/v2/basesites?fields=FULL`;
     } else {
-      throw new Error(
-        'DefaultBaseSiteResolver requires either a static `baseSites` list or an `occBaseUrl`.'
-      );
+      this.occUrl = null;
     }
+    this.supportsOccResolution = Boolean(options.occBaseUrl);
     this.cacheTtlMs = options.cacheTtlMs ?? 60_000;
     this.concurrencyLimit = options.concurrencyLimit ?? 10;
     this.timeoutMs = options.timeoutMs ?? 3_000;
   }
 
-  async resolve(requestUrl: string): Promise<string | null> {
+  resolveFromPath(requestUrl: string): string | null {
+    const { pathname } = new URL(requestUrl);
+    const segment = pathname.split('/').find((s) => s.length > 0) ?? null;
+    return segment !== null && this.uidSet.has(segment) ? segment : null;
+  }
+
+  async resolveFromOcc(requestUrl: string): Promise<string | null> {
     const sites = await this.getSites();
     const matchedSite = sites.find((site) =>
       site.urlPatterns?.some(
         (pattern) => toJsRegExp(pattern)?.test(requestUrl) ?? false
       )
     );
-
     return matchedSite?.uid ?? null;
   }
 
   private async getSites(): Promise<OccBaseSite[]> {
-    if (this.staticSites) {
-      return this.staticSites;
-    }
-
     if (
       this.cachedSites !== null &&
       Date.now() - this.cachedAt < this.cacheTtlMs

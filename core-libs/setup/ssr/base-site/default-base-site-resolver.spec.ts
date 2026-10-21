@@ -39,6 +39,22 @@ function deferred<T>(): {
   return { promise, resolve, reject };
 }
 
+describe('DefaultBaseSiteResolver.resolveFromPath', () => {
+  const resolver = new DefaultBaseSiteResolver({ baseSites: ['electronics-spa', 'apparel-uk'] });
+  it('returns the leading path segment when it is a known uid', () => {
+    expect(resolver.resolveFromPath('https://host/electronics-spa/llms.txt')).toBe('electronics-spa');
+  });
+  it('returns null when the leading segment is not a known uid', () => {
+    expect(resolver.resolveFromPath('https://host/unknown-site/llms.txt')).toBeNull();
+  });
+  it('ignores query string and trailing slash', () => {
+    expect(resolver.resolveFromPath('https://host/apparel-uk/llms.txt?x=1')).toBe('apparel-uk');
+  });
+  it('returns null when there is no leading segment', () => {
+    expect(resolver.resolveFromPath('https://host/llms.txt')).toBeNull();
+  });
+});
+
 describe('DefaultBaseSiteResolver', () => {
   const originalFetch = globalThis.fetch;
   let fetchSpy: jest.MockedFunction<typeof fetch>;
@@ -66,11 +82,12 @@ describe('DefaultBaseSiteResolver', () => {
       ])
     );
     const resolver = new DefaultBaseSiteResolver({
+      baseSites: [],
       occBaseUrl: 'https://api.example',
     });
 
     await expect(
-      resolver.resolve('https://shop.example/electronics/en/USD')
+      resolver.resolveFromOcc('https://shop.example/electronics/en/USD')
     ).resolves.toBe('electronics-spa');
   });
 
@@ -82,10 +99,11 @@ describe('DefaultBaseSiteResolver', () => {
       ])
     );
     const resolver = new DefaultBaseSiteResolver({
+      baseSites: [],
       occBaseUrl: 'https://api.example',
     });
 
-    await expect(resolver.resolve('https://shop.example/')).resolves.toBe(
+    await expect(resolver.resolveFromOcc('https://shop.example/')).resolves.toBe(
       'valid'
     );
   });
@@ -95,19 +113,21 @@ describe('DefaultBaseSiteResolver', () => {
       occResponse([{ uid: 'other', urlPatterns: ['^https://other'] }])
     );
     const resolver = new DefaultBaseSiteResolver({
+      baseSites: [],
       occBaseUrl: 'https://api.example',
     });
 
-    await expect(resolver.resolve('https://shop.example/')).resolves.toBeNull();
+    await expect(resolver.resolveFromOcc('https://shop.example/')).resolves.toBeNull();
   });
 
   it('returns null for an empty base-sites payload', async () => {
     fetchSpy.mockResolvedValue(occResponse([]));
     const resolver = new DefaultBaseSiteResolver({
+      baseSites: [],
       occBaseUrl: 'https://api.example',
     });
 
-    await expect(resolver.resolve('https://shop.example/')).resolves.toBeNull();
+    await expect(resolver.resolveFromOcc('https://shop.example/')).resolves.toBeNull();
   });
 
   it('does not cache an omitted baseSites payload', async () => {
@@ -117,36 +137,17 @@ describe('DefaultBaseSiteResolver', () => {
         occResponse([{ uid: 'site', urlPatterns: ['shop\\.example'] }])
       );
     const resolver = new DefaultBaseSiteResolver({
+      baseSites: [],
       occBaseUrl: 'https://api.example',
     });
 
     await expect(
-      resolver.resolve('https://shop.example/')
+      resolver.resolveFromOcc('https://shop.example/')
     ).resolves.toBeNull();
-    await expect(resolver.resolve('https://shop.example/')).resolves.toBe(
+    await expect(resolver.resolveFromOcc('https://shop.example/')).resolves.toBe(
       'site'
     );
     expect(fetchSpy).toHaveBeenCalledTimes(2);
-  });
-
-  it('matches a static base-site list and never calls OCC', async () => {
-    const resolver = new DefaultBaseSiteResolver({
-      baseSites: [
-        { uid: 'wrong', urlPatterns: ['^https://wrong\\.example'] },
-        {
-          uid: 'electronics-spa',
-          urlPatterns: ['(?i)^https://shop\\.example/electronics'],
-        },
-      ],
-    });
-
-    await expect(
-      resolver.resolve('https://shop.example/electronics/en/USD')
-    ).resolves.toBe('electronics-spa');
-    await expect(
-      resolver.resolve('https://shop.example/other')
-    ).resolves.toBeNull();
-    expect(fetchSpy).not.toHaveBeenCalled();
   });
 
   it('rejects a malformed payload without poisoning the cache', async () => {
@@ -162,38 +163,35 @@ describe('DefaultBaseSiteResolver', () => {
         occResponse([{ uid: 'site', urlPatterns: ['shop\\.example'] }])
       );
     const resolver = new DefaultBaseSiteResolver({
+      baseSites: [],
       occBaseUrl: 'https://api.example',
     });
 
     await expect(
-      resolver.resolve('https://shop.example/')
+      resolver.resolveFromOcc('https://shop.example/')
     ).rejects.toBeInstanceOf(OccUnavailableError);
-    await expect(resolver.resolve('https://shop.example/')).resolves.toBe(
+    await expect(resolver.resolveFromOcc('https://shop.example/')).resolves.toBe(
       'site'
     );
     expect(fetchSpy).toHaveBeenCalledTimes(2);
   });
 
   it.each([
-    ['https://api.example', undefined],
-    ['https://api.example/', undefined],
-    ['https://api.example', '/custom/v3/'],
-    ['https://api.example/', 'custom/v3'],
-    ['https://api.example/', '/custom/v3/'],
+    ['https://api.example'],
+    ['https://api.example/'],
   ])(
-    'normalizes OCC URL parts for base %s and prefix %s',
-    async (occBaseUrl, occApiPrefix) => {
+    'normalizes OCC URL trailing slash for base %s',
+    async (occBaseUrl) => {
       fetchSpy.mockResolvedValue(occResponse([]));
       const resolver = new DefaultBaseSiteResolver({
+        baseSites: [],
         occBaseUrl,
-        occApiPrefix,
       });
 
-      await resolver.resolve('https://shop.example/');
+      await resolver.resolveFromOcc('https://shop.example/');
 
-      const expectedPrefix = occApiPrefix ? '/custom/v3' : '/occ/v2';
       expect(fetchSpy).toHaveBeenCalledWith(
-        `https://api.example${expectedPrefix}/basesites?fields=FULL`,
+        `https://api.example/occ/v2/basesites?fields=FULL`,
         expect.objectContaining({
           headers: { Accept: 'application/json' },
         })
@@ -206,13 +204,14 @@ describe('DefaultBaseSiteResolver', () => {
       occResponse([{ uid: 'site', urlPatterns: ['shop\\.example'] }])
     );
     const resolver = new DefaultBaseSiteResolver({
+      baseSites: [],
       occBaseUrl: 'https://api.example',
     });
 
-    await expect(resolver.resolve('https://shop.example/')).resolves.toBe(
+    await expect(resolver.resolveFromOcc('https://shop.example/')).resolves.toBe(
       'site'
     );
-    await expect(resolver.resolve('https://shop.example/again')).resolves.toBe(
+    await expect(resolver.resolveFromOcc('https://shop.example/again')).resolves.toBe(
       'site'
     );
 
@@ -230,18 +229,19 @@ describe('DefaultBaseSiteResolver', () => {
         occResponse([{ uid: 'second', urlPatterns: ['shop\\.example'] }])
       );
     const resolver = new DefaultBaseSiteResolver({
+      baseSites: [],
       occBaseUrl: 'https://api.example',
     });
 
-    await expect(resolver.resolve('https://shop.example/')).resolves.toBe(
+    await expect(resolver.resolveFromOcc('https://shop.example/')).resolves.toBe(
       'first'
     );
     now = 60_999;
-    await expect(resolver.resolve('https://shop.example/')).resolves.toBe(
+    await expect(resolver.resolveFromOcc('https://shop.example/')).resolves.toBe(
       'first'
     );
     now = 61_000;
-    await expect(resolver.resolve('https://shop.example/')).resolves.toBe(
+    await expect(resolver.resolveFromOcc('https://shop.example/')).resolves.toBe(
       'second'
     );
 
@@ -252,13 +252,14 @@ describe('DefaultBaseSiteResolver', () => {
     const pendingResponse = deferred<Response>();
     fetchSpy.mockReturnValue(pendingResponse.promise);
     const resolver = new DefaultBaseSiteResolver({
+      baseSites: [],
       occBaseUrl: 'https://api.example',
     });
 
     const accepted = Array.from({ length: 10 }, () =>
-      resolver.resolve('https://shop.example/')
+      resolver.resolveFromOcc('https://shop.example/')
     );
-    const shed = resolver.resolve('https://shop.example/');
+    const shed = resolver.resolveFromOcc('https://shop.example/');
     pendingResponse.resolve(
       occResponse([{ uid: 'site', urlPatterns: ['shop\\.example'] }])
     );
@@ -278,18 +279,19 @@ describe('DefaultBaseSiteResolver', () => {
         occResponse([{ uid: 'site', urlPatterns: ['shop\\.example'] }])
       );
     const resolver = new DefaultBaseSiteResolver({
+      baseSites: [],
       occBaseUrl: 'https://api.example',
       cacheTtlMs: 0,
       concurrencyLimit: 1,
     });
 
-    const first = resolver.resolve('https://shop.example/');
-    const shed = resolver.resolve('https://shop.example/');
+    const first = resolver.resolveFromOcc('https://shop.example/');
+    const shed = resolver.resolveFromOcc('https://shop.example/');
     firstResponse.resolve(occResponse([]));
 
     await expect(shed).rejects.toBeInstanceOf(ConcurrencyLimitError);
     await expect(first).resolves.toBeNull();
-    await expect(resolver.resolve('https://shop.example/')).resolves.toBe(
+    await expect(resolver.resolveFromOcc('https://shop.example/')).resolves.toBe(
       'site'
     );
   });
@@ -302,10 +304,11 @@ describe('DefaultBaseSiteResolver', () => {
       body: { cancel },
     } as unknown as Response);
     const resolver = new DefaultBaseSiteResolver({
+      baseSites: [],
       occBaseUrl: 'https://api.example',
     });
 
-    await expect(resolver.resolve('https://shop.example/')).rejects.toEqual(
+    await expect(resolver.resolveFromOcc('https://shop.example/')).rejects.toEqual(
       expect.objectContaining({
         name: 'OccUnavailableError',
         message: 'OCC base-sites request failed with status 503',
@@ -318,10 +321,11 @@ describe('DefaultBaseSiteResolver', () => {
     const networkError = new Error('connection refused');
     fetchSpy.mockRejectedValue(networkError);
     const resolver = new DefaultBaseSiteResolver({
+      baseSites: [],
       occBaseUrl: 'https://api.example',
     });
 
-    await expect(resolver.resolve('https://shop.example/')).rejects.toEqual(
+    await expect(resolver.resolveFromOcc('https://shop.example/')).rejects.toEqual(
       expect.objectContaining({
         name: 'OccUnavailableError',
         cause: networkError,
@@ -337,10 +341,11 @@ describe('DefaultBaseSiteResolver', () => {
       json: jest.fn().mockRejectedValue(parseError),
     } as unknown as Response);
     const resolver = new DefaultBaseSiteResolver({
+      baseSites: [],
       occBaseUrl: 'https://api.example',
     });
 
-    await expect(resolver.resolve('https://shop.example/')).rejects.toEqual(
+    await expect(resolver.resolveFromOcc('https://shop.example/')).rejects.toEqual(
       expect.objectContaining({
         name: 'OccUnavailableError',
         cause: parseError,
@@ -365,12 +370,13 @@ describe('DefaultBaseSiteResolver', () => {
         occResponse([{ uid: 'site', urlPatterns: ['shop\\.example'] }])
       );
     const resolver = new DefaultBaseSiteResolver({
+      baseSites: [],
       occBaseUrl: 'https://api.example',
       concurrencyLimit: 1,
     });
 
-    const result = resolver.resolve('https://shop.example/');
-    const shed = resolver.resolve('https://shop.example/');
+    const result = resolver.resolveFromOcc('https://shop.example/');
+    const shed = resolver.resolveFromOcc('https://shop.example/');
     const expectedTimeout = expect(result).rejects.toEqual(
       expect.objectContaining({
         name: 'OccUnavailableError',
@@ -388,7 +394,7 @@ describe('DefaultBaseSiteResolver', () => {
     await expectedTimeout;
     await expectedShed;
     expect(jest.getTimerCount()).toBe(0);
-    await expect(resolver.resolve('https://shop.example/')).resolves.toBe(
+    await expect(resolver.resolveFromOcc('https://shop.example/')).resolves.toBe(
       'site'
     );
     expect(fetchSpy).toHaveBeenCalledTimes(2);
@@ -398,10 +404,11 @@ describe('DefaultBaseSiteResolver', () => {
     jest.useFakeTimers();
     fetchSpy.mockResolvedValue(occResponse([]));
     const resolver = new DefaultBaseSiteResolver({
+      baseSites: [],
       occBaseUrl: 'https://api.example',
     });
 
-    await resolver.resolve('https://shop.example/');
+    await resolver.resolveFromOcc('https://shop.example/');
 
     expect(fetchSpy).toHaveBeenCalledWith(
       expect.any(String),
@@ -418,15 +425,16 @@ describe('DefaultBaseSiteResolver', () => {
         occResponse([{ uid: 'site', urlPatterns: ['shop\\.example'] }])
       );
     const resolver = new DefaultBaseSiteResolver({
+      baseSites: [],
       occBaseUrl: 'https://api.example',
       concurrencyLimit: 2,
     });
 
     const accepted = [
-      resolver.resolve('https://shop.example/'),
-      resolver.resolve('https://shop.example/'),
+      resolver.resolveFromOcc('https://shop.example/'),
+      resolver.resolveFromOcc('https://shop.example/'),
     ];
-    const shed = resolver.resolve('https://shop.example/');
+    const shed = resolver.resolveFromOcc('https://shop.example/');
     const expectedFailures = accepted.map((result) =>
       expect(result).rejects.toBeInstanceOf(OccUnavailableError)
     );
@@ -437,7 +445,7 @@ describe('DefaultBaseSiteResolver', () => {
 
     await Promise.all(expectedFailures);
     await expectedShed;
-    await expect(resolver.resolve('https://shop.example/')).resolves.toBe(
+    await expect(resolver.resolveFromOcc('https://shop.example/')).resolves.toBe(
       'site'
     );
     expect(fetchSpy).toHaveBeenCalledTimes(2);

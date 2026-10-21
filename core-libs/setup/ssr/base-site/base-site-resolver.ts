@@ -4,26 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/** A statically configured base site, matched exactly like an OCC base site. */
-export interface StaticBaseSite {
-  uid: string;
-  urlPatterns: string[];
-}
-
 /** Options for the default base-site resolver. */
-export interface DefaultBaseSiteResolverOptions {
+export interface BaseSiteResolverOptions {
+  /** Known base-site uids for path-segment matching. */
+  baseSites: string[];
   /**
-   * Authoritative, statically configured base-site list. When provided, the
-   * resolver matches against it in memory and never calls OCC.
-   */
-  baseSites?: StaticBaseSite[];
-  /**
-   * OCC backend base URL, for example `https://api.example.com`. Required
-   * unless a static `baseSites` list is provided.
+   * OCC backend base URL, for example `https://api.example.com`. When
+   * provided, `supportsOccResolution` is `true` and OCC URL patterns are
+   * used as a secondary resolution strategy.
    */
   occBaseUrl?: string;
-  /** OCC API prefix. Default: `/occ/v2`. */
-  occApiPrefix?: string;
   /** In-memory base-sites cache lifetime in milliseconds. Default: `60_000`. */
   cacheTtlMs?: number;
   /**
@@ -37,7 +27,18 @@ export interface DefaultBaseSiteResolverOptions {
 
 /** Resolves a storefront request URL to an OCC base-site uid. */
 export interface BaseSiteResolver {
-  resolve(requestUrl: string): Promise<string | null>;
+  /** True when this resolver can contact OCC to resolve sites by URL pattern. */
+  readonly supportsOccResolution: boolean;
+  /**
+   * Returns the leading path segment of `requestUrl` when it matches a known
+   * uid, otherwise `null`. Never performs I/O.
+   */
+  resolveFromPath(requestUrl: string): string | null;
+  /**
+   * Contacts OCC to match `requestUrl` against the base-site URL patterns.
+   * Returns the matched uid, or `null` if none matches.
+   */
+  resolveFromOcc(requestUrl: string): Promise<string | null>;
 }
 
 /** Thrown when the cold-cache concurrency limit has been reached. */
