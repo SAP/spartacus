@@ -75,7 +75,7 @@ export function createBaseSiteRequestHandler(
   return async (request, response, next) => {
     let baseSite: string | null;
     try {
-      baseSite = await resolver.resolve(getRequestUrl(request));
+      baseSite = await resolver.resolveFromOcc(getRequestUrl(request));
     } catch (error) {
       if (error instanceof ConcurrencyLimitError) {
         response.setHeader(
