@@ -234,13 +234,6 @@ describe('ConfigurationOverviewFormComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should display ghost view, consisting of 3 elements representing groups, if no data is present', () => {
-    defaultConfigObservable = NEVER;
-    initialize();
-
-    expect(htmlElem.querySelectorAll('.cx-ghost-group').length).toBe(3);
-  });
-
   it('should display configuration overview', () => {
     defaultConfigObservable = of(configCreate2);
     initialize();
@@ -916,5 +909,86 @@ describe('ConfigurationOverviewFormComponent', () => {
       const result = component.getGroupLevelStyleClasses(3, group.subGroups);
       expect(result).toEqual('cx-group subgroup subgroupLevel3');
     });
+  });
+});
+
+describe('ghost animation', () => {
+  let component: ConfiguratorOverviewFormComponent;
+  let fixture: ComponentFixture<ConfiguratorOverviewFormComponent>;
+  let htmlElem: HTMLElement;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        FeaturesConfigModule,
+        I18nTestingModule,
+        ConfiguratorOverviewFormComponent,
+        ConfiguratorOverviewAttributeComponent,
+      ],
+      providers: [
+        provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
+        },
+        { provide: ProductService, useClass: MockProductService },
+        { provide: DirectionService, useClass: MockDirectionService },
+      ],
+    })
+      .overrideComponent(ConfiguratorOverviewFormComponent, {
+        remove: {
+          imports: [ConfiguratorPriceComponent, TranslatePipe],
+        },
+        add: {
+          imports: [MockConfiguratorPriceComponent, MockTranslatePipe],
+        },
+      })
+      .compileComponents();
+    routerStateObservable = null;
+    configurationObservable = null;
+    overviewObservable = null;
+    defaultRouterStateObservable = of(mockRouterState);
+    defaultConfigObservable = of(configCreate2);
+  });
+
+  it('should render ghost placeholder while data is loading', () => {
+    defaultConfigObservable = NEVER;
+    fixture = TestBed.createComponent(ConfiguratorOverviewFormComponent);
+    htmlElem = fixture.nativeElement;
+    fixture.detectChanges();
+
+    expect(htmlElem.querySelectorAll('.cx-ghost-group').length).toBe(3);
+  });
+
+  it('should keep ghost host class while data is loading', () => {
+    defaultConfigObservable = NEVER;
+    fixture = TestBed.createComponent(ConfiguratorOverviewFormComponent);
+    htmlElem = fixture.nativeElement;
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+
+    expect(htmlElem.classList.contains('ghost')).toBe(true);
+    expect(component.ghostStyle).toBe(true);
+  });
+
+  it('should remove ghost host class once data is available', () => {
+    defaultConfigObservable = of(configCreate2);
+    fixture = TestBed.createComponent(ConfiguratorOverviewFormComponent);
+    htmlElem = fixture.nativeElement;
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+
+    expect(htmlElem.classList.contains('ghost')).toBe(false);
+    expect(component.ghostStyle).toBe(false);
   });
 });

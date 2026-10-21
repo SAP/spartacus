@@ -12,6 +12,7 @@ import {
   HostBinding,
   OnDestroy,
   OnInit,
+  signal,
 } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import {
@@ -38,11 +39,20 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 export class ConfiguratorGroupTitleComponent
   implements OnInit, OnDestroy, AfterContentChecked
 {
-  @HostBinding('class.ghost') ghostStyle = true;
+  protected readonly isGhost = signal(true);
   protected subscription = new Subscription();
   protected readonly PRE_HEADER = '.PreHeader';
   protected readonly ADD_TO_CART_BUTTON = 'cx-configurator-add-to-cart-button';
   protected focusFirstElementInMobileGroupList = false;
+
+  @HostBinding('class.ghost')
+  get ghostStyle(): boolean {
+    return this.isGhost();
+  }
+
+  set ghostStyle(value: boolean) {
+    this.isGhost.set(value);
+  }
 
   displayedGroup$: Observable<Configurator.Group> =
     this.configRouterExtractorService.extractRouterData().pipe(
