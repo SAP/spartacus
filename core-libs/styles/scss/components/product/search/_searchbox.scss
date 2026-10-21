@@ -885,10 +885,26 @@
     .products {
       background-color: var(--cx-color-background);
       color: var(--cx-color-text);
+      a {
+        color: var(--cx-color-text);
+        &:hover,
+        &:focus {
+          color: var(--cx-color-background);
+          background: var(--cx-color-text);
+        }
+      }
     }
     &.search-box-v2 .results {
       background-color: var(--cx-color-background);
       color: var(--cx-color-text);
+      a {
+        color: var(--cx-color-text);
+        &:hover,
+        &:focus {
+          color: var(--cx-color-background);
+          background: var(--cx-color-text);
+        }
+      }
     }
   }
 }
