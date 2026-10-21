@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DefaultBaseSiteResolver } from '@spartacus/setup/ssr/base-site';
 import {
-  createStorefrontBaseSiteResolver,
+  createStorefrontBaseSiteConfig,
   resolveOccBaseUrl,
 } from './base-site-resolver';
 
 const INDEX_PATHS = ['/browser/index.csr.html', '/browser/index.html'];
+const BASE_SITES = ['electronics-spa', 'powertools-spa'];
 
 describe('resolveOccBaseUrl', () => {
   it('uses the OCC URL from index.csr.html before index.html', () => {
@@ -64,56 +64,46 @@ describe('resolveOccBaseUrl', () => {
   });
 });
 
-describe('createStorefrontBaseSiteResolver', () => {
-  it('creates the default resolver when an OCC URL is available', () => {
+describe('createStorefrontBaseSiteConfig', () => {
+  it('includes occBaseUrl and baseSites when an OCC URL is available', () => {
     const warnings: string[] = [];
     const htmlByPath: Record<string, string> = {
       '/browser/index.csr.html':
         '<meta name="occ-backend-base-url" content="https://csr.example">',
     };
 
-    const resolver = createStorefrontBaseSiteResolver({
+    const config = createStorefrontBaseSiteConfig({
+      baseSites: BASE_SITES,
       indexHtmlPaths: INDEX_PATHS,
-      readFile: (path) => htmlByPath[path],
-      occApiPrefix: '/occ/v2/',
+      readFile: (path) => {
+        const html = htmlByPath[path];
+        if (html === undefined) {
+          throw new Error('missing');
+        }
+        return html;
+      },
       warn: (message) => warnings.push(message),
     });
 
-    expect(resolver).toBeInstanceOf(DefaultBaseSiteResolver);
+    expect(config.occBaseUrl).toBe('https://csr.example');
+    expect(config.baseSites).toEqual(BASE_SITES);
     expect(warnings).toEqual([]);
   });
 
-  it('returns no resolver and warns once when no OCC URL is available', () => {
+  it('returns baseSites-only config and warns once when no OCC URL is available', () => {
     const warnings: string[] = [];
 
-    const resolver = createStorefrontBaseSiteResolver({
+    const config = createStorefrontBaseSiteConfig({
+      baseSites: BASE_SITES,
       indexHtmlPaths: INDEX_PATHS,
       readFile: () => {
         throw new Error('missing');
       },
-      occApiPrefix: '/occ/v2/',
       warn: (message) => warnings.push(message),
     });
 
-    expect(resolver).toBeUndefined();
+    expect(config.baseSites).toEqual(BASE_SITES);
+    expect(config.occBaseUrl).toBeUndefined();
     expect(warnings.length).toBe(1);
-  });
-
-  it('builds an authoritative static resolver that never calls OCC', () => {
-    const fetchSpy = jest.spyOn(globalThis, 'fetch');
-    const resolver = createStorefrontBaseSiteResolver({
-      indexHtmlPaths: ['/browser/index.html'],
-      readFile: () =>
-        '<meta name="occ-backend-base-url" content="https://api.example">',
-      baseSites: [{ uid: 'electronics-spa', urlPatterns: ['electronics-spa'] }],
-      warn: () => undefined,
-    });
-    expect(resolver).toBeInstanceOf(DefaultBaseSiteResolver);
-    return resolver!
-      .resolve('https://shop.example/electronics-spa/en/USD/llm.txt')
-      .then((uid) => {
-        expect(uid).toBe('electronics-spa');
-        expect(fetchSpy).not.toHaveBeenCalled();
-      });
   });
 });
