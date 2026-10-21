@@ -1082,7 +1082,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         );
       });
 
-      it('should render the overview link with display configuration text', () => {
+      it('should render the overview link with display bundle configuration text', () => {
         emitCartEntry(PromotionLocation.ActiveCart);
 
         const linkComponent = fixture.debugElement.query(

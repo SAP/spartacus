@@ -51,6 +51,9 @@ export class ConfigureCartEntryComponent {
   private static readonly DISPLAY_CONFIGURATION_HEADER =
     'configurator.header.displayConfiguration';
 
+  private static readonly DISPLAY_BUNDLE_CONFIGURATION_HEADER =
+    'configurator.header.displayBundleConfiguration';
+
   protected routingService = inject(RoutingService);
 
   @Input() cartEntry: OrderEntry;
@@ -230,7 +233,7 @@ export class ConfigureCartEntryComponent {
    */
   getCpqContainerLinkTextResourceKey(): string {
     if (this.isBundleOverviewLink) {
-      return ConfigureCartEntryComponent.DISPLAY_CONFIGURATION_HEADER;
+      return ConfigureCartEntryComponent.DISPLAY_BUNDLE_CONFIGURATION_HEADER;
     }
     if (this.getDisplayOnly()) {
       return ConfigureCartEntryComponent.DISPLAY_CONFIGURATION_HEADER;
