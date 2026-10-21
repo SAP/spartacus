@@ -5,20 +5,14 @@
  */
 
 import {
-  DefaultBaseSiteResolver,
-  StaticBaseSite,
+  BaseSiteResolverOptions,
   extractOccBaseUrlFromHtml,
 } from '@spartacus/setup/ssr/base-site';
 
-export interface StorefrontBaseSiteResolverOptions {
+export interface StorefrontBaseSiteConfigOptions {
+  baseSites: string[];
   indexHtmlPaths: readonly string[];
   readFile: (path: string) => string;
-  occApiPrefix?: string;
-  /**
-   * Authoritative, statically configured base-site list. When provided, the
-   * resolver matches against it in memory and never calls OCC.
-   */
-  baseSites?: StaticBaseSite[];
   warn: (message: string) => void;
 }
 
@@ -41,28 +35,21 @@ export function resolveOccBaseUrl(
   return null;
 }
 
-/** Creates the demo's resolver, or degrades gracefully when OCC is unconfigured. */
-export function createStorefrontBaseSiteResolver(
-  options: StorefrontBaseSiteResolverOptions
-): DefaultBaseSiteResolver | undefined {
-  if (options.baseSites?.length) {
-    return new DefaultBaseSiteResolver({ baseSites: options.baseSites });
-  }
+/**
+ * Produces resolver options for `configureBaseSiteResolver`. Adds `occBaseUrl`
+ * when extractable from the index HTML; without it, domain-mode base-site
+ * detection is disabled and only path-segment matching is active.
+ */
+export function createStorefrontBaseSiteConfig(
+  options: StorefrontBaseSiteConfigOptions
+): BaseSiteResolverOptions {
+  const { baseSites, indexHtmlPaths, readFile, warn } = options;
 
-  const occBaseUrl = resolveOccBaseUrl(
-    options.indexHtmlPaths,
-    options.readFile
-  );
+  const occBaseUrl = resolveOccBaseUrl(indexHtmlPaths, readFile);
 
   if (!occBaseUrl) {
-    options.warn(
-      'SSR base-site detection is disabled because no OCC base URL is configured.'
-    );
-    return undefined;
+    warn('OCC base URL not found; domain-mode base-site detection is disabled.');
   }
 
-  return new DefaultBaseSiteResolver({
-    occBaseUrl,
-    occApiPrefix: options.occApiPrefix,
-  });
+  return occBaseUrl ? { baseSites, occBaseUrl } : { baseSites };
 }

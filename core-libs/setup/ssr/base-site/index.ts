@@ -5,6 +5,7 @@
  */
 
 export * from './base-site-resolver';
+export * from './base-site-resolver-registry';
 export * from './default-base-site-resolver';
 export * from './multi-site-handler';
 export * from './occ-base-url-extractor';
