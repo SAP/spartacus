@@ -624,7 +624,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       ).toBe(6);
     });
 
-    it('should count container-level warning messages', () => {
+    it('should not count container-level warning messages', () => {
       const containers: Cpq.Container[] = [
         {
           stdAttrCode: 1,
@@ -648,7 +648,130 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
         cpqConfiguratorNormalizerUtilsService['countIssuesInContainers'](
           containers
         )
-      ).toBe(7);
+      ).toBe(6);
+    });
+
+    describe('container warnings covered by incomplete attributes', () => {
+      const trainContainerWarning: Cpq.Message = {
+        message: 'Missing multi-unit control',
+        severity: Cpq.MessageSeverity.WARNING,
+      };
+
+      it('should count train-like incomplete container attribute with one warning as one issue', () => {
+        expect(
+          cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues({
+            productSystemId: 'CONF_TRAIN',
+            currencyISOCode: CURRENCY,
+            incompleteAttributes: ['Configurable Train Components'],
+            sapContainers: [
+              {
+                stdAttrCode: 1067,
+                messages: [trainContainerWarning],
+                rows: [],
+              },
+            ],
+          })
+        ).toBe(1);
+      });
+
+      it('should count incomplete container attribute with two warnings as one issue', () => {
+        expect(
+          cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues({
+            productSystemId: 'productSystemId',
+            currencyISOCode: CURRENCY,
+            incompleteAttributes: ['Grinder (Container)'],
+            sapContainers: [
+              {
+                stdAttrCode: 1076,
+                messages: [
+                  trainContainerWarning,
+                  { ...trainContainerWarning, message: 'Second validation' },
+                ],
+                rows: [],
+              },
+            ],
+          })
+        ).toBe(1);
+      });
+
+      it('should count non-container incomplete attribute plus train-like container as two issues', () => {
+        expect(
+          cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues({
+            productSystemId: 'productSystemId',
+            currencyISOCode: CURRENCY,
+            incompleteAttributes: [
+              'Track Gauge',
+              'Configurable Train Components',
+            ],
+            sapContainers: [
+              {
+                stdAttrCode: 1067,
+                messages: [trainContainerWarning],
+                rows: [],
+              },
+            ],
+          })
+        ).toBe(2);
+      });
+
+      it('should not count container warnings when the linked attribute is not incomplete', () => {
+        expect(
+          cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues({
+            productSystemId: 'productSystemId',
+            currencyISOCode: CURRENCY,
+            incompleteAttributes: [],
+            sapContainers: [
+              {
+                stdAttrCode: 1067,
+                messages: [trainContainerWarning],
+                rows: [],
+              },
+            ],
+          })
+        ).toBe(0);
+      });
+
+      it('should count nested row container attribute with warning without double-counting the warning', () => {
+        expect(
+          cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues({
+            productSystemId: 'productSystemId',
+            currencyISOCode: CURRENCY,
+            incompleteAttributes: ['Root incomplete'],
+            sapContainers: [
+              {
+                stdAttrCode: 1,
+                rows: [
+                  {
+                    id: 'row-1',
+                    configuration: {
+                      completed: false,
+                      tabs: [
+                        {
+                          id: 1,
+                          attributes: [
+                            {
+                              pA_ID: 1,
+                              stdAttrCode: 99,
+                              incomplete: true,
+                            },
+                          ],
+                        },
+                      ],
+                      containers: [
+                        {
+                          stdAttrCode: 99,
+                          messages: [trainContainerWarning],
+                          rows: [],
+                        },
+                      ],
+                    },
+                  },
+                ],
+              },
+            ],
+          })
+        ).toBe(2);
+      });
     });
 
     it('should count root typed messages and incomplete attributes when messages are present', () => {
