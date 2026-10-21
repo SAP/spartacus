@@ -746,10 +746,15 @@ export interface FeatureTogglesInterface {
    * menu to the overview content, which is exposed as a focusable region.
    * `ConfiguratorOverviewFormComponent` renders bundle configuration-detail
    * sections (top-level landmarks, view-details links, and nested attribute
-   * blocks) as in-page navigation targets. CPQ cart bundle line items (PDP
-   * links, nested edit links, large-bundle overview navigation) and
-   * configure-cart-entry link labels/query params use `*cxFeature` template
-   * branches like `ConfiguratorAttributeProductCardComponent`.
+   * blocks) as in-page navigation targets. If the overview is opened with a
+   * `rowId` query parameter (read-only bundle line item links, e.g. in
+   * checkout or the order history), it scrolls to and focuses the
+   * configuration details of that container row. These links also carry the
+   * row ID as URL fragment, so the view reset on navigation does not scroll
+   * the overview back to the top. CPQ cart bundle line items
+   * (PDP links, nested edit links, large-bundle overview navigation) and
+   * configure-cart-entry link labels/query params/fragment use `*cxFeature`
+   * template branches like `ConfiguratorAttributeProductCardComponent`.
    *
    * When disabled, legacy behavior is preserved (breaking changes above are
    * not active): container attributes map to `NOT_IMPLEMENTED`, containers and
@@ -771,7 +776,7 @@ export interface FeatureTogglesInterface {
    * `ConfiguratorOverviewMenuComponent`,
    * `ConfiguratorOverviewMenuStandaloneComponent`,
    * `ConfiguratorOverviewSidebarComponent`,
-   * `ConfiguratorOverviewFormComponent`,
+   * `ConfiguratorOverviewFormComponent` (bundle `rowId` deep link),
    * `ConfiguratorCartEntryBundleInfoComponent`,
    * `ConfigureCartEntryComponent`,
    * `ConfiguratorFormComponent` (bundle `rowId` deep link),
