@@ -16,7 +16,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
-import { Observable, fromEvent, merge } from 'rxjs';
+import { Observable, fromEvent, merge, timer } from 'rxjs';
 import {
   distinctUntilKeyChanged,
   filter,
@@ -89,6 +89,13 @@ export class ConfiguratorOverviewFormComponent {
    * query parameter has already been triggered.
    */
   protected isContainerRowNavigationTriggered = false;
+
+  /**
+   * Maximum time in milliseconds during which the configuration details of a
+   * requested container row are kept in place while the page around the
+   * overview is still being rendered.
+   */
+  protected readonly containerRowDetailsKeepInPlaceTime = 3000;
 
   /**
    * Accessible name of the overview content region.
@@ -434,11 +441,14 @@ export class ConfiguratorOverviewFormComponent {
   }
 
   /**
-   * Repeats the navigation to the configuration details of a container row
-   * whenever the page size changes, until the user interacts with the page.
-   * Parts of the page above the overview (e.g. the header or the product
-   * title) may only be rendered after the overview and would otherwise move
-   * the configuration details away from the top of the viewport.
+   * Scrolls to the configuration details of a container row again whenever
+   * the page size changes, until the user interacts with the page or
+   * `containerRowDetailsKeepInPlaceTime` has elapsed. Parts of the page above
+   * the overview (e.g. the header or the product title) may only be rendered
+   * after the overview and would otherwise move the configuration details away
+   * from the top of the viewport.
+   * The focus is not set again, so that it is not taken back from assistive
+   * technologies that have moved it in the meantime.
    *
    * @param target - ID prefix and group ID of the configuration details section
    */
@@ -450,6 +460,13 @@ export class ConfiguratorOverviewFormComponent {
     if (!nativeWindow || typeof ResizeObserver === 'undefined') {
       return;
     }
+    const headingSelector =
+      this.configuratorStorefrontUtilsService.idSelector(
+        this.configuratorStorefrontUtilsService.createOvGroupId(
+          target.idPrefix,
+          target.groupId
+        )
+      ) + ' h2';
     const pageResize$ = new Observable<void>((subscriber) => {
       const resizeObserver = new ResizeObserver(() => subscriber.next());
       resizeObserver.observe(this.windowRef.document.body);
@@ -461,11 +478,18 @@ export class ConfiguratorOverviewFormComponent {
       )
     );
     pageResize$
-      .pipe(takeUntil(userInteraction$), takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        takeUntil(
+          merge(
+            userInteraction$,
+            timer(this.containerRowDetailsKeepInPlaceTime)
+          )
+        ),
+        takeUntilDestroyed(this.destroyRef)
+      )
       .subscribe(() =>
-        this.configuratorStorefrontUtilsService.navigateToOverviewGroup(
-          target.idPrefix,
-          target.groupId
+        this.configuratorStorefrontUtilsService.scrollToConfigurationElement(
+          headingSelector
         )
       );
   }

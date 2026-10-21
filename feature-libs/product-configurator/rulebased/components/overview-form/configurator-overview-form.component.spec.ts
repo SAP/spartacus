@@ -1038,29 +1038,47 @@ describe('ConfigurationOverviewFormComponent', () => {
       });
 
       afterEach(() => {
+        vi.useRealTimers();
         vi.unstubAllGlobals();
       });
 
-      it('should navigate to the configuration details again', () => {
+      it('should scroll to the configuration details again without setting the focus again', () => {
         initialize();
-        resizePage();
-
-        expect(storefrontUtils.navigateToOverviewGroup).toHaveBeenCalledTimes(
-          2
-        );
-        expect(
-          storefrontUtils.navigateToOverviewGroup
-        ).toHaveBeenLastCalledWith(rowGroupIdPrefix, rowGroupId);
-      });
-
-      it('should not navigate again once the user interacts with the page', () => {
-        initialize();
-        window.dispatchEvent(new Event('wheel'));
         resizePage();
 
         expect(storefrontUtils.navigateToOverviewGroup).toHaveBeenCalledTimes(
           1
         );
+        expect(
+          storefrontUtils.scrollToConfigurationElement
+        ).toHaveBeenCalledTimes(2);
+        expect(
+          storefrontUtils.scrollToConfigurationElement
+        ).toHaveBeenLastCalledWith(
+          `#${rowGroupIdPrefix}--${rowGroupId}-ovGroup h2`
+        );
+      });
+
+      it('should not scroll again once the user interacts with the page', () => {
+        initialize();
+        window.dispatchEvent(new Event('wheel'));
+        resizePage();
+
+        expect(
+          storefrontUtils.scrollToConfigurationElement
+        ).toHaveBeenCalledTimes(1);
+        expect(disconnect).toHaveBeenCalled();
+      });
+
+      it('should not scroll again once the time to keep the configuration details in place has elapsed', () => {
+        vi.useFakeTimers();
+        initialize();
+        vi.advanceTimersByTime(component['containerRowDetailsKeepInPlaceTime']);
+        resizePage();
+
+        expect(
+          storefrontUtils.scrollToConfigurationElement
+        ).toHaveBeenCalledTimes(1);
         expect(disconnect).toHaveBeenCalled();
       });
 
