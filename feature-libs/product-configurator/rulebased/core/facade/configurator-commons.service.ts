@@ -317,6 +317,8 @@ export class ConfiguratorCommonsService {
    * include the overview aspect.
    * When calling this function it is assumed that the configuration itself is already
    * available (or its loading is triggered). If not, the function will return an empty observable.
+   * The overview is read for the configuration currently held in the store. In case the
+   * configuration is in error state, the overview is not read again.
    *
    * @param configuration - Configuration
    * @returns Observable of configurations including the overview
@@ -324,22 +326,31 @@ export class ConfiguratorCommonsService {
   getConfigurationWithOverview(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
-    return this.filterNotLoadingAndCreatedConfiguration(
-      this.store.pipe(
-        select(
-          ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
-            configuration.owner.key
-          )
+    return this.store.pipe(
+      select(
+        ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
+          configuration.owner.key
         )
-      )
-    ).pipe(
-      tap((config) => {
-        if (!this.hasConfigurationOverview(config)) {
+      ),
+      filter((configurationState) => configurationState.loading === false),
+      filter((configurationState) =>
+        this.configuratorUtils.isConfigurationCreated(configurationState.value)
+      ),
+      tap((configurationState) => {
+        const config = configurationState.value as Configurator.Configuration;
+        if (
+          !this.hasConfigurationOverview(config) &&
+          !configurationState.error
+        ) {
           this.store.dispatch(
-            new ConfiguratorActions.GetConfigurationOverview(configuration)
+            new ConfiguratorActions.GetConfigurationOverview(config)
           );
         }
       }),
+      map(
+        (configurationState) =>
+          configurationState.value as Configurator.Configuration
+      ),
       filter((config) => this.hasConfigurationOverview(config))
     );
   }

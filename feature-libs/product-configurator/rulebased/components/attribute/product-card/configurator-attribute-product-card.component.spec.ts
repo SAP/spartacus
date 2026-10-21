@@ -2053,18 +2053,15 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       );
     });
 
-    it('should toggle overflow menu and stop click propagation', () => {
-      const event = { stopPropagation: vi.fn() } as unknown as Event;
-
-      component.toggleActionsMenu(event);
-      expect(event.stopPropagation).toHaveBeenCalled();
+    it('should toggle overflow menu open and closed', () => {
+      component.toggleActionsMenu();
       expect(component.isActionsMenuOpen).toBe(true);
 
-      component.toggleActionsMenu(event);
+      component.toggleActionsMenu();
       expect(component.isActionsMenuOpen).toBe(false);
     });
 
-    it('should close the overflow menu on document click', () => {
+    it('should close the overflow menu on document click outside the menu', () => {
       component.isActionsMenuOpen = true;
       fixture.detectChanges();
 
@@ -2073,6 +2070,58 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       );
 
       expect(component.isActionsMenuOpen).toBe(false);
+    });
+
+    it('should not close the overflow menu on document click inside the menu list', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions([Configurator.ContainerRowAction.DELETE]);
+      component.isActionsMenuOpen = true;
+      fixture.detectChanges();
+
+      const menuList = htmlElem.querySelector(
+        '.cx-product-card-actions-menu-list'
+      ) as HTMLElement;
+      menuList.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+      expect(component.isActionsMenuOpen).toBe(true);
+    });
+
+    it('should close overflow menu on another product card when opening its menu', () => {
+      component.productCardOptions.multiSelect = true;
+      setProductBoundValueAttributes(component);
+      setContainerRowActions([Configurator.ContainerRowAction.DELETE]);
+      component.isActionsMenuOpen = true;
+      fixture.detectChanges();
+
+      const otherFixture = TestBed.createComponent(
+        ConfiguratorAttributeProductCardComponent
+      );
+      const otherComponent = otherFixture.componentInstance;
+      otherComponent.productCardOptions = {
+        ...component.productCardOptions,
+        productBoundValue: createValue(
+          '999',
+          'Other product',
+          [],
+          1,
+          true,
+          'OTHER-CODE',
+          'Other Product'
+        ),
+        itemIndex: 1,
+      };
+      otherFixture.detectChanges();
+
+      const otherToggle = otherFixture.debugElement.query(
+        By.css('.cx-product-card-actions-menu-toggle')
+      ).nativeElement as HTMLElement;
+      otherToggle.click();
+      otherFixture.detectChanges();
+      fixture.detectChanges();
+
+      expect(component.isActionsMenuOpen).toBe(false);
+      expect(otherComponent.isActionsMenuOpen).toBe(true);
     });
 
     it('should close the overflow menu on escape key', () => {

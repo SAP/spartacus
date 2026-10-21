@@ -8,11 +8,13 @@ import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
   HostListener,
   Input,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import {
   FeatureDirective,
@@ -134,6 +136,9 @@ export class ConfiguratorAttributeProductCardComponent
    * Whether the container-row overflow menu is currently open.
    */
   isActionsMenuOpen = false;
+
+  @ViewChild('actionsMenu')
+  actionsMenu?: ElementRef<HTMLElement>;
 
   @Input()
   productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
@@ -466,12 +471,8 @@ export class ConfiguratorAttributeProductCardComponent
 
   /**
    * Opens or closes the container-row overflow menu.
-   *
-   * @param event - Click event used to keep the document listener
-   * from immediately closing the menu
    */
-  toggleActionsMenu(event: Event): void {
-    event.stopPropagation();
+  toggleActionsMenu(): void {
     this.isActionsMenuOpen = !this.isActionsMenuOpen;
   }
 
@@ -534,11 +535,31 @@ export class ConfiguratorAttributeProductCardComponent
   /**
    * Closes the container-row overflow menu. Bound to document click
    * and the Escape key.
+   *
+   * @param event - Document click; ignored when the click target is inside
+   *   this card's overflow menu (toggle or list)
    */
-  @HostListener('document:click')
+  @HostListener('document:click', ['$event'])
   @HostListener('document:keydown.escape')
-  closeActionsMenu(): void {
+  closeActionsMenu(event?: Event): void {
+    if (
+      event instanceof MouseEvent &&
+      this.isClickInsideActionsMenu(event.target)
+    ) {
+      return;
+    }
     this.isActionsMenuOpen = false;
+  }
+
+  /**
+   * @param target - Event target node
+   * @returns Whether the click occurred inside this card's overflow menu
+   */
+  protected isClickInsideActionsMenu(target: EventTarget | null): boolean {
+    if (!(target instanceof Node)) {
+      return false;
+    }
+    return this.actionsMenu?.nativeElement.contains(target) ?? false;
   }
 
   getAriaLabelSingleUnselected(product: Product): string {
