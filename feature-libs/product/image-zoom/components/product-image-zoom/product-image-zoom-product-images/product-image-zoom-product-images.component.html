@@ -1,33 +1,34 @@
-<ng-container *ngIf="mainImage$ | async as main">
+@if (mainImage$ | async; as main) {
   <cx-media
     [container]="main"
     (click)="triggerZoom(true)"
     *cxLcpContext="let lcpContext"
     [fetchPriority]="lcpContext.fetchPriority$ | async"
-  />
+    />
   <cx-product-image-zoom-trigger
     [expandImage]="expandImage.value"
     [galleryIndex]="selectedIndex"
     (dialogClose)="triggerZoom(false)"
-  />
-</ng-container>
+    />
+}
 
-<ng-container *ngIf="thumbs$ | async as thumbs">
-  <ng-container *ngIf="product$ | async as product">
-    <cx-carousel-scrolling
-      role="region"
+@if (thumbs$ | async; as thumbs) {
+  @if (product$ | async; as product) {
+    @if (thumbs.length) {
+      <cx-carousel-scrolling
+        role="region"
       [attr.aria-label]="
         'carousel.carouselForProduct' | cxTranslate: { product: product.name }
       "
-      tabindex="-1"
-      *ngIf="thumbs.length"
-      class="thumbs"
-      [items]="thumbs"
-      [template]="thumb"
-      [trackByFn]="trackByFn"
-    />
-  </ng-container>
-</ng-container>
+        tabindex="-1"
+        class="thumbs"
+        [items]="thumbs"
+        [template]="thumb"
+        [trackByFn]="trackByFn"
+        />
+    }
+  }
+}
 
 <ng-template #thumb let-item="item">
   <cx-media
@@ -37,5 +38,5 @@
     (focus)="openImage(item.container)"
     [class.is-active]="isActive(item.container) | async"
     format="product"
-  />
+    />
 </ng-template>

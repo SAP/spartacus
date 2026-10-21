@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import {
@@ -24,14 +24,12 @@ import { ConfiguratorTextfieldInputFieldComponent } from '../input-field/configu
   selector: 'cx-configurator-textfield-form',
   templateUrl: './configurator-textfield-form.component.html',
   imports: [
-    NgIf,
-    NgFor,
     ConfiguratorTextfieldInputFieldComponent,
     ConfiguratorTextfieldAddToCartButtonComponent,
     ConfiguratorTextfieldInputFieldReadonlyComponent,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class ConfiguratorTextfieldFormComponent {
   configuration$: Observable<ConfiguratorTextfield.Configuration> =

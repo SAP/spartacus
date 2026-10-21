@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -50,14 +50,12 @@ export interface CardWithAddress {
   templateUrl: './checkout-delivery-address.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
     CardComponent,
     AddressFormComponent,
     SpinnerComponent,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class B2BCheckoutDeliveryAddressComponent
   extends CheckoutDeliveryAddressComponent

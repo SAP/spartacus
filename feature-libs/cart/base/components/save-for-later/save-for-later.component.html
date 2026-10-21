@@ -1,33 +1,36 @@
-<ng-container *ngIf="isCartEmpty$ | async">
-  <p
-    *ngIf="data$ | async as data"
-    [innerHTML]="data.content"
-    class="cx-empty-cart-info"
-  ></p>
-</ng-container>
+@if (isCartEmpty$ | async) {
+  @if (data$ | async; as data) {
+    <p
+      [innerHTML]="data.content"
+      class="cx-empty-cart-info"
+    ></p>
+  }
+}
 
-<ng-container *ngIf="saveForLater$ | async as saveForLater">
-  <ng-container *ngIf="entries$ | async as entries">
-    <div *ngIf="saveForLater.totalItems > 0" class="cart-details-wrapper">
-      <div class="cx-total">
-        {{
+@if (saveForLater$ | async; as saveForLater) {
+  @if (entries$ | async; as entries) {
+    @if (saveForLater.totalItems > 0) {
+      <div class="cart-details-wrapper">
+        <div class="cx-total">
+          {{
           'saveForLaterItems.itemTotal'
-            | cxTranslate: { count: saveForLater.totalItems }
-        }}
-      </div>
-      <cx-cart-item-list
-        [items]="entries"
-        [readonly]="false"
-        [cartIsLoading]="!(cartLoaded$ | async)"
-        [promotionLocation]="CartLocation.SaveForLater"
+          | cxTranslate: { count: saveForLater.totalItems }
+          }}
+        </div>
+        <cx-cart-item-list
+          [items]="entries"
+          [readonly]="false"
+          [cartIsLoading]="!(cartLoaded$ | async)"
+          [promotionLocation]="CartLocation.SaveForLater"
         [options]="{
           isSaveForLater: true,
           optionalBtn: moveToCartBtn,
         }"
-      />
-    </div>
-  </ng-container>
-</ng-container>
+          />
+      </div>
+    }
+  }
+}
 
 <ng-template let-ctx #moveToCartBtn>
   <button
@@ -35,7 +38,7 @@
     [disabled]="ctx.loading"
     (click)="moveToCart(ctx.item)"
     type="button"
-  >
+    >
     {{ 'saveForLaterItems.moveToCart' | cxTranslate }}
   </button>
 </ng-template>

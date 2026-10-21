@@ -2,24 +2,25 @@
   <fieldset>
     <legend style="display: none">{{ attribute.label }}</legend>
     <div id="{{ createAttributeIdForConfigurator(attribute) }}">
-      <div class="form-check" *ngIf="changedPrices$ | async as changedPrices">
-        <div class="cx-value-label-pair">
-          <input
+      @if (changedPrices$ | async; as changedPrices) {
+        <div class="form-check">
+          <div class="cx-value-label-pair">
+            <input
             id="{{
               createAttributeValueIdForConfigurator(
                 attribute,
                 attributeValue.valueCode
               )
             }}"
-            type="checkbox"
-            class="form-check-input"
-            [value]="attributeValue.valueCode"
+              type="checkbox"
+              class="form-check-input"
+              [value]="attributeValue.valueCode"
             [cxFocus]="{
               key: attribute.name + '-' + attributeValue.name,
             }"
-            (change)="onSelect(attributeValue.valueCode)"
-            [formControl]="attributeCheckBoxForm"
-            name="{{ createAttributeIdForConfigurator(attribute) }}"
+              (change)="onSelect(attributeValue.valueCode)"
+              [formControl]="attributeCheckBoxForm"
+              name="{{ createAttributeIdForConfigurator(attribute) }}"
             [attr.aria-label]="
               getAriaLabelGeneric(
                 attribute,
@@ -34,8 +35,8 @@
             [attr.aria-describedby]="
               createAttributeUiKey('label', attribute.name)
             "
-          />
-          <label
+              />
+            <label
             id="{{
               createValueUiKey(
                 'label',
@@ -49,20 +50,20 @@
                 attributeValue.valueCode
               )
             }}"
-            aria-hidden="true"
-            class="form-check-label"
-            >{{
+              aria-hidden="true"
+              class="form-check-label"
+              >{{
               getLabel(
-                expMode,
-                attributeValue.valueDisplay,
-                attributeValue.valueCode
+              expMode,
+              attributeValue.valueDisplay,
+              attributeValue.valueCode
               )
-            }}</label
-          >
-          <cx-configurator-show-more
-            *ngIf="attributeValue.description"
-            [text]="attributeValue.description"
-            [textSize]="getValueDescriptionLength()"
+              }}</label
+              >
+              @if (attributeValue.description) {
+                <cx-configurator-show-more
+                  [text]="attributeValue.description"
+                  [textSize]="getValueDescriptionLength()"
             [productName]="
               getLabel(
                 expMode,
@@ -70,19 +71,21 @@
                 attributeValue.valueCode
               )
             "
-            [tabIndex]="0"
-          />
-        </div>
-        <div class="cx-value-price">
-          <cx-configurator-price
+                  [tabIndex]="0"
+                  />
+              }
+            </div>
+            <div class="cx-value-price">
+              <cx-configurator-price
             [formula]="
               extractValuePriceFormulaParameters(
                 enrichValueWithPrice(attributeValue, changedPrices)
               )
             "
-          />
-        </div>
+                />
+            </div>
+          </div>
+        }
       </div>
-    </div>
-  </fieldset>
-</ng-container>
+    </fieldset>
+  </ng-container>

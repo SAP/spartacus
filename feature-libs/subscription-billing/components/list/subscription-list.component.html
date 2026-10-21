@@ -1,10 +1,9 @@
-<ng-container *ngIf="subscriptions() as list; else loading">
+@if (subscriptions(); as list) {
   <h2 class="subscription-list-title">
     {{ 'subscriptionList.title' | cxTranslate }}
     ({{ list.pagination?.totalResults || 0 }})
   </h2>
-
-  <ng-container *ngIf="list.results?.length; else noSubscriptions">
+  @if (list.results?.length) {
     <div class="subscription-list-sort top">
       <label class="subscription-list-form-group form-group">
         <span>
@@ -17,68 +16,74 @@
           placeholder="{{ 'subscriptionList.sortSubtitle' | cxTranslate }}"
           [ariaLabel]="'subscriptionList.sortOrders' | cxTranslate"
           ariaControls="subscription-list-table"
-        />
+          />
       </label>
     </div>
-
-    <ng-container *ngFor="let subscription of list.results">
+    @for (subscription of list.results; track subscription) {
       <div class="subscription">
         <div class="subscription-header">
-          <div
-            class="subscription-name"
-            *ngIf="subscription.name"
-            [attr.aria-label]="'subscriptionList.product' | cxTranslate"
-          >
-            {{ subscription.name }}
-          </div>
-          <div
-            class="subscription-status"
-            *ngIf="subscription.status"
-            [attr.aria-label]="'subscriptionList.status' | cxTranslate"
-          >
-            {{ 'subscriptionList.status' | cxTranslate }}
-            <span [ngClass]="subscription.status">{{
-              subscription.status
-            }}</span>
-          </div>
+          @if (subscription.name) {
+            <div
+              class="subscription-name"
+              [attr.aria-label]="'subscriptionList.product' | cxTranslate"
+              >
+              {{ subscription.name }}
+            </div>
+          }
+          @if (subscription.status) {
+            <div
+              class="subscription-status"
+              [attr.aria-label]="'subscriptionList.status' | cxTranslate"
+              >
+              {{ 'subscriptionList.status' | cxTranslate }}
+              <span [ngClass]="subscription.status">{{
+                subscription.status
+              }}</span>
+            </div>
+          }
         </div>
         <div class="subscription-body">
           <div class="subscription-column-1">
-            <div *ngIf="subscription.documentNumber">
-              {{
+            @if (subscription.documentNumber) {
+              <div>
+                {{
                 'subscriptionList.id'
-                  | cxTranslate: { id: subscription.documentNumber }
-              }}
-            </div>
-            <div
-              *ngIf="
-                subscription?.pricePlan?.recurringCharges[0]?.price
-                  ?.formattedValue && subscription.billingTime
-              "
-            >
-              {{
+                | cxTranslate: { id: subscription.documentNumber }
+                }}
+              </div>
+            }
+            @if (
+              subscription?.pricePlan?.recurringCharges[0]?.price
+              ?.formattedValue && subscription.billingTime
+              ) {
+              <div
+                >
+                {{
                 'subscriptionList.amount'
-                  | cxTranslate
-                    : {
-                        amount:
-                          subscription?.pricePlan?.recurringCharges[0]?.price
-                            ?.formattedValue,
-                        time: subscription.billingTime,
-                      }
+                | cxTranslate
+                : {
+                amount:
+                subscription?.pricePlan?.recurringCharges[0]?.price
+                ?.formattedValue,
+                time: subscription.billingTime,
+              }
               }}
             </div>
-            <div *ngIf="subscription.startAt">
+          }
+          @if (subscription.startAt) {
+            <div>
               {{
-                'subscriptionList.startDate'
-                  | cxTranslate: { date: subscription.startAt | cxDate }
+              'subscriptionList.startDate'
+              | cxTranslate: { date: subscription.startAt | cxDate }
               }}
             </div>
-          </div>
-          <div class="subscription-column-2">
-            <span>
-              <a
-                class="btn-link cx-action-link"
-                [attr.aria-label]="'subscriptionList.manageService'"
+          }
+        </div>
+        <div class="subscription-column-2">
+          <span>
+            <a
+              class="btn-link cx-action-link"
+              [attr.aria-label]="'subscriptionList.manageService'"
                 [routerLink]="
                   {
                     cxRoute: 'subscriptionDetails',
@@ -86,31 +91,28 @@
                   } | cxUrl
                 "
               >
-                {{ 'subscriptionList.manageService' | cxTranslate }}
-              </a>
-            </span>
-          </div>
+              {{ 'subscriptionList.manageService' | cxTranslate }}
+            </a>
+          </span>
         </div>
       </div>
-    </ng-container>
-
-    <div class="subscription-list-sort bottom">
-      <ng-container *ngIf="(list.pagination?.totalPages ?? 0) > 1">
-        <cx-pagination
-          [pagination]="list.pagination"
-          (viewPageEvent)="pageChange($event)"
-        />
-      </ng-container>
     </div>
-  </ng-container>
-</ng-container>
-
-<ng-template #noSubscriptions>
+  }
+  <div class="subscription-list-sort bottom">
+    @if ((list.pagination?.totalPages ?? 0) > 1) {
+      <cx-pagination
+        [pagination]="list.pagination"
+        (viewPageEvent)="pageChange($event)"
+        />
+    }
+  </div>
+} @else {
   <div class="text-center">
     <h3>{{ 'subscriptionList.noSubscriptions' | cxTranslate }}</h3>
   </div>
-</ng-template>
-
-<ng-template #loading>
+}
+} @else {
   <cx-spinner />
-</ng-template>
+}
+
+

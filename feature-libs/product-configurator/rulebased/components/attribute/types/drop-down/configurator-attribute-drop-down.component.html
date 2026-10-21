@@ -1,18 +1,18 @@
-<ng-container *ngIf="changedPrices$ | async as changedPrices">
-  <div
-    class="form-group"
-    *ngIf="attribute.values && attribute.values.length !== 0"
-  >
-    <label
-      for="{{ createAttributeIdForConfigurator(attribute) }}"
-      class="cx-visually-hidden"
-    >
-      {{
+@if (changedPrices$ | async; as changedPrices) {
+  @if (attribute.values && attribute.values.length !== 0) {
+    <div
+      class="form-group"
+      >
+      <label
+        for="{{ createAttributeIdForConfigurator(attribute) }}"
+        class="cx-visually-hidden"
+        >
+        {{
         'configurator.a11y.listbox'
-          | cxTranslate
-            : {
-                count: attribute.values.length,
-              }
+        | cxTranslate
+        : {
+        count: attribute.values.length,
+      }
       }}
     </label>
     <div class="cx-value-label-pair">
@@ -26,10 +26,10 @@
         [cxFocus]="{ key: attribute.name }"
         (change)="onSelect(attributeDropDownForm.value)"
         [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
-      >
-        <option
-          *ngFor="let item of attribute.values"
-          [selected]="item.selected"
+        >
+        @for (item of attribute.values; track item) {
+          <option
+            [selected]="item.selected"
           [label]="
             getLabel(
               expMode,
@@ -38,23 +38,24 @@
               enrichValueWithPrice(item, changedPrices)
             )
           "
-          [attr.aria-label]="getAriaLabel(item, attribute)"
-          [value]="item.valueCode"
-        >
-          {{
+            [attr.aria-label]="getAriaLabel(item, attribute)"
+            [value]="item.valueCode"
+            >
+            {{
             getLabel(
-              expMode,
-              item.valueDisplay,
-              item.valueCode,
-              enrichValueWithPrice(item, changedPrices)
+            expMode,
+            item.valueDisplay,
+            item.valueCode,
+            enrichValueWithPrice(item, changedPrices)
             )
-          }}
-        </option>
+            }}
+          </option>
+        }
       </select>
-      <cx-configurator-show-more
-        *ngIf="getSelectedValueDescription()"
-        [text]="getSelectedValueDescription()"
-        [textSize]="getValueDescriptionLength()"
+      @if (getSelectedValueDescription()) {
+        <cx-configurator-show-more
+          [text]="getSelectedValueDescription()"
+          [textSize]="getValueDescriptionLength()"
         [productName]="
           getLabel(
             expMode,
@@ -63,39 +64,48 @@
             getSelectedValue()
           )
         "
-        [tabIndex]="0"
-      />
+          [tabIndex]="0"
+          />
+      }
     </div>
-    <div *ngIf="!withQuantity && getSelectedValue()" class="cx-value-price">
-      <cx-configurator-price
+    @if (!withQuantity && getSelectedValue()) {
+      <div class="cx-value-price">
+        <cx-configurator-price
         [formula]="
           extractValuePriceFormulaParameters(
             enrichValueWithPrice(getSelectedValue(), changedPrices)
           )
         "
-      />
-    </div>
+          />
+      </div>
+    }
   </div>
-  <div *ngIf="withQuantity" class="cx-attribute-level-quantity-price">
+}
+@if (withQuantity) {
+  <div class="cx-attribute-level-quantity-price">
     <cx-configurator-attribute-quantity
       (changeQuantity)="onChangeQuantity($event, attributeDropDownForm)"
       [quantityOptions]="extractQuantityParameters(attributeDropDownForm)"
-    />
-    <cx-configurator-price
-      *ngIf="getSelectedValuePrice()"
-      [formula]="extractPriceFormulaParameters()"
-    />
+      />
+    @if (getSelectedValuePrice()) {
+      <cx-configurator-price
+        [formula]="extractPriceFormulaParameters()"
+        />
+    }
   </div>
-</ng-container>
+}
+}
 
-<cx-configurator-attribute-numeric-input-field
-  *ngIf="isAdditionalValueNumeric"
-  class="cx-configurator-attribute-additional-value"
-  [attr.aria-label]="'configurator.a11y.additionalValue' | cxTranslate"
-/>
+@if (isAdditionalValueNumeric) {
+  <cx-configurator-attribute-numeric-input-field
+    class="cx-configurator-attribute-additional-value"
+    [attr.aria-label]="'configurator.a11y.additionalValue' | cxTranslate"
+    />
+}
 
-<cx-configurator-attribute-input-field
-  *ngIf="isAdditionalValueAlphaNumeric"
-  class="cx-configurator-attribute-additional-value"
-  [attr.aria-label]="'configurator.a11y.additionalValue' | cxTranslate"
-/>
+@if (isAdditionalValueAlphaNumeric) {
+  <cx-configurator-attribute-input-field
+    class="cx-configurator-attribute-additional-value"
+    [attr.aria-label]="'configurator.a11y.additionalValue' | cxTranslate"
+    />
+}

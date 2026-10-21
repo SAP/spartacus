@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   AsmCustomer360ActiveCart,
@@ -27,11 +27,10 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
   selector: 'cx-asm-customer-360-active-cart',
   templateUrl: './asm-customer-360-active-cart.component.html',
   imports: [
-    NgIf,
     AsmCustomer360ProductListingComponent,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class AsmCustomer360ActiveCartComponent {
   productItems$: Observable<Array<ProductItem>>;

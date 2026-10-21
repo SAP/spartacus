@@ -1,9 +1,13 @@
 <div class="inner" [cxFocus]="{ focusOnEscape: true }" (esc)="close()">
-  <p class="messageTitle" *ngIf="messageTitle">
-    {{ messageTitle | cxTranslate }}
-  </p>
+  @if (messageTitle) {
+    <p class="messageTitle">
+      {{ messageTitle | cxTranslate }}
+    </p>
+  }
   <div class="message">
-    <cx-icon *ngIf="messageIcon" [type]="messageIcon" />
+    @if (messageIcon) {
+      <cx-icon [type]="messageIcon" />
+    }
     <p>
       {{ message | cxTranslate }}
     </p>
@@ -16,7 +20,7 @@
     <button
       class="button btn btn-sm primary btn-primary confirm"
       (click)="confirm()"
-    >
+      >
       {{ confirmText | cxTranslate }}
     </button>
   </div>

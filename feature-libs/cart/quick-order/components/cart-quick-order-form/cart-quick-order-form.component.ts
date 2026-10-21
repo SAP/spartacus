@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -44,15 +44,14 @@ import { first, map } from 'rxjs/operators';
   templateUrl: './cart-quick-order-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     FormRequiredAsterisksComponent,
     AsyncPipe,
     TranslatePipe,
     FeatureDirective,
-    FormErrorsComponent,
-  ],
+    FormErrorsComponent
+],
 })
 export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   quickOrderForm: UntypedFormGroup;

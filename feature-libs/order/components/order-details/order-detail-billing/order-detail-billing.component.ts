@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
 import { PaymentDetails, TranslationService } from '@spartacus/core';
@@ -22,7 +22,7 @@ import { OrderDetailsService } from '../order-details.service';
   selector: 'cx-order-detail-billing',
   templateUrl: './order-detail-billing.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, CardComponent, AsyncPipe, OutletModule],
+  imports: [CardComponent, AsyncPipe, OutletModule],
 })
 export class OrderDetailBillingComponent {
   order$: Observable<Order | undefined> =

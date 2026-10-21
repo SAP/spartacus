@@ -1,42 +1,45 @@
-<form *ngIf="productCode" [formGroup]="addToCartForm" (submit)="addToCart()">
-  <div class="quantity" *ngIf="showQuantity">
-    <label>{{ 'addToCart.quantityFull' | cxTranslate }}</label>
-    <div class="cx-counter-stock">
-      <cx-item-counter
-        *ngIf="hasStock"
-        [max]="maxQuantity"
-        [control]="addToCartForm.get('quantity')"
-        [ariaDescribedById]="'add-to-card-stock-info'"
-      />
-
-      <span class="info" id="add-to-card-stock-info">
-        <span *ngIf="showInventory$ | async">{{ getInventory() }}</span>
-        {{
-          hasStock
+@if (productCode) {
+  <form [formGroup]="addToCartForm" (submit)="addToCart()">
+    @if (showQuantity) {
+      <div class="quantity">
+        <label>{{ 'addToCart.quantityFull' | cxTranslate }}</label>
+        <div class="cx-counter-stock">
+          @if (hasStock) {
+            <cx-item-counter
+              [max]="maxQuantity"
+              [control]="addToCartForm.get('quantity')"
+              [ariaDescribedById]="'add-to-card-stock-info'"
+              />
+          }
+          <span class="info" id="add-to-card-stock-info">
+            @if (showInventory$ | async) {
+              <span>{{ getInventory() }}</span>
+            }
+            {{
+            hasStock
             ? ('addToCart.inStock' | cxTranslate)
             : ('addToCart.outOfStock' | cxTranslate)
-        }}</span
-      >
-    </div>
-  </div>
-
-  <ng-container *ngIf="hasStock">
-    <ng-template
-      [cxOutlet]="CartOutlets.ADD_TO_CART_PICKUP_OPTION"
-      [(cxComponentRef)]="pickupOptionCompRef"
-      (cxComponentRefChange)="onPickupOptionsCompLoaded()"
-    />
-  </ng-container>
-
-  <button
-    #addToCartDialogTriggerEl
-    *ngIf="hasStock"
+            }}</span
+            >
+          </div>
+        </div>
+      }
+      @if (hasStock) {
+        <ng-template
+          [cxOutlet]="CartOutlets.ADD_TO_CART_PICKUP_OPTION"
+          [(cxComponentRef)]="pickupOptionCompRef"
+          (cxComponentRefChange)="onPickupOptionsCompLoaded()"
+          />
+      }
+      @if (hasStock) {
+        <button
+          #addToCartDialogTriggerEl
     [ngClass]="
       options?.displayAddToCart
         ? 'btn btn-tertiary'
         : 'btn btn-primary btn-block'
     "
-    type="submit"
+          type="submit"
     [disabled]="
       disabled || quantity <= 0 || quantity > maxQuantity || unavailable
     "
@@ -45,27 +48,30 @@
         ? ('addToCart.addToCart' | cxTranslate) + ', ' + product?.name
         : ('addToCart.addToCart' | cxTranslate)
     "
-  >
-    <span
-      *ngIf="
-        options?.addToCartString === ('addToCart.buyItAgain' | cxTranslate) &&
-        !unavailable
-      "
-      class="repeat-icon"
-      ><cx-icon [type]="iconTypes.REPEAT"
-    /></span>
-    <span
+          >
+          @if (
+            options?.addToCartString === ('addToCart.buyItAgain' | cxTranslate) &&
+            !unavailable
+            ) {
+            <span
+              class="repeat-icon"
+              ><cx-icon [type]="iconTypes.REPEAT"
+            /></span>
+          }
+          <span
       [ngClass]="
         options?.addToCartString === ('addToCart.buyItAgain' | cxTranslate)
           ? 'buyItAgainLink'
           : ''
       "
-    >
-      {{
-        unavailable
-          ? ('addToCart.unavailable' | cxTranslate)
-          : (options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate))
-      }}
-    </span>
-  </button>
-</form>
+            >
+            {{
+            unavailable
+            ? ('addToCart.unavailable' | cxTranslate)
+            : (options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate))
+            }}
+          </span>
+        </button>
+      }
+    </form>
+  }

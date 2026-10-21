@@ -1,4 +1,4 @@
-<ng-container *ngIf="{ storeSelected: storeSelected$ | async } as data">
+@if ({ storeSelected: storeSelected$ | async }; as data) {
   <div
     [attr.data-preferred-store]="pointOfServiceName.name"
     [attr.data-store-is-selected]="
@@ -6,14 +6,14 @@
     "
     class="setpreferredstore-container"
     (click)="setAsPreferred()"
-  >
+    >
     <div
       [ngClass]="
         pointOfServiceName.name === data.storeSelected?.name
           ? 'icon-selected'
           : 'icon-not-selected'
       "
-    >
+      >
       <cx-icon aria-hidden="true" [type]="ICON_TYPE.HEART" />
     </div>
     <button
@@ -25,8 +25,8 @@
         ', ' +
         pointOfServiceName.displayName
       "
-    >
+      >
       {{ getSetStoreButtonLabel(data.storeSelected?.name || '') | cxTranslate }}
     </button>
   </div>
-</ng-container>
+}

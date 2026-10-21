@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CheckoutStep } from '@spartacus/checkout/base/root';
 import { TranslatePipe } from '@spartacus/core';
@@ -16,7 +16,7 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   selector: 'cx-checkout-progress-mobile-bottom',
   templateUrl: './checkout-progress-mobile-bottom.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class CheckoutProgressMobileBottomComponent {
   private _steps$: BehaviorSubject<CheckoutStep[]> =

@@ -1,196 +1,179 @@
-<div class="cx-order-summary" *ngIf="order$ | async as order">
-  <ng-container *ngIf="!(isOrderLoading$ | async)">
-    <div *ngIf="!(simple$ | async)" class="container">
-      <ng-container *ngIf="order.replenishmentOrderCode; else otherOrder">
-        <div class="cx-summary-card">
-          <cx-card
+@if (order$ | async; as order) {
+  <div class="cx-order-summary">
+    @if (!(isOrderLoading$ | async)) {
+      @if (!(simple$ | async)) {
+        <div class="container">
+          @if (order.replenishmentOrderCode) {
+            <div class="cx-summary-card">
+              <cx-card
             [content]="
               getReplenishmentCodeCardContent(order?.replenishmentOrderCode)
                 | async
             "
-          />
-
-          <cx-card
-            [content]="getReplenishmentActiveCardContent(order?.active) | async"
-          />
-        </div>
-
-        <div class="cx-summary-card">
-          <cx-card
+                />
+              <cx-card
+                [content]="getReplenishmentActiveCardContent(order?.active) | async"
+                />
+            </div>
+            <div class="cx-summary-card">
+              <cx-card
             [content]="
               getReplenishmentStartOnCardContent(order?.firstDate | cxDate)
                 | async
             "
-          />
-
-          <cx-card
+                />
+              <cx-card
             [content]="
               getReplenishmentFrequencyCardContent(
                 order?.trigger?.displayTimeTable
               ) | async
             "
-          />
-
-          <cx-card
+                />
+              <cx-card
             [content]="
               getReplenishmentNextDateCardContent(
                 order?.trigger?.activationTime | cxDate
               ) | async
             "
-          />
-
-          <ng-template
-            [cxOutlet]="cartOutlets.ORDER_OVERVIEW"
-            [cxOutletContext]="{ item: order, readonly: true }"
-          />
-        </div>
-      </ng-container>
-
-      <ng-template #otherOrder>
-        <div class="cx-summary-card">
-          <cx-card [content]="getOrderCodeCardContent(order?.code) | async" />
-
-          <cx-card
+                />
+              <ng-template
+                [cxOutlet]="cartOutlets.ORDER_OVERVIEW"
+                [cxOutletContext]="{ item: order, readonly: true }"
+                />
+            </div>
+          } @else {
+            <div class="cx-summary-card">
+              <cx-card [content]="getOrderCodeCardContent(order?.code) | async" />
+              <cx-card
             [content]="
               getOrderCurrentDateCardContent(order?.created | cxDate) | async
             "
-          />
-
-          <cx-card
-            [content]="getOrderStatusCardContent(order.statusDisplay) | async"
-          />
-
-          <ng-container
+                />
+              <cx-card
+                [content]="getOrderStatusCardContent(order.statusDisplay) | async"
+                />
+              <ng-container
             *ngTemplateOutlet="
               showQuoteCode;
               context: { sapQuoteCode: order.sapQuoteCode }
             "
-          />
-
-          <ng-template
-            [cxOutlet]="cartOutlets.ORDER_OVERVIEW"
-            [cxOutletContext]="{ item: order, readonly: true }"
-          />
-        </div>
-      </ng-template>
-
-      <ng-container
-        *ngIf="order.purchaseOrderNumber || order.purchaseOrderNumber === ''"
-      >
-        <div class="cx-summary-card">
-          <cx-card
+                />
+              <ng-template
+                [cxOutlet]="cartOutlets.ORDER_OVERVIEW"
+                [cxOutletContext]="{ item: order, readonly: true }"
+                />
+            </div>
+          }
+          @if (order.purchaseOrderNumber || order.purchaseOrderNumber === '') {
+            <div class="cx-summary-card">
+              <cx-card
             [content]="
               getPurchaseOrderNumber(order?.purchaseOrderNumber) | async
             "
-          />
-
-          <cx-card
-            [content]="getMethodOfPaymentCardContent(order.paymentInfo) | async"
-          />
-
-          <ng-container *ngIf="order.costCenter">
-            <cx-card
-              [content]="getCostCenterCardContent(order?.costCenter) | async"
-            />
-          </ng-container>
-        </div>
-      </ng-container>
-
-      <div class="cx-summary-card">
-        <ng-container *ngIf="order.deliveryAddress">
-          <cx-card
-            [content]="getAddressCardContent(order?.deliveryAddress) | async"
-          />
-        </ng-container>
-
-        <ng-container *ngIf="shouldShowDeliveryMode(order.deliveryMode)">
-          <cx-card
-            [content]="getDeliveryModeCardContent(order?.deliveryMode) | async"
-          />
-        </ng-container>
-
-        <ng-template
-          [cxOutlet]="orderOutlets.SERVICE_DETAILS"
-          [cxOutletContext]="{ item: order, readonly: true }"
-        />
-      </div>
-
-      <ng-container *ngIf="order.paymentInfo">
-        <div
-          class="cx-summary-card"
-          *ngIf="
-            order?.paymentInfo?.billingAddress ||
-            isPaymentInfoCardFull(order?.paymentInfo)
-          "
-        >
-          <ng-container *ngIf="isPaymentInfoCardFull(order?.paymentInfo)">
-            <cx-card
-              [content]="getPaymentInfoCardContent(order?.paymentInfo) | async"
-            />
-          </ng-container>
-
-          <cx-card
+                />
+              <cx-card
+                [content]="getMethodOfPaymentCardContent(order.paymentInfo) | async"
+                />
+              @if (order.costCenter) {
+                <cx-card
+                  [content]="getCostCenterCardContent(order?.costCenter) | async"
+                  />
+              }
+            </div>
+          }
+          <div class="cx-summary-card">
+            @if (order.deliveryAddress) {
+              <cx-card
+                [content]="getAddressCardContent(order?.deliveryAddress) | async"
+                />
+            }
+            @if (shouldShowDeliveryMode(order.deliveryMode)) {
+              <cx-card
+                [content]="getDeliveryModeCardContent(order?.deliveryMode) | async"
+                />
+            }
+            <ng-template
+              [cxOutlet]="orderOutlets.SERVICE_DETAILS"
+              [cxOutletContext]="{ item: order, readonly: true }"
+              />
+          </div>
+          @if (order.paymentInfo) {
+            @if (
+              order?.paymentInfo?.billingAddress ||
+              isPaymentInfoCardFull(order?.paymentInfo)
+              ) {
+              <div
+                class="cx-summary-card"
+                >
+                @if (isPaymentInfoCardFull(order?.paymentInfo)) {
+                  <cx-card
+                    [content]="getPaymentInfoCardContent(order?.paymentInfo) | async"
+                    />
+                }
+                <cx-card
             [content]="
               getBillingAddressCardContent(order?.paymentInfo?.billingAddress)
                 | async
             "
-          />
+                  />
+              </div>
+            }
+          }
         </div>
-      </ng-container>
-    </div>
-
-    <div *ngIf="simple$ | async" class="container">
-      <div class="cx-order-details-cards">
-        <cx-card [content]="getOrderCodeCardContent(order?.code) | async" />
-
-        <cx-card
+      }
+      @if (simple$ | async) {
+        <div class="container">
+          <div class="cx-order-details-cards">
+            <cx-card [content]="getOrderCodeCardContent(order?.code) | async" />
+            <cx-card
           [content]="
             getOrderCurrentDateCardContent(order?.created | cxDate) | async
           "
-        />
-
-        <cx-card
-          [content]="getOrderStatusCardContent(order.statusDisplay) | async"
-        />
-
-        <ng-container
+              />
+            <cx-card
+              [content]="getOrderStatusCardContent(order.statusDisplay) | async"
+              />
+            <ng-container
           *ngTemplateOutlet="
             showQuoteCode;
             context: { sapQuoteCode: order.sapQuoteCode }
           "
-        />
-
-        <ng-template
-          [cxOutlet]="cartOutlets.ORDER_OVERVIEW"
-          [cxOutletContext]="{ item: order, readonly: true }"
-        />
-      </div>
-      <cx-order-detail-billing
-        *ngIf="
-          isPaymentInfoCardFull(order?.paymentInfo) ||
-          order?.paymentInfo?.billingAddress
-        "
-      />
-    </div>
-  </ng-container>
-</div>
+              />
+            <ng-template
+              [cxOutlet]="cartOutlets.ORDER_OVERVIEW"
+              [cxOutletContext]="{ item: order, readonly: true }"
+              />
+          </div>
+          @if (
+            isPaymentInfoCardFull(order?.paymentInfo) ||
+            order?.paymentInfo?.billingAddress
+            ) {
+            <cx-order-detail-billing
+              />
+          }
+        </div>
+      }
+    }
+  </div>
+}
 
 <ng-template #showQuoteCode let-quoteCode="sapQuoteCode">
-  <div
-    id="quote-container"
-    class="card-body cx-card-body"
-    *ngIf="orderConfig.showOrderQuoteLink && quoteCode"
-  >
-    <div class="cx-card-title">
-      {{ 'orderDetails.quoteCode' | cxTranslate: { id: quoteCode } }}
-    </div>
-    <a
+  @if (orderConfig.showOrderQuoteLink && quoteCode) {
+    <div
+      id="quote-container"
+      class="card-body cx-card-body"
+      >
+      <div class="cx-card-title">
+        {{ 'orderDetails.quoteCode' | cxTranslate: { id: quoteCode } }}
+      </div>
+      <a
       [routerLink]="
         { cxRoute: 'quoteDetails', params: { quoteId: quoteCode } } | cxUrl
       "
-      class="cx-card-actions"
-    >
-      {{ 'orderDetails.quoteDetail' | cxTranslate }}
-    </a>
-  </div>
+        class="cx-card-actions"
+        >
+        {{ 'orderDetails.quoteDetail' | cxTranslate }}
+      </a>
+    </div>
+  }
 </ng-template>

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
+
 import {
   AfterViewChecked,
   ChangeDetectionStrategy,
@@ -33,10 +33,9 @@ import {
     FocusDirective,
     IconComponent,
     InvoicesListComponent,
-    NgIf,
     SpinnerComponent,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class MyAccountV2DownloadInvoicesComponent implements AfterViewChecked {
   @ViewChild(InvoicesListComponent, { static: false })

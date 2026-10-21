@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   AfterViewChecked,
   ChangeDetectionStrategy,
@@ -51,15 +51,13 @@ import {
   selector: 'cx-asm-customer-360-table',
   templateUrl: './asm-customer-360-table.component.html',
   imports: [
-    NgIf,
-    NgFor,
     NgClass,
     StarRatingComponent,
     AsyncPipe,
     TranslatePipe,
     CxDatePipe,
-    ArgsPipe,
-  ],
+    ArgsPipe
+],
 })
 export class AsmCustomer360TableComponent
   implements OnChanges, AfterViewChecked

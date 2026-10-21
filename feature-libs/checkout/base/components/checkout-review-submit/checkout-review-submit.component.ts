@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AsyncPipe,
-  NgFor,
-  NgIf,
-  NgSwitch,
-  NgSwitchCase,
-  NgTemplateOutlet,
-} from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -55,10 +48,6 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   templateUrl: './checkout-review-submit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
-    NgSwitch,
-    NgSwitchCase,
     NgTemplateOutlet,
     CardComponent,
     RouterLink,
@@ -67,8 +56,8 @@ import { CheckoutStepService } from '../services/checkout-step.service';
     PromotionsComponent,
     AsyncPipe,
     TranslatePipe,
-    UrlPipe,
-  ],
+    UrlPipe
+],
 })
 export class CheckoutReviewSubmitComponent {
   private featureToggles = inject(FeatureToggles);

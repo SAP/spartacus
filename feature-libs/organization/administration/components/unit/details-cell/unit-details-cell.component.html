@@ -10,7 +10,7 @@
             params: { uid: model.id },
           } | cxUrl
         "
-      >
+        >
         {{ model.name }}
       </a>
     </div>
@@ -26,18 +26,20 @@
       <label>{{ 'orgUnit.active' | cxTranslate }}</label>
       <span class="value" [class.is-active]="model.active">
         {{
-          (model.active ? 'organization.enabled' : 'organization.disabled')
-            | cxTranslate
+        (model.active ? 'organization.enabled' : 'organization.disabled')
+        | cxTranslate
         }}
       </span>
     </div>
 
-    <div class="property" *ngIf="model.approvalProcess?.name">
-      <label>{{ 'orgUnit.approvalProcess' | cxTranslate }}</label>
-      <span class="value">
-        {{ model.approvalProcess?.name }}
-      </span>
-    </div>
+    @if (model.approvalProcess?.name) {
+      <div class="property">
+        <label>{{ 'orgUnit.approvalProcess' | cxTranslate }}</label>
+        <span class="value">
+          {{ model.approvalProcess?.name }}
+        </span>
+      </div>
+    }
   </div>
 </ng-template>
 
@@ -50,6 +52,6 @@
     appendToBody: true,
     displayCloseButton: true,
   }"
->
+  >
   {{ model.name }}
 </button>

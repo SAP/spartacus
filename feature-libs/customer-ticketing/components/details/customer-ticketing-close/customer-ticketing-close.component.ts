@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -23,7 +23,7 @@ import { CustomerTicketingCloseComponentService } from './customer-ticketing-clo
 @Component({
   selector: 'cx-customer-ticketing-close',
   templateUrl: './customer-ticketing-close.component.html',
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class CustomerTicketingCloseComponent implements OnDestroy {
   protected subscription = new Subscription();

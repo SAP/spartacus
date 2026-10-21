@@ -6,7 +6,7 @@
       role="heading"
       aria-level="4"
       [attr.aria-label]="'myAccountV2CustomerTicketing.heading' | cxTranslate"
-    >
+      >
       {{ 'myAccountV2CustomerTicketing.heading' | cxTranslate }}
     </div>
 
@@ -23,22 +23,22 @@
             cxRoute: 'supportTickets',
           } | cxUrl
         "
-      >
+        >
         {{ 'myAccountV2CustomerTicketing.showMore' | cxTranslate }}
       </a>
     </div>
   </div>
-  <ng-container *ngIf="tickets$ | async as ticketList; else spinner">
-    <ng-container *ngIf="ticketList.tickets.length > 0; else noCustomerTickets">
+  @if (tickets$ | async; as ticketList) {
+    @if (ticketList.tickets.length > 0) {
       <div class="cx-my-account-customer-ticket-body">
-        <ng-container *ngFor="let ticket of ticketList.tickets">
+        @for (ticket of ticketList.tickets; track ticket) {
           <div class="cx-my-account-customer-ticket-details">
             <span
               class="cx-my-account-customer-ticket-subject"
               [attr.aria-label]="
                 'myAccountV2CustomerTicketing.subjectLabel' | cxTranslate
               "
-            >
+              >
               {{ ticket.subject }}
             </span>
             <span class="cx-my-account-customer-ticket-details-light">
@@ -49,36 +49,34 @@
               [attr.aria-label]="
                 'myAccountV2CustomerTicketing.idLabel' | cxTranslate
               "
-            >
+              >
               |
               {{
-                'myAccountV2CustomerTicketing.ticketId'
-                  | cxTranslate: { value: ticket.id }
+              'myAccountV2CustomerTicketing.ticketId'
+              | cxTranslate: { value: ticket.id }
               }}
             </span>
           </div>
           <div class="cx-my-account-customer-ticket-details-light">
             {{
-              'myAccountV2CustomerTicketing.changedOn'
-                | cxTranslate
-                  : { value: ticket.modifiedAt | cxDate: 'd, MMMM, yyyy' }
+            'myAccountV2CustomerTicketing.changedOn'
+            | cxTranslate
+            : { value: ticket.modifiedAt | cxDate: 'd, MMMM, yyyy' }
             }}
           </div>
-        </ng-container>
+        }
       </div>
-    </ng-container>
-  </ng-container>
+    } @else {
+      <div
+        class="cx-my-account-no-ticket"
+        [attr.aria-label]="'customerTicketingList.noTickets' | cxTranslate"
+        >
+        {{ 'customerTicketingList.noTickets' | cxTranslate }}
+      </div>
+    }
+  } @else {
+    <cx-spinner />
+  }
 </ng-container>
 
-<ng-template #noCustomerTickets>
-  <div
-    class="cx-my-account-no-ticket"
-    [attr.aria-label]="'customerTicketingList.noTickets' | cxTranslate"
-  >
-    {{ 'customerTicketingList.noTickets' | cxTranslate }}
-  </div>
-</ng-template>
 
-<ng-template #spinner>
-  <cx-spinner />
-</ng-template>

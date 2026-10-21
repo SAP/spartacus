@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import {
@@ -37,19 +37,17 @@ import { UserItemService } from '../services/user-item.service';
   ],
   host: { class: 'content-wrapper' },
   imports: [
-    NgIf,
     CardComponent,
     FocusDirective,
     RouterLink,
     ToggleStatusComponent,
     DisableInfoComponent,
     ItemExistsDirective,
-    NgFor,
     RouterLinkActive,
     AsyncPipe,
     UrlPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class UserDetailsComponent {
   userGuardSubscription: Subscription;

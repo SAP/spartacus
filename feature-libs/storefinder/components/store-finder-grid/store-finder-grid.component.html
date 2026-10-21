@@ -1,9 +1,5 @@
-<ng-container
-  *ngIf="
-    !(isLoading$ | async) && (locations$ | async) as locations;
-    else loading
-  "
->
+@if (
+  !(isLoading$ | async) && (locations$ | async); as locations) {
   <div class="container">
     <div class="cx-counter">
       <h3 class="cx-counter-title">
@@ -11,22 +7,22 @@
       </h3>
       <span role="alert">
         {{
-          'storeFinder.storesFound'
-            | cxTranslate: { count: locations?.stores?.length }
+        'storeFinder.storesFound'
+        | cxTranslate: { count: locations?.stores?.length }
         }}
       </span>
     </div>
     <div class="row">
-      <div
-        class="col-sm-6 col-md-4 col-lg-3 item"
-        *ngFor="let location of locations?.stores"
-      >
-        <cx-store-finder-list-item [location]="location" />
-      </div>
+      @for (location of locations?.stores; track location) {
+        <div
+          class="col-sm-6 col-md-4 col-lg-3 item"
+          >
+          <cx-store-finder-list-item [location]="location" />
+        </div>
+      }
     </div>
   </div>
-</ng-container>
-
-<ng-template #loading>
+} @else {
   <div class="cx-spinner"><cx-spinner /></div>
-</ng-template>
+}
+

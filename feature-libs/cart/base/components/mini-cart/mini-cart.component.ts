@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FeatureDirective, TranslatePipe, UrlPipe } from '@spartacus/core';
@@ -17,14 +17,13 @@ import { MiniCartComponentService } from './mini-cart-component.service';
   templateUrl: './mini-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     FeatureDirective,
     RouterLink,
     IconComponent,
     AsyncPipe,
     UrlPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class MiniCartComponent {
   iconTypes = ICON_TYPE;

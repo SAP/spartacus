@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -37,15 +37,14 @@ const DISABLED_STATUS = 'DISABLED';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
   imports: [
-    NgIf,
     FormsModule,
     CardComponent,
     ItemActiveDirective,
     FocusDirective,
     RouterLink,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class FormComponent<T> implements OnInit, OnDestroy {
   /**

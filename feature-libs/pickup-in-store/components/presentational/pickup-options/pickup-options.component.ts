@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
+
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -43,10 +43,9 @@ import { PickupOptionsTabs } from './pickup-options.model';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    NgIf,
     TabComponent,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class PickupOptionsComponent
   implements OnChanges, AfterViewInit, OnDestroy

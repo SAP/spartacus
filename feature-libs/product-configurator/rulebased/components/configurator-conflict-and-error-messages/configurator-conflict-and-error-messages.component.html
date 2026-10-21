@@ -1,96 +1,99 @@
-<ng-container *ngIf="configuration$ | async as configuration">
-  <ng-container *ngIf="(configuration?.warningMessages?.length ?? 0) > 0">
+@if (configuration$ | async; as configuration) {
+  @if ((configuration?.warningMessages?.length ?? 0) > 0) {
     <div
       aria-live="assertive"
       aria-atomic="true"
       class="alert-message alert-message-invalid-warning"
-    >
+      >
       <span class="alert-icon">
         <cx-icon type="WARNING" />
       </span>
-      <span
-        class="cx-warning-text"
-        *ngIf="(configuration?.warningMessages?.length ?? 0) > 1"
-      >
-        {{ 'configurator.header.multipleWarnings' | cxTranslate }}</span
-      >
-      <button
-        (click)="toggleWarnings()"
-        *ngIf="(configuration?.warningMessages?.length ?? 0) > 1"
-        class="cx-warning-toggle"
-        [attr.aria-expanded]="showWarnings"
-      >
-        {{ 'configurator.header.reviewWarnings' | cxTranslate }}
-
-        <ng-container *ngIf="!showWarnings">
-          <cx-icon type="CARET_DOWN" />
-        </ng-container>
-
-        <ng-container *ngIf="showWarnings">
-          <cx-icon type="CARET_UP" />
-        </ng-container>
-      </button>
-      <div
-        class="cx-warning-messages"
-        [class.inline]="configuration?.warningMessages?.length === 1"
-      >
+      @if ((configuration?.warningMessages?.length ?? 0) > 1) {
+        <span
+          class="cx-warning-text"
+          >
+          {{ 'configurator.header.multipleWarnings' | cxTranslate }}</span
+          >
+        }
+        @if ((configuration?.warningMessages?.length ?? 0) > 1) {
+          <button
+            (click)="toggleWarnings()"
+            class="cx-warning-toggle"
+            [attr.aria-expanded]="showWarnings"
+            >
+            {{ 'configurator.header.reviewWarnings' | cxTranslate }}
+            @if (!showWarnings) {
+              <cx-icon type="CARET_DOWN" />
+            }
+            @if (showWarnings) {
+              <cx-icon type="CARET_UP" />
+            }
+          </button>
+        }
         <div
-          class="cx-warning-message"
+          class="cx-warning-messages"
+          [class.inline]="configuration?.warningMessages?.length === 1"
+          >
+          @for (warningMessage of configuration.warningMessages; track warningMessage) {
+            <div
+              class="cx-warning-message"
           [class.open]="
             showWarnings || configuration?.warningMessages?.length === 1
           "
-          *ngFor="let warningMessage of configuration.warningMessages"
-        >
-          {{ warningMessage }}
+              >
+              {{ warningMessage }}
+            </div>
+          }
         </div>
       </div>
-    </div>
-  </ng-container>
-  <ng-container *ngIf="(configuration?.errorMessages?.length ?? 0) > 0">
-    <div
-      aria-live="assertive"
-      aria-atomic="true"
-      role="alert"
-      class="alert-message alert-message-error"
-    >
-      <span class="alert-icon">
-        <cx-icon type="ERROR" />
-      </span>
-      <span
-        class="cx-error-text"
-        *ngIf="(configuration?.errorMessages?.length ?? 0) > 1"
-      >
-        {{ 'configurator.header.multipleErrors' | cxTranslate }}</span
-      >
-      <button
-        (click)="toggleErrors()"
-        *ngIf="(configuration?.errorMessages?.length ?? 0) > 1"
-        class="cx-error-toggle"
-        [attr.aria-expanded]="showErrors"
-      >
-        {{ 'configurator.header.reviewErrors' | cxTranslate }}
-        <ng-container *ngIf="!showErrors">
-          <cx-icon type="CARET_DOWN" />
-        </ng-container>
-
-        <ng-container *ngIf="showErrors">
-          <cx-icon type="CARET_UP" />
-        </ng-container>
-      </button>
+    }
+    @if ((configuration?.errorMessages?.length ?? 0) > 0) {
       <div
-        class="cx-error-messages"
-        [class.inline]="configuration?.errorMessages?.length === 1"
-      >
-        <div
-          class="cx-error-message"
+        aria-live="assertive"
+        aria-atomic="true"
+        role="alert"
+        class="alert-message alert-message-error"
+        >
+        <span class="alert-icon">
+          <cx-icon type="ERROR" />
+        </span>
+        @if ((configuration?.errorMessages?.length ?? 0) > 1) {
+          <span
+            class="cx-error-text"
+            >
+            {{ 'configurator.header.multipleErrors' | cxTranslate }}</span
+            >
+          }
+          @if ((configuration?.errorMessages?.length ?? 0) > 1) {
+            <button
+              (click)="toggleErrors()"
+              class="cx-error-toggle"
+              [attr.aria-expanded]="showErrors"
+              >
+              {{ 'configurator.header.reviewErrors' | cxTranslate }}
+              @if (!showErrors) {
+                <cx-icon type="CARET_DOWN" />
+              }
+              @if (showErrors) {
+                <cx-icon type="CARET_UP" />
+              }
+            </button>
+          }
+          <div
+            class="cx-error-messages"
+            [class.inline]="configuration?.errorMessages?.length === 1"
+            >
+            @for (errorMessage of configuration.errorMessages; track errorMessage) {
+              <div
+                class="cx-error-message"
           [class.open]="
             showErrors || configuration?.errorMessages?.length === 1
           "
-          *ngFor="let errorMessage of configuration.errorMessages"
-        >
-          {{ errorMessage }}
+                >
+                {{ errorMessage }}
+              </div>
+            }
+          </div>
         </div>
-      </div>
-    </div>
-  </ng-container>
-</ng-container>
+      }
+    }

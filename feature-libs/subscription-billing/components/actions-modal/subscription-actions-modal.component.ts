@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CommonModule, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   Component,
   computed,
@@ -54,9 +54,8 @@ import { SubscriptionActionsModalComponentService } from './subscription-actions
     KeyboardFocusModule,
     SpinnerModule,
     NgSelectModule,
-    FormRequiredAsterisksComponent,
-    NgIf,
-  ],
+    FormRequiredAsterisksComponent
+],
 })
 export class SubscriptionActionsModalComponent {
   protected actionsFacade = inject(SubscriptionActionsFacade);

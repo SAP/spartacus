@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, KeyValuePipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, KeyValuePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -42,16 +42,14 @@ import { QuickOrderTableComponent } from './table/quick-order-table.component';
   templateUrl: './quick-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     MessageComponent,
-    NgFor,
     QuickOrderFormComponent,
     QuickOrderTableComponent,
     ProgressButtonComponent,
     AsyncPipe,
     KeyValuePipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class QuickOrderComponent implements OnInit, OnDestroy {
   cartId$: Observable<string>;

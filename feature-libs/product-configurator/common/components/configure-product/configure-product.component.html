@@ -1,5 +1,5 @@
-<ng-container *ngIf="product$ | async as product">
-  <ng-container *ngIf="product.configurable && !isReadOnlyBaseProduct(product)">
+@if (product$ | async; as product) {
+  @if (product.configurable && !isReadOnlyBaseProduct(product)) {
     <button
       (click)="navigateToConfigurator(product)"
       class="btn btn-primary btn-block"
@@ -7,8 +7,8 @@
       [attr.aria-label]="
         getAriaLabelTranslationKey(product.configuratorType) | cxTranslate
       "
-    >
+      >
       {{ getTranslationKey(product.configuratorType) | cxTranslate }}
     </button>
-  </ng-container>
-</ng-container>
+  }
+}

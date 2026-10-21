@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -31,7 +31,6 @@ import { ForgotPasswordComponentService } from './forgot-password-component.serv
   templateUrl: './forgot-password.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     SpinnerComponent,
     FormRequiredLegendComponent,
     FormsModule,
@@ -39,8 +38,8 @@ import { ForgotPasswordComponentService } from './forgot-password-component.serv
     FormRequiredAsterisksComponent,
     FormErrorsComponent,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class ForgotPasswordComponent {
   @Optional() protected routingService = inject(RoutingService, {

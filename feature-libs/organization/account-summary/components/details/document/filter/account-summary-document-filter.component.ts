@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -57,14 +57,13 @@ interface GroupValidator {
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    NgIf,
     DatePickerComponent,
     FormErrorsComponent,
     NgSelectComponent,
     NgSelectA11yDirective,
     NgTemplateOutlet,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class AccountSummaryDocumentFilterComponent
   implements OnInit, OnDestroy

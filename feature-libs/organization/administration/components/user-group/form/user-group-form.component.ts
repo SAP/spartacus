@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -44,7 +44,6 @@ import { UserGroupItemService } from '../services/user-group-item.service';
   ],
   imports: [
     FormComponent,
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     FormRequiredLegendComponent,
@@ -52,8 +51,8 @@ import { UserGroupItemService } from '../services/user-group-item.service';
     FormErrorsComponent,
     NgSelectComponent,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class UserGroupFormComponent implements OnInit {
   form: UntypedFormGroup | null = this.itemService.getForm();

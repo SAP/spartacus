@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormsModule,
@@ -36,7 +36,6 @@ import { UpdateEmailComponentService } from './update-email-component.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'user-form', ngSkipHydration: 'true' },
   imports: [
-    NgIf,
     SpinnerComponent,
     FormRequiredLegendComponent,
     FormsModule,
@@ -49,8 +48,8 @@ import { UpdateEmailComponentService } from './update-email-component.service';
     AsyncPipe,
     UrlPipe,
     TranslatePipe,
-    FeatureDirective,
-  ],
+    FeatureDirective
+],
 })
 export class UpdateEmailComponent {
   protected pageMetaService = inject(PageMetaService);

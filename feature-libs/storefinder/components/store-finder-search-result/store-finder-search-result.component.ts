@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { GeoPoint, SearchConfig, TranslatePipe } from '@spartacus/core';
@@ -21,13 +21,12 @@ import { StoreFinderListComponent } from './store-finder-list/store-finder-list.
   selector: 'cx-store-finder-search-result',
   templateUrl: './store-finder-search-result.component.html',
   imports: [
-    NgIf,
     PaginationComponent,
     StoreFinderListComponent,
     SpinnerComponent,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
   locations: any;

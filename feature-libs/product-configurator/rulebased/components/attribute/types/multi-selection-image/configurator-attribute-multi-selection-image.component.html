@@ -1,24 +1,24 @@
 <div id="{{ createAttributeIdForConfigurator(attribute) }}" class="cx-row">
-  <ng-container *ngIf="changedPrices$ | async as changedPrices">
-    <ng-container *ngFor="let value of attribute.values; let i = index">
-      <div
-        *ngIf="isValueDisplayed(attribute, value)"
+  @if (changedPrices$ | async; as changedPrices) {
+    @for (value of attribute.values; track value; let i = $index) {
+      @if (isValueDisplayed(attribute, value)) {
+        <div
         id="{{
           createAttributeValueIdForConfigurator(attribute, value.valueCode)
         }}"
-        class="cx-configurator-select"
-      >
-        <input
+          class="cx-configurator-select"
+          >
+          <input
           id="{{
             createAttributeValueIdForConfigurator(attribute, value.valueCode) +
               '-input'
           }}"
-          type="checkbox"
-          class="form-input"
-          [value]="value.valueCode"
-          [formControl]="attributeCheckBoxForms[i]"
-          name="{{ createAttributeIdForConfigurator(attribute) }}"
-          (click)="!isReadOnly(attribute) && onSelect(i)"
+            type="checkbox"
+            class="form-input"
+            [value]="value.valueCode"
+            [formControl]="attributeCheckBoxForms[i]"
+            name="{{ createAttributeIdForConfigurator(attribute) }}"
+            (click)="!isReadOnly(attribute) && onSelect(i)"
           [attr.aria-label]="
             getAriaLabelGeneric(
               attribute,
@@ -31,11 +31,11 @@
           [attr.aria-describedby]="
             createAttributeUiKey('label', attribute.name)
           "
-          [attr.checked]="attributeCheckBoxForms[i].value ? 'checked' : null"
-          [cxFocus]="{ key: attribute.name + '-' + value.name }"
-        />
-        <div class="cx-label-container">
-          <label
+            [attr.checked]="attributeCheckBoxForms[i].value ? 'checked' : null"
+            [cxFocus]="{ key: attribute.name + '-' + value.name }"
+            />
+          <div class="cx-label-container">
+            <label
             id="{{
               createValueUiKey('label', attribute.name, value.valueCode)
             }}"
@@ -45,24 +45,26 @@
                 value.valueCode
               ) + '-input'
             }}"
-            class="form-check-label"
-            [style.cursor]="!isReadOnly(attribute) ? 'pointer' : 'default'"
-          >
-            <img
-              *ngIf="getImage(value) as image"
-              [ngClass]="getImgStyleClasses(attribute, value, 'cx-img')"
-              src="{{ image?.url }}"
-              alt="{{ image?.altText }}"
-              title="{{ image?.altText }}"
-            />
-            <div
-              *ngIf="!getImage(value)"
-              [ngClass]="getImgStyleClasses(attribute, value, 'cx-img-dummy')"
-            ></div>
-            {{ getImageLabel(expMode, value.valueDisplay, value.valueCode) }}
-            <button
-              *ngIf="value.description"
-              [cxPopover]="value.description"
+              class="form-check-label"
+              [style.cursor]="!isReadOnly(attribute) ? 'pointer' : 'default'"
+              >
+              @if (getImage(value); as image) {
+                <img
+                  [ngClass]="getImgStyleClasses(attribute, value, 'cx-img')"
+                  src="{{ image?.url }}"
+                  alt="{{ image?.altText }}"
+                  title="{{ image?.altText }}"
+                  />
+              }
+              @if (!getImage(value)) {
+                <div
+                  [ngClass]="getImgStyleClasses(attribute, value, 'cx-img-dummy')"
+                ></div>
+              }
+              {{ getImageLabel(expMode, value.valueDisplay, value.valueCode) }}
+              @if (value.description) {
+                <button
+                  [cxPopover]="value.description"
               [cxPopoverOptions]="{
                 placement: 'auto',
                 class: 'cx-value-description',
@@ -91,19 +93,21 @@
                         ),
                       }
               "
-            >
+              >
               <cx-icon [type]="iconTypes.INFO" />
             </button>
-            <cx-configurator-price
+          }
+          <cx-configurator-price
               [formula]="
                 extractValuePriceFormulaParameters(
                   enrichValueWithPrice(value, changedPrices)
                 )
               "
             />
-          </label>
-        </div>
+        </label>
       </div>
-    </ng-container>
-  </ng-container>
+    </div>
+  }
+}
+}
 </div>

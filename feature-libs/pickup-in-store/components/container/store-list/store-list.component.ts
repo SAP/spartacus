@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PointOfServiceStock, TranslatePipe } from '@spartacus/core';
 import {
@@ -23,13 +23,11 @@ import { StoreComponent } from '../../presentational/store/store.component';
   selector: 'cx-store-list',
   templateUrl: 'store-list.component.html',
   imports: [
-    NgIf,
-    NgFor,
     StoreComponent,
     SpinnerComponent,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class StoreListComponent implements OnInit {
   /** The product code for the stock levels at each location */

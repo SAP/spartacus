@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  NgFor,
-  NgIf,
-  NgSwitch,
-  NgSwitchCase,
-  NgSwitchDefault,
-} from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -30,14 +24,9 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
   templateUrl: './import-entries-summary.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgSwitch,
-    NgSwitchCase,
-    NgSwitchDefault,
     IconComponent,
-    NgFor,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class ImportEntriesSummaryComponent {
   iconTypes = ICON_TYPE;

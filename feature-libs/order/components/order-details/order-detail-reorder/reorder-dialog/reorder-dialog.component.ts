@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -42,12 +42,10 @@ import { BehaviorSubject } from 'rxjs';
   imports: [
     FocusDirective,
     IconComponent,
-    NgIf,
-    NgFor,
     SpinnerComponent,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class ReorderDialogComponent {
   iconTypes = ICON_TYPE;

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -29,13 +29,11 @@ import { Observable, Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FocusDirective,
-    NgIf,
-    NgFor,
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    CxDatePipe,
-  ],
+    CxDatePipe
+],
 })
 export class TrackingEventsComponent implements OnDestroy, OnInit {
   private subscription = new Subscription();

@@ -3,13 +3,13 @@
   role="dialog"
   (click)="closeFilterModal()"
   aria-labelledby="dialogTitle"
->
+  >
   <div
     class="cx-modal-content"
     (click)="$event.stopPropagation()"
     [cxFocus]="focusConfig"
     (esc)="closeFilterModal()"
-  >
+    >
     <div class="cx-dialog-header modal-header">
       <h3 id="dialogTitle" class="cx-dialog-title modal-title">
         {{ 'configurator.overviewFilter.title' | cxTranslate }}
@@ -19,19 +19,19 @@
         type="button"
         class="close"
         (click)="closeFilterModal()"
-      >
+        >
         <span aria-hidden="true">
           <cx-icon [type]="iconTypes.CLOSE" />
         </span>
       </button>
     </div>
-    <ng-container *ngIf="config$ | async as config">
+    @if (config$ | async; as config) {
       <div class="cx-dialog-body modal-body">
         <cx-configurator-overview-filter
           [config]="config"
           [showFilterBar]="false"
-        />
+          />
       </div>
-    </ng-container>
+    }
   </div>
 </div>

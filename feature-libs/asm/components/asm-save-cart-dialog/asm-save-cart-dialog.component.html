@@ -4,7 +4,7 @@
   [cxFocus]="focusConfig"
   (esc)="closeModal(BIND_CART_ACTION.CANCEL)"
   aria-labelledby="asm-save-cart-dialog-title"
->
+  >
   <div class="cx-modal-content">
     <!-- Modal Header -->
     <div class="cx-dialog-header modal-header">
@@ -15,61 +15,62 @@
 
     <!-- Modal Body -->
     <div class="cx-dialog-body modal-body">
-      <ng-container *ngIf="cartQty > 0; else showSaveCartWarning">
+      @if (cartQty > 0) {
         <div class="message-container">
-          <cx-message
-            *ngIf="showDialogAlert$ | async"
-            [text]="'asm.saveCart.dialog.saveInfo' | cxTranslate"
-            [type]="globalMessageType.MSG_TYPE_INFO"
-            (closeMessage)="closeDialogAlert()"
-          />
+          @if (showDialogAlert$ | async) {
+            <cx-message
+              [text]="'asm.saveCart.dialog.saveInfo' | cxTranslate"
+              [type]="globalMessageType.MSG_TYPE_INFO"
+              (closeMessage)="closeDialogAlert()"
+              />
+          }
         </div>
-      </ng-container>
-      <ng-template #showSaveCartWarning>
+      } @else {
         <div class="message-container">
-          <cx-message
-            *ngIf="showDialogAlert$ | async"
-            [text]="'asm.saveCart.dialog.disableInfo' | cxTranslate"
-            [type]="globalMessageType.MSG_TYPE_WARNING"
-            (closeMessage)="closeDialogAlert()"
-          />
+          @if (showDialogAlert$ | async) {
+            <cx-message
+              [text]="'asm.saveCart.dialog.disableInfo' | cxTranslate"
+              [type]="globalMessageType.MSG_TYPE_WARNING"
+              (closeMessage)="closeDialogAlert()"
+              />
+          }
         </div>
-      </ng-template>
+      }
 
       <div class="cx-dialog-content">
         <div class="cx-dialog-row row">
           <div
             class="cx-dialog-item col-sm-6 col-md-6 text-right item-left-text"
-          >
+            >
             {{ 'asm.saveCart.dialog.row.id' | cxTranslate }}
           </div>
           <div
             class="cx-dialog-item col-sm-6 col-md-6 text-left item-right-text"
-          >
+            >
             {{ cart.code }}
           </div>
         </div>
         <div class="cx-dialog-row row">
           <div
             class="cx-dialog-item col-sm-6 col-md-6 text-right item-left-text"
-          >
+            >
             {{ 'asm.saveCart.dialog.row.qtyFull' | cxTranslate }}
           </div>
           <div
             class="cx-dialog-item col-sm-6 col-md-6 text-left item-right-text"
-          >
+            >
             {{ cartQty }}
           </div>
         </div>
         <div class="cx-dialog-row row">
           <div
             class="cx-dialog-item col-sm-6 col-md-6 text-right item-left-text"
-          >
+            >
             {{ 'asm.saveCart.dialog.row.total' | cxTranslate }}
           </div>
           <div
             class="cx-dialog-item col-sm-6 col-md-6 text-left item-right-text"
-          >
+            >
             {{ cart.totalPriceWithTax?.formattedValue }}
           </div>
         </div>
@@ -85,7 +86,7 @@
         class="btn btn-primary"
         type="button"
         [disabled]="this.cartQty === 0"
-      >
+        >
         {{ 'asm.saveCart.dialog.actions.save' | cxTranslate }}
       </button>
 
@@ -94,7 +95,7 @@
         [attr.aria-label]="'common.cancel' | cxTranslate"
         class="btn btn-secondary"
         type="button"
-      >
+        >
         {{ 'common.cancel' | cxTranslate }}
       </button>
     </div>

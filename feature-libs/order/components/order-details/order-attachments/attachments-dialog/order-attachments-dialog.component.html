@@ -5,16 +5,18 @@
   role="dialog"
   aria-labelledby="dialogTitle"
   aria-modal="true"
->
+  >
   <div class="cx-modal-content">
     <div class="cx-dialog-header modal-header">
       <div id="dialogTitle" class="cx-dialog-title modal-title">
         <span>
           {{ 'attachments.dialog.title' | cxTranslate }}
         </span>
-        <span *ngIf="attachmentsCount() as count" class="attachments-counter">
-          {{ '(' + count + ')' }}
-        </span>
+        @if (attachmentsCount(); as count) {
+          <span class="attachments-counter">
+            {{ '(' + count + ')' }}
+          </span>
+        }
       </div>
       <button
         type="button"
@@ -22,7 +24,7 @@
         attr.aria-label="{{ 'attachments.dialog.closeModal' | cxTranslate }}"
         title="{{ 'attachments.dialog.closeModal' | cxTranslate }}"
         (click)="close('Close dialog')"
-      >
+        >
         <span aria-hidden="true">
           <cx-icon [type]="iconTypes.CLOSE" />
         </span>
@@ -31,28 +33,29 @@
 
     <!-- Modal Body -->
     <div class="cx-dialog-body modal-body">
-      <cx-message
-        *ngFor="let errorId of erroredAttachments"
-        [text]="'attachments.dialog.downloadError' | cxTranslate"
-        [type]="globalMessageType.MSG_TYPE_ERROR"
-        (closeMessage)="closeErrorMessage(errorId)"
-        class="cx-dialog-message attachment-error"
-      />
-      <ng-container *ngIf="attachments$ | async as attachments; else loading">
-        <ng-container *ngIf="!loadError(); else error">
-          <ng-container *ngIf="attachmentsCount(); else empty">
+      @for (errorId of erroredAttachments; track errorId) {
+        <cx-message
+          [text]="'attachments.dialog.downloadError' | cxTranslate"
+          [type]="globalMessageType.MSG_TYPE_ERROR"
+          (closeMessage)="closeErrorMessage(errorId)"
+          class="cx-dialog-message attachment-error"
+          />
+      }
+      @if (attachments$ | async; as attachments) {
+        @if (!loadError()) {
+          @if (attachmentsCount()) {
             <table class="table">
-              <ng-container *ngFor="let attachment of attachments">
-                <tr
-                  *ngIf="attachment.sapAttachmentId"
-                  class="order-attachment-row"
-                >
-                  <td>
-                    <a
+              @for (attachment of attachments; track attachment) {
+                @if (attachment.sapAttachmentId) {
+                  <tr
+                    class="order-attachment-row"
+                    >
+                    <td>
+                      <a
                       attr.aria-label="{{
                         'attachments.dialog.preview' | cxTranslate
                       }}"
-                      title="{{ 'attachments.dialog.preview' | cxTranslate }}"
+                        title="{{ 'attachments.dialog.preview' | cxTranslate }}"
                       [ngClass]="{
                         disabled: loadingAttachments.includes(
                           attachment.sapAttachmentId
@@ -71,31 +74,31 @@
                           attachment.sapFileName
                         )
                       "
-                    >
-                      {{ attachment.sapFileName }}
-                    </a>
-                  </td>
-                  <td>
-                    <div
-                      class="inline-spinner"
+                        >
+                        {{ attachment.sapFileName }}
+                      </a>
+                    </td>
+                    <td>
+                      <div
+                        class="inline-spinner"
                       [ngClass]="{
                         hidden: !loadingAttachments.includes(
                           attachment.sapAttachmentId
                         ),
                       }"
-                    >
-                      <cx-spinner />
-                    </div>
-                  </td>
-                  <td>
-                    <a
-                      tabindex="0"
-                      role="button"
-                      class="file-icon"
+                        >
+                        <cx-spinner />
+                      </div>
+                    </td>
+                    <td>
+                      <a
+                        tabindex="0"
+                        role="button"
+                        class="file-icon"
                       attr.aria-label="{{
                         'attachments.dialog.preview' | cxTranslate
                       }}"
-                      title="{{ 'attachments.dialog.preview' | cxTranslate }}"
+                        title="{{ 'attachments.dialog.preview' | cxTranslate }}"
                       [ngClass]="{
                         disabled: loadingAttachments.includes(
                           attachment.sapAttachmentId
@@ -113,16 +116,35 @@
                           attachment.sapFileName
                         )
                       "
-                    >
-                      <cx-icon [type]="iconTypes.FILE" />
-                    </a>
-                  </td>
-                </tr>
-              </ng-container>
+                        >
+                        <cx-icon [type]="iconTypes.FILE" />
+                      </a>
+                    </td>
+                  </tr>
+                }
+              }
             </table>
-          </ng-container>
-        </ng-container>
-      </ng-container>
+          } @else {
+            <cx-message
+              [text]="'attachments.dialog.empty' | cxTranslate"
+              [type]="globalMessageType.MSG_TYPE_INFO"
+              [isVisibleCloseButton]="false"
+              class="cx-dialog-message info-message"
+              />
+          }
+        } @else {
+          <cx-message
+            [text]="'attachments.dialog.error' | cxTranslate"
+            [type]="globalMessageType.MSG_TYPE_ERROR"
+            [isVisibleCloseButton]="false"
+            class="cx-dialog-message error-message"
+            />
+        }
+      } @else {
+        <div class="cx-spinner">
+          <cx-spinner />
+        </div>
+      }
     </div>
 
     <!-- Modal Footer -->
@@ -132,31 +154,10 @@
         [attr.aria-label]="'common.cancel' | cxTranslate"
         class="btn btn-secondary cancel-button"
         type="button"
-      >
+        >
         {{ 'common.cancel' | cxTranslate }}
       </button>
     </div>
   </div>
 </div>
 
-<ng-template #error>
-  <cx-message
-    [text]="'attachments.dialog.error' | cxTranslate"
-    [type]="globalMessageType.MSG_TYPE_ERROR"
-    [isVisibleCloseButton]="false"
-    class="cx-dialog-message error-message"
-  />
-</ng-template>
-<ng-template #empty>
-  <cx-message
-    [text]="'attachments.dialog.empty' | cxTranslate"
-    [type]="globalMessageType.MSG_TYPE_INFO"
-    [isVisibleCloseButton]="false"
-    class="cx-dialog-message info-message"
-  />
-</ng-template>
-<ng-template #loading>
-  <div class="cx-spinner">
-    <cx-spinner />
-  </div>
-</ng-template>

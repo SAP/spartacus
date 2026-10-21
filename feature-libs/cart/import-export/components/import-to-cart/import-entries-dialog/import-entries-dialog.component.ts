@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   AddOrderEntriesContext,
@@ -35,13 +35,12 @@ import { ImportToNewSavedCartFormComponent } from './import-to-new-saved-cart-fo
   imports: [
     FocusDirective,
     IconComponent,
-    NgIf,
     ImportToNewSavedCartFormComponent,
     ImportEntriesFormComponent,
     ImportEntriesSummaryComponent,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class ImportEntriesDialogComponent {
   iconTypes = ICON_TYPE;

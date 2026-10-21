@@ -1,17 +1,17 @@
-<div class="form-group" *ngIf="attribute?.values?.length">
-  <label
-    for="{{ createAttributeIdForConfigurator(attribute) }}"
-    class="cx-visually-hidden"
-  >
-    {{
+@if (attribute?.values?.length) {
+  <div class="form-group">
+    <label
+      for="{{ createAttributeIdForConfigurator(attribute) }}"
+      class="cx-visually-hidden"
+      >
+      {{
       'configurator.a11y.listbox'
-        | cxTranslate
-          : {
-              count: attribute.values?.length,
-            }
+      | cxTranslate
+      : {
+      count: attribute.values?.length,
+    }
     }}
   </label>
-
   <select
     id="{{ createAttributeIdForConfigurator(attribute) }}"
     class="form-control"
@@ -22,12 +22,12 @@
     [cxFocus]="{ key: attribute.name }"
     (change)="onSelect(attributeDropDownForm.value)"
     [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
-  >
-    <option
-      *ngFor="let item of attribute.values"
-      [label]="getLabel(false, item.valueDisplay, undefined, item)"
-      [selected]="item.selected"
-      [value]="item.valueCode"
+    >
+    @for (item of attribute.values; track item) {
+      <option
+        [label]="getLabel(false, item.valueDisplay, undefined, item)"
+        [selected]="item.selected"
+        [value]="item.valueCode"
       [attr.aria-label]="
         isRetractValue(item.valueCode)
           ? ('configurator.a11y.forAttribute'
@@ -45,26 +45,31 @@
               | cxTranslate
                 : { value: item.valueDisplay, attribute: attribute.label })
       "
-      [value]="item.valueCode"
-    >
-      {{ getLabel(false, item.valueDisplay, undefined, item) }}
-    </option>
+        [value]="item.valueCode"
+        >
+        {{ getLabel(false, item.valueDisplay, undefined, item) }}
+      </option>
+    }
   </select>
 </div>
+}
 
-<cx-configurator-attribute-product-card
-  *ngIf="isNotRetractValue()"
+@if (isNotRetractValue()) {
+  <cx-configurator-attribute-product-card
   id="{{
     createAttributeValueIdForConfigurator(attribute, selectedValue.valueCode)
   }}"
-  (handleDeselect)="onSelect(RETRACT_VALUE_CODE)"
-  [productCardOptions]="extractProductCardParameters()"
-/>
+    (handleDeselect)="onSelect(RETRACT_VALUE_CODE)"
+    [productCardOptions]="extractProductCardParameters()"
+    />
+}
 
-<div *ngIf="withQuantity" class="cx-attribute-level-quantity-price">
-  <cx-configurator-attribute-quantity
-    (changeQuantity)="onChangeQuantity($event, attributeDropDownForm)"
-    [quantityOptions]="extractQuantityParameters(attributeDropDownForm)"
-  />
-  <cx-configurator-price [formula]="extractPriceFormulaParameters()" />
-</div>
+@if (withQuantity) {
+  <div class="cx-attribute-level-quantity-price">
+    <cx-configurator-attribute-quantity
+      (changeQuantity)="onChangeQuantity($event, attributeDropDownForm)"
+      [quantityOptions]="extractQuantityParameters(attributeDropDownForm)"
+      />
+    <cx-configurator-price [formula]="extractPriceFormulaParameters()" />
+  </div>
+}

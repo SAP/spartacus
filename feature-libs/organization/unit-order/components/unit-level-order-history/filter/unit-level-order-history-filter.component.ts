@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
+
 import {
   Component,
   ElementRef,
@@ -30,9 +30,8 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
     IconComponent,
     FormsModule,
     ReactiveFormsModule,
-    NgIf,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class UnitLevelOrderHistoryFilterComponent {
   iconTypes = ICON_TYPE;

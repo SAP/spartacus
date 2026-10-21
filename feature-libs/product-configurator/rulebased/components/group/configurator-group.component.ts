@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { LanguageService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
@@ -24,13 +24,11 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   templateUrl: './configurator-group.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     ConfiguratorConflictDescriptionComponent,
-    NgFor,
     ConfiguratorConflictSuggestionComponent,
     ConfiguratorAttributeCompositionDirective,
-    AsyncPipe,
-  ],
+    AsyncPipe
+],
 })
 export class ConfiguratorGroupComponent {
   protected readonly typePrefix = 'AttributeType_';

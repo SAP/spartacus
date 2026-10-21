@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -20,7 +20,7 @@ import { tap } from 'rxjs/operators';
   selector: 'cx-quote-request-button',
   templateUrl: './quote-request-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class QuoteRequestButtonComponent implements OnDestroy {
   protected quoteFacade = inject(QuoteFacade);

@@ -5,7 +5,7 @@
   role="dialog"
   aria-modal="true"
   aria-labelledby="cx-pickup-option-dialog-title"
->
+  >
   <div class="modal-content cx-dialog-content">
     <!-- Modal Header -->
     <div class="modal-header cx-dialog-header">
@@ -19,7 +19,7 @@
         [attr.aria-label]="'pickupOptionDialog.close' | cxTranslate"
         [attr.title]="'pickupOptionDialog.close' | cxTranslate"
         type="button"
-      >
+        >
         <span aria-hidden="true">
           <cx-icon [type]="ICON_TYPE.CLOSE" />
         </span>
@@ -33,16 +33,18 @@
         (findStores)="onFindStores($event)"
         (showSpinner)="showSpinner($event)"
         (eventHideOutOfStock)="onHideOutOfStock()"
-      />
+        />
       <cx-store-list
         [productCode]="productCode"
         (storeSelected)="close(LOCATION_SELECTED)"
-      />
-      <div *ngIf="loading">
-        <div class="cx-spinner">
-          <cx-spinner />
+        />
+      @if (loading) {
+        <div>
+          <div class="cx-spinner">
+            <cx-spinner />
+          </div>
         </div>
-      </div>
+      }
     </section>
   </div>
 </div>

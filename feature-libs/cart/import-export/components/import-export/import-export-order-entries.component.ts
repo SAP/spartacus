@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   ORDER_ENTRIES_CONTEXT,
@@ -21,11 +21,10 @@ import { ImportOrderEntriesComponent } from '../import-to-cart/import-entries/im
   templateUrl: './import-export-order-entries.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     ImportOrderEntriesComponent,
     ExportOrderEntriesComponent,
-    AsyncPipe,
-  ],
+    AsyncPipe
+],
 })
 export class ImportExportOrderEntriesComponent {
   constructor(protected contextService: ContextService) {}

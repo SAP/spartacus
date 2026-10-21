@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject, Optional } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
@@ -18,12 +18,11 @@ import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-c
   selector: 'cx-configurator-issues-notification',
   templateUrl: './configurator-issues-notification.component.html',
   imports: [
-    NgIf,
     IconComponent,
     ConfigureCartEntryComponent,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class ConfiguratorIssuesNotificationComponent {
   iconTypes = ICON_TYPE;

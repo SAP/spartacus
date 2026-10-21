@@ -1,129 +1,124 @@
 <cx-org-form [i18nRoot]="i18nRoot">
-  <ng-container *ngIf="form" [formGroup]="form" main>
-    <cx-form-required-legend />
-    <label>
-      <span class="label-content required">
-        <span>{{ 'orgUnit.name' | cxTranslate }}</span>
-        <cx-form-required-asterisks />
-      </span>
-      <input
-        type="text"
-        class="form-control"
-        required
-        placeholder="{{ 'orgUnit.name' | cxTranslate }}"
-        formControlName="name"
-        (blur)="createUidWithName(form.get('name'), form.get('uid'))"
+  @if (form) {
+    <ng-container [formGroup]="form" main>
+      <cx-form-required-legend />
+      <label>
+        <span class="label-content required">
+          <span>{{ 'orgUnit.name' | cxTranslate }}</span>
+          <cx-form-required-asterisks />
+        </span>
+        <input
+          type="text"
+          class="form-control"
+          required
+          placeholder="{{ 'orgUnit.name' | cxTranslate }}"
+          formControlName="name"
+          (blur)="createUidWithName(form.get('name'), form.get('uid'))"
         [attr.aria-invalid]="
           form.get('name')?.touched && form.get('name')?.invalid
         "
-        [attr.aria-errormessage]="'nameError'"
-      />
-
-      <cx-form-errors
-        id="nameError"
+          [attr.aria-errormessage]="'nameError'"
+          />
+        <cx-form-errors
+          id="nameError"
         [translationParams]="{
           label: 'orgUnit.name' | cxTranslate,
         }"
-        [control]="form.get('name')"
-      />
-    </label>
-
-    <label>
-      <span class="label-content required">
-        <span>{{ 'orgUnit.uid' | cxTranslate }}</span>
-        <cx-form-required-asterisks />
-      </span>
-      <input
-        class="form-control"
-        type="text"
-        required
-        placeholder="{{ 'orgUnit.uid' | cxTranslate }}"
-        formControlName="uid"
+          [control]="form.get('name')"
+          />
+      </label>
+      <label>
+        <span class="label-content required">
+          <span>{{ 'orgUnit.uid' | cxTranslate }}</span>
+          <cx-form-required-asterisks />
+        </span>
+        <input
+          class="form-control"
+          type="text"
+          required
+          placeholder="{{ 'orgUnit.uid' | cxTranslate }}"
+          formControlName="uid"
         [attr.aria-invalid]="
           form.get('uid')?.touched && form.get('uid')?.invalid
         "
-        [attr.aria-errormessage]="'uidError'"
-      />
-
-      <cx-form-errors
-        id="uidError"
+          [attr.aria-errormessage]="'uidError'"
+          />
+        <cx-form-errors
+          id="uidError"
         [translationParams]="{
           label: 'orgUnit.uid' | cxTranslate,
         }"
-        [control]="form.get('uid')"
-      />
-    </label>
-
-    <label formGroupName="approvalProcess" class="full-width">
-      <span class="label-content required">{{
-        'orgUnit.approvalProcess' | cxTranslate
-      }}</span>
-      <ng-select
-        formControlName="code"
-        [searchable]="false"
-        [clearable]="false"
-        [items]="(approvalProcess$ | async) ?? []"
-        bindLabel="name"
-        bindValue="code"
-        appendTo="cx-org-list"
-        [placeholder]="'orgUnit.approvalProcess' | cxTranslate"
+          [control]="form.get('uid')"
+          />
+      </label>
+      <label formGroupName="approvalProcess" class="full-width">
+        <span class="label-content required">{{
+          'orgUnit.approvalProcess' | cxTranslate
+        }}</span>
+        <ng-select
+          formControlName="code"
+          [searchable]="false"
+          [clearable]="false"
+          [items]="(approvalProcess$ | async) ?? []"
+          bindLabel="name"
+          bindValue="code"
+          appendTo="cx-org-list"
+          [placeholder]="'orgUnit.approvalProcess' | cxTranslate"
         [attr.aria-invalid]="
           form.get('code')?.touched && form.get('code')?.invalid
         "
-        [attr.aria-errormessage]="'codeError'"
+          [attr.aria-errormessage]="'codeError'"
         ariaLabelDropdown="{{
           'common.ngSelectDropdownOptionsList' | cxTranslate
         }}"
-        [cxNgSelectA11y]="{}"
-      />
-
-      <cx-form-errors
-        id="codeError"
+          [cxNgSelectA11y]="{}"
+          />
+        <cx-form-errors
+          id="codeError"
         [translationParams]="{
           label: 'orgUnit.approvalProcess' | cxTranslate,
         }"
-        [control]="form.get('approvalProcess.code')"
-      />
-    </label>
-    <ng-container *ngIf="form.get('parentOrgUnit'); else parentOrgUnitNotes">
-      <label formGroupName="parentOrgUnit">
-        <span class="label-content required">
-          {{ 'orgUnit.form.parentOrgUnit' | cxTranslate }}
-          <cx-form-required-asterisks />
-        </span>
-        <ng-select
-          [inputAttrs]="{ required: 'true' }"
-          formControlName="uid"
-          [searchable]="true"
-          [clearable]="false"
-          [items]="(units$ | async) ?? []"
-          bindLabel="name"
-          bindValue="id"
-          appendTo="cx-org-list"
-          [placeholder]="'orgUnit.form.parentOrgUnit' | cxTranslate"
+          [control]="form.get('approvalProcess.code')"
+          />
+      </label>
+      @if (form.get('parentOrgUnit')) {
+        <label formGroupName="parentOrgUnit">
+          <span class="label-content required">
+            {{ 'orgUnit.form.parentOrgUnit' | cxTranslate }}
+            <cx-form-required-asterisks />
+          </span>
+          <ng-select
+            [inputAttrs]="{ required: 'true' }"
+            formControlName="uid"
+            [searchable]="true"
+            [clearable]="false"
+            [items]="(units$ | async) ?? []"
+            bindLabel="name"
+            bindValue="id"
+            appendTo="cx-org-list"
+            [placeholder]="'orgUnit.form.parentOrgUnit' | cxTranslate"
           ariaLabelDropdown="{{
             'common.ngSelectDropdownOptionsList' | cxTranslate
           }}"
-          [cxNgSelectA11y]="{}"
+            [cxNgSelectA11y]="{}"
           [attr.aria-invalid]="
             form.get('uid')?.touched && form.get('uid')?.invalid
           "
-          [attr.aria-errormessage]="'codeError'"
-        />
-
-        <cx-form-errors
-          id="parentUnitUidError"
+            [attr.aria-errormessage]="'codeError'"
+            />
+          <cx-form-errors
+            id="parentUnitUidError"
           [translationParams]="{
             label: 'orgUnit.form.parentOrgUnit' | cxTranslate,
           }"
-          [control]="form.get('parentOrgUnit.uid')"
-        />
-      </label>
+            [control]="form.get('parentOrgUnit.uid')"
+            />
+        </label>
+      } @else {
+        <span class="notes-content">{{
+          'orgUnit.form.parentOrgUnitNotes' | cxTranslate
+        }}</span>
+      }
     </ng-container>
-    <ng-template #parentOrgUnitNotes>
-      <span class="notes-content">{{
-        'orgUnit.form.parentOrgUnitNotes' | cxTranslate
-      }}</span>
-    </ng-template>
-  </ng-container>
+  }
 </cx-org-form>

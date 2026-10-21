@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -51,7 +51,6 @@ import { CurrentBudgetService } from '../services/current-budget.service';
   ],
   imports: [
     FormComponent,
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     FormRequiredLegendComponent,
@@ -60,8 +59,8 @@ import { CurrentBudgetService } from '../services/current-budget.service';
     DatePickerComponent,
     NgSelectComponent,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class BudgetFormComponent implements OnInit {
   form: UntypedFormGroup | null = this.itemService.getForm();

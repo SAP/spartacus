@@ -9,24 +9,25 @@
   [cxFocus]="focusConfig"
   (esc)="onDialogClose('Escape pressed')"
   aria-labelledby="dialogTitle"
->
-  <div class="cx-modal-content" *ngIf="mode() !== 'extend'">
-    <!-- Modal Header -->
-    <div class="cx-dialog-header modal-header cx-dialog-header-cancel">
-      <div id="dialogTitle" class="cx-dialog-title modal-title">
-        <h4>
-          <strong>
-            {{
+  >
+  @if (mode() !== 'extend') {
+    <div class="cx-modal-content">
+      <!-- Modal Header -->
+      <div class="cx-dialog-header modal-header cx-dialog-header-cancel">
+        <div id="dialogTitle" class="cx-dialog-title modal-title">
+          <h4>
+            <strong>
+              {{
               'subscriptionActions.askConfirm'
-                | cxTranslate
-                  : {
-                      action:
-                        mode() === 'withdraw'
-                          ? 'Withdraw'
-                          : mode() === 'resubscribe'
-                            ? 'Resubscribe'
-                            : 'Cancel',
-                    }
+              | cxTranslate
+              : {
+              action:
+              mode() === 'withdraw'
+              ? 'Withdraw'
+              : mode() === 'resubscribe'
+              ? 'Resubscribe'
+              : 'Cancel',
+            }
             }}
           </strong>
         </h4>
@@ -36,41 +37,44 @@
         class="close pt-0"
         attr.aria-label="{{ 'subscriptionActions.closeModal' | cxTranslate }}"
         (click)="onDialogClose('Cross click')"
-      >
+        >
         <span
           ><small><cx-icon [type]="iconTypes.CLOSE" /></small
         ></span>
       </button>
     </div>
-
     <!-- Modal Body -->
     <div class="cx-dialog-body modal-body">
       <div class="row">
         <div class="col-md-12">
           <!-- CANCEL MODE: show cancelData and spinner -->
-          <ng-container *ngIf="mode() === 'cancel'">
-            <ng-container *ngIf="cancelData(); else loading">
-              <p *ngIf="cancelData()?.subscriptionEndAt">
-                {{
+          @if (mode() === 'cancel') {
+            @if (cancelData()) {
+              @if (cancelData()?.subscriptionEndAt) {
+                <p>
+                  {{
                   'subscriptionActions.loseSubscription'
-                    | cxTranslate
-                      : { date: (cancelData()?.subscriptionEndAt | cxDate) }
-                }}
-              </p>
+                  | cxTranslate
+                  : { date: (cancelData()?.subscriptionEndAt | cxDate) }
+                  }}
+                </p>
+              }
               <p>
                 {{ 'subscriptionActions.changeMind' | cxTranslate }}
               </p>
-            </ng-container>
-          </ng-container>
-
+            } @else {
+              <div class="d-flex justify-content-center p-4">
+                <cx-spinner />
+              </div>
+            }
+          }
           <!-- WITHDRAW MODE: simpler message -->
-          <ng-container *ngIf="mode() === 'withdraw'">
+          @if (mode() === 'withdraw') {
             <p>{{ 'subscriptionActions.withdrawConfirm' | cxTranslate }}</p>
-          </ng-container>
-
-          <ng-container *ngIf="mode() === 'resubscribe'">
+          }
+          @if (mode() === 'resubscribe') {
             <p>{{ 'subscriptionActions.resubscribeConfirm' | cxTranslate }}</p>
-          </ng-container>
+          }
           <!-- Common footer for both -->
           <div class="row justify-content-end mt-3">
             <div class="cx-quote col-sm-12 col-md-6 p-1">
@@ -78,7 +82,7 @@
                 type="button"
                 class="btn btn-block btn-secondary"
                 (click)="onDialogClose('Cancel click')"
-              >
+                >
                 {{ 'subscriptionActions.cancel' | cxTranslate }}
               </button>
             </div>
@@ -87,73 +91,72 @@
                 type="submit"
                 class="btn btn-primary btn-block"
                 (click)="onConfirm()"
-              >
+                >
                 {{ 'subscriptionActions.confirm' | cxTranslate }}
               </button>
             </div>
           </div>
         </div>
-
         <!-- Loading spinner only if mode is cancel -->
-        <ng-template #loading>
-          <div class="d-flex justify-content-center p-4">
-            <cx-spinner />
-          </div>
-        </ng-template>
       </div>
     </div>
   </div>
+}
 
-  <div class="modal-content" *ngIf="mode() === 'extend'">
+@if (mode() === 'extend') {
+  <div class="modal-content">
     <!-- Modal Header -->
-
     <div class="modal-header">
-      <h3
-        id="dialogTitle"
-        class="title modal-title"
-        *ngIf="!isExtendSubscriptionBtnClicked()"
-      >
-        {{ 'subscriptionDetails.extendSubscription' | cxTranslate }}
-      </h3>
-      <h3
-        id="dialogTitle"
-        class="title modal-title"
-        *ngIf="isExtendSubscriptionBtnClicked()"
-      >
-        {{ 'subscriptionActions.confirmExtensionTitle' | cxTranslate }}
-      </h3>
+      @if (!isExtendSubscriptionBtnClicked()) {
+        <h3
+          id="dialogTitle"
+          class="title modal-title"
+          >
+          {{ 'subscriptionDetails.extendSubscription' | cxTranslate }}
+        </h3>
+      }
+      @if (isExtendSubscriptionBtnClicked()) {
+        <h3
+          id="dialogTitle"
+          class="title modal-title"
+          >
+          {{ 'subscriptionActions.confirmExtensionTitle' | cxTranslate }}
+        </h3>
+      }
       <button
         type="button"
         class="close"
         title="{{ 'common.close' | cxTranslate }}"
         [attr.aria-label]="'common.close' | cxTranslate"
         (click)="onDialogClose('close-dialog')"
-      >
+        >
         <span aria-hidden="true">
           <cx-icon [type]="iconTypes.CLOSE" />
         </span>
       </button>
     </div>
-
     <!-- Modal Body -->
     <div class="cx-dialog-body modal-body" ngForm>
       <div class="cx-dialog-info">
-        <p
-          *ngIf="!isExtendSubscriptionBtnClicked()"
-          [innerHTML]="'subscriptionActions.disclaimer' | cxTranslate"
-        ></p>
-        <p
-          *ngIf="isExtendSubscriptionBtnClicked()"
+        @if (!isExtendSubscriptionBtnClicked()) {
+          <p
+            [innerHTML]="'subscriptionActions.disclaimer' | cxTranslate"
+          ></p>
+        }
+        @if (isExtendSubscriptionBtnClicked()) {
+          <p
           [innerHTML]="
             'subscriptionActions.disclaimerWithExtensionEndDate'
               | cxTranslate: { endDate: extensionEffectiveDate() | cxDate }
           "
-        ></p>
-        <p *ngIf="isExtendSubscriptionBtnClicked()">
-          {{ 'subscriptionActions.noActionMessage' | cxTranslate }}
-        </p>
+          ></p>
+        }
+        @if (isExtendSubscriptionBtnClicked()) {
+          <p>
+            {{ 'subscriptionActions.noActionMessage' | cxTranslate }}
+          </p>
+        }
       </div>
-
       <label class="form-check extend-duration-dropdown-label">
         <span class="form-check-label extend-duration-label">
           {{ 'subscriptionActions.durationInputLabel' | cxTranslate }}
@@ -174,39 +177,41 @@
           ariaLabelDropdown="{{
             'common.ngSelectDropdownOptionsList' | cxTranslate
           }}"
-        >
+          >
           <ng-template ng-option-tmp ng-label-tmp let-item="item">
             {{ item }}
           </ng-template>
         </ng-select>
       </label>
     </div>
-
     <div class="cx-modal-footer extend-subscription-dialog-footer">
       <button
         (click)="onDialogClose('Cross click')"
         class="btn btn-secondary cx-dialog-buttons"
-      >
+        >
         {{ 'common.cancel' | cxTranslate }}
       </button>
-      <button
-        class="btn btn-primary dialog-buttons"
-        [disabled]="!extendDuration && !isUnlimitedDurationSelected"
-        *ngIf="!isExtendSubscriptionBtnClicked()"
-        (click)="getExtensionEffectiveDate()"
-      >
-        {{ 'subscriptionActions.extend' | cxTranslate }}
-      </button>
-      <button
-        class="btn btn-primary dialog-buttons"
-        (click)="onConfirm()"
-        *ngIf="
-          isExtendSubscriptionBtnClicked() &&
-          isExtensionEffectiveDateAvailable()
-        "
-      >
-        {{ 'subscriptionActions.confirm' | cxTranslate }}
-      </button>
+      @if (!isExtendSubscriptionBtnClicked()) {
+        <button
+          class="btn btn-primary dialog-buttons"
+          [disabled]="!extendDuration && !isUnlimitedDurationSelected"
+          (click)="getExtensionEffectiveDate()"
+          >
+          {{ 'subscriptionActions.extend' | cxTranslate }}
+        </button>
+      }
+      @if (
+        isExtendSubscriptionBtnClicked() &&
+        isExtensionEffectiveDateAvailable()
+        ) {
+        <button
+          class="btn btn-primary dialog-buttons"
+          (click)="onConfirm()"
+          >
+          {{ 'subscriptionActions.confirm' | cxTranslate }}
+        </button>
+      }
     </div>
   </div>
+}
 </div>

@@ -3,7 +3,7 @@
   role="dialog"
   aria-modal="true"
   aria-labelledby="dialogTitle"
->
+  >
   <!-- For screen reader purposes (not visual)-->
   <div
     class="cx-visually-hidden"
@@ -11,7 +11,7 @@
     aria-live="assertive"
     role="alert"
     aria-relevant="additions"
-  >
+    >
     {{ 'configurator.header.conflictWarning' | cxTranslate }}
   </div>
   <div class="cx-modal-content" [cxFocus]="focusConfig">
@@ -28,7 +28,7 @@
         }}"
         title="{{ 'configurator.a11y.closeConflictSolverModal' | cxTranslate }}"
         (click)="dismissModal('Close conflict solver dialog')"
-      >
+        >
         <span aria-hidden="true">
           <cx-icon [type]="iconTypes.CLOSE" />
         </span>
@@ -41,14 +41,15 @@
         <cx-icon [type]="iconTypes.ERROR" />
         {{ 'configurator.header.conflictWarning' | cxTranslate }}
       </div>
-      <ng-container *ngIf="routerData$ | async as routerData">
-        <ng-container *ngIf="conflictGroup$ | async as conflictGroup">
+      @if (routerData$ | async; as routerData) {
+        @if (conflictGroup$ | async; as conflictGroup) {
           <cx-configurator-group
             [group]="conflictGroup"
             [owner]="routerData.owner"
             [isNavigationToGroupEnabled]="false"
-          /> </ng-container
-      ></ng-container>
+            />
+          }
+        }
+      </div>
     </div>
   </div>
-</div>

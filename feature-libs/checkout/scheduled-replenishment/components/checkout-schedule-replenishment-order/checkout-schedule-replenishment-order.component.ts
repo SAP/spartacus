@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AsyncPipe,
-  KeyValuePipe,
-  NgFor,
-  NgIf,
-  TitleCasePipe,
-} from '@angular/common';
+import { AsyncPipe, KeyValuePipe, TitleCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -34,13 +28,11 @@ import { CheckoutReplenishmentFormService } from '../services/checkout-replenish
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     IconComponent,
-    NgFor,
-    NgIf,
     AsyncPipe,
     TitleCasePipe,
     KeyValuePipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class CheckoutScheduleReplenishmentOrderComponent
   implements OnInit, OnDestroy

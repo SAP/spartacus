@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -28,11 +28,10 @@ import { ClearCartDialogComponentService } from './clear-cart-dialog-component.s
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FocusDirective,
-    NgIf,
     IconComponent,
     SpinnerComponent,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class ClearCartDialogComponent implements OnDestroy {
   focusConfig: FocusConfig = {

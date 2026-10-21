@@ -1,21 +1,23 @@
-<div
-  id="{{ createAttributeIdForConfigurator(attribute) }}"
-  *ngIf="attribute?.values?.length"
->
-  <div *ngIf="withQuantity" class="cx-attribute-level-quantity-price">
-    <cx-configurator-attribute-quantity
-      (changeQuantity)="onChangeQuantity($event)"
-      [quantityOptions]="extractQuantityParameters()"
-    />
-
-    <cx-configurator-price [formula]="extractPriceFormulaParameters()" />
+@if (attribute?.values?.length) {
+  <div
+    id="{{ createAttributeIdForConfigurator(attribute) }}"
+    >
+    @if (withQuantity) {
+      <div class="cx-attribute-level-quantity-price">
+        <cx-configurator-attribute-quantity
+          (changeQuantity)="onChangeQuantity($event)"
+          [quantityOptions]="extractQuantityParameters()"
+          />
+        <cx-configurator-price [formula]="extractPriceFormulaParameters()" />
+      </div>
+    }
+    @for (value of attribute?.values; track value; let i = $index) {
+      <cx-configurator-attribute-product-card
+        [id]="createAttributeValueIdForConfigurator(attribute, value.valueCode)"
+        (handleDeselect)="onSelect('')"
+        (handleSelect)="onSelect($event)"
+        [productCardOptions]="extractProductCardParameters(value, i)"
+        />
+    }
   </div>
-
-  <cx-configurator-attribute-product-card
-    [id]="createAttributeValueIdForConfigurator(attribute, value.valueCode)"
-    (handleDeselect)="onSelect('')"
-    (handleSelect)="onSelect($event)"
-    *ngFor="let value of attribute?.values; let i = index"
-    [productCardOptions]="extractProductCardParameters(value, i)"
-  />
-</div>
+}

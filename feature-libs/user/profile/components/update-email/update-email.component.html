@@ -1,11 +1,13 @@
-<cx-spinner class="overlay" *ngIf="isUpdating$ | async" />
+@if (isUpdating$ | async) {
+  <cx-spinner class="overlay" />
+}
 <cx-form-required-legend />
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
   <fieldset>
     <legend
       *cxFeature="'a11yFormFieldSectionLegend'"
       class="cx-visually-hidden"
-    >
+      >
       {{ pageTitle$ | async }}
     </legend>
     <label>
@@ -27,7 +29,7 @@
         "
         [attr.aria-errormessage]="'emailError'"
         class="form-control"
-      />
+        />
 
       <cx-form-errors
         id="emailError"
@@ -35,7 +37,7 @@
           label: 'updateEmailForm.newEmailAddress.label' | cxTranslate,
         }"
         [control]="form.get('email')"
-      />
+        />
     </label>
 
     <label>
@@ -57,7 +59,7 @@
         "
         [attr.aria-errormessage]="'confirmEmailError'"
         class="form-control"
-      />
+        />
 
       <cx-form-errors
         id="confirmEmailError"
@@ -65,7 +67,7 @@
           label: 'updateEmailForm.confirmNewEmailAddress.label' | cxTranslate,
         }"
         [control]="form.get('confirmEmail')"
-      />
+        />
     </label>
 
     <label>
@@ -85,7 +87,7 @@
         [attr.aria-label]="'updateEmailForm.password.placeholder' | cxTranslate"
         [attr.aria-describedby]="'passwordError'"
         cxPasswordVisibilitySwitch
-      />
+        />
 
       <cx-form-errors
         id="passwordError"
@@ -93,14 +95,14 @@
           label: 'updateEmailForm.password.label' | cxTranslate,
         }"
         [control]="form.get('password')"
-      />
+        />
     </label>
 
     <a
       class="btn btn-block btn-secondary"
       [routerLink]="{ cxRoute: 'home' } | cxUrl"
       cxBtnLikeLink
-    >
+      >
       {{ 'common.cancel' | cxTranslate }}
     </a>
 

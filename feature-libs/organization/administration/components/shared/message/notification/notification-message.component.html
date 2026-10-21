@@ -6,8 +6,10 @@
       : { autofocus: true, focusOnEscape: true }
   "
   (esc)="close()"
->
-  <cx-icon *ngIf="messageIcon" [type]="messageIcon" />
+  >
+  @if (messageIcon) {
+    <cx-icon [type]="messageIcon" />
+  }
   <p>{{ message | cxTranslate }}</p>
   <button
     class="close"
@@ -15,7 +17,7 @@
     type="button"
     attr.aria-label="{{ 'common.close' | cxTranslate }}"
     attr.title="{{ 'common.close' | cxTranslate }}"
-  >
+    >
     <cx-icon [type]="closeIcon" />
   </button>
 </div>

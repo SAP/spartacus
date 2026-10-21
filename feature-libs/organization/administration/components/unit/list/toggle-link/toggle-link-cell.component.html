@@ -1,11 +1,11 @@
-<a
-  *ngIf="hasItem"
-  [id]="model.uid"
-  class="hide-focus-border"
-  [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
-  (keydown)="onKeydown($event)"
-  [attr.aria-haspopup]="isSwitchable"
-  [attr.data-depth]="model.depthLevel"
+@if (hasItem) {
+  <a
+    [id]="model.uid"
+    class="hide-focus-border"
+    [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
+    (keydown)="onKeydown($event)"
+    [attr.aria-haspopup]="isSwitchable"
+    [attr.data-depth]="model.depthLevel"
   [attr.aria-label]="
     (isLargeScreen$ | async)
       ? combinedName +
@@ -24,19 +24,21 @@
         ', ' +
         ('orgUnit.tree.level' | cxTranslate: { level: model.depthLevel + 1 })
   "
-  role="treeitem"
->
-  <button
-    *ngIf="isSwitchable"
-    class="button btn btn-sm tree-item-toggle"
-    type="button"
-    [attr.aria-expanded]="expanded"
-    [attr.aria-label]="'orgUnit.tree.explore' | cxTranslate"
-    [attr.title]="'orgUnit.tree.explore' | cxTranslate"
-    (click)="toggleItem($event)"
-    tabindex="-1"
-  >
-    <cx-icon [type]="expanded ? 'CARET_DOWN' : 'CARET_RIGHT'" />
-  </button>
-  <span class="text" title="{{ combinedName }}">{{ combinedName }}</span>
-</a>
+    role="treeitem"
+    >
+    @if (isSwitchable) {
+      <button
+        class="button btn btn-sm tree-item-toggle"
+        type="button"
+        [attr.aria-expanded]="expanded"
+        [attr.aria-label]="'orgUnit.tree.explore' | cxTranslate"
+        [attr.title]="'orgUnit.tree.explore' | cxTranslate"
+        (click)="toggleItem($event)"
+        tabindex="-1"
+        >
+        <cx-icon [type]="expanded ? 'CARET_DOWN' : 'CARET_RIGHT'" />
+      </button>
+    }
+    <span class="text" title="{{ combinedName }}">{{ combinedName }}</span>
+  </a>
+}

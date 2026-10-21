@@ -4,15 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  DOCUMENT,
-  KeyValuePipe,
-  NgClass,
-  NgFor,
-  NgIf,
-  NgSwitch,
-  NgSwitchCase,
-} from '@angular/common';
+import { DOCUMENT, KeyValuePipe, NgClass } from '@angular/common';
 import {
   Component,
   effect,
@@ -36,19 +28,15 @@ import { LocationDisplayMode } from './store-finder-list.model';
   selector: 'cx-store-finder-list',
   templateUrl: './store-finder-list.component.html',
   imports: [
-    NgIf,
     StoreFinderPaginationDetailsComponent,
     IconComponent,
     StoreFinderStoreDescriptionComponent,
-    NgFor,
     NgClass,
     StoreFinderListItemComponent,
     StoreFinderMapComponent,
-    NgSwitch,
-    NgSwitchCase,
     KeyValuePipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class StoreFinderListComponent {
   @Input()

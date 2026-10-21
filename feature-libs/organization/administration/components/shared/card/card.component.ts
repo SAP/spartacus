@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -34,15 +34,14 @@ import { BaseItem } from '../organization.model';
   providers: [MessageService],
   imports: [
     ViewComponent,
-    NgIf,
     PopoverDirective,
     IconComponent,
     RouterLink,
     MessageComponent,
     RouterOutlet,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class CardComponent<T extends BaseItem> {
   @Input() i18nRoot: string;

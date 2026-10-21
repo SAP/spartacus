@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -42,14 +42,12 @@ import { ConfiguratorGroupMenuService } from './configurator-group-menu.componen
   templateUrl: './configurator-group-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
     FocusDirective,
     IconComponent,
     NgClass,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class ConfiguratorGroupMenuComponent {
   @ViewChildren('groupItem') groups: QueryList<ElementRef<HTMLElement>>;

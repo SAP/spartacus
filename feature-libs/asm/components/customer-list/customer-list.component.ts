@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -61,9 +61,7 @@ import { CustomerListAction } from './customer-list.model';
   imports: [
     FocusDirective,
     NgTemplateOutlet,
-    NgIf,
     SpinnerComponent,
-    NgFor,
     PaginationComponent,
     IconComponent,
     FormsModule,
@@ -72,8 +70,8 @@ import { CustomerListAction } from './customer-list.model';
     NgSelectComponent,
     NgSelectA11yDirective,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class CustomerListComponent implements OnInit, OnDestroy {
   protected DEFAULT_PAGE_SIZE = 5;

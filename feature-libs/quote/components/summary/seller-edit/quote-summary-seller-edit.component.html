@@ -1,4 +1,4 @@
-<ng-container *ngIf="quoteDetailsForSeller$ | async as quoteDetails">
+@if (quoteDetailsForSeller$ | async; as quoteDetails) {
   <div class="cx-seller-edit-body">
     <form (ngSubmit)="onApply(quoteDetails.code)" [formGroup]="form">
       <label>
@@ -15,30 +15,29 @@
             name="discount"
             placeholder="{{ discountPlaceholder }}"
             formControlName="discount"
-          />
+            />
           <button
             [attr.aria-label]="
               'quote.summary.sellerEdit.a11y.apply' | cxTranslate
             "
             class="btn btn-block btn-secondary"
             (click)="onApply(quoteDetails.code)"
-          >
+            >
             {{ 'quote.summary.sellerEdit.apply' | cxTranslate }}
           </button>
         </div>
-
-        <div
-          class="cx-validation-msg"
-          *ngIf="mustDisplayValidationMessage()"
-          aria-live="assertive"
-          aria-atomic="true"
-          role="alert"
-        >
-          <cx-icon [type]="iconType.ERROR" />
-          {{ 'quote.summary.sellerEdit.discountValidationText' | cxTranslate }}
-        </div>
+        @if (mustDisplayValidationMessage()) {
+          <div
+            class="cx-validation-msg"
+            aria-live="assertive"
+            aria-atomic="true"
+            role="alert"
+            >
+            <cx-icon [type]="iconType.ERROR" />
+            {{ 'quote.summary.sellerEdit.discountValidationText' | cxTranslate }}
+          </div>
+        }
       </label>
-
       <label>
         <span
           [attr.aria-label]="
@@ -46,13 +45,13 @@
           "
           class="label-content bold"
           >{{ 'quote.summary.sellerEdit.expiryDate' | cxTranslate }}</span
-        >
-        <cx-date-picker
-          [control]="$any(form.get('validityDate'))"
-          [required]="true"
-          (update)="onSetDate(quoteDetails.code)"
-        />
-      </label>
-    </form>
-  </div>
-</ng-container>
+          >
+          <cx-date-picker
+            [control]="$any(form.get('validityDate'))"
+            [required]="true"
+            (update)="onSetDate(quoteDetails.code)"
+            />
+        </label>
+      </form>
+    </div>
+  }

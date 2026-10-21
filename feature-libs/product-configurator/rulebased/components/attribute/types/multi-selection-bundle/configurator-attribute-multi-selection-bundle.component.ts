@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FeatureDirective } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
@@ -33,14 +33,12 @@ interface SelectionValue {
   templateUrl: './configurator-attribute-multi-selection-bundle.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     ConfiguratorAttributeQuantityComponent,
     ConfiguratorPriceComponent,
-    NgFor,
     ConfiguratorAttributeProductCardComponent,
     AsyncPipe,
-    FeatureDirective,
-  ],
+    FeatureDirective
+],
 })
 export class ConfiguratorAttributeMultiSelectionBundleComponent
   extends ConfiguratorAttributeMultiSelectionBaseComponent

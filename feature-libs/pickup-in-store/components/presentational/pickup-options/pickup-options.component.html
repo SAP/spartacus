@@ -4,22 +4,24 @@
       {{ 'pickupOptions.legend' | cxTranslate }}
     </div>
 
-    <cx-tab
-      *ngIf="tabs"
-      [disabled]="disableControls"
-      [tabs]="tabs"
-      [config]="tabConfig"
-    />
+    @if (tabs) {
+      <cx-tab
+        [disabled]="disableControls"
+        [tabs]="tabs"
+        [config]="tabConfig"
+        />
+    }
   </div>
   <div aria-live="assertive" aria-atomic="true">
-    <span
-      *ngIf="validationError"
-      role="alert"
-      tabindex="-1"
-      class="cx-invalid-message"
-    >
-      {{ validationError | cxTranslate }}
-    </span>
+    @if (validationError) {
+      <span
+        role="alert"
+        tabindex="-1"
+        class="cx-invalid-message"
+        >
+        {{ validationError | cxTranslate }}
+      </span>
+    }
   </div>
 </div>
 
@@ -27,14 +29,14 @@
   'pickupOptions.freeReturn' | cxTranslate
 }}</ng-template>
 <ng-template #pickupTabPanel>
-  <ng-container *ngIf="displayPickupLocation">
+  @if (displayPickupLocation) {
     <strong
       class="cx-pickup-store"
       [attr.data-pickup-location]="displayPickupLocation"
-    >
+      >
       {{ displayPickupLocation }}
     </strong>
-  </ng-container>
+  }
 
   <button
     #dialogTriggerEl
@@ -43,12 +45,12 @@
     "
     class="link cx-action-link"
     (click)="onPickupLocationChange()"
-  >
+    >
     {{
-      (displayPickupLocation
-        ? 'pickupOptions.changeStore'
-        : 'pickupOptions.selectStore'
-      ) | cxTranslate
+    (displayPickupLocation
+    ? 'pickupOptions.changeStore'
+    : 'pickupOptions.selectStore'
+    ) | cxTranslate
     }}
   </button>
 </ng-template>

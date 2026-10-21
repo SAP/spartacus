@@ -1,27 +1,24 @@
 <div id="{{ createGroupId(group.id) }}" role="tabpanel">
-  <ng-container *ngIf="displayConflictDescription(group)">
+  @if (displayConflictDescription(group)) {
     <cx-configurator-conflict-description [currentGroup]="group" />
-  </ng-container>
-  <div
-    class="cx-group-attribute"
-    id="{{ createAttributeUiKey('group-attribute', attribute.name) }}"
-    [class.cx-hidden]="!attribute.visible"
-    *ngFor="
-      let attribute of group.attributes;
-      let indexOfAttribute = index;
-      trackBy: trackByFn
-    "
-  >
-    <ng-container *ngIf="isConflictGroupType(group.groupType)">
-      <cx-configurator-conflict-suggestion
-        [currentGroup]="group"
-        [attribute]="attribute"
-        [suggestionNumber]="indexOfAttribute"
-      />
-    </ng-container>
-
-    <ng-container *ngIf="activeLanguage$ | async as activeLanguage">
-      <div
+  }
+  @for (
+    attribute of group.attributes; track trackByFn(indexOfAttribute,
+    attribute); let indexOfAttribute = $index) {
+    <div
+      class="cx-group-attribute"
+      id="{{ createAttributeUiKey('group-attribute', attribute.name) }}"
+      [class.cx-hidden]="!attribute.visible"
+      >
+      @if (isConflictGroupType(group.groupType)) {
+        <cx-configurator-conflict-suggestion
+          [currentGroup]="group"
+          [attribute]="attribute"
+          [suggestionNumber]="indexOfAttribute"
+          />
+      }
+      @if (activeLanguage$ | async; as activeLanguage) {
+        <div
         [cxConfiguratorAttributeComponent]="{
           componentKey: 'Header',
           attribute: attribute,
@@ -32,9 +29,8 @@
           isNavigationToGroupEnabled: isNavigationToGroupEnabled,
           isPricingAsync: isPricingAsync,
         }"
-      ></div>
-
-      <div
+        ></div>
+        <div
         [cxConfiguratorAttributeComponent]="{
           componentKey: getComponentKey(attribute),
           attribute: attribute,
@@ -44,9 +40,8 @@
           expMode: (expMode | async) ?? false,
           isPricingAsync: isPricingAsync,
         }"
-      ></div>
-
-      <div
+        ></div>
+        <div
         [cxConfiguratorAttributeComponent]="{
           componentKey: 'Footer',
           attribute: attribute,
@@ -56,7 +51,8 @@
           expMode: (expMode | async) ?? false,
           isPricingAsync: isPricingAsync,
         }"
-      ></div>
-    </ng-container>
-  </div>
+        ></div>
+      }
+    </div>
+  }
 </div>

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
@@ -21,14 +21,13 @@ import { OrderAmendService } from '../../amend-order.service';
   templateUrl: './cancel-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     MessageComponent,
     NgTemplateOutlet,
     CancelOrReturnItemsComponent,
     AmendOrderActionsComponent,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class CancelOrderComponent {
   orderCode: string;

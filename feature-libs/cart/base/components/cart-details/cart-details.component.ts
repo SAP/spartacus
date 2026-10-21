@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CartConfigService } from '@spartacus/cart/base/core';
 import {
@@ -40,15 +40,14 @@ const CART_DETAILS_UPDATING_DEBOUNCE_MS = 250;
   templateUrl: './cart-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     FeatureDirective,
     CartValidationWarningsComponent,
     PromotionsComponent,
     CartItemListComponent,
     SpinnerComponent,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class CartDetailsComponent implements OnInit {
   cart$: Observable<Cart>;

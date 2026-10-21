@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   FormsModule,
@@ -23,14 +23,13 @@ import { OrderAmendService } from '../../amend-order.service';
   templateUrl: './return-order-confirmation.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     NgTemplateOutlet,
     CancelOrReturnItemsComponent,
     AmendOrderActionsComponent,
-    AsyncPipe,
-  ],
+    AsyncPipe
+],
 })
 export class ReturnOrderConfirmationComponent {
   orderCode: string;

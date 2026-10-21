@@ -14,54 +14,56 @@
               storeDetails.displayName
             "
             class="cx-store-opening-hours-toggle"
-          >
+            >
             {{ 'store.viewHours' | cxTranslate }}
             <span class="cx-store-opening-hours-icon"
               ><cx-icon
-                aria-hidden="true"
+              aria-hidden="true"
                 [type]="
                   openHoursOpen ? ICON_TYPE.CARET_UP : ICON_TYPE.CARET_DOWN
                 "
             /></span>
           </button>
         </div>
-        <cx-store-schedule
-          *ngIf="openHoursOpen"
-          [storeDetails]="storeDetails"
-        />
+        @if (openHoursOpen) {
+          <cx-store-schedule
+            [storeDetails]="storeDetails"
+            />
+        }
         <cx-set-preferred-store
           [pointOfServiceName]="{
             name: storeDetails?.name,
             displayName: storeDetails?.displayName,
           }"
-        />
+          />
       </div>
     </div>
   </div>
   <div>
     <div class="cx-store-distance">{{ storeDetails?.formattedDistance }}</div>
     <div>
-      <cx-icon
-        class="cx-store-stock-icon"
-        aria-hidden="true"
-        *ngIf="isInStock"
-        [type]="ICON_TYPE.CHECK"
-      />
+      @if (isInStock) {
+        <cx-icon
+          class="cx-store-stock-icon"
+          aria-hidden="true"
+          [type]="ICON_TYPE.CHECK"
+          />
+      }
       <span
         class="cx-stock-level"
         [ngClass]="{
           'cx-store-in-stock': isInStock,
           'cx-store-out-of-stock': !isInStock,
         }"
-      >
+        >
         {{
-          'store.stockLevel'
-            | cxTranslate
-              : {
-                  context: isInStock ? 'inStock' : 'outOfStock',
-                  count: storeDetails?.stockInfo?.stockLevel,
-                }
-        }}</span
+        'store.stockLevel'
+        | cxTranslate
+        : {
+        context: isInStock ? 'inStock' : 'outOfStock',
+        count: storeDetails?.stockInfo?.stockLevel,
+      }
+      }}</span
       >
     </div>
   </div>
@@ -75,7 +77,7 @@
     [attr.aria-label]="
       ('store.pickupFromHere' | cxTranslate) + ', ' + storeDetails.displayName
     "
-  >
+    >
     {{ 'store.pickupFromHere' | cxTranslate }}
   </button>
 </div>

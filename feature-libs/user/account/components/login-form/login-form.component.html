@@ -1,4 +1,6 @@
-<cx-spinner class="overlay" *ngIf="isUpdating$ | async" />
+@if (isUpdating$ | async) {
+  <cx-spinner class="overlay" />
+}
 
 <form
   (ngSubmit)="onSubmit()"
@@ -6,7 +8,7 @@
   [attr.method]="method"
   [attr.action]="action"
   #loginForm
->
+  >
   <cx-form-required-legend />
   <label>
     <span class="label-content">
@@ -25,7 +27,7 @@
         form.get('userId')?.touched && form.get('userId')?.invalid
       "
       [attr.aria-errormessage]="'userIdError'"
-    />
+      />
 
     <cx-form-errors
       id="userIdError"
@@ -33,7 +35,7 @@
         label: 'loginForm.emailAddress.label' | cxTranslate,
       }"
       [control]="form.get('userId')"
-    />
+      />
   </label>
 
   <label>
@@ -54,7 +56,7 @@
       "
       [attr.aria-errormessage]="'passwordError'"
       cxPasswordVisibilitySwitch
-    />
+      />
 
     <cx-form-errors
       id="passwordError"
@@ -62,31 +64,33 @@
         label: 'loginForm.password.label' | cxTranslate,
       }"
       [control]="form.get('password')"
-    />
+      />
   </label>
 
   <ng-container *cxFeature="'authorizationCodeFlowByDefault'">
-    <input
-      *ngIf="csrf"
-      formControlName="csrf"
-      type="hidden"
-      [name]="csrf.parameterName"
-    />
+    @if (csrf) {
+      <input
+        formControlName="csrf"
+        type="hidden"
+        [name]="csrf.parameterName"
+        />
+    }
   </ng-container>
 
-  <a
-    *ngIf="showResetPassword"
-    [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl"
-    class="btn-link"
-  >
-    {{ 'loginForm.forgotPassword' | cxTranslate }}
-  </a>
+  @if (showResetPassword) {
+    <a
+      [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl"
+      class="btn-link"
+      >
+      {{ 'loginForm.forgotPassword' | cxTranslate }}
+    </a>
+  }
 
   <button
     type="submit"
     class="btn btn-block btn-primary"
     [disabled]="form.disabled"
-  >
+    >
     {{ 'loginForm.signIn' | cxTranslate }}
   </button>
 </form>

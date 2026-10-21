@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   FormsModule,
@@ -34,7 +34,6 @@ import { UserChangePasswordFormService } from './user-change-password-form.servi
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper', ngSkipHydration: 'true' },
   imports: [
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     CardComponent,
@@ -45,8 +44,8 @@ import { UserChangePasswordFormService } from './user-change-password-form.servi
     PasswordVisibilityToggleDirective,
     FormErrorsComponent,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class UserChangePasswordFormComponent {
   form$: Observable<UntypedFormGroup | null> = this.itemService.current$.pipe(

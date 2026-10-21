@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -25,15 +25,13 @@ import { Observable } from 'rxjs';
   selector: 'cx-subscription-billing-details',
   templateUrl: './subscription-billing-details.component.html',
   imports: [
-    NgIf,
-    NgFor,
     SpinnerComponent,
     TranslatePipe,
     UrlPipe,
     RouterLink,
     CxDatePipe,
-    AsyncPipe,
-  ],
+    AsyncPipe
+],
 })
 export class SubscriptionBillingDetailsComponent implements OnInit {
   protected subscriptionBillingFacade = inject(SubscriptionBillingFacade);

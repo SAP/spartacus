@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslatePipe } from '@spartacus/core';
@@ -34,11 +34,10 @@ import { CustomerTicketingDialogComponent } from '../../../shared/customer-ticke
     IconComponent,
     FormRequiredAsterisksComponent,
     FormErrorsComponent,
-    NgIf,
     SpinnerComponent,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class CustomerTicketingCloseDialogComponent
   extends CustomerTicketingDialogComponent

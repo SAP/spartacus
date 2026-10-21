@@ -1,4 +1,6 @@
-<cx-spinner class="overlay" *ngIf="isUpdating$ | async" />
+@if (isUpdating$ | async) {
+  <cx-spinner class="overlay" />
+}
 
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
   <cx-form-required-legend />
@@ -17,7 +19,7 @@
         form.get('userId')?.touched && form.get('userId')?.invalid
       "
       [attr.aria-errormessage]="'userIdError'"
-    />
+      />
     <cx-form-errors id="userIdError" [control]="form.get('userId')" />
   </label>
 
@@ -38,7 +40,7 @@
       "
       [attr.aria-errormessage]="'passwordError'"
       cxPasswordVisibilitySwitch
-    />
+      />
     <cx-form-errors id="passwordError" [control]="form.get('password')" />
   </label>
 
@@ -50,7 +52,7 @@
     type="submit"
     class="btn btn-block btn-primary"
     [disabled]="form.disabled"
-  >
+    >
     {{ 'loginForm.signIn' | cxTranslate }}
   </button>
 </form>

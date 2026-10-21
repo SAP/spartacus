@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -30,7 +30,7 @@ import { filter, map, take } from 'rxjs/operators';
   selector: 'cx-product-variant-size-selector',
   templateUrl: './product-variant-size-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgFor, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class ProductVariantSizeSelectorComponent {
   protected translationService = inject(TranslationService);

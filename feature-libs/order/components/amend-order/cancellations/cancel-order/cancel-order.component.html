@@ -1,26 +1,27 @@
-<ng-container *ngIf="form$ | async as form">
-  <cx-message
-    role="alert"
-    *ngIf="!form.get('entries').valid && form.get('entries').touched"
-    [text]="'formErrors.cxNoSelectedItemToCancel' | cxTranslate"
-    [isVisibleCloseButton]="false"
-    [type]="globalMessageType.MSG_TYPE_ERROR"
-  />
+@if (form$ | async; as form) {
+  @if (!form.get('entries').valid && form.get('entries').touched) {
+    <cx-message
+      role="alert"
+      [text]="'formErrors.cxNoSelectedItemToCancel' | cxTranslate"
+      [isVisibleCloseButton]="false"
+      [type]="globalMessageType.MSG_TYPE_ERROR"
+      />
+  }
   <ng-container *ngTemplateOutlet="actions" />
-  <cx-amend-order-items
-    *ngIf="entries$ | async as entries"
-    [entries]="entries"
-  />
-
+  @if (entries$ | async; as entries) {
+    <cx-amend-order-items
+      [entries]="entries"
+      />
+  }
   <ng-container *ngTemplateOutlet="actions" />
-
   <ng-template #actions>
-    <cx-amend-order-actions
-      *ngIf="orderCode"
-      [orderCode]="orderCode"
-      [amendOrderForm]="form"
-      backRoute="orderDetails"
-      forwardRoute="orderCancelConfirmation"
-    />
+    @if (orderCode) {
+      <cx-amend-order-actions
+        [orderCode]="orderCode"
+        [amendOrderForm]="form"
+        backRoute="orderDetails"
+        forwardRoute="orderCancelConfirmation"
+        />
+    }
   </ng-template>
-</ng-container>
+}

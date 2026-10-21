@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   FormsModule,
@@ -26,14 +26,13 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfiguratorAttributePriceChangeService],
   imports: [
-    NgIf,
     FormsModule,
     FocusDirective,
     ReactiveFormsModule,
     ConfiguratorShowMoreComponent,
     ConfiguratorPriceComponent,
-    AsyncPipe,
-  ],
+    AsyncPipe
+],
 })
 export class ConfiguratorAttributeCheckBoxComponent
   extends ConfiguratorAttributeBaseComponent

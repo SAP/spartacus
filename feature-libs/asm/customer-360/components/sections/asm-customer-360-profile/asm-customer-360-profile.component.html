@@ -1,5 +1,5 @@
 <div class="cx-asm-customer-360-profile">
-  <ng-container *ngIf="customerProfileData$ | async as customerProfileData">
+  @if (customerProfileData$ | async; as customerProfileData) {
     <div>
       <div class="row">
         <div class="col">
@@ -19,7 +19,7 @@
                 address;
                 context: { address: customerProfileData?.billingAddress }
               "
-            />
+              />
           </div>
         </div>
         <div class="col">
@@ -32,7 +32,7 @@
                 address;
                 context: { address: customerProfileData?.deliveryAddress }
               "
-            />
+              />
           </div>
         </div>
         <div class="w-100 d-lg-none"></div>
@@ -58,22 +58,22 @@
       {{ 'asmCustomer360.profile.paymentMethodHeader' | cxTranslate }}
     </h4>
     <div class="cx-asm-profile-cards">
-      <div
-        class="cx-asm-profile-card"
-        *ngFor="
-          let paymentInfoList of customerProfileData.paymentDetails;
-          let i = index
-        "
-      >
-        <cx-card
-          [index]="i"
-          [border]="true"
-          [fitToContainer]="true"
-          [content]="getCardContent(paymentInfoList) | async"
-        />
-      </div>
+      @for (
+        paymentInfoList of customerProfileData.paymentDetails; track
+        paymentInfoList; let i = $index) {
+        <div
+          class="cx-asm-profile-card"
+          >
+          <cx-card
+            [index]="i"
+            [border]="true"
+            [fitToContainer]="true"
+            [content]="getCardContent(paymentInfoList) | async"
+            />
+        </div>
+      }
     </div>
-  </ng-container>
+  }
   <ng-template #address let-address="address">
     <div class="cx-asm-profile-address-cell">
       <div class="address-line1">
@@ -83,12 +83,16 @@
         {{ address?.line2 }}
       </div>
       <div>
-        <span class="address-town" *ngIf="address?.town"
-          >{{ address.town }},
-        </span>
-        <span class="address-region" *ngIf="address?.region?.name"
-          >{{ address.region.name }},
-        </span>
+        @if (address?.town) {
+          <span class="address-town"
+            >{{ address.town }},
+          </span>
+        }
+        @if (address?.region?.name) {
+          <span class="address-region"
+            >{{ address.region.name }},
+          </span>
+        }
         <span class="address-country">{{ address?.country?.name }}</span>
       </div>
     </div>

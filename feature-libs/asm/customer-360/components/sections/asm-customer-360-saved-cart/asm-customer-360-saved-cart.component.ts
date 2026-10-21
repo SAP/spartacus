@@ -8,7 +8,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable, forkJoin, of } from 'rxjs';
 import { concatMap, filter, map, take } from 'rxjs/operators';
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   AsmCustomer360SavedCart,
   CustomerCart,
@@ -28,11 +28,10 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './asm-customer-360-saved-cart.component.html',
   imports: [
-    NgIf,
     AsmCustomer360ProductListingComponent,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class AsmCustomer360SavedCartComponent {
   savedCart$: Observable<CustomerCart | undefined>;

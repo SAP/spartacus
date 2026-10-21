@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -42,15 +42,14 @@ import { ImportProductsFromCsvService } from '../../import-products-from-csv.ser
   templateUrl: './import-entries-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     MessageComponent,
     FocusDirective,
     FileUploadComponent,
     FormErrorsComponent,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class ImportEntriesFormComponent implements OnInit {
   form: UntypedFormGroup;

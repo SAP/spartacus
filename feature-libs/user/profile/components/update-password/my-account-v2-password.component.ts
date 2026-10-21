@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormsModule,
@@ -33,7 +33,6 @@ import { UpdatePasswordComponentService } from './update-password-component.serv
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { ngSkipHydration: 'true' },
   imports: [
-    NgIf,
     SpinnerComponent,
     FormsModule,
     ReactiveFormsModule,
@@ -42,8 +41,8 @@ import { UpdatePasswordComponentService } from './update-password-component.serv
     FormErrorsComponent,
     AsyncPipe,
     TranslatePipe,
-    FeatureDirective,
-  ],
+    FeatureDirective
+],
 })
 export class MyAccountV2PasswordComponent {
   protected service = inject(UpdatePasswordComponentService);

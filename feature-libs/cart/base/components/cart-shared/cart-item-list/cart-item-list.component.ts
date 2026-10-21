@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -59,13 +59,11 @@ interface ItemListContext {
   templateUrl: './cart-item-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     OutletDirective,
-    NgFor,
     CartItemListRowComponent,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class CartItemListComponent implements OnInit, OnDestroy {
   protected productCatalogService = inject(ProductCatalogService);

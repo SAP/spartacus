@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, TitleCasePipe } from '@angular/common';
+import { AsyncPipe, TitleCasePipe } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
@@ -27,17 +27,15 @@ import { ConsignmentTrackingComponent } from '../consignment-tracking/consignmen
   selector: 'cx-order-consigned-entries',
   templateUrl: './order-consigned-entries.component.html',
   imports: [
-    NgFor,
     OutletDirective,
-    NgIf,
     FeatureDirective,
     ConsignmentTrackingComponent,
     AbstractOrderContextDirective,
     AddToCartComponent,
     AsyncPipe,
     TitleCasePipe,
-    CxDatePipe,
-  ],
+    CxDatePipe
+],
 })
 export class OrderConsignedEntriesComponent {
   @Input() consignments: Consignment[];

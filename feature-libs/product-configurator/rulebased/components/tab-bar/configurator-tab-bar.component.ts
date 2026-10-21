@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -30,7 +30,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   templateUrl: './configurator-tab-bar.component.html',
   //here we cannot go with OnPush, as we otherwise do not take the change to host binding into account
   changeDetection: ChangeDetectionStrategy.Default,
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorTabBarComponent {
   @HostBinding('class.ghost') ghostStyle = true;

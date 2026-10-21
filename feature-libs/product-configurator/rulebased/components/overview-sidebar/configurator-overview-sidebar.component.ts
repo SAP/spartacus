@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, ElementRef, HostBinding, ViewChild } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
@@ -20,13 +20,11 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   selector: 'cx-configurator-overview-sidebar',
   templateUrl: './configurator-overview-sidebar.component.html',
   imports: [
-    NgIf,
     ConfiguratorOverviewFilterComponent,
     ConfiguratorOverviewMenuComponent,
-    NgFor,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class ConfiguratorOverviewSidebarComponent {
   @HostBinding('class.ghost') ghostStyle = true;

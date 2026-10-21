@@ -1,12 +1,25 @@
-<ng-container *ngIf="abstractOrderKey$ | async as abstractOrderKey">
-  <ng-container *ngIf="cartEntry">
-    <label *ngIf="isDisabled()" class="disabled-link">
-      <ng-container *ngIf="isDisabled(); then configureText" />
-    </label>
-
-    <a
-      *ngIf="!isDisabled()"
-      class="link cx-action-link"
+@if (abstractOrderKey$ | async; as abstractOrderKey) {
+  @if (cartEntry) {
+    @if (isDisabled()) {
+      <label class="disabled-link">
+        @if (isDisabled()) {
+          @if (getDisplayOnly()) {
+            {{
+            'configurator.header.displayConfiguration' | cxTranslate
+            }}
+          }
+          @if (!getDisplayOnly() && !msgBanner) {
+            {{ 'configurator.header.editConfiguration' | cxTranslate }}
+          }
+          @if (!getDisplayOnly() && msgBanner) {
+            {{ 'configurator.header.resolveIssues' | cxTranslate }}
+          }
+        }
+      </label>
+    }
+    @if (!isDisabled()) {
+      <a
+        class="link cx-action-link"
       [routerLink]="
         {
           cxRoute: getRoute(),
@@ -17,26 +30,24 @@
           },
         } | cxUrl
       "
-      [queryParams]="queryParams$ | async"
-      cxAutoFocus
-      attr.aria-describedby="{{ getResolveIssuesA11yDescription() }}"
-    >
-      <ng-container *ngIf="!isDisabled(); then configureText" />
-    </a>
-  </ng-container>
-
-  <ng-template #configureText>
-    <ng-container *ngIf="getDisplayOnly()">
-      {{
-        'configurator.header.displayConfiguration' | cxTranslate
-      }}</ng-container
-    >
-    <ng-container *ngIf="!getDisplayOnly() && !msgBanner">
-      {{ 'configurator.header.editConfiguration' | cxTranslate }}
-    </ng-container>
-
-    <ng-container *ngIf="!getDisplayOnly() && msgBanner">
-      {{ 'configurator.header.resolveIssues' | cxTranslate }}
-    </ng-container>
-  </ng-template>
-</ng-container>
+        [queryParams]="queryParams$ | async"
+        cxAutoFocus
+        attr.aria-describedby="{{ getResolveIssuesA11yDescription() }}"
+        >
+        @if (!isDisabled()) {
+          @if (getDisplayOnly()) {
+            {{
+            'configurator.header.displayConfiguration' | cxTranslate
+            }}
+          }
+          @if (!getDisplayOnly() && !msgBanner) {
+            {{ 'configurator.header.editConfiguration' | cxTranslate }}
+          }
+          @if (!getDisplayOnly() && msgBanner) {
+            {{ 'configurator.header.resolveIssues' | cxTranslate }}
+          }
+        }
+      </a>
+    }
+  }
+}

@@ -1,4 +1,4 @@
-<ng-container *ngIf="ticketDetails$ | async as ticket; else spinner">
+@if (ticketDetails$ | async; as ticket) {
   <ng-template #cards>
     <div class="container">
       <div class="cx-details-card">
@@ -6,9 +6,8 @@
           [content]="
             prepareCardContent(ticket.id, 'customerTicketing.ticketId') | async
           "
-        />
+          />
       </div>
-
       <div class="cx-details-card">
         <cx-card
           [content]="
@@ -17,9 +16,8 @@
               'customerTicketing.createdOn'
             ) | async
           "
-        />
+          />
       </div>
-
       <div class="cx-details-card">
         <cx-card
           [content]="
@@ -28,9 +26,8 @@
               'customerTicketing.changedOn'
             ) | async
           "
-        />
+          />
       </div>
-
       <div class="cx-details-card">
         <cx-card
           [content]="
@@ -40,11 +37,10 @@
               ticket.status ? ticket.status.id : undefined
             ) | async
           "
-        />
+          />
       </div>
     </div>
   </ng-template>
-
   <div
     *cxFeature="'a11yMessagingListKeyboardFocus'"
     class="cx-ticket-details"
@@ -52,14 +48,12 @@
     [attr.aria-label]="
       'customerTicketingDetails.a11y.ticketDetailsRegion' | cxTranslate
     "
-  >
+    >
     <ng-container *ngTemplateOutlet="cards" />
   </div>
-
   <div *cxFeature="'!a11yMessagingListKeyboardFocus'" class="cx-ticket-details">
     <ng-container *ngTemplateOutlet="cards" />
   </div>
-</ng-container>
-<ng-template #spinner>
+} @else {
   <cx-spinner />
-</ng-template>
+}

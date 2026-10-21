@@ -1,83 +1,95 @@
-<ng-container
-  *ngIf="subscriptionDetails$ | async as subscription; else loading"
->
+@if (subscriptionDetails$ | async; as subscription) {
   <div class="subscription">
     <div class="subscription-header">
-      <div
-        class="subscription-name"
-        *ngIf="subscription.name"
-        [attr.aria-label]="'subscriptionList.product' | cxTranslate"
-      >
-        {{ subscription.name }}
-      </div>
-      <div
-        class="subscription-status"
-        [attr.aria-label]="'subscriptionList.status' | cxTranslate"
-        *ngIf="subscription.status"
-      >
-        {{ 'subscriptionList.status' | cxTranslate }}
-        <span [ngClass]="subscription.status">{{ subscription.status }}</span>
-      </div>
+      @if (subscription.name) {
+        <div
+          class="subscription-name"
+          [attr.aria-label]="'subscriptionList.product' | cxTranslate"
+          >
+          {{ subscription.name }}
+        </div>
+      }
+      @if (subscription.status) {
+        <div
+          class="subscription-status"
+          [attr.aria-label]="'subscriptionList.status' | cxTranslate"
+          >
+          {{ 'subscriptionList.status' | cxTranslate }}
+          <span [ngClass]="subscription.status">{{ subscription.status }}</span>
+        </div>
+      }
     </div>
     <div class="subscription-body">
       <div class="subscription-column-1">
         <div class="subscription-info">
           {{ 'subscriptionDetails.info' | cxTranslate }}
         </div>
-        <div *ngIf="subscription.documentNumber">
-          {{
+        @if (subscription.documentNumber) {
+          <div>
+            {{
             'subscriptionList.id'
-              | cxTranslate: { id: subscription.documentNumber }
-          }}
-        </div>
-        <div *ngIf="subscription.productCode">
-          {{ 'subscriptionDetails.productCode' | cxTranslate }}
-          <a
+            | cxTranslate: { id: subscription.documentNumber }
+            }}
+          </div>
+        }
+        @if (subscription.productCode) {
+          <div>
+            {{ 'subscriptionDetails.productCode' | cxTranslate }}
+            <a
             [routerLink]="
               { cxRoute: 'product', params: { code: subscription.productCode } }
                 | cxUrl
             "
-          >
-            {{ subscription.productCode }}
-          </a>
-        </div>
-        <div
-          *ngIf="
-            subscription?.pricePlan?.recurringCharges[0]?.price
-              ?.formattedValue && subscription.billingTime
-          "
-        >
-          {{
+              >
+              {{ subscription.productCode }}
+            </a>
+          </div>
+        }
+        @if (
+          subscription?.pricePlan?.recurringCharges[0]?.price
+          ?.formattedValue && subscription.billingTime
+          ) {
+          <div
+            >
+            {{
             'subscriptionList.amount'
-              | cxTranslate
-                : {
-                    amount:
-                      subscription?.pricePlan?.recurringCharges[0]?.price
-                        ?.formattedValue,
-                    time: subscription.billingTime,
-                  }
+            | cxTranslate
+            : {
+            amount:
+            subscription?.pricePlan?.recurringCharges[0]?.price
+            ?.formattedValue,
+            time: subscription.billingTime,
+          }
           }}
         </div>
-        <div *ngIf="subscription.startAt">
+      }
+      @if (subscription.startAt) {
+        <div>
           {{
-            'subscriptionList.startDate'
-              | cxTranslate: { date: subscription.startAt | cxDate }
+          'subscriptionList.startDate'
+          | cxTranslate: { date: subscription.startAt | cxDate }
           }}
         </div>
-        <div *ngIf="subscription.endAt">
+      }
+      @if (subscription.endAt) {
+        <div>
           {{
-            'subscriptionDetails.endDate'
-              | cxTranslate: { date: subscription.endAt | cxDate }
+          'subscriptionDetails.endDate'
+          | cxTranslate: { date: subscription.endAt | cxDate }
           }}
         </div>
-        <div *ngIf="subscription.withdrawalPeriodEndAt">
+      }
+      @if (subscription.withdrawalPeriodEndAt) {
+        <div>
           {{
-            'subscriptionDetails.withdrawalEnd'
-              | cxTranslate
-                : { date: subscription.withdrawalPeriodEndAt | cxDate }
+          'subscriptionDetails.withdrawalEnd'
+          | cxTranslate
+          : { date: subscription.withdrawalPeriodEndAt | cxDate }
           }}
         </div>
-        <div *ngIf="subscription.orderCode">
+      }
+      @if (subscription.orderCode) {
+        <div>
           {{ 'subscriptionDetails.orderCode' | cxTranslate }}
           <a
             [routerLink]="
@@ -86,19 +98,19 @@
                 params: { code: subscription.orderCode },
               } | cxUrl
             "
-          >
+            >
             {{ subscription.orderCode }}
           </a>
         </div>
-      </div>
+      }
     </div>
   </div>
-
-  <div class="subscription-actions row">
+</div>
+<div class="subscription-actions row">
+  @if (subscription.isWithdrawalPossible) {
     <span
       class="col-xs-12 col-md-4 col-lg-3 action-button"
-      *ngIf="subscription.isWithdrawalPossible"
-    >
+      >
       <a
         [attr.aria-label]="
           'subscriptionDetails.withdrawSubscription' | cxTranslate
@@ -106,14 +118,15 @@
         (click)="showSubscriptionActionsDialog('withdraw')"
         cxBtnLikeLink
         class="btn btn-block btn-secondary"
-      >
+        >
         {{ 'subscriptionDetails.withdrawSubscription' | cxTranslate }}
       </a>
     </span>
+  }
+  @if (subscription.isCancellationPossible) {
     <span
       class="col-xs-12 col-md-4 col-lg-3 action-button"
-      *ngIf="subscription.isCancellationPossible"
-    >
+      >
       <a
         cxBtnLikeLink
         class="btn btn-block btn-secondary"
@@ -121,14 +134,15 @@
         [attr.aria-label]="
           'subscriptionDetails.cancelSubscription' | cxTranslate
         "
-      >
+        >
         {{ 'subscriptionDetails.cancelSubscription' | cxTranslate }}
       </a>
     </span>
+  }
+  @if (subscription.isExtensionPossible) {
     <span
       class="col-xs-12 col-md-4 col-lg-3 action-button"
-      *ngIf="subscription.isExtensionPossible"
-    >
+      >
       <a
         #extendSubscriptionBtn
         [attr.aria-label]="
@@ -137,25 +151,26 @@
         cxBtnLikeLink
         class="btn btn-block btn-primary"
         (click)="showSubscriptionActionsDialog('extend')"
-      >
+        >
         {{ 'subscriptionDetails.extendSubscription' | cxTranslate }}
       </a>
     </span>
+  }
+  @if (subscription.isCancellationReversalPossible) {
     <span
       class="col-xs-12 col-md-4 col-lg-3 action-button"
-      *ngIf="subscription.isCancellationReversalPossible"
-    >
+      >
       <a
         cxBtnLikeLink
         class="btn btn-block btn-primary"
         [attr.aria-label]="'subscriptionDetails.reSubscribe' | cxTranslate"
         (click)="showSubscriptionActionsDialog('resubscribe')"
-      >
+        >
         {{ 'subscriptionDetails.reSubscribe' | cxTranslate }}
       </a>
     </span>
-  </div>
-</ng-container>
-<ng-template #loading>
+  }
+</div>
+} @else {
   <cx-spinner />
-</ng-template>
+}

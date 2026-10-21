@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, inject, Input, Optional } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
@@ -31,17 +31,15 @@ import { CartItemListComponentService } from './cart-item-list-row.component.ser
   imports: [
     OutletDirective,
     CartItemValidationWarningComponent,
-    NgIf,
     RouterLink,
     MediaComponent,
     PromotionsComponent,
-    NgFor,
     ItemCounterComponent,
     NgTemplateOutlet,
     AtMessageDirective,
     TranslatePipe,
-    UrlPipe,
-  ],
+    UrlPipe
+],
 })
 export class CartItemListRowComponent extends CartItemComponent {
   @Optional() @Input() items: OrderEntry[];

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -43,7 +43,6 @@ import { UnitAddressItemService } from '../services/unit-address-item.service';
     },
   ],
   imports: [
-    NgIf,
     CardComponent,
     FocusDirective,
     RouterLink,
@@ -51,8 +50,8 @@ import { UnitAddressItemService } from '../services/unit-address-item.service';
     AsyncPipe,
     UrlPipe,
     TranslatePipe,
-    FeatureDirective,
-  ],
+    FeatureDirective
+],
 })
 export class UnitAddressDetailsComponent {
   unit$: Observable<B2BUnit | undefined> = this.currentUnitService.item$;

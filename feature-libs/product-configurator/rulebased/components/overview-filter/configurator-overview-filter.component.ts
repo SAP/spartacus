@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject, Input, OnChanges } from '@angular/core';
 import {
   FormsModule,
@@ -22,14 +22,12 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   selector: 'cx-configurator-overview-filter',
   templateUrl: './configurator-overview-filter.component.html',
   imports: [
-    NgIf,
     ConfiguratorOverviewFilterBarComponent,
     FormsModule,
     ReactiveFormsModule,
-    NgFor,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class ConfiguratorOverviewFilterComponent implements OnChanges {
   protected configuratorStorefrontUtilsService = inject(

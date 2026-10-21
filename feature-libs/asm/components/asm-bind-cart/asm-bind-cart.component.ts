@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -67,11 +67,10 @@ import { AsmComponentService } from '../services/asm-component.service';
     FormsModule,
     NgClass,
     ReactiveFormsModule,
-    NgIf,
     DotSpinnerComponent,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class AsmBindCartComponent implements OnInit, OnDestroy {
   activeCartValidator: ValidatorFn = (control) => {

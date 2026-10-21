@@ -4,7 +4,7 @@
   [formGroup]="addressForm"
   cxFocusFirstInvalidField
   novalidate
->
+  >
   <ng-container *cxFeature="'a11yImproveAddressFormFocus'">
     <div [cxFocus]="focusConfig">
       <ng-container *ngTemplateOutlet="formBody" />
@@ -15,77 +15,83 @@
   </ng-container>
 
   <!--
-    Buttons are rendered outside the `cxFocus` autofocus host on purpose:
-    in Safari a `<button>` doesn't take focus on click, so if it lived inside
-    the host, focus would fall to the host and its autofocus would redirect to
-    the first field (country select). Keeping them outside prevents that jump.
+  Buttons are rendered outside the `cxFocus` autofocus host on purpose:
+  in Safari a `<button>` doesn't take focus on click, so if it lived inside
+  the host, focus would fall to the host and its autofocus would redirect to
+  the first field (country select). Keeping them outside prevents that jump.
   -->
   <ng-container *ngTemplateOutlet="formButtons" />
 
   <ng-template #formBody>
     <div class="form-group" formGroupName="country">
-      <ng-container *ngIf="countries$ | async as countries">
-        <div *ngIf="countries.length !== 0">
-          <label>
-            <span class="label-content required"
-              >{{ 'addressForm.country' | cxTranslate }}
-              <cx-form-required-asterisks />
-            </span>
-            <ng-select
-              [inputAttrs]="{ required: 'true' }"
-              class="country-select"
-              id="country-select"
-              formControlName="isocode"
-              [searchable]="true"
-              [clearable]="false"
-              [items]="countries"
-              bindLabel="name"
-              bindValue="isocode"
-              placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
-              (change)="countrySelected($event)"
+      @if (countries$ | async; as countries) {
+        @if (countries.length !== 0) {
+          <div>
+            <label>
+              <span class="label-content required"
+                >{{ 'addressForm.country' | cxTranslate }}
+                <cx-form-required-asterisks />
+              </span>
+              <ng-select
+                [inputAttrs]="{ required: 'true' }"
+                class="country-select"
+                id="country-select"
+                formControlName="isocode"
+                [searchable]="true"
+                [clearable]="false"
+                [items]="countries"
+                bindLabel="name"
+                bindValue="isocode"
+                placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
+                (change)="countrySelected($event)"
               ariaLabelDropdown="{{
                 'common.ngSelectDropdownOptionsList' | cxTranslate
               }}"
-              [cxNgSelectA11y]="{}"
-            />
-            <cx-form-errors
-              *cxFeature="'enableFormFieldMaxLength'"
+                [cxNgSelectA11y]="{}"
+                />
+              <cx-form-errors
+                *cxFeature="'enableFormFieldMaxLength'"
               [translationParams]="{
                 label: 'addressForm.country' | cxTranslate,
               }"
-              [control]="addressForm.get('country.isocode')"
-            />
-          </label>
-        </div>
-      </ng-container>
+                [control]="addressForm.get('country.isocode')"
+                />
+            </label>
+          </div>
+        }
+      }
     </div>
-    <div class="form-group" *ngIf="showTitleCode">
-      <ng-container *ngIf="titles$ | async as titles">
-        <div *ngIf="titles.length !== 0">
-          <label>
-            <span class="label-content required">{{
-              'addressForm.titleOptional' | cxTranslate
-            }}</span>
-            <ng-select
-              id="title-select"
-              formControlName="titleCode"
-              [searchable]="true"
-              [clearable]="false"
-              [items]="titles"
-              bindLabel="name"
-              bindValue="code"
-              [placeholder]="'addressForm.title' | cxTranslate"
+    @if (showTitleCode) {
+      <div class="form-group">
+        @if (titles$ | async; as titles) {
+          @if (titles.length !== 0) {
+            <div>
+              <label>
+                <span class="label-content required">{{
+                  'addressForm.titleOptional' | cxTranslate
+                }}</span>
+                <ng-select
+                  id="title-select"
+                  formControlName="titleCode"
+                  [searchable]="true"
+                  [clearable]="false"
+                  [items]="titles"
+                  bindLabel="name"
+                  bindValue="code"
+                  [placeholder]="'addressForm.title' | cxTranslate"
               ariaLabelDropdown="{{
                 'common.ngSelectDropdownOptionsList' | cxTranslate
               }}"
               [cxNgSelectA11y]="{
                 ariaLabel: 'addressForm.titleOptional' | cxTranslate,
               }"
-            />
-          </label>
-        </div>
-      </ng-container>
-    </div>
+                  />
+              </label>
+            </div>
+          }
+        }
+      </div>
+    }
     <div class="form-group">
       <label>
         <span class="label-content required"
@@ -103,14 +109,14 @@
             addressForm.get('firstName')?.invalid
           "
           [attr.aria-errormessage]="'firstNameError'"
-        />
+          />
         <cx-form-errors
           id="firstNameError"
           [translationParams]="{
             label: 'addressForm.firstName.label' | cxTranslate,
           }"
           [control]="addressForm.get('firstName')"
-        />
+          />
       </label>
     </div>
     <div class="form-group">
@@ -130,14 +136,14 @@
             addressForm.get('lastName')?.invalid
           "
           [attr.aria-errormessage]="'lastNameError'"
-        />
+          />
         <cx-form-errors
           id="lastNameError"
           [translationParams]="{
             label: 'addressForm.lastName.label' | cxTranslate,
           }"
           [control]="addressForm.get('lastName')"
-        />
+          />
       </label>
     </div>
     <div class="form-group">
@@ -157,14 +163,14 @@
             addressForm.get('line1')?.invalid
           "
           [attr.aria-errormessage]="'line1Error'"
-        />
+          />
         <cx-form-errors
           id="line1Error"
           [translationParams]="{
             label: 'addressForm.address1' | cxTranslate,
           }"
           [control]="addressForm.get('line1')"
-        />
+          />
       </label>
     </div>
     <div class="form-group">
@@ -183,14 +189,14 @@
               addressForm.get('line2')?.invalid
             "
             [attr.aria-errormessage]="'line2Error'"
-          />
+            />
           <cx-form-errors
             id="line2Error"
             [translationParams]="{
               label: 'addressForm.address2' | cxTranslate,
             }"
             [control]="addressForm.get('line2')"
-          />
+            />
         </ng-container>
         <input
           *cxFeature="'!enableFormFieldMaxLength'"
@@ -198,53 +204,54 @@
           class="form-control"
           placeholder="{{ 'addressForm.aptSuite' | cxTranslate }}"
           formControlName="line2"
-        />
+          />
       </label>
     </div>
     <div class="row">
       <ng-container *cxFeature="'enableHierarchicalAddressFormat'">
-        <ng-container *ngIf="isHierarchicalAddressFormat">
-          <ng-container
-            *ngIf="regions$ | async as regions"
-            formGroupName="region"
-          >
-            <ng-container *ngIf="regions.length !== 0">
-              <div class="form-group col-md-6">
-                <label>
-                  <span class="label-content required"
-                    >{{ 'addressForm.province' | cxTranslate }}
-                    <cx-form-required-asterisks />
-                  </span>
-                  <ng-select
-                    [inputAttrs]="{ required: 'true' }"
-                    class="region-select"
-                    formControlName="isocode"
-                    [searchable]="true"
-                    [clearable]="false"
-                    [items]="regions"
-                    bindLabel="{{ regions[0].name ? 'name' : 'isocode' }}"
-                    bindValue="{{ regions[0].name ? 'isocode' : 'region' }}"
-                    placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
-                    (change)="regionSelected($event)"
-                    id="region-select"
+        @if (isHierarchicalAddressFormat) {
+          @if (regions$ | async; as regions) {
+            <ng-container
+              formGroupName="region"
+              >
+              @if (regions.length !== 0) {
+                <div class="form-group col-md-6">
+                  <label>
+                    <span class="label-content required"
+                      >{{ 'addressForm.province' | cxTranslate }}
+                      <cx-form-required-asterisks />
+                    </span>
+                    <ng-select
+                      [inputAttrs]="{ required: 'true' }"
+                      class="region-select"
+                      formControlName="isocode"
+                      [searchable]="true"
+                      [clearable]="false"
+                      [items]="regions"
+                      bindLabel="{{ regions[0].name ? 'name' : 'isocode' }}"
+                      bindValue="{{ regions[0].name ? 'isocode' : 'region' }}"
+                      placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
+                      (change)="regionSelected($event)"
+                      id="region-select"
                     ariaLabelDropdown="{{
                       'common.ngSelectDropdownOptionsList' | cxTranslate
                     }}"
                     [cxNgSelectA11y]="{
                       ariaLabel: 'addressForm.province' | cxTranslate,
                     }"
-                  />
-                  <cx-form-errors
+                      />
+                    <cx-form-errors
                     [translationParams]="{
                       label: 'addressForm.province' | cxTranslate,
                     }"
-                    [control]="addressForm.get('region.isocode')"
-                  />
-                </label>
-              </div>
+                      [control]="addressForm.get('region.isocode')"
+                      />
+                  </label>
+                </div>
+              }
             </ng-container>
-          </ng-container>
-        </ng-container>
+          }
+        }
       </ng-container>
       <div class="form-group col-sm-6">
         <label>
@@ -254,26 +261,40 @@
             <cx-form-required-asterisks />
           </span>
           <ng-container *cxFeature="'enableHierarchicalAddressFormat'">
-            <ng-select
-              *ngIf="isHierarchicalAddressFormat; else cityTextInput"
-              class="city-select"
-              id="city-select"
-              formControlName="town"
-              [searchable]="true"
-              [clearable]="false"
-              [items]="cities"
-              bindLabel="name"
-              bindValue="isocode"
+            @if (isHierarchicalAddressFormat) {
+              <ng-select
+                class="city-select"
+                id="city-select"
+                formControlName="town"
+                [searchable]="true"
+                [clearable]="false"
+                [items]="cities"
+                bindLabel="name"
+                bindValue="isocode"
               placeholder="{{
                 selectedRegion$.value
                   ? ('addressForm.selectOne' | cxTranslate)
                   : ('addressForm.selectProvinceFirst' | cxTranslate)
               }}"
-              (change)="citySelected($event)"
+                (change)="citySelected($event)"
               [cxNgSelectA11y]="{
                 ariaLabel: 'addressForm.city.label' | cxTranslate,
               }"
-            />
+                />
+            } @else {
+              <input
+                required="true"
+                type="text"
+                class="form-control"
+                placeholder="{{ 'addressForm.city.placeholder' | cxTranslate }}"
+                formControlName="town"
+              [attr.aria-invalid]="
+                addressForm.get('town')?.touched &&
+                addressForm.get('town')?.invalid
+              "
+                [attr.aria-errormessage]="'townError'"
+                />
+            }
           </ng-container>
           <ng-container *cxFeature="'!enableHierarchicalAddressFormat'">
             <ng-container *ngTemplateOutlet="cityTextInput" />
@@ -290,7 +311,7 @@
                 addressForm.get('town')?.invalid
               "
               [attr.aria-errormessage]="'townError'"
-            />
+              />
           </ng-template>
           <cx-form-errors
             id="townError"
@@ -298,25 +319,26 @@
               label: 'addressForm.city.label' | cxTranslate,
             }"
             [control]="addressForm.get('town')"
-          />
+            />
         </label>
       </div>
       <ng-container *cxFeature="'enableHierarchicalAddressFormat'">
-        <div class="form-group col-md-6" *ngIf="isHierarchicalAddressFormat">
-          <label>
-            <span class="label-content required"
-              >{{ 'addressForm.district' | cxTranslate }}
-              <cx-form-required-asterisks />
-            </span>
-            <ng-select
-              class="district-select"
-              id="district-select"
-              formControlName="district"
-              [searchable]="true"
-              [clearable]="false"
-              [items]="districts"
-              bindLabel="name"
-              bindValue="isocode"
+        @if (isHierarchicalAddressFormat) {
+          <div class="form-group col-md-6">
+            <label>
+              <span class="label-content required"
+                >{{ 'addressForm.district' | cxTranslate }}
+                <cx-form-required-asterisks />
+              </span>
+              <ng-select
+                class="district-select"
+                id="district-select"
+                formControlName="district"
+                [searchable]="true"
+                [clearable]="false"
+                [items]="districts"
+                bindLabel="name"
+                bindValue="isocode"
               placeholder="{{
                 selectedCity$.value
                   ? ('addressForm.selectOne' | cxTranslate)
@@ -325,15 +347,16 @@
               [cxNgSelectA11y]="{
                 ariaLabel: 'addressForm.district' | cxTranslate,
               }"
-            />
-            <cx-form-errors
+                />
+              <cx-form-errors
               [translationParams]="{
                 label: 'addressForm.district' | cxTranslate,
               }"
-              [control]="addressForm.get('district')"
-            />
-          </label>
-        </div>
+                [control]="addressForm.get('district')"
+                />
+            </label>
+          </div>
+        }
       </ng-container>
       <div class="form-group col-sm-6">
         <label>
@@ -353,50 +376,51 @@
               addressForm.get('postalCode')?.invalid
             "
             [attr.aria-errormessage]="'postalCodeError'"
-          />
+            />
           <cx-form-errors
             id="postalCodeError"
             [translationParams]="{
               label: 'addressForm.zipCode.label' | cxTranslate,
             }"
             [control]="addressForm.get('postalCode')"
-          />
+            />
         </label>
       </div>
-      <ng-container
-        *ngIf="!isHierarchicalAddressFormat && (regions$ | async) as regions"
-        formGroupName="region"
-      >
-        <ng-container *ngIf="regions.length !== 0">
-          <div class="form-group col-md-6">
-            <label>
-              <span class="label-content required"
-                >{{ 'addressForm.state' | cxTranslate }}
-                <cx-form-required-asterisks />
-              </span>
-              <ng-select
-                [inputAttrs]="{ required: 'true' }"
-                class="region-select"
-                formControlName="isocode"
-                [searchable]="true"
-                [clearable]="false"
-                [items]="regions"
-                bindLabel="{{ regions[0].name ? 'name' : 'isocode' }}"
-                bindValue="{{ regions[0].name ? 'isocode' : 'region' }}"
-                placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
-                id="region-select"
+      @if (!isHierarchicalAddressFormat && (regions$ | async); as regions) {
+        <ng-container
+          formGroupName="region"
+          >
+          @if (regions.length !== 0) {
+            <div class="form-group col-md-6">
+              <label>
+                <span class="label-content required"
+                  >{{ 'addressForm.state' | cxTranslate }}
+                  <cx-form-required-asterisks />
+                </span>
+                <ng-select
+                  [inputAttrs]="{ required: 'true' }"
+                  class="region-select"
+                  formControlName="isocode"
+                  [searchable]="true"
+                  [clearable]="false"
+                  [items]="regions"
+                  bindLabel="{{ regions[0].name ? 'name' : 'isocode' }}"
+                  bindValue="{{ regions[0].name ? 'isocode' : 'region' }}"
+                  placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
+                  id="region-select"
                 ariaLabelDropdown="{{
                   'common.ngSelectDropdownOptionsList' | cxTranslate
                 }}"
                 [cxNgSelectA11y]="{
                   ariaLabel: 'addressForm.state' | cxTranslate,
                 }"
-              />
-              <cx-form-errors [control]="addressForm.get('region.isocode')" />
-            </label>
-          </div>
+                  />
+                <cx-form-errors [control]="addressForm.get('region.isocode')" />
+              </label>
+            </div>
+          }
         </ng-container>
-      </ng-container>
+      }
     </div>
 
     <div class="row">
@@ -418,14 +442,14 @@
                 addressForm.get('phone')?.invalid
               "
               [attr.aria-errormessage]="'phoneError'"
-            />
+              />
             <cx-form-errors
               id="phoneError"
               [translationParams]="{
                 label: 'addressForm.phoneNumber.label' | cxTranslate,
               }"
               [control]="addressForm.get('phone')"
-            />
+              />
           </ng-container>
           <input
             *cxFeature="'!enableFormFieldMaxLength'"
@@ -435,7 +459,7 @@
               'addressForm.phoneNumber.placeholder' | cxTranslate
             }}"
             formControlName="phone"
-          />
+            />
         </label>
       </div>
       <ng-container *cxFeature="'enableHierarchicalAddressFormat'">
@@ -445,12 +469,14 @@
               class="label-content"
               [class.required]="isHierarchicalAddressFormat"
               >{{
-                (isHierarchicalAddressFormat
-                  ? 'addressForm.cellphone.requiredLabel'
-                  : 'addressForm.cellphone.label'
-                ) | cxTranslate
+              (isHierarchicalAddressFormat
+              ? 'addressForm.cellphone.requiredLabel'
+              : 'addressForm.cellphone.label'
+              ) | cxTranslate
               }}
-              <cx-form-required-asterisks *ngIf="isHierarchicalAddressFormat" />
+              @if (isHierarchicalAddressFormat) {
+                <cx-form-required-asterisks />
+              }
             </span>
             <ng-container *cxFeature="'enableFormFieldMaxLength'">
               <input
@@ -465,7 +491,7 @@
                   addressForm.get('cellphone')?.invalid
                 "
                 [attr.aria-errormessage]="'cellphoneError'"
-              />
+                />
               <cx-form-errors
                 id="cellphoneError"
                 [translationParams]="{
@@ -476,7 +502,7 @@
                     ) | cxTranslate,
                 }"
                 [control]="addressForm.get('cellphone')"
-              />
+                />
             </ng-container>
             <input
               *cxFeature="'!enableFormFieldMaxLength'"
@@ -486,7 +512,7 @@
                 'addressForm.cellphone.placeholder' | cxTranslate
               }}"
               formControlName="cellphone"
-            />
+              />
           </label>
         </div>
       </ng-container>
@@ -509,14 +535,14 @@
                   addressForm.get('cellphone')?.invalid
                 "
                 [attr.aria-errormessage]="'cellphoneError'"
-              />
+                />
               <cx-form-errors
                 id="cellphoneError"
                 [translationParams]="{
                   label: 'addressForm.cellphone.label' | cxTranslate,
                 }"
                 [control]="addressForm.get('cellphone')"
-              />
+                />
             </ng-container>
             <input
               *cxFeature="'!enableFormFieldMaxLength'"
@@ -526,40 +552,43 @@
                 'addressForm.cellphone.placeholder' | cxTranslate
               }}"
               formControlName="cellphone"
-            />
+              />
           </label>
         </div>
       </ng-container>
     </div>
 
-    <div
-      class="form-group"
-      *ngIf="(addresses$ | async)?.length && setAsDefaultField"
-    >
-      <div class="form-check">
-        <label>
-          <input
-            type="checkbox"
-            class="form-check-input"
-            formControlName="defaultAddress"
-            (change)="toggleDefaultAddress()"
-          />
-          <span class="form-check-label">{{
-            'addressForm.setAsDefault' | cxTranslate
-          }}</span>
-        </label>
+    @if ((addresses$ | async)?.length && setAsDefaultField) {
+      <div
+        class="form-group"
+        >
+        <div class="form-check">
+          <label>
+            <input
+              type="checkbox"
+              class="form-check-input"
+              formControlName="defaultAddress"
+              (change)="toggleDefaultAddress()"
+              />
+            <span class="form-check-label">{{
+              'addressForm.setAsDefault' | cxTranslate
+            }}</span>
+          </label>
+        </div>
       </div>
-    </div>
+    }
   </ng-template>
 
   <ng-template #formButtons>
     <div class="cx-address-form-btns">
       <div class="row">
-        <div class="col-md-13 col-lg-6" *ngIf="showCancelBtn">
-          <button class="btn btn-block btn-secondary" (click)="back()">
-            {{ cancelBtnLabel || ('addressForm.chooseAddress' | cxTranslate) }}
-          </button>
-        </div>
+        @if (showCancelBtn) {
+          <div class="col-md-13 col-lg-6">
+            <button class="btn btn-block btn-secondary" (click)="back()">
+              {{ cancelBtnLabel || ('addressForm.chooseAddress' | cxTranslate) }}
+            </button>
+          </div>
+        }
         <div class="col-md-13 col-lg-6">
           <button #submit class="btn btn-block btn-primary" type="submit">
             {{ actionBtnLabel || ('common.continue' | cxTranslate) }}

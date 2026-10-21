@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -29,13 +29,11 @@ import { take } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FocusDirective,
-    NgIf,
     IconComponent,
     FormsModule,
-    NgFor,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class SuggestedAddressDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;

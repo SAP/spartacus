@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -22,14 +22,13 @@ import { switchMap } from 'rxjs/operators';
   selector: 'cx-login',
   templateUrl: './login.component.html',
   imports: [
-    NgIf,
     PageSlotComponent,
     DomChangeDirective,
     RouterLink,
     AsyncPipe,
     UrlPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class LoginComponent implements OnInit {
   user$: Observable<User | undefined>;

@@ -1,4 +1,4 @@
-<ng-container *ngIf="cart$ | async as cart">
+@if (cart$ | async; as cart) {
   <div class="cx-cart-quick-order-form-title">
     {{ 'quickOrderCartForm.title' | cxTranslate }}
   </div>
@@ -25,7 +25,7 @@
               'quickOrderCartForm.productCodePlaceholder' | cxTranslate
             }}"
             type="text"
-          />
+            />
         </span>
         <span class="cx-cart-quick-order-form-qty">
           <label class="cx-cart-quick-order-form-label">
@@ -37,7 +37,7 @@
             class="form-control input-quantity"
             formControlName="quantity"
             type="number"
-          />
+            />
         </span>
         <cx-form-errors
           *cxFeature="'a11yCartQuickOrderFormEnableSubmitAndAddValidation'"
@@ -46,7 +46,7 @@
             label: 'quickOrderCartForm.productCodeLabel' | cxTranslate,
           }"
           [control]="quickOrderForm.get('productCode')"
-        />
+          />
         <button
           *cxFeature="'a11yCartQuickOrderFormEnableSubmitAndAddValidation'"
           [attr.aria-label]="'quickOrderCartForm.addToCart' | cxTranslate"
@@ -54,7 +54,7 @@
           [disabled]="cartIsLoading$ | async"
           class="btn btn-block btn-secondary apply-quick-order-button"
           type="submit"
-        >
+          >
           {{ 'quickOrderCartForm.add' | cxTranslate }}
         </button>
         <button
@@ -68,10 +68,10 @@
           "
           class="btn btn-block btn-secondary apply-quick-order-button"
           type="submit"
-        >
+          >
           {{ 'quickOrderCartForm.add' | cxTranslate }}
         </button>
       </div>
     </form>
   </div>
-</ng-container>
+}

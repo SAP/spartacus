@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
   FormsModule,
@@ -34,7 +34,6 @@ import { OrderApprovalDetailService } from '../order-approval-detail.service';
   templateUrl: './order-approval-detail-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     SpinnerComponent,
     FormsModule,
     ReactiveFormsModule,
@@ -43,8 +42,8 @@ import { OrderApprovalDetailService } from '../order-approval-detail.service';
     RouterLink,
     AsyncPipe,
     TranslatePipe,
-    UrlPipe,
-  ],
+    UrlPipe
+],
 })
 export class OrderApprovalDetailFormComponent implements OnDestroy {
   approvalDecisionValue = OrderApprovalDecisionValue;

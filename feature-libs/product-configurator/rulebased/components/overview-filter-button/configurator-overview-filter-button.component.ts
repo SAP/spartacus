@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -26,11 +26,10 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   selector: 'cx-configurator-overview-filter-button',
   templateUrl: './configurator-overview-filter-button.component.html',
   imports: [
-    NgIf,
     ConfiguratorOverviewFilterBarComponent,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class ConfiguratorOverviewFilterButtonComponent {
   protected configuratorStorefrontUtilsService = inject(

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -60,7 +60,6 @@ import { UnitItemService } from '../services/unit-item.service';
   ],
   imports: [
     FormComponent,
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     FormRequiredLegendComponent,
@@ -69,8 +68,8 @@ import { UnitItemService } from '../services/unit-item.service';
     NgSelectComponent,
     NgSelectA11yDirective,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class UnitFormComponent implements OnInit {
   @Input() i18nRoot = 'orgUnit';

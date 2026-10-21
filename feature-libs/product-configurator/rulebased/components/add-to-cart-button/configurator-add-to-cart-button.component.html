@@ -1,7 +1,7 @@
-<ng-container *ngIf="container$ | async as container">
-  <ng-container *ngIf="!container.routerData.displayOnly; else displayOnly">
+@if (container$ | async; as container) {
+  @if (!container.routerData.displayOnly) {
     <div class="cx-add-to-cart-btn-container">
-      <ng-container *ngIf="!isCartEntry(container.routerData)">
+      @if (!isCartEntry(container.routerData)) {
         <div class="cx-quantity-add-to-cart-container">
           <div class="cx-quantity-add-to-cart-row">
             <div class="cx-quantity">
@@ -31,13 +31,13 @@
                   container.configuration
                 ) | cxTranslate
               }}"
-            >
+              >
               <cx-icon [type]="iconType.CART_PLUS" />
             </button>
           </div>
         </div>
-      </ng-container>
-      <ng-container *ngIf="isCartEntry(container.routerData)">
+      }
+      @if (isCartEntry(container.routerData)) {
         <button
           class="cx-btn btn btn-block btn-primary cx-add-to-cart-btn"
           (click)="onAddToCart(container.configuration, container.routerData)"
@@ -51,26 +51,25 @@
             ('configurator.a11y.addToCartPrices'
               | cxTranslate: extractConfigPrices(container.configuration))
           "
-        >
+          >
           {{
-            getButtonResourceKey(
-              container.routerData,
-              container.configuration,
-              isQuoteCartActive() | async
-            ) | cxTranslate
+          getButtonResourceKey(
+          container.routerData,
+          container.configuration,
+          isQuoteCartActive() | async
+          ) | cxTranslate
           }}
         </button>
-      </ng-container>
+      }
     </div>
-  </ng-container>
-  <ng-template #displayOnly>
+  } @else {
     <div class="cx-display-only-btn-container">
       <button
         class="cx-btn btn btn-block btn-secondary cx-display-only-btn"
         (click)="leaveConfigurationOverview()"
-      >
+        >
         {{ 'configurator.addToCart.buttonClose' | cxTranslate }}
       </button>
     </div>
-  </ng-template>
-</ng-container>
+  }
+}

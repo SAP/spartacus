@@ -21,12 +21,11 @@ const MockMessageData: Partial<MessageData> = {
 @Component({
   template: '',
   imports: [
-    CommonModule,
     PaginationTestingModule,
     KeyboardFocusTestingModule,
     I18nTestingModule,
-    IconTestingModule,
-  ],
+    IconTestingModule
+],
 })
 class MessageComponent extends BaseMessageComponent {}
 

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import {
@@ -22,11 +22,10 @@ import { ConfiguratorOverviewFilterComponent } from '../overview-filter/configur
   imports: [
     FocusDirective,
     IconComponent,
-    NgIf,
     ConfiguratorOverviewFilterComponent,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class ConfiguratorOverviewFilterDialogComponent {
   constructor(protected launchDialogService: LaunchDialogService) {}
