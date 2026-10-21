@@ -72,6 +72,12 @@ function escapeRegExp(value: string): string {
  * mapped to `503` with a `Retry-After` header, and any other error is forwarded
  * to Express via `next(error)`. A `null` base site still invokes the handler:
  * the application owns the response.
+ *
+ * The returned middleware must be mounted at the application root (e.g.
+ * `server.use(...)` with no path prefix), because route matching reads
+ * `request.path` while resolution reads the full request URL; under a sub-mount
+ * the mount prefix would be stripped from `request.path` but remain in the full
+ * URL, causing the leading base-site segment to be mis-read.
  */
 export function getMultiSiteHandler(
   options: MultiSiteHandlerOptions

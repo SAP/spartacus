@@ -120,10 +120,10 @@ async function measureCold(baseUrl: string): Promise<ScenarioStatistics> {
   const durations: number[] = [];
 
   for (let index = 0; index < COLD_SAMPLES; index++) {
-    const resolver = new DefaultBaseSiteResolver({ occBaseUrl: baseUrl });
+    const resolver = new DefaultBaseSiteResolver({ baseSites: [], occBaseUrl: baseUrl });
     durations.push(
       await measure(async () => {
-        assert.equal(await resolver.resolve(REQUEST_URL), 'electronics-spa');
+        assert.equal(await resolver.resolveFromOcc(REQUEST_URL), 'electronics-spa');
       })
     );
   }
@@ -132,14 +132,14 @@ async function measureCold(baseUrl: string): Promise<ScenarioStatistics> {
 }
 
 async function measureWarm(baseUrl: string): Promise<ScenarioStatistics> {
-  const resolver = new DefaultBaseSiteResolver({ occBaseUrl: baseUrl });
-  assert.equal(await resolver.resolve(REQUEST_URL), 'electronics-spa');
+  const resolver = new DefaultBaseSiteResolver({ baseSites: [], occBaseUrl: baseUrl });
+  assert.equal(await resolver.resolveFromOcc(REQUEST_URL), 'electronics-spa');
   const durations: number[] = [];
 
   for (let index = 0; index < WARM_SAMPLES; index++) {
     durations.push(
       await measure(async () => {
-        assert.equal(await resolver.resolve(REQUEST_URL), 'electronics-spa');
+        assert.equal(await resolver.resolveFromOcc(REQUEST_URL), 'electronics-spa');
       })
     );
   }
@@ -151,6 +151,7 @@ async function measureConcurrencyLimit(
   baseUrl: string
 ): Promise<ScenarioStatistics> {
   const resolver = new DefaultBaseSiteResolver({
+    baseSites: [],
     occBaseUrl: baseUrl,
     concurrencyLimit: CONCURRENCY_LIMIT,
     timeoutMs: 1_000,
@@ -160,7 +161,7 @@ async function measureConcurrencyLimit(
     Array.from({ length: CONCURRENCY_REQUESTS }, async () => {
       const startedAt = performance.now();
       try {
-        const baseSite = await resolver.resolve(REQUEST_URL);
+        const baseSite = await resolver.resolveFromOcc(REQUEST_URL);
         return { duration: performance.now() - startedAt, baseSite };
       } catch (error) {
         return { duration: performance.now() - startedAt, error };
@@ -186,13 +187,14 @@ async function measureTimeout(baseUrl: string): Promise<ScenarioStatistics> {
 
   for (let index = 0; index < TIMEOUT_SAMPLES; index++) {
     const resolver = new DefaultBaseSiteResolver({
+      baseSites: [],
       occBaseUrl: baseUrl,
       timeoutMs: 5,
     });
     durations.push(
       await measure(async () => {
         await assert.rejects(
-          resolver.resolve(REQUEST_URL),
+          resolver.resolveFromOcc(REQUEST_URL),
           OccUnavailableError
         );
       })
