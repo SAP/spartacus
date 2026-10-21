@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, SlicePipe } from '@angular/common';
+import { AsyncPipe, SlicePipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -40,16 +40,14 @@ import { FacetService } from '../services/facet.service';
   templateUrl: './facet.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
     RouterLink,
     FocusDirective_1,
     FeatureDirective,
     AtMessageDirective,
     AsyncPipe,
     SlicePipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class FacetComponent implements AfterViewInit {
   protected _facet: Facet;

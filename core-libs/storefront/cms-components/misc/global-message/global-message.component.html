@@ -3,93 +3,100 @@
   class="cx-visually-hidden"
   aria-live="polite"
   aria-atomic="true"
->
-  <span
-    *ngFor="
-      let assistiveMsg of (messages$ | async)?.[messageType.MSG_TYPE_ASSISTIVE]
-    "
-    >{{ assistiveMsg | cxTranslate }}</span
   >
-</div>
-<div *ngIf="messages$ | async as messages">
-  <ng-container *cxFeature="'!a11yFilteredFacetAnnouncement'">
-    <div
-      *ngFor="let assistiveMsg of messages[messageType.MSG_TYPE_ASSISTIVE]"
-      class="cx-visually-hidden"
-      aria-live="polite"
-      aria-atomic="true"
-    >
-      <span>{{ assistiveMsg | cxTranslate }}</span>
+  @for (
+    assistiveMsg of (messages$ | async)?.[messageType.MSG_TYPE_ASSISTIVE]
+    ; track
+    assistiveMsg) {
+    <span
+      >{{ assistiveMsg | cxTranslate }}</span
+      >
+    }
+  </div>
+  @if (messages$ | async; as messages) {
+    <div>
+      <ng-container *cxFeature="'!a11yFilteredFacetAnnouncement'">
+        @for (assistiveMsg of messages[messageType.MSG_TYPE_ASSISTIVE]; track assistiveMsg) {
+          <div
+            class="cx-visually-hidden"
+            aria-live="polite"
+            aria-atomic="true"
+            >
+            <span>{{ assistiveMsg | cxTranslate }}</span>
+          </div>
+        }
+      </ng-container>
+      @for (
+        confMsg of messages[messageType.MSG_TYPE_CONFIRMATION]; track
+        confMsg; let i = $index) {
+        <div
+          class="alert alert-success"
+          >
+          <span class="alert-icon">
+            <cx-icon [type]="iconTypes.SUCCESS" />
+          </span>
+          <span>{{ confMsg | cxTranslate }}</span>
+          <button
+            class="close"
+            title="{{ 'common.close' | cxTranslate }}"
+            (click)="clear(messageType.MSG_TYPE_CONFIRMATION, i)"
+            >
+            <cx-icon [type]="iconTypes.CLOSE" />
+          </button>
+        </div>
+      }
+      @for (infoMsg of messages[messageType.MSG_TYPE_INFO]; track infoMsg; let i = $index) {
+        <div
+          class="alert alert-info"
+          >
+          <span class="alert-icon">
+            <cx-icon [type]="iconTypes.INFO" />
+          </span>
+          <span>{{ infoMsg | cxTranslate }}</span>
+          <button
+            class="close"
+            title="{{ 'common.close' | cxTranslate }}"
+            (click)="clear(messageType.MSG_TYPE_INFO, i)"
+            >
+            <cx-icon [type]="iconTypes.CLOSE" />
+          </button>
+        </div>
+      }
+      @for (
+        infoMsg of messages[messageType.MSG_TYPE_WARNING]; track
+        infoMsg; let i = $index) {
+        <div
+          class="alert alert-warning"
+          >
+          <span class="alert-icon">
+            <cx-icon [type]="iconTypes.WARNING" />
+          </span>
+          <span>{{ infoMsg | cxTranslate }}</span>
+          <button
+            class="close"
+            title="{{ 'common.close' | cxTranslate }}"
+            (click)="clear(messageType.MSG_TYPE_WARNING, i)"
+            >
+            <cx-icon [type]="iconTypes.CLOSE" />
+          </button>
+        </div>
+      }
+      @for (errorMsg of messages[messageType.MSG_TYPE_ERROR]; track errorMsg; let i = $index) {
+        <div
+          class="alert alert-danger"
+          >
+          <span class="alert-icon">
+            <cx-icon [type]="iconTypes.ERROR" />
+          </span>
+          <span>{{ errorMsg | cxTranslate }}</span>
+          <button
+            class="close"
+            title="{{ 'common.close' | cxTranslate }}"
+            (click)="clear(messageType.MSG_TYPE_ERROR, i)"
+            >
+            <cx-icon [type]="iconTypes.CLOSE" />
+          </button>
+        </div>
+      }
     </div>
-  </ng-container>
-  <div
-    class="alert alert-success"
-    *ngFor="
-      let confMsg of messages[messageType.MSG_TYPE_CONFIRMATION];
-      let i = index
-    "
-  >
-    <span class="alert-icon">
-      <cx-icon [type]="iconTypes.SUCCESS" />
-    </span>
-    <span>{{ confMsg | cxTranslate }}</span>
-    <button
-      class="close"
-      title="{{ 'common.close' | cxTranslate }}"
-      (click)="clear(messageType.MSG_TYPE_CONFIRMATION, i)"
-    >
-      <cx-icon [type]="iconTypes.CLOSE" />
-    </button>
-  </div>
-  <div
-    class="alert alert-info"
-    *ngFor="let infoMsg of messages[messageType.MSG_TYPE_INFO]; let i = index"
-  >
-    <span class="alert-icon">
-      <cx-icon [type]="iconTypes.INFO" />
-    </span>
-    <span>{{ infoMsg | cxTranslate }}</span>
-    <button
-      class="close"
-      title="{{ 'common.close' | cxTranslate }}"
-      (click)="clear(messageType.MSG_TYPE_INFO, i)"
-    >
-      <cx-icon [type]="iconTypes.CLOSE" />
-    </button>
-  </div>
-  <div
-    class="alert alert-warning"
-    *ngFor="
-      let infoMsg of messages[messageType.MSG_TYPE_WARNING];
-      let i = index
-    "
-  >
-    <span class="alert-icon">
-      <cx-icon [type]="iconTypes.WARNING" />
-    </span>
-    <span>{{ infoMsg | cxTranslate }}</span>
-    <button
-      class="close"
-      title="{{ 'common.close' | cxTranslate }}"
-      (click)="clear(messageType.MSG_TYPE_WARNING, i)"
-    >
-      <cx-icon [type]="iconTypes.CLOSE" />
-    </button>
-  </div>
-  <div
-    class="alert alert-danger"
-    *ngFor="let errorMsg of messages[messageType.MSG_TYPE_ERROR]; let i = index"
-  >
-    <span class="alert-icon">
-      <cx-icon [type]="iconTypes.ERROR" />
-    </span>
-    <span>{{ errorMsg | cxTranslate }}</span>
-    <button
-      class="close"
-      title="{{ 'common.close' | cxTranslate }}"
-      (click)="clear(messageType.MSG_TYPE_ERROR, i)"
-    >
-      <cx-icon [type]="iconTypes.CLOSE" />
-    </button>
-  </div>
-</div>
+  }

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -27,11 +27,10 @@ import { FacetListComponent } from './facet-list/facet-list.component';
   imports: [
     IconComponent,
     ActiveFacetsComponent,
-    NgIf,
     FacetListComponent,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class ProductFacetNavigationComponent {
   iconTypes = ICON_TYPE;

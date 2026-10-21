@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -50,7 +50,7 @@ import { MediaService } from './media.service';
   selector: 'cx-media',
   templateUrl: './media.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor],
+  imports: [],
 })
 export class MediaComponent implements OnChanges {
   /**

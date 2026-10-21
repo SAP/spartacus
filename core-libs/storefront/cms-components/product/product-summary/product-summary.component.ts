@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Product, ProductScope, TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -18,12 +18,11 @@ import { ProductDetailOutlets } from '../product-outlets.model';
   templateUrl: './product-summary.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     PromotionsComponent,
     OutletDirective,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class ProductSummaryComponent {
   outlets = ProductDetailOutlets;

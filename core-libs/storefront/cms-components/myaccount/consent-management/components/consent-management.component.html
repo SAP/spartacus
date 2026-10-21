@@ -1,11 +1,9 @@
-<ng-container
-  *ngIf="{
-    loading: loading$ | async,
-    templateList: templateList$ | async,
-    allConsentsLoading: allConsentsLoading$ | async,
-  } as data"
->
-  <ng-container *ngIf="data.templateList as templateList">
+@if ({
+  loading: loading$ | async,
+  templateList: templateList$ | async,
+  allConsentsLoading: allConsentsLoading$ | async,
+  }; as data) {
+  @if (data.templateList; as templateList) {
     <div class="cx-consent-action-links">
       <ng-container *cxFeature="'a11yKeepFocusOnConsentManagementButtons'">
         <div class="col-sm-12 col-md-8 col-lg-6">
@@ -13,14 +11,14 @@
             class="btn btn-link cx-action-link"
             [attr.aria-disabled]="data.loading"
             (click)="rejectAll(templateList)"
-          >
+            >
             {{ 'consentManagementForm.clearAll' | cxTranslate }}
           </button>
           <button
             class="btn btn-link cx-action-link"
             [attr.aria-disabled]="data.loading"
             (click)="allowAll(templateList)"
-          >
+            >
             {{ 'consentManagementForm.selectAll' | cxTranslate }}
           </button>
         </div>
@@ -31,49 +29,49 @@
             class="btn btn-link cx-action-link"
             [disabled]="data.loading"
             (click)="rejectAll(templateList)"
-          >
+            >
             {{ 'consentManagementForm.clearAll' | cxTranslate }}
           </button>
           <button
             class="btn btn-link cx-action-link"
             [disabled]="data.loading"
             (click)="allowAll(templateList)"
-          >
+            >
             {{ 'consentManagementForm.selectAll' | cxTranslate }}
           </button>
         </div>
       </ng-container>
     </div>
-    <div
-      class="cx-spinner"
-      *ngIf="data.allConsentsLoading || (data.loading && !templateList?.length)"
-    >
-      <cx-spinner />
-    </div>
-
-    <ng-container *ngIf="!data.allConsentsLoading">
+    @if (data.allConsentsLoading || (data.loading && !templateList?.length)) {
+      <div
+        class="cx-spinner"
+        >
+        <cx-spinner />
+      </div>
+    }
+    @if (!data.allConsentsLoading) {
       <fieldset>
         <legend
           *cxFeature="'a11yFormFieldSectionLegend'"
           class="cx-visually-hidden"
-        >
+          >
           {{ pageTitle$ | async }}
         </legend>
         <div class="cx-consent-toggles">
           <div class="col-sm-12 col-md-8 col-lg-6">
-            <cx-consent-management-form
-              *ngFor="
-                let consentTemplate of templateList;
-                trackBy: trackByTemplateId
-              "
-              [consentTemplate]="consentTemplate"
-              [requiredConsents]="requiredConsents"
-              [disabled]="!!data.loading"
-              (consentChanged)="onConsentChange($event)"
-            />
+            @for (
+              consentTemplate of templateList; track trackByTemplateId($index,
+              consentTemplate)) {
+              <cx-consent-management-form
+                [consentTemplate]="consentTemplate"
+                [requiredConsents]="requiredConsents"
+                [disabled]="!!data.loading"
+                (consentChanged)="onConsentChange($event)"
+                />
+            }
           </div>
         </div>
       </fieldset>
-    </ng-container>
-  </ng-container>
-</ng-container>
+    }
+  }
+}

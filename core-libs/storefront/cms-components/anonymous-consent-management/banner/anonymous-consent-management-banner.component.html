@@ -1,8 +1,8 @@
-<ng-container *ngIf="bannerVisible$ | async as bannerVisible">
+@if (bannerVisible$ | async; as bannerVisible) {
   <div
     [ngClass]="{ 'anonymous-consent-banner-hidden': !bannerVisible }"
     class="anonymous-consent-banner"
-  >
+    >
     <div class="container">
       <div class="row">
         <div class="col-xl-7 col-lg-6 col-xs-12">
@@ -13,7 +13,6 @@
             {{ 'anonymousConsents.banner.description' | cxTranslate }}
           </div>
         </div>
-
         <div class="col-xl-5 col-lg-6 col-xs-12 cx-banner-buttons">
           <button class="btn btn-secondary" (click)="viewDetails()">
             {{ 'anonymousConsents.banner.consentManagement' | cxTranslate }}
@@ -25,4 +24,4 @@
       </div>
     </div>
   </div>
-</ng-container>
+}

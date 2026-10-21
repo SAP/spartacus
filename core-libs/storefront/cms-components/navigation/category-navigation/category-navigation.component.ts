@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CmsNavigationComponent, TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -17,7 +17,7 @@ import { NavigationService } from '../navigation/navigation.service';
   selector: 'cx-category-navigation',
   templateUrl: './category-navigation.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NavigationUIComponent, NgClass, AsyncPipe, TranslatePipe],
+  imports: [NavigationUIComponent, NgClass, AsyncPipe, TranslatePipe],
 })
 export class CategoryNavigationComponent {
   node$: Observable<NavigationNode> = this.service.getNavigationNode(

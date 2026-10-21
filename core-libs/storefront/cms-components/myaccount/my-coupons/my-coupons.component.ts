@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -36,18 +36,16 @@ import { MyCouponsComponentService } from './my-coupons.component.service';
   selector: 'cx-my-coupons',
   templateUrl: './my-coupons.component.html',
   imports: [
-    NgIf,
     SortingComponent,
     PaginationComponent,
-    NgFor,
     CouponCardComponent,
     IconComponent,
     RouterLink,
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    FeatureDirective,
-  ],
+    FeatureDirective
+],
 })
 export class MyCouponsComponent implements OnInit, OnDestroy {
   couponResult$: Observable<CustomerCouponSearchResult>;

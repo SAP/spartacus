@@ -1,4 +1,4 @@
-import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -75,13 +75,13 @@ class MockMediaComponent {
   selector: 'cx-carousel-scrolling',
   template: `
     cx-carousel-scrolling
-    <ng-container *ngFor="let item$ of items">
+    @for (item$ of items; track item$) {
       <ng-container
         *ngTemplateOutlet="template; context: { item: item$ | async }"
-      />
-    </ng-container>
-  `,
-  imports: [FeaturesConfigModule, NgTemplateOutlet, NgFor, AsyncPipe],
+        />
+    }
+    `,
+  imports: [FeaturesConfigModule, NgTemplateOutlet, AsyncPipe],
 })
 class MockCarouselScrollingComponent {
   @Input() items;

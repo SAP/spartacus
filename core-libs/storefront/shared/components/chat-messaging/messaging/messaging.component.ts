@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   AfterViewChecked,
   Component,
@@ -46,8 +46,6 @@ import {
   selector: 'cx-messaging',
   templateUrl: './messaging.component.html',
   imports: [
-    NgIf,
-    NgFor,
     NgClass,
     AvatarComponent,
     IconComponent,
@@ -59,8 +57,8 @@ import {
     TranslatePipe,
     CxDatePipe,
     FeatureDirective,
-    FocusDirective,
-  ],
+    FocusDirective
+],
 })
 export class MessagingComponent implements OnInit, AfterViewChecked {
   // can be undefined if you press add message button very fast on slow network

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -46,10 +46,8 @@ interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
   templateUrl: './my-interests.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     SortingComponent,
     PaginationComponent,
-    NgFor,
     RouterLink,
     MediaComponent,
     AtMessageDirective,
@@ -57,8 +55,8 @@ interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
     AsyncPipe,
     TranslatePipe,
     CxDatePipe,
-    UrlPipe,
-  ],
+    UrlPipe
+],
 })
 export class MyInterestsComponent implements OnInit, OnDestroy {
   private DEFAULT_PAGE_SIZE = 10;

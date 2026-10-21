@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, OnDestroy, ViewContainerRef } from '@angular/core';
 import { AnonymousConsentsService, TranslatePipe } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
@@ -15,7 +15,7 @@ import { LaunchDialogService } from '../../../layout/launch-dialog/services/laun
 @Component({
   selector: 'cx-anonymous-consent-management-banner',
   templateUrl: './anonymous-consent-management-banner.component.html',
-  imports: [NgIf, NgClass, AsyncPipe, TranslatePipe],
+  imports: [NgClass, AsyncPipe, TranslatePipe],
 })
 export class AnonymousConsentManagementBannerComponent implements OnDestroy {
   private subscriptions = new Subscription();

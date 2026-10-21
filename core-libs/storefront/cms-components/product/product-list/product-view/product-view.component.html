@@ -17,7 +17,11 @@
         ? ('productView.listView' | cxTranslate)
         : null
   }}"
->
-  <cx-icon *ngIf="viewMode === iconTypes.GRID" [type]="iconTypes.GRID" />
-  <cx-icon *ngIf="viewMode === iconTypes.LIST" [type]="iconTypes.LIST" />
+  >
+  @if (viewMode === iconTypes.GRID) {
+    <cx-icon [type]="iconTypes.GRID" />
+  }
+  @if (viewMode === iconTypes.LIST) {
+    <cx-icon [type]="iconTypes.LIST" />
+  }
 </button>

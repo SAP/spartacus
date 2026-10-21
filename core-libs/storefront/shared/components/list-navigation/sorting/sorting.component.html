@@ -15,8 +15,10 @@
     ariaLabel: ariaLabel || ('productList.sortResults' | cxTranslate),
     ariaControls: ariaControls,
   }"
->
-  <ng-option *ngFor="let sort of sortOptions" [value]="sort.code">{{
-    sort.name ? sort.name : sortLabels && sort.code ? sortLabels[sort.code] : ''
-  }}</ng-option>
+  >
+  @for (sort of sortOptions; track sort) {
+    <ng-option [value]="sort.code">{{
+      sort.name ? sort.name : sortLabels && sort.code ? sortLabels[sort.code] : ''
+    }}</ng-option>
+  }
 </ng-select>

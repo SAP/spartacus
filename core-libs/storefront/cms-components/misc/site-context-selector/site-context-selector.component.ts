@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -30,14 +30,12 @@ import { SiteContextType } from './site-context.model';
   templateUrl: './site-context-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
     IconComponent,
     AsyncPipe,
     I18nModule,
     FeatureDirective,
-    NativeSelectSpaceDirective,
-  ],
+    NativeSelectSpaceDirective
+],
 })
 export class SiteContextSelectorComponent {
   /**

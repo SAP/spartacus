@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -18,13 +18,15 @@ import { CxRovingTabindexDirective } from './roving-tabindex.directive';
       [cxRovingTabindexAxis]="axis"
       [cxRovingTabindexActivate]="activate"
       (itemActivated)="activated = $event"
-    >
-      <div cxRovingTabindexItem *ngFor="let i of items" tabindex="-1">
-        Item {{ i }}
-      </div>
+      >
+      @for (i of items; track i) {
+        <div cxRovingTabindexItem tabindex="-1">
+          Item {{ i }}
+        </div>
+      }
     </div>
-  `,
-  imports: [CxRovingTabindexDirective, NgFor],
+    `,
+  imports: [CxRovingTabindexDirective],
 })
 class TestHostComponent {
   items = [1, 2, 3];
@@ -37,10 +39,12 @@ class TestHostComponent {
 @Component({
   template: `
     <div cxRovingTabindex="a" cxRovingTabindexAxis="horizontal">
-      <a *ngFor="let i of items" tabindex="-1">Link {{ i }}</a>
+      @for (i of items; track i) {
+        <a tabindex="-1">Link {{ i }}</a>
+      }
     </div>
-  `,
-  imports: [CxRovingTabindexDirective, NgFor],
+    `,
+  imports: [CxRovingTabindexDirective],
 })
 class TestCustomSelectorHostComponent {
   items = [1, 2, 3];

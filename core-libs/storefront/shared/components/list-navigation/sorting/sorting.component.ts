@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -28,11 +28,10 @@ import { NgSelectA11yDirective } from '../../ng-select-a11y/ng-select-a11y.direc
     NgSelectComponent,
     FormsModule,
     NgSelectA11yDirective,
-    NgFor,
     NgOptionComponent,
     TranslatePipe,
-    FocusDirective,
-  ],
+    FocusDirective
+],
 })
 export class SortingComponent {
   ngSelectComponent = viewChild.required(NgSelectComponent);

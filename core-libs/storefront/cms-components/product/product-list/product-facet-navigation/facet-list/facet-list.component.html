@@ -1,35 +1,34 @@
-<section
-  class="inner"
-  *ngIf="(facetList$ | async)?.facets as facets"
-  [attr.aria-label]="'productFacetNavigation.filterBy.facet' | cxTranslate"
-  [cxFocus]="isDialog ? dialogFocusConfig : {}"
-  [tabindex]="-1"
-  (esc)="close($event)"
-  (click)="block($event)"
->
-  <div class="list-header">
-    <h4>{{ 'productList.filterBy.label' | cxTranslate }}</h4>
-    <button
-      type="button"
-      class="close"
-      title="{{ 'common.close' | cxTranslate }}"
-      [attr.aria-label]="'common.close' | cxTranslate"
-      (click)="close()"
+@if ((facetList$ | async)?.facets; as facets) {
+  <section
+    class="inner"
+    [attr.aria-label]="'productFacetNavigation.filterBy.facet' | cxTranslate"
+    [cxFocus]="isDialog ? dialogFocusConfig : {}"
+    [tabindex]="-1"
+    (esc)="close($event)"
+    (click)="block($event)"
     >
-      <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE" />
-    </button>
-  </div>
-
-  <!--
-      Here we'd like to introduce configurable facet components,
-      either by using specific configuration or generic sproutlets
-  -->
-  <cx-tab [tabs$]="tabs$" [config]="tabConfig" />
-
-  <ng-template #facetsRef *ngFor="let facet of facets">
-    <cx-facet
-      [facet]="facet"
-      role="group"
+    <div class="list-header">
+      <h4>{{ 'productList.filterBy.label' | cxTranslate }}</h4>
+      <button
+        type="button"
+        class="close"
+        title="{{ 'common.close' | cxTranslate }}"
+        [attr.aria-label]="'common.close' | cxTranslate"
+        (click)="close()"
+        >
+        <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE" />
+      </button>
+    </div>
+    <!--
+    Here we'd like to introduce configurable facet components,
+    either by using specific configuration or generic sproutlets
+    -->
+    <cx-tab [tabs$]="tabs$" [config]="tabConfig" />
+    @for (facet of facets; track facet) {
+      <ng-template #facetsRef>
+        <cx-facet
+          [facet]="facet"
+          role="group"
       attr.aria-label="{{
         'productFacetNavigation.ariaLabelItemsAvailable'
           | cxTranslate
@@ -38,17 +37,20 @@
                 count: facet?.values?.length,
               }
       }}"
-    />
-  </ng-template>
-
-  <div *ngIf="isDialog" class="cx-facet-list-footer">
-    <button
-      #backToResultsBtn
-      class="btn btn-primary"
-      (click)="close()"
-      cxAutoFocus
-    >
-      {{ 'productFacetNavigation.backToResults' | cxTranslate }}
-    </button>
-  </div>
+        />
+    </ng-template>
+  }
+  @if (isDialog) {
+    <div class="cx-facet-list-footer">
+      <button
+        #backToResultsBtn
+        class="btn btn-primary"
+        (click)="close()"
+        cxAutoFocus
+        >
+        {{ 'productFacetNavigation.backToResults' | cxTranslate }}
+      </button>
+    </div>
+  }
 </section>
+}

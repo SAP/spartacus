@@ -2,17 +2,18 @@
   #trigger
   class="btn btn-secondary btn-block dialog-trigger"
   (click)="launch()"
->
+  >
   <cx-icon [type]="iconTypes.FILTER" />
   {{ 'productList.filterBy.label' | cxTranslate }}
 </button>
 
 <cx-active-facets />
 
-<cx-facet-list
-  *ngIf="isOpen$ | async"
-  [isDialog]="hasTrigger"
-  (closeList)="close()"
-  [class.active]="isActive$ | async"
-  [class.dialog]="hasTrigger"
-/>
+@if (isOpen$ | async) {
+  <cx-facet-list
+    [isDialog]="hasTrigger"
+    (closeList)="close()"
+    [class.active]="isActive$ | async"
+    [class.dialog]="hasTrigger"
+    />
+}

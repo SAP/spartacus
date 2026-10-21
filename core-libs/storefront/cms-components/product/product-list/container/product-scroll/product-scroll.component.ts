@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
+
 import { ChangeDetectorRef, Component, Input, OnDestroy } from '@angular/core';
 import { ProductSearchPage, TranslatePipe } from '@spartacus/core';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
@@ -20,14 +20,12 @@ import { ProductListComponentService } from '../product-list-component.service';
   selector: 'cx-product-scroll',
   templateUrl: './product-scroll.component.html',
   imports: [
-    NgIf,
     InfiniteScrollDirective,
-    NgFor,
     ProductGridItemComponent,
     SpinnerComponent,
     ProductListItemComponent,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class ProductScrollComponent implements OnDestroy {
   private subscription = new Subscription();

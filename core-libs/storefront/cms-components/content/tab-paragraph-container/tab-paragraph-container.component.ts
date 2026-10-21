@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -46,13 +46,11 @@ const defaultTabConfig = {
   templateUrl: './tab-paragraph-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     TabComponent,
-    NgFor,
     OutletDirective,
     ComponentWrapperDirective,
-    AsyncPipe,
-  ],
+    AsyncPipe
+],
 })
 export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
   protected cdr: ChangeDetectorRef = inject(ChangeDetectorRef);

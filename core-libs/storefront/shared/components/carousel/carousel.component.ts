@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AsyncPipe,
-  NgClass,
-  NgFor,
-  NgIf,
-  NgTemplateOutlet,
-  SlicePipe,
-} from '@angular/common';
+import { AsyncPipe, NgClass, NgTemplateOutlet, SlicePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -64,16 +57,14 @@ import { CarouselService } from './carousel.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { ngSkipHydration: 'true' },
   imports: [
-    NgIf,
     NgClass,
     IconComponent,
-    NgFor,
     NgTemplateOutlet,
     AsyncPipe,
     SlicePipe,
     TranslatePipe,
-    CxFeatureDirective,
-  ],
+    CxFeatureDirective
+],
 })
 export class CarouselComponent implements OnInit, OnChanges {
   @Output() keybordEvent = new BehaviorSubject<KeyboardEvent | null>(null);

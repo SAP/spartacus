@@ -1,11 +1,11 @@
-<ng-container *ngIf="messageEvents$ | async as messageEvents">
+@if (messageEvents$ | async; as messageEvents) {
   <div class="container">
     <div class="cx-avatar-line"></div>
     <span
       *cxFeature="'a11yMessagingListKeyboardFocus'"
       id="cx-messages-navigation-hint"
       class="cx-visually-hidden"
-    >
+      >
       {{ 'chatMessaging.a11y.listNavigationHint' | cxTranslate }}
     </span>
     <div
@@ -15,8 +15,8 @@
       (keydown.arrowdown)="focusNextChild($any($event))"
       (keydown.arrowup)="focusPreviousChild($any($event))"
       [attr.aria-label]="'chatMessaging.messages' | cxTranslate"
-    >
-      <ng-container *ngFor="let message of messageEvents; let i = index">
+      >
+      @for (message of messageEvents; track message; let i = $index) {
         <div
           *cxFeature="'a11yMessagingListKeyboardFocus'"
           class="cx-message-card"
@@ -42,31 +42,31 @@
                   }
           "
         >
-          <cx-avatar [message]="message" />
-
-          <div>
-            <label aria-hidden="true">{{
-              (message.createdAt | cxDate: messagingConfigs?.dateFormat) ??
-                dateFormatA11y
-            }}</label>
-            <div
+        <cx-avatar [message]="message" />
+        <div>
+          <label aria-hidden="true">{{
+            (message.createdAt | cxDate: messagingConfigs?.dateFormat) ??
+            dateFormatA11y
+          }}</label>
+          <div
               [ngClass]="
                 (message.rightAlign ?? false)
                   ? 'cx-message-right-align-text'
                   : 'cx-message-left-align-text'
               "
             >
+            @if (message.item) {
               <a
-                *ngIf="message.item"
                 class="cx-message-item-link"
                 (click)="onItemClicked(message.item)"
                 >{{ message.item.name }}:</a
-              >
+                >
+              }
               {{ message.text }}
             </div>
-            <a
-              *ngFor="let attachment of message.attachments ?? []"
-              class="cx-attachment"
+            @for (attachment of message.attachments ?? []; track attachment) {
+              <a
+                class="cx-attachment"
               (click)="
                 triggerDownload(
                   message.code,
@@ -74,27 +74,26 @@
                   attachment.filename
                 )
               "
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <cx-icon [type]="iconTypes.ATTACHMENT" />
-              {{ attachment.filename }}
-            </a>
+                target="_blank"
+                rel="noopener noreferrer"
+                >
+                <cx-icon [type]="iconTypes.ATTACHMENT" />
+                {{ attachment.filename }}
+              </a>
+            }
           </div>
         </div>
-
         <div
           *cxFeature="'!a11yMessagingListKeyboardFocus'"
           class="cx-message-card"
           role="listitem"
           [ngClass]="{ 'cx-message-display': message.rightAlign ?? false }"
-        >
+          >
           <cx-avatar [message]="message" />
-
           <div>
             <label>{{
               (message.createdAt | cxDate: messagingConfigs?.dateFormat) ??
-                dateFormat
+              dateFormat
             }}</label>
             <div
               [ngClass]="
@@ -116,17 +115,18 @@
                       }
               "
             >
+            @if (message.item) {
               <a
-                *ngIf="message.item"
                 class="cx-message-item-link"
                 (click)="onItemClicked(message.item)"
                 >{{ message.item.name }}:</a
-              >
+                >
+              }
               {{ message.text }}
             </div>
-            <a
-              *ngFor="let attachment of message.attachments ?? []"
-              class="cx-attachment"
+            @for (attachment of message.attachments ?? []; track attachment) {
+              <a
+                class="cx-attachment"
               (click)="
                 triggerDownload(
                   message.code,
@@ -134,47 +134,50 @@
                   attachment.filename
                 )
               "
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <cx-icon [type]="iconTypes.ATTACHMENT" />
-              {{ attachment.filename }}
-            </a>
+                target="_blank"
+                rel="noopener noreferrer"
+                >
+                <cx-icon [type]="iconTypes.ATTACHMENT" />
+                {{ attachment.filename }}
+              </a>
+            }
           </div>
         </div>
-      </ng-container>
+      }
     </div>
   </div>
-
-  <div
-    [formGroup]="form"
-    class="cx-message-footer"
-    *ngIf="messagingConfigs?.displayAddMessageSection | async"
-  >
-    <div class="cx-message-box">
-      <label class="cx-footer-label" id="cx-messaging-footer-label">
-        <span>
-          {{ 'chatMessaging.addNewMessage' | cxTranslate }}
-          <select
+  @if (messagingConfigs?.displayAddMessageSection | async) {
+    <div
+      [formGroup]="form"
+      class="cx-message-footer"
+      >
+      <div class="cx-message-box">
+        <label class="cx-footer-label" id="cx-messaging-footer-label">
+          <span>
+            {{ 'chatMessaging.addNewMessage' | cxTranslate }}
+            @if (messagingConfigs?.itemList$ | async; as itemList) {
+              <select
             [attr.aria-label]="
               'chatMessaging.a11y.itemListBoxLabel' | cxTranslate
             "
-            *ngIf="messagingConfigs?.itemList$ | async as itemList"
-            class="cx-message-item-selection"
-            formControlName="item"
-          >
-            <option *ngFor="let item of itemList" value="{{ item.id }}">
-              {{ item.name }}
-            </option>
-          </select>
-        </span>
-        <div class="cx-message-input">
-          <input
-            aria-labelledby="cx-messaging-footer-label"
-            formControlName="message"
-            type="text"
-            class="form-control"
-            (keydown.enter)="onSend()"
+                class="cx-message-item-selection"
+                formControlName="item"
+                >
+                @for (item of itemList; track item) {
+                  <option value="{{ item.id }}">
+                    {{ item.name }}
+                  </option>
+                }
+              </select>
+            }
+          </span>
+          <div class="cx-message-input">
+            <input
+              aria-labelledby="cx-messaging-footer-label"
+              formControlName="message"
+              type="text"
+              class="form-control"
+              (keydown.enter)="onSend()"
             [maxLength]="
               messagingConfigs?.charactersLimit || MAX_INPUT_CHARACTERS
             "
@@ -182,50 +185,52 @@
               messagingConfigs?.newMessagePlaceHolder ||
                 ('chatMessaging.addMessagePlaceHolder' | cxTranslate)
             }}"
-          />
-          <span
-            class="cx-visually-hidden"
-            *ngIf="inputCharacterLeft === 0"
-            role="alert"
-          >
-            {{ 'chatMessaging.characterLimitAlert' | cxTranslate }}
-          </span>
-          <button
-            aria-labelledby="cx-messaging-footer-label"
-            class="btn btn-block cx-send"
+              />
+            @if (inputCharacterLeft === 0) {
+              <span
+                class="cx-visually-hidden"
+                role="alert"
+                >
+                {{ 'chatMessaging.characterLimitAlert' | cxTranslate }}
+              </span>
+            }
+            <button
+              aria-labelledby="cx-messaging-footer-label"
+              class="btn btn-block cx-send"
             [ngClass]="
               !!messagingConfigs?.sendBtnIsNotPrimary
                 ? 'btn-secondary'
                 : 'btn-primary'
             "
-            (click)="onSend()"
-          >
-            {{ 'chatMessaging.send' | cxTranslate }}
-          </button>
-        </div>
-      </label>
-      <div class="cx-message-footer-info" id="cx-message-footer">
-        <cx-file-upload
-          [formControl]="$any(form.get('file'))"
-          [accept]="allowedTypes"
-          *ngIf="messagingConfigs?.enableFileUploadOption"
-        >
-          <ng-template>
-            <cx-icon [type]="iconTypes.UPLOAD" />
-            <span class="cx-message-footer-text"
-              >{{ 'chatMessaging.uploadFile' | cxTranslate }}
-            </span>
-          </ng-template>
-        </cx-file-upload>
-
-        <p class="cx-message-footer-info-text">
-          {{
+              (click)="onSend()"
+              >
+              {{ 'chatMessaging.send' | cxTranslate }}
+            </button>
+          </div>
+        </label>
+        <div class="cx-message-footer-info" id="cx-message-footer">
+          @if (messagingConfigs?.enableFileUploadOption) {
+            <cx-file-upload
+              [formControl]="$any(form.get('file'))"
+              [accept]="allowedTypes"
+              >
+              <ng-template>
+                <cx-icon [type]="iconTypes.UPLOAD" />
+                <span class="cx-message-footer-text"
+                  >{{ 'chatMessaging.uploadFile' | cxTranslate }}
+                </span>
+              </ng-template>
+            </cx-file-upload>
+          }
+          <p class="cx-message-footer-info-text">
+            {{
             'chatMessaging.charactersLeft'
-              | cxTranslate: { count: inputCharacterLeft }
-          }}
-        </p>
+            | cxTranslate: { count: inputCharacterLeft }
+            }}
+          </p>
+        </div>
+        <cx-form-errors [control]="form.get('file')" prefix="formErrors.file" />
       </div>
-      <cx-form-errors [control]="form.get('file')" prefix="formErrors.file" />
     </div>
-  </div>
-</ng-container>
+  }
+}

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewChecked,
   ChangeDetectionStrategy,
@@ -36,11 +36,10 @@ import { PopoverEvent, PopoverPosition } from './popover.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FocusDirective,
-    NgIf,
     IconComponent,
     NgTemplateOutlet,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
   /**

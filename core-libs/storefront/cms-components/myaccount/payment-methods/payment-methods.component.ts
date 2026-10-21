@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   GlobalMessageService,
@@ -28,14 +28,12 @@ import { SpinnerComponent } from '../../../shared/components/spinner/spinner.com
   selector: 'cx-payment-methods',
   templateUrl: './payment-methods.component.html',
   imports: [
-    NgIf,
     FormRequiredLegendComponent,
     SpinnerComponent,
-    NgFor,
     CardComponent,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class PaymentMethodsComponent implements OnInit {
   paymentMethods$: Observable<PaymentDetails[]>;

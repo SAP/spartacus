@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -41,13 +41,12 @@ import { CurrentProductService } from '../current-product.service';
   templateUrl: './stock-notification.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     RouterLink,
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    UrlPipe,
-  ],
+    UrlPipe
+],
 })
 export class StockNotificationComponent implements OnInit, OnDestroy {
   hasProductInterests$: Observable<boolean>;

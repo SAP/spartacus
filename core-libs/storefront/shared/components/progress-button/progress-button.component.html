@@ -4,11 +4,13 @@
   [disabled]="disabled || loading"
   [ngClass]="class"
   class="btn btn-primary"
->
+  >
   <div class="cx-progress-button-container">
-    <div *ngIf="loading" class="loader-container">
-      <div class="loader">{{ 'spinner.loading' | cxTranslate }}</div>
-    </div>
+    @if (loading) {
+      <div class="loader-container">
+        <div class="loader">{{ 'spinner.loading' | cxTranslate }}</div>
+      </div>
+    }
     <ng-content />
   </div>
 </button>

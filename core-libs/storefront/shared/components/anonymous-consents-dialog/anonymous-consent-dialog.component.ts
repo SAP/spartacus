@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -40,15 +40,13 @@ import { SpinnerComponent } from '../spinner/spinner.component';
   templateUrl: './anonymous-consent-dialog.component.html',
   imports: [
     FocusDirective,
-    NgIf,
     SpinnerComponent,
     IconComponent,
     MessageComponent,
-    NgFor,
     ConsentManagementFormComponent,
     AsyncPipe,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 })
 export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
   protected winRef = inject(WindowRef);

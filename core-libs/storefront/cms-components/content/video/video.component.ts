@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -34,7 +34,7 @@ import { SpinnerComponent } from '../../../shared/components/spinner/spinner.com
   selector: 'cx-video',
   templateUrl: './video.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, RouterLink, SpinnerComponent, AsyncPipe, TranslatePipe],
+  imports: [RouterLink, SpinnerComponent, AsyncPipe, TranslatePipe],
 })
 export class VideoComponent {
   @HostBinding('class') styleClasses: string | undefined;

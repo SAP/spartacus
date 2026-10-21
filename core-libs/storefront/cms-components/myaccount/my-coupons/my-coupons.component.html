@@ -1,23 +1,19 @@
 <div class="cx-section">
-  <ng-container *ngIf="!(couponsLoading$ | async); else loading">
-    <ng-container *ngIf="couponResult$ | async as couponResult">
+  @if (!(couponsLoading$ | async)) {
+    @if (couponResult$ | async; as couponResult) {
       <div class="cx-my-coupons-header">
         <h2>
           {{ 'myCoupons.myCoupons' | cxTranslate }}
         </h2>
       </div>
-      <ng-container
-        *ngIf="
-          couponResult.pagination &&
-            couponResult.pagination.totalCount &&
-            couponResult.pagination.totalCount > 0;
-          else noCoupons
-        "
-      >
+      @if (
+        couponResult.pagination &&
+        couponResult.pagination.totalCount &&
+        couponResult.pagination.totalCount > 0) {
         <div class="cx-my-coupons-sort top row">
           <label
             class="cx-my-coupons-form-group form-group col-sm-12 col-md-4 col-lg-4"
-          >
+            >
             <span>{{ 'myCoupons.sortBy' | cxTranslate }}</span>
             <cx-sorting
               [sortOptions]="sortOptions"
@@ -26,30 +22,29 @@
               [selectedOption]="sort"
               [ariaLabel]="'myCoupons.sortCoupons' | cxTranslate"
               ariaControls="coupon-deck"
-            />
+              />
           </label>
           <div class="cx-my-coupons-pagination cx-mycoupon-thead-mobile">
             <cx-pagination
               [pagination]="pagination"
               (viewPageEvent)="pageChange($event)"
               paginationID="pagination-top"
-            />
+              />
           </div>
         </div>
-
         <div id="coupon-deck" class="row cx-coupon-deck">
-          <div
-            *ngFor="let coupon of couponResult.coupons"
-            class="col-md-6 cx-coupon-card"
-          >
-            <cx-coupon-card
-              [coupon]="coupon"
-              [couponSubscriptionLoading$]="couponSubscriptionLoading$"
-              (notificationChanged)="notificationChange($event)"
-            />
-          </div>
+          @for (coupon of couponResult.coupons; track coupon) {
+            <div
+              class="col-md-6 cx-coupon-card"
+              >
+              <cx-coupon-card
+                [coupon]="coupon"
+                [couponSubscriptionLoading$]="couponSubscriptionLoading$"
+                (notificationChanged)="notificationChange($event)"
+                />
+            </div>
+          }
         </div>
-
         <div class="cx-my-coupons-sort bottom row">
           <div
             class="cx-my-coupons-form-group form-group cx-mycoupon-thead-mobile col-sm-12 col-md-4 col-lg-4"
@@ -58,7 +53,7 @@
           <label
             class="cx-my-coupons-form-group form-group cx-mycoupon-thead-mobile col-sm-12 col-md-4 col-lg-4"
             *cxFeature="'!showSortFieldsOnlyAtTop'"
-          >
+            >
             <span>{{ 'myCoupons.sortBy' | cxTranslate }}</span>
             <cx-sorting
               [sortOptions]="sortOptions"
@@ -68,14 +63,14 @@
               placeholder="{{ 'myCoupons.sortBy' | cxTranslate }}"
               [ariaLabel]="'myCoupons.sortCoupons' | cxTranslate"
               ariaControls="coupon-deck"
-            />
+              />
           </label>
           <div class="cx-my-coupons-pagination">
             <cx-pagination
               [pagination]="pagination"
               (viewPageEvent)="pageChange($event)"
               paginationID="pagination-bottom"
-            />
+              />
           </div>
         </div>
         <div class="cx-my-coupons-notes">
@@ -83,26 +78,23 @@
             <cx-icon [type]="iconTypes.INFO" />
             {{ 'myCoupons.notesPreffix' | cxTranslate
             }}<a [routerLink]="['/my-account/notification-preference']">{{
-              'myCoupons.notesLink' | cxTranslate
+            'myCoupons.notesLink' | cxTranslate
             }}</a
             >{{ 'myCoupons.notesSuffix' | cxTranslate }}</span
-          >
-        </div>
-      </ng-container>
-    </ng-container>
+            >
+          </div>
+        } @else {
+          <section>
+            <p class="cx-section-msg">
+              {{ 'myCoupons.noCouponsMessage' | cxTranslate }}
+            </p>
+          </section>
+        }
+      }
+    } @else {
+      <div class="col-md-12 cx-coupon-spinner">
+        <cx-spinner />
+      </div>
+    }
 
-    <ng-template #noCoupons>
-      <section>
-        <p class="cx-section-msg">
-          {{ 'myCoupons.noCouponsMessage' | cxTranslate }}
-        </p>
-      </section>
-    </ng-template>
-  </ng-container>
-
-  <ng-template #loading>
-    <div class="col-md-12 cx-coupon-spinner">
-      <cx-spinner />
-    </div>
-  </ng-template>
-</div>
+  </div>

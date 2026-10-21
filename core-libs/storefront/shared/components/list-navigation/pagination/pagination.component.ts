@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -36,13 +36,12 @@ import { PaginationItem, PaginationItemType } from './pagination.model';
   templateUrl: './pagination.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgFor,
     RouterLink,
     FocusDirective,
     AsyncPipe,
     FeatureDirective,
-    CxRovingTabindexDirective,
-  ],
+    CxRovingTabindexDirective
+],
 })
 export class PaginationComponent {
   /** The (optional) pageRoute used for the anchor links created in the pagination   */
