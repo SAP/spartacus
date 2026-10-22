@@ -68,10 +68,42 @@ export function app(): express.Express {
 
   // All regular routes use the Universal engine
   server.get(/.*/, (req, res) => {
-    res.render(indexHtml, {
-      req,
-      providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
-    });
+    const start = Date.now();
+    console.log(`[SSR][florent request] ${req.method} ${req.url}`);
+    res.render(
+      indexHtml,
+      {
+        req,
+        providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
+      },
+      (err, html) => {
+        const duration = Date.now() - start;
+        if (err) {
+          console.error(`[SSR][florent error] ${req.url} (${duration}ms)`, err);
+          res.status(500).send(indexHtmlContent);
+          return;
+        }
+        const isLoginOrRegister =
+          req.url.includes('/login') || req.url.includes('/register');
+        if (isLoginOrRegister && html) {
+          const formMatch = html.match(
+            /<cx-login-form[^>]*>[\s\S]*?<\/cx-login-form>|<cx-register[^>]*>[\s\S]*?<\/cx-register>/
+          );
+          console.log(
+            `[SSR][florent] ${req.url} (${duration}ms) — form component in HTML: ${!!formMatch}`
+          );
+          if (formMatch) {
+            console.log(
+              '[SSR][florent rendered] form snippet:',
+              formMatch[0].slice(0, 400)
+            );
+          }
+        } else {
+          console.log(`[SSR][florent rendered] ${req.url} (${duration}ms)`);
+        }
+        res.send(html);
+      }
+    );
   });
 
   server.use(defaultExpressErrorHandlers(indexHtmlContent));

@@ -4,8 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { AsyncPipe, NgFor, NgIf, isPlatformBrowser } from '@angular/common';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID,
+  inject,
+} from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -72,9 +80,12 @@ import { RegisterComponentService } from './register-component.service';
     TranslatePipe,
   ],
 })
-export class RegisterComponent implements OnInit, OnDestroy {
+export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
   // CXSPA-10916: Remove service with toggle
   private featureToggles = inject(FeatureToggles);
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly elementRef = inject(ElementRef);
+  private pendingSsrValues: Record<string, string> | null = null;
   protected passwordValidators = this.featureToggles
     .useEnhancedSecurePasswordValidators
     ? [
@@ -145,6 +156,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected registerComponentService: RegisterComponentService
   ) {
     useFeatureStyles('a11yRegistrationTermsAsteriskMargin');
+    this.captureSsrFormValues();
   }
 
   ngOnInit() {
@@ -287,6 +299,46 @@ export class RegisterComponent implements OnInit, OnDestroy {
    */
   captchaConfirmed() {
     this.registerForm.get('captcha')?.setValue(true);
+  }
+
+  ngAfterViewInit(): void {
+    if (this.pendingSsrValues) {
+      this.registerForm.patchValue(this.pendingSsrValues);
+      this.pendingSsrValues = null;
+    }
+  }
+
+  /**
+   * Reads any values the user typed into the SSR-rendered form inputs before
+   * Angular's CSR bootstrap destroyed and recreated the DOM. Called in the
+   * constructor while the host element still has its server-rendered children.
+   * The captured values are restored in ngAfterViewInit once Angular has
+   * rendered the reactive form template.
+   */
+  protected captureSsrFormValues(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    const host: HTMLElement = this.elementRef.nativeElement;
+    const fieldMap: Record<string, string> = {
+      firstname: 'firstName',
+      lastname: 'lastName',
+      email: 'email',
+      password: 'password',
+      confirmpassword: 'passwordconf',
+    };
+    const captured: Record<string, string> = {};
+    for (const [inputName, controlName] of Object.entries(fieldMap)) {
+      const value = host.querySelector<HTMLInputElement>(
+        `[name="${inputName}"]`
+      )?.value;
+      if (value) {
+        captured[controlName] = value;
+      }
+    }
+    if (Object.keys(captured).length > 0) {
+      this.pendingSsrValues = captured;
+    }
   }
 
   ngOnDestroy() {

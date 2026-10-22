@@ -554,4 +554,49 @@ describe('RegisterComponent', () => {
       expect(validations.whenNotEmpty).toEqual(null);
     });
   });
+
+  describe('SSR form value preservation', () => {
+    it('should restore values to the form in ngAfterViewInit when pendingSsrValues is set', () => {
+      component['pendingSsrValues'] = {
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'john@example.com',
+        password: 'secret',
+        passwordconf: 'secret',
+      };
+      component.ngAfterViewInit();
+      expect(component.registerForm.get('firstName')?.value).toBe('John');
+      expect(component.registerForm.get('lastName')?.value).toBe('Doe');
+      expect(component.registerForm.get('email')?.value).toBe(
+        'john@example.com'
+      );
+      expect(component.registerForm.get('password')?.value).toBe('secret');
+      expect(component.registerForm.get('passwordconf')?.value).toBe('secret');
+    });
+
+    it('should not patch the form when no SSR values were captured', () => {
+      const patchSpy = vi.spyOn(component.registerForm, 'patchValue');
+      component['pendingSsrValues'] = null;
+      component.ngAfterViewInit();
+      expect(patchSpy).not.toHaveBeenCalled();
+    });
+
+    it('should capture non-empty values from named inputs in the host element', () => {
+      const host: HTMLElement = component['elementRef'].nativeElement;
+      const firstNameInput =
+        host.querySelector<HTMLInputElement>('[name="firstname"]');
+      const emailInput =
+        host.querySelector<HTMLInputElement>('[name="email"]');
+      if (firstNameInput) firstNameInput.value = 'Jane';
+      if (emailInput) emailInput.value = 'jane@example.com';
+
+      component['pendingSsrValues'] = null;
+      component['captureSsrFormValues']();
+
+      expect(component['pendingSsrValues']).toEqual({
+        firstName: 'Jane',
+        email: 'jane@example.com',
+      });
+    });
+  });
 });

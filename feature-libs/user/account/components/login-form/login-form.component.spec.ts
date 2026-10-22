@@ -157,4 +157,41 @@ describe('LoginFormComponent', () => {
       expect(service.login).toHaveBeenCalled();
     });
   });
+
+  describe('SSR form value preservation', () => {
+    it('should restore values to the form in ngAfterViewInit when pendingSsrValues is set', () => {
+      component['pendingSsrValues'] = {
+        userId: 'user@example.com',
+        password: 'secret',
+      };
+      component.ngAfterViewInit();
+      expect(component.form.get('userId')?.value).toBe('user@example.com');
+      expect(component.form.get('password')?.value).toBe('secret');
+    });
+
+    it('should not patch the form when no SSR values were captured', () => {
+      const patchSpy = vi.spyOn(component.form, 'patchValue');
+      component['pendingSsrValues'] = null;
+      component.ngAfterViewInit();
+      expect(patchSpy).not.toHaveBeenCalled();
+    });
+
+    it('should capture non-empty values from named inputs in the host element', () => {
+      const host: HTMLElement = component['elementRef'].nativeElement;
+      const usernameInput =
+        host.querySelector<HTMLInputElement>('[name="username"]');
+      const passwordInput =
+        host.querySelector<HTMLInputElement>('[name="password"]');
+      if (usernameInput) usernameInput.value = 'user@example.com';
+      if (passwordInput) passwordInput.value = 'secret';
+
+      component['pendingSsrValues'] = null;
+      component['captureSsrFormValues']();
+
+      expect(component['pendingSsrValues']).toEqual({
+        userId: 'user@example.com',
+        password: 'secret',
+      });
+    });
+  });
 });
