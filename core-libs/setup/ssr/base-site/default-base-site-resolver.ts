@@ -23,39 +23,34 @@ interface FetchedBaseSites {
 }
 
 export class DefaultBaseSiteResolver implements BaseSiteResolver {
-  private readonly uidSet: Set<string>;
-  private readonly occUrl: string | null;
-  readonly supportsOccResolution: boolean;
-  private readonly cacheTtlMs: number;
-  private readonly concurrencyLimit: number;
-  private readonly timeoutMs: number;
+  public readonly supportsOccResolution: boolean;
 
-  private cachedSites: OccBaseSite[] | null = null;
-  private cachedAt = 0;
-  private initPromise: Promise<FetchedBaseSites> | null = null;
-  private inFlight = 0;
+  protected readonly uidSet: Set<string>;
+  protected readonly occUrl: string | null;
+  protected readonly cacheTtlMs: number;
+  protected readonly concurrencyLimit: number;
+  protected readonly timeoutMs: number;
+  protected cachedSites: OccBaseSite[] | null = null;
+  protected cachedAt = 0;
+  protected initPromise: Promise<FetchedBaseSites> | null = null;
+  protected inFlight = 0;
 
-  constructor(options: BaseSiteResolverOptions) {
+  public constructor(options: BaseSiteResolverOptions) {
     this.uidSet = new Set(options.baseSites);
-    if (options.occBaseUrl) {
-      const baseUrl = options.occBaseUrl.replace(/\/+$/, '');
-      this.occUrl = `${baseUrl}/occ/v2/basesites?fields=FULL`;
-    } else {
-      this.occUrl = null;
-    }
+    this.occUrl = this.createOccBaseSitesUrl(options.occBaseUrl);
     this.supportsOccResolution = Boolean(options.occBaseUrl);
     this.cacheTtlMs = options.cacheTtlMs ?? 60_000;
     this.concurrencyLimit = options.concurrencyLimit ?? 10;
     this.timeoutMs = options.timeoutMs ?? 3_000;
   }
 
-  resolveFromPath(requestUrl: string): string | null {
+  public resolveFromPath(requestUrl: string): string | null {
     const { pathname } = new URL(requestUrl);
     const segment = pathname.split('/').find((s) => s.length > 0) ?? null;
     return segment !== null && this.uidSet.has(segment) ? segment : null;
   }
 
-  async resolveFromOcc(requestUrl: string): Promise<string | null> {
+  public async resolveFromOcc(requestUrl: string): Promise<string | null> {
     const sites = await this.getSites();
     const matchedSite = sites.find((site) =>
       site.urlPatterns?.some(
@@ -65,7 +60,36 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
     return matchedSite?.uid ?? null;
   }
 
-  private async getSites(): Promise<OccBaseSite[]> {
+  protected createOccBaseSitesUrl(baseUrl?: string): string | null {
+    return baseUrl
+      ? `${baseUrl.replace(/\/+$/, '')}/occ/v2/basesites?fields=FULL`
+      : null;
+  }
+
+  protected isRecord(value: unknown): value is Record<string, unknown> {
+    return typeof value === 'object' && value !== null;
+  }
+
+  protected isOccBaseSite(value: unknown): value is OccBaseSite {
+    if (!this.isRecord(value)) {
+      return false;
+    }
+
+    const uid = value['uid'];
+    const urlPatterns = value['urlPatterns'];
+    return (
+      (uid === undefined || typeof uid === 'string') &&
+      (urlPatterns === undefined ||
+        (Array.isArray(urlPatterns) &&
+          urlPatterns.every((pattern) => typeof pattern === 'string')))
+    );
+  }
+
+  protected malformedOccResponse(): OccUnavailableError {
+    return new OccUnavailableError('OCC base-sites response is malformed');
+  }
+
+  protected async getSites(): Promise<OccBaseSite[]> {
     if (
       this.cachedSites !== null &&
       Date.now() - this.cachedAt < this.cacheTtlMs
@@ -98,7 +122,7 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
     }
   }
 
-  private async fetchSites(): Promise<FetchedBaseSites> {
+  protected async fetchSites(): Promise<FetchedBaseSites> {
     const occUrl = this.occUrl;
     if (!occUrl) {
       throw new OccUnavailableError('OCC base URL is not configured');
@@ -122,15 +146,18 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
         );
       }
       const body = (await response.json()) as unknown;
-      if (!isRecord(body)) {
-        throw malformedOccResponse();
+      if (!this.isRecord(body)) {
+        throw this.malformedOccResponse();
       }
       const baseSites = body['baseSites'];
       if (baseSites === undefined) {
         return { sites: [], cacheable: false };
       }
-      if (!Array.isArray(baseSites) || !baseSites.every(isOccBaseSite)) {
-        throw malformedOccResponse();
+      if (
+        !Array.isArray(baseSites) ||
+        !baseSites.every((baseSite) => this.isOccBaseSite(baseSite))
+      ) {
+        throw this.malformedOccResponse();
       }
       return {
         sites: baseSites.map(({ uid, urlPatterns }) => ({ uid, urlPatterns })),
@@ -153,27 +180,4 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
       clearTimeout(timeout);
     }
   }
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null;
-}
-
-function isOccBaseSite(value: unknown): value is OccBaseSite {
-  if (!isRecord(value)) {
-    return false;
-  }
-
-  const uid = value['uid'];
-  const urlPatterns = value['urlPatterns'];
-  return (
-    (uid === undefined || typeof uid === 'string') &&
-    (urlPatterns === undefined ||
-      (Array.isArray(urlPatterns) &&
-        urlPatterns.every((pattern) => typeof pattern === 'string')))
-  );
-}
-
-function malformedOccResponse(): OccUnavailableError {
-  return new OccUnavailableError('OCC base-sites response is malformed');
 }

@@ -28,6 +28,15 @@ describe('extractOccBaseUrlFromHtml', () => {
     expect(extractOccBaseUrlFromHtml(html)).toBe('https://api.example');
   });
 
+  it('uses the first matching meta tag', () => {
+    const html = `
+      <meta name="occ-backend-base-url" content="https://first.example">
+      <meta name="occ-backend-base-url" content="https://second.example">
+    `;
+
+    expect(extractOccBaseUrlFromHtml(html)).toBe('https://first.example');
+  });
+
   it('trims surrounding whitespace from content', () => {
     const html =
       '<meta name="occ-backend-base-url" content="  https://api.example/path  ">';

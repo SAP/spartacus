@@ -5,6 +5,10 @@
  */
 
 export * from './engine-decorator/index';
+export * from './base-site/base-site-handler';
+export * from './base-site/base-site-resolver';
+export * from './base-site/default-base-site-resolver';
+export * from './base-site/occ-base-url-extractor';
 export * from './express-utils/express-origin-validation-middleware';
 export * from './express-utils/express-request-origin';
 export * from './express-utils/express-request-url';
