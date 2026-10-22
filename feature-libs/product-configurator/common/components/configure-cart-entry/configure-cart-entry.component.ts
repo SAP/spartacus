@@ -48,6 +48,12 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
   ],
 })
 export class ConfigureCartEntryComponent {
+  private static readonly DISPLAY_CONFIGURATION_HEADER =
+    'configurator.header.displayConfiguration';
+
+  private static readonly DISPLAY_BUNDLE_CONFIGURATION_HEADER =
+    'configurator.header.displayBundleConfiguration';
+
   protected routingService = inject(RoutingService);
 
   @Input() cartEntry: OrderEntry;
@@ -212,7 +218,7 @@ export class ConfigureCartEntryComponent {
    */
   getLegacyLinkTextResourceKey(): string {
     if (this.getDisplayOnly()) {
-      return 'configurator.header.displayConfiguration';
+      return ConfigureCartEntryComponent.DISPLAY_CONFIGURATION_HEADER;
     }
     if (this.msgBanner) {
       return 'configurator.header.resolveIssues';
@@ -227,10 +233,10 @@ export class ConfigureCartEntryComponent {
    */
   getCpqContainerLinkTextResourceKey(): string {
     if (this.isBundleOverviewLink) {
-      return 'configurator.header.show';
+      return ConfigureCartEntryComponent.DISPLAY_BUNDLE_CONFIGURATION_HEADER;
     }
     if (this.getDisplayOnly()) {
-      return 'configurator.header.displayConfiguration';
+      return ConfigureCartEntryComponent.DISPLAY_CONFIGURATION_HEADER;
     }
     if (this.msgBanner) {
       return 'configurator.header.resolveIssues';

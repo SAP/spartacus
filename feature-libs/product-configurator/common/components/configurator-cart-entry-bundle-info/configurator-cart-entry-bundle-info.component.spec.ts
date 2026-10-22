@@ -1075,9 +1075,14 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           htmlElem,
           '.cx-item-infos'
         );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-number-items'
+        );
       });
 
-      it('should render the link in read only mode with the show text', () => {
+      it('should render the overview link with display bundle configuration text', () => {
         emitCartEntry(PromotionLocation.ActiveCart);
 
         const linkComponent = fixture.debugElement.query(
@@ -1089,6 +1094,38 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         expect(linkComponent.disabled).toBe(false);
         expect(linkComponent.isBundleOverviewLink).toBe(true);
         expect(linkComponent.a11yDescriptionId).toBe('cx-item-list-info-3');
+      });
+
+      it('should hide the show/hide link if the threshold is exceeded in read-only mode', () => {
+        emitCartEntry(PromotionLocation.ActiveCart);
+        mockCartItemContext.readonly$.next(true);
+        fixture.detectChanges();
+
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          TOGGLE_LINK
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          'button'
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-item-infos'
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          'cx-configure-cart-entry'
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-number-items'
+        );
       });
 
       it('should render the toggle button if the threshold is not exceeded', () => {
@@ -1111,6 +1148,11 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           expect,
           htmlElem,
           '.cx-item-infos'
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-number-items'
         );
       });
 

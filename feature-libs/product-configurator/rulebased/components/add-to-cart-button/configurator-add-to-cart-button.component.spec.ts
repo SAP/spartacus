@@ -701,6 +701,20 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
       expect(globalMessageService.add).toHaveBeenCalledTimes(1);
     });
 
+    it('should update the cart entry but not remove the configuration in case done is triggered on config page with pending changes', () => {
+      //removal happens after the cart entry update succeeded, see ConfiguratorCartEffects
+      vi.spyOn(configuratorCartService, 'updateCartEntry');
+      mockProductConfiguration.isCartEntryUpdateRequired = true;
+      mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
+      performUpdateCart();
+      expect(configuratorCartService.updateCartEntry).toHaveBeenCalledWith(
+        mockProductConfiguration
+      );
+      expect(
+        configuratorCommonsService.removeConfiguration
+      ).toHaveBeenCalledTimes(0);
+    });
+
     it('should display updateCart message if configuration has already been added', () => {
       ensureCartBound();
       mockProductConfiguration.isCartEntryUpdateRequired = true;
