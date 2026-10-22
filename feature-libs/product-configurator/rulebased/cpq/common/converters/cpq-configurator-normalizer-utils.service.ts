@@ -291,7 +291,9 @@ export class CpqConfiguratorNormalizerUtilsService {
    * When the root configuration contains at least one typed message,
    * those `messages` plus `incompleteAttributes` are counted at root
    * level. Other root-level message containers are ignored. Nested
-   * configurations are counted unchanged.
+   * row configurations are counted recursively; container warning
+   * messages are not counted because CPQ marks the linked attribute
+   * incomplete when a validation applies.
    *
    * @param source - CPQ configuration
    * @returns Total number of issues
@@ -374,20 +376,14 @@ export class CpqConfiguratorNormalizerUtilsService {
   }
 
   /**
-   * Counts warning messages at container level with non-empty message text.
+   * Counts issues in nested container rows and their child configurations.
+   * Container-level warning messages are excluded from the count; CPQ
+   * reports the linked attribute as incomplete when a validation applies.
    *
-   * @param container - CPQ container
-   * @returns Number of container-level warning messages
+   * @param containers - CPQ containers at the current level
+   * @param context - diagnostic context for nested traversal
+   * @returns Number of issues in nested configurations
    */
-  protected countContainerWarningMessages(container: Cpq.Container): number {
-    return (
-      container.messages?.filter(
-        (message) =>
-          !!message.message && message.severity === Cpq.MessageSeverity.WARNING
-      ).length ?? 0
-    );
-  }
-
   protected countIssuesInContainers(
     containers?: Cpq.Container[],
     context = 'unknown'
@@ -396,8 +392,6 @@ export class CpqConfiguratorNormalizerUtilsService {
       return 0;
     }
     return containers.reduce((containerTotal, container) => {
-      const containerWarningMessages =
-        this.countContainerWarningMessages(container);
       const rowIssues = (container.rows ?? []).reduce((rowTotal, row) => {
         if (!row.configuration) {
           return rowTotal;
@@ -411,7 +405,7 @@ export class CpqConfiguratorNormalizerUtilsService {
         const rowContribution = configurationIssues + nestedContainerIssues;
         return rowTotal + rowContribution;
       }, 0);
-      return containerTotal + containerWarningMessages + rowIssues;
+      return containerTotal + rowIssues;
     }, 0);
   }
 
