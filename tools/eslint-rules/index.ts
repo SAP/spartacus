@@ -58,6 +58,11 @@ import {
   rule as noSelfPublicApiImport,
   RULE_NAME as noSelfPublicApiImportName,
 } from './rules/no-self-public-api-import';
+
+import {
+  rule as noHardcodedText,
+  RULE_NAME as noHardcodedTextName,
+} from './rules/no-hardcoded-text';
 /**
  * Import your custom workspace rules at the top of this file.
  *
@@ -95,7 +100,9 @@ module.exports = {
     [noConstEnumName]: noConstEnum,
     [featureConfigServiceMustBePrivateName]: featureConfigServiceMustBePrivate,
     [featureTogglesMustBePrivateName]: featureTogglesMustBePrivate,
-    [noStorefrontappFalseFeatureTogglesName]: noStorefrontappFalseFeatureToggles,
+    [noStorefrontappFalseFeatureTogglesName]:
+      noStorefrontappFalseFeatureToggles,
     [noSelfPublicApiImportName]: noSelfPublicApiImport,
+    [noHardcodedTextName]: noHardcodedText,
   },
 };

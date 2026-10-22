@@ -125,7 +125,6 @@
     "generate:docs": "npx @compodoc/compodoc@1.1.13 -p tsconfig.compodoc.json",
     "generate:publish:docs": "npm run generate:docs && npm run publish:docs",
     "graph": "nx graph",
-    "i18n-lint": "i18n-lint -t \"{{,}}\" core-libs/storefront/**/*.html feature-libs/**/*.html integration-libs/**/*.html -a alt,title,placeholder,aria-label",
     "lint": "nx run-many --all --target=lint",
     "lint:styles": "stylelint \"{projects,feature-libs,integration-libs,core-libs/styles}/**/*.scss\"",
     "prettier": "prettier --config ./.prettierrc --list-different \"{projects,feature-libs,core-libs,integration-libs}/**/*{.ts,.js,.json,.scss,.html}\"",
@@ -251,7 +250,6 @@
     "glob": "^13.0.0",
     "http-proxy": "~1.18.1",
     "http-server": "^14.1.1",
-    "i18n-lint": "^1.1.0",
     "istanbul-lib-instrument": "^6.0.3",
     "jasmine-core": "~6.3.0",
     "jasmine-marbles": "^0.9.2",
@@ -316,9 +314,6 @@
     "form-data@^4": "4.0.6",
     "http-proxy-middleware@^2": "2.0.10",
     "http-proxy-middleware@^3": "3.0.7",
-    "i18n-lint": {
-      "minimatch": "3.1.5"
-    },
     "immutable@^5": "5.1.8",
     "js-yaml@^4": "4.3.2",
     "jsdom": {

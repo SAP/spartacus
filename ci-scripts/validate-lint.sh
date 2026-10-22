@@ -20,10 +20,6 @@ function validateTsConfigFile {
     fi
 }
 
-function validateNoHardCodedText {
-    echo "Validating no hardcoded text (using i18n-lint)"
-    npm run i18n-lint
-}
 
 LOCAL_ENV_LIB_PATH="core-libs/storefront/public_api"
 TSCONFIGFILE_TO_VALIDATE="projects/storefrontapp/tsconfig.app.prod.json"
@@ -105,5 +101,3 @@ else
     rm prettier.log
     exit 1
 fi
-
-validateNoHardCodedText
