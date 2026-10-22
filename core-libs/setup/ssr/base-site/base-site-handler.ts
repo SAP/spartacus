@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { getRequestUrl } from '@spartacus/setup/ssr';
+import { getRequestUrl } from '../express-utils/express-request-url';
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 import {
   ConcurrencyLimitError,
@@ -27,8 +27,8 @@ export type BaseSiteHandler = (
   next: NextFunction
 ) => void | Promise<void>;
 
-/** Options for {@link getMultiSiteHandler}. */
-export interface MultiSiteHandlerOptions {
+/** Options for {@link setBaseSiteHandler}. */
+export interface BaseSiteHandlerOptions {
   /**
    * Endpoint path segment to match, for example `llms.txt`. Regex metacharacters
    * (such as the `.`) are matched literally.
@@ -79,16 +79,20 @@ function escapeRegExp(value: string): string {
  * the mount prefix would be stripped from `request.path` but remain in the full
  * URL, causing the leading base-site segment to be mis-read.
  */
-export function getMultiSiteHandler(
-  options: MultiSiteHandlerOptions
+export function setBaseSiteHandler(
+  options: BaseSiteHandlerOptions
 ): RequestHandler {
-  const { endpoint, withBaseSiteInPath = false, handler, retryAfterSeconds } =
-    options;
+  const {
+    endpoint,
+    withBaseSiteInPath = false,
+    handler,
+    retryAfterSeconds,
+  } = options;
   const resolver = getConfiguredBaseSiteResolver();
 
   if (!withBaseSiteInPath && !resolver.supportsOccResolution) {
     throw new Error(
-      'getMultiSiteHandler domain mode (withBaseSiteInPath: false) requires a resolver that supports OCC resolution. Configure the resolver with an occBaseUrl, or use withBaseSiteInPath: true.'
+      'setBaseSiteHandler domain mode (withBaseSiteInPath: false) requires a resolver that supports OCC resolution. Configure the resolver with an occBaseUrl, or use withBaseSiteInPath: true.'
     );
   }
 
