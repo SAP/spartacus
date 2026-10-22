@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -24,7 +24,7 @@ import { AsmComponentService } from '../services/asm-component.service';
 @Component({
   selector: 'cx-customer-emulation',
   templateUrl: './customer-emulation.component.html',
-  imports: [NgIf, AsmBindCartComponent, AsyncPipe, TranslatePipe],
+  imports: [AsmBindCartComponent, AsyncPipe, TranslatePipe],
 })
 export class CustomerEmulationComponent implements OnInit, OnDestroy {
   customer: User;

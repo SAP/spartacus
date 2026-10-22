@@ -1,10 +1,9 @@
-<div
-  class="cx-opf-gift-card-order-confirmation-totals container"
-  *ngIf="order$ | async as order"
->
-  <div class="row justify-content-end">
-    <div class="col-sm-12 col-md-6 col-lg-5 col-xl-4">
-      <cx-opf-gift-card-order-summary [cart]="order" />
+@if (order$ | async; as order) {
+  <div class="cx-opf-gift-card-order-confirmation-totals container">
+    <div class="row justify-content-end">
+      <div class="col-sm-12 col-md-6 col-lg-5 col-xl-4">
+        <cx-opf-gift-card-order-summary [cart]="order" />
+      </div>
     </div>
   </div>
-</div>
+}

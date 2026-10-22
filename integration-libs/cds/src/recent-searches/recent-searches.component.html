@@ -1,5 +1,5 @@
-<ng-container *ngIf="result$ | async as results">
-  <ng-container *ngIf="results?.length">
+@if (result$ | async; as results) {
+  @if (results?.length) {
     <div class="recent-searches">
       <h3 *cxFeature="'!searchBoxRecentSearchesRemoval'">
         {{ 'searchBox.recentSearches' | cxTranslate }}
@@ -12,53 +12,56 @@
         [ariaLabel]="'cdsRecentSearches.ariaRecentSearches' | cxTranslate"
         role="listbox"
       >
-        <li *ngFor="let recentSearch of results">
-          <a
-            role="option"
-            [innerHTML]="
-              recentSearch
-                | cxHighlight: (outletContext$ | async)?.search : false
-            "
-            [routerLink]="
-              {
-                cxRoute: 'search',
-                params: { query: recentSearch },
-              } | cxUrl
-            "
-            (mousedown)="$event.preventDefault()"
-            (keydown.arrowup)="shareEvent($any($event))"
-            (keydown.arrowdown)="shareEvent($any($event))"
-            (keydown.arrowleft)="shareEvent($any($event))"
-            (keydown.arrowright)="shareEvent($any($event))"
-            (keydown.enter)="shareEvent($any($event))"
-            (keydown.escape)="shareEvent($any($event))"
-            (blur)="shareEvent($any($event))"
-            (click)="updateChosenWord(recentSearch)"
-          >
-          </a>
-
-          <button
-            *cxFeature="'searchBoxRecentSearchesRemoval'"
-            class="close"
-            type="button"
-            [attr.aria-label]="'common.remove' | cxTranslate"
-            (keydown.arrowup)="shareEvent($any($event))"
-            (keydown.arrowdown)="shareEvent($any($event))"
-            (keydown.arrowleft)="shareEvent($any($event))"
-            (keydown.arrowright)="shareEvent($any($event))"
-            (keydown.enter)="handleCloseButtonEnter($any($event), recentSearch)"
-            (keydown.escape)="shareEvent($any($event))"
-            (blur)="shareEvent($any($event))"
-            (click)="
-              removeFromRecentSearch(recentSearch); $event.stopPropagation()
-            "
-          >
-            <span aria-hidden="true">
-              <cx-icon [type]="iconTypes.CLOSE" />
-            </span>
-          </button>
-        </li>
+        @for (recentSearch of results; track recentSearch) {
+          <li>
+            <a
+              role="option"
+              [innerHTML]="
+                recentSearch
+                  | cxHighlight: (outletContext$ | async)?.search : false
+              "
+              [routerLink]="
+                {
+                  cxRoute: 'search',
+                  params: { query: recentSearch },
+                } | cxUrl
+              "
+              (mousedown)="$event.preventDefault()"
+              (keydown.arrowup)="shareEvent($any($event))"
+              (keydown.arrowdown)="shareEvent($any($event))"
+              (keydown.arrowleft)="shareEvent($any($event))"
+              (keydown.arrowright)="shareEvent($any($event))"
+              (keydown.enter)="shareEvent($any($event))"
+              (keydown.escape)="shareEvent($any($event))"
+              (blur)="shareEvent($any($event))"
+              (click)="updateChosenWord(recentSearch)"
+            >
+            </a>
+            <button
+              *cxFeature="'searchBoxRecentSearchesRemoval'"
+              class="close"
+              type="button"
+              [attr.aria-label]="'common.remove' | cxTranslate"
+              (keydown.arrowup)="shareEvent($any($event))"
+              (keydown.arrowdown)="shareEvent($any($event))"
+              (keydown.arrowleft)="shareEvent($any($event))"
+              (keydown.arrowright)="shareEvent($any($event))"
+              (keydown.enter)="
+                handleCloseButtonEnter($any($event), recentSearch)
+              "
+              (keydown.escape)="shareEvent($any($event))"
+              (blur)="shareEvent($any($event))"
+              (click)="
+                removeFromRecentSearch(recentSearch); $event.stopPropagation()
+              "
+            >
+              <span aria-hidden="true">
+                <cx-icon [type]="iconTypes.CLOSE" />
+              </span>
+            </button>
+          </li>
+        }
       </ul>
     </div>
-  </ng-container>
-</ng-container>
+  }
+}

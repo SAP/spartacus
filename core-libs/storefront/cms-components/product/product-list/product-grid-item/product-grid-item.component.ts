@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -41,7 +41,6 @@ import { ProductListService } from '../product-list.service';
     LcpContextDirective,
     MediaComponent,
     OutletDirective,
-    NgIf,
     StarRatingComponent,
     InnerComponentsHostDirective,
     AsyncPipe,

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   AsmCustomer360CustomerProfile,
@@ -26,14 +26,7 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
 @Component({
   selector: 'cx-asm-customer-360-profile',
   templateUrl: './asm-customer-360-profile.component.html',
-  imports: [
-    NgIf,
-    NgTemplateOutlet,
-    NgFor,
-    CardComponent,
-    AsyncPipe,
-    TranslatePipe,
-  ],
+  imports: [NgTemplateOutlet, CardComponent, AsyncPipe, TranslatePipe],
 })
 export class AsmCustomer360ProfileComponent implements OnInit {
   focusConfig: FocusConfig = {

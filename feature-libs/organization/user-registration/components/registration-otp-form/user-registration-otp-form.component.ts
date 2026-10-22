@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -38,7 +38,6 @@ import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-registration-con
   templateUrl: './user-registration-otp-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     NgSelectComponent,

@@ -10,7 +10,7 @@ import {
   Input,
   inject,
 } from '@angular/core';
-import { CommonModule, NgFor, NgIf } from '@angular/common';
+
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -27,7 +27,7 @@ import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
   selector: 'cx-opf-gift-card-applied',
   templateUrl: './opf-gift-card-applied.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, CommonModule, TranslatePipe, OutletModule],
+  imports: [TranslatePipe, OutletModule],
 })
 export class OpfGiftCardAppliedComponent {
   protected globalMessageService = inject(GlobalMessageService);

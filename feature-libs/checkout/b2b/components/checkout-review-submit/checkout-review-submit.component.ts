@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AsyncPipe,
-  NgFor,
-  NgIf,
-  NgSwitch,
-  NgSwitchCase,
-  NgTemplateOutlet,
-} from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
@@ -51,10 +44,6 @@ import { filter, map } from 'rxjs/operators';
   templateUrl: './checkout-review-submit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
-    NgSwitch,
-    NgSwitchCase,
     NgTemplateOutlet,
     CardComponent,
     RouterLink,

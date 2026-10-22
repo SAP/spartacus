@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -32,7 +32,7 @@ import { Order } from '@spartacus/order/root';
   selector: 'cx-opf-gift-card-payment-method-detail',
   templateUrl: './opf-gift-card-payment-method-detail.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, CardComponent, AsyncPipe, TranslatePipe],
+  imports: [CardComponent, AsyncPipe, TranslatePipe],
 })
 export class OpfGiftCardPaymentMethodDetailComponent
   implements OnInit, OnDestroy

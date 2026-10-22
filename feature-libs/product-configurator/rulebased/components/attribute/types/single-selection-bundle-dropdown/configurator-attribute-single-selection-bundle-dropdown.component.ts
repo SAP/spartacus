@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   FormsModule,
@@ -32,12 +32,10 @@ import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/confi
     './configurator-attribute-single-selection-bundle-dropdown.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     FormsModule,
     NgClass,
     ReactiveFormsModule,
     FocusDirective,
-    NgFor,
     ConfiguratorAttributeProductCardComponent,
     ConfiguratorAttributeQuantityComponent,
     ConfiguratorPriceComponent,

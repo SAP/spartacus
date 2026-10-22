@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -49,7 +48,7 @@ import { PageSlotService } from './page-slot.service';
   selector: 'cx-page-slot,[cx-page-slot]',
   templateUrl: './page-slot.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, OutletDirective, NgFor, ComponentWrapperDirective],
+  imports: [OutletDirective, ComponentWrapperDirective],
 })
 export class PageSlotComponent implements OnInit, OnDestroy {
   /**

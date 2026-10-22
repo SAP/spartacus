@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
@@ -17,7 +17,7 @@ import { DisableInfoService } from './disable-info.service';
   selector: 'cx-org-disable-info',
   templateUrl: './disable-info.component.html',
   host: { class: 'content-wrapper' },
-  imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe],
+  imports: [IconComponent, AsyncPipe, TranslatePipe],
 })
 export class DisableInfoComponent<T extends BaseItem> implements OnInit {
   /**

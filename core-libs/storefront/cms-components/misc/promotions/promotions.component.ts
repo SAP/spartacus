@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Promotion } from '@spartacus/core';
 
@@ -12,7 +11,7 @@ import { Promotion } from '@spartacus/core';
   selector: 'cx-promotions',
   templateUrl: './promotions.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor],
+  imports: [],
 })
 export class PromotionsComponent {
   @Input()

@@ -1,4 +1,6 @@
-<cx-spinner class="overlay" *ngIf="isUpdating$ | async" />
+@if (isUpdating$ | async) {
+  <cx-spinner class="overlay" />
+}
 
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
   <cx-form-required-legend />

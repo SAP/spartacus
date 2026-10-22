@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -31,7 +31,6 @@ import { ProductCarouselItemComponent } from '../product-carousel-item/product-c
   templateUrl: './product-carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     CarouselScrollingComponent,
     ProductCarouselItemComponent,
     AsyncPipe,

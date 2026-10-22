@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { NavigationComponent } from '../../../navigation';
 import { NavigationUIComponent } from '../../../navigation/navigation/navigation-ui.component';
@@ -12,6 +12,6 @@ import { NavigationUIComponent } from '../../../navigation/navigation/navigation
 @Component({
   selector: 'cx-my-account-v2-navigation',
   templateUrl: './my-account-v2-navigation.component.html',
-  imports: [NgIf, NavigationUIComponent, NgClass, AsyncPipe],
+  imports: [NavigationUIComponent, NgClass, AsyncPipe],
 })
 export class MyAccountV2NavigationComponent extends NavigationComponent {}

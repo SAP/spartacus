@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -58,13 +58,7 @@ const CX_SELECTOR = 'cx-configurator-add-to-cart-button';
   selector: CX_SELECTOR,
   templateUrl: './configurator-add-to-cart-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    ItemCounterComponent,
-    IconComponent,
-    AsyncPipe,
-    TranslatePipe,
-  ],
+  imports: [ItemCounterComponent, IconComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -32,8 +32,6 @@ import { DeliveryPointsService } from '../../services/delivery-points.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgClass,
-    NgIf,
-    NgFor,
     StoreAddressComponent,
     StoreScheduleComponent,
     RouterLink,

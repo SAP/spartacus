@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -30,7 +29,6 @@ import { VisualViewerService } from './visual-viewer.service';
   providers: [VisualViewerService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     VisualViewerToolbarButtonComponent,
     VisualViewerAnimationSliderComponent,
     SpinnerComponent,

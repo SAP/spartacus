@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -31,7 +31,7 @@ import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service'
   selector: 'cx-unit-level-order-overview',
   templateUrl: './unit-level-order-overview.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, CardComponent, AsyncPipe, CxDatePipe],
+  imports: [CardComponent, AsyncPipe, CxDatePipe],
 })
 export class UnitLevelOrderOverviewComponent implements OnInit {
   private featureToggles = inject(FeatureToggles);

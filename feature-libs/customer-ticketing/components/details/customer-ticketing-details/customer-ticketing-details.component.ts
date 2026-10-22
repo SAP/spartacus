@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
   CxDatePipe,
@@ -31,7 +31,6 @@ import { filter, map, take, tap } from 'rxjs/operators';
   templateUrl: './customer-ticketing-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     NgTemplateOutlet,
     CardComponent,
     SpinnerComponent,

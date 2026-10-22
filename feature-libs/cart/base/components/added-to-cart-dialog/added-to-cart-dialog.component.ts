@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -67,7 +67,6 @@ export interface AddedToCartDialogComponentData {
   imports: [
     FocusDirective,
     IconComponent,
-    NgIf,
     CartItemComponent,
     PromotionsComponent,
     SpinnerComponent,

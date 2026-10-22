@@ -1,8 +1,5 @@
-<button
-  *ngIf="!(bannerVisible$ | async)"
-  #open
-  class="btn btn-link"
-  (click)="openDialog()"
->
-  {{ 'anonymousConsents.dialog.title' | cxTranslate }}
-</button>
+@if (!(bannerVisible$ | async)) {
+  <button #open class="btn btn-link" (click)="openDialog()">
+    {{ 'anonymousConsents.dialog.title' | cxTranslate }}
+  </button>
+}

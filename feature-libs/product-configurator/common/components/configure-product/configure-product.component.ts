@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -33,7 +33,7 @@ import { ConfiguratorProductScope } from '../../core/model/configurator-product-
   selector: 'cx-configure-product',
   templateUrl: './configure-product.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class ConfigureProductComponent {
   nonConfigurable: Product = { configurable: false };

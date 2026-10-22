@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   FormsModule,
@@ -25,7 +24,6 @@ import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
   templateUrl: './csagent-login-form.component.html',
   host: { ngSkipHydration: 'true' },
   imports: [
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     FormErrorsComponent,

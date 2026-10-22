@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -21,7 +20,7 @@ import { OrderSubsequentDocumentNodeComponent } from './order-subsequent-documen
   selector: 'cx-order-subsequent-document-list',
   templateUrl: './order-subsequent-document-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, OrderSubsequentDocumentNodeComponent, TranslatePipe],
+  imports: [OrderSubsequentDocumentNodeComponent, TranslatePipe],
 })
 export class OrderSubsequentDocumentListComponent {
   iconTypes = ICON_TYPE;

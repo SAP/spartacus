@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   Component,
   Inject,
@@ -22,7 +21,7 @@ import { CpqQuoteService } from '../../cpq-qute.service';
 @Component({
   selector: 'cx-cpq-quote-heading',
   templateUrl: './cpq-quote-heading.component.html',
-  imports: [NgIf],
+  imports: [],
 })
 export class CpqQuoteHeadingComponent implements OnInit, OnDestroy {
   @Input()

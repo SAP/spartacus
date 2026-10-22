@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   FeatureDirective,
@@ -21,14 +21,7 @@ import { IconComponent } from '../icon/icon.component';
 @Component({
   selector: 'cx-global-message',
   templateUrl: './global-message.component.html',
-  imports: [
-    NgIf,
-    NgFor,
-    IconComponent,
-    AsyncPipe,
-    TranslatePipe,
-    FeatureDirective,
-  ],
+  imports: [IconComponent, AsyncPipe, TranslatePipe, FeatureDirective],
 })
 export class GlobalMessageComponent implements OnInit {
   iconTypes = ICON_TYPE;

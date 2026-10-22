@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -23,7 +23,7 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
 @Component({
   selector: 'cx-saved-cart-details-action',
   templateUrl: './saved-cart-details-action.component.html',
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class SavedCartDetailsActionComponent implements OnDestroy {
   private subscription = new Subscription();

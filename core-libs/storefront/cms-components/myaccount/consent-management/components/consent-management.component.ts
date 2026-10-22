@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   DestroyRef,
@@ -52,9 +52,7 @@ import { getPageTitle } from '../../../navigation/page-header/page-title.utils';
   selector: 'cx-consent-management',
   templateUrl: './consent-management.component.html',
   imports: [
-    NgIf,
     SpinnerComponent,
-    NgFor,
     ConsentManagementFormComponent,
     AsyncPipe,
     TranslatePipe,

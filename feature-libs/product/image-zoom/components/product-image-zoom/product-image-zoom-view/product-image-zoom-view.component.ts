@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -61,7 +61,6 @@ import { ProductImageZoomThumbnailsComponent } from '../product-image-zoom-thumb
   templateUrl: './product-image-zoom-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     IconComponent,
     FeatureDirective,
     MediaComponent,

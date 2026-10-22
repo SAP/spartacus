@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -29,7 +28,7 @@ import { take } from 'rxjs/operators';
   selector: 'cx-consignment-tracking',
   templateUrl: './consignment-tracking.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, TranslatePipe],
+  imports: [TranslatePipe],
 })
 export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
   consignmentStatus: string[] = [

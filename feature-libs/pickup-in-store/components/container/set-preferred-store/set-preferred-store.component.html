@@ -1,4 +1,4 @@
-<ng-container *ngIf="{ storeSelected: storeSelected$ | async } as data">
+@if ({ storeSelected: storeSelected$ | async }; as data) {
   <div
     [attr.data-preferred-store]="pointOfServiceName.name"
     [attr.data-store-is-selected]="
@@ -29,4 +29,4 @@
       {{ getSetStoreButtonLabel(data.storeSelected?.name || '') | cxTranslate }}
     </button>
   </div>
-</ng-container>
+}

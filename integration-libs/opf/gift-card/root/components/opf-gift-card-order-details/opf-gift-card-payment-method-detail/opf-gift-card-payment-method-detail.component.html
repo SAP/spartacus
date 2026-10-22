@@ -1,21 +1,17 @@
-<ng-container *ngIf="order">
-  <ng-container *ngIf="isGiftCardPayment">
+@if (order) {
+  @if (isGiftCardPayment) {
     <div class="cx-opf-gift-card-payment-method-detail">
-      <ng-container
-        *ngIf="!isPaymentMethodDetailsInfoPresent; else giftCardPartialPayment"
-      >
+      @if (!isPaymentMethodDetailsInfoPresent) {
         <div class="cx-gift-card-full-payment">
           <cx-card [content]="getPaymentMethodCardContent() | async" />
         </div>
-      </ng-container>
-
-      <ng-template #giftCardPartialPayment>
+      } @else {
         <div class="cx-gift-card-partial-payment">
           <cx-card
             [content]="{ text: ['opfGiftCard.giftCardPayment' | cxTranslate] }"
           />
         </div>
-      </ng-template>
+      }
     </div>
-  </ng-container>
-</ng-container>
+  }
+}

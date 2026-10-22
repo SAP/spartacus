@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
@@ -24,7 +24,6 @@ import { OrderAmendService } from '../../amend-order.service';
     AmendOrderActionsComponent,
     NgTemplateOutlet,
     AsyncPipe,
-    NgIf,
   ],
 })
 export class CancelOrderConfirmationComponent {

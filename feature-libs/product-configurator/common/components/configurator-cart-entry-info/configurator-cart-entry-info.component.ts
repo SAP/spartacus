@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
@@ -18,7 +18,7 @@ import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-c
   selector: 'cx-configurator-cart-entry-info',
   templateUrl: './configurator-cart-entry-info.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, ConfigureCartEntryComponent, AsyncPipe, TranslatePipe],
+  imports: [ConfigureCartEntryComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorCartEntryInfoComponent {
   constructor(

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -35,7 +35,6 @@ import { LoginFormComponentService } from './login-form-component.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { ngSkipHydration: 'true' },
   imports: [
-    NgIf,
     SpinnerComponent,
     FormsModule,
     ReactiveFormsModule,

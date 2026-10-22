@@ -29,9 +29,9 @@ const secondImage = {
 @Component({
   selector: 'cx-carousel',
   template: `
-    <ng-container *ngFor="let item of items">
+    @for (item of items; track item) {
       <ng-container *ngTemplateOutlet="template; context: { item: item }" />
-    </ng-container>
+    }
   `,
 })
 class MockCarouselComponent {

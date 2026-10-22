@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ProfileTagInjectorService } from '../services/profile-tag.injector.service';
@@ -12,8 +12,10 @@ import { ProfileTagInjectorService } from '../services/profile-tag.injector.serv
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-profiletag',
-  template: ` <ng-container *ngIf="profileTagEnabled$ | async" /> `,
-  imports: [NgIf, AsyncPipe],
+  template: `
+    @if (profileTagEnabled$ | async) {}
+  `,
+  imports: [AsyncPipe],
 })
 export class ProfileTagComponent {
   profileTagEnabled$: Observable<boolean> = this.profileTagInjector.track();

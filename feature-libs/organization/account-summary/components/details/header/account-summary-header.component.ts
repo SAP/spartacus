@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -29,7 +29,7 @@ import { map, switchMap } from 'rxjs/operators';
   selector: 'cx-account-summary-header',
   templateUrl: './account-summary-header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, CardComponent, NgFor, AsyncPipe, TranslatePipe],
+  imports: [CardComponent, AsyncPipe, TranslatePipe],
 })
 export class AccountSummaryHeaderComponent implements OnInit, OnDestroy {
   notApplicable: string;

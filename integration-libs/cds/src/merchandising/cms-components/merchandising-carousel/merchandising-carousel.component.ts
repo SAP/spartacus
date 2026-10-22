@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { RoutingService, UrlPipe } from '@spartacus/core';
@@ -35,7 +35,6 @@ import { MerchandisingCarouselModel } from './model/index';
   templateUrl: './merchandising-carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     AttributesDirective,
     CarouselComponent,
     RouterLink,

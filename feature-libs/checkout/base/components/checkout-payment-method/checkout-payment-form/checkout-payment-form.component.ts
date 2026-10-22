@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -67,7 +67,6 @@ import { CheckoutBillingAddressFormComponent } from '../../checkout-billing-addr
   templateUrl: './checkout-payment-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     NgTemplateOutlet,
     FeatureDirective,
     FocusDirective,

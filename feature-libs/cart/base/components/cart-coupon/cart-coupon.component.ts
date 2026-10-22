@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormsModule,
@@ -32,11 +32,9 @@ import { AppliedCouponsComponent } from './applied-coupons/applied-coupons.compo
   selector: 'cx-cart-coupon',
   templateUrl: './cart-coupon.component.html',
   imports: [
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     AppliedCouponsComponent,
-    NgFor,
     AsyncPipe,
     TranslatePipe,
   ],

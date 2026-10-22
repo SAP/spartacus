@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, CommonModule, NgIf } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -32,7 +32,7 @@ import { combineLatest, map, Observable, Subscription } from 'rxjs';
   selector: 'cx-opf-gift-card-order-detail-billing',
   templateUrl: './opf-gift-card-order-detail-billing.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, CardComponent, AsyncPipe, CommonModule, TranslatePipe],
+  imports: [CardComponent, AsyncPipe, CommonModule, TranslatePipe],
   standalone: true,
 })
 export class OpfGiftCardOrderDetailBillingComponent

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -45,8 +45,6 @@ const CLOSE_BUTTON_SELECTOR = 'button.close';
   templateUrl: './recent-searches.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
     RouterLink,
     AsyncPipe,
     TranslatePipe,

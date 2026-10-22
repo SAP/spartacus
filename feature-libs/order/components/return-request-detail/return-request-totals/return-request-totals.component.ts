@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ReturnRequest } from '@spartacus/order/root';
@@ -15,7 +15,7 @@ import { ReturnRequestService } from '../return-request.service';
   selector: 'cx-return-request-totals',
   templateUrl: './return-request-totals.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class ReturnRequestTotalsComponent implements OnDestroy {
   constructor(protected returnRequestService: ReturnRequestService) {}

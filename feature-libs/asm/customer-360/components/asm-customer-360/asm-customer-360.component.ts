@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -61,11 +61,9 @@ import { AsmCustomer360SectionComponent } from '../sections/asm-customer-360-sec
   imports: [
     FocusDirective,
     NgTemplateOutlet,
-    NgIf,
     MessageComponent,
     MediaComponent,
     IconComponent,
-    NgFor,
     AsmCustomer360SectionComponent,
     AsyncPipe,
     TranslatePipe,

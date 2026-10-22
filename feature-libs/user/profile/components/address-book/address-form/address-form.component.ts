@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -84,7 +84,6 @@ import {
     FormRequiredLegendComponent,
     FormsModule,
     ReactiveFormsModule,
-    NgIf,
     NgTemplateOutlet,
     FormRequiredAsterisksComponent,
     NgSelectComponent,

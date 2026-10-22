@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -38,7 +38,6 @@ import { filter, map, take, tap } from 'rxjs/operators';
   templateUrl: './add-to-wish-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     AtMessageDirective,
     IconComponent,
     BtnLikeLinkDirective,

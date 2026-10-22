@@ -1,27 +1,42 @@
-<div *ngIf="(activeStepIndex$ | async) !== undefined">
-  <div *ngIf="cart$ | async as cart">
-    <div class="cx-media">
-      <div
-        class="cx-list-media cx-title"
-        *ngIf="cart?.totalItems && cart?.subTotal"
-      >
-        {{ 'cartItems.cartTotal' | cxTranslate: { count: cart.totalItems } }}:
-        {{ cart.subTotal.formattedValue }}
-      </div>
-      <div *ngFor="let step of steps$ | async; let i = index">
-        <div class="cx-list-media" *ngIf="i < activeStepIndex">
-          <div class="cx-title">{{ i + 1 }}. {{ step.name | cxTranslate }}</div>
-          <button
-            class="btn btn-link"
-            [routerLink]="{ cxRoute: step.routeName } | cxUrl"
-          >
-            {{ 'common.edit' | cxTranslate }}
-          </button>
+@if ((activeStepIndex$ | async) !== undefined) {
+  <div>
+    @if (cart$ | async; as cart) {
+      <div>
+        <div class="cx-media">
+          @if (cart?.totalItems && cart?.subTotal) {
+            <div class="cx-list-media cx-title">
+              {{
+                'cartItems.cartTotal' | cxTranslate: { count: cart.totalItems }
+              }}:
+              {{ cart.subTotal.formattedValue }}
+            </div>
+          }
+          @for (step of steps$ | async; track step; let i = $index) {
+            <div>
+              @if (i < activeStepIndex) {
+                <div class="cx-list-media">
+                  <div class="cx-title">
+                    {{ i + 1 }}. {{ step.name | cxTranslate }}
+                  </div>
+                  <button
+                    class="btn btn-link"
+                    [routerLink]="{ cxRoute: step.routeName } | cxUrl"
+                  >
+                    {{ 'common.edit' | cxTranslate }}
+                  </button>
+                </div>
+              }
+              @if (i === activeStepIndex) {
+                <div class="cx-list-media is-active">
+                  <div class="cx-title">
+                    {{ i + 1 }}. {{ step.name | cxTranslate }}
+                  </div>
+                </div>
+              }
+            </div>
+          }
         </div>
-        <div class="cx-list-media is-active" *ngIf="i === activeStepIndex">
-          <div class="cx-title">{{ i + 1 }}. {{ step.name | cxTranslate }}</div>
-        </div>
       </div>
-    </div>
+    }
   </div>
-</div>
+}

@@ -14,16 +14,7 @@ import {
   tap,
 } from 'rxjs/operators';
 
-import {
-  AsyncPipe,
-  NgClass,
-  NgFor,
-  NgIf,
-  NgSwitch,
-  NgSwitchCase,
-  NgSwitchDefault,
-  NgTemplateOutlet,
-} from '@angular/common';
+import { AsyncPipe, NgClass, NgTemplateOutlet } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -36,15 +27,10 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   templateUrl: './configurator-overview-form.component.html',
   //here we cannot go with OnPush, as we otherwise do not take the change to host binding into account
   imports: [
-    NgIf,
     NgTemplateOutlet,
-    NgFor,
     NgClass,
-    NgSwitch,
-    NgSwitchCase,
     ConfiguratorOverviewAttributeComponent,
     ConfiguratorOverviewBundleAttributeComponent,
-    NgSwitchDefault,
     AsyncPipe,
     TranslatePipe,
   ],

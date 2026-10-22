@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -32,7 +32,6 @@ import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-a
   templateUrl: './configurator-attribute-header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     IconComponent,
     ConfiguratorShowOptionsComponent,
     ConfiguratorShowMoreComponent,

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   BaseOption,
@@ -25,7 +25,6 @@ import { ProductVariantStyleSelectorComponent } from '../variant-style-selector/
   templateUrl: './product-variants-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     ProductVariantStyleSelectorComponent,
     ProductVariantSizeSelectorComponent,
     ProductVariantColorSelectorComponent,

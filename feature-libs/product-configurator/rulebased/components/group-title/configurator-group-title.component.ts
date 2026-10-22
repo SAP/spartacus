@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   AfterContentChecked,
   ChangeDetectionStrategy,
@@ -33,7 +33,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   selector: 'cx-configurator-group-title',
   templateUrl: './configurator-group-title.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, HamburgerMenuComponent, AsyncPipe],
+  imports: [HamburgerMenuComponent, AsyncPipe],
 })
 export class ConfiguratorGroupTitleComponent
   implements OnInit, OnDestroy, AfterContentChecked

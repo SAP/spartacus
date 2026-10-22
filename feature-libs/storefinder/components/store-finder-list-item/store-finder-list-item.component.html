@@ -3,41 +3,40 @@
     <div class="cx-store-list-order">
       {{ listOrderLabel }}
     </div>
-    <a
-      *ngIf="useClickEvent"
-      (click)="handleStoreItemClick()"
-      (keyup)="onKey($event)"
-      class="cx-store-name"
-      tabindex="0"
-    >
-      {{ location.displayName || location.name }}
-    </a>
-    <a
-      *ngIf="!useClickEvent"
-      [routerLink]="[location.name]"
-      class="cx-store-name"
-      tabindex="0"
-    >
-      {{ location.displayName || location.name }}
-    </a>
-    <div class="cx-store-address" *ngIf="location.address">
-      <div class="cx-store-address-street">
-        {{ location.address.line1 }} {{ location.address.line2 }}
-      </div>
-      {{
-        getFormattedStoreAddress([
-          location.address.town,
-          location.address.postalCode,
-          location.address.country.isocode,
-        ])
-      }}
-      <div
-        class="cx-store-distance"
-        *ngIf="location.formattedDistance && displayDistance"
+    @if (useClickEvent) {
+      <a
+        (click)="handleStoreItemClick()"
+        (keyup)="onKey($event)"
+        class="cx-store-name"
+        tabindex="0"
       >
-        {{ location.formattedDistance }}
+        {{ location.displayName || location.name }}
+      </a>
+    }
+    @if (!useClickEvent) {
+      <a [routerLink]="[location.name]" class="cx-store-name" tabindex="0">
+        {{ location.displayName || location.name }}
+      </a>
+    }
+    @if (location.address) {
+      <div class="cx-store-address">
+        <div class="cx-store-address-street">
+          {{ location.address.line1 }} {{ location.address.line2 }}
+        </div>
+        {{
+          getFormattedStoreAddress([
+            location.address.town,
+            location.address.postalCode,
+            location.address.country.isocode,
+          ])
+        }}
+        @if (location.formattedDistance && displayDistance) {
+          <div class="cx-store-distance">
+            {{ location.formattedDistance }}
+          </div>
+        }
       </div>
-    </div>
+    }
     <ng-template
       [cxOutlet]="StoreFinderOutlets.PREFERRED_STORE"
       [cxOutletContext]="{

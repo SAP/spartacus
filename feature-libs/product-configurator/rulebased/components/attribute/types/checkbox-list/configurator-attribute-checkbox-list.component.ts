@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -36,10 +36,8 @@ import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/config
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfiguratorAttributePriceChangeService],
   imports: [
-    NgIf,
     ConfiguratorAttributeQuantityComponent,
     ConfiguratorPriceComponent,
-    NgFor,
     FormsModule,
     FocusDirective,
     ReactiveFormsModule,

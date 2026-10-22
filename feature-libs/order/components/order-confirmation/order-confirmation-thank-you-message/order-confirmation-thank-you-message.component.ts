@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -29,7 +29,6 @@ import { OrderGuestRegisterFormComponent } from '../order-guest-register-form/or
   templateUrl: './order-confirmation-thank-you-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     OrderGuestRegisterFormComponent,
     AddToHomeScreenBannerComponent,
     AsyncPipe,

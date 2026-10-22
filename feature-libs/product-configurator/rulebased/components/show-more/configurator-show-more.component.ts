@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -18,7 +17,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-configurator-show-more',
   templateUrl: './configurator-show-more.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, TranslatePipe],
+  imports: [TranslatePipe],
 })
 export class ConfiguratorShowMoreComponent implements AfterViewInit {
   showMore = false;

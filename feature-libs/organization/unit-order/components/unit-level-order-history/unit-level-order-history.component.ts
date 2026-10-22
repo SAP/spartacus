@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import {
@@ -33,12 +33,10 @@ import { UnitLevelOrderHistoryFilterComponent } from './filter/unit-level-order-
   templateUrl: './unit-level-order-history.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     UnitLevelOrderHistoryFilterComponent,
     SortingComponent,
     TotalComponent,
     PaginationComponent,
-    NgFor,
     RouterLink,
     BtnLikeLinkDirective,
     RouterLinkActive,

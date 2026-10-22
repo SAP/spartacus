@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -29,7 +29,6 @@ import { map, Observable, tap } from 'rxjs';
   templateUrl: './s4-service-order-detail-actions.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     BtnLikeLinkDirective,
     RouterLink,
     AsyncPipe,

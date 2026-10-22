@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GeoPoint, TranslatePipe } from '@spartacus/core';
@@ -18,8 +18,6 @@ import { StoreFinderListItemComponent } from '../store-finder-list-item/store-fi
   templateUrl: './store-finder-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
     StoreFinderListItemComponent,
     SpinnerComponent,
     AsyncPipe,

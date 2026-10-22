@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
@@ -33,8 +33,6 @@ import { DpPaymentFormComponent } from './dp-payment-form/dp-payment-form.compon
   templateUrl: './dp-payment-method.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
     CardComponent,
     DpPaymentFormComponent,
     SpinnerComponent,

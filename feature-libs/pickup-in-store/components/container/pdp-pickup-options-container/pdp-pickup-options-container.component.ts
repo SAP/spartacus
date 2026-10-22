@@ -17,7 +17,7 @@ import {
 } from '@angular/core';
 import { Product } from '@spartacus/core';
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   AugmentedPointOfService,
   getProperty,
@@ -58,7 +58,7 @@ function isProductWithCode(
 @Component({
   selector: 'cx-cart-pickup-options-container',
   templateUrl: 'pdp-pickup-options-container.component.html',
-  imports: [PickupOptionsComponent, AsyncPipe, NgIf],
+  imports: [PickupOptionsComponent, AsyncPipe],
 })
 export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
   @Output() intendedPickupChange = new EventEmitter<

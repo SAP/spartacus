@@ -1,8 +1,8 @@
-<ng-container *ngIf="configuration$ | async as configuration">
-  <ng-container *ngIf="configuration.pricingEnabled">
+@if (configuration$ | async; as configuration) {
+  @if (configuration.pricingEnabled) {
     <div class="cx-price-summary-container">
       <div class="cx-total-summary">
-        <ng-container *ngIf="!configuration.hideBasePriceAndSelectedOptions">
+        @if (!configuration.hideBasePriceAndSelectedOptions) {
           <div class="cx-summary-row cx-base-price">
             <div class="cx-label">
               {{ 'configurator.priceSummary.basePrice' | cxTranslate }}:
@@ -19,7 +19,7 @@
               {{ configuration?.priceSummary?.selectedOptions?.formattedValue }}
             </div>
           </div>
-        </ng-container>
+        }
         <div class="cx-summary-row cx-total-price">
           <div class="cx-label">
             {{ 'configurator.priceSummary.totalPricePerItem' | cxTranslate }}:
@@ -30,5 +30,5 @@
         </div>
       </div>
     </div>
-  </ng-container>
-</ng-container>
+  }
+}

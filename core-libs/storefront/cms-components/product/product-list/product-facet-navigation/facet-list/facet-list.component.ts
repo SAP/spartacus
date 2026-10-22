@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -45,11 +45,9 @@ import { FacetService } from '../services/facet.service';
   templateUrl: './facet-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     FocusDirective,
     IconComponent,
     TabComponent,
-    NgFor,
     FacetComponent,
     AsyncPipe,
     TranslatePipe,

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
@@ -27,7 +27,6 @@ import { StoreFinderListComponent } from './store-finder-list/store-finder-list.
   selector: 'cx-store-finder-search-result',
   templateUrl: './store-finder-search-result.component.html',
   imports: [
-    NgIf,
     PaginationComponent,
     StoreFinderListComponent,
     SpinnerComponent,

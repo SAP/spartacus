@@ -7,7 +7,9 @@
   "
   (esc)="close()"
 >
-  <cx-icon *ngIf="messageIcon" [type]="messageIcon" />
+  @if (messageIcon) {
+    <cx-icon [type]="messageIcon" />
+  }
   <p>{{ message | cxTranslate }}</p>
   <button
     class="close"

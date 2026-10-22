@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
@@ -19,7 +19,7 @@ import {
   selector: 'cx-configurator-overview-attribute',
   templateUrl: './configurator-overview-attribute.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, ConfiguratorPriceComponent, AsyncPipe, TranslatePipe],
+  imports: [ConfiguratorPriceComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorOverviewAttributeComponent {
   @Input() attributeOverview: Configurator.AttributeOverview;

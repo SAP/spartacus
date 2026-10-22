@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -32,8 +32,6 @@ import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FocusDirective,
-    NgIf,
-    NgFor,
     RouterLink,
     SpinnerComponent,
     AsyncPipe,

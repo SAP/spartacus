@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -25,7 +25,7 @@ import {
   selector: 'cx-cart-item-validation-warning',
   templateUrl: './cart-item-validation-warning.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe],
+  imports: [IconComponent, AsyncPipe, TranslatePipe],
 })
 export class CartItemValidationWarningComponent {
   private featureToggles = inject(FeatureToggles);

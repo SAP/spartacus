@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ANONYMOUS_CONSENT_STATUS, TranslatePipe } from '@spartacus/core';
 import { ConsentManagementFormComponent } from '../../../../consent-management/components/consent-form/consent-management-form.component';
@@ -12,7 +11,7 @@ import { ConsentManagementFormComponent } from '../../../../consent-management/c
 @Component({
   selector: 'cx-my-account-v2-consent-management-form',
   templateUrl: './my-account-v2-consent-management-form.component.html',
-  imports: [NgIf, TranslatePipe],
+  imports: [TranslatePipe],
 })
 export class MyAccountV2ConsentManagementFormComponent
   extends ConsentManagementFormComponent

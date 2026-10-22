@@ -31,13 +31,14 @@
     </h2>
 
     <ng-template [cxOutlet]="ProductListOutlets.ITEM_DETAILS">
-      <cx-star-rating
-        *ngIf="product.averageRating"
-        [rating]="product?.averageRating"
-      />
-      <div *ngIf="!product.averageRating" class="cx-product-no-review">
-        {{ 'productDetails.noReviews' | cxTranslate }}
-      </div>
+      @if (product.averageRating) {
+        <cx-star-rating [rating]="product?.averageRating" />
+      }
+      @if (!product.averageRating) {
+        <div class="cx-product-no-review">
+          {{ 'productDetails.noReviews' | cxTranslate }}
+        </div>
+      }
       <div
         class="cx-product-price"
         [attr.aria-label]="'productDetails.productPrice' | cxTranslate"
@@ -53,20 +54,20 @@
           class="cx-product-summary"
           [innerHTML]="product.summary"
         ></p>
-        <ng-container *ngIf="product.summary">
+        @if (product.summary) {
           <cx-read-more
             *cxFeature="'productListItemSummaryReadMore'"
             class="text"
             [text]="product.summary"
             [maxLength]="summaryMaxLength"
           />
-        </ng-container>
+        }
       </div>
       <div class="col-12 col-md-5 col-xl-5">
         <ng-template [cxOutlet]="ProductListOutlets.ITEM_ACTIONS">
-          <ng-container *ngIf="!hideAddToCartButton">
+          @if (!hideAddToCartButton) {
             <ng-container cxInnerComponentsHost />
-          </ng-container>
+          }
         </ng-template>
       </div>
     </div>

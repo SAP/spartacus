@@ -14,7 +14,7 @@ import { TranslationService } from '@spartacus/core';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { FocusDirective } from '@spartacus/storefront';
 import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
@@ -32,10 +32,8 @@ import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-inpu
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfiguratorAttributePriceChangeService],
   imports: [
-    NgIf,
     ConfiguratorAttributeQuantityComponent,
     ConfiguratorPriceComponent,
-    NgFor,
     FormsModule,
     ReactiveFormsModule,
     FocusDirective,

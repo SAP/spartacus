@@ -1,4 +1,4 @@
-<ng-container *ngIf="displayConflictSuggestion(currentGroup)">
+@if (displayConflictSuggestion(currentGroup)) {
   <div
     class="cx-title"
     [attr.aria-label]="
@@ -18,4 +18,4 @@
     'configurator.conflict.suggestionText'
       | cxTranslate: { attribute: attribute.label }
   }}</span>
-</ng-container>
+}

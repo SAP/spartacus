@@ -1,13 +1,13 @@
-<ng-container *ngIf="displayFormula()">
-  <ng-container *ngIf="displayPriceOnly()">
+@if (displayFormula()) {
+  @if (displayPriceOnly()) {
     <div
       [ngClass]="styleClass"
       [attr.aria-label]="'configurator.a11y.valueSurcharge' | cxTranslate"
     >
       {{ price }}
     </div>
-  </ng-container>
-  <ng-container *ngIf="displayQuantityAndPrice()">
+  }
+  @if (displayQuantityAndPrice()) {
     <div
       class="cx-quantity-price"
       [attr.aria-label]="'configurator.a11y.valueSurcharge' | cxTranslate"
@@ -15,5 +15,5 @@
       {{ quantityWithPrice(formula?.quantity | cxNumeric) }}
     </div>
     <div class="cx-price-total">{{ priceTotal }}</div>
-  </ng-container>
-</ng-container>
+  }
+}

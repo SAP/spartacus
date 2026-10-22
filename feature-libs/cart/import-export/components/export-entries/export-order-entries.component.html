@@ -1,7 +1,5 @@
-<button
-  *ngIf="(entries$ | async)?.length > 0 && (entries$ | async) as entries"
-  class="btn btn-tertiary cx-export-btn"
-  (click)="exportCsv(entries)"
->
-  {{ 'exportEntries.exportProductToCsv' | cxTranslate }}
-</button>
+@if ((entries$ | async)?.length > 0 && (entries$ | async); as entries) {
+  <button class="btn btn-tertiary cx-export-btn" (click)="exportCsv(entries)">
+    {{ 'exportEntries.exportProductToCsv' | cxTranslate }}
+  </button>
+}

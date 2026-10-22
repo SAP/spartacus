@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   CartItemListComponent,
@@ -20,7 +20,6 @@ import { PunchoutButtonsComponent } from '../punchout-buttons/punchout-buttons.c
   templateUrl: './punchout-inspect-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     CartItemListComponent,
     OrderSummaryComponent,
     PunchoutButtonsComponent,

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CxDatePipe, TranslatePipe, UrlPipe } from '@spartacus/core';
@@ -31,7 +31,6 @@ import { BudgetItemService } from '../services/budget-item.service';
   ],
   host: { class: 'content-wrapper' },
   imports: [
-    NgIf,
     CardComponent,
     FocusDirective,
     RouterLink,

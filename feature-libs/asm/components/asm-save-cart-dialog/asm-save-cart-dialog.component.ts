@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
@@ -26,7 +26,7 @@ export enum SAVE_CART_DIALOG_ACTION {
 @Component({
   selector: 'cx-asm-save-cart-dialog',
   templateUrl: './asm-save-cart-dialog.component.html',
-  imports: [FocusDirective, NgIf, MessageComponent, AsyncPipe, TranslatePipe],
+  imports: [FocusDirective, MessageComponent, AsyncPipe, TranslatePipe],
 })
 export class AsmSaveCartDialogComponent implements OnInit {
   BIND_CART_ACTION = SAVE_CART_DIALOG_ACTION;

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   FormsModule,
@@ -45,7 +45,6 @@ import { UnitAddressFormService } from './unit-address-form.service';
   ],
   imports: [
     FormComponent,
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     FormRequiredLegendComponent,

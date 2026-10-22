@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
@@ -21,10 +20,8 @@ import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/confi
     './configurator-attribute-single-selection-bundle.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     ConfiguratorAttributeQuantityComponent,
     ConfiguratorPriceComponent,
-    NgFor,
     ConfiguratorAttributeProductCardComponent,
   ],
 })

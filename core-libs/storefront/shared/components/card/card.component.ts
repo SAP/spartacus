@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  NgClass,
-  NgFor,
-  NgIf,
-  NgSwitch,
-  NgSwitchCase,
-  NgTemplateOutlet,
-} from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
@@ -52,14 +45,10 @@ export interface Card {
   selector: 'cx-card',
   templateUrl: './card.component.html',
   imports: [
-    NgIf,
-    NgFor,
     NgTemplateOutlet,
     IconComponent,
     FocusDirective,
     AtMessageDirective,
-    NgSwitch,
-    NgSwitchCase,
     GenericLinkComponent,
     NgClass,
     TruncateTextPopoverComponent,

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   Product,
@@ -27,7 +27,6 @@ import { Configurator } from '../../core/model/configurator.model';
   templateUrl: './configurator-variant-carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     CarouselComponent,
     ProductCarouselItemComponent,
     AsyncPipe,

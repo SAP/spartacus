@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import {
   FormsModule,
@@ -44,13 +44,11 @@ import { UnitUserRolesItemService } from './unit-user-roles-item.service';
     },
   ],
   imports: [
-    NgIf,
     FormsModule,
     CardComponent,
     FocusDirective,
     RouterLink,
     ReactiveFormsModule,
-    NgFor,
     AsyncPipe,
     TranslatePipe,
   ],

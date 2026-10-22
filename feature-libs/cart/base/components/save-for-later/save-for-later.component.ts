@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   ActiveCartFacade,
@@ -24,7 +24,7 @@ import { CartItemListComponent } from '../cart-shared/cart-item-list/cart-item-l
 @Component({
   selector: 'cx-save-for-later',
   templateUrl: './save-for-later.component.html',
-  imports: [NgIf, CartItemListComponent, AsyncPipe, TranslatePipe],
+  imports: [CartItemListComponent, AsyncPipe, TranslatePipe],
 })
 export class SaveForLaterComponent implements OnInit {
   saveForLater$: Observable<Cart>;

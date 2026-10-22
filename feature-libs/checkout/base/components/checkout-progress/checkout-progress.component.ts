@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -28,15 +28,7 @@ import { MultiLinePipe } from './multiline-titles.pipe';
   selector: 'cx-checkout-progress',
   templateUrl: './checkout-progress.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    NgFor,
-    RouterLink,
-    AsyncPipe,
-    UrlPipe,
-    TranslatePipe,
-    MultiLinePipe,
-  ],
+  imports: [RouterLink, AsyncPipe, UrlPipe, TranslatePipe, MultiLinePipe],
 })
 export class CheckoutProgressComponent implements OnInit {
   params$ = new Observable<string[]>();

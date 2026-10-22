@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -40,9 +40,7 @@ import { OpfTokenisationDeletePaymentDialogComponent } from './opf-tokenisation-
   templateUrl: './opf-tokenisation-account-payment-methods.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     SpinnerComponent,
-    NgFor,
     CardComponent,
     IconComponent,
     AsyncPipe,

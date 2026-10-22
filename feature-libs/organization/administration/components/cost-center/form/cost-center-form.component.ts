@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
   AbstractControl,
@@ -54,7 +54,6 @@ import { CurrentCostCenterService } from '../services/current-cost-center.servic
   ],
   imports: [
     FormComponent,
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     FormRequiredLegendComponent,

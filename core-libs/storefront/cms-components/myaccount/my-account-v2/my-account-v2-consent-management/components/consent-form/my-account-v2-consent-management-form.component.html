@@ -12,17 +12,19 @@
       />
       <label [for]="consentTemplate.id"></label>
       <span class="name">
-        <ng-container *ngIf="consentTemplate?.name">
+        @if (consentTemplate?.name) {
           {{ consentTemplate?.name }}
-        </ng-container>
+        }
       </span>
       <span class="description">
         {{ consentTemplate?.description }}
       </span>
-      <span class="description" *ngIf="consentGiven">
-        {{ 'myAccountV2Consent.dateDescription' | cxTranslate
-        }}{{ consentApprovedTime }}
-      </span>
+      @if (consentGiven) {
+        <span class="description">
+          {{ 'myAccountV2Consent.dateDescription' | cxTranslate
+          }}{{ consentApprovedTime }}
+        </span>
+      }
     </label>
   </div>
 </div>

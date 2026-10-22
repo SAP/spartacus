@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -35,7 +35,6 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   imports: [
     FocusDirective,
     IconComponent,
-    NgIf,
     ConfiguratorGroupComponent,
     AsyncPipe,
     TranslatePipe,

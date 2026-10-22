@@ -1,5 +1,5 @@
-<ng-container *ngIf="order$ | async as order">
-  <ng-container *ngIf="order.code">
+@if (order$ | async; as order) {
+  @if (order.code) {
     <div class="cx-nav row">
       <div class="col-xs-12 col-md-10 col-lg-8">
         <button
@@ -12,5 +12,5 @@
         </button>
       </div>
     </div>
-  </ng-container>
-</ng-container>
+  }
+}

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   LoadStatus,
@@ -26,12 +25,14 @@ import { SubListService } from './sub-list.service';
 @Component({
   selector: 'cx-org-assign-cell',
   template: `
-    <button type="button" *ngIf="hasItem" (click)="toggleAssign()" class="link">
-      {{ isAssigned ? 'unassign' : 'assign' }}
-    </button>
+    @if (hasItem) {
+      <button type="button" (click)="toggleAssign()" class="link">
+        {{ isAssigned ? 'unassign' : 'assign' }}
+      </button>
+    }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf],
+  imports: [],
 })
 export class AssignCellComponent<T extends BaseItem> extends CellComponent {
   constructor(

@@ -6,17 +6,18 @@
       (change)="changeSize($event.target.value)"
       class="form-control variant-select"
     >
-      <option
-        *ngFor="let v of variants?.options; index as i"
-        value="{{ v.code }}"
-        [attr.aria-label]="
-          ariaLabel$(v.variantOptionQualifiers, i, variants?.options?.length)
-            | async
-        "
-        [selected]="v.code === product?.code"
-      >
-        {{ getVariantOptionValue(v.variantOptionQualifiers) }}
-      </option>
+      @for (v of variants?.options; track v; let i = $index) {
+        <option
+          value="{{ v.code }}"
+          [attr.aria-label]="
+            ariaLabel$(v.variantOptionQualifiers, i, variants?.options?.length)
+              | async
+          "
+          [selected]="v.code === product?.code"
+        >
+          {{ getVariantOptionValue(v.variantOptionQualifiers) }}
+        </option>
+      }
     </select>
     <a
       href="#"

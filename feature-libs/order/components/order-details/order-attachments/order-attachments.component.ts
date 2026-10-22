@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -26,7 +26,7 @@ import { OrderDetailsService } from '../order-details.service';
   selector: 'cx-order-attachments',
   templateUrl: './order-attachments.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class OrderAttachmentsComponent {
   protected orderDetailsService = inject(OrderDetailsService);

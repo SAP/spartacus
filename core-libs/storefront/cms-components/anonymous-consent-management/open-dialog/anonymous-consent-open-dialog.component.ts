@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -20,7 +20,7 @@ import { LaunchDialogService } from '../../../layout/launch-dialog/services/laun
 @Component({
   selector: 'cx-anonymous-consent-open-dialog',
   templateUrl: './anonymous-consent-open-dialog.component.html',
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class AnonymousConsentOpenDialogComponent {
   @ViewChild('open') openElement: ElementRef;

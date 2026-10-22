@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslatePipe, UserPaymentService } from '@spartacus/core';
 import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
@@ -26,7 +26,7 @@ import {
   standalone: true,
   templateUrl: './opf-tokenisation-saved-cards-toggle.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe],
+  imports: [IconComponent, AsyncPipe, TranslatePipe],
 })
 export class OpfTokenisationSavedCardsToggleComponent {
   protected outletContextData = inject<

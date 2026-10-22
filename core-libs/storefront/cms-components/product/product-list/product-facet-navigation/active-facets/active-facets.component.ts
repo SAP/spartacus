@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, HostBinding, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Breadcrumb, FeatureDirective, TranslatePipe } from '@spartacus/core';
@@ -24,8 +24,6 @@ import { FacetService } from '../services/facet.service';
   selector: 'cx-active-facets',
   templateUrl: './active-facets.component.html',
   imports: [
-    NgIf,
-    NgFor,
     RouterLink,
     FocusDirective,
     FeatureDirective,

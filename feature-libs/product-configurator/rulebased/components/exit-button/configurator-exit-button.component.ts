@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, Location, NgIf } from '@angular/common';
+import { AsyncPipe, Location } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   Product,
@@ -27,7 +27,7 @@ import { Configurator } from '../../core/model/configurator.model';
 @Component({
   selector: 'cx-configurator-exit-button',
   templateUrl: './configurator-exit-button.component.html',
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorExitButtonComponent {
   container$: Observable<{
