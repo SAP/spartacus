@@ -5,44 +5,43 @@
  */
 
 import { getRequestUrl } from '../express-utils/express-request-url';
-import { NextFunction, Request, RequestHandler, Response } from 'express';
 import {
+  NextFunction,
+  Request,
+  RequestHandler,
+  Response,
+  Router,
+} from 'express';
+import {
+  BaseSiteResolver,
   ConcurrencyLimitError,
   OccUnavailableError,
 } from './base-site-resolver';
-import { getConfiguredBaseSiteResolver } from './base-site-resolver-registry';
 
-/**
- * Request after base-site resolution. Locally extends Express `Request` so the
- * resolved value is typed inside the handler without a global augmentation.
- */
-export interface BaseSiteRequest extends Request {
+/** An Express route accepted by the base-site middleware. */
+export type BaseSiteRouteMatcher = string | RegExp;
+
+/** Values passed to an application handler after base-site resolution. */
+export interface BaseSiteMiddlewareContext {
+  req: Request;
+  res: Response;
+  next: NextFunction;
   baseSite: string | null;
 }
 
-/** Application handler invoked with the resolved base site on the request. */
-export type BaseSiteHandler = (
-  request: BaseSiteRequest,
-  response: Response,
-  next: NextFunction
+/** Application handler invoked with the resolved base site. */
+export type BaseSiteAwareHandler = (
+  context: BaseSiteMiddlewareContext
 ) => void | Promise<void>;
 
 /** Options for {@link setBaseSiteHandler}. */
-export interface BaseSiteHandlerOptions {
-  /**
-   * Endpoint path segment to match, for example `llms.txt`. Regex metacharacters
-   * (such as the `.`) are matched literally.
-   */
-  endpoint: string;
-  /**
-   * When `true`, the base site is taken from the leading path segment and the
-   * route matches `/<baseSite>/<endpoint>` (path mode). When `false` or omitted,
-   * the route matches `/<endpoint>` and the base site is resolved from OCC by the
-   * request origin (domain mode).
-   */
-  withBaseSiteInPath?: boolean;
+export interface SetBaseSiteHandlerOptions {
+  /** Route passed directly to Express registration. */
+  route: BaseSiteRouteMatcher;
+  /** Selects path-segment or OCC-backed domain resolution. */
+  resolveMode: 'path' | 'domain';
   /** Application handler invoked once the base site has been resolved. */
-  handler: BaseSiteHandler;
+  handler: BaseSiteAwareHandler;
   /** Retry delays returned for recoverable resolver failures. */
   retryAfterSeconds?: {
     /** Delay for cold-cache load shedding. Default: `3`. */
@@ -52,95 +51,71 @@ export interface BaseSiteHandlerOptions {
   };
 }
 
-/** Escapes regex metacharacters so `endpoint` is matched as a literal string. */
-function escapeRegExp(value: string): string {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-
 /**
- * Builds an Express middleware that resolves the base site for requests to a
- * configured `endpoint` and exposes it to `handler` as `request.baseSite`.
+ * Builds an Express router that resolves the base site on the configured route
+ * and passes it to the application handler without mutating the request.
  *
- * The process-wide resolver (see `configureBaseSiteResolver`) is read once at
- * registration. In domain mode (`withBaseSiteInPath` false/omitted) a resolver
- * that cannot resolve via OCC is a configuration error, so registration throws
- * immediately rather than failing on every matching request.
- *
- * Requests whose pathname does not match the endpoint are passed through with
- * `next()`. On a match the base site is resolved (synchronously from the path in
- * path mode, or from OCC in domain mode); recoverable resolver failures are
- * mapped to `503` with a `Retry-After` header, and any other error is forwarded
- * to Express via `next(error)`. A `null` base site still invokes the handler:
- * the application owns the response.
- *
- * The returned middleware must be mounted at the application root (e.g.
- * `server.use(...)` with no path prefix), because route matching reads
- * `request.path` while resolution reads the full request URL; under a sub-mount
- * the mount prefix would be stripped from `request.path` but remain in the full
- * URL, causing the leading base-site segment to be mis-read.
+ * Domain mode requires a resolver configured for OCC resolution. Recoverable
+ * resolver failures are mapped to `503` with `Retry-After`; all other errors
+ * are forwarded to Express. A `null` base site still invokes the handler so
+ * the application can decide how to respond.
  */
 export function setBaseSiteHandler(
-  options: BaseSiteHandlerOptions
+  resolver: BaseSiteResolver,
+  options: SetBaseSiteHandlerOptions
 ): RequestHandler {
-  const {
-    endpoint,
-    withBaseSiteInPath = false,
-    handler,
-    retryAfterSeconds,
-  } = options;
-  const resolver = getConfiguredBaseSiteResolver();
+  const { route, resolveMode, handler, retryAfterSeconds } = options;
 
-  if (!withBaseSiteInPath && !resolver.supportsOccResolution) {
+  if (resolveMode === 'domain' && !resolver.supportsOccResolution) {
     throw new Error(
-      'setBaseSiteHandler domain mode (withBaseSiteInPath: false) requires a resolver that supports OCC resolution. Configure the resolver with an occBaseUrl, or use withBaseSiteInPath: true.'
+      'setBaseSiteHandler domain mode requires a resolver that supports OCC resolution. Configure the resolver with an occBaseUrl, or use resolveMode: path.'
     );
   }
 
-  const escapedEndpoint = escapeRegExp(endpoint);
-  const matcher = withBaseSiteInPath
-    ? new RegExp(`^/[^/]+/${escapedEndpoint}$`)
-    : new RegExp(`^/${escapedEndpoint}$`);
-
-  return async (request, response, next) => {
-    if (!matcher.test(request.path)) {
-      next();
-      return;
-    }
-
-    const requestUrl = getRequestUrl(request);
+  const resolveBaseSite = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    const requestUrl = getRequestUrl(req);
 
     let baseSite: string | null;
     try {
-      baseSite = withBaseSiteInPath
-        ? resolver.resolveFromPath(requestUrl)
-        : await resolver.resolveFromOcc(requestUrl);
+      baseSite =
+        resolveMode === 'path'
+          ? resolver.resolveFromPath(requestUrl)
+          : await resolver.resolveFromOcc(requestUrl);
     } catch (error) {
       if (error instanceof ConcurrencyLimitError) {
-        response.setHeader(
+        res.setHeader(
           'Retry-After',
           String(retryAfterSeconds?.concurrencyLimit ?? 3)
         );
-        response.status(503).send('Service Unavailable');
+        res.status(503).send('Service Unavailable');
         return;
       }
       if (error instanceof OccUnavailableError) {
-        response.setHeader(
+        res.setHeader(
           'Retry-After',
           String(retryAfterSeconds?.occUnavailable ?? 25)
         );
-        response.status(503).send('Service Unavailable');
+        res.status(503).send('Service Unavailable');
         return;
       }
       next(error);
       return;
     }
 
-    const baseSiteRequest = request as BaseSiteRequest;
-    baseSiteRequest.baseSite = baseSite;
     try {
-      await handler(baseSiteRequest, response, next);
+      await handler({ req, res, next, baseSite });
     } catch (error) {
       next(error);
     }
   };
+
+  const router = Router();
+  router.all(route, (req, res, next) => {
+    void resolveBaseSite(req, res, next).catch(next);
+  });
+  return router;
 }

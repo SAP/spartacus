@@ -11,6 +11,9 @@ import {
   platformServerTesting,
   ServerTestingModule,
 } from '@angular/platform-server/testing';
+import { TextDecoder } from 'node:util';
+
+Object.assign(globalThis, { TextDecoder });
 
 getTestBed().initTestEnvironment(
   ServerTestingModule,

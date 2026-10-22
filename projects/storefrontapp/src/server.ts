@@ -6,22 +6,19 @@
 
 import { APP_BASE_HREF } from '@angular/common';
 import {
+  DefaultBaseSiteResolver,
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
   defaultExpressErrorHandlers,
   defaultSsrOptimizationOptions,
-  ngExpressEngine as engine,
   getOriginValidationMiddleware,
-} from '@spartacus/setup/ssr';
-import {
-  configureBaseSiteResolver,
+  ngExpressEngine as engine,
   setBaseSiteHandler,
-} from '@spartacus/setup/ssr/base-site';
+} from '@spartacus/setup/ssr';
 import express from 'express';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'path';
-import { createStorefrontBaseSiteConfig } from './base-site-resolver';
 import { baseSite } from './app/spartacus/base-site.config';
 import bootstrap from './main.server';
 
@@ -35,21 +32,7 @@ const ssrOptions: SsrOptimizationOptions = {
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
-
-configureBaseSiteResolver(
-  createStorefrontBaseSiteConfig({
-    baseSites: baseSite,
-    indexHtmlPaths: [
-      join(browserDistFolder, 'index.csr.html'),
-      join(browserDistFolder, 'index.html'),
-    ],
-    readFile: (path) => readFileSync(path, 'utf-8'),
-    warn: (message) => {
-      // eslint-disable-next-line no-console
-      console.warn(message);
-    },
-  })
-);
+const baseSiteResolver = new DefaultBaseSiteResolver({ baseSites: baseSite });
 
 /** Renders a per-site llms.txt body; a `null` base site yields a general document. */
 function renderLlmsTxt(uid: string | null): string {
@@ -90,11 +73,11 @@ export function app(): express.Express {
   // Serves a per-site llms.txt. Registered before the static handler because
   // `llms.txt` carries a dot and would otherwise be caught by the static route.
   server.use(
-    setBaseSiteHandler({
-      endpoint: 'llms.txt',
-      withBaseSiteInPath: true,
-      handler: (req, res) => {
-        res.type('text/plain').send(renderLlmsTxt(req.baseSite));
+    setBaseSiteHandler(baseSiteResolver, {
+      route: '/:baseSite/llms.txt',
+      resolveMode: 'path',
+      handler: ({ res, baseSite }) => {
+        res.type('text/plain').send(renderLlmsTxt(baseSite));
       },
     })
   );

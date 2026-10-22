@@ -6,26 +6,40 @@
 
 const OCC_BASE_URL_META_TAG_NAME = 'occ-backend-base-url';
 const OCC_BASE_URL_PLACEHOLDER = 'OCC_BACKEND_BASE_URL_VALUE';
+const META_TAG_PATTERN = /<meta\b[^>]*>/gi;
+const META_TAG_ATTRIBUTE_PATTERN =
+  /\b(?<name>[^\s=/>]+)\s*=\s*(?<quote>["'])(?<value>.*?)\k<quote>/gi;
+
+type MetaTag = ReadonlyMap<string, string>;
 
 /** Extracts the configured OCC base URL from storefront index HTML. */
 export function extractOccBaseUrlFromHtml(html: string): string | null {
-  for (const tagMatch of html.matchAll(/<meta\b[^>]*>/gi)) {
-    const attributes = new Map<string, string>();
-    for (const attributeMatch of tagMatch[0].matchAll(
-      /\b([^\s=/>]+)\s*=\s*(["'])(.*?)\2/gi
-    )) {
-      attributes.set(attributeMatch[1].toLowerCase(), attributeMatch[3]);
-    }
+  const metaTagsByName = new Map(
+    extractMetaTags(html)
+      .flatMap((metaTag) => {
+        const name = metaTag.get('name')?.toLowerCase();
+        return name ? [[name, metaTag] as const] : [];
+      })
+      .reverse()
+  );
+  const value = metaTagsByName
+    .get(OCC_BASE_URL_META_TAG_NAME)
+    ?.get('content')
+    ?.trim();
 
-    if (
-      attributes.get('name')?.toLowerCase() !== OCC_BASE_URL_META_TAG_NAME
-    ) {
-      continue;
-    }
+  return value && value !== OCC_BASE_URL_PLACEHOLDER ? value : null;
+}
 
-    const value = attributes.get('content')?.trim();
-    return value && value !== OCC_BASE_URL_PLACEHOLDER ? value : null;
-  }
-
-  return null;
+function extractMetaTags(html: string): MetaTag[] {
+  return Array.from(html.matchAll(META_TAG_PATTERN), ([metaTag]) => {
+    return new Map(
+      Array.from(
+        metaTag.matchAll(META_TAG_ATTRIBUTE_PATTERN),
+        ({ groups }) => {
+          const { name, value } = groups as { name: string; value: string };
+          return [name.toLowerCase(), value] as const;
+        }
+      )
+    );
+  });
 }
