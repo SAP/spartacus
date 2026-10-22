@@ -10,7 +10,7 @@ import {
   ConcurrencyLimitError,
   OccUnavailableError,
 } from './base-site-resolver';
-import { BaseSiteRequest, getMultiSiteHandler } from './multi-site-handler';
+import { BaseSiteRequest, setBaseSiteHandler } from './base-site-handler';
 
 jest.mock('./base-site-resolver-registry', () => {
   const actual = jest.requireActual('./base-site-resolver-registry');
@@ -23,13 +23,14 @@ import {
   resetBaseSiteResolver,
 } from './base-site-resolver-registry';
 
-const mockGetResolver =
-  getConfiguredBaseSiteResolver as jest.MockedFunction<
-    typeof getConfiguredBaseSiteResolver
-  >;
+const mockGetResolver = getConfiguredBaseSiteResolver as jest.MockedFunction<
+  typeof getConfiguredBaseSiteResolver
+>;
 
 /** Installs a fake resolver as the configured singleton for the test. */
-function useResolver(overrides: Partial<BaseSiteResolver> = {}): BaseSiteResolver {
+function useResolver(
+  overrides: Partial<BaseSiteResolver> = {}
+): BaseSiteResolver {
   const resolver: BaseSiteResolver = {
     supportsOccResolution: true,
     resolveFromPath: jest.fn().mockReturnValue(null),
@@ -83,7 +84,7 @@ function createNext(): NextFunction {
   return jest.fn() as unknown as NextFunction;
 }
 
-describe('getMultiSiteHandler', () => {
+describe('setBaseSiteHandler', () => {
   afterEach(() => {
     resetBaseSiteResolver();
     mockGetResolver.mockReset();
@@ -96,7 +97,7 @@ describe('getMultiSiteHandler', () => {
         resolveFromPath: jest.fn().mockReturnValue('electronics-spa'),
       });
       const handler = jest.fn();
-      const middleware = getMultiSiteHandler({
+      const middleware = setBaseSiteHandler({
         endpoint: 'llms.txt',
         withBaseSiteInPath: true,
         handler,
@@ -120,7 +121,7 @@ describe('getMultiSiteHandler', () => {
     it('calls next() and skips the handler for an unrelated path', async () => {
       const resolver = useResolver({ supportsOccResolution: false });
       const handler = jest.fn();
-      const middleware = getMultiSiteHandler({
+      const middleware = setBaseSiteHandler({
         endpoint: 'llms.txt',
         withBaseSiteInPath: true,
         handler,
@@ -141,7 +142,7 @@ describe('getMultiSiteHandler', () => {
     it('calls next() when the endpoint has no leading site segment', async () => {
       useResolver({ supportsOccResolution: false });
       const handler = jest.fn();
-      const middleware = getMultiSiteHandler({
+      const middleware = setBaseSiteHandler({
         endpoint: 'llms.txt',
         withBaseSiteInPath: true,
         handler,
@@ -164,7 +165,7 @@ describe('getMultiSiteHandler', () => {
         resolveFromPath: jest.fn().mockReturnValue(null),
       });
       const handler = jest.fn();
-      const middleware = getMultiSiteHandler({
+      const middleware = setBaseSiteHandler({
         endpoint: 'llms.txt',
         withBaseSiteInPath: true,
         handler,
@@ -184,7 +185,7 @@ describe('getMultiSiteHandler', () => {
     it('treats the dot in the endpoint as a literal (does not match llmsXtxt)', async () => {
       const resolver = useResolver({ supportsOccResolution: false });
       const handler = jest.fn();
-      const middleware = getMultiSiteHandler({
+      const middleware = setBaseSiteHandler({
         endpoint: 'llms.txt',
         withBaseSiteInPath: true,
         handler,
@@ -213,7 +214,7 @@ describe('getMultiSiteHandler', () => {
         resolveFromOcc: jest.fn().mockResolvedValue('electronics-spa'),
       });
       const handler = jest.fn();
-      const middleware = getMultiSiteHandler({
+      const middleware = setBaseSiteHandler({
         endpoint: 'llms.txt',
         handler,
       });
@@ -235,7 +236,7 @@ describe('getMultiSiteHandler', () => {
       useResolver({ supportsOccResolution: false });
 
       expect(() =>
-        getMultiSiteHandler({ endpoint: 'llms.txt', handler: jest.fn() })
+        setBaseSiteHandler({ endpoint: 'llms.txt', handler: jest.fn() })
       ).toThrow();
     });
   });
@@ -249,7 +250,7 @@ describe('getMultiSiteHandler', () => {
       });
       const response = createResponse();
       const next = createNext();
-      const middleware = getMultiSiteHandler({
+      const middleware = setBaseSiteHandler({
         endpoint: 'llms.txt',
         handler: jest.fn(),
       });
@@ -268,7 +269,7 @@ describe('getMultiSiteHandler', () => {
       });
       const response = createResponse();
       const next = createNext();
-      const middleware = getMultiSiteHandler({
+      const middleware = setBaseSiteHandler({
         endpoint: 'llms.txt',
         handler: jest.fn(),
       });
@@ -288,7 +289,7 @@ describe('getMultiSiteHandler', () => {
           .mockRejectedValue(new ConcurrencyLimitError()),
       });
       const response = createResponse();
-      const middleware = getMultiSiteHandler({
+      const middleware = setBaseSiteHandler({
         endpoint: 'llms.txt',
         handler: jest.fn(),
         retryAfterSeconds: { concurrencyLimit: 7, occUnavailable: 40 },
@@ -307,7 +308,7 @@ describe('getMultiSiteHandler', () => {
         resolveFromPath: jest.fn().mockReturnValue('electronics-spa'),
       });
       const next = createNext();
-      const middleware = getMultiSiteHandler({
+      const middleware = setBaseSiteHandler({
         endpoint: 'llms.txt',
         withBaseSiteInPath: true,
         handler: () => {
@@ -333,7 +334,7 @@ describe('getMultiSiteHandler', () => {
         resolveFromOcc: jest.fn().mockRejectedValue(error),
       });
       const next = createNext();
-      const middleware = getMultiSiteHandler({
+      const middleware = setBaseSiteHandler({
         endpoint: 'llms.txt',
         handler: jest.fn(),
       });

@@ -15,7 +15,7 @@ import {
 } from '@spartacus/setup/ssr';
 import {
   configureBaseSiteResolver,
-  getMultiSiteHandler,
+  setBaseSiteHandler,
 } from '@spartacus/setup/ssr/base-site';
 import express from 'express';
 import { readFileSync } from 'node:fs';
@@ -90,7 +90,7 @@ export function app(): express.Express {
   // Serves a per-site llms.txt. Registered before the static handler because
   // `llms.txt` carries a dot and would otherwise be caught by the static route.
   server.use(
-    getMultiSiteHandler({
+    setBaseSiteHandler({
       endpoint: 'llms.txt',
       withBaseSiteInPath: true,
       handler: (req, res) => {
