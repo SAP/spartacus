@@ -134,6 +134,10 @@ export class CpqConfiguratorNormalizer
   /**
    * Verifies whether the CPQ configuration carries issues at root level.
    *
+   * Typed root messages count only when severity is {@link Cpq.MessageSeverity.WARNING},
+   * matching {@link hasErrorMessages} for converted nested groups (INFO maps to a
+   * non-blocking storefront warning).
+   *
    * @param source - CPQ configuration
    * @returns `true` when root-level messages are present
    * @protected
@@ -141,7 +145,11 @@ export class CpqConfiguratorNormalizer
   protected hasRootLevelIssues(source: Cpq.Configuration): boolean {
     return (
       this.hasAnyRootLevelMessageList(source) ||
-      (source.messages?.some((message) => !!message.message) ?? false)
+      (source.messages?.some(
+        (message) =>
+          !!message.message && message.severity === Cpq.MessageSeverity.WARNING
+      ) ??
+        false)
     );
   }
 

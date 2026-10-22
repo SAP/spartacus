@@ -572,10 +572,10 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       ],
     };
 
-    it('should count root-level issues including typed messages', () => {
+    it('should count root-level issues including typed warning messages', () => {
       expect(
         cpqConfiguratorNormalizerUtilsService['countIssues'](rootConfiguration)
-      ).toBe(8);
+      ).toBe(7);
     });
 
     it('should count nested configuration issues from tab attributes marked incomplete', () => {
@@ -583,7 +583,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
         cpqConfiguratorNormalizerUtilsService['countIssues'](
           nestedConfiguration
         )
-      ).toBe(6);
+      ).toBe(5);
       expect(
         cpqConfiguratorNormalizerUtilsService['countIssues']({
           ...nestedConfiguration,
@@ -602,7 +602,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
             },
           ],
         })
-      ).toBe(9);
+      ).toBe(8);
     });
 
     it('should count issues in nested container configurations', () => {
@@ -621,7 +621,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
         cpqConfiguratorNormalizerUtilsService['countIssuesInContainers'](
           containers
         )
-      ).toBe(6);
+      ).toBe(5);
     });
 
     it('should count container-level warning messages', () => {
@@ -648,27 +648,27 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
         cpqConfiguratorNormalizerUtilsService['countIssuesInContainers'](
           containers
         )
-      ).toBe(7);
+      ).toBe(6);
     });
 
-    it('should count root typed messages and incomplete attributes when messages are present', () => {
+    it('should count root typed warning messages and incomplete attributes when messages are present', () => {
       expect(
         cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues(
           rootConfiguration
         )
-      ).toBe(4);
+      ).toBe(3);
     });
 
-    it('should count only typed messages when incomplete attributes are absent', () => {
+    it('should count only typed warning messages when incomplete attributes are absent', () => {
       expect(
         cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues({
           ...rootConfiguration,
           incompleteAttributes: undefined,
         })
-      ).toBe(2);
+      ).toBe(1);
     });
 
-    it('should ignore legacy root message arrays when typed messages are present', () => {
+    it('should ignore legacy root message arrays when typed warning messages are present', () => {
       expect(
         cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues({
           ...rootConfiguration,
@@ -677,7 +677,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
           failedValidations: [VALIDATION_MSG],
           incompleteMessages: [INCOMPLETE_MSG],
         })
-      ).toBe(4);
+      ).toBe(3);
     });
 
     it('should count all root message containers when messages are absent', () => {
@@ -692,7 +692,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       ).toBe(6);
     });
 
-    it('should still count all nested message containers when nested messages are present', () => {
+    it('should still count all nested message containers when nested warning messages are present', () => {
       expect(
         cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues({
           productSystemId: 'productSystemId',
@@ -709,7 +709,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
             },
           ],
         })
-      ).toBe(6);
+      ).toBe(5);
     });
 
     describe('productConfiguratorCPQContainer feature toggle', () => {
@@ -775,7 +775,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
               },
             ],
           })
-        ).toBe(4);
+        ).toBe(3);
       });
     });
 
@@ -812,7 +812,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
           ...rootConfiguration,
           sapContainers: containers,
         })
-      ).toBe(11);
+      ).toBe(9);
     });
 
     it('should return zero when no issues exist', () => {

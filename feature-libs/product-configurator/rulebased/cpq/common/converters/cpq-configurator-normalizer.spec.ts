@@ -1920,13 +1920,32 @@ describe('CpqConfiguratorNormalizer', () => {
       ).toBe(true);
     });
 
-    it('should return true when typed messages with text are present', () => {
+    it('should return true when typed warning messages with text are present', () => {
       expect(
         cpqConfiguratorNormalizer['hasRootLevelIssues']({
           ...cpqConfiguration,
-          messages: [{ message: 'Root typed message' }],
+          messages: [
+            {
+              message: 'Root typed message',
+              severity: Cpq.MessageSeverity.WARNING,
+            },
+          ],
         })
       ).toBe(true);
+    });
+
+    it('should return false when only typed info messages with text are present', () => {
+      expect(
+        cpqConfiguratorNormalizer['hasRootLevelIssues']({
+          ...cpqConfiguration,
+          messages: [
+            {
+              message: 'Root info message',
+              severity: Cpq.MessageSeverity.INFO,
+            },
+          ],
+        })
+      ).toBe(false);
     });
 
     it('should return false when only typed messages without text are present', () => {
@@ -3440,11 +3459,42 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(parentGroup.incompleteBecauseOfChild).toBe(false);
     });
 
+    it('should flag the first root tab as incompleteBecauseOfChild when only root-level info messages and a nested item are incomplete', () => {
+      const result = cpqConfiguratorNormalizer.convert({
+        ...configurationWithContainers([
+          {
+            stdAttrCode: cpqAttributeStdAttrCode,
+            rows: [
+              {
+                id: rowWithConfigId,
+                productSystemId: 'LENS_ZOOM',
+                selected: true,
+                configuration: {
+                  completed: true,
+                  tabs: [{ ...nestedTab, isIncomplete: true, attributes: [] }],
+                },
+              },
+            ],
+          },
+        ]),
+        messages: [
+          {
+            message: 'Root info only',
+            severity: Cpq.MessageSeverity.INFO,
+          },
+        ],
+      });
+
+      const parentGroup = result.groups[0];
+      expect(parentGroup.complete).toBe(false);
+      expect(parentGroup.incompleteBecauseOfChild).toBe(true);
+    });
+
     it('should include nested container-row issues in totalNumberOfIssues', () => {
       const result = cpqConfiguratorNormalizer.convert(
         configurationWithContainers([containerWithRows])
       );
-      expect(result.totalNumberOfIssues).toBe(6);
+      expect(result.totalNumberOfIssues).toBe(5);
     });
 
     it('should include incomplete nested-tab attributes in totalNumberOfIssues', () => {
@@ -3474,7 +3524,7 @@ describe('CpqConfiguratorNormalizer', () => {
       const result = cpqConfiguratorNormalizer.convert(
         configurationWithContainers([containerWithIncompleteNestedAttribute])
       );
-      expect(result.totalNumberOfIssues).toBe(7);
+      expect(result.totalNumberOfIssues).toBe(6);
     });
 
     it('should leave row-group messages undefined when the nested configuration has none', () => {
