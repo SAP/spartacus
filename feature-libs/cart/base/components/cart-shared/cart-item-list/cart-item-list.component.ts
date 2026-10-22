@@ -40,9 +40,14 @@ import {
   useFeatureStyles,
 } from '@spartacus/core';
 import { OutletContextData, OutletDirective } from '@spartacus/storefront';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { merge, Observable, Subject, Subscription } from 'rxjs';
 import { map, startWith, switchMap, tap } from 'rxjs/operators';
 import { CartItemListRowComponent } from '../cart-item-list-row/cart-item-list-row.component';
+
+/** Sentinel emitted by `getControl` when the form is enabled/disabled, so those
+ * emissions re-emit the control to OnPush children without being mistaken for a
+ * quantity value change (which would trigger `updateEntry`). */
+const FORM_ENABLEMENT_CHANGE = Symbol('formEnablementChange');
 
 interface ItemListContext {
   readonly?: boolean;
@@ -106,10 +111,14 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   set setLoading(value: boolean) {
     if (!this.readonly) {
       // Whenever the cart is loading, we disable the complete form
-      // to avoid any user interaction with the cart.
+      // to avoid any user interaction with the cart. `emitEvent: false` keeps
+      // the quantity `valueChanges` side-effect in `getControl` from firing a
+      // spurious `updateEntry`; OnPush children are notified of the
+      // enabled/disabled change through `formEnablementChange$` instead.
       value
         ? this.form.disable({ emitEvent: false })
         : this.form.enable({ emitEvent: false });
+      this.formEnablementChange$.next();
       this.cd.markForCheck();
     }
   }
@@ -120,6 +129,12 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   protected cartItemValidationService = inject(CartItemValidationService);
 
   protected revalidate$ = new Subject<void>();
+
+  /** Emits whenever the quantity form is enabled/disabled (e.g. while the cart
+   * loads). Used by `getControl` to re-emit the control so OnPush children
+   * re-read `quantityControl.disabled` without relying on the suppressed
+   * (`emitEvent: false`) form events. */
+  protected formEnablementChange$ = new Subject<void>();
 
   constructor(
     protected activeCartService: ActiveCartFacade,
@@ -317,6 +332,17 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Tracks cart items by their entry number so the OnPush `*ngFor` reliably
+   * creates/destroys rows when items move between the cart and Save For Later,
+   * instead of reusing row instances by index (which, with OnPush child rows,
+   * can leave stale rows rendered). Falls back to the object reference when no
+   * entry number is present.
+   */
+  trackByItem(_index: number, item: OrderEntry): number | string | OrderEntry {
+    return item?.entryNumber ?? item;
+  }
+
   protected getControlName(item: OrderEntry): string {
     return item.entryNumber?.toString() || '';
   }
@@ -337,11 +363,30 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   }
 
   getControl(item: OrderEntry): Observable<UntypedFormGroup> | undefined {
-    return this.form.get(this.getControlName(item))?.valueChanges.pipe(
+    const controlName = this.getControlName(item);
+    const control = this.form.get(controlName);
+    if (!control) {
+      return undefined;
+    }
+    // Re-emit the control on value changes AND on form enable/disable changes.
+    // Enablement emissions are tagged so the quantity update side-effect is
+    // skipped for them, while still re-emitting the control so OnPush children
+    // (e.g. the configurator "Edit" link / "Move to cart" button, which read
+    // `quantityControl.disabled`) re-evaluate when the control gets
+    // enabled/disabled during cart loading.
+    return merge(
+      control.valueChanges,
+      this.formEnablementChange$.pipe(map(() => FORM_ENABLEMENT_CHANGE))
+    ).pipe(
       // eslint-disable-next-line import/no-deprecated
       startWith(null),
       tap((value) => {
-        if (item.updateable && value && !this.readonly) {
+        if (
+          value !== FORM_ENABLEMENT_CHANGE &&
+          item.updateable &&
+          value &&
+          !this.readonly
+        ) {
           if (this.options.isSaveForLater) {
             this.selectiveCartService.updateEntry(
               value.entryNumber,
@@ -363,7 +408,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
           this.revalidateCart();
         }
       }),
-      map(() => <UntypedFormGroup>this.form.get(this.getControlName(item)))
+      map(() => <UntypedFormGroup>this.form.get(controlName))
     );
   }
 

@@ -40,7 +40,9 @@
     </tr>
   </thead>
   <tbody class="cx-item-list-items">
-    <ng-container *ngFor="let item of items; let i = index">
+    <ng-container
+      *ngFor="let item of items; let i = index; trackBy: trackByItem"
+    >
       <ng-container
         *ngIf="getControl(item) | async as control"
         [class.is-changed]="control.get('quantity').disabled"
@@ -53,6 +55,7 @@
           [items]="items"
           [item]="item"
           [quantityControl]="control.get('quantity')"
+          [quantityDisabled]="control.get('quantity').disabled"
           [readonly]="readonly"
           [promotionLocation]="promotionLocation"
           [options]="getOptions(item)"

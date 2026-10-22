@@ -39,7 +39,9 @@
         [cartEntry]="orderEntry"
         [readOnly]="(readonly$ | async) ?? false"
         [msgBanner]="false"
-        [disabled]="quantityControl.disabled"
+        [disabled]="
+          (quantityControlDisabled$ | async) ?? quantityControl.disabled
+        "
     /></ng-container>
   </ng-container>
 </ng-container>

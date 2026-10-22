@@ -5,17 +5,19 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, Optional } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { TranslatePipe } from '@spartacus/core';
-import { EMPTY, Observable } from 'rxjs';
+import { combineLatest, EMPTY, Observable } from 'rxjs';
+import { map, startWith, switchMap } from 'rxjs/operators';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-cart-entry.component';
 
 @Component({
   selector: 'cx-configurator-cart-entry-info',
   templateUrl: './configurator-cart-entry-info.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, NgFor, ConfigureCartEntryComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorCartEntryInfoComponent {
@@ -29,6 +31,26 @@ export class ConfiguratorCartEntryInfoComponent {
 
   readonly quantityControl$: Observable<UntypedFormControl> =
     this.cartItemContext?.quantityControl$ ?? EMPTY;
+
+  /**
+   * Disabled state of the quantity control, tracked reactively. The control is
+   * enabled/disabled imperatively while the cart loads (on the same instance,
+   * with control events suppressed). Re-reading `disabled` on the control's
+   * `statusChanges` AND whenever the cart entry (`orderEntry$`) re-emits lets
+   * this OnPush component pick up the final enabled state instead of the
+   * transient disabled one captured when the link first renders.
+   */
+  readonly quantityControlDisabled$: Observable<boolean> = combineLatest([
+    this.quantityControl$,
+    this.orderEntry$.pipe(startWith(null)),
+  ]).pipe(
+    switchMap(([quantityControl]) =>
+      quantityControl.statusChanges.pipe(
+        startWith(quantityControl.status),
+        map(() => quantityControl.disabled)
+      )
+    )
+  );
 
   readonly readonly$: Observable<boolean> =
     this.cartItemContext?.readonly$ ?? EMPTY;
