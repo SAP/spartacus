@@ -100,6 +100,9 @@ describe('LazyComponentHandler', () => {
       expect(mockRemoveTask).toHaveBeenCalled();
     });
 
+    // `.subscribe()` is intentional: the inner Promise is never resolved, so
+    // the observable never emits. `firstValueFrom`/`lastValueFrom` would hang
+    // indefinitely waiting for a value.
     it('should remove the pending task on unsubscribe', () => {
       let resolveImport!: (v: any) => void;
       const mapping = () =>
