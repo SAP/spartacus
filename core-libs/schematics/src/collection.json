@@ -49,6 +49,12 @@
     "modernize-app-to-standalone-bootstrap-application": {
       "description": "Modernize Angular application to use standalone bootstrapApplication API",
       "factory": "./modernize-app-to-standalone-bootstrap-application/index#migrate"
+    },
+    "add-runtime-config": {
+      "description": "Enable runtime configuration via /config.json for SAP Hosting Portal deployments.",
+      "factory": "./add-runtime-config/index#addRuntimeConfig",
+      "schema": "./add-spartacus/schema.json",
+      "aliases": ["runtime-config"]
     }
   }
 }

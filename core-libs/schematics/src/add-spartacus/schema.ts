@@ -22,6 +22,7 @@ export interface Schema extends LibraryOptions {
   featureLevel?: string;
   overwriteAppComponent?: boolean;
   ssr?: boolean;
+  runtimeConfig?: boolean;
   theme?: string;
   aiTools?: AiTool[];
 }
