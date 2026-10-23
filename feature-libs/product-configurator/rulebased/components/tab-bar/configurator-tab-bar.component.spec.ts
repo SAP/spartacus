@@ -557,72 +557,27 @@ describe('ConfigTabBarComponent', () => {
       ).toHaveBeenCalledTimes(1);
     });
   });
-});
 
-describe('ghost animation', () => {
-  let fixture: ComponentFixture<ConfiguratorTabBarComponent>;
-  let htmlElem: HTMLElement;
+  describe('ghost animation', () => {
+    it('should render ghost placeholder while data is loading', () => {
+      configurationObs = NEVER;
+      fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
+      htmlElem = fixture.nativeElement;
+      fixture.detectChanges();
+      expect(htmlElem.querySelectorAll('.cx-ghost-tab-bar').length).toEqual(1);
+    });
 
-  beforeEach(async () => {
-    TestBed.resetTestingModule();
-    mockRouterState = structuredClone(mockRouterStateBase);
-    mockRouterState.state.params.displayOnly = false;
-    routerStateObservable = of(mockRouterState);
-    configurationObs = of(
-      ConfiguratorTestUtils.createConfiguration(
-        'a',
-        ConfiguratorModelUtils.createInitialOwner()
-      )
-    );
+    it('should keep ghost host class while data is loading', () => {
+      configurationObs = NEVER;
+      fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
+      htmlElem = fixture.nativeElement;
+      fixture.detectChanges();
+      expect(htmlElem.classList.contains('ghost')).toBe(true);
+    });
 
-    await TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        RouterModule,
-        ConfiguratorTabBarComponent,
-        MockUrlPipe,
-      ],
-      providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
-        },
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
-        },
-      ],
-    }).compileComponents();
-  });
-
-  it('should render ghost placeholder while data is loading', () => {
-    configurationObs = NEVER;
-    fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
-    htmlElem = fixture.nativeElement;
-    fixture.detectChanges();
-    expect(htmlElem.querySelectorAll('.cx-ghost-tab-bar').length).toEqual(1);
-  });
-
-  it('should keep ghost host class while data is loading', () => {
-    configurationObs = NEVER;
-    fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
-    htmlElem = fixture.nativeElement;
-    fixture.detectChanges();
-    expect(htmlElem.classList.contains('ghost')).toBe(true);
-  });
-
-  it('should remove ghost host class once data is available', () => {
-    fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
-    htmlElem = fixture.nativeElement;
-    fixture.detectChanges();
-    expect(htmlElem.classList.contains('ghost')).toBe(false);
+    it('should remove ghost host class once data is available', () => {
+      fixture.detectChanges();
+      expect(htmlElem.classList.contains('ghost')).toBe(false);
+    });
   });
 });
