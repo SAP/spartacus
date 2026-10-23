@@ -3,6 +3,32 @@
 This section is for Spartacus developers and anybody else who works with Spartacus source code.
 To see the documentation on how to use schematics from a customers perspective, see: [https://sap.github.io/spartacus-docs/schematics](https://sap.github.io/spartacus-docs/schematics)
 
+## Adding a base-site-aware Express route
+
+For an application already configured with Spartacus Express SSR, run:
+
+```bash
+ng generate @spartacus/schematics:add-base-site-aware-route --project=my-app
+```
+
+The project option can be omitted when the workspace contains exactly one application.
+The schematic checks the selected application's SSR configuration and server entry before changing any files.
+Without configured SSR, it reports an error; it does not install or enable SSR.
+
+The schematic imports `createBaseSiteAwareRoute`, reuses the existing index HTML content,
+and registers an inline `/example.txt` handler before static-file or SSR catch-all handlers that can match it, preserving existing protective middleware.
+The response is plain text: `Current baseSite: <resolved uid>`.
+
+The generated configuration includes two commented options:
+
+- `baseSites`: copy the application's configuration for static sites; remove this option for sites loaded dynamically from OCC.
+- `occBaseUrl`: supply a local fallback address when it is not configured in the HTML. The resolver always prefers the HTML address, even when a fallback is supplied.
+
+Review the example and uncomment the options appropriate for the application.
+The command is opt-in, is not invoked by `add-ssr` or migrations, and does not duplicate its example when run again.
+It reports conflicting names or an existing unrelated `/example.txt` route rather than replacing customer code.
+If no insertion point preserves middleware ordering, the command reports an error without modifying the server.
+
 ## Prerequisites
 
 Install angular schematics globally: `npm install -g @angular-devkit/schematics-cli`.

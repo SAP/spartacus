@@ -184,47 +184,56 @@ interface ApplicationBuilderWorkspaceArchitect {
   };
 }
 
+export const SUPPORTED_APPLICATION_BUILDERS = [
+  '@angular-devkit/build-angular:application',
+  '@angular/build:application',
+];
+
 /**
  * Checks if Server-Side Rendering (SSR) is configured and used with the new Angular application builder.
  *
  * @param tree - The file tree to check for SSR configuration
  * @returns true if SSR is configured and the server file exists, false otherwise
  */
-export function isSsrUsed(tree: Tree): boolean {
-  const projectName = getDefaultProjectNameFromWorkspace(tree);
+export function isSsrUsed(
+  tree: Tree,
+  projectName = getDefaultProjectNameFromWorkspace(tree)
+): boolean {
   const { workspace: angularJson } = getWorkspace(tree);
-  const architect = angularJson.projects[projectName]
-    .architect as ApplicationBuilderWorkspaceArchitect;
+  const architect = angularJson.projects[projectName]?.architect as
+    | ApplicationBuilderWorkspaceArchitect
+    | undefined;
   const builderType = architect?.build?.builder;
   const buildOptions = architect?.build?.options;
 
   if (
     typeof builderType !== 'string' ||
-    ![
-      // legacy builder used for Angular <19 projects
-      '@angular-devkit/build-angular:application',
-
-      // new builder applied in apps by Angular 21 migration schematics (and in fresh apps)
-      '@angular/build:application',
-    ].includes(builderType)
+    !SUPPORTED_APPLICATION_BUILDERS.includes(builderType)
   ) {
     return false;
   }
 
   // Check if SSR is configured in build options
-  const hasSSRConfig = buildOptions?.server && buildOptions?.ssr?.entry;
+  const hasSSRConfig =
+    typeof buildOptions?.server === 'string' &&
+    buildOptions.server.trim().length > 0 &&
+    typeof buildOptions.ssr?.entry === 'string' &&
+    buildOptions.ssr.entry.trim().length > 0;
   if (!hasSSRConfig) {
     return false;
   }
 
-  const serverFileLocation = getServerTsPathForApplicationBuilder(tree);
+  const serverFileLocation = getServerTsPathForApplicationBuilder(
+    tree,
+    projectName
+  );
   if (!serverFileLocation) {
     return false;
   }
 
   const serverBuffer = tree.read(serverFileLocation);
   const serverFileBuffer = serverBuffer?.toString(UTF_8);
-  return Boolean(serverFileBuffer?.length);
+  return Boolean(serverFileBuffer?.trim().length);
 }
 
 /**
@@ -235,17 +244,19 @@ export function isSsrUsed(tree: Tree): boolean {
  * @returns The normalized path to the server.ts file if found, null otherwise
  */
 export function getServerTsPathForApplicationBuilder(
-  tree: Tree
+  tree: Tree,
+  projectName = getDefaultProjectNameFromWorkspace(tree)
 ): string | null {
-  const projectName = getDefaultProjectNameFromWorkspace(tree);
   const { workspace: angularJson } = getWorkspace(tree);
-  const architect = angularJson.projects[projectName]
-    .architect as ApplicationBuilderWorkspaceArchitect;
+  const architect = angularJson.projects[projectName]?.architect as
+    | ApplicationBuilderWorkspaceArchitect
+    | undefined;
   const buildOptions = architect?.build?.options;
 
   // Get server file path from SSR configuration
-  if (buildOptions?.ssr?.entry) {
-    const configuredPath = normalize(buildOptions.ssr.entry);
+  const entry = buildOptions?.ssr?.entry;
+  if (typeof entry === 'string' && entry.trim().length > 0) {
+    const configuredPath = normalize(entry);
     if (tree.exists(configuredPath)) {
       return configuredPath;
     }
