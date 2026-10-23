@@ -295,7 +295,7 @@
     "webpack-cli": "^7.0.0"
   },
   "overrides": {
-    "@modelcontextprotocol/sdk": "1.31.0",
+    "@modelcontextprotocol/sdk": "1.32.0",
     "@verdaccio/middleware": {
       "express-rate-limit": "5.5.1"
     },
@@ -320,7 +320,7 @@
     "immutable@^5": "5.1.8",
     "js-yaml@^4": "4.3.2",
     "jsdom": {
-      "undici": "8.11.2"
+      "undici": "8.12.3"
     },
     "karma": {
       "minimatch": "3.1.5"
@@ -338,7 +338,7 @@
     "smol-toml": "1.9.0",
     "test-exclude": "8.0.0",
     "tmp": "0.2.7",
-    "undici": "8.11.2",
+    "undici": "8.12.3",
     "vite": "8.2.4",
     "ws@^8": "8.21.1"
   }
