@@ -142,5 +142,80 @@ describe('ConfiguratorShowMoreComponent', () => {
         'configurator.button.more'
       );
     });
+
+    it('should not set an aria-label on the button if no attribute label is provided', () => {
+      const button = htmlElem.querySelector('button') as HTMLButtonElement;
+      expect(button.hasAttribute('aria-label')).toBe(false);
+      expect(component.ariaLabelKey).toBeUndefined();
+    });
+
+    it('should set an aria-label with attribute context on the button', () => {
+      fixture.componentRef.setInput('attributeLabel', 'Color');
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        'button',
+        'aria-label',
+        'configurator.a11y.showMoreAttributeDescription attribute:Color item:undefined value:undefined'
+      );
+    });
+
+    it('should set an aria-label with value and attribute context on the button', () => {
+      fixture.componentRef.setInput('attributeLabel', 'Color');
+      fixture.componentRef.setInput('valueLabel', 'Red');
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        'button',
+        'aria-label',
+        'configurator.a11y.showMoreValueDescription attribute:Color item:undefined value:Red'
+      );
+    });
+
+    it('should set an aria-label with item and attribute context on the button', () => {
+      fixture.componentRef.setInput('attributeLabel', 'Camera Body');
+      fixture.componentRef.setInput('itemLabel', 'NIKON_D7500');
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        'button',
+        'aria-label',
+        'configurator.a11y.showMoreItemDescription attribute:Camera Body item:NIKON_D7500 value:undefined'
+      );
+    });
+
+    it('should switch the aria-label to show less after toggling', () => {
+      component.attributeLabel = 'Color';
+      component.valueLabel = 'Red';
+      component.toggleShowMore();
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        'button',
+        'aria-label',
+        'configurator.a11y.showLessValueDescription attribute:Color item:undefined value:Red'
+      );
+    });
+
+    it('should resolve the show less keys for attribute and item descriptions', () => {
+      component.attributeLabel = 'Color';
+      component.showHiddenText = true;
+      expect(component.ariaLabelKey).toBe(
+        'configurator.a11y.showLessAttributeDescription'
+      );
+
+      component.itemLabel = 'NIKON_D7500';
+      expect(component.ariaLabelKey).toBe(
+        'configurator.a11y.showLessItemDescription'
+      );
+    });
   });
 });

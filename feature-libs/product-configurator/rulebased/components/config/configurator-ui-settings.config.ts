@@ -18,6 +18,24 @@ export interface ProductConfiguratorUISettingsConfig {
     attributeDescriptionLength?: number;
     valueDescriptionLength?: number;
   };
+  /**
+   * Maximum number of available products shown as a list in a CPQ container.
+   * If the number of available products is larger than this value, they are
+   * shown as a searchable drop-down list.
+   */
+  cpqContainerDropDownListThreshold?: number;
+  /**
+   * CSS selectors of the configuration overview header page slots.
+   * The height of the matching header is subtracted from the viewport height when
+   * the overview menu calculates how much space it can occupy. Only the slot of the
+   * active configurator is rendered, so at most one selector matches.
+   */
+  overviewHeaderSelectors?: string[];
+  /**
+   * Maps commerce configurator type (route postfix) to whether the overview
+   * menu shows a Filter tab. The tab is visible only when the entry is `true`.
+   */
+  overviewMenuFilterTabVisible?: Record<string, boolean>;
 }
 
 @Injectable({

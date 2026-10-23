@@ -168,7 +168,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useValue: {},
         },
-        provideMockFeatureToggles({
+        ...provideMockFeatureToggles({
           productConfiguratorConsolidatedButtonDisabling: true,
         }),
       ],

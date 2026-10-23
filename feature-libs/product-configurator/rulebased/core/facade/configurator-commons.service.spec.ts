@@ -393,6 +393,92 @@ describe('ConfiguratorCommonsService', () => {
     ).toHaveBeenCalledWith(changedAttribute, productConfiguration, updateType);
   });
 
+  it('should add a container row, accessing the store', () => {
+    cart.code = 'X';
+    cartObs = of(cart);
+    vi.spyOn(store, 'pipe').mockReturnValueOnce(of(productConfiguration));
+
+    serviceUnderTest.addContainerRow(OWNER_PRODUCT.key, 598, PRODUCT_CODE, '3');
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorActions.AddContainerRow({
+        configId: productConfiguration.configId,
+        owner: productConfiguration.owner,
+        stdAttrCode: 598,
+        productSystemId: PRODUCT_CODE,
+        parentRowId: '3',
+      })
+    );
+  });
+
+  it('should do nothing on addContainerRow in case cart updates are pending', () => {
+    isStableObservable = of(false);
+    cart.code = 'X';
+    cartObs = of(cart);
+
+    serviceUnderTest.addContainerRow(OWNER_PRODUCT.key, 598, PRODUCT_CODE);
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(
+      expect.any(ConfiguratorActions.AddContainerRow)
+    );
+  });
+
+  it('should remove a container row, accessing the store', () => {
+    cart.code = 'X';
+    cartObs = of(cart);
+    vi.spyOn(store, 'pipe').mockReturnValueOnce(of(productConfiguration));
+
+    serviceUnderTest.removeContainerRow(OWNER_PRODUCT.key, '3');
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorActions.RemoveContainerRow({
+        configId: productConfiguration.configId,
+        owner: productConfiguration.owner,
+        rowId: '3',
+      })
+    );
+  });
+
+  it('should do nothing on removeContainerRow in case cart updates are pending', () => {
+    isStableObservable = of(false);
+    cart.code = 'X';
+    cartObs = of(cart);
+
+    serviceUnderTest.removeContainerRow(OWNER_PRODUCT.key, '3');
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(
+      expect.any(ConfiguratorActions.RemoveContainerRow)
+    );
+  });
+
+  it('should copy a container row, accessing the store', () => {
+    cart.code = 'X';
+    cartObs = of(cart);
+    vi.spyOn(store, 'pipe').mockReturnValueOnce(of(productConfiguration));
+
+    serviceUnderTest.copyContainerRow(OWNER_PRODUCT.key, '3');
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorActions.CopyContainerRow({
+        configId: productConfiguration.configId,
+        owner: productConfiguration.owner,
+        rowId: '3',
+      })
+    );
+  });
+
+  it('should do nothing on copyContainerRow in case cart updates are pending', () => {
+    isStableObservable = of(false);
+    cart.code = 'X';
+    cartObs = of(cart);
+
+    serviceUnderTest.copyContainerRow(OWNER_PRODUCT.key, '3');
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(
+      expect.any(ConfiguratorActions.CopyContainerRow)
+    );
+  });
+
   describe('getConfigurationWithOverview', () => {
     configurationWithOverview = {
       ...ConfiguratorTestUtils.createConfiguration(
@@ -417,22 +503,76 @@ describe('ConfiguratorCommonsService', () => {
         value: configurationWithOverview,
       };
 
+    function mockLoaderStates(
+      ...loaderStates: StateUtils.LoaderState<Configurator.Configuration>[]
+    ) {
+      vi.spyOn(store, 'pipe').mockImplementationOnce((...operators: any[]) => {
+        // Apply all operators except select (index 0)
+        return (of(...loaderStates).pipe as any)(...operators.slice(1));
+      });
+    }
+
     it('should read OV by triggering respective action if that is not present', async () => {
       expect(productConfiguration.overview).toBeUndefined();
-      vi.spyOn(store, 'pipe').mockReturnValueOnce(
-        of(
-          productConfigurationLoaderState,
-          productConfigurationLoaderStateLoading,
-          productConfigurationLoaderStateWithOv
-        )
+      mockLoaderStates(
+        productConfigurationLoaderState,
+        productConfigurationLoaderStateLoading,
+        productConfigurationLoaderStateWithOv
       );
 
       await firstValueFrom(
         serviceUnderTest.getConfigurationWithOverview(productConfiguration)
       );
       expect(store.dispatch).toHaveBeenCalledWith(
-        new ConfiguratorActions.GetConfigurationOverview(productConfiguration)
+        new ConfiguratorActions.GetConfigurationOverview(
+          productConfigurationLoaderState.value as Configurator.Configuration
+        )
       );
+    });
+
+    it('should read OV for the configuration from the store, not for the one passed in', () => {
+      const configurationInStore: Configurator.Configuration = {
+        ...ConfiguratorTestUtils.createConfiguration(
+          'newConfigId',
+          productConfiguration.owner
+        ),
+      };
+      mockLoaderStates({ loading: false, value: configurationInStore });
+
+      serviceUnderTest
+        .getConfigurationWithOverview(productConfiguration)
+        .subscribe()
+        .unsubscribe();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.GetConfigurationOverview(configurationInStore)
+      );
+    });
+
+    it('should not read OV again in case the configuration is in error state', () => {
+      mockLoaderStates({
+        loading: false,
+        error: true,
+        value: productConfiguration,
+      });
+
+      serviceUnderTest
+        .getConfigurationWithOverview(productConfiguration)
+        .subscribe()
+        .unsubscribe();
+
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
+    });
+
+    it('should not read OV as long as loader state is `loading`', () => {
+      mockLoaderStates(productConfigurationLoaderStateLoading);
+
+      serviceUnderTest
+        .getConfigurationWithOverview(productConfiguration)
+        .subscribe()
+        .unsubscribe();
+
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
     describe('through filterNotLoadingAndCreatedConfiguration', () => {
       it('should not emit as long as loader state is `loading`', () => {
@@ -450,9 +590,7 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should not dispatch an action if overview is already present', async () => {
-      vi.spyOn(store, 'pipe').mockReturnValueOnce(
-        of(productConfigurationLoaderStateWithOv)
-      );
+      mockLoaderStates(productConfigurationLoaderStateWithOv);
 
       await firstValueFrom(
         serviceUnderTest.getConfigurationWithOverview(productConfiguration)
@@ -461,9 +599,7 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should return configuration with OV if that is already present in store', async () => {
-      vi.spyOn(store, 'pipe').mockReturnValueOnce(
-        of(productConfigurationLoaderStateWithOv)
-      );
+      mockLoaderStates(productConfigurationLoaderStateWithOv);
       const configuration = await firstValueFrom(
         serviceUnderTest.getConfigurationWithOverview(productConfiguration)
       );

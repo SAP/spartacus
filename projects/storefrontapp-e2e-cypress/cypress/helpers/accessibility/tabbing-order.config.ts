@@ -250,6 +250,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
       value: 'Menu',
       type: TabbingOrderTypes.LINK,
     },

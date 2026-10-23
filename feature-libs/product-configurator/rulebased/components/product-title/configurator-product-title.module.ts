@@ -12,6 +12,7 @@ import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { IconModule, MediaModule } from '@spartacus/storefront';
 import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
 import { ConfiguratorMainAriaLabelledByDirective } from './configurator-product-title.directive';
+import { ConfiguratorTruncatePathTitleDirective } from './configurator-truncate-path-title.directive';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { ConfiguratorMainAriaLabelledByDirective } from './configurator-product-
     IconModule,
     MediaModule,
     ConfiguratorMainAriaLabelledByDirective,
+    ConfiguratorTruncatePathTitleDirective,
     ConfiguratorProductTitleComponent,
   ],
   providers: [

@@ -29,9 +29,13 @@ import {
   ItemCounterComponent,
   KeyboardFocusService,
 } from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { firstValueFrom, Observable, of } from 'rxjs';
-import { delay, take } from 'rxjs/operators';
+import { delay } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -500,6 +504,9 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
           useClass: MockMultiCartFacade,
         },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
+        ...provideMockFeatureToggles({
+          productConfiguratorCPQContainer: false,
+        }),
       ],
     })
       .overrideComponent(ConfiguratorAddToCartButtonComponent, {
@@ -692,6 +699,20 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
       mockProductConfiguration.isCartEntryUpdateRequired = true;
       performUpdateCart();
       expect(globalMessageService.add).toHaveBeenCalledTimes(1);
+    });
+
+    it('should update the cart entry but not remove the configuration in case done is triggered on config page with pending changes', () => {
+      //removal happens after the cart entry update succeeded, see ConfiguratorCartEffects
+      vi.spyOn(configuratorCartService, 'updateCartEntry');
+      mockProductConfiguration.isCartEntryUpdateRequired = true;
+      mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
+      performUpdateCart();
+      expect(configuratorCartService.updateCartEntry).toHaveBeenCalledWith(
+        mockProductConfiguration
+      );
+      expect(
+        configuratorCommonsService.removeConfiguration
+      ).toHaveBeenCalledTimes(0);
     });
 
     it('should display updateCart message if configuration has already been added', () => {
@@ -1084,6 +1105,77 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
 
       expect(component.getButtonResourceKey(routerData, config)).toBe(
         'configurator.addToCart.button'
+      );
+    });
+  });
+
+  describe('getDisplayOnlyButtonResourceKey', () => {
+    let featureToggles: MockFeatureTogglesController;
+
+    function createRouterData(
+      ownerType: CommonConfigurator.OwnerType,
+      isBundleOverview = false
+    ): ConfiguratorRouter.Data {
+      return {
+        pageType: ConfiguratorRouter.PageType.OVERVIEW,
+        displayOnly: true,
+        owner: { ...mockOwner, type: ownerType },
+        isBundleOverview,
+      };
+    }
+
+    beforeEach(() => {
+      featureToggles = TestBed.inject(MockFeatureTogglesController);
+    });
+
+    it('should return `configurator.addToCart.buttonBackToCart` for a cart entry', () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+      expect(
+        component.getDisplayOnlyButtonResourceKey(
+          createRouterData(CommonConfigurator.OwnerType.CART_ENTRY, true)
+        )
+      ).toBe('configurator.addToCart.buttonBackToCart');
+    });
+
+    it('should return `configurator.addToCart.buttonClose` for an order entry', () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+      expect(
+        component.getDisplayOnlyButtonResourceKey(
+          createRouterData(CommonConfigurator.OwnerType.ORDER_ENTRY, true)
+        )
+      ).toBe('configurator.addToCart.buttonClose');
+    });
+
+    it('should return `configurator.addToCart.buttonClose` for a regular cart entry overview', () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+      expect(
+        component.getDisplayOnlyButtonResourceKey(
+          createRouterData(CommonConfigurator.OwnerType.CART_ENTRY)
+        )
+      ).toBe('configurator.addToCart.buttonClose');
+    });
+
+    it('should return `configurator.addToCart.buttonClose` for a cart entry if the feature toggle is not active', () => {
+      featureToggles.set('productConfiguratorCPQContainer', false);
+      expect(
+        component.getDisplayOnlyButtonResourceKey(
+          createRouterData(CommonConfigurator.OwnerType.CART_ENTRY, true)
+        )
+      ).toBe('configurator.addToCart.buttonClose');
+    });
+
+    it('should render `Back to Cart` on the display only button of a cart entry', () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+      setRouterTestDataReadOnlyCart();
+      mockRouterData.isBundleOverview = true;
+      initialize();
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'button.btn-secondary.cx-display-only-btn',
+        'configurator.addToCart.buttonBackToCart'
       );
     });
   });

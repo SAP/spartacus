@@ -15,6 +15,7 @@ import {
 import { UntypedFormControl } from '@angular/forms';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -71,6 +72,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   protected multiCartFacade = inject(MultiCartFacade);
   protected focusService = inject(KeyboardFocusService);
   protected activeCartFacade = inject(ActiveCartFacade);
+  private featureToggles = inject(FeatureToggles);
   quantityControl = new UntypedFormControl(1);
   iconType = ICON_TYPE;
   addToCartButtonDisabled = false;
@@ -284,6 +286,22 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Decides on the resource key for the button that is rendered in display only mode.
+   * For a cart entry overview opened from the bundle information, the user returns
+   * to the cart, which is reflected in the button description.
+   *
+   * @param routerData - Reflects the current router state
+   * @returns - The resource key that controls the button description
+   */
+  getDisplayOnlyButtonResourceKey(routerData: ConfiguratorRouter.Data): string {
+    return this.featureToggles.productConfiguratorCPQContainer &&
+      routerData.owner.type === CommonConfigurator.OwnerType.CART_ENTRY &&
+      routerData.isBundleOverview
+      ? 'configurator.addToCart.buttonBackToCart'
+      : 'configurator.addToCart.buttonClose';
+  }
+
+  /**
    * Verifies whether it is a cart entry.
    *
    * @param {ConfiguratorRouter.Data} routerData - Reflects the current router state
@@ -433,11 +451,6 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
       configuration.isCartEntryUpdateRequired ?? false,
       productCode
     );
-    //Only remove if we are on configuration page, because on final cart navigation,
-    //the configuration will anyhow be removed
-    if (configuration.isCartEntryUpdateRequired && !isOverview) {
-      this.configuratorCommonsService.removeConfiguration(owner);
-    }
   }
 
   leaveConfigurationOverview(): void {

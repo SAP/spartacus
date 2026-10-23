@@ -1,0 +1,21 @@
+%cx-configurator-message {
+  display: contents;
+
+  // Applies the error message styling to any class ending with `-error-msg`
+  // e.g. .cx-error-msg, .cx-container-error-msg, .cx-attribute-error-msg
+  [class*='-error-msg'] {
+    @include cx-configurator-error-msg();
+  }
+
+  // Applies the warning message styling to any class ending with `-warning-msg`
+  // e.g. .cx-warning-msg, .cx-container-warning-msg, .cx-attribute-warning-msg
+  [class*='-warning-msg'] {
+    @include cx-configurator-warning-msg();
+  }
+
+  // Applies the info message styling to any class ending with `-info-msg`
+  // e.g. .cx-info-msg, .cx-container-info-msg, .cx-attribute-info-msg
+  [class*='-info-msg'] {
+    @include cx-configurator-info-msg();
+  }
+}

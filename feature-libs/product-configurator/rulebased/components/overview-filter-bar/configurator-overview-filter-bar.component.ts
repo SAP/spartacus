@@ -181,9 +181,8 @@ export class ConfiguratorOverviewFilterBarComponent {
    * @param elementId - The ID of the HTML element to focus.
    */
   protected focusElementById(elementId: string): void {
-    const element = this.configuratorStorefrontUtilsService.getElement(
-      '#' + elementId
-    );
+    const element =
+      this.configuratorStorefrontUtilsService.getElementById(elementId);
     if (element) {
       element.focus();
     }
