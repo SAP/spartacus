@@ -16,7 +16,7 @@ The schematic checks the selected application's SSR configuration and server ent
 Without configured SSR, it reports an error; it does not install or enable SSR.
 
 The schematic imports `createBaseSiteAwareRoute`, reuses the existing index HTML content,
-and registers an inline `/example.txt` handler before static files and SSR rendering.
+and registers an inline `/example.txt` handler before static-file or SSR catch-all handlers that can match it, preserving existing protective middleware.
 The response is plain text: `Current baseSite: <resolved uid>`.
 
 The generated configuration includes two commented options:
@@ -27,6 +27,7 @@ The generated configuration includes two commented options:
 Review the example and uncomment the options appropriate for the application.
 The command is opt-in, is not invoked by `add-ssr` or migrations, and does not duplicate its example when run again.
 It reports conflicting names or an existing unrelated `/example.txt` route rather than replacing customer code.
+If no insertion point preserves middleware ordering, the command reports an error without modifying the server.
 
 ## Prerequisites
 

@@ -235,20 +235,31 @@ function containsExample(call: CallExpression): boolean {
     );
 }
 
-function isTerminalRoute(call: CallExpression): boolean {
-  const nestedCalls = call.getDescendantsOfKind(SyntaxKind.CallExpression);
-  if (
-    nestedCalls.some((nested) => {
-      const expression = nested.getExpression();
-      return (
-        Node.isPropertyAccessExpression(expression) &&
-        expression.getName() === 'static' &&
-        isImportedValue(expression.getExpression(), 'express')
-      );
-    })
-  ) {
-    return true;
+function canMatchExample(route: Node | undefined): boolean {
+  if (route && Node.isStringLiteral(route)) {
+    const path = route.getLiteralValue().toLowerCase();
+    const dynamicStart = path.search(/[:*{}\\]/);
+    if (dynamicStart >= 0) {
+      return EXAMPLE_ROUTE.startsWith(path.slice(0, dynamicStart));
+    }
+    const prefix = path.replace(/\/+$/, '');
+    return (
+      prefix === '' ||
+      EXAMPLE_ROUTE === prefix ||
+      EXAMPLE_ROUTE.startsWith(`${prefix}/`)
+    );
   }
+  if (route && Node.isRegularExpressionLiteral(route)) {
+    return new RegExp(route.getLiteralValue()).test(EXAMPLE_ROUTE);
+  }
+  if (route && Node.isArrayLiteralExpression(route)) {
+    return route.getElements().some(canMatchExample);
+  }
+  // Dynamic matchers may consume the example, so do not assume they are scoped away.
+  return true;
+}
+
+function isRenderingCatchAll(call: CallExpression): boolean {
   const [route] = call.getArguments();
   const catchesAll =
     route &&
@@ -263,13 +274,28 @@ function isTerminalRoute(call: CallExpression): boolean {
 
   return Boolean(
     catchesAll &&
-      nestedCalls.some((nested) => {
+      call.getDescendantsOfKind(SyntaxKind.CallExpression).some((nested) => {
         const expression = nested.getExpression();
         return (
           Node.isPropertyAccessExpression(expression) &&
           expression.getName() === 'render'
         );
       })
+  );
+}
+
+function isTerminalRoute(call: CallExpression): boolean {
+  return (
+    isRenderingCatchAll(call) ||
+    (canMatchExample(call.getArguments()[0]) &&
+      call.getDescendantsOfKind(SyntaxKind.CallExpression).some((nested) => {
+        const expression = nested.getExpression();
+        return (
+          Node.isPropertyAccessExpression(expression) &&
+          expression.getName() === 'static' &&
+          isImportedValue(expression.getExpression(), 'express')
+        );
+      }))
   );
 }
 
@@ -400,10 +426,32 @@ function updateServer(source: SourceFile): boolean {
     throw new SchematicsException(`"${FACTORY}" is already declared.`);
   }
 
-  const boundary = calls.find(({ call }) => isTerminalRoute(call))?.statement;
+  const boundaryIndex = calls.findIndex(({ call }) => isTerminalRoute(call));
+  const boundary = calls[boundaryIndex]?.statement;
   if (!boundary) {
     throw new SchematicsException(
       'Could not locate the static-file or SSR render route in the Express application.'
+    );
+  }
+  const renderIndex = calls.findIndex(
+    ({ call }, index) => index >= boundaryIndex && isRenderingCatchAll(call)
+  );
+  if (
+    renderIndex !== boundaryIndex &&
+    calls
+      .slice(boundaryIndex + 1, renderIndex < 0 ? undefined : renderIndex)
+      .some(({ call }) => {
+        const expression = call.getExpression();
+        return (
+          Node.isPropertyAccessExpression(expression) &&
+          expression.getName() === 'use' &&
+          canMatchExample(call.getArguments()[0]) &&
+          !isTerminalRoute(call)
+        );
+      })
+  ) {
+    throw new SchematicsException(
+      `Cannot safely insert ${EXAMPLE_ROUTE} before static/render routes without bypassing existing middleware. Move protective middleware before those routes or register the example manually.`
     );
   }
   if (
