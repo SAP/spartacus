@@ -30,7 +30,7 @@ import {
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { defaultConfiguratorUISettingsConfig } from '../config/default-configurator-ui-settings.config';
-import { EMPTY, firstValueFrom, Observable, of } from 'rxjs';
+import { EMPTY, firstValueFrom, NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -703,27 +703,6 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     });
   });
 
-  describe('ghost sidebar', () => {
-    it('should render ghost placeholder while configuration has no overview', () => {
-      defaultConfigObservable = of(
-        ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER)
-      );
-      fixture = TestBed.createComponent(ConfiguratorOverviewSidebarComponent);
-      htmlElem = fixture.nativeElement;
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-
-      expect(component.ghostStyle).toBe(true);
-      expect(htmlElem.querySelector('.cx-ghost-menu')).not.toBeNull();
-      expect(htmlElem.querySelector('.cx-menu-bar')).toBeNull();
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        'cx-configurator-overview-menu'
-      );
-    });
-  });
-
   describe('isOverviewFilterTabShown', () => {
     it('should always return true when productConfiguratorCPQContainer is disabled', () => {
       expect(component.isOverviewFilterTabShown(false)).toBe(true);
@@ -955,5 +934,107 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
         ).toHaveBeenCalledWith(selector);
       });
     });
+  });
+});
+
+describe('ghost animation', () => {
+  let component: ConfiguratorOverviewSidebarComponent;
+  let fixture: ComponentFixture<ConfiguratorOverviewSidebarComponent>;
+  let htmlElem: HTMLElement;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ConfiguratorOverviewSidebarComponent],
+      providers: [
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockConfiguratorRouterExtractorService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ProductService,
+          useClass: MockProductService,
+        },
+        provideDefaultConfig(defaultConfiguratorUISettingsConfig),
+        provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
+      ],
+    })
+      .overrideComponent(ConfiguratorOverviewSidebarComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            FeatureDirective,
+            ConfiguratorOverviewFilterComponent,
+            ConfiguratorOverviewMenuComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            OverviewSidebarMockFeatureDirective,
+            MockConfiguratorOverviewFilterComponent,
+            MockConfiguratorOverviewMenuComponent,
+          ],
+        },
+      })
+      .compileComponents();
+  });
+
+  it('should render ghost placeholder while data is loading', () => {
+    defaultConfigObservable = of(
+      ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER)
+    );
+    fixture = TestBed.createComponent(ConfiguratorOverviewSidebarComponent);
+    htmlElem = fixture.nativeElement;
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+
+    expect(htmlElem.querySelector('.cx-ghost-menu')).not.toBeNull();
+    expect(htmlElem.querySelector('.cx-menu-bar')).toBeNull();
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-overview-menu'
+    );
+  });
+
+  it('should keep ghost host class while data is loading', () => {
+    defaultConfigObservable = NEVER;
+    fixture = TestBed.createComponent(ConfiguratorOverviewSidebarComponent);
+    htmlElem = fixture.nativeElement;
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+
+    expect(component.ghostStyle).toBe(true);
+    expect(htmlElem.classList.contains('ghost')).toBe(true);
+    expect(htmlElem.querySelector('.cx-ghost-menu')).not.toBeNull();
+  });
+
+  it('should remove ghost host class once data is available', () => {
+    defaultConfigObservable = of(CONFIGURATION);
+    fixture = TestBed.createComponent(ConfiguratorOverviewSidebarComponent);
+    htmlElem = fixture.nativeElement;
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+
+    expect(component.ghostStyle).toBe(false);
+    expect(htmlElem.classList.contains('ghost')).toBe(false);
+    expect(htmlElem.querySelector('.cx-ghost-menu')).toBeNull();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-overview-menu'
+    );
   });
 });

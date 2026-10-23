@@ -6,11 +6,13 @@
 
 import { AsyncPipe, NgIf } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostBinding,
-  inject,
   ViewChild,
+  inject,
+  signal,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
@@ -25,6 +27,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 @Component({
   selector: 'cx-configurator-overview-filter-button',
   templateUrl: './configurator-overview-filter-button.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
     ConfiguratorOverviewFilterBarComponent,
@@ -44,7 +47,17 @@ export class ConfiguratorOverviewFilterButtonComponent {
   ) {}
 
   @ViewChild('filterButton') filterButton: ElementRef;
-  @HostBinding('class.ghost') ghostStyle = true;
+
+  protected readonly isGhost = signal(true);
+
+  @HostBinding('class.ghost')
+  get ghostStyle(): boolean {
+    return this.isGhost();
+  }
+
+  set ghostStyle(value: boolean) {
+    this.isGhost.set(value);
+  }
 
   configurationWithOv$: Observable<Configurator.ConfigurationWithOverview> =
     this.configRouterExtractorService.extractRouterData().pipe(

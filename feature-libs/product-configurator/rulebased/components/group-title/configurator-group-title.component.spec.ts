@@ -11,7 +11,7 @@ import {
   HamburgerMenuService,
   IconLoaderService,
 } from '@spartacus/storefront';
-import { Observable, of, Subscription } from 'rxjs';
+import { NEVER, Observable, of, Subscription } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
@@ -26,6 +26,7 @@ const config: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
 
 let routerStateObservable: Observable<RouterState>;
+let currentGroupObservable: Observable<Configurator.Group>;
 const group = ConfiguratorTestUtils.createGroup('1-CPQ_LAPTOP.1');
 
 class MockRoutingService {
@@ -42,7 +43,7 @@ class MockConfiguratorGroupService {
   navigateToGroup(): void {}
 
   getCurrentGroup(): Observable<Configurator.Group> {
-    return of(group);
+    return currentGroupObservable;
   }
 }
 
@@ -96,6 +97,7 @@ describe('ConfiguratorGroupTitleComponent', () => {
 
   beforeEach(async () => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
+    currentGroupObservable = of(group);
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -314,5 +316,94 @@ describe('ConfiguratorGroupTitleComponent', () => {
         configuratorStorefrontUtilsService.removeStyling
       ).toHaveBeenCalledWith(component['PRE_HEADER'], 'display');
     });
+  });
+});
+
+describe('ghost animation', () => {
+  let component: ConfiguratorGroupTitleComponent;
+  let fixture: ComponentFixture<ConfiguratorGroupTitleComponent>;
+  let htmlElem: HTMLElement;
+  let breakpointService: BreakpointService;
+
+  beforeEach(async () => {
+    routerStateObservable = of(ConfigurationTestData.mockRouterState);
+    currentGroupObservable = of(group);
+    await TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        ConfiguratorGroupTitleComponent,
+      ],
+      providers: [
+        HamburgerMenuService,
+        {
+          provide: Router,
+          useClass: MockRouter,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupService,
+        },
+        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+        {
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
+        },
+      ],
+    })
+      .overrideComponent(ConfiguratorGroupTitleComponent, {
+        remove: { imports: [HamburgerMenuComponent] },
+        add: { imports: [MockHamburgerMenuComponent] },
+      })
+      .compileComponents();
+    breakpointService = TestBed.inject(BreakpointService);
+  });
+
+  it('should render ghost placeholder while data is loading', () => {
+    currentGroupObservable = NEVER;
+    fixture = TestBed.createComponent(ConfiguratorGroupTitleComponent);
+    htmlElem = fixture.nativeElement;
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-ghost-group-title'
+    );
+  });
+
+  it('should keep ghost host class while data is loading', () => {
+    currentGroupObservable = NEVER;
+    fixture = TestBed.createComponent(ConfiguratorGroupTitleComponent);
+    htmlElem = fixture.nativeElement;
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    expect(htmlElem.classList.contains('ghost')).toBe(true);
+    expect(component.ghostStyle).toBe(true);
+  });
+
+  it('should remove ghost host class once data is available', () => {
+    currentGroupObservable = of(group);
+    fixture = TestBed.createComponent(ConfiguratorGroupTitleComponent);
+    htmlElem = fixture.nativeElement;
+    vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(false));
+    fixture.detectChanges();
+    expect(htmlElem.classList.contains('ghost')).toBe(false);
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-group-title'
+    );
   });
 });

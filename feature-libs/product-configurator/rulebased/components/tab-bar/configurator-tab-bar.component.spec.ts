@@ -165,12 +165,6 @@ describe('ConfigTabBarComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should render ghost view if no data is present', () => {
-    configurationObs = NEVER;
-    fixture.detectChanges();
-    expect(htmlElem.querySelectorAll('.cx-ghost-tab-bar').length).toEqual(1);
-  });
-
   it('should render 2 navigation links per default', () => {
     fixture.detectChanges();
     expect(htmlElem.querySelectorAll('a').length).toEqual(2);
@@ -561,6 +555,29 @@ describe('ConfigTabBarComponent', () => {
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('ghost animation', () => {
+    it('should render ghost placeholder while data is loading', () => {
+      configurationObs = NEVER;
+      fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
+      htmlElem = fixture.nativeElement;
+      fixture.detectChanges();
+      expect(htmlElem.querySelectorAll('.cx-ghost-tab-bar').length).toEqual(1);
+    });
+
+    it('should keep ghost host class while data is loading', () => {
+      configurationObs = NEVER;
+      fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
+      htmlElem = fixture.nativeElement;
+      fixture.detectChanges();
+      expect(htmlElem.classList.contains('ghost')).toBe(true);
+    });
+
+    it('should remove ghost host class once data is available', () => {
+      fixture.detectChanges();
+      expect(htmlElem.classList.contains('ghost')).toBe(false);
     });
   });
 });
