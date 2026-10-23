@@ -63,7 +63,7 @@ describe('OccCouponCodesInterceptor', () => {
   it('should add request header if coupon codes exists', inject(
     [HttpClient],
     (http: HttpClient) => {
-      spyOn(couponService, 'getCouponCodes').and.returnValue('pink,blue');
+      vi.spyOn(couponService, 'getCouponCodes').mockReturnValue('pink,blue');
       http.get(url).subscribe((result) => {
         expect(result).toBeTruthy();
       });
@@ -79,7 +79,7 @@ describe('OccCouponCodesInterceptor', () => {
   it('should not add request header if coupon codes doesnot exist', inject(
     [HttpClient],
     (http: HttpClient) => {
-      spyOn(couponService, 'getCouponCodes').and.returnValue(null);
+      vi.spyOn(couponService, 'getCouponCodes').mockReturnValue(null);
       http.get(url).subscribe((result) => {
         expect(result).toBeTruthy();
       });
