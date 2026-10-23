@@ -6,7 +6,31 @@
 
 const EXTRACT_JAVA_REGEXP_MODIFIERS = /^(\(\?([a-z]+)\))?(.*)/;
 
-export function toJsRegExp(javaSyntax: string): RegExp | null {
+/**
+ * Converts Java-style regexp text to a JavaScript RegExp instance.
+ *
+ * Supported shape:
+ * - optional Java modifiers prefix: `(?flags)`
+ * - followed by pattern body, for example: `(?i)electronics`.
+ *
+ * The parser extracts:
+ * - group 2: modifiers (`i`, `gimu`, etc.)
+ * - group 3: regexp body
+ *
+ * If Java syntax contains features unsupported by JS RegExp, this function
+ * returns `null` instead of throwing.
+ *
+ * Examples:
+ * - `toJsRegExp('(?i)electronics')` -> `/electronics/i`
+ * - `toJsRegExp('(?gimu)^a$')` -> `/^a$/gimu`
+ * - `toJsRegExp('x*+')` -> `null` (unsupported by JS engine)
+ *
+ * @param onError Optional callback receiving the original conversion error.
+ */
+export function toJsRegExp(
+  javaSyntax: string,
+  onError?: (error: unknown) => void
+): RegExp | null {
   const parts = javaSyntax.match(EXTRACT_JAVA_REGEXP_MODIFIERS);
   if (!parts) {
     return null;
@@ -15,7 +39,8 @@ export function toJsRegExp(javaSyntax: string): RegExp | null {
   const [, , modifiers, jsSyntax] = parts;
   try {
     return new RegExp(jsSyntax, modifiers);
-  } catch {
+  } catch (error) {
+    onError?.(error);
     return null;
   }
 }

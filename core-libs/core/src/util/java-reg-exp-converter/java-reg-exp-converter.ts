@@ -15,6 +15,14 @@ export class JavaRegExpConverter {
   /**
    * Converts RegExp from Java syntax to Javascript, by recognizing Java regexp modifiers
    * and converting them to the Javascript ones (i.e. case insensitive mode: `(?i)PATTERN` -> `/pattern/i`)
+    *
+    * This class is an Angular wrapper around the pure `toJsRegExp()` function.
+    * Use this wrapper when you want dev-mode warning logs via `LoggerService`.
+    * Use `toJsRegExp()` directly in framework-agnostic or Node-only code.
+    *
+    * Examples:
+    * - input `(?i)electronics` -> `/electronics/i`
+    * - input `x*+` -> `null` and (in dev mode) a warning is logged
    *
    * **CAUTION!** Not all features and modifiers of Java regexps are valid in Javascript!
    * If unsupported feature or modifier is used, then `null` will be returned instead of Javascript RegExp.
@@ -24,15 +32,12 @@ export class JavaRegExpConverter {
    * - https://en.wikipedia.org/wiki/Comparison_of_regular_expression_engines#Language_features
    */
   toJsRegExp(javaSyntax: string): RegExp | null {
-    const result = toJsRegExp(javaSyntax);
-
-    if (result === null && isDevMode()) {
-      this.logger.warn(
-        `WARNING: Could not convert Java regexp into Javascript. Original regexp: ` +
-          javaSyntax
-      );
-    }
-
-    return result;
+    return toJsRegExp(javaSyntax, (error) => {
+      if (isDevMode()) {
+        this.logger.warn(
+          `WARNING: Could not convert Java regexp into Javascript. Original regexp: ${javaSyntax} \nMessage: ${error}`
+        );
+      }
+    });
   }
 }
