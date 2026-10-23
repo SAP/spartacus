@@ -34,7 +34,10 @@ const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
 const baseSiteResolver = new DefaultBaseSiteResolver({ baseSites: baseSite });
 
-/** Renders a per-site llms.txt body; a `null` base site yields a general document. */
+/**
+ * Example-only helper: renders a per-site llms.txt body;
+ * a `null` base site yields a general document.
+ */
 function renderLlmsTxt(uid: string | null): string {
   if (!uid) {
     return '# llms.txt\n> General LLM guidance for all sites on this origin.\n';

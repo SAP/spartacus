@@ -53,7 +53,7 @@ export interface SetBaseSiteHandlerOptions {
 
 /**
  * Builds an Express router that resolves the base site on the configured route
- * and passes it to the application handler without mutating the request.
+ * and passes it to the application handler.
  *
  * Domain mode requires a resolver configured for OCC resolution. Recoverable
  * resolver failures are mapped to `503` with `Retry-After`; all other errors
