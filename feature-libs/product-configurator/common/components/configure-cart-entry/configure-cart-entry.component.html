@@ -55,6 +55,7 @@
           } | cxUrl
         "
         [queryParams]="cpqContainerQueryParams$ | async"
+        [fragment]="getCpqContainerFragment()"
         [attr.aria-label]="
           a11yKey
             ? (a11yKey | cxTranslate: { product: getLinkProductName() })
