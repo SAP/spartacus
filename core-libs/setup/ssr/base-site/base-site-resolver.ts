@@ -9,9 +9,13 @@ export interface BaseSiteResolverOptions {
   /** Known base-site uids for path-segment matching. */
   baseSites: string[];
   /**
-   * OCC backend base URL, for example `https://api.example.com`. When
-   * provided, `supportsOccResolution` is `true` and OCC URL patterns are
-   * used as a secondary resolution strategy.
+   * Storefront index HTML content. Its configured OCC base URL takes
+   * precedence over `occBaseUrl`.
+   */
+  indexHtml: string;
+  /**
+   * Fallback OCC backend base URL, for example `https://api.example.com`.
+   * Used only when the index HTML does not contain a configured OCC address.
    */
   occBaseUrl?: string;
   /** In-memory base-sites cache lifetime in milliseconds. Default: `60_000`. */
