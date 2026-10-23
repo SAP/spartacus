@@ -201,6 +201,13 @@ export class ConfigureCartEntryComponent {
    * back to the top afterwards: with a fragment, it scrolls to the anchor
    * instead, and as no element is identified by the row ID, it does not scroll at all.
    *
+   * This relies on two assumptions:
+   * - The router is configured with `anchorScrolling: 'enabled'`, as in the
+   *   Spartacus `AppRoutingModule`. Otherwise, the view reset ignores the
+   *   fragment and may scroll the page back to the top.
+   * - No element on the overview page has an `id` or `name` equal to the row ID.
+   *   Otherwise, the view reset scrolls to that element instead.
+   *
    * @returns - The container row ID for a bundle line item link to the overview, otherwise `undefined`
    */
   getCpqContainerFragment(): string | undefined {

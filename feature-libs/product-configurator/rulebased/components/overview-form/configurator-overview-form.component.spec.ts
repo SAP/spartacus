@@ -23,7 +23,7 @@ import {
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { cold } from 'jasmine-marbles';
-import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
+import { BehaviorSubject, NEVER, Observable, Subject, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -921,11 +921,15 @@ describe('ConfigurationOverviewFormComponent', () => {
 
     let storefrontUtils: ConfiguratorStorefrontUtilsService;
 
-    function setRowId(rowId?: string): void {
-      routerStateObservable = of({
+    function createRouterState(rowId?: string): RouterState {
+      return {
         ...mockRouterState,
         state: { ...mockRouterState.state, queryParams: { rowId } },
-      });
+      };
+    }
+
+    function setRowId(rowId?: string): void {
+      routerStateObservable = of(createRouterState(rowId));
     }
 
     function expectRenderedSection(idPrefix: string, groupId: string): void {
@@ -965,6 +969,20 @@ describe('ConfigurationOverviewFormComponent', () => {
         nestedRowGroupId
       );
       expectRenderedSection(nestedRowGroupIdPrefix, nestedRowGroupId);
+    });
+
+    it('should take the requested container row from the router state the overview has been loaded for', () => {
+      const routerState$ = new Subject<RouterState>();
+      routerStateObservable = routerState$;
+      initialize();
+
+      routerState$.next(createRouterState('zoom'));
+      fixture.detectChanges();
+
+      expect(storefrontUtils.navigateToOverviewGroup).toHaveBeenCalledWith(
+        rowGroupIdPrefix,
+        rowGroupId
+      );
     });
 
     it('should navigate only once, even if the overview emits again', () => {
@@ -1059,15 +1077,17 @@ describe('ConfigurationOverviewFormComponent', () => {
         );
       });
 
-      it('should not scroll again once the user interacts with the page', () => {
-        initialize();
-        window.dispatchEvent(new Event('wheel'));
-        resizePage();
+      ['wheel', 'keydown', 'pointerdown'].forEach((eventName) => {
+        it(`should not scroll again once the user interacts with the page (${eventName})`, () => {
+          initialize();
+          window.dispatchEvent(new Event(eventName));
+          resizePage();
 
-        expect(
-          storefrontUtils.scrollToConfigurationElement
-        ).toHaveBeenCalledTimes(1);
-        expect(disconnect).toHaveBeenCalled();
+          expect(
+            storefrontUtils.scrollToConfigurationElement
+          ).toHaveBeenCalledTimes(1);
+          expect(disconnect).toHaveBeenCalled();
+        });
       });
 
       it('should not scroll again once the time to keep the configuration details in place has elapsed', () => {

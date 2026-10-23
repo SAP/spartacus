@@ -751,7 +751,10 @@ export interface FeatureTogglesInterface {
    * checkout or the order history), it scrolls to and focuses the
    * configuration details of that container row. These links also carry the
    * row ID as URL fragment, so the view reset on navigation does not scroll
-   * the overview back to the top. CPQ cart bundle line items
+   * the overview back to the top. This requires the router option
+   * `anchorScrolling: 'enabled'` (set by the Spartacus `AppRoutingModule`) and
+   * that no element on the overview page has an `id` or `name` equal to the
+   * row ID. CPQ cart bundle line items
    * (PDP links, nested edit links, large-bundle overview navigation) and
    * configure-cart-entry link labels/query params/fragment use `*cxFeature`
    * template branches like `ConfiguratorAttributeProductCardComponent`.

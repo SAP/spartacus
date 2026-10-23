@@ -18,10 +18,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable, fromEvent, merge, timer } from 'rxjs';
 import {
-  distinctUntilKeyChanged,
+  distinctUntilChanged,
   filter,
+  map,
   switchMap,
-  take,
   takeUntil,
   tap,
 } from 'rxjs/operators';
@@ -133,21 +133,36 @@ export class ConfiguratorOverviewFormComponent {
   configuration$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
-        this.configuratorCommonsService.getOrCreateConfiguration(
-          routerData.owner
-        )
+        this.configuratorCommonsService
+          .getOrCreateConfiguration(routerData.owner)
+          .pipe(
+            map((configuration) => ({
+              configuration,
+              rowId: routerData.rowId,
+            }))
+          )
       ),
-      distinctUntilKeyChanged('configId'),
-      switchMap((configuration) =>
-        this.configuratorCommonsService.getConfigurationWithOverview(
-          configuration
-        )
+      distinctUntilChanged(
+        (previous, current) =>
+          previous.configuration.configId === current.configuration.configId
       ),
-      filter((configuration) => configuration.overview != null),
-      tap((configuration) => {
-        this.ghostStyle = false;
-        this.navigateToRequestedContainerRow(configuration);
-      })
+      switchMap(({ configuration, rowId }) =>
+        this.configuratorCommonsService
+          .getConfigurationWithOverview(configuration)
+          .pipe(
+            filter(
+              (configurationWithOverview) =>
+                configurationWithOverview.overview != null
+            ),
+            tap((configurationWithOverview) => {
+              this.ghostStyle = false;
+              this.navigateToRequestedContainerRow(
+                configurationWithOverview,
+                rowId
+              );
+            })
+          )
+      )
     );
 
   constructor(
@@ -386,9 +401,11 @@ export class ConfiguratorOverviewFormComponent {
    * Only active if `productConfiguratorCPQContainer` is enabled.
    *
    * @param configuration - Configuration including the overview
+   * @param rowId - Container row identifier of the router state the overview has been loaded for
    */
   protected navigateToRequestedContainerRow(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
+    rowId: string | undefined
   ): void {
     if (
       !this.isInPageNavigationEnabled ||
@@ -397,22 +414,16 @@ export class ConfiguratorOverviewFormComponent {
       return;
     }
     this.isContainerRowNavigationTriggered = true;
-    this.configRouterExtractorService
-      .extractRouterData()
-      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
-      .subscribe((routerData) => {
-        const rowId = routerData.rowId;
-        if (rowId) {
-          afterNextRender(
-            () =>
-              this.navigateToContainerRowDetails(
-                configuration.overview?.groups,
-                rowId
-              ),
-            { injector: this.injector }
-          );
-        }
-      });
+    if (rowId) {
+      afterNextRender(
+        () =>
+          this.navigateToContainerRowDetails(
+            configuration.overview?.groups,
+            rowId
+          ),
+        { injector: this.injector }
+      );
+    }
   }
 
   /**
@@ -473,7 +484,7 @@ export class ConfiguratorOverviewFormComponent {
       return () => resizeObserver.disconnect();
     });
     const userInteraction$ = merge(
-      ...['wheel', 'touchstart', 'keydown', 'mousedown'].map((eventName) =>
+      ...['wheel', 'keydown', 'pointerdown'].map((eventName) =>
         fromEvent(nativeWindow, eventName, { capture: true, passive: true })
       )
     );
