@@ -6,6 +6,7 @@
 
 import { enableProdMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
+import { getRuntimeEnvironment, RUNTIME_ENVIRONMENT } from '@spartacus/setup';
 import { AppComponent } from './app/app.component';
 import { appConfig } from './app/app.config';
 import { environment } from './environments/environment';
@@ -14,7 +15,15 @@ if (environment.production) {
   enableProdMode();
 }
 
-bootstrapApplication(AppComponent, appConfig)
+getRuntimeEnvironment()
+  .then(({ runtimeEnvironment }) => {
+    return bootstrapApplication(AppComponent, {
+      providers: [
+        { provide: RUNTIME_ENVIRONMENT, useValue: runtimeEnvironment },
+        ...appConfig.providers,
+      ],
+    });
+  })
   /* eslint-disable-next-line no-console
   --
   It's just an example application file. This message is not crucial

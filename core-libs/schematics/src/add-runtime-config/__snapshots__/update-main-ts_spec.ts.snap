@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`updateMainTs (runtime config) should wrap bootstrapApplication with getRuntimeEnvironment().then() 1`] = `
+"import { bootstrapApplication } from '@angular/platform-browser';
+import { getRuntimeEnvironment, RUNTIME_ENVIRONMENT } from "@spartacus/setup";
+import { AppComponent } from './app/app.component';
+import { appConfig } from './app/app.config';
+
+getRuntimeEnvironment()
+  .then(({ runtimeEnvironment }) => {
+    return bootstrapApplication(AppComponent, {
+      ...appConfig,
+      providers: [
+        { provide: RUNTIME_ENVIRONMENT, useValue: runtimeEnvironment },
+        ...(appConfig.providers ?? []),
+      ],
+    });
+  })
+  .catch((err) => console.error(err));
+"
+`;

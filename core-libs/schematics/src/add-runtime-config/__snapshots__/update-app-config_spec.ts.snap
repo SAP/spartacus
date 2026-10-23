@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`updateAppConfig (runtime config) should add provideRuntimeOccConfig() to app.config.ts providers 1`] = `
+"
+import { ApplicationConfig } from '@angular/core';
+import { provideRuntimeOccConfig } from "@spartacus/setup";
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRuntimeOccConfig()
+  ]
+};
+"
+`;
