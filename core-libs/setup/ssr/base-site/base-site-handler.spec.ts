@@ -7,7 +7,10 @@
  */
 
 import { NextFunction, Request, Response } from 'express';
-import { setBaseSiteHandler } from './base-site-handler';
+import {
+  createBaseSiteHandler,
+  setBaseSiteHandler,
+} from './base-site-handler';
 import {
   BaseSiteResolver,
   ConcurrencyLimitError,
@@ -77,17 +80,91 @@ async function dispatch(
   await new Promise<void>((resolve) => setTimeout(resolve, 0));
 }
 
+describe('createBaseSiteHandler', () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  it('creates a prefixed handler without requiring a resolver instance', async () => {
+    const baseSiteHandler = createBaseSiteHandler({
+      baseSites: ['electronics-spa'],
+    });
+    const handler = jest.fn();
+    const middleware = baseSiteHandler({
+      route: '/llms.txt',
+      withBaseSiteInPath: true,
+      handler,
+    });
+    const request = createRequest({
+      originalUrl: '/electronics-spa/llms.txt',
+    });
+    const response = createResponse();
+
+    await dispatch(
+      middleware,
+      request,
+      response,
+      createNext()
+    );
+
+    expect(handler).toHaveBeenCalledWith(
+      request,
+      response,
+      expect.any(Function)
+    );
+    expect(request.baseSite).toBe('electronics-spa');
+  });
+
+  it('shares the OCC cache between handlers created by the same factory', async () => {
+    const fetchSpy = jest.spyOn(globalThis, 'fetch').mockResolvedValue(
+      new globalThis.Response(
+        JSON.stringify({
+          baseSites: [
+            {
+              uid: 'electronics-spa',
+              urlPatterns: ['^http://internal\\.example/'],
+            },
+          ],
+        })
+      )
+    );
+    const baseSiteHandler = createBaseSiteHandler({
+      baseSites: [],
+      occBaseUrl: 'https://api.example',
+    });
+    const llmsRequest = createRequest();
+    const robotsRequest = createRequest({ originalUrl: '/robots.txt' });
+
+    await dispatch(
+      baseSiteHandler({ route: '/llms.txt', handler: jest.fn() }),
+      llmsRequest,
+      createResponse(),
+      createNext()
+    );
+    await dispatch(
+      baseSiteHandler({ route: '/robots.txt', handler: jest.fn() }),
+      robotsRequest,
+      createResponse(),
+      createNext()
+    );
+
+    expect(llmsRequest.baseSite).toBe('electronics-spa');
+    expect(robotsRequest.baseSite).toBe('electronics-spa');
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+  });
+});
+
 describe('setBaseSiteHandler', () => {
   describe('path mode', () => {
-    it('passes the resolved base site through an explicit context without mutating the request', async () => {
+    it('attaches the resolved base site to the request before invoking a standard Express handler', async () => {
       const resolver = createResolver({
         supportsOccResolution: false,
         resolveFromPath: jest.fn().mockReturnValue('electronics-spa'),
       });
       const handler = jest.fn();
       const middleware = setBaseSiteHandler(resolver, {
-        route: '/:baseSite/llms.txt',
-        resolveMode: 'path',
+        route: '/llms.txt',
+        withBaseSiteInPath: true,
         handler,
       });
       const request = createRequest({
@@ -102,14 +179,12 @@ describe('setBaseSiteHandler', () => {
         'http://internal.example/electronics-spa/llms.txt'
       );
       expect(handler).toHaveBeenCalledWith(
-        expect.objectContaining({
-          req: request,
-          res: response,
-          next: expect.any(Function),
-          baseSite: 'electronics-spa',
-        })
+        request,
+        response,
+        expect.any(Function)
       );
-      expect(request).not.toHaveProperty('baseSite');
+      expect(request.baseSite).toBe('electronics-spa');
+      expect(resolver.resolveFromOcc).not.toHaveBeenCalled();
       expect(next).not.toHaveBeenCalled();
     });
 
@@ -120,8 +195,8 @@ describe('setBaseSiteHandler', () => {
       });
       const handler = jest.fn();
       const middleware = setBaseSiteHandler(resolver, {
-        route: '/:baseSite/llms.txt',
-        resolveMode: 'path',
+        route: '/llms.txt',
+        withBaseSiteInPath: true,
         handler,
       });
       const request = createRequest({ originalUrl: '/unknown/llms.txt' });
@@ -134,9 +209,32 @@ describe('setBaseSiteHandler', () => {
       );
 
       expect(handler).toHaveBeenCalledWith(
-        expect.objectContaining({ baseSite: null, req: request })
+        request,
+        expect.anything(),
+        expect.any(Function)
       );
-      expect(request).not.toHaveProperty('baseSite');
+      expect(request.baseSite).toBeNull();
+    });
+
+    it('accepts an existing Express handler that ignores the base site', async () => {
+      const resolver = createResolver({ supportsOccResolution: false });
+      const middleware = setBaseSiteHandler(resolver, {
+        route: '/llms.txt',
+        withBaseSiteInPath: true,
+        handler: (_req, res) => {
+          res.send('Shared guidance');
+        },
+      });
+      const response = createResponse();
+
+      await dispatch(
+        middleware,
+        createRequest({ originalUrl: '/electronics-spa/llms.txt' }),
+        response,
+        createNext()
+      );
+
+      expect(response.send).toHaveBeenCalledWith('Shared guidance');
     });
   });
 
@@ -148,7 +246,6 @@ describe('setBaseSiteHandler', () => {
       const handler = jest.fn();
       const middleware = setBaseSiteHandler(resolver, {
         route: '/llms.txt',
-        resolveMode: 'domain',
         handler,
       });
 
@@ -162,21 +259,21 @@ describe('setBaseSiteHandler', () => {
       expect(handler).toHaveBeenCalledTimes(1);
     });
 
-    it('passes a RegExp route directly to Express', async () => {
+    it('adds the base-site prefix to a RegExp route', async () => {
       const resolver = createResolver({
         supportsOccResolution: false,
         resolveFromPath: jest.fn().mockReturnValue('electronics-spa'),
       });
       const handler = jest.fn();
       const middleware = setBaseSiteHandler(resolver, {
-        route: /^\/(?:[^/]+\/)*llms\.txt$/,
-        resolveMode: 'path',
+        route: /^\/llms\.txt$/,
+        withBaseSiteInPath: true,
         handler,
       });
 
       await dispatch(
         middleware,
-        createRequest({ originalUrl: '/nested/electronics-spa/llms.txt' }),
+        createRequest({ originalUrl: '/electronics-spa/llms.txt' }),
         createResponse(),
         createNext()
       );
@@ -184,19 +281,24 @@ describe('setBaseSiteHandler', () => {
       expect(handler).toHaveBeenCalledTimes(1);
     });
 
-    it('falls through without resolving when the Express route does not match', async () => {
+    it.each([
+      '/llms.txt',
+      '/electronics-spa/other.txt',
+      '/electronics-spa/llmsXtxt',
+      '/electronics-spa/nested/llms.txt',
+    ])('falls through without resolving when %s does not match the prefixed route', async (originalUrl) => {
       const resolver = createResolver({ supportsOccResolution: false });
       const handler = jest.fn();
       const next = createNext();
       const middleware = setBaseSiteHandler(resolver, {
-        route: '/:baseSite/llms.txt',
-        resolveMode: 'path',
+        route: '/llms.txt',
+        withBaseSiteInPath: true,
         handler,
       });
 
       await dispatch(
         middleware,
-        createRequest({ originalUrl: '/electronics-spa/other.txt' }),
+        createRequest({ originalUrl }),
         createResponse(),
         next
       );
@@ -204,18 +306,19 @@ describe('setBaseSiteHandler', () => {
       expect(next).toHaveBeenCalledTimes(1);
       expect(handler).not.toHaveBeenCalled();
       expect(resolver.resolveFromPath).not.toHaveBeenCalled();
+      expect(resolver.resolveFromOcc).not.toHaveBeenCalled();
     });
   });
 
   describe('domain mode', () => {
-    it('resolves the request URL through OCC', async () => {
+    it.each([undefined, false])('resolves through OCC when withBaseSiteInPath is %s', async (withBaseSiteInPath) => {
       const resolver = createResolver({
         resolveFromOcc: jest.fn().mockResolvedValue('electronics-spa'),
       });
       const handler = jest.fn();
       const middleware = setBaseSiteHandler(resolver, {
         route: '/llms.txt',
-        resolveMode: 'domain',
+        withBaseSiteInPath,
         handler,
       });
       const request = createRequest();
@@ -231,8 +334,12 @@ describe('setBaseSiteHandler', () => {
         'http://internal.example/llms.txt'
       );
       expect(handler).toHaveBeenCalledWith(
-        expect.objectContaining({ baseSite: 'electronics-spa', req: request })
+        request,
+        expect.anything(),
+        expect.any(Function)
       );
+      expect(request.baseSite).toBe('electronics-spa');
+      expect(resolver.resolveFromPath).not.toHaveBeenCalled();
     });
 
     it('throws at registration when the resolver cannot resolve through OCC', () => {
@@ -241,7 +348,6 @@ describe('setBaseSiteHandler', () => {
       expect(() =>
         setBaseSiteHandler(resolver, {
           route: '/llms.txt',
-          resolveMode: 'domain',
           handler: jest.fn(),
         })
       ).toThrow();
@@ -259,7 +365,6 @@ describe('setBaseSiteHandler', () => {
       const next = createNext();
       const middleware = setBaseSiteHandler(resolver, {
         route: '/llms.txt',
-        resolveMode: 'domain',
         handler: jest.fn(),
       });
 
@@ -279,7 +384,6 @@ describe('setBaseSiteHandler', () => {
       const next = createNext();
       const middleware = setBaseSiteHandler(resolver, {
         route: '/llms.txt',
-        resolveMode: 'domain',
         handler: jest.fn(),
       });
 
@@ -300,7 +404,6 @@ describe('setBaseSiteHandler', () => {
       const response = createResponse();
       const middleware = setBaseSiteHandler(resolver, {
         route: '/llms.txt',
-        resolveMode: 'domain',
         handler: jest.fn(),
         retryAfterSeconds: { concurrencyLimit: 7, occUnavailable: 40 },
       });
@@ -321,8 +424,8 @@ describe('setBaseSiteHandler', () => {
       const resolver = createResolver({ supportsOccResolution: false });
       const next = createNext();
       const middleware = setBaseSiteHandler(resolver, {
-        route: '/:baseSite/llms.txt',
-        resolveMode: 'path',
+        route: '/llms.txt',
+        withBaseSiteInPath: true,
         handler: () => {
           throw error;
         },
@@ -346,7 +449,6 @@ describe('setBaseSiteHandler', () => {
       const next = createNext();
       const middleware = setBaseSiteHandler(resolver, {
         route: '/llms.txt',
-        resolveMode: 'domain',
         handler: jest.fn(),
       });
 
