@@ -238,7 +238,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     expect(
       serviceUnderTest.convert(configurationWithNestedIssues)
         .totalNumberOfIssues
-    ).toBe(6);
+    ).toBe(5);
   });
 
   it('should include incomplete nested tab attributes in totalNumberOfIssues', () => {

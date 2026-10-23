@@ -341,15 +341,20 @@ export class CpqConfiguratorNormalizerUtilsService {
   }
 
   /**
-   * Counts typed messages with non-empty message text.
+   * Counts typed messages with warning severity and non-empty message text.
    *
    * @param source - CPQ configuration or nested product configuration
-   * @returns Number of typed messages
+   * @returns Number of typed warning messages
    */
   protected countTypedMessages(
     source: Cpq.Configuration | Cpq.NestedProductConfiguration
   ): number {
-    return source.messages?.filter((message) => !!message.message).length ?? 0;
+    return (
+      source.messages?.filter(
+        (message) =>
+          !!message.message && message.severity === Cpq.MessageSeverity.WARNING
+      ).length ?? 0
+    );
   }
 
   /**

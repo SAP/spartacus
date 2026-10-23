@@ -105,7 +105,68 @@ export class CpqConfiguratorNormalizer
       );
     }
 
+    this.compileRootGroupComplete(source, resultTarget.groups);
+
     return resultTarget;
+  }
+
+  /**
+   * Marks the first root tab as incomplete when the CPQ configuration carries
+   * issues at root level (messages not tied to a tab). Those issues are stored
+   * on the configuration model only; without this step issue navigation would
+   * skip the root tab in favour of an incomplete nested configuration.
+   *
+   * @param source - CPQ configuration
+   * @param groups - Converted root groups
+   * @protected
+   */
+  protected compileRootGroupComplete(
+    source: Cpq.Configuration,
+    groups: Configurator.Group[]
+  ): void {
+    const firstGroup = groups[0];
+    if (firstGroup && this.hasRootLevelIssues(source)) {
+      firstGroup.complete = false;
+      firstGroup.incompleteBecauseOfChild = false;
+    }
+  }
+
+  /**
+   * Verifies whether the CPQ configuration carries issues at root level.
+   *
+   * Typed root messages count only when severity is {@link Cpq.MessageSeverity.WARNING},
+   * matching {@link hasErrorMessages} for converted nested groups (INFO maps to a
+   * non-blocking storefront warning).
+   *
+   * @param source - CPQ configuration
+   * @returns `true` when root-level messages are present
+   * @protected
+   */
+  protected hasRootLevelIssues(source: Cpq.Configuration): boolean {
+    return (
+      this.hasAnyRootLevelMessageList(source) ||
+      (source.messages?.some(
+        (message) =>
+          !!message.message && message.severity === Cpq.MessageSeverity.WARNING
+      ) ??
+        false)
+    );
+  }
+
+  /**
+   * Verifies whether any of the CPQ root-level string message lists is non-empty.
+   *
+   * @param source - CPQ configuration
+   * @returns `true` when at least one list carries messages
+   * @protected
+   */
+  protected hasAnyRootLevelMessageList(source: Cpq.Configuration): boolean {
+    return [
+      source.failedValidations,
+      source.incompleteMessages,
+      source.invalidMessages,
+      source.errorMessages,
+    ].some((messages) => !!messages?.length);
   }
 
   protected generateTotalNumberOfIssues(source: Cpq.Configuration): number {
