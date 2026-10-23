@@ -13,7 +13,7 @@ import {
 import { viewportContext } from '../../../helpers/viewport-context';
 import { getSampleUser, product } from '../../../sample-data/checkout-flow';
 
-context('Checkout flow', () => {
+context('Checkout flow core', () => {
   viewportContext(['mobile', 'desktop'], () => {
     beforeEach(() => {
       cy.window().then((win) => {
