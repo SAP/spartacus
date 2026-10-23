@@ -8,6 +8,7 @@ import { NgModule, Type } from '@angular/core';
 import { RulebasedConfiguratorModule } from '@spartacus/product-configurator/rulebased';
 import { RulebasedCpqConfiguratorModule } from '@spartacus/product-configurator/rulebased/cpq';
 import { environment } from '../../../../environments/environment';
+import { ConfigureProductPdpQuantityBridgeModule } from './configure-product-pdp-quantity-bridge.module';
 
 const extensions: Type<any>[] = [];
 
@@ -16,6 +17,10 @@ if (environment.cpq) {
 }
 
 @NgModule({
-  imports: [RulebasedConfiguratorModule, ...extensions],
+  imports: [
+    RulebasedConfiguratorModule,
+    ConfigureProductPdpQuantityBridgeModule,
+    ...extensions,
+  ],
 })
 export class RulebasedConfiguratorWrapperModule {}
