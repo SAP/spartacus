@@ -97,6 +97,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   disabled: boolean = false;
 
   hasStock: boolean = false;
+  isPurchasable: boolean = false;
   inventoryThreshold: boolean = false;
 
   showInventory$: Observable<boolean | undefined> | undefined =
@@ -154,6 +155,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
     if (this.product) {
       this.productCode = this.product.code ?? '';
+      this.isPurchasable = Boolean(this.product.price) && this.product.purchasable !== false;
       this.setStockInfo(this.product);
       this.unavailable = !this.productCatalogService.isProductInCatalog(
         this.product
@@ -179,6 +181,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         product$.pipe(filter(isNotNullable)).subscribe((product) => {
           this.productCode = product.code ?? '';
           this.product = product;
+          this.isPurchasable = Boolean(product.price) && product.purchasable !== false;
           this.setStockInfo(product);
           this.unavailable =
             !this.productCatalogService.isProductInCatalog(product);
