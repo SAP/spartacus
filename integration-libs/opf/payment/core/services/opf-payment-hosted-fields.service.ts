@@ -100,7 +100,7 @@ export class OpfPaymentHostedFieldsService {
       ),
       tap((order: Order) => {
         if (order) {
-          this.routingService.go({ cxRoute: 'orderConfirmation' });
+          this.onPaymentSuccess(order);
         }
       }),
       map((order: Order) => (order ? true : false)),
@@ -154,7 +154,7 @@ export class OpfPaymentHostedFieldsService {
       ),
       tap((order: Order) => {
         if (order) {
-          this.routingService.go({ cxRoute: 'orderConfirmation' });
+          this.onPaymentSuccess(order);
         }
       }),
       map((order: Order) => (order ? true : false)),
@@ -192,9 +192,7 @@ export class OpfPaymentHostedFieldsService {
       response.status === OpfPaymentSubmitStatus.DELAYED
     ) {
       return from(Promise.resolve(callbacks.onSuccess(response))).pipe(
-        concatMap(() =>
-          this.orderFacade.placePaymentAuthorizedOrder(true, cartId)
-        )
+        concatMap(() => this.placeOrder(cartId))
       );
     } else if (
       callbacks?.onCancel &&
@@ -227,6 +225,15 @@ export class OpfPaymentHostedFieldsService {
       );
     }
   }
+
+  protected placeOrder(cartId?: string): Observable<Order> {
+    return this.orderFacade.placePaymentAuthorizedOrder(true, cartId);
+  }
+
+  protected onPaymentSuccess(_order: Order): void {
+    this.routingService.go({ cxRoute: 'orderConfirmation' });
+  }
+
   protected getCartAccessCode(
     submitRequest: OpfPaymentSubmitRequest | OpfPaymentSubmitCompleteRequest,
     cartId?: string
