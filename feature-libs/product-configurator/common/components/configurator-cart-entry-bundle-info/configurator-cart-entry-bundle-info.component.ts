@@ -219,20 +219,46 @@ export class ConfiguratorCartEntryBundleInfoComponent {
 
   /**
    * Emits 'true' if the number of line items exceeds the configured threshold and
+   * the bundle line items are not expanded in the cart entry (overview navigation
+   * or hiding the show/hide control applies instead).
+   */
+  protected readonly exceedsCartEntryBundleLineItemsThreshold$: Observable<boolean> =
+    combineLatest([this.numberOfLineItems$, this.shouldShowButton$]).pipe(
+      map(
+        ([numberOfLineItems, shouldShowButton]) =>
+          !!this.featureToggles.productConfiguratorCPQContainer &&
+          shouldShowButton &&
+          numberOfLineItems > this.getCartEntryBundleLineItemsThreshold()
+      )
+    );
+
+  /**
+   * Emits 'true' if the number of line items exceeds the configured threshold and
    * a navigation to the configuration overview is possible. In that case the items
    * are not expanded in place, but the user is taken to the overview page instead.
+   *
+   * When the cart entry is read-only, the overview link is omitted because the
+   * display-configuration link already navigates to the overview.
    */
   readonly navigateToOverview$: Observable<boolean> = combineLatest([
-    this.numberOfLineItems$,
-    this.shouldShowButton$,
-  ]).pipe(
-    map(
-      ([numberOfLineItems, shouldShowButton]) =>
-        !!this.featureToggles.productConfiguratorCPQContainer &&
-        shouldShowButton &&
-        numberOfLineItems > this.getCartEntryBundleLineItemsThreshold()
-    )
-  );
+    this.exceedsCartEntryBundleLineItemsThreshold$,
+    this.readonly$,
+  ]).pipe(map(([exceedsThreshold, readOnly]) => exceedsThreshold && !readOnly));
+
+  /**
+   * Emits 'true' if bundle line items are listed in the cart entry (item count and
+   * show/hide control). Both are hidden when the threshold is exceeded.
+   */
+  readonly showBundleLineItemsInCart$: Observable<boolean> =
+    this.exceedsCartEntryBundleLineItemsThreshold$.pipe(
+      map((exceedsThreshold) => !exceedsThreshold)
+    );
+
+  /** @see showBundleLineItemsInCart$ */
+  readonly showItemsToggle$ = this.showBundleLineItemsInCart$;
+
+  /** @see showBundleLineItemsInCart$ */
+  readonly showBundleLineItemCount$ = this.showBundleLineItemsInCart$;
 
   /**
    * Retrieves the maximum number of line items that are expanded within the cart entry.

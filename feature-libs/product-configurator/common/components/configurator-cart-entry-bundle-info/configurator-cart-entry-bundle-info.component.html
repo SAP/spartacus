@@ -1,16 +1,14 @@
 <ng-container *ngIf="orderEntry$ | async as orderEntry">
   <ng-container *ngIf="isBundleBasedConfigurator(orderEntry)">
     <ng-container *ngIf="numberOfLineItems$ | async as numberOfItems">
-      <div class="cx-number-items">
+      <div *ngIf="showBundleLineItemCount$ | async" class="cx-number-items">
         {{
           'configurator.header.items' | cxTranslate: { count: numberOfItems }
         }}
       </div>
       <!-- TODO: Remove feature flag next major release. -->
       <ng-container *cxFeature="'productConfiguratorCPQContainer'">
-        <ng-container
-          *ngIf="navigateToOverview$ | async; else toggleItemsButtonTemplate"
-        >
+        <ng-container *ngIf="navigateToOverview$ | async">
           <span
             id="{{ getItemsLinkMsgId(orderEntry) }}"
             class="cx-visually-hidden"
@@ -27,6 +25,9 @@
               [a11yDescriptionId]="getItemsLinkMsgId(orderEntry)"
             />
           </div>
+        </ng-container>
+        <ng-container *ngIf="showItemsToggle$ | async">
+          <ng-container *ngTemplateOutlet="toggleItemsButtonTemplate" />
         </ng-container>
       </ng-container>
       <ng-container *cxFeature="'!productConfiguratorCPQContainer'">

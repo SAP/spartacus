@@ -193,6 +193,19 @@ describe('ConfigurationOverviewAttributeComponent', () => {
       );
     });
 
+    it("should contain span element with class name 'cx-visually-hidden' and role 'paragraph' so that screen readers treat it as a separate line", () => {
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        'cx-visually-hidden',
+        0,
+        'role',
+        'paragraph'
+      );
+    });
+
     it("should contain div element with class name 'cx-attribute-value' and 'aria-hidden' attribute that removes div element from the accessibility tree", () => {
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
