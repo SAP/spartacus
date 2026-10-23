@@ -11,6 +11,7 @@ import {
   ConcurrencyLimitError,
   OccUnavailableError,
 } from './base-site-resolver';
+import { extractOccBaseUrlFromHtml } from './occ-base-url-extractor';
 
 interface OccBaseSite {
   uid?: string;
@@ -36,9 +37,12 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
   protected inFlight = 0;
 
   public constructor(options: BaseSiteResolverOptions) {
+    const occBaseUrl =
+      extractOccBaseUrlFromHtml(options.indexHtml) ?? options.occBaseUrl;
+
     this.uidSet = new Set(options.baseSites);
-    this.occUrl = this.createOccBaseSitesUrl(options.occBaseUrl);
-    this.supportsOccResolution = Boolean(options.occBaseUrl);
+    this.occUrl = this.createOccBaseSitesUrl(occBaseUrl);
+    this.supportsOccResolution = Boolean(occBaseUrl);
     this.cacheTtlMs = options.cacheTtlMs ?? 60_000;
     this.concurrencyLimit = options.concurrencyLimit ?? 10;
     this.timeoutMs = options.timeoutMs ?? 3_000;

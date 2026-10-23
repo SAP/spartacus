@@ -44,7 +44,7 @@ export interface SetBaseSiteHandlerOptions {
 }
 
 /** Configures one shared default resolver for all handlers created by the factory. */
-export function createBaseSiteHandler(
+export function createBaseSiteAwareRoute(
   options: BaseSiteResolverOptions
 ): (options: SetBaseSiteHandlerOptions) => RequestHandler {
   const resolver = new DefaultBaseSiteResolver(options);

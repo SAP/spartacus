@@ -8,7 +8,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import {
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
-  createBaseSiteHandler,
+  createBaseSiteAwareRoute,
   defaultExpressErrorHandlers,
   defaultSsrOptimizationOptions,
   getOriginValidationMiddleware,
@@ -19,6 +19,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'path';
 import { baseSite } from './app/spartacus/base-site.config';
+import { environment } from './environments/environment';
 import bootstrap from './main.server';
 
 const ssrOptions: SsrOptimizationOptions = {
@@ -31,7 +32,13 @@ const ssrOptions: SsrOptimizationOptions = {
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
-const baseSiteHandler = createBaseSiteHandler({ baseSites: baseSite });
+const indexHtml = join(serverDistFolder, 'index.server.html');
+const indexHtmlContent = readFileSync(indexHtml, 'utf-8');
+const baseSiteAwareRoute = createBaseSiteAwareRoute({
+  baseSites: baseSite,
+  indexHtml: indexHtmlContent,
+  occBaseUrl: environment.occBaseUrl,
+});
 
 /**
  * Example-only helper: renders a per-site llms.txt body;
@@ -47,8 +54,6 @@ function renderLlmsTxt(uid?: string | null): string {
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
-  const indexHtml = join(serverDistFolder, 'index.server.html');
-  const indexHtmlContent = readFileSync(indexHtml, 'utf-8');
 
   server.set('trust proxy', 'loopback');
 
@@ -75,7 +80,7 @@ export function app(): express.Express {
   // Serves a per-site llms.txt. Registered before the static handler because
   // `llms.txt` carries a dot and would otherwise be caught by the static route.
   server.use(
-    baseSiteHandler({
+    baseSiteAwareRoute({
       route: '/llms.txt',
       withBaseSiteInPath: true,
       handler: (req, res) => {

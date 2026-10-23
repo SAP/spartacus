@@ -8,7 +8,7 @@
 
 import { NextFunction, Request, Response } from 'express';
 import {
-  createBaseSiteHandler,
+  createBaseSiteAwareRoute,
   setBaseSiteHandler,
 } from './base-site-handler';
 import {
@@ -80,17 +80,18 @@ async function dispatch(
   await new Promise<void>((resolve) => setTimeout(resolve, 0));
 }
 
-describe('createBaseSiteHandler', () => {
+describe('createBaseSiteAwareRoute', () => {
   afterEach(() => {
     jest.restoreAllMocks();
   });
 
   it('creates a prefixed handler without requiring a resolver instance', async () => {
-    const baseSiteHandler = createBaseSiteHandler({
+    const baseSiteAwareRoute = createBaseSiteAwareRoute({
       baseSites: ['electronics-spa'],
+      indexHtml: '<html></html>',
     });
     const handler = jest.fn();
-    const middleware = baseSiteHandler({
+    const middleware = baseSiteAwareRoute({
       route: '/llms.txt',
       withBaseSiteInPath: true,
       handler,
@@ -128,21 +129,22 @@ describe('createBaseSiteHandler', () => {
         })
       )
     );
-    const baseSiteHandler = createBaseSiteHandler({
+    const baseSiteAwareRoute = createBaseSiteAwareRoute({
       baseSites: [],
+      indexHtml: '<html></html>',
       occBaseUrl: 'https://api.example',
     });
     const llmsRequest = createRequest();
     const robotsRequest = createRequest({ originalUrl: '/robots.txt' });
 
     await dispatch(
-      baseSiteHandler({ route: '/llms.txt', handler: jest.fn() }),
+      baseSiteAwareRoute({ route: '/llms.txt', handler: jest.fn() }),
       llmsRequest,
       createResponse(),
       createNext()
     );
     await dispatch(
-      baseSiteHandler({ route: '/robots.txt', handler: jest.fn() }),
+      baseSiteAwareRoute({ route: '/robots.txt', handler: jest.fn() }),
       robotsRequest,
       createResponse(),
       createNext()
