@@ -73,6 +73,53 @@ describe('DefaultBaseSiteResolver', () => {
     jest.useRealTimers();
   });
 
+  it('resolves dynamic sites without a static uid list and prefers HTML over an explicit fallback', async () => {
+    fetchSpy.mockResolvedValue(
+      occResponse([
+        { uid: 'electronics-spa', urlPatterns: ['^https://shop\\.example/'] },
+      ])
+    );
+    const resolver = new DefaultBaseSiteResolver({
+      indexHtml:
+        '<meta name="occ-backend-base-url" content="https://html-api.example">',
+      occBaseUrl: 'https://fallback-api.example',
+    });
+
+    await expect(
+      resolver.resolveFromOcc('https://shop.example/example.txt')
+    ).resolves.toBe('electronics-spa');
+    expect(fetchSpy).toHaveBeenCalledWith(
+      'https://html-api.example/occ/v2/basesites?fields=FULL',
+      expect.objectContaining({ headers: { Accept: 'application/json' } })
+    );
+    expect(
+      resolver.resolveFromPath(
+        'https://shop.example/electronics-spa/example.txt'
+      )
+    ).toBeNull();
+  });
+
+  it('uses the explicit fallback for dynamic sites when the HTML contains a placeholder', async () => {
+    fetchSpy.mockResolvedValue(
+      occResponse([
+        { uid: 'electronics-spa', urlPatterns: ['^https://shop\\.example/'] },
+      ])
+    );
+    const resolver = new DefaultBaseSiteResolver({
+      indexHtml:
+        '<meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE">',
+      occBaseUrl: 'https://fallback-api.example',
+    });
+
+    await expect(
+      resolver.resolveFromOcc('https://shop.example/example.txt')
+    ).resolves.toBe('electronics-spa');
+    expect(fetchSpy).toHaveBeenCalledWith(
+      'https://fallback-api.example/occ/v2/basesites?fields=FULL',
+      expect.anything()
+    );
+  });
+
   it('returns the first base site whose converted URL pattern matches', async () => {
     fetchSpy.mockResolvedValue(
       occResponse([

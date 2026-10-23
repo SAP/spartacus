@@ -34,7 +34,7 @@ const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
 const indexHtml = join(serverDistFolder, 'index.server.html');
 const indexHtmlContent = readFileSync(indexHtml, 'utf-8');
-const baseSiteAwareRoute = createBaseSiteAwareRoute({
+const registerBaseSiteAwareRoute = createBaseSiteAwareRoute({
   baseSites: baseSite,
   indexHtml: indexHtmlContent,
   occBaseUrl: environment.occBaseUrl,
@@ -80,7 +80,7 @@ export function app(): express.Express {
   // Serves a per-site llms.txt. Registered before the static handler because
   // `llms.txt` carries a dot and would otherwise be caught by the static route.
   server.use(
-    baseSiteAwareRoute({
+    registerBaseSiteAwareRoute({
       route: '/llms.txt',
       withBaseSiteInPath: true,
       handler: (req, res) => {

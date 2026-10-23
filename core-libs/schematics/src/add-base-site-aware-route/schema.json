@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "SpartacusBaseSiteAwareRoute",
+  "title": "Add a base-site-aware Express route",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The application with an existing Spartacus Express SSR setup."
+    }
+  },
+  "additionalProperties": false
+}

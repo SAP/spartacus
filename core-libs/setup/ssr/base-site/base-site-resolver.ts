@@ -6,8 +6,8 @@
 
 /** Options for the default base-site resolver. */
 export interface BaseSiteResolverOptions {
-  /** Known base-site uids for path-segment matching. */
-  baseSites: string[];
+  /** Known base-site uids for path-segment matching; omit for dynamic OCC sites. */
+  baseSites?: string[];
   /**
    * Storefront index HTML content. Its configured OCC base URL takes
    * precedence over `occBaseUrl`.
