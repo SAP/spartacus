@@ -11,6 +11,7 @@ import {
   FeatureLevelDirective,
   GlobalMessageService,
   I18nTestingModule,
+  ProductDetailQuantityService,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
@@ -48,6 +49,7 @@ const PRODUCT_ENTRY_KEY = '003+1';
 const QUOTE_CODE = '004';
 const QUOTE_ENTRY_KEY = QUOTE_CODE + '+1';
 const QUANTITY = 99;
+const PDP_QUANTITY = 5;
 const QUANTITY_CHANGED = 7;
 
 const configuratorType = ConfiguratorType.VARIANT;
@@ -175,6 +177,16 @@ class MockGlobalMessageService {
 class MockConfiguratorQuantityService {
   getQuantity(): Observable<number> {
     return of(QUANTITY);
+  }
+
+  setQuantity(): void {}
+}
+
+class MockProductDetailQuantityService
+  implements Partial<ProductDetailQuantityService>
+{
+  getQuantity(): Observable<number> {
+    return of(PDP_QUANTITY);
   }
 
   setQuantity(): void {}
@@ -459,6 +471,10 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
           useClass: MockConfiguratorQuantityService,
         },
         {
+          provide: ProductDetailQuantityService,
+          useClass: MockProductDetailQuantityService,
+        },
+        {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
         },
@@ -628,7 +644,14 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should set quantity that was retrieved from quantity service', () => {
+    it('should set quantity from product detail quantity service for product-bound configuration', () => {
+      initialize();
+      fixture.detectChanges();
+      expect(component.quantityControl.value).toBe(PDP_QUANTITY);
+    });
+
+    it('should set quantity from configurator quantity service for cart entry', () => {
+      performUpdateCart();
       initialize();
       fixture.detectChanges();
       expect(component.quantityControl.value).toBe(QUANTITY);
