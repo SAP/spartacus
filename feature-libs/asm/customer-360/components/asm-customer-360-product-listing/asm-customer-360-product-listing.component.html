@@ -29,7 +29,7 @@
           @if (showMore || i < numberofColumns) {
             <cx-asm-customer-360-product-item
               [product]="product"
-              [quantity]="product?.quantity"
+              [quantity]="product.quantity!"
               (selectProduct)="selectProduct.emit($event)"
               />
           }

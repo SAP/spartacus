@@ -204,7 +204,7 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     return this.mainMediaContainer?.value?.thumbnail?.galleryIndex || 0;
   }
 
-  getPreviousProduct(thumbs: Observable<ImageGroup>[]): Observable<ImageGroup> {
+  getPreviousProduct(thumbs: Observable<any>[]): Observable<any> {
     const active = this.getActive();
     if (active === 0) {
       return thumbs[active];
@@ -212,7 +212,7 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     return thumbs[active - 1];
   }
 
-  getNextProduct(thumbs: Observable<ImageGroup>[]): Observable<ImageGroup> {
+  getNextProduct(thumbs: Observable<any>[]): Observable<any> {
     const active = this.getActive();
     if (active === thumbs.length - 1) {
       return thumbs[active];

@@ -40,7 +40,7 @@
                 role="radio"
                 type="radio"
                 aria-checked="true"
-                (change)="changeType(type.code)"
+                (change)="changeType(type.code!)"
                 [value]="type.code"
                 [checked]="type.code === typeSelected"
                 formControlName="paymentType"

@@ -77,9 +77,9 @@
               (click)="sortEntriesAndUpdatePages(column.property)"
               (keydown)="onKeyDownCell($event, columnIndex, 0)"
               >
-              @if (column?.i18nTextKey) {
+              @if (column?.i18nTextKey; as i18nTextKey) {
                 <span>{{
-                  column.i18nTextKey | cxTranslate
+                  i18nTextKey | cxTranslate
                 }}</span>
               }
               @if (!column?.i18nTextKey) {
@@ -128,7 +128,7 @@
                 @if (column.renderAsStarRating) {
                   <cx-star-rating
                     tabindex="-1"
-                    [rating]="entry[column.property]"
+                    [rating]="+entry[column.property]!"
                     />
                 } @else {
                   @if (column?.isDate && entry[column.property]) {

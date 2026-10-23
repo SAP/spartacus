@@ -8,7 +8,7 @@
               class="cx-list-media cx-title"
               >
               {{ 'cartItems.cartTotal' | cxTranslate: { count: cart.totalItems } }}:
-              {{ cart.subTotal.formattedValue }}
+              {{ cart?.subTotal?.formattedValue! }}
             </div>
           }
           @for (step of steps$ | async; track step; let i = $index) {

@@ -15,7 +15,6 @@ import {
   Output,
 } from '@angular/core';
 import { ImageGroup, isNotNullable } from '@spartacus/core';
-import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
 import {
   CarouselComponent,
   FocusableCarouselItemDirective,
@@ -40,7 +39,7 @@ export class ProductImageZoomThumbnailsComponent implements OnInit, OnDestroy {
 
   @Output() productImage = new EventEmitter<{ image: any; index: number }>();
 
-  @Input() thumbs$: Observable<ThumbnailsGroup[]>;
+  @Input() thumbs$: Observable<any[]>;
 
   @Input() activeThumb: EventEmitter<ImageGroup>;
 

@@ -53,11 +53,11 @@
                 <div class="cx-asm-customer-email">
                   {{ customerOverview?.email }}
                 </div>
-                @if (customerOverview?.address?.town) {
+                @if (customerOverview?.address?.town; as customerOverviewAddressTown) {
                   <div
                     class="cx-asm-customer-address"
                     >
-                    {{ customerOverview.address.town }}
+                    {{ customerOverviewAddressTown }}
                   </div>
                 }
               </div>

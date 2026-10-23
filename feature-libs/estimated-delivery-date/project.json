@@ -41,5 +41,6 @@
       }
     }
   },
-  "tags": ["type:feature"]
+  "tags": ["type:feature"],
+  "implicitDependencies": ["cart"]
 }

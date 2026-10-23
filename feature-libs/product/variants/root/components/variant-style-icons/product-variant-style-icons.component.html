@@ -3,9 +3,9 @@
     @for (v of variants; track v) {
       <li>
         <img
-          [attr.src]="getVariantThumbnailUrl(v.variantOptionQualifiers)"
-          [attr.title]="variantNames[v.code]"
-          [attr.alt]="variantNames[v.code]"
+          [attr.src]="getVariantThumbnailUrl(v.variantOptionQualifiers!)"
+          [attr.title]="variantNames[v.code!]"
+          [attr.alt]="variantNames[v.code!]"
           />
       </li>
     }
