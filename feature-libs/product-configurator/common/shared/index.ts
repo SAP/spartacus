@@ -4,4 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './services/index';
 export * from './utils/index';
