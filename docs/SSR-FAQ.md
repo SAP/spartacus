@@ -63,82 +63,93 @@ It's the `concurrency` property of the `SsrOptimizationOptions` defined in `serv
 
 ## How to resolve the base site in an SSR server
 
-The Node-only base-site API is exposed from the secondary entry point `@spartacus/setup/ssr/base-site`. Do not import these symbols from `@spartacus/setup/ssr`.
+Import the base-site API from `@spartacus/setup/ssr`. Call `createBaseSiteAwareRoute` once at server startup and reuse its returned `registerBaseSiteAwareRoute` function for all participating routes. The routes share one resolver, cache, and concurrency limit without starting an Angular render.
 
-Create one resolver when the server process starts. For a production build, read the `occ-backend-base-url` meta tag from the generated browser index. `extractOccBaseUrlFromHtml()` returns `null` for a missing or empty tag and for the unsubstituted deployment placeholder.
+Pass the existing index HTML content as the required `indexHtml` option. In production, the backend address comes from its `occ-backend-base-url` meta tag. The resolver extracts that address internally and always prefers it over an explicit `occBaseUrl`. The optional fallback is used only when the HTML has no configured address, for example during local development with an unsubstituted placeholder.
 
 ```ts
 import {
-  createBaseSiteRequestHandler,
-  DefaultBaseSiteResolver,
-  extractOccBaseUrlFromHtml,
-} from '@spartacus/setup/ssr/base-site';
+  createBaseSiteAwareRoute,
+  getOriginValidationMiddleware,
+} from '@spartacus/setup/ssr';
 import express from 'express';
 import { readFileSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
+import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-function resolveOccBaseUrl(browserDistFolder: string): string | null {
-  for (const fileName of ['index.csr.html', 'index.html']) {
-    try {
-      const url = extractOccBaseUrlFromHtml(
-        readFileSync(join(browserDistFolder, fileName), 'utf-8')
-      );
-      if (url) {
-        return url;
-      }
-    } catch {
-      // Try the next generated index file.
-    }
-  }
-
-  return null;
-}
-
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
-const browserDistFolder = resolve(serverDistFolder, '../browser');
-const occBaseUrl = resolveOccBaseUrl(browserDistFolder);
-const baseSiteResolver = occBaseUrl
-  ? new DefaultBaseSiteResolver({
-      occBaseUrl,
-      defaultBaseSite: 'electronics-spa',
-    })
-  : undefined;
+const indexHtmlContent = readFileSync(
+  join(serverDistFolder, 'index.server.html'),
+  'utf-8'
+);
+const registerBaseSiteAwareRoute = createBaseSiteAwareRoute({
+  indexHtml: indexHtmlContent,
+  // Optional local fallback; the HTML address always takes precedence.
+  // occBaseUrl: 'https://your-local-occ.example',
+  // Configure this static uid list only if you also use path-based routes.
+  // baseSites: ['electronics-spa', 'apparel-uk'],
+});
 
 const server = express();
 server.set('trust proxy', 'loopback');
+server.use(
+  getOriginValidationMiddleware({
+    allowedOrigins: process.env['SSR_ALLOWED_ORIGINS'],
+  })
+);
 
-if (baseSiteResolver) {
-  server.get(
-    '/base-site',
-    createBaseSiteRequestHandler({
-      resolver: baseSiteResolver,
-      render: (baseSite) => baseSite ?? '',
-    })
-  );
-}
+server.use(
+  registerBaseSiteAwareRoute({
+    route: '/base-site',
+    handler: (req, res) => {
+      res.type('text/plain');
+      if (!req.baseSite) {
+        res.status(404).send('No matching base site');
+        return;
+      }
+      res.send(req.baseSite);
+    },
+  })
+);
 ```
 
-Register the handler after origin validation and before static-file and catch-all handlers. The handler uses the application's existing Express `trust proxy` configuration when resolving forwarded protocol and host values. Configure those trust rules for the deployment before registering the handler. If no OCC URL can be resolved at startup, log one warning, omit the `/base-site` handler, and continue serving the existing Angular SSR application unchanged.
+Reuse your server's existing HTML read rather than reading the file again for each route. Mount the returned middleware at the application root, after origin validation and authentication but before static-file or catch-all handlers that can consume the route. The middleware uses the application's Express `trust proxy` configuration when resolving forwarded protocol and host values.
 
-The default resolver uses `/occ/v2`, a 60-second cache, a cold-cache concurrency limit of 10, a 3-second OCC timeout, and no fallback base site. The request handler returns `text/plain` and maps concurrency and OCC failures to HTTP 503 with `Retry-After` values of 3 and 25 seconds respectively. Override these defaults when needed:
+With `withBaseSiteInPath` omitted or false, the resolver matches the request URL against the site's OCC URL patterns. It fetches site configuration lazily, not during factory creation. Registering a domain-based route without an address in the HTML or an explicit fallback throws a configuration error.
+
+The application receives a normal `(req, res, next)` handler call with `req.baseSite` set to a uid or `null`. The handler controls its response status, content type, and body, including what to do for an unmatched site. The example above chooses a 404; the resolver itself does not choose a default base site.
+
+### Path-based routes
+
+For sites identified by the leading URL segment, configure `baseSites` in the original factory options and set `withBaseSiteInPath: true` when registering the route. The route string itself must not contain the base-site prefix:
 
 ```ts
-const resolver = new DefaultBaseSiteResolver({
-  occBaseUrl: 'https://api.example.com',
-  occApiPrefix: '/custom-occ/v3',
-  defaultBaseSite: 'electronics-spa',
-  cacheTtlMs: 120_000,
-  concurrencyLimit: 20,
-  timeoutMs: 5_000,
-});
+server.use(
+  registerBaseSiteAwareRoute({
+    route: '/base-site',
+    withBaseSiteInPath: true,
+    handler: (req, res) => {
+      res.type('text/plain').send(`Current baseSite: ${req.baseSite}`);
+    },
+  })
+);
+```
 
-server.get(
-  '/base-site',
-  createBaseSiteRequestHandler({
-    resolver,
-    render: (baseSite) => JSON.stringify({ baseSite }),
-    contentType: 'application/json',
+For example, `/electronics-spa/base-site` resolves `electronics-spa` from the static uid list without contacting OCC. An unknown uid is passed to the handler as `null`. Omit `baseSites` when only using dynamic OCC-backed domain resolution.
+
+### Reliability and custom responses
+
+Domain resolution uses `/occ/v2/basesites?fields=FULL`, a 60-second cache, at most 10 cold-cache waiters, and a 3-second OCC timeout. Set `cacheTtlMs`, `concurrencyLimit`, and `timeoutMs` on the original factory options to override these defaults. These limits are separate from Angular page-rendering concurrency.
+
+Resolver concurrency and OCC failures map to HTTP 503 with `Retry-After` values of 3 and 25 seconds respectively. Other errors are forwarded to Express. Use `retryAfterSeconds` for route-specific retry delays, and the ordinary response methods for a different response format:
+
+```ts
+server.use(
+  registerBaseSiteAwareRoute({
+    route: '/base-site.json',
+    handler: (req, res) => {
+      res.json({ baseSite: req.baseSite });
+    },
     retryAfterSeconds: {
       concurrencyLimit: 5,
       occUnavailable: 30,
@@ -147,26 +158,31 @@ server.get(
 );
 ```
 
-You can replace the OCC-backed implementation with any object that implements `BaseSiteResolver`:
+### Custom resolvers
+
+To replace the default resolver instead of using the factory, provide a `BaseSiteResolver` to the lower-level `setBaseSiteHandler`. Implement both resolution methods and use `supportsOccResolution` to indicate that the asynchronous domain-resolution strategy is available:
 
 ```ts
-import {
-  BaseSiteResolver,
-  createBaseSiteRequestHandler,
-} from '@spartacus/setup/ssr/base-site';
+import { BaseSiteResolver, setBaseSiteHandler } from '@spartacus/setup/ssr';
 
 const customResolver: BaseSiteResolver = {
-  async resolve(requestUrl) {
+  supportsOccResolution: true,
+  resolveFromPath(requestUrl) {
+    const uid = new URL(requestUrl).pathname.split('/').filter(Boolean)[0];
+    return uid === 'electronics-spa' ? uid : null;
+  },
+  async resolveFromOcc(requestUrl) {
     const hostname = new URL(requestUrl).hostname;
     return hostname === 'shop.example.com' ? 'electronics-spa' : null;
   },
 };
 
-server.get(
-  '/base-site',
-  createBaseSiteRequestHandler({
-    resolver: customResolver,
-    render: (baseSite) => baseSite ?? '',
+server.use(
+  setBaseSiteHandler(customResolver, {
+    route: '/custom-base-site',
+    handler: (req, res) => {
+      res.json({ baseSite: req.baseSite });
+    },
   })
 );
 ```
