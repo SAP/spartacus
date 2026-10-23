@@ -11,6 +11,7 @@ import {
   Optional,
   inject,
 } from '@angular/core';
+import { CartItemQuantityService } from '@spartacus/cart/base/root';
 import {
   Product,
   ProductScope,
@@ -22,7 +23,8 @@ import {
   ProductListItemContext,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
+import { ConfiguratorQuantityService } from '../../shared/services/configurator-quantity.service';
 import {
   CommonConfigurator,
   ReadOnlyPostfix,
@@ -47,6 +49,8 @@ export class ConfigureProductComponent {
   @Optional() protected routingService = inject(RoutingService, {
     optional: true,
   });
+  protected cartItemQuantityService = inject(CartItemQuantityService);
+  protected configuratorQuantityService = inject(ConfiguratorQuantityService);
 
   protected getProduct(): Observable<Product | null> {
     if (this.productListItemContext) {
@@ -128,23 +132,29 @@ export class ConfigureProductComponent {
   }
 
   navigateToConfigurator(product: Product): void {
-    this.routingService?.go(
-      {
-        cxRoute: 'configure' + product.configuratorType,
-        params: {
-          ownerType: this.ownerTypeProduct,
-          entityKey: product.code,
-        },
-      },
-      {
-        queryParams: {
-          displayRestartDialog: this.isDisplayRestartDialog(
-            product.configuratorType
-          ),
-          productCode: product.code,
-        },
-      }
-    );
+    this.cartItemQuantityService
+      .getQuantity()
+      .pipe(take(1))
+      .subscribe((quantity) => {
+        this.configuratorQuantityService.setQuantity(quantity ?? 1);
+        this.routingService?.go(
+          {
+            cxRoute: 'configure' + product.configuratorType,
+            params: {
+              ownerType: this.ownerTypeProduct,
+              entityKey: product.code,
+            },
+          },
+          {
+            queryParams: {
+              displayRestartDialog: this.isDisplayRestartDialog(
+                product.configuratorType
+              ),
+              productCode: product.code,
+            },
+          }
+        );
+      });
   }
 
   protected isConfiguratorTypeReadOnly(configuratorType?: string): boolean {
