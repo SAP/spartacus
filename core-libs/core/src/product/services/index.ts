@@ -9,3 +9,4 @@ export * from './product-page-meta.resolver';
 export * from './search-page-meta.resolver';
 export * from './product-loading.service';
 export * from './product-catalog.service';
+export * from './product-detail-quantity.service';

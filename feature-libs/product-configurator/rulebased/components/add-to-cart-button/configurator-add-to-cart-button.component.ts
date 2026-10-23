@@ -17,6 +17,7 @@ import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
+  ProductDetailQuantityService,
   RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
@@ -71,6 +72,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   protected multiCartFacade = inject(MultiCartFacade);
   protected focusService = inject(KeyboardFocusService);
   protected activeCartFacade = inject(ActiveCartFacade);
+  protected productDetailQuantityService = inject(ProductDetailQuantityService);
   quantityControl = new UntypedFormControl(1);
   iconType = ICON_TYPE;
   addToCartButtonDisabled = false;
@@ -117,12 +119,28 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.makeAddToCartButtonSticky();
 
-    this.configuratorQuantityService
-      .getQuantity()
-      .pipe(take(1))
-      .subscribe((quantity) => {
-        this.quantityControl.setValue(quantity);
-      });
+    this.subscription.add(
+      this.configRouterExtractorService
+        .extractRouterData()
+        .pipe(
+          take(1),
+          switchMap((routerData) => {
+            if (
+              routerData.owner.type === CommonConfigurator.OwnerType.PRODUCT
+            ) {
+              return this.productDetailQuantityService.getQuantity().pipe(
+                take(1),
+                map((quantity) => quantity ?? 1)
+              );
+            }
+            return this.configuratorQuantityService.getQuantity().pipe(take(1));
+          })
+        )
+        .subscribe((quantity) => {
+          this.configuratorQuantityService.setQuantity(quantity);
+          this.quantityControl.setValue(quantity);
+        })
+    );
 
     this.subscription.add(
       this.quantityControl.valueChanges
