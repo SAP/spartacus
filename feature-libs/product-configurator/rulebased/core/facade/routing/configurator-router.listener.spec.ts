@@ -34,6 +34,14 @@ const routerStateConfigRoute: RouterState = {
   },
 };
 
+const routerStateConfigRouteWithQuantity: RouterState = {
+  ...routerStateConfigRoute,
+  state: {
+    ...routerStateConfigRoute.state,
+    queryParams: { quantity: '4' },
+  },
+};
+
 const routerStateCartRoute: RouterState = {
   ...routerState,
   state: {
@@ -135,6 +143,14 @@ describe('ConfiguratorRouterListener', () => {
         ConfiguratorRouterListener as Type<ConfiguratorRouterListener>
       );
       expect(configuratorQuantityService.setQuantity).toHaveBeenCalledWith(1);
+    });
+
+    it('should apply quantity query parameter on configurator routes', () => {
+      routerState = routerStateConfigRouteWithQuantity;
+      TestBed.inject(
+        ConfiguratorRouterListener as Type<ConfiguratorRouterListener>
+      );
+      expect(configuratorQuantityService.setQuantity).toHaveBeenCalledWith(4);
     });
   });
 

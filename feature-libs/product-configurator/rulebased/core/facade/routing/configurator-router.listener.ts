@@ -25,7 +25,9 @@ export class ConfiguratorRouterListener implements OnDestroy {
   protected observeRouterChanges(): void {
     this.subscription.add(
       this.routingService.getRouterState().subscribe((routerState) => {
-        if (!this.isConfiguratorRelatedRoute(routerState.state.semanticRoute)) {
+        if (this.isConfiguratorRelatedRoute(routerState.state.semanticRoute)) {
+          this.applyQuantityFromQueryParams(routerState.state.queryParams);
+        } else {
           this.configuratorCartService.removeCartBoundConfigurations();
           this.configuratorQuantityService.setQuantity(1);
         }
@@ -35,6 +37,23 @@ export class ConfiguratorRouterListener implements OnDestroy {
 
   protected isConfiguratorRelatedRoute(semanticRoute?: string): boolean {
     return semanticRoute ? semanticRoute.includes('configure') : false;
+  }
+
+  /**
+   * Applies cart quantity from the `quantity` query parameter when entering
+   * a configurator route (CXSPA-2662 option C).
+   */
+  protected applyQuantityFromQueryParams(
+    queryParams?: Record<string, unknown>
+  ): void {
+    const rawQuantity = queryParams?.['quantity'];
+    if (rawQuantity === undefined || rawQuantity === null || rawQuantity === '') {
+      return;
+    }
+    const parsedQuantity = Number.parseInt(String(rawQuantity), 10);
+    if (Number.isFinite(parsedQuantity) && parsedQuantity > 0) {
+      this.configuratorQuantityService.setQuantity(parsedQuantity);
+    }
   }
 
   ngOnDestroy(): void {

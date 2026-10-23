@@ -14,7 +14,8 @@ import {
   CurrentProductService,
   ProductListItemContext,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { CartItemQuantityService } from '@spartacus/cart/base/root';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ConfiguratorProductScope } from '../../core/model/configurator-product-scope';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import {
@@ -70,6 +71,12 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
+class MockCartItemQuantityService implements Partial<CartItemQuantityService> {
+  protected quantity$ = new BehaviorSubject<number>(1);
+  getQuantity = () => this.quantity$.asObservable();
+  setQuantity = (quantity: number) => this.quantity$.next(quantity);
+}
+
 let component: ConfigureProductComponent;
 let currentProductService: CurrentProductService;
 let fixture: ComponentFixture<ConfigureProductComponent>;
@@ -101,6 +108,10 @@ function setupWithCurrentProductService(
           provide: RoutingService,
           useClass: MockRoutingService,
         },
+        {
+          provide: CartItemQuantityService,
+          useClass: MockCartItemQuantityService,
+        },
       ],
     })
       .overrideComponent(ConfigureProductComponent, {
@@ -123,6 +134,10 @@ function setupWithCurrentProductService(
         {
           provide: RoutingService,
           useClass: MockRoutingService,
+        },
+        {
+          provide: CartItemQuantityService,
+          useClass: MockCartItemQuantityService,
         },
       ],
     })
@@ -150,6 +165,10 @@ function setupWithCurrentProductService(
         {
           provide: RoutingService,
           useClass: MockRoutingService,
+        },
+        {
+          provide: CartItemQuantityService,
+          useClass: MockCartItemQuantityService,
         },
       ],
     })
@@ -439,6 +458,8 @@ describe('ConfigureProductComponent', () => {
     it('should navigate to a product configurator', () => {
       setupWithCurrentProductService(true);
       fixture.detectChanges();
+      const cartItemQuantityService = TestBed.inject(CartItemQuantityService);
+      cartItemQuantityService.setQuantity(5);
       vi.spyOn(routingService, 'go');
       const btn = fixture.debugElement.query(By.css('button'));
       btn.triggerEventHandler('click');
@@ -454,6 +475,7 @@ describe('ConfigureProductComponent', () => {
           queryParams: {
             displayRestartDialog: 'true',
             productCode: mockProduct.code,
+            quantity: 5,
           },
         }
       );

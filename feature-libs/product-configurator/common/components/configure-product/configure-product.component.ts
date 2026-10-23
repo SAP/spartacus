@@ -11,6 +11,7 @@ import {
   Optional,
   inject,
 } from '@angular/core';
+import { CartItemQuantityService } from '@spartacus/cart/base/root';
 import {
   Product,
   ProductScope,
@@ -22,7 +23,7 @@ import {
   ProductListItemContext,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import {
   CommonConfigurator,
   ReadOnlyPostfix,
@@ -47,6 +48,7 @@ export class ConfigureProductComponent {
   @Optional() protected routingService = inject(RoutingService, {
     optional: true,
   });
+  protected cartItemQuantityService = inject(CartItemQuantityService);
 
   protected getProduct(): Observable<Product | null> {
     if (this.productListItemContext) {
@@ -128,23 +130,29 @@ export class ConfigureProductComponent {
   }
 
   navigateToConfigurator(product: Product): void {
-    this.routingService?.go(
-      {
-        cxRoute: 'configure' + product.configuratorType,
-        params: {
-          ownerType: this.ownerTypeProduct,
-          entityKey: product.code,
-        },
-      },
-      {
-        queryParams: {
-          displayRestartDialog: this.isDisplayRestartDialog(
-            product.configuratorType
-          ),
-          productCode: product.code,
-        },
-      }
-    );
+    this.cartItemQuantityService
+      .getQuantity()
+      .pipe(take(1))
+      .subscribe((quantity) => {
+        this.routingService?.go(
+          {
+            cxRoute: 'configure' + product.configuratorType,
+            params: {
+              ownerType: this.ownerTypeProduct,
+              entityKey: product.code,
+            },
+          },
+          {
+            queryParams: {
+              displayRestartDialog: this.isDisplayRestartDialog(
+                product.configuratorType
+              ),
+              productCode: product.code,
+              quantity: quantity ?? 1,
+            },
+          }
+        );
+      });
   }
 
   protected isConfiguratorTypeReadOnly(configuratorType?: string): boolean {
