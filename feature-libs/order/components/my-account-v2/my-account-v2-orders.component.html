@@ -29,7 +29,7 @@
 @if (orders$ | async; as orderHistory) {
   <div>
     <!-- BODY -->
-    @if (orderHistory.pagination.totalResults > 0) {
+    @if (orderHistory.pagination?.totalResults! > 0) {
       <div class="cx-my-account-view-body">
         @for (order of orderHistory.orders; track order) {
           <div class="cx-my-account-view-order">
@@ -74,16 +74,16 @@
                     <div class="cx-my-account-view-order-column-1-details-top">
                       <div class="cx-my-account-view-product-name">
                         {{ product.name }}
-                        @if (order.totalItems - 1 > 1) {
+                        @if (order.totalItems! - 1 > 1) {
                           <span>
                             +
                             {{
                             'myAccountV2Orders.items'
-                            | cxTranslate: { value: order.totalItems - 1 }
+                            | cxTranslate: { value: order.totalItems! - 1 }
                             }}
                           </span>
                         }
-                        @if (order.totalItems - 1 === 1) {
+                        @if (order.totalItems! - 1 === 1) {
                           <span>
                             +
                             {{

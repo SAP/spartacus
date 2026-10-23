@@ -5,7 +5,7 @@
       ({{ ticketList.pagination?.totalResults || 0 }})
     </h2>
   </span>
-  @if (ticketList.tickets.length > 0) {
+  @if (ticketList.tickets?.length! > 0) {
     <div class="cx-ticketing-list-sort top">
       <label class="cx-ticketing-list-form-group form-group">
         <span>
@@ -139,7 +139,7 @@
                 } | cxUrl
               "
                 class="cx-ticketing-list-value"
-                [ngClass]="getStatusClass(ticket.status.id)"
+                [ngClass]="getStatusClass(ticket.status?.id!)"
                 >
                 {{ ticket.status?.name }}
               </a>
@@ -149,7 +149,7 @@
       </tbody>
     </table>
     <div class="cx-ticketing-list-sort bottom">
-      @if (ticketList.pagination?.totalPages > 1) {
+      @if (ticketList.pagination?.totalPages! > 1) {
         <div
           class="cx-ticketing-list-pagination"
           >

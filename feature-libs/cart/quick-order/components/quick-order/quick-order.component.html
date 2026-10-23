@@ -80,8 +80,8 @@
                 'quickOrderList.errors.productIsOutOfStock'
                 | cxTranslate
                 : {
-                name: error.entry.product.name,
-                code: error.entry.product.code,
+                name: error.entry?.product?.name,
+                code: error.entry?.product?.code,
               }
               }}
             </span>
@@ -115,8 +115,8 @@
               'quickOrderList.warnings.productWasReduced'
               | cxTranslate
               : {
-              name: warning.entry.product.name,
-              code: warning.entry.product.code,
+              name: warning.entry?.product?.name,
+              code: warning.entry?.product?.code,
               quantityAdded: warning.quantityAdded,
             }
             }}
@@ -149,8 +149,8 @@
               'quickOrderList.successes.productAddedToCart'
               | cxTranslate
               : {
-              name: entry.product.name,
-              code: entry.product.code,
+              name: entry.product?.name,
+              code: entry.product?.code,
             }
           }}</span>
         </li>

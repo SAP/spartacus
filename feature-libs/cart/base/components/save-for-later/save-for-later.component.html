@@ -9,7 +9,7 @@
 
 @if (saveForLater$ | async; as saveForLater) {
   @if (entries$ | async; as entries) {
-    @if (saveForLater.totalItems > 0) {
+    @if (!!saveForLater.totalItems && saveForLater.totalItems > 0) {
       <div class="cart-details-wrapper">
         <div class="cx-total">
           {{

@@ -29,7 +29,7 @@
     </div>
   </div>
   @if (tickets$ | async; as ticketList) {
-    @if (ticketList.tickets.length > 0) {
+    @if (ticketList.tickets?.length! > 0) {
       <div class="cx-my-account-customer-ticket-body">
         @for (ticket of ticketList.tickets; track ticket) {
           <div class="cx-my-account-customer-ticket-details">

@@ -45,7 +45,7 @@
     @for (item of items; track item; let i = $index) {
       @if (getControl(item) | async; as control) {
         <ng-container
-          [class.is-changed]="control.get('quantity').disabled"
+          [class.is-changed]="control.get('quantity')?.disabled"
           >
           <tr
             cx-cart-item-list-row

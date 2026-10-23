@@ -59,7 +59,7 @@
               />
           </div>
         }
-        @for (item of content.paragraphs; track trackByIndex($index, item)) {
+        @for (item of content.paragraphs; track $index) {
           <div
             class="cx-card-paragraph"
             >

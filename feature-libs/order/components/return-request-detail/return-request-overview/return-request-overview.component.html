@@ -9,7 +9,7 @@
       @if (returnRequest.cancellable) {
         <button
           class="btn btn-block btn-primary"
-          (click)="cancelReturn(returnRequest.rma)"
+          (click)="cancelReturn(returnRequest.rma!)"
           [disabled]="isCancelling$ | async"
           >
           {{ 'returnRequest.cancel' | cxTranslate }}

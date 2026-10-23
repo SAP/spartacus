@@ -1,5 +1,5 @@
 @if (cart$ | async; as cart) {
-  @if (cart.totalItems > 0) {
+  @if (!!cart.totalItems && cart.totalItems > 0) {
     <div class="clear-cart-wrapper">
       <button
         #element

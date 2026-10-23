@@ -42,7 +42,7 @@
         @for (coupon of applicableCoupons; track coupon) {
           <div class="coupons card">
             <button
-              (click)="applyCustomerCoupon(coupon.couponId)"
+              (click)="applyCustomerCoupon(coupon.couponId!)"
               class="coupon-id link"
               [disabled]="cartIsLoading$ | async"
               [class.disabled]="cartIsLoading$ | async"

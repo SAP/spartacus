@@ -1,6 +1,6 @@
 @if (order$ | async; as order) {
   <div class="cx-order-items">
-    @if (!showItemList || entries?.length > 0) {
+    @if (!showItemList || entries!.length > 0) {
       <h2 class="cx-review-header">
         {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
       </h2>
@@ -9,7 +9,7 @@
         <div class="cx-review-summary-card-container">
           <div class="cx-review-summary-card cx-review-card-address">
             <cx-card
-              [content]="getDeliveryAddressCard(order.deliveryAddress) | async"
+              [content]="getDeliveryAddressCard(order.deliveryAddress!) | async"
               />
           </div>
         </div>
@@ -17,7 +17,7 @@
         <div class="cx-review-summary-card-container">
           <div class="cx-review-summary-card cx-review-card-address">
             <cx-card
-              [content]="getDeliveryModeCard(order.deliveryMode) | async"
+              [content]="getDeliveryModeCard(order.deliveryMode!) | async"
               />
           </div>
         </div>

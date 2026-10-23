@@ -21,6 +21,7 @@
   <div class="row">
     <ng-container>
       @for (voucher of sortedVouchers; track voucher) {
+        @let voucherCode = voucher.voucherCode ?? '';
         <div
           class="col-sm-12 col-md-6 col-lg-12 cx-coupon-card-grid"
           >
@@ -31,7 +32,7 @@
               class="close"
               title="{{ 'common.close' | cxTranslate }}"
               [attr.aria-label]="'common.close' | cxTranslate"
-              (click)="removeVoucher(voucher.voucherCode)"
+              (click)="removeVoucher(voucherCode)"
               [disabled]="cartIsLoading"
               [class.disabled]="cartIsLoading"
               >

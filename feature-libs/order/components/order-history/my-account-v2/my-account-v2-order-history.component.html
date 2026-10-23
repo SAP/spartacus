@@ -13,7 +13,7 @@
     </div>
     <!--BODY-->
     <div class="cx-my-account-v2-order-history-body">
-      @if (orderHistory.pagination.totalResults > 0) {
+      @if (orderHistory.pagination?.totalResults! > 0) {
         @for (order of orderHistory.orders; track order) {
           <div class="cx-each-order">
             <!--eg: Order # 12345-->
@@ -63,7 +63,7 @@
             </div>
           }
           <!-- PAGINATION -->
-          @if (orderHistory.pagination.totalPages > 1) {
+          @if (orderHistory.pagination?.totalPages! > 1) {
             <div
               class="cx-order-history-pagination"
         [attr.aria-label]="

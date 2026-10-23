@@ -1,5 +1,6 @@
 @for (cartModification of cartModifications$ | async; track cartModification) {
-  @if (visibleWarnings[cartModification.entry.product.code]) {
+  @let code = cartModification.entry?.product?.code;
+  @if (code && visibleWarnings[code]) {
     <div
       class="alert alert-danger"
       >
@@ -9,10 +10,10 @@
       <span>
         <a
         [routerLink]="
-          { cxRoute: 'product', params: cartModification.entry.product } | cxUrl
+          { cxRoute: 'product', params: cartModification.entry?.product } | cxUrl
         "
           >
-          {{ cartModification.entry.product.name }}
+          {{ cartModification.entry?.product?.name }}
         </a>
         {{ 'validation.productOutOfStock' | cxTranslate }}
       </span>

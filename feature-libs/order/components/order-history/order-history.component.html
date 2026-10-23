@@ -27,7 +27,7 @@
       </div>
       <!-- BODY -->
       <div class="cx-order-history-body">
-        @if (type.orderHistory.pagination.totalResults > 0) {
+        @if (type.orderHistory.pagination?.totalResults! > 0) {
           <!-- Select Form and Pagination Top -->
           <div class="cx-order-history-sort top">
             <label class="cx-order-history-form-group form-group"
@@ -38,13 +38,13 @@
               [sortOptions]="type.orderHistory.sorts"
               [sortLabels]="getSortLabels() | async"
               (sortListEvent)="changeSortCode($event)"
-              [selectedOption]="type.orderHistory.pagination.sort"
+              [selectedOption]="type.orderHistory.pagination?.sort!"
               placeholder="{{ 'orderHistory.sortBy' | cxTranslate }}"
               [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
               ariaControls="order-history-table"
               />
           </label>
-          @if (type.orderHistory.pagination.totalPages > 1) {
+          @if (type.orderHistory.pagination?.totalPages! > 1) {
             <div
               class="cx-order-history-pagination"
               >
@@ -205,7 +205,7 @@
                               [queryParams]="getQueryParams(order)"
                               class="cx-order-history-value"
                               >
-                              {{ order?.total.formattedValue }}</a
+                              {{ order?.total!.formattedValue }}</a
                               >
                             </td>
                           </tr>
@@ -214,7 +214,7 @@
                     </table>
                     <!-- Select Form and Pagination Bottom -->
                     <div class="cx-order-history-sort bottom">
-                      @if (type.orderHistory.pagination.totalPages > 1) {
+                      @if (type.orderHistory.pagination?.totalPages! > 1) {
                         <div
                           class="cx-order-history-pagination"
                           >

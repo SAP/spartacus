@@ -8,7 +8,8 @@
     </div>
     <!-- BODY -->
     <div class="cx-replenishment-order-history-body">
-      @if (replenishmentOrders.pagination.totalResults > 0) {
+      @let totalResults = replenishmentOrders.pagination?.totalResults;
+      @if (!!totalResults && totalResults > 0) {
         <!-- Select Form and Pagination Top -->
         <div class="cx-replenishment-order-history-sort top row">
           <label
@@ -19,13 +20,14 @@
               [sortOptions]="replenishmentOrders.sorts"
               [sortLabels]="getSortLabels() | async"
               (sortListEvent)="changeSortCode($event)"
-              [selectedOption]="replenishmentOrders.pagination.sort"
+              [selectedOption]="replenishmentOrders.pagination?.sort"
               placeholder="{{ 'orderHistory.sortBy' | cxTranslate }}"
               [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
               ariaControls="replenishment-order-history-table"
               />
           </label>
-          @if (replenishmentOrders.pagination.totalPages > 1) {
+          @let replenishmentOrderTotalPages = replenishmentOrders.pagination?.totalPages;
+          @if (replenishmentOrderTotalPages && replenishmentOrderTotalPages > 1) {
             <div
               class="cx-replenishment-order-history-pagination"
               >
@@ -131,7 +133,7 @@
                       class="cx-replenishment-order-history-value cx-purchase-order-number"
                       >
                       {{
-                      order?.purchaseOrderNumber?.length > 0
+                      (order?.purchaseOrderNumber && order?.purchaseOrderNumber.length > 0)
                       ? order?.purchaseOrderNumber
                       : ('orderHistory.emptyPurchaseOrderId' | cxTranslate)
                       }}
@@ -166,7 +168,7 @@
                   "
                         class="cx-replenishment-order-history-value"
                         >
-                        {{ order?.trigger.displayTimeTable | slice: 0 : -12 }}
+                        {{ order?.trigger!.displayTimeTable | slice: 0 : -12 }}
                       </a>
                     </td>
                     <td role="cell">
@@ -184,7 +186,7 @@
                         >
                         {{
                         order?.active
-                        ? (order?.trigger.activationTime | cxDate: 'M/d/yyyy')
+                        ? (order.trigger?.activationTime! | cxDate: 'M/d/yyyy')
                         : ('orderHistory.cancelled' | cxTranslate)
                         }}
                       </a>
@@ -202,7 +204,7 @@
                   "
                         class="cx-replenishment-order-history-value"
                         >
-                        {{ order?.totalPriceWithTax.formattedValue }}</a
+                        {{ order?.totalPriceWithTax!.formattedValue }}</a
                         >
                       </td>
                       <td class="cx-replenishment-order-history-cancel" role="cell">
@@ -211,7 +213,7 @@
                         ></div>
                         @if (order?.active) {
                           <button
-                            (click)="openDialog($event, order?.replenishmentOrderCode)"
+                            (click)="openDialog($event, order?.replenishmentOrderCode!)"
                             class="cx-order-cancel btn btn-secondary"
                             #element
                             >
@@ -226,7 +228,8 @@
               <!-- Select Form and Pagination Bottom -->
               <div class="cx-replenishment-order-history-sort bottom row">
                 <div class="cx-replenishment-order-history-pagination">
-                  @if (replenishmentOrders.pagination.totalPages > 1) {
+                  @let totalPages = replenishmentOrders.pagination?.totalPages;
+                  @if (totalPages && totalPages > 1) {
                     <cx-pagination
                       [pagination]="replenishmentOrders.pagination"
                       (viewPageEvent)="pageChange($event)"

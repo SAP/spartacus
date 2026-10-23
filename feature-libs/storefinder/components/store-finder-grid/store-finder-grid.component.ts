@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { GeoPoint, TranslatePipe } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { SpinnerComponent } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { StoreFinderListItemComponent } from '../store-finder-list-item/store-finder-list-item.component';
 
 @Component({
@@ -28,8 +28,12 @@ export class StoreFinderGridComponent implements OnInit {
   defaultLocation: GeoPoint;
   country: string;
   region: string;
-  locations$: any;
-  isLoading$: Observable<boolean>;
+  locations$: Observable<any> = this.storeFinderService.getFindStoresEntities();
+  isLoading$: Observable<boolean> = this.storeFinderService.getStoresLoading();;
+  pageState$ = combineLatest({
+    isLoading: this.isLoading$,
+    locations: this.locations$
+  });
 
   constructor(
     private storeFinderService: StoreFinderService,
@@ -37,8 +41,6 @@ export class StoreFinderGridComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.isLoading$ = this.storeFinderService.getStoresLoading();
-    this.locations$ = this.storeFinderService.getFindStoresEntities();
     this.defaultLocation = {};
     this.findStores();
   }

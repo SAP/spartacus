@@ -57,7 +57,7 @@ export class OrderDetailItemsComponent {
   pickupUnconsignedEntries: OrderEntry[] | undefined;
   deliveryUnConsignedEntries: OrderEntry[] | undefined;
 
-  order$: Observable<Order> = this.orderDetailsService.getOrderDetails().pipe(
+  order$: Observable<any> = this.orderDetailsService.getOrderDetails().pipe(
     tap((order) => {
       this.pickupConsignments = this.getGroupedConsignments(order, true);
       this.deliveryConsignments = this.getGroupedConsignments(order, false);
@@ -67,7 +67,8 @@ export class OrderDetailItemsComponent {
         order,
         false
       );
-    })
+    }),
+    map((order) => order as any)
   );
 
   enableAddToCart$: Observable<boolean | undefined> = this.component.data$.pipe(

@@ -1,5 +1,5 @@
-@if (
-  !(isLoading$ | async) && (locations$ | async); as locations) {
+@if (pageState$ | async; as pageState) {
+  @if(!pageState.isLoading){
   <div class="container">
     <div class="cx-counter">
       <h3 class="cx-counter-title">
@@ -8,12 +8,12 @@
       <span role="alert">
         {{
         'storeFinder.storesFound'
-        | cxTranslate: { count: locations?.stores?.length }
+        | cxTranslate: { count: pageState.locations.stores?.length }
         }}
       </span>
     </div>
     <div class="row">
-      @for (location of locations?.stores; track location) {
+      @for (location of pageState?.locations.stores; track location) {
         <div
           class="col-sm-6 col-md-4 col-lg-3 item"
           >
@@ -22,7 +22,9 @@
       }
     </div>
   </div>
-} @else {
+  }
+}
+@else {
   <div class="cx-spinner"><cx-spinner /></div>
 }
 

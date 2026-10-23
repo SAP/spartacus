@@ -40,7 +40,7 @@ import { ConsignmentTrackingComponent } from '../consignment-tracking/consignmen
 export class OrderConsignedEntriesComponent {
   @Input() consignments: Consignment[];
   @Input() order: Order;
-  @Input() enableAddToCart: boolean | undefined;
+  @Input() enableAddToCart: boolean | undefined | null;
   @Input() buyItAgainTranslation: string;
   protected translationService = inject(TranslationService);
 

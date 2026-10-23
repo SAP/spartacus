@@ -21,6 +21,7 @@ import {
   ImageLoadingStrategy,
   Media,
   MediaContainer,
+  PictureHTMLElementSource,
 } from './media.model';
 import { MediaService } from './media.service';
 
@@ -147,8 +148,10 @@ export class MediaComponent implements OnChanges {
    */
   @HostBinding('class.is-missing') isMissing = false;
 
-  protected trackByMedia: TrackByFunction<HTMLSourceElement> = (_, item) =>
-    item.media;
+  protected trackByMedia: TrackByFunction<PictureHTMLElementSource> = (
+    _,
+    item
+  ) => item.media;
 
   constructor(protected mediaService: MediaService) {}
 

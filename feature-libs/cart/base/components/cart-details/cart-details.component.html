@@ -1,6 +1,6 @@
 @if (cart$ | async; as cart) {
   @if (entries$ | async; as entries) {
-    @if (cart.totalItems > 0) {
+    @if (!!cart.totalItems && cart.totalItems > 0) {
       <div class="cart-details-wrapper">
         <cx-cart-validation-warnings />
         <h2 class="cx-total">

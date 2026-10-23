@@ -2,7 +2,8 @@
   <div class="container">
     <!-- BODY -->
     <div class="cx-order-history-body">
-      @if (returnRequests.pagination.totalResults > 0) {
+      @let totalResults = returnRequests.pagination?.totalResults;
+      @if (!!totalResults && totalResults > 0) {
         <!-- Select Form and Pagination Top -->
         <div class="cx-order-history-sort top">
           <label class="cx-order-history-form-group form-group"
@@ -11,7 +12,7 @@
               [sortOptions]="returnRequests.sorts"
               [sortLabels]="getSortLabels() | async"
               (sortListEvent)="changeSortCode($event)"
-              [selectedOption]="returnRequests.pagination.sort"
+              [selectedOption]="returnRequests?.pagination?.sort"
               [ariaLabel]="'returnRequestList.sortReturns' | cxTranslate"
               ariaControls="order-return-table"
               />
@@ -104,7 +105,7 @@
                   [sortOptions]="returnRequests.sorts"
                   [sortLabels]="getSortLabels() | async"
                   (sortListEvent)="changeSortCode($event)"
-                  [selectedOption]="returnRequests.pagination.sort"
+                  [selectedOption]="returnRequests?.pagination?.sort"
                   [ariaLabel]="'returnRequestList.sortReturns' | cxTranslate"
                   ariaControls="order-return-table"
                   />

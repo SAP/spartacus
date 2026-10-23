@@ -1,5 +1,5 @@
 @if (form$ | async; as form) {
-  @if (!form.get('entries').valid && form.get('entries').touched) {
+  @if (!form.get('entries')?.valid && form.get('entries')?.touched) {
     <cx-message
       role="alert"
       [text]="'formErrors.cxNoSelectedItemToCancel' | cxTranslate"

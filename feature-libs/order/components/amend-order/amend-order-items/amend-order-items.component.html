@@ -57,22 +57,22 @@
             <td role="cell">
               <div class="cx-table-item-container">
                 <cx-media
-                  [container]="item.product.images?.PRIMARY"
+                  [container]="item.product?.images?.PRIMARY"
                   format="thumbnail"
                   />
                 <div class="cx-info">
                   <div class="cx-name">
-                    {{ item.product.name }}
+                    {{ item.product?.name }}
                   </div>
-                  @if (item.product.code) {
+                  @if (item.product?.code) {
                     <div class="cx-code">
-                      {{ 'cartItems.id' | cxTranslate }} {{ item.product.code }}
+                      {{ 'cartItems.id' | cxTranslate }} {{ item?.product?.code! }}
                     </div>
                   }
                 </div>
-                @if (item.product.baseOptions?.length) {
+                @if (item.product?.baseOptions?.length) {
                   @for (
-                    variant of item.product.baseOptions[0]?.selected
+                    variant of item.product?.baseOptions[0]?.selected
                     ?.variantOptionQualifiers
                     ; track
                     variant) {

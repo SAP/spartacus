@@ -38,7 +38,7 @@ import { OrderGuestRegisterFormComponent } from '../order-guest-register-form/or
 export class OrderConfirmationThankYouMessageComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
-  order$: Observable<Order | undefined>;
+  order$: Observable<any>;
 
   isGuestCustomer = false;
   orderGuid: string | undefined;

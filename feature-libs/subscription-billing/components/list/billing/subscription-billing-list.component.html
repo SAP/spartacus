@@ -45,7 +45,7 @@
         />
     </div>
   </div>
-  @if (billingList.results?.length > 0) {
+  @if (billingList.results?.length! > 0) {
     <!-- table starts -->
     <table id="billing-list-table" class="table cx-billing-list-table">
       <thead class="cx-billing-list-thead">
@@ -94,7 +94,7 @@
             <td>
               <div class="cx-billing-list-table-col">
                 {{ billing.items?.[0]?.productName }}
-                @if (billing.items.length > 1) {
+                @if (billing.items?.length! > 1) {
                   ...
                   <a
                     [title]="getTrailingSubscriptionItems(billing)"
@@ -106,7 +106,7 @@
                   "
                     >{{
                     'subscriptionBillsList.descriptionSuffix'
-                    | cxTranslate: { numberOfItems: billing.items.length - 1 }
+                    | cxTranslate: { numberOfItems: billing.items?.length! - 1 }
                     }}
                   </a>
                 }
@@ -114,7 +114,7 @@
             </td>
             <td>
               <div class="cx-billing-list-table-col">
-                {{ billing.netAmount.replace('USD', '$') }}
+                {{ billing.netAmount?.replace('USD', '$') }}
               </div>
             </td>
             <td>
@@ -141,7 +141,7 @@
       @if ((billingList.pagination?.totalPages ?? 0) > 1) {
         <cx-pagination
           [pagination]="billingList.pagination"
-          (viewPageEvent)="onPageChange($event)"
+          (viewPageEvent)="onPageChange($event + '')"
           />
       }
     </div>
