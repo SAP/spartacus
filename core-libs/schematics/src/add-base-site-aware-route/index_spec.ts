@@ -258,6 +258,83 @@ describe(schematicName, () => {
     );
   });
 
+  it.each([
+    "'/assets'",
+    "'/assets/'",
+    "'/assets/:file'",
+    '/^\\/assets(?:\\/|$)/',
+    "['/assets', '/public']",
+  ])(
+    'keeps protective middleware after scoped public assets at %s',
+    async (mount) => {
+      const fixture = serverSource().replace(
+        '  server.use(getOriginValidationMiddleware',
+        `  server.use(${mount}, express.static('./public-assets'));\n  server.use(getOriginValidationMiddleware`
+      );
+      const result = await runner.runSchematic(
+        schematicName,
+        {},
+        createTree(fixture)
+      );
+      const statements = parseServer(result.readContent('src/server.ts'))
+        .getFunctionOrThrow('app')
+        .getBodyOrThrow()
+        .asKindOrThrow(SyntaxKind.Block)
+        .getStatements();
+      const indexOf = (text: string) =>
+        statements.findIndex((statement) => statement.getText().includes(text));
+
+      expect(indexOf("route: '/example.txt'")).toBeGreaterThan(
+        indexOf('getOriginValidationMiddleware(')
+      );
+      expect(indexOf("route: '/example.txt'")).toBeLessThan(
+        indexOf("express.static('./browser')")
+      );
+      expect(indexOf("express.static('./public-assets')")).toBeLessThan(
+        indexOf('getOriginValidationMiddleware(')
+      );
+    }
+  );
+
+  it.each([
+    "server.use(express.static('./public-assets'));",
+    "server.use('/', express.static('./public-assets'));",
+    "server.get(/.*\\..*/, express.static('./public-assets'));",
+  ])(
+    'rejects unsafe middleware ordering after %s without editing',
+    async (staticRoute) => {
+      const fixture = serverSource().replace(
+        '  server.use(getOriginValidationMiddleware',
+        `  ${staticRoute}\n  server.use(getOriginValidationMiddleware`
+      );
+      const tree = createTree(fixture);
+      const before = snapshot(tree);
+
+      await expect(
+        runner.runSchematic(schematicName, {}, tree)
+      ).rejects.toThrow('Cannot safely insert /example.txt');
+      expect(snapshot(tree)).toEqual(before);
+    }
+  );
+
+  it('does not reject scoped middleware that cannot match the example', async () => {
+    const fixture = serverSource().replace(
+      '  server.get(/.*/,',
+      "  server.use('/admin', (_req, _res, next) => next());\n  server.get(/.*/,"
+    );
+    const result = await runner.runSchematic(
+      schematicName,
+      {},
+      createTree(fixture)
+    );
+    const content = result.readContent('src/server.ts');
+
+    expect(content.indexOf("route: '/example.txt'")).toBeLessThan(
+      content.indexOf("express.static('./browser')")
+    );
+    expect(content).toContain("server.use('/admin'");
+  });
+
   it.each(['/.*/', "'/{*splat}'", "'/*path'"])(
     'registers before the catch-all %s when static files are not configured',
     async (routeExpression) => {
