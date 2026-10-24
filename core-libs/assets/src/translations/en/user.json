@@ -10,6 +10,7 @@
       "title": "This website uses cookies",
       "description": "We use cookies/browser's storage to personalize the content and improve user experience.",
       "allowAll": "Allow All",
+      "rejectOptionalStorage": "Reject Optional Storage",
       "viewDetails": "View Details",
       "consentManagement": "Consent Management"
     }
