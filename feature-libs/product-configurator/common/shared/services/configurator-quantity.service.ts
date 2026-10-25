@@ -10,6 +10,9 @@ import { Observable, ReplaySubject } from 'rxjs';
 /**
  * Holds the quantity used when adding a product-bound configuration to the cart.
  *
+ * Import this service from `@spartacus/product-configurator/common`. The rulebased
+ * entry point re-export is deprecated since 221121.21 and planned for removal.
+ *
  * To implement a custom solution, provide your own implementation and customize
  * services that use {@link ConfiguratorQuantityService}.
  */

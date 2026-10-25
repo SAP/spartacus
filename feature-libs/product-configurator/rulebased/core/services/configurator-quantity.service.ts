@@ -4,4 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export { ConfiguratorQuantityService } from '../../../common/shared/services/configurator-quantity.service';
+/**
+ * The {@link ConfiguratorQuantityService} implementation moved to
+ * `@spartacus/product-configurator/common` in Spartacus 221121.21.
+ *
+ * @deprecated since 221121.21. Import `ConfiguratorQuantityService` from
+ * `@spartacus/product-configurator/common` instead of the rulebased entry point.
+ * This re-export is planned for removal in a future major release.
+ */
+export {
+  ConfiguratorQuantityService,
+} from '../../../common/shared/services/configurator-quantity.service';
