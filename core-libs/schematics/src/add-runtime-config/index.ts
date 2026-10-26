@@ -17,7 +17,7 @@ import {
 } from '@angular-devkit/schematics';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import { getDefaultProjectNameFromWorkspace } from '../shared/utils/workspace-utils';
-import { addConfigJsonAsset } from './add-config-json-asset';
+import { addProxyConf } from './add-proxy-conf';
 import { updateAppConfig } from './update-app-config';
 import { updateMainTs } from './update-main-ts';
 import { updateServerTs } from './update-server-ts';
@@ -58,8 +58,8 @@ export function addRuntimeConfig(options: SpartacusOptions): Rule {
       updateMainTs(options),
       updateAppConfig(options),
       options.ssr ? updateServerTs(options) : noop(),
-      addConfigJsonAsset(options),
       createConfigJsonFile(options),
+      addProxyConf(options),
     ])(tree, context);
   };
 }

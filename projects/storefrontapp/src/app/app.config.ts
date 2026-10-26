@@ -21,7 +21,6 @@ import {
   withEventReplay,
   withNoHttpTransferCache,
 } from '@angular/platform-browser';
-import { provideRuntimeOccConfig } from '@spartacus/setup';
 import { AppModule } from './app.module';
 
 export const appConfig: ApplicationConfig = {
@@ -30,7 +29,6 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withEventReplay(), withNoHttpTransferCache()),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideBrowserGlobalErrorListeners(),
-    provideRuntimeOccConfig(),
 
     importProvidersFrom(AppModule),
   ],

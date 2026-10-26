@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`updateServerTs (runtime config) should add runtimeEnvironment parameter to app() and inject into ngExpressEngine 1`] = `
+"import { APP_BASE_HREF } from '@angular/common';
+import { getServerRuntimeEnvironment, RUNTIME_ENVIRONMENT, ServerRuntimeEnvironment } from "@spartacus/setup";
+import {
+  defaultExpressErrorHandlers,
+  ngExpressEngine as engine,
+  getOriginValidationMiddleware,
+  NgExpressEngineDecorator,
+} from '@spartacus/setup/ssr';
+import express from 'express';
+import { readFileSync } from 'node:fs';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import bootstrap from './main.server';
+
+const ngExpressEngine = NgExpressEngineDecorator.get(engine);
+
+export function app(runtimeEnvironment: ServerRuntimeEnvironment = {}): express.Express {
+  const server = express();
+  const serverDistFolder = dirname(fileURLToPath(import.meta.url));
+  const browserDistFolder = resolve(serverDistFolder, '../browser');
+  const indexHtml = join(serverDistFolder, 'index.server.html');
+  const indexHtmlContent = readFileSync(indexHtml, 'utf-8');
+
+  server.set('trust proxy', 'loopback');
+  server.use(getOriginValidationMiddleware({ allowedOrigins: process.env['SSR_ALLOWED_ORIGINS'] }));
+
+  server.engine('html', ngExpressEngine({
+    bootstrap,
+    providers: [{ provide: RUNTIME_ENVIRONMENT, useValue: runtimeEnvironment }]
+  }));
+  server.set('view engine', 'html');
+  server.set('views', browserDistFolder);
+
+  server.get(/.*\\..*/, express.static(browserDistFolder, { maxAge: '1y' }));
+
+  server.get(/.*/, (req, res) => {
+    res.render(indexHtml, {
+      req,
+      providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
+    });
+  });
+
+  server.use(defaultExpressErrorHandlers(indexHtmlContent));
+  return server;
+}
+
+async function run() {
+  const port = process.env['PORT'] || 4000;
+  const runtimeEnvironment = await getServerRuntimeEnvironment({ url: process.env['CONFIG_URL'] });
+  const server = app(runtimeEnvironment);
+  server.listen(port, () => {
+    console.log(\`Node Express server listening on http://localhost:\${port}\`);
+  });
+}
+
+run();
+"
+`;

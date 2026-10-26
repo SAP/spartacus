@@ -5,15 +5,12 @@
  */
 import { makeStateKey, TransferState } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  CONFIG_INITIALIZER,
-  ConfigInitializer,
-  LoggerService,
-} from '@spartacus/core';
+import { Config } from '@spartacus/core';
+import { ENVIRONMENT } from './provide-environment';
 import { provideRuntimeOccConfig } from './provide-runtime-occ-config';
 import { RUNTIME_ENVIRONMENT } from './runtime-environment.token';
 
-const CX_RUNTIME_CONFIG_KEY =
+const CX_ENVIRONMENT_STATE_KEY =
   makeStateKey<Record<string, string>>('cx-runtime-config');
 
 class MockTransferState {
@@ -30,191 +27,62 @@ class MockTransferState {
   }
 }
 
-class MockLoggerService {
-  debug = jest.fn();
-  log = jest.fn();
-  info = jest.fn();
-  warn = jest.fn();
-  error = jest.fn();
-}
-
-function getInitializer(): ConfigInitializer {
-  const initializers = TestBed.inject<(ConfigInitializer | null)[]>(
-    CONFIG_INITIALIZER as any
-  );
-  const found = (initializers ?? []).find((i) =>
-    i?.scopes?.includes('backend')
-  );
-  if (!found) {
-    throw new Error('No CONFIG_INITIALIZER with scope "backend" found');
-  }
-  return found;
-}
-
 describe('provideRuntimeOccConfig', () => {
   let transferState: MockTransferState;
-  let loggerService: MockLoggerService;
 
   beforeEach(() => {
     transferState = new MockTransferState();
-    loggerService = new MockLoggerService();
   });
 
   afterEach(() => {
     TestBed.resetTestingModule();
   });
 
-  it('should map OCC_BASE_URL to backend.occ.baseUrl', async () => {
+  function setup(runtimeEnv?: Record<string, string>) {
     TestBed.configureTestingModule({
       providers: [
         ...provideRuntimeOccConfig(),
         { provide: TransferState, useValue: transferState },
-        { provide: LoggerService, useValue: loggerService },
-        { provide: LoggerService, useValue: loggerService },
-        {
-          provide: RUNTIME_ENVIRONMENT,
-          useValue: { OCC_BASE_URL: 'https://api.commerce.sap.com' },
-        },
+        ...(runtimeEnv
+          ? [{ provide: RUNTIME_ENVIRONMENT, useValue: runtimeEnv }]
+          : []),
       ],
     });
+  }
 
-    const initializer = getInitializer();
-    const config = await initializer.configFactory();
-
+  it('should map OCC_BASE_URL to backend.occ.baseUrl', () => {
+    setup({ OCC_BASE_URL: 'https://api.commerce.sap.com' });
+    const config = TestBed.inject(Config) as any;
     expect(config.backend?.occ?.baseUrl).toBe('https://api.commerce.sap.com');
   });
 
-  it('should map MEDIA_BASE_URL to backend.media.baseUrl', async () => {
-    TestBed.configureTestingModule({
-      providers: [
-        ...provideRuntimeOccConfig(),
-        { provide: TransferState, useValue: transferState },
-        { provide: LoggerService, useValue: loggerService },
-        {
-          provide: RUNTIME_ENVIRONMENT,
-          useValue: { MEDIA_BASE_URL: 'https://api.commerce.sap.com/medias' },
-        },
-      ],
-    });
-
-    const initializer = getInitializer();
-    const config = await initializer.configFactory();
-
-    expect(config.backend?.media?.baseUrl).toBe(
-      'https://api.commerce.sap.com/medias'
-    );
-  });
-
-  it('should map both OCC_BASE_URL and MEDIA_BASE_URL together', async () => {
-    TestBed.configureTestingModule({
-      providers: [
-        ...provideRuntimeOccConfig(),
-        { provide: TransferState, useValue: transferState },
-        { provide: LoggerService, useValue: loggerService },
-        {
-          provide: RUNTIME_ENVIRONMENT,
-          useValue: {
-            OCC_BASE_URL: 'https://api.commerce.sap.com',
-            MEDIA_BASE_URL: 'https://api.commerce.sap.com/medias',
-          },
-        },
-      ],
-    });
-
-    const initializer = getInitializer();
-    const config = await initializer.configFactory();
-
-    expect(config.backend?.occ?.baseUrl).toBe('https://api.commerce.sap.com');
-    expect(config.backend?.media?.baseUrl).toBe(
-      'https://api.commerce.sap.com/medias'
-    );
-  });
-
-  it('should skip empty string OCC_BASE_URL (no-op fallback)', async () => {
-    TestBed.configureTestingModule({
-      providers: [
-        ...provideRuntimeOccConfig(),
-        { provide: TransferState, useValue: transferState },
-        { provide: LoggerService, useValue: loggerService },
-        { provide: RUNTIME_ENVIRONMENT, useValue: { OCC_BASE_URL: '' } },
-      ],
-    });
-
-    const initializer = getInitializer();
-    const config = await initializer.configFactory();
-
+  it('should skip empty string OCC_BASE_URL (no-op fallback)', () => {
+    setup({ OCC_BASE_URL: '' });
+    const config = TestBed.inject(Config) as any;
     expect(config.backend?.occ?.baseUrl).toBeUndefined();
   });
 
-  it('should work without RUNTIME_ENVIRONMENT provided (returns empty config)', async () => {
-    TestBed.configureTestingModule({
-      providers: [
-        ...provideRuntimeOccConfig(),
-        { provide: TransferState, useValue: transferState },
-        { provide: LoggerService, useValue: loggerService },
-      ],
-    });
-
-    const initializer = getInitializer();
-    const config = await initializer.configFactory();
-
+  it('should work without RUNTIME_ENVIRONMENT provided (returns empty config)', () => {
+    setup();
+    const config = TestBed.inject(Config) as any;
     expect(config.backend?.occ?.baseUrl).toBeUndefined();
-    expect(config.backend?.media?.baseUrl).toBeUndefined();
   });
 
-  it('should write env to TransferState on first call (SSR path)', async () => {
+  it('should write env to TransferState on first resolution (SSR path)', () => {
     const runtimeEnv = { OCC_BASE_URL: 'https://api.commerce.sap.com' };
-
-    TestBed.configureTestingModule({
-      providers: [
-        ...provideRuntimeOccConfig(),
-        { provide: TransferState, useValue: transferState },
-        { provide: LoggerService, useValue: loggerService },
-        { provide: RUNTIME_ENVIRONMENT, useValue: runtimeEnv },
-      ],
-    });
-
-    const initializer = getInitializer();
-    await initializer.configFactory();
-
-    expect(transferState.hasKey(CX_RUNTIME_CONFIG_KEY)).toBe(true);
-    expect(transferState.get(CX_RUNTIME_CONFIG_KEY, {})).toEqual(runtimeEnv);
+    setup(runtimeEnv);
+    TestBed.inject(ENVIRONMENT);
+    expect(transferState.hasKey(CX_ENVIRONMENT_STATE_KEY)).toBe(true);
+    expect(transferState.get(CX_ENVIRONMENT_STATE_KEY, {})).toEqual(runtimeEnv);
   });
 
-  it('should read from TransferState when key already present (CSR hydration)', async () => {
+  it('should read from TransferState when key already present (CSR hydration)', () => {
     const storedEnv = { OCC_BASE_URL: 'https://from-ssr.commerce.sap.com' };
-    transferState.set(CX_RUNTIME_CONFIG_KEY, storedEnv);
-
-    TestBed.configureTestingModule({
-      providers: [
-        ...provideRuntimeOccConfig(),
-        { provide: TransferState, useValue: transferState },
-        { provide: LoggerService, useValue: loggerService },
-        {
-          provide: RUNTIME_ENVIRONMENT,
-          useValue: { OCC_BASE_URL: 'https://different.value' },
-        },
-      ],
-    });
-
-    const initializer = getInitializer();
-    const config = await initializer.configFactory();
-
+    transferState.set(CX_ENVIRONMENT_STATE_KEY, storedEnv);
+    setup({ OCC_BASE_URL: 'https://different.value' });
+    const config = TestBed.inject(Config) as any;
     expect(config.backend?.occ?.baseUrl).toBe(
       'https://from-ssr.commerce.sap.com'
     );
-  });
-
-  it('should register scope "backend"', () => {
-    TestBed.configureTestingModule({
-      providers: [
-        ...provideRuntimeOccConfig(),
-        { provide: TransferState, useValue: transferState },
-        { provide: LoggerService, useValue: loggerService },
-      ],
-    });
-
-    const initializer = getInitializer();
-    expect(initializer.scopes).toEqual(['backend']);
   });
 });

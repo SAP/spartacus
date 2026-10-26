@@ -18,11 +18,11 @@ import * as path from 'path';
 import { firstValueFrom } from 'rxjs';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import { SPARTACUS_SCHEMATICS } from '../shared/libs-constants';
-import { addConfigJsonAsset } from './add-config-json-asset';
+import { addProxyConf } from './add-proxy-conf';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-describe('addConfigJsonAsset', () => {
+describe('addProxyConf', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
     collectionPath
@@ -34,7 +34,7 @@ describe('addConfigJsonAsset', () => {
   };
 
   const appOptions: ApplicationOptions = {
-    name: 'asset-test',
+    name: 'proxy-test',
     inlineStyle: false,
     inlineTemplate: false,
     style: Style.Scss,
@@ -46,7 +46,7 @@ describe('addConfigJsonAsset', () => {
   };
 
   const defaultOptions: SpartacusOptions = {
-    project: 'asset-test',
+    project: 'proxy-test',
     baseSite: 'electronics',
     baseUrl: 'https://localhost:9002',
     lazy: true,
@@ -67,42 +67,59 @@ describe('addConfigJsonAsset', () => {
       appTree
     );
     return (await firstValueFrom(
-      schematicRunner.callRule(addConfigJsonAsset(defaultOptions), appTree)
+      schematicRunner.callRule(addProxyConf(defaultOptions), appTree)
     )) as UnitTestTree;
   }
 
-  it('should add config.json asset to angular.json build assets', async () => {
+  it('should create proxy.conf.json at the project root', async () => {
     const tree = await buildTree();
-    const angularJson = JSON.parse(tree.readText('/angular.json'));
-    const assets =
-      angularJson.projects['asset-test'].architect.build.options.assets;
-    const configJsonAsset = assets.find(
-      (a: any) =>
-        typeof a === 'object' &&
-        a.glob === 'config.json' &&
-        a.input === 'src' &&
-        a.output === '/'
-    );
-    expect(configJsonAsset).toBeTruthy();
+    expect(tree.exists('/proxy.conf.json')).toBe(true);
   });
 
-  it('should be idempotent — not duplicate asset if already present', async () => {
+  it('should write correct proxy.conf.json content', async () => {
     const tree = await buildTree();
-    // Run again on the already-modified tree
+    const content = JSON.parse(tree.readText('/proxy.conf.json'));
+    expect(content['/config.json']).toEqual({
+      target: 'http://localhost:4222',
+      secure: false,
+      logLevel: 'warn',
+    });
+  });
+
+  it('should add proxyConfig to angular.json serve options', async () => {
+    const tree = await buildTree();
+    const angularJson = JSON.parse(tree.readText('/angular.json'));
+    const serveOptions =
+      angularJson.projects['proxy-test'].architect.serve.options;
+    expect(serveOptions.proxyConfig).toBe('proxy.conf.json');
+  });
+
+  it('should be idempotent — not overwrite proxy.conf.json if already present', async () => {
+    const firstTree = await buildTree();
+    // Modify the file to simulate a custom version
+    firstTree.overwrite(
+      '/proxy.conf.json',
+      JSON.stringify({ '/custom': { target: 'http://custom' } })
+    );
+
     const resultTree = (await firstValueFrom(
-      schematicRunner.callRule(addConfigJsonAsset(defaultOptions), tree)
+      schematicRunner.callRule(addProxyConf(defaultOptions), firstTree)
+    )) as UnitTestTree;
+
+    const content = JSON.parse(resultTree.readText('/proxy.conf.json'));
+    expect(content['/custom']).toBeDefined();
+    expect(content['/config.json']).toBeUndefined();
+  });
+
+  it('should be idempotent — not duplicate proxyConfig in angular.json', async () => {
+    const firstTree = await buildTree();
+    const resultTree = (await firstValueFrom(
+      schematicRunner.callRule(addProxyConf(defaultOptions), firstTree)
     )) as UnitTestTree;
 
     const angularJson = JSON.parse(resultTree.readText('/angular.json'));
-    const assets =
-      angularJson.projects['asset-test'].architect.build.options.assets;
-    const configJsonAssets = assets.filter(
-      (a: any) =>
-        typeof a === 'object' &&
-        a.glob === 'config.json' &&
-        a.input === 'src' &&
-        a.output === '/'
-    );
-    expect(configJsonAssets.length).toBe(1);
+    const serveOptions =
+      angularJson.projects['proxy-test'].architect.serve.options;
+    expect(serveOptions.proxyConfig).toBe('proxy.conf.json');
   });
 });

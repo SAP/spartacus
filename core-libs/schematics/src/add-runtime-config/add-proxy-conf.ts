@@ -11,38 +11,39 @@ import {
   getWorkspace,
 } from '../shared/utils/workspace-utils';
 
-const CONFIG_JSON_ASSET = {
-  glob: 'config.json',
-  input: 'src',
-  output: '/',
-};
+const PROXY_CONF_CONTENT = JSON.stringify(
+  {
+    '/config.json': {
+      target: 'http://localhost:4222',
+      secure: false,
+      logLevel: 'warn',
+    },
+  },
+  null,
+  2
+);
 
-export function addConfigJsonAsset(options: SpartacusOptions): Rule {
+export function addProxyConf(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     if (options.debug) {
-      context.logger.info(`⌛️ Adding config.json asset to angular.json...`);
+      context.logger.info(`⌛️ Adding proxy.conf.json and wiring proxyConfig...`);
     }
 
     const { path, workspace: angularJson } = getWorkspace(tree);
     const projectName = getDefaultProjectNameFromWorkspace(tree);
     const project = angularJson.projects[projectName];
-    const architect = project.architect;
-    const build = architect?.build;
-    const buildOptions = build?.options as any;
+    const sourceRoot: string = (project as any).sourceRoot ?? 'src';
+    const proxyConfPath = `${sourceRoot}/../proxy.conf.json`;
 
-    const assets: any[] = Array.isArray(buildOptions?.assets)
-      ? buildOptions.assets
-      : [];
+    if (!tree.exists(proxyConfPath)) {
+      tree.create(proxyConfPath, PROXY_CONF_CONTENT + '\n');
+    }
 
-    const alreadyAdded = assets.some(
-      (asset) =>
-        typeof asset === 'object' &&
-        asset.glob === CONFIG_JSON_ASSET.glob &&
-        asset.input === CONFIG_JSON_ASSET.input &&
-        asset.output === CONFIG_JSON_ASSET.output
-    );
+    const architect = (project as any).architect;
+    const serve = architect?.serve;
+    const serveOptions = serve?.options ?? {};
 
-    if (alreadyAdded) {
+    if (serveOptions.proxyConfig) {
       return tree;
     }
 
@@ -54,11 +55,11 @@ export function addConfigJsonAsset(options: SpartacusOptions): Rule {
           ...project,
           architect: {
             ...architect,
-            build: {
-              ...build,
+            serve: {
+              ...serve,
               options: {
-                ...buildOptions,
-                assets: [...assets, CONFIG_JSON_ASSET],
+                ...serveOptions,
+                proxyConfig: 'proxy.conf.json',
               },
             },
           },
@@ -69,7 +70,7 @@ export function addConfigJsonAsset(options: SpartacusOptions): Rule {
     tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
 
     if (options.debug) {
-      context.logger.info(`✅ Added config.json asset to angular.json`);
+      context.logger.info(`✅ Added proxy.conf.json and wired proxyConfig`);
     }
     return tree;
   };
