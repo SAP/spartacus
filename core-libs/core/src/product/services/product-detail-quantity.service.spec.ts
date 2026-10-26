@@ -21,6 +21,11 @@ describe('ProductDetailQuantityService', () => {
     expect(quantity).toBe(7);
   });
 
+  it('should return quantity set via setQuantity from getQuantityValue', () => {
+    service.setQuantity(7);
+    expect(service.getQuantityValue()).toBe(7);
+  });
+
   it('should reset quantity to 1', async () => {
     service.setQuantity(4);
     service.reset();

@@ -128,10 +128,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
             if (
               routerData.owner.type === CommonConfigurator.OwnerType.PRODUCT
             ) {
-              return this.productDetailQuantityService.getQuantity().pipe(
-                take(1),
-                map((quantity) => quantity ?? 1)
-              );
+              return of(this.productDetailQuantityService.getQuantityValue());
             }
             return this.configuratorQuantityService.getQuantity().pipe(take(1));
           })

@@ -189,6 +189,10 @@ class MockProductDetailQuantityService
     return of(PDP_QUANTITY);
   }
 
+  getQuantityValue(): number {
+    return PDP_QUANTITY;
+  }
+
   setQuantity(): void {}
 }
 

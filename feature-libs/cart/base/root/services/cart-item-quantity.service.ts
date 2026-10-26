@@ -9,11 +9,12 @@ import { ProductDetailQuantityService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 /**
- * Holds the quantity currently selected by the user in the add-to-cart
- * quantity counter on the Product Detail Page.
+ * Cart-facing facade for the PDP quantity counter on the product detail page.
  *
- * Delegates to {@link ProductDetailQuantityService} so other features can reuse
- * the same quantity without depending on the cart library.
+ * Delegates to {@link ProductDetailQuantityService} in `@spartacus/core`.
+ * Prefer {@link ProductDetailQuantityService} for new features that are not
+ * cart-specific (for example product configurator or OPF Quick Buy via this
+ * service remains valid for backward compatibility).
  */
 @Injectable({
   providedIn: 'root',

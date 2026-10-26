@@ -34,6 +34,13 @@ export class ProductDetailQuantityService {
   }
 
   /**
+   * Returns the currently selected PDP quantity synchronously.
+   */
+  getQuantityValue(): number {
+    return this.quantity$.getValue();
+  }
+
+  /**
    * Resets the selected quantity to the default value of 1.
    */
   reset(): void {
