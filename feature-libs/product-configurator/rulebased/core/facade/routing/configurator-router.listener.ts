@@ -13,7 +13,6 @@ import { ConfiguratorCartService } from '../configurator-cart.service';
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorRouterListener implements OnDestroy {
   protected subscription = new Subscription();
-it push
   /**
    * Tracks whether the previous router state was a configurator route.
    * Used to reset {@link ConfiguratorQuantityService} only when leaving
