@@ -646,6 +646,9 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
       initialize();
       fixture.detectChanges();
       expect(component.quantityControl.value).toBe(PDP_QUANTITY);
+      expect(configuratorQuantityService.setQuantity).toHaveBeenCalledWith(
+        PDP_QUANTITY
+      );
     });
 
     it('should set quantity from configurator quantity service for cart entry', () => {
