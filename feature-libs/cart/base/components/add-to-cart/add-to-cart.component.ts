@@ -162,9 +162,10 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         this.product
       );
     } else if (this.productCode) {
-      // force hasStock and quantity for the time being, as we do not have more info:
+      // force hasStock, isPurchasable and quantity for the time being, as we do not have more info:
       this.quantity = 1;
       this.hasStock = true;
+      this.isPurchasable = true;
       this.cd.markForCheck();
     } else {
       let product$: Observable<Product | null>;

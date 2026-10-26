@@ -47,6 +47,7 @@ const productCode = '1234';
 const mockProduct: Product = {
   name: 'mockProduct',
   code: 'code1',
+  price: { value: 10, formattedValue: '$10.00' },
   stock: {
     stockLevel: 333,
     stockLevelStatus: 'inStock',
