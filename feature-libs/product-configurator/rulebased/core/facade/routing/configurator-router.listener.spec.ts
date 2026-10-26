@@ -42,9 +42,19 @@ const routerStateCartRoute: RouterState = {
   },
 };
 
+const routerStateProductRoute: RouterState = {
+  ...routerState,
+  state: {
+    ...routerState.state,
+    semanticRoute: 'product',
+  },
+};
+
+let routerStateSequence: RouterState[] | undefined;
+
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
-    return of(routerState);
+    return routerStateSequence ? of(...routerStateSequence) : of(routerState);
   }
 }
 
@@ -67,6 +77,7 @@ describe('ConfiguratorRouterListener', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [
+        ConfiguratorRouterListener,
         {
           provide: ConfiguratorCartService,
           useValue: mockConfiguratorCartService,
@@ -83,6 +94,7 @@ describe('ConfiguratorRouterListener', () => {
     }).compileComponents();
   });
   beforeEach(() => {
+    routerStateSequence = undefined;
     configuratorCartService = TestBed.inject(
       ConfiguratorCartService as Type<ConfiguratorCartService>
     );
@@ -129,12 +141,20 @@ describe('ConfiguratorRouterListener', () => {
       ).toHaveBeenCalledTimes(0);
     });
 
-    it('should reset quantity if quantity service available', () => {
-      routerState = routerStateCartRoute;
+    it('should reset quantity when leaving a configurator route', () => {
+      routerStateSequence = [routerStateConfigRoute, routerStateCartRoute];
       TestBed.inject(
         ConfiguratorRouterListener as Type<ConfiguratorRouterListener>
       );
       expect(configuratorQuantityService.setQuantity).toHaveBeenCalledWith(1);
+    });
+
+    it('should not reset quantity when navigating from PDP to configurator', () => {
+      routerStateSequence = [routerStateProductRoute, routerStateConfigRoute];
+      TestBed.inject(
+        ConfiguratorRouterListener as Type<ConfiguratorRouterListener>
+      );
+      expect(configuratorQuantityService.setQuantity).not.toHaveBeenCalled();
     });
   });
 

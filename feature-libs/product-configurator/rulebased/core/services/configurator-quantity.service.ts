@@ -12,4 +12,4 @@
  * `@spartacus/product-configurator/common` instead of the rulebased entry point.
  * This re-export is planned for removal in a future major release.
  */
-export { ConfiguratorQuantityService } from '../../../common/shared/services/configurator-quantity.service';
+export { ConfiguratorQuantityService } from '@spartacus/product-configurator/common';

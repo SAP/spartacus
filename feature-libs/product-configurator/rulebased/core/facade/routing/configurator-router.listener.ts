@@ -13,6 +13,12 @@ import { ConfiguratorCartService } from '../configurator-cart.service';
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorRouterListener implements OnDestroy {
   protected subscription = new Subscription();
+  /**
+   * Tracks whether the previous router state was a configurator route.
+   * Used to reset {@link ConfiguratorQuantityService} only when leaving
+   * the configurator, not while navigating to it (e.g. PDP → configure).
+   */
+  protected wasOnConfiguratorRoute = false;
 
   constructor(
     protected configuratorCartService: ConfiguratorCartService,
@@ -25,10 +31,18 @@ export class ConfiguratorRouterListener implements OnDestroy {
   protected observeRouterChanges(): void {
     this.subscription.add(
       this.routingService.getRouterState().subscribe((routerState) => {
-        if (!this.isConfiguratorRelatedRoute(routerState.state.semanticRoute)) {
+        const onConfiguratorRoute = this.isConfiguratorRelatedRoute(
+          routerState.state.semanticRoute
+        );
+
+        if (!onConfiguratorRoute) {
           this.configuratorCartService.removeCartBoundConfigurations();
-          this.configuratorQuantityService.setQuantity(1);
+          if (this.wasOnConfiguratorRoute) {
+            this.configuratorQuantityService.setQuantity(1);
+          }
         }
+
+        this.wasOnConfiguratorRoute = onConfiguratorRoute;
       })
     );
   }

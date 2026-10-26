@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 /**
  * Holds the quantity used when adding a product-bound configuration to the cart.
@@ -20,7 +20,7 @@ import { Observable, ReplaySubject } from 'rxjs';
   providedIn: 'root',
 })
 export class ConfiguratorQuantityService {
-  private _quantity: Observable<number> = new ReplaySubject<number>(1);
+  private readonly quantitySubject = new BehaviorSubject<number>(1);
 
   /**
    * Sets the configuration quantity.
@@ -28,7 +28,7 @@ export class ConfiguratorQuantityService {
    * @param quantity - Quantity for add-to-cart from the configuration page
    */
   public setQuantity(quantity: number): void {
-    (this._quantity as ReplaySubject<number>).next(quantity);
+    this.quantitySubject.next(quantity);
   }
 
   /**
@@ -37,6 +37,6 @@ export class ConfiguratorQuantityService {
    * @returns Configuration quantity
    */
   public getQuantity(): Observable<number> {
-    return this._quantity;
+    return this.quantitySubject.asObservable();
   }
 }

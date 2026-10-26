@@ -14,8 +14,8 @@ describe('ConfiguratorQuantityService', () => {
   });
 
   describe('getQuantity', () => {
-    it('should not emit anything until it will be initialized from outside', () => {
-      expect(classUnderTest.getQuantity()).toBeObservable(cold(''));
+    it('should emit default quantity of 1', () => {
+      expect(classUnderTest.getQuantity()).toBeObservable(cold('1', { 1: 1 }));
     });
 
     it('should return value that was set with setQuantity', async () => {
