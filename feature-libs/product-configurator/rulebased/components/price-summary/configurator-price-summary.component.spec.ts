@@ -8,6 +8,7 @@ import {
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
@@ -15,7 +16,23 @@ import { CommonConfiguratorTestUtilsService } from '../../../common/testing/comm
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { ConfiguratorUISettingsConfig } from '../config/configurator-ui-settings.config';
+import { defaultConfiguratorUISettingsConfig } from '../config/default-configurator-ui-settings.config';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorPriceSummaryComponent } from './configurator-price-summary.component';
+
+class MockConfiguratorStorefrontUtilsService {
+  shouldHideBasePriceAndSelectedOptions(
+    configuration: Configurator.Configuration
+  ): boolean {
+    const configuratorType = configuration.owner?.configuratorType;
+    if (configuratorType === ConfiguratorType.CPQ) {
+      return !!TestBed.inject(ConfiguratorUISettingsConfig).productConfigurator
+        ?.cpqHideBasePriceAndSelectedOptions;
+    }
+    return !!configuration.hideBasePriceAndSelectedOptions;
+  }
+}
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
@@ -93,6 +110,14 @@ describe('ConfigPriceSummaryComponent', () => {
         {
           provide: RoutingService,
           useClass: MockRoutingService,
+        },
+        {
+          provide: ConfiguratorUISettingsConfig,
+          useValue: structuredClone(defaultConfiguratorUISettingsConfig),
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
         },
       ],
     })
@@ -175,7 +200,12 @@ describe('ConfigPriceSummaryComponent', () => {
     );
   });
 
-  it('should not render selected and options price when requested', () => {
+  it('should not render selected and options price when requested for variant configurator', () => {
+    config.owner = ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE,
+      ConfiguratorType.VARIANT
+    );
     config.hideBasePriceAndSelectedOptions = true;
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
@@ -184,6 +214,52 @@ describe('ConfigPriceSummaryComponent', () => {
       '.cx-selected-options'
     );
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-base-price'
+    );
+  });
+
+  it('should not render selected and options price for CPQ when storefront setting is true', () => {
+    config.owner = ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE,
+      ConfiguratorType.CPQ
+    );
+    config.hideBasePriceAndSelectedOptions = true;
+    TestBed.inject(ConfiguratorUISettingsConfig).productConfigurator = {
+      cpqHideBasePriceAndSelectedOptions: true,
+    };
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-selected-options'
+    );
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-base-price'
+    );
+  });
+
+  it('should render selected and options price for CPQ when OCC flag is true but storefront setting is false', () => {
+    config.owner = ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE,
+      ConfiguratorType.CPQ
+    );
+    config.hideBasePriceAndSelectedOptions = true;
+    TestBed.inject(ConfiguratorUISettingsConfig).productConfigurator = {
+      cpqHideBasePriceAndSelectedOptions: false,
+    };
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-selected-options'
+    );
+    CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
       '.cx-base-price'

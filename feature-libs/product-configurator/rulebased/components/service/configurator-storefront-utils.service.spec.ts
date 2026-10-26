@@ -1266,6 +1266,73 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     });
   });
 
+  describe('shouldHideBasePriceAndSelectedOptions', () => {
+    const createConfiguration = (
+      configuratorType: string,
+      hideBasePriceAndSelectedOptions?: boolean
+    ): Configurator.Configuration => ({
+      ...ConfiguratorTestUtils.createConfiguration(
+        '1',
+        ConfiguratorModelUtils.createOwner(
+          CommonConfigurator.OwnerType.PRODUCT,
+          'p',
+          configuratorType
+        )
+      ),
+      hideBasePriceAndSelectedOptions,
+    });
+
+    it('should hide base price and selected options for CPQ when storefront setting is true', () => {
+      TestBed.inject(ConfiguratorUISettingsConfig).productConfigurator = {
+        cpqHideBasePriceAndSelectedOptions: true,
+      };
+      expect(
+        classUnderTest.shouldHideBasePriceAndSelectedOptions(
+          createConfiguration(ConfiguratorType.CPQ)
+        )
+      ).toBe(true);
+    });
+
+    it('should not hide base price and selected options for CPQ when storefront setting is false', () => {
+      TestBed.inject(ConfiguratorUISettingsConfig).productConfigurator = {
+        cpqHideBasePriceAndSelectedOptions: false,
+      };
+      expect(
+        classUnderTest.shouldHideBasePriceAndSelectedOptions(
+          createConfiguration(ConfiguratorType.CPQ, true)
+        )
+      ).toBe(false);
+    });
+
+    it('should not hide base price and selected options for CPQ when storefront setting is unset', () => {
+      TestBed.inject(ConfiguratorUISettingsConfig).productConfigurator = {};
+      expect(
+        classUnderTest.shouldHideBasePriceAndSelectedOptions(
+          createConfiguration(ConfiguratorType.CPQ, true)
+        )
+      ).toBe(false);
+    });
+
+    it('should hide base price and selected options for variant configurator when OCC flag is true', () => {
+      TestBed.inject(ConfiguratorUISettingsConfig).productConfigurator = {
+        cpqHideBasePriceAndSelectedOptions: true,
+      };
+      expect(
+        classUnderTest.shouldHideBasePriceAndSelectedOptions(
+          createConfiguration(ConfiguratorType.VARIANT, true)
+        )
+      ).toBe(true);
+    });
+
+    it('should not hide base price and selected options for variant configurator when OCC flag is false', () => {
+      expect(
+        classUnderTest.shouldHideBasePriceAndSelectedOptions(
+          createConfiguration(ConfiguratorType.VARIANT, false)
+        )
+      ).toBe(false);
+    });
+  });
+
   describe('isLastSelected', () => {
     it('should return false if setLastSelected was never invoked', () => {
       expect(classUnderTest.isLastSelected('name', 'code')).toBe(false);
