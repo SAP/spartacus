@@ -13,6 +13,7 @@ import { ConfiguratorCartService } from '../configurator-cart.service';
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorRouterListener implements OnDestroy {
   protected subscription = new Subscription();
+  protected previousSemanticRoute?: string;
 
   constructor(
     protected configuratorCartService: ConfiguratorCartService,
@@ -25,10 +26,19 @@ export class ConfiguratorRouterListener implements OnDestroy {
   protected observeRouterChanges(): void {
     this.subscription.add(
       this.routingService.getRouterState().subscribe((routerState) => {
-        if (!this.isConfiguratorRelatedRoute(routerState.state.semanticRoute)) {
+        const semanticRoute = routerState.state.semanticRoute;
+        const wasConfiguratorRoute = this.isConfiguratorRelatedRoute(
+          this.previousSemanticRoute
+        );
+        const isConfiguratorRoute =
+          this.isConfiguratorRelatedRoute(semanticRoute);
+
+        if (wasConfiguratorRoute && !isConfiguratorRoute) {
           this.configuratorCartService.removeCartBoundConfigurations();
           this.configuratorQuantityService.setQuantity(1);
         }
+
+        this.previousSemanticRoute = semanticRoute;
       })
     );
   }

@@ -12,6 +12,7 @@ import {
   RulebasedConfiguratorRootModule,
 } from '@spartacus/product-configurator/rulebased/root';
 import { environment } from '../../../../environments/environment';
+import { ConfigureProductPdpQuantityBridgeModule } from './configure-product-pdp-quantity-bridge.module';
 import {
   configuratorTranslationsDe,
   configuratorTranslationsEn,
@@ -26,7 +27,12 @@ if (environment.cpq) {
 }
 
 @NgModule({
-  imports: [RulebasedConfiguratorRootModule, ...extensions],
+  imports: [
+    RulebasedConfiguratorRootModule,
+    // Eager: PDP ConfigureProduct CMS slot renders before lazy rulebased feature loads.
+    ConfigureProductPdpQuantityBridgeModule,
+    ...extensions,
+  ],
   providers: [
     provideConfig({
       featureModules: {

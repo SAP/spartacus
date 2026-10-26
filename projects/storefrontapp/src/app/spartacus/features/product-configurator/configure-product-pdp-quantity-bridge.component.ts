@@ -15,11 +15,14 @@ import { take } from 'rxjs/operators';
 /**
  * Storefront override for {@link ConfigureProductComponent} (CXSPA-2662 option D).
  * Copies PDP quantity into {@link ConfiguratorQuantityService} before navigation.
+ *
+ * Must be registered from an eager module (see {@link ProductConfiguratorRulebasedFeatureModule}):
+ * the PDP slot uses this CMS mapping before the lazy rulebased configurator feature loads.
  */
 @Component({
   selector: 'cx-configure-product',
   templateUrl:
-    '../../../../../../feature-libs/product-configurator/common/components/configure-product/configure-product.component.html',
+    '../../../../../../../feature-libs/product-configurator/common/components/configure-product/configure-product.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, AsyncPipe, TranslatePipe],
 })
