@@ -17,6 +17,15 @@
         }
       }
     },
+    "build-dev-proxy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node_modules/.bin/tsc -p core-libs/setup/dev-proxy/tsconfig.node.json"
+      },
+      "dependsOn": ["build"],
+      "inputs": ["{projectRoot}/dev-proxy/**/*.ts"],
+      "outputs": ["{workspaceRoot}/dist/setup/dev-proxy"]
+    },
     "test-jest": {
       "executor": "nx:run-commands",
       "options": {

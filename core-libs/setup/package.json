@@ -35,6 +35,12 @@
   "bin": {
     "spartacus-dev-proxy": "./dev-proxy/run.js"
   },
+  "exports": {
+    "./dev-proxy": {
+      "types": "./dev-proxy/index.d.ts",
+      "default": "./dev-proxy/index.js"
+    }
+  },
   "engines": {
     "node": "^22.22.0"
   },

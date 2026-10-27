@@ -19,6 +19,6 @@
  * and has no Angular or framework-specific dependencies.
  */
 
-export { startDevProxy } from './config-proxy-server';
-export { DEFAULT_DEV_PROXY_CONFIG } from './defaults';
-export type { DevProxyConfig } from './types';
+export { startDevProxy } from './config-proxy-server.js';
+export { DEFAULT_DEV_PROXY_CONFIG } from './defaults.js';
+export type { DevProxyConfig } from './types.js';

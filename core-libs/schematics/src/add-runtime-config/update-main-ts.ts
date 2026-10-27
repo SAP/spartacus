@@ -5,50 +5,52 @@
  */
 
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { Project, SourceFile, SyntaxKind } from 'ts-morph';
+import { SourceFile, SyntaxKind } from 'ts-morph';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
+import { MAIN_TS } from '../shared/constants';
 import { createImports, formatFile } from '../shared';
-
-const MAIN_TS_PATH = '/src/main.ts';
+import { createProgram } from '../shared/utils/program';
+import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 
 export function updateMainTs(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     if (options.debug) {
-      context.logger.info(`⌛️ Updating ${MAIN_TS_PATH}...`);
+      context.logger.info(`⌛️ Updating ${MAIN_TS}...`);
     }
 
-    if (!tree.exists(MAIN_TS_PATH)) {
-      context.logger.warn(
-        `⚠️ Could not find ${MAIN_TS_PATH} — skipping runtime config wiring.`
+    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
+    const basePath = process.cwd();
+
+    for (const tsconfigPath of buildPaths) {
+      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+
+      const sourceFile = appSourceFiles.find((file) =>
+        file.getFilePath().includes(MAIN_TS)
       );
-      return tree;
-    }
 
-    const content = tree.read(MAIN_TS_PATH)?.toString('utf-8');
-    if (!content) {
-      return tree;
-    }
-
-    if (content.includes('getRuntimeEnvironment')) {
-      if (options.debug) {
-        context.logger.info(
-          `⏭️ Skipping ${MAIN_TS_PATH} — already contains getRuntimeEnvironment.`
+      if (!sourceFile) {
+        context.logger.warn(
+          `⚠️ Could not find ${MAIN_TS} — skipping runtime config wiring.`
         );
+        continue;
       }
-      return tree;
-    }
 
-    const project = new Project({ useInMemoryFileSystem: true });
-    const sourceFile = project.createSourceFile(MAIN_TS_PATH, content, {
-      overwrite: true,
-    });
+      if (sourceFile.getFullText().includes('getRuntimeEnvironment')) {
+        if (options.debug) {
+          context.logger.info(
+            `⏭️ Skipping ${MAIN_TS} — already contains getRuntimeEnvironment.`
+          );
+        }
+        continue;
+      }
 
-    wrapBootstrapApplicationWithRuntimeConfig(sourceFile);
-    formatFile(sourceFile);
-    tree.overwrite(MAIN_TS_PATH, sourceFile.getFullText());
+      wrapBootstrapApplicationWithRuntimeConfig(sourceFile);
+      formatFile(sourceFile);
+      tree.overwrite(sourceFile.getFilePath(), sourceFile.getFullText());
 
-    if (options.debug) {
-      context.logger.info(`✅ Updated ${MAIN_TS_PATH}`);
+      if (options.debug) {
+        context.logger.info(`✅ Updated ${MAIN_TS}`);
+      }
     }
 
     return tree;

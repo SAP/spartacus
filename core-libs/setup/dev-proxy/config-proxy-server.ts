@@ -4,12 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import httpProxy from '@fastify/http-proxy';
-import Fastify, { type FastifyInstance } from 'fastify';
+import { createRequire } from 'node:module';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { DEFAULT_DEV_PROXY_CONFIG } from './defaults';
-import type { DevProxyConfig } from './types';
+import { DEFAULT_DEV_PROXY_CONFIG } from './defaults.js';
+import type { DevProxyConfig } from './types.js';
+
+// Load fastify and its proxy plugin from the consuming app's node_modules
+// (relative to cwd), not from the dist directory of this package.
+// Dynamic import() resolves from the importer's location, which is inside
+// dist/setup — where fastify is not installed. createRequire(cwd) resolves
+// from where the developer runs the command, where fastify is an
+// optionalDependency that the app installed.
+const cwdRequire = createRequire(path.join(process.cwd(), 'package.json'));
 
 /**
  * Creates and starts the Spartacus Dev Proxy server using Fastify.
@@ -23,7 +30,10 @@ import type { DevProxyConfig } from './types';
  */
 export async function startDevProxy(
   userConfig: Partial<DevProxyConfig> = {}
-): Promise<FastifyInstance> {
+): Promise<any> {
+  const Fastify = cwdRequire('fastify');
+  const httpProxy = cwdRequire('@fastify/http-proxy');
+
   const config: DevProxyConfig = {
     ...DEFAULT_DEV_PROXY_CONFIG,
     ...userConfig,
@@ -35,7 +45,7 @@ export async function startDevProxy(
   });
 
   // Route: serve /config.json directly from the local file
-  server.get(config.configPublicPath, (_req, reply) => {
+  server.get(config.configPublicPath, (_req: unknown, reply: any) => {
     const configFilePath = path.resolve(config.configSourcePath);
 
     try {
@@ -68,7 +78,7 @@ export async function startDevProxy(
     // an HTTPS dev server with a self-signed cert.
     undici: { connect: { rejectUnauthorized: false } },
     replyOptions: {
-      rewriteRequestHeaders: (originalReq, headers) => {
+      rewriteRequestHeaders: (originalReq: any, headers: any) => {
         if (config.setForwardedHost && originalReq.headers.host) {
           return {
             ...headers,

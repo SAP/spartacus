@@ -30,13 +30,19 @@ export function addProxyConf(options: SpartacusOptions): Rule {
     }
 
     const { path, workspace: angularJson } = getWorkspace(tree);
-    const projectName = getDefaultProjectNameFromWorkspace(tree);
+    const projectName =
+      options.project ?? getDefaultProjectNameFromWorkspace(tree);
     const project = angularJson.projects[projectName];
-    const sourceRoot: string = (project as any).sourceRoot ?? 'src';
-    const proxyConfPath = `${sourceRoot}/../proxy.conf.json`;
 
-    if (!tree.exists(proxyConfPath)) {
-      tree.create(proxyConfPath, PROXY_CONF_CONTENT + '\n');
+    if (!project) {
+      context.logger.warn(
+        `⚠️ Could not find project "${projectName}" in angular.json — skipping proxy.conf.json setup.`
+      );
+      return tree;
+    }
+
+    if (!tree.exists('/proxy.conf.json')) {
+      tree.create('/proxy.conf.json', PROXY_CONF_CONTENT + '\n');
     }
 
     const architect = (project as any).architect;

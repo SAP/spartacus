@@ -24,7 +24,7 @@
 
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { startDevProxy } from './config-proxy-server';
+import { startDevProxy } from './config-proxy-server.js';
 
 const CONFIG_FILE_NAME = 'config.json';
 
