@@ -1,3 +1,5 @@
+import { FormService } from '../../shared/form/form.service';
+import { CurrentItemService } from '../../shared/current-item.service';
 import { TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
@@ -52,6 +54,8 @@ describe('BudgetItemService', () => {
       providers: [
         BudgetItemService,
         { provide: CurrentBudgetService, useClass: MockCurrentBudgetService },
+        { provide: CurrentItemService, useExisting: CurrentBudgetService },
+        { provide: FormService, useExisting: BudgetFormService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: BudgetFormService, useClass: MockBudgetFormService },
         { provide: BudgetService, useClass: MockBudgetService },

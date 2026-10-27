@@ -18,7 +18,7 @@ import { FeatureToggleExpression } from '../feature-toggles';
 export class FeatureDirective {
   protected templateRef = inject<TemplateRef<any>>(TemplateRef);
   protected viewContainer = inject(ViewContainerRef);
-  protected featureConfig = inject(FeatureConfigService);
+  private featureConfig = inject(FeatureConfigService);
 
   private hasView = false;
 

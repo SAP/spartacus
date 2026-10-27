@@ -1,3 +1,5 @@
+import { FormService } from '../../shared/form/form.service';
+import { CurrentItemService } from '../../shared/current-item.service';
 import { TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
@@ -50,6 +52,8 @@ describe('UnitItemService', () => {
       providers: [
         UnitItemService,
         { provide: CurrentUnitService, useClass: MockCurrentUnitService },
+        { provide: CurrentItemService, useExisting: CurrentUnitService },
+        { provide: FormService, useExisting: UnitFormService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UnitFormService, useClass: MockUnitFormService },
         { provide: OrgUnitService, useClass: MockUnitService },
