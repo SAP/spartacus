@@ -36,6 +36,16 @@ export interface ProductConfiguratorUISettingsConfig {
    * menu shows a Filter tab. The tab is visible only when the entry is `true`.
    */
   overviewMenuFilterTabVisible?: Record<string, boolean>;
+  /**
+   * CPQ configurator flavour only (`CLOUDCPQCONFIGURATOR`). When `true`, hides
+   * the base price and selected options rows in the price summary; the total
+   * price row remains visible. Defaults to `false` when omitted.
+   *
+   * For the variant configurator (VC), the same behaviour is controlled by the
+   * commerce backend via OCC field `hideBasePriceAndSelectedOptions` on the
+   * configuration payload—not by this storefront setting.
+   */
+  cpqHideBasePriceAndSelectedOptions?: boolean;
 }
 
 @Injectable({

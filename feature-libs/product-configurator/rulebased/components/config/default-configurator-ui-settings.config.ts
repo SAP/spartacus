@@ -21,6 +21,7 @@ export const defaultConfiguratorUISettingsConfig: ConfiguratorUISettingsConfig =
         valueDescriptionLength: 70,
       },
       cpqContainerDropDownListThreshold: 10,
+      cpqHideBasePriceAndSelectedOptions: false,
       overviewHeaderSelectors: [
         '.VariantConfigOverviewHeader',
         '.CpqConfigHeader',
