@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -40,12 +40,12 @@ import { ResetPasswordComponentService } from './reset-password-component.servic
   ],
 })
 export class ResetPasswordComponent {
+  protected service = inject(ResetPasswordComponentService);
+
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
 
   token$: Observable<string> = this.service.resetToken$;
-
-  constructor(protected service: ResetPasswordComponentService) {}
 
   onSubmit(token: string) {
     this.service.resetPassword(token);

@@ -38,6 +38,8 @@ import { SiteContextType } from './site-context.model';
   ],
 })
 export class SiteContextSelectorComponent {
+  private componentService = inject(SiteContextComponentService);
+
   /**
    * @deprecated since 2011.21 removed unused property
    */
@@ -51,7 +53,7 @@ export class SiteContextSelectorComponent {
 
   protected translationService = inject(TranslationService);
 
-  constructor(private componentService: SiteContextComponentService) {
+  constructor() {
     useFeatureStyles('a11ySiteContextCaretClick');
   }
 

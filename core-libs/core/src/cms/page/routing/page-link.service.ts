@@ -17,10 +17,8 @@ import {
  */
 @Injectable({ providedIn: 'root' })
 export class PageLinkService {
-  constructor(
-    protected pageMetaConfig: PageMetaConfig,
-    protected winRef: WindowRef
-  ) {}
+  protected pageMetaConfig = inject(PageMetaConfig);
+  protected winRef = inject(WindowRef);
 
   private featureToggles = inject(FeatureToggles);
 

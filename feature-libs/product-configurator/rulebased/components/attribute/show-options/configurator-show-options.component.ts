@@ -17,13 +17,13 @@ import { ConfiguratorAttributeCompositionContext } from '../composition/configur
   imports: [TranslatePipe],
 })
 export class ConfiguratorShowOptionsComponent {
+  protected configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
+
   protected configuratorCommonsService = inject(ConfiguratorCommonsService);
 
   @Input() attributeComponentContext: ConfiguratorAttributeCompositionContext;
-
-  constructor(
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
-  ) {}
 
   /**
    * fires a request to read the attribute domain,

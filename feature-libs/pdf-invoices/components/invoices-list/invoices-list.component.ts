@@ -10,6 +10,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import {
   CxDatePipe,
@@ -59,6 +60,12 @@ import { catchError, skip, switchMap, take, tap } from 'rxjs/operators';
   ],
 })
 export class InvoicesListComponent implements OnInit, OnDestroy {
+  protected pdfInvoicesFacade = inject(PDFInvoicesFacade);
+  protected translationService = inject(TranslationService);
+  protected downloadService = inject(FileDownloadService);
+  protected languageService = inject(LanguageService);
+  protected globalMessageService = inject(GlobalMessageService);
+
   /* For Enum use in HTML */
   ICON_TYPE = ICON_TYPE;
 
@@ -115,14 +122,6 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
   );
 
   protected subscription = new Subscription();
-
-  constructor(
-    protected pdfInvoicesFacade: PDFInvoicesFacade,
-    protected translationService: TranslationService,
-    protected downloadService: FileDownloadService,
-    protected languageService: LanguageService,
-    protected globalMessageService: GlobalMessageService
-  ) {}
 
   ngOnInit() {
     this.subscription.add(

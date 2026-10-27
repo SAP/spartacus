@@ -54,6 +54,11 @@ import { OrderOverviewComponentService } from './order-overview-component.servic
   ],
 })
 export class OrderOverviewComponent {
+  protected translation = inject(TranslationService);
+  protected orderDetailsService = inject(OrderDetailsService);
+  protected component =
+    inject<CmsComponentData<CmsOrderDetailOverviewComponent>>(CmsComponentData);
+
   protected orderOverviewComponentService = inject(
     OrderOverviewComponentService
   );
@@ -72,11 +77,7 @@ export class OrderOverviewComponent {
     map((data) => data.simple)
   );
 
-  constructor(
-    protected translation: TranslationService,
-    protected orderDetailsService: OrderDetailsService,
-    protected component: CmsComponentData<CmsOrderDetailOverviewComponent>
-  ) {
+  constructor() {
     useFeatureStyles('orderOverviewCardsInlinePadding');
   }
 

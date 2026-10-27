@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component, Optional } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import {
@@ -36,13 +36,14 @@ import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entr
   ],
 })
 export class ConfiguratorCartEntryBundleInfoComponent {
-  constructor(
-    protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    protected configCartEntryBundleInfoService: ConfiguratorCartEntryBundleInfoService,
-    protected breakpointService: BreakpointService,
-    protected translation: TranslationService,
-    @Optional() protected cartItemContext?: CartItemContext
-  ) {}
+  protected commonConfigUtilsService = inject(CommonConfiguratorUtilsService);
+  protected configCartEntryBundleInfoService = inject(
+    ConfiguratorCartEntryBundleInfoService
+  );
+  protected breakpointService = inject(BreakpointService);
+  protected translation = inject(TranslationService);
+  protected cartItemContext? =
+    inject(CartItemContext, { optional: true }) ?? undefined;
 
   readonly orderEntry$: Observable<OrderEntry> =
     this.cartItemContext?.item$ ?? EMPTY;

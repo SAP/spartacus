@@ -65,6 +65,21 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   extends ConfiguratorAttributeInputFieldComponent
   implements OnInit, OnDestroy
 {
+  protected configAttributeNumericInputFieldService = inject(
+    ConfiguratorAttributeNumericInputFieldService
+  );
+  protected override config = inject(ConfiguratorUISettingsConfig);
+  protected translation = inject(TranslationService);
+  protected override attributeComponentContext = inject(
+    ConfiguratorAttributeCompositionContext
+  );
+  protected override configuratorCommonsService = inject(
+    ConfiguratorCommonsService
+  );
+  protected override configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
+
   numericFormatPattern: string;
   locale: string;
   iconType = ICON_TYPE;
@@ -73,21 +88,9 @@ export class ConfiguratorAttributeNumericInputFieldComponent
 
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
-    protected config: ConfiguratorUISettingsConfig,
-    protected translation: TranslationService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
-  ) {
-    super(
-      config,
-      attributeComponentContext,
-      configuratorCommonsService,
-      configuratorStorefrontUtilsService
-    );
-    this.language = attributeComponentContext.language;
+  constructor() {
+    super();
+    this.language = this.attributeComponentContext.language;
   }
 
   /**

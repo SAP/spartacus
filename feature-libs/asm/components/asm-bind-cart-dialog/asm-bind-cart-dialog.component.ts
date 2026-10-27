@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import {
   FocusConfig,
@@ -23,6 +23,8 @@ export enum BIND_CART_DIALOG_ACTION {
   imports: [FocusDirective, TranslatePipe],
 })
 export class AsmBindCartDialogComponent {
+  protected launchDialogService = inject(LaunchDialogService);
+
   BIND_CART_ACTION = BIND_CART_DIALOG_ACTION;
 
   focusConfig: FocusConfig = {
@@ -31,8 +33,6 @@ export class AsmBindCartDialogComponent {
     autofocus: true,
     focusOnEscape: true,
   };
-
-  constructor(protected launchDialogService: LaunchDialogService) {}
 
   closeModal(reason: BIND_CART_DIALOG_ACTION): void {
     this.launchDialogService.closeDialog(reason);

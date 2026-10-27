@@ -49,6 +49,8 @@ import { ProductListService } from '../product-list.service';
   ],
 })
 export class ProductGridItemComponent implements OnChanges {
+  protected productListItemContextSource = inject(ProductListItemContextSource);
+
   protected productListService = inject(ProductListService);
   hideAddToCartButton = false;
 
@@ -64,9 +66,7 @@ export class ProductGridItemComponent implements OnChanges {
    */
   @Input() itemIndex?: number;
 
-  constructor(
-    protected productListItemContextSource: ProductListItemContextSource
-  ) {
+  constructor() {
     useFeatureStyles('a11yProductListItemNameMargin');
   }
 

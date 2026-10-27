@@ -25,12 +25,10 @@ import { HTTP_TIMEOUT_CONFIG } from './http-timeout.config';
  */
 @Injectable({ providedIn: 'root' })
 export class HttpTimeoutInterceptor implements HttpInterceptor {
-  protected logger = inject(LoggerService);
+  protected windowRef = inject(WindowRef);
+  protected config = inject(OccConfig);
 
-  constructor(
-    protected windowRef: WindowRef,
-    protected config: OccConfig
-  ) {}
+  protected logger = inject(LoggerService);
 
   /**
    * It throws an error when a request takes longer than the specified time.

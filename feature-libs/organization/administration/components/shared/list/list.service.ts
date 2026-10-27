@@ -41,6 +41,8 @@ export interface SearchablePaginationModel extends PaginationModel {
 
 @Injectable()
 export abstract class ListService<T, P = PaginationModel> {
+  protected tableService = inject(TableService);
+
   /**
    * The default table structure is used to add the default configuration for all
    * organization list related tables. This avoids a lot of boilerplate configuration.
@@ -93,8 +95,6 @@ export abstract class ListService<T, P = PaginationModel> {
   } as any as P);
 
   protected config = inject(OrganizationUIConfig);
-
-  constructor(protected tableService: TableService) {}
 
   /**
    * Indicates the unique key for the item model. The key is different for various

@@ -5,7 +5,7 @@
  */
 
 import { NgClass, NgTemplateOutlet } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -39,10 +39,10 @@ import {
   ],
 })
 export class StoreFinderSearchComponent {
+  private routingService = inject(RoutingService);
+
   searchBox: UntypedFormControl = new UntypedFormControl();
   iconTypes = ICON_TYPE;
-
-  constructor(private routingService: RoutingService) {}
 
   findStores(address: string) {
     this.routingService.go(['store-finder/find'], {

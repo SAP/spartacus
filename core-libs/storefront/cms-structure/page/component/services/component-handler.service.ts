@@ -8,12 +8,10 @@ import {
   ComponentRef,
   ElementRef,
   inject,
-  Inject,
   Injectable,
   Injector,
   isDevMode,
   NgModuleRef,
-  Optional,
   ViewContainerRef,
 } from '@angular/core';
 import {
@@ -31,13 +29,11 @@ import { ComponentHandler } from '../handlers/component-handler';
   providedIn: 'root',
 })
 export class ComponentHandlerService {
-  protected logger = inject(LoggerService);
+  protected handlers = inject(ComponentHandler, {
+    optional: true,
+  }) as unknown as ComponentHandler[];
 
-  constructor(
-    @Optional()
-    @Inject(ComponentHandler)
-    protected handlers: ComponentHandler[]
-  ) {}
+  protected logger = inject(LoggerService);
 
   protected invalidMappings = new Set<CmsComponentMapping<any>>();
 

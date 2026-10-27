@@ -45,19 +45,19 @@ interface CustomerSearchParams {
 
 @Injectable()
 export class OccAsmAdapter implements AsmAdapter {
+  protected http = inject(HttpClient);
+  protected occEndpointsService = inject(OccEndpointsService);
+  protected converterService = inject(ConverterService);
+  protected config = inject(AsmConfig);
+  protected baseSiteService = inject(BaseSiteService);
+
   private activeBaseSite: string;
   private currentUserId: string;
 
   protected logger = inject(LoggerService);
   protected userIdService = inject(UserIdService);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService,
-    protected config: AsmConfig,
-    protected baseSiteService: BaseSiteService
-  ) {
+  constructor() {
     this.baseSiteService
       .getActive()
       .subscribe((value) => (this.activeBaseSite = value));

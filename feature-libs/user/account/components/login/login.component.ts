@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   AuthService,
@@ -31,15 +31,13 @@ import { switchMap } from 'rxjs/operators';
   ],
 })
 export class LoginComponent implements OnInit {
+  private auth = inject(AuthService);
+  private userAccount = inject(UserAccountFacade);
+  private translation = inject(TranslationService);
+
   user$: Observable<User | undefined>;
   greeting$: Observable<string | undefined>;
   usingASMClient$: Observable<boolean>;
-
-  constructor(
-    private auth: AuthService,
-    private userAccount: UserAccountFacade,
-    private translation: TranslationService
-  ) {}
 
   ngOnInit(): void {
     this.user$ = this.auth.isUserLoggedIn().pipe(

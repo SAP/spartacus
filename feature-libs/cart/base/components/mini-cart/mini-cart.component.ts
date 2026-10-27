@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FeatureDirective, TranslatePipe, UrlPipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
@@ -26,6 +26,8 @@ import { MiniCartComponentService } from './mini-cart-component.service';
   ],
 })
 export class MiniCartComponent {
+  protected miniCartComponentService = inject(MiniCartComponentService);
+
   iconTypes = ICON_TYPE;
 
   quantity$: Observable<number> = this.miniCartComponentService.getQuantity();
@@ -37,6 +39,4 @@ export class MiniCartComponent {
    * loading affordance.
    */
   updating$: Observable<boolean> = this.miniCartComponentService.getUpdating();
-
-  constructor(protected miniCartComponentService: MiniCartComponentService) {}
 }

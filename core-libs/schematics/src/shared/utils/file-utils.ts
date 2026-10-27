@@ -1041,8 +1041,11 @@ function removeParamFromSuper(
         const previousCommaPosition = commas[i - 1].getStart();
         changes.push(new RemoveChange(sourcePath, previousCommaPosition, ','));
         // if removing the first param, cleanup the comma after it
-      } else if (i === 0 && params.length > 0) {
-        // get the comma that matches the constructor parameter's position
+      } else if (i === 0 && commas[i]) {
+        // get the comma that matches the constructor parameter's position.
+        // guarded with `commas[i]`: when this is the only remaining super()
+        // argument (e.g. when every param is being removed) there is no
+        // trailing comma to clean up.
         const comma = commas[i];
         changes.push(new RemoveChange(sourcePath, comma.getStart(), ','));
       }

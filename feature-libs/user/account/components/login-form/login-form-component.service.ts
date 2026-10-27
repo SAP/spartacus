@@ -41,6 +41,10 @@ import {
 
 @Injectable()
 export class LoginFormComponentService {
+  protected auth = inject(AuthService);
+  protected globalMessage = inject(GlobalMessageService);
+  protected winRef = inject(WindowRef);
+
   protected authConfigService = inject(AuthConfigService);
   private featureToggles = inject(FeatureToggles);
   protected csrfStateService = inject(CsrfStateService);
@@ -82,11 +86,7 @@ export class LoginFormComponentService {
     password: new UntypedFormControl('', Validators.required),
   });
 
-  constructor(
-    protected auth: AuthService,
-    protected globalMessage: GlobalMessageService,
-    protected winRef: WindowRef
-  ) {
+  constructor() {
     if (this.featureToggles.authorizationCodeFlowByDefault) {
       this.initCustomLogin();
     }

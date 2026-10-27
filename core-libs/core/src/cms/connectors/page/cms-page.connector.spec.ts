@@ -1,3 +1,5 @@
+import { CmsPageAdapter } from './cms-page.adapter';
+import { TestBed } from '@angular/core/testing';
 import { CmsStructureConfigService, PageContext } from '@spartacus/core';
 import { of } from 'rxjs';
 import { PageType } from '../../../model/cms.model';
@@ -24,10 +26,16 @@ describe('CmsPageConnector', () => {
       mergePageStructure: vi.fn().mockImplementation((id) => of(id)),
       shouldIgnoreBackend: vi.fn().mockReturnValue(of(false)),
     };
-    service = new CmsPageConnector(
-      adapter as any,
-      structureConfigService as any
-    );
+    service = TestBed.configureTestingModule({
+      providers: [
+        CmsPageConnector,
+        { provide: CmsPageAdapter, useValue: adapter },
+        {
+          provide: CmsStructureConfigService,
+          useValue: structureConfigService,
+        },
+      ],
+    }).inject(CmsPageConnector);
   });
 
   it('should be created', () => {

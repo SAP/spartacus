@@ -15,7 +15,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -74,6 +73,16 @@ import { filter, map, startWith, take } from 'rxjs/operators';
   ],
 })
 export class AddToCartComponent implements OnInit, OnDestroy {
+  protected currentProductService = inject(CurrentProductService);
+  protected cd = inject(ChangeDetectorRef);
+  protected activeCartService = inject(ActiveCartFacade);
+  protected component =
+    inject<CmsComponentData<CmsAddToCartComponent>>(CmsComponentData);
+  protected eventService = inject(EventService);
+  protected productListItemContext? = inject(ProductListItemContext, {
+    optional: true,
+  });
+
   @Input() productCode: string;
   @Input() showQuantity = true;
   @Input() options: CartItemComponentOptions;
@@ -137,14 +146,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(
-    protected currentProductService: CurrentProductService,
-    protected cd: ChangeDetectorRef,
-    protected activeCartService: ActiveCartFacade,
-    protected component: CmsComponentData<CmsAddToCartComponent>,
-    protected eventService: EventService,
-    @Optional() protected productListItemContext?: ProductListItemContext
-  ) {
+  constructor() {
     useFeatureStyles('a11yInStockInfoTextContrast');
   }
 

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { TranslatePipe, User } from '@spartacus/core';
 import {
   FocusConfig,
@@ -31,6 +31,9 @@ export interface SwitchCustomerData {
   imports: [FocusDirective, IconComponent, TranslatePipe],
 })
 export class AsmSwitchCustomerDialogComponent implements OnInit {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected asmComponentService = inject(AsmComponentService);
+
   SWITCH_CUSTOMER_DIALOG_ACTION = SWITCH_CUSTOMER_DIALOG_ACTION;
 
   focusConfig: FocusConfig = {
@@ -43,11 +46,6 @@ export class AsmSwitchCustomerDialogComponent implements OnInit {
   curCustomerName: string;
   switchCustomerName: string;
   iconTypes: any;
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected asmComponentService: AsmComponentService
-  ) {}
 
   ngOnInit(): void {
     this.launchDialogService.data$

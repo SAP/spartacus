@@ -11,7 +11,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
 } from '@angular/core';
 
 import { AsyncPipe, NgClass } from '@angular/common';
@@ -33,6 +32,12 @@ import { Observable, Subscription } from 'rxjs';
   imports: [NgClass, IconComponent, AsyncPipe, TranslatePipe],
 })
 export class SetPreferredStoreComponent implements OnInit, OnDestroy {
+  protected preferredStoreFacade = inject(PreferredStoreFacade);
+  protected outlet = inject<OutletContextData<PointOfServiceNames>>(
+    OutletContextData,
+    { optional: true }
+  );
+
   readonly ICON_TYPE = ICON_TYPE;
   @Input() pointOfServiceName: PointOfServiceNames;
 
@@ -40,11 +45,6 @@ export class SetPreferredStoreComponent implements OnInit, OnDestroy {
     this.preferredStoreFacade.getPreferredStore$();
   subscription: Subscription = new Subscription();
   protected cd = inject(ChangeDetectorRef);
-
-  constructor(
-    protected preferredStoreFacade: PreferredStoreFacade,
-    @Optional() protected outlet: OutletContextData<PointOfServiceNames>
-  ) {}
 
   ngOnInit() {
     this.subscription.add(

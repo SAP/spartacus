@@ -1,3 +1,5 @@
+import { SiteAdapter } from './site.adapter';
+import { TestBed } from '@angular/core/testing';
 import { CountryType } from '@spartacus/core';
 import { of } from 'rxjs';
 import { SiteConnector } from './site.connector';
@@ -35,7 +37,10 @@ describe('SiteConnector', () => {
       loadCities: vi.fn().mockReturnValue(of([])),
       loadDistricts: vi.fn().mockReturnValue(of([])),
     };
-    service = new SiteConnector(adapter as any);
+    TestBed.configureTestingModule({
+      providers: [SiteConnector, { provide: SiteAdapter, useValue: adapter }],
+    });
+    service = TestBed.inject(SiteConnector);
   });
 
   it('should be created', () => {

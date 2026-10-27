@@ -9,7 +9,6 @@ import {
   Component,
   effect,
   ElementRef,
-  Inject,
   inject,
   Input,
   viewChild,
@@ -39,6 +38,9 @@ import { LocationDisplayMode } from './store-finder-list.model';
   ],
 })
 export class StoreFinderListComponent {
+  private storeFinderService = inject(StoreFinderService);
+  private document = inject(DOCUMENT);
+
   @Input()
   locations: any;
   @Input()
@@ -56,10 +58,7 @@ export class StoreFinderListComponent {
   readonly backButton = viewChild<ElementRef<HTMLButtonElement>>('backButton');
   private featureToggles = inject(FeatureToggles);
 
-  constructor(
-    private storeFinderService: StoreFinderService,
-    @Inject(DOCUMENT) private document: any
-  ) {
+  constructor() {
     this.isDetailsModeVisible = false;
 
     if (this.featureToggles.a11yStoreFinderFocusOnBackButton) {

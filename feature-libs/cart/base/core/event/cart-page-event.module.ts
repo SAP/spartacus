@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
+import { NgModule, inject, provideAppInitializer } from '@angular/core';
 import { CartPageEventBuilder } from './cart-page-event.builder';
 
-@NgModule({})
-export class CartPageEventModule {
-  constructor(_cartPageEventBuilder: CartPageEventBuilder) {
-    // Intentional empty constructor
-  }
-}
+@NgModule({
+  providers: [
+    provideAppInitializer(() => {
+      inject(CartPageEventBuilder);
+    }),
+  ],
+})
+export class CartPageEventModule {}

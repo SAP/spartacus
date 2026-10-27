@@ -67,6 +67,17 @@ export interface CardWithAddress {
   ],
 })
 export class CheckoutDeliveryAddressComponent implements OnInit {
+  protected userAddressService = inject(UserAddressService);
+  protected checkoutDeliveryAddressFacade = inject(
+    CheckoutDeliveryAddressFacade
+  );
+  protected activatedRoute = inject(ActivatedRoute);
+  protected translationService = inject(TranslationService);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected checkoutStepService = inject(CheckoutStepService);
+  protected checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
+  protected globalMessageService = inject(GlobalMessageService);
+
   protected checkoutConfigService = inject(CheckoutConfigService);
   private featureToggles = inject(FeatureToggles);
   protected busy$ = new BehaviorSubject<boolean>(false);
@@ -97,17 +108,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
 
   @Optional() protected focusService = inject(SelectFocusUtility);
   @Optional() protected windowRef = inject(WindowRef);
-
-  constructor(
-    protected userAddressService: UserAddressService,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected activatedRoute: ActivatedRoute,
-    protected translationService: TranslationService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected globalMessageService: GlobalMessageService
-  ) {}
 
   ngOnInit(): void {
     this.loadAddresses();

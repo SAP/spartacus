@@ -6,13 +6,13 @@
 
 import {
   ElementRef,
-  Inject,
   Injectable,
   Injector,
   PLATFORM_ID,
   Renderer2,
   ViewContainerRef,
   DOCUMENT,
+  inject,
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ComponentHandler } from './component-handler';
@@ -28,10 +28,8 @@ import { CmsComponentData } from '../../model';
   providedIn: 'root',
 })
 export class WebComponentHandler implements ComponentHandler {
-  constructor(
-    @Inject(DOCUMENT) protected document: any,
-    @Inject(PLATFORM_ID) protected platform: any
-  ) {}
+  protected document = inject(DOCUMENT);
+  protected platform = inject(PLATFORM_ID);
 
   private loadedWebComponents: { [path: string]: any } = {};
 

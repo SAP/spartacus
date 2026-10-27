@@ -1,3 +1,4 @@
+import { TestBed } from '@angular/core/testing';
 import { AbstractStoreItemComponent } from './abstract-store-item.component';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 
@@ -23,7 +24,13 @@ describe('AbstractStoreItemComponent', () => {
     new MockStoreFinderService();
 
   beforeEach(() => {
-    component = new AbstractStoreItemComponent(<any>mockStoreFinderService);
+    TestBed.configureTestingModule({
+      providers: [
+        AbstractStoreItemComponent,
+        { provide: StoreFinderService, useValue: mockStoreFinderService },
+      ],
+    });
+    component = TestBed.inject(AbstractStoreItemComponent);
   });
 
   it('should create', () => {

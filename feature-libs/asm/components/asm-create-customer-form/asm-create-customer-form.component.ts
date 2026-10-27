@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormsModule,
@@ -56,6 +56,11 @@ import { CreatedCustomer } from './asm-create-customer-form.model';
   ],
 })
 export class AsmCreateCustomerFormComponent {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected fb = inject(FormBuilder);
+  protected asmCreateCustomerFacade = inject(AsmCreateCustomerFacade);
+  protected translationService = inject(TranslationService);
+
   createdCustomer: CreatedCustomer;
 
   iconTypes = ICON_TYPE;
@@ -82,13 +87,6 @@ export class AsmCreateCustomerFormComponent {
     lastName: ['', Validators.required],
     email: ['', [Validators.required, CustomFormValidators.emailValidator]],
   });
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected fb: FormBuilder,
-    protected asmCreateCustomerFacade: AsmCreateCustomerFacade,
-    protected translationService: TranslationService
-  ) {}
 
   submitForm(): void {
     if (this.registerForm.valid) {

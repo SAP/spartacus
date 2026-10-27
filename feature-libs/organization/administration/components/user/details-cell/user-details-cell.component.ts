@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   B2BUser,
@@ -28,6 +28,10 @@ import { CellComponent } from '../../shared';
   imports: [RouterLink, PopoverDirective, TranslatePipe, UrlPipe],
 })
 export class UserDetailsCellComponent extends CellComponent {
+  protected b2bUserService = inject(B2BUserService);
+  protected override outlet =
+    inject<OutletContextData<TableDataOutletContext>>(OutletContextData);
+
   b2bUserModel: B2BUser;
 
   availableRoles: string[] = this.b2bUserService
@@ -37,11 +41,8 @@ export class UserDetailsCellComponent extends CellComponent {
     .getAllRights()
     .map((right: B2BUserRight) => right.toString());
 
-  constructor(
-    protected b2bUserService: B2BUserService,
-    protected outlet: OutletContextData<TableDataOutletContext>
-  ) {
-    super(outlet);
+  constructor() {
+    super();
     this.b2bUserModel = super.model as B2BUser;
   }
 

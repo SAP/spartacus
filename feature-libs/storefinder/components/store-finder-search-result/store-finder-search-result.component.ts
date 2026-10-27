@@ -35,6 +35,10 @@ import { StoreFinderListComponent } from './store-finder-list/store-finder-list.
   ],
 })
 export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
+  private storeFinderService = inject(StoreFinderService);
+  private route = inject(ActivatedRoute);
+  protected config = inject(StoreFinderConfig);
+
   locations: any;
   subscription: Subscription;
   useMyLocation: boolean;
@@ -49,12 +53,6 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
   isLoading$: Observable<any>;
 
   protected cd = inject(ChangeDetectorRef);
-
-  constructor(
-    private storeFinderService: StoreFinderService,
-    private route: ActivatedRoute,
-    protected config: StoreFinderConfig
-  ) {}
 
   ngOnInit() {
     this.subscription = this.route.queryParams.subscribe((params) => {

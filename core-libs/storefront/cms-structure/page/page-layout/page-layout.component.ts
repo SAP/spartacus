@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 import { useFeatureStyles } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { distinctUntilChanged, switchMap } from 'rxjs/operators';
@@ -26,6 +31,8 @@ import { PageTemplateDirective } from './page-template.directive';
   ],
 })
 export class PageLayoutComponent {
+  protected pageLayoutService = inject(PageLayoutService);
+
   @Input() set section(value: string) {
     this.section$.next(value);
   }
@@ -50,7 +57,7 @@ export class PageLayoutComponent {
       distinctUntilChanged()
     );
 
-  constructor(protected pageLayoutService: PageLayoutService) {
+  constructor() {
     useFeatureStyles('a11yB2BRegisterComponent');
   }
 }

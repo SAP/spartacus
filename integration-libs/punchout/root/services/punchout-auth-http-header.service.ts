@@ -5,16 +5,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import {
-  AuthHttpHeaderService,
-  AuthRedirectService,
-  AuthService,
-  AuthStorageService,
-  GlobalMessageService,
-  OAuthLibWrapperService,
-  OccEndpointsService,
-  RoutingService,
-} from '@spartacus/core';
+import { AuthHttpHeaderService } from '@spartacus/core';
 import { PunchoutFacade } from '../facade';
 import { PunchoutDetectionService } from './punchout-detection.service';
 
@@ -24,25 +15,6 @@ import { PunchoutDetectionService } from './punchout-detection.service';
 export class PunchoutAuthHttpHeaderService extends AuthHttpHeaderService {
   protected punchoutDetectionService = inject(PunchoutDetectionService);
   protected punchoutFacade = inject(PunchoutFacade);
-  constructor(
-    protected authService: AuthService,
-    protected authStorageService: AuthStorageService,
-    protected oAuthLibWrapperService: OAuthLibWrapperService,
-    protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService,
-    protected occEndpointsService: OccEndpointsService,
-    protected authRedirectService: AuthRedirectService
-  ) {
-    super(
-      authService,
-      authStorageService,
-      oAuthLibWrapperService,
-      routingService,
-      occEndpointsService,
-      globalMessageService,
-      authRedirectService
-    );
-  }
 
   /**
    * @override

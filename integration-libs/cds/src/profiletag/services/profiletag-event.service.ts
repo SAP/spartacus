@@ -5,13 +5,7 @@
  */
 
 import { isPlatformBrowser } from '@angular/common';
-import {
-  Inject,
-  inject,
-  Injectable,
-  OnDestroy,
-  PLATFORM_ID,
-} from '@angular/core';
+import { inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { BaseSiteService, LoggerService, WindowRef } from '@spartacus/core';
 import {
   BehaviorSubject,
@@ -43,6 +37,11 @@ import {
   providedIn: 'root',
 })
 export class ProfileTagEventService implements OnDestroy {
+  private winRef = inject(WindowRef);
+  private config = inject(CdsConfig);
+  private baseSiteService = inject(BaseSiteService);
+  private platform = inject(PLATFORM_ID);
+
   protected subscription: Subscription = new Subscription();
   latestConsentReference: BehaviorSubject<string | null> | undefined;
   profileTagDebug = false;
@@ -55,12 +54,7 @@ export class ProfileTagEventService implements OnDestroy {
 
   protected logger = inject(LoggerService);
 
-  constructor(
-    private winRef: WindowRef,
-    private config: CdsConfig,
-    private baseSiteService: BaseSiteService,
-    @Inject(PLATFORM_ID) private platform: any
-  ) {
+  constructor() {
     this.initWindow();
     this.setConsentReferenceFromLocalStorage();
   }

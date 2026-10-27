@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   CheckoutPaymentFacade,
@@ -46,17 +46,15 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   ],
 })
 export class CheckoutReviewPaymentComponent {
+  protected checkoutStepService = inject(CheckoutStepService);
+  protected checkoutPaymentFacade = inject(CheckoutPaymentFacade);
+  protected translationService = inject(TranslationService);
+
   iconTypes = ICON_TYPE;
 
   paymentDetailsStepRoute = this.checkoutStepService.getCheckoutStepRoute(
     CheckoutStepType.PAYMENT_DETAILS
   );
-
-  constructor(
-    protected checkoutStepService: CheckoutStepService,
-    protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected translationService: TranslationService
-  ) {}
 
   paymentDetails$: Observable<PaymentDetails | undefined> =
     this.checkoutPaymentFacade.getPaymentDetailsState().pipe(

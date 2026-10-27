@@ -72,6 +72,17 @@ import { CheckoutPaymentFormComponent } from './checkout-payment-form/checkout-p
   ],
 })
 export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
+  protected userPaymentService = inject(UserPaymentService);
+  protected checkoutDeliveryAddressFacade = inject(
+    CheckoutDeliveryAddressFacade
+  );
+  protected checkoutPaymentFacade = inject(CheckoutPaymentFacade);
+  protected activatedRoute = inject(ActivatedRoute);
+  protected translationService = inject(TranslationService);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected checkoutStepService = inject(CheckoutStepService);
+  protected globalMessageService = inject(GlobalMessageService);
+
   protected subscriptions = new Subscription();
   protected deliveryAddress: Address | undefined;
   protected busy$ = new BehaviorSubject<boolean>(false);
@@ -114,17 +125,6 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
       distinctUntilChanged((prev, curr) => prev?.id === curr?.id)
     );
   }
-
-  constructor(
-    protected userPaymentService: UserPaymentService,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected activatedRoute: ActivatedRoute,
-    protected translationService: TranslationService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected checkoutStepService: CheckoutStepService,
-    protected globalMessageService: GlobalMessageService
-  ) {}
 
   ngOnInit(): void {
     if (!getLastValueSync(this.activeCartFacade.isGuestCart())) {

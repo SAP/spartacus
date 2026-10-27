@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import {
   ErrorModel,
@@ -20,11 +20,9 @@ import { ResponseError } from './bad-cost-center-request.model';
   providedIn: 'root',
 })
 export class BadCostCenterRequestHandler extends HttpErrorHandler {
-  responseStatus = HttpResponseStatus.BAD_REQUEST;
+  protected override globalMessageService = inject(GlobalMessageService);
 
-  constructor(protected globalMessageService: GlobalMessageService) {
-    super(globalMessageService);
-  }
+  responseStatus = HttpResponseStatus.BAD_REQUEST;
 
   getPriority(): Priority {
     return Priority.NORMAL;

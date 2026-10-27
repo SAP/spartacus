@@ -37,6 +37,12 @@ const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
   providedIn: 'root',
 })
 export class SearchBoxComponentService {
+  searchService = inject(SearchboxService);
+  protected routingService = inject(RoutingService);
+  protected translationService = inject(TranslationService);
+  protected winRef = inject(WindowRef);
+  protected eventService = inject(EventService);
+
   chosenWord = new ReplaySubject<string>();
   sharedEvent = new ReplaySubject<KeyboardEvent>();
   searchCompleted = new BehaviorSubject<boolean>(false);
@@ -54,13 +60,6 @@ export class SearchBoxComponentService {
   protected enableTrendingSearches: boolean = false;
   private currentQueryLength: number = 0;
   private hasKeywordRedirect: boolean = false;
-  constructor(
-    public searchService: SearchboxService,
-    protected routingService: RoutingService,
-    protected translationService: TranslationService,
-    protected winRef: WindowRef,
-    protected eventService: EventService
-  ) {}
 
   /**
    * Executes the search for products and suggestions,

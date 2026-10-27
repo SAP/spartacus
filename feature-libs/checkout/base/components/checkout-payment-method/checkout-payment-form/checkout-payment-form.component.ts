@@ -86,6 +86,17 @@ import { CheckoutBillingAddressFormComponent } from '../../checkout-billing-addr
   ],
 })
 export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
+  protected checkoutPaymentFacade = inject(CheckoutPaymentFacade);
+  protected checkoutDeliveryAddressFacade = inject(
+    CheckoutDeliveryAddressFacade
+  );
+  protected userPaymentService = inject(UserPaymentService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected fb = inject(UntypedFormBuilder);
+  protected userAddressService = inject(UserAddressService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected translationService = inject(TranslationService);
+
   iconTypes = ICON_TYPE;
 
   /**
@@ -156,16 +167,7 @@ export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
       : null;
   }
 
-  constructor(
-    protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected userPaymentService: UserPaymentService,
-    protected globalMessageService: GlobalMessageService,
-    protected fb: UntypedFormBuilder,
-    protected userAddressService: UserAddressService,
-    protected launchDialogService: LaunchDialogService,
-    protected translationService: TranslationService
-  ) {
+  constructor() {
     useFeatureStyles('a11yCvvInfoIconKeyboardAccessible');
   }
   /**

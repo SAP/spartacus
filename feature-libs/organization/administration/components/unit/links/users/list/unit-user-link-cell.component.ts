@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { B2BUnit, TranslatePipe, UrlPipe } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
@@ -35,14 +35,12 @@ import { CellComponent } from '../../../../shared/table/cell.component';
   imports: [RouterLink, AsyncPipe, TranslatePipe, UrlPipe],
 })
 export class UnitUserRolesCellComponent extends CellComponent {
+  protected override outlet =
+    inject<OutletContextData<TableDataOutletContext>>(OutletContextData);
+  protected itemService = inject<ItemService<B2BUnit>>(ItemService);
+  protected b2bUserService = inject(B2BUserService);
+
   unitKey$: Observable<string> = this.itemService.key$;
-  constructor(
-    protected outlet: OutletContextData<TableDataOutletContext>,
-    protected itemService: ItemService<B2BUnit>,
-    protected b2bUserService: B2BUserService
-  ) {
-    super(outlet);
-  }
   isUpdatingUserAllowed = this.b2bUserService.isUpdatingUserAllowed();
   getRouterModel(uid: string): any {
     return { ...this.outlet.context, uid };

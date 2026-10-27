@@ -28,13 +28,11 @@ import { catchError } from 'rxjs/operators';
 export class OccScheduledReplenishmentOrderAdapter
   implements ScheduledReplenishmentOrderAdapter
 {
-  protected logger = inject(LoggerService);
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  protected logger = inject(LoggerService);
 
   scheduleReplenishmentOrder(
     cartId: string,

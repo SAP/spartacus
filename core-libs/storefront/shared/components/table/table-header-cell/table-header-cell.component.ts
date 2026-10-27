@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { OutletContextData } from '../../../../cms-structure/outlet/outlet.model';
 import {
@@ -20,7 +20,8 @@ import {
   imports: [TranslatePipe],
 })
 export class TableHeaderCellComponent {
-  constructor(protected outlet: OutletContextData<TableHeaderOutletContext>) {}
+  protected outlet =
+    inject<OutletContextData<TableHeaderOutletContext>>(OutletContextData);
 
   /**
    * Returns the static label for the given field, if available.

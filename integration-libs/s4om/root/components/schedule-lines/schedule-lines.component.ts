@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component, Optional } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { CxDatePipe, TranslatePipe, TranslationService } from '@spartacus/core';
 import { EMPTY, Observable } from 'rxjs';
@@ -17,11 +17,9 @@ import { EMPTY, Observable } from 'rxjs';
   imports: [AsyncPipe, TranslatePipe, CxDatePipe],
 })
 export class ScheduleLinesComponent {
-  constructor(
-    @Optional() protected cartItemContext: CartItemContext,
-    protected translationService: TranslationService,
-    protected datePipe: CxDatePipe
-  ) {}
+  protected cartItemContext = inject(CartItemContext, { optional: true });
+  protected translationService = inject(TranslationService);
+  protected datePipe = inject(CxDatePipe);
 
   readonly orderEntry$: Observable<OrderEntry> =
     this.cartItemContext?.item$ ?? EMPTY;

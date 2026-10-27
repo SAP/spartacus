@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  inject,
+} from '@angular/core';
 import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import {
   AbstractOrderType,
@@ -30,12 +35,12 @@ import { Observable } from 'rxjs';
   ],
 })
 export class OrderConfirmationItemsComponent implements OnDestroy {
+  protected orderFacade = inject(OrderFacade);
+
   readonly cartOutlets = CartOutlets;
   readonly abstractOrderType = AbstractOrderType;
   promotionLocation: PromotionLocation = PromotionLocation.Checkout;
   order$: Observable<Order | undefined> = this.orderFacade.getOrderDetails();
-
-  constructor(protected orderFacade: OrderFacade) {}
 
   ngOnDestroy() {
     this.orderFacade.clearPlacedOrder();

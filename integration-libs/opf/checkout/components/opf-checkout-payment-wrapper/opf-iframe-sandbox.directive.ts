@@ -4,16 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, ElementRef, Input, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, Input, Renderer2, inject } from '@angular/core';
 
 @Directive({
   selector: 'iframe[cxOpfSandbox]',
 })
 export class OpfIframeSandboxDirective {
-  constructor(
-    protected el: ElementRef<HTMLIFrameElement>,
-    protected renderer: Renderer2
-  ) {}
+  protected el = inject<ElementRef<HTMLIFrameElement>>(ElementRef);
+  protected renderer = inject(Renderer2);
 
   @Input('cxOpfSandbox') set sandboxValue(value: string | undefined) {
     if (value == null) {

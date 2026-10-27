@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CostCenter, TranslatePipe, UrlPipe } from '@spartacus/core';
 import { FocusDirective } from '@spartacus/storefront';
@@ -43,11 +43,11 @@ import { CostCenterItemService } from '../services/cost-center-item.service';
   ],
 })
 export class CostCenterDetailsComponent {
+  protected itemService = inject<ItemService<CostCenter>>(ItemService);
+
   model$: Observable<CostCenter> = this.itemService.key$.pipe(
     switchMap((code) => this.itemService.load(code)),
     startWith({})
   );
   isInEditMode$ = this.itemService.isInEditMode$;
-
-  constructor(protected itemService: ItemService<CostCenter>) {}
 }

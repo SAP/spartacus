@@ -18,6 +18,7 @@ import {
   OnInit,
   Renderer2,
   TemplateRef,
+  inject,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { TranslatePipe, WindowRef } from '@spartacus/core';
@@ -37,6 +38,12 @@ import { PopoverEvent, PopoverPosition } from './popover.model';
   imports: [FocusDirective, IconComponent, NgTemplateOutlet, TranslatePipe],
 })
 export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
+  protected positioningService = inject(PositioningService);
+  protected winRef = inject(WindowRef);
+  protected changeDetectionRef = inject(ChangeDetectorRef);
+  protected renderer = inject(Renderer2);
+  protected router = inject(Router);
+
   /**
    * String or template to be rendered inside popover wrapper component.
    */
@@ -273,12 +280,4 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.scrollEventUnlistener();
     }
   }
-
-  constructor(
-    protected positioningService: PositioningService,
-    protected winRef: WindowRef,
-    protected changeDetectionRef: ChangeDetectorRef,
-    protected renderer: Renderer2,
-    protected router: Router
-  ) {}
 }

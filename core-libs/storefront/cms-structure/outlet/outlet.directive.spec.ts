@@ -2,8 +2,8 @@ import { ApplicationRef, AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Inject,
   signal,
+  inject as inject_1,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -342,9 +342,7 @@ describe('OutletDirective', () => {
       imports: [OutletDirective, AsyncPipe],
     })
     class MockTemplateComponent {
-      constructor(
-        @Inject('mockContext') public mockContext$: Observable<string>
-      ) {}
+      mockContext$ = inject_1<Observable<string>>('mockContext' as any);
     }
 
     @Component({
@@ -352,7 +350,7 @@ describe('OutletDirective', () => {
       selector: 'cx-test-component',
     })
     class MockOutletComponent {
-      constructor(public outlet: OutletContextData) {}
+      outlet = inject_1(OutletContextData);
     }
 
     beforeEach(async () => {

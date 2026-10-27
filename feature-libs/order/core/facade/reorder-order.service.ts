@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ActiveCartFacade,
   CartModificationList,
@@ -23,6 +23,12 @@ import { ReorderOrderConnector } from '../connectors/reorder-order.connector';
 
 @Injectable()
 export class ReorderOrderService implements ReorderOrderFacade {
+  protected commandService = inject(CommandService);
+  protected reorderOrderConnector = inject(ReorderOrderConnector);
+  protected userIdService = inject(UserIdService);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected multiCartFacade = inject(MultiCartFacade);
+
   protected reorderCommand: Command<{ orderId: string }, CartModificationList> =
     this.commandService.create<{ orderId: string }, CartModificationList>(
       ({ orderId }) =>
@@ -35,14 +41,6 @@ export class ReorderOrderService implements ReorderOrderFacade {
         strategy: CommandStrategy.CancelPrevious,
       }
     );
-
-  constructor(
-    protected commandService: CommandService,
-    protected reorderOrderConnector: ReorderOrderConnector,
-    protected userIdService: UserIdService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected multiCartFacade: MultiCartFacade
-  ) {}
 
   /**
    * Create cart from an existing order

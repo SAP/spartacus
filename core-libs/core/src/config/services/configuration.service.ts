@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription, zip } from 'rxjs';
 import { skip, tap } from 'rxjs/operators';
 import { isFeatureEnabled } from '../../features-config';
@@ -22,6 +22,10 @@ import { deepMerge } from '../utils/deep-merge';
   providedIn: 'root',
 })
 export class ConfigurationService implements OnDestroy {
+  protected rootConfig = inject<Config>(RootConfig);
+  protected defaultConfig = inject<Config>(DefaultConfig);
+  protected unifiedInjector = inject(UnifiedInjector);
+
   /**
    * Will emit unified configuration when some ambient configuration will appear
    *
@@ -39,12 +43,9 @@ export class ConfigurationService implements OnDestroy {
 
   private subscription: Subscription;
 
-  constructor(
-    @Inject(RootConfig) protected rootConfig: Config,
-    @Inject(DefaultConfig) protected defaultConfig: Config,
-    protected unifiedInjector: UnifiedInjector,
-    config: Config
-  ) {
+  constructor() {
+    const config = inject(Config);
+
     this.config = config;
     this.unifiedConfig$ = new BehaviorSubject(config);
 

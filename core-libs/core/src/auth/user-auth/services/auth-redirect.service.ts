@@ -25,6 +25,11 @@ import { AuthRedirectStorageService } from './auth-redirect-storage.service';
   providedIn: 'root',
 })
 export class AuthRedirectService implements OnDestroy {
+  protected routing = inject(RoutingService);
+  protected router = inject(Router);
+  protected authRedirectStorageService = inject(AuthRedirectStorageService);
+  protected authFlowRoutesService = inject(AuthFlowRoutesService);
+
   protected siteContextUrlSerializer = inject(SiteContextUrlSerializer);
   private featureToggles = inject(FeatureToggles);
 
@@ -42,12 +47,7 @@ export class AuthRedirectService implements OnDestroy {
    *    but is automatically redirected to the login page by the AuthGuard, and he signs in
    *    -> Then we should redirect to the my-account page, not the product page
    */
-  constructor(
-    protected routing: RoutingService,
-    protected router: Router,
-    protected authRedirectStorageService: AuthRedirectStorageService,
-    protected authFlowRoutesService: AuthFlowRoutesService
-  ) {
+  constructor() {
     this.init();
   }
   protected subscription: Subscription;

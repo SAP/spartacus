@@ -45,6 +45,12 @@ import {
 
 @Injectable()
 export class B2BUserEffects {
+  private actions$ = inject(Actions);
+  private b2bUserConnector = inject(B2BUserConnector);
+  private routingService = inject(RoutingService);
+  private userAccountFacade = inject(UserAccountFacade);
+  private userIdService = inject(UserIdService);
+
   protected logger = inject(LoggerService);
 
   loadB2BUser$: Observable<
@@ -629,14 +635,6 @@ export class B2BUserEffects {
       )
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private b2bUserConnector: B2BUserConnector,
-    private routingService: RoutingService,
-    private userAccountFacade: UserAccountFacade,
-    private userIdService: UserIdService
-  ) {}
 
   protected redirectToDetails(route: RouterState, data: B2BUser) {
     if ((route as any)?.state?.context?.id !== '/organization/units') {

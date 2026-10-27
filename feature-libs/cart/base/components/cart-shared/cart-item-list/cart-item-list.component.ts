@@ -12,7 +12,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   inject,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
@@ -71,6 +70,16 @@ interface ItemListContext {
   ],
 })
 export class CartItemListComponent implements OnInit, OnDestroy {
+  protected activeCartService = inject(ActiveCartFacade);
+  protected selectiveCartService = inject(SelectiveCartFacade);
+  protected userIdService = inject(UserIdService);
+  protected multiCartService = inject(MultiCartFacade);
+  protected cd = inject(ChangeDetectorRef);
+  protected outlet? = inject<OutletContextData<ItemListContext>>(
+    OutletContextData,
+    { optional: true }
+  );
+
   protected productCatalogService = inject(ProductCatalogService);
   protected subscription = new Subscription();
   protected userId: string;
@@ -134,14 +143,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
    * (`emitEvent: false`) form events. */
   protected formEnablementChange$ = new Subject<void>();
 
-  constructor(
-    protected activeCartService: ActiveCartFacade,
-    protected selectiveCartService: SelectiveCartFacade,
-    protected userIdService: UserIdService,
-    protected multiCartService: MultiCartFacade,
-    protected cd: ChangeDetectorRef,
-    @Optional() protected outlet?: OutletContextData<ItemListContext>
-  ) {
+  constructor() {
     useFeatureStyles('a11yCartItemListHideEmptyOutlets');
     useFeatureStyles('cartValidationDisplayBackendMessages');
   }

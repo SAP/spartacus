@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 import { CartVoucherFacade, Voucher } from '@spartacus/cart/base/root';
 import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
@@ -16,6 +21,8 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
   imports: [IconComponent, TranslatePipe],
 })
 export class AppliedCouponsComponent {
+  protected cartVoucherService = inject(CartVoucherFacade);
+
   @Input()
   vouchers: Voucher[];
   @Input()
@@ -24,8 +31,6 @@ export class AppliedCouponsComponent {
   isReadOnly = false;
 
   iconTypes = ICON_TYPE;
-
-  constructor(protected cartVoucherService: CartVoucherFacade) {}
 
   public get sortedVouchers(): Voucher[] {
     this.vouchers = this.vouchers || [];

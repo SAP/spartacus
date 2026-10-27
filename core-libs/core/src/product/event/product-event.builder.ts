@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, map, pairwise } from 'rxjs/operators';
 import { EventService } from '../../event/event.service';
@@ -20,10 +20,10 @@ import { FacetChangedEvent } from './product.events';
   providedIn: 'root',
 })
 export class ProductEventBuilder {
-  constructor(
-    protected eventService: EventService,
-    protected productSearchService: ProductSearchService
-  ) {
+  protected eventService = inject(EventService);
+  protected productSearchService = inject(ProductSearchService);
+
+  constructor() {
     this.register();
   }
 

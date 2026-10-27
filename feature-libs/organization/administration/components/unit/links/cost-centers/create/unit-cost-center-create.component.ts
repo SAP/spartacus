@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CostCenterFormComponent } from '../../../../cost-center/form/cost-center-form.component';
 import { CostCenterItemService } from '../../../../cost-center/services/cost-center-item.service';
@@ -28,6 +28,7 @@ import { UnitCostCenterItemService } from './unit-cost-center-item.service';
   imports: [CostCenterFormComponent, AsyncPipe],
 })
 export class UnitCostCenterCreateComponent {
+  protected unitService = inject(CurrentUnitService);
+
   unitKey$: Observable<string> = this.unitService.key$;
-  constructor(protected unitService: CurrentUnitService) {}
 }

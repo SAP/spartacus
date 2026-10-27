@@ -11,6 +11,7 @@ import {
   OnDestroy,
   ViewChild,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe, UrlPipe } from '@spartacus/core';
@@ -38,18 +39,18 @@ import { take } from 'rxjs/operators';
   ],
 })
 export class ReplenishmentOrderCancellationComponent implements OnDestroy {
+  protected replenishmentOrderHistoryFacade = inject(
+    ReplenishmentOrderHistoryFacade
+  );
+  protected vcr = inject(ViewContainerRef);
+  protected launchDialogService = inject(LaunchDialogService);
+
   @ViewChild('element') element: ElementRef;
 
   private subscription = new Subscription();
 
   replenishmentOrder$: Observable<ReplenishmentOrder> =
     this.replenishmentOrderHistoryFacade.getReplenishmentOrderDetails();
-
-  constructor(
-    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
-    protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
-  ) {}
 
   openDialog() {
     const dialog = this.launchDialogService.openDialog(

@@ -17,6 +17,10 @@ import { SegmentRefsConfig } from '../config/segment-refs-config';
 
 @Injectable({ providedIn: 'root' })
 export class OccSegmentRefsInterceptor implements HttpInterceptor {
+  protected config = inject(SegmentRefsConfig);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected winRef = inject(WindowRef);
+
   private segmentRefs?: string | null;
   private requestHeader?: string;
   protected readonly SEGMENT_REFS_KEY = 'segment-refs';
@@ -24,11 +28,7 @@ export class OccSegmentRefsInterceptor implements HttpInterceptor {
 
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected config: SegmentRefsConfig,
-    protected occEndpoints: OccEndpointsService,
-    protected winRef: WindowRef
-  ) {
+  constructor() {
     this.initialize();
   }
 

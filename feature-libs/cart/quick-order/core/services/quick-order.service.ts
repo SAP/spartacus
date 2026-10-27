@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import {
   ActiveCartFacade,
   CartAddEntryFailEvent,
@@ -38,6 +38,11 @@ import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable()
 export class QuickOrderService implements QuickOrderFacade, OnDestroy {
+  protected activeCartService = inject(ActiveCartFacade);
+  protected config = inject(Config);
+  protected eventService = inject(EventService);
+  protected productSearchConnector = inject(ProductSearchConnector);
+
   protected productAdded$: Subject<string> = new Subject<string>();
   protected entries$: BehaviorSubject<OrderEntry[]> = new BehaviorSubject<
     OrderEntry[]
@@ -50,13 +55,6 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     this.config.quickOrder?.list?.hardDeleteTimeout || 7000;
   protected quickOrderListLimit = 0;
   protected clearDeleteTimeouts: Record<string, Subscription> = {};
-
-  constructor(
-    protected activeCartService: ActiveCartFacade,
-    protected config: Config,
-    protected eventService: EventService,
-    protected productSearchConnector: ProductSearchConnector
-  ) {}
 
   ngOnDestroy(): void {
     this.clearDeletedEntries();

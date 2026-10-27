@@ -1,3 +1,5 @@
+import { UserConsentAdapter } from './user-consent.adapter';
+import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { UserConsentConnector } from './user-consent.connector';
 
@@ -15,7 +17,13 @@ describe('UserConsentConnector', () => {
       giveConsent: vi.fn().mockReturnValue(of({})),
       withdrawConsent: vi.fn().mockReturnValue(of({})),
     };
-    service = new UserConsentConnector(adapter as any);
+    TestBed.configureTestingModule({
+      providers: [
+        UserConsentConnector,
+        { provide: UserConsentAdapter, useValue: adapter },
+      ],
+    });
+    service = TestBed.inject(UserConsentConnector);
   });
 
   it('should be created', () => {

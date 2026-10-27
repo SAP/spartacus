@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component, Input, OnInit, Optional } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { PointOfService, TranslatePipe } from '@spartacus/core';
 import { Consignment } from '@spartacus/order/root';
 import { OutletContextData } from '@spartacus/storefront';
@@ -23,9 +23,10 @@ export type IOutletContextData = { item: Consignment };
   imports: [AsyncPipe, TranslatePipe],
 })
 export class PickupInStoreOrderConsignmentContainerComponent implements OnInit {
-  constructor(
-    @Optional() protected outlet: OutletContextData<IOutletContextData>
-  ) {}
+  protected outlet = inject<OutletContextData<IOutletContextData>>(
+    OutletContextData,
+    { optional: true }
+  );
 
   @Input() pointOfService$: Observable<PointOfService> | undefined;
 

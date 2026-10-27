@@ -20,11 +20,8 @@ import { isCanActivate } from './utils';
   providedIn: 'root',
 })
 export class CmsGuardsService {
-  constructor(
-    protected cmsComponentsService: CmsComponentsService,
-    // TODO:#checkout - handle breaking changes in schematics
-    protected unifiedInjector: UnifiedInjector
-  ) {}
+  protected cmsComponentsService = inject(CmsComponentsService);
+  protected unifiedInjector = inject(UnifiedInjector);
 
   protected guardsComposer = inject(GuardsComposer);
 

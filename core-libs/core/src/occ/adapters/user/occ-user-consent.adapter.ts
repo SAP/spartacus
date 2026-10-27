@@ -19,13 +19,11 @@ import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 @Injectable()
 export class OccUserConsentAdapter implements UserConsentAdapter {
-  protected logger = inject(LoggerService);
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  protected logger = inject(LoggerService);
 
   loadConsents(userId: string): Observable<ConsentTemplate[]> {
     const url = this.occEndpoints.buildUrl('consentTemplates', {

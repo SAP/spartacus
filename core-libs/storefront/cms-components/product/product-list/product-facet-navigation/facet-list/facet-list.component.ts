@@ -54,6 +54,10 @@ import { FacetService } from '../services/facet.service';
   ],
 })
 export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
+  protected facetService = inject(FacetService);
+  protected elementRef = inject(ElementRef);
+  protected renderer = inject(Renderer2);
+
   protected subscriptions = new Subscription();
   private _isDialog: boolean;
 
@@ -106,11 +110,7 @@ export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   @Optional() focusService = inject(KeyboardFocusService, { optional: true });
 
-  constructor(
-    protected facetService: FacetService,
-    protected elementRef: ElementRef,
-    protected renderer: Renderer2
-  ) {
+  constructor() {
     useFeatureStyles('a11yFacetFilterByLabel');
   }
 

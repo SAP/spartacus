@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { LocationSearchParams } from '@spartacus/pickup-in-store/root';
 import { CurrentLocationService } from '../../services/current-location.service';
@@ -20,6 +20,8 @@ import { CurrentLocationService } from '../../services/current-location.service'
   imports: [TranslatePipe],
 })
 export class StoreSearchComponent {
+  protected currentLocationService = inject(CurrentLocationService);
+
   /** Whether the hide out of stock checkbox appears checked */
   @Input() hideOutOfStock = false;
 
@@ -29,10 +31,6 @@ export class StoreSearchComponent {
   @Output() findStores = new EventEmitter<LocationSearchParams>();
   /** Whether the loading spinner should be displayed */
   @Output() showSpinner = new EventEmitter<boolean>();
-
-  constructor(protected currentLocationService: CurrentLocationService) {
-    // Intentional empty constructor
-  }
 
   /** Initiate a free text location search */
   onFindStores(location: string): boolean {

@@ -7,7 +7,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import {
   inject,
-  Inject,
   Injectable,
   isDevMode,
   OnDestroy,
@@ -40,6 +39,10 @@ interface QualtricsWindow extends Window {
   providedIn: 'root',
 })
 export class QualtricsLoaderService implements OnDestroy {
+  protected winRef = inject(WindowRef);
+  protected platformId = inject(PLATFORM_ID);
+  protected scriptLoader = inject(ScriptLoader);
+
   protected subscription = new Subscription();
 
   protected logger = inject(LoggerService);
@@ -74,11 +77,7 @@ export class QualtricsLoaderService implements OnDestroy {
     return this.winRef.nativeWindow;
   }
 
-  constructor(
-    protected winRef: WindowRef,
-    @Inject(PLATFORM_ID) protected platformId: any,
-    protected scriptLoader: ScriptLoader
-  ) {
+  constructor() {
     this.initialize();
   }
 

@@ -57,6 +57,8 @@ import { ProductListService } from '../product-list.service';
   ],
 })
 export class ProductListItemComponent implements OnChanges {
+  protected productListItemContextSource = inject(ProductListItemContextSource);
+
   protected productListService = inject(ProductListService);
   hideAddToCartButton = false;
 
@@ -73,9 +75,7 @@ export class ProductListItemComponent implements OnChanges {
    */
   @Input() itemIndex?: number;
 
-  constructor(
-    protected productListItemContextSource: ProductListItemContextSource
-  ) {
+  constructor() {
     useFeatureStyles('productListItemSummaryReadMore');
     useFeatureStyles('a11yProductListItemNameMargin');
   }

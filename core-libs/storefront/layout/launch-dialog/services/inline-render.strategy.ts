@@ -7,7 +7,6 @@
 import {
   ComponentRef,
   inject,
-  Inject,
   Injectable,
   isDevMode,
   RendererFactory2,
@@ -21,14 +20,10 @@ import { DOCUMENT } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class InlineRenderStrategy extends LaunchRenderStrategy {
-  protected logger = inject(LoggerService);
+  protected override document = inject(DOCUMENT);
+  protected override rendererFactory = inject(RendererFactory2);
 
-  constructor(
-    @Inject(DOCUMENT) protected document: any,
-    protected rendererFactory: RendererFactory2
-  ) {
-    super(document, rendererFactory);
-  }
+  protected logger = inject(LoggerService);
 
   /**
    * Renders the component from the configuration in the view container ref

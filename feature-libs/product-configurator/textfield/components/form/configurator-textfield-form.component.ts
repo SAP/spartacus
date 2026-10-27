@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -32,6 +32,11 @@ import { ConfiguratorTextfieldInputFieldComponent } from '../input-field/configu
   ],
 })
 export class ConfiguratorTextfieldFormComponent {
+  protected configuratorTextfieldService = inject(ConfiguratorTextfieldService);
+  protected configRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+
   configuration$: Observable<ConfiguratorTextfield.Configuration> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) => {
@@ -63,11 +68,6 @@ export class ConfiguratorTextfieldFormComponent {
           routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION
       )
     );
-
-  constructor(
-    protected configuratorTextfieldService: ConfiguratorTextfieldService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService
-  ) {}
 
   /**
    * Updates a configuration attribute

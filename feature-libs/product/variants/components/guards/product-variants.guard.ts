@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, GuardResult, Router } from '@angular/router';
 import {
   isNotUndefined,
@@ -24,11 +24,10 @@ import { filter, map, switchMap, take } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ProductVariantsGuard {
-  constructor(
-    protected productService: ProductService,
-    protected semanticPathService: SemanticPathService,
-    protected router: Router
-  ) {}
+  protected productService = inject(ProductService);
+  protected semanticPathService = inject(SemanticPathService);
+  protected router = inject(Router);
+
   canActivate(activatedRoute: ActivatedRouteSnapshot): Observable<GuardResult> {
     const productCode = activatedRoute.params?.productCode;
     if (!productCode) {

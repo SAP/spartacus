@@ -1,3 +1,6 @@
+import { TestBed } from '@angular/core/testing';
+import { CartConfigService } from '@spartacus/cart/base/core';
+import { ActiveCartFacade, SelectiveCartFacade } from '@spartacus/cart/base/root';
 import { of } from 'rxjs';
 import { CartPageLayoutHandler } from './cart-page-layout-handler';
 
@@ -32,12 +35,21 @@ describe('CartPageLayoutHandler', () => {
   ];
   const mockSlots$ = of(mockSlots);
   const cartPageTemplate = 'CartPageTemplate';
+
+  function getHandler(): CartPageLayoutHandler {
+    TestBed.configureTestingModule({
+      providers: [
+        CartPageLayoutHandler,
+        { provide: ActiveCartFacade, useValue: mockActiveCartService },
+        { provide: SelectiveCartFacade, useValue: mockSelectiveCartService },
+        { provide: CartConfigService, useValue: mockCartConfigService },
+      ],
+    });
+    return TestBed.inject(CartPageLayoutHandler);
+  }
+
   it('should remove cart slots when cart and save for later are empty', () => {
-    const handler = new CartPageLayoutHandler(
-      mockActiveCartService,
-      mockSelectiveCartService,
-      mockCartConfigService
-    );
+    const handler = getHandler();
 
     let result;
     handler
@@ -50,11 +62,7 @@ describe('CartPageLayoutHandler', () => {
     vi.spyOn(mockActiveCartService, 'getActive').mockReturnValue(
       of({ totalItems: 3 })
     );
-    const handler = new CartPageLayoutHandler(
-      mockActiveCartService,
-      mockSelectiveCartService,
-      mockCartConfigService
-    );
+    const handler = getHandler();
 
     let result;
     handler
@@ -67,11 +75,7 @@ describe('CartPageLayoutHandler', () => {
     vi.spyOn(mockSelectiveCartService, 'getCart').mockReturnValue(
       of({ totalItems: 3 })
     );
-    const handler = new CartPageLayoutHandler(
-      mockActiveCartService,
-      mockSelectiveCartService,
-      mockCartConfigService
-    );
+    const handler = getHandler();
 
     let result;
     handler
@@ -85,11 +89,7 @@ describe('CartPageLayoutHandler', () => {
     vi.spyOn(mockCartConfigService, 'isSelectiveCartEnabled').mockReturnValue(
       false
     );
-    const handler = new CartPageLayoutHandler(
-      mockActiveCartService,
-      mockSelectiveCartService,
-      mockCartConfigService
-    );
+    const handler = getHandler();
 
     let result;
     handler
@@ -100,11 +100,7 @@ describe('CartPageLayoutHandler', () => {
   });
 
   it('should return untouched stream if not a cart page template', () => {
-    const handler = new CartPageLayoutHandler(
-      mockActiveCartService,
-      mockSelectiveCartService,
-      mockCartConfigService
-    );
+    const handler = getHandler();
     const slots$ = handler.handle(mockSlots$, 'different page');
     expect(slots$).toBe(mockSlots$);
   });
@@ -112,11 +108,7 @@ describe('CartPageLayoutHandler', () => {
   it('should not return content slots when cart is loading', () => {
     vi.spyOn(mockActiveCartService, 'getActive').mockReturnValue(of({}));
     vi.spyOn(mockActiveCartService, 'getLoading').mockReturnValue(of(true));
-    const handler = new CartPageLayoutHandler(
-      mockActiveCartService,
-      mockSelectiveCartService,
-      mockCartConfigService
-    );
+    const handler = getHandler();
 
     let result;
     handler

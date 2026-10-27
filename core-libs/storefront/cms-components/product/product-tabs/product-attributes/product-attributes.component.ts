@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Product, ProductScope, TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../../current-product.service';
@@ -17,9 +17,9 @@ import { CurrentProductService } from '../../current-product.service';
   imports: [AsyncPipe, TranslatePipe],
 })
 export class ProductAttributesComponent {
+  protected currentProductService = inject(CurrentProductService);
+
   product$: Observable<Product | null> = this.currentProductService.getProduct(
     ProductScope.ATTRIBUTES
   );
-
-  constructor(protected currentProductService: CurrentProductService) {}
 }

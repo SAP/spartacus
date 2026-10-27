@@ -49,6 +49,11 @@ import { SpinnerComponent } from '../spinner/spinner.component';
   ],
 })
 export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
+  protected config = inject(AnonymousConsentsConfig);
+  protected anonymousConsentsService = inject(AnonymousConsentsService);
+  protected el = inject(ElementRef);
+  protected launchDialogService = inject(LaunchDialogService);
+
   protected winRef = inject(WindowRef);
 
   private subscriptions = new Subscription();
@@ -87,12 +92,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(
-    protected config: AnonymousConsentsConfig,
-    protected anonymousConsentsService: AnonymousConsentsService,
-    protected el: ElementRef,
-    protected launchDialogService: LaunchDialogService
-  ) {
+  constructor() {
     if (this.config.anonymousConsents) {
       this.showLegalDescription =
         this.config.anonymousConsents.showLegalDescriptionInDialog;

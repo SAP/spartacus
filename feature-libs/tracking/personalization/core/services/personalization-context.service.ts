@@ -20,12 +20,10 @@ import { PersonalizationContext } from '../model/personalization-context.model';
   providedIn: 'root',
 })
 export class PersonalizationContextService {
-  protected logger = inject(LoggerService);
+  protected config = inject(PersonalizationConfig);
+  protected cmsService = inject(CmsService);
 
-  constructor(
-    protected config: PersonalizationConfig,
-    protected cmsService: CmsService
-  ) {}
+  protected logger = inject(LoggerService);
 
   getPersonalizationContext(): Observable<PersonalizationContext | undefined> {
     if (!this.config.personalization?.context) {

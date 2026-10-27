@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import {
   CheckoutQueryResetEvent,
   CheckoutSupportedDeliveryModesQueryResetEvent,
@@ -17,9 +17,11 @@ import { CheckoutCostCenterSetEvent } from './checkout-b2b.events';
   providedIn: 'root',
 })
 export class CheckoutCostCenterEventListener implements OnDestroy {
+  protected eventService = inject(EventService);
+
   protected subscriptions = new Subscription();
 
-  constructor(protected eventService: EventService) {
+  constructor() {
     this.onCostCenterSet();
   }
 

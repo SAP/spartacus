@@ -17,6 +17,7 @@ import {
   Renderer2,
   TemplateRef,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { Subject } from 'rxjs';
@@ -30,6 +31,13 @@ import { PopoverService } from './popover.service';
  */
 @Directive({ selector: '[cxPopover]' })
 export class PopoverDirective implements OnInit {
+  protected element = inject(ElementRef);
+  protected viewContainer = inject(ViewContainerRef);
+  protected renderer = inject(Renderer2);
+  protected changeDetectorRef = inject(ChangeDetectorRef);
+  protected popoverService = inject(PopoverService);
+  protected winRef = inject(WindowRef);
+
   /**
    * Template or string to be rendered inside popover wrapper component.
    */
@@ -220,13 +228,4 @@ export class PopoverDirective implements OnInit {
   ngOnInit() {
     this.handlePopoverEvents();
   }
-
-  constructor(
-    protected element: ElementRef,
-    protected viewContainer: ViewContainerRef,
-    protected renderer: Renderer2,
-    protected changeDetectorRef: ChangeDetectorRef,
-    protected popoverService: PopoverService,
-    protected winRef: WindowRef
-  ) {}
 }

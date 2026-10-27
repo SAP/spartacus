@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   AsmCustomer360CustomerProfile,
   AsmCustomer360PaymentDetail,
@@ -29,6 +29,11 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
   imports: [NgTemplateOutlet, CardComponent, AsyncPipe, TranslatePipe],
 })
 export class AsmCustomer360ProfileComponent implements OnInit {
+  sectionContext = inject<
+    AsmCustomer360SectionContext<AsmCustomer360CustomerProfile>
+  >(AsmCustomer360SectionContext);
+  protected translation = inject(TranslationService);
+
   focusConfig: FocusConfig = {
     trap: true,
     block: true,
@@ -39,11 +44,6 @@ export class AsmCustomer360ProfileComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
   customerProfileData$: Observable<AsmCustomer360Profile | undefined>;
-
-  constructor(
-    public sectionContext: AsmCustomer360SectionContext<AsmCustomer360CustomerProfile>,
-    protected translation: TranslationService
-  ) {}
 
   ngOnInit(): void {
     this.customerProfileData$ = this.sectionContext.data$.pipe(

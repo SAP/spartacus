@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Directive, HostListener, OnInit, inject } from '@angular/core';
 import { MOVE_FOCUS, TrapFocusConfig } from '../keyboard-focus.model';
 import { TabFocusDirective } from '../tab/tab-focus.directive';
 import { TrapFocusService } from './trap-focus.service';
@@ -15,6 +15,8 @@ import { TrapFocusService } from './trap-focus.service';
  */
 @Directive() // selector: '[cxTrapFocus]'
 export class TrapFocusDirective extends TabFocusDirective implements OnInit {
+  protected override service = inject(TrapFocusService);
+
   protected defaultConfig: TrapFocusConfig = { trap: true };
 
   // @Input('cxTrapFocus')
@@ -37,13 +39,6 @@ export class TrapFocusDirective extends TabFocusDirective implements OnInit {
       this.moveFocus(event, MOVE_FOCUS.PREV);
     }
   };
-
-  constructor(
-    protected elementRef: ElementRef,
-    protected service: TrapFocusService
-  ) {
-    super(elementRef, service);
-  }
 
   /**
    * Moves the focus of the element reference up or down, depending on the increment.

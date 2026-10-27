@@ -12,6 +12,7 @@ import {
   OnDestroy,
   ViewChild,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import {
@@ -54,6 +55,14 @@ import { map, take, tap } from 'rxjs/operators';
   ],
 })
 export class ReplenishmentOrderHistoryComponent implements OnDestroy {
+  protected routing = inject(RoutingService);
+  protected replenishmentOrderHistoryFacade = inject(
+    ReplenishmentOrderHistoryFacade
+  );
+  protected translation = inject(TranslationService);
+  protected vcr = inject(ViewContainerRef);
+  protected launchDialogService = inject(LaunchDialogService);
+
   @ViewChild('element') element: ElementRef;
 
   private subscription = new Subscription();
@@ -74,14 +83,6 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
 
   isLoaded$: Observable<boolean> =
     this.replenishmentOrderHistoryFacade.getReplenishmentOrderHistoryListSuccess();
-
-  constructor(
-    protected routing: RoutingService,
-    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
-    protected translation: TranslationService,
-    protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
-  ) {}
 
   changeSortCode(sortCode: string): void {
     const event: { sortCode: string; currentPage: number } = {

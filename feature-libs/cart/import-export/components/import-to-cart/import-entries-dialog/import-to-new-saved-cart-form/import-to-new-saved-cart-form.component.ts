@@ -9,6 +9,7 @@ import {
   Component,
   EventEmitter,
   Output,
+  inject,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -58,6 +59,13 @@ import { ImportEntriesFormComponent } from '../import-entries-form/import-entrie
   ],
 })
 export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponent {
+  protected override launchDialogService = inject(LaunchDialogService);
+  protected override importToCartService = inject(ImportProductsFromCsvService);
+  protected override importCsvService = inject(ImportCsvFileService);
+  protected override filesFormValidators = inject(FilesFormValidators);
+  protected override importExportConfig = inject(ImportExportConfig);
+  protected datePipe = inject(CxDatePipe);
+
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
 
@@ -74,23 +82,6 @@ export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponen
     return (
       this.descriptionMaxLength -
       (this.form.get('description')?.value?.length || 0)
-    );
-  }
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected importToCartService: ImportProductsFromCsvService,
-    protected importCsvService: ImportCsvFileService,
-    protected filesFormValidators: FilesFormValidators,
-    protected importExportConfig: ImportExportConfig,
-    protected datePipe: CxDatePipe
-  ) {
-    super(
-      launchDialogService,
-      importToCartService,
-      importCsvService,
-      filesFormValidators,
-      importExportConfig
     );
   }
 

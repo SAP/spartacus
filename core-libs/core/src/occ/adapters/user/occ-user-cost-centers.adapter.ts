@@ -20,13 +20,11 @@ import { OCC_HTTP_TOKEN } from '../../utils';
 
 @Injectable()
 export class OccUserCostCenterAdapter implements UserCostCenterAdapter {
-  private featureToggles = inject(FeatureToggles);
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  private featureToggles = inject(FeatureToggles);
 
   loadActiveList(userId: string): Observable<EntitiesModel<CostCenter>> {
     const context = new HttpContext().set(OCC_HTTP_TOKEN, {

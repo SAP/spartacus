@@ -39,6 +39,10 @@ import { MODULE_INITIALIZER } from './tokens';
   providedIn: 'root',
 })
 export class LazyModulesService implements OnDestroy {
+  protected compiler = inject(Compiler);
+  protected injector = inject(Injector);
+  protected events = inject(EventService);
+
   protected logger = inject(LoggerService);
 
   /**
@@ -57,11 +61,7 @@ export class LazyModulesService implements OnDestroy {
   private readonly dependencyModules = new Map<any, NgModuleRef<any>>();
   private readonly eventSubscription: Subscription;
 
-  constructor(
-    protected compiler: Compiler,
-    protected injector: Injector,
-    protected events: EventService
-  ) {
+  constructor() {
     this.eventSubscription = (
       this.modules$ as Connectable<NgModuleRef<any>>
     ).connect();

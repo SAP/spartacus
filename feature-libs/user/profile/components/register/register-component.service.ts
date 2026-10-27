@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { UntypedFormArray, UntypedFormBuilder } from '@angular/forms';
 import {
   ConsentTemplate,
@@ -18,11 +18,9 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class RegisterComponentService {
-  constructor(
-    protected userRegisterFacade: UserRegisterFacade,
-    protected globalMessageService: GlobalMessageService,
-    protected fb?: UntypedFormBuilder
-  ) {}
+  protected userRegisterFacade = inject(UserRegisterFacade);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected fb? = inject(UntypedFormBuilder);
 
   /**
    * Register a new user.

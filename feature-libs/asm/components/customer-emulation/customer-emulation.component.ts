@@ -11,6 +11,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { AsmDialogActionEvent } from '@spartacus/asm/customer-360/root';
 import { FeatureModulesService, TranslatePipe, User } from '@spartacus/core';
@@ -27,6 +28,11 @@ import { AsmComponentService } from '../services/asm-component.service';
   imports: [AsmBindCartComponent, AsyncPipe, TranslatePipe],
 })
 export class CustomerEmulationComponent implements OnInit, OnDestroy {
+  protected asmComponentService = inject(AsmComponentService);
+  protected userAccountFacade = inject(UserAccountFacade);
+  protected launchDialogService? = inject(LaunchDialogService);
+  protected featureModules? = inject(FeatureModulesService);
+
   customer: User;
   isCustomerEmulationSessionInProgress$: Observable<boolean>;
 
@@ -37,13 +43,6 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
   asmCustomer360LauncherElement: ElementRef;
 
   protected subscription = new Subscription();
-
-  constructor(
-    protected asmComponentService: AsmComponentService,
-    protected userAccountFacade: UserAccountFacade,
-    protected launchDialogService?: LaunchDialogService,
-    protected featureModules?: FeatureModulesService
-  ) {}
 
   ngOnInit() {
     this.isAsmCustomer360Configured =

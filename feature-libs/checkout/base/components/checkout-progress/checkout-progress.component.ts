@@ -31,13 +31,13 @@ import { MultiLinePipe } from './multiline-titles.pipe';
   imports: [RouterLink, AsyncPipe, UrlPipe, TranslatePipe, MultiLinePipe],
 })
 export class CheckoutProgressComponent implements OnInit {
+  protected checkoutStepService = inject(CheckoutStepService);
+
   params$ = new Observable<string[]>();
   private _steps$: BehaviorSubject<CheckoutStep[]> =
     this.checkoutStepService.steps$;
   private currencyService = inject(CurrencyService);
   private languageService = inject(LanguageService);
-
-  constructor(protected checkoutStepService: CheckoutStepService) {}
 
   activeStepIndex: number;
   activeStepIndex$: Observable<number> =

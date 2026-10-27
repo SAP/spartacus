@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Command,
   CommandService,
@@ -54,6 +54,13 @@ import { CustomerTicketingConnector } from '../connectors/customer-ticketing.con
 
 @Injectable()
 export class CustomerTicketingService implements CustomerTicketingFacade {
+  protected queryService = inject(QueryService);
+  protected commandService = inject(CommandService);
+  protected userIdService = inject(UserIdService);
+  protected customerTicketingConnector = inject(CustomerTicketingConnector);
+  protected routingService = inject(RoutingService);
+  protected eventService = inject(EventService);
+
   protected getTicketCategoriesQueryReloadEvents(): QueryNotifier[] {
     return [GetTicketCategoryQueryReloadEvent];
   }
@@ -280,15 +287,6 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
       })
     );
   }
-
-  constructor(
-    protected queryService: QueryService,
-    protected commandService: CommandService,
-    protected userIdService: UserIdService,
-    protected customerTicketingConnector: CustomerTicketingConnector,
-    protected routingService: RoutingService,
-    protected eventService: EventService
-  ) {}
 
   getTicketAssociatedObjectsState(): Observable<
     QueryState<AssociatedObject[]>

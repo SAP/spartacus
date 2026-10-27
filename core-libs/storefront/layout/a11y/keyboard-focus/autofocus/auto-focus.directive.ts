@@ -7,9 +7,9 @@
 import {
   AfterViewInit,
   Directive,
-  ElementRef,
   OnChanges,
   SimpleChanges,
+  inject,
 } from '@angular/core';
 import { EscapeFocusDirective } from '../escape/escape-focus.directive';
 import { AutoFocusConfig } from '../keyboard-focus.model';
@@ -42,18 +42,13 @@ export class AutoFocusDirective
   extends EscapeFocusDirective
   implements AfterViewInit, OnChanges
 {
+  protected override service = inject(AutoFocusService);
+
   /** The AutoFocusDirective will be using autofocus by default  */
   protected defaultConfig: AutoFocusConfig = { autofocus: true };
 
   // @Input('cxAutoFocus')
   protected config: AutoFocusConfig;
-
-  constructor(
-    protected elementRef: ElementRef,
-    protected service: AutoFocusService
-  ) {
-    super(elementRef, service);
-  }
 
   /**
    * Focus the element explicitly if it was focussed before.

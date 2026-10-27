@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -22,9 +27,9 @@ import {
   imports: [ConfiguratorPriceComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorOverviewAttributeComponent {
-  @Input() attributeOverview: Configurator.AttributeOverview;
+  protected breakpointService = inject(BreakpointService);
 
-  constructor(protected breakpointService: BreakpointService) {}
+  @Input() attributeOverview: Configurator.AttributeOverview;
 
   extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
     return {

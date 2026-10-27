@@ -15,6 +15,9 @@ import { OrderActions } from '../actions/index';
 
 @Injectable()
 export class OrderReturnRequestEffect {
+  private actions$ = inject(Actions);
+  private orderConnector = inject(OrderHistoryConnector);
+
   protected logger = inject(LoggerService);
 
   createReturnRequest$: Observable<OrderActions.OrderReturnRequestAction> =
@@ -128,9 +131,4 @@ export class OrderReturnRequestEffect {
         })
       )
     );
-
-  constructor(
-    private actions$: Actions,
-    private orderConnector: OrderHistoryConnector
-  ) {}
 }

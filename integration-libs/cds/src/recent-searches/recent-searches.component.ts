@@ -10,7 +10,6 @@ import {
   Component,
   inject,
   OnInit,
-  Optional,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -56,15 +55,16 @@ const CLOSE_BUTTON_SELECTOR = 'button.close';
   ],
 })
 export class RecentSearchesComponent implements OnInit {
+  protected outletContext = inject<OutletContextData<SearchBoxOutlet>>(
+    OutletContextData,
+    { optional: true }
+  );
+
   public result$: Observable<string[]>;
   public outletContext$: Observable<SearchBoxOutlet>;
   protected recentSearchesService = inject(RecentSearchesService);
   protected searchBoxComponentService = inject(SearchBoxComponentService);
   private readonly featureToggles = inject(FeatureToggles);
-
-  constructor(
-    @Optional() protected outletContext: OutletContextData<SearchBoxOutlet>
-  ) {}
 
   ngOnInit() {
     this.result$ = combineLatest([

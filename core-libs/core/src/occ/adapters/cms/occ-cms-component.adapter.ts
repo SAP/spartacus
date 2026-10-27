@@ -21,14 +21,12 @@ import { UserIdService } from '../../../auth';
   providedIn: 'root',
 })
 export class OccCmsComponentAdapter implements CmsComponentAdapter {
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
+
   protected readonly userIdService = inject(UserIdService);
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
-
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
 
   load<T extends CmsComponent>(
     id: string,

@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
 import {
@@ -56,28 +56,21 @@ import { filter, map } from 'rxjs/operators';
   ],
 })
 export class B2BCheckoutReviewSubmitComponent extends CheckoutReviewSubmitComponent {
-  checkoutStepTypePaymentType = CheckoutStepType.PAYMENT_TYPE;
+  protected override checkoutDeliveryAddressFacade = inject(
+    CheckoutDeliveryAddressFacade
+  );
+  protected override checkoutPaymentFacade = inject(CheckoutPaymentFacade);
+  protected override activeCartFacade = inject(ActiveCartFacade);
+  protected override translationService = inject(TranslationService);
+  protected override checkoutStepService = inject(CheckoutStepService);
+  protected override checkoutDeliveryModesFacade = inject(
+    CheckoutDeliveryModesFacade
+  );
+  protected checkoutPaymentTypeFacade = inject(CheckoutPaymentTypeFacade);
+  protected checkoutCostCenterFacade = inject(CheckoutCostCenterFacade);
+  protected userCostCenterService = inject(UserCostCenterService);
 
-  constructor(
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected activeCartFacade: ActiveCartFacade,
-    protected translationService: TranslationService,
-    protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
-    protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
-    protected userCostCenterService: UserCostCenterService
-  ) {
-    super(
-      checkoutDeliveryAddressFacade,
-      checkoutPaymentFacade,
-      activeCartFacade,
-      translationService,
-      checkoutStepService,
-      checkoutDeliveryModesFacade
-    );
-  }
+  checkoutStepTypePaymentType = CheckoutStepType.PAYMENT_TYPE;
 
   get poNumber$(): Observable<string | undefined> {
     return this.checkoutPaymentTypeFacade.getPurchaseOrderNumberState().pipe(

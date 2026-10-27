@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 import {
   BaseOption,
   Product,
@@ -21,7 +26,7 @@ import {
   imports: [TranslatePipe],
 })
 export class ProductVariantColorSelectorComponent {
-  constructor(private routingService: RoutingService) {}
+  private routingService = inject(RoutingService);
 
   @Input()
   product: Product;

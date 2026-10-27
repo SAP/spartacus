@@ -53,6 +53,9 @@ const PROCEED_TO_CHECKOUT_GATE_SAFETY_VALVE_MS = 10_000;
   ],
 })
 export class CartProceedToCheckoutComponent implements OnInit, OnDestroy {
+  protected router = inject(Router);
+  protected cd? = inject(ChangeDetectorRef);
+
   cartValidationInProgress = false;
 
   /**
@@ -70,11 +73,6 @@ export class CartProceedToCheckoutComponent implements OnInit, OnDestroy {
 
   protected subscription = new Subscription();
   protected activeCartFacade = inject(ActiveCartFacade);
-
-  constructor(
-    protected router: Router,
-    protected cd?: ChangeDetectorRef
-  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

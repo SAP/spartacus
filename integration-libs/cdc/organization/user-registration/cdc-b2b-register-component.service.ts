@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CdcJsService, CdcLoadUserTokenFailEvent } from '@spartacus/cdc/root';
 import {
@@ -30,6 +30,21 @@ import { map, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class CDCB2BRegisterComponentService extends UserRegistrationFormService {
+  protected command = inject(CommandService);
+  protected cdcJSService = inject(CdcJsService);
+  protected authService = inject(AuthService);
+  protected eventService = inject(EventService);
+  protected override userRegisterFacade = inject(UserRegisterFacade);
+  protected override userAddressService = inject(UserAddressService);
+  protected override organizationUserRegistrationFacade = inject(
+    UserRegistrationFacade
+  );
+  protected override translationService = inject(TranslationService);
+  protected override globalMessageService = inject(GlobalMessageService);
+  protected override authConfigService = inject(AuthConfigService);
+  protected override routingService = inject(RoutingService);
+  protected override formBuilder = inject(FormBuilder);
+
   protected registerCommand: Command<
     { orgInfo: OrganizationUserRegistrationForm },
     OrganizationUserRegistrationForm
@@ -51,32 +66,6 @@ export class CDCB2BRegisterComponentService extends UserRegistrationFormService 
         }
       })
     );
-
-  constructor(
-    protected command: CommandService,
-    protected cdcJSService: CdcJsService,
-    protected authService: AuthService,
-    protected eventService: EventService,
-    protected userRegisterFacade: UserRegisterFacade,
-    protected userAddressService: UserAddressService,
-    protected organizationUserRegistrationFacade: UserRegistrationFacade,
-    protected translationService: TranslationService,
-    protected globalMessageService: GlobalMessageService,
-    protected authConfigService: AuthConfigService,
-    protected routingService: RoutingService,
-    protected formBuilder: FormBuilder
-  ) {
-    super(
-      userRegisterFacade,
-      userAddressService,
-      organizationUserRegistrationFacade,
-      translationService,
-      globalMessageService,
-      authConfigService,
-      routingService,
-      formBuilder
-    );
-  }
 
   /**
    * Register a new user using CDC SDK.

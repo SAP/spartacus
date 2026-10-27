@@ -11,6 +11,7 @@ import {
   Injector,
   NgModuleRef,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { CmsComponentMapping, Priority } from '@spartacus/core';
 import { from, Observable } from 'rxjs';
@@ -26,7 +27,7 @@ import { ComponentHandler } from './component-handler';
   providedIn: 'root',
 })
 export class LazyComponentHandler implements ComponentHandler {
-  constructor(protected defaultHandler: DefaultComponentHandler) {}
+  protected defaultHandler = inject(DefaultComponentHandler);
 
   /**
    * We want to mach dynamic import signature () => import('')

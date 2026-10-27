@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { CmsComponentWithChildren, CmsService, Product } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
@@ -21,13 +26,12 @@ import { CurrentProductService } from '../../current-product.service';
   imports: [OutletDirective, ComponentWrapperDirective, AsyncPipe],
 })
 export class ProductDetailsTabComponent implements OnInit {
-  product$: Observable<Product | null>;
+  protected currentProductService = inject(CurrentProductService);
+  protected componentData =
+    inject<CmsComponentData<CmsComponentWithChildren>>(CmsComponentData);
+  protected cmsService = inject(CmsService);
 
-  constructor(
-    protected currentProductService: CurrentProductService,
-    protected componentData: CmsComponentData<CmsComponentWithChildren>,
-    protected cmsService: CmsService
-  ) {}
+  product$: Observable<Product | null>;
   children$: Observable<any[]> = this.componentData.data$.pipe(
     switchMap((data) =>
       combineLatest(

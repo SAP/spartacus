@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   AsmCustomer360ActiveCart,
   CustomerCart,
@@ -29,13 +29,15 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
   imports: [AsmCustomer360ProductListingComponent, AsyncPipe, TranslatePipe],
 })
 export class AsmCustomer360ActiveCartComponent {
+  sectionContext = inject<
+    AsmCustomer360SectionContext<AsmCustomer360ActiveCart>
+  >(AsmCustomer360SectionContext);
+  protected productService = inject(ProductService);
+
   productItems$: Observable<Array<ProductItem>>;
   activeCart$: Observable<CustomerCart | undefined>;
 
-  constructor(
-    public sectionContext: AsmCustomer360SectionContext<AsmCustomer360ActiveCart>,
-    protected productService: ProductService
-  ) {
+  constructor() {
     this.activeCart$ = this.sectionContext.data$.pipe(
       map((activeCart) => {
         return activeCart.cart;

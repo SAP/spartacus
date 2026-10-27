@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable, Optional } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { GuardResult, Router, UrlTree } from '@angular/router';
 import {
   AuthService,
@@ -29,18 +29,14 @@ import { LogoutConfig } from './config/logout-config';
   providedIn: 'root',
 })
 export class LogoutGuard {
+  protected auth = inject(AuthService);
+  protected cms = inject(CmsService, { optional: true });
+  protected semanticPathService = inject(SemanticPathService);
+  protected protectedRoutes = inject(ProtectedRoutesService);
+  protected router = inject(Router);
+
   protected config = inject(LogoutConfig);
   private featureToggles = inject(FeatureToggles);
-
-  constructor(
-    protected auth: AuthService,
-    /** @deprecated since 221121.21 - only used in the legacy code path when {@link FeatureToggles.useConfigurableLogoutRedirect} is disabled.
-     *  Will be removed in the major release of 2028. */
-    @Optional() protected cms: CmsService | null,
-    protected semanticPathService: SemanticPathService,
-    protected protectedRoutes: ProtectedRoutesService,
-    protected router: Router
-  ) {}
 
   canActivate(): Observable<GuardResult> {
     if (!this.featureToggles.useConfigurableLogoutRedirect) {

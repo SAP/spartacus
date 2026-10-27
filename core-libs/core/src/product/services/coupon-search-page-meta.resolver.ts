@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
@@ -34,6 +34,12 @@ export class CouponSearchPageResolver
   extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver
 {
+  protected productSearchService = inject(ProductSearchService);
+  protected translation = inject(TranslationService);
+  protected authService = inject(AuthService);
+  protected route = inject(ActivatedRoute);
+  protected semanticPathService = inject(SemanticPathService);
+
   protected total$: Observable<number> = this.productSearchService
     .getResults()
     .pipe(
@@ -41,13 +47,7 @@ export class CouponSearchPageResolver
       map((results) => results.pagination?.totalResults ?? 0)
     );
 
-  constructor(
-    protected productSearchService: ProductSearchService,
-    protected translation: TranslationService,
-    protected authService: AuthService,
-    protected route: ActivatedRoute,
-    protected semanticPathService: SemanticPathService
-  ) {
+  constructor() {
     super();
     this.pageType = PageType.CONTENT_PAGE;
     this.pageTemplate = 'SearchResultsListPageTemplate';

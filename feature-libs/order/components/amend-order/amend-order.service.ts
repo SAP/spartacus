@@ -5,7 +5,7 @@
  */
 
 import { formatCurrency, getCurrencySymbol } from '@angular/common';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormControl,
@@ -33,10 +33,10 @@ function ValidateQuantityToCancel(control: AbstractControl) {
 
 @Injectable()
 export abstract class OrderAmendService {
+  protected orderDetailsService = inject(OrderDetailsService);
+
   protected amendType: AmendOrderType;
   protected form: UntypedFormGroup;
-
-  constructor(protected orderDetailsService: OrderDetailsService) {}
 
   /**
    * Returns entries for the given order.

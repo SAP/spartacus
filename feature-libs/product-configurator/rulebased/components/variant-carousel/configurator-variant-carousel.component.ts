@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   Product,
   ProductService,
@@ -34,6 +34,13 @@ import { Configurator } from '../../core/model/configurator.model';
   ],
 })
 export class ConfiguratorVariantCarouselComponent {
+  protected productService = inject(ProductService);
+  protected translationService = inject(TranslationService);
+  protected configuratorRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+
   configuration$: Observable<Configurator.Configuration> =
     this.configuratorRouterExtractorService
       .extractRouterData()
@@ -58,11 +65,4 @@ export class ConfiguratorVariantCarouselComponent {
         );
       })
     );
-
-  constructor(
-    protected productService: ProductService,
-    protected translationService: TranslationService,
-    protected configuratorRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configuratorCommonsService: ConfiguratorCommonsService
-  ) {}
 }

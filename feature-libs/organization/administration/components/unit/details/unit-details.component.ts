@@ -49,6 +49,9 @@ import { UnitItemService } from '../services/unit-item.service';
   ],
 })
 export class UnitDetailsComponent {
+  protected itemService = inject<ItemService<B2BUnit>>(ItemService);
+  protected orgUnitService? = inject(OrgUnitService);
+
   private featureToggles = inject(FeatureToggles);
 
   get isA11yCardNotificationMessageFeatureEnabled(): boolean {
@@ -69,9 +72,4 @@ export class UnitDetailsComponent {
   readonly isUpdatingUnitAllowed = this.orgUnitService
     ? this.orgUnitService.isUpdatingUnitAllowed()
     : true;
-
-  constructor(
-    protected itemService: ItemService<B2BUnit>,
-    protected orgUnitService?: OrgUnitService
-  ) {}
 }

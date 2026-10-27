@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { Price, TranslatePipe } from '@spartacus/core';
@@ -20,12 +25,12 @@ import { OrderAmendService } from '../amend-order.service';
   imports: [MediaComponent, ItemCounterComponent, AsyncPipe, TranslatePipe],
 })
 export class CancelOrReturnItemsComponent {
+  protected orderAmendService = inject(OrderAmendService);
+
   @Input() entries: OrderEntry[];
   @Input() isConfirmation = false;
 
   form$: Observable<UntypedFormGroup> = this.orderAmendService.getForm();
-
-  constructor(protected orderAmendService: OrderAmendService) {}
 
   getControl(form: UntypedFormGroup, entry: OrderEntry): UntypedFormControl {
     const control = <UntypedFormControl>(

@@ -12,6 +12,7 @@ import {
   OnChanges,
   Output,
   SimpleChanges,
+  inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { OrderEntry } from '@spartacus/cart/base/root';
@@ -45,16 +46,14 @@ import {
   ],
 })
 export class WishListItemComponent implements OnChanges {
+  protected productListItemContextSource = inject(ProductListItemContextSource);
+
   @Input()
   isLoading = false;
   @Input() cartEntry: OrderEntry;
 
   @Output()
   remove = new EventEmitter<OrderEntry>();
-
-  constructor(
-    protected productListItemContextSource: ProductListItemContextSource
-  ) {}
 
   ngOnChanges(changes?: SimpleChanges): void {
     if (changes?.cartEntry) {

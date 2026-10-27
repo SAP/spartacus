@@ -61,6 +61,18 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
   extends CheckoutPlaceOrderComponent
   implements OnInit, OnDestroy
 {
+  protected override orderFacade = inject(OrderFacade);
+  protected override routingService = inject(RoutingService);
+  protected override fb = inject(UntypedFormBuilder);
+  protected override launchDialogService = inject(LaunchDialogService);
+  protected override vcr = inject(ViewContainerRef);
+  protected checkoutReplenishmentFormService = inject(
+    CheckoutReplenishmentFormService
+  );
+  protected scheduledReplenishmentOrderFacade = inject(
+    ScheduledReplenishmentOrderFacade
+  );
+
   private featureTogglesService = inject(FeatureToggles);
 
   protected subscriptions = new Subscription();
@@ -69,18 +81,6 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
   scheduleReplenishmentFormData: ScheduleReplenishmentForm;
 
   daysOfWeekNotChecked$ = new BehaviorSubject<boolean>(false);
-
-  constructor(
-    protected orderFacade: OrderFacade,
-    protected routingService: RoutingService,
-    protected fb: UntypedFormBuilder,
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef,
-    protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
-    protected scheduledReplenishmentOrderFacade: ScheduledReplenishmentOrderFacade
-  ) {
-    super(orderFacade, routingService, fb, launchDialogService, vcr);
-  }
 
   submitForm(): void {
     if (!this.checkoutSubmitForm.valid || !this.currentOrderType) {

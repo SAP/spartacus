@@ -33,13 +33,11 @@ const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 
 @Injectable()
 export class OccUserAccountAdapter implements UserAccountAdapter {
-  protected logger = inject(LoggerService);
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  protected logger = inject(LoggerService);
 
   load(userId: string): Observable<User> {
     const url = this.occEndpoints.buildUrl('user', { urlParams: { userId } });

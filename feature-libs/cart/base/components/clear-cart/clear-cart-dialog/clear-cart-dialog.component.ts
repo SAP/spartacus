@@ -10,6 +10,7 @@ import {
   ElementRef,
   HostListener,
   OnDestroy,
+  inject,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import {
@@ -28,6 +29,11 @@ import { ClearCartDialogComponentService } from './clear-cart-dialog-component.s
   imports: [FocusDirective, IconComponent, SpinnerComponent, TranslatePipe],
 })
 export class ClearCartDialogComponent implements OnDestroy {
+  protected el = inject(ElementRef);
+  protected clearCartDialogComponentService = inject(
+    ClearCartDialogComponentService
+  );
+
   focusConfig: FocusConfig = {
     trap: true,
     block: true,
@@ -46,11 +52,6 @@ export class ClearCartDialogComponent implements OnDestroy {
       this.close('Cross click');
     }
   }
-
-  constructor(
-    protected el: ElementRef,
-    protected clearCartDialogComponentService: ClearCartDialogComponentService
-  ) {}
 
   clearCart(): void {
     this.isClearing = true;

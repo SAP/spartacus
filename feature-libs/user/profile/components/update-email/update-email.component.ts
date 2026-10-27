@@ -52,9 +52,9 @@ import { UpdateEmailComponentService } from './update-email-component.service';
   ],
 })
 export class UpdateEmailComponent {
-  protected pageMetaService = inject(PageMetaService);
+  protected service = inject(UpdateEmailComponentService);
 
-  constructor(protected service: UpdateEmailComponentService) {}
+  protected pageMetaService = inject(PageMetaService);
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;

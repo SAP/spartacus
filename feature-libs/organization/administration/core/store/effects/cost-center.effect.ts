@@ -26,6 +26,9 @@ import {
 
 @Injectable()
 export class CostCenterEffects {
+  private actions$ = inject(Actions);
+  private costCenterConnector = inject(CostCenterConnector);
+
   protected logger = inject(LoggerService);
 
   loadCostCenter$: Observable<
@@ -261,9 +264,4 @@ export class CostCenterEffects {
       )
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private costCenterConnector: CostCenterConnector
-  ) {}
 }

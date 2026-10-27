@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -40,6 +40,11 @@ import { AppliedCouponsComponent } from './applied-coupons/applied-coupons.compo
   ],
 })
 export class CartCouponComponent implements OnInit, OnDestroy {
+  protected cartVoucherService = inject(CartVoucherFacade);
+  protected formBuilder = inject(UntypedFormBuilder);
+  protected customerCouponService = inject(CustomerCouponService);
+  protected activeCartService = inject(ActiveCartFacade);
+
   MAX_CUSTOMER_COUPON_PAGE = 100;
   couponForm: UntypedFormGroup;
   cartIsLoading$: Observable<boolean>;
@@ -52,13 +57,6 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
   couponBoxIsActive = false;
-
-  constructor(
-    protected cartVoucherService: CartVoucherFacade,
-    protected formBuilder: UntypedFormBuilder,
-    protected customerCouponService: CustomerCouponService,
-    protected activeCartService: ActiveCartFacade
-  ) {}
 
   ngOnInit() {
     if (this.customerCouponService) {

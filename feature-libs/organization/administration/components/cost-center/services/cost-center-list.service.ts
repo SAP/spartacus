@@ -39,15 +39,11 @@ export interface CostCenterModel {
   providedIn: 'root',
 })
 export class CostCenterListService extends ListService<CostCenterModel> {
+  protected override tableService = inject(TableService);
+  protected costCenterService = inject(CostCenterService);
+
   protected tableType = OrganizationTableType.COST_CENTER;
   private featureToggles = inject(FeatureToggles);
-
-  constructor(
-    protected tableService: TableService,
-    protected costCenterService: CostCenterService
-  ) {
-    super(tableService);
-  }
 
   /**
    * Enable search functionality for cost center list based on feature toggle.

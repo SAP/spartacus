@@ -5,7 +5,7 @@
  */
 
 import { RoutingService, WindowRef } from '@spartacus/core';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AsmEnablerService } from './asm-enabler.service';
 import { AsmDeepLinkParameters } from '../model/asm.models';
 
@@ -13,13 +13,13 @@ import { AsmDeepLinkParameters } from '../model/asm.models';
   providedIn: 'root',
 })
 export class AsmDeepLinkService {
+  protected routingService = inject(RoutingService);
+  protected winRef = inject(WindowRef);
+  protected asmEnablerService = inject(AsmEnablerService);
+
   protected searchParams: URLSearchParams;
 
-  constructor(
-    protected routingService: RoutingService,
-    protected winRef: WindowRef,
-    protected asmEnablerService: AsmEnablerService
-  ) {
+  constructor() {
     this.searchParams = new URLSearchParams(this.winRef?.location?.search);
   }
 

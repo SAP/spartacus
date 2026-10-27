@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   EntitiesModel,
   isNotUndefined,
@@ -37,14 +37,10 @@ export interface UserGroupModel {
   providedIn: 'root',
 })
 export class UserGroupListService extends ListService<UserGroupModel> {
-  protected tableType = OrganizationTableType.USER_GROUP;
+  protected override tableService = inject(TableService);
+  protected userGroupService = inject(UserGroupService);
 
-  constructor(
-    protected tableService: TableService,
-    protected userGroupService: UserGroupService
-  ) {
-    super(tableService);
-  }
+  protected tableType = OrganizationTableType.USER_GROUP;
 
   key(): string {
     return 'uid';

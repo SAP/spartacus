@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { CdcJsService } from '@spartacus/cdc/root';
 import {
   GlobalMessageService,
@@ -25,15 +25,12 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class CdcUserListService extends UserListService implements OnDestroy {
-  constructor(
-    protected tableService: TableService,
-    protected userService: B2BUserService,
-    protected globalMessageService: GlobalMessageService,
-    protected winRef: WindowRef,
-    protected cdcJsService: CdcJsService
-  ) {
-    super(tableService, userService);
-  }
+  protected override tableService = inject(TableService);
+  protected override userService = inject(B2BUserService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected winRef = inject(WindowRef);
+  protected cdcJsService = inject(CdcJsService);
+
   protected subscription: Subscription = new Subscription();
 
   onCreateButtonClick(): void {

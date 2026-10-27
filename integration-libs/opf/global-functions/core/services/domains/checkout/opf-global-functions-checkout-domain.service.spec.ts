@@ -9,6 +9,7 @@ import {
   ComponentRef,
   ElementRef,
   ViewContainerRef,
+  inject as inject_1,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RoutingService, UserIdService, WindowRef } from '@spartacus/core';
@@ -32,7 +33,7 @@ import { OpfGlobalFunctionsCheckoutDomainService } from './opf-global-functions-
 
 @Component({ template: '' })
 class TestContainerComponent {
-  constructor(public vcr: ViewContainerRef) {}
+  vcr = inject_1(ViewContainerRef);
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {

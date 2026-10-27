@@ -16,7 +16,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   Renderer2,
   ViewChild,
 } from '@angular/core';
@@ -90,6 +89,14 @@ const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
   ],
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {
+  protected searchBoxComponentService = inject(SearchBoxComponentService);
+  protected componentData = inject<CmsComponentData<CmsSearchBoxComponent>>(
+    CmsComponentData,
+    { optional: true }
+  );
+  protected winRef = inject(WindowRef);
+  protected routingService = inject(RoutingService);
+
   private elementRef = inject(ElementRef);
   private renderer = inject(Renderer2);
   private readonly featureToggles = inject(FeatureToggles);
@@ -223,13 +230,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   protected breakpointService = inject(BreakpointService);
   protected changeDetectorRef = inject(ChangeDetectorRef);
 
-  constructor(
-    protected searchBoxComponentService: SearchBoxComponentService,
-    @Optional()
-    protected componentData: CmsComponentData<CmsSearchBoxComponent>,
-    protected winRef: WindowRef,
-    protected routingService: RoutingService
-  ) {
+  constructor() {
     useFeatureStyles('searchBoxRecentSearchesRemoval');
     useFeatureStyles('searchBoxEmptyQueryResultsPanel');
     useFeatureStyles('a11yFixSearchBoxDoubleFocus');

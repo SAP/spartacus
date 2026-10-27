@@ -14,7 +14,6 @@ import {
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import {
   CmsBreadcrumbsComponent,
-  PageMetaService,
   TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
@@ -30,6 +29,10 @@ import { PageTitleComponent } from '../page-header/page-title.component';
   imports: [RouterLink, AsyncPipe, TranslatePipe],
 })
 export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
+  override component =
+    inject<CmsComponentData<CmsBreadcrumbsComponent>>(CmsComponentData);
+  private translation = inject(TranslationService);
+
   crumbs$: Observable<any[]>;
 
   protected router = inject(Router);
@@ -40,14 +43,6 @@ export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
       return document.activeElement !== document.body;
     })
   );
-
-  constructor(
-    public component: CmsComponentData<CmsBreadcrumbsComponent>,
-    protected pageMetaService: PageMetaService,
-    private translation: TranslationService
-  ) {
-    super(component, pageMetaService);
-  }
 
   ngOnInit(): void {
     super.ngOnInit();

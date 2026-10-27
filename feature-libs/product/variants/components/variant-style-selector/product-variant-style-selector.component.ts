@@ -5,7 +5,12 @@
  */
 
 import { NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 import {
   BaseOption,
   isNotUndefined,
@@ -27,11 +32,9 @@ import { filter, take } from 'rxjs/operators';
   imports: [NgClass, TranslatePipe],
 })
 export class ProductVariantStyleSelectorComponent {
-  constructor(
-    private config: OccConfig,
-    private productService: ProductService,
-    private routingService: RoutingService
-  ) {}
+  private config = inject(OccConfig);
+  private productService = inject(ProductService);
+  private routingService = inject(RoutingService);
 
   variantQualifier = VariantQualifier;
 

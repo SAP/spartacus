@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { AsmCustomer360SupportTicketList } from '@spartacus/asm/customer-360/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -26,6 +31,10 @@ import { SupportTicketEntry } from './asm-customer-360-support-tickets.model';
   imports: [AsmCustomer360TableComponent, AsyncPipe, TranslatePipe],
 })
 export class AsmCustomer360SupportTicketsComponent implements OnInit {
+  protected context = inject<
+    AsmCustomer360SectionContext<AsmCustomer360SupportTicketList>
+  >(AsmCustomer360SectionContext);
+
   supportTicketsColumns: Array<CustomerTableColumn> = [
     {
       property: 'id',
@@ -62,10 +71,6 @@ export class AsmCustomer360SupportTicketsComponent implements OnInit {
   ];
 
   supportTicketsEntries$: Observable<Array<SupportTicketEntry>>;
-
-  constructor(
-    protected context: AsmCustomer360SectionContext<AsmCustomer360SupportTicketList>
-  ) {}
 
   ngOnInit(): void {
     this.supportTicketsEntries$ = this.context.data$.pipe(

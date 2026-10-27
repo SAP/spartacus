@@ -10,6 +10,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ReturnRequest } from '@spartacus/order/root';
@@ -24,7 +25,7 @@ import { ReturnRequestService } from '../return-request.service';
   imports: [AsyncPipe, TranslatePipe],
 })
 export class ReturnRequestOverviewComponent implements OnInit, OnDestroy {
-  constructor(protected returnRequestService: ReturnRequestService) {}
+  protected returnRequestService = inject(ReturnRequestService);
 
   rma: string;
   subscription: Subscription;

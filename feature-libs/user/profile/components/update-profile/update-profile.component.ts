@@ -58,12 +58,12 @@ import { UpdateProfileComponentService } from './update-profile-component.servic
   ],
 })
 export class UpdateProfileComponent {
+  protected service = inject(UpdateProfileComponentService);
+
   @Optional() protected routingService = inject(RoutingService, {
     optional: true,
   });
   protected pageMetaService = inject(PageMetaService);
-
-  constructor(protected service: UpdateProfileComponentService) {}
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$ = this.service.isUpdating$;

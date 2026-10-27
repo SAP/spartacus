@@ -10,6 +10,7 @@ import {
   Component,
   Input,
   OnInit,
+  inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CmsPickupItemDetails, TranslatePipe, UrlPipe } from '@spartacus/core';
@@ -43,16 +44,15 @@ import { DeliveryPointsService } from '../../services/delivery-points.service';
   ],
 })
 export class PickUpItemsDetailsComponent implements OnInit {
+  protected component =
+    inject<CmsComponentData<CmsPickupItemDetails>>(CmsComponentData);
+  protected deliveryPointsService = inject(DeliveryPointsService);
+
   @Input() showEdit: boolean;
   @Input() itemsDetails: Observable<Array<DeliveryPointOfService>>;
   readonly ICON_TYPE = ICON_TYPE;
 
   protected context: string;
-
-  constructor(
-    protected component: CmsComponentData<CmsPickupItemDetails>,
-    protected deliveryPointsService: DeliveryPointsService
-  ) {}
   ngOnInit() {
     this.component.data$
       .pipe(

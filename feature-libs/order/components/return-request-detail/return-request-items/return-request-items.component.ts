@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ReturnRequest } from '@spartacus/order/root';
 import { MediaComponent } from '@spartacus/storefront';
@@ -19,7 +19,7 @@ import { ReturnRequestService } from '../return-request.service';
   imports: [MediaComponent, AsyncPipe, TranslatePipe],
 })
 export class ReturnRequestItemsComponent {
-  constructor(protected returnRequestService: ReturnRequestService) {}
+  protected returnRequestService = inject(ReturnRequestService);
 
   returnRequest$: Observable<ReturnRequest> =
     this.returnRequestService.getReturnRequest();

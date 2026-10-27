@@ -30,14 +30,12 @@ import { ClientTokenService } from '../services/client-token.service';
  */
 @Injectable({ providedIn: 'root' })
 export class ClientTokenInterceptor implements HttpInterceptor {
+  protected clientTokenService = inject(ClientTokenService);
+  protected clientErrorHandlingService = inject(ClientErrorHandlingService);
+  protected occEndpoints = inject(OccEndpointsService);
+
   protected enableClientToken =
     inject(AuthConfig).authentication?.useClientTokens ?? false;
-
-  constructor(
-    protected clientTokenService: ClientTokenService,
-    protected clientErrorHandlingService: ClientErrorHandlingService,
-    protected occEndpoints: OccEndpointsService
-  ) {}
 
   intercept(
     request: HttpRequest<any>,

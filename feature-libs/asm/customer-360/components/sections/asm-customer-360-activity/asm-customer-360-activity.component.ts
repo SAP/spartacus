@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { AsmCustomer360ActivityList } from '@spartacus/asm/customer-360/root';
 import { TranslatePipe, UrlCommand } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
@@ -25,6 +30,10 @@ import { ActivityEntry, TypeCodes } from './asm-customer-360-activity.model';
   imports: [AsmCustomer360TableComponent, AsyncPipe, TranslatePipe],
 })
 export class AsmCustomer360ActivityComponent implements OnInit {
+  protected context = inject<
+    AsmCustomer360SectionContext<AsmCustomer360ActivityList>
+  >(AsmCustomer360SectionContext);
+
   entries$: Observable<Array<ActivityEntry>>;
   columns: Array<CustomerTableColumn> = [
     {
@@ -65,10 +74,6 @@ export class AsmCustomer360ActivityComponent implements OnInit {
       isDate: true,
     },
   ];
-
-  constructor(
-    protected context: AsmCustomer360SectionContext<AsmCustomer360ActivityList>
-  ) {}
 
   ngOnInit(): void {
     let entries: Array<ActivityEntry> = [];

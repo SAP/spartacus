@@ -14,6 +14,7 @@ import {
   OnDestroy,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { of, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
@@ -27,17 +28,15 @@ import { CaptchaRenderer } from './captcha.renderer';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CaptchaComponent implements AfterViewInit, OnDestroy {
+  protected config = inject(CaptchaApiConfig);
+  protected injector = inject(Injector);
+
   // Emits true if user confirms captcha
   @Output() confirmed = new EventEmitter<boolean>();
 
   @ViewChild('captcha', { static: false }) captchaRef: ElementRef;
 
   protected subscription = new Subscription();
-
-  constructor(
-    protected config: CaptchaApiConfig,
-    protected injector: Injector
-  ) {}
 
   /**
    * Add fields from CaptchaApiConfig. Call backend to get captcha

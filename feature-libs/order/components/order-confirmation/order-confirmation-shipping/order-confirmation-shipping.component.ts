@@ -12,7 +12,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   inject,
 } from '@angular/core';
 import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
@@ -56,6 +55,16 @@ import { map, tap } from 'rxjs/operators';
   ],
 })
 export class OrderConfirmationShippingComponent implements OnInit, OnDestroy {
+  protected orderFacade = inject(OrderFacade);
+  protected translationService = inject(TranslationService);
+  protected cd = inject(ChangeDetectorRef);
+  protected outlet? = inject<
+    OutletContextData<{
+      showItemList?: boolean;
+      order?: any;
+    }>
+  >(OutletContextData, { optional: true });
+
   @Input() showItemList: boolean = true;
 
   readonly cartOutlets = CartOutlets;
@@ -75,17 +84,6 @@ export class OrderConfirmationShippingComponent implements OnInit, OnDestroy {
 
   protected subscription = new Subscription();
   private featureToggles = inject(FeatureToggles);
-
-  constructor(
-    protected orderFacade: OrderFacade,
-    protected translationService: TranslationService,
-    protected cd: ChangeDetectorRef,
-    @Optional()
-    protected outlet?: OutletContextData<{
-      showItemList?: boolean;
-      order?: any;
-    }>
-  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

@@ -18,6 +18,9 @@ import { REGIONS } from '../user-state';
 
 @Injectable()
 export class RegionsEffects {
+  private actions$ = inject(Actions);
+  private siteConnector = inject(SiteConnector);
+
   protected logger = inject(LoggerService);
 
   loadRegions$: Observable<UserActions.RegionsAction> = createEffect(() =>
@@ -55,9 +58,4 @@ export class RegionsEffects {
       })
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private siteConnector: SiteConnector
-  ) {}
 }

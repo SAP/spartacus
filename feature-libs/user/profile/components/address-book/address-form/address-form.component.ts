@@ -97,6 +97,13 @@ import {
   ],
 })
 export class AddressFormComponent implements OnInit, OnDestroy {
+  protected fb = inject(UntypedFormBuilder);
+  protected userAddressService = inject(UserAddressService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected translation = inject(TranslationService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected userProfileFacade = inject(UserProfileFacade);
+
   protected languageService = inject(LanguageService);
   protected cdr = inject(ChangeDetectorRef);
   private featureToggles = inject(FeatureToggles);
@@ -189,15 +196,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       defaultAddress: [false],
     });
   }
-
-  constructor(
-    protected fb: UntypedFormBuilder,
-    protected userAddressService: UserAddressService,
-    protected globalMessageService: GlobalMessageService,
-    protected translation: TranslationService,
-    protected launchDialogService: LaunchDialogService,
-    protected userProfileFacade: UserProfileFacade
-  ) {}
 
   ngOnInit() {
     // Fetching countries if no data stream was provided.

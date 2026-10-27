@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe, UrlPipe } from '@spartacus/core';
 import { BtnLikeLinkDirective } from '@spartacus/storefront';
@@ -24,7 +24,7 @@ import { OrderDetailsService } from '../order-details.service';
   ],
 })
 export class OrderDetailActionsComponent {
-  constructor(protected orderDetailsService: OrderDetailsService) {}
+  protected orderDetailsService = inject(OrderDetailsService);
 
   order$: Observable<any> = this.orderDetailsService.getOrderDetails();
 }

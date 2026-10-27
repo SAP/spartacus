@@ -6,7 +6,7 @@
 
 import { of, Subscription } from 'rxjs';
 import { StatePersistenceService } from '@spartacus/core';
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import {
   CdcLocalStorageTemplate,
   CdcSiteConsentTemplate,
@@ -18,7 +18,8 @@ const KEY = 'cdc-consents-list';
   providedIn: 'root',
 })
 export class CdcConsentsLocalStorageService implements OnDestroy {
-  constructor(protected statePersistenceService: StatePersistenceService) {}
+  protected statePersistenceService = inject(StatePersistenceService);
+
   protected subscription = new Subscription();
 
   /**

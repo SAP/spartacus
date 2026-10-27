@@ -23,15 +23,13 @@ import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCommonsService {
-  protected logger = inject(LoggerService);
+  protected store = inject<Store<StateWithConfigurator>>(Store);
+  protected commonConfigUtilsService = inject(CommonConfiguratorUtilsService);
+  protected configuratorCartService = inject(ConfiguratorCartService);
+  protected activeCartService = inject(ActiveCartFacade);
+  protected configuratorUtils = inject(ConfiguratorUtilsService);
 
-  constructor(
-    protected store: Store<StateWithConfigurator>,
-    protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    protected configuratorCartService: ConfiguratorCartService,
-    protected activeCartService: ActiveCartFacade,
-    protected configuratorUtils: ConfiguratorUtilsService
-  ) {}
+  protected logger = inject(LoggerService);
 
   /**
    * Verifies whether there are any pending configuration changes.

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Address, isNotUndefined, RoutingService } from '@spartacus/core';
 import {
   OrganizationItemStatus,
@@ -21,14 +21,10 @@ import { CurrentUnitAddressService } from './current-unit-address.service';
   providedIn: 'root',
 })
 export class UnitAddressItemService extends ItemService<Address> {
-  constructor(
-    protected currentItemService: CurrentUnitAddressService,
-    protected routingService: RoutingService,
-    protected formService: UnitAddressFormService,
-    protected unitService: OrgUnitService
-  ) {
-    super(currentItemService, routingService, formService);
-  }
+  protected override currentItemService = inject(CurrentUnitAddressService);
+  protected override routingService = inject(RoutingService);
+  protected override formService = inject(UnitAddressFormService);
+  protected unitService = inject(OrgUnitService);
 
   protected unitRouteParam$ = this.routingService.getParams().pipe(
     map((params) => params[ROUTE_PARAMS.unitCode]),

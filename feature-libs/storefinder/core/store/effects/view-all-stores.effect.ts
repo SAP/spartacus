@@ -18,12 +18,10 @@ import { StoreFinderActions } from '../actions/index';
 
 @Injectable()
 export class ViewAllStoresEffect {
-  protected logger = inject(LoggerService);
+  private actions$ = inject(Actions);
+  private storeFinderConnector = inject(StoreFinderConnector);
 
-  constructor(
-    private actions$: Actions,
-    private storeFinderConnector: StoreFinderConnector
-  ) {}
+  protected logger = inject(LoggerService);
 
   viewAllStores$: Observable<
     | StoreFinderActions.ViewAllStoresSuccess

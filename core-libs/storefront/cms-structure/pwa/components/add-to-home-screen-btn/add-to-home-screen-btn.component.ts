@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AddToHomeScreenService } from '../../services/add-to-home-screen.service';
 import { AddToHomeScreenComponent } from '../add-to-home-screen.component';
 
@@ -15,7 +15,5 @@ import { AddToHomeScreenComponent } from '../add-to-home-screen.component';
   imports: [AsyncPipe],
 })
 export class AddToHomeScreenBtnComponent extends AddToHomeScreenComponent {
-  constructor(protected addToHomeScreenService: AddToHomeScreenService) {
-    super(addToHomeScreenService);
-  }
+  protected override addToHomeScreenService = inject(AddToHomeScreenService);
 }

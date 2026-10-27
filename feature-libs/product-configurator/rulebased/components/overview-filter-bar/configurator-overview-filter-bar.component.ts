@@ -17,15 +17,14 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   imports: [IconComponent, TranslatePipe],
 })
 export class ConfiguratorOverviewFilterBarComponent {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+
   readonly PREFIX_ID = 'cx-overview-filter-applied-';
   readonly FIRST_FILTER_CHECKBOX_ID =
     'cx-configurator-overview-filter-option-price';
   protected configuratorStorefrontUtilsService = inject(
     ConfiguratorStorefrontUtilsService
   );
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService
-  ) {}
 
   @Input() config: Configurator.ConfigurationWithOverview;
 

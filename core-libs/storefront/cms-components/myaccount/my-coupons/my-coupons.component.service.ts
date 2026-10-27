@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   CustomerCoupon,
   RoutingService,
@@ -17,6 +17,9 @@ import { combineLatest, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class MyCouponsComponentService {
+  protected routingService = inject(RoutingService);
+  protected translation = inject(TranslationService);
+
   sortLabels: Observable<{
     byStartDateAsc: string;
     byStartDateDesc: string;
@@ -26,11 +29,6 @@ export class MyCouponsComponentService {
 
   protected readonly RELEVANCE = ':relevance';
   protected readonly CUSTOMER_COUPON_CODE = ':customerCouponCode:';
-
-  constructor(
-    protected routingService: RoutingService,
-    protected translation: TranslationService
-  ) {}
 
   launchSearchPage(coupon: CustomerCoupon): void {
     this.routingService.go(

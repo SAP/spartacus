@@ -18,14 +18,10 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccPickupLocationAdapter implements PickupLocationAdapter {
-  protected logger = inject(LoggerService);
+  protected http = inject(HttpClient);
+  protected occEndpointsService = inject(OccEndpointsService);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpointsService: OccEndpointsService
-  ) {
-    // Intentional empty constructor
-  }
+  protected logger = inject(LoggerService);
 
   getStoreDetails(storeName: string): Observable<PointOfService> {
     return this.http

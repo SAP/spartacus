@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
   AsmCustomerListFacade,
@@ -21,17 +21,15 @@ import { AsmSelectors } from '../store/index';
 
 @Injectable()
 export class AsmCustomerListService implements AsmCustomerListFacade {
+  protected queryService = inject(QueryService);
+  protected asmConnector = inject(AsmConnector);
+  protected store = inject<Store<StateWithAsm>>(Store);
+
   protected customerListQuery$: Query<CustomerListsPage> =
     this.queryService.create(() => this.asmConnector.customerLists(), {
       reloadOn: undefined,
       resetOn: undefined,
     });
-
-  constructor(
-    protected queryService: QueryService,
-    protected asmConnector: AsmConnector,
-    protected store: Store<StateWithAsm>
-  ) {}
 
   getCustomerLists(): Observable<CustomerListsPage | undefined> {
     return this.customerListQuery$.get();

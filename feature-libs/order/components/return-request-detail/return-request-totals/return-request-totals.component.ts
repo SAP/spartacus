@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  inject,
+} from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ReturnRequest } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
@@ -18,7 +23,7 @@ import { ReturnRequestService } from '../return-request.service';
   imports: [AsyncPipe, TranslatePipe],
 })
 export class ReturnRequestTotalsComponent implements OnDestroy {
-  constructor(protected returnRequestService: ReturnRequestService) {}
+  protected returnRequestService = inject(ReturnRequestService);
 
   returnRequest$: Observable<ReturnRequest> =
     this.returnRequestService.getReturnRequest();

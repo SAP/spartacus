@@ -18,6 +18,9 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserConsentsEffect {
+  private actions$ = inject(Actions);
+  private userConsentConnector = inject(UserConsentConnector);
+
   protected logger = inject(LoggerService);
 
   resetConsents$: Observable<UserActions.ResetLoadUserConsents> = createEffect(
@@ -110,9 +113,4 @@ export class UserConsentsEffect {
         )
       )
   );
-
-  constructor(
-    private actions$: Actions,
-    private userConsentConnector: UserConsentConnector
-  ) {}
 }

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   LoginEvent,
   LogoutEvent,
@@ -23,6 +23,10 @@ import { UserAccountConnector } from '../connectors/user-account.connector';
 
 @Injectable()
 export class UserAccountService implements UserAccountFacade {
+  protected userAccountConnector = inject(UserAccountConnector);
+  protected userIdService = inject(UserIdService);
+  protected query = inject(QueryService);
+
   protected userQuery: Query<User> = this.query.create(
     () =>
       this.userIdService
@@ -33,12 +37,6 @@ export class UserAccountService implements UserAccountFacade {
       resetOn: [LoginEvent, LogoutEvent],
     }
   );
-
-  constructor(
-    protected userAccountConnector: UserAccountConnector,
-    protected userIdService: UserIdService,
-    protected query: QueryService
-  ) {}
 
   /**
    * Returns the user according the userId

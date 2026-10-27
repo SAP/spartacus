@@ -10,6 +10,7 @@ import {
   Component,
   ElementRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { asapScheduler, BehaviorSubject, interval, Observable, of } from 'rxjs';
@@ -33,6 +34,8 @@ import { FacetListComponent } from './facet-list/facet-list.component';
   ],
 })
 export class ProductFacetNavigationComponent {
+  protected breakpointService = inject(BreakpointService);
+
   iconTypes = ICON_TYPE;
 
   /**
@@ -79,8 +82,6 @@ export class ProductFacetNavigationComponent {
     //  applied after the DOM is created
     observeOn(asapScheduler)
   );
-
-  constructor(protected breakpointService: BreakpointService) {}
 
   launch() {
     this.open$.next(true);

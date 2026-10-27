@@ -4,15 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Input, Directive } from '@angular/core';
+import { Input, Directive, inject } from '@angular/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 
 /* eslint-disable @angular-eslint/directive-class-suffix */
 @Directive()
 export class AbstractStoreItemComponent {
-  @Input() location;
+  protected storeFinderService = inject(StoreFinderService);
 
-  constructor(protected storeFinderService: StoreFinderService) {}
+  @Input() location;
 
   getDirections(location: any): string {
     return this.storeFinderService.getDirections(location);

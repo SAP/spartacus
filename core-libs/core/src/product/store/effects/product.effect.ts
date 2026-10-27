@@ -21,6 +21,9 @@ import { ProductActions } from '../actions/index';
 
 @Injectable()
 export class ProductEffects {
+  private actions$ = inject(Actions);
+  private productConnector = inject(ProductConnector);
+
   protected logger = inject(LoggerService);
 
   // we want to cancel all ongoing requests when currency or language changes,
@@ -97,9 +100,4 @@ export class ProductEffects {
         map(() => new ProductActions.ClearProductPrice())
       )
     );
-
-  constructor(
-    private actions$: Actions,
-    private productConnector: ProductConnector
-  ) {}
 }

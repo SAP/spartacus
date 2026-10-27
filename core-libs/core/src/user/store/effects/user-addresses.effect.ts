@@ -21,6 +21,11 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserAddressesEffects {
+  private actions$ = inject(Actions);
+  private userAddressConnector = inject(UserAddressConnector);
+  private userAddressService = inject(UserAddressService);
+  private messageService = inject(GlobalMessageService);
+
   protected logger = inject(LoggerService);
 
   loadUserAddresses$: Observable<UserActions.UserAddressesAction> =
@@ -175,13 +180,6 @@ export class UserAddressesEffects {
       ),
     { dispatch: false }
   );
-
-  constructor(
-    private actions$: Actions,
-    private userAddressConnector: UserAddressConnector,
-    private userAddressService: UserAddressService,
-    private messageService: GlobalMessageService
-  ) {}
 
   /**
    * Show global confirmation message with provided text

@@ -7,11 +7,9 @@
 import {
   ChangeDetectorRef,
   Component,
-  Inject,
   inject,
   OnDestroy,
   OnInit,
-  Optional,
 } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 
@@ -29,18 +27,18 @@ interface ExtendedOrderEntry extends OrderEntry {
   imports: [NgClass, DecimalPipe],
 })
 export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
+  protected cartItemContext = inject(CartItemContext, {
+    optional: true,
+  }) as CartItemContext;
+  private cpqQuoteService = inject(CpqQuoteService);
+
   quoteDiscountData: ExtendedOrderEntry | null;
   private subscription: Subscription;
   readonly orderEntry$: Observable<ExtendedOrderEntry> =
     this.cartItemContext?.item$;
   isFlagQuote = true;
   protected cd = inject(ChangeDetectorRef);
-  constructor(
-    @Optional()
-    @Inject(CartItemContext)
-    protected cartItemContext: CartItemContext,
-    private cpqQuoteService: CpqQuoteService
-  ) {
+  constructor() {
     this.subscription = this.cpqQuoteService.isFlag$.subscribe((isFlag) => {
       this.isFlagQuote = isFlag;
       this.cd.markForCheck();

@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Product, TranslatePipe } from '@spartacus/core';
 import {
   CarouselScrollingComponent,
@@ -33,14 +33,12 @@ import { ProductImageZoomTriggerComponent } from '../product-image-zoom-trigger/
   ],
 })
 export class ProductImageZoomProductImagesComponent extends ProductImagesComponent {
+  protected override currentProductService = inject(CurrentProductService);
+
   expandImage = new BehaviorSubject(false);
   selectedIndex: number | undefined;
 
   product$: Observable<Product> = this.product$;
-
-  constructor(protected currentProductService: CurrentProductService) {
-    super(currentProductService);
-  }
 
   openImage(item: any): void {
     this.mainMediaContainer.next(item);

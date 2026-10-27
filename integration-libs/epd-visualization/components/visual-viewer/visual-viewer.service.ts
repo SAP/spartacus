@@ -12,6 +12,7 @@ import {
   EventEmitter,
   Injectable,
   OnDestroy,
+  inject,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import {
@@ -75,14 +76,16 @@ interface VisualContentLoadFinishedEvent {}
   providedIn: 'root',
 })
 export class VisualViewerService implements OnDestroy {
-  constructor(
-    protected epdVisualizationConfig: EpdVisualizationConfig,
-    protected _sceneNodeToProductLookupService: SceneNodeToProductLookupService,
-    protected visualizationLookupService: VisualizationLookupService,
-    protected elementRef: ElementRef,
-    protected changeDetectorRef: ChangeDetectorRef,
-    protected windowRef: WindowRef
-  ) {
+  protected epdVisualizationConfig = inject(EpdVisualizationConfig);
+  protected _sceneNodeToProductLookupService = inject(
+    SceneNodeToProductLookupService
+  );
+  protected visualizationLookupService = inject(VisualizationLookupService);
+  protected elementRef = inject(ElementRef);
+  protected changeDetectorRef = inject(ChangeDetectorRef);
+  protected windowRef = inject(WindowRef);
+
+  constructor() {
     if (!this.windowRef.isBrowser()) {
       return;
     }

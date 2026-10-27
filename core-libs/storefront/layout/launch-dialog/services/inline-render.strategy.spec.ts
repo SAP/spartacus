@@ -1,4 +1,4 @@
-import { Component, ViewContainerRef } from '@angular/core';
+import { Component, ViewContainerRef, inject as inject_1 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { LayoutConfig } from '../../config/layout-config';
 import { LAUNCH_CALLER, LaunchInlineDialog } from '../config';
@@ -6,7 +6,7 @@ import { InlineRenderStrategy } from './inline-render.strategy';
 
 @Component({ template: '' })
 class TestContainerComponent {
-  constructor(public vcr: ViewContainerRef) {}
+  vcr = inject_1(ViewContainerRef);
 }
 
 const mockLaunchConfig: LayoutConfig = {

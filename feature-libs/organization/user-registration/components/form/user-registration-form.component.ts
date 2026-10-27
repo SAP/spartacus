@@ -53,6 +53,8 @@ import { UserRegistrationFormService } from './user-registration-form.service';
   ],
 })
 export class UserRegistrationFormComponent implements OnDestroy {
+  protected userRegistrationFormService = inject(UserRegistrationFormService);
+
   titles$: Observable<Title[]> = this.userRegistrationFormService.getTitles();
 
   countries$: Observable<Country[]> =
@@ -70,10 +72,6 @@ export class UserRegistrationFormComponent implements OnDestroy {
   protected globalMessageService = inject(GlobalMessageService, {
     optional: true,
   });
-
-  constructor(
-    protected userRegistrationFormService: UserRegistrationFormService
-  ) {}
 
   submit(): void {
     if (this.registerForm.valid) {

@@ -19,6 +19,10 @@ import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 
 @Injectable()
 export class ProductReviewsEffects {
+  private actions$ = inject(Actions);
+  private productReviewsConnector = inject(ProductReviewsConnector);
+  private globalMessageService = inject(GlobalMessageService);
+
   protected logger = inject(LoggerService);
   loadProductReviews$: Observable<
     | ProductActions.LoadProductReviewsSuccess
@@ -102,10 +106,4 @@ export class ProductReviewsEffects {
       ),
     { dispatch: false }
   );
-
-  constructor(
-    private actions$: Actions,
-    private productReviewsConnector: ProductReviewsConnector,
-    private globalMessageService: GlobalMessageService
-  ) {}
 }

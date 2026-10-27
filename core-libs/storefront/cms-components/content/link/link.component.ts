@@ -11,6 +11,7 @@ import {
   HostBinding,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { CmsLinkComponent } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
@@ -24,13 +25,14 @@ import { GenericLinkComponent } from '../../../shared/components/generic-link/ge
   imports: [GenericLinkComponent, AsyncPipe],
 })
 export class LinkComponent implements OnDestroy, OnInit {
+  protected component =
+    inject<CmsComponentData<CmsLinkComponent>>(CmsComponentData);
+
   @HostBinding('class') styleClasses: string | undefined;
 
   data$: Observable<CmsLinkComponent> = this.component.data$;
 
   protected subscriptions: Subscription = new Subscription();
-
-  constructor(protected component: CmsComponentData<CmsLinkComponent>) {}
 
   ngOnInit(): void {
     this.subscriptions.add(

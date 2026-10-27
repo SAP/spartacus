@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  inject,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   CxDatePipe,
@@ -37,10 +42,8 @@ import { filter, map, take, tap } from 'rxjs/operators';
   ],
 })
 export class OrderReturnRequestListComponent implements OnDestroy {
-  constructor(
-    private returnRequestService: OrderReturnRequestFacade,
-    private translation: TranslationService
-  ) {}
+  private returnRequestService = inject(OrderReturnRequestFacade);
+  private translation = inject(TranslationService);
 
   private PAGE_SIZE = 5;
   sortType: string;

@@ -14,14 +14,10 @@ import * as PickupLocationActions from '../actions/pickup-location.action';
 
 @Injectable()
 export class PickupLocationEffect {
-  protected logger = inject(LoggerService);
+  private actions$ = inject(Actions);
+  private pickupLocationConnector = inject(PickupLocationConnector);
 
-  constructor(
-    private actions$: Actions,
-    private pickupLocationConnector: PickupLocationConnector
-  ) {
-    // Intentional empty constructor
-  }
+  protected logger = inject(LoggerService);
 
   storeDetails$ = createEffect(() =>
     this.actions$.pipe(

@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   Product,
   ProductService,
@@ -30,12 +30,10 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
   imports: [FocusDirective, IconComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorRestartDialogComponent {
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected routingService: RoutingService,
-    protected productService: ProductService
-  ) {}
+  protected launchDialogService = inject(LaunchDialogService);
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected routingService = inject(RoutingService);
+  protected productService = inject(ProductService);
 
   dialogData$: Observable<{ owner: CommonConfigurator.Owner }> =
     this.launchDialogService.data$.pipe(

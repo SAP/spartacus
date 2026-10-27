@@ -43,6 +43,14 @@ export class ConfiguratorAttributeHeaderComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
+  protected configUtils = inject(ConfiguratorStorefrontUtilsService);
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configuratorGroupsService = inject(ConfiguratorGroupsService);
+  protected configuratorUiSettings = inject(ConfiguratorUISettingsConfig);
+  protected attributeComponentContext = inject(
+    ConfiguratorAttributeCompositionContext
+  );
+
   attribute: Configurator.Attribute;
   owner: CommonConfigurator.Owner;
   groupId: string;
@@ -56,14 +64,10 @@ export class ConfiguratorAttributeHeaderComponent
   protected logger = inject(LoggerService);
   protected config = inject(Config);
 
-  constructor(
-    protected configUtils: ConfiguratorStorefrontUtilsService,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected configuratorUiSettings: ConfiguratorUISettingsConfig,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
-  ) {
+  constructor() {
     super();
+    const attributeComponentContext = this.attributeComponentContext;
+
     this.attribute = attributeComponentContext.attribute;
     this.owner = attributeComponentContext.owner;
     this.groupId = attributeComponentContext.group.id;

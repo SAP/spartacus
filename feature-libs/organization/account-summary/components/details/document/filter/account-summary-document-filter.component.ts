@@ -13,6 +13,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  inject,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -68,6 +69,9 @@ interface GroupValidator {
 export class AccountSummaryDocumentFilterComponent
   implements OnInit, OnDestroy
 {
+  protected translation = inject(TranslationService);
+  protected fb = inject(FormBuilder);
+
   @Input()
   cxNgSelectA11yAriaControls?: string;
 
@@ -91,11 +95,6 @@ export class AccountSummaryDocumentFilterComponent
 
   statusOptions: ItemType[];
   filterByOptions: ItemType[];
-
-  constructor(
-    protected translation: TranslationService,
-    protected fb: FormBuilder
-  ) {}
 
   ngOnInit() {
     this.subscription.add(

@@ -10,8 +10,8 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
-  Optional,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import {
   ActiveCartFacade,
@@ -81,6 +81,23 @@ export function orderEntryWithRequiredFields(
   imports: [PickupOptionsComponent, AsyncPipe],
 })
 export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected pickupLocationsSearchService = inject(PickupLocationsSearchFacade);
+  protected pickupOptionFacade = inject(PickupOptionFacade);
+  protected preferredStoreFacade = inject(PreferredStoreFacade);
+  protected vcr = inject(ViewContainerRef);
+  protected cmsService = inject(CmsService);
+  protected intendedPickupLocationService = inject(
+    IntendedPickupLocationFacade
+  );
+  protected outlet = inject<
+    OutletContextData<{
+      item: OrderEntry;
+      cartType: CartType;
+    }>
+  >(OutletContextData, { optional: true });
+
   pickupOption$: Observable<PickupOption | undefined>;
   disableControls$: Observable<boolean>;
   storeDetails$: Observable<{
@@ -97,23 +114,6 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
   userId: string;
   page?: string;
   readonly CartType = CartType;
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
-    protected pickupOptionFacade: PickupOptionFacade,
-    protected preferredStoreFacade: PreferredStoreFacade,
-    protected vcr: ViewContainerRef,
-    protected cmsService: CmsService,
-    protected intendedPickupLocationService: IntendedPickupLocationFacade,
-    @Optional()
-    protected outlet: OutletContextData<{
-      item: OrderEntry;
-      cartType: CartType;
-    }>
-  ) {
-    // Intentional empty constructor
-  }
 
   ngOnInit() {
     const outletContext =

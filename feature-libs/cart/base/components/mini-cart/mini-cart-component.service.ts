@@ -38,15 +38,13 @@ const MINI_CART_UPDATING_DEBOUNCE_MS = 250;
   providedIn: 'root',
 })
 export class MiniCartComponentService {
-  private featureToggles = inject(FeatureToggles);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected authService = inject(AuthService);
+  protected statePersistenceService = inject(StatePersistenceService);
+  protected siteContextParamsService = inject(SiteContextParamsService);
+  protected eventService = inject(EventService);
 
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected authService: AuthService,
-    protected statePersistenceService: StatePersistenceService,
-    protected siteContextParamsService: SiteContextParamsService,
-    protected eventService: EventService
-  ) {}
+  private featureToggles = inject(FeatureToggles);
 
   /**
    * This function supports lazy loading of the cart functionality's code. We only call

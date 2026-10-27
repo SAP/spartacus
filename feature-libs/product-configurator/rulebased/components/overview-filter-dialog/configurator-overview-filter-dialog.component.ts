@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import {
   FocusConfig,
@@ -28,7 +28,7 @@ import { ConfiguratorOverviewFilterComponent } from '../overview-filter/configur
   ],
 })
 export class ConfiguratorOverviewFilterDialogComponent {
-  constructor(protected launchDialogService: LaunchDialogService) {}
+  protected launchDialogService = inject(LaunchDialogService);
 
   config$ = this.launchDialogService.data$;
 

@@ -5,18 +5,12 @@
  */
 
 import { HttpRequest } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   AuthHttpHeaderService,
-  AuthRedirectService,
-  AuthService,
   AuthToken,
-  GlobalMessageService,
   GlobalMessageType,
   InterceptorUtil,
-  OAuthLibWrapperService,
-  OccEndpointsService,
-  RoutingService,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '@spartacus/core';
 import { take } from 'rxjs/operators';
@@ -31,26 +25,8 @@ import { CsAgentAuthService } from './csagent-auth.service';
   providedIn: 'root',
 })
 export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
-  constructor(
-    protected authService: AuthService,
-    protected authStorageService: AsmAuthStorageService,
-    protected csAgentAuthService: CsAgentAuthService,
-    protected oAuthLibWrapperService: OAuthLibWrapperService,
-    protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService,
-    protected occEndpointsService: OccEndpointsService,
-    protected authRedirectService: AuthRedirectService
-  ) {
-    super(
-      authService,
-      authStorageService,
-      oAuthLibWrapperService,
-      routingService,
-      occEndpointsService,
-      globalMessageService,
-      authRedirectService
-    );
-  }
+  protected override authStorageService = inject(AsmAuthStorageService);
+  protected csAgentAuthService = inject(CsAgentAuthService);
 
   /**
    * Checks if the authorization header should be added to the request

@@ -6,7 +6,7 @@
 
 import '@angular/compiler';
 
-import { Component, Inject, InjectionToken, NgModule } from '@angular/core';
+import { Component, InjectionToken, NgModule, inject } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ServerModule } from '@angular/platform-server';
 import { REQUEST, RESPONSE } from '../public_api';
@@ -70,7 +70,7 @@ export class MockServerModule {}
   standalone: false,
 })
 export class RequestComponent {
-  constructor(@Inject(REQUEST) public readonly _req: any) {}
+  readonly _req = inject(REQUEST);
 }
 
 /**
@@ -109,7 +109,7 @@ export class RequestServerModule {}
   standalone: false,
 })
 export class ResponseComponent {
-  constructor(@Inject(RESPONSE) public readonly _res: any) {}
+  readonly _res = inject(RESPONSE);
 }
 
 /**
@@ -161,7 +161,7 @@ export const SOME_TOKEN = new InjectionToken<string>('SOME_TOKEN');
   standalone: false,
 })
 export class TokenComponent {
-  constructor(@Inject(SOME_TOKEN) public readonly _someToken: any) {}
+  readonly _someToken = inject(SOME_TOKEN);
 }
 
 /**

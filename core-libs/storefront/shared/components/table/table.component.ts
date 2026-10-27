@@ -61,6 +61,8 @@ import {
   imports: [OutletDirective, FeatureDirective, CxRovingTabindexDirective],
 })
 export class TableComponent<T> {
+  protected rendererService = inject(TableRendererService);
+
   @HostBinding('attr.__cx-table-type') tableType: string;
   @HostBinding('class.horizontal') horizontalLayout: boolean;
   @HostBinding('class.vertical') verticalLayout: boolean;
@@ -95,7 +97,7 @@ export class TableComponent<T> {
 
   @Output() launch = new EventEmitter();
 
-  constructor(protected rendererService: TableRendererService) {
+  constructor() {
     useFeatureStyles('a11yTableKeyboardNavigation');
   }
 

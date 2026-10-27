@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   PageMetaResolver,
   PageBreadcrumbResolver,
@@ -29,10 +29,10 @@ export class SubscriptionBillingDetailsPageMetaResolver
     PageDescriptionResolver,
     PageBreadcrumbResolver
 {
-  constructor(
-    protected basePageMetaResolver: BasePageMetaResolver,
-    protected translation: TranslationService
-  ) {
+  protected basePageMetaResolver = inject(BasePageMetaResolver);
+  protected translation = inject(TranslationService);
+
+  constructor() {
     super();
     this.pageType = PageType.CONTENT_PAGE;
     this.pageTemplate = 'AccountPageTemplate';

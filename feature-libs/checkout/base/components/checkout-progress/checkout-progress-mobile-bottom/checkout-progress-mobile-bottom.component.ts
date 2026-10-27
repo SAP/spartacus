@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CheckoutStep } from '@spartacus/checkout/base/root';
 import { TranslatePipe } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -19,10 +19,10 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   imports: [AsyncPipe, TranslatePipe],
 })
 export class CheckoutProgressMobileBottomComponent {
+  protected checkoutStepService = inject(CheckoutStepService);
+
   private _steps$: BehaviorSubject<CheckoutStep[]> =
     this.checkoutStepService.steps$;
-
-  constructor(protected checkoutStepService: CheckoutStepService) {}
 
   activeStepIndex: number;
   activeStepIndex$: Observable<number> =

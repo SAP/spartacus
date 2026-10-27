@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   EventService,
@@ -23,12 +23,12 @@ import { Subscription } from 'rxjs';
   providedIn: 'root',
 })
 export class CheckoutLegacyStoreEventListener implements OnDestroy {
+  protected eventService = inject(EventService);
+  protected store = inject<Store<unknown>>(Store);
+
   protected subscriptions = new Subscription();
 
-  constructor(
-    protected eventService: EventService,
-    protected store: Store<unknown>
-  ) {
+  constructor() {
     this.onUserAddressAction();
     this.onUserPaymentAction();
   }

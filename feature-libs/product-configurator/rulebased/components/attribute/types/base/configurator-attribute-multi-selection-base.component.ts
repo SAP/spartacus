@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive } from '@angular/core';
+import { Directive, inject } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
@@ -18,16 +18,20 @@ import { ConfiguratorAttributeSelectionBaseComponent } from './configurator-attr
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends ConfiguratorAttributeSelectionBaseComponent {
+  protected quantityService = inject(ConfiguratorAttributeQuantityService);
+  protected attributeComponentContext = inject(
+    ConfiguratorAttributeCompositionContext
+  );
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+
   attribute: Configurator.Attribute;
   ownerKey: string;
   expMode: boolean;
 
-  constructor(
-    protected quantityService: ConfiguratorAttributeQuantityService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
-  ) {
+  constructor() {
     super();
+    const attributeComponentContext = this.attributeComponentContext;
+
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;

@@ -10,6 +10,7 @@ import {
   ChangeDetectorRef,
   Component,
   HostBinding,
+  inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -37,6 +38,13 @@ import { SpinnerComponent } from '../../../shared/components/spinner/spinner.com
   imports: [RouterLink, SpinnerComponent, AsyncPipe, TranslatePipe],
 })
 export class VideoComponent {
+  protected component =
+    inject<CmsComponentData<CmsVideoComponent>>(CmsComponentData);
+  protected mediaService = inject(MediaService);
+  protected urlService = inject(SemanticPathService);
+  protected cmsService = inject(CmsService);
+  protected cd = inject(ChangeDetectorRef);
+
   @HostBinding('class') styleClasses: string | undefined;
 
   source: string | undefined;
@@ -55,14 +63,6 @@ export class VideoComponent {
       this.setRouting(data);
     })
   );
-
-  constructor(
-    protected component: CmsComponentData<CmsVideoComponent>,
-    protected mediaService: MediaService,
-    protected urlService: SemanticPathService,
-    protected cmsService: CmsService,
-    protected cd: ChangeDetectorRef
-  ) {}
 
   protected setMedia(data: CmsVideoComponent) {
     if (data.video) {

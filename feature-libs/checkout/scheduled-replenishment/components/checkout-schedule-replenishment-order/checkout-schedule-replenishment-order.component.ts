@@ -10,6 +10,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import {
@@ -37,6 +38,10 @@ import { CheckoutReplenishmentFormService } from '../services/checkout-replenish
 export class CheckoutScheduleReplenishmentOrderComponent
   implements OnInit, OnDestroy
 {
+  protected checkoutReplenishmentFormService = inject(
+    CheckoutReplenishmentFormService
+  );
+
   protected subscription = new Subscription();
 
   iconTypes = ICON_TYPE;
@@ -54,10 +59,6 @@ export class CheckoutScheduleReplenishmentOrderComponent
   numberOfWeeks: string[];
   currentDate: string | undefined;
   scheduleReplenishmentFormData: ScheduleReplenishmentForm;
-
-  constructor(
-    protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService
-  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

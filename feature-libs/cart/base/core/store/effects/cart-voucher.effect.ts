@@ -19,13 +19,11 @@ import { CartActions } from '../actions/index';
 
 @Injectable()
 export class CartVoucherEffects {
-  protected logger = inject(LoggerService);
+  private actions$ = inject(Actions);
+  private cartVoucherConnector = inject(CartVoucherConnector);
+  private messageService = inject(GlobalMessageService);
 
-  constructor(
-    private actions$: Actions,
-    private cartVoucherConnector: CartVoucherConnector,
-    private messageService: GlobalMessageService
-  ) {}
+  protected logger = inject(LoggerService);
 
   addCartVoucher$: Observable<
     | CartActions.CartVoucherAction

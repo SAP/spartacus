@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy, Type } from '@angular/core';
+import { Injectable, OnDestroy, Type, inject } from '@angular/core';
 import {
   BehaviorSubject,
   EMPTY,
@@ -45,9 +45,9 @@ export interface Query<RESULT, PARAMS extends unknown[] = []> {
   providedIn: 'root',
 })
 export class QueryService implements OnDestroy {
-  protected subscriptions = new Subscription();
+  protected eventService = inject(EventService);
 
-  constructor(protected eventService: EventService) {}
+  protected subscriptions = new Subscription();
 
   create<T>(
     loaderFactory: () => Observable<T>,

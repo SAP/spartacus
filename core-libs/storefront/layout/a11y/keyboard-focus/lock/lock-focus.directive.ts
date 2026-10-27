@@ -7,13 +7,13 @@
 import {
   AfterViewInit,
   Directive,
-  ElementRef,
   EventEmitter,
   HostBinding,
   HostListener,
   OnInit,
   Output,
   Renderer2,
+  inject,
 } from '@angular/core';
 import { FOCUS_GROUP_ATTR, LockFocusConfig } from '../keyboard-focus.model';
 import { TrapFocusDirective } from '../trap/trap-focus.directive';
@@ -34,6 +34,9 @@ export class LockFocusDirective
   extends TrapFocusDirective
   implements OnInit, AfterViewInit
 {
+  protected override service = inject(LockFocusService);
+  protected renderer = inject(Renderer2);
+
   protected defaultConfig: LockFocusConfig = { lock: true };
 
   // @Input('cxLockFocus')
@@ -79,14 +82,6 @@ export class LockFocusDirective
       this.unlockFocus(event);
       event.stopPropagation();
     }
-  }
-
-  constructor(
-    protected elementRef: ElementRef,
-    protected service: LockFocusService,
-    protected renderer: Renderer2
-  ) {
-    super(elementRef, service);
   }
 
   protected lockFocus() {

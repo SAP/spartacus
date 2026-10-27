@@ -28,6 +28,9 @@ import {
 
 @Injectable()
 export class OrgUnitEffects {
+  private actions$ = inject(Actions);
+  private orgUnitConnector = inject(OrgUnitConnector);
+
   protected logger = inject(LoggerService);
 
   loadOrgUnit$: Observable<
@@ -468,9 +471,4 @@ export class OrgUnitEffects {
       )
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private orgUnitConnector: OrgUnitConnector
-  ) {}
 }

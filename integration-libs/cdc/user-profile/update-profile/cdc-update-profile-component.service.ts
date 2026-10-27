@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CdcJsService } from '@spartacus/cdc/root';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { UpdateProfileComponentService } from '@spartacus/user/profile/components';
@@ -12,13 +12,9 @@ import { UserProfileFacade } from '@spartacus/user/profile/root';
 
 @Injectable()
 export class CDCUpdateProfileComponentService extends UpdateProfileComponentService {
-  constructor(
-    protected userProfile: UserProfileFacade,
-    protected globalMessageService: GlobalMessageService,
-    protected cdcJsService: CdcJsService
-  ) {
-    super(userProfile, globalMessageService);
-  }
+  protected override userProfile = inject(UserProfileFacade);
+  protected override globalMessageService = inject(GlobalMessageService);
+  protected cdcJsService = inject(CdcJsService);
 
   /**
    * Updates the user's details and handles the UI.

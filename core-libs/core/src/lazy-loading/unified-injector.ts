@@ -10,6 +10,7 @@ import {
   InjectionToken,
   Injector,
   Type,
+  inject,
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, map, scan, startWith } from 'rxjs/operators';
@@ -25,6 +26,9 @@ const NOT_FOUND_SYMBOL: any = {};
   providedIn: 'root',
 })
 export class UnifiedInjector {
+  protected rootInjector = inject(Injector);
+  protected lazyModules = inject(LazyModulesService);
+
   /**
    * Gather all the injectors, with the root injector as a first one
    *
@@ -33,11 +37,6 @@ export class UnifiedInjector {
     map((moduleRef) => moduleRef.injector),
     startWith(this.rootInjector)
   );
-
-  constructor(
-    protected rootInjector: Injector,
-    protected lazyModules: LazyModulesService
-  ) {}
 
   /**
    * Gen instances for specified tokens.

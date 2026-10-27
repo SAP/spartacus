@@ -4,6 +4,7 @@ import {
   Input,
   TemplateRef,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
@@ -25,10 +26,8 @@ let activeToggles: Record<string, boolean> = {};
 
 @Directive({ selector: '[cxFeature]' })
 class TestFeatureDirective {
-  constructor(
-    private templateRef: TemplateRef<any>,
-    private viewContainer: ViewContainerRef
-  ) {}
+  private templateRef = inject<TemplateRef<any>>(TemplateRef);
+  private viewContainer = inject(ViewContainerRef);
 
   @Input() set cxFeature(feature: string) {
     const negated = feature.startsWith('!');

@@ -10,6 +10,7 @@ import {
   Component,
   Input,
   OnInit,
+  inject,
 } from '@angular/core';
 import {
   CxNumericPipe,
@@ -42,14 +43,12 @@ import {
   ],
 })
 export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
+  protected productService = inject(ProductService);
+  protected translation = inject(TranslationService);
+
   product$: Observable<Product>;
 
   @Input() attributeOverview: Configurator.AttributeOverview;
-
-  constructor(
-    protected productService: ProductService,
-    protected translation: TranslationService
-  ) {}
 
   ngOnInit() {
     const noCommerceProduct: Product = { images: {} };

@@ -60,36 +60,30 @@ import { filter, map } from 'rxjs/operators';
   ],
 })
 export class ServiceCheckoutReviewSubmitComponent extends B2BCheckoutReviewSubmitComponent {
+  protected override checkoutDeliveryAddressFacade = inject(
+    CheckoutDeliveryAddressFacade
+  );
+  protected override checkoutPaymentFacade = inject(CheckoutPaymentFacade);
+  protected override activeCartFacade = inject(ActiveCartFacade);
+  protected override translationService = inject(TranslationService);
+  protected override checkoutStepService = inject(CheckoutStepService);
+  protected override checkoutDeliveryModesFacade = inject(
+    CheckoutDeliveryModesFacade
+  );
+  protected override checkoutPaymentTypeFacade = inject(
+    CheckoutPaymentTypeFacade
+  );
+  protected override checkoutCostCenterFacade = inject(
+    CheckoutCostCenterFacade
+  );
+  protected override userCostCenterService = inject(UserCostCenterService);
+
   checkoutStepTypeServiceDetails = CheckoutStepType.SERVICE_DETAILS;
   protected checkoutServiceDetailsFacade = inject(CheckoutServiceDetailsFacade);
   protected checkoutServiceSchedulePickerService = inject(
     CheckoutServiceSchedulePickerService
   );
   protected config = inject(S4ServiceDeliveryModeConfig);
-
-  constructor(
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected activeCartFacade: ActiveCartFacade,
-    protected translationService: TranslationService,
-    protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
-    protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
-    protected userCostCenterService: UserCostCenterService
-  ) {
-    super(
-      checkoutDeliveryAddressFacade,
-      checkoutPaymentFacade,
-      activeCartFacade,
-      translationService,
-      checkoutStepService,
-      checkoutDeliveryModesFacade,
-      checkoutPaymentTypeFacade,
-      checkoutCostCenterFacade,
-      userCostCenterService
-    );
-  }
 
   get scheduledAt$(): Observable<string | undefined> {
     return this.checkoutServiceDetailsFacade

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   CustomerCoupon2Customer,
@@ -17,7 +17,7 @@ import { CustomerCouponAdapter } from './customer-coupon.adapter';
   providedIn: 'root',
 })
 export class CustomerCouponConnector {
-  constructor(protected adapter: CustomerCouponAdapter) {}
+  protected adapter = inject(CustomerCouponAdapter);
 
   getCustomerCoupons(
     userId: string,

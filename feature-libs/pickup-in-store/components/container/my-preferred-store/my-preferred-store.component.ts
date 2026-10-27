@@ -66,6 +66,12 @@ interface PreferredStoreContent {
   ],
 })
 export class MyPreferredStoreComponent implements OnInit {
+  private preferredStoreFacade = inject(PreferredStoreFacade);
+  protected pickupLocationsSearchService = inject(PickupLocationsSearchFacade);
+  protected routingService = inject(RoutingService);
+  protected storeFinderService = inject(StoreFinderFacade);
+  protected cmsService = inject(CmsService);
+
   protected storeLocationService: StoreLocationService =
     inject(StoreLocationService);
   preferredStore$: Observable<PointOfService>;
@@ -84,14 +90,6 @@ export class MyPreferredStoreComponent implements OnInit {
   isStoreFinder = false;
 
   protected cdr = inject(ChangeDetectorRef, { optional: true });
-
-  constructor(
-    private preferredStoreFacade: PreferredStoreFacade,
-    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
-    protected routingService: RoutingService,
-    protected storeFinderService: StoreFinderFacade,
-    protected cmsService: CmsService
-  ) {}
 
   ngOnInit(): void {
     this.preferredStore$ = this.preferredStoreFacade.getPreferredStore$().pipe(

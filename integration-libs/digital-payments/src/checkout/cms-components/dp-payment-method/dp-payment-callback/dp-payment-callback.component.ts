@@ -36,6 +36,11 @@ import { DpLocalStorageService } from './../../../facade/dp-local-storage.servic
   ],
 })
 export class DpPaymentCallbackComponent implements OnInit {
+  protected dpPaymentService = inject(DpCheckoutPaymentService);
+  protected dpStorageService = inject(DpLocalStorageService);
+  protected globalMsgService = inject(GlobalMessageService);
+  protected route = inject(ActivatedRoute);
+
   @Output()
   closeCallback = new EventEmitter<any>();
   @Output()
@@ -44,13 +49,6 @@ export class DpPaymentCallbackComponent implements OnInit {
   protected billingAddressService = inject(CheckoutBillingAddressFormService);
   protected launchDialogService = inject(LaunchDialogService);
   showBillingAddressForm = false;
-
-  constructor(
-    protected dpPaymentService: DpCheckoutPaymentService,
-    protected dpStorageService: DpLocalStorageService,
-    protected globalMsgService: GlobalMessageService,
-    protected route: ActivatedRoute
-  ) {}
 
   ngOnInit(): void {
     const dpResponse = this.route.snapshot.queryParamMap.get(

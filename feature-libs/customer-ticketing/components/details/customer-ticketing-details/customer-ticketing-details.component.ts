@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  inject,
+} from '@angular/core';
 import {
   CxDatePipe,
   EventService,
@@ -41,17 +46,17 @@ import { filter, map, take, tap } from 'rxjs/operators';
   ],
 })
 export class CustomerTicketingDetailsComponent implements OnDestroy {
+  protected translation = inject(TranslationService);
+  protected customerTicketingFacade = inject(CustomerTicketingFacade);
+  protected routingService = inject(RoutingService);
+  protected eventService = inject(EventService);
+
   dateFormat = DATE_FORMAT;
   subscription = new Subscription();
   ticketDetails$: Observable<TicketDetails | undefined> =
     this.customerTicketingFacade.getTicket();
 
-  constructor(
-    protected translation: TranslationService,
-    protected customerTicketingFacade: CustomerTicketingFacade,
-    protected routingService: RoutingService,
-    protected eventService: EventService
-  ) {
+  constructor() {
     this.reloadOnRedirection();
   }
 
