@@ -54,9 +54,13 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
     return segment !== null && this.uidSet.has(segment) ? segment : null;
   }
 
-  public async resolveFromOcc(requestUrl: string): Promise<string | null> {
+  public async resolveFromOcc(
+    requestUrl: string,
+    pathBaseSiteId?: string
+  ): Promise<string | null> {
     const sites = await this.getSites();
     const matchedSite = sites.find((site) =>
+      (pathBaseSiteId === undefined || site.uid === pathBaseSiteId) &&
       site.urlPatterns?.some(
         (pattern) => convertRegExpJavaToJs(pattern)?.test(requestUrl) ?? false
       )

@@ -40,9 +40,13 @@ export interface BaseSiteResolver {
   resolveFromPath(requestUrl: string): string | null;
   /**
    * Contacts OCC to match `requestUrl` against the base-site URL patterns.
+   * When `pathBaseSiteId` is provided, only that uid can match.
    * Returns the matched uid, or `null` if none matches.
    */
-  resolveFromOcc(requestUrl: string): Promise<string | null>;
+  resolveFromOcc(
+    requestUrl: string,
+    pathBaseSiteId?: string
+  ): Promise<string | null>;
 }
 
 /** Thrown when the cold-cache concurrency limit has been reached. */

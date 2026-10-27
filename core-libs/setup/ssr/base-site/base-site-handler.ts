@@ -28,8 +28,8 @@ export interface BaseSiteHandlerContext {
   req: Request;
   res: Response;
   next: NextFunction;
-  /** Resolved uid, or null when no base site matches. */
-  baseSite: string | null;
+  /** Resolved uid matching the leading base-site segment. */
+  baseSite: string;
 }
 
 /** Application callback invoked after base-site resolution. */
@@ -68,8 +68,8 @@ export function createBaseSiteAwareRoute(
  * Every route uses a leading base-site segment. The resolver selects OCC
  * resolution through `supportsOccResolution`; otherwise it uses supplied IDs.
  * Recoverable resolver failures are mapped to
- * `503` with `Retry-After`; all other errors are forwarded to Express. A `null`
- * base site still invokes the handler so the application can decide how to respond.
+ * `503` with `Retry-After`; all other errors are forwarded to Express. Unknown
+ * or mismatched base-site prefixes receive `404` without invoking the handler.
  */
 export function setBaseSiteHandler(
   resolver: BaseSiteResolver,
@@ -83,12 +83,15 @@ export function setBaseSiteHandler(
     next: NextFunction
   ): Promise<void> => {
     const requestUrl = getRequestUrl(req);
+    const pathBaseSiteId = new URL(requestUrl).pathname
+      .split('/')
+      .find((segment) => segment.length > 0);
 
     let baseSite: string | null;
     try {
       baseSite =
         resolver.supportsOccResolution
-          ? await resolver.resolveFromOcc(requestUrl)
+          ? await resolver.resolveFromOcc(requestUrl, pathBaseSiteId)
           : resolver.resolveFromPath(requestUrl);
     } catch (error) {
       if (error instanceof ConcurrencyLimitError) {
@@ -108,6 +111,11 @@ export function setBaseSiteHandler(
         return;
       }
       next(error);
+      return;
+    }
+
+    if (baseSite === null || baseSite !== pathBaseSiteId) {
+      res.status(404).send('Not Found');
       return;
     }
 

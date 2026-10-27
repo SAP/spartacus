@@ -22,8 +22,8 @@ function createResolver(
 ): BaseSiteResolver {
   return {
     supportsOccResolution: true,
-    resolveFromPath: jest.fn().mockReturnValue(null),
-    resolveFromOcc: jest.fn().mockResolvedValue(null),
+    resolveFromPath: jest.fn().mockReturnValue('electronics-spa'),
+    resolveFromOcc: jest.fn().mockResolvedValue('electronics-spa'),
     ...overrides,
   };
 }
@@ -78,6 +78,20 @@ async function dispatch(
 ): Promise<void> {
   middleware(request, response, next);
   await new Promise<void>((resolve) => setTimeout(resolve, 0));
+}
+
+function dispatchToNext(
+  middleware: ReturnType<typeof setBaseSiteHandler>,
+  request: Request,
+  response: Response,
+  next: NextFunction
+): Promise<void> {
+  return new Promise<void>((resolve) => {
+    middleware(request, response, (forwardedError) => {
+      next(forwardedError);
+      resolve();
+    });
+  });
 }
 
 describe('createBaseSiteAwareRoute', () => {
@@ -164,7 +178,7 @@ describe('createBaseSiteAwareRoute', () => {
     const register = createBaseSiteAwareRoute({ pathBaseSiteIds, indexHtml: '<html></html>' });
     const handler = jest.fn();
     const next = createNext();
-    await dispatch(register({ route: '/llms.txt', handler }), createRequest({ originalUrl: '/llms.txt' }), createResponse(), next);
+    await dispatchToNext(register({ route: '/llms.txt', handler }), createRequest({ originalUrl: '/llms.txt' }), createResponse(), next);
     expect(handler).not.toHaveBeenCalled();
     expect(next).toHaveBeenCalledTimes(1);
   });
@@ -240,6 +254,75 @@ describe('createBaseSiteAwareRoute', () => {
     expect(fetchSpy).not.toHaveBeenCalled();
   });
 
+  it.each([undefined, [], ['electronics-spa']])(
+    'rejects an unknown prefix before invoking the handler with IDs %j',
+    async (pathBaseSiteIds) => {
+      jest.spyOn(globalThis, 'fetch').mockResolvedValue(new globalThis.Response(JSON.stringify({
+        baseSites: [{ uid: 'electronics-spa', urlPatterns: ['^http://internal\\.example/'] }],
+      })));
+      const register = createBaseSiteAwareRoute({ pathBaseSiteIds, indexHtml: '<html></html>', occBaseUrl: 'https://api.example' });
+      const handler = jest.fn();
+      const response = createResponse();
+      const next = createNext();
+
+      await dispatch(
+        register({ route: '/example.txt', handler }),
+        createRequest({ originalUrl: '/janusz-grazyna/example.txt' }),
+        response,
+        next
+      );
+
+      expect(response.status).toHaveBeenCalledWith(404);
+      expect(response.send).toHaveBeenCalledWith('Not Found');
+      expect(handler).not.toHaveBeenCalled();
+      expect(next).not.toHaveBeenCalled();
+    }
+  );
+
+  it('resolves the known prefix even when another OCC site has a broad matching URL pattern', async () => {
+    jest.spyOn(globalThis, 'fetch').mockResolvedValue(new globalThis.Response(JSON.stringify({
+      baseSites: [
+        { uid: 'apparel-uk', urlPatterns: ['^http://internal\\.example/'] },
+        { uid: 'electronics-spa', urlPatterns: ['^http://internal\\.example/'] },
+      ],
+    })));
+    const register = createBaseSiteAwareRoute({ indexHtml: '<html></html>', occBaseUrl: 'https://api.example' });
+    const response = createResponse();
+    const next = createNext();
+
+    await dispatch(
+      register({ route: '/example.txt', handler: ({ res, baseSite }) => res.send(baseSite) }),
+      createRequest({ originalUrl: '/electronics-spa/example.txt' }),
+      response,
+      next
+    );
+
+    expect(response.send).toHaveBeenCalledWith('electronics-spa');
+    expect(next).not.toHaveBeenCalled();
+  });
+
+  it('rejects a known prefix when its OCC URL patterns do not match', async () => {
+    jest.spyOn(globalThis, 'fetch').mockResolvedValue(new globalThis.Response(JSON.stringify({
+      baseSites: [
+        { uid: 'apparel-uk', urlPatterns: ['^http://internal\\.example/'] },
+        { uid: 'electronics-spa', urlPatterns: ['^https://other\\.example/'] },
+      ],
+    })));
+    const register = createBaseSiteAwareRoute({ indexHtml: '<html></html>', occBaseUrl: 'https://api.example' });
+    const handler = jest.fn();
+    const response = createResponse();
+
+    await dispatch(
+      register({ route: '/example.txt', handler }),
+      createRequest({ originalUrl: '/electronics-spa/example.txt' }),
+      response,
+      createNext()
+    );
+
+    expect(response.status).toHaveBeenCalledWith(404);
+    expect(handler).not.toHaveBeenCalled();
+  });
+
 });
 
 describe('setBaseSiteHandler', () => {
@@ -272,7 +355,7 @@ describe('setBaseSiteHandler', () => {
       expect(next).not.toHaveBeenCalled();
     });
 
-    it('passes a null base site to the handler when the path is unknown', async () => {
+    it('returns 404 without invoking the handler when the path is unknown', async () => {
       const resolver = createResolver({
         supportsOccResolution: false,
         resolveFromPath: jest.fn().mockReturnValue(null),
@@ -284,15 +367,19 @@ describe('setBaseSiteHandler', () => {
         handler,
       });
       const request = createRequest({ originalUrl: '/unknown/llms.txt' });
+      const response = createResponse();
+      const next = createNext();
 
       await dispatch(
         middleware,
         request,
-        createResponse(),
-        createNext()
+        response,
+        next
       );
 
-      expect(handler).toHaveBeenCalledWith({ req: request, res: expect.anything(), next: expect.any(Function), baseSite: null });
+      expect(response.status).toHaveBeenCalledWith(404);
+      expect(handler).not.toHaveBeenCalled();
+      expect(next).not.toHaveBeenCalled();
       expect(request).not.toHaveProperty('baseSite');
     });
 
@@ -377,7 +464,7 @@ describe('setBaseSiteHandler', () => {
         handler,
       });
 
-      await dispatch(
+      await dispatchToNext(
         middleware,
         createRequest({ originalUrl }),
         createResponse(),
@@ -392,6 +479,24 @@ describe('setBaseSiteHandler', () => {
   });
 
   describe('OCC resolution', () => {
+    it.each([null, 'apparel-uk'])('rejects a resolver result %j that does not identify the requested prefix', async (baseSite) => {
+      const resolver = createResolver({ resolveFromOcc: jest.fn().mockResolvedValue(baseSite) });
+      const handler = jest.fn();
+      const response = createResponse();
+      const next = createNext();
+
+      await dispatch(
+        setBaseSiteHandler(resolver, { route: '/llms.txt', handler }),
+        createRequest(),
+        response,
+        next
+      );
+
+      expect(response.status).toHaveBeenCalledWith(404);
+      expect(handler).not.toHaveBeenCalled();
+      expect(next).not.toHaveBeenCalled();
+    });
+
     it('resolves prefixed routes through OCC when IDs come from OCC', async () => {
       const resolver = createResolver({
         resolveFromOcc: jest.fn().mockResolvedValue('electronics-spa'),
@@ -411,7 +516,8 @@ describe('setBaseSiteHandler', () => {
       );
 
       expect(resolver.resolveFromOcc).toHaveBeenCalledWith(
-        'http://internal.example/electronics-spa/llms.txt'
+        'http://internal.example/electronics-spa/llms.txt',
+        'electronics-spa'
       );
       expect(handler).toHaveBeenCalledWith({ req: request, res: expect.anything(), next: expect.any(Function), baseSite: 'electronics-spa' });
       expect(request).not.toHaveProperty('baseSite');
@@ -433,7 +539,7 @@ describe('setBaseSiteHandler', () => {
         next(error);
       };
       const middleware = setBaseSiteHandler(createResolver(), { route: '/llms.txt', handler: ({ req, res, next }) => ordinaryHandler(req, res, next) });
-      await dispatch(middleware, request, response, next);
+      await dispatchToNext(middleware, request, response, next);
       expect(response.send).toHaveBeenCalledWith('ordinary response');
       expect(next).toHaveBeenCalledTimes(1);
       expect(next).toHaveBeenCalledWith(error);
@@ -442,7 +548,7 @@ describe('setBaseSiteHandler', () => {
     it.each([undefined, 'route'])('preserves callback next(%j)', async (signal) => {
       const next = createNext();
       const middleware = setBaseSiteHandler(createResolver(), { route: '/llms.txt', handler: ({ next }) => next(signal) });
-      await dispatch(middleware, createRequest(), createResponse(), next);
+      await dispatchToNext(middleware, createRequest(), createResponse(), next);
       expect(next).toHaveBeenCalledTimes(1);
       expect(next).not.toHaveBeenCalledWith('route');
     });
@@ -454,7 +560,7 @@ describe('setBaseSiteHandler', () => {
         route: '/llms.txt',
         handler: async ({ req }) => { expect(req.originalUrl).toBe('/electronics-spa/llms.txt'); throw error; },
       });
-      await dispatch(middleware, createRequest(), createResponse(), next);
+      await dispatchToNext(middleware, createRequest(), createResponse(), next);
       expect(next).toHaveBeenCalledTimes(1);
       expect(next).toHaveBeenCalledWith(error);
     });
@@ -535,7 +641,7 @@ describe('setBaseSiteHandler', () => {
         },
       });
 
-      await dispatch(
+      await dispatchToNext(
         middleware,
         createRequest({ originalUrl: '/electronics-spa/llms.txt' }),
         createResponse(),
@@ -556,7 +662,7 @@ describe('setBaseSiteHandler', () => {
         handler: jest.fn(),
       });
 
-      await dispatch(middleware, createRequest(), createResponse(), next);
+      await dispatchToNext(middleware, createRequest(), createResponse(), next);
 
       expect(next).toHaveBeenCalledWith(error);
     });
