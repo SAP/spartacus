@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { schema } from '@angular-devkit/core';
 import { Tree } from '@angular-devkit/schematics';
 import {
   SchematicTestRunner,
@@ -17,6 +18,8 @@ import {
 import { join } from 'path';
 import { Project, SyntaxKind } from 'ts-morph';
 import { SPARTACUS_SCHEMATICS } from '../shared/libs-constants';
+import { Schema } from './schema';
+import schemaJson from './schema.json';
 
 const collectionPath = join(__dirname, '../collection.json');
 const schematicName = 'add-base-site-aware-route';
@@ -559,11 +562,78 @@ describe(schematicName, () => {
     return tree;
   }
 
-  it('requires an explicit project when multiple applications exist', async () => {
-    await expect(
-      runner.runSchematic(schematicName, {}, createMultiProjectTree())
-    ).rejects.toThrow('--project');
+  it('uses the Angular Devkit smart default to select the SSR application', async () => {
+    const tree = createMultiProjectTree();
+    const firstServer = tree.readContent('src/server.ts');
+    const registry = new schema.CoreSchemaRegistry();
+    registry.addSmartDefaultProvider('projectName', () => 'other');
+    const validateOptions = await registry.compile(schemaJson);
+    const validation = await validateOptions({});
+    expect(validation.success).toBe(true);
+
+    const result = await runner.runSchematic(
+      schematicName,
+      validation.data as Schema,
+      tree
+    );
+
+    expect(result.readContent('other/server.ts')).toContain(
+      "route: '/example.txt'"
+    );
+    expect(result.readContent('src/server.ts')).toBe(firstServer);
   });
+
+  it('lets an explicit project override the Angular Devkit smart default', async () => {
+    const tree = createMultiProjectTree();
+    const before = snapshot(tree);
+    const registry = new schema.CoreSchemaRegistry();
+    registry.addSmartDefaultProvider('projectName', () => 'other');
+    const validateOptions = await registry.compile(schemaJson);
+    const validation = await validateOptions({ project: 'app' });
+    expect(validation.success).toBe(true);
+
+    await expect(
+      runner.runSchematic(schematicName, validation.data as Schema, tree)
+    ).rejects.toThrow('SSR is not enabled for project "app"');
+    expect(snapshot(tree)).toEqual(before);
+  });
+
+  it('falls back to the first project without searching for another SSR application', async () => {
+    const tree = createMultiProjectTree();
+    const before = snapshot(tree);
+
+    await expect(
+      runner.runSchematic(schematicName, {}, tree)
+    ).rejects.toThrow('SSR is not enabled for project "app"');
+    expect(snapshot(tree)).toEqual(before);
+  });
+
+  it.each([
+    { project: 'library', message: 'project type of "application"' },
+    { project: 'unknown', message: 'not defined in this workspace' },
+  ])(
+    'rejects the selected $project project without editing',
+    async ({ project, message }) => {
+      const tree = createMultiProjectTree();
+      const workspace = JSON.parse(tree.readContent('angular.json'));
+      tree.overwrite(
+        'angular.json',
+        JSON.stringify({
+          ...workspace,
+          projects: {
+            ...workspace.projects,
+            library: { projectType: 'library', root: 'library' },
+          },
+        })
+      );
+      const before = snapshot(tree);
+
+      await expect(
+        runner.runSchematic(schematicName, { project }, tree)
+      ).rejects.toThrow(message);
+      expect(snapshot(tree)).toEqual(before);
+    }
+  );
 
   it('does not use another application SSR configuration for a CSR project', async () => {
     const tree = createMultiProjectTree();

@@ -11,7 +11,8 @@ For an application already configured with Spartacus Express SSR, run:
 ng generate @spartacus/schematics:add-base-site-aware-route --project=my-app
 ```
 
-The project option can be omitted when the workspace contains exactly one application.
+When the project option is omitted, Angular CLI supplies its native project default.
+Programmatic calls without a project use the first project in the workspace.
 The schematic checks the selected application's SSR configuration and server entry before changing any files.
 Without configured SSR, it reports an error; it does not install or enable SSR.
 

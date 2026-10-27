@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
+import { Rule, SchematicsException } from '@angular-devkit/schematics';
 import { basename } from 'path';
 import {
   Block,
@@ -27,7 +27,10 @@ import {
 } from '../shared/utils/package-utils';
 import { createProgram } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
-import { getWorkspace } from '../shared/utils/workspace-utils';
+import {
+  getDefaultProjectNameFromWorkspace,
+  getProjectFromWorkspace,
+} from '../shared/utils/workspace-utils';
 import { Schema } from './schema';
 
 const SSR_MODULE = `${SPARTACUS_SETUP}/ssr`;
@@ -36,28 +39,6 @@ const ROUTE_FACTORY = 'registerBaseSiteAwareRoute';
 const EXAMPLE_ROUTE = '/example.txt';
 
 type Scope = SourceFile | Block;
-
-function selectProject(tree: Tree, requested?: string): string {
-  const { workspace } = getWorkspace(tree);
-  const applications = Object.entries(workspace.projects)
-    .filter(([, project]) => project.projectType === 'application')
-    .map(([name]) => name);
-
-  if (requested) {
-    if (!applications.includes(requested)) {
-      throw new SchematicsException(
-        `Application project "${requested}" was not found.`
-      );
-    }
-    return requested;
-  }
-  if (applications.length !== 1) {
-    throw new SchematicsException(
-      'Specify --project to select the application to update.'
-    );
-  }
-  return applications[0];
-}
 
 function importNames(
   source: SourceFile,
@@ -534,9 +515,10 @@ function updateServer(source: SourceFile): boolean {
 
 export function addBaseSiteAwareRoute(options: Schema): Rule {
   return (tree, context) => {
-    const projectName = selectProject(tree, options.project);
-    const { workspace } = getWorkspace(tree);
-    const builder = workspace.projects[projectName].architect?.build?.builder;
+    const projectName =
+      options.project ?? getDefaultProjectNameFromWorkspace(tree);
+    const project = getProjectFromWorkspace(tree, { project: projectName });
+    const builder = project.architect?.build?.builder;
     if (
       typeof builder !== 'string' ||
       !SUPPORTED_APPLICATION_BUILDERS.includes(builder)
