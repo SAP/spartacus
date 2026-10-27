@@ -116,6 +116,48 @@ describe(schematicName, () => {
     runner = new SchematicTestRunner(SPARTACUS_SCHEMATICS, collectionPath);
   });
 
+  it('formats existing server declarations and removes unused imports only when updating', async () => {
+    const fixture = serverSource()
+      .replace('const server = express();', 'const  server=express( );')
+      .replace(
+        "import express from 'express';",
+        "import express from 'express';\nimport { unusedValue } from 'unused-module';"
+      );
+    const first = await runner.runSchematic(
+      schematicName,
+      {},
+      createTree(fixture)
+    );
+    const content = first.readContent('src/server.ts');
+    const source = parseServer(content);
+
+    expect(content).toContain('const server = express();');
+    expect(content).not.toContain('unused-module');
+    expect(
+      source.getImportDeclarationOrThrow('express').getDefaultImport()?.getText()
+    ).toBe('express');
+    expect(
+      source
+        .getImportDeclarationOrThrow('node:fs')
+        .getNamedImports()
+        .map((specifier) => specifier.getName())
+    ).toContain('readFileSync');
+    expect(
+      source
+        .getImportDeclarationOrThrow('@spartacus/setup/ssr')
+        .getNamedImports()
+        .map((specifier) => specifier.getName())
+    ).toContain('createBaseSiteAwareRoute');
+    expect(content).toContain(
+      'const registerBaseSiteAwareRoute = createBaseSiteAwareRoute({'
+    );
+    expect(content).toContain("route: '/example.txt'");
+
+    const before = snapshot(first);
+    const second = await runner.runSchematic(schematicName, {}, first);
+    expect(snapshot(second)).toEqual(before);
+  });
+
   it('adds the configured factory and an inline example before static files', async () => {
     const tree = createTree();
     const originalWorkspace = tree.readContent('angular.json');
