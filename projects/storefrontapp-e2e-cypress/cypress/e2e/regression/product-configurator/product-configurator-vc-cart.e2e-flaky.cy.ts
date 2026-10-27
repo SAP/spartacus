@@ -113,6 +113,18 @@ context('Product Configuration', () => {
       configurationVc.checkConfigPageDisplayed();
     });
 
+    it('should sync increased quantity from product detail page with configuration add-to-cart stepper (CXSPA-2662)', () => {
+      configurationVc.registerCreateConfigurationRoute();
+      clickAllowAllFromBanner();
+      common.goToPDPage(electronicsShop, testProductMultiLevel);
+      configuration.checkPdpQuantityStepper(1);
+      configuration.increasePdpQuantity();
+      configuration.increasePdpQuantity();
+      configuration.checkPdpQuantityStepper(3);
+      configurationVc.clickOnConfigureBtnInCatalog();
+      configuration.checkQuantityStepper(3);
+    });
+
     it('should increase quantity of a configured product via a quantity stepper (CXSPA-3193)', () => {
       configurationCart.registerQuantityPatchRoute();
       configurationCart.registerCartRoute();
