@@ -3,20 +3,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-import {
-  inject,
-  makeStateKey,
-  Provider,
-  TransferState,
-} from '@angular/core';
+import { inject, makeStateKey, Provider, TransferState } from '@angular/core';
 import { ENVIRONMENT } from '@spartacus/core';
 import { RUNTIME_ENVIRONMENT } from './runtime-environment.token';
 
 export { ENVIRONMENT } from '@spartacus/core';
 
-const CX_ENVIRONMENT_STATE_KEY = makeStateKey<Record<string, string>>(
-  'cx-runtime-config'
-);
+const CX_ENVIRONMENT_STATE_KEY =
+  makeStateKey<Record<string, string>>('cx-runtime-config');
 
 /**
  * Provides the `ENVIRONMENT` token.

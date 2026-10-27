@@ -101,9 +101,7 @@ export async function startDevProxy(
     `[spartacus-dev-proxy]   ${config.configPublicPath} → local file (${config.configSourcePath})`
   );
   // eslint-disable-next-line no-console
-  console.info(
-    `[spartacus-dev-proxy]   * → upstream (${config.upstreamUrl})`
-  );
+  console.info(`[spartacus-dev-proxy]   * → upstream (${config.upstreamUrl})`);
 
   return server;
 }

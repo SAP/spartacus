@@ -107,9 +107,7 @@ function addProviderToNgExpressEngine(sourceFile: SourceFile): void {
 
   const providersProperty = optionsArg
     .getProperties()
-    .find(
-      (p) => Node.isPropertyAssignment(p) && p.getName() === 'providers'
-    );
+    .find((p) => Node.isPropertyAssignment(p) && p.getName() === 'providers');
 
   if (providersProperty && Node.isPropertyAssignment(providersProperty)) {
     const providersArray = providersProperty.getInitializerIfKind(

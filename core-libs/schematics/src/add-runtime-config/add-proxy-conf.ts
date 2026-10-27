@@ -26,7 +26,9 @@ const PROXY_CONF_CONTENT = JSON.stringify(
 export function addProxyConf(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     if (options.debug) {
-      context.logger.info(`⌛️ Adding proxy.conf.json and wiring proxyConfig...`);
+      context.logger.info(
+        `⌛️ Adding proxy.conf.json and wiring proxyConfig...`
+      );
     }
 
     const { path, workspace: angularJson } = getWorkspace(tree);
