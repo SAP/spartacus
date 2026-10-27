@@ -16,13 +16,25 @@ import {
   translationsJa,
   translationsZh,
 } from '@spartacus/assets';
-import { provideConfig, provideConfigFactory } from '@spartacus/core';
+import {
+  AuthConfig,
+  AuthConfigService,
+  AuthStatePersistenceService,
+  OAuthLibWrapperService,
+  provideConfig,
+  provideConfigFactory,
+} from '@spartacus/core';
 import {
   defaultCmsContentProviders,
   layoutConfigFactory,
   mediaConfig,
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
+import {
+  AuthProxyAuthConfigService,
+  AuthProxyAuthStatePersistenceService,
+  AuthProxyOAuthLibWrapperService,
+} from './custom/auth-proxy';
 import { spartacusB2bConfigurationProviders } from './spartacus-b2b-configuration.providers';
 import { spartacusB2cConfigurationProviders } from './spartacus-b2c-configuration.providers';
 
@@ -65,6 +77,44 @@ const spartacusChannelSpecificConfigurationProviders = environment.b2b
         fallbackLang: 'en',
       },
     }),
+
+    provideConfig({
+      backend: {
+        occ: {
+          baseUrl: 'https://localhost:3000', // proxy URL
+          // prefix: '/proxy' + environment.occApiPrefix, // not needed if not using a prefix
+          useWithCredentials: true, // now need cookies sent with all OCC requests
+        },
+        media: {
+          baseUrl: 'https://40.76.109.9:9002', // We do not want to use the proxy URL for media
+          prefix: environment.mediaApiPrefix,
+        },
+      },
+    }),
+    provideConfig(<AuthConfig>{
+      authentication: {
+        baseUrl: 'https://localhost:3000', // set base URL to avoid OCC path concatenation
+        // always treated as a relative value added to base URL
+        // authBaseUrl + loginUrl = https://localhost:3000/auth
+        loginUrl: '/auth',
+
+        customLoginPage: {
+          // endpoints are prefixed to baseURL, however we want to go to real auth server, not proxy
+          csrfEndpoint: 'https://40.76.109.9:9002/authorizationserver/csrf',
+          loginFormEndpoint:
+            'https://40.76.109.9:9002/authorizationserver/login',
+        },
+      },
+    }),
+    { provide: AuthConfigService, useClass: AuthProxyAuthConfigService },
+    {
+      provide: OAuthLibWrapperService,
+      useClass: AuthProxyOAuthLibWrapperService,
+    },
+    {
+      provide: AuthStatePersistenceService,
+      useClass: AuthProxyAuthStatePersistenceService,
+    },
 
     spartacusChannelSpecificConfigurationProviders,
   ],
