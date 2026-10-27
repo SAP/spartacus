@@ -180,9 +180,9 @@ describe(schematicName, () => {
     expect(factoryOptions.getProperty('pathBaseSiteIds')).toBeUndefined();
     expect(factoryOptions.getProperty('occBaseUrl')).toBeUndefined();
     expect(content).toContain('// pathBaseSiteIds:');
-    expect(content).toContain('Provide base-site IDs to enable path-based routes');
+    expect(content).toContain('Provide base-site IDs to resolve prefixed routes locally');
     expect(content).toContain(
-      'Omit this option for domain-based routes resolved through OCC'
+      'Omit this option to resolve prefixed routes through OCC'
     );
     expect(content).toContain('// occBaseUrl:');
     expect(content).toContain('Provide the OCC base URL for local development');

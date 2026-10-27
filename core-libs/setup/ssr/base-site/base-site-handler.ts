@@ -65,8 +65,9 @@ export function createBaseSiteAwareRoute(
  * Mount at the application root with `server.use(...)` so the leading segment
  * used for routing also leads the full request URL used for resolution.
  *
- * The resolver selects path mode through `supportsPathResolution`; otherwise
- * routes use OCC resolution. Recoverable resolver failures are mapped to
+ * Every route uses a leading base-site segment. The resolver selects OCC
+ * resolution through `supportsOccResolution`; otherwise it uses supplied IDs.
+ * Recoverable resolver failures are mapped to
  * `503` with `Retry-After`; all other errors are forwarded to Express. A `null`
  * base site still invokes the handler so the application can decide how to respond.
  */
@@ -75,13 +76,6 @@ export function setBaseSiteHandler(
   options: SetBaseSiteHandlerOptions
 ): RequestHandler {
   const { route, handler, retryAfterSeconds } = options;
-  const pathMode = resolver.supportsPathResolution;
-
-  if (!pathMode && !resolver.supportsOccResolution) {
-    throw new Error(
-      'Base-site route requires pathBaseSiteIds or an OCC base URL.'
-    );
-  }
 
   const resolveBaseSite = async (
     req: Request,
@@ -93,9 +87,9 @@ export function setBaseSiteHandler(
     let baseSite: string | null;
     try {
       baseSite =
-        pathMode
-          ? resolver.resolveFromPath(requestUrl)
-          : await resolver.resolveFromOcc(requestUrl);
+        resolver.supportsOccResolution
+          ? await resolver.resolveFromOcc(requestUrl)
+          : resolver.resolveFromPath(requestUrl);
     } catch (error) {
       if (error instanceof ConcurrencyLimitError) {
         res.setHeader(
@@ -128,5 +122,5 @@ export function setBaseSiteHandler(
   router.all(route, (req, res, next) => {
     void resolveBaseSite(req, res, next).catch(next);
   });
-  return pathMode ? Router().use('/:baseSite', router) : router;
+  return Router().use('/:baseSite', router);
 }

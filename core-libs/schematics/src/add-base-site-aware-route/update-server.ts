@@ -514,8 +514,8 @@ function updateServerSource(source: SourceFile): boolean {
       htmlScope.getStatements().indexOf(htmlStatement) + 1,
       `const ${ROUTE_FACTORY} = ${factoryNames[0] ?? FACTORY}({
   indexHtml: ${html.getName()},
-  // Provide base-site IDs to enable path-based routes.
-  // Omit this option for domain-based routes resolved through OCC.
+  // Provide base-site IDs to resolve prefixed routes locally.
+  // Omit this option to resolve prefixed routes through OCC.
   // pathBaseSiteIds: ['your-base-site'],
 
   // Provide the OCC base URL for local development if it is not set in the HTML.
