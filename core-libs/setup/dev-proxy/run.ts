@@ -82,14 +82,16 @@ const upstreamUrl =
 const setForwardedHost =
   process.env['SPARTACUS_DEV_PROXY_FORWARDED_HOST'] === 'true';
 
-startDevProxy({
-  port,
-  configSourcePath: configFilePath,
-  upstreamUrl,
-  setForwardedHost,
-}).catch((error) => {
+try {
+  await startDevProxy({
+    port,
+    configSourcePath: configFilePath,
+    upstreamUrl,
+    setForwardedHost,
+  });
+} catch (error) {
   process.stderr.write(
     `[spartacus-dev-proxy] Failed to start: ${error instanceof Error ? error.stack : error}\n`
   );
   process.exit(1);
-});
+}
