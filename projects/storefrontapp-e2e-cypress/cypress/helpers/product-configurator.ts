@@ -23,6 +23,9 @@ const quantityStepperSelector =
 
 const quantitySelector = '.cx-add-to-cart-btn-container .cx-quantity-value';
 
+const pdpQuantityStepperSelector =
+  '.ProductDetailsPageTemplate cx-add-to-cart cx-item-counter';
+
 const variantCarouselSelector = '.cx-variant-carousel-container';
 
 /**
@@ -695,4 +698,29 @@ export function enterQuantityValue(quantity: number) {
   cy.get(quantityStepperSelector + ' input').type(
     `{selectall}${quantity.toString()}{enter}`
   );
+}
+
+/**
+ * Verifies the quantity stepper value on the product details page.
+ *
+ * @param expectedValue - expected quantity value
+ */
+export function checkPdpQuantityStepper(expectedValue: number) {
+  cy.get(pdpQuantityStepperSelector + ' input').should(
+    'have.value',
+    expectedValue.toString()
+  );
+}
+
+function changePdpQuantityValue(sign: string) {
+  cy.get(pdpQuantityStepperSelector + ' button')
+    .contains(sign)
+    .click();
+}
+
+/**
+ * Increases the quantity on the product details page add-to-cart counter.
+ */
+export function increasePdpQuantity() {
+  changePdpQuantityValue('+');
 }
