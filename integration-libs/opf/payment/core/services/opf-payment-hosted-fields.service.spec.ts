@@ -360,4 +360,35 @@ describe('OpfPaymentHostedFieldsService', () => {
       });
     }));
   });
+
+  describe('placeOrder', () => {
+    it('should delegate to orderFacade with correct arguments', fakeAsync(() => {
+      service['placeOrder']('my-cart-id').subscribe(() => {
+        expect(orderFacade.placePaymentAuthorizedOrder).toHaveBeenCalledWith(
+          true,
+          'my-cart-id'
+        );
+        flush();
+      });
+    }));
+
+    it('should work without a cartId', fakeAsync(() => {
+      service['placeOrder']().subscribe(() => {
+        expect(orderFacade.placePaymentAuthorizedOrder).toHaveBeenCalledWith(
+          true,
+          undefined
+        );
+        flush();
+      });
+    }));
+  });
+
+  describe('onPaymentSuccess', () => {
+    it('should navigate to orderConfirmation', () => {
+      service['onPaymentSuccess']({ id: 'testOrder' } as Order);
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'orderConfirmation',
+      });
+    });
+  });
 });

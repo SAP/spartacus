@@ -7,6 +7,7 @@ import {
   ROUTER_CONFIGURATION,
   Scroll,
 } from '@angular/router';
+// eslint-disable-next-line
 import { OnNavigateConfig, StorefrontComponent } from '@spartacus/storefront';
 import { Subject } from 'rxjs';
 import { OnNavigateService } from './on-navigate.service';
@@ -58,27 +59,26 @@ class MockViewPortScroller implements Partial<ViewportScroller> {
   scrollToAnchor(_anchor: string): void {}
 }
 
-function emitPairScrollEvent(
+function emitScrollEvent(
   position: [number, number] | null,
-  currentRoute: string = '/test2',
-  previousRoute: string = '/test1',
-  anchor: string = ''
+  route: string = '/test2',
+  anchor: string = '',
+  id: number = 1
 ) {
   mockEvents$.next(
-    new Scroll(new NavigationEnd(1, previousRoute, previousRoute), null, anchor)
-  );
-  mockEvents$.next(
-    new Scroll(
-      new NavigationEnd(2, currentRoute, currentRoute),
-      position,
-      anchor
-    )
+    new Scroll(new NavigationEnd(id, route, route), position, anchor)
   );
 }
 
 describe('OnNavigateService', () => {
   let service: OnNavigateService;
-  let config: OnNavigateConfig;
+  // `enableResetViewOnNavigate` is always set in `beforeEach`, so narrow it to
+  // non-optional here to avoid "possibly undefined" on every test access.
+  let config: OnNavigateConfig & {
+    enableResetViewOnNavigate: NonNullable<
+      OnNavigateConfig['enableResetViewOnNavigate']
+    >;
+  };
   let viewportScroller: ViewportScroller;
 
   beforeEach(() => {
@@ -112,7 +112,7 @@ describe('OnNavigateService', () => {
     }).compileComponents();
 
     service = TestBed.inject(OnNavigateService);
-    config = TestBed.inject(OnNavigateConfig);
+    config = TestBed.inject(OnNavigateConfig) as typeof config;
     viewportScroller = TestBed.inject(ViewportScroller);
 
     config.enableResetViewOnNavigate = {
@@ -152,31 +152,64 @@ describe('OnNavigateService', () => {
     it('should scroll to the top on navigation when no position (forward navigation)', async () => {
       service.setResetViewOnNavigate(true);
 
-      emitPairScrollEvent(null);
+      emitScrollEvent(null);
 
       await vi.advanceTimersByTimeAsync(100);
 
       expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([0, 0]);
     });
 
-    it('should NOT scroll to the top on navigation when route has query strings', () => {
+    it('should handle the first scroll event (e.g. the initial navigation under hydration, where it is the only emission)', async () => {
+      vi.spyOn(mockComponentRef.location.nativeElement, 'focus');
+      service.setResetViewOnNavigate(true);
+
+      emitScrollEvent(null, '/test2');
+
+      // eslint-disable-next-line
+      expect(mockComponentRef.location.nativeElement.focus).toHaveBeenCalled();
+
+      await vi.advanceTimersByTimeAsync(100);
+
+      expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([0, 0]);
+    });
+
+    it('should NOT scroll to the top when only the query string changes on the same path', async () => {
       config.enableResetViewOnNavigate.ignoreQueryString = true;
 
       service.setResetViewOnNavigate(true);
 
-      emitPairScrollEvent(null, '/test2?spartacus=true', '/test2');
+      // first navigation establishes the previous route
+      emitScrollEvent(null, '/test2', '', 1);
+      await vi.advanceTimersByTimeAsync(100);
+      vi.mocked(viewportScroller.scrollToPosition).mockClear();
 
-      expect(viewportScroller.scrollToPosition).not.toHaveBeenCalledWith([
-        0, 0,
-      ]);
+      // navigating to the same path with only a query string change must not scroll
+      emitScrollEvent(null, '/test2?spartacus=true', '', 2);
+      await vi.advanceTimersByTimeAsync(100);
+
+      expect(viewportScroller.scrollToPosition).not.toHaveBeenCalled();
     });
 
-    it('should NOT scroll to the top on navigation when route is a child route', () => {
+    it('should scroll to the top with ignoreQueryString on the first navigation when there is no previous route', async () => {
+      config.enableResetViewOnNavigate.ignoreQueryString = true;
+
+      service.setResetViewOnNavigate(true);
+
+      emitScrollEvent(null, '/test2?spartacus=true');
+
+      await vi.advanceTimersByTimeAsync(100);
+
+      expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([0, 0]);
+    });
+
+    it('should NOT scroll to the top on navigation when route is a child route', async () => {
       config.enableResetViewOnNavigate.ignoreRoutes = ['test2'];
 
       service.setResetViewOnNavigate(true);
 
-      emitPairScrollEvent(null, '/test2/newtestroute');
+      emitScrollEvent(null, '/test2/newtestroute');
+
+      await vi.advanceTimersByTimeAsync(100);
 
       expect(viewportScroller.scrollToPosition).not.toHaveBeenCalledWith([
         0, 0,
@@ -186,7 +219,7 @@ describe('OnNavigateService', () => {
     it('should call scrollToAnchor when anchor exist', async () => {
       service.setResetViewOnNavigate(true);
       const anchor = 'a001';
-      emitPairScrollEvent(null, '/test3', '/test1', anchor);
+      emitScrollEvent(null, '/test3', anchor);
 
       await vi.advanceTimersByTimeAsync(100);
 
@@ -198,7 +231,7 @@ describe('OnNavigateService', () => {
 
       service.setResetViewOnNavigate(true);
 
-      emitPairScrollEvent(null, '/test3');
+      emitScrollEvent(null, '/test3');
 
       await vi.advanceTimersByTimeAsync(100);
 
@@ -208,7 +241,7 @@ describe('OnNavigateService', () => {
     it('should scroll to a position on navigation when scroll contains position (backward navigation)', async () => {
       service.setResetViewOnNavigate(true);
 
-      emitPairScrollEvent([1000, 500]);
+      emitScrollEvent([1000, 500]);
 
       await vi.advanceTimersByTimeAsync(100);
 
@@ -220,7 +253,7 @@ describe('OnNavigateService', () => {
     it('should NOT scroll when on navigation is disabled', () => {
       service.setResetViewOnNavigate(false);
 
-      emitPairScrollEvent(null);
+      emitScrollEvent(null);
 
       expect(viewportScroller.scrollToPosition).not.toHaveBeenCalled();
     });
@@ -229,13 +262,32 @@ describe('OnNavigateService', () => {
       vi.spyOn(mockComponentRef.location.nativeElement, 'focus');
       service.setResetViewOnNavigate(true);
 
-      emitPairScrollEvent(null);
-
+      emitScrollEvent(null, '/test2');
+      // eslint-disable-next-line
       expect(mockComponentRef.location.nativeElement.focus).toHaveBeenCalled();
 
-      emitPairScrollEvent([1000, 500]);
-
+      emitScrollEvent([1000, 500], '/test3');
+      // eslint-disable-next-line
       expect(mockComponentRef.location.nativeElement.focus).toHaveBeenCalled();
+    });
+
+    it('should reset the tracked previous route when re-enabled', async () => {
+      config.enableResetViewOnNavigate.ignoreQueryString = true;
+
+      service.setResetViewOnNavigate(true);
+      emitScrollEvent(null, '/test2');
+      await vi.advanceTimersByTimeAsync(100);
+
+      // disabling then re-enabling must clear the tracked previous route
+      service.setResetViewOnNavigate(false);
+      service.setResetViewOnNavigate(true);
+      vi.mocked(viewportScroller.scrollToPosition).mockClear();
+
+      // same path as before: it would be suppressed if the previous route leaked
+      emitScrollEvent(null, '/test2?spartacus=true');
+      await vi.advanceTimersByTimeAsync(100);
+
+      expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([0, 0]);
     });
   });
 
@@ -248,7 +300,7 @@ describe('OnNavigateService', () => {
       const ref: any = service.selectedHostElement;
       vi.spyOn(ref, 'focus');
       service.setResetViewOnNavigate(true);
-      emitPairScrollEvent(null);
+      emitScrollEvent(null);
       expect(ref.focus).toHaveBeenCalled();
     });
   });

@@ -848,10 +848,10 @@
     }
   }
 
-  @include cx-highContrastTheme {
-    border: 1px solid var(--cx-color-background);
+  @include cx-highContrastTheme('a11yHighContrastFix') {
     label {
       background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
       input {
         background-color: var(--cx-color-background);
         color: var(--cx-color-text);
@@ -862,6 +862,7 @@
       }
       .cx-label-inner-container {
         background-color: var(--cx-color-background);
+        color: var(--cx-color-text);
         border: 1px solid var(--cx-color-text);
       }
     }
@@ -884,6 +885,26 @@
     .products {
       background-color: var(--cx-color-background);
       color: var(--cx-color-text);
+      a {
+        color: var(--cx-color-text);
+        &:hover,
+        &:focus {
+          color: var(--cx-color-background);
+          background: var(--cx-color-text);
+        }
+      }
+    }
+    &.search-box-v2 .results {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+      a {
+        color: var(--cx-color-text);
+        &:hover,
+        &:focus {
+          color: var(--cx-color-background);
+          background: var(--cx-color-text);
+        }
+      }
     }
   }
 }

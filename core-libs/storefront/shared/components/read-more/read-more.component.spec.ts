@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { FeatureStylesService, I18nTestingModule } from '@spartacus/core';
 import { ReadMoreComponent } from './read-more.component';
 import { By } from '@angular/platform-browser';
 
@@ -91,5 +91,32 @@ describe('ReadMoreComponent', () => {
 
     const button = fixture.debugElement.query(By.css('button.btn-link'));
     expect(button).not.toBeNull();
+  });
+});
+
+class MockFeatureStylesService {
+  registerUsage = vi.fn();
+  unregisterUsage = vi.fn();
+}
+
+describe('ReadMoreComponent feature toggle registration', () => {
+  let featureStylesService: FeatureStylesService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ReadMoreComponent],
+      providers: [
+        { provide: FeatureStylesService, useClass: MockFeatureStylesService },
+      ],
+    }).compileComponents();
+    featureStylesService = TestBed.inject(FeatureStylesService);
+    vi.spyOn(featureStylesService, 'registerUsage');
+  });
+
+  it('should register useFeatureStyles for a11yHighContrastFix', () => {
+    TestBed.createComponent(ReadMoreComponent);
+    expect(featureStylesService.registerUsage).toHaveBeenCalledWith(
+      'a11yHighContrastFix'
+    );
   });
 });

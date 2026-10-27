@@ -235,6 +235,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     useFeatureStyles('searchBoxRecentSearchesRemoval');
     useFeatureStyles('searchBoxEmptyQueryResultsPanel');
     useFeatureStyles('a11yFixSearchBoxDoubleFocus');
+    useFeatureStyles('a11yHighContrastFix');
   }
 
   /**

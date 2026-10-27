@@ -1,7 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
+import {
+  FeatureStylesService,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   PointOfServiceNames,
   PreferredStoreFacade,
@@ -131,3 +135,36 @@ describe('SetPreferredStoreComponent with outlet.context$', () => {
 export class SetPreferredStoreStubComponent {
   @Input() pointOfServiceName: PointOfServiceNames;
 }
+
+class MockFeatureStylesService {
+  registerUsage = vi.fn();
+  unregisterUsage = vi.fn();
+}
+
+describe('SetPreferredStoreComponent feature toggle registration', () => {
+  let featureStylesService: FeatureStylesService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [SetPreferredStoreComponent],
+      providers: [
+        { provide: PreferredStoreFacade, useClass: MockPreferredStoreService },
+        { provide: FeatureStylesService, useClass: MockFeatureStylesService },
+      ],
+    })
+      .overrideComponent(SetPreferredStoreComponent, {
+        remove: { imports: [TranslatePipe, IconComponent] },
+        add: { imports: [MockTranslatePipe, MockIconComponent] },
+      })
+      .compileComponents();
+    featureStylesService = TestBed.inject(FeatureStylesService);
+    vi.spyOn(featureStylesService, 'registerUsage');
+  });
+
+  it('should register useFeatureStyles for a11yHighContrastFix', () => {
+    TestBed.createComponent(SetPreferredStoreComponent);
+    expect(featureStylesService.registerUsage).toHaveBeenCalledWith(
+      'a11yHighContrastFix'
+    );
+  });
+});

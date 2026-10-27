@@ -14,7 +14,7 @@ const TEST_PRODUCT_CONFIGURABLE_WITH_ISSUES = 'CONF_SCREWDRIVER_S';
 const TEST_PRODUCT_CONFIGURABLE_TEXTFIELD = '2116282';
 const TEST_PRODUCT_NON_CONFIGURABLE = '3887130';
 const EMAIL = 'gi.sun@pronto-hw.com';
-const PASSWORD = '12341234';
+const PASSWORD = 'Welcome!Welcome1';
 const USER = 'Gi Sun';
 
 // List of attributes

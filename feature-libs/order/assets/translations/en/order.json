@@ -184,7 +184,8 @@
         "noStock": "{{ productName }} is currently out of stock.",
         "pricingError": "Pricing problem with \"{{ productCode }}\".",
         "unresolvableIssues": "Unrecognized problem with \"{{ productCode }}\".",
-        "success": "Products have been successfully added to the cart"
+        "success": "Products have been successfully added to the cart",
+        "unavailable": "{{ productName }} is currently unavailable."
       },
       "areYouSureToReplaceCart": "Current cart will be replaced with new items. Do you wish to continue?",
       "cancel": "Cancel",

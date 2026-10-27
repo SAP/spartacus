@@ -24,7 +24,7 @@ import {
   OpfPaymentRenderPattern,
   OpfPaymentSessionData,
 } from '@spartacus/opf/payment/root';
-import { OrderFacade } from '@spartacus/order/root';
+import { Order, OrderFacade } from '@spartacus/order/root';
 import { of, throwError } from 'rxjs';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
 
@@ -677,6 +677,36 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       service.removePaymentProviderResources();
 
       expect(opfResourceLoaderServiceMock.clearAllResources).toHaveBeenCalled();
+    });
+  });
+
+  describe('placeOrder', () => {
+    it('should delegate to orderFacade with termsChecked=true and optional cartId', () => {
+      const mockOrder = {} as Order;
+      orderFacadeMock.placePaymentAuthorizedOrder.and.returnValue(
+        of(mockOrder)
+      );
+
+      (service as any).placeOrder('test-cart').subscribe((result: Order) => {
+        expect(result).toBe(mockOrder);
+        expect(
+          orderFacadeMock.placePaymentAuthorizedOrder
+        ).toHaveBeenCalledWith(true, 'test-cart');
+      });
+    });
+
+    it('should work without a cartId', () => {
+      const mockOrder = {} as Order;
+      orderFacadeMock.placePaymentAuthorizedOrder.and.returnValue(
+        of(mockOrder)
+      );
+
+      (service as any).placeOrder().subscribe((result: Order) => {
+        expect(result).toBe(mockOrder);
+        expect(
+          orderFacadeMock.placePaymentAuthorizedOrder
+        ).toHaveBeenCalledWith(true, undefined);
+      });
     });
   });
 });
