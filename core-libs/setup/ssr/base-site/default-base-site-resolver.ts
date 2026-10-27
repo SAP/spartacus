@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { toJsRegExp } from '@spartacus/core';
+import { convertRegExpJavaToJs } from '@spartacus/core';
 import {
   BaseSiteResolver,
   BaseSiteResolverOptions,
@@ -60,7 +60,7 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
     const sites = await this.getSites();
     const matchedSite = sites.find((site) =>
       site.urlPatterns?.some(
-        (pattern) => toJsRegExp(pattern)?.test(requestUrl) ?? false
+        (pattern) => convertRegExpJavaToJs(pattern)?.test(requestUrl) ?? false
       )
     );
     return matchedSite?.uid ?? null;

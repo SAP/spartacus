@@ -5,4 +5,4 @@
  */
 
 export * from './java-reg-exp-converter';
-export * from './to-js-reg-exp';
+export * from './convert-reg-exp-java-to-js';

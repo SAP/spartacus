@@ -21,13 +21,13 @@ const EXTRACT_JAVA_REGEXP_MODIFIERS = /^(\(\?([a-z]+)\))?(.*)/;
  * returns `null` instead of throwing.
  *
  * Examples:
- * - `toJsRegExp('(?i)electronics')` -> `/electronics/i`
- * - `toJsRegExp('(?gimu)^a$')` -> `/^a$/gimu`
- * - `toJsRegExp('x*+')` -> `null` (unsupported by JS engine)
+ * - `convertRegExpJavaToJs('(?i)electronics')` -> `/electronics/i`
+ * - `convertRegExpJavaToJs('(?gimu)^a$')` -> `/^a$/gimu`
+ * - `convertRegExpJavaToJs('x*+')` -> `null` (unsupported by JS engine)
  *
  * @param onError Optional callback receiving the original conversion error.
  */
-export function toJsRegExp(
+export function convertRegExpJavaToJs(
   javaSyntax: string,
   onError?: (error: unknown) => void
 ): RegExp | null {

@@ -6,7 +6,7 @@
 
 import { Injectable, inject, isDevMode } from '@angular/core';
 import { LoggerService } from '../../logger';
-import { toJsRegExp } from './to-js-reg-exp';
+import { convertRegExpJavaToJs } from './convert-reg-exp-java-to-js';
 
 @Injectable({ providedIn: 'root' })
 export class JavaRegExpConverter {
@@ -15,14 +15,14 @@ export class JavaRegExpConverter {
   /**
    * Converts RegExp from Java syntax to Javascript, by recognizing Java regexp modifiers
    * and converting them to the Javascript ones (i.e. case insensitive mode: `(?i)PATTERN` -> `/pattern/i`)
-    *
-    * This class is an Angular wrapper around the pure `toJsRegExp()` function.
-    * Use this wrapper when you want dev-mode warning logs via `LoggerService`.
-    * Use `toJsRegExp()` directly in framework-agnostic or Node-only code.
-    *
-    * Examples:
-    * - input `(?i)electronics` -> `/electronics/i`
-    * - input `x*+` -> `null` and (in dev mode) a warning is logged
+   *
+   * This class is an Angular wrapper around the pure `convertRegExpJavaToJs()` function.
+   * Use this wrapper when you want dev-mode warning logs via `LoggerService`.
+   * Use `convertRegExpJavaToJs()` directly in framework-agnostic or Node-only code.
+   *
+   * Examples:
+   * - input `(?i)electronics` -> `/electronics/i`
+   * - input `x*+` -> `null` and (in dev mode) a warning is logged
    *
    * **CAUTION!** Not all features and modifiers of Java regexps are valid in Javascript!
    * If unsupported feature or modifier is used, then `null` will be returned instead of Javascript RegExp.
@@ -32,7 +32,7 @@ export class JavaRegExpConverter {
    * - https://en.wikipedia.org/wiki/Comparison_of_regular_expression_engines#Language_features
    */
   toJsRegExp(javaSyntax: string): RegExp | null {
-    return toJsRegExp(javaSyntax, (error) => {
+    return convertRegExpJavaToJs(javaSyntax, (error) => {
       if (isDevMode()) {
         this.logger.warn(
           `WARNING: Could not convert Java regexp into Javascript. Original regexp: ${javaSyntax} \nMessage: ${error}`
