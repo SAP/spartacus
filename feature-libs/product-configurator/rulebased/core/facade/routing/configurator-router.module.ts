@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
+import { NgModule, inject, provideAppInitializer } from '@angular/core';
 import { ConfiguratorRouterListener } from './configurator-router.listener';
 
-@NgModule({})
-export class ConfiguratorRouterModule {
-  constructor(_configuratorRouterListener: ConfiguratorRouterListener) {
-    // Intentional empty constructor
-  }
-}
+@NgModule({
+  providers: [
+    provideAppInitializer(() => {
+      inject(ConfiguratorRouterListener);
+    }),
+  ],
+})
+export class ConfiguratorRouterModule {}

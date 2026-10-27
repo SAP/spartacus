@@ -9,6 +9,7 @@ import {
   Component,
   HostBinding,
   Input,
+  inject,
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -22,14 +23,14 @@ import { BtnLikeLinkDirective } from '@spartacus/storefront';
   imports: [BtnLikeLinkDirective, RouterLink, UrlPipe, TranslatePipe],
 })
 export class AmendOrderActionsComponent {
+  protected routingService = inject(RoutingService);
+
   @Input() orderCode: string;
   @Input() amendOrderForm: UntypedFormGroup;
   @Input() backRoute: string;
   @Input() forwardRoute: string;
 
   @HostBinding('class') styles = 'row';
-
-  constructor(protected routingService: RoutingService) {}
 
   continue(event: Event): void {
     if (this.amendOrderForm.valid) {

@@ -11,6 +11,7 @@ import {
   ElementRef,
   HostBinding,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   FormsModule,
@@ -50,6 +51,8 @@ import { LoginFormComponentService } from './login-form-component.service';
   ],
 })
 export class LoginFormComponent {
+  protected service = inject(LoginFormComponentService);
+
   @ViewChild('loginForm') loginForm: ElementRef<HTMLElementTagNameMap['form']>;
   @HostBinding('class.user-form') style = true;
   form: UntypedFormGroup = this.service.form;
@@ -59,7 +62,7 @@ export class LoginFormComponent {
   method = this.service.method;
   showResetPassword = this.service.showResetPassword;
 
-  constructor(protected service: LoginFormComponentService) {
+  constructor() {
     this.service.handleCustomLoginError();
   }
 

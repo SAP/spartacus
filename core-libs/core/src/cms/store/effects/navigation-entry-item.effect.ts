@@ -17,6 +17,10 @@ import { CmsActions } from '../actions/index';
 
 @Injectable()
 export class NavigationEntryItemEffects {
+  private actions$ = inject(Actions);
+  private cmsComponentConnector = inject(CmsComponentConnector);
+  private routingService = inject(RoutingService);
+
   protected logger = inject(LoggerService);
 
   loadNavigationItems$: Observable<
@@ -100,10 +104,4 @@ export class NavigationEntryItemEffects {
     });
     return { pageIds: pageIds, componentIds: componentIds, mediaIds: mediaIds };
   }
-
-  constructor(
-    private actions$: Actions,
-    private cmsComponentConnector: CmsComponentConnector,
-    private routingService: RoutingService
-  ) {}
 }

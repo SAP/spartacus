@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   CartModification,
@@ -23,6 +23,8 @@ import { map } from 'rxjs/operators';
   imports: [IconComponent, RouterLink, AsyncPipe, TranslatePipe, UrlPipe],
 })
 export class CartValidationWarningsComponent {
+  protected cartValidationFacade = inject(CartValidationFacade);
+
   iconTypes = ICON_TYPE;
   visibleWarnings: Record<string, boolean> = {};
 
@@ -41,8 +43,6 @@ export class CartValidationWarningsComponent {
       return result;
     })
   );
-
-  constructor(protected cartValidationFacade: CartValidationFacade) {}
 
   removeMessage(cartModification: CartModification) {
     if (cartModification.entry?.product?.code) {

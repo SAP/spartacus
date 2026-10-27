@@ -13,6 +13,7 @@ import {
   OnInit,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   FormsModule,
@@ -61,6 +62,9 @@ import {
   ],
 })
 export class MessagingComponent implements OnInit, AfterViewChecked {
+  protected windowRef = inject(WindowRef);
+  protected filesFormValidators = inject(FilesFormValidators);
+
   // can be undefined if you press add message button very fast on slow network
   @ViewChild(FileUploadComponent) fileUploadComponent?: FileUploadComponent;
 
@@ -119,10 +123,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
     return this.messagingConfigs?.attachmentRestrictions?.allowedTypes || [];
   }
 
-  constructor(
-    protected windowRef: WindowRef,
-    protected filesFormValidators: FilesFormValidators
-  ) {
+  constructor() {
     useFeatureStyles('a11yMessagingListKeyboardFocus');
   }
 

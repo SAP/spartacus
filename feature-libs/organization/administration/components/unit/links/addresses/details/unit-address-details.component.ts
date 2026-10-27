@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   Address,
@@ -54,6 +54,10 @@ import { UnitAddressItemService } from '../services/unit-address-item.service';
   ],
 })
 export class UnitAddressDetailsComponent {
+  protected itemService = inject<ItemService<Address>>(ItemService);
+  protected currentUnitService = inject(CurrentUnitService);
+  protected userAddressService = inject(UserAddressService);
+
   unit$: Observable<B2BUnit | undefined> = this.currentUnitService.item$;
 
   model$: Observable<Address> = this.itemService.key$.pipe(
@@ -74,10 +78,4 @@ export class UnitAddressDetailsComponent {
       )
     );
   }
-
-  constructor(
-    protected itemService: ItemService<Address>,
-    protected currentUnitService: CurrentUnitService,
-    protected userAddressService: UserAddressService
-  ) {}
 }

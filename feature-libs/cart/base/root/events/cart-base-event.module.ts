@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
+import { NgModule, inject, provideAppInitializer } from '@angular/core';
 import { MultiCartEventListener } from './multi-cart-event.listener';
 
-@NgModule({})
-export class CartBaseEventModule {
-  constructor(_multiCartEventListener: MultiCartEventListener) {
-    // Intentional empty constructor
-  }
-}
+@NgModule({
+  providers: [
+    provideAppInitializer(() => {
+      inject(MultiCartEventListener);
+    }),
+  ],
+})
+export class CartBaseEventModule {}

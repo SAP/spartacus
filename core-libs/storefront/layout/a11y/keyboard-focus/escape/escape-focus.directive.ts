@@ -6,11 +6,11 @@
 
 import {
   Directive,
-  ElementRef,
   EventEmitter,
   HostListener,
   OnInit,
   Output,
+  inject,
 } from '@angular/core';
 import { EscapeFocusConfig } from '../keyboard-focus.model';
 import { PersistFocusDirective } from '../persist/persist-focus.directive';
@@ -28,6 +28,8 @@ export class EscapeFocusDirective
   extends PersistFocusDirective
   implements OnInit
 {
+  protected override service = inject(EscapeFocusService);
+
   protected defaultConfig: EscapeFocusConfig = { focusOnEscape: true };
 
   // @Input('cxEscFocus')
@@ -45,13 +47,6 @@ export class EscapeFocusDirective
       this.service.handleEscape(this.host, this.config, event);
     }
     this.esc.emit(this.service.shouldFocus(this.config));
-  }
-
-  constructor(
-    protected elementRef: ElementRef,
-    protected service: EscapeFocusService
-  ) {
-    super(elementRef, service);
   }
 
   ngOnInit() {

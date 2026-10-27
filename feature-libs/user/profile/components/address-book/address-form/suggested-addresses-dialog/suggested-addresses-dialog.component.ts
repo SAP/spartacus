@@ -11,6 +11,7 @@ import {
   ElementRef,
   HostListener,
   OnInit,
+  inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Address, TranslatePipe } from '@spartacus/core';
@@ -36,6 +37,9 @@ import { take } from 'rxjs/operators';
   ],
 })
 export class SuggestedAddressDialogComponent implements OnInit {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected el = inject(ElementRef);
+
   iconTypes = ICON_TYPE;
   focusConfig: FocusConfig = {
     trap: true,
@@ -54,11 +58,6 @@ export class SuggestedAddressDialogComponent implements OnInit {
       this.closeModal('Cross click');
     }
   }
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef
-  ) {}
 
   ngOnInit(): void {
     this.data$.pipe(take(1)).subscribe((data) => this.setSelectedAddress(data));

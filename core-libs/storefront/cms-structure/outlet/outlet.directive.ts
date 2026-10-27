@@ -17,6 +17,7 @@ import {
   SimpleChanges,
   TemplateRef,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { ReplaySubject, Subscription } from 'rxjs';
 import { DeferLoaderService } from '../../layout/loading/defer-loader.service';
@@ -31,6 +32,12 @@ import { OutletService } from './outlet.service';
 
 @Directive({ selector: '[cxOutlet]' })
 export class OutletDirective<T = any> implements OnDestroy, OnChanges {
+  private vcr = inject(ViewContainerRef);
+  private templateRef = inject<TemplateRef<any>>(TemplateRef);
+  private outletService = inject(OutletService);
+  private deferLoaderService = inject(DeferLoaderService);
+  private outletRendererService = inject(OutletRendererService);
+
   private renderedTemplate: any[] = [];
   public renderedComponents = new Map<
     OutletPosition,
@@ -62,14 +69,6 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
   >();
 
   subscription = new Subscription();
-
-  constructor(
-    private vcr: ViewContainerRef,
-    private templateRef: TemplateRef<any>,
-    private outletService: OutletService,
-    private deferLoaderService: DeferLoaderService,
-    private outletRendererService: OutletRendererService
-  ) {}
 
   /**
    * Renders view for outlet or defers it, depending on the input `cxOutletDefer`

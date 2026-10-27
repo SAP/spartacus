@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   AddOrderEntriesContext,
   OrderEntriesSource,
@@ -43,6 +43,8 @@ import { ImportToNewSavedCartFormComponent } from './import-to-new-saved-cart-fo
   ],
 })
 export class ImportEntriesDialogComponent {
+  protected launchDialogService = inject(LaunchDialogService);
+
   iconTypes = ICON_TYPE;
   focusConfig: FocusConfig = {
     trap: true,
@@ -66,8 +68,6 @@ export class ImportEntriesDialogComponent {
     this.launchDialogService.data$.pipe(
       map((data) => data.orderEntriesContext)
     );
-
-  constructor(protected launchDialogService: LaunchDialogService) {}
 
   isNewCartForm(context: AddOrderEntriesContext) {
     return context.type === OrderEntriesSource.NEW_SAVED_CART;

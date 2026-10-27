@@ -42,11 +42,11 @@ import { ForgotPasswordComponentService } from './forgot-password-component.serv
   ],
 })
 export class ForgotPasswordComponent {
+  protected service = inject(ForgotPasswordComponentService);
+
   @Optional() protected routingService = inject(RoutingService, {
     optional: true,
   });
-
-  constructor(protected service: ForgotPasswordComponentService) {}
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;

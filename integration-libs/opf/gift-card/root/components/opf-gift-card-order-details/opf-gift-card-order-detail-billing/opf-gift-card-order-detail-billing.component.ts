@@ -14,7 +14,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Card, CardComponent, OutletContextData } from '@spartacus/storefront';
@@ -38,6 +37,8 @@ import { combineLatest, map, Observable, Subscription } from 'rxjs';
 export class OpfGiftCardOrderDetailBillingComponent
   implements OnInit, OnDestroy
 {
+  protected orderOutlet? = inject(OutletContextData, { optional: true });
+
   protected translationService = inject(TranslationService);
   protected destroyRef = inject(DestroyRef);
   private featureToggles = inject(FeatureToggles);
@@ -45,8 +46,6 @@ export class OpfGiftCardOrderDetailBillingComponent
   protected subscription = new Subscription();
   @Input()
   order: Order;
-
-  constructor(@Optional() protected orderOutlet?: OutletContextData) {}
   protected routingService = inject(RoutingService);
 
   ngOnInit(): void {

@@ -10,21 +10,20 @@ import {
   OnDestroy,
   OnInit,
   TemplateRef,
+  inject,
 } from '@angular/core';
 import { OutletPosition } from '../outlet.model';
 import { OutletService } from '../outlet.service';
 
 @Directive({ selector: '[cxOutletRef]' })
 export class OutletRefDirective implements OnInit, OnDestroy {
+  private tpl = inject<TemplateRef<any>>(TemplateRef);
+  private outletService = inject(OutletService);
+
   @Input()
   cxOutletRef: string;
   @Input()
   cxOutletPos: OutletPosition;
-
-  constructor(
-    private tpl: TemplateRef<any>,
-    private outletService: OutletService
-  ) {}
 
   ngOnInit() {
     this.outletService.add(this.cxOutletRef, this.tpl, this.cxOutletPos);

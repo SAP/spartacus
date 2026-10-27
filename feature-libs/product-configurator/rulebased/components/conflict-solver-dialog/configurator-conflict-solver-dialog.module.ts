@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, inject, provideAppInitializer } from '@angular/core';
 import {
   FeaturesConfigModule,
   I18nModule,
@@ -28,14 +28,11 @@ import { defaultConfiguratorConflictSolverLayoutConfig } from './default-configu
     ConfiguratorConflictSolverDialogComponent,
   ],
   providers: [
+    provideAppInitializer(() => {
+      inject(ConfiguratorConflictSolverDialogLauncherService);
+    }),
     provideDefaultConfig(defaultConfiguratorConflictSolverLayoutConfig),
   ],
   exports: [ConfiguratorConflictSolverDialogComponent],
 })
-export class ConfiguratorConflictSolverDialogModule {
-  constructor(
-    _configuratorConflictSolverDialogLauncherService: ConfiguratorConflictSolverDialogLauncherService
-  ) {
-    // Intentional empty constructor
-  }
-}
+export class ConfiguratorConflictSolverDialogModule {}

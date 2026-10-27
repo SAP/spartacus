@@ -18,11 +18,11 @@ import { Observable } from 'rxjs';
   imports: [RouterLink, NgClass, SpinnerComponent, AsyncPipe, TranslatePipe],
 })
 export class StoreFinderStoresCountComponent implements OnInit {
+  private storeFinderService = inject(StoreFinderService);
+
   protected routingService = inject(RoutingService);
   locations$: Observable<any>;
   isLoading$: Observable<boolean>;
-
-  constructor(private storeFinderService: StoreFinderService) {}
 
   ngOnInit() {
     this.storeFinderService.viewAllStores();

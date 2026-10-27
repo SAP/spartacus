@@ -10,6 +10,7 @@ import {
   Component,
   ElementRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   ORDER_ENTRIES_CONTEXT,
@@ -30,13 +31,11 @@ import { Observable, Subscription } from 'rxjs';
   imports: [AsyncPipe, TranslatePipe],
 })
 export class ImportOrderEntriesComponent {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected contextService = inject(ContextService);
+
   protected subscription = new Subscription();
   @ViewChild('open') element: ElementRef;
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected contextService: ContextService
-  ) {}
 
   orderEntriesContext$: Observable<OrderEntriesContext | undefined> =
     this.contextService.get<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT);

@@ -1,4 +1,4 @@
-import { Component, ViewContainerRef } from '@angular/core';
+import { Component, ViewContainerRef, inject as inject_1 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Priority } from '@spartacus/core';
 import { firstValueFrom } from 'rxjs';
@@ -11,7 +11,7 @@ const mockCmsMappingService = {
 
 @Component({ template: '' })
 class WrapperComponent {
-  constructor(public vcr: ViewContainerRef) {}
+  vcr = inject_1(ViewContainerRef);
 }
 
 @Component({ template: 'testComponent' })

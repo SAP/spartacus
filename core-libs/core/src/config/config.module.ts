@@ -4,20 +4,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import {
+  ModuleWithProviders,
+  NgModule,
+  inject,
+  provideAppInitializer,
+} from '@angular/core';
 import { ConfigFactory } from './config-factory';
 import { provideConfig, provideConfigFactory } from './config-providers';
 import { Config } from './config-tokens';
 import { ConfigurationService } from './services/configuration.service';
 
-@NgModule({})
+@NgModule({
+  providers: [
+    provideAppInitializer(() => {
+      inject(ConfigurationService);
+    }),
+  ],
+})
 export class ConfigModule {
-  // To make sure ConfigurationService will be instantiated, we inject it into
-  // module constructor
-  constructor(_configurationService: ConfigurationService) {
-    // Intentional empty constructor
-  }
-
   /**
    * Import ConfigModule and contribute config to the global configuration
    *

@@ -19,13 +19,11 @@ const STRATEGY_PRODUCTS_ENDPOINT_KEY = 'strategyProducts';
 export class CdsMerchandisingStrategyAdapter
   implements MerchandisingStrategyAdapter
 {
-  protected windowRef = inject(WindowRef);
+  private cdsEndpointsService = inject(CdsEndpointsService);
+  private baseSiteService = inject(BaseSiteService);
+  protected http = inject(HttpClient);
 
-  constructor(
-    private cdsEndpointsService: CdsEndpointsService,
-    private baseSiteService: BaseSiteService,
-    protected http: HttpClient
-  ) {}
+  protected windowRef = inject(WindowRef);
 
   loadProductsForStrategy(
     strategyId: string,

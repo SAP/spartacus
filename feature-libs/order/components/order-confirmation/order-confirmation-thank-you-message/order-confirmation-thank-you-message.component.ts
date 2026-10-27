@@ -11,6 +11,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import {
   GlobalMessageService,
@@ -38,16 +39,14 @@ import { OrderGuestRegisterFormComponent } from '../order-guest-register-form/or
 export class OrderConfirmationThankYouMessageComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
+  protected orderFacade = inject(OrderFacade);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected translationService = inject(TranslationService);
+
   order$: Observable<Order | undefined>;
 
   isGuestCustomer = false;
   orderGuid: string | undefined;
-
-  constructor(
-    protected orderFacade: OrderFacade,
-    protected globalMessageService: GlobalMessageService,
-    protected translationService: TranslationService
-  ) {}
 
   ngOnInit(): void {
     this.order$ = this.orderFacade.getOrderDetails().pipe(

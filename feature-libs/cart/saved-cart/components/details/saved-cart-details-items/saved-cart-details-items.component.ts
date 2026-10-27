@@ -10,6 +10,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 import {
@@ -39,6 +40,13 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
   imports: [OutletDirective, AddToCartComponent, SpinnerComponent, AsyncPipe],
 })
 export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
+  protected savedCartDetailsService = inject(SavedCartDetailsService);
+  protected savedCartService = inject(SavedCartFacade);
+  protected eventSercvice = inject(EventService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected routingService = inject(RoutingService);
+  protected translation = inject(TranslationService);
+
   private subscription = new Subscription();
 
   readonly CartOutlets = CartOutlets;
@@ -60,15 +68,6 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
         }
       })
     );
-
-  constructor(
-    protected savedCartDetailsService: SavedCartDetailsService,
-    protected savedCartService: SavedCartFacade,
-    protected eventSercvice: EventService,
-    protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService,
-    protected translation: TranslationService
-  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

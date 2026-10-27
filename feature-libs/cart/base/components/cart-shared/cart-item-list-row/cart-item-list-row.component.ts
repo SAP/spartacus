@@ -62,9 +62,6 @@ export class CartItemListRowComponent extends CartItemComponent {
 
   protected componentService = inject(CartItemListComponentService);
   isFlagQuote = this.componentService.showBasePriceWithDiscount();
-  constructor(cartItemContextSource: CartItemContextSource) {
-    super(cartItemContextSource);
-  }
 
   override ngOnChanges(changes?: SimpleChanges): void {
     super.ngOnChanges(changes);

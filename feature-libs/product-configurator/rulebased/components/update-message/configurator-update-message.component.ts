@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { SpinnerComponent } from '@spartacus/storefront';
@@ -21,6 +21,12 @@ import { ConfiguratorMessageConfig } from '../config/configurator-message.config
   imports: [SpinnerComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorUpdateMessageComponent {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+  protected config = inject(ConfiguratorMessageConfig);
+
   hasPendingChanges$: Observable<boolean> = this.configRouterExtractorService
     .extractRouterData()
     .pipe(
@@ -40,10 +46,4 @@ export class ConfiguratorUpdateMessageComponent {
             : of(isLoading) // inform immediately if it's not loading anymore
       )
     );
-
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected config: ConfiguratorMessageConfig
-  ) {}
 }

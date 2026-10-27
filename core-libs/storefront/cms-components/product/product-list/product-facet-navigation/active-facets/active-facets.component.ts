@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component, HostBinding, Input } from '@angular/core';
+import { Component, HostBinding, Input, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Breadcrumb, FeatureDirective, TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -34,6 +34,8 @@ import { FacetService } from '../services/facet.service';
   ],
 })
 export class ActiveFacetsComponent {
+  protected facetService = inject(FacetService);
+
   @HostBinding('attr.role') role = 'group';
   @HostBinding('attr.aria-labelledby') labelledby =
     'cx-active-facets-groupName';
@@ -43,8 +45,6 @@ export class ActiveFacetsComponent {
 
   /** Configurable icon which is used for the active facet close button */
   @Input() closeIcon = ICON_TYPE.CLOSE;
-
-  constructor(protected facetService: FacetService) {}
 
   getLinkParams(facet: Breadcrumb) {
     return this.facetService.getLinkParams(

@@ -41,6 +41,11 @@ import { LcpContextDirective } from '../../../shared/lcp-context/lcp-context.dir
   ],
 })
 export class BannerComponent {
+  protected component =
+    inject<CmsComponentData<CmsBannerComponent>>(CmsComponentData);
+  protected urlService = inject(SemanticPathService);
+  protected cmsService = inject(CmsService);
+
   routerLink: string | any[] | undefined;
 
   @HostBinding('class') styleClasses: string | undefined;
@@ -54,12 +59,6 @@ export class BannerComponent {
       this.styleClasses = data.styleClasses;
     })
   );
-
-  constructor(
-    protected component: CmsComponentData<CmsBannerComponent>,
-    protected urlService: SemanticPathService,
-    protected cmsService: CmsService
-  ) {}
 
   @HostListener('keydown', ['$event'])
   onKeydown(event: KeyboardEvent): void {

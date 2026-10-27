@@ -39,6 +39,10 @@ import { UnitTreeService } from '../../services/unit-tree.service';
   imports: [AsyncPipe, RouterLink, IconComponent, UrlPipe, TranslatePipe],
 })
 export class ToggleLinkCellComponent extends CellComponent {
+  protected override outlet =
+    inject<OutletContextData<TableDataOutletContext>>(OutletContextData);
+  protected unitTreeService = inject(UnitTreeService);
+
   @HostBinding('style.--cx-depth-level')
   get depthLevel() {
     return this.model.depthLevel;
@@ -51,13 +55,6 @@ export class ToggleLinkCellComponent extends CellComponent {
   protected readonly isLargeScreen$ = inject(BreakpointService).isUp(
     BREAKPOINT.lg
   );
-
-  constructor(
-    protected outlet: OutletContextData<TableDataOutletContext>,
-    protected unitTreeService: UnitTreeService
-  ) {
-    super(outlet);
-  }
 
   get combinedName() {
     return this.property ? `${this.property} (${this.count})` : '';

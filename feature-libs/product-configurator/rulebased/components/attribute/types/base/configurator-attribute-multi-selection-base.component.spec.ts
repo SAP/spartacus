@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -34,16 +34,26 @@ const createTestValue = (
   selector: 'cx-configurator-attribute-multi-selection',
 })
 class ExampleConfiguratorAttributeMultiSelectionComponent extends ConfiguratorAttributeMultiSelectionBaseComponent {
-  constructor(
-    protected quantityService: ConfiguratorAttributeQuantityService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
-  ) {
+  protected quantityService: ConfiguratorAttributeQuantityService;
+  protected attributeComponentContext: ConfiguratorAttributeCompositionContext;
+  protected configuratorCommonsService: ConfiguratorCommonsService;
+
+  constructor() {
+    const quantityService = inject(ConfiguratorAttributeQuantityService);
+    const attributeComponentContext = inject(
+      ConfiguratorAttributeCompositionContext
+    );
+    const configuratorCommonsService = inject(ConfiguratorCommonsService);
+
     super(
       quantityService,
       attributeComponentContext,
       configuratorCommonsService
     );
+
+    this.quantityService = quantityService;
+    this.attributeComponentContext = attributeComponentContext;
+    this.configuratorCommonsService = configuratorCommonsService;
   }
 }
 const isConfigurationLoading$ = new BehaviorSubject<boolean>(false);

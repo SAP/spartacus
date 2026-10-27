@@ -5,6 +5,7 @@ import {
   Input,
   TemplateRef,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -51,10 +52,8 @@ function getTruncatedPopover(elem: DebugElement) {
 
 @Directive({ selector: '[cxFeature]' })
 class MockFeatureDirective {
-  constructor(
-    protected templateRef: TemplateRef<any>,
-    protected viewContainer: ViewContainerRef
-  ) {}
+  protected templateRef = inject<TemplateRef<any>>(TemplateRef);
+  protected viewContainer = inject(ViewContainerRef);
 
   @Input() set cxFeature(feature: string) {
     const featureDesiredAndPresent = !feature.startsWith('!');

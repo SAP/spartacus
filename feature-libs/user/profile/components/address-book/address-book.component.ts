@@ -46,6 +46,10 @@ import { AddressFormComponent } from './address-form/address-form.component';
   ],
 })
 export class AddressBookComponent implements OnInit, OnDestroy {
+  service = inject(AddressBookComponentService);
+  protected translation = inject(TranslationService);
+  protected globalMessageService = inject(GlobalMessageService);
+
   addresses$: Observable<Address[]>;
   cards$: Observable<Card[]>;
   addressesStateLoading$: Observable<boolean>;
@@ -60,12 +64,6 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   protected languageService = inject(LanguageService);
   private featureToggles = inject(FeatureToggles);
   protected hierarchicalAddressConfig = inject(HierarchicalAddressConfig);
-
-  constructor(
-    public service: AddressBookComponentService,
-    protected translation: TranslationService,
-    protected globalMessageService: GlobalMessageService
-  ) {}
 
   ngOnInit(): void {
     this.addresses$ = this.service.getAddresses();

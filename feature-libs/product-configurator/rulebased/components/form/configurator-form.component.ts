@@ -44,6 +44,15 @@ import { ConfiguratorGroupComponent } from '../group/configurator-group.componen
   imports: [ConfiguratorGroupComponent, AsyncPipe],
 })
 export class ConfiguratorFormComponent implements OnInit, OnDestroy {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configuratorGroupsService = inject(ConfiguratorGroupsService);
+  protected configRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+  protected configExpertModeService = inject(ConfiguratorExpertModeService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected globalMessageService = inject(GlobalMessageService);
+
   protected subscription = new Subscription();
 
   protected keyboardFocusService = inject(KeyboardFocusService);
@@ -69,15 +78,6 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
       this.configuratorGroupsService.getCurrentGroup(routerData.owner)
     )
   );
-
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configExpertModeService: ConfiguratorExpertModeService,
-    protected launchDialogService: LaunchDialogService,
-    protected globalMessageService: GlobalMessageService
-  ) {}
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

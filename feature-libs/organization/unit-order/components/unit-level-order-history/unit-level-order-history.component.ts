@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  inject,
+} from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import {
   CxDatePipe,
@@ -48,6 +53,10 @@ import { UnitLevelOrderHistoryFilterComponent } from './filter/unit-level-order-
   ],
 })
 export class UnitLevelOrderHistoryComponent implements OnDestroy {
+  protected routing = inject(RoutingService);
+  protected unitOrdersFacade = inject(UnitOrderFacade);
+  protected translation = inject(TranslationService);
+
   private PAGE_SIZE = 5;
   sortType: string;
 
@@ -57,12 +66,6 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
     sortCode: '',
     filters: '',
   };
-
-  constructor(
-    protected routing: RoutingService,
-    protected unitOrdersFacade: UnitOrderFacade,
-    protected translation: TranslationService
-  ) {}
 
   orders$: Observable<OrderHistoryList | undefined> = this.unitOrdersFacade
     .getOrderHistoryList(this.PAGE_SIZE)

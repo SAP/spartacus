@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
 import { OutletDirective } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -17,7 +17,7 @@ import { OrderDetailsService } from '../order-details.service';
   imports: [OutletDirective, AsyncPipe],
 })
 export class OrderDetailTotalsComponent implements OnInit {
-  constructor(protected orderDetailsService: OrderDetailsService) {}
+  protected orderDetailsService = inject(OrderDetailsService);
 
   order$: Observable<any>;
 

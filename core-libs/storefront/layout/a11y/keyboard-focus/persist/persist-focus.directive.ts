@@ -7,7 +7,6 @@
 import {
   AfterViewInit,
   Directive,
-  ElementRef,
   HostBinding,
   HostListener,
   OnInit,
@@ -49,6 +48,8 @@ export class PersistFocusDirective
   extends BlockFocusDirective
   implements OnInit, AfterViewInit
 {
+  protected override service = inject(PersistFocusService);
+
   protected defaultConfig: PersistFocusConfig = {};
 
   private persistFeatureToggles = inject(FeatureToggles);
@@ -74,13 +75,6 @@ export class PersistFocusDirective
 
     event?.preventDefault();
     event?.stopPropagation();
-  }
-
-  constructor(
-    protected elementRef: ElementRef,
-    protected service: PersistFocusService
-  ) {
-    super(elementRef, service);
   }
 
   ngOnInit() {

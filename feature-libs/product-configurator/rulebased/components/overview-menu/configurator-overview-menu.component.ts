@@ -12,6 +12,7 @@ import {
   HostBinding,
   HostListener,
   Input,
+  inject,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
@@ -25,6 +26,10 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   imports: [NgTemplateOutlet, NgClass, IconComponent, TranslatePipe],
 })
 export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
+  protected configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
+
   @HostBinding('style.height') height = this.getHeight();
 
   @Input() config: Configurator.ConfigurationWithOverview;
@@ -55,10 +60,6 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
     ['position', 'sticky'],
     ['top', '0'],
   ];
-
-  constructor(
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
-  ) {}
 
   ngAfterViewInit(): void {
     this.amount = this.getAmount(this.config);

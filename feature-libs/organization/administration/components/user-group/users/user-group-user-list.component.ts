@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@spartacus/core';
 import {
@@ -31,10 +36,8 @@ import { UserGroupUserListService } from './user-group-user-list.service';
   imports: [SubListComponent, RouterLink, TranslatePipe],
 })
 export class UserGroupUserListComponent {
-  constructor(
-    protected currentUserGroupService: CurrentUserGroupService,
-    protected userGroupUserListService: UserGroupUserListService
-  ) {}
+  protected currentUserGroupService = inject(CurrentUserGroupService);
+  protected userGroupUserListService = inject(UserGroupUserListService);
 
   @ViewChild('subList')
   subList: SubListComponent;

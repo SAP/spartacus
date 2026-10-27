@@ -8,7 +8,6 @@ import {
   ComponentRef,
   ElementRef,
   inject,
-  Inject,
   Injectable,
   isDevMode,
   ViewContainerRef,
@@ -23,6 +22,11 @@ import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
 export class LaunchDialogService {
+  protected renderStrategies = inject(
+    LaunchRenderStrategy
+  ) as unknown as LaunchRenderStrategy[];
+  protected layoutConfig = inject(LayoutConfig);
+
   private _dialogClose = new BehaviorSubject<any | undefined>(undefined);
   private _dataSubject = new BehaviorSubject<any>(undefined);
 
@@ -33,11 +37,7 @@ export class LaunchDialogService {
     return this._dataSubject.asObservable();
   }
 
-  constructor(
-    @Inject(LaunchRenderStrategy)
-    protected renderStrategies: LaunchRenderStrategy[],
-    protected layoutConfig: LayoutConfig
-  ) {
+  constructor() {
     this.renderStrategies = this.renderStrategies || [];
   }
 

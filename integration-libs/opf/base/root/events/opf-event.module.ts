@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
+import { NgModule, inject, provideAppInitializer } from '@angular/core';
 import { OpfEventListenerService } from './opf-event.listener';
 
-@NgModule({})
-export class OpfEventModule {
-  constructor(_opfEventListenerService: OpfEventListenerService) {
-    // Intentional empty constructor
-  }
-}
+@NgModule({
+  providers: [
+    provideAppInitializer(() => {
+      inject(OpfEventListenerService);
+    }),
+  ],
+})
+export class OpfEventModule {}

@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
@@ -20,6 +20,11 @@ import { Configurator } from '../../core/model/configurator.model';
   imports: [AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorPriceSummaryComponent {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+
   configuration$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) => {
@@ -28,9 +33,4 @@ export class ConfiguratorPriceSummaryComponent {
         );
       })
     );
-
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService
-  ) {}
 }

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Directive, HostListener, inject } from '@angular/core';
 import { AutoFocusDirective } from '../autofocus/auto-focus.directive';
 import { MOVE_FOCUS, TabFocusConfig } from '../keyboard-focus.model';
 import { TabFocusService } from './tab-focus.service';
@@ -16,6 +16,8 @@ import { TabFocusService } from './tab-focus.service';
  */
 @Directive() // selector: '[cxTabFocus]'
 export class TabFocusDirective extends AutoFocusDirective {
+  protected override service = inject(TabFocusService);
+
   /** `tab` defaults to true if the directive `cxTabFocus` is used. */
   protected defaultConfig: TabFocusConfig = { tab: true };
 
@@ -34,12 +36,5 @@ export class TabFocusDirective extends AutoFocusDirective {
     if (this.config?.tab) {
       this.service.moveTab(this.host, this.config, MOVE_FOCUS.PREV, event);
     }
-  }
-
-  constructor(
-    protected elementRef: ElementRef,
-    protected service: TabFocusService
-  ) {
-    super(elementRef, service);
   }
 }

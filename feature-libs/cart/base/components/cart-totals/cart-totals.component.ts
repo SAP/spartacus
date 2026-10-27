@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 import { OrderSummaryComponent } from '../cart-shared';
@@ -17,9 +22,9 @@ import { OrderSummaryComponent } from '../cart-shared';
   imports: [OrderSummaryComponent, AsyncPipe],
 })
 export class CartTotalsComponent implements OnInit {
-  cart$: Observable<Cart>;
+  protected activeCartService = inject(ActiveCartFacade);
 
-  constructor(protected activeCartService: ActiveCartFacade) {}
+  cart$: Observable<Cart>;
 
   ngOnInit() {
     this.cart$ = this.activeCartService.getActive();

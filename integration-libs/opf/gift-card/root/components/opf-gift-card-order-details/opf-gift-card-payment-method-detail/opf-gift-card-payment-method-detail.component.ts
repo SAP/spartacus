@@ -13,7 +13,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -37,6 +36,8 @@ import { Order } from '@spartacus/order/root';
 export class OpfGiftCardPaymentMethodDetailComponent
   implements OnInit, OnDestroy
 {
+  protected orderOutlet? = inject(OutletContextData, { optional: true });
+
   protected translationService = inject(TranslationService);
   protected destroyRef = inject(DestroyRef);
   private featureToggles = inject(FeatureToggles);
@@ -47,7 +48,6 @@ export class OpfGiftCardPaymentMethodDetailComponent
   order: Order;
 
   protected routingService = inject(RoutingService);
-  constructor(@Optional() protected orderOutlet?: OutletContextData) {}
 
   ngOnInit(): void {
     if (this.orderOutlet?.context$) {

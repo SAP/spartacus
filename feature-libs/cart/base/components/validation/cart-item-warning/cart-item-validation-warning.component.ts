@@ -28,6 +28,8 @@ import {
   imports: [IconComponent, AsyncPipe, TranslatePipe],
 })
 export class CartItemValidationWarningComponent {
+  protected cartValidationFacade = inject(CartValidationFacade);
+
   private featureToggles = inject(FeatureToggles);
   protected cartConfigService = inject(CartConfigService);
 
@@ -58,8 +60,6 @@ export class CartItemValidationWarningComponent {
         )
       )
     );
-
-  constructor(protected cartValidationFacade: CartValidationFacade) {}
 
   /**
    * Whether the modification is a min/max order quantity violation. For these the

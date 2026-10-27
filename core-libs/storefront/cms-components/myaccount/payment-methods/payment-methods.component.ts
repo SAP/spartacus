@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -36,16 +36,14 @@ import { SpinnerComponent } from '../../../shared/components/spinner/spinner.com
   ],
 })
 export class PaymentMethodsComponent implements OnInit {
+  private userPaymentService = inject(UserPaymentService);
+  private translation = inject(TranslationService);
+  protected globalMessageService? = inject(GlobalMessageService);
+
   paymentMethods$: Observable<PaymentDetails[]>;
   editCard: string | undefined;
   iconTypes = ICON_TYPE;
   loading$: Observable<boolean>;
-
-  constructor(
-    private userPaymentService: UserPaymentService,
-    private translation: TranslationService,
-    protected globalMessageService?: GlobalMessageService
-  ) {}
 
   ngOnInit(): void {
     this.paymentMethods$ = this.userPaymentService.getPaymentMethods().pipe(

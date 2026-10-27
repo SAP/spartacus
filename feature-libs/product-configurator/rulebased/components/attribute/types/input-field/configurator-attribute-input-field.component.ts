@@ -10,6 +10,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import {
   FormsModule,
@@ -45,6 +46,15 @@ export class ConfiguratorAttributeInputFieldComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit, OnDestroy
 {
+  protected config = inject(ConfiguratorUISettingsConfig);
+  protected attributeComponentContext = inject(
+    ConfiguratorAttributeCompositionContext
+  );
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
+
   attributeInputForm = new UntypedFormControl('');
   protected sub: Subscription;
 
@@ -75,13 +85,9 @@ export class ConfiguratorAttributeInputFieldComponent
    */
   protected readonly FALLBACK_DEBOUNCE_TIME_DATE = 1500;
 
-  constructor(
-    protected config: ConfiguratorUISettingsConfig,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
-  ) {
+  constructor() {
     super();
+    const attributeComponentContext = this.attributeComponentContext;
 
     this.attribute = attributeComponentContext.attribute;
     this.group = attributeComponentContext.group.id;

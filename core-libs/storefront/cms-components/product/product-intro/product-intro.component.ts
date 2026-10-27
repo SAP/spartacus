@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, DecimalPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   EventService,
   Product,
@@ -36,6 +36,11 @@ import { CurrentProductService } from '../current-product.service';
   ],
 })
 export class ProductIntroComponent {
+  protected currentProductService = inject(CurrentProductService);
+  protected translationService = inject(TranslationService);
+  protected winRef = inject(WindowRef);
+  protected eventService = inject(EventService);
+
   product$: Observable<Product | null> =
     this.currentProductService.getProduct();
 
@@ -64,13 +69,6 @@ export class ProductIntroComponent {
   protected reviewsComponentId = 'ProductReviewsTabComponent';
 
   protected reviewsTranslationKey = `TabPanelContainer.tabs.${this.reviewsComponentId}`;
-
-  constructor(
-    protected currentProductService: CurrentProductService,
-    protected translationService: TranslationService,
-    protected winRef: WindowRef,
-    protected eventService: EventService
-  ) {}
 
   /**
    * Scroll to views component on page and click "Reviews" tab

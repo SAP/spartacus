@@ -31,6 +31,8 @@ import {
   providedIn: 'root',
 })
 export class MediaService {
+  protected config = inject(Config);
+
   /**
    * The media formats sorted by size. The media format representing the smallest
    * size is sorted on top.
@@ -41,8 +43,6 @@ export class MediaService {
 
   private readonly featureToggles = inject(FeatureToggles);
   protected logger = inject(LoggerService);
-
-  constructor(protected config: Config) {}
 
   getMediaBasedOnHTMLElementType(
     elementType: 'img' | 'picture',

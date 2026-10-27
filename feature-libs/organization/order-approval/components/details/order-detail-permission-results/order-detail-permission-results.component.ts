@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
 import { Order } from '@spartacus/order/root';
@@ -18,7 +18,7 @@ import { Observable } from 'rxjs';
   imports: [AsyncPipe, TranslatePipe],
 })
 export class OrderDetailPermissionResultsComponent {
-  order$: Observable<Order> = this.orderDetailsService.getOrderDetails();
+  protected orderDetailsService = inject(OrderDetailsService);
 
-  constructor(protected orderDetailsService: OrderDetailsService) {}
+  order$: Observable<Order> = this.orderDetailsService.getOrderDetails();
 }

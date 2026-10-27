@@ -23,20 +23,18 @@ import {
   providedIn: 'root',
 })
 export class AsmComponentService {
+  protected authService = inject(AuthService);
+  protected csAgentAuthService = inject(CsAgentAuthService);
+  protected winRef = inject(WindowRef);
+  protected asmEnablerService? = inject(AsmEnablerService);
+  protected asmDeepLinkService? = inject(AsmDeepLinkService);
+
   protected searchparam: URLSearchParams;
   isEmulatedByDeepLink$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   protected showDeeplinkCartInfoAlert$: BehaviorSubject<boolean> =
     new BehaviorSubject(false);
 
   protected routingService = inject(RoutingService);
-
-  constructor(
-    protected authService: AuthService,
-    protected csAgentAuthService: CsAgentAuthService,
-    protected winRef: WindowRef,
-    protected asmEnablerService?: AsmEnablerService,
-    protected asmDeepLinkService?: AsmDeepLinkService
-  ) {}
 
   /**
    * Returns a deep link parameter value if it is in the url.

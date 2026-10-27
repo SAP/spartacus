@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { smartEditDecorators } from './decorators/index';
 import { SmartEditService } from './services/smart-edit.service';
 
@@ -12,7 +12,9 @@ import { SmartEditService } from './services/smart-edit.service';
   providers: [...smartEditDecorators],
 })
 export class SmartEditCoreModule {
-  constructor(private smartEditService: SmartEditService) {
+  private smartEditService = inject(SmartEditService);
+
+  constructor() {
     this.smartEditService.processCmsPage();
   }
 }

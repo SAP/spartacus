@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, inject, provideAppInitializer } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
@@ -44,11 +44,12 @@ import { defaultAddedToCartLayoutConfig } from './default-added-to-cart-layout.c
     BtnLikeLinkModule,
     AddedToCartDialogComponent,
   ],
-  providers: [provideDefaultConfig(defaultAddedToCartLayoutConfig)],
+  providers: [
+    provideAppInitializer(() => {
+      inject(AddedToCartDialogEventListener);
+    }),
+    provideDefaultConfig(defaultAddedToCartLayoutConfig),
+  ],
   exports: [AddedToCartDialogComponent],
 })
-export class AddedToCartDialogModule {
-  constructor(_addToCartDialogEventListener: AddedToCartDialogEventListener) {
-    // Intentional empty constructor
-  }
-}
+export class AddedToCartDialogModule {}

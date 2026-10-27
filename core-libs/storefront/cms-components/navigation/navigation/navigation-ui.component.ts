@@ -49,6 +49,12 @@ const ARIA_EXPANDED_ATTR = 'aria-expanded';
   ],
 })
 export class NavigationUIComponent implements OnInit, OnDestroy {
+  private router = inject(Router);
+  private renderer = inject(Renderer2);
+  private elemRef = inject(ElementRef);
+  protected hamburgerMenuService = inject(HamburgerMenuService);
+  protected winRef = inject(WindowRef);
+
   /**
    * The navigation node to render.
    */
@@ -106,13 +112,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
 
   private featureToggles = inject(FeatureToggles);
 
-  constructor(
-    private router: Router,
-    private renderer: Renderer2,
-    private elemRef: ElementRef,
-    protected hamburgerMenuService: HamburgerMenuService,
-    protected winRef: WindowRef
-  ) {
+  constructor() {
     this.subscriptions.add(
       this.router.events
         .pipe(filter((event) => event instanceof NavigationEnd))

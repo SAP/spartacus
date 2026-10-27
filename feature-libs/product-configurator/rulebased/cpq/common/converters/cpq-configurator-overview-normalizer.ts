@@ -17,13 +17,13 @@ const INITIAL_OV_VALUE_ATTRIBUTE_NAME = '';
 export class CpqConfiguratorOverviewNormalizer
   implements Converter<Cpq.Configuration, Configurator.Overview>
 {
+  protected cpqConfiguratorNormalizerUtilsService = inject(
+    CpqConfiguratorNormalizerUtilsService
+  );
+  protected translation = inject(TranslationService);
+
   protected readonly NO_OPTION_SELECTED = 0;
   protected logger: LoggerService = inject(LoggerService);
-
-  constructor(
-    protected cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService,
-    protected translation: TranslationService
-  ) {}
 
   convert(
     source: Cpq.Configuration,

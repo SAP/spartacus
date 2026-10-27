@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
+import { NgModule, inject, provideAppInitializer } from '@angular/core';
 import { CheckoutCostCenterEventListener } from './checkout-cost-center-event.listener';
 import { CheckoutPaymentTypeEventListener } from './checkout-payment-type-event.listener';
 
-@NgModule({})
-export class CheckoutB2BEventModule {
-  constructor(
-    _checkoutCostCenterEventListener: CheckoutCostCenterEventListener,
-    _checkoutPaymentTypeEventListener: CheckoutPaymentTypeEventListener
-  ) {
-    // Intentional empty constructor
-  }
-}
+@NgModule({
+  providers: [
+    provideAppInitializer(() => {
+      inject(CheckoutCostCenterEventListener);
+      inject(CheckoutPaymentTypeEventListener);
+    }),
+  ],
+})
+export class CheckoutB2BEventModule {}

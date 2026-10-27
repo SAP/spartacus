@@ -28,6 +28,12 @@ import { USE_MY_ACCOUNT_V2_PASSWORD } from './use-my-account-v2-password';
 
 @Injectable()
 export class UpdatePasswordComponentService {
+  protected userPasswordService = inject(UserPasswordFacade);
+  protected routingService = inject(RoutingService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected authRedirectService? = inject(AuthRedirectService);
+  protected authService? = inject(AuthService);
+
   // TODO: Delete FeatureToggles injection
   // When: upon removing feature toogle: useEnhancedSecurePasswordValidators and service is not used anywhere else
   private featureToggles = inject(FeatureToggles);
@@ -38,14 +44,6 @@ export class UpdatePasswordComponentService {
         CustomFormValidators.mustEndWithLegalCharacter,
       ]
     : CustomFormValidators.securePasswordValidators;
-
-  constructor(
-    protected userPasswordService: UserPasswordFacade,
-    protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService,
-    protected authRedirectService?: AuthRedirectService,
-    protected authService?: AuthService
-  ) {}
 
   protected busy$ = new BehaviorSubject(false);
 

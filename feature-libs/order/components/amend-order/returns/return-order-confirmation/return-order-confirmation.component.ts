@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -32,6 +32,8 @@ import { OrderAmendService } from '../../amend-order.service';
   ],
 })
 export class ReturnOrderConfirmationComponent {
+  protected orderAmendService = inject(OrderAmendService);
+
   orderCode: string;
 
   form$ = this.orderAmendService
@@ -40,8 +42,6 @@ export class ReturnOrderConfirmationComponent {
 
   entries$: Observable<OrderEntry[]> =
     this.orderAmendService.getAmendedEntries();
-
-  constructor(protected orderAmendService: OrderAmendService) {}
 
   submit(form: UntypedFormGroup): void {
     form.disable();

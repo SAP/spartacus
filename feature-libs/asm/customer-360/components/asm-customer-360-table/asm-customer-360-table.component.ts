@@ -16,6 +16,7 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   ArgsPipe,
@@ -62,6 +63,9 @@ import {
 export class AsmCustomer360TableComponent
   implements OnChanges, AfterViewChecked
 {
+  protected asmCustomer360Config = inject(AsmCustomer360Config);
+  protected directionService = inject(DirectionService);
+
   @ViewChild('table') table: ElementRef;
 
   @Input() columns: Array<CustomerTableColumn>;
@@ -95,11 +99,6 @@ export class AsmCustomer360TableComponent
   focusedTableRowIndex = 0;
 
   setFocusOnStartTableItem = false;
-
-  constructor(
-    protected asmCustomer360Config: AsmCustomer360Config,
-    protected directionService: DirectionService
-  ) {}
 
   ngOnChanges(changes?: SimpleChanges): void {
     if (changes?.entries) {

@@ -7,10 +7,10 @@
 import { DOCUMENT } from '@angular/common';
 import {
   ComponentRef,
-  Inject,
   Injectable,
   RendererFactory2,
   Type,
+  inject,
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -24,14 +24,10 @@ import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
 export class OutletRenderStrategy extends LaunchRenderStrategy {
-  constructor(
-    @Inject(DOCUMENT) protected document: any,
-    protected rendererFactory: RendererFactory2,
-    protected outletService: OutletService<Type<any>>,
-    protected outletRendererService: OutletRendererService
-  ) {
-    super(document, rendererFactory);
-  }
+  protected override document = inject(DOCUMENT);
+  protected override rendererFactory = inject(RendererFactory2);
+  protected outletService = inject<OutletService<Type<any>>>(OutletService);
+  protected outletRendererService = inject(OutletRendererService);
 
   /**
    * Renders the element in the configured outlet

@@ -34,12 +34,10 @@ import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service'
   imports: [CardComponent, AsyncPipe, CxDatePipe],
 })
 export class UnitLevelOrderOverviewComponent implements OnInit {
-  private featureToggles = inject(FeatureToggles);
+  protected translation = inject(TranslationService);
+  protected unitLevelOrderDetailsService = inject(UnitLevelOrderDetailService);
 
-  constructor(
-    protected translation: TranslationService,
-    protected unitLevelOrderDetailsService: UnitLevelOrderDetailService
-  ) {}
+  private featureToggles = inject(FeatureToggles);
 
   order$: Observable<Order>;
 

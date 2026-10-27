@@ -16,12 +16,10 @@ import { SiteContextRoutesHandler } from './site-context-routes-handler';
 
 @Injectable({ providedIn: 'root' })
 export class BaseSiteInitializer {
-  siteContextRoutesHandler = inject(SiteContextRoutesHandler);
+  protected baseSiteService = inject(BaseSiteService);
+  protected configInit = inject(ConfigInitializerService);
 
-  constructor(
-    protected baseSiteService: BaseSiteService,
-    protected configInit: ConfigInitializerService
-  ) {}
+  siteContextRoutesHandler = inject(SiteContextRoutesHandler);
 
   /**
    * Initializes the value of the base site

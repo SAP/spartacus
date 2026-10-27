@@ -10,6 +10,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ConfiguratorRouter } from '@spartacus/product-configurator/common';
@@ -43,6 +44,13 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 export class ConfiguratorConflictSolverDialogComponent
   implements OnInit, OnDestroy
 {
+  protected configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected focusService = inject(KeyboardFocusService);
+
   iconTypes = ICON_TYPE;
   uiType = Configurator.UiType;
 
@@ -57,13 +65,6 @@ export class ConfiguratorConflictSolverDialogComponent
 
   routerData$: Observable<ConfiguratorRouter.Data>;
   conflictGroup$: Observable<Configurator.Group>;
-
-  constructor(
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected launchDialogService: LaunchDialogService,
-    protected focusService: KeyboardFocusService
-  ) {}
 
   init(
     conflictGroup: Observable<Configurator.Group>,

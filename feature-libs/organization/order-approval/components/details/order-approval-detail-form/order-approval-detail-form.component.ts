@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  inject,
+} from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -46,6 +51,10 @@ import { OrderApprovalDetailService } from '../order-approval-detail.service';
   ],
 })
 export class OrderApprovalDetailFormComponent implements OnDestroy {
+  protected orderApprovalDetailService = inject(OrderApprovalDetailService);
+  protected orderApprovalService = inject(OrderApprovalService);
+  private fb = inject(UntypedFormBuilder);
+
   approvalDecisionValue = OrderApprovalDecisionValue;
   approvalDecision: OrderApprovalDecisionValue;
   approvalFormVisible = false;
@@ -78,11 +87,7 @@ export class OrderApprovalDetailFormComponent implements OnDestroy {
   orderApproval$: Observable<OrderApproval | undefined> =
     this.orderApprovalDetailService.getOrderApproval();
 
-  constructor(
-    protected orderApprovalDetailService: OrderApprovalDetailService,
-    protected orderApprovalService: OrderApprovalService,
-    private fb: UntypedFormBuilder
-  ) {
+  constructor() {
     this.orderApprovalService.resetMakeDecisionProcessState();
   }
 

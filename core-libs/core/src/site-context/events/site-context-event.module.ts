@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
+import { NgModule, inject, provideAppInitializer } from '@angular/core';
 import { SiteContextEventBuilder } from './site-context-event.builder';
 
-@NgModule({})
-export class SiteContextEventModule {
-  constructor(_siteContextEventBuilder: SiteContextEventBuilder) {
-    // Intentional empty constructor
-  }
-}
+@NgModule({
+  providers: [
+    provideAppInitializer(() => {
+      inject(SiteContextEventBuilder);
+    }),
+  ],
+})
+export class SiteContextEventModule {}

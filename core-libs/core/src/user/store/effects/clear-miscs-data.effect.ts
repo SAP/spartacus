@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -14,6 +14,8 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class ClearMiscsDataEffect {
+  private actions$ = inject(Actions);
+
   clearMiscsData$: Observable<Action> = createEffect(() =>
     this.actions$.pipe(
       ofType(
@@ -25,6 +27,4 @@ export class ClearMiscsDataEffect {
       })
     )
   );
-
-  constructor(private actions$: Actions) {}
 }

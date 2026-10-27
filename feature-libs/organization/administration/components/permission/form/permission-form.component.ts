@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -66,6 +71,11 @@ import { PermissionItemService } from '../services/permission-item.service';
   ],
 })
 export class PermissionFormComponent implements OnInit {
+  protected itemService = inject<ItemService<Permission>>(ItemService);
+  protected unitService = inject(OrgUnitService);
+  protected currencyService = inject(CurrencyService);
+  protected permissionService = inject(PermissionService);
+
   form: UntypedFormGroup | null = this.itemService.getForm();
 
   units$: Observable<B2BUnitNode[] | undefined> = this.unitService
@@ -90,13 +100,6 @@ export class PermissionFormComponent implements OnInit {
     this.permissionService.getTypes();
 
   periods = Object.keys(Period);
-
-  constructor(
-    protected itemService: ItemService<Permission>,
-    protected unitService: OrgUnitService,
-    protected currencyService: CurrencyService,
-    protected permissionService: PermissionService
-  ) {}
 
   ngOnInit(): void {
     this.unitService.loadList();

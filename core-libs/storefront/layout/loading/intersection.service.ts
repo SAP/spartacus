@@ -24,9 +24,9 @@ export type IntersectingCondition = (
   providedIn: 'root',
 })
 export class IntersectionService {
-  protected platformId = inject(PLATFORM_ID);
+  protected config = inject(LayoutConfig);
 
-  constructor(protected config: LayoutConfig) {}
+  protected platformId = inject(PLATFORM_ID);
 
   /**
    * Returns an Observable that emits only once a boolean value whenever

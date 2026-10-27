@@ -60,6 +60,15 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   ],
 })
 export class CheckoutReviewSubmitComponent {
+  protected checkoutDeliveryAddressFacade = inject(
+    CheckoutDeliveryAddressFacade
+  );
+  protected checkoutPaymentFacade = inject(CheckoutPaymentFacade);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected translationService = inject(TranslationService);
+  protected checkoutStepService = inject(CheckoutStepService);
+  protected checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
+
   private featureToggles = inject(FeatureToggles);
   readonly cartOutlets = CartOutlets;
   iconTypes = ICON_TYPE;
@@ -69,15 +78,6 @@ export class CheckoutReviewSubmitComponent {
   checkoutStepTypeDeliveryMode = CheckoutStepType.DELIVERY_MODE;
 
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
-
-  constructor(
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected activeCartFacade: ActiveCartFacade,
-    protected translationService: TranslationService,
-    protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
-  ) {}
 
   get cart$(): Observable<Cart> {
     return this.activeCartFacade.getActive();

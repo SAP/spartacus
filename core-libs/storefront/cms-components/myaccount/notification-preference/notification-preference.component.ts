@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import {
   NotificationPreference,
   TranslatePipe,
@@ -23,14 +28,14 @@ import { SpinnerComponent } from '../../../shared/components/spinner/spinner.com
   imports: [SpinnerComponent, AsyncPipe, TranslatePipe, FocusDirective],
 })
 export class NotificationPreferenceComponent implements OnInit {
+  private notificationPreferenceService = inject(
+    UserNotificationPreferenceService
+  );
+
   preferences$: Observable<NotificationPreference[]>;
   isLoading$: Observable<boolean>;
 
   protected preferences: NotificationPreference[] = [];
-
-  constructor(
-    private notificationPreferenceService: UserNotificationPreferenceService
-  ) {}
 
   ngOnInit() {
     this.notificationPreferenceService.resetNotificationPreferences();

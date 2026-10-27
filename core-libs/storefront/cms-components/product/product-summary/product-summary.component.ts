@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Product, ProductScope, TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive';
@@ -20,6 +20,8 @@ import { ProductDetailOutlets } from '../product-outlets.model';
   imports: [PromotionsComponent, OutletDirective, AsyncPipe, TranslatePipe],
 })
 export class ProductSummaryComponent {
+  protected currentProductService = inject(CurrentProductService);
+
   outlets = ProductDetailOutlets;
 
   product$: Observable<Product | null> = this.getProduct();
@@ -32,6 +34,4 @@ export class ProductSummaryComponent {
     ];
     return this.currentProductService.getProduct(productScopes);
   }
-
-  constructor(protected currentProductService: CurrentProductService) {}
 }

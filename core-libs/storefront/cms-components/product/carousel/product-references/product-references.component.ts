@@ -9,6 +9,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   TrackByFunction,
+  inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -39,11 +40,10 @@ import { CurrentProductService } from '../../current-product.service';
   ],
 })
 export class ProductReferencesComponent {
-  constructor(
-    protected cmsComponentData: CmsComponentData<CmsProductReferencesComponent>,
-    protected currentProductService: CurrentProductService,
-    protected productReferenceService: ProductReferenceService
-  ) {}
+  protected cmsComponentData =
+    inject<CmsComponentData<CmsProductReferencesComponent>>(CmsComponentData);
+  protected currentProductService = inject(CurrentProductService);
+  protected productReferenceService = inject(ProductReferenceService);
 
   protected get componentData$(): Observable<CmsProductReferencesComponent> {
     return this.cmsComponentData.data$.pipe(filter((data) => Boolean(data)));

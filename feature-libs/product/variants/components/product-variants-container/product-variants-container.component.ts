@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import {
   BaseOption,
   isNotNullable,
@@ -32,7 +37,7 @@ import { ProductVariantStyleSelectorComponent } from '../variant-style-selector/
   ],
 })
 export class ProductVariantsContainerComponent implements OnInit {
-  constructor(private currentProductService: CurrentProductService) {}
+  private currentProductService = inject(CurrentProductService);
 
   variants: { [key: string]: BaseOption } = {};
   variantType = VariantType;

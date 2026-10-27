@@ -1,3 +1,5 @@
+import { ProductAvailabilityAdapter } from './prduct-availability.adapter';
+import { TestBed } from '@angular/core/testing';
 import { firstValueFrom, of } from 'rxjs';
 import { Mock, vi } from 'vitest';
 import { ProductAvailabilities } from '../../../model/product.model';
@@ -16,7 +18,13 @@ describe('ProductAvailabilityConnector', () => {
 
   beforeEach(() => {
     adapter = { loadRealTimeStock: vi.fn() };
-    connector = new ProductAvailabilityConnector(adapter as any);
+    TestBed.configureTestingModule({
+      providers: [
+        ProductAvailabilityConnector,
+        { provide: ProductAvailabilityAdapter, useValue: adapter },
+      ],
+    });
+    connector = TestBed.inject(ProductAvailabilityConnector);
   });
 
   it('should be created', () => {

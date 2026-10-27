@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { LoadCartEvent } from '@spartacus/cart/base/root';
 import {
   CurrencySetEvent,
@@ -30,9 +30,11 @@ import {
   providedIn: 'root',
 })
 export class CheckoutDeliveryModeEventListener implements OnDestroy {
+  protected eventService = inject(EventService);
+
   protected subscriptions = new Subscription();
 
-  constructor(protected eventService: EventService) {
+  constructor() {
     this.onDeliveryModeSet();
     this.onDeliveryModeCleared();
     this.onDeliveryModeClearedError();

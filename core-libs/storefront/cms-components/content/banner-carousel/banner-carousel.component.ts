@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  inject,
+} from '@angular/core';
 import {
   CmsService,
   ContentSlotComponentData,
@@ -27,6 +32,9 @@ import { CarouselComponent } from '../../../shared/components/carousel/carousel.
   imports: [CarouselComponent, ComponentWrapperDirective, AsyncPipe],
 })
 export class BannerCarouselComponent {
+  private componentData = inject<CmsComponentData<model>>(CmsComponentData);
+  private cmsService = inject(CmsService);
+
   private componentData$: Observable<model> = this.componentData.data$.pipe(
     filter((data) => Boolean(data)),
     tap((d: model) => (this.theme = `${d.effect}-theme`))
@@ -45,11 +53,6 @@ export class BannerCarouselComponent {
    * used in CSS customisations.
    */
   @HostBinding('class') theme = '';
-
-  constructor(
-    private componentData: CmsComponentData<model>,
-    private cmsService: CmsService
-  ) {}
 
   /**
    * Returns an Obervable with an Array of Observables. This is done, so that

@@ -54,6 +54,15 @@ import { StoreSearchComponent } from '../store-search/store-search.component';
   ],
 })
 export class PickupOptionDialogComponent implements OnInit, OnDestroy {
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected elementRef = inject(ElementRef);
+  protected intendedPickupLocationService = inject(
+    IntendedPickupLocationFacade
+  );
+  protected launchDialogService = inject(LaunchDialogService);
+  protected pickupLocationsSearchService = inject(PickupLocationsSearchFacade);
+  protected pickupOptionFacade = inject(PickupOptionFacade);
+
   productCode: string;
   entryNumber: number;
   quantity: number;
@@ -80,17 +89,6 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
       autofocus: 'input',
       focusOnEscape: true,
     };
-  }
-
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected elementRef: ElementRef,
-    protected intendedPickupLocationService: IntendedPickupLocationFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
-    protected pickupOptionFacade: PickupOptionFacade
-  ) {
-    // Intentional empty constructor
   }
 
   @HostListener('click', ['$event'])

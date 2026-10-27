@@ -129,6 +129,11 @@
       "version": "221121.24.0",
       "factory": "./221121_24/ssr/add-ng-allowed-hosts/index#migrate",
       "description": "Add NG_ALLOWED_HOSTS to the serve:ssr script (required by Angular 22 SSR)"
+    },
+    "11-migration-v221121_24-constructor-deprecations": {
+      "version": "221121.24.0",
+      "factory": "./221121_24/constructor-deprecations/constructor-deprecations#migrate",
+      "description": "Remove constructor params from classes extending Spartacus services/components migrated to inject() (Angular 22)"
     }
   }
 }

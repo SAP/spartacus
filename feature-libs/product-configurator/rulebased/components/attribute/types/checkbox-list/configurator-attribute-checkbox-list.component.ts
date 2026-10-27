@@ -49,24 +49,26 @@ export class ConfiguratorAttributeCheckBoxListComponent
   extends ConfiguratorAttributeMultiSelectionBaseComponent
   implements OnInit
 {
+  protected configUtilsService = inject(ConfiguratorStorefrontUtilsService);
+  protected override quantityService = inject(
+    ConfiguratorAttributeQuantityService
+  );
+  protected override attributeComponentContext = inject(
+    ConfiguratorAttributeCompositionContext
+  );
+  protected override configuratorCommonsService = inject(
+    ConfiguratorCommonsService
+  );
+
   attributeCheckBoxForms = new Array<UntypedFormControl>();
 
   group: string;
 
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected configUtilsService: ConfiguratorStorefrontUtilsService,
-    protected quantityService: ConfiguratorAttributeQuantityService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
-  ) {
-    super(
-      quantityService,
-      attributeComponentContext,
-      configuratorCommonsService
-    );
-    this.group = attributeComponentContext.group.id;
+  constructor() {
+    super();
+    this.group = this.attributeComponentContext.group.id;
   }
 
   ngOnInit(): void {

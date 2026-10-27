@@ -11,6 +11,7 @@ import {
   NgZone,
   OnInit,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { GigyaRaasComponentData } from '@spartacus/cdc/core';
 import { CdcConfig, CdcJsService } from '@spartacus/cdc/root';
@@ -33,20 +34,20 @@ import { distinctUntilChanged, take, tap } from 'rxjs/operators';
   imports: [AsyncPipe, TranslatePipe],
 })
 export class GigyaRaasComponent implements OnInit {
+  component =
+    inject<CmsComponentData<GigyaRaasComponentData>>(CmsComponentData);
+  private baseSiteService = inject(BaseSiteService);
+  private languageService = inject(LanguageService);
+  private cdcConfig = inject(CdcConfig);
+  private winRef = inject(WindowRef);
+  private cdcJSService = inject(CdcJsService);
+  private zone = inject(NgZone);
+
   protected renderScreenSet = true;
   language$: Observable<string>;
   jsError$: Observable<boolean>;
   jsLoaded$: Observable<boolean>;
   protected isPasswordReset = false;
-  public constructor(
-    public component: CmsComponentData<GigyaRaasComponentData>,
-    private baseSiteService: BaseSiteService,
-    private languageService: LanguageService,
-    private cdcConfig: CdcConfig,
-    private winRef: WindowRef,
-    private cdcJSService: CdcJsService,
-    private zone: NgZone
-  ) {}
 
   ngOnInit(): void {
     this.jsLoaded$ = this.cdcJSService.didLoad();

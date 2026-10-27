@@ -42,6 +42,10 @@ import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-
   ],
 })
 export class OrderDetailItemsComponent {
+  protected orderDetailsService = inject(OrderDetailsService);
+  protected component =
+    inject<CmsComponentData<CmsOrderDetailItemsComponent>>(CmsComponentData);
+
   protected orderConsignmentsService = inject(
     MyAccountV2OrderConsignmentsService
   );
@@ -82,11 +86,6 @@ export class OrderDetailItemsComponent {
   groupCartItems$: Observable<boolean | undefined> = this.component.data$.pipe(
     map((data) => data.groupCartItems)
   );
-
-  constructor(
-    protected orderDetailsService: OrderDetailsService,
-    protected component: CmsComponentData<CmsOrderDetailItemsComponent>
-  ) {}
 
   protected getGroupedConsignments(
     order: Order,

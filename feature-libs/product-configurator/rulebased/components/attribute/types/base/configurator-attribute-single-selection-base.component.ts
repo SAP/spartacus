@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive } from '@angular/core';
+import { Directive, inject } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -22,6 +22,16 @@ import { ConfiguratorAttributeSelectionBaseComponent } from './configurator-attr
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends ConfiguratorAttributeSelectionBaseComponent {
+  protected quantityService = inject(ConfiguratorAttributeQuantityService);
+  protected translation = inject(TranslationService);
+  protected attributeComponentContext = inject(
+    ConfiguratorAttributeCompositionContext
+  );
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
+
   attribute: Configurator.Attribute;
   ownerKey: string;
   ownerType: string;
@@ -30,14 +40,9 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
 
   showRequiredErrorMessage$: Observable<boolean> = of(false);
 
-  constructor(
-    protected quantityService: ConfiguratorAttributeQuantityService,
-    protected translation: TranslationService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
-  ) {
+  constructor() {
     super();
+    const attributeComponentContext = this.attributeComponentContext;
 
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;

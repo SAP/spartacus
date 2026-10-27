@@ -11,7 +11,6 @@ import {
   DestroyRef,
   OnDestroy,
   OnInit,
-  Optional,
   inject,
   signal,
 } from '@angular/core';
@@ -63,6 +62,8 @@ import { OpfGiftCards } from '../../model';
   ],
 })
 export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
+  protected outlet? = inject(OutletContextData, { optional: true });
+
   protected globalMessageService = inject(GlobalMessageService);
   protected activeCartFacade = inject(ActiveCartFacade);
   protected giftCardFacade = inject(OpfGiftCardFacade);
@@ -104,8 +105,6 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
       ],
     });
   }
-
-  constructor(@Optional() protected outlet?: OutletContextData) {}
 
   addGiftCard(): void {
     if (this.giftCardForm.invalid) {

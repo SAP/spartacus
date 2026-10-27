@@ -46,6 +46,11 @@ import {
   imports: [SpinnerComponent, AsyncPipe, TranslatePipe],
 })
 export class CheckoutPaymentTypeComponent {
+  protected checkoutPaymentTypeFacade = inject(CheckoutPaymentTypeFacade);
+  protected checkoutStepService = inject(CheckoutStepService);
+  protected activatedRoute = inject(ActivatedRoute);
+  protected globalMessageService = inject(GlobalMessageService);
+
   @ViewChild('poNumber', { static: false })
   private poNumberInputElement: ElementRef<HTMLInputElement>;
 
@@ -142,13 +147,6 @@ export class CheckoutPaymentTypeComponent {
   isPONumberEditable$: Observable<boolean> = this.activeCartFacade
     .getActive()
     .pipe(map((cart) => !cart?.quotePurchaseOrderNumber));
-
-  constructor(
-    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
-    protected checkoutStepService: CheckoutStepService,
-    protected activatedRoute: ActivatedRoute,
-    protected globalMessageService: GlobalMessageService
-  ) {}
 
   changeType(code: string): void {
     this.busy$.next(true);

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { MergeCartSuccessEvent } from '@spartacus/cart/base/root';
 import {
   RestoreSavedCartSuccessEvent,
@@ -28,9 +28,11 @@ import {
   providedIn: 'root',
 })
 export class CheckoutQueryEventListener implements OnDestroy {
+  protected eventService = inject(EventService);
+
   protected subscriptions = new Subscription();
 
-  constructor(protected eventService: EventService) {
+  constructor() {
     this.onCheckoutQueryReload();
     this.onCheckoutQueryReset();
   }

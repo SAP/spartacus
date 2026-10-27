@@ -11,6 +11,7 @@ import {
   Input,
   OnInit,
   Output,
+  inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe, UrlPipe } from '@spartacus/core';
@@ -40,9 +41,9 @@ import { VisualPickingProductListService } from './visual-picking-product-list.s
   ],
 })
 export class VisualPickingProductListComponent implements OnInit {
-  constructor(
-    protected visualPickingProductListService: VisualPickingProductListService
-  ) {}
+  protected visualPickingProductListService = inject(
+    VisualPickingProductListService
+  );
 
   @Input() title: string;
   @Input() singleSelection = true;

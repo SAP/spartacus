@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { RoutingService } from '@spartacus/core';
@@ -22,6 +22,9 @@ import {
   providedIn: 'root',
 })
 export class SavedCartDetailsService {
+  protected routingService = inject(RoutingService);
+  protected savedCartService = inject(SavedCartFacade);
+
   protected savedCartId$ = this.routingService.getRouterState().pipe(
     map((routingData) => routingData.state.params.savedCartId),
     distinctUntilChanged()
@@ -35,11 +38,6 @@ export class SavedCartDetailsService {
     switchMap((savedCartId: string) => this.savedCartService.get(savedCartId)),
     shareReplay({ bufferSize: 1, refCount: true })
   );
-
-  constructor(
-    protected routingService: RoutingService,
-    protected savedCartService: SavedCartFacade
-  ) {}
 
   getSavedCartId(): Observable<string> {
     return this.savedCartId$;

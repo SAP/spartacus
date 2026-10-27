@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { FocusDirective } from '../../keyboard-focus/focus.directive';
@@ -19,9 +19,9 @@ import { SkipLinkService } from '../service/skip-link.service';
   imports: [FocusDirective, AsyncPipe, TranslatePipe],
 })
 export class SkipLinkComponent {
-  skipLinks$: Observable<SkipLink[]> = this.skipLinkService.getSkipLinks();
+  private skipLinkService = inject(SkipLinkService);
 
-  constructor(private skipLinkService: SkipLinkService) {}
+  skipLinks$: Observable<SkipLink[]> = this.skipLinkService.getSkipLinks();
 
   scrollToTarget(skipLink: SkipLink): void {
     this.skipLinkService.scrollToTarget(skipLink);

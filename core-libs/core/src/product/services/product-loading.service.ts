@@ -5,7 +5,7 @@
  */
 
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { defer, merge, Observable, of, SchedulerLike, using } from 'rxjs';
@@ -34,17 +34,15 @@ import { isKeyInvalid } from '../../util';
   providedIn: 'root',
 })
 export class ProductLoadingService {
+  protected store = inject<Store<StateWithProduct>>(Store);
+  protected loadingScopes = inject(LoadingScopesService);
+  protected actions$ = inject(Actions);
+  protected platformId = inject(PLATFORM_ID);
+  protected eventService = inject(EventService);
+
   protected products: {
     [code: string]: { [scope: string]: Observable<Product> };
   } = {};
-
-  constructor(
-    protected store: Store<StateWithProduct>,
-    protected loadingScopes: LoadingScopesService,
-    protected actions$: Actions,
-    @Inject(PLATFORM_ID) protected platformId: any,
-    protected eventService: EventService
-  ) {}
 
   get(productCode: string, scopes: string[]): Observable<Product> {
     isKeyInvalid(productCode);

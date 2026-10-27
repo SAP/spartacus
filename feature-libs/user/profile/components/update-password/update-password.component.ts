@@ -52,12 +52,12 @@ import { UpdatePasswordComponentService } from './update-password-component.serv
   ],
 })
 export class UpdatePasswordComponent {
+  protected service = inject(UpdatePasswordComponentService);
+
   @Optional() protected routingService = inject(RoutingService, {
     optional: true,
   });
   protected pageMetaService = inject(PageMetaService);
-
-  constructor(protected service: UpdatePasswordComponentService) {}
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;

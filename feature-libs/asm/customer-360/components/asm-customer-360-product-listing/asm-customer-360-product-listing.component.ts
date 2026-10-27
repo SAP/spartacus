@@ -13,6 +13,7 @@ import {
   OnInit,
   Output,
   TemplateRef,
+  inject,
 } from '@angular/core';
 import { Product, TranslatePipe } from '@spartacus/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
@@ -34,6 +35,8 @@ import { ProductItem } from './product-item.model';
   ],
 })
 export class AsmCustomer360ProductListingComponent implements OnInit {
+  protected breakpointService = inject(BreakpointService);
+
   @Input()
   emptyResultDescription: string;
 
@@ -58,8 +61,6 @@ export class AsmCustomer360ProductListingComponent implements OnInit {
   numberofColumns$: Observable<number>;
 
   showMore: boolean;
-
-  constructor(protected breakpointService: BreakpointService) {}
 
   ngOnInit(): void {
     this.numberofColumns$ = this.getNumberofColumns();

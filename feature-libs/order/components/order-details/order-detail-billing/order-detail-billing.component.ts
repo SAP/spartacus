@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
 import { PaymentDetails, TranslationService } from '@spartacus/core';
 import {
@@ -25,13 +25,12 @@ import { OrderDetailsService } from '../order-details.service';
   imports: [CardComponent, AsyncPipe, OutletModule],
 })
 export class OrderDetailBillingComponent {
+  protected orderDetailsService = inject(OrderDetailsService);
+  protected translationService = inject(TranslationService);
+
   order$: Observable<Order | undefined> =
     this.orderDetailsService.getOrderDetails();
   readonly cartOutlets = CartOutlets;
-  constructor(
-    protected orderDetailsService: OrderDetailsService,
-    protected translationService: TranslationService
-  ) {}
 
   getPaymentMethodCard(paymentDetails: PaymentDetails): Observable<Card> {
     return combineLatest([

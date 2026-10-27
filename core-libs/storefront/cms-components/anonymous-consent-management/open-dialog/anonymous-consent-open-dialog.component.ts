@@ -10,6 +10,7 @@ import {
   ElementRef,
   ViewChild,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { AnonymousConsentsService, TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -23,15 +24,13 @@ import { LaunchDialogService } from '../../../layout/launch-dialog/services/laun
   imports: [AsyncPipe, TranslatePipe],
 })
 export class AnonymousConsentOpenDialogComponent {
+  protected vcr = inject(ViewContainerRef);
+  protected anonymousConsentsService = inject(AnonymousConsentsService);
+  protected launchDialogService = inject(LaunchDialogService);
+
   @ViewChild('open') openElement: ElementRef;
   bannerVisible$: Observable<boolean> =
     this.anonymousConsentsService.isBannerVisible();
-
-  constructor(
-    protected vcr: ViewContainerRef,
-    protected anonymousConsentsService: AnonymousConsentsService,
-    protected launchDialogService: LaunchDialogService
-  ) {}
 
   openDialog(): void {
     const dialog = this.launchDialogService.openDialog(

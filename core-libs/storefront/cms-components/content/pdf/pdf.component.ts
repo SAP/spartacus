@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CmsPDFDocumentComponent, TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -20,6 +20,10 @@ import { IconComponent } from '../../misc/icon/icon.component';
   imports: [IconComponent, AsyncPipe, TranslatePipe],
 })
 export class PDFComponent {
+  protected component =
+    inject<CmsComponentData<CmsPDFDocumentComponent>>(CmsComponentData);
+  protected mediaService = inject(MediaService);
+
   url?: string;
   data$: Observable<CmsPDFDocumentComponent> = this.component.data$.pipe(
     tap((data) => {
@@ -28,11 +32,6 @@ export class PDFComponent {
       }
     })
   );
-
-  constructor(
-    protected component: CmsComponentData<CmsPDFDocumentComponent>,
-    protected mediaService: MediaService
-  ) {}
 
   addPdfExtension(title?: string) {
     if (!title) {

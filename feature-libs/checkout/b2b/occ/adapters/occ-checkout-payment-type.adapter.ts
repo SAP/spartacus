@@ -28,13 +28,11 @@ import { catchError, map } from 'rxjs/operators';
 export class OccCheckoutPaymentTypeAdapter
   implements CheckoutPaymentTypeAdapter
 {
-  protected logger = inject(LoggerService);
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  protected logger = inject(LoggerService);
 
   getPaymentTypes(): Observable<PaymentType[]> {
     const context = new HttpContext().set(OCC_HTTP_TOKEN, {

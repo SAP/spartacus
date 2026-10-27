@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component, inject, Optional } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { FeatureToggles, TranslatePipe } from '@spartacus/core';
@@ -25,13 +25,12 @@ import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-c
   ],
 })
 export class ConfiguratorIssuesNotificationComponent {
+  protected commonConfigUtilsService = inject(CommonConfiguratorUtilsService);
+  protected cartItemContext =
+    inject(CartItemContext, { optional: true }) ?? undefined;
+
   iconTypes = ICON_TYPE;
   private featureToggles = inject(FeatureToggles);
-
-  constructor(
-    protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    @Optional() protected cartItemContext: CartItemContext
-  ) {}
 
   readonly orderEntry$: Observable<OrderEntry> =
     this.cartItemContext?.item$ ?? EMPTY;

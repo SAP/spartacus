@@ -10,10 +10,10 @@ import {
   ComponentRef,
   createComponent,
   EnvironmentInjector,
-  Inject,
   Injectable,
   Injector,
   RendererFactory2,
+  inject,
 } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { LAUNCH_CALLER, LaunchInlineRootDialog } from '../config/launch-config';
@@ -21,13 +21,9 @@ import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
 export class InlineRootRenderStrategy extends LaunchRenderStrategy {
-  constructor(
-    @Inject(DOCUMENT) protected document: any,
-    protected rendererFactory: RendererFactory2,
-    protected injector: Injector
-  ) {
-    super(document, rendererFactory);
-  }
+  protected override document = inject(DOCUMENT);
+  protected override rendererFactory = inject(RendererFactory2);
+  protected injector = inject(Injector);
 
   get hostComponent() {
     return this.injector.get(ApplicationRef)?.components?.[0];

@@ -37,12 +37,14 @@ import { map, startWith } from 'rxjs/operators';
   imports: [AsyncPipe, TranslatePipe],
 })
 export class FormErrorsComponent implements DoCheck {
+  protected ChangeDetectionRef = inject(ChangeDetectorRef);
+
   protected elementRef = inject(ElementRef, { optional: true });
   protected ariaLiveToken = inject(new HostAttributeToken('aria-live'), {
     optional: true,
   });
 
-  constructor(protected ChangeDetectionRef: ChangeDetectorRef) {
+  constructor() {
     useFeatureStyles('a11yFormErrorIconContrast');
   }
 

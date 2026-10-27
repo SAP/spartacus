@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AuthService, AuthConfigService } from '@spartacus/core';
 import { CmsPageGuard, LoginGuard } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -18,13 +18,9 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root',
 })
 export class CdcLoginGuard extends LoginGuard {
-  constructor(
-    protected authService: AuthService,
-    protected authConfigService: AuthConfigService,
-    protected cmsPageGuard: CmsPageGuard
-  ) {
-    super(authService, authConfigService, cmsPageGuard);
-  }
+  protected override authService = inject(AuthService);
+  protected override authConfigService = inject(AuthConfigService);
+  protected override cmsPageGuard = inject(CmsPageGuard);
 
   protected shouldRenderCMSPage(): Observable<boolean> {
     return of(true); // always load CMS Login Page

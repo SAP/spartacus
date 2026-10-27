@@ -10,6 +10,7 @@ import {
   EventEmitter,
   Injectable,
   Renderer2,
+  inject,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { EventListenerUtils } from '@spartacus/epd-visualization/root';
@@ -21,12 +22,12 @@ import { EventListenerUtils } from '@spartacus/epd-visualization/root';
   providedIn: 'root',
 })
 export class VisualViewerAnimationSliderService {
-  public constructor(
-    private elementRef: ElementRef,
-    private windowRef: WindowRef,
-    private renderer: Renderer2,
-    private changeDetectorRef: ChangeDetectorRef
-  ) {
+  private elementRef = inject(ElementRef);
+  private windowRef = inject(WindowRef);
+  private renderer = inject(Renderer2);
+  private changeDetectorRef = inject(ChangeDetectorRef);
+
+  public constructor() {
     this.eventListenerUtils.initialize(this.renderer);
   }
 

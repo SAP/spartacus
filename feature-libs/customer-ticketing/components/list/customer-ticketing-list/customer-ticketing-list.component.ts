@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   CxDatePipe,
@@ -48,12 +48,11 @@ import { CustomerTicketingCreateComponent } from '../customer-ticketing-create/c
   ],
 })
 export class CustomerTicketingListComponent {
-  constructor(
-    protected customerTicketingFacade: CustomerTicketingFacade,
-    protected routingService: RoutingService,
-    protected translationService: TranslationService,
-    protected customerTicketingConfig: CustomerTicketingConfig
-  ) {}
+  protected customerTicketingFacade = inject(CustomerTicketingFacade);
+  protected routingService = inject(RoutingService);
+  protected translationService = inject(TranslationService);
+  protected customerTicketingConfig = inject(CustomerTicketingConfig);
+
   PAGE_SIZE =
     this.customerTicketingConfig.customerTicketing?.listViewPageSize || 5;
   sortType: string;

@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   CxDatePipe,
@@ -39,11 +44,9 @@ import { OrderApprovalService } from '../../core/services/order-approval.service
   ],
 })
 export class OrderApprovalListComponent implements OnInit {
-  constructor(
-    protected routing: RoutingService,
-    protected orderApprovalService: OrderApprovalService,
-    protected translation: TranslationService
-  ) {}
+  protected routing = inject(RoutingService);
+  protected orderApprovalService = inject(OrderApprovalService);
+  protected translation = inject(TranslationService);
 
   sortLabels$: Observable<{ byDate: string; byOrderNumber: string }>;
   protected PAGE_SIZE = 5;

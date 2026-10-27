@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, HostBinding } from '@angular/core';
+import { Component, HostBinding, inject } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import {
@@ -36,6 +36,14 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   ],
 })
 export class ConfiguratorOverviewFormComponent {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+  protected configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
+
   @HostBinding('class.ghost') ghostStyle = true;
 
   attributeOverviewType = Configurator.AttributeOverviewType;
@@ -58,12 +66,6 @@ export class ConfiguratorOverviewFormComponent {
         this.ghostStyle = false;
       })
     );
-
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
-  ) {}
 
   /**
    * Does the configuration contain any selected attribute values?

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ConsentTemplate } from '@spartacus/core';
 import { ConsentManagementComponentService } from '@spartacus/storefront';
 import { CdcLocalStorageTemplate } from '../model/index';
@@ -14,9 +14,8 @@ import { CdcConsentsLocalStorageService } from './cdc-consents-local-storage.ser
   providedIn: 'root',
 })
 export class CdcConsentManagementComponentService extends ConsentManagementComponentService {
-  constructor(protected store: CdcConsentsLocalStorageService) {
-    super();
-  }
+  protected store = inject(CdcConsentsLocalStorageService);
+
   getRequiredConsents(templateList: ConsentTemplate[]): string[] {
     const requiredConsents: string[] = [];
     const cdcConsents = this.getCdcConsentIDs(true);

@@ -1,3 +1,4 @@
+import { TestBed } from '@angular/core/testing';
 import { PageContext } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsStructureConfigService } from '../../../cms/services/cms-structure-config.service';
@@ -5,6 +6,7 @@ import { PageType } from '../../../model/cms.model';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { CmsConfig } from '../../config/cms-config';
 import { CmsComponentConnector } from './cms-component.connector';
+import { CmsComponentAdapter } from './cms-component.adapter';
 
 const ids = ['comp_uid1', 'comp_uid2'];
 const context: PageContext = {
@@ -44,11 +46,17 @@ describe('CmsComponentConnector', () => {
         .fn()
         .mockReturnValue(of([undefined, undefined, 'config-component'])),
     };
-    service = new CmsComponentConnector(
-      structureConfigService as any,
-      adapter as any,
-      config
-    );
+    service = TestBed.configureTestingModule({
+      providers: [
+        CmsComponentConnector,
+        {
+          provide: CmsStructureConfigService,
+          useValue: structureConfigService,
+        },
+        { provide: CmsComponentAdapter, useValue: adapter },
+        { provide: CmsConfig, useValue: config },
+      ],
+    }).inject(CmsComponentConnector);
   }
 
   describe('CmsComponentConnector for 1905+ backend', () => {

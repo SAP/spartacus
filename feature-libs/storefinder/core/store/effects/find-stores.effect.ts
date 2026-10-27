@@ -14,12 +14,10 @@ import { StoreFinderActions } from '../actions/index';
 
 @Injectable()
 export class FindStoresEffect {
-  protected logger = inject(LoggerService);
+  private actions$ = inject(Actions);
+  private storeFinderConnector = inject(StoreFinderConnector);
 
-  constructor(
-    private actions$: Actions,
-    private storeFinderConnector: StoreFinderConnector
-  ) {}
+  protected logger = inject(LoggerService);
 
   findStores$: Observable<
     StoreFinderActions.FindStoresSuccess | StoreFinderActions.FindStoresFail

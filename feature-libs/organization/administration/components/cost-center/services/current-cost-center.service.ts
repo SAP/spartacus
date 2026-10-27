@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CostCenter, RoutingService } from '@spartacus/core';
 import { CostCenterService } from '@spartacus/organization/administration/core';
 import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
@@ -15,12 +15,8 @@ import { CurrentItemService } from '../../shared/current-item.service';
   providedIn: 'root',
 })
 export class CurrentCostCenterService extends CurrentItemService<CostCenter> {
-  constructor(
-    protected routingService: RoutingService,
-    protected costCenterService: CostCenterService
-  ) {
-    super(routingService);
-  }
+  protected override routingService = inject(RoutingService);
+  protected costCenterService = inject(CostCenterService);
 
   protected getParamKey() {
     return ROUTE_PARAMS.costCenterCode;

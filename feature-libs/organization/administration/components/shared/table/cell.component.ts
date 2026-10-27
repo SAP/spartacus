@@ -29,11 +29,12 @@ import {
   imports: [RouterLink, NgTemplateOutlet, UrlPipe],
 })
 export class CellComponent implements OnInit {
+  protected outlet =
+    inject<OutletContextData<TableDataOutletContext>>(OutletContextData);
+
   changeDetectorRef = inject(ChangeDetectorRef);
   private featureToggles = inject(FeatureToggles);
   private destroyRef = inject(DestroyRef);
-
-  constructor(protected outlet: OutletContextData<TableDataOutletContext>) {}
 
   ngOnInit(): void {
     if (this.featureToggles.a11yCardNotificationMessage) {

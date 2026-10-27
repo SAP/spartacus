@@ -17,13 +17,13 @@ import { SiteContextRoutesHandler } from './site-context-routes-handler';
 
 @Injectable({ providedIn: 'root' })
 export class CurrencyInitializer {
-  siteContextRoutesHandler = inject(SiteContextRoutesHandler);
+  protected currencyService = inject(CurrencyService);
+  protected currencyStatePersistenceService = inject(
+    CurrencyStatePersistenceService
+  );
+  protected configInit = inject(ConfigInitializerService);
 
-  constructor(
-    protected currencyService: CurrencyService,
-    protected currencyStatePersistenceService: CurrencyStatePersistenceService,
-    protected configInit: ConfigInitializerService
-  ) {}
+  siteContextRoutesHandler = inject(SiteContextRoutesHandler);
 
   /**
    * Initializes the value of the active currency.

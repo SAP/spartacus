@@ -32,6 +32,13 @@ import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
 export class OpfB2bCheckoutPaymentTypeService
   implements CheckoutPaymentTypeFacade
 {
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected userIdService = inject(UserIdService);
+  protected queryService = inject(QueryService);
+  protected commandService = inject(CommandService);
+  protected eventService = inject(EventService);
+  protected checkoutQueryFacade = inject(CheckoutQueryFacade);
+
   protected opfPaymentFacade = inject(OpfPaymentFacade);
 
   protected setPaymentTypeCommand: Command<{
@@ -70,15 +77,6 @@ export class OpfB2bCheckoutPaymentTypeService
       strategy: CommandStrategy.CancelPrevious,
     }
   );
-
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected userIdService: UserIdService,
-    protected queryService: QueryService,
-    protected commandService: CommandService,
-    protected eventService: EventService,
-    protected checkoutQueryFacade: CheckoutQueryFacade
-  ) {}
 
   protected checkoutPreconditions(): Observable<[string, string]> {
     return combineLatest([

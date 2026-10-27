@@ -44,6 +44,18 @@ import { ConfiguratorGroupMenuService } from './configurator-group-menu.componen
   imports: [FocusDirective, IconComponent, NgClass, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorGroupMenuComponent {
+  protected configCommonsService = inject(ConfiguratorCommonsService);
+  protected configuratorGroupsService = inject(ConfiguratorGroupsService);
+  protected hamburgerMenuService = inject(HamburgerMenuService);
+  protected configRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+  protected configUtils = inject(ConfiguratorStorefrontUtilsService);
+  protected configGroupMenuService = inject(ConfiguratorGroupMenuService);
+  protected directionService = inject(DirectionService);
+  protected translation = inject(TranslationService);
+  protected configExpertModeService = inject(ConfiguratorExpertModeService);
+
   @ViewChildren('groupItem') groups: QueryList<ElementRef<HTMLElement>>;
 
   protected breakpointService = inject(BreakpointService);
@@ -116,18 +128,6 @@ export class ConfiguratorGroupMenuComponent {
   COMPLETE = ' COMPLETE';
   WARNING = ' WARNING';
   ICON = 'ICON';
-
-  constructor(
-    protected configCommonsService: ConfiguratorCommonsService,
-    protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected hamburgerMenuService: HamburgerMenuService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configUtils: ConfiguratorStorefrontUtilsService,
-    protected configGroupMenuService: ConfiguratorGroupMenuService,
-    protected directionService: DirectionService,
-    protected translation: TranslationService,
-    protected configExpertModeService: ConfiguratorExpertModeService
-  ) {}
 
   /**
    * Selects group or navigates to sub-group depending on clicked group

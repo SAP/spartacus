@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -47,23 +52,21 @@ export class ConfiguratorAttributeRadioButtonComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
   implements OnInit
 {
-  attributeRadioButtonForm = new UntypedFormControl('');
+  protected override quantityService = inject(
+    ConfiguratorAttributeQuantityService
+  );
+  protected override translation = inject(TranslationService);
+  protected override attributeComponentContext = inject(
+    ConfiguratorAttributeCompositionContext
+  );
+  protected override configuratorCommonsService = inject(
+    ConfiguratorCommonsService
+  );
+  protected override configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
 
-  constructor(
-    protected quantityService: ConfiguratorAttributeQuantityService,
-    protected translation: TranslationService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
-  ) {
-    super(
-      quantityService,
-      translation,
-      attributeComponentContext,
-      configuratorCommonsService,
-      configuratorStorefrontUtilsService
-    );
-  }
+  attributeRadioButtonForm = new UntypedFormControl('');
 
   ngOnInit(): void {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);

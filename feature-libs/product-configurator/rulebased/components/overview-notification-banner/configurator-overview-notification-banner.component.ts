@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
@@ -27,6 +27,12 @@ import { Configurator } from '../../core/model/configurator.model';
   imports: [IconComponent, RouterLink, AsyncPipe, TranslatePipe, UrlPipe],
 })
 export class ConfiguratorOverviewNotificationBannerComponent {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+  protected commonConfigUtilsService = inject(CommonConfiguratorUtilsService);
+
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
 
@@ -76,10 +82,4 @@ export class ConfiguratorOverviewNotificationBannerComponent {
     );
 
   iconTypes = ICON_TYPE;
-
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected commonConfigUtilsService: CommonConfiguratorUtilsService
-  ) {}
 }

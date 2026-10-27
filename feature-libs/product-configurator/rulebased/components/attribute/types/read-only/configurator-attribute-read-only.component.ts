@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -27,15 +27,19 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
   ],
 })
 export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttributeBaseComponent {
+  protected translationService = inject(TranslationService);
+  protected attributeComponentContext = inject(
+    ConfiguratorAttributeCompositionContext
+  );
+
   attribute: Configurator.Attribute;
   group: string;
   expMode: boolean;
 
-  constructor(
-    protected translationService: TranslationService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
-  ) {
+  constructor() {
     super();
+    const attributeComponentContext = this.attributeComponentContext;
+
     this.attribute = attributeComponentContext.attribute;
     this.group = attributeComponentContext.group.id;
     this.expMode = attributeComponentContext.expMode;

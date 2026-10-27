@@ -38,6 +38,9 @@ import { ProductCarouselItemComponent } from '../product-carousel-item/product-c
   ],
 })
 export class ProductCarouselComponent {
+  protected componentData = inject<CmsComponentData<model>>(CmsComponentData);
+  protected productService = inject(ProductService);
+
   protected productSearchByCodeService: ProductSearchByCodeService = inject(
     ProductSearchByCodeService
   );
@@ -83,11 +86,6 @@ export class ProductCarouselComponent {
 
   trackByFn: TrackByFunction<Product> = (_index: number, item: Product) =>
     item?.code;
-
-  constructor(
-    protected componentData: CmsComponentData<model>,
-    protected productService: ProductService
-  ) {}
 
   handleCategoryCodes(data: model): Observable<model> {
     const categoryCodes = data?.categoryCodes?.split(' ');

@@ -61,6 +61,22 @@ export class B2BCheckoutDeliveryAddressComponent
   extends CheckoutDeliveryAddressComponent
   implements OnInit, OnDestroy
 {
+  protected override userAddressService = inject(UserAddressService);
+  protected override checkoutDeliveryAddressFacade = inject(
+    CheckoutDeliveryAddressFacade
+  );
+  protected override activatedRoute = inject(ActivatedRoute);
+  protected override translationService = inject(TranslationService);
+  protected override activeCartFacade = inject(ActiveCartFacade);
+  protected override checkoutStepService = inject(CheckoutStepService);
+  protected override checkoutDeliveryModesFacade = inject(
+    CheckoutDeliveryModesFacade
+  );
+  protected override globalMessageService = inject(GlobalMessageService);
+  protected checkoutCostCenterFacade = inject(CheckoutCostCenterFacade);
+  protected checkoutPaymentTypeFacade = inject(CheckoutPaymentTypeFacade);
+  protected userCostCenterService = inject(UserCostCenterService);
+
   protected subscriptions = new Subscription();
   private b2bFeatureToggles = inject(FeatureToggles);
 
@@ -107,31 +123,6 @@ export class B2BCheckoutDeliveryAddressComponent
   );
 
   isAccountPayment = false;
-
-  constructor(
-    protected userAddressService: UserAddressService,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected activatedRoute: ActivatedRoute,
-    protected translationService: TranslationService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected globalMessageService: GlobalMessageService,
-    protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
-    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
-    protected userCostCenterService: UserCostCenterService
-  ) {
-    super(
-      userAddressService,
-      checkoutDeliveryAddressFacade,
-      activatedRoute,
-      translationService,
-      activeCartFacade,
-      checkoutStepService,
-      checkoutDeliveryModesFacade,
-      globalMessageService
-    );
-  }
 
   ngOnInit(): void {
     this.subscriptions.add(

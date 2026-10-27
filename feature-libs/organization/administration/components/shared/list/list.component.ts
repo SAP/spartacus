@@ -12,6 +12,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
@@ -73,6 +74,9 @@ import { CreateButtonType, ListService } from './list.service';
 export class ListComponent<T = any, P = PaginationModel>
   implements OnInit, OnDestroy
 {
+  protected service = inject<ListService<T, P>>(ListService);
+  protected organizationItemService = inject<ItemService<T>>(ItemService);
+
   private searchSubject$ = new Subject<{ pagination: P; query: string }>();
 
   private destroy$ = new Subject<void>();
@@ -104,10 +108,7 @@ export class ListComponent<T = any, P = PaginationModel>
 
   hasGhostData = false;
 
-  constructor(
-    protected service: ListService<T, P>,
-    protected organizationItemService: ItemService<T>
-  ) {
+  constructor() {
     useFeatureStyles('a11yNavigationChevronContrast');
   }
 

@@ -34,6 +34,8 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
   imports: [RouterLink, AsyncPipe, UrlPipe, TranslatePipe],
 })
 export class ConfigureCartEntryComponent {
+  protected commonConfigUtilsService = inject(CommonConfiguratorUtilsService);
+
   protected routingService = inject(RoutingService);
 
   @Input() cartEntry: OrderEntry;
@@ -166,8 +168,4 @@ export class ConfigureCartEntryComponent {
       })
     );
   }
-
-  constructor(
-    protected commonConfigUtilsService: CommonConfiguratorUtilsService
-  ) {}
 }

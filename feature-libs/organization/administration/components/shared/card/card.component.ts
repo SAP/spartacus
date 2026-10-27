@@ -10,6 +10,7 @@ import {
   Component,
   Input,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { TranslatePipe } from '@spartacus/core';
@@ -44,6 +45,9 @@ import { BaseItem } from '../organization.model';
   ],
 })
 export class CardComponent<T extends BaseItem> {
+  protected itemService = inject<ItemService<T>>(ItemService);
+  protected messageService = inject(MessageService);
+
   @Input() i18nRoot: string;
   @Input() previous: boolean | string = true;
   @Input() subtitle?: string;
@@ -58,11 +62,6 @@ export class CardComponent<T extends BaseItem> {
   );
 
   @ViewChild(ViewComponent, { read: ViewComponent }) view: ViewComponent;
-
-  constructor(
-    protected itemService: ItemService<T>,
-    protected messageService: MessageService
-  ) {}
 
   /**
    * The views are router based, which means if we close a view, the router outlet is

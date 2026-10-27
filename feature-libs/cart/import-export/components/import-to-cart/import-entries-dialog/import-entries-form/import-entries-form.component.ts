@@ -11,6 +11,7 @@ import {
   Input,
   OnInit,
   Output,
+  inject,
 } from '@angular/core';
 import {
   FormsModule,
@@ -51,6 +52,12 @@ import { ImportProductsFromCsvService } from '../../import-products-from-csv.ser
   ],
 })
 export class ImportEntriesFormComponent implements OnInit {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected importToCartService = inject(ImportProductsFromCsvService);
+  protected importCsvService = inject(ImportCsvFileService);
+  protected filesFormValidators = inject(FilesFormValidators);
+  protected importExportConfig = inject(ImportExportConfig);
+
   form: UntypedFormGroup;
   loadedFile: string[][] | null;
   formSubmitSubject$ = new Subject();
@@ -63,14 +70,6 @@ export class ImportEntriesFormComponent implements OnInit {
 
   @Input()
   type: OrderEntriesSource;
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected importToCartService: ImportProductsFromCsvService,
-    protected importCsvService: ImportCsvFileService,
-    protected filesFormValidators: FilesFormValidators,
-    protected importExportConfig: ImportExportConfig
-  ) {}
 
   ngOnInit() {
     this.form = this.buildForm();

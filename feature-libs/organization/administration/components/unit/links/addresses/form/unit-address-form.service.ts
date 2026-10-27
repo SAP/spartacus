@@ -27,15 +27,11 @@ import { FormService } from '../../../../shared/form/form.service';
   providedIn: 'root',
 })
 export class UnitAddressFormService extends FormService<Address> {
+  protected userAddressService = inject(UserAddressService);
+  protected userProfileFacade = inject(UserProfileFacade);
+
   protected readonly maxFieldLength = 256;
   private featureToggles = inject(FeatureToggles);
-
-  constructor(
-    protected userAddressService: UserAddressService,
-    protected userProfileFacade: UserProfileFacade
-  ) {
-    super();
-  }
 
   protected build() {
     const maxLength = this.featureToggles.enableFormFieldMaxLength

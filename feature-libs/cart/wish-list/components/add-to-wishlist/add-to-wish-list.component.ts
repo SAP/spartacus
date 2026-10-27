@@ -10,6 +10,7 @@ import {
   Component,
   ElementRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { OrderEntry } from '@spartacus/cart/base/root';
@@ -49,6 +50,10 @@ import { filter, map, take, tap } from 'rxjs/operators';
   ],
 })
 export class AddToWishListComponent {
+  protected wishListFacade = inject(WishListFacade);
+  protected currentProductService = inject(CurrentProductService);
+  protected authService = inject(AuthService);
+
   product$: Observable<Product> = this.currentProductService.getProduct().pipe(
     filter(isNotNullable),
     tap((product) => this.setStockInfo(product))
@@ -72,11 +77,7 @@ export class AddToWishListComponent {
   hasStock = false;
   iconTypes = ICON_TYPE;
 
-  constructor(
-    protected wishListFacade: WishListFacade,
-    protected currentProductService: CurrentProductService,
-    protected authService: AuthService
-  ) {
+  constructor() {
     useFeatureStyles('a11yAddToWishListBtnMargin');
   }
 

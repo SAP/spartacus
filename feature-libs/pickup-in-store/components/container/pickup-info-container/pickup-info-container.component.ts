@@ -18,14 +18,12 @@ import { PickupInfoComponent } from '../../presentational';
   imports: [PickupInfoComponent],
 })
 export class PickupInfoContainerComponent implements OnInit {
+  protected activeCartService = inject(ActiveCartFacade);
+  protected storeDetails = inject(PickupLocationsSearchFacade);
+
   storesDetailsData: Partial<PointOfService>[];
 
   protected cd = inject(ChangeDetectorRef);
-
-  constructor(
-    protected activeCartService: ActiveCartFacade,
-    protected storeDetails: PickupLocationsSearchFacade
-  ) {}
 
   ngOnInit(): void {
     this.activeCartService

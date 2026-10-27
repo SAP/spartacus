@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -25,6 +25,13 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   imports: [AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorPreviousNextButtonsComponent {
+  protected configuratorGroupsService = inject(ConfiguratorGroupsService);
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+  protected configUtils = inject(ConfiguratorStorefrontUtilsService);
+
   configuration$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService
       .extractRouterData()
@@ -33,13 +40,6 @@ export class ConfiguratorPreviousNextButtonsComponent {
           this.configuratorCommonsService.getConfiguration(routerData.owner)
         )
       );
-
-  constructor(
-    protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configUtils: ConfiguratorStorefrontUtilsService
-  ) {}
 
   onPrevious(configuration: Configurator.Configuration): void {
     this.configuratorGroupsService

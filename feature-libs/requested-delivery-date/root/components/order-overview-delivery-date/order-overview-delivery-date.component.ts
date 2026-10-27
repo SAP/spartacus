@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CxDatePipe, TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { Card, CardComponent, OutletContextData } from '@spartacus/storefront';
@@ -19,11 +19,9 @@ import { DateValidationService } from '../shared/date-validation.service';
   imports: [CardComponent, AsyncPipe, CxDatePipe],
 })
 export class OrderOverviewDeliveryDateComponent implements OnInit, OnDestroy {
-  constructor(
-    protected dateValidationService: DateValidationService,
-    protected translation: TranslationService,
-    @Optional() protected orderOutlet?: OutletContextData
-  ) {}
+  protected dateValidationService = inject(DateValidationService);
+  protected translation = inject(TranslationService);
+  protected orderOutlet? = inject(OutletContextData, { optional: true });
 
   protected subscription = new Subscription();
   order: Order;
