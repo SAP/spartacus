@@ -21,7 +21,7 @@ The response is plain text: `Current baseSite: <resolved uid>`.
 
 The generated configuration includes two commented options:
 
-- `baseSites`: copy the application's configuration for static sites; remove this option for sites loaded dynamically from OCC.
+- `pathBaseSiteIds`: supply a non-empty uid list for path-based routes; omit it for domain-based routes resolved through OCC.
 - `occBaseUrl`: supply a local fallback address when it is not configured in the HTML. The resolver always prefers the HTML address, even when a fallback is supplied.
 
 Review the example and uncomment the options appropriate for the application.

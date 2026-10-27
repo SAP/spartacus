@@ -6,8 +6,8 @@
 
 /** Options for the default base-site resolver. */
 export interface BaseSiteResolverOptions {
-  /** Known base-site uids for path-segment matching; omit for dynamic OCC sites. */
-  baseSites?: string[];
+  /** Base-site uids for path mode; omit or leave empty for OCC domain mode. */
+  pathBaseSiteIds?: string[];
   /**
    * Storefront index HTML content. Its configured OCC base URL takes
    * precedence over `occBaseUrl`.
@@ -31,6 +31,8 @@ export interface BaseSiteResolverOptions {
 
 /** Resolves a storefront request URL to an OCC base-site uid. */
 export interface BaseSiteResolver {
+  /** True when routes use a leading base-site segment instead of OCC matching. */
+  readonly supportsPathResolution: boolean;
   /** True when this resolver can contact OCC to resolve sites by URL pattern. */
   readonly supportsOccResolution: boolean;
   /**

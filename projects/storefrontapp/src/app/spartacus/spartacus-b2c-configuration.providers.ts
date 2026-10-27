@@ -6,13 +6,27 @@
 
 import { makeEnvironmentProviders } from '@angular/core';
 import { provideConfig } from '@spartacus/core';
-import { baseSite } from './base-site.config';
+import { environment } from '../../environments/environment';
+
+const defaultBaseSite = [
+  'electronics-spa',
+  'electronics-spa-standalone',
+  'electronics',
+  'electronics-standalone',
+  'apparel-de',
+  'apparel-uk',
+  'apparel-uk-spa',
+  'apparel-uk-standalone',
+];
+const baseSite = environment.epdVisualization
+  ? ['electronics-epdvisualization-spa'].concat(defaultBaseSite)
+  : defaultBaseSite;
 
 export const spartacusB2cConfigurationProviders = makeEnvironmentProviders([
   provideConfig({
     context: {
       urlParameters: ['baseSite', 'language', 'currency'],
-      baseSite,
+      baseSite: baseSite,
     },
   }),
   provideConfig({

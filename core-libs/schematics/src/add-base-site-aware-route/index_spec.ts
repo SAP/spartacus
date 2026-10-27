@@ -132,12 +132,12 @@ describe(schematicName, () => {
     expect(factoryOptions.getProperty('indexHtml')?.getText()).toBe(
       'indexHtml: indexHtmlContent'
     );
-    expect(factoryOptions.getProperty('baseSites')).toBeUndefined();
+    expect(factoryOptions.getProperty('pathBaseSiteIds')).toBeUndefined();
     expect(factoryOptions.getProperty('occBaseUrl')).toBeUndefined();
-    expect(content).toContain('// baseSites:');
-    expect(content).toContain('copy the configuration from your application');
+    expect(content).toContain('// pathBaseSiteIds:');
+    expect(content).toContain('Provide base-site IDs to enable path-based routes');
     expect(content).toContain(
-      'Remove this option if base sites are loaded dynamically from OCC'
+      'Omit this option for domain-based routes resolved through OCC'
     );
     expect(content).toContain('// occBaseUrl:');
     expect(content).toContain('Provide the OCC base URL for local development');
@@ -159,12 +159,12 @@ describe(schematicName, () => {
 
     expect(
       handler.getParameters().map((parameter) => parameter.getName())
-    ).toEqual(['req', 'res']);
+    ).toEqual(['{ res, baseSite }']);
     expect(
       handler
         .getDescendantsOfKind(SyntaxKind.TemplateExpression)
         .map((node) => node.getText())
-    ).toEqual(['`Current baseSite: ${req.baseSite}`']);
+    ).toEqual(['`Current baseSite: ${baseSite}`']);
     expect(handler.getText()).toContain("type('text/plain')");
     expect(exampleOptions.getProperty('withBaseSiteInPath')).toBeUndefined();
 
@@ -633,7 +633,7 @@ describe(schematicName, () => {
     const content = result.readContent('src/server.ts');
 
     expect(content).toContain("route: '/example.txt'");
-    expect(content).toContain('// baseSites:');
+    expect(content).toContain('// pathBaseSiteIds:');
     expect(content.indexOf("route: '/example.txt'")).toBeLessThan(
       content.indexOf('express.static(')
     );

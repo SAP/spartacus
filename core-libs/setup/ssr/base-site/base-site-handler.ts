@@ -23,17 +23,24 @@ import { DefaultBaseSiteResolver } from './default-base-site-resolver';
 /** An Express route accepted by the base-site middleware. */
 export type BaseSiteRouteMatcher = string | RegExp;
 
+/** Express objects and the resolved base site passed to the application callback. */
+export interface BaseSiteHandlerContext {
+  req: Request;
+  res: Response;
+  next: NextFunction;
+  /** Resolved uid, or null when no base site matches. */
+  baseSite: string | null;
+}
+
+/** Application callback invoked after base-site resolution. */
+export type BaseSiteAwareRequestHandler = (context: BaseSiteHandlerContext) => unknown;
+
 /** Options for {@link setBaseSiteHandler}. */
 export interface SetBaseSiteHandlerOptions {
   /** Route without a base-site prefix, for example `/llms.txt`. */
   route: BaseSiteRouteMatcher;
-  /**
-   * Adds a leading base-site segment and resolves it from the static uid list.
-   * When false or omitted, matches the unprefixed route and resolves via OCC.
-   */
-  withBaseSiteInPath?: boolean;
-  /** Standard Express handler; the resolved site is available on `req.baseSite`. */
-  handler: RequestHandler;
+  /** Receives the original Express objects and the resolved base site. */
+  handler: BaseSiteAwareRequestHandler;
   /** Retry delays returned for recoverable resolver failures. */
   retryAfterSeconds?: {
     /** Delay for cold-cache load shedding. Default: `3`. */
@@ -53,13 +60,13 @@ export function createBaseSiteAwareRoute(
 
 /**
  * Builds an Express router that resolves the base site on the configured route
- * and attaches it to the request before invoking the application handler.
+ * and passes it in the context of the application callback.
  *
  * Mount at the application root with `server.use(...)` so the leading segment
  * used for routing also leads the full request URL used for resolution.
  *
- * Domain mode (`withBaseSiteInPath` false or omitted) requires a resolver
- * configured for OCC resolution. Recoverable resolver failures are mapped to
+ * The resolver selects path mode through `supportsPathResolution`; otherwise
+ * routes use OCC resolution. Recoverable resolver failures are mapped to
  * `503` with `Retry-After`; all other errors are forwarded to Express. A `null`
  * base site still invokes the handler so the application can decide how to respond.
  */
@@ -67,16 +74,12 @@ export function setBaseSiteHandler(
   resolver: BaseSiteResolver,
   options: SetBaseSiteHandlerOptions
 ): RequestHandler {
-  const {
-    route,
-    withBaseSiteInPath = false,
-    handler,
-    retryAfterSeconds,
-  } = options;
+  const { route, handler, retryAfterSeconds } = options;
+  const pathMode = resolver.supportsPathResolution;
 
-  if (!withBaseSiteInPath && !resolver.supportsOccResolution) {
+  if (!pathMode && !resolver.supportsOccResolution) {
     throw new Error(
-      'setBaseSiteHandler domain mode requires a resolver that supports OCC resolution. Configure the resolver with an occBaseUrl, or use withBaseSiteInPath: true.'
+      'Base-site route requires pathBaseSiteIds or an OCC base URL.'
     );
   }
 
@@ -90,7 +93,7 @@ export function setBaseSiteHandler(
     let baseSite: string | null;
     try {
       baseSite =
-        withBaseSiteInPath
+        pathMode
           ? resolver.resolveFromPath(requestUrl)
           : await resolver.resolveFromOcc(requestUrl);
     } catch (error) {
@@ -114,9 +117,8 @@ export function setBaseSiteHandler(
       return;
     }
 
-    req.baseSite = baseSite;
     try {
-      await handler(req, res, next);
+      await handler({ req, res, next, baseSite });
     } catch (error) {
       next(error);
     }
@@ -126,12 +128,5 @@ export function setBaseSiteHandler(
   router.all(route, (req, res, next) => {
     void resolveBaseSite(req, res, next).catch(next);
   });
-  return withBaseSiteInPath ? Router().use('/:baseSite', router) : router;
-}
-
-declare module 'express-serve-static-core' {
-  interface Request {
-    /** Resolved uid, or `null` if unmatched; absent before base-site middleware. */
-    baseSite?: string | null;
-  }
+  return pathMode ? Router().use('/:baseSite', router) : router;
 }

@@ -478,6 +478,8 @@ function updateServer(source: SourceFile): boolean {
   }
   if (!factory && html && factoryNames.length) {
     const binding = containingScope(html)
+      // TypeScript expects a bitmask to include value bindings and import aliases.
+      // eslint-disable-next-line no-bitwise
       .getSymbolsInScope(SymbolFlags.Value | SymbolFlags.Alias)
       .find((symbol) => symbol.getName() === factoryNames[0]);
     if (
@@ -507,9 +509,9 @@ function updateServer(source: SourceFile): boolean {
       htmlScope.getStatements().indexOf(htmlStatement) + 1,
       `const ${ROUTE_FACTORY} = ${factoryNames[0] ?? FACTORY}({
   indexHtml: ${html.getName()},
-  // For static base sites, copy the configuration from your application.
-  // Remove this option if base sites are loaded dynamically from OCC.
-  // baseSites: ['your-base-site'],
+  // Provide base-site IDs to enable path-based routes.
+  // Omit this option for domain-based routes resolved through OCC.
+  // pathBaseSiteIds: ['your-base-site'],
 
   // Provide the OCC base URL for local development if it is not set in the HTML.
   // occBaseUrl: 'https://your-occ-backend',
@@ -521,8 +523,8 @@ function updateServer(source: SourceFile): boolean {
     `${serverName}.use(
   ${factory?.getName() ?? ROUTE_FACTORY}({
     route: '${EXAMPLE_ROUTE}',
-    handler: (req, res) => {
-      res.type('text/plain').send(\`Current baseSite: \${req.baseSite}\`);
+    handler: ({ res, baseSite }) => {
+      res.type('text/plain').send(\`Current baseSite: \${baseSite}\`);
     },
   })
 );`

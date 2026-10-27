@@ -41,7 +41,7 @@ function deferred<T>(): {
 
 describe('DefaultBaseSiteResolver.resolveFromPath', () => {
   const resolver = new DefaultBaseSiteResolver({
-    baseSites: ['electronics-spa', 'apparel-uk'],
+    pathBaseSiteIds: ['electronics-spa', 'apparel-uk'],
     indexHtml: '<html></html>',
   });
   it('returns the leading path segment when it is a known uid', () => {
@@ -132,7 +132,7 @@ describe('DefaultBaseSiteResolver', () => {
       ])
     );
     const resolver = new DefaultBaseSiteResolver({
-      baseSites: [],
+      pathBaseSiteIds: [],
       indexHtml: '<html></html>',
       occBaseUrl: 'https://api.example',
     });
@@ -150,7 +150,7 @@ describe('DefaultBaseSiteResolver', () => {
       ])
     );
     const resolver = new DefaultBaseSiteResolver({
-      baseSites: [],
+      pathBaseSiteIds: [],
       indexHtml: '<html></html>',
       occBaseUrl: 'https://api.example',
     });
@@ -165,7 +165,7 @@ describe('DefaultBaseSiteResolver', () => {
       occResponse([{ uid: 'other', urlPatterns: ['^https://other'] }])
     );
     const resolver = new DefaultBaseSiteResolver({
-      baseSites: [],
+      pathBaseSiteIds: [],
       indexHtml: '<html></html>',
       occBaseUrl: 'https://api.example',
     });
@@ -176,7 +176,7 @@ describe('DefaultBaseSiteResolver', () => {
   it('returns null for an empty base-sites payload', async () => {
     fetchSpy.mockResolvedValue(occResponse([]));
     const resolver = new DefaultBaseSiteResolver({
-      baseSites: [],
+      pathBaseSiteIds: [],
       indexHtml: '<html></html>',
       occBaseUrl: 'https://api.example',
     });
@@ -191,7 +191,7 @@ describe('DefaultBaseSiteResolver', () => {
         occResponse([{ uid: 'site', urlPatterns: ['shop\\.example'] }])
       );
     const resolver = new DefaultBaseSiteResolver({
-      baseSites: [],
+      pathBaseSiteIds: [],
       indexHtml: '<html></html>',
       occBaseUrl: 'https://api.example',
     });
@@ -218,7 +218,7 @@ describe('DefaultBaseSiteResolver', () => {
         occResponse([{ uid: 'site', urlPatterns: ['shop\\.example'] }])
       );
     const resolver = new DefaultBaseSiteResolver({
-      baseSites: [],
+      pathBaseSiteIds: [],
       indexHtml: '<html></html>',
       occBaseUrl: 'https://api.example',
     });
@@ -240,7 +240,7 @@ describe('DefaultBaseSiteResolver', () => {
     async (occBaseUrl) => {
       fetchSpy.mockResolvedValue(occResponse([]));
       const resolver = new DefaultBaseSiteResolver({
-        baseSites: [],
+        pathBaseSiteIds: [],
         indexHtml: '<html></html>',
         occBaseUrl,
       });
@@ -261,7 +261,7 @@ describe('DefaultBaseSiteResolver', () => {
       occResponse([{ uid: 'site', urlPatterns: ['shop\\.example'] }])
     );
     const resolver = new DefaultBaseSiteResolver({
-      baseSites: [],
+      pathBaseSiteIds: [],
       indexHtml: '<html></html>',
       occBaseUrl: 'https://api.example',
     });
@@ -287,7 +287,7 @@ describe('DefaultBaseSiteResolver', () => {
         occResponse([{ uid: 'second', urlPatterns: ['shop\\.example'] }])
       );
     const resolver = new DefaultBaseSiteResolver({
-      baseSites: [],
+      pathBaseSiteIds: [],
       indexHtml: '<html></html>',
       occBaseUrl: 'https://api.example',
     });
@@ -311,7 +311,7 @@ describe('DefaultBaseSiteResolver', () => {
     const pendingResponse = deferred<Response>();
     fetchSpy.mockReturnValue(pendingResponse.promise);
     const resolver = new DefaultBaseSiteResolver({
-      baseSites: [],
+      pathBaseSiteIds: [],
       indexHtml: '<html></html>',
       occBaseUrl: 'https://api.example',
     });
@@ -339,7 +339,7 @@ describe('DefaultBaseSiteResolver', () => {
         occResponse([{ uid: 'site', urlPatterns: ['shop\\.example'] }])
       );
     const resolver = new DefaultBaseSiteResolver({
-      baseSites: [],
+      pathBaseSiteIds: [],
       indexHtml: '<html></html>',
       occBaseUrl: 'https://api.example',
       cacheTtlMs: 0,
@@ -365,7 +365,7 @@ describe('DefaultBaseSiteResolver', () => {
       body: { cancel },
     } as unknown as Response);
     const resolver = new DefaultBaseSiteResolver({
-      baseSites: [],
+      pathBaseSiteIds: [],
       indexHtml: '<html></html>',
       occBaseUrl: 'https://api.example',
     });
@@ -383,7 +383,7 @@ describe('DefaultBaseSiteResolver', () => {
     const networkError = new Error('connection refused');
     fetchSpy.mockRejectedValue(networkError);
     const resolver = new DefaultBaseSiteResolver({
-      baseSites: [],
+      pathBaseSiteIds: [],
       indexHtml: '<html></html>',
       occBaseUrl: 'https://api.example',
     });
@@ -404,7 +404,7 @@ describe('DefaultBaseSiteResolver', () => {
       json: jest.fn().mockRejectedValue(parseError),
     } as unknown as Response);
     const resolver = new DefaultBaseSiteResolver({
-      baseSites: [],
+      pathBaseSiteIds: [],
       indexHtml: '<html></html>',
       occBaseUrl: 'https://api.example',
     });
@@ -434,7 +434,7 @@ describe('DefaultBaseSiteResolver', () => {
         occResponse([{ uid: 'site', urlPatterns: ['shop\\.example'] }])
       );
     const resolver = new DefaultBaseSiteResolver({
-      baseSites: [],
+      pathBaseSiteIds: [],
       indexHtml: '<html></html>',
       occBaseUrl: 'https://api.example',
       concurrencyLimit: 1,
@@ -469,7 +469,7 @@ describe('DefaultBaseSiteResolver', () => {
     jest.useFakeTimers();
     fetchSpy.mockResolvedValue(occResponse([]));
     const resolver = new DefaultBaseSiteResolver({
-      baseSites: [],
+      pathBaseSiteIds: [],
       indexHtml: '<html></html>',
       occBaseUrl: 'https://api.example',
     });
@@ -491,7 +491,7 @@ describe('DefaultBaseSiteResolver', () => {
         occResponse([{ uid: 'site', urlPatterns: ['shop\\.example'] }])
       );
     const resolver = new DefaultBaseSiteResolver({
-      baseSites: [],
+      pathBaseSiteIds: [],
       indexHtml: '<html></html>',
       occBaseUrl: 'https://api.example',
       concurrencyLimit: 2,

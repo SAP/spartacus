@@ -24,6 +24,7 @@ interface FetchedBaseSites {
 }
 
 export class DefaultBaseSiteResolver implements BaseSiteResolver {
+  public readonly supportsPathResolution: boolean;
   public readonly supportsOccResolution: boolean;
 
   protected readonly uidSet: Set<string>;
@@ -40,7 +41,8 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
     const occBaseUrl =
       extractOccBaseUrlFromHtml(options.indexHtml) ?? options.occBaseUrl;
 
-    this.uidSet = new Set(options.baseSites ?? []);
+    this.uidSet = new Set(options.pathBaseSiteIds ?? []);
+    this.supportsPathResolution = this.uidSet.size > 0;
     this.occUrl = this.createOccBaseSitesUrl(occBaseUrl);
     this.supportsOccResolution = Boolean(occBaseUrl);
     this.cacheTtlMs = options.cacheTtlMs ?? 60_000;

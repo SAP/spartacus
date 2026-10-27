@@ -86,8 +86,6 @@ const registerBaseSiteAwareRoute = createBaseSiteAwareRoute({
   indexHtml: indexHtmlContent,
   // Optional local fallback; the HTML address always takes precedence.
   // occBaseUrl: 'https://your-local-occ.example',
-  // Configure this static uid list only if you also use path-based routes.
-  // baseSites: ['electronics-spa', 'apparel-uk'],
 });
 
 const server = express();
@@ -101,13 +99,13 @@ server.use(
 server.use(
   registerBaseSiteAwareRoute({
     route: '/base-site',
-    handler: (req, res) => {
+    handler: ({ res, baseSite }) => {
       res.type('text/plain');
-      if (!req.baseSite) {
+      if (!baseSite) {
         res.status(404).send('No matching base site');
         return;
       }
-      res.send(req.baseSite);
+      res.send(baseSite);
     },
   })
 );
@@ -115,27 +113,33 @@ server.use(
 
 Reuse your server's existing HTML read rather than reading the file again for each route. Mount the returned middleware at the application root, after origin validation and authentication but before static-file or catch-all handlers that can consume the route. The middleware uses the application's Express `trust proxy` configuration when resolving forwarded protocol and host values.
 
-With `withBaseSiteInPath` omitted or false, the resolver matches the request URL against the site's OCC URL patterns. It fetches site configuration lazily, not during factory creation. Registering a domain-based route without an address in the HTML or an explicit fallback throws a configuration error.
+With `pathBaseSiteIds` omitted or empty, the resolver matches the request URL against the site's OCC URL patterns. It fetches site configuration lazily, not during factory creation. Registering a domain-based route without an address in the HTML or an explicit fallback throws a configuration error.
 
-The application receives a normal `(req, res, next)` handler call with `req.baseSite` set to a uid or `null`. The handler controls its response status, content type, and body, including what to do for an unmatched site. The example above chooses a 404; the resolver itself does not choose a default base site.
+The application callback receives `{ req, res, next, baseSite }`, with the original Express objects and a base-site uid or `null`. The handler controls its response status, content type, and body, including what to do for an unmatched site. The example above chooses a 404; the resolver itself does not choose a default base site.
+
+Wrap an existing Express `RequestHandler` as `handler: ({ req, res, next }) => existingHandler(req, res, next)`. The wrapper awaits the callback and forwards thrown errors or rejected promises to `next(error)`.
 
 ### Path-based routes
 
-For sites identified by the leading URL segment, configure `baseSites` in the original factory options and set `withBaseSiteInPath: true` when registering the route. The route string itself must not contain the base-site prefix:
+For sites identified by the leading URL segment, configure a non-empty `pathBaseSiteIds` list in the factory options. All routes registered through that factory use path resolution. The route string itself must not contain the base-site prefix:
 
 ```ts
+const registerPathBaseSiteAwareRoute = createBaseSiteAwareRoute({
+  pathBaseSiteIds: ['electronics-spa', 'apparel-uk'],
+  indexHtml: indexHtmlContent,
+});
+
 server.use(
-  registerBaseSiteAwareRoute({
+  registerPathBaseSiteAwareRoute({
     route: '/base-site',
-    withBaseSiteInPath: true,
-    handler: (req, res) => {
-      res.type('text/plain').send(`Current baseSite: ${req.baseSite}`);
+    handler: ({ res, baseSite }) => {
+      res.type('text/plain').send(`Current baseSite: ${baseSite}`);
     },
   })
 );
 ```
 
-For example, `/electronics-spa/base-site` resolves `electronics-spa` from the static uid list without contacting OCC. An unknown uid is passed to the handler as `null`. Omit `baseSites` when only using dynamic OCC-backed domain resolution.
+For example, `/electronics-spa/base-site` resolves `electronics-spa` from the supplied uid list without contacting OCC. An unknown uid is passed to the handler as `null`. The unprefixed `/base-site` can be registered separately with a standard Express handler.
 
 ### Reliability and custom responses
 
@@ -147,8 +151,8 @@ Resolver concurrency and OCC failures map to HTTP 503 with `Retry-After` values 
 server.use(
   registerBaseSiteAwareRoute({
     route: '/base-site.json',
-    handler: (req, res) => {
-      res.json({ baseSite: req.baseSite });
+    handler: ({ res, baseSite }) => {
+      res.json({ baseSite });
     },
     retryAfterSeconds: {
       concurrencyLimit: 5,
@@ -160,12 +164,13 @@ server.use(
 
 ### Custom resolvers
 
-To replace the default resolver instead of using the factory, provide a `BaseSiteResolver` to the lower-level `setBaseSiteHandler`. Implement both resolution methods and use `supportsOccResolution` to indicate that the asynchronous domain-resolution strategy is available:
+To replace the default resolver instead of using the factory, provide a `BaseSiteResolver` to the lower-level `setBaseSiteHandler`. Implement both resolution methods. Set `supportsPathResolution` to select prefixed path-based routes; otherwise, routes use domain resolution and require `supportsOccResolution`:
 
 ```ts
 import { BaseSiteResolver, setBaseSiteHandler } from '@spartacus/setup/ssr';
 
 const customResolver: BaseSiteResolver = {
+  supportsPathResolution: false,
   supportsOccResolution: true,
   resolveFromPath(requestUrl) {
     const uid = new URL(requestUrl).pathname.split('/').filter(Boolean)[0];
@@ -180,8 +185,8 @@ const customResolver: BaseSiteResolver = {
 server.use(
   setBaseSiteHandler(customResolver, {
     route: '/custom-base-site',
-    handler: (req, res) => {
-      res.json({ baseSite: req.baseSite });
+    handler: ({ res, baseSite }) => {
+      res.json({ baseSite });
     },
   })
 );
