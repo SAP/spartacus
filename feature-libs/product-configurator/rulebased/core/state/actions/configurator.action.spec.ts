@@ -200,6 +200,214 @@ describe('ConfiguratorActions', () => {
     });
   });
 
+  describe('AddContainerRow Actions', () => {
+    const addContainerRowParameters: Configurator.AddContainerRowParameters = {
+      configId: CONFIG_ID,
+      owner: OWNER,
+      stdAttrCode: 598,
+      productSystemId: PRODUCT_CODE,
+      parentRowId: '3',
+    };
+
+    describe('AddContainerRow', () => {
+      it('Should create the action', () => {
+        const action = new ConfiguratorActions.AddContainerRow(
+          addContainerRowParameters
+        );
+
+        expect({ ...action }).toEqual({
+          type: ConfiguratorActions.ADD_CONTAINER_ROW,
+          payload: addContainerRowParameters,
+          meta: {
+            entityType: CONFIGURATOR_DATA,
+            entityId: OWNER_KEY,
+            loader: { load: true },
+            processesCountDiff: 1,
+          },
+        });
+      });
+    });
+
+    describe('AddContainerRowFail', () => {
+      it('Should create the action', () => {
+        const error = { message: 'anError' };
+        const action = new ConfiguratorActions.AddContainerRowFail({
+          parameters: addContainerRowParameters,
+          error: error,
+        });
+
+        expect({ ...action }).toEqual({
+          error,
+          type: ConfiguratorActions.ADD_CONTAINER_ROW_FAIL,
+          payload: {
+            parameters: addContainerRowParameters,
+            error: error,
+          },
+          meta: {
+            entityType: CONFIGURATOR_DATA,
+            entityId: OWNER_KEY,
+            loader: { error: error },
+            processesCountDiff: -1,
+          },
+        });
+      });
+    });
+
+    describe('AddContainerRowSuccess', () => {
+      it('Should create the action', () => {
+        const action = new ConfiguratorActions.AddContainerRowSuccess(
+          CONFIGURATION
+        );
+        expect({ ...action }).toEqual({
+          type: ConfiguratorActions.ADD_CONTAINER_ROW_SUCCESS,
+          payload: CONFIGURATION,
+          meta: StateUtils.entityProcessesDecrementMeta(
+            CONFIGURATOR_DATA,
+            OWNER_KEY
+          ),
+        });
+      });
+    });
+  });
+
+  describe('CopyContainerRow Actions', () => {
+    const copyContainerRowParameters: Configurator.CopyContainerRowParameters =
+      {
+        configId: CONFIG_ID,
+        owner: OWNER,
+        rowId: '3',
+      };
+
+    describe('CopyContainerRow', () => {
+      it('should create the action', () => {
+        const action = new ConfiguratorActions.CopyContainerRow(
+          copyContainerRowParameters
+        );
+
+        expect({ ...action }).toEqual({
+          type: ConfiguratorActions.COPY_CONTAINER_ROW,
+          payload: copyContainerRowParameters,
+          meta: {
+            entityType: CONFIGURATOR_DATA,
+            entityId: OWNER_KEY,
+            loader: { load: true },
+            processesCountDiff: 1,
+          },
+        });
+      });
+    });
+
+    describe('CopyContainerRowFail', () => {
+      it('should create the action', () => {
+        const error = { message: 'anError' };
+        const action = new ConfiguratorActions.CopyContainerRowFail({
+          parameters: copyContainerRowParameters,
+          error: error,
+        });
+
+        expect({ ...action }).toEqual({
+          error,
+          type: ConfiguratorActions.COPY_CONTAINER_ROW_FAIL,
+          payload: {
+            parameters: copyContainerRowParameters,
+            error: error,
+          },
+          meta: {
+            entityType: CONFIGURATOR_DATA,
+            entityId: OWNER_KEY,
+            loader: { error: error },
+            processesCountDiff: -1,
+          },
+        });
+      });
+    });
+
+    describe('CopyContainerRowSuccess', () => {
+      it('should create the action', () => {
+        const action = new ConfiguratorActions.CopyContainerRowSuccess(
+          CONFIGURATION
+        );
+        expect({ ...action }).toEqual({
+          type: ConfiguratorActions.COPY_CONTAINER_ROW_SUCCESS,
+          payload: CONFIGURATION,
+          meta: StateUtils.entityProcessesDecrementMeta(
+            CONFIGURATOR_DATA,
+            OWNER_KEY
+          ),
+        });
+      });
+    });
+  });
+
+  describe('RemoveContainerRow Actions', () => {
+    const removeContainerRowParameters: Configurator.RemoveContainerRowParameters =
+      {
+        configId: CONFIG_ID,
+        owner: OWNER,
+        rowId: '3',
+      };
+
+    describe('RemoveContainerRow', () => {
+      it('Should create the action', () => {
+        const action = new ConfiguratorActions.RemoveContainerRow(
+          removeContainerRowParameters
+        );
+
+        expect({ ...action }).toEqual({
+          type: ConfiguratorActions.REMOVE_CONTAINER_ROW,
+          payload: removeContainerRowParameters,
+          meta: {
+            entityType: CONFIGURATOR_DATA,
+            entityId: OWNER_KEY,
+            loader: { load: true },
+            processesCountDiff: 1,
+          },
+        });
+      });
+    });
+
+    describe('RemoveContainerRowFail', () => {
+      it('Should create the action', () => {
+        const error = { message: 'anError' };
+        const action = new ConfiguratorActions.RemoveContainerRowFail({
+          parameters: removeContainerRowParameters,
+          error: error,
+        });
+
+        expect({ ...action }).toEqual({
+          error,
+          type: ConfiguratorActions.REMOVE_CONTAINER_ROW_FAIL,
+          payload: {
+            parameters: removeContainerRowParameters,
+            error: error,
+          },
+          meta: {
+            entityType: CONFIGURATOR_DATA,
+            entityId: OWNER_KEY,
+            loader: { error: error },
+            processesCountDiff: -1,
+          },
+        });
+      });
+    });
+
+    describe('RemoveContainerRowSuccess', () => {
+      it('Should create the action', () => {
+        const action = new ConfiguratorActions.RemoveContainerRowSuccess(
+          CONFIGURATION
+        );
+        expect({ ...action }).toEqual({
+          type: ConfiguratorActions.REMOVE_CONTAINER_ROW_SUCCESS,
+          payload: CONFIGURATION,
+          meta: StateUtils.entityProcessesDecrementMeta(
+            CONFIGURATOR_DATA,
+            OWNER_KEY
+          ),
+        });
+      });
+    });
+  });
+
   describe('RemoveProductBoundConfigurations', () => {
     it('should remove product bound configurations', () => {
       const action = new ConfiguratorActions.RemoveProductBoundConfigurations();

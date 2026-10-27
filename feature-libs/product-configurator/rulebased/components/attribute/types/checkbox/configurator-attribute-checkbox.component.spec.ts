@@ -53,6 +53,9 @@ class MockConfiguratorShowMoreComponent {
   @Input() text: string;
   @Input() textSize = 60;
   @Input() productName: string;
+  @Input() attributeLabel?: string;
+  @Input() valueLabel?: string;
+  @Input() itemLabel?: string;
 }
 
 class MockConfiguratorCommonsService {

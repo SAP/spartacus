@@ -4,13 +4,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
-import { Observable } from 'rxjs';
 import {
-  distinctUntilKeyChanged,
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  HostBinding,
+  Injector,
+  afterNextRender,
+  inject,
+  isDevMode,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
+import { Observable, fromEvent, merge, timer } from 'rxjs';
+import {
+  distinctUntilChanged,
   filter,
+  map,
   switchMap,
+  takeUntil,
   tap,
 } from 'rxjs/operators';
 
@@ -24,7 +36,14 @@ import {
   NgSwitchDefault,
   NgTemplateOutlet,
 } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
+import {
+  FeatureToggles,
+  LoggerService,
+  TranslatePipe,
+  TranslationService,
+  WindowRef,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorOverviewAttributeComponent } from '../overview-attribute/configurator-overview-attribute.component';
@@ -51,39 +70,119 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   ],
 })
 export class ConfiguratorOverviewFormComponent {
+  /**
+   * ID of the overview content region, the target of the overview skip link.
+   */
+  static readonly OVERVIEW_CONTENT_ID = 'cx-configurator-overview-content';
+
   @HostBinding('class.ghost') ghostStyle = true;
+
+  private featureToggles = inject(FeatureToggles);
+  protected translationService = inject(TranslationService);
+  protected logger = inject(LoggerService);
+  protected injector = inject(Injector);
+  protected destroyRef = inject(DestroyRef);
+  protected windowRef = inject(WindowRef);
+
+  /**
+   * Whether the navigation to the container row requested by the `rowId`
+   * query parameter has already been triggered.
+   */
+  protected isContainerRowNavigationTriggered = false;
+
+  /**
+   * Maximum time in milliseconds during which the configuration details of a
+   * requested container row are kept in place while the page around the
+   * overview is still being rendered.
+   */
+  protected readonly containerRowDetailsKeepInPlaceTime = 3000;
+
+  /**
+   * Accessible name of the overview content region.
+   * Only set if in-page navigation is enabled.
+   */
+  @HostBinding('attr.aria-label') contentLabel: string | null = null;
+
+  /**
+   * Whether the overview form acts as target of the accessible in-page
+   * navigation: the host is exposed as focusable region and the group
+   * headings are programmatically focusable.
+   *
+   * @returns {boolean} - `true` if `productConfiguratorCPQContainer` is enabled
+   */
+  get isInPageNavigationEnabled(): boolean {
+    return !!this.featureToggles.productConfiguratorCPQContainer;
+  }
+
+  @HostBinding('attr.id') get contentId(): string | null {
+    return this.isInPageNavigationEnabled
+      ? ConfiguratorOverviewFormComponent.OVERVIEW_CONTENT_ID
+      : null;
+  }
+
+  @HostBinding('attr.role') get contentRole(): string | null {
+    return this.isInPageNavigationEnabled ? 'region' : null;
+  }
+
+  @HostBinding('attr.tabindex') get contentTabindex(): number | null {
+    return this.isInPageNavigationEnabled ? -1 : null;
+  }
 
   attributeOverviewType = Configurator.AttributeOverviewType;
 
   configuration$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
-        this.configuratorCommonsService.getOrCreateConfiguration(
-          routerData.owner
-        )
+        this.configuratorCommonsService
+          .getOrCreateConfiguration(routerData.owner)
+          .pipe(
+            map((configuration) => ({
+              configuration,
+              rowId: routerData.rowId,
+            }))
+          )
       ),
-      distinctUntilKeyChanged('configId'),
-      switchMap((configuration) =>
-        this.configuratorCommonsService.getConfigurationWithOverview(
-          configuration
-        )
+      distinctUntilChanged(
+        (previous, current) =>
+          previous.configuration.configId === current.configuration.configId
       ),
-      filter((configuration) => configuration.overview != null),
-      tap(() => {
-        this.ghostStyle = false;
-      })
+      switchMap(({ configuration, rowId }) =>
+        this.configuratorCommonsService
+          .getConfigurationWithOverview(configuration)
+          .pipe(
+            filter(
+              (configurationWithOverview) =>
+                configurationWithOverview.overview != null
+            ),
+            tap((configurationWithOverview) => {
+              this.ghostStyle = false;
+              this.navigateToRequestedContainerRow(
+                configurationWithOverview,
+                rowId
+              );
+            })
+          )
+      )
     );
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
-  ) {}
+  ) {
+    useFeatureStyles('productConfiguratorCPQContainer');
+    if (this.isInPageNavigationEnabled) {
+      this.translationService
+        .translate('configurator.a11y.overviewContent')
+        .pipe(takeUntilDestroyed())
+        .subscribe((label) => (this.contentLabel = label));
+    }
+  }
 
   /**
    * Does the configuration contain any selected attribute values?
-   * @param {Configurator.Configuration} configuration - Current configuration
-   * @returns {boolean} - Any attributes available
+   * @param configuration - Current configuration
+   * @returns - Any attributes available
    */
   hasAttributes(configuration: Configurator.Configuration): boolean {
     return this.hasGroupWithAttributes(configuration.overview?.groups);
@@ -112,9 +211,9 @@ export class ConfiguratorOverviewFormComponent {
   /**
    * Verifies whether the next or the previous attributes are same.
    *
-   * @param {Configurator.AttributeOverview[]} attributes - Attribute array
-   * @param {number} index - Index of the attribute in the array
-   * @return {boolean} - 'True' if it is the same attribute, otherwise 'false'
+   * @param attributes - Attribute array
+   * @param index - Index of the attribute in the array
+   * @return - 'True' if it is the same attribute, otherwise 'false'
    */
   isSameAttribute(
     attributes: Configurator.AttributeOverview[],
@@ -137,9 +236,9 @@ export class ConfiguratorOverviewFormComponent {
   /**
    * Retrieves the styling for the corresponding element.
    *
-   * @param {Configurator.AttributeOverview[]} attributes - Attribute array
-   * @param {number} index - Index of the attribute in the array
-   * @return {string} - corresponding style class
+   * @param attributes - Attribute array
+   * @param index - Index of the attribute in the array
+   * @return - corresponding style class
    */
   getStyleClasses(
     attributes: Configurator.AttributeOverview[],
@@ -173,9 +272,9 @@ export class ConfiguratorOverviewFormComponent {
   /**
    * Retrieves the styling for the group levels.
    *
-   * @param {number} level - Group level. 1 is top level.
-   * @param {Configurator.GroupOverview[]} subGroups - subgroups array
-   * @return {string} - corresponding style classes
+   * @param level - Group level. 1 is top level.
+   * @param subGroups - subgroups array
+   * @return - corresponding style classes
    */
   getGroupLevelStyleClasses(
     level: number,
@@ -197,9 +296,9 @@ export class ConfiguratorOverviewFormComponent {
   /**
    * Retrieves a unique prefix ID.
    *
-   * @param {string | undefined} prefix - prefix that we need to make the ID unique
-   * @param {string} groupId - group ID
-   * @returns {string} - prefix ID
+   * @param prefix - prefix that we need to make the ID unique
+   * @param groupId - group ID
+   * @returns - prefix ID
    */
   getPrefixId(idPrefix: string | undefined, groupId: string): string {
     return this.configuratorStorefrontUtilsService.getPrefixId(
@@ -211,14 +310,232 @@ export class ConfiguratorOverviewFormComponent {
   /**
    * Retrieves the ids for the overview group headers
    *
-   * @param {string} idPrefix - Prefix (reflects the parent groups in the hierarchy)
-   * @param {string} groupId - local group id
-   * @return {string} - unique group id
+   * @param idPrefix - Prefix (reflects the parent groups in the hierarchy)
+   * @param groupId - local group id
+   * @return - unique group id
    */
   getGroupId(idPrefix: string, groupId: string): string {
     return this.configuratorStorefrontUtilsService.createOvGroupId(
       idPrefix,
       groupId
     );
+  }
+
+  /**
+   * Verifies whether the bundle attribute has a configuration details section
+   * on the overview page.
+   *
+   * @param group - Group that contains the attribute
+   * @param attributeOverview - Attribute overview
+   * @return - 'true' if configuration details exist, otherwise 'false'
+   */
+  hasConfigurationDetails(
+    group: Configurator.GroupOverview,
+    attributeOverview: Configurator.AttributeOverview
+  ): boolean {
+    const detailsGroupId =
+      this.getContainerRowDetailsGroupId(attributeOverview);
+    return (
+      !!detailsGroupId &&
+      !!group.subGroups?.some((subGroup) => subGroup.id === detailsGroupId)
+    );
+  }
+
+  protected getContainerRowDetailsGroupId(
+    attributeOverview: Configurator.AttributeOverview
+  ): string | undefined {
+    if (!attributeOverview.attributeId || !attributeOverview.valueId) {
+      return undefined;
+    }
+    return `${Configurator.ContainerRowGroupIdPrefix}@${attributeOverview.attributeId}@${attributeOverview.valueId}`;
+  }
+
+  /**
+   * Verifies whether the overview group represents a CPQ container row
+   * configuration details section (not a nested tab within that section).
+   *
+   * @param group - Overview group
+   * @return - 'true' if the group is a container row details section
+   */
+  isContainerRowDetailsGroup(group: Configurator.GroupOverview): boolean {
+    const prefix = `${Configurator.ContainerRowGroupIdPrefix}@`;
+    if (!group.id.startsWith(prefix)) {
+      return false;
+    }
+    const idWithoutPrefix = group.id.substring(prefix.length);
+    return idWithoutPrefix.split('@').length === 2;
+  }
+
+  /**
+   * Resolves the container attribute label for a configuration details section.
+   *
+   * @param parentGroup - Group that lists the container item
+   * @param containerRowGroup - Container row configuration details group
+   * @return - Container attribute name
+   */
+  getContainerAttributeName(
+    parentGroup: Configurator.GroupOverview,
+    containerRowGroup: Configurator.GroupOverview
+  ): string {
+    const match = new RegExp(
+      `^${Configurator.ContainerRowGroupIdPrefix}@([^@]+)@([^@]+)$`
+    ).exec(containerRowGroup.id);
+    if (!match || !parentGroup.attributes) {
+      return '';
+    }
+    const [, attributeId, valueId] = match;
+    const bundleAttribute = parentGroup.attributes.find(
+      (attributeOverview) =>
+        attributeOverview.type === Configurator.AttributeOverviewType.BUNDLE &&
+        attributeOverview.attributeId === attributeId &&
+        attributeOverview.valueId === valueId
+    );
+    return bundleAttribute?.attribute ?? '';
+  }
+
+  /**
+   * Navigates once to the configuration details of the container row that is
+   * requested by the `rowId` query parameter, as soon as the overview is
+   * rendered. Read-only links of bundle line items (e.g. in checkout or in the
+   * order history) lead to the overview this way.
+   * Only active if `productConfiguratorCPQContainer` is enabled.
+   *
+   * @param configuration - Configuration including the overview
+   * @param rowId - Container row identifier of the router state the overview has been loaded for
+   */
+  protected navigateToRequestedContainerRow(
+    configuration: Configurator.Configuration,
+    rowId: string | undefined
+  ): void {
+    if (
+      !this.isInPageNavigationEnabled ||
+      this.isContainerRowNavigationTriggered
+    ) {
+      return;
+    }
+    this.isContainerRowNavigationTriggered = true;
+    if (rowId) {
+      afterNextRender(
+        () =>
+          this.navigateToContainerRowDetails(
+            configuration.overview?.groups,
+            rowId
+          ),
+        { injector: this.injector }
+      );
+    }
+  }
+
+  /**
+   * Scrolls to the configuration details of a container row in the same way
+   * as the overview menu and the "View Details" link.
+   *
+   * @param groups - Overview groups
+   * @param rowId - Container row identifier
+   */
+  protected navigateToContainerRowDetails(
+    groups: Configurator.GroupOverview[] | undefined,
+    rowId: string
+  ): void {
+    const target = this.findContainerRowDetailsTarget(groups, '', rowId);
+    if (target) {
+      this.configuratorStorefrontUtilsService.navigateToOverviewGroup(
+        target.idPrefix,
+        target.groupId
+      );
+      this.keepContainerRowDetailsInPlace(target);
+    } else if (isDevMode()) {
+      this.logger.warn(
+        `No configuration details found in overview for rowId '${rowId}'`
+      );
+    }
+  }
+
+  /**
+   * Scrolls to the configuration details of a container row again whenever
+   * the page size changes, until the user interacts with the page or
+   * `containerRowDetailsKeepInPlaceTime` has elapsed. Parts of the page above
+   * the overview (e.g. the header or the product title) may only be rendered
+   * after the overview and would otherwise move the configuration details away
+   * from the top of the viewport.
+   * The focus is not set again, so that it is not taken back from assistive
+   * technologies that have moved it in the meantime.
+   *
+   * @param target - ID prefix and group ID of the configuration details section
+   */
+  protected keepContainerRowDetailsInPlace(target: {
+    idPrefix: string;
+    groupId: string;
+  }): void {
+    const nativeWindow = this.windowRef.nativeWindow;
+    if (!nativeWindow || typeof ResizeObserver === 'undefined') {
+      return;
+    }
+    const headingSelector =
+      this.configuratorStorefrontUtilsService.idSelector(
+        this.configuratorStorefrontUtilsService.createOvGroupId(
+          target.idPrefix,
+          target.groupId
+        )
+      ) + ' h2';
+    const pageResize$ = new Observable<void>((subscriber) => {
+      const resizeObserver = new ResizeObserver(() => subscriber.next());
+      resizeObserver.observe(this.windowRef.document.body);
+      return () => resizeObserver.disconnect();
+    });
+    const userInteraction$ = merge(
+      ...['wheel', 'keydown', 'pointerdown'].map((eventName) =>
+        fromEvent(nativeWindow, eventName, { capture: true, passive: true })
+      )
+    );
+    pageResize$
+      .pipe(
+        takeUntil(
+          merge(
+            userInteraction$,
+            timer(this.containerRowDetailsKeepInPlaceTime)
+          )
+        ),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(() =>
+        this.configuratorStorefrontUtilsService.scrollToConfigurationElement(
+          headingSelector
+        )
+      );
+  }
+
+  /**
+   * Searches the overview group hierarchy for the configuration details
+   * section of a container row. The ID prefix is compiled in the same way as
+   * in the template, so that it identifies the rendered section.
+   *
+   * @param groups - Overview groups of the current hierarchy level
+   * @param idPrefix - Prefix reflecting the parent groups in the hierarchy
+   * @param rowId - Container row identifier
+   * @return - ID prefix and group ID of the section, `undefined` if not found
+   */
+  protected findContainerRowDetailsTarget(
+    groups: Configurator.GroupOverview[] | undefined,
+    idPrefix: string,
+    rowId: string
+  ): { idPrefix: string; groupId: string } | undefined {
+    for (const group of groups ?? []) {
+      if (
+        this.isContainerRowDetailsGroup(group) &&
+        group.id.split('@')[2] === rowId
+      ) {
+        return { idPrefix, groupId: group.id };
+      }
+      const target = this.findContainerRowDetailsTarget(
+        group.subGroups,
+        this.getPrefixId(idPrefix, group.id),
+        rowId
+      );
+      if (target) {
+        return target;
+      }
+    }
+    return undefined;
   }
 }

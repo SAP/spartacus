@@ -2,13 +2,6 @@
   *ngIf="showRequiredMessageForUserInput$ | async"
   class="cx-required-error-msg"
   id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
-  [attr.aria-label]="
-    isUserInput(attribute)
-      ? ('configurator.attribute.defaultRequiredMessage' | cxTranslate)
-      : ('configurator.attribute.singleSelectRequiredMessage' | cxTranslate)
-  "
-  aria-live="assertive"
-  aria-atomic="true"
   role="alert"
 >
   <cx-icon [type]="iconType.ERROR" />

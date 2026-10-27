@@ -24,6 +24,8 @@ import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCommonsService {
   protected logger = inject(LoggerService);
+  protected readonly CART_BUSY_NO_UPDATES_MSG =
+    'Cart is busy, no configuration updates possible';
 
   constructor(
     protected store: Store<StateWithConfigurator>,
@@ -143,9 +145,7 @@ export class ConfiguratorCommonsService {
             take(1),
             tap((stable) => {
               if (isDevMode() && cart.code && !stable) {
-                this.logger.warn(
-                  'Cart is busy, no configuration updates possible'
-                );
+                this.logger.warn(this.CART_BUSY_NO_UPDATES_MSG);
               }
             }),
             filter((stable) => !cart.code || stable),
@@ -172,10 +172,153 @@ export class ConfiguratorCommonsService {
   }
 
   /**
+   * Adds a new container row to the configuration identified by the owner key.
+   *
+   * @param ownerKey - Configuration owner key
+   * @param stdAttrCode - Code of the attribute the container is linked to
+   * @param productSystemId - Product system identifier of the row to add
+   * @param parentRowId - Optional parent container row id for nested containers
+   */
+  addContainerRow(
+    ownerKey: string,
+    stdAttrCode: number,
+    productSystemId: string,
+    parentRowId?: string
+  ): void {
+    // in case cart updates pending: Do nothing, because an addToCart might
+    // be in progress. Can happen if on slow networks addToCart was hit and
+    // afterwards an attribute was changed before the OV navigation has
+    // taken place
+    this.activeCartService
+      .getActive()
+      .pipe(
+        take(1),
+        switchMap((cart) =>
+          this.activeCartService.isStable().pipe(
+            take(1),
+            tap((stable) => {
+              if (isDevMode() && cart.code && !stable) {
+                this.logger.warn(this.CART_BUSY_NO_UPDATES_MSG);
+              }
+            }),
+            filter((stable) => !cart.code || stable),
+            switchMap(() =>
+              this.store.pipe(
+                select(ConfiguratorSelectors.getConfigurationFactory(ownerKey)),
+                take(1)
+              )
+            )
+          )
+        )
+      )
+      .subscribe((configuration) => {
+        this.store.dispatch(
+          new ConfiguratorActions.AddContainerRow({
+            configId: configuration.configId,
+            owner: configuration.owner,
+            stdAttrCode,
+            productSystemId,
+            parentRowId,
+          })
+        );
+      });
+  }
+
+  /**
+   * Deletes a container row from the configuration identified by the owner key.
+   *
+   * @param ownerKey - Configuration owner key
+   * @param rowId - Identifier of the container row to delete
+   */
+  removeContainerRow(ownerKey: string, rowId: string): void {
+    // in case cart updates pending: Do nothing, because an addToCart might
+    // be in progress. Can happen if on slow networks addToCart was hit and
+    // afterwards an attribute was changed before the OV navigation has
+    // taken place
+    this.activeCartService
+      .getActive()
+      .pipe(
+        take(1),
+        switchMap((cart) =>
+          this.activeCartService.isStable().pipe(
+            take(1),
+            tap((stable) => {
+              if (isDevMode() && cart.code && !stable) {
+                this.logger.warn(this.CART_BUSY_NO_UPDATES_MSG);
+              }
+            }),
+            filter((stable) => !cart.code || stable),
+            switchMap(() =>
+              this.store.pipe(
+                select(ConfiguratorSelectors.getConfigurationFactory(ownerKey)),
+                take(1)
+              )
+            )
+          )
+        )
+      )
+      .subscribe((configuration) => {
+        this.store.dispatch(
+          new ConfiguratorActions.RemoveContainerRow({
+            configId: configuration.configId,
+            owner: configuration.owner,
+            rowId,
+          })
+        );
+      });
+  }
+
+  /**
+   * Copies a container row of the configuration identified by the owner key.
+   *
+   * @param ownerKey - Configuration owner key
+   * @param rowId - Identifier of the container row to copy
+   */
+  copyContainerRow(ownerKey: string, rowId: string): void {
+    // in case cart updates pending: Do nothing, because an addToCart might
+    // be in progress. Can happen if on slow networks addToCart was hit and
+    // afterwards an attribute was changed before the OV navigation has
+    // taken place
+    this.activeCartService
+      .getActive()
+      .pipe(
+        take(1),
+        switchMap((cart) =>
+          this.activeCartService.isStable().pipe(
+            take(1),
+            tap((stable) => {
+              if (isDevMode() && cart.code && !stable) {
+                this.logger.warn(this.CART_BUSY_NO_UPDATES_MSG);
+              }
+            }),
+            filter((stable) => !cart.code || stable),
+            switchMap(() =>
+              this.store.pipe(
+                select(ConfiguratorSelectors.getConfigurationFactory(ownerKey)),
+                take(1)
+              )
+            )
+          )
+        )
+      )
+      .subscribe((configuration) => {
+        this.store.dispatch(
+          new ConfiguratorActions.CopyContainerRow({
+            configId: configuration.configId,
+            owner: configuration.owner,
+            rowId,
+          })
+        );
+      });
+  }
+
+  /**
    * Returns a configuration with an overview. Emits valid configurations which
    * include the overview aspect.
    * When calling this function it is assumed that the configuration itself is already
    * available (or its loading is triggered). If not, the function will return an empty observable.
+   * The overview is read for the configuration currently held in the store. In case the
+   * configuration is in error state, the overview is not read again.
    *
    * @param configuration - Configuration
    * @returns Observable of configurations including the overview
@@ -183,22 +326,31 @@ export class ConfiguratorCommonsService {
   getConfigurationWithOverview(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
-    return this.filterNotLoadingAndCreatedConfiguration(
-      this.store.pipe(
-        select(
-          ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
-            configuration.owner.key
-          )
+    return this.store.pipe(
+      select(
+        ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
+          configuration.owner.key
         )
-      )
-    ).pipe(
-      tap((config) => {
-        if (!this.hasConfigurationOverview(config)) {
+      ),
+      filter((configurationState) => configurationState.loading === false),
+      filter((configurationState) =>
+        this.configuratorUtils.isConfigurationCreated(configurationState.value)
+      ),
+      tap((configurationState) => {
+        const config = configurationState.value as Configurator.Configuration;
+        if (
+          !this.hasConfigurationOverview(config) &&
+          !configurationState.error
+        ) {
           this.store.dispatch(
-            new ConfiguratorActions.GetConfigurationOverview(configuration)
+            new ConfiguratorActions.GetConfigurationOverview(config)
           );
         }
       }),
+      map(
+        (configurationState) =>
+          configurationState.value as Configurator.Configuration
+      ),
       filter((config) => this.hasConfigurationOverview(config))
     );
   }

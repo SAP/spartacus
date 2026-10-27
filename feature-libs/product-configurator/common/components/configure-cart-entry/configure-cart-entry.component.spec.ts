@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { By } from '@angular/platform-browser';
+import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
 import { AbstractOrderContext } from '@spartacus/cart/base/components';
 import { AbstractOrderType, OrderEntry } from '@spartacus/cart/base/root';
 import {
@@ -9,7 +10,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
 import {
   CommonConfigurator,
@@ -17,6 +18,10 @@ import {
   OrderEntryStatus,
   ReadOnlyPostfix,
 } from '../../core/model/common-configurator.model';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
 
@@ -55,6 +60,7 @@ describe('ConfigureCartEntryComponent', () => {
   let component: ConfigureCartEntryComponent;
   let fixture: ComponentFixture<ConfigureCartEntryComponent>;
   let htmlElem: HTMLElement;
+  let featureToggles: MockFeatureTogglesController;
   const configuratorType = 'type';
   const orderOrCartEntry: OrderEntry = {};
 
@@ -72,11 +78,16 @@ describe('ConfigureCartEntryComponent', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
+        ...provideMockFeatureToggles({
+          productConfiguratorCPQContainer: false,
+        }),
       ],
     });
   }
 
   function assignTestArtifacts(): void {
+    featureToggles = TestBed.inject(MockFeatureTogglesController);
+    featureToggles.set('productConfiguratorCPQContainer', false);
     mockRouterState = structuredClone(mockBaseRouterState);
     fixture = TestBed.createComponent(ConfigureCartEntryComponent);
     component = fixture.componentInstance;
@@ -136,6 +147,53 @@ describe('ConfigureCartEntryComponent', () => {
         product: { configuratorType: readOnlyConfiguratorType },
       };
       expect(component.getRoute()).toBe('configure' + readOnlyConfiguratorType);
+    });
+  });
+
+  describe('getCpqContainerFragment', () => {
+    beforeEach(() => {
+      configureTestingModule().compileComponents();
+      assignTestArtifacts();
+      component.readOnly = true;
+      component.rowId = 'row-1';
+      component.cartEntry = {
+        entryNumber: 0,
+        product: { configuratorType: ConfiguratorType.CPQ },
+      };
+    });
+
+    it('should return the row ID for a bundle line item link to the overview', () => {
+      expect(component.getCpqContainerFragment()).toBe('row-1');
+    });
+
+    it('should return undefined for a link without row ID', () => {
+      component.rowId = undefined;
+      expect(component.getCpqContainerFragment()).toBeUndefined();
+    });
+
+    it('should return undefined for a bundle line item link to the configuration', () => {
+      component.readOnly = false;
+      expect(component.getCpqContainerFragment()).toBeUndefined();
+    });
+
+    it('should return undefined for a read-only configurator type', () => {
+      component.cartEntry = {
+        entryNumber: 0,
+        product: { configuratorType: configuratorType + ReadOnlyPostfix },
+      };
+      expect(component.getCpqContainerFragment()).toBeUndefined();
+    });
+
+    it('should return undefined when resolving issues', () => {
+      component.msgBanner = true;
+      component.cartEntry = {
+        entryNumber: 0,
+        product: { configuratorType: ConfiguratorType.CPQ },
+        statusSummaryList: [
+          { status: OrderEntryStatus.Error, numberOfIssues: 3 },
+        ],
+      };
+      expect(component.getCpqContainerFragment()).toBeUndefined();
     });
   });
 
@@ -370,6 +428,97 @@ describe('ConfigureCartEntryComponent', () => {
         );
       });
 
+      it("should be 'Edit Configuration' in edit mode for configurator type CPQCONFIGURATOR", () => {
+        component.readOnly = false;
+        component.disabled = false;
+        component.msgBanner = false;
+        component.cartEntry = {
+          entryNumber: 0,
+          product: { configuratorType: ConfiguratorType.VARIANT },
+        };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          'a',
+          'configurator.header.editConfiguration'
+        );
+      });
+
+      it("should be 'Edit Configuration' for CPQ when productConfiguratorCPQContainer is disabled", () => {
+        component.readOnly = false;
+        component.disabled = false;
+        component.msgBanner = false;
+        component.cartEntry = {
+          entryNumber: 0,
+          product: { configuratorType: ConfiguratorType.CPQ },
+        };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          'a',
+          'configurator.header.editConfiguration'
+        );
+      });
+
+      describe('with productConfiguratorCPQContainer enabled', () => {
+        beforeEach(() => {
+          featureToggles.set('productConfiguratorCPQContainer', true);
+        });
+
+        it("should be 'Edit Bundle Configuration' in edit mode for configurator type CLOUDCPQCONFIGURATOR", () => {
+          component.readOnly = false;
+          component.disabled = false;
+          component.msgBanner = false;
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: ConfiguratorType.CPQ },
+          };
+          fixture.detectChanges();
+          CommonConfiguratorTestUtilsService.expectElementToContainText(
+            expect,
+            htmlElem,
+            'a',
+            'configurator.header.editBundleConfiguration'
+          );
+        });
+
+        it("should be 'Edit Product Configuration' for a bundle line item link", () => {
+          component.readOnly = false;
+          component.disabled = false;
+          component.msgBanner = false;
+          component.rowId = 'row-1';
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: ConfiguratorType.CPQ },
+          };
+          fixture.detectChanges();
+          CommonConfiguratorTestUtilsService.expectElementToContainText(
+            expect,
+            htmlElem,
+            'a',
+            'configurator.header.editProductConfiguration'
+          );
+        });
+
+        it("should be 'Display Bundle Configuration' for a bundle overview link", () => {
+          component.readOnly = true;
+          component.isBundleOverviewLink = true;
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: configuratorType },
+          };
+          fixture.detectChanges();
+          CommonConfiguratorTestUtilsService.expectElementToContainText(
+            expect,
+            htmlElem,
+            'a',
+            'configurator.header.displayBundleConfiguration'
+          );
+        });
+      });
+
       it("should be 'Resolve Issues' in case component is used in banner", () => {
         component.readOnly = false;
         component.msgBanner = true;
@@ -428,6 +577,93 @@ describe('ConfigureCartEntryComponent', () => {
           'label.disabled-link'
         );
       });
+
+      describe('productConfiguratorCPQContainer feature toggle', () => {
+        it('should render link text when productConfiguratorCPQContainer is disabled', () => {
+          component.disabled = true;
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: ConfiguratorType.CPQ },
+          };
+          fixture.detectChanges();
+
+          CommonConfiguratorTestUtilsService.expectElementToContainText(
+            expect,
+            htmlElem,
+            'label.disabled-link',
+            'configurator.header.editConfiguration'
+          );
+          CommonConfiguratorTestUtilsService.expectElementNotPresent(
+            expect,
+            htmlElem,
+            'a.link'
+          );
+        });
+
+        it('should render CPQ container link text when productConfiguratorCPQContainer is enabled', () => {
+          TestBed.resetTestingModule();
+          configureTestingModule()
+            .overrideProvider(AbstractOrderContext, {
+              useValue: new MockAbstractOrderContext(),
+            })
+            .compileComponents();
+          TestBed.inject(MockFeatureTogglesController).set(
+            'productConfiguratorCPQContainer',
+            true
+          );
+          fixture = TestBed.createComponent(ConfigureCartEntryComponent);
+          component = fixture.componentInstance;
+          htmlElem = fixture.nativeElement;
+          component.disabled = true;
+          component.readOnly = false;
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: ConfiguratorType.CPQ },
+          };
+          expect(component.isDisabled()).toBe(true);
+          fixture.detectChanges();
+
+          CommonConfiguratorTestUtilsService.expectElementToContainText(
+            expect,
+            htmlElem,
+            'label.disabled-link',
+            'configurator.header.editBundleConfiguration'
+          );
+          CommonConfiguratorTestUtilsService.expectElementNotPresent(
+            expect,
+            htmlElem,
+            'a.link'
+          );
+        });
+
+        describe('fragment of a bundle line item link to the overview', () => {
+          function getRouterLink(): RouterLink {
+            return fixture.debugElement
+              .query(By.directive(RouterLink))
+              .injector.get(RouterLink);
+          }
+
+          beforeEach(() => {
+            component.readOnly = true;
+            component.rowId = 'row-1';
+            component.cartEntry = {
+              entryNumber: 0,
+              product: { configuratorType: ConfiguratorType.CPQ },
+            };
+          });
+
+          it('should be the row ID when productConfiguratorCPQContainer is enabled', () => {
+            featureToggles.set('productConfiguratorCPQContainer', true);
+            fixture.detectChanges();
+            expect(getRouterLink().fragment).toBe('row-1');
+          });
+
+          it('should not be set when productConfiguratorCPQContainer is disabled', () => {
+            fixture.detectChanges();
+            expect(getRouterLink().fragment).toBeUndefined();
+          });
+        });
+      });
     });
 
     describe('getResolveIssuesA11yDescription', () => {
@@ -454,6 +690,20 @@ describe('ConfigureCartEntryComponent', () => {
           'cx-error-msg-0'
         );
       });
+
+      it('should return the provided a11yDescriptionId with precedence', () => {
+        component.readOnly = true;
+        component.msgBanner = false;
+        component.a11yDescriptionId = 'cx-item-list-info-3';
+        component.cartEntry = {
+          entryNumber: 0,
+          product: { configuratorType: configuratorType },
+        };
+        fixture.detectChanges();
+        expect(component.getResolveIssuesA11yDescription()).toEqual(
+          'cx-item-list-info-3'
+        );
+      });
     });
 
     describe('queryParam$', () => {
@@ -466,17 +716,57 @@ describe('ConfigureCartEntryComponent', () => {
           });
       });
 
+      it('should set "isBundleOverview" for a bundle overview link', async () => {
+        component.isBundleOverviewLink = true;
+        component.cpqContainerQueryParams$
+          .pipe(take(1), delay(0))
+          .subscribe((queryParams) => {
+            expect(queryParams.isBundleOverview).toBe(true);
+          });
+      });
+
+      it('should not set "isBundleOverview" for a regular configuration link', async () => {
+        component.isBundleOverviewLink = false;
+        component.cpqContainerQueryParams$
+          .pipe(take(1), delay(0))
+          .subscribe((queryParams) => {
+            expect(queryParams.isBundleOverview).toBe(false);
+          });
+      });
+
+      it('should not set "isBundleOverview" for a bundle overview link when in checkout', async () => {
+        mockRouterState.state.semanticRoute = 'checkoutReviewOrder';
+        component.isBundleOverviewLink = true;
+        component.cpqContainerQueryParams$
+          .pipe(take(1), delay(0))
+          .subscribe((queryParams) => {
+            expect(queryParams.isBundleOverview).toBe(false);
+            expect(queryParams.navigateToCheckout).toBe(true);
+          });
+      });
+
       it('should contain "productCode" parameter in case product code is relevant', async () => {
         component.cartEntry = {
           entryNumber: 0,
           product: { configuratorType: configuratorType, code: productCode },
         };
         fixture.detectChanges();
-        component.queryParams$
-          .pipe(take(1), delay(0))
-          .subscribe((queryParams) => {
-            expect(queryParams.productCode).toBe(productCode);
-          });
+        const queryParams = await firstValueFrom(component.queryParams$);
+        expect(queryParams.productCode).toBe(productCode);
+      });
+
+      it('should contain "rowId" and omit "productCode" for a bundle line item link', async () => {
+        component.rowId = 'row-abc';
+        component.cartEntry = {
+          entryNumber: 0,
+          product: { configuratorType: configuratorType, code: productCode },
+        };
+        fixture.detectChanges();
+        const queryParams = await firstValueFrom(
+          component.cpqContainerQueryParams$
+        );
+        expect(queryParams.rowId).toBe('row-abc');
+        expect(queryParams.productCode).toBeUndefined();
       });
 
       it('should not contain "resolveIssues" parameter in case no issues exist', async () => {
@@ -511,6 +801,25 @@ describe('ConfigureCartEntryComponent', () => {
             expect(queryParams.resolveIssues).toBe(true);
           });
       });
+
+      it('should omit "rowId" when resolving issues from the cart banner', async () => {
+        component.readOnly = false;
+        component.msgBanner = true;
+        component.rowId = 'row-abc';
+        component.cartEntry = {
+          entryNumber: 0,
+          product: { configuratorType: configuratorType, code: productCode },
+          statusSummaryList: [
+            { status: OrderEntryStatus.Error, numberOfIssues: 3 },
+          ],
+        };
+        fixture.detectChanges();
+        const queryParams = await firstValueFrom(
+          component.cpqContainerQueryParams$
+        );
+        expect(queryParams.resolveIssues).toBe(true);
+        expect(queryParams.rowId).toBeUndefined();
+      });
     });
 
     describe('Accessibility', () => {
@@ -532,6 +841,203 @@ describe('ConfigureCartEntryComponent', () => {
           'aria-describedby',
           'cx-error-msg-0'
         );
+      });
+
+      it('should not render aria-label when productConfiguratorCPQContainer is disabled', () => {
+        component.readOnly = false;
+        component.msgBanner = false;
+        component.cartEntry = {
+          entryNumber: 0,
+          product: { configuratorType: ConfiguratorType.CPQ, name: 'Train' },
+        };
+        fixture.detectChanges();
+        expect(htmlElem.querySelector('a')?.hasAttribute('aria-label')).toBe(
+          false
+        );
+      });
+
+      describe('with productConfiguratorCPQContainer enabled', () => {
+        beforeEach(() => {
+          featureToggles.set('productConfiguratorCPQContainer', true);
+          component.readOnly = false;
+          component.disabled = false;
+          component.msgBanner = false;
+        });
+
+        it("should render aria-label 'Edit Bundle Configuration for' the product of the cart entry", () => {
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: ConfiguratorType.CPQ, name: 'Train' },
+          };
+          fixture.detectChanges();
+          CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+            expect,
+            htmlElem,
+            'a',
+            'cx-action-link',
+            undefined,
+            'aria-label',
+            'configurator.a11y.editBundleConfigurationForProduct product:Train'
+          );
+        });
+
+        it("should render aria-label 'Edit Product Configuration for' the given product name of a bundle line item", () => {
+          component.rowId = 'row-1';
+          component.productName = 'Locomotive';
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: ConfiguratorType.CPQ, name: 'Train' },
+          };
+          fixture.detectChanges();
+          CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+            expect,
+            htmlElem,
+            'a',
+            'cx-action-link',
+            undefined,
+            'aria-label',
+            'configurator.a11y.editProductConfigurationForProduct product:Locomotive'
+          );
+        });
+
+        it("should render aria-label 'Edit Configuration for' the product of a non-CPQ cart entry", () => {
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: configuratorType, name: 'Camera' },
+          };
+          fixture.detectChanges();
+          CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+            expect,
+            htmlElem,
+            'a',
+            'cx-action-link',
+            undefined,
+            'aria-label',
+            'configurator.a11y.editConfigurationForProduct product:Camera'
+          );
+        });
+
+        it("should render aria-label 'Resolve Issues for' the product of the cart entry and keep aria-describedby", () => {
+          component.msgBanner = true;
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: ConfiguratorType.CPQ, name: 'Train' },
+          };
+          fixture.detectChanges();
+          CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+            expect,
+            htmlElem,
+            'a',
+            'cx-action-link',
+            undefined,
+            'aria-label',
+            'configurator.a11y.resolveIssuesForProduct product:Train'
+          );
+          CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+            expect,
+            htmlElem,
+            'a',
+            'cx-action-link',
+            undefined,
+            'aria-describedby',
+            'cx-error-msg-0'
+          );
+        });
+
+        it("should render aria-label 'Display Configuration for' the product in display only mode", () => {
+          component.readOnly = true;
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: ConfiguratorType.CPQ, name: 'Train' },
+          };
+          fixture.detectChanges();
+          CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+            expect,
+            htmlElem,
+            'a',
+            'cx-action-link',
+            undefined,
+            'aria-label',
+            'configurator.a11y.displayConfigurationForProduct product:Train'
+          );
+        });
+
+        it('should not render aria-label for a bundle overview link', () => {
+          component.readOnly = true;
+          component.isBundleOverviewLink = true;
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: ConfiguratorType.CPQ, name: 'Train' },
+          };
+          fixture.detectChanges();
+          expect(htmlElem.querySelector('a')?.hasAttribute('aria-label')).toBe(
+            false
+          );
+        });
+      });
+
+      describe('getCpqContainerLinkA11yResourceKey', () => {
+        beforeEach(() => {
+          component.readOnly = false;
+          component.msgBanner = false;
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: ConfiguratorType.CPQ, name: 'Train' },
+          };
+        });
+
+        it('should return undefined for a bundle overview link', () => {
+          component.isBundleOverviewLink = true;
+          expect(
+            component.getCpqContainerLinkA11yResourceKey()
+          ).toBeUndefined();
+        });
+
+        it('should return the display configuration key in display only mode, also for a resolve issues link', () => {
+          component.readOnly = true;
+          component.msgBanner = true;
+          expect(component.getCpqContainerLinkA11yResourceKey()).toBe(
+            'configurator.a11y.displayConfigurationForProduct'
+          );
+        });
+
+        it('should return the resolve issues key for a resolve issues link', () => {
+          component.msgBanner = true;
+          expect(component.getCpqContainerLinkA11yResourceKey()).toBe(
+            'configurator.a11y.resolveIssuesForProduct'
+          );
+        });
+
+        it('should prefer the resolve issues key over the bundle line item key', () => {
+          component.msgBanner = true;
+          component.rowId = 'row-1';
+          expect(component.getCpqContainerLinkA11yResourceKey()).toBe(
+            'configurator.a11y.resolveIssuesForProduct'
+          );
+        });
+
+        it('should return undefined if no product name is known', () => {
+          component.cartEntry = {
+            entryNumber: 0,
+            product: { configuratorType: ConfiguratorType.CPQ },
+          };
+          expect(
+            component.getCpqContainerLinkA11yResourceKey()
+          ).toBeUndefined();
+        });
+      });
+
+      describe('getLinkProductName', () => {
+        it('should prefer the given product name', () => {
+          component.productName = 'Locomotive';
+          component.cartEntry = { product: { name: 'Train' } };
+          expect(component.getLinkProductName()).toBe('Locomotive');
+        });
+
+        it('should fall back to the product name of the cart entry', () => {
+          component.cartEntry = { product: { name: 'Train' } };
+          expect(component.getLinkProductName()).toBe('Train');
+        });
       });
     });
   });
