@@ -13,17 +13,17 @@ import { provideServerRendering } from '@angular/platform-server';
 import { TestConfigServerModule } from '@spartacus/setup/ssr';
 import { appConfig } from './app.config';
 import { AppServerModule } from './app.module.server';
+import { provideISR } from '@rx-angular/isr';
 
 const serverConfig: ApplicationConfig = {
   providers: [
     provideServerRendering(),
-
+    provideISR(),
     importProvidersFrom(AppServerModule),
-
     importProvidersFrom(
       // DO NOT USE IN CUSTOMERS APPS:
       TestConfigServerModule.forRoot() // Injects config dynamically from e2e tests for SSR.
-    ),
+    )
   ],
 };
 

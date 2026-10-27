@@ -8,9 +8,10 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { AppRoutingModule } from '@spartacus/storefront';
+import { BEFORE_CMS_PAGE_GUARD, AppRoutingModule } from '@spartacus/storefront';
 import { privateProviders } from './private/private.providers';
 import { SpartacusModule } from './spartacus/spartacus.module';
+import { IsrRevalidateGuard } from './isr-revalidate.guard';
 
 @NgModule({
   imports: [
@@ -20,6 +21,9 @@ import { SpartacusModule } from './spartacus/spartacus.module';
     EffectsModule.forRoot([]),
     SpartacusModule,
   ],
-  providers: [privateProviders],
+  providers: [
+    privateProviders,
+    { provide: BEFORE_CMS_PAGE_GUARD, useExisting: IsrRevalidateGuard, multi: true },
+  ],
 })
 export class AppModule {}

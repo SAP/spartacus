@@ -182,6 +182,7 @@
     "@ngrx/operators": "~21.0.1",
     "@ngrx/router-store": "~21.0.1",
     "@ngrx/store": "~21.0.1",
+    "@rx-angular/isr": "^21.0.2",
     "@types/applepayjs": "^14.0.9",
     "@types/google.maps": "^3.58.1",
     "@types/googlepay": "^0.7.10",

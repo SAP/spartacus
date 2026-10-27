@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { APP_BASE_HREF } from '@angular/common';
 import {
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
@@ -18,6 +17,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'path';
 import bootstrap from './main.server';
+import { ISRHandler } from '@rx-angular/isr';
 
 const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(
@@ -37,6 +37,12 @@ export function app(): express.Express {
   const indexHtmlContent = readFileSync(indexHtml, 'utf-8');
 
   server.set('trust proxy', 'loopback');
+
+  const isr = new ISRHandler({
+    indexHtml,
+    invalidateSecretToken: process.env['INVALIDATE_TOKEN'] || 'TOKEN',
+    enableLogging: true,
+  });
 
   // Validates the resolved request origin against an allowlist. See the JSDoc
   // of `getOriginValidationMiddleware` for the accepted formats and matching
@@ -67,12 +73,18 @@ export function app(): express.Express {
   );
 
   // All regular routes use the Universal engine
-  server.get(/.*/, (req, res) => {
-    res.render(indexHtml, {
-      req,
-      providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
-    });
-  });
+  // server.get(/.*/, (req, res) => {
+  //   res.render(indexHtml, {
+  //     req,
+  //     providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
+  //   });
+  // });
+
+  server.get(
+    /.*/,
+    async (req, res, next) => await isr.serveFromCache(req, res, next),
+    async (req, res, next) => await isr.render(req, res, next),
+  );
 
   server.use(defaultExpressErrorHandlers(indexHtmlContent));
 
