@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { By } from '@angular/platform-browser';
+import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
 import { AbstractOrderContext } from '@spartacus/cart/base/components';
 import { AbstractOrderType, OrderEntry } from '@spartacus/cart/base/root';
 import {
@@ -146,6 +147,53 @@ describe('ConfigureCartEntryComponent', () => {
         product: { configuratorType: readOnlyConfiguratorType },
       };
       expect(component.getRoute()).toBe('configure' + readOnlyConfiguratorType);
+    });
+  });
+
+  describe('getCpqContainerFragment', () => {
+    beforeEach(() => {
+      configureTestingModule().compileComponents();
+      assignTestArtifacts();
+      component.readOnly = true;
+      component.rowId = 'row-1';
+      component.cartEntry = {
+        entryNumber: 0,
+        product: { configuratorType: ConfiguratorType.CPQ },
+      };
+    });
+
+    it('should return the row ID for a bundle line item link to the overview', () => {
+      expect(component.getCpqContainerFragment()).toBe('row-1');
+    });
+
+    it('should return undefined for a link without row ID', () => {
+      component.rowId = undefined;
+      expect(component.getCpqContainerFragment()).toBeUndefined();
+    });
+
+    it('should return undefined for a bundle line item link to the configuration', () => {
+      component.readOnly = false;
+      expect(component.getCpqContainerFragment()).toBeUndefined();
+    });
+
+    it('should return undefined for a read-only configurator type', () => {
+      component.cartEntry = {
+        entryNumber: 0,
+        product: { configuratorType: configuratorType + ReadOnlyPostfix },
+      };
+      expect(component.getCpqContainerFragment()).toBeUndefined();
+    });
+
+    it('should return undefined when resolving issues', () => {
+      component.msgBanner = true;
+      component.cartEntry = {
+        entryNumber: 0,
+        product: { configuratorType: ConfiguratorType.CPQ },
+        statusSummaryList: [
+          { status: OrderEntryStatus.Error, numberOfIssues: 3 },
+        ],
+      };
+      expect(component.getCpqContainerFragment()).toBeUndefined();
     });
   });
 
@@ -586,6 +634,34 @@ describe('ConfigureCartEntryComponent', () => {
             htmlElem,
             'a.link'
           );
+        });
+
+        describe('fragment of a bundle line item link to the overview', () => {
+          function getRouterLink(): RouterLink {
+            return fixture.debugElement
+              .query(By.directive(RouterLink))
+              .injector.get(RouterLink);
+          }
+
+          beforeEach(() => {
+            component.readOnly = true;
+            component.rowId = 'row-1';
+            component.cartEntry = {
+              entryNumber: 0,
+              product: { configuratorType: ConfiguratorType.CPQ },
+            };
+          });
+
+          it('should be the row ID when productConfiguratorCPQContainer is enabled', () => {
+            featureToggles.set('productConfiguratorCPQContainer', true);
+            fixture.detectChanges();
+            expect(getRouterLink().fragment).toBe('row-1');
+          });
+
+          it('should not be set when productConfiguratorCPQContainer is disabled', () => {
+            fixture.detectChanges();
+            expect(getRouterLink().fragment).toBeUndefined();
+          });
         });
       });
     });

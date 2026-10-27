@@ -187,9 +187,32 @@ export class ConfigureCartEntryComponent {
    */
   getRoute(): string {
     const configuratorType = this.cartEntry.product?.configuratorType;
-    return !this.readOnly || configuratorType?.endsWith(ReadOnlyPostfix)
-      ? 'configure' + configuratorType
-      : 'configureOverview' + configuratorType;
+    return this.isOverviewRoute()
+      ? 'configureOverview' + configuratorType
+      : 'configure' + configuratorType;
+  }
+
+  /**
+   * Retrieves the URL fragment of the link when `productConfiguratorCPQContainer` is enabled.
+   *
+   * A read-only bundle line item link targets a container row within the
+   * configuration overview, which scrolls to that row once it is rendered.
+   * The view reset on navigation (`OnNavigateService`) must not scroll the page
+   * back to the top afterwards: with a fragment, it scrolls to the anchor
+   * instead, and as no element is identified by the row ID, it does not scroll at all.
+   *
+   * This relies on two assumptions:
+   * - The router is configured with `anchorScrolling: 'enabled'`, as in the
+   *   Spartacus `AppRoutingModule`. Otherwise, the view reset ignores the
+   *   fragment and may scroll the page back to the top.
+   * - No element on the overview page has an `id` or `name` equal to the row ID.
+   *   Otherwise, the view reset scrolls to that element instead.
+   *
+   * @returns - The container row ID for a bundle line item link to the overview, otherwise `undefined`
+   */
+  getCpqContainerFragment(): string | undefined {
+    const resolveIssues = this.msgBanner && this.hasIssues();
+    return this.isOverviewRoute() && !resolveIssues ? this.rowId : undefined;
   }
 
   /**
@@ -303,6 +326,11 @@ export class ConfigureCartEntryComponent {
     }
     const errorMsgId = 'cx-error-msg-' + this.cartEntry.entryNumber;
     return !this.getDisplayOnly() && this.msgBanner ? errorMsgId : undefined;
+  }
+
+  protected isOverviewRoute(): boolean {
+    const configuratorType = this.cartEntry.product?.configuratorType;
+    return this.readOnly && !configuratorType?.endsWith(ReadOnlyPostfix);
   }
 
   protected isInCheckout(): Observable<boolean> {

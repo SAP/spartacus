@@ -6,6 +6,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   FeaturesConfigModule,
   I18nTestingModule,
+  LoggerService,
   MockTranslatePipe,
   Product,
   ProductService,
@@ -22,7 +23,7 @@ import {
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { cold } from 'jasmine-marbles';
-import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
+import { BehaviorSubject, NEVER, Observable, Subject, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -856,6 +857,250 @@ describe('ConfigurationOverviewFormComponent', () => {
         htmlElem.querySelector('.cx-group.topLevel.configurationDetails')
       ).toBeNull();
       expect(htmlElem.querySelector('.cx-view-details-link')).toBeNull();
+    });
+  });
+
+  describe('navigation to the container row requested by the rowId query parameter', () => {
+    const rowGroupId = `${Configurator.ContainerRowGroupIdPrefix}@1067@zoom`;
+    const nestedRowGroupId = `${Configurator.ContainerRowGroupIdPrefix}@2000@filter`;
+    const rowGroupIdPrefix = 'cx--57';
+    const nestedRowGroupIdPrefix = `cx--57--${rowGroupId}`;
+
+    const configWithNestedContainerRows: Configurator.Configuration = {
+      ...ConfiguratorTestUtils.createConfiguration(configId, owner),
+      overview: {
+        configId,
+        productCode: ConfigurationTestData.PRODUCT_CODE,
+        groups: [
+          {
+            id: '57',
+            groupDescription: 'Lens options',
+            attributes: [
+              {
+                attribute: 'Choose Lens',
+                value: 'Zoom Lens',
+                attributeId: '1067',
+                valueId: 'zoom',
+                type: Configurator.AttributeOverviewType.BUNDLE,
+              },
+            ],
+            subGroups: [
+              {
+                id: rowGroupId,
+                groupDescription: 'Zoom Lens',
+                attributes: [
+                  { attribute: 'Focal length', value: '24-70mm' },
+                  {
+                    attribute: 'Choose Filter',
+                    value: 'UV Filter',
+                    attributeId: '2000',
+                    valueId: 'filter',
+                    type: Configurator.AttributeOverviewType.BUNDLE,
+                  },
+                ],
+                subGroups: [
+                  {
+                    id: nestedRowGroupId,
+                    groupDescription: 'UV Filter',
+                    attributes: [{ attribute: 'Diameter', value: '77mm' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    let storefrontUtils: ConfiguratorStorefrontUtilsService;
+
+    function createRouterState(rowId?: string): RouterState {
+      return {
+        ...mockRouterState,
+        state: { ...mockRouterState.state, queryParams: { rowId } },
+      };
+    }
+
+    function setRowId(rowId?: string): void {
+      routerStateObservable = of(createRouterState(rowId));
+    }
+
+    function expectRenderedSection(idPrefix: string, groupId: string): void {
+      const sectionId = `${idPrefix}--${groupId}-ovGroup`;
+      expect(htmlElem.querySelector(`[id="${sectionId}"] h2`)).toBeTruthy();
+    }
+
+    beforeEach(() => {
+      defaultConfigObservable = of(configWithNestedContainerRows);
+      productForBundleOverview$.next({ images: {} });
+      storefrontUtils = TestBed.inject(ConfiguratorStorefrontUtilsService);
+      TestBed.inject(MockFeatureTogglesController).set(
+        'productConfiguratorCPQContainer',
+        true
+      );
+    });
+
+    it('should navigate to the configuration details of the requested container row', () => {
+      setRowId('zoom');
+      initialize();
+
+      expect(storefrontUtils.navigateToOverviewGroup).toHaveBeenCalledTimes(1);
+      expect(storefrontUtils.navigateToOverviewGroup).toHaveBeenCalledWith(
+        rowGroupIdPrefix,
+        rowGroupId
+      );
+      expectRenderedSection(rowGroupIdPrefix, rowGroupId);
+    });
+
+    it('should navigate to the configuration details of a nested container row', () => {
+      setRowId('filter');
+      initialize();
+
+      expect(storefrontUtils.navigateToOverviewGroup).toHaveBeenCalledTimes(1);
+      expect(storefrontUtils.navigateToOverviewGroup).toHaveBeenCalledWith(
+        nestedRowGroupIdPrefix,
+        nestedRowGroupId
+      );
+      expectRenderedSection(nestedRowGroupIdPrefix, nestedRowGroupId);
+    });
+
+    it('should take the requested container row from the router state the overview has been loaded for', () => {
+      const routerState$ = new Subject<RouterState>();
+      routerStateObservable = routerState$;
+      initialize();
+
+      routerState$.next(createRouterState('zoom'));
+      fixture.detectChanges();
+
+      expect(storefrontUtils.navigateToOverviewGroup).toHaveBeenCalledWith(
+        rowGroupIdPrefix,
+        rowGroupId
+      );
+    });
+
+    it('should navigate only once, even if the overview emits again', () => {
+      setRowId('zoom');
+      const configuration$ = new BehaviorSubject<Configurator.Configuration>(
+        configWithNestedContainerRows
+      );
+      defaultConfigObservable = configuration$;
+      initialize();
+
+      configuration$.next({
+        ...configWithNestedContainerRows,
+        configId: '1234-11111',
+      });
+      fixture.detectChanges();
+
+      expect(storefrontUtils.navigateToOverviewGroup).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not navigate if no rowId is requested', () => {
+      setRowId(undefined);
+      initialize();
+
+      expect(storefrontUtils.navigateToOverviewGroup).not.toHaveBeenCalled();
+    });
+
+    it('should not navigate and log a warning if the requested container row is not part of the overview', () => {
+      const logger = TestBed.inject(LoggerService);
+      vi.spyOn(logger, 'warn').mockImplementation(() => {});
+      setRowId('unknown');
+      initialize();
+
+      expect(storefrontUtils.navigateToOverviewGroup).not.toHaveBeenCalled();
+      expect(logger.warn).toHaveBeenCalledWith(
+        "No configuration details found in overview for rowId 'unknown'"
+      );
+    });
+
+    it('should not navigate if the feature toggle is disabled', () => {
+      TestBed.inject(MockFeatureTogglesController).set(
+        'productConfiguratorCPQContainer',
+        false
+      );
+      setRowId('zoom');
+      initialize();
+
+      expect(storefrontUtils.navigateToOverviewGroup).not.toHaveBeenCalled();
+    });
+
+    describe('when the page size changes afterwards', () => {
+      let resizeCallback: ResizeObserverCallback | undefined;
+      let disconnect: ReturnType<typeof vi.fn>;
+
+      function resizePage(): void {
+        resizeCallback?.([], {} as ResizeObserver);
+      }
+
+      beforeEach(() => {
+        resizeCallback = undefined;
+        disconnect = vi.fn();
+        vi.stubGlobal(
+          'ResizeObserver',
+          vi.fn().mockImplementation(function (
+            callback: ResizeObserverCallback
+          ) {
+            resizeCallback = callback;
+            return { observe: vi.fn(), unobserve: vi.fn(), disconnect };
+          })
+        );
+        setRowId('zoom');
+      });
+
+      afterEach(() => {
+        vi.useRealTimers();
+        vi.unstubAllGlobals();
+      });
+
+      it('should scroll to the configuration details again without setting the focus again', () => {
+        initialize();
+        resizePage();
+
+        expect(storefrontUtils.navigateToOverviewGroup).toHaveBeenCalledTimes(
+          1
+        );
+        expect(
+          storefrontUtils.scrollToConfigurationElement
+        ).toHaveBeenCalledTimes(2);
+        expect(
+          storefrontUtils.scrollToConfigurationElement
+        ).toHaveBeenLastCalledWith(
+          `#${rowGroupIdPrefix}--${rowGroupId}-ovGroup h2`
+        );
+      });
+
+      ['wheel', 'keydown', 'pointerdown'].forEach((eventName) => {
+        it(`should not scroll again once the user interacts with the page (${eventName})`, () => {
+          initialize();
+          window.dispatchEvent(new Event(eventName));
+          resizePage();
+
+          expect(
+            storefrontUtils.scrollToConfigurationElement
+          ).toHaveBeenCalledTimes(1);
+          expect(disconnect).toHaveBeenCalled();
+        });
+      });
+
+      it('should not scroll again once the time to keep the configuration details in place has elapsed', () => {
+        vi.useFakeTimers();
+        initialize();
+        vi.advanceTimersByTime(component['containerRowDetailsKeepInPlaceTime']);
+        resizePage();
+
+        expect(
+          storefrontUtils.scrollToConfigurationElement
+        ).toHaveBeenCalledTimes(1);
+        expect(disconnect).toHaveBeenCalled();
+      });
+
+      it('should stop observing the page size when the component is destroyed', () => {
+        initialize();
+        fixture.destroy();
+
+        expect(disconnect).toHaveBeenCalled();
+      });
     });
   });
 
