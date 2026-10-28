@@ -353,6 +353,7 @@ if (environment.cpq) {
         a11yKeepFocusOnConsentManagementButtons: true,
         useEnhancedSecurePasswordValidators: true,
         enableApplyVoucherEndpoint: true,
+        enableCustomPageTemplate: true,
         enableRemoveVoucherEndpoint: true,
         showSortFieldsOnlyAtTop: true,
         showRequiredAsterisks: true,
