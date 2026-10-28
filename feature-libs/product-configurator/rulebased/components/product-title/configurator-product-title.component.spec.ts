@@ -234,10 +234,7 @@ let routerStateObservable: Observable<any>;
 let productConfigurationObservable: Observable<any>;
 let productObservable: Observable<any>;
 
-function initialize(options?: {
-  keepGhostStyle?: boolean;
-  detectChanges?: boolean;
-}) {
+function initialize(options?: { detectChanges?: boolean }) {
   routerDataObservable = of(mockRouterData);
   routerStateObservable = of(mockRouterState);
   productConfigurationObservable = of(mockConfiguration);
@@ -246,9 +243,8 @@ function initialize(options?: {
   changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
-  if (!options?.keepGhostStyle) {
-    component.ghostStyle = false;
-  }
+  // Stabilizes first CD while deprecated ghostStyle is still updated in tap().
+  component.ghostStyle = false;
   if (options?.detectChanges !== false) {
     fixture.detectChanges();
   }
@@ -509,6 +505,109 @@ describe('ConfigProductTitleComponent', () => {
     expect(component).toBeDefined();
   });
 
+  describe('ghost loading placeholder', () => {
+    it('should render product title when title data is available', () => {
+      setDataForProductConfiguration();
+      vi.spyOn(productService, 'get').mockReturnValue(of(mockProduct));
+      initialize();
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-general-product-info.ghost'
+      );
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-general-product-info'
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-title',
+        PRODUCT_NAME
+      );
+    });
+
+    it('should render ghost product title when title data is not available', () => {
+      setDataForProductConfiguration();
+      mockConfiguration.productCode = undefined as unknown as string;
+      mockConfiguration.overview = undefined;
+      mockRouterData.productCode = undefined;
+      initialize();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-general-product-info.ghost'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-general-product-info'
+      );
+    });
+
+    it('should render the ghost product title when no product is available', () => {
+      setDataForProductConfiguration();
+      vi.spyOn(productService, 'get').mockReturnValue(of(undefined));
+      initialize();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-general-product-info.ghost'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-general-product-info'
+      );
+    });
+
+    it('should render the ghost title when no nested name or base product code can be resolved', () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+      setDataForNestedContainerProduct();
+      const outerRowGroup = mockConfiguration.groups?.[0]?.subGroups[0];
+      expect(outerRowGroup).toBeDefined();
+      if (outerRowGroup) {
+        outerRowGroup.name = '';
+        outerRowGroup.description = '';
+      }
+      mockConfiguration.productCode = undefined as unknown as string;
+      mockConfiguration.overview = undefined;
+      mockRouterData.productCode = undefined;
+      initialize();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-general-product-info.ghost'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-general-product-info'
+      );
+    });
+
+    it('should render the ghost title when the catalog product cannot be loaded for a non-nested group', () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+      setDataForNestedContainerProduct();
+      mockConfiguration.interactionState = { currentGroup: ROOT_TAB_ID };
+      vi.spyOn(productService, 'get').mockReturnValue(
+        throwError(() => new Error('not found'))
+      );
+      initialize();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-general-product-info.ghost'
+      );
+    });
+  });
+
   describe('product$', () => {
     beforeEach(() => {
       vi.spyOn(productService, 'get').mockReturnValue(productObservable);
@@ -699,73 +798,6 @@ describe('ConfigProductTitleComponent', () => {
       expect(productService.get).toHaveBeenCalledWith(
         ORDER_ENTRY_SUFFIX + PRODUCT_CODE,
         ProductScope.LIST
-      );
-    });
-  });
-
-  describe('ghost style', () => {
-    it('should remove the ghost style when product title data is available', () => {
-      setDataForProductConfiguration();
-      vi.spyOn(productService, 'get').mockReturnValue(of(mockProduct));
-      initialize({ keepGhostStyle: true, detectChanges: false });
-
-      expect(component.ghostStyle).toBe(true);
-
-      component.product$.subscribe().unsubscribe();
-      expect(component.ghostStyle).toBe(false);
-
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-title'
-      );
-    });
-
-    it('should render the title instead of the ghost placeholder when the product title data is available', () => {
-      // The ghost appearance must not be driven by a host binding: when router
-      // state, configuration and catalog product are already loaded, the title
-      // data resolves within the change detection cycle in which the page slot
-      // has already evaluated the host bindings of this component.
-      setDataForProductConfiguration();
-      vi.spyOn(productService, 'get').mockReturnValue(of(mockProduct));
-      initialize({ keepGhostStyle: true });
-
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-general-product-info'
-      );
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-general-product-info'
-      );
-      CommonConfiguratorTestUtilsService.expectElementToContainText(
-        expect,
-        htmlElem,
-        '.cx-title',
-        PRODUCT_NAME
-      );
-    });
-
-    it('should render the ghost placeholder when no product is available', () => {
-      setDataForProductConfiguration();
-      mockConfiguration.productCode = undefined as unknown as string;
-      mockConfiguration.overview = undefined;
-      mockRouterData.productCode = undefined;
-      initialize({ keepGhostStyle: true });
-
-      expect(component.ghostStyle).toBe(true);
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-general-product-info.ghost'
-      );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-general-product-info'
       );
     });
   });
@@ -1121,46 +1153,6 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
-    it('should render the ghost title when no nested name or base product code can be resolved', () => {
-      setDataForNestedContainerProduct();
-      const outerRowGroup = mockConfiguration.groups?.[0]?.subGroups[0];
-      expect(outerRowGroup).toBeDefined();
-      if (outerRowGroup) {
-        outerRowGroup.name = '';
-        outerRowGroup.description = '';
-      }
-      mockConfiguration.productCode = undefined as unknown as string;
-      mockConfiguration.overview = undefined;
-      mockRouterData.productCode = undefined;
-      initialize({ keepGhostStyle: true });
-
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-general-product-info'
-      );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-general-product-info'
-      );
-    });
-
-    it('should render the ghost title when the catalog product cannot be loaded for a non-nested group', () => {
-      setDataForNestedContainerProduct();
-      mockConfiguration.interactionState = { currentGroup: ROOT_TAB_ID };
-      vi.spyOn(productService, 'get').mockReturnValue(
-        throwError(() => new Error('not found'))
-      );
-      initialize();
-
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-general-product-info'
-      );
-    });
-
     describe('on the overview page', () => {
       beforeEach(() => {
         mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
@@ -1267,24 +1259,7 @@ describe('ConfigProductTitleComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      '.cx-ghost-general-product-info'
-    );
-  });
-
-  it('should render the ghost product title when no product is available', () => {
-    setDataForProductConfiguration();
-    vi.spyOn(productService, 'get').mockReturnValue(of(undefined));
-    initialize({ keepGhostStyle: true });
-
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      '.cx-ghost-general-product-info'
-    );
-    CommonConfiguratorTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      '.cx-general-product-info'
+      '.cx-ghost-general-product-info.ghost'
     );
   });
 

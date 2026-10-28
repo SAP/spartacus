@@ -1,4 +1,9 @@
-import { Component, Injectable, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Injectable,
+  Input,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
@@ -135,7 +140,6 @@ function initialize() {
   fixture = TestBed.createComponent(ConfiguratorOverviewFormComponent);
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
-  component.ghostStyle = false;
   fixture.detectChanges();
 }
 
@@ -220,6 +224,9 @@ describe('ConfigurationOverviewFormComponent', () => {
           imports: [MockConfiguratorPriceComponent, MockTranslatePipe],
         },
       })
+      .overrideComponent(ConfiguratorOverviewFormComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
       .compileComponents();
   });
   beforeEach(() => {
@@ -235,11 +242,12 @@ describe('ConfigurationOverviewFormComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should display ghost view, consisting of 3 elements representing groups, if no data is present', () => {
+  it('should display ghost overview groups when configuration data is not available', () => {
     defaultConfigObservable = NEVER;
     initialize();
 
-    expect(htmlElem.querySelectorAll('.cx-ghost-group').length).toBe(3);
+    expect(htmlElem.querySelectorAll('.cx-ghost-group.ghost').length).toBe(3);
+    expect(htmlElem.querySelectorAll('.cx-group').length).toBe(0);
   });
 
   it('should display configuration overview', () => {

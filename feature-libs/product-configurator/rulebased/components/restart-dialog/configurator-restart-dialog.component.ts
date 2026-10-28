@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   Product,
   ProductService,
@@ -24,9 +24,18 @@ import { Observable } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 
+/**
+ * Requires default change detection strategy. The dialog is inserted by
+ * {@link LaunchDialogService} into a dynamic outlet, and the visible UI is gated by nested
+ * `async` pipes on shared {@link LaunchDialogService.data$} (filtered dialog payload) and
+ * {@link ProductService.get}.
+ * With OnPush, those emissions are not always reflected, so the
+ * modal container can appear without title and actions.
+ */
 @Component({
   selector: 'cx-configurator-restart-dialog',
   templateUrl: './configurator-restart-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Default,
   imports: [NgIf, FocusDirective, IconComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorRestartDialogComponent {

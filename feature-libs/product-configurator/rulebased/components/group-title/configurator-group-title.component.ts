@@ -9,7 +9,6 @@ import {
   AfterContentChecked,
   ChangeDetectionStrategy,
   Component,
-  HostBinding,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -38,11 +37,20 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 export class ConfiguratorGroupTitleComponent
   implements OnInit, OnDestroy, AfterContentChecked
 {
-  @HostBinding('class.ghost') ghostStyle = true;
   protected subscription = new Subscription();
   protected readonly PRE_HEADER = '.PreHeader';
   protected readonly ADD_TO_CART_BUTTON = 'cx-configurator-add-to-cart-button';
   protected focusFirstElementInMobileGroupList = false;
+
+  /**
+   * @deprecated since 221121.23 - Prefer the `#ghostGroup` template
+   * (`.cx-ghost-group-title.ghost`) for loading UI. Host `class.ghost` via
+   * `@HostBinding` was removed because CMS slots do not refresh host bindings
+   * when the group resolves. This flag is still cleared when data arrives for
+   * compatibility; it no longer affects the host. Will be removed in the next
+   * major.
+   */
+  ghostStyle = true;
 
   displayedGroup$: Observable<Configurator.Group> =
     this.configRouterExtractorService.extractRouterData().pipe(
@@ -54,6 +62,7 @@ export class ConfiguratorGroupTitleComponent
         )
       )
     );
+
   iconTypes = ICON_TYPE;
 
   constructor(
