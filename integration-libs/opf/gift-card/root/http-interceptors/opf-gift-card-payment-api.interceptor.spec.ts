@@ -116,7 +116,9 @@ describe('OpfGiftCardPaymentApiInterceptor (CXSPA-14589)', () => {
     interceptor.intercept(request, nextMock).subscribe({ error: () => {} });
 
     expect(activeCartFacadeMock.reloadActiveCart).toHaveBeenCalled();
-    expect(opfMetadataStoreServiceMock.updateOpfMetadata).not.toHaveBeenCalled();
+    expect(
+      opfMetadataStoreServiceMock.updateOpfMetadata
+    ).not.toHaveBeenCalled();
     expect(
       opfPaymentEventsServiceMock.emitReinitiatePaymentEvent
     ).not.toHaveBeenCalled();
