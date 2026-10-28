@@ -145,8 +145,6 @@ describe('ConfigTabBarComponent', () => {
         ConfiguratorModelUtils.createInitialOwner()
       )
     );
-    component.ghostStyle = false;
-
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
@@ -163,6 +161,27 @@ describe('ConfigTabBarComponent', () => {
 
   it('should create component', () => {
     expect(component).toBeDefined();
+  });
+
+  describe('ghost loading placeholder', () => {
+    it('should render ghost tab bar when configuration data is not available', () => {
+      configurationObs = NEVER;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-tab-bar.ghost'
+      );
+    });
+
+    it('should render tab bar when configuration data is available', () => {
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-tab-bar.ghost'
+      );
+    });
   });
 
   it('should render 2 navigation links per default', () => {
@@ -555,29 +574,6 @@ describe('ConfigTabBarComponent', () => {
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('ghost animation', () => {
-    it('should render ghost placeholder while data is loading', () => {
-      configurationObs = NEVER;
-      fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
-      htmlElem = fixture.nativeElement;
-      fixture.detectChanges();
-      expect(htmlElem.querySelectorAll('.cx-ghost-tab-bar').length).toEqual(1);
-    });
-
-    it('should keep ghost host class while data is loading', () => {
-      configurationObs = NEVER;
-      fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
-      htmlElem = fixture.nativeElement;
-      fixture.detectChanges();
-      expect(htmlElem.classList.contains('ghost')).toBe(true);
-    });
-
-    it('should remove ghost host class once data is available', () => {
-      fixture.detectChanges();
-      expect(htmlElem.classList.contains('ghost')).toBe(false);
     });
   });
 });

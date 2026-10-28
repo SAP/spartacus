@@ -12,8 +12,8 @@ import {
   Injector,
   afterNextRender,
   inject,
-  signal,
   isDevMode,
+  signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
@@ -75,16 +75,15 @@ export class ConfiguratorOverviewFormComponent {
    */
   static readonly OVERVIEW_CONTENT_ID = 'cx-configurator-overview-content';
 
-  protected readonly isGhost = signal(true);
-
-  @HostBinding('class.ghost')
-  get ghostStyle(): boolean {
-    return this.isGhost();
-  }
-
-  set ghostStyle(value: boolean) {
-    this.isGhost.set(value);
-  }
+  /**
+   * @deprecated since 221121.23 - Prefer the `#ghostForm` template
+   * (`.cx-ghost-group.ghost`) for loading UI. Host `class.ghost` via
+   * `@HostBinding` was removed because CMS slots do not refresh host bindings
+   * when overview data resolves. This flag is still cleared when data arrives
+   * for compatibility; it no longer affects the host. Will be removed in the
+   * next major.
+   */
+  ghostStyle = true;
 
   private featureToggles = inject(FeatureToggles);
   protected translationService = inject(TranslationService);

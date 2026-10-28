@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
@@ -118,16 +118,33 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
           ],
         },
       })
+      .overrideComponent(ConfiguratorOverviewFilterButtonComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
       .compileComponents();
     initComponent();
-    // Pre-set ghostStyle to avoid NG0100 from tap() side-effect during first detectChanges.
-    // ghost animation tests re-initialize the component so ghostStyle stays true while loading.
-    component.ghostStyle = false;
   });
 
   it('should create component', () => {
     fixture.detectChanges();
     expect(component).toBeDefined();
+  });
+
+  it('should render ghost filter button when overview configuration is not available', () => {
+    asSpy(mockConfigCommonsService.getConfiguration).mockReturnValue(NEVER);
+    initComponent();
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-config-filter-button'
+    );
+
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-ghost-filter-button.ghost'
+    );
   });
 
   it('should open filter modal on request', () => {
@@ -234,76 +251,5 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
       ovConfig.overview.groupFilters = ['1', '2'];
       expect(component.getNumFilters(ovConfig.overview)).toEqual(3);
     });
-  });
-});
-
-describe('ghost animation', () => {
-  beforeEach(async () => {
-    initTestData();
-    initMocks();
-    await TestBed.configureTestingModule({
-      imports: [ConfiguratorOverviewFilterButtonComponent],
-      providers: [
-        { provide: LaunchDialogService, useValue: mockLaunchDialogService },
-        {
-          provide: ConfiguratorRouterExtractorService,
-          useValue: mockConfigRouterService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useValue: mockConfigCommonsService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
-        },
-      ],
-    })
-      .overrideComponent(ConfiguratorOverviewFilterButtonComponent, {
-        remove: {
-          imports: [TranslatePipe, ConfiguratorOverviewFilterBarComponent],
-        },
-        add: {
-          imports: [
-            MockTranslatePipe,
-            MockConfiguratorOverviewFilterBarComponent,
-          ],
-        },
-      })
-      .compileComponents();
-  });
-
-  it('should render ghost placeholder while data is loading', () => {
-    asSpy(mockConfigCommonsService.getConfiguration).mockReturnValue(NEVER);
-    initComponent();
-    fixture.detectChanges();
-    CommonConfiguratorTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      '.cx-config-filter-button'
-    );
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      '.cx-ghost-filter-button'
-    );
-  });
-
-  it('should keep ghost host class while data is loading', () => {
-    asSpy(mockConfigCommonsService.getConfiguration).mockReturnValue(NEVER);
-    initComponent();
-    fixture.detectChanges();
-    expect(htmlElem.classList.contains('ghost')).toBe(true);
-  });
-
-  it('should remove ghost host class once data is available', () => {
-    initComponent();
-    fixture.detectChanges();
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      '.cx-config-filter-button'
-    );
-    expect(htmlElem.classList.contains('ghost')).toBe(false);
   });
 });

@@ -9,10 +9,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostBinding,
   ViewChild,
   inject,
-  signal,
 } from '@angular/core';
 import {
   FeatureDirective,
@@ -45,16 +43,16 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   ],
 })
 export class ConfiguratorOverviewSidebarComponent {
-  protected readonly isGhost = signal(true);
+  /**
+   * @deprecated since 221121.23 - Prefer the `#ghostSidebar` template
+   * (`.cx-ghost-menu.ghost`) for loading UI. Host `class.ghost` via
+   * `@HostBinding` was removed because CMS slots do not refresh host bindings
+   * when sidebar data resolves. This flag is still cleared when data arrives
+   * for compatibility; it no longer affects the host. Will be removed in the
+   * next major.
+   */
+  ghostStyle = true;
 
-  @HostBinding('class.ghost')
-  get ghostStyle(): boolean {
-    return this.isGhost();
-  }
-
-  set ghostStyle(value: boolean) {
-    this.isGhost.set(value);
-  }
   @ViewChild('menuTab') menuTab: ElementRef<HTMLElement>;
   @ViewChild('filterTab') filterTab: ElementRef<HTMLElement>;
   showFilter: boolean = false;

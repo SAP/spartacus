@@ -9,10 +9,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostBinding,
   ViewChild,
   inject,
-  signal,
 } from '@angular/core';
 import { RoutingService, TranslatePipe } from '@spartacus/core';
 import {
@@ -37,19 +35,19 @@ export class ConfiguratorTabBarComponent {
   @ViewChild('overviewTab') overviewTab: ElementRef<HTMLElement>;
 
   private static readonly TAB_BAR_QUERY_SELECTOR = 'cx-configurator-tab-bar';
-  protected readonly isGhost = signal(true);
   protected routingService = inject(RoutingService);
   protected configUtils = inject(ConfiguratorStorefrontUtilsService);
   protected focusService = inject(KeyboardFocusService);
 
-  @HostBinding('class.ghost')
-  get ghostStyle(): boolean {
-    return this.isGhost();
-  }
-
-  set ghostStyle(value: boolean) {
-    this.isGhost.set(value);
-  }
+  /**
+   * @deprecated since 221121.23 - Prefer the `#ghostTabBar` template
+   * (`.cx-ghost-tab-bar.ghost`) for loading UI. Host `class.ghost` via
+   * `@HostBinding` was removed because CMS slots do not refresh host bindings
+   * when the tab bar data resolves. This flag is still cleared when data
+   * arrives for compatibility; it no longer affects the host. Will be removed
+   * in the next major.
+   */
+  ghostStyle = true;
 
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
