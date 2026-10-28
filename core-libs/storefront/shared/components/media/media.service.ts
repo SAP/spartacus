@@ -138,8 +138,9 @@ export class MediaService {
   /**
    * Returns width and height for Image.
    *
-   * Width and height are not coming from CMS so it should be
-   * manually added to the Container | Image object
+   * OCC does not return intrinsic dimensions in the image payload, so we fall
+   * back to the dimensions configured in `mediaFormats` for the resolved format.
+   * Providing both width and height in config prevents CLS for those images.
    */
   protected getWidthAndHeight(
     mediaContainer: MediaContainer | Image,
@@ -149,10 +150,32 @@ export class MediaService {
       ? mediaContainer
       : this.resolveMedia(mediaContainer as MediaContainer, format);
 
+    const resolvedFormatCode =
+      !mediaContainer.url &&
+      this.resolveFormat(mediaContainer as MediaContainer, format);
+    const formatSize = resolvedFormatCode
+      ? (this.config as MediaConfig)?.mediaFormats?.[resolvedFormatCode]
+      : undefined;
+
     return {
-      width: mainMedia?.width,
-      height: mainMedia?.height,
+      width: mainMedia?.width ?? formatSize?.width,
+      height: mainMedia?.height ?? formatSize?.height,
     };
+  }
+
+  /**
+   * Resolves the best matching format code for a given media container,
+   * used as a fallback when no explicit format is requested.
+   */
+  protected resolveFormatForContainer(
+    mediaContainer: MediaContainer | Image
+  ): string | undefined {
+    if ((mediaContainer as Image).url) {
+      return undefined;
+    }
+    return this.reversedFormats.find(
+      (f) => !!(mediaContainer as MediaContainer)[f.code]
+    )?.code;
   }
 
   /**

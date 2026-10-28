@@ -45,6 +45,14 @@ const spartacusChannelSpecificConfigurationProviders = environment.b2b
   providers: [
     provideConfigFactory(layoutConfigFactory),
     provideConfig(mediaConfig),
+    provideConfig({
+      mediaFormats: {
+        mobile: { width: 400, height: 160 },
+        tablet: { width: 770, height: 290 },
+        desktop: { width: 1140, height: 400 },
+        widescreen: { width: 1400, height: 490 },
+      },
+    }),
     ...defaultCmsContentProviders,
     provideConfig({
       pwa: {

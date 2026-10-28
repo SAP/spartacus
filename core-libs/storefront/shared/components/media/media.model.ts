@@ -64,6 +64,14 @@ export interface MediaFormatSize {
    * different media's can be used in a responsive layout.
    */
   width?: number;
+
+  /**
+   * Specifies the height for a given media format. When provided, the height is
+   * used as a fallback when the backend does not return intrinsic image dimensions.
+   * Setting both width and height prevents layout shifts (CLS) for images whose
+   * dimensions are not included in the OCC response.
+   */
+  height?: number;
 }
 
 /**
