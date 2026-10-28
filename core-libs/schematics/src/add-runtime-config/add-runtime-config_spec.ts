@@ -70,10 +70,10 @@ describe('addRuntimeConfig (integration)', () => {
   }
 
   describe('CSR (ssr: false)', () => {
-    it('should create src/config.json with placeholder keys', async () => {
+    it('should create config.json at the workspace root with placeholder keys', async () => {
       const tree = await buildTree();
-      expect(tree.exists('/src/config.json')).toBe(true);
-      const content = JSON.parse(tree.readText('/src/config.json'));
+      expect(tree.exists('/config.json')).toBe(true);
+      const content = JSON.parse(tree.readText('/config.json'));
       expect(content).toHaveProperty('OCC_BASE_URL');
       expect(content).toHaveProperty('MEDIA_BASE_URL');
     });

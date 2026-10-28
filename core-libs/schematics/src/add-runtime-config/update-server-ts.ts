@@ -24,26 +24,36 @@ export function updateServerTs(options: SpartacusOptions): Rule {
     for (const tsconfigPath of buildPaths) {
       const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
-      const sourceFile = appSourceFiles.find((file) =>
-        file.getFilePath().includes(SERVER_TS)
-      );
+      const serverFile = appSourceFiles.find((file) => {
+        const p = file.getFilePath();
+        return p.endsWith(`/${SERVER_TS}`) || p.endsWith(`\\${SERVER_TS}`);
+      });
 
-      if (sourceFile) {
-        addServerRuntimeEnvironment(sourceFile);
-        formatFile(sourceFile);
-        tree.overwrite(sourceFile.getFilePath(), sourceFile.getFullText());
-        if (options.debug) {
-          context.logger.info(`✅ Updated ${SERVER_TS}`);
-        }
+      if (!serverFile) {
+        continue;
       }
+
+      updateServerTsLegacy(serverFile, tree, context, options);
     }
 
     return tree;
   };
 }
 
-function addServerRuntimeEnvironment(sourceFile: SourceFile): void {
+// ─── Spartacus ngExpressEngine pattern ───────────────────────────────────────
+
+function updateServerTsLegacy(
+  sourceFile: SourceFile,
+  tree: Tree,
+  context: SchematicContext,
+  options: SpartacusOptions
+): void {
   if (sourceFile.getFullText().includes('getServerRuntimeEnvironment')) {
+    if (options.debug) {
+      context.logger.info(
+        `⏭️ Skipping ${SERVER_TS} — already contains getServerRuntimeEnvironment.`
+      );
+    }
     return;
   }
 
@@ -61,6 +71,13 @@ function addServerRuntimeEnvironment(sourceFile: SourceFile): void {
   addRuntimeEnvironmentParamToApp(sourceFile);
   addProviderToNgExpressEngine(sourceFile);
   makeRunAsyncWithFetch(sourceFile);
+
+  formatFile(sourceFile);
+  tree.overwrite(sourceFile.getFilePath(), sourceFile.getFullText());
+
+  if (options.debug) {
+    context.logger.info(`✅ Updated ${SERVER_TS} (Angular ≤17)`);
+  }
 }
 
 function addRuntimeEnvironmentParamToApp(sourceFile: SourceFile): void {
@@ -88,7 +105,6 @@ function addProviderToNgExpressEngine(sourceFile: SourceFile): void {
     return;
   }
 
-  // Find the ngExpressEngine(...) call inside app()
   const engineCall = appFunction
     .getDescendantsOfKind(SyntaxKind.CallExpression)
     .find((call) => {
@@ -119,7 +135,6 @@ function addProviderToNgExpressEngine(sourceFile: SourceFile): void {
       );
     }
   } else {
-    // No providers property yet — add it
     optionsArg.addPropertyAssignment({
       name: 'providers',
       initializer:
@@ -139,7 +154,6 @@ function makeRunAsyncWithFetch(sourceFile: SourceFile): void {
 
   runFunction.setIsAsync(true);
 
-  // Find `const server = app()` and insert fetch before it, change app() → app(runtimeEnvironment)
   const serverDeclaration = runFunction
     .getVariableDeclarations()
     .find((decl) => decl.getName() === 'server');
@@ -153,7 +167,6 @@ function makeRunAsyncWithFetch(sourceFile: SourceFile): void {
     return;
   }
 
-  // Insert fetch before `const server = app()`
   const index = variableStatement.getChildIndex();
   const body = variableStatement.getParentIfKindOrThrow(SyntaxKind.Block);
   body.insertStatements(
@@ -161,8 +174,6 @@ function makeRunAsyncWithFetch(sourceFile: SourceFile): void {
     `const runtimeEnvironment = await getServerRuntimeEnvironment({ url: process.env['CONFIG_URL'] });`
   );
 
-  // Change app() → app(runtimeEnvironment) in the initializer
-  // After insertion the variableStatement node is still valid — find the app() call in the initializer
   const initializer = serverDeclaration.getInitializer();
   if (initializer && Node.isCallExpression(initializer)) {
     const expr = initializer.getExpression().getText();
