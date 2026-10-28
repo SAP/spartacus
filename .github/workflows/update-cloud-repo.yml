@@ -20,7 +20,7 @@ env:
   CONFIG_DIR: scripts/install
   NPM_REPO_URL: https://73554900100900004337.dev.npmsrv.base.repositories.cloud.sap/
   OCC_BACKEND_URL: OCC_BACKEND_BASE_URL_VALUE
-  FE_URL: https://spartacusstore/${{ inputs.domainCode }}-${{ inputs.domainCode }}-p1-public.model-t.myhybris.cloud
+  FE_URL: https://spartacusstore.${{ inputs.domainCode }}-${{ inputs.domainCode }}-p1-public.model-t.myhybris.cloud
 
 jobs:
   run_script:
