@@ -1,34 +1,32 @@
-import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  MockTranslatePipe,
+  I18nTestingModule,
   MockTranslationService,
-  RoutingService,
   TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
-  CommonConfiguratorUtilsService,
-  ConfiguratorModelUtils,
   ConfiguratorType,
-} from '@spartacus/product-configurator/common';
+} from '../../../common/core/model/common-configurator.model';
+import { CommonConfiguratorUtilsService } from '../../../common/shared/utils/common-configurator-utils.service';
+import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
 import {
-  BreakpointService,
   DirectionMode,
   DirectionService,
   FocusDirective,
   HamburgerMenuService,
-  IconComponent,
   ICON_TYPE,
+  IconComponent,
+  IconTestingModule,
+  KeyboardFocusTestingModule,
 } from '@spartacus/storefront';
 import { BehaviorSubject, firstValueFrom, NEVER, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { ConfiguratorUtilsService } from '../../core/facade/utils/configurator-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -51,17 +49,19 @@ import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
+import {
+  MockConfiguratorProviderService,
+  provideConfiguratorMockBreakpointService,
+  provideConfiguratorMockCommonsService,
+  provideConfiguratorMockGroupsService,
+  provideConfiguratorMockRoutingService,
+  provideConfiguratorMockStorefrontUtilsService,
+} from '../../testing';
 
 let mockGroupVisited = false;
 let mockDirection = DirectionMode.LTR;
 let mockProductConfiguration: Configurator.Configuration =
   structuredClone(productConfiguration);
-
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-}
 
 const baseStyleClass = 'cx-menu-item';
 const completeStyleClass = ' COMPLETE';
@@ -120,10 +120,6 @@ const incompleteConfig: Configurator.Configuration = {
   owner: ConfiguratorModelUtils.createInitialOwner(),
 };
 
-class MockRouter {
-  public events = of('');
-}
-
 const mockRouterStateIssueNavigation: any = {
   state: {
     params: {
@@ -135,88 +131,9 @@ const mockRouterStateIssueNavigation: any = {
   },
 };
 
-class MockConfiguratorGroupService {
-  setMenuParentGroup(): void {}
-
-  getGroupStatus() {
-    return of(null);
-  }
-
-  isGroupVisited() {
-    return groupVisitedObservable;
-  }
-
-  findParentGroup() {
-    return null;
-  }
-
-  navigateToGroup(): void {}
-
-  getCurrentGroup(): Observable<Configurator.Group> {
-    return of(mockProductConfiguration.groups[0]);
-  }
-
-  getMenuParentGroup(): Observable<Configurator.Group | undefined> {
-    return of(undefined);
-  }
-
-  hasSubGroups(group: Configurator.Group): boolean {
-    return group.subGroups ? group.subGroups.length > 0 : false;
-  }
-
-  getParentGroup(): Configurator.Group | undefined {
-    return undefined;
-  }
-
-  isConflictGroupType() {
-    return isConflictGroupType;
-  }
-}
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return productConfigurationObservable;
-  }
-}
-
 class MockDirectionService {
   getDirection() {
     return direction;
-  }
-}
-
-class MockBreakpointService {
-  isDown(): Observable<boolean> {
-    return breakpointObservable;
-  }
-}
-
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: string;
-}
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-  imports: [ReactiveFormsModule, NgSelectModule],
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
-
-class MockConfiguratorStorefrontUtilsService {
-  createGroupId(groupId?: string): string | undefined {
-    if (groupId) {
-      return groupId + '-group';
-    }
-  }
-
-  scrollToConfigurationElement(): void {}
-  setFocus(): void {}
-  focusFirstActiveElement(): void {}
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(mockGroupVisited);
   }
 }
 
@@ -259,32 +176,27 @@ describe('ConfiguratorGroupMenuComponent', () => {
         HamburgerMenuService,
         {
           provide: Router,
-          useClass: MockRouter,
+          useClass: MockConfiguratorProviderService.MockRouter,
         },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupService,
-        },
+        provideConfiguratorMockRoutingService(() => routerStateObservable),
+        provideConfiguratorMockCommonsService({
+          configurationSource: () => productConfigurationObservable,
+        }),
+        provideConfiguratorMockGroupsService({
+          isGroupVisitedSource: () => groupVisitedObservable,
+          getCurrentGroupSource: () => of(mockProductConfiguration.groups[0]),
+        }),
         {
           provide: DirectionService,
           useClass: MockDirectionService,
         },
-        {
-          provide: BreakpointService,
-          useClass: MockBreakpointService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
-        },
+        provideConfiguratorMockBreakpointService({
+          isDownSource: () => breakpointObservable,
+        }),
+        provideConfiguratorMockStorefrontUtilsService({
+          isCartEntryOrGroupVisitedSource: () => of(mockGroupVisited),
+          groupMenuBehavior: true,
+        }),
         {
           provide: TranslationService,
           useClass: MockTranslationService,
@@ -294,7 +206,11 @@ describe('ConfiguratorGroupMenuComponent', () => {
       .overrideComponent(ConfiguratorGroupMenuComponent, {
         remove: { imports: [TranslatePipe, FocusDirective, IconComponent] },
         add: {
-          imports: [MockTranslatePipe, MockFocusDirective, MockCxIconComponent],
+          imports: [
+            I18nTestingModule,
+            KeyboardFocusTestingModule,
+            IconTestingModule,
+          ],
         },
       })
       .compileComponents();
@@ -311,7 +227,10 @@ describe('ConfiguratorGroupMenuComponent', () => {
     ).mockImplementation(() => {});
     vi.spyOn(configuratorGroupsService, 'isGroupVisited');
     isConflictGroupType = false;
-    vi.spyOn(configuratorGroupsService, 'isConflictGroupType');
+    vi.spyOn(
+      configuratorGroupsService,
+      'isConflictGroupType'
+    ).mockImplementation(() => isConflictGroupType);
 
     hamburgerMenuService = TestBed.inject(HamburgerMenuService);
     vi.spyOn(hamburgerMenuService, 'toggle').mockImplementation(() => {});
@@ -1965,7 +1884,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
           'getMenuParentGroup'
         ).mockReturnValue(of(mockProductConfiguration.groups[0]));
         vi.spyOn(configuratorGroupsService, 'getParentGroup').mockReturnValue(
-          of(mockProductConfiguration.groups[0])
+          mockProductConfiguration.groups[0]
         );
         vi.spyOn(component as any, 'setFocusOnNavigateUp').mockImplementation(
           () => {}

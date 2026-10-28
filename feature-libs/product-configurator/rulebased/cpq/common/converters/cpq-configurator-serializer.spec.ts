@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
@@ -157,9 +156,7 @@ describe('CpqConfiguratorSerializer', () => {
       providers: [CpqConfiguratorSerializer],
     });
 
-    cpqConfiguratorSerializer = TestBed.inject(
-      CpqConfiguratorSerializer as Type<CpqConfiguratorSerializer>
-    );
+    cpqConfiguratorSerializer = TestBed.inject(CpqConfiguratorSerializer);
 
     configuration.updateType = Configurator.UpdateType.ATTRIBUTE;
   });

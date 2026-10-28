@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContextSource } from '@spartacus/cart/base/components';
@@ -15,15 +14,15 @@ import {
 } from '@spartacus/core';
 import { defaultCommonConfiguratorUISettingsConfig } from '../../components/config/default-common-configurator-ui-settings.config';
 import { BREAKPOINT, LayoutConfig } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import {
   CommonConfigurator,
   ConfiguratorType,
   OrderEntryStatus,
 } from '../../core/model/common-configurator.model';
-import { CommonConfiguratorUISettingsConfig } from '../../components/config/common-configurator-ui-settings.config';
 import { CommonConfiguratorUtilsService } from './common-configurator-utils.service';
 import { ConfiguratorModelUtils } from './configurator-model-utils';
+import { MockConfiguratorProviderService } from '../../testing';
 
 const productCode = 'CONF_LAPTOP';
 const documentId = '12344';
@@ -32,7 +31,6 @@ let owner: CommonConfigurator.Owner;
 
 const CART_CODE = '0000009336';
 const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
-const NAMED_USER = 'NAMED_USER';
 
 const cartAnonymous: Cart = {
   code: CART_CODE,
@@ -41,12 +39,6 @@ const cartAnonymous: Cart = {
 };
 
 let cartItem: OrderEntry;
-
-class MockUserIdService {
-  getUserId(): Observable<string> {
-    return of(NAMED_USER);
-  }
-}
 
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
@@ -87,7 +79,7 @@ describe('CommonConfiguratorUtilsService', () => {
       providers: [
         {
           provide: UserIdService,
-          useClass: MockUserIdService,
+          useClass: MockConfiguratorProviderService.MockUserIdService,
         },
         { provide: CartItemContext, useClass: MockCartItemContext },
         provideDefaultConfig(defaultCommonConfiguratorUISettingsConfig),
@@ -95,9 +87,7 @@ describe('CommonConfiguratorUtilsService', () => {
     }).compileComponents();
   });
   beforeEach(() => {
-    classUnderTest = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
+    classUnderTest = TestBed.inject(CommonConfiguratorUtilsService);
     owner = ConfiguratorModelUtils.createInitialOwner();
     mockCartItemContext = TestBed.inject(CartItemContext) as any;
     cartItem = {};

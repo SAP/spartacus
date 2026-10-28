@@ -1,36 +1,34 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Directive,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule } from '@spartacus/core';
-import { FocusDirective, ItemCounterComponent } from '@spartacus/storefront';
-
-import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
+import {
+  FocusDirective,
+  ItemCounterComponent,
+  KeyboardFocusTestingModule,
+} from '@spartacus/storefront';
+import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import {
-  ConfiguratorPriceComponent,
-  ConfiguratorPriceComponentOptions,
-} from '../../../price/configurator-price.component';
+import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
-import {
-  ConfiguratorAttributeQuantityComponent,
-  ConfiguratorAttributeQuantityComponentOptions,
-} from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-input-field/configurator-attribute-numeric-input-field.component';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
+import {
+  MockConfiguratorAttributeQuantityComponent,
+  MockConfiguratorPriceComponent,
+  MockConfiguratorShowMoreComponent,
+  MockConfiguratorProviderService,
+} from '../../../../testing';
 
 const VALUE_NAME_2 = 'val2';
 
@@ -45,57 +43,6 @@ function createValue(code: string, name: string, isSelected: boolean) {
 }
 
 class MockGroupService {}
-
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
-}
-
-@Component({
-  selector: 'cx-configurator-attribute-quantity',
-  template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule],
-})
-class MockConfiguratorAttributeQuantityComponent {
-  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
-}
-
-@Component({
-  selector: 'cx-configurator-price',
-  template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule],
-})
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
-@Component({
-  selector: 'cx-configurator-show-more',
-  template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule],
-})
-class MockConfiguratorShowMoreComponent {
-  @Input() text: string;
-  @Input() textSize = 60;
-  @Input() productName: string;
-  @Input() attributeLabel?: string;
-  @Input() valueLabel?: string;
-  @Input() itemLabel?: string;
-}
-
-class MockConfiguratorCommonsService {
-  isConfigurationLoading(): Observable<boolean> {
-    return of(false);
-  }
-  updateConfiguration(): void {}
-}
-
-const isCartEntryOrGroupVisited = true;
-class MockConfigUtilsService {
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(isCartEntryOrGroupVisited);
-  }
-}
 
 class MockConfiguratorAttributePriceChangeService {
   getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
@@ -146,7 +93,8 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       providers: [
         {
           provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorCommonsService,
         },
         {
           provide: ConfiguratorGroupsService,
@@ -158,7 +106,8 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorStorefrontUtilsService,
         },
       ],
     })
@@ -173,7 +122,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         },
         add: {
           imports: [
-            MockFocusDirective,
+            KeyboardFocusTestingModule,
             MockConfiguratorAttributeQuantityComponent,
             MockConfiguratorPriceComponent,
             MockConfiguratorShowMoreComponent,

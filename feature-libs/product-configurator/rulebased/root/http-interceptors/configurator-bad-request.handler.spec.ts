@@ -11,7 +11,8 @@ import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { ConfiguratorBadRequestHandler } from '@spartacus/product-configurator/rulebased/root';
+import { ConfiguratorBadRequestHandler } from './configurator-bad-request.handler';
+import { MockConfiguratorProviderService } from '../../testing';
 
 const mockRequest = {} as HttpRequest<any>;
 const occBaseUrl = 'https://localhost:9002/occ/v2/powertools-spa';
@@ -97,12 +98,6 @@ const mockProductListNotFoundResponse = {
   },
 } as HttpErrorResponse;
 
-class MockGlobalMessageService {
-  add() {}
-
-  remove() {}
-}
-
 describe('ConfiguratorBadRequestHandler', () => {
   let classUnderTest: ConfiguratorBadRequestHandler;
   let globalMessageService: GlobalMessageService;
@@ -114,7 +109,7 @@ describe('ConfiguratorBadRequestHandler', () => {
         ConfiguratorBadRequestHandler,
         {
           provide: GlobalMessageService,
-          useClass: MockGlobalMessageService,
+          useClass: MockConfiguratorProviderService.MockGlobalMessageService,
         },
         ...provideMockFeatureToggles({ productConfiguratorCPQContainer: true }),
       ],

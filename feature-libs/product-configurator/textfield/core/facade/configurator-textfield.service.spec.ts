@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
@@ -7,10 +6,8 @@ import {
   OCC_USER_ID_CURRENT,
   UserIdService,
 } from '@spartacus/core';
-import {
-  CommonConfigurator,
-  ConfiguratorModelUtils,
-} from '@spartacus/product-configurator/common';
+import { CommonConfigurator } from '../../../common/core/model/common-configurator.model';
+import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../state/actions/index';
@@ -19,7 +16,6 @@ import {
   StateWithConfigurationTextfield,
 } from '../state/configuration-textfield-state';
 import { ConfiguratorTextfieldService } from './configurator-textfield.service';
-
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
 const ATTRIBUTE_NAME = 'AttributeName';
@@ -144,12 +140,8 @@ describe('ConfiguratorTextfieldService', () => {
     }).compileComponents();
   });
   beforeEach(() => {
-    serviceUnderTest = TestBed.inject(
-      ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>
-    );
-    store = TestBed.inject(
-      Store as Type<Store<StateWithConfigurationTextfield>>
-    );
+    serviceUnderTest = TestBed.inject(ConfiguratorTextfieldService);
+    store = TestBed.inject(Store);
 
     vi.spyOn(store, 'dispatch');
   });

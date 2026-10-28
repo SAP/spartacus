@@ -1,23 +1,17 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { LanguageService } from '@spartacus/core';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
-import { Observable, of } from 'rxjs';
+import { Configurator } from '../../../core/model/configurator.model';
+import { of } from 'rxjs';
 import { Cpq } from '../cpq.models';
 import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normalizer-utils.service';
+import { MockConfiguratorProviderService } from '../../../../common/testing';
 
 const CURRENCY = 'USD';
 const VALUE_CODE1 = '1';
 const VALUE_CODE2 = '2';
 const VALUE_CODE3 = '3';
 const VALUE_CODE4 = '4';
-
-class MockLanguageService {
-  getActive(): Observable<string> {
-    return of('en-US');
-  }
-}
 
 describe('CpqConfiguratorNormalizerUtilsService', () => {
   let cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService;
@@ -26,13 +20,16 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     TestBed.configureTestingModule({
       providers: [
         CpqConfiguratorNormalizerUtilsService,
-        { provide: LanguageService, useClass: MockLanguageService },
+        {
+          provide: LanguageService,
+          useClass: MockConfiguratorProviderService.MockLanguageService,
+        },
         ...provideMockFeatureToggles({ productConfiguratorCPQContainer: true }),
       ],
     });
 
     cpqConfiguratorNormalizerUtilsService = TestBed.inject(
-      CpqConfiguratorNormalizerUtilsService as Type<CpqConfiguratorNormalizerUtilsService>
+      CpqConfiguratorNormalizerUtilsService
     );
   });
 
@@ -841,14 +838,17 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
         TestBed.configureTestingModule({
           providers: [
             CpqConfiguratorNormalizerUtilsService,
-            { provide: LanguageService, useClass: MockLanguageService },
+            {
+              provide: LanguageService,
+              useClass: MockConfiguratorProviderService.MockLanguageService,
+            },
             ...provideMockFeatureToggles({
               productConfiguratorCPQContainer: false,
             }),
           ],
         });
         const utilsWithToggleOff = TestBed.inject(
-          CpqConfiguratorNormalizerUtilsService as Type<CpqConfiguratorNormalizerUtilsService>
+          CpqConfiguratorNormalizerUtilsService
         );
         expect(
           utilsWithToggleOff.calculateTotalNumberOfIssues({
@@ -874,14 +874,17 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
         TestBed.configureTestingModule({
           providers: [
             CpqConfiguratorNormalizerUtilsService,
-            { provide: LanguageService, useClass: MockLanguageService },
+            {
+              provide: LanguageService,
+              useClass: MockConfiguratorProviderService.MockLanguageService,
+            },
             ...provideMockFeatureToggles({
               productConfiguratorCPQContainer: false,
             }),
           ],
         });
         const utilsWithToggleOff = TestBed.inject(
-          CpqConfiguratorNormalizerUtilsService as Type<CpqConfiguratorNormalizerUtilsService>
+          CpqConfiguratorNormalizerUtilsService
         );
         expect(
           utilsWithToggleOff.calculateTotalNumberOfIssues({

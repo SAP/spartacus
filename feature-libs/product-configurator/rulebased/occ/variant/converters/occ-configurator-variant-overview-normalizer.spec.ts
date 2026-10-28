@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, TranslationService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -25,12 +24,6 @@ const groupId = '1';
 const configId = '1234-4568';
 const PRODUCT_CODE = 'PRODUCT';
 const totalNumberOfIssues = 2;
-
-class MockTranslationService {
-  translate(): Observable<string> {
-    return of(generalGroupDescription);
-  }
-}
 
 const group3: OccConfigurator.GroupOverview = {
   id: '3',
@@ -109,6 +102,15 @@ class MockConverterService {
   }
 }
 
+class MockTranslationService {
+  translate(key: string): Observable<string> {
+    if (key === 'configurator.group.general') {
+      return of(generalGroupDescription);
+    }
+    return of(key);
+  }
+}
+
 describe('OccConfiguratorVariantNormalizer', () => {
   let occConfiguratorVariantOverviewNormalizer: OccConfiguratorVariantOverviewNormalizer;
 
@@ -122,7 +124,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     occConfiguratorVariantOverviewNormalizer = TestBed.inject(
-      OccConfiguratorVariantOverviewNormalizer as Type<OccConfiguratorVariantOverviewNormalizer>
+      OccConfiguratorVariantOverviewNormalizer
     );
   });
 

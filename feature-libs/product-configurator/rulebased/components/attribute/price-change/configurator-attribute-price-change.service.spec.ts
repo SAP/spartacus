@@ -1,15 +1,13 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { EMPTY, Observable, Subject, of, skip } from 'rxjs';
+import { Subject, of, skip } from 'rxjs';
 import { ConfiguratorAttributePriceChangeService } from './configurator-attribute-price-change.service';
 
-import {
-  CommonConfigurator,
-  ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
-import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
+import {
+  provideConfiguratorMockCommonsService,
+  provideConfiguratorMockRouterExtractorService,
+} from '../../../testing';
 
 const mockConfigTemplate: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration('c123'),
@@ -23,21 +21,7 @@ const mockConfigTemplate: Configurator.Configuration = {
   ),
 };
 
-class MockConfiguratorRouterExtractorService {
-  extractRouterData() {
-    return of({ owner: mockConfigTemplate.owner });
-  }
-}
-
 const configSubject = new Subject<Configurator.Configuration>();
-class MockConfiguratorCommonsService {
-  getConfiguration(
-    owner: CommonConfigurator.Owner
-  ): Observable<Configurator.Configuration> {
-    return owner === mockConfigTemplate.owner ? configSubject : EMPTY;
-  }
-}
-
 describe('ConfiguratorAttributePriceChangeService', () => {
   let classUnderTest: ConfiguratorAttributePriceChangeService;
   let mockConfig: Configurator.Configuration;
@@ -46,20 +30,16 @@ describe('ConfiguratorAttributePriceChangeService', () => {
     TestBed.configureTestingModule({
       providers: [
         ConfiguratorAttributePriceChangeService,
-        {
-          provide: ConfiguratorRouterExtractorService,
-          useClass: MockConfiguratorRouterExtractorService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
+        provideConfiguratorMockRouterExtractorService({
+          routerDataSource: () => of({ owner: mockConfigTemplate.owner }),
+        }),
+        provideConfiguratorMockCommonsService({
+          configurationSource: () => configSubject.asObservable(),
+        }),
       ],
     });
 
-    classUnderTest = TestBed.inject(
-      ConfiguratorAttributePriceChangeService as Type<ConfiguratorAttributePriceChangeService>
-    );
+    classUnderTest = TestBed.inject(ConfiguratorAttributePriceChangeService);
 
     mockConfig = structuredClone(mockConfigTemplate);
   });

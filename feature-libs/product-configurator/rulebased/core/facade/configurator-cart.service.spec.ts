@@ -13,11 +13,11 @@ import {
 } from '@spartacus/core';
 import {
   CommonConfigurator,
-  CommonConfiguratorUtilsService,
-  ConfiguratorModelUtils,
   ConfiguratorType,
   OrderEntryStatus,
-} from '@spartacus/product-configurator/common';
+} from '../../../common/core/model/common-configurator.model';
+import { CommonConfiguratorUtilsService } from '../../../common/shared/utils/common-configurator-utils.service';
+import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
@@ -29,7 +29,6 @@ import {
 } from '../state/configurator-state';
 import { getConfiguratorReducers } from '../state/reducers/index';
 import { ConfiguratorCartService } from './configurator-cart.service';
-
 let OWNER_CART_ENTRY = ConfiguratorModelUtils.createInitialOwner();
 let OWNER_ORDER_ENTRY = ConfiguratorModelUtils.createInitialOwner();
 let OWNER_PRODUCT = ConfiguratorModelUtils.createInitialOwner();
@@ -103,7 +102,7 @@ describe('ConfiguratorCartService', () => {
   beforeEach(async () => {
     cartObs = of(cart);
     isStableObs = of(true);
-    checkoutLoadingObs = of({ loading: true, error: false, data: undefined });
+    checkoutLoadingObs = of({ loading: false, error: false, data: undefined });
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),

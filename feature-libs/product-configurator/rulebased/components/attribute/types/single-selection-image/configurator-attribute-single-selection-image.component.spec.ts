@@ -1,27 +1,15 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Directive,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-
-import {
-  CxDatePipe,
-  I18nTestingModule,
-  MockDatePipe,
-  MockTranslatePipe,
-  TranslatePipe,
-} from '@spartacus/core';
+import { CxDatePipe, I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import {
   FocusDirective,
   ICON_TYPE,
   IconComponent,
   IconTestingModule,
-  MockIconComponent,
+  KeyboardFocusTestingModule,
   PopoverModule,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -30,41 +18,18 @@ import { ConfiguratorCommonsService } from '../../../../core/facade/configurator
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import {
-  ConfiguratorPriceComponent,
-  ConfiguratorPriceComponentOptions,
-} from '../../../price/configurator-price.component';
+import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
+import {
+  MockConfiguratorPriceComponent,
+  MockConfiguratorProviderService,
+} from '../../../../testing';
 
 const VALUE_DISPLAY_NAME = 'val2';
 class MockGroupService {}
-
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: string;
-}
-
-@Component({
-  selector: 'cx-configurator-price',
-  template: '',
-  imports: [
-    ReactiveFormsModule,
-    NgSelectModule,
-    I18nTestingModule,
-    IconTestingModule,
-    PopoverModule,
-  ],
-})
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
-class MockConfiguratorCommonsService {
-  updateConfiguration(): void {}
-}
 
 class MockConfiguratorAttributePriceChangeService {
   getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
@@ -104,7 +69,8 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
         },
         {
           provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorCommonsService,
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
@@ -124,10 +90,9 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
         },
         add: {
           imports: [
-            MockTranslatePipe,
-            MockDatePipe,
-            MockIconComponent,
-            MockFocusDirective,
+            I18nTestingModule,
+            IconTestingModule,
+            KeyboardFocusTestingModule,
             MockConfiguratorPriceComponent,
           ],
           changeDetection: ChangeDetectionStrategy.Default,

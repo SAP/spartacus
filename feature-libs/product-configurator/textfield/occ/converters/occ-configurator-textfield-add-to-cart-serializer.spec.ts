@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
@@ -40,7 +39,7 @@ describe('OccConfiguratorTextfieldAddToCartSerializer', () => {
     });
 
     occConfiguratorVariantAddToCartSerializer = TestBed.inject(
-      OccConfiguratorTextfieldAddToCartSerializer as Type<OccConfiguratorTextfieldAddToCartSerializer>
+      OccConfiguratorTextfieldAddToCartSerializer
     );
   });
 

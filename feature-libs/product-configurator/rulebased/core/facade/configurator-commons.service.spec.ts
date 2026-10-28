@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
@@ -199,15 +198,9 @@ describe('ConfiguratorCommonsService', () => {
     configCartObservable = of(productConfiguration);
     isStableObservable = of(true);
 
-    serviceUnderTest = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
-    configuratorUtilsService = TestBed.inject(
-      ConfiguratorUtilsService as Type<ConfiguratorUtilsService>
-    );
+    serviceUnderTest = TestBed.inject(ConfiguratorCommonsService);
+    configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
+    configuratorUtilsService = TestBed.inject(ConfiguratorUtilsService);
 
     OWNER_PRODUCT = ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.PRODUCT,
@@ -242,10 +235,8 @@ describe('ConfiguratorCommonsService', () => {
       ...productConfiguration,
       loading: undefined,
     };
-    store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
-    configuratorCartService = TestBed.inject(
-      ConfiguratorCartService as Type<ConfiguratorCartService>
-    );
+    store = TestBed.inject(Store);
+    configuratorCartService = TestBed.inject(ConfiguratorCartService);
     vi.spyOn(configuratorUtilsService, 'createConfigurationExtract');
     vi.spyOn(store, 'dispatch');
   });

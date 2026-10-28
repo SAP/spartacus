@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
@@ -6,18 +6,14 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   GlobalMessageService,
   I18nTestingModule,
-  MockTranslatePipe,
-  RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import {
-  CommonConfigurator,
-  ConfiguratorModelUtils,
-} from '@spartacus/product-configurator/common';
+import { CommonConfigurator } from '../../../common/core/model/common-configurator.model';
+import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
 import {
   KeyboardFocusService,
   LAUNCH_CALLER,
@@ -35,18 +31,13 @@ import { productConfiguration } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorGroupComponent } from '../group';
 import { ConfiguratorFormComponent } from './configurator-form.component';
-
-@Component({
-  selector: 'cx-configurator-group',
-  template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-})
-class MockConfiguratorGroupComponent {
-  @Input() group: Configurator.Group;
-  @Input() owner: CommonConfigurator.Owner;
-  @Input() isNavigationToGroupEnabled = true;
-  @Input() isPricingAsync?: boolean;
-}
+import {
+  MockConfiguratorGroupComponent,
+  MockConfiguratorProviderService,
+  provideConfiguratorMockCommonsService,
+  provideConfiguratorMockGroupsService,
+  provideConfiguratorMockRoutingService,
+} from '../../testing';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
@@ -96,87 +87,8 @@ const configRead2: Configurator.Configuration = {
 let routerStateObservable: Observable<RouterState> = EMPTY;
 let configurationCreateObservable: Observable<Configurator.Configuration> =
   EMPTY;
-let currentGroupObservable: Observable<string> = EMPTY;
+let currentGroupObservable: Observable<Configurator.Group | undefined> = EMPTY;
 let isConfigurationLoadingObservable: Observable<boolean> = EMPTY;
-
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-}
-
-class MockConfiguratorCommonsService {
-  getOrCreateConfiguration(): Observable<Configurator.Configuration> {
-    return configurationCreateObservable;
-  }
-
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return configurationCreateObservable;
-  }
-
-  removeConfiguration(): void {}
-
-  updateConfiguration(): void {}
-
-  isConfigurationLoading(): Observable<boolean> {
-    return isConfigurationLoadingObservable;
-  }
-
-  hasConflicts(): Observable<boolean> {
-    return hasConfigurationConflictsObservable;
-  }
-  checkConflictSolverDialog(): void {}
-}
-
-class MockConfiguratorGroupsService {
-  getCurrentGroup(): Observable<string> {
-    return currentGroupObservable;
-  }
-
-  getNextGroup(): Observable<string> {
-    return of('');
-  }
-
-  getPreviousGroup(): Observable<string> {
-    return of('');
-  }
-
-  isGroupVisited(): Observable<boolean> {
-    return of(true);
-  }
-
-  subscribeToUpdateConfiguration() {}
-
-  setGroupStatusVisited(): void {}
-
-  navigateToConflictSolver(): void {}
-
-  navigateToFirstAttributeGroup(): void {}
-
-  navigateToFirstIncompleteGroup(): void {}
-
-  navigateToContainerRow(): void {}
-
-  isConflictGroupType() {}
-}
-
-class MockConfiguratorExpertModeService {
-  setExpModeRequested(): void {}
-
-  getExpModeRequested() {}
-
-  setExpModeActive(): void {}
-
-  getExpModeActive() {}
-}
-
-class MockLaunchDialogService {
-  openDialogAndSubscribe() {}
-}
-
-class MockGlobalMessageService {
-  add(): void {}
-}
 
 function checkConfigurationObs(
   routerMarbels: string,
@@ -279,26 +191,27 @@ describe('ConfiguratorFormComponent', () => {
         I18nTestingModule,
       ],
       providers: [
+        provideConfiguratorMockRoutingService(() => routerStateObservable),
+        provideConfiguratorMockCommonsService({
+          configurationSource: () => configurationCreateObservable,
+          isConfigurationLoadingSource: () => isConfigurationLoadingObservable,
+          hasConflictsSource: () => hasConfigurationConflictsObservable,
+        }),
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+          provide: GlobalMessageService,
+          useClass: MockConfiguratorProviderService.MockGlobalMessageService,
         },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
-        },
+        provideConfiguratorMockGroupsService({
+          getCurrentGroupSource: () => currentGroupObservable,
+        }),
         {
           provide: ConfiguratorExpertModeService,
-          useClass: MockConfiguratorExpertModeService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorExpertModeService,
         },
         {
           provide: LaunchDialogService,
-          useClass: MockLaunchDialogService,
+          useClass: MockConfiguratorProviderService.MockLaunchDialogService,
         },
         ...provideMockFeatureToggles({
           productConfiguratorCPQContainer: false,
@@ -310,7 +223,7 @@ describe('ConfiguratorFormComponent', () => {
           imports: [TranslatePipe, ConfiguratorGroupComponent],
         },
         add: {
-          imports: [MockConfiguratorGroupComponent, MockTranslatePipe],
+          imports: [MockConfiguratorGroupComponent, I18nTestingModule],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })
@@ -321,44 +234,32 @@ describe('ConfiguratorFormComponent', () => {
     featureToggles = TestBed.inject(MockFeatureTogglesController);
     featureToggles.set('productConfiguratorCPQContainer', false);
 
-    configuratorGroupsService = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
-    );
+    configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
 
     vi.spyOn(configuratorGroupsService, 'setGroupStatusVisited');
     vi.spyOn(configuratorGroupsService, 'navigateToConflictSolver');
     vi.spyOn(configuratorGroupsService, 'navigateToFirstIncompleteGroup');
     vi.spyOn(configuratorGroupsService, 'navigateToContainerRow');
 
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
     vi.spyOn(configuratorCommonsService, 'isConfigurationLoading');
     vi.spyOn(configuratorCommonsService, 'getOrCreateConfiguration');
     vi.spyOn(configuratorCommonsService, 'getConfiguration');
     vi.spyOn(configuratorCommonsService, 'checkConflictSolverDialog');
 
-    globalMessageService = TestBed.inject(
-      GlobalMessageService as Type<GlobalMessageService>
-    );
+    globalMessageService = TestBed.inject(GlobalMessageService);
     vi.spyOn(globalMessageService, 'add');
 
     isConfigurationLoadingObservable = of(false);
 
-    configExpertModeService = TestBed.inject(
-      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
-    );
+    configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);
     vi.spyOn(configExpertModeService, 'setExpModeRequested');
 
     hasConfigurationConflictsObservable = of(false);
 
-    launchDialogService = TestBed.inject(
-      LaunchDialogService as Type<LaunchDialogService>
-    );
+    launchDialogService = TestBed.inject(LaunchDialogService);
     vi.spyOn(launchDialogService, 'openDialogAndSubscribe');
-    keyboardFocusService = TestBed.inject(
-      KeyboardFocusService as Type<KeyboardFocusService>
-    );
+    keyboardFocusService = TestBed.inject(KeyboardFocusService);
     vi.spyOn(keyboardFocusService, 'clear');
     configuration = structuredClone(productConfiguration);
   });

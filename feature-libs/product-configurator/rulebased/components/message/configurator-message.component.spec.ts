@@ -1,23 +1,9 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { ICON_TYPE, IconLoaderService } from '@spartacus/storefront';
+import { ICON_TYPE, IconTestingModule } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorMessageComponent } from './configurator-message.component';
-
-class MockIconFontLoaderService {
-  useSvg(_iconType: ICON_TYPE) {
-    return false;
-  }
-
-  getStyleClasses(_iconType: ICON_TYPE): string {
-    return 'fas fa-exclamation-circle';
-  }
-
-  addLinkResource() {}
-  getHtml(_iconType: ICON_TYPE) {}
-  getFlipDirection(): void {}
-}
 
 describe('ConfiguratorMessageComponent', () => {
   let component: ConfiguratorMessageComponent;
@@ -26,10 +12,12 @@ describe('ConfiguratorMessageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConfiguratorMessageComponent, I18nTestingModule],
-      providers: [
-        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+      imports: [
+        ConfiguratorMessageComponent,
+        I18nTestingModule,
+        IconTestingModule,
       ],
+      providers: [],
     })
       .overrideComponent(ConfiguratorMessageComponent, {
         set: {

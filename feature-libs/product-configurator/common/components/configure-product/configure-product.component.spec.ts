@@ -1,10 +1,10 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import {
-  MockTranslatePipe,
+  I18nTestingModule,
   Product,
   ProductScope,
   RoutingService,
@@ -22,6 +22,7 @@ import {
   ReadOnlyPostfix,
 } from './../../core/model/common-configurator.model';
 import { ConfigureProductComponent } from './configure-product.component';
+import { MockConfiguratorProviderService } from '../../testing';
 
 const productCode = 'CONF_LAPTOP';
 const configuratorType = ConfiguratorType.VARIANT;
@@ -66,10 +67,6 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-class MockRoutingService implements Partial<RoutingService> {
-  go = () => Promise.resolve(true);
-}
-
 let component: ConfigureProductComponent;
 let currentProductService: CurrentProductService;
 let fixture: ComponentFixture<ConfigureProductComponent>;
@@ -99,13 +96,13 @@ function setupWithCurrentProductService(
         },
         {
           provide: RoutingService,
-          useClass: MockRoutingService,
+          useClass: MockConfiguratorProviderService.MockRoutingService,
         },
       ],
     })
       .overrideComponent(ConfigureProductComponent, {
         remove: { imports: [TranslatePipe] },
-        add: { imports: [MockTranslatePipe] },
+        add: { imports: [I18nTestingModule] },
       })
       .compileComponents();
   } else if (useCurrentProductServiceOnly) {
@@ -122,13 +119,13 @@ function setupWithCurrentProductService(
         },
         {
           provide: RoutingService,
-          useClass: MockRoutingService,
+          useClass: MockConfiguratorProviderService.MockRoutingService,
         },
       ],
     })
       .overrideComponent(ConfigureProductComponent, {
         remove: { imports: [TranslatePipe] },
-        add: { imports: [MockTranslatePipe] },
+        add: { imports: [I18nTestingModule] },
       })
       .compileComponents();
   } else {
@@ -149,20 +146,18 @@ function setupWithCurrentProductService(
         },
         {
           provide: RoutingService,
-          useClass: MockRoutingService,
+          useClass: MockConfiguratorProviderService.MockRoutingService,
         },
       ],
     })
       .overrideComponent(ConfigureProductComponent, {
         remove: { imports: [TranslatePipe] },
-        add: { imports: [MockTranslatePipe] },
+        add: { imports: [I18nTestingModule] },
       })
       .compileComponents();
   }
 
-  currentProductService = TestBed.inject(
-    CurrentProductService as Type<CurrentProductService>
-  );
+  currentProductService = TestBed.inject(CurrentProductService);
   routingService = TestBed.inject(RoutingService);
 
   vi.spyOn(currentProductService, 'getProduct');

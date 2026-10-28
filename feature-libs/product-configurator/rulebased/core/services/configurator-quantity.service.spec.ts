@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { ConfiguratorQuantityService } from './configurator-quantity.service';
 import { cold } from 'jasmine-marbles';
 

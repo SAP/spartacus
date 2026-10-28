@@ -1,4 +1,3 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -8,11 +7,12 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { TranslatePipe } from '@spartacus/core';
-import { IconComponent } from '@spartacus/storefront';
+import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
+import { IconComponent, IconTestingModule } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
+import { MockConfigureCartEntryComponent } from '../../testing/components/mock-configure-cart-entry.component';
 import { ConfigureCartEntryComponent } from '../configure-cart-entry';
 import {
   ConfigurationInfo,
@@ -20,30 +20,6 @@ import {
   StatusSummary,
 } from './../../core/model/common-configurator.model';
 import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-notification.component';
-
-@Pipe({ name: 'cxTranslate' })
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
-}
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-})
-class MockCxIconComponent {
-  @Input() type: any;
-}
-
-@Component({
-  selector: 'cx-configure-cart-entry',
-  template: '',
-})
-class MockConfigureCartEntryComponent {
-  @Input() cartEntry: OrderEntry;
-  @Input() readOnly: boolean;
-  @Input() msgBanner: boolean;
-  @Input() disabled: boolean;
-}
 
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
@@ -93,8 +69,8 @@ describe('ConfigureIssuesNotificationComponent', () => {
           },
           add: {
             imports: [
-              MockTranslatePipe,
-              MockCxIconComponent,
+              I18nTestingModule,
+              IconTestingModule,
               MockConfigureCartEntryComponent,
             ],
           },
@@ -350,8 +326,8 @@ describe('ConfigureIssuesNotificationComponent', () => {
           },
           add: {
             imports: [
-              MockTranslatePipe,
-              MockCxIconComponent,
+              I18nTestingModule,
+              IconTestingModule,
               MockConfigureCartEntryComponent,
             ],
           },

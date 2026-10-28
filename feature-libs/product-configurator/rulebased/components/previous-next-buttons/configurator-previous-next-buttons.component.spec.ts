@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Directive, Input, Type } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -6,11 +6,9 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import {
-  CommonConfigurator,
-  CommonConfiguratorUtilsService,
-  ConfiguratorModelUtils,
-} from '@spartacus/product-configurator/common';
+import { CommonConfigurator } from '../../../common/core/model/common-configurator.model';
+import { CommonConfiguratorUtilsService } from '../../../common/shared/utils/common-configurator-utils.service';
+import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
 import { cold, getTestScheduler } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -21,6 +19,7 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { GROUP_ID_1, PRODUCT_CODE } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { KeyboardFocusTestingModule } from '@spartacus/storefront';
 import { ConfiguratorPreviousNextButtonsComponent } from './configurator-previous-next-buttons.component';
 
 let routerStateObservable: any = null;
@@ -130,11 +129,6 @@ class MockConfigUtilsService {
   focusFirstAttribute(): void {}
 }
 
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
-}
-
 describe('ConfigPreviousNextButtonsComponent', () => {
   let classUnderTest: ConfiguratorPreviousNextButtonsComponent;
   let fixture: ComponentFixture<ConfiguratorPreviousNextButtonsComponent>;
@@ -150,7 +144,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       imports: [
         I18nTestingModule,
         ConfiguratorPreviousNextButtonsComponent,
-        MockFocusDirective,
+        KeyboardFocusTestingModule,
       ],
       providers: [
         {
@@ -187,19 +181,13 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);
     classUnderTest = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
-    configurationGroupsService = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
-    );
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    configurationGroupsService = TestBed.inject(ConfiguratorGroupsService);
+    configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     configuratorUtils.setOwnerKey(config.owner);
 
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService
     );
     vi.spyOn(configuratorStorefrontUtilsService, 'focusFirstAttribute');
   });
@@ -252,7 +240,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
 
   it('should display previous button as disabled if it is the first group', () => {
     vi.spyOn(configurationGroupsService, 'getPreviousGroupId').mockReturnValue(
-      of(null)
+      of(undefined)
     );
     fixture.detectChanges();
     const prevBtn = fixture.debugElement.query(
@@ -277,7 +265,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
 
   it('should display next button as disabled if it is the last group', () => {
     vi.spyOn(configurationGroupsService, 'getNextGroupId').mockReturnValue(
-      of(null)
+      of(undefined)
     );
     fixture.detectChanges();
     const lastBtn = fixture.debugElement.query(

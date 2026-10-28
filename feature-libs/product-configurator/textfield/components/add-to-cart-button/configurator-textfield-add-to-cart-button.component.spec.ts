@@ -1,29 +1,21 @@
-import {
-  ChangeDetectionStrategy,
-  Pipe,
-  PipeTransform,
-  Type,
-} from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
-  MockDatePipe,
-  MockTranslatePipe,
-  RouterState,
+  I18nTestingModule,
   RoutingService,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
-import {
-  CommonConfigurator,
-  ConfiguratorModelUtils,
-} from '@spartacus/product-configurator/common';
-import { Observable, of } from 'rxjs';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { CommonConfigurator } from '../../../common/core/model/common-configurator.model';
+import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 import { ConfiguratorTextfieldAddToCartButtonComponent } from './configurator-textfield-add-to-cart-button.component';
+import { MockConfiguratorProviderService } from '../../../rulebased/testing';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const URL_CONFIGURATION = 'host:port/electronics-spa/en/USD/configureTEXTFIELD';
@@ -47,21 +39,9 @@ const mockRouterState: any = {
   },
 };
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return of(mockRouterState);
-  }
-  go(): void {}
-}
-
 class MockConfiguratorTextfieldService {
   addToCart(): void {}
   updateCartEntry(): void {}
-}
-
-@Pipe({ name: 'cxUrl' })
-class MockUrlPipe implements PipeTransform {
-  transform(): any {}
 }
 
 describe('ConfigTextfieldAddToCartButtonComponent', () => {
@@ -97,7 +77,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
         },
         {
           provide: RoutingService,
-          useClass: MockRoutingService,
+          useClass: MockConfiguratorProviderService.MockRoutingService,
         },
       ],
     })
@@ -106,7 +86,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
           imports: [TranslatePipe, CxDatePipe, UrlPipe],
         },
         add: {
-          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+          imports: [I18nTestingModule, UrlTestingModule],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })
@@ -120,9 +100,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
     classUnderTest = fixture.componentInstance;
     classUnderTest.configuration = configurationTextField;
     htmlElem = fixture.nativeElement;
-    textfieldService = TestBed.inject(
-      ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>
-    );
+    textfieldService = TestBed.inject(ConfiguratorTextfieldService);
 
     OWNER.type = CommonConfigurator.OwnerType.PRODUCT;
     mockRouterState.state.params.ownerType =

@@ -1,11 +1,8 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  ConfiguratorModelUtils,
-  ConfiguratorRouter,
-  ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
-import { BreakpointService, LayoutConfig } from '@spartacus/storefront';
+import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
+import { ConfiguratorRouterExtractorService } from '../../../common/components/service/configurator-router-extractor.service';
+import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
+import { LayoutConfig } from '@spartacus/storefront';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
@@ -13,6 +10,7 @@ import {
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CpqConfiguratorPageLayoutHandler } from './cpq-configurator-page-layout-handler';
+import { provideConfiguratorMockBreakpointService } from '../../testing';
 
 const standardRouterData: ConfiguratorRouter.Data = {
   owner: ConfiguratorModelUtils.createInitialOwner(),
@@ -24,11 +22,6 @@ class MockRouterExtractorService {
   }
 }
 let isLargeResolution: boolean;
-class MockBreakpointService {
-  isUp(): Observable<boolean> {
-    return of(isLargeResolution);
-  }
-}
 const headerSlots = ['SiteLogo', 'MiniCart'];
 const headerSlotsIncludingPreHeader = ['PreHeader', 'SiteLogo', 'MiniCart'];
 const overviewNavigationSlot = 'CpqConfigOverviewNavigation';
@@ -109,10 +102,9 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
           provide: ConfiguratorRouterExtractorService,
           useClass: MockRouterExtractorService,
         },
-        {
-          provide: BreakpointService,
-          useClass: MockBreakpointService,
-        },
+        provideConfiguratorMockBreakpointService({
+          isUpSource: () => of(isLargeResolution),
+        }),
         {
           provide: LayoutConfig,
           useValue: mockLayoutConfig,
@@ -124,9 +116,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
   beforeEach(() => {
     featureToggles = TestBed.inject(MockFeatureTogglesController);
     featureToggles.set('productConfiguratorCPQContainer', true);
-    classUnderTest = TestBed.inject(
-      CpqConfiguratorPageLayoutHandler as Type<CpqConfiguratorPageLayoutHandler>
-    );
+    classUnderTest = TestBed.inject(CpqConfiguratorPageLayoutHandler);
   });
 
   it('should create service', () => {

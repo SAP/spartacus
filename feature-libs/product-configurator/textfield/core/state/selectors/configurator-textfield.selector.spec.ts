@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
@@ -39,9 +38,7 @@ describe('ConfiguratorTextfieldSelectors', () => {
       ],
     });
 
-    store = TestBed.inject(
-      Store as Type<Store<StateWithConfigurationTextfield>>
-    );
+    store = TestBed.inject(Store);
   });
 
   it('should return empty content when selecting with content selector initially', () => {

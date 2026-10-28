@@ -2,7 +2,7 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
+
 import { TestBed } from '@angular/core/testing';
 import {
   CART_MODIFICATION_NORMALIZER,
@@ -182,19 +182,11 @@ describe('CpqConfigurationOccService', () => {
       ],
     });
 
-    httpMock = TestBed.inject(
-      HttpTestingController as Type<HttpTestingController>
-    );
-    converterService = TestBed.inject(
-      ConverterService as Type<ConverterService>
-    );
-    occEnpointsService = TestBed.inject(
-      OccEndpointsService as Type<OccEndpointsService>
-    );
+    httpMock = TestBed.inject(HttpTestingController);
+    converterService = TestBed.inject(ConverterService);
+    occEnpointsService = TestBed.inject(OccEndpointsService);
 
-    serviceUnderTest = TestBed.inject(
-      CpqConfiguratorOccService as Type<CpqConfiguratorOccService>
-    );
+    serviceUnderTest = TestBed.inject(CpqConfiguratorOccService);
 
     vi.spyOn(occEnpointsService, 'buildUrl');
     vi.spyOn(converterService, 'pipeable');

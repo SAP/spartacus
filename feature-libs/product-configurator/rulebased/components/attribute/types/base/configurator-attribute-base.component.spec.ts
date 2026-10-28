@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -55,11 +54,9 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       ],
     });
 
-    classUnderTest = TestBed.inject(
-      ConfiguratorAttributeBaseComponent as Type<ConfiguratorAttributeBaseComponent>
-    );
+    classUnderTest = TestBed.inject(ConfiguratorAttributeBaseComponent);
     configuratorAttributePriceChangeService = TestBed.inject(
-      ConfiguratorAttributePriceChangeService as Type<ConfiguratorAttributePriceChangeService>
+      ConfiguratorAttributePriceChangeService
     );
     vi.spyOn(configuratorAttributePriceChangeService, 'getChangedPrices');
 

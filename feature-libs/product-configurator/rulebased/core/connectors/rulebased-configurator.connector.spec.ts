@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CartModification } from '@spartacus/cart/base/root';
 import {
@@ -177,12 +176,8 @@ describe('RulebasedConfiguratorConnector', () => {
         },
       ],
     });
-    service = TestBed.inject(
-      RulebasedConfiguratorConnector as Type<RulebasedConfiguratorConnector>
-    );
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
+    service = TestBed.inject(RulebasedConfiguratorConnector);
+    configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     adapter = TestBed.inject(
       RulebasedConfiguratorConnector.CONFIGURATOR_ADAPTER_LIST
     );

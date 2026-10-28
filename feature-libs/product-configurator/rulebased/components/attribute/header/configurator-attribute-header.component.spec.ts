@@ -1,21 +1,15 @@
-import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import {
-  CommonConfigurator,
-  ConfiguratorModelUtils,
-} from '@spartacus/product-configurator/common';
-import {
-  ICON_TYPE,
-  IconLoaderService,
-  IconModule,
-} from '@spartacus/storefront';
+import { CommonConfigurator } from '../../../../common/core/model/common-configurator.model';
+import { ConfiguratorModelUtils } from '../../../../common/shared/utils/configurator-model-utils';
+import { IconTestingModule } from '@spartacus/storefront';
 import { getTestScheduler } from 'jasmine-marbles';
-import { firstValueFrom, Observable, of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../core/facade/configurator-groups.service';
@@ -27,11 +21,16 @@ import { ConfiguratorMessageService } from '../../service/configurator-message.s
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
+import {
+  MockConfiguratorProviderService,
+  provideConfiguratorMockCommonsService,
+  provideConfiguratorMockStorefrontUtilsService,
+} from '../../../testing';
 
 @Component({
   selector: 'cx-configurator-show-more',
   template: '',
-  imports: [I18nTestingModule, IconModule],
+  imports: [I18nTestingModule, IconTestingModule],
 })
 class MockConfiguratorShowMoreComponent {
   @Input() text: string;
@@ -45,43 +44,13 @@ class MockConfiguratorShowMoreComponent {
 @Component({
   selector: 'cx-configurator-show-options',
   template: '',
-  imports: [I18nTestingModule, IconModule],
+  imports: [I18nTestingModule, IconTestingModule],
 })
 class MockConfiguratorShowOptionsComponent {
   @Input() attributeComponentContext: ConfiguratorAttributeCompositionContext;
 }
 
-export class MockIconFontLoaderService {
-  useSvg(_iconType: ICON_TYPE) {
-    return false;
-  }
-
-  getStyleClasses(_iconType: ICON_TYPE): string {
-    return 'fas fa-exclamation-circle';
-  }
-
-  addLinkResource() {}
-
-  getHtml(_iconType: ICON_TYPE) {}
-
-  getFlipDirection(): void {}
-}
-
 let isCartEntryOrGroupVisited = true;
-
-class MockConfigUtilsService {
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(isCartEntryOrGroupVisited);
-  }
-
-  focusValue(): void {}
-
-  scrollToConfigurationElement(): void {}
-
-  idSelector(id: string): string {
-    return '#' + id;
-  }
-}
 
 const configWithoutConflicts: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
@@ -90,20 +59,6 @@ const configConflict: Configurator.Configuration =
   ConfigurationTestData.productConfigurationWithConflicts;
 
 let config: Configurator.Configuration;
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
-  }
-
-  isConfigurationLoading(): Observable<boolean> {
-    return of(true);
-  }
-}
-
-class MockConfiguratorGroupsService {
-  navigateToGroup(): void {}
-}
 
 describe('ConfigAttributeHeaderComponent', () => {
   let component: ConfiguratorAttributeHeaderComponent;
@@ -151,24 +106,22 @@ describe('ConfigAttributeHeaderComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
-        IconModule,
+        IconTestingModule,
         ConfiguratorAttributeHeaderComponent,
         MockConfiguratorShowMoreComponent,
         MockConfiguratorShowOptionsComponent,
       ],
       providers: [
-        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
+        provideConfiguratorMockStorefrontUtilsService({
+          isCartEntryOrGroupVisitedSource: () => of(isCartEntryOrGroupVisited),
+        }),
+        provideConfiguratorMockCommonsService({
+          configurationSource: () => of(config),
+        }),
         {
           provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorGroupsService,
         },
         {
           provide: ConfiguratorUISettingsConfig,
@@ -211,18 +164,12 @@ describe('ConfigAttributeHeaderComponent', () => {
     component.isNavigationToGroupEnabled = true;
     component['logError'] = () => {};
 
-    configurationGroupsService = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
-    );
+    configurationGroupsService = TestBed.inject(ConfiguratorGroupsService);
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService
     );
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
-    configuratorUISettingsConfig = TestBed.inject(
-      ConfiguratorUISettingsConfig as Type<ConfiguratorUISettingsConfig>
-    );
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    configuratorUISettingsConfig = TestBed.inject(ConfiguratorUISettingsConfig);
     featureToggles = TestBed.inject(MockFeatureTogglesController);
     featureToggles.set('productConfiguratorCPQContainer', false);
   });
