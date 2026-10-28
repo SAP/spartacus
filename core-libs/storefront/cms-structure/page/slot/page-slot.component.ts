@@ -111,7 +111,7 @@ export class PageSlotComponent implements OnInit, OnDestroy {
   private pendingComponentCount = 0;
 
   /** Tracks the last used position, in case the page slot is used dynamically */
-  private lastPosition: string;
+  private lastPosition: string | undefined;
   constructor(
     protected cmsService: CmsService,
     protected dynamicAttributeService: DynamicAttributeService,
@@ -131,28 +131,18 @@ export class PageSlotComponent implements OnInit, OnDestroy {
   }
 
   protected decorate(slot: ContentSlotData): void {
-    let cls = this.class || '';
-
-    if (this.lastPosition && cls.indexOf(this.lastPosition) > -1) {
-      cls = cls.replace(this.lastPosition, '');
-    }
-    if (this.position$.value) {
-      cls += ` ${this.position$.value}`;
+    if (this.lastPosition !== this.position$.value) {
+      if (this.lastPosition) {
+        this.renderer.removeClass(this.elementRef.nativeElement, this.lastPosition);
+      }
+      if (this.position$.value) {
+        this.renderer.addClass(this.elementRef.nativeElement, this.position$.value);
+      }
       this.lastPosition = this.position$.value;
     }
 
-    // host bindings
     this.pending = slot?.components?.length || 0;
     this.hasComponents = slot?.components ? slot.components.length > 0 : false;
-    if (cls && cls !== this.class) {
-      this.class = cls;
-      // manually set classes for when change detection will not update host binding
-      this.renderer.setAttribute(
-        this.elementRef.nativeElement,
-        'class',
-        this.class
-      );
-    }
 
     if (slot) {
       this.dynamicAttributeService.addAttributesToSlot(

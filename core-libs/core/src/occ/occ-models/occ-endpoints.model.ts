@@ -73,6 +73,14 @@ export interface OccEndpoints {
    * @member {string}
    */
   page?: string | OccEndpoint;
+
+   /**
+   * Get page template data with list of sections and slots
+   *
+   * @member {string}
+   */
+  pageTemplate?: string | OccEndpoint;
+
   /**
    * Get a list of available languages
    *
