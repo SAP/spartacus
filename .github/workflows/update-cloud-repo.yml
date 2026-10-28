@@ -58,6 +58,8 @@ jobs:
         run: |
           node --version
           npm --version
+      - name: Install npm 11
+        run: npm install -g npm@11
       - name: Create storefronts
         env:
           INPUT_VERSION: ${{ github.event.inputs.version }}
