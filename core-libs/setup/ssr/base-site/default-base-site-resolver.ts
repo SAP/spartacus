@@ -14,6 +14,7 @@ import {
 import { extractOccBaseUrlFromHtml } from './occ-base-url-extractor';
 
 const DEFAULT_CACHE_TTL_MS = 60_000;
+const DEFAULT_TIMEOUT_MS = 3_000;
 
 interface OccBaseSite {
   uid?: string;
@@ -47,7 +48,7 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
     this.supportsOccResolution = this.uidSet.size === 0;
     this.cacheTtlMs = options.cacheTtlMs ?? DEFAULT_CACHE_TTL_MS;
     this.concurrencyLimit = options.concurrencyLimit ?? 10;
-    this.timeoutMs = options.timeoutMs ?? 3_000;
+    this.timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
   }
 
   public resolveFromPath(requestUrl: string): string | null {
