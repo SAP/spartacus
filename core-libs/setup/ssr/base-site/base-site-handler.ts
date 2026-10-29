@@ -20,6 +20,8 @@ import {
 } from './base-site-resolver';
 import { DefaultBaseSiteResolver } from './default-base-site-resolver';
 
+const DEFAULT_CONCURRENCY_LIMIT_RETRY_AFTER_SECONDS = 3;
+
 /** An Express route accepted by the base-site middleware. */
 export type BaseSiteRouteMatcher = string | RegExp;
 
@@ -97,7 +99,10 @@ export function setBaseSiteHandler(
       if (error instanceof ConcurrencyLimitError) {
         res.setHeader(
           'Retry-After',
-          String(retryAfterSeconds?.concurrencyLimit ?? 3)
+          String(
+            retryAfterSeconds?.concurrencyLimit ??
+              DEFAULT_CONCURRENCY_LIMIT_RETRY_AFTER_SECONDS
+          )
         );
         res.status(503).send('Service Unavailable');
         return;
