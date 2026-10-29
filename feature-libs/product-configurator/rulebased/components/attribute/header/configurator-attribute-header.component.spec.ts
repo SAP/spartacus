@@ -145,7 +145,8 @@ describe('ConfigAttributeHeaderComponent', () => {
   });
 
   beforeEach(() => {
-    config = configWithoutConflicts;
+    isCartEntryOrGroupVisited = true;
+    config = structuredClone(configWithoutConflicts);
     fixture = TestBed.createComponent(ConfiguratorAttributeHeaderComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;

@@ -239,17 +239,17 @@ describe('ConfiguratorGroupsService', () => {
     });
 
     it('should return empty string if no next group exists', async () => {
+      const configuration = structuredClone(productConfiguration);
+      configuration.interactionState.currentGroup = GROUP_ID_10;
       vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
-        of(productConfiguration)
+        of(configuration)
       );
-      productConfiguration.interactionState.currentGroup = GROUP_ID_10;
       const nextGroupDescription =
-        classUnderTest.getNextGroupDescription(productConfiguration);
+        classUnderTest.getNextGroupDescription(configuration);
 
       expect(nextGroupDescription).toBeDefined();
       const description = await firstValueFrom(nextGroupDescription);
       expect(description).toBe('');
-      productConfiguration.interactionState.currentGroup = GROUP_ID_2;
     });
   });
 
@@ -320,17 +320,17 @@ describe('ConfiguratorGroupsService', () => {
     });
 
     it('should return empty string if no previous group exists', async () => {
+      const configuration = structuredClone(productConfiguration);
+      configuration.interactionState.currentGroup = GROUP_ID_1;
       vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
-        of(productConfiguration)
+        of(configuration)
       );
-      productConfiguration.interactionState.currentGroup = GROUP_ID_1;
       const previousGroupDescription =
-        classUnderTest.getPreviousGroupDescription(productConfiguration);
+        classUnderTest.getPreviousGroupDescription(configuration);
 
       expect(previousGroupDescription).toBeDefined();
       const description = await firstValueFrom(previousGroupDescription);
       expect(description).toBe('');
-      productConfiguration.interactionState.currentGroup = GROUP_ID_2;
     });
   });
 
