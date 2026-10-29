@@ -15,9 +15,7 @@ import {
   noop,
   url,
 } from '@angular-devkit/schematics';
-import {
-  NodeDependencyType,
-} from '@schematics/angular/utility/dependencies';
+import { NodeDependencyType } from '@schematics/angular/utility/dependencies';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import { SPARTACUS_SETUP } from '../shared/libs-constants';
 import {
@@ -43,7 +41,7 @@ function createConfigJsonFile(options: SpartacusOptions): Rule {
           `⏭️ Skipping config.json creation — file already exists at ${configJsonPath}`
         );
       }
-      return;
+      return noop()(tree, context);
     }
 
     return callRule(mergeWith(apply(url('./files'), [])), tree, context);
