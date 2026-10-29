@@ -13,6 +13,8 @@ import {
 } from './base-site-resolver';
 import { extractOccBaseUrlFromHtml } from './occ-base-url-extractor';
 
+const DEFAULT_CACHE_TTL_MS = 60_000;
+
 interface OccBaseSite {
   uid?: string;
   urlPatterns?: string[];
@@ -43,7 +45,7 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
     this.uidSet = new Set(options.pathBaseSiteIds ?? []);
     this.occUrl = this.createOccBaseSitesUrl(occBaseUrl);
     this.supportsOccResolution = this.uidSet.size === 0;
-    this.cacheTtlMs = options.cacheTtlMs ?? 60_000;
+    this.cacheTtlMs = options.cacheTtlMs ?? DEFAULT_CACHE_TTL_MS;
     this.concurrencyLimit = options.concurrencyLimit ?? 10;
     this.timeoutMs = options.timeoutMs ?? 3_000;
   }
