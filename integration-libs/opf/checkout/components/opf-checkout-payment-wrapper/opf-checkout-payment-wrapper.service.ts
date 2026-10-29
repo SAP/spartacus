@@ -141,17 +141,26 @@ export class OpfCheckoutPaymentWrapperService {
           );
 
           if (paymentSessionId) {
-            return this.opfPaymentFacade.updatePaymentTransaction({
-              paymentSessionId,
-              otpKey: params.otpKey,
-              config: {
-                configurationId: params.config?.configurationId,
-                browserInfo: params.config?.browserInfo,
-                channel: params.config?.channel,
-                resultURL: params.config?.resultURL,
-                cancelURL: params.config?.cancelURL,
-              },
-            });
+            return this.opfPaymentFacade
+              .updatePaymentTransaction({
+                paymentSessionId,
+                otpKey: params.otpKey,
+                config: {
+                  configurationId: params.config?.configurationId,
+                  browserInfo: params.config?.browserInfo,
+                  channel: params.config?.channel,
+                  resultURL: params.config?.resultURL,
+                  cancelURL: params.config?.cancelURL,
+                },
+              })
+              .pipe(
+                catchError((err: HttpErrorModel) => {
+                  if (Number(err.status) === HttpResponseStatus.CONFLICT) {
+                    return this.opfPaymentFacade.initiatePayment(params);
+                  }
+                  return throwError(() => err);
+                })
+              );
           }
         }
 
@@ -328,8 +337,7 @@ export class OpfCheckoutPaymentWrapperService {
       return this.handleGeneralPaymentError();
     }
 
-    return Number(err.status) === HttpResponseStatus.CONFLICT ||
-      Number(err.status) === HttpResponseStatus.BAD_REQUEST
+    return Number(err.status) === HttpResponseStatus.CONFLICT
       ? this.handlePaymentAlreadyDoneError()
       : this.handleGeneralPaymentError();
   }
