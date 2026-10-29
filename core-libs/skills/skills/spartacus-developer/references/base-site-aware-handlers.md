@@ -24,14 +24,21 @@ When the application has no configured helper factory, run the schematic from th
 ng generate @spartacus/schematics:add-base-site-aware-route --project <project-name>
 ```
 
-The schematic imports the helper, creates a shared registration function using the server's existing index HTML content, and registers `/<baseSite>/example.txt`. Inspect its changes, replace the example route with the requested suffix, and implement the requested response. Keep the generated example endpoint only if the customer asked for it.
+The schematic imports the helper, creates a shared registration function using the server's existing index HTML content, and registers `/<baseSite>/example.txt`. Inspect its changes, replace the example route with the requested suffix, and extract the response into a named handler function in the existing server file. Pass that function as `handler`. Keep the generated example endpoint only if the customer asked for it.
 
 If the schematic cannot recognize the server setup, explain its diagnostic rather than bypassing its checks or guessing where to insert code.
 
-For example, adapt the generated registration to serve a per-site `llms.txt`. Here `indexHtmlContent` is HTML content already read by the SSR server, and `server` is its existing Express application; use the customer's actual bindings. Preserve any existing factory options.
+For example, adapt the generated registration to serve a per-site `llms.txt`. The handler function and registration can stay together in the existing server file. Here `indexHtmlContent` is HTML content already read by the SSR server, and `server` is its existing Express application; use the customer's actual bindings. Preserve any existing factory options.
 
 ```typescript
-import { createBaseSiteAwareRoute } from '@spartacus/setup/ssr';
+import {
+  createBaseSiteAwareRoute,
+  type BaseSiteHandlerContext,
+} from '@spartacus/setup/ssr';
+
+export function llmsHandler({ res, baseSite }: BaseSiteHandlerContext): void {
+  res.type('text/plain').send(`# Storefront guidance\n> Site: ${baseSite}\n`);
+}
 
 const registerBaseSiteAwareRoute = createBaseSiteAwareRoute({
   indexHtml: indexHtmlContent,
@@ -40,33 +47,33 @@ const registerBaseSiteAwareRoute = createBaseSiteAwareRoute({
 server.use(
   registerBaseSiteAwareRoute({
     route: '/llms.txt',
-    handler: ({ res, baseSite }) => {
-      res.type('text/plain').send(`# Storefront guidance\n> Site: ${baseSite}\n`);
-    },
+    handler: llmsHandler,
   })
 );
 ```
 
-The body above illustrates site-specific content; replace it with the requested document. Mount with `server.use(...)` at the application root. Supply the suffix `/llms.txt`, since the helper adds the base-site segment. Keep applicable protective middleware ahead of the endpoint, and register it before static handlers that could consume it and before the Angular rendering catch-all.
+The handler body above illustrates site-specific content; replace it with the requested document. Mount with `server.use(...)` at the application root. Supply the suffix `/llms.txt`, since the helper adds the base-site segment. Keep applicable protective middleware ahead of the endpoint, and register it before static handlers that could consume it and before the Angular rendering catch-all.
 
 ## Additional handlers reuse the factory
 
 When a registration function already exists, add only the requested handler. Do not run the initial-setup schematic again or create a new factory for each endpoint or request.
 
-For example, a JSON endpoint can use the same registration function:
+For example, a request to show the current base site needs only a handler that returns the resolved UID. Add the named function and its registration to the same server file, using the type imported above:
 
 ```typescript
+export function siteInfoHandler({ res, baseSite }: BaseSiteHandlerContext): void {
+  res.json({ baseSite });
+}
+
 server.use(
   registerBaseSiteAwareRoute({
     route: '/site-info.json',
-    handler: ({ res, baseSite }) => {
-      res.json({ baseSite });
-    },
+    handler: siteInfoHandler,
   })
 );
 ```
 
-Use the callback context's `baseSite` when producing site-specific content. Keep response-generation code in application-owned functions or modules when its size warrants that; retain the shared factory.
+Use the callback context's `baseSite` when producing site-specific content. A named handler function in the server file is sufficient even for a one-line response; retain the shared factory.
 
 ## Choose the base-site resolution source
 
@@ -84,7 +91,9 @@ Providing `occBaseUrl` does not select OCC resolution. A nonempty UID list still
 
 Preserve the mode of an existing factory. Before configuring a new factory, follow the customer's requested mode or the application configuration that establishes it. If neither determines the choice, explain these differences and ask which mode the customer wants. Do not invent a fixed UID list or switch modes to make an endpoint pass.
 
-For local resolution, configure the factory with the customer's actual UIDs:
+Before configuring a new factory, inspect the selected application's `provideConfig` declarations and their referenced configuration values for `context.baseSite`. For local resolution, copy and paste the configured array of literal site IDs directly into `createBaseSiteAwareRoute` as `pathBaseSiteIds`. The helper does not read Angular providers automatically. Use the customer's actual IDs; regex strings are not valid `pathBaseSiteIds`.
+
+For local resolution, configure the factory with the customer's actual UIDs copied from `context.baseSite` when available. The IDs below are examples:
 
 ```typescript
 const registerBaseSiteAwareRoute = createBaseSiteAwareRoute({
@@ -120,12 +129,16 @@ Supply the full backend base URL, such as `https://commerce.example.com`. The re
 
 The helper does not automatically read Angular dependency-injection configuration, `environment.occBaseUrl`, or `CX_BASE_URL`. An environment value can supply the fallback only if application code passes it as `occBaseUrl`, with the required import or environment access in scope. Reuse the customer's existing configuration rather than assuming the demo app's environment files.
 
-For example, when the supplied HTML has no configured address, a fallback can be provided explicitly:
+In OCC mode, if neither the HTML meta tag nor the factory supplies a configured backend URL, add an `occBaseUrl` placeholder to the existing factory with a comment explaining that it is a local development fallback. Tell the customer to replace it with their real backend base URL before testing. Preserve any already configured address.
+
+For example, when no configured address is available:
 
 ```typescript
 const registerBaseSiteAwareRoute = createBaseSiteAwareRoute({
   indexHtml: indexHtmlContent,
-  occBaseUrl: 'https://commerce.example.com',
+  // Local development fallback when the HTML OCC meta tag is unconfigured.
+  // Replace with your actual OCC backend base URL before testing.
+  occBaseUrl: 'https://your-occ-backend.example',
 });
 ```
 
@@ -152,7 +165,7 @@ Express middleware order determines which handler runs. Place applicable origin 
 
 The callback receives `{ req, res, next, baseSite }`. `baseSite` is a validated string UID matching the leading segment; use it from the callback context. The wrapper returns 404 for an unknown or mismatched prefix before invoking application code.
 
-The callback owns the response status, headers, and body. The wrapper accepts all HTTP methods, so implement any method restrictions the requested endpoint needs in application code. Calling the supplied `next()` continues through Express. Thrown errors and rejected callback promises are forwarded through `next(error)`.
+The callback owns the response status, headers, and body. The wrapper accepts all HTTP methods. For a request to display the current base site, the handler simply returns that UID, as shown above. If the customer specifies allowed methods or the application's existing API contract defines them, implement that policy in the application-owned handler. Calling the supplied `next()` continues through Express. Thrown errors and rejected callback promises are forwarded through `next(error)`.
 
 | Failure | Wrapper behavior |
 |---|---|
@@ -175,7 +188,7 @@ Use the customer's actual build and SSR start scripts from `package.json`, proje
 
 2. Check the status, content type, and requested site-specific body. For the `llms.txt` example, expect plain text rather than an Angular-rendered page.
 3. Request the same suffix using a UID confirmed absent from the configuration. Expect wrapper 404 before the callback; the request should not produce an Angular-rendered 404 page.
-4. Test any method restrictions the endpoint requires. Root URLs and URLs with extra language/currency segments can reach later Express or Angular middleware; do not describe their response as a wrapper 404.
+4. If the endpoint has a specified method policy, test it. Root URLs and URLs with extra language/currency segments can reach later Express or Angular middleware; do not describe their response as a wrapper 404.
 
 If the endpoint returns Angular HTML or a storefront 404 page, inspect route shape and middleware order. If it returns wrapper 503, inspect the configured OCC address and resolver failure rather than changing the UID list or mode to bypass the problem.
 
