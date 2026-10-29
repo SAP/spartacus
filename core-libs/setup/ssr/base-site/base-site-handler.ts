@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { HttpResponseStatus } from '@spartacus/core';
 import { getRequestUrl } from '../express-utils/express-request-url';
 import {
   NextFunction,
@@ -125,7 +126,7 @@ export function setBaseSiteHandler(
     }
 
     if (baseSite === null || baseSite !== pathBaseSiteId) {
-      res.status(404).send('Not Found');
+      res.status(HttpResponseStatus.NOT_FOUND).send('Not Found');
       return;
     }
 
