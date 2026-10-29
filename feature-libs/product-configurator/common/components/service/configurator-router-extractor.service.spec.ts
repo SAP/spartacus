@@ -1,15 +1,10 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  I18nTestingModule,
-  RouterState,
-  RoutingService,
-} from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { ConfiguratorType } from './../../core/model/common-configurator.model';
 import { ConfiguratorRouter } from './configurator-router-data';
 import { ConfiguratorRouterExtractorService } from './configurator-router-extractor.service';
+import { MockConfiguratorProviderService } from '../../testing';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_NUMBER = '0';
@@ -20,12 +15,6 @@ const CONFIG_ID_TEMPLATE = 'abcd';
 
 let mockRouterState: any;
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return of(mockRouterState);
-  }
-}
-
 describe('ConfigRouterExtractorService', () => {
   let serviceUnderTest: ConfiguratorRouterExtractorService;
 
@@ -35,15 +24,13 @@ describe('ConfigRouterExtractorService', () => {
       providers: [
         {
           provide: RoutingService,
-          useClass: MockRoutingService,
+          useClass: MockConfiguratorProviderService.MockRoutingService,
         },
       ],
     }).compileComponents();
   });
   beforeEach(() => {
-    serviceUnderTest = TestBed.inject(
-      ConfiguratorRouterExtractorService as Type<ConfiguratorRouterExtractorService>
-    );
+    serviceUnderTest = TestBed.inject(ConfiguratorRouterExtractorService);
 
     mockRouterState = {
       state: {

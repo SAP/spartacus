@@ -1,4 +1,4 @@
-import { Type, ViewContainerRef } from '@angular/core';
+import { ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { LoggerService } from '@spartacus/core';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
@@ -18,13 +18,9 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
   let loggerService: LoggerService;
 
   function init() {
-    classUnderTest = TestBed.inject(
-      ConfiguratorAttributeCompositionDirective as Type<ConfiguratorAttributeCompositionDirective>
-    );
-    viewContainerRef = TestBed.inject(
-      ViewContainerRef as Type<ViewContainerRef>
-    );
-    loggerService = TestBed.inject(LoggerService as Type<LoggerService>);
+    classUnderTest = TestBed.inject(ConfiguratorAttributeCompositionDirective);
+    viewContainerRef = TestBed.inject(ViewContainerRef);
+    loggerService = TestBed.inject(LoggerService);
     vi.spyOn(loggerService, 'warn');
 
     classUnderTest['context'] = ConfiguratorTestUtils.getAttributeContext();

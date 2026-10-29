@@ -1,11 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Directive,
   EventEmitter,
   Input,
   Output,
-  Type,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -17,13 +15,14 @@ import {
   Product,
   ProductService,
 } from '@spartacus/core';
+import { ConfiguratorRouterExtractorService } from '../../../common/components/service/configurator-router-extractor.service';
+import { CommonConfigurator } from '../../../common/core/model/common-configurator.model';
+import { CommonConfiguratorUtilsService } from '../../../common/shared/utils/common-configurator-utils.service';
+import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
 import {
-  CommonConfigurator,
-  CommonConfiguratorUtilsService,
-  ConfiguratorModelUtils,
-  ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
-import { ICON_TYPE } from '@spartacus/storefront';
+  IconTestingModule,
+  KeyboardFocusTestingModule,
+} from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { EMPTY, Observable, of } from 'rxjs';
@@ -33,11 +32,15 @@ import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import {
+  MockConfiguratorAttributeProductCardComponent,
+  MockConfiguratorPriceComponent,
+  MockConfiguratorProviderService,
+} from '../../testing';
 import { ConfiguratorAttributeCompositionConfig } from '../attribute/composition/configurator-attribute-composition.config';
 import { ConfiguratorAttributeCompositionDirective } from '../attribute/composition/configurator-attribute-composition.directive';
 import { ConfiguratorAttributeFooterComponent } from '../attribute/footer/configurator-attribute-footer.component';
 import { ConfiguratorAttributeHeaderComponent } from '../attribute/header/configurator-attribute-header.component';
-import { ConfiguratorAttributeProductCardComponentOptions } from '../attribute/product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeCheckBoxListComponent } from '../attribute/types/checkbox-list/configurator-attribute-checkbox-list.component';
 import { ConfiguratorAttributeCheckBoxComponent } from '../attribute/types/checkbox/configurator-attribute-checkbox.component';
 import { ConfiguratorAttributeContainerComponent } from '../attribute/types/container/configurator-attribute-container.component';
@@ -54,7 +57,6 @@ import { ConfiguratorAttributeSingleSelectionBundleComponent } from '../attribut
 import { ConfiguratorAttributeSingleSelectionImageComponent } from '../attribute/types/single-selection-image/configurator-attribute-single-selection-image.component';
 import { ConfiguratorConflictSuggestionComponent } from '../conflict-suggestion/configurator-conflict-suggestion.component';
 import { ConfigFormUpdateEvent } from '../form/configurator-form.event';
-import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupComponent } from './configurator-group.component';
 
@@ -92,24 +94,6 @@ class MockConfiguratorConflictDescriptionComponent {
 }
 
 @Component({
-  selector: 'cx-configurator-price',
-  template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-})
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
-@Component({
-  selector: 'cx-configurator-attribute-product-card',
-  template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-})
-class MockProductCardComponent {
-  @Input() productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
-}
-
-@Component({
   selector: 'cx-configurator-attribute-input-field',
   template: '',
   imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
@@ -136,20 +120,6 @@ class MockConfiguratorAttributeNumericInputFieldComponent {
   @Input() language: string;
 
   @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
-}
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
-
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: string;
 }
 
 let currentGroupObservable: Observable<string> = EMPTY;
@@ -301,27 +271,21 @@ describe('ConfiguratorGroupComponent', () => {
   let configuratorGroupsService: ConfiguratorGroupsService;
   let configExpertModeService: ConfiguratorExpertModeService;
   let storefrontUtils: ConfiguratorStorefrontUtilsService;
-  let mockLanguageService;
   let htmlElem: HTMLElement;
   let fixture: ComponentFixture<ConfiguratorGroupComponent>;
   let component: ConfiguratorGroupComponent;
 
   beforeEach(async () => {
-    mockLanguageService = {
-      getAll: () => of([]),
-      getActive: vi.fn().mockReturnValue(of('en')),
-    };
-
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
-        MockCxIconComponent,
+        IconTestingModule,
+        KeyboardFocusTestingModule,
         MockConfiguratorPriceComponent,
-        MockFocusDirective,
         MockFeatureLevelDirective,
-        MockProductCardComponent,
+        MockConfiguratorAttributeProductCardComponent,
         ConfiguratorAttributeCompositionDirective,
         ConfiguratorGroupComponent,
         MockConfiguratorConflictDescriptionComponent,
@@ -352,7 +316,10 @@ describe('ConfiguratorGroupComponent', () => {
           provide: ConfiguratorGroupsService,
           useClass: MockConfiguratorGroupsService,
         },
-        { provide: LanguageService, useValue: mockLanguageService },
+        {
+          provide: LanguageService,
+          useClass: MockConfiguratorProviderService.MockLanguageService,
+        },
         {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfiguratorStorefrontUtilsService,
@@ -384,28 +351,18 @@ describe('ConfiguratorGroupComponent', () => {
   });
 
   beforeEach(() => {
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
-    configuratorGroupsService = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
-    );
+    configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
     vi.spyOn(configuratorCommonsService, 'isConfigurationLoading');
     vi.spyOn(configuratorGroupsService, 'setGroupStatusVisited');
 
-    configExpertModeService = TestBed.inject(
-      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
-    );
+    configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);
     vi.spyOn(configExpertModeService, 'setExpModeRequested');
     vi.spyOn(configExpertModeService, 'setExpModeActive');
 
     configuratorUtils.setOwnerKey(OWNER);
-    storefrontUtils = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
-    );
+    storefrontUtils = TestBed.inject(ConfiguratorStorefrontUtilsService);
     isConfigurationLoadingObservable = of(false);
     conflictGroup = structuredClone(conflictGroupBase);
   });

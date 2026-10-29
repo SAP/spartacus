@@ -3,17 +3,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { RoutingService } from '@spartacus/core';
-import { CommonConfiguratorUtilsService } from '@spartacus/product-configurator/common';
+import { CommonConfiguratorUtilsService } from '../../../common/shared/utils/common-configurator-utils.service';
 import {
   BreakpointService,
   HamburgerMenuComponent,
   HamburgerMenuService,
-  IconLoaderService,
+  IconTestingModule,
 } from '@spartacus/storefront';
 import { Observable, of, Subscription } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
@@ -21,6 +19,12 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupTitleComponent } from './configurator-group-title.component';
+import {
+  MockConfiguratorProviderService,
+  provideConfiguratorMockCommonsService,
+  provideConfiguratorMockGroupsService,
+  provideConfiguratorMockRoutingService,
+} from '../../testing';
 
 const config: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
@@ -28,60 +32,12 @@ const config: Configurator.Configuration =
 let routerStateObservable: Observable<RouterState>;
 const group = ConfiguratorTestUtils.createGroup('1-CPQ_LAPTOP.1');
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-}
-
-class MockRouter {
-  public events = of('');
-}
-
-class MockConfiguratorGroupService {
-  navigateToGroup(): void {}
-
-  getCurrentGroup(): Observable<Configurator.Group> {
-    return of(group);
-  }
-}
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
-  }
-
-  hasConfiguration(): Observable<boolean> {
-    return of(false);
-  }
-
-  readConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
-  }
-}
-
-export class MockIconFontLoaderService {
-  getFlipDirection(): void {}
-}
-
-class MockBreakpointService {
-  isDown(): void {}
-
-  isUp(): void {}
-}
-
 @Component({
   selector: 'cx-hamburger-menu',
   template: '',
   imports: [ReactiveFormsModule, NgSelectModule],
 })
 class MockHamburgerMenuComponent {}
-
-class MockConfiguratorStorefrontUtilsService {
-  changeStyling(): void {}
-  focusFirstActiveElement(): void {}
-  removeStyling(): void {}
-}
 
 describe('ConfiguratorGroupTitleComponent', () => {
   let component: ConfiguratorGroupTitleComponent;
@@ -96,38 +52,35 @@ describe('ConfiguratorGroupTitleComponent', () => {
 
   beforeEach(async () => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
+
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
+        IconTestingModule,
         ConfiguratorGroupTitleComponent,
       ],
       providers: [
         HamburgerMenuService,
         {
           provide: Router,
-          useClass: MockRouter,
+          useClass: MockConfiguratorProviderService.MockRouter,
         },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupService,
-        },
-        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+        provideConfiguratorMockRoutingService(() => routerStateObservable),
+        provideConfiguratorMockCommonsService({
+          configurationSource: () => of(config),
+        }),
+        provideConfiguratorMockGroupsService({
+          getCurrentGroupSource: () => of(group),
+        }),
         {
           provide: BreakpointService,
-          useClass: MockBreakpointService,
+          useClass: MockConfiguratorProviderService.MockBreakpointService,
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorStorefrontUtilsService,
         },
       ],
     })

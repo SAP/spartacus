@@ -4,24 +4,14 @@ import { Subject, Subscription } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorExpertModeService } from '../services/configurator-expert-mode.service';
 import { ConfiguratorLogoutEventListener } from './configurator-logout-event.listener';
-import { Type } from '@angular/core';
+
+import { MockConfiguratorProviderService } from '../../testing';
 
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockEventService implements Partial<EventService> {
   get = vi.fn().mockReturnValue(mockEventStream$.asObservable());
   dispatch = vi.fn();
-}
-
-class MockConfiguratorExpertModeService {
-  setExpModeRequested(): void {}
-  getExpModeRequested() {}
-  setExpModeActive(): void {}
-  getExpModeActive() {}
-}
-
-class MockConfiguratorCommonsService {
-  removeProductBoundConfigurations(): void {}
 }
 
 describe(`ConfiguratorLogoutEventListener`, () => {
@@ -39,11 +29,13 @@ describe(`ConfiguratorLogoutEventListener`, () => {
         },
         {
           provide: ConfiguratorExpertModeService,
-          useClass: MockConfiguratorExpertModeService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorExpertModeService,
         },
         {
           provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorCommonsService,
         },
       ],
     });
@@ -51,14 +43,12 @@ describe(`ConfiguratorLogoutEventListener`, () => {
     classUnderTest = TestBed.inject(ConfiguratorLogoutEventListener);
 
     configuratorExpertModeService = TestBed.inject(
-      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
+      ConfiguratorExpertModeService
     );
     vi.spyOn(configuratorExpertModeService, 'setExpModeRequested');
     vi.spyOn(configuratorExpertModeService, 'setExpModeActive');
 
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
 
     vi.spyOn(configuratorCommonsService, 'removeProductBoundConfigurations');
   });

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
@@ -347,11 +346,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     occConfiguratorVariantNormalizer = TestBed.inject(
-      OccConfiguratorVariantNormalizer as Type<OccConfiguratorVariantNormalizer>
+      OccConfiguratorVariantNormalizer
     );
-    configUISettingsConfig = TestBed.inject(
-      ConfiguratorUISettingsConfig as Type<ConfiguratorUISettingsConfig>
-    );
+    configUISettingsConfig = TestBed.inject(ConfiguratorUISettingsConfig);
     groups = [];
     flatGroups = [];
     configuration = structuredClone(configurationTemplate);

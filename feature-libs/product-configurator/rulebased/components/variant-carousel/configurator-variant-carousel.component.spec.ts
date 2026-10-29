@@ -1,57 +1,29 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
-  Product,
+  I18nTestingModule,
   ProductService,
   TranslatePipe,
-  TranslationService,
 } from '@spartacus/core';
+import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
+import { ConfiguratorRouterExtractorService } from '../../../common/components/service/configurator-router-extractor.service';
 import {
   CommonConfigurator,
-  ConfiguratorModelUtils,
-  ConfiguratorRouter,
-  ConfiguratorRouterExtractorService,
   ConfiguratorType,
-} from '@spartacus/product-configurator/common';
+} from '../../../common/core/model/common-configurator.model';
+import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
 import { CarouselComponent } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorVariantCarouselComponent } from './configurator-variant-carousel.component';
+import {
+  MockConfiguratorProviderService,
+  provideConfiguratorMockCommonsService,
+} from '../../testing';
 
-const PRODUCT_DESCRIPTION = 'Here is a product description';
 const PRODUCT_CODE = 'CONF_LAPTOP';
-const PRODUCT_NAME = 'productName';
-const imageURL = 'some URL';
-const altText = 'some text';
-
-const product: Product = {
-  name: PRODUCT_NAME,
-  code: PRODUCT_CODE,
-  description: PRODUCT_DESCRIPTION,
-  images: {
-    PRIMARY: {
-      thumbnail: {
-        url: imageURL,
-        altText: altText,
-      },
-    },
-  },
-  price: {
-    formattedValue: '$1.500',
-  },
-  priceRange: {
-    maxPrice: {
-      formattedValue: '$1.500',
-    },
-    minPrice: {
-      formattedValue: '$1.000',
-    },
-  },
-};
 
 @Component({
   selector: 'cx-carousel',
@@ -62,23 +34,6 @@ class MockCarouselComponent {
   @Input() template;
   @Input() itemWidth;
   @Input() hideIndicators;
-}
-
-@Pipe({ name: 'cxTranslate' })
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
-}
-
-class MockTranslationService {
-  translate(): Observable<string> {
-    return of('Pre-configured Versions');
-  }
-}
-
-class MockProductService {
-  get(): Observable<Product> {
-    return of(product);
-  }
 }
 
 class MockConfigRouterExtractorService {
@@ -106,12 +61,6 @@ let configurationWithVariants: Configurator.Configuration =
   );
 
 let configurationObs: any;
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return configurationObs;
-  }
-}
-
 let component: ConfiguratorVariantCarouselComponent;
 let fixture: ComponentFixture<ConfiguratorVariantCarouselComponent>;
 let htmlElem: HTMLElement;
@@ -141,17 +90,15 @@ describe('ConfiguratorVariantCarouselComponent', () => {
       providers: [
         {
           provide: ProductService,
-          useClass: MockProductService,
+          useClass: MockConfiguratorProviderService.MockProductService,
         },
-        { provide: TranslationService, useClass: MockTranslationService },
         {
           provide: ConfiguratorRouterExtractorService,
           useClass: MockConfigRouterExtractorService,
         },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
+        provideConfiguratorMockCommonsService({
+          configurationSource: () => configurationObs,
+        }),
       ],
     })
       .overrideComponent(ConfiguratorVariantCarouselComponent, {
@@ -159,7 +106,7 @@ describe('ConfiguratorVariantCarouselComponent', () => {
           imports: [TranslatePipe, CarouselComponent],
         },
         add: {
-          imports: [MockTranslatePipe, MockCarouselComponent],
+          imports: [I18nTestingModule, MockCarouselComponent],
         },
       })
       .compileComponents();

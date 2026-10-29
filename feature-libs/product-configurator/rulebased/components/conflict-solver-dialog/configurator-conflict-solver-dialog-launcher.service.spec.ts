@@ -1,34 +1,23 @@
 import { TestBed } from '@angular/core/testing';
-import { ElementRef } from '@angular/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { firstValueFrom, Observable, of, Subject } from 'rxjs';
+import { LaunchDialogService } from '@spartacus/storefront';
+import { Observable, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ConfiguratorConflictSolverDialogLauncherService } from './configurator-conflict-solver-dialog-launcher.service';
+import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
 import {
   CommonConfigurator,
-  ConfiguratorRouter,
-  ConfiguratorRouterExtractorService,
   ConfiguratorType,
-} from '@spartacus/product-configurator/common';
-import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
+} from '../../../common/core/model/common-configurator.model';
 import { Configurator } from '../../core/model/configurator.model';
-
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import {
+  MockConfiguratorProviderService,
+  provideConfiguratorMockGroupsService,
+  provideConfiguratorMockRouterExtractorService,
+} from '../../testing';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 let lastDialogData: any;
-
-class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  openDialogAndSubscribe(
-    _caller: LAUNCH_CALLER,
-    _openElement?: ElementRef,
-    _data?: any
-  ) {
-    lastDialogData = _data;
-  }
-
-  closeDialog(_reason: string): void {}
-}
 
 const defaultMockRouterData: ConfiguratorRouter.Data = {
   pageType: ConfiguratorRouter.PageType.CONFIGURATION,
@@ -47,26 +36,12 @@ const defaultMockRouterData: ConfiguratorRouter.Data = {
 let mockRouterData: ConfiguratorRouter.Data;
 let routerData$: Observable<ConfiguratorRouter.Data>;
 
-class MockConfiguratorRouterExtractorService {
-  extractRouterData(): Observable<ConfiguratorRouter.Data> {
-    return routerData$;
-  }
-}
-
 function createConflictGroup(): Configurator.Group {
   return ConfiguratorTestUtils.createGroup('TEST_PRODUCT.1000');
 }
 
 let group: Configurator.Group;
 let groupSubject: Subject<Configurator.Group | undefined>;
-
-class MockConfiguratorGroupsService {
-  getConflictGroupForImmediateConflictResolution(): Observable<
-    Configurator.Group | undefined
-  > {
-    return groupSubject.asObservable();
-  }
-}
 
 describe('ConfiguratorConflictSolverDialogLauncherService', () => {
   let listener: ConfiguratorConflictSolverDialogLauncherService;
@@ -76,7 +51,11 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
     listener = TestBed.inject(ConfiguratorConflictSolverDialogLauncherService);
     launchDialogService = TestBed.inject(LaunchDialogService);
     vi.spyOn(launchDialogService, 'closeDialog').mockImplementation(() => {});
-    vi.spyOn(launchDialogService, 'openDialogAndSubscribe');
+    vi.spyOn(launchDialogService, 'openDialogAndSubscribe').mockImplementation(
+      (_caller, _ref, data) => {
+        lastDialogData = data;
+      }
+    );
   }
 
   beforeEach(() => {
@@ -85,16 +64,14 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
         ConfiguratorConflictSolverDialogLauncherService,
         {
           provide: LaunchDialogService,
-          useClass: MockLaunchDialogService,
+          useClass: MockConfiguratorProviderService.MockLaunchDialogService,
         },
-        {
-          provide: ConfiguratorRouterExtractorService,
-          useClass: MockConfiguratorRouterExtractorService,
-        },
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
-        },
+        provideConfiguratorMockRouterExtractorService({
+          routerDataSource: () => routerData$,
+        }),
+        provideConfiguratorMockGroupsService({
+          conflictGroupSource: () => groupSubject.asObservable(),
+        }),
       ],
     });
     group = createConflictGroup();

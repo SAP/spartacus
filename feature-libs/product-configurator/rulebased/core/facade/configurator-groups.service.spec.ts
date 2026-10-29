@@ -1,9 +1,8 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
-import { firstValueFrom, Observable, of, Subject } from 'rxjs';
+import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
+import { firstValueFrom, of, Subject } from 'rxjs';
 import {
   CONFIG_ID,
   GROUP_ID_1,
@@ -25,6 +24,7 @@ import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
 import { ConfiguratorGroupsService } from './configurator-groups.service';
 import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
+import { MockConfiguratorProviderService } from '../../testing';
 
 const PRODUCT_CONFIG_CURRENT_GROUP_IS_CONFLICT: Configurator.Configuration = {
   ...productConfigurationWithConflicts,
@@ -36,12 +36,6 @@ const PRODUCT_CONFIG_CURRENT_GROUP_IS_CONFLICT: Configurator.Configuration = {
 };
 
 class MockActiveCartService {}
-class MockConfiguratorCartService {
-  checkForActiveCartUpdateDone(): Observable<boolean> {
-    return of(true);
-  }
-}
-
 describe('ConfiguratorGroupsService', () => {
   let classUnderTest: ConfiguratorGroupsService;
   let store: Store<StateWithConfigurator>;
@@ -63,27 +57,19 @@ describe('ConfiguratorGroupsService', () => {
         },
         {
           provide: ConfiguratorCartService,
-          useClass: MockConfiguratorCartService,
+          useClass: MockConfiguratorProviderService.MockConfiguratorCartService,
         },
       ],
     }).compileComponents();
   });
   beforeEach(() => {
-    classUnderTest = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
-    );
-    store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
-    configGroupStatusService = TestBed.inject(
-      ConfiguratorGroupStatusService as Type<ConfiguratorGroupStatusService>
-    );
-    configFacadeUtilsService = TestBed.inject(
-      ConfiguratorUtilsService as Type<ConfiguratorUtilsService>
-    );
+    classUnderTest = TestBed.inject(ConfiguratorGroupsService);
+    store = TestBed.inject(Store);
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    configGroupStatusService = TestBed.inject(ConfiguratorGroupStatusService);
+    configFacadeUtilsService = TestBed.inject(ConfiguratorUtilsService);
 
-    vi.spyOn(store, 'dispatch').mockImplementation(() => {});
+    vi.spyOn(store, 'dispatch');
     vi.spyOn(store, 'pipe').mockReturnValue(of(productConfiguration));
 
     vi.spyOn(configGroupStatusService, 'setGroupStatusVisited');
@@ -118,7 +104,7 @@ describe('ConfiguratorGroupsService', () => {
       vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of({
           ...productConfiguration,
-          interactionState: { currentGroup: null },
+          interactionState: { currentGroup: undefined },
         })
       );
       const currentGroup = classUnderTest.getCurrentGroupId(
@@ -253,17 +239,17 @@ describe('ConfiguratorGroupsService', () => {
     });
 
     it('should return empty string if no next group exists', async () => {
+      const configuration = structuredClone(productConfiguration);
+      configuration.interactionState.currentGroup = GROUP_ID_10;
       vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
-        of(productConfiguration)
+        of(configuration)
       );
-      productConfiguration.interactionState.currentGroup = GROUP_ID_10;
       const nextGroupDescription =
-        classUnderTest.getNextGroupDescription(productConfiguration);
+        classUnderTest.getNextGroupDescription(configuration);
 
       expect(nextGroupDescription).toBeDefined();
       const description = await firstValueFrom(nextGroupDescription);
       expect(description).toBe('');
-      productConfiguration.interactionState.currentGroup = GROUP_ID_2;
     });
   });
 
@@ -334,17 +320,17 @@ describe('ConfiguratorGroupsService', () => {
     });
 
     it('should return empty string if no previous group exists', async () => {
+      const configuration = structuredClone(productConfiguration);
+      configuration.interactionState.currentGroup = GROUP_ID_1;
       vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
-        of(productConfiguration)
+        of(configuration)
       );
-      productConfiguration.interactionState.currentGroup = GROUP_ID_1;
       const previousGroupDescription =
-        classUnderTest.getPreviousGroupDescription(productConfiguration);
+        classUnderTest.getPreviousGroupDescription(configuration);
 
       expect(previousGroupDescription).toBeDefined();
       const description = await firstValueFrom(previousGroupDescription);
       expect(description).toBe('');
-      productConfiguration.interactionState.currentGroup = GROUP_ID_2;
     });
   });
 

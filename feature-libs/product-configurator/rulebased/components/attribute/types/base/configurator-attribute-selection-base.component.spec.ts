@@ -7,20 +7,14 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { BehaviorSubject } from 'rxjs';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeSelectionBaseComponent } from './configurator-attribute-selection-base.component';
+import { provideConfiguratorMockCommonsService } from '../../../../testing';
 
 const isConfigurationLoading$ = new BehaviorSubject<boolean>(false);
-
-class MockConfiguratorCommonsService {
-  isConfigurationLoading(): Observable<boolean> {
-    return isConfigurationLoading$.asObservable();
-  }
-}
 
 @Component({
   selector: 'cx-configurator-attribute-selection',
@@ -43,10 +37,9 @@ describe('ConfiguratorAttributeSelectionBaseComponent', () => {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
+        provideConfiguratorMockCommonsService({
+          isConfigurationLoadingSource: () => isConfigurationLoading$,
+        }),
         {
           provide: ConfiguratorStorefrontUtilsService,
           useValue: {},

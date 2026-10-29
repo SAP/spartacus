@@ -17,15 +17,13 @@ import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import {
-  CommonConfigurator,
-  ConfiguratorModelUtils,
-  ConfiguratorRouter,
-  ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
+import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
+import { ConfiguratorRouterExtractorService } from '../../../common/components/service/configurator-router-extractor.service';
+import { CommonConfigurator } from '../../../common/core/model/common-configurator.model';
+import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
 import {
   IconComponent,
-  IconLoaderService,
+  IconTestingModule,
   MediaComponent,
 } from '@spartacus/storefront';
 import { Observable, of, throwError } from 'rxjs';
@@ -185,19 +183,6 @@ class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return productConfigurationObservable;
   }
-}
-
-export class MockIconFontLoaderService {
-  getFlipDirection(): void {}
-}
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-})
-class MockCxIconComponent {
-  @Input() type: any;
 }
 
 @Component({
@@ -463,7 +448,6 @@ describe('ConfigProductTitleComponent', () => {
           provide: ProductService,
           useClass: MockProductService,
         },
-        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
         {
           provide: ConfiguratorExpertModeService,
           useClass: MockConfiguratorExpertModeService,
@@ -483,7 +467,7 @@ describe('ConfigProductTitleComponent', () => {
           imports: [IconComponent, MediaComponent],
         },
         add: {
-          imports: [MockCxIconComponent, MockMediaComponent],
+          imports: [IconTestingModule, MockMediaComponent],
         },
       })
       .compileComponents();

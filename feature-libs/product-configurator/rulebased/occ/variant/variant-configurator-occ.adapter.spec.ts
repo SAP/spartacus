@@ -2,7 +2,7 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
+
 import { TestBed } from '@angular/core/testing';
 import {
   CART_MODIFICATION_NORMALIZER,
@@ -18,11 +18,11 @@ import {
 } from '@spartacus/core';
 import {
   CommonConfigurator,
-  CommonConfiguratorUtilsService,
-  ConfiguratorModelUtils,
   ConfiguratorType,
-} from '@spartacus/product-configurator/common';
-import { firstValueFrom, of } from 'rxjs';
+} from '../../../common/core/model/common-configurator.model';
+import { CommonConfiguratorUtilsService } from '../../../common/shared/utils/common-configurator-utils.service';
+import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
+import { of } from 'rxjs';
 import {
   VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
   VariantConfiguratorOccAdapter,
@@ -40,6 +40,7 @@ import {
   VARIANT_CONFIGURATOR_SERIALIZER,
 } from './variant-configurator-occ.converters';
 import { OccConfigurator } from './variant-configurator-occ.models';
+import { MockConfiguratorProviderService } from '../../testing';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
@@ -56,12 +57,6 @@ class MockOccEndpointsService {
 
   getEndpoint(url: string) {
     return url;
-  }
-}
-
-class MockTranslationService {
-  translate(text: string) {
-    return text;
   }
 }
 
@@ -141,7 +136,10 @@ describe('OccConfigurationVariantAdapter', () => {
       providers: [
         VariantConfiguratorOccAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
-        { provide: TranslationService, useClass: MockTranslationService },
+        {
+          provide: TranslationService,
+          useClass: MockConfiguratorProviderService.MockTranslationService,
+        },
         {
           provide: VARIANT_CONFIGURATOR_NORMALIZER,
           useExisting: OccConfiguratorVariantNormalizer,
@@ -162,26 +160,16 @@ describe('OccConfigurationVariantAdapter', () => {
       ],
     });
 
-    httpMock = TestBed.inject(
-      HttpTestingController as Type<HttpTestingController>
-    );
-    converterService = TestBed.inject(
-      ConverterService as Type<ConverterService>
-    );
-    occEndpointsService = TestBed.inject(
-      OccEndpointsService as Type<OccEndpointsService>
-    );
+    httpMock = TestBed.inject(HttpTestingController);
+    converterService = TestBed.inject(ConverterService);
+    occEndpointsService = TestBed.inject(OccEndpointsService);
 
     occConfiguratorVariantAdapter = TestBed.inject(
-      VariantConfiguratorOccAdapter as Type<VariantConfiguratorOccAdapter>
+      VariantConfiguratorOccAdapter
     );
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
+    configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     configuratorUtils.setOwnerKey(configuration.owner);
-    configExpertModeService = TestBed.inject(
-      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
-    );
+    configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);
     configExpertModeService.setExpModeRequested(expMode);
 
     vi.spyOn(converterService, 'convert');

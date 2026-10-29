@@ -1,14 +1,8 @@
-import { Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import {
-  CxDatePipe,
-  MockDatePipe,
-  MockTranslatePipe,
-  TranslatePipe,
-} from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { IconComponent, ICON_TYPE } from '@spartacus/storefront';
+import { CxDatePipe, I18nTestingModule, TranslatePipe } from '@spartacus/core';
+import { CommonConfigurator } from '../../../common/core/model/common-configurator.model';
+import { IconTestingModule } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -16,6 +10,7 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorOverviewFilterBarComponent } from './configurator-overview-filter-bar.component';
+import { MockConfiguratorProviderService } from '../../testing';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -31,7 +26,7 @@ let fixture: ComponentFixture<ConfiguratorOverviewFilterBarComponent>;
 let htmlElem: HTMLElement;
 let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 
-let mockConfigCommonsService: ConfiguratorCommonsService;
+let configuratorCommonsService: ConfiguratorCommonsService;
 
 let config: Configurator.Configuration;
 let ovConfig: Configurator.ConfigurationWithOverview;
@@ -55,54 +50,41 @@ function initTestData() {
     },
   };
 }
-function initMocks() {
-  mockConfigCommonsService = { updateConfigurationOverview: vi.fn() } as any;
-}
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
-class MockConfigUtilsService {
-  getElementById(): void {}
-}
-
 describe('ConfiguratorOverviewFilterBarComponent', () => {
   beforeEach(async () => {
     initTestData();
-    initMocks();
     TestBed.configureTestingModule({
-      imports: [ConfiguratorOverviewFilterBarComponent],
+      imports: [ConfiguratorOverviewFilterBarComponent, IconTestingModule],
       providers: [
         {
           provide: ConfiguratorCommonsService,
-          useValue: mockConfigCommonsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorCommonsService,
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorStorefrontUtilsService,
         },
       ],
     })
       .overrideComponent(ConfiguratorOverviewFilterBarComponent, {
-        remove: { imports: [TranslatePipe, CxDatePipe, IconComponent] },
+        remove: { imports: [TranslatePipe, CxDatePipe] },
         add: {
-          imports: [MockTranslatePipe, MockDatePipe, MockCxIconComponent],
+          imports: [I18nTestingModule],
         },
       })
       .compileComponents();
   });
 
   beforeEach(() => {
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
     fixture = TestBed.createComponent(ConfiguratorOverviewFilterBarComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     component.config = ovConfig;
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService
     );
   });
   describe('in a component test environment', () => {
@@ -182,7 +164,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         });
 
       expect(
-        mockConfigCommonsService.updateConfigurationOverview
+        configuratorCommonsService.updateConfigurationOverview
       ).toHaveBeenCalledTimes(3); // My Selections, Group 1, Remove All
     });
 
@@ -282,7 +264,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       expectedInputConfig.overview.attributeFilters = [PRICE_RELEVANT];
       component.onAttrFilterRemove(ovConfig, MY_SELECTIONS);
       expect(
-        mockConfigCommonsService.updateConfigurationOverview
+        configuratorCommonsService.updateConfigurationOverview
       ).toHaveBeenCalledWith(expectedInputConfig);
     });
 
@@ -291,7 +273,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       expectedInputConfig.overview.groupFilters = ['3'];
       component.onGroupFilterRemove(ovConfig, '1');
       expect(
-        mockConfigCommonsService.updateConfigurationOverview
+        configuratorCommonsService.updateConfigurationOverview
       ).toHaveBeenCalledWith(expectedInputConfig);
     });
 
@@ -302,7 +284,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       expectedInputConfig.overview.attributeFilters = [];
       component.onRemoveAll(ovConfig);
       expect(
-        mockConfigCommonsService.updateConfigurationOverview
+        configuratorCommonsService.updateConfigurationOverview
       ).toHaveBeenCalledWith(expectedInputConfig);
     });
 
@@ -432,11 +414,11 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       });
 
       it('should call focus method of html element', () => {
-        let mockElement = { focus: vi.fn() };
+        const mockElement = { focus: vi.fn() };
         vi.spyOn(
           configuratorStorefrontUtilsService,
           'getElementById'
-        ).mockReturnValue(mockElement);
+        ).mockReturnValue(mockElement as unknown as HTMLElement);
         component['focusElementById'](FIRST_FILTER_CHECKBOX_ID);
         expect(mockElement.focus).toHaveBeenCalled();
       });

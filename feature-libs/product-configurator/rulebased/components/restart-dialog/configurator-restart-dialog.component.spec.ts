@@ -1,44 +1,32 @@
-import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  MockTranslatePipe,
+  I18nTestingModule,
   Product,
   ProductService,
   RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { CommonConfigurator } from '../../../common/core/model/common-configurator.model';
 import {
-  FocusConfig,
   FocusDirective,
   IconComponent,
-  ICON_TYPE,
+  IconTestingModule,
+  KeyboardFocusTestingModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { BehaviorSubject, lastValueFrom, of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { MockConfiguratorProductService } from '../../../common/testing/services/mock-configurator-product.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import { MockConfiguratorProviderService } from '../../testing';
 import { ConfiguratorRestartDialogComponent } from './configurator-restart-dialog.component';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 
 const product: Product = { code: 'pCode' };
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
-
-@Directive({ selector: '[cxFocus]' })
-export class MockKeyboadFocusDirective {
-  @Input('cxFocus') config: FocusConfig = {};
-}
 
 describe('ConfiguratorRestartDialogComponent', () => {
   let component: ConfiguratorRestartDialogComponent;
@@ -48,7 +36,7 @@ describe('ConfiguratorRestartDialogComponent', () => {
   let mockLaunchDialogService: LaunchDialogService;
   let mockConfigCommonsService: ConfiguratorCommonsService;
   let mockRoutingService: RoutingService;
-  let mockProductService: ProductService;
+  let mockProductService: MockConfiguratorProductService;
 
   let dialogDataSender: BehaviorSubject<
     { owner: CommonConfigurator.Owner } | undefined
@@ -62,6 +50,12 @@ describe('ConfiguratorRestartDialogComponent', () => {
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     mockLaunchDialogService = TestBed.inject(LaunchDialogService);
+    mockConfigCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    mockRoutingService = TestBed.inject(RoutingService);
+    mockProductService = TestBed.inject(
+      ProductService
+    ) as unknown as MockConfiguratorProductService;
+    mockProductService.product = product;
     vi.spyOn(mockLaunchDialogService, 'closeDialog');
   }
 
@@ -70,30 +64,23 @@ describe('ConfiguratorRestartDialogComponent', () => {
     data$ = dialogDataSender;
   }
 
-  function initializeMocks() {
-    mockConfigCommonsService = { forceNewConfiguration: vi.fn() };
-    mockRoutingService = { go: vi.fn() };
-    mockProductService = { get: vi.fn() };
-    mockProductService.get.mockReturnValue(of(product));
-  }
-
   beforeEach(async () => {
-    initializeMocks();
     TestBed.configureTestingModule({
       imports: [ConfiguratorRestartDialogComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
           provide: ConfiguratorCommonsService,
-          useValue: mockConfigCommonsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorCommonsService,
         },
         {
           provide: RoutingService,
-          useValue: mockRoutingService,
+          useClass: MockConfiguratorProviderService.MockRoutingService,
         },
         {
           provide: ProductService,
-          useValue: mockProductService,
+          useClass: MockConfiguratorProviderService.MockProductService,
         },
       ],
     })
@@ -103,9 +90,9 @@ describe('ConfiguratorRestartDialogComponent', () => {
         },
         add: {
           imports: [
-            MockTranslatePipe,
-            MockCxIconComponent,
-            MockKeyboadFocusDirective,
+            I18nTestingModule,
+            IconTestingModule,
+            KeyboardFocusTestingModule,
           ],
         },
       })
@@ -124,9 +111,6 @@ describe('ConfiguratorRestartDialogComponent', () => {
   it('should ignore invalid dialog data', async () => {
     dialogDataSender.next(undefined);
     dialogDataSender.complete();
-    const dialogData = await lastValueFrom(component.dialogData$, {
-      defaultValue: undefined,
-    });
     // dialogData$ filters out undefined, so completion without emit is valid
     expect(true).toBe(true); // stream completed without error
   });

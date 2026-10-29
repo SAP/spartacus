@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Directive,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
@@ -11,9 +6,8 @@ import {
   I18nTestingModule,
   LanguageService,
 } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
-import { Observable, of } from 'rxjs';
+import { CommonConfigurator } from '../../../../../common/core/model/common-configurator.model';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -23,23 +17,14 @@ import { defaultConfiguratorUISettingsConfig } from '../../../config/default-con
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-attribute-numeric-input-field.component';
 import {
+  IconTestingModule,
+  KeyboardFocusTestingModule,
+} from '@spartacus/storefront';
+import { MockConfiguratorProviderService } from '../../../../testing';
+import {
   ConfiguratorAttributeNumericInputFieldService,
   ConfiguratorAttributeNumericInterval,
 } from './configurator-attribute-numeric-input-field.component.service';
-
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
-}
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-  imports: [ReactiveFormsModule, I18nTestingModule],
-})
-class MockCxIconComponent {
-  @Input() type: any;
-}
 
 let DEBOUNCE_TIME: number;
 
@@ -92,22 +77,10 @@ function checkForValidationMessage(
   expect(validationDiv).toBeDefined();
   expect(validationDiv.length).toBe(expectedMessages);
 }
-class MockConfiguratorCommonsService {
-  updateConfiguration(): void {}
-}
-
-const isCartEntryOrGroupVisited = true;
-class MockConfigUtilsService {
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(isCartEntryOrGroupVisited);
-  }
-}
-
 describe('ConfigAttributeNumericInputFieldComponent', () => {
   let component: ConfiguratorAttributeNumericInputFieldComponent;
 
   let fixture: ComponentFixture<ConfiguratorAttributeNumericInputFieldComponent>;
-  let mockLanguageService;
   const locale = 'en';
   let htmlElem: HTMLElement;
   let configuratorAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService;
@@ -121,21 +94,19 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   beforeEach(async () => {
     configuratorUISettingsConfig.productConfigurator =
       defaultConfiguratorUISettingsConfig.productConfigurator;
-    mockLanguageService = {
-      getAll: () => of([]),
-      getActive: vi.fn().mockReturnValue(of(locale)),
-      setActive: vi.fn(),
-    };
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         I18nTestingModule,
         ConfiguratorAttributeNumericInputFieldComponent,
-        MockFocusDirective,
-        MockCxIconComponent,
+        IconTestingModule,
+        KeyboardFocusTestingModule,
       ],
       providers: [
-        { provide: LanguageService, useValue: mockLanguageService },
+        {
+          provide: LanguageService,
+          useClass: MockConfiguratorProviderService.MockLanguageService,
+        },
         {
           provide: ConfiguratorUISettingsConfig,
           useValue: configuratorUISettingsConfig,
@@ -146,11 +117,13 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         },
         {
           provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorCommonsService,
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorStorefrontUtilsService,
         },
         {
           provide: FeaturesConfig,

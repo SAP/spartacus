@@ -2,7 +2,7 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
+
 import { TestBed } from '@angular/core/testing';
 import { CART_MODIFICATION_NORMALIZER } from '@spartacus/cart/base/root';
 import {
@@ -103,18 +103,12 @@ describe('OccConfigurationTextfieldAdapter', () => {
       ],
     });
 
-    httpMock = TestBed.inject(
-      HttpTestingController as Type<HttpTestingController>
-    );
-    converterService = TestBed.inject(
-      ConverterService as Type<ConverterService>
-    );
-    occEnpointsService = TestBed.inject(
-      OccEndpointsService as Type<OccEndpointsService>
-    );
+    httpMock = TestBed.inject(HttpTestingController);
+    converterService = TestBed.inject(ConverterService);
+    occEnpointsService = TestBed.inject(OccEndpointsService);
 
     occConfiguratorVariantAdapter = TestBed.inject(
-      OccConfiguratorTextfieldAdapter as Type<OccConfiguratorTextfieldAdapter>
+      OccConfiguratorTextfieldAdapter
     );
 
     vi.spyOn(converterService, 'pipeable');

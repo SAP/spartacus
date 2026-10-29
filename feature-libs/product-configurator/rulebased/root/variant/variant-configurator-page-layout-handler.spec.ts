@@ -1,14 +1,12 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  ConfiguratorModelUtils,
-  ConfiguratorRouter,
-  ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
-import { BreakpointService, LayoutConfig } from '@spartacus/storefront';
+import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
+import { ConfiguratorRouterExtractorService } from '../../../common/components/service/configurator-router-extractor.service';
+import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
+import { LayoutConfig } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-page-layout-handler';
+import { provideConfiguratorMockBreakpointService } from '../../testing';
 
 const standardRouterData: ConfiguratorRouter.Data = {
   owner: ConfiguratorModelUtils.createInitialOwner(),
@@ -20,11 +18,6 @@ class MockRouterExtractorService {
   }
 }
 let isLargeResolution: boolean;
-class MockBreakpointService {
-  isUp(): Observable<boolean> {
-    return of(isLargeResolution);
-  }
-}
 const displayOnlyHeaderSlotsLargeResolution = [
   'SiteContext',
   'SiteLinks',
@@ -73,10 +66,9 @@ describe('VariantConfiguratorPageLayoutHandler', () => {
           provide: ConfiguratorRouterExtractorService,
           useClass: MockRouterExtractorService,
         },
-        {
-          provide: BreakpointService,
-          useClass: MockBreakpointService,
-        },
+        provideConfiguratorMockBreakpointService({
+          isUpSource: () => of(isLargeResolution),
+        }),
         {
           provide: LayoutConfig,
           useValue: mockLayoutConfig,
@@ -85,9 +77,7 @@ describe('VariantConfiguratorPageLayoutHandler', () => {
     }).compileComponents();
   });
   beforeEach(() => {
-    classUnderTest = TestBed.inject(
-      VariantConfiguratorPageLayoutHandler as Type<VariantConfiguratorPageLayoutHandler>
-    );
+    classUnderTest = TestBed.inject(VariantConfiguratorPageLayoutHandler);
   });
 
   it('should create service', () => {

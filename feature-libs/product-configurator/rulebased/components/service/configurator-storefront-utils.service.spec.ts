@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Type } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -169,7 +169,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         { provide: WindowRef, useClass: MockedWindowRef },
         {
           provide: ConfiguratorUISettingsConfig,
-          useValue: defaultConfiguratorUISettingsConfig,
+          useValue: structuredClone(defaultConfiguratorUISettingsConfig),
         },
         provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
       ],
@@ -182,9 +182,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     mockedWindow.innerHeight = 1000;
     mockedWindow.innerWidth = 1000;
     mockedWindow.scrollY = 1000;
-    keyboardFocusService = TestBed.inject(
-      KeyboardFocusService as Type<KeyboardFocusService>
-    );
+    keyboardFocusService = TestBed.inject(KeyboardFocusService);
   });
 
   afterEach(() => {
@@ -1247,8 +1245,11 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     });
 
     it('should honor customer config for custom configurator types', () => {
-      TestBed.inject(ConfiguratorUISettingsConfig).productConfigurator = {
+      const uiSettings = TestBed.inject(ConfiguratorUISettingsConfig);
+      uiSettings.productConfigurator = {
+        ...uiSettings.productConfigurator,
         overviewMenuFilterTabVisible: {
+          ...uiSettings.productConfigurator?.overviewMenuFilterTabVisible,
           MYCUSTOMTYPE: true,
         },
       };

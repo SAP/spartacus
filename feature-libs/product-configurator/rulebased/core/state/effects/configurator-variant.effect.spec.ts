@@ -4,7 +4,7 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
+
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -12,9 +12,10 @@ import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorType,
-} from '@spartacus/product-configurator/common';
+} from '../../../../common/core/model/common-configurator.model';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
+import type { Mock } from 'vitest';
 
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { ConfiguratorCoreConfig } from '../../config/configurator-core.config';
@@ -25,6 +26,7 @@ import { ConfiguratorActions } from '../actions/index';
 import { CONFIGURATOR_FEATURE } from '../configurator-state';
 import { getConfiguratorReducers } from '../reducers/index';
 import * as fromEffects from './configurator-variant.effect';
+import { MockConfiguratorProviderService } from '../../../testing';
 
 const productCode = 'CONF_LAPTOP';
 
@@ -51,16 +53,8 @@ const variants: Configurator.Variant[] = [
 
 let configuratorCoreConfig: ConfiguratorCoreConfig;
 
-class MockLoggerService {
-  log(): void {}
-  warn(): void {}
-  error(): void {}
-  info(): void {}
-  debug(): void {}
-}
-
 describe('ConfiguratorVariantEffect', () => {
-  let searchVariantsMock: vi.Mock;
+  let searchVariantsMock: Mock;
 
   let configEffects: fromEffects.ConfiguratorVariantEffects;
 
@@ -97,15 +91,16 @@ describe('ConfiguratorVariantEffect', () => {
           provide: ConfiguratorCoreConfig,
           useValue: configuratorCoreConfig,
         },
-        { provide: LoggerService, useClass: MockLoggerService },
+        {
+          provide: LoggerService,
+          useClass: MockConfiguratorProviderService.MockLoggerService,
+        },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     });
 
-    configEffects = TestBed.inject(
-      fromEffects.ConfiguratorVariantEffects as Type<fromEffects.ConfiguratorVariantEffects>
-    );
+    configEffects = TestBed.inject(fromEffects.ConfiguratorVariantEffects);
   });
 
   it('should provide configuration variant effects', () => {
@@ -175,7 +170,10 @@ describe('ConfiguratorVariantEffect', () => {
 
     const completionFailure = new ConfiguratorActions.SearchVariantsFail({
       ownerKey: productConfiguration.owner.key,
-      error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
+      error: tryNormalizeHttpError(
+        errorResponse,
+        new MockConfiguratorProviderService.MockLoggerService()
+      ),
     });
     actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: completionFailure });

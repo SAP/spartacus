@@ -4,13 +4,9 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
 import { AbstractOrderContext } from '@spartacus/cart/base/components';
 import { AbstractOrderType, OrderEntry } from '@spartacus/cart/base/root';
-import {
-  I18nTestingModule,
-  RouterState,
-  RoutingService,
-} from '@spartacus/core';
+import { I18nTestingModule, RouterState } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
-import { firstValueFrom, Observable, of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
 import {
   CommonConfigurator,
@@ -24,6 +20,7 @@ import {
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
+import { provideConfiguratorMockRoutingService } from '../../testing';
 
 const orderCode = '01008765';
 const savedCartCode = '0108336';
@@ -50,12 +47,6 @@ const mockBaseRouterState: any = {
 
 let mockRouterState: RouterState;
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return of(mockRouterState);
-  }
-}
-
 describe('ConfigureCartEntryComponent', () => {
   let component: ConfigureCartEntryComponent;
   let fixture: ComponentFixture<ConfigureCartEntryComponent>;
@@ -74,10 +65,7 @@ describe('ConfigureCartEntryComponent', () => {
       ],
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
+        provideConfiguratorMockRoutingService(() => mockRouterState),
         ...provideMockFeatureToggles({
           productConfiguratorCPQContainer: false,
         }),

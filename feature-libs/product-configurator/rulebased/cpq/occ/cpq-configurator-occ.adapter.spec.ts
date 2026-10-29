@@ -1,5 +1,5 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
+
 import { TestBed } from '@angular/core/testing';
 import { CartModification } from '@spartacus/cart/base/root';
 import {
@@ -172,9 +172,7 @@ describe('CpqConfiguratorOccAdapter', () => {
       ],
     });
 
-    adapterUnderTest = TestBed.inject(
-      CpqConfiguratorOccAdapter as Type<CpqConfiguratorOccAdapter>
-    );
+    adapterUnderTest = TestBed.inject(CpqConfiguratorOccAdapter);
 
     inputForUpdateConfiguration.updateType = Configurator.UpdateType.ATTRIBUTE;
   });

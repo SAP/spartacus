@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   CommonConfigurator,
@@ -44,9 +43,7 @@ describe('OccConfiguratorCpqAddToCartSerializer', () => {
       providers: [OccConfiguratorCpqAddToCartSerializer],
     });
 
-    serializerUnderTest = TestBed.inject(
-      OccConfiguratorCpqAddToCartSerializer as Type<OccConfiguratorCpqAddToCartSerializer>
-    );
+    serializerUnderTest = TestBed.inject(OccConfiguratorCpqAddToCartSerializer);
   });
 
   it('should convert addToCart parameters to occAddToCartParameters', () => {

@@ -1,4 +1,4 @@
-import { Component, Injectable, Input } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
@@ -7,35 +7,33 @@ import {
   FeaturesConfigModule,
   I18nTestingModule,
   LoggerService,
-  MockTranslatePipe,
   Product,
-  ProductService,
-  RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
-import {
-  CommonConfigurator,
-  ConfiguratorModelUtils,
-} from '@spartacus/product-configurator/common';
+import { CommonConfigurator } from '../../../common/core/model/common-configurator.model';
+import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
 import { DirectionMode, DirectionService } from '@spartacus/storefront';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { cold } from 'jasmine-marbles';
-import { BehaviorSubject, NEVER, Observable, Subject, of } from 'rxjs';
+import { BehaviorSubject, NEVER, Subject, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorOverviewAttributeComponent } from '../overview-attribute/configurator-overview-attribute.component';
-import {
-  ConfiguratorPriceComponent,
-  ConfiguratorPriceComponentOptions,
-} from '../price/configurator-price.component';
+import { ConfiguratorPriceComponent } from '../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.component';
+import {
+  MockConfiguratorPriceComponent,
+  provideConfiguratorMockCommonsService,
+  provideConfiguratorMockProductService,
+  provideConfiguratorMockRoutingService,
+  provideConfiguratorMockStorefrontUtilsService,
+} from '../../testing';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -75,61 +73,8 @@ let component: ConfiguratorOverviewFormComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFormComponent>;
 let htmlElem: HTMLElement;
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable
-      ? routerStateObservable
-      : defaultRouterStateObservable;
-  }
-}
-
-class MockConfiguratorCommonsService {
-  getOrCreateConfiguration(
-    productCode: string
-  ): Observable<Configurator.Configuration> {
-    configCreate.productCode = productCode;
-    return configurationObservable
-      ? configurationObservable
-      : defaultConfigObservable;
-  }
-
-  getConfigurationWithOverview(
-    configuration: Configurator.Configuration
-  ): Observable<Configurator.Configuration> {
-    return overviewObservable ? overviewObservable : of(configuration);
-  }
-
-  removeConfiguration(): void {}
-}
-
-class MockConfiguratorStorefrontUtilsService {
-  scrollToConfigurationElement = vi.fn();
-
-  createOvGroupId(prefix: string, groupId: string): string {
-    return `${prefix}--${groupId}-ovGroup`;
-  }
-
-  getPrefixId(idPrefix: string | undefined, groupId: string): string {
-    return idPrefix ? idPrefix + '--' + groupId : `cx--${groupId}`;
-  }
-
-  idSelector(id: string): string {
-    return `#${id}`;
-  }
-
-  navigateToOverviewGroup = vi.fn((idPrefix: string, groupId: string) => {
-    this.scrollToConfigurationElement(
-      this.idSelector(this.createOvGroupId(idPrefix, groupId)) + ' h2'
-    );
-  });
-}
-
 const productForBundleOverview$: BehaviorSubject<Product> =
   new BehaviorSubject<Product>({ images: {} });
-
-class MockProductService {
-  get = () => productForBundleOverview$.asObservable();
-}
 
 function initialize() {
   fixture = TestBed.createComponent(ConfiguratorOverviewFormComponent);
@@ -162,20 +107,6 @@ function checkConfigurationOverviewObs(
   );
 }
 
-@Component({
-  selector: 'cx-configurator-price',
-  template: '',
-  imports: [
-    I18nTestingModule,
-    ReactiveFormsModule,
-    NgSelectModule,
-    FeaturesConfigModule,
-  ],
-})
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
 @Injectable()
 class MockDirectionService implements Partial<DirectionService> {
   getDirection(): DirectionMode {
@@ -196,19 +127,24 @@ describe('ConfigurationOverviewFormComponent', () => {
       ],
       providers: [
         provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
-        },
-        { provide: ProductService, useClass: MockProductService },
+        provideConfiguratorMockRoutingService(() => routerStateObservable, {
+          fallbackSource: () => defaultRouterStateObservable,
+        }),
+        provideConfiguratorMockCommonsService({
+          getOrCreateConfigurationSource: () => configurationObservable,
+          getOrCreateConfigurationFallback: () => defaultConfigObservable,
+          getConfigurationWithOverviewSource: () => overviewObservable,
+          beforeGetOrCreateConfiguration: (productCode: string) => {
+            configCreate.productCode = productCode;
+          },
+          stubRemoveConfiguration: true,
+        }),
+        provideConfiguratorMockStorefrontUtilsService({
+          overviewFormBehavior: true,
+        }),
+        provideConfiguratorMockProductService(() =>
+          productForBundleOverview$.asObservable()
+        ),
         { provide: DirectionService, useClass: MockDirectionService },
       ],
     })
@@ -217,7 +153,7 @@ describe('ConfigurationOverviewFormComponent', () => {
           imports: [ConfiguratorPriceComponent, TranslatePipe],
         },
         add: {
-          imports: [MockConfiguratorPriceComponent, MockTranslatePipe],
+          imports: [MockConfiguratorPriceComponent, I18nTestingModule],
         },
       })
       .compileComponents();

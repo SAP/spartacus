@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
@@ -45,9 +44,7 @@ describe('CpqConfiguratorValueSerializer', () => {
       providers: [CpqConfiguratorValueSerializer],
     });
 
-    cpqConfiguratorSerializer = TestBed.inject(
-      CpqConfiguratorValueSerializer as Type<CpqConfiguratorValueSerializer>
-    );
+    cpqConfiguratorSerializer = TestBed.inject(CpqConfiguratorValueSerializer);
   });
 
   it('should convert configuration correctly', () => {

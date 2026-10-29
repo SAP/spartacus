@@ -1,25 +1,24 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  I18nTestingModule,
-  RouterState,
-  RoutingService,
-} from '@spartacus/core';
+import { I18nTestingModule, RouterState } from '@spartacus/core';
 import {
   CommonConfigurator,
-  ConfiguratorModelUtils,
   ConfiguratorType,
-} from '@spartacus/product-configurator/common';
+} from '../../../common/core/model/common-configurator.model';
+import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../config/configurator-ui-settings.config';
 import { defaultConfiguratorUISettingsConfig } from '../config/default-configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorPriceSummaryComponent } from './configurator-price-summary.component';
+import {
+  provideConfiguratorMockCommonsService,
+  provideConfiguratorMockRoutingService,
+} from '../../testing';
 
 class MockConfiguratorStorefrontUtilsService {
   shouldHideBasePriceAndSelectedOptions(
@@ -78,17 +77,6 @@ const defaultConfig: Configurator.Configuration = {
 };
 
 let routerStateObservable: Observable<RouterState>;
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-}
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
-  }
-}
-
 describe('ConfigPriceSummaryComponent', () => {
   let component: ConfiguratorPriceSummaryComponent;
   let fixture: ComponentFixture<ConfiguratorPriceSummaryComponent>;
@@ -103,14 +91,10 @@ describe('ConfigPriceSummaryComponent', () => {
         MockFeatureLevelDirective,
       ],
       providers: [
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
+        provideConfiguratorMockCommonsService({
+          configurationSource: () => of(config),
+        }),
+        provideConfiguratorMockRoutingService(() => routerStateObservable),
         {
           provide: ConfiguratorUISettingsConfig,
           useValue: structuredClone(defaultConfiguratorUISettingsConfig),

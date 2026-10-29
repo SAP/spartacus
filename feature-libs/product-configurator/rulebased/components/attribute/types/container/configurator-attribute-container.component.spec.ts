@@ -2,8 +2,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
-import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import {
+  ICON_TYPE,
+  IconComponent,
+  IconTestingModule,
+} from '@spartacus/storefront';
+import { BehaviorSubject, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
@@ -19,14 +23,7 @@ import {
   ConfiguratorAttributeProductCardComponentOptions,
 } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeContainerComponent } from './configurator-attribute-container.component';
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
+import { MockConfiguratorProviderService } from '../../../../testing';
 
 @Component({
   selector: 'cx-configurator-attribute-product-card',
@@ -78,29 +75,6 @@ class MockProductCardComponent {
   addAction = Configurator.ContainerRowAction.ADD;
   editAction = Configurator.ContainerRowAction.EDIT;
   copyAction = Configurator.ContainerRowAction.COPY;
-}
-
-class MockConfiguratorCommonsService {
-  configuration$ = new BehaviorSubject(
-    ConfiguratorTestUtils.createConfiguration('config-id')
-  );
-
-  addContainerRow(): void {}
-  removeContainerRow(): void {}
-  copyContainerRow(): void {}
-  isConfigurationLoading(): Observable<boolean> {
-    return of(false);
-  }
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return this.configuration$;
-  }
-}
-
-class MockConfiguratorGroupsService {
-  navigateToGroup(): void {}
-  getCurrentGroupId(): Observable<string> {
-    return of('testGroup');
-  }
 }
 
 describe('ConfiguratorAttributeContainerComponent', () => {
@@ -181,11 +155,13 @@ describe('ConfiguratorAttributeContainerComponent', () => {
         },
         {
           provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorCommonsService,
         },
         {
           provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorGroupsService,
         },
         ConfiguratorUtilsService,
         {
@@ -201,7 +177,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
         remove: {
           imports: [IconComponent, ConfiguratorAttributeProductCardComponent],
         },
-        add: { imports: [MockCxIconComponent, MockProductCardComponent] },
+        add: { imports: [IconTestingModule, MockProductCardComponent] },
       })
       .compileComponents();
   });

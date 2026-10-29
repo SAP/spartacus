@@ -1,22 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Pipe,
-  PipeTransform,
-  Type,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
-
-import {
-  I18nTestingModule,
-  RouterState,
-  RoutingService,
-} from '@spartacus/core';
-import {
-  CommonConfigurator,
-  ConfiguratorModelUtils,
-  ConfiguratorRouter,
-} from '@spartacus/product-configurator/common';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
+import { CommonConfigurator } from '../../../common/core/model/common-configurator.model';
+import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
 import { KeyboardFocusService } from '@spartacus/storefront';
 import { NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -26,6 +14,11 @@ import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
+import {
+  MockConfiguratorProviderService,
+  provideConfiguratorMockCommonsService,
+  provideConfiguratorMockRoutingService,
+} from '../../testing';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_OVERVIEW_ROUTE = 'configureOverviewCPQCONFIGURATOR';
@@ -46,14 +39,6 @@ let mockRouterState: any;
 
 let routerStateObservable: any = null;
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-
-  go = () => Promise.resolve(true);
-}
-
 let configurationObs: Observable<Configurator.Configuration>;
 
 const configWithOverview: Configurator.Configuration = {
@@ -70,18 +55,6 @@ const mockRouterData: ConfiguratorRouter.Data = {
   isOwnerCartEntry: false,
   owner: configWithOverview.owner,
 };
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return configurationObs;
-  }
-}
-
-class MockConfigUtilsService {
-  focusFirstActiveElement(): void {}
-}
-
-class MockConfiguratorGroupsService {}
 
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
@@ -110,21 +83,19 @@ describe('ConfigTabBarComponent', () => {
         MockUrlPipe,
       ],
       providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
+        provideConfiguratorMockRoutingService(() => routerStateObservable),
+        provideConfiguratorMockCommonsService({
+          configurationSource: () => configurationObs,
+        }),
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorStorefrontUtilsService,
         },
         {
           provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorGroupsService,
         },
       ],
     })
@@ -147,18 +118,14 @@ describe('ConfigTabBarComponent', () => {
     );
     component.ghostStyle = false;
 
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService
     );
-    keyboardFocusService = TestBed.inject(
-      KeyboardFocusService as Type<KeyboardFocusService>
-    );
+    keyboardFocusService = TestBed.inject(KeyboardFocusService);
     vi.spyOn(keyboardFocusService, 'clear');
     vi.spyOn(configuratorStorefrontUtilsService, 'focusFirstActiveElement');
-    routingService = TestBed.inject(RoutingService as Type<RoutingService>);
+    routingService = TestBed.inject(RoutingService);
   });
 
   it('should create component', () => {
