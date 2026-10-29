@@ -30,6 +30,107 @@ import { MockConfiguratorStorefrontUtilsService } from './mock-configurator-stor
 
 const defaultConfiguration = ConfiguratorTestUtils.createConfiguration('test');
 
+type ConfiguratorMockCommonsServiceOptions = {
+  configurationSource?: () => Observable<Configurator.Configuration>;
+  isConfigurationLoadingSource?: () => Observable<boolean>;
+  hasPendingChangesSource?: () => Observable<boolean>;
+  hasConflictsSource?: () => Observable<boolean>;
+  getOrCreateConfigurationSource?: () =>
+    | Observable<Configurator.Configuration>
+    | null
+    | undefined;
+  getOrCreateConfigurationFallback?: () => Observable<Configurator.Configuration>;
+  getConfigurationWithOverviewSource?: () =>
+    | Observable<Configurator.Configuration>
+    | null
+    | undefined;
+  beforeGetOrCreateConfiguration?: (productCode: string) => void;
+  stubRemoveConfiguration?: boolean;
+};
+
+function wireConfiguratorMockCommonsConfigurationSource(
+  mock: MockConfiguratorCommonsService,
+  opts: ConfiguratorMockCommonsServiceOptions,
+  configurationSource: () => Observable<Configurator.Configuration>
+): void {
+  mock.getConfiguration.mockImplementation(() => configurationSource());
+  if (!opts.getOrCreateConfigurationSource) {
+    mock.getOrCreateConfiguration.mockImplementation(() =>
+      configurationSource()
+    );
+  }
+  if (!opts.getConfigurationWithOverviewSource) {
+    mock.getConfigurationWithOverview.mockImplementation(() =>
+      configurationSource()
+    );
+  }
+  mock.readConfiguration.mockImplementation(() => configurationSource());
+}
+
+function wireConfiguratorMockCommonsGetOrCreate(
+  mock: MockConfiguratorCommonsService,
+  opts: ConfiguratorMockCommonsServiceOptions
+): void {
+  if (!opts.getOrCreateConfigurationSource) {
+    return;
+  }
+  mock.getOrCreateConfiguration.mockImplementation((productCode: string) => {
+    opts.beforeGetOrCreateConfiguration?.(productCode);
+    const source = opts.getOrCreateConfigurationSource?.();
+    return (
+      source ??
+      opts.getOrCreateConfigurationFallback?.() ??
+      of(defaultConfiguration)
+    );
+  });
+}
+
+function wireConfiguratorMockCommonsOptionalSources(
+  mock: MockConfiguratorCommonsService,
+  opts: ConfiguratorMockCommonsServiceOptions
+): void {
+  if (opts.getConfigurationWithOverviewSource) {
+    mock.getConfigurationWithOverview.mockImplementation(
+      (configuration: Configurator.Configuration) => {
+        const source = opts.getConfigurationWithOverviewSource?.();
+        return source ?? of(configuration);
+      }
+    );
+  }
+  if (opts.stubRemoveConfiguration) {
+    mock.removeConfiguration.mockImplementation(() => {});
+  }
+  if (opts.isConfigurationLoadingSource) {
+    mock.isConfigurationLoading.mockImplementation(() =>
+      opts.isConfigurationLoadingSource?.()
+    );
+  }
+  if (opts.hasPendingChangesSource) {
+    mock.hasPendingChanges.mockImplementation(() =>
+      opts.hasPendingChangesSource?.()
+    );
+  }
+  if (opts.hasConflictsSource) {
+    mock.hasConflicts.mockImplementation(() => opts.hasConflictsSource?.());
+  }
+}
+
+function configureMockConfiguratorCommonsService(
+  mock: MockConfiguratorCommonsService,
+  options?: ConfiguratorMockCommonsServiceOptions
+): void {
+  const opts = options ?? {};
+  if (opts.configurationSource) {
+    wireConfiguratorMockCommonsConfigurationSource(
+      mock,
+      opts,
+      opts.configurationSource
+    );
+  }
+  wireConfiguratorMockCommonsGetOrCreate(mock, opts);
+  wireConfiguratorMockCommonsOptionalSources(mock, opts);
+}
+
 /**
  * Provides a ProductService mock that reads the product stream from a closure.
  */
@@ -49,83 +150,14 @@ export function provideConfiguratorMockProductService(
 /**
  * Provides a ConfiguratorCommonsService mock that reads configuration streams from closures.
  */
-export function provideConfiguratorMockCommonsService(options?: {
-  configurationSource?: () => Observable<Configurator.Configuration>;
-  isConfigurationLoadingSource?: () => Observable<boolean>;
-  hasPendingChangesSource?: () => Observable<boolean>;
-  hasConflictsSource?: () => Observable<boolean>;
-  getOrCreateConfigurationSource?: () =>
-    | Observable<Configurator.Configuration>
-    | null
-    | undefined;
-  getOrCreateConfigurationFallback?: () => Observable<Configurator.Configuration>;
-  getConfigurationWithOverviewSource?: () =>
-    | Observable<Configurator.Configuration>
-    | null
-    | undefined;
-  beforeGetOrCreateConfiguration?: (productCode: string) => void;
-  stubRemoveConfiguration?: boolean;
-}): Provider {
+export function provideConfiguratorMockCommonsService(
+  options?: ConfiguratorMockCommonsServiceOptions
+): Provider {
   return {
     provide: ConfiguratorCommonsService,
     useFactory: () => {
       const mock = new MockConfiguratorCommonsService();
-      const opts = options ?? {};
-      if (opts.configurationSource) {
-        mock.getConfiguration.mockImplementation(() =>
-          opts.configurationSource?.()
-        );
-        if (!opts.getOrCreateConfigurationSource) {
-          mock.getOrCreateConfiguration.mockImplementation(() =>
-            opts.configurationSource?.()
-          );
-        }
-        if (!opts.getConfigurationWithOverviewSource) {
-          mock.getConfigurationWithOverview.mockImplementation(() =>
-            opts.configurationSource?.()
-          );
-        }
-        mock.readConfiguration.mockImplementation(() =>
-          opts.configurationSource?.()
-        );
-      }
-      if (opts.getOrCreateConfigurationSource) {
-        mock.getOrCreateConfiguration.mockImplementation(
-          (productCode: string) => {
-            opts.beforeGetOrCreateConfiguration?.(productCode);
-            const source = opts.getOrCreateConfigurationSource?.();
-            return (
-              source ??
-              opts.getOrCreateConfigurationFallback?.() ??
-              of(defaultConfiguration)
-            );
-          }
-        );
-      }
-      if (opts.getConfigurationWithOverviewSource) {
-        mock.getConfigurationWithOverview.mockImplementation(
-          (configuration: Configurator.Configuration) => {
-            const source = opts.getConfigurationWithOverviewSource?.();
-            return source ?? of(configuration);
-          }
-        );
-      }
-      if (opts.stubRemoveConfiguration) {
-        mock.removeConfiguration.mockImplementation(() => {});
-      }
-      if (opts.isConfigurationLoadingSource) {
-        mock.isConfigurationLoading.mockImplementation(() =>
-          opts.isConfigurationLoadingSource?.()
-        );
-      }
-      if (opts.hasPendingChangesSource) {
-        mock.hasPendingChanges.mockImplementation(() =>
-          opts.hasPendingChangesSource?.()
-        );
-      }
-      if (opts.hasConflictsSource) {
-        mock.hasConflicts.mockImplementation(() => opts.hasConflictsSource?.());
-      }
+      configureMockConfiguratorCommonsService(mock, options);
       return mock;
     },
   };

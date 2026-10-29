@@ -9,19 +9,21 @@ import { RoutingService, type RouterState } from '@spartacus/core';
 import { isObservable, Observable, of } from 'rxjs';
 import { MockConfiguratorRoutingService } from './mock-configurator-routing.service';
 
+type ConfiguratorMockRouterStateValue = Observable<RouterState> | RouterState;
+
+type ConfiguratorMockRouterStateSource =
+  | ConfiguratorMockRouterStateValue
+  | (null | undefined);
+
 /**
  * Provides a RoutingService mock that reads the router state from a closure on each call.
  *
  * @param options.fallbackSource - Used when the primary source is nullish.
  */
 export function provideConfiguratorMockRoutingService(
-  routerStateSource: () =>
-    | Observable<RouterState>
-    | RouterState
-    | null
-    | undefined,
+  routerStateSource: () => ConfiguratorMockRouterStateSource,
   options?: {
-    fallbackSource?: () => Observable<RouterState> | RouterState;
+    fallbackSource?: () => ConfiguratorMockRouterStateValue;
   }
 ): Provider {
   return {
