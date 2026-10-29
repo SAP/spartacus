@@ -295,7 +295,9 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       next: () => {},
       error: (error) => {
         expect(error).toBe('Payment failed');
-        expect(orderFacadeMock.placePaymentAuthorizedOrder).not.toHaveBeenCalled();
+        expect(
+          orderFacadeMock.placePaymentAuthorizedOrder
+        ).not.toHaveBeenCalled();
         expect(globalMessageServiceMock.add).toHaveBeenCalled();
         done();
       },
