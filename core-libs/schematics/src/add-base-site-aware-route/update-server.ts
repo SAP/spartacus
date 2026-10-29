@@ -278,7 +278,7 @@ function isCatchAllRouteMatcher(route: Node | undefined): boolean {
   }
   return (
     Node.isRegularExpressionLiteral(route) &&
-    ['/.*/', '/^.*$/', '/^\\/.*$/'].some((pattern) =>
+    ['/.*/', '/^.*$/', String.raw`/^\/.*$/`].some((pattern) =>
       route.getText().startsWith(pattern)
     )
   );
