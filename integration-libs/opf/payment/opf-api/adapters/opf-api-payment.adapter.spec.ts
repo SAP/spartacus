@@ -29,6 +29,7 @@ import {
   OpfConfig,
   OpfMetadataStatePersistanceService,
 } from '@spartacus/opf/base/root';
+import { OpfPaymentError } from '@spartacus/opf/payment/root';
 import { defer, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OPF_PAYMENT_VERIFICATION_NORMALIZER } from '../../core/tokens';
@@ -239,5 +240,119 @@ describe(`OpfApiPaymentAdapter`, () => {
         subscription.unsubscribe();
       }));
     });
+  });
+
+  describe(`submitPayment`, () => {
+    it(`should merge HTTP 4xx error body into thrown error`, fakeAsync(() => {
+      const mockErrorBody = {
+        message: 'Payment request failed with status: REJECTED',
+        type: 'business_error',
+        details: [{ type: 'some_detail', message: 'detail msg' }],
+        customFields: [{ key: 'errorCode', value: 'CARD_DECLINED' }],
+      };
+      const mockHttpError = new HttpErrorResponse({
+        error: mockErrorBody,
+        status: 400,
+        statusText: 'Bad Request',
+      });
+
+      spyOn(httpClient, 'post').and.returnValue(throwError(mockHttpError));
+
+      let result: OpfPaymentError | undefined;
+      const subscription = service
+        .submitPayment(
+          { paymentMethod: 'CREDIT_CARD' },
+          'otp',
+          mockPaymentSessionId
+        )
+        .subscribe({ error: (err) => (result = err) });
+
+      tick(4200);
+
+      expect(result?.message).toBe(mockErrorBody.message);
+      expect(result?.type).toBe(mockErrorBody.type);
+      expect(result?.details).toEqual(mockErrorBody.details);
+      expect(result?.customFields).toEqual(mockErrorBody.customFields);
+
+      subscription.unsubscribe();
+    }));
+
+    it(`should not merge when HTTP error body is not an object`, fakeAsync(() => {
+      const mockError = new HttpErrorResponse({
+        error: 'plain string error',
+        status: 500,
+        statusText: 'Internal Server Error',
+      });
+
+      spyOn(httpClient, 'post').and.returnValue(throwError(mockError));
+
+      let result: OpfPaymentError | undefined;
+      const subscription = service
+        .submitPayment(
+          { paymentMethod: 'CREDIT_CARD' },
+          'otp',
+          mockPaymentSessionId
+        )
+        .subscribe({ error: (err) => (result = err) });
+
+      tick(4200);
+
+      expect(result?.customFields).toBeUndefined();
+
+      subscription.unsubscribe();
+    }));
+  });
+
+  describe(`submitCompletePayment`, () => {
+    it(`should merge HTTP 4xx error body into thrown error`, fakeAsync(() => {
+      const mockErrorBody = {
+        message: 'Payment request failed with status: REJECTED',
+        type: 'business_error',
+        details: [{ type: 'some_detail', message: 'detail msg' }],
+        customFields: [{ key: 'errorCode', value: 'CARD_DECLINED' }],
+      };
+      const mockHttpError = new HttpErrorResponse({
+        error: mockErrorBody,
+        status: 400,
+        statusText: 'Bad Request',
+      });
+
+      spyOn(httpClient, 'post').and.returnValue(throwError(mockHttpError));
+
+      let result: OpfPaymentError | undefined;
+      const subscription = service
+        .submitCompletePayment({}, 'otp', mockPaymentSessionId)
+        .subscribe({ error: (err) => (result = err) });
+
+      tick(4200);
+
+      expect(result?.message).toBe(mockErrorBody.message);
+      expect(result?.type).toBe(mockErrorBody.type);
+      expect(result?.details).toEqual(mockErrorBody.details);
+      expect(result?.customFields).toEqual(mockErrorBody.customFields);
+
+      subscription.unsubscribe();
+    }));
+
+    it(`should not merge when HTTP error body is not an object`, fakeAsync(() => {
+      const mockError = new HttpErrorResponse({
+        error: 'plain string error',
+        status: 500,
+        statusText: 'Internal Server Error',
+      });
+
+      spyOn(httpClient, 'post').and.returnValue(throwError(mockError));
+
+      let result: OpfPaymentError | undefined;
+      const subscription = service
+        .submitCompletePayment({}, 'otp', mockPaymentSessionId)
+        .subscribe({ error: (err) => (result = err) });
+
+      tick(4200);
+
+      expect(result?.customFields).toBeUndefined();
+
+      subscription.unsubscribe();
+    }));
   });
 });

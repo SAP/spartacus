@@ -92,6 +92,22 @@ describe('OpfPaymentErrorHandlerService', () => {
         cxRoute: returnPath,
       });
     });
+
+    it('should pass customFields from error to onFailureCallback', () => {
+      const mockCustomFields = [{ key: 'errorCode', value: 'CARD_DECLINED' }];
+      const error: OpfPaymentError = {
+        type: 'type',
+        message: 'Test error message',
+        customFields: mockCustomFields,
+      };
+      const onFailureCallback = jasmine.createSpy('onFailureCallback');
+
+      service.handlePaymentError(error, undefined, onFailureCallback);
+
+      expect(onFailureCallback).toHaveBeenCalledWith(
+        jasmine.objectContaining({ customFields: mockCustomFields })
+      );
+    });
   });
 
   describe('handleBadRequestError', () => {
