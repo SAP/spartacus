@@ -337,8 +337,7 @@ export class OpfCheckoutPaymentWrapperService {
       return this.handleGeneralPaymentError();
     }
 
-    return Number(err.status) === HttpResponseStatus.CONFLICT ||
-      Number(err.status) === HttpResponseStatus.BAD_REQUEST
+    return Number(err.status) === HttpResponseStatus.CONFLICT
       ? this.handlePaymentAlreadyDoneError()
       : this.handleGeneralPaymentError();
   }

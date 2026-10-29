@@ -271,6 +271,37 @@ describe('OpfCheckoutPaymentWrapperService', () => {
     });
   });
 
+  it('should handle when payment initiation fails with 400 error', (done) => {
+    opfPaymentFacadeMock.initiatePayment.and.returnValue(
+      throwError(() => ({ status: 400 }))
+    );
+
+    cartAccessCodeFacadeMock.getCartAccessCode.and.returnValue(
+      of({ accessCode: mockOtpKey })
+    );
+    userIdServiceMock.getUserId.and.returnValue(of(mockUserId));
+    activeCartServiceMock.getActiveCartId.and.returnValue(of(mockCartId));
+    routingServiceMock.getRouterState.and.returnValue(
+      of({ state: { semanticRoute: 'checkoutReviewOrder' } } as RouterState)
+    );
+    routingServiceMock.getFullUrl.and.returnValue(mockUrl);
+    opfMetadataStoreServiceMock.updateOpfMetadata.and.stub();
+    opfResourceLoaderServiceMock.loadResources.and.returnValue(
+      Promise.resolve()
+    );
+    spyOn(service, 'renderPaymentGateway').and.callThrough();
+
+    service.initiatePayment(mockPaymentOptionId).subscribe({
+      next: () => {},
+      error: (error) => {
+        expect(error).toBe('Payment failed');
+        expect(orderFacadeMock.placePaymentAuthorizedOrder).not.toHaveBeenCalled();
+        expect(globalMessageServiceMock.add).toHaveBeenCalled();
+        done();
+      },
+    });
+  });
+
   it('should handle when payment initiation fails with 500 error', (done) => {
     opfPaymentFacadeMock.initiatePayment.and.returnValue(
       throwError(() => ({ status: 500 }))
