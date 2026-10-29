@@ -22,6 +22,7 @@ import { DefaultBaseSiteResolver } from './default-base-site-resolver';
 
 const DEFAULT_CONCURRENCY_LIMIT_RETRY_AFTER_SECONDS = 3;
 const DEFAULT_OCC_UNAVAILABLE_RETRY_AFTER_SECONDS = 25;
+const HTTP_STATUS_SERVICE_UNAVAILABLE = 503;
 
 /** An Express route accepted by the base-site middleware. */
 export type BaseSiteRouteMatcher = string | RegExp;
@@ -105,7 +106,7 @@ export function setBaseSiteHandler(
               DEFAULT_CONCURRENCY_LIMIT_RETRY_AFTER_SECONDS
           )
         );
-        res.status(503).send('Service Unavailable');
+        res.status(HTTP_STATUS_SERVICE_UNAVAILABLE).send('Service Unavailable');
         return;
       }
       if (error instanceof OccUnavailableError) {
@@ -116,7 +117,7 @@ export function setBaseSiteHandler(
               DEFAULT_OCC_UNAVAILABLE_RETRY_AFTER_SECONDS
           )
         );
-        res.status(503).send('Service Unavailable');
+        res.status(HTTP_STATUS_SERVICE_UNAVAILABLE).send('Service Unavailable');
         return;
       }
       next(error);
