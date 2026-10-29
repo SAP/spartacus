@@ -21,6 +21,7 @@ import {
 import { DefaultBaseSiteResolver } from './default-base-site-resolver';
 
 const DEFAULT_CONCURRENCY_LIMIT_RETRY_AFTER_SECONDS = 3;
+const DEFAULT_OCC_UNAVAILABLE_RETRY_AFTER_SECONDS = 25;
 
 /** An Express route accepted by the base-site middleware. */
 export type BaseSiteRouteMatcher = string | RegExp;
@@ -110,7 +111,10 @@ export function setBaseSiteHandler(
       if (error instanceof OccUnavailableError) {
         res.setHeader(
           'Retry-After',
-          String(retryAfterSeconds?.occUnavailable ?? 25)
+          String(
+            retryAfterSeconds?.occUnavailable ??
+              DEFAULT_OCC_UNAVAILABLE_RETRY_AFTER_SECONDS
+          )
         );
         res.status(503).send('Service Unavailable');
         return;
