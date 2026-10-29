@@ -18,7 +18,7 @@
   </ng-template>
 
   <main cxSkipLink="cx-main" [cxFocus]="{ disableMouseFocus: true }">
-    <!-- @if (isInCustomTemplate()) { -->
+    @if (isInCustomTemplate()) {
       @for (section of pageTemplateSections(); track $index) {
         <div class="custom-section">
           @for (sectionItem of section.sectionItems; track sectionItem.position) {
@@ -30,9 +30,9 @@
           }
         </div>
       }
-    <!-- } @else {
+    } @else {
       <router-outlet />
-    } -->
+    } 
   </main>
 
   <ng-template cxOutlet="cx-footer">

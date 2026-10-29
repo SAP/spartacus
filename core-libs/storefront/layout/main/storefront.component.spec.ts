@@ -5,7 +5,9 @@ import {
   FeatureToggles,
   PageContext,
   PageType,
+  PageTemplateService,
   RoutingService,
+  SectionItem,
 } from '@spartacus/core';
 import { GlobalMessageComponent } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
@@ -18,6 +20,7 @@ import {
 import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { SkipLinkService } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
+import { PageLayoutService } from '../../cms-structure/page/page-layout/page-layout.service';
 import { StorefrontComponent } from './storefront.component';
 
 @Component({
@@ -91,6 +94,17 @@ class MockSkipLinkService implements Partial<SkipLinkService> {
   scrollToTarget(): void {}
 }
 
+class MockPageLayoutService implements Partial<PageLayoutService> {
+  isCustomTemplate$ = of(false);
+  page$ = EMPTY;
+}
+
+class MockPageTemplateService implements Partial<PageTemplateService> {
+  getPageTemplateSections(_templateId: string) {
+    return of([]);
+  }
+}
+
 describe('StorefrontComponent', () => {
   let component: StorefrontComponent;
   let fixture: ComponentFixture<StorefrontComponent>;
@@ -113,6 +127,14 @@ describe('StorefrontComponent', () => {
         {
           provide: SkipLinkService,
           useClass: MockSkipLinkService,
+        },
+        {
+          provide: PageLayoutService,
+          useClass: MockPageLayoutService,
+        },
+        {
+          provide: PageTemplateService,
+          useClass: MockPageTemplateService,
         },
       ],
     })
@@ -329,6 +351,64 @@ describe('StorefrontComponent', () => {
       component['onNavigation'](false);
 
       expect(skipLinkService.scrollToTarget).toHaveBeenCalledWith('cx-main');
+    });
+  });
+
+  describe('convertToStyle', () => {
+    const validItem: SectionItem = {
+      name: 'section',
+      position: 'main',
+      rowStart: 1,
+      colStart: 1,
+      rowSpan: 2,
+      colSpan: 3,
+    };
+
+    it('should return correct grid style object for a valid item', () => {
+      expect(component.convertToStyle(validItem)).toEqual({
+        'grid-row-start': 1,
+        'grid-column-start': 1,
+        'grid-row-end': 'span 2',
+        'grid-column-end': 'span 3',
+      });
+    });
+
+    it('should return empty object for null input', () => {
+      expect(component.convertToStyle(null as any)).toEqual({});
+    });
+
+    it('should return empty object when spans are zero', () => {
+      expect(
+        component.convertToStyle({ ...validItem, rowSpan: 0 })
+      ).toEqual({});
+      expect(
+        component.convertToStyle({ ...validItem, colSpan: 0 })
+      ).toEqual({});
+    });
+
+    it('should return empty object when values are not numbers', () => {
+      expect(
+        component.convertToStyle({ ...validItem, rowStart: 'abc' as any })
+      ).toEqual({});
+    });
+
+    it('should return empty object when values are NaN', () => {
+      expect(
+        component.convertToStyle({ ...validItem, rowStart: NaN })
+      ).toEqual({});
+    });
+  });
+
+  describe('isInCustomTemplate', () => {
+    it('should return false when feature toggle is disabled', () => {
+      featureToggles.enableCustomPageTemplate = false;
+      expect(component.isInCustomTemplate()).toBe(false);
+    });
+
+    it('should return false when feature toggle is enabled but isCustomTemplate signal is false', () => {
+      featureToggles.enableCustomPageTemplate = true;
+      fixture.detectChanges();
+      expect(component.isInCustomTemplate()).toBe(false);
     });
   });
 });

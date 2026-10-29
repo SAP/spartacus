@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { CmsService, Page } from '@spartacus/core';
+import { CmsService, Page, PageTemplateService } from '@spartacus/core';
 import { PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
@@ -47,6 +47,16 @@ const MockLayoutConfig: LayoutConfig = {
     },
     page_template_3: {
       slots: ['slot1', 'slot123'],
+    },
+    // shell template used by custom pages
+    shell_template: {
+      slots: ['slot1', 'slot2'],
+      header: {
+        slots: ['HeaderSlot'],
+      },
+      footer: {
+        slots: ['FooterSlot'],
+      },
     },
     // page fold specific pages
     template_with_global_page_fold: {
@@ -104,9 +114,29 @@ const page_3 = {
   },
 };
 
+const page_custom = {
+  uid: 'page_custom',
+  template: 'custom_page_template',
+  templateOrigin: 'CUSTOM' as const,
+  templateId: 'customTplId',
+  title: PAGE_TITLE,
+  slots: {
+    slot1: {},
+    slot2: {},
+    HeaderSlot: {},
+    FooterSlot: {},
+  },
+};
+
 class MockCmsService {
   getCurrentPage(): Observable<Page> {
     return EMPTY;
+  }
+}
+
+class MockPageTemplateService {
+  getShellTemplate(_templateId: string): Observable<string> {
+    return of('');
   }
 }
 
@@ -134,6 +164,7 @@ describe('PageLayoutService', () => {
         { provide: CmsService, useClass: MockCmsService },
         { provide: BreakpointService, useClass: MockBreakpointService },
         { provide: LayoutConfig, useValue: MockLayoutConfig },
+        { provide: PageTemplateService, useClass: MockPageTemplateService },
         {
           provide: PAGE_LAYOUT_HANDLER,
           useClass: SimplePageLayoutHandler,
@@ -326,6 +357,73 @@ describe('PageLayoutService', () => {
     });
   });
 
+  describe('isCustomTemplate$', () => {
+    it('should emit false for a standard page', () => {
+      vi.spyOn(cmsService, 'getCurrentPage').mockReturnValue(of(page_1));
+      let result: boolean | undefined;
+      pageLayoutService.isCustomTemplate$.subscribe((v) => (result = v)).unsubscribe();
+      expect(result).toBe(false);
+    });
+
+    it('should emit true for a custom page', () => {
+      vi.spyOn(cmsService, 'getCurrentPage').mockReturnValue(of(page_custom as any));
+      let result: boolean | undefined;
+      pageLayoutService.isCustomTemplate$.subscribe((v) => (result = v)).unsubscribe();
+      expect(result).toBe(true);
+    });
+  });
+
+  describe('templateName$', () => {
+    it('should emit the template name of the current page', () => {
+      vi.spyOn(cmsService, 'getCurrentPage').mockReturnValue(of(page_1));
+      let result: string | undefined;
+      pageLayoutService.templateName$.subscribe((v) => (result = v)).unsubscribe();
+      expect(result).toBe('page_template_1');
+    });
+  });
+
+  describe('Custom template — shell section override', () => {
+    let pageTemplateService: PageTemplateService;
+
+    beforeEach(() => {
+      pageTemplateService = TestBed.inject(PageTemplateService);
+      vi.spyOn(cmsService, 'getCurrentPage').mockReturnValue(of(page_custom as any));
+      vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
+        of(BREAKPOINT.xs)
+      );
+      vi.spyOn(pageTemplateService, 'getShellTemplate').mockReturnValue(
+        of('shell_template')
+      );
+    });
+
+    it('should use shell template slots for header section', () => {
+      let results: string[] | undefined;
+      pageLayoutService
+        .getSlots('header')
+        .subscribe((slots) => (results = slots))
+        .unsubscribe();
+      expect(results).toEqual(['HeaderSlot']);
+    });
+
+    it('should use shell template slots for footer section', () => {
+      let results: string[] | undefined;
+      pageLayoutService
+        .getSlots('footer')
+        .subscribe((slots) => (results = slots))
+        .unsubscribe();
+      expect(results).toEqual(['FooterSlot']);
+    });
+
+    it('should return empty array for non-shell sections on custom page', () => {
+      let results: string[] | undefined;
+      pageLayoutService
+        .getSlots('main')
+        .subscribe((slots) => (results = slots))
+        .unsubscribe();
+      expect(results).toEqual([]);
+    });
+  });
+
   describe('page fold', () => {
     describe('single page fold for all breakpoints', () => {
       Object.keys(BREAKPOINT).forEach((breakpoint) => {
@@ -440,6 +538,7 @@ describe('PageLayoutService', () => {
         { provide: CmsService, useClass: MockCmsService },
         { provide: BreakpointService, useClass: MockBreakpointService },
         { provide: LayoutConfig, useValue: {} },
+        { provide: PageTemplateService, useClass: MockPageTemplateService },
         {
           provide: PAGE_LAYOUT_HANDLER,
           useClass: SimplePageLayoutHandler,

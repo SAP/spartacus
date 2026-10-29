@@ -28,8 +28,8 @@ import {
   SectionItem,
   useFeatureStyles,
 } from '@spartacus/core';
-import { Observable, Subscription, tap } from 'rxjs';
-import { distinctUntilChanged, take } from 'rxjs/operators';
+import { Observable, of, Subscription, tap } from 'rxjs';
+import { distinctUntilChanged, switchMap, take } from 'rxjs/operators';
 import { GlobalMessageComponent } from '../../cms-components/misc/global-message/global-message.component';
 import { OutletDirective } from '../../cms-structure/outlet/outlet.directive';
 import { PageLayoutComponent } from '../../cms-structure/page/page-layout/page-layout.component';
@@ -92,18 +92,17 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   readonly isCustomTemplate = toSignal(this.pageLayoutService.isCustomTemplate$);
 
-  // readonly pageTemplateSections = toSignal(
-  //   this.pageLayoutService.page$.pipe(
-  //     switchMap((page) =>
-  //       page?.templateId
-  //         ? this.pageTemplateService.getPageTemplateSections(page.templateId)
-  //         : of([])
-  //     )
-  //   ),
-  //   { initialValue: [] }
-  // );
+  readonly pageTemplateSections = toSignal(
+    this.pageLayoutService.page$.pipe(
+      switchMap((page) =>
+        page?.templateId
+          ? this.pageTemplateService.getPageTemplateSections(page.templateId)
+          : of([])
+      )
+    ),
+    { initialValue: [] }
+  );
 
-  readonly pageTemplateSections = toSignal(this.pageTemplateService.getPageTemplateSections('11'));
 
   @HostBinding('class.start-navigating') startNavigating: boolean;
   @HostBinding('class.stop-navigating') stopNavigating: boolean;
