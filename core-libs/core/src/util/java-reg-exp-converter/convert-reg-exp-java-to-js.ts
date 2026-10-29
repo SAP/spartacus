@@ -31,7 +31,7 @@ export function convertRegExpJavaToJs(
   javaSyntax: string,
   onError?: (error: unknown) => void
 ): RegExp | null {
-  const parts = javaSyntax.match(EXTRACT_JAVA_REGEXP_MODIFIERS);
+  const parts = EXTRACT_JAVA_REGEXP_MODIFIERS.exec(javaSyntax);
   if (!parts) {
     return null;
   }
