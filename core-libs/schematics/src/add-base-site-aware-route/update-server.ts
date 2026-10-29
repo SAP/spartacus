@@ -265,21 +265,30 @@ function canMatchExample(route: Node | undefined): boolean {
   return true;
 }
 
+function isCatchAllRouteMatcher(route: Node | undefined): boolean {
+  if (!route) {
+    return false;
+  }
+  if (Node.isStringLiteral(route)) {
+    return (
+      ['*', '/*'].includes(route.getLiteralValue()) ||
+      /^\/\*[\w$]+$/.test(route.getLiteralValue()) ||
+      /^\/\{\*[\w$]+\}$/.test(route.getLiteralValue())
+    );
+  }
+  return (
+    Node.isRegularExpressionLiteral(route) &&
+    ['/.*/', '/^.*$/', '/^\\/.*$/'].some((pattern) =>
+      route.getText().startsWith(pattern)
+    )
+  );
+}
+
 function isRenderingCatchAll(call: CallExpression): boolean {
   const [route] = call.getArguments();
-  const catchesAll =
-    route &&
-    ((Node.isStringLiteral(route) &&
-      (['*', '/*'].includes(route.getLiteralValue()) ||
-        /^\/\*[\w$]+$/.test(route.getLiteralValue()) ||
-        /^\/\{\*[\w$]+\}$/.test(route.getLiteralValue()))) ||
-      (Node.isRegularExpressionLiteral(route) &&
-        ['/.*/', '/^.*$/', '/^\\/.*$/'].some((pattern) =>
-          route.getText().startsWith(pattern)
-        )));
 
   return Boolean(
-    catchesAll &&
+    isCatchAllRouteMatcher(route) &&
       call.getDescendantsOfKind(SyntaxKind.CallExpression).some((nested) => {
         const expression = nested.getExpression();
         return (
