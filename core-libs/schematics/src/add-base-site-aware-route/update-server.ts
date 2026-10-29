@@ -5,7 +5,7 @@
  */
 
 import { Rule, SchematicsException } from '@angular-devkit/schematics';
-import { basename } from 'path';
+import { basename } from 'node:path';
 import {
   Block,
   CallExpression,
