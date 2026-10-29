@@ -88,8 +88,7 @@ export class PageLayoutService implements OnDestroy {
     return this.page$.pipe(
       distinctUntilChanged(
         (a, b) =>
-          a.templateId === b.templateId &&
-          a.templateOrigin === b.templateOrigin
+          a.templateId === b.templateId && a.templateOrigin === b.templateOrigin
       ),
       switchMap((page) =>
         page.templateOrigin === 'CUSTOM' && page.templateId
@@ -112,7 +111,12 @@ export class PageLayoutService implements OnDestroy {
         )
       ),
       map(({ page, breakpoint, overrideTemplate }) => {
-        const slots = this.resolveSlots(page, section, breakpoint, overrideTemplate);
+        const slots = this.resolveSlots(
+          page,
+          section,
+          breakpoint,
+          overrideTemplate
+        );
         const pageTemplate = overrideTemplate ?? page.template;
         return { slots, pageTemplate, breakpoint };
       }),

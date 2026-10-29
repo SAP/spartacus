@@ -74,7 +74,7 @@ export interface OccEndpoints {
    */
   page?: string | OccEndpoint;
 
-   /**
+  /**
    * Get page template data with list of sections and slots
    *
    * @member {string}

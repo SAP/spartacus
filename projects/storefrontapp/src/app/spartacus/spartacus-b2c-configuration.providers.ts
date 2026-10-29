@@ -13,6 +13,7 @@ const defaultBaseSite = [
   'electronics-spa-standalone',
   'electronics',
   'electronics-standalone',
+  'electronics-custom-spa',
   'apparel-de',
   'apparel-uk',
   'apparel-uk-spa',

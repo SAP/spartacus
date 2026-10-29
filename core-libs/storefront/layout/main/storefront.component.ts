@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgStyle } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf, NgStyle } from '@angular/common';
 import {
   Component,
   DestroyRef,
@@ -28,8 +28,8 @@ import {
   SectionItem,
   useFeatureStyles,
 } from '@spartacus/core';
-import { Observable, Subscription, tap } from 'rxjs';
-import { distinctUntilChanged, take } from 'rxjs/operators';
+import { Observable, of, Subscription, tap } from 'rxjs';
+import { distinctUntilChanged, switchMap, take } from 'rxjs/operators';
 import { GlobalMessageComponent } from '../../cms-components/misc/global-message/global-message.component';
 import { OutletDirective } from '../../cms-structure/outlet/outlet.directive';
 import { PageLayoutComponent } from '../../cms-structure/page/page-layout/page-layout.component';
@@ -56,6 +56,8 @@ import { StorefrontOutlets } from './storefront-outlets.model';
   templateUrl: './storefront.component.html',
   imports: [
     RouterModule,
+    NgIf,
+    NgFor,
     PageLayoutComponent,
     PageSlotComponent,
     FocusDirective,
@@ -87,23 +89,23 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     optional: true,
   });
 
-  private readonly pageLayoutService = inject(PageLayoutService);
-  private readonly pageTemplateService = inject(PageTemplateService);
+  protected readonly pageLayoutService = inject(PageLayoutService);
+  protected readonly pageTemplateService = inject(PageTemplateService);
 
-  readonly isCustomTemplate = toSignal(this.pageLayoutService.isCustomTemplate$);
+  readonly isCustomTemplate = toSignal(
+    this.pageLayoutService.isCustomTemplate$
+  );
 
-  // readonly pageTemplateSections = toSignal(
-  //   this.pageLayoutService.page$.pipe(
-  //     switchMap((page) =>
-  //       page?.templateId
-  //         ? this.pageTemplateService.getPageTemplateSections(page.templateId)
-  //         : of([])
-  //     )
-  //   ),
-  //   { initialValue: [] }
-  // );
-
-  readonly pageTemplateSections = toSignal(this.pageTemplateService.getPageTemplateSections('11'));
+  readonly pageTemplateSections = toSignal(
+    this.pageLayoutService.page$.pipe(
+      switchMap((page) =>
+        page?.templateId
+          ? this.pageTemplateService.getPageTemplateSections(page.templateId)
+          : of([])
+      )
+    ),
+    { initialValue: [] }
+  );
 
   @HostBinding('class.start-navigating') startNavigating: boolean;
   @HostBinding('class.stop-navigating') stopNavigating: boolean;
@@ -127,7 +129,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     );
   }
 
-  readonly featureToggles = inject(FeatureToggles);
+  private readonly featureToggles = inject(FeatureToggles);
 
   protected categoryPageFocusSelector = 'cx-breadcrumb nav a';
 
@@ -208,7 +210,9 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   }
 
   isInCustomTemplate(): boolean {
-    return !!(this.featureToggles.enableCustomPageTemplate && this.isCustomTemplate());
+    return !!(
+      this.featureToggles.enableCustomPageTemplate && this.isCustomTemplate()
+    );
   }
 
   ngOnDestroy(): void {

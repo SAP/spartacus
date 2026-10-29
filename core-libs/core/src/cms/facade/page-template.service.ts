@@ -17,14 +17,12 @@ export class PageTemplateService {
   constructor(protected connector: CmsPageTemplateConnector) {}
 
   getPageTemplate(templateId: string): Observable<CustomPageTemplate | null> {
-    templateId = 'eyJpdGVtSWQiOiJQYWdlVGVtcGxhdGUtMDAwMDAwMDAiLCJjYXRhbG9nSWQiOiJlbGVjdHJvbmljcy1zcGFDb250ZW50Q2F0YWxvZyIsImNhdGFsb2dWZXJzaW9uIjoiU3RhZ2VkIn0=';
-    if (!this.cache.has(templateId)) {
-      this.cache.set(
-        templateId,
-        this.connector.get(templateId).pipe(shareReplay(1))
-      );
+    let cached = this.cache.get(templateId);
+    if (!cached) {
+      cached = this.connector.get(templateId).pipe(shareReplay(1));
+      this.cache.set(templateId, cached);
     }
-    return this.cache.get(templateId)!;
+    return cached;
   }
 
   getPageTemplateSections(templateId: string): Observable<CustomSection[]> {

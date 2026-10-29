@@ -133,10 +133,16 @@ export class PageSlotComponent implements OnInit, OnDestroy {
   protected decorate(slot: ContentSlotData): void {
     if (this.lastPosition !== this.position$.value) {
       if (this.lastPosition) {
-        this.renderer.removeClass(this.elementRef.nativeElement, this.lastPosition);
+        this.renderer.removeClass(
+          this.elementRef.nativeElement,
+          this.lastPosition
+        );
       }
       if (this.position$.value) {
-        this.renderer.addClass(this.elementRef.nativeElement, this.position$.value);
+        this.renderer.addClass(
+          this.elementRef.nativeElement,
+          this.position$.value
+        );
       }
       this.lastPosition = this.position$.value;
     }
