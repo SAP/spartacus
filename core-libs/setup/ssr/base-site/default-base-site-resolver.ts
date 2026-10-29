@@ -114,19 +114,17 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
     this.inFlight++;
 
     try {
-      if (!this.initPromise) {
-        this.initPromise = this.fetchSites()
-          .then((result) => {
-            if (result.cacheable) {
-              this.cachedSites = result.sites;
-              this.cachedAt = Date.now();
-            }
-            return result;
-          })
-          .finally(() => {
-            this.initPromise = null;
-          });
-      }
+      this.initPromise ??= this.fetchSites()
+        .then((result) => {
+          if (result.cacheable) {
+            this.cachedSites = result.sites;
+            this.cachedAt = Date.now();
+          }
+          return result;
+        })
+        .finally(() => {
+          this.initPromise = null;
+        });
       return (await this.initPromise).sites;
     } finally {
       this.inFlight--;
