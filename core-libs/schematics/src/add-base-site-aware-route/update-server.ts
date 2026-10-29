@@ -29,6 +29,7 @@ const ROUTE_FACTORY = 'registerBaseSiteAwareRoute';
 const EXAMPLE_ROUTE = '/example.txt';
 
 type Scope = SourceFile | Block;
+type ServerRouteCall = { statement: Statement; call: CallExpression };
 
 export interface UpdateServerOptions {
   project: string;
@@ -337,7 +338,7 @@ function ensureFactoryImport(source: SourceFile): void {
   }
 }
 
-function updateServerSource(source: SourceFile): boolean {
+function getExpressApplication(source: SourceFile): VariableDeclaration {
   const expressDeclarations = source
     .getDescendantsOfKind(SyntaxKind.VariableDeclaration)
     .filter((declaration) => {
@@ -356,26 +357,13 @@ function updateServerSource(source: SourceFile): boolean {
     );
   }
 
-  const server = expressDeclarations[0];
-  const scope = containingScope(server);
-  const serverName = server.getName();
-  const declarations = new Map(
-    [...declarationsIn(source), ...declarationsIn(scope)].map(
-      (declaration) => [declaration.getName(), declaration] as const
-    )
-  );
-  const calls = scope
-    .getStatements()
-    .map((statement) => ({
-      statement,
-      call: serverCall(statement, serverName),
-    }))
-    .filter(
-      (entry): entry is { statement: Statement; call: CallExpression } =>
-        entry.call !== undefined
-    );
-  const factoryNames = importNames(source, SSR_MODULE, FACTORY);
-  const factories = Array.from(declarations.values()).filter((declaration) => {
+  return expressDeclarations[0];
+}
+
+function getRouteFactories(
+  declarations: ReadonlyMap<string, VariableDeclaration>
+): VariableDeclaration[] {
+  return Array.from(declarations.values()).filter((declaration) => {
     const initializer = declaration.getInitializerIfKind(
       SyntaxKind.CallExpression
     );
@@ -384,9 +372,12 @@ function updateServerSource(source: SourceFile): boolean {
       isImportedValue(initializer.getExpression(), SSR_MODULE, FACTORY)
     );
   });
-  const factory =
-    factories.find((declaration) => declaration.getName() === ROUTE_FACTORY) ??
-    (factories.length === 1 ? factories[0] : undefined);
+}
+
+function isExampleConfigured(
+  calls: readonly ServerRouteCall[],
+  factory: VariableDeclaration | undefined
+): boolean {
   const examples = calls.filter(({ call }) => containsExample(call));
   if (examples.length) {
     const alreadyConfigured =
@@ -401,12 +392,21 @@ function updateServerSource(source: SourceFile): boolean {
             argument.getArguments().some(isExampleOptions)
         );
     if (alreadyConfigured) {
-      return false;
+      return true;
     }
     throw new SchematicsException(
       `The SSR server already contains a different ${EXAMPLE_ROUTE} route.`
     );
   }
+  return false;
+}
+
+function validateRouteFactoryBindings(
+  scope: Scope,
+  factoryNames: readonly string[],
+  factories: readonly VariableDeclaration[],
+  factory: VariableDeclaration | undefined
+): void {
   if (factories.length > 1 && !factory) {
     throw new SchematicsException(
       'Multiple base-site route factories exist; configure the example manually.'
@@ -430,7 +430,13 @@ function updateServerSource(source: SourceFile): boolean {
   ) {
     throw new SchematicsException(`"${FACTORY}" is already declared.`);
   }
+}
 
+function getRouteInsertionBoundary(
+  calls: readonly ServerRouteCall[],
+  scope: Scope,
+  factory: VariableDeclaration | undefined
+): Statement {
   const boundaryIndex = calls.findIndex(({ call }) => isTerminalRoute(call));
   const boundary = calls[boundaryIndex]?.statement;
   if (!boundary) {
@@ -468,6 +474,16 @@ function updateServerSource(source: SourceFile): boolean {
       'The base-site route factory must be initialized before the static-file or SSR render route.'
     );
   }
+  return boundary;
+}
+
+function getIndexHtmlDeclaration(
+  declarations: ReadonlyMap<string, VariableDeclaration>,
+  scope: Scope,
+  boundary: Statement,
+  factory: VariableDeclaration | undefined,
+  factoryNames: readonly string[]
+): VariableDeclaration | undefined {
   const html = Array.from(declarations.values())
     .reverse()
     .find(
@@ -499,6 +515,42 @@ function updateServerSource(source: SourceFile): boolean {
       );
     }
   }
+  return html;
+}
+
+function updateServerSource(source: SourceFile): boolean {
+  const server = getExpressApplication(source);
+  const scope = containingScope(server);
+  const serverName = server.getName();
+  const declarations = new Map(
+    [...declarationsIn(source), ...declarationsIn(scope)].map(
+      (declaration) => [declaration.getName(), declaration] as const
+    )
+  );
+  const calls = scope
+    .getStatements()
+    .map((statement) => ({
+      statement,
+      call: serverCall(statement, serverName),
+    }))
+    .filter((entry): entry is ServerRouteCall => entry.call !== undefined);
+  const factoryNames = importNames(source, SSR_MODULE, FACTORY);
+  const factories = getRouteFactories(declarations);
+  const factory =
+    factories.find((declaration) => declaration.getName() === ROUTE_FACTORY) ??
+    (factories.length === 1 ? factories[0] : undefined);
+  if (isExampleConfigured(calls, factory)) {
+    return false;
+  }
+  validateRouteFactoryBindings(scope, factoryNames, factories, factory);
+  const boundary = getRouteInsertionBoundary(calls, scope, factory);
+  const html = getIndexHtmlDeclaration(
+    declarations,
+    scope,
+    boundary,
+    factory,
+    factoryNames
+  );
 
   source.getProject().manipulationSettings.set({
     indentationText: IndentationText.TwoSpaces,
