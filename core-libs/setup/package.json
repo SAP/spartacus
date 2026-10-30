@@ -28,7 +28,18 @@
   },
   "optionalDependencies": {
     "@angular/platform-server": "^21.2.23",
-    "express": "^5.3.0"
+    "express": "^5.3.0",
+    "fastify": "^5.8.2",
+    "@fastify/http-proxy": "^11.4.1"
+  },
+  "bin": {
+    "spartacus-dev-proxy": "./dev-proxy/run.js"
+  },
+  "exports": {
+    "./dev-proxy": {
+      "types": "./dev-proxy/index.d.ts",
+      "default": "./dev-proxy/index.js"
+    }
   },
   "engines": {
     "node": "^22.22.0"

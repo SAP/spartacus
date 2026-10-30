@@ -48,7 +48,7 @@
     "build:qualtrics": "npm --prefix feature-libs/qualtrics run build:schematics && nx build qualtrics --configuration production",
     "build:requested-delivery-date": "npm --prefix feature-libs/requested-delivery-date run build:schematics && nx build requested-delivery-date --configuration production",
     "build:schematics": "npm --prefix core-libs/schematics run build",
-    "build:setup": "nx build setup --configuration production",
+    "build:setup": "nx build setup --configuration production && nx run setup:build-dev-proxy",
     "build:storefinder": "npm --prefix feature-libs/storefinder run build:schematics && nx build storefinder --configuration production",
     "build:csr": "env-cmd --no-override -e dev,b2c,$SPA_ENV -- nx run storefrontapp:build-csr",
     "build:ssr": "env-cmd --no-override -e dev,b2c,$SPA_ENV -- nx run storefrontapp:build:production",
