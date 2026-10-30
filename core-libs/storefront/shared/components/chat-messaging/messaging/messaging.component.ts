@@ -161,7 +161,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
 
   resetForm(): void {
     this.form.reset({ item: this.messagingConfigs?.defaultItemId });
-    this.fileUploadComponent?.removeFile();
+    this.fileUploadComponent?.removeAllFiles();
   }
 
   triggerDownload(

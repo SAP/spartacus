@@ -18,6 +18,22 @@ const mockEvent = {
   target: { files: [mockFile] },
 };
 
+class MockDataTransfer {
+  private filesArray: File[] = [];
+
+  items = {
+    add: (file: File) => this.filesArray.push(file),
+  };
+
+  get files(): FileList {
+    return {
+      0: this.filesArray[0],
+      length: this.filesArray.length,
+      item: (index: number) => this.filesArray[index] ?? null,
+    } as unknown as FileList;
+  }
+}
+
 describe('FileUploadComponent', () => {
   let component: FileUploadComponent;
   let fixture: ComponentFixture<FileUploadComponent>;
@@ -25,6 +41,8 @@ describe('FileUploadComponent', () => {
   let inputEl: DebugElement;
 
   beforeEach(() => {
+    vi.stubGlobal('DataTransfer', MockDataTransfer);
+
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, FileUploadComponent],
     })
@@ -49,46 +67,56 @@ describe('FileUploadComponent', () => {
   });
 
   describe('change file', () => {
-    it('should emit event', () => {
-      vi.spyOn(component.update, 'emit');
+    it('should emit selected files', () => {
+      const onChangeCallbackSpy = vi.fn();
+      component.registerOnChange(onChangeCallbackSpy);
+
       inputEl.triggerEventHandler('change', mockEvent);
-      expect(component.update.emit).toHaveBeenCalledWith([
-        mockFile,
-      ] as unknown as FileList);
+
+      const fileList = onChangeCallbackSpy.mock.calls[0][0];
+
+      expect(fileList?.length).toBe(1);
+      expect(fileList?.[0]).toBe(mockFile);
     });
 
-    it('should emit null when no files are selected (cancel)', () => {
+    it('should not emit when no files are selected (cancel)', () => {
+      const onChangeCallbackSpy = vi.fn();
+      component.registerOnChange(onChangeCallbackSpy);
+
       const emptyFileListEvent = {
         preventDefault: () => {},
         stopPropagation: () => {},
         target: { files: [] as unknown as FileList },
       };
-      vi.spyOn(component.update, 'emit');
+
       inputEl.triggerEventHandler('change', emptyFileListEvent);
-      expect(component.update.emit).toHaveBeenCalledWith(null);
+
+      expect(onChangeCallbackSpy).not.toHaveBeenCalled();
     });
 
-    it('should emit null when files is null', () => {
+    it('should not emit when files is null', () => {
+      const onChangeCallbackSpy = vi.fn();
+      component.registerOnChange(onChangeCallbackSpy);
+
       const nullFilesEvent = {
         preventDefault: () => {},
         stopPropagation: () => {},
         target: { files: null },
       };
-      vi.spyOn(component.update, 'emit');
+
       inputEl.triggerEventHandler('change', nullFilesEvent);
-      expect(component.update.emit).toHaveBeenCalledWith(null);
+
+      expect(onChangeCallbackSpy).not.toHaveBeenCalled();
     });
   });
 
-  describe('removeFile', () => {
+  describe('removeAllFiles', () => {
     it('should clear input value and emit null', () => {
-      vi.spyOn(component.update, 'emit');
       const onChangeCallbackSpy = vi.fn();
       component.registerOnChange(onChangeCallbackSpy);
 
-      component.removeFile();
+      component.removeAllFiles();
 
-      expect(component.update.emit).toHaveBeenCalledWith(null);
       expect(onChangeCallbackSpy).toHaveBeenCalledWith(null);
     });
   });
