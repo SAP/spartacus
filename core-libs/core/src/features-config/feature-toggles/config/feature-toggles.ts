@@ -186,6 +186,20 @@ export interface FeatureTogglesInterface {
   enableMediaPrefix?: boolean;
 
   /**
+   * When enabled, `MediaService` falls back to the configured `mediaFormats`
+   * dimensions (width and height) when the OCC image payload does not carry
+   * intrinsic dimensions. The browser uses these two values to infer the
+   * aspect ratio and reserve the correct amount of vertical space before the
+   * image loads, preventing Cumulative Layout Shift (CLS).
+   *
+   * Configuring both `width` and `height` on a format is required for the
+   * reservation to take effect; a format with only `width` provides no benefit.
+   *
+   * Affects: `MediaService`
+   */
+  withAspectRatioInference?: boolean;
+
+  /**
    * Fixes focus ring on store name links overflowing into the address text below.
    * Affects: StoreFinderListItemComponent
    */
@@ -963,6 +977,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
   enablePasswordExpiredErrorTranslation: true,
   enableMediaPrefix: true,
+  withAspectRatioInference: false,
   a11yCustomerTicketingVisualFocusFix: true,
   a11yMessagingListKeyboardFocus: false,
   orderOverviewCardsInlinePadding: false,

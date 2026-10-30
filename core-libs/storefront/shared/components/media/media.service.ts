@@ -138,8 +138,9 @@ export class MediaService {
   /**
    * Returns width and height for Image.
    *
-   * OCC does not return intrinsic dimensions in the image payload, so we fall
-   * back to the dimensions configured in `mediaFormats` for the resolved format.
+   * OCC does not return intrinsic dimensions in the image payload, so when
+   * the `withAspectRatioInference` feature toggle is enabled we fall back to
+   * the dimensions configured in `mediaFormats` for the resolved format.
    * Providing both width and height in config prevents CLS for those images.
    */
   protected getWidthAndHeight(
@@ -158,8 +159,8 @@ export class MediaService {
       : undefined;
 
     return {
-      width: mainMedia?.width ?? formatSize?.width,
-      height: mainMedia?.height ?? formatSize?.height,
+      width: mainMedia?.width ?? (this.featureToggles.withAspectRatioInference ? formatSize?.width : undefined),
+      height: mainMedia?.height ?? (this.featureToggles.withAspectRatioInference ? formatSize?.height : undefined),
     };
   }
 

@@ -28,6 +28,4 @@
   </ol>
 </nav>
 
-<h1 [attr.aria-live]="(ariaLive$ | async) ? 'polite' : null">
-  {{ title$ | async }}
-</h1>
+<h1 [attr.aria-live]="(ariaLive$ | async) ? 'polite' : null"><span>{{ title$ | async }}</span></h1>
