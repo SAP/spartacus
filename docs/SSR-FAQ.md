@@ -61,6 +61,137 @@ When there are too many requests and renderings in parallel for the SSR server, 
 
 It's the `concurrency` property of the `SsrOptimizationOptions` defined in `server.ts` (by default implicitly set to `10`) controls the max number of concurrent renderings in the SSR server
 
+## How to resolve the base site in an SSR server
+
+Import the base-site API from `@spartacus/setup/ssr`. Call `createBaseSiteAwareRoute` once at server startup and reuse its returned `registerBaseSiteAwareRoute` function for all participating routes. The routes share one resolver, cache, and concurrency limit without starting an Angular render.
+
+Pass the existing index HTML content as the required `indexHtml` option. In production, the backend address comes from its `occ-backend-base-url` meta tag. The resolver extracts that address internally and always prefers it over an explicit `occBaseUrl`. The optional fallback is used only when the HTML has no configured address, for example during local development with an unsubstituted placeholder.
+
+```ts
+import {
+  createBaseSiteAwareRoute,
+  getOriginValidationMiddleware,
+} from '@spartacus/setup/ssr';
+import express from 'express';
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const serverDistFolder = dirname(fileURLToPath(import.meta.url));
+const indexHtmlContent = readFileSync(
+  join(serverDistFolder, 'index.server.html'),
+  'utf-8'
+);
+const registerBaseSiteAwareRoute = createBaseSiteAwareRoute({
+  indexHtml: indexHtmlContent,
+  // Optional local fallback; the HTML address always takes precedence.
+  // occBaseUrl: 'https://your-local-occ.example',
+});
+
+const server = express();
+server.set('trust proxy', 'loopback');
+server.use(
+  getOriginValidationMiddleware({
+    allowedOrigins: process.env['SSR_ALLOWED_ORIGINS'],
+  })
+);
+
+server.use(
+  registerBaseSiteAwareRoute({
+    route: '/base-site',
+    handler: ({ res, baseSite }) => {
+      res.type('text/plain');
+      if (!baseSite) {
+        res.status(404).send('No matching base site');
+        return;
+      }
+      res.send(baseSite);
+    },
+  })
+);
+```
+
+Reuse your server's existing HTML read rather than reading the file again for each route. Mount the returned middleware at the application root, after origin validation and authentication but before static-file or catch-all handlers that can consume the route. The middleware uses the application's Express `trust proxy` configuration when resolving forwarded protocol and host values.
+
+With `pathBaseSiteIds` omitted or empty, the resolver matches the request URL against the site's OCC URL patterns. It fetches site configuration lazily, not during factory creation. Registering a domain-based route without an address in the HTML or an explicit fallback throws a configuration error.
+
+The application callback receives `{ req, res, next, baseSite }`, with the original Express objects and a base-site uid or `null`. The handler controls its response status, content type, and body, including what to do for an unmatched site. The example above chooses a 404; the resolver itself does not choose a default base site.
+
+Wrap an existing Express `RequestHandler` as `handler: ({ req, res, next }) => existingHandler(req, res, next)`. The wrapper awaits the callback and forwards thrown errors or rejected promises to `next(error)`.
+
+### Path-based routes
+
+For sites identified by the leading URL segment, configure a non-empty `pathBaseSiteIds` list in the factory options. All routes registered through that factory use path resolution. The route string itself must not contain the base-site prefix:
+
+```ts
+const registerPathBaseSiteAwareRoute = createBaseSiteAwareRoute({
+  pathBaseSiteIds: ['electronics-spa', 'apparel-uk'],
+  indexHtml: indexHtmlContent,
+});
+
+server.use(
+  registerPathBaseSiteAwareRoute({
+    route: '/base-site',
+    handler: ({ res, baseSite }) => {
+      res.type('text/plain').send(`Current baseSite: ${baseSite}`);
+    },
+  })
+);
+```
+
+For example, `/electronics-spa/base-site` resolves `electronics-spa` from the supplied uid list without contacting OCC. An unknown uid is passed to the handler as `null`. The unprefixed `/base-site` can be registered separately with a standard Express handler.
+
+### Reliability and custom responses
+
+Domain resolution uses `/occ/v2/basesites?fields=FULL`, a 60-second cache, at most 10 cold-cache waiters, and a 3-second OCC timeout. Set `cacheTtlMs`, `concurrencyLimit`, and `timeoutMs` on the original factory options to override these defaults. These limits are separate from Angular page-rendering concurrency.
+
+Resolver concurrency and OCC failures map to HTTP 503 with `Retry-After` values of 3 and 25 seconds respectively. Other errors are forwarded to Express. Use `retryAfterSeconds` for route-specific retry delays, and the ordinary response methods for a different response format:
+
+```ts
+server.use(
+  registerBaseSiteAwareRoute({
+    route: '/base-site.json',
+    handler: ({ res, baseSite }) => {
+      res.json({ baseSite });
+    },
+    retryAfterSeconds: {
+      concurrencyLimit: 5,
+      occUnavailable: 30,
+    },
+  })
+);
+```
+
+### Custom resolvers
+
+To replace the default resolver instead of using the factory, provide a `BaseSiteResolver` to the lower-level `setBaseSiteHandler`. Implement both resolution methods. Set `supportsPathResolution` to select prefixed path-based routes; otherwise, routes use domain resolution and require `supportsOccResolution`:
+
+```ts
+import { BaseSiteResolver, setBaseSiteHandler } from '@spartacus/setup/ssr';
+
+const customResolver: BaseSiteResolver = {
+  supportsPathResolution: false,
+  supportsOccResolution: true,
+  resolveFromPath(requestUrl) {
+    const uid = new URL(requestUrl).pathname.split('/').filter(Boolean)[0];
+    return uid === 'electronics-spa' ? uid : null;
+  },
+  async resolveFromOcc(requestUrl) {
+    const hostname = new URL(requestUrl).hostname;
+    return hostname === 'shop.example.com' ? 'electronics-spa' : null;
+  },
+};
+
+server.use(
+  setBaseSiteHandler(customResolver, {
+    route: '/custom-base-site',
+    handler: ({ res, baseSite }) => {
+      res.json({ baseSite });
+    },
+  })
+);
+```
+
 ## Troubleshooting
 
 ### Resolving "JavaScript Heap Out of Memory" Error When Running SSR Server
