@@ -17,6 +17,17 @@ import {
   OccUnavailableError,
 } from './base-site-resolver';
 
+// Avoid native Response streams and their MessagePort callbacks in Zone.js tests.
+function createOccResponse(
+  baseSites: { uid: string; urlPatterns: string[] }[]
+): Awaited<ReturnType<typeof fetch>> {
+  return {
+    ok: true,
+    status: 200,
+    json: jest.fn().mockResolvedValue({ baseSites }),
+  } as unknown as Awaited<ReturnType<typeof fetch>>;
+}
+
 function createResolver(
   overrides: Partial<BaseSiteResolver> = {}
 ): BaseSiteResolver {
@@ -128,16 +139,12 @@ describe('createBaseSiteAwareRoute', () => {
 
   it('shares the OCC cache between handlers created by the same factory', async () => {
     const fetchSpy = jest.spyOn(globalThis, 'fetch').mockResolvedValue(
-      new globalThis.Response(
-        JSON.stringify({
-          baseSites: [
-            {
-              uid: 'electronics-spa',
-              urlPatterns: ['^http://internal\\.example/'],
-            },
-          ],
-        })
-      )
+      createOccResponse([
+        {
+          uid: 'electronics-spa',
+          urlPatterns: ['^http://internal\\.example/'],
+        },
+      ])
     );
     const registerBaseSiteAwareRoute = createBaseSiteAwareRoute({
       pathBaseSiteIds: [],
@@ -204,16 +211,12 @@ describe('createBaseSiteAwareRoute', () => {
     'uses OCC for omitted or empty path IDs (%j)',
     async (pathBaseSiteIds) => {
       jest.spyOn(globalThis, 'fetch').mockResolvedValue(
-        new globalThis.Response(
-          JSON.stringify({
-            baseSites: [
-              {
-                uid: 'electronics-spa',
-                urlPatterns: ['^http://internal\\.example/'],
-              },
-            ],
-          })
-        )
+        createOccResponse([
+          {
+            uid: 'electronics-spa',
+            urlPatterns: ['^http://internal\\.example/'],
+          },
+        ])
       );
       const register = createBaseSiteAwareRoute({
         pathBaseSiteIds,
@@ -240,20 +243,16 @@ describe('createBaseSiteAwareRoute', () => {
     'handles a base-site-prefixed route using OCC when path IDs are %j',
     async (pathBaseSiteIds) => {
       const fetchSpy = jest.spyOn(globalThis, 'fetch').mockResolvedValue(
-        new globalThis.Response(
-          JSON.stringify({
-            baseSites: [
-              {
-                uid: 'apparel-uk',
-                urlPatterns: ['^http://internal\\.example/apparel-uk/'],
-              },
-              {
-                uid: 'electronics-spa',
-                urlPatterns: ['^http://internal\\.example/electronics-spa/'],
-              },
-            ],
-          })
-        )
+        createOccResponse([
+          {
+            uid: 'apparel-uk',
+            urlPatterns: ['^http://internal\\.example/apparel-uk/'],
+          },
+          {
+            uid: 'electronics-spa',
+            urlPatterns: ['^http://internal\\.example/electronics-spa/'],
+          },
+        ])
       );
       const register = createBaseSiteAwareRoute({
         pathBaseSiteIds,
@@ -327,16 +326,12 @@ describe('createBaseSiteAwareRoute', () => {
     'rejects an unknown prefix before invoking the handler with IDs %j',
     async (pathBaseSiteIds) => {
       jest.spyOn(globalThis, 'fetch').mockResolvedValue(
-        new globalThis.Response(
-          JSON.stringify({
-            baseSites: [
-              {
-                uid: 'electronics-spa',
-                urlPatterns: ['^http://internal\\.example/'],
-              },
-            ],
-          })
-        )
+        createOccResponse([
+          {
+            uid: 'electronics-spa',
+            urlPatterns: ['^http://internal\\.example/'],
+          },
+        ])
       );
       const register = createBaseSiteAwareRoute({
         pathBaseSiteIds,
@@ -363,17 +358,13 @@ describe('createBaseSiteAwareRoute', () => {
 
   it('resolves the known prefix even when another OCC site has a broad matching URL pattern', async () => {
     jest.spyOn(globalThis, 'fetch').mockResolvedValue(
-      new globalThis.Response(
-        JSON.stringify({
-          baseSites: [
-            { uid: 'apparel-uk', urlPatterns: ['^http://internal\\.example/'] },
-            {
-              uid: 'electronics-spa',
-              urlPatterns: ['^http://internal\\.example/'],
-            },
-          ],
-        })
-      )
+      createOccResponse([
+        { uid: 'apparel-uk', urlPatterns: ['^http://internal\\.example/'] },
+        {
+          uid: 'electronics-spa',
+          urlPatterns: ['^http://internal\\.example/'],
+        },
+      ])
     );
     const register = createBaseSiteAwareRoute({
       indexHtml: '<html></html>',
@@ -398,17 +389,13 @@ describe('createBaseSiteAwareRoute', () => {
 
   it('rejects a known prefix when its OCC URL patterns do not match', async () => {
     jest.spyOn(globalThis, 'fetch').mockResolvedValue(
-      new globalThis.Response(
-        JSON.stringify({
-          baseSites: [
-            { uid: 'apparel-uk', urlPatterns: ['^http://internal\\.example/'] },
-            {
-              uid: 'electronics-spa',
-              urlPatterns: ['^https://other\\.example/'],
-            },
-          ],
-        })
-      )
+      createOccResponse([
+        { uid: 'apparel-uk', urlPatterns: ['^http://internal\\.example/'] },
+        {
+          uid: 'electronics-spa',
+          urlPatterns: ['^https://other\\.example/'],
+        },
+      ])
     );
     const register = createBaseSiteAwareRoute({
       indexHtml: '<html></html>',
