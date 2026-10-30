@@ -117,15 +117,17 @@ These are alternative factory configurations, not additional factories to create
 `indexHtml` is required HTML content, not a filename. Reuse the content already read by the SSR server and inspect the HTML it actually reads for the `occ-backend-base-url` meta tag:
 
 ```html
-<meta name="occ-backend-base-url" content="https://commerce.example.com" />
+<meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE" />
 ```
+
+Replace `OCC_BACKEND_BASE_URL_VALUE` with the customer's actual HTTPS backend base URL when configuring this tag.
 
 The resolver chooses the address in this order:
 
 1. A populated `occ-backend-base-url` meta tag in the supplied HTML. This takes precedence even when `occBaseUrl` is explicitly configured.
 2. The factory's `occBaseUrl` option when the tag is missing, empty, or still contains `OCC_BACKEND_BASE_URL_VALUE`.
 
-Supply the full backend base URL, such as `https://commerce.example.com`. The resolver appends `/occ/v2/basesites?fields=FULL`; do not pass just `/occ/v2` or the complete base-sites endpoint.
+Supply the full HTTPS backend base URL, including the hostname and port if needed. The resolver appends `/occ/v2/basesites?fields=FULL`; do not pass just `/occ/v2` or the complete base-sites endpoint.
 
 The helper does not automatically read Angular dependency-injection configuration, `environment.occBaseUrl`, or `CX_BASE_URL`. An environment value can supply the fallback only if application code passes it as `occBaseUrl`, with the required import or environment access in scope. Reuse the customer's existing configuration rather than assuming the demo app's environment files.
 
@@ -137,8 +139,8 @@ For example, when no configured address is available:
 const registerBaseSiteAwareRoute = createBaseSiteAwareRoute({
   indexHtml: indexHtmlContent,
   // Local development fallback when the HTML OCC meta tag is unconfigured.
-  // Replace with your actual OCC backend base URL before testing.
-  occBaseUrl: 'https://your-occ-backend.example',
+  // Replace with your actual HTTPS OCC backend base URL before testing.
+  occBaseUrl: '<OCC_BACKEND_BASE_URL>',
 });
 ```
 
@@ -180,10 +182,10 @@ Retry delays are seconds and can be overridden through the registration's `retry
 
 Use the customer's actual build and SSR start scripts from `package.json`, project configuration, and server entry point. Check the source diff, run the relevant build/check commands, and start the server that includes the changed handler.
 
-1. Request the configured endpoint using an actual UID, host, and port. For example, after replacing these example values as needed:
+1. Request the configured endpoint using an actual UID, host, and port. In the example below, replace `<STOREFRONT_ORIGIN>` with the running server's origin (scheme, hostname, and port) and use a configured UID:
 
    ```bash
-   curl -i --max-time 10 http://localhost:4000/electronics-spa/llms.txt
+   curl -i --max-time 10 "<STOREFRONT_ORIGIN>/electronics-spa/llms.txt"
    ```
 
 2. Check the status, content type, and requested site-specific body. For the `llms.txt` example, expect plain text rather than an Angular-rendered page.
