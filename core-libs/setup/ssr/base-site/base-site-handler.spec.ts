@@ -115,15 +115,15 @@ describe('createBaseSiteAwareRoute', () => {
     });
     const response = createResponse();
 
-    await dispatch(
-      middleware,
-      request,
-      response,
-      createNext()
-    );
+    await dispatch(middleware, request, response, createNext());
 
-    expect(handler).toHaveBeenCalledWith({ req: request, res: response, next: expect.any(Function), baseSite: 'electronics-spa' });
-      expect(request).not.toHaveProperty('baseSite');
+    expect(handler).toHaveBeenCalledWith({
+      req: request,
+      res: response,
+      next: expect.any(Function),
+      baseSite: 'electronics-spa',
+    });
+    expect(request).not.toHaveProperty('baseSite');
   });
 
   it('shares the OCC cache between handlers created by the same factory', async () => {
@@ -147,7 +147,9 @@ describe('createBaseSiteAwareRoute', () => {
     const llmsHandler = jest.fn();
     const robotsHandler = jest.fn();
     const llmsRequest = createRequest();
-    const robotsRequest = createRequest({ originalUrl: '/electronics-spa/robots.txt' });
+    const robotsRequest = createRequest({
+      originalUrl: '/electronics-spa/robots.txt',
+    });
 
     await dispatch(
       registerBaseSiteAwareRoute({
@@ -168,45 +170,95 @@ describe('createBaseSiteAwareRoute', () => {
       createNext()
     );
 
-    expect(llmsHandler).toHaveBeenCalledWith(expect.objectContaining({ baseSite: 'electronics-spa' }));
-    expect(robotsHandler).toHaveBeenCalledWith(expect.objectContaining({ baseSite: 'electronics-spa' }));
+    expect(llmsHandler).toHaveBeenCalledWith(
+      expect.objectContaining({ baseSite: 'electronics-spa' })
+    );
+    expect(robotsHandler).toHaveBeenCalledWith(
+      expect.objectContaining({ baseSite: 'electronics-spa' })
+    );
     expect(llmsRequest).not.toHaveProperty('baseSite');
     expect(robotsRequest).not.toHaveProperty('baseSite');
     expect(fetchSpy).toHaveBeenCalledTimes(1);
   });
-  it.each([undefined, [], ['electronics-spa']])('leaves the unprefixed route to ordinary handlers with IDs %j', async (pathBaseSiteIds) => {
-    const register = createBaseSiteAwareRoute({ pathBaseSiteIds, indexHtml: '<html></html>' });
-    const handler = jest.fn();
-    const next = createNext();
-    await dispatchToNext(register({ route: '/llms.txt', handler }), createRequest({ originalUrl: '/llms.txt' }), createResponse(), next);
-    expect(handler).not.toHaveBeenCalled();
-    expect(next).toHaveBeenCalledTimes(1);
-  });
+  it.each([undefined, [], ['electronics-spa']])(
+    'leaves the unprefixed route to ordinary handlers with IDs %j',
+    async (pathBaseSiteIds) => {
+      const register = createBaseSiteAwareRoute({
+        pathBaseSiteIds,
+        indexHtml: '<html></html>',
+      });
+      const handler = jest.fn();
+      const next = createNext();
+      await dispatchToNext(
+        register({ route: '/llms.txt', handler }),
+        createRequest({ originalUrl: '/llms.txt' }),
+        createResponse(),
+        next
+      );
+      expect(handler).not.toHaveBeenCalled();
+      expect(next).toHaveBeenCalledTimes(1);
+    }
+  );
 
-  it.each([undefined, []])('uses OCC for omitted or empty path IDs (%j)', async (pathBaseSiteIds) => {
-    jest.spyOn(globalThis, 'fetch').mockResolvedValue(new globalThis.Response(JSON.stringify({
-      baseSites: [{ uid: 'electronics-spa', urlPatterns: ['^http://internal\\.example/'] }],
-    })));
-    const register = createBaseSiteAwareRoute({ pathBaseSiteIds, indexHtml: '<html></html>', occBaseUrl: 'https://api.example' });
-    const response = createResponse();
-    await dispatch(register({ route: '/llms.txt', handler: ({ res, baseSite }) => { res.send(baseSite); } }), createRequest(), response, createNext());
-    expect(response.send).toHaveBeenCalledWith('electronics-spa');
-  });
+  it.each([undefined, []])(
+    'uses OCC for omitted or empty path IDs (%j)',
+    async (pathBaseSiteIds) => {
+      jest.spyOn(globalThis, 'fetch').mockResolvedValue(
+        new globalThis.Response(
+          JSON.stringify({
+            baseSites: [
+              {
+                uid: 'electronics-spa',
+                urlPatterns: ['^http://internal\\.example/'],
+              },
+            ],
+          })
+        )
+      );
+      const register = createBaseSiteAwareRoute({
+        pathBaseSiteIds,
+        indexHtml: '<html></html>',
+        occBaseUrl: 'https://api.example',
+      });
+      const response = createResponse();
+      await dispatch(
+        register({
+          route: '/llms.txt',
+          handler: ({ res, baseSite }) => {
+            res.send(baseSite);
+          },
+        }),
+        createRequest(),
+        response,
+        createNext()
+      );
+      expect(response.send).toHaveBeenCalledWith('electronics-spa');
+    }
+  );
 
   it.each([undefined, []])(
     'handles a base-site-prefixed route using OCC when path IDs are %j',
     async (pathBaseSiteIds) => {
       const fetchSpy = jest.spyOn(globalThis, 'fetch').mockResolvedValue(
-        new globalThis.Response(JSON.stringify({
-          baseSites: [
-            { uid: 'apparel-uk', urlPatterns: ['^http://internal\\.example/apparel-uk/'] },
-            { uid: 'electronics-spa', urlPatterns: ['^http://internal\\.example/electronics-spa/'] },
-          ],
-        }))
+        new globalThis.Response(
+          JSON.stringify({
+            baseSites: [
+              {
+                uid: 'apparel-uk',
+                urlPatterns: ['^http://internal\\.example/apparel-uk/'],
+              },
+              {
+                uid: 'electronics-spa',
+                urlPatterns: ['^http://internal\\.example/electronics-spa/'],
+              },
+            ],
+          })
+        )
       );
       const register = createBaseSiteAwareRoute({
         pathBaseSiteIds,
-        indexHtml: '<meta name="occ-backend-base-url" content="https://api.example">',
+        indexHtml:
+          '<meta name="occ-backend-base-url" content="https://api.example">',
       });
       const response = createResponse();
       const next = createNext();
@@ -233,7 +285,10 @@ describe('createBaseSiteAwareRoute', () => {
     const next = createNext();
 
     await dispatch(
-      register({ route: '/example.txt', handler: ({ res }) => res.send('unexpected') }),
+      register({
+        route: '/example.txt',
+        handler: ({ res }) => res.send('unexpected'),
+      }),
       createRequest({ originalUrl: '/electronics-spa/example.txt' }),
       response,
       next
@@ -247,9 +302,23 @@ describe('createBaseSiteAwareRoute', () => {
 
   it('prefers configured path IDs even when OCC is available', async () => {
     const fetchSpy = jest.spyOn(globalThis, 'fetch');
-    const register = createBaseSiteAwareRoute({ pathBaseSiteIds: ['electronics-spa'], indexHtml: '<html></html>', occBaseUrl: 'https://api.example' });
+    const register = createBaseSiteAwareRoute({
+      pathBaseSiteIds: ['electronics-spa'],
+      indexHtml: '<html></html>',
+      occBaseUrl: 'https://api.example',
+    });
     const response = createResponse();
-    await dispatch(register({ route: '/llms.txt', handler: ({ res, baseSite }) => { res.send(baseSite); } }), createRequest({ originalUrl: '/electronics-spa/llms.txt' }), response, createNext());
+    await dispatch(
+      register({
+        route: '/llms.txt',
+        handler: ({ res, baseSite }) => {
+          res.send(baseSite);
+        },
+      }),
+      createRequest({ originalUrl: '/electronics-spa/llms.txt' }),
+      response,
+      createNext()
+    );
     expect(response.send).toHaveBeenCalledWith('electronics-spa');
     expect(fetchSpy).not.toHaveBeenCalled();
   });
@@ -257,10 +326,23 @@ describe('createBaseSiteAwareRoute', () => {
   it.each([undefined, [], ['electronics-spa']])(
     'rejects an unknown prefix before invoking the handler with IDs %j',
     async (pathBaseSiteIds) => {
-      jest.spyOn(globalThis, 'fetch').mockResolvedValue(new globalThis.Response(JSON.stringify({
-        baseSites: [{ uid: 'electronics-spa', urlPatterns: ['^http://internal\\.example/'] }],
-      })));
-      const register = createBaseSiteAwareRoute({ pathBaseSiteIds, indexHtml: '<html></html>', occBaseUrl: 'https://api.example' });
+      jest.spyOn(globalThis, 'fetch').mockResolvedValue(
+        new globalThis.Response(
+          JSON.stringify({
+            baseSites: [
+              {
+                uid: 'electronics-spa',
+                urlPatterns: ['^http://internal\\.example/'],
+              },
+            ],
+          })
+        )
+      );
+      const register = createBaseSiteAwareRoute({
+        pathBaseSiteIds,
+        indexHtml: '<html></html>',
+        occBaseUrl: 'https://api.example',
+      });
       const handler = jest.fn();
       const response = createResponse();
       const next = createNext();
@@ -280,18 +362,31 @@ describe('createBaseSiteAwareRoute', () => {
   );
 
   it('resolves the known prefix even when another OCC site has a broad matching URL pattern', async () => {
-    jest.spyOn(globalThis, 'fetch').mockResolvedValue(new globalThis.Response(JSON.stringify({
-      baseSites: [
-        { uid: 'apparel-uk', urlPatterns: ['^http://internal\\.example/'] },
-        { uid: 'electronics-spa', urlPatterns: ['^http://internal\\.example/'] },
-      ],
-    })));
-    const register = createBaseSiteAwareRoute({ indexHtml: '<html></html>', occBaseUrl: 'https://api.example' });
+    jest.spyOn(globalThis, 'fetch').mockResolvedValue(
+      new globalThis.Response(
+        JSON.stringify({
+          baseSites: [
+            { uid: 'apparel-uk', urlPatterns: ['^http://internal\\.example/'] },
+            {
+              uid: 'electronics-spa',
+              urlPatterns: ['^http://internal\\.example/'],
+            },
+          ],
+        })
+      )
+    );
+    const register = createBaseSiteAwareRoute({
+      indexHtml: '<html></html>',
+      occBaseUrl: 'https://api.example',
+    });
     const response = createResponse();
     const next = createNext();
 
     await dispatch(
-      register({ route: '/example.txt', handler: ({ res, baseSite }) => res.send(baseSite) }),
+      register({
+        route: '/example.txt',
+        handler: ({ res, baseSite }) => res.send(baseSite),
+      }),
       createRequest({ originalUrl: '/electronics-spa/example.txt' }),
       response,
       next
@@ -302,13 +397,23 @@ describe('createBaseSiteAwareRoute', () => {
   });
 
   it('rejects a known prefix when its OCC URL patterns do not match', async () => {
-    jest.spyOn(globalThis, 'fetch').mockResolvedValue(new globalThis.Response(JSON.stringify({
-      baseSites: [
-        { uid: 'apparel-uk', urlPatterns: ['^http://internal\\.example/'] },
-        { uid: 'electronics-spa', urlPatterns: ['^https://other\\.example/'] },
-      ],
-    })));
-    const register = createBaseSiteAwareRoute({ indexHtml: '<html></html>', occBaseUrl: 'https://api.example' });
+    jest.spyOn(globalThis, 'fetch').mockResolvedValue(
+      new globalThis.Response(
+        JSON.stringify({
+          baseSites: [
+            { uid: 'apparel-uk', urlPatterns: ['^http://internal\\.example/'] },
+            {
+              uid: 'electronics-spa',
+              urlPatterns: ['^https://other\\.example/'],
+            },
+          ],
+        })
+      )
+    );
+    const register = createBaseSiteAwareRoute({
+      indexHtml: '<html></html>',
+      occBaseUrl: 'https://api.example',
+    });
     const handler = jest.fn();
     const response = createResponse();
 
@@ -322,7 +427,6 @@ describe('createBaseSiteAwareRoute', () => {
     expect(response.status).toHaveBeenCalledWith(404);
     expect(handler).not.toHaveBeenCalled();
   });
-
 });
 
 describe('setBaseSiteHandler', () => {
@@ -349,7 +453,12 @@ describe('setBaseSiteHandler', () => {
       expect(resolver.resolveFromPath).toHaveBeenCalledWith(
         'http://internal.example/electronics-spa/llms.txt'
       );
-      expect(handler).toHaveBeenCalledWith({ req: request, res: response, next: expect.any(Function), baseSite: 'electronics-spa' });
+      expect(handler).toHaveBeenCalledWith({
+        req: request,
+        res: response,
+        next: expect.any(Function),
+        baseSite: 'electronics-spa',
+      });
       expect(request).not.toHaveProperty('baseSite');
       expect(resolver.resolveFromOcc).not.toHaveBeenCalled();
       expect(next).not.toHaveBeenCalled();
@@ -370,12 +479,7 @@ describe('setBaseSiteHandler', () => {
       const response = createResponse();
       const next = createNext();
 
-      await dispatch(
-        middleware,
-        request,
-        response,
-        next
-      );
+      await dispatch(middleware, request, response, next);
 
       expect(response.status).toHaveBeenCalledWith(404);
       expect(handler).not.toHaveBeenCalled();
@@ -426,76 +530,87 @@ describe('setBaseSiteHandler', () => {
       expect(handler).toHaveBeenCalledTimes(1);
     });
 
-    it.each([false, true])('adds the base-site prefix to a RegExp route with OCC resolution %j', async (supportsOccResolution) => {
-      const resolver = createResolver({
-        supportsOccResolution,
-        resolveFromPath: jest.fn().mockReturnValue('electronics-spa'),
-        resolveFromOcc: jest.fn().mockResolvedValue('electronics-spa'),
-      });
-      const handler = jest.fn();
-      const middleware = setBaseSiteHandler(resolver, {
-        route: /^\/llms\.txt$/,
+    it.each([false, true])(
+      'adds the base-site prefix to a RegExp route with OCC resolution %j',
+      async (supportsOccResolution) => {
+        const resolver = createResolver({
+          supportsOccResolution,
+          resolveFromPath: jest.fn().mockReturnValue('electronics-spa'),
+          resolveFromOcc: jest.fn().mockResolvedValue('electronics-spa'),
+        });
+        const handler = jest.fn();
+        const middleware = setBaseSiteHandler(resolver, {
+          route: /^\/llms\.txt$/,
 
-        handler,
-      });
+          handler,
+        });
 
-      await dispatch(
-        middleware,
-        createRequest({ originalUrl: '/electronics-spa/llms.txt' }),
-        createResponse(),
-        createNext()
-      );
+        await dispatch(
+          middleware,
+          createRequest({ originalUrl: '/electronics-spa/llms.txt' }),
+          createResponse(),
+          createNext()
+        );
 
-      expect(handler).toHaveBeenCalledTimes(1);
-    });
+        expect(handler).toHaveBeenCalledTimes(1);
+      }
+    );
 
     it.each([
       '/llms.txt',
       '/electronics-spa/other.txt',
       '/electronics-spa/llmsXtxt',
       '/electronics-spa/nested/llms.txt',
-    ])('falls through without resolving when %s does not match the prefixed route', async (originalUrl) => {
-      const resolver = createResolver({ supportsOccResolution: false });
-      const handler = jest.fn();
-      const next = createNext();
-      const middleware = setBaseSiteHandler(resolver, {
-        route: '/llms.txt',
+    ])(
+      'falls through without resolving when %s does not match the prefixed route',
+      async (originalUrl) => {
+        const resolver = createResolver({ supportsOccResolution: false });
+        const handler = jest.fn();
+        const next = createNext();
+        const middleware = setBaseSiteHandler(resolver, {
+          route: '/llms.txt',
 
-        handler,
-      });
+          handler,
+        });
 
-      await dispatchToNext(
-        middleware,
-        createRequest({ originalUrl }),
-        createResponse(),
-        next
-      );
+        await dispatchToNext(
+          middleware,
+          createRequest({ originalUrl }),
+          createResponse(),
+          next
+        );
 
-      expect(next).toHaveBeenCalledTimes(1);
-      expect(handler).not.toHaveBeenCalled();
-      expect(resolver.resolveFromPath).not.toHaveBeenCalled();
-      expect(resolver.resolveFromOcc).not.toHaveBeenCalled();
-    });
+        expect(next).toHaveBeenCalledTimes(1);
+        expect(handler).not.toHaveBeenCalled();
+        expect(resolver.resolveFromPath).not.toHaveBeenCalled();
+        expect(resolver.resolveFromOcc).not.toHaveBeenCalled();
+      }
+    );
   });
 
   describe('OCC resolution', () => {
-    it.each([null, 'apparel-uk'])('rejects a resolver result %j that does not identify the requested prefix', async (baseSite) => {
-      const resolver = createResolver({ resolveFromOcc: jest.fn().mockResolvedValue(baseSite) });
-      const handler = jest.fn();
-      const response = createResponse();
-      const next = createNext();
+    it.each([null, 'apparel-uk'])(
+      'rejects a resolver result %j that does not identify the requested prefix',
+      async (baseSite) => {
+        const resolver = createResolver({
+          resolveFromOcc: jest.fn().mockResolvedValue(baseSite),
+        });
+        const handler = jest.fn();
+        const response = createResponse();
+        const next = createNext();
 
-      await dispatch(
-        setBaseSiteHandler(resolver, { route: '/llms.txt', handler }),
-        createRequest(),
-        response,
-        next
-      );
+        await dispatch(
+          setBaseSiteHandler(resolver, { route: '/llms.txt', handler }),
+          createRequest(),
+          response,
+          next
+        );
 
-      expect(response.status).toHaveBeenCalledWith(404);
-      expect(handler).not.toHaveBeenCalled();
-      expect(next).not.toHaveBeenCalled();
-    });
+        expect(response.status).toHaveBeenCalledWith(404);
+        expect(handler).not.toHaveBeenCalled();
+        expect(next).not.toHaveBeenCalled();
+      }
+    );
 
     it('resolves prefixed routes through OCC when IDs come from OCC', async () => {
       const resolver = createResolver({
@@ -508,57 +623,77 @@ describe('setBaseSiteHandler', () => {
       });
       const request = createRequest();
 
-      await dispatch(
-        middleware,
-        request,
-        createResponse(),
-        createNext()
-      );
+      await dispatch(middleware, request, createResponse(), createNext());
 
       expect(resolver.resolveFromOcc).toHaveBeenCalledWith(
         'http://internal.example/electronics-spa/llms.txt',
         'electronics-spa'
       );
-      expect(handler).toHaveBeenCalledWith({ req: request, res: expect.anything(), next: expect.any(Function), baseSite: 'electronics-spa' });
+      expect(handler).toHaveBeenCalledWith({
+        req: request,
+        res: expect.anything(),
+        next: expect.any(Function),
+        baseSite: 'electronics-spa',
+      });
       expect(request).not.toHaveProperty('baseSite');
       expect(resolver.resolveFromPath).not.toHaveBeenCalled();
     });
   });
 
   describe('failure mapping', () => {
-
     it('adapts an ordinary handler and preserves the Express objects and next(error)', async () => {
       const request = createRequest();
       const response = createResponse();
       const error = new Error('ordinary handler error');
       const next = createNext();
-      const ordinaryHandler = (req: Request, res: Response, next: NextFunction) => {
+      const ordinaryHandler = (
+        req: Request,
+        res: Response,
+        next: NextFunction
+      ) => {
         expect(req).toBe(request);
         expect(res).toBe(response);
         res.send('ordinary response');
         next(error);
       };
-      const middleware = setBaseSiteHandler(createResolver(), { route: '/llms.txt', handler: ({ req, res, next }) => ordinaryHandler(req, res, next) });
+      const middleware = setBaseSiteHandler(createResolver(), {
+        route: '/llms.txt',
+        handler: ({ req, res, next }) => ordinaryHandler(req, res, next),
+      });
       await dispatchToNext(middleware, request, response, next);
       expect(response.send).toHaveBeenCalledWith('ordinary response');
       expect(next).toHaveBeenCalledTimes(1);
       expect(next).toHaveBeenCalledWith(error);
     });
 
-    it.each([undefined, 'route'])('preserves callback next(%j)', async (signal) => {
-      const next = createNext();
-      const middleware = setBaseSiteHandler(createResolver(), { route: '/llms.txt', handler: ({ next }) => next(signal) });
-      await dispatchToNext(middleware, createRequest(), createResponse(), next);
-      expect(next).toHaveBeenCalledTimes(1);
-      expect(next).not.toHaveBeenCalledWith('route');
-    });
+    it.each([undefined, 'route'])(
+      'preserves callback next(%j)',
+      async (signal) => {
+        const next = createNext();
+        const middleware = setBaseSiteHandler(createResolver(), {
+          route: '/llms.txt',
+          handler: ({ next }) => next(signal),
+        });
+        await dispatchToNext(
+          middleware,
+          createRequest(),
+          createResponse(),
+          next
+        );
+        expect(next).toHaveBeenCalledTimes(1);
+        expect(next).not.toHaveBeenCalledWith('route');
+      }
+    );
 
     it('forwards a rejected callback promise to next()', async () => {
       const error = new Error('async callback error');
       const next = createNext();
       const middleware = setBaseSiteHandler(createResolver(), {
         route: '/llms.txt',
-        handler: async ({ req }) => { expect(req.originalUrl).toBe('/electronics-spa/llms.txt'); throw error; },
+        handler: async ({ req }) => {
+          expect(req.originalUrl).toBe('/electronics-spa/llms.txt');
+          throw error;
+        },
       });
       await dispatchToNext(middleware, createRequest(), createResponse(), next);
       expect(next).toHaveBeenCalledTimes(1);
@@ -618,12 +753,7 @@ describe('setBaseSiteHandler', () => {
         retryAfterSeconds: { concurrencyLimit: 7, occUnavailable: 40 },
       });
 
-      await dispatch(
-        middleware,
-        createRequest(),
-        response,
-        createNext()
-      );
+      await dispatch(middleware, createRequest(), response, createNext());
 
       expect(response.setHeader).toHaveBeenCalledWith('Retry-After', '7');
       expect(response.status).toHaveBeenCalledWith(503);

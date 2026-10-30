@@ -62,11 +62,12 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
     pathBaseSiteId?: string
   ): Promise<string | null> {
     const sites = await this.getSites();
-    const matchedSite = sites.find((site) =>
-      (pathBaseSiteId === undefined || site.uid === pathBaseSiteId) &&
-      site.urlPatterns?.some(
-        (pattern) => convertRegExpJavaToJs(pattern)?.test(requestUrl) ?? false
-      )
+    const matchedSite = sites.find(
+      (site) =>
+        (pathBaseSiteId === undefined || site.uid === pathBaseSiteId) &&
+        site.urlPatterns?.some(
+          (pattern) => convertRegExpJavaToJs(pattern)?.test(requestUrl) ?? false
+        )
     );
     return matchedSite?.uid ?? null;
   }

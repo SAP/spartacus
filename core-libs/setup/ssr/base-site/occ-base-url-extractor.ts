@@ -33,13 +33,10 @@ export function extractOccBaseUrlFromHtml(html: string): string | null {
 function extractMetaTags(html: string): MetaTag[] {
   return Array.from(html.matchAll(META_TAG_PATTERN), ([metaTag]) => {
     return new Map(
-      Array.from(
-        metaTag.matchAll(META_TAG_ATTRIBUTE_PATTERN),
-        ({ groups }) => {
-          const { name, value } = groups as { name: string; value: string };
-          return [name.toLowerCase(), value] as const;
-        }
-      )
+      Array.from(metaTag.matchAll(META_TAG_ATTRIBUTE_PATTERN), ({ groups }) => {
+        const { name, value } = groups as { name: string; value: string };
+        return [name.toLowerCase(), value] as const;
+      })
     );
   });
 }

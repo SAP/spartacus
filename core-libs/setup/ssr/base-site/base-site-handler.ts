@@ -38,7 +38,9 @@ export interface BaseSiteHandlerContext {
 }
 
 /** Application callback invoked after base-site resolution. */
-export type BaseSiteAwareRequestHandler = (context: BaseSiteHandlerContext) => unknown;
+export type BaseSiteAwareRequestHandler = (
+  context: BaseSiteHandlerContext
+) => unknown;
 
 /** Options for {@link setBaseSiteHandler}. */
 export interface SetBaseSiteHandlerOptions {
@@ -94,10 +96,9 @@ export function setBaseSiteHandler(
 
     let baseSite: string | null;
     try {
-      baseSite =
-        resolver.supportsOccResolution
-          ? await resolver.resolveFromOcc(requestUrl, pathBaseSiteId)
-          : resolver.resolveFromPath(requestUrl);
+      baseSite = resolver.supportsOccResolution
+        ? await resolver.resolveFromOcc(requestUrl, pathBaseSiteId)
+        : resolver.resolveFromPath(requestUrl);
     } catch (error) {
       if (error instanceof ConcurrencyLimitError) {
         res.setHeader(

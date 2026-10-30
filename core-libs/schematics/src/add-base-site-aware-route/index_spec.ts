@@ -134,7 +134,10 @@ describe(schematicName, () => {
     expect(content).toContain('const server = express();');
     expect(content).not.toContain('unused-module');
     expect(
-      source.getImportDeclarationOrThrow('express').getDefaultImport()?.getText()
+      source
+        .getImportDeclarationOrThrow('express')
+        .getDefaultImport()
+        ?.getText()
     ).toBe('express');
     expect(
       source
@@ -180,7 +183,9 @@ describe(schematicName, () => {
     expect(factoryOptions.getProperty('pathBaseSiteIds')).toBeUndefined();
     expect(factoryOptions.getProperty('occBaseUrl')).toBeUndefined();
     expect(content).toContain('// pathBaseSiteIds:');
-    expect(content).toContain('Provide base-site IDs to resolve prefixed routes locally');
+    expect(content).toContain(
+      'Provide base-site IDs to resolve prefixed routes locally'
+    );
     expect(content).toContain(
       'Omit this option to resolve prefixed routes through OCC'
     );
@@ -644,9 +649,9 @@ describe(schematicName, () => {
     const tree = createMultiProjectTree();
     const before = snapshot(tree);
 
-    await expect(
-      runner.runSchematic(schematicName, {}, tree)
-    ).rejects.toThrow('SSR is not enabled for project "app"');
+    await expect(runner.runSchematic(schematicName, {}, tree)).rejects.toThrow(
+      'SSR is not enabled for project "app"'
+    );
     expect(snapshot(tree)).toEqual(before);
   });
 

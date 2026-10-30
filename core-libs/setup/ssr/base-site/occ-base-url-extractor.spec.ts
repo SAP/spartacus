@@ -41,9 +41,7 @@ describe('extractOccBaseUrlFromHtml', () => {
     const html =
       '<meta name="occ-backend-base-url" content="  https://api.example/path  ">';
 
-    expect(extractOccBaseUrlFromHtml(html)).toBe(
-      'https://api.example/path'
-    );
+    expect(extractOccBaseUrlFromHtml(html)).toBe('https://api.example/path');
   });
 
   it('returns null when the tag is missing', () => {
