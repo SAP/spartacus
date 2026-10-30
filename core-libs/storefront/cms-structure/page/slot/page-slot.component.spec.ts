@@ -158,27 +158,30 @@ describe('PageSlotComponent', () => {
     it('should have Section1 class', () => {
       pageSlotComponent.position = 'Section1';
       fixture.detectChanges();
-      expect(pageSlotComponent.class).toContain('Section1');
+      expect(
+        fixture.debugElement.nativeElement.classList
+      ).toContain('Section1');
     });
 
     it('should not have Section1 class anymore', () => {
       pageSlotComponent.position = 'Section1';
       fixture.detectChanges();
-      expect(pageSlotComponent.class).toContain('Section1');
+      expect(fixture.debugElement.nativeElement.classList).toContain('Section1');
 
       pageSlotComponent.position = 'Section2';
       fixture.detectChanges();
-      expect(pageSlotComponent.class).not.toContain('Section1');
-      expect(pageSlotComponent.class).toContain('Section2');
+      expect(fixture.debugElement.nativeElement.classList).not.toContain('Section1');
+      expect(fixture.debugElement.nativeElement.classList).toContain('Section2');
     });
 
     it('should keep custom classes next to Section1', () => {
       pageSlotComponent.class = 'custom styles';
       pageSlotComponent.position = 'Section1';
       fixture.detectChanges();
-      expect(pageSlotComponent.class).toContain('Section1');
-      expect(pageSlotComponent.class).toContain('custom');
-      expect(pageSlotComponent.class).toContain('styles');
+      const el = fixture.debugElement.nativeElement;
+      expect(el.classList).toContain('Section1');
+      expect(el.classList).toContain('custom');
+      expect(el.classList).toContain('styles');
     });
   });
 
@@ -189,14 +192,14 @@ describe('PageSlotComponent', () => {
     it('should not have cx-pending class when there is no slot data', () => {
       vi.spyOn(cmsService, 'getContentSlot').mockReturnValue(of(null));
       fixture.detectChanges();
-      expect(pageSlotComponent.class).not.toContain('cx-pending');
+      expect(fixture.debugElement.nativeElement.classList).not.toContain('cx-pending');
       expect(pageSlotComponent.isPending).toEqual(false);
     });
 
     it('should not have cx-pending class when there is empty slot data', () => {
       vi.spyOn(cmsService, 'getContentSlot').mockReturnValue(of({}));
       fixture.detectChanges();
-      expect(pageSlotComponent.class).not.toContain('cx-pending');
+      expect(fixture.debugElement.nativeElement.classList).not.toContain('cx-pending');
       expect(pageSlotComponent.isPending).toEqual(false);
     });
 

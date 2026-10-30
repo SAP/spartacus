@@ -46,7 +46,7 @@ export class BannerComponent {
 
   @HostBinding('class') styleClasses: string | undefined;
 
-  private featureToggles = inject(FeatureToggles);
+  private readonly featureToggles = inject(FeatureToggles);
   protected el = inject(ElementRef);
 
   data$: Observable<CmsBannerComponent> = this.component.data$.pipe(
