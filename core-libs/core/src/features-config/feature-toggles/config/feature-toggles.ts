@@ -721,6 +721,17 @@ export interface FeatureTogglesInterface {
   productConfiguratorConsolidatedButtonDisabling?: boolean;
 
   /**
+   * When enabled, the configuration update message is pinned to the top of the
+   * viewport with `position: fixed` while an update is in progress, so it
+   * remains visible when the user has scrolled down the configuration page.
+   * When disabled, the message uses the previous sticky layout in the header
+   * slot and scrolls out of view with the page content.
+   *
+   * Affects: `ConfiguratorUpdateMessageComponent`
+   */
+  productConfiguratorUpdateMsg?: boolean;
+
+  /**
    * When enabled, the form-error icon glyph (`cx-form-errors`) uses the
    * `--cx-color-danger-accent` color instead of `--cx-color-inverse`, so it
    * stays legible on the danger background in the high-contrast dark theme
@@ -1028,6 +1039,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   improvedTabStyling: false,
   reloadOnLanguageChange: false,
   productConfiguratorConsolidatedButtonDisabling: false,
+  productConfiguratorUpdateMsg: false,
   mergeGuestCartOnCodeFlowLogin: false,
   a11yFormErrorIconContrast: false,
   a11yFocusIndicatorContrast: false,

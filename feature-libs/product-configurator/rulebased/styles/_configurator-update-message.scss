@@ -3,6 +3,11 @@
   width: 100%;
   z-index: 99;
 
+  @include forFeature('productConfiguratorUpdateMsg') {
+    position: static;
+    z-index: auto;
+  }
+
   div.cx-update-msg {
     display: none;
     flex-direction: row;
@@ -42,6 +47,20 @@
             }
           }
         }
+      }
+    }
+
+    @include forFeature('productConfiguratorUpdateMsg') {
+      position: static;
+      top: auto;
+
+      &.visible {
+        position: fixed;
+        inset-block-start: 0;
+        inset-inline-start: 0;
+        inset-inline-end: 0;
+        z-index: calc(var(--cx-popover-z-index, 10000) + 5);
+        box-shadow: 0 2px 5px var(--cx-color-light);
       }
     }
   }

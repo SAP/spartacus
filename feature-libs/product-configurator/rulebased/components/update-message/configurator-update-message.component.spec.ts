@@ -16,7 +16,7 @@ import {
   CommonConfiguratorUtilsService,
 } from '@spartacus/product-configurator/common';
 import { SpinnerComponent } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorMessageConfig } from '../config/configurator-message.config';
@@ -32,21 +32,25 @@ class MockRoutingService {
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 
-let hasPendingChanges = false;
+const hasPendingChangesSubject = new BehaviorSubject<boolean>(false);
 let waitingTime: number | undefined = 1000;
+let hideWaitingTime: number | undefined;
 
 class MockConfiguratorCommonsService {
   hasPendingChanges(): Observable<boolean> {
-    return of(hasPendingChanges);
+    return hasPendingChangesSubject.asObservable();
   }
 }
 
 class MockMessageConfig {
-  productConfigurator = {
-    updateConfigurationMessage: {
-      waitingTime: waitingTime,
-    },
-  };
+  get productConfigurator() {
+    return {
+      updateConfigurationMessage: {
+        waitingTime: waitingTime,
+        hideWaitingTime: hideWaitingTime,
+      },
+    };
+  }
 }
 @Component({
   selector: 'cx-spinner',
@@ -92,6 +96,9 @@ describe('ConfiguratorUpdateMessageComponent', () => {
     });
   });
   beforeEach(() => {
+    hasPendingChangesSubject.next(false);
+    waitingTime = 1000;
+    hideWaitingTime = undefined;
     fixture = TestBed.createComponent(ConfiguratorUpdateMessageComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
@@ -112,25 +119,23 @@ describe('ConfiguratorUpdateMessageComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should not show update banner if pending changes is false', () => {
-    hasPendingChanges = false;
+  it('should not show update banner if pending changes is false', async () => {
+    fixture.detectChanges();
+    await vi.advanceTimersByTimeAsync(2000);
     fixture.detectChanges();
 
-    //Should contain d-none class
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
       0
     );
   });
 
   it('should show update banner after delay time if pending changes is true', async () => {
-    //Should be hidden first
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
       0
     );
-    hasPendingChanges = true;
+    hasPendingChangesSubject.next(true);
     fixture.detectChanges();
 
-    //Should appear after a bit
     await vi.advanceTimersByTimeAsync(2000);
 
     fixture.detectChanges();
@@ -141,15 +146,13 @@ describe('ConfiguratorUpdateMessageComponent', () => {
   });
 
   it('should show update banner after default delay time if pending changes is true and no delay time configured', async () => {
-    //Should be hidden first
+    waitingTime = undefined;
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
       0
     );
-    hasPendingChanges = true;
+    hasPendingChangesSubject.next(true);
     fixture.detectChanges();
-    waitingTime = undefined;
 
-    //Should appear after a bit
     await vi.advanceTimersByTimeAsync(2000);
 
     fixture.detectChanges();
@@ -159,14 +162,12 @@ describe('ConfiguratorUpdateMessageComponent', () => {
   });
 
   it('should not show update banner if pending changes is true but delay time not reached', async () => {
-    //Should be hidden first
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
       0
     );
-    hasPendingChanges = true;
+    hasPendingChangesSubject.next(true);
     fixture.detectChanges();
 
-    //Wait a bit, but don't reach delay time
     await vi.advanceTimersByTimeAsync(500);
 
     fixture.detectChanges();
@@ -174,5 +175,56 @@ describe('ConfiguratorUpdateMessageComponent', () => {
       0
     );
     await vi.advanceTimersByTimeAsync(1000);
+  });
+
+  it('should hide update banner after hide delay when pending changes become false', async () => {
+    hasPendingChangesSubject.next(true);
+    fixture.detectChanges();
+    await vi.advanceTimersByTimeAsync(1000);
+    fixture.detectChanges();
+    expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
+      1
+    );
+
+    hasPendingChangesSubject.next(false);
+    fixture.detectChanges();
+    expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
+      1
+    );
+
+    await vi.advanceTimersByTimeAsync(999);
+    fixture.detectChanges();
+    expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
+      1
+    );
+
+    await vi.advanceTimersByTimeAsync(1);
+    fixture.detectChanges();
+    expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
+      0
+    );
+  });
+
+  it('should use hideWaitingTime when configured', async () => {
+    hideWaitingTime = 500;
+    hasPendingChangesSubject.next(true);
+    fixture.detectChanges();
+    await vi.advanceTimersByTimeAsync(1000);
+    fixture.detectChanges();
+
+    hasPendingChangesSubject.next(false);
+    fixture.detectChanges();
+
+    await vi.advanceTimersByTimeAsync(499);
+    fixture.detectChanges();
+    expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
+      1
+    );
+
+    await vi.advanceTimersByTimeAsync(1);
+    fixture.detectChanges();
+    expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
+      0
+    );
   });
 });
