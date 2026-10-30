@@ -4,7 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import {
   ConverterService,
@@ -30,6 +34,7 @@ import {
 } from '@spartacus/opf/payment/core';
 import {
   OpfPaymentAfterRedirectScriptResponse,
+  OpfPaymentError,
   OpfPaymentInitiationConfig,
   OpfPaymentSessionData,
   OpfPaymentSubmitCompleteRequest,
@@ -124,7 +129,7 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
       .post<OpfPaymentSubmitResponse>(url, submitRequest, { headers })
       .pipe(
         catchError((error) => {
-          throw tryNormalizeHttpError(error, this.logger);
+          throw this.normalizeOpfPaymentHttpError(error);
         }),
         backOff({
           shouldRetry: isServerError,
@@ -154,7 +159,7 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
       })
       .pipe(
         catchError((error) => {
-          throw tryNormalizeHttpError(error, this.logger);
+          throw this.normalizeOpfPaymentHttpError(error);
         }),
         backOff({
           shouldRetry: isServerError,
@@ -286,5 +291,19 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
     return this.opfEndpointsService.buildUrl('updatePaymentTransaction', {
       urlParams: { paymentSessionId },
     });
+  }
+
+  protected normalizeOpfPaymentHttpError(
+    error: unknown
+  ): OpfPaymentError | Error {
+    const normalizedError = tryNormalizeHttpError(error, this.logger);
+    if (
+      error instanceof HttpErrorResponse &&
+      error.error != null &&
+      typeof error.error === 'object'
+    ) {
+      Object.assign(normalizedError, error.error);
+    }
+    return normalizedError as OpfPaymentError | Error;
   }
 }
