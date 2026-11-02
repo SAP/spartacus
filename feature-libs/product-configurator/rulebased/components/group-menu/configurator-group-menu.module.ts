@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { IconModule, KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
 
@@ -19,7 +19,7 @@ import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.compon
     ConfiguratorGroupMenuComponent,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         ConfiguratorMenu: {
           component: ConfiguratorGroupMenuComponent,
