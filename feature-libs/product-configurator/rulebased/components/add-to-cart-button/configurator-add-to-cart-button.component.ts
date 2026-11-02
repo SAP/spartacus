@@ -13,7 +13,11 @@ import {
   inject,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  CartItemQuantityService,
+  MultiCartFacade,
+} from '@spartacus/cart/base/root';
 import {
   FeatureToggles,
   GlobalMessageService,
@@ -73,6 +77,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   protected focusService = inject(KeyboardFocusService);
   protected activeCartFacade = inject(ActiveCartFacade);
   private featureToggles = inject(FeatureToggles);
+  protected cartItemQuantityService = inject(CartItemQuantityService);
   quantityControl = new UntypedFormControl(1);
   iconType = ICON_TYPE;
   addToCartButtonDisabled = false;
@@ -119,12 +124,20 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.makeAddToCartButtonSticky();
 
-    this.configuratorQuantityService
-      .getQuantity()
-      .pipe(take(1))
-      .subscribe((quantity) => {
-        this.quantityControl.setValue(quantity);
-      });
+    this.subscription.add(
+      this.configRouterExtractorService
+        .extractRouterData()
+        .pipe(
+          take(1),
+          switchMap((routerData) => this.getInitialQuantity$(routerData)),
+          take(1),
+          map((quantity) => quantity ?? 1)
+        )
+        .subscribe((quantity) => {
+          this.configuratorQuantityService.setQuantity(quantity);
+          this.quantityControl.setValue(quantity);
+        })
+    );
 
     this.subscription.add(
       this.quantityControl.valueChanges
@@ -135,6 +148,21 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
           )
         )
     );
+  }
+
+  /**
+   * Resolves the quantity shown in the configurator stepper on first load.
+   *
+   * @param routerData - Current configurator router data
+   * @returns Observable that emits the initial quantity once
+   */
+  protected getInitialQuantity$(
+    routerData: ConfiguratorRouter.Data
+  ): Observable<number> {
+    if (routerData.owner.type === CommonConfigurator.OwnerType.PRODUCT) {
+      return this.cartItemQuantityService.getQuantity();
+    }
+    return this.configuratorQuantityService.getQuantity();
   }
 
   protected navigateToCart(): void {

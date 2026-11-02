@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 /**
  * To implement custom solution provide your own implementation and customize services that use ConfiguratorQuantityService
@@ -14,7 +14,7 @@ import { Observable, ReplaySubject } from 'rxjs';
   providedIn: 'root',
 })
 export class ConfiguratorQuantityService {
-  private _quantity: Observable<number> = new ReplaySubject<number>(1);
+  private quantitySubject = new BehaviorSubject<number>(1);
 
   /**
    * Sets the configuration quantity.
@@ -22,7 +22,7 @@ export class ConfiguratorQuantityService {
    * @param quantity
    */
   public setQuantity(quantity: number): void {
-    (this._quantity as ReplaySubject<number>).next(quantity);
+    this.quantitySubject.next(quantity);
   }
 
   /**
@@ -31,6 +31,6 @@ export class ConfiguratorQuantityService {
    * @returns {Observable<number>} - Configuration quantity.
    */
   public getQuantity(): Observable<number> {
-    return this._quantity;
+    return this.quantitySubject.asObservable();
   }
 }
