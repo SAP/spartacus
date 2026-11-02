@@ -32,8 +32,12 @@ const allowedDomains = loadAllowedDomains();
 const cwd = process.cwd();
 
 const compareStrings = (a, b) => {
-  if (a < b) return -1;
-  if (a > b) return 1;
+  if (a < b) {
+    return -1;
+  }
+  if (a > b) {
+    return 1;
+  }
   return 0;
 };
 const files = [...new Set(roots.flatMap((root) => findMarkdown(root)))].sort(
