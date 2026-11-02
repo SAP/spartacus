@@ -6,13 +6,12 @@
 
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 import { ConfiguratorAttributeContainerComponent } from './configurator-attribute-container.component';
 
 @NgModule({
   imports: [ConfiguratorAttributeContainerComponent],
   providers: [
-    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+    provideDefaultConfig({
       productConfigurator: {
         assignment: {
           AttributeType_container: ConfiguratorAttributeContainerComponent,
