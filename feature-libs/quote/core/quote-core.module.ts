@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule, inject, provideAppInitializer } from '@angular/core';
+import { NgModule, inject, provideEnvironmentInitializer } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
 import { defaultQuoteCoreConfig } from './config/default-quote.core.config';
 import { QuoteConnector } from './connectors/quote.connector';
@@ -13,7 +13,7 @@ import { facadeProviders } from './facade/facade-providers';
 
 @NgModule({
   providers: [
-    provideAppInitializer(() => {
+    provideEnvironmentInitializer(() => {
       inject(QuoteCartEventListener);
     }),
     ...facadeProviders,

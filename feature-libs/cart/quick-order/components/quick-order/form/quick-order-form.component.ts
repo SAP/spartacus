@@ -22,7 +22,10 @@ import {
   UntypedFormControl,
   UntypedFormGroup,
 } from '@angular/forms';
-import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
+import {
+  QuickOrderConfig,
+  QuickOrderFacade,
+} from '@spartacus/cart/quick-order/root';
 import {
   Config,
   FeatureToggles,
@@ -60,7 +63,7 @@ const SEARCH_BOX_ACTIVE_CLASS = 'quick-order-searchbox-is-active';
   ],
 })
 export class QuickOrderFormComponent implements OnInit, OnDestroy {
-  config = inject(Config);
+  config = inject<Config & QuickOrderConfig>(Config);
   protected cd = inject(ChangeDetectorRef);
   protected quickOrderService = inject(QuickOrderFacade);
   protected winRef = inject(WindowRef);

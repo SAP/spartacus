@@ -7,7 +7,7 @@ import {
   OrganizationItemStatus,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
-import { EMPTY, Observable, of } from 'rxjs';
+import { EMPTY, firstValueFrom, Observable, of } from 'rxjs';
 import { UnitFormService } from '../../../form/unit-form.service';
 import { CurrentUnitChildService } from './current-unit-child.service';
 import { UnitChildItemService } from './unit-child-item.service';
@@ -15,6 +15,9 @@ import { UnitChildItemService } from './unit-child-item.service';
 const mockCode = 'u1';
 class MockRoutingService {
   go() {}
+  getParams() {
+    return of({});
+  }
 }
 const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
 class MockOrgUnitService {
@@ -32,6 +35,8 @@ class MockOrgUnitService {
 class MockUnitFormService {}
 class MockCurrentUnitChildService {
   key$ = of(mockCode);
+  item$ = of({ uid: mockCode });
+  b2bUnit$ = of('parent-unit');
   load = vi.fn().mockReturnValue(EMPTY);
   error$ = of(false);
 }
@@ -59,6 +64,16 @@ describe('UnitChildItemService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('should observe the child unit service after all inherited fields initialize', async () => {
+    expect(
+      await Promise.all([
+        firstValueFrom(service.key$),
+        firstValueFrom(service.current$),
+        firstValueFrom(service.unit$),
+      ])
+    ).toEqual([mockCode, { uid: mockCode }, 'parent-unit']);
   });
 
   it('should create item with parentUnitUid', () => {

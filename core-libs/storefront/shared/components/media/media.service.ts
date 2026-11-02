@@ -31,7 +31,7 @@ import {
   providedIn: 'root',
 })
 export class MediaService {
-  protected config = inject(Config);
+  protected config = inject<Config & MediaConfig>(Config);
 
   /**
    * The media formats sorted by size. The media format representing the smallest

@@ -20,7 +20,7 @@ import { FeatureConfigService } from '../services/feature-config.service';
 export class FeatureLevelDirective {
   protected templateRef = inject<TemplateRef<any>>(TemplateRef);
   protected viewContainer = inject(ViewContainerRef);
-  protected featureConfig = inject(FeatureConfigService);
+  private featureConfig = inject(FeatureConfigService);
 
   private hasView = false;
 

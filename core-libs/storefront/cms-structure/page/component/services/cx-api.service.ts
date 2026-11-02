@@ -37,7 +37,7 @@ export class CxApiService {
   auth = inject(AuthService, { optional: true });
   cms = inject(CmsService, { optional: true });
   pageMeta = inject(PageMetaService, { optional: true });
-  featureConfig = inject(FeatureConfigService, { optional: true });
+  private featureConfig = inject(FeatureConfigService, { optional: true });
   globalMessage = inject(GlobalMessageService, { optional: true });
   translation = inject(TranslationService, { optional: true });
   occEndpoints = inject(OccEndpointsService, { optional: true });

@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule, inject, provideAppInitializer } from '@angular/core';
+import { NgModule, inject, provideEnvironmentInitializer } from '@angular/core';
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import {
   BtnLikeLinkModule,
@@ -20,7 +20,7 @@ import { defaultCdcReconsentLayoutConfig } from './default-cdc-reconsent-layout.
 
 @NgModule({
   providers: [
-    provideAppInitializer(() => {
+    provideEnvironmentInitializer(() => {
       inject(CdcReconsentDialogEventListener);
     }),
     provideDefaultConfig(defaultCdcReconsentLayoutConfig),

@@ -114,4 +114,13 @@ The migration deliberately **skips** (leaves untouched, never edits) subclasses 
 
 4. **You want to convert your own class to `inject()` too** (recommended). Replace `constructor(private x: X) {}` with `private x = inject(X);`. This is optional; constructor DI still works for your own classes.
 
+5. **You extend the abstract organization `ItemService` directly.** Implement its `currentItemService` and `formService` properties with the concrete services for your entity. The base class cannot inject these abstract service tokens because each entity requires a different implementation. Its `key$`, `current$`, and `unit$` streams resolve the concrete service when subscribed, after subclass fields have initialized. For example, a unit item service declares:
+
+   ```ts
+   protected currentItemService = inject(CurrentUnitService);
+   protected formService = inject(UnitFormService);
+   ```
+
+   Classes extending a concrete item service, such as `UnitItemService`, inherit these implementations. Override the properties only when the subclass needs different services.
+
 > After running the migration, build your app (`ng build`). Any remaining `TS2554: Expected 0 arguments` errors point to a subclass that needs one of the manual fixes above.

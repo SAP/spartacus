@@ -8,7 +8,7 @@ import {
   ModuleWithProviders,
   NgModule,
   inject,
-  provideAppInitializer,
+  provideEnvironmentInitializer,
 } from '@angular/core';
 import { ConfigFactory } from './config-factory';
 import { provideConfig, provideConfigFactory } from './config-providers';
@@ -17,7 +17,7 @@ import { ConfigurationService } from './services/configuration.service';
 
 @NgModule({
   providers: [
-    provideAppInitializer(() => {
+    provideEnvironmentInitializer(() => {
       inject(ConfigurationService);
     }),
   ],

@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule, inject, provideAppInitializer } from '@angular/core';
+import { NgModule, inject, provideEnvironmentInitializer } from '@angular/core';
 import { SavedCartEventBuilder } from './saved-cart-event.builder';
 
 @NgModule({
   providers: [
-    provideAppInitializer(() => {
+    provideEnvironmentInitializer(() => {
       inject(SavedCartEventBuilder);
     }),
   ],

@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule, inject, provideAppInitializer } from '@angular/core';
+import { NgModule, inject, provideEnvironmentInitializer } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
@@ -45,7 +45,7 @@ import { defaultAddedToCartLayoutConfig } from './default-added-to-cart-layout.c
     AddedToCartDialogComponent,
   ],
   providers: [
-    provideAppInitializer(() => {
+    provideEnvironmentInitializer(() => {
       inject(AddedToCartDialogEventListener);
     }),
     provideDefaultConfig(defaultAddedToCartLayoutConfig),

@@ -1,6 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { CartConfigService } from '@spartacus/cart/base/core';
-import { ActiveCartFacade, SelectiveCartFacade } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  SelectiveCartFacade,
+} from '@spartacus/cart/base/root';
 import { of } from 'rxjs';
 import { CartPageLayoutHandler } from './cart-page-layout-handler';
 

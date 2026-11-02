@@ -5,9 +5,9 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { CmsComponent, CmsService } from '@spartacus/core';
+import { CmsComponent, CmsService, isNotNullable } from '@spartacus/core';
 import { defer, EMPTY, Observable, of } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { filter, map, startWith } from 'rxjs/operators';
 import { CmsComponentsService } from '../../../services/cms-components.service';
 
 /**
@@ -53,6 +53,6 @@ export class ComponentDataProvider {
       } else {
         return staticComponentData ? of(staticComponentData) : EMPTY;
       }
-    });
+    }).pipe(filter(isNotNullable));
   }
 }

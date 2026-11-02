@@ -9,7 +9,7 @@ import { UntypedFormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
 import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
 import { FormUtils } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
+import { BehaviorSubject, defer, EMPTY, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { CurrentItemService } from './current-item.service';
 import { FormService } from './form/form.service';
@@ -22,13 +22,13 @@ import { FormService } from './form/form.service';
  */
 @Injectable()
 export abstract class ItemService<T> {
-  protected currentItemService =
-    inject<CurrentItemService<T>>(CurrentItemService);
+  protected abstract currentItemService: CurrentItemService<T>;
   protected routingService = inject(RoutingService);
-  protected formService = inject<FormService<T>>(FormService);
+  protected abstract formService: FormService<T>;
 
-  key$ = this.currentItemService.key$;
-  current$ = this.currentItemService.item$;
+  // Resolve the dependencies after the concrete service's fields initialize.
+  key$ = defer(() => this.currentItemService.key$);
+  current$ = defer(() => this.currentItemService.item$);
 
   isInEditMode$: Observable<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -37,7 +37,7 @@ export abstract class ItemService<T> {
    *
    * The current unit is driven by the route parameter.
    */
-  unit$: Observable<string> = this.currentItemService.b2bUnit$;
+  unit$: Observable<string> = defer(() => this.currentItemService.b2bUnit$);
 
   error$: Observable<boolean> = this.key$.pipe(
     switchMap((key) => this.currentItemService.getError(key))

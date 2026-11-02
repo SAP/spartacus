@@ -21,7 +21,7 @@ import { I18nextBackendInitializer } from './i18next-backend.initializer';
 export class I18nextBackendService {
   protected backendInitializers = inject(I18nextBackendInitializer, {
     optional: true,
-  }) as I18nextBackendInitializer[] | null;
+  }) as unknown as I18nextBackendInitializer[] | null;
 
   /**
    * Configures an i18next backend plugin, to allow for loading translations from external resources.

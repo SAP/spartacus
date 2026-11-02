@@ -38,7 +38,10 @@ export class ConfigInitializerService {
    * Returns true if config is stable, i.e. all CONFIG_INITIALIZERS resolved correctly
    */
   get isStable(): boolean {
-    return !this.initializerGuard || this.ongoingScopes$.value?.length === 0;
+    return (
+      !(this.initializerGuard as unknown) ||
+      this.ongoingScopes$.value?.length === 0
+    );
   }
 
   /**

@@ -14,6 +14,7 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   QuickOrderAddEntryEvent,
+  QuickOrderConfig,
   QuickOrderFacade,
   defaultQuickOrderConfig,
 } from '@spartacus/cart/quick-order/root';
@@ -39,7 +40,7 @@ import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
 @Injectable()
 export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   protected activeCartService = inject(ActiveCartFacade);
-  protected config = inject(Config);
+  protected config = inject<Config & QuickOrderConfig>(Config);
   protected eventService = inject(EventService);
   protected productSearchConnector = inject(ProductSearchConnector);
 
