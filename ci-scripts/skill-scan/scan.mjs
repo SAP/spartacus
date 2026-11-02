@@ -31,7 +31,9 @@ const roots = targets.length ? targets : [DEFAULT_TARGET];
 const allowedDomains = loadAllowedDomains();
 const cwd = process.cwd();
 
-const files = [...new Set(roots.flatMap((root) => findMarkdown(root)))].sort();
+const files = [...new Set(roots.flatMap((root) => findMarkdown(root)))].sort(
+  (a, b) => (a < b ? -1 : a > b ? 1 : 0)
+);
 
 if (files.length === 0) {
   console.error(
@@ -58,7 +60,9 @@ for (const file of files) {
         /\r?\n/g,
         ' '
       );
-      console.log(`::error file=${rel},line=${f.line},col=${f.column}::${message}`);
+      console.log(
+        `::error file=${rel},line=${f.line},col=${f.column}::${message}`
+      );
     }
   }
 }
@@ -70,4 +74,6 @@ if (totalFindings > 0) {
   );
   process.exit(1);
 }
-console.log(`✓ skill-scan: no issues in ${files.length} skill markdown file(s).`);
+console.log(
+  `✓ skill-scan: no issues in ${files.length} skill markdown file(s).`
+);
