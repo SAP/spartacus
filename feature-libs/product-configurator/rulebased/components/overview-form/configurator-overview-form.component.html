@@ -35,8 +35,7 @@
     <div
       *ngIf="
         isInPageNavigationEnabled &&
-        parentGroup &&
-        isContainerRowDetailsGroup(group)
+        isContainerRowDetailsSection(group, parentGroup)
       "
       [attr.id]="getGroupId(idPrefix, group.id)"
       class="cx-group topLevel configurationDetails"
@@ -64,7 +63,7 @@
     </div>
     <div
       [attr.id]="
-        isContainerRowDetailsGroup(group)
+        isContainerRowDetailsSection(group, parentGroup)
           ? null
           : getGroupId(idPrefix, group.id)
       "
