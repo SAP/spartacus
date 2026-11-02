@@ -95,6 +95,14 @@ describe('add-spartacus', () => {
       expect(depPackageList.includes(SPARTACUS_STYLES)).toBe(true);
     });
 
+    it('should keep the Angular unit-test target schema valid', () => {
+      const workspace = JSON.parse(tree.readContent('/angular.json'));
+      const test = workspace.projects['schematics-test'].architect.test;
+
+      expect(test.builder).toBe('@angular/build:unit-test');
+      expect(test.options?.stylePreprocessorOptions).toBeUndefined();
+    });
+
     it('should import necessary modules in app.module', async () => {
       const appModule = tree.readContent(
         '/projects/schematics-test/src/app/app.module.ts'

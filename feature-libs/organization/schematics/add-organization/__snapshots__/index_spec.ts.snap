@@ -208,17 +208,7 @@ exports[`Spartacus Organization schematics: ng-add Account summary feature gener
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/organization.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }
@@ -434,17 +424,7 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/organization.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }
@@ -660,17 +640,7 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/organization.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }
@@ -886,17 +856,7 @@ exports[`Spartacus Organization schematics: ng-add Unit order feature general se
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/organization.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }
@@ -1112,17 +1072,7 @@ exports[`Spartacus Organization schematics: ng-add User registration feature gen
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/organization.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }

@@ -208,17 +208,7 @@ exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup 
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/product.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }
@@ -434,17 +424,7 @@ exports[`Spartacus Product schematics: ng-add FutureStock feature general setup 
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/product.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }
@@ -625,17 +605,7 @@ exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup st
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/product.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }
@@ -816,17 +786,7 @@ exports[`Spartacus Product schematics: ng-add Variants feature general setup sty
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/product.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }

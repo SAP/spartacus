@@ -119,17 +119,7 @@ exports[`Spartacus PDF Invoices schematics: ng-add PDF Invoices feature general 
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/pdf-invoices.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }

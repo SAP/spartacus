@@ -170,17 +170,7 @@ exports[`Spartacus Customer Ticketing schematics: ng-add Customer Ticketing feat
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/customer-ticketing.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }

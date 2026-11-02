@@ -173,17 +173,7 @@ exports[`Spartacus Storefinder schematics: ng-add Storefinder feature general se
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/storefinder.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }

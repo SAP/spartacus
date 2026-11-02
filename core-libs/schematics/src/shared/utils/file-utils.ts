@@ -971,10 +971,9 @@ function getImportDeclarationNode(
 }
 
 function getConstructorParameterList(constructorNode: ts.Node): ts.Node[] {
-  const syntaxList = constructorNode
-    .getChildren()
-    .filter((node) => node.kind === ts.SyntaxKind.SyntaxList)[0];
-  return findNodes(syntaxList, ts.SyntaxKind.Parameter);
+  return ts.isConstructorDeclaration(constructorNode)
+    ? Array.from(constructorNode.parameters)
+    : [];
 }
 
 function removeConstructorParamInternal(
@@ -988,15 +987,22 @@ function removeConstructorParamInternal(
     const constructorParameter = constructorParameters[i];
     if (constructorParameter.getText().includes(importToRemove.className)) {
       const changes: RemoveChange[] = [];
-      // if it's not the first parameter that should be removed, we should remove the comma after the previous parameter
-      if (i !== 0) {
-        const previousParameter = constructorParameters[i - 1];
-        changes.push(new RemoveChange(sourcePath, previousParameter.end, ','));
-        // if removing the first param, cleanup the comma after it
-      } else if (i === 0 && constructorParameters.length > 1) {
-        const commas = findNodes(constructorNode, ts.SyntaxKind.CommaToken);
-        // get the comma that matches the constructor parameter's position
-        const comma = commas[i];
+      const parameterList = constructorNode
+        .getChildren()
+        .find(
+          (node, index, children) =>
+            node.kind === ts.SyntaxKind.SyntaxList &&
+            children[index - 1]?.kind === ts.SyntaxKind.OpenParenToken
+        );
+      const commas =
+        parameterList
+          ?.getChildren()
+          .filter((node) => node.kind === ts.SyntaxKind.CommaToken) ?? [];
+      // Prefer the following comma, including a trailing comma on the only
+      // remaining parameter. For a last parameter without one, remove the
+      // preceding separator instead. Only inspect the parameter list itself.
+      const comma = commas[i] ?? commas[i - 1];
+      if (comma) {
         changes.push(new RemoveChange(sourcePath, comma.getStart(), ','));
       }
 

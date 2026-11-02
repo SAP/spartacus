@@ -12,6 +12,7 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import * as shx from 'shelljs';
+import ts from 'typescript';
 import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 
 const MIGRATION_SCRIPT_NAME = 'migration-v221121_24-constructor-deprecations';
@@ -197,6 +198,74 @@ describe('Angular 22 inject() constructor migration (221121_24)', () => {
     expect(content).toContain('myOwnService: MyOwnService');
     expect(content).toMatch(/super\(\s*\)/);
   });
+
+  it('produces valid TypeScript when all constructor parameters have a trailing comma', async () => {
+    writeFile(
+      host,
+      '/src/index.ts',
+      CUSTOMER_EXTENDS_ADD_TO_CART.replace(
+        'productListItemContext: ProductListItemContext\n',
+        'productListItemContext: ProductListItemContext,\n'
+      )
+    );
+
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+    const content = appTree.readContent('/src/index.ts');
+    expect(
+      ts.transpileModule(content, { reportDiagnostics: true }).diagnostics
+    ).toEqual([]);
+    expect(content).not.toContain('productListItemContext');
+    expect(content).toMatch(/constructor\(\s*\)/);
+  });
+
+  it('keeps a trailing comma on a remaining customer dependency', async () => {
+    writeFile(
+      host,
+      '/src/index.ts',
+      CUSTOMER_WITH_OWN_EXTRA_DEP.replace(
+        'protected myOwnService: MyOwnService\n',
+        'protected myOwnService: MyOwnService,\n'
+      )
+    );
+
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+    const content = appTree.readContent('/src/index.ts');
+    expect(
+      ts.transpileModule(content, { reportDiagnostics: true }).diagnostics
+    ).toEqual([]);
+    expect(content).toContain('myOwnService: MyOwnService');
+    expect(content).not.toContain('currentProductService');
+  });
+
+  it.each(['public', 'protected'])(
+    'preserves customer dependencies in a %s constructor with trailing commas',
+    async (modifier) => {
+      writeFile(
+        host,
+        '/src/index.ts',
+        CUSTOMER_WITH_OWN_EXTRA_DEP.replace(
+          'constructor(',
+          `${modifier} constructor(`
+        ).replace(
+          'protected myOwnService: MyOwnService\n',
+          'protected myOwnService: MyOwnService,\n'
+        )
+      );
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent('/src/index.ts');
+      expect(
+        ts.transpileModule(content, { reportDiagnostics: true }).diagnostics
+      ).toEqual([]);
+      expect(content).toContain(`${modifier} constructor(`);
+      expect(content).toContain('protected myOwnService: MyOwnService,');
+      expect(content).not.toContain('currentProductService');
+      expect(content).toMatch(/super\(\s*\)/);
+    }
+  );
 
   it('safely skips a subclass whose super() arg count does not match', async () => {
     writeFile(host, '/src/index.ts', CUSTOMER_ARG_COUNT_MISMATCH);

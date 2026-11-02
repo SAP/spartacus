@@ -228,17 +228,7 @@ exports[`Spartacus Quote schematics: ng-add Quote feature general setup styling 
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/quote.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }

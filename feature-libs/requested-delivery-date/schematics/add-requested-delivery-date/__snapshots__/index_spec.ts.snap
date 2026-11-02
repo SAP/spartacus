@@ -119,17 +119,7 @@ exports[`Spartacus Requested Delivery Date schematics: ng-add Requested Delivery
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/requested-delivery-date.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }

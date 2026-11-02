@@ -86,13 +86,6 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
         },
         "test": {
           "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/",
-              ],
-            },
-          },
         },
       },
       "prefix": "app",

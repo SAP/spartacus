@@ -845,12 +845,13 @@ describe('File utils', () => {
     describe('injectService', () => {
       it('should create a Change to inject the specified service', async () => {
         const testPath = 'path-xxx';
-        const ctorNode = {
-          kind: ts.SyntaxKind.Constructor,
-          pos: 0,
-          getChildren: () => [] as ts.Node[],
-          getStart: () => 10,
-        } as unknown as ts.Node;
+        const source = ts.createSourceFile(
+          testPath,
+          'class Example { constructor() {} }',
+          ts.ScriptTarget.Latest,
+          true
+        );
+        const ctorNode = findConstructor(getSourceNodes(source));
 
         const result = injectService({
           constructorNode: ctorNode,
