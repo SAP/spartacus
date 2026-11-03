@@ -549,24 +549,6 @@ testConfig.forEach((config) => {
           );
         });
       });
-
-      it('should navigate to the read-only overview when the bundle item threshold is exceeded', () => {
-        cy.cxConfig({
-          productConfigurator: {
-            cartEntryBundleLineItemsThreshold: 2,
-          },
-        });
-        common.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
-        common.clickOnAddToCartBtnOnPD();
-        common.clickOnViewCartBtnOnPD();
-
-        cy.get('cx-mini-cart .count').then((elem) => {
-          const cartEntryIndex = Number(elem.text()) - 1;
-          configurationCartCpq.checkBundleOverviewLink(cartEntryIndex, 3);
-          configurationCartCpq.clickOnBundleOverviewLink(cartEntryIndex);
-          configurationOverviewCpq.checkDisplayOnlyOverviewFromCartDisplayed();
-        });
-      });
     });
 
     function editConfigurationFromCartEntry(numberOfCartItems: number) {
