@@ -11,7 +11,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
 import { ConfiguratorShowMoreModule } from '../../show-more/configurator-show-more.module';
-import { ConfiguratorAttributeCompositionConfig } from '../composition/configurator-attribute-composition.config';
 import { ConfiguratorShowOptionsModule } from '../show-options/configurator-show-options.module';
 import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
 
@@ -28,7 +27,7 @@ import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-h
     ConfiguratorAttributeHeaderComponent,
   ],
   providers: [
-    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+    provideDefaultConfig({
       productConfigurator: {
         assignment: {
           Header: ConfiguratorAttributeHeaderComponent,
