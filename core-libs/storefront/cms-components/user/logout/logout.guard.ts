@@ -30,7 +30,7 @@ import { LogoutConfig } from './config/logout-config';
 })
 export class LogoutGuard {
   protected config = inject(LogoutConfig);
-  private featureToggles = inject(FeatureToggles);
+  private readonly featureToggles = inject(FeatureToggles);
 
   constructor(
     protected auth: AuthService,
