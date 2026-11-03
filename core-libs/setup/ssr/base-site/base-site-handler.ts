@@ -33,7 +33,7 @@ export interface BaseSiteHandlerContext {
   req: Request;
   res: Response;
   next: NextFunction;
-  /** Resolved uid matching the leading base-site segment. */
+  /** Resolved base-site uid. */
   baseSite: string;
 }
 
@@ -46,6 +46,12 @@ export type BaseSiteAwareRequestHandler = (
 export interface SetBaseSiteHandlerOptions {
   /** Route without a base-site prefix, for example `/llms.txt`. */
   route: BaseSiteRouteMatcher;
+  /**
+   * Adds a leading `/:baseSite` segment to the route. Default: `true`.
+   * Set to `false` to resolve the full URL through OCC without a UID prefix.
+   * Routes without a prefix require a resolver with `supportsOccResolution`.
+   */
+  withBaseSiteInPath?: boolean;
   /** Receives the original Express objects and the resolved base site. */
   handler: BaseSiteAwareRequestHandler;
   /** Retry delays returned for recoverable resolver failures. */
@@ -69,20 +75,31 @@ export function createBaseSiteAwareRoute(
  * Builds an Express router that resolves the base site on the configured route
  * and passes it in the context of the application callback.
  *
- * Mount at the application root with `server.use(...)` so the leading segment
- * used for routing also leads the full request URL used for resolution.
+ * Mount at the application root with `server.use(...)` so routing and
+ * resolution use the same request path.
  *
- * Every route uses a leading base-site segment. The resolver selects OCC
- * resolution through `supportsOccResolution`; otherwise it uses supplied IDs.
+ * Routes use a leading base-site segment by default. Set `withBaseSiteInPath`
+ * to `false` to match the configured route without a prefix and resolve the
+ * full URL through OCC. The resolver selects OCC resolution through
+ * `supportsOccResolution`; otherwise it uses supplied IDs and requires a prefix.
  * Recoverable resolver failures are mapped to
  * `503` with `Retry-After`; all other errors are forwarded to Express. Unknown
- * or mismatched base-site prefixes receive `404` without invoking the handler.
+ * or mismatched base sites receive `404` without invoking the handler.
  */
 export function setBaseSiteHandler(
   resolver: BaseSiteResolver,
   options: SetBaseSiteHandlerOptions
 ): RequestHandler {
-  const { route, handler, retryAfterSeconds } = options;
+  const {
+    route,
+    handler,
+    withBaseSiteInPath = true,
+    retryAfterSeconds,
+  } = options;
+
+  if (!withBaseSiteInPath && !resolver.supportsOccResolution) {
+    throw new Error('withBaseSiteInPath: false requires OCC resolution');
+  }
 
   const resolveBaseSite = async (
     req: Request,
@@ -90,9 +107,11 @@ export function setBaseSiteHandler(
     next: NextFunction
   ): Promise<void> => {
     const requestUrl = getRequestUrl(req);
-    const pathBaseSiteId = new URL(requestUrl).pathname
-      .split('/')
-      .find((segment) => segment.length > 0);
+    const pathBaseSiteId = withBaseSiteInPath
+      ? new URL(requestUrl).pathname
+          .split('/')
+          .find((segment) => segment.length > 0)
+      : undefined;
 
     let baseSite: string | null;
     try {
@@ -126,7 +145,10 @@ export function setBaseSiteHandler(
       return;
     }
 
-    if (baseSite === null || baseSite !== pathBaseSiteId) {
+    if (
+      baseSite === null ||
+      (withBaseSiteInPath && baseSite !== pathBaseSiteId)
+    ) {
       res.status(HttpResponseStatus.NOT_FOUND).send('Not Found');
       return;
     }
@@ -142,5 +164,5 @@ export function setBaseSiteHandler(
   router.all(route, (req, res, next) => {
     void resolveBaseSite(req, res, next).catch(next);
   });
-  return Router().use('/:baseSite', router);
+  return withBaseSiteInPath ? Router().use('/:baseSite', router) : router;
 }
