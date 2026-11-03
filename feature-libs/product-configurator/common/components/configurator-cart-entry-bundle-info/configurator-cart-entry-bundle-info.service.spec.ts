@@ -142,12 +142,14 @@ const v2_confInfo1_pricevalue: ConfigurationInfo = {
 
 const v2_expectedLineItem0: LineItem = {
   name: productName0,
+  productCode: productKey0,
   formattedQuantity: productQty0,
   formattedPrice: productFormattedPrice0,
 };
 
 const v2_expectedLineItem1: LineItem = {
   name: productName1,
+  productCode: productKey1,
   formattedQuantity: productQty1,
   formattedPrice: productFormattedPrice1,
 };
@@ -261,7 +263,7 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
       expect(lineItemMap.get(lineItemNumber)).toEqual(v2_initializedLineItem);
     });
 
-    it('should add line item data for expected fields(NAME, QTY, FORMATTED_PRICE): ', () => {
+    it('should add line item data for expected fields (NAME, KEY, QTY, FORMATTED_PRICE, ROW_ID, CONFIGURABLE): ', () => {
       const lineItemMap: Map<number, LineItem> = new Map();
       const lineItemNumber = 123;
       const lineItemNumberAsString = '123';
@@ -269,6 +271,11 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
         'LINEITEM',
         lineItemNumberAsString,
         'NAME',
+      ];
+      const configurationInfosSplitKey = [
+        'LINEITEM',
+        lineItemNumberAsString,
+        'KEY',
       ];
       const configurationInfosSplitQty = [
         'LINEITEM',
@@ -280,15 +287,33 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
         lineItemNumberAsString,
         'FORMATTED_PRICE',
       ];
+      const configurationInfosSplitRowId = [
+        'LINEITEM',
+        lineItemNumberAsString,
+        'ROW_ID',
+      ];
+      const configurationInfosSplitConfigurable = [
+        'LINEITEM',
+        lineItemNumberAsString,
+        'CONFIGURABLE',
+      ];
 
       const configurationInfoValueName = 'Name';
+      const configurationInfoValueKey = 'ProductKey';
       const configurationInfoValueQty = 'QtY';
       const configurationInfoValueFormattedPrice = 'FormattedPrice';
+      const configurationInfoValueRowId = 'row-abc';
+      const configurationInfoValueConfigurable = 'true';
 
       configuratorCartEntryBundleInfoService['addLineItemData'](
         lineItemMap,
         configurationInfosSplitName,
         configurationInfoValueName
+      );
+      configuratorCartEntryBundleInfoService['addLineItemData'](
+        lineItemMap,
+        configurationInfosSplitKey,
+        configurationInfoValueKey
       );
       configuratorCartEntryBundleInfoService['addLineItemData'](
         lineItemMap,
@@ -300,10 +325,23 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
         configurationInfosSplitFormattedPrice,
         configurationInfoValueFormattedPrice
       );
+      configuratorCartEntryBundleInfoService['addLineItemData'](
+        lineItemMap,
+        configurationInfosSplitRowId,
+        configurationInfoValueRowId
+      );
+      configuratorCartEntryBundleInfoService['addLineItemData'](
+        lineItemMap,
+        configurationInfosSplitConfigurable,
+        configurationInfoValueConfigurable
+      );
 
       expect(lineItemMap.size).toBe(1);
       expect(lineItemMap.get(lineItemNumber)?.name).toBe(
         configurationInfoValueName
+      );
+      expect(lineItemMap.get(lineItemNumber)?.productCode).toBe(
+        configurationInfoValueKey
       );
       expect(lineItemMap.get(lineItemNumber)?.formattedQuantity).toBe(
         configurationInfoValueQty
@@ -311,21 +349,19 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
       expect(lineItemMap.get(lineItemNumber)?.formattedPrice).toBe(
         configurationInfoValueFormattedPrice
       );
+      expect(lineItemMap.get(lineItemNumber)?.rowId).toBe(
+        configurationInfoValueRowId
+      );
+      expect(lineItemMap.get(lineItemNumber)?.configurable).toBe(true);
     });
 
-    it('should not add line item data for any other fields than NAME, QTY and FORMATTED_PRICE', () => {
+    it('should not add line item data for any other fields than NAME, KEY, QTY, FORMATTED_PRICE, ROW_ID and CONFIGURABLE', () => {
       const lineItemMap: Map<number, LineItem> = new Map();
       const lineItemNumberAsString = '123';
       const configurationInfosSplitUnexpectedFieldName = [
         'LINEITEM',
         lineItemNumberAsString,
         'UNEXPECTED_FIELD_NAME',
-      ];
-
-      const configurationInfosSplitKey = [
-        'LINEITEM',
-        lineItemNumberAsString,
-        'KEY',
       ];
 
       const configurationInfosSplitPriceValue = [
@@ -349,12 +385,6 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
 
       configuratorCartEntryBundleInfoService['addLineItemData'](
         lineItemMap,
-        configurationInfosSplitKey,
-        configurationInfoValueUnexpectedField
-      );
-
-      configuratorCartEntryBundleInfoService['addLineItemData'](
-        lineItemMap,
         configurationInfosSplitPriceValue,
         configurationInfoValueUnexpectedField
       );
@@ -366,6 +396,23 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
       );
 
       expect(lineItemMap.size).toBe(0);
+    });
+
+    it('should mark a line item as not configurable for any CONFIGURABLE value other than "true"', () => {
+      const lineItemMap: Map<number, LineItem> = new Map();
+      configuratorCartEntryBundleInfoService['addLineItemData'](
+        lineItemMap,
+        ['LINEITEM', '1', 'CONFIGURABLE'],
+        'false'
+      );
+      configuratorCartEntryBundleInfoService['addLineItemData'](
+        lineItemMap,
+        ['LINEITEM', '2', 'CONFIGURABLE'],
+        ''
+      );
+
+      expect(lineItemMap.get(1)?.configurable).toBe(false);
+      expect(lineItemMap.get(2)?.configurable).toBe(false);
     });
 
     it('should not add line item data for unexpected format ', () => {

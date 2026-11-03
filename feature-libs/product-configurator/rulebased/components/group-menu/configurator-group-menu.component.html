@@ -30,7 +30,7 @@
                 "
                 aria-describedby="listOfGroups"
                 [cxFocus]="{ key: 'cx-menu-back' }"
-                (click)="navigateUp(currentGroup)"
+                (click)="navigateUp(currentGroup, isPointerClick($event))"
                 (keydown)="
                   switchGroupOnArrowPress(
                     $event,
@@ -55,6 +55,7 @@
                 [class.DISABLED]="!group.configurable"
                 [class.cx-menu-conflict]="isConflictGroupType(group.groupType)"
                 [class.active]="isGroupSelected(group.id, currentGroup.id)"
+                [class.cx-menu-return-origin]="isMenuReturnOrigin(group.id)"
                 [class.disable]="!group.configurable"
                 [attr.aria-describedby]="
                   getAriaDescribedby(group, configuration) | async
