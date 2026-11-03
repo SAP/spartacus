@@ -3,6 +3,7 @@ import { UntypedFormControl } from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
+  CartItemQuantityService,
   MultiCartFacade,
   OrderEntry,
 } from '@spartacus/cart/base/root';
@@ -58,6 +59,7 @@ const PRODUCT_ENTRY_KEY = '003+1';
 const QUOTE_CODE = '004';
 const QUOTE_ENTRY_KEY = QUOTE_CODE + '+1';
 const QUANTITY = 99;
+const PDP_QUANTITY = 5;
 const QUANTITY_CHANGED = 7;
 
 const configuratorType = ConfiguratorType.VARIANT;
@@ -180,6 +182,14 @@ class MockMultiCartFacade implements Partial<MultiCartFacade> {
   getCart(): Observable<Cart> {
     return of(cart);
   }
+}
+
+class MockCartItemQuantityService implements Partial<CartItemQuantityService> {
+  getQuantity(): Observable<number> {
+    return of(PDP_QUANTITY);
+  }
+
+  setQuantity(): void {}
 }
 
 function setRouterTestDataCartBoundAndConfigPage() {
@@ -412,6 +422,10 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
           useClass: MockMultiCartFacade,
         },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
+        {
+          provide: CartItemQuantityService,
+          useClass: MockCartItemQuantityService,
+        },
         ...provideMockFeatureToggles({
           productConfiguratorCPQContainer: false,
         }),
@@ -541,7 +555,17 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should set quantity that was retrieved from quantity service', () => {
+    it('should set quantity from cart item service for product-bound configuration', () => {
+      initialize();
+      fixture.detectChanges();
+      expect(component.quantityControl.value).toBe(PDP_QUANTITY);
+      expect(configuratorQuantityService.setQuantity).toHaveBeenCalledWith(
+        PDP_QUANTITY
+      );
+    });
+
+    it('should set quantity from configurator quantity service for cart entry', () => {
+      performUpdateCart();
       initialize();
       fixture.detectChanges();
       expect(component.quantityControl.value).toBe(QUANTITY);
