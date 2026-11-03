@@ -1,8 +1,6 @@
 %cx-configurator-show-more {
   &:not(:empty) {
-    font-size: 14px;
-    line-height: 1.2;
-    padding-block-end: 10px;
+    @include cx-configurator-msg();
 
     button {
       background-color: transparent;

@@ -10,6 +10,11 @@ import { defineConfig } from 'vitest/config';
 
 const root = `${import.meta.dirname}/../..`;
 
+// Without this, nxViteTsPaths picks tsconfig.lib.json, which maps @spartacus/*
+// to dist/. Once dist/ is built, library code and source-imported test helpers
+// then get separate copies of injection tokens (e.g. FeatureToggles).
+process.env['NX_TSCONFIG_PATH'] = `${import.meta.dirname}/tsconfig.spec.json`;
+
 export default defineConfig({
   root: import.meta.dirname,
   plugins: [angular(), nxViteTsPaths()],
