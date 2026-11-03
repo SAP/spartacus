@@ -22,8 +22,6 @@ describe('add-ssr', () => {
     collectionPath
   );
 
-  let appTree: UnitTestTree;
-
   const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
     version: '0.5.0',
@@ -48,97 +46,139 @@ describe('add-ssr', () => {
     features: [],
   };
 
-  beforeAll(async () => {
-    appTree = await schematicRunner.runExternalSchematic(
+  async function buildBaseTree(): Promise<UnitTestTree> {
+    let tree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
       workspaceOptions
     );
-
-    appTree = await schematicRunner.runExternalSchematic(
+    tree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      tree
     );
-
-    appTree = await schematicRunner.runSchematic(
+    tree = await schematicRunner.runSchematic(
       'add-spartacus',
       { ...defaultOptions, name: 'schematics-test' },
-      appTree
+      tree
     );
+    return tree;
+  }
 
-    appTree = await schematicRunner.runSchematic(
-      'add-ssr',
-      { ...defaultOptions, name: 'schematics-test' },
-      appTree
-    );
-  });
+  describe('without runtimeConfig', () => {
+    let appTree: UnitTestTree;
 
-  describe('package.json', () => {
-    it('should add SSR dependencies', async () => {
-      const packageJson = appTree.readContent('/package.json');
-      const packageObj = JSON.parse(packageJson);
-      const depPackageList = Object.keys(packageObj.dependencies);
+    beforeAll(async () => {
+      const base = await buildBaseTree();
+      appTree = await schematicRunner.runSchematic(
+        'add-ssr',
+        { ...defaultOptions, name: 'schematics-test' },
+        base
+      );
+    });
 
-      expect(depPackageList.includes('@angular/platform-server')).toBe(true);
-      expect(depPackageList.includes(ANGULAR_SSR)).toBe(true);
-      expect(depPackageList.includes('@spartacus/setup')).toBe(true);
+    describe('package.json', () => {
+      it('should add SSR dependencies', async () => {
+        const packageJson = appTree.readContent('/package.json');
+        const packageObj = JSON.parse(packageJson);
+        const depPackageList = Object.keys(packageObj.dependencies);
+
+        expect(depPackageList.includes('@angular/platform-server')).toBe(true);
+        expect(depPackageList.includes(ANGULAR_SSR)).toBe(true);
+        expect(depPackageList.includes('@spartacus/setup')).toBe(true);
+      });
+    });
+
+    describe('angular.json', () => {
+      it('should be configured properly', async () => {
+        const angularJson = appTree.readContent('/angular.json');
+        const angularObj = JSON.parse(angularJson);
+        expect(angularObj).toMatchSnapshot();
+      });
+    });
+
+    describe('server.ts', () => {
+      it('should be configured properly', async () => {
+        const serverTs = appTree.readContent('src/server.ts');
+        expect(serverTs).toMatchSnapshot();
+      });
+    });
+
+    describe('app.module.server.ts', () => {
+      it('should be updated', () => {
+        const content = appTree.readContent('./src/app/app.module.server.ts');
+        expect(content).toMatchSnapshot();
+      });
+    });
+
+    describe('app.config.ts', () => {
+      it('should be updated', () => {
+        const content = appTree.readContent('./src/app/app.config.ts');
+        expect(content).toMatchSnapshot();
+      });
+    });
+
+    describe('app.config.server.ts', () => {
+      it('should be updated', () => {
+        const content = appTree.readContent('./src/app/app.config.server.ts');
+        expect(content).toMatchSnapshot();
+      });
+    });
+
+    describe('app.module.ts', () => {
+      it('should be updated', () => {
+        const content = appTree.readContent('./src/app/app.module.ts');
+        expect(content).toMatchSnapshot();
+      });
+    });
+
+    describe('index.html', () => {
+      it('should contain occ-backend-base-url attribute in meta tags', async () => {
+        const indexHtmlPath = getPathResultsForFile(
+          appTree,
+          'index.html',
+          '/src'
+        )[0];
+        const indexHtml = appTree.readContent(indexHtmlPath);
+        expect(indexHtml).toMatchSnapshot();
+      });
     });
   });
 
-  describe('angular.json', () => {
-    it('should be configured properly', async () => {
-      const angularJson = appTree.readContent('/angular.json');
-      const angularObj = JSON.parse(angularJson);
-      expect(angularObj).toMatchSnapshot();
-    });
-  });
+  describe('with runtimeConfig', () => {
+    let appTree: UnitTestTree;
 
-  describe('server.ts', () => {
-    it('should be configured properly', async () => {
-      const serverTs = appTree.readContent('src/server.ts');
-      expect(serverTs).toMatchSnapshot();
+    beforeAll(async () => {
+      const base = await buildBaseTree();
+      appTree = await schematicRunner.runSchematic(
+        'add-ssr',
+        { ...defaultOptions, name: 'schematics-test', runtimeConfig: true },
+        base
+      );
     });
-  });
 
-  describe('app.module.server.ts', () => {
-    it('should be updated', () => {
-      const content = appTree.readContent('./src/app/app.module.server.ts');
-      expect(content).toMatchSnapshot();
-    });
-  });
+    describe('server.ts', () => {
+      it('should wire getServerRuntimeEnvironment', async () => {
+        const serverTs = appTree.readContent('src/server.ts');
+        expect(serverTs).toMatchSnapshot();
+      });
 
-  describe('app.config.ts', () => {
-    it('should be updated', () => {
-      const content = appTree.readContent('./src/app/app.config.ts');
-      expect(content).toMatchSnapshot();
-    });
-  });
+      it('should import getServerRuntimeEnvironment from @spartacus/setup', () => {
+        const serverTs = appTree.readContent('src/server.ts');
+        expect(serverTs).toContain('getServerRuntimeEnvironment');
+        expect(serverTs).toContain('@spartacus/setup');
+      });
 
-  describe('app.config.server.ts', () => {
-    it('should be updated', () => {
-      const content = appTree.readContent('./src/app/app.config.server.ts');
-      expect(content).toMatchSnapshot();
-    });
-  });
+      it('should inject RUNTIME_ENVIRONMENT provider', () => {
+        const serverTs = appTree.readContent('src/server.ts');
+        expect(serverTs).toContain('RUNTIME_ENVIRONMENT');
+      });
 
-  describe('app.module.ts', () => {
-    it('should be updated', () => {
-      const content = appTree.readContent('./src/app/app.module.ts');
-      expect(content).toMatchSnapshot();
-    });
-  });
-
-  describe('index.html', () => {
-    it('should contain occ-backend-base-url attribute in meta tags', async () => {
-      const indexHtmlPath = getPathResultsForFile(
-        appTree,
-        'index.html',
-        '/src'
-      )[0];
-      const indexHtml = appTree.readContent(indexHtmlPath);
-      expect(indexHtml).toMatchSnapshot();
+      it('should make run() async', () => {
+        const serverTs = appTree.readContent('src/server.ts');
+        expect(serverTs).toContain('async function run');
+      });
     });
   });
 });

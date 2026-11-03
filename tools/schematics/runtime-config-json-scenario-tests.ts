@@ -81,7 +81,7 @@ function parseArgs(): Args {
     console.error(
       chalk.red(
         `\n❌ Missing required flags. Usage:\n\n` +
-          `  ts-node ./tools/schematics/scenario-tests.ts \\\n` +
+          `  ts-node ./tools/schematics/runtime-config-json-scenario-tests.ts \\\n` +
           `    --scenario A|B|C|all \\\n` +
           `    --out-dir ~/Desktop/cx-test \\\n` +
           `    --app-name myapp\n` +
@@ -210,9 +210,7 @@ function createApp(appDir: string, appName: string, registry?: string): void {
   const parentDir = path.dirname(appDir);
   fs.mkdirSync(parentDir, { recursive: true });
 
-  const registryPrefix = registry
-    ? `npm_config_registry=${registry} `
-    : '';
+  const registryPrefix = registry ? `npm_config_registry=${registry} ` : '';
 
   run(
     `${registryPrefix}npx @angular/cli@${ANGULAR_CLI_VERSION} new ${appName}` +
@@ -240,24 +238,23 @@ function runScenarioA(outDir: string, baseName: string): ScenarioStats {
   const appDir = path.join(outDir, appName);
 
   console.log(chalk.bold(`\n${'─'.repeat(60)}`));
-  console.log(
-    chalk.bold(`  Scenario A — Fresh install WITH config.json`)
-  );
+  console.log(chalk.bold(`  Scenario A — Fresh install WITH config.json`));
   console.log(chalk.bold(`  App: ${appDir}`));
   console.log(chalk.bold(`${'─'.repeat(60)}\n`));
 
   step('Create Angular app', () => createApp(appDir, appName));
 
-  step('Scaffold Spartacus with --runtime-config', () => {
+  step('Scaffold Spartacus with --runtime-config and --ssr', () => {
     run(
       `npx ng add @spartacus/schematics` +
         ` --skip-confirmation` +
         ` --baseUrl ${DEFAULT_BASE_URL}` +
         ` --baseSite ${DEFAULT_BASE_SITE}` +
-        ` --runtime-config`,
+        ` --runtime-config` +
+        ` --ssr`,
       appDir
     );
-    gitCommit(appDir, 'feat: scaffold Spartacus with runtime-config (config.json)');
+    gitCommit(appDir, 'feat: scaffold Spartacus with runtime-config and SSR');
   });
 
   step('config.json created at project root', () =>
@@ -286,43 +283,60 @@ function runScenarioA(outDir: string, baseName: string): ScenarioStats {
     )
   );
 
-  step('Add SSR via Spartacus add-ssr schematic', () => {
-    run(
-      `npx ng generate @spartacus/schematics:add-ssr --project ${appName}`,
-      appDir
-    );
-    gitCommit(appDir, 'feat: add SSR support via Spartacus add-ssr schematic');
-  });
+  // Explicit existence check first — a missing server.ts surfaces as a clear failure
+  // rather than a confusing "file does not contain..." error from the steps below
+  step('server.ts created by addSSR', () =>
+    assertFileExists(path.join(appDir, 'src', 'server.ts'))
+  );
 
-  step('Wire runtime config into SSR (add-runtime-config --ssr)', () => {
-    run(
-      `npx ng generate @spartacus/schematics:add-runtime-config --runtime-config --ssr`,
-      appDir
-    );
-    gitCommit(appDir, 'feat: wire runtime-config into SSR server.ts');
-  });
+  // The following 5 steps verify all 4 transformations that updateServerTs applies.
+  // updateServerTs degrades silently (skips without throwing on any AST mismatch), so
+  // asserting only imports is not enough — the provider and param checks are the key
+  // regression guards that distinguish "wiring applied" from "only imports added".
+  step(
+    'server.ts imports getServerRuntimeEnvironment and ServerRuntimeEnvironment',
+    () => {
+      assertFileContains(
+        path.join(appDir, 'src', 'server.ts'),
+        'getServerRuntimeEnvironment'
+      );
+      assertFileContains(
+        path.join(appDir, 'src', 'server.ts'),
+        'ServerRuntimeEnvironment'
+      );
+    }
+  );
 
-  step('server.ts has getServerRuntimeEnvironment import', () =>
+  step('server.ts app() takes runtimeEnvironment param', () =>
     assertFileContains(
       path.join(appDir, 'src', 'server.ts'),
-      'getServerRuntimeEnvironment'
+      'runtimeEnvironment: ServerRuntimeEnvironment'
     )
   );
 
-  step('server.ts injects RUNTIME_ENVIRONMENT', () =>
+  step('server.ts registers RUNTIME_ENVIRONMENT provider', () =>
     assertFileContains(
       path.join(appDir, 'src', 'server.ts'),
-      'RUNTIME_ENVIRONMENT'
+      'provide: RUNTIME_ENVIRONMENT, useValue: runtimeEnvironment'
     )
   );
 
-  step('server.ts has async run()', () =>
+  step('server.ts awaits getServerRuntimeEnvironment from CONFIG_URL', () =>
     assertFileContains(
       path.join(appDir, 'src', 'server.ts'),
-      'async function run'
+      `await getServerRuntimeEnvironment({ url: process.env['CONFIG_URL'] })`
     )
   );
 
+  step('server.ts passes runtimeEnvironment into app()', () =>
+    assertFileContains(
+      path.join(appDir, 'src', 'server.ts'),
+      'app(runtimeEnvironment)'
+    )
+  );
+
+  // ng build verifies the browser bundle compiles; it does NOT validate SSR runtime
+  // wiring — updateServerTs can silently skip and the build still passes
   step('ng build succeeds', () => run('npx ng build', appDir));
 
   return stats;
@@ -336,9 +350,7 @@ function runScenarioB(outDir: string, baseName: string): ScenarioStats {
   const appDir = path.join(outDir, appName);
 
   console.log(chalk.bold(`\n${'─'.repeat(60)}`));
-  console.log(
-    chalk.bold(`  Scenario B — Fresh install WITHOUT config.json`)
-  );
+  console.log(chalk.bold(`  Scenario B — Fresh install WITHOUT config.json`));
   console.log(chalk.bold(`  App: ${appDir}`));
   console.log(chalk.bold(`${'─'.repeat(60)}\n`));
 
@@ -381,6 +393,11 @@ function runScenarioB(outDir: string, baseName: string): ScenarioStats {
     )
   );
 
+  // SSR wiring now flows through addSSR — assert server.ts was not unexpectedly created
+  step('server.ts NOT created (no --ssr)', () =>
+    assertFileAbsent(path.join(appDir, 'src', 'server.ts'))
+  );
+
   step('ng build succeeds', () => run('npx ng build', appDir));
 
   return stats;
@@ -394,9 +411,7 @@ function runScenarioC(outDir: string, baseName: string): ScenarioStats {
   const appDir = path.join(outDir, appName);
 
   console.log(chalk.bold(`\n${'─'.repeat(60)}`));
-  console.log(
-    chalk.bold(`  Scenario C — Existing app npm-updated to branch`)
-  );
+  console.log(chalk.bold(`  Scenario C — Existing app npm-updated to branch`));
   console.log(chalk.bold(`  App: ${appDir}`));
   console.log(chalk.bold(`${'─'.repeat(60)}\n`));
 
@@ -414,7 +429,10 @@ function runScenarioC(outDir: string, baseName: string): ScenarioStats {
         ` --baseSite ${DEFAULT_BASE_SITE}`,
       appDir
     );
-    gitCommit(appDir, 'feat: scaffold Spartacus from public registry (baseline)');
+    gitCommit(
+      appDir,
+      'feat: scaffold Spartacus from public registry (baseline)'
+    );
   });
 
   step('ng build succeeds with released Spartacus (baseline)', () =>
@@ -431,10 +449,7 @@ function runScenarioC(outDir: string, baseName: string): ScenarioStats {
   });
 
   step('Point app to Verdaccio registry', () => {
-    run(
-      `npm config set @spartacus:registry ${VERDACCIO_REGISTRY}`,
-      appDir
-    );
+    run(`npm config set @spartacus:registry ${VERDACCIO_REGISTRY}`, appDir);
   });
 
   step('Update @spartacus/* packages to branch version', () => {
@@ -459,7 +474,10 @@ function runScenarioC(outDir: string, baseName: string): ScenarioStats {
         appDir
       );
     }
-    gitCommit(appDir, `chore: update @spartacus/* to branch version ${branchVersion}`);
+    gitCommit(
+      appDir,
+      `chore: update @spartacus/* to branch version ${branchVersion}`
+    );
   });
 
   step('ng build succeeds after update', () => run('npx ng build', appDir));
@@ -484,6 +502,12 @@ function runScenarioC(outDir: string, baseName: string): ScenarioStats {
       path.join(appDir, 'src', 'app', 'app.config.ts'),
       'provideRuntimeOccConfig'
     )
+  );
+
+  // SSR wiring now flows through addSSR — assert a plain package update did not
+  // unexpectedly trigger server.ts creation
+  step('server.ts NOT created (no --ssr)', () =>
+    assertFileAbsent(path.join(appDir, 'src', 'server.ts'))
   );
 
   return stats;
@@ -523,7 +547,9 @@ http.get('${VERDACCIO_REGISTRY}', r => { r.resume(); process.exit(0); })
     )
       .toString()
       .trim();
-    console.log(chalk.gray(`  ✅ @spartacus/schematics@${result} found in Verdaccio`));
+    console.log(
+      chalk.gray(`  ✅ @spartacus/schematics@${result} found in Verdaccio`)
+    );
   } catch {
     console.error(
       chalk.red(
@@ -564,29 +590,24 @@ function printSummary(results: ScenarioResult[]): void {
   for (const { name, stats } of results) {
     const total = stats.passed + stats.failed;
     const stepsStr = `${stats.passed}/${total}`.padEnd(colSteps);
-    const icon = stats.failed === 0 ? chalk.green('✅ PASS') : chalk.red('❌ FAIL');
+    const icon =
+      stats.failed === 0 ? chalk.green('✅ PASS') : chalk.red('❌ FAIL');
     console.log(`  ${name.padEnd(colName)}${stepsStr}${icon}`);
     if (stats.failed > 0) {
       allPassed = false;
-      stats.errors.forEach((e) =>
-        console.log(chalk.red(`    • ${e}`))
-      );
+      stats.errors.forEach((e) => console.log(chalk.red(`    • ${e}`)));
     }
   }
 
   console.log(`\n${chalk.bold(sep)}`);
   if (allPassed) {
     console.log(
-      chalk.green(
-        `  ✅ All ${results.length} scenario(s) passed.\n`
-      )
+      chalk.green(`  ✅ All ${results.length} scenario(s) passed.\n`)
     );
   } else {
     const failed = results.filter((r) => r.stats.failed > 0).length;
     console.log(
-      chalk.red(
-        `  ❌ ${failed}/${results.length} scenario(s) failed.\n`
-      )
+      chalk.red(`  ❌ ${failed}/${results.length} scenario(s) failed.\n`)
     );
   }
 }
@@ -598,16 +619,16 @@ async function main(): Promise<void> {
   useGit = !noGit;
 
   console.log(chalk.bold(`\n${'═'.repeat(60)}`));
-  console.log(
-    chalk.bold(
-      `  CXSPA-12541 Scenario Tests`
-    )
-  );
+  console.log(chalk.bold(`  CXSPA-12541 Scenario Tests`));
   console.log(chalk.bold(`${'═'.repeat(60)}`));
   console.log(chalk.gray(`  Scenario : ${scenario}`));
   console.log(chalk.gray(`  Out dir  : ${outDir}`));
   console.log(chalk.gray(`  App name : ${appName}`));
-  console.log(chalk.gray(`  Git      : ${useGit ? 'enabled (commits per step)' : 'disabled (--no-git)'}`));
+  console.log(
+    chalk.gray(
+      `  Git      : ${useGit ? 'enabled (commits per step)' : 'disabled (--no-git)'}`
+    )
+  );
 
   checkVerdaccio();
 

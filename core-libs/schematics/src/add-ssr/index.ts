@@ -18,6 +18,7 @@ import {
   externalSchematic,
   mergeWith,
   move,
+  noop,
   template,
   url,
 } from '@angular-devkit/schematics';
@@ -26,6 +27,7 @@ import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
+import { updateServerTs } from '../add-runtime-config/update-server-ts';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import collectedDependencies from '../dependencies.json';
 import { getDefaultProjectNameFromWorkspace, getWorkspace } from '../shared';
@@ -456,6 +458,7 @@ export function addSSR(options: SpartacusOptions): Rule {
         chain([mergeWith(serverTemplate, MergeStrategy.Overwrite)]),
         MergeStrategy.Overwrite
       ),
+      options.runtimeConfig ? updateServerTs(options) : noop(),
 
       disableSsrAndPrerenderingInAngularJson(options),
 
