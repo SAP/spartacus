@@ -17,7 +17,7 @@ import {
 import { Schema } from './schema';
 import { updateServer } from './update-server';
 
-export function addBaseSiteAwareRoute(options: Schema): Rule {
+export function addBaseSiteAwareExpressRoute(options: Schema): Rule {
   return (tree) => {
     const projectName =
       options.project ?? getDefaultProjectNameFromWorkspace(tree);
@@ -34,7 +34,7 @@ export function addBaseSiteAwareRoute(options: Schema): Rule {
     const serverPath = getServerTsPathForApplicationBuilder(tree, projectName);
     if (!isSsrUsed(tree, projectName) || !serverPath) {
       throw new SchematicsException(
-        `SSR is not enabled for project "${projectName}". Configure Spartacus SSR before running add-base-site-aware-route.`
+        `SSR is not enabled for project "${projectName}". Configure Spartacus SSR before running add-base-site-aware-express-route.`
       );
     }
     return updateServer({ project: projectName, serverPath });

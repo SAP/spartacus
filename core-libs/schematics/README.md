@@ -8,7 +8,7 @@ To see the documentation on how to use schematics from a customers perspective, 
 For an application already configured with Spartacus Express SSR, run:
 
 ```bash
-ng generate @spartacus/schematics:add-base-site-aware-route --project=my-app
+ng generate @spartacus/schematics:add-base-site-aware-express-route --project=my-app
 ```
 
 When the project option is omitted, Angular CLI supplies its native project default.

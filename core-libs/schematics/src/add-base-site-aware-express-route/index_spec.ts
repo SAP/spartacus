@@ -22,7 +22,7 @@ import { Schema } from './schema';
 import schemaJson from './schema.json';
 
 const collectionPath = join(__dirname, '../collection.json');
-const schematicName = 'add-base-site-aware-route';
+const schematicName = 'add-base-site-aware-express-route';
 
 function serverSource(
   serverName = 'server',

@@ -12,7 +12,7 @@ Inspect the selected application in the Angular workspace, its build/SSR configu
 
 If Spartacus Express SSR is missing, explain that the endpoint needs this server setup and ask: "Would you like to configure Spartacus SSR as a separate step first?" Wait for the answer before proceeding. Adding handlers does not include silently enabling SSR.
 
-Check that the installed `@spartacus/setup/ssr` exposes `createBaseSiteAwareRoute`. When initial setup is needed, also check that `@spartacus/schematics` provides `add-base-site-aware-route`. If the needed API or schematic is unavailable, report the incompatibility before changing the application; do not invent a replacement or automatically upgrade dependencies.
+Check that the installed `@spartacus/setup/ssr` exposes `createBaseSiteAwareRoute`. When initial setup is needed, also check that `@spartacus/schematics` provides `add-base-site-aware-express-route`. If the needed API or schematic is unavailable, report the incompatibility before changing the application; do not invent a replacement or automatically upgrade dependencies.
 
 Look for an existing call to `createBaseSiteAwareRoute`, including import aliases or setup in another server module. Reuse its registration function and preserve its options. Do not assume the customer's server file, variables, or workspace project have the names shown below.
 
@@ -21,7 +21,7 @@ Look for an existing call to `createBaseSiteAwareRoute`, including import aliase
 When the application has no configured helper factory, run the schematic from the customer workspace root with its actual project name:
 
 ```bash
-ng generate @spartacus/schematics:add-base-site-aware-route --project <project-name>
+ng generate @spartacus/schematics:add-base-site-aware-express-route --project <project-name>
 ```
 
 The schematic imports the helper, creates a shared registration function using the server's existing index HTML content, and registers `/<baseSite>/example.txt`. Inspect its changes, replace the example route with the requested suffix, and extract the response into a named handler function in the existing server file. Pass that function as `handler`. Keep the generated example endpoint only if the customer asked for it.
@@ -197,4 +197,4 @@ If the endpoint returns Angular HTML or a storefront 404 page, inspect route sha
 ## Source reference (in `node_modules/@spartacus/*`)
 
 - `createBaseSiteAwareRoute`, `BaseSiteResolverOptions`, and `BaseSiteHandlerContext` from `@spartacus/setup/ssr`.
-- `add-base-site-aware-route` from the `@spartacus/schematics` collection.
+- `add-base-site-aware-express-route` from the `@spartacus/schematics` collection.

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "SpartacusBaseSiteAwareRoute",
+  "$id": "SpartacusBaseSiteAwareExpressRoute",
   "title": "Add a base-site-aware Express route",
   "type": "object",
   "properties": {
