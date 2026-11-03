@@ -26,6 +26,7 @@ Each topic lives in its own `.md` file in the `references/` folder. Read a topic
 - [facades-not-store.md](references/facades-not-store.md) — read when reading or writing Spartacus state from a component.
 - [ssr-safety.md](references/ssr-safety.md) — read when touching `window`, `document`, `localStorage`, or any browser-only API.
 - [outlets.md](references/outlets.md) — read when sprinkling new UI into an existing Spartacus page without replacing it.
+- [performance.md](references/performance.md) — read when a component renders images, a hero/banner, a carousel, or any responsive layout where paint performance or layout stability matters.
 
 Some topics link to further deep-dive material in the same `references/` folder.
 
@@ -51,6 +52,8 @@ Components and SSR:
 - ALWAYS use `ChangeDetectionStrategy.OnPush` on new components, paired with the `async` pipe (preserve `Default` when extending a Spartacus component that uses it).
 - AVOID `.subscribe()` in components when the data drives the template; if you reach for `markForCheck()`, the data should be a stream.
 - NEVER reference `window`/`document`/`localStorage` without guarding via `WindowRef.isBrowser()`.
+- NEVER add `loading="lazy"` to the hero/LCP image — above-the-fold images must load immediately.
+- ALWAYS set `width` and `height` (or CSS `aspect-ratio`) on every image container to prevent layout shift (CLS).
 
 Configuration:
 - ALWAYS use `provideConfig()` (not `provideDefaultConfig()`)
