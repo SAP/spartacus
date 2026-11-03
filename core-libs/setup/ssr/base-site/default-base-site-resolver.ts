@@ -97,10 +97,6 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
     );
   }
 
-  protected malformedOccResponse(): OccUnavailableError {
-    return new OccUnavailableError('OCC base-sites response is malformed');
-  }
-
   protected async getSites(): Promise<OccBaseSite[]> {
     if (
       this.cachedSites !== null &&
@@ -157,7 +153,7 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
       }
       const body = (await response.json()) as unknown;
       if (!this.isRecord(body)) {
-        throw this.malformedOccResponse();
+        throw new OccUnavailableError('OCC base-sites response is malformed');
       }
       const baseSites = body['baseSites'];
       if (baseSites === undefined) {
@@ -167,7 +163,7 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
         !Array.isArray(baseSites) ||
         !baseSites.every((baseSite) => this.isOccBaseSite(baseSite))
       ) {
-        throw this.malformedOccResponse();
+        throw new OccUnavailableError('OCC base-sites response is malformed');
       }
       return {
         sites: baseSites.map(({ uid, urlPatterns }) => ({ uid, urlPatterns })),
