@@ -14,7 +14,10 @@ import {
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorType,
+} from '@spartacus/product-configurator/common';
 import { KeyboardFocusService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
@@ -716,5 +719,23 @@ export class ConfiguratorStorefrontUtilsService {
     const visibilityByType =
       this.uiSettingsConfig.productConfigurator?.overviewMenuFilterTabVisible;
     return !!visibilityByType?.[configuratorType];
+  }
+
+  /**
+   * Verifies whether the price summary should hide base price and selected
+   * options rows (total price remains visible).
+   *
+   * @param configuration - Product configuration
+   * @returns `true` when base price and selected options should be hidden
+   */
+  shouldHideBasePriceAndSelectedOptions(
+    configuration: Configurator.Configuration
+  ): boolean {
+    const configuratorType = configuration.owner?.configuratorType;
+    if (configuratorType === ConfiguratorType.CPQ) {
+      return !!this.uiSettingsConfig.productConfigurator
+        ?.cpqHideBasePriceAndSelectedOptions;
+    }
+    return !!configuration.hideBasePriceAndSelectedOptions;
   }
 }
