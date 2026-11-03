@@ -16,7 +16,6 @@ import {
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
 import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
-import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator-attribute-quantity.module';
 import { ConfiguratorAttributeInputFieldModule } from '../input-field/configurator-attribute-input-field.module';
 import { ConfiguratorAttributeNumericInputFieldModule } from '../numeric-input-field/configurator-attribute-numeric-input-field.module';
@@ -39,7 +38,7 @@ import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute
     ConfiguratorAttributeDropDownComponent,
   ],
   providers: [
-    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+    provideDefaultConfig({
       productConfigurator: {
         assignment: {
           AttributeType_dropdown: ConfiguratorAttributeDropDownComponent,

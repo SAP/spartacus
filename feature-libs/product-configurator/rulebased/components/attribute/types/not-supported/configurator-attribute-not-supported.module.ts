@@ -7,7 +7,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
-import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 import { ConfiguratorAttributeNotSupportedComponent } from './configurator-attribute-not-supported.component';
 
 @NgModule({
@@ -17,7 +16,7 @@ import { ConfiguratorAttributeNotSupportedComponent } from './configurator-attri
     ConfiguratorAttributeNotSupportedComponent,
   ],
   providers: [
-    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+    provideDefaultConfig({
       productConfigurator: {
         assignment: {
           AttributeType_not_implemented:
