@@ -39,6 +39,9 @@
     "@spartacus/styles": "221121.22.0",
     "rxjs": "^7.8.0"
   },
+  "engines": {
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
+  },
   "publishConfig": {
     "access": "public"
   },
