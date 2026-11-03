@@ -11,7 +11,6 @@ import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
 import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
-import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator-attribute-quantity.module';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
 
@@ -28,7 +27,7 @@ import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attri
     ConfiguratorAttributeCheckBoxListComponent,
   ],
   providers: [
-    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+    provideDefaultConfig({
       productConfigurator: {
         assignment: {
           AttributeType_checkBoxList:

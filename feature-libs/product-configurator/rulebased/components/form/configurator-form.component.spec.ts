@@ -11,6 +11,10 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
+import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
@@ -151,6 +155,8 @@ class MockConfiguratorGroupsService {
 
   navigateToFirstIncompleteGroup(): void {}
 
+  navigateToContainerRow(): void {}
+
   isConflictGroupType() {}
 }
 
@@ -261,6 +267,7 @@ let htmlElem: HTMLElement;
 let configExpertModeService: ConfiguratorExpertModeService;
 let hasConfigurationConflictsObservable: Observable<boolean> = EMPTY;
 let keyboardFocusService: KeyboardFocusService;
+let featureToggles: MockFeatureTogglesController;
 
 describe('ConfiguratorFormComponent', () => {
   beforeEach(async () => {
@@ -293,6 +300,9 @@ describe('ConfiguratorFormComponent', () => {
           provide: LaunchDialogService,
           useClass: MockLaunchDialogService,
         },
+        ...provideMockFeatureToggles({
+          productConfiguratorCPQContainer: false,
+        }),
       ],
     })
       .overrideComponent(ConfiguratorFormComponent, {
@@ -308,14 +318,17 @@ describe('ConfiguratorFormComponent', () => {
   });
 
   beforeEach(() => {
+    featureToggles = TestBed.inject(MockFeatureTogglesController);
+    featureToggles.set('productConfiguratorCPQContainer', false);
+
     configuratorGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
 
     vi.spyOn(configuratorGroupsService, 'setGroupStatusVisited');
     vi.spyOn(configuratorGroupsService, 'navigateToConflictSolver');
-
     vi.spyOn(configuratorGroupsService, 'navigateToFirstIncompleteGroup');
+    vi.spyOn(configuratorGroupsService, 'navigateToContainerRow');
 
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
@@ -428,6 +441,52 @@ describe('ConfiguratorFormComponent', () => {
     });
     createComponentWithData();
     expect(keyboardFocusService.clear).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not navigate to a bundle line item if no row id is provided', () => {
+    routerStateObservable = mockRouterStateWithQueryParams({});
+    createComponentWithData();
+    expect(
+      configuratorGroupsService.navigateToContainerRow
+    ).not.toHaveBeenCalled();
+  });
+
+  it('should not navigate to a bundle line item in resolve issues mode', () => {
+    routerStateObservable = mockRouterStateWithQueryParams({
+      resolveIssues: 'true',
+      rowId: 'row-1',
+    });
+    createComponentWithData();
+    expect(
+      configuratorGroupsService.navigateToContainerRow
+    ).not.toHaveBeenCalled();
+  });
+
+  it('should navigate to the bundle line item when a row id is provided and productConfiguratorCPQContainer is enabled', () => {
+    featureToggles.set('productConfiguratorCPQContainer', true);
+    routerStateObservable = mockRouterStateWithQueryParams({
+      rowId: 'row-1',
+    });
+    createComponentWithData();
+    expect(
+      configuratorGroupsService.navigateToContainerRow
+    ).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: PRODUCT_CODE,
+        type: CommonConfigurator.OwnerType.PRODUCT,
+      }),
+      'row-1'
+    );
+  });
+
+  it('should not navigate to a bundle line item when productConfiguratorCPQContainer is disabled', () => {
+    routerStateObservable = mockRouterStateWithQueryParams({
+      rowId: 'row-1',
+    });
+    createComponentWithData();
+    expect(
+      configuratorGroupsService.navigateToContainerRow
+    ).not.toHaveBeenCalled();
   });
 
   describe('Rendering', () => {

@@ -55,6 +55,23 @@
             line-break: anywhere;
           }
         }
+
+        .cx-view-details-link {
+          background-color: transparent;
+          border: none;
+          cursor: pointer;
+          outline-offset: 0;
+          padding: 0;
+          text-decoration: underline;
+          color: var(--cx-color-primary);
+          font-size: 0.875rem;
+          margin-block-start: 5px;
+          text-align: start;
+
+          &:hover {
+            color: var(--cx-color-secondary);
+          }
+        }
       }
     }
 
