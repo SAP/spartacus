@@ -320,4 +320,25 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
       expect(skipConflicts).toBe(false)
     );
   });
+
+  it('should count CPQ overview issues including nested container-row issues', () => {
+    const cpqConfigurationWithNestedIssues: Configurator.Configuration = {
+      ...productConfigurationWithoutIssues,
+      overview: {
+        configId: CONFIG_ID,
+        productCode: productConfigurationWithoutIssues.productCode ?? '',
+        totalNumberOfIssues: 6,
+      },
+    };
+    configurationObs = of(cpqConfigurationWithNestedIssues);
+    initialize(routerData);
+    component.numberOfIssues$.subscribe((numberOfIssues) =>
+      expect(numberOfIssues).toBe(6)
+    );
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-error-msg'
+    );
+  });
 });
