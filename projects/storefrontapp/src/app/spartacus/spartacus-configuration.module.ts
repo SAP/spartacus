@@ -19,6 +19,7 @@ import {
 import { provideConfig, provideConfigFactory } from '@spartacus/core';
 import {
   defaultCmsContentProviders,
+  ImageLoadingStrategy,
   layoutConfigFactory,
   mediaConfig,
 } from '@spartacus/storefront';
@@ -73,7 +74,18 @@ const spartacusChannelSpecificConfigurationProviders = environment.b2b
         fallbackLang: 'en',
       },
     }),
-
+    provideConfig({
+      imageLoadingStrategy: ImageLoadingStrategy.LAZY,
+    }),
+    provideConfig({
+      lcpCmsComponents: {
+        ids: [
+          'ElectronicsHomepageSplashBannerComponent',
+          'ProductImagesComponent',
+          'ProductListComponent',
+        ],
+      },
+    }),
     spartacusChannelSpecificConfigurationProviders,
   ],
 })
