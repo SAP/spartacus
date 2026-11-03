@@ -228,6 +228,20 @@ describe('OpfGlobalFunctionsSharedService', () => {
 
       expect(opfPaymentFacadeMock.submitPayment).toHaveBeenCalled();
     });
+
+    it('should block concurrent submit calls while one is in progress (CXSPA-14589)', async () => {
+      opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
+
+      (service as any).isSubmitInProgress = true;
+
+      const result = await service.submit(
+        { ...submitOptions },
+        mockPaymentSessionId
+      );
+
+      expect(result).toBe(false);
+      expect(opfPaymentFacadeMock.submitPayment).not.toHaveBeenCalled();
+    });
   });
 
   describe('submitComplete', () => {
