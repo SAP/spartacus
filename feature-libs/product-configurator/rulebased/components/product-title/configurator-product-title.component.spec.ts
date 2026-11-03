@@ -234,7 +234,10 @@ let routerStateObservable: Observable<any>;
 let productConfigurationObservable: Observable<any>;
 let productObservable: Observable<any>;
 
-function initialize(options?: { detectChanges?: boolean }) {
+function initialize(options?: {
+  keepGhostStyle?: boolean;
+  detectChanges?: boolean;
+}) {
   routerDataObservable = of(mockRouterData);
   routerStateObservable = of(mockRouterState);
   productConfigurationObservable = of(mockConfiguration);
@@ -243,8 +246,10 @@ function initialize(options?: { detectChanges?: boolean }) {
   changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
-  // Stabilizes first CD while deprecated ghostStyle is still updated in tap().
-  component.ghostStyle = false;
+  if (!options?.keepGhostStyle) {
+    // Stabilizes first CD while deprecated ghostStyle is still updated in tap().
+    component.ghostStyle = false;
+  }
   if (options?.detectChanges !== false) {
     fixture.detectChanges();
   }
