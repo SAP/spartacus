@@ -285,4 +285,142 @@ describe('Angular 22 inject() constructor migration (221121_24)', () => {
     const content = appTree.readContent('/src/index.ts');
     expect(content).toEqual(NOT_EXTENDING_SPARTACUS);
   });
+
+  it('migrates the matching class when an unrelated class appears first', async () => {
+    writeFile(
+      host,
+      '/src/index.ts',
+      NOT_EXTENDING_SPARTACUS + CUSTOMER_EXTENDS_ADD_TO_CART
+    );
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+    const content = appTree.readContent('/src/index.ts');
+    expect(content).toContain(NOT_EXTENDING_SPARTACUS);
+    expect(content).toMatch(/super\(\s*\)/);
+    expect(content).not.toContain('currentProductService');
+  });
+
+  it('migrates two direct customer subclasses in the same file', async () => {
+    const secondClass = CUSTOMER_WITH_OWN_EXTRA_DEP.slice(
+      CUSTOMER_WITH_OWN_EXTRA_DEP.indexOf('export class')
+    ).replace('MyAddToCart', 'AnotherAddToCart');
+    writeFile(host, '/src/index.ts', CUSTOMER_WITH_OWN_EXTRA_DEP + secondClass);
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+    const content = appTree.readContent('/src/index.ts');
+    expect(content.match(/super\(\s*\)/g)).toHaveLength(2);
+    expect(content.match(/myOwnService: MyOwnService/g)).toHaveLength(2);
+    expect(content).not.toContain('currentProductService');
+  });
+
+  it('recognizes an aliased public base-class import', async () => {
+    const fixture = CUSTOMER_EXTENDS_ADD_TO_CART.replace(
+      'AddToCartComponent,',
+      'AddToCartComponent as BaseCart,'
+    ).replace('extends AddToCartComponent', 'extends BaseCart');
+    writeFile(host, '/src/index.ts', fixture);
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+    const content = appTree.readContent('/src/index.ts');
+    expect(content).toContain('extends BaseCart');
+    expect(content).toMatch(/super\(\s*\)/);
+    expect(content).not.toContain('currentProductService');
+  });
+
+  it('keeps a customer dependency with the same type as a removed base dependency', async () => {
+    const fixture = CUSTOMER_EXTENDS_ADD_TO_CART.replace(
+      'productListItemContext: ProductListItemContext',
+      'productListItemContext: ProductListItemContext, protected ownEvents: EventService'
+    );
+    writeFile(host, '/src/index.ts', fixture);
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+    const content = appTree.readContent('/src/index.ts');
+    expect(content).toContain('ownEvents: EventService');
+    expect(content).toMatch(/super\(\s*\)/);
+    expect(content).toContain('import { EventService }');
+  });
+
+  it('retains constructor-body references while removing base super arguments', async () => {
+    const fixture = CUSTOMER_EXTENDS_ADD_TO_CART.replace(
+      '    );',
+      '    ); console.log(eventService);'
+    );
+    writeFile(host, '/src/index.ts', fixture);
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+    const content = appTree.readContent('/src/index.ts');
+    expect(content).toContain('eventService: EventService');
+    expect(content).toContain('console.log(eventService)');
+    expect(content).toMatch(/super\(\s*\)/);
+  });
+
+  it('is idempotent', async () => {
+    writeFile(host, '/src/index.ts', CUSTOMER_WITH_OWN_EXTRA_DEP);
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+    const once = appTree.readContent('/src/index.ts');
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+    expect(appTree.readContent('/src/index.ts')).toEqual(once);
+  });
+
+  it('preserves shared dependency imports used by a non-migrated class', async () => {
+    const other =
+      'export class Other { constructor(private events: EventService) {} }';
+    writeFile(host, '/src/index.ts', CUSTOMER_EXTENDS_ADD_TO_CART + other);
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+    const content = appTree.readContent('/src/index.ts');
+    expect(content).toContain(other);
+    expect(content).toContain('import { EventService }');
+    expect(content).toMatch(/super\(\s*\)/);
+  });
+
+  it('removes the pass-through parameter when a customer parameter of the same type appears first', async () => {
+    const fixture = CUSTOMER_EXTENDS_ADD_TO_CART.replace(
+      'constructor(',
+      'constructor(protected ownEvents: EventService,'
+    );
+    writeFile(host, '/src/index.ts', fixture);
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+    const content = appTree.readContent('/src/index.ts');
+    expect(content).toContain('ownEvents: EventService');
+    expect(content).not.toContain('eventService: EventService');
+    expect(content).toMatch(/super\(\s*\)/);
+  });
+
+  it('recognizes aliased dependency types and removes their unused imports', async () => {
+    const fixture = CUSTOMER_EXTENDS_ADD_TO_CART.replace(
+      '{ EventService }',
+      '{ EventService as Events }'
+    ).replace('eventService: EventService', 'eventService: Events');
+    writeFile(host, '/src/index.ts', fixture);
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+    const content = appTree.readContent('/src/index.ts');
+    expect(content).not.toContain('Events');
+    expect(content).toMatch(/super\(\s*\)/);
+  });
+
+  it.each([
+    ['reordered arguments', 'cd, currentProductService'],
+    ['argument expressions', 'currentProductService, getDetector(cd)'],
+  ])('leaves %s for manual review', async (_, replacement) => {
+    const fixture = CUSTOMER_EXTENDS_ADD_TO_CART.replace(
+      'currentProductService,\n      cd',
+      replacement
+    );
+    writeFile(host, '/src/index.ts', fixture);
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+    expect(appTree.readContent('/src/index.ts')).toEqual(fixture);
+  });
+
+  it('keeps a parameter property used by a customer method', async () => {
+    const fixture = CUSTOMER_EXTENDS_ADD_TO_CART.replace(
+      'eventService: EventService',
+      'protected eventService: EventService'
+    );
+    const withMethod = fixture.replace(
+      /\n}\s*$/,
+      '\n  publish() { return this.eventService; }\n}\n'
+    );
+    writeFile(host, '/src/index.ts', withMethod);
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+    const content = appTree.readContent('/src/index.ts');
+    expect(content).toContain('protected eventService: EventService');
+    expect(content).toContain('return this.eventService');
+    expect(content).toMatch(/super\(\s*\)/);
+  });
 });
