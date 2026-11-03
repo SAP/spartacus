@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { ConfiguratorAttributeCompositionModule } from '../attribute/composition/configurator-attribute-composition.module';
 import { ConfiguratorAttributeFooterModule } from '../attribute/footer/configurator-attribute-footer.module';
 import { ConfiguratorAttributeHeaderModule } from '../attribute/header/configurator-attribute-header.module';
@@ -57,7 +57,7 @@ import { ConfiguratorGroupComponent } from './configurator-group.component';
     ConfiguratorGroupComponent,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         ConfiguratorForm: {
           component: ConfiguratorGroupComponent,
