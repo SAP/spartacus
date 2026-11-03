@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { combineLatest, iif, Observable } from 'rxjs';
+import { combineLatest, iif, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import {
@@ -276,9 +276,19 @@ export class AnonymousConsentsService {
 
   /**
    * Returns `true` if either the banner is not dismissed or if the templates were updated on the back-end.
-   * Otherwise, it returns `false`.
+   * Otherwise, it returns `false`. Returns `false` immediately for logged-in users.
    */
   isBannerVisible(): Observable<boolean> {
+    return this.authService
+      .isUserLoggedIn()
+      .pipe(
+        switchMap((isLoggedIn) =>
+          isLoggedIn ? of(false) : this.getAnonymousBannerVisible()
+        )
+      );
+  }
+
+  private getAnonymousBannerVisible(): Observable<boolean> {
     return combineLatest([
       this.isBannerDismissed(),
       this.getTemplatesUpdated(),
