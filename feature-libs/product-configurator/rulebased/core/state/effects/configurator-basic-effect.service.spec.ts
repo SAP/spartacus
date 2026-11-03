@@ -254,6 +254,17 @@ describe('ConfiguratorBasicEffectService', () => {
         )
       ).toBeUndefined();
     });
+
+    it('should return undefined when requested group is not part of the configuration', () => {
+      expect(
+        classUnderTest.getConfigurationIfTabAlreadyLoaded(
+          productConfiguration,
+          CONFIG_ID,
+          'unknown-group-id',
+          owner
+        )
+      ).toBeUndefined();
+    });
   });
 
   describe('getFirstGroupWithAttributesForList', () => {
@@ -368,6 +379,202 @@ describe('ConfiguratorBasicEffectService', () => {
       ];
       expect(
         classUnderTest['getFirstGroupWithAttributesForList'](groups, false)
+      ).toBeUndefined();
+    });
+  });
+
+  describe('getFirstTabIdOfNewlyAddedContainerRow', () => {
+    const rowGroupId = `${Configurator.ContainerRowGroupIdPrefix}@1111@row-new`;
+    const firstTabId = GROUP_ID_2;
+    const secondTabId = GROUP_ID_3;
+    const existingRow: Configurator.ContainerRow = {
+      id: 'row-existing',
+      productSystemId: 'EXISTING',
+      selected: true,
+    };
+    const newRowWithConfig: Configurator.ContainerRow = {
+      id: 'row-new',
+      productSystemId: 'NEW_PROD',
+      selected: true,
+      groupId: rowGroupId,
+    };
+    const newRowWithoutConfig: Configurator.ContainerRow = {
+      id: 'row-new',
+      productSystemId: 'NEW_PROD',
+      selected: true,
+    };
+    const nestedRowGroup: Configurator.Group = {
+      id: rowGroupId,
+      groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+      attributes: [],
+      subGroups: [
+        {
+          id: firstTabId,
+          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+          attributes: [{ name: ATTRIBUTE_1_CHECKBOX }],
+          subGroups: [],
+        },
+        {
+          id: secondTabId,
+          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+          attributes: [],
+          subGroups: [],
+        },
+      ],
+    };
+
+    function createConfigurationWithContainer(
+      rows: Configurator.ContainerRow[],
+      subGroups: Configurator.Group[] = []
+    ): Configurator.Configuration {
+      return {
+        ...ConfiguratorTestUtils.createConfiguration(
+          CONFIG_ID,
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
+        groups: [
+          {
+            id: GROUP_ID_1,
+            attributes: [
+              {
+                name: ATTRIBUTE_1_CHECKBOX,
+                attrCode: 1111,
+                container: { rows },
+              },
+            ],
+            subGroups,
+          },
+        ],
+        flatGroups: [],
+      };
+    }
+
+    it('should return the first tab id of a newly added configurable row', () => {
+      const previous = createConfigurationWithContainer([existingRow]);
+      const next = createConfigurationWithContainer(
+        [existingRow, newRowWithConfig],
+        [nestedRowGroup]
+      );
+
+      expect(
+        classUnderTest.getFirstTabIdOfNewlyAddedContainerRow(previous, next)
+      ).toBe(firstTabId);
+    });
+
+    it('should return undefined when the new row has no nested configuration', () => {
+      const previous = createConfigurationWithContainer([existingRow]);
+      const next = createConfigurationWithContainer([
+        existingRow,
+        newRowWithoutConfig,
+      ]);
+
+      expect(
+        classUnderTest.getFirstTabIdOfNewlyAddedContainerRow(previous, next)
+      ).toBeUndefined();
+    });
+
+    it('should return undefined when no new selected row is present', () => {
+      const previous = createConfigurationWithContainer([existingRow]);
+      const next = createConfigurationWithContainer([existingRow]);
+
+      expect(
+        classUnderTest.getFirstTabIdOfNewlyAddedContainerRow(previous, next)
+      ).toBeUndefined();
+    });
+
+    it('should find a newly added configurable row on a nested container', () => {
+      const previous: Configurator.Configuration = {
+        ...ConfiguratorTestUtils.createConfiguration(
+          CONFIG_ID,
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
+        groups: [
+          {
+            id: GROUP_ID_1,
+            attributes: [],
+            subGroups: [
+              {
+                id: GROUP_ID_4,
+                attributes: [
+                  {
+                    name: ATTRIBUTE_1_CHECKBOX,
+                    attrCode: 1111,
+                    container: { rows: [existingRow] },
+                  },
+                ],
+                subGroups: [],
+              },
+            ],
+          },
+        ],
+        flatGroups: [],
+      };
+      const next: Configurator.Configuration = {
+        ...previous,
+        groups: [
+          {
+            id: GROUP_ID_1,
+            attributes: [],
+            subGroups: [
+              {
+                id: GROUP_ID_4,
+                attributes: [
+                  {
+                    name: ATTRIBUTE_1_CHECKBOX,
+                    attrCode: 1111,
+                    container: { rows: [existingRow, newRowWithConfig] },
+                  },
+                ],
+                subGroups: [nestedRowGroup],
+              },
+            ],
+          },
+        ],
+      };
+
+      expect(
+        classUnderTest.getFirstTabIdOfNewlyAddedContainerRow(previous, next)
+      ).toBe(firstTabId);
+    });
+
+    it('should prefer the new row that carries a nested configuration when several new rows appear', () => {
+      const anotherNewRowWithoutConfig: Configurator.ContainerRow = {
+        id: 'row-other',
+        productSystemId: 'OTHER',
+        selected: true,
+      };
+      const previous = createConfigurationWithContainer([existingRow]);
+      const next = createConfigurationWithContainer(
+        [existingRow, anotherNewRowWithoutConfig, newRowWithConfig],
+        [nestedRowGroup]
+      );
+
+      expect(
+        classUnderTest.getFirstTabIdOfNewlyAddedContainerRow(previous, next)
+      ).toBe(firstTabId);
+    });
+
+    it('should return undefined when previous configuration is missing and no row carries a nested configuration', () => {
+      const next = createConfigurationWithContainer([newRowWithoutConfig]);
+
+      expect(
+        classUnderTest.getFirstTabIdOfNewlyAddedContainerRow(undefined, next)
+      ).toBeUndefined();
+    });
+
+    it('should return undefined when the nested group has no tabs', () => {
+      const rowGroupWithoutTabs: Configurator.Group = {
+        ...nestedRowGroup,
+        subGroups: [],
+      };
+      const previous = createConfigurationWithContainer([]);
+      const next = createConfigurationWithContainer(
+        [newRowWithConfig],
+        [rowGroupWithoutTabs]
+      );
+
+      expect(
+        classUnderTest.getFirstTabIdOfNewlyAddedContainerRow(previous, next)
       ).toBeUndefined();
     });
   });

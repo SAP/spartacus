@@ -44,6 +44,40 @@ export namespace Configurator {
     validationType?: string;
     visible?: boolean;
     domainOnDemand?: boolean;
+    /** Container metadata, present only if this attribute is a CPQ container,
+     * i.e. it can hold multiple individually configurable sub-product instances. */
+    container?: Container;
+    /** Identifier of the container row this attribute belongs to. Only set for
+     * attributes of a nested (row) configuration; needed to build update requests
+     * in the row context. */
+    containerRowId?: string;
+  }
+
+  /**
+   * Metadata of a container. The link to the attribute (CPQ: stdAttrCode) is
+   * implicit, as the container is attached to the attribute it belongs to.
+   */
+  export interface Container {
+    minRows?: number;
+    maxRows?: number;
+    messages?: Message[];
+    rows: ContainerRow[];
+  }
+
+  /**
+   * A single, individually configurable sub-product instance of a container.
+   */
+  export interface ContainerRow {
+    id: string;
+    minRows?: number;
+    maxRows?: number;
+    productSystemId?: string;
+    productName?: string;
+    selected?: boolean;
+    actions?: ContainerRowAction[];
+    /** Id of the group carrying the nested configuration of this row.
+     * Only present if the row is selected and configurable. */
+    groupId?: string;
   }
 
   export interface Value {
@@ -68,8 +102,23 @@ export namespace Configurator {
     groupType?: GroupType;
     configurable?: boolean;
     complete?: boolean;
+    /** Set to `true` when the group itself has no issue and is only incomplete
+     * because at least one of its subgroups is incomplete. Such a group is not a
+     * target for issue navigation. */
+    incompleteBecauseOfChild?: boolean;
     consistent?: boolean;
     subGroups: Group[];
+    /** Messages from a nested (container row) configuration, including severity. */
+    messages?: Message[];
+  }
+
+  /**
+   * A message issued by the configuration engine for a configuration or for a
+   * nested product configuration. Maps to SAPCPQMessage.
+   */
+  export interface Message {
+    message: string;
+    severity?: MessageSeverity;
   }
 
   export interface ValueSupplement {
@@ -101,6 +150,17 @@ export namespace Configurator {
     updateType?: UpdateType;
     errorMessages?: string[];
     warningMessages?: string[];
+    /**
+     * Typed messages from the configuration engine, including severity.
+     * Used for CPQ when `hasFullConfigurationState` is true.
+     */
+    messages?: Message[];
+    /**
+     * Whether the CPQ payload contains the full configuration state
+     * (all tabs, typed messages). When true, root messages are taken from
+     * `messages` rather than from `errorMessages`/`warningMessages`.
+     */
+    hasFullConfigurationState?: boolean;
     variants?: Variant[];
     kbKey?: KB;
     pricingEnabled?: boolean;
@@ -185,6 +245,27 @@ export namespace Configurator {
     owner: CommonConfigurator.Owner;
   }
 
+  export interface AddContainerRowParameters {
+    configId: string;
+    owner: CommonConfigurator.Owner;
+    stdAttrCode: number;
+    productSystemId: string;
+    /** Identifier of the parent container row for nested containers; omit for root level. */
+    parentRowId?: string;
+  }
+
+  export interface RemoveContainerRowParameters {
+    configId: string;
+    owner: CommonConfigurator.Owner;
+    rowId: string;
+  }
+
+  export interface CopyContainerRowParameters {
+    configId: string;
+    owner: CommonConfigurator.Owner;
+    rowId: string;
+  }
+
   export interface UpdateConfigurationForCartEntryParameters {
     userId: string;
     cartId: string;
@@ -216,6 +297,21 @@ export namespace Configurator {
     SUB_ITEM_GROUP = 'SubItemGroup',
     CONFLICT_HEADER_GROUP = 'ConflictHeaderGroup',
     CONFLICT_GROUP = 'ConflictGroup',
+    /** Group representing the nested configuration of one container row. */
+    CONTAINER_ROW_GROUP = 'ContainerRowGroup',
+  }
+
+  export enum ContainerRowAction {
+    DELETE = 'DELETE',
+    EDIT = 'EDIT',
+    COPY = 'COPY',
+    ADD = 'ADD',
+  }
+
+  export enum MessageSeverity {
+    INFO = 'info',
+    WARNING = 'warning',
+    ERROR = 'error',
   }
 
   export enum UiType {
@@ -243,6 +339,7 @@ export namespace Configurator {
     CHECKBOXLIST_PRODUCT = 'checkBoxListProduct',
     DROPDOWN_PRODUCT = 'dropdownProduct',
     RADIOBUTTON_PRODUCT = 'radioGroupProduct',
+    CONTAINER = 'container',
   }
 
   export enum ImageFormatType {
@@ -261,6 +358,7 @@ export namespace Configurator {
     USER_SELECTION_QTY_ATTRIBUTE_LEVEL = 'UserSelectionWithAttributeQuantity',
     USER_SELECTION_QTY_VALUE_LEVEL = 'UserSelectionWithValueQuantity',
     USER_SELECTION_NO_QTY = 'UserSelectionWithoutQuantity',
+    CONTAINER = 'Container',
     NOT_IMPLEMENTED = 'not_implemented',
   }
   export enum UpdateType {
@@ -287,6 +385,7 @@ export namespace Configurator {
 
   export const ConflictIdPrefix = 'CONFLICT';
   export const ConflictHeaderId = 'CONFLICT_HEADER';
+  export const ContainerRowGroupIdPrefix = 'CONTAINER_ROW';
   export const CustomUiTypeIndicator = '___';
   export const RetractValueCode = '###RETRACT_VALUE_CODE###';
 }
