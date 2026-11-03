@@ -85,7 +85,7 @@ export class ProductCarouselComponent {
     );
 
   trackByFn: TrackByFunction<Product> = (_index: number, item: Product) =>
-    item?.code;
+    item?.code ?? item;
 
   handleCategoryCodes(data: model): Observable<model> {
     const categoryCodes = data?.categoryCodes?.split(' ');

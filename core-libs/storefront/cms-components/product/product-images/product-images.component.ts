@@ -109,5 +109,5 @@ export class ProductImagesComponent {
   }
 
   trackByFn: TrackByFunction<Product> = (_index: number, item: Product) =>
-    item?.code;
+    item?.code ?? item;
 }

@@ -5,6 +5,7 @@ import {
   Pipe,
   PipeTransform,
   TemplateRef,
+  TrackByFunction,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -21,7 +22,7 @@ import {
 } from '@spartacus/core';
 import { CarouselScrollingComponent } from '@spartacus/storefront';
 import { MediaComponent } from '../../../../shared/components/media/media.component';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductReferencesComponent } from './product-references.component';
@@ -42,6 +43,7 @@ class MockCarouselScrollingComponent {
   @Input() title: string;
   @Input() template: TemplateRef<any>;
   @Input() items: any[];
+  @Input() trackByFn: TrackByFunction<any>;
 }
 
 @Pipe({ name: 'cxUrl' })
@@ -129,6 +131,18 @@ describe('ProductReferencesComponent', () => {
   let component: ProductReferencesComponent;
   let productReferenceService: ProductReferenceService;
   let fixture: ComponentFixture<ProductReferencesComponent>;
+
+  it('provides distinct tracking keys for lazy product references', async () => {
+    fixture.detectChanges();
+    const carousel = fixture.debugElement.query(
+      By.directive(MockCarouselScrollingComponent)
+    ).componentInstance;
+    const items = await firstValueFrom(component.items$);
+    const keys = items.map((item, index) => carousel.trackByFn(index, item));
+    expect(keys.length).toBeGreaterThan(1);
+    expect(keys.every((key) => key != null)).toBe(true);
+    expect(new Set(keys).size).toBe(items.length);
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({

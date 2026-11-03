@@ -91,6 +91,16 @@ NG_ALLOWED_HOSTS=localhost,store.example.com node dist/my-app/server/server.mjs
 
 Set trusted hostnames for your deployment, without schemes or ports. Inspect the actual built server entry path. Configure the environment through your container/process manager for custom script names or deployment commands. POSIX inline environment assignment does not work in Windows cmd; use PowerShell (`$env:NG_ALLOWED_HOSTS='localhost'`) or a suitable environment-setting tool. Configure proxy forwarding and test both an allowed host and a rejected host. Do not disable validation to make local requests pass.
 
+### Prerender configuration
+
+Set `SERVER_REQUEST_ORIGIN` to the application's public origin when prerendering. There is no incoming HTTP request from which Spartacus can infer it. This is separate from Angular's host allowlist. For the repository demo, run:
+
+~~~bash
+SERVER_REQUEST_ORIGIN=http://localhost:4200 SPA_ENV=b2c npm run prerender
+~~~
+
+Customer applications must also enable prerendering in their build target and supply the routes to render. Verify the generated HTML and the `prerendered-routes.json` entries: a successful SSR build reporting zero static routes does not verify prerendering.
+
 ### Angular 22: Spartacus services and components moved to `inject()`
 
 In this release, Spartacus services, components, guards, interceptors, adapters, connectors, and converters were migrated from **constructor-based dependency injection** to Angular's **`inject()` function**. Many public constructors no longer accept their former DI arguments. Some constructors remain for initialization or non-DI arguments; check the published signature of the class you extend.
