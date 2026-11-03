@@ -246,6 +246,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
       disableAllButtons: disableAllButtons ?? false,
       hideRemoveButton: hideRemoveButton ?? false,
       productBoundValue: value,
+      attribute: this.attribute,
       multiSelect: true,
       withQuantity: this.withQuantity,
       loading$: this.loading$,

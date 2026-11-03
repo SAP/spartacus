@@ -11,7 +11,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { I18nModule, Translatable } from '@spartacus/core';
+import { I18nModule, Translatable, useFeatureStyles } from '@spartacus/core';
 
 /**
  * Wraps the provided input text in a Read More / Read Less component, truncating input to maxLength
@@ -26,6 +26,10 @@ import { I18nModule, Translatable } from '@spartacus/core';
   imports: [I18nModule],
 })
 export class ReadMoreComponent implements OnChanges {
+  constructor() {
+    useFeatureStyles('a11yHighContrastFix');
+  }
+
   // Read More label translation key
   @Input() readMoreI18nKey?: string | Translatable = 'common.readMore';
   // Read Less label translation key

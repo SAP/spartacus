@@ -41,6 +41,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
       hideRemoveButton: this.attribute.required,
       fallbackFocusId: this.getFocusIdOfNearestValue(value),
       productBoundValue: value,
+      attribute: this.attribute,
       loading$: this.loading$,
       attributeId: this.getAttributeCode(this.attribute),
       attributeLabel: this.attribute.label,

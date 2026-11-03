@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {
   CxDatePipe,
   FeatureDirective,
+  FeatureStylesService,
   I18nTestingModule,
   Product,
   ProductReviewService,
@@ -309,5 +310,36 @@ describe('ProductReviewsComponent in product', () => {
       expect(scrollSpy).not.toHaveBeenCalled();
       expect(focusSpy).not.toHaveBeenCalled();
     });
+  });
+});
+
+class MockFeatureStylesService {
+  registerUsage = vi.fn();
+  unregisterUsage = vi.fn();
+}
+
+describe('ProductReviewsComponent feature toggle registration', () => {
+  let featureStylesService: FeatureStylesService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: ProductReviewService, useClass: MockProductReviewService },
+        {
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
+        },
+        { provide: FeatureStylesService, useClass: MockFeatureStylesService },
+      ],
+    }).compileComponents();
+    featureStylesService = TestBed.inject(FeatureStylesService);
+    vi.spyOn(featureStylesService, 'registerUsage');
+  });
+
+  it('should register useFeatureStyles for a11yHighContrastFix', () => {
+    TestBed.createComponent(ProductReviewsComponent);
+    expect(featureStylesService.registerUsage).toHaveBeenCalledWith(
+      'a11yHighContrastFix'
+    );
   });
 });

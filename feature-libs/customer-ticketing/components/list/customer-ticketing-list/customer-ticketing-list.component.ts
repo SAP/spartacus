@@ -13,6 +13,7 @@ import {
   TranslatePipe,
   TranslationService,
   UrlPipe,
+  useFeatureStyles,
 } from '@spartacus/core';
 import {
   CustomerTicketingConfig,
@@ -53,6 +54,9 @@ export class CustomerTicketingListComponent {
   protected translationService = inject(TranslationService);
   protected customerTicketingConfig = inject(CustomerTicketingConfig);
 
+  constructor() {
+    useFeatureStyles('a11yHighContrastFix');
+  }
   PAGE_SIZE =
     this.customerTicketingConfig.customerTicketing?.listViewPageSize || 5;
   sortType: string;

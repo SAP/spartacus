@@ -2,49 +2,78 @@
   @if (cartEntry) {
     @if (isDisabled()) {
       <label class="disabled-link">
-        @if (isDisabled()) {
-          @if (getDisplayOnly()) {
-            {{ 'configurator.header.displayConfiguration' | cxTranslate }}
-          }
-          @if (!getDisplayOnly() && !msgBanner) {
-            {{ 'configurator.header.editConfiguration' | cxTranslate }}
-          }
-          @if (!getDisplayOnly() && msgBanner) {
-            {{ 'configurator.header.resolveIssues' | cxTranslate }}
-          }
-        }
+        <ng-container *cxFeature="'!productConfiguratorCPQContainer'">
+          <ng-container *ngTemplateOutlet="configureTextLegacy" />
+        </ng-container>
+        <ng-container *cxFeature="'productConfiguratorCPQContainer'">
+          <ng-container *ngTemplateOutlet="configureTextCpqContainer" />
+        </ng-container>
       </label>
     }
-    @if (!isDisabled()) {
-      <a
-        class="link cx-action-link"
-        [routerLink]="
-          {
-            cxRoute: getRoute(),
-            params: {
-              ownerType:
-                retrieveOwnerTypeFromAbstractOrderType(abstractOrderKey),
-              entityKey: retrieveEntityKey(abstractOrderKey),
-              displayOnly: getDisplayOnly(),
-            },
-          } | cxUrl
-        "
-        [queryParams]="queryParams$ | async"
-        cxAutoFocus
-        attr.aria-describedby="{{ getResolveIssuesA11yDescription() }}"
-      >
-        @if (!isDisabled()) {
-          @if (getDisplayOnly()) {
-            {{ 'configurator.header.displayConfiguration' | cxTranslate }}
-          }
-          @if (!getDisplayOnly() && !msgBanner) {
-            {{ 'configurator.header.editConfiguration' | cxTranslate }}
-          }
-          @if (!getDisplayOnly() && msgBanner) {
-            {{ 'configurator.header.resolveIssues' | cxTranslate }}
-          }
-        }
-      </a>
-    }
+    <!-- TODO: Remove feature flag next major release. -->
+    <ng-container *cxFeature="'!productConfiguratorCPQContainer'">
+      @if (!isDisabled()) {
+        <a
+          class="link cx-action-link"
+          [routerLink]="
+            {
+              cxRoute: getRoute(),
+              params: {
+                ownerType:
+                  retrieveOwnerTypeFromAbstractOrderType(abstractOrderKey),
+                entityKey: retrieveEntityKey(abstractOrderKey),
+                displayOnly: getDisplayOnly(),
+              },
+            } | cxUrl
+          "
+          [queryParams]="queryParams$ | async"
+          cxAutoFocus
+          attr.aria-describedby="{{ getResolveIssuesA11yDescription() }}"
+        >
+          <ng-container *ngTemplateOutlet="configureTextLegacy" />
+        </a>
+      }
+    </ng-container>
+    <ng-container
+      *cxFeature="'productConfiguratorCPQContainer'"
+      [ngTemplateOutlet]="cpqContainerLink"
+      [ngTemplateOutletContext]="{
+        a11yKey: getCpqContainerLinkA11yResourceKey(),
+      }"
+    />
+    <ng-template #cpqContainerLink let-a11yKey="a11yKey">
+      @if (!isDisabled()) {
+        <a
+          class="link cx-action-link"
+          [routerLink]="
+            {
+              cxRoute: getRoute(),
+              params: {
+                ownerType:
+                  retrieveOwnerTypeFromAbstractOrderType(abstractOrderKey),
+                entityKey: retrieveEntityKey(abstractOrderKey),
+                displayOnly: getDisplayOnly(),
+              },
+            } | cxUrl
+          "
+          [queryParams]="cpqContainerQueryParams$ | async"
+          [fragment]="getCpqContainerFragment()"
+          [attr.aria-label]="
+            a11yKey
+              ? (a11yKey | cxTranslate: { product: getLinkProductName() })
+              : null
+          "
+          attr.aria-describedby="{{ getResolveIssuesA11yDescription() }}"
+        >
+          <ng-container *ngTemplateOutlet="configureTextCpqContainer" />
+        </a>
+      }
+    </ng-template>
   }
+  <ng-template #configureTextLegacy>
+    {{ getLegacyLinkTextResourceKey() | cxTranslate }}
+  </ng-template>
+  <ng-template #configureTextCpqContainer>
+    {{ getCpqContainerLinkTextResourceKey() | cxTranslate }}
+  </ng-template>
 }

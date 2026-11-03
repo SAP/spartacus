@@ -299,6 +299,7 @@ if (environment.cpq) {
         useAdvancedGoogleMarkers: true,
         useGoogleMapsAsyncLoading: true,
         productConfiguratorConsolidatedButtonDisabling: true,
+        productConfiguratorCPQContainer: true,
         improvedTabStyling: true,
         alignNavigationMenuWithHeader: true,
         a11yKeyboardAccessibleZoom: true,
@@ -400,6 +401,7 @@ if (environment.cpq) {
         a11yCarouselItemArrowKeyNavigation: true,
         a11yCouponDialogResetButtonKeyboardAccessible: true,
         a11yInStockInfoTextContrast: true,
+        a11yHighContrastFix: true,
         useConfigurableLogoutRedirect: true,
       };
       return appFeatureToggles;

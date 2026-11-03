@@ -2,7 +2,7 @@
   @if (configuration.pricingEnabled) {
     <div class="cx-price-summary-container">
       <div class="cx-total-summary">
-        @if (!configuration.hideBasePriceAndSelectedOptions) {
+        @if (!shouldHideBasePriceAndSelectedOptions(configuration)) {
           <div class="cx-summary-row cx-base-price">
             <div class="cx-label">
               {{ 'configurator.priceSummary.basePrice' | cxTranslate }}:

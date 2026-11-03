@@ -5,6 +5,7 @@
  */
 
 import { HttpErrorModel } from '@spartacus/core';
+import { OpfKeyValueMap } from '@spartacus/opf/base/root';
 
 export const opfDefaultPaymentError: OpfPaymentError = {
   statusText: 'Payment Error',
@@ -28,6 +29,7 @@ export interface OpfPaymentError extends HttpErrorModel {
   details?: Array<OpfPaymentErrorDetails>;
   moreInfo?: string;
   checkoutValidationMessage?: string;
+  customFields?: Array<OpfKeyValueMap>;
 }
 
 export interface OpfPaymentErrorValidationFailedProduct {

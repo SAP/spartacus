@@ -5,9 +5,10 @@
  */
 
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   ErrorModel,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorHandler,
@@ -22,6 +23,8 @@ export class ConfiguratorBadRequestHandler extends HttpErrorHandler {
   protected override globalMessageService = inject(GlobalMessageService);
 
   responseStatus = HttpResponseStatus.BAD_REQUEST;
+
+  private featureToggles = inject(FeatureToggles);
 
   getPriority(): Priority {
     return Priority.NORMAL;
@@ -53,8 +56,8 @@ export class ConfiguratorBadRequestHandler extends HttpErrorHandler {
     }
   }
 
-  protected isNotEmpty(errors: ErrorModel[]): boolean {
-    return errors?.length > 0;
+  protected isNotEmpty(errors?: ErrorModel[] | null): boolean {
+    return !!errors && errors.length > 0;
   }
 
   protected isIllegalStateErrorRelatedToMakeToStock(message: string): boolean {
@@ -67,7 +70,7 @@ export class ConfiguratorBadRequestHandler extends HttpErrorHandler {
   }
 
   protected getIllegalStateErrorsRelatedToProductConfigurator(
-    response: HttpErrorResponse
+    response?: HttpErrorResponse
   ): ErrorModel[] {
     return (response?.error?.errors ?? [])
       .filter((error: ErrorModel) => error.type === 'IllegalStateError')
@@ -77,10 +80,45 @@ export class ConfiguratorBadRequestHandler extends HttpErrorHandler {
   }
 
   protected isRelatedToProductConfigurator(
-    response: HttpErrorResponse
+    response?: HttpErrorResponse
   ): boolean {
-    return this.isNotEmpty(
-      this.getIllegalStateErrorsRelatedToProductConfigurator(response)
+    return (
+      this.isNotEmpty(
+        this.getIllegalStateErrorsRelatedToProductConfigurator(response)
+      ) ||
+      (!!this.featureToggles.productConfiguratorCPQContainer &&
+        this.isProductCardProductNotFound(response))
+    );
+  }
+
+  protected isProductCardProductNotFound(
+    response?: HttpErrorResponse
+  ): boolean {
+    if (!response) {
+      return false;
+    }
+    return (
+      this.hasUnknownIdentifierError(response) &&
+      this.isConfiguratorProductCardProductUrl(response.url)
+    );
+  }
+
+  protected hasUnknownIdentifierError(response: HttpErrorResponse): boolean {
+    return (response?.error?.errors ?? []).some(
+      (error: ErrorModel) => error.type === 'UnknownIdentifierError'
+    );
+  }
+
+  protected isConfiguratorProductCardProductUrl(url?: string | null): boolean {
+    if (!url) {
+      return false;
+    }
+    const decodedUrl = decodeURIComponent(url);
+    return (
+      /\/products\/[^/?]+(?:\?|$)/.test(decodedUrl) &&
+      decodedUrl.includes('description') &&
+      decodedUrl.includes('images(DEFAULT)') &&
+      !decodedUrl.includes('galleryIndex')
     );
   }
 }

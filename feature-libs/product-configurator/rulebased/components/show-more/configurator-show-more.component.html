@@ -1,7 +1,21 @@
 @if (text) {
   <span [innerHTML]="textToShow"></span>
   @if (showMore) {
-    <button (click)="toggleShowMore()" tabindex="{{ tabIndex }}">
+    <button
+      (click)="toggleShowMore()"
+      tabindex="{{ tabIndex }}"
+      [attr.aria-label]="
+        ariaLabelKey
+          ? (ariaLabelKey!
+            | cxTranslate
+              : {
+                  attribute: attributeLabel,
+                  value: valueLabel,
+                  item: itemLabel,
+                })
+          : null
+      "
+    >
       @if (showHiddenText) {
         &nbsp;... {{ 'configurator.button.less' | cxTranslate }}
       } @else {

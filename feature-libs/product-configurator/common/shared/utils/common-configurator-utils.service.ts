@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   Cart,
   CartItemContext,
@@ -21,6 +21,7 @@ import {
 } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CommonConfiguratorUISettingsConfig } from '../../components/config/common-configurator-ui-settings.config';
 import {
   CommonConfigurator,
   ConfiguratorType,
@@ -35,6 +36,9 @@ import { ConfiguratorModelUtils } from './configurator-model-utils';
 export class CommonConfiguratorUtilsService {
   protected userIdService = inject(UserIdService);
 
+  protected commonConfiguratorUISettingsConfig = inject(
+    CommonConfiguratorUISettingsConfig
+  );
   /**
    * Compiles a unique key for a configuration owner and sets it into the 'key'
    * attribute
@@ -132,7 +136,7 @@ export class CommonConfiguratorUtilsService {
    * Verifies whether the configurator type is a bundle based one.
    *
    * @param {string} configuratorType - Configurator type
-   * @returns {boolean} - 'True' if the expected configurator type, otherwise 'fasle'
+   * @returns {boolean} - 'True' if the expected configurator type, otherwise 'false'
    */
   isBundleBasedConfigurator(configuratorType: string | undefined): boolean {
     if (configuratorType) {

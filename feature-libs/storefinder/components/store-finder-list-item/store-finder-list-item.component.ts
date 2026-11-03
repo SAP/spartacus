@@ -33,6 +33,7 @@ export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
   constructor() {
     super();
     useFeatureStyles('a11yStoreFinderListItemFocus');
+    useFeatureStyles('a11yHighContrastFix');
   }
 
   handleStoreItemClick() {

@@ -1,14 +1,15 @@
-@if (product$ | async; as product) {
+@if (productTitleData$ | async; as data) {
   <div class="cx-general-product-info">
     <div class="cx-title">
       <span
         id="cxConfigProductName"
         [cxConfiguratorMainAriaLabelledBy]="'cxConfigProductName'"
+        [cxConfiguratorTruncatePathTitle]="data.title"
+        [attr.title]="data.title"
+        [attr.aria-label]="data.title"
         role="heading"
         aria-level="1"
-      >
-        {{ product.name }}
-      </span>
+      ></span>
     </div>
     <button (click)="triggerDetails()" [attr.aria-expanded]="showMore">
       @if (!showMore) {
@@ -20,7 +21,7 @@
         <cx-icon
           [attr.aria-label]="
             'configurator.a11y.showMoreProductInfo'
-              | cxTranslate: { product: product.name }
+              | cxTranslate: { product: data.product?.name }
           "
           [type]="iconTypes.CARET_DOWN"
         />
@@ -32,7 +33,7 @@
         <cx-icon
           [attr.aria-label]="
             'configurator.a11y.showLessProductInfo'
-              | cxTranslate: { product: product.name }
+              | cxTranslate: { product: data.product?.name }
           "
           [type]="iconTypes.CARET_UP"
         />
@@ -40,34 +41,37 @@
     </button>
     <div class="cx-details" [class.open]="showMore">
       <div class="cx-details-image" aria-hidden="true">
-        <cx-media [container]="product?.images?.PRIMARY" format="product" />
+        <cx-media
+          [container]="data.product?.images?.PRIMARY"
+          format="product"
+        />
       </div>
       <div
         class="cx-details-content"
         [attr.aria-hidden]="showMore ? false : true"
       >
         <div class="cx-detail-title">
-          @if (product.name) {
+          @if (data.product?.name) {
             <span [attr.title]="'configurator.a11y.productName' | cxTranslate">
-              {{ product.name }}
+              {{ data.product?.name }}
             </span>
           }
         </div>
         <div class="cx-code">
-          @if (product.code) {
+          @if (data.product?.code) {
             <span [attr.title]="'configurator.a11y.productCode' | cxTranslate">
-              {{ product.code }}
+              {{ data.product?.code }}
             </span>
           }
         </div>
         <div class="cx-description">
-          @if (product.description) {
+          @if (data.product?.description) {
             <span
               [attr.title]="
                 'configurator.a11y.productDescription' | cxTranslate
               "
             >
-              {{ product.description }}
+              {{ data.product?.description }}
             </span>
           }
         </div>
@@ -150,5 +154,5 @@
     </div>
   </div>
 } @else {
-  <div class="cx-ghost-general-product-info"></div>
+  <div class="cx-ghost-general-product-info ghost"></div>
 }

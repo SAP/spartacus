@@ -36,7 +36,7 @@ export class LogoutGuard {
   protected router = inject(Router);
 
   protected config = inject(LogoutConfig);
-  private featureToggles = inject(FeatureToggles);
+  private readonly featureToggles = inject(FeatureToggles);
 
   canActivate(): Observable<GuardResult> {
     if (!this.featureToggles.useConfigurableLogoutRedirect) {

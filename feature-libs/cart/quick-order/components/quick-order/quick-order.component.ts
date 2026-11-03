@@ -27,6 +27,7 @@ import {
   GlobalMessageType,
   Product,
   TranslatePipe,
+  useFeatureStyles,
 } from '@spartacus/core';
 import {
   CmsComponentData,
@@ -91,6 +92,9 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     null
   );
 
+  constructor() {
+    useFeatureStyles('a11yHighContrastFix');
+  }
   ngOnInit(): void {
     this.cartId$ = this.activeCartService.getActiveCartId();
     this.entries$ = this.quickOrderService.getEntries();

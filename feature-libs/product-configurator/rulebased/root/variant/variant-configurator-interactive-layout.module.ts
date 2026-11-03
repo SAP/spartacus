@@ -6,7 +6,6 @@
 
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { LayoutConfig } from '@spartacus/storefront';
 
 /**
  *  Contains the layout configuration for the interactive configuration page. This configuration is
@@ -16,7 +15,7 @@ import { LayoutConfig } from '@spartacus/storefront';
  */
 @NgModule({
   providers: [
-    provideDefaultConfig(<LayoutConfig>{
+    provideDefaultConfig({
       layoutSlots: {
         VariantConfigurationTemplate: {
           header: {

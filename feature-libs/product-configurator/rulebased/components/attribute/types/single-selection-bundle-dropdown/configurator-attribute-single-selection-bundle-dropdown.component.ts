@@ -112,6 +112,7 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     return {
       hideRemoveButton: true,
       productBoundValue: this.selectedValue,
+      attribute: this.attribute,
       singleDropdown: true,
       withQuantity: false,
       loading$: this.loading$,

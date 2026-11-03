@@ -32,6 +32,7 @@ import {
   ProductReviewService,
   Review,
   TranslatePipe,
+  useFeatureStyles,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
@@ -108,6 +109,9 @@ export class ProductReviewsComponent {
     })
   );
 
+  constructor() {
+    useFeatureStyles('a11yHighContrastFix');
+  }
   initiateWriteReview(): void {
     this.isWritingReview = true;
 

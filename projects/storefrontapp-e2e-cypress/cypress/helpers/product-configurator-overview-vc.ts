@@ -165,10 +165,12 @@ export function registerConfigurationOverviewUpdateRoute() {
 }
 
 /**
- * Verifies whether the product overview side bar is displayed.
+ * Verifies whether the product overview sidebar is displayed.
  */
 export function checkSidebarDisplayed(): void {
-  cy.get('cx-configurator-overview-sidebar').should('be.visible');
+  cy.get(configurationOverview.OVERVIEW_MENU_CONTAINER_SELECTOR).should(
+    'be.visible'
+  );
 }
 
 /**
@@ -192,7 +194,7 @@ export function checkFilterDisplayed(): void {
  */
 export function toggleSidebar(): void {
   cy.get(
-    'cx-configurator-overview-sidebar .cx-menu-bar button:not(.active)'
+    `${configurationOverview.OVERVIEW_MENU_CONTAINER_SELECTOR} .cx-menu-bar button:not(.active)`
   ).click();
 }
 

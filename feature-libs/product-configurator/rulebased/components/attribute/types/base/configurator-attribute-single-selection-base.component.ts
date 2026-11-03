@@ -20,7 +20,6 @@ import { ConfiguratorAttributeQuantityService } from '../../quantity/configurato
 import { ConfiguratorAttributeSelectionBaseComponent } from './configurator-attribute-selection-base.component';
 
 @Directive()
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends ConfiguratorAttributeSelectionBaseComponent {
   protected quantityService = inject(ConfiguratorAttributeQuantityService);
   protected translation = inject(TranslationService);

@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-price-summary',
@@ -25,6 +26,10 @@ export class ConfiguratorPriceSummaryComponent {
     ConfiguratorRouterExtractorService
   );
 
+  protected configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
+
   configuration$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) => {
@@ -33,4 +38,12 @@ export class ConfiguratorPriceSummaryComponent {
         );
       })
     );
+
+  shouldHideBasePriceAndSelectedOptions(
+    configuration: Configurator.Configuration
+  ): boolean {
+    return this.configuratorStorefrontUtilsService.shouldHideBasePriceAndSelectedOptions(
+      configuration
+    );
+  }
 }

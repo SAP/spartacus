@@ -18,6 +18,7 @@ import {
   PointOfService,
   RoutingService,
   TranslatePipe,
+  useFeatureStyles,
 } from '@spartacus/core';
 import {
   PickupLocationsSearchFacade,
@@ -91,6 +92,9 @@ export class MyPreferredStoreComponent implements OnInit {
 
   protected cdr = inject(ChangeDetectorRef, { optional: true });
 
+  constructor() {
+    useFeatureStyles('a11yHighContrastFix');
+  }
   ngOnInit(): void {
     this.preferredStore$ = this.preferredStoreFacade.getPreferredStore$().pipe(
       filter(

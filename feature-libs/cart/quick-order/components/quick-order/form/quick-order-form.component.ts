@@ -32,6 +32,7 @@ import {
   Product,
   TranslatePipe,
   WindowRef,
+  useFeatureStyles,
 } from '@spartacus/core';
 import {
   ICON_TYPE,
@@ -82,6 +83,9 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   protected searchSubscription = new Subscription();
   private featureToggles = inject(FeatureToggles);
 
+  constructor() {
+    useFeatureStyles('a11yHighContrastFix');
+  }
   ngOnInit(): void {
     this.buildForm();
     this.subscription.add(this.watchProductAdd());

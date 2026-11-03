@@ -99,6 +99,25 @@ class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
       of('updateConfiguration' + configuration.configId)
     );
 
+  addContainerRow = vi
+    .fn()
+    .mockImplementation((parameters: Configurator.AddContainerRowParameters) =>
+      of('addContainerRow' + parameters.configId)
+    );
+
+  copyContainerRow = vi
+    .fn()
+    .mockImplementation((parameters: Configurator.CopyContainerRowParameters) =>
+      of('copyContainerRow' + parameters.configId)
+    );
+
+  removeContainerRow = vi
+    .fn()
+    .mockImplementation(
+      (parameters: Configurator.RemoveContainerRowParameters) =>
+        of('removeContainerRow' + parameters.configId)
+    );
+
   updateConfigurationOverview = vi
     .fn()
     .mockImplementation((ovInput: Configurator.Overview) =>
@@ -314,6 +333,100 @@ describe('RulebasedConfiguratorConnector', () => {
     expect(adapter[0].updateConfiguration).toHaveBeenCalledWith(
       productConfiguration
     );
+  });
+
+  it('should call adapter on addContainerRow', () => {
+    const parameters: Configurator.AddContainerRowParameters = {
+      configId: CONFIG_ID,
+      owner: productConfiguration.owner,
+      stdAttrCode: 598,
+      productSystemId: PRODUCT_CODE,
+      parentRowId: '3',
+    };
+    let result;
+    service.addContainerRow(parameters).subscribe((res) => (result = res));
+    expect(result).toBe('addContainerRow' + CONFIG_ID);
+    expect(adapter[0].addContainerRow).toHaveBeenCalledWith(parameters);
+  });
+
+  it('should call adapter on copyContainerRow', () => {
+    const parameters: Configurator.CopyContainerRowParameters = {
+      configId: CONFIG_ID,
+      owner: productConfiguration.owner,
+      rowId: '3',
+    };
+    let result;
+    service.copyContainerRow(parameters).subscribe((res) => (result = res));
+    expect(result).toBe('copyContainerRow' + CONFIG_ID);
+    expect(adapter[0].copyContainerRow).toHaveBeenCalledWith(parameters);
+  });
+
+  it('should call adapter on removeContainerRow', () => {
+    const parameters: Configurator.RemoveContainerRowParameters = {
+      configId: CONFIG_ID,
+      owner: productConfiguration.owner,
+      rowId: '3',
+    };
+    let result;
+    service.removeContainerRow(parameters).subscribe((res) => (result = res));
+    expect(result).toBe('removeContainerRow' + CONFIG_ID);
+    expect(adapter[0].removeContainerRow).toHaveBeenCalledWith(parameters);
+  });
+
+  describe('container row methods for an adapter without container support', () => {
+    beforeEach(() => {
+      const mockAdapter =
+        adapter[0] as Partial<MockRulebasedConfiguratorAdapter>;
+      delete mockAdapter.addContainerRow;
+      delete mockAdapter.copyContainerRow;
+      delete mockAdapter.removeContainerRow;
+    });
+
+    it('should emit an error on addContainerRow', () => {
+      let error: Error | undefined;
+      service
+        .addContainerRow({
+          configId: CONFIG_ID,
+          owner: productConfiguration.owner,
+          stdAttrCode: 598,
+          productSystemId: PRODUCT_CODE,
+        })
+        .subscribe({ error: (e) => (error = e) });
+      expect(error?.message).toBe(
+        'addContainerRow is not supported for configurator type: ' +
+          CONFIGURATOR_TYPE
+      );
+    });
+
+    it('should emit an error on copyContainerRow', () => {
+      let error: Error | undefined;
+      service
+        .copyContainerRow({
+          configId: CONFIG_ID,
+          owner: productConfiguration.owner,
+          rowId: '3',
+        })
+        .subscribe({ error: (e) => (error = e) });
+      expect(error?.message).toBe(
+        'copyContainerRow is not supported for configurator type: ' +
+          CONFIGURATOR_TYPE
+      );
+    });
+
+    it('should emit an error on removeContainerRow', () => {
+      let error: Error | undefined;
+      service
+        .removeContainerRow({
+          configId: CONFIG_ID,
+          owner: productConfiguration.owner,
+          rowId: '3',
+        })
+        .subscribe({ error: (e) => (error = e) });
+      expect(error?.message).toBe(
+        'removeContainerRow is not supported for configurator type: ' +
+          CONFIGURATOR_TYPE
+      );
+    });
   });
 
   it('should call adapter on readConfigurationPrice', () => {

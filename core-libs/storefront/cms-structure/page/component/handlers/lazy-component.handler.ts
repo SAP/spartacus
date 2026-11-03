@@ -7,16 +7,17 @@
 import {
   ComponentRef,
   ElementRef,
+  inject,
   Injectable,
   Injector,
   NgModuleRef,
+  PendingTasks,
   ViewContainerRef,
-  inject,
 } from '@angular/core';
 import { CmsComponentMapping, Priority } from '@spartacus/core';
-import { from, Observable } from 'rxjs';
+import { defer, from, Observable } from 'rxjs';
 import { DefaultComponentHandler } from './default-component.handler';
-import { switchMap } from 'rxjs/operators';
+import { finalize, switchMap } from 'rxjs/operators';
 import { ComponentHandler } from './component-handler';
 
 /**
@@ -28,6 +29,7 @@ import { ComponentHandler } from './component-handler';
 })
 export class LazyComponentHandler implements ComponentHandler {
   protected defaultHandler = inject(DefaultComponentHandler);
+  protected pendingTasks = inject(PendingTasks);
 
   /**
    * We want to mach dynamic import signature () => import('')
@@ -54,7 +56,18 @@ export class LazyComponentHandler implements ComponentHandler {
     elementInjector?: Injector,
     module?: NgModuleRef<any>
   ): Observable<{ elementRef: ElementRef; componentRef?: ComponentRef<any> }> {
-    return from(componentMapping.component()).pipe(
+    return defer(() => {
+      // Register the dynamic import as a pending task so Angular's stability
+      // counter stays > 0 until the chunk is loaded. This prevents SSR from
+      // serializing and destroying the app while the import() is still in flight
+      // (which would cause NG0205 — destroyed injector). The task is removed by
+      // finalize(), which fires on complete, error, and unsubscribe.
+
+      const removeTaskTracking = this.pendingTasks.add();
+      return from(componentMapping.component()).pipe(
+        finalize(removeTaskTracking)
+      );
+    }).pipe(
       switchMap((component) =>
         this.defaultHandler.launcher(
           { ...componentMapping, component },

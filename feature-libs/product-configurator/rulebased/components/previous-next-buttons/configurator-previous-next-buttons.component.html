@@ -1,5 +1,5 @@
 @if (configuration$ | async; as configuration) {
-  @if (configuration.groups.length > 1) {
+  @if (hasMultipleNavigableGroups(configuration)) {
     <button
       class="btn btn-block btn-secondary cx-previous"
       [disabled]="isFirstGroup(configuration.owner) | async"

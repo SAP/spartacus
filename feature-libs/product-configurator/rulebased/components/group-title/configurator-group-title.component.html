@@ -1,5 +1,5 @@
 @if (displayedGroup$ | async; as group) {
-  <div role="heading" aria-level="2" class="cx-group-title">
+  <div role="heading" aria-level="2" class="cx-group-title" tabindex="-1">
     @if (isMobile() | async) {
       <cx-hamburger-menu />
     }

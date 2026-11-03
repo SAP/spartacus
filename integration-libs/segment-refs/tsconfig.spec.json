@@ -7,8 +7,8 @@
     "types": ["jasmine", "node"],
     "moduleResolution": "bundler"
   },
-  "files": ["test.ts"],
-  "include": ["**/*.spec.ts", "**/*.d.ts"],
+  "files": ["../../testing/setup-vitest.ts"],
+  "include": ["vitest.config.ts", "**/*.spec.ts", "**/*.d.ts"],
   "angularCompilerOptions": {
     "extendedDiagnostics": {
       "checks": {

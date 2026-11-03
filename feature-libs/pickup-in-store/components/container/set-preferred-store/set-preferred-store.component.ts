@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 
 import { AsyncPipe, NgClass } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
+import { TranslatePipe, useFeatureStyles } from '@spartacus/core';
 import {
   PointOfServiceNames,
   PreferredStoreFacade,
@@ -45,6 +45,9 @@ export class SetPreferredStoreComponent implements OnInit, OnDestroy {
     this.preferredStoreFacade.getPreferredStore$();
   subscription: Subscription = new Subscription();
   protected cd = inject(ChangeDetectorRef);
+  constructor() {
+    useFeatureStyles('a11yHighContrastFix');
+  }
 
   ngOnInit() {
     this.subscription.add(
