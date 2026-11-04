@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ConfiguratorModelUtils,
@@ -85,9 +84,7 @@ describe('VariantConfiguratorPageLayoutHandler', () => {
     }).compileComponents();
   });
   beforeEach(() => {
-    classUnderTest = TestBed.inject(
-      VariantConfiguratorPageLayoutHandler as Type<VariantConfiguratorPageLayoutHandler>
-    );
+    classUnderTest = TestBed.inject(VariantConfiguratorPageLayoutHandler);
   });
 
   it('should create service', () => {

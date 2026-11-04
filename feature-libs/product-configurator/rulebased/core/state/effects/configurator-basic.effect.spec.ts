@@ -4,11 +4,14 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
+import {
+  LoggerTestingModule,
+  MockLoggerService,
+  tryNormalizeHttpError,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorType,
@@ -172,14 +175,6 @@ const searchVariantsAction = new ConfiguratorActions.SearchVariants(
   productConfiguration
 );
 
-class MockLoggerService {
-  log(): void {}
-  warn(): void {}
-  error(): void {}
-  info(): void {}
-  debug(): void {}
-}
-
 describe('ConfiguratorEffect', () => {
   let createMock: vi.Mock;
   let readMock: vi.Mock;
@@ -224,6 +219,7 @@ describe('ConfiguratorEffect', () => {
 
     TestBed.configureTestingModule({
       imports: [
+        LoggerTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers()),
       ],
@@ -238,19 +234,16 @@ describe('ConfiguratorEffect', () => {
           provide: ConfiguratorUtilsService,
           useClass: ConfiguratorUtilsService,
         },
-        { provide: LoggerService, useClass: MockLoggerService },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     });
 
-    configEffects = TestBed.inject(
-      fromEffects.ConfiguratorBasicEffects as Type<fromEffects.ConfiguratorBasicEffects>
-    );
+    configEffects = TestBed.inject(fromEffects.ConfiguratorBasicEffects);
     configuratorBasicEffectService = TestBed.inject(
-      ConfiguratorBasicEffectService as Type<ConfiguratorBasicEffectService>
+      ConfiguratorBasicEffectService
     );
-    store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
+    store = TestBed.inject(Store);
   });
 
   afterEach(() => {
