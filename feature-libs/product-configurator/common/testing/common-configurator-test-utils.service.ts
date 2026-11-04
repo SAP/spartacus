@@ -63,10 +63,10 @@ export class CommonConfiguratorTestUtilsService {
     index?: number
   ) {
     let text;
-    if (index !== undefined) {
-      text = htmlElement.querySelectorAll(querySelector)[index]?.textContent;
-    } else {
+    if (index === undefined) {
       text = htmlElement.querySelector(querySelector)?.textContent;
+    } else {
+      text = htmlElement.querySelectorAll(querySelector)[index]?.textContent;
     }
     expect(text ? text.trim() : '').toContain(expectedText);
   }
