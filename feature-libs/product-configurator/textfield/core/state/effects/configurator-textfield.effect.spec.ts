@@ -4,7 +4,6 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -103,9 +102,7 @@ describe('ConfiguratorTextfieldEffect', () => {
       ],
     });
 
-    configEffects = TestBed.inject(
-      fromEffects.ConfiguratorTextfieldEffects as Type<fromEffects.ConfiguratorTextfieldEffects>
-    );
+    configEffects = TestBed.inject(fromEffects.ConfiguratorTextfieldEffects);
   });
 
   it('should provide configuration effects', () => {

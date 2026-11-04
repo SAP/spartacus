@@ -1,4 +1,4 @@
-import { Component, Directive, Input, Type } from '@angular/core';
+import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CxDatePipe,
@@ -145,12 +145,10 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
 
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
 
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService
     );
 
     vi.spyOn(

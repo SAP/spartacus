@@ -1,7 +1,10 @@
 %cx-configurator-product-title {
-  background-color: var(--cx-color-background);
-  box-shadow: inset 0px 10px 7px -12px var(--cx-color-dark);
   &:not(:empty) {
+    &:has(.cx-general-product-info) {
+      background-color: var(--cx-color-background);
+      box-shadow: inset 0px 10px 7px -12px var(--cx-color-dark);
+    }
+
     @include media-breakpoint-up(lg) {
       width: 1140px;
     }

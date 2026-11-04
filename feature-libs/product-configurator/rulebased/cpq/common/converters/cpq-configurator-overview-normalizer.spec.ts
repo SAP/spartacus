@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { LanguageService, TranslationService } from '@spartacus/core';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
@@ -165,9 +164,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
       ],
     });
 
-    serviceUnderTest = TestBed.inject(
-      CpqConfiguratorOverviewNormalizer as Type<CpqConfiguratorOverviewNormalizer>
-    );
+    serviceUnderTest = TestBed.inject(CpqConfiguratorOverviewNormalizer);
     attr = structuredClone(attrBase);
   });
 
@@ -670,7 +667,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
         ],
       });
       const overviewNormalizerWithToggleOff = TestBed.inject(
-        CpqConfiguratorOverviewNormalizer as Type<CpqConfiguratorOverviewNormalizer>
+        CpqConfiguratorOverviewNormalizer
       );
       expect(
         overviewNormalizerWithToggleOff['isCpqContainerFeatureEnabled']()

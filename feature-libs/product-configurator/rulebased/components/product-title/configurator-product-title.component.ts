@@ -70,14 +70,12 @@ export class ConfiguratorProductTitleComponent {
   protected readonly SLASH_SEPARATOR = '/';
 
   /**
-   * Whether the product title data is still being resolved.
-   *
-   * @deprecated since 221121.23 - The ghost appearance is applied by the
-   * template to the placeholder that replaces the title. Host bindings of a
-   * CMS component are evaluated by the page slot that creates it, which leaves
-   * them stale when the title data resolves synchronously. This property
-   * remains for backward compatibility and will be removed in a future major
-   * version.
+   * @deprecated since 221121.23 - Prefer the `#ghostProductTitle` template
+   * (`.cx-ghost-general-product-info.ghost`) for loading UI. Host
+   * `class.ghost` via `@HostBinding` was removed because CMS slots do not
+   * refresh host bindings when title data resolves. This flag is still cleared
+   * when data arrives for compatibility; it no longer affects the host. Will
+   * be removed in the next major.
    */
   ghostStyle = true;
 

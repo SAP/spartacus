@@ -4,7 +4,6 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
@@ -190,10 +189,8 @@ describe('ConfiguratorCartEffect', () => {
       ],
     });
 
-    configCartEffects = TestBed.inject(
-      fromEffects.ConfiguratorCartEffects as Type<fromEffects.ConfiguratorCartEffects>
-    );
-    store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
+    configCartEffects = TestBed.inject(fromEffects.ConfiguratorCartEffects);
+    store = TestBed.inject(Store);
 
     payloadInputUpdateConfiguration = {
       userId: userId,
