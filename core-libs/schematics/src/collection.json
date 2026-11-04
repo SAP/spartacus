@@ -21,11 +21,6 @@
       "schema": "./add-spartacus/schema.json",
       "aliases": ["ssr"]
     },
-    "add-base-site-aware-express-route": {
-      "description": "Add a base-site-aware example route to an existing Express SSR server.",
-      "factory": "./add-base-site-aware-express-route/index#addBaseSiteAwareExpressRoute",
-      "schema": "./add-base-site-aware-express-route/schema.json"
-    },
     "add-cms-component": {
       "description": "Add a CMS component.",
       "factory": "./add-cms-component/index#addCmsComponent",

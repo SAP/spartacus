@@ -12,23 +12,15 @@ Inspect the selected application in the Angular workspace, its build/SSR configu
 
 If Spartacus Express SSR is missing, explain that the endpoint needs this server setup and ask: "Would you like to configure Spartacus SSR as a separate step first?" Wait for the answer before proceeding. Adding handlers does not include silently enabling SSR.
 
-Check that the installed `@spartacus/setup/ssr` exposes `createBaseSiteAwareRoute`. When initial setup is needed, also check that `@spartacus/schematics` provides `add-base-site-aware-express-route`. If the needed API or schematic is unavailable, report the incompatibility before changing the application; do not invent a replacement or automatically upgrade dependencies.
+Check that the installed `@spartacus/setup/ssr` exposes `createBaseSiteAwareRoute`. If the API is unavailable, report the incompatibility before changing the application; do not invent a replacement or automatically upgrade dependencies.
 
 Look for an existing call to `createBaseSiteAwareRoute`, including import aliases or setup in another server module. Reuse its registration function and preserve its options. Do not assume the customer's server file, variables, or workspace project have the names shown below.
 
-## Initial setup through the schematic
+## Initial setup using the public API
 
-When the application has no configured helper factory, run the schematic from the customer workspace root with its actual project name:
+For both new and existing applications, add the factory when the requested endpoint needs it. When no factory exists, import `createBaseSiteAwareRoute`, choose its resolution source as described below, and create one shared registration function inside the application's server setup. Reuse the existing index HTML content, or read the actual SSR index file if the server does not already expose its content. Register only the requested endpoint.
 
-```bash
-ng generate @spartacus/schematics:add-base-site-aware-express-route --project <project-name>
-```
-
-The schematic imports the helper, creates a shared registration function using the server's existing index HTML content, and registers `/<baseSite>/example.txt`. Inspect its changes, replace the example route with the requested suffix, and extract the response into a named handler function in the existing server file. Pass that function as `handler`. Keep the generated example endpoint only if the customer asked for it.
-
-If the schematic cannot recognize the server setup, explain its diagnostic rather than bypassing its checks or guessing where to insert code.
-
-For example, adapt the generated registration to serve a per-site `llms.txt`. The handler function and registration can stay together in the existing server file. Here `indexHtmlContent` is HTML content already read by the SSR server, and `server` is its existing Express application; use the customer's actual bindings. Preserve any existing factory options.
+For example, serve a per-site `llms.txt` by adding the following to the existing server file. Keep the named handler at module scope and the factory and registration inside `app()` or the equivalent server setup function. Here `indexHtmlContent` is HTML content already read by the SSR server, and `server` is its existing Express application; use the customer's actual bindings. Preserve any existing factory options.
 
 ```typescript
 import {
@@ -56,7 +48,7 @@ The handler body above illustrates site-specific content; replace it with the re
 
 ## Additional handlers reuse the factory
 
-When a registration function already exists, add only the requested handler. Do not run the initial-setup schematic again or create a new factory for each endpoint or request.
+When a registration function already exists, add only the requested handler and reuse that function.
 
 For example, a request to show the current base site needs only a handler that returns the resolved UID. Add the named function and its registration to the same server file, using the type imported above:
 
@@ -77,7 +69,7 @@ Use the callback context's `baseSite` when producing site-specific content. A na
 
 ## Choose the base-site resolution source
 
-The presence of base-site IDs selects the resolution mode. Both modes use `/<baseSite>/<route>`; switching to OCC does not change a prefixed endpoint into a domain-root endpoint. For `route: '/llms.txt'`, both register `/<baseSite>/llms.txt`.
+The presence of base-site IDs selects the resolution mode. By default both modes use `/<baseSite>/<route>`; switching to OCC does not change a prefixed endpoint into a domain-root endpoint. For `route: '/llms.txt'`, both register `/<baseSite>/llms.txt`.
 
 | | Local UID resolution | OCC resolution |
 |---|---|---|
@@ -159,13 +151,13 @@ For `route: '/llms.txt'`:
 | `/llms.txt` | Does not match the prefixed endpoint; continues to subsequent Express middleware without base-site resolution |
 | `/electronics-spa/en/USD/llms.txt` | Does not match this suffix; continues to subsequent Express middleware without base-site resolution |
 
-The helper adds exactly one base-site segment. It does not automatically add or decode language/currency segments from OCC configuration. Register domain-root endpoints separately with ordinary Express handlers.
+By default the helper adds exactly one base-site segment. It does not automatically add or decode language/currency segments from OCC configuration. For a base-site-aware domain-root endpoint such as `/llms.txt`, use OCC resolution and set `withBaseSiteInPath: false` in the registration. The resolver then matches the full URL against OCC URL patterns without requiring a UID prefix. Local UID resolution requires the prefix; registering an unprefixed route with that mode throws during server setup.
 
 Express middleware order determines which handler runs. Place applicable origin validation, authentication, or other protective middleware before the custom endpoint. Place the endpoint before static handlers that could consume it and before the Angular rendering catch-all. Base-site validation does not replace those application protections.
 
 ## Callback and error behavior
 
-The callback receives `{ req, res, next, baseSite }`. `baseSite` is a validated string UID matching the leading segment; use it from the callback context. The wrapper returns 404 for an unknown or mismatched prefix before invoking application code.
+The callback receives `{ req, res, next, baseSite }`. `baseSite` is a validated string UID; use it from the callback context. For default prefixed routes it matches the leading segment, and the wrapper returns 404 for an unknown or mismatched prefix before invoking application code. For unprefixed OCC routes it is the UID of the site whose URL patterns match the full request URL.
 
 The callback owns the response status, headers, and body. The wrapper accepts all HTTP methods. For a request to display the current base site, the handler simply returns that UID, as shown above. If the customer specifies allowed methods or the application's existing API contract defines them, implement that policy in the application-owned handler. Calling the supplied `next()` continues through Express. Thrown errors and rejected callback promises are forwarded through `next(error)`.
 
@@ -197,4 +189,3 @@ If the endpoint returns Angular HTML or a storefront 404 page, inspect route sha
 ## Source reference (in `node_modules/@spartacus/*`)
 
 - `createBaseSiteAwareRoute`, `BaseSiteResolverOptions`, and `BaseSiteHandlerContext` from `@spartacus/setup/ssr`.
-- `add-base-site-aware-express-route` from the `@spartacus/schematics` collection.

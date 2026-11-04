@@ -5,30 +5,11 @@ To see the documentation on how to use schematics from a customers perspective, 
 
 ## Adding a base-site-aware Express route
 
-For an application already configured with Spartacus Express SSR, run:
-
-```bash
-ng generate @spartacus/schematics:add-base-site-aware-express-route --project=my-app
-```
-
-When the project option is omitted, Angular CLI supplies its native project default.
-Programmatic calls without a project use the first project in the workspace.
-The schematic checks the selected application's SSR configuration and server entry before changing any files.
-Without configured SSR, it reports an error; it does not install or enable SSR.
-
-The schematic imports `createBaseSiteAwareRoute`, reuses the existing index HTML content,
-and registers an inline `/example.txt` handler before static-file or SSR catch-all handlers that can match it, preserving existing protective middleware.
-The response is plain text: `Current baseSite: <resolved uid>`.
-
-The generated configuration includes two commented options:
-
-- `pathBaseSiteIds`: supply a non-empty uid list for path-based routes; omit it for domain-based routes resolved through OCC.
-- `occBaseUrl`: supply a local fallback address when it is not configured in the HTML. The resolver always prefers the HTML address, even when a fallback is supplied.
-
-Review the example and uncomment the options appropriate for the application.
-The command is opt-in, is not invoked by `add-ssr` or migrations, and does not duplicate its example when run again.
-It reports conflicting names or an existing unrelated `/example.txt` route rather than replacing customer code.
-If no insertion point preserves middleware ordering, the command reports an error without modifying the server.
+For new or existing applications configured with Spartacus Express SSR, add custom
+endpoints using `createBaseSiteAwareRoute` from `@spartacus/setup/ssr`. See
+[Base-Site-Aware Express Routes](../setup/ssr/README.md) for setup, configuration,
+middleware order, and request examples. Add the factory when an endpoint needs it;
+the generated SSR server template contains no base-site-aware factory or example endpoint.
 
 ## Prerequisites
 
