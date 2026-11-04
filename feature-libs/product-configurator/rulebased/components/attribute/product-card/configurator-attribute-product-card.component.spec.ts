@@ -31,7 +31,7 @@ import {
   ICON_TYPE,
   ItemCounterComponent,
   KeyboardFocusService,
-  MediaModule,
+  MediaComponent,
 } from '@spartacus/storefront';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
@@ -58,6 +58,7 @@ import {
   ConfiguratorAttributeQuantityComponent,
   ConfiguratorAttributeQuantityComponentOptions,
 } from '../quantity/configurator-attribute-quantity.component';
+import { MockMediaComponent } from 'core-libs/storefront/shared/test/mock-media.component';
 import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
 
 const product: Product = {
@@ -109,12 +110,7 @@ let focusService: KeyboardFocusService;
 @Component({
   selector: 'cx-configurator-price',
   template: '',
-  imports: [
-    I18nTestingModule,
-    ReactiveFormsModule,
-    UrlTestingModule,
-    MediaModule,
-  ],
+  imports: [I18nTestingModule, ReactiveFormsModule, UrlTestingModule],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -123,12 +119,7 @@ class MockConfiguratorPriceComponent {
 @Component({
   selector: 'cx-configurator-attribute-quantity',
   template: '',
-  imports: [
-    I18nTestingModule,
-    ReactiveFormsModule,
-    UrlTestingModule,
-    MediaModule,
-  ],
+  imports: [I18nTestingModule, ReactiveFormsModule, UrlTestingModule],
 })
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
@@ -206,7 +197,6 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        MediaModule,
         ConfiguratorAttributeProductCardComponent,
         ConfiguratorShowMoreComponent,
         ItemCounterComponent,
@@ -248,6 +238,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       .overrideComponent(ConfiguratorAttributeProductCardComponent, {
         remove: {
           imports: [
+            MediaComponent,
             TranslatePipe,
             CxDatePipe,
             UrlPipe,
@@ -258,6 +249,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         },
         add: {
           imports: [
+            MockMediaComponent,
             MockTranslatePipe,
             MockDatePipe,
             MockUrlPipe,
