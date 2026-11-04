@@ -33,16 +33,14 @@ describe('SSR Jest environment', () => {
 });
 
 describe('@spartacus/setup/ssr public API', () => {
-  it('exposes the base-site SSR API from the main entry point', () => {
-    expect(ssrApi).toEqual(
-      expect.objectContaining({
-        ConcurrencyLimitError: expect.any(Function),
-        DefaultBaseSiteResolver: expect.any(Function),
-        OccUnavailableError: expect.any(Function),
-        configureBaseSiteAwareRoutes: expect.any(Function),
-        extractOccBaseUrlFromHtml: expect.any(Function),
-        setBaseSiteHandler: expect.any(Function),
-      })
-    );
+  it.each([
+    'ConcurrencyLimitError',
+    'DefaultBaseSiteResolver',
+    'OccUnavailableError',
+    'configureBaseSiteAwareRoutes',
+    'extractOccBaseUrlFromHtml',
+    'setBaseSiteHandler',
+  ])('keeps %s in the express-base-site entry point', (name) => {
+    expect(ssrApi).not.toHaveProperty(name);
   });
 });

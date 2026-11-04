@@ -5,7 +5,7 @@
  */
 
 import { HttpResponseStatus } from '@spartacus/core';
-import { getRequestUrl } from '../express-utils/express-request-url';
+import { getRequestUrl } from '@spartacus/setup/ssr';
 import {
   NextFunction,
   Request,

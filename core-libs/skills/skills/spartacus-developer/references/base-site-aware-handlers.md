@@ -2,7 +2,7 @@
 
 ## Rule
 
-Use `configureBaseSiteAwareRoutes` from `@spartacus/setup/ssr` for custom Express endpoints that serve content for the base site in a leading URL segment, such as `/<baseSite>/llms.txt`. The helper resolves the base site before calling application code, without starting an Angular render.
+Use `configureBaseSiteAwareRoutes` from `@spartacus/setup/ssr/express-base-site` for custom Express endpoints that serve content for the base site in a leading URL segment, such as `/<baseSite>/llms.txt`. The helper resolves the base site before calling application code, without starting an Angular render.
 
 Call `configureBaseSiteAwareRoutes` once during server setup and reuse the returned `createBaseSiteAwareRoute` function for participating handlers. It creates Express routes sharing one resolver and its OCC cache; mount each route with `server.use(...)`.
 
@@ -12,7 +12,7 @@ Inspect the selected application in the Angular workspace, its build/SSR configu
 
 If Spartacus Express SSR is missing, explain that the endpoint needs this server setup and ask: "Would you like to configure Spartacus SSR as a separate step first?" Wait for the answer before proceeding. Adding handlers does not include silently enabling SSR.
 
-Check that the installed `@spartacus/setup/ssr` exposes `configureBaseSiteAwareRoutes`. If the API is unavailable, report the incompatibility before changing the application; do not invent a replacement or automatically upgrade dependencies.
+Check that the installed `@spartacus/setup/ssr/express-base-site` exposes `configureBaseSiteAwareRoutes`. If the API is unavailable, report the incompatibility before changing the application; do not invent a replacement or automatically upgrade dependencies.
 
 Look for an existing call to `configureBaseSiteAwareRoutes`, including import aliases or setup in another server module. Reuse its returned route factory and preserve its options. Do not assume the customer's server file, variables, or workspace project have the names shown below.
 
@@ -26,7 +26,7 @@ For example, serve a per-site `llms.txt` by adding the following to the existing
 import {
   configureBaseSiteAwareRoutes,
   type BaseSiteHandlerContext,
-} from '@spartacus/setup/ssr';
+} from '@spartacus/setup/ssr/express-base-site';
 
 export function llmsHandler({ res, baseSite }: BaseSiteHandlerContext): void {
   res.type('text/plain').send(`# Storefront guidance\n> Site: ${baseSite}\n`);
@@ -184,4 +184,4 @@ If the endpoint returns Angular HTML or a storefront 404 page, inspect route sha
 
 ## Source reference (in `node_modules/@spartacus/*`)
 
-- `configureBaseSiteAwareRoutes`, `BaseSiteResolverOptions`, and `BaseSiteHandlerContext` from `@spartacus/setup/ssr`.
+- `configureBaseSiteAwareRoutes`, `BaseSiteResolverOptions`, and `BaseSiteHandlerContext` from `@spartacus/setup/ssr/express-base-site`.

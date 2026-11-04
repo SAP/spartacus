@@ -1,13 +1,13 @@
 # Base-Site-Aware Express Routes
 
-Use `configureBaseSiteAwareRoutes` from `@spartacus/setup/ssr` to add an Express endpoint
+Use `configureBaseSiteAwareRoutes` from `@spartacus/setup/ssr/express-base-site` to add an Express endpoint
 whose response depends on the storefront base site. The helper resolves the site
 before invoking your handler, without rendering Angular.
 
 ## Add an endpoint
 
 Start with an application configured for Spartacus Express SSR and an installed
-version of `@spartacus/setup/ssr` that exports this API. The same setup applies to
+version of `@spartacus/setup/ssr/express-base-site` that exports this API. The same setup applies to
 new and existing applications. Add the factory when you need an endpoint.
 
 Add these imports and a handler to your server entry file:
@@ -16,7 +16,7 @@ Add these imports and a handler to your server entry file:
 import {
   configureBaseSiteAwareRoutes,
   type BaseSiteHandlerContext,
-} from '@spartacus/setup/ssr';
+} from '@spartacus/setup/ssr/express-base-site';
 
 function llmsHandler({ res, baseSite }: BaseSiteHandlerContext): void {
   res.type('text/plain').send(`# Storefront guidance\n> Site: ${baseSite}\n`);

@@ -19,6 +19,9 @@
       "@spartacus/schematics": ["core-libs/schematics/index"],
       "@spartacus/setup": ["core-libs/setup/public_api"],
       "@spartacus/setup/ssr": ["core-libs/setup/ssr/public_api"],
+      "@spartacus/setup/ssr/express-base-site": [
+        "core-libs/setup/ssr/express-base-site/public_api"
+      ],
       "@spartacus/user": ["feature-libs/user/public_api"],
       "@spartacus/user/wishlist": ["feature-libs/user/wishlist/public_api"],
       "@spartacus/user/wishlist/root": [
