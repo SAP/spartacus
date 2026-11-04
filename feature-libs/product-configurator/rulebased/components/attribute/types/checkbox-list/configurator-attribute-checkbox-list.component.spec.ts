@@ -14,6 +14,7 @@ import {
   CxDatePipe,
   I18nTestingModule,
   MockDatePipe,
+  LoggerTestingModule,
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
@@ -130,6 +131,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
     });
     TestBed.configureTestingModule({
       imports: [
+        LoggerTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         ConfiguratorAttributeCheckBoxListComponent,
