@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, TranslationService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -122,7 +121,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     occConfiguratorVariantOverviewNormalizer = TestBed.inject(
-      OccConfiguratorVariantOverviewNormalizer as Type<OccConfiguratorVariantOverviewNormalizer>
+      OccConfiguratorVariantOverviewNormalizer
     );
   });
 
