@@ -9,7 +9,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostBinding,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -28,12 +27,10 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 @Component({
   selector: 'cx-configurator-tab-bar',
   templateUrl: './configurator-tab-bar.component.html',
-  //here we cannot go with OnPush, as we otherwise do not take the change to host binding into account
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorTabBarComponent {
-  @HostBinding('class.ghost') ghostStyle = true;
   @ViewChild('configTab') configTab: ElementRef<HTMLElement>;
   @ViewChild('overviewTab') overviewTab: ElementRef<HTMLElement>;
 
@@ -41,6 +38,16 @@ export class ConfiguratorTabBarComponent {
   protected routingService = inject(RoutingService);
   protected configUtils = inject(ConfiguratorStorefrontUtilsService);
   protected focusService = inject(KeyboardFocusService);
+
+  /**
+   * @deprecated since 221121.23 - Prefer the `#ghostTabBar` template
+   * (`.cx-ghost-tab-bar.ghost`) for loading UI. Host `class.ghost` via
+   * `@HostBinding` was removed because CMS slots do not refresh host bindings
+   * when the tab bar data resolves. This flag is still cleared when data
+   * arrives for compatibility; it no longer affects the host. Will be removed
+   * in the next major.
+   */
+  ghostStyle = true;
 
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();

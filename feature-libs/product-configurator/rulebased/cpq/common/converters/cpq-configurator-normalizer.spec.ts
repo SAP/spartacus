@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { LanguageService, TranslationService } from '@spartacus/core';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
@@ -208,9 +207,7 @@ describe('CpqConfiguratorNormalizer', () => {
       ],
     });
 
-    cpqConfiguratorNormalizer = TestBed.inject(
-      CpqConfiguratorNormalizer as Type<CpqConfiguratorNormalizer>
-    );
+    cpqConfiguratorNormalizer = TestBed.inject(CpqConfiguratorNormalizer);
   });
 
   it('should create an injectable normalizer instance', () => {
@@ -989,7 +986,7 @@ describe('CpqConfiguratorNormalizer', () => {
             ],
           });
           const normalizerWithToggleOff = TestBed.inject(
-            CpqConfiguratorNormalizer as Type<CpqConfiguratorNormalizer>
+            CpqConfiguratorNormalizer
           );
           const cpqAttr: Cpq.Attribute = {
             pA_ID: 1,
@@ -3182,9 +3179,7 @@ describe('CpqConfiguratorNormalizer', () => {
           }),
         ],
       });
-      const normalizerWithToggleOff = TestBed.inject(
-        CpqConfiguratorNormalizer as Type<CpqConfiguratorNormalizer>
-      );
+      const normalizerWithToggleOff = TestBed.inject(CpqConfiguratorNormalizer);
       expect(normalizerWithToggleOff['isCpqContainerFeatureEnabled']()).toBe(
         false
       );

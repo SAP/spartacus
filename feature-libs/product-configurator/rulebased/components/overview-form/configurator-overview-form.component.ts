@@ -13,6 +13,7 @@ import {
   afterNextRender,
   inject,
   isDevMode,
+  signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
@@ -53,8 +54,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 @Component({
   selector: 'cx-configurator-overview-form',
   templateUrl: './configurator-overview-form.component.html',
-  //here we cannot go with OnPush, as we otherwise do not take the change to host binding into account
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
     NgTemplateOutlet,
@@ -75,7 +75,15 @@ export class ConfiguratorOverviewFormComponent {
    */
   static readonly OVERVIEW_CONTENT_ID = 'cx-configurator-overview-content';
 
-  @HostBinding('class.ghost') ghostStyle = true;
+  /**
+   * @deprecated since 221121.23 - Prefer the `#ghostForm` template
+   * (`.cx-ghost-group.ghost`) for loading UI. Host `class.ghost` via
+   * `@HostBinding` was removed because CMS slots do not refresh host bindings
+   * when overview data resolves. This flag is still cleared when data arrives
+   * for compatibility; it no longer affects the host. Will be removed in the
+   * next major.
+   */
+  ghostStyle = true;
 
   private featureToggles = inject(FeatureToggles);
   protected translationService = inject(TranslationService);
@@ -97,11 +105,20 @@ export class ConfiguratorOverviewFormComponent {
    */
   protected readonly containerRowDetailsKeepInPlaceTime = 3000;
 
+  protected readonly contentLabelState = signal<string | null>(null);
+
   /**
    * Accessible name of the overview content region.
    * Only set if in-page navigation is enabled.
    */
-  @HostBinding('attr.aria-label') contentLabel: string | null = null;
+  @HostBinding('attr.aria-label')
+  get contentLabel(): string | null {
+    return this.contentLabelState();
+  }
+
+  set contentLabel(value: string | null) {
+    this.contentLabelState.set(value);
+  }
 
   /**
    * Whether the overview form acts as target of the accessible in-page

@@ -4,7 +4,6 @@ import {
   Input,
   Pipe,
   PipeTransform,
-  Type,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, UntypedFormControl } from '@angular/forms';
@@ -186,19 +185,15 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
   });
 
   beforeEach(() => {
-    commonConfigUtilsService = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
+    commonConfigUtilsService = TestBed.inject(CommonConfiguratorUtilsService);
     configCartEntryBundleInfoService = TestBed.inject(
-      ConfiguratorCartEntryBundleInfoService as Type<ConfiguratorCartEntryBundleInfoService>
+      ConfiguratorCartEntryBundleInfoService
     );
 
     vi.spyOn(commonConfigUtilsService, 'isBundleBasedConfigurator');
     vi.spyOn(configCartEntryBundleInfoService, 'retrieveLineItems');
 
-    breakpointService = TestBed.inject(
-      BreakpointService as Type<BreakpointService>
-    );
+    breakpointService = TestBed.inject(BreakpointService);
 
     fixture = TestBed.createComponent(ConfiguratorCartEntryBundleInfoComponent);
     changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
@@ -768,6 +763,27 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           htmlElementAfterChanges.querySelectorAll('cx-configure-cart-entry')
             .length
         ).toBe(1);
+      });
+
+      it('should disable the edit configuration link when the quantity control is disabled after render', () => {
+        mockCartItemContext.location$?.next(PromotionLocation.ActiveCart);
+        mockCartItemContext.readonly$?.next(false);
+        const quantityControl = new UntypedFormControl();
+        mockCartItemContext.quantityControl$?.next(quantityControl);
+        fixture.detectChanges();
+
+        const getLinkComponent = () =>
+          fixture.debugElement.query(By.css('cx-configure-cart-entry'))
+            .componentInstance;
+
+        expect(getLinkComponent().disabled).toBe(false);
+
+        quantityControl.disable({ emitEvent: false });
+        // Same FormControl reference: default CD must refresh [disabled] without
+        // fixture.detectChanges() (triggers dev-mode NG0100 on this binding).
+        changeDetectorRef.detectChanges();
+
+        expect(getLinkComponent().disabled).toBe(true);
       });
     });
 
@@ -1484,6 +1500,33 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         expect(linkComponent.disabled).toBe(true);
         expect(linkComponent.rowId).toBe('row-1');
         expect(linkComponent.productName).toBe('Configurable item');
+      });
+
+      it('should disable the nested edit link when the quantity control is disabled after render', () => {
+        const quantityControl = new UntypedFormControl();
+        vi.mocked(
+          configCartEntryBundleInfoService.retrieveLineItems
+        ).mockReturnValue([configurableLineItem]);
+        mockCartItemContext.item$.next({
+          entryNumber: 1,
+          configurationInfos: configurationInfos,
+        });
+        mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
+        mockCartItemContext.readonly$.next(false);
+        mockCartItemContext.quantityControl$.next(quantityControl);
+        fixture.detectChanges();
+
+        expect(getNestedConfigureLinks()[0].componentInstance.disabled).toBe(
+          false
+        );
+
+        quantityControl.disable({ emitEvent: false });
+        // See shouldShowButton regression test for why not fixture.detectChanges().
+        changeDetectorRef.detectChanges();
+
+        expect(getNestedConfigureLinks()[0].componentInstance.disabled).toBe(
+          true
+        );
       });
 
       it('should not render the edit link for a non-configurable line item', () => {

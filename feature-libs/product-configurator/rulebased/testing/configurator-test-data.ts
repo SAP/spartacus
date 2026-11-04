@@ -37,6 +37,13 @@ export const VALUE_01 = 'VALUE_01';
 export const VALUE_02 = 'VALUE_02';
 export const VALUE_03 = 'VALUE_03';
 
+/** Numeric metadata used by OCC-backed configurators; avoids dev-mode logger warnings in tests. */
+export const defaultNumericAttributeMetadata = {
+  numDecimalPlaces: 2,
+  numTotalLength: 6,
+  negativeAllowed: false,
+};
+
 export const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
 export const DESCRIPTION_FOR = 'Description for ';
 
@@ -157,6 +164,7 @@ export const attributeRadioButtonsWithNumericAdditionalInput: Configurator.Attri
     required: false,
     incomplete: false,
     validationType: Configurator.ValidationType.NUMERIC,
+    ...defaultNumericAttributeMetadata,
     values: [
       {
         name: VALUE_01,
@@ -274,6 +282,7 @@ export const attributeDropDownWithNumericAdditionalInput: Configurator.Attribute
     required: false,
     incomplete: false,
     validationType: Configurator.ValidationType.NUMERIC,
+    ...defaultNumericAttributeMetadata,
     values: [
       {
         name: VALUE_01,
@@ -576,6 +585,7 @@ export const attributeNumericInputField: Configurator.Attribute = {
   incomplete: false,
   groupId: groupId,
   attrCode: attrCode,
+  ...defaultNumericAttributeMetadata,
   values: [],
 };
 

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { EMPTY, Observable, Subject, of, skip } from 'rxjs';
 import { ConfiguratorAttributePriceChangeService } from './configurator-attribute-price-change.service';
@@ -57,9 +56,7 @@ describe('ConfiguratorAttributePriceChangeService', () => {
       ],
     });
 
-    classUnderTest = TestBed.inject(
-      ConfiguratorAttributePriceChangeService as Type<ConfiguratorAttributePriceChangeService>
-    );
+    classUnderTest = TestBed.inject(ConfiguratorAttributePriceChangeService);
 
     mockConfig = structuredClone(mockConfigTemplate);
   });
