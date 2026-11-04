@@ -6,7 +6,7 @@ To see the documentation on how to use schematics from a customers perspective, 
 ## Adding a base-site-aware Express route
 
 For new or existing applications configured with Spartacus Express SSR, add custom
-endpoints using `createBaseSiteAwareRoute` from `@spartacus/setup/ssr`. See
+endpoints using `configureBaseSiteAwareRoutes` from `@spartacus/setup/ssr`. See
 [Base-Site-Aware Express Routes](../setup/ssr/README.md) for setup, configuration,
 middleware order, and request examples. Add the factory when an endpoint needs it;
 the generated SSR server template contains no base-site-aware factory or example endpoint.

@@ -9,7 +9,7 @@
 import { NextFunction, Request, Response } from 'express';
 import {
   BaseSiteHandlerContext,
-  createBaseSiteAwareRoute,
+  configureBaseSiteAwareRoutes,
   setBaseSiteHandler,
 } from './base-site-handler';
 import {
@@ -106,7 +106,7 @@ function dispatchToNext(
   });
 }
 
-describe('createBaseSiteAwareRoute', () => {
+describe('configureBaseSiteAwareRoutes', () => {
   afterEach(() => {
     jest.restoreAllMocks();
   });
@@ -114,12 +114,12 @@ describe('createBaseSiteAwareRoute', () => {
   it.each([undefined, true])(
     'creates a prefixed handler with withBaseSiteInPath %j',
     async (withBaseSiteInPath) => {
-      const registerBaseSiteAwareRoute = createBaseSiteAwareRoute({
+      const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
         pathBaseSiteIds: ['electronics-spa'],
         indexHtml: '<html></html>',
       });
       const handler = jest.fn();
-      const middleware = registerBaseSiteAwareRoute({
+      const middleware = createBaseSiteAwareRoute({
         route: '/llms.txt',
         withBaseSiteInPath,
         handler,
@@ -150,7 +150,7 @@ describe('createBaseSiteAwareRoute', () => {
         },
       ])
     );
-    const registerBaseSiteAwareRoute = createBaseSiteAwareRoute({
+    const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
       pathBaseSiteIds: [],
       indexHtml: '<html></html>',
       occBaseUrl: 'https://api.example',
@@ -163,7 +163,7 @@ describe('createBaseSiteAwareRoute', () => {
     });
 
     await dispatch(
-      registerBaseSiteAwareRoute({
+      createBaseSiteAwareRoute({
         route: '/llms.txt',
         handler: llmsHandler,
       }),
@@ -172,7 +172,7 @@ describe('createBaseSiteAwareRoute', () => {
       createNext()
     );
     await dispatch(
-      registerBaseSiteAwareRoute({
+      createBaseSiteAwareRoute({
         route: '/robots.txt',
         handler: robotsHandler,
       }),
@@ -194,14 +194,14 @@ describe('createBaseSiteAwareRoute', () => {
   it.each([undefined, [], ['electronics-spa']])(
     'leaves the unprefixed route to ordinary handlers with IDs %j',
     async (pathBaseSiteIds) => {
-      const register = createBaseSiteAwareRoute({
+      const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
         pathBaseSiteIds,
         indexHtml: '<html></html>',
       });
       const handler = jest.fn();
       const next = createNext();
       await dispatchToNext(
-        register({ route: '/llms.txt', handler }),
+        createBaseSiteAwareRoute({ route: '/llms.txt', handler }),
         createRequest({ originalUrl: '/llms.txt' }),
         createResponse(),
         next
@@ -223,7 +223,7 @@ describe('createBaseSiteAwareRoute', () => {
             },
           ])
         );
-      const register = createBaseSiteAwareRoute({
+      const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
         indexHtml: '<html></html>',
         occBaseUrl: 'https://api.example',
       });
@@ -233,13 +233,21 @@ describe('createBaseSiteAwareRoute', () => {
         res.send(baseSite);
 
       await dispatch(
-        register({ route: '/llms.txt', withBaseSiteInPath: true, handler }),
+        createBaseSiteAwareRoute({
+          route: '/llms.txt',
+          withBaseSiteInPath: true,
+          handler,
+        }),
         createRequest(),
         prefixedResponse,
         createNext()
       );
       await dispatch(
-        register({ route: '/llms.txt', withBaseSiteInPath: false, handler }),
+        createBaseSiteAwareRoute({
+          route: '/llms.txt',
+          withBaseSiteInPath: false,
+          handler,
+        }),
         createRequest({ originalUrl: '/llms.txt' }),
         unprefixedResponse,
         createNext()
@@ -259,7 +267,7 @@ describe('createBaseSiteAwareRoute', () => {
             { uid: 'site-two', urlPatterns: ['^http://domain2[.]example/'] },
           ])
         );
-        const register = createBaseSiteAwareRoute({
+        const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
           pathBaseSiteIds,
           indexHtml: '<html></html>',
           occBaseUrl: 'https://api.example',
@@ -270,7 +278,7 @@ describe('createBaseSiteAwareRoute', () => {
           handler: ({ res, baseSite }: BaseSiteHandlerContext) =>
             res.send(baseSite),
         };
-        const middleware = register(options);
+        const middleware = createBaseSiteAwareRoute(options);
         const firstResponse = createResponse();
         const secondResponse = createResponse();
 
@@ -312,7 +320,7 @@ describe('createBaseSiteAwareRoute', () => {
               },
             ])
           );
-        const register = createBaseSiteAwareRoute({
+        const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
           indexHtml: '<html></html>',
           occBaseUrl: 'https://api.example',
         });
@@ -325,7 +333,7 @@ describe('createBaseSiteAwareRoute', () => {
         const response = createResponse();
 
         await dispatch(
-          register(options),
+          createBaseSiteAwareRoute(options),
           createRequest({ originalUrl: '/documents/example.txt?format=text' }),
           response,
           createNext()
@@ -346,7 +354,7 @@ describe('createBaseSiteAwareRoute', () => {
             },
           ])
         );
-      const register = createBaseSiteAwareRoute({
+      const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
         indexHtml: '<html></html>',
         occBaseUrl: 'https://api.example',
       });
@@ -360,7 +368,7 @@ describe('createBaseSiteAwareRoute', () => {
       const next = createNext();
 
       await dispatch(
-        register(options),
+        createBaseSiteAwareRoute(options),
         createRequest({ originalUrl: '/example.txt' }),
         response,
         next
@@ -393,8 +401,8 @@ describe('createBaseSiteAwareRoute', () => {
       expect(resolver.resolveFromOcc).not.toHaveBeenCalled();
     });
 
-    it('rejects an unprefixed route with a local UID list at registration', () => {
-      const register = createBaseSiteAwareRoute({
+    it('rejects an unprefixed route with a local UID list at route creation', () => {
+      const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
         pathBaseSiteIds: ['electronics-spa'],
         indexHtml: '<html></html>',
       });
@@ -404,7 +412,9 @@ describe('createBaseSiteAwareRoute', () => {
         handler: jest.fn(),
       };
 
-      expect(() => register(options)).toThrow(/withBaseSiteInPath.*OCC/);
+      expect(() => createBaseSiteAwareRoute(options)).toThrow(
+        /withBaseSiteInPath.*OCC/
+      );
     });
 
     it.each([
@@ -450,14 +460,14 @@ describe('createBaseSiteAwareRoute', () => {
           },
         ])
       );
-      const register = createBaseSiteAwareRoute({
+      const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
         pathBaseSiteIds,
         indexHtml: '<html></html>',
         occBaseUrl: 'https://api.example',
       });
       const response = createResponse();
       await dispatch(
-        register({
+        createBaseSiteAwareRoute({
           route: '/llms.txt',
           handler: ({ res, baseSite }) => {
             res.send(baseSite);
@@ -486,7 +496,7 @@ describe('createBaseSiteAwareRoute', () => {
           },
         ])
       );
-      const register = createBaseSiteAwareRoute({
+      const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
         pathBaseSiteIds,
         indexHtml:
           '<meta name="occ-backend-base-url" content="https://api.example">',
@@ -495,7 +505,7 @@ describe('createBaseSiteAwareRoute', () => {
       const next = createNext();
 
       await dispatch(
-        register({
+        createBaseSiteAwareRoute({
           route: '/example.txt',
           handler: ({ res, baseSite }) => res.send(baseSite),
         }),
@@ -511,12 +521,14 @@ describe('createBaseSiteAwareRoute', () => {
   );
 
   it('maps missing OCC configuration to 503 on the prefixed route when no IDs are supplied', async () => {
-    const register = createBaseSiteAwareRoute({ indexHtml: '<html></html>' });
+    const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
+      indexHtml: '<html></html>',
+    });
     const response = createResponse();
     const next = createNext();
 
     await dispatch(
-      register({
+      createBaseSiteAwareRoute({
         route: '/example.txt',
         handler: ({ res }) => res.send('unexpected'),
       }),
@@ -533,14 +545,14 @@ describe('createBaseSiteAwareRoute', () => {
 
   it('prefers configured path IDs even when OCC is available', async () => {
     const fetchSpy = jest.spyOn(globalThis, 'fetch');
-    const register = createBaseSiteAwareRoute({
+    const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
       pathBaseSiteIds: ['electronics-spa'],
       indexHtml: '<html></html>',
       occBaseUrl: 'https://api.example',
     });
     const response = createResponse();
     await dispatch(
-      register({
+      createBaseSiteAwareRoute({
         route: '/llms.txt',
         handler: ({ res, baseSite }) => {
           res.send(baseSite);
@@ -565,7 +577,7 @@ describe('createBaseSiteAwareRoute', () => {
           },
         ])
       );
-      const register = createBaseSiteAwareRoute({
+      const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
         pathBaseSiteIds,
         indexHtml: '<html></html>',
         occBaseUrl: 'https://api.example',
@@ -575,7 +587,7 @@ describe('createBaseSiteAwareRoute', () => {
       const next = createNext();
 
       await dispatch(
-        register({ route: '/example.txt', handler }),
+        createBaseSiteAwareRoute({ route: '/example.txt', handler }),
         createRequest({ originalUrl: '/janusz-grazyna/example.txt' }),
         response,
         next
@@ -598,7 +610,7 @@ describe('createBaseSiteAwareRoute', () => {
         },
       ])
     );
-    const register = createBaseSiteAwareRoute({
+    const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
       indexHtml: '<html></html>',
       occBaseUrl: 'https://api.example',
     });
@@ -606,7 +618,7 @@ describe('createBaseSiteAwareRoute', () => {
     const next = createNext();
 
     await dispatch(
-      register({
+      createBaseSiteAwareRoute({
         route: '/example.txt',
         handler: ({ res, baseSite }) => res.send(baseSite),
       }),
@@ -629,7 +641,7 @@ describe('createBaseSiteAwareRoute', () => {
         },
       ])
     );
-    const register = createBaseSiteAwareRoute({
+    const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
       indexHtml: '<html></html>',
       occBaseUrl: 'https://api.example',
     });
@@ -637,7 +649,7 @@ describe('createBaseSiteAwareRoute', () => {
     const response = createResponse();
 
     await dispatch(
-      register({ route: '/example.txt', handler }),
+      createBaseSiteAwareRoute({ route: '/example.txt', handler }),
       createRequest({ originalUrl: '/electronics-spa/example.txt' }),
       response,
       createNext()

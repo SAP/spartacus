@@ -39,7 +39,7 @@ describe('@spartacus/setup/ssr public API', () => {
         ConcurrencyLimitError: expect.any(Function),
         DefaultBaseSiteResolver: expect.any(Function),
         OccUnavailableError: expect.any(Function),
-        createBaseSiteAwareRoute: expect.any(Function),
+        configureBaseSiteAwareRoutes: expect.any(Function),
         extractOccBaseUrlFromHtml: expect.any(Function),
         setBaseSiteHandler: expect.any(Function),
       })

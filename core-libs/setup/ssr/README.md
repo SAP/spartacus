@@ -1,6 +1,6 @@
 # Base-Site-Aware Express Routes
 
-Use `createBaseSiteAwareRoute` from `@spartacus/setup/ssr` to add an Express endpoint
+Use `configureBaseSiteAwareRoutes` from `@spartacus/setup/ssr` to add an Express endpoint
 whose response depends on the storefront base site. The helper resolves the site
 before invoking your handler, without rendering Angular.
 
@@ -14,7 +14,7 @@ Add these imports and a handler to your server entry file:
 
 ```typescript
 import {
-  createBaseSiteAwareRoute,
+  configureBaseSiteAwareRoutes,
   type BaseSiteHandlerContext,
 } from '@spartacus/setup/ssr';
 
@@ -27,13 +27,13 @@ Inside `app()` or the equivalent Express setup function, after the server reads
 its index HTML, create the factory and register the endpoint:
 
 ```typescript
-const registerBaseSiteAwareRoute = createBaseSiteAwareRoute({
+const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
   indexHtml: indexHtmlContent,
   pathBaseSiteIds: ['electronics-spa', 'powertools-spa'],
 });
 
 server.use(
-  registerBaseSiteAwareRoute({
+  createBaseSiteAwareRoute({
     route: '/llms.txt',
     handler: llmsHandler,
   })
@@ -47,10 +47,10 @@ already read the content, read its actual SSR index file with `readFileSync` fro
 UIDs, such as those configured in `context.baseSite`; Angular provider configuration
 is not read automatically. Replace the handler body with your site's content.
 
-Create one factory per Express application and reuse its returned function for
-additional endpoints. The function name `registerBaseSiteAwareRoute` is local to
-your application. The factory shares one resolver and OCC cache across its routes.
-Creating it does not perform an OCC request.
+Call `configureBaseSiteAwareRoutes` once per Express application and reuse the
+returned `createBaseSiteAwareRoute` function for additional endpoints. Each route
+created by that function shares the same resolver and OCC cache. Configuration
+does not perform an OCC request; `server.use(...)` mounts the created route.
 
 Mount each returned router at the application root using `server.use(...)`. Keep
 origin validation, authentication, and other applicable protective middleware
@@ -67,7 +67,7 @@ and before the Angular rendering catch-all.
 For OCC resolution, replace the factory options above with:
 
 ```typescript
-const registerBaseSiteAwareRoute = createBaseSiteAwareRoute({
+const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
   indexHtml: indexHtmlContent,
   occBaseUrl: 'https://commerce.example.com',
 });
@@ -100,7 +100,7 @@ to its registration:
 
 ```typescript
 server.use(
-  registerBaseSiteAwareRoute({
+  createBaseSiteAwareRoute({
     route: '/llms.txt',
     withBaseSiteInPath: false,
     handler: llmsHandler,

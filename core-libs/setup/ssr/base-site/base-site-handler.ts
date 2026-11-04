@@ -63,12 +63,17 @@ export interface SetBaseSiteHandlerOptions {
   };
 }
 
-/** Configures one shared default resolver for all handlers created by the factory. */
-export function createBaseSiteAwareRoute(
+/** Configures one shared default resolver and returns a factory for Express routes. */
+export function configureBaseSiteAwareRoutes(
   options: BaseSiteResolverOptions
-): (options: SetBaseSiteHandlerOptions) => RequestHandler {
+): {
+  createBaseSiteAwareRoute: (options: SetBaseSiteHandlerOptions) => RequestHandler;
+} {
   const resolver = new DefaultBaseSiteResolver(options);
-  return (handlerOptions) => setBaseSiteHandler(resolver, handlerOptions);
+  return {
+    createBaseSiteAwareRoute: (handlerOptions) =>
+      setBaseSiteHandler(resolver, handlerOptions),
+  };
 }
 
 /**

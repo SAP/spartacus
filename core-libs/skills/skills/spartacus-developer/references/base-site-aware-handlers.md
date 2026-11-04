@@ -2,9 +2,9 @@
 
 ## Rule
 
-Use `createBaseSiteAwareRoute` from `@spartacus/setup/ssr` for custom Express endpoints that serve content for the base site in a leading URL segment, such as `/<baseSite>/llms.txt`. The helper resolves the base site before calling application code, without starting an Angular render.
+Use `configureBaseSiteAwareRoutes` from `@spartacus/setup/ssr` for custom Express endpoints that serve content for the base site in a leading URL segment, such as `/<baseSite>/llms.txt`. The helper resolves the base site before calling application code, without starting an Angular render.
 
-Create the factory once at server startup and reuse its returned registration function for participating handlers. This shares the resolver and its OCC cache across those handlers.
+Call `configureBaseSiteAwareRoutes` once during server setup and reuse the returned `createBaseSiteAwareRoute` function for participating handlers. It creates Express routes sharing one resolver and its OCC cache; mount each route with `server.use(...)`.
 
 ## Validate the application first
 
@@ -12,19 +12,19 @@ Inspect the selected application in the Angular workspace, its build/SSR configu
 
 If Spartacus Express SSR is missing, explain that the endpoint needs this server setup and ask: "Would you like to configure Spartacus SSR as a separate step first?" Wait for the answer before proceeding. Adding handlers does not include silently enabling SSR.
 
-Check that the installed `@spartacus/setup/ssr` exposes `createBaseSiteAwareRoute`. If the API is unavailable, report the incompatibility before changing the application; do not invent a replacement or automatically upgrade dependencies.
+Check that the installed `@spartacus/setup/ssr` exposes `configureBaseSiteAwareRoutes`. If the API is unavailable, report the incompatibility before changing the application; do not invent a replacement or automatically upgrade dependencies.
 
-Look for an existing call to `createBaseSiteAwareRoute`, including import aliases or setup in another server module. Reuse its registration function and preserve its options. Do not assume the customer's server file, variables, or workspace project have the names shown below.
+Look for an existing call to `configureBaseSiteAwareRoutes`, including import aliases or setup in another server module. Reuse its returned route factory and preserve its options. Do not assume the customer's server file, variables, or workspace project have the names shown below.
 
 ## Initial setup using the public API
 
-For both new and existing applications, add the factory when the requested endpoint needs it. When no factory exists, import `createBaseSiteAwareRoute`, choose its resolution source as described below, and create one shared registration function inside the application's server setup. Reuse the existing index HTML content, or read the actual SSR index file if the server does not already expose its content. Register only the requested endpoint.
+For both new and existing applications, add the factory when the requested endpoint needs it. When no factory exists, import `configureBaseSiteAwareRoutes`, choose its resolution source as described below, and destructure `createBaseSiteAwareRoute` from its result inside the application's server setup. Reuse the existing index HTML content, or read the actual SSR index file if the server does not already expose its content. Create and mount only the requested endpoint.
 
 For example, serve a per-site `llms.txt` by adding the following to the existing server file. Keep the named handler at module scope and the factory and registration inside `app()` or the equivalent server setup function. Here `indexHtmlContent` is HTML content already read by the SSR server, and `server` is its existing Express application; use the customer's actual bindings. Preserve any existing factory options.
 
 ```typescript
 import {
-  createBaseSiteAwareRoute,
+  configureBaseSiteAwareRoutes,
   type BaseSiteHandlerContext,
 } from '@spartacus/setup/ssr';
 
@@ -32,12 +32,12 @@ export function llmsHandler({ res, baseSite }: BaseSiteHandlerContext): void {
   res.type('text/plain').send(`# Storefront guidance\n> Site: ${baseSite}\n`);
 }
 
-const registerBaseSiteAwareRoute = createBaseSiteAwareRoute({
+const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
   indexHtml: indexHtmlContent,
 });
 
 server.use(
-  registerBaseSiteAwareRoute({
+  createBaseSiteAwareRoute({
     route: '/llms.txt',
     handler: llmsHandler,
   })
@@ -48,7 +48,7 @@ The handler body above illustrates site-specific content; replace it with the re
 
 ## Additional handlers reuse the factory
 
-When a registration function already exists, add only the requested handler and reuse that function.
+When a route factory already exists, add only the requested handler and reuse that factory.
 
 For example, a request to show the current base site needs only a handler that returns the resolved UID. Add the named function and its registration to the same server file, using the type imported above:
 
@@ -58,7 +58,7 @@ export function siteInfoHandler({ res, baseSite }: BaseSiteHandlerContext): void
 }
 
 server.use(
-  registerBaseSiteAwareRoute({
+  createBaseSiteAwareRoute({
     route: '/site-info.json',
     handler: siteInfoHandler,
   })
@@ -83,12 +83,12 @@ Providing `occBaseUrl` does not select OCC resolution. A nonempty UID list still
 
 Preserve the mode of an existing factory. Before configuring a new factory, follow the customer's requested mode or the application configuration that establishes it. If neither determines the choice, explain these differences and ask which mode the customer wants. Do not invent a fixed UID list or switch modes to make an endpoint pass.
 
-Before configuring a new factory, inspect the selected application's `provideConfig` declarations and their referenced configuration values for `context.baseSite`. For local resolution, copy and paste the configured array of literal site IDs directly into `createBaseSiteAwareRoute` as `pathBaseSiteIds`. The helper does not read Angular providers automatically. Use the customer's actual IDs; regex strings are not valid `pathBaseSiteIds`.
+Before configuring a new factory, inspect the selected application's `provideConfig` declarations and their referenced configuration values for `context.baseSite`. For local resolution, copy and paste the configured array of literal site IDs directly into `configureBaseSiteAwareRoutes` as `pathBaseSiteIds`. The helper does not read Angular providers automatically. Use the customer's actual IDs; regex strings are not valid `pathBaseSiteIds`.
 
 For local resolution, configure the factory with the customer's actual UIDs copied from `context.baseSite` when available. The IDs below are examples:
 
 ```typescript
-const registerBaseSiteAwareRoute = createBaseSiteAwareRoute({
+const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
   pathBaseSiteIds: ['electronics-spa', 'powertools-spa'],
   indexHtml: indexHtmlContent,
 });
@@ -97,7 +97,7 @@ const registerBaseSiteAwareRoute = createBaseSiteAwareRoute({
 For OCC resolution, omit `pathBaseSiteIds` (or use an empty array):
 
 ```typescript
-const registerBaseSiteAwareRoute = createBaseSiteAwareRoute({
+const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
   indexHtml: indexHtmlContent,
 });
 ```
@@ -128,7 +128,7 @@ In OCC mode, if neither the HTML meta tag nor the factory supplies a configured 
 For example, when no configured address is available:
 
 ```typescript
-const registerBaseSiteAwareRoute = createBaseSiteAwareRoute({
+const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
   indexHtml: indexHtmlContent,
   // Local development fallback when the HTML OCC meta tag is unconfigured.
   // Replace with your actual HTTPS OCC backend base URL before testing.
@@ -140,7 +140,7 @@ This is another alternative factory configuration. A configured HTML address sti
 
 ## Route matching and middleware order
 
-`route` accepts an Express string matcher or a JavaScript `RegExp` for the suffix after the base-site segment. Mount the returned middleware at the application root with `server.use(registerBaseSiteAwareRoute(...))`; adding another mount prefix would make routing and base-site resolution see different leading segments.
+`route` accepts an Express string matcher or a JavaScript `RegExp` for the suffix after the base-site segment. Mount the returned middleware at the application root with `server.use(createBaseSiteAwareRoute(...))`; adding another mount prefix would make routing and base-site resolution see different leading segments.
 
 For `route: '/llms.txt'`:
 
@@ -188,4 +188,4 @@ If the endpoint returns Angular HTML or a storefront 404 page, inspect route sha
 
 ## Source reference (in `node_modules/@spartacus/*`)
 
-- `createBaseSiteAwareRoute`, `BaseSiteResolverOptions`, and `BaseSiteHandlerContext` from `@spartacus/setup/ssr`.
+- `configureBaseSiteAwareRoutes`, `BaseSiteResolverOptions`, and `BaseSiteHandlerContext` from `@spartacus/setup/ssr`.
