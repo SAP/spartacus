@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
@@ -211,18 +211,12 @@ describe('ConfigAttributeHeaderComponent', () => {
     component.isNavigationToGroupEnabled = true;
     component['logError'] = () => {};
 
-    configurationGroupsService = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
-    );
+    configurationGroupsService = TestBed.inject(ConfiguratorGroupsService);
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService
     );
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
-    configuratorUISettingsConfig = TestBed.inject(
-      ConfiguratorUISettingsConfig as Type<ConfiguratorUISettingsConfig>
-    );
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    configuratorUISettingsConfig = TestBed.inject(ConfiguratorUISettingsConfig);
     featureToggles = TestBed.inject(MockFeatureTogglesController);
     featureToggles.set('productConfiguratorCPQContainer', false);
   });

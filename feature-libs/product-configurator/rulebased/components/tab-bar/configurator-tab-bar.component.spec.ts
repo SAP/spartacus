@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Pipe,
-  PipeTransform,
-  Type,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 
@@ -145,18 +140,14 @@ describe('ConfigTabBarComponent', () => {
         ConfiguratorModelUtils.createInitialOwner()
       )
     );
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService
     );
-    keyboardFocusService = TestBed.inject(
-      KeyboardFocusService as Type<KeyboardFocusService>
-    );
+    keyboardFocusService = TestBed.inject(KeyboardFocusService);
     vi.spyOn(keyboardFocusService, 'clear');
     vi.spyOn(configuratorStorefrontUtilsService, 'focusFirstActiveElement');
-    routingService = TestBed.inject(RoutingService as Type<RoutingService>);
+    routingService = TestBed.inject(RoutingService);
   });
 
   it('should create component', () => {

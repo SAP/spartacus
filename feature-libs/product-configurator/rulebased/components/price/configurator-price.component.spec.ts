@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CxNumericPipe,
@@ -67,9 +67,7 @@ describe('ConfiguratorPriceComponent', () => {
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
 
-    directionService = TestBed.inject(
-      DirectionService as Type<DirectionService>
-    );
+    directionService = TestBed.inject(DirectionService);
   });
 
   it('should be created', () => {

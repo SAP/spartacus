@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
@@ -69,19 +68,11 @@ describe('ConfiguratorGroupsService', () => {
     }).compileComponents();
   });
   beforeEach(() => {
-    classUnderTest = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
-    );
-    store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
-    configGroupStatusService = TestBed.inject(
-      ConfiguratorGroupStatusService as Type<ConfiguratorGroupStatusService>
-    );
-    configFacadeUtilsService = TestBed.inject(
-      ConfiguratorUtilsService as Type<ConfiguratorUtilsService>
-    );
+    classUnderTest = TestBed.inject(ConfiguratorGroupsService);
+    store = TestBed.inject(Store);
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    configGroupStatusService = TestBed.inject(ConfiguratorGroupStatusService);
+    configFacadeUtilsService = TestBed.inject(ConfiguratorUtilsService);
 
     vi.spyOn(store, 'dispatch').mockImplementation(() => {});
     vi.spyOn(store, 'pipe').mockReturnValue(of(productConfiguration));

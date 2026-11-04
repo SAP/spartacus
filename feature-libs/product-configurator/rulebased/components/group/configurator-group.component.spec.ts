@@ -5,7 +5,6 @@ import {
   EventEmitter,
   Input,
   Output,
-  Type,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -384,28 +383,18 @@ describe('ConfiguratorGroupComponent', () => {
   });
 
   beforeEach(() => {
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
-    configuratorGroupsService = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
-    );
+    configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
     vi.spyOn(configuratorCommonsService, 'isConfigurationLoading');
     vi.spyOn(configuratorGroupsService, 'setGroupStatusVisited');
 
-    configExpertModeService = TestBed.inject(
-      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
-    );
+    configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);
     vi.spyOn(configExpertModeService, 'setExpModeRequested');
     vi.spyOn(configExpertModeService, 'setExpModeActive');
 
     configuratorUtils.setOwnerKey(OWNER);
-    storefrontUtils = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
-    );
+    storefrontUtils = TestBed.inject(ConfiguratorStorefrontUtilsService);
     isConfigurationLoadingObservable = of(false);
     conflictGroup = structuredClone(conflictGroupBase);
   });
