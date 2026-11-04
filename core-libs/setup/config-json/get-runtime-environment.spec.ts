@@ -5,12 +5,19 @@
  */
 import {
   getRuntimeEnvironment,
+  isBrowserContext,
   isTransferStateAvailable,
 } from './get-runtime-environment';
 
 const TEST_URL = '/config.json';
 
 describe('get-runtime-environment', () => {
+  describe('isBrowserContext', () => {
+    it('should return true when document is defined (browser/jsdom)', () => {
+      expect(isBrowserContext()).toBe(true);
+    });
+  });
+
   describe('isTransferStateAvailable', () => {
     it('should return true when ng-state element exists', () => {
       const script = document.createElement('script');
@@ -75,7 +82,9 @@ describe('get-runtime-environment', () => {
         MEDIA_BASE_URL: 'https://api.commerce.sap.com/medias',
       });
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('[getRuntimeEnvironment] Loaded runtime config from /config.json')
+        expect.stringContaining(
+          '[getRuntimeEnvironment] Loaded runtime config from /config.json'
+        )
       );
 
       consoleSpy.mockRestore();
@@ -133,7 +142,9 @@ describe('get-runtime-environment', () => {
 
       expect(result.runtimeEnvironment).toEqual({});
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('node node_modules/@spartacus/setup/dev-proxy/run.js')
+        expect.stringContaining(
+          'node node_modules/@spartacus/setup/dev-proxy/run.js'
+        )
       );
 
       consoleSpy.mockRestore();

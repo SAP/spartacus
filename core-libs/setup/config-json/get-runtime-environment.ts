@@ -17,6 +17,18 @@ export type RuntimeEnvironment = Record<string, string>;
 const TRANSFER_STATE_ELEMENT_ID = 'ng-state';
 
 /**
+ * Tells whether the code is running in a browser context.
+ *
+ * Returns `false` on Node/SSR where `document` is not defined.
+ * Used as a pre-bootstrap guard before any DOM or fetch operations.
+ */
+export function isBrowserContext(): boolean {
+  // Pre-bootstrap utility: no Angular DI context available, direct DOM check is the only option here.
+  /* eslint-disable-next-line no-restricted-globals */
+  return typeof document !== 'undefined';
+}
+
+/**
  * Tells whether TransferState `<script>` element is available in the DOM.
  *
  * When TransferState from SSR is available, we skip fetching /config.json because
@@ -48,6 +60,12 @@ const DEFAULT_CONFIG_URL = '/config.json';
 export async function getRuntimeEnvironment(options?: {
   url?: string;
 }): Promise<{ runtimeEnvironment: RuntimeEnvironment }> {
+  if (!isBrowserContext()) {
+    // Node/SSR: RUNTIME_ENVIRONMENT is provided by server.ts via getServerRuntimeEnvironment().
+    // A relative fetch('/config.json') here would hit the SSR server itself and fail.
+    return { runtimeEnvironment: {} };
+  }
+
   if (isTransferStateAvailable()) {
     return { runtimeEnvironment: {} };
   }
