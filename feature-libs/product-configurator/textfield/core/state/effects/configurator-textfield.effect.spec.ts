@@ -9,9 +9,15 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { CartActions } from '@spartacus/cart/base/core';
 import { CartModification } from '@spartacus/cart/base/root';
-import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
-import { CommonConfigurator } from '../../../../common/core/model/common-configurator.model';
-import { ConfiguratorModelUtils } from '../../../../common/shared/utils/configurator-model-utils';
+import {
+  LoggerTestingModule,
+  MockLoggerService,
+  tryNormalizeHttpError,
+} from '@spartacus/core';
+import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+} from '@spartacus/product-configurator/common';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import type { Mock } from 'vitest';
@@ -75,6 +81,7 @@ describe('ConfiguratorTextfieldEffect', () => {
 
     TestBed.configureTestingModule({
       imports: [
+        LoggerTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           CONFIGURATION_TEXTFIELD_FEATURE,
@@ -87,10 +94,6 @@ describe('ConfiguratorTextfieldEffect', () => {
         {
           provide: ConfiguratorTextfieldConnector,
           useClass: MockConnector,
-        },
-        {
-          provide: LoggerService,
-          useClass: MockConfiguratorProviderService.MockLoggerService,
         },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),

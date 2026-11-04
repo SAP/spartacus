@@ -7,6 +7,8 @@ import {
   FeaturesConfigModule,
   I18nTestingModule,
   LoggerService,
+  LoggerTestingModule,
+  MockTranslatePipe,
   Product,
   TranslatePipe,
 } from '@spartacus/core';
@@ -121,6 +123,7 @@ describe('ConfigurationOverviewFormComponent', () => {
         NgSelectModule,
         FeaturesConfigModule,
         I18nTestingModule,
+        LoggerTestingModule,
         ConfiguratorOverviewFormComponent,
         ConfiguratorOverviewAttributeComponent,
       ],

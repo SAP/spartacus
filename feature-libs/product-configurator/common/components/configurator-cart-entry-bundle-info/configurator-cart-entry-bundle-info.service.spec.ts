@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { LoggerTestingModule } from '@spartacus/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { ConfigurationInfo } from '../../core/model/common-configurator.model';
 import { LineItem } from './configurator-cart-entry-bundle-info.model';
@@ -180,6 +181,7 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [LoggerTestingModule],
       providers: [ConfiguratorCartEntryBundleInfoService],
     });
 

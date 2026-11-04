@@ -3,7 +3,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CxDatePipe, I18nTestingModule, TranslatePipe } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  LoggerTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 import {
   FocusDirective,
@@ -59,6 +66,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
     });
     TestBed.configureTestingModule({
       imports: [
+        LoggerTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         ConfiguratorAttributeCheckBoxListComponent,

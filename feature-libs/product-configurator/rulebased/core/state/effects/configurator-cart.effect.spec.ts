@@ -9,7 +9,11 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { CartActions } from '@spartacus/cart/base/core';
 import { CartModification } from '@spartacus/cart/base/root';
-import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
+import {
+  LoggerTestingModule,
+  MockLoggerService,
+  tryNormalizeHttpError,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorType,
@@ -163,6 +167,7 @@ describe('ConfiguratorCartEffect', () => {
     }
     TestBed.configureTestingModule({
       imports: [
+        LoggerTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers()),
       ],
@@ -176,10 +181,6 @@ describe('ConfiguratorCartEffect', () => {
         {
           provide: ConfiguratorUtilsService,
           useClass: ConfiguratorUtilsService,
-        },
-        {
-          provide: LoggerService,
-          useClass: MockConfiguratorProviderService.MockLoggerService,
         },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),

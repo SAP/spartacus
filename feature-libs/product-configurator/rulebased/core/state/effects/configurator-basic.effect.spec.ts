@@ -7,7 +7,11 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
+import {
+  LoggerTestingModule,
+  MockLoggerService,
+  tryNormalizeHttpError,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorType,
@@ -217,6 +221,7 @@ describe('ConfiguratorEffect', () => {
 
     TestBed.configureTestingModule({
       imports: [
+        LoggerTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers()),
       ],
@@ -230,10 +235,6 @@ describe('ConfiguratorEffect', () => {
         {
           provide: ConfiguratorUtilsService,
           useClass: ConfiguratorUtilsService,
-        },
-        {
-          provide: LoggerService,
-          useClass: MockConfiguratorProviderService.MockLoggerService,
         },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),

@@ -20,6 +20,9 @@
       "@spartacus/storefront/testing/mock-feature-directive": [
         "../../core-libs/storefront/shared/test/mock-feature-directive.ts"
       ],
+      "@spartacus/storefront/testing/mock-media": [
+        "../../core-libs/storefront/shared/test/mock-media.component.ts"
+      ],
       "@spartacus/core/testing/i18n": [
         "../../core-libs/core/src/i18n/testing/index.ts"
       ],

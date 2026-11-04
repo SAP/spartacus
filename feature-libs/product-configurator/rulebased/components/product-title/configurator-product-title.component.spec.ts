@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -26,6 +26,7 @@ import {
   IconTestingModule,
   MediaComponent,
 } from '@spartacus/storefront';
+import { MockMediaComponent } from 'core-libs/storefront/shared/test/mock-media.component';
 import { Observable, of, throwError } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -183,16 +184,6 @@ class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return productConfigurationObservable;
   }
-}
-
-@Component({
-  template: '',
-  selector: 'cx-media',
-  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-})
-class MockMediaComponent {
-  @Input() container: any;
-  @Input() format: any;
 }
 
 class MockConfiguratorExpertModeService {
@@ -424,6 +415,7 @@ describe('ConfigProductTitleComponent', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
+        I18nTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         ConfiguratorProductTitleComponent,

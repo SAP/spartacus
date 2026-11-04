@@ -7,6 +7,8 @@ import {
   FeatureConfigService,
   FeatureToggles,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   Product,
   ProductService,
   TranslatePipe,
@@ -22,9 +24,11 @@ import {
   ItemCounterComponent,
   KeyboardFocusService,
   KeyboardFocusTestingModule,
-  MediaModule,
+  MediaComponent,
 } from '@spartacus/storefront';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockMediaComponent } from 'core-libs/storefront/shared/test/mock-media.component';
 import { ConfiguratorProductScope } from '../../../../common/core/model/configurator-product-scope';
 import {
   BehaviorSubject,
@@ -150,7 +154,6 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        MediaModule,
         ConfiguratorAttributeProductCardComponent,
         ConfiguratorShowMoreComponent,
         ItemCounterComponent,
@@ -190,6 +193,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       .overrideComponent(ConfiguratorAttributeProductCardComponent, {
         remove: {
           imports: [
+            MediaComponent,
             TranslatePipe,
             CxDatePipe,
             UrlPipe,
@@ -202,6 +206,10 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           imports: [
             I18nTestingModule,
             UrlTestingModule,
+            MockMediaComponent,
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
             MockConfiguratorPriceComponent,
             KeyboardFocusTestingModule,
             MockConfiguratorAttributeQuantityComponent,
