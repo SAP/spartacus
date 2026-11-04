@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { StateUtils } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
@@ -124,9 +123,7 @@ describe('ConfiguratorUtilsService', () => {
   });
 
   beforeEach(() => {
-    classUnderTest = TestBed.inject(
-      ConfiguratorUtilsService as Type<ConfiguratorUtilsService>
-    );
+    classUnderTest = TestBed.inject(ConfiguratorUtilsService);
   });
 
   it('should be created', () => {

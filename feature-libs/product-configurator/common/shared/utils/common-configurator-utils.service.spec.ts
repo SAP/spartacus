@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContextSource } from '@spartacus/cart/base/components';
@@ -95,9 +94,7 @@ describe('CommonConfiguratorUtilsService', () => {
     }).compileComponents();
   });
   beforeEach(() => {
-    classUnderTest = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
+    classUnderTest = TestBed.inject(CommonConfiguratorUtilsService);
     owner = ConfiguratorModelUtils.createInitialOwner();
     mockCartItemContext = TestBed.inject(CartItemContext) as any;
     cartItem = {};
