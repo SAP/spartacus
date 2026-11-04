@@ -219,7 +219,8 @@ function createApp(appDir: string, appName: string, registry?: string): void {
       ` --style scss` +
       ` --ssr false` +
       ` --file-name-style-guide=2016` +
-      ` --skip-install`,
+      ` --skip-install` +
+      ` --defaults`,
     parentDir
   );
 
@@ -421,12 +422,16 @@ function runScenarioC(outDir: string, baseName: string): ScenarioStats {
   });
 
   step('Scaffold Spartacus from public registry (no runtime-config)', () => {
+    // Use --registry to override the global @spartacus:registry scope pointing to Verdaccio.
+    // The inline env-var prefix (npm_config_@spartacus:registry=...) does not work because
+    // '@' and ':' are not valid shell identifier characters.
     run(
-      `npm_config_@spartacus:registry=${PUBLIC_REGISTRY}` +
-        ` npx ng add @spartacus/schematics` +
+      `npx ng add @spartacus/schematics` +
+        ` --registry ${PUBLIC_REGISTRY}` +
         ` --skip-confirmation` +
         ` --baseUrl ${DEFAULT_BASE_URL}` +
-        ` --baseSite ${DEFAULT_BASE_SITE}`,
+        ` --baseSite ${DEFAULT_BASE_SITE}` +
+        ` --defaults`,
       appDir
     );
     gitCommit(
@@ -453,27 +458,16 @@ function runScenarioC(outDir: string, baseName: string): ScenarioStats {
   });
 
   step('Update @spartacus/* packages to branch version', () => {
-    // Try npm-check-updates first; fall back to direct install
-    try {
-      runSilent('npx npm-check-updates --version');
-      run(
-        `npx npm-check-updates "@spartacus/*" --target ${branchVersion} --upgrade`,
-        appDir
-      );
-      run('npm install --legacy-peer-deps', appDir);
-    } catch {
-      // Fallback: install the core packages directly
-      run(
-        `npm install` +
-          ` @spartacus/core@${branchVersion}` +
-          ` @spartacus/setup@${branchVersion}` +
-          ` @spartacus/storefront@${branchVersion}` +
-          ` @spartacus/schematics@${branchVersion}` +
-          ` --registry ${VERDACCIO_REGISTRY}` +
-          ` --legacy-peer-deps`,
-        appDir
-      );
-    }
+    run(
+      `npm install` +
+        ` @spartacus/core@${branchVersion}` +
+        ` @spartacus/setup@${branchVersion}` +
+        ` @spartacus/storefront@${branchVersion}` +
+        ` @spartacus/schematics@${branchVersion}` +
+        ` --registry ${VERDACCIO_REGISTRY}` +
+        ` --legacy-peer-deps`,
+      appDir
+    );
     gitCommit(
       appDir,
       `chore: update @spartacus/* to branch version ${branchVersion}`

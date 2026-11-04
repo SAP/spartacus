@@ -8,12 +8,8 @@ import {
   Rule,
   SchematicContext,
   Tree,
-  apply,
-  callRule,
   chain,
-  mergeWith,
   noop,
-  url,
 } from '@angular-devkit/schematics';
 import { NodeDependencyType } from '@schematics/angular/utility/dependencies';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
@@ -44,7 +40,19 @@ function createConfigJsonFile(options: SpartacusOptions): Rule {
       return noop()(tree, context);
     }
 
-    return callRule(mergeWith(apply(url('./files'), [])), tree, context);
+    // Use tree.create() rather than mergeWith(apply(url('./files'))) — the template
+    // merge pipeline can silently skip when MergeStrategy detects a conflict in the
+    // surrounding ng-add chain, causing config.json to never land on disk.
+    // Direct tree writes (same approach as addProxyConf) always flush.
+    tree.create(
+      configJsonPath,
+      JSON.stringify(
+        { OCC_BASE_URL: { value: '' }, MEDIA_BASE_URL: { value: '' } },
+        null,
+        2
+      ) + '\n'
+    );
+    return tree;
   };
 }
 

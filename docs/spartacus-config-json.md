@@ -18,6 +18,9 @@ environments.
 The approach was ported from the Spartacus BFF ([CXSPA-11078](https://jira.tools.sap/browse/CXSPA-11078) / [BFF PR #1181](https://github.tools.sap/cx-commerce-storefronts/spartacus-bff/pull/1181))
 with the key deviations described below.
 
+For the Hosting Portal's specification of how Spartacus should consume configuration at runtime, see the
+[BFF configuration consumption requirements](https://github.tools.sap/cx-commerce/bff-orchestrator-requirements/blob/main/features/deployment-basic-management/spartacus-ssr/configuration-consumption.md).
+
 ---
 
 ## Key Deviations from the BFF Implementation
