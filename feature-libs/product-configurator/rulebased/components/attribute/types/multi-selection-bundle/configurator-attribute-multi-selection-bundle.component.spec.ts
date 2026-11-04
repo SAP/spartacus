@@ -47,12 +47,7 @@ import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurat
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   template: '',
-  imports: [
-    I18nTestingModule,
-    UrlTestingModule,
-    ReactiveFormsModule,
-    MediaModule,
-  ],
+  imports: [I18nTestingModule, UrlTestingModule, ReactiveFormsModule],
 })
 class MockProductCardComponent {
   @Input()
@@ -62,12 +57,7 @@ class MockProductCardComponent {
 @Component({
   selector: 'cx-configurator-attribute-quantity',
   template: '',
-  imports: [
-    I18nTestingModule,
-    UrlTestingModule,
-    ReactiveFormsModule,
-    MediaModule,
-  ],
+  imports: [I18nTestingModule, UrlTestingModule, ReactiveFormsModule],
 })
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
@@ -77,12 +67,7 @@ class MockConfiguratorAttributeQuantityComponent {
 @Component({
   selector: 'cx-configurator-price',
   template: '',
-  imports: [
-    I18nTestingModule,
-    UrlTestingModule,
-    ReactiveFormsModule,
-    MediaModule,
-  ],
+  imports: [I18nTestingModule, UrlTestingModule, ReactiveFormsModule],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -145,7 +130,6 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        MediaModule,
         ConfiguratorAttributeMultiSelectionBundleComponent,
         ConfiguratorShowMoreComponent,
         ItemCounterComponent,

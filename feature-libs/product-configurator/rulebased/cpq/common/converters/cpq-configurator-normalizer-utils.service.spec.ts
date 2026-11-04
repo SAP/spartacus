@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { LanguageService } from '@spartacus/core';
+import { LanguageService, LoggerTestingModule } from '@spartacus/core';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
@@ -23,6 +23,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [LoggerTestingModule],
       providers: [
         CpqConfiguratorNormalizerUtilsService,
         { provide: LanguageService, useClass: MockLanguageService },
@@ -838,6 +839,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       it('should not count nested container issues when the toggle is disabled', () => {
         TestBed.resetTestingModule();
         TestBed.configureTestingModule({
+          imports: [LoggerTestingModule],
           providers: [
             CpqConfiguratorNormalizerUtilsService,
             { provide: LanguageService, useClass: MockLanguageService },
@@ -871,6 +873,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       it('should count root typed messages and incomplete attributes but ignore nested containers when the toggle is disabled', () => {
         TestBed.resetTestingModule();
         TestBed.configureTestingModule({
+          imports: [LoggerTestingModule],
           providers: [
             CpqConfiguratorNormalizerUtilsService,
             { provide: LanguageService, useClass: MockLanguageService },

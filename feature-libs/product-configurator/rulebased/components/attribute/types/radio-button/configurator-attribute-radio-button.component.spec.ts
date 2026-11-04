@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, LoggerTestingModule } from '@spartacus/core';
 import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
 import {
   FocusDirective,
@@ -14,6 +14,7 @@ import { CommonConfiguratorTestUtilsService } from '../../../../../common/testin
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { defaultNumericAttributeMetadata } from '../../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import {
   ConfiguratorPriceComponent,
@@ -129,6 +130,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
+        LoggerTestingModule,
         ReactiveFormsModule,
         StoreModule.forRoot({}),
         ConfiguratorAttributeRadioButtonComponent,
@@ -438,6 +440,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       component.attribute.uiType =
         Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
       component.attribute.validationType = Configurator.ValidationType.NUMERIC;
+      Object.assign(component.attribute, defaultNumericAttributeMetadata);
       fixture.detectChanges();
       htmlElem = fixture.nativeElement;
       CommonConfiguratorTestUtilsService.expectElementPresent(

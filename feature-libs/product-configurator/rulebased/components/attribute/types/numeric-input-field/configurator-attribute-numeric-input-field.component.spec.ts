@@ -5,6 +5,7 @@ import {
   FeaturesConfig,
   I18nTestingModule,
   LanguageService,
+  LoggerTestingModule,
 } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
@@ -117,6 +118,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         IconTestingModule,
         I18nTestingModule,
         KeyboardFocusTestingModule,
+        LoggerTestingModule,
         ConfiguratorAttributeNumericInputFieldComponent,
       ],
       providers: [

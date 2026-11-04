@@ -9,7 +9,7 @@ import {
   ProductService,
 } from '@spartacus/core';
 import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
-import { MediaModule } from '@spartacus/storefront';
+import { MediaComponent } from '@spartacus/storefront';
 import { BehaviorSubject, firstValueFrom, of, throwError } from 'rxjs';
 import { vi } from 'vitest';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -19,6 +19,7 @@ import {
   ConfiguratorPriceComponentOptions,
 } from '../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { MockMediaComponent } from 'core-libs/storefront/shared/test/mock-media.component';
 import { ConfiguratorOverviewBundleAttributeComponent } from './configurator-overview-bundle-attribute.component';
 
 @Pipe({ name: 'cxNumeric' })
@@ -85,7 +86,7 @@ class MockConfiguratorStorefrontUtilsService {
   // tslint:disable-next-line: component-selector
   selector: 'cx-configurator-price',
   template: '',
-  imports: [MediaModule, I18nTestingModule],
+  imports: [I18nTestingModule],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -98,7 +99,7 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [MediaModule, ConfiguratorOverviewBundleAttributeComponent],
+      imports: [ConfiguratorOverviewBundleAttributeComponent],
       providers: [
         { provide: ProductService, useClass: MockProductService },
         {
@@ -109,10 +110,14 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
     })
       .overrideComponent(ConfiguratorOverviewBundleAttributeComponent, {
         remove: {
-          imports: [ConfiguratorPriceComponent, CxNumericPipe],
+          imports: [MediaComponent, ConfiguratorPriceComponent, CxNumericPipe],
         },
         add: {
-          imports: [MockConfiguratorPriceComponent, MockNumericPipe],
+          imports: [
+            MockMediaComponent,
+            MockConfiguratorPriceComponent,
+            MockNumericPipe,
+          ],
         },
       })
       .compileComponents();

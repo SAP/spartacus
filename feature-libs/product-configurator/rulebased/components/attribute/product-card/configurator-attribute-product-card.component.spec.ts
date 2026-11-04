@@ -25,7 +25,7 @@ import {
   ItemCounterComponent,
   KeyboardFocusService,
   KeyboardFocusTestingModule,
-  MediaModule,
+  MediaComponent,
 } from '@spartacus/storefront';
 import {
   MockFeatureTogglesController,
@@ -54,6 +54,7 @@ import {
   ConfiguratorAttributeQuantityComponent,
   ConfiguratorAttributeQuantityComponentOptions,
 } from '../quantity/configurator-attribute-quantity.component';
+import { MockMediaComponent } from 'core-libs/storefront/shared/test/mock-media.component';
 import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
 
 const product: Product = {
@@ -105,12 +106,7 @@ let focusService: KeyboardFocusService;
 @Component({
   selector: 'cx-configurator-price',
   template: '',
-  imports: [
-    I18nTestingModule,
-    ReactiveFormsModule,
-    UrlTestingModule,
-    MediaModule,
-  ],
+  imports: [I18nTestingModule, ReactiveFormsModule, UrlTestingModule],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -119,12 +115,7 @@ class MockConfiguratorPriceComponent {
 @Component({
   selector: 'cx-configurator-attribute-quantity',
   template: '',
-  imports: [
-    I18nTestingModule,
-    ReactiveFormsModule,
-    UrlTestingModule,
-    MediaModule,
-  ],
+  imports: [I18nTestingModule, ReactiveFormsModule, UrlTestingModule],
 })
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
@@ -197,7 +188,6 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        MediaModule,
         ConfiguratorAttributeProductCardComponent,
         ConfiguratorShowMoreComponent,
         ItemCounterComponent,
@@ -239,6 +229,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       .overrideComponent(ConfiguratorAttributeProductCardComponent, {
         remove: {
           imports: [
+            MediaComponent,
             TranslatePipe,
             CxDatePipe,
             UrlPipe,
@@ -251,6 +242,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           imports: [
             I18nTestingModule,
             UrlTestingModule,
+            MockMediaComponent,
             MockConfiguratorPriceComponent,
             KeyboardFocusTestingModule,
             MockConfiguratorAttributeQuantityComponent,
