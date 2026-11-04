@@ -181,7 +181,9 @@ export class CpqConfiguratorOverviewNormalizer
       return;
     }
     container?.rows
-      ?.filter((row) => this.isSelectedContainerRow(row))
+      ?.filter((row) =>
+        this.cpqConfiguratorNormalizerUtilsService.isSelectedContainerRow(row)
+      )
       .forEach((row) => {
         group.attributes?.push(
           this.convertContainerRowToAttribute(row, attribute)
@@ -198,13 +200,6 @@ export class CpqConfiguratorOverviewNormalizer
           );
         }
       });
-  }
-
-  protected isSelectedContainerRow(row: Cpq.ContainerRow): boolean {
-    return (
-      row.selected === true &&
-      !row.actions?.includes(Cpq.ContainerRowAction.ADD)
-    );
   }
 
   protected convertContainerRowToAttribute(
@@ -267,7 +262,10 @@ export class CpqConfiguratorOverviewNormalizer
       .flatMap((container) =>
         (container.rows ?? [])
           .filter(
-            (row) => this.isSelectedContainerRow(row) && !!row.configuration
+            (row) =>
+              this.cpqConfiguratorNormalizerUtilsService.isSelectedContainerRow(
+                row
+              ) && !!row.configuration
           )
           .map((row) =>
             this.convertNestedConfiguration(

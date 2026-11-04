@@ -1023,7 +1023,12 @@ export class CpqConfiguratorNormalizer
       .forEach((container) => {
         const attrCode = container.stdAttrCode;
         (container.rows ?? [])
-          .filter((row) => row.selected && row.configuration)
+          .filter(
+            (row) =>
+              this.cpqConfiguratorNormalizerUtilsService.isSelectedContainerRow(
+                row
+              ) && !!row.configuration
+          )
           .forEach((row) => {
             const rowGroup = this.convertNestedConfiguration(
               row.configuration as Cpq.NestedProductConfiguration,

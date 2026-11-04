@@ -3803,6 +3803,16 @@ describe('CpqConfiguratorNormalizer', () => {
             productSystemId: 'NO_CONFIG',
             selected: true,
           },
+          {
+            id: 'add-row',
+            productSystemId: 'ADD_ME',
+            selected: true,
+            actions: [Cpq.ContainerRowAction.ADD],
+            configuration: {
+              completed: true,
+              tabs: [nestedTab],
+            },
+          },
         ],
       };
 
@@ -3848,6 +3858,20 @@ describe('CpqConfiguratorNormalizer', () => {
         );
         expect(
           result.flatGroups.some((group) => group.id === subItemRowGroupId)
+        ).toBe(false);
+      });
+
+      it('should not create row groups for selected rows carrying the ADD action', () => {
+        const addRowGroupId = `${Configurator.ContainerRowGroupIdPrefix}@${cpqAttributeStdAttrCode}@add-row`;
+        const result = cpqConfiguratorNormalizer.convert(
+          configurationWithSubItemContainer()
+        );
+
+        expect(result.groups.some((group) => group.id === addRowGroupId)).toBe(
+          false
+        );
+        expect(
+          result.flatGroups.some((group) => group.id.startsWith(addRowGroupId))
         ).toBe(false);
       });
 
