@@ -27,3 +27,12 @@
 // CMS-driven base-site theme rules (must come after Spartacus styles so
 // the CSS custom properties override the defaults in `:root`).
 @import 'cms-themes';
+
+// Reserve vertical space for the product grid before items load to reduce CLS.
+cx-page-layout.ProductListPageTemplate,
+cx-page-layout.ProductGridPageTemplate {
+  .ProductListSlot,
+  .ProductGridSlot {
+    min-height: 800px;
+  }
+}
