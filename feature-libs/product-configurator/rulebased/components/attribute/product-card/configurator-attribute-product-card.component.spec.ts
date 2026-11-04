@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Directive,
   EventEmitter,
   Input,
   Output,
@@ -9,33 +8,30 @@ import {
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-
 import {
   CxDatePipe,
   FeatureConfigService,
   FeatureToggles,
   I18nTestingModule,
-  MockDatePipe,
-  MockTranslatePipe,
   Product,
   ProductService,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
 import {
   FocusDirective,
   ICON_TYPE,
   ItemCounterComponent,
   KeyboardFocusService,
+  KeyboardFocusTestingModule,
   MediaModule,
 } from '@spartacus/storefront';
-import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
 import {
   BehaviorSubject,
   EMPTY,
@@ -46,12 +42,12 @@ import {
 } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorMessageGroup } from '../../service/configurator-message.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import {
   ConfiguratorPriceComponent,
   ConfiguratorPriceComponentOptions,
 } from '../../price/configurator-price.component';
+import { ConfiguratorMessageGroup } from '../../service/configurator-message.service';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
 import {
@@ -133,11 +129,6 @@ class MockConfiguratorPriceComponent {
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
   @Output() changeQuantity = new EventEmitter<number>();
-}
-
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
 }
 
 function setProductBoundValueAttributes(
@@ -258,11 +249,10 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         },
         add: {
           imports: [
-            MockTranslatePipe,
-            MockDatePipe,
-            MockUrlPipe,
+            I18nTestingModule,
+            UrlTestingModule,
             MockConfiguratorPriceComponent,
-            MockFocusDirective,
+            KeyboardFocusTestingModule,
             MockConfiguratorAttributeQuantityComponent,
           ],
           changeDetection: ChangeDetectionStrategy.Default,
@@ -1762,7 +1752,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         0,
         'aria-describedby',
         'cx-configurator--label--' +
-          component.productCardOptions.attribute.name,
+          component.productCardOptions.attribute?.name,
         'configurator.button.select'
       );
     });

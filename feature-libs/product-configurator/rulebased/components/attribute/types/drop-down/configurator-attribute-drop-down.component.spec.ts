@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Directive,
   EventEmitter,
   Input,
   Output,
@@ -12,7 +11,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { StoreModule } from '@ngrx/store';
 import { FeatureLevelDirective, I18nTestingModule } from '@spartacus/core';
 import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
-import { FocusDirective } from '@spartacus/storefront';
+import {
+  FocusDirective,
+  KeyboardFocusTestingModule,
+} from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
@@ -53,11 +55,6 @@ function createValue(
       : undefined,
   };
   return value;
-}
-
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
 }
 
 @Component({
@@ -206,7 +203,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         },
         add: {
           imports: [
-            MockFocusDirective,
+            KeyboardFocusTestingModule,
             MockConfiguratorAttributeQuantityComponent,
             MockConfiguratorPriceComponent,
             MockFeatureLevelDirective,

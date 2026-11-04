@@ -9,7 +9,7 @@ import {
   BreakpointService,
   HamburgerMenuComponent,
   HamburgerMenuService,
-  IconLoaderService,
+  IconTestingModule,
 } from '@spartacus/storefront';
 import { NEVER, Observable, of, Subscription } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -61,10 +61,6 @@ class MockConfiguratorCommonsService {
   }
 }
 
-export class MockIconFontLoaderService {
-  getFlipDirection(): void {}
-}
-
 class MockBreakpointService {
   isDown(): void {}
 
@@ -100,6 +96,7 @@ describe('ConfiguratorGroupTitleComponent', () => {
     currentGroupObservable = of(group);
     TestBed.configureTestingModule({
       imports: [
+        IconTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         ConfiguratorGroupTitleComponent,
@@ -122,7 +119,6 @@ describe('ConfiguratorGroupTitleComponent', () => {
           provide: ConfiguratorGroupsService,
           useClass: MockConfiguratorGroupService,
         },
-        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
         {
           provide: BreakpointService,
           useClass: MockBreakpointService,

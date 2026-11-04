@@ -12,7 +12,6 @@ import {
   FeaturesConfigModule,
   I18nTestingModule,
   LoggerService,
-  MockTranslatePipe,
   Product,
   ProductService,
   RoutingService,
@@ -221,7 +220,7 @@ describe('ConfigurationOverviewFormComponent', () => {
           imports: [ConfiguratorPriceComponent, TranslatePipe],
         },
         add: {
-          imports: [MockConfiguratorPriceComponent, MockTranslatePipe],
+          imports: [MockConfiguratorPriceComponent, I18nTestingModule],
         },
       })
       .overrideComponent(ConfiguratorOverviewFormComponent, {

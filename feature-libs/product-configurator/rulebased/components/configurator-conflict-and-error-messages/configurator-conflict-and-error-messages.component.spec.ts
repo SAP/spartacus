@@ -1,12 +1,8 @@
-import { Component, Input, Type } from '@angular/core';
+import { Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -15,7 +11,11 @@ import {
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { IconComponent, IconLoaderService } from '@spartacus/storefront';
+import { IconComponent, IconTestingModule } from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { firstValueFrom, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -165,19 +165,6 @@ class MockConfiguratorCommonsService {
   }
 }
 
-export class MockIconFontLoaderService {
-  getFlipDirection(): void {}
-}
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-})
-class MockCxIconComponent {
-  @Input() type: any;
-}
-
 describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
   let component: ConfiguratorConflictAndErrorMessagesComponent;
   let fixture: ComponentFixture<ConfiguratorConflictAndErrorMessagesComponent>;
@@ -188,6 +175,7 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
+        I18nTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         ConfiguratorConflictAndErrorMessagesComponent,
@@ -201,7 +189,6 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
         },
-        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
         ...provideMockFeatureToggles({
           productConfiguratorCPQContainer: false,
         }),
@@ -210,7 +197,7 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
       remove: {
         imports: [IconComponent],
       },
-      add: { imports: [MockCxIconComponent] },
+      add: { imports: [IconTestingModule] },
     });
   });
   beforeEach(() => {

@@ -1,16 +1,14 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Directive,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule } from '@spartacus/core';
-import { FocusDirective, ItemCounterComponent } from '@spartacus/storefront';
-
 import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
+import {
+  FocusDirective,
+  ItemCounterComponent,
+  KeyboardFocusTestingModule,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
@@ -45,11 +43,6 @@ function createValue(code: string, name: string, isSelected: boolean) {
 }
 
 class MockGroupService {}
-
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
-}
 
 @Component({
   selector: 'cx-configurator-attribute-quantity',
@@ -173,7 +166,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         },
         add: {
           imports: [
-            MockFocusDirective,
+            KeyboardFocusTestingModule,
             MockConfiguratorAttributeQuantityComponent,
             MockConfiguratorPriceComponent,
             MockConfiguratorShowMoreComponent,

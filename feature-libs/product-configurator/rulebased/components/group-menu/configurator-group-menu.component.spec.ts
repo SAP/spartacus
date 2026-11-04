@@ -1,10 +1,9 @@
-import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  MockTranslatePipe,
+  I18nTestingModule,
   MockTranslationService,
   RoutingService,
   TranslatePipe,
@@ -22,8 +21,10 @@ import {
   DirectionService,
   FocusDirective,
   HamburgerMenuService,
-  IconComponent,
   ICON_TYPE,
+  IconComponent,
+  IconTestingModule,
+  KeyboardFocusTestingModule,
 } from '@spartacus/storefront';
 import { BehaviorSubject, firstValueFrom, NEVER, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -191,20 +192,6 @@ class MockBreakpointService {
   }
 }
 
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: string;
-}
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-  imports: [ReactiveFormsModule, NgSelectModule],
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
-
 class MockConfiguratorStorefrontUtilsService {
   createGroupId(groupId?: string): string | undefined {
     if (groupId) {
@@ -294,7 +281,11 @@ describe('ConfiguratorGroupMenuComponent', () => {
       .overrideComponent(ConfiguratorGroupMenuComponent, {
         remove: { imports: [TranslatePipe, FocusDirective, IconComponent] },
         add: {
-          imports: [MockTranslatePipe, MockFocusDirective, MockCxIconComponent],
+          imports: [
+            I18nTestingModule,
+            KeyboardFocusTestingModule,
+            IconTestingModule,
+          ],
         },
       })
       .compileComponents();

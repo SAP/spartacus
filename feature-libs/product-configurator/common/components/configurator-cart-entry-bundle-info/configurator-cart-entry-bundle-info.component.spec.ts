@@ -8,8 +8,8 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, UntypedFormControl } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   CartItemContext,
   OrderEntry,
@@ -19,17 +19,11 @@ import {
   CxDatePipe,
   CxNumericPipe,
   I18nTestingModule,
-  MockDatePipe,
-  MockTranslatePipe,
   Product,
   ProductService,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import {
   CommonConfiguratorUtilsService,
   ConfigurationInfo,
@@ -40,6 +34,11 @@ import {
   LineItem,
 } from '@spartacus/product-configurator/common';
 import { BreakpointService } from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import {
   BehaviorSubject,
   EMPTY,
@@ -58,13 +57,6 @@ import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-en
 class MockNumericPipe implements PipeTransform {
   transform(value: string): string {
     return value;
-  }
-}
-
-@Pipe({ name: 'cxUrl' })
-class MockUrlPipe implements PipeTransform {
-  transform(): string {
-    return '';
   }
 }
 
@@ -149,7 +141,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         ConfiguratorCartEntryBundleInfoComponent,
         I18nTestingModule,
         RouterModule.forRoot([]),
-        MockUrlPipe,
+        UrlTestingModule,
       ],
       providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
@@ -174,11 +166,10 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         },
         add: {
           imports: [
-            MockTranslatePipe,
-            MockDatePipe,
+            I18nTestingModule,
+            UrlTestingModule,
             MockNumericPipe,
             MockConfigureCartEntryComponent,
-            MockUrlPipe,
           ],
         },
       })

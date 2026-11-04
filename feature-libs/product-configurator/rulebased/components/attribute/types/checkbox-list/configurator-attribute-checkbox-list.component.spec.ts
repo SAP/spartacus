@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Directive,
   EventEmitter,
   Input,
   Output,
@@ -10,15 +9,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  CxDatePipe,
-  I18nTestingModule,
-  MockDatePipe,
-  MockTranslatePipe,
-  TranslatePipe,
-} from '@spartacus/core';
+import { CxDatePipe, I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
-import { FocusDirective } from '@spartacus/storefront';
+import {
+  FocusDirective,
+  KeyboardFocusTestingModule,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
@@ -40,11 +36,6 @@ import { ConfiguratorAttributeQuantityService } from '../../quantity/configurato
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
 
 class MockGroupService {}
-
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
-}
 
 @Component({
   selector: 'cx-configurator-attribute-quantity',
@@ -167,9 +158,8 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
         },
         add: {
           imports: [
-            MockTranslatePipe,
-            MockDatePipe,
-            MockFocusDirective,
+            I18nTestingModule,
+            KeyboardFocusTestingModule,
             MockConfiguratorAttributeQuantityComponent,
             MockConfiguratorPriceComponent,
             MockConfiguratorShowMoreComponent,

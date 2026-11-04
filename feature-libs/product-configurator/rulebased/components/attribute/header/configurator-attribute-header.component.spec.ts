@@ -2,18 +2,14 @@ import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
-import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
+import { IconTestingModule } from '@spartacus/storefront';
 import {
-  ICON_TYPE,
-  IconLoaderService,
-  IconModule,
-} from '@spartacus/storefront';
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { getTestScheduler } from 'jasmine-marbles';
 import { firstValueFrom, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
@@ -31,7 +27,7 @@ import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-h
 @Component({
   selector: 'cx-configurator-show-more',
   template: '',
-  imports: [I18nTestingModule, IconModule],
+  imports: [I18nTestingModule, IconTestingModule],
 })
 class MockConfiguratorShowMoreComponent {
   @Input() text: string;
@@ -45,26 +41,10 @@ class MockConfiguratorShowMoreComponent {
 @Component({
   selector: 'cx-configurator-show-options',
   template: '',
-  imports: [I18nTestingModule, IconModule],
+  imports: [I18nTestingModule, IconTestingModule],
 })
 class MockConfiguratorShowOptionsComponent {
   @Input() attributeComponentContext: ConfiguratorAttributeCompositionContext;
-}
-
-export class MockIconFontLoaderService {
-  useSvg(_iconType: ICON_TYPE) {
-    return false;
-  }
-
-  getStyleClasses(_iconType: ICON_TYPE): string {
-    return 'fas fa-exclamation-circle';
-  }
-
-  addLinkResource() {}
-
-  getHtml(_iconType: ICON_TYPE) {}
-
-  getFlipDirection(): void {}
 }
 
 let isCartEntryOrGroupVisited = true;
@@ -151,13 +131,12 @@ describe('ConfigAttributeHeaderComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
-        IconModule,
+        IconTestingModule,
         ConfiguratorAttributeHeaderComponent,
         MockConfiguratorShowMoreComponent,
         MockConfiguratorShowOptionsComponent,
       ],
       providers: [
-        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
         {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfigUtilsService,

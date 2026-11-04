@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Directive,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -14,6 +9,7 @@ import {
   ICON_TYPE,
   IconComponent,
   IconTestingModule,
+  KeyboardFocusTestingModule,
   MockIconComponent,
   PopoverModule,
 } from '@spartacus/storefront';
@@ -35,11 +31,6 @@ import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurato
 class MockGroupService {}
 
 const VALUE_NAME_3 = 'val3';
-
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
-}
 
 @Component({
   selector: 'cx-configurator-price',
@@ -134,7 +125,7 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
         },
         add: {
           imports: [
-            MockFocusDirective,
+            KeyboardFocusTestingModule,
             MockConfiguratorPriceComponent,
             MockIconComponent,
           ],

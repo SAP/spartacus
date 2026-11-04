@@ -1,11 +1,9 @@
-import { Component, Directive, Input, Type } from '@angular/core';
+import { Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CxDatePipe,
   FeatureDirective,
   I18nTestingModule,
-  MockDatePipe,
-  MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
 import {
@@ -14,12 +12,10 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import {
-  FocusConfig,
   FocusDirective,
-  ICON_TYPE,
-  IconLoaderService,
-  IconModule,
+  IconTestingModule,
   KeyboardFocusService,
+  KeyboardFocusTestingModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
@@ -31,13 +27,6 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorGroupComponent } from '../group';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorConflictSolverDialogComponent } from './configurator-conflict-solver-dialog.component';
-
-export class MockIconFontLoaderService {
-  getStyleClasses(_iconType: ICON_TYPE): void {}
-  addLinkResource(): void {}
-  getHtml(_iconType: ICON_TYPE): void {}
-  getFlipDirection(): void {}
-}
 
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
@@ -68,15 +57,10 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
 
-@Directive({ selector: '[cxFocus]' })
-export class MockKeyboardFocusDirective {
-  @Input('cxFocus') config: FocusConfig = {};
-}
-
 @Component({
   selector: 'cx-configurator-group',
   template: '',
-  imports: [I18nTestingModule, IconModule],
+  imports: [I18nTestingModule, IconTestingModule],
 })
 class MockConfiguratorDefaultFormComponent {
   @Input() group: Configurator.Group;
@@ -101,9 +85,8 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [IconModule, ConfiguratorConflictSolverDialogComponent],
+      imports: [IconTestingModule, ConfiguratorConflictSolverDialogComponent],
       providers: [
-        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
         {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfigUtilsService,
@@ -127,11 +110,10 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
         },
         add: {
           imports: [
-            MockConfiguratorDefaultFormComponent,
-            MockKeyboardFocusDirective,
+            I18nTestingModule,
+            KeyboardFocusTestingModule,
             MockFeatureDirective,
-            MockTranslatePipe,
-            MockDatePipe,
+            MockConfiguratorDefaultFormComponent,
           ],
         },
       })

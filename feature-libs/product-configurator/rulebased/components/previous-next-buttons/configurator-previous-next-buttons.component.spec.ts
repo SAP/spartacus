@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Directive, Input, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -11,6 +11,7 @@ import {
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
+import { KeyboardFocusTestingModule } from '@spartacus/storefront';
 import { cold, getTestScheduler } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -130,11 +131,6 @@ class MockConfigUtilsService {
   focusFirstAttribute(): void {}
 }
 
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
-}
-
 describe('ConfigPreviousNextButtonsComponent', () => {
   let classUnderTest: ConfiguratorPreviousNextButtonsComponent;
   let fixture: ComponentFixture<ConfiguratorPreviousNextButtonsComponent>;
@@ -150,7 +146,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       imports: [
         I18nTestingModule,
         ConfiguratorPreviousNextButtonsComponent,
-        MockFocusDirective,
+        KeyboardFocusTestingModule,
       ],
       providers: [
         {

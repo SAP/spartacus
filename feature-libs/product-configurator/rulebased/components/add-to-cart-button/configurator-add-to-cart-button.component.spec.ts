@@ -24,8 +24,8 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import {
-  ICON_TYPE,
   IconComponent,
+  IconTestingModule,
   IntersectionService,
   ItemCounterComponent,
   KeyboardFocusService,
@@ -99,14 +99,6 @@ const queryParams: any = {
 const mockOrder: Order = {
   code: '1',
 };
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
 
 @Component({
   template: '',
@@ -530,7 +522,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
         add: {
           imports: [
             MockItemCounterComponent,
-            MockCxIconComponent,
+            IconTestingModule,
             MockFeatureLevelDirective,
           ],
         },

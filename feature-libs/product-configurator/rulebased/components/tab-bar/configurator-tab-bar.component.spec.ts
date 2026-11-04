@@ -1,12 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Pipe,
-  PipeTransform,
-  Type,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
-
 import {
   I18nTestingModule,
   RouterState,
@@ -18,6 +12,7 @@ import {
   ConfiguratorRouter,
 } from '@spartacus/product-configurator/common';
 import { KeyboardFocusService } from '@spartacus/storefront';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -83,11 +78,6 @@ class MockConfigUtilsService {
 
 class MockConfiguratorGroupsService {}
 
-@Pipe({ name: 'cxUrl' })
-class MockUrlPipe implements PipeTransform {
-  transform(): any {}
-}
-
 describe('ConfigTabBarComponent', () => {
   let component: ConfiguratorTabBarComponent;
   let fixture: ComponentFixture<ConfiguratorTabBarComponent>;
@@ -107,7 +97,7 @@ describe('ConfigTabBarComponent', () => {
         I18nTestingModule,
         RouterModule,
         ConfiguratorTabBarComponent,
-        MockUrlPipe,
+        UrlTestingModule,
       ],
       providers: [
         {

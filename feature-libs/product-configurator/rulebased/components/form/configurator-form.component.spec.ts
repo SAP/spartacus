@@ -6,14 +6,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   GlobalMessageService,
   I18nTestingModule,
-  MockTranslatePipe,
   RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -23,6 +18,10 @@ import {
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { cold } from 'jasmine-marbles';
 import { EMPTY, NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -310,7 +309,7 @@ describe('ConfiguratorFormComponent', () => {
           imports: [TranslatePipe, ConfiguratorGroupComponent],
         },
         add: {
-          imports: [MockConfiguratorGroupComponent, MockTranslatePipe],
+          imports: [MockConfiguratorGroupComponent, I18nTestingModule],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })

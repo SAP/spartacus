@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Directive,
   EventEmitter,
   Input,
   Output,
@@ -23,9 +22,12 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { ICON_TYPE } from '@spartacus/storefront';
-import { cold } from 'jasmine-marbles';
+import {
+  IconTestingModule,
+  KeyboardFocusTestingModule,
+} from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
+import { cold } from 'jasmine-marbles';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -136,20 +138,6 @@ class MockConfiguratorAttributeNumericInputFieldComponent {
   @Input() language: string;
 
   @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
-}
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
-
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: string;
 }
 
 let currentGroupObservable: Observable<string> = EMPTY;
@@ -315,11 +303,11 @@ describe('ConfiguratorGroupComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
+        IconTestingModule,
+        KeyboardFocusTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
-        MockCxIconComponent,
         MockConfiguratorPriceComponent,
-        MockFocusDirective,
         MockFeatureLevelDirective,
         MockProductCardComponent,
         ConfiguratorAttributeCompositionDirective,

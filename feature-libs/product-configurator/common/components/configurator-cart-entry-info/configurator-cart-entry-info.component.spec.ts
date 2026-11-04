@@ -11,13 +11,7 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import {
-  CxDatePipe,
-  I18nTestingModule,
-  MockDatePipe,
-  MockTranslatePipe,
-  TranslatePipe,
-} from '@spartacus/core';
+import { CxDatePipe, I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import { BehaviorSubject, EMPTY, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
@@ -68,11 +62,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
           imports: [TranslatePipe, CxDatePipe, ConfigureCartEntryComponent],
         },
         add: {
-          imports: [
-            MockTranslatePipe,
-            MockDatePipe,
-            MockConfigureCartEntryComponent,
-          ],
+          imports: [I18nTestingModule, MockConfigureCartEntryComponent],
         },
       })
       .compileComponents();

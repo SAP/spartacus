@@ -1,18 +1,14 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Directive,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-
-import { NgSelectModule } from '@ng-select/ng-select';
-import { FeatureLevelDirective, I18nTestingModule } from '@spartacus/core';
-
 import { ActivatedRoute } from '@angular/router';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { StoreModule } from '@ngrx/store';
-import { FocusDirective } from '@spartacus/storefront';
+import { FeatureLevelDirective, I18nTestingModule } from '@spartacus/core';
+import {
+  FocusDirective,
+  KeyboardFocusTestingModule,
+} from '@spartacus/storefront';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
@@ -79,11 +75,6 @@ class MockConfiguratorAttributeQuantityComponent {
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
 }
 
 class MockConfiguratorCommonsService {
@@ -265,7 +256,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
               MockProductCardComponent,
               MockConfiguratorAttributeQuantityComponent,
               MockConfiguratorPriceComponent,
-              MockFocusDirective,
+              KeyboardFocusTestingModule,
               MockFeatureLevelDirective,
             ],
             changeDetection: ChangeDetectionStrategy.Default,

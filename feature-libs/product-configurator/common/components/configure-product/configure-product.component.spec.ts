@@ -1,10 +1,10 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import { Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import {
-  MockTranslatePipe,
+  I18nTestingModule,
   Product,
   ProductScope,
   RoutingService,
@@ -14,6 +14,7 @@ import {
   CurrentProductService,
   ProductListItemContext,
 } from '@spartacus/storefront';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorProductScope } from '../../core/model/configurator-product-scope';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
@@ -61,11 +62,6 @@ class MockProductListItemContext implements Partial<ProductListItemContext> {
   product$ = of(mockProduct);
 }
 
-@Pipe({ name: 'cxUrl' })
-class MockUrlPipe implements PipeTransform {
-  transform(): any {}
-}
-
 class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
@@ -87,7 +83,7 @@ function setupWithCurrentProductService(
     productListItemContextReturnsNull
   ) {
     TestBed.configureTestingModule({
-      imports: [RouterModule, ConfigureProductComponent, MockUrlPipe],
+      imports: [RouterModule, ConfigureProductComponent, UrlTestingModule],
       providers: [
         {
           provide: ProductListItemContext,
@@ -105,7 +101,7 @@ function setupWithCurrentProductService(
     })
       .overrideComponent(ConfigureProductComponent, {
         remove: { imports: [TranslatePipe] },
-        add: { imports: [MockTranslatePipe] },
+        add: { imports: [I18nTestingModule] },
       })
       .compileComponents();
   } else if (useCurrentProductServiceOnly) {
@@ -113,7 +109,7 @@ function setupWithCurrentProductService(
       imports: [
         StoreModule.forRoot({}),
         ConfigureProductComponent,
-        MockUrlPipe,
+        UrlTestingModule,
       ],
       providers: [
         {
@@ -128,7 +124,7 @@ function setupWithCurrentProductService(
     })
       .overrideComponent(ConfigureProductComponent, {
         remove: { imports: [TranslatePipe] },
-        add: { imports: [MockTranslatePipe] },
+        add: { imports: [I18nTestingModule] },
       })
       .compileComponents();
   } else {
@@ -136,7 +132,7 @@ function setupWithCurrentProductService(
       imports: [
         StoreModule.forRoot({}),
         ConfigureProductComponent,
-        MockUrlPipe,
+        UrlTestingModule,
       ],
       providers: [
         {
@@ -155,7 +151,7 @@ function setupWithCurrentProductService(
     })
       .overrideComponent(ConfigureProductComponent, {
         remove: { imports: [TranslatePipe] },
-        add: { imports: [MockTranslatePipe] },
+        add: { imports: [I18nTestingModule] },
       })
       .compileComponents();
   }

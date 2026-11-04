@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Directive,
   Injectable,
   Input,
 } from '@angular/core';
@@ -15,6 +14,7 @@ import {
   DirectionMode,
   DirectionService,
   FocusDirective,
+  KeyboardFocusTestingModule,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
@@ -29,11 +29,6 @@ import { ConfiguratorStorefrontUtilsService } from '../../../service/configurato
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
-
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: string;
-}
 
 @Component({
   selector: 'cx-configurator-price',
@@ -142,7 +137,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         },
         remove: {
           imports: [
-            MockFocusDirective,
+            KeyboardFocusTestingModule,
             MockConfiguratorPriceComponent,
             MockConfiguratorShowMoreComponent,
           ],

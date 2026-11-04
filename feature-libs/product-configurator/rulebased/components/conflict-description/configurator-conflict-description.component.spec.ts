@@ -1,18 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { IconComponent, IconTestingModule } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorConflictDescriptionComponent } from './configurator-conflict-description.component';
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
 
 describe('ConfigurationConflictDescriptionComponent', () => {
   let component: ConfiguratorConflictDescriptionComponent;
@@ -21,9 +13,13 @@ describe('ConfigurationConflictDescriptionComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [ConfiguratorConflictDescriptionComponent, MockCxIconComponent],
+      imports: [ConfiguratorConflictDescriptionComponent],
       providers: [],
     })
+      .overrideComponent(ConfiguratorConflictDescriptionComponent, {
+        remove: { imports: [IconComponent] },
+        add: { imports: [IconTestingModule] },
+      })
       .overrideComponent(ConfiguratorConflictDescriptionComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

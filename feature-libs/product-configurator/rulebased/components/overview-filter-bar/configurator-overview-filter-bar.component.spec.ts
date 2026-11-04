@@ -1,14 +1,9 @@
-import { Component, Input, Type } from '@angular/core';
+import { Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import {
-  CxDatePipe,
-  MockDatePipe,
-  MockTranslatePipe,
-  TranslatePipe,
-} from '@spartacus/core';
+import { CxDatePipe, I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { IconComponent, ICON_TYPE } from '@spartacus/storefront';
+import { IconComponent, IconTestingModule } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -59,13 +54,6 @@ function initMocks() {
   mockConfigCommonsService = { updateConfigurationOverview: vi.fn() } as any;
 }
 
-@Component({
-  selector: 'cx-icon',
-  template: '',
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
 class MockConfigUtilsService {
   getElementById(): void {}
 }
@@ -75,7 +63,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
     initTestData();
     initMocks();
     TestBed.configureTestingModule({
-      imports: [ConfiguratorOverviewFilterBarComponent],
+      imports: [ConfiguratorOverviewFilterBarComponent, IconTestingModule],
       providers: [
         {
           provide: ConfiguratorCommonsService,
@@ -90,7 +78,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       .overrideComponent(ConfiguratorOverviewFilterBarComponent, {
         remove: { imports: [TranslatePipe, CxDatePipe, IconComponent] },
         add: {
-          imports: [MockTranslatePipe, MockDatePipe, MockCxIconComponent],
+          imports: [I18nTestingModule],
         },
       })
       .compileComponents();

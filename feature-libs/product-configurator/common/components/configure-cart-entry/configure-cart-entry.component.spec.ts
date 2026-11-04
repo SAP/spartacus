@@ -1,4 +1,3 @@
-import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
@@ -9,6 +8,11 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { cold } from 'jasmine-marbles';
 import { firstValueFrom, Observable, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
@@ -18,10 +22,6 @@ import {
   OrderEntryStatus,
   ReadOnlyPostfix,
 } from '../../core/model/common-configurator.model';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
 
@@ -38,10 +38,6 @@ class MockAbstractOrderContext {
   key$ = of({ id: quoteCode, type: AbstractOrderType.QUOTE });
 }
 
-@Pipe({ name: 'cxUrl' })
-class MockUrlPipe implements PipeTransform {
-  transform(): any {}
-}
 const mockBaseRouterState: any = {
   state: {
     semanticRoute: 'home',
@@ -70,7 +66,7 @@ describe('ConfigureCartEntryComponent', () => {
         I18nTestingModule,
         RouterModule,
         ConfigureCartEntryComponent,
-        MockUrlPipe,
+        UrlTestingModule,
       ],
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },

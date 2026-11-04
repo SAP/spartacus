@@ -1,16 +1,9 @@
-import {
-  ChangeDetectionStrategy,
-  Pipe,
-  PipeTransform,
-  Type,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
-  MockDatePipe,
-  MockTranslatePipe,
+  I18nTestingModule,
   RouterState,
   RoutingService,
   TranslatePipe,
@@ -20,6 +13,7 @@ import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
@@ -57,11 +51,6 @@ class MockRoutingService {
 class MockConfiguratorTextfieldService {
   addToCart(): void {}
   updateCartEntry(): void {}
-}
-
-@Pipe({ name: 'cxUrl' })
-class MockUrlPipe implements PipeTransform {
-  transform(): any {}
 }
 
 describe('ConfigTextfieldAddToCartButtonComponent', () => {
@@ -106,7 +95,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
           imports: [TranslatePipe, CxDatePipe, UrlPipe],
         },
         add: {
-          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+          imports: [I18nTestingModule, UrlTestingModule],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })
