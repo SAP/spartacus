@@ -315,7 +315,7 @@
     "http-proxy-middleware@^2": "2.0.10",
     "http-proxy-middleware@^3": "3.0.7",
     "i18n-lint": {
-      "minimatch": "3.1.5"
+      "minimatch": "11.0.1"
     },
     "immutable@^5": "5.1.8",
     "js-yaml@^4": "4.3.2",
@@ -323,10 +323,10 @@
       "undici": "8.12.3"
     },
     "karma": {
-      "minimatch": "3.1.5"
+      "minimatch": "11.0.1"
     },
     "lodash": "4.18.1",
-    "minimatch": "10.2.4",
+    "minimatch": "11.0.1",
     "npm-cli-login": {
       "tough-cookie": "4.1.3",
       "qs": "6.15.2"
