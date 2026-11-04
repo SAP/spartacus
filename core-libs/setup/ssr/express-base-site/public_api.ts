@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './base-site-handler';
+export * from './base-site-aware-express-route';
 export * from './base-site-resolver';
 export * from './default-base-site-resolver';
 export * from './occ-base-url-extractor';

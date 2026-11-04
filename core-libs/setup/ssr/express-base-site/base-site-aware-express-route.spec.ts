@@ -11,7 +11,7 @@ import {
   BaseSiteHandlerContext,
   configureBaseSiteAwareRoutes,
   createBaseSiteAwareRouteWithResolver,
-} from './base-site-handler';
+} from './base-site-aware-express-route';
 import {
   BaseSiteResolver,
   ConcurrencyLimitError,
