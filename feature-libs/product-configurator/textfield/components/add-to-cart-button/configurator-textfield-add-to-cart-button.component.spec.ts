@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Pipe,
-  PipeTransform,
-  Type,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RouterModule } from '@angular/router';
@@ -120,9 +115,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
     classUnderTest = fixture.componentInstance;
     classUnderTest.configuration = configurationTextField;
     htmlElem = fixture.nativeElement;
-    textfieldService = TestBed.inject(
-      ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>
-    );
+    textfieldService = TestBed.inject(ConfiguratorTextfieldService);
 
     OWNER.type = CommonConfigurator.OwnerType.PRODUCT;
     mockRouterState.state.params.ownerType =

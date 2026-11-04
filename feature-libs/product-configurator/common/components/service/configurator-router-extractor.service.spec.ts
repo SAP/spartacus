@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   I18nTestingModule,
@@ -41,9 +40,7 @@ describe('ConfigRouterExtractorService', () => {
     }).compileComponents();
   });
   beforeEach(() => {
-    serviceUnderTest = TestBed.inject(
-      ConfiguratorRouterExtractorService as Type<ConfiguratorRouterExtractorService>
-    );
+    serviceUnderTest = TestBed.inject(ConfiguratorRouterExtractorService);
 
     mockRouterState = {
       state: {
