@@ -52,7 +52,12 @@ jobs:
               pull_number: context.payload.pull_request.number,
               per_page: 100,
             });
-            return files.map((file) => file.filename).join('\n');
+            // The lock checker only consumes manifests and lock files. Passing
+            // the full PR diff can exceed the per-variable OS environment limit.
+            return files
+              .map((file) => file.filename)
+              .filter((filename) => /(^|\/)package(-lock)?\.json$/.test(filename))
+              .join('\n');
       - name: Check configurations
         run: npm run config:check
         env:
