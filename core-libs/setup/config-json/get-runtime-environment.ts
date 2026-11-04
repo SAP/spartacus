@@ -60,13 +60,17 @@ export async function getRuntimeEnvironment(options?: {
     if (!response.ok) {
       /* eslint-disable-next-line no-console */
       console.warn(
-        `[getRuntimeEnvironment] Failed to fetch runtime config from ${url}: ${response.status} ${response.statusText}. Falling back to empty runtime environment.`
+        `[getRuntimeEnvironment] Failed to fetch runtime config from ${url}: ${response.status} ${response.statusText}. Falling back to empty runtime environment.\n` +
+          `  Hint: start the Spartacus dev proxy so /config.json is served locally:\n` +
+          `    node node_modules/@spartacus/setup/dev-proxy/run.js`
       );
       return { runtimeEnvironment: {} };
     }
 
     const raw: ConfigJson = await response.json();
     const runtimeEnvironment = parseConfigJson(raw, { excludeSecrets: true });
+    /* eslint-disable-next-line no-console */
+    console.info(`[getRuntimeEnvironment] Loaded runtime config from ${url}.`);
     return { runtimeEnvironment };
   } catch (error) {
     /* eslint-disable-next-line no-console */

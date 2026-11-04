@@ -284,6 +284,29 @@ function runScenarioA(outDir: string, baseName: string): ScenarioStats {
     )
   );
 
+  step('app.config.ts: provideRuntimeOccConfig is after importProvidersFrom (order matters)', () => {
+    const appConfigPath = path.join(appDir, 'src', 'app', 'app.config.ts');
+    const content = fs.readFileSync(appConfigPath, 'utf-8');
+    // Both tokens include the opening paren so they match only call sites, not import
+    // identifiers — comparing positions in the full file is unambiguous and robust to
+    // providers with nested arrays (which would truncate a regex-based extraction).
+    const importPos = content.indexOf('importProvidersFrom(');
+    const providePos = content.indexOf('provideRuntimeOccConfig(');
+    if (importPos === -1) {
+      throw new Error('importProvidersFrom( not found in app.config.ts — expected a Spartacus app with AppModule');
+    }
+    if (providePos === -1) {
+      throw new Error('provideRuntimeOccConfig( not found in app.config.ts — runtime config wiring missing');
+    }
+    if (providePos <= importPos) {
+      throw new Error(
+        'provideRuntimeOccConfig() must appear after importProvidersFrom() — ' +
+          'MetaTagConfigModule (loaded via importProvidersFrom) sets the OCC URL from index.html; ' +
+          'provideRuntimeOccConfig must be last to override it with the /config.json value'
+      );
+    }
+  });
+
   // Explicit existence check first — a missing server.ts surfaces as a clear failure
   // rather than a confusing "file does not contain..." error from the steps below
   step('server.ts created by addSSR', () =>

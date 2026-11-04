@@ -43,7 +43,19 @@ export function updateAppConfig(options: SpartacusOptions): Rule {
 
         const providersArray = getAppConfigProviders(sourceFile);
         if (providersArray && Node.isArrayLiteralExpression(providersArray)) {
-          providersArray.insertElement(0, 'provideRuntimeOccConfig()');
+          // Append at the end so provideRuntimeOccConfig() is applied after
+          // MetaTagConfigModule (which Spartacus registers via importProvidersFrom).
+          // Spartacus merges all ConfigChunk multi-providers in declaration order —
+          // last wins — so the runtime config URL must be registered last to override
+          // the build-time OCC URL that MetaTagConfigModule reads from index.html.
+          providersArray.addElement(
+            '// provideRuntimeOccConfig() must remain last: Spartacus merges ConfigChunk\n' +
+              '    // providers in declaration order (last wins). MetaTagConfigModule, brought\n' +
+              '    // in by importProvidersFrom above, sets the OCC URL from the index.html meta\n' +
+              '    // tag. Placing provideRuntimeOccConfig() after it ensures the /config.json\n' +
+              '    // value overrides the build-time meta tag at runtime.\n' +
+              '    provideRuntimeOccConfig()'
+          );
         }
 
         formatFile(sourceFile);

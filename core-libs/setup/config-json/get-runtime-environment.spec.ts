@@ -63,6 +63,10 @@ describe('get-runtime-environment', () => {
         json: () => Promise.resolve(mockConfig),
       } as unknown as Response);
 
+      const consoleSpy = jest
+        .spyOn(console, 'info')
+        .mockImplementation(() => {});
+
       const result = await getRuntimeEnvironment();
 
       expect(fetchMock).toHaveBeenCalledWith('/config.json');
@@ -70,6 +74,11 @@ describe('get-runtime-environment', () => {
         OCC_BASE_URL: 'https://api.commerce.sap.com',
         MEDIA_BASE_URL: 'https://api.commerce.sap.com/medias',
       });
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining('[getRuntimeEnvironment] Loaded runtime config from /config.json')
+      );
+
+      consoleSpy.mockRestore();
     });
 
     it('should fetch the provided URL when an explicit url override is given', async () => {
@@ -123,7 +132,9 @@ describe('get-runtime-environment', () => {
       const result = await getRuntimeEnvironment({ url: TEST_URL });
 
       expect(result.runtimeEnvironment).toEqual({});
-      expect(consoleSpy).toHaveBeenCalled();
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining('node node_modules/@spartacus/setup/dev-proxy/run.js')
+      );
 
       consoleSpy.mockRestore();
     });
