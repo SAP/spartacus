@@ -164,6 +164,12 @@ export interface OrderEntry {
   cancelledItemsPrice?: Price;
   cancellableQuantity?: number;
   promotions?: PromotionResult[];
+  sapAppliedDiscounts?: SapAppliedDiscountData[];
+}
+
+export interface SapAppliedDiscountData {
+  code?: string;
+  value?: number;
 }
 
 export interface PickupOrderEntryGroup {
