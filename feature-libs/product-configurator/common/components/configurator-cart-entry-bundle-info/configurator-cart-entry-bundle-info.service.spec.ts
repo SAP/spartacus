@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { LoggerService, MockLoggerService } from '@spartacus/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { ConfigurationInfo } from '../../core/model/common-configurator.model';
 import { LineItem } from './configurator-cart-entry-bundle-info.model';
@@ -180,7 +181,10 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ConfiguratorCartEntryBundleInfoService],
+      providers: [
+        ConfiguratorCartEntryBundleInfoService,
+        { provide: LoggerService, useClass: MockLoggerService },
+      ],
     });
 
     configuratorCartEntryBundleInfoService = TestBed.inject(

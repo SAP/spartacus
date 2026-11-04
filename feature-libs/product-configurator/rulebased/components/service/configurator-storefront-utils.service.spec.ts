@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Injectable } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -7,6 +7,8 @@ import {
   ProductService,
   RouterState,
   RoutingService,
+  LoggerService,
+  MockLoggerService,
   WindowRef,
 } from '@spartacus/core';
 import {
@@ -39,6 +41,7 @@ let mockedWindow: {
   scrollY: 1000,
   scroll() {},
 };
+@Injectable()
 class MockedWindowRef extends WindowRef {
   get nativeWindow(): Window | undefined {
     return this.isBrowser() ? <any>mockedWindow : undefined;
@@ -109,6 +112,7 @@ function createFocusedElements(
       <label id="ATTR_1--value_3">value_3</label>
     </cx-configurator-form>
   `,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 class MockComponent {}
 
@@ -172,6 +176,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
           useValue: defaultConfiguratorUISettingsConfig,
         },
         provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });

@@ -1,5 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { LanguageService } from '@spartacus/core';
+import {
+  LanguageService,
+  LoggerService,
+  MockLoggerService,
+} from '@spartacus/core';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
@@ -27,6 +31,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
         CpqConfiguratorNormalizerUtilsService,
         { provide: LanguageService, useClass: MockLanguageService },
         ...provideMockFeatureToggles({ productConfiguratorCPQContainer: true }),
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
 
@@ -844,6 +849,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
             ...provideMockFeatureToggles({
               productConfiguratorCPQContainer: false,
             }),
+            { provide: LoggerService, useClass: MockLoggerService },
           ],
         });
         const utilsWithToggleOff = TestBed.inject(
@@ -877,6 +883,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
             ...provideMockFeatureToggles({
               productConfiguratorCPQContainer: false,
             }),
+            { provide: LoggerService, useClass: MockLoggerService },
           ],
         });
         const utilsWithToggleOff = TestBed.inject(

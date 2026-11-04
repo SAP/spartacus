@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { StateUtils } from '@spartacus/core';
+import { LoggerService, MockLoggerService, StateUtils } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -190,6 +190,7 @@ describe('ConfiguratorCommonsService', () => {
           provide: ConfiguratorUtilsService,
           useClass: MockconfiguratorUtilsService,
         },
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
   });

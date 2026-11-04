@@ -10,6 +10,8 @@ import {
   FeaturesConfig,
   I18nTestingModule,
   LanguageService,
+  LoggerService,
+  MockLoggerService,
 } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
@@ -158,6 +160,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
             features: { level: '*' },
           },
         },
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     })
       .overrideComponent(ConfiguratorAttributeNumericInputFieldComponent, {

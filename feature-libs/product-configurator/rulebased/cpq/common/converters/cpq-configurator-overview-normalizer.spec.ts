@@ -1,5 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { LanguageService, TranslationService } from '@spartacus/core';
+import {
+  LanguageService,
+  LoggerService,
+  MockLoggerService,
+  TranslationService,
+} from '@spartacus/core';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
@@ -27,7 +32,15 @@ const tab: Cpq.Tab = {
   displayName: GRP_DESCR,
   attributes: [
     structuredClone(attrBase),
-    { stdAttrCode: 12, pA_ID: 122, values: [] },
+    {
+      name: 'second attribute',
+      stdAttrCode: 12,
+      pA_ID: 122,
+      dataType: Cpq.DataType.INPUT_STRING,
+      displayAs: Cpq.DisplayAs.INPUT,
+      userInput: '',
+      values: [],
+    },
   ],
 };
 
@@ -161,6 +174,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
           useClass: MockTranslationService,
         },
         ...provideMockFeatureToggles({ productConfiguratorCPQContainer: true }),
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
 
