@@ -9,7 +9,11 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { CartActions } from '@spartacus/cart/base/core';
 import { CartModification } from '@spartacus/cart/base/root';
-import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
+import {
+  LoggerTestingModule,
+  MockLoggerService,
+  tryNormalizeHttpError,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -46,14 +50,6 @@ const cartModification: CartModification = {
   statusMessage: '',
 };
 
-class MockLoggerService {
-  log(): void {}
-  warn(): void {}
-  error(): void {}
-  info(): void {}
-  debug(): void {}
-}
-
 describe('ConfiguratorTextfieldEffect', () => {
   let createMock: vi.Mock;
   let readFromCartEntryMock: vi.Mock;
@@ -83,6 +79,7 @@ describe('ConfiguratorTextfieldEffect', () => {
 
     TestBed.configureTestingModule({
       imports: [
+        LoggerTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           CONFIGURATION_TEXTFIELD_FEATURE,
@@ -96,7 +93,6 @@ describe('ConfiguratorTextfieldEffect', () => {
           provide: ConfiguratorTextfieldConnector,
           useClass: MockConnector,
         },
-        { provide: LoggerService, useClass: MockLoggerService },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],

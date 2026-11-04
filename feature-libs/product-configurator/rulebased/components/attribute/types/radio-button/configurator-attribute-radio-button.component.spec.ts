@@ -7,11 +7,7 @@ import {
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
-import {
-  I18nTestingModule,
-  LoggerService,
-  MockLoggerService,
-} from '@spartacus/core';
+import { I18nTestingModule, LoggerTestingModule } from '@spartacus/core';
 import { FocusDirective, ItemCounterComponent } from '@spartacus/storefront';
 
 import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
@@ -141,6 +137,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
+        LoggerTestingModule,
         ReactiveFormsModule,
         StoreModule.forRoot({}),
         ConfiguratorAttributeRadioButtonComponent,
@@ -165,7 +162,6 @@ describe('ConfigAttributeRadioButtonComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfigUtilsService,
         },
-        { provide: LoggerService, useClass: MockLoggerService },
       ],
     })
       .overrideComponent(ConfiguratorAttributeRadioButtonComponent, {

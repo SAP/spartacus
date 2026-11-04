@@ -1,8 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import {
   LanguageService,
-  LoggerService,
-  MockLoggerService,
+  LoggerTestingModule,
   TranslationService,
 } from '@spartacus/core';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
@@ -162,6 +161,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
+      imports: [LoggerTestingModule],
       providers: [
         CpqConfiguratorOverviewNormalizer,
         CpqConfiguratorNormalizerUtilsService,
@@ -174,7 +174,6 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
           useClass: MockTranslationService,
         },
         ...provideMockFeatureToggles({ productConfiguratorCPQContainer: true }),
-        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
 

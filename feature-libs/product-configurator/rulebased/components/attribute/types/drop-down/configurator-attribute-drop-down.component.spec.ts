@@ -13,8 +13,7 @@ import { StoreModule } from '@ngrx/store';
 import {
   FeatureLevelDirective,
   I18nTestingModule,
-  LoggerService,
-  MockLoggerService,
+  LoggerTestingModule,
 } from '@spartacus/core';
 import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
 import { FocusDirective } from '@spartacus/storefront';
@@ -179,6 +178,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     });
     TestBed.configureTestingModule({
       imports: [
+        LoggerTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         StoreModule.forRoot({}),
@@ -198,7 +198,6 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfigUtilsService,
         },
-        { provide: LoggerService, useClass: MockLoggerService },
       ],
     })
       .overrideComponent(ConfiguratorAttributeDropDownComponent, {

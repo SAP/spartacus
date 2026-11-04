@@ -7,8 +7,7 @@ import {
   ProductService,
   RouterState,
   RoutingService,
-  LoggerService,
-  MockLoggerService,
+  LoggerTestingModule,
   WindowRef,
 } from '@spartacus/core';
 import {
@@ -152,7 +151,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     routerStateObservable = of(mockRouterState);
 
     TestBed.configureTestingModule({
-      imports: [MockComponent],
+      imports: [LoggerTestingModule, MockComponent],
       providers: [
         {
           provide: ConfiguratorGroupsService,
@@ -176,7 +175,6 @@ describe('ConfiguratorStorefrontUtilsService', () => {
           useValue: defaultConfiguratorUISettingsConfig,
         },
         provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
-        { provide: LoggerService, useClass: MockLoggerService },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });

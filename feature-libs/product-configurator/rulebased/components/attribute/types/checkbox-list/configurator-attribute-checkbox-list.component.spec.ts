@@ -14,8 +14,7 @@ import {
   CxDatePipe,
   I18nTestingModule,
   MockDatePipe,
-  LoggerService,
-  MockLoggerService,
+  LoggerTestingModule,
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
@@ -132,6 +131,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
     });
     TestBed.configureTestingModule({
       imports: [
+        LoggerTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         ConfiguratorAttributeCheckBoxListComponent,
@@ -154,7 +154,6 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
         },
-        { provide: LoggerService, useClass: MockLoggerService },
       ],
     })
       .overrideComponent(ConfiguratorAttributeCheckBoxListComponent, {

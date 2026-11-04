@@ -1,10 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  I18nTestingModule,
-  LoggerService,
-  MockLoggerService,
-} from '@spartacus/core';
+import { I18nTestingModule, LoggerTestingModule } from '@spartacus/core';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
@@ -155,6 +151,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
+        LoggerTestingModule,
         IconModule,
         ConfiguratorAttributeHeaderComponent,
         MockConfiguratorShowMoreComponent,
@@ -185,7 +182,6 @@ describe('ConfigAttributeHeaderComponent', () => {
         ...provideMockFeatureToggles({
           productConfiguratorCPQContainer: false,
         }),
-        { provide: LoggerService, useClass: MockLoggerService },
       ],
     })
       .overrideComponent(ConfiguratorAttributeHeaderComponent, {
