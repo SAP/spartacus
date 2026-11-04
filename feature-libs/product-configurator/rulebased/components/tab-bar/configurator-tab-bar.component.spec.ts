@@ -145,8 +145,6 @@ describe('ConfigTabBarComponent', () => {
         ConfiguratorModelUtils.createInitialOwner()
       )
     );
-    component.ghostStyle = false;
-
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
@@ -165,10 +163,25 @@ describe('ConfigTabBarComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should render ghost view if no data is present', () => {
-    configurationObs = NEVER;
-    fixture.detectChanges();
-    expect(htmlElem.querySelectorAll('.cx-ghost-tab-bar').length).toEqual(1);
+  describe('ghost loading placeholder', () => {
+    it('should render ghost tab bar when configuration data is not available', () => {
+      configurationObs = NEVER;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-tab-bar.ghost'
+      );
+    });
+
+    it('should render tab bar when configuration data is available', () => {
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-tab-bar.ghost'
+      );
+    });
   });
 
   it('should render 2 navigation links per default', () => {

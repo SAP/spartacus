@@ -24,7 +24,7 @@ const DDLB = 'dropdown';
 /***************************** */
 /** Configurable Train */
 const PROD_CODE_TRAIN = 'CONF_TRAIN';
-const GRP_TR_GENERAL = 'GENERAL';
+const GRP_TR_GENERAL = 'General';
 /** Choose Train Type */
 const ATTR_TR_TYPE = '3152';
 /** Train Type 1 */

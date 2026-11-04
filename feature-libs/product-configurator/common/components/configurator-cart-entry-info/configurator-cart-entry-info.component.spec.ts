@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ControlContainer,
@@ -49,6 +49,7 @@ class MockConfigureCartEntryComponent {
 describe('ConfiguratorCartEntryInfoComponent', () => {
   let component: ConfiguratorCartEntryInfoComponent;
   let fixture: ComponentFixture<ConfiguratorCartEntryInfoComponent>;
+  let changeDetectorRef: ChangeDetectorRef;
   let htmlElem: HTMLElement;
   let mockCartItemContext: MockCartItemContext;
 
@@ -80,6 +81,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorCartEntryInfoComponent);
     component = fixture.componentInstance;
+    changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
     htmlElem = fixture.nativeElement;
     mockCartItemContext = TestBed.inject(CartItemContext) as any;
   });
@@ -245,7 +247,11 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         });
 
         it('should expose readonly$ as false in case readonly$ is undefined', () => {
-          mockCartItemContext.readonly$?.next(undefined);
+          (
+            mockCartItemContext.readonly$ as ReplaySubject<
+              boolean | null | undefined
+            >
+          ).next(undefined);
           fixture.detectChanges();
           const component = fixture.debugElement.query(
             By.css('cx-configure-cart-entry')
@@ -255,7 +261,11 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         });
 
         it('should expose readonly$ as false in case readonly$ is null', () => {
-          mockCartItemContext.readonly$?.next(null);
+          (
+            mockCartItemContext.readonly$ as ReplaySubject<
+              boolean | null | undefined
+            >
+          ).next(null);
           fixture.detectChanges();
           const component = fixture.debugElement.query(
             By.css('cx-configure-cart-entry')
@@ -298,7 +308,11 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
 
       it('should allow the rendering of "edit configuration" if context is active cart', () => {
         mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
-        mockCartItemContext.readonly$.next(null);
+        (
+          mockCartItemContext.readonly$ as ReplaySubject<
+            boolean | null | undefined
+          >
+        ).next(null);
         fixture.detectChanges();
 
         const htmlElementAfterChanges = fixture.nativeElement;
@@ -306,6 +320,27 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
           htmlElementAfterChanges.querySelectorAll('cx-configure-cart-entry')
             .length
         ).toBe(1);
+      });
+
+      it('should disable the edit configuration link when the quantity control is disabled after render', () => {
+        mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
+        mockCartItemContext.readonly$.next(false);
+        const quantityControl = new UntypedFormControl();
+        mockCartItemContext.quantityControl$.next(quantityControl);
+        fixture.detectChanges();
+
+        const getLinkComponent = () =>
+          fixture.debugElement.query(By.css('cx-configure-cart-entry'))
+            .componentInstance;
+
+        expect(getLinkComponent().disabled).toBe(false);
+
+        quantityControl.disable({ emitEvent: false });
+        // Same FormControl reference: default CD must refresh [disabled] without
+        // fixture.detectChanges() (triggers dev-mode NG0100 on this binding).
+        changeDetectorRef.detectChanges();
+
+        expect(getLinkComponent().disabled).toBe(true);
       });
     });
 
