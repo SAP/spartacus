@@ -4,7 +4,6 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
@@ -244,13 +243,11 @@ describe('ConfiguratorEffect', () => {
       ],
     });
 
-    configEffects = TestBed.inject(
-      fromEffects.ConfiguratorBasicEffects as Type<fromEffects.ConfiguratorBasicEffects>
-    );
+    configEffects = TestBed.inject(fromEffects.ConfiguratorBasicEffects);
     configuratorBasicEffectService = TestBed.inject(
-      ConfiguratorBasicEffectService as Type<ConfiguratorBasicEffectService>
+      ConfiguratorBasicEffectService
     );
-    store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
+    store = TestBed.inject(Store);
   });
 
   afterEach(() => {

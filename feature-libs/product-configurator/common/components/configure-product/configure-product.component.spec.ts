@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -160,9 +160,7 @@ function setupWithCurrentProductService(
       .compileComponents();
   }
 
-  currentProductService = TestBed.inject(
-    CurrentProductService as Type<CurrentProductService>
-  );
+  currentProductService = TestBed.inject(CurrentProductService);
   routingService = TestBed.inject(RoutingService);
 
   vi.spyOn(currentProductService, 'getProduct');
