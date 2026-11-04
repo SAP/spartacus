@@ -17,7 +17,7 @@ describe('@spartacus/setup/ssr/express-base-site public API', () => {
         OccUnavailableError: expect.any(Function),
         configureBaseSiteAwareRoutes: expect.any(Function),
         extractOccBaseUrlFromHtml: expect.any(Function),
-        setBaseSiteHandler: expect.any(Function),
+        createBaseSiteAwareRouteWithResolver: expect.any(Function),
       })
     );
   });

@@ -39,7 +39,7 @@ describe('@spartacus/setup/ssr public API', () => {
     'OccUnavailableError',
     'configureBaseSiteAwareRoutes',
     'extractOccBaseUrlFromHtml',
-    'setBaseSiteHandler',
+    'createBaseSiteAwareRouteWithResolver',
   ])('keeps %s in the express-base-site entry point', (name) => {
     expect(ssrApi).not.toHaveProperty(name);
   });

@@ -10,7 +10,7 @@ import { NextFunction, Request, Response } from 'express';
 import {
   BaseSiteHandlerContext,
   configureBaseSiteAwareRoutes,
-  setBaseSiteHandler,
+  createBaseSiteAwareRouteWithResolver,
 } from './base-site-handler';
 import {
   BaseSiteResolver,
@@ -83,7 +83,7 @@ function createNext(): NextFunction {
 }
 
 async function dispatch(
-  middleware: ReturnType<typeof setBaseSiteHandler>,
+  middleware: ReturnType<typeof createBaseSiteAwareRouteWithResolver>,
   request: Request,
   response: Response,
   next: NextFunction
@@ -93,7 +93,7 @@ async function dispatch(
 }
 
 function dispatchToNext(
-  middleware: ReturnType<typeof setBaseSiteHandler>,
+  middleware: ReturnType<typeof createBaseSiteAwareRouteWithResolver>,
   request: Request,
   response: Response,
   next: NextFunction
@@ -383,7 +383,7 @@ describe('configureBaseSiteAwareRoutes', () => {
       const next = createNext();
 
       await dispatch(
-        setBaseSiteHandler(resolver, options),
+        createBaseSiteAwareRouteWithResolver(resolver, options),
         createRequest(),
         createResponse(),
         next
@@ -426,7 +426,7 @@ describe('configureBaseSiteAwareRoutes', () => {
         const response = createResponse();
 
         await dispatch(
-          setBaseSiteHandler(resolver, options),
+          createBaseSiteAwareRouteWithResolver(resolver, options),
           createRequest({ originalUrl: '/llms.txt' }),
           response,
           createNext()
@@ -647,7 +647,7 @@ describe('configureBaseSiteAwareRoutes', () => {
   });
 });
 
-describe('setBaseSiteHandler', () => {
+describe('createBaseSiteAwareRouteWithResolver', () => {
   describe('local resolution', () => {
     it('passes the base site in the callback context without extending the request', async () => {
       const resolver = createResolver({
@@ -655,7 +655,7 @@ describe('setBaseSiteHandler', () => {
         resolveFromPath: jest.fn().mockReturnValue('electronics-spa'),
       });
       const handler = jest.fn();
-      const middleware = setBaseSiteHandler(resolver, {
+      const middleware = createBaseSiteAwareRouteWithResolver(resolver, {
         route: '/llms.txt',
 
         handler,
@@ -688,7 +688,7 @@ describe('setBaseSiteHandler', () => {
         resolveFromPath: jest.fn().mockReturnValue(null),
       });
       const handler = jest.fn();
-      const middleware = setBaseSiteHandler(resolver, {
+      const middleware = createBaseSiteAwareRouteWithResolver(resolver, {
         route: '/llms.txt',
 
         handler,
@@ -707,7 +707,7 @@ describe('setBaseSiteHandler', () => {
 
     it('accepts a callback that ignores the base site', async () => {
       const resolver = createResolver({ supportsOccResolution: false });
-      const middleware = setBaseSiteHandler(resolver, {
+      const middleware = createBaseSiteAwareRouteWithResolver(resolver, {
         route: '/llms.txt',
 
         handler: ({ res }) => {
@@ -733,7 +733,7 @@ describe('setBaseSiteHandler', () => {
         resolveFromOcc: jest.fn().mockResolvedValue('electronics-spa'),
       });
       const handler = jest.fn();
-      const middleware = setBaseSiteHandler(resolver, {
+      const middleware = createBaseSiteAwareRouteWithResolver(resolver, {
         route: '/llms.txt',
         handler,
       });
@@ -757,7 +757,7 @@ describe('setBaseSiteHandler', () => {
           resolveFromOcc: jest.fn().mockResolvedValue('electronics-spa'),
         });
         const handler = jest.fn();
-        const middleware = setBaseSiteHandler(resolver, {
+        const middleware = createBaseSiteAwareRouteWithResolver(resolver, {
           route: /^\/llms\.txt$/,
 
           handler,
@@ -785,7 +785,7 @@ describe('setBaseSiteHandler', () => {
         const resolver = createResolver({ supportsOccResolution: false });
         const handler = jest.fn();
         const next = createNext();
-        const middleware = setBaseSiteHandler(resolver, {
+        const middleware = createBaseSiteAwareRouteWithResolver(resolver, {
           route: '/llms.txt',
 
           handler,
@@ -818,7 +818,10 @@ describe('setBaseSiteHandler', () => {
         const next = createNext();
 
         await dispatch(
-          setBaseSiteHandler(resolver, { route: '/llms.txt', handler }),
+          createBaseSiteAwareRouteWithResolver(resolver, {
+            route: '/llms.txt',
+            handler,
+          }),
           createRequest(),
           response,
           next
@@ -835,7 +838,7 @@ describe('setBaseSiteHandler', () => {
         resolveFromOcc: jest.fn().mockResolvedValue('electronics-spa'),
       });
       const handler = jest.fn();
-      const middleware = setBaseSiteHandler(resolver, {
+      const middleware = createBaseSiteAwareRouteWithResolver(resolver, {
         route: '/llms.txt',
         handler,
       });
@@ -874,10 +877,13 @@ describe('setBaseSiteHandler', () => {
         res.send('ordinary response');
         next(error);
       };
-      const middleware = setBaseSiteHandler(createResolver(), {
-        route: '/llms.txt',
-        handler: ({ req, res, next }) => ordinaryHandler(req, res, next),
-      });
+      const middleware = createBaseSiteAwareRouteWithResolver(
+        createResolver(),
+        {
+          route: '/llms.txt',
+          handler: ({ req, res, next }) => ordinaryHandler(req, res, next),
+        }
+      );
       await dispatchToNext(middleware, request, response, next);
       expect(response.send).toHaveBeenCalledWith('ordinary response');
       expect(next).toHaveBeenCalledTimes(1);
@@ -888,10 +894,13 @@ describe('setBaseSiteHandler', () => {
       'preserves callback next(%j)',
       async (signal) => {
         const next = createNext();
-        const middleware = setBaseSiteHandler(createResolver(), {
-          route: '/llms.txt',
-          handler: ({ next }) => next(signal),
-        });
+        const middleware = createBaseSiteAwareRouteWithResolver(
+          createResolver(),
+          {
+            route: '/llms.txt',
+            handler: ({ next }) => next(signal),
+          }
+        );
         await dispatchToNext(
           middleware,
           createRequest(),
@@ -906,13 +915,16 @@ describe('setBaseSiteHandler', () => {
     it('forwards a rejected callback promise to next()', async () => {
       const error = new Error('async callback error');
       const next = createNext();
-      const middleware = setBaseSiteHandler(createResolver(), {
-        route: '/llms.txt',
-        handler: async ({ req }) => {
-          expect(req.originalUrl).toBe('/electronics-spa/llms.txt');
-          throw error;
-        },
-      });
+      const middleware = createBaseSiteAwareRouteWithResolver(
+        createResolver(),
+        {
+          route: '/llms.txt',
+          handler: async ({ req }) => {
+            expect(req.originalUrl).toBe('/electronics-spa/llms.txt');
+            throw error;
+          },
+        }
+      );
       await dispatchToNext(middleware, createRequest(), createResponse(), next);
       expect(next).toHaveBeenCalledTimes(1);
       expect(next).toHaveBeenCalledWith(error);
@@ -926,7 +938,7 @@ describe('setBaseSiteHandler', () => {
       });
       const response = createResponse();
       const next = createNext();
-      const middleware = setBaseSiteHandler(resolver, {
+      const middleware = createBaseSiteAwareRouteWithResolver(resolver, {
         route: '/llms.txt',
         handler: jest.fn(),
       });
@@ -945,7 +957,7 @@ describe('setBaseSiteHandler', () => {
       });
       const response = createResponse();
       const next = createNext();
-      const middleware = setBaseSiteHandler(resolver, {
+      const middleware = createBaseSiteAwareRouteWithResolver(resolver, {
         route: '/llms.txt',
         handler: jest.fn(),
       });
@@ -965,7 +977,7 @@ describe('setBaseSiteHandler', () => {
           .mockRejectedValue(new ConcurrencyLimitError()),
       });
       const response = createResponse();
-      const middleware = setBaseSiteHandler(resolver, {
+      const middleware = createBaseSiteAwareRouteWithResolver(resolver, {
         route: '/llms.txt',
         handler: jest.fn(),
         retryAfterSeconds: { concurrencyLimit: 7, occUnavailable: 40 },
@@ -981,7 +993,7 @@ describe('setBaseSiteHandler', () => {
       const error = new Error('handler failure');
       const resolver = createResolver({ supportsOccResolution: false });
       const next = createNext();
-      const middleware = setBaseSiteHandler(resolver, {
+      const middleware = createBaseSiteAwareRouteWithResolver(resolver, {
         route: '/llms.txt',
 
         handler: () => {
@@ -1005,7 +1017,7 @@ describe('setBaseSiteHandler', () => {
         resolveFromOcc: jest.fn().mockRejectedValue(error),
       });
       const next = createNext();
-      const middleware = setBaseSiteHandler(resolver, {
+      const middleware = createBaseSiteAwareRouteWithResolver(resolver, {
         route: '/llms.txt',
         handler: jest.fn(),
       });

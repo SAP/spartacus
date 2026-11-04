@@ -42,8 +42,8 @@ export type BaseSiteAwareRequestHandler = (
   context: BaseSiteHandlerContext
 ) => unknown;
 
-/** Options for {@link setBaseSiteHandler}. */
-export interface SetBaseSiteHandlerOptions {
+/** Options for {@link createBaseSiteAwareRouteWithResolver}. */
+export interface CreateBaseSiteAwareRouteOptions {
   /** Route without a base-site prefix, for example `/llms.txt`. */
   route: BaseSiteRouteMatcher;
   /**
@@ -67,12 +67,14 @@ export interface SetBaseSiteHandlerOptions {
 export function configureBaseSiteAwareRoutes(
   options: BaseSiteResolverOptions
 ): {
-  createBaseSiteAwareRoute: (options: SetBaseSiteHandlerOptions) => RequestHandler;
+  createBaseSiteAwareRoute: (
+    options: CreateBaseSiteAwareRouteOptions
+  ) => RequestHandler;
 } {
   const resolver = new DefaultBaseSiteResolver(options);
   return {
     createBaseSiteAwareRoute: (handlerOptions) =>
-      setBaseSiteHandler(resolver, handlerOptions),
+      createBaseSiteAwareRouteWithResolver(resolver, handlerOptions),
   };
 }
 
@@ -91,9 +93,9 @@ export function configureBaseSiteAwareRoutes(
  * `503` with `Retry-After`; all other errors are forwarded to Express. Unknown
  * or mismatched base sites receive `404` without invoking the handler.
  */
-export function setBaseSiteHandler(
+export function createBaseSiteAwareRouteWithResolver(
   resolver: BaseSiteResolver,
-  options: SetBaseSiteHandlerOptions
+  options: CreateBaseSiteAwareRouteOptions
 ): RequestHandler {
   const {
     route,
