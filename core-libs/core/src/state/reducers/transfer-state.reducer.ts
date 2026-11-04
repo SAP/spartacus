@@ -48,14 +48,22 @@ export function getServerTransferStateReducer(
     StateTransferType.TRANSFER_STATE
   );
 
+  let callCount = 0;
+  let totalMs = 0;
+
   return function (reducer: any) {
     return function (state: any, action: any) {
       const newState = reducer(state, action);
       if (newState) {
+        callCount++;
+        const t0 = performance.now();
         const stateSlice = getStateSlice(transferStateKeys, [], newState);
         transferState.set(CX_KEY, stateSlice);
+        totalMs += performance.now() - t0;
+        console.log(
+          `[SSR] calls=${callCount} cumulative=${totalMs.toFixed(2)}ms action=${action.type}`
+        );
       }
-
       return newState;
     };
   };
