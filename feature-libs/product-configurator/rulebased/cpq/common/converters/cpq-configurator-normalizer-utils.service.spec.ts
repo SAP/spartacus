@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { LanguageService } from '@spartacus/core';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
@@ -32,7 +31,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     });
 
     cpqConfiguratorNormalizerUtilsService = TestBed.inject(
-      CpqConfiguratorNormalizerUtilsService as Type<CpqConfiguratorNormalizerUtilsService>
+      CpqConfiguratorNormalizerUtilsService
     );
   });
 
@@ -848,7 +847,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
           ],
         });
         const utilsWithToggleOff = TestBed.inject(
-          CpqConfiguratorNormalizerUtilsService as Type<CpqConfiguratorNormalizerUtilsService>
+          CpqConfiguratorNormalizerUtilsService
         );
         expect(
           utilsWithToggleOff.calculateTotalNumberOfIssues({
@@ -881,7 +880,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
           ],
         });
         const utilsWithToggleOff = TestBed.inject(
-          CpqConfiguratorNormalizerUtilsService as Type<CpqConfiguratorNormalizerUtilsService>
+          CpqConfiguratorNormalizerUtilsService
         );
         expect(
           utilsWithToggleOff.calculateTotalNumberOfIssues({

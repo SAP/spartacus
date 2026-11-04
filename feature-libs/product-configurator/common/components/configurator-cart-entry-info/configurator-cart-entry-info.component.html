@@ -39,9 +39,7 @@
           [cartEntry]="orderEntry"
           [readOnly]="(readonly$ | async) ?? false"
           [msgBanner]="false"
-          [disabled]="
-            (quantityControlDisabled$ | async) ?? quantityControl.disabled
-          "
+          [disabled]="quantityControl.disabled"
         />
       }
     }

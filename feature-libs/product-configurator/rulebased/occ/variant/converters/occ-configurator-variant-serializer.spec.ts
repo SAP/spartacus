@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
@@ -150,7 +149,7 @@ describe('OccConfiguratorVariantSerializer', () => {
     });
 
     occConfiguratorVariantSerializer = TestBed.inject(
-      OccConfiguratorVariantSerializer as Type<OccConfiguratorVariantSerializer>
+      OccConfiguratorVariantSerializer
     );
   });
 

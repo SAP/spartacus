@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Pipe,
-  PipeTransform,
-  Type,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 
@@ -145,30 +140,39 @@ describe('ConfigTabBarComponent', () => {
         ConfiguratorModelUtils.createInitialOwner()
       )
     );
-    component.ghostStyle = false;
-
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService
     );
-    keyboardFocusService = TestBed.inject(
-      KeyboardFocusService as Type<KeyboardFocusService>
-    );
+    keyboardFocusService = TestBed.inject(KeyboardFocusService);
     vi.spyOn(keyboardFocusService, 'clear');
     vi.spyOn(configuratorStorefrontUtilsService, 'focusFirstActiveElement');
-    routingService = TestBed.inject(RoutingService as Type<RoutingService>);
+    routingService = TestBed.inject(RoutingService);
   });
 
   it('should create component', () => {
     expect(component).toBeDefined();
   });
 
-  it('should render ghost view if no data is present', () => {
-    configurationObs = NEVER;
-    fixture.detectChanges();
-    expect(htmlElem.querySelectorAll('.cx-ghost-tab-bar').length).toEqual(1);
+  describe('ghost loading placeholder', () => {
+    it('should render ghost tab bar when configuration data is not available', () => {
+      configurationObs = NEVER;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-tab-bar.ghost'
+      );
+    });
+
+    it('should render tab bar when configuration data is available', () => {
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-tab-bar.ghost'
+      );
+    });
   });
 
   it('should render 2 navigation links per default', () => {

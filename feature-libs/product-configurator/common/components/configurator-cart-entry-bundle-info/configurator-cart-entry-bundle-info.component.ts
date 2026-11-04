@@ -5,7 +5,14 @@
  */
 
 import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
-import { Component, ElementRef, ViewChild, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
@@ -35,13 +42,10 @@ import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-c
 import { LineItem } from './configurator-cart-entry-bundle-info.model';
 import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entry-bundle-info.service';
 
-/**
- * Requires default change detection strategy, as the disabled state of the quantity from control may change,
- * which would not be proper detected with onPush strategy.
- */
 @Component({
   selector: 'cx-configurator-cart-entry-bundle-info',
   templateUrl: './configurator-cart-entry-bundle-info.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgTemplateOutlet,
     RouterLink,
@@ -84,6 +88,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
     this.cartItemContext?.readonly$ ?? EMPTY;
 
   protected itemsHidden = true;
+  protected changeDetectorRef = inject(ChangeDetectorRef);
 
   /**
    * Emits 'true' from the first time the list is expanded onwards, so that
@@ -109,6 +114,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
     if (!hideItems) {
       this.hasBeenExpanded$.next(true);
     }
+    this.changeDetectorRef.markForCheck();
   }
 
   lineItems$: Observable<LineItem[]> = this.orderEntry$.pipe(

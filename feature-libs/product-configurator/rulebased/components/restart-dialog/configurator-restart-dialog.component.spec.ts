@@ -1,4 +1,4 @@
-import { Component, Directive, Input } from '@angular/core';
+import { ApplicationRef, Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -15,8 +15,16 @@ import {
   IconComponent,
   ICON_TYPE,
   LaunchDialogService,
+  InlineRootRenderStrategy,
 } from '@spartacus/storefront';
-import { BehaviorSubject, lastValueFrom, of } from 'rxjs';
+import {
+  BehaviorSubject,
+  firstValueFrom,
+  lastValueFrom,
+  of,
+  ReplaySubject,
+  Subject,
+} from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
@@ -35,9 +43,24 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
+@Component({ template: '' })
+class TestRootComponent {}
+
 @Directive({ selector: '[cxFocus]' })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
+}
+
+class MockConfiguratorCommonsService {
+  forceNewConfiguration = vi.fn();
+}
+
+class MockRoutingService {
+  go = vi.fn();
+}
+
+class MockProductService {
+  get = vi.fn();
 }
 
 describe('ConfiguratorRestartDialogComponent', () => {
@@ -46,15 +69,16 @@ describe('ConfiguratorRestartDialogComponent', () => {
   let htmlElem: HTMLElement;
 
   let mockLaunchDialogService: LaunchDialogService;
-  let mockConfigCommonsService: ConfiguratorCommonsService;
-  let mockRoutingService: RoutingService;
-  let mockProductService: ProductService;
+  let mockConfigCommonsService: MockConfiguratorCommonsService;
+  let mockRoutingService: MockRoutingService;
+  let mockProductService: MockProductService;
 
   let dialogDataSender: BehaviorSubject<
     { owner: CommonConfigurator.Owner } | undefined
   >;
 
   function initialize() {
+    resetServiceMocks();
     dialogDataSender = new BehaviorSubject<
       { owner: CommonConfigurator.Owner } | undefined
     >({ owner: owner });
@@ -67,33 +91,41 @@ describe('ConfiguratorRestartDialogComponent', () => {
 
   class MockLaunchDialogService {
     closeDialog(): void {}
-    data$ = dialogDataSender;
+    get data$() {
+      return dialogDataSender;
+    }
   }
 
-  function initializeMocks() {
-    mockConfigCommonsService = { forceNewConfiguration: vi.fn() };
-    mockRoutingService = { go: vi.fn() };
-    mockProductService = { get: vi.fn() };
+  function createServiceMocks(): void {
+    mockConfigCommonsService = new MockConfiguratorCommonsService();
+    mockRoutingService = new MockRoutingService();
+    mockProductService = new MockProductService();
+  }
+
+  function resetServiceMocks(): void {
+    mockConfigCommonsService.forceNewConfiguration.mockReset();
+    mockRoutingService.go.mockReset();
+    mockProductService.get.mockReset();
     mockProductService.get.mockReturnValue(of(product));
   }
 
   beforeEach(async () => {
-    initializeMocks();
+    createServiceMocks();
     TestBed.configureTestingModule({
-      imports: [ConfiguratorRestartDialogComponent],
+      imports: [ConfiguratorRestartDialogComponent, TestRootComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
           provide: ConfiguratorCommonsService,
-          useValue: mockConfigCommonsService,
+          useFactory: () => mockConfigCommonsService,
         },
         {
           provide: RoutingService,
-          useValue: mockRoutingService,
+          useFactory: () => mockRoutingService,
         },
         {
           provide: ProductService,
-          useValue: mockProductService,
+          useFactory: () => mockProductService,
         },
       ],
     })
@@ -127,12 +159,26 @@ describe('ConfiguratorRestartDialogComponent', () => {
     const dialogData = await lastValueFrom(component.dialogData$, {
       defaultValue: undefined,
     });
-    // dialogData$ filters out undefined, so completion without emit is valid
-    expect(true).toBe(true); // stream completed without error
+    expect(dialogData).toBeUndefined();
   });
 
   it('should query product by owner id', () => {
     expect(mockProductService.get).toHaveBeenCalledWith(owner.id);
+  });
+
+  it('uses a public product stream override when rendering and resuming', () => {
+    initialize();
+    const customerProduct: Product = { code: 'customer-product' };
+    component.product$ = of(customerProduct);
+    const resume = vi.spyOn(component, 'resume');
+    fixture.detectChanges();
+
+    fixture.debugElement
+      .query(By.css('.btn-primary'))
+      .triggerEventHandler('click');
+
+    expect(resume).toHaveBeenCalledWith(customerProduct);
+    expect(mockProductService.get).not.toHaveBeenCalled();
   });
 
   it('should render title, description and close, restart and resume buttons', () => {
@@ -224,6 +270,136 @@ describe('ConfiguratorRestartDialogComponent', () => {
       params: product,
     });
   }
+
+  function expectRestartDialogContentPresent(): void {
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-dialog-title'
+    );
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.btn-primary'
+    );
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.btn-secondary'
+    );
+  }
+
+  function expectRestartDialogContentAbsent(): void {
+    expect(htmlElem.querySelector('.cx-dialog-title')).toBeNull();
+    expect(htmlElem.querySelector('.btn-primary')).toBeNull();
+    expect(htmlElem.querySelector('.btn-secondary')).toBeNull();
+  }
+
+  describe('change detection with launch dialog data', () => {
+    let productSender: ReplaySubject<Product>;
+
+    beforeEach(() => {
+      resetServiceMocks();
+      productSender = new ReplaySubject<Product>(1);
+      mockProductService.get.mockReturnValue(productSender.asObservable());
+      dialogDataSender = new BehaviorSubject<
+        { owner: CommonConfigurator.Owner } | undefined
+      >(undefined);
+      fixture = TestBed.createComponent(ConfiguratorRestartDialogComponent);
+      htmlElem = fixture.nativeElement;
+      component = fixture.componentInstance;
+      mockLaunchDialogService = TestBed.inject(LaunchDialogService);
+      vi.spyOn(mockLaunchDialogService, 'closeDialog');
+      fixture.detectChanges();
+    });
+
+    it('should show modal shell before launch dialog payload and product are available', () => {
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-modal-container'
+      );
+      expectRestartDialogContentAbsent();
+    });
+
+    it('should render title and actions when dialog payload and product emit after insert', () => {
+      dialogDataSender.next({ owner });
+      productSender.next(product);
+      fixture.detectChanges();
+
+      expectRestartDialogContentPresent();
+    });
+
+    it('captures a non-replaying product emission before the next change detection pass', () => {
+      const products = new Subject<Product>();
+      mockProductService.get.mockReturnValue(products.asObservable());
+      dialogDataSender.next({ owner });
+      products.next(product);
+      fixture.detectChanges();
+      expectRestartDialogContentPresent();
+    });
+
+    it('updates a dialog attached by InlineRootRenderStrategy without forcing its change detector', async () => {
+      const products = new Subject<Product>();
+      mockProductService.get.mockReturnValue(products.asObservable());
+      const root = TestBed.createComponent(TestRootComponent);
+      const app = TestBed.inject(ApplicationRef);
+      app.components.push(root.componentRef);
+      const strategy = TestBed.inject(InlineRootRenderStrategy);
+      const rendered = strategy.render(
+        { inlineRoot: true, component: ConfiguratorRestartDialogComponent },
+        'restart-onpush-validation'
+      );
+      expect(rendered).toBeDefined();
+      if (!rendered) {
+        throw new Error('InlineRootRenderStrategy did not render the dialog');
+      }
+      const dialog = await firstValueFrom(rendered);
+      try {
+        app.tick();
+        expect(
+          dialog.location.nativeElement.querySelector('.btn-primary')
+        ).toBeNull();
+        dialogDataSender.next({ owner });
+        products.next(product);
+        app.tick();
+        expect(
+          dialog.location.nativeElement.querySelector('.cx-dialog-title')
+        ).not.toBeNull();
+        expect(
+          dialog.location.nativeElement.querySelector('.btn-primary')
+        ).not.toBeNull();
+        expect(
+          dialog.location.nativeElement.querySelector('.btn-secondary')
+        ).not.toBeNull();
+      } finally {
+        app.detachView(dialog.hostView);
+        dialog.destroy();
+        app.components.splice(app.components.indexOf(root.componentRef), 1);
+        root.destroy();
+      }
+    });
+
+    it('should render title and actions when product emits after dialog payload', () => {
+      dialogDataSender.next({ owner });
+      fixture.detectChanges();
+      expectRestartDialogContentAbsent();
+
+      productSender.next(product);
+      fixture.detectChanges();
+
+      expectRestartDialogContentPresent();
+    });
+
+    it('should ignore launch dialog payload without owner', () => {
+      dialogDataSender.next({} as { owner: CommonConfigurator.Owner });
+      productSender.next(product);
+      fixture.detectChanges();
+
+      expectRestartDialogContentAbsent();
+    });
+  });
+
   describe('Accessibility', () => {
     it("should contain action button element with class name 'close' and 'title' attribute that indicates the text for close button", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(

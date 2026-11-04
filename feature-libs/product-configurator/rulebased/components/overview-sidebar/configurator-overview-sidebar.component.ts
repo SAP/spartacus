@@ -6,9 +6,9 @@
 
 import { AsyncPipe } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostBinding,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -31,6 +31,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 @Component({
   selector: 'cx-configurator-overview-sidebar',
   templateUrl: './configurator-overview-sidebar.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ConfiguratorOverviewFilterComponent,
     ConfiguratorOverviewMenuComponent,
@@ -48,7 +49,15 @@ export class ConfiguratorOverviewSidebarComponent {
     ConfiguratorStorefrontUtilsService
   );
 
-  @HostBinding('class.ghost') ghostStyle = true;
+  /**
+   * @deprecated since 221121.23 - Prefer the loading placeholder in the template
+   * (`.cx-ghost-menu.ghost`) for loading UI. Host `class.ghost` via
+   * `@HostBinding` was removed because CMS slots do not refresh host bindings
+   * when sidebar data resolves. This flag is still cleared when data arrives
+   * for compatibility; it no longer affects the host. Will be removed in the
+   * next major.
+   */
+  ghostStyle = true;
   @ViewChild('menuTab') menuTab: ElementRef<HTMLElement>;
   @ViewChild('filterTab') filterTab: ElementRef<HTMLElement>;
   showFilter: boolean = false;

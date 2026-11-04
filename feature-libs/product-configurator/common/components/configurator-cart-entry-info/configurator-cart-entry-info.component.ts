@@ -32,12 +32,9 @@ export class ConfiguratorCartEntryInfoComponent {
     this.cartItemContext?.quantityControl$ ?? EMPTY;
 
   /**
-   * Disabled state of the quantity control, tracked reactively. The control is
-   * enabled/disabled imperatively while the cart loads (on the same instance,
-   * with control events suppressed). Re-reading `disabled` on the control's
-   * `statusChanges` AND whenever the cart entry (`orderEntry$`) re-emits lets
-   * this OnPush component pick up the final enabled state instead of the
-   * transient disabled one captured when the link first renders.
+   * Disabled state emitted when the control status or cart entry changes.
+   * The row republishes the quantity control when cart loading changes its
+   * disabled state, including changes made with suppressed control events.
    */
   readonly quantityControlDisabled$: Observable<boolean> = combineLatest([
     this.quantityControl$,

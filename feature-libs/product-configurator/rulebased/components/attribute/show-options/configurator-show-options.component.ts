@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, inject, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+} from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { delay, distinctUntilChanged, filter, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
@@ -14,6 +19,7 @@ import { ConfiguratorAttributeCompositionContext } from '../composition/configur
 @Component({
   selector: 'cx-configurator-show-options',
   templateUrl: './configurator-show-options.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslatePipe],
 })
 export class ConfiguratorShowOptionsComponent {
