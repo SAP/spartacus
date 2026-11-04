@@ -18,7 +18,7 @@ Look for an existing call to `configureBaseSiteAwareRoutes`, including import al
 
 ## Initial setup using the public API
 
-For both new and existing applications, add the factory when the requested endpoint needs it. When no factory exists, import `configureBaseSiteAwareRoutes`, choose its resolution source as described below, and destructure `createBaseSiteAwareRoute` from its result inside the application's server setup. Reuse the existing index HTML content, or read the actual SSR index file if the server does not already expose its content. Create and mount only the requested endpoint.
+For both new and existing applications, add the factory when the requested endpoint needs it. When no factory exists, import `configureBaseSiteAwareRoutes`, choose its resolution source as described below, and destructure `createBaseSiteAwareRoute` from its result inside the application's server setup. Read HTML only when the chosen OCC address source is `extractFromHtmlMetaTag`. Create and mount only the requested endpoint.
 
 For example, serve a per-site `llms.txt` by adding the following to the existing server file. Keep the named handler at module scope and the factory and registration inside `app()` or the equivalent server setup function. Here `indexHtmlContent` is HTML content already read by the SSR server, and `server` is its existing Express application; use the customer's actual bindings. Preserve any existing factory options.
 
@@ -33,7 +33,7 @@ export function llmsHandler({ res, baseSite }: BaseSiteHandlerContext): void {
 }
 
 const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
-  indexHtml: indexHtmlContent,
+  occBaseUrl: { extractFromHtmlMetaTag: indexHtmlContent },
 });
 
 server.use(
@@ -90,7 +90,6 @@ For local resolution, configure the factory with the customer's actual UIDs copi
 ```typescript
 const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
   pathBaseSiteIds: ['electronics-spa', 'powertools-spa'],
-  indexHtml: indexHtmlContent,
 });
 ```
 
@@ -98,7 +97,7 @@ For OCC resolution, omit `pathBaseSiteIds` (or use an empty array):
 
 ```typescript
 const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
-  indexHtml: indexHtmlContent,
+  occBaseUrl: { extractFromHtmlMetaTag: indexHtmlContent },
 });
 ```
 
@@ -106,7 +105,9 @@ These are alternative factory configurations, not additional factories to create
 
 ## Where the OCC address comes from
 
-`indexHtml` is required HTML content, not a filename. Reuse the content already read by the SSR server and inspect the HTML it actually reads for the `occ-backend-base-url` meta tag:
+In OCC mode, choose one `occBaseUrl` source: `{ value: '<backend URL>' }` or `{ extractFromHtmlMetaTag: indexHtmlContent }`. Local UID resolution needs neither an OCC address nor HTML.
+
+`extractFromHtmlMetaTag` takes HTML content, not a filename. Reuse the content already read by the SSR server, or read its actual SSR index file if necessary. Inspect that HTML for the `occ-backend-base-url` meta tag:
 
 ```html
 <meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE" />
@@ -114,29 +115,24 @@ These are alternative factory configurations, not additional factories to create
 
 Replace `OCC_BACKEND_BASE_URL_VALUE` with the customer's actual HTTPS backend base URL when configuring this tag.
 
-The resolver chooses the address in this order:
-
-1. A populated `occ-backend-base-url` meta tag in the supplied HTML. This takes precedence even when `occBaseUrl` is explicitly configured.
-2. The factory's `occBaseUrl` option when the tag is missing, empty, or still contains `OCC_BACKEND_BASE_URL_VALUE`.
+The two sources are alternatives. With `extractFromHtmlMetaTag`, a missing, empty, or placeholder meta tag leaves the OCC address unconfigured. With `value`, the resolver uses that explicit address and needs no HTML. Preserve the customer's chosen source; there is no automatic fallback between them.
 
 Supply the full HTTPS backend base URL, including the hostname and port if needed. The resolver appends `/occ/v2/basesites?fields=FULL`; do not pass just `/occ/v2` or the complete base-sites endpoint.
 
-The helper does not automatically read Angular dependency-injection configuration, `environment.occBaseUrl`, or `CX_BASE_URL`. An environment value can supply the fallback only if application code passes it as `occBaseUrl`, with the required import or environment access in scope. Reuse the customer's existing configuration rather than assuming the demo app's environment files.
+The helper does not automatically read Angular dependency-injection configuration, `environment.occBaseUrl`, or `CX_BASE_URL`. An environment value can supply the address only if application code passes it as `occBaseUrl: { value: ... }`, with the required import or environment access in scope. Reuse the customer's existing configuration rather than assuming the demo app's environment files.
 
-In OCC mode, if neither the HTML meta tag nor the factory supplies a configured backend URL, add an `occBaseUrl` placeholder to the existing factory with a comment explaining that it is a local development fallback. Tell the customer to replace it with their real backend base URL before testing. Preserve any already configured address.
+In OCC mode, if no configured backend URL is available, use an explicit `value` placeholder and tell the customer to replace it with their real backend base URL before testing. Preserve any already configured address.
 
 For example, when no configured address is available:
 
 ```typescript
 const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
-  indexHtml: indexHtmlContent,
-  // Local development fallback when the HTML OCC meta tag is unconfigured.
   // Replace with your actual HTTPS OCC backend base URL before testing.
-  occBaseUrl: '<OCC_BACKEND_BASE_URL>',
+  occBaseUrl: { value: '<OCC_BACKEND_BASE_URL>' },
 });
 ```
 
-This is another alternative factory configuration. A configured HTML address still wins over this fallback. In OCC mode, if neither source supplies an address, resolution fails with `OccUnavailableError` and the wrapper returns 503 when a matching endpoint is requested. Local UID resolution needs no OCC address.
+This is another alternative factory configuration. In OCC mode, if the selected source supplies no address, resolution fails with `OccUnavailableError` and the wrapper returns 503 when a matching endpoint is requested.
 
 ## Route matching and middleware order
 

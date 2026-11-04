@@ -23,12 +23,11 @@ function llmsHandler({ res, baseSite }: BaseSiteHandlerContext): void {
 }
 ```
 
-Inside `app()` or the equivalent Express setup function, after the server reads
-its index HTML, create the factory and register the endpoint:
+Inside `app()` or the equivalent Express setup function, create the factory and
+register the endpoint:
 
 ```typescript
 const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
-  indexHtml: indexHtmlContent,
   pathBaseSiteIds: ['electronics-spa', 'powertools-spa'],
 });
 
@@ -40,12 +39,11 @@ server.use(
 );
 ```
 
-`server` is your existing Express application and `indexHtmlContent` is the HTML
-string already read by your SSR server, not a filename. If your server does not
-already read the content, read its actual SSR index file with `readFileSync` from
-`node:fs`. Replace the example site IDs with your application's literal base-site
-UIDs, such as those configured in `context.baseSite`; Angular provider configuration
-is not read automatically. Replace the handler body with your site's content.
+`server` is your existing Express application. Replace the example site IDs with
+your application's literal base-site UIDs, such as those configured in
+`context.baseSite`; Angular provider configuration is not read automatically.
+Local UID resolution needs no OCC address or HTML. Replace the handler body with
+your site's content.
 
 Call `configureBaseSiteAwareRoutes` once per Express application and reuse the
 returned `createBaseSiteAwareRoute` function for additional endpoints. Each route
@@ -68,15 +66,26 @@ For OCC resolution, replace the factory options above with:
 
 ```typescript
 const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
-  indexHtml: indexHtmlContent,
-  occBaseUrl: 'https://commerce.example.com',
+  occBaseUrl: { value: 'https://commerce.example.com' },
 });
 ```
 
-Use your actual HTTPS backend base URL. A configured `occ-backend-base-url` meta
-tag in the supplied HTML takes precedence over `occBaseUrl`. The option is a
-fallback when the tag is absent, empty, or contains `OCC_BACKEND_BASE_URL_VALUE`.
-The resolver appends `/occ/v2/basesites?fields=FULL` to the backend base URL.
+Use your actual HTTPS backend base URL. Alternatively, extract the address from
+the `occ-backend-base-url` meta tag:
+
+```typescript
+const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
+  occBaseUrl: { extractFromHtmlMetaTag: indexHtmlContent },
+});
+```
+
+`indexHtmlContent` is HTML content, not a filename. Reuse the content already read
+by your SSR server, or read its actual SSR index file with `readFileSync` from
+`node:fs`. Choose one source: `{ value }` or `{ extractFromHtmlMetaTag }`. The HTML
+variant requires a populated meta tag; a missing, empty, or placeholder value
+(`OCC_BACKEND_BASE_URL_VALUE`) leaves the OCC address unconfigured. There is no
+automatic fallback to an explicit URL. The resolver appends
+`/occ/v2/basesites?fields=FULL` to the selected backend base URL.
 
 An OCC site must have a URL pattern matching the request; its UID in the path alone
 is insufficient. Supplying `occBaseUrl` alongside a nonempty UID list still selects

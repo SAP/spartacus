@@ -116,7 +116,6 @@ describe('configureBaseSiteAwareRoutes', () => {
     async (withBaseSiteInPath) => {
       const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
         pathBaseSiteIds: ['electronics-spa'],
-        indexHtml: '<html></html>',
       });
       const handler = jest.fn();
       const middleware = createBaseSiteAwareRoute({
@@ -152,8 +151,7 @@ describe('configureBaseSiteAwareRoutes', () => {
     );
     const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
       pathBaseSiteIds: [],
-      indexHtml: '<html></html>',
-      occBaseUrl: 'https://api.example',
+      occBaseUrl: { value: 'https://api.example' },
     });
     const llmsHandler = jest.fn();
     const robotsHandler = jest.fn();
@@ -196,7 +194,6 @@ describe('configureBaseSiteAwareRoutes', () => {
     async (pathBaseSiteIds) => {
       const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
         pathBaseSiteIds,
-        indexHtml: '<html></html>',
       });
       const handler = jest.fn();
       const next = createNext();
@@ -224,8 +221,7 @@ describe('configureBaseSiteAwareRoutes', () => {
           ])
         );
       const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
-        indexHtml: '<html></html>',
-        occBaseUrl: 'https://api.example',
+        occBaseUrl: { value: 'https://api.example' },
       });
       const prefixedResponse = createResponse();
       const unprefixedResponse = createResponse();
@@ -269,8 +265,7 @@ describe('configureBaseSiteAwareRoutes', () => {
         );
         const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
           pathBaseSiteIds,
-          indexHtml: '<html></html>',
-          occBaseUrl: 'https://api.example',
+          occBaseUrl: { value: 'https://api.example' },
         });
         const options = {
           route: '/example.txt',
@@ -321,8 +316,7 @@ describe('configureBaseSiteAwareRoutes', () => {
             ])
           );
         const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
-          indexHtml: '<html></html>',
-          occBaseUrl: 'https://api.example',
+          occBaseUrl: { value: 'https://api.example' },
         });
         const options = {
           route,
@@ -355,8 +349,7 @@ describe('configureBaseSiteAwareRoutes', () => {
           ])
         );
       const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
-        indexHtml: '<html></html>',
-        occBaseUrl: 'https://api.example',
+        occBaseUrl: { value: 'https://api.example' },
       });
       const handler = jest.fn();
       const options = {
@@ -404,7 +397,6 @@ describe('configureBaseSiteAwareRoutes', () => {
     it('rejects an unprefixed route with a local UID list at route creation', () => {
       const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
         pathBaseSiteIds: ['electronics-spa'],
-        indexHtml: '<html></html>',
       });
       const options = {
         route: '/example.txt',
@@ -462,8 +454,7 @@ describe('configureBaseSiteAwareRoutes', () => {
       );
       const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
         pathBaseSiteIds,
-        indexHtml: '<html></html>',
-        occBaseUrl: 'https://api.example',
+        occBaseUrl: { value: 'https://api.example' },
       });
       const response = createResponse();
       await dispatch(
@@ -498,8 +489,10 @@ describe('configureBaseSiteAwareRoutes', () => {
       );
       const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
         pathBaseSiteIds,
-        indexHtml:
-          '<meta name="occ-backend-base-url" content="https://api.example">',
+        occBaseUrl: {
+          extractFromHtmlMetaTag:
+            '<meta name="occ-backend-base-url" content="https://api.example">',
+        },
       });
       const response = createResponse();
       const next = createNext();
@@ -521,9 +514,7 @@ describe('configureBaseSiteAwareRoutes', () => {
   );
 
   it('maps missing OCC configuration to 503 on the prefixed route when no IDs are supplied', async () => {
-    const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
-      indexHtml: '<html></html>',
-    });
+    const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({});
     const response = createResponse();
     const next = createNext();
 
@@ -547,8 +538,7 @@ describe('configureBaseSiteAwareRoutes', () => {
     const fetchSpy = jest.spyOn(globalThis, 'fetch');
     const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
       pathBaseSiteIds: ['electronics-spa'],
-      indexHtml: '<html></html>',
-      occBaseUrl: 'https://api.example',
+      occBaseUrl: { value: 'https://api.example' },
     });
     const response = createResponse();
     await dispatch(
@@ -579,8 +569,7 @@ describe('configureBaseSiteAwareRoutes', () => {
       );
       const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
         pathBaseSiteIds,
-        indexHtml: '<html></html>',
-        occBaseUrl: 'https://api.example',
+        occBaseUrl: { value: 'https://api.example' },
       });
       const handler = jest.fn();
       const response = createResponse();
@@ -611,8 +600,7 @@ describe('configureBaseSiteAwareRoutes', () => {
       ])
     );
     const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
-      indexHtml: '<html></html>',
-      occBaseUrl: 'https://api.example',
+      occBaseUrl: { value: 'https://api.example' },
     });
     const response = createResponse();
     const next = createNext();
@@ -642,8 +630,7 @@ describe('configureBaseSiteAwareRoutes', () => {
       ])
     );
     const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
-      indexHtml: '<html></html>',
-      occBaseUrl: 'https://api.example',
+      occBaseUrl: { value: 'https://api.example' },
     });
     const handler = jest.fn();
     const response = createResponse();

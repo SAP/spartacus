@@ -40,11 +40,10 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
   protected inFlight = 0;
 
   public constructor(options: BaseSiteResolverOptions) {
-    const occBaseUrl =
-      extractOccBaseUrlFromHtml(options.indexHtml) ?? options.occBaseUrl;
-
     this.uidSet = new Set(options.pathBaseSiteIds ?? []);
-    this.occUrl = this.createOccBaseSitesUrl(occBaseUrl);
+    this.occUrl = this.createOccBaseSitesUrl(
+      this.getOccBaseUrl(options.occBaseUrl)
+    );
     this.supportsOccResolution = this.uidSet.size === 0;
     this.cacheTtlMs = options.cacheTtlMs ?? DEFAULT_CACHE_TTL_MS;
     this.concurrencyLimit = options.concurrencyLimit ?? 10;
@@ -70,6 +69,17 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
         )
     );
     return matchedSite?.uid ?? null;
+  }
+
+  protected getOccBaseUrl(
+    source: BaseSiteResolverOptions['occBaseUrl']
+  ): string | undefined {
+    if (!source) {
+      return undefined;
+    }
+    return 'value' in source
+      ? source.value
+      : extractOccBaseUrlFromHtml(source.extractFromHtmlMetaTag) ?? undefined;
   }
 
   protected createOccBaseSitesUrl(baseUrl?: string): string | null {

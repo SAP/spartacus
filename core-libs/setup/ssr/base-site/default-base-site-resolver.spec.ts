@@ -42,7 +42,6 @@ function deferred<T>(): {
 describe('DefaultBaseSiteResolver.resolveFromPath', () => {
   const resolver = new DefaultBaseSiteResolver({
     pathBaseSiteIds: ['electronics-spa', 'apparel-uk'],
-    indexHtml: '<html></html>',
   });
   it('returns the leading path segment when it is a known uid', () => {
     expect(
@@ -79,16 +78,17 @@ describe('DefaultBaseSiteResolver', () => {
     jest.useRealTimers();
   });
 
-  it('resolves dynamic sites without a static uid list and prefers HTML over an explicit fallback', async () => {
+  it('resolves dynamic sites using the OCC URL extracted from HTML', async () => {
     fetchSpy.mockResolvedValue(
       occResponse([
         { uid: 'electronics-spa', urlPatterns: ['^https://shop\\.example/'] },
       ])
     );
     const resolver = new DefaultBaseSiteResolver({
-      indexHtml:
-        '<meta name="occ-backend-base-url" content="https://html-api.example">',
-      occBaseUrl: 'https://fallback-api.example',
+      occBaseUrl: {
+        extractFromHtmlMetaTag:
+          '<meta name="occ-backend-base-url" content="https://html-api.example">',
+      },
     });
 
     await expect(
@@ -105,25 +105,41 @@ describe('DefaultBaseSiteResolver', () => {
     ).toBeNull();
   });
 
-  it('uses the explicit fallback for dynamic sites when the HTML contains a placeholder', async () => {
+  it('resolves dynamic sites using an explicit OCC URL without HTML', async () => {
     fetchSpy.mockResolvedValue(
       occResponse([
         { uid: 'electronics-spa', urlPatterns: ['^https://shop\\.example/'] },
       ])
     );
     const resolver = new DefaultBaseSiteResolver({
-      indexHtml:
-        '<meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE">',
-      occBaseUrl: 'https://fallback-api.example',
+      occBaseUrl: { value: 'https://api.example' },
     });
 
     await expect(
       resolver.resolveFromOcc('https://shop.example/example.txt')
     ).resolves.toBe('electronics-spa');
     expect(fetchSpy).toHaveBeenCalledWith(
-      'https://fallback-api.example/occ/v2/basesites?fields=FULL',
+      'https://api.example/occ/v2/basesites?fields=FULL',
       expect.anything()
     );
+  });
+
+  it.each([
+    undefined,
+    '',
+    '<html></html>',
+    '<meta name="occ-backend-base-url" content="">',
+    '<meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE">',
+  ])('reports an unconfigured OCC URL for HTML source %j', async (html) => {
+    const resolver = new DefaultBaseSiteResolver({
+      occBaseUrl:
+        html === undefined ? undefined : { extractFromHtmlMetaTag: html },
+    });
+
+    await expect(
+      resolver.resolveFromOcc('https://shop.example/')
+    ).rejects.toEqual(new OccUnavailableError('OCC base URL is not configured'));
+    expect(fetchSpy).not.toHaveBeenCalled();
   });
 
   it('returns the first base site whose converted URL pattern matches', async () => {
@@ -139,8 +155,7 @@ describe('DefaultBaseSiteResolver', () => {
     );
     const resolver = new DefaultBaseSiteResolver({
       pathBaseSiteIds: [],
-      indexHtml: '<html></html>',
-      occBaseUrl: 'https://api.example',
+      occBaseUrl: { value: 'https://api.example' },
     });
 
     await expect(
@@ -157,8 +172,7 @@ describe('DefaultBaseSiteResolver', () => {
     );
     const resolver = new DefaultBaseSiteResolver({
       pathBaseSiteIds: [],
-      indexHtml: '<html></html>',
-      occBaseUrl: 'https://api.example',
+      occBaseUrl: { value: 'https://api.example' },
     });
 
     await expect(
@@ -172,8 +186,7 @@ describe('DefaultBaseSiteResolver', () => {
     );
     const resolver = new DefaultBaseSiteResolver({
       pathBaseSiteIds: [],
-      indexHtml: '<html></html>',
-      occBaseUrl: 'https://api.example',
+      occBaseUrl: { value: 'https://api.example' },
     });
 
     await expect(
@@ -185,8 +198,7 @@ describe('DefaultBaseSiteResolver', () => {
     fetchSpy.mockResolvedValue(occResponse([]));
     const resolver = new DefaultBaseSiteResolver({
       pathBaseSiteIds: [],
-      indexHtml: '<html></html>',
-      occBaseUrl: 'https://api.example',
+      occBaseUrl: { value: 'https://api.example' },
     });
 
     await expect(
@@ -202,8 +214,7 @@ describe('DefaultBaseSiteResolver', () => {
       );
     const resolver = new DefaultBaseSiteResolver({
       pathBaseSiteIds: [],
-      indexHtml: '<html></html>',
-      occBaseUrl: 'https://api.example',
+      occBaseUrl: { value: 'https://api.example' },
     });
 
     await expect(
@@ -229,8 +240,7 @@ describe('DefaultBaseSiteResolver', () => {
       );
     const resolver = new DefaultBaseSiteResolver({
       pathBaseSiteIds: [],
-      indexHtml: '<html></html>',
-      occBaseUrl: 'https://api.example',
+      occBaseUrl: { value: 'https://api.example' },
     });
 
     await expect(
@@ -248,8 +258,7 @@ describe('DefaultBaseSiteResolver', () => {
       fetchSpy.mockResolvedValue(occResponse([]));
       const resolver = new DefaultBaseSiteResolver({
         pathBaseSiteIds: [],
-        indexHtml: '<html></html>',
-        occBaseUrl,
+        occBaseUrl: { value: occBaseUrl },
       });
 
       await resolver.resolveFromOcc('https://shop.example/');
@@ -269,8 +278,7 @@ describe('DefaultBaseSiteResolver', () => {
     );
     const resolver = new DefaultBaseSiteResolver({
       pathBaseSiteIds: [],
-      indexHtml: '<html></html>',
-      occBaseUrl: 'https://api.example',
+      occBaseUrl: { value: 'https://api.example' },
     });
 
     await expect(
@@ -295,8 +303,7 @@ describe('DefaultBaseSiteResolver', () => {
       );
     const resolver = new DefaultBaseSiteResolver({
       pathBaseSiteIds: [],
-      indexHtml: '<html></html>',
-      occBaseUrl: 'https://api.example',
+      occBaseUrl: { value: 'https://api.example' },
     });
 
     await expect(
@@ -319,8 +326,7 @@ describe('DefaultBaseSiteResolver', () => {
     fetchSpy.mockReturnValue(pendingResponse.promise);
     const resolver = new DefaultBaseSiteResolver({
       pathBaseSiteIds: [],
-      indexHtml: '<html></html>',
-      occBaseUrl: 'https://api.example',
+      occBaseUrl: { value: 'https://api.example' },
     });
 
     const accepted = Array.from({ length: 10 }, () =>
@@ -347,8 +353,7 @@ describe('DefaultBaseSiteResolver', () => {
       );
     const resolver = new DefaultBaseSiteResolver({
       pathBaseSiteIds: [],
-      indexHtml: '<html></html>',
-      occBaseUrl: 'https://api.example',
+      occBaseUrl: { value: 'https://api.example' },
       cacheTtlMs: 0,
       concurrencyLimit: 1,
     });
@@ -373,8 +378,7 @@ describe('DefaultBaseSiteResolver', () => {
     } as unknown as Response);
     const resolver = new DefaultBaseSiteResolver({
       pathBaseSiteIds: [],
-      indexHtml: '<html></html>',
-      occBaseUrl: 'https://api.example',
+      occBaseUrl: { value: 'https://api.example' },
     });
 
     await expect(
@@ -393,8 +397,7 @@ describe('DefaultBaseSiteResolver', () => {
     fetchSpy.mockRejectedValue(networkError);
     const resolver = new DefaultBaseSiteResolver({
       pathBaseSiteIds: [],
-      indexHtml: '<html></html>',
-      occBaseUrl: 'https://api.example',
+      occBaseUrl: { value: 'https://api.example' },
     });
 
     await expect(
@@ -416,8 +419,7 @@ describe('DefaultBaseSiteResolver', () => {
     } as unknown as Response);
     const resolver = new DefaultBaseSiteResolver({
       pathBaseSiteIds: [],
-      indexHtml: '<html></html>',
-      occBaseUrl: 'https://api.example',
+      occBaseUrl: { value: 'https://api.example' },
     });
 
     await expect(
@@ -448,8 +450,7 @@ describe('DefaultBaseSiteResolver', () => {
       );
     const resolver = new DefaultBaseSiteResolver({
       pathBaseSiteIds: [],
-      indexHtml: '<html></html>',
-      occBaseUrl: 'https://api.example',
+      occBaseUrl: { value: 'https://api.example' },
       concurrencyLimit: 1,
     });
 
@@ -483,8 +484,7 @@ describe('DefaultBaseSiteResolver', () => {
     fetchSpy.mockResolvedValue(occResponse([]));
     const resolver = new DefaultBaseSiteResolver({
       pathBaseSiteIds: [],
-      indexHtml: '<html></html>',
-      occBaseUrl: 'https://api.example',
+      occBaseUrl: { value: 'https://api.example' },
     });
 
     await resolver.resolveFromOcc('https://shop.example/');
@@ -505,8 +505,7 @@ describe('DefaultBaseSiteResolver', () => {
       );
     const resolver = new DefaultBaseSiteResolver({
       pathBaseSiteIds: [],
-      indexHtml: '<html></html>',
-      occBaseUrl: 'https://api.example',
+      occBaseUrl: { value: 'https://api.example' },
       concurrencyLimit: 2,
     });
 

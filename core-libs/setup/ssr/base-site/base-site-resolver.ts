@@ -9,15 +9,13 @@ export interface BaseSiteResolverOptions {
   /** Base-site uids for local resolution; omit or leave empty to use OCC. */
   pathBaseSiteIds?: string[];
   /**
-   * Storefront index HTML content. Its configured OCC base URL takes
-   * precedence over `occBaseUrl`.
+   * OCC backend base URL, supplied directly or extracted from the
+   * `occ-backend-base-url` meta tag in HTML content. Choose one source.
+   * Local resolution with nonempty `pathBaseSiteIds` needs no OCC address.
    */
-  indexHtml: string;
-  /**
-   * Fallback OCC backend base URL, for example `https://api.example.com`.
-   * Used only when the index HTML does not contain a configured OCC address.
-   */
-  occBaseUrl?: string;
+  occBaseUrl?:
+    | { value: string; extractFromHtmlMetaTag?: never }
+    | { value?: never; extractFromHtmlMetaTag: string };
   /** In-memory base-sites cache lifetime in milliseconds. Default: `60_000`. */
   cacheTtlMs?: number;
   /**
