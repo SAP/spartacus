@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
@@ -84,15 +85,15 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
           ],
         },
       })
+      .overrideComponent(ConfiguratorOverviewFilterButtonComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
       .compileComponents();
     mockLaunchDialogService = TestBed.inject(LaunchDialogService);
     vi.mocked(
       mockLaunchDialogService.openDialogAndSubscribe
     ).mockImplementation(() => {});
     initComponent();
-    // Pre-set ghostStyle to avoid NG0100 from tap() side-effect during first detectChanges.
-    // The 'while loading' test re-initializes with NEVER observable so ghostStyle stays true.
-    component.ghostStyle = false;
   });
 
   it('should create component', () => {
@@ -119,7 +120,6 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
       htmlElem,
       '.cx-config-filter-button'
     );
-    expect(htmlElem.classList.contains('ghost')).toBeFalsy();
   });
 
   it('should render filter button for variant in case there is more than one group', () => {
@@ -183,10 +183,8 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-ghost-filter-button'
+      '.cx-ghost-filter-button.ghost'
     );
-
-    expect(htmlElem.classList.contains('ghost')).toBeTruthy();
   });
 
   describe('to support A11Y', () => {

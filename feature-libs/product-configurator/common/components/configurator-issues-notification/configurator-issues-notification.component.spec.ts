@@ -1,7 +1,7 @@
+import { ChangeDetectorRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { CartItemContextSource } from '@spartacus/cart/base/components';
 import {
   CartItemContext,
   OrderEntry,
@@ -33,8 +33,9 @@ class MockCartItemContext implements Partial<CartItemContext> {
 describe('ConfigureIssuesNotificationComponent', () => {
   let component: ConfiguratorIssuesNotificationComponent;
   let fixture: ComponentFixture<ConfiguratorIssuesNotificationComponent>;
+  let changeDetectorRef: ChangeDetectorRef;
   let htmlElem: HTMLElement;
-  let mockCartItemContext: Partial<CartItemContextSource>;
+  let mockCartItemContext: MockCartItemContext;
 
   function emitNewContextValue(testData: {
     statusSummary: StatusSummary[];
@@ -42,14 +43,14 @@ describe('ConfigureIssuesNotificationComponent', () => {
     readOnly: boolean;
     productConfigurable: boolean;
   }) {
-    mockCartItemContext.item$?.next({
+    mockCartItemContext.item$.next({
       statusSummaryList: testData.statusSummary,
       configurationInfos: testData.configurationInfos,
       product: { configurable: testData.productConfigurable ?? true },
       entryNumber: 0,
     });
-    mockCartItemContext.readonly$?.next(testData.readOnly);
-    mockCartItemContext.quantityControl$?.next(new UntypedFormControl());
+    mockCartItemContext.readonly$.next(testData.readOnly);
+    mockCartItemContext.quantityControl$.next(new UntypedFormControl());
   }
   describe('with cart item context', () => {
     beforeEach(async () => {
@@ -83,8 +84,11 @@ describe('ConfigureIssuesNotificationComponent', () => {
         ConfiguratorIssuesNotificationComponent
       );
       component = fixture.componentInstance;
+      changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
       htmlElem = fixture.nativeElement;
-      mockCartItemContext = TestBed.inject(CartItemContext) as any;
+      mockCartItemContext = TestBed.inject(
+        CartItemContext
+      ) as MockCartItemContext;
     });
 
     it('should create', () => {
@@ -100,7 +104,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
         expect(value).toBe(orderEntry);
       });
 
-      mockCartItemContext.item$?.next(orderEntry);
+      mockCartItemContext.item$.next(orderEntry);
     });
 
     it('should expose quantityControl$', async () => {
@@ -110,7 +114,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
         expect(value).toBe(quantityControl);
       });
 
-      mockCartItemContext.quantityControl$?.next(quantityControl);
+      mockCartItemContext.quantityControl$.next(quantityControl);
     });
 
     it('should expose readonly$', async () => {
@@ -119,8 +123,8 @@ describe('ConfigureIssuesNotificationComponent', () => {
         expect(values).toEqual([true, false]);
       });
 
-      mockCartItemContext.readonly$?.next(true);
-      mockCartItemContext.readonly$?.next(false);
+      mockCartItemContext.readonly$.next(true);
+      mockCartItemContext.readonly$.next(false);
     });
 
     it('should display configure from cart in case issues are present', () => {
@@ -208,8 +212,8 @@ describe('ConfigureIssuesNotificationComponent', () => {
       beforeEach(() => {
         const quantityControl = new UntypedFormControl();
 
-        mockCartItemContext.quantityControl$?.next(quantityControl);
-        mockCartItemContext.item$?.next({
+        mockCartItemContext.quantityControl$.next(quantityControl);
+        mockCartItemContext.item$.next({
           statusSummaryList: [
             { numberOfIssues: 2, status: OrderEntryStatus.Error },
           ],
@@ -223,7 +227,11 @@ describe('ConfigureIssuesNotificationComponent', () => {
         });
 
         it('should expose readonly$ as false in case readonly$ is undefined', () => {
-          mockCartItemContext.readonly$?.next(undefined);
+          (
+            mockCartItemContext.readonly$ as ReplaySubject<
+              boolean | null | undefined
+            >
+          ).next(undefined);
           fixture.detectChanges();
           const component = fixture.debugElement.query(
             By.css('cx-configure-cart-entry')
@@ -233,7 +241,11 @@ describe('ConfigureIssuesNotificationComponent', () => {
         });
 
         it('should expose readonly$ as false in case readonly$ is null', () => {
-          mockCartItemContext.readonly$?.next(null);
+          (
+            mockCartItemContext.readonly$ as ReplaySubject<
+              boolean | null | undefined
+            >
+          ).next(null);
           fixture.detectChanges();
           const component = fixture.debugElement.query(
             By.css('cx-configure-cart-entry')
@@ -243,7 +255,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
         });
 
         it('should expose readonly$ as false in case readonly$ is false', () => {
-          mockCartItemContext.readonly$?.next(false);
+          mockCartItemContext.readonly$.next(false);
           fixture.detectChanges();
           const component = fixture.debugElement.query(
             By.css('cx-configure-cart-entry')
@@ -253,8 +265,29 @@ describe('ConfigureIssuesNotificationComponent', () => {
         });
       });
 
+      it('should disable the edit configuration link when the quantity control is disabled after render', () => {
+        mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
+        mockCartItemContext.readonly$.next(false);
+        const quantityControl = new UntypedFormControl();
+        mockCartItemContext.quantityControl$.next(quantityControl);
+        fixture.detectChanges();
+
+        const getLinkComponent = () =>
+          fixture.debugElement.query(By.css('cx-configure-cart-entry'))
+            .componentInstance;
+
+        expect(getLinkComponent().disabled).toBe(false);
+
+        quantityControl.disable({ emitEvent: false });
+        // Same FormControl reference: default CD must refresh [disabled] without
+        // fixture.detectChanges() (triggers dev-mode NG0100 on this binding).
+        changeDetectorRef.detectChanges();
+
+        expect(getLinkComponent().disabled).toBe(true);
+      });
+
       it('should prevent the rendering of "edit configuration" if context is SaveForLater', () => {
-        mockCartItemContext.location$?.next(PromotionLocation.SaveForLater);
+        mockCartItemContext.location$.next(PromotionLocation.SaveForLater);
         fixture.detectChanges();
 
         const htmlElementAfterChanges = fixture.nativeElement;
@@ -265,7 +298,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
       });
 
       it('should allow the rendering of "edit configuration" if context is active cart', () => {
-        mockCartItemContext.location$?.next(PromotionLocation.ActiveCart);
+        mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
         fixture.detectChanges();
 
         const htmlElementAfterChanges = fixture.nativeElement;
@@ -276,8 +309,8 @@ describe('ConfigureIssuesNotificationComponent', () => {
       });
 
       it('should prevent the rendering of "edit configuration" in case readonly$ is true', () => {
-        mockCartItemContext.location$?.next(PromotionLocation.ActiveCart);
-        mockCartItemContext.readonly$?.next(true);
+        mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
+        mockCartItemContext.readonly$.next(true);
 
         fixture.detectChanges();
 

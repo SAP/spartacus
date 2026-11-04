@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Directive,
   Input,
@@ -27,7 +28,7 @@ import {
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { defaultConfiguratorUISettingsConfig } from '../config/default-configurator-ui-settings.config';
-import { EMPTY, firstValueFrom, Observable, of } from 'rxjs';
+import { EMPTY, firstValueFrom, NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
@@ -63,7 +64,6 @@ function initTestComponent() {
   fixture = TestBed.createComponent(ConfiguratorOverviewSidebarComponent);
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
-  component.ghostStyle = false;
   configuratorStorefrontUtilsService = TestBed.inject(
     ConfiguratorStorefrontUtilsService
   );
@@ -167,7 +167,6 @@ function initSidebarWithCpqContainerToggle(cpqContainerEnabled: boolean): void {
   fixture = TestBed.createComponent(ConfiguratorOverviewSidebarComponent);
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
-  component.ghostStyle = false;
   configuratorStorefrontUtilsService = TestBed.inject(
     ConfiguratorStorefrontUtilsService
   );
@@ -216,6 +215,9 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
           ],
         },
       })
+      .overrideComponent(ConfiguratorOverviewSidebarComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
       .compileComponents();
     initTestComponent();
   });
@@ -223,6 +225,22 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
   it('should create component', () => {
     fixture.detectChanges();
     expect(component).toBeDefined();
+  });
+
+  it('should render ghost sidebar when overview configuration is not available', () => {
+    initTestComponent();
+    defaultConfigObservable = NEVER;
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-ghost-menu.ghost'
+    );
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-overview-menu'
+    );
   });
 
   it('should render overview menu component by default', () => {
@@ -508,7 +526,6 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
       );
       fixture = TestBed.createComponent(ConfiguratorOverviewSidebarComponent);
       component = fixture.componentInstance;
-      component.ghostStyle = false;
       fixture.detectChanges();
       await expect(
         firstValueFrom(component.overviewMenuFilterTabVisible$)
@@ -652,27 +669,6 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
         htmlElem,
         'cx-configurator-overview-filter'
       );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        'cx-configurator-overview-menu'
-      );
-    });
-  });
-
-  describe('ghost sidebar', () => {
-    it('should render ghost placeholder while configuration has no overview', () => {
-      defaultConfigObservable = of(
-        ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER)
-      );
-      fixture = TestBed.createComponent(ConfiguratorOverviewSidebarComponent);
-      htmlElem = fixture.nativeElement;
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-
-      expect(component.ghostStyle).toBe(true);
-      expect(htmlElem.querySelector('.cx-ghost-menu')).not.toBeNull();
-      expect(htmlElem.querySelector('.cx-menu-bar')).toBeNull();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -868,7 +864,6 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
         fixture = TestBed.createComponent(ConfiguratorOverviewSidebarComponent);
         htmlElem = fixture.nativeElement;
         component = fixture.componentInstance;
-        component.ghostStyle = false;
         fixture.detectChanges();
       });
 
