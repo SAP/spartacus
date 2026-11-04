@@ -1,5 +1,4 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-
 import { TestBed } from '@angular/core/testing';
 import { CartModification } from '@spartacus/cart/base/root';
 import {
