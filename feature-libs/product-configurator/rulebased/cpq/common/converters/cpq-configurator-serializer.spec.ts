@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
@@ -157,9 +156,7 @@ describe('CpqConfiguratorSerializer', () => {
       providers: [CpqConfiguratorSerializer],
     });
 
-    cpqConfiguratorSerializer = TestBed.inject(
-      CpqConfiguratorSerializer as Type<CpqConfiguratorSerializer>
-    );
+    cpqConfiguratorSerializer = TestBed.inject(CpqConfiguratorSerializer);
 
     configuration.updateType = Configurator.UpdateType.ATTRIBUTE;
   });
@@ -361,6 +358,7 @@ describe('CpqConfiguratorSerializer', () => {
     );
     expect(updateAttribute.changeAttributeValue.userInput).toBeUndefined();
     expect(updateAttribute.tabId).toBe(firstGroupId);
+    expect(updateAttribute.rowId).toBeUndefined();
   });
 
   it('should convert quantity changes', () => {
@@ -372,5 +370,85 @@ describe('CpqConfiguratorSerializer', () => {
     expect(updateValues.changeAttributeValue.attributeValueIds).toBeUndefined();
     expect(updateValues.changeAttributeValue.userInput).toBeUndefined();
     expect(updateValues.tabId).toBe(firstGroupId);
+    expect(updateValues.rowId).toBeUndefined();
+  });
+
+  it('should convert nested container-row attribute updates', () => {
+    const nestedGroupId = `${Configurator.ContainerRowGroupIdPrefix}@111@018@57`;
+    const nestedAttribute: Configurator.Attribute = {
+      ...firstAttribute,
+      groupId: nestedGroupId,
+      containerRowId: '018',
+    };
+    const nestedConfiguration: Configurator.Configuration = {
+      ...configuration,
+      groups: [
+        {
+          ...ConfiguratorTestUtils.createGroup(firstGroupId),
+          subGroups: [
+            {
+              ...ConfiguratorTestUtils.createGroup(
+                `${Configurator.ContainerRowGroupIdPrefix}@111@018`
+              ),
+              groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+              subGroups: [
+                {
+                  ...ConfiguratorTestUtils.createGroup(nestedGroupId),
+                  attributes: [nestedAttribute],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+
+    const updateAttribute: Cpq.UpdateAttribute =
+      cpqConfiguratorSerializer.convert(nestedConfiguration);
+
+    expect(updateAttribute.tabId).toBe('57');
+    expect(updateAttribute.rowId).toBe('018');
+    expect(updateAttribute.standardAttributeCode).toBe(
+      attrCodeFirst.toString()
+    );
+  });
+
+  it('should convert nested container-row quantity changes', () => {
+    const nestedGroupId = `${Configurator.ContainerRowGroupIdPrefix}@111@018@57`;
+    const nestedAttribute: Configurator.Attribute = {
+      ...firstAttribute,
+      groupId: nestedGroupId,
+      containerRowId: '018',
+    };
+    const nestedConfiguration: Configurator.Configuration = {
+      ...configuration,
+      updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
+      groups: [
+        {
+          ...ConfiguratorTestUtils.createGroup(firstGroupId),
+          subGroups: [
+            {
+              ...ConfiguratorTestUtils.createGroup(
+                `${Configurator.ContainerRowGroupIdPrefix}@111@018`
+              ),
+              groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+              subGroups: [
+                {
+                  ...ConfiguratorTestUtils.createGroup(nestedGroupId),
+                  attributes: [nestedAttribute],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+
+    const updateAttribute: Cpq.UpdateAttribute =
+      cpqConfiguratorSerializer.convert(nestedConfiguration);
+
+    expect(updateAttribute.tabId).toBe('57');
+    expect(updateAttribute.rowId).toBe('018');
+    expect(updateAttribute.changeAttributeValue.quantity).toBe(5);
   });
 });

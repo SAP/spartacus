@@ -11,7 +11,6 @@ import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
 import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
-import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
 
 @NgModule({
@@ -26,7 +25,7 @@ import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute
     ConfiguratorAttributeReadOnlyComponent,
   ],
   providers: [
-    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+    provideDefaultConfig({
       productConfigurator: {
         assignment: {
           AttributeType_readonly: ConfiguratorAttributeReadOnlyComponent,

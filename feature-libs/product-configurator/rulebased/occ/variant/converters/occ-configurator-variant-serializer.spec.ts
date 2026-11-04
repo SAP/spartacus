@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
@@ -150,7 +149,7 @@ describe('OccConfiguratorVariantSerializer', () => {
     });
 
     occConfiguratorVariantSerializer = TestBed.inject(
-      OccConfiguratorVariantSerializer as Type<OccConfiguratorVariantSerializer>
+      OccConfiguratorVariantSerializer
     );
   });
 
@@ -222,6 +221,16 @@ describe('OccConfiguratorVariantSerializer', () => {
         Configurator.GroupType.CONFLICT_HEADER_GROUP
       )
     ).toBe(OccConfigurator.GroupType.CONFLICT_HEADER);
+  });
+
+  it('should throw for CONTAINER_ROW_GROUP because it is not supported for the variant configurator', () => {
+    expect(() =>
+      occConfiguratorVariantSerializer.convertGroupType(
+        Configurator.GroupType.CONTAINER_ROW_GROUP
+      )
+    ).toThrowError(
+      'Group type CONTAINER_ROW_GROUP is not supported for the variant configurator'
+    );
   });
 
   it('should fill formatted value for numeric attributes', () => {

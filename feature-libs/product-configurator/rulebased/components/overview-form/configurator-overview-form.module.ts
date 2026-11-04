@@ -7,7 +7,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
-  CmsConfig,
   FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
@@ -26,7 +25,7 @@ import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.
     ConfiguratorOverviewFormComponent,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         ConfiguratorOverviewForm: {
           component: ConfiguratorOverviewFormComponent,

@@ -1,6 +1,4 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from '../../../core/model/configurator.model';
 import { OccConfiguratorVariantOverviewSerializer } from './occ-configurator-variant-overview-serializer';
@@ -26,9 +24,7 @@ describe('OccConfiguratorVariantSerializer', () => {
       providers: [OccConfiguratorVariantOverviewSerializer],
     });
 
-    classUnderTest = TestBed.inject(
-      OccConfiguratorVariantOverviewSerializer as Type<OccConfiguratorVariantOverviewSerializer>
-    );
+    classUnderTest = TestBed.inject(OccConfiguratorVariantOverviewSerializer);
   });
 
   it('should be created', () => {
