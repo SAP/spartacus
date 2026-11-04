@@ -6,7 +6,6 @@
 
 import { Component, Input } from '@angular/core';
 
-/** Test double for Spartacus `cx-media` (`MediaComponent`). */
 @Component({
   selector: 'cx-media',
   template: `@if (src) {
