@@ -26,6 +26,7 @@ import {
 import { environment } from '../../environments/environment';
 import { spartacusB2bConfigurationProviders } from './spartacus-b2b-configuration.providers';
 import { spartacusB2cConfigurationProviders } from './spartacus-b2c-configuration.providers';
+import { workaroundExtractBannerDimensionsFromUrl } from './custom-occ-cms-page-normalizer';
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
@@ -86,6 +87,7 @@ const spartacusChannelSpecificConfigurationProviders = environment.b2b
         ],
       },
     }),
+    workaroundExtractBannerDimensionsFromUrl,
     spartacusChannelSpecificConfigurationProviders,
   ],
 })
