@@ -33,12 +33,17 @@
       "
     >
       <div class="cx-value">
-        <span class="cx-billing-value"
-          >{{ recurringCharge.price?.formattedValue }}/</span
-        >
-        <span class="cx-billing-name">{{
-          item().product?.sapSubscriptionTerm?.billingPlan?.billingTime?.name
-        }}</span>
+        <span class="cx-billing-value" *ngIf="recurringDiscount(); else recurringOriginal">
+          {{ showRecurringCharge(recurringCharge) | currency: currencyIso() : 'code' }}/
+        </span>
+        <ng-template #recurringOriginal>
+          <span class="cx-billing-value">{{ recurringCharge.price?.formattedValue }}/</span>
+        </ng-template>
+        <span class="cx-billing-name">{{ billingTimeName() }}</span>
+        <div class="cx-old" *ngIf="recurringDiscount()">
+          <span class="cx-billing-value">{{ recurringCharge.price?.formattedValue }}/</span>
+          <span class="cx-billing-name">{{ billingTimeName() }}</span>
+        </div>
       </div>
     </ng-container>
   </div>
@@ -47,12 +52,17 @@
       *ngFor="let oneTimeCharge of item().product?.sapPricePlan?.oneTimeCharges"
     >
       <div class="cx-value">
-        <span class="cx-billing-value">
-          {{ oneTimeCharge.price?.formattedValue }}
+        <span class="cx-billing-value" *ngIf="fixedDiscount(); else oneTimeOriginal">
+          {{ showOneTimeCharge(oneTimeCharge) | currency: currencyIso() : 'code' }}/
         </span>
-        <span class="cx-billing-name">
-          {{ oneTimeCharge.billingTime?.name | lowercase }}
-        </span>
+        <ng-template #oneTimeOriginal>
+          <span class="cx-billing-value">{{ oneTimeCharge.price?.formattedValue }}</span>
+        </ng-template>
+        <span class="cx-billing-name">{{ oneTimeCharge.billingTime?.name | lowercase }}</span>
+        <div class="cx-old" *ngIf="fixedDiscount()">
+          <span class="cx-billing-value">{{ oneTimeCharge.price?.formattedValue }}/</span>
+          <span class="cx-billing-name">{{ oneTimeCharge.billingTime?.name | lowercase }}</span>
+        </div>
       </div>
     </ng-container>
   </div>
