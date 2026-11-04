@@ -1040,7 +1040,6 @@ export class CpqConfiguratorNormalizer
               ancestorGroups
             );
             groupList.push(rowGroup);
-            this.compileGroupComplete(rowGroup, ancestorGroups);
           });
       });
   }
