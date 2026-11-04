@@ -11,6 +11,9 @@ describe('MockLoggerService', () => {
       imports: [LoggerTestingModule],
     });
     loggerService = TestBed.inject(LoggerService);
+    (['log', 'warn', 'error', 'info', 'debug'] as const).forEach((method) => {
+      vi.spyOn(loggerService, method);
+    });
   });
 
   it('should be provided via LoggerTestingModule', () => {
