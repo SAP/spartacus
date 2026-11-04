@@ -7,6 +7,8 @@ import {
   I18nTestingModule,
   RouterState,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   MockFeatureTogglesController,
@@ -62,12 +64,7 @@ describe('ConfigureCartEntryComponent', () => {
 
   function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        RouterModule,
-        ConfigureCartEntryComponent,
-        UrlTestingModule,
-      ],
+      imports: [RouterModule, ConfigureCartEntryComponent],
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
         {
@@ -78,6 +75,9 @@ describe('ConfigureCartEntryComponent', () => {
           productConfiguratorCPQContainer: false,
         }),
       ],
+    }).overrideComponent(ConfigureCartEntryComponent, {
+      remove: { imports: [TranslatePipe, UrlPipe] },
+      add: { imports: [I18nTestingModule, UrlTestingModule] },
     });
   }
 

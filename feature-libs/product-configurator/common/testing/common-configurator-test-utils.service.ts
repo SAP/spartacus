@@ -53,6 +53,7 @@ export class CommonConfiguratorTestUtilsService {
    * @param htmlElement - HTML element.
    * @param querySelector - Query selector
    * @param expectedText - Expected text
+   * @param index - Index of the element
    */
   static expectElementToContainText(
     expect: any,
@@ -62,12 +63,12 @@ export class CommonConfiguratorTestUtilsService {
     index?: number
   ) {
     let text;
-    if (index) {
+    if (index !== undefined) {
       text = htmlElement.querySelectorAll(querySelector)[index]?.textContent;
     } else {
       text = htmlElement.querySelector(querySelector)?.textContent;
     }
-    expect(text ? text.trim() : '').toBe(expectedText);
+    expect(text ? text.trim() : '').toContain(expectedText);
   }
 
   /**

@@ -62,7 +62,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
     initTestData();
     initMocks();
     TestBed.configureTestingModule({
-      imports: [ConfiguratorOverviewFilterBarComponent, IconTestingModule],
+      imports: [ConfiguratorOverviewFilterBarComponent],
       providers: [
         {
           provide: ConfiguratorCommonsService,
@@ -77,7 +77,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       .overrideComponent(ConfiguratorOverviewFilterBarComponent, {
         remove: { imports: [TranslatePipe, CxDatePipe, IconComponent] },
         add: {
-          imports: [I18nTestingModule],
+          imports: [I18nTestingModule, IconTestingModule],
         },
       })
       .compileComponents();
