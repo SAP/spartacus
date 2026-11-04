@@ -4,7 +4,6 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -103,9 +102,7 @@ describe('ConfiguratorVariantEffect', () => {
       ],
     });
 
-    configEffects = TestBed.inject(
-      fromEffects.ConfiguratorVariantEffects as Type<fromEffects.ConfiguratorVariantEffects>
-    );
+    configEffects = TestBed.inject(fromEffects.ConfiguratorVariantEffects);
   });
 
   it('should provide configuration variant effects', () => {

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ConfiguratorModelUtils,
@@ -124,9 +123,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
   beforeEach(() => {
     featureToggles = TestBed.inject(MockFeatureTogglesController);
     featureToggles.set('productConfiguratorCPQContainer', true);
-    classUnderTest = TestBed.inject(
-      CpqConfiguratorPageLayoutHandler as Type<CpqConfiguratorPageLayoutHandler>
-    );
+    classUnderTest = TestBed.inject(CpqConfiguratorPageLayoutHandler);
   });
 
   it('should create service', () => {

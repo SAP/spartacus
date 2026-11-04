@@ -1,4 +1,4 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import {
@@ -550,9 +550,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
     vi.spyOn(globalMessageService, 'add');
     vi.spyOn(configuratorCommonsService, 'removeConfiguration');
     vi.spyOn(configuratorQuantityService, 'setQuantity');
-    configuratorCartService = TestBed.inject(
-      ConfiguratorCartService as Type<ConfiguratorCartService>
-    );
+    configuratorCartService = TestBed.inject(ConfiguratorCartService);
     vi.spyOn(configuratorCartService, 'getEntry');
     vi.spyOn(
       configuratorStorefrontUtilsService,

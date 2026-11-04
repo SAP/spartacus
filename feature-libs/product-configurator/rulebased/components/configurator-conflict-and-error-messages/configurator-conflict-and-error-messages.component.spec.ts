@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -210,9 +209,7 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
 
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
+    configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     if (configWOMessages.owner) {
       configuratorUtils.setOwnerKey(configWOMessages.owner);
     }

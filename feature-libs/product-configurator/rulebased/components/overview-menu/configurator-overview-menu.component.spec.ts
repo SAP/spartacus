@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -60,7 +59,7 @@ function initialize() {
   component.config = CONFIGURATION;
 
   configuratorStorefrontUtilsService = TestBed.inject(
-    ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+    ConfiguratorStorefrontUtilsService
   );
 }
 

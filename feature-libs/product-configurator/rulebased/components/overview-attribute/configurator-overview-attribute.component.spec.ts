@@ -1,4 +1,4 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -53,9 +53,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
       value: 'Test Attribute Value',
     };
 
-    breakpointService = TestBed.inject(
-      BreakpointService as Type<BreakpointService>
-    );
+    breakpointService = TestBed.inject(BreakpointService);
   });
 
   it('should create component', () => {
@@ -140,9 +138,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
         },
       };
 
-      breakpointService = TestBed.inject(
-        BreakpointService as Type<BreakpointService>
-      );
+      breakpointService = TestBed.inject(BreakpointService);
       vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(true));
     });
 
@@ -156,9 +152,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
       };
       fixture.detectChanges();
 
-      breakpointService = TestBed.inject(
-        BreakpointService as Type<BreakpointService>
-      );
+      breakpointService = TestBed.inject(BreakpointService);
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

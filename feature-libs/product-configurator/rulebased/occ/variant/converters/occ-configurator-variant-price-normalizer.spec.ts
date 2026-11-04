@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService } from '@spartacus/core';
 import { OccConfiguratorTestUtils } from '../../../testing/occ-configurator-test-utils';
@@ -21,9 +20,7 @@ describe('OccConfiguratorVariantPriceNormalizer', () => {
       ],
     });
 
-    classUnderTest = TestBed.inject(
-      OccConfiguratorVariantPriceNormalizer as Type<OccConfiguratorVariantPriceNormalizer>
-    );
+    classUnderTest = TestBed.inject(OccConfiguratorVariantPriceNormalizer);
   });
 
   it('should be created', () => {

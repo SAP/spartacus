@@ -4,7 +4,6 @@ import {
   Input,
   Pipe,
   PipeTransform,
-  Type,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, UntypedFormControl } from '@angular/forms';
@@ -177,19 +176,15 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
   });
 
   beforeEach(() => {
-    commonConfigUtilsService = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
+    commonConfigUtilsService = TestBed.inject(CommonConfiguratorUtilsService);
     configCartEntryBundleInfoService = TestBed.inject(
-      ConfiguratorCartEntryBundleInfoService as Type<ConfiguratorCartEntryBundleInfoService>
+      ConfiguratorCartEntryBundleInfoService
     );
 
     vi.spyOn(commonConfigUtilsService, 'isBundleBasedConfigurator');
     vi.spyOn(configCartEntryBundleInfoService, 'retrieveLineItems');
 
-    breakpointService = TestBed.inject(
-      BreakpointService as Type<BreakpointService>
-    );
+    breakpointService = TestBed.inject(BreakpointService);
 
     fixture = TestBed.createComponent(ConfiguratorCartEntryBundleInfoComponent);
     changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
