@@ -5,6 +5,7 @@ import {
   I18nTestingModule,
   RouterState,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -12,7 +13,6 @@ import {
   ConfiguratorRouter,
 } from '@spartacus/product-configurator/common';
 import { KeyboardFocusService } from '@spartacus/storefront';
-import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -93,12 +93,7 @@ describe('ConfigTabBarComponent', () => {
 
     routerStateObservable = of(mockRouterState);
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        RouterModule,
-        ConfiguratorTabBarComponent,
-        UrlTestingModule,
-      ],
+      imports: [RouterModule, ConfiguratorTabBarComponent],
       providers: [
         {
           provide: RoutingService,
@@ -119,7 +114,11 @@ describe('ConfigTabBarComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorTabBarComponent, {
-        set: {
+        remove: {
+          imports: [TranslatePipe],
+        },
+        add: {
+          imports: [I18nTestingModule],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })

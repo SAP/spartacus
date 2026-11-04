@@ -13,7 +13,6 @@ import {
   CurrentProductService,
   ProductListItemContext,
 } from '@spartacus/storefront';
-import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorProductScope } from '../../core/model/configurator-product-scope';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
@@ -82,7 +81,7 @@ function setupWithCurrentProductService(
     productListItemContextReturnsNull
   ) {
     TestBed.configureTestingModule({
-      imports: [RouterModule, ConfigureProductComponent, UrlTestingModule],
+      imports: [RouterModule, ConfigureProductComponent],
       providers: [
         {
           provide: ProductListItemContext,
@@ -105,11 +104,7 @@ function setupWithCurrentProductService(
       .compileComponents();
   } else if (useCurrentProductServiceOnly) {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        ConfigureProductComponent,
-        UrlTestingModule,
-      ],
+      imports: [StoreModule.forRoot({}), ConfigureProductComponent],
       providers: [
         {
           provide: CurrentProductService,
@@ -128,11 +123,7 @@ function setupWithCurrentProductService(
       .compileComponents();
   } else {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        ConfigureProductComponent,
-        UrlTestingModule,
-      ],
+      imports: [StoreModule.forRoot({}), ConfigureProductComponent],
       providers: [
         {
           provide: ProductListItemContext,

@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import { IconTestingModule } from '@spartacus/storefront';
+import { IconComponent, IconTestingModule } from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
@@ -63,8 +63,6 @@ describe('ConfigAttributeFooterComponent', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
-        IconTestingModule,
         ConfiguratorAttributeFooterComponent,
         MockFeatureLevelDirective,
       ],
@@ -80,7 +78,11 @@ describe('ConfigAttributeFooterComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorAttributeFooterComponent, {
-        set: {
+        remove: {
+          imports: [TranslatePipe, IconComponent],
+        },
+        add: {
+          imports: [I18nTestingModule, IconTestingModule],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })

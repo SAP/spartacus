@@ -6,10 +6,12 @@ import {
   I18nTestingModule,
   LanguageService,
   LoggerTestingModule,
+  TranslatePipe,
 } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 import {
+  IconComponent,
   IconTestingModule,
   KeyboardFocusTestingModule,
 } from '@spartacus/storefront';
@@ -115,8 +117,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        IconTestingModule,
-        I18nTestingModule,
         KeyboardFocusTestingModule,
         LoggerTestingModule,
         ConfiguratorAttributeNumericInputFieldComponent,
@@ -148,7 +148,11 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorAttributeNumericInputFieldComponent, {
-        set: {
+        remove: {
+          imports: [TranslatePipe, IconComponent],
+        },
+        add: {
+          imports: [I18nTestingModule, IconTestingModule],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })

@@ -194,7 +194,6 @@ describe('ConfigurationOverviewFormComponent', () => {
         ReactiveFormsModule,
         NgSelectModule,
         FeaturesConfigModule,
-        I18nTestingModule,
         LoggerTestingModule,
         ConfiguratorOverviewFormComponent,
         ConfiguratorOverviewAttributeComponent,

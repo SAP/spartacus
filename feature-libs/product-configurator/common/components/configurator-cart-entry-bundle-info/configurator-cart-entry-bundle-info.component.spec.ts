@@ -138,9 +138,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         ConfiguratorCartEntryBundleInfoComponent,
-        I18nTestingModule,
         RouterModule.forRoot([]),
-        UrlTestingModule,
       ],
       providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
@@ -1546,10 +1544,33 @@ describe('ConfiguratorCartEntryBundleInfoComponent without cart item context', (
   let fixture: ComponentFixture<ConfiguratorCartEntryBundleInfoComponent>;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ConfiguratorCartEntryBundleInfoComponent],
+    await TestBed.configureTestingModule({
+      imports: [
+        ConfiguratorCartEntryBundleInfoComponent,
+        RouterModule.forRoot([]),
+      ],
       providers: [{ provide: ProductService, useClass: MockProductService }],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfiguratorCartEntryBundleInfoComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            CxNumericPipe,
+            ConfigureCartEntryComponent,
+            UrlPipe,
+          ],
+        },
+        add: {
+          imports: [
+            I18nTestingModule,
+            UrlTestingModule,
+            MockNumericPipe,
+            MockConfigureCartEntryComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

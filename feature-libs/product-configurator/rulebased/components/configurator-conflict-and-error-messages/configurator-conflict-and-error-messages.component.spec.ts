@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -174,7 +174,6 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         ConfiguratorConflictAndErrorMessagesComponent,
@@ -194,9 +193,9 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
       ],
     }).overrideComponent(ConfiguratorConflictAndErrorMessagesComponent, {
       remove: {
-        imports: [IconComponent],
+        imports: [IconComponent, TranslatePipe],
       },
-      add: { imports: [IconTestingModule] },
+      add: { imports: [IconTestingModule, I18nTestingModule] },
     });
   });
   beforeEach(() => {

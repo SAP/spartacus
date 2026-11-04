@@ -4,7 +4,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { StoreModule } from '@ngrx/store';
-import { FeatureLevelDirective, I18nTestingModule } from '@spartacus/core';
+import {
+  FeatureLevelDirective,
+  I18nTestingModule,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   FocusDirective,
   KeyboardFocusTestingModule,
@@ -217,8 +221,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
-        I18nTestingModule,
-        UrlTestingModule,
         StoreModule.forRoot({}),
         ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
         ConfiguratorShowMoreComponent,
@@ -249,6 +251,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
               ConfiguratorPriceComponent,
               FocusDirective,
               FeatureLevelDirective,
+              TranslatePipe,
             ],
           },
           add: {
@@ -258,6 +261,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
               MockConfiguratorPriceComponent,
               KeyboardFocusTestingModule,
               MockFeatureLevelDirective,
+              I18nTestingModule,
             ],
             changeDetection: ChangeDetectionStrategy.Default,
             providers: [

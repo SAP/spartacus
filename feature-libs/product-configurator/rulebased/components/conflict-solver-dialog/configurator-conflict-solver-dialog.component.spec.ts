@@ -13,6 +13,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import {
   FocusDirective,
+  IconComponent,
   IconTestingModule,
   KeyboardFocusService,
   KeyboardFocusTestingModule,
@@ -85,7 +86,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [IconTestingModule, ConfiguratorConflictSolverDialogComponent],
+      imports: [ConfiguratorConflictSolverDialogComponent],
       providers: [
         {
           provide: ConfiguratorStorefrontUtilsService,
@@ -106,11 +107,13 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
             FeatureDirective,
             TranslatePipe,
             CxDatePipe,
+            IconComponent,
           ],
         },
         add: {
           imports: [
             I18nTestingModule,
+            IconTestingModule,
             KeyboardFocusTestingModule,
             MockFeatureDirective,
             MockConfiguratorDefaultFormComponent,

@@ -14,6 +14,7 @@ import {
   I18nTestingModule,
   RouterState,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import { Order, OrderHistoryFacade } from '@spartacus/order/root';
 import {
@@ -454,7 +455,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [ConfiguratorAddToCartButtonComponent, I18nTestingModule],
+      imports: [ConfiguratorAddToCartButtonComponent],
       providers: [
         {
           provide: RoutingService,
@@ -517,13 +518,19 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
     })
       .overrideComponent(ConfiguratorAddToCartButtonComponent, {
         remove: {
-          imports: [ItemCounterComponent, IconComponent, FeatureLevelDirective],
+          imports: [
+            ItemCounterComponent,
+            IconComponent,
+            FeatureLevelDirective,
+            TranslatePipe,
+          ],
         },
         add: {
           imports: [
             MockItemCounterComponent,
             IconTestingModule,
             MockFeatureLevelDirective,
+            I18nTestingModule,
           ],
         },
       })

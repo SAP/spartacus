@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import {
   ICON_TYPE,
   IconComponent,
@@ -165,7 +165,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ConfiguratorAttributeContainerComponent],
+      imports: [ConfiguratorAttributeContainerComponent],
       providers: [
         {
           provide: ConfiguratorUISettingsConfig,
@@ -195,9 +195,19 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     })
       .overrideComponent(ConfiguratorAttributeContainerComponent, {
         remove: {
-          imports: [IconComponent, ConfiguratorAttributeProductCardComponent],
+          imports: [
+            IconComponent,
+            ConfiguratorAttributeProductCardComponent,
+            TranslatePipe,
+          ],
         },
-        add: { imports: [IconTestingModule, MockProductCardComponent] },
+        add: {
+          imports: [
+            IconTestingModule,
+            MockProductCardComponent,
+            I18nTestingModule,
+          ],
+        },
       })
       .compileComponents();
   });

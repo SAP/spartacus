@@ -1,11 +1,15 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule, LoggerTestingModule } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  LoggerTestingModule,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import { IconTestingModule } from '@spartacus/storefront';
+import { IconComponent, IconTestingModule } from '@spartacus/storefront';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
@@ -130,9 +134,7 @@ describe('ConfigAttributeHeaderComponent', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         LoggerTestingModule,
-        IconTestingModule,
         ConfiguratorAttributeHeaderComponent,
         MockConfiguratorShowMoreComponent,
         MockConfiguratorShowOptionsComponent,
@@ -164,7 +166,11 @@ describe('ConfigAttributeHeaderComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorAttributeHeaderComponent, {
-        set: {
+        remove: {
+          imports: [TranslatePipe, IconComponent],
+        },
+        add: {
+          imports: [I18nTestingModule, IconTestingModule],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })

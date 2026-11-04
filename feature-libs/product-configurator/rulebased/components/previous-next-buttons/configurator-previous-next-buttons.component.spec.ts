@@ -5,6 +5,7 @@ import {
   I18nTestingModule,
   RouterState,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -144,7 +145,6 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         ConfiguratorPreviousNextButtonsComponent,
         KeyboardFocusTestingModule,
       ],
@@ -168,7 +168,11 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorPreviousNextButtonsComponent, {
-        set: {
+        remove: {
+          imports: [TranslatePipe],
+        },
+        add: {
+          imports: [I18nTestingModule],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })
