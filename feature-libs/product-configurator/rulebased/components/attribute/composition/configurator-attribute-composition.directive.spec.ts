@@ -1,6 +1,6 @@
 import { ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { LoggerService } from '@spartacus/core';
+import { LoggerService, LoggerTestingModule } from '@spartacus/core';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { ConfiguratorAttributeCompositionConfig } from './configurator-attribute-composition.config';
 import { ConfiguratorAttributeCompositionDirective } from './configurator-attribute-composition.directive';
@@ -28,6 +28,7 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [LoggerTestingModule],
       providers: [
         ConfiguratorAttributeCompositionDirective,
         {
