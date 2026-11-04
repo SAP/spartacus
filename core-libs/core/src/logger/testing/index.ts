@@ -4,4 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './logger-testing.module';
 export * from './mock-logger.service';
