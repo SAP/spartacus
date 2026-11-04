@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { LoggerTestingModule } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { firstValueFrom, Observable, of, Subject } from 'rxjs';
 import {
@@ -50,7 +51,7 @@ describe('ConfiguratorGroupsService', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
+      imports: [LoggerTestingModule, StoreModule.forRoot({})],
       providers: [
         ConfiguratorGroupsService,
         ConfiguratorCommonsService,
