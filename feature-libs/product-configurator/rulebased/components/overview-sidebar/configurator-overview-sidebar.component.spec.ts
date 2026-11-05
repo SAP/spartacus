@@ -2,17 +2,17 @@ import {
   ChangeDetectionStrategy,
   Component,
   Directive,
+  inject,
   Input,
   TemplateRef,
   ViewContainerRef,
-  inject,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   FeatureDirective,
   FeatureToggles,
-  MockTranslatePipe,
+  I18nTestingModule,
   Product,
   ProductService,
   provideDefaultConfig,
@@ -30,13 +30,13 @@ import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { defaultConfiguratorUISettingsConfig } from '../config/default-configurator-ui-settings.config';
 import { EMPTY, firstValueFrom, NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { defaultConfiguratorUISettingsConfig } from '../config/default-configurator-ui-settings.config';
 import { ConfiguratorOverviewFilterComponent } from '../overview-filter/configurator-overview-filter.component';
 import { ConfiguratorOverviewFormComponent } from '../overview-form/configurator-overview-form.component';
 import { ConfiguratorOverviewMenuComponent } from '../overview-menu/configurator-overview-menu.component';
@@ -203,7 +203,7 @@ function initSidebarWithCpqContainerToggle(cpqContainerEnabled: boolean): void {
 
 describe('ConfiguratorOverviewSidebarComponent', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [ConfiguratorOverviewSidebarComponent],
       providers: [
         {
@@ -241,7 +241,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
         },
         add: {
           imports: [
-            MockTranslatePipe,
+            I18nTestingModule,
             OverviewSidebarMockFeatureDirective,
             MockConfiguratorOverviewFilterComponent,
             MockConfiguratorOverviewMenuComponent,
@@ -605,7 +605,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
           },
           add: {
             imports: [
-              MockTranslatePipe,
+              I18nTestingModule,
               OverviewSidebarMockFeatureDirective,
               MockConfiguratorOverviewFilterComponent,
               MockConfiguratorOverviewMenuComponent,
@@ -692,7 +692,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
           },
           add: {
             imports: [
-              MockTranslatePipe,
+              I18nTestingModule,
               OverviewSidebarMockFeatureDirective,
               MockConfiguratorOverviewFilterComponent,
               MockConfiguratorOverviewMenuComponent,
@@ -855,7 +855,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
           },
           add: {
             imports: [
-              MockTranslatePipe,
+              I18nTestingModule,
               OverviewSidebarMockFeatureDirective,
               MockConfiguratorOverviewFilterComponent,
               MockConfiguratorOverviewMenuComponent,

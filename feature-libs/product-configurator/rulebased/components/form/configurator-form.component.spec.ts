@@ -6,14 +6,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   GlobalMessageService,
   I18nTestingModule,
-  MockTranslatePipe,
   RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -23,6 +18,10 @@ import {
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { cold } from 'jasmine-marbles';
 import { EMPTY, NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -271,13 +270,8 @@ let featureToggles: MockFeatureTogglesController;
 
 describe('ConfiguratorFormComponent', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        NgSelectModule,
-        ConfiguratorFormComponent,
-        I18nTestingModule,
-      ],
+    await TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, NgSelectModule, ConfiguratorFormComponent],
       providers: [
         {
           provide: RoutingService,
@@ -310,9 +304,11 @@ describe('ConfiguratorFormComponent', () => {
           imports: [TranslatePipe, ConfiguratorGroupComponent],
         },
         add: {
-          imports: [MockConfiguratorGroupComponent, MockTranslatePipe],
-          changeDetection: ChangeDetectionStrategy.Default,
+          imports: [MockConfiguratorGroupComponent, I18nTestingModule],
         },
+      })
+      .overrideComponent(ConfiguratorFormComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });
