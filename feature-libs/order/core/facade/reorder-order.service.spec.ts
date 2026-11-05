@@ -162,6 +162,31 @@ describe(`ReorderOrderService`, () => {
         expect(connector.reorder).toHaveBeenCalledWith(mockOrderId, mockUserId);
       });
 
+      it('should throw error when cart deletion fails before re-ordering', () => {
+        const cartEntity$ = new Subject<any>();
+        multiCartFacade.getCartEntity = vi
+          .fn()
+          .mockReturnValue(cartEntity$.asObservable());
+
+        let errorThrown = false;
+        service.reorder(mockOrderId).subscribe({
+          error: () => {
+            errorThrown = true;
+          },
+        });
+
+        cartEntity$.next({
+          value: { code: mockCartId },
+          loading: false,
+          success: false,
+          error: true,
+          processesCount: 0,
+        });
+
+        expect(errorThrown).toBe(true);
+        expect(connector.reorder).not.toHaveBeenCalled();
+      });
+
       it('should call getCartEntity with the active cart id after deleteCart', () => {
         service.reorder(mockOrderId);
 
