@@ -1,10 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  Input,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
+import { ChangeDetectorRef, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -42,12 +36,15 @@ import {
   BehaviorSubject,
   EMPTY,
   firstValueFrom,
-  Observable,
   of,
   ReplaySubject,
   throwError,
 } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
+import {
+  MockConfiguratorProviderService,
+  MockConfigureCartEntryComponent,
+} from '../../testing';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { CommonConfiguratorUISettingsConfig } from '../config/common-configurator-ui-settings.config';
 import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-entry-bundle-info.component';
@@ -57,27 +54,6 @@ class MockNumericPipe implements PipeTransform {
   transform(value: string): string {
     return value;
   }
-}
-
-class MockProductService implements Partial<ProductService> {
-  get(): Observable<Product | undefined> {
-    return of(undefined);
-  }
-}
-
-@Component({
-  selector: 'cx-configure-cart-entry',
-  template: '',
-})
-class MockConfigureCartEntryComponent {
-  @Input() cartEntry: OrderEntry;
-  @Input() readOnly: boolean;
-  @Input() msgBanner: boolean;
-  @Input() disabled: boolean;
-  @Input() isBundleOverviewLink = false;
-  @Input() rowId?: string;
-  @Input() a11yDescriptionId?: string;
-  @Input() productName?: string;
 }
 
 class MockCartItemContext implements Partial<CartItemContext> {
@@ -145,7 +121,10 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         {
           provide: ControlContainer,
         },
-        { provide: ProductService, useClass: MockProductService },
+        {
+          provide: ProductService,
+          useClass: MockConfiguratorProviderService.MockProductService,
+        },
         ...provideMockFeatureToggles({
           productConfiguratorCPQContainer: false,
         }),
@@ -1545,32 +1524,14 @@ describe('ConfiguratorCartEntryBundleInfoComponent without cart item context', (
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        ConfiguratorCartEntryBundleInfoComponent,
-        RouterModule.forRoot([]),
+      imports: [I18nTestingModule, ConfiguratorCartEntryBundleInfoComponent],
+      providers: [
+        {
+          provide: ProductService,
+          useClass: MockConfiguratorProviderService.MockProductService,
+        },
       ],
-      providers: [{ provide: ProductService, useClass: MockProductService }],
-    })
-      .overrideComponent(ConfiguratorCartEntryBundleInfoComponent, {
-        remove: {
-          imports: [
-            TranslatePipe,
-            CxDatePipe,
-            CxNumericPipe,
-            ConfigureCartEntryComponent,
-            UrlPipe,
-          ],
-        },
-        add: {
-          imports: [
-            I18nTestingModule,
-            UrlTestingModule,
-            MockNumericPipe,
-            MockConfigureCartEntryComponent,
-          ],
-        },
-      })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {

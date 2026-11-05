@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { LanguageService, LoggerTestingModule } from '@spartacus/core';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
+import { MockConfiguratorProviderService } from '../../../../common/testing';
+import { Configurator } from '../../../core/model/configurator.model';
 import { Cpq } from '../cpq.models';
 import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normalizer-utils.service';
 
@@ -12,12 +13,6 @@ const VALUE_CODE2 = '2';
 const VALUE_CODE3 = '3';
 const VALUE_CODE4 = '4';
 
-class MockLanguageService {
-  getActive(): Observable<string> {
-    return of('en-US');
-  }
-}
-
 describe('CpqConfiguratorNormalizerUtilsService', () => {
   let cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService;
 
@@ -26,7 +21,10 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       imports: [LoggerTestingModule],
       providers: [
         CpqConfiguratorNormalizerUtilsService,
-        { provide: LanguageService, useClass: MockLanguageService },
+        {
+          provide: LanguageService,
+          useClass: MockConfiguratorProviderService.MockLanguageService,
+        },
         ...provideMockFeatureToggles({ productConfiguratorCPQContainer: true }),
       ],
     });
@@ -842,7 +840,10 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
           imports: [LoggerTestingModule],
           providers: [
             CpqConfiguratorNormalizerUtilsService,
-            { provide: LanguageService, useClass: MockLanguageService },
+            {
+              provide: LanguageService,
+              useClass: MockConfiguratorProviderService.MockLanguageService,
+            },
             ...provideMockFeatureToggles({
               productConfiguratorCPQContainer: false,
             }),
@@ -876,7 +877,10 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
           imports: [LoggerTestingModule],
           providers: [
             CpqConfiguratorNormalizerUtilsService,
-            { provide: LanguageService, useClass: MockLanguageService },
+            {
+              provide: LanguageService,
+              useClass: MockConfiguratorProviderService.MockLanguageService,
+            },
             ...provideMockFeatureToggles({
               productConfiguratorCPQContainer: false,
             }),

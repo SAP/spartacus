@@ -2,31 +2,24 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 import { KeyboardFocusTestingModule } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import {
+  provideConfiguratorMockCommonsService,
+  provideConfiguratorMockStorefrontUtilsService,
+} from '../../../../testing';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribute-input-field.component';
 
-class MockConfiguratorCommonsService {
-  updateConfiguration(): void {}
-}
-
 let isCartEntryOrGroupVisited = of(true);
-class MockConfigUtilsService {
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return isCartEntryOrGroupVisited;
-  }
-}
 const DEBOUNCE_TIME: number = 600;
 const DEBOUNCE_TIME_DATE: number = 1600;
 
@@ -43,6 +36,7 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
+        I18nTestingModule,
         ConfiguratorAttributeInputFieldComponent,
         KeyboardFocusTestingModule,
       ],
@@ -55,26 +49,16 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
-        },
+        provideConfiguratorMockCommonsService({}),
+        provideConfiguratorMockStorefrontUtilsService({
+          isCartEntryOrGroupVisitedSource: () => isCartEntryOrGroupVisited,
+        }),
       ],
     })
       .overrideComponent(ConfiguratorAttributeInputFieldComponent, {
-        remove: {
-          imports: [TranslatePipe],
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
         },
-        add: {
-          imports: [I18nTestingModule],
-        },
-      })
-      .overrideComponent(ConfiguratorAttributeInputFieldComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

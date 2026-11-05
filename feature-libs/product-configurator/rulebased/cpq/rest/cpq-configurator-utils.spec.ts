@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import {
-  attributeCheckBoxes,
   attrCode,
-  groupId,
+  attributeCheckBoxes,
   attributeRadioButtons,
+  groupId,
   productConfiguration,
 } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';

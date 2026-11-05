@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -8,28 +8,18 @@ import {
   PromotionLocation,
 } from '@spartacus/cart/base/root';
 import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
-import { IconComponent, IconTestingModule } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, ReplaySubject } from 'rxjs';
-import { take, toArray } from 'rxjs/operators';
-import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
-import { ConfigureCartEntryComponent } from '../configure-cart-entry';
 import {
   ConfigurationInfo,
   OrderEntryStatus,
   StatusSummary,
-} from './../../core/model/common-configurator.model';
+} from '@spartacus/product-configurator/common';
+import { IconComponent, IconTestingModule } from '@spartacus/storefront';
+import { BehaviorSubject, EMPTY, ReplaySubject } from 'rxjs';
+import { take, toArray } from 'rxjs/operators';
+import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
+import { MockConfigureCartEntryComponent } from '../../testing/components/mock-configure-cart-entry.component';
+import { ConfigureCartEntryComponent } from '../configure-cart-entry';
 import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-notification.component';
-
-@Component({
-  selector: 'cx-configure-cart-entry',
-  template: '',
-})
-class MockConfigureCartEntryComponent {
-  @Input() cartEntry: OrderEntry;
-  @Input() readOnly: boolean;
-  @Input() msgBanner: boolean;
-  @Input() disabled: boolean;
-}
 
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);

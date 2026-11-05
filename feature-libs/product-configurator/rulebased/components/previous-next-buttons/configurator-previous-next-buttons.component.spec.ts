@@ -5,7 +5,6 @@ import {
   I18nTestingModule,
   RouterState,
   RoutingService,
-  TranslatePipe,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -145,6 +144,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
     await TestBed.configureTestingModule({
       imports: [
+        I18nTestingModule,
         ConfiguratorPreviousNextButtonsComponent,
         KeyboardFocusTestingModule,
       ],
@@ -168,15 +168,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorPreviousNextButtonsComponent, {
-        remove: {
-          imports: [TranslatePipe],
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
         },
-        add: {
-          imports: [I18nTestingModule],
-        },
-      })
-      .overrideComponent(ConfiguratorPreviousNextButtonsComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });
@@ -248,7 +242,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
 
   it('should display previous button as disabled if it is the first group', () => {
     vi.spyOn(configurationGroupsService, 'getPreviousGroupId').mockReturnValue(
-      of(null)
+      of(undefined)
     );
     fixture.detectChanges();
     const prevBtn = fixture.debugElement.query(
@@ -273,7 +267,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
 
   it('should display next button as disabled if it is the last group', () => {
     vi.spyOn(configurationGroupsService, 'getNextGroupId').mockReturnValue(
-      of(null)
+      of(undefined)
     );
     fixture.detectChanges();
     const lastBtn = fixture.debugElement.query(

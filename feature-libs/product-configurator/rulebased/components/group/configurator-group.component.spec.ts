@@ -7,6 +7,12 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import {
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
+  ConfiguratorRouterExtractorService,
+} from '@spartacus/product-configurator/common';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
@@ -15,12 +21,6 @@ import {
   Product,
   ProductService,
 } from '@spartacus/core';
-import {
-  CommonConfigurator,
-  CommonConfiguratorUtilsService,
-  ConfiguratorModelUtils,
-  ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
 import {
   IconTestingModule,
   KeyboardFocusTestingModule,
@@ -33,12 +33,16 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import {
+  MockConfiguratorAttributeProductCardComponent,
+  MockConfiguratorPriceComponent,
+  MockConfiguratorProviderService,
+} from '../../testing';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorAttributeCompositionConfig } from '../attribute/composition/configurator-attribute-composition.config';
 import { ConfiguratorAttributeCompositionDirective } from '../attribute/composition/configurator-attribute-composition.directive';
 import { ConfiguratorAttributeFooterComponent } from '../attribute/footer/configurator-attribute-footer.component';
 import { ConfiguratorAttributeHeaderComponent } from '../attribute/header/configurator-attribute-header.component';
-import { ConfiguratorAttributeProductCardComponentOptions } from '../attribute/product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeCheckBoxListComponent } from '../attribute/types/checkbox-list/configurator-attribute-checkbox-list.component';
 import { ConfiguratorAttributeCheckBoxComponent } from '../attribute/types/checkbox/configurator-attribute-checkbox.component';
 import { ConfiguratorAttributeContainerComponent } from '../attribute/types/container/configurator-attribute-container.component';
@@ -55,7 +59,6 @@ import { ConfiguratorAttributeSingleSelectionBundleComponent } from '../attribut
 import { ConfiguratorAttributeSingleSelectionImageComponent } from '../attribute/types/single-selection-image/configurator-attribute-single-selection-image.component';
 import { ConfiguratorConflictSuggestionComponent } from '../conflict-suggestion/configurator-conflict-suggestion.component';
 import { ConfigFormUpdateEvent } from '../form/configurator-form.event';
-import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupComponent } from './configurator-group.component';
 
@@ -90,24 +93,6 @@ let conflictGroup: Configurator.Group;
 class MockConfiguratorConflictDescriptionComponent {
   @Input() ownerType: CommonConfigurator.OwnerType;
   @Input() currentGroup: Configurator.Group;
-}
-
-@Component({
-  selector: 'cx-configurator-price',
-  template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-})
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
-@Component({
-  selector: 'cx-configurator-attribute-product-card',
-  template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-})
-class MockProductCardComponent {
-  @Input() productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
 }
 
 @Component({
@@ -288,27 +273,21 @@ describe('ConfiguratorGroupComponent', () => {
   let configuratorGroupsService: ConfiguratorGroupsService;
   let configExpertModeService: ConfiguratorExpertModeService;
   let storefrontUtils: ConfiguratorStorefrontUtilsService;
-  let mockLanguageService;
   let htmlElem: HTMLElement;
   let fixture: ComponentFixture<ConfiguratorGroupComponent>;
   let component: ConfiguratorGroupComponent;
 
   beforeEach(async () => {
-    mockLanguageService = {
-      getAll: () => of([]),
-      getActive: vi.fn().mockReturnValue(of('en')),
-    };
-
     await TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
-        IconTestingModule,
-        KeyboardFocusTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
+        IconTestingModule,
+        KeyboardFocusTestingModule,
         MockConfiguratorPriceComponent,
         MockFeatureLevelDirective,
-        MockProductCardComponent,
+        MockConfiguratorAttributeProductCardComponent,
         ConfiguratorAttributeCompositionDirective,
         ConfiguratorGroupComponent,
         MockConfiguratorConflictDescriptionComponent,
@@ -339,7 +318,10 @@ describe('ConfiguratorGroupComponent', () => {
           provide: ConfiguratorGroupsService,
           useClass: MockConfiguratorGroupsService,
         },
-        { provide: LanguageService, useValue: mockLanguageService },
+        {
+          provide: LanguageService,
+          useClass: MockConfiguratorProviderService.MockLanguageService,
+        },
         {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfiguratorStorefrontUtilsService,

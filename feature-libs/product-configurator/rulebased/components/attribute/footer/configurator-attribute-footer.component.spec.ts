@@ -1,27 +1,21 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import { IconComponent, IconTestingModule } from '@spartacus/storefront';
+import { IconTestingModule } from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../core/model/configurator.model';
+import { provideConfiguratorMockStorefrontUtilsService } from '../../../testing';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
-import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeFooterComponent } from './configurator-attribute-footer.component';
 
 let showRequiredMessageForUserInput: boolean;
-class MockConfigUtilsService {
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(showRequiredMessageForUserInput);
-  }
-}
-
 function createComponentWithData(
   isCartEntryOrGroupVisited: boolean = true
 ): ConfiguratorAttributeFooterComponent {
@@ -63,14 +57,16 @@ describe('ConfigAttributeFooterComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
+        I18nTestingModule,
+        IconTestingModule,
         ConfiguratorAttributeFooterComponent,
         MockFeatureLevelDirective,
       ],
       providers: [
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
-        },
+        provideConfiguratorMockStorefrontUtilsService({
+          isCartEntryOrGroupVisitedSource: () =>
+            of(showRequiredMessageForUserInput),
+        }),
         {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
@@ -78,15 +74,9 @@ describe('ConfigAttributeFooterComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorAttributeFooterComponent, {
-        remove: {
-          imports: [TranslatePipe, IconComponent],
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
         },
-        add: {
-          imports: [I18nTestingModule, IconTestingModule],
-        },
-      })
-      .overrideComponent(ConfiguratorAttributeFooterComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

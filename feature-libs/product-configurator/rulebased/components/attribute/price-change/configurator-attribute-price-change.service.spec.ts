@@ -1,14 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { EMPTY, Observable, Subject, of, skip } from 'rxjs';
-import { ConfiguratorAttributePriceChangeService } from './configurator-attribute-price-change.service';
-
-import {
-  CommonConfigurator,
-  ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
-import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
+import { Subject, of, skip } from 'rxjs';
 import { Configurator } from '../../../core/model/configurator.model';
+import {
+  provideConfiguratorMockCommonsService,
+  provideConfiguratorMockRouterExtractorService,
+} from '../../../testing';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
+import { ConfiguratorAttributePriceChangeService } from './configurator-attribute-price-change.service';
 
 const mockConfigTemplate: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration('c123'),
@@ -22,21 +20,7 @@ const mockConfigTemplate: Configurator.Configuration = {
   ),
 };
 
-class MockConfiguratorRouterExtractorService {
-  extractRouterData() {
-    return of({ owner: mockConfigTemplate.owner });
-  }
-}
-
 const configSubject = new Subject<Configurator.Configuration>();
-class MockConfiguratorCommonsService {
-  getConfiguration(
-    owner: CommonConfigurator.Owner
-  ): Observable<Configurator.Configuration> {
-    return owner === mockConfigTemplate.owner ? configSubject : EMPTY;
-  }
-}
-
 describe('ConfiguratorAttributePriceChangeService', () => {
   let classUnderTest: ConfiguratorAttributePriceChangeService;
   let mockConfig: Configurator.Configuration;
@@ -45,14 +29,12 @@ describe('ConfiguratorAttributePriceChangeService', () => {
     TestBed.configureTestingModule({
       providers: [
         ConfiguratorAttributePriceChangeService,
-        {
-          provide: ConfiguratorRouterExtractorService,
-          useClass: MockConfiguratorRouterExtractorService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
+        provideConfiguratorMockRouterExtractorService({
+          routerDataSource: () => of({ owner: mockConfigTemplate.owner }),
+        }),
+        provideConfiguratorMockCommonsService({
+          configurationSource: () => configSubject.asObservable(),
+        }),
       ],
     });
 

@@ -4,16 +4,16 @@ import { I18nTestingModule, TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
+  ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { IconComponent, IconTestingModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Observable, of } from 'rxjs';
-import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { provideConfiguratorMockCommonsService } from '../../testing';
 import {
   CONFIG_ID,
   productConfiguration,
@@ -84,11 +84,6 @@ class MockConfigRouterExtractorService {
 }
 
 let configurationObs: Observable<Configurator.Configuration>;
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return configurationObs;
-  }
-}
 let component: ConfiguratorOverviewNotificationBannerComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewNotificationBannerComponent>;
 let htmlElem: HTMLElement;
@@ -101,7 +96,6 @@ function initialize(router: ConfiguratorRouter.Data) {
   htmlElem = fixture.nativeElement;
   fixture.detectChanges();
 }
-
 class MockActivatedRoute {
   constructor(public snapshot: any) {}
 }
@@ -116,10 +110,9 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
           provide: ConfiguratorRouterExtractorService,
           useClass: MockConfigRouterExtractorService,
         },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
+        provideConfiguratorMockCommonsService({
+          configurationSource: () => configurationObs,
+        }),
       ],
     })
       .overrideComponent(ConfiguratorOverviewNotificationBannerComponent, {

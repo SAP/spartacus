@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -10,7 +10,6 @@ import {
   IconComponent,
   IconTestingModule,
   KeyboardFocusTestingModule,
-  MockIconComponent,
   PopoverModule,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -18,11 +17,12 @@ import { CommonConfiguratorTestUtilsService } from '../../../../../common/testin
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import {
-  ConfiguratorPriceComponent,
-  ConfiguratorPriceComponentOptions,
-} from '../../../price/configurator-price.component';
+  MockConfiguratorPriceComponent,
+  MockConfiguratorProviderService,
+} from '../../../../testing';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
@@ -30,25 +30,6 @@ import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurat
 
 const VALUE_DISPLAY_NAME = 'val2';
 class MockGroupService {}
-
-@Component({
-  selector: 'cx-configurator-price',
-  template: '',
-  imports: [
-    ReactiveFormsModule,
-    NgSelectModule,
-    I18nTestingModule,
-    IconTestingModule,
-    PopoverModule,
-  ],
-})
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
-class MockConfiguratorCommonsService {
-  updateConfiguration(): void {}
-}
 
 class MockConfiguratorAttributePriceChangeService {
   getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
@@ -67,7 +48,16 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
   beforeEach(async () => {
     TestBed.overrideComponent(
       ConfiguratorAttributeSingleSelectionImageComponent,
-      {}
+      {
+        set: {
+          providers: [
+            {
+              provide: ConfiguratorAttributePriceChangeService,
+              useClass: MockConfiguratorAttributePriceChangeService,
+            },
+          ],
+        },
+      }
     );
     await TestBed.configureTestingModule({
       imports: [
@@ -77,7 +67,11 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
         ConfiguratorAttributeSingleSelectionImageComponent,
       ],
       providers: [
-        ConfiguratorStorefrontUtilsService,
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorStorefrontUtilsService,
+        },
         {
           provide: ConfiguratorGroupsService,
           useClass: MockGroupService,
@@ -88,11 +82,8 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
         },
         {
           provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useValue: {},
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorCommonsService,
         },
       ],
     })
@@ -109,15 +100,9 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
         add: {
           imports: [
             I18nTestingModule,
-            MockIconComponent,
+            IconTestingModule,
             KeyboardFocusTestingModule,
             MockConfiguratorPriceComponent,
-          ],
-          providers: [
-            {
-              provide: ConfiguratorAttributePriceChangeService,
-              useClass: MockConfiguratorAttributePriceChangeService,
-            },
           ],
         },
       })

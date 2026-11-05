@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { LanguageService, TranslationService } from '@spartacus/core';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
-import { Observable, of } from 'rxjs';
+import { MockConfiguratorProviderService } from '../../../../common/testing';
+import { Configurator } from '../../../core/model/configurator.model';
 import { Cpq } from '../cpq.models';
 import { CpqConfiguratorNormalizer } from './cpq-configurator-normalizer';
 import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normalizer-utils.service';
@@ -169,24 +169,6 @@ const cpqConfigurationIncompleteConsistent: Cpq.Configuration = {
 
 const cpqConfigurationId = '1234-56-7890';
 
-class MockLanguageService {
-  getActive(): Observable<string> {
-    return of('en-US');
-  }
-}
-
-class MockTranslationService {
-  translate(key: string, options: any): Observable<string> {
-    if (key.endsWith('incomplete')) {
-      return of(TEST_MESSAGE + options.attribute);
-    } else {
-      return of(key);
-    }
-  }
-}
-
-const TEST_MESSAGE = 'This is test test message for attribute ';
-
 describe('CpqConfiguratorNormalizer', () => {
   let cpqConfiguratorNormalizer: CpqConfiguratorNormalizer;
 
@@ -197,11 +179,11 @@ describe('CpqConfiguratorNormalizer', () => {
         CpqConfiguratorNormalizerUtilsService,
         {
           provide: LanguageService,
-          useClass: MockLanguageService,
+          useClass: MockConfiguratorProviderService.MockLanguageService,
         },
         {
           provide: TranslationService,
-          useClass: MockTranslationService,
+          useClass: MockConfiguratorProviderService.MockTranslationService,
         },
         ...provideMockFeatureToggles({ productConfiguratorCPQContainer: true }),
       ],
@@ -841,7 +823,7 @@ describe('CpqConfiguratorNormalizer', () => {
       const group: Configurator.Group = groups[0];
       expect(group.id).toBe('1');
       expect(group.name).toBe('_GEN');
-      expect(group.description).toBe('configurator.group.general');
+      expect(group.description).toBe('General');
       expect(group.configurable).toBe(true);
       expect(group.complete).toBe(false);
       expect(group.consistent).toBe(true);
@@ -974,11 +956,12 @@ describe('CpqConfiguratorNormalizer', () => {
               CpqConfiguratorNormalizerUtilsService,
               {
                 provide: LanguageService,
-                useClass: MockLanguageService,
+                useClass: MockConfiguratorProviderService.MockLanguageService,
               },
               {
                 provide: TranslationService,
-                useClass: MockTranslationService,
+                useClass:
+                  MockConfiguratorProviderService.MockTranslationService,
               },
               ...provideMockFeatureToggles({
                 productConfiguratorCPQContainer: false,
@@ -3168,11 +3151,11 @@ describe('CpqConfiguratorNormalizer', () => {
           CpqConfiguratorNormalizerUtilsService,
           {
             provide: LanguageService,
-            useClass: MockLanguageService,
+            useClass: MockConfiguratorProviderService.MockLanguageService,
           },
           {
             provide: TranslationService,
-            useClass: MockTranslationService,
+            useClass: MockConfiguratorProviderService.MockTranslationService,
           },
           ...provideMockFeatureToggles({
             productConfiguratorCPQContainer: false,

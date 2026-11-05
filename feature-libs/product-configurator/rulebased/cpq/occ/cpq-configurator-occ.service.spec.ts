@@ -1,4 +1,8 @@
 import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
@@ -32,10 +36,6 @@ import {
   CPQ_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
 } from './converters/cpq-configurator-occ.converters';
 import { CpqConfiguratorOccService } from './cpq-configurator-occ.service';
-import {
-  provideHttpClient,
-  withInterceptorsFromDi,
-} from '@angular/common/http';
 
 describe('CpqConfigurationOccService', () => {
   const configId = '1234-56-7890';

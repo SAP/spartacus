@@ -2,17 +2,15 @@ import { TestBed } from '@angular/core/testing';
 import { CxEvent, EventService, LanguageSetEvent } from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
-import { ConfiguratorLanguageSetEventListener } from '@spartacus/product-configurator/rulebased';
+
+import { MockConfiguratorProviderService } from '../../testing';
+import { ConfiguratorLanguageSetEventListener } from './configurator-language-set-event.listener';
 
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockEventService implements Partial<EventService> {
   get = vi.fn().mockReturnValue(mockEventStream$.asObservable());
   dispatch = vi.fn();
-}
-
-class MockConfiguratorCommonsService {
-  removeProductBoundConfigurations(): void {}
 }
 
 describe(`ConfiguratorLanguageSetEventListener`, () => {
@@ -29,7 +27,8 @@ describe(`ConfiguratorLanguageSetEventListener`, () => {
         },
         {
           provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorCommonsService,
         },
       ],
     });

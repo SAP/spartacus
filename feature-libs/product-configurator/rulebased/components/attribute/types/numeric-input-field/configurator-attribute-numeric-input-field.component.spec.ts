@@ -6,22 +6,20 @@ import {
   I18nTestingModule,
   LanguageService,
   LoggerTestingModule,
-  TranslatePipe,
 } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 import {
-  IconComponent,
   IconTestingModule,
   KeyboardFocusTestingModule,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { MockConfiguratorProviderService } from '../../../../testing';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-attribute-numeric-input-field.component';
 import {
@@ -80,22 +78,10 @@ function checkForValidationMessage(
   expect(validationDiv).toBeDefined();
   expect(validationDiv.length).toBe(expectedMessages);
 }
-class MockConfiguratorCommonsService {
-  updateConfiguration(): void {}
-}
-
-const isCartEntryOrGroupVisited = true;
-class MockConfigUtilsService {
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(isCartEntryOrGroupVisited);
-  }
-}
-
 describe('ConfigAttributeNumericInputFieldComponent', () => {
   let component: ConfiguratorAttributeNumericInputFieldComponent;
 
   let fixture: ComponentFixture<ConfiguratorAttributeNumericInputFieldComponent>;
-  let mockLanguageService;
   const locale = 'en';
   let htmlElem: HTMLElement;
   let configuratorAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService;
@@ -109,20 +95,20 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   beforeEach(async () => {
     configuratorUISettingsConfig.productConfigurator =
       defaultConfiguratorUISettingsConfig.productConfigurator;
-    mockLanguageService = {
-      getAll: () => of([]),
-      getActive: vi.fn().mockReturnValue(of(locale)),
-      setActive: vi.fn(),
-    };
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        KeyboardFocusTestingModule,
+        I18nTestingModule,
         LoggerTestingModule,
         ConfiguratorAttributeNumericInputFieldComponent,
+        IconTestingModule,
+        KeyboardFocusTestingModule,
       ],
       providers: [
-        { provide: LanguageService, useValue: mockLanguageService },
+        {
+          provide: LanguageService,
+          useClass: MockConfiguratorProviderService.MockLanguageService,
+        },
         {
           provide: ConfiguratorUISettingsConfig,
           useValue: configuratorUISettingsConfig,
@@ -133,11 +119,13 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         },
         {
           provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorCommonsService,
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorStorefrontUtilsService,
         },
         {
           provide: FeaturesConfig,
@@ -148,15 +136,9 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorAttributeNumericInputFieldComponent, {
-        remove: {
-          imports: [TranslatePipe, IconComponent],
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
         },
-        add: {
-          imports: [I18nTestingModule, IconTestingModule],
-        },
-      })
-      .overrideComponent(ConfiguratorAttributeNumericInputFieldComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

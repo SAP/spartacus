@@ -9,11 +9,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { CartActions } from '@spartacus/cart/base/core';
 import { CartModification } from '@spartacus/cart/base/root';
-import {
-  LoggerTestingModule,
-  MockLoggerService,
-  tryNormalizeHttpError,
-} from '@spartacus/core';
+import { LoggerTestingModule, tryNormalizeHttpError } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -21,6 +17,8 @@ import {
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
+import type { Mock } from 'vitest';
+import { MockConfiguratorProviderService } from '../../../testing';
 import { CONFIG_ID, GROUP_ID_1 } from '../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
@@ -141,10 +139,10 @@ const cartModificationWithoutEntry: CartModification = {};
 let readFromCartEntryObs: Observable<Configurator.Configuration>;
 
 describe('ConfiguratorCartEffect', () => {
-  let addToCartMock: vi.Mock;
-  let updateCartEntryMock: vi.Mock;
+  let addToCartMock: Mock;
+  let updateCartEntryMock: Mock;
 
-  let readConfigurationForOrderEntryMock: vi.Mock;
+  let readConfigurationForOrderEntryMock: Mock;
   let configCartEffects: fromEffects.ConfiguratorCartEffects;
   let store: Store<StateWithConfigurator>;
 
@@ -450,7 +448,10 @@ describe('ConfiguratorCartEffect', () => {
       const completion = new ConfiguratorActions.ReadCartEntryConfigurationFail(
         {
           ownerKey: productConfiguration.owner.key,
-          error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
+          error: tryNormalizeHttpError(
+            errorResponse,
+            new MockConfiguratorProviderService.MockLoggerService()
+          ),
         }
       );
       actions$ = cold('-a', { a: action });
@@ -502,7 +503,10 @@ describe('ConfiguratorCartEffect', () => {
       const completion =
         new ConfiguratorActions.ReadOrderEntryConfigurationFail({
           ownerKey: productConfiguration.owner.key,
-          error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
+          error: tryNormalizeHttpError(
+            errorResponse,
+            new MockConfiguratorProviderService.MockLoggerService()
+          ),
         });
       actions$ = cold('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -593,7 +597,10 @@ describe('ConfiguratorCartEffect', () => {
         cartId,
         productCode,
         quantity,
-        error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
+        error: tryNormalizeHttpError(
+          errorResponse,
+          new MockConfiguratorProviderService.MockLoggerService()
+        ),
       });
 
       actions$ = cold('-a', { a: action });
@@ -638,7 +645,10 @@ describe('ConfiguratorCartEffect', () => {
         userId,
         cartId,
         entryNumber: entryNumber.toString(),
-        error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
+        error: tryNormalizeHttpError(
+          errorResponse,
+          new MockConfiguratorProviderService.MockLoggerService()
+        ),
       });
 
       actions$ = cold('-a', { a: action });

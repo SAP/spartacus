@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -14,6 +14,12 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+  ConfiguratorRouter,
+  ConfiguratorRouterExtractorService,
+} from '@spartacus/product-configurator/common';
+import {
   IconComponent,
   IconTestingModule,
   MediaComponent,
@@ -22,11 +28,8 @@ import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { MockMediaComponent } from 'core-libs/storefront/shared/test/mock-media.component';
 import { Observable, of, throwError } from 'rxjs';
-import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
-import { ConfiguratorRouterExtractorService } from '../../../common/components/service/configurator-router-extractor.service';
-import { CommonConfigurator } from '../../../common/core/model/common-configurator.model';
-import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -183,16 +186,6 @@ class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return productConfigurationObservable;
   }
-}
-
-@Component({
-  template: '',
-  selector: 'cx-media',
-  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-})
-class MockMediaComponent {
-  @Input() container: any;
-  @Input() format: any;
 }
 
 class MockConfiguratorExpertModeService {
@@ -424,6 +417,7 @@ describe('ConfigProductTitleComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
+        I18nTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         ConfiguratorProductTitleComponent,
