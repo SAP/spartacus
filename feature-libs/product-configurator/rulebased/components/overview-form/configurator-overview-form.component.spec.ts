@@ -13,7 +13,6 @@ import {
   I18nTestingModule,
   LoggerService,
   LoggerTestingModule,
-  MockTranslatePipe,
   Product,
   ProductService,
   RoutingService,
@@ -190,12 +189,11 @@ class MockDirectionService implements Partial<DirectionService> {
 
 describe('ConfigurationOverviewFormComponent', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
         FeaturesConfigModule,
-        I18nTestingModule,
         LoggerTestingModule,
         ConfiguratorOverviewFormComponent,
         ConfiguratorOverviewAttributeComponent,
@@ -223,7 +221,7 @@ describe('ConfigurationOverviewFormComponent', () => {
           imports: [ConfiguratorPriceComponent, TranslatePipe],
         },
         add: {
-          imports: [MockConfiguratorPriceComponent, MockTranslatePipe],
+          imports: [MockConfiguratorPriceComponent, I18nTestingModule],
         },
       })
       .overrideComponent(ConfiguratorOverviewFormComponent, {

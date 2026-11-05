@@ -10,7 +10,7 @@ describe('ConfiguratorShowMoreComponent', () => {
   let htmlElem: HTMLElement;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [I18nTestingModule, ConfiguratorShowMoreComponent],
     })
       .overrideComponent(ConfiguratorShowMoreComponent, {

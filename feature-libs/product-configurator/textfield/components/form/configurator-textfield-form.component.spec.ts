@@ -77,7 +77,7 @@ describe('TextfieldFormComponent', () => {
   let textfieldService: ConfiguratorTextfieldService;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
         ReactiveFormsModule,

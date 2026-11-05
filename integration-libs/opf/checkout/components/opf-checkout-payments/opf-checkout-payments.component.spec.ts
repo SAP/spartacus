@@ -503,6 +503,19 @@ describe('OpfCheckoutPaymentsComponent', () => {
       const result = component['checkIfOnlyOnePaymentOptionAvailable'](state);
       expect(result).toBe(false);
     });
+
+    it('should return true when one payment option available and page info is absent', () => {
+      const state: QueryState<OpfActiveConfigurationsResponse | undefined> = {
+        loading: false,
+        error: false,
+        data: {
+          value: [mockActiveConfigurations[0]],
+        },
+      };
+
+      const result = component['checkIfOnlyOnePaymentOptionAvailable'](state);
+      expect(result).toBe(true);
+    });
   });
 
   describe('handleDefaultPaymentOptionInputSelection', () => {
