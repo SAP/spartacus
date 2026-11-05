@@ -102,7 +102,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
   let featureToggles: MockFeatureTogglesController;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [
         {
           provide: ConfiguratorRouterExtractorService,

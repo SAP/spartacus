@@ -33,7 +33,7 @@ describe('ConfiguratorAttributeSelectionBaseComponent', () => {
   let fixture: ComponentFixture<ExampleConfiguratorAttributeSelectionComponent>;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
         ExampleConfiguratorAttributeSelectionComponent,
