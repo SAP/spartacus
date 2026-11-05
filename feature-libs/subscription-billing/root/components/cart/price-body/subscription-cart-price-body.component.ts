@@ -54,19 +54,21 @@ export class SubscriptionCartPriceBodyComponent {
     )
   );
 
-  protected showOneTimeCharge(charge?: OneTimeCharge): number | undefined {
-    const originalPrice = charge?.price?.value;
-    const discount = this.fixedDiscount();
+  private getDiscountedPrice(originalPrice?: number, discount?: SapAppliedDiscountData): number | undefined {
     return discount?.value !== undefined && originalPrice !== undefined
       ? originalPrice - discount.value
       : originalPrice;
   }
 
-  protected showRecurringCharge(charge?: RecurringCharge): number | undefined {
-    const originalPrice = charge?.price?.value;
-    const discount = this.recurringDiscount();
-    return discount?.value !== undefined && originalPrice !== undefined
-      ? originalPrice - discount.value
-      : originalPrice;
+  protected discountedBasePrice = computed(() =>
+    this.getDiscountedPrice(this.item()?.basePrice?.value, this.fixedDiscount())
+  );
+
+  protected getOneTimeCharge(charge?: OneTimeCharge): number | undefined {
+    return this.getDiscountedPrice(charge?.price?.value, this.fixedDiscount());
+  }
+
+  protected getRecurringCharge(charge?: RecurringCharge): number | undefined {
+    return this.getDiscountedPrice(charge?.price?.value, this.recurringDiscount());
   }
 }
