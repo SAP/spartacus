@@ -5,5 +5,5 @@
  */
 
 // The browser bundle patches Node's EventTarget, breaking MessagePort.on callbacks.
-require(typeof window === 'undefined' ? 'zone.js/node' : 'zone.js');
+require('window' in globalThis ? 'zone.js' : 'zone.js/node');
 require('zone.js/testing');

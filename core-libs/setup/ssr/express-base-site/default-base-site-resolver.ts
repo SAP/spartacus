@@ -83,9 +83,15 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
   }
 
   protected createOccBaseSitesUrl(baseUrl?: string): string | null {
-    return baseUrl
-      ? `${baseUrl.replace(/\/+$/, '')}/occ/v2/basesites?fields=FULL`
-      : null;
+    if (!baseUrl) {
+      return null;
+    }
+
+    let end = baseUrl.length;
+    while (baseUrl[end - 1] === '/') {
+      end--;
+    }
+    return `${baseUrl.slice(0, end)}/occ/v2/basesites?fields=FULL`;
   }
 
   protected isRecord(value: unknown): value is Record<string, unknown> {
