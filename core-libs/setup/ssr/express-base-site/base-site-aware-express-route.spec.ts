@@ -210,16 +210,14 @@ describe('configureBaseSiteAwareRoutes', () => {
 
   describe('routes without a base-site prefix', () => {
     it('shares the OCC cache with a prefixed route from the same factory', async () => {
-      const fetchSpy = jest
-        .spyOn(globalThis, 'fetch')
-        .mockResolvedValue(
-          createOccResponse([
-            {
-              uid: 'electronics-spa',
-              urlPatterns: ['^http://internal[.]example/'],
-            },
-          ])
-        );
+      const fetchSpy = jest.spyOn(globalThis, 'fetch').mockResolvedValue(
+        createOccResponse([
+          {
+            uid: 'electronics-spa',
+            urlPatterns: ['^http://internal[.]example/'],
+          },
+        ])
+      );
       const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
         occBaseUrl: { value: 'https://api.example' },
       });
@@ -305,16 +303,14 @@ describe('configureBaseSiteAwareRoutes', () => {
     it.each(['/documents/example.txt', /^\/documents\/example\.txt$/])(
       'resolves a nested route %s without treating its first segment as a UID',
       async (route) => {
-        jest
-          .spyOn(globalThis, 'fetch')
-          .mockResolvedValue(
-            createOccResponse([
-              {
-                uid: 'electronics-spa',
-                urlPatterns: ['^http://internal[.]example/'],
-              },
-            ])
-          );
+        jest.spyOn(globalThis, 'fetch').mockResolvedValue(
+          createOccResponse([
+            {
+              uid: 'electronics-spa',
+              urlPatterns: ['^http://internal[.]example/'],
+            },
+          ])
+        );
         const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
           occBaseUrl: { value: 'https://api.example' },
         });
@@ -338,16 +334,14 @@ describe('configureBaseSiteAwareRoutes', () => {
     );
 
     it('returns 404 for a domain not matched by OCC without invoking the handler', async () => {
-      jest
-        .spyOn(globalThis, 'fetch')
-        .mockResolvedValue(
-          createOccResponse([
-            {
-              uid: 'electronics-spa',
-              urlPatterns: ['^http://other[.]example/'],
-            },
-          ])
-        );
+      jest.spyOn(globalThis, 'fetch').mockResolvedValue(
+        createOccResponse([
+          {
+            uid: 'electronics-spa',
+            urlPatterns: ['^http://other[.]example/'],
+          },
+        ])
+      );
       const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
         occBaseUrl: { value: 'https://api.example' },
       });

@@ -138,7 +138,9 @@ describe('DefaultBaseSiteResolver', () => {
 
     await expect(
       resolver.resolveFromOcc('https://shop.example/')
-    ).rejects.toEqual(new OccUnavailableError('OCC base URL is not configured'));
+    ).rejects.toEqual(
+      new OccUnavailableError('OCC base URL is not configured')
+    );
     expect(fetchSpy).not.toHaveBeenCalled();
   });
 

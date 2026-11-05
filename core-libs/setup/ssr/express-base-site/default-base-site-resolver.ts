@@ -79,7 +79,7 @@ export class DefaultBaseSiteResolver implements BaseSiteResolver {
     }
     return 'value' in source
       ? source.value
-      : extractOccBaseUrlFromHtml(source.extractFromHtmlMetaTag) ?? undefined;
+      : (extractOccBaseUrlFromHtml(source.extractFromHtmlMetaTag) ?? undefined);
   }
 
   protected createOccBaseSitesUrl(baseUrl?: string): string | null {
